@@ -1,5 +1,6 @@
 defmodule MishkaChelekomWeb.AdminLive do
   use Phoenix.LiveView
+  import MishkaChelekomWeb.CoreComponents
 
   def mount(_params, _session, socket) do
     # Let's assume a fixed temperature for now
