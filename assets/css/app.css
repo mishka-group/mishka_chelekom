@@ -3,7 +3,3 @@
 @import 'tailwindcss/utilities';
 
 /* This file is for your main application CSS */
-body,
-html {
-  @apply w-full m-0;
-}
