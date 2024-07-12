@@ -19,6 +19,7 @@ defmodule MishkaChelekomWeb.Router do
 
     get "/", PageController, :home
     live "/admin", AdminLive
+    live "/admin-form", AdminFormLive
   end
 
   # Other scopes may use custom stacks.
