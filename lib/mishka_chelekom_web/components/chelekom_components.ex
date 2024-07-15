@@ -1,4 +1,4 @@
-defmodule ChelekomComponents do
+defmodule MishkaChelekomComponents do
   use Phoenix.Component
 
   alias Phoenix.LiveView.JS
@@ -94,5 +94,56 @@ defmodule ChelekomComponents do
   """
   def translate_errors(errors, field) when is_list(errors) do
     for {^field, {msg, opts}} <- errors, do: translate_error({msg, opts})
+  end
+
+  @doc """
+  Renders a [Heroicon](https://heroicons.com).
+
+  Heroicons come in three styles – outline, solid, and mini.
+  By default, the outline style is used, but solid and mini may
+  be applied by using the `-solid` and `-mini` suffix.
+
+  You can customize the size and colors of the icons by setting
+  width, height, and background color classes.
+
+  Icons are extracted from the `deps/heroicons` directory and bundled within
+  your compiled app.css by the plugin in your `assets/tailwind.config.js`.
+
+  ## Examples
+
+      <.icon name="hero-x-mark-solid" />
+      <.icon name="hero-arrow-path" class="ml-1 w-3 h-3 animate-spin" />
+  """
+  attr :name, :string, required: true
+  attr :class, :string, default: nil
+
+  def icon(%{name: "hero-" <> _} = assigns) do
+    ~H"""
+    <span class={[@name, @class]} />
+    """
+  end
+
+  ## JS Commands
+
+  def show(js \\ %JS{}, selector) do
+    JS.show(js,
+      to: selector,
+      time: 300,
+      transition:
+        {"transition-all transform ease-out duration-300",
+         "opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95",
+         "opacity-100 translate-y-0 sm:scale-100"}
+    )
+  end
+
+  def hide(js \\ %JS{}, selector) do
+    JS.hide(js,
+      to: selector,
+      time: 200,
+      transition:
+        {"transition-all transform ease-in duration-200",
+         "opacity-100 translate-y-0 sm:scale-100",
+         "opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"}
+    )
   end
 end
