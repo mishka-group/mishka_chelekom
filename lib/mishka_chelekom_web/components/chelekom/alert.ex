@@ -2,6 +2,7 @@ defmodule MishkaChelekom.Alert do
   use Phoenix.Component
   import MishkaChelekomComponents
   import MishkaChelekomWeb.Gettext
+  alias Phoenix.LiveView.JS
 
   @doc """
   Renders flash notices.
