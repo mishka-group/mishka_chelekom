@@ -31,8 +31,8 @@ defmodule MishkaChelekom.Button do
       type={@type}
       id={@id}
       class={[
-        "phx-submit-loading:opacity-75 inline-flex gap-2 items-center justify-center border transition-all ease-in-ou duration-100	",
-        "py-2 px-4 font-normal",
+        "phx-submit-loading:opacity-75 inline-flex gap-2 items-center justify-center border",
+        "py-2 px-4 font-normal transition-all ease-in-ou duration-100",
         color_variant(@variant, @color),
         rounded_size(@rounded),
         size_class(@size),
@@ -40,7 +40,8 @@ defmodule MishkaChelekom.Button do
       ]}
       {@rest}
     >
-      <.icon :if={icon_position(@icon, @rest) == "left"} name={@icon} /> <%= render_slot(@inner_block) %>
+      <.icon :if={icon_position(@icon, @rest) == "left"} name={@icon} />
+      <%= render_slot(@inner_block) %>
       <.icon :if={icon_position(@icon, @rest) == "right"} name={@icon} />
     </button>
     """
@@ -83,6 +84,7 @@ defmodule MishkaChelekom.Button do
   end
 
   defp color_variant(:outline, :white) do
+    "bg-transparent text-white border-white"
   end
 
   defp color_variant(:outline, :primary) do
