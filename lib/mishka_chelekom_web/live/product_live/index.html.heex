@@ -32,7 +32,12 @@
   </:action>
 </.table>
 
-<.modal :if={@live_action in [:new, :edit]} id="product-modal" show on_cancel={JS.patch(~p"/products")}>
+<.modal
+  :if={@live_action in [:new, :edit]}
+  id="product-modal"
+  show
+  on_cancel={JS.patch(~p"/products")}
+>
   <.live_component
     module={MishkaChelekomWeb.ProductLive.FormComponent}
     id={@product.id || :new}

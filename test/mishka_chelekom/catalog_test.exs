@@ -21,7 +21,12 @@ defmodule MishkaChelekom.CatalogTest do
     end
 
     test "create_product/1 with valid data creates a product" do
-      valid_attrs = %{name: "some name", description: "some description", unit_price: 120.5, sku: 42}
+      valid_attrs = %{
+        name: "some name",
+        description: "some description",
+        unit_price: 120.5,
+        sku: 42
+      }
 
       assert {:ok, %Product{} = product} = Catalog.create_product(valid_attrs)
       assert product.name == "some name"
@@ -36,7 +41,13 @@ defmodule MishkaChelekom.CatalogTest do
 
     test "update_product/2 with valid data updates the product" do
       product = product_fixture()
-      update_attrs = %{name: "some updated name", description: "some updated description", unit_price: 456.7, sku: 43}
+
+      update_attrs = %{
+        name: "some updated name",
+        description: "some updated description",
+        unit_price: 456.7,
+        sku: 43
+      }
 
       assert {:ok, %Product{} = product} = Catalog.update_product(product, update_attrs)
       assert product.name == "some updated name"
