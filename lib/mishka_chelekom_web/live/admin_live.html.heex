@@ -390,7 +390,7 @@
 
           <MishkaChelekom.Button.button
             icon="hero-arrow-down-tray"
-            color={:danger}
+            color={:dark}
             font_weight="font-thin"
           >
             Import Document
@@ -430,12 +430,13 @@
               <option value="audi">Audi</option>
             </select>
             <!--Purple button-->
-            <button class="bg-white text-[#4D4D4D] inline-flex gap-1 items-center justify-center text-sm 2xl:text-xl font-normal py-1.5 2xl:py-[0.6rem] px-3 2xl:px-6 rounded-lg border border-[#EDEDED]">
-              <.icon name="hero-plus-circle" class="w-6 h-6 2xl:w-8 2xl:h-8" /> New Attachment
-            </button>
-            <button class="bg-[#4363EC] text-white inline-flex gap-2 items-center justify-center text-sm 2xl:text-xl xl:font-thin py-1.5 2xl:py-[0.6rem] px-3 2xl:px-6 rounded-lg border border-[#4363EC]">
+            <MishkaChelekom.Button.button icon="hero-plus-circle">
+              New Attachment
+            </MishkaChelekom.Button.button>
+
+            <MishkaChelekom.Button.button color={:primary} font_weight="font-thin">
               Download Report
-            </button>
+            </MishkaChelekom.Button.button>
           </div>
           <!--Second Row buttons-->
         </div>
@@ -493,28 +494,9 @@
             <div class="text-[#9B9B9B] text-base">Tables</div>
           </div>
           <div class="flex gap-3">
-            <button class="bg-white text-[#3E3E3E] inline-flex gap-2 items-center justify-center text-sm md:text-base 2xl:text-xl m py-2 px-4 rounded-lg border border-[#DADADA]">
-              <svg
-                width="25"
-                height="25"
-                viewBox="0 0 20 20"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <g clip-path="url(#clip0_87_825)">
-                  <path
-                    d="M15.8333 1.66667C16.7538 1.66667 17.5 2.41286 17.5 3.33334V13.3333C17.5 14.2538 16.7538 15 15.8333 15H14.1667V16.6667C14.1667 17.5872 13.4205 18.3333 12.5 18.3333H4.16667C3.24619 18.3333 2.5 17.5872 2.5 16.6667V6.66667C2.5 5.7462 3.24619 5.00001 4.16667 5.00001H5.83333V3.33334C5.83333 2.41286 6.57952 1.66667 7.5 1.66667H15.8333ZM12.5 6.66667H4.16667V16.6667H12.5V6.66667ZM8.33333 12.5C8.79358 12.5 9.16667 12.8731 9.16667 13.3333C9.16667 13.7936 8.79358 14.1667 8.33333 14.1667H6.66667C6.20643 14.1667 5.83333 13.7936 5.83333 13.3333C5.83333 12.8731 6.20643 12.5 6.66667 12.5H8.33333ZM15.8333 3.33334H7.5V5.00001H12.5C13.4205 5.00001 14.1667 5.7462 14.1667 6.66667V13.3333H15.8333V3.33334ZM10 9.16667C10.4602 9.16667 10.8333 9.53976 10.8333 10C10.8333 10.4274 10.5116 10.7796 10.0972 10.8277L10 10.8333H6.66667C6.20643 10.8333 5.83333 10.4603 5.83333 10C5.83333 9.57263 6.15504 9.22041 6.56948 9.17228L6.66667 9.16667H10Z"
-                    fill="#4D4D4D"
-                  />
-                </g>
-                <defs>
-                  <clipPath>
-                    <rect width="20" height="20" fill="white" />
-                  </clipPath>
-                </defs>
-              </svg>
+            <MishkaChelekom.Button.button icon="hero-square-2-stack">
               Duplicate
-            </button>
+            </MishkaChelekom.Button.button>
             <!--Start of Group Buttons-->
             <div class="bg-white inline-flex w-fit rounded-lg border border-[#DADADA] [&>*:not(:last-child)]:border-r [&>*:not(:last-child)]:border-[#EDEDED]">
               <button class="p-2 hover:bg-[#E8E8E8]">
