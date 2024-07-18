@@ -27,6 +27,8 @@ defmodule MishkaChelekomWeb.Router do
 
     live "/products/:id", ProductLive.Show, :show
     live "/products/:id/show/edit", ProductLive.Show, :edit
+
+    live "/examples/button", Examples.ButtonLive
   end
 
   # Other scopes may use custom stacks.
