@@ -84,9 +84,6 @@ defmodule MishkaChelekom.Button do
   defp color_variant(:transparent, :dark) do
   end
 
-  defp color_variant(:outline, :dark) do
-  end
-
   defp color_variant(:subtle, :white) do
   end
 
