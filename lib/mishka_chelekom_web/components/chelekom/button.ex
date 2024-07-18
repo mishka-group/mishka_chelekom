@@ -4,7 +4,7 @@ defmodule MishkaChelekom.Button do
 
   @sizes [:extra_small, :small, :medium, :large, :extra_large]
   @variants [:default, :outline, :transparent, :subtle, :shadow]
-  @colors [:white, :primary, :secondary, :dark]
+  @colors [:white, :primary, :secondary, :dark, :success, :warning, :danger, :info, :light]
 
   @doc """
   Renders a button.
@@ -31,7 +31,7 @@ defmodule MishkaChelekom.Button do
       type={@type}
       id={@id}
       class={[
-        "phx-submit-loading:opacity-75 inline-flex gap-2 items-center justify-center border",
+        "phx-submit-loading:opacity-75 inline-flex gap-2 items-center justify-center border transition-all ease-in-ou duration-100	",
         "py-2 px-4 font-normal",
         color_variant(@variant, @color),
         rounded_size(@rounded),
@@ -40,8 +40,7 @@ defmodule MishkaChelekom.Button do
       ]}
       {@rest}
     >
-      <.icon :if={icon_position(@icon, @rest) == "left"} name={@icon} />
-      <%= render_slot(@inner_block) %>
+      <.icon :if={icon_position(@icon, @rest) == "left"} name={@icon} /> <%= render_slot(@inner_block) %>
       <.icon :if={icon_position(@icon, @rest) == "right"} name={@icon} />
     </button>
     """
@@ -52,60 +51,178 @@ defmodule MishkaChelekom.Button do
   end
 
   defp color_variant(:default, :primary) do
+    "bg-[#4363EC] text-white border-[#4363EC]"
   end
 
   defp color_variant(:default, :secondary) do
+    "bg-[#6B6E7C] text-white border-[#6B6E7C]"
+  end
+
+  defp color_variant(:default, :success) do
+    "bg-[#AFEAD0] text-[#227A52] border-[#AFEAD0]"
+  end
+
+  defp color_variant(:default, :warning) do
+    "bg-[#FFD69F] text-[#995C0A] border-[#FFD69F]"
+  end
+
+  defp color_variant(:default, :danger) do
+    "bg-[#FFB2B2] text-[#982525] border-[#FFB2B2]"
+  end
+
+  defp color_variant(:default, :info) do
+    "bg-[#6663FD] text-[#103483] border-[#6663FD]"
+  end
+
+  defp color_variant(:default, :light) do
+    "bg-[#E3E7F1] text-[#707483] border-[#E3E7F1]"
   end
 
   defp color_variant(:default, :dark) do
+    "bg-[#1E1E1E] text-white border-[#1E1E1E]"
   end
 
   defp color_variant(:outline, :white) do
   end
 
   defp color_variant(:outline, :primary) do
+    "bg-transparent text-[#4363EC] border-[#4363EC]"
   end
 
   defp color_variant(:outline, :secondary) do
+    "bg-transparent text-[#6B6E7C] border-[#6B6E7C]"
+  end
+
+  defp color_variant(:outline, :success) do
+    "bg-transparent text-[#227A52] border-[#227A52]"
+  end
+
+  defp color_variant(:outline, :warning) do
+    "bg-transparent text-[#995C0A] border-[#995C0A]"
+  end
+
+  defp color_variant(:outline, :danger) do
+    "bg-transparent text-[#982525] border-[#982525]"
+  end
+
+  defp color_variant(:outline, :info) do
+    "bg-transparent text-[#6663FD] border-[#6663FD]"
+  end
+
+  defp color_variant(:outline, :light) do
+    "bg-transparent text-[#707483] border-[#707483]"
   end
 
   defp color_variant(:outline, :dark) do
+    "bg-transparent text-[#1E1E1E] border-[#1E1E1E]"
   end
 
   defp color_variant(:transparent, :white) do
+    "bg-transparent text-white border-transparent"
   end
 
   defp color_variant(:transparent, :primary) do
+    "bg-transparent text-[#4363EC] border-transparent"
   end
 
   defp color_variant(:transparent, :secondary) do
+    "bg-transparent text-[#6B6E7C] border--transparent"
+  end
+
+  defp color_variant(:transparent, :success) do
+    "bg-transparent text-[#227A52] border-transparent"
+  end
+
+  defp color_variant(:transparent, :warning) do
+    "bg-transparent text-[#995C0A] border-transparent"
+  end
+
+  defp color_variant(:transparent, :danger) do
+    "bg-transparent text-[#982525] border-transparent"
+  end
+
+  defp color_variant(:transparent, :info) do
+    "bg-transparent text-[#6663FD] border-transparent"
+  end
+
+  defp color_variant(:transparent, :light) do
+    "bg-transparent text-[#707483] border-transparent"
   end
 
   defp color_variant(:transparent, :dark) do
+    "bg-transparent text-[#1E1E1E] border-transparent"
   end
 
   defp color_variant(:subtle, :white) do
+    "bg-transparent text-white border-transparent hover:bg-white hover:text-[#3E3E3E]"
   end
 
   defp color_variant(:subtle, :primary) do
+    "bg-transparent text-[#4363EC] border-transparent hover:bg-[#4363EC] hover:text-white"
   end
 
   defp color_variant(:subtle, :secondary) do
+    "bg-transparent text-[#6B6E7C] border--transparent hover:bg-[#6B6E7C] hover:text-white"
+  end
+
+  defp color_variant(:subtle, :success) do
+    "bg-transparent text-[#227A52] border-transparent hover:bg-[#AFEAD0] hover:text-[#227A52]"
+  end
+
+  defp color_variant(:subtle, :warning) do
+    "bg-transparent text-[#982525] border-transparent hover:bg-[#FFD69F] hover:text-[#995C0A]"
+  end
+
+  defp color_variant(:subtle, :danger) do
+    "bg-transparent text-[#FFB2B2] border-transparent hover:bg-[#FFB2B2] hover:text-[#982525]"
+  end
+
+  defp color_variant(:subtle, :info) do
+    "bg-transparent text-[#6663FD] border-transparent hover:bg-[#6663FD] hover:text-[#103483]"
+  end
+
+  defp color_variant(:subtle, :light) do
+    "bg-transparent text-[#707483] border-transparent hover:bg-[#E3E7F1] hover:text-[#E3E7F1]"
   end
 
   defp color_variant(:subtle, :dark) do
+    "bg-transparent text-[#1E1E1E] border-transparent hover:bg-[#E3E7F1] hover:text-white"
   end
 
   defp color_variant(:shadow, :white) do
+    "bg-white text-[#3E3E3E] border-[#DADADA] shadow shadow-sm"
   end
 
   defp color_variant(:shadow, :primary) do
+    "bg-[#4363EC] text-white border-[#4363EC] shadow shadow-sm"
   end
 
   defp color_variant(:shadow, :secondary) do
+    "bg-[#6B6E7C] text-white border-[#6B6E7C] shadow shadow-sm"
+  end
+
+  defp color_variant(:shadow, :success) do
+    "bg-[#AFEAD0] text-[#227A52] border-[#AFEAD0] shadow shadow-sm"
+  end
+
+  defp color_variant(:shadow, :warning) do
+    "bg-[#FFD69F] text-[#995C0A] border-[#FFD69F] shadow shadow-sm"
+  end
+
+  defp color_variant(:shadow, :danger) do
+    "bg-[#FFB2B2] text-[#982525] border-[#FFB2B2] shadow shadow-sm"
+  end
+
+  defp color_variant(:shadow, :info) do
+    "bg-[#6663FD] text-[#103483] border-[#6663FD] shadow shadow-sm"
+  end
+
+  defp color_variant(:shadow, :light) do
+    "bg-[#E3E7F1] text-[#707483] border-[#E3E7F1] shadow shadow-sm"
   end
 
   defp color_variant(:shadow, :dark) do
+    "bg-[#1E1E1E] text-white border-[#1E1E1E] shadow shadow-sm"
   end
 
   defp color_variant(_, _), do: color_variant(:default, :white)
