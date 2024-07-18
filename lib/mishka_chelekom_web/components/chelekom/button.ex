@@ -22,6 +22,7 @@ defmodule MishkaChelekom.Button do
   attr :size, :atom, values: @sizes ++ [:full_width], default: :large, doc: ""
   attr :class, :string, default: nil, doc: ""
   attr :icon, :string, default: nil, doc: ""
+  attr :font_weight, :string, default: "font-normal", doc: ""
   attr :rest, :global, include: ~w(disabled form name value right_icon left_icon), doc: ""
   slot :inner_block, required: true, doc: ""
 
@@ -32,7 +33,7 @@ defmodule MishkaChelekom.Button do
       id={@id}
       class={[
         "phx-submit-loading:opacity-75 inline-flex gap-2 items-center justify-center border",
-        "py-2 px-4 font-normal transition-all ease-in-ou duration-100",
+        "py-2 px-4 #{@font_weight} transition-all ease-in-ou duration-100",
         "disabled:bg-opacity-60 disabled:border-opacity-60 disabled:cursor-not-allowed",
         "disabled:cursor-not-allowed",
         color_variant(@variant, @color),
