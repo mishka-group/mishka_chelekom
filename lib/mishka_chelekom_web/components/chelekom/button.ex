@@ -96,6 +96,18 @@ defmodule MishkaChelekom.Button do
   defp color_variant(:subtle, :dark) do
   end
 
+  defp color_variant(:shadow, :white) do
+  end
+
+  defp color_variant(:shadow, :primary) do
+  end
+
+  defp color_variant(:shadow, :secondary) do
+  end
+
+  defp color_variant(:shadow, :dark) do
+  end
+
   defp color_variant(_, _), do: color_variant(:default, :white)
 
   defp rounded_size(nil), do: rounded_size(:large)
