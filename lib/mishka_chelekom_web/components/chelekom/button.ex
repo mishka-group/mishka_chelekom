@@ -15,7 +15,8 @@ defmodule MishkaChelekom.Button do
     "info",
     "light",
     "misc",
-    "dawn"
+    "dawn",
+    "inverted"
   ]
 
   @doc """
@@ -282,6 +283,50 @@ defmodule MishkaChelekom.Button do
 
   defp color_variant("shadow", "dark") do
     "bg-[#1E1E1E] text-white border-[#1E1E1E] shadow-md hover:bg-[#111111] hover:border-[#111111]"
+  end
+
+  defp color_variant("inverted", "white") do
+    "bg-transparent text-white border-white hover:bg-white hover:text-[#3E3E3E] hover:border-[#3E3E3E]"
+  end
+
+  defp color_variant("inverted", "primary") do
+    "bg-transparent text-[#4363EC] border-[#4363EC] hover:bg-[#4363EC] hover:text-white hover:border-[#4363EC]"
+  end
+
+  defp color_variant("inverted", "secondary") do
+    "bg-transparent text-[#6B6E7C] border-[#6B6E7C] hover:bg-[#6B6E7C] hover:text-white hover:border-[#6B6E7C]"
+  end
+
+  defp color_variant("inverted", "success") do
+    "bg-transparent text-[#227A52] border-[#227A52] hover:bg-[#AFEAD0] hover:text-[#227A52] hover:border-[#AFEAD0]"
+  end
+
+  defp color_variant("inverted", "warning") do
+    "bg-transparent text-[#FF8B08] border-[#FF8B08] hover:bg-[#FFF8E6] hover:text-[#FF8B08] hover:border-[#FFF8E6]"
+  end
+
+  defp color_variant("inverted", "danger") do
+    "bg-transparent text-[#E73B3B] border-[#E73B3B]  hover:bg-[#FFE6E6] hover:text-[#E73B3B] hover:border-[#FFE6E6]"
+  end
+
+  defp color_variant("inverted", "info") do
+    "bg-transparent text-[#004FC4] border-[#004FC4] hover:bg-[#E5F0FF] hover:text-[#103483] hover:border-[#E5F0FF]"
+  end
+
+  defp color_variant("inverted", "misc") do
+    "bg-transparent text-[#52059C] border-[#52059C] hover:bg-[#FFE6FF] hover:text-[#52059C] hover:border-[#FFE6FF]"
+  end
+
+  defp color_variant("inverted", "dawn") do
+    "bg-transparent text-[#4D4137] border-[#4D4137] hover:bg-[#FFECDA] hover:text-[#4D4137] hover:border-[#FFECDA]"
+  end
+
+  defp color_variant("inverted", "light") do
+    "bg-transparent text-[#707483] border-[#707483] hover:bg-[#E3E7F1] hover:text-[#707483] hover:border-[#E3E7F1]"
+  end
+
+  defp color_variant("inverted", "dark") do
+    "bg-transparent text-[#1E1E1E] border-[#1E1E1E] hover:bg-[#111111] hover:text-white hover:border-[#111111]"
   end
 
   defp color_variant(_, _), do: color_variant("default", "white")
