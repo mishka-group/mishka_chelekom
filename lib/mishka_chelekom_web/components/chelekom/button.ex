@@ -34,7 +34,7 @@ defmodule MishkaChelekom.Button do
   attr :type, :string, values: ["button", "submit", "reset", nil], default: nil, doc: ""
   attr :variant, :string, values: @variants, default: "default", doc: ""
   attr :color, :string, values: @colors, default: "white", doc: ""
-  attr :rounded, :string, values: @sizes ++ ["full"], default: "large", doc: ""
+  attr :rounded, :string, values: @sizes ++ ["full", "none"], default: "large", doc: ""
   attr :size, :string, default: "large", doc: ""
   attr :class, :string, default: nil, doc: ""
   attr :icon, :string, default: nil, doc: ""
