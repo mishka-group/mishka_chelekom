@@ -295,7 +295,6 @@ defmodule MishkaChelekom.Button do
   defp rounded_size("full"), do: "rounded-full"
   defp rounded_size("none"), do: "rounded-none"
 
-  defp size_class(nil), do: size_class("medium")
   defp size_class("extra_small"), do: "py-1 px-2 text-xs"
   defp size_class("small"), do: "py-1.5 px-3 text-sm"
   defp size_class("medium"), do: "py-2 px-4 text-base"
