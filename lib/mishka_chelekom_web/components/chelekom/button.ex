@@ -3,7 +3,7 @@ defmodule MishkaChelekom.Button do
   import MishkaChelekomComponents
 
   @sizes ["extra_small", "small", "medium", "large", "extra_large"]
-  @variants ["default", "outline", "transparent", "subtle", "shadow"]
+  @variants ["default", "outline", "transparent", "subtle", "shadow", "inverted"]
   @colors [
     "white",
     "primary",
@@ -15,8 +15,7 @@ defmodule MishkaChelekom.Button do
     "info",
     "light",
     "misc",
-    "dawn",
-    "inverted"
+    "dawn"
   ]
 
   @doc """
