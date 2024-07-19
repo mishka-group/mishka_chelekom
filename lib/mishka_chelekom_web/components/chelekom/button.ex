@@ -286,7 +286,7 @@ defmodule MishkaChelekom.Button do
   end
 
   defp color_variant("inverted", "white") do
-    "bg-transparent text-white border-white hover:bg-white hover:text-[#3E3E3E] hover:border-[#3E3E3E]"
+    "bg-transparent text-white border-white hover:bg-white hover:text-[#3E3E3E] hover:border-[#DADADA]"
   end
 
   defp color_variant("inverted", "primary") do
