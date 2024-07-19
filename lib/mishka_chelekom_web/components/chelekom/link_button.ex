@@ -1,4 +1,4 @@
-defmodule MishkaChelekom.Button do
+defmodule MishkaChelekom.LinkButton do
   use Phoenix.Component
   import MishkaChelekomComponents
 
@@ -42,7 +42,7 @@ defmodule MishkaChelekom.Button do
   attr :rest, :global, include: ~w(disabled form name value right_icon left_icon), doc: ""
   slot :inner_block, required: true, doc: ""
 
-  def button(assigns) do
+  def link_button(assigns) do
     ~H"""
     <button
       type={@type}
@@ -50,7 +50,7 @@ defmodule MishkaChelekom.Button do
       class={[
         "phx-submit-loading:opacity-75 inline-flex gap-2 items-center justify-center border",
         "transition-all ease-in-ou duration-100",
-        "disabled:bg-opacity-60 disabled:border-opacity-40 disabled:cursor-not-allowed disabled:text-opacity-60",
+        "disabled:bg-opacity-60 disabled:border-opacity-60 disabled:cursor-not-allowed",
         "disabled:cursor-not-allowed",
         "focus:outline-none",
         color_variant(@variant, @color),
