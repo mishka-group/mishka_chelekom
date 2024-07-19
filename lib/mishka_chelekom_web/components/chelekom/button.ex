@@ -31,7 +31,7 @@ defmodule MishkaChelekom.Button do
   attr :variant, :string, values: @variants, default: "default", doc: ""
   attr :color, :string, values: @colors, default: "white", doc: ""
   attr :rounded, :string, values: @sizes ++ ["full"], default: "large", doc: ""
-  attr :size, :string, values: @sizes ++ ["full_width"], default: "large", doc: ""
+  attr :size, :string, default: "large", doc: ""
   attr :class, :string, default: nil, doc: ""
   attr :icon, :string, default: nil, doc: ""
   attr :font_weight, :string, default: "font-normal", doc: ""
@@ -300,6 +300,7 @@ defmodule MishkaChelekom.Button do
   defp size_class("large"), do: "py-2.5 px-5 text-lg"
   defp size_class("extra_large"), do: "py-3 px-5 text-xl"
   defp size_class("full_width"), do: "py-2 px-4 w-full text-base"
+  defp size_class(params), do: params
 
   defp icon_position(nil, _), do: false
   defp icon_position(_icon, %{left_icon: true}), do: "left"
