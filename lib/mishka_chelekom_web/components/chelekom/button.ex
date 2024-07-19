@@ -3,6 +3,10 @@ defmodule MishkaChelekom.Button do
   import MishkaChelekomComponents
 
   # TODO: We need loading spinner some style for it
+  # TODO: We need Gradient
+  # TODO: We need Button with label (number, pils , badge and etc)
+  # TODO: We need Loader for Button, after creating spinner module
+
   @sizes ["extra_small", "small", "medium", "large", "extra_large"]
   @variants ["default", "outline", "transparent", "subtle", "shadow", "inverted"]
   @colors [
