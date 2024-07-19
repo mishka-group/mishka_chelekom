@@ -1,4 +1,4 @@
-defmodule MishkaChelekom.Button do
+defmodule MishkaChelekom.LinkButton do
   use Phoenix.Component
   import MishkaChelekomComponents
 
@@ -39,7 +39,7 @@ defmodule MishkaChelekom.Button do
   attr :rest, :global, include: ~w(disabled form name value right_icon left_icon), doc: ""
   slot :inner_block, required: true, doc: ""
 
-  def button(assigns) do
+  def link_button(assigns) do
     ~H"""
     <button
       type={@type}
