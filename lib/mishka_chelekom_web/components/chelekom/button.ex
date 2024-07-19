@@ -45,7 +45,7 @@ defmodule MishkaChelekom.Button do
       id={@id}
       class={[
         "phx-submit-loading:opacity-75 inline-flex gap-2 items-center justify-center border",
-        "py-2 px-4 transition-all ease-in-ou duration-100",
+        "transition-all ease-in-ou duration-100",
         "disabled:bg-opacity-60 disabled:border-opacity-60 disabled:cursor-not-allowed",
         "disabled:cursor-not-allowed",
         "focus:outline-none",
