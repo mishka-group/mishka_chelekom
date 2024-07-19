@@ -46,7 +46,7 @@ defmodule MishkaChelekom.Button do
       class={[
         "phx-submit-loading:opacity-75 inline-flex gap-2 items-center justify-center border",
         "transition-all ease-in-ou duration-100",
-        "disabled:bg-opacity-60 disabled:border-opacity-60 disabled:cursor-not-allowed",
+        "disabled:bg-opacity-60 disabled:border-opacity-40 disabled:cursor-not-allowed disabled:text-opacity-60",
         "disabled:cursor-not-allowed",
         "focus:outline-none",
         color_variant(@variant, @color),
