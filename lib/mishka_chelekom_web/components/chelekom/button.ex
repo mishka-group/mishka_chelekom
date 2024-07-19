@@ -213,11 +213,11 @@ defmodule MishkaChelekom.Button do
   end
 
   defp color_variant("subtle", "warning") do
-    "bg-transparent text-[#E73B3B] border-transparent hover:bg-[#FFF8E6] hover:text-[#FF8B08]"
+    "bg-transparent text-[#FF8B08] border-transparent hover:bg-[#FFF8E6] hover:text-[#FF8B08]"
   end
 
   defp color_variant("subtle", "danger") do
-    "bg-transparent text-[#FFE6E6] border-transparent hover:bg-[#FFE6E6] hover:text-[#E73B3B]"
+    "bg-transparent text-[#E73B3B] border-transparent hover:bg-[#FFE6E6] hover:text-[#E73B3B]"
   end
 
   defp color_variant("subtle", "info") do
