@@ -1,54 +1,828 @@
 <div class="2xl:text-lg 3xl:text-xl text-[#1E1E1E] font-lato justify-center items-center p-10 w-full">
   <div class="flex flex-col">
     <h2 class="text-4xl font-extrabold w-full my-5">Default</h2>
-    <div class="flex flex-row space-x-5">
-      <MishkaChelekom.Button.button icon="hero-arrow-path">
-        Refresh
-      </MishkaChelekom.Button.button>
+    <div class="space-y-5">
+      <div class="flex flex-row gap-5 flex-wrap">
+        <MishkaChelekom.Button.button icon="hero-arrow-path">
+          Refresh
+        </MishkaChelekom.Button.button>
 
-      <MishkaChelekom.Button.button icon="hero-adjustments-horizontal">
-        Filter
-      </MishkaChelekom.Button.button>
+        <MishkaChelekom.Button.button icon="hero-adjustments-horizontal">
+          Filter
+        </MishkaChelekom.Button.button>
 
-      <MishkaChelekom.Button.button icon="hero-swatch">
-        Property
-      </MishkaChelekom.Button.button>
+        <MishkaChelekom.Button.button icon="hero-swatch">
+          Property
+        </MishkaChelekom.Button.button>
 
-      <MishkaChelekom.Button.button
-        icon="hero-arrow-down-tray"
-        color="dark"
-        font_weight="font-thin"
-      >
-        Import Document
-      </MishkaChelekom.Button.button>
+        <MishkaChelekom.Button.button
+          icon="hero-arrow-down-tray"
+          color="dark"
+          font_weight="font-thin"
+        >
+          Import Document
+        </MishkaChelekom.Button.button>
 
-      <MishkaChelekom.Button.button icon="hero-plus-circle">
-        New Attachment
-      </MishkaChelekom.Button.button>
+        <MishkaChelekom.Button.button icon="hero-plus-circle">
+          New Attachment
+        </MishkaChelekom.Button.button>
 
-      <MishkaChelekom.Button.button color="primary" font_weight="font-thin">
-        Download Report
-      </MishkaChelekom.Button.button>
+        <MishkaChelekom.Button.button color="primary" font_weight="font-thin">
+          Download Report
+        </MishkaChelekom.Button.button>
 
-      <MishkaChelekom.Button.button icon="hero-square-2-stack">
-        Duplicate
-      </MishkaChelekom.Button.button>
+        <MishkaChelekom.Button.button icon="hero-square-2-stack">
+          Duplicate
+        </MishkaChelekom.Button.button>
+      </div>
+
+      <hr />
+      <div class="flex flex-row gap-5 flex-wrap">
+        <MishkaChelekom.Button.button icon="hero-archive-box-arrow-down">
+          Default
+        </MishkaChelekom.Button.button>
+
+        <MishkaChelekom.Button.button
+          icon="hero-adjustments-vertical"
+          color="primary"
+        >
+          Default Primary
+        </MishkaChelekom.Button.button>
+
+        <MishkaChelekom.Button.button
+          icon="hero-arrow-down-tray"
+          color="secondary"
+        >
+          Default Secondary
+        </MishkaChelekom.Button.button>
+
+        <MishkaChelekom.Button.button
+          icon="hero-arrow-left-circle"
+          color="success"
+        >
+        Default Success
+        </MishkaChelekom.Button.button>
+
+        <MishkaChelekom.Button.button
+          icon="hero-wrench"
+          color="warning"
+        >
+          Default Warning
+        </MishkaChelekom.Button.button>
+
+        <MishkaChelekom.Button.button
+          icon="hero-view-columns"
+          color="danger"
+        >
+          Default Danger
+        </MishkaChelekom.Button.button>
+
+        <MishkaChelekom.Button.button
+          icon="hero-video-camera"
+          color="info"
+        >
+          Default Info
+        </MishkaChelekom.Button.button>
+
+        <MishkaChelekom.Button.button
+          icon="hero-server-stack"
+          color="light"
+        >
+          Default Light
+        </MishkaChelekom.Button.button>
+
+        <MishkaChelekom.Button.button
+          icon="hero-server"
+          color="misc"
+        >
+          Default Misc
+        </MishkaChelekom.Button.button>
+
+        <MishkaChelekom.Button.button
+          icon="hero-share"
+          color="dawn"
+        >
+          Default Light
+        </MishkaChelekom.Button.button>
+
+        <MishkaChelekom.Button.button
+          icon="hero-scale"
+          color="dark"
+        >
+          Default Dark
+        </MishkaChelekom.Button.button>
+      </div>
+
+      <hr />
+      <h2 class="text-xl font-bold">Without icon</h2>
+      <div class="flex flex-row gap-5 flex-wrap">
+        <MishkaChelekom.Button.button>
+          Default
+        </MishkaChelekom.Button.button>
+
+        <MishkaChelekom.Button.button color="primary" font_weight="font-extrabold">
+          Default Primary Extra Bold
+        </MishkaChelekom.Button.button>
+
+        <MishkaChelekom.Button.button color="secondary" font_weight="font-light">
+          Default Secondary Light
+        </MishkaChelekom.Button.button>
+
+        <MishkaChelekom.Button.button color="success" font_weight="font-bold">
+          Default Success Bold
+        </MishkaChelekom.Button.button>
+
+        <MishkaChelekom.Button.button color="warning" font_weight="font-thin">
+          Default Warning Font thin
+        </MishkaChelekom.Button.button>
+
+        <MishkaChelekom.Button.button color="danger" font_weight="font-semibold">
+          Default Danger Semibold
+        </MishkaChelekom.Button.button>
+
+        <MishkaChelekom.Button.button color="info">
+          Default Info
+        </MishkaChelekom.Button.button>
+
+        <MishkaChelekom.Button.button color="light">
+          Default Light
+        </MishkaChelekom.Button.button>
+
+        <MishkaChelekom.Button.button color="misc">
+          Default Misc
+        </MishkaChelekom.Button.button>
+
+        <MishkaChelekom.Button.button color="dawn">
+          Default Light
+        </MishkaChelekom.Button.button>
+
+        <MishkaChelekom.Button.button color="dark">
+          Default Dark
+        </MishkaChelekom.Button.button>
+      </div>
+
+      <h2 class="text-xl font-bold">Sizes</h2>
+      <div class="flex flex-row gap-5 flex-wrap">
+        <MishkaChelekom.Button.button
+          icon="hero-archive-box-arrow-down"
+          sizes="extra_small"
+        >
+          Default Extra Small
+        </MishkaChelekom.Button.button>
+
+        <MishkaChelekom.Button.button
+          icon="hero-adjustments-vertical"
+          color="primary"
+          sizes="small"
+
+        >
+          Default Small
+        </MishkaChelekom.Button.button>
+
+        <MishkaChelekom.Button.button
+          icon="hero-arrow-down-tray"
+          color="secondary"
+          sizes="medium"
+        >
+          Default Medium
+        </MishkaChelekom.Button.button>
+
+        <MishkaChelekom.Button.button
+          icon="hero-arrow-left-circle"
+          color="success"
+          sizes="large"
+        >
+        Default Large
+        </MishkaChelekom.Button.button>
+
+        <MishkaChelekom.Button.button
+          icon="hero-wrench"
+          color="warning"
+          sizes="extra_large"
+        >
+          Default Extra Large
+        </MishkaChelekom.Button.button>
+      </div>
     </div>
 
     <hr class="w-full my-5" />
     <h2 class="text-4xl font-extrabold w-full my-5">Outline</h2>
-    <div class="flex flex-row space-x-5"></div>
+    <div class="space-y-5">
+      <div class="flex flex-row gap-5 flex-wrap">
+        <MishkaChelekom.Button.button icon="hero-archive-box-arrow-down" variant="outline">
+          Outline Default
+        </MishkaChelekom.Button.button>
+
+        <MishkaChelekom.Button.button
+          icon="hero-adjustments-vertical"
+          variant="outline"
+          color="primary"
+        >
+          Outline Primary
+        </MishkaChelekom.Button.button>
+
+        <MishkaChelekom.Button.button
+          icon="hero-arrow-down-tray"
+          variant="outline"
+          color="secondary"
+        >
+          Outline Secondary
+        </MishkaChelekom.Button.button>
+
+        <MishkaChelekom.Button.button
+          icon="hero-arrow-left-circle"
+          variant="outline"
+          color="success"
+        >
+        Outline Success
+        </MishkaChelekom.Button.button>
+
+        <MishkaChelekom.Button.button
+          icon="hero-wrench"
+          variant="outline"
+          color="warning"
+        >
+          Outline Warning
+        </MishkaChelekom.Button.button>
+
+        <MishkaChelekom.Button.button
+          icon="hero-view-columns"
+          variant="outline"
+          color="danger"
+        >
+          Outline Danger
+        </MishkaChelekom.Button.button>
+
+        <MishkaChelekom.Button.button
+          icon="hero-video-camera"
+          variant="outline"
+          color="info"
+        >
+          Outline Info
+        </MishkaChelekom.Button.button>
+
+        <MishkaChelekom.Button.button
+          icon="hero-server-stack"
+          variant="outline"
+          color="light"
+        >
+          Outline Light
+        </MishkaChelekom.Button.button>
+
+        <MishkaChelekom.Button.button
+          icon="hero-server"
+          variant="outline"
+          color="misc"
+        >
+          Outline misc
+        </MishkaChelekom.Button.button>
+
+        <MishkaChelekom.Button.button
+          icon="hero-share"
+          variant="outline"
+          color="dawn"
+        >
+          Outline Light
+        </MishkaChelekom.Button.button>
+
+        <MishkaChelekom.Button.button
+          icon="hero-scale"
+          variant="outline"
+          color="dark"
+        >
+          Outline Dark
+        </MishkaChelekom.Button.button>
+      </div>
+
+       <hr />
+      <h2 class="text-xl font-bold">Without icon</h2>
+      <div class="flex flex-row gap-5 flex-wrap">
+        <MishkaChelekom.Button.button variant="outline">
+          Outline
+        </MishkaChelekom.Button.button>
+
+        <MishkaChelekom.Button.button
+          color="primary"
+          font_weight="font-extrabold"
+          variant="outline"
+        >
+          Outline Primary Extra Bold
+        </MishkaChelekom.Button.button>
+
+        <MishkaChelekom.Button.button
+          color="secondary"
+          font_weight="font-light"
+          variant="outline"
+        >
+          Outline Secondary Light
+        </MishkaChelekom.Button.button>
+
+        <MishkaChelekom.Button.button
+          color="success"
+          font_weight="font-bold"
+          variant="outline"
+        >
+          Outline Success Bold
+        </MishkaChelekom.Button.button>
+
+        <MishkaChelekom.Button.button
+          color="warning"
+          font_weight="font-thin"
+          variant="outline"
+        >
+          Outline Warning Font thin
+        </MishkaChelekom.Button.button>
+
+        <MishkaChelekom.Button.button
+          color="danger"
+          font_weight="font-semibold"
+          variant="outline"
+        >
+          Outline Danger Semibold
+        </MishkaChelekom.Button.button>
+
+        <MishkaChelekom.Button.button color="info" variant="outline">
+          Outline Info
+        </MishkaChelekom.Button.button>
+
+        <MishkaChelekom.Button.button color="light" variant="outline">
+          Outline Light
+        </MishkaChelekom.Button.button>
+
+        <MishkaChelekom.Button.button color="misc" variant="outline">
+          Outline Misc
+        </MishkaChelekom.Button.button>
+
+        <MishkaChelekom.Button.button color="dawn" variant="outline">
+          Outline Light
+        </MishkaChelekom.Button.button>
+
+        <MishkaChelekom.Button.button color="dark" variant="outline">
+          Outline Dark
+        </MishkaChelekom.Button.button>
+      </div>
+
+      <h2 class="text-xl font-bold">Sizes</h2>
+      <div class="flex flex-row gap-5 flex-wrap">
+        <MishkaChelekom.Button.button
+          icon="hero-archive-box-arrow-down"
+          variant="outline"
+          sizes="extra_small"
+        >
+          Outline Extra Small
+        </MishkaChelekom.Button.button>
+
+        <MishkaChelekom.Button.button
+          icon="hero-adjustments-vertical"
+          variant="outline"
+          color="primary"
+          sizes="small"
+
+        >
+          Outline Small
+        </MishkaChelekom.Button.button>
+
+        <MishkaChelekom.Button.button
+          icon="hero-arrow-down-tray"
+          variant="outline"
+          color="secondary"
+          sizes="medium"
+        >
+          Outline Medium
+        </MishkaChelekom.Button.button>
+
+        <MishkaChelekom.Button.button
+          icon="hero-arrow-left-circle"
+          variant="outline"
+          color="success"
+          sizes="large"
+        >
+        Outline Large
+        </MishkaChelekom.Button.button>
+
+        <MishkaChelekom.Button.button
+          icon="hero-wrench"
+          variant="outline"
+          color="warning"
+          sizes="extra_large"
+        >
+          Outline Extra Large
+        </MishkaChelekom.Button.button>
+      </div>
+    </div>
 
     <hr class="w-full my-5" />
     <h2 class="text-4xl font-extrabold w-full my-5">Transparent</h2>
-    <div class="flex flex-row space-x-5"></div>
+     <div class="space-y-5">
+      <div class="flex flex-row gap-5 flex-wrap">
+        <MishkaChelekom.Button.button icon="hero-archive-box-arrow-down" variant="transparent">
+          Transparent Default
+        </MishkaChelekom.Button.button>
+
+        <MishkaChelekom.Button.button
+          icon="hero-adjustments-vertical"
+          variant="transparent"
+          color="primary"
+        >
+          Transparent Primary
+        </MishkaChelekom.Button.button>
+
+        <MishkaChelekom.Button.button
+          icon="hero-arrow-down-tray"
+          variant="transparent"
+          color="secondary"
+        >
+          Transparent Secondary
+        </MishkaChelekom.Button.button>
+
+        <MishkaChelekom.Button.button
+          icon="hero-arrow-left-circle"
+          variant="transparent"
+          color="success"
+        >
+        Transparent Success
+        </MishkaChelekom.Button.button>
+
+        <MishkaChelekom.Button.button
+          icon="hero-wrench"
+          variant="transparent"
+          color="warning"
+        >
+          Transparent Warning
+        </MishkaChelekom.Button.button>
+
+        <MishkaChelekom.Button.button
+          icon="hero-view-columns"
+          variant="transparent"
+          color="danger"
+        >
+          Transparent Danger
+        </MishkaChelekom.Button.button>
+
+        <MishkaChelekom.Button.button
+          icon="hero-video-camera"
+          variant="transparent"
+          color="info"
+        >
+          Transparent Info
+        </MishkaChelekom.Button.button>
+
+        <MishkaChelekom.Button.button
+          icon="hero-server-stack"
+          variant="transparent"
+          color="light"
+        >
+          Transparent Light
+        </MishkaChelekom.Button.button>
+
+        <MishkaChelekom.Button.button
+          icon="hero-server"
+          variant="transparent"
+          color="misc"
+        >
+          Transparent Misc
+        </MishkaChelekom.Button.button>
+
+        <MishkaChelekom.Button.button
+          icon="hero-share"
+          variant="transparent"
+          color="dawn"
+        >
+          Transparent Light
+        </MishkaChelekom.Button.button>
+
+        <MishkaChelekom.Button.button
+          icon="hero-scale"
+          variant="transparent"
+          color="dark"
+        >
+          Transparent Dark
+        </MishkaChelekom.Button.button>
+      </div>
+
+      <h2 class="text-xl font-bold">Sizes</h2>
+      <div class="flex flex-row gap-5 flex-wrap">
+        <MishkaChelekom.Button.button
+          icon="hero-archive-box-arrow-down"
+          variant="transparent"
+          sizes="extra_small"
+        >
+          Transparent Extra Small
+        </MishkaChelekom.Button.button>
+
+        <MishkaChelekom.Button.button
+          icon="hero-adjustments-vertical"
+          variant="transparent"
+          color="primary"
+          sizes="small"
+
+        >
+          Transparent Small
+        </MishkaChelekom.Button.button>
+
+        <MishkaChelekom.Button.button
+          icon="hero-arrow-down-tray"
+          variant="transparent"
+          color="secondary"
+          sizes="medium"
+        >
+          Transparent Medium
+        </MishkaChelekom.Button.button>
+
+        <MishkaChelekom.Button.button
+          icon="hero-arrow-left-circle"
+          variant="transparent"
+          color="success"
+          sizes="large"
+        >
+        Transparent Large
+        </MishkaChelekom.Button.button>
+
+        <MishkaChelekom.Button.button
+          icon="hero-wrench"
+          variant="transparent"
+          color="warning"
+          sizes="extra_large"
+        >
+          Transparent Extra Large
+        </MishkaChelekom.Button.button>
+      </div>
+    </div>
 
     <hr class="w-full my-5" />
     <h2 class="text-4xl font-extrabold w-full my-5">Subtle</h2>
-    <div class="flex flex-row space-x-5"></div>
+    <div class="space-y-5">
+      <div class="flex flex-row gap-5 flex-wrap">
+        <MishkaChelekom.Button.button icon="hero-archive-box-arrow-down" variant="subtle">
+          Subtle Default
+        </MishkaChelekom.Button.button>
+
+        <MishkaChelekom.Button.button
+          icon="hero-adjustments-vertical"
+          variant="subtle"
+          color="primary"
+        >
+          Subtle Primary
+        </MishkaChelekom.Button.button>
+
+        <MishkaChelekom.Button.button
+          icon="hero-arrow-down-tray"
+          variant="subtle"
+          color="secondary"
+        >
+          Subtle Secondary
+        </MishkaChelekom.Button.button>
+
+        <MishkaChelekom.Button.button
+          icon="hero-arrow-left-circle"
+          variant="subtle"
+          color="success"
+        >
+        Subtle Success
+        </MishkaChelekom.Button.button>
+
+        <MishkaChelekom.Button.button
+          icon="hero-wrench"
+          variant="subtle"
+          color="warning"
+        >
+          Subtle Warning
+        </MishkaChelekom.Button.button>
+
+        <MishkaChelekom.Button.button
+          icon="hero-view-columns"
+          variant="subtle"
+          color="danger"
+        >
+          Subtle Danger
+        </MishkaChelekom.Button.button>
+
+        <MishkaChelekom.Button.button
+          icon="hero-video-camera"
+          variant="subtle"
+          color="info"
+        >
+          Subtle Info
+        </MishkaChelekom.Button.button>
+
+        <MishkaChelekom.Button.button
+          icon="hero-server-stack"
+          variant="subtle"
+          color="light"
+        >
+          Subtle Light
+        </MishkaChelekom.Button.button>
+
+        <MishkaChelekom.Button.button
+          icon="hero-server"
+          variant="subtle"
+          color="misc"
+        >
+          Subtle Misc
+        </MishkaChelekom.Button.button>
+
+        <MishkaChelekom.Button.button
+          icon="hero-share"
+          variant="subtle"
+          color="dawn"
+        >
+          Subtle Light
+        </MishkaChelekom.Button.button>
+
+        <MishkaChelekom.Button.button
+          icon="hero-scale"
+          variant="subtle"
+          color="dark"
+        >
+          Subtle Dark
+        </MishkaChelekom.Button.button>
+      </div>
+
+      <h2 class="text-xl font-bold">Sizes</h2>
+      <div class="flex flex-row gap-5 flex-wrap">
+        <MishkaChelekom.Button.button
+          icon="hero-archive-box-arrow-down"
+          variant="subtle"
+          sizes="extra_small"
+        >
+          Subtle Extra Small
+        </MishkaChelekom.Button.button>
+
+        <MishkaChelekom.Button.button
+          icon="hero-adjustments-vertical"
+          variant="subtle"
+          color="primary"
+          sizes="small"
+
+        >
+          Subtle Small
+        </MishkaChelekom.Button.button>
+
+        <MishkaChelekom.Button.button
+          icon="hero-arrow-down-tray"
+          variant="subtle"
+          color="secondary"
+          sizes="medium"
+        >
+          Subtle Medium
+        </MishkaChelekom.Button.button>
+
+        <MishkaChelekom.Button.button
+          icon="hero-arrow-left-circle"
+          variant="subtle"
+          color="success"
+          sizes="large"
+        >
+        Subtle Large
+        </MishkaChelekom.Button.button>
+
+        <MishkaChelekom.Button.button
+          icon="hero-wrench"
+          variant="subtle"
+          color="warning"
+          sizes="extra_large"
+        >
+          Subtle Extra Large
+        </MishkaChelekom.Button.button>
+      </div>
+    </div>
 
     <hr class="w-full my-5" />
     <h2 class="text-4xl font-extrabold w-full my-5">Shadow</h2>
-    <div class="flex flex-row space-x-5"></div>
+    <div class="space-y-5">
+      <div class="flex flex-row gap-5 flex-wrap">
+        <MishkaChelekom.Button.button icon="hero-archive-box-arrow-down" variant="shadow">
+          Shadow Default
+        </MishkaChelekom.Button.button>
+
+        <MishkaChelekom.Button.button
+          icon="hero-adjustments-vertical"
+          variant="shadow"
+          color="primary"
+        >
+          Shadow Primary
+        </MishkaChelekom.Button.button>
+
+        <MishkaChelekom.Button.button
+          icon="hero-arrow-down-tray"
+          variant="shadow"
+          color="secondary"
+        >
+          Shadow Secondary
+        </MishkaChelekom.Button.button>
+
+        <MishkaChelekom.Button.button
+          icon="hero-arrow-left-circle"
+          variant="shadow"
+          color="success"
+        >
+        Shadow Success
+        </MishkaChelekom.Button.button>
+
+        <MishkaChelekom.Button.button
+          icon="hero-wrench"
+          variant="shadow"
+          color="warning"
+        >
+          Shadow Warning
+        </MishkaChelekom.Button.button>
+
+        <MishkaChelekom.Button.button
+          icon="hero-view-columns"
+          variant="shadow"
+          color="danger"
+        >
+          Shadow Danger
+        </MishkaChelekom.Button.button>
+
+        <MishkaChelekom.Button.button
+          icon="hero-video-camera"
+          variant="shadow"
+          color="info"
+        >
+          Shadow Info
+        </MishkaChelekom.Button.button>
+
+        <MishkaChelekom.Button.button
+          icon="hero-server-stack"
+          variant="shadow"
+          color="light"
+        >
+          Shadow Light
+        </MishkaChelekom.Button.button>
+
+        <MishkaChelekom.Button.button
+          icon="hero-server"
+          variant="shadow"
+          color="misc"
+        >
+          Shadow Misc
+        </MishkaChelekom.Button.button>
+
+        <MishkaChelekom.Button.button
+          icon="hero-share"
+          variant="shadow"
+          color="dawn"
+        >
+          Shadow Dawn
+        </MishkaChelekom.Button.button>
+
+        <MishkaChelekom.Button.button
+          icon="hero-scale"
+          variant="shadow"
+          color="dark"
+        >
+          Shadow Dark
+        </MishkaChelekom.Button.button>
+      </div>
+
+      <h2 class="text-xl font-bold">Sizes</h2>
+      <div class="flex flex-row gap-5 flex-wrap">
+        <MishkaChelekom.Button.button
+          icon="hero-archive-box-arrow-down"
+          variant="shadow"
+          sizes="extra_small"
+        >
+          Shadow Extra Small
+        </MishkaChelekom.Button.button>
+
+        <MishkaChelekom.Button.button
+          icon="hero-adjustments-vertical"
+          variant="shadow"
+          color="primary"
+          sizes="small"
+
+        >
+          Subtle Small
+        </MishkaChelekom.Button.button>
+
+        <MishkaChelekom.Button.button
+          icon="hero-arrow-down-tray"
+          variant="shadow"
+          color="secondary"
+          sizes="medium"
+        >
+          Subtle Medium
+        </MishkaChelekom.Button.button>
+
+        <MishkaChelekom.Button.button
+          icon="hero-arrow-left-circle"
+          variant="shadow"
+          color="success"
+          sizes="large"
+        >
+        Subtle Large
+        </MishkaChelekom.Button.button>
+
+        <MishkaChelekom.Button.button
+          icon="hero-wrench"
+          variant="shadow"
+          color="warning"
+          sizes="extra_large"
+        >
+          Subtle Extra Large
+        </MishkaChelekom.Button.button>
+      </div>
+    </div>
   </div>
 </div>
