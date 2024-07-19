@@ -286,7 +286,6 @@ defmodule MishkaChelekom.Button do
 
   defp color_variant(_, _), do: color_variant("default", "white")
 
-  defp rounded_size(nil), do: rounded_size("large")
   defp rounded_size("extra_small"), do: "rounded-sm"
   defp rounded_size("small"), do: "rounded"
   defp rounded_size("medium"), do: "rounded-md"
