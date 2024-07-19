@@ -300,7 +300,8 @@ defmodule MishkaChelekom.Button do
   defp size_class("large"), do: "py-2.5 px-5 text-lg"
   defp size_class("extra_large"), do: "py-3 px-5 text-xl"
   defp size_class("full_width"), do: "py-2 px-4 w-full text-base"
-  defp size_class(params), do: params
+  defp size_class(params) when is_binary(params), do: params
+  defp size_class(_), do: size_class("large")
 
   defp icon_position(nil, _), do: false
   defp icon_position(_icon, %{left_icon: true}), do: "left"
