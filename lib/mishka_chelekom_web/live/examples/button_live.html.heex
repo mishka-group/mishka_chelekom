@@ -1,5 +1,26 @@
 <div class="2xl:text-lg 3xl:text-xl text-[#1E1E1E] font-lato justify-center items-center p-10 w-full">
   <div class="flex flex-col">
+    <h2 class="text-4xl font-extrabold w-full mb-15">Mixed Link</h2>
+    <div class="space-y-5 my-10">
+      <.link href="/admin">
+        <MishkaChelekom.Button.button icon="hero-arrow-path">
+          Refresh href Link
+        </MishkaChelekom.Button.button>
+      </.link>
+
+      <.link patch="/admin">
+        <MishkaChelekom.Button.button icon="hero-arrow-path">
+          Refresh patch Link
+        </MishkaChelekom.Button.button>
+      </.link>
+
+      <.link navigate="/admin">
+        <MishkaChelekom.Button.button icon="hero-arrow-path">
+          Refresh navigate Link
+        </MishkaChelekom.Button.button>
+      </.link>
+    </div>
+
     <h2 class="text-4xl font-extrabold w-full my-5">Default</h2>
     <div class="space-y-5">
       <div class="flex flex-row gap-5 flex-wrap items-center">
@@ -133,7 +154,11 @@
 
       <h2 class="text-xl font-bold">Sizes</h2>
       <div class="flex flex-row gap-5 flex-wrap items-center">
-        <MishkaChelekom.Button.button icon="hero-archive-box-arrow-down" color="dark" size="extra_small">
+        <MishkaChelekom.Button.button
+          icon="hero-archive-box-arrow-down"
+          color="dark"
+          size="extra_small"
+        >
           Default Extra Small
         </MishkaChelekom.Button.button>
 
@@ -223,31 +248,66 @@
       <hr />
       <h2 class="text-lg font-bold"></h2>
       <div class="flex flex-row gap-5 flex-wrap items-center">
-        <MishkaChelekom.Button.button icon="hero-wrench" variant="outline" color="warning" rounded="none">
+        <MishkaChelekom.Button.button
+          icon="hero-wrench"
+          variant="outline"
+          color="warning"
+          rounded="none"
+        >
           Outline none rounded
         </MishkaChelekom.Button.button>
 
-        <MishkaChelekom.Button.button icon="hero-view-columns" variant="outline" color="danger" rounded-="full">
+        <MishkaChelekom.Button.button
+          icon="hero-view-columns"
+          variant="outline"
+          color="danger"
+          rounded-="full"
+        >
           Outline full rounded
         </MishkaChelekom.Button.button>
 
-        <MishkaChelekom.Button.button icon="hero-video-camera" variant="outline" color="info" rounded="extra_large">
+        <MishkaChelekom.Button.button
+          icon="hero-video-camera"
+          variant="outline"
+          color="info"
+          rounded="extra_large"
+        >
           Outline Extra LArge rounded
         </MishkaChelekom.Button.button>
 
-        <MishkaChelekom.Button.button icon="hero-server-stack" variant="outline" color="light" rounded="large">
+        <MishkaChelekom.Button.button
+          icon="hero-server-stack"
+          variant="outline"
+          color="light"
+          rounded="large"
+        >
           Outline Large rounded
         </MishkaChelekom.Button.button>
 
-        <MishkaChelekom.Button.button icon="hero-server" variant="outline" color="misc" rounded="medium">
+        <MishkaChelekom.Button.button
+          icon="hero-server"
+          variant="outline"
+          color="misc"
+          rounded="medium"
+        >
           Outline Medium rounded
         </MishkaChelekom.Button.button>
 
-        <MishkaChelekom.Button.button icon="hero-share" variant="outline" color="dawn" rounded="small">
+        <MishkaChelekom.Button.button
+          icon="hero-share"
+          variant="outline"
+          color="dawn"
+          rounded="small"
+        >
           Outline Small rounded
         </MishkaChelekom.Button.button>
 
-        <MishkaChelekom.Button.button icon="hero-scale" variant="outline" color="dark" rounded="extra_small">
+        <MishkaChelekom.Button.button
+          icon="hero-scale"
+          variant="outline"
+          color="dark"
+          rounded="extra_small"
+        >
           Outline Extra Small rounded
         </MishkaChelekom.Button.button>
       </div>
@@ -702,39 +762,50 @@
       <hr />
       <h2 class="text-lg font-bold">Icons Only</h2>
       <div class="flex flex-row gap-5 flex-wrap items-center">
-        <MishkaChelekom.Button.button icon="hero-archive-box-arrow-down" variant="shadow"></MishkaChelekom.Button.button>
+        <MishkaChelekom.Button.button icon="hero-archive-box-arrow-down" variant="shadow">
+        </MishkaChelekom.Button.button>
 
         <MishkaChelekom.Button.button
           icon="hero-adjustments-vertical"
           variant="shadow"
           color="primary"
-        ></MishkaChelekom.Button.button>
+        >
+        </MishkaChelekom.Button.button>
 
         <MishkaChelekom.Button.button
           icon="hero-arrow-down-tray"
           variant="shadow"
           color="secondary"
-        ></MishkaChelekom.Button.button>
+        >
+        </MishkaChelekom.Button.button>
 
         <MishkaChelekom.Button.button
           icon="hero-arrow-left-circle"
           variant="shadow"
           color="success"
-        ></MishkaChelekom.Button.button>
+        >
+        </MishkaChelekom.Button.button>
 
-        <MishkaChelekom.Button.button icon="hero-wrench" variant="shadow" color="warning"></MishkaChelekom.Button.button>
+        <MishkaChelekom.Button.button icon="hero-wrench" variant="shadow" color="warning">
+        </MishkaChelekom.Button.button>
 
-        <MishkaChelekom.Button.button icon="hero-view-columns" variant="shadow" color="danger"></MishkaChelekom.Button.button>
+        <MishkaChelekom.Button.button icon="hero-view-columns" variant="shadow" color="danger">
+        </MishkaChelekom.Button.button>
 
-        <MishkaChelekom.Button.button icon="hero-video-camera" variant="shadow" color="info"></MishkaChelekom.Button.button>
+        <MishkaChelekom.Button.button icon="hero-video-camera" variant="shadow" color="info">
+        </MishkaChelekom.Button.button>
 
-        <MishkaChelekom.Button.button icon="hero-server-stack" variant="shadow" color="light"></MishkaChelekom.Button.button>
+        <MishkaChelekom.Button.button icon="hero-server-stack" variant="shadow" color="light">
+        </MishkaChelekom.Button.button>
 
-        <MishkaChelekom.Button.button icon="hero-server" variant="shadow" color="misc"></MishkaChelekom.Button.button>
+        <MishkaChelekom.Button.button icon="hero-server" variant="shadow" color="misc">
+        </MishkaChelekom.Button.button>
 
-        <MishkaChelekom.Button.button icon="hero-share" variant="shadow" color="dawn"></MishkaChelekom.Button.button>
+        <MishkaChelekom.Button.button icon="hero-share" variant="shadow" color="dawn">
+        </MishkaChelekom.Button.button>
 
-        <MishkaChelekom.Button.button icon="hero-scale" variant="shadow" color="dark"></MishkaChelekom.Button.button>
+        <MishkaChelekom.Button.button icon="hero-scale" variant="shadow" color="dark">
+        </MishkaChelekom.Button.button>
       </div>
 
       <h2 class="text-xl font-bold">Sizes</h2>
