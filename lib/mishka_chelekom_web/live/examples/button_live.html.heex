@@ -2,7 +2,7 @@
   <div class="flex flex-col">
     <h2 class="text-4xl font-extrabold w-full my-5">Default</h2>
     <div class="space-y-5">
-      <div class="flex flex-row gap-5 flex-wrap">
+      <div class="flex flex-row gap-5 flex-wrap items-center">
         <MishkaChelekom.Button.button icon="hero-arrow-path">
           Refresh
         </MishkaChelekom.Button.button>
@@ -37,7 +37,7 @@
       </div>
 
       <hr />
-      <div class="flex flex-row gap-5 flex-wrap">
+      <div class="flex flex-row gap-5 flex-wrap items-center">
         <MishkaChelekom.Button.button icon="hero-archive-box-arrow-down">
           Default
         </MishkaChelekom.Button.button>
@@ -58,7 +58,7 @@
           Default Warning
         </MishkaChelekom.Button.button>
 
-        <MishkaChelekom.Button.button icon="hero-view-columns" color="danger">
+        <MishkaChelekom.Button.button icon="hero-view-columns" color="danger" right_icon>
           Default Danger
         </MishkaChelekom.Button.button>
 
@@ -66,7 +66,7 @@
           Default Info
         </MishkaChelekom.Button.button>
 
-        <MishkaChelekom.Button.button icon="hero-server-stack" color="light">
+        <MishkaChelekom.Button.button icon="hero-server-stack" color="light" right_icon>
           Default Light
         </MishkaChelekom.Button.button>
 
@@ -74,8 +74,8 @@
           Default Misc
         </MishkaChelekom.Button.button>
 
-        <MishkaChelekom.Button.button icon="hero-share" color="dawn">
-          Default Light
+        <MishkaChelekom.Button.button icon="hero-share" color="dawn" right_icon>
+          Default Dawn
         </MishkaChelekom.Button.button>
 
         <MishkaChelekom.Button.button icon="hero-scale" color="dark">
@@ -85,7 +85,7 @@
 
       <hr />
       <h2 class="text-xl font-bold">Without icon</h2>
-      <div class="flex flex-row gap-5 flex-wrap">
+      <div class="flex flex-row gap-5 flex-wrap items-center">
         <MishkaChelekom.Button.button>
           Default
         </MishkaChelekom.Button.button>
@@ -132,8 +132,8 @@
       </div>
 
       <h2 class="text-xl font-bold">Sizes</h2>
-      <div class="flex flex-row gap-5 flex-wrap">
-        <MishkaChelekom.Button.button icon="hero-archive-box-arrow-down" size="extra_small">
+      <div class="flex flex-row gap-5 flex-wrap items-center">
+        <MishkaChelekom.Button.button icon="hero-archive-box-arrow-down" color="dark" size="extra_small">
           Default Extra Small
         </MishkaChelekom.Button.button>
 
@@ -162,7 +162,7 @@
     <hr class="w-full my-5" />
     <h2 class="text-4xl font-extrabold w-full my-5">Outline</h2>
     <div class="space-y-5">
-      <div class="flex flex-row gap-5 flex-wrap">
+      <div class="flex flex-row gap-5 flex-wrap items-center">
         <MishkaChelekom.Button.button icon="hero-archive-box-arrow-down" variant="outline">
           Outline Default
         </MishkaChelekom.Button.button>
@@ -222,7 +222,7 @@
 
       <hr />
       <h2 class="text-xl font-bold">Without icon</h2>
-      <div class="flex flex-row gap-5 flex-wrap">
+      <div class="flex flex-row gap-5 flex-wrap items-center">
         <MishkaChelekom.Button.button variant="outline">
           Outline
         </MishkaChelekom.Button.button>
@@ -272,11 +272,82 @@
         </MishkaChelekom.Button.button>
       </div>
 
+      <hr />
+      <h2 class="text-lg font-bold">Custom Class</h2>
+      <div class="flex flex-row gap-5 flex-wrap items-center">
+        <MishkaChelekom.Button.button
+          variant="outline"
+          color="primary"
+          class="size-10 p-0"
+        >1</MishkaChelekom.Button.button>
+
+        <MishkaChelekom.Button.button
+          variant="outline"
+          color="primary"
+          class="size-10 p-0"
+        >2</MishkaChelekom.Button.button>
+
+        <MishkaChelekom.Button.button
+          variant="outline"
+          color="primary"
+          class="size-10 p-0"
+        >3</MishkaChelekom.Button.button>
+
+        <MishkaChelekom.Button.button
+          variant="outline"
+          color="primary"
+          class="size-10 p-0"
+        >4</MishkaChelekom.Button.button>
+
+        <MishkaChelekom.Button.button
+          variant="outline"
+          color="primary"
+          class="size-10 p-0"
+        >5</MishkaChelekom.Button.button>
+
+        <MishkaChelekom.Button.button
+          variant="outline"
+          color="primary"
+          class="size-10 p-0"
+        >6</MishkaChelekom.Button.button>
+
+        <MishkaChelekom.Button.button
+          variant="outline"
+          color="primary"
+          class="size-10 p-0"
+        >7</MishkaChelekom.Button.button>
+
+        <MishkaChelekom.Button.button
+          variant="outline"
+          color="primary"
+          class="size-10 p-0"
+        >8</MishkaChelekom.Button.button>
+
+        <MishkaChelekom.Button.button
+          variant="outline"
+          color="primary"
+          class="size-10 p-0"
+        >9</MishkaChelekom.Button.button>
+
+        <MishkaChelekom.Button.button
+          variant="outline"
+          color="primary"
+          class="size-10 p-0"
+        >10</MishkaChelekom.Button.button>
+
+        <MishkaChelekom.Button.button
+          variant="outline"
+          color="primary"
+          class="size-10 p-0"
+        >11</MishkaChelekom.Button.button>
+      </div>
+
       <h2 class="text-xl font-bold">Sizes</h2>
-      <div class="flex flex-row gap-5 flex-wrap">
+      <div class="flex flex-row gap-5 flex-wrap items-center">
         <MishkaChelekom.Button.button
           icon="hero-archive-box-arrow-down"
           variant="outline"
+          color="dark"
           size="extra_small"
         >
           Outline Extra Small
@@ -323,7 +394,7 @@
     <hr class="w-full my-5" />
     <h2 class="text-4xl font-extrabold w-full my-5">Transparent</h2>
     <div class="space-y-5">
-      <div class="flex flex-row gap-5 flex-wrap">
+      <div class="flex flex-row gap-5 flex-wrap items-center">
         <MishkaChelekom.Button.button icon="hero-archive-box-arrow-down" variant="transparent">
           Transparent Default
         </MishkaChelekom.Button.button>
@@ -377,7 +448,7 @@
         </MishkaChelekom.Button.button>
 
         <MishkaChelekom.Button.button icon="hero-share" variant="transparent" color="dawn">
-          Transparent Light
+          Transparent Dawn
         </MishkaChelekom.Button.button>
 
         <MishkaChelekom.Button.button icon="hero-scale" variant="transparent" color="dark">
@@ -386,10 +457,11 @@
       </div>
 
       <h2 class="text-xl font-bold">Sizes</h2>
-      <div class="flex flex-row gap-5 flex-wrap">
+      <div class="flex flex-row gap-5 flex-wrap items-center">
         <MishkaChelekom.Button.button
           icon="hero-archive-box-arrow-down"
           variant="transparent"
+          color="dark"
           size="extra_small"
         >
           Transparent Extra Small
@@ -436,7 +508,7 @@
     <hr class="w-full my-5" />
     <h2 class="text-4xl font-extrabold w-full my-5">Subtle</h2>
     <div class="space-y-5">
-      <div class="flex flex-row gap-5 flex-wrap">
+      <div class="flex flex-row gap-5 flex-wrap items-center">
         <MishkaChelekom.Button.button icon="hero-archive-box-arrow-down" variant="subtle">
           Subtle Default
         </MishkaChelekom.Button.button>
@@ -495,10 +567,11 @@
       </div>
 
       <h2 class="text-xl font-bold">Sizes</h2>
-      <div class="flex flex-row gap-5 flex-wrap">
+      <div class="flex flex-row gap-5 flex-wrap items-center">
         <MishkaChelekom.Button.button
           icon="hero-archive-box-arrow-down"
           variant="subtle"
+          color="dark"
           size="extra_small"
         >
           Subtle Extra Small
@@ -545,7 +618,7 @@
     <hr class="w-full my-5" />
     <h2 class="text-4xl font-extrabold w-full my-5">Shadow</h2>
     <div class="space-y-5">
-      <div class="flex flex-row gap-5 flex-wrap">
+      <div class="flex flex-row gap-5 flex-wrap items-center">
         <MishkaChelekom.Button.button icon="hero-archive-box-arrow-down" variant="shadow">
           Shadow Default
         </MishkaChelekom.Button.button>
@@ -602,12 +675,50 @@
           Shadow Dark
         </MishkaChelekom.Button.button>
       </div>
+      <hr />
+      <h2 class="text-lg font-bold">Icons Only</h2>
+      <div class="flex flex-row gap-5 flex-wrap items-center">
+        <MishkaChelekom.Button.button icon="hero-archive-box-arrow-down" variant="shadow"></MishkaChelekom.Button.button>
+
+        <MishkaChelekom.Button.button
+          icon="hero-adjustments-vertical"
+          variant="shadow"
+          color="primary"
+        ></MishkaChelekom.Button.button>
+
+        <MishkaChelekom.Button.button
+          icon="hero-arrow-down-tray"
+          variant="shadow"
+          color="secondary"
+        ></MishkaChelekom.Button.button>
+
+        <MishkaChelekom.Button.button
+          icon="hero-arrow-left-circle"
+          variant="shadow"
+          color="success"
+        ></MishkaChelekom.Button.button>
+
+        <MishkaChelekom.Button.button icon="hero-wrench" variant="shadow" color="warning"></MishkaChelekom.Button.button>
+
+        <MishkaChelekom.Button.button icon="hero-view-columns" variant="shadow" color="danger"></MishkaChelekom.Button.button>
+
+        <MishkaChelekom.Button.button icon="hero-video-camera" variant="shadow" color="info"></MishkaChelekom.Button.button>
+
+        <MishkaChelekom.Button.button icon="hero-server-stack" variant="shadow" color="light"></MishkaChelekom.Button.button>
+
+        <MishkaChelekom.Button.button icon="hero-server" variant="shadow" color="misc"></MishkaChelekom.Button.button>
+
+        <MishkaChelekom.Button.button icon="hero-share" variant="shadow" color="dawn"></MishkaChelekom.Button.button>
+
+        <MishkaChelekom.Button.button icon="hero-scale" variant="shadow" color="dark"></MishkaChelekom.Button.button>
+      </div>
 
       <h2 class="text-xl font-bold">Sizes</h2>
-      <div class="flex flex-row gap-5 flex-wrap">
+      <div class="flex flex-row gap-5 flex-wrap items-center">
         <MishkaChelekom.Button.button
           icon="hero-archive-box-arrow-down"
           variant="shadow"
+          color="dark"
           size="extra_small"
         >
           Shadow Extra Small
