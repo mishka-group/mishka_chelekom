@@ -59,7 +59,6 @@ defmodule MishkaChelekom.ButtonGroup do
     attr :name, :string
     attr :value, :any
     attr :font_weight, :string
-    slot :button_inner_block, required: false
   end
 
   def button_group(assigns) do
