@@ -36,6 +36,7 @@ defmodule MishkaChelekom.ButtonGroup do
   attr :variant, :string, values: @variants, default: "default", doc: ""
   attr :color, :string, values: @colors, default: "white", doc: ""
   attr :rounded, :string, values: @sizes ++ ["full", "none"], default: "large", doc: ""
+  attr :variation, :string, values: ["horizontal", "vertical"], default: "horizontal", doc: ""
   attr :size, :string, default: "large", doc: ""
   attr :class, :string, default: nil, doc: ""
   attr :icon, :string, default: nil, doc: ""
@@ -43,10 +44,25 @@ defmodule MishkaChelekom.ButtonGroup do
   attr :rest, :global, include: ~w(disabled form name value right_icon left_icon), doc: ""
   slot :inner_block, required: true, doc: ""
 
+  slot :col, required: true do
+    attr :id, :string
+    attr :type, :string, values: ["button", "submit", "reset", nil]
+    attr :color, :string, values: @colors
+    attr :size, :string
+    attr :class, :string
+    attr :icon, :string
+    attr :right_icon, :boolean
+    attr :left_icon, :boolean
+    attr :disabled, :boolean
+    attr :form, :any
+    attr :name, :string
+    attr :value, :any
+    attr :font_weight, :string
+  end
+
   def button_group(assigns) do
     ~H"""
     <div
-      type={@type}
       id={@id}
       class={
         default_classes() ++
