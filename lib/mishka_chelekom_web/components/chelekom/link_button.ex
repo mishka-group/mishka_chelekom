@@ -7,7 +7,15 @@ defmodule MishkaChelekom.LinkButton do
   # TODO: We need Loader for Button, after creating spinner module
 
   @sizes ["extra_small", "small", "medium", "large", "extra_large"]
-  @variants ["default", "outline", "transparent", "subtle", "shadow", "inverted"]
+  @variants ["default",
+    "outline",
+    "transparent",
+    "subtle",
+    "shadow",
+    "inverted",
+    "default_gradient",
+    "outline_gradient",
+    "inverted_gradient"]
   @colors [
     "white",
     "primary",
