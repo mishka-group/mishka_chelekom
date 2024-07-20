@@ -65,4 +65,54 @@ defmodule MishkaChelekom.Typography do
     ~H"""
     """
   end
+
+  def dl(assigns) do
+    ~H"""
+    """
+  end
+
+  def dt(assigns) do
+    ~H"""
+    """
+  end
+
+  def dd(assigns) do
+    ~H"""
+    """
+  end
+
+  def figure(assigns) do
+    ~H"""
+    """
+  end
+
+  def figcaption(assigns) do
+    ~H"""
+    """
+  end
+
+  def abbr(assigns) do
+    ~H"""
+    """
+  end
+
+  def mark(assigns) do
+    ~H"""
+    """
+  end
+
+  def small(assigns) do
+    ~H"""
+    """
+  end
+
+  def s(assigns) do
+    ~H"""
+    """
+  end
+
+  def u(assigns) do
+    ~H"""
+    """
+  end
 end
