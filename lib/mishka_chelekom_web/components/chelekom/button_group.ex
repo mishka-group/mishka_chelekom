@@ -5,6 +5,7 @@ defmodule MishkaChelekom.ButtonGroup do
   # TODO: We need Gradient
   # TODO: We need Button with label (number, pils , badge and etc)
   # TODO: We need Loader for Button, after creating spinner module
+  # TODO: We need dropdown menus mixed with a series of buttons
 
   @sizes ["extra_small", "small", "medium", "large", "extra_large"]
   @variants ["default", "outline", "transparent", "subtle", "shadow", "inverted"]
@@ -37,16 +38,16 @@ defmodule MishkaChelekom.ButtonGroup do
   attr :color, :string, values: @colors, default: "white", doc: ""
   attr :rounded, :string, values: @sizes ++ ["full", "none"], default: "large", doc: ""
   attr :variation, :string, values: ["horizontal", "vertical"], default: "horizontal", doc: ""
-  attr :size, :string, default: "large", doc: ""
+  attr :size, :string, default: "extra_small", doc: ""
   attr :class, :string, default: nil, doc: ""
-  attr :icon, :string, default: nil, doc: ""
   attr :font_weight, :string, default: "font-normal", doc: ""
   attr :rest, :global, include: ~w(disabled form name value right_icon left_icon), doc: ""
-  slot :inner_block, required: true, doc: ""
 
-  slot :col, required: true do
+  slot :button, required: true do
     attr :id, :string
+    attr :label, :string
     attr :type, :string, values: ["button", "submit", "reset", nil]
+    attr :variant, :string, values: @variants
     attr :color, :string, values: @colors
     attr :size, :string
     attr :class, :string
@@ -58,6 +59,7 @@ defmodule MishkaChelekom.ButtonGroup do
     attr :name, :string
     attr :value, :any
     attr :font_weight, :string
+    slot :button_inner_block, required: false
   end
 
   def button_group(assigns) do
@@ -76,7 +78,18 @@ defmodule MishkaChelekom.ButtonGroup do
       }
       {@rest}
     >
-      <%= render_slot(@inner_block) %>
+      <button :for={btn <- @button} class="p-2 hover:bg-[#E8E8E8]">
+        <.icon :if={icon_position(btn[:icon], @rest) == "left"} name={btn[:icon]} />
+        <div class={[
+          color_variant(btn[:variant], btn[:color]),
+          size_class(btn[:size]),
+          btn[:font_weight],
+          btn[:class]
+        ]}>
+          <%= btn[:label] %>
+        </div>
+        <.icon :if={icon_position(btn[:icon], @rest) == "right"} name={btn[:icon]} />
+      </button>
     </div>
     """
   end
@@ -345,7 +358,7 @@ defmodule MishkaChelekom.ButtonGroup do
     "bg-transparent text-[#1E1E1E] border-[#1E1E1E] hover:bg-[#111111] hover:text-white hover:border-[#111111]"
   end
 
-  defp color_variant(_, _), do: color_variant("default", "white")
+  defp color_variant(_, _), do: nil
 
   defp rounded_size("extra_small"), do: "rounded-sm"
   defp rounded_size("small"), do: "rounded"
@@ -362,7 +375,7 @@ defmodule MishkaChelekom.ButtonGroup do
   defp size_class("extra_large"), do: "py-3 px-5 text-xl"
   defp size_class("full_width"), do: "py-2 px-4 w-full text-base"
   defp size_class(params) when is_binary(params), do: params
-  defp size_class(_), do: size_class("large")
+  defp size_class(_), do: nil
 
   defp icon_position(nil, _), do: false
   defp icon_position(_icon, %{left_icon: true}), do: "left"
