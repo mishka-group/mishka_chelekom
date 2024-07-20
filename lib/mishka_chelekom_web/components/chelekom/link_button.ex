@@ -38,18 +38,23 @@ defmodule MishkaChelekom.LinkButton do
   attr :href, :string, doc: ""
   attr :variant, :string, values: @variants, default: "default", doc: ""
   attr :color, :string, values: @colors, default: "white", doc: ""
-  attr :rounded, :string, values: @sizes ++ ["full"], default: "large", doc: ""
+  attr :rounded, :string, values: @sizes ++ ["full", "none"], default: "large", doc: ""
   attr :size, :string, default: "large", doc: ""
   attr :class, :string, default: nil, doc: ""
   attr :icon, :string, default: nil, doc: ""
   attr :font_weight, :string, default: "font-normal", doc: ""
-  attr :rest, :global, doc: ""
+
+  attr :rest, :global,
+    include:
+      ~w(right_icon left_icon download hreflang referrerpolicy rel target type csrf_token method replace),
+    doc: ""
+
   slot :inner_block, required: true, doc: ""
 
-  def link_button(%{navigate: to} = assigns) do
+  def link_button(%{navigate: _navigate} = assigns) do
     ~H"""
     <.link
-      navigate={to}
+      navigate={@navigate}
       id={@id}
       class={
         default_classes() ++
@@ -70,10 +75,10 @@ defmodule MishkaChelekom.LinkButton do
     """
   end
 
-  def link_button(%{patch: to} = assigns) do
+  def link_button(%{patch: _patch} = assigns) do
     ~H"""
     <.link
-      patch={to}
+      patch={@patch}
       id={@id}
       class={
         default_classes() ++
@@ -94,10 +99,10 @@ defmodule MishkaChelekom.LinkButton do
     """
   end
 
-  def link_button(%{href: to} = assigns) do
+  def link_button(%{href: _href} = assigns) do
     ~H"""
     <.link
-      patch={to}
+      href={@href}
       id={@id}
       class={
         default_classes() ++

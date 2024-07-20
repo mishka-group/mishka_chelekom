@@ -3,8 +3,13 @@
     <h2 class="text-4xl font-extrabold w-full my-5">Default</h2>
     <div class="space-y-5">
       <div class="flex flex-row gap-5 flex-wrap items-center">
-        <MishkaChelekom.LinkButton.link_button navigate="/admin" icon="hero-arrow-path">
-          Refresh
+        <MishkaChelekom.LinkButton.link_button
+          href="/the_world"
+          method="delete"
+          icon="hero-arrow-path"
+          data-confirm="Really?"
+        >
+          Refresh href
         </MishkaChelekom.LinkButton.link_button>
 
         <MishkaChelekom.LinkButton.link_button
@@ -118,12 +123,7 @@
         <MishkaChelekom.LinkButton.link_button navigate="/admin" icon="hero-server" color="misc">
           Default Misc
         </MishkaChelekom.LinkButton.link_button>
-        <MishkaChelekom.LinkButton.link_button
-          navigate="/admin"
-          icon="hero-server"
-          color="misc"
-          disabled
-        >
+        <MishkaChelekom.LinkButton.link_button navigate="/admin" icon="hero-server" color="misc">
           Default Misc
         </MishkaChelekom.LinkButton.link_button>
 
@@ -139,12 +139,7 @@
         <MishkaChelekom.LinkButton.link_button navigate="/admin" icon="hero-scale" color="dark">
           Default Dark
         </MishkaChelekom.LinkButton.link_button>
-        <MishkaChelekom.LinkButton.link_button
-          navigate="/admin"
-          icon="hero-scale"
-          color="dark"
-          disabled
-        >
+        <MishkaChelekom.LinkButton.link_button navigate="/admin" icon="hero-scale" color="dark">
           Default Dark
         </MishkaChelekom.LinkButton.link_button>
       </div>
@@ -300,7 +295,6 @@
           icon="hero-arrow-down-tray"
           variant="outline"
           color="secondary"
-          disabled
         >
           Outline Disabled
         </MishkaChelekom.LinkButton.link_button>
@@ -381,7 +375,6 @@
           icon="hero-scale"
           variant="outline"
           color="dark"
-          disabled
         >
           Outline Disabled
         </MishkaChelekom.LinkButton.link_button>
@@ -405,7 +398,7 @@
           icon="hero-view-columns"
           variant="outline"
           color="danger"
-          rounded-="full"
+          rounded="full"
         >
           Outline full rounded
         </MishkaChelekom.LinkButton.link_button>
@@ -529,12 +522,7 @@
           Outline Light
         </MishkaChelekom.LinkButton.link_button>
 
-        <MishkaChelekom.LinkButton.link_button
-          navigate="/admin"
-          color="dark"
-          variant="outline"
-          disabled
-        >
+        <MishkaChelekom.LinkButton.link_button navigate="/admin" color="dark" variant="outline">
           Outline Dark
         </MishkaChelekom.LinkButton.link_button>
       </div>
@@ -637,7 +625,6 @@
           icon="hero-arrow-left-circle"
           variant="inverted"
           color="success"
-          disabled
         >
           Inverted Disabled
         </MishkaChelekom.LinkButton.link_button>
@@ -805,7 +792,6 @@
           icon="hero-share"
           variant="transparent"
           color="dawn"
-          disabled
         >
           Transparent Disabled
         </MishkaChelekom.LinkButton.link_button>
@@ -954,7 +940,6 @@
           icon="hero-server-stack"
           variant="subtle"
           color="light"
-          disabled
         >
           Subtle Disabled
         </MishkaChelekom.LinkButton.link_button>
@@ -1103,7 +1088,6 @@
           icon="hero-view-columns"
           variant="shadow"
           color="danger"
-          disabled
         >
           Shadow Disabled
         </MishkaChelekom.LinkButton.link_button>
@@ -1191,7 +1175,6 @@
           icon="hero-arrow-left-circle"
           variant="shadow"
           color="success"
-          disabled
         >
         </MishkaChelekom.LinkButton.link_button>
 
