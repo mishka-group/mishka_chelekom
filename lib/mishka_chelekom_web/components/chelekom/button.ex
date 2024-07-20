@@ -48,18 +48,16 @@ defmodule MishkaChelekom.Button do
     <button
       type={@type}
       id={@id}
-      class={[
-        "phx-submit-loading:opacity-75 inline-flex gap-2 items-center justify-center border",
-        "transition-all ease-in-ou duration-100",
-        "disabled:bg-opacity-60 disabled:border-opacity-40 disabled:cursor-not-allowed disabled:text-opacity-60",
-        "disabled:cursor-not-allowed",
-        "focus:outline-none",
-        color_variant(@variant, @color),
-        rounded_size(@rounded),
-        size_class(@size),
-        @font_weight,
-        @class
-      ]}
+      class={
+        default_classes() ++
+          [
+            color_variant(@variant, @color),
+            rounded_size(@rounded),
+            size_class(@size),
+            @font_weight,
+            @class
+          ]
+      }
       {@rest}
     >
       <.icon :if={icon_position(@icon, @rest) == "left"} name={@icon} />
@@ -356,4 +354,14 @@ defmodule MishkaChelekom.Button do
   defp icon_position(_icon, %{left_icon: true}), do: "left"
   defp icon_position(_icon, %{right_icon: true}), do: "right"
   defp icon_position(_icon, _), do: "left"
+
+  defp default_classes do
+    [
+      "phx-submit-loading:opacity-75 inline-flex gap-2 items-center justify-center border",
+      "transition-all ease-in-ou duration-100",
+      "disabled:bg-opacity-60 disabled:border-opacity-40 disabled:cursor-not-allowed disabled:text-opacity-60",
+      "disabled:cursor-not-allowed",
+      "focus:outline-none"
+    ]
+  end
 end

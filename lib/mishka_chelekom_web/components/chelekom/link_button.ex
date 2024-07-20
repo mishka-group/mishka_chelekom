@@ -32,7 +32,6 @@ defmodule MishkaChelekom.LinkButton do
   """
   @doc type: :component
   attr :id, :string, default: nil, doc: ""
-
   attr :navigate, :string, doc: ""
   attr :patch, :string, doc: ""
   attr :href, :string, doc: ""
