@@ -386,6 +386,103 @@ defmodule MishkaChelekom.LinkButton do
     "bg-transparent text-[#1E1E1E] border-[#1E1E1E] hover:bg-[#111111] hover:text-white hover:border-[#111111]"
   end
 
+
+  defp color_variant("default_gradient", "primary") do
+    "text-white bg-gradient-to-br from-[#4363EC] to-[#52059C] hover:bg-gradient-to-bl"
+  end
+
+  defp color_variant("default_gradient", "secondary") do
+    "text-[#1E1E1E] bg-gradient-to-br from-[#6B6E7C] to-[#d2d8e9] hover:bg-gradient-to-bl"
+  end
+
+  defp color_variant("default_gradient", "success") do
+    "text-[#1E1E1E] bg-gradient-to-br from-[#ECFEF3] to-[#047857] hover:bg-gradient-to-bl"
+  end
+
+  defp color_variant("default_gradient", "warning") do
+    "text-[#1E1E1E] bg-gradient-to-br from-[#FFF8E6] to-[#FF8B08] hover:bg-gradient-to-bl"
+  end
+
+  defp color_variant("default_gradient", "danger") do
+    "text-[#1E1E1E] bg-gradient-to-br from-[#FFE6E6] to-[#E73B3B] hover:bg-gradient-to-bl"
+  end
+
+  defp color_variant("default_gradient", "info") do
+    "text-[#1E1E1E] bg-gradient-to-br from-[#E5F0FF] to-[#004FC4] hover:bg-gradient-to-bl"
+  end
+
+  defp color_variant("default_gradient", "dawn") do
+    "text-white bg-gradient-to-br from-[#FFECDA] to-[#4D4137] hover:bg-gradient-to-bl"
+  end
+
+  defp color_variant("default_gradient", "dark") do
+    "text-white bg-gradient-to-br from-[#1E1E1E] to-[#30313d] hover:bg-gradient-to-bl"
+  end
+
+  defp color_variant("outline_gradient", "primary") do
+    "text-[#1E1E1E] bg-gradient-to-br from-[#4363EC] to-[#52059C] hover:bg-gradient-to-bl"
+  end
+
+  defp color_variant("outline_gradient", "secondary") do
+    "text-[#1E1E1E] bg-gradient-to-br from-[#6B6E7C] to-[#d2d8e9] hover:bg-gradient-to-bl"
+  end
+
+  defp color_variant("outline_gradient", "success") do
+    "text-[#1E1E1E] bg-gradient-to-br from-[#ECFEF3] to-[#047857] hover:bg-gradient-to-bl"
+  end
+
+  defp color_variant("outline_gradient", "warning") do
+    "text-[#1E1E1E] bg-gradient-to-br from-[#FFF8E6] to-[#FF8B08] hover:bg-gradient-to-bl"
+  end
+
+  defp color_variant("outline_gradient", "danger") do
+    "text-[#1E1E1E] bg-gradient-to-br from-[#FFE6E6] to-[#E73B3B] hover:bg-gradient-to-bl"
+  end
+
+  defp color_variant("outline_gradient", "info") do
+    "text-[#1E1E1E] bg-gradient-to-br from-[#E5F0FF] to-[#004FC4] hover:bg-gradient-to-bl"
+  end
+
+  defp color_variant("outline_gradient", "dawn") do
+    "text-[#1E1E1E] bg-gradient-to-br from-[#FFECDA] to-[#4D4137] hover:bg-gradient-to-bl"
+  end
+
+  defp color_variant("outline_gradient", "dark") do
+    "text-[#1E1E1E] bg-gradient-to-br from-[#1E1E1E] to-[#30313d] hover:bg-gradient-to-bl"
+  end
+
+  defp color_variant("inverted_gradient", "primary") do
+    "text-[#1E1E1E] bg-gradient-to-br from-[#4363EC] to-[#52059C] hover:bg-gradient-to-bl"
+  end
+
+  defp color_variant("inverted_gradient", "secondary") do
+    "text-[#1E1E1E] bg-gradient-to-br from-[#6B6E7C] to-[#d2d8e9] hover:bg-gradient-to-bl"
+  end
+
+  defp color_variant("inverted_gradient", "success") do
+    "text-[#1E1E1E] bg-gradient-to-br from-[#ECFEF3] to-[#047857] hover:bg-gradient-to-bl"
+  end
+
+  defp color_variant("inverted_gradient", "warning") do
+    "text-[#1E1E1E] bg-gradient-to-br from-[#FFF8E6] to-[#FF8B08] hover:bg-gradient-to-bl"
+  end
+
+  defp color_variant("inverted_gradient", "danger") do
+    "text-[#1E1E1E] bg-gradient-to-br from-[#FFE6E6] to-[#E73B3B] hover:bg-gradient-to-bl"
+  end
+
+  defp color_variant("inverted_gradient", "info") do
+    "text-[#1E1E1E] bg-gradient-to-br from-[#E5F0FF] to-[#004FC4] hover:bg-gradient-to-bl"
+  end
+
+  defp color_variant("inverted_gradient", "dawn") do
+    "text-[#1E1E1E] bg-gradient-to-br from-[#FFECDA] to-[#4D4137] hover:bg-gradient-to-bl"
+  end
+
+  defp color_variant("inverted_gradient", "dark") do
+    "text-[#1E1E1E] bg-gradient-to-br from-[#1E1E1E] to-[#30313d] hover:bg-gradient-to-bl"
+  end
+
   defp color_variant(_, _), do: color_variant("default", "white")
 
   defp rounded_size("extra_small"), do: "rounded-sm"
@@ -413,7 +510,7 @@ defmodule MishkaChelekom.LinkButton do
   defp default_classes do
     [
       "phx-submit-loading:opacity-75 inline-flex gap-2 items-center justify-center border",
-      "transition-all ease-in-ou duration-100",
+      "transition-all ease-in-ou duration-100 group",
       "disabled:bg-opacity-60 disabled:border-opacity-60 disabled:cursor-not-allowed",
       "disabled:cursor-not-allowed",
       "focus:outline-none"
