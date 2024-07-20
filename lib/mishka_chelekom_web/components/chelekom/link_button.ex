@@ -386,7 +386,6 @@ defmodule MishkaChelekom.LinkButton do
     "bg-transparent text-[#1E1E1E] border-[#1E1E1E] hover:bg-[#111111] hover:text-white hover:border-[#111111]"
   end
 
-
   defp color_variant("default_gradient", "primary") do
     "text-white bg-gradient-to-br from-[#4363EC] to-[#52059C] hover:bg-gradient-to-bl"
   end
