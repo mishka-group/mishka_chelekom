@@ -395,99 +395,75 @@ defmodule MishkaChelekom.LinkButton do
   end
 
   defp color_variant("default_gradient", "primary") do
-    "text-white bg-gradient-to-br from-[#4363EC] to-[#52059C] hover:bg-gradient-to-bl"
+    "text-white bg-gradient-to-br from-purple-600 to-blue-500 hover:bg-gradient-to-bl"
   end
 
   defp color_variant("default_gradient", "secondary") do
-    "text-[#1E1E1E] bg-gradient-to-br from-[#6B6E7C] to-[#d2d8e9] hover:bg-gradient-to-bl"
+    "text-white bg-gradient-to-br from-green-400 to-blue-600 hover:bg-gradient-to-bl"
   end
 
   defp color_variant("default_gradient", "success") do
-    "text-[#1E1E1E] bg-gradient-to-br from-[#ECFEF3] to-[#047857] hover:bg-gradient-to-bl"
+    "text-gray-900 bg-gradient-to-r from-teal-200 to-lime-200 hover:bg-gradient-to-bl"
   end
 
   defp color_variant("default_gradient", "warning") do
-    "text-[#1E1E1E] bg-gradient-to-br from-[#FFF8E6] to-[#FF8B08] hover:bg-gradient-to-bl"
+    "text-gray-900 bg-gradient-to-r from-red-200 via-red-300 to-yellow-200 hover:bg-gradient-to-bl"
   end
 
   defp color_variant("default_gradient", "danger") do
-    "text-[#1E1E1E] bg-gradient-to-br from-[#FFE6E6] to-[#E73B3B] hover:bg-gradient-to-bl"
+    "text-white bg-gradient-to-br from-pink-500 to-orange-400 hover:bg-gradient-to-bl"
   end
 
   defp color_variant("default_gradient", "info") do
-    "text-[#1E1E1E] bg-gradient-to-br from-[#E5F0FF] to-[#004FC4] hover:bg-gradient-to-bl"
-  end
-
-  defp color_variant("default_gradient", "dawn") do
-    "text-white bg-gradient-to-br from-[#FFECDA] to-[#4D4137] hover:bg-gradient-to-bl"
-  end
-
-  defp color_variant("default_gradient", "dark") do
-    "text-white bg-gradient-to-br from-[#1E1E1E] to-[#30313d] hover:bg-gradient-to-bl"
+    "text-white bg-gradient-to-r from-cyan-500 to-blue-500 hover:bg-gradient-to-bl"
   end
 
   defp color_variant("outline_gradient", "primary") do
-    "text-[#1E1E1E] bg-gradient-to-br from-[#4363EC] to-[#52059C] hover:bg-gradient-to-bl"
+    "relative overflow-hidden bg-gradient-to-br from-purple-600 to-blue-500 hover:bg-gradient-to-bl"
   end
 
   defp color_variant("outline_gradient", "secondary") do
-    "text-[#1E1E1E] bg-gradient-to-br from-[#6B6E7C] to-[#d2d8e9] hover:bg-gradient-to-bl"
+    "relative overflow-hidden bg-gradient-to-br from-green-400 to-blue-600 hover:bg-gradient-to-bl"
   end
 
   defp color_variant("outline_gradient", "success") do
-    "text-[#1E1E1E] bg-gradient-to-br from-[#ECFEF3] to-[#047857] hover:bg-gradient-to-bl"
+    "relative overflow-hidden text-gray-900 bg-gradient-to-br from-teal-200 to-lime-200 hover:bg-gradient-to-bl"
   end
 
   defp color_variant("outline_gradient", "warning") do
-    "text-[#1E1E1E] bg-gradient-to-br from-[#FFF8E6] to-[#FF8B08] hover:bg-gradient-to-bl"
+    "relative overflow-hidden text-gray-900 bg-gradient-to-br from-red-200 via-red-300 to-yellow-200 hover:bg-gradient-to-bl"
   end
 
   defp color_variant("outline_gradient", "danger") do
-    "text-[#1E1E1E] bg-gradient-to-br from-[#FFE6E6] to-[#E73B3B] hover:bg-gradient-to-bl"
+    "relative overflow-hidden bg-gradient-to-br from-pink-500 to-orange-400 hover:bg-gradient-to-bl"
   end
 
   defp color_variant("outline_gradient", "info") do
-    "text-[#1E1E1E] bg-gradient-to-br from-[#E5F0FF] to-[#004FC4] hover:bg-gradient-to-bl"
-  end
-
-  defp color_variant("outline_gradient", "dawn") do
-    "text-[#1E1E1E] bg-gradient-to-br from-[#FFECDA] to-[#4D4137] hover:bg-gradient-to-bl"
-  end
-
-  defp color_variant("outline_gradient", "dark") do
-    "text-[#1E1E1E] bg-gradient-to-br from-[#1E1E1E] to-[#30313d] hover:bg-gradient-to-bl"
+    "relative overflow-hidden bg-gradient-to-br from-cyan-500 to-blue-500 hover:bg-gradient-to-bl"
   end
 
   defp color_variant("inverted_gradient", "primary") do
-    "text-[#1E1E1E] bg-gradient-to-br from-[#4363EC] to-[#52059C] hover:bg-gradient-to-bl"
+    "relative overflow-hidden bg-gradient-to-br from-purple-600 to-blue-500 hover:bg-gradient-to-bl"
   end
 
   defp color_variant("inverted_gradient", "secondary") do
-    "text-[#1E1E1E] bg-gradient-to-br from-[#6B6E7C] to-[#d2d8e9] hover:bg-gradient-to-bl"
+    "relative overflow-hidden bg-gradient-to-br from-green-400 to-blue-600 hover:bg-gradient-to-bl"
   end
 
   defp color_variant("inverted_gradient", "success") do
-    "text-[#1E1E1E] bg-gradient-to-br from-[#ECFEF3] to-[#047857] hover:bg-gradient-to-bl"
+    "relative overflow-hidden bg-gradient-to-r from-teal-200 to-lime-200 hover:bg-gradient-to-bl"
   end
 
   defp color_variant("inverted_gradient", "warning") do
-    "text-[#1E1E1E] bg-gradient-to-br from-[#FFF8E6] to-[#FF8B08] hover:bg-gradient-to-bl"
+    "relative overflow-hidden bg-gradient-to-r from-red-200 via-red-300 to-yellow-200 hover:bg-gradient-to-bl"
   end
 
   defp color_variant("inverted_gradient", "danger") do
-    "text-[#1E1E1E] bg-gradient-to-br from-[#FFE6E6] to-[#E73B3B] hover:bg-gradient-to-bl"
+    "relative overflow-hidden bg-gradient-to-br from-pink-500 to-orange-400 hover:bg-gradient-to-bl"
   end
 
   defp color_variant("inverted_gradient", "info") do
-    "text-[#1E1E1E] bg-gradient-to-br from-[#E5F0FF] to-[#004FC4] hover:bg-gradient-to-bl"
-  end
-
-  defp color_variant("inverted_gradient", "dawn") do
-    "text-[#1E1E1E] bg-gradient-to-br from-[#FFECDA] to-[#4D4137] hover:bg-gradient-to-bl"
-  end
-
-  defp color_variant("inverted_gradient", "dark") do
-    "text-[#1E1E1E] bg-gradient-to-br from-[#1E1E1E] to-[#30313d] hover:bg-gradient-to-bl"
+    "relative overflow-hidden bg-gradient-to-r from-cyan-500 to-blue-500 hover:bg-gradient-to-bl"
   end
 
   defp color_variant(_, _), do: color_variant("default", "white")

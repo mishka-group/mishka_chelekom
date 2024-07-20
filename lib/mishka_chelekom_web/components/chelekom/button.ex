@@ -15,7 +15,7 @@ defmodule MishkaChelekom.Button do
     "shadow",
     "inverted",
     "default_gradient",
-    "relative outlineoverflow-hidden _gradient",
+    "outline_gradient",
     "inverted_gradient"
   ]
   @colors [
