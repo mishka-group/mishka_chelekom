@@ -41,7 +41,7 @@ defmodule MishkaChelekom.Button do
   attr :icon, :string, default: nil, doc: ""
   attr :font_weight, :string, default: "font-normal", doc: ""
   attr :rest, :global, include: ~w(disabled form name value right_icon left_icon), doc: ""
-  slot :inner_block, required: true, doc: ""
+  slot :inner_block, required: false, doc: ""
 
   def button(assigns) do
     ~H"""

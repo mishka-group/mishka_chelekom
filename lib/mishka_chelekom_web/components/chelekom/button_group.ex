@@ -45,7 +45,7 @@ defmodule MishkaChelekom.ButtonGroup do
 
   def button_group(assigns) do
     ~H"""
-    <button
+    <div
       type={@type}
       id={@id}
       class={
@@ -60,10 +60,8 @@ defmodule MishkaChelekom.ButtonGroup do
       }
       {@rest}
     >
-      <.icon :if={icon_position(@icon, @rest) == "left"} name={@icon} />
       <%= render_slot(@inner_block) %>
-      <.icon :if={icon_position(@icon, @rest) == "right"} name={@icon} />
-    </button>
+    </div>
     """
   end
 
@@ -357,8 +355,8 @@ defmodule MishkaChelekom.ButtonGroup do
 
   defp default_classes do
     [
-      "phx-submit-loading:opacity-75 inline-flex gap-2 items-center justify-center border",
-      "transition-all ease-in-ou duration-100",
+      "phx-submit-loading:opacity-75 bg-white inline-flex w-fit rounded-lg border border-[#DADADA]",
+      "[&>*:not(:last-child)]:border-r [&>*:not(:last-child)]:border-[#EDEDED]",
       "disabled:bg-opacity-60 disabled:border-opacity-40 disabled:cursor-not-allowed disabled:text-opacity-60",
       "disabled:cursor-not-allowed",
       "focus:outline-none"
