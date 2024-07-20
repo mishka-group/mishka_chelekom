@@ -30,8 +30,12 @@ defmodule MishkaChelekom.LinkButton do
       <.button>Send!</.button>
       <.button phx-click="go" class="ml-2">Send!</.button>
   """
+  @doc type: :component
   attr :id, :string, default: nil, doc: ""
-  attr :type, :string, values: ["button", "submit", "reset", nil], default: nil, doc: ""
+
+  attr :navigate, :string, doc: ""
+  attr :patch, :string, doc: ""
+  attr :href, :string, doc: ""
   attr :variant, :string, values: @variants, default: "default", doc: ""
   attr :color, :string, values: @colors, default: "white", doc: ""
   attr :rounded, :string, values: @sizes ++ ["full"], default: "large", doc: ""
@@ -39,32 +43,78 @@ defmodule MishkaChelekom.LinkButton do
   attr :class, :string, default: nil, doc: ""
   attr :icon, :string, default: nil, doc: ""
   attr :font_weight, :string, default: "font-normal", doc: ""
-  attr :rest, :global, include: ~w(disabled form name value right_icon left_icon), doc: ""
+  attr :rest, :global, doc: ""
   slot :inner_block, required: true, doc: ""
 
-  def link_button(assigns) do
+  def link_button(%{navigate: to} = assigns) do
     ~H"""
-    <button
-      type={@type}
+    <.link
+      navigate={to}
       id={@id}
-      class={[
-        "phx-submit-loading:opacity-75 inline-flex gap-2 items-center justify-center border",
-        "transition-all ease-in-ou duration-100",
-        "disabled:bg-opacity-60 disabled:border-opacity-60 disabled:cursor-not-allowed",
-        "disabled:cursor-not-allowed",
-        "focus:outline-none",
-        color_variant(@variant, @color),
-        rounded_size(@rounded),
-        size_class(@size),
-        @font_weight,
-        @class
-      ]}
+      class={
+        default_classes() ++
+          [
+            color_variant(@variant, @color),
+            rounded_size(@rounded),
+            size_class(@size),
+            @font_weight,
+            @class
+          ]
+      }
       {@rest}
     >
       <.icon :if={icon_position(@icon, @rest) == "left"} name={@icon} />
       <%= render_slot(@inner_block) %>
       <.icon :if={icon_position(@icon, @rest) == "right"} name={@icon} />
-    </button>
+    </.link>
+    """
+  end
+
+  def link_button(%{patch: to} = assigns) do
+    ~H"""
+    <.link
+      patch={to}
+      id={@id}
+      class={
+        default_classes() ++
+          [
+            color_variant(@variant, @color),
+            rounded_size(@rounded),
+            size_class(@size),
+            @font_weight,
+            @class
+          ]
+      }
+      {@rest}
+    >
+      <.icon :if={icon_position(@icon, @rest) == "left"} name={@icon} />
+      <%= render_slot(@inner_block) %>
+      <.icon :if={icon_position(@icon, @rest) == "right"} name={@icon} />
+    </.link>
+    """
+  end
+
+  def link_button(%{href: to} = assigns) do
+    ~H"""
+    <.link
+      patch={to}
+      id={@id}
+      class={
+        default_classes() ++
+          [
+            color_variant(@variant, @color),
+            rounded_size(@rounded),
+            size_class(@size),
+            @font_weight,
+            @class
+          ]
+      }
+      {@rest}
+    >
+      <.icon :if={icon_position(@icon, @rest) == "left"} name={@icon} />
+      <%= render_slot(@inner_block) %>
+      <.icon :if={icon_position(@icon, @rest) == "right"} name={@icon} />
+    </.link>
     """
   end
 
@@ -355,4 +405,14 @@ defmodule MishkaChelekom.LinkButton do
   defp icon_position(_icon, %{left_icon: true}), do: "left"
   defp icon_position(_icon, %{right_icon: true}), do: "right"
   defp icon_position(_icon, _), do: "left"
+
+  defp default_classes do
+    [
+      "phx-submit-loading:opacity-75 inline-flex gap-2 items-center justify-center border",
+      "transition-all ease-in-ou duration-100",
+      "disabled:bg-opacity-60 disabled:border-opacity-60 disabled:cursor-not-allowed",
+      "disabled:cursor-not-allowed",
+      "focus:outline-none"
+    ]
+  end
 end

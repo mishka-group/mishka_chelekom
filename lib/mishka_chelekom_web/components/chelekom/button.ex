@@ -30,6 +30,7 @@ defmodule MishkaChelekom.Button do
       <.button>Send!</.button>
       <.button phx-click="go" class="ml-2">Send!</.button>
   """
+  @doc type: :component
   attr :id, :string, default: nil, doc: ""
   attr :type, :string, values: ["button", "submit", "reset", nil], default: nil, doc: ""
   attr :variant, :string, values: @variants, default: "default", doc: ""
