@@ -18,7 +18,7 @@ defmodule MishkaChelekom.Typography do
 
   attr :id, :string, default: nil, doc: ""
   attr :color, :string, values: @colors, default: "dark", doc: ""
-  attr :size, :string, default: "text-4xl", doc: ""
+  attr :size, :string, default: "quadruple_large", doc: ""
   attr :class, :string, default: nil, doc: ""
   attr :font_weight, :string, default: "font-normal", doc: ""
   attr(:rest, :global)
@@ -44,7 +44,7 @@ defmodule MishkaChelekom.Typography do
 
   attr :id, :string, default: nil, doc: ""
   attr :color, :string, values: @colors, default: "dark", doc: ""
-  attr :size, :string, default: "text-3xl", doc: ""
+  attr :size, :string, default: "triple_large", doc: ""
   attr :class, :string, default: nil, doc: ""
   attr :font_weight, :string, default: "font-normal", doc: ""
   attr(:rest, :global)
@@ -70,7 +70,7 @@ defmodule MishkaChelekom.Typography do
 
   attr :id, :string, default: nil, doc: ""
   attr :color, :string, values: @colors, default: "dark", doc: ""
-  attr :size, :string, default: "text-2xl", doc: ""
+  attr :size, :string, default: "double_large", doc: ""
   attr :class, :string, default: nil, doc: ""
   attr :font_weight, :string, default: "font-normal", doc: ""
   attr(:rest, :global)
@@ -590,6 +590,9 @@ defmodule MishkaChelekom.Typography do
   defp size_class("medium"), do: "text-base"
   defp size_class("large"), do: "text-lg"
   defp size_class("extra_large"), do: "text-xl"
+  defp size_class("double_large"), do: "text-2xl"
+  defp size_class("triple_large"), do: "text-3xl"
+  defp size_class("quadruple_large"), do: "text-4xl"
   defp size_class(params) when is_binary(params), do: params
-  defp size_class(_), do: size_class("large")
+  defp size_class(_), do: size_class("medoum")
 end
