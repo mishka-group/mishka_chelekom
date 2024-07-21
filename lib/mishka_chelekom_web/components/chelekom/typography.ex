@@ -1,8 +1,8 @@
 defmodule MishkaChelekom.Typography do
   use Phoenix.Component
 
+  @sizes ["extra_small", "small", "medium", "large", "extra_large","double_extra_large", "triple_extra_large", "quadruple_extra_large"]
   @colors [
-    "white",
     "primary",
     "secondary",
     "dark",
@@ -19,7 +19,7 @@ defmodule MishkaChelekom.Typography do
 
   attr :id, :string, default: nil, doc: ""
   attr :color, :string, values: @colors, default: "dark", doc: ""
-  attr :size, :string, default: "large", doc: ""
+  attr :size, :string, default: "quadruple_extra_large", doc: ""
   attr :class, :string, default: nil, doc: ""
   attr :font_weight, :string, default: "font-normal", doc: ""
   attr(:rest, :global)
@@ -45,7 +45,7 @@ defmodule MishkaChelekom.Typography do
 
   attr :id, :string, default: nil, doc: ""
   attr :color, :string, values: @colors, default: "dark", doc: ""
-  attr :size, :string, default: "large", doc: ""
+  attr :size, :string, default: "triple_extra_large", doc: ""
   attr :class, :string, default: nil, doc: ""
   attr :font_weight, :string, default: "font-normal", doc: ""
   attr(:rest, :global)
@@ -71,7 +71,7 @@ defmodule MishkaChelekom.Typography do
 
   attr :id, :string, default: nil, doc: ""
   attr :color, :string, values: @colors, default: "dark", doc: ""
-  attr :size, :string, default: "large", doc: ""
+  attr :size, :string, default: "double_extra_large", doc: ""
   attr :class, :string, default: nil, doc: ""
   attr :font_weight, :string, default: "font-normal", doc: ""
   attr(:rest, :global)
@@ -96,7 +96,7 @@ defmodule MishkaChelekom.Typography do
 
   attr :id, :string, default: nil, doc: ""
   attr :color, :string, values: @colors, default: "dark", doc: ""
-  attr :size, :string, default: "large", doc: ""
+  attr :size, :string, default: "extra_large", doc: ""
   attr :class, :string, default: nil, doc: ""
   attr :font_weight, :string, default: "font-normal", doc: ""
   attr(:rest, :global)
@@ -146,7 +146,7 @@ defmodule MishkaChelekom.Typography do
 
   attr :id, :string, default: nil, doc: ""
   attr :color, :string, values: @colors, default: "dark", doc: ""
-  attr :size, :string, default: "large", doc: ""
+  attr :size, :string, default: "medium", doc: ""
   attr :class, :string, default: nil, doc: ""
   attr :font_weight, :string, default: "font-normal", doc: ""
   attr(:rest, :global)
@@ -171,7 +171,7 @@ defmodule MishkaChelekom.Typography do
 
   attr :id, :string, default: nil, doc: ""
   attr :color, :string, values: @colors, default: "dark", doc: ""
-  attr :size, :string, default: "large", doc: ""
+  attr :size, :string, default: "medium", doc: ""
   attr :class, :string, default: nil, doc: ""
   attr :font_weight, :string, default: "font-normal", doc: ""
   attr(:rest, :global)
@@ -196,7 +196,7 @@ defmodule MishkaChelekom.Typography do
 
   attr :id, :string, default: nil, doc: ""
   attr :color, :string, values: @colors, default: "dark", doc: ""
-  attr :size, :string, default: "large", doc: ""
+  attr :size, :string, default: "medium", doc: ""
   attr :class, :string, default: nil, doc: ""
   attr :font_weight, :string, default: "font-normal", doc: ""
   attr(:rest, :global)
@@ -221,7 +221,7 @@ defmodule MishkaChelekom.Typography do
 
   attr :id, :string, default: nil, doc: ""
   attr :color, :string, values: @colors, default: "dark", doc: ""
-  attr :size, :string, default: "large", doc: ""
+  attr :size, :string, default: "medium", doc: ""
   attr :class, :string, default: nil, doc: ""
   attr :font_weight, :string, default: "font-normal", doc: ""
   attr(:rest, :global)
@@ -246,7 +246,7 @@ defmodule MishkaChelekom.Typography do
 
   attr :id, :string, default: nil, doc: ""
   attr :color, :string, values: @colors, default: "dark", doc: ""
-  attr :size, :string, default: "large", doc: ""
+  attr :size, :string, default: "medium", doc: ""
   attr :class, :string, default: nil, doc: ""
   attr :font_weight, :string, default: "font-normal", doc: ""
   attr(:rest, :global)
@@ -271,7 +271,7 @@ defmodule MishkaChelekom.Typography do
 
   attr :id, :string, default: nil, doc: ""
   attr :color, :string, values: @colors, default: "dark", doc: ""
-  attr :size, :string, default: "large", doc: ""
+  attr :size, :string, default: "medium", doc: ""
   attr :class, :string, default: nil, doc: ""
   attr :font_weight, :string, default: "font-bold", doc: ""
   attr(:rest, :global)
@@ -296,7 +296,7 @@ defmodule MishkaChelekom.Typography do
 
   attr :id, :string, default: nil, doc: ""
   attr :color, :string, values: @colors, default: "dark", doc: ""
-  attr :size, :string, default: "large", doc: ""
+  attr :size, :string, default: "medium", doc: ""
   attr :class, :string, default: nil, doc: ""
   attr :font_weight, :string, default: "font-normal", doc: ""
   attr(:rest, :global)
@@ -321,7 +321,7 @@ defmodule MishkaChelekom.Typography do
 
   attr :id, :string, default: nil, doc: ""
   attr :color, :string, values: @colors, default: "dark", doc: ""
-  attr :size, :string, default: "large", doc: ""
+  attr :size, :string, default: "medium", doc: ""
   attr :class, :string, default: nil, doc: ""
   attr :font_weight, :string, default: "font-normal", doc: ""
   attr(:rest, :global)
@@ -346,7 +346,7 @@ defmodule MishkaChelekom.Typography do
 
   attr :id, :string, default: nil, doc: ""
   attr :color, :string, values: @colors, default: "dark", doc: ""
-  attr :size, :string, default: "large", doc: ""
+  attr :size, :string, default: "medium", doc: ""
   attr :class, :string, default: nil, doc: ""
   attr :font_weight, :string, default: "font-normal", doc: ""
   attr(:rest, :global)
@@ -371,7 +371,7 @@ defmodule MishkaChelekom.Typography do
 
   attr :id, :string, default: nil, doc: ""
   attr :color, :string, values: @colors, default: "dark", doc: ""
-  attr :size, :string, default: "large", doc: ""
+  attr :size, :string, default: "medium", doc: ""
   attr :class, :string, default: nil, doc: ""
   attr :font_weight, :string, default: "font-normal", doc: ""
   attr(:rest, :global)
@@ -396,7 +396,7 @@ defmodule MishkaChelekom.Typography do
 
   attr :id, :string, default: nil, doc: ""
   attr :color, :string, values: @colors, default: "dark", doc: ""
-  attr :size, :string, default: "large", doc: ""
+  attr :size, :string, default: "medium", doc: ""
   attr :class, :string, default: "p-0.5 bg-rose-200", doc: ""
   attr :font_weight, :string, default: "font-normal", doc: ""
   attr(:rest, :global)
@@ -421,7 +421,7 @@ defmodule MishkaChelekom.Typography do
 
   attr :id, :string, default: nil, doc: ""
   attr :color, :string, values: @colors, default: "dark", doc: ""
-  attr :size, :string, default: "large", doc: ""
+  attr :size, :string, default: "medium", doc: ""
   attr :class, :string, default: nil, doc: ""
   attr :font_weight, :string, default: "font-normal", doc: ""
   attr(:rest, :global)
@@ -446,7 +446,7 @@ defmodule MishkaChelekom.Typography do
 
   attr :id, :string, default: nil, doc: ""
   attr :color, :string, values: @colors, default: "dark", doc: ""
-  attr :size, :string, default: "large", doc: ""
+  attr :size, :string, default: "medium", doc: ""
   attr :class, :string, default: nil, doc: ""
   attr :font_weight, :string, default: "font-normal", doc: ""
   attr(:rest, :global)
@@ -471,7 +471,7 @@ defmodule MishkaChelekom.Typography do
 
   attr :id, :string, default: nil, doc: ""
   attr :color, :string, values: @colors, default: "dark", doc: ""
-  attr :size, :string, default: "large", doc: ""
+  attr :size, :string, default: "medium", doc: ""
   attr :class, :string, default: nil, doc: ""
   attr :font_weight, :string, default: "font-normal", doc: ""
   attr(:rest, :global)
@@ -496,7 +496,7 @@ defmodule MishkaChelekom.Typography do
 
   attr :id, :string, default: nil, doc: ""
   attr :color, :string, values: @colors, default: "dark", doc: ""
-  attr :size, :string, default: "large", doc: ""
+  attr :size, :string, default: "medium", doc: ""
   attr :class, :string, default: nil, doc: ""
   attr :font_weight, :string, default: "font-normal", doc: ""
   attr(:rest, :global)
@@ -521,7 +521,7 @@ defmodule MishkaChelekom.Typography do
 
   attr :id, :string, default: nil, doc: ""
   attr :color, :string, values: @colors, default: "dark", doc: ""
-  attr :size, :string, default: "large", doc: ""
+  attr :size, :string, default: "medium", doc: ""
   attr :class, :string, default: nil, doc: ""
   attr :font_weight, :string, default: "font-normal", doc: ""
   attr(:rest, :global)
