@@ -332,7 +332,6 @@ defmodule MishkaChelekom.Typography do
     <figure
       id={@id}
       class={[
-        "my-0 mx-4",
         color(@color),
         size_class(@size),
         @font_weight,
@@ -358,7 +357,6 @@ defmodule MishkaChelekom.Typography do
     <figcaption
       id={@id}
       class={[
-        "mt-1 mb-4 text-sm text-[#6c757d] before:content-['— '] before:block",
         color(@color),
         size_class(@size),
         @font_weight,
@@ -399,7 +397,7 @@ defmodule MishkaChelekom.Typography do
   attr :id, :string, default: nil, doc: ""
   attr :color, :string, values: @colors, default: "dark", doc: ""
   attr :size, :string, default: "large", doc: ""
-  attr :class, :string, default: nil, doc: ""
+  attr :class, :string, default: "p-0.5 bg-rose-200", doc: ""
   attr :font_weight, :string, default: "font-normal", doc: ""
   attr(:rest, :global)
   slot :inner_block, required: true, doc: ""
@@ -409,7 +407,6 @@ defmodule MishkaChelekom.Typography do
     <mark
       id={@id}
       class={[
-        "text-sm p-0.5 bg-rose-200",
         color(@color),
         size_class(@size),
         @font_weight,
@@ -573,11 +570,11 @@ defmodule MishkaChelekom.Typography do
 
   defp color(params), do: params
 
-  defp size_class("extra_small"), do: "py-1 px-2 text-xs"
-  defp size_class("small"), do: "py-1.5 px-3 text-sm"
-  defp size_class("medium"), do: "py-2 px-4 text-base"
-  defp size_class("large"), do: "py-2.5 px-5 text-lg"
-  defp size_class("extra_large"), do: "py-3 px-5 text-xl"
+  defp size_class("extra_small"), do: "text-xs"
+  defp size_class("small"), do: "text-sm"
+  defp size_class("medium"), do: "text-base"
+  defp size_class("large"), do: "text-lg"
+  defp size_class("extra_large"), do: "text-xl"
   defp size_class(params) when is_binary(params), do: params
   defp size_class(_), do: size_class("large")
 end
