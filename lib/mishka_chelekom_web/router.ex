@@ -32,6 +32,8 @@ defmodule MishkaChelekomWeb.Router do
     live "/examples/link-button", Examples.LinkButtonLive
 
     live "/examples/button-group", Examples.ButtonGroupLive
+
+    live "/examples/typography", Examples.TypographyLive
   end
 
   # Other scopes may use custom stacks.

@@ -25,11 +25,17 @@ defmodule MishkaChelekom.Typography do
 
   def h1(assigns) do
     ~H"""
+      <h1 class="text-4xl font-base">
+        <%= render_slot(@inner_block) %>
+      </h1>
     """
   end
 
   def h2(assigns) do
     ~H"""
+      <h2 class="text-3xl font-base">
+        <%= render_slot(@inner_block) %>
+      </h2>
     """
   end
 
@@ -43,6 +49,9 @@ defmodule MishkaChelekom.Typography do
 
   def h3(assigns) do
     ~H"""
+      <h3 class="text-2xl font-base">
+        <%= render_slot(@inner_block) %>
+      </h3>
     """
   end
 
@@ -56,6 +65,9 @@ defmodule MishkaChelekom.Typography do
 
   def h4(assigns) do
     ~H"""
+      <h4 class="text-xl font-base">
+        <%= render_slot(@inner_block) %>
+      </h4>
     """
   end
 
@@ -69,6 +81,9 @@ defmodule MishkaChelekom.Typography do
 
   def h5(assigns) do
     ~H"""
+      <h5 class="text-xl font-base">
+        <%= render_slot(@inner_block) %>
+      </h5>
     """
   end
 
@@ -82,6 +97,9 @@ defmodule MishkaChelekom.Typography do
 
   def h6(assigns) do
     ~H"""
+      <h6 class="text-lg font-base">
+        <%= render_slot(@inner_block) %>
+      </h6>
     """
   end
 
@@ -95,6 +113,9 @@ defmodule MishkaChelekom.Typography do
 
   def p(assigns) do
     ~H"""
+      <p class="text-base font-base">
+        <%= render_slot(@inner_block) %>
+      </p>
     """
   end
 
@@ -212,6 +233,9 @@ defmodule MishkaChelekom.Typography do
 
   def figure(assigns) do
     ~H"""
+      <figure class="my-0 mx-4">
+        <%= render_slot(@inner_block) %>
+      </figure>
     """
   end
 
@@ -225,6 +249,9 @@ defmodule MishkaChelekom.Typography do
 
   def figcaption(assigns) do
     ~H"""
+      <figcaption class="mt-1 mb-4 text-sm text-[#6c757d] before:content-['— ']">
+        <%= render_slot(@inner_block) %>
+      </figcaption>
     """
   end
 
