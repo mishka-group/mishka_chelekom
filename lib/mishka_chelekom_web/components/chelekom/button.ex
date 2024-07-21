@@ -50,8 +50,29 @@ defmodule MishkaChelekom.Button do
   attr :class, :string, default: nil, doc: ""
   attr :icon, :string, default: nil, doc: ""
   attr :font_weight, :string, default: "font-normal", doc: ""
-  attr :rest, :global, include: ~w(disabled form name value right_icon left_icon), doc: ""
+  attr :rest, :global, include: ~w(disabled form name value right_icon left_icon grouped), doc: ""
   slot :inner_block, required: false, doc: ""
+
+  def button(%{rest: %{grouped: true}} = assigns) do
+    ~H"""
+    <div
+      id={@id}
+      class={
+        default_classes(:grouped) ++
+          [
+            color_variant(@variant, @color),
+            rounded_size(@rounded),
+            size_class(@size),
+            @font_weight,
+            @class
+          ]
+      }
+      {@rest}
+    >
+      <%= render_slot(@inner_block) %>
+    </div>
+    """
+  end
 
   def button(assigns) do
     ~H"""
@@ -441,6 +462,16 @@ defmodule MishkaChelekom.Button do
     [
       "phx-submit-loading:opacity-75 inline-flex gap-2 items-center justify-center border",
       "transition-all ease-in-ou duration-100 group",
+      "disabled:bg-opacity-60 disabled:border-opacity-40 disabled:cursor-not-allowed disabled:text-opacity-60",
+      "disabled:cursor-not-allowed",
+      "focus:outline-none"
+    ]
+  end
+
+  defp default_classes(:grouped) do
+    [
+      "phx-submit-loading:opacity-75 bg-white inline-flex w-fit rounded-lg border border-[#DADADA]",
+      "[&>*:not(:last-child)]:border-r [&>*:not(:last-child)]:border-[#EDEDED]",
       "disabled:bg-opacity-60 disabled:border-opacity-40 disabled:cursor-not-allowed disabled:text-opacity-60",
       "disabled:cursor-not-allowed",
       "focus:outline-none"
