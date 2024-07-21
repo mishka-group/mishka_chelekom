@@ -63,6 +63,7 @@ defmodule MishkaChelekom.Modal do
                   <.icon name="hero-x-mark-solid" class="h-5 w-5" />
                 </button>
               </div>
+              
               <div id={"#{@id}-content"}>
                 <%= render_slot(@inner_block) %>
               </div>

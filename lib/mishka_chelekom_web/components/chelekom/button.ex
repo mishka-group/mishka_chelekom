@@ -91,8 +91,7 @@ defmodule MishkaChelekom.Button do
       }
       {@rest}
     >
-      <.icon :if={icon_position(@icon, @rest) == "left"} name={@icon} />
-      <%= render_slot(@inner_block) %>
+      <.icon :if={icon_position(@icon, @rest) == "left"} name={@icon} /> <%= render_slot(@inner_block) %>
       <.icon :if={icon_position(@icon, @rest) == "right"} name={@icon} />
     </button>
     """
