@@ -38,7 +38,7 @@ defmodule MishkaChelekom.ButtonGroup do
   attr :color, :string, values: @colors, default: "white", doc: ""
   attr :rounded, :string, values: @sizes ++ ["full", "none"], default: "large", doc: ""
   attr :variation, :string, values: ["horizontal", "vertical"], default: "horizontal", doc: ""
-  attr :size, :string, default: "extra_small", doc: ""
+  attr :size, :string, default: nil, doc: ""
   attr :class, :string, default: nil, doc: ""
   attr :font_weight, :string, default: "font-normal", doc: ""
   attr :rest, :global, include: ~w(disabled form name value right_icon left_icon), doc: ""
@@ -79,14 +79,14 @@ defmodule MishkaChelekom.ButtonGroup do
     >
       <button :for={btn <- @button} class="p-2 hover:bg-[#E8E8E8]">
         <.icon :if={icon_position(btn[:icon], @rest) == "left"} name={btn[:icon]} />
-        <div class={[
+        <span class={[
           color_variant(btn[:variant], btn[:color]),
           size_class(btn[:size]),
           btn[:font_weight],
           btn[:class]
         ]}>
           <%= btn[:label] %>
-        </div>
+        </span>
          <.icon :if={icon_position(btn[:icon], @rest) == "right"} name={btn[:icon]} />
       </button>
     </div>
