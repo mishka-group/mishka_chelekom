@@ -14,6 +14,7 @@ defmodule MishkaChelekom.Typography do
     "misc",
     "dawn"
   ]
+# Colors Array: ['#4363EC','#6B6E7C','#227A52','#FF8B08','#6663FD','#52059C','#4D4137','#707483','#1E1E1E']
 
   attr :id, :string, default: nil, doc: ""
   attr :color, :string, values: @colors, default: "dark", doc: ""
@@ -23,17 +24,48 @@ defmodule MishkaChelekom.Typography do
   attr(:rest, :global)
   slot :inner_block, required: true, doc: ""
 
+  @spec h1(map()) :: Phoenix.LiveView.Rendered.t()
   def h1(assigns) do
     ~H"""
-    <h1 class="text-4xl font-base">
+    <h1
+      id={@id}
+      class={
+          [
+            "#1E1E1E",
+            "text-4xl",
+            @font_weight,
+            @class
+          ]
+      }
+      {@rest}
+    >
       <%= render_slot(@inner_block) %>
     </h1>
     """
   end
 
+  attr :id, :string, default: nil, doc: ""
+  attr :color, :string, values: @colors, default: "dark", doc: ""
+  attr :size, :string, default: "large", doc: ""
+  attr :class, :string, default: nil, doc: ""
+  attr :font_weight, :string, default: "font-normal", doc: ""
+  attr(:rest, :global)
+  slot :inner_block, required: true, doc: ""
+
+  @spec h2(any()) :: Phoenix.LiveView.Rendered.t()
   def h2(assigns) do
     ~H"""
-    <h2 class="text-3xl font-base">
+    <h2
+      id={@id}
+      class={
+          [
+            "#1E1E1E",
+            "text-3xl",
+            @font_weight,
+            @class
+          ]
+      }
+      {@rest}>
       <%= render_slot(@inner_block) %>
     </h2>
     """
@@ -49,7 +81,18 @@ defmodule MishkaChelekom.Typography do
 
   def h3(assigns) do
     ~H"""
-    <h3 class="text-2xl font-base">
+    <h3
+      id={@id}
+      class={
+          [
+            "#1E1E1E",
+            "text-2xl",
+            @font_weight,
+            @class
+          ]
+      }
+      {@rest}
+    >
       <%= render_slot(@inner_block) %>
     </h3>
     """
@@ -65,7 +108,18 @@ defmodule MishkaChelekom.Typography do
 
   def h4(assigns) do
     ~H"""
-    <h4 class="text-xl font-base">
+    <h4
+      id={@id}
+      class={
+          [
+            "#1E1E1E",
+            "text-xl",
+            @font_weight,
+            @class
+          ]
+      }
+      {@rest}
+    >
       <%= render_slot(@inner_block) %>
     </h4>
     """
@@ -81,7 +135,18 @@ defmodule MishkaChelekom.Typography do
 
   def h5(assigns) do
     ~H"""
-    <h5 class="text-xl font-base">
+    <h5
+    id={@id}
+      class={
+          [
+            "#1E1E1E",
+            "text-lg",
+            @font_weight,
+            @class
+          ]
+      }
+      {@rest}
+    >
       <%= render_slot(@inner_block) %>
     </h5>
     """
@@ -97,7 +162,17 @@ defmodule MishkaChelekom.Typography do
 
   def h6(assigns) do
     ~H"""
-    <h6 class="text-lg font-base">
+    <h6
+      id={@id}
+      class={
+          [
+            "#1E1E1E",
+            "text-base",
+            @font_weight,
+            @class
+          ]
+      }
+      {@rest}>
       <%= render_slot(@inner_block) %>
     </h6>
     """
@@ -113,7 +188,18 @@ defmodule MishkaChelekom.Typography do
 
   def p(assigns) do
     ~H"""
-    <p class="text-base font-base">
+    <p
+      id={@id}
+      class={
+          [
+            "#1E1E1E",
+            "text-base",
+            @font_weight,
+            @class
+          ]
+      }
+      {@rest}
+    >
       <%= render_slot(@inner_block) %>
     </p>
     """
@@ -127,47 +213,22 @@ defmodule MishkaChelekom.Typography do
   attr(:rest, :global)
   slot :inner_block, required: true, doc: ""
 
-  def ul(assigns) do
-    ~H"""
-    """
-  end
-
-  attr :id, :string, default: nil, doc: ""
-  attr :color, :string, values: @colors, default: "dark", doc: ""
-  attr :size, :string, default: "large", doc: ""
-  attr :class, :string, default: nil, doc: ""
-  attr :font_weight, :string, default: "font-normal", doc: ""
-  attr(:rest, :global)
-  slot :inner_block, required: true, doc: ""
-
-  def li(assigns) do
-    ~H"""
-    """
-  end
-
-  attr :id, :string, default: nil, doc: ""
-  attr :color, :string, values: @colors, default: "dark", doc: ""
-  attr :size, :string, default: "large", doc: ""
-  attr :class, :string, default: nil, doc: ""
-  attr :font_weight, :string, default: "font-normal", doc: ""
-  attr(:rest, :global)
-  slot :inner_block, required: true, doc: ""
-
-  def ol(assigns) do
-    ~H"""
-    """
-  end
-
-  attr :id, :string, default: nil, doc: ""
-  attr :color, :string, values: @colors, default: "dark", doc: ""
-  attr :size, :string, default: "large", doc: ""
-  attr :class, :string, default: nil, doc: ""
-  attr :font_weight, :string, default: "font-normal", doc: ""
-  attr(:rest, :global)
-  slot :inner_block, required: true, doc: ""
-
   def strong(assigns) do
     ~H"""
+      <strong
+        id={@id}
+        class={
+            [
+              "#1E1E1E",
+              "text-base",
+              @font_weight,
+              @class
+            ]
+        }
+        {@rest}
+      >
+        <%= render_slot(@inner_block) %>
+      </strong>
     """
   end
 
@@ -181,6 +242,20 @@ defmodule MishkaChelekom.Typography do
 
   def em(assigns) do
     ~H"""
+      <em
+        id={@id}
+        class={
+            [
+              "#1E1E1E",
+              "text-base",
+              @font_weight,
+              @class
+            ]
+        }
+        {@rest}
+      >
+        <%= render_slot(@inner_block) %>
+      </em>
     """
   end
 
@@ -194,6 +269,20 @@ defmodule MishkaChelekom.Typography do
 
   def dl(assigns) do
     ~H"""
+      <dl
+        id={@id}
+        class={
+            [
+              "#1E1E1E",
+              "text-base",
+              @font_weight,
+              @class
+            ]
+        }
+        {@rest}
+      >
+        <%= render_slot(@inner_block) %>
+      </dl>
     """
   end
 
@@ -201,12 +290,26 @@ defmodule MishkaChelekom.Typography do
   attr :color, :string, values: @colors, default: "dark", doc: ""
   attr :size, :string, default: "large", doc: ""
   attr :class, :string, default: nil, doc: ""
-  attr :font_weight, :string, default: "font-normal", doc: ""
+  attr :font_weight, :string, default: "font-bold", doc: ""
   attr(:rest, :global)
   slot :inner_block, required: true, doc: ""
 
   def dt(assigns) do
     ~H"""
+      <dt
+        id={@id}
+        class={
+            [
+              "#1E1E1E",
+              "text-base",
+              @font_weight,
+              @class
+            ]
+        }
+        {@rest}
+      >
+        <%= render_slot(@inner_block) %>
+      </dt>
     """
   end
 
@@ -220,6 +323,20 @@ defmodule MishkaChelekom.Typography do
 
   def dd(assigns) do
     ~H"""
+      <dd
+        id={@id}
+        class={
+            [
+              "#1E1E1E",
+              "text-base",
+              @font_weight,
+              @class
+            ]
+        }
+        {@rest}
+      >
+        <%= render_slot(@inner_block) %>
+      </dd>
     """
   end
 
@@ -233,7 +350,19 @@ defmodule MishkaChelekom.Typography do
 
   def figure(assigns) do
     ~H"""
-    <figure class="my-0 mx-4">
+    <figure
+      id={@id}
+      class={
+          [
+            "my-0 mx-4",
+            "#1E1E1E",
+            "text-base",
+            @font_weight,
+            @class
+          ]
+      }
+      {@rest}
+    >
       <%= render_slot(@inner_block) %>
     </figure>
     """
@@ -249,7 +378,19 @@ defmodule MishkaChelekom.Typography do
 
   def figcaption(assigns) do
     ~H"""
-    <figcaption class="mt-1 mb-4 text-sm text-[#6c757d] before:content-['— ']">
+    <figcaption
+      id={@id}
+      class={
+          [
+            "mt-1 mb-4 text-sm text-[#6c757d] before:content-['— '] before:block",
+            "#1E1E1E",
+            "text-base",
+            @font_weight,
+            @class
+          ]
+      }
+      {@rest}
+    >
       <%= render_slot(@inner_block) %>
     </figcaption>
     """
@@ -265,6 +406,20 @@ defmodule MishkaChelekom.Typography do
 
   def abbr(assigns) do
     ~H"""
+      <abbr
+        id={@id}
+        class={
+            [
+              "#1E1E1E",
+              "text-base",
+              @font_weight,
+              @class
+            ]
+        }
+        {@rest}
+      >
+        <%= render_slot(@inner_block) %>
+      </abbr>
     """
   end
 
@@ -278,9 +433,21 @@ defmodule MishkaChelekom.Typography do
 
   def mark(assigns) do
     ~H"""
-    <mark class="text-sm p-0.5 bg-rose-300">
-      <%= render_slot(@inner_block) %>
-    </mark>
+      <mark
+        id={@id}
+        class={
+            [
+              "text-sm p-0.5 bg-rose-200",
+              "#1E1E1E",
+              "text-base",
+              @font_weight,
+              @class
+            ]
+        }
+        {@rest}
+      >
+        <%= render_slot(@inner_block) %>
+      </mark>
     """
   end
 
@@ -294,6 +461,20 @@ defmodule MishkaChelekom.Typography do
 
   def small(assigns) do
     ~H"""
+      <small
+        id={@id}
+        class={
+            [
+              "#1E1E1E",
+              "text-base",
+              @font_weight,
+              @class
+            ]
+        }
+        {@rest}
+      >
+        <%= render_slot(@inner_block) %>
+      </small>
     """
   end
 
@@ -307,6 +488,20 @@ defmodule MishkaChelekom.Typography do
 
   def s(assigns) do
     ~H"""
+      <s
+        id={@id}
+        class={
+            [
+              "#1E1E1E",
+              "text-base",
+              @font_weight,
+              @class
+            ]
+        }
+        {@rest}
+      >
+        <%= render_slot(@inner_block) %>
+      </s>
     """
   end
 
@@ -320,6 +515,74 @@ defmodule MishkaChelekom.Typography do
 
   def u(assigns) do
     ~H"""
+      <u
+        id={@id}
+        class={
+            [
+              "#1E1E1E",
+              "text-base",
+              @font_weight,
+              @class
+            ]
+        }
+        {@rest}
+      >
+        <%= render_slot(@inner_block) %>
+      </u>
+    """
+  end
+
+  attr :id, :string, default: nil, doc: ""
+  attr :color, :string, values: @colors, default: "dark", doc: ""
+  attr :size, :string, default: "large", doc: ""
+  attr :class, :string, default: nil, doc: ""
+  attr :font_weight, :string, default: "font-normal", doc: ""
+  attr(:rest, :global)
+  slot :inner_block, required: true, doc: ""
+
+  def cite(assigns) do
+    ~H"""
+      <cite
+        id={@id}
+        class={
+            [
+              "#1E1E1E",
+              "text-base",
+              @font_weight,
+              @class
+            ]
+        }
+        {@rest}
+      >
+        <%= render_slot(@inner_block) %>
+      </cite>
+    """
+  end
+
+  attr :id, :string, default: nil, doc: ""
+  attr :color, :string, values: @colors, default: "dark", doc: ""
+  attr :size, :string, default: "large", doc: ""
+  attr :class, :string, default: nil, doc: ""
+  attr :font_weight, :string, default: "font-normal", doc: ""
+  attr(:rest, :global)
+  slot :inner_block, required: true, doc: ""
+
+  def del(assigns) do
+    ~H"""
+      <del
+        id={@id}
+        class={
+            [
+              "#1E1E1E",
+              "text-base",
+              @font_weight,
+              @class
+            ]
+        }
+        {@rest}
+      >
+        <%= render_slot(@inner_block) %>
+      </del>
     """
   end
 end
