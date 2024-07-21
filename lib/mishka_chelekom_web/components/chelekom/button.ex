@@ -50,10 +50,10 @@ defmodule MishkaChelekom.Button do
   attr :class, :string, default: nil, doc: ""
   attr :icon, :string, default: nil, doc: ""
   attr :font_weight, :string, default: "font-normal", doc: ""
-  attr :rest, :global, include: ~w(disabled form name value right_icon left_icon grouped), doc: ""
+  attr :rest, :global, include: ~w(disabled form name value right_icon left_icon), doc: ""
   slot :inner_block, required: false, doc: ""
 
-  def button(%{rest: %{grouped: true}} = assigns) do
+  def button_group(assigns) do
     ~H"""
     <div
       id={@id}
@@ -73,6 +73,19 @@ defmodule MishkaChelekom.Button do
     </div>
     """
   end
+
+  @doc type: :component
+  attr :id, :string, default: nil, doc: ""
+  attr :type, :string, values: ["button", "submit", "reset", nil], default: nil, doc: ""
+  attr :variant, :string, values: @variants, default: "default", doc: ""
+  attr :color, :string, values: @colors, default: "white", doc: ""
+  attr :rounded, :string, values: @sizes ++ ["full", "none"], default: "large", doc: ""
+  attr :size, :string, default: "large", doc: ""
+  attr :class, :string, default: nil, doc: ""
+  attr :icon, :string, default: nil, doc: ""
+  attr :font_weight, :string, default: "font-normal", doc: ""
+  attr :rest, :global, include: ~w(disabled form name value right_icon left_icon grouped), doc: ""
+  slot :inner_block, required: false, doc: ""
 
   def button(assigns) do
     ~H"""
