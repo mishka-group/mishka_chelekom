@@ -14,7 +14,8 @@ defmodule MishkaChelekom.Typography do
     "misc",
     "dawn"
   ]
-# Colors Array: ['#4363EC','#6B6E7C','#227A52','#FF8B08','#6663FD','#52059C','#4D4137','#707483','#1E1E1E']
+
+  # Colors Array: ['#4363EC','#6B6E7C','#227A52','#FF8B08','#6663FD','#52059C','#4D4137','#707483','#1E1E1E']
 
   attr :id, :string, default: nil, doc: ""
   attr :color, :string, values: @colors, default: "dark", doc: ""
@@ -29,14 +30,12 @@ defmodule MishkaChelekom.Typography do
     ~H"""
     <h1
       id={@id}
-      class={
-          [
-            "#1E1E1E",
-            "text-4xl",
-            @font_weight,
-            @class
-          ]
-      }
+      class={[
+        color(@color),
+        size_class(@size),
+        @font_weight,
+        @class
+      ]}
       {@rest}
     >
       <%= render_slot(@inner_block) %>
@@ -57,15 +56,14 @@ defmodule MishkaChelekom.Typography do
     ~H"""
     <h2
       id={@id}
-      class={
-          [
-            "#1E1E1E",
-            "text-3xl",
-            @font_weight,
-            @class
-          ]
-      }
-      {@rest}>
+      class={[
+        color(@color),
+        size_class(@size),
+        @font_weight,
+        @class
+      ]}
+      {@rest}
+    >
       <%= render_slot(@inner_block) %>
     </h2>
     """
@@ -83,14 +81,12 @@ defmodule MishkaChelekom.Typography do
     ~H"""
     <h3
       id={@id}
-      class={
-          [
-            "#1E1E1E",
-            "text-2xl",
-            @font_weight,
-            @class
-          ]
-      }
+      class={[
+        color(@color),
+        size_class(@size),
+        @font_weight,
+        @class
+      ]}
       {@rest}
     >
       <%= render_slot(@inner_block) %>
@@ -110,14 +106,12 @@ defmodule MishkaChelekom.Typography do
     ~H"""
     <h4
       id={@id}
-      class={
-          [
-            "#1E1E1E",
-            "text-xl",
-            @font_weight,
-            @class
-          ]
-      }
+      class={[
+        color(@color),
+        size_class(@size),
+        @font_weight,
+        @class
+      ]}
       {@rest}
     >
       <%= render_slot(@inner_block) %>
@@ -136,15 +130,13 @@ defmodule MishkaChelekom.Typography do
   def h5(assigns) do
     ~H"""
     <h5
-    id={@id}
-      class={
-          [
-            "#1E1E1E",
-            "text-lg",
-            @font_weight,
-            @class
-          ]
-      }
+      id={@id}
+      class={[
+        color(@color),
+        size_class(@size),
+        @font_weight,
+        @class
+      ]}
       {@rest}
     >
       <%= render_slot(@inner_block) %>
@@ -164,15 +156,14 @@ defmodule MishkaChelekom.Typography do
     ~H"""
     <h6
       id={@id}
-      class={
-          [
-            "#1E1E1E",
-            "text-base",
-            @font_weight,
-            @class
-          ]
-      }
-      {@rest}>
+      class={[
+        color(@color),
+        size_class(@size),
+        @font_weight,
+        @class
+      ]}
+      {@rest}
+    >
       <%= render_slot(@inner_block) %>
     </h6>
     """
@@ -190,14 +181,12 @@ defmodule MishkaChelekom.Typography do
     ~H"""
     <p
       id={@id}
-      class={
-          [
-            "#1E1E1E",
-            "text-base",
-            @font_weight,
-            @class
-          ]
-      }
+      class={[
+        color(@color),
+        size_class(@size),
+        @font_weight,
+        @class
+      ]}
       {@rest}
     >
       <%= render_slot(@inner_block) %>
@@ -215,20 +204,18 @@ defmodule MishkaChelekom.Typography do
 
   def strong(assigns) do
     ~H"""
-      <strong
-        id={@id}
-        class={
-            [
-              "#1E1E1E",
-              "text-base",
-              @font_weight,
-              @class
-            ]
-        }
-        {@rest}
-      >
-        <%= render_slot(@inner_block) %>
-      </strong>
+    <strong
+      id={@id}
+      class={[
+        color(@color),
+        size_class(@size),
+        @font_weight,
+        @class
+      ]}
+      {@rest}
+    >
+      <%= render_slot(@inner_block) %>
+    </strong>
     """
   end
 
@@ -242,20 +229,18 @@ defmodule MishkaChelekom.Typography do
 
   def em(assigns) do
     ~H"""
-      <em
-        id={@id}
-        class={
-            [
-              "#1E1E1E",
-              "text-base",
-              @font_weight,
-              @class
-            ]
-        }
-        {@rest}
-      >
-        <%= render_slot(@inner_block) %>
-      </em>
+    <em
+      id={@id}
+      class={[
+        color(@color),
+        size_class(@size),
+        @font_weight,
+        @class
+      ]}
+      {@rest}
+    >
+      <%= render_slot(@inner_block) %>
+    </em>
     """
   end
 
@@ -269,20 +254,18 @@ defmodule MishkaChelekom.Typography do
 
   def dl(assigns) do
     ~H"""
-      <dl
-        id={@id}
-        class={
-            [
-              "#1E1E1E",
-              "text-base",
-              @font_weight,
-              @class
-            ]
-        }
-        {@rest}
-      >
-        <%= render_slot(@inner_block) %>
-      </dl>
+    <dl
+      id={@id}
+      class={[
+        color(@color),
+        size_class(@size),
+        @font_weight,
+        @class
+      ]}
+      {@rest}
+    >
+      <%= render_slot(@inner_block) %>
+    </dl>
     """
   end
 
@@ -296,20 +279,18 @@ defmodule MishkaChelekom.Typography do
 
   def dt(assigns) do
     ~H"""
-      <dt
-        id={@id}
-        class={
-            [
-              "#1E1E1E",
-              "text-base",
-              @font_weight,
-              @class
-            ]
-        }
-        {@rest}
-      >
-        <%= render_slot(@inner_block) %>
-      </dt>
+    <dt
+      id={@id}
+      class={[
+        color(@color),
+        size_class(@size),
+        @font_weight,
+        @class
+      ]}
+      {@rest}
+    >
+      <%= render_slot(@inner_block) %>
+    </dt>
     """
   end
 
@@ -323,20 +304,18 @@ defmodule MishkaChelekom.Typography do
 
   def dd(assigns) do
     ~H"""
-      <dd
-        id={@id}
-        class={
-            [
-              "#1E1E1E",
-              "text-base",
-              @font_weight,
-              @class
-            ]
-        }
-        {@rest}
-      >
-        <%= render_slot(@inner_block) %>
-      </dd>
+    <dd
+      id={@id}
+      class={[
+        color(@color),
+        size_class(@size),
+        @font_weight,
+        @class
+      ]}
+      {@rest}
+    >
+      <%= render_slot(@inner_block) %>
+    </dd>
     """
   end
 
@@ -352,15 +331,13 @@ defmodule MishkaChelekom.Typography do
     ~H"""
     <figure
       id={@id}
-      class={
-          [
-            "my-0 mx-4",
-            "#1E1E1E",
-            "text-base",
-            @font_weight,
-            @class
-          ]
-      }
+      class={[
+        "my-0 mx-4",
+        color(@color),
+        size_class(@size),
+        @font_weight,
+        @class
+      ]}
       {@rest}
     >
       <%= render_slot(@inner_block) %>
@@ -380,15 +357,13 @@ defmodule MishkaChelekom.Typography do
     ~H"""
     <figcaption
       id={@id}
-      class={
-          [
-            "mt-1 mb-4 text-sm text-[#6c757d] before:content-['— '] before:block",
-            "#1E1E1E",
-            "text-base",
-            @font_weight,
-            @class
-          ]
-      }
+      class={[
+        "mt-1 mb-4 text-sm text-[#6c757d] before:content-['— '] before:block",
+        color(@color),
+        size_class(@size),
+        @font_weight,
+        @class
+      ]}
       {@rest}
     >
       <%= render_slot(@inner_block) %>
@@ -406,20 +381,18 @@ defmodule MishkaChelekom.Typography do
 
   def abbr(assigns) do
     ~H"""
-      <abbr
-        id={@id}
-        class={
-            [
-              "#1E1E1E",
-              "text-base",
-              @font_weight,
-              @class
-            ]
-        }
-        {@rest}
-      >
-        <%= render_slot(@inner_block) %>
-      </abbr>
+    <abbr
+      id={@id}
+      class={[
+        color(@color),
+        size_class(@size),
+        @font_weight,
+        @class
+      ]}
+      {@rest}
+    >
+      <%= render_slot(@inner_block) %>
+    </abbr>
     """
   end
 
@@ -433,21 +406,19 @@ defmodule MishkaChelekom.Typography do
 
   def mark(assigns) do
     ~H"""
-      <mark
-        id={@id}
-        class={
-            [
-              "text-sm p-0.5 bg-rose-200",
-              "#1E1E1E",
-              "text-base",
-              @font_weight,
-              @class
-            ]
-        }
-        {@rest}
-      >
-        <%= render_slot(@inner_block) %>
-      </mark>
+    <mark
+      id={@id}
+      class={[
+        "text-sm p-0.5 bg-rose-200",
+        color(@color),
+        size_class(@size),
+        @font_weight,
+        @class
+      ]}
+      {@rest}
+    >
+      <%= render_slot(@inner_block) %>
+    </mark>
     """
   end
 
@@ -461,20 +432,18 @@ defmodule MishkaChelekom.Typography do
 
   def small(assigns) do
     ~H"""
-      <small
-        id={@id}
-        class={
-            [
-              "#1E1E1E",
-              "text-base",
-              @font_weight,
-              @class
-            ]
-        }
-        {@rest}
-      >
-        <%= render_slot(@inner_block) %>
-      </small>
+    <small
+      id={@id}
+      class={[
+        color(@color),
+        size_class(@size),
+        @font_weight,
+        @class
+      ]}
+      {@rest}
+    >
+      <%= render_slot(@inner_block) %>
+    </small>
     """
   end
 
@@ -488,20 +457,18 @@ defmodule MishkaChelekom.Typography do
 
   def s(assigns) do
     ~H"""
-      <s
-        id={@id}
-        class={
-            [
-              "#1E1E1E",
-              "text-base",
-              @font_weight,
-              @class
-            ]
-        }
-        {@rest}
-      >
-        <%= render_slot(@inner_block) %>
-      </s>
+    <s
+      id={@id}
+      class={[
+        color(@color),
+        size_class(@size),
+        @font_weight,
+        @class
+      ]}
+      {@rest}
+    >
+      <%= render_slot(@inner_block) %>
+    </s>
     """
   end
 
@@ -515,20 +482,18 @@ defmodule MishkaChelekom.Typography do
 
   def u(assigns) do
     ~H"""
-      <u
-        id={@id}
-        class={
-            [
-              "#1E1E1E",
-              "text-base",
-              @font_weight,
-              @class
-            ]
-        }
-        {@rest}
-      >
-        <%= render_slot(@inner_block) %>
-      </u>
+    <u
+      id={@id}
+      class={[
+        color(@color),
+        size_class(@size),
+        @font_weight,
+        @class
+      ]}
+      {@rest}
+    >
+      <%= render_slot(@inner_block) %>
+    </u>
     """
   end
 
@@ -542,20 +507,18 @@ defmodule MishkaChelekom.Typography do
 
   def cite(assigns) do
     ~H"""
-      <cite
-        id={@id}
-        class={
-            [
-              "#1E1E1E",
-              "text-base",
-              @font_weight,
-              @class
-            ]
-        }
-        {@rest}
-      >
-        <%= render_slot(@inner_block) %>
-      </cite>
+    <cite
+      id={@id}
+      class={[
+        color(@color),
+        size_class(@size),
+        @font_weight,
+        @class
+      ]}
+      {@rest}
+    >
+      <%= render_slot(@inner_block) %>
+    </cite>
     """
   end
 
@@ -569,20 +532,53 @@ defmodule MishkaChelekom.Typography do
 
   def del(assigns) do
     ~H"""
-      <del
-        id={@id}
-        class={
-            [
-              "#1E1E1E",
-              "text-base",
-              @font_weight,
-              @class
-            ]
-        }
-        {@rest}
-      >
-        <%= render_slot(@inner_block) %>
-      </del>
+    <del
+      id={@id}
+      class={[
+        color(@color),
+        size_class(@size),
+        @font_weight,
+        @class
+      ]}
+      {@rest}
+    >
+      <%= render_slot(@inner_block) %>
+    </del>
     """
   end
+
+  defp color("primary") do
+    "relative overflow-hidden bg-gradient-to-br from-purple-600 to-blue-500 hover:bg-gradient-to-bl"
+  end
+
+  defp color("secondary") do
+    "relative overflow-hidden bg-gradient-to-br from-green-400 to-blue-600 hover:bg-gradient-to-bl"
+  end
+
+  defp color("success") do
+    "relative overflow-hidden bg-gradient-to-r from-teal-200 to-lime-200 hover:bg-gradient-to-bl"
+  end
+
+  defp color("warning") do
+    "relative overflow-hidden bg-gradient-to-r from-red-200 via-red-300 to-yellow-200 hover:bg-gradient-to-bl"
+  end
+
+  defp color("danger") do
+    "relative overflow-hidden bg-gradient-to-br from-pink-500 to-orange-400 hover:bg-gradient-to-bl"
+  end
+
+  defp color("info") do
+    "relative overflow-hidden bg-gradient-to-r from-cyan-500 to-blue-500 hover:bg-gradient-to-bl"
+  end
+
+  defp color(params), do: params
+
+  defp size_class("extra_small"), do: "py-1 px-2 text-xs"
+  defp size_class("small"), do: "py-1.5 px-3 text-sm"
+  defp size_class("medium"), do: "py-2 px-4 text-base"
+  defp size_class("large"), do: "py-2.5 px-5 text-lg"
+  defp size_class("extra_large"), do: "py-3 px-5 text-xl"
+  defp size_class("full_width"), do: "py-2 px-4 w-full text-base"
+  defp size_class(params) when is_binary(params), do: params
+  defp size_class(_), do: size_class("large")
 end
