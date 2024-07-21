@@ -545,27 +545,43 @@ defmodule MishkaChelekom.Typography do
   end
 
   defp color("primary") do
-    "relative overflow-hidden bg-gradient-to-br from-purple-600 to-blue-500 hover:bg-gradient-to-bl"
+    "text-[#4363EC]"
   end
 
   defp color("secondary") do
-    "relative overflow-hidden bg-gradient-to-br from-green-400 to-blue-600 hover:bg-gradient-to-bl"
+    "text-[#6B6E7C]"
   end
 
   defp color("success") do
-    "relative overflow-hidden bg-gradient-to-r from-teal-200 to-lime-200 hover:bg-gradient-to-bl"
+    "text-[#227A52]"
   end
 
   defp color("warning") do
-    "relative overflow-hidden bg-gradient-to-r from-red-200 via-red-300 to-yellow-200 hover:bg-gradient-to-bl"
+    "text-[#FF8B08]"
   end
 
   defp color("danger") do
-    "relative overflow-hidden bg-gradient-to-br from-pink-500 to-orange-400 hover:bg-gradient-to-bl"
+    "text-[#E73B3B]"
   end
 
   defp color("info") do
-    "relative overflow-hidden bg-gradient-to-r from-cyan-500 to-blue-500 hover:bg-gradient-to-bl"
+    "text-[#6663FD]"
+  end
+
+  defp color("misc") do
+    "text-[#52059C]"
+  end
+
+  defp color("dawn") do
+    "text-[#4D4137]"
+  end
+
+  defp color("light") do
+    "text-[#707483]"
+  end
+
+  defp color("dark") do
+    "text-[#1E1E1E]"
   end
 
   defp color(params), do: params
