@@ -197,7 +197,7 @@ defmodule MishkaChelekom.Typography do
   attr :color, :string, values: @colors, default: "dark", doc: ""
   attr :size, :string, default: "medium", doc: ""
   attr :class, :string, default: nil, doc: ""
-  attr :font_weight, :string, default: "font-normal", doc: ""
+  attr :font_weight, :string, default: "font-bold", doc: ""
   attr(:rest, :global)
   slot :inner_block, required: true, doc: ""
 
