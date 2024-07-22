@@ -42,15 +42,12 @@ defmodule MishkaChelekom.Button do
   """
   @doc type: :component
   attr :id, :string, default: nil, doc: ""
-  attr :type, :string, values: ["button", "submit", "reset", nil], default: nil, doc: ""
-  attr :variant, :string, values: @variants, default: "default", doc: ""
-  attr :color, :string, values: @colors, default: "white", doc: ""
+  attr :variant, :string, values: @variants, default: "outline", doc: ""
+  attr :color, :string, values: @colors, default: "primary", doc: ""
   attr :rounded, :string, values: @sizes ++ ["full", "none"], default: "large", doc: ""
   attr :size, :string, default: "large", doc: ""
   attr :class, :string, default: nil, doc: ""
-  attr :icon, :string, default: nil, doc: ""
-  attr :font_weight, :string, default: "font-normal", doc: ""
-  attr :rest, :global, include: ~w(disabled form name value right_icon left_icon), doc: ""
+  attr :rest, :global, include: ~w(disabled form name value), doc: ""
   slot :inner_block, required: false, doc: ""
 
   def button_group(assigns) do
@@ -62,7 +59,6 @@ defmodule MishkaChelekom.Button do
           [
             color_variant(@variant, @color),
             rounded_size(@rounded),
-            @font_weight,
             @class
           ]
       }
@@ -481,9 +477,9 @@ defmodule MishkaChelekom.Button do
 
   defp default_classes(:grouped) do
     [
-      "phx-submit-loading:opacity-75 overflow-hidden bg-white flex w-fit rounded-lg border border-[#DADADA]",
-      "[&>*]:rounded-none [&>*]:border-0 [&>*]:!bg-transparent [&>*]:text-inherit",
-      "[&>*:not(:last-child)]:border-r [&>*:not(:last-child)]:border-[#DADADA]",
+      "phx-submit-loading:opacity-75 overflow-hidden bg-white flex w-fit rounded-lg border ",
+      "[&>*]:rounded-none [&>*]:border-0",
+      "[&>*:not(:last-child)]:border-r",
       "disabled:bg-opacity-60 disabled:border-opacity-40 disabled:cursor-not-allowed disabled:text-opacity-60",
       "disabled:cursor-not-allowed",
       "focus:outline-none"
