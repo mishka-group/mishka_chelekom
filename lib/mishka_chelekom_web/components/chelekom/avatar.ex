@@ -5,15 +5,29 @@ defmodule MishkaChelekom.Avatar do
   # TODO: We need Dot indicator
   # TODO: We need dropdown
   @sizes ["extra_small", "small", "medium", "large", "extra_large"]
+  @colors [
+    "white",
+    "primary",
+    "secondary",
+    "dark",
+    "success",
+    "warning",
+    "danger",
+    "info",
+    "light",
+    "misc",
+    "dawn"
+  ]
 
   @doc type: :component
   attr :id, :string, default: nil, doc: ""
 
   attr :type, :string,
-    values: ["default", "placeholder", "placeholder_icon", nil],
+    values: ["default", "placeholder", "placeholder_icon"],
     default: "default",
     doc: ""
 
+  attr :color, :string, values: @colors, default: "white", doc: ""
   attr :size, :string, default: "large", doc: ""
   attr :rounded, :string, values: @sizes ++ ["full", "none"], default: "large", doc: ""
   attr :border, :string, doc: ""
