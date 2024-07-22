@@ -9,7 +9,6 @@ defmodule MishkaChelekom.Button do
   @sizes ["extra_small", "small", "medium", "large", "extra_large"]
   @variants [
     "default",
-    "unbordered",
     "outline",
     "transparent",
     "subtle",
@@ -32,7 +31,8 @@ defmodule MishkaChelekom.Button do
     "info",
     "light",
     "misc",
-    "dawn"
+    "dawn",
+    "transparent"
   ]
 
   @doc """
@@ -493,6 +493,10 @@ defmodule MishkaChelekom.Button do
 
   defp border("white") do
     "border-[#DADADA] hover:border-[#d9d9d9]"
+  end
+
+  defp border("transparent") do
+    "border-transparent"
   end
 
   defp border("primary") do
