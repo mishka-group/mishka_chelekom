@@ -45,6 +45,15 @@ defmodule MishkaChelekom.Hr do
   defp size_class(params) when is_binary(params), do: params
   defp size_class(_), do: size_class("extra_small")
 
+  defp type_class("solid"), do: "border-solid"
+  defp type_class("dashed"), do: "border-dashed"
+  defp type_class("dotted"), do: "border-dotted"
+  defp type_class("double"), do: "border-double"
+  defp type_class("half"), do: "w/12"
+  defp type_class("full_width"), do: "w-full"
+  defp type_class(params) when is_binary(params), do: params
+  defp type_class(_), do: type_class("solid")
+
   defp default_classes() do
     [
       "my-5 bg-gray-200 mx-auto",
