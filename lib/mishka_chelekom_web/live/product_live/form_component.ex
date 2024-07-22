@@ -11,7 +11,7 @@ defmodule MishkaChelekomWeb.ProductLive.FormComponent do
         <%= @title %>
         <:subtitle>Use this form to manage product records in your database.</:subtitle>
       </.header>
-      
+
       <.simple_form
         for={@form}
         id="product-form"

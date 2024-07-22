@@ -87,7 +87,7 @@ defmodule MishkaChelekom.ButtonGroup do
         ]}>
           <%= btn[:label] %>
         </span>
-         <.icon :if={icon_position(btn[:icon], @rest) == "right"} name={btn[:icon]} />
+        <.icon :if={icon_position(btn[:icon], @rest) == "right"} name={btn[:icon]} />
       </button>
     </div>
     """

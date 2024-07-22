@@ -40,9 +40,9 @@ defmodule MishkaChelekom.Alert do
         <.icon :if={@kind == :info} name="hero-information-circle-mini" class="h-4 w-4" />
         <.icon :if={@kind == :error} name="hero-exclamation-circle-mini" class="h-4 w-4" /> <%= @title %>
       </p>
-      
+
       <p class="mt-2 text-sm leading-5"><%= msg %></p>
-      
+
       <button type="button" class="group absolute top-1 right-1 p-2" aria-label={gettext("close")}>
         <.icon name="hero-x-mark-solid" class="h-5 w-5 opacity-40 group-hover:opacity-70" />
       </button>
@@ -76,7 +76,7 @@ defmodule MishkaChelekom.Alert do
         <%= gettext("Attempting to reconnect") %>
         <.icon name="hero-arrow-path" class="ml-1 h-3 w-3 animate-spin" />
       </.flash>
-      
+
       <.flash
         id="server-error"
         kind={:error}
