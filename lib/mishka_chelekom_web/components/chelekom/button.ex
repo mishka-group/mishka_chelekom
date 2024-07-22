@@ -46,6 +46,7 @@ defmodule MishkaChelekom.Button do
   @doc type: :component
   attr :id, :string, default: nil, doc: ""
   attr :variant, :string, values: @variants, default: "outline", doc: ""
+  attr :variation, :string, values: ["horizontal", "vertical"], default: "horizontal", doc: ""
   attr :color, :string, values: @colors, default: "white", doc: ""
   attr :border, :string, values: @colors, default: "white", doc: ""
   attr :rounded, :string, values: @sizes ++ ["full", "none"], default: "large", doc: ""
@@ -61,6 +62,7 @@ defmodule MishkaChelekom.Button do
       class={
         default_classes(:grouped) ++
           [
+            variation(@variation),
             rounded_size(@rounded),
             border(@color),
             @class
@@ -106,6 +108,95 @@ defmodule MishkaChelekom.Button do
       <.icon :if={icon_position(@icon, @rest) == "left"} name={@icon} /> <%= render_slot(@inner_block) %>
       <.icon :if={icon_position(@icon, @rest) == "right"} name={@icon} />
     </button>
+    """
+  end
+
+  @doc type: :component
+  attr :id, :string, default: nil, doc: ""
+  attr :navigate, :string, doc: ""
+  attr :patch, :string, doc: ""
+  attr :href, :string, doc: ""
+  attr :variant, :string, values: @variants, default: "default", doc: ""
+  attr :color, :string, values: @colors, default: "white", doc: ""
+  attr :rounded, :string, values: @sizes ++ ["full", "none"], default: "large", doc: ""
+  attr :size, :string, default: "large", doc: ""
+  attr :class, :string, default: nil, doc: ""
+  attr :icon, :string, default: nil, doc: ""
+  attr :font_weight, :string, default: "font-normal", doc: ""
+
+  attr :rest, :global,
+    include:
+      ~w(right_icon left_icon download hreflang referrerpolicy rel target type csrf_token method replace),
+    doc: ""
+
+  slot :inner_block, required: false, doc: ""
+
+  def button_link(%{navigate: _navigate} = assigns) do
+    ~H"""
+    <.link
+      navigate={@navigate}
+      id={@id}
+      class={
+        default_classes() ++
+          [
+            color_variant(@variant, @color),
+            rounded_size(@rounded),
+            size_class(@size),
+            @font_weight,
+            @class
+          ]
+      }
+      {@rest}
+    >
+      <.icon :if={icon_position(@icon, @rest) == "left"} name={@icon} /> <%= render_slot(@inner_block) %>
+      <.icon :if={icon_position(@icon, @rest) == "right"} name={@icon} />
+    </.link>
+    """
+  end
+
+  def button_link(%{patch: _patch} = assigns) do
+    ~H"""
+    <.link
+      patch={@patch}
+      id={@id}
+      class={
+        default_classes() ++
+          [
+            color_variant(@variant, @color),
+            rounded_size(@rounded),
+            size_class(@size),
+            @font_weight,
+            @class
+          ]
+      }
+      {@rest}
+    >
+      <.icon :if={icon_position(@icon, @rest) == "left"} name={@icon} /> <%= render_slot(@inner_block) %>
+      <.icon :if={icon_position(@icon, @rest) == "right"} name={@icon} />
+    </.link>
+    """
+  end
+
+  def button_link(%{href: _href} = assigns) do
+    ~H"""
+    <.link
+      href={@href}
+      id={@id}
+      class={
+        default_classes() ++
+          [
+            color_variant(@variant, @color),
+            rounded_size(@rounded),
+            size_class(@size),
+            @font_weight,
+            @class
+          ]
+      }
+      {@rest}
+    >
+      <.icon :if={icon_position(@icon, @rest) == "left"} name={@icon} /> <%= render_slot(@inner_block) %>
+      <.icon :if={icon_position(@icon, @rest) == "right"} name={@icon} />
+    </.link>
     """
   end
 
@@ -560,6 +651,14 @@ defmodule MishkaChelekom.Button do
   defp icon_position(_icon, %{left_icon: true}), do: "left"
   defp icon_position(_icon, %{right_icon: true}), do: "right"
   defp icon_position(_icon, _), do: "left"
+
+  defp variation("horizontal") do
+    "flex-row [&>*:not(:last-child)]:border-r"
+  end
+
+  defp variation("vertical") do
+    "flex-col [&>*:not(:last-child)]:border-b"
+  end
 
   defp default_classes do
     [
