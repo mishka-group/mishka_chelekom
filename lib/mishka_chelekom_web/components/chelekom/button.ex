@@ -17,8 +17,10 @@ defmodule MishkaChelekom.Button do
     "inverted",
     "default_gradient",
     "outline_gradient",
-    "inverted_gradient"
+    "inverted_gradient",
+    "unbordered"
   ]
+
   @colors [
     "white",
     "primary",
