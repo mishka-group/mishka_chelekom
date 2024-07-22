@@ -1072,4 +1072,642 @@
       </div>
     </div>
   </div>
+
+  <div class="space-y-10 mt-10">
+    <h2 class="text-xl font-bold">Button Group</h2>
+    <div class="space-y-5">
+      <h2 class="text-xl font-bold">Default</h2>
+      <MishkaChelekom.Button.button_group>
+        <MishkaChelekom.Button.button icon="hero-adjustments-vertical">
+          Button 1
+        </MishkaChelekom.Button.button>
+        <MishkaChelekom.Button.button icon="hero-adjustments-vertical" />
+        <MishkaChelekom.Button.button icon="hero-adjustments-vertical" />
+        <MishkaChelekom.Button.button>Button 3</MishkaChelekom.Button.button>
+      </MishkaChelekom.Button.button_group>
+
+      <h2 class="text-xl font-bold">Default Primary</h2>
+      <MishkaChelekom.Button.button_group color="primary">
+        <MishkaChelekom.Button.button icon="hero-adjustments-vertical">
+          Button 1
+        </MishkaChelekom.Button.button>
+        <MishkaChelekom.Button.button icon="hero-adjustments-vertical" />
+        <MishkaChelekom.Button.button icon="hero-adjustments-vertical" />
+        <MishkaChelekom.Button.button>Button 3</MishkaChelekom.Button.button>
+      </MishkaChelekom.Button.button_group>
+
+      <h2 class="text-xl font-bold">Default Primary with default primary children</h2>
+      <MishkaChelekom.Button.button_group color="primary">
+        <MishkaChelekom.Button.button icon="hero-adjustments-vertical" color="primary">
+          Button 1
+        </MishkaChelekom.Button.button>
+        <MishkaChelekom.Button.button icon="hero-adjustments-vertical" color="primary" />
+        <MishkaChelekom.Button.button icon="hero-adjustments-vertical" color="primary" />
+        <MishkaChelekom.Button.button color="primary">Button 3</MishkaChelekom.Button.button>
+      </MishkaChelekom.Button.button_group>
+
+      <h2 class="text-xl font-bold">Default secondary with default dawn children</h2>
+      <MishkaChelekom.Button.button_group color="secondary">
+        <MishkaChelekom.Button.button icon="hero-adjustments-vertical" color="dawn">
+          Button 1
+        </MishkaChelekom.Button.button>
+        <MishkaChelekom.Button.button icon="hero-adjustments-vertical" color="dawn" />
+        <MishkaChelekom.Button.button icon="hero-adjustments-vertical" color="dawn" />
+        <MishkaChelekom.Button.button color="dawn">Button 3</MishkaChelekom.Button.button>
+      </MishkaChelekom.Button.button_group>
+
+      <h2 class="text-xl font-bold">default success with default and success children</h2>
+      <MishkaChelekom.Button.button_group color="success">
+        <MishkaChelekom.Button.button icon="hero-adjustments-vertical">
+          Button 1
+        </MishkaChelekom.Button.button>
+        <MishkaChelekom.Button.button icon="hero-adjustments-vertical" color="success" />
+        <MishkaChelekom.Button.button icon="hero-adjustments-vertical" />
+        <MishkaChelekom.Button.button color="success">Button 3</MishkaChelekom.Button.button>
+      </MishkaChelekom.Button.button_group>
+
+      <h2 class="text-xl font-bold">
+        default dark with shadow variant and danger and default for children
+      </h2>
+      <MishkaChelekom.Button.button_group color="dark">
+        <MishkaChelekom.Button.button icon="hero-adjustments-vertical" variant="shadow">
+          Button 1
+        </MishkaChelekom.Button.button>
+        <MishkaChelekom.Button.button
+          icon="hero-adjustments-vertical"
+          variant="shadow"
+          color="danger"
+        />
+        <MishkaChelekom.Button.button icon="hero-adjustments-vertical" variant="shadow" />
+        <MishkaChelekom.Button.button variant="shadow" color="danger">
+          Button 3
+        </MishkaChelekom.Button.button>
+      </MishkaChelekom.Button.button_group>
+
+      <h2 class="text-xl font-bold">
+        default dark with outline variant and danger and default for children
+      </h2>
+      <MishkaChelekom.Button.button_group color="dark">
+        <MishkaChelekom.Button.button
+          icon="hero-adjustments-vertical"
+          variant="outline"
+          color="success"
+        >
+          Button 1
+        </MishkaChelekom.Button.button>
+        <MishkaChelekom.Button.button variant="outline" color="danger">
+          Button 2
+        </MishkaChelekom.Button.button>
+        <MishkaChelekom.Button.button
+          icon="hero-adjustments-vertical"
+          variant="outline"
+          color="success"
+        />
+        <MishkaChelekom.Button.button variant="outline" color="danger">
+          Button 3
+        </MishkaChelekom.Button.button>
+      </MishkaChelekom.Button.button_group>
+
+      <h2 class="text-xl font-bold">
+        default dark with transparent variant and light for children
+      </h2>
+      <MishkaChelekom.Button.button_group color="dark">
+        <MishkaChelekom.Button.button
+          icon="hero-adjustments-vertical"
+          variant="transparent"
+          color="light"
+        >
+          Button 1
+        </MishkaChelekom.Button.button>
+        <MishkaChelekom.Button.button variant="transparent" color="light">
+          Button 2
+        </MishkaChelekom.Button.button>
+        <MishkaChelekom.Button.button
+          icon="hero-adjustments-vertical"
+          variant="transparent"
+          color="light"
+        />
+        <MishkaChelekom.Button.button variant="transparent" color="light">
+          Button 3
+        </MishkaChelekom.Button.button>
+        <MishkaChelekom.Button.button variant="transparent" color="light">
+          Button 4
+        </MishkaChelekom.Button.button>
+      </MishkaChelekom.Button.button_group>
+
+      <h2 class="text-xl font-bold">default dark with outline variant and info for children</h2>
+      <MishkaChelekom.Button.button_group color="info">
+        <MishkaChelekom.Button.button
+          icon="hero-adjustments-vertical"
+          variant="inverted"
+          color="info"
+        >
+          Button 1
+        </MishkaChelekom.Button.button>
+        <MishkaChelekom.Button.button variant="inverted" color="info">
+          Button 2
+        </MishkaChelekom.Button.button>
+        <MishkaChelekom.Button.button
+          icon="hero-adjustments-vertical"
+          variant="inverted"
+          color="info"
+        />
+        <MishkaChelekom.Button.button variant="inverted" color="info">
+          Button 3
+        </MishkaChelekom.Button.button>
+        <MishkaChelekom.Button.button variant="inverted" color="info">
+          Button 4
+        </MishkaChelekom.Button.button>
+        <MishkaChelekom.Button.button variant="inverted" color="info">
+          Button 5
+        </MishkaChelekom.Button.button>
+        <MishkaChelekom.Button.button variant="inverted" color="info">
+          Button 6
+        </MishkaChelekom.Button.button>
+      </MishkaChelekom.Button.button_group>
+
+      <h2 class="text-xl font-bold">default dark with outline variant and info for children</h2>
+      <MishkaChelekom.Button.button_group color="success">
+        <MishkaChelekom.Button.button
+          icon="hero-adjustments-vertical"
+          variant="inverted"
+          color="success"
+        >
+          Button 1
+        </MishkaChelekom.Button.button>
+        <MishkaChelekom.Button.button variant="inverted" color="success">
+          Button 2
+        </MishkaChelekom.Button.button>
+        <MishkaChelekom.Button.button
+          icon="hero-adjustments-vertical"
+          variant="inverted"
+          color="success"
+        />
+        <MishkaChelekom.Button.button variant="inverted" color="success">
+          Button 3
+        </MishkaChelekom.Button.button>
+        <MishkaChelekom.Button.button variant="inverted" color="success">
+          Button 4
+        </MishkaChelekom.Button.button>
+        <MishkaChelekom.Button.button variant="inverted" color="success">
+          Button 5
+        </MishkaChelekom.Button.button>
+        <MishkaChelekom.Button.button variant="inverted" color="success">
+          Button 6
+        </MishkaChelekom.Button.button>
+        <MishkaChelekom.Button.button variant="inverted" color="success">
+          Button 7
+        </MishkaChelekom.Button.button>
+        <MishkaChelekom.Button.button variant="inverted" color="success">
+          Button 8
+        </MishkaChelekom.Button.button>
+        <MishkaChelekom.Button.button variant="inverted" color="success">
+          Button 9
+        </MishkaChelekom.Button.button>
+        <MishkaChelekom.Button.button variant="inverted" color="success">
+          Button 10
+        </MishkaChelekom.Button.button>
+        <MishkaChelekom.Button.button variant="inverted" color="success">
+          Button 11
+        </MishkaChelekom.Button.button>
+        <MishkaChelekom.Button.button variant="inverted" color="success">
+          Button 12
+        </MishkaChelekom.Button.button>
+        <MishkaChelekom.Button.button variant="inverted" color="success">
+          Button 13
+        </MishkaChelekom.Button.button>
+        <MishkaChelekom.Button.button variant="inverted" color="success">
+          Button 14
+        </MishkaChelekom.Button.button>
+      </MishkaChelekom.Button.button_group>
+
+      <h2 class="text-xl font-bold">default misc with subtle variant and misc for children</h2>
+      <MishkaChelekom.Button.button_group color="misc">
+        <MishkaChelekom.Button.button
+          icon="hero-adjustments-vertical"
+          variant="subtle"
+          color="misc"
+        >
+          Button 1
+        </MishkaChelekom.Button.button>
+        <MishkaChelekom.Button.button variant="subtle" color="misc">
+          Button 2
+        </MishkaChelekom.Button.button>
+        <MishkaChelekom.Button.button
+          icon="hero-adjustments-vertical"
+          variant="subtle"
+          color="misc"
+        />
+        <MishkaChelekom.Button.button variant="subtle" color="misc">
+          Button 3
+        </MishkaChelekom.Button.button>
+        <MishkaChelekom.Button.button variant="subtle" color="misc">
+          Button 4
+        </MishkaChelekom.Button.button>
+      </MishkaChelekom.Button.button_group>
+
+      <h2 class="text-xl font-bold">default misc with inverted variant and misc for children</h2>
+      <MishkaChelekom.Button.button_group color="misc">
+        <MishkaChelekom.Button.button
+          icon="hero-adjustments-vertical"
+          variant="inverted"
+          color="misc"
+        >
+          Button 1
+        </MishkaChelekom.Button.button>
+        <MishkaChelekom.Button.button variant="inverted" color="misc">
+          Button 2
+        </MishkaChelekom.Button.button>
+        <MishkaChelekom.Button.button
+          icon="hero-adjustments-vertical"
+          variant="inverted"
+          color="misc"
+        />
+        <MishkaChelekom.Button.button variant="inverted" color="misc">
+          Button 3
+        </MishkaChelekom.Button.button>
+        <MishkaChelekom.Button.button variant="inverted" color="misc">
+          Button 4
+        </MishkaChelekom.Button.button>
+      </MishkaChelekom.Button.button_group>
+
+      <h2 class="text-xl font-bold">
+        default misc with default_gradient variant and info for children
+      </h2>
+      <MishkaChelekom.Button.button_group color="misc">
+        <MishkaChelekom.Button.button
+          icon="hero-adjustments-vertical"
+          variant="default_gradient"
+          color="info"
+        >
+          Button 1
+        </MishkaChelekom.Button.button>
+        <MishkaChelekom.Button.button variant="default_gradient" color="info">
+          Button 2
+        </MishkaChelekom.Button.button>
+        <MishkaChelekom.Button.button
+          icon="hero-adjustments-vertical"
+          variant="default_gradient"
+          color="info"
+        />
+        <MishkaChelekom.Button.button variant="default_gradient" color="info">
+          Button 3
+        </MishkaChelekom.Button.button>
+        <MishkaChelekom.Button.button variant="default_gradient" color="info">
+          Button 4
+        </MishkaChelekom.Button.button>
+      </MishkaChelekom.Button.button_group>
+
+      <h2 class="text-xl font-bold">
+        default misc with default_gradient variant and primary for children
+      </h2>
+      <MishkaChelekom.Button.button_group color="misc">
+        <MishkaChelekom.Button.button
+          icon="hero-adjustments-vertical"
+          variant="default_gradient"
+          color="primary"
+        >
+          Button 1
+        </MishkaChelekom.Button.button>
+        <MishkaChelekom.Button.button variant="default_gradient" color="primary">
+          Button 2
+        </MishkaChelekom.Button.button>
+        <MishkaChelekom.Button.button
+          icon="hero-adjustments-vertical"
+          variant="default_gradient"
+          color="primary"
+        />
+        <MishkaChelekom.Button.button variant="default_gradient" color="primary">
+          Button 3
+        </MishkaChelekom.Button.button>
+        <MishkaChelekom.Button.button variant="default_gradient" color="primary">
+          Button 4
+        </MishkaChelekom.Button.button>
+      </MishkaChelekom.Button.button_group>
+
+      <h2 class="text-xl font-bold">
+        default misc with default_gradient variant and secondary for children
+      </h2>
+      <MishkaChelekom.Button.button_group color="misc">
+        <MishkaChelekom.Button.button
+          icon="hero-adjustments-vertical"
+          variant="default_gradient"
+          color="secondary"
+        >
+          Button 1
+        </MishkaChelekom.Button.button>
+        <MishkaChelekom.Button.button variant="default_gradient" color="secondary">
+          Button 2
+        </MishkaChelekom.Button.button>
+        <MishkaChelekom.Button.button
+          icon="hero-adjustments-vertical"
+          variant="default_gradient"
+          color="secondary"
+        />
+        <MishkaChelekom.Button.button variant="default_gradient" color="secondary">
+          Button 3
+        </MishkaChelekom.Button.button>
+        <MishkaChelekom.Button.button variant="default_gradient" color="secondary">
+          Button 4
+        </MishkaChelekom.Button.button>
+      </MishkaChelekom.Button.button_group>
+
+      <h2 class="text-xl font-bold">
+        default dawn with default_gradient variant and warning for children
+      </h2>
+      <MishkaChelekom.Button.button_group color="dawn">
+        <MishkaChelekom.Button.button
+          icon="hero-adjustments-vertical"
+          variant="default_gradient"
+          color="warning"
+        >
+          Button 1
+        </MishkaChelekom.Button.button>
+        <MishkaChelekom.Button.button variant="default_gradient" color="warning">
+          Button 2
+        </MishkaChelekom.Button.button>
+        <MishkaChelekom.Button.button
+          icon="hero-adjustments-vertical"
+          variant="default_gradient"
+          color="warning"
+        />
+        <MishkaChelekom.Button.button variant="default_gradient" color="warning">
+          Button 3
+        </MishkaChelekom.Button.button>
+        <MishkaChelekom.Button.button variant="default_gradient" color="warning">
+          Button 4
+        </MishkaChelekom.Button.button>
+      </MishkaChelekom.Button.button_group>
+
+      <h2 class="text-xl font-bold">
+        default secondary with default_gradient variant and success for children
+      </h2>
+      <MishkaChelekom.Button.button_group color="secondary">
+        <MishkaChelekom.Button.button
+          icon="hero-adjustments-vertical"
+          variant="default_gradient"
+          color="success"
+        >
+          Button 1
+        </MishkaChelekom.Button.button>
+        <MishkaChelekom.Button.button variant="default_gradient" color="success">
+          Button 2
+        </MishkaChelekom.Button.button>
+        <MishkaChelekom.Button.button
+          icon="hero-adjustments-vertical"
+          variant="default_gradient"
+          color="success"
+        />
+        <MishkaChelekom.Button.button variant="default_gradient" color="success">
+          Button 3
+        </MishkaChelekom.Button.button>
+        <MishkaChelekom.Button.button variant="default_gradient" color="success">
+          Button 4
+        </MishkaChelekom.Button.button>
+      </MishkaChelekom.Button.button_group>
+
+      <h2 class="text-xl font-bold">
+        default danger with default_gradient variant and info for children
+      </h2>
+      <MishkaChelekom.Button.button_group color="danger">
+        <MishkaChelekom.Button.button
+          icon="hero-adjustments-vertical"
+          variant="default_gradient"
+          color="info"
+        >
+          Button 1
+        </MishkaChelekom.Button.button>
+        <MishkaChelekom.Button.button variant="default_gradient" color="info">
+          Button 2
+        </MishkaChelekom.Button.button>
+        <MishkaChelekom.Button.button
+          icon="hero-adjustments-vertical"
+          variant="default_gradient"
+          color="info"
+        />
+        <MishkaChelekom.Button.button variant="default_gradient" color="info">
+          Button 3
+        </MishkaChelekom.Button.button>
+        <MishkaChelekom.Button.button variant="default_gradient" color="info">
+          Button 4
+        </MishkaChelekom.Button.button>
+      </MishkaChelekom.Button.button_group>
+
+      <h2 class="text-xl font-bold">
+        default danger with default_gradient variant and info for children
+      </h2>
+      <MishkaChelekom.Button.button_group color="danger">
+        <MishkaChelekom.Button.button
+          icon="hero-adjustments-vertical"
+          variant="default_gradient"
+          color="danger"
+        >
+          Button 1
+        </MishkaChelekom.Button.button>
+        <MishkaChelekom.Button.button variant="default_gradient" color="danger">
+          Button 2
+        </MishkaChelekom.Button.button>
+        <MishkaChelekom.Button.button
+          icon="hero-adjustments-vertical"
+          variant="default_gradient"
+          color="danger"
+        />
+        <MishkaChelekom.Button.button variant="default_gradient" color="danger">
+          Button 3
+        </MishkaChelekom.Button.button>
+        <MishkaChelekom.Button.button variant="default_gradient" color="danger">
+          Button 4
+        </MishkaChelekom.Button.button>
+      </MishkaChelekom.Button.button_group>
+
+      <h2 class="text-xl font-bold">
+        default misc with inverted_gradient variant and info for children
+      </h2>
+      <MishkaChelekom.Button.button_group color="misc">
+        <MishkaChelekom.Button.button
+          icon="hero-adjustments-vertical"
+          variant="inverted_gradient"
+          color="info"
+        >
+          Button 1
+        </MishkaChelekom.Button.button>
+        <MishkaChelekom.Button.button variant="inverted_gradient" color="info">
+          Button 2
+        </MishkaChelekom.Button.button>
+        <MishkaChelekom.Button.button
+          icon="hero-adjustments-vertical"
+          variant="inverted_gradient"
+          color="info"
+        />
+        <MishkaChelekom.Button.button variant="inverted_gradient" color="info">
+          Button 3
+        </MishkaChelekom.Button.button>
+        <MishkaChelekom.Button.button variant="inverted_gradient" color="info">
+          Button 4
+        </MishkaChelekom.Button.button>
+      </MishkaChelekom.Button.button_group>
+
+      <h2 class="text-xl font-bold">
+        default misc with inverted_gradient variant and primary for children
+      </h2>
+      <MishkaChelekom.Button.button_group color="misc">
+        <MishkaChelekom.Button.button
+          icon="hero-adjustments-vertical"
+          variant="inverted_gradient"
+          color="primary"
+        >
+          Button 1
+        </MishkaChelekom.Button.button>
+        <MishkaChelekom.Button.button variant="inverted_gradient" color="primary">
+          Button 2
+        </MishkaChelekom.Button.button>
+        <MishkaChelekom.Button.button
+          icon="hero-adjustments-vertical"
+          variant="inverted_gradient"
+          color="primary"
+        />
+        <MishkaChelekom.Button.button variant="inverted_gradient" color="primary">
+          Button 3
+        </MishkaChelekom.Button.button>
+        <MishkaChelekom.Button.button variant="inverted_gradient" color="primary">
+          Button 4
+        </MishkaChelekom.Button.button>
+      </MishkaChelekom.Button.button_group>
+
+      <h2 class="text-xl font-bold">
+        default misc with inverted_gradient variant and secondary for children
+      </h2>
+      <MishkaChelekom.Button.button_group color="misc">
+        <MishkaChelekom.Button.button
+          icon="hero-adjustments-vertical"
+          variant="inverted_gradient"
+          color="secondary"
+        >
+          Button 1
+        </MishkaChelekom.Button.button>
+        <MishkaChelekom.Button.button variant="inverted_gradient" color="secondary">
+          Button 2
+        </MishkaChelekom.Button.button>
+        <MishkaChelekom.Button.button
+          icon="hero-adjustments-vertical"
+          variant="inverted_gradient"
+          color="secondary"
+        />
+        <MishkaChelekom.Button.button variant="inverted_gradient" color="secondary">
+          Button 3
+        </MishkaChelekom.Button.button>
+        <MishkaChelekom.Button.button variant="inverted_gradient" color="secondary">
+          Button 4
+        </MishkaChelekom.Button.button>
+      </MishkaChelekom.Button.button_group>
+
+      <h2 class="text-xl font-bold">
+        default dawn with inverted_gradient variant and warning for children
+      </h2>
+      <MishkaChelekom.Button.button_group color="dawn">
+        <MishkaChelekom.Button.button
+          icon="hero-adjustments-vertical"
+          variant="inverted_gradient"
+          color="warning"
+        >
+          Button 1
+        </MishkaChelekom.Button.button>
+        <MishkaChelekom.Button.button variant="inverted_gradient" color="warning">
+          Button 2
+        </MishkaChelekom.Button.button>
+        <MishkaChelekom.Button.button
+          icon="hero-adjustments-vertical"
+          variant="inverted_gradient"
+          color="warning"
+        />
+        <MishkaChelekom.Button.button variant="inverted_gradient" color="warning">
+          Button 3
+        </MishkaChelekom.Button.button>
+        <MishkaChelekom.Button.button variant="inverted_gradient" color="warning">
+          Button 4
+        </MishkaChelekom.Button.button>
+      </MishkaChelekom.Button.button_group>
+
+      <h2 class="text-xl font-bold">
+        default secondary with inverted_gradient variant and success for children
+      </h2>
+      <MishkaChelekom.Button.button_group color="secondary">
+        <MishkaChelekom.Button.button
+          icon="hero-adjustments-vertical"
+          variant="inverted_gradient"
+          color="success"
+        >
+          Button 1
+        </MishkaChelekom.Button.button>
+        <MishkaChelekom.Button.button variant="inverted_gradient" color="success">
+          Button 2
+        </MishkaChelekom.Button.button>
+        <MishkaChelekom.Button.button
+          icon="hero-adjustments-vertical"
+          variant="inverted_gradient"
+          color="success"
+        />
+        <MishkaChelekom.Button.button variant="inverted_gradient" color="success">
+          Button 3
+        </MishkaChelekom.Button.button>
+        <MishkaChelekom.Button.button variant="inverted_gradient" color="success">
+          Button 4
+        </MishkaChelekom.Button.button>
+      </MishkaChelekom.Button.button_group>
+
+      <h2 class="text-xl font-bold">
+        default danger with inverted_gradient variant and info for children
+      </h2>
+      <MishkaChelekom.Button.button_group color="danger">
+        <MishkaChelekom.Button.button
+          icon="hero-adjustments-vertical"
+          variant="inverted_gradient"
+          color="info"
+        >
+          Button 1
+        </MishkaChelekom.Button.button>
+        <MishkaChelekom.Button.button variant="inverted_gradient" color="info">
+          Button 2
+        </MishkaChelekom.Button.button>
+        <MishkaChelekom.Button.button
+          icon="hero-adjustments-vertical"
+          variant="inverted_gradient"
+          color="info"
+        />
+        <MishkaChelekom.Button.button variant="inverted_gradient" color="info">
+          Button 3
+        </MishkaChelekom.Button.button>
+        <MishkaChelekom.Button.button variant="inverted_gradient" color="info">
+          Button 4
+        </MishkaChelekom.Button.button>
+      </MishkaChelekom.Button.button_group>
+
+      <h2 class="text-xl font-bold">
+        default danger with inverted_gradient variant and info for children
+      </h2>
+      <MishkaChelekom.Button.button_group color="danger">
+        <MishkaChelekom.Button.button
+          icon="hero-adjustments-vertical"
+          variant="inverted_gradient"
+          color="danger"
+        >
+          Button 1
+        </MishkaChelekom.Button.button>
+        <MishkaChelekom.Button.button variant="inverted_gradient" color="danger">
+          Button 2
+        </MishkaChelekom.Button.button>
+        <MishkaChelekom.Button.button
+          icon="hero-adjustments-vertical"
+          variant="inverted_gradient"
+          color="danger"
+        />
+        <MishkaChelekom.Button.button variant="inverted_gradient" color="danger">
+          Button 3
+        </MishkaChelekom.Button.button>
+        <MishkaChelekom.Button.button variant="inverted_gradient" color="danger">
+          Button 4
+        </MishkaChelekom.Button.button>
+      </MishkaChelekom.Button.button_group>
+    </div>
+  </div>
 </div>

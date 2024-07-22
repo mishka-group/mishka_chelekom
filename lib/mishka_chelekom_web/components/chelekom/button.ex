@@ -43,7 +43,7 @@ defmodule MishkaChelekom.Button do
   @doc type: :component
   attr :id, :string, default: nil, doc: ""
   attr :variant, :string, values: @variants, default: "outline", doc: ""
-  attr :color, :string, values: @colors, default: "primary", doc: ""
+  attr :color, :string, values: @colors, default: "white", doc: ""
   attr :border, :string, values: @colors, default: "white", doc: ""
   attr :rounded, :string, values: @sizes ++ ["full", "none"], default: "large", doc: ""
   attr :size, :string, default: "large", doc: ""
@@ -445,11 +445,11 @@ defmodule MishkaChelekom.Button do
   defp color_variant(_, _), do: color_variant("default", "white")
 
   defp border("white") do
-    "border-white hover:border-[#d9d9d9]"
+    "border-[#DADADA] hover:border-[#d9d9d9]"
   end
 
   defp border("primary") do
-    "border-[#4363EC] hover:border-[#072ed3] [&>*:not(:last-child)]:border-[#4363EC]"
+    "border-[#4363EC] hover:border-[#072ed3]"
   end
 
   defp border("secondary") do
