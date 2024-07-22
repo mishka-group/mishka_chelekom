@@ -343,7 +343,7 @@ defmodule MishkaChelekom.Button do
   end
 
   defp color_variant("inverted", "warning") do
-    "bg-transparent text-[#FF8B08] border-[#FF8B08] hover:bg-[#FFF8E6] hover:text-[#FF8B08] hover:border-[#FFF8E6]"
+    "bg-transparent text-[#FF8B08] border-[#FF8B08] hover:bg-[#FFF8E6] hover:text-[#FF8B08]"
   end
 
   defp color_variant("inverted", "danger") do
@@ -445,47 +445,47 @@ defmodule MishkaChelekom.Button do
   defp color_variant(_, _), do: color_variant("default", "white")
 
   defp border("white") do
-    "border-[#DADADA] hover:border-[#d9d9d9]"
+    "border-[#DADADA] [&>*]:!border-[#DADADA] hover:border-[#d9d9d9]"
   end
 
   defp border("primary") do
-    "border-[#4363EC] hover:border-[#072ed3]"
+    "border-[#4363EC] [&>*]:!border-[#4363EC] hover:border-[#072ed3]"
   end
 
   defp border("secondary") do
-    "border-[#6B6E7C] hover:border-[#60636f]"
+    "border-[#6B6E7C] [&>*]:!border-[#6B6E7C] hover:border-[#60636f]"
   end
 
   defp border("success") do
-    "border-[#227A52] hover:border-[#d4fde4]"
+    "border-[#227A52] [&>*]:!border-[#227A52] hover:border-[#d4fde4]"
   end
 
   defp border("warning") do
-    "border-[#FF8B08] hover:border-[#fff1cd]"
+    "border-[#FF8B08] [&>*]:!border-[#FF8B08] hover:border-[#fff1cd]"
   end
 
   defp border("danger") do
-    "border-[#E73B3B] hover:border-[#ffcdcd]"
+    "border-[#E73B3B] [&>*]:!border-[#E73B3B] hover:border-[#ffcdcd]"
   end
 
   defp border("info") do
-    "border-[#004FC4] hover:border-[#cce1ff]"
+    "border-[#004FC4] [&>*]:!border-[#004FC4] hover:border-[#cce1ff]"
   end
 
   defp border("misc") do
-    "border-[#52059C] hover:border-[#ffe0ff]"
+    "border-[#52059C] [&>*]:!border-[#52059C] hover:border-[#ffe0ff]"
   end
 
   defp border("dawn") do
-    "border-[#4D4137] hover:border-[#FFECDA]"
+    "border-[#4D4137] [&>*]:!border-[#4D4137] hover:border-[#FFECDA]"
   end
 
   defp border("light") do
-    "border-[#707483] hover:border-[#d2d8e9]"
+    "border-[#707483] [&>*]:!border-[#707483] hover:border-[#d2d8e9]"
   end
 
   defp border("dark") do
-    "border-[#1E1E1E] hover:border-[#111111]"
+    "border-[#1E1E1E] [&>*]:!border-[#1E1E1E] hover:border-[#111111]"
   end
 
   defp rounded_size("extra_small"), do: "rounded-sm"
