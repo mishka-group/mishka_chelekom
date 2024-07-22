@@ -48,7 +48,7 @@ defmodule MishkaChelekom.Button do
   attr :rounded, :string, values: @sizes ++ ["full", "none"], default: "large", doc: ""
   attr :size, :string, default: "large", doc: ""
   attr :class, :string, default: nil, doc: ""
-  attr :rest, :global, include: ~w(disabled form name value), doc: ""
+  attr :rest, :global, doc: ""
   slot :inner_block, required: false, doc: ""
 
   def button_group(assigns) do
