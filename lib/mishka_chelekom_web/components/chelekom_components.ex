@@ -36,7 +36,6 @@ defmodule MishkaChelekomComponents do
         Keyboard,
         Link,
         List,
-        ListGroup,
         MegaMenu,
         Menu,
         Modal,
