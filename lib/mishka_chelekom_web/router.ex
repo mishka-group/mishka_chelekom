@@ -30,6 +30,7 @@ defmodule MishkaChelekomWeb.Router do
 
     live "/examples/button", Examples.ButtonLive
     live "/examples/typography", Examples.TypographyLive
+    live "/examples/hr", Examples.HrLive
   end
 
   # Other scopes may use custom stacks.
