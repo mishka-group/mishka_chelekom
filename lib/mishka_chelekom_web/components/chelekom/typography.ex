@@ -21,7 +21,7 @@ defmodule MishkaChelekom.Typography do
   attr :size, :string, default: "quadruple_large", doc: ""
   attr :class, :string, default: nil, doc: ""
   attr :font_weight, :string, default: "font-normal", doc: ""
-  attr(:rest, :global)
+  attr :rest, :global
   slot :inner_block, required: true, doc: ""
 
   @spec h1(map()) :: Phoenix.LiveView.Rendered.t()
@@ -47,7 +47,7 @@ defmodule MishkaChelekom.Typography do
   attr :size, :string, default: "triple_large", doc: ""
   attr :class, :string, default: nil, doc: ""
   attr :font_weight, :string, default: "font-normal", doc: ""
-  attr(:rest, :global)
+  attr :rest, :global
   slot :inner_block, required: true, doc: ""
 
   @spec h2(any()) :: Phoenix.LiveView.Rendered.t()
@@ -73,7 +73,7 @@ defmodule MishkaChelekom.Typography do
   attr :size, :string, default: "double_large", doc: ""
   attr :class, :string, default: nil, doc: ""
   attr :font_weight, :string, default: "font-normal", doc: ""
-  attr(:rest, :global)
+  attr :rest, :global
   slot :inner_block, required: true, doc: ""
 
   def h3(assigns) do
@@ -98,7 +98,7 @@ defmodule MishkaChelekom.Typography do
   attr :size, :string, default: "extra_large", doc: ""
   attr :class, :string, default: nil, doc: ""
   attr :font_weight, :string, default: "font-normal", doc: ""
-  attr(:rest, :global)
+  attr :rest, :global
   slot :inner_block, required: true, doc: ""
 
   def h4(assigns) do
@@ -123,7 +123,7 @@ defmodule MishkaChelekom.Typography do
   attr :size, :string, default: "large", doc: ""
   attr :class, :string, default: nil, doc: ""
   attr :font_weight, :string, default: "font-normal", doc: ""
-  attr(:rest, :global)
+  attr :rest, :global
   slot :inner_block, required: true, doc: ""
 
   def h5(assigns) do
@@ -148,7 +148,7 @@ defmodule MishkaChelekom.Typography do
   attr :size, :string, default: "medium", doc: ""
   attr :class, :string, default: nil, doc: ""
   attr :font_weight, :string, default: "font-normal", doc: ""
-  attr(:rest, :global)
+  attr :rest, :global
   slot :inner_block, required: true, doc: ""
 
   def h6(assigns) do
@@ -173,7 +173,7 @@ defmodule MishkaChelekom.Typography do
   attr :size, :string, default: "medium", doc: ""
   attr :class, :string, default: nil, doc: ""
   attr :font_weight, :string, default: "font-normal", doc: ""
-  attr(:rest, :global)
+  attr :rest, :global
   slot :inner_block, required: true, doc: ""
 
   def p(assigns) do
@@ -198,7 +198,7 @@ defmodule MishkaChelekom.Typography do
   attr :size, :string, default: "medium", doc: ""
   attr :class, :string, default: nil, doc: ""
   attr :font_weight, :string, default: "font-bold", doc: ""
-  attr(:rest, :global)
+  attr :rest, :global
   slot :inner_block, required: true, doc: ""
 
   def strong(assigns) do
@@ -223,7 +223,7 @@ defmodule MishkaChelekom.Typography do
   attr :size, :string, default: "medium", doc: ""
   attr :class, :string, default: nil, doc: ""
   attr :font_weight, :string, default: "font-normal", doc: ""
-  attr(:rest, :global)
+  attr :rest, :global
   slot :inner_block, required: true, doc: ""
 
   def em(assigns) do
@@ -248,7 +248,7 @@ defmodule MishkaChelekom.Typography do
   attr :size, :string, default: "medium", doc: ""
   attr :class, :string, default: nil, doc: ""
   attr :font_weight, :string, default: "font-normal", doc: ""
-  attr(:rest, :global)
+  attr :rest, :global
   slot :inner_block, required: true, doc: ""
 
   def dl(assigns) do
@@ -273,7 +273,7 @@ defmodule MishkaChelekom.Typography do
   attr :size, :string, default: "medium", doc: ""
   attr :class, :string, default: nil, doc: ""
   attr :font_weight, :string, default: "font-bold", doc: ""
-  attr(:rest, :global)
+  attr :rest, :global
   slot :inner_block, required: true, doc: ""
 
   def dt(assigns) do
@@ -298,7 +298,7 @@ defmodule MishkaChelekom.Typography do
   attr :size, :string, default: "medium", doc: ""
   attr :class, :string, default: nil, doc: ""
   attr :font_weight, :string, default: "font-normal", doc: ""
-  attr(:rest, :global)
+  attr :rest, :global
   slot :inner_block, required: true, doc: ""
 
   def dd(assigns) do
@@ -323,7 +323,7 @@ defmodule MishkaChelekom.Typography do
   attr :size, :string, default: "medium", doc: ""
   attr :class, :string, default: nil, doc: ""
   attr :font_weight, :string, default: "font-normal", doc: ""
-  attr(:rest, :global)
+  attr :rest, :global
   slot :inner_block, required: true, doc: ""
 
   def figure(assigns) do
@@ -348,7 +348,7 @@ defmodule MishkaChelekom.Typography do
   attr :size, :string, default: "medium", doc: ""
   attr :class, :string, default: nil, doc: ""
   attr :font_weight, :string, default: "font-normal", doc: ""
-  attr(:rest, :global)
+  attr :rest, :global
   slot :inner_block, required: true, doc: ""
 
   def figcaption(assigns) do
@@ -373,7 +373,7 @@ defmodule MishkaChelekom.Typography do
   attr :size, :string, default: "medium", doc: ""
   attr :class, :string, default: nil, doc: ""
   attr :font_weight, :string, default: "font-normal", doc: ""
-  attr(:rest, :global)
+  attr :rest, :global
   slot :inner_block, required: true, doc: ""
 
   def abbr(assigns) do
@@ -398,7 +398,7 @@ defmodule MishkaChelekom.Typography do
   attr :size, :string, default: "medium", doc: ""
   attr :class, :string, default: "p-0.5 bg-rose-200", doc: ""
   attr :font_weight, :string, default: "font-normal", doc: ""
-  attr(:rest, :global)
+  attr :rest, :global
   slot :inner_block, required: true, doc: ""
 
   def mark(assigns) do
@@ -423,7 +423,7 @@ defmodule MishkaChelekom.Typography do
   attr :size, :string, default: "medium", doc: ""
   attr :class, :string, default: nil, doc: ""
   attr :font_weight, :string, default: "font-normal", doc: ""
-  attr(:rest, :global)
+  attr :rest, :global
   slot :inner_block, required: true, doc: ""
 
   def small(assigns) do
@@ -448,7 +448,7 @@ defmodule MishkaChelekom.Typography do
   attr :size, :string, default: "medium", doc: ""
   attr :class, :string, default: nil, doc: ""
   attr :font_weight, :string, default: "font-normal", doc: ""
-  attr(:rest, :global)
+  attr :rest, :global
   slot :inner_block, required: true, doc: ""
 
   def s(assigns) do
@@ -473,7 +473,7 @@ defmodule MishkaChelekom.Typography do
   attr :size, :string, default: "medium", doc: ""
   attr :class, :string, default: nil, doc: ""
   attr :font_weight, :string, default: "font-normal", doc: ""
-  attr(:rest, :global)
+  attr :rest, :global
   slot :inner_block, required: true, doc: ""
 
   def u(assigns) do
@@ -498,7 +498,7 @@ defmodule MishkaChelekom.Typography do
   attr :size, :string, default: "medium", doc: ""
   attr :class, :string, default: nil, doc: ""
   attr :font_weight, :string, default: "font-normal", doc: ""
-  attr(:rest, :global)
+  attr :rest, :global
   slot :inner_block, required: true, doc: ""
 
   def cite(assigns) do
@@ -523,7 +523,7 @@ defmodule MishkaChelekom.Typography do
   attr :size, :string, default: "medium", doc: ""
   attr :class, :string, default: nil, doc: ""
   attr :font_weight, :string, default: "font-normal", doc: ""
-  attr(:rest, :global)
+  attr :rest, :global
   slot :inner_block, required: true, doc: ""
 
   def del(assigns) do
