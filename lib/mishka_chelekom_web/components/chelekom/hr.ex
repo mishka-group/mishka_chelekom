@@ -24,7 +24,8 @@ defmodule MishkaChelekom.Hr do
 
   def hr(assigns) do
     ~H"""
-    <hr id={@id}
+    <hr
+      id={@id}
       class={
         default_classes() ++
           [
@@ -32,7 +33,8 @@ defmodule MishkaChelekom.Hr do
             @class
           ]
       }
-      {@rest} />
+      {@rest}
+    />
     """
   end
 
@@ -56,7 +58,7 @@ defmodule MishkaChelekom.Hr do
 
   defp default_classes() do
     [
-      "my-5 bg-gray-200 mx-auto",
+      "my-5 bg-gray-200 mx-auto"
     ]
   end
 end
