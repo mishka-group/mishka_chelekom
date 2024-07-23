@@ -65,8 +65,8 @@ defmodule MishkaChelekom.Hr do
       <div
         :for={text <- @text}
         class={[
-          "bg-white absolute px-2 -top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 whitespace-nowrap",
-          text[:class]
+          "absolute px-2 -top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 whitespace-nowrap",
+          text[:class] || "bg-white"
         ]}
       >
         <%= render_slot(text) %>
