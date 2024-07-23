@@ -19,7 +19,7 @@ defmodule MishkaChelekom.Hr do
   attr :id, :string, default: nil, doc: ""
   attr :type, :string, values: ["dashed", "solid"], default: "solid", doc: ""
   attr :color, :string, values: @colors, default: "white", doc: ""
-  attr :size, :string, default: "large", doc: ""
+  attr :size, :string, default: "extra_small", doc: ""
   attr :class, :string, default: nil, doc: ""
 
   def hr(assigns) do
@@ -33,7 +33,6 @@ defmodule MishkaChelekom.Hr do
             @class
           ]
       }
-      {@rest}
     />
     """
   end
