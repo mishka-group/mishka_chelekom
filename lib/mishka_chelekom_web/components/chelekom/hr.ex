@@ -34,6 +34,7 @@ defmodule MishkaChelekom.Hr do
     attr :class, :string
     attr :icon_class, :string
     attr :color, :string
+    attr :size, :string
   end
 
   attr :class, :string, default: nil, doc: ""
@@ -62,6 +63,7 @@ defmodule MishkaChelekom.Hr do
         class={[
           "flex item-center justify-center absolute p-2 -top-1/2 -translate-y-1/2 left-1/2",
           "-translate-x-1/2 whitespace-nowrap",
+          icon[:size] || size_class(@size, :icon),
           icon[:color] || color_class(@color),
           icon[:class] || "bg-white"
         ]}
@@ -76,7 +78,8 @@ defmodule MishkaChelekom.Hr do
           "flex item-center justify-center absolute p-2 -top-1/2 -translate-y-1/2 left-1/2",
           "-translate-x-1/2 whitespace-nowrap",
           text[:color] || color_class(@color),
-          text[:class] || "bg-white"
+          text[:class] || "bg-white",
+          text[:size]
         ]}
       >
         <%= render_slot(text) %>
@@ -92,6 +95,14 @@ defmodule MishkaChelekom.Hr do
   defp size_class("extra_large"), do: "border-t-[5px]"
   defp size_class(params) when is_binary(params), do: params
   defp size_class(_), do: size_class("extra_small")
+
+  defp size_class("extra_small", :icon), do: ""
+  defp size_class("small", :icon), do: ""
+  defp size_class("medium", :icon), do: ""
+  defp size_class("large", :icon), do: ""
+  defp size_class("extra_large", :icon), do: ""
+  defp size_class(params, :icon) when is_binary(params), do: params
+  defp size_class(_, _), do: size_class("extra_small", :icon)
 
   defp width_class("full"), do: "w-full"
   defp width_class("half"), do: "w-1/2"
