@@ -34,7 +34,6 @@ defmodule MishkaChelekomComponents do
         InputField,
         Jumbotron,
         Keyboard,
-        Link,
         List,
         MegaMenu,
         Menu,
