@@ -54,14 +54,12 @@ defmodule MishkaChelekom.Hr do
         {@rest}
       />
       <%!-- Icon --%>
-      <.icon
+      <div
         :for={icon <- @icon}
-        name={icon[:name]}
-        class={
-          icon[:class] ||
-            "bg-white absolute px-2 -top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 whitespace-nowrap"
-        }
-      />
+        class="bg-white absolute px-2 -top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 whitespace-nowrap"
+      >
+        <.icon name={icon[:name]} class={icon[:class] || "w-5"} />
+      </div>
 
       <%!-- Text --%>
       <div
