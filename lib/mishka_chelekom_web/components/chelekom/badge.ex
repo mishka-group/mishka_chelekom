@@ -29,8 +29,13 @@ defmodule MishkaChelekom.Badge do
   attr :color, :string, values: @colors, default: "white", doc: ""
   attr :icon, :string, default: nil, doc: ""
   attr :border, :string, doc: ""
-  # left, right, top_right, top_left
-  slot :notification, required: false
+
+  slot :notification, required: false do
+    attr :type, :string, values: ["left", "right", "top_right", "top_left"]
+    attr :count, :string
+    attr :color, :string, values: @colors
+  end
+
   attr :rest, :global, include: ~w(right_dismiss left_dismiss right_icon left_icon), doc: ""
   slot :inner_block, required: false, doc: ""
 
