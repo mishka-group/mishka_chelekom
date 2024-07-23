@@ -88,19 +88,19 @@ defmodule MishkaChelekom.Hr do
     """
   end
 
-  defp size_class("extra_small"), do: "border-t"
-  defp size_class("small"), do: "border-t-2"
-  defp size_class("medium"), do: "border-t-[3px]"
-  defp size_class("large"), do: "border-t-4"
-  defp size_class("extra_large"), do: "border-t-[5px]"
+  defp size_class("extra_small"), do: "border-t text-xs"
+  defp size_class("small"), do: "border-t-2 text-sm"
+  defp size_class("medium"), do: "border-t-[3px] text-base"
+  defp size_class("large"), do: "border-t-4 text-lg"
+  defp size_class("extra_large"), do: "border-t-[5px] text-xl"
   defp size_class(params) when is_binary(params), do: params
   defp size_class(_), do: size_class("extra_small")
 
-  defp size_class("extra_small", :icon), do: ""
-  defp size_class("small", :icon), do: ""
-  defp size_class("medium", :icon), do: ""
-  defp size_class("large", :icon), do: ""
-  defp size_class("extra_large", :icon), do: ""
+  defp size_class("extra_small", :icon), do: "[&>*]:size-5"
+  defp size_class("small", :icon), do: "[&>*]:size-6"
+  defp size_class("medium", :icon), do: "[&>*]:size-7"
+  defp size_class("large", :icon), do: "[&>*]:size-8"
+  defp size_class("extra_large", :icon), do: "[&>*]:size-9"
   defp size_class(params, :icon) when is_binary(params), do: params
   defp size_class(_, _), do: size_class("extra_small", :icon)
 
