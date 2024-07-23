@@ -24,7 +24,9 @@ defmodule MishkaChelekom.Hr do
   attr :size, :string, default: "extra_small", doc: ""
   attr :width, :string, default: "full", doc: ""
 
-  slot :text, required: false
+  slot :text, required: false do
+    attr :class, :string
+  end
 
   slot :icon, required: false do
     attr :name, :string, required: true
@@ -62,7 +64,10 @@ defmodule MishkaChelekom.Hr do
       <%!-- Text --%>
       <div
         :for={text <- @text}
-        class="bg-white absolute px-2 -top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 whitespace-nowrap"
+        class={[
+          "bg-white absolute px-2 -top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 whitespace-nowrap",
+          text[:class]
+        ]}
       >
         <%= render_slot(text) %>
       </div>
