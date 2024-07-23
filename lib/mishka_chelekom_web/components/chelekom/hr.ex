@@ -47,7 +47,7 @@ defmodule MishkaChelekom.Hr do
         class={
           default_classes() ++
             [
-              color(@color),
+              color_class(@color),
               border_type_class(@border_type),
               width_class(@width),
               size_class(@size),
@@ -62,7 +62,7 @@ defmodule MishkaChelekom.Hr do
         class={[
           "flex item-center justify-center absolute p-2 -top-1/2 -translate-y-1/2 left-1/2",
           "-translate-x-1/2 whitespace-nowrap",
-          icon[:color] || @color,
+          icon[:color] || color_class(@color),
           icon[:class] || "bg-white"
         ]}
       >
@@ -75,7 +75,7 @@ defmodule MishkaChelekom.Hr do
         class={[
           "flex item-center justify-center absolute p-2 -top-1/2 -translate-y-1/2 left-1/2",
           "-translate-x-1/2 whitespace-nowrap",
-          text[:color] || @color,
+          text[:color] || color_class(@color),
           text[:class] || "bg-white"
         ]}
       >
@@ -98,47 +98,47 @@ defmodule MishkaChelekom.Hr do
   defp width_class(params) when is_binary(params), do: params
   defp width_class(_), do: width_class("full")
 
-  defp color("white") do
+  defp color_class("white") do
     "border-white"
   end
 
-  defp color("primary") do
+  defp color_class("primary") do
     "border-[#4363EC]"
   end
 
-  defp color("secondary") do
+  defp color_class("secondary") do
     "border-[#6B6E7C]"
   end
 
-  defp color("success") do
+  defp color_class("success") do
     "border-[#227A52]"
   end
 
-  defp color("warning") do
+  defp color_class("warning") do
     "border-[#FF8B08]"
   end
 
-  defp color("danger") do
+  defp color_class("danger") do
     "border-[#E73B3B]"
   end
 
-  defp color("info") do
+  defp color_class("info") do
     "border-[#6663FD]"
   end
 
-  defp color("misc") do
+  defp color_class("misc") do
     "border-[#52059C]"
   end
 
-  defp color("dawn") do
+  defp color_class("dawn") do
     "border-[#FFECDA]"
   end
 
-  defp color("light") do
+  defp color_class("light") do
     "border-[#707483]"
   end
 
-  defp color("dark") do
+  defp color_class("dark") do
     "border-[#1E1E1E]"
   end
 
