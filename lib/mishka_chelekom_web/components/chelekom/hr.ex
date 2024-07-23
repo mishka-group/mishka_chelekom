@@ -58,7 +58,7 @@ defmodule MishkaChelekom.Hr do
       <div
         :for={icon <- @icon}
         class={[
-          "absolute px-2 -top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 whitespace-nowrap",
+          "flex item-center justify-center absolute p-2 -top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 whitespace-nowrap",
           icon[:class] || "bg-white"
         ]}
       >
@@ -69,7 +69,7 @@ defmodule MishkaChelekom.Hr do
       <div
         :for={text <- @text}
         class={[
-          "absolute px-2 -top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 whitespace-nowrap",
+          "flex item-center justify-center absolute p-2 -top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 whitespace-nowrap",
           text[:class] || "bg-white"
         ]}
       >
@@ -88,7 +88,7 @@ defmodule MishkaChelekom.Hr do
   defp size_class(_), do: size_class("extra_small")
 
   defp width_class("full"), do: "w-full"
-  defp width_class("half"), do: "w/12"
+  defp width_class("half"), do: "w-1/2"
   defp width_class(params) when is_binary(params), do: params
   defp width_class(_), do: width_class("full")
 
@@ -125,7 +125,7 @@ defmodule MishkaChelekom.Hr do
   end
 
   defp color("dawn") do
-    "border-[#4D4137]"
+    "border-[#FFECDA]"
   end
 
   defp color("light") do
@@ -141,7 +141,7 @@ defmodule MishkaChelekom.Hr do
   end
 
   defp border_type_class("dotted") do
-    "border-dashed"
+    "border-dotted"
   end
 
   defp border_type_class("solid") do
