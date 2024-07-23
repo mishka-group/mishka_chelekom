@@ -31,6 +31,7 @@ defmodule MishkaChelekom.Hr do
   slot :icon, required: false do
     attr :name, :string, required: true
     attr :class, :string
+    attr :icon_class, :string
   end
 
   attr :class, :string, default: nil, doc: ""
@@ -56,9 +57,12 @@ defmodule MishkaChelekom.Hr do
       <%!-- Icon --%>
       <div
         :for={icon <- @icon}
-        class="bg-white absolute px-2 -top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 whitespace-nowrap"
+        class={[
+          "absolute px-2 -top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 whitespace-nowrap",
+          icon[:class] || "bg-white"
+        ]}
       >
-        <.icon name={icon[:name]} class={icon[:class] || "w-5"} />
+        <.icon name={icon[:name]} class={icon[:icon_class] || "w-5"} />
       </div>
 
       <%!-- Text --%>
