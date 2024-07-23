@@ -62,7 +62,7 @@ defmodule MishkaChelekom.Hr do
           icon[:class] || "bg-white"
         ]}
       >
-        <.icon name={icon[:name]} class={icon[:icon_class] || "w-5"} />
+        <.icon name={icon[:name]} class={icon[:icon_class] || ""} />
       </div>
 
       <%!-- Text --%>
