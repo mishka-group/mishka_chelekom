@@ -99,47 +99,47 @@ defmodule MishkaChelekom.Hr do
   defp width_class(_), do: width_class("full")
 
   defp color_class("white") do
-    "border-white"
+    "border-white text-[#3E3E3E]"
   end
 
   defp color_class("primary") do
-    "border-[#4363EC]"
+    "border-[#4363EC] text-[#4363EC]"
   end
 
   defp color_class("secondary") do
-    "border-[#6B6E7C]"
+    "border-[#6B6E7C] text-[#6B6E7C]"
   end
 
   defp color_class("success") do
-    "border-[#227A52]"
+    "border-[#227A52] text-[#047857]"
   end
 
   defp color_class("warning") do
-    "border-[#FF8B08]"
+    "border-[#FF8B08] text-[#FF8B08]"
   end
 
   defp color_class("danger") do
-    "border-[#E73B3B]"
+    "border-[#E73B3B] text-[#E73B3B]"
   end
 
   defp color_class("info") do
-    "border-[#6663FD]"
+    "border-[#6663FD] text-[#004FC4]"
   end
 
   defp color_class("misc") do
-    "border-[#52059C]"
+    "border-[#52059C] text-[#52059C]"
   end
 
   defp color_class("dawn") do
-    "border-[#FFECDA]"
+    "border-[#FFECDA] text-[#4D4137]"
   end
 
   defp color_class("light") do
-    "border-[#707483]"
+    "border-[#707483] text-[#707483]"
   end
 
   defp color_class("dark") do
-    "border-[#1E1E1E]"
+    "border-[#1E1E1E] text-[#1E1E1E]"
   end
 
   defp border_type_class("dashed") do
