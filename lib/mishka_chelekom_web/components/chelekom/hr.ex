@@ -74,13 +74,13 @@ defmodule MishkaChelekom.Hr do
   defp size_class("small"), do: "border-t-2"
   defp size_class("medium"), do: "border-t-[3px]"
   defp size_class("large"), do: "border-t-[4px]"
-  defp size_class("half"), do: "w/12"
-  defp size_class("full_width"), do: "w-full"
   defp size_class(params) when is_binary(params), do: params
   defp size_class(_), do: size_class("extra_small")
 
   defp width_class("full"), do: "w-full"
   defp width_class("half"), do: "w/12"
+  defp width_class(params) when is_binary(params), do: params
+  defp width_class(_), do: width_class("full")
 
   defp color("white") do
     "text-[#4363EC]"
