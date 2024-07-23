@@ -38,6 +38,17 @@ defmodule MishkaChelekom.Hr do
     """
   end
 
+  def hr_with_text(assigns) do
+    ~H"""
+    <div class="relative flex items-center justify-center w-full">
+      <hr class="my-5 bg-gray-200 mx-auto" />
+      <div class=" bg-white absolute px-2 left-1/2 -translate-x-1/2">
+        Or
+      </div>
+    </div>
+    """
+  end
+
   defp size_class("extra_small"), do: "border-b"
   defp size_class("small"), do: "border-b-2"
   defp size_class("medium"), do: "border-b-4"
@@ -46,15 +57,6 @@ defmodule MishkaChelekom.Hr do
   defp size_class("full_width"), do: "w-full"
   defp size_class(params) when is_binary(params), do: params
   defp size_class(_), do: size_class("extra_small")
-
-  defp type_class("solid"), do: "border-solid"
-  defp type_class("dashed"), do: "border-dashed"
-  defp type_class("dotted"), do: "border-dotted"
-  defp type_class("double"), do: "border-double"
-  defp type_class("half"), do: "w/12"
-  defp type_class("full_width"), do: "w-full"
-  defp type_class(params) when is_binary(params), do: params
-  defp type_class(_), do: type_class("solid")
 
   defp default_classes() do
     [
