@@ -22,6 +22,7 @@ defmodule MishkaChelekom.Hr do
   attr :border_type, :string, values: ["dashed", "dotted", "solid"], default: "solid", doc: ""
   attr :color, :string, values: @colors, default: "white", doc: ""
   attr :size, :string, default: "extra_small", doc: ""
+  attr :width, :string, default: "full", doc: ""
 
   slot :text, required: false
 
@@ -43,6 +44,7 @@ defmodule MishkaChelekom.Hr do
             [
               color(@color),
               border_type_class(@border_type),
+              width_class(@width),
               size_class(@size),
               @class
             ]
@@ -76,6 +78,9 @@ defmodule MishkaChelekom.Hr do
   defp size_class("full_width"), do: "w-full"
   defp size_class(params) when is_binary(params), do: params
   defp size_class(_), do: size_class("extra_small")
+
+  defp width_class("full"), do: "w-full"
+  defp width_class("half"), do: "w/12"
 
   defp color("white") do
     "text-[#4363EC]"
