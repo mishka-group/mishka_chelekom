@@ -14,8 +14,6 @@ defmodule MishkaChelekom.Typography do
     "dawn"
   ]
 
-  # Colors Array: ['#4363EC','#6B6E7C','#227A52','#FF8B08','#6663FD','#52059C','#4D4137','#707483','#1E1E1E']
-
   attr :id, :string, default: nil, doc: ""
   attr :color, :string, values: @colors, default: "dark", doc: ""
   attr :size, :string, default: "quadruple_large", doc: ""
@@ -541,6 +539,10 @@ defmodule MishkaChelekom.Typography do
       <%= render_slot(@inner_block) %>
     </del>
     """
+  end
+
+  defp color("white") do
+    "text-white"
   end
 
   defp color("primary") do

@@ -1,5 +1,6 @@
 defmodule MishkaChelekom.Badge do
   use Phoenix.Component
+  import MishkaChelekomWeb.CoreComponents
 
   @sizes ["extra_small", "small", "medium", "large", "extra_large"]
   @colors [
@@ -41,6 +42,37 @@ defmodule MishkaChelekom.Badge do
 
   def badge(assigns) do
     ~H"""
+    <div
+          class="shadow-sm shadow-neutral-500/10 inline-flex gap-1.5 items-center border border-neutral-500 rounded px-2 py-0.5"
+        >
+          <span>pills</span>
+          <button class="h-fit">
+            <.icon name="hero-arrow-trending-up" class="w-3 h-3" />
+          </button>
+        </div>
+    """
+  end
+
+  def pill(assigns) do
+    ~H"""
+      <div
+          class="shadow-sm inline-flex gap-1.5 items-center shadow-neutral-500/10 border border-neutral-500 rounded-full px-2 py-0.5"
+        >
+          <span>pills</span>
+      </div>
+    """
+  end
+
+  def pill_close(assigns) do
+    ~H"""
+    <div
+          class="shadow-sm shadow-neutral-500/10 inline-flex gap-1.5 items-center border border-neutral-500 rounded px-2 py-0.5"
+        >
+          <span>pills</span>
+          <button class="shrink-0 h-fit">
+            <.icon name="hero-x-mark" class="w-3 h-3" />
+          </button>
+    </div>
     """
   end
 end

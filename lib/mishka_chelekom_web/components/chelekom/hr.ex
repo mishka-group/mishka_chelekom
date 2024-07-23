@@ -20,7 +20,7 @@ defmodule MishkaChelekom.Hr do
   attr :id, :string, default: nil, doc: ""
   attr :type, :string, values: ["default", "icon", "text"], default: "default", doc: ""
   attr :border_type, :string, values: ["dashed", "dotted", "solid"], default: "solid", doc: ""
-  attr :color, :string, values: @colors, default: "white", doc: ""
+  attr :color, :string, values: @colors, default: "light", doc: ""
   attr :size, :string, default: "extra_small", doc: ""
   attr :width, :string, default: "full", doc: ""
 
@@ -54,7 +54,7 @@ defmodule MishkaChelekom.Hr do
       <%!-- Icon --%>
       <div
         :for={icon <- @icon}
-        class="bg-neutral-200 text-neutral-400 absolute px-2 -top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 whitespace-nowrap"
+        class="bg-white absolute px-2 -top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 whitespace-nowrap"
       >
         <.icon name={icon[:name]} class={icon[:class] || "w-5"} />
       </div>
@@ -73,7 +73,8 @@ defmodule MishkaChelekom.Hr do
   defp size_class("extra_small"), do: "border-t"
   defp size_class("small"), do: "border-t-2"
   defp size_class("medium"), do: "border-t-[3px]"
-  defp size_class("large"), do: "border-t-[4px]"
+  defp size_class("large"), do: "border-t-4"
+  defp size_class("extra_large"), do: "border-t-[5px]"
   defp size_class(params) when is_binary(params), do: params
   defp size_class(_), do: size_class("extra_small")
 
@@ -83,64 +84,64 @@ defmodule MishkaChelekom.Hr do
   defp width_class(_), do: width_class("full")
 
   defp color("white") do
-    "text-[#4363EC]"
+    "border-white"
   end
 
   defp color("primary") do
-    "text-[#4363EC]"
+    "border-[#4363EC]"
   end
 
   defp color("secondary") do
-    "text-[#6B6E7C]"
+    "border-[#6B6E7C]"
   end
 
   defp color("success") do
-    "text-[#227A52]"
+    "border-[#227A52]"
   end
 
   defp color("warning") do
-    "text-[#FF8B08]"
+    "border-[#FF8B08]"
   end
 
   defp color("danger") do
-    "text-[#E73B3B]"
+    "border-[#E73B3B]"
   end
 
   defp color("info") do
-    "text-[#6663FD]"
+    "border-[#6663FD]"
   end
 
   defp color("misc") do
-    "text-[#52059C]"
+    "border-[#52059C]"
   end
 
   defp color("dawn") do
-    "text-[#4D4137]"
+    "border-[#4D4137]"
   end
 
   defp color("light") do
-    "text-[#707483]"
+    "border-[#707483]"
   end
 
   defp color("dark") do
-    "text-[#1E1E1E]"
+    "border-[#1E1E1E]"
   end
 
   defp border_type_class("dashed") do
-    ""
+    "border-dashed"
   end
 
   defp border_type_class("dotted") do
-    ""
+    "border-dashed"
   end
 
   defp border_type_class("solid") do
-    ""
+    "border-solid"
   end
 
   defp default_classes() do
     [
-      "my-5 border-gray-200 mx-auto"
+      "my-5 mx-auto"
     ]
   end
 end
