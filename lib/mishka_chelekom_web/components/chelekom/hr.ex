@@ -26,12 +26,14 @@ defmodule MishkaChelekom.Hr do
 
   slot :text, required: false do
     attr :class, :string
+    attr :color, :string
   end
 
   slot :icon, required: false do
     attr :name, :string, required: true
     attr :class, :string
     attr :icon_class, :string
+    attr :color, :string
   end
 
   attr :class, :string, default: nil, doc: ""
@@ -58,7 +60,9 @@ defmodule MishkaChelekom.Hr do
       <div
         :for={icon <- @icon}
         class={[
-          "flex item-center justify-center absolute p-2 -top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 whitespace-nowrap",
+          "flex item-center justify-center absolute p-2 -top-1/2 -translate-y-1/2 left-1/2",
+          "-translate-x-1/2 whitespace-nowrap",
+          icon[:color] || @color,
           icon[:class] || "bg-white"
         ]}
       >
@@ -69,7 +73,9 @@ defmodule MishkaChelekom.Hr do
       <div
         :for={text <- @text}
         class={[
-          "flex item-center justify-center absolute p-2 -top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 whitespace-nowrap",
+          "flex item-center justify-center absolute p-2 -top-1/2 -translate-y-1/2 left-1/2",
+          "-translate-x-1/2 whitespace-nowrap",
+          text[:color] || @color,
           text[:class] || "bg-white"
         ]}
       >
