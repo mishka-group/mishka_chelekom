@@ -1,5 +1,6 @@
 defmodule MishkaChelekom.Hr do
   use Phoenix.Component
+  import MishkaChelekomWeb.CoreComponents
 
   @colors [
     "white",
@@ -39,19 +40,42 @@ defmodule MishkaChelekom.Hr do
 
   def hr_with_text(assigns) do
     ~H"""
-    <div class="relative flex items-center justify-center w-full">
+    <div class="relative">
       <hr class="my-5 bg-gray-200 mx-auto" />
-      <div class=" bg-white absolute px-2 left-1/2 -translate-x-1/2">
+      <div class="bg-white absolute px-2 -top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 whitespace-nowrap">
         Or
       </div>
     </div>
     """
   end
 
-  defp size_class("extra_small"), do: "border-b"
-  defp size_class("small"), do: "border-b-2"
-  defp size_class("medium"), do: "border-b-4"
-  defp size_class("large"), do: "border-b-8"
+  def hr_with_icon(assigns) do
+    ~H"""
+    <div class="relative">
+      <hr class="my-5 border-neutral-200 mx-auto" />
+      <div class="bg-neutral-200 text-neutral-400 absolute px-2 -top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 whitespace-nowrap">
+        <.icon name="hero-link" class="w-5" />
+      </div>
+    </div>
+    """
+  end
+
+  def hr_dashed(assigns) do
+    ~H"""
+      <hr class="my-5 border-dashed border-neutral-200 mx-auto w-1/2" />
+    """
+  end
+
+  def hr_dotted(assigns) do
+    ~H"""
+      <hr class="my-5 border-t-[4px] border-dotted border-neutral-200 mx-auto" />
+    """
+  end
+
+  defp size_class("extra_small"), do: "border-t"
+  defp size_class("small"), do: "border-t-2"
+  defp size_class("medium"), do: "border-t-[3px]"
+  defp size_class("large"), do: "border-t-[4px]"
   defp size_class("half"), do: "w/12"
   defp size_class("full_width"), do: "w-full"
   defp size_class(params) when is_binary(params), do: params
@@ -59,7 +83,7 @@ defmodule MishkaChelekom.Hr do
 
   defp default_classes() do
     [
-      "my-5 bg-gray-200 mx-auto"
+      "my-5 border-gray-200 mx-auto"
     ]
   end
 end
