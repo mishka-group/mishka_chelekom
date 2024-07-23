@@ -111,23 +111,23 @@ defmodule MishkaChelekom.Hr do
   end
 
   defp color_class("success") do
-    "border-[#227A52] text-[#047857]"
+    "border-[#ECFEF3] text-[#047857]"
   end
 
   defp color_class("warning") do
-    "border-[#FF8B08] text-[#FF8B08]"
+    "border-[#FFF8E6] text-[#FF8B08]"
   end
 
   defp color_class("danger") do
-    "border-[#E73B3B] text-[#E73B3B]"
+    "border-[#FFE6E6] text-[#E73B3B]"
   end
 
   defp color_class("info") do
-    "border-[#6663FD] text-[#004FC4]"
+    "border-[#E5F0FF] text-[#004FC4]"
   end
 
   defp color_class("misc") do
-    "border-[#52059C] text-[#52059C]"
+    "border-[#FFE6FF] text-[#52059C]"
   end
 
   defp color_class("dawn") do
@@ -135,7 +135,7 @@ defmodule MishkaChelekom.Hr do
   end
 
   defp color_class("light") do
-    "border-[#707483] text-[#707483]"
+    "border-[#E3E7F1] text-[#707483]"
   end
 
   defp color_class("dark") do
