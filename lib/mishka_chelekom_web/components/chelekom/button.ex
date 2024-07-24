@@ -45,7 +45,7 @@ defmodule MishkaChelekom.Button do
   """
   @doc type: :component
   attr :id, :string, default: nil, doc: ""
-  attr :variant, :string, values: @variants, default: "outline", doc: ""
+  attr :variant, :string, values: @variants, default: "default", doc: ""
   attr :variation, :string, values: ["horizontal", "vertical"], default: "horizontal", doc: ""
   attr :color, :string, values: @colors, default: "white", doc: ""
   attr :border, :string, values: @colors, default: "white", doc: ""
