@@ -58,7 +58,7 @@ defmodule MishkaChelekom.Badge do
       {@rest}
     >
       <.icon :if={icon_position(@icon, @rest) == "left"} name={@icon} />
-      <span><%= render_slot(@inner_block) %></span>
+      <%= render_slot(@inner_block) %>
       <.icon :if={icon_position(@icon, @rest) == "right"} name={@icon} />
       <button>
         <.icon name="hero-x-mark" class="size-4" />
@@ -165,9 +165,9 @@ defmodule MishkaChelekom.Badge do
 
   defp size_class("extra_small"), do: "px-2 py-0.5 text-xs"
   defp size_class("small"), do: "px-2.5 py-1 text-sm"
-  defp size_class("medium"), do: "py-2.5 px-1.5 text-base"
-  defp size_class("large"), do: "py-3 px-2 text-lg"
-  defp size_class("extra_large"), do: "py-3.5 px-2.5 text-xl"
+  defp size_class("medium"), do: "px-2.5 py-1.5 text-base"
+  defp size_class("large"), do: "px-3 py-2 text-lg"
+  defp size_class("extra_large"), do: "px-3.5 py-2.5 text-xl"
   defp size_class(params) when is_binary(params), do: params
   defp size_class(_), do: size_class("extra_small")
 
