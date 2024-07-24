@@ -18,8 +18,7 @@ defmodule MishkaChelekom.Hr do
 
   @doc type: :component
   attr :id, :string, default: nil, doc: ""
-  attr :type, :string, values: ["default", "icon", "text"], default: "default", doc: ""
-  attr :border_type, :string, values: ["dashed", "dotted", "solid"], default: "solid", doc: ""
+  attr :type, :string, values: ["dashed", "dotted", "solid"], default: "solid", doc: ""
   attr :color, :string, values: @colors, default: "light", doc: ""
   attr :size, :string, default: "extra_small", doc: ""
   attr :width, :string, default: "full", doc: ""
@@ -49,7 +48,7 @@ defmodule MishkaChelekom.Hr do
           default_classes() ++
             [
               color_class(@color),
-              border_type_class(@border_type),
+              border_type_class(@type),
               width_class(@width),
               size_class(@size),
               @class
