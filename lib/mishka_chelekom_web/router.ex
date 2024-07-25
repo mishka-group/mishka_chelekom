@@ -32,6 +32,7 @@ defmodule MishkaChelekomWeb.Router do
     live "/examples/typography", Examples.TypographyLive
     live "/examples/hr", Examples.HrLive
     live "/examples/badge", Examples.BadgeLive
+    live "/examples/avatar", Examples.AvatarLive
   end
 
   # Other scopes may use custom stacks.

@@ -27,18 +27,30 @@ defmodule MishkaChelekom.Avatar do
     default: "default",
     doc: ""
 
+  attr :class, :string, default: nil, doc: ""
   attr :color, :string, values: @colors, default: "white", doc: ""
-  attr :size, :string, default: "large", doc: ""
-  attr :rounded, :string, values: @sizes ++ ["full", "none"], default: "large", doc: ""
-  attr :border, :string, doc: ""
+  attr :size, :string, default: "small", doc: ""
+  attr :shadow, :string, values: @sizes ++ ["none"], default: "none", doc: ""
+  attr :rounded, :string, values: @sizes ++ ["full", "none"], default: "medium", doc: ""
+  attr :border, :string, default: "extra_small", doc: ""
   attr :rest, :global
 
   def avatar(assigns) do
     ~H"""
     <img
-      src="https://flowbite.com/docs/images/people/profile-picture-5.jpg"
-      class="size-8 rounded-full shadow-sm border border-neutral-500 border-opacity-25"
-      alt=""
+      id={@id}
+      class={
+        default_classes() ++
+          [
+            color(@color),
+            rounded_size(@rounded),
+            size_class(@size),
+            border_class(@border),
+            shadow_class(@shadow),
+            @class
+          ]
+      }
+      {@rest}
     />
     """
   end
@@ -51,70 +63,125 @@ defmodule MishkaChelekom.Avatar do
     default: "default",
     doc: ""
 
-  attr :size, :string, default: "large", doc: ""
-  attr :rounded, :string, values: @sizes ++ ["full", "none"], default: "large", doc: ""
-  attr :border, :string, doc: ""
+  attr :class, :string, default: nil, doc: ""
+  attr :space, :string, values: @sizes ++ ["none"], default: "medium", doc: ""
   attr :rest, :global
 
   def avatar_group(assigns) do
     ~H"""
+    <div
+      id={@id}
+      class={
+        default_classes() ++
+          [
+            space_class(@space),
+            @class
+          ]
+      }
+      {@rest}
+    >
+      <%= render_slot(@inner_block) %>
+    </div>
     """
   end
 
+  defp color("transparent") do
+    "border-0"
+  end
+
   defp color("white") do
-    "text-white"
+    "border border-white"
   end
 
   defp color("primary") do
-    "text-[#4363EC]"
+    "border border-[#4363EC]"
   end
 
   defp color("secondary") do
-    "text-[#6B6E7C]"
+    "border border-[#6B6E7C]"
   end
 
   defp color("success") do
-    "text-[#227A52]"
+    "border border-[#227A52]"
   end
 
   defp color("warning") do
-    "text-[#FF8B08]"
+    "border border-[#FF8B08]"
   end
 
   defp color("danger") do
-    "text-[#E73B3B]"
+    "border border-[#E73B3B]"
   end
 
   defp color("info") do
-    "text-[#6663FD]"
+    "border border-[#6663FD]"
   end
 
   defp color("misc") do
-    "text-[#52059C]"
+    "border border-[#52059C]"
   end
 
   defp color("dawn") do
-    "text-[#4D4137]"
+    "border border-[#4D4137]"
   end
 
   defp color("light") do
-    "text-[#707483]"
+    "border border-[#707483]"
   end
 
   defp color("dark") do
-    "text-[#1E1E1E]"
+    "border border-[#1E1E1E]"
   end
 
   defp color(params), do: params
 
-  defp size_class("extra_small"), do: "text-xs"
-  defp size_class("small"), do: "text-sm"
-  defp size_class("medium"), do: "text-base"
-  defp size_class("large"), do: "text-lg"
-  defp size_class("extra_large"), do: "text-xl"
-  defp size_class("double_large"), do: "text-2xl"
-  defp size_class("triple_large"), do: "text-3xl"
-  defp size_class("quadruple_large"), do: "text-4xl"
+  defp border_class("extra_small"), do: "border"
+  defp border_class("small"), do: "border-2"
+  defp border_class("medium"), do: "border-[3px]"
+  defp border_class("large"), do: "border-4"
+  defp border_class("extra_large"), do: "border-[5px]"
+  defp border_class(params) when is_binary(params), do: params
+  defp border_class(_), do: size_class("extra_small")
+
+  defp rounded_size("extra_small"), do: "rounded-sm"
+  defp rounded_size("small"), do: "rounded"
+  defp rounded_size("medium"), do: "rounded-md"
+  defp rounded_size("large"), do: "rounded-lg"
+  defp rounded_size("extra_large"), do: "rounded-xl"
+  defp rounded_size("full"), do: "rounded-full"
+  defp rounded_size("none"), do: "rounded-none"
+  defp rounded_size(params) when is_binary(params), do: params
+  defp rounded_size(_), do: rounded_size("medium")
+
+  defp size_class("extra_small"), do: "size-7"
+  defp size_class("small"), do: "size-8"
+  defp size_class("medium"), do: "size-9"
+  defp size_class("large"), do: "size-10"
+  defp size_class("extra_large"), do: "size-12"
   defp size_class(params) when is_binary(params), do: params
-  defp size_class(_), do: size_class("medoum")
+  defp size_class(_), do: size_class("small")
+
+  defp shadow_class("extra_small"), do: "shadow-sm"
+  defp shadow_class("small"), do: "shadow"
+  defp shadow_class("medium"), do: "shadow-md"
+  defp shadow_class("large"), do: "shadow-lg"
+  defp shadow_class("extra_large"), do: "shadow-xl"
+  defp shadow_class("none"), do: "shadow-none"
+  defp shadow_class(params) when is_binary(params), do: params
+  defp shadow_class(_), do: shadow_class("none")
+
+  defp space_class("extra_small"), do: "-space-x-2"
+  defp space_class("small"), do: "-space-x-3"
+  defp space_class("medium"), do: "-space-x-4"
+  defp space_class("large"), do: "-space-x-5"
+  defp space_class("extra_large"), do: "-space-x-6"
+  defp space_class("none"), do: "space-x-0"
+  defp space_class(params) when is_binary(params), do: params
+  defp space_class(_), do: space_class("medium")
+
+  defp default_classes() do
+    [
+      "flex items-center"
+    ]
+  end
 end
