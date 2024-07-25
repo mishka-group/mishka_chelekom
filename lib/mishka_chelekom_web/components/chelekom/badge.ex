@@ -62,13 +62,23 @@ defmodule MishkaChelekom.Badge do
       <%= render_slot(@inner_block) %>
       <.icon :if={icon_position(@icon, @rest) == "right"} name={@icon} />
 
-      <button
-        :if={Map.get(@rest, :dismissed, false)}
-        phx-click={JS.push("dismiss", value: %{id: @id, kind: "badge"}) |> hide("##{@id}")}
-      >
-        <.icon name="hero-x-mark" class="size-4" />
-      </button>
+      <.badge_dismissed dismissed={@rest[:dismissed]} id={@id} />
     </div>
+    """
+  end
+
+  attr :id, :string, default: nil
+  attr :dismissed, :boolean, default: false
+  attr :icon_class, :string, default: "size-4"
+
+  defp badge_dismissed(assigns) do
+    ~H"""
+    <button
+      :if={@dismissed}
+      phx-click={JS.push("dismiss", value: %{id: @id, kind: "badge"}) |> hide("##{@id}")}
+    >
+      <.icon name="hero-x-mark" class={"#{@icon_class}"} />
+    </button>
     """
   end
 
