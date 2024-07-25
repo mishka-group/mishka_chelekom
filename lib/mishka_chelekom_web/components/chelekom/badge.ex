@@ -1,6 +1,7 @@
 defmodule MishkaChelekom.Badge do
   use Phoenix.Component
-  import MishkaChelekomWeb.CoreComponents
+  alias Phoenix.LiveView.JS
+  import MishkaChelekomComponents
 
   @sizes ["extra_small", "small", "medium", "large", "extra_large"]
   @colors [
@@ -21,7 +22,7 @@ defmodule MishkaChelekom.Badge do
   attr :id, :string, default: nil, doc: ""
 
   attr :variant, :string,
-    values: ["default", "outline", "transparent","unbordered", "shadow"],
+    values: ["default", "outline", "transparent", "unbordered", "shadow"],
     default: "default",
     doc: ""
 
@@ -38,7 +39,7 @@ defmodule MishkaChelekom.Badge do
     attr :color, :string, values: @colors
   end
 
-  attr :rest, :global, include: ~w(right_dismiss left_dismiss right_icon left_icon), doc: ""
+  attr :rest, :global, include: ~w(dismissed right_icon left_icon), doc: ""
   slot :inner_block, required: false, doc: ""
 
   def badge(assigns) do
@@ -60,7 +61,11 @@ defmodule MishkaChelekom.Badge do
       <.icon :if={icon_position(@icon, @rest) == "left"} name={@icon} />
       <%= render_slot(@inner_block) %>
       <.icon :if={icon_position(@icon, @rest) == "right"} name={@icon} />
-      <button>
+
+      <button
+        :if={Map.get(@rest, :dismissed, false)}
+        phx-click={JS.push("dismiss", value: %{id: @id, kind: "badge"}) |> hide("##{@id}")}
+      >
         <.icon name="hero-x-mark" class="size-4" />
       </button>
     </div>
