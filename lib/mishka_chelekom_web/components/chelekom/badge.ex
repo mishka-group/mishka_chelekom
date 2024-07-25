@@ -39,7 +39,10 @@ defmodule MishkaChelekom.Badge do
     attr :color, :string, values: @colors
   end
 
-  attr :rest, :global, include: ~w(dismissed right_icon left_icon), doc: ""
+  attr :rest, :global,
+    include: ~w(dismissed right_dismiss left_dismiss right_icon left_icon),
+    doc: ""
+
   slot :inner_block, required: false, doc: ""
 
   def badge(assigns) do
@@ -58,11 +61,20 @@ defmodule MishkaChelekom.Badge do
       }
       {@rest}
     >
+      <.badge_dismissed
+        :if={dismiss_position(@icon, @rest) == "left"}
+        dismissed={@rest[:dismissed]}
+        id={@id}
+      />
       <.icon :if={icon_position(@icon, @rest) == "left"} name={@icon} />
       <%= render_slot(@inner_block) %>
       <.icon :if={icon_position(@icon, @rest) == "right"} name={@icon} />
 
-      <.badge_dismissed dismissed={@rest[:dismissed]} id={@id} />
+      <.badge_dismissed
+        :if={dismiss_position(@icon, @rest) == "right"}
+        dismissed={@rest[:dismissed]}
+        id={@id}
+      />
     </div>
     """
   end
@@ -324,6 +336,11 @@ defmodule MishkaChelekom.Badge do
   defp icon_position(_icon, %{left_icon: true}), do: "left"
   defp icon_position(_icon, %{right_icon: true}), do: "right"
   defp icon_position(_icon, _), do: "left"
+
+  defp dismiss_position(nil, _), do: false
+  defp dismiss_position(_icon, %{right_dismiss: true}), do: "right"
+  defp dismiss_position(_icon, %{left_dismiss: true}), do: "left"
+  defp dismiss_position(_icon, _), do: "right"
 
   defp default_classes() do
     [
