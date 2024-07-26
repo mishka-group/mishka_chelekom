@@ -81,4 +81,9 @@ defmodule MishkaChelekom.List do
     </div>
     """
   end
+
+  def list_group(assigns) do
+    ~H"""
+    """
+  end
 end
