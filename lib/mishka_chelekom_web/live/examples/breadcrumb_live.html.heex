@@ -1,29 +1,129 @@
-<div class="flex items-center flex-wrap gap-10 p-10">
+<div class="space-y-10 p-10">
   <h2 class="text-4xl font-extrabold w-full my-5">Default</h2>
 
-  <div class="flex items-center flex-wrap gap-10">
-    <MishkaChelekom.Breadcrumb.breadcrumb>
-      <MishkaChelekom.Button.button>
-        1
-      </MishkaChelekom.Button.button>
+  <MishkaChelekom.Breadcrumb.breadcrumb class="[&>:last-child]:font-bold after:[&>*:not(:last-child)]:content-['/'] after:[&>*:not(:last-child)]:inline-block after:[&>*:not(:last-child)]:mx-1.5">
+    <li>Route1</li>
 
-      <MishkaChelekom.Button.button>
-        2
-      </MishkaChelekom.Button.button>
+    <li>Route2</li>
 
-      <MishkaChelekom.Button.button>
-        3
-      </MishkaChelekom.Button.button>
+    <li>Route3</li>
+  </MishkaChelekom.Breadcrumb.breadcrumb>
 
-      <MishkaChelekom.Button.button>
-        4
-      </MishkaChelekom.Button.button>
+  <h2 class="text-4xl font-extrabold w-full my-5">color misc</h2>
 
-      <div>...</div>
+  <MishkaChelekom.Breadcrumb.breadcrumb
+    color="misc"
+    class="[&>:last-child]:font-bold after:[&>*:not(:last-child)]:content-['/'] after:[&>*:not(:last-child)]:inline-block after:[&>*:not(:last-child)]:mx-1.5"
+  >
+    <li>Route1</li>
 
-      <MishkaChelekom.Button.button>
-        5
-      </MishkaChelekom.Button.button>
-    </MishkaChelekom.Breadcrumb.breadcrumb>
-  </div>
+    <li>Route2</li>
+
+    <li>Route3</li>
+  </MishkaChelekom.Breadcrumb.breadcrumb>
+
+  <h2 class="text-4xl font-extrabold w-full my-5">color success</h2>
+
+  <MishkaChelekom.Breadcrumb.breadcrumb
+    color="success"
+    class="[&>:last-child]:font-bold after:[&>*:not(:last-child)]:content-['/'] after:[&>*:not(:last-child)]:inline-block after:[&>*:not(:last-child)]:mx-1.5"
+  >
+    <li>Route1</li>
+
+    <li>Route2</li>
+
+    <li>Route3</li>
+  </MishkaChelekom.Breadcrumb.breadcrumb>
+
+  <h2 class="text-4xl font-extrabold w-full my-5">text large</h2>
+
+  <MishkaChelekom.Breadcrumb.breadcrumb
+    text="large"
+    class="[&>:last-child]:font-bold after:[&>*:not(:last-child)]:content-['/'] after:[&>*:not(:last-child)]:inline-block after:[&>*:not(:last-child)]:mx-1.5"
+  >
+    <li>Route1</li>
+
+    <li>Route2</li>
+
+    <li>Route3</li>
+  </MishkaChelekom.Breadcrumb.breadcrumb>
+
+  <h2 class="text-4xl font-extrabold w-full my-5">text medium</h2>
+
+  <MishkaChelekom.Breadcrumb.breadcrumb
+    text="medium"
+    class="[&>*:not(:last-child)]:text-gray-400 [&>*]:mx-1.5"
+  >
+    <li>Route1</li>
+
+    <li>Route2</li>
+
+    <li>Route3</li>
+  </MishkaChelekom.Breadcrumb.breadcrumb>
+
+  <MishkaChelekom.Breadcrumb.breadcrumb class="gap-4">
+    <li class="inline-flex items-center">
+      <a class="flex items-center gap-2 text-gray-500 hover:text-blue-600" href="#">
+        <.icon name="hero-home" /> Home
+      </a>
+    </li>
+
+    <li class="inline-flex items-center">
+      <a class="flex items-center gap-2 text-gray-500 hover:text-blue-600" href="#">
+        <.icon name="hero-wifi" /> App Center
+      </a>
+    </li>
+
+    <li class="inline-flex items-center font-semibold text-gray-800 truncate">
+      Application
+    </li>
+  </MishkaChelekom.Breadcrumb.breadcrumb>
+
+  <MishkaChelekom.Breadcrumb.breadcrumb class="gap-4">
+    <li class="inline-flex items-center">
+      <a class="flex items-center gap-2 text-gray-500 hover:text-blue-600" href="#">
+        Home
+      </a>
+    </li>
+
+    <li class="inline-flex items-center">
+      <.icon name="hero-chevron-right" />
+    </li>
+
+    <li class="inline-flex items-center">
+      <a class="flex items-center gap-2 text-gray-500 hover:text-blue-600" href="#">
+        App Center
+      </a>
+    </li>
+
+    <li class="inline-flex items-center">
+      <.icon name="hero-chevron-right" />
+    </li>
+
+    <li class="inline-flex items-center font-semibold text-gray-800 truncate">
+      Application
+    </li>
+  </MishkaChelekom.Breadcrumb.breadcrumb>
+
+  <MishkaChelekom.Breadcrumb.breadcrumb class="gap-1" text="extra_small" color="light">
+    <li>
+      Home
+    </li>
+
+    <li>
+      <.icon name="hero-chevron-right" />
+    </li>
+
+    <li>
+      Sale Report
+    </li>
+
+    <li>
+      <.icon name="hero-chevron-right" />
+    </li>
+
+    <li>
+      Application
+    </li>
+  </MishkaChelekom.Breadcrumb.breadcrumb>
 </div>
