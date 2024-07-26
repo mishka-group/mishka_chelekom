@@ -103,11 +103,11 @@ defmodule MishkaChelekom.Badge do
   end
 
   defp color_variant("default", "secondary") do
-    "bg-[#6B6E7C] text-white border-[#3d3f49] hover:bg-[#60636f] hover:border-[#3d3f49]"
+    "bg-[#6B6E7C] text-white border-[#877C7C] hover:bg-[#60636f] hover:border-[#877C7C]"
   end
 
   defp color_variant("default", "success") do
-    "bg-[#ECFEF3] text-[#047857] border-[#595c68] hover:bg-[#d4fde4] hover:border-[#595c68]"
+    "bg-[#ECFEF3] text-[#047857] border-[#6EE7B7] hover:bg-[#d4fde4] hover:border-[#6EE7B7]"
   end
 
   defp color_variant("default", "warning") do

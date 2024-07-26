@@ -205,7 +205,7 @@ defmodule MishkaChelekom.Button do
   end
 
   defp color_variant("default", "primary") do
-    "bg-[#4363EC] text-white border-[#2c449e] hover:bg-[#072ed3] hover:border-[#2c449e]"
+    "bg-[#4363EC] text-white border-[#877C7C] hover:bg-[#072ed3] hover:border-[#877C7C]"
   end
 
   defp color_variant("default", "secondary") do
@@ -213,7 +213,7 @@ defmodule MishkaChelekom.Button do
   end
 
   defp color_variant("default", "success") do
-    "bg-[#ECFEF3] text-[#047857] border-[#595c68] hover:bg-[#d4fde4] hover:border-[#595c68]"
+    "bg-[#ECFEF3] text-[#047857] border-[#6EE7B7] hover:bg-[#d4fde4] hover:border-[#6EE7B7]"
   end
 
   defp color_variant("default", "warning") do
