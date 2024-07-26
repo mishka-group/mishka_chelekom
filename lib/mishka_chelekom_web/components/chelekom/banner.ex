@@ -14,6 +14,7 @@ defmodule MishkaChelekom.Banner do
     "misc",
     "dawn"
   ]
+  
   @doc type: :component
   attr :id, :string, default: nil, doc: ""
 
@@ -28,7 +29,6 @@ defmodule MishkaChelekom.Banner do
   attr :position, :string, values: ["top", "bottom"], default: "top", doc: ""
   attr :rounded, :string, values: @sizes ++ ["full", "none"], default: "large", doc: ""
   attr :rest, :global, include: ~w(right_dismiss left_dismiss), doc: ""
-  slot :inner_block, required: false, doc: ""
 
   def banner(assigns) do
     ~H"""
