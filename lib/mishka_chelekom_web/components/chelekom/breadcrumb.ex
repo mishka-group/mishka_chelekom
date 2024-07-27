@@ -47,16 +47,16 @@ defmodule MishkaChelekom.Breadcrumb do
       }
       {@rest}
     >
-      <li :for={item <- @item} class="flex items-center">
+      <li :for={{item, index} <- Enum.with_index(@item, 1)} class="flex items-center">
         <.icon :if={!is_nil(item[:icon])} name={item[:icon]} />
         <div :if={!is_nil(item[:link])}>
           <.link navigate={item[:link]}><%= render_slot(item) %></.link>
         </div>
 
         <div :if={is_nil(item[:link])}><%= render_slot(item) %></div>
-         <.separator name={item[:separator] || @separator} />
+        <.separator :if={index != length(@item)} name={item[:separator] || @separator} />
       </li>
-       <%= render_slot(@inner_block) %>
+      <%= render_slot(@inner_block) %>
     </ul>
     """
   end
@@ -72,7 +72,7 @@ defmodule MishkaChelekom.Breadcrumb do
 
   defp separator(assigns) do
     ~H"""
-    <span class={@class}>@name</span>
+    <span class={@class}><%= @name %></span>
     """
   end
 
