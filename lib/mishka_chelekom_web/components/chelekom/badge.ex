@@ -66,7 +66,8 @@ defmodule MishkaChelekom.Badge do
     >
       <.badge_dismisse :if={dismiss_position(@rest) == "left"} dismisse={@rest[:dismisse]} id={@id} />
       <span :if={indicator_position(@rest) == "left"} class="indicator" />
-      <.icon :if={icon_position(@icon, @rest) == "left"} name={@icon} /> <%= render_slot(@inner_block) %>
+      <.icon :if={icon_position(@icon, @rest) == "left"} name={@icon} />
+      <span><%= render_slot(@inner_block) %></span>
       <.icon :if={icon_position(@icon, @rest) == "right"} name={@icon} />
       <span :if={indicator_position(@rest) == "right"} class="indicator" />
       <.badge_dismisse :if={dismiss_position(@rest) == "right"} dismisse={@rest[:dismisse]} id={@id} />
@@ -343,7 +344,7 @@ defmodule MishkaChelekom.Badge do
 
   defp default_classes() do
     [
-      "inline-flex gap-1.5 items-center border [&>.indicator]:block [&>.indicator]:shrink-0 [&>.indicator]:rounded-full [&>.indicator]:animate-ping"
+      "inline-flex gap-1.5 items-center border leading-normal [&>.indicator]:block [&>.indicator]:shrink-0 [&>.indicator]:rounded-full [&>.indicator]:animate-ping"
     ]
   end
 end
