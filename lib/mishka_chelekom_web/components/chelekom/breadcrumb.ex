@@ -72,7 +72,7 @@ defmodule MishkaChelekom.Breadcrumb do
 
   defp separator(assigns) do
     ~H"""
-    <span class={@class}><%= @name %></span>
+    <span class={[@class, "separator-text"]}><%= @name %></span>
     """
   end
 
