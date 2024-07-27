@@ -64,7 +64,7 @@ defmodule MishkaChelekom.Breadcrumb do
   end
 
   attr :name, :string
-  attr :class, :string, default: nil, doc: ""
+  attr :class, :string, default: "separator", doc: ""
 
   defp separator(%{name: "hero-" <> _icon_name} = assigns) do
     ~H"""
