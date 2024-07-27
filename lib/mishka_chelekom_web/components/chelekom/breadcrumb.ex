@@ -22,7 +22,7 @@ defmodule MishkaChelekom.Breadcrumb do
   attr :id, :string, default: nil, doc: ""
   attr :separator, :string, default: "hero-chevron-right", doc: ""
   attr :color, :string, values: @colors, default: "dark", doc: ""
-  attr :size, :string, default: "small", doc: ""
+  attr :size, :string, values: @sizes, default: "small", doc: ""
 
   slot :item, required: false do
     attr :icon, :string
