@@ -342,7 +342,7 @@ defmodule MishkaChelekom.Badge do
 
   defp default_classes() do
     [
-      "inline-flex gap-1.5 items-center border leading-normal [&>.indicator]:block [&>.indicator]:shrink-0 [&>.indicator]:rounded-full [&>.indicator]:animate-ping"
+      "inline-flex gap-1.5 items-center border [&>.indicator]:block [&>.indicator]:shrink-0 [&>.indicator]:rounded-full [&>.indicator]:animate-ping"
     ]
   end
 end
