@@ -49,7 +49,7 @@ defmodule MishkaChelekom.Button do
   attr :variation, :string, values: ["horizontal", "vertical"], default: "horizontal", doc: ""
   attr :color, :string, values: @colors, default: "white", doc: ""
   attr :border, :string, values: @colors, default: "white", doc: ""
-  attr :rounded, :string, values: @sizes ++ ["full", "none"], default: "large", doc: ""
+  attr :rounded, :string, values: @sizes ++ ["full", "none"], default: "small", doc: ""
   attr :size, :string, default: "large", doc: ""
   attr :class, :string, default: nil, doc: ""
   attr :rest, :global, doc: ""
