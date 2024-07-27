@@ -64,13 +64,13 @@ defmodule MishkaChelekom.Badge do
       }
       {@rest}
     >
-      <.badge_dismisse :if={dismiss_position(@rest) == "left"} dismisse={@rest[:dismisse]} id={@id} />
+      <.badge_dismisse :if={dismiss_position(@rest) == "left"} id={@id} />
       <span :if={indicator_position(@rest) == "left"} class="indicator" />
       <.icon :if={icon_position(@icon, @rest) == "left"} name={@icon} />
       <span><%= render_slot(@inner_block) %></span>
       <.icon :if={icon_position(@icon, @rest) == "right"} name={@icon} />
       <span :if={indicator_position(@rest) == "right"} class="indicator" />
-      <.badge_dismisse :if={dismiss_position(@rest) == "right"} dismisse={@rest[:dismisse]} id={@id} />
+      <.badge_dismisse :if={dismiss_position(@rest) == "right"} id={@id} />
     </div>
     """
   end
@@ -81,10 +81,7 @@ defmodule MishkaChelekom.Badge do
 
   defp badge_dismisse(assigns) do
     ~H"""
-    <button
-      :if={@dismisse}
-      phx-click={JS.push("dismiss", value: %{id: @id, kind: "badge"}) |> hide("##{@id}")}
-    >
+    <button phx-click={JS.push("dismiss", value: %{id: @id, kind: "badge"}) |> hide("##{@id}")}>
       <.icon name="hero-x-mark" class={"#{@icon_class}"} />
     </button>
     """
@@ -335,7 +332,8 @@ defmodule MishkaChelekom.Badge do
 
   defp dismiss_position(%{right_dismiss: true}), do: "right"
   defp dismiss_position(%{left_dismiss: true}), do: "left"
-  defp dismiss_position(_), do: "right"
+  defp dismiss_position(%{dismisse: true}), do: "right"
+  defp dismiss_position(_), do: false
 
   defp indicator_position(%{left_indicator: true}), do: "left"
   defp indicator_position(%{right_indicator: true}), do: "right"
