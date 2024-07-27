@@ -1,15 +1,13 @@
 <div class="space-y-10 p-10">
   <h2 class="text-4xl font-extrabold w-full my-5">Default</h2>
 
-  <MishkaChelekom.Breadcrumb.breadcrumb class="[&>:last-child]:font-bold after:[&>*:not(:last-child)]:content-['/'] after:[&>*:not(:last-child)]:inline-block after:[&>*:not(:last-child)]:mx-1.5">
-    <li>Route1</li>
-
-    <li>Route2</li>
-
-    <li>Route3</li>
+  <MishkaChelekom.Breadcrumb.breadcrumb>
+    <:item icon="hero-academic-cap">Route1</:item>
+    <:item icon="hero-beaker">Route2</:item>
+    <:item icon="hero-computer-desktop">Route3</:item>
   </MishkaChelekom.Breadcrumb.breadcrumb>
 
-  <h2 class="text-4xl font-extrabold w-full my-5">color misc</h2>
+  <%!-- <h2 class="text-4xl font-extrabold w-full my-5">color misc</h2>
 
   <MishkaChelekom.Breadcrumb.breadcrumb
     color="misc"
@@ -125,5 +123,5 @@
     <li>
       Application
     </li>
-  </MishkaChelekom.Breadcrumb.breadcrumb>
+  </MishkaChelekom.Breadcrumb.breadcrumb> --%>
 </div>

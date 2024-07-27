@@ -1,5 +1,6 @@
 defmodule MishkaChelekom.Breadcrumb do
   use Phoenix.Component
+  import MishkaChelekomComponents
 
   @sizes ["extra_small", "small", "medium", "large", "extra_large"]
   @colors [
@@ -19,15 +20,15 @@ defmodule MishkaChelekom.Breadcrumb do
   @doc type: :component
   attr :class, :string, default: nil, doc: ""
   attr :id, :string, default: nil, doc: ""
-  attr :separator, :string, default: "chevron-right", doc: ""
+  attr :separator, :string, default: "hero-chevron-right", doc: ""
   attr :color, :string, values: @colors, default: "dark", doc: ""
   attr :size, :string, default: "large", doc: ""
   attr :text, :string, values: @sizes, default: "small", doc: ""
 
   slot :item, required: true do
-    attr :text, :string, required: true
     attr :icon, :string
     attr :link, :string
+    attr :separator, :string
   end
 
   attr :rest, :global
@@ -47,8 +48,33 @@ defmodule MishkaChelekom.Breadcrumb do
       }
       {@rest}
     >
+      <li :for={item <- @item}>
+        <.icon :if={!is_nil(item[:icon])} name={item[:icon]} />
+
+        <div :if={!is_nil(item[:link])}>
+          <.link navigate={item[:link]}><%= render_slot(item) %></.link>
+        </div>
+
+        <div :if={is_nil(item[:link])}><%= render_slot(item) %></div>
+        <.separator name={@separator} />
+      </li>
       <%= render_slot(@inner_block) %>
     </ul>
+    """
+  end
+
+  attr :name, :string
+  attr :class, :string, default: nil, doc: ""
+
+  defp separator(%{name: "hero-" <> _icon_name} = assigns) do
+    ~H"""
+    <.icon name={@name} class={@class} />
+    """
+  end
+
+  defp separator(assigns) do
+    ~H"""
+    <span class={@class}>@name</span>
     """
   end
 
@@ -106,7 +132,8 @@ defmodule MishkaChelekom.Breadcrumb do
 
   defp default_classes() do
     [
-      "flex items-center"
+      "[&>:last-child]:font-bold after:[&>*:not(:last-child)]:content-['/']",
+      "after:[&>*:not(:last-child)]:inline-block after:[&>*:not(:last-child)]:mx-1.5"
     ]
   end
 end
