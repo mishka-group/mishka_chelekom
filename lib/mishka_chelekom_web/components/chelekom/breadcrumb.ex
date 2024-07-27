@@ -48,7 +48,7 @@ defmodule MishkaChelekom.Breadcrumb do
       {@rest}
     >
       <li :for={{item, index} <- Enum.with_index(@item, 1)} class="flex items-center">
-        <.icon :if={!is_nil(item[:icon])} name={item[:icon]} />
+        <.icon :if={!is_nil(item[:icon])} name={item[:icon]} class="breadcrumb-icon" />
         <div :if={!is_nil(item[:link])}>
           <.link navigate={item[:link]}><%= render_slot(item) %></.link>
         </div>
@@ -120,11 +120,11 @@ defmodule MishkaChelekom.Breadcrumb do
     "text-[#1E1E1E]"
   end
 
-  defp size_class("extra_small"), do: "text-xs gap-1.5 [&>li]:gap-1.5 [&>li>.separator]:size-3"
-  defp size_class("small"), do: "text-sm gap-2 [&>li]:gap-2 [&>li>.separator]:size-3.5"
-  defp size_class("medium"), do: "text-base gap-2.5 [&>li]:gap-2.5 [&>li>.separator]:size-4"
-  defp size_class("large"), do: "text-lg gap-3 [&>li]:gap-3 [&>li>.separator]:size-5"
-  defp size_class("extra_large"), do: "text-xl gap-3.5 [&>li]:gap-3.5 [&>li>.separator]:size-6"
+  defp size_class("extra_small"), do: "text-xs gap-1.5 [&>li]:gap-1.5 [&>li>.separator-icon]:size-3 [&>li>.breadcrumb-icon]:size-4"
+  defp size_class("small"), do: "text-sm gap-2 [&>li]:gap-2 [&>li>.separator-icon]:size-3.5 [&>li>.breadcrumb-icon]:size-5"
+  defp size_class("medium"), do: "text-base gap-2.5 [&>li]:gap-2.5 [&>li>.separator-icon]:size-4 [&>li>.breadcrumb-icon]:size-6"
+  defp size_class("large"), do: "text-lg gap-3 [&>li]:gap-3 [&>li>.separator-icon]:size-5 [&>li>.breadcrumb-icon]:size-7"
+  defp size_class("extra_large"), do: "text-xl gap-3.5 [&>li]:gap-3.5 [&>li>.separator-icon]:size-6 [&>li>.breadcrumb-icon]:size-8"
   defp size_class(params) when is_binary(params), do: params
   defp size_class(_), do: size_class("small")
 
