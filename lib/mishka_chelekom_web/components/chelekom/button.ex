@@ -672,7 +672,7 @@ defmodule MishkaChelekom.Button do
 
   defp default_classes(:grouped) do
     [
-      "phx-submit-loading:opacity-75 overflow-hidden bg-white flex w-fit rounded-lg border ",
+      "phx-submit-loading:opacity-75 overflow-hidden bg-white flex w-fit rounded-lg border",
       "[&>*]:rounded-none [&>*]:border-0"
     ]
   end

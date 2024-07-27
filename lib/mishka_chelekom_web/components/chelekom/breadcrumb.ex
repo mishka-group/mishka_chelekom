@@ -120,17 +120,17 @@ defmodule MishkaChelekom.Breadcrumb do
     "text-[#1E1E1E]"
   end
 
-  defp size_class("extra_small"), do: "text-xs gap-1.5 [&>li]:gap-1.5"
-  defp size_class("small"), do: "text-sm gap-2 [&>li]:gap-2"
-  defp size_class("medium"), do: "text-base gap-2.5 [&>li]:gap-2.5"
-  defp size_class("large"), do: "text-lg gap-3 [&>li]:gap-3"
-  defp size_class("extra_large"), do: "text-xl gap-3.5 [&>li]:gap-3.5"
+  defp size_class("extra_small"), do: "text-xs gap-1.5 [&>li]:gap-1.5 [&>li>.separator]:size-3"
+  defp size_class("small"), do: "text-sm gap-2 [&>li]:gap-2 [&>li>.separator]:size-3.5"
+  defp size_class("medium"), do: "text-base gap-2.5 [&>li]:gap-2.5 [&>li>.separator]:size-4"
+  defp size_class("large"), do: "text-lg gap-3 [&>li]:gap-3 [&>li>.separator]:size-5"
+  defp size_class("extra_large"), do: "text-xl gap-3.5 [&>li]:gap-3.5 [&>li>.separator]:size-6"
   defp size_class(params) when is_binary(params), do: params
   defp size_class(_), do: size_class("small")
 
   defp default_classes() do
     [
-      "flex items-center"
+      "flex items-center [&>li:last-child>.separator]:hidden"
     ]
   end
 end
