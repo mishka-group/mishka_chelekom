@@ -67,23 +67,13 @@ defmodule MishkaChelekom.Badge do
       <.badge_dismisse :if={dismiss_position(@rest) == "left"} dismisse={@rest[:dismisse]} id={@id} />
       <span
         :if={indicator_position(@rest) == "left"}
-        class={
-          default_classes(:indicator) ++
-            [
-              @class
-            ]
-        }
+        class="indicator block shrink-0 rounded-full animate-ping"
       />
       <.icon :if={icon_position(@icon, @rest) == "left"} name={@icon} /> <%= render_slot(@inner_block) %>
       <.icon :if={icon_position(@icon, @rest) == "right"} name={@icon} />
       <span
         :if={indicator_position(@rest) == "right"}
-        class={
-          default_classes(:indicator) ++
-            [
-              @class
-            ]
-        }
+        class="indicator block shrink-0 rounded-full animate-ping"
       />
       <.badge_dismisse :if={dismiss_position(@rest) == "right"} dismisse={@rest[:dismisse]} id={@id} />
     </div>
@@ -335,11 +325,11 @@ defmodule MishkaChelekom.Badge do
   defp rounded_size("full"), do: "rounded-full"
   defp rounded_size("none"), do: "rounded-none"
 
-  defp size_class("extra_small"), do: "px-2 py-0.5 text-xs"
-  defp size_class("small"), do: "px-2.5 py-1 text-sm"
-  defp size_class("medium"), do: "px-2.5 py-1.5 text-base"
-  defp size_class("large"), do: "px-3 py-2 text-lg"
-  defp size_class("extra_large"), do: "px-3.5 py-2.5 text-xl"
+  defp size_class("extra_small"), do: "px-2 py-0.5 text-xs [&>.indicator]:size-1"
+  defp size_class("small"), do: "px-2.5 py-1 text-sm [&>.indicator]:size-1.5"
+  defp size_class("medium"), do: "px-2.5 py-1.5 text-base [&>.indicator]:size-2"
+  defp size_class("large"), do: "px-3 py-2 text-lg [&>.indicator]:size-2.5"
+  defp size_class("extra_large"), do: "px-3.5 py-2.5 text-xl [&>.indicator]:size-3"
   defp size_class(params) when is_binary(params), do: params
   defp size_class(_), do: size_class("extra_small")
 
@@ -357,23 +347,9 @@ defmodule MishkaChelekom.Badge do
   defp indicator_position(%{indicator: true}), do: "left"
   defp indicator_position(_), do: false
 
-  defp indicator_size("extra_small"), do: "size-1"
-  defp indicator_size("small"), do: "size-1.5"
-  defp indicator_size("medium"), do: "size-2"
-  defp indicator_size("large"), do: "size-2.5"
-  defp indicator_size("extra_large"), do: "size-3"
-  defp indicator_size(params) when is_binary(params), do: params
-  defp indicator_size(_), do: indicator_size("extra_small")
-
   defp default_classes() do
     [
       "inline-flex gap-1.5 items-center border"
-    ]
-  end
-
-  defp default_classes(:indicator) do
-    [
-      "indicator block shrink-0 rounded-full animate-ping size-1.5"
     ]
   end
 end
