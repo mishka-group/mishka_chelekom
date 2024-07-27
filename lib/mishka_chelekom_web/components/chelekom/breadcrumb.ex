@@ -130,7 +130,7 @@ defmodule MishkaChelekom.Breadcrumb do
 
   defp default_classes() do
     [
-      "flex items-center [&>li:last-child>.separator]:hidden"
+      "flex items-center"
     ]
   end
 end
