@@ -11,17 +11,37 @@
     <:item>Route3</:item>
   </MishkaChelekom.Breadcrumb.breadcrumb>
 
-  <MishkaChelekom.Breadcrumb.breadcrumb space="none">
+  <MishkaChelekom.Breadcrumb.breadcrumb>
     <:item icon="hero-academic-cap">Route1</:item>
 
     <:item icon="hero-beaker">Route2</:item>
 
     <:item icon="hero-computer-desktop">Route3</:item>
 
-    <:item item_gap="large" class="font-bold">Route3</:item>
+    <:item item_gap="large">Route3</:item>
   </MishkaChelekom.Breadcrumb.breadcrumb>
 
-  <MishkaChelekom.Breadcrumb.breadcrumb space="large" color="danger">
+  <MishkaChelekom.Breadcrumb.breadcrumb size="medium">
+    <:item icon="hero-academic-cap">Route1</:item>
+
+    <:item icon="hero-beaker">Route2</:item>
+
+    <:item icon="hero-computer-desktop">Route3</:item>
+
+    <:item item_gap="large">Route3</:item>
+  </MishkaChelekom.Breadcrumb.breadcrumb>
+
+  <MishkaChelekom.Breadcrumb.breadcrumb size="extra_large" color="info">
+    <:item icon="hero-academic-cap">Route1</:item>
+
+    <:item icon="hero-beaker">Route2</:item>
+
+    <:item icon="hero-computer-desktop">Route3</:item>
+
+    <:item item_gap="large">Route3</:item>
+  </MishkaChelekom.Breadcrumb.breadcrumb>
+
+  <MishkaChelekom.Breadcrumb.breadcrumb color="danger">
     <:item icon="hero-academic-cap">Route1</:item>
 
     <:item icon="hero-beaker">Route2</:item>
@@ -31,7 +51,7 @@
     <:item>Route3</:item>
   </MishkaChelekom.Breadcrumb.breadcrumb>
 
-  <MishkaChelekom.Breadcrumb.breadcrumb space="large" color="success" separator="/">
+  <MishkaChelekom.Breadcrumb.breadcrumb color="success" separator="/">
     <:item>Route1</:item>
 
     <:item>Route2</:item>
@@ -41,121 +61,14 @@
     <:item>Route3</:item>
   </MishkaChelekom.Breadcrumb.breadcrumb>
 
-  <%!-- <h2 class="text-4xl font-extrabold w-full my-5">color misc</h2>
+  <MishkaChelekom.Breadcrumb.breadcrumb color="success" separator="/" size="large">
+    <:item>Route1</:item>
 
-  <MishkaChelekom.Breadcrumb.breadcrumb
-    color="misc"
-    class="[&>:last-child]:font-bold after:[&>*:not(:last-child)]:content-['/'] after:[&>*:not(:last-child)]:inline-block after:[&>*:not(:last-child)]:mx-1.5"
-  >
-    <li>Route1</li>
+    <:item>Route2</:item>
 
-    <li>Route2</li>
+    <:item>Route3</:item>
 
-    <li>Route3</li>
+    <:item>Route3</:item>
   </MishkaChelekom.Breadcrumb.breadcrumb>
 
-  <h2 class="text-4xl font-extrabold w-full my-5">color success</h2>
-
-  <MishkaChelekom.Breadcrumb.breadcrumb
-    color="success"
-    class="[&>:last-child]:font-bold after:[&>*:not(:last-child)]:content-['/'] after:[&>*:not(:last-child)]:inline-block after:[&>*:not(:last-child)]:mx-1.5"
-  >
-    <li>Route1</li>
-
-    <li>Route2</li>
-
-    <li>Route3</li>
-  </MishkaChelekom.Breadcrumb.breadcrumb>
-
-  <h2 class="text-4xl font-extrabold w-full my-5">text large</h2>
-
-  <MishkaChelekom.Breadcrumb.breadcrumb
-    text="large"
-    class="[&>:last-child]:font-bold after:[&>*:not(:last-child)]:content-['/'] after:[&>*:not(:last-child)]:inline-block after:[&>*:not(:last-child)]:mx-1.5"
-  >
-    <li>Route1</li>
-
-    <li>Route2</li>
-
-    <li>Route3</li>
-  </MishkaChelekom.Breadcrumb.breadcrumb>
-
-  <h2 class="text-4xl font-extrabold w-full my-5">text medium</h2>
-
-  <MishkaChelekom.Breadcrumb.breadcrumb
-    text="medium"
-    class="[&>*:not(:last-child)]:text-gray-400 [&>*]:mx-1.5"
-  >
-    <li>Route1</li>
-
-    <li>Route2</li>
-
-    <li>Route3</li>
-  </MishkaChelekom.Breadcrumb.breadcrumb>
-
-  <MishkaChelekom.Breadcrumb.breadcrumb class="gap-4">
-    <li class="inline-flex items-center">
-      <a class="flex items-center gap-2 text-gray-500 hover:text-blue-600" href="#">
-        <.icon name="hero-home" /> Home
-      </a>
-    </li>
-
-    <li class="inline-flex items-center">
-      <a class="flex items-center gap-2 text-gray-500 hover:text-blue-600" href="#">
-        <.icon name="hero-wifi" /> App Center
-      </a>
-    </li>
-
-    <li class="inline-flex items-center font-semibold text-gray-800 truncate">
-      Application
-    </li>
-  </MishkaChelekom.Breadcrumb.breadcrumb>
-
-  <MishkaChelekom.Breadcrumb.breadcrumb class="gap-4">
-    <li class="inline-flex items-center">
-      <a class="flex items-center gap-2 text-gray-500 hover:text-blue-600" href="#">
-        Home
-      </a>
-    </li>
-
-    <li class="inline-flex items-center">
-      <.icon name="hero-chevron-right" />
-    </li>
-
-    <li class="inline-flex items-center">
-      <a class="flex items-center gap-2 text-gray-500 hover:text-blue-600" href="#">
-        App Center
-      </a>
-    </li>
-
-    <li class="inline-flex items-center">
-      <.icon name="hero-chevron-right" />
-    </li>
-
-    <li class="inline-flex items-center font-semibold text-gray-800 truncate">
-      Application
-    </li>
-  </MishkaChelekom.Breadcrumb.breadcrumb>
-
-  <MishkaChelekom.Breadcrumb.breadcrumb class="gap-1" text="extra_small" color="light">
-    <li>
-      Home
-    </li>
-
-    <li>
-      <.icon name="hero-chevron-right" />
-    </li>
-
-    <li>
-      Sale Report
-    </li>
-
-    <li>
-      <.icon name="hero-chevron-right" />
-    </li>
-
-    <li>
-      Application
-    </li>
-  </MishkaChelekom.Breadcrumb.breadcrumb> --%>
 </div>

@@ -22,9 +22,7 @@ defmodule MishkaChelekom.Breadcrumb do
   attr :id, :string, default: nil, doc: ""
   attr :separator, :string, default: "hero-chevron-right", doc: ""
   attr :color, :string, values: @colors, default: "dark", doc: ""
-  attr :size, :string, default: "large", doc: ""
-  attr :space, :string, values: @sizes ++ ["none"], default: "small", doc: ""
-  attr :text, :string, values: @sizes, default: "small", doc: ""
+  attr :size, :string, default: "small", doc: ""
 
   slot :item, required: false do
     attr :icon, :string
@@ -42,9 +40,8 @@ defmodule MishkaChelekom.Breadcrumb do
       class={
         default_classes() ++
           [
-            text_class(@text),
             color_class(@color),
-            space_class(@space),
+            size_class(@size),
             @class
           ]
       }
@@ -123,22 +120,13 @@ defmodule MishkaChelekom.Breadcrumb do
     "text-[#1E1E1E]"
   end
 
-  defp text_class("extra_small"), do: "text-xs"
-  defp text_class("small"), do: "text-sm"
-  defp text_class("medium"), do: "text-base"
-  defp text_class("large"), do: "text-large"
-  defp text_class("extra_large"), do: "text-xl"
-  defp text_class(params) when is_binary(params), do: params
-  defp text_class(_), do: text_class("small")
-
-  defp space_class("extra_small"), do: "gap-1.5"
-  defp space_class("small"), do: "gap-2"
-  defp space_class("medium"), do: "gap-2.5"
-  defp space_class("large"), do: "gap-3"
-  defp space_class("extra_large"), do: "gap-4"
-  defp space_class("none"), do: "gap-0"
-  defp space_class(params) when is_binary(params), do: params
-  defp space_class(_), do: space_class("small")
+  defp size_class("extra_small"), do: "text-xs gap-1.5 [&>li]:gap-1.5"
+  defp size_class("small"), do: "text-sm gap-2 [&>li]:gap-2"
+  defp size_class("medium"), do: "text-base gap-2.5 [&>li]:gap-2.5"
+  defp size_class("large"), do: "text-lg gap-3 [&>li]:gap-3"
+  defp size_class("extra_large"), do: "text-xl gap-3.5 [&>li]:gap-3.5"
+  defp size_class(params) when is_binary(params), do: params
+  defp size_class(_), do: size_class("small")
 
   defp default_classes() do
     [
