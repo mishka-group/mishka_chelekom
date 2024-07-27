@@ -25,7 +25,7 @@ defmodule MishkaChelekom.Breadcrumb do
   attr :size, :string, default: "large", doc: ""
   attr :text, :string, values: @sizes, default: "small", doc: ""
 
-  slot :item, required: true do
+  slot :item, required: false do
     attr :icon, :string
     attr :link, :string
     attr :separator, :string
