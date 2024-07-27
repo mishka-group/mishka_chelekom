@@ -340,11 +340,11 @@ defmodule MishkaChelekom.Badge do
   defp indicator_position(%{indicator: true}), do: "left"
   defp indicator_position(_), do: false
 
-  defp default_classes(animate) do
+  defp default_classes(is_pinging) do
     [
       "inline-flex gap-1.5 items-center border",
       "[&>.indicator]:block [&>.indicator]:shrink-0 [&>.indicator]:rounded-full",
-      !is_nil(animate) && "[&>.indicator]:animate-ping"
+      !is_nil(is_pinging) && "[&>.indicator]:animate-ping"
     ]
   end
 end
