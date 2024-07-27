@@ -23,6 +23,7 @@ defmodule MishkaChelekom.Breadcrumb do
   attr :separator, :string, default: "hero-chevron-right", doc: ""
   attr :color, :string, values: @colors, default: "dark", doc: ""
   attr :size, :string, default: "large", doc: ""
+  attr :space, :string, values: @sizes ++ ["none"], default: "small", doc: ""
   attr :text, :string, values: @sizes, default: "small", doc: ""
 
   slot :item, required: false do
@@ -43,22 +44,22 @@ defmodule MishkaChelekom.Breadcrumb do
           [
             text_class(@text),
             color_class(@color),
+            space_class(@space),
             @class
           ]
       }
       {@rest}
     >
-      <li :for={item <- @item}>
+      <li :for={item <- @item} class="flex items-center">
         <.icon :if={!is_nil(item[:icon])} name={item[:icon]} />
-
         <div :if={!is_nil(item[:link])}>
           <.link navigate={item[:link]}><%= render_slot(item) %></.link>
         </div>
 
         <div :if={is_nil(item[:link])}><%= render_slot(item) %></div>
-        <.separator name={item[:separator] || @separator} />
+         <.separator name={item[:separator] || @separator} />
       </li>
-      <%= render_slot(@inner_block) %>
+       <%= render_slot(@inner_block) %>
     </ul>
     """
   end
@@ -130,10 +131,18 @@ defmodule MishkaChelekom.Breadcrumb do
   defp text_class(params) when is_binary(params), do: params
   defp text_class(_), do: text_class("small")
 
+  defp space_class("extra_small"), do: "gap-1.5"
+  defp space_class("small"), do: "gap-2"
+  defp space_class("medium"), do: "gap-2.5"
+  defp space_class("large"), do: "gap-3"
+  defp space_class("extra_large"), do: "gap-4"
+  defp space_class("none"), do: "gap-0"
+  defp space_class(params) when is_binary(params), do: params
+  defp space_class(_), do: space_class("small")
+
   defp default_classes() do
     [
-      "[&>:last-child]:font-bold after:[&>*:not(:last-child)]:content-['/']",
-      "after:[&>*:not(:last-child)]:inline-block after:[&>*:not(:last-child)]:mx-1.5"
+      "flex items-center"
     ]
   end
 end
