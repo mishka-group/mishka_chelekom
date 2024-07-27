@@ -2,11 +2,11 @@
   <h2 class="text-4xl font-extrabold w-full my-5">Default</h2>
 
   <div class="flex items-center flex-wrap gap-10">
-    <MishkaChelekom.Badge.badge icon="hero-arrow-down-tray" id="dismiss-1" dismissed>
+    <MishkaChelekom.Badge.badge icon="hero-arrow-down-tray" id="dismiss-1" dismisse>
       Default white
     </MishkaChelekom.Badge.badge>
 
-    <MishkaChelekom.Badge.badge icon="hero-arrow-down-tray" id="dismiss-2" dismissed left_dismiss>
+    <MishkaChelekom.Badge.badge icon="hero-arrow-down-tray" id="dismiss-2" dismisse left_dismiss>
       Default white
     </MishkaChelekom.Badge.badge>
 
@@ -442,8 +442,15 @@
   <h2 class="text-4xl font-extrabold w-full my-5">Mixed</h2>
 
   <div class="flex items-center gap-10 flex-wrap">
-    <MishkaChelekom.Badge.badge variant="outline" color="danger">
-      <span class="bg-red-500 rounded-full animate-ping shrink-0 block  h-1.5 w-1.5"></span>
+    <MishkaChelekom.Badge.badge variant="outline" color="danger" indicator>
+      outline danger
+    </MishkaChelekom.Badge.badge>
+
+    <MishkaChelekom.Badge.badge variant="outline" color="primary" left_indicator>
+      outline danger
+    </MishkaChelekom.Badge.badge>
+
+    <MishkaChelekom.Badge.badge variant="outline" color="dawn" right_indicator>
       outline danger
     </MishkaChelekom.Badge.badge>
 

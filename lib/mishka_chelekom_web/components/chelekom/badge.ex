@@ -33,14 +33,17 @@ defmodule MishkaChelekom.Badge do
   attr :icon, :string, default: nil, doc: ""
   attr :class, :string, default: nil, doc: ""
 
-  slot :notification, required: false do
-    attr :type, :string, values: ["left", "right", "top_right", "top_left"]
+  slot :notif, required: false do
+    attr :type, :string,
+      values: ["left", "right", "top_right", "top_left", "bottom_left", "bottom_right"]
+
     attr :count, :string
     attr :color, :string, values: @colors
   end
 
   attr :rest, :global,
-    include: ~w(dismissed right_dismiss left_dismiss right_icon left_icon),
+    include:
+      ~w(indicator dismisse right_dismiss left_dismiss right_icon left_icon left_indicator right_indicator),
     doc: ""
 
   slot :inner_block, required: false, doc: ""
@@ -61,32 +64,35 @@ defmodule MishkaChelekom.Badge do
       }
       {@rest}
     >
-      <.badge_dismissed
-        :if={dismiss_position(@icon, @rest) == "left"}
-        dismissed={@rest[:dismissed]}
-        id={@id}
+      <.badge_dismisse :if={dismiss_position(@rest) == "left"} dismisse={@rest[:dismisse]} id={@id} />
+
+      <span
+        :if={indicator_position(@rest) == "left"}
+        class="bg-red-500 rounded-full animate-ping shrink-0 block h-1.5 w-1.5"
       />
+
       <.icon :if={icon_position(@icon, @rest) == "left"} name={@icon} />
       <%= render_slot(@inner_block) %>
       <.icon :if={icon_position(@icon, @rest) == "right"} name={@icon} />
 
-      <.badge_dismissed
-        :if={dismiss_position(@icon, @rest) == "right"}
-        dismissed={@rest[:dismissed]}
-        id={@id}
+      <span
+        :if={indicator_position(@rest) == "right"}
+        class="bg-red-500 rounded-full animate-ping shrink-0 block h-1.5 w-1.5"
       />
+
+      <.badge_dismisse :if={dismiss_position(@rest) == "right"} dismisse={@rest[:dismisse]} id={@id} />
     </div>
     """
   end
 
   attr :id, :string, default: nil
-  attr :dismissed, :boolean, default: false
+  attr :dismisse, :boolean, default: false
   attr :icon_class, :string, default: "size-4"
 
-  defp badge_dismissed(assigns) do
+  defp badge_dismisse(assigns) do
     ~H"""
     <button
-      :if={@dismissed}
+      :if={@dismisse}
       phx-click={JS.push("dismiss", value: %{id: @id, kind: "badge"}) |> hide("##{@id}")}
     >
       <.icon name="hero-x-mark" class={"#{@icon_class}"} />
@@ -337,10 +343,14 @@ defmodule MishkaChelekom.Badge do
   defp icon_position(_icon, %{right_icon: true}), do: "right"
   defp icon_position(_icon, _), do: "left"
 
-  defp dismiss_position(nil, _), do: false
-  defp dismiss_position(_icon, %{right_dismiss: true}), do: "right"
-  defp dismiss_position(_icon, %{left_dismiss: true}), do: "left"
-  defp dismiss_position(_icon, _), do: "right"
+  defp dismiss_position(%{right_dismiss: true}), do: "right"
+  defp dismiss_position(%{left_dismiss: true}), do: "left"
+  defp dismiss_position(_), do: "right"
+
+  defp indicator_position(%{left_indicator: true}), do: "left"
+  defp indicator_position(%{right_indicator: true}), do: "right"
+  defp indicator_position(%{indicator: true}), do: "left"
+  defp indicator_position(_), do: false
 
   defp default_classes() do
     [
