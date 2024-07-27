@@ -56,7 +56,7 @@ defmodule MishkaChelekom.Breadcrumb do
         </div>
 
         <div :if={is_nil(item[:link])}><%= render_slot(item) %></div>
-        <.separator name={@separator} />
+        <.separator name={item[:separator] || @separator} />
       </li>
       <%= render_slot(@inner_block) %>
     </ul>
