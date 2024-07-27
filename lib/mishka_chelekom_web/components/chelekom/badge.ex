@@ -43,7 +43,7 @@ defmodule MishkaChelekom.Badge do
 
   attr :rest, :global,
     include:
-      ~w(indicator dismisse right_dismiss left_dismiss right_icon left_icon left_indicator right_indicator),
+      ~w(indicator dismisse right_dismiss left_dismiss right_icon left_icon left_indicator right_indicator is_pinging),
     doc: ""
 
   slot :inner_block, required: false, doc: ""
@@ -53,7 +53,7 @@ defmodule MishkaChelekom.Badge do
     <div
       id={@id}
       class={
-        default_classes() ++
+        default_classes(@rest[:is_pinging]) ++
           [
             color_variant(@variant, @color),
             rounded_size(@rounded),
@@ -340,9 +340,11 @@ defmodule MishkaChelekom.Badge do
   defp indicator_position(%{indicator: true}), do: "left"
   defp indicator_position(_), do: false
 
-  defp default_classes() do
+  defp default_classes(animate) do
     [
-      "inline-flex gap-1.5 items-center border [&>.indicator]:block [&>.indicator]:shrink-0 [&>.indicator]:rounded-full [&>.indicator]:animate-ping"
+      "inline-flex gap-1.5 items-center border",
+      "[&>.indicator]:block [&>.indicator]:shrink-0 [&>.indicator]:rounded-full",
+      !is_nil(animate) && "[&>.indicator]:animate-ping"
     ]
   end
 end
