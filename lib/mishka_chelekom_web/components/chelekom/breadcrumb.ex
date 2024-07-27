@@ -62,17 +62,17 @@ defmodule MishkaChelekom.Breadcrumb do
   end
 
   attr :name, :string
-  attr :class, :string, default: "separator", doc: ""
+  attr :class, :string, default: nil, doc: ""
 
   defp separator(%{name: "hero-" <> _icon_name} = assigns) do
     ~H"""
-    <.icon name={@name} class={@class} />
+    <.icon name={@name} class={@class || "separator-icon"} />
     """
   end
 
   defp separator(assigns) do
     ~H"""
-    <span class={[@class, "separator-text"]}><%= @name %></span>
+    <span class={@class || "separator-text"}><%= @name %></span>
     """
   end
 
