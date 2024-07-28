@@ -19,6 +19,35 @@ defmodule MishkaChelekom.Badge do
     "dawn"
   ]
 
+  @icon_positions [
+    "right_icon",
+    "left_icon",
+    "top_left_icon",
+    "top_center_icon",
+    "top_right_icon",
+    "middle_left_icon",
+    "middle_right_icon",
+    "bottom_left_icon",
+    "bottom_center_icon",
+    "bottom_right_icon"
+  ]
+
+  @indicator_positions [
+    "indicator",
+    "right_indicator",
+    "left_indicator",
+    "top_left_indicator",
+    "top_center_indicator",
+    "top_right_indicator",
+    "middle_left_indicator",
+    "middle_right_indicator",
+    "bottom_left_indicator",
+    "bottom_center_indicator",
+    "bottom_right_indicator"
+  ]
+
+  @dismisse_positions ["dismisse", "right_dismiss", "left_dismiss"]
+
   @doc type: :component
   attr :id, :string, default: nil, doc: ""
 
@@ -54,8 +83,7 @@ defmodule MishkaChelekom.Badge do
   end
 
   attr :rest, :global,
-    include:
-      ~w(indicator dismisse right_dismiss left_dismiss right_icon left_icon left_indicator right_indicator is_pinging),
+    include: ["is_pinging"] ++ @dismisse_positions ++ @indicator_positions ++ @icon_positions,
     doc: ""
 
   slot :inner_block, required: false, doc: ""
