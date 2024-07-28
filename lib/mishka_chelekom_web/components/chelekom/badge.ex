@@ -3,6 +3,7 @@ defmodule MishkaChelekom.Badge do
   alias Phoenix.LiveView.JS
   import MishkaChelekomComponents
 
+  # TODO: Add text hover for links?
   @sizes ["extra_small", "small", "medium", "large", "extra_large"]
   @colors [
     "white",
