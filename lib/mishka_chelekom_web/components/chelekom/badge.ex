@@ -63,25 +63,6 @@ defmodule MishkaChelekom.Badge do
   attr :icon, :string, default: nil, doc: ""
   attr :class, :string, default: nil, doc: ""
 
-  slot :notif, required: false do
-    attr :type, :string,
-      values: [
-        "top_left",
-        "top_center",
-        "top_right",
-        "middle_left",
-        "middle_right",
-        "bottom_left",
-        "bottom_center",
-        "bottom_right",
-        "right",
-        "left"
-      ]
-
-    attr :count, :string
-    attr :color, :string, values: @colors
-  end
-
   attr :rest, :global,
     include: ["is_pinging"] ++ @dismisse_positions ++ @indicator_positions ++ @icon_positions,
     doc: ""
