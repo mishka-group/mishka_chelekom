@@ -40,7 +40,6 @@ defmodule MishkaChelekom.Avatar do
     <img
       id={@id}
       class={
-        default_classes() ++
           [
             color(@color),
             rounded_size(@rounded),
