@@ -92,7 +92,7 @@ defmodule MishkaChelekom.Badge do
         :if={indicator_position(@rest) == "left"}
         class={["indicator", indicator_size(@indicator_size), @indicator_class]}
       />
-      <.icon :if={icon_position(@icon, @rest) == "left"} name={@icon} /> <%= render_slot(@inner_block) %>
+      <.icon :if={icon_position(@icon, @rest) == "left"} name={@icon} /> <span class="leading-none"><%= render_slot(@inner_block) %></span>
       <.icon :if={icon_position(@icon, @rest) == "right"} name={@icon} />
       <span
         :if={indicator_position(@rest) == "right"}
@@ -108,7 +108,7 @@ defmodule MishkaChelekom.Badge do
 
   defp badge_dismiss(assigns) do
     ~H"""
-    <button phx-click={JS.push("dismiss", value: %{id: @id, kind: "badge"}) |> hide("##{@id}")}>
+    <button class="inline-flex justify-center items-center w-fit shrink-0" phx-click={JS.push("dismiss", value: %{id: @id, kind: "badge"}) |> hide("##{@id}")}>
       <.icon name="hero-x-mark" class={"#{@icon_class}"} />
     </button>
     """
