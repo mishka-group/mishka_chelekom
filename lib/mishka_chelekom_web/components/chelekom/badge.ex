@@ -62,6 +62,7 @@ defmodule MishkaChelekom.Badge do
   attr :font_weight, :string, default: "font-normal", doc: ""
   attr :icon, :string, default: nil, doc: ""
   attr :class, :string, default: nil, doc: ""
+  attr :indicator_class, :string, default: nil, doc: ""
 
   attr :rest, :global,
     include: ["is_pinging"] ++ @dismiss_positions ++ @indicator_positions ++ @icon_positions,
@@ -86,11 +87,11 @@ defmodule MishkaChelekom.Badge do
       {@rest}
     >
       <.badge_dismiss :if={dismiss_position(@rest) == "left"} id={@id} />
-      <span :if={indicator_position(@rest) == "left"} class="indicator" />
+      <span :if={indicator_position(@rest) == "left"} class={["indicator", @indicator_class]} />
       <.icon :if={icon_position(@icon, @rest) == "left"} name={@icon} />
       <%= render_slot(@inner_block) %>
       <.icon :if={icon_position(@icon, @rest) == "right"} name={@icon} />
-      <span :if={indicator_position(@rest) == "right"} class="indicator" />
+      <span :if={indicator_position(@rest) == "right"} class={["indicator", @indicator_class]} />
       <.badge_dismiss :if={dismiss_position(@rest) == "right"} id={@id} />
     </div>
     """
