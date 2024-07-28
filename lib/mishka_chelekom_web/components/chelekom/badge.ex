@@ -92,14 +92,12 @@ defmodule MishkaChelekom.Badge do
         :if={indicator_position(@rest) == "left"}
         class={["indicator", indicator_size(@indicator_size), @indicator_class]}
       />
-      <.icon :if={icon_position(@icon, @rest) == "left"} name={@icon} />
-      <%= render_slot(@inner_block) %>
+      <.icon :if={icon_position(@icon, @rest) == "left"} name={@icon} /> <%= render_slot(@inner_block) %>
       <.icon :if={icon_position(@icon, @rest) == "right"} name={@icon} />
       <span
         :if={indicator_position(@rest) == "right"}
         class={["indicator", indicator_size(@indicator_size), @indicator_class]}
-      />
-      <.badge_dismiss :if={dismiss_position(@rest) == "right"} id={@id} />
+      /> <.badge_dismiss :if={dismiss_position(@rest) == "right"} id={@id} />
     </div>
     """
   end
@@ -346,11 +344,11 @@ defmodule MishkaChelekom.Badge do
   defp rounded_size("full"), do: "rounded-full"
   defp rounded_size("none"), do: "rounded-none"
 
-  defp indicator_size("extra_small"), do: ""
-  defp indicator_size("small"), do: ""
-  defp indicator_size("medium"), do: ""
-  defp indicator_size("large"), do: ""
-  defp indicator_size("extra_large"), do: ""
+  defp indicator_size("extra_small"), do: "!size-2"
+  defp indicator_size("small"), do: "!size-2.5"
+  defp indicator_size("medium"), do: "!size-3"
+  defp indicator_size("large"), do: "!size-3.5"
+  defp indicator_size("extra_large"), do: "!size-4"
   defp indicator_size(params) when is_binary(params), do: params
   defp indicator_size(nil), do: nil
 
