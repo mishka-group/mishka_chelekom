@@ -55,8 +55,7 @@ defmodule MishkaChelekom.Hr do
             ]
         }
         {@rest}
-      />
-      <%!-- Icon --%>
+      /> <%!-- Icon --%>
       <div
         :for={icon <- @icon}
         class={[
@@ -69,8 +68,7 @@ defmodule MishkaChelekom.Hr do
       >
         <.icon name={icon[:name]} class={icon[:icon_class] || ""} />
       </div>
-
-      <%!-- Text --%>
+       <%!-- Text --%>
       <div
         :for={text <- @text}
         class={[
