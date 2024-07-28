@@ -63,6 +63,7 @@ defmodule MishkaChelekom.Badge do
   attr :icon, :string, default: nil, doc: ""
   attr :class, :string, default: nil, doc: ""
   attr :indicator_class, :string, default: nil, doc: ""
+  attr :indicator_size, :string, default: nil, doc: ""
 
   attr :rest, :global,
     include: ["is_pinging"] ++ @dismiss_positions ++ @indicator_positions ++ @icon_positions,
@@ -87,11 +88,17 @@ defmodule MishkaChelekom.Badge do
       {@rest}
     >
       <.badge_dismiss :if={dismiss_position(@rest) == "left"} id={@id} />
-      <span :if={indicator_position(@rest) == "left"} class={["indicator", @indicator_class]} />
+      <span
+        :if={indicator_position(@rest) == "left"}
+        class={["indicator", indicator_size(@indicator_size), @indicator_class]}
+      />
       <.icon :if={icon_position(@icon, @rest) == "left"} name={@icon} />
       <%= render_slot(@inner_block) %>
       <.icon :if={icon_position(@icon, @rest) == "right"} name={@icon} />
-      <span :if={indicator_position(@rest) == "right"} class={["indicator", @indicator_class]} />
+      <span
+        :if={indicator_position(@rest) == "right"}
+        class={["indicator", indicator_size(@indicator_size), @indicator_class]}
+      />
       <.badge_dismiss :if={dismiss_position(@rest) == "right"} id={@id} />
     </div>
     """
@@ -338,6 +345,14 @@ defmodule MishkaChelekom.Badge do
   defp rounded_size("extra_large"), do: "rounded-xl"
   defp rounded_size("full"), do: "rounded-full"
   defp rounded_size("none"), do: "rounded-none"
+
+  defp indicator_size("extra_small"), do: ""
+  defp indicator_size("small"), do: ""
+  defp indicator_size("medium"), do: ""
+  defp indicator_size("large"), do: ""
+  defp indicator_size("extra_large"), do: ""
+  defp indicator_size(params) when is_binary(params), do: params
+  defp indicator_size(nil), do: nil
 
   defp size_class("extra_small"), do: "px-2 py-0.5 text-xs [&>.indicator]:size-1"
   defp size_class("small"), do: "px-2.5 py-1 text-sm [&>.indicator]:size-1.5"
