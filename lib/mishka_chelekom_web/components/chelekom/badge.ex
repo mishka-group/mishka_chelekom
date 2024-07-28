@@ -36,7 +36,18 @@ defmodule MishkaChelekom.Badge do
 
   slot :notif, required: false do
     attr :type, :string,
-      values: ["left", "right", "top_right", "top_left", "bottom_left", "bottom_right"]
+      values: [
+        "top_left",
+        "top_center",
+        "top_right",
+        "middle_left",
+        "middle_right",
+        "bottom_left",
+        "bottom_center",
+        "bottom_right",
+        "right",
+        "left"
+      ]
 
     attr :count, :string
     attr :color, :string, values: @colors
