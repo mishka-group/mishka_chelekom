@@ -33,7 +33,7 @@ defmodule MishkaChelekom.Accordion do
   defp space_class("extra_large"), do: "space-y-6"
   defp space_class("none"), do: "space-x-0"
   defp space_class(params) when is_binary(params), do: params
-  defp space_class(_), do: space_class("small")\
+  defp space_class(_), do: space_class("small")
 
   defp border("white") do
     "border-[#DADADA] hover:border-[#d9d9d9]"

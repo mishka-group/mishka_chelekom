@@ -14,7 +14,7 @@ defmodule MishkaChelekom.Banner do
     "misc",
     "dawn"
   ]
-  
+
   @doc type: :component
   attr :id, :string, default: nil, doc: ""
 
