@@ -46,7 +46,7 @@ defmodule MishkaChelekom.Badge do
     "bottom_right_indicator"
   ]
 
-  @dismisse_positions ["dismisse", "right_dismiss", "left_dismiss"]
+  @dismiss_positions ["dismiss", "right_dismiss", "left_dismiss"]
 
   @doc type: :component
   attr :id, :string, default: nil, doc: ""
@@ -64,7 +64,7 @@ defmodule MishkaChelekom.Badge do
   attr :class, :string, default: nil, doc: ""
 
   attr :rest, :global,
-    include: ["is_pinging"] ++ @dismisse_positions ++ @indicator_positions ++ @icon_positions,
+    include: ["is_pinging"] ++ @dismiss_positions ++ @indicator_positions ++ @icon_positions,
     doc: ""
 
   slot :inner_block, required: false, doc: ""
@@ -85,22 +85,22 @@ defmodule MishkaChelekom.Badge do
       }
       {@rest}
     >
-      <.badge_dismisse :if={dismiss_position(@rest) == "left"} id={@id} />
+      <.badge_dismiss :if={dismiss_position(@rest) == "left"} id={@id} />
       <span :if={indicator_position(@rest) == "left"} class="indicator" />
       <.icon :if={icon_position(@icon, @rest) == "left"} name={@icon} />
       <%= render_slot(@inner_block) %>
       <.icon :if={icon_position(@icon, @rest) == "right"} name={@icon} />
       <span :if={indicator_position(@rest) == "right"} class="indicator" />
-      <.badge_dismisse :if={dismiss_position(@rest) == "right"} id={@id} />
+      <.badge_dismiss :if={dismiss_position(@rest) == "right"} id={@id} />
     </div>
     """
   end
 
   attr :id, :string, default: nil
-  attr :dismisse, :boolean, default: false
+  attr :dismiss, :boolean, default: false
   attr :icon_class, :string, default: "size-4"
 
-  defp badge_dismisse(assigns) do
+  defp badge_dismiss(assigns) do
     ~H"""
     <button phx-click={JS.push("dismiss", value: %{id: @id, kind: "badge"}) |> hide("##{@id}")}>
       <.icon name="hero-x-mark" class={"#{@icon_class}"} />
@@ -353,7 +353,7 @@ defmodule MishkaChelekom.Badge do
 
   defp dismiss_position(%{right_dismiss: true}), do: "right"
   defp dismiss_position(%{left_dismiss: true}), do: "left"
-  defp dismiss_position(%{dismisse: true}), do: "right"
+  defp dismiss_position(%{dismiss: true}), do: "right"
   defp dismiss_position(_), do: false
 
   defp indicator_position(%{left_indicator: true}), do: "left"
@@ -363,7 +363,7 @@ defmodule MishkaChelekom.Badge do
 
   defp default_classes(is_pinging) do
     [
-      "inline-flex gap-1.5 items-center border",
+      "inline-flex gap-1.5 justify-center items-center border",
       "[&>.indicator]:inline-block [&>.indicator]:shrink-0 [&>.indicator]:rounded-full",
       !is_nil(is_pinging) && "[&>.indicator]:animate-ping"
     ]
