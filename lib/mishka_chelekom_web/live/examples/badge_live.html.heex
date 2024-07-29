@@ -1,5 +1,6 @@
 <div class="flex items-center flex-wrap gap-10 p-10">
   <h2 class="text-4xl font-extrabold w-full my-5">HTML</h2>
+
   <div class="flex items-center flex-wrap gap-10">
     <MishkaChelekom.Badge.badge icon="hero-arrow-down-tray" color="warning" dismiss indicator>
       Default warning
@@ -15,6 +16,7 @@
       Default warning
     </MishkaChelekom.Badge.badge>
   </div>
+
   <h2 class="text-4xl font-extrabold w-full my-5">Default</h2>
 
   <div class="flex items-center flex-wrap gap-10">
@@ -510,41 +512,49 @@
   </div>
 
   <h2 class="text-4xl font-extrabold w-full my-5">Sahdow</h2>
+
   <div class="flex items-center gap-5">
     <MishkaChelekom.Badge.badge variant="shadow" rounded="large" indicator>
       Active
     </MishkaChelekom.Badge.badge>
+
     <MishkaChelekom.Badge.badge variant="shadow" color="primary" size="small" indicator>
       Active
     </MishkaChelekom.Badge.badge>
+
     <MishkaChelekom.Badge.badge variant="shadow" color="secondary" size="medium" indicator>
       Active
     </MishkaChelekom.Badge.badge>
+
     <MishkaChelekom.Badge.badge variant="shadow" color="info" size="large" indicator>
       Active
     </MishkaChelekom.Badge.badge>
+
     <MishkaChelekom.Badge.badge variant="shadow" color="dawn" size="extra_large" indicator>
       Active
     </MishkaChelekom.Badge.badge>
+
     <MishkaChelekom.Badge.badge variant="shadow" color="misc" indicator>
       Active
     </MishkaChelekom.Badge.badge>
+
     <MishkaChelekom.Badge.badge variant="shadow" color="dark" size="small" indicator>
       Active
     </MishkaChelekom.Badge.badge>
+
     <MishkaChelekom.Badge.badge variant="shadow" color="warning" size="medium" indicator>
       Active
     </MishkaChelekom.Badge.badge>
+
     <MishkaChelekom.Badge.badge variant="shadow" color="danger" size="large" indicator>
       Active
     </MishkaChelekom.Badge.badge>
+
     <MishkaChelekom.Badge.badge variant="shadow" color="success" size="extra_large" indicator>
       Active
     </MishkaChelekom.Badge.badge>
   </div>
-
-  <hr />
-
+   <hr />
   <h2 class="text-4xl font-extrabold w-full my-5">Default</h2>
 
   <div class="flex items-center flex-wrap gap-10">
@@ -597,7 +607,7 @@
       indicator
     >
       Default success
-      <MishkaChelekom.Badge.badge color="light" rounded="full" class="size-6 px-0 py-0">
+      <MishkaChelekom.Badge.badge color="light" rounded="full" circle>
         +9
       </MishkaChelekom.Badge.badge>
     </MishkaChelekom.Badge.badge>
@@ -609,21 +619,21 @@
       left_indicator
     >
       Default success
-      <MishkaChelekom.Badge.badge color="light" rounded="full" class="size-6 px-0 py-0">
+      <MishkaChelekom.Badge.badge color="light" rounded="full" circle>
         +9
       </MishkaChelekom.Badge.badge>
     </MishkaChelekom.Badge.badge>
 
     <MishkaChelekom.Badge.badge icon="hero-arrow-trending-up" color="success">
       Default success
-      <MishkaChelekom.Badge.badge color="info" rounded="full" class="size-6 px-0 py-0">
+      <MishkaChelekom.Badge.badge color="info" rounded="full" circle>
         +9
       </MishkaChelekom.Badge.badge>
     </MishkaChelekom.Badge.badge>
 
     <MishkaChelekom.Badge.badge icon="hero-arrow-trending-down" color="danger" indicator>
       Default danger
-      <MishkaChelekom.Badge.badge color="danger" rounded="full" class="size-6 px-0 py-0">
+      <MishkaChelekom.Badge.badge color="danger" rounded="full" circle>
         +9
       </MishkaChelekom.Badge.badge>
     </MishkaChelekom.Badge.badge>
@@ -634,7 +644,7 @@
       indicator
       right_indicator
     >
-      <MishkaChelekom.Badge.badge color="danger" rounded="full" class="size-6 px-0 py-0">
+      <MishkaChelekom.Badge.badge color="danger" rounded="full" circle>
         +9
       </MishkaChelekom.Badge.badge>
       Default danger
@@ -650,7 +660,8 @@
       <MishkaChelekom.Badge.badge
         color="success"
         rounded="full"
-        class="size-6 px-0 py-0 absolute -translate-y-1/2 -translate-x-1/2 right-auto top-0 left-0"
+        circle
+        class="absolute -translate-y-1/2 -translate-x-1/2 right-auto top-0 left-0"
       >
         +9
       </MishkaChelekom.Badge.badge>
@@ -666,7 +677,8 @@
     >
       <MishkaChelekom.Badge.badge
         rounded="full"
-        class="size-6 px-0 py-0 shadow absolute -translate-y-1/2 translate-x-1/2 left-auto top-0 right-0"
+        circle
+        class="shadow absolute -translate-y-1/2 translate-x-1/2 left-auto top-0 right-0"
       >
         +9
       </MishkaChelekom.Badge.badge>
@@ -678,16 +690,58 @@
     </MishkaChelekom.Badge.badge>
   </div>
 
-  <h2 class="text-4xl font-extrabold w-full my-5">outline badge</h2>
+  <h2 class="text-4xl font-extrabold w-full my-5">indicator</h2>
+
+  <div class="flex items-center gap-10 flex-wrap">
+    <MishkaChelekom.Badge.badge variant="outline" color="danger" indicator is_pinging>
+      indicator danger
+    </MishkaChelekom.Badge.badge>
+
+    <MishkaChelekom.Badge.badge icon="hero-arrow-trending-down" color="dark" class="relative">
+      <MishkaChelekom.Badge.badge
+        rounded="full"
+        circle
+        class="shadow absolute -translate-y-1/2 translate-x-1/2 left-auto top-0 right-0"
+      >
+        +9
+      </MishkaChelekom.Badge.badge>
+    </MishkaChelekom.Badge.badge>
+
+    <MishkaChelekom.Badge.badge icon="hero-arrow-trending-down" color="primary" class="relative">
+      <MishkaChelekom.Badge.badge
+        rounded="full"
+        color="danger"
+        circle
+        class="shadow absolute -translate-y-1/2 -translate-x-1/2 right-auto top-0 left-0"
+      >
+        +9
+      </MishkaChelekom.Badge.badge>
+    </MishkaChelekom.Badge.badge>
+
+    <MishkaChelekom.Badge.badge icon="hero-arrow-trending-down" color="primary" class="relative">
+      <MishkaChelekom.Badge.badge
+        rounded="full"
+        color="danger"
+        circle
+        class="shadow absolute -translate-y-1/2 -translate-x-1/2 right-auto top-0 left-0"
+      >
+        +9
+      </MishkaChelekom.Badge.badge>
+    </MishkaChelekom.Badge.badge>
+  </div>
+
+  <h2 class="text-4xl font-extrabold w-full my-5">icon indicator</h2>
 
   <div class="flex items-center flex-wrap gap-10">
     <MishkaChelekom.Badge.badge variant="outline" color="secondary" size="small" indicator>
-      <MishkaChelekom.Badge.badge
-        rounded="full"
-        class="size-6 px-0 py-0"
-        variant="unbordered"
-        color="light"
-      >
+      <MishkaChelekom.Badge.badge rounded="full" circle variant="unbordered" color="light">
+        +9
+      </MishkaChelekom.Badge.badge>
+      Default small
+    </MishkaChelekom.Badge.badge>
+
+    <MishkaChelekom.Badge.badge variant="outline" color="secondary" size="small" indicator>
+      <MishkaChelekom.Badge.badge rounded="full" circle variant="unbordered" color="light" circle>
         +9
       </MishkaChelekom.Badge.badge>
       Default small
@@ -695,12 +749,7 @@
 
     <MishkaChelekom.Badge.badge variant="outline" color="primary" size="large" indicator>
       Default large
-      <MishkaChelekom.Badge.badge
-        rounded="full"
-        class="size-6 px-0 py-0"
-        variant="unbordered"
-        color="dawn"
-      >
+      <MishkaChelekom.Badge.badge rounded="full" circle variant="unbordered" color="dawn">
         +9
       </MishkaChelekom.Badge.badge>
     </MishkaChelekom.Badge.badge>
@@ -710,7 +759,7 @@
       <MishkaChelekom.Badge.badge
         rounded="full"
         variant="unbordered"
-        class="size-6 px-0 py-0 shadow absolute -translate-y-1/2 translate-x-1/2 left-auto top-0 right-0"
+        class="shadow absolute -translate-y-1/2 translate-x-1/2 left-auto top-0 right-0"
       >
         +9
       </MishkaChelekom.Badge.badge>
@@ -729,7 +778,8 @@
         rounded="full"
         variant="unbordered"
         color="light"
-        class="size-6 px-0 py-0 shadow absolute -translate-y-1/2 translate-x-1/2 left-auto top-0 right-0"
+        circle
+        class="shadow absolute -translate-y-1/2 translate-x-1/2 left-auto top-0 right-0"
       >
         +9
       </MishkaChelekom.Badge.badge>
@@ -748,11 +798,13 @@
         rounded="full"
         variant="unbordered"
         color="misc"
-        class="size-6 px-0 py-0 shadow absolute translate-y-1/2 -translate-x-1/2 right-auto bottom-0 left-0"
+        circle
+        class="shadow absolute translate-y-1/2 -translate-x-1/2 right-auto bottom-0 left-0"
       >
         +9
       </MishkaChelekom.Badge.badge>
     </MishkaChelekom.Badge.badge>
+
     <MishkaChelekom.Badge.badge
       variant="outline"
       color="success"
@@ -766,11 +818,13 @@
         rounded="full"
         variant="unbordered"
         color="success"
-        class="size-6 px-0 py-0 shadow absolute translate-y-1/2 translate-x-1/2 left-auto bottom-0 right-0"
+        circle
+        class="shadow absolute translate-y-1/2 translate-x-1/2 left-auto bottom-0 right-0"
       >
         +9
       </MishkaChelekom.Badge.badge>
     </MishkaChelekom.Badge.badge>
+
     <MishkaChelekom.Badge.badge
       variant="outline"
       color="warning"
@@ -784,11 +838,13 @@
         rounded="full"
         variant="unbordered"
         color="warning"
-        class="size-6 px-0 py-0 shadow absolute translate-y-1/2 translate-x-1/2 left-auto bottom-0 right-0"
+        circle
+        class="shadow absolute translate-y-1/2 translate-x-1/2 left-auto bottom-0 right-0"
       >
         +9
       </MishkaChelekom.Badge.badge>
     </MishkaChelekom.Badge.badge>
+
     <MishkaChelekom.Badge.badge
       variant="outline"
       color="danger"
@@ -803,11 +859,13 @@
         rounded="full"
         variant="unbordered"
         color="danger"
-        class="size-6 px-0 py-0 shadow absolute -translate-y-1/2 translate-x-1/2 left-auto top-0 right-0"
+        circle
+        class="shadow absolute -translate-y-1/2 translate-x-1/2 left-auto top-0 right-0"
       >
         +9
       </MishkaChelekom.Badge.badge>
     </MishkaChelekom.Badge.badge>
+
     <MishkaChelekom.Badge.badge
       variant="outline"
       color="dark"
@@ -822,11 +880,13 @@
         rounded="full"
         variant="unbordered"
         color="light"
-        class="size-6 px-0 py-0 shadow absolute translate-y-1/2 translate-x-1/2 left-auto bottom-0 right-0"
+        circle
+        class="shadow absolute translate-y-1/2 translate-x-1/2 left-auto bottom-0 right-0"
       >
         +9
       </MishkaChelekom.Badge.badge>
     </MishkaChelekom.Badge.badge>
+
     <MishkaChelekom.Badge.badge
       variant="outline"
       color="light"
@@ -843,12 +903,14 @@
         rounded="full"
         variant="unbordered"
         color="dark"
-        class="size-6 px-0 py-0 shadow absolute -translate-y-1/2 -translate-x-1/2 right-auto top-0 left-0"
+        circle
+        class="shadow absolute -translate-y-1/2 -translate-x-1/2 right-auto top-0 left-0"
       >
         +9
       </MishkaChelekom.Badge.badge>
     </MishkaChelekom.Badge.badge>
   </div>
+
   <h2 class="text-4xl font-extrabold w-full my-5">unbordered badge</h2>
 
   <div class="flex items-center flex-wrap gap-10">
@@ -861,12 +923,7 @@
       indicator_size="large"
       indicator
     >
-      <MishkaChelekom.Badge.badge
-        rounded="full"
-        class="size-6 px-0 py-0"
-        variant="unbordered"
-        color="light"
-      >
+      <MishkaChelekom.Badge.badge rounded="full" circle variant="unbordered" color="light">
         +9
       </MishkaChelekom.Badge.badge>
       unbordered small rounded full
@@ -880,12 +937,7 @@
       indicator
     >
       Default large
-      <MishkaChelekom.Badge.badge
-        rounded="full"
-        class="size-6 px-0 py-0"
-        variant="unbordered"
-        color="dawn"
-      >
+      <MishkaChelekom.Badge.badge rounded="full" circle variant="unbordered" color="dawn">
         +9
       </MishkaChelekom.Badge.badge>
     </MishkaChelekom.Badge.badge>
@@ -901,7 +953,8 @@
       <MishkaChelekom.Badge.badge
         rounded="full"
         variant="unbordered"
-        class="size-6 px-0 py-0 shadow absolute -translate-y-1/2 translate-x-1/2 left-auto top-0 right-0"
+        circle
+        class="shadow absolute -translate-y-1/2 translate-x-1/2 left-auto top-0 right-0"
       >
         +9
       </MishkaChelekom.Badge.badge>
@@ -922,7 +975,8 @@
         rounded="full"
         variant="unbordered"
         color="light"
-        class="size-6 px-0 py-0 shadow absolute -translate-y-1/2 translate-x-1/2 left-auto top-0 right-0"
+        circle
+        class="shadow absolute -translate-y-1/2 translate-x-1/2 left-auto top-0 right-0"
       >
         +9
       </MishkaChelekom.Badge.badge>
@@ -942,11 +996,13 @@
         rounded="full"
         variant="unbordered"
         color="misc"
-        class="size-6 px-0 py-0 shadow absolute translate-y-1/2 -translate-x-1/2 right-auto bottom-0 left-0"
+        circle
+        class="shadow absolute translate-y-1/2 -translate-x-1/2 right-auto bottom-0 left-0"
       >
         +9
       </MishkaChelekom.Badge.badge>
     </MishkaChelekom.Badge.badge>
+
     <MishkaChelekom.Badge.badge
       variant="unbordered"
       rounded="full"
@@ -961,11 +1017,13 @@
         rounded="full"
         variant="unbordered"
         color="success"
-        class="size-6 px-0 py-0 shadow absolute translate-y-1/2 translate-x-1/2 left-auto bottom-0 right-0"
+        circle
+        class="shadow absolute translate-y-1/2 translate-x-1/2 left-auto bottom-0 right-0"
       >
         +9
       </MishkaChelekom.Badge.badge>
     </MishkaChelekom.Badge.badge>
+
     <MishkaChelekom.Badge.badge
       variant="unbordered"
       rounded="full"
@@ -980,11 +1038,13 @@
         rounded="full"
         variant="unbordered"
         color="warning"
-        class="size-6 px-0 py-0 shadow absolute translate-y-1/2 translate-x-1/2 left-auto bottom-0 right-0"
+        circle
+        class="shadow absolute translate-y-1/2 translate-x-1/2 left-auto bottom-0 right-0"
       >
         +9
       </MishkaChelekom.Badge.badge>
     </MishkaChelekom.Badge.badge>
+
     <MishkaChelekom.Badge.badge
       variant="unbordered"
       rounded="full"
@@ -1000,11 +1060,13 @@
         rounded="full"
         variant="unbordered"
         color="danger"
-        class="size-6 px-0 py-0 shadow absolute -translate-y-1/2 translate-x-1/2 left-auto top-0 right-0"
+        circle
+        class="shadow absolute -translate-y-1/2 translate-x-1/2 left-auto top-0 right-0"
       >
         +9
       </MishkaChelekom.Badge.badge>
     </MishkaChelekom.Badge.badge>
+
     <MishkaChelekom.Badge.badge
       variant="unbordered"
       rounded="large"
@@ -1020,11 +1082,13 @@
         rounded="full"
         variant="unbordered"
         color="light"
-        class="size-6 px-0 py-0 shadow absolute translate-y-1/2 translate-x-1/2 left-auto bottom-0 right-0"
+        circle
+        class="shadow absolute translate-y-1/2 translate-x-1/2 left-auto bottom-0 right-0"
       >
         +9
       </MishkaChelekom.Badge.badge>
     </MishkaChelekom.Badge.badge>
+
     <MishkaChelekom.Badge.badge
       variant="unbordered"
       rounded="full"
@@ -1040,7 +1104,8 @@
         rounded="full"
         variant="unbordered"
         color="dark"
-        class="size-6 px-0 py-0 shadow absolute -translate-y-1/2 -translate-x-1/2 right-auto top-0 left-0"
+        circle
+        class="shadow absolute -translate-y-1/2 -translate-x-1/2 right-auto top-0 left-0"
       >
         +9
       </MishkaChelekom.Badge.badge>
