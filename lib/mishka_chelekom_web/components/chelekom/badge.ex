@@ -58,7 +58,8 @@ defmodule MishkaChelekom.Badge do
   attr :indicator_size, :string, default: nil, doc: ""
 
   attr :rest, :global,
-    include: ["is_pinging"] ++ @dismiss_positions ++ @indicator_positions ++ @icon_positions,
+    include:
+      ["pinging", "circle"] ++ @dismiss_positions ++ @indicator_positions ++ @icon_positions,
     doc: ""
 
   slot :inner_block, required: false, doc: ""
@@ -68,11 +69,11 @@ defmodule MishkaChelekom.Badge do
     <div
       id={@id}
       class={
-        default_classes(@rest[:is_pinging]) ++
+        default_classes(@rest[:pinging]) ++
+          size_class(@size, @rest[:circle]) ++
           [
             color_variant(@variant, @color),
             rounded_size(@rounded),
-            size_class(@size),
             @font_weight,
             @class
           ]
@@ -459,13 +460,29 @@ defmodule MishkaChelekom.Badge do
   defp indicator_size(params) when is_binary(params), do: params
   defp indicator_size(nil), do: nil
 
-  defp size_class("extra_small"), do: "px-2 py-0.5 text-xs [&>.indicator]:size-1"
-  defp size_class("small"), do: "px-2.5 py-1 text-sm [&>.indicator]:size-1.5"
-  defp size_class("medium"), do: "px-2.5 py-1.5 text-base [&>.indicator]:size-2"
-  defp size_class("large"), do: "px-3 py-2 text-lg [&>.indicator]:size-2.5"
-  defp size_class("extra_large"), do: "px-3.5 py-2.5 text-xl [&>.indicator]:size-3"
-  defp size_class(params) when is_binary(params), do: params
-  defp size_class(_), do: size_class("extra_small")
+  defp size_class("extra_small", circle) do
+    [is_nil(circle) && "px-2 py-0.5", "text-xs [&>.indicator]:size-1", !is_nil(circle) && "1"]
+  end
+
+  defp size_class("small", circle) do
+    [is_nil(circle) && "px-2.5 py-1", "text-sm [&>.indicator]:size-1.5", !is_nil(circle) && "1"]
+  end
+
+  defp size_class("medium", circle) do
+    [is_nil(circle) && "px-2.5 py-1.5", "text-base [&>.indicator]:size-2", !is_nil(circle) && "1"]
+  end
+
+  defp size_class("large", circle) do
+    [is_nil(circle) && "px-3 py-2", "text-lg [&>.indicator]:size-2.5", !is_nil(circle) && "1"]
+  end
+
+  defp size_class("extra_large", circle) do
+    [is_nil(circle) && "px-3.5 py-2.5", "text-xl [&>.indicator]:size-3", !is_nil(circle) && "1"]
+  end
+
+  defp size_class(params, _circle) when is_binary(params), do: params
+
+  defp size_class(_, _circle), do: size_class("extra_small", nil)
 
   defp icon_position(nil, _), do: false
   defp icon_position(_icon, %{left_icon: true}), do: "left"
@@ -477,11 +494,11 @@ defmodule MishkaChelekom.Badge do
   defp dismiss_position(%{dismiss: true}), do: "right"
   defp dismiss_position(_), do: false
 
-  defp default_classes(is_pinging) do
+  defp default_classes(pinging) do
     [
       "inline-flex gap-1.5 justify-center items-center border",
       "[&>.indicator]:inline-block [&>.indicator]:shrink-0 [&>.indicator]:rounded-full",
-      !is_nil(is_pinging) && "[&>.indicator]:animate-ping"
+      !is_nil(pinging) && "[&>.indicator]:animate-ping"
     ]
   end
 end
