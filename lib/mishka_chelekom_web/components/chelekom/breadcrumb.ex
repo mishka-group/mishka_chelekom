@@ -56,7 +56,7 @@ defmodule MishkaChelekom.Breadcrumb do
         <div :if={!is_nil(item[:link])}>
           <.link navigate={item[:link]}><%= render_slot(item) %></.link>
         </div>
-        
+
         <div :if={is_nil(item[:link])}><%= render_slot(item) %></div>
          <.separator :if={index != length(@item)} name={item[:separator] || @separator} />
       </li>
@@ -81,47 +81,47 @@ defmodule MishkaChelekom.Breadcrumb do
   end
 
   defp color_class("white") do
-    "text-white"
+    "text-white hover:[&>li_a]:text-[#ededed]"
   end
 
   defp color_class("primary") do
-    "text-[#4363EC]"
+    "text-[#4363EC] hover:[&>li_a]:text-[#072ed3]"
   end
 
   defp color_class("secondary") do
-    "text-[#6B6E7C]"
+    "text-[#6B6E7C] hover:[&>li_a]:text-[#60636f]"
   end
 
   defp color_class("success") do
-    "text-[#047857]"
+    "text-[#047857] hover:[&>li_a]:text-[#d4fde4] "
   end
 
   defp color_class("warning") do
-    "text-[#FF8B08]"
+    "text-[#FF8B08] hover:[&>li_a]:text-[#fff1cd]"
   end
 
   defp color_class("danger") do
-    "text-[#E73B3B]"
+    "text-[#E73B3B] hover:[&>li_a]:text-[#ffcdcd]"
   end
 
   defp color_class("info") do
-    "text-[#004FC4]"
+    "text-[#004FC4] hover:[&>li_a]:text-[#cce1ff]"
   end
 
   defp color_class("misc") do
-    "text-[#52059C]"
+    "text-[#52059C] hover:[&>li_a]:text-[#ffe0ff]"
   end
 
   defp color_class("dawn") do
-    "text-[#4D4137]"
+    "text-[#4D4137] hover:[&>li_a]:text-[#FFECDA]"
   end
 
   defp color_class("light") do
-    "text-[#707483]"
+    "text-[#707483] hover:[&>li_a]:text-[#d2d8e9]"
   end
 
   defp color_class("dark") do
-    "text-[#1E1E1E]"
+    "text-[#1E1E1E] hover:[&>li_a]:text-[#111111]"
   end
 
   defp size_class("extra_small"),
@@ -148,7 +148,7 @@ defmodule MishkaChelekom.Breadcrumb do
 
   defp default_classes() do
     [
-      "flex items-center"
+      "flex items-center transition-all ease-in-ou duration-100 group"
     ]
   end
 end
