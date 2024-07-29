@@ -1,42 +1,18 @@
 <div class="flex items-center flex-wrap gap-10 p-10">
   <h2 class="text-4xl font-extrabold w-full my-5">HTML</h2>
   <div class="flex items-center flex-wrap gap-10">
-    <div class="inline-flex item-center gap-2 bg-white text-[#3E3E3E] border border-[#DADADA] px-2 py-0.5 text-xs rounded-sm">
-      <div class="flex items-center gap-2">
-        <.icon name="hero-arrow-down-tray" class="size-5" />
-        <span>Default white</span>
-      </div>
-      <button>
-        <.icon name="hero-x-mark" class="size-4" />
-      </button>
-    </div>
-    <div class="inline-flex item-center gap-2 bg-white text-[#3E3E3E] border border-[#DADADA] px-2 py-0.5 text-xs rounded-sm">
-      <div class="flex items-center flex-row-reverse gap-2">
-        <.icon name="hero-arrow-down-tray" class="size-5" />
-        <span>Default white</span>
-      </div>
-      <button>
-        <.icon name="hero-x-mark" class="size-4" />
-      </button>
-    </div>
-    <div class="inline-flex item-center flex-row-reverse gap-2 bg-white text-[#3E3E3E] border border-[#DADADA] px-2 py-0.5 text-xs rounded-sm">
-      <div class="flex items-center flex-row-reverse gap-2">
-        <.icon name="hero-arrow-down-tray" class="size-5" />
-        <span>Default white</span>
-      </div>
-      <button>
-        <.icon name="hero-x-mark" class="size-4" />
-      </button>
-    </div>
-    <div class="inline-flex item-center flex-row-reverse gap-2 bg-white text-[#3E3E3E] border border-[#DADADA] px-2 py-0.5 text-xs rounded-sm">
-      <div class="flex items-center gap-2">
-        <.icon name="hero-arrow-down-tray" class="size-5" />
-        <span>Default white</span>
-      </div>
-      <button>
-        <.icon name="hero-x-mark" class="size-4" />
-      </button>
-    </div>
+    <MishkaChelekom.Badge.badge icon="hero-arrow-down-tray" color="warning" dismiss indicator>
+      Default warning
+    </MishkaChelekom.Badge.badge>
+
+    <MishkaChelekom.Badge.badge
+      icon="hero-arrow-down-tray"
+      color="warning"
+      dismiss
+      right_indicator
+    >
+      Default warning
+    </MishkaChelekom.Badge.badge>
   </div>
   <h2 class="text-4xl font-extrabold w-full my-5">Default</h2>
 
@@ -1073,25 +1049,6 @@
       >
         +9
       </MishkaChelekom.Badge.badge>
-    </MishkaChelekom.Badge.badge>
-  </div>
-
-  <h2 class="text-4xl font-extrabold w-full my-5">Mixed</h2>
-
-  <div class="flex items-center gap-10 flex-wrap">
-    <div class="relative size-40 bg-gray-200">
-      <MishkaChelekom.Badge.badge color="info" rounded="full" class="absolute -top-2 -right-3">
-        WAITING...
-      </MishkaChelekom.Badge.badge>
-    </div>
-
-    <MishkaChelekom.Badge.badge color="info" variant="unbordered">
-      <MishkaChelekom.Avatar.avatar
-        src="https://flowbite.com/docs/images/people/profile-picture-5.jpg"
-        size="large"
-        border="large"
-        rounded="full"
-      /> Mona
     </MishkaChelekom.Badge.badge>
   </div>
 </div>

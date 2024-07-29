@@ -21,15 +21,7 @@ defmodule MishkaChelekom.Badge do
 
   @icon_positions [
     "right_icon",
-    "left_icon",
-    "top_left_icon",
-    "top_center_icon",
-    "top_right_icon",
-    "middle_left_icon",
-    "middle_right_icon",
-    "bottom_left_icon",
-    "bottom_center_icon",
-    "bottom_right_icon"
+    "left_icon"
   ]
 
   @indicator_positions [
@@ -72,6 +64,8 @@ defmodule MishkaChelekom.Badge do
   slot :inner_block, required: false, doc: ""
 
   def badge(assigns) do
+    IO.inspect(assigns.rest)
+
     ~H"""
     <div
       id={@id}
@@ -88,16 +82,12 @@ defmodule MishkaChelekom.Badge do
       {@rest}
     >
       <.badge_dismiss :if={dismiss_position(@rest) == "left"} id={@id} />
-      <span
-        :if={indicator_position(@rest) == "left"}
-        class={["indicator", indicator_size(@indicator_size), @indicator_class]}
-      />
-      <.icon :if={icon_position(@icon, @rest) == "left"} name={@icon} /> <span class="leading-none"><%= render_slot(@inner_block) %></span>
+      <.badge_indicator position="left" size={@indicator_size} class={@indicator_class} {@rest} />
+      <.icon :if={icon_position(@icon, @rest) == "left"} name={@icon} />
+      <span class="leading-none"><%= render_slot(@inner_block) %></span>
       <.icon :if={icon_position(@icon, @rest) == "right"} name={@icon} />
-      <span
-        :if={indicator_position(@rest) == "right"}
-        class={["indicator", indicator_size(@indicator_size), @indicator_class]}
-      /> <.badge_dismiss :if={dismiss_position(@rest) == "right"} id={@id} />
+      <.badge_indicator size={@indicator_size} class={@indicator_class} {@rest} />
+      <.badge_dismiss :if={dismiss_position(@rest) == "right"} id={@id} />
     </div>
     """
   end
@@ -108,9 +98,88 @@ defmodule MishkaChelekom.Badge do
 
   defp badge_dismiss(assigns) do
     ~H"""
-    <button class="inline-flex justify-center items-center w-fit shrink-0" phx-click={JS.push("dismiss", value: %{id: @id, kind: "badge"}) |> hide("##{@id}")}>
+    <button
+      class="inline-flex justify-center items-center w-fit shrink-0"
+      phx-click={JS.push("dismiss", value: %{id: @id, kind: "badge"}) |> hide("##{@id}")}
+    >
       <.icon name="hero-x-mark" class={"#{@icon_class}"} />
     </button>
+    """
+  end
+
+  attr :position, :string, default: "none"
+  attr :class, :string, default: nil
+  attr :size, :string
+  attr :rest, :global
+
+  defp badge_indicator(%{position: "left", rest: %{left_indicator: true}} = assigns) do
+    ~H"""
+    <span class={["indicator", indicator_size(@size), @class]} />
+    """
+  end
+
+  defp badge_indicator(%{position: "left", rest: %{indicator: true}} = assigns) do
+    ~H"""
+    <span class={["indicator", indicator_size(@size), @class]} />
+    """
+  end
+
+  defp badge_indicator(%{position: "none", rest: %{right_indicator: true}} = assigns) do
+    ~H"""
+    <span class={["indicator", indicator_size(@size), @class]} />
+    """
+  end
+
+  defp badge_indicator(%{position: "none", rest: %{top_left_indicator: true}} = assigns) do
+    ~H"""
+    <span class={["indicator", indicator_size(@size), @class]} />
+    """
+  end
+
+  defp badge_indicator(%{position: "none", rest: %{top_center_indicator: true}} = assigns) do
+    ~H"""
+    <span class={["indicator", indicator_size(@size), @class]} />
+    """
+  end
+
+  defp badge_indicator(%{position: "none", rest: %{top_right_indicator: true}} = assigns) do
+    ~H"""
+    <span class={["indicator", indicator_size(@size), @class]} />
+    """
+  end
+
+  defp badge_indicator(%{position: "none", rest: %{middle_left_indicator: true}} = assigns) do
+    ~H"""
+    <span class={["indicator", indicator_size(@size), @class]} />
+    """
+  end
+
+  defp badge_indicator(%{position: "none", rest: %{middle_right_indicator: true}} = assigns) do
+    ~H"""
+    <span class={["indicator", indicator_size(@size), @class]} />
+    """
+  end
+
+  defp badge_indicator(%{position: "none", rest: %{bottom_left_indicator: true}} = assigns) do
+    ~H"""
+    <span class={["indicator", indicator_size(@size), @class]} />
+    """
+  end
+
+  defp badge_indicator(%{position: "none", rest: %{bottom_center_indicator: true}} = assigns) do
+    ~H"""
+    <span class={["indicator", indicator_size(@size), @class]} />
+    """
+  end
+
+  defp badge_indicator(%{position: "none", rest: %{bottom_right_indicator: true}} = assigns) do
+    ~H"""
+    <span class={["indicator", indicator_size(@size), @class]} />
+    """
+  end
+
+  defp badge_indicator(assigns) do
+    ~H"""
     """
   end
 
@@ -369,11 +438,6 @@ defmodule MishkaChelekom.Badge do
   defp dismiss_position(%{left_dismiss: true}), do: "left"
   defp dismiss_position(%{dismiss: true}), do: "right"
   defp dismiss_position(_), do: false
-
-  defp indicator_position(%{left_indicator: true}), do: "left"
-  defp indicator_position(%{right_indicator: true}), do: "right"
-  defp indicator_position(%{indicator: true}), do: "left"
-  defp indicator_position(_), do: false
 
   defp default_classes(is_pinging) do
     [
