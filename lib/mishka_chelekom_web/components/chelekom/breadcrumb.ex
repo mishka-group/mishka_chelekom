@@ -121,7 +121,7 @@ defmodule MishkaChelekom.Breadcrumb do
   end
 
   defp color_class("dark") do
-    "text-[#1E1E1E] hover:[&>li_a]:text-[#111111]"
+    "text-[#1E1E1E] hover:[&>li_a]:text-[#869093]"
   end
 
   defp size_class("extra_small"),
