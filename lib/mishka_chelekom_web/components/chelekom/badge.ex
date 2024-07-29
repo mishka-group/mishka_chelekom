@@ -78,7 +78,7 @@ defmodule MishkaChelekom.Badge do
             @class
           ]
       }
-      {@rest}
+      {drop_rest(@rest)}
     >
       <.badge_dismiss :if={dismiss_position(@rest) == "left"} id={@id} />
       <.badge_indicator position="left" size={@indicator_size} class={@indicator_class} {@rest} />
@@ -113,21 +113,13 @@ defmodule MishkaChelekom.Badge do
 
   defp badge_indicator(%{position: "left", rest: %{left_indicator: true}} = assigns) do
     ~H"""
-    <span class={[
-      "indicator",
-      indicator_size(@size),
-      @class
-    ]} />
+    <span class={["indicator", indicator_size(@size), @class]} />
     """
   end
 
   defp badge_indicator(%{position: "left", rest: %{indicator: true}} = assigns) do
     ~H"""
-    <span class={[
-      "indicator",
-      indicator_size(@size),
-      @class
-    ]} />
+    <span class={["indicator", indicator_size(@size), @class]} />
     """
   end
 
@@ -500,5 +492,13 @@ defmodule MishkaChelekom.Badge do
       "[&>.indicator]:inline-block [&>.indicator]:shrink-0 [&>.indicator]:rounded-full",
       !is_nil(pinging) && "[&>.indicator]:animate-ping"
     ]
+  end
+
+  defp drop_rest(rest) do
+    all_rest =
+      (["pinging", "circle"] ++ @dismiss_positions ++ @indicator_positions ++ @icon_positions)
+      |> Enum.map(&if(is_binary(&1), do: String.to_atom(&1), else: &1))
+
+    Map.drop(rest, all_rest)
   end
 end

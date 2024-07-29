@@ -103,7 +103,7 @@ defmodule MishkaChelekom.Button do
             @class
           ]
       }
-      {@rest}
+      {Map.drop(@rest, [:right_icon, :left_icon])}
     >
       <.icon :if={icon_position(@icon, @rest) == "left"} name={@icon} /> <%= render_slot(@inner_block) %>
       <.icon :if={icon_position(@icon, @rest) == "right"} name={@icon} />
