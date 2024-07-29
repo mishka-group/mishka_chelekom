@@ -114,13 +114,21 @@ defmodule MishkaChelekom.Badge do
 
   defp badge_indicator(%{position: "left", rest: %{left_indicator: true}} = assigns) do
     ~H"""
-    <span class={["indicator", indicator_size(@size), @class]} />
+    <span class={[
+      "indicator",
+      indicator_size(@size),
+      @class
+    ]} />
     """
   end
 
   defp badge_indicator(%{position: "left", rest: %{indicator: true}} = assigns) do
     ~H"""
-    <span class={["indicator", indicator_size(@size), @class]} />
+    <span class={[
+      "indicator",
+      indicator_size(@size),
+      @class
+    ]} />
     """
   end
 
@@ -132,49 +140,81 @@ defmodule MishkaChelekom.Badge do
 
   defp badge_indicator(%{position: "none", rest: %{top_left_indicator: true}} = assigns) do
     ~H"""
-    <span class={["indicator", indicator_size(@size), @class]} />
+    <span class={[
+      "indicator",
+      indicator_size(@size),
+      @class || "absolute -translate-y-1/2 -translate-x-1/2 right-auto top-0 left-0"
+    ]} />
     """
   end
 
   defp badge_indicator(%{position: "none", rest: %{top_center_indicator: true}} = assigns) do
     ~H"""
-    <span class={["indicator", indicator_size(@size), @class]} />
+    <span class={[
+      "indicator",
+      indicator_size(@size),
+      @class || "absolute -translate-y-1/2 translate-x-1/2 right-1/2"
+    ]} />
     """
   end
 
   defp badge_indicator(%{position: "none", rest: %{top_right_indicator: true}} = assigns) do
     ~H"""
-    <span class={["indicator", indicator_size(@size), @class]} />
+    <span class={[
+      "indicator",
+      indicator_size(@size),
+      @class || "absolute -translate-y-1/2 translate-x-1/2 left-auto top-0 right-0"
+    ]} />
     """
   end
 
   defp badge_indicator(%{position: "none", rest: %{middle_left_indicator: true}} = assigns) do
     ~H"""
-    <span class={["indicator", indicator_size(@size), @class]} />
+    <span class={[
+      "indicator",
+      indicator_size(@size),
+      @class || "absolute -translate-y-1/2 -translate-x-1/2 right-auto left-0 top-2/4"
+    ]} />
     """
   end
 
   defp badge_indicator(%{position: "none", rest: %{middle_right_indicator: true}} = assigns) do
     ~H"""
-    <span class={["indicator", indicator_size(@size), @class]} />
+    <span class={[
+      "indicator",
+      indicator_size(@size),
+      @class || "absolute -translate-y-1/2 translate-x-1/2 left-auto right-0 top-2/4"
+    ]} />
     """
   end
 
   defp badge_indicator(%{position: "none", rest: %{bottom_left_indicator: true}} = assigns) do
     ~H"""
-    <span class={["indicator", indicator_size(@size), @class]} />
+    <span class={[
+      "indicator",
+      indicator_size(@size),
+      @class || "absolute translate-y-1/2 -translate-x-1/2 right-auto bottom-0 left-0"
+    ]} />
     """
   end
 
   defp badge_indicator(%{position: "none", rest: %{bottom_center_indicator: true}} = assigns) do
     ~H"""
-    <span class={["indicator", indicator_size(@size), @class]} />
+    <span class={[
+      "indicator",
+      indicator_size(@size),
+      @class || "absolute translate-y-1/2 translate-x-1/2 bottom-0 right-1/2"
+    ]} />
     """
   end
 
   defp badge_indicator(%{position: "none", rest: %{bottom_right_indicator: true}} = assigns) do
     ~H"""
-    <span class={["indicator", indicator_size(@size), @class]} />
+    <span class={[
+      "indicator",
+      indicator_size(@size),
+      @class || "absolute translate-y-1/2 translate-x-1/2 left-auto bottom-0 right-0"
+    ]} />
     """
   end
 
