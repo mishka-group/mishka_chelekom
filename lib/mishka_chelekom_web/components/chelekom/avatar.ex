@@ -28,6 +28,7 @@ defmodule MishkaChelekom.Avatar do
     doc: ""
 
   attr :class, :string, default: nil, doc: ""
+  attr :src, :string, default: "", doc: ""
   attr :color, :string, values: @colors, default: "white", doc: ""
   attr :size, :string, default: "small", doc: ""
   attr :shadow, :string, values: @sizes ++ ["none"], default: "none", doc: ""
@@ -39,16 +40,15 @@ defmodule MishkaChelekom.Avatar do
     ~H"""
     <img
       id={@id}
-      class={
-          [
-            color(@color),
-            rounded_size(@rounded),
-            size_class(@size),
-            border_class(@border),
-            shadow_class(@shadow),
-            @class
-          ]
-      }
+      src={@src}
+      class={[
+        color(@color),
+        rounded_size(@rounded),
+        size_class(@size),
+        border_class(@border),
+        shadow_class(@shadow),
+        @class
+      ]}
       {@rest}
     />
     """
