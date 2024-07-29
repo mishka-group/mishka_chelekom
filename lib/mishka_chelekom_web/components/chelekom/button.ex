@@ -201,7 +201,7 @@ defmodule MishkaChelekom.Button do
   end
 
   defp color_variant("default", "white") do
-    "bg-white text-[#3E3E3E] border-[#DADADA] hover:bg-[#ededed] hover:border-[#d9d9d9]"
+    "bg-white text-[#3E3E3E] border-[#DADADA] hover:bg-[#E8E8E8] hover:border-[#d9d9d9]"
   end
 
   defp color_variant("default", "primary") do
@@ -245,7 +245,7 @@ defmodule MishkaChelekom.Button do
   end
 
   defp color_variant("outline", "white") do
-    "bg-transparent text-white border-white hover:text-[#ededed] hover:border-[#ededed]"
+    "bg-transparent text-white border-white hover:text-[#E8E8E8] hover:border-[#E8E8E8]"
   end
 
   defp color_variant("outline", "primary") do
@@ -289,7 +289,7 @@ defmodule MishkaChelekom.Button do
   end
 
   defp color_variant("transparent", "white") do
-    "bg-transparent text-white border-transparent hover:text-[#ededed]"
+    "bg-transparent text-white border-transparent hover:text-[#E8E8E8]"
   end
 
   defp color_variant("transparent", "primary") do
@@ -377,7 +377,7 @@ defmodule MishkaChelekom.Button do
   end
 
   defp color_variant("shadow", "white") do
-    "bg-white text-[#3E3E3E] border-[#DADADA] shadow-md hover:bg-[#ededed] hover:border-[#d9d9d9]"
+    "bg-white text-[#3E3E3E] border-[#DADADA] shadow-md hover:bg-[#E8E8E8] hover:border-[#d9d9d9]"
   end
 
   defp color_variant("shadow", "primary") do
@@ -537,7 +537,7 @@ defmodule MishkaChelekom.Button do
   end
 
   defp color_variant("unbordered", "white") do
-    "bg-white text-[#3E3E3E] border-transparent hover:bg-[#ededed]"
+    "bg-white text-[#3E3E3E] border-transparent hover:bg-[#E8E8E8]"
   end
 
   defp color_variant("unbordered", "primary") do

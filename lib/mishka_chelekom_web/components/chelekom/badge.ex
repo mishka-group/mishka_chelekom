@@ -214,7 +214,7 @@ defmodule MishkaChelekom.Badge do
   end
 
   defp color_variant("default", "white") do
-    "bg-white text-[#3E3E3E] border-[#DADADA] [&>.indicator]:bg-[#3E3E3E] hover:[&>button]:text-[#ededed]"
+    "bg-white text-[#3E3E3E] border-[#DADADA] [&>.indicator]:bg-[#3E3E3E] hover:[&>button]:text-[#787878]"
   end
 
   defp color_variant("default", "primary") do
@@ -226,39 +226,39 @@ defmodule MishkaChelekom.Badge do
   end
 
   defp color_variant("default", "success") do
-    "bg-[#ECFEF3] text-[#047857] border-[#6EE7B7] [&>.indicator]:bg-[#047857] hover:[&>button]:text-[#d4fde4]"
+    "bg-[#ECFEF3] text-[#047857] border-[#6EE7B7] [&>.indicator]:bg-[#047857] hover:[&>button]:text-[#50AF7A]"
   end
 
   defp color_variant("default", "warning") do
-    "bg-[#FFF8E6] text-[#FF8B08] border-[#FF8B08] [&>.indicator]:bg-[#FF8B08] hover:[&>button]:text-[#fff1cd]"
+    "bg-[#FFF8E6] text-[#FF8B08] border-[#FF8B08] [&>.indicator]:bg-[#FF8B08] hover:[&>button]:text-[#FFB045]"
   end
 
   defp color_variant("default", "danger") do
-    "bg-[#FFE6E6] text-[#E73B3B] border-[#E73B3B] [&>.indicator]:bg-[#E73B3B] hover:[&>button]:text-[#ffcdcd]"
+    "bg-[#FFE6E6] text-[#E73B3B] border-[#E73B3B] [&>.indicator]:bg-[#E73B3B] hover:[&>button]:text-[#F0756A]"
   end
 
   defp color_variant("default", "info") do
-    "bg-[#E5F0FF] text-[#004FC4] border-[#004FC4] [&>.indicator]:bg-[#004FC4] hover:[&>button]:text-[#cce1ff]"
+    "bg-[#E5F0FF] text-[#004FC4] border-[#004FC4] [&>.indicator]:bg-[#004FC4] hover:[&>button]:text-[#3680DB]"
   end
 
   defp color_variant("default", "misc") do
-    "bg-[#FFE6FF] text-[#52059C] border-[#52059C] [&>.indicator]:bg-[#52059C] hover:[&>button]:text-[#ffe0ff]"
+    "bg-[#FFE6FF] text-[#52059C] border-[#52059C] [&>.indicator]:bg-[#52059C] hover:[&>button]:text-[#8535C3]"
   end
 
   defp color_variant("default", "dawn") do
-    "bg-[#FFECDA] text-[#4D4137] border-[#4D4137] [&>.indicator]:bg-[#4D4137] hover:[&>button]:text-[#FFECDA]"
+    "bg-[#FFECDA] text-[#4D4137] border-[#4D4137] [&>.indicator]:bg-[#4D4137] hover:[&>button]:text-[#948474]"
   end
 
   defp color_variant("default", "light") do
-    "bg-[#E3E7F1] text-[#707483] border-[#707483] [&>.indicator]:bg-[#707483] hover:[&>button]:text-[#d2d8e9]"
+    "bg-[#E3E7F1] text-[#707483] border-[#707483] [&>.indicator]:bg-[#707483] hover:[&>button]:text-[#A0A5B4]"
   end
 
   defp color_variant("default", "dark") do
-    "bg-[#1E1E1E] text-white border-[#050404] [&>.indicator]:bg-white hover:[&>button]:text-[#869093]"
+    "bg-[#1E1E1E] text-white border-[#050404] [&>.indicator]:bg-white hover:[&>button]:text-[#787878]"
   end
 
   defp color_variant("outline", "white") do
-    "bg-transparent text-white border-white [&>.indicator]:bg-white hover:[&>button]:text-[#ededed]"
+    "bg-transparent text-white border-white [&>.indicator]:bg-white hover:[&>button]:text-[#787878]"
   end
 
   defp color_variant("outline", "primary") do
@@ -270,23 +270,23 @@ defmodule MishkaChelekom.Badge do
   end
 
   defp color_variant("outline", "success") do
-    "bg-transparent text-[#227A52] border-[#6EE7B7] [&>.indicator]:bg-[#227A52] hover:[&>button]:text-[#d4fde4]"
+    "bg-transparent text-[#227A52] border-[#6EE7B7] [&>.indicator]:bg-[#227A52] hover:[&>button]:text-[#50AF7A]"
   end
 
   defp color_variant("outline", "warning") do
-    "bg-transparent text-[#FF8B08] border-[#FF8B08] [&>.indicator]:bg-[#FF8B08] hover:[&>button]:text-[#fff1cd]"
+    "bg-transparent text-[#FF8B08] border-[#FF8B08] [&>.indicator]:bg-[#FF8B08] hover:[&>button]:text-[#FFB045]"
   end
 
   defp color_variant("outline", "danger") do
-    "bg-transparent text-[#E73B3B] border-[#E73B3B] [&>.indicator]:bg-[#E73B3B] hover:[&>button]:text-[#ffcdcd]"
+    "bg-transparent text-[#E73B3B] border-[#E73B3B] [&>.indicator]:bg-[#E73B3B] hover:[&>button]:text-[#F0756A]"
   end
 
   defp color_variant("outline", "info") do
-    "bg-transparent text-[#004FC4] border-[#004FC4] [&>.indicator]:bg-[#004FC4] hover:[&>button]:text-[#cce1ff]"
+    "bg-transparent text-[#004FC4] border-[#004FC4] [&>.indicator]:bg-[#004FC4] hover:[&>button]:text-[#3680DB]"
   end
 
   defp color_variant("outline", "misc") do
-    "bg-transparent text-[#52059C] border-[#52059C] [&>.indicator]:bg-[#52059C] hover:[&>button]:text-[#ffe0ff]"
+    "bg-transparent text-[#52059C] border-[#52059C] [&>.indicator]:bg-[#52059C] hover:[&>button]:text-[#8535C3]"
   end
 
   defp color_variant("outline", "dawn") do
@@ -294,15 +294,15 @@ defmodule MishkaChelekom.Badge do
   end
 
   defp color_variant("outline", "light") do
-    "bg-transparent text-[#707483] border-[#707483] [&>.indicator]:bg-[#707483] hover:[&>button]:text-[#d2d8e9]"
+    "bg-transparent text-[#707483] border-[#707483] [&>.indicator]:bg-[#707483] hover:[&>button]:text-[#A0A5B4]"
   end
 
   defp color_variant("outline", "dark") do
-    "bg-transparent text-[#1E1E1E] border-[#1E1E1E] [&>.indicator]:bg-[#1E1E1E] hover:[&>button]:text-[#869093]"
+    "bg-transparent text-[#1E1E1E] border-[#1E1E1E] [&>.indicator]:bg-[#1E1E1E] hover:[&>button]:text-[#787878]"
   end
 
   defp color_variant("unbordered", "white") do
-    "bg-white text-[#3E3E3E] border-transparent [&>.indicator]:bg-[#3E3E3E] hover:[&>button]:text-[#ededed]"
+    "bg-white text-[#3E3E3E] border-transparent [&>.indicator]:bg-[#3E3E3E] hover:[&>button]:text-[#787878]"
   end
 
   defp color_variant("unbordered", "primary") do
@@ -314,23 +314,23 @@ defmodule MishkaChelekom.Badge do
   end
 
   defp color_variant("unbordered", "success") do
-    "bg-[#ECFEF3] text-[#047857] border-transparent [&>.indicator]:bg-[#047857] hover:[&>button]:text-[#d4fde4]"
+    "bg-[#ECFEF3] text-[#047857] border-transparent [&>.indicator]:bg-[#047857] hover:[&>button]:text-[#50AF7A]"
   end
 
   defp color_variant("unbordered", "warning") do
-    "bg-[#FFF8E6] text-[#FF8B08] border-transparent [&>.indicator]:bg-[#FF8B08] hover:[&>button]:text-[#fff1cd]"
+    "bg-[#FFF8E6] text-[#FF8B08] border-transparent [&>.indicator]:bg-[#FF8B08] hover:[&>button]:text-[#FFB045]"
   end
 
   defp color_variant("unbordered", "danger") do
-    "bg-[#FFE6E6] text-[#E73B3B] border-transparent [&>.indicator]:bg-[#E73B3B] hover:[&>button]:text-[#ffcdcd]"
+    "bg-[#FFE6E6] text-[#E73B3B] border-transparent [&>.indicator]:bg-[#E73B3B] hover:[&>button]:text-[#F0756A]"
   end
 
   defp color_variant("unbordered", "info") do
-    "bg-[#E5F0FF] text-[#004FC4] border-transparent [&>.indicator]:bg-[#004FC4] hover:[&>button]:text-[#cce1ff]"
+    "bg-[#E5F0FF] text-[#004FC4] border-transparent [&>.indicator]:bg-[#004FC4] hover:[&>button]:text-[#3680DB]"
   end
 
   defp color_variant("unbordered", "misc") do
-    "bg-[#FFE6FF] text-[#52059C] border-transparent [&>.indicator]:bg-[#52059C] hover:[&>button]:text-[#ffe0ff]"
+    "bg-[#FFE6FF] text-[#52059C] border-transparent [&>.indicator]:bg-[#52059C] hover:[&>button]:text-[#8535C3]"
   end
 
   defp color_variant("unbordered", "dawn") do
@@ -338,15 +338,15 @@ defmodule MishkaChelekom.Badge do
   end
 
   defp color_variant("unbordered", "light") do
-    "bg-[#E3E7F1] text-[#707483] border-transparent [&>.indicator]:bg-[#707483] hover:[&>button]:text-[#d2d8e9]"
+    "bg-[#E3E7F1] text-[#707483] border-transparent [&>.indicator]:bg-[#707483] hover:[&>button]:text-[#A0A5B4]"
   end
 
   defp color_variant("unbordered", "dark") do
-    "bg-[#1E1E1E] text-white border-transparent [&>.indicator]:bg-white hover:[&>button]:text-[#869093]"
+    "bg-[#1E1E1E] text-white border-transparent [&>.indicator]:bg-white hover:[&>button]:text-[#787878]"
   end
 
   defp color_variant("transparent", "white") do
-    "bg-transparent text-white border-transparent [&>.indicator]:bg-white hover:[&>button]:text-[#ededed]"
+    "bg-transparent text-white border-transparent [&>.indicator]:bg-white hover:[&>button]:text-[#787878]"
   end
 
   defp color_variant("transparent", "primary") do
@@ -358,23 +358,23 @@ defmodule MishkaChelekom.Badge do
   end
 
   defp color_variant("transparent", "success") do
-    "bg-transparent text-[#227A52] border-transparent [&>.indicator]:bg-[#227A52] hover:[&>button]:text-[#d4fde4]"
+    "bg-transparent text-[#227A52] border-transparent [&>.indicator]:bg-[#227A52] hover:[&>button]:text-[#50AF7A]"
   end
 
   defp color_variant("transparent", "warning") do
-    "bg-transparent text-[#FF8B08] border-transparent [&>.indicator]:bg-[#FF8B08] hover:[&>button]:text-[#fff1cd]"
+    "bg-transparent text-[#FF8B08] border-transparent [&>.indicator]:bg-[#FF8B08] hover:[&>button]:text-[#FFB045]"
   end
 
   defp color_variant("transparent", "danger") do
-    "bg-transparent text-[#E73B3B] border-transparent [&>.indicator]:bg-[#E73B3B] hover:[&>button]:text-[#ffcdcd]"
+    "bg-transparent text-[#E73B3B] border-transparent [&>.indicator]:bg-[#E73B3B] hover:[&>button]:text-[#F0756A]"
   end
 
   defp color_variant("transparent", "info") do
-    "bg-transparent text-[#6663FD] border-transparent [&>.indicator]:bg-[#6663FD] hover:[&>button]:text-[#cce1ff]"
+    "bg-transparent text-[#6663FD] border-transparent [&>.indicator]:bg-[#6663FD] hover:[&>button]:text-[#3680DB]"
   end
 
   defp color_variant("transparent", "misc") do
-    "bg-transparent text-[#52059C] border-transparent [&>.indicator]:bg-[#52059C] hover:[&>button]:text-[#ffe0ff]"
+    "bg-transparent text-[#52059C] border-transparent [&>.indicator]:bg-[#52059C] hover:[&>button]:text-[#8535C3]"
   end
 
   defp color_variant("transparent", "dawn") do
@@ -382,15 +382,15 @@ defmodule MishkaChelekom.Badge do
   end
 
   defp color_variant("transparent", "light") do
-    "bg-transparent text-[#707483] border-transparent [&>.indicator]:bg-[#707483] hover:[&>button]:text-[#d2d8e9]"
+    "bg-transparent text-[#707483] border-transparent [&>.indicator]:bg-[#707483] hover:[&>button]:text-[#A0A5B4]"
   end
 
   defp color_variant("transparent", "dark") do
-    "bg-transparent text-[#1E1E1E] border-transparent [&>.indicator]:bg-[#1E1E1E] hover:[&>button]:text-[#869093]"
+    "bg-transparent text-[#1E1E1E] border-transparent [&>.indicator]:bg-[#1E1E1E] hover:[&>button]:text-[#787878]"
   end
 
   defp color_variant("shadow", "white") do
-    "bg-white text-[#3E3E3E] border-[#DADADA] shadow [&>.indicator]:bg-[#3E3E3E] hover:[&>button]:text-[#ededed]"
+    "bg-white text-[#3E3E3E] border-[#DADADA] shadow [&>.indicator]:bg-[#3E3E3E] hover:[&>button]:text-[#787878]"
   end
 
   defp color_variant("shadow", "primary") do
@@ -402,23 +402,23 @@ defmodule MishkaChelekom.Badge do
   end
 
   defp color_variant("shadow", "success") do
-    "bg-[#AFEAD0] text-[#227A52] border-[#AFEAD0] shadow [&>.indicator]:bg-[#227A52] hover:[&>button]:text-[#d4fde4]"
+    "bg-[#AFEAD0] text-[#227A52] border-[#AFEAD0] shadow [&>.indicator]:bg-[#227A52] hover:[&>button]:text-[#50AF7A]"
   end
 
   defp color_variant("shadow", "warning") do
-    "bg-[#FFF8E6] text-[#FF8B08] border-[#FFF8E6] shadow [&>.indicator]:bg-[#FF8B08] hover:[&>button]:text-[#fff1cd]"
+    "bg-[#FFF8E6] text-[#FF8B08] border-[#FFF8E6] shadow [&>.indicator]:bg-[#FF8B08] hover:[&>button]:text-[#FFB045]"
   end
 
   defp color_variant("shadow", "danger") do
-    "bg-[#FFE6E6] text-[#E73B3B] border-[#FFE6E6] shadow [&>.indicator]:bg-[#E73B3B] hover:[&>button]:text-[#ffcdcd]"
+    "bg-[#FFE6E6] text-[#E73B3B] border-[#FFE6E6] shadow [&>.indicator]:bg-[#E73B3B] hover:[&>button]:text-[#F0756A]"
   end
 
   defp color_variant("shadow", "info") do
-    "bg-[#E5F0FF] text-[#004FC4] border-[#E5F0FF] shadow [&>.indicator]:bg-[#004FC4] hover:[&>button]:text-[#cce1ff]"
+    "bg-[#E5F0FF] text-[#004FC4] border-[#E5F0FF] shadow [&>.indicator]:bg-[#004FC4] hover:[&>button]:text-[#3680DB]"
   end
 
   defp color_variant("shadow", "misc") do
-    "bg-[#FFE6FF] text-[#52059C] border-[#FFE6FF] shadow [&>.indicator]:bg-[#52059C] hover:[&>button]:text-[#ffe0ff]"
+    "bg-[#FFE6FF] text-[#52059C] border-[#FFE6FF] shadow [&>.indicator]:bg-[#52059C] hover:[&>button]:text-[#8535C3]"
   end
 
   defp color_variant("shadow", "dawn") do
@@ -426,11 +426,11 @@ defmodule MishkaChelekom.Badge do
   end
 
   defp color_variant("shadow", "light") do
-    "bg-[#E3E7F1] text-[#707483] border-[#E3E7F1] shadow [&>.indicator]:bg-[#707483] hover:[&>button]:text-[#d2d8e9]"
+    "bg-[#E3E7F1] text-[#707483] border-[#E3E7F1] shadow [&>.indicator]:bg-[#707483] hover:[&>button]:text-[#A0A5B4]"
   end
 
   defp color_variant("shadow", "dark") do
-    "bg-[#1E1E1E] text-white border-[#1E1E1E] shadow [&>.indicator]:bg-white hover:[&>button]:text-[#869093]"
+    "bg-[#1E1E1E] text-white border-[#1E1E1E] shadow [&>.indicator]:bg-white hover:[&>button]:text-[#787878]"
   end
 
   defp color_variant(_, _), do: color_variant("default", "white")
