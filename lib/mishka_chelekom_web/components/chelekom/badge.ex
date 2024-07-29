@@ -452,23 +452,23 @@ defmodule MishkaChelekom.Badge do
   defp indicator_size(nil), do: nil
 
   defp size_class("extra_small", circle) do
-    [is_nil(circle) && "px-2 py-0.5", "text-xs [&>.indicator]:size-1", !is_nil(circle) && "size-5"]
+    [is_nil(circle) && "px-2 py-0.5", "text-xs [&>.indicator]:size-1", !is_nil(circle) && "size-6"]
   end
 
   defp size_class("small", circle) do
-    [is_nil(circle) && "px-2.5 py-1", "text-sm [&>.indicator]:size-1.5", !is_nil(circle) && "size-6"]
+    [is_nil(circle) && "px-2.5 py-1", "text-sm [&>.indicator]:size-1.5", !is_nil(circle) && "size-7"]
   end
 
   defp size_class("medium", circle) do
-    [is_nil(circle) && "px-2.5 py-1.5", "text-base [&>.indicator]:size-2", !is_nil(circle) && "size-7"]
+    [is_nil(circle) && "px-2.5 py-1.5", "text-base [&>.indicator]:size-2", !is_nil(circle) && "size-8"]
   end
 
   defp size_class("large", circle) do
-    [is_nil(circle) && "px-3 py-2", "text-lg [&>.indicator]:size-2.5", !is_nil(circle) && "size-8"]
+    [is_nil(circle) && "px-3 py-2", "text-lg [&>.indicator]:size-2.5", !is_nil(circle) && "size-9"]
   end
 
   defp size_class("extra_large", circle) do
-    [is_nil(circle) && "px-3.5 py-2.5", "text-xl [&>.indicator]:size-3", !is_nil(circle) && "size-9"]
+    [is_nil(circle) && "px-3.5 py-2.5", "text-xl [&>.indicator]:size-3", !is_nil(circle) && "size-10"]
   end
 
   defp size_class(params, _circle) when is_binary(params), do: params
