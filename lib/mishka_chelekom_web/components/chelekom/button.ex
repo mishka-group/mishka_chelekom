@@ -245,7 +245,7 @@ defmodule MishkaChelekom.Button do
   end
 
   defp color_variant("outline", "white") do
-    "bg-transparent text-white border-white hover:text-[#ededed] hover:border-[#d9d9d9]"
+    "bg-transparent text-white border-white hover:text-[#ededed] hover:border-[#ededed]"
   end
 
   defp color_variant("outline", "primary") do
@@ -257,35 +257,35 @@ defmodule MishkaChelekom.Button do
   end
 
   defp color_variant("outline", "success") do
-    "bg-transparent text-[#227A52] border-[#6EE7B7] hover:text-[#d4fde4] hover:border-[#6EE7B7]"
+    "bg-transparent text-[#227A52] border-[#227A52] hover:text-[#50AF7A] hover:border-[#50AF7A]"
   end
 
   defp color_variant("outline", "warning") do
-    "bg-transparent text-[#FF8B08] border-[#FF8B08] hover:text-[#fff1cd] hover:border-[#fff1cd]"
+    "bg-transparent text-[#FF8B08] border-[#FF8B08] hover:text-[#FFB045] hover:border-[#FFB045]"
   end
 
   defp color_variant("outline", "danger") do
-    "bg-transparent text-[#E73B3B] border-[#E73B3B] hover:text-[#ffcdcd] hover:border-[#ffcdcd]"
+    "bg-transparent text-[#E73B3B] border-[#E73B3B] hover:text-[#F0756A] hover:border-[#F0756A]"
   end
 
   defp color_variant("outline", "info") do
-    "bg-transparent text-[#004FC4] border-[#004FC4] hover:text-[#cce1ff] hover:border-[#cce1ff]"
+    "bg-transparent text-[#004FC4] border-[#004FC4] hover:text-[#3680DB] hover:border-[#3680DB]"
   end
 
   defp color_variant("outline", "misc") do
-    "bg-transparent text-[#52059C] border-[#52059C] hover:text-[#ffe0ff] hover:border-[#ffe0ff]"
+    "bg-transparent text-[#52059C] border-[#52059C] hover:text-[#8535C3] hover:border-[#8535C3]"
   end
 
   defp color_variant("outline", "dawn") do
-    "bg-transparent text-[#4D4137] border-[#4D4137] hover:text-[#FFECDA] hover:border-[#FFECDA]"
+    "bg-transparent text-[#4D4137] border-[#4D4137] hover:text-[#948474] hover:border-[#948474]"
   end
 
   defp color_variant("outline", "light") do
-    "bg-transparent text-[#707483] border-[#707483] hover:text-[#d2d8e9] hover:border-[#d2d8e9]"
+    "bg-transparent text-[#707483] border-[#707483] hover:text-[#A0A5B4] hover:border-[#A0A5B4]"
   end
 
   defp color_variant("outline", "dark") do
-    "bg-transparent text-[#1E1E1E] border-[#1E1E1E] hover:text-[#111111] hover:border-[#111111]"
+    "bg-transparent text-[#1E1E1E] border-[#1E1E1E] hover:text-[#787878] hover:border-[#787878]"
   end
 
   defp color_variant("transparent", "white") do
@@ -301,35 +301,35 @@ defmodule MishkaChelekom.Button do
   end
 
   defp color_variant("transparent", "success") do
-    "bg-transparent text-[#227A52] border-transparent hover:text-[#d4fde4]"
+    "bg-transparent text-[#227A52] border-transparent hover:text-[#50AF7A]"
   end
 
   defp color_variant("transparent", "warning") do
-    "bg-transparent text-[#FF8B08] border-transparent hover:text-[#fff1cd]"
+    "bg-transparent text-[#FF8B08] border-transparent hover:text-[#FFB045]"
   end
 
   defp color_variant("transparent", "danger") do
-    "bg-transparent text-[#E73B3B] border-transparent hover:text-[#ffcdcd]"
+    "bg-transparent text-[#E73B3B] border-transparent hover:text-[#F0756A]"
   end
 
   defp color_variant("transparent", "info") do
-    "bg-transparent text-[#6663FD] border-transparent hover:text-[#cce1ff]"
+    "bg-transparent text-[#6663FD] border-transparent hover:text-[#3680DB]"
   end
 
   defp color_variant("transparent", "misc") do
-    "bg-transparent text-[#52059C] border-transparent hover:text-[#ffe0ff]"
+    "bg-transparent text-[#52059C] border-transparent hover:text-[#8535C3]"
   end
 
   defp color_variant("transparent", "dawn") do
-    "bg-transparent text-[#4D4137] border-transparent hover:text-[#FFECDA]"
+    "bg-transparent text-[#4D4137] border-transparent hover:text-[#948474]"
   end
 
   defp color_variant("transparent", "light") do
-    "bg-transparent text-[#707483] border-transparent hover:text-[#d2d8e9]"
+    "bg-transparent text-[#707483] border-transparent hover:text-[#A0A5B4]"
   end
 
   defp color_variant("transparent", "dark") do
-    "bg-transparent text-[#1E1E1E] border-transparent hover:text-[#111111]"
+    "bg-transparent text-[#1E1E1E] border-transparent hover:text-[#787878]"
   end
 
   defp color_variant("subtle", "white") do
@@ -357,7 +357,7 @@ defmodule MishkaChelekom.Button do
   end
 
   defp color_variant("subtle", "info") do
-    "bg-transparent text-[#6663FD] border-transparent hover:bg-[#6663FD] hover:text-[#103483]"
+    "bg-transparent text-[#6663FD] border-transparent hover:bg-[#E5F0FF] hover:text-[#103483]"
   end
 
   defp color_variant("subtle", "misc") do
