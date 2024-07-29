@@ -64,8 +64,6 @@ defmodule MishkaChelekom.Badge do
   slot :inner_block, required: false, doc: ""
 
   def badge(assigns) do
-    IO.inspect(assigns.rest)
-
     ~H"""
     <div
       id={@id}
