@@ -1,4 +1,4 @@
-defmodule MishkaChelekom.Hr do
+defmodule MishkaChelekom.Divider do
   use Phoenix.Component
   import MishkaChelekomWeb.CoreComponents
 
@@ -15,6 +15,34 @@ defmodule MishkaChelekom.Hr do
     "misc",
     "dawn"
   ]
+
+  @doc type: :component
+  attr :id, :string, default: nil, doc: ""
+  attr :type, :string, values: ["dashed", "dotted", "solid"], default: "solid", doc: ""
+  attr :color, :string, values: @colors, default: "light", doc: ""
+  attr :size, :string, default: "extra_small", doc: ""
+  attr :width, :string, default: "full", doc: ""
+
+  slot :text, required: false do
+    attr :class, :string
+    attr :color, :string
+  end
+
+  slot :icon, required: false do
+    attr :name, :string, required: true
+    attr :class, :string
+    attr :icon_class, :string
+    attr :color, :string
+    attr :size, :string
+  end
+
+  attr :class, :string, default: nil, doc: ""
+  attr :rest, :global
+
+  def divider(assigns) do
+    ~H"""
+    """
+  end
 
   @doc type: :component
   attr :id, :string, default: nil, doc: ""
@@ -68,7 +96,7 @@ defmodule MishkaChelekom.Hr do
       >
         <.icon name={icon[:name]} class={icon[:icon_class] || ""} />
       </div>
-       <%!-- Text --%>
+      <%!-- Text --%>
       <div
         :for={text <- @text}
         class={[

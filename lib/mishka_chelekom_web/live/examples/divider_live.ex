@@ -1,4 +1,4 @@
-defmodule MishkaChelekomWeb.Examples.HrLive do
+defmodule MishkaChelekomWeb.Examples.DividerLive do
   use Phoenix.LiveView
   use Phoenix.Component
 

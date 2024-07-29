@@ -30,7 +30,7 @@ defmodule MishkaChelekomWeb.Router do
 
     live "/examples/button", Examples.ButtonLive
     live "/examples/typography", Examples.TypographyLive
-    live "/examples/hr", Examples.HrLive
+    live "/examples/divider", Examples.DividerLive
     live "/examples/badge", Examples.BadgeLive
     live "/examples/avatar", Examples.AvatarLive
     live "/examples/breadcrumb", Examples.BreadcrumbLive
