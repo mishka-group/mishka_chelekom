@@ -2,8 +2,6 @@ defmodule MishkaChelekom.Button do
   use Phoenix.Component
   import MishkaChelekomComponents
 
-  # TODO: We need Gradient
-  # TODO: We need Button with label (number, pils , badge and etc)
   # TODO: We need Loader for Button, after creating spinner module
 
   @sizes ["extra_small", "small", "medium", "large", "extra_large"]
@@ -33,6 +31,20 @@ defmodule MishkaChelekom.Button do
     "misc",
     "dawn",
     "transparent"
+  ]
+
+  @indicator_positions [
+    "indicator",
+    "right_indicator",
+    "left_indicator",
+    "top_left_indicator",
+    "top_center_indicator",
+    "top_right_indicator",
+    "middle_left_indicator",
+    "middle_right_indicator",
+    "bottom_left_indicator",
+    "bottom_center_indicator",
+    "bottom_right_indicator"
   ]
 
   @doc """
@@ -85,7 +97,14 @@ defmodule MishkaChelekom.Button do
   attr :class, :string, default: nil, doc: ""
   attr :icon, :string, default: nil, doc: ""
   attr :font_weight, :string, default: "font-normal", doc: ""
-  attr :rest, :global, include: ~w(disabled form name value right_icon left_icon), doc: ""
+  attr :indicator_class, :string, default: nil, doc: ""
+  attr :indicator_size, :string, default: nil, doc: ""
+
+  attr :rest, :global,
+    include:
+      ~w(disabled form name value right_icon left_icon pinging circle) ++ @indicator_positions,
+    doc: ""
+
   slot :inner_block, required: false, doc: ""
 
   def button(assigns) do
@@ -94,19 +113,22 @@ defmodule MishkaChelekom.Button do
       type={@type}
       id={@id}
       class={
-        default_classes() ++
+        default_classes(@rest[:pinging]) ++
+          size_class(@size, @rest[:circle]) ++
           [
             color_variant(@variant, @color),
             rounded_size(@rounded),
-            size_class(@size),
             @font_weight,
             @class
           ]
       }
-      {Map.drop(@rest, [:right_icon, :left_icon])}
+      {drop_rest(@rest)}
     >
-      <.icon :if={icon_position(@icon, @rest) == "left"} name={@icon} /> <%= render_slot(@inner_block) %>
+      <.button_indicator position="left" size={@indicator_size} class={@indicator_class} {@rest} />
+      <.icon :if={icon_position(@icon, @rest) == "left"} name={@icon} />
+      <span class="leading-none"><%= render_slot(@inner_block) %></span>
       <.icon :if={icon_position(@icon, @rest) == "right"} name={@icon} />
+      <.button_indicator size={@indicator_size} class={@indicator_class} {@rest} />
     </button>
     """
   end
@@ -123,10 +145,13 @@ defmodule MishkaChelekom.Button do
   attr :class, :string, default: nil, doc: ""
   attr :icon, :string, default: nil, doc: ""
   attr :font_weight, :string, default: "font-normal", doc: ""
+  attr :indicator_class, :string, default: nil, doc: ""
+  attr :indicator_size, :string, default: nil, doc: ""
 
   attr :rest, :global,
     include:
-      ~w(right_icon left_icon download hreflang referrerpolicy rel target type csrf_token method replace),
+      ~w(right_icon left_icon pinging circle download hreflang referrerpolicy rel target type csrf_token method replace) ++
+        @indicator_positions,
     doc: ""
 
   slot :inner_block, required: false, doc: ""
@@ -137,19 +162,22 @@ defmodule MishkaChelekom.Button do
       navigate={@navigate}
       id={@id}
       class={
-        default_classes() ++
+        default_classes(@rest[:pinging]) ++
+          size_class(@size, @rest[:circle]) ++
           [
             color_variant(@variant, @color),
             rounded_size(@rounded),
-            size_class(@size),
             @font_weight,
             @class
           ]
       }
-      {@rest}
+      {drop_rest(@rest)}
     >
-      <.icon :if={icon_position(@icon, @rest) == "left"} name={@icon} /> <%= render_slot(@inner_block) %>
+      <.button_indicator position="left" size={@indicator_size} class={@indicator_class} {@rest} />
+      <.icon :if={icon_position(@icon, @rest) == "left"} name={@icon} />
+      <span class="leading-none"><%= render_slot(@inner_block) %></span>
       <.icon :if={icon_position(@icon, @rest) == "right"} name={@icon} />
+      <.button_indicator size={@indicator_size} class={@indicator_class} {@rest} />
     </.link>
     """
   end
@@ -160,19 +188,22 @@ defmodule MishkaChelekom.Button do
       patch={@patch}
       id={@id}
       class={
-        default_classes() ++
+        default_classes(@rest[:pinging]) ++
+          size_class(@size, @rest[:circle]) ++
           [
             color_variant(@variant, @color),
             rounded_size(@rounded),
-            size_class(@size),
             @font_weight,
             @class
           ]
       }
-      {@rest}
+      {drop_rest(@rest)}
     >
-      <.icon :if={icon_position(@icon, @rest) == "left"} name={@icon} /> <%= render_slot(@inner_block) %>
+      <.button_indicator position="left" size={@indicator_size} class={@indicator_class} {@rest} />
+      <.icon :if={icon_position(@icon, @rest) == "left"} name={@icon} />
+      <span class="leading-none"><%= render_slot(@inner_block) %></span>
       <.icon :if={icon_position(@icon, @rest) == "right"} name={@icon} />
+      <.button_indicator size={@indicator_size} class={@indicator_class} {@rest} />
     </.link>
     """
   end
@@ -183,20 +214,131 @@ defmodule MishkaChelekom.Button do
       href={@href}
       id={@id}
       class={
-        default_classes() ++
+        default_classes(@rest[:pinging]) ++
+          size_class(@size, @rest[:circle]) ++
           [
             color_variant(@variant, @color),
             rounded_size(@rounded),
-            size_class(@size),
             @font_weight,
             @class
           ]
       }
-      {@rest}
+      {drop_rest(@rest)}
     >
-      <.icon :if={icon_position(@icon, @rest) == "left"} name={@icon} /> <%= render_slot(@inner_block) %>
+      <.button_indicator position="left" size={@indicator_size} class={@indicator_class} {@rest} />
+      <.icon :if={icon_position(@icon, @rest) == "left"} name={@icon} />
+      <span class="leading-none"><%= render_slot(@inner_block) %></span>
       <.icon :if={icon_position(@icon, @rest) == "right"} name={@icon} />
+      <.button_indicator size={@indicator_size} class={@indicator_class} {@rest} />
     </.link>
+    """
+  end
+
+  attr :position, :string, default: "none"
+  attr :class, :string, default: nil
+  attr :size, :string
+  attr :rest, :global
+
+  defp button_indicator(%{position: "left", rest: %{left_indicator: true}} = assigns) do
+    ~H"""
+    <span class={["indicator", indicator_size(@size), @class]} />
+    """
+  end
+
+  defp button_indicator(%{position: "left", rest: %{indicator: true}} = assigns) do
+    ~H"""
+    <span class={["indicator", indicator_size(@size), @class]} />
+    """
+  end
+
+  defp button_indicator(%{position: "none", rest: %{right_indicator: true}} = assigns) do
+    ~H"""
+    <span class={["indicator", indicator_size(@size), @class]} />
+    """
+  end
+
+  defp button_indicator(%{position: "none", rest: %{top_left_indicator: true}} = assigns) do
+    ~H"""
+    <span class={[
+      "indicator",
+      indicator_size(@size),
+      @class || "absolute -translate-y-1/2 -translate-x-1/2 right-auto top-0 left-0"
+    ]} />
+    """
+  end
+
+  defp button_indicator(%{position: "none", rest: %{top_center_indicator: true}} = assigns) do
+    ~H"""
+    <span class={[
+      "indicator",
+      indicator_size(@size),
+      @class || "absolute -translate-y-1/2 translate-x-1/2 right-1/2"
+    ]} />
+    """
+  end
+
+  defp button_indicator(%{position: "none", rest: %{top_right_indicator: true}} = assigns) do
+    ~H"""
+    <span class={[
+      "indicator",
+      indicator_size(@size),
+      @class || "absolute -translate-y-1/2 translate-x-1/2 left-auto top-0 right-0"
+    ]} />
+    """
+  end
+
+  defp button_indicator(%{position: "none", rest: %{middle_left_indicator: true}} = assigns) do
+    ~H"""
+    <span class={[
+      "indicator",
+      indicator_size(@size),
+      @class || "absolute -translate-y-1/2 -translate-x-1/2 right-auto left-0 top-2/4"
+    ]} />
+    """
+  end
+
+  defp button_indicator(%{position: "none", rest: %{middle_right_indicator: true}} = assigns) do
+    ~H"""
+    <span class={[
+      "indicator",
+      indicator_size(@size),
+      @class || "absolute -translate-y-1/2 translate-x-1/2 left-auto right-0 top-2/4"
+    ]} />
+    """
+  end
+
+  defp button_indicator(%{position: "none", rest: %{bottom_left_indicator: true}} = assigns) do
+    ~H"""
+    <span class={[
+      "indicator",
+      indicator_size(@size),
+      @class || "absolute translate-y-1/2 -translate-x-1/2 right-auto bottom-0 left-0"
+    ]} />
+    """
+  end
+
+  defp button_indicator(%{position: "none", rest: %{bottom_center_indicator: true}} = assigns) do
+    ~H"""
+    <span class={[
+      "indicator",
+      indicator_size(@size),
+      @class || "absolute translate-y-1/2 translate-x-1/2 bottom-0 right-1/2"
+    ]} />
+    """
+  end
+
+  defp button_indicator(%{position: "none", rest: %{bottom_right_indicator: true}} = assigns) do
+    ~H"""
+    <span class={[
+      "indicator",
+      indicator_size(@size),
+      @class || "absolute translate-y-1/2 translate-x-1/2 left-auto bottom-0 right-0"
+    ]} />
+    """
+  end
+
+  defp button_indicator(assigns) do
+    ~H"""
     """
   end
 
@@ -638,14 +780,49 @@ defmodule MishkaChelekom.Button do
   defp rounded_size("full"), do: "rounded-full"
   defp rounded_size("none"), do: "rounded-none"
 
-  defp size_class("extra_small"), do: "py-1 px-2 text-xs"
-  defp size_class("small"), do: "py-1.5 px-3 text-sm"
-  defp size_class("medium"), do: "py-2 px-4 text-base"
-  defp size_class("large"), do: "py-2.5 px-5 text-lg"
-  defp size_class("extra_large"), do: "py-3 px-5 text-xl"
-  defp size_class("full_width"), do: "py-2 px-4 w-full text-base"
-  defp size_class(params) when is_binary(params), do: params
-  defp size_class(_), do: size_class("large")
+  defp size_class("extra_small", circle) do
+    [
+      is_nil(circle) && "px-2 py-0.5",
+      "text-xs [&>.indicator]:size-1",
+      !is_nil(circle) && "size-6"
+    ]
+  end
+
+  defp size_class("small", circle) do
+    [
+      is_nil(circle) && "px-2.5 py-1",
+      "text-sm [&>.indicator]:size-1.5",
+      !is_nil(circle) && "size-7"
+    ]
+  end
+
+  defp size_class("medium", circle) do
+    [
+      is_nil(circle) && "px-2.5 py-1.5",
+      "text-base [&>.indicator]:size-2",
+      !is_nil(circle) && "size-8"
+    ]
+  end
+
+  defp size_class("large", circle) do
+    [
+      is_nil(circle) && "px-3 py-2",
+      "text-lg [&>.indicator]:size-2.5",
+      !is_nil(circle) && "size-9"
+    ]
+  end
+
+  defp size_class("extra_large", circle) do
+    [
+      is_nil(circle) && "px-3.5 py-2.5",
+      "text-xl [&>.indicator]:size-3",
+      !is_nil(circle) && "size-10"
+    ]
+  end
+
+  defp size_class(params, _circle) when is_binary(params), do: [params]
+
+  defp size_class(_, _circle), do: size_class("large", nil)
 
   defp icon_position(nil, _), do: false
   defp icon_position(_icon, %{left_icon: true}), do: "left"
@@ -660,20 +837,37 @@ defmodule MishkaChelekom.Button do
     "flex-col [&>*:not(:last-child)]:border-b"
   end
 
-  defp default_classes do
-    [
-      "phx-submit-loading:opacity-75 inline-flex gap-2 items-center justify-center border",
-      "transition-all ease-in-ou duration-100 group",
-      "disabled:bg-opacity-60 disabled:border-opacity-40 disabled:cursor-not-allowed disabled:text-opacity-60",
-      "disabled:cursor-not-allowed",
-      "focus:outline-none"
-    ]
-  end
+  defp indicator_size("extra_small"), do: "!size-2"
+  defp indicator_size("small"), do: "!size-2.5"
+  defp indicator_size("medium"), do: "!size-3"
+  defp indicator_size("large"), do: "!size-3.5"
+  defp indicator_size("extra_large"), do: "!size-4"
+  defp indicator_size(params) when is_binary(params), do: params
+  defp indicator_size(nil), do: nil
 
   defp default_classes(:grouped) do
     [
       "phx-submit-loading:opacity-75 overflow-hidden bg-white flex w-fit rounded-lg border",
       "[&>*]:rounded-none [&>*]:border-0"
     ]
+  end
+
+  defp default_classes(pinging) do
+    [
+      "phx-submit-loading:opacity-75 inline-flex gap-2 items-center justify-center border",
+      "transition-all ease-in-ou duration-100 group",
+      "disabled:bg-opacity-60 disabled:border-opacity-40 disabled:cursor-not-allowed disabled:text-opacity-60",
+      "disabled:cursor-not-allowed",
+      "focus:outline-none",
+      !is_nil(pinging) && "[&>.indicator]:animate-ping"
+    ]
+  end
+
+  defp drop_rest(rest) do
+    all_rest =
+      (["pinging", "circle", "right_icon", "left_icon"] ++ @indicator_positions)
+      |> Enum.map(&if(is_binary(&1), do: String.to_atom(&1), else: &1))
+
+    Map.drop(rest, all_rest)
   end
 end
