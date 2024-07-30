@@ -41,6 +41,43 @@ defmodule MishkaChelekom.Divider do
 
   def divider(assigns) do
     ~H"""
+    <div  id={@id}
+        class={
+          default_classes() ++
+            [
+              "has-[.divider-content]:flex has-[.divider-content.middle]:bg-red-400",
+              color_class(@color),
+              border_type_class(@type),
+              width_class(@width),
+              size_class(@size),
+              @class
+            ]
+        }
+        {@rest}>
+        <div
+        :for={icon <- @icon}
+        class={[
+          "divider-content whitespace-nowrap",
+          icon[:size] || size_class(@size, :icon),
+          icon[:color] || color_class(@color),
+          icon[:class] || "bg-transparent"
+        ]}
+      >
+        <.icon name={icon[:name]} class={icon[:icon_class] || ""} />
+      </div>
+       <%!-- Text --%>
+      <div
+        :for={text <- @text}
+        class={[
+          "divider-content whitespace-nowrap",
+          text[:color] || color_class(@color),
+          text[:class] || "bg-transparent",
+          hr_text_position(text[:position]),
+          text[:size]
+        ]}
+      >
+        <%= render_slot(text) %>
+      </div></div>
     """
   end
 
@@ -98,7 +135,7 @@ defmodule MishkaChelekom.Divider do
       >
         <.icon name={icon[:name]} class={icon[:icon_class] || ""} />
       </div>
-      <%!-- Text --%>
+       <%!-- Text --%>
       <div
         :for={text <- @text}
         class={[
@@ -116,11 +153,11 @@ defmodule MishkaChelekom.Divider do
     """
   end
 
-  defp size_class("extra_small"), do: "border-t text-xs"
-  defp size_class("small"), do: "border-t-2 text-sm"
-  defp size_class("medium"), do: "border-t-[3px] text-base"
-  defp size_class("large"), do: "border-t-4 text-lg"
-  defp size_class("extra_large"), do: "border-t-[5px] text-xl"
+  defp size_class("extra_small"), do: "border-t text-xs my-2"
+  defp size_class("small"), do: "border-t-2 text-sm my-3"
+  defp size_class("medium"), do: "border-t-[3px] text-base my-4"
+  defp size_class("large"), do: "border-t-4 text-lg my-5"
+  defp size_class("extra_large"), do: "border-t-[5px] text-xl my-6"
   defp size_class(params) when is_binary(params), do: params
   defp size_class(_), do: size_class("extra_small")
 
@@ -209,7 +246,7 @@ defmodule MishkaChelekom.Divider do
 
   defp default_classes() do
     [
-      "my-5 mx-auto"
+      "mx-auto"
     ]
   end
 end
