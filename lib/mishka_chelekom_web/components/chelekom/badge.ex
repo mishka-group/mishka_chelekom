@@ -143,7 +143,7 @@ defmodule MishkaChelekom.Badge do
     <span class={[
       "indicator",
       indicator_size(@size),
-      @class || "absolute -translate-y-1/2 translate-x-1/2 right-1/2"
+      @class || "absolute top-0 -translate-y-1/2 translate-x-1/2 right-1/2"
     ]} />
     """
   end
