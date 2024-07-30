@@ -65,6 +65,7 @@ defmodule MishkaChelekom.Avatar do
   attr :class, :string, default: nil, doc: ""
   attr :space, :string, values: @sizes ++ ["none"], default: "medium", doc: ""
   attr :rest, :global
+  slot :inner_block, required: false, doc: ""
 
   def avatar_group(assigns) do
     ~H"""
