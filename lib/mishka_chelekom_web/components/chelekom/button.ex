@@ -125,7 +125,8 @@ defmodule MishkaChelekom.Button do
       {drop_rest(@rest)}
     >
       <.button_indicator position="left" size={@indicator_size} class={@indicator_class} {@rest} />
-      <.icon :if={icon_position(@icon, @rest) == "left"} name={@icon} /> <%= render_slot(@inner_block) %>
+      <.icon :if={icon_position(@icon, @rest) == "left"} name={@icon} />
+      <%= render_slot(@inner_block) %>
       <.icon :if={icon_position(@icon, @rest) == "right"} name={@icon} />
       <.button_indicator size={@indicator_size} class={@indicator_class} {@rest} />
     </button>
@@ -173,7 +174,8 @@ defmodule MishkaChelekom.Button do
       {drop_rest(@rest)}
     >
       <.button_indicator position="left" size={@indicator_size} class={@indicator_class} {@rest} />
-      <.icon :if={icon_position(@icon, @rest) == "left"} name={@icon} /> <%= render_slot(@inner_block) %>
+      <.icon :if={icon_position(@icon, @rest) == "left"} name={@icon} />
+      <%= render_slot(@inner_block) %>
       <.icon :if={icon_position(@icon, @rest) == "right"} name={@icon} />
       <.button_indicator size={@indicator_size} class={@indicator_class} {@rest} />
     </.link>
@@ -198,7 +200,8 @@ defmodule MishkaChelekom.Button do
       {drop_rest(@rest)}
     >
       <.button_indicator position="left" size={@indicator_size} class={@indicator_class} {@rest} />
-      <.icon :if={icon_position(@icon, @rest) == "left"} name={@icon} /> <%= render_slot(@inner_block) %>
+      <.icon :if={icon_position(@icon, @rest) == "left"} name={@icon} />
+      <%= render_slot(@inner_block) %>
       <.icon :if={icon_position(@icon, @rest) == "right"} name={@icon} />
       <.button_indicator size={@indicator_size} class={@indicator_class} {@rest} />
     </.link>
@@ -223,7 +226,8 @@ defmodule MishkaChelekom.Button do
       {drop_rest(@rest)}
     >
       <.button_indicator position="left" size={@indicator_size} class={@indicator_class} {@rest} />
-      <.icon :if={icon_position(@icon, @rest) == "left"} name={@icon} /> <%= render_slot(@inner_block) %>
+      <.icon :if={icon_position(@icon, @rest) == "left"} name={@icon} />
+      <%= render_slot(@inner_block) %>
       <.icon :if={icon_position(@icon, @rest) == "right"} name={@icon} />
       <.button_indicator size={@indicator_size} class={@indicator_class} {@rest} />
     </.link>
