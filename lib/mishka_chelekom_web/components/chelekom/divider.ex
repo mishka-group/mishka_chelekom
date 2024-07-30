@@ -106,7 +106,7 @@ defmodule MishkaChelekom.Divider do
           "-translate-x-1/2 whitespace-nowrap",
           text[:color] || color_class(@color),
           text[:class] || "bg-white",
-          text[:position],
+          hr_text_position(text[:position]),
           text[:size]
         ]}
       >
@@ -192,6 +192,20 @@ defmodule MishkaChelekom.Divider do
   defp border_type_class("solid") do
     "border-solid"
   end
+
+  defp hr_text_position("right") do
+    "111"
+  end
+
+  defp hr_text_position("left") do
+    "111"
+  end
+
+  defp hr_text_position("middle") do
+    "111"
+  end
+
+  defp hr_text_position(_), do: hr_text_position("middle")
 
   defp default_classes() do
     [
