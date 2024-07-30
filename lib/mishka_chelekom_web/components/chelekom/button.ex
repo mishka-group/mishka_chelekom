@@ -861,6 +861,7 @@ defmodule MishkaChelekom.Button do
       "disabled:bg-opacity-60 disabled:border-opacity-40 disabled:cursor-not-allowed disabled:text-opacity-60",
       "disabled:cursor-not-allowed",
       "focus:outline-none",
+      "[&>.indicator]:inline-block [&>.indicator]:shrink-0 [&>.indicator]:rounded-full",
       !is_nil(pinging) && "[&>.indicator]:animate-ping"
     ]
   end
