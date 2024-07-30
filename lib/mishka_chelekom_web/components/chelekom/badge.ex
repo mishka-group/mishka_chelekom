@@ -82,7 +82,7 @@ defmodule MishkaChelekom.Badge do
       <.badge_dismiss :if={dismiss_position(@rest) == "left"} id={@id} />
       <.badge_indicator position="left" size={@indicator_size} class={@indicator_class} {@rest} />
       <.icon :if={icon_position(@icon, @rest) == "left"} name={@icon} />
-      <span class="leading-none"><%= render_slot(@inner_block) %></span>
+      <div class="leading-none"><%= render_slot(@inner_block) %></div>
       <.icon :if={icon_position(@icon, @rest) == "right"} name={@icon} />
       <.badge_indicator size={@indicator_size} class={@indicator_class} {@rest} />
       <.badge_dismiss :if={dismiss_position(@rest) == "right"} id={@id} />

@@ -126,7 +126,7 @@ defmodule MishkaChelekom.Button do
     >
       <.button_indicator position="left" size={@indicator_size} class={@indicator_class} {@rest} />
       <.icon :if={icon_position(@icon, @rest) == "left"} name={@icon} />
-      <span class="leading-none"><%= render_slot(@inner_block) %></span>
+      <%= render_slot(@inner_block) %>
       <.icon :if={icon_position(@icon, @rest) == "right"} name={@icon} />
       <.button_indicator size={@indicator_size} class={@indicator_class} {@rest} />
     </button>
@@ -175,7 +175,7 @@ defmodule MishkaChelekom.Button do
     >
       <.button_indicator position="left" size={@indicator_size} class={@indicator_class} {@rest} />
       <.icon :if={icon_position(@icon, @rest) == "left"} name={@icon} />
-      <span class="leading-none"><%= render_slot(@inner_block) %></span>
+      <%= render_slot(@inner_block) %>
       <.icon :if={icon_position(@icon, @rest) == "right"} name={@icon} />
       <.button_indicator size={@indicator_size} class={@indicator_class} {@rest} />
     </.link>
@@ -201,7 +201,7 @@ defmodule MishkaChelekom.Button do
     >
       <.button_indicator position="left" size={@indicator_size} class={@indicator_class} {@rest} />
       <.icon :if={icon_position(@icon, @rest) == "left"} name={@icon} />
-      <span class="leading-none"><%= render_slot(@inner_block) %></span>
+      <%= render_slot(@inner_block) %>
       <.icon :if={icon_position(@icon, @rest) == "right"} name={@icon} />
       <.button_indicator size={@indicator_size} class={@indicator_class} {@rest} />
     </.link>
@@ -227,7 +227,7 @@ defmodule MishkaChelekom.Button do
     >
       <.button_indicator position="left" size={@indicator_size} class={@indicator_class} {@rest} />
       <.icon :if={icon_position(@icon, @rest) == "left"} name={@icon} />
-      <span class="leading-none"><%= render_slot(@inner_block) %></span>
+      <%= render_slot(@inner_block) %>
       <.icon :if={icon_position(@icon, @rest) == "right"} name={@icon} />
       <.button_indicator size={@indicator_size} class={@indicator_class} {@rest} />
     </.link>
@@ -782,7 +782,7 @@ defmodule MishkaChelekom.Button do
 
   defp size_class("extra_small", circle) do
     [
-      is_nil(circle) && "px-2 py-0.5",
+      is_nil(circle) && "py-1 px-2",
       "text-xs [&>.indicator]:size-1",
       !is_nil(circle) && "size-6"
     ]
@@ -790,7 +790,7 @@ defmodule MishkaChelekom.Button do
 
   defp size_class("small", circle) do
     [
-      is_nil(circle) && "px-2.5 py-1",
+      is_nil(circle) && "py-1.5 px-3",
       "text-sm [&>.indicator]:size-1.5",
       !is_nil(circle) && "size-7"
     ]
@@ -798,7 +798,7 @@ defmodule MishkaChelekom.Button do
 
   defp size_class("medium", circle) do
     [
-      is_nil(circle) && "px-2.5 py-1.5",
+      is_nil(circle) && "py-2 px-4",
       "text-base [&>.indicator]:size-2",
       !is_nil(circle) && "size-8"
     ]
@@ -806,7 +806,7 @@ defmodule MishkaChelekom.Button do
 
   defp size_class("large", circle) do
     [
-      is_nil(circle) && "px-3 py-2",
+      is_nil(circle) && "py-2.5 px-5",
       "text-lg [&>.indicator]:size-2.5",
       !is_nil(circle) && "size-9"
     ]
@@ -814,11 +814,15 @@ defmodule MishkaChelekom.Button do
 
   defp size_class("extra_large", circle) do
     [
-      is_nil(circle) && "px-3.5 py-2.5",
+      is_nil(circle) && "py-3 px-5",
       "text-xl [&>.indicator]:size-3",
       !is_nil(circle) && "size-10"
     ]
   end
+
+  # TODO: Add circle for this size
+  defp size_class("full_width"), do: "py-2 px-4 w-full text-lg"
+  defp size_class("full_width"), do: "py-2 px-4 w-full text-lg"
 
   defp size_class(params, _circle) when is_binary(params), do: [params]
 
@@ -854,7 +858,7 @@ defmodule MishkaChelekom.Button do
 
   defp default_classes(pinging) do
     [
-      "phx-submit-loading:opacity-75 inline-flex gap-2 items-center justify-center border",
+      "phx-submit-loading:opacity-75 relative inline-flex gap-2 items-center justify-center border",
       "transition-all ease-in-ou duration-100 group",
       "disabled:bg-opacity-60 disabled:border-opacity-40 disabled:cursor-not-allowed disabled:text-opacity-60",
       "disabled:cursor-not-allowed",
