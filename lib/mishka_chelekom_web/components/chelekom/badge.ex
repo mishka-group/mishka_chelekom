@@ -507,7 +507,7 @@ defmodule MishkaChelekom.Badge do
 
   defp default_classes(pinging) do
     [
-      "relative inline-flex gap-1.5 justify-center items-center border",
+      " has-[.indicator]:relative inline-flex gap-1.5 justify-center items-center border",
       "[&>.indicator]:inline-block [&>.indicator]:shrink-0 [&>.indicator]:rounded-full",
       !is_nil(pinging) && "[&>.indicator]:animate-ping"
     ]
