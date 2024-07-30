@@ -54,6 +54,8 @@ defmodule MishkaChelekom.Divider do
   slot :text, required: false do
     attr :class, :string
     attr :color, :string
+    attr :size, :string
+    attr :position, :string
   end
 
   slot :icon, required: false do
@@ -104,6 +106,7 @@ defmodule MishkaChelekom.Divider do
           "-translate-x-1/2 whitespace-nowrap",
           text[:color] || color_class(@color),
           text[:class] || "bg-white",
+          text[:position],
           text[:size]
         ]}
       >
