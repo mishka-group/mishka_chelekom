@@ -26,6 +26,8 @@ defmodule MishkaChelekom.Divider do
   slot :text, required: false do
     attr :class, :string
     attr :color, :string
+    attr :size, :string
+    attr :position, :string
   end
 
   slot :icon, required: false do
@@ -34,6 +36,7 @@ defmodule MishkaChelekom.Divider do
     attr :icon_class, :string
     attr :color, :string
     attr :size, :string
+    attr :position, :string
   end
 
   attr :class, :string, default: nil, doc: ""
@@ -62,7 +65,8 @@ defmodule MishkaChelekom.Divider do
           "divider-content whitespace-nowrap",
           icon[:size] || size_class(@size, :icon),
           icon[:color] || color_class(@color),
-          icon[:class] || "bg-transparent"
+          icon[:class] || "bg-transparent",
+          text_position(:divider, icon[:position])
         ]}
       >
         <.icon name={icon[:name]} class={icon[:icon_class] || ""} />
