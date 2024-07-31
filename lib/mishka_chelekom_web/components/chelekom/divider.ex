@@ -49,11 +49,7 @@ defmodule MishkaChelekom.Divider do
       class={
         default_classes() ++
           [
-            "has-[.divider-content]:flex has-[.divider-content.middle]:bg-red-400",
-            color_class(@color),
-            border_type_class(@type),
-            width_class(@width),
-            size_class(@size),
+            "has-[:not(.divider-content)]:border-t has-[.divider-content]:flex before:has-[.divider-content.devider-middle]:content-none before:has-[.divider-content.devider-middle]:block before:has-[.divider-content.devider-middle]:h-1 before:has-[.divider-content.devider-middle]:w-full before:has-[.divider-content.devider-middle]:bg-black",
             @class
           ]
       }
@@ -71,7 +67,7 @@ defmodule MishkaChelekom.Divider do
       >
         <.icon name={icon[:name]} class={icon[:icon_class] || ""} />
       </div>
-      <%!-- Text --%>
+       <%!-- Text --%>
       <div
         :for={text <- @text}
         class={[
@@ -133,20 +129,21 @@ defmodule MishkaChelekom.Divider do
       <div
         :for={icon <- @icon}
         class={[
-          "flex item-center justify-center absolute p-2 -top-1/2 -translate-y-1/2 left-1/2",
+          "flex item-center justify-center absolute p-2",
           "-translate-x-1/2 whitespace-nowrap",
           icon[:size] || size_class(@size, :icon),
           icon[:color] || color_class(@color),
+          text_position(:hr, icon[:position]),
           icon[:class] || "bg-white"
         ]}
       >
         <.icon name={icon[:name]} class={icon[:icon_class] || ""} />
       </div>
-      <%!-- Text --%>
+       <%!-- Text --%>
       <div
         :for={text <- @text}
         class={[
-          "flex item-center justify-center absolute p-2 -top-1/2 -translate-y-1/2 left-1/2",
+          "flex item-center justify-center absolute p-2",
           "-translate-x-1/2 whitespace-nowrap",
           text[:color] || color_class(@color),
           text[:class] || "bg-white",
@@ -238,29 +235,29 @@ defmodule MishkaChelekom.Divider do
   end
 
   defp text_position(:hr, "right") do
-    "111"
+    "-top-1/2 -translate-y-1/2 -right-5"
   end
 
   defp text_position(:hr, "left") do
-    "111"
+    "-top-1/2 -translate-y-1/2 left-0"
   end
 
   defp text_position(:hr, "middle") do
-    "111"
+    "-top-1/2 -translate-y-1/2 left-1/2"
   end
 
   defp text_position(:hr, _), do: text_position(:hr, "middle")
 
   defp text_position(:divider, "right") do
-    "111"
+    "devider-right"
   end
 
   defp text_position(:divider, "left") do
-    "111"
+    "devider-left"
   end
 
   defp text_position(:divider, "middle") do
-    "111"
+    "devider-middle"
   end
 
   defp text_position(:divider, _), do: text_position(:divider, "middle")
