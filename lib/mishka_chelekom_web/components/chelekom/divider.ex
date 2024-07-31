@@ -49,7 +49,7 @@ defmodule MishkaChelekom.Divider do
       class={
         default_classes() ++
           [
-            "has-[.divider-content]:flex before:has-[.divider-content.devider-middle]:content-none before:has-[.divider-content.devider-middle]:block before:has-[.divider-content.devider-middle]:h-1 before:has-[.divider-content.devider-middle]:w-full before:has-[.divider-content.devider-middle]:bg-black",
+            "has-[.divider-content]:flex has-[.divider-content]:items-center has-[.divider-content]:gap-2 has-[.divider-content.devider-middle]:before:content-[''] has-[.divider-content.devider-middle]:before:block has-[.divider-content.devider-middle]:before:w-full has-[.divider-content.devider-middle]:after:content-[''] has-[.divider-content.devider-middle]:after:block has-[.divider-content.devider-middle]:after:w-full has-[.divider-content.devider-right]:before:content-[''] has-[.divider-content.devider-right]:before:block has-[.divider-content.devider-right]:before:w-full has-[.divider-content.devider-left]:after:content-[''] has-[.divider-content.devider-left]:after:block has-[.divider-content.devider-left]:after:w-full",
             color_class(@color),
             border_type_class(@type),
             width_class(@width),
@@ -63,8 +63,8 @@ defmodule MishkaChelekom.Divider do
         :for={icon <- @icon}
         class={[
           "divider-content whitespace-nowrap",
-          icon[:size] || size_class(@size, :icon),
-          icon[:color] || color_class(@color),
+          icon[:size],
+          icon[:color],
           icon[:class] || "bg-transparent",
           text_position(:divider, icon[:position])
         ]}
@@ -76,7 +76,7 @@ defmodule MishkaChelekom.Divider do
         :for={text <- @text}
         class={[
           "divider-content whitespace-nowrap",
-          text[:color] || color_class(@color),
+          text[:color],
           text[:class] || "bg-transparent",
           text_position(:divider, text[:position]),
           text[:size]
@@ -137,6 +137,7 @@ defmodule MishkaChelekom.Divider do
           "-translate-x-1/2 whitespace-nowrap",
           icon[:size] || size_class(@size, :icon),
           icon[:color] || color_class(@color),
+          text_position(:hr, icon[:position]),
           icon[:class] || "bg-white"
         ]}
       >
@@ -160,11 +161,11 @@ defmodule MishkaChelekom.Divider do
     """
   end
 
-  defp size_class("extra_small"), do: "[&:not(:has(.divider-content))]:border-t text-xs my-2"
-  defp size_class("small"), do: "[&:not(:has(.divider-content))]:border-t-2 text-sm my-3"
-  defp size_class("medium"), do: "[&:not(:has(.divider-content))]:border-t-[3px] text-base my-4"
-  defp size_class("large"), do: "[&:not(:has(.divider-content))]:border-t-4 text-lg my-5"
-  defp size_class("extra_large"), do: "[&:not(:has(.divider-content))]:border-t-[5px] text-xl my-6"
+  defp size_class("extra_small"), do: "[&:not(:has(.divider-content))]:border-t has-[.divider-content.devider-middle]:before:border-t has-[.divider-content.devider-middle]:after:border-t has-[.divider-content.devider-right]:before:border-t has-[.divider-content.devider-left]:after:border-t text-xs my-2"
+  defp size_class("small"), do: "[&:not(:has(.divider-content))]:border-t-2 has-[.divider-content.devider-middle]:before:border-t-2 has-[.divider-content.devider-middle]:after:border-t-2 has-[.divider-content.devider-right]:before:border-t-2 has-[.divider-content.devider-left]:after:border-t-2 text-sm my-3"
+  defp size_class("medium"), do: "[&:not(:has(.divider-content))]:border-t-[3px] has-[.divider-content.devider-middle]:before:border-t-[3px] has-[.divider-content.devider-middle]:after:border-t-[3px] has-[.divider-content.devider-right]:before:border-t-[3px] has-[.divider-content.devider-left]:after:border-t-[3px] text-base my-4"
+  defp size_class("large"), do: "[&:not(:has(.divider-content))]:border-t-4 has-[.divider-content.devider-middle]:before:border-t-4 has-[.divider-content.devider-middle]:after:border-t-4 has-[.divider-content.devider-right]:before:border-t-4 has-[.divider-content.devider-left]:after:border-t-4 text-lg my-5"
+  defp size_class("extra_large"), do: "[&:not(:has(.divider-content))]:border-t-[5px] has-[.divider-content.devider-middle]:before:border-t-[5px] has-[.divider-content.devider-middle]:after:border-t-[5px] has-[.divider-content.devider-right]:before:border-t-[5px] has-[.divider-content.devider-left]:after:border-t-[5px] text-xl my-6"
   defp size_class(params) when is_binary(params), do: params
   defp size_class(_), do: size_class("extra_small")
 
@@ -182,59 +183,59 @@ defmodule MishkaChelekom.Divider do
   defp width_class(_), do: width_class("full")
 
   defp color_class("white") do
-    "border-white text-[#3E3E3E]"
+    "border-white has-[.divider-content.devider-middle]:before:border-white has-[.divider-content.devider-middle]:after:border-white has-[.divider-content.devider-right]:before:border-white has-[.divider-content.devider-left]:after:border-white text-[#3E3E3E]"
   end
 
   defp color_class("primary") do
-    "border-[#4363EC] text-[#4363EC]"
+    "border-[#4363EC] has-[.divider-content.devider-middle]:before:border-[#4363EC] has-[.divider-content.devider-middle]:after:border-[#4363EC] has-[.divider-content.devider-right]:before:border-[#4363EC] has-[.divider-content.devider-left]:after:border-[#4363EC] text-[#4363EC]"
   end
 
   defp color_class("secondary") do
-    "border-[#6B6E7C] text-[#6B6E7C]"
+    "border-[#6B6E7C] has-[.divider-content.devider-middle]:before:border-[#6B6E7C] has-[.divider-content.devider-middle]:after:border-[#6B6E7C] has-[.divider-content.devider-right]:before:border-[#6B6E7C] has-[.divider-content.devider-left]:after:border-[#6B6E7C] text-[#6B6E7C]"
   end
 
   defp color_class("success") do
-    "border-[#227A52] text-[#047857]"
+    "border-[#227A52] has-[.divider-content.devider-middle]:before:border-[#227A52] has-[.divider-content.devider-middle]:after:border-[#227A52] has-[.divider-content.devider-right]:before:border-[#227A52] has-[.divider-content.devider-left]:after:border-[#227A52] text-[#047857]"
   end
 
   defp color_class("warning") do
-    "border-[#FF8B08] text-[#FF8B08]"
+    "border-[#FF8B08] has-[.divider-content.devider-middle]:before:border-[#FF8B08] has-[.divider-content.devider-middle]:after:border-[#FF8B08] has-[.divider-content.devider-right]:before:border-[#FF8B08] has-[.divider-content.devider-left]:after:border-[#FF8B08] text-[#FF8B08]"
   end
 
   defp color_class("danger") do
-    "border-[#E73B3B] text-[#E73B3B]"
+    "border-[#E73B3B] has-[.divider-content.devider-middle]:before:border-[#E73B3B] has-[.divider-content.devider-middle]:after:border-[#E73B3B] has-[.divider-content.devider-right]:before:border-[#E73B3B] has-[.divider-content.devider-left]:after:border-[#E73B3B] text-[#E73B3B]"
   end
 
   defp color_class("info") do
-    "border-[#6663FD] text-[#004FC4]"
+    "border-[#6663FD] has-[.divider-content.devider-middle]:before:border-[#6663FD] has-[.divider-content.devider-middle]:after:border-[#6663FD] has-[.divider-content.devider-right]:before:border-[#6663FD] has-[.divider-content.devider-left]:after:border-[#6663FD] text-[#004FC4]"
   end
 
   defp color_class("misc") do
-    "border-[#52059C] text-[#52059C]"
+    "border-[#52059C] has-[.divider-content.devider-middle]:before:border-[#52059C] has-[.divider-content.devider-middle]:after:border-[#52059C] has-[.divider-content.devider-right]:before:border-[#52059C] has-[.divider-content.devider-left]:after:border-[#52059C] text-[#52059C]"
   end
 
   defp color_class("dawn") do
-    "border-[#FFECDA] text-[#4D4137]"
+    "border-[#FFECDA] has-[.divider-content.devider-middle]:before:border-[#FFECDA] has-[.divider-content.devider-middle]:after:border-[#FFECDA] has-[.divider-content.devider-right]:before:border-[#FFECDA] has-[.divider-content.devider-left]:after:border-[#FFECDA] text-[#4D4137]"
   end
 
   defp color_class("light") do
-    "border-[#707483] text-[#707483]"
+    "border-[#707483] has-[.divider-content.devider-middle]:before:border-[#707483] has-[.divider-content.devider-middle]:after:border-[#707483] has-[.divider-content.devider-right]:before:border-[#707483] has-[.divider-content.devider-left]:after:border-[#707483] text-[#707483]"
   end
 
   defp color_class("dark") do
-    "border-[#1E1E1E] text-[#1E1E1E]"
+    "border-[#1E1E1E] has-[.divider-content.devider-middle]:before:border-[#1E1E1E] has-[.divider-content.devider-middle]:after:border-[#1E1E1E] has-[.divider-content.devider-right]:before:border-[#1E1E1E] has-[.divider-content.devider-left]:after:border-[#1E1E1E] text-[#1E1E1E]"
   end
 
   defp border_type_class("dashed") do
-    "border-dashed"
+    "border-dashed has-[.divider-content.devider-middle]:before:border-dashed has-[.divider-content.devider-middle]:after:border-dashed has-[.divider-content.devider-right]:before:border-dashed has-[.divider-content.devider-left]:after:border-dashed"
   end
 
   defp border_type_class("dotted") do
-    "border-dotted"
+    "border-dotted has-[.divider-content.devider-middle]:before:border-dotted has-[.divider-content.devider-middle]:after:border-dotted has-[.divider-content.devider-right]:before:border-dotted has-[.divider-content.devider-left]:after:border-dotted"
   end
 
   defp border_type_class("solid") do
-    "border-solid"
+    "border-solid has-[.divider-content.devider-middle]:before:border-solid has-[.divider-content.devider-middle]:after:border-solid has-[.divider-content.devider-right]:before:border-solid has-[.divider-content.devider-left]:after:border-solid"
   end
 
   defp text_position(:hr, "right") do
