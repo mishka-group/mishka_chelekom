@@ -41,20 +41,22 @@ defmodule MishkaChelekom.Divider do
 
   def divider(assigns) do
     ~H"""
-    <div  id={@id}
-        class={
-          default_classes() ++
-            [
-              "has-[.divider-content]:flex has-[.divider-content.middle]:bg-red-400",
-              color_class(@color),
-              border_type_class(@type),
-              width_class(@width),
-              size_class(@size),
-              @class
-            ]
-        }
-        {@rest}>
-        <div
+    <div
+      id={@id}
+      class={
+        default_classes() ++
+          [
+            "has-[.divider-content]:flex has-[.divider-content.middle]:bg-red-400",
+            color_class(@color),
+            border_type_class(@type),
+            width_class(@width),
+            size_class(@size),
+            @class
+          ]
+      }
+      {@rest}
+    >
+      <div
         :for={icon <- @icon}
         class={[
           "divider-content whitespace-nowrap",
@@ -65,19 +67,20 @@ defmodule MishkaChelekom.Divider do
       >
         <.icon name={icon[:name]} class={icon[:icon_class] || ""} />
       </div>
-       <%!-- Text --%>
+      <%!-- Text --%>
       <div
         :for={text <- @text}
         class={[
           "divider-content whitespace-nowrap",
           text[:color] || color_class(@color),
           text[:class] || "bg-transparent",
-          hr_text_position(text[:position]),
+          text_position(:divider, text[:position]),
           text[:size]
         ]}
       >
         <%= render_slot(text) %>
-      </div></div>
+      </div>
+    </div>
     """
   end
 
@@ -135,7 +138,7 @@ defmodule MishkaChelekom.Divider do
       >
         <.icon name={icon[:name]} class={icon[:icon_class] || ""} />
       </div>
-       <%!-- Text --%>
+      <%!-- Text --%>
       <div
         :for={text <- @text}
         class={[
@@ -143,7 +146,7 @@ defmodule MishkaChelekom.Divider do
           "-translate-x-1/2 whitespace-nowrap",
           text[:color] || color_class(@color),
           text[:class] || "bg-white",
-          hr_text_position(text[:position]),
+          text_position(:hr, text[:position]),
           text[:size]
         ]}
       >
@@ -230,19 +233,33 @@ defmodule MishkaChelekom.Divider do
     "border-solid"
   end
 
-  defp hr_text_position("right") do
+  defp text_position(:hr, "right") do
     "111"
   end
 
-  defp hr_text_position("left") do
+  defp text_position(:hr, "left") do
     "111"
   end
 
-  defp hr_text_position("middle") do
+  defp text_position(:hr, "middle") do
     "111"
   end
 
-  defp hr_text_position(_), do: hr_text_position("middle")
+  defp text_position(:hr, _), do: text_position(:hr, "middle")
+
+  defp text_position(:divider, "right") do
+    "111"
+  end
+
+  defp text_position(:divider, "left") do
+    "111"
+  end
+
+  defp text_position(:divider, "middle") do
+    "111"
+  end
+
+  defp text_position(:divider, _), do: text_position(:divider, "middle")
 
   defp default_classes() do
     [
