@@ -1,5 +1,6 @@
 defmodule MishkaChelekom.Pagination do
   use Phoenix.Component
+  alias Phoenix.LiveView.JS
 
   @sizes ["extra_small", "small", "medium", "large", "extra_large"]
   @colors [
@@ -19,9 +20,19 @@ defmodule MishkaChelekom.Pagination do
 
   @doc type: :component
   attr :id, :string, default: nil, doc: ""
-  attr :class, :string, default: nil, doc: ""
+  attr :total, :integer, required: true, doc: ""
+  attr :active, :integer, default: 1, doc: ""
+  attr :siblings, :integer, default: 1, doc: ""
+  attr :boundaries, :integer, default: nil, doc: ""
+  attr :on_select, JS, default: %JS{}
+  attr :on_first, JS, default: %JS{}
+  attr :on_last, JS, default: %JS{}
+  attr :on_next, JS, default: %JS{}
+  attr :on_previous, JS, default: %JS{}
   attr :color, :string, values: @colors, default: "transparent", doc: ""
   attr :rounded, :string, values: @sizes ++ ["none"], default: "none", doc: ""
+  attr :separator, :string, default: "hero-ellipsis-horizontal", doc: ""
+  attr :class, :string, default: nil, doc: ""
   attr :rest, :global, doc: ""
 
   def pagination(assigns) do
@@ -41,6 +52,12 @@ defmodule MishkaChelekom.Pagination do
       <%= render_slot(@inner_block) %>
     </div>
     """
+  end
+
+  def calculating(_active, _total, nil) do
+  end
+
+  def calculating(_active, _total, _boundary) do
   end
 
   defp border("white") do
