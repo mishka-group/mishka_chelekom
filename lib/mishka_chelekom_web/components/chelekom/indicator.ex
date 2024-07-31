@@ -33,7 +33,7 @@ defmodule MishkaChelekom.Indicator do
   attr :size, :string, values: @sizes, default: "small", doc: ""
   attr :class, :string, default: nil, doc: ""
   attr :color, :string, values: @colors, default: "danger", doc: ""
-  attr :rest, :global, include: @indicator_positions, doc: ""
+  attr :rest, :global, include: ["pinging"] ++ @indicator_positions, doc: ""
 
   def indicator(%{rest: %{top_left: true}} = assigns) do
     ~H"""
@@ -43,6 +43,7 @@ defmodule MishkaChelekom.Indicator do
         indicator_size(@size),
         color_class(@color),
         "absolute -translate-y-1/2 -translate-x-1/2 right-auto top-0 left-0",
+        !is_nil(@rest[:pinging]) && "[&>.indicator]:animate-ping",
         @class
       ]}
       {drop_rest(@rest)}
@@ -58,6 +59,7 @@ defmodule MishkaChelekom.Indicator do
         indicator_size(@size),
         color_class(@color),
         "absolute top-0 -translate-y-1/2 translate-x-1/2 right-1/2",
+        !is_nil(@rest[:pinging]) && "[&>.indicator]:animate-ping",
         @class
       ]}
       {drop_rest(@rest)}
@@ -73,6 +75,7 @@ defmodule MishkaChelekom.Indicator do
         indicator_size(@size),
         color_class(@color),
         "absolute -translate-y-1/2 translate-x-1/2 left-auto top-0 right-0",
+        !is_nil(@rest[:pinging]) && "[&>.indicator]:animate-ping",
         @class
       ]}
       {drop_rest(@rest)}
@@ -88,6 +91,7 @@ defmodule MishkaChelekom.Indicator do
         indicator_size(@size),
         color_class(@color),
         "absolute -translate-y-1/2 -translate-x-1/2 right-auto left-0 top-2/4",
+        !is_nil(@rest[:pinging]) && "[&>.indicator]:animate-ping",
         @class
       ]}
       {drop_rest(@rest)}
@@ -103,6 +107,7 @@ defmodule MishkaChelekom.Indicator do
         indicator_size(@size),
         color_class(@color),
         "absolute -translate-y-1/2 translate-x-1/2 left-auto right-0 top-2/4",
+        !is_nil(@rest[:pinging]) && "[&>.indicator]:animate-ping",
         @class
       ]}
       {drop_rest(@rest)}
@@ -118,6 +123,7 @@ defmodule MishkaChelekom.Indicator do
         indicator_size(@size),
         color_class(@color),
         "absolute translate-y-1/2 -translate-x-1/2 right-auto bottom-0 left-0",
+        !is_nil(@rest[:pinging]) && "[&>.indicator]:animate-ping",
         @class
       ]}
       {drop_rest(@rest)}
@@ -133,6 +139,7 @@ defmodule MishkaChelekom.Indicator do
         indicator_size(@size),
         color_class(@color),
         "absolute translate-y-1/2 translate-x-1/2 bottom-0 right-1/2",
+        !is_nil(@rest[:pinging]) && "[&>.indicator]:animate-ping",
         @class
       ]}
       {drop_rest(@rest)}
@@ -148,6 +155,7 @@ defmodule MishkaChelekom.Indicator do
         indicator_size(@size),
         color_class(@color),
         "absolute translate-y-1/2 translate-x-1/2 left-auto bottom-0 right-0",
+        !is_nil(@rest[:pinging]) && "[&>.indicator]:animate-ping",
         @class
       ]}
       {drop_rest(@rest)}
@@ -157,7 +165,16 @@ defmodule MishkaChelekom.Indicator do
 
   def indicator(assigns) do
     ~H"""
-    <span id={@id} class={[indicator_size(@size), color_class(@color), @class]} {drop_rest(@rest)} />
+    <span
+      id={@id}
+      class={[
+        indicator_size(@size),
+        color_class(@color),
+        !is_nil(@rest[:pinging]) && "[&>.indicator]:animate-ping",
+        @class
+      ]}
+      {drop_rest(@rest)}
+    />
     """
   end
 
@@ -215,7 +232,7 @@ defmodule MishkaChelekom.Indicator do
 
   defp drop_rest(rest) do
     all_rest =
-      @indicator_positions
+      (["pinging"] ++ @indicator_positions)
       |> Enum.map(&if(is_binary(&1), do: String.to_atom(&1), else: &1))
 
     Map.drop(rest, all_rest)
