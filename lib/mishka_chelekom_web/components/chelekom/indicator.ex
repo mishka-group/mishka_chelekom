@@ -33,7 +33,7 @@ defmodule MishkaChelekom.Indicator do
   attr :size, :string, values: @sizes, default: "small", doc: ""
   attr :class, :string, default: nil, doc: ""
   attr :color, :string, values: @colors, default: "primary", doc: ""
-  attr :border, :string, values: @colors, default: "white", doc: ""
+  attr :border, :string, values: @colors ++ ["transparent"], default: "transparent", doc: ""
   attr :rest, :global, include: ["pinging"] ++ @indicator_positions, doc: ""
 
   def indicator(%{rest: %{top_left: true}} = assigns) do
@@ -239,6 +239,10 @@ defmodule MishkaChelekom.Indicator do
 
   defp color_class("dark") do
     "bg-[#1E1E1E]"
+  end
+
+  defp border_class("transparent") do
+    "border-transparent"
   end
 
   defp border_class("white") do
