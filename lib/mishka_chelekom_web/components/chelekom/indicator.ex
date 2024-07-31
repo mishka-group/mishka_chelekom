@@ -187,47 +187,47 @@ defmodule MishkaChelekom.Indicator do
   defp indicator_size(nil), do: nil
 
   defp color_class("white") do
-    "text-white hover:[&>li_a]:text-[#ededed]"
+    "text-white"
   end
 
   defp color_class("primary") do
-    "text-[#4363EC] hover:[&>li_a]:text-[#072ed3]"
+    "text-[#4363EC]"
   end
 
   defp color_class("secondary") do
-    "text-[#6B6E7C] hover:[&>li_a]:text-[#60636f]"
+    "text-[#6B6E7C]"
   end
 
   defp color_class("success") do
-    "text-[#047857] hover:[&>li_a]:text-[#d4fde4] "
+    "text-[#047857] "
   end
 
   defp color_class("warning") do
-    "text-[#FF8B08] hover:[&>li_a]:text-[#fff1cd]"
+    "text-[#FF8B08]"
   end
 
   defp color_class("danger") do
-    "text-[#E73B3B] hover:[&>li_a]:text-[#ffcdcd]"
+    "text-[#E73B3B]"
   end
 
   defp color_class("info") do
-    "text-[#004FC4] hover:[&>li_a]:text-[#cce1ff]"
+    "text-[#004FC4]"
   end
 
   defp color_class("misc") do
-    "text-[#52059C] hover:[&>li_a]:text-[#ffe0ff]"
+    "text-[#52059C]"
   end
 
   defp color_class("dawn") do
-    "text-[#4D4137] hover:[&>li_a]:text-[#FFECDA]"
+    "text-[#4D4137]"
   end
 
   defp color_class("light") do
-    "text-[#707483] hover:[&>li_a]:text-[#d2d8e9]"
+    "text-[#707483]"
   end
 
   defp color_class("dark") do
-    "text-[#1E1E1E] hover:[&>li_a]:text-[#869093]"
+    "text-[#1E1E1E]"
   end
 
   defp drop_rest(rest) do
