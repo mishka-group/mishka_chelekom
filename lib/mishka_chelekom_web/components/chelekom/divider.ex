@@ -271,45 +271,31 @@ defmodule MishkaChelekom.Divider do
 
   defp size_class("extra_small", :vertical) do
     [
-      "[&:not(:has(.divider-content))]:border-t has-[.divider-content.devider-middle]:before:border-t",
-      "has-[.divider-content.devider-middle]:after:border-t has-[.divider-content.devider-right]:before:border-t",
-      "has-[.divider-content.devider-left]:after:border-t text-xs my-2"
+      "[&:not(:has(.divider-content))]:border-l mx-2"
     ]
   end
 
   defp size_class("small", :vertical) do
     [
-      "[&:not(:has(.divider-content))]:border-t-2 has-[.divider-content.devider-middle]:before:border-t-2",
-      "has-[.divider-content.devider-middle]:after:border-t-2",
-      "has-[.divider-content.devider-right]:before:border-t-2",
-      "has-[.divider-content.devider-left]:after:border-t-2 text-sm my-3"
+      "[&:not(:has(.divider-content))]:border-l-2 text-sm mx-3"
     ]
   end
 
   defp size_class("medium", :vertical) do
     [
-      "[&:not(:has(.divider-content))]:border-t-[3px] has-[.divider-content.devider-middle]:before:border-t-[3px]",
-      "has-[.divider-content.devider-middle]:after:border-t-[3px]",
-      "has-[.divider-content.devider-right]:before:border-t-[3px]",
-      "has-[.divider-content.devider-left]:after:border-t-[3px] text-base my-4"
+      "[&:not(:has(.divider-content))]:border-l-[3px] text-base mx-4"
     ]
   end
 
   defp size_class("large", :vertical) do
     [
-      "[&:not(:has(.divider-content))]:border-t-4 has-[.divider-content.devider-middle]:before:border-t-4",
-      "has-[.divider-content.devider-middle]:after:border-t-4",
-      "has-[.divider-content.devider-right]:before:border-t-4",
-      "has-[.divider-content.devider-left]:after:border-t-4 text-lg my-5"
+      "[&:not(:has(.divider-content))]:border-l-4 text-lg mx-5"
     ]
   end
 
   defp size_class("extra_large", :vertical) do
     [
-      "[&:not(:has(.divider-content))]:border-t-[5px] has-[.divider-content.devider-middle]:before:border-t-[5px]",
-      "has-[.divider-content.devider-middle]:after:border-t-[5px]",
-      "has-[.divider-content.devider-right]:before:border-t-[5px]",
-      "has-[.divider-content.devider-left]:after:border-t-[5px] text-xl my-6"
+      "[&:not(:has(.divider-content))]:border-l-[5px] text-xl mx-6"
     ]
   end
 
@@ -335,9 +321,9 @@ defmodule MishkaChelekom.Divider do
 
   defp width_class("half", :horizontal), do: "w-1/2"
 
-  defp width_class("full", :vertical), do: "w-full"
+  defp width_class("full", :vertical), do: "h-screen"
 
-  defp width_class("half", :vertical), do: "w-1/2"
+  defp width_class("half", :vertical), do: "h-1/2"
 
   defp width_class(params, _) when is_binary(params), do: params
 
