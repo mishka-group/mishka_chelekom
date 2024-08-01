@@ -48,19 +48,7 @@ defmodule MishkaChelekom.Divider do
     <div
       id={@id}
       class={
-        default_classes() ++
           [
-            "has-[.divider-content]:flex has-[.divider-content]:items-center has-[.divider-content]:gap-2",
-            "has-[.divider-content.devider-middle]:before:content-['']",
-            "has-[.divider-content.devider-middle]:before:block has-[.divider-content.devider-middle]:before:w-full",
-            "has-[.divider-content.devider-middle]:after:content-['']",
-            "has-[.divider-content.devider-middle]:after:block",
-            "has-[.divider-content.devider-middle]:after:w-full",
-            "has-[.divider-content.devider-right]:before:content-['']",
-            "has-[.divider-content.devider-right]:before:block",
-            "has-[.divider-content.devider-right]:before:w-full",
-            "has-[.divider-content.devider-left]:after:content-['']",
-            "has-[.divider-content.devider-left]:after:block has-[.divider-content.devider-left]:after:w-full",
             color_class(@color),
             border_type_class(@type),
             width_class(@width, :vertical),
@@ -103,9 +91,8 @@ defmodule MishkaChelekom.Divider do
     <div
       id={@id}
       class={
-        default_classes() ++
           [
-            "has-[.divider-content]:flex has-[.divider-content]:items-center has-[.divider-content]:gap-2",
+            "mx-auto has-[.divider-content]:flex has-[.divider-content]:items-center has-[.divider-content]:gap-2",
             "has-[.divider-content.devider-middle]:before:content-['']",
             "has-[.divider-content.devider-middle]:before:block has-[.divider-content.devider-middle]:before:w-full",
             "has-[.divider-content.devider-middle]:after:content-['']",
@@ -184,8 +171,8 @@ defmodule MishkaChelekom.Divider do
       <hr
         id={@id}
         class={
-          default_classes() ++
             [
+              "mx-auto",
               color_class(@color),
               border_type_class(@type),
               width_class(@width, :horizontal),
@@ -412,10 +399,4 @@ defmodule MishkaChelekom.Divider do
   end
 
   defp text_position(:divider, _), do: text_position(:divider, "middle")
-
-  defp default_classes() do
-    [
-      "mx-auto"
-    ]
-  end
 end
