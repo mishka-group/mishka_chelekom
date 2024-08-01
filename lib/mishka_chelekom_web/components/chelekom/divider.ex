@@ -22,6 +22,7 @@ defmodule MishkaChelekom.Divider do
   attr :color, :string, values: @colors, default: "light", doc: ""
   attr :size, :string, default: "extra_small", doc: ""
   attr :width, :string, default: "full", doc: ""
+  attr :variation, :string, values: ["horizontal", "vertical"], default: "horizontal", doc: ""
 
   slot :text, required: false do
     attr :class, :string
@@ -42,20 +43,29 @@ defmodule MishkaChelekom.Divider do
   attr :class, :string, default: nil, doc: ""
   attr :rest, :global
 
-  def divider(assigns) do
+  def divider(%{variation: "vertical"} = assigns) do
     ~H"""
     <div
       id={@id}
       class={
         default_classes() ++
           [
-            "has-[.divider-content]:flex has-[.divider-content]:items-center has-[.divider-content]:gap-2 has-[.divider-content.devider-middle]:before:content-[''] has-[.divider-content.devider-middle]:before:block has-[.divider-content.devider-middle]:before:w-full has-[.divider-content.devider-middle]:after:content-[''] has-[.divider-content.devider-middle]:after:block has-[.divider-content.devider-middle]:after:w-full has-[.divider-content.devider-right]:before:content-[''] has-[.divider-content.devider-right]:before:block has-[.divider-content.devider-right]:before:w-full has-[.divider-content.devider-left]:after:content-[''] has-[.divider-content.devider-left]:after:block has-[.divider-content.devider-left]:after:w-full",
+            "has-[.divider-content]:flex has-[.divider-content]:items-center has-[.divider-content]:gap-2",
+            "has-[.divider-content.devider-middle]:before:content-['']",
+            "has-[.divider-content.devider-middle]:before:block has-[.divider-content.devider-middle]:before:w-full",
+            "has-[.divider-content.devider-middle]:after:content-['']",
+            "has-[.divider-content.devider-middle]:after:block",
+            "has-[.divider-content.devider-middle]:after:w-full",
+            "has-[.divider-content.devider-right]:before:content-['']",
+            "has-[.divider-content.devider-right]:before:block",
+            "has-[.divider-content.devider-right]:before:w-full",
+            "has-[.divider-content.devider-left]:after:content-['']",
+            "has-[.divider-content.devider-left]:after:block has-[.divider-content.devider-left]:after:w-full",
             color_class(@color),
             border_type_class(@type),
-            width_class(@width),
-            size_class(@size),
+            width_class(@width, :vertical),
             @class
-          ]
+          ] ++ size_class(@size, :vertical)
       }
       {@rest}
     >
@@ -71,7 +81,62 @@ defmodule MishkaChelekom.Divider do
       >
         <.icon name={icon[:name]} class={icon[:icon_class] || ""} />
       </div>
-       <%!-- Text --%>
+      <%!-- Text --%>
+      <div
+        :for={text <- @text}
+        class={[
+          "divider-content whitespace-nowrap",
+          text[:color],
+          text[:class] || "bg-transparent",
+          text_position(:divider, text[:position]),
+          text[:size]
+        ]}
+      >
+        <%= render_slot(text) %>
+      </div>
+    </div>
+    """
+  end
+
+  def divider(assigns) do
+    ~H"""
+    <div
+      id={@id}
+      class={
+        default_classes() ++
+          [
+            "has-[.divider-content]:flex has-[.divider-content]:items-center has-[.divider-content]:gap-2",
+            "has-[.divider-content.devider-middle]:before:content-['']",
+            "has-[.divider-content.devider-middle]:before:block has-[.divider-content.devider-middle]:before:w-full",
+            "has-[.divider-content.devider-middle]:after:content-['']",
+            "has-[.divider-content.devider-middle]:after:block",
+            "has-[.divider-content.devider-middle]:after:w-full",
+            "has-[.divider-content.devider-right]:before:content-['']",
+            "has-[.divider-content.devider-right]:before:block",
+            "has-[.divider-content.devider-right]:before:w-full",
+            "has-[.divider-content.devider-left]:after:content-['']",
+            "has-[.divider-content.devider-left]:after:block has-[.divider-content.devider-left]:after:w-full",
+            color_class(@color),
+            border_type_class(@type),
+            width_class(@width, :horizontal),
+            @class
+          ] ++ size_class(@size, :horizontal)
+      }
+      {@rest}
+    >
+      <div
+        :for={icon <- @icon}
+        class={[
+          "divider-content whitespace-nowrap",
+          icon[:size],
+          icon[:color],
+          icon[:class] || "bg-transparent",
+          text_position(:divider, icon[:position])
+        ]}
+      >
+        <.icon name={icon[:name]} class={icon[:icon_class] || size_class(@size, :icon)} />
+      </div>
+      <%!-- Text --%>
       <div
         :for={text <- @text}
         class={[
@@ -123,10 +188,9 @@ defmodule MishkaChelekom.Divider do
             [
               color_class(@color),
               border_type_class(@type),
-              width_class(@width),
-              size_class(@size),
+              width_class(@width, :horizontal),
               @class
-            ]
+            ] ++ size_class(@size, :horizontal)
         }
         {@rest}
       /> <%!-- Icon --%>
@@ -143,7 +207,7 @@ defmodule MishkaChelekom.Divider do
       >
         <.icon name={icon[:name]} class={icon[:icon_class] || ""} />
       </div>
-       <%!-- Text --%>
+      <%!-- Text --%>
       <div
         :for={text <- @text}
         class={[
@@ -161,26 +225,123 @@ defmodule MishkaChelekom.Divider do
     """
   end
 
-  defp size_class("extra_small"), do: "[&:not(:has(.divider-content))]:border-t has-[.divider-content.devider-middle]:before:border-t has-[.divider-content.devider-middle]:after:border-t has-[.divider-content.devider-right]:before:border-t has-[.divider-content.devider-left]:after:border-t text-xs my-2"
-  defp size_class("small"), do: "[&:not(:has(.divider-content))]:border-t-2 has-[.divider-content.devider-middle]:before:border-t-2 has-[.divider-content.devider-middle]:after:border-t-2 has-[.divider-content.devider-right]:before:border-t-2 has-[.divider-content.devider-left]:after:border-t-2 text-sm my-3"
-  defp size_class("medium"), do: "[&:not(:has(.divider-content))]:border-t-[3px] has-[.divider-content.devider-middle]:before:border-t-[3px] has-[.divider-content.devider-middle]:after:border-t-[3px] has-[.divider-content.devider-right]:before:border-t-[3px] has-[.divider-content.devider-left]:after:border-t-[3px] text-base my-4"
-  defp size_class("large"), do: "[&:not(:has(.divider-content))]:border-t-4 has-[.divider-content.devider-middle]:before:border-t-4 has-[.divider-content.devider-middle]:after:border-t-4 has-[.divider-content.devider-right]:before:border-t-4 has-[.divider-content.devider-left]:after:border-t-4 text-lg my-5"
-  defp size_class("extra_large"), do: "[&:not(:has(.divider-content))]:border-t-[5px] has-[.divider-content.devider-middle]:before:border-t-[5px] has-[.divider-content.devider-middle]:after:border-t-[5px] has-[.divider-content.devider-right]:before:border-t-[5px] has-[.divider-content.devider-left]:after:border-t-[5px] text-xl my-6"
-  defp size_class(params) when is_binary(params), do: params
-  defp size_class(_), do: size_class("extra_small")
+  defp size_class("extra_small", :horizontal) do
+    [
+      "[&:not(:has(.divider-content))]:border-t has-[.divider-content.devider-middle]:before:border-t",
+      "has-[.divider-content.devider-middle]:after:border-t has-[.divider-content.devider-right]:before:border-t",
+      "has-[.divider-content.devider-left]:after:border-t text-xs my-2"
+    ]
+  end
+
+  defp size_class("small", :horizontal) do
+    [
+      "[&:not(:has(.divider-content))]:border-t-2 has-[.divider-content.devider-middle]:before:border-t-2",
+      "has-[.divider-content.devider-middle]:after:border-t-2",
+      "has-[.divider-content.devider-right]:before:border-t-2",
+      "has-[.divider-content.devider-left]:after:border-t-2 text-sm my-3"
+    ]
+  end
+
+  defp size_class("medium", :horizontal) do
+    [
+      "[&:not(:has(.divider-content))]:border-t-[3px] has-[.divider-content.devider-middle]:before:border-t-[3px]",
+      "has-[.divider-content.devider-middle]:after:border-t-[3px]",
+      "has-[.divider-content.devider-right]:before:border-t-[3px]",
+      "has-[.divider-content.devider-left]:after:border-t-[3px] text-base my-4"
+    ]
+  end
+
+  defp size_class("large", :horizontal) do
+    [
+      "[&:not(:has(.divider-content))]:border-t-4 has-[.divider-content.devider-middle]:before:border-t-4",
+      "has-[.divider-content.devider-middle]:after:border-t-4",
+      "has-[.divider-content.devider-right]:before:border-t-4",
+      "has-[.divider-content.devider-left]:after:border-t-4 text-lg my-5"
+    ]
+  end
+
+  defp size_class("extra_large", :horizontal) do
+    [
+      "[&:not(:has(.divider-content))]:border-t-[5px] has-[.divider-content.devider-middle]:before:border-t-[5px]",
+      "has-[.divider-content.devider-middle]:after:border-t-[5px]",
+      "has-[.divider-content.devider-right]:before:border-t-[5px]",
+      "has-[.divider-content.devider-left]:after:border-t-[5px] text-xl my-6"
+    ]
+  end
+
+  defp size_class("extra_small", :vertical) do
+    [
+      "[&:not(:has(.divider-content))]:border-t has-[.divider-content.devider-middle]:before:border-t",
+      "has-[.divider-content.devider-middle]:after:border-t has-[.divider-content.devider-right]:before:border-t",
+      "has-[.divider-content.devider-left]:after:border-t text-xs my-2"
+    ]
+  end
+
+  defp size_class("small", :vertical) do
+    [
+      "[&:not(:has(.divider-content))]:border-t-2 has-[.divider-content.devider-middle]:before:border-t-2",
+      "has-[.divider-content.devider-middle]:after:border-t-2",
+      "has-[.divider-content.devider-right]:before:border-t-2",
+      "has-[.divider-content.devider-left]:after:border-t-2 text-sm my-3"
+    ]
+  end
+
+  defp size_class("medium", :vertical) do
+    [
+      "[&:not(:has(.divider-content))]:border-t-[3px] has-[.divider-content.devider-middle]:before:border-t-[3px]",
+      "has-[.divider-content.devider-middle]:after:border-t-[3px]",
+      "has-[.divider-content.devider-right]:before:border-t-[3px]",
+      "has-[.divider-content.devider-left]:after:border-t-[3px] text-base my-4"
+    ]
+  end
+
+  defp size_class("large", :vertical) do
+    [
+      "[&:not(:has(.divider-content))]:border-t-4 has-[.divider-content.devider-middle]:before:border-t-4",
+      "has-[.divider-content.devider-middle]:after:border-t-4",
+      "has-[.divider-content.devider-right]:before:border-t-4",
+      "has-[.divider-content.devider-left]:after:border-t-4 text-lg my-5"
+    ]
+  end
+
+  defp size_class("extra_large", :vertical) do
+    [
+      "[&:not(:has(.divider-content))]:border-t-[5px] has-[.divider-content.devider-middle]:before:border-t-[5px]",
+      "has-[.divider-content.devider-middle]:after:border-t-[5px]",
+      "has-[.divider-content.devider-right]:before:border-t-[5px]",
+      "has-[.divider-content.devider-left]:after:border-t-[5px] text-xl my-6"
+    ]
+  end
 
   defp size_class("extra_small", :icon), do: "[&>*]:size-5"
-  defp size_class("small", :icon), do: "[&>*]:size-6"
-  defp size_class("medium", :icon), do: "[&>*]:size-7"
-  defp size_class("large", :icon), do: "[&>*]:size-8"
-  defp size_class("extra_large", :icon), do: "[&>*]:size-9"
-  defp size_class(params, :icon) when is_binary(params), do: params
-  defp size_class(_, _), do: size_class("extra_small", :icon)
 
-  defp width_class("full"), do: "w-full"
-  defp width_class("half"), do: "w-1/2"
-  defp width_class(params) when is_binary(params), do: params
-  defp width_class(_), do: width_class("full")
+  defp size_class("small", :icon), do: "[&>*]:size-6"
+
+  defp size_class("medium", :icon), do: "[&>*]:size-7"
+
+  defp size_class("large", :icon), do: "[&>*]:size-8"
+
+  defp size_class("extra_large", :icon), do: "[&>*]:size-9"
+
+  defp size_class(params, :icon) when is_binary(params), do: params
+
+  defp size_class(_, :icon), do: size_class("extra_small", :icon)
+
+  defp size_class(params, _) when is_binary(params), do: [params]
+
+  defp size_class(_, _), do: size_class("extra_small", :horizontal)
+
+  defp width_class("full", :horizontal), do: "w-full"
+
+  defp width_class("half", :horizontal), do: "w-1/2"
+
+  defp width_class("full", :vertical), do: "w-full"
+
+  defp width_class("half", :vertical), do: "w-1/2"
+
+  defp width_class(params, _) when is_binary(params), do: params
+
+  defp width_class(_, _), do: width_class("full", :horizontal)
 
   defp color_class("white") do
     "border-white has-[.divider-content.devider-middle]:before:border-white has-[.divider-content.devider-middle]:after:border-white has-[.divider-content.devider-right]:before:border-white has-[.divider-content.devider-left]:after:border-white text-[#3E3E3E]"
