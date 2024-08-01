@@ -101,9 +101,9 @@ defmodule MishkaChelekom.Pagination do
   defp build_pagination(total, current_page, siblings, boundaries) do
     total_pages = max(total, 0)
 
-    pagination_range = fn ->
-      total_page_numbers = siblings * 2 + 3 + boundaries * 2
+    total_page_numbers = siblings * 2 + 3 + boundaries * 2
 
+    pagination_range =
       if total_page_numbers >= total_pages do
         range(1, total_pages)
       else
@@ -135,9 +135,8 @@ defmodule MishkaChelekom.Pagination do
               [dots] ++ range(total_pages - boundaries + 1, total_pages)
         end
       end
-    end
 
-    %{range: pagination_range.(), active: current_page}
+    %{range: pagination_range, active: current_page}
   end
 
   defp range(start, stop) when start > stop, do: []
