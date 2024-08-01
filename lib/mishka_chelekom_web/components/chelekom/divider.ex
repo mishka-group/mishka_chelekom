@@ -1,6 +1,6 @@
 defmodule MishkaChelekom.Divider do
   use Phoenix.Component
-  import MishkaChelekomWeb.CoreComponents
+  import MishkaChelekomComponents
 
   @colors [
     "white",
@@ -57,19 +57,6 @@ defmodule MishkaChelekom.Divider do
       }
       {@rest}
     >
-      <div
-        :for={icon <- @icon}
-        class={[
-          "divider-content whitespace-nowrap",
-          icon[:size],
-          icon[:color],
-          icon[:class] || "bg-transparent",
-          text_position(:divider, icon[:position])
-        ]}
-      >
-        <.icon name={icon[:name]} class={icon[:icon_class] || ""} />
-      </div>
-      <%!-- Text --%>
       <div
         :for={text <- @text}
         class={[

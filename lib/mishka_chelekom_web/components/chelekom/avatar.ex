@@ -1,5 +1,6 @@
 defmodule MishkaChelekom.Avatar do
   use Phoenix.Component
+  import MishkaChelekomComponents
 
   # TODO: We need Avatar tooltip
   # TODO: We need Dot indicator
@@ -28,17 +29,28 @@ defmodule MishkaChelekom.Avatar do
     doc: ""
 
   attr :class, :string, default: nil, doc: ""
-  attr :src, :string, default: "", doc: ""
+  attr :src, :string, default: nil, doc: ""
   attr :color, :string, values: @colors, default: "white", doc: ""
   attr :size, :string, default: "small", doc: ""
   attr :shadow, :string, values: @sizes ++ ["none"], default: "none", doc: ""
   attr :rounded, :string, values: @sizes ++ ["full", "none"], default: "medium", doc: ""
   attr :border, :string, default: "extra_small", doc: ""
+
+  slot :icon, required: false do
+    attr :name, :string, required: true
+    attr :class, :string
+    attr :icon_class, :string
+    attr :color, :string
+    attr :size, :string
+  end
+
   attr :rest, :global
+  slot :inner_block, required: false, doc: ""
 
   def avatar(assigns) do
     ~H"""
     <img
+      :if={!is_nil(@src)}
       id={@id}
       src={@src}
       class={[
@@ -51,6 +63,10 @@ defmodule MishkaChelekom.Avatar do
       ]}
       {@rest}
     />
+    <div :for={icon <- @icon} class={[icon[:size], icon[:color], icon[:class]]}>
+      <.icon name={icon[:name]} class={icon[:icon_class] || size_class(@size, :icon)} />
+    </div>
+    <div><%= render_slot(@inner_block) %></div>
     """
   end
 
@@ -71,13 +87,11 @@ defmodule MishkaChelekom.Avatar do
     ~H"""
     <div
       id={@id}
-      class={
-        default_classes() ++
-          [
-            space_class(@space),
-            @class
-          ]
-      }
+      class={[
+        "flex items-center",
+        space_class(@space),
+        @class
+      ]}
       {@rest}
     >
       <%= render_slot(@inner_block) %>
@@ -141,7 +155,7 @@ defmodule MishkaChelekom.Avatar do
   defp border_class("large"), do: "border-4"
   defp border_class("extra_large"), do: "border-[5px]"
   defp border_class(params) when is_binary(params), do: params
-  defp border_class(_), do: size_class("extra_small")
+  defp border_class(_), do: border_class("extra_small")
 
   defp rounded_size("extra_small"), do: "rounded-sm"
   defp rounded_size("small"), do: "rounded"
@@ -161,6 +175,14 @@ defmodule MishkaChelekom.Avatar do
   defp size_class(params) when is_binary(params), do: params
   defp size_class(_), do: size_class("small")
 
+  defp size_class("extra_small", :icon), do: "111"
+  defp size_class("small", :icon), do: "111"
+  defp size_class("medium", :icon), do: "111"
+  defp size_class("large", :icon), do: "111"
+  defp size_class("extra_large", :icon), do: "111"
+  defp size_class(params, :icon) when is_binary(params), do: params
+  defp size_class(_, :icon), do: size_class("small", :icon)
+
   defp shadow_class("extra_small"), do: "shadow-sm"
   defp shadow_class("small"), do: "shadow"
   defp shadow_class("medium"), do: "shadow-md"
@@ -178,10 +200,4 @@ defmodule MishkaChelekom.Avatar do
   defp space_class("none"), do: "space-x-0"
   defp space_class(params) when is_binary(params), do: params
   defp space_class(_), do: space_class("medium")
-
-  defp default_classes() do
-    [
-      "flex items-center"
-    ]
-  end
 end
