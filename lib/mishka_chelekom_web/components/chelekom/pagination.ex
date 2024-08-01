@@ -68,7 +68,7 @@ defmodule MishkaChelekom.Pagination do
             <%= range %>
           </button>
         <% else %>
-          :::
+          <.separator name={@separator} />
         <% end %>
       </div>
       <button>
@@ -78,22 +78,18 @@ defmodule MishkaChelekom.Pagination do
     """
   end
 
-  def pagination(assigns) do
+  attr :name, :string
+  attr :class, :string, default: nil, doc: ""
+
+  defp separator(%{name: "hero-" <> _icon_name} = assigns) do
     ~H"""
-    <div
-      id={@id}
-      class={
-        default_classes() ++
-          [
-            rounded_size(@rounded),
-            border(@color),
-            @class
-          ]
-      }
-      {@rest}
-    >
-      <%= render_slot(@inner_block) %>
-    </div>
+    <.icon name={@name} class={@class || "separator-icon"} />
+    """
+  end
+
+  defp separator(assigns) do
+    ~H"""
+    <span class={@class || "separator-text"}><%= @name %></span>
     """
   end
 
