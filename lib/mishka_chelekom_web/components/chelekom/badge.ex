@@ -55,6 +55,7 @@ defmodule MishkaChelekom.Badge do
   attr :class, :string, default: nil, doc: ""
   attr :indicator_class, :string, default: nil, doc: ""
   attr :indicator_size, :string, default: nil, doc: ""
+  attr :params, :map, default: %{kind: "badge"}
 
   attr :rest, :global,
     include:
@@ -79,13 +80,13 @@ defmodule MishkaChelekom.Badge do
       }
       {drop_rest(@rest)}
     >
-      <.badge_dismiss :if={dismiss_position(@rest) == "left"} id={@id} />
+      <.badge_dismiss :if={dismiss_position(@rest) == "left"} id={@id} params={@params} />
       <.badge_indicator position="left" size={@indicator_size} class={@indicator_class} {@rest} />
       <.icon :if={icon_position(@icon, @rest) == "left"} name={@icon} />
       <div class="leading-none"><%= render_slot(@inner_block) %></div>
       <.icon :if={icon_position(@icon, @rest) == "right"} name={@icon} />
       <.badge_indicator size={@indicator_size} class={@indicator_class} {@rest} />
-      <.badge_dismiss :if={dismiss_position(@rest) == "right"} id={@id} />
+      <.badge_dismiss :if={dismiss_position(@rest) == "right"} id={@id} params={@params} />
     </div>
     """
   end
@@ -93,12 +94,13 @@ defmodule MishkaChelekom.Badge do
   attr :id, :string, default: nil
   attr :dismiss, :boolean, default: false
   attr :icon_class, :string, default: "size-4"
+  attr :params, :map, default: %{kind: "badge"}
 
   defp badge_dismiss(assigns) do
     ~H"""
     <button
       class="dismmiss-button inline-flex justify-center items-center w-fit shrink-0"
-      phx-click={JS.push("dismiss", value: %{id: @id, kind: "badge"}) |> hide("##{@id}")}
+      phx-click={JS.push("dismiss", value: Map.merge(%{id: @id}, @params)) |> hide("##{@id}")}
     >
       <.icon name="hero-x-mark" class={"#{@icon_class}"} />
     </button>

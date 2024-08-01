@@ -34,6 +34,7 @@ defmodule MishkaChelekom.Pagination do
   attr :rounded, :string, values: @sizes ++ ["none"], default: "none", doc: ""
   attr :separator, :string, default: "hero-ellipsis-horizontal", doc: ""
   attr :class, :string, default: nil, doc: ""
+  attr :params, :map, default: %{}
   attr :rest, :global, doc: ""
 
   def pagination(
@@ -54,24 +55,34 @@ defmodule MishkaChelekom.Pagination do
       }
       {@rest}
     >
-      <button>
+      <button phx-click={
+        @on_previous |> JS.push("pagination", value: Map.merge(%{action: "previous"}, @params))
+      }>
         <.icon name="hero-chevron-left" />
       </button>
 
       <div :for={range <- @siblings.range}>
         <%= if is_integer(range) do %>
-          <button class={[
-            "bg-neutral-200 flex justify-center items-center",
-            "w-8 h-8 hover:bg-neutral-400 hover:text-white rounded",
-            @active == range && "bg-red-600 text-white"
-          ]}>
+          <button
+            class={[
+              "bg-neutral-200 flex justify-center items-center",
+              "w-8 h-8 hover:bg-neutral-400 hover:text-white rounded",
+              @active == range && "bg-red-600 text-white"
+            ]}
+            phx-click={
+              @on_select
+              |> JS.push("pagination", value: Map.merge(%{action: "select", page: range}, @params))
+            }
+          >
             <%= range %>
           </button>
         <% else %>
           <.separator name={@separator} />
         <% end %>
       </div>
-      <button>
+      <button phx-click={
+        @on_next |> JS.push("pagination", value: Map.merge(%{action: "next"}, @params))
+      }>
         <.icon name="hero-chevron-right" />
       </button>
     </div>
