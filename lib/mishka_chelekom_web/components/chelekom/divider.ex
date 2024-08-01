@@ -311,7 +311,6 @@ defmodule MishkaChelekom.Divider do
 
   defp height_class(_), do: height_class("auto")
 
-
   defp color_class("white") do
     "border-white has-[.divider-content.devider-middle]:before:border-white has-[.divider-content.devider-middle]:after:border-white has-[.divider-content.devider-right]:before:border-white has-[.divider-content.devider-left]:after:border-white text-[#3E3E3E]"
   end
