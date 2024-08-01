@@ -311,6 +311,8 @@ defmodule MishkaChelekom.Divider do
 
   defp width_class("full", :vertical), do: "h-screen"
 
+  defp width_class("auto", :vertical), do: "h-auto"
+
   defp width_class("half", :vertical), do: "h-1/2"
 
   defp width_class(params, _) when is_binary(params), do: params
