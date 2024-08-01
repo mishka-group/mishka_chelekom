@@ -1,5 +1,6 @@
 defmodule MishkaChelekom.Pagination do
   use Phoenix.Component
+  import MishkaChelekomComponents
   alias Phoenix.LiveView.JS
 
   @sizes ["extra_small", "small", "medium", "large", "extra_large"]
@@ -23,7 +24,7 @@ defmodule MishkaChelekom.Pagination do
   attr :total, :integer, required: true, doc: ""
   attr :active, :integer, default: 1, doc: ""
   attr :siblings, :integer, default: 1, doc: ""
-  attr :boundaries, :integer, default: nil, doc: ""
+  attr :boundaries, :integer, default: 1, doc: ""
   attr :on_select, JS, default: %JS{}
   attr :on_first, JS, default: %JS{}
   attr :on_last, JS, default: %JS{}
@@ -34,6 +35,48 @@ defmodule MishkaChelekom.Pagination do
   attr :separator, :string, default: "hero-ellipsis-horizontal", doc: ""
   attr :class, :string, default: nil, doc: ""
   attr :rest, :global, doc: ""
+
+  def pagination(
+        %{siblings: siblings, boundaries: boundaries, total: total, active: active} = assigns
+      ) do
+    assigns = assign(assigns, %{siblings: build_pagination(total, active, siblings, boundaries)})
+
+    ~H"""
+    <div
+      id={@id}
+      class={
+        default_classes() ++
+          [
+            rounded_size(@rounded),
+            border(@color),
+            @class
+          ]
+      }
+      {@rest}
+    >
+      <button>
+        <.icon name="hero-chevron-left" />
+      </button>
+
+      <div :for={range <- @siblings.range}>
+        <%= if is_integer(range) do %>
+          <button class={[
+            "bg-neutral-200 flex justify-center items-center",
+            "w-8 h-8 hover:bg-neutral-400 hover:text-white rounded",
+            @active == range && "bg-red-600 text-white"
+          ]}>
+            <%= range %>
+          </button>
+        <% else %>
+          :::
+        <% end %>
+      </div>
+      <button>
+        <.icon name="hero-chevron-right" />
+      </button>
+    </div>
+    """
+  end
 
   def pagination(assigns) do
     ~H"""
@@ -54,11 +97,51 @@ defmodule MishkaChelekom.Pagination do
     """
   end
 
-  def calculating(_active, _total, nil) do
+  # We got the original code from mantine.dev pagination hook and changed some numbers
+  defp build_pagination(total, current_page, siblings, boundaries) do
+    total_pages = max(total, 0)
+
+    pagination_range = fn ->
+      total_page_numbers = siblings * 2 + 3 + boundaries * 2
+
+      if total_page_numbers >= total_pages do
+        range(1, total_pages)
+      else
+        left_sibling_index = max(current_page - siblings, boundaries + 1)
+        right_sibling_index = min(current_page + siblings, total_pages - boundaries)
+
+        should_show_left_dots = left_sibling_index > boundaries + 2
+        should_show_right_dots = right_sibling_index < total_pages - boundaries - 1
+
+        dots = :dots
+
+        cond do
+          !should_show_left_dots and should_show_right_dots ->
+            left_item_count = siblings * 2 + boundaries + 2
+
+            range(1, left_item_count) ++
+              [dots] ++ range(total_pages - boundaries + 1, total_pages)
+
+          should_show_left_dots and not should_show_right_dots ->
+            right_item_count = boundaries + 1 + 2 * siblings
+
+            range(1, boundaries) ++
+              [dots] ++ range(total_pages - right_item_count + 1, total_pages)
+
+          true ->
+            range(1, boundaries) ++
+              [dots] ++
+              range(left_sibling_index, right_sibling_index) ++
+              [dots] ++ range(total_pages - boundaries + 1, total_pages)
+        end
+      end
+    end
+
+    %{range: pagination_range.(), active: current_page}
   end
 
-  def calculating(_active, _total, _boundary) do
-  end
+  defp range(start, stop) when start > stop, do: []
+  defp range(start, stop), do: Enum.to_list(start..stop)
 
   defp border("white") do
     "border-[#DADADA] hover:border-[#d9d9d9]"
@@ -118,7 +201,7 @@ defmodule MishkaChelekom.Pagination do
 
   defp default_classes() do
     [
-      "flex items-center"
+      "flex items-center gap-3"
     ]
   end
 end
