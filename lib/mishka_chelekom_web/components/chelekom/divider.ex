@@ -22,6 +22,7 @@ defmodule MishkaChelekom.Divider do
   attr :color, :string, values: @colors, default: "light", doc: ""
   attr :size, :string, default: "extra_small", doc: ""
   attr :width, :string, default: "full", doc: ""
+  attr :height, :string, default: "auto", doc: ""
   attr :variation, :string, values: ["horizontal", "vertical"], default: "horizontal", doc: ""
 
   slot :text, required: false do
@@ -51,7 +52,7 @@ defmodule MishkaChelekom.Divider do
         [
           color_class(@color),
           border_type_class(@type),
-          width_class(@width, :vertical),
+          height_class(@height),
           @class
         ] ++ size_class(@size, :vertical)
       }
@@ -93,7 +94,7 @@ defmodule MishkaChelekom.Divider do
           "has-[.divider-content.devider-left]:after:block has-[.divider-content.devider-left]:after:w-full",
           color_class(@color),
           border_type_class(@type),
-          width_class(@width, :horizontal),
+          width_class(@width),
           @class
         ] ++ size_class(@size, :horizontal)
       }
@@ -163,7 +164,7 @@ defmodule MishkaChelekom.Divider do
             "mx-auto",
             color_class(@color),
             border_type_class(@type),
-            width_class(@width, :horizontal),
+            width_class(@width),
             @class
           ] ++ size_class(@size, :horizontal)
         }
@@ -292,19 +293,24 @@ defmodule MishkaChelekom.Divider do
 
   defp size_class(_, _), do: size_class("extra_small", :horizontal)
 
-  defp width_class("full", :horizontal), do: "w-full"
+  defp width_class("full"), do: "w-full"
 
-  defp width_class("half", :horizontal), do: "w-1/2"
+  defp width_class("half"), do: "w-1/2"
 
-  defp width_class("full", :vertical), do: "h-screen"
+  defp width_class(params) when is_binary(params), do: params
 
-  defp width_class("auto", :vertical), do: "h-auto"
+  defp width_class(_), do: width_class("full")
 
-  defp width_class("half", :vertical), do: "h-1/2"
+  defp height_class("full"), do: "h-screen"
 
-  defp width_class(params, _) when is_binary(params), do: params
+  defp height_class("auto"), do: "h-auto"
 
-  defp width_class(_, _), do: width_class("full", :horizontal)
+  defp height_class("half"), do: "h-1/2"
+
+  defp height_class(params) when is_binary(params), do: params
+
+  defp height_class(_), do: height_class("auto")
+
 
   defp color_class("white") do
     "border-white has-[.divider-content.devider-middle]:before:border-white has-[.divider-content.devider-middle]:after:border-white has-[.divider-content.devider-right]:before:border-white has-[.divider-content.devider-left]:after:border-white text-[#3E3E3E]"
