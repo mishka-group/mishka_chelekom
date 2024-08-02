@@ -82,20 +82,7 @@ defmodule MishkaChelekom.Pagination do
 
       <div :for={range <- @siblings.range}>
         <%= if is_integer(range) do %>
-          <button
-            class={[
-              "bg-neutral-200 flex justify-center items-center",
-              "w-8 h-8 hover:bg-neutral-400 hover:text-white rounded",
-              @active == range && "bg-red-600 text-white"
-            ]}
-            phx-click={
-              @on_select
-              |> JS.push("pagination", value: Map.merge(%{action: "select", page: range}, @params))
-            }
-            disabled={range == @active}
-          >
-            <%= range %>
-          </button>
+          <.pagination_button params={@params} range={range} active={@active} on_select={@on_select} />
         <% else %>
           <.icon_or_text name={@separator} />
         <% end %>
@@ -131,6 +118,30 @@ defmodule MishkaChelekom.Pagination do
   defp icon_or_text(assigns) do
     ~H"""
     <span class={@class || "pagination-text"}><%= @name %></span>
+    """
+  end
+
+  attr :params, :map, default: %{}
+  attr :range, :list, required: true
+  attr :active, :integer, required: true
+  attr :on_select, JS, default: %JS{}
+
+  defp pagination_button(assigns) do
+    ~H"""
+    <button
+      class={[
+        "bg-neutral-200 flex justify-center items-center",
+        "w-8 h-8 hover:bg-neutral-400 hover:text-white rounded",
+        @active == @range && "bg-red-600 text-white"
+      ]}
+      phx-click={
+        @on_select
+        |> JS.push("pagination", value: Map.merge(%{action: "select", page: @range}, @params))
+      }
+      disabled={@range == @active}
+    >
+      <%= @range %>
+    </button>
     """
   end
 
@@ -173,7 +184,16 @@ defmodule MishkaChelekom.Pagination do
         end
       end
 
-    %{range: pagination_range, active: current_page}
+    %{range: pagination_range(current_page, pagination_range), active: current_page}
+  end
+
+  defp pagination_range(active, range) do
+    if active != 1 and (active - 1) not in range do
+      index = Enum.find_index(range, &(&1 == active))
+      List.insert_at(range, index, active - 1)
+    else
+      range
+    end
   end
 
   defp range(start, stop) when start > stop, do: []
