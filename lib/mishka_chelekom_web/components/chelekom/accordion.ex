@@ -6,7 +6,7 @@ defmodule MishkaChelekom.Accordion do
   attr :id, :string, default: nil, doc: ""
   attr :rest, :global, doc: ""
   attr :class, :string, default: nil, doc: ""
-  attr :space, :string, values: @sizes ++ ["none"], default: "small", doc: ""
+  attr :space, :string, values: @sizes ++ ["none"], default: "none", doc: ""
 
   def native_accordion(assigns) do
     ~H"""
@@ -31,7 +31,7 @@ defmodule MishkaChelekom.Accordion do
   defp space_class("medium"), do: "space-y-4"
   defp space_class("large"), do: "space-y-5"
   defp space_class("extra_large"), do: "space-y-6"
-  defp space_class("none"), do: "space-x-0"
+  defp space_class("none"), do: "space-y-0"
   defp space_class(params) when is_binary(params), do: params
   defp space_class(_), do: space_class("small")
 
