@@ -35,6 +35,8 @@ defmodule MishkaChelekom.Pagination do
   attr :separator, :string, default: "hero-ellipsis-horizontal", doc: ""
   attr :class, :string, default: nil, doc: ""
   attr :params, :map, default: %{}
+  slot :start_items, required: false
+  slot :end_items, required: false
   attr :rest, :global, doc: ""
 
   def pagination(
@@ -55,6 +57,7 @@ defmodule MishkaChelekom.Pagination do
       }
       {@rest}
     >
+      <%= render_slot(@start_items) %>
       <button
         phx-click={
           @on_previous |> JS.push("pagination", value: Map.merge(%{action: "previous"}, @params))
@@ -90,6 +93,7 @@ defmodule MishkaChelekom.Pagination do
       >
         <.icon name="hero-chevron-right" />
       </button>
+      <%= render_slot(@end_items) %>
     </div>
     """
   end

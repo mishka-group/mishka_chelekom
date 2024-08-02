@@ -1,5 +1,10 @@
 <div class="p-10 space-y-10">
   <.pagination total={@posts.total} active={@posts.active} siblings={3} />
+
+  <.pagination total={@posts.total} active={@posts.active} siblings={3}>
+    <:start_items>::Start::</:start_items>
+    <:end_items>::End::</:end_items>
+  </.pagination>
   <%!-- <MishkaChelekom.Pagination.pagination class="gap-3">
     <button
       type="button"
