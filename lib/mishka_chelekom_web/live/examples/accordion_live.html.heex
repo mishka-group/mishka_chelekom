@@ -434,5 +434,58 @@
     </div>
   </details>
 </MishkaChelekom.Accordion.native_accordion>
+<hr />
+<h2>remove name attr to prevent siblings from closing</h2>
+<MishkaChelekom.Accordion.native_accordion
+  class="border border-blue-300 [&>details:not(:last-child)>summary]:border-b [&>details:not(:last-child)>summary]:border-blue-300 [&>details:not(:last-child)>:not(summary)]:border-b [&>details:not(:last-child)>:not(summary)]:border-blue-300 rounded-lg overflow-hidden"
+>
+  <details
+    class="cursor-pointer bg-white [&_.native-accordion-chevron]:open:rotate-90"
+  >
+    <summary
+      class="list-none p-5 font-bold flex flex-nowarp items-center justify-between gap-2"
+    >
+      <div>Graduation Requirements</div>
+      <.icon name="hero-chevron-right" class="w-5 native-accordion-chevron" />
+    </summary>
+
+    <div class="p-5">
+      Requires 40 credits, including a passing grade in health, geography,
+      history, economics, and wood shop.
+    </div>
+  </details>
+
+  <details
+    class="cursor-pointer bg-white [&_.native-accordion-chevron]:open:rotate-90"
+  >
+    <summary
+      class="list-none p-5 font-bold flex flex-nowarp items-center justify-between gap-2"
+    >
+      <div>System Requirements</div>
+      <.icon name="hero-chevron-right" class="w-5 native-accordion-chevron" />
+    </summary>
+    <div class="p-5">
+      Requires a computer running an operating system. The computer must have
+      some memory and ideally some kind of long-term storage. An input device as
+      well as some form of output device is recommended.
+    </div>
+  </details>
+
+  <details
+    class="cursor-pointer bg-white [&_.native-accordion-chevron]:open:rotate-90"
+  >
+    <summary
+      class="list-none p-5 font-bold flex flex-nowarp items-center justify-between gap-2"
+    >
+      <div>Job Requirements</div>
+      <.icon name="hero-chevron-right" class="w-5 native-accordion-chevron" />
+    </summary>
+    <div class="p-5">
+      Requires knowledge of HTML, CSS, JavaScript, accessibility, web
+      performance, privacy, security, and internationalization, as well as a
+      dislike of broccoli.
+    </div>
+  </details>
+</MishkaChelekom.Accordion.native_accordion>
 
 </div>
