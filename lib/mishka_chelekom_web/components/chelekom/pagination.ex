@@ -41,7 +41,7 @@ defmodule MishkaChelekom.Pagination do
   attr :params, :map, default: %{}
   slot :start_items, required: false
   slot :end_items, required: false
-  attr :rest, :global, doc: ""
+  attr :rest, :global, include: ~w(disabled hide_one_page show_edges hide_controls), doc: ""
 
   def pagination(
         %{siblings: siblings, boundaries: boundaries, total: total, active: active} = assigns
@@ -50,6 +50,7 @@ defmodule MishkaChelekom.Pagination do
 
     ~H"""
     <div
+      :if={show_pagination?(@rest[:hide_one_page], @total)}
       id={@id}
       class={
         default_classes() ++
@@ -63,13 +64,14 @@ defmodule MishkaChelekom.Pagination do
     >
       <%= render_slot(@start_items) %>
       <button
-        :if={@rest[:show_edge]}
+        :if={@rest[:show_edges]}
         phx-click={@on_next |> JS.push("pagination", value: Map.merge(%{action: "first"}, @params))}
         disabled={@active <= 1}
       >
         <.icon_or_text name={@first_label} />
       </button>
       <button
+        :if={is_nil(@rest[:hide_controls])}
         phx-click={
           @on_previous |> JS.push("pagination", value: Map.merge(%{action: "previous"}, @params))
         }
@@ -99,13 +101,14 @@ defmodule MishkaChelekom.Pagination do
         <% end %>
       </div>
       <button
+        :if={is_nil(@rest[:hide_controls])}
         phx-click={@on_next |> JS.push("pagination", value: Map.merge(%{action: "next"}, @params))}
         disabled={@active >= @total}
       >
         <.icon_or_text name={@next_label} />
       </button>
       <button
-        :if={@rest[:show_edge]}
+        :if={@rest[:show_edges]}
         phx-click={@on_next |> JS.push("pagination", value: Map.merge(%{action: "last"}, @params))}
         disabled={@active >= @total}
       >
@@ -237,4 +240,9 @@ defmodule MishkaChelekom.Pagination do
       "flex items-center gap-3"
     ]
   end
+
+  defp show_pagination?(nil, _total), do: true
+  defp show_pagination?(true, total) when total <= 1, do: false
+  defp show_pagination?(_, total) when total > 1, do: true
+  defp show_pagination?(_, _), do: false
 end
