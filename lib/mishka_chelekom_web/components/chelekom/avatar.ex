@@ -68,14 +68,17 @@ defmodule MishkaChelekom.Avatar do
 
   def avatar(%{icon: icon} = assigns) when icon != [] do
     ~H"""
-    <div class={[
-      color_class(@color),
-      rounded_size(@rounded),
-      size_class(@size),
-      border_class(@border),
-      shadow_class(@shadow),
-      @class
-    ]}>
+    <div class={
+      default_classes() ++
+        [
+          color_class(@color),
+          rounded_size(@rounded),
+          size_class(@size),
+          border_class(@border),
+          shadow_class(@shadow),
+          @class
+        ]
+    }>
       <div :for={icon <- @icon} class={[icon[:size], icon[:color], icon[:class]]}>
         <.icon name={icon[:name]} class={icon[:icon_class] || size_class(@size, :icon)} />
       </div>
