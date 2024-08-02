@@ -65,7 +65,7 @@ defmodule MishkaChelekom.Pagination do
       <button
         :if={@rest[:show_edge]}
         phx-click={@on_next |> JS.push("pagination", value: Map.merge(%{action: "first"}, @params))}
-        disabled={@active >= @total}
+        disabled={@active <= 1}
       >
         <.icon_or_text name={@first_label} />
       </button>
