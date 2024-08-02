@@ -1,5 +1,7 @@
 defmodule MishkaChelekom.Accordion do
   use Phoenix.Component
+  import MishkaChelekomComponents
+
   @sizes ["extra_small", "small", "medium", "large", "extra_large"]
 
   @doc type: :component
@@ -8,6 +10,13 @@ defmodule MishkaChelekom.Accordion do
   attr :class, :string, default: nil, doc: ""
   attr :space, :string, values: @sizes ++ ["none"], default: "none", doc: ""
 
+  slot :item, required: true do
+    attr :title, :string, required: true
+    attr :class, :string
+    attr :icon_class, :string
+    attr :content_class, :string
+  end
+
   def native_accordion(assigns) do
     ~H"""
     <div
@@ -15,13 +24,39 @@ defmodule MishkaChelekom.Accordion do
       class={
         default_classes() ++
           [
+            "border border-blue-300 [&>details:not(:last-child)>summary]:border-b",
+            "[&>details:not(:last-child)>summary]:border-blue-300",
+            "[&>details:not(:last-child)>:not(summary)]:border-b",
+            "[&>details:not(:last-child)>:not(summary)]:border-blue-300 rounded-lg overflow-hidden",
             space_class(@space),
             @class
           ]
       }
       {@rest}
     >
-      <%= render_slot(@inner_block) %>
+      <details
+        :for={item <- @item}
+        class={
+          item[:class] || "cursor-pointer bg-white [&_.native-accordion-chevron]:open:rotate-90 group"
+        }
+      >
+        <summary class="list-none p-5 font-bold flex flex-nowarp items-center justify-between gap-2">
+          <div><%= item[:title] %></div>
+          <.icon
+            name={item[:icon] || "hero-chevron-right"}
+            class={
+              item[:icon_class] || "w-5 native-accordion-chevron transition ease-in-out duration-800"
+            }
+          />
+        </summary>
+
+        <div class={
+          item[:content_class] ||
+            "p-5 native-accordion-content max-h-0 overflow-hidden transition-[max-height] duration-1000 group-open:max-h-80"
+        }>
+          <%= render_slot(item) %>
+        </div>
+      </details>
     </div>
     """
   end
