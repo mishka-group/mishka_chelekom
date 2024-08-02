@@ -33,6 +33,7 @@ defmodule MishkaChelekom.Avatar do
   attr :color, :string, values: @colors, default: "white", doc: ""
   attr :size, :string, default: "small", doc: ""
   attr :shadow, :string, values: @sizes ++ ["none"], default: "none", doc: ""
+  attr :font_weight, :string, default: "font-normal", doc: ""
   attr :rounded, :string, values: @sizes ++ ["full", "none"], default: "medium", doc: ""
   attr :border, :string, default: "extra_small", doc: ""
 
@@ -54,7 +55,7 @@ defmodule MishkaChelekom.Avatar do
       id={@id}
       src={@src}
       class={[
-        color(@color),
+        image_color(@color),
         rounded_size(@rounded),
         size_class(@size),
         border_class(@border),
@@ -66,7 +67,20 @@ defmodule MishkaChelekom.Avatar do
     <div :for={icon <- @icon} class={[icon[:size], icon[:color], icon[:class]]}>
       <.icon name={icon[:name]} class={icon[:icon_class] || size_class(@size, :icon)} />
     </div>
-    <div><%= render_slot(@inner_block) %></div>
+    <div
+      id={@id}
+      class={
+          default_classes() ++
+            [
+              color_class(@color),
+          rounded_size(@rounded),
+        size_class(@size),
+        border_class(@border),
+        shadow_class(@shadow),
+            @font_weight,
+            @class
+          ]
+      }><%= render_slot(@inner_block) %></div>
     """
   end
 
@@ -99,55 +113,101 @@ defmodule MishkaChelekom.Avatar do
     """
   end
 
-  defp color("transparent") do
+  defp image_color("transparent") do
     "border-0"
   end
 
-  defp color("white") do
+  defp image_color("white") do
     "border border-white"
   end
 
-  defp color("primary") do
+  defp image_color("primary") do
     "border border-[#4363EC]"
   end
 
-  defp color("secondary") do
+  defp image_color("secondary") do
     "border border-[#6B6E7C]"
   end
 
-  defp color("success") do
+  defp image_color("success") do
     "border border-[#227A52]"
   end
 
-  defp color("warning") do
+  defp image_color("warning") do
     "border border-[#FF8B08]"
   end
 
-  defp color("danger") do
+  defp image_color("danger") do
     "border border-[#E73B3B]"
   end
 
-  defp color("info") do
+  defp image_color("info") do
     "border border-[#6663FD]"
   end
 
-  defp color("misc") do
+  defp image_color("misc") do
     "border border-[#52059C]"
   end
 
-  defp color("dawn") do
+  defp image_color("dawn") do
     "border border-[#4D4137]"
   end
 
-  defp color("light") do
+  defp image_color("light") do
     "border border-[#707483]"
   end
 
-  defp color("dark") do
+  defp image_color("dark") do
     "border border-[#1E1E1E]"
   end
 
-  defp color(params), do: params
+  defp image_color(params), do: params
+
+  defp color_class("white") do
+    "bg-white text-[#3E3E3E] border-[#DADADA]"
+  end
+
+  defp color_class("primary") do
+    "bg-[#4363EC] text-white border-[#2441de]"
+  end
+
+  defp color_class("secondary") do
+    "bg-[#6B6E7C] text-white border-[#877C7C]"
+  end
+
+  defp color_class("success") do
+    "bg-[#ECFEF3] text-[#047857] border-[#6EE7B7]"
+  end
+
+  defp color_class("warning") do
+    "bg-[#FFF8E6] text-[#FF8B08] border-[#FF8B08]"
+  end
+
+  defp color_class("danger") do
+    "bg-[#FFE6E6] text-[#E73B3B] border-[#E73B3B]"
+  end
+
+  defp color_class("info") do
+    "bg-[#E5F0FF] text-[#004FC4] border-[#004FC4]"
+  end
+
+  defp color_class("misc") do
+    "bg-[#FFE6FF] text-[#52059C] border-[#52059C]"
+  end
+
+  defp color_class("dawn") do
+    "bg-[#FFECDA] text-[#4D4137] border-[#4D4137]"
+  end
+
+  defp color_class("light") do
+    "bg-[#E3E7F1] text-[#707483] border-[#707483]"
+  end
+
+  defp color_class("dark") do
+    "bg-[#1E1E1E] text-white border-[#050404]"
+  end
+  defp color_class(_), do: color_class("white")
+
 
   defp border_class("extra_small"), do: "border"
   defp border_class("small"), do: "border-2"
@@ -167,19 +227,19 @@ defmodule MishkaChelekom.Avatar do
   defp rounded_size(params) when is_binary(params), do: params
   defp rounded_size(_), do: rounded_size("medium")
 
-  defp size_class("extra_small"), do: "size-7"
-  defp size_class("small"), do: "size-8"
-  defp size_class("medium"), do: "size-9"
-  defp size_class("large"), do: "size-10"
-  defp size_class("extra_large"), do: "size-12"
+  defp size_class("extra_small"), do: "size-8 text-xs"
+  defp size_class("small"), do: "size-9 text-sm"
+  defp size_class("medium"), do: "size-10 text-base"
+  defp size_class("large"), do: "size-12 text-lg"
+  defp size_class("extra_large"), do: "size-14 text-xl"
   defp size_class(params) when is_binary(params), do: params
   defp size_class(_), do: size_class("small")
 
-  defp size_class("extra_small", :icon), do: "111"
-  defp size_class("small", :icon), do: "111"
-  defp size_class("medium", :icon), do: "111"
-  defp size_class("large", :icon), do: "111"
-  defp size_class("extra_large", :icon), do: "111"
+  defp size_class("extra_small", :icon), do: "size-8"
+  defp size_class("small", :icon), do: "size-9"
+  defp size_class("medium", :icon), do: "size-10"
+  defp size_class("large", :icon), do: "size-12"
+  defp size_class("extra_large", :icon), do: "size-14"
   defp size_class(params, :icon) when is_binary(params), do: params
   defp size_class(_, :icon), do: size_class("small", :icon)
 
@@ -199,5 +259,11 @@ defmodule MishkaChelekom.Avatar do
   defp space_class("extra_large"), do: "-space-x-6"
   defp space_class("none"), do: "space-x-0"
   defp space_class(params) when is_binary(params), do: params
-  defp space_class(_), do: space_class("medium")
+  defp space_class(_), do: space_class("medium")\
+
+  defp default_classes() do
+    [
+      "inline-flex items-center justify-center p-0.5"
+    ]
+  end
 end
