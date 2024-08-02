@@ -33,6 +33,10 @@ defmodule MishkaChelekom.Pagination do
   attr :color, :string, values: @colors, default: "transparent", doc: ""
   attr :rounded, :string, values: @sizes ++ ["none"], default: "none", doc: ""
   attr :separator, :string, default: "hero-ellipsis-horizontal", doc: ""
+  attr :next_label, :string, default: "hero-chevron-right", doc: ""
+  attr :previous_label, :string, default: "hero-chevron-left", doc: ""
+  attr :first_label, :string, default: "hero-chevron-double-left", doc: ""
+  attr :last_label, :string, default: "hero-chevron-double-right", doc: ""
   attr :class, :string, default: nil, doc: ""
   attr :params, :map, default: %{}
   slot :start_items, required: false
@@ -59,12 +63,19 @@ defmodule MishkaChelekom.Pagination do
     >
       <%= render_slot(@start_items) %>
       <button
+        :if={@rest[:show_edge]}
+        phx-click={@on_next |> JS.push("pagination", value: Map.merge(%{action: "first"}, @params))}
+        disabled={@active >= @total}
+      >
+        <.icon_or_text name={@first_label} />
+      </button>
+      <button
         phx-click={
           @on_previous |> JS.push("pagination", value: Map.merge(%{action: "previous"}, @params))
         }
         disabled={@active <= 1}
       >
-        <.icon name="hero-chevron-left" />
+        <.icon_or_text name={@previous_label} />
       </button>
 
       <div :for={range <- @siblings.range}>
@@ -84,14 +95,21 @@ defmodule MishkaChelekom.Pagination do
             <%= range %>
           </button>
         <% else %>
-          <.separator name={@separator} />
+          <.icon_or_text name={@separator} />
         <% end %>
       </div>
       <button
         phx-click={@on_next |> JS.push("pagination", value: Map.merge(%{action: "next"}, @params))}
         disabled={@active >= @total}
       >
-        <.icon name="hero-chevron-right" />
+        <.icon_or_text name={@next_label} />
+      </button>
+      <button
+        :if={@rest[:show_edge]}
+        phx-click={@on_next |> JS.push("pagination", value: Map.merge(%{action: "last"}, @params))}
+        disabled={@active >= @total}
+      >
+        <.icon_or_text name={@last_label} />
       </button>
       <%= render_slot(@end_items) %>
     </div>
@@ -101,15 +119,15 @@ defmodule MishkaChelekom.Pagination do
   attr :name, :string
   attr :class, :string, default: nil, doc: ""
 
-  defp separator(%{name: "hero-" <> _icon_name} = assigns) do
+  defp icon_or_text(%{name: "hero-" <> _icon_name} = assigns) do
     ~H"""
-    <.icon name={@name} class={@class || "separator-icon"} />
+    <.icon name={@name} class={@class || "pagination-icon"} />
     """
   end
 
-  defp separator(assigns) do
+  defp icon_or_text(assigns) do
     ~H"""
-    <span class={@class || "separator-text"}><%= @name %></span>
+    <span class={@class || "pagination-text"}><%= @name %></span>
     """
   end
 
