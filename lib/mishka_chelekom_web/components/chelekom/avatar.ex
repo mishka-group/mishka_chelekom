@@ -51,7 +51,6 @@ defmodule MishkaChelekom.Avatar do
   def avatar(%{src: src} = assigns) when not is_nil(src) do
     ~H"""
     <img
-      :if={!is_nil(@src)}
       id={@id}
       src={@src}
       class={[
