@@ -4,11 +4,27 @@ defmodule MishkaChelekom.Accordion do
 
   @sizes ["extra_small", "small", "medium", "large", "extra_large"]
 
+  @colors [
+    "white",
+    "primary",
+    "secondary",
+    "dark",
+    "success",
+    "warning",
+    "danger",
+    "info",
+    "light",
+    "misc",
+    "dawn",
+    "transparent"
+  ]
+
   @doc type: :component
   attr :id, :string, default: nil, doc: ""
   attr :rest, :global, doc: ""
   attr :class, :string, default: nil, doc: ""
   attr :space, :string, values: @sizes ++ ["none"], default: "none", doc: ""
+  attr :color, :string, values: @colors ++ ["transparent"], default: "transparent", doc: ""
 
   slot :item, required: true do
     attr :title, :string, required: true
@@ -25,11 +41,12 @@ defmodule MishkaChelekom.Accordion do
       class={
         default_classes() ++
           [
-            "border border-blue-300 [&>details:not(:last-child)>summary]:border-b",
+            "border [&>details:not(:last-child)>summary]:border-b",
             "[&>details:not(:last-child)>summary]:border-blue-300",
             "[&>details:not(:last-child)>:not(summary)]:border-b",
             "[&>details:not(:last-child)>:not(summary)]:border-blue-300 rounded-lg overflow-hidden",
             space_class(@space),
+            border(@color),
             @class
           ]
       }
@@ -71,12 +88,12 @@ defmodule MishkaChelekom.Accordion do
   defp space_class(params) when is_binary(params), do: params
   defp space_class(_), do: space_class("small")
 
-  defp border("white") do
-    "border-[#DADADA] hover:border-[#d9d9d9]"
-  end
-
   defp border("transparent") do
     "border-transparent"
+  end
+
+  defp border("white") do
+    "border-[#DADADA] hover:border-[#d9d9d9]"
   end
 
   defp border("primary") do
