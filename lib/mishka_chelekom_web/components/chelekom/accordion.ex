@@ -12,6 +12,7 @@ defmodule MishkaChelekom.Accordion do
 
   slot :item, required: true do
     attr :title, :string, required: true
+    attr :icon, :string
     attr :class, :string
     attr :icon_class, :string
     attr :content_class, :string
