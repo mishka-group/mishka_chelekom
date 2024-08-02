@@ -55,9 +55,12 @@ defmodule MishkaChelekom.Pagination do
       }
       {@rest}
     >
-      <button phx-click={
-        @on_previous |> JS.push("pagination", value: Map.merge(%{action: "previous"}, @params))
-      }>
+      <button
+        phx-click={
+          @on_previous |> JS.push("pagination", value: Map.merge(%{action: "previous"}, @params))
+        }
+        disabled={@active <= 1}
+      >
         <.icon name="hero-chevron-left" />
       </button>
 
@@ -73,6 +76,7 @@ defmodule MishkaChelekom.Pagination do
               @on_select
               |> JS.push("pagination", value: Map.merge(%{action: "select", page: range}, @params))
             }
+            disabled={range == @active}
           >
             <%= range %>
           </button>
@@ -80,9 +84,10 @@ defmodule MishkaChelekom.Pagination do
           <.separator name={@separator} />
         <% end %>
       </div>
-      <button phx-click={
-        @on_next |> JS.push("pagination", value: Map.merge(%{action: "next"}, @params))
-      }>
+      <button
+        phx-click={@on_next |> JS.push("pagination", value: Map.merge(%{action: "next"}, @params))}
+        disabled={@active >= @total}
+      >
         <.icon name="hero-chevron-right" />
       </button>
     </div>
