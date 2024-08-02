@@ -160,24 +160,24 @@
   <h2>use peer</h2>
   <MishkaChelekom.Accordion.native_accordion>
     <details
-      class="cursor-pointer border border-blue-300 bg-white [&]:open:pb-5 peer"
+      class="cursor-pointer border border-blue-300 p-2 bg-white [&]:open:pb-5 peer"
       name="reqs"
     >
       <summary class="">Graduation Requirements</summary>
 
-      <div>
+      <div class="p-2">
         Requires 40 credits, including a passing grade in health, geography,
         history, economics, and wood shop.
       </div>
     </details>
 
     <details
-      class="cursor-pointer border border-blue-300 bg-white [&]:open:pb-5 peer peer-[]:border-t-0"
+      class="cursor-pointer border border-blue-300 p-2 bg-white [&]:open:pb-5 peer peer-[]:border-t-0"
       name="reqs"
     >
       <summary class="">System Requirements</summary>
 
-      <div>
+      <div class="p-2">
         Requires a computer running an operating system. The computer must have some
         memory and ideally some kind of long-term storage. An input device as well
         as some form of output device is recommended.
@@ -185,12 +185,12 @@
     </details>
 
     <details
-      class="cursor-pointer bg-white [&]:open:pb-5 peer-[]:border-t-0"
+      class="cursor-pointer bg-white border border-blue-300 p-2 [&]:open:pb-5 peer-[]:border-t-0"
       name="reqs"
     >
       <summary class="">Job Requirements</summary>
 
-      <div>
+      <div class="p-2">
         Requires knowledge of HTML, CSS, JavaScript, accessibility, web performance,
         privacy, security, and internationalization, as well as a dislike of
         broccoli.
@@ -239,7 +239,7 @@
     </details>
   </MishkaChelekom.Accordion.native_accordion>
   <hr />
-  <h2>use peer</h2>
+  <h2>use peer 3</h2>
   <MishkaChelekom.Accordion.native_accordion>
     <details
       class="cursor-pointer border border-blue-300 bg-white [&]:open:pb-5 peer"
@@ -267,7 +267,7 @@
     </details>
 
     <details
-      class="cursor-pointer bg-white [&]:open:pb-5 peer-[]:border-t-0"
+      class="cursor-pointer bg-white border border-blue-300 [&]:open:pb-5 peer-[]:border-t-0"
       name="reqs"
     >
       <summary class="">Job Requirements</summary>
@@ -334,7 +334,7 @@
       class="list-none p-5 font-bold flex flex-nowarp items-center justify-between gap-2"
     >
       <div>Graduation Requirements</div>
-      <.icon name="hero-chevron-right" class="w-5 native-accordion-chevron" />
+      <.icon name="hero-chevron-right" class="w-5 native-accordion-chevron transition ease-in-out duration-500" />
     </summary>
 
     <div class="p-5">
@@ -481,6 +481,60 @@
       <.icon name="hero-chevron-right" class="w-5 native-accordion-chevron" />
     </summary>
     <div class="p-5">
+      Requires knowledge of HTML, CSS, JavaScript, accessibility, web
+      performance, privacy, security, and internationalization, as well as a
+      dislike of broccoli.
+    </div>
+  </details>
+</MishkaChelekom.Accordion.native_accordion>
+
+<hr />
+<h2>Animating</h2>
+<MishkaChelekom.Accordion.native_accordion
+  class="border border-blue-300 [&>details:not(:last-child)>summary]:border-b [&>details:not(:last-child)>summary]:border-blue-300 [&>details:not(:last-child)>:not(summary)]:border-b [&>details:not(:last-child)>:not(summary)]:border-blue-300 rounded-lg overflow-hidden"
+>
+  <details
+    class="cursor-pointer bg-white [&_.native-accordion-chevron]:open:rotate-90 group"
+  >
+    <summary
+      class="list-none p-5 font-bold flex flex-nowarp items-center justify-between gap-2"
+    >
+      <div>Graduation Requirements</div>
+      <.icon name="hero-chevron-right" class="w-5 native-accordion-chevron transition ease-in-out duration-800" />
+    </summary>
+
+    <div class="p-5 native-accordion-content max-h-0 overflow-hidden transition-[max-height] duration-1000 group-open:max-h-80">
+      Requires 40 credits, including a passing grade in health, geography,
+      history, economics, and wood shop.
+    </div>
+  </details>
+
+  <details
+    class="cursor-pointer bg-white [&_.native-accordion-chevron]:open:rotate-90 group"
+  >
+    <summary
+      class="list-none p-5 font-bold flex flex-nowarp items-center justify-between gap-2"
+    >
+      <div>System Requirements</div>
+      <.icon name="hero-chevron-right" class="w-5 native-accordion-chevron transition ease-in-out duration-800" />
+    </summary>
+    <div class="p-5 native-accordion-content max-h-0 overflow-hidden transition-[max-height] duration-1000 group-open:max-h-80">
+      Requires a computer running an operating system. The computer must have
+      some memory and ideally some kind of long-term storage. An input device as
+      well as some form of output device is recommended.
+    </div>
+  </details>
+
+  <details
+    class="cursor-pointer bg-white [&_.native-accordion-chevron]:open:rotate-90 group"
+  >
+    <summary
+      class="list-none p-5 font-bold flex flex-nowarp items-center justify-between gap-2"
+    >
+      <div>Job Requirements</div>
+      <.icon name="hero-chevron-right" class="w-5 native-accordion-chevron transition ease-in-out duration-800" />
+    </summary>
+    <div class="p-5 native-accordion-content max-h-0 overflow-hidden transition-[max-height] duration-1000 group-open:max-h-80">
       Requires knowledge of HTML, CSS, JavaScript, accessibility, web
       performance, privacy, security, and internationalization, as well as a
       dislike of broccoli.
