@@ -48,7 +48,7 @@ defmodule MishkaChelekom.Avatar do
   attr :rest, :global
   slot :inner_block, required: false, doc: ""
 
-  def avatar(assigns) do
+  def avatar(%{src: src} = assigns) when not is_nil(src) do
     ~H"""
     <img
       :if={!is_nil(@src)}
@@ -64,23 +64,36 @@ defmodule MishkaChelekom.Avatar do
       ]}
       {@rest}
     />
+    """
+  end
+
+  def avatar(%{icon: icon} = assigns) when icon != [] do
+    ~H"""
     <div :for={icon <- @icon} class={[icon[:size], icon[:color], icon[:class]]}>
       <.icon name={icon[:name]} class={icon[:icon_class] || size_class(@size, :icon)} />
     </div>
+    """
+  end
+
+  def avatar(assigns) do
+    ~H"""
     <div
       id={@id}
       class={
-          default_classes() ++
-            [
-              color_class(@color),
-          rounded_size(@rounded),
-        size_class(@size),
-        border_class(@border),
-        shadow_class(@shadow),
+        default_classes() ++
+          [
+            color_class(@color),
+            rounded_size(@rounded),
+            size_class(@size),
+            border_class(@border),
+            shadow_class(@shadow),
             @font_weight,
             @class
           ]
-      }><%= render_slot(@inner_block) %></div>
+      }
+    >
+      <%= render_slot(@inner_block) %>
+    </div>
     """
   end
 
@@ -206,8 +219,8 @@ defmodule MishkaChelekom.Avatar do
   defp color_class("dark") do
     "bg-[#1E1E1E] text-white border-[#050404]"
   end
-  defp color_class(_), do: color_class("white")
 
+  defp color_class(_), do: color_class("white")
 
   defp border_class("extra_small"), do: "border"
   defp border_class("small"), do: "border-2"
@@ -259,7 +272,7 @@ defmodule MishkaChelekom.Avatar do
   defp space_class("extra_large"), do: "-space-x-6"
   defp space_class("none"), do: "space-x-0"
   defp space_class(params) when is_binary(params), do: params
-  defp space_class(_), do: space_class("medium")\
+  defp space_class(_), do: space_class("medium")
 
   defp default_classes() do
     [
