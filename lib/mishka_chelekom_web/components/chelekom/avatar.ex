@@ -259,11 +259,11 @@ defmodule MishkaChelekom.Avatar do
   defp size_class(params) when is_binary(params), do: params
   defp size_class(_), do: size_class("small")
 
-  defp size_class("extra_small", :icon), do: "size-8"
-  defp size_class("small", :icon), do: "size-9"
-  defp size_class("medium", :icon), do: "size-10"
-  defp size_class("large", :icon), do: "size-12"
-  defp size_class("extra_large", :icon), do: "size-14"
+  defp size_class("extra_small", :icon), do: "size-4"
+  defp size_class("small", :icon), do: "size-5"
+  defp size_class("medium", :icon), do: "size-6"
+  defp size_class("large", :icon), do: "size-7"
+  defp size_class("extra_large", :icon), do: "size-8"
   defp size_class(params, :icon) when is_binary(params), do: params
   defp size_class(_, :icon), do: size_class("small", :icon)
 
