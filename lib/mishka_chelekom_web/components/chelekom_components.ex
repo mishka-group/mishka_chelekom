@@ -121,7 +121,7 @@ defmodule MishkaChelekomComponents do
     """
   end
 
-  def icon(%{name: "hero-" <> _, class: class} = assigns) when is_binary(class) do
+  def icon(%{name: "hero-" <> _} = assigns) do
     ~H"""
     <span class={[@name, @class]} />
     """
