@@ -30,12 +30,12 @@ defmodule MishkaChelekom.Avatar do
 
   attr :class, :string, default: nil, doc: ""
   attr :src, :string, default: nil, doc: ""
-  attr :color, :string, values: @colors, default: "white", doc: ""
+  attr :color, :string, values: @colors ++ ["transparent"], default: "transparent", doc: ""
   attr :size, :string, default: "small", doc: ""
   attr :shadow, :string, values: @sizes ++ ["none"], default: "none", doc: ""
   attr :font_weight, :string, default: "font-normal", doc: ""
   attr :rounded, :string, values: @sizes ++ ["full", "none"], default: "medium", doc: ""
-  attr :border, :string, default: "extra_small", doc: ""
+  attr :border, :string, default: "none", doc: ""
 
   slot :icon, required: false do
     attr :name, :string, required: true
@@ -241,8 +241,9 @@ defmodule MishkaChelekom.Avatar do
   defp border_class("medium"), do: "border-[3px]"
   defp border_class("large"), do: "border-4"
   defp border_class("extra_large"), do: "border-[5px]"
+  defp border_class("none"), do: "border-0"
   defp border_class(params) when is_binary(params), do: params
-  defp border_class(_), do: border_class("extra_small")
+  defp border_class(_), do: border_class("none")
 
   defp rounded_size("extra_small"), do: "rounded-sm"
   defp rounded_size("small"), do: "rounded"
@@ -290,7 +291,7 @@ defmodule MishkaChelekom.Avatar do
 
   defp default_classes() do
     [
-      "inline-flex items-center justify-center p-0.5"
+      "relative inline-flex items-center justify-center p-0.5"
     ]
   end
 end
