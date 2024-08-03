@@ -80,44 +80,51 @@ defmodule MishkaChelekom.Pagination do
       {@rest}
     >
       <%= render_slot(@start_items) %>
-      <button
+
+      <.item_button
         :if={@rest[:show_edges]}
-        phx-click={@on_next |> JS.push("pagination", value: Map.merge(%{action: "first"}, @params))}
-        disabled={@active <= 1}
-      >
-        <.icon_or_text name={@first_label} />
-      </button>
-      <button
+        on_action={{"first", @on_next}}
+        page={{nil, @active}}
+        params={@params}
+        icon={@first_label}
+        disabled={active <= 1}
+      />
+
+      <.item_button
         :if={is_nil(@rest[:hide_controls])}
-        phx-click={
-          @on_previous |> JS.push("pagination", value: Map.merge(%{action: "previous"}, @params))
-        }
-        disabled={@active <= 1}
-      >
-        <.icon_or_text name={@previous_label} />
-      </button>
+        on_action={{"previous", @on_previous}}
+        page={{nil, @active}}
+        params={@params}
+        icon={@previous_label}
+        disabled={active <= 1}
+      />
 
       <div :for={range <- @siblings.range}>
         <%= if is_integer(range) do %>
-          <.pagination_button params={@params} range={range} active={@active} on_select={@on_select} />
+          <.item_button on_action={{"select", @on_select}} page={{range, @active}} params={@params} />
         <% else %>
           <.icon_or_text name={@separator} />
         <% end %>
       </div>
-      <button
+
+      <.item_button
         :if={is_nil(@rest[:hide_controls])}
-        phx-click={@on_next |> JS.push("pagination", value: Map.merge(%{action: "next"}, @params))}
+        on_action={{"next", @on_next}}
+        page={{nil, @active}}
+        params={@params}
+        icon={@next_label}
         disabled={@active >= @total}
-      >
-        <.icon_or_text name={@next_label} />
-      </button>
-      <button
+      />
+
+      <.item_button
         :if={@rest[:show_edges]}
-        phx-click={@on_next |> JS.push("pagination", value: Map.merge(%{action: "last"}, @params))}
+        on_action={{"last", @on_last}}
+        page={{nil, @active}}
+        params={@params}
+        icon={@last_label}
         disabled={@active >= @total}
-      >
-        <.icon_or_text name={@last_label} />
-      </button>
+      />
+
       <%= render_slot(@end_items) %>
     </div>
     """
@@ -139,24 +146,36 @@ defmodule MishkaChelekom.Pagination do
   end
 
   attr :params, :map, default: %{}
-  attr :range, :list, required: true
-  attr :active, :integer, required: true
-  attr :on_select, JS, default: %JS{}
+  attr :page, :list, required: true
+  attr :on_action, JS, default: %JS{}
+  attr :icon, :string, required: false
+  attr :rest, :global, include: ~w(disabled), doc: ""
 
-  defp pagination_button(assigns) do
+  defp item_button(%{on_action: {"select", on_action}, page: {page, active}} = assigns) do
     ~H"""
     <button
-    class={[
+      class={[
         "pagination-button",
-        @active == @range && "[&_.pagination-button]:bg-red-600 text-white"
+        active == page && "[&_.pagination-button]:bg-red-600 text-white"
       ]}
       phx-click={
-        @on_select
-        |> JS.push("pagination", value: Map.merge(%{action: "select", page: @range}, @params))
+        on_action
+        |> JS.push("pagination", value: Map.merge(%{action: "select", page: page}, @params))
       }
-      disabled={@range == @active}
+      disabled={page == active}
     >
-      <%= @range %>
+      <%= page %>
+    </button>
+    """
+  end
+
+  defp item_button(%{on_action: {action, on_action}, page: {_, active}} = assigns) do
+    ~H"""
+    <button
+      phx-click={on_action |> JS.push("pagination", value: Map.merge(%{action: action}, @params))}
+      {@rest}
+    >
+      <.icon_or_text name={@icon} />
     </button>
     """
   end
@@ -270,7 +289,6 @@ defmodule MishkaChelekom.Pagination do
   defp rounded_size("extra_large"), do: " [&_.pagination-button]:rounded-xl"
   defp rounded_size("full"), do: " [&_.pagination-button]:rounded-full"
   defp rounded_size("none"), do: " [&_.pagination-button]:rounded-none"
-
 
   defp size_class("extra_small"), do: " [&_.pagination-button]:size-5"
   defp size_class("small"), do: " [&_.pagination-button]:size-6"
