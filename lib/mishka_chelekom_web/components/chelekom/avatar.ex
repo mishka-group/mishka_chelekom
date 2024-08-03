@@ -50,19 +50,22 @@ defmodule MishkaChelekom.Avatar do
 
   def avatar(%{src: src} = assigns) when not is_nil(src) do
     ~H"""
-    <img
-      id={@id}
-      src={@src}
-      class={[
-        image_color(@color),
-        rounded_size(@rounded),
-        size_class(@size),
-        border_class(@border),
-        shadow_class(@shadow),
-        @class
-      ]}
-      {@rest}
-    />
+    <div class="relative">
+      <img
+        id={@id}
+        src={@src}
+        class={[
+          image_color(@color),
+          rounded_size(@rounded),
+          size_class(@size),
+          border_class(@border),
+          shadow_class(@shadow),
+          @class
+        ]}
+        {@rest}
+      />
+      <%= render_slot(@inner_block) %>
+    </div>
     """
   end
 
