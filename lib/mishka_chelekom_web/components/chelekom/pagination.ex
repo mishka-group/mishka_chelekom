@@ -282,19 +282,19 @@ defmodule MishkaChelekom.Pagination do
     "border-[#1E1E1E] hover:[&_.pagination-button]:border-[#111111]"
   end
 
-  defp rounded_size("extra_small"), do: " [&_.pagination-button]:rounded-sm"
-  defp rounded_size("small"), do: " [&_.pagination-button]:rounded"
-  defp rounded_size("medium"), do: " [&_.pagination-button]:rounded-md"
-  defp rounded_size("large"), do: " [&_.pagination-button]:rounded-lg"
-  defp rounded_size("extra_large"), do: " [&_.pagination-button]:rounded-xl"
-  defp rounded_size("full"), do: " [&_.pagination-button]:rounded-full"
-  defp rounded_size("none"), do: " [&_.pagination-button]:rounded-none"
+  defp rounded_size("extra_small"), do: "[&_.pagination-button]:rounded-sm"
+  defp rounded_size("small"), do: "[&_.pagination-button]:rounded"
+  defp rounded_size("medium"), do: "[&_.pagination-button]:rounded-md"
+  defp rounded_size("large"), do: "[&_.pagination-button]:rounded-lg"
+  defp rounded_size("extra_large"), do: "[&_.pagination-button]:rounded-xl"
+  defp rounded_size("full"), do: "[&_.pagination-button]:rounded-full"
+  defp rounded_size("none"), do: "[&_.pagination-button]:rounded-none"
 
-  defp size_class("extra_small"), do: " [&_.pagination-button]:size-5"
-  defp size_class("small"), do: " [&_.pagination-button]:size-6"
-  defp size_class("medium"), do: " [&_.pagination-button]:size-7"
-  defp size_class("large"), do: " [&_.pagination-button]:size-8"
-  defp size_class("extra_large"), do: " [&_.pagination-button]:size-9"
+  defp size_class("extra_small"), do: "[&_.pagination-button]:size-6 text-xs"
+  defp size_class("small"), do: "[&_.pagination-button]:size-7 text-sm"
+  defp size_class("medium"), do: "[&_.pagination-button]:size-8 text-base"
+  defp size_class("large"), do: "[&_.pagination-button]:size-9 text-lg"
+  defp size_class("extra_large"), do: "[&_.pagination-button]:size-10 text-xl"
   defp size_class(params) when is_binary(params), do: params
 
   defp color_variant("default", "white") do
@@ -518,51 +518,51 @@ defmodule MishkaChelekom.Pagination do
   end
 
   defp color_variant("shadow", "white") do
-    "[&_.pagination-button]:bg-white text-[#3E3E3E] [&_.pagination-button]:border-[#DADADA] shadow hover:[&_.pagination-button]:bg-[#E8E8E8] hover:[&_.pagination-button]:border-[#d9d9d9] [&_.pagination-button.active-pagination-button]:bg-[#E8E8E8] [&_.pagination-button.active-pagination-button]:border-[#d9d9d9]"
+    "[&_.pagination-button]:bg-white text-[#3E3E3E] [&_.pagination-button]:border-[#DADADA] [&_.pagination-button]:shadow hover:[&_.pagination-button]:bg-[#E8E8E8] hover:[&_.pagination-button]:border-[#d9d9d9] [&_.pagination-button.active-pagination-button]:bg-[#E8E8E8] [&_.pagination-button.active-pagination-button]:border-[#d9d9d9]"
   end
 
   defp color_variant("shadow", "primary") do
-    "[&_.pagination-button]:bg-[#4363EC] text-white [&_.pagination-button]:border-[#4363EC] shadow hover:[&_.pagination-button]:bg-[#072ed3] hover:[&_.pagination-button]:border-[#072ed3] [&_.pagination-button.active-pagination-button]:bg-[#072ed3] [&_.pagination-button.active-pagination-button]:border-[#072ed3]"
+    "[&_.pagination-button]:bg-[#4363EC] text-white [&_.pagination-button]:border-[#4363EC] [&_.pagination-button]:shadow hover:[&_.pagination-button]:bg-[#072ed3] hover:[&_.pagination-button]:border-[#072ed3] [&_.pagination-button.active-pagination-button]:bg-[#072ed3] [&_.pagination-button.active-pagination-button]:border-[#072ed3]"
   end
 
   defp color_variant("shadow", "secondary") do
-    "[&_.pagination-button]:bg-[#6B6E7C] text-white [&_.pagination-button]:border-[#6B6E7C] shadow hover:[&_.pagination-button]:bg-[#60636f] hover:[&_.pagination-button]:border-[#60636f] [&_.pagination-button.active-pagination-button]:bg-[#60636f] [&_.pagination-button.active-pagination-button]:border-[#60636f]"
+    "[&_.pagination-button]:bg-[#6B6E7C] text-white [&_.pagination-button]:border-[#6B6E7C] [&_.pagination-button]:shadow hover:[&_.pagination-button]:bg-[#60636f] hover:[&_.pagination-button]:border-[#60636f] [&_.pagination-button.active-pagination-button]:bg-[#60636f] [&_.pagination-button.active-pagination-button]:border-[#60636f]"
   end
 
   defp color_variant("shadow", "success") do
-    "[&_.pagination-button]:bg-[#AFEAD0] text-[#227A52] [&_.pagination-button]:border-[#AFEAD0] shadow hover:[&_.pagination-button]:bg-[#d4fde4] hover:[&_.pagination-button]:border-[#d4fde4] [&_.pagination-button.active-pagination-button]:bg-[#d4fde4] [&_.pagination-button.active-pagination-button]:border-[#d4fde4]"
+    "[&_.pagination-button]:bg-[#AFEAD0] text-[#227A52] [&_.pagination-button]:border-[#AFEAD0] [&_.pagination-button]:shadow hover:[&_.pagination-button]:bg-[#d4fde4] hover:[&_.pagination-button]:border-[#d4fde4] [&_.pagination-button.active-pagination-button]:bg-[#d4fde4] [&_.pagination-button.active-pagination-button]:border-[#d4fde4]"
   end
 
   defp color_variant("shadow", "warning") do
-    "[&_.pagination-button]:bg-[#FFF8E6] text-[#FF8B08] [&_.pagination-button]:border-[#FFF8E6] shadow hover:[&_.pagination-button]:bg-[#fff1cd] hover:[&_.pagination-button]:border-[#fff1cd] [&_.pagination-button.active-pagination-button]:bg-[#fff1cd] [&_.pagination-button.active-pagination-button]:border-[#fff1cd]"
+    "[&_.pagination-button]:bg-[#FFF8E6] text-[#FF8B08] [&_.pagination-button]:border-[#FFF8E6] [&_.pagination-button]:shadow hover:[&_.pagination-button]:bg-[#fff1cd] hover:[&_.pagination-button]:border-[#fff1cd] [&_.pagination-button.active-pagination-button]:bg-[#fff1cd] [&_.pagination-button.active-pagination-button]:border-[#fff1cd]"
   end
 
   defp color_variant("shadow", "danger") do
-    "[&_.pagination-button]:bg-[#FFE6E6] text-[#E73B3B] [&_.pagination-button]:border-[#FFE6E6] shadow hover:[&_.pagination-button]:bg-[#ffcdcd] hover:[&_.pagination-button]:border-[#ffcdcd] [&_.pagination-button.active-pagination-button]:bg-[#ffcdcd] [&_.pagination-button.active-pagination-button]:border-[#ffcdcd]"
+    "[&_.pagination-button]:bg-[#FFE6E6] text-[#E73B3B] [&_.pagination-button]:border-[#FFE6E6] [&_.pagination-button]:shadow hover:[&_.pagination-button]:bg-[#ffcdcd] hover:[&_.pagination-button]:border-[#ffcdcd] [&_.pagination-button.active-pagination-button]:bg-[#ffcdcd] [&_.pagination-button.active-pagination-button]:border-[#ffcdcd]"
   end
 
   defp color_variant("shadow", "info") do
-    "[&_.pagination-button]:bg-[#E5F0FF] text-[#004FC4] [&_.pagination-button]:border-[#E5F0FF] shadow hover:[&_.pagination-button]:bg-[#cce1ff] hover:[&_.pagination-button]:border-[#cce1ff] [&_.pagination-button.active-pagination-button]:bg-[#cce1ff] [&_.pagination-button.active-pagination-button]:border-[#cce1ff]"
+    "[&_.pagination-button]:bg-[#E5F0FF] text-[#004FC4] [&_.pagination-button]:border-[#E5F0FF] [&_.pagination-button]:shadow hover:[&_.pagination-button]:bg-[#cce1ff] hover:[&_.pagination-button]:border-[#cce1ff] [&_.pagination-button.active-pagination-button]:bg-[#cce1ff] [&_.pagination-button.active-pagination-button]:border-[#cce1ff]"
   end
 
   defp color_variant("shadow", "misc") do
-    "[&_.pagination-button]:bg-[#FFE6FF] text-[#52059C] [&_.pagination-button]:border-[#FFE6FF] shadow hover:[&_.pagination-button]:bg-[#ffe0ff] hover:[&_.pagination-button]:border-[#ffe0ff] [&_.pagination-button.active-pagination-button]:bg-[#ffe0ff] [&_.pagination-button.active-pagination-button]:border-[#ffe0ff]"
+    "[&_.pagination-button]:bg-[#FFE6FF] text-[#52059C] [&_.pagination-button]:border-[#FFE6FF] [&_.pagination-button]:shadow hover:[&_.pagination-button]:bg-[#ffe0ff] hover:[&_.pagination-button]:border-[#ffe0ff] [&_.pagination-button.active-pagination-button]:bg-[#ffe0ff] [&_.pagination-button.active-pagination-button]:border-[#ffe0ff]"
   end
 
   defp color_variant("shadow", "dawn") do
-    "[&_.pagination-button]:bg-[#FFECDA] text-[#4D4137] [&_.pagination-button]:border-[#FFECDA] shadow hover:[&_.pagination-button]:bg-[#ffdfc1] hover:[&_.pagination-button]:border-[#ffdfc1] [&_.pagination-button.active-pagination-button]:bg-[#ffdfc1] [&_.pagination-button.active-pagination-button]:border-[#ffdfc1]"
+    "[&_.pagination-button]:bg-[#FFECDA] text-[#4D4137] [&_.pagination-button]:border-[#FFECDA] [&_.pagination-button]:shadow hover:[&_.pagination-button]:bg-[#ffdfc1] hover:[&_.pagination-button]:border-[#ffdfc1] [&_.pagination-button.active-pagination-button]:bg-[#ffdfc1] [&_.pagination-button.active-pagination-button]:border-[#ffdfc1]"
   end
 
   defp color_variant("shadow", "light") do
-    "[&_.pagination-button]:bg-[#E3E7F1] text-[#707483] [&_.pagination-button]:border-[#E3E7F1] shadow hover:[&_.pagination-button]:bg-[#d2d8e9] hover:[&_.pagination-button]:border-[#d2d8e9] [&_.pagination-button.active-pagination-button]:bg-[#d2d8e9] [&_.pagination-button.active-pagination-button]:border-[#d2d8e9]"
+    "[&_.pagination-button]:bg-[#E3E7F1] text-[#707483] [&_.pagination-button]:border-[#E3E7F1] [&_.pagination-button]:shadow hover:[&_.pagination-button]:bg-[#d2d8e9] hover:[&_.pagination-button]:border-[#d2d8e9] [&_.pagination-button.active-pagination-button]:bg-[#d2d8e9] [&_.pagination-button.active-pagination-button]:border-[#d2d8e9]"
   end
 
   defp color_variant("shadow", "dark") do
-    "[&_.pagination-button]:bg-[#1E1E1E] text-white [&_.pagination-button]:border-[#1E1E1E] shadow hover:[&_.pagination-button]:bg-[#111111] hover:[&_.pagination-button]:border-[#050404] [&_.pagination-button.active-pagination-button]:bg-[#050404] [&_.pagination-button.active-pagination-button]:border-[#050404]"
+    "[&_.pagination-button]:bg-[#1E1E1E] text-white [&_.pagination-button]:border-[#1E1E1E] [&_.pagination-button]:shadow hover:[&_.pagination-button]:bg-[#111111] hover:[&_.pagination-button]:border-[#050404] [&_.pagination-button.active-pagination-button]:bg-[#050404] [&_.pagination-button.active-pagination-button]:border-[#050404]"
   end
 
   defp color_variant("inverted", "white") do
-    "[&_.pagination-button]:bg-transparent text-white [&_.pagination-button]:border-white hover:[&_.pagination-button]:bg-white hover:[&_.pagination-button]:text-[#3E3E3E] hover:[&_.pagination-button]:border-[#DADADA] [&_.pagination-button.active-pagination-button]:bg-[#3E3E3E] [&_.pagination-button.active-pagination-button]:text-[#3E3E3E] [&_.pagination-button.active-pagination-button]:border-[#DADADA]"
+    "[&_.pagination-button]:bg-transparent text-white [&_.pagination-button]:border-white hover:[&_.pagination-button]:bg-white hover:[&_.pagination-button]:text-[#3E3E3E] hover:[&_.pagination-button]:border-[#DADADA] [&_.pagination-button.active-pagination-button]:bg-white [&_.pagination-button.active-pagination-button]:text-[#3E3E3E] [&_.pagination-button.active-pagination-button]:border-[#DADADA]"
   end
 
   defp color_variant("inverted", "primary") do
