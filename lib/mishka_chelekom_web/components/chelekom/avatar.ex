@@ -80,7 +80,7 @@ defmodule MishkaChelekom.Avatar do
         ]
     }>
       <div :for={icon <- @icon} class={[icon[:size], icon[:color], icon[:class]]}>
-        <.icon name={icon[:name]} class={icon[:icon_class] || size_class(@size, :icon)} />
+        <.icon name={icon[:name]} class={[icon[:icon_class], size_class(@size, :icon)]} />
       </div>
     </div>
     """
