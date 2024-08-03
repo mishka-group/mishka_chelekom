@@ -31,7 +31,7 @@
 
   <h2 class="font-bold text-2xl">Outline</h2>
 
-  <.pagination total={@posts.total} active={@posts.active} siblings={1} show_edges variant="outline" />
+  <.pagination total={@posts.total} active={@posts.active} siblings={1} show_edges variant="outline" class="bg-black py-5" />
   <.pagination total={@posts.total} active={@posts.active} siblings={2} show_edges variant="outline" color="primary" />
   <div>extra_large</div>
   <.pagination total={@posts.total} active={@posts.active} siblings={3} show_edges variant="outline" color="secondary" size="extra_large" />
@@ -69,7 +69,7 @@
 
   <h2 class="font-bold text-2xl">transparent</h2>
 
-  <.pagination total={@posts.total} active={@posts.active} siblings={1} show_edges variant="transparent" />
+  <.pagination total={@posts.total} active={@posts.active} siblings={1} show_edges variant="transparent" class="bg-black py-5" />
   <.pagination total={@posts.total} active={@posts.active} siblings={2} show_edges variant="transparent" color="primary" />
   <.pagination total={@posts.total} active={@posts.active} siblings={3} show_edges variant="transparent" color="secondary" />
   <.pagination total={@posts.total} active={@posts.active} siblings={1} show_edges variant="transparent" color="info" />
@@ -107,7 +107,7 @@
 
   <h2 class="font-bold text-2xl">inverted</h2>
 
-  <.pagination total={@posts.total} active={@posts.active} siblings={1} show_edges variant="inverted" />
+  <.pagination total={@posts.total} active={@posts.active} siblings={1} show_edges variant="inverted" class="bg-black py-5" />
   <div>large</div>
   <.pagination total={@posts.total} active={@posts.active} siblings={2} show_edges variant="inverted" color="primary" size="large" />
   <div>extra_large</div>
@@ -124,4 +124,18 @@
   <.pagination total={@posts.total} active={@posts.active} siblings={3} show_edges variant="inverted" color="light" />
   <.pagination total={@posts.total} active={@posts.active} siblings={3} show_edges variant="inverted" color="dark" />
 
+  <h2 class="font-bold text-2xl">rounded</h2>
+
+  <.pagination total={@posts.total} active={@posts.active} siblings={1} show_edges />
+  <div>large</div>
+  <.pagination total={@posts.total} active={@posts.active} siblings={2} show_edges rounded="full" color="primary" size="large" />
+  <div>extra_large</div>
+  <.pagination total={@posts.total} active={@posts.active} siblings={3} rounded="small" show_edges variant="subtle" color="secondary" size="extra_large" />
+  <div>small</div>
+  <.pagination total={@posts.total} active={@posts.active} siblings={1}  rounded="extra_large" show_edges variant="inverted" color="info" size="small" />
+  <div>medium</div>
+  <.pagination total={@posts.total} active={@posts.active} siblings={2} rounded="large" show_edges color="misc" size="medium" />
+  <div>extra_small</div>
+  <.pagination total={@posts.total} active={@posts.active} siblings={3} rounded="medium" show_edges variant="outline" color="dawn" size="extra_small" />
+  <.pagination total={@posts.total} active={@posts.active} siblings={3} show_edges variant="inverted" color="danger" />
 </div>
