@@ -56,7 +56,10 @@ defmodule MishkaChelekom.Pagination do
   attr :params, :map, default: %{}
   slot :start_items, required: false
   slot :end_items, required: false
-  attr :rest, :global, include: ~w(disabled hide_one_page show_edges hide_controls), doc: ""
+
+  attr :rest, :global,
+    include: ~w(disabled hide_one_page show_edges hide_controls grouped),
+    doc: ""
 
   def pagination(
         %{siblings: siblings, boundaries: boundaries, total: total, active: active} = assigns
@@ -87,7 +90,7 @@ defmodule MishkaChelekom.Pagination do
         page={{nil, @active}}
         params={@params}
         icon={@first_label}
-        disabled={active <= 1}
+        disabled={@active <= 1}
       />
 
       <.item_button
@@ -96,7 +99,7 @@ defmodule MishkaChelekom.Pagination do
         page={{nil, @active}}
         params={@params}
         icon={@previous_label}
-        disabled={active <= 1}
+        disabled={@active <= 1}
       />
 
       <div :for={range <- @siblings.range}>
@@ -149,31 +152,34 @@ defmodule MishkaChelekom.Pagination do
   attr :page, :list, required: true
   attr :on_action, JS, default: %JS{}
   attr :icon, :string, required: false
-  attr :rest, :global, include: ~w(disabled), doc: ""
+  attr :disabled, :boolean, required: false
 
-  defp item_button(%{on_action: {"select", on_action}, page: {page, active}} = assigns) do
+  defp item_button(%{on_action: {"select", _on_action}} = assigns) do
     ~H"""
     <button
       class={[
         "pagination-button border",
-        active == page && "active-pagination-button"
+        elem(@page, 1) == elem(@page, 0) && "active-pagination-button"
       ]}
       phx-click={
-        on_action
-        |> JS.push("pagination", value: Map.merge(%{action: "select", page: page}, @params))
+        elem(@on_action, 1)
+        |> JS.push("pagination", value: Map.merge(%{action: "select", page: elem(@page, 0)}, @params))
       }
-      disabled={page == active}
+      disabled={elem(@page, 0) == elem(@page, 1)}
     >
-      <%= page %>
+      <%= elem(@page, 0) %>
     </button>
     """
   end
 
-  defp item_button(%{on_action: {action, on_action}, page: {_, active}} = assigns) do
+  defp item_button(assigns) do
     ~H"""
     <button
-      phx-click={on_action |> JS.push("pagination", value: Map.merge(%{action: action}, @params))}
-      {@rest}
+      phx-click={
+        elem(@on_action, 1)
+        |> JS.push("pagination", value: Map.merge(%{action: elem(@on_action, 0)}, @params))
+      }
+      disabled={@disabled}
     >
       <.icon_or_text name={@icon} />
     </button>
