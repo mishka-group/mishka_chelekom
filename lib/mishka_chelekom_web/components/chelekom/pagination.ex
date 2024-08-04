@@ -426,7 +426,7 @@ defmodule MishkaChelekom.Pagination do
   end
 
   defp color_variant("unbordered", "dark") do
-    "[&_.pagination-button]:bg-[#1E1E1E] text-white [&_.pagination-button]:border-transparent hover:[&_.pagination-button]:bg-[#111111] [&_.pagination-button.active-pagination-button]:bg-[#111111]"
+    "[&_.pagination-button]:bg-[#1E1E1E] [&_.pagination-button]:text-white [&_.pagination-button]:border-transparent hover:[&_.pagination-button]:bg-[#111111] [&_.pagination-button.active-pagination-button]:bg-[#111111]"
   end
 
   defp color_variant("transparent", "white") do
