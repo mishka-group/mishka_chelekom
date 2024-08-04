@@ -347,7 +347,7 @@ defmodule MishkaChelekom.Button do
   end
 
   defp color_variant("default", "primary") do
-    "bg-[#4363EC] text-white border-[#2441de] [&>.indicator]:bg-white hover:bg-[#4c4f59] hover:border-[#2441de]"
+    "bg-[#4363EC] text-white border-[#2441de] [&>.indicator]:bg-white hover:bg-[#3f414a] hover:border-[#2441de]"
   end
 
   defp color_variant("default", "secondary") do
@@ -391,7 +391,7 @@ defmodule MishkaChelekom.Button do
   end
 
   defp color_variant("outline", "primary") do
-    "bg-transparent text-[#4363EC] border-[#4363EC] [&>.indicator]:bg-[#4363EC] hover:text-[#4c4f59] hover:border-[#4c4f59]"
+    "bg-transparent text-[#4363EC] border-[#4363EC] [&>.indicator]:bg-[#4363EC] hover:text-[#3f414a] hover:border-[#3f414a]"
   end
 
   defp color_variant("outline", "secondary") do
@@ -435,7 +435,7 @@ defmodule MishkaChelekom.Button do
   end
 
   defp color_variant("unbordered", "primary") do
-    "bg-[#4363EC] text-white border-transparent [&>.indicator]:bg-white hover:bg-[#4c4f59]"
+    "bg-[#4363EC] text-white border-transparent [&>.indicator]:bg-white hover:bg-[#3f414a]"
   end
 
   defp color_variant("unbordered", "secondary") do
@@ -479,7 +479,7 @@ defmodule MishkaChelekom.Button do
   end
 
   defp color_variant("transparent", "primary") do
-    "bg-transparent text-[#4363EC] border-transparent [&>.indicator]:bg-[#4363EC] [&>.indicator]:hover:bg-[#4c4f59] hover:text-[#4c4f59]"
+    "bg-transparent text-[#4363EC] border-transparent [&>.indicator]:bg-[#4363EC] [&>.indicator]:hover:bg-[#3f414a] hover:text-[#3f414a]"
   end
 
   defp color_variant("transparent", "secondary") do
@@ -567,7 +567,7 @@ defmodule MishkaChelekom.Button do
   end
 
   defp color_variant("shadow", "primary") do
-    "bg-[#4363EC] text-white border-[#4363EC] shadow [&>.indicator]:bg-white hover:bg-[#4c4f59] hover:border-[#4c4f59]"
+    "bg-[#4363EC] text-white border-[#4363EC] shadow [&>.indicator]:bg-white hover:bg-[#3f414a] hover:border-[#3f414a]"
   end
 
   defp color_variant("shadow", "secondary") do
@@ -733,7 +733,7 @@ defmodule MishkaChelekom.Button do
   end
 
   defp border("primary") do
-    "border-[#4363EC] hover:border-[#4c4f59]"
+    "border-[#4363EC] hover:border-[#3f414a]"
   end
 
   defp border("secondary") do
