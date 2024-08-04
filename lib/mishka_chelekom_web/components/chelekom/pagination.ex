@@ -390,11 +390,11 @@ defmodule MishkaChelekom.Pagination do
   end
 
   defp color_variant("unbordered", "primary") do
-    "[&_.pagination-button]:bg-[#4363EC] text-white [&_.pagination-button]:border-transparent hover:[&_.pagination-button]:bg-[#072ed3] [&_.pagination-button.active-pagination-button]:bg-[#072ed3]"
+    "[&_.pagination-button]:bg-[#4363EC] [&_.pagination-button]:text-white [&_.pagination-button]:border-transparent hover:[&_.pagination-button]:bg-[#072ed3] [&_.pagination-button.active-pagination-button]:bg-[#072ed3]"
   end
 
   defp color_variant("unbordered", "secondary") do
-    "[&_.pagination-button]:bg-[#6B6E7C] text-white [&_.pagination-button]:border-transparent hover:[&_.pagination-button]:bg-[#4c4f59] [&_.pagination-button.active-pagination-button]:bg-[#4c4f59]"
+    "[&_.pagination-button]:bg-[#6B6E7C] [&_.pagination-button]:text-white [&_.pagination-button]:border-transparent hover:[&_.pagination-button]:bg-[#4c4f59] [&_.pagination-button.active-pagination-button]:bg-[#4c4f59]"
   end
 
   defp color_variant("unbordered", "success") do
