@@ -337,10 +337,10 @@ defmodule MishkaChelekom.Avatar do
 
   defp size_class("large", :image) do
     [
-      "[&>img]:size-11 [&_.indicator-top-left]:!top-0 [&_.indicator-top-left]:!left-0",
-      "[&_.indicator-top-right]:!top-0 [&_.indicator-top-right]:!right-0",
-      "[&_.indicator-bottom-right]:!bottom-0 [&_.indicator-bottom-right]:!right-0",
-      "[&_.indicator-bottom-left]:!bottom-0 [&_.indicator-bottom-left]:!left-0",
+      "[&>img]:size-11 [&_.indicator-top-left]:!top-0.5 [&_.indicator-top-left]:!left-0.5",
+      "[&_.indicator-top-right]:!top-0.5 [&_.indicator-top-right]:!right-0.5",
+      "[&_.indicator-bottom-right]:!bottom-0.5 [&_.indicator-bottom-right]:!right-0.5",
+      "[&_.indicator-bottom-left]:!bottom-0.5 [&_.indicator-bottom-left]:!left-0.5",
       "[&_.indicator-top-left]:!translate-y-0 [&_.indicator-top-left]:!translate-x-0",
       "[&_.indicator-top-right]:!translate-y-0 [&_.indicator-top-right]:!translate-x-0",
       "[&_.indicator-bottom-right]:!translate-y-0 [&_.indicator-bottom-right]:!translate-x-0",
@@ -350,10 +350,10 @@ defmodule MishkaChelekom.Avatar do
 
   defp size_class("extra_large", :image) do
     [
-      "[&>img]:size-12 [&_.indicator-top-left]:!top-0 [&_.indicator-top-left]:!left-0",
-      "[&_.indicator-top-right]:!top-0 [&_.indicator-top-right]:!right-0",
-      "[&_.indicator-bottom-right]:!bottom-0 [&_.indicator-bottom-right]:!right-0",
-      "[&_.indicator-bottom-left]:!bottom-0 [&_.indicator-bottom-left]:!left-0",
+      "[&>img]:size-12 [&_.indicator-top-left]:!top-0.5 [&_.indicator-top-left]:!left-0.5",
+      "[&_.indicator-top-right]:!top-0.5 [&_.indicator-top-right]:!right-0.5",
+      "[&_.indicator-bottom-right]:!bottom-0.5 [&_.indicator-bottom-right]:!right-0.5",
+      "[&_.indicator-bottom-left]:!bottom-0.5 [&_.indicator-bottom-left]:!left-0.5",
       "[&_.indicator-top-left]:!translate-y-0 [&_.indicator-top-left]:!translate-x-0",
       "[&_.indicator-top-right]:!translate-y-0 [&_.indicator-top-right]:!translate-x-0",
       "[&_.indicator-bottom-right]:!translate-y-0 [&_.indicator-bottom-right]:!translate-x-0",
