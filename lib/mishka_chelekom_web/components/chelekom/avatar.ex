@@ -52,8 +52,7 @@ defmodule MishkaChelekom.Avatar do
     ~H"""
     <div class={[
       "relative w-fit",
-      size_class(@size, :image),
-      @class
+      size_class(@size, :image)
     ]}>
       <img
         id={@id}
@@ -61,7 +60,6 @@ defmodule MishkaChelekom.Avatar do
         class={[
           image_color(@color),
           rounded_size(@rounded),
-          size_class(@size),
           border_class(@border),
           shadow_class(@shadow),
           @class
