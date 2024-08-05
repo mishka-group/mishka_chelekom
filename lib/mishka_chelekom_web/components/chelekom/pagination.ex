@@ -240,7 +240,7 @@ defmodule MishkaChelekom.Pagination do
   defp range(start, stop), do: Enum.to_list(start..stop)
 
   defp border("white") do
-    "border-[#DADADA] hover:[&_.pagination-button]:border-[#d9d9d9]"
+    "border-[#DADADA] border-[#d9d9d9]"
   end
 
   defp border("transparent") do
@@ -248,43 +248,43 @@ defmodule MishkaChelekom.Pagination do
   end
 
   defp border("primary") do
-    "border-[#4363EC] hover:[&_.pagination-button]:border-[#072ed3]"
+    "border-[#4363EC] border-[#072ed3]"
   end
 
   defp border("secondary") do
-    "border-[#6B6E7C] hover:[&_.pagination-button]:border-[#4c4f59]"
+    "border-[#6B6E7C] border-[#4c4f59]"
   end
 
   defp border("success") do
-    "border-[#227A52] hover:[&_.pagination-button]:border-[#c0fad7]"
+    "border-[#227A52] border-[#c0fad7]"
   end
 
   defp border("warning") do
-    "border-[#FF8B08] hover:[&_.pagination-button]:border-[#fcebc0]"
+    "border-[#FF8B08] border-[#fcebc0]"
   end
 
   defp border("danger") do
-    "border-[#E73B3B] hover:[&_.pagination-button]:border-[#fcbbbb]"
+    "border-[#E73B3B] border-[#fcbbbb]"
   end
 
   defp border("info") do
-    "border-[#004FC4] hover:[&_.pagination-button]:border-[#bdd3f2]"
+    "border-[#004FC4] border-[#bdd3f2]"
   end
 
   defp border("misc") do
-    "border-[#52059C] hover:[&_.pagination-button]:border-[#edcced]"
+    "border-[#52059C] border-[#edcced]"
   end
 
   defp border("dawn") do
-    "border-[#4D4137] hover:[&_.pagination-button]:border-[#FFECDA]"
+    "border-[#4D4137] border-[#FFECDA]"
   end
 
   defp border("light") do
-    "border-[#707483] hover:[&_.pagination-button]:border-[#c8cee0]"
+    "border-[#707483] border-[#c8cee0]"
   end
 
   defp border("dark") do
-    "border-[#1E1E1E] hover:[&_.pagination-button]:border-[#111111]"
+    "border-[#1E1E1E] border-[#111111]"
   end
 
   defp rounded_size("extra_small"), do: "[&_.pagination-button]:rounded-sm"
@@ -1009,7 +1009,7 @@ defmodule MishkaChelekom.Pagination do
 
   defp default_classes() do
     [
-      "flex items-center gap-3 [&_.pagination-button.active-pagination-button]:font-medium"
+      "flex items-center [&_.pagination-button.active-pagination-button]:font-medium"
     ]
   end
 
