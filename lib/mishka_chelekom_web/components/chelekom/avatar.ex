@@ -94,7 +94,7 @@ defmodule MishkaChelekom.Avatar do
     """
   end
 
-  def avatar(%{icon: icon} = assigns) when icon != [] do
+  def avatar(%{icon: assigned_icon} = assigns) when assigned_icon != [] do
     ~H"""
     <div class={
       default_classes() ++
@@ -335,7 +335,7 @@ defmodule MishkaChelekom.Avatar do
     ]
   end
 
-  defp size_class("large", :image)do
+  defp size_class("large", :image) do
     [
       "[&>img]:size-11 [&_.indicator-top-left]:!top-0 [&_.indicator-top-left]:!left-0",
       "[&_.indicator-top-right]:!top-0 [&_.indicator-top-right]:!right-0",
