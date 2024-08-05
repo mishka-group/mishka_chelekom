@@ -13,148 +13,741 @@
   <h2 class="font-bold text-2xl">Default</h2>
 
   <.pagination total={@posts.total} active={@posts.active} siblings={1} show_edges />
-  <.pagination total={@posts.total} active={@posts.active} siblings={2} show_edges color="primary" />
-  <.pagination total={@posts.total} active={@posts.active} siblings={3} show_edges color="secondary" />
+  <.pagination
+    total={@posts.total}
+    active={@posts.active}
+    siblings={2}
+    show_edges
+    color="primary"
+  />
+  <.pagination
+    total={@posts.total}
+    active={@posts.active}
+    siblings={3}
+    show_edges
+    color="secondary"
+  />
   <.pagination total={@posts.total} active={@posts.active} siblings={1} show_edges color="info" />
   <div>small</div>
-  <.pagination total={@posts.total} active={@posts.active} siblings={2} show_edges color="misc" size="small" />
+  <.pagination
+    total={@posts.total}
+    active={@posts.active}
+    siblings={2}
+    show_edges
+    color="misc"
+    size="small"
+  />
   <div>extra_small</div>
-  <.pagination total={@posts.total} active={@posts.active} siblings={3} show_edges color="dawn" size="extra_small" />
+  <.pagination
+    total={@posts.total}
+    active={@posts.active}
+    siblings={3}
+    show_edges
+    color="dawn"
+    size="extra_small"
+  />
   <div>large</div>
-  <.pagination total={@posts.total} active={@posts.active} siblings={3} show_edges color="danger" size="large" />
-  <.pagination total={@posts.total} active={@posts.active} siblings={3} show_edges color="warning" />
+  <.pagination
+    total={@posts.total}
+    active={@posts.active}
+    siblings={3}
+    show_edges
+    color="danger"
+    size="large"
+  />
+  <.pagination
+    total={@posts.total}
+    active={@posts.active}
+    siblings={3}
+    show_edges
+    color="warning"
+  />
   <div>extra_large</div>
-  <.pagination total={@posts.total} active={@posts.active} siblings={3} show_edges color="success" size="extra_large" />
+  <.pagination
+    total={@posts.total}
+    active={@posts.active}
+    siblings={3}
+    show_edges
+    color="success"
+    size="extra_large"
+  />
   <div>medium</div>
-  <.pagination total={@posts.total} active={@posts.active} siblings={3} show_edges color="light" size="medium" />
+  <.pagination
+    total={@posts.total}
+    active={@posts.active}
+    siblings={3}
+    show_edges
+    color="light"
+    size="medium"
+  />
   <.pagination total={@posts.total} active={@posts.active} siblings={3} show_edges color="dark" />
 
   <h2 class="font-bold text-2xl">Outline</h2>
 
-  <.pagination total={@posts.total} active={@posts.active} siblings={1} show_edges variant="outline" class="bg-black py-5" />
-  <.pagination total={@posts.total} active={@posts.active} siblings={2} show_edges variant="outline" color="primary" />
+  <.pagination
+    total={@posts.total}
+    active={@posts.active}
+    siblings={1}
+    show_edges
+    variant="outline"
+    class="bg-black py-5"
+  />
+  <.pagination
+    total={@posts.total}
+    active={@posts.active}
+    siblings={2}
+    show_edges
+    variant="outline"
+    color="primary"
+  />
   <div>extra_large</div>
-  <.pagination total={@posts.total} active={@posts.active} siblings={3} show_edges variant="outline" color="secondary" size="extra_large" />
+  <.pagination
+    total={@posts.total}
+    active={@posts.active}
+    siblings={3}
+    show_edges
+    variant="outline"
+    color="secondary"
+    size="extra_large"
+  />
   <div>large</div>
-  <.pagination total={@posts.total} active={@posts.active} siblings={1} show_edges variant="outline" color="info" size="large" />
+  <.pagination
+    total={@posts.total}
+    active={@posts.active}
+    siblings={1}
+    show_edges
+    variant="outline"
+    color="info"
+    size="large"
+  />
   <div>small</div>
-  <.pagination total={@posts.total} active={@posts.active} siblings={2} show_edges variant="outline" color="misc" size="small" />
+  <.pagination
+    total={@posts.total}
+    active={@posts.active}
+    siblings={2}
+    show_edges
+    variant="outline"
+    color="misc"
+    size="small"
+  />
   <div>medium</div>
-  <.pagination total={@posts.total} active={@posts.active} siblings={3} show_edges variant="outline" color="dawn" size="medium" />
+  <.pagination
+    total={@posts.total}
+    active={@posts.active}
+    siblings={3}
+    show_edges
+    variant="outline"
+    color="dawn"
+    size="medium"
+  />
   <div>extra_small</div>
-  <.pagination total={@posts.total} active={@posts.active} siblings={3} show_edges variant="outline" color="danger" size="extra_small" />
-  <.pagination total={@posts.total} active={@posts.active} siblings={3} show_edges variant="outline" color="warning" />
-  <.pagination total={@posts.total} active={@posts.active} siblings={3} show_edges variant="outline" color="success" />
-  <.pagination total={@posts.total} active={@posts.active} siblings={3} show_edges variant="outline" color="light" />
-  <.pagination total={@posts.total} active={@posts.active} siblings={3} show_edges variant="outline" color="dark" />
+  <.pagination
+    total={@posts.total}
+    active={@posts.active}
+    siblings={3}
+    show_edges
+    variant="outline"
+    color="danger"
+    size="extra_small"
+  />
+  <.pagination
+    total={@posts.total}
+    active={@posts.active}
+    siblings={3}
+    show_edges
+    variant="outline"
+    color="warning"
+  />
+  <.pagination
+    total={@posts.total}
+    active={@posts.active}
+    siblings={3}
+    show_edges
+    variant="outline"
+    color="success"
+  />
+  <.pagination
+    total={@posts.total}
+    active={@posts.active}
+    siblings={3}
+    show_edges
+    variant="outline"
+    color="light"
+  />
+  <.pagination
+    total={@posts.total}
+    active={@posts.active}
+    siblings={3}
+    show_edges
+    variant="outline"
+    color="dark"
+  />
 
   <h2 class="font-bold text-2xl">unbordered</h2>
 
-  <.pagination total={@posts.total} active={@posts.active} siblings={1} show_edges variant="unbordered" />
-  <.pagination total={@posts.total} active={@posts.active} siblings={2} show_edges variant="unbordered" color="primary" />
-  <.pagination total={@posts.total} active={@posts.active} siblings={3} show_edges variant="unbordered" color="secondary" />
-  <.pagination total={@posts.total} active={@posts.active} siblings={1} show_edges variant="unbordered" color="info" />
+  <.pagination
+    total={@posts.total}
+    active={@posts.active}
+    siblings={1}
+    show_edges
+    variant="unbordered"
+  />
+  <.pagination
+    total={@posts.total}
+    active={@posts.active}
+    siblings={2}
+    show_edges
+    variant="unbordered"
+    color="primary"
+  />
+  <.pagination
+    total={@posts.total}
+    active={@posts.active}
+    siblings={3}
+    show_edges
+    variant="unbordered"
+    color="secondary"
+  />
+  <.pagination
+    total={@posts.total}
+    active={@posts.active}
+    siblings={1}
+    show_edges
+    variant="unbordered"
+    color="info"
+  />
   <div>extra_small</div>
-  <.pagination total={@posts.total} active={@posts.active} siblings={2} show_edges variant="unbordered" color="misc" size="extra_small" />
+  <.pagination
+    total={@posts.total}
+    active={@posts.active}
+    siblings={2}
+    show_edges
+    variant="unbordered"
+    color="misc"
+    size="extra_small"
+  />
   <div>large</div>
-  <.pagination total={@posts.total} active={@posts.active} siblings={3} show_edges variant="unbordered" color="dawn" size="large"/>
+  <.pagination
+    total={@posts.total}
+    active={@posts.active}
+    siblings={3}
+    show_edges
+    variant="unbordered"
+    color="dawn"
+    size="large"
+  />
   <div>small</div>
-  <.pagination total={@posts.total} active={@posts.active} siblings={3} show_edges variant="unbordered" color="danger" size="small" />
+  <.pagination
+    total={@posts.total}
+    active={@posts.active}
+    siblings={3}
+    show_edges
+    variant="unbordered"
+    color="danger"
+    size="small"
+  />
   <div>medium</div>
-  <.pagination total={@posts.total} active={@posts.active} siblings={3} show_edges variant="unbordered" color="warning" size="medium" />
+  <.pagination
+    total={@posts.total}
+    active={@posts.active}
+    siblings={3}
+    show_edges
+    variant="unbordered"
+    color="warning"
+    size="medium"
+  />
   <div>extra_large</div>
-  <.pagination total={@posts.total} active={@posts.active} siblings={3} show_edges variant="unbordered" color="success" size="extra_large" />
-  <.pagination total={@posts.total} active={@posts.active} siblings={3} show_edges variant="unbordered" color="light" />
-  <.pagination total={@posts.total} active={@posts.active} siblings={3} show_edges variant="unbordered" color="dark" />
+  <.pagination
+    total={@posts.total}
+    active={@posts.active}
+    siblings={3}
+    show_edges
+    variant="unbordered"
+    color="success"
+    size="extra_large"
+  />
+  <.pagination
+    total={@posts.total}
+    active={@posts.active}
+    siblings={3}
+    show_edges
+    variant="unbordered"
+    color="light"
+  />
+  <.pagination
+    total={@posts.total}
+    active={@posts.active}
+    siblings={3}
+    show_edges
+    variant="unbordered"
+    color="dark"
+  />
 
   <h2 class="font-bold text-2xl">transparent</h2>
 
-  <.pagination total={@posts.total} active={@posts.active} siblings={1} show_edges variant="transparent" class="bg-black py-5" />
-  <.pagination total={@posts.total} active={@posts.active} siblings={2} show_edges variant="transparent" color="primary" />
-  <.pagination total={@posts.total} active={@posts.active} siblings={3} show_edges variant="transparent" color="secondary" />
-  <.pagination total={@posts.total} active={@posts.active} siblings={1} show_edges variant="transparent" color="info" />
-  <.pagination total={@posts.total} active={@posts.active} siblings={2} show_edges variant="transparent" color="misc" />
+  <.pagination
+    total={@posts.total}
+    active={@posts.active}
+    siblings={1}
+    show_edges
+    variant="transparent"
+    class="bg-black py-5"
+  />
+  <.pagination
+    total={@posts.total}
+    active={@posts.active}
+    siblings={2}
+    show_edges
+    variant="transparent"
+    color="primary"
+  />
+  <.pagination
+    total={@posts.total}
+    active={@posts.active}
+    siblings={3}
+    show_edges
+    variant="transparent"
+    color="secondary"
+  />
+  <.pagination
+    total={@posts.total}
+    active={@posts.active}
+    siblings={1}
+    show_edges
+    variant="transparent"
+    color="info"
+  />
+  <.pagination
+    total={@posts.total}
+    active={@posts.active}
+    siblings={2}
+    show_edges
+    variant="transparent"
+    color="misc"
+  />
   <div>extra_small</div>
-  <.pagination total={@posts.total} active={@posts.active} siblings={3} show_edges variant="transparent" color="dawn" size="extra_small" />
+  <.pagination
+    total={@posts.total}
+    active={@posts.active}
+    siblings={3}
+    show_edges
+    variant="transparent"
+    color="dawn"
+    size="extra_small"
+  />
   <div>extra_large</div>
-  <.pagination total={@posts.total} active={@posts.active} siblings={3} show_edges variant="transparent" color="danger" size="extra_large" />
+  <.pagination
+    total={@posts.total}
+    active={@posts.active}
+    siblings={3}
+    show_edges
+    variant="transparent"
+    color="danger"
+    size="extra_large"
+  />
   <div>small</div>
-  <.pagination total={@posts.total} active={@posts.active} siblings={3} show_edges variant="transparent" color="warning" size="small" />
+  <.pagination
+    total={@posts.total}
+    active={@posts.active}
+    siblings={3}
+    show_edges
+    variant="transparent"
+    color="warning"
+    size="small"
+  />
   <div>medium</div>
-  <.pagination total={@posts.total} active={@posts.active} siblings={3} show_edges variant="transparent" color="success" size="medium" />
+  <.pagination
+    total={@posts.total}
+    active={@posts.active}
+    siblings={3}
+    show_edges
+    variant="transparent"
+    color="success"
+    size="medium"
+  />
   <div>large</div>
-  <.pagination total={@posts.total} active={@posts.active} siblings={3} show_edges variant="transparent" color="light" size="large" />
-  <.pagination total={@posts.total} active={@posts.active} siblings={3} show_edges variant="transparent" color="dark" />
+  <.pagination
+    total={@posts.total}
+    active={@posts.active}
+    siblings={3}
+    show_edges
+    variant="transparent"
+    color="light"
+    size="large"
+  />
+  <.pagination
+    total={@posts.total}
+    active={@posts.active}
+    siblings={3}
+    show_edges
+    variant="transparent"
+    color="dark"
+  />
 
   <h2 class="font-bold text-2xl">shadow</h2>
 
-  <.pagination total={@posts.total} active={@posts.active} siblings={1} show_edges variant="shadow" />
-  <.pagination total={@posts.total} active={@posts.active} siblings={2} show_edges variant="shadow" color="primary" />
-  <.pagination total={@posts.total} active={@posts.active} siblings={3} show_edges variant="shadow" color="secondary" />
-  <.pagination total={@posts.total} active={@posts.active} siblings={1} show_edges variant="shadow" color="info" />
-  <.pagination total={@posts.total} active={@posts.active} siblings={2} show_edges variant="shadow" color="misc" />
-  <.pagination total={@posts.total} active={@posts.active} siblings={3} show_edges variant="shadow" color="dawn" />
+  <.pagination
+    total={@posts.total}
+    active={@posts.active}
+    siblings={1}
+    show_edges
+    variant="shadow"
+  />
+  <.pagination
+    total={@posts.total}
+    active={@posts.active}
+    siblings={2}
+    show_edges
+    variant="shadow"
+    color="primary"
+  />
+  <.pagination
+    total={@posts.total}
+    active={@posts.active}
+    siblings={3}
+    show_edges
+    variant="shadow"
+    color="secondary"
+  />
+  <.pagination
+    total={@posts.total}
+    active={@posts.active}
+    siblings={1}
+    show_edges
+    variant="shadow"
+    color="info"
+  />
+  <.pagination
+    total={@posts.total}
+    active={@posts.active}
+    siblings={2}
+    show_edges
+    variant="shadow"
+    color="misc"
+  />
+  <.pagination
+    total={@posts.total}
+    active={@posts.active}
+    siblings={3}
+    show_edges
+    variant="shadow"
+    color="dawn"
+  />
   <div>extra_large</div>
-  <.pagination total={@posts.total} active={@posts.active} siblings={3} show_edges variant="shadow" color="danger" size="extra_large" />
+  <.pagination
+    total={@posts.total}
+    active={@posts.active}
+    siblings={3}
+    show_edges
+    variant="shadow"
+    color="danger"
+    size="extra_large"
+  />
   <div>extra_small</div>
-  <.pagination total={@posts.total} active={@posts.active} siblings={3} show_edges variant="shadow" color="warning" size="extra_small" />
+  <.pagination
+    total={@posts.total}
+    active={@posts.active}
+    siblings={3}
+    show_edges
+    variant="shadow"
+    color="warning"
+    size="extra_small"
+  />
   <div>small</div>
-  <.pagination total={@posts.total} active={@posts.active} siblings={3} show_edges variant="shadow" color="success" size="small" />
+  <.pagination
+    total={@posts.total}
+    active={@posts.active}
+    siblings={3}
+    show_edges
+    variant="shadow"
+    color="success"
+    size="small"
+  />
   <div>medium</div>
-  <.pagination total={@posts.total} active={@posts.active} siblings={3} show_edges variant="shadow" color="light" size="medium" />
+  <.pagination
+    total={@posts.total}
+    active={@posts.active}
+    siblings={3}
+    show_edges
+    variant="shadow"
+    color="light"
+    size="medium"
+  />
   <div>large</div>
-  <.pagination total={@posts.total} active={@posts.active} siblings={3} show_edges variant="shadow" color="dark" size="large" />
+  <.pagination
+    total={@posts.total}
+    active={@posts.active}
+    siblings={3}
+    show_edges
+    variant="shadow"
+    color="dark"
+    size="large"
+  />
 
   <h2 class="font-bold text-2xl">inverted</h2>
 
-  <.pagination total={@posts.total} active={@posts.active} siblings={1} show_edges variant="inverted" class="bg-black py-5" />
+  <.pagination
+    total={@posts.total}
+    active={@posts.active}
+    siblings={1}
+    show_edges
+    variant="inverted"
+    class="bg-black py-5"
+  />
   <div>large</div>
-  <.pagination total={@posts.total} active={@posts.active} siblings={2} show_edges variant="inverted" color="primary" size="large" />
+  <.pagination
+    total={@posts.total}
+    active={@posts.active}
+    siblings={2}
+    show_edges
+    variant="inverted"
+    color="primary"
+    size="large"
+  />
   <div>extra_large</div>
-  <.pagination total={@posts.total} active={@posts.active} siblings={3} show_edges variant="inverted" color="secondary" size="extra_large" />
+  <.pagination
+    total={@posts.total}
+    active={@posts.active}
+    siblings={3}
+    show_edges
+    variant="inverted"
+    color="secondary"
+    size="extra_large"
+  />
   <div>small</div>
-  <.pagination total={@posts.total} active={@posts.active} siblings={1} show_edges variant="inverted" color="info" size="small" />
+  <.pagination
+    total={@posts.total}
+    active={@posts.active}
+    siblings={1}
+    show_edges
+    variant="inverted"
+    color="info"
+    size="small"
+  />
   <div>medium</div>
-  <.pagination total={@posts.total} active={@posts.active} siblings={2} show_edges variant="inverted" color="misc" size="medium" />
+  <.pagination
+    total={@posts.total}
+    active={@posts.active}
+    siblings={2}
+    show_edges
+    variant="inverted"
+    color="misc"
+    size="medium"
+  />
   <div>extra_small</div>
-  <.pagination total={@posts.total} active={@posts.active} siblings={3} show_edges variant="inverted" color="dawn" size="extra_small" />
-  <.pagination total={@posts.total} active={@posts.active} siblings={3} show_edges variant="inverted" color="danger" />
-  <.pagination total={@posts.total} active={@posts.active} siblings={3} show_edges variant="inverted" color="warning" />
-  <.pagination total={@posts.total} active={@posts.active} siblings={3} show_edges variant="inverted" color="success" />
-  <.pagination total={@posts.total} active={@posts.active} siblings={3} show_edges variant="inverted" color="light" />
-  <.pagination total={@posts.total} active={@posts.active} siblings={3} show_edges variant="inverted" color="dark" />
+  <.pagination
+    total={@posts.total}
+    active={@posts.active}
+    siblings={3}
+    show_edges
+    variant="inverted"
+    color="dawn"
+    size="extra_small"
+  />
+  <.pagination
+    total={@posts.total}
+    active={@posts.active}
+    siblings={3}
+    show_edges
+    variant="inverted"
+    color="danger"
+  />
+  <.pagination
+    total={@posts.total}
+    active={@posts.active}
+    siblings={3}
+    show_edges
+    variant="inverted"
+    color="warning"
+  />
+  <.pagination
+    total={@posts.total}
+    active={@posts.active}
+    siblings={3}
+    show_edges
+    variant="inverted"
+    color="success"
+  />
+  <.pagination
+    total={@posts.total}
+    active={@posts.active}
+    siblings={3}
+    show_edges
+    variant="inverted"
+    color="light"
+  />
+  <.pagination
+    total={@posts.total}
+    active={@posts.active}
+    siblings={3}
+    show_edges
+    variant="inverted"
+    color="dark"
+  />
 
   <h2 class="font-bold text-2xl">subtle</h2>
 
-  <.pagination total={@posts.total} active={@posts.active} siblings={1} show_edges variant="subtle" class="bg-black py-5" />
+  <.pagination
+    total={@posts.total}
+    active={@posts.active}
+    siblings={1}
+    show_edges
+    variant="subtle"
+    class="bg-black py-5"
+  />
   <div>large</div>
-  <.pagination total={@posts.total} active={@posts.active} siblings={2} show_edges variant="subtle" color="primary" size="large" />
+  <.pagination
+    total={@posts.total}
+    active={@posts.active}
+    siblings={2}
+    show_edges
+    variant="subtle"
+    color="primary"
+    size="large"
+  />
   <div>extra_large</div>
-  <.pagination total={@posts.total} active={@posts.active} siblings={3} show_edges variant="subtle" color="secondary" size="extra_large" />
+  <.pagination
+    total={@posts.total}
+    active={@posts.active}
+    siblings={3}
+    show_edges
+    variant="subtle"
+    color="secondary"
+    size="extra_large"
+  />
   <div>small</div>
-  <.pagination total={@posts.total} active={@posts.active} siblings={1} show_edges variant="subtle" color="info" size="small" />
+  <.pagination
+    total={@posts.total}
+    active={@posts.active}
+    siblings={1}
+    show_edges
+    variant="subtle"
+    color="info"
+    size="small"
+  />
   <div>medium</div>
-  <.pagination total={@posts.total} active={@posts.active} siblings={2} show_edges variant="subtle" color="misc" size="medium" />
+  <.pagination
+    total={@posts.total}
+    active={@posts.active}
+    siblings={2}
+    show_edges
+    variant="subtle"
+    color="misc"
+    size="medium"
+  />
   <div>extra_small</div>
-  <.pagination total={@posts.total} active={@posts.active} siblings={3} show_edges variant="subtle" color="dawn" size="extra_small" />
-  <.pagination total={@posts.total} active={@posts.active} siblings={3} show_edges variant="subtle" color="danger" />
-  <.pagination total={@posts.total} active={@posts.active} siblings={3} show_edges variant="subtle" color="warning" />
-  <.pagination total={@posts.total} active={@posts.active} siblings={3} show_edges variant="subtle" color="success" />
-  <.pagination total={@posts.total} active={@posts.active} siblings={3} show_edges variant="subtle" color="light" />
-  <.pagination total={@posts.total} active={@posts.active} siblings={3} show_edges variant="subtle" color="dark" />
+  <.pagination
+    total={@posts.total}
+    active={@posts.active}
+    siblings={3}
+    show_edges
+    variant="subtle"
+    color="dawn"
+    size="extra_small"
+  />
+  <.pagination
+    total={@posts.total}
+    active={@posts.active}
+    siblings={3}
+    show_edges
+    variant="subtle"
+    color="danger"
+  />
+  <.pagination
+    total={@posts.total}
+    active={@posts.active}
+    siblings={3}
+    show_edges
+    variant="subtle"
+    color="warning"
+  />
+  <.pagination
+    total={@posts.total}
+    active={@posts.active}
+    siblings={3}
+    show_edges
+    variant="subtle"
+    color="success"
+  />
+  <.pagination
+    total={@posts.total}
+    active={@posts.active}
+    siblings={3}
+    show_edges
+    variant="subtle"
+    color="light"
+  />
+  <.pagination
+    total={@posts.total}
+    active={@posts.active}
+    siblings={3}
+    show_edges
+    variant="subtle"
+    color="dark"
+  />
 
   <h2 class="font-bold text-2xl">rounded</h2>
 
   <.pagination total={@posts.total} active={@posts.active} siblings={1} show_edges />
   <div>large</div>
-  <.pagination total={@posts.total} active={@posts.active} siblings={2} show_edges rounded="full" color="primary" size="large" />
+  <.pagination
+    total={@posts.total}
+    active={@posts.active}
+    siblings={2}
+    show_edges
+    rounded="full"
+    color="primary"
+    size="large"
+  />
   <div>extra_large</div>
-  <.pagination total={@posts.total} active={@posts.active} siblings={3} rounded="small" show_edges variant="subtle" color="secondary" size="extra_large" />
+  <.pagination
+    total={@posts.total}
+    active={@posts.active}
+    siblings={3}
+    rounded="small"
+    show_edges
+    variant="subtle"
+    color="secondary"
+    size="extra_large"
+  />
   <div>small</div>
-  <.pagination total={@posts.total} active={@posts.active} siblings={1}  rounded="extra_large" show_edges variant="inverted" color="info" size="small" />
+  <.pagination
+    total={@posts.total}
+    active={@posts.active}
+    siblings={1}
+    rounded="extra_large"
+    show_edges
+    variant="inverted"
+    color="info"
+    size="small"
+  />
   <div>medium</div>
-  <.pagination total={@posts.total} active={@posts.active} siblings={2} rounded="large" show_edges color="misc" size="medium" />
+  <.pagination
+    total={@posts.total}
+    active={@posts.active}
+    siblings={2}
+    rounded="large"
+    show_edges
+    color="misc"
+    size="medium"
+  />
   <div>extra_small</div>
-  <.pagination total={@posts.total} active={@posts.active} siblings={3} rounded="medium" show_edges variant="outline" color="dawn" size="extra_small" />
-  <.pagination total={@posts.total} active={@posts.active} siblings={3} show_edges variant="inverted" color="danger" />
+  <.pagination
+    total={@posts.total}
+    active={@posts.active}
+    siblings={3}
+    rounded="medium"
+    show_edges
+    variant="outline"
+    color="dawn"
+    size="extra_small"
+  />
+  <.pagination
+    total={@posts.total}
+    active={@posts.active}
+    siblings={3}
+    show_edges
+    variant="inverted"
+    color="danger"
+  />
 </div>
