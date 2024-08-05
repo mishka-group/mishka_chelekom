@@ -49,7 +49,7 @@ defmodule MishkaChelekom.Indicator do
         indicator_size(@size),
         color_class(@color),
         border_class(@border),
-        "block rounded-full border absolute -translate-y-1/2 -translate-x-1/2 right-auto top-0 left-0",
+        "block rounded-full border absolute -translate-y-1/2 -translate-x-1/2 right-auto top-0 left-0 indicator-top-left",
         !is_nil(@rest[:pinging]) && "[&>.indicator]:animate-ping",
         @class
       ]}
@@ -185,7 +185,7 @@ defmodule MishkaChelekom.Indicator do
         indicator_size(@size),
         color_class(@color),
         border_class(@border),
-        "block indicator peer rounded-full border",
+        "block indicator rounded-full border",
         !is_nil(@rest[:pinging]) && "animate-ping",
         @class
       ]}

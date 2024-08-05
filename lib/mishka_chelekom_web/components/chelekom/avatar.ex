@@ -275,7 +275,7 @@ defmodule MishkaChelekom.Avatar do
   defp size_class(params, :icon) when is_binary(params), do: params
   defp size_class(_, :icon), do: size_class("small", :icon)
 
-  defp size_class("extra_small", :image), do: "[&>img]:size-8 [&_.indicator]:absolute [&_.indicator]:top-0 [&_.indicator]:right-0"
+  defp size_class("extra_small", :image), do: "[&>img]:size-8 [&_.indicator-top-left+img.rounded-full]:!top-0 [&_.indicator-top-left+img.rounded-full]:!right-0"
   defp size_class("small", :image), do: "[&>img]:size-9 [&_.indicator]:absolute [&_.indicator]:top-0 [&_.indicator]:right-0"
   defp size_class("medium", :image), do: "[&>img]:size-10 [&_.indicator]:absolute [&_.indicator]:top-0 [&_.indicator]:right-0"
   defp size_class("large", :image), do: "[&>img]:size-12 [&_.indicator]:absolute [&_.indicator]:top-0 [&_.indicator]:right-0"
