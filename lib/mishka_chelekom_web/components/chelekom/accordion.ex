@@ -55,17 +55,20 @@ defmodule MishkaChelekom.Accordion do
     >
       <details
         :for={item <- @item}
-        phx-click={JS.transition({"ease-in-out duration-300", "max-h-0 opacity-0", "max-h-96 opacity-100"}, to: ".accordion-content")}
-        class={
-          item[:class] || "cursor-pointer bg-white group accordion-item"
+        phx-click={
+          JS.transition({"ease-in-out duration-300", "max-h-0 opacity-0", "max-h-96 opacity-100"},
+            to: ".accordion-content"
+          )
         }
+        class={item[:class] || "cursor-pointer bg-white group accordion-item"}
       >
         <summary class="list-none p-5 font-bold flex flex-nowrap items-center justify-between gap-2 transition-all duration-300 ease-in-out hover:bg-gray-100 ">
           <div><%= item[:title] %></div>
           <.icon
             name={item[:icon] || "hero-chevron-right"}
             class={
-              item[:icon_class] || "w-5 transition-transform duration-300 ease-in-out group-open:rotate-90"
+              item[:icon_class] ||
+                "w-5 transition-transform duration-300 ease-in-out group-open:rotate-90"
             }
           />
         </summary>
