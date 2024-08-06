@@ -452,7 +452,7 @@ defmodule MishkaChelekom.Avatar do
 
   defp default_classes() do
     [
-      "relative inline-flex items-center justify-center p-0.5 [&.border-avatar]:box-content"
+      "relative inline-flex items-center justify-center p-0.5 [&.border-avatar:has(.indicator)]:box-content"
     ]
   end
 end

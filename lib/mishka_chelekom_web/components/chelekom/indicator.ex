@@ -49,7 +49,7 @@ defmodule MishkaChelekom.Indicator do
         indicator_size(@size),
         color_class(@color),
         border_class(@border),
-        "block rounded-full border absolute -translate-y-1/2 -translate-x-1/2 right-auto top-0 left-0 indicator-top-left",
+        "indicator block rounded-full border absolute -translate-y-1/2 -translate-x-1/2 right-auto top-0 left-0 indicator-top-left",
         !is_nil(@rest[:pinging]) && "animate-ping",
         @class
       ]}
@@ -66,7 +66,7 @@ defmodule MishkaChelekom.Indicator do
         indicator_size(@size),
         color_class(@color),
         border_class(@border),
-        "block rounded-full border absolute top-0 -translate-y-1/2 translate-x-1/2 right-1/2",
+        "indicator block rounded-full border absolute top-0 -translate-y-1/2 translate-x-1/2 right-1/2",
         !is_nil(@rest[:pinging]) && "animate-ping",
         @class
       ]}
@@ -83,7 +83,7 @@ defmodule MishkaChelekom.Indicator do
         indicator_size(@size),
         color_class(@color),
         border_class(@border),
-        "block rounded-full border absolute -translate-y-1/2 translate-x-1/2 left-auto top-0 right-0  indicator-top-right",
+        "indicator block rounded-full border absolute -translate-y-1/2 translate-x-1/2 left-auto top-0 right-0  indicator-top-right",
         !is_nil(@rest[:pinging]) && "animate-ping",
         @class
       ]}
@@ -100,7 +100,7 @@ defmodule MishkaChelekom.Indicator do
         indicator_size(@size),
         color_class(@color),
         border_class(@border),
-        "block rounded-full border absolute -translate-y-1/2 -translate-x-1/2 right-auto left-0 top-2/4",
+        "indicator block rounded-full border absolute -translate-y-1/2 -translate-x-1/2 right-auto left-0 top-2/4",
         !is_nil(@rest[:pinging]) && "animate-ping",
         @class
       ]}
@@ -117,7 +117,7 @@ defmodule MishkaChelekom.Indicator do
         indicator_size(@size),
         color_class(@color),
         border_class(@border),
-        "block rounded-full border absolute -translate-y-1/2 translate-x-1/2 left-auto right-0 top-2/4",
+        "indicator block rounded-full border absolute -translate-y-1/2 translate-x-1/2 left-auto right-0 top-2/4",
         !is_nil(@rest[:pinging]) && "animate-ping",
         @class
       ]}
@@ -134,7 +134,7 @@ defmodule MishkaChelekom.Indicator do
         indicator_size(@size),
         color_class(@color),
         border_class(@border),
-        "block rounded-full border absolute translate-y-1/2 -translate-x-1/2 right-auto bottom-0 left-0  indicator-bottom-left",
+        "indicator block rounded-full border absolute translate-y-1/2 -translate-x-1/2 right-auto bottom-0 left-0  indicator-bottom-left",
         !is_nil(@rest[:pinging]) && "animate-ping",
         @class
       ]}
@@ -151,7 +151,7 @@ defmodule MishkaChelekom.Indicator do
         indicator_size(@size),
         color_class(@color),
         border_class(@border),
-        "block rounded-full border absolute translate-y-1/2 translate-x-1/2 bottom-0 right-1/2",
+        "indicator block rounded-full border absolute translate-y-1/2 translate-x-1/2 bottom-0 right-1/2",
         !is_nil(@rest[:pinging]) && "animate-ping",
         @class
       ]}
@@ -168,7 +168,7 @@ defmodule MishkaChelekom.Indicator do
         indicator_size(@size),
         color_class(@color),
         border_class(@border),
-        "block rounded-full border absolute translate-y-1/2 translate-x-1/2 left-auto bottom-0 right-0  indicator-bottom-right",
+        "indicator block rounded-full border absolute translate-y-1/2 translate-x-1/2 left-auto bottom-0 right-0  indicator-bottom-right",
         !is_nil(@rest[:pinging]) && "animate-ping",
         @class
       ]}
