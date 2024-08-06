@@ -71,6 +71,28 @@ defmodule MishkaChelekom.Avatar do
     """
   end
 
+  def avatar(%{src: src, rounded: "full"} = assigns) when is_nil(src) do
+    ~H"""
+    <div class={
+      default_classes() ++
+        [
+          color_class(@color),
+          rounded_size(@rounded),
+          size_class(@size),
+          border_class(@border),
+          shadow_class(@shadow),
+          @font_weight,
+          @class
+        ]
+    }>
+      <div :for={icon <- @icon} class={[icon[:size], icon[:color], icon[:class]]}>
+        <.icon name={icon[:name]} class={icon[:icon_class] || size_class(@size, :icon)} />
+      </div>
+      <%= render_slot(@inner_block) %>
+    </div>
+    """
+  end
+
   def avatar(%{src: src} = assigns) when not is_nil(src) do
     ~H"""
     <div class="relative">
