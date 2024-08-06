@@ -261,11 +261,11 @@ defmodule MishkaChelekom.Avatar do
 
   defp color_class(_), do: color_class("white")
 
-  defp border_class("extra_small"), do: "border"
-  defp border_class("small"), do: "border-2"
-  defp border_class("medium"), do: "border-[3px]"
-  defp border_class("large"), do: "border-4"
-  defp border_class("extra_large"), do: "border-[5px]"
+  defp border_class("extra_small"), do: "border-avatar border"
+  defp border_class("small"), do: "border-avatar border-2"
+  defp border_class("medium"), do: "border-avatar border-[3px]"
+  defp border_class("large"), do: "border-avatar border-4"
+  defp border_class("extra_large"), do: "border-avatar border-[5px]"
   defp border_class("none"), do: "border-0"
   defp border_class(params) when is_binary(params), do: params
   defp border_class(_), do: border_class("none")
@@ -452,7 +452,7 @@ defmodule MishkaChelekom.Avatar do
 
   defp default_classes() do
     [
-      "relative inline-flex items-center justify-center p-0.5"
+      "relative inline-flex items-center justify-center p-0.5 [&.border-avatar]:box-content"
     ]
   end
 end
