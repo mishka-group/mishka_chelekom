@@ -2,7 +2,7 @@ defmodule MishkaChelekom.Pagination do
   use Phoenix.Component
   import MishkaChelekomComponents
   alias Phoenix.LiveView.JS
-
+# TODO: ADD gap to parent
   @sizes ["extra_small", "small", "medium", "large", "extra_large"]
   @colors [
     "white",
