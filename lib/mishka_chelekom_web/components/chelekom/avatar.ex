@@ -78,7 +78,7 @@ defmodule MishkaChelekom.Avatar do
         [
           color_class(@color),
           rounded_size(@rounded),
-          size_class(@size),
+          size_class(@size, :text),
           border_class(@border),
           shadow_class(@shadow),
           @font_weight,
@@ -363,6 +363,74 @@ defmodule MishkaChelekom.Avatar do
 
   defp size_class(params, :image) when is_binary(params), do: params
   defp size_class(_, :image), do: size_class("small", :image)
+
+  defp size_class("extra_small", :text) do
+    [
+      "size-8 text-xs [&_.indicator-top-left]:!top-0 [&_.indicator-top-left]:!left-0",
+      "[&_.indicator-top-right]:!top-0 [&_.indicator-top-right]:!right-0",
+      "[&_.indicator-bottom-right]:!bottom-0 [&_.indicator-bottom-right]:!right-0",
+      "[&_.indicator-bottom-left]:!bottom-0 [&_.indicator-bottom-left]:!left-0",
+      "[&_.indicator-top-left]:!translate-y-0 [&_.indicator-top-left]:!translate-x-0",
+      "[&_.indicator-top-right]:!translate-y-0 [&_.indicator-top-right]:!translate-x-0",
+      "[&_.indicator-bottom-right]:!translate-y-0 [&_.indicator-bottom-right]:!translate-x-0",
+      "[&_.indicator-bottom-left]:!translate-y-0 [&_.indicator-bottom-left]:!translate-x-0"
+    ]
+  end
+
+  defp size_class("small", :text) do
+    [
+      "size-9 text-sm [&_.indicator-top-left]:!top-0 [&_.indicator-top-left]:!left-0",
+      "[&_.indicator-top-right]:!top-0 [&_.indicator-top-right]:!right-0",
+      "[&_.indicator-bottom-right]:!bottom-0 [&_.indicator-bottom-right]:!right-0",
+      "[&_.indicator-bottom-left]:!bottom-0 [&_.indicator-bottom-left]:!left-0",
+      "[&_.indicator-top-left]:!translate-y-0 [&_.indicator-top-left]:!translate-x-0",
+      "[&_.indicator-top-right]:!translate-y-0 [&_.indicator-top-right]:!translate-x-0",
+      "[&_.indicator-bottom-right]:!translate-y-0 [&_.indicator-bottom-right]:!translate-x-0",
+      "[&_.indicator-bottom-left]:!translate-y-0 [&_.indicator-bottom-left]:!translate-x-0"
+    ]
+  end
+
+  defp size_class("medium", :text) do
+    [
+      "size-10 text-base [&_.indicator-top-left]:!top-0 [&_.indicator-top-left]:!left-0",
+      "[&_.indicator-top-right]:!top-0 [&_.indicator-top-right]:!right-0",
+      "[&_.indicator-bottom-right]:!bottom-0 [&_.indicator-bottom-right]:!right-0",
+      "[&_.indicator-bottom-left]:!bottom-0 [&_.indicator-bottom-left]:!left-0",
+      "[&_.indicator-top-left]:!translate-y-0 [&_.indicator-top-left]:!translate-x-0",
+      "[&_.indicator-top-right]:!translate-y-0 [&_.indicator-top-right]:!translate-x-0",
+      "[&_.indicator-bottom-right]:!translate-y-0 [&_.indicator-bottom-right]:!translate-x-0",
+      "[&_.indicator-bottom-left]:!translate-y-0 [&_.indicator-bottom-left]:!translate-x-0"
+    ]
+  end
+
+  defp size_class("large", :text) do
+    [
+      "size-11 text-lg [&_.indicator-top-left]:!top-0.5 [&_.indicator-top-left]:!left-0.5",
+      "[&_.indicator-top-right]:!top-0.5 [&_.indicator-top-right]:!right-0.5",
+      "[&_.indicator-bottom-right]:!bottom-0.5 [&_.indicator-bottom-right]:!right-0.5",
+      "[&_.indicator-bottom-left]:!bottom-0.5 [&_.indicator-bottom-left]:!left-0.5",
+      "[&_.indicator-top-left]:!translate-y-0 [&_.indicator-top-left]:!translate-x-0",
+      "[&_.indicator-top-right]:!translate-y-0 [&_.indicator-top-right]:!translate-x-0",
+      "[&_.indicator-bottom-right]:!translate-y-0 [&_.indicator-bottom-right]:!translate-x-0",
+      "[&_.indicator-bottom-left]:!translate-y-0 [&_.indicator-bottom-left]:!translate-x-0"
+    ]
+  end
+
+  defp size_class("extra_large", :text) do
+    [
+      "size-12 text-xl [&_.indicator-top-left]:!top-0.5 [&_.indicator-top-left]:!left-0.5",
+      "[&_.indicator-top-right]:!top-0.5 [&_.indicator-top-right]:!right-0.5",
+      "[&_.indicator-bottom-right]:!bottom-0.5 [&_.indicator-bottom-right]:!right-0.5",
+      "[&_.indicator-bottom-left]:!bottom-0.5 [&_.indicator-bottom-left]:!left-0.5",
+      "[&_.indicator-top-left]:!translate-y-0 [&_.indicator-top-left]:!translate-x-0",
+      "[&_.indicator-top-right]:!translate-y-0 [&_.indicator-top-right]:!translate-x-0",
+      "[&_.indicator-bottom-right]:!translate-y-0 [&_.indicator-bottom-right]:!translate-x-0",
+      "[&_.indicator-bottom-left]:!translate-y-0 [&_.indicator-bottom-left]:!translate-x-0"
+    ]
+  end
+
+  defp size_class(params, :text) when is_binary(params), do: params
+  defp size_class(_, :text), do: size_class("small", :text)
 
   defp shadow_class("extra_small"), do: "shadow-sm"
   defp shadow_class("small"), do: "shadow"
