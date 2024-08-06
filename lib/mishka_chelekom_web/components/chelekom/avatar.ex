@@ -92,7 +92,7 @@ defmodule MishkaChelekom.Avatar do
     """
   end
 
-  def avatar(%{icon: assigned_icon} = assigns) when assigned_icon != [] do
+  def avatar(assigns) do
     ~H"""
     <div class={
       default_classes() ++
@@ -102,33 +102,13 @@ defmodule MishkaChelekom.Avatar do
           size_class(@size),
           border_class(@border),
           shadow_class(@shadow),
+          @font_weight,
           @class
         ]
     }>
       <div :for={icon <- @icon} class={[icon[:size], icon[:color], icon[:class]]}>
         <.icon name={icon[:name]} class={icon[:icon_class] || size_class(@size, :icon)} />
       </div>
-    </div>
-    """
-  end
-
-  def avatar(assigns) do
-    ~H"""
-    <div
-      id={@id}
-      class={
-        default_classes() ++
-          [
-            color_class(@color),
-            rounded_size(@rounded),
-            size_class(@size),
-            border_class(@border),
-            shadow_class(@shadow),
-            @font_weight,
-            @class
-          ]
-      }
-    >
       <%= render_slot(@inner_block) %>
     </div>
     """
