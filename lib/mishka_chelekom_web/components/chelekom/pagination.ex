@@ -44,6 +44,7 @@ defmodule MishkaChelekom.Pagination do
   attr :on_next, JS, default: %JS{}
   attr :on_previous, JS, default: %JS{}
   attr :size, :string, default: "medium", doc: ""
+  attr :space, :string, default: "gap-3", doc: ""
   attr :color, :string, values: @colors, default: "white", doc: ""
   attr :rounded, :string, values: @sizes ++ ["full", "none"], default: "small", doc: ""
   attr :variant, :string, values: @variants, default: "default", doc: ""
@@ -77,6 +78,7 @@ defmodule MishkaChelekom.Pagination do
             rounded_size(@rounded),
             size_class(@size),
             border(@color),
+            @space,
             @class
           ]
       }
