@@ -55,14 +55,17 @@ defmodule MishkaChelekom.Accordion do
     >
       <details
         :for={item <- @item}
-        phx-click={
-          JS.transition({"ease-in-out duration-300", "max-h-0 opacity-0", "max-h-96 opacity-100"},
-            to: ".accordion-content"
-          )
-        }
         class={item[:class] || "cursor-pointer bg-white group accordion-item"}
       >
-        <summary class="list-none p-5 font-bold flex flex-nowrap items-center justify-between gap-2 transition-all duration-300 ease-in-out hover:bg-gray-100 ">
+        <summary
+          phx-click={
+            JS.transition(
+              {"ease-in-out duration-1000", "max-h-0 opacity-0", "max-h-96 opacity-100"},
+              to: "#hhehehey"
+            )
+          }
+          class="list-none p-5 font-bold flex flex-nowrap items-center justify-between gap-2 transition-all duration-300 ease-in-out hover:bg-gray-100 "
+        >
           <div><%= item[:title] %></div>
           <.icon
             name={item[:icon] || "hero-chevron-right"}
@@ -73,10 +76,13 @@ defmodule MishkaChelekom.Accordion do
           />
         </summary>
 
-        <div class={
-          item[:content_class] ||
-            "p-5 overflow-hidden accordion-content"
-        }>
+        <div
+          id="hhehehey"
+          class={
+            item[:content_class] ||
+              "p-5 overflow-hidden accordion-content"
+          }
+        >
           <%= render_slot(item) %>
         </div>
       </details>
