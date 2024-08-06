@@ -3,7 +3,6 @@ defmodule MishkaChelekom.Avatar do
   import MishkaChelekomComponents
 
   # TODO: We need Avatar tooltip
-  # TODO: We need Dot indicator
   # TODO: We need dropdown
   @sizes ["extra_small", "small", "medium", "large", "extra_large"]
   @colors [
