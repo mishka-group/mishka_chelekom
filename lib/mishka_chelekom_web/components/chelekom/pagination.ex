@@ -74,7 +74,7 @@ defmodule MishkaChelekom.Pagination do
       id={@id}
       class={
         default_classes() ++
-          color_variant(@variant, @color, Map.get(@rest, :grouped, false)) ++
+          color_variant(@variant, @color) ++
           [
             rounded_size(@rounded),
             size_class(@size),
@@ -110,7 +110,7 @@ defmodule MishkaChelekom.Pagination do
           <.item_button on_action={{"select", @on_select}} page={{range, @active}} params={@params} />
         <% else %>
           <div class="pagination-seperator flex justify-center items-center">
-          <.icon_or_text name={@separator} />
+            <.icon_or_text name={@separator} />
           </div>
         <% end %>
       </div>
@@ -284,14 +284,14 @@ defmodule MishkaChelekom.Pagination do
   end
 
   defp border("success") do
-   [
-    "[&.grouped-pagination]:border [&.grouped-pagination_.pagination-button]:border-r",
-    "border-[#227A52] [&.grouped-pagination_.pagination-button]:border-[#227A52]",
-    "[&.grouped-pagination_.pagination-control:not(:last-child)]:border-r",
-    "[&.grouped-pagination_.pagination-control:not(:last-child)]:border-[#227A52]",
-    "[&.grouped-pagination_.pagination-seperator]:border-r",
-    "[&.grouped-pagination_.pagination-seperator]:border-[#227A52]"
-  ]
+    [
+      "[&.grouped-pagination]:border [&.grouped-pagination_.pagination-button]:border-r",
+      "border-[#227A52] [&.grouped-pagination_.pagination-button]:border-[#227A52]",
+      "[&.grouped-pagination_.pagination-control:not(:last-child)]:border-r",
+      "[&.grouped-pagination_.pagination-control:not(:last-child)]:border-[#227A52]",
+      "[&.grouped-pagination_.pagination-seperator]:border-r",
+      "[&.grouped-pagination_.pagination-seperator]:border-[#227A52]"
+    ]
   end
 
   defp border("warning") do
@@ -362,7 +362,7 @@ defmodule MishkaChelekom.Pagination do
 
   defp border("dark") do
     [
-      "[&.grouped-pagination]:border [&.grouped-pagination_.pagination-button]:border-r" ,
+      "[&.grouped-pagination]:border [&.grouped-pagination_.pagination-button]:border-r",
       "border-[#1E1E1E] [&.grouped-pagination_.pagination-button]:border-[#1E1E1E]",
       "[&.grouped-pagination_.pagination-control:not(:last-child)]:border-r",
       "[&.grouped-pagination_.pagination-control:not(:last-child)]:border-[#1E1E1E]",
@@ -371,22 +371,56 @@ defmodule MishkaChelekom.Pagination do
     ]
   end
 
-  defp rounded_size("extra_small"), do: "[&.grouped-pagination]:rounded-sm [&:not(.grouped-pagination)_.pagination-button]:rounded-sm"
-  defp rounded_size("small"), do: "[&.grouped-pagination]:rounded [&:not(.grouped-pagination)_.pagination-button]:rounded"
-  defp rounded_size("medium"), do: "[&.grouped-pagination]:rounded-md [&:not(.grouped-pagination)_.pagination-button]:rounded-md"
-  defp rounded_size("large"), do: "[&.grouped-pagination]:rounded-lg [&:not(.grouped-pagination)_.pagination-button]:rounded-lg"
-  defp rounded_size("extra_large"), do: "[&.grouped-pagination]:rounded-xl [&:not(.grouped-pagination)_.pagination-button]:rounded-xl"
-  defp rounded_size("full"), do: "[&.grouped-pagination]:rounded-full [&:not(.grouped-pagination)_.pagination-button]:rounded-full"
-  defp rounded_size("none"), do: "[&.grouped-pagination]:rounded-none [&:not(.grouped-pagination)_.pagination-button]:rounded-none"
+  defp rounded_size("extra_small"),
+    do:
+      "[&.grouped-pagination]:rounded-sm [&:not(.grouped-pagination)_.pagination-button]:rounded-sm"
 
-  defp size_class("extra_small"), do: "[&_.pagination-button]:size-6 [&_.pagination-control]:size-6 [&_.pagination-seperator]:size-6 text-xs"
-  defp size_class("small"), do: "[&_.pagination-button]:size-7 [&_.pagination-control]:size-7 [&_.pagination-seperator]:size-7 text-sm"
-  defp size_class("medium"), do: "[&_.pagination-button]:size-8 [&_.pagination-control]:size-8 [&_.pagination-seperator]:size-8 text-base"
-  defp size_class("large"), do: "[&_.pagination-button]:size-9 [&_.pagination-control]:size-9 [&_.pagination-seperator]:size-9 text-lg"
-  defp size_class("extra_large"), do: "[&_.pagination-button]:size-10 [&_.pagination-control]:size-10 [&_.pagination-seperator]:size-10 text-xl"
+  defp rounded_size("small"),
+    do: "[&.grouped-pagination]:rounded [&:not(.grouped-pagination)_.pagination-button]:rounded"
+
+  defp rounded_size("medium"),
+    do:
+      "[&.grouped-pagination]:rounded-md [&:not(.grouped-pagination)_.pagination-button]:rounded-md"
+
+  defp rounded_size("large"),
+    do:
+      "[&.grouped-pagination]:rounded-lg [&:not(.grouped-pagination)_.pagination-button]:rounded-lg"
+
+  defp rounded_size("extra_large"),
+    do:
+      "[&.grouped-pagination]:rounded-xl [&:not(.grouped-pagination)_.pagination-button]:rounded-xl"
+
+  defp rounded_size("full"),
+    do:
+      "[&.grouped-pagination]:rounded-full [&:not(.grouped-pagination)_.pagination-button]:rounded-full"
+
+  defp rounded_size("none"),
+    do:
+      "[&.grouped-pagination]:rounded-none [&:not(.grouped-pagination)_.pagination-button]:rounded-none"
+
+  defp size_class("extra_small"),
+    do:
+      "[&_.pagination-button]:size-6 [&_.pagination-control]:size-6 [&_.pagination-seperator]:size-6 text-xs"
+
+  defp size_class("small"),
+    do:
+      "[&_.pagination-button]:size-7 [&_.pagination-control]:size-7 [&_.pagination-seperator]:size-7 text-sm"
+
+  defp size_class("medium"),
+    do:
+      "[&_.pagination-button]:size-8 [&_.pagination-control]:size-8 [&_.pagination-seperator]:size-8 text-base"
+
+  defp size_class("large"),
+    do:
+      "[&_.pagination-button]:size-9 [&_.pagination-control]:size-9 [&_.pagination-seperator]:size-9 text-lg"
+
+  defp size_class("extra_large"),
+    do:
+      "[&_.pagination-button]:size-10 [&_.pagination-control]:size-10 [&_.pagination-seperator]:size-10 text-xl"
+
   defp size_class(params) when is_binary(params), do: params
 
-  defp color_variant("default", "white", grouped) do
+  defp color_variant("default", "white") do
     [
       "[&:not(.grouped-pagination)_.pagination-button]:border",
       "[&_.pagination-button]:bg-white [&_.pagination-button]:text-[#3E3E3E]",
@@ -399,7 +433,7 @@ defmodule MishkaChelekom.Pagination do
     ]
   end
 
-  defp color_variant("default", "primary", grouped) do
+  defp color_variant("default", "primary") do
     [
       "[&:not(.grouped-pagination)_.pagination-button]:border",
       "[&_.pagination-button]:bg-[#4363EC] [&_.pagination-button]:text-white",
@@ -412,7 +446,7 @@ defmodule MishkaChelekom.Pagination do
     ]
   end
 
-  defp color_variant("default", "secondary", grouped) do
+  defp color_variant("default", "secondary") do
     [
       "[&:not(.grouped-pagination)_.pagination-button]:border",
       "[&_.pagination-button]:bg-[#6B6E7C] [&_.pagination-button]:text-white",
@@ -425,7 +459,7 @@ defmodule MishkaChelekom.Pagination do
     ]
   end
 
-  defp color_variant("default", "success", grouped) do
+  defp color_variant("default", "success") do
     [
       "[&:not(.grouped-pagination)_.pagination-button]:border",
       "[&_.pagination-button]:bg-[#ECFEF3] [&_.pagination-button]:text-[#047857]",
@@ -438,7 +472,7 @@ defmodule MishkaChelekom.Pagination do
     ]
   end
 
-  defp color_variant("default", "warning", grouped) do
+  defp color_variant("default", "warning") do
     [
       "[&:not(.grouped-pagination)_.pagination-button]:border",
       "[&_.pagination-button]:bg-[#FFF8E6] [&_.pagination-button]:text-[#FF8B08]",
@@ -451,7 +485,7 @@ defmodule MishkaChelekom.Pagination do
     ]
   end
 
-  defp color_variant("default", "danger", grouped) do
+  defp color_variant("default", "danger") do
     [
       "[&:not(.grouped-pagination)_.pagination-button]:border",
       "[&_.pagination-button]:bg-[#FFE6E6] [&_.pagination-button]:text-[#E73B3B]",
@@ -464,7 +498,7 @@ defmodule MishkaChelekom.Pagination do
     ]
   end
 
-  defp color_variant("default", "info", grouped) do
+  defp color_variant("default", "info") do
     [
       "[&:not(.grouped-pagination)_.pagination-button]:border",
       "[&_.pagination-button]:bg-[#E5F0FF] [&_.pagination-button]:text-[#004FC4]",
@@ -477,7 +511,7 @@ defmodule MishkaChelekom.Pagination do
     ]
   end
 
-  defp color_variant("default", "misc", grouped) do
+  defp color_variant("default", "misc") do
     [
       "[&:not(.grouped-pagination)_.pagination-button]:border",
       "[&_.pagination-button]:bg-[#FFE6FF] [&_.pagination-button]:text-[#52059C]",
@@ -490,7 +524,7 @@ defmodule MishkaChelekom.Pagination do
     ]
   end
 
-  defp color_variant("default", "dawn", grouped) do
+  defp color_variant("default", "dawn") do
     [
       "[&:not(.grouped-pagination)_.pagination-button]:border",
       "[&_.pagination-button]:bg-[#FFECDA] [&_.pagination-button]:text-[#4D4137]",
@@ -503,7 +537,7 @@ defmodule MishkaChelekom.Pagination do
     ]
   end
 
-  defp color_variant("default", "light", grouped) do
+  defp color_variant("default", "light") do
     [
       "[&:not(.grouped-pagination)_.pagination-button]:border",
       "[&_.pagination-button]:bg-[#E3E7F1] [&_.pagination-button]:text-[#707483]",
@@ -516,7 +550,7 @@ defmodule MishkaChelekom.Pagination do
     ]
   end
 
-  defp color_variant("default", "dark", grouped) do
+  defp color_variant("default", "dark") do
     [
       "[&:not(.grouped-pagination)_.pagination-button]:border",
       "[&_.pagination-button]:bg-[#1E1E1E] [&_.pagination-button]:text-white",
@@ -529,7 +563,7 @@ defmodule MishkaChelekom.Pagination do
     ]
   end
 
-  defp color_variant("outline", "white", grouped) do
+  defp color_variant("outline", "white") do
     [
       "[&:not(.grouped-pagination)_.pagination-button]:border",
       "[&_.pagination-button]:bg-transparent text-white [&_.pagination-button]:text-white",
@@ -542,7 +576,7 @@ defmodule MishkaChelekom.Pagination do
     ]
   end
 
-  defp color_variant("outline", "primary", grouped) do
+  defp color_variant("outline", "primary") do
     [
       "[&:not(.grouped-pagination)_.pagination-button]:border",
       "[&_.pagination-button]:bg-transparent text-[#4363EC] [&:not(.grouped-pagination)_.pagination-button]:border-[#4363EC]",
@@ -553,7 +587,7 @@ defmodule MishkaChelekom.Pagination do
     ]
   end
 
-  defp color_variant("outline", "secondary", grouped) do
+  defp color_variant("outline", "secondary") do
     [
       "[&:not(.grouped-pagination)_.pagination-button]:border",
       "[&_.pagination-button]:bg-transparent text-[#6B6E7C] [&:not(.grouped-pagination)_.pagination-button]:border-[#6B6E7C]",
@@ -564,7 +598,7 @@ defmodule MishkaChelekom.Pagination do
     ]
   end
 
-  defp color_variant("outline", "success", grouped) do
+  defp color_variant("outline", "success") do
     [
       "[&:not(.grouped-pagination)_.pagination-button]:border",
       "[&_.pagination-button]:bg-transparent text-[#227A52] [&:not(.grouped-pagination)_.pagination-button]:border-[#6EE7B7]",
@@ -575,7 +609,7 @@ defmodule MishkaChelekom.Pagination do
     ]
   end
 
-  defp color_variant("outline", "warning", grouped) do
+  defp color_variant("outline", "warning") do
     [
       "[&:not(.grouped-pagination)_.pagination-button]:border",
       "[&_.pagination-button]:bg-transparent text-[#FF8B08] [&:not(.grouped-pagination)_.pagination-button]:border-[#FF8B08]",
@@ -586,7 +620,7 @@ defmodule MishkaChelekom.Pagination do
     ]
   end
 
-  defp color_variant("outline", "danger", grouped) do
+  defp color_variant("outline", "danger") do
     [
       "[&:not(.grouped-pagination)_.pagination-button]:border",
       "[&_.pagination-button]:bg-transparent text-[#E73B3B] [&:not(.grouped-pagination)_.pagination-button]:border-[#E73B3B]",
@@ -597,7 +631,7 @@ defmodule MishkaChelekom.Pagination do
     ]
   end
 
-  defp color_variant("outline", "info", grouped) do
+  defp color_variant("outline", "info") do
     [
       "[&:not(.grouped-pagination)_.pagination-button]:border",
       "[&_.pagination-button]:bg-transparent text-[#004FC4] [&:not(.grouped-pagination)_.pagination-button]:border-[#004FC4]",
@@ -608,7 +642,7 @@ defmodule MishkaChelekom.Pagination do
     ]
   end
 
-  defp color_variant("outline", "misc", grouped) do
+  defp color_variant("outline", "misc") do
     [
       "[&:not(.grouped-pagination)_.pagination-button]:border",
       "[&_.pagination-button]:bg-transparent text-[#52059C] [&:not(.grouped-pagination)_.pagination-button]:border-[#52059C]",
@@ -619,7 +653,7 @@ defmodule MishkaChelekom.Pagination do
     ]
   end
 
-  defp color_variant("outline", "dawn", grouped) do
+  defp color_variant("outline", "dawn") do
     [
       "[&:not(.grouped-pagination)_.pagination-button]:border",
       "[&_.pagination-button]:bg-transparent text-[#4D4137] [&:not(.grouped-pagination)_.pagination-button]:border-[#4D4137]",
@@ -630,7 +664,7 @@ defmodule MishkaChelekom.Pagination do
     ]
   end
 
-  defp color_variant("outline", "light", grouped) do
+  defp color_variant("outline", "light") do
     [
       "[&:not(.grouped-pagination)_.pagination-button]:border",
       "[&_.pagination-button]:bg-transparent text-[#707483] [&:not(.grouped-pagination)_.pagination-button]:border-[#707483]",
@@ -641,7 +675,7 @@ defmodule MishkaChelekom.Pagination do
     ]
   end
 
-  defp color_variant("outline", "dark", grouped) do
+  defp color_variant("outline", "dark") do
     [
       "[&:not(.grouped-pagination)_.pagination-button]:border",
       "[&_.pagination-button]:bg-transparent text-[#1E1E1E] [&:not(.grouped-pagination)_.pagination-button]:border-[#1E1E1E]",
@@ -652,17 +686,17 @@ defmodule MishkaChelekom.Pagination do
     ]
   end
 
-  defp color_variant("unbordered", "white", grouped) do
+  defp color_variant("unbordered", "white") do
     [
       "[&:not(.grouped-pagination)_.pagination-button]:border",
       "[&_.pagination-button]:bg-white text-[#3E3E3E] [&:not(.grouped-pagination)_.pagination-button]:border-transparent",
       "[&.grouped-pagination_.pagination-control]:bg-white",
       "hover:[&_.pagination-button]:bg-[#E8E8E8] [&_.pagination-button.active-pagination-button]:bg-[#E8E8E8]",
-      "hover:[&.grouped-pagination_.pagination-control]:bg-[#E8E8E8]",
+      "hover:[&.grouped-pagination_.pagination-control]:bg-[#E8E8E8]"
     ]
   end
 
-  defp color_variant("unbordered", "primary", grouped) do
+  defp color_variant("unbordered", "primary") do
     [
       "[&:not(.grouped-pagination)_.pagination-button]:border",
       "[&_.pagination-button]:bg-[#4363EC] [&_.pagination-button]:text-white",
@@ -673,7 +707,7 @@ defmodule MishkaChelekom.Pagination do
     ]
   end
 
-  defp color_variant("unbordered", "secondary", grouped) do
+  defp color_variant("unbordered", "secondary") do
     [
       "[&:not(.grouped-pagination)_.pagination-button]:border",
       "[&_.pagination-button]:bg-[#6B6E7C] [&_.pagination-button]:text-white",
@@ -684,7 +718,7 @@ defmodule MishkaChelekom.Pagination do
     ]
   end
 
-  defp color_variant("unbordered", "success", grouped) do
+  defp color_variant("unbordered", "success") do
     [
       "[&:not(.grouped-pagination)_.pagination-button]:border",
       "[&_.pagination-button]:bg-[#ECFEF3] text-[#047857] [&:not(.grouped-pagination)_.pagination-button]:border-transparent",
@@ -694,7 +728,7 @@ defmodule MishkaChelekom.Pagination do
     ]
   end
 
-  defp color_variant("unbordered", "warning", grouped) do
+  defp color_variant("unbordered", "warning") do
     [
       "[&:not(.grouped-pagination)_.pagination-button]:border",
       "[&_.pagination-button]:bg-[#FFF8E6] text-[#FF8B08] [&:not(.grouped-pagination)_.pagination-button]:border-transparent",
@@ -704,7 +738,7 @@ defmodule MishkaChelekom.Pagination do
     ]
   end
 
-  defp color_variant("unbordered", "danger", grouped) do
+  defp color_variant("unbordered", "danger") do
     [
       "[&:not(.grouped-pagination)_.pagination-button]:border",
       "[&_.pagination-button]:bg-[#FFE6E6] text-[#E73B3B] [&:not(.grouped-pagination)_.pagination-button]:border-transparent",
@@ -714,7 +748,7 @@ defmodule MishkaChelekom.Pagination do
     ]
   end
 
-  defp color_variant("unbordered", "info", grouped) do
+  defp color_variant("unbordered", "info") do
     [
       "[&:not(.grouped-pagination)_.pagination-button]:border",
       "[&_.pagination-button]:bg-[#E5F0FF] text-[#004FC4] [&:not(.grouped-pagination)_.pagination-button]:border-transparent",
@@ -723,7 +757,7 @@ defmodule MishkaChelekom.Pagination do
     ]
   end
 
-  defp color_variant("unbordered", "misc", grouped) do
+  defp color_variant("unbordered", "misc") do
     [
       "[&:not(.grouped-pagination)_.pagination-button]:border",
       "[&_.pagination-button]:bg-[#FFE6FF] text-[#52059C] [&:not(.grouped-pagination)_.pagination-button]:border-transparent",
@@ -732,7 +766,7 @@ defmodule MishkaChelekom.Pagination do
     ]
   end
 
-  defp color_variant("unbordered", "dawn", grouped) do
+  defp color_variant("unbordered", "dawn") do
     [
       "[&:not(.grouped-pagination)_.pagination-button]:border",
       "[&_.pagination-button]:bg-[#FFECDA] text-[#4D4137] [&:not(.grouped-pagination)_.pagination-button]:border-transparent",
@@ -741,7 +775,7 @@ defmodule MishkaChelekom.Pagination do
     ]
   end
 
-  defp color_variant("unbordered", "light", grouped) do
+  defp color_variant("unbordered", "light") do
     [
       "[&:not(.grouped-pagination)_.pagination-button]:border",
       "[&_.pagination-button]:bg-[#E3E7F1] text-[#707483] [&:not(.grouped-pagination)_.pagination-button]:border-transparent",
@@ -750,7 +784,7 @@ defmodule MishkaChelekom.Pagination do
     ]
   end
 
-  defp color_variant("unbordered", "dark", grouped) do
+  defp color_variant("unbordered", "dark") do
     [
       "[&:not(.grouped-pagination)_.pagination-button]:border",
       "[&_.pagination-button]:bg-[#1E1E1E] [&_.pagination-button]:text-white",
@@ -760,7 +794,7 @@ defmodule MishkaChelekom.Pagination do
     ]
   end
 
-  defp color_variant("transparent", "white", grouped) do
+  defp color_variant("transparent", "white") do
     [
       "[&:not(.grouped-pagination)_.pagination-button]:border",
       "[&_.pagination-button]:bg-transparent text-white [&:not(.grouped-pagination)_.pagination-button]:border-transparent",
@@ -768,7 +802,7 @@ defmodule MishkaChelekom.Pagination do
     ]
   end
 
-  defp color_variant("transparent", "primary", grouped) do
+  defp color_variant("transparent", "primary") do
     [
       "[&:not(.grouped-pagination)_.pagination-button]:border",
       "[&_.pagination-button]:bg-transparent text-[#4363EC] [&:not(.grouped-pagination)_.pagination-button]:border-transparent",
@@ -777,7 +811,7 @@ defmodule MishkaChelekom.Pagination do
     ]
   end
 
-  defp color_variant("transparent", "secondary", grouped) do
+  defp color_variant("transparent", "secondary") do
     [
       "[&:not(.grouped-pagination)_.pagination-button]:border",
       "[&_.pagination-button]:bg-transparent text-[#6B6E7C] [&:not(.grouped-pagination)_.pagination-button]:border-transparent",
@@ -786,7 +820,7 @@ defmodule MishkaChelekom.Pagination do
     ]
   end
 
-  defp color_variant("transparent", "success", grouped) do
+  defp color_variant("transparent", "success") do
     [
       "[&:not(.grouped-pagination)_.pagination-button]:border",
       "[&_.pagination-button]:bg-transparent text-[#227A52] [&:not(.grouped-pagination)_.pagination-button]:border-transparent",
@@ -794,7 +828,7 @@ defmodule MishkaChelekom.Pagination do
     ]
   end
 
-  defp color_variant("transparent", "warning", grouped) do
+  defp color_variant("transparent", "warning") do
     [
       "[&:not(.grouped-pagination)_.pagination-button]:border",
       "[&_.pagination-button]:bg-transparent text-[#FF8B08] [&:not(.grouped-pagination)_.pagination-button]:border-transparent",
@@ -803,7 +837,7 @@ defmodule MishkaChelekom.Pagination do
     ]
   end
 
-  defp color_variant("transparent", "danger", grouped) do
+  defp color_variant("transparent", "danger") do
     [
       "[&:not(.grouped-pagination)_.pagination-button]:border",
       "[&_.pagination-button]:bg-transparent text-[#E73B3B] [&:not(.grouped-pagination)_.pagination-button]:border-transparent",
@@ -812,7 +846,7 @@ defmodule MishkaChelekom.Pagination do
     ]
   end
 
-  defp color_variant("transparent", "info", grouped) do
+  defp color_variant("transparent", "info") do
     [
       "[&:not(.grouped-pagination)_.pagination-button]:border",
       "[&_.pagination-button]:bg-transparent text-[#6663FD] [&:not(.grouped-pagination)_.pagination-button]:border-transparent",
@@ -821,7 +855,7 @@ defmodule MishkaChelekom.Pagination do
     ]
   end
 
-  defp color_variant("transparent", "misc", grouped) do
+  defp color_variant("transparent", "misc") do
     [
       "[&:not(.grouped-pagination)_.pagination-button]:border",
       "[&_.pagination-button]:bg-transparent text-[#52059C] [&:not(.grouped-pagination)_.pagination-button]:border-transparent",
@@ -830,7 +864,7 @@ defmodule MishkaChelekom.Pagination do
     ]
   end
 
-  defp color_variant("transparent", "dawn", grouped) do
+  defp color_variant("transparent", "dawn") do
     [
       "[&:not(.grouped-pagination)_.pagination-button]:border",
       "[&_.pagination-button]:bg-transparent text-[#4D4137] [&:not(.grouped-pagination)_.pagination-button]:border-transparent",
@@ -839,7 +873,7 @@ defmodule MishkaChelekom.Pagination do
     ]
   end
 
-  defp color_variant("transparent", "light", grouped) do
+  defp color_variant("transparent", "light") do
     [
       "[&:not(.grouped-pagination)_.pagination-button]:border",
       "[&_.pagination-button]:bg-transparent text-[#707483] [&:not(.grouped-pagination)_.pagination-button]:border-transparent",
@@ -848,7 +882,7 @@ defmodule MishkaChelekom.Pagination do
     ]
   end
 
-  defp color_variant("transparent", "dark", grouped) do
+  defp color_variant("transparent", "dark") do
     [
       "[&:not(.grouped-pagination)_.pagination-button]:border",
       "[&_.pagination-button]:bg-transparent text-[#1E1E1E] [&:not(.grouped-pagination)_.pagination-button]:border-transparent",
@@ -857,7 +891,7 @@ defmodule MishkaChelekom.Pagination do
     ]
   end
 
-  defp color_variant("subtle", "white", grouped) do
+  defp color_variant("subtle", "white") do
     [
       "[&:not(.grouped-pagination)_.pagination-button]:border",
       "[&_.pagination-button]:bg-transparent text-white [&:not(.grouped-pagination)_.pagination-button]:border-transparent",
@@ -868,7 +902,7 @@ defmodule MishkaChelekom.Pagination do
     ]
   end
 
-  defp color_variant("subtle", "primary", grouped) do
+  defp color_variant("subtle", "primary") do
     [
       "[&:not(.grouped-pagination)_.pagination-button]:border",
       "[&_.pagination-button]:bg-transparent text-[#4363EC] [&:not(.grouped-pagination)_.pagination-button]:border-transparent",
@@ -879,7 +913,7 @@ defmodule MishkaChelekom.Pagination do
     ]
   end
 
-  defp color_variant("subtle", "secondary", grouped) do
+  defp color_variant("subtle", "secondary") do
     [
       "[&:not(.grouped-pagination)_.pagination-button]:border",
       "[&_.pagination-button]:bg-transparent text-[#6B6E7C] [&:not(.grouped-pagination)_.pagination-button]:border-transparent",
@@ -890,7 +924,7 @@ defmodule MishkaChelekom.Pagination do
     ]
   end
 
-  defp color_variant("subtle", "success", grouped) do
+  defp color_variant("subtle", "success") do
     [
       "[&:not(.grouped-pagination)_.pagination-button]:border",
       "[&_.pagination-button]:bg-transparent text-[#227A52] [&:not(.grouped-pagination)_.pagination-button]:border-transparent",
@@ -901,7 +935,7 @@ defmodule MishkaChelekom.Pagination do
     ]
   end
 
-  defp color_variant("subtle", "warning", grouped) do
+  defp color_variant("subtle", "warning") do
     [
       "[&:not(.grouped-pagination)_.pagination-button]:border",
       "[&_.pagination-button]:bg-transparent text-[#FF8B08] [&:not(.grouped-pagination)_.pagination-button]:border-transparent",
@@ -912,7 +946,7 @@ defmodule MishkaChelekom.Pagination do
     ]
   end
 
-  defp color_variant("subtle", "danger", grouped) do
+  defp color_variant("subtle", "danger") do
     [
       "[&:not(.grouped-pagination)_.pagination-button]:border",
       "[&_.pagination-button]:bg-transparent text-[#E73B3B] [&:not(.grouped-pagination)_.pagination-button]:border-transparent",
@@ -923,7 +957,7 @@ defmodule MishkaChelekom.Pagination do
     ]
   end
 
-  defp color_variant("subtle", "info", grouped) do
+  defp color_variant("subtle", "info") do
     [
       "[&:not(.grouped-pagination)_.pagination-button]:border",
       "[&_.pagination-button]:bg-transparent text-[#6663FD] [&:not(.grouped-pagination)_.pagination-button]:border-transparent",
@@ -934,7 +968,7 @@ defmodule MishkaChelekom.Pagination do
     ]
   end
 
-  defp color_variant("subtle", "misc", grouped) do
+  defp color_variant("subtle", "misc") do
     [
       "[&:not(.grouped-pagination)_.pagination-button]:border",
       "[&_.pagination-button]:bg-transparent text-[#52059C] [&:not(.grouped-pagination)_.pagination-button]:border-transparent",
@@ -945,7 +979,7 @@ defmodule MishkaChelekom.Pagination do
     ]
   end
 
-  defp color_variant("subtle", "dawn", grouped) do
+  defp color_variant("subtle", "dawn") do
     [
       "[&:not(.grouped-pagination)_.pagination-button]:border",
       "[&_.pagination-button]:bg-transparent text-[#4D4137] [&:not(.grouped-pagination)_.pagination-button]:border-transparent",
@@ -956,7 +990,7 @@ defmodule MishkaChelekom.Pagination do
     ]
   end
 
-  defp color_variant("subtle", "light", grouped) do
+  defp color_variant("subtle", "light") do
     [
       "[&:not(.grouped-pagination)_.pagination-button]:border",
       "[&_.pagination-button]:bg-transparent text-[#707483] [&:not(.grouped-pagination)_.pagination-button]:border-transparent",
@@ -967,7 +1001,7 @@ defmodule MishkaChelekom.Pagination do
     ]
   end
 
-  defp color_variant("subtle", "dark", grouped) do
+  defp color_variant("subtle", "dark") do
     [
       "[&:not(.grouped-pagination)_.pagination-button]:border",
       "[&_.pagination-button]:bg-transparent text-[#1E1E1E] [&:not(.grouped-pagination)_.pagination-button]:border-transparent",
@@ -978,7 +1012,7 @@ defmodule MishkaChelekom.Pagination do
     ]
   end
 
-  defp color_variant("shadow", "white", grouped) do
+  defp color_variant("shadow", "white") do
     [
       "[&:not(.grouped-pagination)_.pagination-button]:border",
       "[&_.pagination-button]:bg-white text-[#3E3E3E] [&:not(.grouped-pagination)_.pagination-button]:border-[#DADADA]",
@@ -990,7 +1024,7 @@ defmodule MishkaChelekom.Pagination do
     ]
   end
 
-  defp color_variant("shadow", "primary", grouped) do
+  defp color_variant("shadow", "primary") do
     [
       "[&:not(.grouped-pagination)_.pagination-button]:border",
       "[&_.pagination-button]:bg-[#4363EC] [&_.pagination-button]:text-white",
@@ -1002,7 +1036,7 @@ defmodule MishkaChelekom.Pagination do
     ]
   end
 
-  defp color_variant("shadow", "secondary", grouped) do
+  defp color_variant("shadow", "secondary") do
     [
       "[&:not(.grouped-pagination)_.pagination-button]:border",
       "[&_.pagination-button]:bg-[#6B6E7C] [&_.pagination-button]:text-white",
@@ -1014,7 +1048,7 @@ defmodule MishkaChelekom.Pagination do
     ]
   end
 
-  defp color_variant("shadow", "success", grouped) do
+  defp color_variant("shadow", "success") do
     [
       "[&:not(.grouped-pagination)_.pagination-button]:border",
       "[&_.pagination-button]:bg-[#AFEAD0] text-[#227A52] [&:not(.grouped-pagination)_.pagination-button]:border-[#AFEAD0]",
@@ -1026,7 +1060,7 @@ defmodule MishkaChelekom.Pagination do
     ]
   end
 
-  defp color_variant("shadow", "warning", grouped) do
+  defp color_variant("shadow", "warning") do
     [
       "[&:not(.grouped-pagination)_.pagination-button]:border",
       "[&_.pagination-button]:bg-[#FFF8E6] text-[#FF8B08] [&:not(.grouped-pagination)_.pagination-button]:border-[#FFF8E6]",
@@ -1038,7 +1072,7 @@ defmodule MishkaChelekom.Pagination do
     ]
   end
 
-  defp color_variant("shadow", "danger", grouped) do
+  defp color_variant("shadow", "danger") do
     [
       "[&:not(.grouped-pagination)_.pagination-button]:border",
       "[&_.pagination-button]:bg-[#FFE6E6] text-[#E73B3B] [&:not(.grouped-pagination)_.pagination-button]:border-[#FFE6E6]",
@@ -1050,7 +1084,7 @@ defmodule MishkaChelekom.Pagination do
     ]
   end
 
-  defp color_variant("shadow", "info", grouped) do
+  defp color_variant("shadow", "info") do
     [
       "[&:not(.grouped-pagination)_.pagination-button]:border",
       "[&_.pagination-button]:bg-[#E5F0FF] text-[#004FC4] [&:not(.grouped-pagination)_.pagination-button]:border-[#E5F0FF]",
@@ -1062,7 +1096,7 @@ defmodule MishkaChelekom.Pagination do
     ]
   end
 
-  defp color_variant("shadow", "misc", grouped) do
+  defp color_variant("shadow", "misc") do
     [
       "[&:not(.grouped-pagination)_.pagination-button]:border",
       "[&_.pagination-button]:bg-[#FFE6FF] text-[#52059C] [&:not(.grouped-pagination)_.pagination-button]:border-[#FFE6FF]",
@@ -1074,7 +1108,7 @@ defmodule MishkaChelekom.Pagination do
     ]
   end
 
-  defp color_variant("shadow", "dawn", grouped) do
+  defp color_variant("shadow", "dawn") do
     [
       "[&:not(.grouped-pagination)_.pagination-button]:border",
       "[&_.pagination-button]:bg-[#FFECDA] text-[#4D4137] [&:not(.grouped-pagination)_.pagination-button]:border-[#FFECDA]",
@@ -1086,7 +1120,7 @@ defmodule MishkaChelekom.Pagination do
     ]
   end
 
-  defp color_variant("shadow", "light", grouped) do
+  defp color_variant("shadow", "light") do
     [
       "[&:not(.grouped-pagination)_.pagination-button]:border",
       "[&_.pagination-button]:bg-[#E3E7F1] text-[#707483] [&:not(.grouped-pagination)_.pagination-button]:border-[#E3E7F1]",
@@ -1098,7 +1132,7 @@ defmodule MishkaChelekom.Pagination do
     ]
   end
 
-  defp color_variant("shadow", "dark", grouped) do
+  defp color_variant("shadow", "dark") do
     [
       "[&:not(.grouped-pagination)_.pagination-button]:border",
       "[&_.pagination-button]:bg-[#1E1E1E] [&_.pagination-button]:text-white",
@@ -1110,7 +1144,7 @@ defmodule MishkaChelekom.Pagination do
     ]
   end
 
-  defp color_variant("inverted", "white", grouped) do
+  defp color_variant("inverted", "white") do
     [
       "[&:not(.grouped-pagination)_.pagination-button]:border",
       "[&_.pagination-button]:bg-transparent text-white [&:not(.grouped-pagination)_.pagination-button]:border-white",
@@ -1122,7 +1156,7 @@ defmodule MishkaChelekom.Pagination do
     ]
   end
 
-  defp color_variant("inverted", "primary", grouped) do
+  defp color_variant("inverted", "primary") do
     [
       "[&:not(.grouped-pagination)_.pagination-button]:border",
       "[&_.pagination-button]:bg-transparent text-[#4363EC] [&:not(.grouped-pagination)_.pagination-button]:border-[#4363EC]",
@@ -1134,7 +1168,7 @@ defmodule MishkaChelekom.Pagination do
     ]
   end
 
-  defp color_variant("inverted", "secondary", grouped) do
+  defp color_variant("inverted", "secondary") do
     [
       "[&:not(.grouped-pagination)_.pagination-button]:border",
       "[&_.pagination-button]:bg-transparent text-[#6B6E7C] [&:not(.grouped-pagination)_.pagination-button]:border-[#6B6E7C]",
@@ -1147,7 +1181,7 @@ defmodule MishkaChelekom.Pagination do
     ]
   end
 
-  defp color_variant("inverted", "success", grouped) do
+  defp color_variant("inverted", "success") do
     [
       "[&:not(.grouped-pagination)_.pagination-button]:border",
       "[&_.pagination-button]:bg-transparent text-[#227A52] [&:not(.grouped-pagination)_.pagination-button]:border-[#227A52]",
@@ -1160,7 +1194,7 @@ defmodule MishkaChelekom.Pagination do
     ]
   end
 
-  defp color_variant("inverted", "warning", grouped) do
+  defp color_variant("inverted", "warning") do
     [
       "[&:not(.grouped-pagination)_.pagination-button]:border",
       "[&_.pagination-button]:bg-transparent text-[#FF8B08] [&:not(.grouped-pagination)_.pagination-button]:border-[#FF8B08]",
@@ -1173,7 +1207,7 @@ defmodule MishkaChelekom.Pagination do
     ]
   end
 
-  defp color_variant("inverted", "danger", grouped) do
+  defp color_variant("inverted", "danger") do
     [
       "[&:not(.grouped-pagination)_.pagination-button]:border",
       "[&_.pagination-button]:bg-transparent text-[#E73B3B] [&:not(.grouped-pagination)_.pagination-button]:border-[#E73B3B]",
@@ -1186,7 +1220,7 @@ defmodule MishkaChelekom.Pagination do
     ]
   end
 
-  defp color_variant("inverted", "info", grouped) do
+  defp color_variant("inverted", "info") do
     [
       "[&:not(.grouped-pagination)_.pagination-button]:border",
       "[&_.pagination-button]:bg-transparent text-[#004FC4] [&:not(.grouped-pagination)_.pagination-button]:border-[#004FC4]",
@@ -1199,7 +1233,7 @@ defmodule MishkaChelekom.Pagination do
     ]
   end
 
-  defp color_variant("inverted", "misc", grouped) do
+  defp color_variant("inverted", "misc") do
     [
       "[&:not(.grouped-pagination)_.pagination-button]:border",
       "[&_.pagination-button]:bg-transparent text-[#52059C] [&:not(.grouped-pagination)_.pagination-button]:border-[#52059C]",
@@ -1212,7 +1246,7 @@ defmodule MishkaChelekom.Pagination do
     ]
   end
 
-  defp color_variant("inverted", "dawn", grouped) do
+  defp color_variant("inverted", "dawn") do
     [
       "[&:not(.grouped-pagination)_.pagination-button]:border",
       "[&_.pagination-button]:bg-transparent text-[#4D4137] [&:not(.grouped-pagination)_.pagination-button]:border-[#4D4137]",
@@ -1225,7 +1259,7 @@ defmodule MishkaChelekom.Pagination do
     ]
   end
 
-  defp color_variant("inverted", "light", grouped) do
+  defp color_variant("inverted", "light") do
     [
       "[&:not(.grouped-pagination)_.pagination-button]:border",
       "[&_.pagination-button]:bg-transparent text-[#707483] [&:not(.grouped-pagination)_.pagination-button]:border-[#707483]",
@@ -1238,7 +1272,7 @@ defmodule MishkaChelekom.Pagination do
     ]
   end
 
-  defp color_variant("inverted", "dark", grouped) do
+  defp color_variant("inverted", "dark") do
     [
       "[&:not(.grouped-pagination)_.pagination-button]:border",
       "[&_.pagination-button]:bg-transparent text-[#1E1E1E] [&:not(.grouped-pagination)_.pagination-button]:border-[#1E1E1E]",
