@@ -79,7 +79,6 @@ defmodule MishkaChelekom.Pagination do
             rounded_size(@rounded),
             size_class(@size),
             border(@color),
-            @space,
             if(is_nil(@rest[:grouped]), do: @space, else: "gap-0 grouped-pagination"),
             @class
           ]
