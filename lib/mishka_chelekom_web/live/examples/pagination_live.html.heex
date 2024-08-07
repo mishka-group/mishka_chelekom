@@ -1,4 +1,12 @@
 <div class="p-10 space-y-10">
+  <div>Grouped</div>
+  <.pagination total={@posts.total} active={@posts.active} siblings={3} show_edges grouped />
+  <.pagination total={@posts.total} active={@posts.active} siblings={3} color="misc" show_edges grouped />
+  <.pagination total={@posts.total} active={@posts.active} siblings={3} color="danger" show_edges grouped />
+  <.pagination total={@posts.total} active={@posts.active} siblings={3} color="dark" show_edges grouped />
+  <.pagination total={@posts.total} active={@posts.active} siblings={3} variant="outline" color="dark" show_edges grouped />
+
+  <div>DEfault</div>
   <.pagination total={@posts.total} active={@posts.active} siblings={3} show_edges />
 
   <.pagination total={@posts.total} active={@posts.active} siblings={3}>
