@@ -1,5 +1,15 @@
 <div class="p-10 space-y-10">
   <div>Grouped</div>
+  <.pagination total={@posts.total} active={@posts.active} siblings={3} show_edges grouped next_label="next" previous_label="prev" first_label="first" last_label="last" />
+  <.pagination total={@posts.total} active={@posts.active} siblings={3} rounded="large" size="extra_small" color="primary" show_edges grouped next_label="next" previous_label="prev" first_label="first" last_label="last" />
+  <.pagination total={@posts.total} active={@posts.active} siblings={3} rounded="extra_small" color="secondary" show_edges grouped next_label="next" previous_label="prev" first_label="first" last_label="last" />
+  <.pagination total={@posts.total} active={@posts.active} siblings={3} variant="outline" rounded="extra_small" color="secondary" show_edges grouped next_label="next" previous_label="prev" first_label="first" last_label="last" />
+
+  <div>Text arrow</div>
+  <.pagination total={@posts.total} active={@posts.active} siblings={3} variant="outline" rounded="large" color="secondary" show_edges grouped next_label=">" previous_label="<" first_label="<<" last_label=">>" />
+  <.pagination total={@posts.total} active={@posts.active} siblings={3} variant="outline" rounded="large" size="extra_large" color="secondary" show_edges grouped next_label=">" previous_label="<" first_label="<<" last_label=">>" />
+
+  <div>Grouped</div>
   <.pagination total={@posts.total} active={@posts.active} siblings={3} show_edges grouped />
   <.pagination total={@posts.total} active={@posts.active} siblings={3} rounded="extra_large" color="primary" show_edges grouped />
   <.pagination total={@posts.total} active={@posts.active} siblings={3} rounded="extra_small" color="secondary" show_edges grouped />
