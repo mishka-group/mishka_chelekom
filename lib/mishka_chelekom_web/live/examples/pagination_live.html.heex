@@ -1,16 +1,18 @@
 <div class="p-10 space-y-10">
   <div>Grouped</div>
-  <div class="overflow-x-scroll w-full py-12"><.pagination
-    total={200}
-    active={@posts.active}
-    siblings={3}
-    show_edges
-    grouped
-    next_label="next"
-    previous_label="prev"
-    first_label="first"
-    last_label="last"
-  /></div>
+  <div class="overflow-x-scroll w-full py-12">
+    <.pagination
+      total={200}
+      active={@posts.active}
+      siblings={3}
+      show_edges
+      grouped
+      next_label="next"
+      previous_label="prev"
+      first_label="first"
+      last_label="last"
+    />
+  </div>
   <.pagination
     total={200}
     active={@posts.active}
