@@ -176,7 +176,7 @@ defmodule MishkaChelekom.Pagination do
   defp item_button(assigns) do
     ~H"""
     <button
-      class="pagination-control"
+      class="pagination-control flex items-center justify-center"
       phx-click={
         elem(@on_action, 1)
         |> JS.push("pagination", value: Map.merge(%{action: elem(@on_action, 0)}, @params))
