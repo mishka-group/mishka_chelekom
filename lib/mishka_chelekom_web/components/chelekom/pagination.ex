@@ -398,6 +398,7 @@ defmodule MishkaChelekom.Pagination do
     [
       "[&.grouped-pagination_.pagination-button]:w-full [&.grouped-pagination_.pagination-button]:px-3",
       "[&:not(.grouped-pagination)_.pagination-button]:w-6",
+      "[&.grouped-pagination_.pagination-button]:min-w-6 [&.grouped-pagination_.pagination-control]:min-w-6",
       "[&_.pagination-button]:h-6 [&_.pagination-control>.pagination-icon]:h-6",
       "[&_.pagination-control]:px-2",
       "[&_.pagination-seperator]:h-6 text-xs",
@@ -409,6 +410,7 @@ defmodule MishkaChelekom.Pagination do
     [
       "[&.grouped-pagination_.pagination-button]:w-full [&.grouped-pagination_.pagination-button]:px-3",
       "[&:not(.grouped-pagination)_.pagination-button]:w-7",
+      "[&.grouped-pagination_.pagination-button]:min-w-7 [&.grouped-pagination_.pagination-control]:min-w-7",
       "[&_.pagination-button]:h-7 [&_.pagination-control>.pagination-icon]:h-7",
       "[&_.pagination-control]:px-2",
       "[&_.pagination-seperator]:w-full [&_.pagination-seperator]:h-7 text-sm",
@@ -420,6 +422,7 @@ defmodule MishkaChelekom.Pagination do
     [
       "[&.grouped-pagination_.pagination-button]:w-full [&.grouped-pagination_.pagination-button]:px-3",
       "[&:not(.grouped-pagination)_.pagination-button]:w-8",
+      "[&.grouped-pagination_.pagination-button]:min-w-8 [&.grouped-pagination_.pagination-control]:min-w-8",
       "[&_.pagination-control]:px-2",
       "[&_.pagination-button]:h-8 [&_.pagination-control>.pagination-icon]:h-8",
       "[&_.pagination-seperator]:w-full [&_.pagination-seperator]:h-8 text-base",
@@ -431,6 +434,7 @@ defmodule MishkaChelekom.Pagination do
     [
       "[&.grouped-pagination_.pagination-button]:w-full [&.grouped-pagination_.pagination-button]:px-3",
       "[&:not(.grouped-pagination)_.pagination-button]:w-9",
+      "[&.grouped-pagination_.pagination-button]:min-w-9 [&.grouped-pagination_.pagination-control]:min-w-9",
       "[&_.pagination-control]:px-2",
       "[&_.pagination-button]:h-9 [&_.pagination-control>.pagination-icon]:h-9",
       "[&_.pagination-seperator]:w-full [&_.pagination-seperator]:h-9 text-lg",
@@ -442,6 +446,7 @@ defmodule MishkaChelekom.Pagination do
     [
       "[&.grouped-pagination_.pagination-button]:w-full [&.grouped-pagination_.pagination-button]:px-3",
       "[&:not(.grouped-pagination)_.pagination-button]:w-10",
+      "[&.grouped-pagination_.pagination-button]:min-w-10 [&.grouped-pagination_.pagination-control]:min-w-10",
       "[&_.pagination-control]:px-2",
       "[&_.pagination-button]:h-10 [&_.pagination-control>.pagination-icon]:h-10",
       "[&_.pagination-seperator]:w-full [&_.pagination-seperator]:h-10 text-xl",
