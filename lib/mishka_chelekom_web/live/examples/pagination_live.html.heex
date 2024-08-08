@@ -1,11 +1,11 @@
 <div class="p-10 space-y-10">
   <div>Grouped</div>
   <.pagination total={@posts.total} active={@posts.active} siblings={3} show_edges grouped />
-  <.pagination total={@posts.total} active={@posts.active} siblings={3} color="primary" show_edges grouped />
-  <.pagination total={@posts.total} active={@posts.active} siblings={3} color="secondary" show_edges grouped />
-  <.pagination total={@posts.total} active={@posts.active} siblings={3} color="warning" show_edges grouped />
-  <.pagination total={@posts.total} active={@posts.active} siblings={3} color="danger" size="extra_small" show_edges grouped />
-  <.pagination total={@posts.total} active={@posts.active} siblings={3} color="success" show_edges grouped />
+  <.pagination total={@posts.total} active={@posts.active} siblings={3} rounded="extra_large" color="primary" show_edges grouped />
+  <.pagination total={@posts.total} active={@posts.active} siblings={3} rounded="extra_small" color="secondary" show_edges grouped />
+  <.pagination total={@posts.total} active={@posts.active} siblings={3} rounded="large" color="warning" show_edges grouped />
+  <.pagination total={@posts.total} active={@posts.active} siblings={3} rounded="medium" color="danger" size="extra_small" show_edges grouped />
+  <.pagination total={@posts.total} active={@posts.active} siblings={3} rounded="small" color="success" show_edges grouped />
   <.pagination total={@posts.total} active={@posts.active} siblings={3} color="misc" size="medium" show_edges grouped />
   <.pagination total={@posts.total} active={@posts.active} siblings={3} color="info" show_edges grouped />
   <.pagination total={@posts.total} active={@posts.active} siblings={3} color="light" size="extra_large" show_edges grouped />
@@ -40,7 +40,7 @@
 
   <div>Grouped subtle</div>
   <div class="bg-black p-2"><.pagination total={@posts.total} active={@posts.active} siblings={3} variant="subtle" show_edges grouped /></div>
-  <.pagination total={@posts.total} active={@posts.active} siblings={3} variant="subtle" color="primary" show_edges grouped />
+  <.pagination total={@posts.total} active={@posts.active} siblings={3} rounded="extra_large" variant="subtle" color="primary" show_edges grouped />
   <.pagination total={@posts.total} active={@posts.active} siblings={3} variant="subtle" color="secondary" show_edges grouped />
   <.pagination total={@posts.total} active={@posts.active} siblings={3} variant="subtle" color="warning" show_edges grouped />
   <.pagination total={@posts.total} active={@posts.active} siblings={3} variant="subtle" color="danger" size="extra_small" show_edges grouped />
