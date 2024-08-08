@@ -1345,7 +1345,7 @@ defmodule MishkaChelekom.Pagination do
 
   defp default_classes() do
     [
-      "w-fit flex [&>*]:flex-1 [&:not(.grouped-pagination)]:items-center [&_.pagination-button.active-pagination-button]:font-medium [&.grouped-pagination]:overflow-hidden"
+      "w-fit flex [&>*]:flex-1 [&:not(.grouped-pagination)]:items-center [&:not(.grouped-pagination)]:flex-wrap [&_.pagination-button.active-pagination-button]:font-medium [&.grouped-pagination]:overflow-hidden"
     ]
   end
 
