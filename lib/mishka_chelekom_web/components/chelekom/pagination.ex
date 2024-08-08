@@ -145,7 +145,7 @@ defmodule MishkaChelekom.Pagination do
 
   defp icon_or_text(assigns) do
     ~H"""
-    <span class={@class || "pagination-text block px-1.5"}><%= @name %></span>
+    <span class={@class || "pagination-text"}><%= @name %></span>
     """
   end
 
@@ -396,40 +396,55 @@ defmodule MishkaChelekom.Pagination do
 
   defp size_class("extra_small") do
     [
-      "[&_.pagination-button]:size-6 [&_.pagination-control>.pagination-icon]:size-6",
-      "[&_.pagination-seperator]:size-6 text-xs",
+      "[&.grouped-pagination_.pagination-button]:w-full [&.grouped-pagination_.pagination-button]:px-3",
+      "[&:not(.grouped-pagination)_.pagination-button]:w-6",
+      "[&_.pagination-button]:h-6 [&_.pagination-control>.pagination-icon]:h-6",
+      "[&_.pagination-control]:px-2",
+      "[&_.pagination-seperator]:h-6 text-xs",
       "[&_:not(.pagination-seperator)>.pagination-icon]:size-3.5"
     ]
   end
 
   defp size_class("small") do
     [
-      "[&_.pagination-button]:size-7 [&_.pagination-control>.pagination-icon]:size-7",
-      "[&_.pagination-seperator]:size-7 text-sm",
+      "[&.grouped-pagination_.pagination-button]:w-full [&.grouped-pagination_.pagination-button]:px-3",
+      "[&:not(.grouped-pagination)_.pagination-button]:w-7",
+      "[&_.pagination-button]:h-7 [&_.pagination-control>.pagination-icon]:h-7",
+      "[&_.pagination-control]:px-2",
+      "[&_.pagination-seperator]:w-full [&_.pagination-seperator]:h-7 text-sm",
       "[&_:not(.pagination-seperator)>.pagination-icon]:size-4"
     ]
   end
 
   defp size_class("medium") do
     [
-      "[&_.pagination-button]:size-8 [&_.pagination-control>.pagination-icon]:size-8",
-      "[&_.pagination-seperator]:size-8 text-base",
+      "[&.grouped-pagination_.pagination-button]:w-full [&.grouped-pagination_.pagination-button]:px-3",
+      "[&:not(.grouped-pagination)_.pagination-button]:w-8",
+      "[&_.pagination-control]:px-2",
+      "[&_.pagination-button]:h-8 [&_.pagination-control>.pagination-icon]:h-8",
+      "[&_.pagination-seperator]:w-full [&_.pagination-seperator]:h-8 text-base",
       "[&_:not(.pagination-seperator)>.pagination-icon]:size-5"
     ]
   end
 
   defp size_class("large") do
     [
-      "[&_.pagination-button]:size-9 [&_.pagination-control>.pagination-icon]:size-9",
-      "[&_.pagination-seperator]:size-9 text-lg",
+      "[&.grouped-pagination_.pagination-button]:w-full [&.grouped-pagination_.pagination-button]:px-3",
+      "[&:not(.grouped-pagination)_.pagination-button]:w-9",
+      "[&_.pagination-control]:px-2",
+      "[&_.pagination-button]:h-9 [&_.pagination-control>.pagination-icon]:h-9",
+      "[&_.pagination-seperator]:w-full [&_.pagination-seperator]:h-9 text-lg",
       "[&_:not(.pagination-seperator)>.pagination-icon]:size-6"
     ]
   end
 
   defp size_class("extra_large") do
     [
-      "[&_.pagination-button]:size-10 [&_.pagination-control>.pagination-icon]:size-10",
-      "[&_.pagination-seperator]:size-10 text-xl",
+      "[&.grouped-pagination_.pagination-button]:w-full [&.grouped-pagination_.pagination-button]:px-3",
+      "[&:not(.grouped-pagination)_.pagination-button]:w-10",
+      "[&_.pagination-control]:px-2",
+      "[&_.pagination-button]:h-10 [&_.pagination-control>.pagination-icon]:h-10",
+      "[&_.pagination-seperator]:w-full [&_.pagination-seperator]:h-10 text-xl",
       "[&_:not(.pagination-seperator)>.pagination-icon]:size-7"
     ]
   end
@@ -1330,7 +1345,7 @@ defmodule MishkaChelekom.Pagination do
 
   defp default_classes() do
     [
-      "w-fit flex [&:not(.grouped-pagination)]:items-center [&_.pagination-button.active-pagination-button]:font-medium [&.grouped-pagination]:overflow-hidden"
+      "[&:not(.grouped-pagination)]:w-fit flex [&>*]:flex-1 [&:not(.grouped-pagination)]:items-center [&_.pagination-button.active-pagination-button]:font-medium [&.grouped-pagination]:overflow-hidden"
     ]
   end
 
