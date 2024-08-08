@@ -27,9 +27,6 @@ defmodule MishkaChelekom.Pagination do
     "subtle",
     "shadow",
     "inverted",
-    "default_gradient",
-    "outline_gradient",
-    "inverted_gradient",
     "unbordered"
   ]
 
@@ -667,7 +664,7 @@ defmodule MishkaChelekom.Pagination do
       "[&_.pagination-button]:bg-[#4363EC] [&_.pagination-button]:text-white",
       "[&.grouped-pagination_.pagination-control]:bg-[#4363EC]",
       "[&:not(.grouped-pagination)_.pagination-button]:border-transparent hover:[&_.pagination-button]:bg-[#072ed3]",
-      "hover:[&.grouped-pagination_.pagination-control]:bg-[#072ed3]",
+      "hover:[&.grouped-pagination_.pagination-control]:bg-[#072ed3] [&.grouped-pagination_.pagination-control]:text-white",
       "[&_.pagination-button.active-pagination-button]:bg-[#072ed3]"
     ]
   end
@@ -678,7 +675,7 @@ defmodule MishkaChelekom.Pagination do
       "[&_.pagination-button]:bg-[#6B6E7C] [&_.pagination-button]:text-white",
       "[&.grouped-pagination_.pagination-control]:bg-[#6B6E7C]",
       "[&:not(.grouped-pagination)_.pagination-button]:border-transparent hover:[&_.pagination-button]:bg-[#4c4f59]",
-      "hover:[&.grouped-pagination_.pagination-control]:bg-[#4c4f59]",
+      "hover:[&.grouped-pagination_.pagination-control]:bg-[#4c4f59] [&.grouped-pagination_.pagination-control]:text-white",
       "[&_.pagination-button.active-pagination-button]:bg-[#4c4f59]"
     ]
   end
@@ -717,6 +714,7 @@ defmodule MishkaChelekom.Pagination do
     [
       "[&:not(.grouped-pagination)_.pagination-button]:border",
       "[&_.pagination-button]:bg-[#E5F0FF] text-[#004FC4] [&:not(.grouped-pagination)_.pagination-button]:border-transparent",
+      "[&.grouped-pagination_.pagination-control]:bg-[#E5F0FF]",
       "hover:[&_.pagination-button]:bg-[#bdd3f2] [&_.pagination-button.active-pagination-button]:bg-[#bdd3f2]",
       "hover:[&.grouped-pagination_.pagination-control]:bg-[#bdd3f2]"
     ]
@@ -726,6 +724,7 @@ defmodule MishkaChelekom.Pagination do
     [
       "[&:not(.grouped-pagination)_.pagination-button]:border",
       "[&_.pagination-button]:bg-[#FFE6FF] text-[#52059C] [&:not(.grouped-pagination)_.pagination-button]:border-transparent",
+      "[&.grouped-pagination_.pagination-control]:bg-[#FFE6FF]",
       "hover:[&_.pagination-button]:bg-[#edcced] [&_.pagination-button.active-pagination-button]:bg-[#edcced]",
       "hover:[&.grouped-pagination_.pagination-control]:bg-[#edcced]"
     ]
@@ -735,6 +734,7 @@ defmodule MishkaChelekom.Pagination do
     [
       "[&:not(.grouped-pagination)_.pagination-button]:border",
       "[&_.pagination-button]:bg-[#FFECDA] text-[#4D4137] [&:not(.grouped-pagination)_.pagination-button]:border-transparent",
+      "[&.grouped-pagination_.pagination-control]:bg-[#FFECDA]",
       "hover:[&_.pagination-button]:bg-[#ffdfc1] [&_.pagination-button.active-pagination-button]:bg-[#ffdfc1]",
       "hover:[&.grouped-pagination_.pagination-control]:bg-[#ffdfc1]"
     ]
@@ -744,6 +744,7 @@ defmodule MishkaChelekom.Pagination do
     [
       "[&:not(.grouped-pagination)_.pagination-button]:border",
       "[&_.pagination-button]:bg-[#E3E7F1] text-[#707483] [&:not(.grouped-pagination)_.pagination-button]:border-transparent",
+      "[&.grouped-pagination_.pagination-control]:bg-[#E3E7F1]",
       "hover:[&_.pagination-button]:bg-[#c8cee0] [&_.pagination-button.active-pagination-button]:bg-[#c8cee0]",
       "hover:[&.grouped-pagination_.pagination-control]:bg-[#c8cee0]"
     ]
@@ -754,6 +755,7 @@ defmodule MishkaChelekom.Pagination do
       "[&:not(.grouped-pagination)_.pagination-button]:border",
       "[&_.pagination-button]:bg-[#1E1E1E] [&_.pagination-button]:text-white",
       "[&:not(.grouped-pagination)_.pagination-button]:border-transparent hover:[&_.pagination-button]:bg-[#111111]",
+      "[&.grouped-pagination_.pagination-control]:bg-[#1E1E1E] [&.grouped-pagination_.pagination-control]:text-white ",
       "hover:[&.grouped-pagination_.pagination-control]:bg-[#111111]",
       "[&_.pagination-button.active-pagination-button]:bg-[#111111]"
     ]
