@@ -447,7 +447,7 @@ defmodule MishkaChelekom.Pagination do
       "[&.grouped-pagination_.pagination-control]:bg-[#6B6E7C] [&.grouped-pagination_.pagination-control]:text-white",
       "[&.grouped-pagination_.pagination-seperator]:bg-[#6B6E7C] [&.grouped-pagination_.pagination-seperator]:text-white",
       "[&:not(.grouped-pagination)_.pagination-button]:border-[#877C7C] hover:[&_.pagination-button]:bg-[#4c4f59]",
-      "hover:[&.grouped-pagination_.pagination-control]:bg-[#072ed3]",
+      "hover:[&.grouped-pagination_.pagination-control]:bg-[#4c4f59]",
       "hover:[&:not(.grouped-pagination)_.pagination-button]:border-[#3d3f49]",
       "[&_.pagination-button.active-pagination-button]:bg-[#4c4f59]",
       "[&:not(.grouped-pagination)_.pagination-button.active-pagination-button]:border-[#3d3f49]"
