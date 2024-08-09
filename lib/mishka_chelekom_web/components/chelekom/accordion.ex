@@ -55,6 +55,7 @@ defmodule MishkaChelekom.Accordion do
             "overflow-hidden",
             space_class(@space),
             color_class(@color),
+            rounded_size(@rounded),
             padding_size(@padding),
             media_size(@media_size),
             @class
@@ -122,6 +123,13 @@ defmodule MishkaChelekom.Accordion do
   defp media_size("extra_large"), do: "[&>details_.accordion-title-media]:size-24"
   defp media_size(params) when is_binary(params), do: params
   defp media_size(_), do: media_size("small")
+
+  defp rounded_size("extra_small"), do: "[&:not(.accordion-item-gap)>details]:rounded-sm [&>details_summary]:rounded-t-sm [&.accordion-item-gap>details]:rounded-sm"
+  defp rounded_size("small"), do: "[&:not(.accordion-item-gap)>details]:rounded [&>details_summary]:rounded-t [&.accordion-item-gap>details]:rounded"
+  defp rounded_size("medium"), do: "[&:not(.accordion-item-gap)>details]:rounded-md [&>details_summary]:rounded-t-md [&.accordion-item-gap>details]:rounded-md"
+  defp rounded_size("large"), do: "[&:not(.accordion-item-gap)>details]:rounded-lg [&>details_summary]:rounded-t-lg [&.accordion-item-gap>details]:rounded-lg"
+  defp rounded_size("extra_large"), do: "[&:not(.accordion-item-gap)>details]:rounded-xl [&>details_summary]:rounded-t-xl [&.accordion-item-gap>details]:rounded-xl"
+  defp rounded_size("none"), do: "[&:not(.accordion-item-gap)>details]:rounded-none [&>details_summary]:rounded-none [&.accordion-item-gap>details]:rounded-none"
 
   defp padding_size("extra_small"), do: "[&>details>*]:p-1"
   defp padding_size("small"), do: "[&>details>*]:p-2"
