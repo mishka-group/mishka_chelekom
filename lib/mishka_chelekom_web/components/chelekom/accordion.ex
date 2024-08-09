@@ -106,11 +106,11 @@ defmodule MishkaChelekom.Accordion do
     """
   end
 
-  defp space_class("extra_small"), do: "space-y-2"
-  defp space_class("small"), do: "space-y-3"
-  defp space_class("medium"), do: "space-y-4"
-  defp space_class("large"), do: "space-y-5"
-  defp space_class("extra_large"), do: "space-y-6"
+  defp space_class("extra_small"), do: "accordion-item-gap space-y-2"
+  defp space_class("small"), do: "accordion-item-gap space-y-3"
+  defp space_class("medium"), do: "accordion-item-gap space-y-4"
+  defp space_class("large"), do: "accordion-item-gap space-y-5"
+  defp space_class("extra_large"), do: "accordion-item-gap space-y-6"
   defp space_class("none"), do: "space-y-0"
   defp space_class(params) when is_binary(params), do: params
   defp space_class(_), do: space_class("small")
@@ -133,127 +133,127 @@ defmodule MishkaChelekom.Accordion do
   defp padding_size(_), do: padding_size("small")
 
   defp border("transparent", space) do
-    ["border-0", space != "none" && "yechizi"]
+    ["border-0", space != "none" && "border-0"]
   end
 
   defp border("white", space) do
     [
-      "border border-[#DADADA]",
-      "[&>details:not(:last-child)>summary]:border-b",
-      "[&>details:not(:last-child)>summary]:border-[#DADADA]",
-      "[&>details:not(:last-child)>:not(summary)]:border-b",
-      "[&>details:not(:last-child)>:not(summary)]:border-[#DADADA]",
-      space != "none" && "yechizi"
+      "[&:not(.accordion-item-gap)]:border [&:not(.accordion-item-gap)]:border-[#DADADA]",
+      "[&:not(.accordion-item-gap)>details:not(:last-child)>summary]:border-b",
+      "[&:not(.accordion-item-gap)>details:not(:last-child)>summary]:border-[#DADADA]",
+      "[&:not(.accordion-item-gap)>details:not(:last-child)>:not(summary)]:border-b",
+      "[&:not(.accordion-item-gap)>details:not(:last-child)>:not(summary)]:border-[#DADADA]",
+      space != "none" && "[&>details]:border [&>details]:border-[#DADADA]"
     ]
   end
 
   defp border("primary", space) do
     [
-      "border border-[#4363EC]",
-      "[&>details:not(:last-child)>summary]:border-b",
-      "[&>details:not(:last-child)>summary]:border-[#4363EC]",
-      "[&>details:not(:last-child)>:not(summary)]:border-b",
-      "[&>details:not(:last-child)>:not(summary)]:border-[#4363EC]",
-      space != "none" && "yechizi"
+      "[&:not(.accordion-item-gap)]:border [&:not(.accordion-item-gap)]:border-[#4363EC]",
+      "[&:not(.accordion-item-gap)>details:not(:last-child)>summary]:border-b",
+      "[&:not(.accordion-item-gap)>details:not(:last-child)>summary]:border-[#4363EC]",
+      "[&:not(.accordion-item-gap)>details:not(:last-child)>:not(summary)]:border-b",
+      "[&:not(.accordion-item-gap)>details:not(:last-child)>:not(summary)]:border-[#4363EC]",
+      space != "none" && "[&>details]:border [&>details]:border-[#4363EC]"
     ]
   end
 
   defp border("secondary", space) do
     [
-      "border border-[#6B6E7C]",
-      "[&>details:not(:last-child)>summary]:border-b",
-      "[&>details:not(:last-child)>summary]:border-[#6B6E7C]",
-      "[&>details:not(:last-child)>:not(summary)]:border-b",
-      "[&>details:not(:last-child)>:not(summary)]:border-[#6B6E7C]",
-      space != "none" && "yechizi"
+      "[&:not(.accordion-item-gap)]:border [&:not(.accordion-item-gap)]:border-[#6B6E7C]",
+      "[&:not(.accordion-item-gap)>details:not(:last-child)>summary]:border-b",
+      "[&:not(.accordion-item-gap)>details:not(:last-child)>summary]:border-[#6B6E7C]",
+      "[&:not(.accordion-item-gap)>details:not(:last-child)>:not(summary)]:border-b",
+      "[&:not(.accordion-item-gap)>details:not(:last-child)>:not(summary)]:border-[#6B6E7C]",
+      space != "none" && "[&>details]:border [&>details]:border-[#6B6E7C]"
     ]
   end
 
   defp border("success", space) do
     [
-      "border border-[#227A52]",
-      "[&>details:not(:last-child)>summary]:border-b",
-      "[&>details:not(:last-child)>summary]:border-[#227A52]",
-      "[&>details:not(:last-child)>:not(summary)]:border-b",
-      "[&>details:not(:last-child)>:not(summary)]:border-[#227A52]",
-      space != "none" && "yechizi"
+      "[&:not(.accordion-item-gap)]:border [&:not(.accordion-item-gap)]:border-[#227A52]",
+      "[&:not(.accordion-item-gap)>details:not(:last-child)>summary]:border-b",
+      "[&:not(.accordion-item-gap)>details:not(:last-child)>summary]:border-[#227A52]",
+      "[&:not(.accordion-item-gap)>details:not(:last-child)>:not(summary)]:border-b",
+      "[&:not(.accordion-item-gap)>details:not(:last-child)>:not(summary)]:border-[#227A52]",
+      space != "none" && "[&>details]:border [&>details]:border-[#227A52]"
     ]
   end
 
   defp border("warning", space) do
     [
-      "border border-[#FF8B08]",
-      "[&>details:not(:last-child)>summary]:border-b",
-      "[&>details:not(:last-child)>summary]:border-[#FF8B08]",
-      "[&>details:not(:last-child)>:not(summary)]:border-b",
-      "[&>details:not(:last-child)>:not(summary)]:border-[#FF8B08]",
-      space != "none" && "yechizi"
+      "[&:not(.accordion-item-gap)]:border [&:not(.accordion-item-gap)]:border-[#FF8B08]",
+      "[&:not(.accordion-item-gap)>details:not(:last-child)>summary]:border-b",
+      "[&:not(.accordion-item-gap)>details:not(:last-child)>summary]:border-[#FF8B08]",
+      "[&:not(.accordion-item-gap)>details:not(:last-child)>:not(summary)]:border-b",
+      "[&:not(.accordion-item-gap)>details:not(:last-child)>:not(summary)]:border-[#FF8B08]",
+      space != "none" && "[&>details]:border [&>details]:border-[#FF8B08]"
     ]
   end
 
   defp border("danger", space) do
     [
-      "border border-[#E73B3B]",
-      "[&>details:not(:last-child)>summary]:border-b",
-      "[&>details:not(:last-child)>summary]:border-[#E73B3B]",
-      "[&>details:not(:last-child)>:not(summary)]:border-b",
-      "[&>details:not(:last-child)>:not(summary)]:border-[#E73B3B]",
-      space != "none" && "yechizi"
+      "[&:not(.accordion-item-gap)]:border [&:not(.accordion-item-gap)]:border-[#E73B3B]",
+      "[&:not(.accordion-item-gap)>details:not(:last-child)>summary]:border-b",
+      "[&:not(.accordion-item-gap)>details:not(:last-child)>summary]:border-[#E73B3B]",
+      "[&:not(.accordion-item-gap)>details:not(:last-child)>:not(summary)]:border-b",
+      "[&:not(.accordion-item-gap)>details:not(:last-child)>:not(summary)]:border-[#E73B3B]",
+      space != "none" && "[&>details]:border [&>details]:border-[#E73B3B]"
     ]
   end
 
   defp border("info", space) do
     [
-      "border border-[#004FC4]",
-      "[&>details:not(:last-child)>summary]:border-b",
-      "[&>details:not(:last-child)>summary]:border-[#004FC4]",
-      "[&>details:not(:last-child)>:not(summary)]:border-b",
-      "[&>details:not(:last-child)>:not(summary)]:border-[#004FC4]",
-      space != "none" && "yechizi"
+      "[&:not(.accordion-item-gap)]:border [&:not(.accordion-item-gap)]:border-[#004FC4]",
+      "[&:not(.accordion-item-gap)>details:not(:last-child)>summary]:border-b",
+      "[&:not(.accordion-item-gap)>details:not(:last-child)>summary]:border-[#004FC4]",
+      "[&:not(.accordion-item-gap)>details:not(:last-child)>:not(summary)]:border-b",
+      "[&:not(.accordion-item-gap)>details:not(:last-child)>:not(summary)]:border-[#004FC4]",
+      space != "none" && "[&>details]:border [&>details]:border-[#004FC4]"
     ]
   end
 
   defp border("misc", space) do
     [
-      "border border-[#52059C]",
-      "[&>details:not(:last-child)>summary]:border-b",
-      "[&>details:not(:last-child)>summary]:border-[#52059C]",
-      "[&>details:not(:last-child)>:not(summary)]:border-b",
-      "[&>details:not(:last-child)>:not(summary)]:border-[#52059C]",
-      space != "none" && "yechizi"
+      "[&:not(.accordion-item-gap)]:border [&:not(.accordion-item-gap)]:border-[#52059C]",
+      "[&:not(.accordion-item-gap)>details:not(:last-child)>summary]:border-b",
+      "[&:not(.accordion-item-gap)>details:not(:last-child)>summary]:border-[#52059C]",
+      "[&:not(.accordion-item-gap)>details:not(:last-child)>:not(summary)]:border-b",
+      "[&:not(.accordion-item-gap)>details:not(:last-child)>:not(summary)]:border-[#52059C]",
+      space != "none" && "[&>details]:border [&>details]:border-[#52059C]"
     ]
   end
 
   defp border("dawn", space) do
     [
-      "border border-[#4D4137]",
-      "[&>details:not(:last-child)>summary]:border-b",
-      "[&>details:not(:last-child)>summary]:border-[#4D4137]",
-      "[&>details:not(:last-child)>:not(summary)]:border-b",
-      "[&>details:not(:last-child)>:not(summary)]:border-[#4D4137]",
-      space != "none" && "yechizi"
+      "[&:not(.accordion-item-gap)]:border [&:not(.accordion-item-gap)]:border-[#4D4137]",
+      "[&:not(.accordion-item-gap)>details:not(:last-child)>summary]:border-b",
+      "[&:not(.accordion-item-gap)>details:not(:last-child)>summary]:border-[#4D4137]",
+      "[&:not(.accordion-item-gap)>details:not(:last-child)>:not(summary)]:border-b",
+      "[&:not(.accordion-item-gap)>details:not(:last-child)>:not(summary)]:border-[#4D4137]",
+      space != "none" && "[&>details]:border [&>details]:border-[#4D4137]"
     ]
   end
 
   defp border("light", space) do
     [
-      "border border-[#707483]",
-      "[&>details:not(:last-child)>summary]:border-b",
-      "[&>details:not(:last-child)>summary]:border-[#707483]",
-      "[&>details:not(:last-child)>:not(summary)]:border-b",
-      "[&>details:not(:last-child)>:not(summary)]:border-[#707483]",
-      space != "none" && "yechizi"
+      "[&:not(.accordion-item-gap)]:border [&:not(.accordion-item-gap)]:border-[#707483]",
+      "[&:not(.accordion-item-gap)>details:not(:last-child)>summary]:border-b",
+      "[&:not(.accordion-item-gap)>details:not(:last-child)>summary]:border-[#707483]",
+      "[&:not(.accordion-item-gap)>details:not(:last-child)>:not(summary)]:border-b",
+      "[&:not(.accordion-item-gap)>details:not(:last-child)>:not(summary)]:border-[#707483]",
+      space != "none" && "[&>details]:border [&>details]:border-[#707483]"
     ]
   end
 
   defp border("dark", space) do
     [
-      "border border-[#1E1E1E]",
-      "[&>details:not(:last-child)>summary]:border-b",
-      "[&>details:not(:last-child)>summary]:border-[#1E1E1E]",
-      "[&>details:not(:last-child)>:not(summary)]:border-b",
-      "[&>details:not(:last-child)>:not(summary)]:border-[#1E1E1E]",
-      space != "none" && "yechizi"
+      "[&:not(.accordion-item-gap)]:border [&:not(.accordion-item-gap)]:border-[#1E1E1E]",
+      "[&:not(.accordion-item-gap)>details:not(:last-child)>summary]:border-b",
+      "[&:not(.accordion-item-gap)>details:not(:last-child)>summary]:border-[#1E1E1E]",
+      "[&:not(.accordion-item-gap)>details:not(:last-child)>:not(summary)]:border-b",
+      "[&:not(.accordion-item-gap)>details:not(:last-child)>:not(summary)]:border-[#1E1E1E]",
+      space != "none" && "[&>details]:border [&>details]:border-[#1E1E1E]"
     ]
   end
 
