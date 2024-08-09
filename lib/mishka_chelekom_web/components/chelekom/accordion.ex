@@ -25,9 +25,9 @@ defmodule MishkaChelekom.Accordion do
   attr :class, :string, default: nil, doc: ""
   attr :space, :string, values: @sizes ++ ["none"], default: "none", doc: ""
   attr :color, :string, values: @colors, default: "white", doc: ""
-  attr :border, :string, values: @colors ++ ["transparent"], default: "white", doc: ""
+  attr :border, :string, values: @colors ++ ["transparent"], default: "transparent", doc: ""
   attr :padding, :string, values: @sizes ++ ["none"], default: "small", doc: ""
-  attr :image_size, :string, values: @sizes, default: "small", doc: ""
+  attr :media_size, :string, values: @sizes, default: "small", doc: ""
 
   slot :item, required: true do
     attr :title, :string, required: true
@@ -55,7 +55,7 @@ defmodule MishkaChelekom.Accordion do
             space_class(@space),
             color_class(@color),
             padding_size(@padding),
-            image_size(@image_size),
+            media_size(@media_size),
             border(@border),
             @class
           ]
@@ -64,17 +64,18 @@ defmodule MishkaChelekom.Accordion do
     >
       <details :for={item <- @item} name={@name} class={["group", item[:class]]}>
         <summary class={[
-          "font-bold w-full flex flex-nowrap items-center justify-between gap-2 group-open:mb-2",
+          "w-full flex flex-nowrap items-center justify-between gap-2 group-open:mb-2",
           "cursor-pointer transition-[margin,background] duration-[250ms] ease-in-out list-none",
+          item_color(@color),
           item[:summary_class]
         ]}>
           <div class="flex items-center gap-5">
             <%= if !is_nil(item[:image]) do %>
-              <img class={["accordion-title-image shrink-0", item[:image_class]]} src={item[:image]} />
+              <img class={["accordion-title-media shrink-0", item[:image_class]]} src={item[:image]} />
             <% end %>
 
             <%= if !is_nil(item[:icon]) do %>
-              <.icon name={item[:icon]} class={item[:icon_class] || "size-5"}/>
+              <.icon name={item[:icon]} class={item[:icon_class] || "accordion-title-media"}/>
             <% end %>
 
             <div class={["space-y-2", item[:title_class]]}>
@@ -94,7 +95,7 @@ defmodule MishkaChelekom.Accordion do
         </summary>
 
         <div class={[
-          "transition-[opacity, translate] duration-1000 ease-in-out opacity-0 group-open:opacity-100",
+          "shrink-0 transition-[opacity, translate] duration-1000 ease-in-out opacity-0 group-open:opacity-100",
           "-translate-y-4	group-open:translate-y-0",
           item[:content_class]
         ]}>
@@ -114,13 +115,13 @@ defmodule MishkaChelekom.Accordion do
   defp space_class(params) when is_binary(params), do: params
   defp space_class(_), do: space_class("small")
 
-  defp image_size("extra_small"), do: "[&>details_.accordion-title-image]:size-14"
-  defp image_size("small"), do: "[&>details_.accordion-title-image]:size-16"
-  defp image_size("medium"), do: "[&>details_.accordion-title-image]:size-20"
-  defp image_size("large"), do: "[&>details_.accordion-title-image]:size-24"
-  defp image_size("extra_large"), do: "[&>details_.accordion-title-image]:size-28"
-  defp image_size(params) when is_binary(params), do: params
-  defp image_size(_), do: image_size("small")
+  defp media_size("extra_small"), do: "[&>details_.accordion-title-media]:size-12"
+  defp media_size("small"), do: "[&>details_.accordion-title-media]:size-14"
+  defp media_size("medium"), do: "[&>details_.accordion-title-media]:size-16"
+  defp media_size("large"), do: "[&>details_.accordion-title-media]:size-20"
+  defp media_size("extra_large"), do: "[&>details_.accordion-title-media]:size-24"
+  defp media_size(params) when is_binary(params), do: params
+  defp media_size(_), do: media_size("small")
 
   defp padding_size("extra_small"), do: "[&>details>*]:p-1"
   defp padding_size("small"), do: "[&>details>*]:p-2"
@@ -250,7 +251,6 @@ defmodule MishkaChelekom.Accordion do
       "bg-white text-[#3E3E3E]",
       "[&>details>summary]:bg-white",
       "hover:[&>details>summary]:bg-[#E8E8E8]",
-      "group-open:[&>details>summary]:bg-[#E8E8E8]"
     ]
   end
 
@@ -350,6 +350,72 @@ defmodule MishkaChelekom.Accordion do
       "[&>details>summary]:bg-[#1E1E1E]",
       "hover:[&>details>summary]:bg-[#111111]",
       "group-open:[&>details>summary]:bg-[#111111]"
+    ]
+  end
+
+  defp item_color("white") do
+    [
+      "group-open:bg-[#E8E8E8]",
+    ]
+  end
+
+  defp item_color("primary") do
+    [
+      "group-open:bg-[#072ed3]",
+    ]
+  end
+
+  defp item_color("secondary") do
+    [
+      "group-open:bg-[#60636f]",
+    ]
+  end
+
+  defp item_color("success") do
+    [
+      "group-open:bg-[#d4fde4]",
+    ]
+  end
+
+  defp item_color("warning") do
+    [
+      "group-open:bg-[#fff1cd]",
+    ]
+  end
+
+  defp item_color("danger") do
+    [
+      "group-open:bg-[#ffcdcd]",
+    ]
+  end
+
+  defp item_color("info") do
+    [
+      "group-open:bg-[#cce1ff]",
+    ]
+  end
+
+  defp item_color("misc") do
+    [
+      "group-open:bg-[#ffe0ff]",
+    ]
+  end
+
+  defp item_color("dawn") do
+    [
+      "group-open:bg-[#ffdfc1]",
+    ]
+  end
+
+  defp item_color("light") do
+    [
+      "group-open:bg-[#d2d8e9]",
+    ]
+  end
+
+  defp item_color("dark") do
+    [
+      "group-open:bg-[#111111]",
     ]
   end
 
