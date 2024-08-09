@@ -1,7 +1,6 @@
 defmodule MishkaChelekom.Accordion do
   use Phoenix.Component
   import MishkaChelekomComponents
-  alias Phoenix.LiveView.JS
 
   @sizes ["extra_small", "small", "medium", "large", "extra_large"]
 
@@ -32,6 +31,7 @@ defmodule MishkaChelekom.Accordion do
 
   slot :item, required: true do
     attr :title, :string, required: true
+    attr :description, :string
     attr :icon, :string
     attr :class, :string
     attr :image, :string
