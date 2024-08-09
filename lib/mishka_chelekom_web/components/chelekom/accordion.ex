@@ -64,13 +64,13 @@ defmodule MishkaChelekom.Accordion do
       <details :for={item <- @item} name={@name} class={["group", item[:class]]}>
         <summary class={[
           "cursor-pointer transition-[margin] duration-[250ms] ease-in-out list-none",
-          "p-2 font-bold flex flex-nowrap items-center justify-between gap-2 group-open:mb-2",
+          "p-2 font-bold w-full flex flex-nowrap items-center justify-between gap-2 group-open:mb-2",
           "bg-gray-300 hover:bg-gra-100",
           item[:summary_class]
         ]}>
-          <div class={["flex items-center gap-5", item[:image_class]]}>
+          <div class="flex items-center gap-5">
             <%= if !is_nil(item[:image]) do %>
-              <img class="shrink-0 size-20" src={item[:image]} />
+              <img class={["shrink-0 size-20", item[:image_class]]} src={item[:image]} />
             <% end %>
 
             <div class={["space-y-2", item[:title_class]]}>
@@ -83,15 +83,19 @@ defmodule MishkaChelekom.Accordion do
               <% end %>
             </div>
           </div>
+            <.icon
+            name="hero-chevron-right"
+            class="w-5 transition-transform duration-300 ease-in-out group-open:rotate-90"
+          />
         </summary>
 
-        <p class={[
+        <div class={[
           "p-2 transition-[opacity, translate] duration-1000 ease-in-out opacity-0 group-open:opacity-100",
           "p-1 -translate-y-4	group-open:translate-y-0",
           item[:content_class]
         ]}>
           <%= render_slot(item) %>
-        </p>
+        </div>
       </details>
     </div>
     """

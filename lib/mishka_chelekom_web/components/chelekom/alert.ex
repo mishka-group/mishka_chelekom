@@ -91,4 +91,180 @@ defmodule MishkaChelekom.Alert do
     </div>
     """
   end
+
+
+  defp color_variant("default", "white") do
+    "bg-white text-[#3E3E3E] border-[#DADADA] [&>.indicator]:bg-[#3E3E3E] hover:bg-[#E8E8E8] hover:border-[#d9d9d9]"
+  end
+
+  defp color_variant("default", "primary") do
+    "bg-[#4363EC] text-white border-[#2441de] [&>.indicator]:bg-white hover:bg-[#072ed3] hover:border-[#2441de]"
+  end
+
+  defp color_variant("default", "secondary") do
+    "bg-[#6B6E7C] text-white border-[#877C7C] [&>.indicator]:bg-white hover:bg-[#60636f] hover:border-[#3d3f49]"
+  end
+
+  defp color_variant("default", "success") do
+    "bg-[#ECFEF3] text-[#047857] border-[#6EE7B7] [&>.indicator]:bg-[#047857] hover:bg-[#d4fde4] hover:border-[#6EE7B7]"
+  end
+
+  defp color_variant("default", "warning") do
+    "bg-[#FFF8E6] text-[#FF8B08] border-[#FF8B08] [&>.indicator]:bg-[#FF8B08] hover:bg-[#fff1cd] hover:border-[#FF8B08]"
+  end
+
+  defp color_variant("default", "danger") do
+    "bg-[#FFE6E6] text-[#E73B3B] border-[#E73B3B] [&>.indicator]:bg-[#E73B3B] hover:bg-[#ffcdcd] hover:border-[#E73B3B]"
+  end
+
+  defp color_variant("default", "info") do
+    "bg-[#E5F0FF] text-[#004FC4] border-[#004FC4] [&>.indicator]:bg-[#004FC4] hover:bg-[#cce1ff] hover:border-[#004FC4]"
+  end
+
+  defp color_variant("default", "misc") do
+    "bg-[#FFE6FF] text-[#52059C] border-[#52059C] [&>.indicator]:bg-[#52059C] hover:bg-[#ffe0ff] hover:border-[#52059C]"
+  end
+
+  defp color_variant("default", "dawn") do
+    "bg-[#FFECDA] text-[#4D4137] border-[#4D4137] [&>.indicator]:bg-[#4D4137] hover:bg-[#ffdfc1] hover:border-[#4D4137]"
+  end
+
+  defp color_variant("default", "light") do
+    "bg-[#E3E7F1] text-[#707483] border-[#707483] [&>.indicator]:bg-[#707483] hover:bg-[#d2d8e9] hover:border-[#707483]"
+  end
+
+  defp color_variant("default", "dark") do
+    "bg-[#1E1E1E] text-white border-[#050404] [&>.indicator]:bg-white hover:bg-[#111111] hover:border-[#050404]"
+  end
+  defp color_variant("outline", "white") do
+    "bg-transparent text-white border-white [&>.indicator]:bg-white hover:text-[#E8E8E8] hover:border-[#E8E8E8]"
+  end
+
+  defp color_variant("outline", "primary") do
+    "bg-transparent text-[#4363EC] border-[#4363EC] [&>.indicator]:bg-[#4363EC] hover:text-[#072ed3] hover:border-[#072ed3]"
+  end
+
+  defp color_variant("outline", "secondary") do
+    "bg-transparent text-[#6B6E7C] border-[#6B6E7C] [&>.indicator]:bg-[#6B6E7C] hover:text-[#60636f] hover:border-[#60636f]"
+  end
+
+  defp color_variant("outline", "success") do
+    "bg-transparent text-[#227A52] border-[#6EE7B7] [&>.indicator]:bg-[#227A52] hover:text-[#50AF7A] hover:border-[#50AF7A]"
+  end
+
+  defp color_variant("outline", "warning") do
+    "bg-transparent text-[#FF8B08] border-[#FF8B08] [&>.indicator]:bg-[#FF8B08] hover:text-[#FFB045] hover:border-[#FFB045]"
+  end
+
+  defp color_variant("outline", "danger") do
+    "bg-transparent text-[#E73B3B] border-[#E73B3B] [&>.indicator]:bg-[#E73B3B] hover:text-[#F0756A] hover:border-[#F0756A]"
+  end
+
+  defp color_variant("outline", "info") do
+    "bg-transparent text-[#004FC4] border-[#004FC4] [&>.indicator]:bg-[#004FC4] hover:text-[#3680DB] hover:border-[#3680DB]"
+  end
+
+  defp color_variant("outline", "misc") do
+    "bg-transparent text-[#52059C] border-[#52059C] [&>.indicator]:bg-[#52059C] hover:text-[#8535C3] hover:border-[#8535C3]"
+  end
+
+  defp color_variant("outline", "dawn") do
+    "bg-transparent text-[#4D4137] border-[#4D4137] [&>.indicator]:bg-[#4D4137] hover:text-[#948474] hover:border-[#948474]"
+  end
+
+  defp color_variant("outline", "light") do
+    "bg-transparent text-[#707483] border-[#707483] [&>.indicator]:bg-[#707483] hover:text-[#A0A5B4] hover:border-[#A0A5B4]"
+  end
+
+  defp color_variant("outline", "dark") do
+    "bg-transparent text-[#1E1E1E] border-[#1E1E1E] [&>.indicator]:bg-[#1E1E1E] hover:text-[#787878] hover:border-[#787878]"
+  end
+
+  defp color_variant("unbordered", "white") do
+    "bg-white text-[#3E3E3E] border-transparent [&>.indicator]:bg-[#3E3E3E] hover:bg-[#E8E8E8]"
+  end
+
+  defp color_variant("unbordered", "primary") do
+    "bg-[#4363EC] text-white border-transparent [&>.indicator]:bg-white hover:bg-[#072ed3]"
+  end
+
+  defp color_variant("unbordered", "secondary") do
+    "bg-[#6B6E7C] text-white border-transparent [&>.indicator]:bg-white hover:bg-[#60636f]"
+  end
+
+  defp color_variant("unbordered", "success") do
+    "bg-[#ECFEF3] text-[#047857] border-transparent [&>.indicator]:bg-[#047857] hover:bg-[#d4fde4]"
+  end
+
+  defp color_variant("unbordered", "warning") do
+    "bg-[#FFF8E6] text-[#FF8B08] border-transparent [&>.indicator]:bg-[#FF8B08] hover:bg-[#fff1cd]"
+  end
+
+  defp color_variant("unbordered", "danger") do
+    "bg-[#FFE6E6] text-[#E73B3B] border-transparent [&>.indicator]:bg-[#E73B3B] hover:bg-[#ffcdcd]"
+  end
+
+  defp color_variant("unbordered", "info") do
+    "bg-[#E5F0FF] text-[#004FC4] border-transparent [&>.indicator]:bg-[#004FC4] hover:bg-[#cce1ff]"
+  end
+
+  defp color_variant("unbordered", "misc") do
+    "bg-[#FFE6FF] text-[#52059C] border-transparent [&>.indicator]:bg-[#52059C] hover:bg-[#ffe0ff]"
+  end
+
+  defp color_variant("unbordered", "dawn") do
+    "bg-[#FFECDA] text-[#4D4137] border-transparent [&>.indicator]:bg-[#4D4137] hover:bg-[#ffdfc1]"
+  end
+
+  defp color_variant("unbordered", "light") do
+    "bg-[#E3E7F1] text-[#707483] border-transparent [&>.indicator]:bg-[#707483] hover:bg-[#d2d8e9]"
+  end
+
+  defp color_variant("unbordered", "dark") do
+    "bg-[#1E1E1E] text-white border-transparent [&>.indicator]:bg-white hover:bg-[#111111]"
+  end
+  defp color_variant("shadow", "white") do
+    "bg-white text-[#3E3E3E] border-[#DADADA] shadow [&>.indicator]:bg-[#3E3E3E] hover:bg-[#E8E8E8] hover:border-[#d9d9d9]"
+  end
+
+  defp color_variant("shadow", "primary") do
+    "bg-[#4363EC] text-white border-[#4363EC] shadow [&>.indicator]:bg-white hover:bg-[#072ed3] hover:border-[#072ed3]"
+  end
+
+  defp color_variant("shadow", "secondary") do
+    "bg-[#6B6E7C] text-white border-[#6B6E7C] shadow [&>.indicator]:bg-white hover:bg-[#60636f] hover:border-[#60636f]"
+  end
+
+  defp color_variant("shadow", "success") do
+    "bg-[#AFEAD0] text-[#227A52] border-[#AFEAD0] shadow [&>.indicator]:bg-[#227A52] hover:bg-[#d4fde4] hover:border-[#d4fde4]"
+  end
+
+  defp color_variant("shadow", "warning") do
+    "bg-[#FFF8E6] text-[#FF8B08] border-[#FFF8E6] shadow [&>.indicator]:bg-[#FF8B08] hover:bg-[#fff1cd] hover:border-[#fff1cd]"
+  end
+
+  defp color_variant("shadow", "danger") do
+    "bg-[#FFE6E6] text-[#E73B3B] border-[#FFE6E6] shadow [&>.indicator]:bg-[#E73B3B] hover:bg-[#ffcdcd] hover:border-[#ffcdcd]"
+  end
+
+  defp color_variant("shadow", "info") do
+    "bg-[#E5F0FF] text-[#004FC4] border-[#E5F0FF] shadow [&>.indicator]:bg-[#004FC4] hover:bg-[#cce1ff] hover:border-[#cce1ff]"
+  end
+
+  defp color_variant("shadow", "misc") do
+    "bg-[#FFE6FF] text-[#52059C] border-[#FFE6FF] shadow [&>.indicator]:bg-[#52059C] hover:bg-[#ffe0ff] hover:border-[#ffe0ff]"
+  end
+
+  defp color_variant("shadow", "dawn") do
+    "bg-[#FFECDA] text-[#4D4137] border-[#FFECDA] shadow [&>.indicator]:bg-[#4D4137] hover:bg-[#ffdfc1] hover:border-[#ffdfc1]"
+  end
+
+  defp color_variant("shadow", "light") do
+    "bg-[#E3E7F1] text-[#707483] border-[#E3E7F1] shadow [&>.indicator]:bg-[#707483] hover:bg-[#d2d8e9] hover:border-[#d2d8e9]"
+  end
+
+  defp color_variant("shadow", "dark") do
+    "bg-[#1E1E1E] text-white border-[#1E1E1E] shadow [&>.indicator]:bg-white hover:bg-[#111111] hover:border-[#050404]"
+  end
+
 end
