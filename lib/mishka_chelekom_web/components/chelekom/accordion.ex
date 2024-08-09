@@ -27,6 +27,7 @@ defmodule MishkaChelekom.Accordion do
   attr :color, :string, values: @colors, default: "white", doc: ""
   attr :border, :string, values: @colors ++ ["transparent"], default: "transparent", doc: ""
   attr :padding, :string, values: @sizes ++ ["none"], default: "small", doc: ""
+  attr :rounded, :string, values: @sizes ++ ["full", "none"], default: "medium", doc: ""
   attr :media_size, :string, values: @sizes, default: "small", doc: ""
 
   slot :item, required: true do
@@ -56,9 +57,8 @@ defmodule MishkaChelekom.Accordion do
             color_class(@color),
             padding_size(@padding),
             media_size(@media_size),
-            border(@border),
             @class
-          ]
+          ] ++ border(@border, @space)
       }
       {@rest}
     >
@@ -75,7 +75,7 @@ defmodule MishkaChelekom.Accordion do
             <% end %>
 
             <%= if !is_nil(item[:icon]) do %>
-              <.icon name={item[:icon]} class={item[:icon_class] || "accordion-title-media"}/>
+              <.icon name={item[:icon]} class={item[:icon_class] || "accordion-title-media"} />
             <% end %>
 
             <div class={["space-y-2", item[:title_class]]}>
@@ -88,7 +88,7 @@ defmodule MishkaChelekom.Accordion do
               <% end %>
             </div>
           </div>
-            <.icon
+          <.icon
             name="hero-chevron-right"
             class="w-5 transition-transform duration-300 ease-in-out group-open:rotate-90"
           />
@@ -132,117 +132,128 @@ defmodule MishkaChelekom.Accordion do
   defp padding_size(params) when is_binary(params), do: params
   defp padding_size(_), do: padding_size("small")
 
-  defp border("transparent") do
-    "border-0"
+  defp border("transparent", space) do
+    ["border-0", space != "none" && "yechizi"]
   end
 
-  defp border("white") do
+  defp border("white", space) do
     [
       "border border-[#DADADA]",
       "[&>details:not(:last-child)>summary]:border-b",
       "[&>details:not(:last-child)>summary]:border-[#DADADA]",
       "[&>details:not(:last-child)>:not(summary)]:border-b",
       "[&>details:not(:last-child)>:not(summary)]:border-[#DADADA]",
+      space != "none" && "yechizi"
     ]
   end
 
-  defp border("primary") do
+  defp border("primary", space) do
     [
       "border border-[#4363EC]",
       "[&>details:not(:last-child)>summary]:border-b",
       "[&>details:not(:last-child)>summary]:border-[#4363EC]",
       "[&>details:not(:last-child)>:not(summary)]:border-b",
-      "[&>details:not(:last-child)>:not(summary)]:border-[#4363EC]"
+      "[&>details:not(:last-child)>:not(summary)]:border-[#4363EC]",
+      space != "none" && "yechizi"
     ]
   end
 
-  defp border("secondary") do
+  defp border("secondary", space) do
     [
       "border border-[#6B6E7C]",
       "[&>details:not(:last-child)>summary]:border-b",
       "[&>details:not(:last-child)>summary]:border-[#6B6E7C]",
       "[&>details:not(:last-child)>:not(summary)]:border-b",
-      "[&>details:not(:last-child)>:not(summary)]:border-[#6B6E7C]"
+      "[&>details:not(:last-child)>:not(summary)]:border-[#6B6E7C]",
+      space != "none" && "yechizi"
     ]
   end
 
-  defp border("success") do
+  defp border("success", space) do
     [
       "border border-[#227A52]",
       "[&>details:not(:last-child)>summary]:border-b",
       "[&>details:not(:last-child)>summary]:border-[#227A52]",
       "[&>details:not(:last-child)>:not(summary)]:border-b",
-      "[&>details:not(:last-child)>:not(summary)]:border-[#227A52]"
+      "[&>details:not(:last-child)>:not(summary)]:border-[#227A52]",
+      space != "none" && "yechizi"
     ]
   end
 
-  defp border("warning") do
+  defp border("warning", space) do
     [
       "border border-[#FF8B08]",
       "[&>details:not(:last-child)>summary]:border-b",
       "[&>details:not(:last-child)>summary]:border-[#FF8B08]",
       "[&>details:not(:last-child)>:not(summary)]:border-b",
-      "[&>details:not(:last-child)>:not(summary)]:border-[#FF8B08]"
+      "[&>details:not(:last-child)>:not(summary)]:border-[#FF8B08]",
+      space != "none" && "yechizi"
     ]
   end
 
-  defp border("danger") do
+  defp border("danger", space) do
     [
       "border border-[#E73B3B]",
       "[&>details:not(:last-child)>summary]:border-b",
       "[&>details:not(:last-child)>summary]:border-[#E73B3B]",
       "[&>details:not(:last-child)>:not(summary)]:border-b",
-      "[&>details:not(:last-child)>:not(summary)]:border-[#E73B3B]"
+      "[&>details:not(:last-child)>:not(summary)]:border-[#E73B3B]",
+      space != "none" && "yechizi"
     ]
   end
 
-  defp border("info") do
+  defp border("info", space) do
     [
       "border border-[#004FC4]",
       "[&>details:not(:last-child)>summary]:border-b",
       "[&>details:not(:last-child)>summary]:border-[#004FC4]",
       "[&>details:not(:last-child)>:not(summary)]:border-b",
-      "[&>details:not(:last-child)>:not(summary)]:border-[#004FC4]"
+      "[&>details:not(:last-child)>:not(summary)]:border-[#004FC4]",
+      space != "none" && "yechizi"
     ]
   end
 
-  defp border("misc") do
+  defp border("misc", space) do
     [
       "border border-[#52059C]",
       "[&>details:not(:last-child)>summary]:border-b",
       "[&>details:not(:last-child)>summary]:border-[#52059C]",
       "[&>details:not(:last-child)>:not(summary)]:border-b",
-      "[&>details:not(:last-child)>:not(summary)]:border-[#52059C]"
+      "[&>details:not(:last-child)>:not(summary)]:border-[#52059C]",
+      space != "none" && "yechizi"
     ]
   end
 
-  defp border("dawn") do
+  defp border("dawn", space) do
     [
       "border border-[#4D4137]",
       "[&>details:not(:last-child)>summary]:border-b",
       "[&>details:not(:last-child)>summary]:border-[#4D4137]",
       "[&>details:not(:last-child)>:not(summary)]:border-b",
-      "[&>details:not(:last-child)>:not(summary)]:border-[#4D4137]"
+      "[&>details:not(:last-child)>:not(summary)]:border-[#4D4137]",
+      space != "none" && "yechizi"
     ]
   end
 
-  defp border("light") do
+  defp border("light", space) do
     [
       "border border-[#707483]",
       "[&>details:not(:last-child)>summary]:border-b",
       "[&>details:not(:last-child)>summary]:border-[#707483]",
       "[&>details:not(:last-child)>:not(summary)]:border-b",
-      "[&>details:not(:last-child)>:not(summary)]:border-[#707483]"
+      "[&>details:not(:last-child)>:not(summary)]:border-[#707483]",
+      space != "none" && "yechizi"
     ]
   end
 
-  defp border("dark") do
+  defp border("dark", space) do
     [
       "border border-[#1E1E1E]",
       "[&>details:not(:last-child)>summary]:border-b",
       "[&>details:not(:last-child)>summary]:border-[#1E1E1E]",
       "[&>details:not(:last-child)>:not(summary)]:border-b",
-      "[&>details:not(:last-child)>:not(summary)]:border-[#1E1E1E]"
+      "[&>details:not(:last-child)>:not(summary)]:border-[#1E1E1E]",
+      space != "none" && "yechizi"
     ]
   end
 
@@ -250,7 +261,7 @@ defmodule MishkaChelekom.Accordion do
     [
       "bg-white text-[#3E3E3E]",
       "[&>details>summary]:bg-white",
-      "hover:[&>details>summary]:bg-[#E8E8E8]",
+      "hover:[&>details>summary]:bg-[#E8E8E8]"
     ]
   end
 
@@ -355,67 +366,67 @@ defmodule MishkaChelekom.Accordion do
 
   defp item_color("white") do
     [
-      "group-open:bg-[#E8E8E8]",
+      "group-open:bg-[#E8E8E8]"
     ]
   end
 
   defp item_color("primary") do
     [
-      "group-open:bg-[#072ed3]",
+      "group-open:bg-[#072ed3]"
     ]
   end
 
   defp item_color("secondary") do
     [
-      "group-open:bg-[#60636f]",
+      "group-open:bg-[#60636f]"
     ]
   end
 
   defp item_color("success") do
     [
-      "group-open:bg-[#d4fde4]",
+      "group-open:bg-[#d4fde4]"
     ]
   end
 
   defp item_color("warning") do
     [
-      "group-open:bg-[#fff1cd]",
+      "group-open:bg-[#fff1cd]"
     ]
   end
 
   defp item_color("danger") do
     [
-      "group-open:bg-[#ffcdcd]",
+      "group-open:bg-[#ffcdcd]"
     ]
   end
 
   defp item_color("info") do
     [
-      "group-open:bg-[#cce1ff]",
+      "group-open:bg-[#cce1ff]"
     ]
   end
 
   defp item_color("misc") do
     [
-      "group-open:bg-[#ffe0ff]",
+      "group-open:bg-[#ffe0ff]"
     ]
   end
 
   defp item_color("dawn") do
     [
-      "group-open:bg-[#ffdfc1]",
+      "group-open:bg-[#ffdfc1]"
     ]
   end
 
   defp item_color("light") do
     [
-      "group-open:bg-[#d2d8e9]",
+      "group-open:bg-[#d2d8e9]"
     ]
   end
 
   defp item_color("dark") do
     [
-      "group-open:bg-[#111111]",
+      "group-open:bg-[#111111]"
     ]
   end
 

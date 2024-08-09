@@ -92,7 +92,6 @@ defmodule MishkaChelekom.Alert do
     """
   end
 
-
   defp color_variant("default", "white") do
     "bg-white text-[#3E3E3E] border-[#DADADA] [&>.indicator]:bg-[#3E3E3E] hover:bg-[#E8E8E8] hover:border-[#d9d9d9]"
   end
@@ -136,6 +135,7 @@ defmodule MishkaChelekom.Alert do
   defp color_variant("default", "dark") do
     "bg-[#1E1E1E] text-white border-[#050404] [&>.indicator]:bg-white hover:bg-[#111111] hover:border-[#050404]"
   end
+
   defp color_variant("outline", "white") do
     "bg-transparent text-white border-white [&>.indicator]:bg-white hover:text-[#E8E8E8] hover:border-[#E8E8E8]"
   end
@@ -223,6 +223,7 @@ defmodule MishkaChelekom.Alert do
   defp color_variant("unbordered", "dark") do
     "bg-[#1E1E1E] text-white border-transparent [&>.indicator]:bg-white hover:bg-[#111111]"
   end
+
   defp color_variant("shadow", "white") do
     "bg-white text-[#3E3E3E] border-[#DADADA] shadow [&>.indicator]:bg-[#3E3E3E] hover:bg-[#E8E8E8] hover:border-[#d9d9d9]"
   end
@@ -266,5 +267,4 @@ defmodule MishkaChelekom.Alert do
   defp color_variant("shadow", "dark") do
     "bg-[#1E1E1E] text-white border-[#1E1E1E] shadow [&>.indicator]:bg-white hover:bg-[#111111] hover:border-[#050404]"
   end
-
 end
