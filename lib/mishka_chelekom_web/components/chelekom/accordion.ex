@@ -42,10 +42,12 @@ defmodule MishkaChelekom.Accordion do
       class={
         default_classes() ++
           [
-            "border [&>details:not(:last-child)>summary]:border-b",
-            "[&>details:not(:last-child)>summary]:border-blue-300",
+            "overflow-hidden",
+            "border border-gray-600 [&>details:not(:last-child)>summary]:border-b",
+            "[&>details:not(:last-child)>summary]:border-gray-500",
+            "[&>details]:bg-gray-100",
             "[&>details:not(:last-child)>:not(summary)]:border-b",
-            "[&>details:not(:last-child)>:not(summary)]:border-blue-300 rounded-lg overflow-hidden",
+            "[&>details:not(:last-child)>:not(summary)]:border-gray-500",
             space_class(@space),
             border(@color),
             @class
@@ -53,39 +55,48 @@ defmodule MishkaChelekom.Accordion do
       }
       {@rest}
     >
-      <details
-        :for={item <- @item}
-        class={item[:class] || "cursor-pointer bg-white group accordion-item"}
-      >
-        <summary
-          phx-click={
-            JS.transition(
-              {"ease-in-out duration-1000", "max-h-0 opacity-0", "max-h-96 opacity-100"},
-              to: "#hhehehey"
-            )
-          }
-          class="list-none p-5 font-bold flex flex-nowrap items-center justify-between gap-2 transition-all duration-300 ease-in-out hover:bg-gray-100 "
-        >
-          <div><%= item[:title] %></div>
-          <.icon
-            name={item[:icon] || "hero-chevron-right"}
-            class={
-              item[:icon_class] ||
-                "w-5 transition-transform duration-300 ease-in-out group-open:rotate-90"
-            }
+    <details name="omg2" class="group">
+      <summary class="cursor-pointer transition-[margin] duration-[250ms] ease-in-out list-none p-2 font-bold flex flex-nowrap items-center justify-between gap-2 group-open:mb-2 bg-gray-300 hover:bg-gra-100">
+        <div class="flex items-center gap-5">
+          <img
+            class="shrink-0 size-20"
+            src="https://img.icons8.com/clouds/256/000000/futurama-bender.png"
           />
-        </summary>
+          <div class="space-y-2">
+            <div>Title of accordion</div>
 
-        <div
-          id="hhehehey"
-          class={
-            item[:content_class] ||
-              "p-5 overflow-hidden accordion-content"
-          }
-        >
-          <%= render_slot(item) %>
+            <div class="text-xs font-light">
+              Including a passing grade in health, geography.
+            </div>
+          </div>
         </div>
-      </details>
+      </summary>
+
+      <p class="p-2 transition-[opacity, translate] duration-1000 ease-in-out opacity-0 group-open:opacity-100 p-1 -translate-y-4	group-open:translate-y-0">
+        Requires 40 credits, including a passing grade in health, geography, history, economics, and wood shop. Requires 40 credits, including a passing grade in health, geography, history, economics, and wood shop. Requires 40 credits, including a
+      </p>
+    </details>
+    <details name="omg2" class="group">
+      <summary class="cursor-pointer transition-[margin] duration-[250ms] ease-in-out list-none p-2 font-bold flex flex-nowrap items-center justify-between gap-2 group-open:mb-2 bg-gray-300 hover:bg-gra-100">
+        <div class="flex items-center gap-5">
+          <img
+            class="shrink-0 size-20"
+            src="https://img.icons8.com/clouds/256/000000/futurama-bender.png"
+          />
+          <div class="space-y-2">
+            <div>Title of accordion</div>
+
+            <div class="text-xs font-light">
+              Including a passing grade in health, geography.
+            </div>
+          </div>
+        </div>
+      </summary>
+
+      <p class="p-2 transition-[opacity, translate] duration-1000 ease-in-out opacity-0 group-open:opacity-100 p-1 -translate-y-4	group-open:translate-y-0">
+        Requires 40 credits, including a passing grade in health, geography, history, economics, and wood shop. Requires 40 credits, including a passing grade in health, geography, history, economics, and wood shop. Requires 40 credits, including a
+      </p>
+    </details>
     </div>
     """
   end
