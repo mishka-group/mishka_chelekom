@@ -22,7 +22,7 @@ defmodule MishkaChelekom.Accordion do
 
   @doc type: :component
   attr :id, :string, default: nil, doc: ""
-  attr :rest, :global, doc: ""
+  attr :name, :string, default: nil, doc: ""
   attr :class, :string, default: nil, doc: ""
   attr :space, :string, values: @sizes ++ ["none"], default: "none", doc: ""
   attr :color, :string, values: @colors ++ ["transparent"], default: "transparent", doc: ""
@@ -31,9 +31,15 @@ defmodule MishkaChelekom.Accordion do
     attr :title, :string, required: true
     attr :icon, :string
     attr :class, :string
+    attr :image, :string
+    attr :image_class, :string
     attr :icon_class, :string
     attr :content_class, :string
+    attr :title_class, :string
+    attr :summary_class, :string
   end
+
+  attr :rest, :global, doc: ""
 
   def native_accordion(assigns) do
     ~H"""
@@ -55,48 +61,38 @@ defmodule MishkaChelekom.Accordion do
       }
       {@rest}
     >
-    <details name="omg2" class="group">
-      <summary class="cursor-pointer transition-[margin] duration-[250ms] ease-in-out list-none p-2 font-bold flex flex-nowrap items-center justify-between gap-2 group-open:mb-2 bg-gray-300 hover:bg-gra-100">
-        <div class="flex items-center gap-5">
-          <img
-            class="shrink-0 size-20"
-            src="https://img.icons8.com/clouds/256/000000/futurama-bender.png"
-          />
-          <div class="space-y-2">
-            <div>Title of accordion</div>
+      <details :for={item <- @item} name={@name} class={["group", item[:class]]}>
+        <summary class={[
+          "cursor-pointer transition-[margin] duration-[250ms] ease-in-out list-none",
+          "p-2 font-bold flex flex-nowrap items-center justify-between gap-2 group-open:mb-2",
+          "bg-gray-300 hover:bg-gra-100",
+          item[:summary_class]
+        ]}>
+          <div class={["flex items-center gap-5", item[:image_class]]}>
+            <%= if !is_nil(item[:image]) do %>
+              <img class="shrink-0 size-20" src={item[:image]} />
+            <% end %>
 
-            <div class="text-xs font-light">
-              Including a passing grade in health, geography.
+            <div class={["space-y-2", item[:title_class]]}>
+              <div><%= item[:title] %></div>
+
+              <%= if !is_nil(item[:description]) do %>
+                <div class="text-xs font-light">
+                  <%= item[:description] %>
+                </div>
+              <% end %>
             </div>
           </div>
-        </div>
-      </summary>
+        </summary>
 
-      <p class="p-2 transition-[opacity, translate] duration-1000 ease-in-out opacity-0 group-open:opacity-100 p-1 -translate-y-4	group-open:translate-y-0">
-        Requires 40 credits, including a passing grade in health, geography, history, economics, and wood shop. Requires 40 credits, including a passing grade in health, geography, history, economics, and wood shop. Requires 40 credits, including a
-      </p>
-    </details>
-    <details name="omg2" class="group">
-      <summary class="cursor-pointer transition-[margin] duration-[250ms] ease-in-out list-none p-2 font-bold flex flex-nowrap items-center justify-between gap-2 group-open:mb-2 bg-gray-300 hover:bg-gra-100">
-        <div class="flex items-center gap-5">
-          <img
-            class="shrink-0 size-20"
-            src="https://img.icons8.com/clouds/256/000000/futurama-bender.png"
-          />
-          <div class="space-y-2">
-            <div>Title of accordion</div>
-
-            <div class="text-xs font-light">
-              Including a passing grade in health, geography.
-            </div>
-          </div>
-        </div>
-      </summary>
-
-      <p class="p-2 transition-[opacity, translate] duration-1000 ease-in-out opacity-0 group-open:opacity-100 p-1 -translate-y-4	group-open:translate-y-0">
-        Requires 40 credits, including a passing grade in health, geography, history, economics, and wood shop. Requires 40 credits, including a passing grade in health, geography, history, economics, and wood shop. Requires 40 credits, including a
-      </p>
-    </details>
+        <p class={[
+          "p-2 transition-[opacity, translate] duration-1000 ease-in-out opacity-0 group-open:opacity-100",
+          "p-1 -translate-y-4	group-open:translate-y-0",
+          item[:content_class]
+        ]}>
+          <%= render_slot(item) %>
+        </p>
+      </details>
     </div>
     """
   end
