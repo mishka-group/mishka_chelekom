@@ -7,7 +7,8 @@ defmodule MishkaChelekom.Accordion do
     "default",
     "contained",
     "filled",
-    "seperated"
+    "seperated",
+    "tinted_split"
   ]
 
   @colors [
@@ -369,143 +370,220 @@ defmodule MishkaChelekom.Accordion do
 
   defp color_variant("filled", "white") do
     [
-      "bg-white text-[#3E3E3E]"
+      "[&>details]:bg-white text-[#3E3E3E]"
     ]
   end
 
   defp color_variant("filled", "primary") do
     [
-      "bg-[#4363EC] text-white"
+      "[&>details]:bg-[#4363EC] text-white"
     ]
   end
 
   defp color_variant("filled", "secondary") do
     [
-      "bg-[#6B6E7C] text-white"
+      "[&>details]:bg-[#6B6E7C] text-white"
     ]
   end
 
   defp color_variant("filled", "success") do
     [
-      "bg-[#ECFEF3] text-[#047857]"
+      "[&>details]:bg-[#ECFEF3] text-[#047857]"
     ]
   end
 
   defp color_variant("filled", "warning") do
     [
-      "bg-[#FFF8E6] text-[#FF8B08]"
+      "[&>details]:bg-[#FFF8E6] text-[#FF8B08]"
     ]
   end
 
   defp color_variant("filled", "danger") do
     [
-      "bg-[#FFE6E6] text-[#E73B3B]"
+      "[&>details]:bg-[#FFE6E6] text-[#E73B3B]"
     ]
   end
 
   defp color_variant("filled", "info") do
     [
-      "bg-[#E5F0FF] text-[#004FC4]"
+      "[&>details]:bg-[#E5F0FF] text-[#004FC4]"
     ]
   end
 
   defp color_variant("filled", "misc") do
     [
-      "bg-[#FFE6FF] text-[#52059C]"
+      "[&>details]:bg-[#FFE6FF] text-[#52059C]"
     ]
   end
 
   defp color_variant("filled", "dawn") do
     [
-      "bg-[#FFECDA] text-[#4D4137]"
+      "[&>details]:bg-[#FFECDA] text-[#4D4137]"
     ]
   end
 
   defp color_variant("filled", "light") do
     [
-      "bg-[#E3E7F1] text-[#707483]"
+      "[&>details]:bg-[#E3E7F1] text-[#707483]"
     ]
   end
 
   defp color_variant("filled", "dark") do
     [
-      "bg-[#1E1E1E] text-white"
+      "[&>details]:bg-[#1E1E1E] text-white"
+    ]
+  end
+
+  defp color_variant("tinted_split", "white") do
+    [
+      "[&>details]:bg-white text-[#3E3E3E]",
+      "[&>details]:border [&>details]:border-[#6B6E7C]"
+    ]
+  end
+
+  defp color_variant("tinted_split", "primary") do
+    [
+      "[&>details]:bg-[#4363EC] text-white",
+      "[&>details]:border [&>details]:border-[#4363EC]",
+    ]
+  end
+
+  defp color_variant("tinted_split", "secondary") do
+    [
+      "[&>details]:bg-[#6B6E7C] text-white",
+      "[&>details]:border [&>details]:border-[#6B6E7C]",
+    ]
+  end
+
+  defp color_variant("tinted_split", "success") do
+    [
+      "[&>details]:bg-[#ECFEF3] text-[#047857]",
+      "[&>details]:border [&>details]:border-[#227A52]",
+    ]
+  end
+
+  defp color_variant("tinted_split", "warning") do
+    [
+      "[&>details]:bg-[#FFF8E6] text-[#FF8B08]",
+      "[&>details]:border [&>details]:border-[#FF8B08]",
+    ]
+  end
+
+  defp color_variant("tinted_split", "danger") do
+    [
+      "[&>details]:bg-[#FFE6E6] text-[#E73B3B]",
+      "[&>details]:border [&>details]:border-[#E73B3B]",
+    ]
+  end
+
+  defp color_variant("tinted_split", "info") do
+    [
+      "[&>details]:bg-[#E5F0FF] text-[#004FC4]",
+      "[&>details]:border [&>details]:border-[#004FC4]",
+    ]
+  end
+
+  defp color_variant("tinted_split", "misc") do
+    [
+      "[&>details]:bg-[#FFE6FF] text-[#52059C]",
+      "[&>details]:border [&>details]:border-[#52059C]",
+    ]
+  end
+
+  defp color_variant("tinted_split", "dawn") do
+    [
+      "[&>details]:bg-[#FFECDA] text-[#4D4137]",
+      "[&>details]:border [&>details]:border-[#4D4137]",
+    ]
+  end
+
+  defp color_variant("tinted_split", "light") do
+    [
+      "[&>details]:bg-[#E3E7F1] text-[#707483]",
+      "[&>details]:border [&>details]:border-[#707483]",
+    ]
+  end
+
+  defp color_variant("tinted_split", "dark") do
+    [
+      "[&>details]:bg-[#1E1E1E] text-white",
+      "[&>details]:border [&>details]:border-[#1E1E1E]",
     ]
   end
 
   defp color_variant("seperated", "white") do
     [
-      "bg-white",
+      "[&>details]:bg-white",
       "[&>details]:border [&>details]:border-[#DADADA]",
     ]
   end
 
   defp color_variant("seperated", "primary") do
     [
-      "bg-white",
+      "[&>details]:bg-white",
       "[&>details]:border [&>details]:border-[#4363EC]",
     ]
   end
 
   defp color_variant("seperated", "secondary") do
     [
-      "bg-white",
+      "[&>details]:bg-white",
       "[&>details]:border [&>details]:border-[#6B6E7C]",
     ]
   end
 
   defp color_variant("seperated", "success") do
     [
-      "bg-white",
+      "[&>details]:bg-white",
       "[&>details]:border [&>details]:border-[#227A52]",
     ]
   end
 
   defp color_variant("seperated", "warning") do
     [
-      "bg-white",
+      "[&>details]:bg-white",
       "[&>details]:border [&>details]:border-[#FF8B08]",
     ]
   end
 
   defp color_variant("seperated", "danger") do
     [
-      "bg-white",
+      "[&>details]:bg-white",
       "[&>details]:border [&>details]:border-[#E73B3B]",
     ]
   end
 
   defp color_variant("seperated", "info") do
     [
-      "bg-white",
+      "[&>details]:bg-white",
       "[&>details]:border [&>details]:border-[#004FC4]",
     ]
   end
 
   defp color_variant("seperated", "misc") do
     [
-      "bg-white",
+      "[&>details]:bg-white",
       "[&>details]:border [&>details]:border-[#52059C]",
     ]
   end
 
   defp color_variant("seperated", "dawn") do
     [
-      "bg-white",
+      "[&>details]:bg-white",
       "[&>details]:border [&>details]:border-[#4D4137]",
     ]
   end
 
   defp color_variant("seperated", "light") do
     [
-      "bg-white",
+      "[&>details]:bg-white",
       "[&>details]:border [&>details]:border-[#707483]",
     ]
   end
 
   defp color_variant("seperated", "dark") do
     [
-      "bg-white",
+      "[&>details]:bg-white",
       "[&>details]:border [&>details]:border-[#1E1E1E]",
     ]
   end
@@ -703,6 +781,72 @@ defmodule MishkaChelekom.Accordion do
   end
 
   defp item_color("filled", "dark") do
+    [
+      "group-open:bg-[#111111]"
+    ]
+  end
+
+  defp item_color("tinted_split", "white") do
+    [
+      "group-open:bg-[#E8E8E8]"
+    ]
+  end
+
+  defp item_color("tinted_split", "primary") do
+    [
+      "group-open:bg-[#072ed3]"
+    ]
+  end
+
+  defp item_color("tinted_split", "secondary") do
+    [
+      "group-open:bg-[#60636f]"
+    ]
+  end
+
+  defp item_color("tinted_split", "success") do
+    [
+      "group-open:bg-[#d4fde4]"
+    ]
+  end
+
+  defp item_color("tinted_split", "warning") do
+    [
+      "group-open:bg-[#fff1cd]"
+    ]
+  end
+
+  defp item_color("tinted_split", "danger") do
+    [
+      "group-open:bg-[#ffcdcd]"
+    ]
+  end
+
+  defp item_color("tinted_split", "info") do
+    [
+      "group-open:bg-[#cce1ff]"
+    ]
+  end
+
+  defp item_color("tinted_split", "misc") do
+    [
+      "group-open:bg-[#ffe0ff]"
+    ]
+  end
+
+  defp item_color("tinted_split", "dawn") do
+    [
+      "group-open:bg-[#ffdfc1]"
+    ]
+  end
+
+  defp item_color("tinted_split", "light") do
+    [
+      "group-open:bg-[#d2d8e9]"
+    ]
+  end
+
+  defp item_color("tinted_split", "dark") do
     [
       "group-open:bg-[#111111]"
     ]
