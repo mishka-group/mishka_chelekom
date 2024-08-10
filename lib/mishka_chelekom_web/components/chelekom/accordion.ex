@@ -72,7 +72,7 @@ defmodule MishkaChelekom.Accordion do
       <details :for={item <- @item} name={@name} class={["group", item[:class]]}>
         <summary class={[
           "w-full flex flex-nowrap items-center justify-between gap-2 group-open:mb-1",
-          "cursor-pointer transition-[margin,background] duration-[250ms] ease-in-out list-none",
+          "cursor-pointer transition-[margin,background,text] duration-[250ms] ease-in-out list-none",
           item_color(@variant, @color),
           item[:summary_class]
         ]}>
@@ -435,77 +435,77 @@ defmodule MishkaChelekom.Accordion do
 
   defp color_variant("seperated", "white") do
     [
-      "accordion-item-gap space-y-3 bg-white",
+      "bg-white",
       "[&>details]:border [&>details]:border-[#DADADA]",
     ]
   end
 
   defp color_variant("seperated", "primary") do
     [
-      "accordion-item-gap space-y-3 bg-white",
+      "bg-white",
       "[&>details]:border [&>details]:border-[#4363EC]",
     ]
   end
 
   defp color_variant("seperated", "secondary") do
     [
-      "accordion-item-gap space-y-3 bg-white",
+      "bg-white",
       "[&>details]:border [&>details]:border-[#6B6E7C]",
     ]
   end
 
   defp color_variant("seperated", "success") do
     [
-      "accordion-item-gap space-y-3 bg-white",
+      "bg-white",
       "[&>details]:border [&>details]:border-[#227A52]",
     ]
   end
 
   defp color_variant("seperated", "warning") do
     [
-      "accordion-item-gap space-y-3 bg-white",
+      "bg-white",
       "[&>details]:border [&>details]:border-[#FF8B08]",
     ]
   end
 
   defp color_variant("seperated", "danger") do
     [
-      "accordion-item-gap space-y-3 bg-white",
+      "bg-white",
       "[&>details]:border [&>details]:border-[#E73B3B]",
     ]
   end
 
   defp color_variant("seperated", "info") do
     [
-      "accordion-item-gap space-y-3 bg-white",
+      "bg-white",
       "[&>details]:border [&>details]:border-[#004FC4]",
     ]
   end
 
   defp color_variant("seperated", "misc") do
     [
-      "accordion-item-gap space-y-3 bg-white",
+      "bg-white",
       "[&>details]:border [&>details]:border-[#52059C]",
     ]
   end
 
   defp color_variant("seperated", "dawn") do
     [
-      "accordion-item-gap space-y-3 bg-white",
+      "bg-white",
       "[&>details]:border [&>details]:border-[#4D4137]",
     ]
   end
 
   defp color_variant("seperated", "light") do
     [
-      "accordion-item-gap space-y-3 bg-white",
+      "bg-white",
       "[&>details]:border [&>details]:border-[#707483]",
     ]
   end
 
   defp color_variant("seperated", "dark") do
     [
-      "accordion-item-gap space-y-3 bg-white",
+      "bg-white",
       "[&>details]:border [&>details]:border-[#1E1E1E]",
     ]
   end
@@ -518,127 +518,127 @@ defmodule MishkaChelekom.Accordion do
 
   defp item_color("default", "primary") do
     [
-      "group-open:bg-white"
+      "group-open:bg-white group-open:hover:[&:is(summary)]:bg-white"
     ]
   end
 
   defp item_color("default", "secondary") do
     [
-      "group-open:bg-white"
+      "group-open:bg-white group-open:hover:[&:is(summary)]:bg-[#60636f]"
     ]
   end
 
   defp item_color("default", "success") do
     [
-      "group-open:bg-white"
+      "group-open:bg-white group-open:hover:[&:is(summary)]:bg-[#d4fde4]"
     ]
   end
 
   defp item_color("default", "warning") do
     [
-      "group-open:bg-white"
+      "group-open:bg-white group-open:hover:[&:is(summary)]:bg-[#fff1cd]"
     ]
   end
 
   defp item_color("default", "danger") do
     [
-      "group-open:bg-white"
+      "group-open:bg-white group-open:hover:[&:is(summary)]:bg-[#ffcdcd]"
     ]
   end
 
   defp item_color("default", "info") do
     [
-      "group-open:bg-white"
+      "group-open:bg-white group-open:hover:[&:is(summary)]:bg-[#cce1ff]"
     ]
   end
 
   defp item_color("default", "misc") do
     [
-      "group-open:bg-white"
+      "group-open:bg-white group-open:hover:[&:is(summary)]:bg-[#ffe0ff]"
     ]
   end
 
   defp item_color("default", "dawn") do
     [
-      "group-open:bg-white"
+      "group-open:bg-white group-open:hover:[&:is(summary)]:bg-[#ffdfc1]"
     ]
   end
 
   defp item_color("default", "light") do
     [
-      "group-open:bg-white"
+      "group-open:bg-white group-open:hover:[&:is(summary)]:bg-[#d2d8e9]"
     ]
   end
 
   defp item_color("default", "dark") do
     [
-      "group-open:bg-white"
+      "group-open:bg-white group-open:hover:[&:is(summary)]:bg-[#111111]"
     ]
   end
 
   defp item_color("contained", "white") do
     [
-      "group-open:bg-[#E8E8E8]"
+      "group-open:bg-[#E8E8E8] group-open:[&:is(summary)]:border-b-0"
     ]
   end
 
   defp item_color("contained", "primary") do
     [
-      "group-open:bg-[#072ed3]"
+      "group-open:bg-[#072ed3] group-open:text-white group-open:[&:is(summary)]:border-b-0"
     ]
   end
 
   defp item_color("contained", "secondary") do
     [
-      "group-open:bg-[#60636f]"
+      "group-open:bg-[#60636f] group-open:text-white group-open:[&:is(summary)]:border-b-0"
     ]
   end
 
   defp item_color("contained", "success") do
     [
-      "group-open:bg-[#d4fde4]"
+      "group-open:bg-[#d4fde4] group-open:[&:is(summary)]:border-b-0"
     ]
   end
 
   defp item_color("contained", "warning") do
     [
-      "group-open:bg-[#fff1cd]"
+      "group-open:bg-[#fff1cd] group-open:[&:is(summary)]:border-b-0"
     ]
   end
 
   defp item_color("contained", "danger") do
     [
-      "group-open:bg-[#ffcdcd]"
+      "group-open:bg-[#ffcdcd] group-open:[&:is(summary)]:border-b-0"
     ]
   end
 
   defp item_color("contained", "info") do
     [
-      "group-open:bg-[#cce1ff]"
+      "group-open:bg-[#cce1ff] group-open:[&:is(summary)]:border-b-0"
     ]
   end
 
   defp item_color("contained", "misc") do
     [
-      "group-open:bg-[#ffe0ff]"
+      "group-open:bg-[#ffe0ff] group-open:[&:is(summary)]:border-b-0"
     ]
   end
 
   defp item_color("contained", "dawn") do
     [
-      "group-open:bg-[#ffdfc1]"
+      "group-open:bg-[#ffdfc1] group-open:[&:is(summary)]:border-b-0"
     ]
   end
 
   defp item_color("contained", "light") do
     [
-      "group-open:bg-[#d2d8e9]"
+      "group-open:bg-[#d2d8e9] group-open:[&:is(summary)]:border-b-0"
     ]
   end
 
   defp item_color("contained", "dark") do
     [
-      "group-open:bg-[#111111]"
+      "group-open:bg-[#111111] group-open:text-white group-open:[&:is(summary)]:border-b-0"
     ]
   end
 
