@@ -116,7 +116,7 @@ defmodule MishkaChelekom.Accordion do
     """
   end
 
-  defp space_class(_, variant) when variant != "seperated", do: nil
+  defp space_class(_, variant) when variant not in ["seperated", "tinted_split"], do: nil
   defp space_class("extra_small", _), do: "accordion-item-gap space-y-2"
   defp space_class("small", _), do: "accordion-item-gap space-y-3"
   defp space_class("medium", _), do: "accordion-item-gap space-y-4"
