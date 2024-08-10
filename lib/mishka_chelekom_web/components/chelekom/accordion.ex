@@ -37,6 +37,7 @@ defmodule MishkaChelekom.Accordion do
   attr :padding, :string, values: @sizes ++ ["none"], default: "small", doc: ""
   attr :rounded, :string, values: @sizes ++ ["full", "none"], default: "none", doc: ""
   attr :media_size, :string, values: @sizes, default: "small", doc: ""
+  attr :chevron_icon, :string, default: "hero-chevron-right", doc: ""
 
   slot :item, required: true do
     attr :title, :string, required: true
@@ -81,28 +82,37 @@ defmodule MishkaChelekom.Accordion do
           item_color(@variant, @color),
           item[:summary_class]
         ]}>
-          <div class="flex items-center gap-5">
-            <%= if !is_nil(item[:image]) do %>
-              <img class={["accordion-title-media shrink-0", item[:image_class]]} src={item[:image]} />
-            <% end %>
+          <.icon
+            :if={chevron_position(@rest) == "left"}
+            name={@chevron_icon}
+            class="w-5 transition-transform duration-300 ease-in-out group-open:rotate-90"
+          />
 
-            <%= if !is_nil(item[:icon]) do %>
-              <.icon name={item[:icon]} class={item[:icon_class] || "accordion-title-media"} />
-            <% end %>
+          <div class="flex items-center gap-5">
+            <img
+              :if={!is_nil(item[:image])}
+              class={["accordion-title-media shrink-0", item[:image_class]]}
+              src={item[:image]}
+            />
+
+            <.icon
+              :if={!is_nil(item[:icon])}
+              name={item[:icon]}
+              class={item[:icon_class] || "accordion-title-media"}
+            />
 
             <div class={["space-y-2", item[:title_class]]}>
               <div><%= item[:title] %></div>
 
-              <%= if !is_nil(item[:description]) do %>
-                <div class="text-xs font-light">
-                  <%= item[:description] %>
-                </div>
-              <% end %>
+              <div :if={!is_nil(item[:description])} class="text-xs font-light">
+                <%= item[:description] %>
+              </div>
             </div>
           </div>
 
           <.icon
-            name="hero-chevron-right"
+            :if={chevron_position(@rest) == "right"}
+            name={@chevron_icon}
             class="w-5 transition-transform duration-300 ease-in-out group-open:rotate-90"
           />
         </summary>
@@ -946,4 +956,9 @@ defmodule MishkaChelekom.Accordion do
       "group-open:bg-white"
     ]
   end
+
+  defp chevron_position(%{left_chevron: true}), do: "left"
+  defp chevron_position(%{right_chevron: true}), do: "right"
+  defp chevron_position(%{chevron: true}), do: "right"
+  defp chevron_position(_), do: "right"
 end
