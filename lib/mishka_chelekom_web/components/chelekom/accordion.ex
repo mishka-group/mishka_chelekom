@@ -30,7 +30,7 @@ defmodule MishkaChelekom.Accordion do
   attr :name, :string, default: nil, doc: ""
   attr :class, :string, default: nil, doc: ""
   attr :variant, :string, values: @variants, default: "default", doc: ""
-  attr :space, :string, values: @sizes ++ ["none"], default: "none", doc: ""
+  attr :space, :string, values: @sizes, default: "small", doc: ""
   attr :color, :string, values: @colors, default: "white", doc: ""
   attr :border, :string, values: @colors ++ ["transparent"], default: "transparent", doc: ""
   attr :padding, :string, values: @sizes ++ ["none"], default: "small", doc: ""
@@ -60,7 +60,7 @@ defmodule MishkaChelekom.Accordion do
         default_classes() ++
           [
             "overflow-hidden",
-            space_class(@space),
+            space_class(@space, @variant),
             rounded_size(@rounded),
             padding_size(@padding),
             media_size(@media_size),
@@ -115,14 +115,14 @@ defmodule MishkaChelekom.Accordion do
     """
   end
 
-  defp space_class("extra_small"), do: "accordion-item-gap space-y-2"
-  defp space_class("small"), do: "accordion-item-gap space-y-3"
-  defp space_class("medium"), do: "accordion-item-gap space-y-4"
-  defp space_class("large"), do: "accordion-item-gap space-y-5"
-  defp space_class("extra_large"), do: "accordion-item-gap space-y-6"
-  defp space_class("none"), do: "space-y-0"
-  defp space_class(params) when is_binary(params), do: params
-  defp space_class(_), do: space_class("none")
+  defp space_class(_, variant) when variant != "seperated", do: nil
+  defp space_class("extra_small", _), do: "accordion-item-gap space-y-2"
+  defp space_class("small", _), do: "accordion-item-gap space-y-3"
+  defp space_class("medium", _), do: "accordion-item-gap space-y-4"
+  defp space_class("large", _), do: "accordion-item-gap space-y-5"
+  defp space_class("extra_large", _), do: "accordion-item-gap space-y-6"
+  defp space_class(params, _) when is_binary(params), do: params
+  defp space_class(_, _), do: nil
 
   defp media_size("extra_small"), do: "[&>details_.accordion-title-media]:size-12"
   defp media_size("small"), do: "[&>details_.accordion-title-media]:size-14"
