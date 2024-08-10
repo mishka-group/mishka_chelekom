@@ -110,7 +110,6 @@ defmodule MishkaChelekom.Accordion do
     <div class="flex flex-nowrap items-center rtl:justify-start ltr:justify-start gap-2">
 
       <.icon
-        :if={@position}
         name={@chevron_icon}
         class="w-5 transition-transform duration-300 ease-in-out group-open:rotate-90 rotate-180 rtl:rotate-0"
       />
@@ -166,7 +165,6 @@ defmodule MishkaChelekom.Accordion do
       </div>
 
       <.icon
-        :if={@position}
         name={@chevron_icon}
         class="w-5 transition-transform duration-300 ease-in-out group-open:rotate-90 rtl:rotate-180"
       />
