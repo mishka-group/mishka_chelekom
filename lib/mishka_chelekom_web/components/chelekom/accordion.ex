@@ -77,7 +77,7 @@ defmodule MishkaChelekom.Accordion do
         open={item[:open] || false}
       >
         <summary class={[
-          "w-full flex flex-nowrap items-center justify-between gap-2 group-open:mb-1",
+          "w-full group-open:mb-1",
           "cursor-pointer transition-[margin,background,text] duration-[250ms] ease-in-out list-none",
           item_color(@variant, @color),
           item[:summary_class]
@@ -107,30 +107,33 @@ defmodule MishkaChelekom.Accordion do
   attr :chevron_icon, :string
   defp native_chevron_position(%{position: "left"} = assigns) do
     ~H"""
-    <.icon
-      :if={@position}
-      name={@chevron_icon}
-      class="w-5 transition-transform duration-300 ease-in-out group-open:rotate-90 rotate-180 rtl:rotate-0"
-    />
-
-    <div class="flex items-center gap-5">
-      <img
-        :if={!is_nil(@item[:image])}
-        class={["accordion-title-media shrink-0", @item[:image_class]]}
-        src={@item[:image]}
-      />
+    <div class="flex flex-nowrap items-center rtl:justify-start ltr:justify-start gap-2">
 
       <.icon
-        :if={!is_nil(@item[:icon])}
-        name={@item[:icon]}
-        class={@item[:icon_class] || "accordion-title-media"}
+        :if={@position}
+        name={@chevron_icon}
+        class="w-5 transition-transform duration-300 ease-in-out group-open:rotate-90 rotate-180 rtl:rotate-0"
       />
 
-      <div class={["space-y-2", @item[:title_class]]}>
-        <div><%= @item[:title] %></div>
+      <div class="flex items-center gap-5">
+        <img
+          :if={!is_nil(@item[:image])}
+          class={["accordion-title-media shrink-0", @item[:image_class]]}
+          src={@item[:image]}
+        />
 
-        <div :if={!is_nil(@item[:description])} class="text-xs font-light">
-        <%= @item[:description] %>
+        <.icon
+          :if={!is_nil(@item[:icon])}
+          name={@item[:icon]}
+          class={@item[:icon_class] || "accordion-title-media"}
+        />
+
+        <div class={["space-y-2", @item[:title_class]]}>
+          <div><%= @item[:title] %></div>
+
+          <div :if={!is_nil(@item[:description])} class="text-xs font-light">
+          <%= @item[:description] %>
+          </div>
         </div>
       </div>
     </div>
@@ -139,33 +142,35 @@ defmodule MishkaChelekom.Accordion do
 
   defp native_chevron_position(%{position: "right"} = assigns) do
     ~H"""
-    <div class="flex items-center gap-5">
-      <img
-        :if={!is_nil(@item[:image])}
-        class={["accordion-title-media shrink-0", @item[:image_class]]}
-        src={@item[:image]}
-      />
+    <div class="flex items-center justify-between gap-2">
+      <div class="flex items-center gap-5">
+        <img
+          :if={!is_nil(@item[:image])}
+          class={["accordion-title-media shrink-0", @item[:image_class]]}
+          src={@item[:image]}
+        />
 
-      <.icon
-        :if={!is_nil(@item[:icon])}
-        name={@item[:icon]}
-        class={@item[:icon_class] || "accordion-title-media"}
-      />
+        <.icon
+          :if={!is_nil(@item[:icon])}
+          name={@item[:icon]}
+          class={@item[:icon_class] || "accordion-title-media"}
+        />
 
-      <div class={["space-y-2", @item[:title_class]]}>
-        <div><%= @item[:title] %></div>
+        <div class={["space-y-2", @item[:title_class]]}>
+          <div><%= @item[:title] %></div>
 
-        <div :if={!is_nil(@item[:description])} class="text-xs font-light">
-        <%= @item[:description] %>
+          <div :if={!is_nil(@item[:description])} class="text-xs font-light">
+          <%= @item[:description] %>
+          </div>
         </div>
       </div>
-    </div>
 
-    <.icon
-      :if={@position}
-      name={@chevron_icon}
-      class="w-5 transition-transform duration-300 ease-in-out group-open:rotate-90 rtl:rotate-180"
-    />
+      <.icon
+        :if={@position}
+        name={@chevron_icon}
+        class="w-5 transition-transform duration-300 ease-in-out group-open:rotate-90 rtl:rotate-180"
+      />
+    </div>
     """
   end
 
