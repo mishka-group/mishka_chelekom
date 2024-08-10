@@ -49,6 +49,7 @@ defmodule MishkaChelekom.Accordion do
     attr :content_class, :string
     attr :title_class, :string
     attr :summary_class, :string
+    attr :open, :boolean
   end
 
   attr :rest, :global, doc: ""
@@ -68,7 +69,12 @@ defmodule MishkaChelekom.Accordion do
       ]}
       {@rest}
     >
-      <details :for={item <- @item} name={@name} class={["group", item[:class]]}>
+      <details
+        :for={item <- @item}
+        name={@name}
+        class={["group", item[:class]]}
+        open={item[:open] || false}
+      >
         <summary class={[
           "w-full flex flex-nowrap items-center justify-between gap-2 group-open:mb-1",
           "cursor-pointer transition-[margin,background,text] duration-[250ms] ease-in-out list-none",
