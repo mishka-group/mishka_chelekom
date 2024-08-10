@@ -85,7 +85,7 @@ defmodule MishkaChelekom.Accordion do
           <.icon
             :if={chevron_position(@rest) == "left"}
             name={@chevron_icon}
-            class="w-5 transition-transform duration-300 ease-in-out group-open:rotate-90 rtl:rotate-180"
+            class="w-5 transition-transform duration-300 ease-in-out group-open:rotate-90 rotate-180 rtl:rotate-0"
           />
 
           <div class="flex items-center gap-5">
