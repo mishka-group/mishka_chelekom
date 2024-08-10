@@ -53,7 +53,7 @@ defmodule MishkaChelekom.Accordion do
     attr :open, :boolean
   end
 
-  attr :rest, :global, doc: ""
+  attr :rest, :global, include: ["left_chevron", "right_chevron", "chevron"], doc: ""
 
   def native_accordion(assigns) do
     ~H"""
@@ -82,38 +82,10 @@ defmodule MishkaChelekom.Accordion do
           item_color(@variant, @color),
           item[:summary_class]
         ]}>
-          <.icon
-            :if={chevron_position(@rest) == "left"}
-            name={@chevron_icon}
-            class="w-5 transition-transform duration-300 ease-in-out group-open:rotate-90 rotate-180 rtl:rotate-0"
-          />
-
-          <div class="flex items-center gap-5">
-            <img
-              :if={!is_nil(item[:image])}
-              class={["accordion-title-media shrink-0", item[:image_class]]}
-              src={item[:image]}
-            />
-
-            <.icon
-              :if={!is_nil(item[:icon])}
-              name={item[:icon]}
-              class={item[:icon_class] || "accordion-title-media"}
-            />
-
-            <div class={["space-y-2", item[:title_class]]}>
-              <div><%= item[:title] %></div>
-
-              <div :if={!is_nil(item[:description])} class="text-xs font-light">
-                <%= item[:description] %>
-              </div>
-            </div>
-          </div>
-
-          <.icon
-            :if={chevron_position(@rest) == "right"}
-            name={@chevron_icon}
-            class="w-5 transition-transform duration-300 ease-in-out group-open:rotate-90 rtl:rotate-180"
+          <.native_chevron_position
+            position={chevron_position(@rest)}
+            chevron_icon={@chevron_icon}
+            item={item}
           />
         </summary>
 
@@ -127,6 +99,73 @@ defmodule MishkaChelekom.Accordion do
         </div>
       </details>
     </div>
+    """
+  end
+
+  attr :item, :map
+  attr :position, :string, values: ["left", "right"]
+  attr :chevron_icon, :string
+  defp native_chevron_position(%{position: "left"} = assigns) do
+    ~H"""
+    <.icon
+      :if={@position}
+      name={@chevron_icon}
+      class="w-5 transition-transform duration-300 ease-in-out group-open:rotate-90 rotate-180 rtl:rotate-0"
+    />
+
+    <div class="flex items-center gap-5">
+      <img
+        :if={!is_nil(@item[:image])}
+        class={["accordion-title-media shrink-0", @item[:image_class]]}
+        src={@item[:image]}
+      />
+
+      <.icon
+        :if={!is_nil(@item[:icon])}
+        name={@item[:icon]}
+        class={@item[:icon_class] || "accordion-title-media"}
+      />
+
+      <div class={["space-y-2", @item[:title_class]]}>
+        <div><%= @item[:title] %></div>
+
+        <div :if={!is_nil(@item[:description])} class="text-xs font-light">
+        <%= @item[:description] %>
+        </div>
+      </div>
+    </div>
+    """
+  end
+
+  defp native_chevron_position(%{position: "right"} = assigns) do
+    ~H"""
+    <div class="flex items-center gap-5">
+      <img
+        :if={!is_nil(@item[:image])}
+        class={["accordion-title-media shrink-0", @item[:image_class]]}
+        src={@item[:image]}
+      />
+
+      <.icon
+        :if={!is_nil(@item[:icon])}
+        name={@item[:icon]}
+        class={@item[:icon_class] || "accordion-title-media"}
+      />
+
+      <div class={["space-y-2", @item[:title_class]]}>
+        <div><%= @item[:title] %></div>
+
+        <div :if={!is_nil(@item[:description])} class="text-xs font-light">
+        <%= @item[:description] %>
+        </div>
+      </div>
+    </div>
+
+    <.icon
+      :if={@position}
+      name={@chevron_icon}
+      class="w-5 transition-transform duration-300 ease-in-out group-open:rotate-90 rtl:rotate-180"
+    />
     """
   end
 
