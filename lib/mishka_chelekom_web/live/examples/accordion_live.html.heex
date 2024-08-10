@@ -1,8 +1,51 @@
 <div class="flex gap-10 flex-wrap  p-5 items-start">
   <div>
-    <div>With border and space</div>
+    <div>default</div>
 
-    <MishkaChelekom.Accordion.native_accordion name="example-zero" media_size="small" space="large" border="white">
+    <MishkaChelekom.Accordion.native_accordion name="example-zero" media_size="small">
+      <:item
+        title="Accordion Version native"
+        description="Need to be something like this yeehh!?"
+        image="https://img.icons8.com/clouds/256/000000/futurama-bender.png"
+      >
+        Hello this is what it is
+      </:item>
+
+      <:item
+        title="Accordion Version native"
+        description="Need to be something like this noooh!?"
+        image="https://img.icons8.com/clouds/256/000000/futurama-bender.png"
+      >
+        ‌Bye this is what it is
+      </:item>
+    </MishkaChelekom.Accordion.native_accordion>
+
+  </div>
+  <div>
+    <div>default info</div>
+    <MishkaChelekom.Accordion.native_accordion name="example-zero" media_size="small" color="info">
+      <:item
+        title="Accordion Version native"
+        description="Need to be something like this yeehh!?"
+        image="https://img.icons8.com/clouds/256/000000/futurama-bender.png"
+      >
+        Hello this is what it is
+      </:item>
+
+      <:item
+        title="Accordion Version native"
+        description="Need to be something like this noooh!?"
+        image="https://img.icons8.com/clouds/256/000000/futurama-bender.png"
+      >
+        ‌Bye this is what it is
+      </:item>
+    </MishkaChelekom.Accordion.native_accordion>
+
+  </div>
+  <div>
+    <div>contained</div>
+
+    <MishkaChelekom.Accordion.native_accordion name="example-zero" variant="contained" media_size="small">
       <:item
         title="Accordion Version native"
         description="Need to be something like this yeehh!?"
@@ -22,9 +65,8 @@
   </div>
 
   <div>
-    <div>With border and space</div>
-
-    <MishkaChelekom.Accordion.native_accordion name="example-zero" media_size="small" space="large" border="white" rounded="large">
+    <div>filled default</div>
+    <MishkaChelekom.Accordion.native_accordion name="example-one" variant="filled" media_size="small">
       <:item
         title="Accordion Version native"
         description="Need to be something like this yeehh!?"
@@ -43,122 +85,84 @@
     </MishkaChelekom.Accordion.native_accordion>
   </div>
 
-  <MishkaChelekom.Accordion.native_accordion name="example-one" border="info" color="light" rounded="small">
-    <:item
-      title="Accordion Version native"
-      description="Need to be something like this yeehh!?"
-      image="https://img.icons8.com/clouds/256/000000/futurama-bender.png"
-    >
-      Hello this is what it is
-    </:item>
+  <div>
+    <div>filled dark</div>
+    <MishkaChelekom.Accordion.native_accordion name="example-one" variant="filled" media_size="small" color="dark">
+      <:item
+        title="Accordion Version native"
+        description="Need to be something like this yeehh!?"
+        image="https://img.icons8.com/clouds/256/000000/futurama-bender.png"
+      >
+        Hello this is what it is
+      </:item>
 
-    <:item
-      title="Accordion Version native"
-      description="Need to be something like this noooh!?"
-      image="https://img.icons8.com/clouds/256/000000/futurama-bender.png"
-    >
-      ‌Bye this is what it is
-    </:item>
-  </MishkaChelekom.Accordion.native_accordion>
+      <:item
+        title="Accordion Version native"
+        description="Need to be something like this noooh!?"
+        image="https://img.icons8.com/clouds/256/000000/futurama-bender.png"
+      >
+        ‌Bye this is what it is
+      </:item>
+    </MishkaChelekom.Accordion.native_accordion>
+  </div>
+    <div>contained rounded</div>
+    <MishkaChelekom.Accordion.native_accordion name="example-two" variant="contained" rounded="small" media_size="small">
+      <:item
+        title="1. Accordion Version native"
+        description="Need to be something like this yeehh!?"
+        image="https://img.icons8.com/clouds/256/000000/futurama-bender.png"
+      >
+       1. Hello this is what it is
+      </:item>
 
-  <MishkaChelekom.Accordion.native_accordion name="example-two" border="white">
-    <:item
-      title="Accordion Version native"
-      description="Need to be something like this yeehh!?"
-      image="https://img.icons8.com/clouds/256/000000/futurama-bender.png"
-    >
-      Hello this is what it is
-    </:item>
+      <:item
+        title="2. Accordion Version native"
+        description="Need to be something like this noooh!?"
+        image="https://img.icons8.com/clouds/256/000000/futurama-bender.png"
+      >
+       2. ‌Bye this is what it is
+      </:item>
+    </MishkaChelekom.Accordion.native_accordion>
 
-    <:item
-      title="Accordion Version native"
-      description="Need to be something like this noooh!?"
-      image="https://img.icons8.com/clouds/256/000000/futurama-bender.png"
-    >
-      ‌Bye this is what it is
-    </:item>
-  </MishkaChelekom.Accordion.native_accordion>
+    <div>
+      <div>seperated rounded</div>
 
-  <MishkaChelekom.Accordion.native_accordion media_size="small">
-    <:item
-      title="Accordion Version native"
-      description="Need to be something like this yeehh!?"
-      image="https://img.icons8.com/clouds/256/000000/futurama-bender.png"
-    >
-      Hello this is what it is
-    </:item>
+      <MishkaChelekom.Accordion.native_accordion name="example-three" variant="seperated" rounded="large" media_size="small">
+        <:item
+          title="Accordion Version native"
+          description="Need to be something like this yeehh!?"
+          image="https://img.icons8.com/clouds/256/000000/futurama-bender.png"
+        >
+          Hello this is what it is
+        </:item>
 
-    <:item
-      title="Accordion Version native"
-      description="Need to be something like this noooh!?"
-      image="https://img.icons8.com/clouds/256/000000/futurama-bender.png"
-    >
-      ‌Bye this is what it is
-    </:item>
-  </MishkaChelekom.Accordion.native_accordion>
+        <:item
+          title="Accordion Version native"
+          description="Need to be something like this noooh!?"
+          image="https://img.icons8.com/clouds/256/000000/futurama-bender.png"
+        >
+          ‌Bye this is what it is
+        </:item>
+      </MishkaChelekom.Accordion.native_accordion>
+    </div>
+</div>
 
-  <MishkaChelekom.Accordion.native_accordion media_size="small" space="large">
-    <:item
-      title="Accordion Version native"
-      description="Need to be something like this yeehh!?"
-      image="https://img.icons8.com/clouds/256/000000/futurama-bender.png"
-    >
-      Hello this is what it is
-    </:item>
+<div class="p-5">
+ <MishkaChelekom.Accordion.native_accordion name="example-two" variant="seperated" rounded="large" media_size="small">
+      <:item
+        title="Accordion Version native"
+        description="Need to be something like this yeehh!?"
+        image="https://img.icons8.com/clouds/256/000000/futurama-bender.png"
+      >
+        Hello this is what it is
+      </:item>
 
-    <:item
-      title="Accordion Version native"
-      description="Need to be something like this noooh!?"
-      image="https://img.icons8.com/clouds/256/000000/futurama-bender.png"
-    >
-      ‌Bye this is what it is
-    </:item>
-  </MishkaChelekom.Accordion.native_accordion>
-
-  <MishkaChelekom.Accordion.native_accordion
-    color="info"
-    border="dark"
-    media_size="extra_small"
-    padding="large"
-    rounded="large"
-  >
-    <:item
-      title="Accordion Version native"
-      description="Need to be something like this yeehh!?"
-      icon="hero-home"
-    >
-      Hello this is what it is
-    </:item>
-
-    <:item
-      title="Accordion Version native"
-      description="Need to be something like this noooh!?"
-      icon="hero-home"
-    >
-      ‌Bye this is what it is
-    </:item>
-  </MishkaChelekom.Accordion.native_accordion>
-
-  <MishkaChelekom.Accordion.native_accordion
-    color="light"
-    border="dark"
-    media_size="medium"
-    padding="large"
-  >
-    <:item
-      title="Accordion Version native"
-      description="Need to be something like this yeehh!?"
-      icon="hero-home"
-    >
-      Hello this is what it is
-    </:item>
-
-    <:item
-      title="Accordion Version native"
-      description="Need to be something like this noooh!?"
-      icon="hero-home"
-    >
-      ‌Bye this is what it is
-    </:item>
-  </MishkaChelekom.Accordion.native_accordion>
+      <:item
+        title="Accordion Version native"
+        description="Need to be something like this noooh!?"
+        image="https://img.icons8.com/clouds/256/000000/futurama-bender.png"
+      >
+        ‌Bye this is what it is
+      </:item>
+    </MishkaChelekom.Accordion.native_accordion>
 </div>

@@ -3,6 +3,12 @@ defmodule MishkaChelekom.Accordion do
   import MishkaChelekomComponents
 
   @sizes ["extra_small", "small", "medium", "large", "extra_large"]
+  @variants [
+    "default",
+    "contained",
+    "filled",
+    "seperated"
+  ]
 
   @colors [
     "white",
@@ -23,11 +29,12 @@ defmodule MishkaChelekom.Accordion do
   attr :id, :string, default: nil, doc: ""
   attr :name, :string, default: nil, doc: ""
   attr :class, :string, default: nil, doc: ""
+  attr :variant, :string, values: @variants, default: "default", doc: ""
   attr :space, :string, values: @sizes ++ ["none"], default: "none", doc: ""
   attr :color, :string, values: @colors, default: "white", doc: ""
   attr :border, :string, values: @colors ++ ["transparent"], default: "transparent", doc: ""
   attr :padding, :string, values: @sizes ++ ["none"], default: "small", doc: ""
-  attr :rounded, :string, values: @sizes ++ ["full", "none"], default: "medium", doc: ""
+  attr :rounded, :string, values: @sizes ++ ["full", "none"], default: "none", doc: ""
   attr :media_size, :string, values: @sizes, default: "small", doc: ""
 
   slot :item, required: true do
@@ -54,20 +61,19 @@ defmodule MishkaChelekom.Accordion do
           [
             "overflow-hidden",
             space_class(@space),
-            color_class(@color),
             rounded_size(@rounded),
             padding_size(@padding),
             media_size(@media_size),
             @class
-          ] ++ border(@border, @space)
+          ] ++ color_variant(@variant, @color)
       }
       {@rest}
     >
       <details :for={item <- @item} name={@name} class={["group", item[:class]]}>
         <summary class={[
-          "w-full flex flex-nowrap items-center justify-between gap-2 group-open:mb-2",
+          "w-full flex flex-nowrap items-center justify-between gap-2 group-open:mb-1",
           "cursor-pointer transition-[margin,background] duration-[250ms] ease-in-out list-none",
-          item_color(@color),
+          item_color(@variant, @color),
           item[:summary_class]
         ]}>
           <div class="flex items-center gap-5">
@@ -89,6 +95,7 @@ defmodule MishkaChelekom.Accordion do
               <% end %>
             </div>
           </div>
+
           <.icon
             name="hero-chevron-right"
             class="w-5 transition-transform duration-300 ease-in-out group-open:rotate-90"
@@ -96,8 +103,9 @@ defmodule MishkaChelekom.Accordion do
         </summary>
 
         <div class={[
-          "shrink-0 transition-[opacity, translate] duration-1000 ease-in-out opacity-0 group-open:opacity-100",
+          "-mt-1 shrink-0 transition-[opacity, translate] duration-1000 ease-in-out opacity-0 group-open:opacity-100",
           "-translate-y-4	group-open:translate-y-0",
+          item_color(@variant, @color),
           item[:content_class]
         ]}>
           <%= render_slot(item) %>
@@ -114,7 +122,7 @@ defmodule MishkaChelekom.Accordion do
   defp space_class("extra_large"), do: "accordion-item-gap space-y-6"
   defp space_class("none"), do: "space-y-0"
   defp space_class(params) when is_binary(params), do: params
-  defp space_class(_), do: space_class("small")
+  defp space_class(_), do: space_class("none")
 
   defp media_size("extra_small"), do: "[&>details_.accordion-title-media]:size-12"
   defp media_size("small"), do: "[&>details_.accordion-title-media]:size-14"
@@ -124,12 +132,22 @@ defmodule MishkaChelekom.Accordion do
   defp media_size(params) when is_binary(params), do: params
   defp media_size(_), do: media_size("small")
 
-  defp rounded_size("extra_small"), do: "[&:not(.accordion-item-gap)>details]:rounded-sm [&>details_summary]:rounded-t-sm [&.accordion-item-gap>details]:rounded-sm"
-  defp rounded_size("small"), do: "[&:not(.accordion-item-gap)>details]:rounded [&>details_summary]:rounded-t [&.accordion-item-gap>details]:rounded"
-  defp rounded_size("medium"), do: "[&:not(.accordion-item-gap)>details]:rounded-md [&>details_summary]:rounded-t-md [&.accordion-item-gap>details]:rounded-md"
-  defp rounded_size("large"), do: "[&:not(.accordion-item-gap)>details]:rounded-lg [&>details_summary]:rounded-t-lg [&.accordion-item-gap>details]:rounded-lg"
-  defp rounded_size("extra_large"), do: "[&:not(.accordion-item-gap)>details]:rounded-xl [&>details_summary]:rounded-t-xl [&.accordion-item-gap>details]:rounded-xl"
-  defp rounded_size("none"), do: "[&:not(.accordion-item-gap)>details]:rounded-none [&>details_summary]:rounded-none [&.accordion-item-gap>details]:rounded-none"
+  defp rounded_size("extra_small"),
+    do: "rounded-sm [&:not(.accordion-item-gap)>details:first-child>summary]:rounded-t-sm [&.accordion-item-gap>details>*]:rounded-sm"
+
+  defp rounded_size("small"), do: "rounded [&:not(.accordion-item-gap)>details:first-child>summary]:rounded-t [&.accordion-item-gap>details>*]:rounded"
+
+  defp rounded_size("medium"),
+    do: "rounded-md [&:not(.accordion-item-gap)>details:first-child>summary]:rounded-t-md [&.accordion-item-gap>details>*]:rounded-md"
+
+  defp rounded_size("large"),
+    do: "rounded-lg [&:not(.accordion-item-gap)>details:first-child>summary]:rounded-t-lg [&.accordion-item-gap>details>*]:rounded-lg"
+
+  defp rounded_size("extra_large"),
+    do: "rounded-xl [&:not(.accordion-item-gap)>details:first-child>summary]:rounded-t-xl [&.accordion-item-gap>details>*]:rounded-xl"
+
+  defp rounded_size("none"),
+    do: "rounded-none [&:not(.accordion-item-gap)>details:first-child>summary]:rounded-t-none [&.accordion-item-gap>details>*]:rounded-none"
 
   defp padding_size("extra_small"), do: "[&>details>*]:p-1"
   defp padding_size("small"), do: "[&>details>*]:p-2"
@@ -140,301 +158,619 @@ defmodule MishkaChelekom.Accordion do
   defp padding_size(params) when is_binary(params), do: params
   defp padding_size(_), do: padding_size("small")
 
-  defp border("transparent", space) do
-    ["border-0", space != "none" && "border-0"]
-  end
-
-  defp border("white", space) do
+  defp color_variant("default", "white") do
     [
-      "[&:not(.accordion-item-gap)]:border [&:not(.accordion-item-gap)]:border-[#DADADA]",
-      "[&:not(.accordion-item-gap)>details:not(:last-child)>summary]:border-b",
-      "[&:not(.accordion-item-gap)>details:not(:last-child)>summary]:border-[#DADADA]",
-      "[&:not(.accordion-item-gap)>details:not(:last-child)>:not(summary)]:border-b",
-      "[&:not(.accordion-item-gap)>details:not(:last-child)>:not(summary)]:border-[#DADADA]",
-      space != "none" && "[&>details]:border [&>details]:border-[#DADADA]"
+      "bg-white",
+      "[&>details]:border-b",
+      "[&>details]:border-[#DADADA]",
+      "hover:[&>details>summary]:bg-[#E8E8E8] hover:[&>details>summary]:text-[#3E3E3E]"
     ]
   end
 
-  defp border("primary", space) do
+  defp color_variant("default", "primary") do
     [
-      "[&:not(.accordion-item-gap)]:border [&:not(.accordion-item-gap)]:border-[#4363EC]",
-      "[&:not(.accordion-item-gap)>details:not(:last-child)>summary]:border-b",
-      "[&:not(.accordion-item-gap)>details:not(:last-child)>summary]:border-[#4363EC]",
-      "[&:not(.accordion-item-gap)>details:not(:last-child)>:not(summary)]:border-b",
-      "[&:not(.accordion-item-gap)>details:not(:last-child)>:not(summary)]:border-[#4363EC]",
-      space != "none" && "[&>details]:border [&>details]:border-[#4363EC]"
+      "bg-white",
+      "[&>details]:border-b",
+      "[&>details]:border-[#4363EC]",
+      "hover:[&>details>summary]:bg-[#072ed3] hover:[&>details>summary]:text-white"
     ]
   end
 
-  defp border("secondary", space) do
+  defp color_variant("default", "secondary") do
     [
-      "[&:not(.accordion-item-gap)]:border [&:not(.accordion-item-gap)]:border-[#6B6E7C]",
-      "[&:not(.accordion-item-gap)>details:not(:last-child)>summary]:border-b",
-      "[&:not(.accordion-item-gap)>details:not(:last-child)>summary]:border-[#6B6E7C]",
-      "[&:not(.accordion-item-gap)>details:not(:last-child)>:not(summary)]:border-b",
-      "[&:not(.accordion-item-gap)>details:not(:last-child)>:not(summary)]:border-[#6B6E7C]",
-      space != "none" && "[&>details]:border [&>details]:border-[#6B6E7C]"
+      "bg-white",
+      "[&>details]:border-b",
+      "[&>details]:border-[#6B6E7C]",
+      "hover:[&>details>summary]:bg-[#60636f] hover:[&>details>summary]:text-white"
     ]
   end
 
-  defp border("success", space) do
+  defp color_variant("default", "success") do
     [
-      "[&:not(.accordion-item-gap)]:border [&:not(.accordion-item-gap)]:border-[#227A52]",
-      "[&:not(.accordion-item-gap)>details:not(:last-child)>summary]:border-b",
-      "[&:not(.accordion-item-gap)>details:not(:last-child)>summary]:border-[#227A52]",
-      "[&:not(.accordion-item-gap)>details:not(:last-child)>:not(summary)]:border-b",
-      "[&:not(.accordion-item-gap)>details:not(:last-child)>:not(summary)]:border-[#227A52]",
-      space != "none" && "[&>details]:border [&>details]:border-[#227A52]"
+      "bg-white",
+      "[&>details]:border-b",
+      "[&>details]:border-[#227A52]",
+      "hover:[&>details>summary]:bg-[#d4fde4] hover:[&>details>summary]:text-[#047857]"
     ]
   end
 
-  defp border("warning", space) do
+  defp color_variant("default", "warning") do
     [
-      "[&:not(.accordion-item-gap)]:border [&:not(.accordion-item-gap)]:border-[#FF8B08]",
-      "[&:not(.accordion-item-gap)>details:not(:last-child)>summary]:border-b",
-      "[&:not(.accordion-item-gap)>details:not(:last-child)>summary]:border-[#FF8B08]",
-      "[&:not(.accordion-item-gap)>details:not(:last-child)>:not(summary)]:border-b",
-      "[&:not(.accordion-item-gap)>details:not(:last-child)>:not(summary)]:border-[#FF8B08]",
-      space != "none" && "[&>details]:border [&>details]:border-[#FF8B08]"
+      "bg-white",
+      "[&>details]:border-b",
+      "[&>details]:border-[#FF8B08]",
+      "hover:[&>details>summary]:bg-[#fff1cd] hover:[&>details>summary]:text-[#FF8B08]"
     ]
   end
 
-  defp border("danger", space) do
+  defp color_variant("default", "danger") do
     [
-      "[&:not(.accordion-item-gap)]:border [&:not(.accordion-item-gap)]:border-[#E73B3B]",
-      "[&:not(.accordion-item-gap)>details:not(:last-child)>summary]:border-b",
-      "[&:not(.accordion-item-gap)>details:not(:last-child)>summary]:border-[#E73B3B]",
-      "[&:not(.accordion-item-gap)>details:not(:last-child)>:not(summary)]:border-b",
-      "[&:not(.accordion-item-gap)>details:not(:last-child)>:not(summary)]:border-[#E73B3B]",
-      space != "none" && "[&>details]:border [&>details]:border-[#E73B3B]"
+      "bg-white",
+      "[&>details]:border-b",
+      "[&>details]:border-[#E73B3B]",
+      "hover:[&>details>summary]:bg-[#ffcdcd] hover:[&>details>summary]:text-[#52059C]"
     ]
   end
 
-  defp border("info", space) do
+  defp color_variant("default", "info") do
     [
-      "[&:not(.accordion-item-gap)]:border [&:not(.accordion-item-gap)]:border-[#004FC4]",
-      "[&:not(.accordion-item-gap)>details:not(:last-child)>summary]:border-b",
-      "[&:not(.accordion-item-gap)>details:not(:last-child)>summary]:border-[#004FC4]",
-      "[&:not(.accordion-item-gap)>details:not(:last-child)>:not(summary)]:border-b",
-      "[&:not(.accordion-item-gap)>details:not(:last-child)>:not(summary)]:border-[#004FC4]",
-      space != "none" && "[&>details]:border [&>details]:border-[#004FC4]"
+      "bg-white",
+      "[&>details]:border-b",
+      "[&>details]:border-[#004FC4]",
+      "hover:[&>details>summary]:bg-[#cce1ff] hover:[&>details>summary]:text-[#004FC4]"
     ]
   end
 
-  defp border("misc", space) do
+  defp color_variant("default", "misc") do
     [
-      "[&:not(.accordion-item-gap)]:border [&:not(.accordion-item-gap)]:border-[#52059C]",
-      "[&:not(.accordion-item-gap)>details:not(:last-child)>summary]:border-b",
-      "[&:not(.accordion-item-gap)>details:not(:last-child)>summary]:border-[#52059C]",
-      "[&:not(.accordion-item-gap)>details:not(:last-child)>:not(summary)]:border-b",
-      "[&:not(.accordion-item-gap)>details:not(:last-child)>:not(summary)]:border-[#52059C]",
-      space != "none" && "[&>details]:border [&>details]:border-[#52059C]"
+      "bg-white",
+      "[&>details]:border-b",
+      "[&>details]:border-[#52059C]",
+      "hover:[&>details>summary]:bg-[#ffe0ff] hover:[&>details>summary]:text-[#52059C]"
     ]
   end
 
-  defp border("dawn", space) do
+  defp color_variant("default", "dawn") do
     [
-      "[&:not(.accordion-item-gap)]:border [&:not(.accordion-item-gap)]:border-[#4D4137]",
-      "[&:not(.accordion-item-gap)>details:not(:last-child)>summary]:border-b",
-      "[&:not(.accordion-item-gap)>details:not(:last-child)>summary]:border-[#4D4137]",
-      "[&:not(.accordion-item-gap)>details:not(:last-child)>:not(summary)]:border-b",
-      "[&:not(.accordion-item-gap)>details:not(:last-child)>:not(summary)]:border-[#4D4137]",
-      space != "none" && "[&>details]:border [&>details]:border-[#4D4137]"
+      "bg-white",
+      "[&>details]:border-b",
+      "[&>details]:border-[#4D4137]",
+      "hover:[&>details>summary]:bg-[#ffdfc1] hover:[&>details>summary]:text-[#4D4137]"
     ]
   end
 
-  defp border("light", space) do
+  defp color_variant("default", "light") do
     [
-      "[&:not(.accordion-item-gap)]:border [&:not(.accordion-item-gap)]:border-[#707483]",
-      "[&:not(.accordion-item-gap)>details:not(:last-child)>summary]:border-b",
-      "[&:not(.accordion-item-gap)>details:not(:last-child)>summary]:border-[#707483]",
-      "[&:not(.accordion-item-gap)>details:not(:last-child)>:not(summary)]:border-b",
-      "[&:not(.accordion-item-gap)>details:not(:last-child)>:not(summary)]:border-[#707483]",
-      space != "none" && "[&>details]:border [&>details]:border-[#707483]"
+      "bg-white",
+      "[&>details]:border-b",
+      "[&>details]:border-[#707483]",
+      "hover:[&>details>summary]:bg-[#d2d8e9] hover:[&>details>summary]:text-[#707483]"
     ]
   end
 
-  defp border("dark", space) do
+  defp color_variant("default", "dark") do
     [
-      "[&:not(.accordion-item-gap)]:border [&:not(.accordion-item-gap)]:border-[#1E1E1E]",
-      "[&:not(.accordion-item-gap)>details:not(:last-child)>summary]:border-b",
-      "[&:not(.accordion-item-gap)>details:not(:last-child)>summary]:border-[#1E1E1E]",
-      "[&:not(.accordion-item-gap)>details:not(:last-child)>:not(summary)]:border-b",
-      "[&:not(.accordion-item-gap)>details:not(:last-child)>:not(summary)]:border-[#1E1E1E]",
-      space != "none" && "[&>details]:border [&>details]:border-[#1E1E1E]"
+      "bg-white",
+      "[&>details]:border-b",
+      "[&>details]:border-[#1E1E1E]",
+      "hover:[&>details>summary]:bg-[#111111] hover:[&>details>summary]:text-white"
     ]
   end
 
-  defp color_class("white") do
+  defp color_variant("contained", "white") do
     [
-      "bg-white text-[#3E3E3E]",
-      "[&>details>summary]:bg-white",
-      "hover:[&>details>summary]:bg-[#E8E8E8]"
+      "border border-[#DADADA]",
+      "[&>details:not(:last-child)>summary]:border-b",
+      "[&>details:not(:last-child)>summary]:border-[#DADADA]",
+      "[&>details:not(:last-child)>:not(summary)]:border-b",
+      "[&>details:not(:last-child)>:not(summary)]:border-[#DADADA]"
     ]
   end
 
-  defp color_class("primary") do
+  defp color_variant("contained", "primary") do
     [
-      "bg-[#4363EC] text-white",
-      "[&>details>summary]:bg-[#4363EC]",
-      "hover:[&>details>summary]:bg-[#072ed3]",
-      "group-open:[&>details>summary]:bg-[#072ed3]"
+      "border border-[#4363EC]",
+      "[&>details:not(:last-child)>summary]:border-b",
+      "[&>details:not(:last-child)>summary]:border-[#4363EC]",
+      "[&>details:not(:last-child)>:not(summary)]:border-b",
+      "[&>details:not(:last-child)>:not(summary)]:border-[#4363EC]"
     ]
   end
 
-  defp color_class("secondary") do
+  defp color_variant("contained", "secondary") do
     [
-      "bg-[#6B6E7C] text-white",
-      "group-open:bg-",
-      "[&>details>summary]:bg-[#6B6E7C]",
-      "hover:[&>details>summary]:bg-[#60636f]",
-      "group-open:[&>details>summary]:bg-[#60636f]"
+      "border border-[#6B6E7C]",
+      "[&>details:not(:last-child)>summary]:border-b",
+      "[&>details:not(:last-child)>summary]:border-[#6B6E7C]",
+      "[&>details:not(:last-child)>:not(summary)]:border-b",
+      "[&>details:not(:last-child)>:not(summary)]:border-[#6B6E7C]"
     ]
   end
 
-  defp color_class("success") do
+  defp color_variant("contained", "success") do
     [
-      "bg-[#ECFEF3] text-[#047857]",
-      "group-open:bg-",
-      "[&>details>summary]:bg-[#ECFEF3]",
-      "hover:[&>details>summary]:bg-[#d4fde4]",
-      "group-open:[&>details>summary]:bg-[#d4fde4]"
+      "border border-[#227A52]",
+      "[&>details:not(:last-child)>summary]:border-b",
+      "[&>details:not(:last-child)>summary]:border-[#227A52]",
+      "[&>details:not(:last-child)>:not(summary)]:border-b",
+      "[&>details:not(:last-child)>:not(summary)]:border-[#227A52]"
     ]
   end
 
-  defp color_class("warning") do
+  defp color_variant("contained", "warning") do
     [
-      "bg-[#FFF8E6] text-[#FF8B08]",
-      "group-open:bg-",
-      "[&>details>summary]:bg-[#FFF8E6]",
-      "hover:[&>details>summary]:bg-[#fff1cd]",
-      "group-open:[&>details>summary]:bg-[#fff1cd]"
+      "border border-[#FF8B08]",
+      "[&>details:not(:last-child)>summary]:border-b",
+      "[&>details:not(:last-child)>summary]:border-[#FF8B08]",
+      "[&>details:not(:last-child)>:not(summary)]:border-b",
+      "[&>details:not(:last-child)>:not(summary)]:border-[#FF8B08]"
     ]
   end
 
-  defp color_class("danger") do
+  defp color_variant("contained", "danger") do
     [
-      "bg-[#FFE6E6] text-[#E73B3B]",
-      "group-open:bg-",
-      "[&>details>summary]:bg-[#FFE6E6]",
-      "hover:[&>details>summary]:bg-[#ffcdcd]",
-      "group-open:[&>details>summary]:bg-[#ffcdcd]"
+      "border border-[#E73B3B]",
+      "[&>details:not(:last-child)>summary]:border-b",
+      "[&>details:not(:last-child)>summary]:border-[#E73B3B]",
+      "[&>details:not(:last-child)>:not(summary)]:border-b",
+      "[&>details:not(:last-child)>:not(summary)]:border-[#E73B3B]"
     ]
   end
 
-  defp color_class("info") do
+  defp color_variant("contained", "info") do
     [
-      "bg-[#E5F0FF] text-[#004FC4]",
-      "group-open:bg-",
-      "[&>details>summary]:bg-[#E5F0FF]",
-      "hover:[&>details>summary]:bg-[#cce1ff]",
-      "group-open:[&>details>summary]:bg-[#cce1ff]"
+      "border border-[#004FC4]",
+      "[&>details:not(:last-child)>summary]:border-b",
+      "[&>details:not(:last-child)>summary]:border-[#004FC4]",
+      "[&>details:not(:last-child)>:not(summary)]:border-b",
+      "[&>details:not(:last-child)>:not(summary)]:border-[#004FC4]"
     ]
   end
 
-  defp color_class("misc") do
+  defp color_variant("contained", "misc") do
     [
-      "bg-[#FFE6FF] text-[#52059C]",
-      "group-open:bg-",
-      "[&>details>summary]:bg-[#FFE6FF]",
-      "hover:[&>details>summary]:bg-[#ffe0ff]",
-      "group-open:[&>details>summary]:bg-[#ffe0ff]"
+      "border border-[#52059C]",
+      "[&>details:not(:last-child)>summary]:border-b",
+      "[&>details:not(:last-child)>summary]:border-[#52059C]",
+      "[&>details:not(:last-child)>:not(summary)]:border-b",
+      "[&>details:not(:last-child)>:not(summary)]:border-[#52059C]"
     ]
   end
 
-  defp color_class("dawn") do
+  defp color_variant("contained", "dawn") do
     [
-      "bg-[#FFECDA] text-[#4D4137]",
-      "group-open:bg-",
-      "[&>details>summary]:bg-[#FFECDA]",
-      "hover:[&>details>summary]:bg-[#ffdfc1]",
-      "group-open:[&>details>summary]:bg-[#ffdfc1]"
+      "border border-[#4D4137]",
+      "[&>details:not(:last-child)>summary]:border-b",
+      "[&>details:not(:last-child)>summary]:border-[#4D4137]",
+      "[&>details:not(:last-child)>:not(summary)]:border-b",
+      "[&>details:not(:last-child)>:not(summary)]:border-[#4D4137]"
     ]
   end
 
-  defp color_class("light") do
+  defp color_variant("contained", "light") do
     [
-      "bg-[#E3E7F1] text-[#707483]",
-      "group-open:bg-",
-      "[&>details>summary]:bg-[#E3E7F1]",
-      "hover:[&>details>summary]:bg-[#d2d8e9]",
-      "group-open:[&>details>summary]:bg-[#d2d8e9]"
+      "border border-[#707483]",
+      "[&>details:not(:last-child)>summary]:border-b",
+      "[&>details:not(:last-child)>summary]:border-[#707483]",
+      "[&>details:not(:last-child)>:not(summary)]:border-b",
+      "[&>details:not(:last-child)>:not(summary)]:border-[#707483]"
     ]
   end
 
-  defp color_class("dark") do
+  defp color_variant("contained", "dark") do
     [
-      "bg-[#1E1E1E] text-white",
-      "group-open:bg-",
-      "[&>details>summary]:bg-[#1E1E1E]",
-      "hover:[&>details>summary]:bg-[#111111]",
-      "group-open:[&>details>summary]:bg-[#111111]"
+      "border border-[#1E1E1E]",
+      "[&>details:not(:last-child)>summary]:border-b",
+      "[&>details:not(:last-child)>summary]:border-[#1E1E1E]",
+      "[&>details:not(:last-child)>:not(summary)]:border-b",
+      "[&>details:not(:last-child)>:not(summary)]:border-[#1E1E1E]"
     ]
   end
 
-  defp item_color("white") do
+  defp color_variant("filled", "white") do
+    [
+      "bg-white text-[#3E3E3E]"
+    ]
+  end
+
+  defp color_variant("filled", "primary") do
+    [
+      "bg-[#4363EC] text-white"
+    ]
+  end
+
+  defp color_variant("filled", "secondary") do
+    [
+      "bg-[#6B6E7C] text-white"
+    ]
+  end
+
+  defp color_variant("filled", "success") do
+    [
+      "bg-[#ECFEF3] text-[#047857]"
+    ]
+  end
+
+  defp color_variant("filled", "warning") do
+    [
+      "bg-[#FFF8E6] text-[#FF8B08]"
+    ]
+  end
+
+  defp color_variant("filled", "danger") do
+    [
+      "bg-[#FFE6E6] text-[#E73B3B]"
+    ]
+  end
+
+  defp color_variant("filled", "info") do
+    [
+      "bg-[#E5F0FF] text-[#004FC4]"
+    ]
+  end
+
+  defp color_variant("filled", "misc") do
+    [
+      "bg-[#FFE6FF] text-[#52059C]"
+    ]
+  end
+
+  defp color_variant("filled", "dawn") do
+    [
+      "bg-[#FFECDA] text-[#4D4137]"
+    ]
+  end
+
+  defp color_variant("filled", "light") do
+    [
+      "bg-[#E3E7F1] text-[#707483]"
+    ]
+  end
+
+  defp color_variant("filled", "dark") do
+    [
+      "bg-[#1E1E1E] text-white"
+    ]
+  end
+
+  defp color_variant("seperated", "white") do
+    [
+      "accordion-item-gap space-y-3 bg-white",
+      "[&>details]:border [&>details]:border-[#DADADA]",
+    ]
+  end
+
+  defp color_variant("seperated", "primary") do
+    [
+      "accordion-item-gap space-y-3 bg-white",
+      "[&>details]:border [&>details]:border-[#4363EC]",
+    ]
+  end
+
+  defp color_variant("seperated", "secondary") do
+    [
+      "accordion-item-gap space-y-3 bg-white",
+      "[&>details]:border [&>details]:border-[#6B6E7C]",
+    ]
+  end
+
+  defp color_variant("seperated", "success") do
+    [
+      "accordion-item-gap space-y-3 bg-white",
+      "[&>details]:border [&>details]:border-[#227A52]",
+    ]
+  end
+
+  defp color_variant("seperated", "warning") do
+    [
+      "accordion-item-gap space-y-3 bg-white",
+      "[&>details]:border [&>details]:border-[#FF8B08]",
+    ]
+  end
+
+  defp color_variant("seperated", "danger") do
+    [
+      "accordion-item-gap space-y-3 bg-white",
+      "[&>details]:border [&>details]:border-[#E73B3B]",
+    ]
+  end
+
+  defp color_variant("seperated", "info") do
+    [
+      "accordion-item-gap space-y-3 bg-white",
+      "[&>details]:border [&>details]:border-[#004FC4]",
+    ]
+  end
+
+  defp color_variant("seperated", "misc") do
+    [
+      "accordion-item-gap space-y-3 bg-white",
+      "[&>details]:border [&>details]:border-[#52059C]",
+    ]
+  end
+
+  defp color_variant("seperated", "dawn") do
+    [
+      "accordion-item-gap space-y-3 bg-white",
+      "[&>details]:border [&>details]:border-[#4D4137]",
+    ]
+  end
+
+  defp color_variant("seperated", "light") do
+    [
+      "accordion-item-gap space-y-3 bg-white",
+      "[&>details]:border [&>details]:border-[#707483]",
+    ]
+  end
+
+  defp color_variant("seperated", "dark") do
+    [
+      "accordion-item-gap space-y-3 bg-white",
+      "[&>details]:border [&>details]:border-[#1E1E1E]",
+    ]
+  end
+
+  defp item_color("default", "white") do
+    [
+      "group-open:bg-white"
+    ]
+  end
+
+  defp item_color("default", "primary") do
+    [
+      "group-open:bg-white"
+    ]
+  end
+
+  defp item_color("default", "secondary") do
+    [
+      "group-open:bg-white"
+    ]
+  end
+
+  defp item_color("default", "success") do
+    [
+      "group-open:bg-white"
+    ]
+  end
+
+  defp item_color("default", "warning") do
+    [
+      "group-open:bg-white"
+    ]
+  end
+
+  defp item_color("default", "danger") do
+    [
+      "group-open:bg-white"
+    ]
+  end
+
+  defp item_color("default", "info") do
+    [
+      "group-open:bg-white"
+    ]
+  end
+
+  defp item_color("default", "misc") do
+    [
+      "group-open:bg-white"
+    ]
+  end
+
+  defp item_color("default", "dawn") do
+    [
+      "group-open:bg-white"
+    ]
+  end
+
+  defp item_color("default", "light") do
+    [
+      "group-open:bg-white"
+    ]
+  end
+
+  defp item_color("default", "dark") do
+    [
+      "group-open:bg-white"
+    ]
+  end
+
+  defp item_color("contained", "white") do
     [
       "group-open:bg-[#E8E8E8]"
     ]
   end
 
-  defp item_color("primary") do
+  defp item_color("contained", "primary") do
     [
       "group-open:bg-[#072ed3]"
     ]
   end
 
-  defp item_color("secondary") do
+  defp item_color("contained", "secondary") do
     [
       "group-open:bg-[#60636f]"
     ]
   end
 
-  defp item_color("success") do
+  defp item_color("contained", "success") do
     [
       "group-open:bg-[#d4fde4]"
     ]
   end
 
-  defp item_color("warning") do
+  defp item_color("contained", "warning") do
     [
       "group-open:bg-[#fff1cd]"
     ]
   end
 
-  defp item_color("danger") do
+  defp item_color("contained", "danger") do
     [
       "group-open:bg-[#ffcdcd]"
     ]
   end
 
-  defp item_color("info") do
+  defp item_color("contained", "info") do
     [
       "group-open:bg-[#cce1ff]"
     ]
   end
 
-  defp item_color("misc") do
+  defp item_color("contained", "misc") do
     [
       "group-open:bg-[#ffe0ff]"
     ]
   end
 
-  defp item_color("dawn") do
+  defp item_color("contained", "dawn") do
     [
       "group-open:bg-[#ffdfc1]"
     ]
   end
 
-  defp item_color("light") do
+  defp item_color("contained", "light") do
     [
       "group-open:bg-[#d2d8e9]"
     ]
   end
 
-  defp item_color("dark") do
+  defp item_color("contained", "dark") do
     [
       "group-open:bg-[#111111]"
+    ]
+  end
+
+  defp item_color("filled", "white") do
+    [
+      "group-open:bg-[#E8E8E8]"
+    ]
+  end
+
+  defp item_color("filled", "primary") do
+    [
+      "group-open:bg-[#072ed3]"
+    ]
+  end
+
+  defp item_color("filled", "secondary") do
+    [
+      "group-open:bg-[#60636f]"
+    ]
+  end
+
+  defp item_color("filled", "success") do
+    [
+      "group-open:bg-[#d4fde4]"
+    ]
+  end
+
+  defp item_color("filled", "warning") do
+    [
+      "group-open:bg-[#fff1cd]"
+    ]
+  end
+
+  defp item_color("filled", "danger") do
+    [
+      "group-open:bg-[#ffcdcd]"
+    ]
+  end
+
+  defp item_color("filled", "info") do
+    [
+      "group-open:bg-[#cce1ff]"
+    ]
+  end
+
+  defp item_color("filled", "misc") do
+    [
+      "group-open:bg-[#ffe0ff]"
+    ]
+  end
+
+  defp item_color("filled", "dawn") do
+    [
+      "group-open:bg-[#ffdfc1]"
+    ]
+  end
+
+  defp item_color("filled", "light") do
+    [
+      "group-open:bg-[#d2d8e9]"
+    ]
+  end
+
+  defp item_color("filled", "dark") do
+    [
+      "group-open:bg-[#111111]"
+    ]
+  end
+
+  defp item_color("seperated", "white") do
+    [
+      "group-open:bg-white"
+    ]
+  end
+
+  defp item_color("seperated", "primary") do
+    [
+      "group-open:bg-white"
+    ]
+  end
+
+  defp item_color("seperated", "secondary") do
+    [
+      "group-open:bg-white"
+    ]
+  end
+
+  defp item_color("seperated", "success") do
+    [
+      "group-open:bg-white"
+    ]
+  end
+
+  defp item_color("seperated", "warning") do
+    [
+      "group-open:bg-white"
+    ]
+  end
+
+  defp item_color("seperated", "danger") do
+    [
+      "group-open:bg-white"
+    ]
+  end
+
+  defp item_color("seperated", "info") do
+    [
+      "group-open:bg-white"
+    ]
+  end
+
+  defp item_color("seperated", "misc") do
+    [
+      "group-open:bg-white"
+    ]
+  end
+
+  defp item_color("seperated", "dawn") do
+    [
+      "group-open:bg-white"
+    ]
+  end
+
+  defp item_color("seperated", "light") do
+    [
+      "group-open:bg-white"
+    ]
+  end
+
+  defp item_color("seperated", "dark") do
+    [
+      "group-open:bg-white"
     ]
   end
 
