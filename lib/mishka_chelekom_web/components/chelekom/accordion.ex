@@ -57,17 +57,15 @@ defmodule MishkaChelekom.Accordion do
     ~H"""
     <div
       id={@id}
-      class={
-        default_classes() ++
-          [
-            "overflow-hidden",
-            space_class(@space, @variant),
-            rounded_size(@rounded),
-            padding_size(@padding),
-            media_size(@media_size),
-            @class
-          ] ++ color_variant(@variant, @color)
-      }
+      class={[
+        rounded_size(@rounded),
+        "overflow-hidden",
+        space_class(@space, @variant),
+        padding_size(@padding),
+        media_size(@media_size),
+        color_variant(@variant, @color),
+        @class
+      ]}
       {@rest}
     >
       <details :for={item <- @item} name={@name} class={["group", item[:class]]}>
@@ -133,48 +131,47 @@ defmodule MishkaChelekom.Accordion do
   defp media_size(params) when is_binary(params), do: params
   defp media_size(_), do: media_size("small")
 
-  defp rounded_size("extra_small")
-    do
-      [
-        "rounded-sm [&:not(.accordion-item-gap)>details:first-child>summary]:rounded-t-sm [&.accordion-item-gap>details]:rounded-sm",
-        "[&.accordion-item-gap>details>summary]:rounded-t-sm [&.accordion-item-gap>details>:not(summary)]:rounded-b-sm"
-      ]
-    end
-
-  defp rounded_size("small") do
+  defp rounded_size("extra_small") do
     [
-      "rounded [&:not(.accordion-item-gap)>details:first-child>summary]:rounded-t [&.accordion-item-gap>details]:rounded",
-      "[&.accordion-item-gap>details>summary]:rounded-t [&.accordion-item-gap>details>:not(summary)]:rounded-b"
+      "rounded-sm [&:not(.accordion-item-gap)>details:first-child>summary]:rounded-t-sm",
+      "[&.accordion-item-gap>details]:rounded-sm [&.accordion-item-gap>details>summary]:rounded-t-sm",
+      "[&.accordion-item-gap>details>:not(summary)]:rounded-b-sm"
     ]
   end
 
-  defp rounded_size("medium")
-    do
-      [
-         "rounded-md [&:not(.accordion-item-gap)>details:first-child>summary]:rounded-t-md [&.accordion-item-gap>details]:rounded-md",
-        "[&.accordion-item-gap>details>summary]:rounded-t-md [&.accordion-item-gap>details>:not(summary)]:rounded-b-md"
-      ]
-    end
+  defp rounded_size("small") do
+    [
+      "rounded [&:not(.accordion-item-gap)>details:first-child>summary]:rounded-t",
+      "[&.accordion-item-gap>details]:rounded [&.accordion-item-gap>details>summary]:rounded-t",
+      "[&.accordion-item-gap>details>:not(summary)]:rounded-b"
+    ]
+  end
 
-  defp rounded_size("large")
-    do
-      [
-        "rounded-lg [&:not(.accordion-item-gap)>details:first-child>summary]:rounded-t-lg [&.accordion-item-gap>details]:rounded-lg",
-        "[&.accordion-item-gap>details>summary]:rounded-t-lg [&.accordion-item-gap>details>:not(summary)]:rounded-b-lg"
+  defp rounded_size("medium") do
+    [
+      "rounded-md [&:not(.accordion-item-gap)>details:first-child>summary]:rounded-t-md",
+      "[&.accordion-item-gap>details]:rounded-md [&.accordion-item-gap>details>summary]:rounded-t-md",
+      "[&.accordion-item-gap>details>:not(summary)]:rounded-b-md"
+    ]
+  end
 
-      ]
-    end
+  defp rounded_size("large") do
+    [
+      "rounded-lg [&:not(.accordion-item-gap)>details:first-child>summary]:rounded-t-lg",
+      "[&.accordion-item-gap>details]:rounded-lg [&.accordion-item-gap>details>summary]:rounded-t-lg",
+      "[&.accordion-item-gap>details>:not(summary)]:rounded-b-lg"
+    ]
+  end
 
-  defp rounded_size("extra_large")
-    do
-      [
-        "rounded-xl [&:not(.accordion-item-gap)>details:first-child>summary]:rounded-t-xl [&.accordion-item-gap>details]:rounded-xl",
-        "[&.accordion-item-gap>details>summary]:rounded-t-xl [&.accordion-item-gap>details>:not(summary)]:rounded-b-xl"
-      ]
-    end
+  defp rounded_size("extra_large") do
+    [
+      "rounded-xl [&:not(.accordion-item-gap)>details:first-child>summary]:rounded-t-xl",
+      "[&.accordion-item-gap>details]:rounded-xl [&.accordion-item-gap>details>summary]:rounded-t-xl",
+      "[&.accordion-item-gap>details>:not(summary)]:rounded-b-xl"
+    ]
+  end
 
-  defp rounded_size("none"),
-    do: "rounded-none"
+  defp rounded_size("none"), do: "rounded-none"
 
   defp padding_size("extra_small"), do: "[&>details>*]:p-1"
   defp padding_size("small"), do: "[&>details>*]:p-2"
@@ -470,147 +467,147 @@ defmodule MishkaChelekom.Accordion do
   defp color_variant("tinted_split", "primary") do
     [
       "[&>details]:bg-[#4363EC] text-white",
-      "[&>details]:border [&>details]:border-[#4363EC]",
+      "[&>details]:border [&>details]:border-[#4363EC]"
     ]
   end
 
   defp color_variant("tinted_split", "secondary") do
     [
       "[&>details]:bg-[#6B6E7C] text-white",
-      "[&>details]:border [&>details]:border-[#6B6E7C]",
+      "[&>details]:border [&>details]:border-[#6B6E7C]"
     ]
   end
 
   defp color_variant("tinted_split", "success") do
     [
       "[&>details]:bg-[#ECFEF3] text-[#047857]",
-      "[&>details]:border [&>details]:border-[#227A52]",
+      "[&>details]:border [&>details]:border-[#227A52]"
     ]
   end
 
   defp color_variant("tinted_split", "warning") do
     [
       "[&>details]:bg-[#FFF8E6] text-[#FF8B08]",
-      "[&>details]:border [&>details]:border-[#FF8B08]",
+      "[&>details]:border [&>details]:border-[#FF8B08]"
     ]
   end
 
   defp color_variant("tinted_split", "danger") do
     [
       "[&>details]:bg-[#FFE6E6] text-[#E73B3B]",
-      "[&>details]:border [&>details]:border-[#E73B3B]",
+      "[&>details]:border [&>details]:border-[#E73B3B]"
     ]
   end
 
   defp color_variant("tinted_split", "info") do
     [
       "[&>details]:bg-[#E5F0FF] text-[#004FC4]",
-      "[&>details]:border [&>details]:border-[#004FC4]",
+      "[&>details]:border [&>details]:border-[#004FC4]"
     ]
   end
 
   defp color_variant("tinted_split", "misc") do
     [
       "[&>details]:bg-[#FFE6FF] text-[#52059C]",
-      "[&>details]:border [&>details]:border-[#52059C]",
+      "[&>details]:border [&>details]:border-[#52059C]"
     ]
   end
 
   defp color_variant("tinted_split", "dawn") do
     [
       "[&>details]:bg-[#FFECDA] text-[#4D4137]",
-      "[&>details]:border [&>details]:border-[#4D4137]",
+      "[&>details]:border [&>details]:border-[#4D4137]"
     ]
   end
 
   defp color_variant("tinted_split", "light") do
     [
       "[&>details]:bg-[#E3E7F1] text-[#707483]",
-      "[&>details]:border [&>details]:border-[#707483]",
+      "[&>details]:border [&>details]:border-[#707483]"
     ]
   end
 
   defp color_variant("tinted_split", "dark") do
     [
       "[&>details]:bg-[#1E1E1E] text-white",
-      "[&>details]:border [&>details]:border-[#1E1E1E]",
+      "[&>details]:border [&>details]:border-[#1E1E1E]"
     ]
   end
 
   defp color_variant("seperated", "white") do
     [
       "[&>details]:bg-white",
-      "[&>details]:border [&>details]:border-[#DADADA]",
+      "[&>details]:border [&>details]:border-[#DADADA]"
     ]
   end
 
   defp color_variant("seperated", "primary") do
     [
       "[&>details]:bg-white",
-      "[&>details]:border [&>details]:border-[#4363EC]",
+      "[&>details]:border [&>details]:border-[#4363EC]"
     ]
   end
 
   defp color_variant("seperated", "secondary") do
     [
       "[&>details]:bg-white",
-      "[&>details]:border [&>details]:border-[#6B6E7C]",
+      "[&>details]:border [&>details]:border-[#6B6E7C]"
     ]
   end
 
   defp color_variant("seperated", "success") do
     [
       "[&>details]:bg-white",
-      "[&>details]:border [&>details]:border-[#227A52]",
+      "[&>details]:border [&>details]:border-[#227A52]"
     ]
   end
 
   defp color_variant("seperated", "warning") do
     [
       "[&>details]:bg-white",
-      "[&>details]:border [&>details]:border-[#FF8B08]",
+      "[&>details]:border [&>details]:border-[#FF8B08]"
     ]
   end
 
   defp color_variant("seperated", "danger") do
     [
       "[&>details]:bg-white",
-      "[&>details]:border [&>details]:border-[#E73B3B]",
+      "[&>details]:border [&>details]:border-[#E73B3B]"
     ]
   end
 
   defp color_variant("seperated", "info") do
     [
       "[&>details]:bg-white",
-      "[&>details]:border [&>details]:border-[#004FC4]",
+      "[&>details]:border [&>details]:border-[#004FC4]"
     ]
   end
 
   defp color_variant("seperated", "misc") do
     [
       "[&>details]:bg-white",
-      "[&>details]:border [&>details]:border-[#52059C]",
+      "[&>details]:border [&>details]:border-[#52059C]"
     ]
   end
 
   defp color_variant("seperated", "dawn") do
     [
       "[&>details]:bg-white",
-      "[&>details]:border [&>details]:border-[#4D4137]",
+      "[&>details]:border [&>details]:border-[#4D4137]"
     ]
   end
 
   defp color_variant("seperated", "light") do
     [
       "[&>details]:bg-white",
-      "[&>details]:border [&>details]:border-[#707483]",
+      "[&>details]:border [&>details]:border-[#707483]"
     ]
   end
 
   defp color_variant("seperated", "dark") do
     [
       "[&>details]:bg-white",
-      "[&>details]:border [&>details]:border-[#1E1E1E]",
+      "[&>details]:border [&>details]:border-[#1E1E1E]"
     ]
   end
 
@@ -941,12 +938,6 @@ defmodule MishkaChelekom.Accordion do
   defp item_color("seperated", "dark") do
     [
       "group-open:bg-white"
-    ]
-  end
-
-  defp default_classes() do
-    [
-      ""
     ]
   end
 end
