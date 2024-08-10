@@ -619,7 +619,7 @@ defmodule MishkaChelekom.Accordion do
 
   defp item_color("default", "primary") do
     [
-      "group-open:bg-white group-open:hover:[&:is(summary)]:bg-white"
+      "group-open:bg-white group-open:hover:[&:is(summary)]:bg-[#072ed3]"
     ]
   end
 
