@@ -133,21 +133,21 @@ defmodule MishkaChelekom.Accordion do
   defp media_size(_), do: media_size("small")
 
   defp rounded_size("extra_small"),
-    do: "rounded-sm [&:not(.accordion-item-gap)>details:first-child>summary]:rounded-t-sm [&.accordion-item-gap>details>*]:rounded-sm"
+    do: "rounded-sm [&:not(.accordion-item-gap)>details:first-child>summary]:rounded-t-sm [&.accordion-item-gap>details]:rounded-sm [&.accordion-item-gap>details>*]:rounded-sm"
 
-  defp rounded_size("small"), do: "rounded [&:not(.accordion-item-gap)>details:first-child>summary]:rounded-t [&.accordion-item-gap>details>*]:rounded"
+  defp rounded_size("small"), do: "rounded [&:not(.accordion-item-gap)>details:first-child>summary]:rounded-t [&.accordion-item-gap>details]:rounded [&.accordion-item-gap>details>*]:rounded"
 
   defp rounded_size("medium"),
-    do: "rounded-md [&:not(.accordion-item-gap)>details:first-child>summary]:rounded-t-md [&.accordion-item-gap>details>*]:rounded-md"
+    do: "rounded-md [&:not(.accordion-item-gap)>details:first-child>summary]:rounded-t-md [&.accordion-item-gap>details]:rounded-md [&.accordion-item-gap>details>*]:rounded-md"
 
   defp rounded_size("large"),
-    do: "rounded-lg [&:not(.accordion-item-gap)>details:first-child>summary]:rounded-t-lg [&.accordion-item-gap>details>*]:rounded-lg"
+    do: "rounded-lg [&:not(.accordion-item-gap)>details:first-child>summary]:rounded-t-lg [&.accordion-item-gap>details]:rounded-lg [&.accordion-item-gap>details>*]:rounded-lg"
 
   defp rounded_size("extra_large"),
-    do: "rounded-xl [&:not(.accordion-item-gap)>details:first-child>summary]:rounded-t-xl [&.accordion-item-gap>details>*]:rounded-xl"
+    do: "rounded-xl [&:not(.accordion-item-gap)>details:first-child>summary]:rounded-t-xl [&.accordion-item-gap>details]:rounded-xl [&.accordion-item-gap>details>*]:rounded-xl"
 
   defp rounded_size("none"),
-    do: "rounded-none [&:not(.accordion-item-gap)>details:first-child>summary]:rounded-t-none [&.accordion-item-gap>details>*]:rounded-none"
+    do: "rounded-none [&:not(.accordion-item-gap)>details:first-child>summary]:rounded-t-none [&.accordion-item-gap>details]:rounded-none [&.accordion-item-gap>details>*]:rounded-none"
 
   defp padding_size("extra_small"), do: "[&>details>*]:p-1"
   defp padding_size("small"), do: "[&>details>*]:p-2"
