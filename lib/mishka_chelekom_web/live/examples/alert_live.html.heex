@@ -1,18 +1,20 @@
 <div class="space-y-5 p-40">
-  <MishkaChelekom.Alert.flash title="This is a title" kind="info"></MishkaChelekom.Alert.flash>
-  <MishkaChelekom.Alert.flash color="primary" title="This is primary titlee" kind="info"></MishkaChelekom.Alert.flash>
-  <MishkaChelekom.Alert.flash color="secondary" title="This is secondary titlee" kind="info" width="large"></MishkaChelekom.Alert.flash>
-  <MishkaChelekom.Alert.flash color="info" title="This is info titlee" kind="info" width="large"></MishkaChelekom.Alert.flash>
-  <MishkaChelekom.Alert.flash color="misc" title="This is misc titlee" kind="info" width="large"></MishkaChelekom.Alert.flash>
-  <MishkaChelekom.Alert.flash color="dawn" title="This is dawn titlee" kind="info" width="large"></MishkaChelekom.Alert.flash>
-  <MishkaChelekom.Alert.flash color="warning" title="This is warning titlee" kind="info" width="large"></MishkaChelekom.Alert.flash>
-  <MishkaChelekom.Alert.flash color="danger" title="This is danger titlee" kind="info" width="large"></MishkaChelekom.Alert.flash>
-  <MishkaChelekom.Alert.flash color="success" title="This is success titlee" kind="info" width="large"></MishkaChelekom.Alert.flash>
-  <MishkaChelekom.Alert.flash variant="unbordered" color="danger" title="This is unbordered danger titlee" kind="info" width="extra_large"></MishkaChelekom.Alert.flash>
-  <MishkaChelekom.Alert.flash variant="unbordered" color="success" title="This is unbordered success titlee" kind="info" width="medium"></MishkaChelekom.Alert.flash>
-  <MishkaChelekom.Alert.flash variant="outline" color="secondary" title="This is outline secondary titlee" kind="info" width="full"></MishkaChelekom.Alert.flash>
-  <MishkaChelekom.Alert.flash variant="outline" position="top_right" color="success" title="This is outline secondary titlee" kind="info"></MishkaChelekom.Alert.flash>
-  <MishkaChelekom.Alert.flash position="bottom_right" color="warning" title="This is warning title" kind="info"></MishkaChelekom.Alert.flash>
-  <MishkaChelekom.Alert.flash variant="shadow" position="bottom_left" color="secondary" title="This is outline warning title" kind="info"></MishkaChelekom.Alert.flash>
-  <MishkaChelekom.Alert.flash variant="unbordered" position="top_left" color="secondary" title="This is outline warning title" kind="info"></MishkaChelekom.Alert.flash>
+  <MishkaChelekom.Alert.flash kind={:info}>
+    This is info
+  </MishkaChelekom.Alert.flash>
+  <MishkaChelekom.Alert.flash kind={:primary}> This is Primary</MishkaChelekom.Alert.flash>
+  <MishkaChelekom.Alert.flash kind={:secondary} width="large">This is Secondary</MishkaChelekom.Alert.flash>
+  <MishkaChelekom.Alert.flash kind={:dark} width="large"> This is Dark</MishkaChelekom.Alert.flash>
+  <MishkaChelekom.Alert.flash title="This is misc titlee" kind={:misc} width="large" />
+  <MishkaChelekom.Alert.flash title="This is dawn titlee" kind={:dawn} width="large" />
+  <MishkaChelekom.Alert.flash title="This is warning titlee" kind={:warning} width="large" />
+  <MishkaChelekom.Alert.flash title="This is danger titlee" kind={:danger} width="large" />
+  <MishkaChelekom.Alert.flash title="This is success titlee" kind={:success} width="large" />
+  <MishkaChelekom.Alert.flash variant="unbordered" title="This is unbordered danger titlee" kind={:danger} width="extra_large" />
+  <MishkaChelekom.Alert.flash variant="unbordered" title="This is unbordered success titlee" kind={:success} width="medium" />
+  <MishkaChelekom.Alert.flash variant="outline" title="This is outline secondary titlee" kind={:secondary} width="full" />
+  <MishkaChelekom.Alert.flash variant="outline" position="top_right" title="This is outline secondary titlee" kind={:dawn} />
+  <MishkaChelekom.Alert.flash position="bottom_right" title="This is warning title" kind={:warning} />
+  <MishkaChelekom.Alert.flash variant="shadow" position="bottom_left" title="This is outline warning title" kind={:danger} />
+  <MishkaChelekom.Alert.flash variant="unbordered" position="top_left" title="This is outline warning title" kind={:info} />
 </div>
