@@ -67,7 +67,7 @@ defmodule MishkaChelekom.Blockquote do
       <figcaption
         :for={caption <- @caption}
         class={[
-          "flex items-center justify-center space-x-3 rtl:space-x-reverse",
+          "flex items-center space-x-3 rtl:space-x-reverse",
           caption_position(caption[:position])
         ]}
       >
@@ -76,7 +76,7 @@ defmodule MishkaChelekom.Blockquote do
           class={["w-6 h-6 rounded-full", caption[:image_class]]}
           src={caption[:image]}
         />
-        <div class="flex items-center divide-x-2 rtl:divide-x-reverse divide-gray-500">
+        <div class="flex items-center divide-x-2 rtl:divide-x-reverse">
           <%= render_slot(caption) %>
         </div>
       </figcaption>
@@ -93,15 +93,15 @@ defmodule MishkaChelekom.Blockquote do
   end
 
   defp caption_position("right") do
-    "right class"
+    "ltr:justify-end rtl:justify-start"
   end
 
   defp caption_position("left") do
-    "left class"
+    "ltr:justify-start rtl:justify-end"
   end
 
   defp caption_position("center") do
-    "center class"
+    "justify-center"
   end
 
   defp caption_position(_), do: caption_position("right")
