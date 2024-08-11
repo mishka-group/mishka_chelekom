@@ -115,51 +115,46 @@ defmodule MishkaChelekom.Blockquote do
   defp space_class(params) when is_binary(params), do: params
 
   defp border_class(_, "none") do
-    [""]
+    ["border-0"]
   end
 
   defp border_class("extra_small", position) do
     [
-      "border",
-      position == "left" && "yekchizi",
-      position == "right" && "yekchizi",
-      position == "full" && "yekchizi"
+      position == "left" && "border-s",
+      position == "right" && "border-e",
+      position == "full" && "border"
     ]
   end
 
   defp border_class("small", position) do
     [
-      "border-2",
-      position == "left" && "yekchizi",
-      position == "right" && "yekchizi",
-      position == "full" && "yekchizi"
+      position == "left" && "border-s-2",
+      position == "right" && "border-s-2",
+      position == "full" && "border-2"
     ]
   end
 
   defp border_class("medium", position) do
     [
-      "border-[3px]",
-      position == "left" && "yekchizi",
-      position == "right" && "yekchizi",
-      position == "full" && "yekchizi"
+      position == "left" && "border-s-[3px]",
+      position == "right" && "border-e-[3px]",
+      position == "full" && "border-[3px]"
     ]
   end
 
   defp border_class("large", position) do
     [
-      "border-4",
-      position == "left" && "yekchizi",
-      position == "right" && "yekchizi",
-      position == "full" && "yekchizi"
+      position == "left" && "border-s-4",
+      position == "right" && "border-e-4",
+      position == "full" && "border-4"
     ]
   end
 
   defp border_class("extra_large", position) do
     [
-      "border-[5px]",
-      position == "left" && "yekchizi",
-      position == "right" && "yekchizi",
-      position == "full" && "yekchizi"
+      position == "left" && "border-s-[5px]",
+      position == "right" && "border-e-[5px]",
+      position == "full" && "border-[5px]"
     ]
   end
 
