@@ -31,7 +31,7 @@ defmodule MishkaChelekom.Blockquote do
   attr :color, :string, values: @colors, default: "white", doc: ""
   attr :border, :string, values: @sizes ++ [nil], default: "medium", doc: ""
   attr :rounded, :string, values: @sizes ++ ["full", "none"], default: "small", doc: ""
-  attr :size, :string, default: "extra_small", doc: ""
+  attr :size, :string, default: "medium", doc: ""
   attr :space, :string, values: @sizes, default: "small", doc: ""
   attr :font_weight, :string, default: "font-normal", doc: ""
   attr :padding, :string, values: @sizes ++ ["none"], default: "small", doc: ""
@@ -42,7 +42,7 @@ defmodule MishkaChelekom.Blockquote do
   slot :caption, required: false do
     attr :image, :string
     attr :image_class, :string
-    attr :position, :string, values: ["right", "left", "ceneter"]
+    attr :position, :string, values: ["right", "left", "center"]
   end
 
   slot :content, required: false
@@ -60,10 +60,16 @@ defmodule MishkaChelekom.Blockquote do
       color_variant(@variant, @color),
       rounded_size(@rounded),
       padding_size(@padding),
+      size_class(@size),
       @font_weight,
       @class
     ]}>
-      <.blockquote_icon :if={is_nil(@rest[:hide_icon])} name={@icon} class={@icon_class} />
+
+      <.blockquote_icon
+        :if={is_nil(@rest[:hide_icon])}
+        name={@icon}
+        class={["quote-icon", @icon_class]}
+      />
       <blockquote class="p-2 italic">
         <%= render_slot(@inner_block) %>
       </blockquote>
@@ -88,11 +94,11 @@ defmodule MishkaChelekom.Blockquote do
   end
 
   attr :name, :string, required: true
-  attr :class, :string, default: nil
+  attr :class, :list, default: nil
 
   defp blockquote_icon(%{name: "hero-quote"} = assigns) do
     ~H"""
-    <svg class="w-8 h-8" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 14">
+    <svg class={["w-8 h-8", @class]} xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 14">
       <path d="M6 0H2a2 2 0 0 0-2 2v4a2 2 0 0 0 2 2h4v1a3 3 0 0 1-3 3H2a1 1 0 0 0 0 2h1a5.006 5.006 0 0 0 5-5V2a2 2 0 0 0-2-2Zm10 0h-4a2 2 0 0 0-2 2v4a2 2 0 0 0 2 2h4v1a3 3 0 0 1-3 3h-1a1 1 0 0 0 0 2h1a5.006 5.006 0 0 0 5-5V2a2 2 0 0 0-2-2Z" />
     </svg>
     """
@@ -100,7 +106,11 @@ defmodule MishkaChelekom.Blockquote do
 
   defp blockquote_icon(assigns) do
     ~H"""
-    <.icon :if={!is_nil(@name)} name={@name} class={@class} />
+    <.icon
+      :if={!is_nil(@name)}
+      name={@name}
+      class={Enum.reject(@class, &is_nil(&1)) |> Enum.join(" ")}
+    />
     """
   end
 
@@ -189,6 +199,14 @@ defmodule MishkaChelekom.Blockquote do
   defp padding_size(params) when is_binary(params), do: params
   defp padding_size(_), do: padding_size("small")
 
+  defp size_class("extra_small"), do: "text-xs [&>.quote-icon]:size-7"
+  defp size_class("small"), do: "text-sm [&>.quote-icon]:size-8"
+  defp size_class("medium"), do: "text-base [&>.quote-icon]:size-9"
+  defp size_class("large"), do: "text-lg [&>.quote-icon]:size-10"
+  defp size_class("extra_large"), do: "text-xl [&>.quote-icon]:size-12"
+  defp size_class(params) when is_binary(params), do: params
+  defp size_class(_), do: size_class("medium")
+
   defp color_variant("default", "white") do
     "bg-white text-[#3E3E3E] border-[#DADADA]"
   end
@@ -234,47 +252,47 @@ defmodule MishkaChelekom.Blockquote do
   end
 
   defp color_variant("outline", "white") do
-    "bg-white text-white border-white"
+    "bg-transparent text-white border-white"
   end
 
   defp color_variant("outline", "primary") do
-    "bg-white text-[#4363EC] border-[#4363EC] "
+    "bg-transparent text-[#4363EC] border-[#4363EC] "
   end
 
   defp color_variant("outline", "secondary") do
-    "bg-white text-[#6B6E7C] border-[#6B6E7C]"
+    "bg-transparent text-[#6B6E7C] border-[#6B6E7C]"
   end
 
   defp color_variant("outline", "success") do
-    "bg-white text-[#227A52] border-[#6EE7B7]"
+    "bg-transparent text-[#227A52] border-[#6EE7B7]"
   end
 
   defp color_variant("outline", "warning") do
-    "bg-white text-[#FF8B08] border-[#FF8B08]"
+    "bg-transparent text-[#FF8B08] border-[#FF8B08]"
   end
 
   defp color_variant("outline", "danger") do
-    "bg-white text-[#E73B3B] border-[#E73B3B]"
+    "bg-transparent text-[#E73B3B] border-[#E73B3B]"
   end
 
   defp color_variant("outline", "info") do
-    "bg-white text-[#004FC4] border-[#004FC4]"
+    "bg-transparent text-[#004FC4] border-[#004FC4]"
   end
 
   defp color_variant("outline", "misc") do
-    "bg-white text-[#52059C] border-[#52059C]"
+    "bg-transparent text-[#52059C] border-[#52059C]"
   end
 
   defp color_variant("outline", "dawn") do
-    "bg-white text-[#4D4137] border-[#4D4137]"
+    "bg-transparent text-[#4D4137] border-[#4D4137]"
   end
 
   defp color_variant("outline", "light") do
-    "bg-white text-[#707483] border-[#707483]"
+    "bg-transparent text-[#707483] border-[#707483]"
   end
 
   defp color_variant("outline", "dark") do
-    "bg-white text-[#1E1E1E] border-[#1E1E1E]"
+    "bg-transparent text-[#1E1E1E] border-[#1E1E1E]"
   end
 
   defp color_variant("unbordered", "white") do
