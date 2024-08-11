@@ -50,8 +50,11 @@ defmodule MishkaChelekom.Alert do
   attr :rest, :global, doc: "the arbitrary HTML attributes to add to the flash container"
   attr :variant, :string, values: @variants, default: "default", doc: ""
   attr :position, :string, values: @positions ++ [nil], default: nil, doc: ""
-  attr :width, :string, default: "medium", doc: ""
+  attr :width, :string, values: @sizes ++ ["full"], default: "full", doc: ""
+  attr :size, :string, values: @sizes, default: "medium", doc: ""
   attr :rounded, :string, values: @sizes ++ ["full", "none"], default: "small", doc: ""
+  attr :font_weight, :string, default: "font-normal", doc: ""
+  attr :class, :string, default: nil, doc: ""
 
   slot :inner_block, doc: "the optional inner block that renders the flash message"
 
@@ -69,22 +72,25 @@ defmodule MishkaChelekom.Alert do
         color_variant(@variant, @kind),
         rounded_size(@rounded),
         width_class(@width),
-        position_class(@position)
+        content_size(@size),
+        position_class(@position),
+        @font_weight,
+        @class
       ]}
       {@rest}
     >
       <div class="flex items-center justify-between gap-2">
         <div class="space-y-1.5">
-          <div :if={@title} class="flex items-center gap-1.5 text-sm font-semibold">
-            <.icon :if={@kind == :info} name="hero-information-circle-mini" class="h-4 w-4" />
-            <.icon :if={@kind == :danger} name="hero-exclamation-circle-mini" class="h-4 w-4" /> <%= @title %>
+          <div :if={@title} class="flex items-center gap-1.5 font-semibold">
+            <.icon :if={@kind == :info} name="hero-information-circle-mini" class="aler-icon" />
+            <.icon :if={@kind == :danger} name="hero-exclamation-circle-mini" class="aler-icon" /> <%= @title %>
           </div>
 
-          <div class="text-sm"><%= msg %></div>
+          <div class=""><%= msg %></div>
         </div>
 
         <button type="button" class="group p-2" aria-label={gettext("close")}>
-          <.icon name="hero-x-mark-solid" class="h-5 w-5 opacity-40 group-hover:opacity-70" />
+          <.icon name="hero-x-mark-solid" class="aler-icon opacity-40 group-hover:opacity-70" />
         </button>
       </div>
     </div>
@@ -148,7 +154,15 @@ defmodule MishkaChelekom.Alert do
   defp width_class("extra_large"), do: "w-96"
   defp width_class("full"), do: "w-full"
   defp width_class(params) when is_binary(params), do: params
-  defp width_class(_), do: width_class("medium")
+  defp width_class(_), do: width_class("full")
+
+  defp content_size("extra_small"), do: "text-xs [&_.aler-icon]:size-3.5"
+  defp content_size("small"), do: "text-sm [&_.aler-icon]:size-4"
+  defp content_size("medium"), do: "text-base [&_.aler-icon]:size-5"
+  defp content_size("large"), do: "text-lg [&_.aler-icon]:size-6"
+  defp content_size("extra_large"), do: "text-xl [&_.aler-icon]:size-7"
+  defp content_size(params) when is_binary(params), do: params
+  defp content_size(_), do: content_size("medium")
 
   defp position_class("top_left"), do: "fixed top-2 left-0 ml-2"
   defp position_class("top_right"), do: "fixed top-2 right-0 mr-2"
