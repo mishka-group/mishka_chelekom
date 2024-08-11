@@ -302,50 +302,6 @@ defmodule MishkaChelekom.Alert do
     "bg-[#1E1E1E] text-white border border-transparent hover:[&>button]:text-[#787878]"
   end
 
-  defp color_variant("transparent", :white) do
-    "bg-white text-white border border-transparent hover:[&>button]:text-[#787878]"
-  end
-
-  defp color_variant("transparent", :primary) do
-    "bg-white text-[#4363EC] border border-transparent hover:[&>button]:text-[#072ed3]"
-  end
-
-  defp color_variant("transparent", :secondary) do
-    "bg-white text-[#6B6E7C] border border-transparent hover:[&>button]:text-[#60636f]"
-  end
-
-  defp color_variant("transparent", :success) do
-    "bg-white text-[#227A52] border border-transparent hover:[&>button]:text-[#50AF7A]"
-  end
-
-  defp color_variant("transparent", :warning) do
-    "bg-white text-[#FF8B08] border border-transparent hover:[&>button]:text-[#FFB045]"
-  end
-
-  defp color_variant("transparent", type) when type in [:error, :danger] do
-    "bg-white text-[#E73B3B] border border-transparent hover:[&>button]:text-[#F0756A]"
-  end
-
-  defp color_variant("transparent", :info) do
-    "bg-white text-[#6663FD] border border-transparent hover:[&>button]:text-[#3680DB]"
-  end
-
-  defp color_variant("transparent", :misc) do
-    "bg-white text-[#52059C] border border-transparent hover:[&>button]:text-[#8535C3]"
-  end
-
-  defp color_variant("transparent", :dawn) do
-    "bg-white text-[#4D4137] border border-transparent hover:[&>button]:text-[#FFECDA]"
-  end
-
-  defp color_variant("transparent", :light) do
-    "bg-white text-[#707483] border border-transparent hover:[&>button]:text-[#A0A5B4]"
-  end
-
-  defp color_variant("transparent", :dark) do
-    "bg-white text-[#1E1E1E] border border-transparent hover:[&>button]:text-[#787878]"
-  end
-
   defp color_variant("shadow", :white) do
     "bg-white text-[#3E3E3E] border border-[#DADADA] shadow-md hover:[&>button]:text-[#787878]"
   end
