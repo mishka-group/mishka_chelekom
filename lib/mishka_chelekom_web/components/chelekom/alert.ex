@@ -4,6 +4,35 @@ defmodule MishkaChelekom.Alert do
   import MishkaChelekomWeb.Gettext
   alias Phoenix.LiveView.JS
 
+  @sizes ["extra_small", "small", "medium", "large", "extra_large"]
+  @colors [
+    "white",
+    "primary",
+    "secondary",
+    "dark",
+    "success",
+    "warning",
+    "danger",
+    "info",
+    "light",
+    "misc",
+    "dawn"
+  ]
+
+  @variants [
+    "default",
+    "outline",
+    "shadow",
+    "unbordered"
+  ]
+
+  @positions [
+    "top_left",
+    "top_right",
+    "bottom_left",
+    "bottom_right"
+  ]
+
   @doc """
   Renders flash notices.
 
@@ -17,6 +46,11 @@ defmodule MishkaChelekom.Alert do
   attr :title, :string, default: nil
   attr :kind, :atom, values: [:info, :error], doc: "used for styling and flash lookup"
   attr :rest, :global, doc: "the arbitrary HTML attributes to add to the flash container"
+  attr :variant, :string, values: @variants, default: "default", doc: ""
+  attr :position, :string, values: @positions ++ [nil], default: nil, doc: ""
+  attr :width, :string, default: "medium", doc: ""
+  attr :rounded, :string, values: @sizes ++ ["full", "none"], default: "small", doc: ""
+  attr :color, :string, values: @colors, default: "white", doc: ""
 
   slot :inner_block, doc: "the optional inner block that renders the flash message"
 
@@ -30,22 +64,26 @@ defmodule MishkaChelekom.Alert do
       phx-click={JS.push("lv:clear-flash", value: %{key: @kind}) |> hide("##{@id}")}
       role="alert"
       class={[
-        "fixed top-2 right-2 mr-2 w-80 sm:w-96 z-50 rounded-lg p-3 ring-1",
-        @kind == :info && "bg-emerald-50 text-emerald-800 ring-emerald-500 fill-cyan-900",
-        @kind == :error && "bg-rose-50 text-rose-900 shadow-md ring-rose-500 fill-rose-900"
+        "z-50 px-2 py-1.5",
+        color_variant(@variant, @color),
+        rounded_size(@rounded),
+        width_class(@width),
+        position_class(@position),
       ]}
       {@rest}
     >
-      <p :if={@title} class="flex items-center gap-1.5 text-sm font-semibold leading-6">
-        <.icon :if={@kind == :info} name="hero-information-circle-mini" class="h-4 w-4" />
-        <.icon :if={@kind == :error} name="hero-exclamation-circle-mini" class="h-4 w-4" /> <%= @title %>
-      </p>
+      <div class="flex items-center justify-between gap-2">
+        <p :if={@title} class="flex items-center gap-1.5 text-sm font-semibold leading-6">
+          <.icon :if={@kind == :info} name="hero-information-circle-mini" class="h-4 w-4" />
+          <.icon :if={@kind == :error} name="hero-exclamation-circle-mini" class="h-4 w-4" /> <%= @title %>
+        </p>
 
-      <p class="mt-2 text-sm leading-5"><%= msg %></p>
+        <p class="mt-2 text-sm leading-5"><%= msg %></p>
 
-      <button type="button" class="group absolute top-1 right-1 p-2" aria-label={gettext("close")}>
-        <.icon name="hero-x-mark-solid" class="h-5 w-5 opacity-40 group-hover:opacity-70" />
-      </button>
+        <button type="button" class="group p-2" aria-label={gettext("close")}>
+          <.icon name="hero-x-mark-solid" class="h-5 w-5 opacity-40 group-hover:opacity-70" />
+        </button>
+      </div>
     </div>
     """
   end
@@ -92,179 +130,248 @@ defmodule MishkaChelekom.Alert do
     """
   end
 
+  defp rounded_size("extra_small"), do: "rounded-sm"
+  defp rounded_size("small"), do: "rounded"
+  defp rounded_size("medium"), do: "rounded-md"
+  defp rounded_size("large"), do: "rounded-lg"
+  defp rounded_size("extra_large"), do: "rounded-xl"
+  defp rounded_size("full"), do: "rounded-full"
+  defp rounded_size("none"), do: "rounded-none"
+
+  defp width_class("extra_small"), do: "w-60"
+  defp width_class("small"), do: "w-64"
+  defp width_class("medium"), do: "w-72"
+  defp width_class("large"), do: "w-80"
+  defp width_class("extra_large"), do: "w-96"
+  defp width_class("full"), do: "w-full"
+  defp width_class(params) when is_binary(params), do: params
+  defp width_class(_), do: width_class("medium")
+
+  defp position_class("top_left"), do: "fixed top-2 left-0 ml-2"
+  defp position_class("top_right"), do: "fixed top-2 right-0 mr-2"
+  defp position_class("bottom_left"), do: "fixed bottom-2 left-0 ml-2"
+  defp position_class("bottom_right"), do: "fixed bottom-2 right-0 mr-2"
+  defp position_class(params) when is_binary(params), do: params
+  defp position_class(nil), do: nil
+
   defp color_variant("default", "white") do
-    "bg-white text-[#3E3E3E] border-[#DADADA] [&>.indicator]:bg-[#3E3E3E] hover:bg-[#E8E8E8] hover:border-[#d9d9d9]"
+    "bg-white text-[#3E3E3E] border border-[#DADADA] hover:[&>button]:text-[#787878]"
   end
 
   defp color_variant("default", "primary") do
-    "bg-[#4363EC] text-white border-[#2441de] [&>.indicator]:bg-white hover:bg-[#072ed3] hover:border-[#2441de]"
+    "bg-[#4363EC] text-white border border-[#2441de] hover:[&>button]:text-[#072ed3]"
   end
 
   defp color_variant("default", "secondary") do
-    "bg-[#6B6E7C] text-white border-[#877C7C] [&>.indicator]:bg-white hover:bg-[#60636f] hover:border-[#3d3f49]"
+    "bg-[#6B6E7C] text-white border border-[#877C7C] hover:[&>button]:text-[#60636f]"
   end
 
   defp color_variant("default", "success") do
-    "bg-[#ECFEF3] text-[#047857] border-[#6EE7B7] [&>.indicator]:bg-[#047857] hover:bg-[#d4fde4] hover:border-[#6EE7B7]"
+    "bg-[#ECFEF3] text-[#047857] border border-[#6EE7B7] hover:[&>button]:text-[#50AF7A]"
   end
 
   defp color_variant("default", "warning") do
-    "bg-[#FFF8E6] text-[#FF8B08] border-[#FF8B08] [&>.indicator]:bg-[#FF8B08] hover:bg-[#fff1cd] hover:border-[#FF8B08]"
+    "bg-[#FFF8E6] text-[#FF8B08] border border-[#FF8B08] hover:[&>button]:text-[#FFB045]"
   end
 
   defp color_variant("default", "danger") do
-    "bg-[#FFE6E6] text-[#E73B3B] border-[#E73B3B] [&>.indicator]:bg-[#E73B3B] hover:bg-[#ffcdcd] hover:border-[#E73B3B]"
+    "bg-[#FFE6E6] text-[#E73B3B] border border-[#E73B3B] hover:[&>button]:text-[#F0756A]"
   end
 
   defp color_variant("default", "info") do
-    "bg-[#E5F0FF] text-[#004FC4] border-[#004FC4] [&>.indicator]:bg-[#004FC4] hover:bg-[#cce1ff] hover:border-[#004FC4]"
+    "bg-[#E5F0FF] text-[#004FC4] border border-[#004FC4] hover:[&>button]:text-[#3680DB]"
   end
 
   defp color_variant("default", "misc") do
-    "bg-[#FFE6FF] text-[#52059C] border-[#52059C] [&>.indicator]:bg-[#52059C] hover:bg-[#ffe0ff] hover:border-[#52059C]"
+    "bg-[#FFE6FF] text-[#52059C] border border-[#52059C] hover:[&>button]:text-[#8535C3]"
   end
 
   defp color_variant("default", "dawn") do
-    "bg-[#FFECDA] text-[#4D4137] border-[#4D4137] [&>.indicator]:bg-[#4D4137] hover:bg-[#ffdfc1] hover:border-[#4D4137]"
+    "bg-[#FFECDA] text-[#4D4137] border border-[#4D4137] hover:[&>button]:text-[#948474]"
   end
 
   defp color_variant("default", "light") do
-    "bg-[#E3E7F1] text-[#707483] border-[#707483] [&>.indicator]:bg-[#707483] hover:bg-[#d2d8e9] hover:border-[#707483]"
+    "bg-[#E3E7F1] text-[#707483] border border-[#707483] hover:[&>button]:text-[#A0A5B4]"
   end
 
   defp color_variant("default", "dark") do
-    "bg-[#1E1E1E] text-white border-[#050404] [&>.indicator]:bg-white hover:bg-[#111111] hover:border-[#050404]"
+    "bg-[#1E1E1E] text-white border border-[#050404] hover:[&>button]:text-[#787878]"
   end
 
   defp color_variant("outline", "white") do
-    "bg-transparent text-white border-white [&>.indicator]:bg-white hover:text-[#E8E8E8] hover:border-[#E8E8E8]"
+    "bg-white text-white border border-white hover:[&>button]:text-[#787878]"
   end
 
   defp color_variant("outline", "primary") do
-    "bg-transparent text-[#4363EC] border-[#4363EC] [&>.indicator]:bg-[#4363EC] hover:text-[#072ed3] hover:border-[#072ed3]"
+    "bg-white text-[#4363EC] border border-[#4363EC] hover:[&>button]:text-[#072ed3] "
   end
 
   defp color_variant("outline", "secondary") do
-    "bg-transparent text-[#6B6E7C] border-[#6B6E7C] [&>.indicator]:bg-[#6B6E7C] hover:text-[#60636f] hover:border-[#60636f]"
+    "bg-white text-[#6B6E7C] border border-[#6B6E7C] hover:[&>button]:text-[#60636f]"
   end
 
   defp color_variant("outline", "success") do
-    "bg-transparent text-[#227A52] border-[#6EE7B7] [&>.indicator]:bg-[#227A52] hover:text-[#50AF7A] hover:border-[#50AF7A]"
+    "bg-white text-[#227A52] border border-[#6EE7B7] hover:[&>button]:text-[#50AF7A]"
   end
 
   defp color_variant("outline", "warning") do
-    "bg-transparent text-[#FF8B08] border-[#FF8B08] [&>.indicator]:bg-[#FF8B08] hover:text-[#FFB045] hover:border-[#FFB045]"
+    "bg-white text-[#FF8B08] border border-[#FF8B08] hover:[&>button]:text-[#FFB045]"
   end
 
   defp color_variant("outline", "danger") do
-    "bg-transparent text-[#E73B3B] border-[#E73B3B] [&>.indicator]:bg-[#E73B3B] hover:text-[#F0756A] hover:border-[#F0756A]"
+    "bg-white text-[#E73B3B] border border-[#E73B3B] hover:[&>button]:text-[#F0756A]"
   end
 
   defp color_variant("outline", "info") do
-    "bg-transparent text-[#004FC4] border-[#004FC4] [&>.indicator]:bg-[#004FC4] hover:text-[#3680DB] hover:border-[#3680DB]"
+    "bg-white text-[#004FC4] border border-[#004FC4] hover:[&>button]:text-[#3680DB]"
   end
 
   defp color_variant("outline", "misc") do
-    "bg-transparent text-[#52059C] border-[#52059C] [&>.indicator]:bg-[#52059C] hover:text-[#8535C3] hover:border-[#8535C3]"
+    "bg-white text-[#52059C] border border-[#52059C] hover:[&>button]:text-[#8535C3]"
   end
 
   defp color_variant("outline", "dawn") do
-    "bg-transparent text-[#4D4137] border-[#4D4137] [&>.indicator]:bg-[#4D4137] hover:text-[#948474] hover:border-[#948474]"
+    "bg-white text-[#4D4137] border border-[#4D4137] hover:[&>button]:text-[#FFECDA]"
   end
 
   defp color_variant("outline", "light") do
-    "bg-transparent text-[#707483] border-[#707483] [&>.indicator]:bg-[#707483] hover:text-[#A0A5B4] hover:border-[#A0A5B4]"
+    "bg-white text-[#707483] border border-[#707483] hover:[&>button]:text-[#A0A5B4]"
   end
 
   defp color_variant("outline", "dark") do
-    "bg-transparent text-[#1E1E1E] border-[#1E1E1E] [&>.indicator]:bg-[#1E1E1E] hover:text-[#787878] hover:border-[#787878]"
+    "bg-white text-[#1E1E1E] border border-[#1E1E1E] hover:[&>button]:text-[#787878]"
   end
 
   defp color_variant("unbordered", "white") do
-    "bg-white text-[#3E3E3E] border-transparent [&>.indicator]:bg-[#3E3E3E] hover:bg-[#E8E8E8]"
+    "bg-white text-[#3E3E3E] border border-transparent hover:[&>button]:text-[#787878]"
   end
 
   defp color_variant("unbordered", "primary") do
-    "bg-[#4363EC] text-white border-transparent [&>.indicator]:bg-white hover:bg-[#072ed3]"
+    "bg-[#4363EC] text-white border border-transparent hover:[&>button]:text-[#072ed3]"
   end
 
   defp color_variant("unbordered", "secondary") do
-    "bg-[#6B6E7C] text-white border-transparent [&>.indicator]:bg-white hover:bg-[#60636f]"
+    "bg-[#6B6E7C] text-white border border-transparent hover:[&>button]:text-[#60636f]"
   end
 
   defp color_variant("unbordered", "success") do
-    "bg-[#ECFEF3] text-[#047857] border-transparent [&>.indicator]:bg-[#047857] hover:bg-[#d4fde4]"
+    "bg-[#ECFEF3] text-[#047857] border border-transparent hover:[&>button]:text-[#50AF7A]"
   end
 
   defp color_variant("unbordered", "warning") do
-    "bg-[#FFF8E6] text-[#FF8B08] border-transparent [&>.indicator]:bg-[#FF8B08] hover:bg-[#fff1cd]"
+    "bg-[#FFF8E6] text-[#FF8B08] border border-transparent hover:[&>button]:text-[#FFB045]"
   end
 
   defp color_variant("unbordered", "danger") do
-    "bg-[#FFE6E6] text-[#E73B3B] border-transparent [&>.indicator]:bg-[#E73B3B] hover:bg-[#ffcdcd]"
+    "bg-[#FFE6E6] text-[#E73B3B] border border-transparent hover:[&>button]:text-[#F0756A]"
   end
 
   defp color_variant("unbordered", "info") do
-    "bg-[#E5F0FF] text-[#004FC4] border-transparent [&>.indicator]:bg-[#004FC4] hover:bg-[#cce1ff]"
+    "bg-[#E5F0FF] text-[#004FC4] border border-transparent hover:[&>button]:text-[#3680DB]"
   end
 
   defp color_variant("unbordered", "misc") do
-    "bg-[#FFE6FF] text-[#52059C] border-transparent [&>.indicator]:bg-[#52059C] hover:bg-[#ffe0ff]"
+    "bg-[#FFE6FF] text-[#52059C] border border-transparent hover:[&>button]:text-[#8535C3]"
   end
 
   defp color_variant("unbordered", "dawn") do
-    "bg-[#FFECDA] text-[#4D4137] border-transparent [&>.indicator]:bg-[#4D4137] hover:bg-[#ffdfc1]"
+    "bg-[#FFECDA] text-[#4D4137] border border-transparent hover:[&>button]:text-[#FFECDA]"
   end
 
   defp color_variant("unbordered", "light") do
-    "bg-[#E3E7F1] text-[#707483] border-transparent [&>.indicator]:bg-[#707483] hover:bg-[#d2d8e9]"
+    "bg-[#E3E7F1] text-[#707483] border border-transparent hover:[&>button]:text-[#A0A5B4]"
   end
 
   defp color_variant("unbordered", "dark") do
-    "bg-[#1E1E1E] text-white border-transparent [&>.indicator]:bg-white hover:bg-[#111111]"
+    "bg-[#1E1E1E] text-white border border-transparent hover:[&>button]:text-[#787878]"
+  end
+
+  defp color_variant("transparent", "white") do
+    "bg-white text-white border border-transparent hover:[&>button]:text-[#787878]"
+  end
+
+  defp color_variant("transparent", "primary") do
+    "bg-white text-[#4363EC] border border-transparent hover:[&>button]:text-[#072ed3]"
+  end
+
+  defp color_variant("transparent", "secondary") do
+    "bg-white text-[#6B6E7C] border border-transparent hover:[&>button]:text-[#60636f]"
+  end
+
+  defp color_variant("transparent", "success") do
+    "bg-white text-[#227A52] border border-transparent hover:[&>button]:text-[#50AF7A]"
+  end
+
+  defp color_variant("transparent", "warning") do
+    "bg-white text-[#FF8B08] border border-transparent hover:[&>button]:text-[#FFB045]"
+  end
+
+  defp color_variant("transparent", "danger") do
+    "bg-white text-[#E73B3B] border border-transparent hover:[&>button]:text-[#F0756A]"
+  end
+
+  defp color_variant("transparent", "info") do
+    "bg-white text-[#6663FD] border border-transparent hover:[&>button]:text-[#3680DB]"
+  end
+
+  defp color_variant("transparent", "misc") do
+    "bg-white text-[#52059C] border border-transparent hover:[&>button]:text-[#8535C3]"
+  end
+
+  defp color_variant("transparent", "dawn") do
+    "bg-white text-[#4D4137] border border-transparent hover:[&>button]:text-[#FFECDA]"
+  end
+
+  defp color_variant("transparent", "light") do
+    "bg-white text-[#707483] border border-transparent hover:[&>button]:text-[#A0A5B4]"
+  end
+
+  defp color_variant("transparent", "dark") do
+    "bg-white text-[#1E1E1E] border border-transparent hover:[&>button]:text-[#787878]"
   end
 
   defp color_variant("shadow", "white") do
-    "bg-white text-[#3E3E3E] border-[#DADADA] shadow [&>.indicator]:bg-[#3E3E3E] hover:bg-[#E8E8E8] hover:border-[#d9d9d9]"
+    "bg-white text-[#3E3E3E] border border-[#DADADA] shadow hover:[&>button]:text-[#787878]"
   end
 
   defp color_variant("shadow", "primary") do
-    "bg-[#4363EC] text-white border-[#4363EC] shadow [&>.indicator]:bg-white hover:bg-[#072ed3] hover:border-[#072ed3]"
+    "bg-[#4363EC] text-white border border-[#4363EC] shadow hover:[&>button]:text-[#072ed3]"
   end
 
   defp color_variant("shadow", "secondary") do
-    "bg-[#6B6E7C] text-white border-[#6B6E7C] shadow [&>.indicator]:bg-white hover:bg-[#60636f] hover:border-[#60636f]"
+    "bg-[#6B6E7C] text-white border border-[#6B6E7C] shadow hover:[&>button]:text-[#60636f]"
   end
 
   defp color_variant("shadow", "success") do
-    "bg-[#AFEAD0] text-[#227A52] border-[#AFEAD0] shadow [&>.indicator]:bg-[#227A52] hover:bg-[#d4fde4] hover:border-[#d4fde4]"
+    "bg-[#AFEAD0] text-[#227A52] border border-[#AFEAD0] shadow hover:[&>button]:text-[#50AF7A]"
   end
 
   defp color_variant("shadow", "warning") do
-    "bg-[#FFF8E6] text-[#FF8B08] border-[#FFF8E6] shadow [&>.indicator]:bg-[#FF8B08] hover:bg-[#fff1cd] hover:border-[#fff1cd]"
+    "bg-[#FFF8E6] text-[#FF8B08] border border-[#FFF8E6] shadow hover:[&>button]:text-[#FFB045]"
   end
 
   defp color_variant("shadow", "danger") do
-    "bg-[#FFE6E6] text-[#E73B3B] border-[#FFE6E6] shadow [&>.indicator]:bg-[#E73B3B] hover:bg-[#ffcdcd] hover:border-[#ffcdcd]"
+    "bg-[#FFE6E6] text-[#E73B3B] border border-[#FFE6E6] shadow hover:[&>button]:text-[#F0756A]"
   end
 
   defp color_variant("shadow", "info") do
-    "bg-[#E5F0FF] text-[#004FC4] border-[#E5F0FF] shadow [&>.indicator]:bg-[#004FC4] hover:bg-[#cce1ff] hover:border-[#cce1ff]"
+    "bg-[#E5F0FF] text-[#004FC4] border border-[#E5F0FF] shadow hover:[&>button]:text-[#3680DB]"
   end
 
   defp color_variant("shadow", "misc") do
-    "bg-[#FFE6FF] text-[#52059C] border-[#FFE6FF] shadow [&>.indicator]:bg-[#52059C] hover:bg-[#ffe0ff] hover:border-[#ffe0ff]"
+    "bg-[#FFE6FF] text-[#52059C] border border-[#FFE6FF] shadow hover:[&>button]:text-[#8535C3]"
   end
 
   defp color_variant("shadow", "dawn") do
-    "bg-[#FFECDA] text-[#4D4137] border-[#FFECDA] shadow [&>.indicator]:bg-[#4D4137] hover:bg-[#ffdfc1] hover:border-[#ffdfc1]"
+    "bg-[#FFECDA] text-[#4D4137] border border-[#FFECDA] shadow hover:[&>button]:text-[#FFECDA]"
   end
 
   defp color_variant("shadow", "light") do
-    "bg-[#E3E7F1] text-[#707483] border-[#E3E7F1] shadow [&>.indicator]:bg-[#707483] hover:bg-[#d2d8e9] hover:border-[#d2d8e9]"
+    "bg-[#E3E7F1] text-[#707483] border border-[#E3E7F1] shadow hover:[&>button]:text-[#A0A5B4]"
   end
 
   defp color_variant("shadow", "dark") do
-    "bg-[#1E1E1E] text-white border-[#1E1E1E] shadow [&>.indicator]:bg-white hover:bg-[#111111] hover:border-[#050404]"
+    "bg-[#1E1E1E] text-white border border-[#1E1E1E] shadow hover:[&>button]:text-[#787878]"
   end
+
 end
