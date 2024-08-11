@@ -138,6 +138,59 @@ defmodule MishkaChelekom.Alert do
     """
   end
 
+  @doc """
+  Renders flash notices.
+
+  ## Examples
+
+      <.flash kind={:info} flash={@flash} />
+      <.flash kind={:info} phx-mounted={show("#flash")}>Welcome Back!</.flash>
+  """
+  attr :id, :string, default: nil, doc: "the optional id of flash container"
+  attr :title, :string, default: nil
+  attr :kind, :atom, values: @kind_typs, doc: "used for styling and flash lookup"
+  attr :variant, :string, values: @variants, default: "default", doc: ""
+  attr :position, :string, values: @positions ++ [nil], default: nil, doc: ""
+  attr :width, :string, values: @sizes ++ ["full"], default: "full", doc: ""
+  attr :size, :string, values: @sizes, default: "medium", doc: ""
+  attr :rounded, :string, values: @sizes ++ ["full", "none"], default: "small", doc: ""
+  attr :font_weight, :string, default: "font-normal", doc: ""
+  attr :icon, :any, default: "hero-chat-bubble-bottom-center-text", doc: ""
+  attr :class, :string, default: nil, doc: ""
+
+  slot :inner_block, doc: "the optional inner block that renders the flash message"
+  attr :rest, :global, doc: "the arbitrary HTML attributes to add to the flash container"
+
+  def alert(assigns) do
+    ~H"""
+    <div
+      id={@id}
+      role="alert"
+      class={[
+        "z-50 px-2 py-1.5",
+        color_variant(@variant, @kind),
+        rounded_size(@rounded),
+        width_class(@width),
+        content_size(@size),
+        position_class(@position),
+        @font_weight,
+        @class
+      ]}
+      {@rest}
+    >
+      <div class="flex items-center justify-between gap-2">
+        <div class="space-y-1.5">
+          <div :if={@title} class="flex items-center gap-1.5 font-semibold">
+            <.icon :if={!is_nil(@icon)} name={@icon} class="aler-icon" /> <%= @title %>
+          </div>
+
+          <div class=""><%= render_slot(@inner_block) %></div>
+        </div>
+      </div>
+    </div>
+    """
+  end
+
   defp rounded_size("extra_small"), do: "rounded-sm"
   defp rounded_size("small"), do: "rounded"
   defp rounded_size("medium"), do: "rounded-md"
