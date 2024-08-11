@@ -7,6 +7,7 @@ defmodule MishkaChelekomWeb.Examples.AlertLive do
     new_socket =
       socket
       |> put_flash(:misc, "It worked!")
+
     {:ok, new_socket}
   end
 end

@@ -54,6 +54,7 @@ defmodule MishkaChelekom.Alert do
   attr :size, :string, values: @sizes, default: "medium", doc: ""
   attr :rounded, :string, values: @sizes ++ ["full", "none"], default: "small", doc: ""
   attr :font_weight, :string, default: "font-normal", doc: ""
+  attr :icon, :any, default: "hero-chat-bubble-bottom-center-text", doc: ""
   attr :class, :string, default: nil, doc: ""
 
   slot :inner_block, doc: "the optional inner block that renders the flash message"
@@ -82,8 +83,7 @@ defmodule MishkaChelekom.Alert do
       <div class="flex items-center justify-between gap-2">
         <div class="space-y-1.5">
           <div :if={@title} class="flex items-center gap-1.5 font-semibold">
-            <.icon :if={@kind == :info} name="hero-information-circle-mini" class="aler-icon" />
-            <.icon :if={@kind == :danger} name="hero-exclamation-circle-mini" class="aler-icon" /> <%= @title %>
+            <.icon :if={!is_nil(@icon)} name={@icon} class="aler-icon" /> <%= @title %>
           </div>
 
           <div class=""><%= msg %></div>
