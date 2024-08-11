@@ -19,6 +19,21 @@ defmodule MishkaChelekom.Alert do
     "bottom_right"
   ]
 
+  @kind_typs [
+    :info,
+    :danger,
+    :success,
+    :white,
+    :primary,
+    :secondary,
+    :misc,
+    :warning,
+    :dark,
+    :light,
+    :dawn,
+    :error
+  ]
+
   @doc """
   Renders flash notices.
 
@@ -30,23 +45,7 @@ defmodule MishkaChelekom.Alert do
   attr :id, :string, doc: "the optional id of flash container"
   attr :flash, :map, default: %{}, doc: "the map of flash messages to display"
   attr :title, :string, default: nil
-
-  attr :kind, :atom,
-    values: [
-      :info,
-      :danger,
-      :success,
-      :white,
-      :primary,
-      :secondary,
-      :misc,
-      :warning,
-      :dark,
-      :light,
-      :dawn
-    ],
-    doc: "used for styling and flash lookup"
-
+  attr :kind, :atom, values: @kind_typs, doc: "used for styling and flash lookup"
   attr :rest, :global, doc: "the arbitrary HTML attributes to add to the flash container"
   attr :variant, :string, values: @variants, default: "default", doc: ""
   attr :position, :string, values: @positions ++ [nil], default: nil, doc: ""
@@ -191,7 +190,7 @@ defmodule MishkaChelekom.Alert do
     "bg-[#FFF8E6] text-[#FF8B08] border border-[#FF8B08] hover:[&>button]:text-[#FFB045]"
   end
 
-  defp color_variant("default", :danger) do
+  defp color_variant("default", type) when type in [:error, :danger] do
     "bg-[#FFE6E6] text-[#E73B3B] border border-[#E73B3B] hover:[&>button]:text-[#F0756A]"
   end
 
@@ -235,7 +234,7 @@ defmodule MishkaChelekom.Alert do
     "bg-white text-[#FF8B08] border border-[#FF8B08] hover:[&>button]:text-[#FFB045]"
   end
 
-  defp color_variant("outline", :danger) do
+  defp color_variant("outline", type) when type in [:error, :danger] do
     "bg-white text-[#E73B3B] border border-[#E73B3B] hover:[&>button]:text-[#F0756A]"
   end
 
@@ -279,7 +278,7 @@ defmodule MishkaChelekom.Alert do
     "bg-[#FFF8E6] text-[#FF8B08] border border-transparent hover:[&>button]:text-[#FFB045]"
   end
 
-  defp color_variant("unbordered", :danger) do
+  defp color_variant("unbordered", type) when type in [:error, :danger] do
     "bg-[#FFE6E6] text-[#E73B3B] border border-transparent hover:[&>button]:text-[#F0756A]"
   end
 
@@ -323,7 +322,7 @@ defmodule MishkaChelekom.Alert do
     "bg-white text-[#FF8B08] border border-transparent hover:[&>button]:text-[#FFB045]"
   end
 
-  defp color_variant("transparent", :danger) do
+  defp color_variant("transparent", type) when type in [:error, :danger] do
     "bg-white text-[#E73B3B] border border-transparent hover:[&>button]:text-[#F0756A]"
   end
 
@@ -367,7 +366,7 @@ defmodule MishkaChelekom.Alert do
     "bg-[#FFF8E6] text-[#FF8B08] border border-[#FFF8E6] shadow-md hover:[&>button]:text-[#FFB045]"
   end
 
-  defp color_variant("shadow", :danger) do
+  defp color_variant("shadow", type) when type in [:error, :danger] do
     "bg-[#FFE6E6] text-[#E73B3B] border border-[#FFE6E6] shadow-md hover:[&>button]:text-[#F0756A]"
   end
 
