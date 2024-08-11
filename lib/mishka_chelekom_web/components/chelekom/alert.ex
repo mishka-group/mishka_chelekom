@@ -59,7 +59,7 @@ defmodule MishkaChelekom.Alert do
   slot :inner_block, doc: "the optional inner block that renders the flash message"
 
   def flash(assigns) do
-    assigns = assign_new(assigns, :id, fn -> "flash-#{assigns.kind}" end)
+    assigns = assign_new(assigns, :id, fn -> "flash-#{assigns.variant}-#{assigns.kind}" end)
 
     ~H"""
     <div
