@@ -4,6 +4,9 @@ defmodule MishkaChelekomWeb.Examples.AlertLive do
   import MishkaChelekomWeb.CoreComponents
 
   def mount(_params, _session, socket) do
-    {:ok, socket}
+    new_socket =
+      socket
+      |> put_flash(:misc, "It worked!")
+    {:ok, new_socket}
   end
 end

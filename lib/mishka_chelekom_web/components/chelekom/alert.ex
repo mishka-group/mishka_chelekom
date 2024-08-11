@@ -30,7 +30,23 @@ defmodule MishkaChelekom.Alert do
   attr :id, :string, doc: "the optional id of flash container"
   attr :flash, :map, default: %{}, doc: "the map of flash messages to display"
   attr :title, :string, default: nil
-  attr :kind, :atom, values: [:info, :danger, :success, :white, :primary, :secondary, :misc, :warning, :dark, :light, :dawn], doc: "used for styling and flash lookup"
+
+  attr :kind, :atom,
+    values: [
+      :info,
+      :danger,
+      :success,
+      :white,
+      :primary,
+      :secondary,
+      :misc,
+      :warning,
+      :dark,
+      :light,
+      :dawn
+    ],
+    doc: "used for styling and flash lookup"
+
   attr :rest, :global, doc: "the arbitrary HTML attributes to add to the flash container"
   attr :variant, :string, values: @variants, default: "default", doc: ""
   attr :position, :string, values: @positions ++ [nil], default: nil, doc: ""
@@ -41,7 +57,7 @@ defmodule MishkaChelekom.Alert do
 
   def flash(assigns) do
     assigns = assign_new(assigns, :id, fn -> "flash-#{assigns.kind}" end)
-
+    IO.inspect(Phoenix.Flash.get(assigns.flash, assigns.kind), label: "-==-=-=-=>")
     ~H"""
     <div
       :if={msg = render_slot(@inner_block) || Phoenix.Flash.get(@flash, @kind)}
@@ -53,7 +69,7 @@ defmodule MishkaChelekom.Alert do
         color_variant(@variant, @kind),
         rounded_size(@rounded),
         width_class(@width),
-        position_class(@position),
+        position_class(@position)
       ]}
       {@rest}
     >
@@ -358,5 +374,4 @@ defmodule MishkaChelekom.Alert do
   defp color_variant("shadow", :dark) do
     "bg-[#1E1E1E] text-white border border-[#1E1E1E] shadow hover:[&>button]:text-[#787878]"
   end
-
 end
