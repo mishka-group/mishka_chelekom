@@ -27,12 +27,13 @@ defmodule MishkaChelekom.Blockquote do
   @doc type: :component
   attr :id, :string, default: nil, doc: ""
   attr :variant, :string, values: @variants, default: "default", doc: ""
-  attr :border, :string, values: @sizes ++ [nil], default: nil, doc: ""
   attr :color, :string, values: @colors, default: "white", doc: ""
+  attr :border, :string, values: @sizes ++ [nil], default: "medium", doc: ""
   attr :rounded, :string, values: @sizes ++ ["full", "none"], default: "small", doc: ""
   attr :size, :string, default: "extra_small", doc: ""
   attr :space, :string, values: @sizes, default: "small", doc: ""
   attr :font_weight, :string, default: "font-normal", doc: ""
+  attr :padding, :string, values: @sizes ++ ["none"], default: "small", doc: ""
   attr :icon, :string, default: nil, doc: ""
   attr :class, :string, default: nil, doc: ""
   attr :rest, :global, doc: ""
@@ -54,6 +55,9 @@ defmodule MishkaChelekom.Blockquote do
         border_class(@border),
         color_variant(@variant, @color),
         rounded_size(@rounded),
+        padding_size(@padding),
+        @font_weight,
+        @class
       ]}
     >
       <.blockquote_icon />
@@ -109,8 +113,12 @@ defmodule MishkaChelekom.Blockquote do
   defp space_class("extra_large"), do: "space-y-6"
   defp space_class(params) when is_binary(params), do: params
 
+  # Border left class: border-s
+  # Border right class: border-e
+  # Border full class: border
+
   defp border_class("extra_small"), do: "border"
-  defp border_class("small"), do: "border-1"
+  defp border_class("small"), do: "border-2"
   defp border_class("medium"), do: "border-[3px]"
   defp border_class("large"), do: "border-4"
   defp border_class("extra_large"), do: "border-[5px]"
@@ -124,6 +132,15 @@ defmodule MishkaChelekom.Blockquote do
   defp rounded_size("extra_large"), do: "rounded-xl"
   defp rounded_size("full"), do: "rounded-full"
   defp rounded_size(nil), do: "rounded-none"
+
+  defp padding_size("extra_small"), do: "p-1"
+  defp padding_size("small"), do: "p-2"
+  defp padding_size("medium"), do: "p-3"
+  defp padding_size("large"), do: "p-4"
+  defp padding_size("extra_large"), do: "p-5"
+  defp padding_size("none"), do: "p-0"
+  defp padding_size(params) when is_binary(params), do: params
+  defp padding_size(_), do: padding_size("small")
 
   defp color_variant("default", "white") do
     "bg-white text-[#3E3E3E] border-[#DADADA]"
