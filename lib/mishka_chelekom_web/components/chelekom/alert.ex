@@ -75,12 +75,12 @@ defmodule MishkaChelekom.Alert do
     >
       <div class="flex items-center justify-between gap-2">
         <div class="space-y-1.5">
-          <p :if={@title} class="flex items-center gap-1.5 text-sm font-semibold leading-6">
+          <div :if={@title} class="flex items-center gap-1.5 text-sm font-semibold leading-6">
             <.icon :if={@kind == :info} name="hero-information-circle-mini" class="h-4 w-4" />
             <.icon :if={@kind == :danger} name="hero-exclamation-circle-mini" class="h-4 w-4" /> <%= @title %>
-          </p>
+          </div>
 
-          <p class="text-sm leading-5"><%= msg %></p>
+          <div class="text-sm leading-5"><%= msg %></div>
         </div>
 
         <button type="button" class="group p-2" aria-label={gettext("close")}>
