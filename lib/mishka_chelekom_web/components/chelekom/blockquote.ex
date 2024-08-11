@@ -47,7 +47,7 @@ defmodule MishkaChelekom.Blockquote do
   slot :inner_block, required: false, doc: ""
 
   attr :rest, :global,
-    include: ~w(left_border right_border hide_border),
+    include: ~w(left_border right_border hide_border full_border),
     doc: ""
 
   def blockquote(assigns) do
@@ -119,23 +119,48 @@ defmodule MishkaChelekom.Blockquote do
   end
 
   defp border_class("extra_small", position) do
-    ["border", position == "left" && "yekchizi", position == "right" && "yekchizi"]
+    [
+      "border",
+      position == "left" && "yekchizi",
+      position == "right" && "yekchizi",
+      position == "full" && "yekchizi"
+    ]
   end
 
   defp border_class("small", position) do
-    ["border-2", position == "left" && "yekchizi", position == "right" && "yekchizi"]
+    [
+      "border-2",
+      position == "left" && "yekchizi",
+      position == "right" && "yekchizi",
+      position == "full" && "yekchizi"
+    ]
   end
 
   defp border_class("medium", position) do
-    ["border-[3px]", position == "left" && "yekchizi", position == "right" && "yekchizi"]
+    [
+      "border-[3px]",
+      position == "left" && "yekchizi",
+      position == "right" && "yekchizi",
+      position == "full" && "yekchizi"
+    ]
   end
 
   defp border_class("large", position) do
-    ["border-4", position == "left" && "yekchizi", position == "right" && "yekchizi"]
+    [
+      "border-4",
+      position == "left" && "yekchizi",
+      position == "right" && "yekchizi",
+      position == "full" && "yekchizi"
+    ]
   end
 
   defp border_class("extra_large", position) do
-    ["border-[5px]", position == "left" && "yekchizi", position == "right" && "yekchizi"]
+    [
+      "border-[5px]",
+      position == "left" && "yekchizi",
+      position == "right" && "yekchizi",
+      position == "full" && "yekchizi"
+    ]
   end
 
   defp border_class(params, _) when is_binary(params), do: [params]
@@ -381,5 +406,6 @@ defmodule MishkaChelekom.Blockquote do
   defp border_position(%{hide_border: true}), do: "none"
   defp border_position(%{left_border: true}), do: "left"
   defp border_position(%{right_border: true}), do: "right"
+  defp border_position(%{full_border: true}), do: "full"
   defp border_position(_), do: "left"
 end
