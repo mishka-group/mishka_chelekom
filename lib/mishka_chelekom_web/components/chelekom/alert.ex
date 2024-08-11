@@ -57,7 +57,7 @@ defmodule MishkaChelekom.Alert do
 
   def flash(assigns) do
     assigns = assign_new(assigns, :id, fn -> "flash-#{assigns.kind}" end)
-    IO.inspect(Phoenix.Flash.get(assigns.flash, assigns.kind), label: "-==-=-=-=>")
+
     ~H"""
     <div
       :if={msg = render_slot(@inner_block) || Phoenix.Flash.get(@flash, @kind)}
@@ -75,12 +75,12 @@ defmodule MishkaChelekom.Alert do
     >
       <div class="flex items-center justify-between gap-2">
         <div class="space-y-1.5">
-          <div :if={@title} class="flex items-center gap-1.5 text-sm font-semibold leading-6">
+          <div :if={@title} class="flex items-center gap-1.5 text-sm font-semibold">
             <.icon :if={@kind == :info} name="hero-information-circle-mini" class="h-4 w-4" />
             <.icon :if={@kind == :danger} name="hero-exclamation-circle-mini" class="h-4 w-4" /> <%= @title %>
           </div>
 
-          <div class="text-sm leading-5"><%= msg %></div>
+          <div class="text-sm"><%= msg %></div>
         </div>
 
         <button type="button" class="group p-2" aria-label={gettext("close")}>
