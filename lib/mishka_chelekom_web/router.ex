@@ -38,6 +38,7 @@ defmodule MishkaChelekomWeb.Router do
     live "/examples/accordion", Examples.AccordionLive
     live "/examples/indicator", Examples.IndicatorLive
     live "/examples/alert", Examples.AlertLive
+    live "/examples/blockquote", Examples.BlockquoteLive
   end
 
   # Other scopes may use custom stacks.
