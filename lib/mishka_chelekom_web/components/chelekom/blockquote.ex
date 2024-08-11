@@ -42,14 +42,14 @@ defmodule MishkaChelekom.Blockquote do
   def blockquote(assigns) do
     ~H"""
     <figure class="space-y-3">
-      <blockquote class="border-s-4 border-gray-300 bg-gray-50">
+      <blockquote class="border-s-4 border-gray-300 bg-gray-50 p-2 italic">
         Lorem ipsum, dolor sit amet consectetur adipisicing elit. Rem nihil commodi, facere voluptatum dolores tempora vero soluta harum nam esse
       </blockquote>
       <figcaption class="flex items-center justify-center mt-6 space-x-3 rtl:space-x-reverse">
           <img class="w-6 h-6 rounded-full" src="https://flowbite.com/docs/images/people/profile-picture-5.jpg" alt="">
           <div class="flex items-center divide-x-2 rtl:divide-x-reverse divide-gray-500">
-              <cite class="pe-3">Text</cite>
-              <cite class="ps-3">Text</cite>
+            <cite class="pe-3">Text</cite>
+            <cite class="ps-3">Text</cite>
           </div>
       </figcaption>
     </figure>
