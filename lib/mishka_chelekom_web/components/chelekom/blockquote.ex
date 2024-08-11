@@ -1,5 +1,6 @@
 defmodule MishkaChelekom.Blockquote do
   use Phoenix.Component
+  import MishkaChelekomComponents
 
   @sizes ["extra_small", "small", "medium", "large", "extra_large"]
   @colors [
@@ -34,8 +35,9 @@ defmodule MishkaChelekom.Blockquote do
   attr :space, :string, values: @sizes, default: "small", doc: ""
   attr :font_weight, :string, default: "font-normal", doc: ""
   attr :padding, :string, values: @sizes ++ ["none"], default: "small", doc: ""
-  attr :icon, :string, default: nil, doc: ""
   attr :class, :string, default: nil, doc: ""
+  attr :icon, :string, default: "hero-quote", doc: ""
+  attr :icon_class, :string, default: nil, doc: ""
 
   slot :caption, required: false do
     attr :image, :string
@@ -47,7 +49,7 @@ defmodule MishkaChelekom.Blockquote do
   slot :inner_block, required: false, doc: ""
 
   attr :rest, :global,
-    include: ~w(left_border right_border hide_border full_border),
+    include: ~w(left_border right_border hide_border full_border hide_icon),
     doc: ""
 
   def blockquote(assigns) do
@@ -61,7 +63,7 @@ defmodule MishkaChelekom.Blockquote do
       @font_weight,
       @class
     ]}>
-      <.blockquote_icon />
+      <.blockquote_icon :if={is_nil(@rest[:hide_icon])} name={@icon} class={@icon_class} />
       <blockquote class="p-2 italic">
         <%= render_slot(@inner_block) %>
       </blockquote>
@@ -85,11 +87,20 @@ defmodule MishkaChelekom.Blockquote do
     """
   end
 
-  defp blockquote_icon(assigns) do
+  attr :name, :string, required: true
+  attr :class, :string, default: nil
+
+  defp blockquote_icon(%{name: "hero-quote"} = assigns) do
     ~H"""
     <svg class="w-8 h-8" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 14">
       <path d="M6 0H2a2 2 0 0 0-2 2v4a2 2 0 0 0 2 2h4v1a3 3 0 0 1-3 3H2a1 1 0 0 0 0 2h1a5.006 5.006 0 0 0 5-5V2a2 2 0 0 0-2-2Zm10 0h-4a2 2 0 0 0-2 2v4a2 2 0 0 0 2 2h4v1a3 3 0 0 1-3 3h-1a1 1 0 0 0 0 2h1a5.006 5.006 0 0 0 5-5V2a2 2 0 0 0-2-2Z" />
     </svg>
+    """
+  end
+
+  defp blockquote_icon(assigns) do
+    ~H"""
+    <.icon :if={!is_nil(@name)} name={@name} class={@class} />
     """
   end
 

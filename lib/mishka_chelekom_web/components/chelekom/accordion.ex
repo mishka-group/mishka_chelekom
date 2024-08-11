@@ -70,7 +70,7 @@ defmodule MishkaChelekom.Accordion do
         color_variant(@variant, @color),
         @class
       ]}
-      {@rest}
+      {drop_rest(@rest)}
     >
       <details
         :for={item <- @item}
@@ -1009,4 +1009,12 @@ defmodule MishkaChelekom.Accordion do
   defp chevron_position(%{right_chevron: true}), do: "right"
   defp chevron_position(%{chevron: true}), do: "right"
   defp chevron_position(_), do: "right"
+
+  defp drop_rest(rest) do
+    all_rest =
+      ~w(left_chevron right_chevron chevron hide_chevron)
+      |> Enum.map(&if(is_binary(&1), do: String.to_atom(&1), else: &1))
+
+    Map.drop(rest, all_rest)
+  end
 end
