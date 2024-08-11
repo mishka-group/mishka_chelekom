@@ -36,7 +36,6 @@ defmodule MishkaChelekom.Blockquote do
   attr :padding, :string, values: @sizes ++ ["none"], default: "small", doc: ""
   attr :icon, :string, default: nil, doc: ""
   attr :class, :string, default: nil, doc: ""
-  attr :rest, :global, doc: ""
 
   slot :caption, required: false do
     attr :image, :string
@@ -47,19 +46,21 @@ defmodule MishkaChelekom.Blockquote do
   slot :content, required: false
   slot :inner_block, required: false, doc: ""
 
+  attr :rest, :global,
+    include: ~w(left_border right_border hide_border),
+    doc: ""
+
   def blockquote(assigns) do
     ~H"""
-    <figure
-      class={[
-        space_class(@space),
-        border_class(@border),
-        color_variant(@variant, @color),
-        rounded_size(@rounded),
-        padding_size(@padding),
-        @font_weight,
-        @class
-      ]}
-    >
+    <figure class={[
+      space_class(@space),
+      border_class(@border, border_position(@rest)),
+      color_variant(@variant, @color),
+      rounded_size(@rounded),
+      padding_size(@padding),
+      @font_weight,
+      @class
+    ]}>
       <.blockquote_icon />
       <blockquote class="p-2 italic">
         <%= render_slot(@inner_block) %>
@@ -113,17 +114,32 @@ defmodule MishkaChelekom.Blockquote do
   defp space_class("extra_large"), do: "space-y-6"
   defp space_class(params) when is_binary(params), do: params
 
-  # Border left class: border-s
-  # Border right class: border-e
-  # Border full class: border
+  defp border_class(_, "none") do
+    [""]
+  end
 
-  defp border_class("extra_small"), do: "border"
-  defp border_class("small"), do: "border-2"
-  defp border_class("medium"), do: "border-[3px]"
-  defp border_class("large"), do: "border-4"
-  defp border_class("extra_large"), do: "border-[5px]"
-  defp border_class(params) when is_binary(params), do: params
-  defp border_class(nil), do: nil
+  defp border_class("extra_small", position) do
+    ["border", position == "left" && "yekchizi", position == "right" && "yekchizi"]
+  end
+
+  defp border_class("small", position) do
+    ["border-2", position == "left" && "yekchizi", position == "right" && "yekchizi"]
+  end
+
+  defp border_class("medium", position) do
+    ["border-[3px]", position == "left" && "yekchizi", position == "right" && "yekchizi"]
+  end
+
+  defp border_class("large", position) do
+    ["border-4", position == "left" && "yekchizi", position == "right" && "yekchizi"]
+  end
+
+  defp border_class("extra_large", position) do
+    ["border-[5px]", position == "left" && "yekchizi", position == "right" && "yekchizi"]
+  end
+
+  defp border_class(params, _) when is_binary(params), do: [params]
+  defp border_class(nil, _), do: nil
 
   defp rounded_size("extra_small"), do: "rounded-sm"
   defp rounded_size("small"), do: "rounded"
@@ -362,4 +378,8 @@ defmodule MishkaChelekom.Blockquote do
     "bg-transparent text-[#1E1E1E] border-transparent"
   end
 
+  defp border_position(%{hide_border: true}), do: "none"
+  defp border_position(%{left_border: true}), do: "left"
+  defp border_position(%{right_border: true}), do: "right"
+  defp border_position(_), do: "left"
 end
