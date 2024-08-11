@@ -53,7 +53,9 @@ defmodule MishkaChelekom.Accordion do
     attr :open, :boolean
   end
 
-  attr :rest, :global, include: ["left_chevron", "right_chevron", "chevron"], doc: ""
+  attr :rest, :global,
+    include: ~w(left_chevron right_chevron chevron hide_chevron),
+    doc: ""
 
   def native_accordion(assigns) do
     ~H"""
@@ -86,6 +88,7 @@ defmodule MishkaChelekom.Accordion do
             position={chevron_position(@rest)}
             chevron_icon={@chevron_icon}
             item={item}
+            hide_chevron={@rest[:hide_chevron] || false}
           />
         </summary>
 
@@ -105,11 +108,13 @@ defmodule MishkaChelekom.Accordion do
   attr :item, :map
   attr :position, :string, values: ["left", "right"]
   attr :chevron_icon, :string
+  attr :hide_chevron, :boolean, default: false
+
   defp native_chevron_position(%{position: "left"} = assigns) do
     ~H"""
     <div class="flex flex-nowrap items-center rtl:justify-start ltr:justify-start gap-2">
-
       <.icon
+        :if={!@hide_chevron}
         name={@chevron_icon}
         class="w-5 transition-transform duration-300 ease-in-out group-open:rotate-90 rotate-180 rtl:rotate-0"
       />
@@ -131,7 +136,7 @@ defmodule MishkaChelekom.Accordion do
           <div><%= @item[:title] %></div>
 
           <div :if={!is_nil(@item[:description])} class="text-xs font-light">
-          <%= @item[:description] %>
+            <%= @item[:description] %>
           </div>
         </div>
       </div>
@@ -159,12 +164,13 @@ defmodule MishkaChelekom.Accordion do
           <div><%= @item[:title] %></div>
 
           <div :if={!is_nil(@item[:description])} class="text-xs font-light">
-          <%= @item[:description] %>
+            <%= @item[:description] %>
           </div>
         </div>
       </div>
 
       <.icon
+        :if={!@hide_chevron}
         name={@chevron_icon}
         class="w-5 transition-transform duration-300 ease-in-out group-open:rotate-90 rtl:rotate-180"
       />
