@@ -52,7 +52,7 @@ defmodule MishkaChelekom.List do
 
   def list(assigns) do
     ~H"""
-    <.ul class="mt-14">
+    <.ul>
       <.li :for={item <- @item} {item}>
         <%= render_slot(item) %>
       </.li>
