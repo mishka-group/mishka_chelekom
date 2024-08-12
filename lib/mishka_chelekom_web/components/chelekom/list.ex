@@ -103,6 +103,7 @@ defmodule MishkaChelekom.List do
 
   attr :id, :string, default: nil, doc: ""
   attr :color, :string, values: @colors, default: "dark", doc: ""
+  attr :size, :string, default: "large", doc: ""
   attr :style, :string, default: "list-none", doc: ""
   attr :class, :string, default: nil, doc: ""
   attr :font_weight, :string, default: "font-normal", doc: ""
