@@ -27,7 +27,10 @@ defmodule MishkaChelekom.List do
 
   attr :id, :string, default: nil, doc: ""
   attr :class, :list, default: nil, doc: ""
-  attr :rest, :global, include: ~w(ordered unordered), doc: ""
+  attr :font_weight, :string, default: "font-normal", doc: ""
+  attr :size, :string, default: "large", doc: ""
+  attr :color, :string, values: @colors, default: "dark", doc: ""
+  attr :style, :string, default: "list-none", doc: ""
 
   slot :item, required: true do
     attr :id, :string
@@ -40,9 +43,11 @@ defmodule MishkaChelekom.List do
     attr :position, :string
   end
 
+  attr :rest, :global, include: ~w(ordered unordered), doc: ""
+
   def list(%{rest: %{ordered: true}} = assigns) do
     ~H"""
-    <.ol>
+    <.ol id={@id} class={@class} font_weight={@font_weight} size={@size} color={@color} style={@style}>
       <.li :for={item <- @item} {item}>
         <%= render_slot(item) %>
       </.li>
@@ -52,7 +57,7 @@ defmodule MishkaChelekom.List do
 
   def list(assigns) do
     ~H"""
-    <.ul>
+    <.ul id={@id} class={@class} font_weight={@font_weight} size={@size} color={@color}>
       <.li :for={item <- @item} {item}>
         <%= render_slot(item) %>
       </.li>
@@ -97,6 +102,7 @@ defmodule MishkaChelekom.List do
   end
 
   attr :id, :string, default: nil, doc: ""
+  attr :color, :string, values: @colors, default: "dark", doc: ""
   attr :style, :string, default: "list-none", doc: ""
   attr :class, :string, default: nil, doc: ""
   attr :font_weight, :string, default: "font-normal", doc: ""
