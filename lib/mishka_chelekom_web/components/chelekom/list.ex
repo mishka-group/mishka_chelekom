@@ -26,6 +26,39 @@ defmodule MishkaChelekom.List do
   ]
 
   attr :id, :string, default: nil, doc: ""
+  attr :class, :list, default: nil, doc: ""
+  attr :image, :string
+  attr :image_class, :string
+  attr :icon, :string, default: nil, doc: ""
+  attr :content_class, :string
+  attr :padding, :string, values: @sizes ++ ["none"], default: "small", doc: ""
+  attr :position, :string, values: ["start", "end", "center"], default: "start", doc: ""
+  attr(:rest, :global)
+  slot :inner_block, required: true, doc: ""
+
+  @spec li(map()) :: Phoenix.LiveView.Rendered.t()
+  def li(assigns) do
+    ~H"""
+    <li
+      id={@id}
+      class={[
+        "flex items-center gap-2",
+        content_position(@position),
+        padding_size(@padding),
+        @class
+      ]}
+      {@rest}
+    >
+      <.icon :if={!is_nil(@icon)} name={@icon} class="list-item-icon" />
+
+      <div>
+        <%= render_slot(@inner_block) %>
+      </div>
+    </li>
+    """
+  end
+
+  attr :id, :string, default: nil, doc: ""
   attr :style, :string, default: "list-none", doc: ""
   attr :class, :string, default: nil, doc: ""
   attr :font_weight, :string, default: "font-normal", doc: ""
@@ -45,26 +78,6 @@ defmodule MishkaChelekom.List do
     >
         <%= render_slot(@inner_block) %>
     </ul>
-    """
-  end
-
-  attr :id, :string, default: nil, doc: ""
-  attr :class, :string, default: nil, doc: ""
-  attr(:rest, :global)
-  slot :inner_block, required: true, doc: ""
-
-  @spec li(map()) :: Phoenix.LiveView.Rendered.t()
-  def li(assigns) do
-    ~H"""
-    <li
-      id={@id}
-      class={[
-        @class
-      ]}
-      {@rest}
-    >
-      <%= render_slot(@inner_block) %>
-    </li>
     """
   end
 
@@ -124,16 +137,7 @@ defmodule MishkaChelekom.List do
   attr :padding, :string, values: @sizes ++ ["none"], default: "small", doc: ""
   attr :class, :string, default: nil, doc: ""
   attr(:rest, :global)
-
-  slot :item, required: true do
-    attr :icon, :string
-    attr :class, :string
-    attr :image, :string
-    attr :image_class, :string
-    attr :icon_class, :string
-    attr :content_class, :string
-    attr :position, :string, values: ["start", "end", "center"], doc: ""
-  end
+  slot :inner_block, required: true, doc: ""
 
   def list_group(assigns) do
     ~H"""
@@ -152,22 +156,7 @@ defmodule MishkaChelekom.List do
       ]}
       {@rest}
     >
-      <MishkaChelekom.List.li
-        :for={item <- @item}
-        class={[
-        "flex items-center gap-2",
-        content_position(item[:position]),
-        padding_size(@padding),
-        item[:class]
-      ] |> Enum.join(" ")}
-      >
-        <div :if={item[:icon]} class="">
-          <.icon :if={!is_nil(item[:icon])} name={item[:icon]} class="list-group-icon" />
-        </div>
-        <div>
-          <%= render_slot(item) %>
-        </div>
-      </MishkaChelekom.List.li>
+        <%= render_slot(@inner_block) %>
     </ul>
     """
   end
@@ -222,11 +211,11 @@ defmodule MishkaChelekom.List do
   defp width_class(params) when is_binary(params), do: params
   defp width_class(_), do: width_class("full")
 
-  defp size_class("extra_small"), do: "tex-xs [&_.list-group-icon]:size-4"
-  defp size_class("small"), do: "text-sm [&_.list-group-icon]:size-5"
-  defp size_class("medium"), do: "text-base [&_.list-group-icon]:size-6"
-  defp size_class("large"), do: "text-lg [&_.list-group-icon]:size-7"
-  defp size_class("extra_large"), do: "text-xl [&_.list-group-icon]:size-8"
+  defp size_class("extra_small"), do: "tex-xs [&_.list-item-icon]:size-4"
+  defp size_class("small"), do: "text-sm [&_.list-item-icon]:size-5"
+  defp size_class("medium"), do: "text-base [&_.list-item-icon]:size-6"
+  defp size_class("large"), do: "text-lg [&_.list-item-icon]:size-7"
+  defp size_class("extra_large"), do: "text-xl [&_.list-item-icon]:size-8"
   defp size_class(params) when is_binary(params), do: params
   defp size_class(_), do: size_class("medium")
 
