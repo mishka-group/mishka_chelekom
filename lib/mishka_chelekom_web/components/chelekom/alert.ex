@@ -167,7 +167,7 @@ defmodule MishkaChelekom.Alert do
       id={@id}
       role="alert"
       class={[
-        "z-50 px-2 py-1.5",
+        "p-3.5",
         color_variant(@variant, @kind),
         rounded_size(@rounded),
         width_class(@width),
