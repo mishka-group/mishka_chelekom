@@ -27,13 +27,48 @@ defmodule MishkaChelekom.List do
 
   attr :id, :string, default: nil, doc: ""
   attr :class, :list, default: nil, doc: ""
-  attr :image, :string
-  attr :image_class, :string
+  attr :rest, :global, include: ~w(ordered unordered), doc: ""
+
+  slot :item, required: true do
+    attr :id, :string
+    attr :class, :list
+    attr :image, :string
+    attr :image_class, :string
+    attr :icon, :string
+    attr :content_class, :string
+    attr :padding, :string
+    attr :position, :string
+  end
+
+  def list(%{rest: %{ordered: true}} = assigns) do
+    ~H"""
+    <.ol>
+      <.li :for={item <- @item} {item}>
+        <%= render_slot(item) %>
+      </.li>
+    </.ol>
+    """
+  end
+
+  def list(assigns) do
+    ~H"""
+    <.ul class="mt-14">
+      <.li :for={item <- @item} {item}>
+        <%= render_slot(item) %>
+      </.li>
+    </.ul>
+    """
+  end
+
+  attr :id, :string, default: nil, doc: ""
+  attr :class, :list, default: nil, doc: ""
+  attr :image, :string, default: nil
+  attr :image_class, :string, default: nil
   attr :icon, :string, default: nil, doc: ""
-  attr :content_class, :string
+  attr :content_class, :string, default: nil
   attr :padding, :string, values: @sizes ++ ["none"], default: "small", doc: ""
   attr :position, :string, values: ["start", "end", "center"], default: "start", doc: ""
-  attr(:rest, :global)
+  attr :rest, :global
   slot :inner_block, required: true, doc: ""
 
   @spec li(map()) :: Phoenix.LiveView.Rendered.t()
@@ -62,7 +97,7 @@ defmodule MishkaChelekom.List do
   attr :style, :string, default: "list-none", doc: ""
   attr :class, :string, default: nil, doc: ""
   attr :font_weight, :string, default: "font-normal", doc: ""
-  attr(:rest, :global)
+  attr :rest, :global
   slot :inner_block, required: true, doc: ""
 
   def ul(assigns) do
@@ -86,7 +121,7 @@ defmodule MishkaChelekom.List do
   attr :size, :string, default: "large", doc: ""
   attr :class, :string, default: nil, doc: ""
   attr :font_weight, :string, default: "font-normal", doc: ""
-  attr(:rest, :global)
+  attr :rest, :global
   slot :inner_block, required: true, doc: ""
 
   def ol(assigns) do
@@ -97,33 +132,7 @@ defmodule MishkaChelekom.List do
     """
   end
 
-  @doc """
-  Renders a data list.
 
-  ## Examples
-
-      <.list>
-        <:item title="Title"><%= @post.title %></:item>
-        <:item title="Views"><%= @post.views %></:item>
-      </.list>
-  """
-  slot :item, required: true do
-    attr :title, :string, required: true
-  end
-
-  def list(assigns) do
-    ~H"""
-    <div class="mt-14">
-      <dl class="-my-4 divide-y divide-zinc-100">
-        <div :for={item <- @item} class="flex gap-4 py-4 text-sm leading-6 sm:gap-8">
-          <dt class="w-1/4 flex-none text-zinc-500"><%= item.title %></dt>
-
-          <dd class="text-zinc-700"><%= render_slot(item) %></dd>
-        </div>
-      </dl>
-    </div>
-    """
-  end
 
   attr :id, :string, default: nil, doc: ""
   attr :variant, :string, values: @variants, default: "default", doc: ""
@@ -136,7 +145,7 @@ defmodule MishkaChelekom.List do
   attr :font_weight, :string, default: "font-normal", doc: ""
   attr :padding, :string, values: @sizes ++ ["none"], default: "none", doc: ""
   attr :class, :string, default: nil, doc: ""
-  attr(:rest, :global)
+  attr :rest, :global
   slot :inner_block, required: true, doc: ""
 
   def list_group(assigns) do
