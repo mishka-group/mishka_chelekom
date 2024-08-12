@@ -89,7 +89,7 @@ defmodule MishkaChelekom.List do
     >
       <div class={[
         "flex items-center gap-2",
-        content_position(@position),
+        content_position(@position)
       ]}>
         <.icon :if={!is_nil(@icon)} name={@icon} class="list-item-icon" />
 
@@ -122,7 +122,7 @@ defmodule MishkaChelekom.List do
       ]}
       {@rest}
     >
-        <%= render_slot(@inner_block) %>
+      <%= render_slot(@inner_block) %>
     </ul>
     """
   end
@@ -142,8 +142,6 @@ defmodule MishkaChelekom.List do
     </ol>
     """
   end
-
-
 
   attr :id, :string, default: nil, doc: ""
   attr :variant, :string, values: @variants, default: "default", doc: ""
@@ -197,22 +195,34 @@ defmodule MishkaChelekom.List do
   defp content_position(_), do: content_position("start")
 
   defp border_class(_, variant) when variant in ["seperated", "tinted_split"], do: "border-0"
-  defp border_class("extra_small",_), do: "border"
-  defp border_class("small",_), do: "border-2"
-  defp border_class("medium",_), do: "border-[3px]"
-  defp border_class("large",_), do: "border-4"
-  defp border_class("extra_large",_), do: "border-[5px]"
-  defp border_class("none",_), do: "border-0"
-  defp border_class(params,_) when is_binary(params), do: params
+  defp border_class("extra_small", _), do: "border"
+  defp border_class("small", _), do: "border-2"
+  defp border_class("medium", _), do: "border-[3px]"
+  defp border_class("large", _), do: "border-4"
+  defp border_class("extra_large", _), do: "border-[5px]"
+  defp border_class("none", _), do: "border-0"
+  defp border_class(params, _) when is_binary(params), do: params
   defp border_class(_, _), do: nil
 
-  defp rounded_size("extra_small"), do: "[&:not(.list-items-gap)]:rounded-sm [&.list-items-gap>li]:rounded-sm"
+  defp rounded_size("extra_small"),
+    do: "[&:not(.list-items-gap)]:rounded-sm [&.list-items-gap>li]:rounded-sm"
+
   defp rounded_size("small"), do: "[&:not(.list-items-gap)]:rounded [&.list-items-gap>li]:rounded"
-  defp rounded_size("medium"), do: "[&:not(.list-items-gap)]:rounded-md [&.list-items-gap>li]:rounded-md"
-  defp rounded_size("large"), do: "[&:not(.list-items-gap)]:rounded-lg [&.list-items-gap>li]:rounded-lg"
-  defp rounded_size("extra_large"), do: "[&:not(.list-items-gap)]:rounded-xl [&.list-items-gap>li]:rounded-xl"
-  defp rounded_size("full"), do: "[&:not(.list-items-gap)]:rounded-full [&.list-items-gap>li]:rounded:full"
-  defp rounded_size("none"), do: "[&:not(.list-items-gap)]:rounded-none [&.list-items-gap>li]:rounded-none"
+
+  defp rounded_size("medium"),
+    do: "[&:not(.list-items-gap)]:rounded-md [&.list-items-gap>li]:rounded-md"
+
+  defp rounded_size("large"),
+    do: "[&:not(.list-items-gap)]:rounded-lg [&.list-items-gap>li]:rounded-lg"
+
+  defp rounded_size("extra_large"),
+    do: "[&:not(.list-items-gap)]:rounded-xl [&.list-items-gap>li]:rounded-xl"
+
+  defp rounded_size("full"),
+    do: "[&:not(.list-items-gap)]:rounded-full [&.list-items-gap>li]:rounded:full"
+
+  defp rounded_size("none"),
+    do: "[&:not(.list-items-gap)]:rounded-none [&.list-items-gap>li]:rounded-none"
 
   defp space_class(_, variant) when variant not in ["seperated", "tinted_split"], do: nil
   defp space_class("extra_small", _), do: "list-items-gap space-y-2"
@@ -253,7 +263,7 @@ defmodule MishkaChelekom.List do
     [
       "bg-white border border-[#DADADA]",
       "[&>li:not(:last-child)]:border-b",
-      "[&>li:not(:last-child)]:border-[#DADADA]",
+      "[&>li:not(:last-child)]:border-[#DADADA]"
     ]
   end
 
@@ -261,7 +271,7 @@ defmodule MishkaChelekom.List do
     [
       "bg-[#4363EC] text-white border border-[#2441de]",
       "[&>li:not(:last-child)]:border-b",
-      "[&>li:not(:last-child)]:border-[#2441de]",
+      "[&>li:not(:last-child)]:border-[#2441de]"
     ]
   end
 
@@ -269,7 +279,7 @@ defmodule MishkaChelekom.List do
     [
       "bg-[#6B6E7C] text-white border border-[#2441de]",
       "[&>li:not(:last-child)]:border-b",
-      "[&>li:not(:last-child)]:border-[#2441de]",
+      "[&>li:not(:last-child)]:border-[#2441de]"
     ]
   end
 
@@ -277,7 +287,7 @@ defmodule MishkaChelekom.List do
     [
       "bg-[#ECFEF3] border border-[#227A52]",
       "[&>li:not(:last-child)]:border-b",
-      "[&>li:not(:last-child)]:border-[#227A52]",
+      "[&>li:not(:last-child)]:border-[#227A52]"
     ]
   end
 
@@ -285,7 +295,7 @@ defmodule MishkaChelekom.List do
     [
       "bg-[#FFF8E6] border border-[#FF8B08]",
       "[&>li:not(:last-child)]:border-b",
-      "[&>li:not(:last-child)]:border-[#FF8B08]",
+      "[&>li:not(:last-child)]:border-[#FF8B08]"
     ]
   end
 
@@ -293,7 +303,7 @@ defmodule MishkaChelekom.List do
     [
       "bg-[#FFE6E6] border border-[#E73B3B]",
       "[&>li:not(:last-child)]:border-b",
-      "[&>li:not(:last-child)]:border-[#E73B3B]",
+      "[&>li:not(:last-child)]:border-[#E73B3B]"
     ]
   end
 
@@ -301,7 +311,7 @@ defmodule MishkaChelekom.List do
     [
       "bg-[#E5F0FF] border border-[#004FC4]",
       "[&>li:not(:last-child)]:border-b",
-      "[&>li:not(:last-child)]:border-[#004FC4]",
+      "[&>li:not(:last-child)]:border-[#004FC4]"
     ]
   end
 
@@ -309,7 +319,7 @@ defmodule MishkaChelekom.List do
     [
       "bg-[#FFE6FF] border border-[#52059C]",
       "[&>li:not(:last-child)]:border-b",
-      "[&>li:not(:last-child)]:border-[#52059C]",
+      "[&>li:not(:last-child)]:border-[#52059C]"
     ]
   end
 
@@ -317,7 +327,7 @@ defmodule MishkaChelekom.List do
     [
       "bg-[#FFECDA] border border-[#4D4137]",
       "[&>li:not(:last-child)]:border-b",
-      "[&>li:not(:last-child)]:border-[#4D4137]",
+      "[&>li:not(:last-child)]:border-[#4D4137]"
     ]
   end
 
@@ -325,7 +335,7 @@ defmodule MishkaChelekom.List do
     [
       "bg-[#E3E7F1] border border-[#707483]",
       "[&>li:not(:last-child)]:border-b",
-      "[&>li:not(:last-child)]:border-[#707483]",
+      "[&>li:not(:last-child)]:border-[#707483]"
     ]
   end
 
@@ -333,7 +343,7 @@ defmodule MishkaChelekom.List do
     [
       "bg-[#1E1E1E] text-white border border-[#1E1E1E]",
       "[&>li:not(:last-child)]:border-b",
-      "[&>li:not(:last-child)]:border-[#1E1E1E]",
+      "[&>li:not(:last-child)]:border-[#1E1E1E]"
     ]
   end
 
@@ -341,7 +351,7 @@ defmodule MishkaChelekom.List do
     [
       "border border-[#DADADA]",
       "[&>li:not(:last-child)]:border-b",
-      "[&>li:not(:last-child)]:border-[#DADADA]",
+      "[&>li:not(:last-child)]:border-[#DADADA]"
     ]
   end
 
@@ -349,7 +359,7 @@ defmodule MishkaChelekom.List do
     [
       "border border-[#2441de]",
       "[&>li:not(:last-child)]:border-b",
-      "[&>li:not(:last-child)]:border-[#2441de]",
+      "[&>li:not(:last-child)]:border-[#2441de]"
     ]
   end
 
@@ -357,7 +367,7 @@ defmodule MishkaChelekom.List do
     [
       "border border-[#2441de]",
       "[&>li:not(:last-child)]:border-b",
-      "[&>li:not(:last-child)]:border-[#2441de]",
+      "[&>li:not(:last-child)]:border-[#2441de]"
     ]
   end
 
@@ -365,7 +375,7 @@ defmodule MishkaChelekom.List do
     [
       "border border-[#227A52]",
       "[&>li:not(:last-child)]:border-b",
-      "[&>li:not(:last-child)]:border-[#227A52]",
+      "[&>li:not(:last-child)]:border-[#227A52]"
     ]
   end
 
@@ -373,7 +383,7 @@ defmodule MishkaChelekom.List do
     [
       "border border-[#FF8B08]",
       "[&>li:not(:last-child)]:border-b",
-      "[&>li:not(:last-child)]:border-[#FF8B08]",
+      "[&>li:not(:last-child)]:border-[#FF8B08]"
     ]
   end
 
@@ -381,7 +391,7 @@ defmodule MishkaChelekom.List do
     [
       "border border-[#E73B3B]",
       "[&>li:not(:last-child)]:border-b",
-      "[&>li:not(:last-child)]:border-[#E73B3B]",
+      "[&>li:not(:last-child)]:border-[#E73B3B]"
     ]
   end
 
@@ -389,7 +399,7 @@ defmodule MishkaChelekom.List do
     [
       "border border-[#004FC4]",
       "[&>li:not(:last-child)]:border-b",
-      "[&>li:not(:last-child)]:border-[#004FC4]",
+      "[&>li:not(:last-child)]:border-[#004FC4]"
     ]
   end
 
@@ -397,7 +407,7 @@ defmodule MishkaChelekom.List do
     [
       "border border-[#52059C]",
       "[&>li:not(:last-child)]:border-b",
-      "[&>li:not(:last-child)]:border-[#52059C]",
+      "[&>li:not(:last-child)]:border-[#52059C]"
     ]
   end
 
@@ -405,7 +415,7 @@ defmodule MishkaChelekom.List do
     [
       "border border-[#4D4137]",
       "[&>li:not(:last-child)]:border-b",
-      "[&>li:not(:last-child)]:border-[#4D4137]",
+      "[&>li:not(:last-child)]:border-[#4D4137]"
     ]
   end
 
@@ -413,7 +423,7 @@ defmodule MishkaChelekom.List do
     [
       "border border-[#707483]",
       "[&>li:not(:last-child)]:border-b",
-      "[&>li:not(:last-child)]:border-[#707483]",
+      "[&>li:not(:last-child)]:border-[#707483]"
     ]
   end
 
@@ -421,7 +431,7 @@ defmodule MishkaChelekom.List do
     [
       "border border-[#1E1E1E]",
       "[&>li:not(:last-child)]:border-b",
-      "[&>li:not(:last-child)]:border-[#1E1E1E]",
+      "[&>li:not(:last-child)]:border-[#1E1E1E]"
     ]
   end
 

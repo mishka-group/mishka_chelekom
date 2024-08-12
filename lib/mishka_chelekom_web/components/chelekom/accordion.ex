@@ -52,8 +52,8 @@ defmodule MishkaChelekom.Accordion do
   end
 
   attr :rest, :global,
-  include: ~w(left_chevron right_chevron chevron hide_chevron),
-  doc: ""
+    include: ~w(left_chevron right_chevron chevron hide_chevron),
+    doc: ""
 
   def accordion(assigns) do
     ~H"""
@@ -70,11 +70,7 @@ defmodule MishkaChelekom.Accordion do
       ]}
       {drop_rest(@rest)}
     >
-      <div
-        :for={item <- @item}
-        name={@name}
-        class={["group accordion-item-wrapper", item[:class]]}
-      >
+      <div :for={item <- @item} name={@name} class={["group accordion-item-wrapper", item[:class]]}>
         #TODO: need an event listener to toggle class called ----> active
         <div
           role="button"
@@ -84,7 +80,7 @@ defmodule MishkaChelekom.Accordion do
             item[:summary_class]
           ]}
         >
-        <.native_chevron_position
+          <.native_chevron_position
             position={chevron_position(@rest)}
             chevron_icon={@chevron_icon}
             item={item}
