@@ -9,14 +9,12 @@ defmodule MishkaChelekom.Skeleton do
   attr :color, :string, default: "silver", doc: ""
   attr :height, :string, default: "extra_small", doc: ""
   attr :width, :string, default: "full", doc: ""
-  attr :visible, :boolean, default: true, doc: ""
   attr :rounded, :string, values: @sizes ++ ["full", "none"], default: "small", doc: ""
   attr :rest, :global, include: ~w(animated), doc: ""
 
   def skeleton(assigns) do
     ~H"""
     <div
-      :if={@visible}
       role="status"
       id={@id}
       class={[
@@ -27,8 +25,7 @@ defmodule MishkaChelekom.Skeleton do
         @rest[:animated] && "animate-pulse",
         @class
       ]}
-    >
-    </div>
+    ></div>
     """
   end
 
@@ -61,13 +58,13 @@ defmodule MishkaChelekom.Skeleton do
   defp color_class("silver"), do: "bg-[#e9ecef]"
   defp color_class("primary"), do: "bg-[#4363EC]"
   defp color_class("secondary"), do: "bg-[#6B6E7C]"
-  defp color_class("success"), do: "bg-[#6EE7B7]"
-  defp color_class("warning"), do: "bg-[#FF8B08]"
-  defp color_class("danger"), do: "bg-[#E73B3B]"
-  defp color_class("info"), do: "bg-[#004FC4]"
-  defp color_class("misc"), do: "bg-[#52059C]"
-  defp color_class("dawn"), do: "bg-[#4D4137]"
-  defp color_class("light"), do: "bg-[#707483]"
-  defp color_class("dark"), do: "bg-[#050404]"
+  defp color_class("success"), do: "bg-[#ECFEF3]"
+  defp color_class("warning"), do: "bg-[#FFF8E6]"
+  defp color_class("danger"), do: "bg-[#FFE6E6]"
+  defp color_class("info"), do: "bg-[#E5F0FF]"
+  defp color_class("misc"), do: "bg-[#FFE6FF]"
+  defp color_class("dawn"), do: "bg-[#FFECDA]"
+  defp color_class("light"), do: "bg-[#E3E7F1]"
+  defp color_class("dark"), do: "bg-[#1E1E1E]"
   defp color_class(params) when is_binary(params), do: params
 end
