@@ -28,6 +28,40 @@ defmodule MishkaChelekom.Accordion do
 
   @doc type: :component
   attr :id, :string, default: nil, doc: ""
+  attr :class, :string, default: nil, doc: ""
+  attr :variant, :string, values: @variants, default: "default", doc: ""
+  attr :space, :string, values: @sizes, default: "small", doc: ""
+  attr :color, :string, values: @colors, default: "white", doc: ""
+  attr :border, :string, values: @colors ++ ["transparent"], default: "transparent", doc: ""
+  attr :padding, :string, values: @sizes ++ ["none"], default: "small", doc: ""
+  attr :rounded, :string, values: @sizes ++ ["full", "none"], default: "none", doc: ""
+  attr :chevron_icon, :string, default: "hero-chevron-right", doc: ""
+
+  slot :item, required: true do
+    attr :title, :string, required: true
+    attr :description, :string
+    attr :icon, :string
+    attr :class, :string
+    attr :image, :string
+    attr :image_class, :string
+    attr :icon_class, :string
+    attr :content_class, :string
+    attr :title_class, :string
+    attr :summary_class, :string
+    attr :open, :boolean
+  end
+
+  attr :rest, :global,
+    include: ~w(left_chevron right_chevron chevron hide_chevron),
+    doc: ""
+
+  def accordion(assigns) do
+    ~H"""
+    """
+  end
+
+  @doc type: :component
+  attr :id, :string, default: nil, doc: ""
   attr :name, :string, default: nil, doc: ""
   attr :class, :string, default: nil, doc: ""
   attr :variant, :string, values: @variants, default: "default", doc: ""
