@@ -25,7 +25,6 @@ defmodule MishkaChelekom.Accordion do
     "dawn",
     "transparent"
   ]
-  #TODO: need an event listener to toggle class called ----> active
   @doc type: :component
   attr :id, :string, default: nil, doc: ""
   attr :class, :string, default: nil, doc: ""
@@ -52,8 +51,8 @@ defmodule MishkaChelekom.Accordion do
   end
 
   attr :rest, :global,
-    include: ~w(left_chevron right_chevron chevron hide_chevron),
-    doc: ""
+  include: ~w(left_chevron right_chevron chevron hide_chevron),
+  doc: ""
 
   def accordion(assigns) do
     ~H"""
@@ -75,6 +74,7 @@ defmodule MishkaChelekom.Accordion do
         name={@name}
         class={["group accordion-item-wrapper", item[:class]]}
       >
+        #TODO: need an event listener to toggle class called ----> active
         <div
           role="button"
           class={[
