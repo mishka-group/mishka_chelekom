@@ -39,6 +39,7 @@ defmodule MishkaChelekomWeb.Router do
     live "/examples/indicator", Examples.IndicatorLive
     live "/examples/alert", Examples.AlertLive
     live "/examples/blockquote", Examples.BlockquoteLive
+    live "/examples/list", Examples.ListLive
   end
 
   # Other scopes may use custom stacks.
