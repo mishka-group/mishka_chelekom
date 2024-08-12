@@ -77,17 +77,18 @@ defmodule MishkaChelekom.List do
     <li
       id={@id}
       class={[
-        "flex items-center gap-2",
         content_position(@position),
         padding_size(@padding),
         @class
       ]}
       {@rest}
     >
-      <.icon :if={!is_nil(@icon)} name={@icon} class="list-item-icon" />
+      <div class="flex items-center gap-2">
+        <.icon :if={!is_nil(@icon)} name={@icon} class="list-item-icon" />
 
-      <div>
-        <%= render_slot(@inner_block) %>
+        <div>
+          <%= render_slot(@inner_block) %>
+        </div>
       </div>
     </li>
     """
@@ -126,7 +127,7 @@ defmodule MishkaChelekom.List do
 
   def ol(assigns) do
     ~H"""
-    <ol class="list-decimal">
+    <ol class="list-decimal pl-5">
       <%= render_slot(@inner_block) %>
     </ol>
     """
