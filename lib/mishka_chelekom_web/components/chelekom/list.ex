@@ -127,7 +127,7 @@ defmodule MishkaChelekom.List do
 
   slot :item, required: true do
     attr :icon, :string
-    attr :class,:list
+    attr :class, :string
     attr :image, :string
     attr :image_class, :string
     attr :icon_class, :string
@@ -155,11 +155,11 @@ defmodule MishkaChelekom.List do
       <MishkaChelekom.List.li
         :for={item <- @item}
         class={[
-          "flex items-center gap-2",
-          content_position(item[:position]),
-          padding_size(@padding),
-          item[:class]
-        ]}
+        "flex items-center gap-2",
+        content_position(item[:position]),
+        padding_size(@padding),
+        item[:class]
+      ] |> Enum.join(" ")}
       >
         <div :if={item[:icon]} class="">
           <.icon :if={!is_nil(item[:icon])} name={item[:icon]} class="list-group-icon" />
