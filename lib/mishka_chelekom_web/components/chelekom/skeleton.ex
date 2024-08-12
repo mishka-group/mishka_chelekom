@@ -10,11 +10,13 @@ defmodule MishkaChelekom.Skeleton do
   attr :height, :string, default: "extra_small", doc: ""
   attr :width, :string, default: "full", doc: ""
   attr :rounded, :string, values: @sizes ++ ["full", "none"], default: "small", doc: ""
+  attr :visible, :boolean, default: true, doc: ""
   attr :rest, :global, include: ~w(animated), doc: ""
 
   def skeleton(assigns) do
     ~H"""
     <div
+      :if={@visible}
       role="status"
       id={@id}
       class={[
@@ -25,7 +27,8 @@ defmodule MishkaChelekom.Skeleton do
         @rest[:animated] && "animate-pulse",
         @class
       ]}
-    ></div>
+    >
+    </div>
     """
   end
 
