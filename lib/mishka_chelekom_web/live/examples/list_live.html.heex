@@ -113,9 +113,9 @@
         </MishkaChelekom.List.list>
 
         <MishkaChelekom.List.list>
-          <:item>Books</:item>
-          <:item>Foods</:item>
-          <:item>Animals</:item>
+          <:item padding="extra_large">Books</:item>
+          <:item icon="hero-arrow-right">Foods</:item>
+          <:item phx-click={JS.dispatch("myapp:click", detail: %{data: "more test"})}>Animals</:item>
         </MishkaChelekom.List.list>
     </div>
 </div>
