@@ -6,7 +6,7 @@ defmodule MishkaChelekom.Skeleton do
   @doc type: :component
   attr :id, :string, default: nil, doc: ""
   attr :class, :string, default: nil, doc: ""
-  attr :color, :string, default: "light", doc: ""
+  attr :color, :string, default: "silver", doc: ""
   attr :height, :string, default: "extra_small", doc: ""
   attr :width, :string, default: "full", doc: ""
   attr :rounded, :string, values: @sizes ++ ["full", "none"], default: "small", doc: ""
@@ -55,6 +55,7 @@ defmodule MishkaChelekom.Skeleton do
   defp width_class(_), do: width_class("full")
 
 defp color_class("white"), do: "bg-white"
+defp color_class("silver"), do: "bg-[#e9ecef]"
 defp color_class("primary"), do: "bg-[#4363EC]"
 defp color_class("secondary"), do: "bg-[#6B6E7C]"
 defp color_class("success"), do: "bg-[#6EE7B7]"
@@ -66,5 +67,5 @@ defp color_class("dawn"), do: "bg-[#4D4137]"
 defp color_class("light"), do: "bg-[#707483]"
 defp color_class("dark"), do: "bg-[#050404]"
 defp color_class(params) when is_binary(params), do: params
-defp color_class(_), do: color_class("light")
+
 end
