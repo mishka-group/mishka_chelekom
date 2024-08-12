@@ -43,9 +43,7 @@ defmodule MishkaChelekom.List do
       ]}
       {@rest}
     >
-      <MishkaChelekom.List.li>
         <%= render_slot(@inner_block) %>
-      </MishkaChelekom.List.li>
     </ul>
     """
   end
@@ -80,7 +78,9 @@ defmodule MishkaChelekom.List do
 
   def ol(assigns) do
     ~H"""
-    <ol class="list-decimal"></ol>
+    <ol class="list-decimal">
+      <%= render_slot(@inner_block) %>
+    </ol>
     """
   end
 
