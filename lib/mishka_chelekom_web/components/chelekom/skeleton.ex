@@ -10,17 +10,17 @@ defmodule MishkaChelekom.Skeleton do
   attr :height, :string, default: "extra_small", doc: ""
   attr :width, :string, default: "full", doc: ""
   attr :rounded, :string, values: @sizes ++ ["full", "none"], default: "small", doc: ""
-  attr :rest, :global, doc: ""
+  attr :rest, :global, include: ~w(animated), doc: ""
 
   def skeleton(assigns) do
     ~H"""
     <div role="status" id={@id}
       class={[
-        "animate-pulse",
         rounded_size(@rounded),
         width_class(@width),
         height_class(@height),
         @color,
+        @rest[:animated] && "animate-pulse",
         @class
       ]}
       {@rest}
