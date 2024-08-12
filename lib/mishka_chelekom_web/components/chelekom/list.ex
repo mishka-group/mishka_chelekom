@@ -134,7 +134,7 @@ defmodule MishkaChelekom.List do
   attr :rounded, :string, values: @sizes ++ ["full", "none"], default: "small", doc: ""
   attr :border, :string, values: @sizes ++ [nil], default: "extra_small", doc: ""
   attr :font_weight, :string, default: "font-normal", doc: ""
-  attr :padding, :string, values: @sizes ++ ["none"], default: "small", doc: ""
+  attr :padding, :string, values: @sizes ++ ["none"], default: "none", doc: ""
   attr :class, :string, default: nil, doc: ""
   attr(:rest, :global)
   slot :inner_block, required: true, doc: ""
@@ -147,6 +147,7 @@ defmodule MishkaChelekom.List do
         "overflow-hidden",
         rounded_size(@rounded),
         space_class(@space, @variant),
+        padding_size(@padding),
         width_class(@width),
         border_class(@border, @variant),
         size_class(@size),
@@ -156,7 +157,7 @@ defmodule MishkaChelekom.List do
       ]}
       {@rest}
     >
-        <%= render_slot(@inner_block) %>
+      <%= render_slot(@inner_block) %>
     </ul>
     """
   end
