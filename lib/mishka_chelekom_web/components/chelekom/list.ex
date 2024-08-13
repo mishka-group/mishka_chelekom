@@ -29,6 +29,7 @@ defmodule MishkaChelekom.List do
   attr :class, :list, default: nil, doc: ""
   attr :font_weight, :string, default: "font-normal", doc: ""
   attr :size, :string, default: "large", doc: ""
+  attr :space, :string, values: @sizes ++ [nil], default: nil, doc: ""
   attr :color, :string, values: @colors, default: "white", doc: ""
   attr :style, :string, default: "list-none", doc: ""
 
@@ -109,6 +110,7 @@ defmodule MishkaChelekom.List do
   attr :variant, :string, values: @variants, default: "filled", doc: ""
   attr :size, :string, default: "large", doc: ""
   attr :style, :string, default: "list-none", doc: ""
+  attr :space, :string, values: @sizes ++ [nil], default: nil, doc: ""
   attr :class, :string, default: nil, doc: ""
   attr :font_weight, :string, default: "font-normal", doc: ""
   attr :rest, :global
@@ -121,6 +123,7 @@ defmodule MishkaChelekom.List do
       class={[
         "ltr:[&.list-decimal]:pl-5 rtl:[&.list-decimal]:pr-5 ltr:[&.list-disc]:pl-5 rtl:[&.list-disc]:pr-5",
         color_variant(@variant, @color),
+        list_space(@space),
         @style,
         @font_weight,
         @class
@@ -137,6 +140,7 @@ defmodule MishkaChelekom.List do
   attr :variant, :string, values: @variants, default: "filled", doc: ""
   attr :size, :string, default: "large", doc: ""
   attr :class, :string, default: nil, doc: ""
+  attr :space, :string, values: @sizes ++ [nil], default: nil, doc: ""
   attr :font_weight, :string, default: "font-normal", doc: ""
   attr :rest, :global
   slot :inner_block, required: true, doc: ""
@@ -148,6 +152,7 @@ defmodule MishkaChelekom.List do
       class={[
         "list-decimal ltr:[&.list-decimal]:pl-5 rtl:[&.list-decimal]:pr-5 ltr:[&.list-disc]:pl-5 rtl:[&.list-disc]:pr-5",
         color_variant(@variant, @color),
+        list_space(@space),
         @font_weight,
         @class
       ]}
@@ -179,7 +184,7 @@ defmodule MishkaChelekom.List do
       class={[
         "overflow-hidden",
         rounded_size(@rounded),
-        space_class(@space, @variant),
+        variant_space(@space, @variant),
         padding_size(@padding),
         width_class(@width),
         border_class(@border, @variant),
@@ -239,14 +244,22 @@ defmodule MishkaChelekom.List do
   defp rounded_size("none"),
     do: "[&:not(.list-items-gap)]:rounded-none [&.list-items-gap>li]:rounded-none"
 
-  defp space_class(_, variant) when variant not in ["seperated", "tinted_split"], do: nil
-  defp space_class("extra_small", _), do: "list-items-gap space-y-2"
-  defp space_class("small", _), do: "list-items-gap space-y-3"
-  defp space_class("medium", _), do: "list-items-gap space-y-4"
-  defp space_class("large", _), do: "list-items-gap space-y-5"
-  defp space_class("extra_large", _), do: "list-items-gap space-y-6"
-  defp space_class(params, _) when is_binary(params), do: params
-  defp space_class(_, _), do: nil
+  defp variant_space(_, variant) when variant not in ["seperated", "tinted_split"], do: nil
+  defp variant_space("extra_small", _), do: "list-items-gap space-y-2"
+  defp variant_space("small", _), do: "list-items-gap space-y-3"
+  defp variant_space("medium", _), do: "list-items-gap space-y-4"
+  defp variant_space("large", _), do: "list-items-gap space-y-5"
+  defp variant_space("extra_large", _), do: "list-items-gap space-y-6"
+  defp variant_space(params, _) when is_binary(params), do: params
+  defp variant_space(_, _), do: nil
+
+  defp list_space("extra_small"), do: "space-y-2"
+  defp list_space("small"), do: "space-y-3"
+  defp list_space("medium"), do: "space-y-4"
+  defp list_space("large"), do: "space-y-5"
+  defp list_space("extra_large"), do: "space-y-6"
+  defp list_space(params) when is_binary(params), do: params
+  defp list_space(_), do: nil
 
   defp width_class("extra_small"), do: "w-60"
   defp width_class("small"), do: "w-64"
@@ -292,9 +305,9 @@ defmodule MishkaChelekom.List do
 
   defp color_variant("default", "secondary") do
     [
-      "bg-[#6B6E7C] text-white border border-[#2441de]",
+      "bg-[#6B6E7C] text-white border border-[#877C7C]",
       "[&>li:not(:last-child)]:border-b",
-      "[&>li:not(:last-child)]:border-[#2441de]"
+      "[&>li:not(:last-child)]:border-[#877C7C]"
     ]
   end
 
