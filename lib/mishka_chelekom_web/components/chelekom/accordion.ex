@@ -95,8 +95,6 @@ defmodule MishkaChelekom.Accordion do
           class={[
             "custom-accordion-content overflow-hidden",
             "transition-all duration-400 ease-in-out",
-            "[&:not(.active)]:-translate-y-2 [&:not(.active)]:max-h-0",
-            "[&.active]:translate-y-0 [&.active]:max-h-screen",
             item[:content_class]
           ]}>
           <%= render_slot(item) %>
