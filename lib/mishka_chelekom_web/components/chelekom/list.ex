@@ -33,16 +33,7 @@ defmodule MishkaChelekom.List do
   attr :color, :string, values: @colors, default: "white", doc: ""
   attr :variant, :string, values: @variants, default: "filled", doc: ""
   attr :style, :string, default: "list-none", doc: ""
-
-  slot :item, required: false do
-    attr :id, :string
-    attr :class, :list
-    attr :icon, :string
-    attr :content_class, :string
-    attr :padding, :string
-    attr :position, :string
-  end
-
+  slot :item, validate_attrs: false
   attr :rest, :global, include: ~w(ordered unordered), doc: ""
   slot :inner_block, doc: ""
 
@@ -70,7 +61,10 @@ defmodule MishkaChelekom.List do
 
   attr :id, :string, default: nil, doc: ""
   attr :class, :list, default: nil, doc: ""
+  attr :count, :integer, default: nil, doc: ""
+  attr :count_separator, :string, default: ". ", doc: ""
   attr :icon, :string, default: nil, doc: ""
+  attr :icon_class, :string, default: "list-item-icon", doc: ""
   attr :content_class, :string, default: nil
   attr :padding, :string, values: @sizes ++ ["none"], default: "small", doc: ""
   attr :position, :string, values: ["start", "end", "center"], default: "start", doc: ""
@@ -92,8 +86,8 @@ defmodule MishkaChelekom.List do
         "flex items-center gap-2",
         content_position(@position)
       ]}>
-        <.icon :if={!is_nil(@icon)} name={@icon} class="list-item-icon" />
-
+        <.icon :if={!is_nil(@icon)} name={@icon} class={@icon_class} />
+        <span :if={is_integer(@count)}><%= @count %><%= @count_separator %></span>
         <div>
           <%= render_slot(@inner_block) %>
         </div>
