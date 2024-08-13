@@ -33,6 +33,7 @@ defmodule MishkaChelekom.List do
   attr :style, :string, default: "list-none", doc: ""
 
   slot :inner_block, doc: ""
+
   slot :item, required: false do
     attr :id, :string
     attr :class, :list
