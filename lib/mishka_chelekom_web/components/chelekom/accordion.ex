@@ -79,8 +79,12 @@ defmodule MishkaChelekom.Accordion do
             JS.toggle_class("hidden", to: "##{@id} .custom-accordion-content")
             |> JS.toggle(
               to: "##{@id} .custom-accordion-content",
-              in: {"transition-all transform ease-in-out duration-700", "transform opacity-0 h-0", "transform opacity-100"},
-              out: {"transition-all transform ease-in-out duration-700", "transform opacity-100", "transform opacity-0 h-0"}
+              in:
+                {"transition-all ease-in-out duration-1000", "duration-300 opacity-0 max-h-0",
+                 "duration-300 opacity-100 max-h-screen"},
+              out:
+                {"transition-all ease-in-out duration-1000", "duration-300 opacity-100 max-h-screen",
+                 "duration-300 opacity-0 max-h-0"}
             )
           }
           role="button"
@@ -99,13 +103,11 @@ defmodule MishkaChelekom.Accordion do
         </div>
         <div
           data-collapse="collapse-1"
-          class={
-            [
-              "hidden",
-              "custom-accordion-content overflow-hidden",
-              item[:content_class]
-            ]
-          }
+          class={[
+            "hidden",
+            "custom-accordion-content overflow-hidden",
+            item[:content_class]
+          ]}
         >
           <%= render_slot(item) %>
         </div>
