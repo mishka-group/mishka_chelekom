@@ -36,8 +36,6 @@ defmodule MishkaChelekom.List do
   slot :item, required: false do
     attr :id, :string
     attr :class, :list
-    attr :image, :string
-    attr :image_class, :string
     attr :icon, :string
     attr :content_class, :string
     attr :padding, :string
@@ -71,8 +69,6 @@ defmodule MishkaChelekom.List do
 
   attr :id, :string, default: nil, doc: ""
   attr :class, :list, default: nil, doc: ""
-  attr :image, :string, default: nil
-  attr :image_class, :string, default: nil
   attr :icon, :string, default: nil, doc: ""
   attr :content_class, :string, default: nil
   attr :padding, :string, values: @sizes ++ ["none"], default: "small", doc: ""
@@ -108,7 +104,8 @@ defmodule MishkaChelekom.List do
   attr :id, :string, default: nil, doc: ""
   attr :color, :string, values: @colors, default: "white", doc: ""
   attr :variant, :string, values: @variants, default: "filled", doc: ""
-  attr :size, :string, default: "large", doc: ""
+  attr :size, :string, default: "medium", doc: ""
+  attr :width, :string, default: "full", doc: ""
   attr :style, :string, default: "list-none", doc: ""
   attr :space, :string, values: @sizes ++ [nil], default: nil, doc: ""
   attr :class, :string, default: nil, doc: ""
@@ -123,6 +120,8 @@ defmodule MishkaChelekom.List do
       class={[
         "ltr:[&.list-decimal]:pl-5 rtl:[&.list-decimal]:pr-5 ltr:[&.list-disc]:pl-5 rtl:[&.list-disc]:pr-5",
         color_variant(@variant, @color),
+        size_class(@size),
+        width_class(@width),
         list_space(@space),
         @style,
         @font_weight,
@@ -138,7 +137,8 @@ defmodule MishkaChelekom.List do
   attr :id, :string, default: nil, doc: ""
   attr :color, :string, values: @colors, default: "white", doc: ""
   attr :variant, :string, values: @variants, default: "filled", doc: ""
-  attr :size, :string, default: "large", doc: ""
+  attr :size, :string, default: "medium", doc: ""
+  attr :width, :string, default: "full", doc: ""
   attr :class, :string, default: nil, doc: ""
   attr :space, :string, values: @sizes ++ [nil], default: nil, doc: ""
   attr :font_weight, :string, default: "font-normal", doc: ""
@@ -152,6 +152,8 @@ defmodule MishkaChelekom.List do
       class={[
         "list-decimal ltr:[&.list-decimal]:pl-5 rtl:[&.list-decimal]:pr-5 ltr:[&.list-disc]:pl-5 rtl:[&.list-disc]:pr-5",
         color_variant(@variant, @color),
+        size_class(@size),
+        width_class(@width),
         list_space(@space),
         @font_weight,
         @class
