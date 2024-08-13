@@ -48,7 +48,7 @@ defmodule MishkaChelekom.List do
 
   def list(%{rest: %{ordered: true}} = assigns) do
     ~H"""
-    <.ol id={@id} class={@class} font_weight={@font_weight} size={@size} color={@color} style={@style}>
+    <.ol {assigns}>
       <.li :for={item <- @item} {item}>
         <%= render_slot(item) %>
       </.li>
@@ -59,7 +59,7 @@ defmodule MishkaChelekom.List do
 
   def list(assigns) do
     ~H"""
-    <.ul id={@id} class={@class} font_weight={@font_weight} size={@size} color={@color} style={@style}>
+    <.ul {assigns}>
       <.li :for={item <- @item} {item}>
         <%= render_slot(item) %>
       </.li>
