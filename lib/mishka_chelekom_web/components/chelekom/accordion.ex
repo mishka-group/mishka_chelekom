@@ -75,7 +75,13 @@ defmodule MishkaChelekom.Accordion do
     >
       <div :for={item <- @item} name={@name} class={["group accordion-item-wrapper", item[:class]]}>
         <div
-          phx-click={JS.toggle_class("active", to: "##{@id} .custom-accordion-content")}
+          phx-click={
+            JS.toggle(
+              to: "##{@id} .custom-accordion-content",
+              in: {"transition transform ease-out duration-100", "transform opacity-0 scale-95", "transform opacity-100 scale-100"},
+              out: {"transition ease-in duration-75", "transform opacity-100 scale-100", "transform opacity-0 scale-95"}
+            )
+          }
           role="button"
           class={[
             "accordion-summary block",
@@ -92,11 +98,14 @@ defmodule MishkaChelekom.Accordion do
         </div>
         <div
           data-collapse="collapse-1"
-          class={[
-            "custom-accordion-content overflow-hidden",
-            "transition-all duration-400 ease-in-out",
-            item[:content_class]
-          ]}>
+          class={
+            [
+              "hidden",
+              "custom-accordion-content overflow-hidden",
+              item[:content_class]
+            ]
+          }
+        >
           <%= render_slot(item) %>
         </div>
       </div>

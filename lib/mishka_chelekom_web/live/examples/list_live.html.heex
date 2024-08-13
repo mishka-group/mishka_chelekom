@@ -627,7 +627,6 @@
       </MishkaChelekom.List.li>
     </MishkaChelekom.List.list_group>
   </div>
-
   tinted_split
   <div class="grid grid-cols-3 gap-5">
     <MishkaChelekom.List.list_group variant="tinted_split" rounded="small">
@@ -776,7 +775,6 @@
   </div>
 
   <div class="grid grid-cols-3 gap-5">
-
     <MishkaChelekom.List.list_group variant="seperated" rounded="extra_small" color="dawn">
       <MishkaChelekom.List.li position="end" icon="hero-chat-bubble-left-ellipsis">
         Hello this is what it is 1
@@ -800,15 +798,17 @@
     <MishkaChelekom.List.list>
       <:item padding="extra_large">list default</:item>
       <:item icon="hero-arrow-right">list default</:item>
-      <:item phx-click={JS.dispatch("myapp:click", detail: %{data: "more test"})}>list default</:item>
+      <:item phx-click={JS.dispatch("myapp:click", detail: %{data: "more test"})}>
+        list default
+      </:item>
     </MishkaChelekom.List.list>
 
     <MishkaChelekom.List.ul style="list-disc">
       <li>
-       Default background ul list disc
+        Default background ul list disc
       </li>
       <li>
-       Default background ul list disc
+        Default background ul list disc
       </li>
       <li>
         Default background ul list disc
@@ -817,10 +817,10 @@
 
     <MishkaChelekom.List.ul style="list-disc" space="large">
       <li>
-       Default background ul list disc space large
+        Default background ul list disc space large
       </li>
       <li>
-       Default background ul list disc space large
+        Default background ul list disc space large
       </li>
       <li>
         Default background ul list disc space large
