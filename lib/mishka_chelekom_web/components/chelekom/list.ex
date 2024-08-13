@@ -272,7 +272,7 @@ defmodule MishkaChelekom.List do
   defp width_class(params) when is_binary(params), do: params
   defp width_class(_), do: width_class("full")
 
-  defp size_class("extra_small"), do: "tex-xs [&_.list-item-icon]:size-4"
+  defp size_class("extra_small"), do: "text-xs [&_.list-item-icon]:size-4"
   defp size_class("small"), do: "text-sm [&_.list-item-icon]:size-5"
   defp size_class("medium"), do: "text-base [&_.list-item-icon]:size-6"
   defp size_class("large"), do: "text-lg [&_.list-item-icon]:size-7"
