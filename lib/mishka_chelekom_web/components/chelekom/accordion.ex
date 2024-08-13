@@ -76,7 +76,8 @@ defmodule MishkaChelekom.Accordion do
       <div :for={item <- @item} name={@name} class={["group accordion-item-wrapper", item[:class]]}>
         <div
           phx-click={
-            JS.toggle(
+            JS.toggle_class("hidden", to: "##{@id} .custom-accordion-content")
+            |> JS.toggle(
               to: "##{@id} .custom-accordion-content",
               in: {"transition transform ease-out duration-100", "transform opacity-0 scale-95", "transform opacity-100 scale-100"},
               out: {"transition ease-in duration-75", "transform opacity-100 scale-100", "transform opacity-0 scale-95"}
