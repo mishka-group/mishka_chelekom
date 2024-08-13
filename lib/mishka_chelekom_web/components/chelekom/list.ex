@@ -31,6 +31,7 @@ defmodule MishkaChelekom.List do
   attr :size, :string, default: "large", doc: ""
   attr :space, :string, values: @sizes ++ [nil], default: nil, doc: ""
   attr :color, :string, values: @colors, default: "white", doc: ""
+  attr :variant, :string, values: @variants, default: "filled", doc: ""
   attr :style, :string, default: "list-none", doc: ""
 
   slot :item, required: false do
