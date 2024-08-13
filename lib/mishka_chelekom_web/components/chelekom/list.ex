@@ -32,8 +32,6 @@ defmodule MishkaChelekom.List do
   attr :color, :string, values: @colors, default: "white", doc: ""
   attr :style, :string, default: "list-none", doc: ""
 
-  slot :inner_block, doc: ""
-
   slot :item, required: false do
     attr :id, :string
     attr :class, :list
@@ -46,6 +44,7 @@ defmodule MishkaChelekom.List do
   end
 
   attr :rest, :global, include: ~w(ordered unordered), doc: ""
+  slot :inner_block, doc: ""
 
   def list(%{rest: %{ordered: true}} = assigns) do
     ~H"""
