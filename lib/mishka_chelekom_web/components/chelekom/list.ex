@@ -29,10 +29,11 @@ defmodule MishkaChelekom.List do
   attr :class, :list, default: nil, doc: ""
   attr :font_weight, :string, default: "font-normal", doc: ""
   attr :size, :string, default: "large", doc: ""
-  attr :color, :string, values: @colors, default: "dark", doc: ""
+  attr :color, :string, values: @colors, default: "white", doc: ""
   attr :style, :string, default: "list-none", doc: ""
 
-  slot :item, required: true do
+  slot :inner_block, doc: ""
+  slot :item, required: false do
     attr :id, :string
     attr :class, :list
     attr :image, :string
@@ -51,16 +52,18 @@ defmodule MishkaChelekom.List do
       <.li :for={item <- @item} {item}>
         <%= render_slot(item) %>
       </.li>
+      <%= render_slot(@inner_block) %>
     </.ol>
     """
   end
 
   def list(assigns) do
     ~H"""
-    <.ul id={@id} class={@class} font_weight={@font_weight} size={@size} color={@color}>
+    <.ul id={@id} class={@class} font_weight={@font_weight} size={@size} color={@color} style={@style}>
       <.li :for={item <- @item} {item}>
         <%= render_slot(item) %>
       </.li>
+      <%= render_slot(@inner_block) %>
     </.ul>
     """
   end
@@ -102,7 +105,8 @@ defmodule MishkaChelekom.List do
   end
 
   attr :id, :string, default: nil, doc: ""
-  attr :color, :string, values: @colors, default: "dark", doc: ""
+  attr :color, :string, values: @colors, default: "white", doc: ""
+  attr :variant, :string, values: @variants, default: "filled", doc: ""
   attr :size, :string, default: "large", doc: ""
   attr :style, :string, default: "list-none", doc: ""
   attr :class, :string, default: nil, doc: ""
@@ -116,6 +120,7 @@ defmodule MishkaChelekom.List do
       id={@id}
       class={[
         "ltr:[&.list-decimal]:pl-5 rtl:[&.list-decimal]:pr-5 ltr:[&.list-disc]:pl-5 rtl:[&.list-disc]:pr-5",
+        color_variant(@variant, @color),
         @style,
         @font_weight,
         @class
@@ -128,7 +133,8 @@ defmodule MishkaChelekom.List do
   end
 
   attr :id, :string, default: nil, doc: ""
-  attr :color, :string, values: @colors, default: "dark", doc: ""
+  attr :color, :string, values: @colors, default: "white", doc: ""
+  attr :variant, :string, values: @variants, default: "filled", doc: ""
   attr :size, :string, default: "large", doc: ""
   attr :class, :string, default: nil, doc: ""
   attr :font_weight, :string, default: "font-normal", doc: ""
@@ -137,7 +143,16 @@ defmodule MishkaChelekom.List do
 
   def ol(assigns) do
     ~H"""
-    <ol class="list-decimal ltr:[&.list-decimal]:pl-5 rtl:[&.list-decimal]:pr-5 ltr:[&.list-disc]:pl-5 rtl:[&.list-disc]:pr-5">
+    <ol
+      id={@id}
+      class={[
+        "list-decimal ltr:[&.list-decimal]:pl-5 rtl:[&.list-decimal]:pr-5 ltr:[&.list-disc]:pl-5 rtl:[&.list-disc]:pr-5",
+        color_variant(@variant, @color),
+        @font_weight,
+        @class
+      ]}
+      {@rest}
+    >
       <%= render_slot(@inner_block) %>
     </ol>
     """
@@ -437,67 +452,67 @@ defmodule MishkaChelekom.List do
 
   defp color_variant("filled", "white") do
     [
-      "[&>li]:bg-white text-[#3E3E3E]"
+      "bg-white text-[#3E3E3E]"
     ]
   end
 
   defp color_variant("filled", "primary") do
     [
-      "[&>li]:bg-[#4363EC] text-white"
+      "bg-[#4363EC] text-white"
     ]
   end
 
   defp color_variant("filled", "secondary") do
     [
-      "[&>li]:bg-[#6B6E7C] text-white"
+      "bg-[#6B6E7C] text-white"
     ]
   end
 
   defp color_variant("filled", "success") do
     [
-      "[&>li]:bg-[#ECFEF3] text-[#047857]"
+      "bg-[#ECFEF3] text-[#047857]"
     ]
   end
 
   defp color_variant("filled", "warning") do
     [
-      "[&>li]:bg-[#FFF8E6] text-[#FF8B08]"
+      "bg-[#FFF8E6] text-[#FF8B08]"
     ]
   end
 
   defp color_variant("filled", "danger") do
     [
-      "[&>li]:bg-[#FFE6E6] text-[#E73B3B]"
+      "bg-[#FFE6E6] text-[#E73B3B]"
     ]
   end
 
   defp color_variant("filled", "info") do
     [
-      "[&>li]:bg-[#E5F0FF] text-[#004FC4]"
+      "bg-[#E5F0FF] text-[#004FC4]"
     ]
   end
 
   defp color_variant("filled", "misc") do
     [
-      "[&>li]:bg-[#FFE6FF] text-[#52059C]"
+      "bg-[#FFE6FF] text-[#52059C]"
     ]
   end
 
   defp color_variant("filled", "dawn") do
     [
-      "[&>li]:bg-[#FFECDA] text-[#4D4137]"
+      "bg-[#FFECDA] text-[#4D4137]"
     ]
   end
 
   defp color_variant("filled", "light") do
     [
-      "[&>li]:bg-[#E3E7F1] text-[#707483]"
+      "bg-[#E3E7F1] text-[#707483]"
     ]
   end
 
   defp color_variant("filled", "dark") do
     [
-      "[&>li]:bg-[#1E1E1E] text-white"
+      "bg-[#1E1E1E] text-white"
     ]
   end
 

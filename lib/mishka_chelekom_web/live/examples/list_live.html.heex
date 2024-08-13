@@ -117,5 +117,44 @@
       <:item icon="hero-arrow-right">Foods</:item>
       <:item phx-click={JS.dispatch("myapp:click", detail: %{data: "more test"})}>Animals</:item>
     </MishkaChelekom.List.list>
+
+    <MishkaChelekom.List.ul style="list-disc">
+      <li>
+        list 1
+      </li>
+      <li>
+        list 2
+      </li>
+      <li>
+        list 3
+      </li>
+    </MishkaChelekom.List.ul>
+
+    <MishkaChelekom.List.ul style="list-disc" color="dawn">
+      <li class="text-red-400">
+        list 1
+      </li>
+      <li>
+        list 2
+      </li>
+      <li>
+        list 3
+      </li>
+    </MishkaChelekom.List.ul>
+
+    <MishkaChelekom.List.ul style="list-disc">
+      <li>Nested 1</li>
+      <li>Nested 1</li>
+      <li>Nested 1</li>
+      <MishkaChelekom.List.list space="small" ordered>
+        <:item>Nested 2</:item>
+        <:item>Nested 5</:item>
+         <MishkaChelekom.List.list space="small" unordered style="list-disc">
+          <:item>Nested 2</:item>
+          <:item>Nested 5</:item>
+          <:item>Nested 6</:item>
+        </MishkaChelekom.List.list>
+      </MishkaChelekom.List.list>
+    </MishkaChelekom.List.ul>
   </div>
 </div>
