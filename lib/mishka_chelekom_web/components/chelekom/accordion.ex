@@ -1,6 +1,7 @@
 defmodule MishkaChelekom.Accordion do
   use Phoenix.Component
   import MishkaChelekomComponents
+  alias Phoenix.LiveView.JS
 
   @sizes ["extra_small", "small", "medium", "large", "extra_large"]
   @variants [
@@ -28,6 +29,7 @@ defmodule MishkaChelekom.Accordion do
 
   @doc type: :component
   attr :id, :string, default: nil, doc: ""
+  attr :name, :string, default: nil, doc: ""
   attr :class, :string, default: nil, doc: ""
   attr :variant, :string, values: @variants, default: "default", doc: ""
   attr :space, :string, values: @sizes, default: "small", doc: ""
@@ -36,6 +38,7 @@ defmodule MishkaChelekom.Accordion do
   attr :padding, :string, values: @sizes ++ ["none"], default: "small", doc: ""
   attr :rounded, :string, values: @sizes ++ ["full", "none"], default: "none", doc: ""
   attr :chevron_icon, :string, default: "hero-chevron-right", doc: ""
+  attr :media_size, :string, values: @sizes, default: "small", doc: ""
 
   slot :item, required: true do
     attr :title, :string, required: true
@@ -71,8 +74,8 @@ defmodule MishkaChelekom.Accordion do
       {drop_rest(@rest)}
     >
       <div :for={item <- @item} name={@name} class={["group accordion-item-wrapper", item[:class]]}>
-        #TODO: need an event listener to toggle class called ----> active
         <div
+          phx-click={JS.toggle_class("active")}
           role="button"
           class={[
             "accordion-summary block",
