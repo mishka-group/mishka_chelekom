@@ -90,8 +90,12 @@ defmodule MishkaChelekom.Accordion do
             hide_chevron={@rest[:hide_chevron] || false}
           />
         </div>
-        <div class={[
-          "transition-all duration-300 ease-in-out",
+        <div
+          data-collapse="collapse-1"
+          class={[
+          "custom-accordion-content overflow-hidden",
+          "transition-[opacity, max-height] duration-300 ease-in-out",
+          "[&:not(.active)]:max-h-0 [&:not(.active)]:opacity-0 [&.active]:opacity-100 [&.active]:max-h-auto",
           item[:content_class]
         ]}>
           <%= render_slot(item) %>
