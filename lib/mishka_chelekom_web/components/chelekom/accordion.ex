@@ -63,7 +63,7 @@ defmodule MishkaChelekom.Accordion do
     <div
       id={@id}
       class={[
-        "overflow-hidden",
+        "overflow-hidden w-full",
         rounded_size(@rounded),
         space_class(@space, @variant),
         padding_size(@padding),
@@ -79,13 +79,13 @@ defmodule MishkaChelekom.Accordion do
             JS.toggle_class("hidden", to: "##{@id} .custom-accordion-content")
             |> JS.toggle(
               to: "##{@id} .custom-accordion-content",
-              in: {"transition transform ease-out duration-100", "transform opacity-0 scale-95", "transform opacity-100 scale-100"},
-              out: {"transition ease-in duration-75", "transform opacity-100 scale-100", "transform opacity-0 scale-95"}
+              in: {"transition-all transform ease-in-out duration-700", "transform opacity-0 h-0", "transform opacity-100"},
+              out: {"transition-all transform ease-in-out duration-700", "transform opacity-100", "transform opacity-0 h-0"}
             )
           }
           role="button"
           class={[
-            "accordion-summary block",
+            "accordion-summary block w-full",
             "transition-all duration-300 ease-in-out",
             item[:summary_class]
           ]}
