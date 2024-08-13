@@ -75,7 +75,7 @@ defmodule MishkaChelekom.Accordion do
     >
       <div :for={item <- @item} name={@name} class={["group accordion-item-wrapper", item[:class]]}>
         <div
-          phx-click={JS.toggle_class("active")}
+          phx-click={JS.toggle_class("active", to: "##{@id} .custom-accordion-content")}
           role="button"
           class={[
             "accordion-summary block",
