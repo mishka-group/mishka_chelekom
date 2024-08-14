@@ -41,6 +41,8 @@ defmodule MishkaChelekomWeb.Router do
     live "/examples/blockquote", Examples.BlockquoteLive
     live "/examples/list", Examples.ListLive
     live "/examples/skeleton", Examples.SkeletonLive
+
+    live "/examples/modal-accordion", Examples.ModalAccordionLive
   end
 
   # Other scopes may use custom stacks.
