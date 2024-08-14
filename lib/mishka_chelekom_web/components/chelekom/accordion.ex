@@ -61,7 +61,6 @@ defmodule MishkaChelekom.Accordion do
   def accordion(assigns) do
     ~H"""
     <div
-      id={@id}
       class={[
         "overflow-hidden w-full",
         rounded_size(@rounded),
@@ -75,18 +74,7 @@ defmodule MishkaChelekom.Accordion do
     >
       <div :for={item <- @item} name={@name} class={["group accordion-item-wrapper", item[:class]]}>
         <div
-          phx-click={
-            JS.toggle_class("hidden", to: "##{@id} .custom-accordion-content")
-            |> JS.toggle(
-              to: "##{@id} .custom-accordion-content",
-              in:
-                {"transition-all ease-in-out duration-1000", "duration-300 opacity-0 max-h-0",
-                 "duration-300 opacity-100 max-h-screen"},
-              out:
-                {"transition-all ease-in-out duration-1000", "duration-300 opacity-100 max-h-screen",
-                 "duration-300 opacity-0 max-h-0"}
-            )
-          }
+          phx-click={show_accordion_content(@id)}
           role="button"
           class={[
             "accordion-summary block w-full",
@@ -101,16 +89,24 @@ defmodule MishkaChelekom.Accordion do
             hide_chevron={@rest[:hide_chevron] || false}
           />
         </div>
+        <.focus_wrap
+          id={"#{@id}-panel"}
+          class="relative hidden transition"
+        >
         <div
-          data-collapse="collapse-1"
+          id={@id}
           class={[
             "hidden",
             "custom-accordion-content overflow-hidden",
             item[:content_class]
           ]}
-        >
-          <%= render_slot(item) %>
-        </div>
+          >
+          <div id={"#{@id}-content"}>
+              <button phx-click={hide_accordion_content(@id)}>Hide bybye</button>
+              <%= render_slot(item) %>
+            </div>
+          </div>
+        </.focus_wrap>
       </div>
     </div>
     """
@@ -267,6 +263,52 @@ defmodule MishkaChelekom.Accordion do
     </div>
     """
   end
+
+  def show_acc(js \\ %JS{}, selector) do
+    JS.show(js,
+      to: selector,
+      time: 300,
+      transition:
+        {"transition-all transform ease-out duration-300",
+         "opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95",
+         "opacity-100 translate-y-0 sm:scale-100"}
+    )
+  end
+
+  def hide_acc(js \\ %JS{}, selector) do
+    JS.hide(js,
+      to: selector,
+      time: 200,
+      transition:
+        {"transition-all transform ease-in duration-200",
+         "opacity-100 translate-y-0 sm:scale-100",
+         "opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"}
+    )
+  end
+
+  def show_accordion_content(js \\ %JS{}, id) when is_binary(id) do
+    js
+    |> JS.show(to: "##{id}")
+    |> JS.show(
+      to: "##{id}-bg",
+      time: 300,
+      transition: {"transition-all transform ease-out duration-700", "opacity-0 h-0", "opacity-100 h-screen"}
+    )
+    |> show_acc("##{id}-panel")
+    |> JS.focus_first(to: "##{id}-content")
+  end
+
+  def hide_accordion_content(js \\ %JS{}, id) do
+    js
+    |> JS.hide(
+      to: "##{id}-bg",
+      transition: {"transition-all transform ease-in duration-200", "opacity-100 h-screen", "opacity-0 h-0"}
+    )
+    |> hide_acc("##{id}-panel")
+    |> JS.hide(to: "##{id}", transition: {"block", "block", "hidden"})
+    |> JS.pop_focus()
+  end
+
 
   defp space_class(_, variant) when variant not in ["seperated", "tinted_split"], do: nil
   defp space_class("extra_small", _), do: "accordion-item-gap space-y-2"

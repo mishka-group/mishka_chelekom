@@ -8,6 +8,9 @@ defmodule MishkaChelekom.Spinner do
 
   def spinner(assigns) do
     ~H"""
+    <div class="animate-spin inline-block border-t-transparent rounded-full border-current border-[3px] text-gray-800" role="status" aria-label="loading">
+      <span class="sr-only">Loading...</span>
+    </div>
     """
   end
 end
