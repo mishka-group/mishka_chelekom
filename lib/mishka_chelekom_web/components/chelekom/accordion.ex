@@ -91,12 +91,11 @@ defmodule MishkaChelekom.Accordion do
         </div>
         <.focus_wrap
           id={"#{@id}-panel"}
-          class="relative hidden transition"
+          class="relative hidden transition bg-gray-200"
         >
         <div
           id={@id}
           class={[
-            "hidden",
             "custom-accordion-content overflow-hidden",
             item[:content_class]
           ]}
@@ -270,8 +269,8 @@ defmodule MishkaChelekom.Accordion do
       time: 300,
       transition:
         {"transition-all transform ease-out duration-300",
-         "opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95",
-         "opacity-100 translate-y-0 sm:scale-100"}
+         "opacity-0 translate-y-4 sm:translate-y-0 max-h-0",
+         "opacity-100 translate-y-0 max-h-max"}
     )
   end
 
@@ -281,8 +280,8 @@ defmodule MishkaChelekom.Accordion do
       time: 200,
       transition:
         {"transition-all transform ease-in duration-200",
-         "opacity-100 translate-y-0 sm:scale-100",
-         "opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"}
+         "opacity-100 translate-y-0 max-h-max",
+         "opacity-0 translate-y-4 sm:translate-y-0 max-h-0"}
     )
   end
 
@@ -290,22 +289,24 @@ defmodule MishkaChelekom.Accordion do
     js
     |> JS.show(to: "##{id}")
     |> JS.show(
-      to: "##{id}-bg",
+      to: "##{id}",
       time: 300,
       transition: {"transition-all transform ease-out duration-700", "opacity-0 h-0", "opacity-100 h-screen"}
     )
     |> show_acc("##{id}-panel")
+    |> JS.add_class("visivle", to: "custom-accordion-content")
     |> JS.focus_first(to: "##{id}-content")
   end
 
   def hide_accordion_content(js \\ %JS{}, id) do
     js
     |> JS.hide(
-      to: "##{id}-bg",
+      to: "##{id}",
       transition: {"transition-all transform ease-in duration-200", "opacity-100 h-screen", "opacity-0 h-0"}
     )
     |> hide_acc("##{id}-panel")
-    |> JS.hide(to: "##{id}", transition: {"block", "block", "hidden"})
+    |> JS.hide(to: "##{id}", transition: {"visible", "visible", "invisible"})
+    |> JS.remove_class("invisible", to: "custom-accordion-content")
     |> JS.pop_focus()
   end
 
