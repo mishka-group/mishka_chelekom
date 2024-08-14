@@ -291,10 +291,10 @@ defmodule MishkaChelekom.Accordion do
     |> JS.show(
       to: "##{id}",
       time: 300,
-      transition: {"transition-all transform ease-out duration-700", "opacity-0 h-0", "opacity-100 h-screen"}
+      transition: {"transition-all transform ease-out duration-700", "opacity-0 max-h-0", "opacity-100 max-h-screen"}
     )
     |> show_acc("##{id}-panel")
-    |> JS.add_class("visivle", to: "custom-accordion-content")
+    |> JS.add_class("visible", to: "custom-accordion-content")
     |> JS.focus_first(to: "##{id}-content")
   end
 
@@ -302,7 +302,7 @@ defmodule MishkaChelekom.Accordion do
     js
     |> JS.hide(
       to: "##{id}",
-      transition: {"transition-all transform ease-in duration-200", "opacity-100 h-screen", "opacity-0 h-0"}
+      transition: {"transition-all transform ease-in duration-500", "opacity-100 max-h-screen", "opacity-0 max-h-0"}
     )
     |> hide_acc("##{id}-panel")
     |> JS.hide(to: "##{id}", transition: {"visible", "visible", "invisible"})
