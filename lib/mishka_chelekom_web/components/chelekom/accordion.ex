@@ -113,12 +113,12 @@ defmodule MishkaChelekom.Accordion do
         </div>
         <.focus_wrap
           id={"#{@id}-#{index}"}
-          class="accordion-content-wrapper relative hidden transition"
+          class="accordion-content-wrapper relative hidden transition [&:not(.active)_.accordion-content]:grid-rows-[0fr] [&.active_.accordion-content]:grid-rows-[1fr]"
         >
           <div
             id={"#{@id}-#{index}-content"}
             class={[
-              "accordion-content  bg-gray-200",
+              "accordion-content bg-gray-200 transition-all duration-500 grid",
               item[:content_class]
             ]}
           >
@@ -330,13 +330,13 @@ defmodule MishkaChelekom.Accordion do
 
   def hide_accordion_content(js \\ %JS{}, id) do
     js
-    |> JS.hide(
-      to: "##{id}",
-      time: 100,
-      transition:
-        {"transition-all transform ease-in duration-200", "will-change-auto opacity-100",
-         "will-change-[opacity] opacity-0"}
-    )
+    # |> JS.hide(
+    #   to: "##{id}",
+    #   time: 150,
+    #   transition:
+    #     {"transition-all transform ease-in duration-300", "will-change-auto opacity-100",
+    #      "will-change-[opacity] opacity-0"}
+    # )
     # |> hide_acc("##{id}-content")
     |> JS.remove_class("active", to: ".accordion-content-wrapper")
     # |> JS.hide(to: "##{id}", transition: {"block", "block", "hidden"})
@@ -403,23 +403,43 @@ defmodule MishkaChelekom.Accordion do
   defp rounded_size("none"), do: "rounded-none"
 
   defp padding_size("extra_small") do
-    "[&>.accordion-item-wrapper>.accordion-summary]:p-1 [&>.accordion-item-wrapper_.accordion-content]:p-1"
+    [
+      "[&>.accordion-item-wrapper>.accordion-summary]:p-1",
+      "[&>.accordion-item-wrapper>.accordion-content-wrapper>.accordion-content]:px-1",
+      "[&>.accordion-item-wrapper>.accordion-content-wrapper.active>.accordion-content]:py-1"
+    ]
   end
 
   defp padding_size("small") do
-    "[&>.accordion-item-wrapper>.accordion-summary]:p-2 [&>.accordion-item-wrapper_.accordion-content]:p-1"
+    [
+      "[&>.accordion-item-wrapper>.accordion-summary]:p-2",
+      "[&>.accordion-item-wrapper>.accordion-content-wrapper>.accordion-content]:px-2",
+      "[&>.accordion-item-wrapper>.accordion-content-wrapper.active>.accordion-content]:py-2"
+    ]
   end
 
   defp padding_size("medium") do
-    "[&>.accordion-item-wrapper>.accordion-summary]:p-3 [&>.accordion-item-wrapper_.accordion-content]:p-1"
+    [
+      "[&>.accordion-item-wrapper>.accordion-summary]:p-3",
+      "[&>.accordion-item-wrapper>.accordion-content-wrapper>.accordion-content]:px-3",
+      "[&>.accordion-item-wrapper>.accordion-content-wrapper.active>.accordion-content]:py-3"
+    ]
   end
 
   defp padding_size("large") do
-    "[&>.accordion-item-wrapper>.accordion-summary]:p-4 [&>.accordion-item-wrapper_.accordion-content]:p-1"
+    [
+      "[&>.accordion-item-wrapper>.accordion-summary]:p-4",
+      "[&>.accordion-item-wrapper>.accordion-content-wrapper>.accordion-content]:px-4",
+      "[&>.accordion-item-wrapper>.accordion-content-wrapper.active>.accordion-content]:py-4"
+    ]
   end
 
   defp padding_size("extra_large") do
-    "[&>.accordion-item-wrapper>.accordion-summary]:p-5[&>.accordion-item-wrapper_.accordion-content]:p-1"
+    [
+      "[&>.accordion-item-wrapper>.accordion-summary]:p-5",
+      "[&>.accordion-item-wrapper>.accordion-content-wrapper>.accordion-content]:px-5",
+      "[&>.accordion-item-wrapper>.accordion-content-wrapper.active>.accordion-content]:py-5"
+    ]
   end
 
   defp padding_size("none"), do: "[&>.accordion-item-wrapper>.accordion-summary]:p-0"
