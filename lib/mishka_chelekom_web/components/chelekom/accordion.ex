@@ -72,9 +72,11 @@ defmodule MishkaChelekom.Accordion do
       ]}
       {drop_rest(@rest)}
     >
-      <div :for={item <- @item} name={@name} class={["group accordion-item-wrapper", item[:class]]}>
+      <div
+        :for={{item, index} <- Enum.with_index(@item, 1)}
+        class={["group accordion-item-wrapper", item[:class]]}
+      >
         <div
-          phx-click={show_accordion_content(@id)}
           role="button"
           class={[
             "accordion-summary block w-full",
@@ -83,22 +85,41 @@ defmodule MishkaChelekom.Accordion do
           ]}
         >
           <.native_chevron_position
+            id={"#{@id}-#{index}-open-chevron"}
+            phx-click={
+              show_accordion_content("#{@id}-#{index}")
+              |> JS.hide()
+              |> JS.show(to: "##{@id}-#{index}-close-chevron")
+            }
             position={chevron_position(@rest)}
             chevron_icon={@chevron_icon}
             item={item}
             hide_chevron={@rest[:hide_chevron] || false}
           />
+
+          <.native_chevron_position
+            id={"#{@id}-#{index}-close-chevron"}
+            phx-click={
+              hide_accordion_content("#{@id}-#{index}")
+              |> JS.hide()
+              |> JS.show(to: "##{@id}-#{index}-open-chevron")
+            }
+            position={chevron_position(@rest)}
+            chevron_icon={@chevron_icon}
+            item={item}
+            class="hidden"
+            hide_chevron={@rest[:hide_chevron] || false}
+          />
         </div>
-        <.focus_wrap id={"#{@id}-panel"} class="relative hidden transition bg-gray-200">
+        <.focus_wrap id={"#{@id}-#{index}-panel"} class="relative hidden transition bg-gray-200">
           <div
-            id={@id}
+            id={"#{@id}-#{index}"}
             class={[
               "accordion-content custom-accordion-content overflow-hidden",
               item[:content_class]
             ]}
           >
-            <div id={"#{@id}-content"}>
-              <button phx-click={hide_accordion_content(@id)}>Hide bybye</button>
+            <div id={"#{@id}-#{index}-content"}>
               <%= render_slot(item) %>
             </div>
           </div>
@@ -187,14 +208,21 @@ defmodule MishkaChelekom.Accordion do
     """
   end
 
+  attr :id, :string, default: nil, doc: ""
+  attr :class, :string, default: nil, doc: ""
   attr :item, :map
   attr :position, :string, values: ["left", "right"]
   attr :chevron_icon, :string
   attr :hide_chevron, :boolean, default: false
+  attr :rest, :global
 
   defp native_chevron_position(%{position: "left"} = assigns) do
     ~H"""
-    <div class="flex flex-nowrap items-center rtl:justify-start ltr:justify-start gap-2">
+    <div
+      id={@id}
+      class={["flex flex-nowrap items-center rtl:justify-start ltr:justify-start gap-2", @class]}
+      {@rest}
+    >
       <.icon
         :if={!@hide_chevron}
         name={@chevron_icon}
@@ -228,7 +256,7 @@ defmodule MishkaChelekom.Accordion do
 
   defp native_chevron_position(%{position: "right"} = assigns) do
     ~H"""
-    <div class="flex items-center justify-between gap-2">
+    <div id={@id} class={["flex items-center justify-between gap-2", @class]} {@rest}>
       <div class="flex items-center gap-5">
         <img
           :if={!is_nil(@item[:image])}
