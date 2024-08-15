@@ -96,7 +96,7 @@ defmodule MishkaChelekom.Accordion do
         <div
           id={@id}
           class={[
-            "custom-accordion-content overflow-hidden",
+            "accordion-content custom-accordion-content overflow-hidden",
             item[:content_class]
           ]}
           >
@@ -179,7 +179,7 @@ defmodule MishkaChelekom.Accordion do
 
         <div class={[
           "-mt-1 shrink-0 transition-all duration-1000 ease-in-out opacity-0 group-open:opacity-100",
-          "-translate-y-4	group-open:translate-y-0",
+          "-translate-y-4	group-open:translate-y-0 accordion-content",
           item_color(@variant, @color),
           item[:content_class]
         ]}>
@@ -370,11 +370,11 @@ defmodule MishkaChelekom.Accordion do
 
   defp rounded_size("none"), do: "rounded-none"
 
-  defp padding_size("extra_small"), do: "[&>.accordion-item-wrapper>.accordion-summary]:p-1 [&>.accordion-item-wrapper_.custom-accordion-content]:p-1"
-  defp padding_size("small"), do: "[&>.accordion-item-wrapper>.accordion-summary]:p-2 [&>.accordion-item-wrapper_.custom-accordion-content]:p-1"
-  defp padding_size("medium"), do: "[&>.accordion-item-wrapper>.accordion-summary]:p-3 [&>.accordion-item-wrapper_.custom-accordion-content]:p-1"
-  defp padding_size("large"), do: "[&>.accordion-item-wrapper>.accordion-summary]:p-4 [&>.accordion-item-wrapper_.custom-accordion-content]:p-1"
-  defp padding_size("extra_large"), do: "[&>.accordion-item-wrapper>.accordion-summary]:p-5[&>.accordion-item-wrapper_.custom-accordion-content]:p-1"
+  defp padding_size("extra_small"), do: "[&>.accordion-item-wrapper>.accordion-summary]:p-1 [&>.accordion-item-wrapper_.accordion-content]:p-1"
+  defp padding_size("small"), do: "[&>.accordion-item-wrapper>.accordion-summary]:p-2 [&>.accordion-item-wrapper_.accordion-content]:p-1"
+  defp padding_size("medium"), do: "[&>.accordion-item-wrapper>.accordion-summary]:p-3 [&>.accordion-item-wrapper_.accordion-content]:p-1"
+  defp padding_size("large"), do: "[&>.accordion-item-wrapper>.accordion-summary]:p-4 [&>.accordion-item-wrapper_.accordion-content]:p-1"
+  defp padding_size("extra_large"), do: "[&>.accordion-item-wrapper>.accordion-summary]:p-5[&>.accordion-item-wrapper_.accordion-content]:p-1"
   defp padding_size("none"), do: "[&>.accordion-item-wrapper>.accordion-summary]:p-0"
   defp padding_size(params) when is_binary(params), do: params
   defp padding_size(_), do: padding_size("small")
