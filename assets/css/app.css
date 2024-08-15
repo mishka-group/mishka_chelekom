@@ -3,3 +3,13 @@
 @import 'tailwindcss/utilities';
 
 /* This file is for your main application CSS */
+
+.custom-accordion-content .dddddd{
+    display: grid !important;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows 2s ease-out;
+  }
+  
+  .custom-accordion-content.active .dddddd{
+    grid-template-rows: 1fr;
+  }
