@@ -295,8 +295,8 @@ defmodule MishkaChelekom.Accordion do
       to: selector,
       time: 300,
       transition:
-        {"transition-all transform ease-out duration-500", "opacity-0 max-h-0",
-         "opacity-100 max-h-screen"}
+        {"transition-all transform ease-out duration-300", "opacity-0 max-h-0",
+         "opacity-100 max-h-[3000px]"}
     )
   end
 
@@ -305,7 +305,7 @@ defmodule MishkaChelekom.Accordion do
       to: selector,
       time: 200,
       transition:
-        {"transition-all transform ease-in duration-100", "opacity-100 max-h-screen",
+        {"transition-all transform ease-in duration-100", "opacity-100 max-h-[3000px]",
          "opacity-0 max-h-0"}
     )
   end
@@ -317,8 +317,8 @@ defmodule MishkaChelekom.Accordion do
       to: "##{id}",
       time: 300,
       transition:
-        {"transition-all transform ease-out duration-500", "opacity-0 max-h-0",
-         "opacity-100 max-h-screen"}
+        {"transition-all transform ease-out duration-300", "opacity-0 max-h-0",
+         "opacity-100 max-h-[100px]"}
     )
     |> show_acc("##{id}-panel")
     |> JS.add_class("visible", to: "custom-accordion-content")
@@ -330,7 +330,7 @@ defmodule MishkaChelekom.Accordion do
     |> JS.hide(
       to: "##{id}",
       transition:
-        {"transition-all transform ease-in duration-100", "opacity-100 max-h-screen",
+        {"transition-all transform ease-in duration-75", "opacity-100 max-h-[100px]",
          "opacity-0 max-h-0"}
     )
     |> hide_acc("##{id}-panel")
