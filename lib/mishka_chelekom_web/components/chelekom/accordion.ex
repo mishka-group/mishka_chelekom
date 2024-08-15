@@ -370,11 +370,11 @@ defmodule MishkaChelekom.Accordion do
 
   defp rounded_size("none"), do: "rounded-none"
 
-  defp padding_size("extra_small"), do: "[&>.accordion-item-wrapper>.accordion-summary]:p-1"
-  defp padding_size("small"), do: "[&>.accordion-item-wrapper>.accordion-summary]:p-2"
-  defp padding_size("medium"), do: "[&>.accordion-item-wrapper>.accordion-summary]:p-3"
-  defp padding_size("large"), do: "[&>.accordion-item-wrapper>.accordion-summary]:p-4"
-  defp padding_size("extra_large"), do: "[&>.accordion-item-wrapper>.accordion-summary]:p-5"
+  defp padding_size("extra_small"), do: "[&>.accordion-item-wrapper>.accordion-summary]:p-1 [&>.accordion-item-wrapper_.custom-accordion-content]:p-1"
+  defp padding_size("small"), do: "[&>.accordion-item-wrapper>.accordion-summary]:p-2 [&>.accordion-item-wrapper_.custom-accordion-content]:p-1"
+  defp padding_size("medium"), do: "[&>.accordion-item-wrapper>.accordion-summary]:p-3 [&>.accordion-item-wrapper_.custom-accordion-content]:p-1"
+  defp padding_size("large"), do: "[&>.accordion-item-wrapper>.accordion-summary]:p-4 [&>.accordion-item-wrapper_.custom-accordion-content]:p-1"
+  defp padding_size("extra_large"), do: "[&>.accordion-item-wrapper>.accordion-summary]:p-5[&>.accordion-item-wrapper_.custom-accordion-content]:p-1"
   defp padding_size("none"), do: "[&>.accordion-item-wrapper>.accordion-summary]:p-0"
   defp padding_size(params) when is_binary(params), do: params
   defp padding_size(_), do: padding_size("small")
