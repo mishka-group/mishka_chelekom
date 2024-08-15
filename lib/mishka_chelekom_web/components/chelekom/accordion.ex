@@ -80,7 +80,7 @@ defmodule MishkaChelekom.Accordion do
           role="button"
           class={[
             "accordion-summary block w-full",
-            "transition-all duration-300 ease-in-out",
+            "transition-all duration-100 ease-in-out",
             item[:summary_class]
           ]}
         >
@@ -111,15 +111,18 @@ defmodule MishkaChelekom.Accordion do
             hide_chevron={@rest[:hide_chevron] || false}
           />
         </div>
-        <.focus_wrap id={"#{@id}-#{index}-panel"} class="relative hidden transition bg-gray-200">
+        <.focus_wrap
+          id={"#{@id}-#{index}-panel"}
+          class="accordion-content custom-accordion-content relative hidden transition bg-gray-200"
+        >
           <div
             id={"#{@id}-#{index}"}
             class={[
-              "accordion-content custom-accordion-content overflow-hidden",
+              "overflow-hidden",
               item[:content_class]
             ]}
           >
-            <div id={"#{@id}-#{index}-content"}>
+            <div>
               <%= render_slot(item) %>
             </div>
           </div>
@@ -293,20 +296,20 @@ defmodule MishkaChelekom.Accordion do
   def show_acc(js \\ %JS{}, selector) do
     JS.show(js,
       to: selector,
-      time: 300,
+      time: 500,
       transition:
-        {"transition-all transform ease-out duration-300", "opacity-0 max-h-0",
-         "opacity-100 max-h-[3000px]"}
+        {"transition-all transform ease-out duration-500", "opacity-0 h-0",
+         "opacity-100"}
     )
   end
 
   def hide_acc(js \\ %JS{}, selector) do
     JS.hide(js,
       to: selector,
-      time: 200,
+      time: 100,
       transition:
-        {"transition-all transform ease-in duration-100", "opacity-100 max-h-[3000px]",
-         "opacity-0 max-h-0"}
+        {"transition-all transform ease-in duration-100", "opacity-100",
+         "opacity-0 h-0"}
     )
   end
 
@@ -315,10 +318,10 @@ defmodule MishkaChelekom.Accordion do
     |> JS.show(to: "##{id}")
     |> JS.show(
       to: "##{id}",
-      time: 300,
+      time: 500,
       transition:
-        {"transition-all transform ease-out duration-300", "opacity-0 max-h-0",
-         "opacity-100 max-h-[100px]"}
+        {"transition-all transform ease-out duration-500", "opacity-0 h-0",
+         "opacity-100"}
     )
     |> show_acc("##{id}-panel")
     |> JS.add_class("visible", to: "custom-accordion-content")
@@ -329,9 +332,10 @@ defmodule MishkaChelekom.Accordion do
     js
     |> JS.hide(
       to: "##{id}",
+      time: 100,
       transition:
-        {"transition-all transform ease-in duration-75", "opacity-100 max-h-[100px]",
-         "opacity-0 max-h-0"}
+        {"transition-all transform ease-in duration-100", "opacity-100",
+         "opacity-0 h-0"}
     )
     |> hide_acc("##{id}-panel")
     |> JS.hide(to: "##{id}", transition: {"visible", "visible", "invisible"})
