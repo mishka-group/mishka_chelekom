@@ -112,7 +112,7 @@ defmodule MishkaChelekom.Accordion do
           />
         </div>
         <.focus_wrap
-          id={"#{@id}-#{index}-panel"}
+          id={"#{@id}-#{index}-content"}
           class="accordion-content custom-accordion-content relative hidden transition bg-gray-200"
         >
           <div
@@ -296,20 +296,20 @@ defmodule MishkaChelekom.Accordion do
   def show_acc(js \\ %JS{}, selector) do
     JS.show(js,
       to: selector,
-      time: 1200,
+      time: 400,
       transition:
-        {"transition-all transform ease-out duration-500", "opacity-0 h-0",
-         "opacity-100"}
+        {"transition-all transform ease-out duration-400", "will-change-[opacity] opacity-0",
+         "will-change-auto opacity-100"}
     )
   end
 
   def hide_acc(js \\ %JS{}, selector) do
     JS.hide(js,
       to: selector,
-      time: 100,
+      time: 75,
       transition:
-        {"transition-all transform ease-in duration-100", "opacity-100",
-         "opacity-0 h-0"}
+        {"transition-all transform ease-in duration-100", "will-change-auto opacity-100",
+         "will-change-[opacity] opacity-0"}
     )
   end
 
@@ -318,13 +318,12 @@ defmodule MishkaChelekom.Accordion do
     |> JS.show(to: "##{id}")
     |> JS.show(
       to: "##{id}",
-      time: 1200,
+      time: 700,
       transition:
-        {"transition-all transform ease-out duration-500", "opacity-0 h-0",
-         "opacity-100"}
+        {"transition-all transform ease-out duration-500", "will-change-[opacity] opacity-0 h-0",
+         "will-change-auto opacity-100 h-auto"}
     )
-    |> show_acc("##{id}-panel")
-    |> JS.add_class("visible", to: "custom-accordion-content")
+    |> show_acc("##{id}-content")
     |> JS.focus_first(to: "##{id}-content")
   end
 
@@ -332,14 +331,13 @@ defmodule MishkaChelekom.Accordion do
     js
     |> JS.hide(
       to: "##{id}",
-      time: 100,
+      time: 500,
       transition:
-        {"transition-all transform ease-in duration-100", "opacity-100",
-         "opacity-0 h-0"}
+        {"transition-all transform ease-in duration-500", "will-change-auto opacity-100 h-auto",
+         "will-change-[opacity] opacity-0 h-0"}
     )
-    |> hide_acc("##{id}-panel")
-    |> JS.hide(to: "##{id}", transition: {"visible", "visible", "invisible"})
-    |> JS.remove_class("invisible", to: "custom-accordion-content")
+    |> hide_acc("##{id}-content")
+    |> JS.hide(to: "##{id}", transition: {"block", "block", "hidden"})
     |> JS.pop_focus()
   end
 
