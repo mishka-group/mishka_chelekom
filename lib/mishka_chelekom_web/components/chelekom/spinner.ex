@@ -42,26 +42,6 @@ defmodule MishkaChelekom.Spinner do
     </div>
     """
   end
-  
-  def spinner(assigns) do
-    ~H"""
-    <div
-      id={@id}
-      class={
-        default_classes() ++
-          [
-            size_class(@size),
-            color_class(@color),
-            @class
-          ]
-      }
-      role="status"
-      aria-label="loading"
-    >
-      <span class="sr-only">Loading...</span>
-    </div>
-    """
-  end
 
   defp size_class("extra_small"), do: "size-3 border-2"
   defp size_class("small"), do: "size-4 border-[3px]"
