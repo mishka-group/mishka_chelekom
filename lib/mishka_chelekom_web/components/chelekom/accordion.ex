@@ -318,9 +318,9 @@ defmodule MishkaChelekom.Accordion do
     |> JS.show(to: "##{id}")
     |> JS.show(
       to: "##{id}-content",
-      time: 700,
+      time: 300,
       transition:
-        {"transition-all transform ease-out duration-500", "will-change-[opacity] opacity-0 h-0",
+        {"transition-all transform ease-out duration-300", "will-change-[opacity] opacity-0 h-0",
          "will-change-auto opacity-100 h-auto"}
     )
     # |> show_acc("##{id}-content")
@@ -331,14 +331,14 @@ defmodule MishkaChelekom.Accordion do
     js
     |> JS.hide(
       to: "##{id}",
-      time: 500,
+      time: 100,
       transition:
-        {"transition-all transform ease-in duration-500", "will-change-auto opacity-100 h-auto",
+        {"transition-all transform ease-in duration-200", "will-change-auto opacity-100 h-auto",
          "will-change-[opacity] opacity-0 h-0"}
     )
     |> hide_acc("##{id}-content")
-    |> JS.hide(to: "##{id}", transition: {"block", "block", "hidden"})
-    |> JS.pop_focus()
+    # |> JS.hide(to: "##{id}", transition: {"block", "block", "hidden"})
+    # |> JS.pop_focus()
   end
 
   defp space_class(_, variant) when variant not in ["seperated", "tinted_split"], do: nil
