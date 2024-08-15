@@ -48,6 +48,7 @@ defmodule MishkaChelekom.Spinner do
   defp size_class("medium"), do: "size-5 border-4"
   defp size_class("large"), do: "size-6 border-[5px]"
   defp size_class("extra_large"), do: "size-7 border-[6px]"
+  defp size_class("2xl"), do: "size-8 border-[7px]"
 
   defp color_class("white") do
     "border-[#DADADA]"

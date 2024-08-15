@@ -256,34 +256,36 @@ defmodule MishkaChelekom.Accordion do
 
   defp native_chevron_position(%{position: "right"} = assigns) do
     ~H"""
-    <div id={@id} class={["flex items-center justify-between gap-2", @class]} {@rest}>
-      <div class="flex items-center gap-5">
-        <img
-          :if={!is_nil(@item[:image])}
-          class={["accordion-title-media shrink-0", @item[:image_class]]}
-          src={@item[:image]}
-        />
+    <div id={@id} class={[@class]} {@rest}>
+      <div class="flex items-center justify-between gap-2">
+        <div class="flex items-center gap-5">
+          <img
+            :if={!is_nil(@item[:image])}
+            class={["accordion-title-media shrink-0", @item[:image_class]]}
+            src={@item[:image]}
+          />
 
-        <.icon
-          :if={!is_nil(@item[:icon])}
-          name={@item[:icon]}
-          class={@item[:icon_class] || "accordion-title-media"}
-        />
+          <.icon
+            :if={!is_nil(@item[:icon])}
+            name={@item[:icon]}
+            class={@item[:icon_class] || "accordion-title-media"}
+          />
 
-        <div class={["space-y-2", @item[:title_class]]}>
-          <div><%= @item[:title] %></div>
+          <div class={["space-y-2", @item[:title_class]]}>
+            <div><%= @item[:title] %></div>
 
-          <div :if={!is_nil(@item[:description])} class="text-xs font-light">
-            <%= @item[:description] %>
+            <div :if={!is_nil(@item[:description])} class="text-xs font-light">
+              <%= @item[:description] %>
+            </div>
           </div>
         </div>
-      </div>
 
-      <.icon
-        :if={!@hide_chevron}
-        name={@chevron_icon}
-        class="w-5 transition-transform duration-300 ease-in-out group-open:rotate-90 rtl:rotate-180"
-      />
+        <.icon
+          :if={!@hide_chevron}
+          name={@chevron_icon}
+          class="w-5 transition-transform duration-300 ease-in-out group-open:rotate-90 rtl:rotate-180"
+        />
+      </div>
     </div>
     """
   end
@@ -293,7 +295,7 @@ defmodule MishkaChelekom.Accordion do
       to: selector,
       time: 300,
       transition:
-        {"transition-all transform ease-out duration-300", "opacity-0 max-h-0",
+        {"transition-all transform ease-out duration-500", "opacity-0 max-h-0",
          "opacity-100 max-h-screen"}
     )
   end
@@ -315,8 +317,8 @@ defmodule MishkaChelekom.Accordion do
       to: "##{id}",
       time: 300,
       transition:
-        {"transition-all transform ease-out duration-300", "opacity-0 max-h-0",
-         "opacity-100 max-h-[100px]"}
+        {"transition-all transform ease-out duration-500", "opacity-0 max-h-0",
+         "opacity-100 max-h-screen"}
     )
     |> show_acc("##{id}-panel")
     |> JS.add_class("visible", to: "custom-accordion-content")
@@ -328,7 +330,7 @@ defmodule MishkaChelekom.Accordion do
     |> JS.hide(
       to: "##{id}",
       transition:
-        {"transition-all transform ease-in duration-75", "opacity-100 max-h-[100px]",
+        {"transition-all transform ease-in duration-100", "opacity-100 max-h-screen",
          "opacity-0 max-h-0"}
     )
     |> hide_acc("##{id}-panel")
