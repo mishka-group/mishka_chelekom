@@ -38,19 +38,17 @@ defmodule MishkaChelekom.Card do
   attr :rest, :global, doc: ""
   slot :inner_block, required: false, doc: ""
 
-
   def card(assigns) do
     ~H"""
-    <div
-      class={[
-        space_class(@space),
-        border_class(@border, border_position(@rest)),
-        color_variant(@variant, @color),
-        rounded_size(@rounded),
-        padding_size(@padding),
-        size_class(@size),
-        @font_weight,
-        @class
+    <div class={[
+      space_class(@space),
+      border_class(@border, border_position(@rest)),
+      color_variant(@variant, @color),
+      rounded_size(@rounded),
+      padding_size(@padding),
+      size_class(@size),
+      @font_weight,
+      @class
     ]}>
       <%= render_slot(@inner_block) %>
     </div>

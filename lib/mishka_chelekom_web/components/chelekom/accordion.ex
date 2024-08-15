@@ -89,18 +89,15 @@ defmodule MishkaChelekom.Accordion do
             hide_chevron={@rest[:hide_chevron] || false}
           />
         </div>
-        <.focus_wrap
-          id={"#{@id}-panel"}
-          class="relative hidden transition bg-gray-200"
-        >
-        <div
-          id={@id}
-          class={[
-            "accordion-content custom-accordion-content overflow-hidden",
-            item[:content_class]
-          ]}
+        <.focus_wrap id={"#{@id}-panel"} class="relative hidden transition bg-gray-200">
+          <div
+            id={@id}
+            class={[
+              "accordion-content custom-accordion-content overflow-hidden",
+              item[:content_class]
+            ]}
           >
-          <div id={"#{@id}-content"}>
+            <div id={"#{@id}-content"}>
               <button phx-click={hide_accordion_content(@id)}>Hide bybye</button>
               <%= render_slot(item) %>
             </div>
@@ -268,8 +265,7 @@ defmodule MishkaChelekom.Accordion do
       to: selector,
       time: 300,
       transition:
-        {"transition-all transform ease-out duration-300",
-         "opacity-0 max-h-0",
+        {"transition-all transform ease-out duration-300", "opacity-0 max-h-0",
          "opacity-100 max-h-screen"}
     )
   end
@@ -279,8 +275,7 @@ defmodule MishkaChelekom.Accordion do
       to: selector,
       time: 200,
       transition:
-        {"transition-all transform ease-in duration-100",
-         "opacity-100 max-h-screen",
+        {"transition-all transform ease-in duration-100", "opacity-100 max-h-screen",
          "opacity-0 max-h-0"}
     )
   end
@@ -291,7 +286,9 @@ defmodule MishkaChelekom.Accordion do
     |> JS.show(
       to: "##{id}",
       time: 300,
-      transition: {"transition-all transform ease-out duration-300", "opacity-0 max-h-0", "opacity-100 max-h-[100px]"}
+      transition:
+        {"transition-all transform ease-out duration-300", "opacity-0 max-h-0",
+         "opacity-100 max-h-[100px]"}
     )
     |> show_acc("##{id}-panel")
     |> JS.add_class("visible", to: "custom-accordion-content")
@@ -302,14 +299,15 @@ defmodule MishkaChelekom.Accordion do
     js
     |> JS.hide(
       to: "##{id}",
-      transition: {"transition-all transform ease-in duration-75", "opacity-100 max-h-[100px]", "opacity-0 max-h-0"}
+      transition:
+        {"transition-all transform ease-in duration-75", "opacity-100 max-h-[100px]",
+         "opacity-0 max-h-0"}
     )
     |> hide_acc("##{id}-panel")
     |> JS.hide(to: "##{id}", transition: {"visible", "visible", "invisible"})
     |> JS.remove_class("invisible", to: "custom-accordion-content")
     |> JS.pop_focus()
   end
-
 
   defp space_class(_, variant) when variant not in ["seperated", "tinted_split"], do: nil
   defp space_class("extra_small", _), do: "accordion-item-gap space-y-2"
@@ -370,11 +368,26 @@ defmodule MishkaChelekom.Accordion do
 
   defp rounded_size("none"), do: "rounded-none"
 
-  defp padding_size("extra_small"), do: "[&>.accordion-item-wrapper>.accordion-summary]:p-1 [&>.accordion-item-wrapper_.accordion-content]:p-1"
-  defp padding_size("small"), do: "[&>.accordion-item-wrapper>.accordion-summary]:p-2 [&>.accordion-item-wrapper_.accordion-content]:p-1"
-  defp padding_size("medium"), do: "[&>.accordion-item-wrapper>.accordion-summary]:p-3 [&>.accordion-item-wrapper_.accordion-content]:p-1"
-  defp padding_size("large"), do: "[&>.accordion-item-wrapper>.accordion-summary]:p-4 [&>.accordion-item-wrapper_.accordion-content]:p-1"
-  defp padding_size("extra_large"), do: "[&>.accordion-item-wrapper>.accordion-summary]:p-5[&>.accordion-item-wrapper_.accordion-content]:p-1"
+  defp padding_size("extra_small") do
+    "[&>.accordion-item-wrapper>.accordion-summary]:p-1 [&>.accordion-item-wrapper_.accordion-content]:p-1"
+  end
+
+  defp padding_size("small") do
+    "[&>.accordion-item-wrapper>.accordion-summary]:p-2 [&>.accordion-item-wrapper_.accordion-content]:p-1"
+  end
+
+  defp padding_size("medium") do
+    "[&>.accordion-item-wrapper>.accordion-summary]:p-3 [&>.accordion-item-wrapper_.accordion-content]:p-1"
+  end
+
+  defp padding_size("large") do
+    "[&>.accordion-item-wrapper>.accordion-summary]:p-4 [&>.accordion-item-wrapper_.accordion-content]:p-1"
+  end
+
+  defp padding_size("extra_large") do
+    "[&>.accordion-item-wrapper>.accordion-summary]:p-5[&>.accordion-item-wrapper_.accordion-content]:p-1"
+  end
+
   defp padding_size("none"), do: "[&>.accordion-item-wrapper>.accordion-summary]:p-0"
   defp padding_size(params) when is_binary(params), do: params
   defp padding_size(_), do: padding_size("small")
