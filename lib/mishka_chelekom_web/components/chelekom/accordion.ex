@@ -296,7 +296,7 @@ defmodule MishkaChelekom.Accordion do
   def show_acc(js \\ %JS{}, selector) do
     JS.show(js,
       to: selector,
-      time: 500,
+      time: 1200,
       transition:
         {"transition-all transform ease-out duration-500", "opacity-0 h-0",
          "opacity-100"}
@@ -318,7 +318,7 @@ defmodule MishkaChelekom.Accordion do
     |> JS.show(to: "##{id}")
     |> JS.show(
       to: "##{id}",
-      time: 500,
+      time: 1200,
       transition:
         {"transition-all transform ease-out duration-500", "opacity-0 h-0",
          "opacity-100"}
