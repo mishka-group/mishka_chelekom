@@ -112,11 +112,11 @@ defmodule MishkaChelekom.Accordion do
           />
         </div>
         <.focus_wrap
-          id={"#{@id}-#{index}-content"}
+          id={"#{@id}-#{index}"}
           class="accordion-content custom-accordion-content relative hidden transition bg-gray-200"
         >
           <div
-            id={"#{@id}-#{index}"}
+            id={"#{@id}-#{index}-content"}
             class={[
               "overflow-hidden",
               item[:content_class]
@@ -317,14 +317,14 @@ defmodule MishkaChelekom.Accordion do
     js
     |> JS.show(to: "##{id}")
     |> JS.show(
-      to: "##{id}",
+      to: "##{id}-content",
       time: 700,
       transition:
         {"transition-all transform ease-out duration-500", "will-change-[opacity] opacity-0 h-0",
          "will-change-auto opacity-100 h-auto"}
     )
-    |> show_acc("##{id}-content")
-    |> JS.focus_first(to: "##{id}-content")
+    # |> show_acc("##{id}-content")
+    # |> JS.focus_first(to: "##{id}-content")
   end
 
   def hide_accordion_content(js \\ %JS{}, id) do
