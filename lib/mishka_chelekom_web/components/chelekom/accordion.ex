@@ -113,16 +113,16 @@ defmodule MishkaChelekom.Accordion do
         </div>
         <.focus_wrap
           id={"#{@id}-#{index}"}
-          class="accordion-content custom-accordion-content relative hidden transition bg-gray-200"
+          class="accordion-content-wrapper relative hidden transition"
         >
           <div
             id={"#{@id}-#{index}-content"}
             class={[
-              "dddddd overflow-hidden",
+              "accordion-content  bg-gray-200",
               item[:content_class]
             ]}
           >
-            <div>
+            <div class="overflow-hidden">
               <%= render_slot(item) %>
             </div>
           </div>
@@ -316,14 +316,14 @@ defmodule MishkaChelekom.Accordion do
   def show_accordion_content(js \\ %JS{}, id) when is_binary(id) do
     js
     |> JS.show(to: "##{id}")
-    |> JS.show(
-      to: "##{id}-content",
-      time: 300,
-      transition:
-        {"transition-all transform ease-out duration-1000", "will-change-[opacity] opacity-0",
-         "will-change-auto opacity-100"}
-    )
-    |> JS.add_class("active", to: ".custom-accordion-content")
+    # |> JS.show(
+    #   to: "##{id}-content",
+    #   time: 300,
+    #   transition:
+    #     {"transition-all transform ease-out duration-1000", "will-change-[opacity] opacity-0",
+    #      "will-change-auto opacity-100"}
+    # )
+    |> JS.add_class("active", to: ".accordion-content-wrapper")
     # |> show_acc("##{id}-content")
     # |> JS.focus_first(to: "##{id}-content")
   end
@@ -337,8 +337,8 @@ defmodule MishkaChelekom.Accordion do
         {"transition-all transform ease-in duration-200", "will-change-auto opacity-100",
          "will-change-[opacity] opacity-0"}
     )
-    |> hide_acc("##{id}-content")
-    |> JS.remove_class("active", to: ".custom-accordion-content")
+    # |> hide_acc("##{id}-content")
+    |> JS.remove_class("active", to: ".accordion-content-wrapper")
     # |> JS.hide(to: "##{id}", transition: {"block", "block", "hidden"})
     # |> JS.pop_focus()
   end

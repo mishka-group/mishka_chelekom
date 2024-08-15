@@ -4,12 +4,12 @@
 
 /* This file is for your main application CSS */
 
-.custom-accordion-content .dddddd{
-    display: grid !important;
+.accordion-content-wrapper .accordion-content{
+    display: grid;
     grid-template-rows: 0fr;
-    transition: grid-template-rows 2s ease-out;
+    transition: grid-template-rows 0.5s ease-out;
   }
   
-  .custom-accordion-content.active .dddddd{
+  .accordion-content-wrapper.active .accordion-content{
     grid-template-rows: 1fr;
   }
