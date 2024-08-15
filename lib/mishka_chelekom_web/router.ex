@@ -43,8 +43,6 @@ defmodule MishkaChelekomWeb.Router do
     live "/examples/skeleton", Examples.SkeletonLive
     live "/examples/spinner", Examples.SpinnerLive
     live "/examples/card", Examples.CardLive
-
-    live "/examples/modal-accordion", Examples.ModalAccordionLive
   end
 
   # Other scopes may use custom stacks.
