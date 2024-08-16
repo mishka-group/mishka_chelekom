@@ -36,7 +36,12 @@ defmodule MishkaChelekom.Card do
   attr :padding, :string, values: @sizes ++ ["none"], default: "small", doc: ""
   attr :class, :string, default: nil, doc: ""
   attr :rest, :global, doc: ""
-  slot :inner_block, required: false, doc: ""
+
+  slot :caption, required: false do
+    attr :image, :string
+    attr :image_class, :string
+    attr :position, :string, values: ["right", "left", "center"]
+  end
 
   def card(assigns) do
     ~H"""
@@ -50,6 +55,28 @@ defmodule MishkaChelekom.Card do
       @font_weight,
       @class
     ]}>
+    <div class="border-b rounded-t-xl py-3 px-4 md:py-4 md:px-5">
+        <div class="title mt-1 text-sm text-gray-500">
+          Featured
+        </div>
+      </div>
+      <div class="bg-gray-100 border-b border-gray-200 text-sm text-gray-800 p-4">
+
+      </div>
+      <div class="p-4 md:p-5">
+        <h3 class="text-lg font-bold text-gray-800">
+          Card title
+        </h3>
+        <p class="mt-2 text-gray-500 dark:text-neutral-400">
+          With supporting text below as a natural lead-in to additional content.
+        </p>
+        <a class="mt-3 inline-flex items-center gap-x-1 text-sm font-semibold rounded-lg border border-transparent text-blue-600 decoration-2 hover:text-blue-700 hover:underline focus:underline focus:outline-none focus:text-blue-700 disabled:opacity-50 disabled:pointer-events-none" href="#">
+          Card link
+          <svg class="shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="m9 18 6-6-6-6"></path>
+          </svg>
+        </a>
+      </div>
       <%= render_slot(@inner_block) %>
     </div>
     """
@@ -133,6 +160,18 @@ defmodule MishkaChelekom.Card do
   defp size_class("extra_large"), do: "text-xl [&>.quote-icon]:size-12"
   defp size_class(params) when is_binary(params), do: params
   defp size_class(_), do: size_class("medium")
+
+  defp caption_position("right") do
+    "ltr:justify-end rtl:justify-start"
+  end
+
+  defp caption_position("left") do
+    "ltr:justify-start rtl:justify-end"
+  end
+
+  defp caption_position("center") do
+    "justify-center"
+  end
 
   defp color_variant("default", "white") do
     "bg-white text-[#3E3E3E] border-[#DADADA]"
