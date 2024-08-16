@@ -1,7 +1,7 @@
 defmodule MishkaChelekom.Spinner do
   use Phoenix.Component
 
-  @sizes ["extra_small", "small", "medium", "large", "extra_large"]
+  @sizes ["extra_small", "small", "medium", "large", "extra_large","double_large","triple_large","quadruple_large"]
   @colors [
     "white",
     "primary",
@@ -58,9 +58,9 @@ defmodule MishkaChelekom.Spinner do
   defp size_class("medium"), do: "size-5 border-4"
   defp size_class("large"), do: "size-6 border-[5px]"
   defp size_class("extra_large"), do: "size-7 border-[5px]"
-  defp size_class("2xl"), do: "size-8 border-[5px]"
-  defp size_class("3xl"), do: "size-9 border-[6px]"
-  defp size_class("4xl"), do: "size-10 border-[6px]"
+  defp size_class("double_large"), do: "size-8 border-[5px]"
+  defp size_class("triple_large"), do: "size-9 border-[6px]"
+  defp size_class("quadruple_large"), do: "size-10 border-[6px]"
 
   defp color_class("white") do
     "border-white"
