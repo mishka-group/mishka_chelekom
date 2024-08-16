@@ -1,7 +1,16 @@
 defmodule MishkaChelekom.Spinner do
   use Phoenix.Component
 
-  @sizes ["extra_small", "small", "medium", "large", "extra_large","double_large","triple_large","quadruple_large"]
+  @sizes [
+    "extra_small",
+    "small",
+    "medium",
+    "large",
+    "extra_large",
+    "double_large",
+    "triple_large",
+    "quadruple_large"
+  ]
   @colors [
     "white",
     "primary",
@@ -20,7 +29,11 @@ defmodule MishkaChelekom.Spinner do
   attr :id, :string, default: nil, doc: ""
   attr :class, :string, default: nil, doc: ""
   attr :color, :string, values: @colors, default: "dark", doc: ""
-  attr :background, :string, default: nil, doc: "Tailwind CSS background color class without with or without opacity"
+
+  attr :background, :string,
+    default: nil,
+    doc: "Tailwind CSS background color class without with or without opacity"
+
   attr :size, :string, values: @sizes, default: "small", doc: ""
 
   attr :rest, :global,
@@ -31,17 +44,18 @@ defmodule MishkaChelekom.Spinner do
     ~H"""
     <div
       id={@id}
-     class={[
-      overlay_class(@rest),
-      background_opacity(@background),
-      @class
-    ]}>
+      class={[
+        overlay_class(@rest),
+        background_opacity(@background),
+        @class
+      ]}
+    >
       <div
         class={
           default_classes() ++
             [
               size_class(@size),
-              color_class(@color),
+              color_class(@color)
             ]
         }
         role="status"

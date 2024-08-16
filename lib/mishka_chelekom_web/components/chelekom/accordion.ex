@@ -324,6 +324,7 @@ defmodule MishkaChelekom.Accordion do
     #      "will-change-auto opacity-100"}
     # )
     |> JS.add_class("active", to: ".accordion-content-wrapper")
+
     # |> show_acc("##{id}-content")
     # |> JS.focus_first(to: "##{id}-content")
   end
@@ -339,6 +340,7 @@ defmodule MishkaChelekom.Accordion do
     # )
     # |> hide_acc("##{id}-content")
     |> JS.remove_class("active", to: ".accordion-content-wrapper")
+
     # |> JS.hide(to: "##{id}", transition: {"block", "block", "hidden"})
     # |> JS.pop_focus()
   end
