@@ -77,10 +77,7 @@ defmodule MishkaChelekom.Card do
         <p class="mt-2 text-gray-500 dark:text-neutral-400">
           With supporting text below as a natural lead-in to additional content.
         </p>
-        <a
-          class=""
-          href="#"
-        >
+        <a class="" href="#">
           Card link
         </a>
       </div>
