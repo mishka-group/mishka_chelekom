@@ -79,7 +79,7 @@ defmodule MishkaChelekom.Accordion do
           role="button"
           class={[
             "accordion-summary block w-full",
-            "transition-all duration-100 ease-in-out",
+            "transition-all duration-100 ease-in-out [&>.active-accordion-button_.accordion-chevron]:rotate-90",
             item[:summary_class]
           ]}
         >
@@ -285,7 +285,7 @@ defmodule MishkaChelekom.Accordion do
         <.icon
           :if={!@hide_chevron}
           name={@chevron_icon}
-          class="w-5 transition-transform duration-300 ease-in-out group-open:rotate-90 rtl:rotate-180"
+          class="accordion-chevron w-5 transition-transform duration-300 ease-in-out group-open:rotate-90 rtl:rotate-180"
         />
       </div>
     </div>
