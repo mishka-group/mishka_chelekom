@@ -61,7 +61,7 @@ defmodule MishkaChelekom.Accordion do
     ~H"""
     <div
       class={[
-        "overflow-hidden w-full",
+        "overflow-hidden w-full h-fit",
         rounded_size(@rounded),
         space_class(@space, @variant),
         padding_size(@padding),
