@@ -80,7 +80,8 @@ defmodule MishkaChelekom.Accordion do
           role="button"
           class={[
             "accordion-summary block w-full",
-            "transition-all duration-100 ease-in-out [&>.active-accordion-button_.accordion-chevron]:rotate-90",
+            "transition-all duration-300",
+            "[&.active-accordion-button_.accordion-chevron]:rotate-90",
             item[:summary_class]
           ]}
         >
@@ -223,13 +224,14 @@ defmodule MishkaChelekom.Accordion do
     ~H"""
     <div
       id={@id}
-      class={["flex flex-nowrap items-center rtl:justify-start ltr:justify-start gap-2", @class]}
+      class={[@class]}
       {@rest}
     >
+    <div class="flex flex-nowrap items-center rtl:justify-start ltr:justify-start gap-2">
       <.icon
         :if={!@hide_chevron}
         name={@chevron_icon}
-        class="w-5 transition-transform duration-300 ease-in-out group-open:rotate-90 rotate-180 rtl:rotate-0"
+        class="accordion-chevron w-5 transition-all duration-300 ease-in-out group-open:rotate-90 rotate-180 rtl:rotate-0"
       />
 
       <div class="flex items-center gap-5">
@@ -253,6 +255,7 @@ defmodule MishkaChelekom.Accordion do
           </div>
         </div>
       </div>
+    </div>
     </div>
     """
   end
@@ -286,7 +289,7 @@ defmodule MishkaChelekom.Accordion do
         <.icon
           :if={!@hide_chevron}
           name={@chevron_icon}
-          class="accordion-chevron w-5 transition-transform duration-300 ease-in-out group-open:rotate-90 rtl:rotate-180"
+          class="accordion-chevron w-5 transition-all duration-300 ease-in-out group-open:rotate-90 rtl:rotate-180"
         />
       </div>
     </div>
