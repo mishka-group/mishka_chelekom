@@ -37,10 +37,18 @@ defmodule MishkaChelekom.Card do
   attr :class, :string, default: nil, doc: ""
   attr :rest, :global, doc: ""
 
-  slot :caption, required: false do
+  slot :item, required: true do
+    attr :title, :string, required: true
+    attr :description, :string
+    attr :icon, :string
+    attr :class, :string
     attr :image, :string
     attr :image_class, :string
-    attr :position, :string, values: ["right", "left", "center"]
+    attr :icon_class, :string
+    attr :content_class, :string
+    attr :title_class, :string
+    attr :summary_class, :string
+    attr :open, :boolean
   end
 
   def card(assigns) do
@@ -52,6 +60,7 @@ defmodule MishkaChelekom.Card do
       rounded_size(@rounded),
       padding_size(@padding),
       size_class(@size),
+      space_class(@space, @variant),
       @font_weight,
       @class
     ]}>
@@ -69,24 +78,10 @@ defmodule MishkaChelekom.Card do
           With supporting text below as a natural lead-in to additional content.
         </p>
         <a
-          class="mt-3 inline-flex items-center gap-x-1 text-sm font-semibold rounded-lg border border-transparent text-blue-600 decoration-2 hover:text-blue-700 hover:underline focus:underline focus:outline-none focus:text-blue-700 disabled:opacity-50 disabled:pointer-events-none"
+          class=""
           href="#"
         >
           Card link
-          <svg
-            class="shrink-0 size-4"
-            xmlns="http://www.w3.org/2000/svg"
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          >
-            <path d="m9 18 6-6-6-6"></path>
-          </svg>
         </a>
       </div>
       <%= render_slot(@inner_block) %>
@@ -172,6 +167,65 @@ defmodule MishkaChelekom.Card do
   defp size_class("extra_large"), do: "text-xl [&>.quote-icon]:size-12"
   defp size_class(params) when is_binary(params), do: params
   defp size_class(_), do: size_class("medium")
+
+  defp space_class(_, variant) when variant not in ["seperated", "tinted_split"], do: nil
+  defp space_class("extra_small", _), do: "accordion-item-gap space-y-2"
+  defp space_class("small", _), do: "accordion-item-gap space-y-3"
+  defp space_class("medium", _), do: "accordion-item-gap space-y-4"
+  defp space_class("large", _), do: "accordion-item-gap space-y-5"
+  defp space_class("extra_large", _), do: "accordion-item-gap space-y-6"
+  defp space_class(params, _) when is_binary(params), do: params
+  defp space_class(_, _), do: nil
+
+  defp media_size("extra_small"), do: "[&>div_.accordion-title-media]:size-12"
+  defp media_size("small"), do: "[&>div_.accordion-title-media]:size-14"
+  defp media_size("medium"), do: "[&>div_.accordion-title-media]:size-16"
+  defp media_size("large"), do: "[&>div_.accordion-title-media]:size-20"
+  defp media_size("extra_large"), do: "[&>div_.accordion-title-media]:size-24"
+  defp media_size(params) when is_binary(params), do: params
+  defp media_size(_), do: media_size("small")
+
+  defp content_size("extra_small") do
+    [
+      "rounded-sm [&:not()>div:first-child>.accordion-summary]:rounded-t-sm",
+      "[&>div]:rounded-sm [&>div>.accordion-summary]:rounded-t-sm",
+      "[&>div>:not(.accordion-summary)]:rounded-b-sm"
+    ]
+  end
+
+  defp content_size("small") do
+    [
+      "rounded [&:not()>div:first-child>.accordion-summary]:rounded-t",
+      "[&>div]:rounded [&>div>.accordion-summary]:rounded-t",
+      "[&>div>:not(.accordion-summary)]:rounded-b"
+    ]
+  end
+
+  defp content_size("medium") do
+    [
+      "rounded-md [&:not()>div:first-child>.accordion-summary]:rounded-t-md",
+      "[&>div]:rounded-md [&>div>.accordion-summary]:rounded-t-md",
+      "[&>div>:not(.accordion-summary)]:rounded-b-md"
+    ]
+  end
+
+  defp content_size("large") do
+    [
+      "rounded-lg [&:not()>div:first-child>.accordion-summary]:rounded-t-lg",
+      "[&>div]:rounded-lg [&>div>.accordion-summary]:rounded-t-lg",
+      "[&>div>:not(.accordion-summary)]:rounded-b-lg"
+    ]
+  end
+
+  defp content_size("extra_large") do
+    [
+      "rounded-xl [&:not()>div:first-child>.accordion-summary]:rounded-t-xl",
+      "[&>div]:rounded-xl [&>div>.accordion-summary]:rounded-t-xl",
+      "[&>div>:not(.accordion-summary)]:rounded-b-xl"
+    ]
+  end
+
+  defp content_size("none"), do: "rounded-none"
 
   defp caption_position("right") do
     "ltr:justify-end rtl:justify-start"
@@ -410,4 +464,9 @@ defmodule MishkaChelekom.Card do
   defp border_position(%{right_border: true}), do: "right"
   defp border_position(%{full_border: true}), do: "full"
   defp border_position(_), do: "left"
+
+  defp chevron_position(%{left_chevron: true}), do: "left"
+  defp chevron_position(%{right_chevron: true}), do: "right"
+  defp chevron_position(%{chevron: true}), do: "right"
+  defp chevron_position(_), do: "right"
 end
