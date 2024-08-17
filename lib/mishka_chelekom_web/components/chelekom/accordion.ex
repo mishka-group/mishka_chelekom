@@ -54,8 +54,8 @@ defmodule MishkaChelekom.Accordion do
   end
 
   attr :rest, :global,
-    include: ~w(left_chevron right_chevron chevron hide_chevron),
-    doc: ""
+  include: ~w(left_chevron right_chevron chevron hide_chevron),
+  doc: ""
 
   def accordion(assigns) do
     ~H"""
@@ -117,7 +117,7 @@ defmodule MishkaChelekom.Accordion do
           <div
             id={"#{@id}-#{index}-content"}
             class={[
-              "accordion-content bg-gray-200 transition-all duration-500 grid",
+              "accordion-content transition-all duration-500 grid",
               item[:content_class]
             ]}
           >
