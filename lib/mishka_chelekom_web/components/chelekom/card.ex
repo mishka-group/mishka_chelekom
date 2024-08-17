@@ -61,17 +61,19 @@ defmodule MishkaChelekom.Card do
       @font_weight,
       @class
     ]}>
+    <%!-- header --%>
       <div class={["border-b", @title_class]}>
         <h2><%= @title %></h2>
       </div>
 
-     <div class="flex flex-row items-center gap-2 flex-nowrap w-full">
-      <div class="shrink-0 w-full relative overflow-hidden max-w-24">
-        <img class="size-full object-cover" src="https://images.unsplash.com/photo-1721332155433-3a4b5446bcd9" alt="Card Image">
+      <div class="flex flex-row items-center gap-2 flex-nowrap w-full">
+        <div class="shrink-0 w-full relative overflow-hidden max-w-24">
+          <img class="size-full object-cover" src="https://images.unsplash.com/photo-1721332155433-3a4b5446bcd9" alt="Card Image">
+        </div>
+        <div class="flex-1"><%= render_slot(@inner_block) %></div>
       </div>
-      <div class="flex-1"><%= render_slot(@inner_block) %></div>
-     </div>
 
+      <%!-- link --%>
       <div class={["flex", caption_position(@link_position)]}>
         <a class="inline-flex items-center gap-2 leading-6" href="#">
           <span>Click</span>
@@ -79,6 +81,7 @@ defmodule MishkaChelekom.Card do
         </a>
       </div>
 
+      <%!-- footer --%>
       <div class={["border-t", @footer_class]}>
         <h2><%= @footer %></h2>
       </div>
