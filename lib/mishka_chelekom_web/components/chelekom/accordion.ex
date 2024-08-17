@@ -80,8 +80,7 @@ defmodule MishkaChelekom.Accordion do
           role="button"
           class={[
             "accordion-summary block w-full",
-            "transition-all duration-300",
-            "[&.active-accordion-button_.accordion-chevron]:rotate-90",
+            "transition-all duration-100 ease-in-out [&.active-accordion-button_.accordion-chevron]:rotate-90",
             item[:summary_class]
           ]}
         >
@@ -201,7 +200,7 @@ defmodule MishkaChelekom.Accordion do
 
         <div class={[
           "-mt-1 shrink-0 transition-all duration-1000 ease-in-out opacity-0 group-open:opacity-100",
-          "-translate-y-4	group-open:translate-y-0 accordion-content",
+          "-translate-y-4	group-open:translate-y-0 custom-accordion-content",
           item_color(@variant, @color),
           item[:content_class]
         ]}>
@@ -231,7 +230,7 @@ defmodule MishkaChelekom.Accordion do
       <.icon
         :if={!@hide_chevron}
         name={@chevron_icon}
-        class="accordion-chevron w-5 transition-all duration-300 ease-in-out group-open:rotate-90 rotate-180 rtl:rotate-0"
+        class="accordion-chevron w-5 transition-transform duration-300 ease-in-out group-open:rotate-90 rotate-180 rtl:rotate-0"
       />
 
       <div class="flex items-center gap-5">
@@ -289,7 +288,7 @@ defmodule MishkaChelekom.Accordion do
         <.icon
           :if={!@hide_chevron}
           name={@chevron_icon}
-          class="accordion-chevron w-5 transition-all duration-300 ease-in-out group-open:rotate-90 rtl:rotate-180"
+          class="accordion-chevron w-5 transition-transform duration-300 ease-in-out group-open:rotate-90 rtl:rotate-180"
         />
       </div>
     </div>
@@ -371,6 +370,7 @@ defmodule MishkaChelekom.Accordion do
   defp padding_size("extra_small") do
     [
       "[&>.accordion-item-wrapper>.accordion-summary]:p-1",
+      "[&>.accordion-item-wrapper>.custom-accordion-content]:p-1",
       "[&>.accordion-item-wrapper>.accordion-content-wrapper>.accordion-content]:px-1",
       "[&>.accordion-item-wrapper>.accordion-content-wrapper.active>.accordion-content]:py-1"
     ]
@@ -379,6 +379,7 @@ defmodule MishkaChelekom.Accordion do
   defp padding_size("small") do
     [
       "[&>.accordion-item-wrapper>.accordion-summary]:p-2",
+      "[&>.accordion-item-wrapper>.custom-accordion-content]:p-2",
       "[&>.accordion-item-wrapper>.accordion-content-wrapper>.accordion-content]:px-2",
       "[&>.accordion-item-wrapper>.accordion-content-wrapper.active>.accordion-content]:py-2"
     ]
@@ -387,6 +388,7 @@ defmodule MishkaChelekom.Accordion do
   defp padding_size("medium") do
     [
       "[&>.accordion-item-wrapper>.accordion-summary]:p-3",
+      "[&>.accordion-item-wrapper>.custom-accordion-content]:p-3",
       "[&>.accordion-item-wrapper>.accordion-content-wrapper>.accordion-content]:px-3",
       "[&>.accordion-item-wrapper>.accordion-content-wrapper.active>.accordion-content]:py-3"
     ]
@@ -395,6 +397,7 @@ defmodule MishkaChelekom.Accordion do
   defp padding_size("large") do
     [
       "[&>.accordion-item-wrapper>.accordion-summary]:p-4",
+      "[&>.accordion-item-wrapper>.custom-accordion-content]:p-4",
       "[&>.accordion-item-wrapper>.accordion-content-wrapper>.accordion-content]:px-4",
       "[&>.accordion-item-wrapper>.accordion-content-wrapper.active>.accordion-content]:py-4"
     ]
@@ -403,6 +406,7 @@ defmodule MishkaChelekom.Accordion do
   defp padding_size("extra_large") do
     [
       "[&>.accordion-item-wrapper>.accordion-summary]:p-5",
+      "[&>.accordion-item-wrapper>.custom-accordion-content]:p-5",
       "[&>.accordion-item-wrapper>.accordion-content-wrapper>.accordion-content]:px-5",
       "[&>.accordion-item-wrapper>.accordion-content-wrapper.active>.accordion-content]:py-5"
     ]
