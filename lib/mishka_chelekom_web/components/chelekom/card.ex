@@ -81,6 +81,11 @@ defmodule MishkaChelekom.Card do
         </a>
       </div>
 
+      <%!-- Date --%>
+      <div class={["text-gray-400 flex", caption_position(@link_position)]}>
+        Tue, 10 2014 12:00 PM
+      </div>
+
       <%!-- footer --%>
       <div class={["border-t", @footer_class]}>
         <h2><%= @footer %></h2>
