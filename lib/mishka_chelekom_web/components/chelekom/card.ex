@@ -1,5 +1,6 @@
 defmodule MishkaChelekom.Card do
   use Phoenix.Component
+  import MishkaChelekomWeb.CoreComponents
 
   @sizes ["extra_small", "small", "medium", "large", "extra_large"]
   @colors [
@@ -28,60 +29,59 @@ defmodule MishkaChelekom.Card do
   attr :id, :string, default: nil, doc: ""
   attr :variant, :string, values: @variants, default: "default", doc: ""
   attr :color, :string, values: @colors, default: "white", doc: ""
-  attr :border, :string, values: @sizes ++ [nil], default: "medium", doc: ""
+  attr :border, :string, values: @sizes ++ [nil], default: "extra_small", doc: ""
   attr :rounded, :string, values: @sizes ++ ["full", "none"], default: "small", doc: ""
   attr :size, :string, default: "medium", doc: ""
   attr :space, :string, values: @sizes, default: "small", doc: ""
   attr :font_weight, :string, default: "font-normal", doc: ""
   attr :padding, :string, values: @sizes ++ ["none"], default: "small", doc: ""
   attr :class, :string, default: nil, doc: ""
+  attr :title, :string, default: nil
+  attr :title_class, :string, default: nil
+  attr :footer, :string, default: nil
+  attr :footer_class, :string, default: nil
+  attr :link_position, :string, default: "end"
+  attr :content_class, :string
+  attr :icon, :string
+  attr :icon_class, :string
+  attr :image, :string
+  attr :image_class, :string, default: nil
   attr :rest, :global, doc: ""
 
-  slot :item, required: true do
-    attr :title, :string, required: true
-    attr :description, :string
-    attr :icon, :string
-    attr :class, :string
-    attr :image, :string
-    attr :image_class, :string
-    attr :icon_class, :string
-    attr :content_class, :string
-    attr :title_class, :string
-    attr :summary_class, :string
-    attr :open, :boolean
-  end
 
   def card(assigns) do
     ~H"""
     <div class={[
       space_class(@space),
-      border_class(@border, border_position(@rest)),
+      border_class(@border),
       color_variant(@variant, @color),
       rounded_size(@rounded),
       padding_size(@padding),
       size_class(@size),
-      space_class(@space, @variant),
       @font_weight,
       @class
     ]}>
-      <div class="border-b rounded-t-xl py-3 px-4 md:py-4 md:px-5">
-        <div class="title mt-1 text-sm text-gray-500">
-          Featured
-        </div>
+      <div class={["border-b", @title_class]}>
+        <h2><%= @title %></h2>
       </div>
-      <div class="bg-gray-100 border-b border-gray-200 text-sm text-gray-800 p-4"></div>
-      <div class="p-4 md:p-5">
-        <h3 class="text-lg font-bold text-gray-800">
-          Card title
-        </h3>
-        <p class="mt-2 text-gray-500 dark:text-neutral-400">
-          With supporting text below as a natural lead-in to additional content.
-        </p>
-        <a class="" href="#">
-          Card link
+
+     <div class="flex flex-row items-center gap-2 flex-nowrap w-full">
+      <div class="shrink-0 w-full relative overflow-hidden max-w-24">
+        <img class="size-full object-cover" src="https://images.unsplash.com/photo-1721332155433-3a4b5446bcd9" alt="Card Image">
+      </div>
+      <div class="flex-1"><%= render_slot(@inner_block) %></div>
+     </div>
+
+      <div class={["flex", caption_position(@link_position)]}>
+        <a class="inline-flex items-center gap-2 leading-6" href="#">
+          <span>Click</span>
+          <.icon name="hero-chevron-right" class="size-4" />
         </a>
       </div>
-      <%= render_slot(@inner_block) %>
+
+      <div class={["border-t", @footer_class]}>
+        <h2><%= @footer %></h2>
+      </div>
     </div>
     """
   end
@@ -93,52 +93,54 @@ defmodule MishkaChelekom.Card do
   defp space_class("extra_large"), do: "space-y-6"
   defp space_class(params) when is_binary(params), do: params
 
-  defp border_class(_, "none") do
+  defp border_class("none") do
     ["border-0"]
   end
 
-  defp border_class("extra_small", position) do
+  defp border_class("extra_small") do
     [
-      position == "left" && "border-s",
-      position == "right" && "border-e",
-      position == "full" && "border"
+      "border"
     ]
   end
 
-  defp border_class("small", position) do
+  defp border_class("small") do
     [
-      position == "left" && "border-s-2",
-      position == "right" && "border-s-2",
-      position == "full" && "border-2"
+      "border-2"
     ]
   end
 
-  defp border_class("medium", position) do
+  defp border_class("medium") do
     [
-      position == "left" && "border-s-[3px]",
-      position == "right" && "border-e-[3px]",
-      position == "full" && "border-[3px]"
+      "border-[3px]"
     ]
   end
 
-  defp border_class("large", position) do
+  defp border_class("large") do
     [
-      position == "left" && "border-s-4",
-      position == "right" && "border-e-4",
-      position == "full" && "border-4"
+     "border-4"
     ]
   end
 
-  defp border_class("extra_large", position) do
+  defp border_class("extra_large") do
     [
-      position == "left" && "border-s-[5px]",
-      position == "right" && "border-e-[5px]",
-      position == "full" && "border-[5px]"
+     "border-[5px]"
     ]
   end
 
-  defp border_class(params, _) when is_binary(params), do: [params]
-  defp border_class(nil, _), do: nil
+  defp border_class(params) when is_binary(params), do: [params]
+  defp border_class(nil), do: nil
+
+  defp caption_position("end") do
+    "justify-end"
+  end
+
+  defp caption_position("start") do
+    "justify-start"
+  end
+
+  defp caption_position("center") do
+    "justify-center"
+  end
 
   defp rounded_size("extra_small"), do: "rounded-sm"
   defp rounded_size("small"), do: "rounded"
@@ -157,84 +159,29 @@ defmodule MishkaChelekom.Card do
   defp padding_size(params) when is_binary(params), do: params
   defp padding_size(_), do: padding_size("small")
 
-  defp size_class("extra_small"), do: "text-xs [&>.quote-icon]:size-7"
-  defp size_class("small"), do: "text-sm [&>.quote-icon]:size-8"
-  defp size_class("medium"), do: "text-base [&>.quote-icon]:size-9"
-  defp size_class("large"), do: "text-lg [&>.quote-icon]:size-10"
-  defp size_class("extra_large"), do: "text-xl [&>.quote-icon]:size-12"
+  defp size_class("extra_small"), do: "text-xs"
+  defp size_class("small"), do: "text-sm"
+  defp size_class("medium"), do: "text-base"
+  defp size_class("large"), do: "text-lg"
+  defp size_class("extra_large"), do: "text-xl"
   defp size_class(params) when is_binary(params), do: params
   defp size_class(_), do: size_class("medium")
 
-  defp space_class(_, variant) when variant not in ["seperated", "tinted_split"], do: nil
-  defp space_class("extra_small", _), do: "accordion-item-gap space-y-2"
-  defp space_class("small", _), do: "accordion-item-gap space-y-3"
-  defp space_class("medium", _), do: "accordion-item-gap space-y-4"
-  defp space_class("large", _), do: "accordion-item-gap space-y-5"
-  defp space_class("extra_large", _), do: "accordion-item-gap space-y-6"
-  defp space_class(params, _) when is_binary(params), do: params
-  defp space_class(_, _), do: nil
+  defp space_class("extra_small"), do: "space-y-2"
+  defp space_class("small"), do: "space-y-3"
+  defp space_class("medium"), do: "space-y-4"
+  defp space_class("large"), do: "space-y-5"
+  defp space_class("extra_large"), do: "space-y-6"
+  defp space_class(params) when is_binary(params), do: params
+  defp space_class(_), do: nil
 
-  defp media_size("extra_small"), do: "[&>div_.accordion-title-media]:size-12"
-  defp media_size("small"), do: "[&>div_.accordion-title-media]:size-14"
-  defp media_size("medium"), do: "[&>div_.accordion-title-media]:size-16"
-  defp media_size("large"), do: "[&>div_.accordion-title-media]:size-20"
-  defp media_size("extra_large"), do: "[&>div_.accordion-title-media]:size-24"
+  defp media_size("extra_small"), do: "size-12"
+  defp media_size("small"), do: "size-14"
+  defp media_size("medium"), do: "size-16"
+  defp media_size("large"), do: "size-20"
+  defp media_size("extra_large"), do: "size-24"
   defp media_size(params) when is_binary(params), do: params
   defp media_size(_), do: media_size("small")
-
-  defp content_size("extra_small") do
-    [
-      "rounded-sm [&:not()>div:first-child>.accordion-summary]:rounded-t-sm",
-      "[&>div]:rounded-sm [&>div>.accordion-summary]:rounded-t-sm",
-      "[&>div>:not(.accordion-summary)]:rounded-b-sm"
-    ]
-  end
-
-  defp content_size("small") do
-    [
-      "rounded [&:not()>div:first-child>.accordion-summary]:rounded-t",
-      "[&>div]:rounded [&>div>.accordion-summary]:rounded-t",
-      "[&>div>:not(.accordion-summary)]:rounded-b"
-    ]
-  end
-
-  defp content_size("medium") do
-    [
-      "rounded-md [&:not()>div:first-child>.accordion-summary]:rounded-t-md",
-      "[&>div]:rounded-md [&>div>.accordion-summary]:rounded-t-md",
-      "[&>div>:not(.accordion-summary)]:rounded-b-md"
-    ]
-  end
-
-  defp content_size("large") do
-    [
-      "rounded-lg [&:not()>div:first-child>.accordion-summary]:rounded-t-lg",
-      "[&>div]:rounded-lg [&>div>.accordion-summary]:rounded-t-lg",
-      "[&>div>:not(.accordion-summary)]:rounded-b-lg"
-    ]
-  end
-
-  defp content_size("extra_large") do
-    [
-      "rounded-xl [&:not()>div:first-child>.accordion-summary]:rounded-t-xl",
-      "[&>div]:rounded-xl [&>div>.accordion-summary]:rounded-t-xl",
-      "[&>div>:not(.accordion-summary)]:rounded-b-xl"
-    ]
-  end
-
-  defp content_size("none"), do: "rounded-none"
-
-  defp caption_position("right") do
-    "ltr:justify-end rtl:justify-start"
-  end
-
-  defp caption_position("left") do
-    "ltr:justify-start rtl:justify-end"
-  end
-
-  defp caption_position("center") do
-    "justify-center"
-  end
 
   defp color_variant("default", "white") do
     "bg-white text-[#3E3E3E] border-[#DADADA]"
@@ -455,12 +402,6 @@ defmodule MishkaChelekom.Card do
   defp color_variant("transparent", "dark") do
     "bg-transparent text-[#1E1E1E] border-transparent"
   end
-
-  defp border_position(%{hide_border: true}), do: "none"
-  defp border_position(%{left_border: true}), do: "left"
-  defp border_position(%{right_border: true}), do: "right"
-  defp border_position(%{full_border: true}), do: "full"
-  defp border_position(_), do: "left"
 
   defp chevron_position(%{left_chevron: true}), do: "left"
   defp chevron_position(%{right_chevron: true}), do: "right"
