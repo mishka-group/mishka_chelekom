@@ -76,6 +76,7 @@ defmodule MishkaChelekom.Accordion do
         class={["group accordion-item-wrapper", item[:class]]}
       >
         <div
+          id={"#{@id}-#{index}-role-button"}
           role="button"
           class={[
             "accordion-summary block w-full",
@@ -296,11 +297,13 @@ defmodule MishkaChelekom.Accordion do
     js
     |> JS.show(to: "##{id}")
     |> JS.add_class("active", to: "##{id}")
+    |> JS.add_class("active-accordion-button", to: "##{id}-role-button")
   end
 
   def hide_accordion_content(js \\ %JS{}, id) do
     js
     |> JS.remove_class("active", to: "##{id}")
+    |> JS.remove_class("active-accordion-button", to: "##{id}-role-button")
   end
 
   defp space_class(_, variant) when variant not in ["seperated", "tinted_split"], do: nil
