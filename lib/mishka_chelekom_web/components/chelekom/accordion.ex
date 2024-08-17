@@ -28,8 +28,7 @@ defmodule MishkaChelekom.Accordion do
   ]
 
   @doc type: :component
-  attr :id, :string, default: nil, doc: ""
-  attr :name, :string, default: nil, doc: ""
+  attr :id, :string, required: true, doc: ""
   attr :class, :string, default: nil, doc: ""
   attr :variant, :string, values: @variants, default: "default", doc: ""
   attr :space, :string, values: @sizes, default: "small", doc: ""
@@ -293,56 +292,15 @@ defmodule MishkaChelekom.Accordion do
     """
   end
 
-  def show_acc(js \\ %JS{}, selector) do
-    JS.show(js,
-      to: selector,
-      time: 400,
-      transition:
-        {"transition-all transform ease-out duration-400", "will-change-[opacity] opacity-0",
-         "will-change-auto opacity-100"}
-    )
-  end
-
-  def hide_acc(js \\ %JS{}, selector) do
-    JS.hide(js,
-      to: selector,
-      time: 75,
-      transition:
-        {"transition-all transform ease-in duration-100", "will-change-auto opacity-100",
-         "will-change-[opacity] opacity-0"}
-    )
-  end
-
   def show_accordion_content(js \\ %JS{}, id) when is_binary(id) do
     js
     |> JS.show(to: "##{id}")
-    # |> JS.show(
-    #   to: "##{id}-content",
-    #   time: 300,
-    #   transition:
-    #     {"transition-all transform ease-out duration-1000", "will-change-[opacity] opacity-0",
-    #      "will-change-auto opacity-100"}
-    # )
-    |> JS.add_class("active", to: ".accordion-content-wrapper")
-
-    # |> show_acc("##{id}-content")
-    # |> JS.focus_first(to: "##{id}-content")
+    |> JS.add_class("active", to: "##{id}")
   end
 
   def hide_accordion_content(js \\ %JS{}, id) do
     js
-    # |> JS.hide(
-    #   to: "##{id}",
-    #   time: 150,
-    #   transition:
-    #     {"transition-all transform ease-in duration-300", "will-change-auto opacity-100",
-    #      "will-change-[opacity] opacity-0"}
-    # )
-    # |> hide_acc("##{id}-content")
-    |> JS.remove_class("active", to: ".accordion-content-wrapper")
-
-    # |> JS.hide(to: "##{id}", transition: {"block", "block", "hidden"})
-    # |> JS.pop_focus()
+    |> JS.remove_class("active", to: "##{id}")
   end
 
   defp space_class(_, variant) when variant not in ["seperated", "tinted_split"], do: nil
