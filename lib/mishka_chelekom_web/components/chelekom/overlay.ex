@@ -44,7 +44,7 @@ defmodule MishkaChelekom.Overlay do
     <div
       id={@id}
       class={[
-        "absolute inset-0",
+        "absolute inset-0 z-50",
         color_class(@color),
         opacity_class(@opacity),
         blur_class(@blur),
@@ -144,23 +144,23 @@ defmodule MishkaChelekom.Overlay do
 
 
   defp blur_class("extra_small") do
-    "backdrop-blur-sm"
+    "backdrop-blur-[1px]"
   end
 
   defp blur_class("small") do
-    "backdrop-blur"
+    "backdrop-blur-[2px]"
   end
 
   defp blur_class("medium") do
-    "backdrop-blur-md"
+    "backdrop-blur-[3px]"
   end
 
   defp blur_class("large") do
-    "backdrop-blur-lg"
+    "backdrop-blur-[4px]"
   end
 
   defp blur_class("extra_large") do
-    "backdrop-blur-xl"
+    "backdrop-blur-[5px]"
   end
 
   defp blur_class(params) when is_binary(params), do: params
