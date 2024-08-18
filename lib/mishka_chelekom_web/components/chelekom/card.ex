@@ -1,6 +1,5 @@
 defmodule MishkaChelekom.Card do
   use Phoenix.Component
-  import MishkaChelekomWeb.CoreComponents
 
   @sizes ["extra_small", "small", "medium", "large", "extra_large"]
   @colors [
