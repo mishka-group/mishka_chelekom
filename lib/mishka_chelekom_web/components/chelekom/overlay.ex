@@ -1,6 +1,7 @@
 defmodule MishkaChelekom.Overlay do
   use Phoenix.Component
 
+  @sizes ["extra_small", "small", "medium", "large", "extra_large"]
   @colors [
     "white",
     "primary",
@@ -15,23 +16,38 @@ defmodule MishkaChelekom.Overlay do
     "dawn"
   ]
 
+  @opacities [
+    "transparent",
+    "translucent",
+    "semi_transparent",
+    "lightly_tinted",
+    "tinted",
+    "semi_opaque",
+    "opaque",
+    "heavily_tinted",
+    "almost_solid"
+  ]
+
   @doc type: :component
   attr :id, :string, default: nil, doc: ""
   attr :color, :string, values: @colors, default: "white", doc: ""
-  attr :opacity, :string, default: "100", doc: ""
-  attr :backdrop, :string, default: "none", doc: ""
+  attr :opacity, :string, values: @opacities ++ [nil], default: nil, doc: ""
+  attr :blur, :string, values: @sizes ++ ["none" , nil], default: nil, doc: ""
   attr :class, :string, default: nil, doc: ""
   attr :rest, :global, doc: ""
 
   slot :inner_block, required: false, doc: ""
 
+  @spec overlay(map()) :: Phoenix.LiveView.Rendered.t()
   def overlay(assigns) do
     ~H"""
     <div
       id={@id}
       class={[
         "absolute inset-0",
-        color_class(@color, @opacity, @backdrop),
+        color_class(@color),
+        opacity_class(@opacity),
+        blur_class(@blur),
         @class
       ]}
       {@rest}
@@ -41,47 +57,113 @@ defmodule MishkaChelekom.Overlay do
     """
   end
 
-  defp color_class("white", opacity, backdrop) do
-    "bg-white/#{opacity} backdrop-blur-#{backdrop}"
+  defp color_class("white") do
+    "bg-white"
   end
 
-  defp color_class("primary", opacity, backdrop) do
-    "bg-[#2441de]/#{opacity} backdrop-blur-#{backdrop}"
+  defp color_class("primary") do
+    "bg-[#2441de]"
   end
 
-  defp color_class("secondary", opacity, backdrop) do
-    "bg-[#877C7C]/#{opacity} backdrop-blur-#{backdrop}"
+  defp color_class("secondary") do
+    "bg-[#877C7C]"
   end
 
-  defp color_class("success", opacity, backdrop) do
-    "bg-[#6EE7B7]/#{opacity} backdrop-blur-#{backdrop}"
+  defp color_class("success") do
+    "bg-[#6EE7B7]"
   end
 
-  defp color_class("warning", opacity, backdrop) do
-    "bg-[#FF8B08]/#{opacity} backdrop-blur-#{backdrop}"
+  defp color_class("warning") do
+    "bg-[#FF8B08]"
   end
 
-  defp color_class("danger", opacity, backdrop) do
-    "bg-[#E73B3B]/#{opacity} backdrop-blur-#{backdrop}"
+  defp color_class("danger") do
+    "bg-[#E73B3B]"
   end
 
-  defp color_class("info", opacity, backdrop) do
-    "bg-[#004FC4]/#{opacity} backdrop-blur-#{backdrop}"
+  defp color_class("info") do
+    "bg-[#004FC4]"
   end
 
-  defp color_class("misc", opacity, backdrop) do
-    "bg-[#52059C]/#{opacity} backdrop-blur-#{backdrop}"
+  defp color_class("misc") do
+    "bg-[#52059C]"
   end
 
-  defp color_class("dawn", opacity, backdrop) do
-    "bg-[#4D4137]/#{opacity} backdrop-blur-#{backdrop}"
+  defp color_class("dawn") do
+    "bg-[#4D4137]"
   end
 
-  defp color_class("light", opacity, backdrop) do
-    "bg-[#707483]/#{opacity} backdrop-blur-#{backdrop}"
+  defp color_class("light") do
+    "bg-[#707483]"
   end
 
-  defp color_class("dark", opacity, backdrop) do
-    "bg-[#050404]/#{opacity} backdrop-blur-#{backdrop}"
+  defp color_class("dark") do
+    "bg-[#050404]"
   end
+
+  defp color_class(params) when is_binary(params), do: params
+
+  defp opacity_class("transparent") do
+    "bg-opacity-10"
+  end
+
+  defp opacity_class("translucent") do
+    "bg-opacity-20"
+  end
+
+  defp opacity_class("semi_transparent") do
+    "bg-opacity-30"
+  end
+
+  defp opacity_class("lightly_tinted") do
+    "bg-opacity-40"
+  end
+
+  defp opacity_class("tinted") do
+    "bg-opacity-50"
+  end
+
+  defp opacity_class("semi_opaque") do
+    "bg-opacity-60"
+  end
+
+  defp opacity_class("opaque") do
+    "bg-opacity-70"
+  end
+
+  defp opacity_class("heavily_tinted") do
+    "bg-opacity-80"
+  end
+
+  defp opacity_class("almost_solid") do
+    "bg-opacity-90"
+  end
+
+  defp opacity_class(params) when is_binary(params), do: params
+  defp opacity_class(_), do: nil
+
+
+  defp blur_class("extra_small") do
+    "backdrop-blur-sm"
+  end
+
+  defp blur_class("small") do
+    "backdrop-blur"
+  end
+
+  defp blur_class("medium") do
+    "backdrop-blur-md"
+  end
+
+  defp blur_class("large") do
+    "backdrop-blur-lg"
+  end
+
+  defp blur_class("extra_large") do
+    "backdrop-blur-xl"
+  end
+
+  defp blur_class(params) when is_binary(params), do: params
+  defp blur_class(_), do: nil
+
 end
