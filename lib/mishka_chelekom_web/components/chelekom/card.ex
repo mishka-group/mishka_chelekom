@@ -36,18 +36,12 @@ defmodule MishkaChelekom.Card do
   attr :font_weight, :string, default: "font-normal", doc: ""
   attr :padding, :string, values: @sizes ++ ["none"], default: "small", doc: ""
   attr :class, :string, default: nil, doc: ""
-  attr :title, :string, default: nil
-  attr :title_class, :string, default: nil
-  attr :footer, :string, default: nil
-  attr :footer_class, :string, default: nil
   attr :link_position, :string, default: "end"
   attr :content_class, :string
   attr :icon, :string
   attr :icon_class, :string
-  attr :image, :string
-  attr :image_class, :string, default: nil
   attr :rest, :global, doc: ""
-
+  slot :inner_block, required: false, doc: ""
 
   def card(assigns) do
     ~H"""
@@ -61,36 +55,50 @@ defmodule MishkaChelekom.Card do
       @font_weight,
       @class
     ]}>
-    <%!-- header --%>
-      <div class={["border-b", @title_class]}>
-        <h2><%= @title %></h2>
-      </div>
-
-      <div class="flex flex-row items-center gap-2 flex-nowrap w-full">
-        <div class="shrink-0 w-full relative overflow-hidden max-w-24">
-          <img class="size-full object-cover" src="https://images.unsplash.com/photo-1721332155433-3a4b5446bcd9" alt="Card Image">
-        </div>
-        <div class="flex-1"><%= render_slot(@inner_block) %></div>
-      </div>
-
-      <%!-- link --%>
-      <div class={["flex", caption_position(@link_position)]}>
-        <a class="inline-flex items-center gap-2 leading-6" href="#">
-          <span>Click</span>
-          <.icon name="hero-chevron-right" class="size-4" />
-        </a>
-      </div>
-
-      <%!-- Date --%>
-      <div class={["text-gray-400 flex", caption_position(@link_position)]}>
-        Tue, 10 2014 12:00 PM
-      </div>
-
-      <%!-- footer --%>
-      <div class={["border-t", @footer_class]}>
-        <h2><%= @footer %></h2>
-      </div>
+      <%= render_slot(@inner_block) %>
     </div>
+    """
+  end
+
+
+  attr :id, :string, default: nil, doc: ""
+  attr :class, :string, default: nil, doc: ""
+  attr :rest, :global, doc: ""
+  slot :inner_block, required: false, doc: ""
+  def card_title(assigns) do
+    ~H"""
+    <%= render_slot(@inner_block) %>
+    """
+  end
+
+
+  attr :id, :string, default: nil, doc: ""
+  attr :class, :string, default: nil, doc: ""
+  attr :rest, :global, doc: ""
+  slot :inner_block, required: false, doc: ""
+  def card_media(assigns) do
+    ~H"""
+    <%= render_slot(@inner_block) %>
+    """
+  end
+
+  attr :id, :string, default: nil, doc: ""
+  attr :class, :string, default: nil, doc: ""
+  attr :rest, :global, doc: ""
+  slot :inner_block, required: false, doc: ""
+  def card_content(assigns) do
+    ~H"""
+    <%= render_slot(@inner_block) %>
+    """
+  end
+
+  attr :id, :string, default: nil, doc: ""
+  attr :class, :string, default: nil, doc: ""
+  attr :rest, :global, doc: ""
+  slot :inner_block, required: false, doc: ""
+  def card_footer(assigns) do
+    ~H"""
+    <%= render_slot(@inner_block) %>
     """
   end
 
