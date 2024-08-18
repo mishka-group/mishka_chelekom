@@ -45,6 +45,7 @@ defmodule MishkaChelekom.Modal do
 
   """
   attr :id, :string, required: true
+  attr :title, :string
   attr :variant, :string, values: @variants, default: "default", doc: ""
   attr :color, :string, values: @colors, default: "white", doc: ""
   attr :rounded, :string, values: @sizes, default: "small", doc: ""
@@ -89,7 +90,9 @@ defmodule MishkaChelekom.Modal do
               ]}
             >
               <div class="flex items-center justify-between">
-                <div class="font-semibold text-base md:text-lg xl:text-2xl">title</div>
+                <div :if={@title} class="font-semibold text-base md:text-lg xl:text-2xl">
+                  <%= @title %>
+                </div>
                 <button
                   phx-click={JS.exec("data-cancel", to: "##{@id}")}
                   type="button"
@@ -157,7 +160,7 @@ defmodule MishkaChelekom.Modal do
   defp size_class("medium"), do: "mx-auto max-w-md"
   defp size_class("large"), do: "mx-auto max-w-lg"
   defp size_class("extra_large"), do: "mx-auto max-w-xl"
-  defp size_class("screen"), do: "w-full h-screen"
+  defp size_class("screen"), do: "w-full h-screen overflow-y-scroll"
   defp size_class(params) when is_binary(params), do: params
   defp size_class(_), do: size_class("small")
 
