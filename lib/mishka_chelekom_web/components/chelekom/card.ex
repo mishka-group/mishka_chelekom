@@ -63,7 +63,6 @@ defmodule MishkaChelekom.Card do
     """
   end
 
-
   attr :id, :string, default: nil, doc: ""
   attr :class, :string, default: nil, doc: ""
   attr :title, :string, default: nil, doc: ""
@@ -89,7 +88,6 @@ defmodule MishkaChelekom.Card do
     """
   end
 
-
   attr :id, :string, default: nil, doc: ""
   attr :alt, :string, doc: ""
   attr :src, :string, required: true, doc: ""
@@ -97,7 +95,7 @@ defmodule MishkaChelekom.Card do
   attr :rest, :global, doc: ""
   slot :inner_block, required: false, doc: ""
 
-# TODO: we should support other media like video
+  # TODO: we should support other media like video
 
   def card_media(assigns) do
     ~H"""
@@ -172,13 +170,13 @@ defmodule MishkaChelekom.Card do
 
   defp border_class("large") do
     [
-     "border-4"
+      "border-4"
     ]
   end
 
   defp border_class("extra_large") do
     [
-     "border-[5px]"
+      "border-[5px]"
     ]
   end
 
@@ -443,5 +441,4 @@ defmodule MishkaChelekom.Card do
 
   defp footer_bordered(true), do: "bordered-header border-t"
   defp footer_bordered(false), do: ""
-
 end

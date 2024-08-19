@@ -86,7 +86,7 @@ defmodule MishkaChelekom.Modal do
                 color_variant(@color, @variant),
                 rounded_size(@rounded),
                 padding_size(@padding),
-                size_class(@size),
+                size_class(@size)
               ]}
             >
               <div class="flex items-center justify-between">

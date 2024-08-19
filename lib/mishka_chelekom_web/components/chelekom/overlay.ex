@@ -32,7 +32,7 @@ defmodule MishkaChelekom.Overlay do
   attr :id, :string, default: nil, doc: ""
   attr :color, :string, values: @colors, default: "white", doc: ""
   attr :opacity, :string, values: @opacities ++ [nil], default: nil, doc: ""
-  attr :blur, :string, values: @sizes ++ ["none" , nil], default: nil, doc: ""
+  attr :blur, :string, values: @sizes ++ ["none", nil], default: nil, doc: ""
   attr :class, :string, default: nil, doc: ""
   attr :rest, :global, doc: ""
 
@@ -142,7 +142,6 @@ defmodule MishkaChelekom.Overlay do
   defp opacity_class(params) when is_binary(params), do: params
   defp opacity_class(_), do: nil
 
-
   defp blur_class("extra_small") do
     "backdrop-blur-[1px]"
   end
@@ -165,5 +164,4 @@ defmodule MishkaChelekom.Overlay do
 
   defp blur_class(params) when is_binary(params), do: params
   defp blur_class(_), do: nil
-
 end

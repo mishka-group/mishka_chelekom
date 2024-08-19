@@ -54,8 +54,8 @@ defmodule MishkaChelekom.Accordion do
   end
 
   attr :rest, :global,
-  include: ~w(left_chevron right_chevron chevron hide_chevron),
-  doc: ""
+    include: ~w(left_chevron right_chevron chevron hide_chevron),
+    doc: ""
 
   def accordion(assigns) do
     ~H"""
@@ -221,40 +221,36 @@ defmodule MishkaChelekom.Accordion do
 
   defp native_chevron_position(%{position: "left"} = assigns) do
     ~H"""
-    <div
-      id={@id}
-      class={[@class]}
-      {@rest}
-    >
-    <div class="flex flex-nowrap items-center rtl:justify-start ltr:justify-start gap-2">
-      <.icon
-        :if={!@hide_chevron}
-        name={@chevron_icon}
-        class="accordion-chevron w-5 transition-transform duration-300 ease-in-out group-open:rotate-90 rotate-180 rtl:rotate-0"
-      />
-
-      <div class="flex items-center gap-5">
-        <img
-          :if={!is_nil(@item[:image])}
-          class={["accordion-title-media shrink-0", @item[:image_class]]}
-          src={@item[:image]}
-        />
-
+    <div id={@id} class={[@class]} {@rest}>
+      <div class="flex flex-nowrap items-center rtl:justify-start ltr:justify-start gap-2">
         <.icon
-          :if={!is_nil(@item[:icon])}
-          name={@item[:icon]}
-          class={@item[:icon_class] || "accordion-title-media"}
+          :if={!@hide_chevron}
+          name={@chevron_icon}
+          class="accordion-chevron w-5 transition-transform duration-300 ease-in-out group-open:rotate-90 rotate-180 rtl:rotate-0"
         />
 
-        <div class={["space-y-2", @item[:title_class]]}>
-          <div><%= @item[:title] %></div>
+        <div class="flex items-center gap-5">
+          <img
+            :if={!is_nil(@item[:image])}
+            class={["accordion-title-media shrink-0", @item[:image_class]]}
+            src={@item[:image]}
+          />
 
-          <div :if={!is_nil(@item[:description])} class="text-xs font-light">
-            <%= @item[:description] %>
+          <.icon
+            :if={!is_nil(@item[:icon])}
+            name={@item[:icon]}
+            class={@item[:icon_class] || "accordion-title-media"}
+          />
+
+          <div class={["space-y-2", @item[:title_class]]}>
+            <div><%= @item[:title] %></div>
+
+            <div :if={!is_nil(@item[:description])} class="text-xs font-light">
+              <%= @item[:description] %>
+            </div>
           </div>
         </div>
       </div>
-    </div>
     </div>
     """
   end
