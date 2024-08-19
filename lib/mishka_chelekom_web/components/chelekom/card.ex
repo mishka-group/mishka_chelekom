@@ -101,8 +101,10 @@ defmodule MishkaChelekom.Card do
       ]}
       {@rest}
     >
-      <.icon :if={@icon} name={@icon} />
-      <h3 :if={@title}><%= @title %></h3>
+      <div class="flex gap-2 items-center">
+        <.icon :if={@icon} name={@icon} class="card-title-icon" />
+        <h3 :if={@title}><%= @title %></h3>
+      </div>
       <%= render_slot(@inner_block) %>
     </div>
     """
@@ -223,12 +225,11 @@ defmodule MishkaChelekom.Card do
   defp rounded_size("extra_large"), do: "rounded-xl"
   defp rounded_size(nil), do: "rounded-none"
 
-  defp size_class("extra_small"), do: "text-xs"
-  defp size_class("small"), do: "text-sm"
-  defp size_class("medium"), do: "text-base"
-  defp size_class("large"), do: "text-lg"
-  defp size_class("extra_large"), do: "text-xl"
-  defp size_class("extra_large"), do: "text-xl"
+  defp size_class("extra_small"), do: "text-xs [&_.card-title-icon]:size-3"
+  defp size_class("small"), do: "text-sm [&_.card-title-icon]:size-3.5"
+  defp size_class("medium"), do: "text-base [&_.card-title-icon]:size-4"
+  defp size_class("large"), do: "text-lg [&_.card-title-icon]:size-5"
+  defp size_class("extra_large"), do: "text-xl [&_.card-title-icon]:size-6"
   defp size_class(nil), do: "rounded-none"
 
   defp content_position("start") do
