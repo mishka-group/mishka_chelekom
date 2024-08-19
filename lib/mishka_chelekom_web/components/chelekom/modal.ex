@@ -4,7 +4,7 @@ defmodule MishkaChelekom.Modal do
   import MishkaChelekomWeb.Gettext
   alias Phoenix.LiveView.JS
 
-  @sizes ["extra_small", "small", "medium", "large", "extra_large"]
+  @sizes ["extra_small", "small", "medium", "large", "extra_large", "double_large", "triple_large", "quadruple_large"]
   @colors [
     "white",
     "primary",
@@ -50,7 +50,7 @@ defmodule MishkaChelekom.Modal do
   attr :color, :string, values: @colors, default: "white", doc: ""
   attr :rounded, :string, values: @sizes, default: "small", doc: ""
   attr :padding, :string, values: @sizes ++ ["none"], default: "medium", doc: ""
-  attr :size, :string, values: @sizes ++ ["screen"], default: "small", doc: ""
+  attr :size, :string, values: @sizes ++ ["screen"], default: "extra_large", doc: ""
   attr :class, :string, default: nil, doc: ""
   attr :show, :boolean, default: false
   attr :on_cancel, JS, default: %JS{}
@@ -98,7 +98,7 @@ defmodule MishkaChelekom.Modal do
                 <button
                   phx-click={JS.exec("data-cancel", to: "##{@id}")}
                   type="button"
-                  class="p-2 opacity-40 hover:opacity-60"
+                  class="p-2 hover:opacity-60"
                   aria-label={gettext("close")}
                 >
                   <.icon name="hero-x-mark-solid" class="size-5" />
@@ -186,9 +186,12 @@ defmodule MishkaChelekom.Modal do
   defp size_class("medium"), do: "mx-auto max-w-md"
   defp size_class("large"), do: "mx-auto max-w-lg"
   defp size_class("extra_large"), do: "mx-auto max-w-xl"
+  defp size_class("double_large"), do: "mx-auto max-w-2xl"
+  defp size_class("triple_large"), do: "mx-auto max-w-3xl"
+  defp size_class("quadruple_large"), do: "mx-auto max-w-4xl"
   defp size_class("screen"), do: "w-full h-screen overflow-y-scroll"
   defp size_class(params) when is_binary(params), do: params
-  defp size_class(_), do: size_class("small")
+  defp size_class(_), do: size_class("extra_large")
 
   defp color_variant("default", "white") do
     "bg-white text-[#3E3E3E] border border-[#DADADA]"
@@ -279,91 +282,91 @@ defmodule MishkaChelekom.Modal do
   end
 
   defp color_variant("unbordered", "white") do
-    "bg-white text-[#3E3E3E] border-transparent"
+    "bg-white text-[#3E3E3E]"
   end
 
   defp color_variant("unbordered", "primary") do
-    "bg-[#4363EC] text-white border-transparent"
+    "bg-[#4363EC] text-white"
   end
 
   defp color_variant("unbordered", "secondary") do
-    "bg-[#6B6E7C] text-white border-transparent"
+    "bg-[#6B6E7C] text-white"
   end
 
   defp color_variant("unbordered", "success") do
-    "bg-[#ECFEF3] text-[#047857] border-transparent"
+    "bg-[#ECFEF3] text-[#047857]"
   end
 
   defp color_variant("unbordered", "warning") do
-    "bg-[#FFF8E6] text-[#FF8B08] border-transparent"
+    "bg-[#FFF8E6] text-[#FF8B08]"
   end
 
   defp color_variant("unbordered", "danger") do
-    "bg-[#FFE6E6] text-[#E73B3B] border-transparent"
+    "bg-[#FFE6E6] text-[#E73B3B]"
   end
 
   defp color_variant("unbordered", "info") do
-    "bg-[#E5F0FF] text-[#004FC4] border-transparent"
+    "bg-[#E5F0FF] text-[#004FC4]"
   end
 
   defp color_variant("unbordered", "misc") do
-    "bg-[#FFE6FF] text-[#52059C] border-transparent"
+    "bg-[#FFE6FF] text-[#52059C]"
   end
 
   defp color_variant("unbordered", "dawn") do
-    "bg-[#FFECDA] text-[#4D4137] border-transparent"
+    "bg-[#FFECDA] text-[#4D4137]"
   end
 
   defp color_variant("unbordered", "light") do
-    "bg-[#E3E7F1] text-[#707483] border-transparent"
+    "bg-[#E3E7F1] text-[#707483]"
   end
 
   defp color_variant("unbordered", "dark") do
-    "bg-[#1E1E1E] text-white border-transparent"
+    "bg-[#1E1E1E] text-white"
   end
 
   defp color_variant("transparent", "white") do
-    "bg-transparent text-white border-transparent"
+    "bg-transparent text-white"
   end
 
   defp color_variant("transparent", "primary") do
-    "bg-transparent text-[#4363EC] border-transparent"
+    "bg-transparent text-[#4363EC]"
   end
 
   defp color_variant("transparent", "secondary") do
-    "bg-transparent text-[#6B6E7C] border-transparent"
+    "bg-transparent text-[#6B6E7C]"
   end
 
   defp color_variant("transparent", "success") do
-    "bg-transparent text-[#227A52] border-transparent"
+    "bg-transparent text-[#227A52]"
   end
 
   defp color_variant("transparent", "warning") do
-    "bg-transparent text-[#FF8B08] border-transparent"
+    "bg-transparent text-[#FF8B08]"
   end
 
   defp color_variant("transparent", "danger") do
-    "bg-transparent text-[#E73B3B] border-transparent"
+    "bg-transparent text-[#E73B3B]"
   end
 
   defp color_variant("transparent", "info") do
-    "bg-transparent text-[#6663FD] border-transparent"
+    "bg-transparent text-[#6663FD]"
   end
 
   defp color_variant("transparent", "misc") do
-    "bg-transparent text-[#52059C] border-transparent"
+    "bg-transparent text-[#52059C]"
   end
 
   defp color_variant("transparent", "dawn") do
-    "bg-transparent text-[#4D4137] border-transparent"
+    "bg-transparent text-[#4D4137]"
   end
 
   defp color_variant("transparent", "light") do
-    "bg-transparent text-[#707483] border-transparent"
+    "bg-transparent text-[#707483]"
   end
 
   defp color_variant("transparent", "dark") do
-    "bg-transparent text-[#1E1E1E] border-transparent"
+    "bg-transparent text-[#1E1E1E]"
   end
 
   defp color_variant("shadow", "white") do
