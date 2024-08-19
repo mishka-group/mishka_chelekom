@@ -1,7 +1,7 @@
 defmodule MishkaChelekom.Card do
   use Phoenix.Component
 
-  @sizes ["extra_small", "small", "medium", "large", "extra_large"]
+  @sizes ["extra_small", "small", "medium", "large", "extra_large", "double_large", "triple_large", "quadruple_large"]
   @colors [
     "white",
     "primary",
@@ -22,6 +22,14 @@ defmodule MishkaChelekom.Card do
     "transparent",
     "shadow",
     "unbordered"
+  ]
+
+  @positions [
+    "start",
+    "center",
+    "end",
+    "between",
+    "around"
   ]
 
   @doc type: :component
@@ -61,6 +69,9 @@ defmodule MishkaChelekom.Card do
   attr :id, :string, default: nil, doc: ""
   attr :class, :string, default: nil, doc: ""
   attr :title, :string, default: nil, doc: ""
+  attr :position, :string, values: @positions, default: "start", doc: ""
+  attr :font_weight, :string, default: "font-semibold", doc: ""
+  attr :size, :string, values: @sizes, default: "large", doc: ""
   attr :padding, :string, values: @sizes ++ ["none"], default: "none", doc: ""
   attr :rest, :global, doc: ""
   slot :inner_block, required: false, doc: ""
@@ -70,15 +81,18 @@ defmodule MishkaChelekom.Card do
     <div
       id={@id}
       class={[
-        "card-section",
+        "card-section flex items-center gap-2",
         padding_size(@padding),
+        content_position(@position),
+        size_class(@size),
+        @font_weight,
         @class
       ]}
       {@rest}
     >
-      <div :if={@title} class="font-semibold text-base md:text-lg xl:text-xl">
+      <h3 :if={@title}>
         <%= @title %>
-      </div>
+      </h3>
       <%= render_slot(@inner_block) %>
     </div>
     """
@@ -198,6 +212,37 @@ defmodule MishkaChelekom.Card do
   defp rounded_size("large"), do: "rounded-lg"
   defp rounded_size("extra_large"), do: "rounded-xl"
   defp rounded_size(nil), do: "rounded-none"
+
+  defp size_class("extra_small"), do: "text-xs"
+  defp size_class("small"), do: "text-sm"
+  defp size_class("medium"), do: "text-base"
+  defp size_class("large"), do: "text-lg"
+  defp size_class("extra_large"), do: "text-xl"
+  defp size_class("extra_large"), do: "text-xl"
+  defp size_class(nil), do: "rounded-none"
+
+  defp content_position("start") do
+    "justify-start"
+  end
+
+  defp content_position("end") do
+    "justify-end"
+  end
+
+  defp content_position("center") do
+    "justify-center"
+  end
+
+  defp content_position("between") do
+    "justify-between"
+  end
+
+  defp content_position("around") do
+    "justify-around"
+  end
+
+  defp content_position(_), do: content_position("start")
+
 
   defp wrapper_padding("extra_small"),
     do: "[&:has(.card-section)>.card-section]:p-1 [&:not(:has(.card-section))]:p-1"
