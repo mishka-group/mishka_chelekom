@@ -31,9 +31,9 @@ defmodule MishkaChelekom.Card do
   attr :border, :string, values: @sizes ++ [nil], default: "extra_small", doc: ""
   attr :rounded, :string, values: @sizes ++ ["full", "none"], default: "small", doc: ""
   attr :size, :string, default: "medium", doc: ""
-  attr :space, :string, values: @sizes, default: "extra_small", doc: ""
+  attr :space, :string, values: @sizes ++ [nil], default: nil, doc: ""
   attr :font_weight, :string, default: "font-normal", doc: ""
-  attr :padding, :string, values: @sizes ++ ["none"], default: "small", doc: ""
+  attr :padding, :string, values: @sizes ++ ["none"], default: "none", doc: ""
   attr :class, :string, default: nil, doc: ""
   attr :link_position, :string, default: "end"
   attr :content_class, :string
@@ -51,7 +51,7 @@ defmodule MishkaChelekom.Card do
         border_class(@border),
         color_variant(@variant, @color),
         rounded_size(@rounded),
-        padding_size(@padding),
+        wrapper_padding(@padding),
         size_class(@size),
         @font_weight,
         @class
@@ -66,7 +66,7 @@ defmodule MishkaChelekom.Card do
   attr :id, :string, default: nil, doc: ""
   attr :class, :string, default: nil, doc: ""
   attr :title, :string, default: nil, doc: ""
-  attr :bordered, :boolean, default: false, doc: ""
+  attr :padding, :string, values: @sizes ++ ["none"], default: "none", doc: ""
   attr :rest, :global, doc: ""
   slot :inner_block, required: false, doc: ""
 
@@ -75,7 +75,8 @@ defmodule MishkaChelekom.Card do
     <div
       id={@id}
       class={[
-        "card-header",
+        "card-section",
+        padding_size(@padding),
         @class
       ]}
       {@rest}
@@ -91,11 +92,12 @@ defmodule MishkaChelekom.Card do
   attr :id, :string, default: nil, doc: ""
   attr :alt, :string, doc: ""
   attr :src, :string, required: true, doc: ""
+  attr :rounded, :string, values: @sizes ++ [nil], default: nil, doc: ""
   attr :class, :string, default: nil, doc: ""
   attr :rest, :global, doc: ""
   slot :inner_block, required: false, doc: ""
 
-  # TODO: we should support other media like video
+  # TODO: we should support other media like video (should have inner block)
 
   def card_media(assigns) do
     ~H"""
@@ -105,6 +107,7 @@ defmodule MishkaChelekom.Card do
         alt={@alt}
         class={[
           "max-w-full",
+          rounded_size(@rounded),
           @class
         ]}
       />
@@ -113,13 +116,23 @@ defmodule MishkaChelekom.Card do
   end
 
   attr :id, :string, default: nil, doc: ""
+  attr :space, :string, values: @sizes, default: "extra_small", doc: ""
+  attr :padding, :string, values: @sizes ++ ["none"], default: "extra_small", doc: ""
   attr :class, :string, default: nil, doc: ""
   attr :rest, :global, doc: ""
   slot :inner_block, required: false, doc: ""
 
   def card_content(assigns) do
     ~H"""
-    <div id={@id} class={@class}>
+    <div
+      id={@id}
+      class={[
+        "card-section",
+        space_class(@space),
+        padding_size(@padding),
+        @class
+      ]}
+    >
       <%= render_slot(@inner_block) %>
     </div>
     """
@@ -127,7 +140,7 @@ defmodule MishkaChelekom.Card do
 
   attr :id, :string, default: nil, doc: ""
   attr :class, :string, default: nil, doc: ""
-  attr :bordered, :boolean, doc: ""
+  attr :padding, :string, values: @sizes ++ ["none"], default: "none", doc: ""
   attr :rest, :global, doc: ""
   slot :inner_block, required: false, doc: ""
 
@@ -136,7 +149,8 @@ defmodule MishkaChelekom.Card do
     <div
       id={@id}
       class={[
-        "card-footer",
+        "card-section",
+        padding_size(@padding),
         @class
       ]}
       {@rest}
@@ -191,14 +205,23 @@ defmodule MishkaChelekom.Card do
   defp rounded_size("full"), do: "rounded-full"
   defp rounded_size(nil), do: "rounded-none"
 
-  defp padding_size("extra_small"), do: "[&>*]:p-1"
-  defp padding_size("small"), do: "[&>*]:p-2"
-  defp padding_size("medium"), do: "[&>*]:p-3"
-  defp padding_size("large"), do: "[&>*]:p-4"
-  defp padding_size("extra_large"), do: "[&>*]:p-5"
-  defp padding_size("none"), do: "[&>*]:p-0"
+  defp wrapper_padding("extra_small"), do: "[&:has(.card-section)>.card-section]:p-1 [&:not(:has(.card-section))]:p-1"
+  defp wrapper_padding("small"), do: "[&:has(.card-section)>.card-section]:p-2 [&:not(:has(.card-section))]:p-2"
+  defp wrapper_padding("medium"), do: "[&:has(.card-section)>.card-section]:p-3 [&:not(:has(.card-section))]:p-3"
+  defp wrapper_padding("large"), do: "[&:has(.card-section)>.card-section]:p-4 [&:not(:has(.card-section))]:p-4"
+  defp wrapper_padding("extra_large"), do: "[&:has(.card-section)>.card-section]:p-5 [&:not(:has(.card-section))]:p-5"
+  defp wrapper_padding("none"), do: "p-0"
+  defp wrapper_padding(params) when is_binary(params), do: params
+  defp wrapper_padding(_), do: wrapper_padding("none")
+
+  defp padding_size("extra_small"), do: "p-1"
+  defp padding_size("small"), do: "p-2"
+  defp padding_size("medium"), do: "p-3"
+  defp padding_size("large"), do: "p-4"
+  defp padding_size("extra_large"), do: "p-5"
+  defp padding_size("none"), do: "p-0"
   defp padding_size(params) when is_binary(params), do: params
-  defp padding_size(_), do: padding_size("small")
+  defp padding_size(_), do: padding_size("none")
 
   defp size_class("extra_small"), do: "text-xs"
   defp size_class("small"), do: "text-sm"
@@ -214,34 +237,34 @@ defmodule MishkaChelekom.Card do
   defp space_class("large"), do: "space-y-5"
   defp space_class("extra_large"), do: "space-y-6"
   defp space_class(params) when is_binary(params), do: params
-  defp space_class(_), do: space_class("extra_small")
+  defp space_class(nil), do: "space-y-0"
 
   defp color_variant("default", "white") do
-    "bg-white text-[#3E3E3E] border-[#DADADA] [&_.bordered-footer]:border-[#DADADA] [&_.bordered-header]:border-[#DADADA]"
+    "bg-white text-[#3E3E3E] border-[#DADADA]"
   end
 
   defp color_variant("default", "primary") do
-    "bg-[#4363EC] text-white border-[#2441de] [&_.bordered-footer]:border-[#2441de] [&_.bordered-header]:[#2441de]"
+    "bg-[#4363EC] text-white border-[#2441de]"
   end
 
   defp color_variant("default", "secondary") do
-    "bg-[#6B6E7C] text-white border-[#877C7C] [&_.bordered-footer]:border-[#877C7C] [&_.bordered-header]:[#877C7C]"
+    "bg-[#6B6E7C] text-white border-[#877C7C]"
   end
 
   defp color_variant("default", "success") do
-    "bg-[#ECFEF3] text-[#047857] border-[#6EE7B7] [&_.bordered-footer]:border-[#6EE7B7] [&_.bordered-header]:[#6EE7B7]"
+    "bg-[#ECFEF3] text-[#047857] border-[#6EE7B7]"
   end
 
   defp color_variant("default", "warning") do
-    "bg-[#FFF8E6] text-[#FF8B08] border-[#FF8B08] [&_.bordered-footer]:border-[#FF8B08] [&_.bordered-header]:[#FF8B08]"
+    "bg-[#FFF8E6] text-[#FF8B08] border-[#FF8B08]"
   end
 
   defp color_variant("default", "danger") do
-    "bg-[#FFE6E6] text-[#E73B3B] border-[#E73B3B] [&_.bordered-footer]:border-[#E73B3B] [&_.bordered-header]:[#E73B3B]"
+    "bg-[#FFE6E6] text-[#E73B3B] border-[#E73B3B]"
   end
 
   defp color_variant("default", "info") do
-    "bg-[#E5F0FF] text-[#004FC4] border-[#004FC4] [&_.bordered-footer]:border-[#004FC4] [&_.bordered-header]:[#004FC4]"
+    "bg-[#E5F0FF] text-[#004FC4] border-[#004FC4]"
   end
 
   defp color_variant("default", "misc") do
@@ -435,10 +458,4 @@ defmodule MishkaChelekom.Card do
   defp color_variant("transparent", "dark") do
     "bg-transparent text-[#1E1E1E] border-transparent"
   end
-
-  defp header_bordered(true), do: "bordered-header border-b"
-  defp header_bordered(false), do: ""
-
-  defp footer_bordered(true), do: "bordered-header border-t"
-  defp footer_bordered(false), do: ""
 end

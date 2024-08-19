@@ -13,16 +13,18 @@ defmodule MishkaChelekom.Divider do
     "info",
     "light",
     "misc",
-    "dawn"
+    "dawn",
+    "silver"
   ]
 
   @doc type: :component
   attr :id, :string, default: nil, doc: ""
   attr :type, :string, values: ["dashed", "dotted", "solid"], default: "solid", doc: ""
-  attr :color, :string, values: @colors, default: "light", doc: ""
+  attr :color, :string, values: @colors, default: "silver", doc: ""
   attr :size, :string, default: "extra_small", doc: ""
   attr :width, :string, default: "full", doc: ""
   attr :height, :string, default: "auto", doc: ""
+  attr :margin, :string, default: "none", doc: ""
   attr :variation, :string, values: ["horizontal", "vertical"], default: "horizontal", doc: ""
 
   slot :text, required: false do
@@ -54,7 +56,7 @@ defmodule MishkaChelekom.Divider do
           border_type_class(@type),
           height_class(@height),
           @class
-        ] ++ size_class(@size, :vertical)
+        ] ++ size_class(@size, :vertical) ++ margin_class(@margin, :horizontal)
       }
       {@rest}
     >
@@ -132,9 +134,10 @@ defmodule MishkaChelekom.Divider do
   @doc type: :component
   attr :id, :string, default: nil, doc: ""
   attr :type, :string, values: ["dashed", "dotted", "solid"], default: "solid", doc: ""
-  attr :color, :string, values: @colors, default: "light", doc: ""
+  attr :color, :string, values: @colors, default: "silver", doc: ""
   attr :size, :string, default: "extra_small", doc: ""
   attr :width, :string, default: "full", doc: ""
+  attr :margin, :string, default: "none", doc: ""
 
   slot :text, required: false do
     attr :class, :string
@@ -166,7 +169,7 @@ defmodule MishkaChelekom.Divider do
             border_type_class(@type),
             width_class(@width),
             @class
-          ] ++ size_class(@size, :horizontal)
+          ] ++ size_class(@size, :horizontal) ++ margin_class(@margin, :horizontal)
         }
         {@rest}
       /> <%!-- Icon --%>
@@ -247,31 +250,31 @@ defmodule MishkaChelekom.Divider do
 
   defp size_class("extra_small", :vertical) do
     [
-      "[&:not(:has(.divider-content))]:border-l mx-2"
+      "[&:not(:has(.divider-content))]:border-l"
     ]
   end
 
   defp size_class("small", :vertical) do
     [
-      "[&:not(:has(.divider-content))]:border-l-2 text-sm mx-3"
+      "[&:not(:has(.divider-content))]:border-l-2 text-sm"
     ]
   end
 
   defp size_class("medium", :vertical) do
     [
-      "[&:not(:has(.divider-content))]:border-l-[3px] text-base mx-4"
+      "[&:not(:has(.divider-content))]:border-l-[3px] text-base"
     ]
   end
 
   defp size_class("large", :vertical) do
     [
-      "[&:not(:has(.divider-content))]:border-l-4 text-lg mx-5"
+      "[&:not(:has(.divider-content))]:border-l-4 text-lg"
     ]
   end
 
   defp size_class("extra_large", :vertical) do
     [
-      "[&:not(:has(.divider-content))]:border-l-[5px] text-xl mx-6"
+      "[&:not(:has(.divider-content))]:border-l-[5px] text-xl"
     ]
   end
 
@@ -311,8 +314,60 @@ defmodule MishkaChelekom.Divider do
 
   defp height_class(_), do: height_class("auto")
 
+  defp margin_class("extra_small", :horizontal) do
+    ["my-2"]
+  end
+
+  defp margin_class("small", :horizontal) do
+    ["my-3"]
+  end
+
+  defp margin_class("medium", :horizontal) do
+    ["my-4"]
+  end
+
+  defp margin_class("large", :horizontal) do
+    ["my-5"]
+  end
+
+  defp margin_class("extra_large", :horizontal) do
+    ["my-6"]
+  end
+
+  defp margin_class("none", :horizontal) do
+    ["my-0"]
+  end
+
+  defp margin_class("extra_small", :vertical) do
+    ["mx-2"]
+  end
+
+  defp margin_class("small", :vertical) do
+    ["mx-3"]
+  end
+
+  defp margin_class("medium", :vertical) do
+    ["mx-4"]
+  end
+
+  defp margin_class("large", :vertical) do
+    ["mx-5"]
+  end
+
+  defp margin_class("extra_large", :vertical) do
+    ["mx-6"]
+  end
+
+  defp margin_class("none", :vertical) do
+    ["mx-0"]
+  end
+
   defp color_class("white") do
     "border-white has-[.divider-content.devider-middle]:before:border-white has-[.divider-content.devider-middle]:after:border-white has-[.divider-content.devider-right]:before:border-white has-[.divider-content.devider-left]:after:border-white text-[#3E3E3E]"
+  end
+
+  defp color_class("silver") do
+    "border-[#DADADA] has-[.divider-content.devider-middle]:before:border-[#DADADA] has-[.divider-content.devider-middle]:after:border-[#DADADA] has-[.divider-content.devider-right]:before:border-[#DADADA] has-[.divider-content.devider-left]:after:border-[#DADADA] text-[#3E3E3E]"
   end
 
   defp color_class("primary") do
