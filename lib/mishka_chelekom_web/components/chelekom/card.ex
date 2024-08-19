@@ -29,16 +29,11 @@ defmodule MishkaChelekom.Card do
   attr :variant, :string, values: @variants, default: "default", doc: ""
   attr :color, :string, values: @colors, default: "white", doc: ""
   attr :border, :string, values: @sizes ++ [nil], default: "extra_small", doc: ""
-  attr :rounded, :string, values: @sizes ++ ["full", "none"], default: "small", doc: ""
-  attr :size, :string, default: "medium", doc: ""
+  attr :rounded, :string, values: @sizes ++ [nil], default: nil, doc: ""
   attr :space, :string, values: @sizes ++ [nil], default: nil, doc: ""
   attr :font_weight, :string, default: "font-normal", doc: ""
   attr :padding, :string, values: @sizes ++ ["none"], default: "none", doc: ""
   attr :class, :string, default: nil, doc: ""
-  attr :link_position, :string, default: "end"
-  attr :content_class, :string
-  attr :icon, :string
-  attr :icon_class, :string
   attr :rest, :global, doc: ""
   slot :inner_block, required: false, doc: ""
 
@@ -47,12 +42,12 @@ defmodule MishkaChelekom.Card do
     <div
       id={@id}
       class={[
+        "overflow-hidden",
         space_class(@space),
         border_class(@border),
         color_variant(@variant, @color),
         rounded_size(@rounded),
         wrapper_padding(@padding),
-        size_class(@size),
         @font_weight,
         @class
       ]}
@@ -202,7 +197,6 @@ defmodule MishkaChelekom.Card do
   defp rounded_size("medium"), do: "rounded-md"
   defp rounded_size("large"), do: "rounded-lg"
   defp rounded_size("extra_large"), do: "rounded-xl"
-  defp rounded_size("full"), do: "rounded-full"
   defp rounded_size(nil), do: "rounded-none"
 
   defp wrapper_padding("extra_small"), do: "[&:has(.card-section)>.card-section]:p-1 [&:not(:has(.card-section))]:p-1"
@@ -222,14 +216,6 @@ defmodule MishkaChelekom.Card do
   defp padding_size("none"), do: "p-0"
   defp padding_size(params) when is_binary(params), do: params
   defp padding_size(_), do: padding_size("none")
-
-  defp size_class("extra_small"), do: "text-xs"
-  defp size_class("small"), do: "text-sm"
-  defp size_class("medium"), do: "text-base"
-  defp size_class("large"), do: "text-lg"
-  defp size_class("extra_large"), do: "text-xl"
-  defp size_class(params) when is_binary(params), do: params
-  defp size_class(_), do: size_class("medium")
 
   defp space_class("extra_small"), do: "space-y-2"
   defp space_class("small"), do: "space-y-3"
