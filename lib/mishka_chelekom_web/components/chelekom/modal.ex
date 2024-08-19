@@ -91,7 +91,7 @@ defmodule MishkaChelekom.Modal do
                 size_class(@size)
               ]}
             >
-              <div class="flex items-center justify-between">
+              <div class="flex items-center justify-between mb-4">
                 <div :if={@title} class="font-semibold text-base md:text-lg xl:text-2xl">
                   <%= @title %>
                 </div>
