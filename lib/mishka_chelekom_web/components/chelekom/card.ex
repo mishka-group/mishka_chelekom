@@ -1,5 +1,6 @@
 defmodule MishkaChelekom.Card do
   use Phoenix.Component
+  import MishkaChelekomComponents
 
   @sizes ["extra_small", "small", "medium", "large", "extra_large", "double_large", "triple_large", "quadruple_large"]
   @colors [
@@ -69,6 +70,7 @@ defmodule MishkaChelekom.Card do
   attr :id, :string, default: nil, doc: ""
   attr :class, :string, default: nil, doc: ""
   attr :title, :string, default: nil, doc: ""
+  attr :icon, :string, default: nil, doc: ""
   attr :position, :string, values: @positions, default: "start", doc: ""
   attr :font_weight, :string, default: "font-semibold", doc: ""
   attr :size, :string, values: @sizes, default: "large", doc: ""
@@ -90,9 +92,8 @@ defmodule MishkaChelekom.Card do
       ]}
       {@rest}
     >
-      <h3 :if={@title}>
-        <%= @title %>
-      </h3>
+      <.icon :if={@icon} name={@icon} />
+      <h3 :if={@title}><%= @title %></h3>
       <%= render_slot(@inner_block) %>
     </div>
     """
