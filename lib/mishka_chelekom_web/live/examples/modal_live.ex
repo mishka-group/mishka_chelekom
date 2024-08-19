@@ -3,6 +3,6 @@ defmodule MishkaChelekomWeb.Examples.ModalLive do
   use Phoenix.Component
 
   def mount(_params, _session, socket) do
-    {:ok, socket}
+    {:ok, assign(socket, :modal_select, false)}
   end
 end
