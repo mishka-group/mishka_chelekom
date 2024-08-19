@@ -56,7 +56,7 @@ defmodule MishkaChelekom.Divider do
           border_type_class(@type),
           height_class(@height),
           @class
-        ] ++ size_class(@size, :vertical) ++ margin_class(@margin, :horizontal)
+        ] ++ size_class(@size, :vertical) ++ margin_class(@margin, :vertical)
       }
       {@rest}
     >
@@ -98,7 +98,7 @@ defmodule MishkaChelekom.Divider do
           border_type_class(@type),
           width_class(@width),
           @class
-        ] ++ size_class(@size, :horizontal)
+        ] ++ size_class(@size, :horizontal) ++ margin_class(@margin, :horizontal)
       }
       {@rest}
     >
