@@ -101,7 +101,7 @@ defmodule MishkaChelekom.Card do
       ]}
       {@rest}
     >
-      <div class="flex gap-2 items-center">
+      <div :if={@title || @icon} class="flex gap-2 items-center">
         <.icon :if={@icon} name={@icon} class="card-title-icon" />
         <h3 :if={@title}><%= @title %></h3>
       </div>
