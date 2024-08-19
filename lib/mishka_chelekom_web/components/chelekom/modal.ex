@@ -4,7 +4,16 @@ defmodule MishkaChelekom.Modal do
   import MishkaChelekomWeb.Gettext
   alias Phoenix.LiveView.JS
 
-  @sizes ["extra_small", "small", "medium", "large", "extra_large", "double_large", "triple_large", "quadruple_large"]
+  @sizes [
+    "extra_small",
+    "small",
+    "medium",
+    "large",
+    "extra_large",
+    "double_large",
+    "triple_large",
+    "quadruple_large"
+  ]
   @colors [
     "white",
     "primary",
@@ -75,9 +84,7 @@ defmodule MishkaChelekom.Modal do
         tabindex="0"
       >
         <div class="flex min-h-full items-center justify-center">
-          <div
-            class="w-full"
-          >
+          <div class="w-full">
             <.focus_wrap
               id={"#{@id}-container"}
               phx-window-keydown={JS.exec("data-cancel", to: "##{@id}")}
