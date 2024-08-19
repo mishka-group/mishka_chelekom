@@ -75,22 +75,21 @@ defmodule MishkaChelekom.Modal do
         tabindex="0"
       >
         <div class="flex min-h-full items-center justify-center">
-        ۱۱
           <div
-            class={[
-              "w-full",
-              color_variant(@variant, @color),
-              rounded_size(@rounded),
-              padding_size(@padding),
-              size_class(@size)
-            ]}
+            class="w-full"
           >
             <.focus_wrap
               id={"#{@id}-container"}
               phx-window-keydown={JS.exec("data-cancel", to: "##{@id}")}
               phx-key="escape"
               phx-click-away={JS.exec("data-cancel", to: "##{@id}")}
-              class="relative hidden transition"
+              class={[
+                "relative hidden transition",
+                color_variant(@variant, @color),
+                rounded_size(@rounded),
+                padding_size(@padding),
+                size_class(@size)
+              ]}
             >
               <div class="flex items-center justify-between">
                 <div :if={@title} class="font-semibold text-base md:text-lg xl:text-2xl">

@@ -1,7 +1,7 @@
 <div class="p-5">
   <div class="p-5 flex flex-row space-x-4">
     <button
-      :for={item <- Enum.map(1..14, &"modal-#{&1}")}
+      :for={item <- Enum.map(1..15, &"modal-#{&1}")}
       class="p-5 bg-slate-400 w-40 flex justify-center items-center"
       phx-click={MishkaChelekom.Modal.show_modal(item)}
     >
@@ -10,7 +10,7 @@
   </div>
 
   <div class="grid grid-cols-3 gap-10">
-    <MishkaChelekom.Modal.modal id="modal-1" title="default" variant="default" color="primary">
+    <MishkaChelekom.Modal.modal id="modal-1" title="default">
       fsdfsdfdsfds
     </MishkaChelekom.Modal.modal>
 
@@ -127,6 +127,15 @@
       id="modal-14"
       title="dawn Default extra_large"
       size="extra_large"
+      color="dawn"
+    >
+      Lorem ipsum dolor sit amet consectetur adipisicing elit. Commodi ea atque soluta praesentium quidem dicta sapiente accusamus nihil.
+    </MishkaChelekom.Modal.modal>
+
+    <MishkaChelekom.Modal.modal
+      id="modal-14"
+      title="dawn Default extra_large"
+      size="screen"
       color="dawn"
     >
       Lorem ipsum dolor sit amet consectetur adipisicing elit. Commodi ea atque soluta praesentium quidem dicta sapiente accusamus nihil.
