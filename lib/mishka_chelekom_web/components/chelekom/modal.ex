@@ -189,47 +189,47 @@ defmodule MishkaChelekom.Modal do
   defp size_class(_), do: size_class("small")
 
   defp color_variant("default", "white") do
-    "bg-white text-[#3E3E3E] border-[#DADADA]"
+    "bg-white text-[#3E3E3E] border border-[#DADADA]"
   end
 
   defp color_variant("default", "primary") do
-    "bg-[#4363EC] text-white border-[#2441de]"
+    "bg-[#4363EC] text-white border border-[#2441de]"
   end
 
   defp color_variant("default", "secondary") do
-    "bg-[#6B6E7C] text-white border-[#877C7C]"
+    "bg-[#6B6E7C] text-white border border-[#877C7C]"
   end
 
   defp color_variant("default", "success") do
-    "bg-[#ECFEF3] text-[#047857] border-[#6EE7B7]"
+    "bg-[#ECFEF3] text-[#047857] border border-[#6EE7B7]"
   end
 
   defp color_variant("default", "warning") do
-    "bg-[#FFF8E6] text-[#FF8B08] border-[#FF8B08]"
+    "bg-[#FFF8E6] text-[#FF8B08] border border-[#FF8B08]"
   end
 
   defp color_variant("default", "danger") do
-    "bg-[#FFE6E6] text-[#E73B3B] border-[#E73B3B]"
+    "bg-[#FFE6E6] text-[#E73B3B] border border-[#E73B3B]"
   end
 
   defp color_variant("default", "info") do
-    "bg-[#E5F0FF] text-[#004FC4] border-[#004FC4]"
+    "bg-[#E5F0FF] text-[#004FC4] border border-[#004FC4]"
   end
 
   defp color_variant("default", "misc") do
-    "bg-[#FFE6FF] text-[#52059C] border-[#52059C]"
+    "bg-[#FFE6FF] text-[#52059C] border border-[#52059C]"
   end
 
   defp color_variant("default", "dawn") do
-    "bg-[#FFECDA] text-[#4D4137] border-[#4D4137]"
+    "bg-[#FFECDA] text-[#4D4137] border border-[#4D4137]"
   end
 
   defp color_variant("default", "light") do
-    "bg-[#E3E7F1] text-[#707483] border-[#707483]"
+    "bg-[#E3E7F1] text-[#707483] border border-[#707483]"
   end
 
   defp color_variant("default", "dark") do
-    "bg-[#1E1E1E] text-white border-[#050404]"
+    "bg-[#1E1E1E] text-white border border-[#050404]"
   end
 
   defp color_variant("outline", "white") do
@@ -237,43 +237,43 @@ defmodule MishkaChelekom.Modal do
   end
 
   defp color_variant("outline", "primary") do
-    "bg-transparent text-[#4363EC] border-[#4363EC] "
+    "bg-transparent text-[#4363EC] border border-[#4363EC] "
   end
 
   defp color_variant("outline", "secondary") do
-    "bg-transparent text-[#6B6E7C] border-[#6B6E7C]"
+    "bg-transparent text-[#6B6E7C] border border-[#6B6E7C]"
   end
 
   defp color_variant("outline", "success") do
-    "bg-transparent text-[#227A52] border-[#6EE7B7]"
+    "bg-transparent text-[#227A52] border border-[#6EE7B7]"
   end
 
   defp color_variant("outline", "warning") do
-    "bg-transparent text-[#FF8B08] border-[#FF8B08]"
+    "bg-transparent text-[#FF8B08] border border-[#FF8B08]"
   end
 
   defp color_variant("outline", "danger") do
-    "bg-transparent text-[#E73B3B] border-[#E73B3B]"
+    "bg-transparent text-[#E73B3B] border border-[#E73B3B]"
   end
 
   defp color_variant("outline", "info") do
-    "bg-transparent text-[#004FC4] border-[#004FC4]"
+    "bg-transparent text-[#004FC4] border border-[#004FC4]"
   end
 
   defp color_variant("outline", "misc") do
-    "bg-transparent text-[#52059C] border-[#52059C]"
+    "bg-transparent text-[#52059C] border border-[#52059C]"
   end
 
   defp color_variant("outline", "dawn") do
-    "bg-transparent text-[#4D4137] border-[#4D4137]"
+    "bg-transparent text-[#4D4137] border border-[#4D4137]"
   end
 
   defp color_variant("outline", "light") do
-    "bg-transparent text-[#707483] border-[#707483]"
+    "bg-transparent text-[#707483] border border-[#707483]"
   end
 
   defp color_variant("outline", "dark") do
-    "bg-transparent text-[#1E1E1E] border-[#1E1E1E]"
+    "bg-transparent text-[#1E1E1E] border border-[#1E1E1E]"
   end
 
   defp color_variant("unbordered", "white") do
@@ -365,47 +365,47 @@ defmodule MishkaChelekom.Modal do
   end
 
   defp color_variant("shadow", "white") do
-    "bg-white text-[#3E3E3E] border-[#DADADA] shadow"
+    "bg-white text-[#3E3E3E] border border-[#DADADA] shadow"
   end
 
   defp color_variant("shadow", "primary") do
-    "bg-[#4363EC] text-white border-[#4363EC] shadow"
+    "bg-[#4363EC] text-white border border-[#4363EC] shadow"
   end
 
   defp color_variant("shadow", "secondary") do
-    "bg-[#6B6E7C] text-white border-[#6B6E7C] shadow"
+    "bg-[#6B6E7C] text-white border border-[#6B6E7C] shadow"
   end
 
   defp color_variant("shadow", "success") do
-    "bg-[#AFEAD0] text-[#227A52] border-[#AFEAD0] shadow"
+    "bg-[#AFEAD0] text-[#227A52] border border-[#AFEAD0] shadow"
   end
 
   defp color_variant("shadow", "warning") do
-    "bg-[#FFF8E6] text-[#FF8B08] border-[#FFF8E6] shadow"
+    "bg-[#FFF8E6] text-[#FF8B08] border border-[#FFF8E6] shadow"
   end
 
   defp color_variant("shadow", "danger") do
-    "bg-[#FFE6E6] text-[#E73B3B] border-[#FFE6E6] shadow"
+    "bg-[#FFE6E6] text-[#E73B3B] border border-[#FFE6E6] shadow"
   end
 
   defp color_variant("shadow", "info") do
-    "bg-[#E5F0FF] text-[#004FC4] border-[#E5F0FF] shadow"
+    "bg-[#E5F0FF] text-[#004FC4] border border-[#E5F0FF] shadow"
   end
 
   defp color_variant("shadow", "misc") do
-    "bg-[#FFE6FF] text-[#52059C] border-[#FFE6FF] shadow"
+    "bg-[#FFE6FF] text-[#52059C] border border-[#FFE6FF] shadow"
   end
 
   defp color_variant("shadow", "dawn") do
-    "bg-[#FFECDA] text-[#4D4137] border-[#FFECDA] shadow"
+    "bg-[#FFECDA] text-[#4D4137] border border-[#FFECDA] shadow"
   end
 
   defp color_variant("shadow", "light") do
-    "bg-[#E3E7F1] text-[#707483] border-[#E3E7F1] shadow"
+    "bg-[#E3E7F1] text-[#707483] border border-[#E3E7F1] shadow"
   end
 
   defp color_variant("shadow", "dark") do
-    "bg-[#1E1E1E] text-white border-[#1E1E1E] shadow"
+    "bg-[#1E1E1E] text-white border border-[#1E1E1E] shadow"
   end
 
   defp color_variant(_, _), do: color_variant("default", "white")
