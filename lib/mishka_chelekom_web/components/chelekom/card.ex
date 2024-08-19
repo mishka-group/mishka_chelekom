@@ -91,11 +91,13 @@ defmodule MishkaChelekom.Card do
 
 
   attr :id, :string, default: nil, doc: ""
-  attr :alt, :string, required: true, doc: ""
+  attr :alt, :string, doc: ""
   attr :src, :string, required: true, doc: ""
   attr :class, :string, default: nil, doc: ""
   attr :rest, :global, doc: ""
   slot :inner_block, required: false, doc: ""
+
+# TODO: we should support other media like video
 
   def card_media(assigns) do
     ~H"""
@@ -108,7 +110,6 @@ defmodule MishkaChelekom.Card do
           @class
         ]}
       />
-      <%!-- <%= render_slot(@inner_block) %> --%>
     </div>
     """
   end
