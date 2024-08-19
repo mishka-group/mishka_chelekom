@@ -1,6 +1,6 @@
 defmodule MishkaChelekom.Banner do
   use Phoenix.Component
-  
+
   @sizes ["extra_small", "small", "medium", "large", "extra_large"]
   @colors [
     "white",
@@ -40,7 +40,7 @@ defmodule MishkaChelekom.Banner do
   def banner(assigns) do
     ~H"""
     <div
-    id={@id}
+      id={@id}
       class={[
         "overflow-hidden fixed",
         space_class(@space),
@@ -51,7 +51,6 @@ defmodule MishkaChelekom.Banner do
       ]}
       {@rest}
     >
-
     </div>
     """
   end

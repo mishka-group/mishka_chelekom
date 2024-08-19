@@ -2,7 +2,16 @@ defmodule MishkaChelekom.Card do
   use Phoenix.Component
   import MishkaChelekomComponents
 
-  @sizes ["extra_small", "small", "medium", "large", "extra_large", "double_large", "triple_large", "quadruple_large"]
+  @sizes [
+    "extra_small",
+    "small",
+    "medium",
+    "large",
+    "extra_large",
+    "double_large",
+    "triple_large",
+    "quadruple_large"
+  ]
   @colors [
     "white",
     "primary",
@@ -243,7 +252,6 @@ defmodule MishkaChelekom.Card do
   end
 
   defp content_position(_), do: content_position("start")
-
 
   defp wrapper_padding("extra_small"),
     do: "[&:has(.card-section)>.card-section]:p-1 [&:not(:has(.card-section))]:p-1"
