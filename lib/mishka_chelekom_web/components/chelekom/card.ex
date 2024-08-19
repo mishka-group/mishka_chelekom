@@ -117,7 +117,7 @@ defmodule MishkaChelekom.Card do
 
   attr :id, :string, default: nil, doc: ""
   attr :space, :string, values: @sizes, default: "extra_small", doc: ""
-  attr :padding, :string, values: @sizes ++ ["none"], default: "extra_small", doc: ""
+  attr :padding, :string, values: @sizes ++ ["none"], default: "none", doc: ""
   attr :class, :string, default: nil, doc: ""
   attr :rest, :global, doc: ""
   slot :inner_block, required: false, doc: ""
