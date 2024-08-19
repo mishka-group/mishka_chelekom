@@ -75,10 +75,11 @@ defmodule MishkaChelekom.Modal do
         tabindex="0"
       >
         <div class="flex min-h-full items-center justify-center">
+        ۱۱
           <div
             class={[
               "w-full",
-              color_variant(@color, @variant),
+              color_variant(@variant, @color),
               rounded_size(@rounded),
               padding_size(@padding),
               size_class(@size)
