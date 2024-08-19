@@ -199,11 +199,21 @@ defmodule MishkaChelekom.Card do
   defp rounded_size("extra_large"), do: "rounded-xl"
   defp rounded_size(nil), do: "rounded-none"
 
-  defp wrapper_padding("extra_small"), do: "[&:has(.card-section)>.card-section]:p-1 [&:not(:has(.card-section))]:p-1"
-  defp wrapper_padding("small"), do: "[&:has(.card-section)>.card-section]:p-2 [&:not(:has(.card-section))]:p-2"
-  defp wrapper_padding("medium"), do: "[&:has(.card-section)>.card-section]:p-3 [&:not(:has(.card-section))]:p-3"
-  defp wrapper_padding("large"), do: "[&:has(.card-section)>.card-section]:p-4 [&:not(:has(.card-section))]:p-4"
-  defp wrapper_padding("extra_large"), do: "[&:has(.card-section)>.card-section]:p-5 [&:not(:has(.card-section))]:p-5"
+  defp wrapper_padding("extra_small"),
+    do: "[&:has(.card-section)>.card-section]:p-1 [&:not(:has(.card-section))]:p-1"
+
+  defp wrapper_padding("small"),
+    do: "[&:has(.card-section)>.card-section]:p-2 [&:not(:has(.card-section))]:p-2"
+
+  defp wrapper_padding("medium"),
+    do: "[&:has(.card-section)>.card-section]:p-3 [&:not(:has(.card-section))]:p-3"
+
+  defp wrapper_padding("large"),
+    do: "[&:has(.card-section)>.card-section]:p-4 [&:not(:has(.card-section))]:p-4"
+
+  defp wrapper_padding("extra_large"),
+    do: "[&:has(.card-section)>.card-section]:p-5 [&:not(:has(.card-section))]:p-5"
+
   defp wrapper_padding("none"), do: "p-0"
   defp wrapper_padding(params) when is_binary(params), do: params
   defp wrapper_padding(_), do: wrapper_padding("none")

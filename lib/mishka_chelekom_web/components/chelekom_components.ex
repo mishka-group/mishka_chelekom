@@ -1,9 +1,6 @@
 defmodule MishkaChelekomComponents do
   use Phoenix.Component
 
-  alias Phoenix.LiveView.JS
-  # import MishkaChelekomWeb.Gettext
-
   defmacro __using__(_) do
     quote do
       import MishkaChelekom.{
