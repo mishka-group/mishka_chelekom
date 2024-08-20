@@ -30,6 +30,7 @@ defmodule MishkaChelekom.Keyboard do
   attr :color, :string, values: @colors, default: "white", doc: ""
   attr :size, :string, default: "small", doc: ""
   attr :rounded, :string, values: @sizes ++ ["full", "none"], default: "small", doc: ""
+  attr :font_weight, :string, default: "font-semibold", doc: ""
   attr :class, :string, default: nil, doc: ""
   attr :rest, :global, doc: ""
 
@@ -39,10 +40,11 @@ defmodule MishkaChelekom.Keyboard do
     ~H"""
     <kbd id={@id}
     class={[
-      "px-2 py-1.5 font-semibold",
+      "px-2 py-1.5",
       color_variant(@variant, @color),
       size_class(@size),
       rounded_size(@rounded),
+      @font_weight,
       @class
     ]}
     {@rest}
