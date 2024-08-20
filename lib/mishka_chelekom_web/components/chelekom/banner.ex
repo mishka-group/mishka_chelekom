@@ -1,5 +1,7 @@
 defmodule MishkaChelekom.Banner do
   use Phoenix.Component
+  import MishkaChelekomComponents
+  import MishkaChelekomWeb.Gettext
 
   @sizes ["extra_small", "small", "medium", "large", "extra_large"]
   @colors [
@@ -24,18 +26,27 @@ defmodule MishkaChelekom.Banner do
     "unbordered"
   ]
 
-  @doc type: :component
-  attr :id, :string, default: nil, doc: ""
+  @positions ["top_left", "top_right", "bottom_left", "bottom_right", "center", "full"]
 
-  attr :size, :string, default: "large", doc: ""
-  attr :variant, :string, values: @variants, default: "default", doc: ""
-  attr :color, :string, values: @colors, default: "white", doc: ""
-  attr :border, :string, values: @sizes ++ [nil], default: "extra_small", doc: ""
-  attr :rounded, :string, values: @sizes ++ [nil], default: nil, doc: ""
-  attr :space, :string, values: @sizes ++ [nil], default: nil, doc: ""
-  attr :font_weight, :string, default: "font-normal", doc: ""
-  attr :padding, :string, values: @sizes ++ ["none"], default: "none", doc: ""
-  attr :rest, :global, include: ~w(right_dismiss left_dismiss), doc: ""
+  @doc type: :component
+attr :id, :string, default: nil, doc: ""
+
+attr :size, :string, default: "large", doc: ""
+attr :variant, :string, values: @variants, default: "default", doc: ""
+attr :color, :string, values: @colors, default: "white", doc: ""
+attr :border, :string, values: @sizes ++ [nil], default: "extra_small", doc: ""
+attr :rounded, :string, values: @sizes ++ ["none"], default: "none", doc: ""
+attr :rounded_position, :string, values: ["top", "bottom", "all", "none"], default: "none", doc: ""
+attr :space, :string, values: @sizes ++ ["none"], default: "extra_small", doc: ""
+attr :vertical_position, :string, values: ["top", "bottom"], default: "top", doc: ""
+attr :vertical_size, :string, values: @sizes ++ ["none"], default: "none", doc: ""
+attr :position, :string, values: @positions, default: "full", doc: ""
+attr :font_weight, :string, default: "font-normal", doc: ""
+attr :padding, :string, values: @sizes ++ ["none"], default: "extra_small", doc: ""
+attr :class, :string, default: "", doc: "Additional CSS classes to be added to the banner."
+attr :rest, :global, include: ~w(right_dismiss left_dismiss), doc: ""
+
+slot :inner_block, required: false, doc: ""
 
   def banner(assigns) do
     ~H"""
@@ -43,32 +54,119 @@ defmodule MishkaChelekom.Banner do
       id={@id}
       class={[
         "overflow-hidden fixed",
-        space_class(@space),
+        vertical_position(@vertical_size, @vertical_position),
+        rounded_size(@rounded, @rounded_position),
+        border_class(@border, @vertical_position),
         color_variant(@variant, @color),
-        rounded_size(@rounded),
+        position_class(@position),
+        space_class(@space),
+        padding_size(@padding),
         @font_weight,
         @class
       ]}
       {@rest}
     >
+      <div class="flex gap-2 items-center justify-between">
+        <div>
+          <%= render_slot(@inner_block) %>
+        </div>
+
+        <button type="button" class="group p-2 shrink-0" aria-label={gettext("close")}>
+          <.icon name="hero-x-mark-solid" class="aler-icon opacity-40 group-hover:opacity-70" />
+        </button>
+      </div>
     </div>
     """
   end
 
+  defp padding_size("extra_small"), do: "p-2"
+  defp padding_size("small"), do: "p-3"
+  defp padding_size("medium"), do: "p-4"
+  defp padding_size("large"), do: "p-5"
+  defp padding_size("extra_large"), do: "p-6"
+  defp padding_size("none"), do: "p-0"
+  defp padding_size(params) when is_binary(params), do: params
+  defp padding_size(_), do: padding_size("extra_small")
+
+  defp vertical_position("none", "top"), do: "top-0"
+  defp vertical_position("extra_small", "top"), do: "top-1"
+  defp vertical_position("small", "top"), do: "top-2"
+  defp vertical_position("medium", "top"), do: "top-3"
+  defp vertical_position("large", "top"), do: "top-4"
+  defp vertical_position("extra_large", "top"), do: "top-5"
+
+  defp vertical_position("none", "bottom"), do: "bottom-0"
+  defp vertical_position("extra_small", "bottom"), do: "bottom-1"
+  defp vertical_position("small", "bottom"), do: "bottom-2"
+  defp vertical_position("medium", "bottom"), do: "bottom-3"
+  defp vertical_position("large", "bottom"), do: "bottom-4"
+  defp vertical_position("extra_large", "bottom"), do: "bottom-5"
+
+  defp vertical_position(params,_) when is_binary(params), do: params
+  defp vertical_position(_, _), do: vertical_position("none", "top")
+
+  defp position_class("top_left"), do: "left-0"
+  defp position_class("top_right"), do: "right-0"
+  defp position_class("bottom_left"), do: "left-0"
+  defp position_class("bottom_right"), do: "right-0"
+  defp position_class("center"), do: "mx-auto"
+  defp position_class("full"), do: "inset-x-0"
+  defp position_class(params) when is_binary(params), do: params
+  defp position_class(_), do: position_class("full")
+
+  defp rounded_size("extra_small", "top"), do: "rounded-b-sm"
+  defp rounded_size("small", "top"), do: "rounded-b"
+  defp rounded_size("medium", "top"), do: "rounded-b-md"
+  defp rounded_size("large", "top"), do: "rounded-b-lg"
+  defp rounded_size("extra_large", "top"), do: "rounded-b-xl"
+
+  defp rounded_size("extra_small", "bottom"), do: "rounded-t-sm"
+  defp rounded_size("small", "bottom"), do: "rounded-t"
+  defp rounded_size("medium", "bottom"), do: "rounded-t-md"
+  defp rounded_size("large", "bottom"), do: "rounded-t-lg"
+  defp rounded_size("extra_large", "bottom"), do: "rounded-t-xl"
+
+  defp rounded_size("extra_small", "all"), do: "rounded-sm"
+  defp rounded_size("small", "all"), do: "rounded"
+  defp rounded_size("medium", "all"), do: "rounded-md"
+  defp rounded_size("large", "all"), do: "rounded-lg"
+  defp rounded_size("extra_large", "all"), do: "rounded-xl"
+
+  defp rounded_size("none", _), do: "rounded-none"
+
+  defp space_class("none"), do: "space-y-0"
   defp space_class("extra_small"), do: "space-y-2"
   defp space_class("small"), do: "space-y-3"
   defp space_class("medium"), do: "space-y-4"
   defp space_class("large"), do: "space-y-5"
   defp space_class("extra_large"), do: "space-y-6"
-  defp space_class(params) when is_binary(params), do: params
-  defp space_class(nil), do: "space-y-0"
 
-  defp rounded_size("extra_small"), do: "rounded-sm"
-  defp rounded_size("small"), do: "rounded"
-  defp rounded_size("medium"), do: "rounded-md"
-  defp rounded_size("large"), do: "rounded-lg"
-  defp rounded_size("extra_large"), do: "rounded-xl"
-  defp rounded_size(nil), do: "rounded-none"
+  defp space_class(params) when is_binary(params), do: params
+  defp space_class(_), do: space_class("extra_small")
+
+  defp border_class("none", _), do: "border-0"
+
+  defp border_class("extra_small", "top"), do: "border-b"
+  defp border_class("small", "top"), do: "border-b-2"
+  defp border_class("medium", "top"), do: "border-b-[3px]"
+  defp border_class("large", "top"), do: "border-b-4"
+  defp border_class("extra_large", "top"), do: "border-b-[5px]"
+
+  defp border_class("extra_small", "bottom"), do: "border"
+  defp border_class("small", "bottom"), do: "border-b-2"
+  defp border_class("medium", "bottom"), do: "border-b-[3px]"
+  defp border_class("large", "bottom"), do: "border-b-4"
+  defp border_class("extra_large", "bottom"), do: "border-b-[5px]"
+
+  defp border_class("extra_small",_), do: "border"
+  defp border_class("small",_), do: "border-2"
+  defp border_class("medium",_), do: "border-[3px]"
+  defp border_class("large",_), do: "border-4"
+  defp border_class("extra_large",_), do: "border-[5px]"
+
+  defp border_class(params, _) when is_binary(params), do: params
+  defp border_class(_, _), do: border_class("extra_small", "top")
+
 
   defp color_variant("default", "white") do
     "bg-white text-[#3E3E3E] border-[#DADADA]"

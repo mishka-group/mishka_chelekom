@@ -88,7 +88,7 @@ defmodule MishkaChelekom.Alert do
           <div class=""><%= msg %></div>
         </div>
 
-        <button type="button" class="group p-2" aria-label={gettext("close")}>
+        <button type="button" class="group p-2 shrink-0" aria-label={gettext("close")}>
           <.icon name="hero-x-mark-solid" class="aler-icon opacity-40 group-hover:opacity-70" />
         </button>
       </div>

@@ -181,42 +181,14 @@ defmodule MishkaChelekom.Card do
     """
   end
 
-  defp border_class("none") do
-    ["border-0"]
-  end
-
-  defp border_class("extra_small") do
-    [
-      "border"
-    ]
-  end
-
-  defp border_class("small") do
-    [
-      "border-2"
-    ]
-  end
-
-  defp border_class("medium") do
-    [
-      "border-[3px]"
-    ]
-  end
-
-  defp border_class("large") do
-    [
-      "border-4"
-    ]
-  end
-
-  defp border_class("extra_large") do
-    [
-      "border-[5px]"
-    ]
-  end
-
-  defp border_class(params) when is_binary(params), do: [params]
-  defp border_class(nil), do: nil
+  defp border_class("none"), do: "border-0"
+  defp border_class("extra_small"), do: "border"
+  defp border_class("small"), do: "border-2"
+  defp border_class("medium"), do: "border-[3px]"
+  defp border_class("large"), do: "border-4"
+  defp border_class("extra_large"), do: "border-[5px]"
+  defp border_class(params) when is_binary(params), do: params
+  defp border_class(_), do: border_class("extra_small")
 
   defp rounded_size("extra_small"), do: "rounded-sm"
   defp rounded_size("small"), do: "rounded"
