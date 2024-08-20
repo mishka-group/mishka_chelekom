@@ -46,6 +46,7 @@ defmodule MishkaChelekomWeb.Router do
     live "/examples/overlay", Examples.OverlayLive
     live "/examples/modal", Examples.ModalLive
     live "/examples/banner", Examples.BannerLive
+    live "/examples/keyboard", Examples.KeyboardLive
   end
 
   # Other scopes may use custom stacks.
