@@ -29,26 +29,36 @@ defmodule MishkaChelekom.Banner do
   @positions ["top_left", "top_right", "bottom_left", "bottom_right", "center", "full"]
 
   @doc type: :component
-attr :id, :string, default: nil, doc: ""
+  attr :id, :string, default: nil, doc: ""
 
-attr :size, :string, default: "large", doc: ""
-attr :variant, :string, values: @variants, default: "default", doc: ""
-attr :color, :string, values: @colors, default: "white", doc: ""
-attr :border, :string, values: @sizes ++ [nil], default: "extra_small", doc: ""
-attr :border_position, :string, values: ["top", "bottom", "full", "none"], default: "top", doc: ""
-attr :rounded, :string, values: @sizes ++ ["none"], default: "none", doc: ""
-attr :rounded_position, :string, values: ["top", "bottom", "all", "none"], default: "none", doc: ""
-attr :space, :string, values: @sizes ++ ["none"], default: "extra_small", doc: ""
-attr :vertical_position, :string, values: ["top", "bottom"], default: "top", doc: ""
-attr :vertical_size, :string, default: "none", doc: ""
-attr :position, :string, values: @positions, default: "full", doc: ""
-attr :position_size, :string, values: @sizes ++ ["none"], default: "none", doc: ""
-attr :font_weight, :string, default: "font-normal", doc: ""
-attr :padding, :string, values: @sizes ++ ["none"], default: "extra_small", doc: ""
-attr :class, :string, default: "", doc: "Additional CSS classes to be added to the banner."
-attr :rest, :global, include: ~w(right_dismiss left_dismiss), doc: ""
+  attr :size, :string, default: "large", doc: ""
+  attr :variant, :string, values: @variants, default: "default", doc: ""
+  attr :color, :string, values: @colors, default: "white", doc: ""
+  attr :border, :string, values: @sizes ++ [nil], default: "extra_small", doc: ""
 
-slot :inner_block, required: false, doc: ""
+  attr :border_position, :string,
+    values: ["top", "bottom", "full", "none"],
+    default: "top",
+    doc: ""
+
+  attr :rounded, :string, values: @sizes ++ ["none"], default: "none", doc: ""
+
+  attr :rounded_position, :string,
+    values: ["top", "bottom", "all", "none"],
+    default: "none",
+    doc: ""
+
+  attr :space, :string, values: @sizes ++ ["none"], default: "extra_small", doc: ""
+  attr :vertical_position, :string, values: ["top", "bottom"], default: "top", doc: ""
+  attr :vertical_size, :string, default: "none", doc: ""
+  attr :position, :string, values: @positions, default: "full", doc: ""
+  attr :position_size, :string, values: @sizes ++ ["none"], default: "none", doc: ""
+  attr :font_weight, :string, default: "font-normal", doc: ""
+  attr :padding, :string, values: @sizes ++ ["none"], default: "extra_small", doc: ""
+  attr :class, :string, default: "", doc: "Additional CSS classes to be added to the banner."
+  attr :rest, :global, include: ~w(right_dismiss left_dismiss), doc: ""
+
+  slot :inner_block, required: false, doc: ""
 
   def banner(assigns) do
     ~H"""
@@ -104,7 +114,7 @@ slot :inner_block, required: false, doc: ""
   defp vertical_position("large", "bottom"), do: "bottom-4"
   defp vertical_position("extra_large", "bottom"), do: "bottom-5"
 
-  defp vertical_position(params,_) when is_binary(params), do: params
+  defp vertical_position(params, _) when is_binary(params), do: params
   defp vertical_position(_, _), do: vertical_position("none", "top")
 
   defp position_class("none", "top_left"), do: "left-0 ml-0"
@@ -139,7 +149,7 @@ slot :inner_block, required: false, doc: ""
   defp position_class(_, "full"), do: "inset-x-0"
 
   defp position_class(params, _) when is_binary(params), do: params
-  defp position_class(_,_), do: position_class(nil, "full")
+  defp position_class(_, _), do: position_class(nil, "full")
 
   defp rounded_size("extra_small", "top"), do: "rounded-b-sm"
   defp rounded_size("small", "top"), do: "rounded-b"
@@ -193,7 +203,6 @@ slot :inner_block, required: false, doc: ""
 
   defp border_class(params, _) when is_binary(params), do: params
   defp border_class(_, _), do: border_class("extra_small", "top")
-
 
   defp color_variant("default", "white") do
     "bg-white text-[#3E3E3E] border-[#DADADA]"
