@@ -1,5 +1,6 @@
 defmodule MishkaChelekom.Banner do
   use Phoenix.Component
+  alias Phoenix.LiveView.JS
   import MishkaChelekomComponents
   import MishkaChelekomWeb.Gettext
 
@@ -29,7 +30,7 @@ defmodule MishkaChelekom.Banner do
   @positions ["top_left", "top_right", "bottom_left", "bottom_right", "center", "full"]
 
   @doc type: :component
-  attr :id, :string, default: nil, doc: ""
+  attr :id, :string, required: true, doc: ""
 
   attr :size, :string, default: "large", doc: ""
   attr :variant, :string, values: @variants, default: "default", doc: ""
@@ -56,6 +57,7 @@ defmodule MishkaChelekom.Banner do
   attr :font_weight, :string, default: "font-normal", doc: ""
   attr :padding, :string, values: @sizes ++ ["none"], default: "extra_small", doc: ""
   attr :class, :string, default: "", doc: "Additional CSS classes to be added to the banner."
+  attr :params, :map, default: %{kind: "banner"}
   attr :rest, :global, include: ~w(right_dismiss left_dismiss), doc: ""
 
   slot :inner_block, required: false, doc: ""
@@ -82,12 +84,25 @@ defmodule MishkaChelekom.Banner do
         <div>
           <%= render_slot(@inner_block) %>
         </div>
-
-        <button type="button" class="group p-2 shrink-0" aria-label={gettext("close")}>
-          <.icon name="hero-x-mark-solid" class="aler-icon opacity-40 group-hover:opacity-70" />
-        </button>
+        <.banner_dismiss id={@id} params={@params} />
       </div>
     </div>
+    """
+  end
+
+  attr :id, :string, default: nil
+  attr :dismiss, :boolean, default: false
+  attr :icon_class, :string, default: "size-4"
+  attr :params, :map, default: %{kind: "badge"}
+
+  defp banner_dismiss(assigns) do
+    ~H"""
+    <button
+      type="button" class="group p-2 shrink-0" aria-label={gettext("close")}
+      phx-click={JS.push("dismiss", value: Map.merge(%{id: @id}, @params)) |> hide("##{@id}")}
+    >
+      <.icon name="hero-x-mark-solid" class="aler-icon opacity-40 group-hover:opacity-70" />
+    </button>
     """
   end
 
@@ -422,5 +437,29 @@ defmodule MishkaChelekom.Banner do
 
   defp color_variant("transparent", "dark") do
     "bg-transparent text-[#1E1E1E] border-transparent"
+  end
+
+  ## JS Commands
+
+  def show(js \\ %JS{}, selector) do
+    JS.show(js,
+      to: selector,
+      time: 300,
+      transition:
+        {"transition-all transform ease-out duration-300",
+         "opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95",
+         "opacity-100 translate-y-0 sm:scale-100"}
+    )
+  end
+
+  def hide(js \\ %JS{}, selector) do
+    JS.hide(js,
+      to: selector,
+      time: 200,
+      transition:
+        {"transition-all transform ease-in duration-200",
+         "opacity-100 translate-y-0 sm:scale-100",
+         "opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"}
+    )
   end
 end
