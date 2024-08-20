@@ -35,6 +35,7 @@ attr :size, :string, default: "large", doc: ""
 attr :variant, :string, values: @variants, default: "default", doc: ""
 attr :color, :string, values: @colors, default: "white", doc: ""
 attr :border, :string, values: @sizes ++ [nil], default: "extra_small", doc: ""
+attr :border_position, :string, values: ["top", "bottom", "full", "none"], default: "top", doc: ""
 attr :rounded, :string, values: @sizes ++ ["none"], default: "none", doc: ""
 attr :rounded_position, :string, values: ["top", "bottom", "all", "none"], default: "none", doc: ""
 attr :space, :string, values: @sizes ++ ["none"], default: "extra_small", doc: ""
@@ -57,7 +58,7 @@ slot :inner_block, required: false, doc: ""
         "overflow-hidden fixed",
         vertical_position(@vertical_size, @vertical_position),
         rounded_size(@rounded, @rounded_position),
-        border_class(@border, @vertical_position),
+        border_class(@border, @border_position),
         color_variant(@variant, @color),
         position_class(@position_size, @position),
         space_class(@space),
@@ -106,19 +107,33 @@ slot :inner_block, required: false, doc: ""
   defp vertical_position(params,_) when is_binary(params), do: params
   defp vertical_position(_, _), do: vertical_position("none", "top")
 
-  defp position_class("none", "top_left"), do: "left-0"
-  defp position_class("extra_small", "top_left"), do: "left-1"
-  defp position_class("small", "top_left"), do: "left-2"
-  defp position_class("medium", "top_left"), do: "left-3"
-  defp position_class("large", "top_left"), do: "left-4"
-  defp position_class("extra_large", "top_left"), do: "left-5"
+  defp position_class("none", "top_left"), do: "left-0 ml-0"
+  defp position_class("extra_small", "top_left"), do: "left-1 ml-1"
+  defp position_class("small", "top_left"), do: "left-2 ml-2"
+  defp position_class("medium", "top_left"), do: "left-3 ml-3"
+  defp position_class("large", "top_left"), do: "left-4 ml-4"
+  defp position_class("extra_large", "top_left"), do: "left-5 ml-5"
 
   defp position_class("none", "top_right"), do: "right-0"
   defp position_class("extra_small", "top_right"), do: "right-1"
   defp position_class("small", "top_right"), do: "right-2"
   defp position_class("medium", "top_right"), do: "right-3"
-  defp position_class("large", "top_right"), do: "right-3"
-  defp position_class("extra_large", "top_right"), do: "right-3"
+  defp position_class("large", "top_right"), do: "right-4"
+  defp position_class("extra_large", "top_right"), do: "right-5"
+
+  defp position_class("none", "bottom_left"), do: "left-0 ml-0"
+  defp position_class("extra_small", "bottom_left"), do: "left-1 ml-1"
+  defp position_class("small", "bottom_left"), do: "left-2 ml-2"
+  defp position_class("medium", "bottom_left"), do: "left-3 ml-3"
+  defp position_class("large", "bottom_left"), do: "left-4 ml-4"
+  defp position_class("extra_large", "bottom_left"), do: "left-5 ml-5"
+
+  defp position_class("none", "bottom_right"), do: "right-0"
+  defp position_class("extra_small", "bottom_right"), do: "right-1"
+  defp position_class("small", "bottom_right"), do: "right-2"
+  defp position_class("medium", "bottom_right"), do: "right-3"
+  defp position_class("large", "bottom_right"), do: "right-4"
+  defp position_class("extra_large", "bottom_right"), do: "right-5"
 
   defp position_class(_, "center"), do: "mx-auto"
   defp position_class(_, "full"), do: "inset-x-0"
@@ -170,11 +185,11 @@ slot :inner_block, required: false, doc: ""
   defp border_class("large", "bottom"), do: "border-b-4"
   defp border_class("extra_large", "bottom"), do: "border-b-[5px]"
 
-  defp border_class("extra_small",_), do: "border"
-  defp border_class("small",_), do: "border-2"
-  defp border_class("medium",_), do: "border-[3px]"
-  defp border_class("large",_), do: "border-4"
-  defp border_class("extra_large",_), do: "border-[5px]"
+  defp border_class("extra_small", "full"), do: "border"
+  defp border_class("small", "full"), do: "border-2"
+  defp border_class("medium", "full"), do: "border-[3px]"
+  defp border_class("large", "full"), do: "border-4"
+  defp border_class("extra_large", "full"), do: "border-[5px]"
 
   defp border_class(params, _) when is_binary(params), do: params
   defp border_class(_, _), do: border_class("extra_small", "top")
