@@ -41,6 +41,7 @@ attr :space, :string, values: @sizes ++ ["none"], default: "extra_small", doc: "
 attr :vertical_position, :string, values: ["top", "bottom"], default: "top", doc: ""
 attr :vertical_size, :string, values: @sizes ++ ["none"], default: "none", doc: ""
 attr :position, :string, values: @positions, default: "full", doc: ""
+attr :position_size, :string, values: @sizes ++ ["none"], default: "none", doc: ""
 attr :font_weight, :string, default: "font-normal", doc: ""
 attr :padding, :string, values: @sizes ++ ["none"], default: "extra_small", doc: ""
 attr :class, :string, default: "", doc: "Additional CSS classes to be added to the banner."
@@ -58,7 +59,7 @@ slot :inner_block, required: false, doc: ""
         rounded_size(@rounded, @rounded_position),
         border_class(@border, @vertical_position),
         color_variant(@variant, @color),
-        position_class(@position),
+        position_class(@position_size, @position),
         space_class(@space),
         padding_size(@padding),
         @font_weight,
@@ -105,14 +106,25 @@ slot :inner_block, required: false, doc: ""
   defp vertical_position(params,_) when is_binary(params), do: params
   defp vertical_position(_, _), do: vertical_position("none", "top")
 
-  defp position_class("top_left"), do: "left-0"
-  defp position_class("top_right"), do: "right-0"
-  defp position_class("bottom_left"), do: "left-0"
-  defp position_class("bottom_right"), do: "right-0"
-  defp position_class("center"), do: "mx-auto"
-  defp position_class("full"), do: "inset-x-0"
-  defp position_class(params) when is_binary(params), do: params
-  defp position_class(_), do: position_class("full")
+  defp position_class("none", "top_left"), do: "left-0"
+  defp position_class("extra_small", "top_left"), do: "left-1"
+  defp position_class("small", "top_left"), do: "left-2"
+  defp position_class("medium", "top_left"), do: "left-3"
+  defp position_class("large", "top_left"), do: "left-4"
+  defp position_class("extra_large", "top_left"), do: "left-5"
+
+  defp position_class("none", "top_right"), do: "right-0"
+  defp position_class("extra_small", "top_right"), do: "right-1"
+  defp position_class("small", "top_right"), do: "right-2"
+  defp position_class("medium", "top_right"), do: "right-3"
+  defp position_class("large", "top_right"), do: "right-3"
+  defp position_class("extra_large", "top_right"), do: "right-3"
+
+  defp position_class(_, "center"), do: "mx-auto"
+  defp position_class(_, "full"), do: "inset-x-0"
+
+  defp position_class(params, _) when is_binary(params), do: params
+  defp position_class(_,_), do: position_class(nil, "full")
 
   defp rounded_size("extra_small", "top"), do: "rounded-b-sm"
   defp rounded_size("small", "top"), do: "rounded-b"
