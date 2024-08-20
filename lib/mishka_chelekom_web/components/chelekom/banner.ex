@@ -101,7 +101,7 @@ defmodule MishkaChelekom.Banner do
       type="button" class="group p-2 shrink-0" aria-label={gettext("close")}
       phx-click={JS.push("dismiss", value: Map.merge(%{id: @id}, @params)) |> hide("##{@id}")}
     >
-      <.icon name="hero-x-mark-solid" class="aler-icon opacity-40 group-hover:opacity-70" />
+      <.icon name="hero-x-mark-solid" class="banner-icon opacity-40 group-hover:opacity-70" />
     </button>
     """
   end
