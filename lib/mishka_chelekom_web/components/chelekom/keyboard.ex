@@ -38,16 +38,17 @@ defmodule MishkaChelekom.Keyboard do
 
   def keyboard(assigns) do
     ~H"""
-    <kbd id={@id}
-    class={[
-      "px-2 py-1.5",
-      color_variant(@variant, @color),
-      size_class(@size),
-      rounded_size(@rounded),
-      @font_weight,
-      @class
-    ]}
-    {@rest}
+    <kbd
+      id={@id}
+      class={[
+        "px-2 py-1.5",
+        color_variant(@variant, @color),
+        size_class(@size),
+        rounded_size(@rounded),
+        @font_weight,
+        @class
+      ]}
+      {@rest}
     >
       <%= render_slot(@inner_block) %>
     </kbd>

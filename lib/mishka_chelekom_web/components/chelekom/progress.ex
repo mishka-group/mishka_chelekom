@@ -33,14 +33,12 @@ defmodule MishkaChelekom.Progress do
 
   def progress(assigns) do
     ~H"""
-    <div
-      class={[
-        "w-full bg-gray-200 rounded-full",
-        color_variant(@color),
-        size_class(@size),
-        @class
-      ]}
-    >
+    <div class={[
+      "w-full bg-gray-200 rounded-full",
+      color_variant(@color),
+      size_class(@size),
+      @class
+    ]}>
       <div class="bg-blue-600 h-2.5 rounded-full" style="width: 45%"></div>
     </div>
     """
