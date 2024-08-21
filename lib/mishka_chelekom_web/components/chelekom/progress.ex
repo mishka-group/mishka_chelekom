@@ -20,7 +20,7 @@ defmodule MishkaChelekom.Progress do
 
   @doc type: :component
   attr :id, :string, default: nil, doc: ""
-  attr :value, :integer, default: 0, doc: ""
+  attr :value, :integer, default: nil, doc: ""
   attr :variation, :string, values: ["horizontal", "vertical"], default: "horizontal", doc: ""
   attr :color, :string, values: @colors, default: "white", doc: ""
   attr :variant, :string, values: @variants, default: "default", doc: ""
@@ -28,10 +28,9 @@ defmodule MishkaChelekom.Progress do
   attr :rounded, :string, default: "small", doc: ""
   attr :class, :string, default: nil, doc: ""
   attr :rest, :global, doc: ""
+  slot :inner_block
 
   def progress(assigns) do
-    assigns = assign(assigns, :value, (is_integer(assigns.value) && assigns.value) || 0)
-
     ~H"""
     <div
       class={[
@@ -40,16 +39,37 @@ defmodule MishkaChelekom.Progress do
       ]}
       {@rest}
     >
+      <.progress_section :if={@value} {assigns} />
       <div
-        class={[
-          "rounded-full w-full",
-          if(@variation == "vertical", do: "progress-vertical"),
-          color_variant(@variant, @color),
-          @class
-        ]}
-        style={(@variation == "horizontal" && "width: #{@value}%;") || "height: #{@value}%;"}
+        :if={msg = render_slot(@inner_block)}
+        class={["flex", (@variation == "horizontal" && "flex-row") || "flex-col"]}
       >
+        <%= msg %>
       </div>
+    </div>
+    """
+  end
+
+  attr :value, :integer, default: 0, doc: ""
+  attr :class, :string, default: nil, doc: ""
+  attr :variation, :string, values: ["horizontal", "vertical"], default: "horizontal", doc: ""
+  attr :color, :string, values: @colors, default: "white", doc: ""
+  attr :variant, :string, values: @variants, default: "default", doc: ""
+  attr :rest, :global, doc: ""
+
+  def progress_section(assigns) do
+    assigns = assign(assigns, :value, (is_integer(assigns.value) && assigns.value) || 0)
+
+    ~H"""
+    <div
+      class={[
+        "rounded-full w-full",
+        if(@variation == "vertical", do: "progress-vertical"),
+        color_variant(@variant, @color),
+        @class
+      ]}
+      style={(@variation == "horizontal" && "width: #{@value}%;") || "height: #{@value}%;"}
+    >
     </div>
     """
   end
