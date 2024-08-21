@@ -25,7 +25,6 @@ defmodule MishkaChelekom.Progress do
   attr :color, :string, values: @colors, default: "white", doc: ""
   attr :variant, :string, values: @variants, default: "default", doc: ""
   attr :size, :string, values: @sizes, default: "small", doc: ""
-  attr :rounded, :string, default: "small", doc: ""
   attr :class, :string, default: nil, doc: ""
   attr :rest, :global, doc: ""
   slot :inner_block
@@ -34,7 +33,7 @@ defmodule MishkaChelekom.Progress do
     ~H"""
     <div
       class={[
-        "bg-[#e9ecef] rounded-full",
+        "bg-[#e9ecef] rounded-full overflow-hidden",
         size_class(@size, @variation)
       ]}
       {@rest}
@@ -54,6 +53,7 @@ defmodule MishkaChelekom.Progress do
   attr :class, :string, default: nil, doc: ""
   attr :variation, :string, values: ["horizontal", "vertical"], default: "horizontal", doc: ""
   attr :color, :string, values: @colors, default: "white", doc: ""
+  attr :rounded, :string, default: "none", doc: ""
   attr :variant, :string, values: @variants, default: "default", doc: ""
   attr :rest, :global, doc: ""
 
@@ -66,6 +66,7 @@ defmodule MishkaChelekom.Progress do
         "rounded-full w-full",
         if(@variation == "vertical", do: "progress-vertical"),
         color_variant(@variant, @color),
+        rounded_size(@rounded),
         @class
       ]}
       style={(@variation == "horizontal" && "width: #{@value}%;") || "height: #{@value}%;"}
@@ -73,6 +74,14 @@ defmodule MishkaChelekom.Progress do
     </div>
     """
   end
+
+  defp rounded_size("extra_small"), do: "rounded-sm"
+  defp rounded_size("small"), do: "rounded"
+  defp rounded_size("medium"), do: "rounded-md"
+  defp rounded_size("large"), do: "rounded-lg"
+  defp rounded_size("extra_large"), do: "rounded-xl"
+  defp rounded_size("full"), do: "rounded-full"
+  defp rounded_size(_), do: "rounded-none"
 
   defp size_class("extra_small", "horizontal"), do: "text-xs h-1.5 [&>*]:h-1.5"
   defp size_class("small", "horizontal"), do: "text-sm h-2 [&>*]:h-2"
