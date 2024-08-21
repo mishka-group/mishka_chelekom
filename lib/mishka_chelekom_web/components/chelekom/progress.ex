@@ -20,6 +20,7 @@ defmodule MishkaChelekom.Progress do
 
   @doc type: :component
   attr :id, :string, default: nil, doc: ""
+  attr :value, :integer, default: 0, doc: ""
   attr :variation, :string, values: ["horizontal", "vertical"], default: "horizontal", doc: ""
   attr :color, :string, values: @colors, default: "white", doc: ""
   attr :variant, :string, values: @variants, default: "default", doc: ""
@@ -29,21 +30,23 @@ defmodule MishkaChelekom.Progress do
   attr :rest, :global, doc: ""
 
   def progress(assigns) do
+    assigns = assign(assigns, :value, (is_integer(assigns.value) && assigns.value) || 0)
+
     ~H"""
-    <div
-      class={[
-        "bg-[#e9ecef] rounded-full",
-        size_class(@size, @variation),
-      ]}
-    >
+    <div class={[
+      "bg-[#e9ecef] rounded-full",
+      size_class(@size, @variation)
+    ]}>
       <div
-      class={[
-        "rounded-full w-full",
-        if(@variation == "vertical", do: "progress-vertical"),
-        color_variant(@variant, @color),
-        @class
-      ]}
-      ></div>
+        class={[
+          "rounded-full w-full",
+          if(@variation == "vertical", do: "progress-vertical"),
+          color_variant(@variant, @color),
+          @class
+        ]}
+        style={(@variation == "horizontal" && "width: #{@value}%;") || "height: #{@value}%;"}
+      >
+      </div>
     </div>
     """
   end
@@ -60,8 +63,8 @@ defmodule MishkaChelekom.Progress do
   defp size_class("large", "vertical"), do: "text-lg w-4 h-[8rem]"
   defp size_class("extra_large", "vertical"), do: "text-xl w-5 h-[9rem]"
 
-  defp size_class(params,_) when is_binary(params), do: params
-  defp size_class(_,_), do: size_class("small", "horizontal")
+  defp size_class(params, _) when is_binary(params), do: params
+  defp size_class(_, _), do: size_class("small", "horizontal")
 
   defp color_variant("default", "white") do
     "bg-white text-[#3E3E3E]"
@@ -125,7 +128,6 @@ defmodule MishkaChelekom.Progress do
     [
       "ltr:[&:not(.progress-vertical)]:bg-gradient-to-r rtl:[&:not(.progress-vertical)]:bg-gradient-to-l from-[#877C7C] to-[#e9ecef] text-white",
       "[&.progress-vertical]:bg-gradient-to-b"
-
     ]
   end
 
@@ -175,7 +177,6 @@ defmodule MishkaChelekom.Progress do
     [
       "ltr:[&:not(.progress-vertical)]:bg-gradient-to-r rtl:[&:not(.progress-vertical)]:bg-gradient-to-l from-[#707483] to-[#e9ecef] text-[#707483]",
       "[&.progress-vertical]:bg-gradient-to-b"
-
     ]
   end
 
