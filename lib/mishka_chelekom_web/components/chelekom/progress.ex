@@ -33,10 +33,13 @@ defmodule MishkaChelekom.Progress do
     assigns = assign(assigns, :value, (is_integer(assigns.value) && assigns.value) || 0)
 
     ~H"""
-    <div class={[
-      "bg-[#e9ecef] rounded-full",
-      size_class(@size, @variation)
-    ]}>
+    <div
+      class={[
+        "bg-[#e9ecef] rounded-full",
+        size_class(@size, @variation)
+      ]}
+      {@rest}
+    >
       <div
         class={[
           "rounded-full w-full",
