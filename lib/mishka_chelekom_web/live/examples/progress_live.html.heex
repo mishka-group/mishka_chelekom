@@ -64,7 +64,7 @@
 <br />
 <br />
 <hr />
-<div class="space-y-5 p-5">
+<div class="space-y-5 p-5 flex gap-3">
   <div>Vertical</div>
 
   <MishkaChelekom.Progress.progress variation="vertical" value={10} />
@@ -81,6 +81,8 @@
 
   <div>Gradient</div>
   <MishkaChelekom.Progress.progress variant="gradient" variation="vertical" value={20} />
+  <MishkaChelekom.Progress.progress variant="gradient" variation="vertical" color="info" size="extra_large" value={70} />
+  <MishkaChelekom.Progress.progress variant="gradient" variation="vertical" color="info" value={20} />
   <MishkaChelekom.Progress.progress
     variant="gradient"
     variation="vertical"
@@ -149,8 +151,18 @@
 <hr />
 <br />
 
-<div class="flex flex-col space-y-5 m-20" dir="ltr">
+<div class="space-y-5 m-20" dir="ltr">
   <MishkaChelekom.Progress.progress>
+    <MishkaChelekom.Progress.progress_section color="primary" value={10} />
+    <MishkaChelekom.Progress.progress_section color="secondary" value={15} />
+    <MishkaChelekom.Progress.progress_section color="misc" value={10} />
+    <MishkaChelekom.Progress.progress_section color="danger" value={5} />
+    <MishkaChelekom.Progress.progress_section color="warning" value={10} />
+    <MishkaChelekom.Progress.progress_section color="success" value={10} />
+    <MishkaChelekom.Progress.progress_section color="info" value={5} />
+  </MishkaChelekom.Progress.progress>
+
+  <MishkaChelekom.Progress.progress variation="vertical" size="">
     <MishkaChelekom.Progress.progress_section color="primary" value={10} />
     <MishkaChelekom.Progress.progress_section color="secondary" value={15} />
     <MishkaChelekom.Progress.progress_section color="misc" value={10} />
