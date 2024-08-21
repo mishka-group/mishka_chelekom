@@ -149,77 +149,77 @@ defmodule MishkaChelekom.Progress do
   defp color_variant("gradient", "white") do
     [
       "ltr:[&:not(.progress-vertical)]:bg-gradient-to-r rtl:[&:not(.progress-vertical)]:bg-gradient-to-l [&:not(.progress-vertical)]:from-white [&:not(.progress-vertical)]:to-[#e9ecef] text-[#3E3E3E]",
-      "[&.progress-vertical]:bg-gradient-to-b [&.progress-vertical]:from-[#e9ecef] [&.progress-vertical]:to-white"
+      "[&.progress-vertical]:bg-gradient-to-b [&.progress-vertical]:from-[#e9ecef] [&.progress-vertical]:via-white [&.progress-vertical]:to-white"
     ]
   end
 
   defp color_variant("gradient", "primary") do
     [
       "ltr:[&:not(.progress-vertical)]:bg-gradient-to-r rtl:[&:not(.progress-vertical)]:bg-gradient-to-l from-[#2441de] to-[#e9ecef] text-white",
-      "[&.progress-vertical]:bg-gradient-to-b [&.progress-vertical]:from-[#e9ecef] [&.progress-vertical]:to-[#2441de]"
+      "[&.progress-vertical]:bg-gradient-to-b [&.progress-vertical]:from-[#e9ecef]  [&.progress-vertical]:via-[#2441de] [&.progress-vertical]:to-[#2441de]"
     ]
   end
 
   defp color_variant("gradient", "secondary") do
     [
       "ltr:[&:not(.progress-vertical)]:bg-gradient-to-r rtl:[&:not(.progress-vertical)]:bg-gradient-to-l from-[#877C7C] to-[#e9ecef] text-white",
-      "[&.progress-vertical]:bg-gradient-to-b [&.progress-vertical]:from-[#e9ecef] [&.progress-vertical]:to-[#877C7C]"
+      "[&.progress-vertical]:bg-gradient-to-b [&.progress-vertical]:from-[#e9ecef] [&.progress-vertical]:via-[#877C7C] [&.progress-vertical]:to-[#877C7C]"
     ]
   end
 
   defp color_variant("gradient", "success") do
     [
       "ltr:[&:not(.progress-vertical)]:bg-gradient-to-r rtl:[&:not(.progress-vertical)]:bg-gradient-to-l from-[#6EE7B7] to-[#e9ecef] text-[#047857]",
-      "[&.progress-vertical]:bg-gradient-to-b [&.progress-vertical]:from-[#e9ecef] [&.progress-vertical]:to-[#6EE7B7]"
+      "[&.progress-vertical]:bg-gradient-to-b [&.progress-vertical]:from-[#e9ecef] [&.progress-vertical]:via-[#6EE7B7] [&.progress-vertical]:to-[#6EE7B7]"
     ]
   end
 
   defp color_variant("gradient", "warning") do
     [
       "ltr:[&:not(.progress-vertical)]:bg-gradient-to-r rtl:[&:not(.progress-vertical)]:bg-gradient-to-l from-[#FF8B08] to-[#e9ecef] text-[#FF8B08]",
-      "[&.progress-vertical]:bg-gradient-to-b [&.progress-vertical]:from-[#e9ecef] [&.progress-vertical]:to-[#FF8B08]"
+      "[&.progress-vertical]:bg-gradient-to-b [&.progress-vertical]:from-[#e9ecef] [&.progress-vertical]:via-[#FF8B08] [&.progress-vertical]:to-[#FF8B08]"
     ]
   end
 
   defp color_variant("gradient", "danger") do
     [
       "ltr:[&:not(.progress-vertical)]:bg-gradient-to-r rtl:[&:not(.progress-vertical)]:bg-gradient-to-l from-[#E73B3B] to-[#e9ecef] text-[#E73B3B]",
-      "[&.progress-vertical]:bg-gradient-to-b [&.progress-vertical]:from-[#e9ecef] [&.progress-vertical]:to-[#E73B3B]"
+      "[&.progress-vertical]:bg-gradient-to-b [&.progress-vertical]:from-[#e9ecef] [&.progress-vertical]:via-[#E73B3B] [&.progress-vertical]:to-[#E73B3B]"
     ]
   end
 
   defp color_variant("gradient", "info") do
     [
       "ltr:[&:not(.progress-vertical)]:bg-gradient-to-r rtl:[&:not(.progress-vertical)]:bg-gradient-to-l from-[#004FC4] to-[#e9ecef] text-[#004FC4]",
-      "[&.progress-vertical]:bg-gradient-to-b [&.progress-vertical]:from-[#e9ecef] [&.progress-vertical]:to-[#004FC4]"
+      "[&.progress-vertical]:bg-gradient-to-b [&.progress-vertical]:from-[#e9ecef] [&.progress-vertical]:via-[#004FC4] [&.progress-vertical]:to-[#004FC4]"
     ]
   end
 
   defp color_variant("gradient", "misc") do
     [
       "ltr:[&:not(.progress-vertical)]:bg-gradient-to-r rtl:[&:not(.progress-vertical)]:bg-gradient-to-l from-[#52059C] to-[#e9ecef] text-[#52059C]",
-      "[&.progress-vertical]:bg-gradient-to-b [&.progress-vertical]:from-[#e9ecef] [&.progress-vertical]:to-[#52059C]"
+      "[&.progress-vertical]:bg-gradient-to-b [&.progress-vertical]:from-[#e9ecef] [&.progress-vertical]:via-[#52059C] [&.progress-vertical]:to-[#52059C]"
     ]
   end
 
   defp color_variant("gradient", "dawn") do
     [
       "ltr:[&:not(.progress-vertical)]:bg-gradient-to-r rtl:[&:not(.progress-vertical)]:bg-gradient-to-l from-[#4D4137] to-[#e9ecef] text-[#4D4137]",
-      "[&.progress-vertical]:bg-gradient-to-b [&.progress-vertical]:from-[#e9ecef] [&.progress-vertical]:to-[#4D4137]"
+      "[&.progress-vertical]:bg-gradient-to-b [&.progress-vertical]:from-[#e9ecef] [&.progress-vertical]:via-[#4D4137] [&.progress-vertical]:to-[#4D4137]"
     ]
   end
 
   defp color_variant("gradient", "light") do
     [
       "ltr:[&:not(.progress-vertical)]:bg-gradient-to-r rtl:[&:not(.progress-vertical)]:bg-gradient-to-l from-[#707483] to-[#e9ecef] text-[#707483]",
-      "[&.progress-vertical]:bg-gradient-to-b [&.progress-vertical]:from-[#e9ecef] [&.progress-vertical]:to-[#707483]"
+      "[&.progress-vertical]:bg-gradient-to-b [&.progress-vertical]:from-[#e9ecef] [&.progress-vertical]:via-[#707483] [&.progress-vertical]:to-[#707483]"
     ]
   end
 
   defp color_variant("gradient", "dark") do
     [
       "ltr:[&:not(.progress-vertical)]:bg-gradient-to-r rtl:[&:not(.progress-vertical)]:bg-gradient-to-l from-[#1E1E1E] to-[#e9ecef] text-white",
-      "[&.progress-vertical]:bg-gradient-to-b [&.progress-vertical]:from-[#e9ecef] [&.progress-vertical]:to-[#1E1E1E]"
+      "[&.progress-vertical]:bg-gradient-to-b [&.progress-vertical]:from-[#e9ecef] [&.progress-vertical]:via-[#1E1E1E] [&.progress-vertical]:to-[#1E1E1E]"
     ]
   end
 end
