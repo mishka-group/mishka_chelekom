@@ -50,7 +50,7 @@ defmodule MishkaChelekom.Card do
   attr :rounded, :string, values: @sizes ++ [nil], default: nil, doc: ""
   attr :space, :string, values: @sizes ++ [nil], default: nil, doc: ""
   attr :font_weight, :string, default: "font-normal", doc: ""
-  attr :padding, :string, values: @sizes ++ ["none"], default: "none", doc: ""
+  attr :padding, :string, default: "none", doc: ""
   attr :class, :string, default: nil, doc: ""
   attr :rest, :global, doc: ""
   slot :inner_block, required: false, doc: ""
