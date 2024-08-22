@@ -214,47 +214,47 @@ defmodule MishkaChelekom.Chat do
   end
 
   defp color_variant("unbordered", "white") do
-    "[&>.chat-section-bubble]:bg-white text-[#3E3E3E] [&>.chat-section-bubble]:"
+    "[&>.chat-section-bubble]:bg-white text-[#3E3E3E] [&>.chat-section-bubble]:border-transparent"
   end
 
   defp color_variant("unbordered", "primary") do
-    "[&>.chat-section-bubble]:bg-[#4363EC] text-white [&>.chat-section-bubble]:"
+    "[&>.chat-section-bubble]:bg-[#4363EC] text-white [&>.chat-section-bubble]:border-transparent"
   end
 
   defp color_variant("unbordered", "secondary") do
-    "[&>.chat-section-bubble]:bg-[#6B6E7C] text-white [&>.chat-section-bubble]:"
+    "[&>.chat-section-bubble]:bg-[#6B6E7C] text-white [&>.chat-section-bubble]:border-transparent"
   end
 
   defp color_variant("unbordered", "success") do
-    "[&>.chat-section-bubble]:bg-[#ECFEF3] text-[#047857] [&>.chat-section-bubble]:"
+    "[&>.chat-section-bubble]:bg-[#ECFEF3] text-[#047857] [&>.chat-section-bubble]:border-transparent"
   end
 
   defp color_variant("unbordered", "warning") do
-    "[&>.chat-section-bubble]:bg-[#FFF8E6] text-[#FF8B08] [&>.chat-section-bubble]:"
+    "[&>.chat-section-bubble]:bg-[#FFF8E6] text-[#FF8B08] [&>.chat-section-bubble]:border-transparent"
   end
 
   defp color_variant("unbordered", "danger") do
-    "[&>.chat-section-bubble]:bg-[#FFE6E6] text-[#E73B3B] [&>.chat-section-bubble]:"
+    "[&>.chat-section-bubble]:bg-[#FFE6E6] text-[#E73B3B] [&>.chat-section-bubble]:border-transparent"
   end
 
   defp color_variant("unbordered", "info") do
-    "[&>.chat-section-bubble]:bg-[#E5F0FF] text-[#004FC4] [&>.chat-section-bubble]:"
+    "[&>.chat-section-bubble]:bg-[#E5F0FF] text-[#004FC4] [&>.chat-section-bubble]:border-transparent"
   end
 
   defp color_variant("unbordered", "misc") do
-    "[&>.chat-section-bubble]:bg-[#FFE6FF] text-[#52059C] [&>.chat-section-bubble]:"
+    "[&>.chat-section-bubble]:bg-[#FFE6FF] text-[#52059C] [&>.chat-section-bubble]:border-transparent"
   end
 
   defp color_variant("unbordered", "dawn") do
-    "[&>.chat-section-bubble]:bg-[#FFECDA] text-[#4D4137] [&>.chat-section-bubble]:"
+    "[&>.chat-section-bubble]:bg-[#FFECDA] text-[#4D4137] [&>.chat-section-bubble]:border-transparent"
   end
 
   defp color_variant("unbordered", "light") do
-    "[&>.chat-section-bubble]:bg-[#E3E7F1] text-[#707483] [&>.chat-section-bubble]:"
+    "[&>.chat-section-bubble]:bg-[#E3E7F1] text-[#707483] [&>.chat-section-bubble]:border-transparent"
   end
 
   defp color_variant("unbordered", "dark") do
-    "[&>.chat-section-bubble]:bg-[#1E1E1E] text-white [&>.chat-section-bubble]:"
+    "[&>.chat-section-bubble]:bg-[#1E1E1E] text-white [&>.chat-section-bubble]:border-transparent"
   end
 
   defp color_variant("shadow", "white") do
