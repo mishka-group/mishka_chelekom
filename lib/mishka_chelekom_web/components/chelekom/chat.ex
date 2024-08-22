@@ -30,6 +30,7 @@ defmodule MishkaChelekom.Chat do
   attr :variant, :string, values: @variants, default: "default", doc: ""
   attr :color, :string, values: @colors, default: "light", doc: ""
   attr :border, :string, default: "extra_small", doc: ""
+  attr :rounded, :string, default: "extra_large", doc: ""
   attr :size, :string, default: "medium", doc: ""
   attr :space, :string, default: "extra_small", doc: ""
   attr :position, :string, values: ["normal", "flipped"], default: "normal", doc: ""
@@ -44,7 +45,7 @@ defmodule MishkaChelekom.Chat do
       class={[
         "flex items-start gap-3",
         position_class(@position),
-        rounded_class(@position),
+        rounded_size(@rounded, @position),
         border_class(@border),
         color_variant(@variant, @color),
         space_class(@space),
@@ -90,13 +91,67 @@ defmodule MishkaChelekom.Chat do
   defp position_class("flipped"), do: "justify-start flex-row-reverse"
   defp position_class(params) when is_binary(params), do: params
 
-  defp rounded_class("normal"),
-    do: "[&>.chat-section-bubble]:rounded-e-xl [&>.chat-section-bubble]:rounded-es-xl"
+  defp rounded_size("extra_small","normal") do
+    [
+      "[&>.chat-section-bubble]:rounded-e-sm [&>.chat-section-bubble]:rounded-es-sm",
+    ]
+  end
 
-  defp rounded_class("flipped"),
-    do: "[&>.chat-section-bubble]:rounded-s-xl [&>.chat-section-bubble]:rounded-ee-xl"
+  defp rounded_size("small","normal") do
+    [
+      "[&>.chat-section-bubble]:rounded-e [&>.chat-section-bubble]:rounded-es",
+    ]
+  end
 
-  defp rounded_class(params) when is_binary(params), do: params
+  defp rounded_size("medium","normal") do
+    [
+      "[&>.chat-section-bubble]:rounded-e-md [&>.chat-section-bubble]:rounded-e-md",
+    ]
+  end
+
+  defp rounded_size("large","normal") do
+    [
+      "[&>.chat-section-bubble]:rounded-e-lg [&>.chat-section-bubble]:rounded-e-lg",
+    ]
+  end
+
+  defp rounded_size("extra_large","normal") do
+    [
+      "[&>.chat-section-bubble]:rounded-e-xl [&>.chat-section-bubble]:rounded-e-xl",
+    ]
+  end
+
+  defp rounded_size("extra_small","flipped") do
+    [
+      "[&>.chat-section-bubble]:rounded-s-sm [&>.chat-section-bubble]:rounded-ee-sm",
+    ]
+  end
+
+  defp rounded_size("small","flipped") do
+    [
+      "[&>.chat-section-bubble]:rounded-s [&>.chat-section-bubble]:rounded-ee",
+    ]
+  end
+
+  defp rounded_size("medium","flipped") do
+    [
+      "[&>.chat-section-bubble]:rounded-s-md [&>.chat-section-bubble]:rounded-ee-md",
+    ]
+  end
+
+  defp rounded_size("large","flipped") do
+    [
+      "[&>.chat-section-bubble]:rounded-s-lg [&>.chat-section-bubble]:rounded-ee-lg",
+    ]
+  end
+
+  defp rounded_size("extra_large","flipped") do
+    [
+      "[&>.chat-section-bubble]:rounded-s-xl [&>.chat-section-bubble]:rounded-ee-xl",
+    ]
+  end
+
+  defp rounded_size(_,_), do: rounded_size("extra_large" , "normal")
 
   defp space_class("extra_small"), do: "[&>.chat-section-bubble]:space-y-2"
   defp space_class("small"), do: "[&>.chat-section-bubble]:space-y-3"
