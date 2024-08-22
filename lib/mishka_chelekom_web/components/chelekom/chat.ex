@@ -130,7 +130,7 @@ defmodule MishkaChelekom.Chat do
   end
 
   defp color_variant("default", "primary") do
-    "[&>.chat-section-bubble]:bg-[#4363EC] text-white [&>.chat-section-bubble]:border-[#2441de]"
+    "[&>.chat-section-bubble]:bg-[#4363EC] text-white [&>.chat-section-bubble]:border-[#F6F6FA]"
   end
 
   defp color_variant("default", "secondary") do
@@ -346,46 +346,46 @@ defmodule MishkaChelekom.Chat do
   end
 
   defp color_variant("gradient", "white") do
-    "[&>.chat-section-bubble]:bg-transparent text-white"
+    "[&>.chat-section-bubble]:bg-gradient-to-b [&>.chat-section-bubble]:from-[#e9ecef] [&>.chat-section-bubble]:to-[#F6F6FA] text-[#3E3E3E]"
   end
 
   defp color_variant("gradient", "primary") do
-    "[&>.chat-section-bubble]:bg-transparent text-[#4363EC]"
+    "[&>.chat-section-bubble]:bg-gradient-to-b [&>.chat-section-bubble]:from-[#4363EC] [&>.chat-section-bubble]:to-[#F6F6FA] text-white"
   end
 
   defp color_variant("gradient", "secondary") do
-    "[&>.chat-section-bubble]:bg-transparent text-[#6B6E7C]"
+    "[&>.chat-section-bubble]:bg-gradient-to-b [&>.chat-section-bubble]:from-[#6B6E7C] [&>.chat-section-bubble]:to-[#F6F6FA] text-white"
   end
 
   defp color_variant("gradient", "success") do
-    "[&>.chat-section-bubble]:bg-transparent text-[#227A52]"
+    "[&>.chat-section-bubble]:bg-gradient-to-b [&>.chat-section-bubble]:from-[#ECFEF3] [&>.chat-section-bubble]:to-[#F6F6FA] text-[#047857]"
   end
 
   defp color_variant("gradient", "warning") do
-    "[&>.chat-section-bubble]:bg-transparent text-[#FF8B08]"
+    "[&>.chat-section-bubble]:bg-gradient-to-b [&>.chat-section-bubble]:from-[#FFF8E6] [&>.chat-section-bubble]:to-[#F6F6FA] text-[#FF8B08]"
   end
 
   defp color_variant("gradient", "danger") do
-    "[&>.chat-section-bubble]:bg-transparent text-[#E73B3B]"
+    "[&>.chat-section-bubble]:bg-gradient-to-b [&>.chat-section-bubble]:from-[#FFE6E6] [&>.chat-section-bubble]:to-[#F6F6FA] text-[#E73B3B]"
   end
 
   defp color_variant("gradient", "info") do
-    "[&>.chat-section-bubble]:bg-transparent text-[#6663FD]"
+    "[&>.chat-section-bubble]:bg-gradient-to-b [&>.chat-section-bubble]:from-[#E5F0FF] [&>.chat-section-bubble]:to-[#F6F6FA] text-[#6663FD]"
   end
 
   defp color_variant("gradient", "misc") do
-    "[&>.chat-section-bubble]:bg-transparent text-[#52059C]"
+    "[&>.chat-section-bubble]:bg-gradient-to-b [&>.chat-section-bubble]:from-[#FFE6FF] [&>.chat-section-bubble]:to-[#F6F6FA] text-[#52059C]"
   end
 
   defp color_variant("gradient", "dawn") do
-    "[&>.chat-section-bubble]:bg-transparent text-[#4D4137]"
+    "[&>.chat-section-bubble]:bg-gradient-to-b [&>.chat-section-bubble]:from-[#FFECDA] [&>.chat-section-bubble]:to-[#F6F6FA] text-[#4D4137]"
   end
 
   defp color_variant("gradient", "light") do
-    "[&>.chat-section-bubble]:bg-transparent text-[#707483]"
+    "[&>.chat-section-bubble]:bg-gradient-to-b [&>.chat-section-bubble]:from-[#E3E7F1] [&>.chat-section-bubble]:to-[#F6F6FA] text-[#707483]"
   end
 
   defp color_variant("gradient", "dark") do
-    "[&>.chat-section-bubble]:bg-transparent text-[#1E1E1E]"
+    "[&>.chat-section-bubble]:bg-gradient-to-b [&>.chat-section-bubble]:from-[#1E1E1E] [&>.chat-section-bubble]:to-[#F6F6FA] text-[#DFDFE4]"
   end
 end
