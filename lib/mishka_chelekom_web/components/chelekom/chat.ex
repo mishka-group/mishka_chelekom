@@ -509,8 +509,8 @@ defmodule MishkaChelekom.Chat do
 
   defp color_variant("gradient", "dark") do
     [
-      "[&>.chat-section-bubble]:bg-gradient-to-b [&>.chat-section-bubble]:from-[#5e5d5d]",
-      "[&>.chat-section-bubble]:to-[#F6F6FA] text-[#1E1E1E]"
+      "[&>.chat-section-bubble]:bg-gradient-to-b [&>.chat-section-bubble]:from-[#000]",
+      "[&>.chat-section-bubble]:to-[#777777] text-white"
     ]
   end
 end
