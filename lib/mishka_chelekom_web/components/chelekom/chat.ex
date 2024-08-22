@@ -105,19 +105,19 @@ defmodule MishkaChelekom.Chat do
 
   defp rounded_size("medium","normal") do
     [
-      "[&>.chat-section-bubble]:rounded-e-md [&>.chat-section-bubble]:rounded-e-md",
+      "[&>.chat-section-bubble]:rounded-e-md [&>.chat-section-bubble]:rounded-es-md",
     ]
   end
 
   defp rounded_size("large","normal") do
     [
-      "[&>.chat-section-bubble]:rounded-e-lg [&>.chat-section-bubble]:rounded-e-lg",
+      "[&>.chat-section-bubble]:rounded-e-lg [&>.chat-section-bubble]:rounded-es-lg",
     ]
   end
 
   defp rounded_size("extra_large","normal") do
     [
-      "[&>.chat-section-bubble]:rounded-e-xl [&>.chat-section-bubble]:rounded-e-xl",
+      "[&>.chat-section-bubble]:rounded-e-xl [&>.chat-section-bubble]:rounded-es-xl",
     ]
   end
 
