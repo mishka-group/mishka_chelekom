@@ -12,6 +12,7 @@ defmodule MishkaChelekom.Drawer do
     "triple_large",
     "quadruple_large"
   ]
+
   @colors [
     "white",
     "primary",
@@ -36,15 +37,17 @@ defmodule MishkaChelekom.Drawer do
 
   @doc type: :component
   attr :id, :string, default: nil, doc: ""
+  attr :title, :string, default: nil
   attr :variant, :string, values: @variants, default: "default", doc: ""
   attr :color, :string, values: @colors, default: "white", doc: ""
   attr :size, :string, default: "large", doc: ""
-  attr :border, :string, values: @sizes ++ [nil], default: "extra_small", doc: ""
-  attr :rounded, :string, values: @sizes ++ [nil], default: nil, doc: ""
-  attr :space, :string, values: @sizes ++ [nil], default: nil, doc: ""
+  attr :border, :string, default: "extra_small", doc: ""
+  attr :rounded, :string, default: nil, doc: ""
+  attr :space, :string, default: nil, doc: ""
   attr :padding, :string, default: "none", doc: ""
   attr :class, :string, default: nil, doc: ""
   attr :rest, :global, doc: ""
+  slot :inner_block, required: false, doc: ""
 
   def drawer(assigns) do
     ~H"""
@@ -53,18 +56,13 @@ defmodule MishkaChelekom.Drawer do
       class={[
         "fixed top-0 left-0 z-40 h-screen p-2 overflow-y-auto transition-transform -translate-x-full",
         size_class(@sizes),
+        border_class(@border),
         color_variant(@variant, @color)
       ]}
       tabindex="-1"
       aria-labelledby="drawer-label"
     >
-      <div class="flex justify-between items-center gap-5">
-        <h5
-          id="drawer-label"
-          class="inline-flex items-center mb-4 text-base font-semibold text-gray-500 dark:text-gray-400"
-        >
-          Info
-        </h5>
+      <div class="flex justify-between items-center gap-5 mb-2">
         <button
           type="button"
           data-drawer-hide="drawer-example"
@@ -74,48 +72,30 @@ defmodule MishkaChelekom.Drawer do
           <.icon name="x-mark" />
           <span class="sr-only">Close menu</span>
         </button>
+        <h5
+          :if={@title}
+          id="drawer-label"
+          class="inline-flex items-center mb-4 text-base font-semibold"
+        >
+          <%= @title %>
+        </h5>
       </div>
 
-      <p class="mb-6 text-sm text-gray-500 dark:text-gray-400">
-        Supercharge your hiring by taking advantage of our
-        <a href="#" class="text-blue-600 underline dark:text-blue-500 hover:no-underline">
-          limited-time sale
-        </a>
-        for Flowbite Docs + Job Board. Unlimited access to over 190K top-ranked candidates and the #1 design job board.
-      </p>
-      <div class="grid grid-cols-2 gap-4">
-        <a
-          href="#"
-          class="px-4 py-2 text-sm font-medium text-center text-gray-900 bg-white border border-gray-200 rounded-lg focus:outline-none hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
-        >
-          Learn more
-        </a>
-        <a
-          href="#"
-          class="inline-flex items-center px-4 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
-        >
-          Get access
-          <svg
-            class="rtl:rotate-180 w-3.5 h-3.5 ms-2"
-            aria-hidden="true"
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 14 10"
-          >
-            <path
-              stroke="currentColor"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M1 5h12m0 0L9 1m4 4L9 9"
-            />
-          </svg>
-        </a>
+      <div>
+        <%= render_slot(@inner_block) %>
       </div>
     </div>
     """
   end
-
+# TODO: add border for different positions
+  defp border_class("none"), do: "border-0"
+  defp border_class("extra_small"), do: "border"
+  defp border_class("small"), do: "border-2"
+  defp border_class("medium"), do: "border-[3px]"
+  defp border_class("large"), do: "border-4"
+  defp border_class("extra_large"), do: "border-[5px]"
+  defp border_class(params) when is_binary(params), do: params
+  defp border_class(_), do: border_class("none")
 
   defp size_class("extra_small"), do: "w-60"
   defp size_class("small"), do: "w-64"
