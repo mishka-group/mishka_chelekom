@@ -7,7 +7,7 @@ defmodule MishkaChelekom.Toast do
   attr :rest, :global, doc: ""
 
   def toast(assigns) do
-    ~H"""
+    ~H""" 
     """
   end
 end

@@ -83,7 +83,7 @@ defmodule MishkaChelekom.Card do
   attr :position, :string, values: @positions, default: "start", doc: ""
   attr :font_weight, :string, default: "font-semibold", doc: ""
   attr :size, :string, values: @sizes, default: "large", doc: ""
-  attr :padding, :string, values: @sizes ++ ["none"], default: "none", doc: ""
+  attr :padding, :string, default: "none", doc: ""
   attr :rest, :global, doc: ""
   slot :inner_block, required: false, doc: ""
 
@@ -202,7 +202,7 @@ defmodule MishkaChelekom.Card do
   defp size_class("medium"), do: "text-base [&_.card-title-icon]:size-4"
   defp size_class("large"), do: "text-lg [&_.card-title-icon]:size-5"
   defp size_class("extra_large"), do: "text-xl [&_.card-title-icon]:size-6"
-  defp size_class(nil), do: "rounded-none"
+  defp size_class(_), do: size_class("large")
 
   defp content_position("start") do
     "justify-start"
