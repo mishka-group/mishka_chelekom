@@ -317,7 +317,10 @@ defmodule MishkaChelekom.Chat do
   end
 
   defp color_variant("shadow", "white") do
-    "[&>.chat-section-bubble]:bg-white text-[#3E3E3E] [&>.chat-section-bubble]:border-[#DADADA] [&>.chat-section-bubble]:shadow-md"
+    [
+      "[&>.chat-section-bubble]:bg-white text-[#3E3E3E] [&>.chat-section-bubble]:border-[#DADADA]",
+      "[&>.chat-section-bubble]:shadow-md"
+    ]
   end
 
   defp color_variant("shadow", "primary") do
