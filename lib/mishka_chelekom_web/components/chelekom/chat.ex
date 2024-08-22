@@ -351,11 +351,11 @@ defmodule MishkaChelekom.Chat do
   end
 
   defp color_variant("gradient", "primary") do
-    "[&>.chat-section-bubble]:bg-gradient-to-b [&>.chat-section-bubble]:from-[#4363EC] [&>.chat-section-bubble]:to-[#F6F6FA] text-white"
+    "[&>.chat-section-bubble]:bg-gradient-to-b [&>.chat-section-bubble]:from-[#4363EC] [&>.chat-section-bubble]:to-[#F6F6FA] text-[#1E1E1E]"
   end
 
   defp color_variant("gradient", "secondary") do
-    "[&>.chat-section-bubble]:bg-gradient-to-b [&>.chat-section-bubble]:from-[#6B6E7C] [&>.chat-section-bubble]:to-[#F6F6FA] text-white"
+    "[&>.chat-section-bubble]:bg-gradient-to-b [&>.chat-section-bubble]:from-[#6B6E7C] [&>.chat-section-bubble]:to-[#F6F6FA] text-[#1E1E1E]"
   end
 
   defp color_variant("gradient", "success") do
@@ -387,6 +387,6 @@ defmodule MishkaChelekom.Chat do
   end
 
   defp color_variant("gradient", "dark") do
-    "[&>.chat-section-bubble]:bg-gradient-to-b [&>.chat-section-bubble]:from-[#1E1E1E] [&>.chat-section-bubble]:to-[#F6F6FA] text-[#DFDFE4]"
+    "[&>.chat-section-bubble]:bg-gradient-to-b [&>.chat-section-bubble]:from-[#5e5d5d] [&>.chat-section-bubble]:to-[#F6F6FA] text-[#1E1E1E]"
   end
 end
