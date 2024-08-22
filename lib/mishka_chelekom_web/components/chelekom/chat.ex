@@ -321,43 +321,73 @@ defmodule MishkaChelekom.Chat do
   end
 
   defp color_variant("shadow", "primary") do
-    "[&>.chat-section-bubble]:bg-[#4363EC] text-white [&>.chat-section-bubble]:border-[#4363EC] [&>.chat-section-bubble]:shadow-md"
+    [
+      "[&>.chat-section-bubble]:bg-[#4363EC] text-white [&>.chat-section-bubble]:border-[#4363EC]",
+      "[&>.chat-section-bubble]:shadow-md"
+    ]
   end
 
   defp color_variant("shadow", "secondary") do
-    "[&>.chat-section-bubble]:bg-[#6B6E7C] text-white [&>.chat-section-bubble]:border-[#6B6E7C] [&>.chat-section-bubble]:shadow-md"
+    [
+      "[&>.chat-section-bubble]:bg-[#6B6E7C] text-white [&>.chat-section-bubble]:border-[#6B6E7C]",
+      "[&>.chat-section-bubble]:shadow-md"
+    ]
   end
 
   defp color_variant("shadow", "success") do
-    "[&>.chat-section-bubble]:bg-[#AFEAD0] text-[#227A52] [&>.chat-section-bubble]:border-[#AFEAD0] [&>.chat-section-bubble]:shadow-md"
+    [
+      "[&>.chat-section-bubble]:bg-[#AFEAD0] text-[#227A52] [&>.chat-section-bubble]:border-[#AFEAD0]",
+      "[&>.chat-section-bubble]:shadow-md"
+    ]
   end
 
   defp color_variant("shadow", "warning") do
-    "[&>.chat-section-bubble]:bg-[#FFF8E6] text-[#FF8B08] [&>.chat-section-bubble]:border-[#FFF8E6] [&>.chat-section-bubble]:shadow-md"
+    [
+      "[&>.chat-section-bubble]:bg-[#FFF8E6] text-[#FF8B08] [&>.chat-section-bubble]:border-[#FFF8E6]",
+      "[&>.chat-section-bubble]:shadow-md"
+    ]
   end
 
   defp color_variant("shadow", "danger") do
-    "[&>.chat-section-bubble]:bg-[#FFE6E6] text-[#E73B3B] [&>.chat-section-bubble]:border-[#FFE6E6] [&>.chat-section-bubble]:shadow-md"
+    [
+      "[&>.chat-section-bubble]:bg-[#FFE6E6] text-[#E73B3B] [&>.chat-section-bubble]:border-[#FFE6E6]",
+      "[&>.chat-section-bubble]:shadow-md"
+    ]
   end
 
   defp color_variant("shadow", "info") do
-    "[&>.chat-section-bubble]:bg-[#E5F0FF] text-[#004FC4] [&>.chat-section-bubble]:border-[#E5F0FF] [&>.chat-section-bubble]:shadow-md"
+    [
+      "[&>.chat-section-bubble]:bg-[#E5F0FF] text-[#004FC4] [&>.chat-section-bubble]:border-[#E5F0FF]",
+      "[&>.chat-section-bubble]:shadow-md"
+    ]
   end
 
   defp color_variant("shadow", "misc") do
-    "[&>.chat-section-bubble]:bg-[#FFE6FF] text-[#52059C] [&>.chat-section-bubble]:border-[#FFE6FF] [&>.chat-section-bubble]:shadow-md"
+    [
+      "[&>.chat-section-bubble]:bg-[#FFE6FF] text-[#52059C] [&>.chat-section-bubble]:border-[#FFE6FF]",
+      "[&>.chat-section-bubble]:shadow-md"
+    ]
   end
 
   defp color_variant("shadow", "dawn") do
-    "[&>.chat-section-bubble]:bg-[#FFECDA] text-[#4D4137] [&>.chat-section-bubble]:border-[#FFECDA] [&>.chat-section-bubble]:shadow-md"
+    [
+      "[&>.chat-section-bubble]:bg-[#FFECDA] text-[#4D4137] [&>.chat-section-bubble]:border-[#FFECDA]",
+      "[&>.chat-section-bubble]:shadow-md"
+    ]
   end
 
   defp color_variant("shadow", "light") do
-    "[&>.chat-section-bubble]:bg-[#E3E7F1] text-[#707483] [&>.chat-section-bubble]:border-[#E3E7F1] [&>.chat-section-bubble]:shadow-md"
+    [
+      "[&>.chat-section-bubble]:bg-[#E3E7F1] text-[#707483] [&>.chat-section-bubble]:border-[#E3E7F1]",
+      "[&>.chat-section-bubble]:shadow-md"
+    ]
   end
 
   defp color_variant("shadow", "dark") do
-    "[&>.chat-section-bubble]:bg-[#1E1E1E] text-white [&>.chat-section-bubble]:border-[#1E1E1E] [&>.chat-section-bubble]:shadow-md"
+    [
+      "[&>.chat-section-bubble]:bg-[#1E1E1E] text-white [&>.chat-section-bubble]:border-[#1E1E1E]",
+      "[&>.chat-section-bubble]:shadow-md"
+    ]
   end
 
   defp color_variant("transparent", "white") do
@@ -405,46 +435,79 @@ defmodule MishkaChelekom.Chat do
   end
 
   defp color_variant("gradient", "white") do
-    "[&>.chat-section-bubble]:bg-gradient-to-b [&>.chat-section-bubble]:from-[#e9ecef] [&>.chat-section-bubble]:to-[#F6F6FA] text-[#3E3E3E]"
+    [
+      "[&>.chat-section-bubble]:bg-gradient-to-b [&>.chat-section-bubble]:from-[#e9ecef]",
+      "[&>.chat-section-bubble]:to-[#F6F6FA] text-[#3E3E3E]"
+    ]
   end
 
   defp color_variant("gradient", "primary") do
-    "[&>.chat-section-bubble]:bg-gradient-to-b [&>.chat-section-bubble]:from-[#4363EC] [&>.chat-section-bubble]:to-[#F6F6FA] text-[#1E1E1E]"
+    [
+      "[&>.chat-section-bubble]:bg-gradient-to-b [&>.chat-section-bubble]:from-[#4363EC]",
+      "[&>.chat-section-bubble]:to-[#F6F6FA] text-[#1E1E1E]"
+    ]
   end
 
   defp color_variant("gradient", "secondary") do
-    "[&>.chat-section-bubble]:bg-gradient-to-b [&>.chat-section-bubble]:from-[#6B6E7C] [&>.chat-section-bubble]:to-[#F6F6FA] text-[#1E1E1E]"
+    [
+      "[&>.chat-section-bubble]:bg-gradient-to-b [&>.chat-section-bubble]:from-[#6B6E7C]",
+      "[&>.chat-section-bubble]:to-[#F6F6FA] text-[#1E1E1E]"
+    ]
   end
 
   defp color_variant("gradient", "success") do
-    "[&>.chat-section-bubble]:bg-gradient-to-b [&>.chat-section-bubble]:from-[#ECFEF3] [&>.chat-section-bubble]:to-[#F6F6FA] text-[#047857]"
+    [
+      "[&>.chat-section-bubble]:bg-gradient-to-b [&>.chat-section-bubble]:from-[#ECFEF3]",
+      "[&>.chat-section-bubble]:to-[#F6F6FA] text-[#047857]"
+    ]
   end
 
   defp color_variant("gradient", "warning") do
-    "[&>.chat-section-bubble]:bg-gradient-to-b [&>.chat-section-bubble]:from-[#FFF8E6] [&>.chat-section-bubble]:to-[#F6F6FA] text-[#FF8B08]"
+    [
+      "[&>.chat-section-bubble]:bg-gradient-to-b [&>.chat-section-bubble]:from-[#FFF8E6]",
+      "[&>.chat-section-bubble]:to-[#F6F6FA] text-[#FF8B08]"
+    ]
   end
 
   defp color_variant("gradient", "danger") do
-    "[&>.chat-section-bubble]:bg-gradient-to-b [&>.chat-section-bubble]:from-[#FFE6E6] [&>.chat-section-bubble]:to-[#F6F6FA] text-[#E73B3B]"
+    [
+      "[&>.chat-section-bubble]:bg-gradient-to-b [&>.chat-section-bubble]:from-[#FFE6E6]",
+      "[&>.chat-section-bubble]:to-[#F6F6FA] text-[#E73B3B]"
+    ]
   end
 
   defp color_variant("gradient", "info") do
-    "[&>.chat-section-bubble]:bg-gradient-to-b [&>.chat-section-bubble]:from-[#E5F0FF] [&>.chat-section-bubble]:to-[#F6F6FA] text-[#6663FD]"
+    [
+      "[&>.chat-section-bubble]:bg-gradient-to-b [&>.chat-section-bubble]:from-[#E5F0FF]",
+      "[&>.chat-section-bubble]:to-[#F6F6FA] text-[#6663FD]"
+    ]
   end
 
   defp color_variant("gradient", "misc") do
-    "[&>.chat-section-bubble]:bg-gradient-to-b [&>.chat-section-bubble]:from-[#FFE6FF] [&>.chat-section-bubble]:to-[#F6F6FA] text-[#52059C]"
+    [
+      "[&>.chat-section-bubble]:bg-gradient-to-b [&>.chat-section-bubble]:from-[#FFE6FF]",
+      "[&>.chat-section-bubble]:to-[#F6F6FA] text-[#52059C]"
+    ]
   end
 
   defp color_variant("gradient", "dawn") do
-    "[&>.chat-section-bubble]:bg-gradient-to-b [&>.chat-section-bubble]:from-[#FFECDA] [&>.chat-section-bubble]:to-[#F6F6FA] text-[#4D4137]"
+    [
+      "[&>.chat-section-bubble]:bg-gradient-to-b [&>.chat-section-bubble]:from-[#FFECDA]",
+      "[&>.chat-section-bubble]:to-[#F6F6FA] text-[#4D4137]"
+    ]
   end
 
   defp color_variant("gradient", "light") do
-    "[&>.chat-section-bubble]:bg-gradient-to-b [&>.chat-section-bubble]:from-[#E3E7F1] [&>.chat-section-bubble]:to-[#F6F6FA] text-[#707483]"
+    [
+      "[&>.chat-section-bubble]:bg-gradient-to-b [&>.chat-section-bubble]:from-[#E3E7F1]",
+      "[&>.chat-section-bubble]:to-[#F6F6FA] text-[#707483]"
+    ]
   end
 
   defp color_variant("gradient", "dark") do
-    "[&>.chat-section-bubble]:bg-gradient-to-b [&>.chat-section-bubble]:from-[#5e5d5d] [&>.chat-section-bubble]:to-[#F6F6FA] text-[#1E1E1E]"
+    [
+      "[&>.chat-section-bubble]:bg-gradient-to-b [&>.chat-section-bubble]:from-[#5e5d5d]",
+      "[&>.chat-section-bubble]:to-[#F6F6FA] text-[#1E1E1E]"
+    ]
   end
 end
