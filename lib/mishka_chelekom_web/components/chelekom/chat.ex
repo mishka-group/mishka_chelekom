@@ -62,7 +62,7 @@ defmodule MishkaChelekom.Chat do
     <div
       id={@id}
       class={[
-        "rounded-e-xl rounded-es-xl leading-1.5 order-2",
+        "rounded-e-xl rounded-es-xl leading-1.5",
         padding_size(@padding),
         color_variant(@variant, @color),
         border_class(@border),
