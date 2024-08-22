@@ -25,33 +25,54 @@ defmodule MishkaChelekom.Chat do
 
   @doc type: :component
   attr :id, :string, default: nil, doc: ""
-  attr :variant, :string, values: @variants, default: "default", doc: ""
-  attr :color, :string, values: @colors, default: "white", doc: ""
-  attr :font_weight, :string, default: "font-normal", doc: ""
-  attr :size, :string, default: "large", doc: ""
-  attr :padding, :string, default: "small", doc: ""
   attr :class, :string, default: nil, doc: ""
   attr :rest, :global, doc: ""
+  slot :inner_block, required: false, doc: ""
 
   def chat(assigns) do
     ~H"""
     <div
+      id={@id}
       class={[
-        "rounded-e-xl rounded-es-xl leading-1.5",
+        "flex items-start gap-3",
+        @class
+      ]}
+      {@rest}
+    >
+      <%= render_slot(@inner_block) %>
+    </div>
+    """
+  end
+
+  attr :id, :string, default: nil, doc: ""
+  attr :variant, :string, values: @variants, default: "default", doc: ""
+  attr :color, :string, values: @colors, default: "light", doc: ""
+  attr :font_weight, :string, default: "font-normal", doc: ""
+  attr :size, :string, default: "medium", doc: ""
+  attr :border, :string, default: "none", doc: ""
+  attr :padding, :string, default: "small", doc: ""
+  attr :class, :string, default: nil, doc: ""
+  attr :rest, :global, doc: ""
+
+  slot :inner_block, required: false, doc: ""
+
+
+  def chat_section(assigns) do
+    ~H"""
+    <div
+      id={@id}
+      class={[
+        "rounded-e-xl rounded-es-xl leading-1.5 order-2",
         padding_size(@padding),
         color_variant(@variant, @color),
+        border_class(@border),
         size_class(@size),
         @font_weight,
         @class
       ]}
       {@rest}
     >
-      <div class="flex items-center space-x-2 rtl:space-x-reverse">
-        <span class="text-sm font-semibold">Bonnie Green</span>
-        <span class="text-sm font-normal">11:46</span>
-      </div>
-      <p class="text-sm font-normal py-2.5 text-gray-900">That's awesome. I think our users will really appreciate the improvements.</p>
-      <span class="text-sm font-normal">Delivered</span>
+      <%= render_slot(@inner_block) %>
     </div>
     """
   end
@@ -73,12 +94,12 @@ defmodule MishkaChelekom.Chat do
   defp border_class(params) when is_binary(params), do: params
   defp border_class(_), do: border_class("none")
 
-  defp size_class("extra_small"), do: "text-xs"
-  defp size_class("small"), do: "text-sm"
-  defp size_class("medium"), do: "text-base"
-  defp size_class("large"), do: "text-lg"
-  defp size_class("extra_large"), do: "text-xl"
-  defp size_class(nil), do: "rounded-none"
+  defp size_class("extra_small"), do: "text-xs max-w-[12rem]"
+  defp size_class("small"), do: "text-sm max-w-[14rem]"
+  defp size_class("medium"), do: "text-base max-w-[16rem]"
+  defp size_class("large"), do: "text-lg max-w-[18rem]"
+  defp size_class("extra_large"), do: "text-xl max-w-[20rem]"
+  defp size_class(_), do: size_class("medium")
 
   defp color_variant("default", "white") do
     "bg-white text-[#3E3E3E] border-[#DADADA]"
