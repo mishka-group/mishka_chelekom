@@ -291,46 +291,90 @@ defmodule MishkaChelekom.Chat do
   end
 
   defp color_variant("transparent", "white") do
-    "[&>.chat-section-bubble]:bg-transparent text-white"
+    "[&>.chat-section-bubble]:bg-transparent text-white border-transparent"
   end
 
   defp color_variant("transparent", "primary") do
-    "[&>.chat-section-bubble]:bg-transparent text-[#4363EC]"
+    "[&>.chat-section-bubble]:bg-transparent text-[#4363EC] border-transparent"
   end
 
   defp color_variant("transparent", "secondary") do
-    "[&>.chat-section-bubble]:bg-transparent text-[#6B6E7C]"
+    "[&>.chat-section-bubble]:bg-transparent text-[#6B6E7C] border-transparent"
   end
 
   defp color_variant("transparent", "success") do
-    "[&>.chat-section-bubble]:bg-transparent text-[#227A52]"
+    "[&>.chat-section-bubble]:bg-transparent text-[#227A52] border-transparent"
   end
 
   defp color_variant("transparent", "warning") do
-    "[&>.chat-section-bubble]:bg-transparent text-[#FF8B08]"
+    "[&>.chat-section-bubble]:bg-transparent text-[#FF8B08] border-transparent"
   end
 
   defp color_variant("transparent", "danger") do
-    "[&>.chat-section-bubble]:bg-transparent text-[#E73B3B]"
+    "[&>.chat-section-bubble]:bg-transparent text-[#E73B3B] border-transparent"
   end
 
   defp color_variant("transparent", "info") do
-    "[&>.chat-section-bubble]:bg-transparent text-[#6663FD]"
+    "[&>.chat-section-bubble]:bg-transparent text-[#6663FD] border-transparent"
   end
 
   defp color_variant("transparent", "misc") do
-    "[&>.chat-section-bubble]:bg-transparent text-[#52059C]"
+    "[&>.chat-section-bubble]:bg-transparent text-[#52059C] border-transparent"
   end
 
   defp color_variant("transparent", "dawn") do
-    "[&>.chat-section-bubble]:bg-transparent text-[#4D4137]"
+    "[&>.chat-section-bubble]:bg-transparent text-[#4D4137] border-transparent"
   end
 
   defp color_variant("transparent", "light") do
-    "[&>.chat-section-bubble]:bg-transparent text-[#707483]"
+    "[&>.chat-section-bubble]:bg-transparent text-[#707483] border-transparent"
   end
 
   defp color_variant("transparent", "dark") do
+    "[&>.chat-section-bubble]:bg-transparent text-[#1E1E1E] border-transparent"
+  end
+
+  defp color_variant("gradient", "white") do
+    "[&>.chat-section-bubble]:bg-transparent text-white"
+  end
+
+  defp color_variant("gradient", "primary") do
+    "[&>.chat-section-bubble]:bg-transparent text-[#4363EC]"
+  end
+
+  defp color_variant("gradient", "secondary") do
+    "[&>.chat-section-bubble]:bg-transparent text-[#6B6E7C]"
+  end
+
+  defp color_variant("gradient", "success") do
+    "[&>.chat-section-bubble]:bg-transparent text-[#227A52]"
+  end
+
+  defp color_variant("gradient", "warning") do
+    "[&>.chat-section-bubble]:bg-transparent text-[#FF8B08]"
+  end
+
+  defp color_variant("gradient", "danger") do
+    "[&>.chat-section-bubble]:bg-transparent text-[#E73B3B]"
+  end
+
+  defp color_variant("gradient", "info") do
+    "[&>.chat-section-bubble]:bg-transparent text-[#6663FD]"
+  end
+
+  defp color_variant("gradient", "misc") do
+    "[&>.chat-section-bubble]:bg-transparent text-[#52059C]"
+  end
+
+  defp color_variant("gradient", "dawn") do
+    "[&>.chat-section-bubble]:bg-transparent text-[#4D4137]"
+  end
+
+  defp color_variant("gradient", "light") do
+    "[&>.chat-section-bubble]:bg-transparent text-[#707483]"
+  end
+
+  defp color_variant("gradient", "dark") do
     "[&>.chat-section-bubble]:bg-transparent text-[#1E1E1E]"
   end
 end
