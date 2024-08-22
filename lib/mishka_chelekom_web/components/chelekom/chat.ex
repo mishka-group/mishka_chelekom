@@ -20,6 +20,7 @@ defmodule MishkaChelekom.Chat do
     "outline",
     "transparent",
     "shadow",
+    "gradient",
     "unbordered"
   ]
 
