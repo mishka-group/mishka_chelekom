@@ -31,6 +31,7 @@ defmodule MishkaChelekom.Chat do
   attr :border, :string, default: "extra_small", doc: ""
   attr :size, :string, default: "medium", doc: ""
   attr :space, :string, default: "extra_small", doc: ""
+  attr :position, :string, values: ["normal", "flipped"], default: "normal", doc: ""
   attr :padding, :string, default: "small", doc: ""
   attr :rest, :global, doc: ""
   slot :inner_block, required: false, doc: ""
@@ -41,6 +42,8 @@ defmodule MishkaChelekom.Chat do
       id={@id}
       class={[
         "flex items-start gap-3",
+        position_class(@position),
+        rounded_class(@position),
         border_class(@border),
         color_variant(@variant, @color),
         space_class(@space),
@@ -68,7 +71,7 @@ defmodule MishkaChelekom.Chat do
     <div
       id={@id}
       class={[
-        "chat-section-bubble rounded-e-xl rounded-es-xl leading-1.5",
+        "chat-section-bubble leading-1.5",
         @font_weight,
         @class
       ]}
@@ -82,6 +85,14 @@ defmodule MishkaChelekom.Chat do
     </div>
     """
   end
+
+  defp position_class("normal"), do: "justify-start flex-row"
+  defp position_class("flipped"), do: "justify-start flex-row-reverse"
+  defp position_class(params) when is_binary(params), do: params
+
+  defp rounded_class("normal"), do: "[&>.chat-section-bubble]:rounded-e-xl [&>.chat-section-bubble]:rounded-es-xl"
+  defp rounded_class("flipped"), do: "[&>.chat-section-bubble]:rounded-s-xl [&>.chat-section-bubble]:rounded-ee-xl"
+  defp rounded_class(params) when is_binary(params), do: params
 
   defp space_class("extra_small"), do: "[&>.chat-section-bubble]:space-y-2"
   defp space_class("small"), do: "[&>.chat-section-bubble]:space-y-3"
