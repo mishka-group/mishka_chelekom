@@ -34,7 +34,7 @@ defmodule MishkaChelekom.Progress do
     <div
       class={[
         "bg-[#e9ecef] rounded-full overflow-hidden",
-        (@variation == "vertical" && "flex items-end"),
+        @variation == "vertical" && "flex items-end",
         size_class(@size, @variation)
       ]}
       {@rest}
@@ -44,7 +44,7 @@ defmodule MishkaChelekom.Progress do
         :if={msg = render_slot(@inner_block)}
         class={[
           "flex",
-           (@variation == "horizontal" && "flex-row") || "flex-col",
+          (@variation == "horizontal" && "flex-row") || "flex-col"
         ]}
       >
         <%= msg %>

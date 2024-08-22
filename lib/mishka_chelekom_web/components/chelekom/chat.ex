@@ -66,7 +66,6 @@ defmodule MishkaChelekom.Chat do
 
   slot :inner_block, required: false, doc: ""
 
-
   def chat_section(assigns) do
     ~H"""
     <div
@@ -91,8 +90,12 @@ defmodule MishkaChelekom.Chat do
   defp position_class("flipped"), do: "justify-start flex-row-reverse"
   defp position_class(params) when is_binary(params), do: params
 
-  defp rounded_class("normal"), do: "[&>.chat-section-bubble]:rounded-e-xl [&>.chat-section-bubble]:rounded-es-xl"
-  defp rounded_class("flipped"), do: "[&>.chat-section-bubble]:rounded-s-xl [&>.chat-section-bubble]:rounded-ee-xl"
+  defp rounded_class("normal"),
+    do: "[&>.chat-section-bubble]:rounded-e-xl [&>.chat-section-bubble]:rounded-es-xl"
+
+  defp rounded_class("flipped"),
+    do: "[&>.chat-section-bubble]:rounded-s-xl [&>.chat-section-bubble]:rounded-ee-xl"
+
   defp rounded_class(params) when is_binary(params), do: params
 
   defp space_class("extra_small"), do: "[&>.chat-section-bubble]:space-y-2"
