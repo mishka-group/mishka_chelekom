@@ -195,13 +195,15 @@ defmodule MishkaChelekom.Card do
   defp rounded_size("medium"), do: "rounded-md"
   defp rounded_size("large"), do: "rounded-lg"
   defp rounded_size("extra_large"), do: "rounded-xl"
-  defp rounded_size(nil), do: "rounded-none"
+  defp border_class(params) when is_binary(params), do: params
+  defp rounded_size(_), do: "rounded-none"
 
   defp size_class("extra_small"), do: "text-xs [&_.card-title-icon]:size-3"
   defp size_class("small"), do: "text-sm [&_.card-title-icon]:size-3.5"
   defp size_class("medium"), do: "text-base [&_.card-title-icon]:size-4"
   defp size_class("large"), do: "text-lg [&_.card-title-icon]:size-5"
   defp size_class("extra_large"), do: "text-xl [&_.card-title-icon]:size-6"
+  defp border_class(params) when is_binary(params), do: params
   defp size_class(_), do: size_class("large")
 
   defp content_position("start") do
@@ -260,7 +262,7 @@ defmodule MishkaChelekom.Card do
   defp space_class("large"), do: "space-y-5"
   defp space_class("extra_large"), do: "space-y-6"
   defp space_class(params) when is_binary(params), do: params
-  defp space_class(nil), do: "space-y-0"
+  defp space_class(_), do: "space-y-0"
 
   defp color_variant("default", "white") do
     "bg-white text-[#3E3E3E] border-[#DADADA]"
