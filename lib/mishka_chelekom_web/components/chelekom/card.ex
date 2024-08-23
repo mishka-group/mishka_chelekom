@@ -195,7 +195,7 @@ defmodule MishkaChelekom.Card do
   defp rounded_size("medium"), do: "rounded-md"
   defp rounded_size("large"), do: "rounded-lg"
   defp rounded_size("extra_large"), do: "rounded-xl"
-  defp border_class(params) when is_binary(params), do: params
+  defp rounded_size(params) when is_binary(params), do: params
   defp rounded_size(_), do: "rounded-none"
 
   defp size_class("extra_small"), do: "text-xs [&_.card-title-icon]:size-3"
@@ -203,7 +203,7 @@ defmodule MishkaChelekom.Card do
   defp size_class("medium"), do: "text-base [&_.card-title-icon]:size-4"
   defp size_class("large"), do: "text-lg [&_.card-title-icon]:size-5"
   defp size_class("extra_large"), do: "text-xl [&_.card-title-icon]:size-6"
-  defp border_class(params) when is_binary(params), do: params
+  defp size_class(params) when is_binary(params), do: params
   defp size_class(_), do: size_class("large")
 
   defp content_position("start") do
