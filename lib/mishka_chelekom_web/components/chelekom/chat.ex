@@ -65,6 +65,12 @@ defmodule MishkaChelekom.Chat do
   attr :class, :string, default: nil, doc: ""
   attr :rest, :global, doc: ""
 
+  slot :status, required: false do
+    attr :time, :string
+    attr :deliver, :string
+  end
+
+  slot :meta, required: false
   slot :inner_block, required: false, doc: ""
 
   def chat_section(assigns) do
@@ -79,9 +85,13 @@ defmodule MishkaChelekom.Chat do
       {@rest}
     >
       <%= render_slot(@inner_block) %>
-      <div class="flex items-center justify-between gap-2 text-xs">
-        <div>22:20</div>
-        <div class="font-semibold">Delivered</div>
+      <div :for={status <- @status} class="flex items-center justify-between gap-2 text-xs">
+        <div :if={status[:time]}><%= status[:time] %></div>
+        <div :if={status[:deliver]} class="font-semibold"><%= status[:deliver] %></div>
+      </div>
+
+      <div :for={meta <- @meta} class="flex items-center justify-between gap-2 text-xs">
+        <%= render_slot(meta) %>
       </div>
     </div>
     """
