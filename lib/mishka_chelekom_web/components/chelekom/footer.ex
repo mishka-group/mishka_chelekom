@@ -34,6 +34,7 @@ defmodule MishkaChelekom.Footer do
   attr :font_weight, :string, default: "font-normal", doc: ""
   attr :padding, :string, default: "none", doc: ""
   attr :class, :string, default: nil, doc: ""
+  attr :rest, :global, doc: ""
 
   slot :inner_block, required: false, doc: ""
 
@@ -51,11 +52,31 @@ defmodule MishkaChelekom.Footer do
         @font_weight,
         @class
       ]}
+      {@rest}
     >
-      <div>
-        <%= render_slot(@inner_block) %>
-      </div>
+      <%= render_slot(@inner_block) %>
     </footer>
+    """
+  end
+
+  attr :class, :string, default: nil, doc: ""
+  attr :font_weight, :string, default: "font-normal", doc: ""
+  attr :text_position, :string, default: nil, doc: ""
+  attr :padding, :string, default: "none", doc: ""
+  slot :inner_block, required: false, doc: ""
+
+  def footer_section(assigns) do
+    ~H"""
+    <div
+      class={[
+        padding_size(@padding),
+        text_position(@text_position),
+        @font_weight,
+        @class
+      ]}
+    >
+      <%= render_slot(@inner_block) %>
+    </div>
     """
   end
 

@@ -8,6 +8,7 @@ defmodule MishkaChelekom.Gallery do
 
   def gallery(assigns) do
     ~H"""
+
     """
   end
 end
