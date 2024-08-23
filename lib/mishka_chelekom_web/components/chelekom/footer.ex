@@ -8,8 +8,7 @@ defmodule MishkaChelekom.Footer do
 
   def footer(assigns) do
     ~H"""
-    <footer>
-    </footer>
+    <footer></footer>
     """
   end
 
@@ -29,7 +28,6 @@ defmodule MishkaChelekom.Footer do
   defp rounded_size("extra_large"), do: "rounded-t-xl"
   defp border_class(params) when is_binary(params), do: params
   defp rounded_size(_), do: "rounded-t-none"
-
 
   defp color_variant("default", "white") do
     "bg-white text-[#3E3E3E] border-[#DADADA]"

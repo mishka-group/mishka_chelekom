@@ -39,7 +39,7 @@ defmodule MishkaChelekom.Drawer do
   attr :rest, :global, doc: ""
   slot :inner_block, required: false, doc: ""
 
-  #TODO: -translate-x-full (left), translate-x-full (right), translate-y-full (bottom), -translate-y-full (bottom)
+  # TODO: -translate-x-full (left), translate-x-full (right), translate-y-full (bottom), -translate-y-full (bottom)
   def drawer(assigns) do
     ~H"""
     <div
@@ -64,11 +64,7 @@ defmodule MishkaChelekom.Drawer do
           <.icon name="hero-x-mark" />
           <span class="sr-only">Close menu</span>
         </button>
-        <h5
-          :if={@title}
-          id="drawer-label"
-          class="text-base font-semibold"
-        >
+        <h5 :if={@title} id="drawer-label" class="text-base font-semibold">
           <%= @title %>
         </h5>
       </div>
@@ -89,33 +85,32 @@ defmodule MishkaChelekom.Drawer do
 
   defp border_class("none", _), do: "border-0"
 
-  defp border_class("extra_small","left"), do: "border-r"
-  defp border_class("small","left"), do: "border-r-2"
-  defp border_class("medium","left"), do: "border-r-[3px]"
-  defp border_class("large","left"), do: "border-r-4"
-  defp border_class("extra_large","left"), do: "border-r-[5px]"
+  defp border_class("extra_small", "left"), do: "border-r"
+  defp border_class("small", "left"), do: "border-r-2"
+  defp border_class("medium", "left"), do: "border-r-[3px]"
+  defp border_class("large", "left"), do: "border-r-4"
+  defp border_class("extra_large", "left"), do: "border-r-[5px]"
 
-  defp border_class("extra_small","right"), do: "border-l"
-  defp border_class("small","right"), do: "border-l-2"
-  defp border_class("medium","right"), do: "border-l-[3px]"
-  defp border_class("large","right"), do: "border-l-4"
-  defp border_class("extra_large","right"), do: "border-l-[5px]"
+  defp border_class("extra_small", "right"), do: "border-l"
+  defp border_class("small", "right"), do: "border-l-2"
+  defp border_class("medium", "right"), do: "border-l-[3px]"
+  defp border_class("large", "right"), do: "border-l-4"
+  defp border_class("extra_large", "right"), do: "border-l-[5px]"
 
-  defp border_class("extra_small","top"), do: "border-b"
-  defp border_class("small","top"), do: "border-b-2"
-  defp border_class("medium","top"), do: "border-b-[3px]"
-  defp border_class("large","top"), do: "border-b-4"
-  defp border_class("extra_large","top"), do: "border-b-[5px]"
+  defp border_class("extra_small", "top"), do: "border-b"
+  defp border_class("small", "top"), do: "border-b-2"
+  defp border_class("medium", "top"), do: "border-b-[3px]"
+  defp border_class("large", "top"), do: "border-b-4"
+  defp border_class("extra_large", "top"), do: "border-b-[5px]"
 
-  defp border_class("extra_small","bottom"), do: "border-t"
-  defp border_class("small","bottom"), do: "border-t-2"
-  defp border_class("medium","bottom"), do: "border-t-[3px]"
-  defp border_class("large","bottom"), do: "border-t-4"
-  defp border_class("extra_large","bottom"), do: "border-t-[5px]"
+  defp border_class("extra_small", "bottom"), do: "border-t"
+  defp border_class("small", "bottom"), do: "border-t-2"
+  defp border_class("medium", "bottom"), do: "border-t-[3px]"
+  defp border_class("large", "bottom"), do: "border-t-4"
+  defp border_class("extra_large", "bottom"), do: "border-t-[5px]"
 
-
-  defp border_class(params,_) when is_binary(params), do: params
-  defp border_class(_,_), do: border_class("extra_small", "left")
+  defp border_class(params, _) when is_binary(params), do: params
+  defp border_class(_, _), do: border_class("extra_small", "left")
 
   defp size_class("extra_small"), do: "w-60"
   defp size_class("small"), do: "w-64"
