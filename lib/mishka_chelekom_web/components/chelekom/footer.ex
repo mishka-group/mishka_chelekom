@@ -67,14 +67,12 @@ defmodule MishkaChelekom.Footer do
 
   def footer_section(assigns) do
     ~H"""
-    <div
-      class={[
-        padding_size(@padding),
-        text_position(@text_position),
-        @font_weight,
-        @class
-      ]}
-    >
+    <div class={[
+      padding_size(@padding),
+      text_position(@text_position),
+      @font_weight,
+      @class
+    ]}>
       <%= render_slot(@inner_block) %>
     </div>
     """
@@ -251,7 +249,7 @@ defmodule MishkaChelekom.Footer do
     "bg-[#1E1E1E] text-white border-transparent"
   end
 
-  #TODO: Fix shadow
+  # TODO: Fix shadow
   defp color_variant("shadow", "white") do
     "bg-white text-[#3E3E3E] border-[#DADADA] shadow-md"
   end
