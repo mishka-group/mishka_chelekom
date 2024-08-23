@@ -26,7 +26,7 @@ defmodule MishkaChelekom.List do
   ]
 
   attr :id, :string, default: nil, doc: ""
-  attr :class, :list, default: nil, doc: ""
+  attr :class, :string, default: nil, doc: ""
   attr :font_weight, :string, default: "font-normal", doc: ""
   attr :size, :string, default: "large", doc: ""
   attr :space, :string, values: @sizes ++ [nil], default: nil, doc: ""
