@@ -1,23 +1,92 @@
 defmodule MishkaChelekom.Footer do
   use Phoenix.Component
 
+  @colors [
+    "white",
+    "primary",
+    "secondary",
+    "dark",
+    "success",
+    "warning",
+    "danger",
+    "info",
+    "light",
+    "misc",
+    "dawn"
+  ]
+
+  @variants [
+    "default",
+    "outline",
+    "transparent",
+    "shadow",
+    "unbordered"
+  ]
+
   @doc type: :component
   attr :id, :string, default: nil, doc: ""
+  attr :variant, :string, values: @variants, default: "default", doc: ""
+  attr :color, :string, values: @colors, default: "white", doc: ""
+  attr :border, :string, default: "extra_small", doc: ""
+  attr :text_position, :string, default: nil, doc: ""
+  attr :rounded, :string, default: nil, doc: ""
+  attr :space, :string, default: nil, doc: ""
+  attr :font_weight, :string, default: "font-normal", doc: ""
+  attr :padding, :string, default: "none", doc: ""
   attr :class, :string, default: nil, doc: ""
-  attr :rest, :global, doc: ""
+
+  slot :inner_block, required: false, doc: ""
 
   def footer(assigns) do
     ~H"""
-    <footer></footer>
+    <footer
+      id={@id}
+      class={[
+        border_class(@border),
+        color_variant(@variant, @color),
+        rounded_size(@rounded),
+        padding_size(@padding),
+        text_position(@text_position),
+        space_class(@space),
+        @font_weight,
+        @class
+      ]}
+    >
+      <div>
+        <%= render_slot(@inner_block) %>
+      </div>
+    </footer>
     """
   end
 
-  defp border_class("none"), do: "border-0"
-  defp border_class("extra_small"), do: "border"
-  defp border_class("small"), do: "border-2"
-  defp border_class("medium"), do: "border-[3px]"
-  defp border_class("large"), do: "border-4"
-  defp border_class("extra_large"), do: "border-[5px]"
+  defp text_position("left"), do: "text-left"
+  defp text_position("right"), do: "text-right"
+  defp text_position("center"), do: "text-center"
+  defp text_position(_), do: nil
+
+  defp space_class("extra_small"), do: "space-y-2"
+  defp space_class("small"), do: "space-y-3"
+  defp space_class("medium"), do: "space-y-4"
+  defp space_class("large"), do: "space-y-5"
+  defp space_class("extra_large"), do: "space-y-6"
+  defp space_class(params) when is_binary(params), do: params
+  defp space_class(_), do: "space-y-0"
+
+  defp padding_size("extra_small"), do: "p-1"
+  defp padding_size("small"), do: "p-2"
+  defp padding_size("medium"), do: "p-3"
+  defp padding_size("large"), do: "p-4"
+  defp padding_size("extra_large"), do: "p-5"
+  defp padding_size("none"), do: "p-0"
+  defp padding_size(params) when is_binary(params), do: params
+  defp padding_size(_), do: padding_size("none")
+
+  defp border_class("none"), do: "border-t-0"
+  defp border_class("extra_small"), do: "border-t"
+  defp border_class("small"), do: "border-t-2"
+  defp border_class("medium"), do: "border-t-[3px]"
+  defp border_class("large"), do: "border-t-4"
+  defp border_class("extra_large"), do: "border-t-[5px]"
   defp border_class(params) when is_binary(params), do: params
   defp border_class(_), do: border_class("extra_small")
 
@@ -26,7 +95,7 @@ defmodule MishkaChelekom.Footer do
   defp rounded_size("medium"), do: "rounded-t-md"
   defp rounded_size("large"), do: "rounded-t-lg"
   defp rounded_size("extra_large"), do: "rounded-t-xl"
-  defp border_class(params) when is_binary(params), do: params
+  defp rounded_size(params) when is_binary(params), do: params
   defp rounded_size(_), do: "rounded-t-none"
 
   defp color_variant("default", "white") do
@@ -161,6 +230,7 @@ defmodule MishkaChelekom.Footer do
     "bg-[#1E1E1E] text-white border-transparent"
   end
 
+  #TODO: Fix shadow
   defp color_variant("shadow", "white") do
     "bg-white text-[#3E3E3E] border-[#DADADA] shadow-md"
   end
