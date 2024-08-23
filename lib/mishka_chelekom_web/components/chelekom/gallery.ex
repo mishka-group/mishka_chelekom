@@ -100,4 +100,5 @@ defmodule MishkaChelekom.Gallery do
   defp grid_gap("quadruple_large"), do: "gap-8"
   defp grid_gap(params) when is_binary(params), do: params
   defp grid_gap(_), do: nil
+
 end
