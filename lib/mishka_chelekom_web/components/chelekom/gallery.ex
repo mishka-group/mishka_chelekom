@@ -11,21 +11,21 @@ defmodule MishkaChelekom.Gallery do
 
   def gallery(assigns) do
     ~H"""
-      <div
-        id={@id}
-        class={[
-          "grid",
-          grid_cols(@cols),
-          grid_gap(@gap)
-        ]}
-        {@rest}
-      >
-        <%= render_slot(@inner_block) %>
-      </div>
+    <div
+      id={@id}
+      class={[
+        "grid",
+        grid_cols(@cols),
+        grid_gap(@gap)
+      ]}
+      {@rest}
+    >
+      <%= render_slot(@inner_block) %>
+    </div>
     """
   end
 
-  #TODO: Media can have shadow and border and radius
+  # TODO: Media can have shadow and border and radius
 
   attr :id, :string, default: nil, doc: ""
   attr :class, :string, default: nil, doc: ""
@@ -36,19 +36,19 @@ defmodule MishkaChelekom.Gallery do
 
   def gallery_masonary(assigns) do
     ~H"""
-      <div
-        id={@id}
-        class={[
-          "grid",
-          grid_cols(@cols),
-          grid_gap(@gap)
-        ]}
-        {@rest}
-      >
-        <div class="grid gap-4">
-         <.gallery_media src="https://flowbite.s3.amazonaws.com/docs/gallery/square/image-2.jpg" />
-        </div>
+    <div
+      id={@id}
+      class={[
+        "grid",
+        grid_cols(@cols),
+        grid_gap(@gap)
+      ]}
+      {@rest}
+    >
+      <div class="grid gap-4">
+        <.gallery_media src="https://flowbite.s3.amazonaws.com/docs/gallery/square/image-2.jpg" />
       </div>
+    </div>
     """
   end
 
@@ -60,18 +60,18 @@ defmodule MishkaChelekom.Gallery do
 
   def gallery_media(assigns) do
     ~H"""
-      <div
-        class={[
-          "grid",
-          grid_cols(@cols),
-          grid_gap(@gap)
-        ]}
-        {@rest}
-      >
-        <div>
-          <img class="w-full" src={@src} alt={@alt} />
-        </div>
+    <div
+      class={[
+        "grid",
+        grid_cols(@cols),
+        grid_gap(@gap)
+      ]}
+      {@rest}
+    >
+      <div>
+        <img class="w-full" src={@src} alt={@alt} />
       </div>
+    </div>
     """
   end
 
@@ -100,5 +100,4 @@ defmodule MishkaChelekom.Gallery do
   defp grid_gap("quadruple_large"), do: "gap-8"
   defp grid_gap(params) when is_binary(params), do: params
   defp grid_gap(_), do: nil
-
 end

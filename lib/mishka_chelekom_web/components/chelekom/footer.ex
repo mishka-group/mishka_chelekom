@@ -263,7 +263,6 @@ defmodule MishkaChelekom.Footer do
     "bg-[#1E1E1E] text-white border-transparent"
   end
 
-
   defp color_variant("shadow", "white") do
     "bg-white text-[#3E3E3E] border-[#DADADA] shadow-[rgba(17,_17,_26,_0.1)_0px_0px_16px]"
   end
