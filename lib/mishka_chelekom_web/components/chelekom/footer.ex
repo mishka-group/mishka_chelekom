@@ -30,6 +30,7 @@ defmodule MishkaChelekom.Footer do
   attr :border, :string, default: "extra_small", doc: ""
   attr :text_position, :string, default: nil, doc: ""
   attr :rounded, :string, default: nil, doc: ""
+  attr :max_width, :string, default: nil, doc: ""
   attr :space, :string, default: nil, doc: ""
   attr :font_weight, :string, default: "font-normal", doc: ""
   attr :padding, :string, default: "none", doc: ""
@@ -48,13 +49,16 @@ defmodule MishkaChelekom.Footer do
         rounded_size(@rounded),
         padding_size(@padding),
         text_position(@text_position),
+        maximum_width(@max_width),
         space_class(@space),
         @font_weight,
         @class
       ]}
       {@rest}
     >
-      <%= render_slot(@inner_block) %>
+      <div>
+        <%= render_slot(@inner_block) %>
+      </div>
     </footer>
     """
   end
@@ -92,6 +96,14 @@ defmodule MishkaChelekom.Footer do
   defp space_class("extra_large"), do: "space-y-6"
   defp space_class(params) when is_binary(params), do: params
   defp space_class(_), do: "space-y-0"
+
+  defp maximum_width("extra_small"), do: "[&>div]:max-w-3xl	[&>div]:mx-auto"
+  defp maximum_width("small"), do: "[&>div]:max-w-4xl [&>div]:mx-auto"
+  defp maximum_width("medium"), do: "[&>div]:max-w-5xl [&>div]:mx-auto"
+  defp maximum_width("large"), do: "[&>div]:max-w-6xl [&>div]:mx-auto"
+  defp maximum_width("extra_large"), do: "[&>div]:max-w-7xl [&>div]:mx-auto"
+  defp maximum_width(params) when is_binary(params), do: params
+  defp maximum_width(_), do: nil
 
   defp padding_size("extra_small"), do: "p-1"
   defp padding_size("small"), do: "p-2"
