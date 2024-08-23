@@ -2,17 +2,6 @@ defmodule MishkaChelekom.Drawer do
   use Phoenix.Component
   import MishkaChelekomComponents
 
-  @sizes [
-    "extra_small",
-    "small",
-    "medium",
-    "large",
-    "extra_large",
-    "double_large",
-    "triple_large",
-    "quadruple_large"
-  ]
-
   @colors [
     "white",
     "primary",
@@ -43,39 +32,42 @@ defmodule MishkaChelekom.Drawer do
   attr :size, :string, default: "large", doc: ""
   attr :border, :string, default: "extra_small", doc: ""
   attr :rounded, :string, default: nil, doc: ""
+  attr :position, :string, default: "left", doc: ""
   attr :space, :string, default: nil, doc: ""
   attr :padding, :string, default: "none", doc: ""
   attr :class, :string, default: nil, doc: ""
   attr :rest, :global, doc: ""
   slot :inner_block, required: false, doc: ""
 
+  #TODO: -translate-x-full (left), translate-x-full (right), translate-y-full (bottom), -translate-y-full (bottom)
   def drawer(assigns) do
     ~H"""
     <div
       id={@id}
       class={[
-        "fixed top-0 left-0 z-40 h-screen p-2 overflow-y-auto transition-transform -translate-x-full",
-        size_class(@sizes),
-        border_class(@border),
+        "fixed z-50 p-2 overflow-y-auto transition-transform transform-none",
+        size_class(@size),
+        position_class(@position),
+        border_class(@border, @position),
         color_variant(@variant, @color)
       ]}
       tabindex="-1"
       aria-labelledby="drawer-label"
     >
-      <div class="flex justify-between items-center gap-5 mb-2">
+      <div class="flex flex-row-reverse justify-between items-center gap-5 mb-2">
         <button
           type="button"
           data-drawer-hide="drawer-example"
           aria-controls="drawer-example"
-          class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 absolute top-2.5 end-2.5 flex items-center justify-center dark:hover:bg-gray-600 dark:hover:text-white"
+          class=""
         >
-          <.icon name="x-mark" />
+          <.icon name="hero-x-mark" />
           <span class="sr-only">Close menu</span>
         </button>
         <h5
           :if={@title}
           id="drawer-label"
-          class="inline-flex items-center mb-4 text-base font-semibold"
+          class="text-base font-semibold"
         >
           <%= @title %>
         </h5>
@@ -87,15 +79,43 @@ defmodule MishkaChelekom.Drawer do
     </div>
     """
   end
-# TODO: add border for different positions
-  defp border_class("none"), do: "border-0"
-  defp border_class("extra_small"), do: "border"
-  defp border_class("small"), do: "border-2"
-  defp border_class("medium"), do: "border-[3px]"
-  defp border_class("large"), do: "border-4"
-  defp border_class("extra_large"), do: "border-[5px]"
-  defp border_class(params) when is_binary(params), do: params
-  defp border_class(_), do: border_class("none")
+
+  defp position_class("left"), do: "top-0 left-0 h-screen"
+  defp position_class("right"), do: "top-0 right-0 h-screen"
+  defp position_class("top"), do: "top-0 inset-x-0"
+  defp position_class("bottom"), do: "bottom-0 inset-x-0"
+  defp position_class(params) when is_binary(params), do: params
+  defp position_class(_), do: position_class("left")
+
+  defp border_class("none", _), do: "border-0"
+
+  defp border_class("extra_small","left"), do: "border-r"
+  defp border_class("small","left"), do: "border-r-2"
+  defp border_class("medium","left"), do: "border-r-[3px]"
+  defp border_class("large","left"), do: "border-r-4"
+  defp border_class("extra_large","left"), do: "border-r-[5px]"
+
+  defp border_class("extra_small","right"), do: "border-l"
+  defp border_class("small","right"), do: "border-l-2"
+  defp border_class("medium","right"), do: "border-l-[3px]"
+  defp border_class("large","right"), do: "border-l-4"
+  defp border_class("extra_large","right"), do: "border-l-[5px]"
+
+  defp border_class("extra_small","top"), do: "border-b"
+  defp border_class("small","top"), do: "border-b-2"
+  defp border_class("medium","top"), do: "border-b-[3px]"
+  defp border_class("large","top"), do: "border-b-4"
+  defp border_class("extra_large","top"), do: "border-b-[5px]"
+
+  defp border_class("extra_small","bottom"), do: "border-t"
+  defp border_class("small","bottom"), do: "border-t-2"
+  defp border_class("medium","bottom"), do: "border-t-[3px]"
+  defp border_class("large","bottom"), do: "border-t-4"
+  defp border_class("extra_large","bottom"), do: "border-t-[5px]"
+
+
+  defp border_class(params,_) when is_binary(params), do: params
+  defp border_class(_,_), do: border_class("extra_small", "left")
 
   defp size_class("extra_small"), do: "w-60"
   defp size_class("small"), do: "w-64"
