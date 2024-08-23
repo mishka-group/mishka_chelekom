@@ -62,6 +62,7 @@ defmodule MishkaChelekom.Footer do
   attr :class, :string, default: nil, doc: ""
   attr :font_weight, :string, default: "font-normal", doc: ""
   attr :text_position, :string, default: nil, doc: ""
+  attr :space, :string, default: nil, doc: ""
   attr :padding, :string, default: "none", doc: ""
   slot :inner_block, required: false, doc: ""
 
@@ -70,6 +71,7 @@ defmodule MishkaChelekom.Footer do
     <div class={[
       padding_size(@padding),
       text_position(@text_position),
+      space_class(@space),
       @font_weight,
       @class
     ]}>
