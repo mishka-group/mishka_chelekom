@@ -8,7 +8,8 @@ defmodule MishkaChelekom.List do
     "filled",
     "outline",
     "seperated",
-    "tinted_split"
+    "tinted_split",
+    "transparent"
   ]
 
   @colors [
@@ -286,7 +287,7 @@ defmodule MishkaChelekom.List do
 
   defp color_variant("default", "white") do
     [
-      "bg-white border border-[#DADADA]",
+      "bg-white border border-[#DADADA] text-[#3E3E3E]",
       "[&>li:not(:last-child)]:border-b",
       "[&>li:not(:last-child)]:border-[#DADADA]"
     ]
@@ -457,6 +458,72 @@ defmodule MishkaChelekom.List do
       "border border-[#1E1E1E]",
       "[&>li:not(:last-child)]:border-b",
       "[&>li:not(:last-child)]:border-[#1E1E1E]"
+    ]
+  end
+
+  defp color_variant("transparent", "white") do
+    [
+      "bg-inherit	"
+    ]
+  end
+
+  defp color_variant("transparent", "primary") do
+    [
+      "bg-inherit	"
+    ]
+  end
+
+  defp color_variant("transparent", "secondary") do
+    [
+      "bg-inherit"
+    ]
+  end
+
+  defp color_variant("transparent", "success") do
+    [
+      "bg-inherit	"
+    ]
+  end
+
+  defp color_variant("transparent", "warning") do
+    [
+      "bg-inherit	"
+    ]
+  end
+
+  defp color_variant("transparent", "danger") do
+    [
+      "bg-inherit	"
+    ]
+  end
+
+  defp color_variant("transparent", "info") do
+    [
+      "bg-inherit"
+    ]
+  end
+
+  defp color_variant("transparent", "misc") do
+    [
+      "bg-inherit	"
+    ]
+  end
+
+  defp color_variant("transparent", "dawn") do
+    [
+      "bg-inherit	"
+    ]
+  end
+
+  defp color_variant("transparent", "light") do
+    [
+      "bg-inherit	"
+    ]
+  end
+
+  defp color_variant("transparent", "dark") do
+    [
+      "bg-inherit	"
     ]
   end
 

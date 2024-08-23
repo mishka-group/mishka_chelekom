@@ -263,49 +263,49 @@ defmodule MishkaChelekom.Footer do
     "bg-[#1E1E1E] text-white border-transparent"
   end
 
-  # TODO: Fix shadow
+
   defp color_variant("shadow", "white") do
-    "bg-white text-[#3E3E3E] border-[#DADADA] shadow-md"
+    "bg-white text-[#3E3E3E] border-[#DADADA] shadow-[rgba(17,_17,_26,_0.1)_0px_0px_16px]"
   end
 
   defp color_variant("shadow", "primary") do
-    "bg-[#4363EC] text-white border-[#4363EC] shadow-md"
+    "bg-[#4363EC] text-white border-[#4363EC] shadow-[rgba(17,_17,_26,_0.1)_0px_0px_16px]"
   end
 
   defp color_variant("shadow", "secondary") do
-    "bg-[#6B6E7C] text-white border-[#6B6E7C] shadow-md"
+    "bg-[#6B6E7C] text-white border-[#6B6E7C] shadow-[rgba(17,_17,_26,_0.1)_0px_0px_16px]"
   end
 
   defp color_variant("shadow", "success") do
-    "bg-[#AFEAD0] text-[#227A52] border-[#AFEAD0] shadow-md"
+    "bg-[#AFEAD0] text-[#227A52] border-[#AFEAD0] shadow-[rgba(17,_17,_26,_0.1)_0px_0px_16px]"
   end
 
   defp color_variant("shadow", "warning") do
-    "bg-[#FFF8E6] text-[#FF8B08] border-[#FFF8E6] shadow-md"
+    "bg-[#FFF8E6] text-[#FF8B08] border-[#FFF8E6] shadow-[rgba(17,_17,_26,_0.1)_0px_0px_16px]"
   end
 
   defp color_variant("shadow", "danger") do
-    "bg-[#FFE6E6] text-[#E73B3B] border-[#FFE6E6] shadow-md"
+    "bg-[#FFE6E6] text-[#E73B3B] border-[#FFE6E6] shadow-[rgba(17,_17,_26,_0.1)_0px_0px_16px]"
   end
 
   defp color_variant("shadow", "info") do
-    "bg-[#E5F0FF] text-[#004FC4] border-[#E5F0FF] shadow-md"
+    "bg-[#E5F0FF] text-[#004FC4] border-[#E5F0FF] shadow-[rgba(17,_17,_26,_0.1)_0px_0px_16px]"
   end
 
   defp color_variant("shadow", "misc") do
-    "bg-[#FFE6FF] text-[#52059C] border-[#FFE6FF] shadow-md"
+    "bg-[#FFE6FF] text-[#52059C] border-[#FFE6FF] shadow-[rgba(17,_17,_26,_0.1)_0px_0px_16px]"
   end
 
   defp color_variant("shadow", "dawn") do
-    "bg-[#FFECDA] text-[#4D4137] border-[#FFECDA] shadow-md"
+    "bg-[#FFECDA] text-[#4D4137] border-[#FFECDA] shadow-[rgba(17,_17,_26,_0.1)_0px_0px_16px]"
   end
 
   defp color_variant("shadow", "light") do
-    "bg-[#E3E7F1] text-[#707483] border-[#E3E7F1] shadow-md"
+    "bg-[#E3E7F1] text-[#707483] border-[#E3E7F1] shadow-[rgba(17,_17,_26,_0.1)_0px_0px_16px]"
   end
 
   defp color_variant("shadow", "dark") do
-    "bg-[#1E1E1E] text-white border-[#1E1E1E] shadow-md"
+    "bg-[#1E1E1E] text-white border-[#1E1E1E] shadow-[rgba(17,_17,_26,_0.1)_0px_0px_16px]"
   end
 
   defp color_variant("transparent", "white") do
