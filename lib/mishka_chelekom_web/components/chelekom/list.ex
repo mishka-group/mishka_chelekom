@@ -66,7 +66,7 @@ defmodule MishkaChelekom.List do
   attr :icon, :string, default: nil, doc: ""
   attr :icon_class, :string, default: "list-item-icon", doc: ""
   attr :content_class, :string, default: nil
-  attr :padding, :string, values: @sizes ++ ["none"], default: "small", doc: ""
+  attr :padding, :string, default: "none", doc: ""
   attr :position, :string, values: ["start", "end", "center"], default: "start", doc: ""
   attr :rest, :global
   slot :inner_block, required: true, doc: ""
@@ -282,7 +282,7 @@ defmodule MishkaChelekom.List do
   defp padding_size("extra_large"), do: "p-5"
   defp padding_size("none"), do: "p-0"
   defp padding_size(params) when is_binary(params), do: params
-  defp padding_size(_), do: padding_size("small")
+  defp padding_size(_), do: padding_size("none")
 
   defp color_variant("default", "white") do
     [
