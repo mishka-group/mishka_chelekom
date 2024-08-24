@@ -54,6 +54,43 @@ defmodule MishkaChelekom.Gallery do
     """
   end
 
+  #TODO: Featured
+  attr :id, :string, default: nil, doc: ""
+  attr :class, :string, default: nil, doc: ""
+  attr :cols, :string, default: nil, doc: ""
+  attr :gap, :string, default: nil, doc: ""
+  attr :rest, :global, doc: ""
+  slot :inner_block, required: false, doc: ""
+
+  def gallery_featured(assigns) do
+    ~H"""
+     <div
+      id={@id}
+      class={[
+        "grid",
+        grid_gap(@gap),
+        @class
+      ]}
+      {@rest}
+    >
+      <.gallery_media src="https://flowbite.s3.amazonaws.com/docs/gallery/featured/image.jpg"  />
+      <div
+        class={[
+          "grid",
+          grid_cols(@cols),
+          grid_gap(@gap),
+          @class
+        ]}>
+        <.gallery_media src="https://flowbite.s3.amazonaws.com/docs/gallery/featured/image.jpg" />
+        <.gallery_media src="https://flowbite.s3.amazonaws.com/docs/gallery/featured/image.jpg" />
+        <.gallery_media src="https://flowbite.s3.amazonaws.com/docs/gallery/featured/image.jpg" />
+        <.gallery_media src="https://flowbite.s3.amazonaws.com/docs/gallery/featured/image.jpg" />
+        <.gallery_media src="https://flowbite.s3.amazonaws.com/docs/gallery/featured/image.jpg" />
+      </div>
+    </div>
+    """
+  end
+
   defp rounded_size("extra_small"), do: "rounded-sm"
   defp rounded_size("small"), do: "rounded"
   defp rounded_size("medium"), do: "rounded-md"
