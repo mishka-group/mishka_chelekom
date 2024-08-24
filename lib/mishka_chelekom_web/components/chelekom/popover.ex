@@ -58,11 +58,19 @@ defmodule MishkaChelekom.Popover do
   def popover(assigns) do
     ~H"""
     <div
-      id={@id}
       role="tooltip"
+      id={@id}
       class={[
-        "absolute z-10 invisible",
+        "overflow-hidden",
+        space_class(@space),
+        border_class(@border),
+        color_variant(@variant, @color),
+        rounded_size(@rounded),
+        wrapper_padding(@padding),
+        @font_weight,
+        @class
       ]}
+      {@rest}
     >
       <div class="px-3 py-2 bg-gray-100 border-b border-gray-200 rounded-t-lg dark:border-gray-600 dark:bg-gray-700">
           <h3 class="font-semibold text-gray-900 dark:text-white">Popover top</h3>
