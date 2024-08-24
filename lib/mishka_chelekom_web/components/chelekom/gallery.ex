@@ -6,7 +6,6 @@ defmodule MishkaChelekom.Gallery do
   attr :class, :string, default: nil, doc: ""
   attr :cols, :string, default: nil, doc: ""
   attr :gap, :string, default: nil, doc: ""
-  attr :masonary, :boolean, default: false, doc: ""
   attr :rest, :global, doc: ""
   slot :inner_block, required: false, doc: ""
 
@@ -17,19 +16,11 @@ defmodule MishkaChelekom.Gallery do
       class={[
         "grid",
         grid_cols(@cols),
-        grid_gap(@gap)
+        grid_gap(@gap),
+        @class
       ]}
       {@rest}
     >
-      <%= if @masonary do %>
-        <div
-          class={[
-            "grid",
-            grid_gap(@gap)
-          ]}>
-          <%= render_slot(@inner_block) %>
-        </div>
-      <% end %>
       <%= render_slot(@inner_block) %>
     </div>
     """
@@ -40,6 +31,7 @@ defmodule MishkaChelekom.Gallery do
   attr :alt, :string, default: "", doc: ""
   attr :rounded, :string, default: "none", doc: ""
   attr :shadow, :string, default: "shadow-none" ,doc: ""
+  attr :border, :string, default: nil ,doc: ""
   attr :rest, :global, doc: ""
   slot :inner_block, required: false, doc: ""
 
@@ -48,11 +40,12 @@ defmodule MishkaChelekom.Gallery do
      <div>
         <img
           class={[
-            "w-full",
+            "h-auto max-w-full",
             rounded_size(@rounded),
             @shadow,
             @class
           ]}
+
           src={@src}
           alt={@alt}
           {@rest}
@@ -82,7 +75,7 @@ defmodule MishkaChelekom.Gallery do
   defp grid_cols("eleven"), do: "grid-cols-11"
   defp grid_cols("twelve"), do: "grid-cols-12"
   defp grid_cols(params) when is_binary(params), do: params
-  defp grid_cols(_), do:  grid_cols("one")
+  defp grid_cols(_), do:  nil
 
   defp grid_gap("extra_small"), do: "gap-1"
   defp grid_gap("small"), do: "gap-2"
