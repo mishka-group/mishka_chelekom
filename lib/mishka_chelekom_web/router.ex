@@ -51,6 +51,7 @@ defmodule MishkaChelekomWeb.Router do
     live "/examples/chat", Examples.ChatLive
     live "/examples/drawer", Examples.DrawerLive
     live "/examples/footer", Examples.FooterLive
+    live "/examples/gallery", Examples.GalleryLive
   end
 
   # Other scopes may use custom stacks.

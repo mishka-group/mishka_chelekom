@@ -6,6 +6,7 @@ defmodule MishkaChelekom.Gallery do
   attr :class, :string, default: nil, doc: ""
   attr :cols, :string, default: nil, doc: ""
   attr :gap, :string, default: nil, doc: ""
+  attr :masonary, :boolean, default: false, doc: ""
   attr :rest, :global, doc: ""
   slot :inner_block, required: false, doc: ""
 
@@ -20,34 +21,16 @@ defmodule MishkaChelekom.Gallery do
       ]}
       {@rest}
     >
+      <%= if @masonary do %>
+        <div
+          class={[
+            "grid",
+            grid_gap(@gap)
+          ]}>
+          <%= render_slot(@inner_block) %>
+        </div>
+      <% end %>
       <%= render_slot(@inner_block) %>
-    </div>
-    """
-  end
-
-  # TODO: Media can have shadow and border and radius
-
-  attr :id, :string, default: nil, doc: ""
-  attr :class, :string, default: nil, doc: ""
-  attr :cols, :string, default: nil, doc: ""
-  attr :gap, :string, default: nil, doc: ""
-  attr :rest, :global, doc: ""
-  slot :inner_block, required: false, doc: ""
-
-  def gallery_masonary(assigns) do
-    ~H"""
-    <div
-      id={@id}
-      class={[
-        "grid",
-        grid_cols(@cols),
-        grid_gap(@gap)
-      ]}
-      {@rest}
-    >
-      <div class="grid gap-4">
-        <.gallery_media src="https://flowbite.s3.amazonaws.com/docs/gallery/square/image-2.jpg" />
-      </div>
     </div>
     """
   end
@@ -55,25 +38,36 @@ defmodule MishkaChelekom.Gallery do
   attr :class, :string, default: nil, doc: ""
   attr :src, :string, default: nil, doc: ""
   attr :alt, :string, default: "", doc: ""
+  attr :rounded, :string, default: "none", doc: ""
+  attr :shadow, :string, default: "shadow-none" ,doc: ""
   attr :rest, :global, doc: ""
   slot :inner_block, required: false, doc: ""
 
   def gallery_media(assigns) do
     ~H"""
-    <div
-      class={[
-        "grid",
-        grid_cols(@cols),
-        grid_gap(@gap)
-      ]}
-      {@rest}
-    >
-      <div>
-        <img class="w-full" src={@src} alt={@alt} />
+     <div>
+        <img
+          class={[
+            "w-full",
+            rounded_size(@rounded),
+            @shadow,
+            @class
+          ]}
+          src={@src}
+          alt={@alt}
+          {@rest}
+        />
       </div>
-    </div>
     """
   end
+
+  defp rounded_size("extra_small"), do: "rounded-sm"
+  defp rounded_size("small"), do: "rounded"
+  defp rounded_size("medium"), do: "rounded-md"
+  defp rounded_size("large"), do: "rounded-lg"
+  defp rounded_size("extra_large"), do: "rounded-xl"
+  defp rounded_size("full"), do: "rounded-full"
+  defp rounded_size("none"), do: "rounded-none"
 
   defp grid_cols("one"), do: "grid-cols-1"
   defp grid_cols("two"), do: "grid-cols-2"
@@ -88,7 +82,7 @@ defmodule MishkaChelekom.Gallery do
   defp grid_cols("eleven"), do: "grid-cols-11"
   defp grid_cols("twelve"), do: "grid-cols-12"
   defp grid_cols(params) when is_binary(params), do: params
-  defp grid_cols(_), do: nil
+  defp grid_cols(_), do:  grid_cols("one")
 
   defp grid_gap("extra_small"), do: "gap-1"
   defp grid_gap("small"), do: "gap-2"
