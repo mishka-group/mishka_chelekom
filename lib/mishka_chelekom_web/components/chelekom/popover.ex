@@ -46,7 +46,6 @@ defmodule MishkaChelekom.Popover do
   attr :id, :string, default: nil, doc: ""
   attr :variant, :string, values: @variants, default: "default", doc: ""
   attr :color, :string, values: @colors, default: "white", doc: ""
-  attr :border, :string, default: "extra_small", doc: ""
   attr :rounded, :string, default: nil, doc: ""
   attr :space, :string, default: nil, doc: ""
   attr :font_weight, :string, default: "font-normal", doc: ""
@@ -61,9 +60,8 @@ defmodule MishkaChelekom.Popover do
       role="tooltip"
       id={@id}
       class={[
-        "overflow-hidden",
+        "absolute z-10 visible",
         space_class(@space),
-        border_class(@border),
         color_variant(@variant, @color),
         rounded_size(@rounded),
         wrapper_padding(@padding),
@@ -72,13 +70,8 @@ defmodule MishkaChelekom.Popover do
       ]}
       {@rest}
     >
-      <div class="px-3 py-2 bg-gray-100 border-b border-gray-200 rounded-t-lg dark:border-gray-600 dark:bg-gray-700">
-          <h3 class="font-semibold text-gray-900 dark:text-white">Popover top</h3>
-      </div>
-      <div class="px-3 py-2">
-          <p>And here's some amazing content. It's very engaging. Right?</p>
-      </div>
-      <div data-popper-arrow></div>
+        <%= render_slot(@inner_block) %>
+      <div class="absolute size-[8px] bg-inherit rotate-45 -bottom-[4px] -translate-x-1/2 left-1/2"></div>
     </div>
     """
   end
@@ -162,15 +155,6 @@ defmodule MishkaChelekom.Popover do
     """
   end
 
-  defp border_class("none"), do: "border-0"
-  defp border_class("extra_small"), do: "border"
-  defp border_class("small"), do: "border-2"
-  defp border_class("medium"), do: "border-[3px]"
-  defp border_class("large"), do: "border-4"
-  defp border_class("extra_large"), do: "border-[5px]"
-  defp border_class(params) when is_binary(params), do: params
-  defp border_class(_), do: border_class("extra_small")
-
   defp rounded_size("extra_small"), do: "rounded-sm"
   defp rounded_size("small"), do: "rounded"
   defp rounded_size("medium"), do: "rounded-md"
@@ -179,13 +163,13 @@ defmodule MishkaChelekom.Popover do
   defp rounded_size(params) when is_binary(params), do: params
   defp rounded_size(_), do: "rounded-none"
 
-  defp size_class("extra_small"), do: "text-xs [&_.popover-title-icon]:size-3"
-  defp size_class("small"), do: "text-sm [&_.popover-title-icon]:size-3.5"
-  defp size_class("medium"), do: "text-base [&_.popover-title-icon]:size-4"
-  defp size_class("large"), do: "text-lg [&_.popover-title-icon]:size-5"
-  defp size_class("extra_large"), do: "text-xl [&_.popover-title-icon]:size-6"
+  defp size_class("extra_small"), do: "text-xs max-w-[12rem] [&_.popover-title-icon]:size-3"
+  defp size_class("small"), do: "text-sm max-w-[14rem] [&_.popover-title-icon]:size-3.5"
+  defp size_class("medium"), do: "text-base max-w-[16rem] [&_.popover-title-icon]:size-4"
+  defp size_class("large"), do: "text-lg max-w-[18rem] [&_.popover-title-icon]:size-5"
+  defp size_class("extra_large"), do: "text-xl max-w-[20rem] [&_.popover-title-icon]:size-6"
   defp size_class(params) when is_binary(params), do: params
-  defp size_class(_), do: size_class("large")
+  defp size_class(_), do: size_class("medium")
 
   defp content_position("start") do
     "justify-start"
