@@ -43,6 +43,7 @@ defmodule MishkaChelekom.Drawer do
   attr :on_hide_away, JS, default: %JS{}
   attr :show, :boolean, default: false
   attr :rest, :global, doc: ""
+  slot :header, required: false
   slot :inner_block, required: false, doc: ""
 
   def drawer(assigns) do
@@ -69,11 +70,11 @@ defmodule MishkaChelekom.Drawer do
           <span class="sr-only">Close menu</span>
         </button>
         <h5
-          :if={@title}
+          :if={title = @title || render_slot(@header)}
           id={"#{@id}-#{@position}-title"}
           class={[@title_class || "text-lg font-semibold"]}
         >
-          <%= @title %>
+          <%= title %>
         </h5>
       </div>
 
