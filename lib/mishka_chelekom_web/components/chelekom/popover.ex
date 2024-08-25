@@ -200,6 +200,30 @@ defmodule MishkaChelekom.Popover do
   defp size_class(params) when is_binary(params), do: params
   defp size_class(_), do: size_class("medium")
 
+  defp wrapper_padding("extra_small") do
+    "[&:has(.popover-section)>.popover-section]:p-1 [&:not(:has(.popover-section))]:p-1"
+  end
+
+  defp wrapper_padding("small") do
+    "[&:has(.popover-section)>.popover-section]:p-2 [&:not(:has(.popover-section))]:p-2"
+  end
+
+  defp wrapper_padding("medium") do
+    "[&:has(.popover-section)>.popover-section]:p-3 [&:not(:has(.popover-section))]:p-3"
+  end
+
+  defp wrapper_padding("large") do
+    "[&:has(.popover-section)>.popover-section]:p-4 [&:not(:has(.popover-section))]:p-4"
+  end
+
+  defp wrapper_padding("extra_large") do
+    "[&:has(.popover-section)>.popover-section]:p-5 [&:not(:has(.popover-section))]:p-5"
+  end
+
+  defp wrapper_padding("none"), do: "p-0"
+  defp wrapper_padding(params) when is_binary(params), do: params
+  defp wrapper_padding(_), do: wrapper_padding("none")
+
   defp content_position("start") do
     "justify-start"
   end
@@ -221,25 +245,6 @@ defmodule MishkaChelekom.Popover do
   end
 
   defp content_position(_), do: content_position("start")
-
-  defp wrapper_padding("extra_small"),
-    do: "[&:has(.popover-section)>.popover-section]:p-1 [&:not(:has(.popover-section))]:p-1"
-
-  defp wrapper_padding("small"),
-    do: "[&:has(.popover-section)>.popover-section]:p-2 [&:not(:has(.popover-section))]:p-2"
-
-  defp wrapper_padding("medium"),
-    do: "[&:has(.popover-section)>.popover-section]:p-3 [&:not(:has(.popover-section))]:p-3"
-
-  defp wrapper_padding("large"),
-    do: "[&:has(.popover-section)>.popover-section]:p-4 [&:not(:has(.popover-section))]:p-4"
-
-  defp wrapper_padding("extra_large"),
-    do: "[&:has(.popover-section)>.popover-section]:p-5 [&:not(:has(.popover-section))]:p-5"
-
-  defp wrapper_padding("none"), do: "p-0"
-  defp wrapper_padding(params) when is_binary(params), do: params
-  defp wrapper_padding(_), do: wrapper_padding("none")
 
   defp padding_size("extra_small"), do: "p-1"
   defp padding_size("small"), do: "p-2"

@@ -48,7 +48,7 @@ defmodule MishkaChelekom.Drawer do
       id={@id}
       phx-click-away={hide_drawer(@on_hide_away, @id, @position)}
       class={[
-        "fixed z-50 p-2 overflow-y-auto transition-transform transform-none",
+        "fixed z-50 p-2 overflow-y-auto transition-transform",
         size_class(@size),
         position_class(@position),
         border_class(@border, @position),
