@@ -53,7 +53,7 @@ defmodule MishkaChelekom.Drawer do
       class={[
         "fixed z-50 p-2 overflow-y-auto transition-transform",
         translate_position(@position),
-        size_class(@size),
+        size_class(@size, @position),
         position_class(@position),
         border_class(@border, @position),
         color_variant(@variant, @color)
@@ -85,8 +85,8 @@ defmodule MishkaChelekom.Drawer do
 
   defp position_class("left"), do: "top-0 left-0 h-screen"
   defp position_class("right"), do: "top-0 right-0 h-screen"
-  defp position_class("top"), do: "top-0 inset-x-0"
-  defp position_class("bottom"), do: "bottom-0 inset-x-0"
+  defp position_class("top"), do: "top-0 inset-x-0 w-full"
+  defp position_class("bottom"), do: "bottom-0 inset-x-0 w-full"
   defp position_class(params) when is_binary(params), do: params
   defp position_class(_), do: position_class("left")
 
@@ -119,12 +119,29 @@ defmodule MishkaChelekom.Drawer do
   defp border_class(params, _) when is_binary(params), do: params
   defp border_class(_, _), do: border_class("extra_small", "left")
 
-  defp size_class("extra_small"), do: "w-60"
-  defp size_class("small"), do: "w-64"
-  defp size_class("medium"), do: "w-72"
-  defp size_class("large"), do: "w-80"
-  defp size_class("extra_large"), do: "w-96"
-  defp size_class(_), do: size_class("large")
+  defp size_class("extra_small", "left"), do: "w-60"
+  defp size_class("small", "left"), do: "w-64"
+  defp size_class("medium", "left"), do: "w-72"
+  defp size_class("large", "left"), do: "w-80"
+  defp size_class("extra_large", "left"), do: "w-96"
+
+  defp size_class("extra_small", "right"), do: "w-60"
+  defp size_class("small", "right"), do: "w-64"
+  defp size_class("medium", "right"), do: "w-72"
+  defp size_class("large", "right"), do: "w-80"
+  defp size_class("extra_large", "right"), do: "w-96"
+
+  defp size_class("extra_small", "top"), do: "min-h-32"
+  defp size_class("small", "top"), do: "min-h-36"
+  defp size_class("medium", "top"), do: "min-h-40"
+  defp size_class("large", "top"), do: "min-h-44"
+  defp size_class("extra_large", "top"), do: "min-h-48"
+
+  defp size_class("extra_small", "bottom"), do: "min-h-32"
+  defp size_class("small", "bottom"), do: "min-h-36"
+  defp size_class("medium", "bottom"), do: "min-h-40"
+  defp size_class("large", "bottom"), do: "min-h-44"
+  defp size_class("extra_large", "bottom"), do: "min-h-48"
 
   defp color_variant("default", "white") do
     "bg-white text-[#3E3E3E] border-[#DADADA]"
