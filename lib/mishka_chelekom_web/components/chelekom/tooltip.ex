@@ -54,7 +54,7 @@ defmodule MishkaChelekom.Tooltip do
           size_class(@size),
           padding_size(@padding),
           position_class(@position),
-          width_class(@width)ق,
+          width_class(@width),
           @font_weight,
           @class
         ]}
