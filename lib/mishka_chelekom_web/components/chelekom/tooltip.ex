@@ -178,7 +178,7 @@ defmodule MishkaChelekom.Tooltip do
   end
 
   defp color_variant("outline", "primary") do
-    "bg-transparent text-[#4363EC]] "
+    "bg-transparent text-[#433EC]] "
   end
 
   defp color_variant("outline", "secondary") do
@@ -218,43 +218,43 @@ defmodule MishkaChelekom.Tooltip do
   end
 
   defp color_variant("shadow", "white") do
-    "bg-white text-[#3E3E3E]] shadow-md"
+    "bg-white text-[#3E3E3E] shadow-md"
   end
 
   defp color_variant("shadow", "primary") do
-    "bg-[#4363EC] text-white] shadow-md"
+    "bg-[#4363EC] text-white shadow-md"
   end
 
   defp color_variant("shadow", "secondary") do
-    "bg-[#6B6E7C] text-white] shadow-md"
+    "bg-[#6B6E7C] text-white shadow-md"
   end
 
   defp color_variant("shadow", "success") do
-    "bg-[#AFEAD0] text-[#227A52]] shadow-md"
+    "bg-[#AFEAD0] text-[#227A52] shadow-md"
   end
 
   defp color_variant("shadow", "warning") do
-    "bg-[#FFF8E6] text-[#FF8B08]] shadow-md"
+    "bg-[#FFF8E6] text-[#FF8B08] shadow-md"
   end
 
   defp color_variant("shadow", "danger") do
-    "bg-[#FFE6E6] text-[#E73B3B]] shadow-md"
+    "bg-[#FFE6E6] text-[#E73B3B] shadow-md"
   end
 
   defp color_variant("shadow", "info") do
-    "bg-[#E5F0FF] text-[#004FC4]] shadow-md"
+    "bg-[#E5F0FF] text-[#004FC4] shadow-md"
   end
 
   defp color_variant("shadow", "misc") do
-    "bg-[#FFE6FF] text-[#52059C]] shadow-md"
+    "bg-[#FFE6FF] text-[#52059C] shadow-md"
   end
 
   defp color_variant("shadow", "dawn") do
-    "bg-[#FFECDA] text-[#4D4137]] shadow-md"
+    "bg-[#FFECDA] text-[#4D4137] shadow-md"
   end
 
   defp color_variant("shadow", "light") do
-    "bg-[#E3E7F1] text-[#707483]] shadow-md"
+    "bg-[#E3E7F1] text-[#707483] shadow-md"
   end
 
   defp color_variant("shadow", "dark") do
