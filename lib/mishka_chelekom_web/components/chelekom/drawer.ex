@@ -52,6 +52,7 @@ defmodule MishkaChelekom.Drawer do
       phx-mounted={@show && show_drawer(@on_show, @id, @position)}
       class={[
         "fixed z-50 p-2 overflow-y-auto transition-transform",
+        translate_position(@position),
         size_class(@size),
         position_class(@position),
         border_class(@border, @position),
