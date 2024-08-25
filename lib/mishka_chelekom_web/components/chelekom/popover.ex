@@ -62,7 +62,7 @@ defmodule MishkaChelekom.Popover do
       role="tooltip"
       id={@id}
       class={[
-        "absolute z-10 [&:not(.active)]:invisible [&.active]:visible",
+        "absolute z-10 visible [&:not(.active)]:invisible [&.active]:visible",
         space_class(@space),
         color_variant(@variant, @color),
         rounded_size(@rounded),
