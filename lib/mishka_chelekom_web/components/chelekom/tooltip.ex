@@ -26,7 +26,7 @@ defmodule MishkaChelekom.Tooltip do
   attr :id, :string, default: nil, doc: ""
   attr :position, :string, default: "top", doc: ""
   attr :variant, :string, values: @variants, default: "default", doc: ""
-  attr :color, :string, values: @colors, default: "white", doc: ""
+  attr :color, :string, values: @colors, default: "dark", doc: ""
   attr :rounded, :string, default: nil, doc: ""
   attr :size, :string, default: nil, doc: ""
   attr :space, :string, default: nil, doc: ""
