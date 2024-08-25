@@ -50,6 +50,7 @@ defmodule MishkaChelekom.Drawer do
       id={@id}
       phx-click-away={hide_drawer(@on_hide_away, @id, @position)}
       phx-mounted={@show && show_drawer(@on_show, @id, @position)}
+      phx-remove={hide_drawer(@id, @position)}
       class={[
         "fixed z-50 p-2 overflow-y-auto transition-transform",
         translate_position(@position),
@@ -64,7 +65,7 @@ defmodule MishkaChelekom.Drawer do
       <div class="flex flex-row-reverse justify-between items-center gap-5 mb-2">
         <button
           type="button"
-          phx-click={hide_drawer(@on_hide, @id, @position)}
+          phx-click={JS.exec(@on_hide, "phx-remove", to: "##{@id}")}
           data-drawer-hide="drawer-example"
           aria-controls="drawer-example"
         >
