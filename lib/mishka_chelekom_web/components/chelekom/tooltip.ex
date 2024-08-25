@@ -34,6 +34,7 @@ defmodule MishkaChelekom.Tooltip do
   attr :width, :string, default: "fit", doc: ""
   attr :padding, :string, default: "small", doc: ""
   attr :class, :string, default: nil, doc: ""
+  attr :text_position, :string, default: "center", doc: ""
   attr :text, :string, default: "", doc: ""
   attr :rest, :global, doc: ""
   slot :inner_block, required: false, doc: ""
@@ -54,6 +55,7 @@ defmodule MishkaChelekom.Tooltip do
           size_class(@size),
           padding_size(@padding),
           position_class(@position),
+          text_position(@text_position),
           width_class(@width),
           @font_weight,
           @class
@@ -114,6 +116,14 @@ defmodule MishkaChelekom.Tooltip do
   defp size_class("extra_large"), do: "text-xl max-w-32"
   defp size_class(params) when is_binary(params), do: params
   defp size_class(_), do: size_class("medium")
+
+  defp text_position("left"), do: "text-left"
+  defp text_position("right"), do: "text-right"
+  defp text_position("center"), do: "text-center"
+  defp text_position("justify"), do: "text-justify"
+  defp text_position("start"), do: "text-start"
+  defp text_position("end"), do: "text-end"
+  defp text_position(_), do: text_position("center")
 
   defp width_class("extra_small"), do: "min-w-28"
   defp width_class("small"), do: "min-w-32"
