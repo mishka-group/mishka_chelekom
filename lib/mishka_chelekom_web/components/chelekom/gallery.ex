@@ -45,11 +45,14 @@ defmodule MishkaChelekom.Gallery do
 
   def gallery_media(assigns) do
     ~H"""
-    <div
-      id={@id}
-    >
+    <div id={@id}>
       <img
-        class={["gallery-media h-auto max-w-full", rounded_size(@rounded), shadow_class(@shadow), @class]}
+        class={[
+          "gallery-media h-auto max-w-full",
+          rounded_size(@rounded),
+          shadow_class(@shadow),
+          @class
+        ]}
         src={@src}
         alt={@alt}
         {@rest}
