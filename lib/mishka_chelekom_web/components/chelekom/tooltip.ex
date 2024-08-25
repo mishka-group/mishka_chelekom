@@ -54,7 +54,7 @@ defmodule MishkaChelekom.Tooltip do
           size_class(@size),
           padding_size(@padding),
           position_class(@position),
-          width_class(@width),
+          width_class(@width)ق,
           @font_weight,
           @class
         ]}
@@ -120,6 +120,9 @@ defmodule MishkaChelekom.Tooltip do
   defp width_class("medium"), do: "min-w-36"
   defp width_class("large"), do: "min-w-40"
   defp width_class("extra_large"), do: "min-w-44"
+  defp width_class("double_large"), do: "min-w-48"
+  defp width_class("triple_large"), do: "min-w-52"
+  defp width_class("quadruple_large"), do: "min-w-56"
   defp width_class("fit"), do: "min-w-fit"
   defp width_class(params) when is_binary(params), do: params
   defp width_class(_), do: width_class("fit")
