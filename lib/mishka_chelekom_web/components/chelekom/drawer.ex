@@ -1,6 +1,7 @@
 defmodule MishkaChelekom.Drawer do
   use Phoenix.Component
   import MishkaChelekomComponents
+  alias Phoenix.LiveView.JS
 
   @colors [
     "white",
@@ -25,7 +26,7 @@ defmodule MishkaChelekom.Drawer do
   ]
 
   @doc type: :component
-  attr :id, :string, default: nil, doc: ""
+  attr :id, :string, required: true, doc: ""
   attr :title, :string, default: nil
   attr :variant, :string, values: @variants, default: "default", doc: ""
   attr :color, :string, values: @colors, default: "white", doc: ""
@@ -36,18 +37,16 @@ defmodule MishkaChelekom.Drawer do
   attr :space, :string, default: nil, doc: ""
   attr :padding, :string, default: "none", doc: ""
   attr :class, :string, default: nil, doc: ""
+  attr :on_hide, JS, default: %JS{}
+  attr :on_hide_away, JS, default: %JS{}
   attr :rest, :global, doc: ""
   slot :inner_block, required: false, doc: ""
 
-  # For Line 48, Should delete transform-none and add one of these position based on user select
-  # -translate-x-full (left),
-  # translate-x-full (right),
-  # translate-y-full (bottom),
-  # -translate-y-full (bottom)
   def drawer(assigns) do
     ~H"""
     <div
       id={@id}
+      phx-click-away={hide_drawer(@on_hide_away, @id, @position)}
       class={[
         "fixed z-50 p-2 overflow-y-auto transition-transform transform-none",
         size_class(@size),
@@ -61,9 +60,9 @@ defmodule MishkaChelekom.Drawer do
       <div class="flex flex-row-reverse justify-between items-center gap-5 mb-2">
         <button
           type="button"
+          phx-click={hide_drawer(@on_hide, @id, @position)}
           data-drawer-hide="drawer-example"
           aria-controls="drawer-example"
-          class=""
         >
           <.icon name="hero-x-mark" />
           <span class="sr-only">Close menu</span>
@@ -341,5 +340,20 @@ defmodule MishkaChelekom.Drawer do
 
   defp color_variant("transparent", "dark") do
     "bg-transparent text-[#1E1E1E] border-transparent"
+  end
+
+  defp translate_position("left"), do: "-translate-x-full"
+  defp translate_position("right"), do: "translate-x-full"
+  defp translate_position("bottom"), do: "translate-y-full"
+  defp translate_position("top"), do: "-translate-y-full"
+
+  def show_drawer(id, position) when is_binary(id) do
+    JS.remove_class(translate_position(position), to: "##{id}")
+    |> JS.add_class("transform-none", to: "##{id}")
+  end
+
+  def hide_drawer(js, id, position) do
+    JS.remove_class(js, "transform-none", to: "##{id}")
+    |> JS.add_class(translate_position(position), to: "##{id}")
   end
 end

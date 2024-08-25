@@ -1,9 +1,14 @@
 <div class="p-5">
-  <MishkaChelekom.Drawer.drawer>
+  <MishkaChelekom.Drawer.drawer id="acc-left">
     Lorem ipsum dolor sit amet consectetur adipisicing elit. Commodi ea atque soluta praesentium quidem dicta sapiente accusamus nihil.
   </MishkaChelekom.Drawer.drawer>
 
-  <MishkaChelekom.Drawer.drawer title="Right Drawer" position="right">
+    <div class="w-full flex flex-row justify-center items-center space-x-2">
+      <button phx-click={MishkaChelekom.Drawer.show_drawer("acc-left", "left")}>Open left drawer</button>
+      <span>||</span>
+      <button phx-click={MishkaChelekom.Drawer.show_drawer("acc-right", "right")}>Open right drawer</button>
+    </div>
+  <MishkaChelekom.Drawer.drawer id="acc-right" title="Right Drawer" position="right">
     Lorem ipsum dolor sit amet consectetur adipisicing elit. Commodi ea atque soluta praesentium quidem dicta sapiente accusamus nihil.
   </MishkaChelekom.Drawer.drawer>
 </div>
