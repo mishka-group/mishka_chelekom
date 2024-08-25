@@ -48,7 +48,7 @@ defmodule MishkaChelekom.Tooltip do
         id={@id}
         class={[
           "absolute z-10 transition-opacity duratio-500 w-full",
-          "invisible opacity-0 group-hover:!visible group-hover:!opacity-100",
+          "invisible opacity-0 group-hover:visible group-hover:opacity-100",
           space_class(@space),
           color_variant(@variant, @color),
           rounded_size(@rounded),
