@@ -31,7 +31,7 @@ defmodule MishkaChelekom.Popover do
     "default",
     "outline",
     "transparent",
-    "shadow",
+    "shadow"
   ]
 
   @positions [
@@ -73,13 +73,12 @@ defmodule MishkaChelekom.Popover do
       ]}
       {@rest}
     >
-        <%= render_slot(@inner_block) %>
-      <div
-        class={[
-          "absolute size-[8px] bg-inherit rotate-45",
-          position_class(@position),
-        ]}
-      ></div>
+      <%= render_slot(@inner_block) %>
+      <div class={[
+        "absolute size-[8px] bg-inherit rotate-45",
+        position_class(@position)
+      ]}>
+      </div>
     </div>
     """
   end
@@ -187,11 +186,16 @@ defmodule MishkaChelekom.Popover do
   defp position_class("left"), do: "-left-[4px] translate-y-1/2 top-1/3"
   defp position_class("right"), do: "-right-[4px] translate-y-1/2 top-1/3"
 
-  defp size_class("extra_small"), do: "text-xs min-h-10 max-w-[12rem] [&_.popover-title-icon]:size-3"
+  defp size_class("extra_small"),
+    do: "text-xs min-h-10 max-w-[12rem] [&_.popover-title-icon]:size-3"
+
   defp size_class("small"), do: "text-sm min-h-10 max-w-[14rem] [&_.popover-title-icon]:size-3.5"
   defp size_class("medium"), do: "text-base min-h-10 max-w-[16rem] [&_.popover-title-icon]:size-4"
   defp size_class("large"), do: "text-lg min-h-10 max-w-[18rem] [&_.popover-title-icon]:size-5"
-  defp size_class("extra_large"), do: "text-xl min-h-10 max-w-[20rem] [&_.popover-title-icon]:size-6"
+
+  defp size_class("extra_large"),
+    do: "text-xl min-h-10 max-w-[20rem] [&_.popover-title-icon]:size-6"
+
   defp size_class(params) when is_binary(params), do: params
   defp size_class(_), do: size_class("medium")
 

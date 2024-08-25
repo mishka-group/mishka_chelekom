@@ -39,7 +39,11 @@ defmodule MishkaChelekom.Drawer do
   attr :rest, :global, doc: ""
   slot :inner_block, required: false, doc: ""
 
-  # TODO: -translate-x-full (left), translate-x-full (right), translate-y-full (bottom), -translate-y-full (bottom)
+  # For Line 48, Should delete transform-none and add one of these position based on user select
+  # -translate-x-full (left),
+  # translate-x-full (right),
+  # translate-y-full (bottom),
+  # -translate-y-full (bottom)
   def drawer(assigns) do
     ~H"""
     <div

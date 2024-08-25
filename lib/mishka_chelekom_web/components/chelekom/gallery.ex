@@ -1,8 +1,15 @@
 defmodule MishkaChelekom.Gallery do
   use Phoenix.Component
 
+  @types [
+    "default",
+    "masonary",
+    "featured"
+  ]
+
   @doc type: :component
   attr :id, :string, default: nil, doc: ""
+  attr :type, :string, values: @types, default: "default", doc: ""
   attr :class, :string, default: nil, doc: ""
   attr :cols, :string, default: nil, doc: ""
   attr :gap, :string, default: nil, doc: ""
@@ -14,33 +21,10 @@ defmodule MishkaChelekom.Gallery do
     <div
       id={@id}
       class={[
-        "grid",
-        grid_cols(@cols),
+        (@type == "masonary" && "gallery-masonary") || "grid",
         grid_gap(@gap),
-        @class
-      ]}
-      {@rest}
-    >
-      <%= render_slot(@inner_block) %>
-    </div>
-    """
-  end
-
-  attr :id, :string, default: nil, doc: ""
-  attr :class, :string, default: nil, doc: ""
-  attr :cols, :string, default: nil, doc: ""
-  attr :gap, :string, default: nil, doc: ""
-  attr :rest, :global, doc: ""
-  slot :inner_block, required: false, doc: ""
-
-  def gallery_masonary(assigns) do
-    ~H"""
-    <div
-      id={@id}
-      class={[
-        "gallery-masonary",
-        column_class(@cols),
-        grid_gap(@gap),
+        @type == "masonary" && column_class(@cols),
+        grid_cols(@cols) != "masonary" && grid_cols(@cols),
         @class
       ]}
       {@rest}
@@ -54,56 +38,20 @@ defmodule MishkaChelekom.Gallery do
   attr :src, :string, default: nil, doc: ""
   attr :alt, :string, default: "", doc: ""
   attr :rounded, :string, default: "none", doc: ""
-  attr :shadow, :string, default: "shadow-none" ,doc: ""
-  attr :border, :string, default: nil ,doc: ""
+  attr :shadow, :string, default: "shadow-none", doc: ""
+  attr :border, :string, default: nil, doc: ""
   attr :rest, :global, doc: ""
   slot :inner_block, required: false, doc: ""
 
   def gallery_media(assigns) do
     ~H"""
-     <div>
-      <img class={["gallery-media h-auto max-w-full",
-        rounded_size(@rounded),
-            @shadow,
-            @class]} src={@src}  alt={@alt}
-            {@rest}>
-     </div>
-    """
-  end
-
-  #TODO: Featured
-  attr :id, :string, default: nil, doc: ""
-  attr :class, :string, default: nil, doc: ""
-  attr :cols, :string, default: nil, doc: ""
-  attr :gap, :string, default: nil, doc: ""
-  attr :rest, :global, doc: ""
-  slot :inner_block, required: false, doc: ""
-
-  def gallery_featured(assigns) do
-    ~H"""
-     <div
-      id={@id}
-      class={[
-        "grid",
-        grid_gap(@gap),
-        @class
-      ]}
-      {@rest}
-    >
-      <.gallery_media src="https://flowbite.s3.amazonaws.com/docs/gallery/featured/image.jpg"  />
-      <div
-        class={[
-          "grid",
-          grid_cols(@cols),
-          grid_gap(@gap),
-          @class
-        ]}>
-        <.gallery_media src="https://flowbite.s3.amazonaws.com/docs/gallery/featured/image.jpg" />
-        <.gallery_media src="https://flowbite.s3.amazonaws.com/docs/gallery/featured/image.jpg" />
-        <.gallery_media src="https://flowbite.s3.amazonaws.com/docs/gallery/featured/image.jpg" />
-        <.gallery_media src="https://flowbite.s3.amazonaws.com/docs/gallery/featured/image.jpg" />
-        <.gallery_media src="https://flowbite.s3.amazonaws.com/docs/gallery/featured/image.jpg" />
-      </div>
+    <div>
+      <img
+        class={["gallery-media h-auto max-w-full", rounded_size(@rounded), @shadow, @class]}
+        src={@src}
+        alt={@alt}
+        {@rest}
+      />
     </div>
     """
   end
@@ -129,7 +77,7 @@ defmodule MishkaChelekom.Gallery do
   defp grid_cols("eleven"), do: "grid-cols-2 md:grid-cols-11"
   defp grid_cols("twelve"), do: "grid-cols-2 md:grid-cols-12"
   defp grid_cols(params) when is_binary(params), do: params
-  defp grid_cols(_), do:  nil
+  defp grid_cols(_), do: nil
 
   defp column_class("one"), do: "columns-1"
   defp column_class("two"), do: "columns-2"
@@ -144,7 +92,7 @@ defmodule MishkaChelekom.Gallery do
   defp column_class("eleven"), do: "columns-2 md:columns-11"
   defp column_class("twelve"), do: "columns-2 md:columns-12"
   defp column_class(params) when is_binary(params), do: params
-  defp column_class(_), do:  column_class("one")
+  defp column_class(_), do: column_class("one")
 
   defp grid_gap("extra_small"), do: "gap-1 [&.gallery-masonary_.gallery-media]:mb-1"
   defp grid_gap("small"), do: "gap-2 [&.gallery-masonary_.gallery-media]:mb-2"
