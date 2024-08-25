@@ -1,15 +1,9 @@
 defmodule MishkaChelekom.Gallery do
   use Phoenix.Component
 
-  @types [
-    "default",
-    "masonary",
-    "featured"
-  ]
-
   @doc type: :component
   attr :id, :string, default: nil, doc: ""
-  attr :type, :string, values: @types, default: "default", doc: ""
+  attr :type, :string, values: ["default", "masonary", "featured"], default: "default", doc: ""
   attr :class, :string, default: nil, doc: ""
   attr :cols, :string, default: nil, doc: ""
   attr :gap, :string, default: nil, doc: ""
