@@ -31,7 +31,7 @@ defmodule MishkaChelekom.Tooltip do
   attr :size, :string, default: nil, doc: ""
   attr :space, :string, default: nil, doc: ""
   attr :font_weight, :string, default: "font-normal", doc: ""
-  attr :min_width, :string, default: "min-w-fit", doc: ""
+  attr :width, :string, default: "fit", doc: ""
   attr :padding, :string, default: "small", doc: ""
   attr :class, :string, default: nil, doc: ""
   attr :text, :string, default: "", doc: ""
@@ -54,7 +54,7 @@ defmodule MishkaChelekom.Tooltip do
           size_class(@size),
           padding_size(@padding),
           position_class(@position),
-          @min_width,
+          width_class(@width),
           @font_weight,
           @class
         ]}
@@ -114,6 +114,15 @@ defmodule MishkaChelekom.Tooltip do
   defp size_class("extra_large"), do: "text-xl max-w-32"
   defp size_class(params) when is_binary(params), do: params
   defp size_class(_), do: size_class("medium")
+
+  defp width_class("extra_small"), do: "min-w-28"
+  defp width_class("small"), do: "min-w-32"
+  defp width_class("medium"), do: "min-w-36"
+  defp width_class("large"), do: "min-w-40"
+  defp width_class("extra_large"), do: "min-w-44"
+  defp width_class("fit"), do: "min-w-fit"
+  defp width_class(params) when is_binary(params), do: params
+  defp width_class(_), do: width_class("fit")
 
   defp padding_size("extra_small"), do: "p-1"
   defp padding_size("small"), do: "p-2"
