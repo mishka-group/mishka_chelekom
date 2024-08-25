@@ -33,6 +33,7 @@ defmodule MishkaChelekom.Tooltip do
   attr :font_weight, :string, default: "font-normal", doc: ""
   attr :padding, :string, default: "small", doc: ""
   attr :class, :string, default: nil, doc: ""
+  attr :text, :string, default: "", doc: ""
   attr :rest, :global, doc: ""
   slot :inner_block, required: false, doc: ""
 
@@ -40,26 +41,30 @@ defmodule MishkaChelekom.Tooltip do
 
   def tooltip(assigns) do
     ~H"""
-    <div
-      role="tooltip"
-      id={@id}
-      class={[
-        "absolute z-10 visible [&.active]:visible",
-        space_class(@space),
-        color_variant(@variant, @color),
-        rounded_size(@rounded),
-        size_class(@size),
-        padding_size(@padding),
-        @font_weight,
-        @class
-      ]}
-      {@rest}
-    >
+    <div class="relative group">
       <%= render_slot(@inner_block) %>
+      <div
+        role="tooltip"
+        id={@id}
+        class={[
+          "absolute z-10 transition-opacity duratio-500 w-full",
+          "invisible opacity-0 group-hover:!visible group-hover:!opacity-100",
+          space_class(@space),
+          color_variant(@variant, @color),
+          rounded_size(@rounded),
+          size_class(@size),
+          padding_size(@padding),
+          position_class(@position),
+          @font_weight,
+          @class
+        ]}
+        {@rest}
+      >
+      <%= @text %>
       <div class={[
-        "absolute size-[8px] bg-inherit rotate-45",
-        position_class(@position)
+        "absolute size-[8px] bg-inherit rotate-45 tooltip-arrow",
       ]}>
+      </div>
       </div>
     </div>
     """
@@ -74,16 +79,36 @@ defmodule MishkaChelekom.Tooltip do
   defp rounded_size(params) when is_binary(params), do: params
   defp rounded_size(_), do: rounded_size("small")
 
-  defp position_class("top"), do: "-bottom-[4px] -translate-x-1/2 left-1/2"
-  defp position_class("bottom"), do: "-top-[4px] -translate-x-1/2 left-1/2"
-  defp position_class("left"), do: "-left-[4px] translate-y-1/2 top-1/3"
-  defp position_class("right"), do: "-right-[4px] translate-y-1/2 top-1/3"
+  defp position_class("top") do
+    [
+      "bottom-full left-1/2 -translate-x-1/2 -translate-y-[4px]",
+      "[&>.tooltip-arrow]:-bottom-[4px] [&>.tooltip-arrow]:-translate-x-1/2 [&>.tooltip-arrow]:left-1/2"
+    ]
+  end
+  defp position_class("bottom") do
+    [
+      "top-full left-1/2 -translate-x-1/2 translate-y-[4px]",
+       "[&>.tooltip-arrow]:-top-[4px] [&>.tooltip-arrow]:-translate-x-1/2 [&>.tooltip-arrow]:left-1/2"
+    ]
+  end
+  defp position_class("left") do
+    [
+      "right-full top-1/2 -translate-y-1/2 -translate-x-[6px]",
+      "[&>.tooltip-arrow]:-right-[4px] [&>.tooltip-arrow]:translate-y-1/2 [&>.tooltip-arrow]:top-1/3"
+    ]
+  end
+  defp position_class("right") do
+    [
+      "left-full top-1/2 -translate-y-1/2 translate-x-[6px]",
+      "[&>.tooltip-arrow]:-left-[4px] [&>.tooltip-arrow]:translate-y-1/2 [&>.tooltip-arrow]:top-1/3"
+    ]
+  end
 
-  defp size_class("extra_small"), do: "text-xs max-w-32"
-  defp size_class("small"), do: "text-sm max-w-36"
-  defp size_class("medium"), do: "text-base max-w-40"
-  defp size_class("large"), do: "text-lg max-w-44"
-  defp size_class("extra_large"), do: "text-xl max-w-48"
+  defp size_class("extra_small"), do: "text-xs max-w-40"
+  defp size_class("small"), do: "text-sm max-w-44"
+  defp size_class("medium"), do: "text-base max-w-48"
+  defp size_class("large"), do: "text-lg max-w-28"
+  defp size_class("extra_large"), do: "text-xl max-w-32"
   defp size_class(params) when is_binary(params), do: params
   defp size_class(_), do: size_class("medium")
 
