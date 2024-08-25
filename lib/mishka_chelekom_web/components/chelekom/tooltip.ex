@@ -47,7 +47,7 @@ defmodule MishkaChelekom.Tooltip do
         role="tooltip"
         id={@id}
         class={[
-          "absolute z-10  transition-all ease-in-out delay-150 duratio-800 w-full",
+          "absolute z-10 transition-all ease-in-out delay-100 duratio-500 w-full",
           "invisible opacity-0 group-hover:visible group-hover:opacity-100",
           space_class(@space),
           color_variant(@variant, @color),
@@ -60,11 +60,11 @@ defmodule MishkaChelekom.Tooltip do
         ]}
         {@rest}
       >
-      <%= @text %>
-      <div class={[
-        "absolute size-[8px] bg-inherit rotate-45 tooltip-arrow",
-      ]}>
-      </div>
+        <%= @text %>
+        <div class={[
+          "absolute size-[8px] bg-inherit rotate-45 tooltip-arrow"
+        ]}>
+        </div>
       </div>
     </div>
     """
@@ -85,18 +85,21 @@ defmodule MishkaChelekom.Tooltip do
       "[&>.tooltip-arrow]:-bottom-[4px] [&>.tooltip-arrow]:-translate-x-1/2 [&>.tooltip-arrow]:left-1/2"
     ]
   end
+
   defp position_class("bottom") do
     [
       "top-full left-1/2 -translate-x-1/2 translate-y-[4px]",
-       "[&>.tooltip-arrow]:-top-[4px] [&>.tooltip-arrow]:-translate-x-1/2 [&>.tooltip-arrow]:left-1/2"
+      "[&>.tooltip-arrow]:-top-[4px] [&>.tooltip-arrow]:-translate-x-1/2 [&>.tooltip-arrow]:left-1/2"
     ]
   end
+
   defp position_class("left") do
     [
       "right-full top-1/2 -translate-y-1/2 -translate-x-[6px]",
       "[&>.tooltip-arrow]:-right-[4px] [&>.tooltip-arrow]:translate-y-1/2 [&>.tooltip-arrow]:top-1/3"
     ]
   end
+
   defp position_class("right") do
     [
       "left-full top-1/2 -translate-y-1/2 translate-x-[6px]",
