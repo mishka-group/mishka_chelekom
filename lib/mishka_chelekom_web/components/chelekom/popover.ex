@@ -56,7 +56,7 @@ defmodule MishkaChelekom.Popover do
   attr :rest, :global, doc: ""
   slot :inner_block, required: false, doc: ""
 
-  #TODO: [&:not(.active)]:invisible add this to class
+  # TODO: [&:not(.active)]:invisible add this to class
   def popover(assigns) do
     ~H"""
     <div

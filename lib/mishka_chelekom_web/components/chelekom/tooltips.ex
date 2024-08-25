@@ -1,5 +1,6 @@
 defmodule MishkaChelekom.Tooltips do
   use Phoenix.Component
+
   @colors [
     "white",
     "primary",
@@ -35,7 +36,7 @@ defmodule MishkaChelekom.Tooltips do
   attr :rest, :global, doc: ""
   slot :inner_block, required: false, doc: ""
 
-  #TODO: [&:not(.active)]:invisible add this to class
+  # TODO: [&:not(.active)]:invisible add this to class
 
   def tooltips(assigns) do
     ~H"""

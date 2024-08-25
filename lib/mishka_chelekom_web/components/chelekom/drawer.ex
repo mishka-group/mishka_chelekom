@@ -38,7 +38,9 @@ defmodule MishkaChelekom.Drawer do
   attr :padding, :string, default: "none", doc: ""
   attr :class, :string, default: nil, doc: ""
   attr :on_hide, JS, default: %JS{}
+  attr :on_show, JS, default: %JS{}
   attr :on_hide_away, JS, default: %JS{}
+  attr :show, :boolean, default: false
   attr :rest, :global, doc: ""
   slot :inner_block, required: false, doc: ""
 
@@ -47,6 +49,7 @@ defmodule MishkaChelekom.Drawer do
     <div
       id={@id}
       phx-click-away={hide_drawer(@on_hide_away, @id, @position)}
+      phx-mounted={@show && show_drawer(@on_show, @id, @position)}
       class={[
         "fixed z-50 p-2 overflow-y-auto transition-transform",
         size_class(@size),
@@ -347,12 +350,12 @@ defmodule MishkaChelekom.Drawer do
   defp translate_position("bottom"), do: "translate-y-full"
   defp translate_position("top"), do: "-translate-y-full"
 
-  def show_drawer(id, position) when is_binary(id) do
-    JS.remove_class(translate_position(position), to: "##{id}")
+  def show_drawer(js \\ %JS{}, id, position) when is_binary(id) do
+    JS.remove_class(js, translate_position(position), to: "##{id}")
     |> JS.add_class("transform-none", to: "##{id}")
   end
 
-  def hide_drawer(js, id, position) do
+  def hide_drawer(js \\ %JS{}, id, position) do
     JS.remove_class(js, "transform-none", to: "##{id}")
     |> JS.add_class(translate_position(position), to: "##{id}")
   end
