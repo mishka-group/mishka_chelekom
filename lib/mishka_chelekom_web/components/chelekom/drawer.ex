@@ -28,6 +28,7 @@ defmodule MishkaChelekom.Drawer do
   @doc type: :component
   attr :id, :string, required: true, doc: ""
   attr :title, :string, default: nil
+  attr :title_class, :string, default: nil
   attr :variant, :string, values: @variants, default: "default", doc: ""
   attr :color, :string, values: @colors, default: "white", doc: ""
   attr :size, :string, default: "large", doc: ""
@@ -67,7 +68,7 @@ defmodule MishkaChelekom.Drawer do
           <.icon name="hero-x-mark" />
           <span class="sr-only">Close menu</span>
         </button>
-        <h5 :if={@title} id={"#{@id}-#{@position}-title"} class="text-base font-semibold">
+        <h5 :if={@title} id={"#{@id}-#{@position}-title"} class={[@title_class || "text-lg font-semibold"]}>
           <%= @title %>
         </h5>
       </div>
