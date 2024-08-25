@@ -56,13 +56,14 @@ defmodule MishkaChelekom.Popover do
   attr :rest, :global, doc: ""
   slot :inner_block, required: false, doc: ""
 
+  #TODO: [&:not(.active)]:invisible add this to class
   def popover(assigns) do
     ~H"""
     <div
       role="tooltip"
       id={@id}
       class={[
-        "absolute z-10 visible [&:not(.active)]:invisible [&.active]:visible",
+        "absolute z-10 visible [&.active]:visible",
         space_class(@space),
         color_variant(@variant, @color),
         rounded_size(@rounded),
