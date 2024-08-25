@@ -60,6 +60,7 @@ defmodule MishkaChelekom.Drawer do
         color_variant(@variant, @color)
       ]}
       tabindex="-1"
+      aria-labelledby={"#{@id}-label"}
     >
       <div class="flex flex-row-reverse justify-between items-center gap-5 mb-2">
         <button
