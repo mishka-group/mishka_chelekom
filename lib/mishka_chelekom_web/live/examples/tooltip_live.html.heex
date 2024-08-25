@@ -1,12 +1,18 @@
-<div class="flex gap-32 py-20 px-10">
+<div class="flex flex-col space-y-16 flex-wrap py-20 max-w-xl mx-auto">
   <MishkaChelekom.Tooltip.tooltip color="primary" text="This is text" position="bottom">
     <button class="p-2 bg-orange-700">
-      This is Tooltip a long text for bottom tooltip in orther to check and text position of tooltip
+      This is Tooltip a long text for bottom tooltip
     </button>
   </MishkaChelekom.Tooltip.tooltip>
 
   <MishkaChelekom.Tooltip.tooltip text="This is text" color="warning" position="left">
     <button class="p-2 bg-orange-700">This is Tooltip left</button>
+  </MishkaChelekom.Tooltip.tooltip>
+
+  <MishkaChelekom.Tooltip.tooltip text="Delete" color="light" position="left">
+    <button class="p-2 bg-red-500 text-white">
+      <.icon name="hero-trash" />
+    </button>
   </MishkaChelekom.Tooltip.tooltip>
 
   <MishkaChelekom.Tooltip.tooltip text="This is text" color="dark" position="right">
@@ -21,4 +27,17 @@
   >
     <button class="p-2 bg-orange-700">This is Tooltip top</button>
   </MishkaChelekom.Tooltip.tooltip>
+
+  <p>
+  <MishkaChelekom.Tooltip.tooltip
+    text="Lorem"
+    color="secondary"
+    variant="shadow"
+    position="top"
+    size="large"
+  >
+    <a href="/" class="">Lorem</a>
+  </MishkaChelekom.Tooltip.tooltip>
+  Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
+  </p>
 </div>

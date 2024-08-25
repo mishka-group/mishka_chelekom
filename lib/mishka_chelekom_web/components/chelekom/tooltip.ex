@@ -41,13 +41,13 @@ defmodule MishkaChelekom.Tooltip do
 
   def tooltip(assigns) do
     ~H"""
-    <div class="relative group">
+    <span class="relative w-fit group">
       <%= render_slot(@inner_block) %>
-      <div
+      <span
         role="tooltip"
         id={@id}
         class={[
-          "absolute z-10 transition-all ease-in-out delay-100 duratio-500 w-full",
+          "absolute z-10 transition-all ease-in-out delay-100 duratio-500 w-full min-w-fit",
           "invisible opacity-0 group-hover:visible group-hover:opacity-100",
           space_class(@space),
           color_variant(@variant, @color),
@@ -61,12 +61,12 @@ defmodule MishkaChelekom.Tooltip do
         {@rest}
       >
         <%= @text %>
-        <div class={[
-          "absolute size-[8px] bg-inherit rotate-45 tooltip-arrow"
+        <span class={[
+          "block absolute size-[8px] bg-inherit rotate-45 tooltip-arrow"
         ]}>
-        </div>
-      </div>
-    </div>
+        </span>
+      </span>
+    </span>
     """
   end
 
