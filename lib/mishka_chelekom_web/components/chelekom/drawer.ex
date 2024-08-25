@@ -60,14 +60,11 @@ defmodule MishkaChelekom.Drawer do
         color_variant(@variant, @color)
       ]}
       tabindex="-1"
-      aria-labelledby="drawer-label"
     >
       <div class="flex flex-row-reverse justify-between items-center gap-5 mb-2">
         <button
           type="button"
           phx-click={JS.exec(@on_hide, "phx-remove", to: "##{@id}")}
-          data-drawer-hide="drawer-example"
-          aria-controls="drawer-example"
         >
           <.icon name="hero-x-mark" />
           <span class="sr-only">Close menu</span>

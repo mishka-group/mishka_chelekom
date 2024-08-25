@@ -57,6 +57,7 @@ defmodule MishkaChelekomComponents do
         Timeline,
         TimepickerInput,
         Toast,
+        Tooltip,
         ToggleInput,
         Video
       }

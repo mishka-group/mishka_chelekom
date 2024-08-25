@@ -1,4 +1,4 @@
-defmodule MishkaChelekom.Tooltips do
+defmodule MishkaChelekom.Tooltip do
   use Phoenix.Component
 
   @colors [
@@ -38,7 +38,7 @@ defmodule MishkaChelekom.Tooltips do
 
   # TODO: [&:not(.active)]:invisible add this to class
 
-  def tooltips(assigns) do
+  def tooltip(assigns) do
     ~H"""
     <div
       role="tooltip"
@@ -79,11 +79,11 @@ defmodule MishkaChelekom.Tooltips do
   defp position_class("left"), do: "-left-[4px] translate-y-1/2 top-1/3"
   defp position_class("right"), do: "-right-[4px] translate-y-1/2 top-1/3"
 
-  defp size_class("extra_small"), do: "text-xs"
-  defp size_class("small"), do: "text-sm"
-  defp size_class("medium"), do: "text-base"
-  defp size_class("large"), do: "text-lg"
-  defp size_class("extra_large"), do: "text-xl"
+  defp size_class("extra_small"), do: "text-xs max-w-32"
+  defp size_class("small"), do: "text-sm max-w-36"
+  defp size_class("medium"), do: "text-base max-w-40"
+  defp size_class("large"), do: "text-lg max-w-44"
+  defp size_class("extra_large"), do: "text-xl max-w-48"
   defp size_class(params) when is_binary(params), do: params
   defp size_class(_), do: size_class("medium")
 
