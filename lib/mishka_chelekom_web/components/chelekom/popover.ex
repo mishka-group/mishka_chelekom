@@ -1,6 +1,7 @@
 defmodule MishkaChelekom.Popover do
   use Phoenix.Component
   import MishkaChelekomComponents
+  alias Phoenix.LiveView.JS
 
   @sizes [
     "extra_small",
@@ -61,7 +62,7 @@ defmodule MishkaChelekom.Popover do
       role="tooltip"
       id={@id}
       class={[
-        "absolute z-10 visible",
+        "absolute z-10 [&:not(.active)]:invisible [&.active]:visible",
         space_class(@space),
         color_variant(@variant, @color),
         rounded_size(@rounded),
@@ -160,6 +161,16 @@ defmodule MishkaChelekom.Popover do
       <%= render_slot(@inner_block) %>
     </div>
     """
+  end
+
+  def show_popover(js \\ %JS{}, id) do
+    js
+    |> JS.toggle_class("active", to: "##{id}")
+  end
+
+  def hide_popover(js \\ %JS{}, id) do
+    js
+    |> JS.toggle_class("active", to: "##{id}")
   end
 
   defp rounded_size("extra_small"), do: "rounded-sm"
