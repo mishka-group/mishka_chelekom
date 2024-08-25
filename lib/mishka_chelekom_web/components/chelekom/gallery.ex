@@ -34,20 +34,22 @@ defmodule MishkaChelekom.Gallery do
     """
   end
 
+  attr :id, :string, default: nil, doc: ""
   attr :class, :string, default: nil, doc: ""
   attr :src, :string, default: nil, doc: ""
   attr :alt, :string, default: "", doc: ""
   attr :rounded, :string, default: "none", doc: ""
   attr :shadow, :string, default: "shadow-none", doc: ""
-  attr :border, :string, default: nil, doc: ""
   attr :rest, :global, doc: ""
   slot :inner_block, required: false, doc: ""
 
   def gallery_media(assigns) do
     ~H"""
-    <div>
+    <div
+      id={@id}
+    >
       <img
-        class={["gallery-media h-auto max-w-full", rounded_size(@rounded), @shadow, @class]}
+        class={["gallery-media h-auto max-w-full", rounded_size(@rounded), shadow_class(@shadow), @class]}
         src={@src}
         alt={@alt}
         {@rest}
@@ -63,6 +65,15 @@ defmodule MishkaChelekom.Gallery do
   defp rounded_size("extra_large"), do: "rounded-xl"
   defp rounded_size("full"), do: "rounded-full"
   defp rounded_size("none"), do: "rounded-none"
+
+  defp shadow_class("extra_small"), do: "shadow-sm"
+  defp shadow_class("small"), do: "shadow"
+  defp shadow_class("medium"), do: "shadow-md"
+  defp shadow_class("large"), do: "shadow-lg"
+  defp shadow_class("extra_large"), do: "shadow-xl"
+  defp shadow_class("none"), do: "shadow-none"
+  defp shadow_class(params) when is_binary(params), do: params
+  defp shadow_class(_), do: shadow_class("none")
 
   defp grid_cols("one"), do: "grid-cols-1"
   defp grid_cols("two"), do: "grid-cols-2"
