@@ -31,6 +31,7 @@ defmodule MishkaChelekom.Tooltip do
   attr :size, :string, default: nil, doc: ""
   attr :space, :string, default: nil, doc: ""
   attr :font_weight, :string, default: "font-normal", doc: ""
+  attr :min_width, :string, default: "min-w-fit", doc: ""
   attr :padding, :string, default: "small", doc: ""
   attr :class, :string, default: nil, doc: ""
   attr :text, :string, default: "", doc: ""
@@ -45,7 +46,7 @@ defmodule MishkaChelekom.Tooltip do
         role="tooltip"
         id={@id}
         class={[
-          "absolute z-10 transition-all ease-in-out delay-100 duratio-500 w-full min-w-fit",
+          "absolute z-10 transition-all ease-in-out delay-100 duratio-500 w-full",
           "invisible opacity-0 group-hover:visible group-hover:opacity-100",
           space_class(@space),
           color_variant(@variant, @color),
@@ -53,6 +54,7 @@ defmodule MishkaChelekom.Tooltip do
           size_class(@size),
           padding_size(@padding),
           position_class(@position),
+          @min_width,
           @font_weight,
           @class
         ]}
