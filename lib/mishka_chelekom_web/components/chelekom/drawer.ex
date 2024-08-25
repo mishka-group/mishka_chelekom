@@ -68,7 +68,11 @@ defmodule MishkaChelekom.Drawer do
           <.icon name="hero-x-mark" />
           <span class="sr-only">Close menu</span>
         </button>
-        <h5 :if={@title} id={"#{@id}-#{@position}-title"} class={[@title_class || "text-lg font-semibold"]}>
+        <h5
+          :if={@title}
+          id={"#{@id}-#{@position}-title"}
+          class={[@title_class || "text-lg font-semibold"]}
+        >
           <%= @title %>
         </h5>
       </div>
