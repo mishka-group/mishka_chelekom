@@ -37,8 +37,6 @@ defmodule MishkaChelekom.Tooltip do
   attr :rest, :global, doc: ""
   slot :inner_block, required: false, doc: ""
 
-  # TODO: [&:not(.active)]:invisible add this to class
-
   def tooltip(assigns) do
     ~H"""
     <span class="relative w-fit group">
