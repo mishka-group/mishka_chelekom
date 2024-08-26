@@ -37,9 +37,9 @@ defmodule MishkaChelekom.Popover do
 
   def popover(assigns) do
     ~H"""
-    <div id={@id} class="relative w-fit group">
+    <span id={@id} class="relative w-fit group">
       <%= render_slot(@inner_block) %>
-    </div>
+    </span>
     """
   end
 
