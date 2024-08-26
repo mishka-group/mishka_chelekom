@@ -40,6 +40,7 @@ defmodule MishkaChelekom.Popover do
   attr :size, :string, default: nil, doc: ""
   attr :space, :string, default: nil, doc: ""
   attr :width, :string, default: "extra_large", doc: ""
+  attr :text_position, :string, default: "start", doc: ""
   attr :font_weight, :string, default: "font-normal", doc: ""
   attr :padding, :string, default: "none", doc: ""
   attr :class, :string, default: nil, doc: ""
@@ -106,10 +107,9 @@ defmodule MishkaChelekom.Popover do
     <div
       id={@id}
       class={[
-        "popover-section flex items-center gap-2",
+        "popover-section w-full flex items-center gap-2",
         padding_size(@padding),
         content_position(@position),
-        size_class(@size),
         @font_weight,
         @class
       ]}
@@ -220,16 +220,16 @@ defmodule MishkaChelekom.Popover do
   defp text_position("justify"), do: "text-justify"
   defp text_position("start"), do: "text-start"
   defp text_position("end"), do: "text-end"
-  defp text_position(_), do: text_position("center")
+  defp text_position(_), do: text_position("start")
 
-  defp width_class("extra_small"), do: "min-w-28"
-  defp width_class("small"), do: "min-w-32"
-  defp width_class("medium"), do: "min-w-36"
-  defp width_class("large"), do: "min-w-40"
-  defp width_class("extra_large"), do: "min-w-44"
-  defp width_class("double_large"), do: "min-w-48"
-  defp width_class("triple_large"), do: "min-w-52"
-  defp width_class("quadruple_large"), do: "min-w-56"
+  defp width_class("extra_small"), do: "min-w-48"
+  defp width_class("small"), do: "min-w-52"
+  defp width_class("medium"), do: "min-w-56"
+  defp width_class("large"), do: "min-w-60"
+  defp width_class("extra_large"), do: "min-w-64"
+  defp width_class("double_large"), do: "min-w-72"
+  defp width_class("triple_large"), do: "min-w-80"
+  defp width_class("quadruple_large"), do: "min-w-96"
   defp width_class(params) when is_binary(params), do: params
   defp width_class(_), do: width_class("extra_large")
 

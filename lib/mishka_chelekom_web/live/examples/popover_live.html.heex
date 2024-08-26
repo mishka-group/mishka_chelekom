@@ -1,11 +1,14 @@
-<div class="p-10 relative">
+<div class="max-w-xl mx-auto py-80 relative">
   <.popover space="small" rounded="large" size="large" color="light">
-    <.popover_title class="border-b" padding="small" position="between" title="popover title" />
+    <:trigger>
+      This is Trigger
+    </:trigger>
 
+    <.popover_title class="border-b" padding="small" position="between" title="popover title" />
     <.popover_content space="large">
       <p class="p-2">
         <span class="text-blue-400">a link</span>
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Commodi ea atque soluta praesentium quidem dicta sapiente accusamus nihil.
+        Lorem ipsum dolor sit amet consectetu
       </p>
     </.popover_content>
 
@@ -13,33 +16,4 @@
       Lorem ipsum dolor sit amet consectetur
     </.popover_footer>
   </.popover>
-</div>
-
-<div class="flex gap-32 p-10">
-  <div class="relative ">
-    <MishkaChelekom.Popover.popover color="primary" position="bottom">
-      This is Popover
-    </MishkaChelekom.Popover.popover>
-  </div>
-  <div class="relative ">
-    <MishkaChelekom.Popover.popover color="warning" position="left">
-      This is Popover
-    </MishkaChelekom.Popover.popover>
-  </div>
-  <div class="relative ">
-    <MishkaChelekom.Popover.popover color="danger" position="right">
-      This is Popover
-    </MishkaChelekom.Popover.popover>
-  </div>
-  <div class="relative ">
-    <MishkaChelekom.Popover.popover color="secondary">
-      This is Popover
-    </MishkaChelekom.Popover.popover>
-  </div>
-
-  <div class="relative ">
-    <MishkaChelekom.Popover.popover color="misc">
-      This is Popover
-    </MishkaChelekom.Popover.popover>
-  </div>
 </div>
