@@ -41,23 +41,22 @@ defmodule MishkaChelekom.Sidebar do
     ~H"""
     <aside
       id={@id}
-        class={[
-          "fixed h-screen transition-transform -translate-x-full sm:translate-x-0",
-          size_class(@size, @position),
-          position_class(@position),
-          border_class(@border, @position),
-          color_variant(@variant, @color)
-        ]}
-        aria-label="Sidebar"
-        {@rest}
-      >
+      class={[
+        "fixed h-screen transition-transform -translate-x-full sm:translate-x-0",
+        size_class(@size, @position),
+        position_class(@position),
+        border_class(@border, @position),
+        color_variant(@variant, @color)
+      ]}
+      aria-label="Sidebar"
+      {@rest}
+    >
       <div class="h-full overflow-y-auto">
         <%= render_slot(@inner_block) %>
       </div>
     </aside>
     """
   end
-
 
   defp position_class("start"), do: "top-0 start-0"
   defp position_class("end"), do: "top-0 end-0"

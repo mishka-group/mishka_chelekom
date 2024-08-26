@@ -37,10 +37,7 @@ defmodule MishkaChelekom.Popover do
 
   def popover(assigns) do
     ~H"""
-    <div
-      id={@id}
-      class="relative w-fit group"
-    >
+    <div id={@id} class="relative w-fit group">
       <%= render_slot(@inner_block) %>
     </div>
     """
@@ -63,8 +60,6 @@ defmodule MishkaChelekom.Popover do
     </span>
     """
   end
-
-
 
   attr :id, :string, default: nil, doc: ""
   attr :position, :string, default: "top", doc: ""
@@ -111,9 +106,6 @@ defmodule MishkaChelekom.Popover do
     </div>
     """
   end
-
-
-
 
   attr :id, :string, default: nil, doc: ""
   attr :class, :string, default: nil, doc: ""
