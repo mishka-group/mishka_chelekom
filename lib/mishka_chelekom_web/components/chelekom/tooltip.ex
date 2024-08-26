@@ -17,15 +17,13 @@ defmodule MishkaChelekom.Tooltip do
 
   @variants [
     "default",
-    "outline",
-    "transparent",
     "shadow"
   ]
 
   @doc type: :component
   attr :id, :string, default: nil, doc: ""
   attr :position, :string, default: "top", doc: ""
-  attr :variant, :string, values: @variants, default: "default", doc: ""
+  attr :variant, :string, values: @variants, default: "shadow", doc: ""
   attr :color, :string, values: @colors, default: "dark", doc: ""
   attr :rounded, :string, default: nil, doc: ""
   attr :size, :string, default: nil, doc: ""
@@ -198,50 +196,6 @@ defmodule MishkaChelekom.Tooltip do
     "bg-[#1E1E1E] text-white"
   end
 
-  defp color_variant("outline", "white") do
-    "bg-transparent text-white"
-  end
-
-  defp color_variant("outline", "primary") do
-    "bg-transparent text-[#433EC]] "
-  end
-
-  defp color_variant("outline", "secondary") do
-    "bg-transparent text-[#6B6E7C]"
-  end
-
-  defp color_variant("outline", "success") do
-    "bg-transparent text-[#227A52]"
-  end
-
-  defp color_variant("outline", "warning") do
-    "bg-transparent text-[#FF8B08]"
-  end
-
-  defp color_variant("outline", "danger") do
-    "bg-transparent text-[#E73B3B]"
-  end
-
-  defp color_variant("outline", "info") do
-    "bg-transparent text-[#004FC4]"
-  end
-
-  defp color_variant("outline", "misc") do
-    "bg-transparent text-[#52059C]"
-  end
-
-  defp color_variant("outline", "dawn") do
-    "bg-transparent text-[#4D4137]"
-  end
-
-  defp color_variant("outline", "light") do
-    "bg-transparent text-[#707483]"
-  end
-
-  defp color_variant("outline", "dark") do
-    "bg-transparent text-[#1E1E1E]"
-  end
-
   defp color_variant("shadow", "white") do
     "bg-white text-[#3E3E3E] shadow-md"
   end
@@ -283,50 +237,6 @@ defmodule MishkaChelekom.Tooltip do
   end
 
   defp color_variant("shadow", "dark") do
-    "bg-[#1E1E1E] text-white] shadow-md"
-  end
-
-  defp color_variant("transparent", "white") do
-    "bg-transparent text-white"
-  end
-
-  defp color_variant("transparent", "primary") do
-    "bg-transparent text-[#4363EC]"
-  end
-
-  defp color_variant("transparent", "secondary") do
-    "bg-transparent text-[#6B6E7C]"
-  end
-
-  defp color_variant("transparent", "success") do
-    "bg-transparent text-[#227A52]"
-  end
-
-  defp color_variant("transparent", "warning") do
-    "bg-transparent text-[#FF8B08]"
-  end
-
-  defp color_variant("transparent", "danger") do
-    "bg-transparent text-[#E73B3B]"
-  end
-
-  defp color_variant("transparent", "info") do
-    "bg-transparent text-[#6663FD]"
-  end
-
-  defp color_variant("transparent", "misc") do
-    "bg-transparent text-[#52059C]"
-  end
-
-  defp color_variant("transparent", "dawn") do
-    "bg-transparent text-[#4D4137]"
-  end
-
-  defp color_variant("transparent", "light") do
-    "bg-transparent text-[#707483]"
-  end
-
-  defp color_variant("transparent", "dark") do
-    "bg-transparent text-[#1E1E1E]"
+    "bg-[#1E1E1E] text-white shadow-md"
   end
 end

@@ -18,8 +18,6 @@ defmodule MishkaChelekom.Popover do
 
   @variants [
     "default",
-    "outline",
-    "transparent",
     "shadow"
   ]
 
@@ -34,7 +32,7 @@ defmodule MishkaChelekom.Popover do
   @doc type: :component
   attr :id, :string, default: nil, doc: ""
   attr :position, :string, default: "top", doc: ""
-  attr :variant, :string, values: @variants, default: "default", doc: ""
+  attr :variant, :string, values: @variants, default: "shadow", doc: ""
   attr :color, :string, values: @colors, default: "white", doc: ""
   attr :rounded, :string, default: nil, doc: ""
   attr :size, :string, default: nil, doc: ""
@@ -56,15 +54,15 @@ defmodule MishkaChelekom.Popover do
     <div class="relative w-fit group">
 
     <%!-- poover trigger element --%>
-      <div :for={trigger <- @trigger} class={["popover-trigger", trigger[:class]]}>
+      <span :for={trigger <- @trigger} class={["inline-block popover-trigger", trigger[:clas]]}>
         <%= render_slot(trigger) %>
-      </div>
+      </span>
 
       <div
         role="tooltip"
         id={@id}
         class={[
-          "absolute z-10 transition-all ease-in-out delay-100 duratio-500 w-full",
+          "absolute z-10 transition-all ease-in-out delay-100 duratio-500 w-full overflow-hidden",
           "invisible opacity-0 group-hover:visible group-hover:opacity-100",
           space_class(@space),
           color_variant(@variant, @color),
@@ -136,7 +134,7 @@ defmodule MishkaChelekom.Popover do
     <div
       id={@id}
       class={[
-        "popover-section",
+        "popover-section overflow-hidden",
         space_class(@space),
         padding_size(@padding),
         @class
@@ -340,135 +338,47 @@ defmodule MishkaChelekom.Popover do
     "bg-[#1E1E1E] text-white"
   end
 
-  defp color_variant("outline", "white") do
-    "bg-transparent text-white"
-  end
-
-  defp color_variant("outline", "primary") do
-    "bg-transparent text-[#4363EC]] "
-  end
-
-  defp color_variant("outline", "secondary") do
-    "bg-transparent text-[#6B6E7C]"
-  end
-
-  defp color_variant("outline", "success") do
-    "bg-transparent text-[#227A52]"
-  end
-
-  defp color_variant("outline", "warning") do
-    "bg-transparent text-[#FF8B08]"
-  end
-
-  defp color_variant("outline", "danger") do
-    "bg-transparent text-[#E73B3B]"
-  end
-
-  defp color_variant("outline", "info") do
-    "bg-transparent text-[#004FC4]"
-  end
-
-  defp color_variant("outline", "misc") do
-    "bg-transparent text-[#52059C]"
-  end
-
-  defp color_variant("outline", "dawn") do
-    "bg-transparent text-[#4D4137]"
-  end
-
-  defp color_variant("outline", "light") do
-    "bg-transparent text-[#707483]"
-  end
-
-  defp color_variant("outline", "dark") do
-    "bg-transparent text-[#1E1E1E]"
-  end
-
   defp color_variant("shadow", "white") do
-    "bg-white text-[#3E3E3E]] shadow-md"
+    "bg-white text-[#3E3E3E] shadow-md"
   end
 
   defp color_variant("shadow", "primary") do
-    "bg-[#4363EC] text-white] shadow-md"
+    "bg-[#4363EC] text-white shadow-md"
   end
 
   defp color_variant("shadow", "secondary") do
-    "bg-[#6B6E7C] text-white] shadow-md"
+    "bg-[#6B6E7C] text-white shadow-md"
   end
 
   defp color_variant("shadow", "success") do
-    "bg-[#AFEAD0] text-[#227A52]] shadow-md"
+    "bg-[#AFEAD0] text-[#227A52] shadow-md"
   end
 
   defp color_variant("shadow", "warning") do
-    "bg-[#FFF8E6] text-[#FF8B08]] shadow-md"
+    "bg-[#FFF8E6] text-[#FF8B08] shadow-md"
   end
 
   defp color_variant("shadow", "danger") do
-    "bg-[#FFE6E6] text-[#E73B3B]] shadow-md"
+    "bg-[#FFE6E6] text-[#E73B3B] shadow-md"
   end
 
   defp color_variant("shadow", "info") do
-    "bg-[#E5F0FF] text-[#004FC4]] shadow-md"
+    "bg-[#E5F0FF] text-[#004FC4] shadow-md"
   end
 
   defp color_variant("shadow", "misc") do
-    "bg-[#FFE6FF] text-[#52059C]] shadow-md"
+    "bg-[#FFE6FF] text-[#52059C] shadow-md"
   end
 
   defp color_variant("shadow", "dawn") do
-    "bg-[#FFECDA] text-[#4D4137]] shadow-md"
+    "bg-[#FFECDA] text-[#4D4137] shadow-md"
   end
 
   defp color_variant("shadow", "light") do
-    "bg-[#E3E7F1] text-[#707483]] shadow-md"
+    "bg-[#E3E7F1] text-[#707483] shadow-md"
   end
 
   defp color_variant("shadow", "dark") do
-    "bg-[#1E1E1E] text-white] shadow-md"
-  end
-
-  defp color_variant("transparent", "white") do
-    "bg-transparent text-white"
-  end
-
-  defp color_variant("transparent", "primary") do
-    "bg-transparent text-[#4363EC]"
-  end
-
-  defp color_variant("transparent", "secondary") do
-    "bg-transparent text-[#6B6E7C]"
-  end
-
-  defp color_variant("transparent", "success") do
-    "bg-transparent text-[#227A52]"
-  end
-
-  defp color_variant("transparent", "warning") do
-    "bg-transparent text-[#FF8B08]"
-  end
-
-  defp color_variant("transparent", "danger") do
-    "bg-transparent text-[#E73B3B]"
-  end
-
-  defp color_variant("transparent", "info") do
-    "bg-transparent text-[#6663FD]"
-  end
-
-  defp color_variant("transparent", "misc") do
-    "bg-transparent text-[#52059C]"
-  end
-
-  defp color_variant("transparent", "dawn") do
-    "bg-transparent text-[#4D4137]"
-  end
-
-  defp color_variant("transparent", "light") do
-    "bg-transparent text-[#707483]"
-  end
-
-  defp color_variant("transparent", "dark") do
-    "bg-transparent text-[#1E1E1E]"
+    "bg-[#1E1E1E] text-white shadow-md"
   end
 end
