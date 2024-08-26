@@ -45,7 +45,7 @@ defmodule MishkaChelekom.Popover do
   attr :rest, :global, doc: ""
   slot :inner_block, required: false, doc: ""
 
-  slot :trigger, required: true do
+  slot :trigger, required: false do
     attr :class, :string
   end
 
@@ -53,8 +53,7 @@ defmodule MishkaChelekom.Popover do
     ~H"""
     <div class="relative w-fit group">
 
-    <%!-- poover trigger element --%>
-      <span :for={trigger <- @trigger} class={["inline-block popover-trigger", trigger[:clas]]}>
+      <span :for={trigger <- @trigger} class={["inline-block popover-trigger", trigger[:class]]}>
         <%= render_slot(trigger) %>
       </span>
 
@@ -62,7 +61,7 @@ defmodule MishkaChelekom.Popover do
         role="tooltip"
         id={@id}
         class={[
-          "absolute z-10 transition-all ease-in-out delay-100 duratio-500 w-full overflow-hidden",
+          "absolute z-10 transition-all ease-in-out delay-100 duratio-500 w-full",
           "invisible opacity-0 group-hover:visible group-hover:opacity-100",
           space_class(@space),
           color_variant(@variant, @color),
@@ -79,13 +78,30 @@ defmodule MishkaChelekom.Popover do
         {@rest}
       >
         <%= render_slot(@inner_block) %>
-        <%!-- Content of popover --%>
         <span class={[
           "block absolute size-[8px] bg-inherit rotate-45 popover-arrow"
         ]}>
         </span>
       </div>
     </div>
+    """
+  end
+
+  attr :id, :string, default: nil, doc: ""
+  attr :class, :string, default: nil, doc: ""
+  slot :inner_block, required: false, doc: ""
+
+  def popover_trigger(assigns) do
+    ~H"""
+    <span
+      id={@id}
+      class={[
+        "popover-trigger",
+        @class
+      ]}
+    >
+      <%= render_slot(@inner_block) %>
+    </span>
     """
   end
 
@@ -105,7 +121,7 @@ defmodule MishkaChelekom.Popover do
     <div
       id={@id}
       class={[
-        "popover-section w-full flex items-center gap-2",
+        "overflow-hidden popover-section w-full flex items-center gap-2",
         padding_size(@padding),
         content_position(@position),
         @font_weight,
@@ -134,7 +150,7 @@ defmodule MishkaChelekom.Popover do
     <div
       id={@id}
       class={[
-        "popover-section overflow-hidden",
+        "overflow-hidden popover-section",
         space_class(@space),
         padding_size(@padding),
         @class
@@ -156,7 +172,7 @@ defmodule MishkaChelekom.Popover do
     <div
       id={@id}
       class={[
-        "popover-section",
+        "overflow-hidden popover-section",
         padding_size(@padding),
         @class
       ]}
