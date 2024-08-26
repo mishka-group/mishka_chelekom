@@ -31,58 +31,17 @@ defmodule MishkaChelekom.Popover do
 
   @doc type: :component
   attr :id, :string, default: nil, doc: ""
-  attr :position, :string, default: "top", doc: ""
-  attr :variant, :string, values: @variants, default: "shadow", doc: ""
-  attr :color, :string, values: @colors, default: "white", doc: ""
-  attr :rounded, :string, default: nil, doc: ""
-  attr :size, :string, default: nil, doc: ""
-  attr :space, :string, default: nil, doc: ""
-  attr :width, :string, default: "extra_large", doc: ""
-  attr :text_position, :string, default: "start", doc: ""
-  attr :font_weight, :string, default: "font-normal", doc: ""
-  attr :padding, :string, default: "none", doc: ""
   attr :class, :string, default: nil, doc: ""
   attr :rest, :global, doc: ""
   slot :inner_block, required: false, doc: ""
 
-  slot :trigger, required: false do
-    attr :class, :string
-  end
-
   def popover(assigns) do
     ~H"""
-    <div class="relative w-fit group">
-
-      <span :for={trigger <- @trigger} class={["inline-block popover-trigger", trigger[:class]]}>
-        <%= render_slot(trigger) %>
-      </span>
-
-      <div
-        role="tooltip"
-        id={@id}
-        class={[
-          "absolute z-10 transition-all ease-in-out delay-100 duratio-500 w-full",
-          "invisible opacity-0 group-hover:visible group-hover:opacity-100",
-          space_class(@space),
-          color_variant(@variant, @color),
-          rounded_size(@rounded),
-          size_class(@size),
-          position_class(@position),
-          text_position(@text_position),
-          width_class(@width),
-          space_class(@space),
-          wrapper_padding(@padding),
-          @font_weight,
-          @class
-        ]}
-        {@rest}
-      >
-        <%= render_slot(@inner_block) %>
-        <span class={[
-          "block absolute size-[8px] bg-inherit rotate-45 popover-arrow"
-        ]}>
-        </span>
-      </div>
+    <div
+      id={@id}
+      class="relative w-fit group"
+    >
+      <%= render_slot(@inner_block) %>
     </div>
     """
   end
@@ -104,6 +63,57 @@ defmodule MishkaChelekom.Popover do
     </span>
     """
   end
+
+
+
+  attr :id, :string, default: nil, doc: ""
+  attr :position, :string, default: "top", doc: ""
+  attr :variant, :string, values: @variants, default: "shadow", doc: ""
+  attr :color, :string, values: @colors, default: "white", doc: ""
+  attr :rounded, :string, default: nil, doc: ""
+  attr :size, :string, default: nil, doc: ""
+  attr :space, :string, default: nil, doc: ""
+  attr :width, :string, default: "extra_large", doc: ""
+  attr :text_position, :string, default: "start", doc: ""
+  attr :font_weight, :string, default: "font-normal", doc: ""
+  attr :padding, :string, default: "none", doc: ""
+  attr :class, :string, default: nil, doc: ""
+  attr :rest, :global, doc: ""
+  slot :inner_block, required: false, doc: ""
+
+  def popover_content(assigns) do
+    ~H"""
+    <div
+      role="tooltip"
+      id={@id}
+      class={[
+        "custom-popover absolute z-10 transition-all ease-in-out delay-100 duratio-500 w-full",
+        "invisible opacity-0",
+        tirgger_popover(),
+        space_class(@space),
+        color_variant(@variant, @color),
+        rounded_size(@rounded),
+        size_class(@size),
+        position_class(@position),
+        text_position(@text_position),
+        width_class(@width),
+        wrapper_padding(@padding),
+        @font_weight,
+        @class
+      ]}
+      {@rest}
+    >
+      <%= render_slot(@inner_block) %>
+      <span class={[
+        "block absolute size-[8px] bg-inherit rotate-45 popover-arrow"
+      ]}>
+      </span>
+    </div>
+    """
+  end
+
+
+
 
   attr :id, :string, default: nil, doc: ""
   attr :class, :string, default: nil, doc: ""
@@ -145,7 +155,7 @@ defmodule MishkaChelekom.Popover do
   attr :rest, :global, doc: ""
   slot :inner_block, required: false, doc: ""
 
-  def popover_content(assigns) do
+  def popover_section(assigns) do
     ~H"""
     <div
       id={@id}
@@ -183,6 +193,8 @@ defmodule MishkaChelekom.Popover do
     """
   end
 
+  defp tirgger_popover(), do: "group-hover:visible group-hover:opacity-100"
+
   defp rounded_size("extra_small"), do: "rounded-sm"
   defp rounded_size("small"), do: "rounded"
   defp rounded_size("medium"), do: "rounded-md"
@@ -194,14 +206,14 @@ defmodule MishkaChelekom.Popover do
 
   defp position_class("top") do
     [
-      "bottom-full left-1/2 -translate-x-1/2 -translate-y-[4px]",
+      "bottom-full left-1/2 -translate-x-1/2 -translate-y-[6px]",
       "[&>.popover-arrow]:-bottom-[4px] [&>.popover-arrow]:-translate-x-1/2 [&>.popover-arrow]:left-1/2"
     ]
   end
 
   defp position_class("bottom") do
     [
-      "top-full left-1/2 -translate-x-1/2 translate-y-[4px]",
+      "top-full left-1/2 -translate-x-1/2 translate-y-[6px]",
       "[&>.popover-arrow]:-top-[4px] [&>.popover-arrow]:-translate-x-1/2 [&>.popover-arrow]:left-1/2"
     ]
   end
@@ -220,11 +232,11 @@ defmodule MishkaChelekom.Popover do
     ]
   end
 
-  defp size_class("extra_small"), do: "text-xs max-w-40 [&_.popover-title-icon]:size-3"
-  defp size_class("small"), do: "text-sm max-w-44 [&_.popover-title-icon]:size-3.5"
-  defp size_class("medium"), do: "text-base max-w-48 [&_.popover-title-icon]:size-4"
-  defp size_class("large"), do: "text-lg max-w-28 [&_.popover-title-icon]:size-5"
-  defp size_class("extra_large"), do: "text-xl max-w-32 [&_.popover-title-icon]:size-6"
+  defp size_class("extra_small"), do: "text-xs max-w-60 [&_.popover-title-icon]:size-3"
+  defp size_class("small"), do: "text-sm max-w-64 [&_.popover-title-icon]:size-3.5"
+  defp size_class("medium"), do: "text-base max-w-72 [&_.popover-title-icon]:size-4"
+  defp size_class("large"), do: "text-lg max-w-80 [&_.popover-title-icon]:size-5"
+  defp size_class("extra_large"), do: "text-xl max-w-96 [&_.popover-title-icon]:size-6"
   defp size_class(params) when is_binary(params), do: params
   defp size_class(_), do: size_class("medium")
 
