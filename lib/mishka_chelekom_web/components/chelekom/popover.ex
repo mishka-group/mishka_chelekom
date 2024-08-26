@@ -46,13 +46,19 @@ defmodule MishkaChelekom.Popover do
   attr :rest, :global, doc: ""
   slot :inner_block, required: false, doc: ""
 
+  slot :trigger, required: true do
+    attr :class, :string
+  end
+
   def popover(assigns) do
     ~H"""
     <div class="relative w-fit group">
+
     <%!-- poover trigger element --%>
-      <div class="popover-trigger">
-        <%= render_slot(@inner_block) %>
+      <div :for={trigger <- @trigger} class={["popover-trigger", trigger[:class]]}>
+        <%= render_slot(trigger) %>
       </div>
+
       <div
         role="tooltip"
         id={@id}
@@ -73,6 +79,7 @@ defmodule MishkaChelekom.Popover do
         ]}
         {@rest}
       >
+        <%= render_slot(@inner_block) %>
         <%!-- Content of popover --%>
         <span class={[
           "block absolute size-[8px] bg-inherit rotate-45 popover-arrow"
