@@ -1,6 +1,7 @@
 defmodule MishkaChelekom.Rating do
   use Phoenix.Component
   import MishkaChelekomComponents
+  alias Phoenix.LiveView.JS
 
   # TODO: when icon have class .rated it's color will change
   @doc type: :component
@@ -11,6 +12,8 @@ defmodule MishkaChelekom.Rating do
   attr :color, :string, default: "warning", doc: ""
   attr :count, :integer, default: 5, doc: "Number of stars to display"
   attr :select, :integer, default: 0, doc: ""
+  attr :params, :map, default: %{}
+  attr :on_action, JS, default: %JS{}
 
   attr :interactive, :boolean,
     default: false,
@@ -31,7 +34,13 @@ defmodule MishkaChelekom.Rating do
     >
       <%= for item <- 1..@count do %>
         <%= if @interactive do %>
-          <button class={["rating-button"]}>
+          <button
+            class={["rating-button"]}
+            phx-click={
+              @on_action
+              |> JS.push("rating", value: Map.merge(%{action: "select", number: item}, @params))
+            }
+          >
             <.icon name="hero-star-solid" class={["rating-icon", item <= @select && "rated"]} />
           </button>
         <% else %>
