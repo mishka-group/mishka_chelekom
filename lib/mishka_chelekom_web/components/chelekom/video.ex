@@ -42,19 +42,10 @@ defmodule MishkaChelekom.Video do
         poster={@thumbnail}
         {@rest}
       >
-        <%= for source <- @source do %>
-          <source src={source.src} type={source.type} />
-        <% end %>
 
-        <%= for track <- @track do %>
-          <track
-            kind={track.kind}
-            src={track.src}
-            label={track.label}
-            srclang={track.srclang}
-            default={track.default}
-          />
-        <% end %>
+        <source :for={source <- @source} src={source.src} type={source.type} />
+
+        <track :for={track <- @track} src={track.src} label={track.label} srclang={track.srclang} default={track.default} />
 
         <% gettext("Your browser does not support the video tag.") %>
       </video>
@@ -87,8 +78,6 @@ defmodule MishkaChelekom.Video do
   defp aspect_ratio("4:3"), do: "aspect-[4/3]"
   defp aspect_ratio("3:2"), do: "aspect-[3/2]"
   defp aspect_ratio("21:9"), do: "aspect-[21/9]"
-  defp aspect_ratio("1:1"), do: "aspect-[1/1]"
-  defp aspect_ratio("9:16"), do: "aspect-[9/16]"
   defp aspect_ratio(params) when is_binary(params), do: params
   defp aspect_ratio(_), do: aspect_ratio("video")
 

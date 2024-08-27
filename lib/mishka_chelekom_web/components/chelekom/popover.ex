@@ -1,6 +1,37 @@
 defmodule MishkaChelekom.Popover do
   use Phoenix.Component
 
+  @doc """
+  Avoid placing block-level elements inside a `<p>` tag if you want to use inline popover. These include:
+   - `<div>`
+   - `<header>`
+   - `<footer>`
+   - `<section>`
+   - `<article>`
+   - `<aside>`
+   - `<h1>`, `<h2>`, `<h3>`, etc.
+   - `<nav>`
+   - `<form>`
+   - `<table>`
+   - `<ul>`, `<ol>`, `<li>`
+    These elements create their own block context and should not be nested within a paragraph.
+
+    2. **Other `<p>` Tags**: Nesting one `<p>` tag inside another can lead to invalid HTML and unexpected rendering.
+
+    3. **Semantic Inconsistencies**: While you can technically include inline elements like:
+     `<a>`, `<strong>`, `<em>`, `<span>`, and `<img>` within a `<p>` tag,
+      avoid misusing them or using them in ways that don't align with their semantic purpose.
+
+    4. **Structural Tags**: Tags that define the structure of the document or a section, like:
+    `<main>`, `<section>`, `<article>`, `<aside>`, `<figure>`, etc., should not be inside a `<p>` tag.
+
+    ### Proper Usage
+  The `<p>` tag should primarily contain inline elements,
+  such as text, `<a>`, `<strong>`, `<em>`, `<span>`, and `<img>`
+  (with caution), or other inline elements that do not disrupt the flow of text within the paragraph.
+
+  """
+
   @colors [
     "white",
     "primary",
