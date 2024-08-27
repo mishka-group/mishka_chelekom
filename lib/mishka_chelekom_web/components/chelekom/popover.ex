@@ -29,13 +29,7 @@ defmodule MishkaChelekom.Popover do
 
   def popover(%{inline: true} = assigns) do
     ~H"""
-    <span
-      id={@id}
-      class={[
-        "inline-block relative w-fit",
-        @class
-      ]}
-    >
+    <span id={@id} class={["inline-block relative w-fit", @class]}>
       <%= render_slot(@inner_block) %>
     </span>
     """
@@ -56,13 +50,7 @@ defmodule MishkaChelekom.Popover do
 
   def popover_trigger(%{inline: true} = assigns) do
     ~H"""
-    <span
-      id={@id}
-      class={[
-        "inline-block cursor-pointer peer popover-trigger",
-        @class
-      ]}
-    >
+    <span id={@id} class={["inline-block cursor-pointer peer popover-trigger", @class]}>
       <%= render_slot(@inner_block) %>
     </span>
     """
@@ -70,13 +58,7 @@ defmodule MishkaChelekom.Popover do
 
   def popover_trigger(assigns) do
     ~H"""
-    <div
-      id={@id}
-      class={[
-        "cursor-pointer peer popover-trigger",
-        @class
-      ]}
-    >
+    <div id={@id} class={["cursor-pointer peer popover-trigger", @class]}>
       <%= render_slot(@inner_block) %>
     </div>
     """
@@ -121,10 +103,7 @@ defmodule MishkaChelekom.Popover do
       {@rest}
     >
       <%= render_slot(@inner_block) %>
-      <span class={[
-        "block absolute size-[8px] bg-inherit rotate-45 popover-arrow"
-      ]}>
-      </span>
+      <span class={["block absolute size-[8px] bg-inherit rotate-45 popover-arrow"]}></span>
     </span>
     """
   end

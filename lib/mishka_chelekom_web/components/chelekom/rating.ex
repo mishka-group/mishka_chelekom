@@ -10,7 +10,11 @@ defmodule MishkaChelekom.Rating do
   attr :size, :string, default: "small", doc: ""
   attr :color, :string, default: "warning", doc: ""
   attr :count, :integer, default: 5, doc: "Number of stars to display"
-  attr :interactive, :boolean, default: false, doc: "If true, stars are wrapped in a button for selecting a rating"
+
+  attr :interactive, :boolean,
+    default: false,
+    doc: "If true, stars are wrapped in a button for selecting a rating"
+
   attr :rest, :global, doc: ""
 
   def rating(assigns) do
@@ -21,25 +25,21 @@ defmodule MishkaChelekom.Rating do
         "flex flex-nowrap text-[#cccbca]",
         gap_class(@gap),
         size_class(@size),
-        color_class(@color),
+        color_class(@color)
       ]}
     >
       <%= for _ <- 1..@count do %>
         <%= if @interactive do %>
-          <button
-            class={[
-              "rating-button",
-            ]}>
+          <button class={["rating-button"]}>
             <.icon name="hero-star-solid" class="rating-icon" />
           </button>
         <% else %>
-            <.icon name="hero-star-solid" class="rating-icon" />
+          <.icon name="hero-star-solid" class="rating-icon" />
         <% end %>
       <% end %>
     </div>
     """
   end
-
 
   defp gap_class("extra_small"), do: "gap-1"
   defp gap_class("small"), do: "gap-1.5"
@@ -62,10 +62,10 @@ defmodule MishkaChelekom.Rating do
   end
 
   defp color_class("primary") do
-   [
-    "[&_.rated]:text-[#2441de]",
-    "hover:[&_.rating-button]:text-[#2441de] [&_.rating-button:has(~.rating-button:hover)]:text-[#2441de]"
-  ]
+    [
+      "[&_.rated]:text-[#2441de]",
+      "hover:[&_.rating-button]:text-[#2441de] [&_.rating-button:has(~.rating-button:hover)]:text-[#2441de]"
+    ]
   end
 
   defp color_class("secondary") do
