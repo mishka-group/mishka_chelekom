@@ -101,6 +101,9 @@ defmodule MishkaChelekom.Video do
   defp caption_size("medium"), do: "[&::cue]:text-base"
   defp caption_size("large"), do: "[&::cue]:text-lg"
   defp caption_size("extra_large"), do: "[&::cue]:text-xl"
+  defp caption_size("double_large"), do: "[&::cue]:text-2xl"
+  defp caption_size("triple_large"), do: "[&::cue]:text-3xl"
+  defp caption_size("quadruple_large"), do: "[&::cue]:text-4xl"
   defp caption_size(params) when is_binary(params), do: params
   defp caption_size(_), do: caption_size("extra_small")
 
