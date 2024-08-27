@@ -55,6 +55,7 @@ defmodule MishkaChelekomWeb.Router do
     live "/examples/popover", Examples.PopoverLive
     live "/examples/tooltip", Examples.TooltipLive
     live "/examples/navbar", Examples.NavbarLive
+    live "/examples/rating", Examples.RatingLive
   end
 
   # Other scopes may use custom stacks.
