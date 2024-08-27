@@ -2,15 +2,17 @@ defmodule MishkaChelekom.Rating do
   use Phoenix.Component
   import MishkaChelekomWeb.CoreComponents
 
+  # TODO: when icon have class .rated it's color will change
   @doc type: :component
   attr :id, :string, default: nil, doc: ""
   attr :class, :string, default: nil, doc: ""
   attr :gap, :string, default: "small", doc: ""
   attr :size, :string, default: "small", doc: ""
   attr :color, :string, default: "warning", doc: ""
+  attr :count, :integer, default: 5, doc: "Number of stars to display"
+  attr :interactive, :boolean, default: false, doc: "If true, stars are wrapped in a button for selecting a rating"
   attr :rest, :global, doc: ""
 
-  # TODO: when icon have class .rated it's color will change
   def rating(assigns) do
     ~H"""
     <div
@@ -19,17 +21,25 @@ defmodule MishkaChelekom.Rating do
         "flex flex-nowrap text-[#cccbca]",
         gap_class(@gap),
         size_class(@size),
-        color_class(@color)
+        color_class(@color),
       ]}
     >
-      <.icon name="hero-star-solid" class="rating-icon rated" />
-      <.icon name="hero-star-solid" class="rating-icon" />
-      <.icon name="hero-star-solid" class="rating-icon" />
-      <.icon name="hero-star-solid" class="rating-icon" />
-      <.icon name="hero-star-solid" class="rating-icon" />
+      <%= for _ <- 1..@count do %>
+        <%= if @interactive do %>
+          <button
+            class={[
+              "rating-button",
+            ]}>
+            <.icon name="hero-star-solid" class="rating-icon" />
+          </button>
+        <% else %>
+            <.icon name="hero-star-solid" class="rating-icon" />
+        <% end %>
+      <% end %>
     </div>
     """
   end
+
 
   defp gap_class("extra_small"), do: "gap-1"
   defp gap_class("small"), do: "gap-1.5"
@@ -48,46 +58,76 @@ defmodule MishkaChelekom.Rating do
   defp size_class(_), do: size_class("small")
 
   defp color_class("white") do
-    "[&_.rated]:text-white"
+    "[&_.rated]:text-white hover:text-white peer-hover:text-white"
   end
 
   defp color_class("primary") do
-    "[&_.rated]:text-[#2441de]"
+   [
+    "[&_.rated]:text-[#2441de]",
+    "hover:[&_.rating-button]:text-[#2441de] [&_.rating-button:has(~.rating-button:hover)]:text-[#2441de]"
+  ]
   end
 
   defp color_class("secondary") do
-    "[&_.rated]:text-[#877C7C]"
+    [
+      "[&_.rated]:text-[#877C7C]",
+      "hover:[&_.rating-button]:text-[#877C7C] [&_.rating-button:has(~.rating-button:hover)]:text-[#877C7C]"
+    ]
   end
 
   defp color_class("success") do
-    "[&_.rated]:text-[#6EE7B7]"
+    [
+      "[&_.rated]:text-[#6EE7B7]",
+      "hover:[&_.rating-button]:text-[#6EE7B7] [&_.rating-button:has(~.rating-button:hover)]:text-[#6EE7B7]"
+    ]
   end
 
   defp color_class("warning") do
-    "[&_.rated]:text-[#FF8B08]"
+    [
+      "[&_.rated]:text-[#FF8B08]",
+      "hover:[&_.rating-button]:text-[#FF8B08] [&_.rating-button:has(~.rating-button:hover)]:text-[#FF8B08]"
+    ]
   end
 
   defp color_class("danger") do
-    "[&_.rated]:text-[#E73B3B]"
+    [
+      "[&_.rated]:text-[#E73B3B]",
+      "hover:[&_.rating-button]:text-[#E73B3B] [&_.rating-button:has(~.rating-button:hover)]:text-[#E73B3B]"
+    ]
   end
 
   defp color_class("info") do
-    "[&_.rated]:text-[#004FC4]"
+    [
+      "[&_.rated]:text-[#004FC4]",
+      "hover:[&_.rating-button]:text-[#004FC4] [&_.rating-button:has(~.rating-button:hover)]:text-[#004FC4]"
+    ]
   end
 
   defp color_class("misc") do
-    "[&_.rated]:text-[#52059C]"
+    [
+      "[&_.rated]:text-[#52059C]",
+      "hover:[&_.rating-button]:text-[#52059C] [&_.rating-button:has(~.rating-button:hover)]:text-[#52059C]"
+    ]
   end
 
   defp color_class("dawn") do
-    "[&_.rated]:text-[#4D4137]"
+    [
+      "[&_.rated]:text-[#4D4137]",
+      "hover:[&_.rating-button]:text-[#4D4137] [&_.rating-button:has(~.rating-button:hover)]:text-[#4D4137]"
+    ]
   end
 
   defp color_class("light") do
-    "[&_.rated]:text-[#707483]"
+    [
+      "[&_.rated]:text-[#707483]",
+      "hover:[&_.rating-button]:text-[#707483] [&_.rating-button:has(~.rating-button:hover)]:text-[#707483]"
+    ]
   end
 
   defp color_class("dark") do
-    "[&_.rated]:text-[#1E1E1E]"
+    [
+      "[&_.rated]:text-[#1E1E1E]",
+      "hover:[&_.rating-button]:text-[#1E1E1E] [&_.rating-button:has(~.rating-button:hover)]:text-[#1E1E1E]"
+    ]
   end
 end
