@@ -1,17 +1,31 @@
 defmodule MishkaChelekom.Video do
   use Phoenix.Component
+  import MishkaChelekomWeb.Gettext
+
 
   @doc type: :component
   attr :id, :string, default: nil, doc: ""
   attr :src, :string, default: nil, doc: ""
-  attr :type, :string, default: "video/mp4", doc: ""
-  attr :controls, :boolean, default: true, doc: ""
+  attr :caption_src, :string, default: nil, doc: ""
+  attr :thumbnail, :string, default: nil, doc: ""
   attr :width, :string, default: "full", doc: ""
   attr :height, :string, default: "auto", doc: ""
   attr :ratio, :string, default: "auto", doc: ""
-  attr :pip, :boolean, default: true, doc: "Enable Picture-in-Picture mode"
   attr :class, :string, default: nil, doc: ""
-  attr :rest, :global, doc: ""
+  attr :rest, :global,include: ~w(controls), doc: ""
+
+  slot :source, required: true do
+    attr :src, :string
+    attr :type, :string
+  end
+
+  slot :track, required: false do
+    attr :src, :string
+    attr :label, :string
+    attr :kind, :string
+    attr :srclang, :string
+    attr :default, :boolean
+  end
 
   def video(assigns) do
     ~H"""
@@ -23,14 +37,30 @@ defmodule MishkaChelekom.Video do
         aspect_ratio(@ratio),
         @class
       ]}
-      controls
+      poster={@thumbnail}
       {@rest}
     >
-      <source src={@src} type={@type}>
-      Your browser does not support the video tag.
+      <%= for source <- @source do %>
+        <source src={source.src} type={source.type} />
+      <% end %>
+
+      <%= for track <- @track do %>
+        <track
+          class="text-red-500"
+          kind={track.kind}
+          src={track.src}
+          label={track.label}
+          srclang={track.srclang}
+          default={track.default}
+        />
+      <% end %>
+
+      <% gettext("Your browser does not support the video tag.") %>
     </video>
     """
   end
+
+
 
   defp width_class("extra_small"), do: "w-3/12"
   defp width_class("small"), do: "w-5/12"

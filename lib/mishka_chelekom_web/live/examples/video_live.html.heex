@@ -1,6 +1,17 @@
 <div class="space-y-5 max-w-2xl mx-auto py-10">
-    <MishkaChelekom.Video.video src="https://flowbite.com/docs/videos/flowbite.mp4" ratio="square" />
-    <MishkaChelekom.Video.video src="https://flowbite.com/docs/videos/flowbite.mp4" ratio="video" />
-    <MishkaChelekom.Video.video src="https://flowbite.com/docs/videos/flowbite.mp4" ratio="auto" />
-    <MishkaChelekom.Video.video src="https://flowbite.com/docs/videos/flowbite.mp4" ratio="auto" width="large" />
+    <MishkaChelekom.Video.video ratio="video" thumbnail="https://peach.blender.org/wp-content/uploads/title_anouncement.jpg?x11217" controls>
+        <:source src="https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.webm" type="video/webm" />
+        <:source src="https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4" type="video/mp4" />
+        <:track
+            label="English"
+            kind="subtitles"
+            srclang="en"
+            src="https://raw.githubusercontent.com/iandevlin/iandevlin.github.io/master/mdn/video-player-with-captions/subtitles/vtt/sintel-en.vtt"
+            default
+        />
+     />
+    </MishkaChelekom.Video.video>
+    <MishkaChelekom.Video.video src="https://flowbite.com/docs/videos/flowbite.mp4" ratio="square" controls />
+    <MishkaChelekom.Video.video src="https://flowbite.com/docs/videos/flowbite.mp4" ratio="auto" controls />
+    <MishkaChelekom.Video.video src="https://flowbite.com/docs/videos/flowbite.mp4" ratio="auto" width="large" controls />
 </div>
