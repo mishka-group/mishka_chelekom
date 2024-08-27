@@ -30,17 +30,12 @@ defmodule MishkaChelekom.Video do
 
   def video(assigns) do
     ~H"""
-    <div
-      class={[
-        "overflow-hidden relative w-fit",
-        rounded_size(@rounded),
-      ]}
-    >
       <video
         id={@id}
         class={[
           width_class(@width),
           height_class(@height),
+          rounded_size(@rounded),
           aspect_ratio(@ratio),
           @class
         ]}
@@ -64,7 +59,6 @@ defmodule MishkaChelekom.Video do
 
         <% gettext("Your browser does not support the video tag.") %>
       </video>
-    </div>
     """
   end
 
