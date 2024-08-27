@@ -2,7 +2,6 @@ defmodule MishkaChelekom.Video do
   use Phoenix.Component
   import MishkaChelekomWeb.Gettext
 
-
   @doc type: :component
   attr :id, :string, default: nil, doc: ""
   attr :src, :string, default: nil, doc: ""
@@ -13,7 +12,7 @@ defmodule MishkaChelekom.Video do
   attr :height, :string, default: "auto", doc: ""
   attr :ratio, :string, default: "auto", doc: ""
   attr :class, :string, default: nil, doc: ""
-  attr :rest, :global,include: ~w(controls), doc: ""
+  attr :rest, :global, include: ~w(controls), doc: ""
 
   slot :source, required: true do
     attr :src, :string
@@ -30,29 +29,32 @@ defmodule MishkaChelekom.Video do
 
   def video(assigns) do
     ~H"""
-      <video
-        id={@id}
-        class={[
-          width_class(@width),
-          height_class(@height),
-          rounded_size(@rounded),
-          aspect_ratio(@ratio),
-          @class
-        ]}
-        poster={@thumbnail}
-        {@rest}
-      >
+    <video
+      id={@id}
+      class={[
+        width_class(@width),
+        height_class(@height),
+        rounded_size(@rounded),
+        aspect_ratio(@ratio),
+        @class
+      ]}
+      poster={@thumbnail}
+      {@rest}
+    >
+      <source :for={source <- @source} src={source.src} type={source.type} />
 
-        <source :for={source <- @source} src={source.src} type={source.type} />
+      <track
+        :for={track <- @track}
+        src={track.src}
+        label={track.label}
+        srclang={track.srclang}
+        default={track.default}
+      />
 
-        <track :for={track <- @track} src={track.src} label={track.label} srclang={track.srclang} default={track.default} />
-
-        <% gettext("Your browser does not support the video tag.") %>
-      </video>
+      <%= gettext("Your browser does not support the video tag.") %>
+    </video>
     """
   end
-
-
 
   defp width_class("extra_small"), do: "w-3/12"
   defp width_class("small"), do: "w-5/12"
@@ -88,5 +90,4 @@ defmodule MishkaChelekom.Video do
   defp rounded_size("extra_large"), do: "rounded-xl"
   defp rounded_size("none"), do: "rounded-none"
   defp rounded_size(_), do: rounded_size("none")
-
 end
