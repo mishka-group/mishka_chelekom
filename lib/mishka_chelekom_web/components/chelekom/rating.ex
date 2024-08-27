@@ -1,6 +1,6 @@
 defmodule MishkaChelekom.Rating do
   use Phoenix.Component
-  import MishkaChelekomWeb.CoreComponents
+  import MishkaChelekomComponents
 
   # TODO: when icon have class .rated it's color will change
   @doc type: :component
@@ -10,6 +10,7 @@ defmodule MishkaChelekom.Rating do
   attr :size, :string, default: "small", doc: ""
   attr :color, :string, default: "warning", doc: ""
   attr :count, :integer, default: 5, doc: "Number of stars to display"
+  attr :select, :integer, default: 0, doc: ""
 
   attr :interactive, :boolean,
     default: false,
@@ -28,13 +29,13 @@ defmodule MishkaChelekom.Rating do
         color_class(@color)
       ]}
     >
-      <%= for _ <- 1..@count do %>
+      <%= for item <- 1..@count do %>
         <%= if @interactive do %>
           <button class={["rating-button"]}>
-            <.icon name="hero-star-solid" class="rating-icon" />
+            <.icon name="hero-star-solid" class={["rating-icon", item <= @select && "rated"]} />
           </button>
         <% else %>
-          <.icon name="hero-star-solid" class="rating-icon" />
+          <.icon name="hero-star-solid" class={["rating-icon", item <= @select && "rated"]} />
         <% end %>
       <% end %>
     </div>
