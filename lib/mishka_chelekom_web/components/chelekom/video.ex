@@ -53,7 +53,6 @@ defmodule MishkaChelekom.Video do
   defp aspect_ratio("auto"), do: "aspect-auto"
   defp aspect_ratio("square"), do: "aspect-square"
   defp aspect_ratio("video"), do: "aspect-video"
-  defp aspect_ratio("16:9"), do: "aspect-[16/9]"
   defp aspect_ratio("4:3"), do: "aspect-[4/3]"
   defp aspect_ratio("3:2"), do: "aspect-[3/2]"
   defp aspect_ratio("21:9"), do: "aspect-[21/9]"
