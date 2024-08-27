@@ -21,7 +21,6 @@ defmodule MishkaChelekom.Video do
         width_class(@width),
         height_class(@height),
         aspect_ratio(@ratio),
-        @center,
         @class
       ]}
       controls
