@@ -33,7 +33,7 @@ defmodule MishkaChelekom.Popover do
     <span
       id={@id}
       class={[
-        "inline-block relative w-fit group",
+        "inline-block relative w-fit",
         @class
       ]}
     >
@@ -46,7 +46,7 @@ defmodule MishkaChelekom.Popover do
     ~H"""
     <div
       id={@id}
-      class="relative w-fit group"
+      class="relative w-fit"
     >
       <%= render_slot(@inner_block) %>
     </div>
@@ -63,7 +63,7 @@ defmodule MishkaChelekom.Popover do
     <span
       id={@id}
       class={[
-        "inline-block cursor-pointer popover-trigger",
+        "inline-block cursor-pointer peer popover-trigger",
         @class
       ]}
     >
@@ -77,7 +77,7 @@ defmodule MishkaChelekom.Popover do
     <div
       id={@id}
       class={[
-        "cursor-pointer popover-trigger",
+        "cursor-pointer peer popover-trigger",
         @class
       ]}
     >
@@ -164,7 +164,7 @@ defmodule MishkaChelekom.Popover do
     """
   end
 
-  defp tirgger_popover(), do: "group-hover:visible group-hover:opacity-100"
+  defp tirgger_popover(), do: "peer-hover:visible peer-hover:opacity-100"
 
   defp rounded_size("extra_small"), do: "rounded-sm"
   defp rounded_size("small"), do: "rounded"
