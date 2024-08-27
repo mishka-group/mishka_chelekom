@@ -1,6 +1,5 @@
 defmodule MishkaChelekom.Popover do
   use Phoenix.Component
-  import MishkaChelekomComponents
 
   @colors [
     "white",
@@ -21,14 +20,6 @@ defmodule MishkaChelekom.Popover do
     "shadow"
   ]
 
-  @positions [
-    "start",
-    "center",
-    "end",
-    "between",
-    "around"
-  ]
-
   @doc type: :component
   attr :id, :string, default: nil, doc: ""
   attr :class, :string, default: nil, doc: ""
@@ -37,9 +28,18 @@ defmodule MishkaChelekom.Popover do
 
   def popover(assigns) do
     ~H"""
-    <span id={@id} class="relative w-fit group">
+    <div
+      id={@id}
+      class="inline-block relative w-fit"
+    >
       <%= render_slot(@inner_block) %>
-    </span>
+      <style>
+      .popover-trigger:hover + .popover-content {
+        visibility: visible;
+        opacity: 1;
+      }
+    </style>
+    </div>
     """
   end
 
@@ -49,15 +49,15 @@ defmodule MishkaChelekom.Popover do
 
   def popover_trigger(assigns) do
     ~H"""
-    <span
+    <div
       id={@id}
       class={[
-        "popover-trigger",
+        "inline-block popover-trigger cursor-pointer",
         @class
       ]}
     >
       <%= render_slot(@inner_block) %>
-    </span>
+    </div>
     """
   end
 
@@ -82,9 +82,8 @@ defmodule MishkaChelekom.Popover do
       role="tooltip"
       id={@id}
       class={[
-        "custom-popover absolute z-10 transition-all ease-in-out delay-100 duratio-500 w-full",
+        "popover-content absolute z-10 transition-all ease-in-out delay-100 duratio-500 w-full",
         "invisible opacity-0",
-        tirgger_popover(),
         space_class(@space),
         color_variant(@variant, @color),
         rounded_size(@rounded),
@@ -103,84 +102,6 @@ defmodule MishkaChelekom.Popover do
         "block absolute size-[8px] bg-inherit rotate-45 popover-arrow"
       ]}>
       </span>
-    </div>
-    """
-  end
-
-  attr :id, :string, default: nil, doc: ""
-  attr :class, :string, default: nil, doc: ""
-  attr :title, :string, default: nil, doc: ""
-  attr :icon, :string, default: nil, doc: ""
-  attr :position, :string, values: @positions, default: "start", doc: ""
-  attr :font_weight, :string, default: "font-semibold", doc: ""
-  attr :size, :string, default: "large", doc: ""
-  attr :padding, :string, default: "none", doc: ""
-  attr :rest, :global, doc: ""
-  slot :inner_block, required: false, doc: ""
-
-  def popover_title(assigns) do
-    ~H"""
-    <div
-      id={@id}
-      class={[
-        "overflow-hidden popover-section w-full flex items-center gap-2",
-        padding_size(@padding),
-        content_position(@position),
-        @font_weight,
-        @class
-      ]}
-      {@rest}
-    >
-      <div :if={@title || @icon} class="flex gap-2 items-center">
-        <.icon :if={@icon} name={@icon} class="popover-title-icon" />
-        <h3 :if={@title}><%= @title %></h3>
-      </div>
-      <%= render_slot(@inner_block) %>
-    </div>
-    """
-  end
-
-  attr :id, :string, default: nil, doc: ""
-  attr :space, :string, default: "extra_small", doc: ""
-  attr :padding, :string, default: "none", doc: ""
-  attr :class, :string, default: nil, doc: ""
-  attr :rest, :global, doc: ""
-  slot :inner_block, required: false, doc: ""
-
-  def popover_section(assigns) do
-    ~H"""
-    <div
-      id={@id}
-      class={[
-        "overflow-hidden popover-section",
-        space_class(@space),
-        padding_size(@padding),
-        @class
-      ]}
-    >
-      <%= render_slot(@inner_block) %>
-    </div>
-    """
-  end
-
-  attr :id, :string, default: nil, doc: ""
-  attr :class, :string, default: nil, doc: ""
-  attr :padding, :string, default: "none", doc: ""
-  attr :rest, :global, doc: ""
-  slot :inner_block, required: false, doc: ""
-
-  def popover_footer(assigns) do
-    ~H"""
-    <div
-      id={@id}
-      class={[
-        "overflow-hidden popover-section",
-        padding_size(@padding),
-        @class
-      ]}
-      {@rest}
-    >
-      <%= render_slot(@inner_block) %>
     </div>
     """
   end
@@ -274,37 +195,6 @@ defmodule MishkaChelekom.Popover do
   defp wrapper_padding("none"), do: "p-0"
   defp wrapper_padding(params) when is_binary(params), do: params
   defp wrapper_padding(_), do: wrapper_padding("none")
-
-  defp content_position("start") do
-    "justify-start"
-  end
-
-  defp content_position("end") do
-    "justify-end"
-  end
-
-  defp content_position("center") do
-    "justify-center"
-  end
-
-  defp content_position("between") do
-    "justify-between"
-  end
-
-  defp content_position("around") do
-    "justify-around"
-  end
-
-  defp content_position(_), do: content_position("start")
-
-  defp padding_size("extra_small"), do: "p-1"
-  defp padding_size("small"), do: "p-2"
-  defp padding_size("medium"), do: "p-3"
-  defp padding_size("large"), do: "p-4"
-  defp padding_size("extra_large"), do: "p-5"
-  defp padding_size("none"), do: "p-0"
-  defp padding_size(params) when is_binary(params), do: params
-  defp padding_size(_), do: padding_size("none")
 
   defp space_class("extra_small"), do: "space-y-2"
   defp space_class("small"), do: "space-y-3"
