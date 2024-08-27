@@ -3,7 +3,6 @@ defmodule MishkaChelekom.Rating do
   import MishkaChelekomComponents
   alias Phoenix.LiveView.JS
 
-  # TODO: when icon have class .rated it's color will change
   @doc type: :component
   attr :id, :string, default: nil, doc: ""
   attr :class, :string, default: nil, doc: ""
