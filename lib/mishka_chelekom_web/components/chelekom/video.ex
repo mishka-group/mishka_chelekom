@@ -8,6 +8,9 @@ defmodule MishkaChelekom.Video do
   attr :width, :string, default: "full", doc: ""
   attr :rounded, :string, default: "none", doc: ""
   attr :height, :string, default: "auto", doc: ""
+  attr :caption_size, :string, default: "extra_small", doc: ""
+  attr :caption_bakcground, :string, default: "white", doc: ""
+  attr :caption_opacity, :string, default: "solid", doc: ""
   attr :ratio, :string, default: "auto", doc: ""
   attr :class, :string, default: nil, doc: ""
   attr :rest, :global, include: ~w(controls), doc: ""
@@ -34,6 +37,9 @@ defmodule MishkaChelekom.Video do
         height_class(@height),
         rounded_size(@rounded),
         aspect_ratio(@ratio),
+        caption_size(@caption_size),
+        caption_bakcground(@caption_bakcground),
+        caption_opacity(@caption_opacity),
         @class
       ]}
       poster={@thumbnail}
@@ -89,4 +95,69 @@ defmodule MishkaChelekom.Video do
   defp rounded_size("extra_large"), do: "rounded-xl"
   defp rounded_size("none"), do: "rounded-none"
   defp rounded_size(_), do: rounded_size("none")
+
+  defp caption_size("extra_small"), do: "[&::cue]:text-xs"
+  defp caption_size("small"), do: "[&::cue]:text-sm"
+  defp caption_size("medium"), do: "[&::cue]:text-base"
+  defp caption_size("large"), do: "[&::cue]:text-lg"
+  defp caption_size("extra_large"), do: "[&::cue]:text-xl"
+  defp caption_size(params) when is_binary(params), do: params
+  defp caption_size(_), do: caption_size("extra_small")
+
+  defp caption_bakcground("white"), do: "[&::cue]:bg-white [&::cue]:text-[#1E1E1E]"
+  defp caption_bakcground("primary"), do: "[&::cue]:bg-[#2441de] [&::cue]:text-white"
+  defp caption_bakcground("secondary"), do: "[&::cue]:bg-[#877C7C] [&::cue]:text-white"
+  defp caption_bakcground("success"), do: "[&::cue]:bg-[#6EE7B7] [&::cue]:text-[#1E1E1E]"
+  defp caption_bakcground("warning"), do: "[&::cue]:bg-[#FF8B08] [&::cue]:text-[#1E1E1E]"
+  defp caption_bakcground("danger"), do: "[&::cue]:bg-[#E73B3B] [&::cue]:text-[#1E1E1E]"
+  defp caption_bakcground("info"), do: "[&::cue]:bg-[#004FC4] [&::cue]:text-[#1E1E1E]"
+  defp caption_bakcground("misc"), do: "[&::cue]:bg-[#52059C] [&::cue]:text-[#1E1E1E]"
+  defp caption_bakcground("dawn"), do: "[&::cue]:bg-[#4D4137] [&::cue]:text-[#1E1E1E]"
+  defp caption_bakcground("light"), do: "[&::cue]:bg-[#707483] [&::cue]:text-[#1E1E1E]"
+  defp caption_bakcground("dark"), do: "[&::cue]:bg-[#1E1E1E] [&::cue]:text-white"
+  defp caption_bakcground(params) when is_binary(params), do: params
+  defp caption_bakcground(_), do: caption_bakcground("white")
+
+  defp caption_opacity("transparent") do
+    "[&::cue]:bg-opacity-10"
+  end
+
+  defp caption_opacity("translucent") do
+    "bg-opacity-20"
+  end
+
+  defp caption_opacity("semi_transparent") do
+    "[&::cue]:bg-opacity-30"
+  end
+
+  defp caption_opacity("lightly_tinted") do
+    "[&::cue]:bg-opacity-40"
+  end
+
+  defp caption_opacity("tinted") do
+    "[&::cue]:bg-opacity-50"
+  end
+
+  defp caption_opacity("semi_opaque") do
+    "[&::cue]:bg-opacity-60"
+  end
+
+  defp caption_opacity("opaque") do
+    "[&::cue]:bg-opacity-70"
+  end
+
+  defp caption_opacity("heavily_tinted") do
+    "[&::cue]:bg-opacity-80"
+  end
+
+  defp caption_opacity("almost_solid") do
+    "[&::cue]:bg-opacity-90"
+  end
+
+  defp caption_opacity("solid") do
+    "[&::cue]:bg-opacity-100"
+  end
+
+  defp caption_opacity(params) when is_binary(params), do: params
+  defp caption_opacity(_), do: caption_opacity("solid")
 end

@@ -139,6 +139,10 @@ defmodule MishkaChelekom.Overlay do
     "bg-opacity-90"
   end
 
+  defp opacity_class("solid") do
+    "bg-opacity-100"
+  end
+
   defp opacity_class(params) when is_binary(params), do: params
   defp opacity_class(_), do: nil
 
