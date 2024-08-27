@@ -9,6 +9,7 @@ defmodule MishkaChelekom.Video do
   attr :caption_src, :string, default: nil, doc: ""
   attr :thumbnail, :string, default: nil, doc: ""
   attr :width, :string, default: "full", doc: ""
+  attr :rounded, :string, default: "none", doc: ""
   attr :height, :string, default: "auto", doc: ""
   attr :ratio, :string, default: "auto", doc: ""
   attr :class, :string, default: nil, doc: ""
@@ -21,42 +22,49 @@ defmodule MishkaChelekom.Video do
 
   slot :track, required: false do
     attr :src, :string
-    attr :label, :string
-    attr :kind, :string
-    attr :srclang, :string
+    attr :label, :string, required: false
+    attr :kind, :string, required: false
+    attr :srclang, :string, required: false
     attr :default, :boolean
   end
 
   def video(assigns) do
     ~H"""
-    <video
-      id={@id}
+    <div
       class={[
-        width_class(@width),
-        height_class(@height),
-        aspect_ratio(@ratio),
-        @class
+        "overflow-hidden relative w-fit",
+        rounded_size(@rounded),
       ]}
-      poster={@thumbnail}
-      {@rest}
     >
-      <%= for source <- @source do %>
-        <source src={source.src} type={source.type} />
-      <% end %>
+      <video
+        id={@id}
+        class={[
+          width_class(@width),
+          height_class(@height),
+          aspect_ratio(@ratio),
+          @class
+        ]}
+        poster={@thumbnail}
+        {@rest}
+      >
+        <%= for source <- @source do %>
+          <source src={source.src} type={source.type} />
+        <% end %>
 
-      <%= for track <- @track do %>
-        <track
-          class="text-red-500"
-          kind={track.kind}
-          src={track.src}
-          label={track.label}
-          srclang={track.srclang}
-          default={track.default}
-        />
-      <% end %>
+        <%= for track <- @track do %>
+          <track
+            class="text-red-500"
+            kind={track.kind}
+            src={track.src}
+            label={track.label}
+            srclang={track.srclang}
+            default={track.default}
+          />
+        <% end %>
 
-      <% gettext("Your browser does not support the video tag.") %>
-    </video>
+        <% gettext("Your browser does not support the video tag.") %>
+      </video>
+    </div>
     """
   end
 
@@ -89,6 +97,14 @@ defmodule MishkaChelekom.Video do
   defp aspect_ratio("1:1"), do: "aspect-[1/1]"
   defp aspect_ratio("9:16"), do: "aspect-[9/16]"
   defp aspect_ratio(params) when is_binary(params), do: params
-  defp aspect_ratio(_), do: aspect_ratio("auto")
+  defp aspect_ratio(_), do: aspect_ratio("video")
+
+  defp rounded_size("extra_small"), do: "rounded-sm"
+  defp rounded_size("small"), do: "rounded"
+  defp rounded_size("medium"), do: "rounded-md"
+  defp rounded_size("large"), do: "rounded-lg"
+  defp rounded_size("extra_large"), do: "rounded-xl"
+  defp rounded_size("none"), do: "rounded-none"
+  defp rounded_size(_), do: rounded_size("none")
 
 end
