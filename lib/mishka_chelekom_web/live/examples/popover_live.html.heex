@@ -1,10 +1,9 @@
 <div class="max-w-xl mx-auto py-80 relative space-y-40">
-       <.popover>
         <p>
           Due to its central geographic location in Southern Europe,
-          <.popover_wrapper>
-            <.popover_trigger class="text-blue-400">Italy</.popover_trigger>
-            <.popover_content rounded="large" width="quadruple_large" color="light" padding="none" class="grid grid-cols-5">
+          <.popover inline>
+            <.popover_trigger inline class="text-blue-400">Italy</.popover_trigger>
+            <.popover_content inline rounded="large" width="quadruple_large" color="light" padding="none" class="grid grid-cols-5">
                 <span class="block p-2 space-y-5 col-span-3">
                   <span class="font-semibold block">About Italy</span>
                   <span class="block">
@@ -18,18 +17,17 @@
                   alt="Italy map"
                 />
             </.popover_content>
-          </.popover_wrapper>
+          </.popover>
           has historically been home to myriad peoples and cultures. In addition to the various ancient peoples dispersed throughout what is now modern-day Italy, the most predominant being the Indo-European Italic peoples who gave the peninsula its name, beginning from the classical era, Phoenicians and Carthaginians founded colonies mostly in insular Italy
         </p>
-    </.popover>
 
 
-  <.popover rounded="large" width="quadruple_large" color="dark" padding="large">
+  <.popover>
     <.popover_trigger class="text-gray-500 ">
       <.icon name="hero-question-mark-circle" />
     </.popover_trigger>
 
-    <.popover_content space="small">
+    <.popover_content space="small" rounded="large" width="quadruple_large" color="dark" padding="large">
       <.h4 class="font-semibold">Activity growth - Incremental</.h4>
       <.p>
         Report helps navigate cumulative growth of community activities. Ideally, the chart should have a growing trend, as stagnating chart signifies a significant decrease of community activity.
@@ -42,14 +40,14 @@
     </.popover_content>
   </.popover>
 
-  <.popover rounded="large" width="quadruple_large" padding="large">
+  <.popover>
     <.popover_trigger>
       <MishkaChelekom.Button.button color="primary" icon="hero-circle-stack">
         Storage Status
       </MishkaChelekom.Button.button>
     </.popover_trigger>
 
-    <.popover_content space="small">
+    <.popover_content space="small" rounded="large" width="quadruple_large" padding="large">
       <.h4 class="font-semibold">Available storage</.h4>
       <.p>This server has <b>30</b> of <b>150</b> GB of block storage remaining.</.p>
       <MishkaChelekom.Progress.progress color="danger" value={40} />
@@ -57,14 +55,14 @@
     </.popover_content>
   </.popover>
 
-  <.popover space="small" rounded="large" size="large" variant="shadow" padding="small">
+  <.popover>
     <.popover_trigger>
       <MishkaChelekom.Button.button color="primary">
         This is Trigger
       </MishkaChelekom.Button.button>
     </.popover_trigger>
 
-    <.popover_content space="medium">
+    <.popover_content space="medium" rounded="large" size="large" variant="shadow" padding="small">
       <div class="flex justify-between gap-2">
         <.avatar
           src="https://flowbite.com/docs/images/people/profile-picture-5.jpg"
@@ -96,14 +94,14 @@
     </.popover_content>
   </.popover>
 
-  <.popover space="small" rounded="large" width="quadruple_large" padding="medium">
+  <.popover>
     <.popover_trigger>
       <MishkaChelekom.Button.button color="primary">
         This is Trigger
       </MishkaChelekom.Button.button>
     </.popover_trigger>
 
-    <.popover_content space="large" space="medium">
+    <.popover_content space="small" rounded="large" width="quadruple_large" padding="medium">
       <div class="flex flex-start gap-5">
         <img src="https://flowbite.com/docs/images/logo.svg" class="shrink-0 size-12 rounded-md" />
         <div class="space-y-4">

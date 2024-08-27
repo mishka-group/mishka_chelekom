@@ -23,25 +23,12 @@ defmodule MishkaChelekom.Popover do
   @doc type: :component
   attr :id, :string, default: nil, doc: ""
   attr :class, :string, default: nil, doc: ""
+  attr :inline, :boolean, default: false, doc: ""
   attr :rest, :global, doc: ""
   slot :inner_block, required: false, doc: ""
 
-  def popover(assigns) do
-    ~H"""
-    <div
-      id={@id}
-      class=""
-    >
-      <%= render_slot(@inner_block) %>
-    </div>
-    """
-  end
 
-  attr :id, :string, default: nil, doc: ""
-  attr :class, :string, default: nil, doc: ""
-  slot :inner_block, required: false, doc: ""
-
-  def popover_wrapper(assigns) do
+  def popover(%{inline: true} = assigns) do
     ~H"""
     <span
       id={@id}
@@ -55,16 +42,28 @@ defmodule MishkaChelekom.Popover do
     """
   end
 
+  def popover(assigns) do
+    ~H"""
+    <div
+      id={@id}
+      class="relative w-fit group"
+    >
+      <%= render_slot(@inner_block) %>
+    </div>
+    """
+  end
+
   attr :id, :string, default: nil, doc: ""
   attr :class, :string, default: nil, doc: ""
+  attr :inline, :boolean, default: false, doc: ""
   slot :inner_block, required: false, doc: ""
 
-  def popover_trigger(assigns) do
+  def popover_trigger(%{inline: true} = assigns) do
     ~H"""
     <span
       id={@id}
       class={[
-        "inline-block popover-trigger cursor-pointer",
+        "inline-block cursor-pointer popover-trigger",
         @class
       ]}
     >
@@ -73,7 +72,22 @@ defmodule MishkaChelekom.Popover do
     """
   end
 
+  def popover_trigger(assigns) do
+    ~H"""
+    <div
+      id={@id}
+      class={[
+        "cursor-pointer popover-trigger",
+        @class
+      ]}
+    >
+      <%= render_slot(@inner_block) %>
+    </div>
+    """
+  end
+
   attr :id, :string, default: nil, doc: ""
+  attr :inline, :boolean, default: false, doc: ""
   attr :position, :string, default: "top", doc: ""
   attr :variant, :string, values: @variants, default: "shadow", doc: ""
   attr :color, :string, values: @colors, default: "white", doc: ""
@@ -88,13 +102,13 @@ defmodule MishkaChelekom.Popover do
   attr :rest, :global, doc: ""
   slot :inner_block, required: false, doc: ""
 
-  def popover_content(assigns) do
+  def popover_content(%{inline: true} = assigns) do
     ~H"""
     <span
       role="tooltip"
       id={@id}
       class={[
-        "popover-content absolute z-10 transition-all ease-in-out delay-100 duratio-500 w-full",
+        "absolute z-10 transition-all ease-in-out delay-100 duratio-500 w-full",
         "invisible opacity-0",
         tirgger_popover(),
         space_class(@space),
@@ -116,6 +130,37 @@ defmodule MishkaChelekom.Popover do
       ]}>
       </span>
     </span>
+    """
+  end
+
+  def popover_content(assigns) do
+    ~H"""
+    <div
+      role="tooltip"
+      id={@id}
+      class={[
+        "absolute z-10 transition-all ease-in-out delay-100 duratio-500 w-full",
+        "invisible opacity-0",
+        tirgger_popover(),
+        space_class(@space),
+        color_variant(@variant, @color),
+        rounded_size(@rounded),
+        size_class(@size),
+        position_class(@position),
+        text_position(@text_position),
+        width_class(@width),
+        wrapper_padding(@padding),
+        @font_weight,
+        @class
+      ]}
+      {@rest}
+    >
+      <%= render_slot(@inner_block) %>
+      <span class={[
+        "block absolute size-[8px] bg-inherit rotate-45 popover-arrow"
+      ]}>
+      </span>
+    </div>
     """
   end
 
