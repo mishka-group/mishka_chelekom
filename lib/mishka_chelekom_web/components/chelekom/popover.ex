@@ -27,7 +27,6 @@ defmodule MishkaChelekom.Popover do
   attr :rest, :global, doc: ""
   slot :inner_block, required: false, doc: ""
 
-
   def popover(%{inline: true} = assigns) do
     ~H"""
     <span
@@ -44,10 +43,7 @@ defmodule MishkaChelekom.Popover do
 
   def popover(assigns) do
     ~H"""
-    <div
-      id={@id}
-      class="relative w-fit"
-    >
+    <div id={@id} class="relative w-fit">
       <%= render_slot(@inner_block) %>
     </div>
     """

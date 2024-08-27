@@ -10,7 +10,7 @@ defmodule MishkaChelekom.Rating do
   attr :color, :string, default: "warning", doc: ""
   attr :rest, :global, doc: ""
 
-  #TODO: when icon have class .rated it's color will change
+  # TODO: when icon have class .rated it's color will change
   def rating(assigns) do
     ~H"""
     <div
@@ -19,7 +19,7 @@ defmodule MishkaChelekom.Rating do
         "flex flex-nowrap text-[#cccbca]",
         gap_class(@gap),
         size_class(@size),
-        color_class(@color),
+        color_class(@color)
       ]}
     >
       <.icon name="hero-star-solid" class="rating-icon rated" />
