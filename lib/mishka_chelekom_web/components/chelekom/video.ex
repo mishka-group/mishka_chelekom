@@ -48,7 +48,6 @@ defmodule MishkaChelekom.Video do
 
         <%= for track <- @track do %>
           <track
-            class="text-red-500"
             kind={track.kind}
             src={track.src}
             label={track.label}
