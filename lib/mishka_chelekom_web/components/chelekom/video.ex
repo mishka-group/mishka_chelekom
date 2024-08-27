@@ -4,8 +4,6 @@ defmodule MishkaChelekom.Video do
 
   @doc type: :component
   attr :id, :string, default: nil, doc: ""
-  attr :src, :string, default: nil, doc: ""
-  attr :caption_src, :string, default: nil, doc: ""
   attr :thumbnail, :string, default: nil, doc: ""
   attr :width, :string, default: "full", doc: ""
   attr :rounded, :string, default: "none", doc: ""
@@ -15,15 +13,15 @@ defmodule MishkaChelekom.Video do
   attr :rest, :global, include: ~w(controls), doc: ""
 
   slot :source, required: true do
-    attr :src, :string
-    attr :type, :string
+    attr :src, :string, required: true
+    attr :type, :string, required: true
   end
 
   slot :track, required: false do
-    attr :src, :string
-    attr :label, :string, required: false
-    attr :kind, :string, required: false
-    attr :srclang, :string, required: false
+    attr :src, :string, required: true
+    attr :label, :string
+    attr :kind, :string
+    attr :srclang, :string
     attr :default, :boolean
   end
 
@@ -46,8 +44,9 @@ defmodule MishkaChelekom.Video do
       <track
         :for={track <- @track}
         src={track.src}
-        label={track.label}
-        srclang={track.srclang}
+        label={track.label || "English"}
+        kind={track.kind || "subtitles"}
+        srclang={track.srclang || "en"}
         default={track.default}
       />
 
