@@ -60,7 +60,7 @@ defmodule MishkaChelekom.Popover do
 
   def popover(%{inline: true} = assigns) do
     ~H"""
-    <span id={@id} class={["inline-block relative w-fit", @class]}>
+    <span id={@id} class={["inline-block relative w-fit group", @class]}>
       <%= render_slot(@inner_block) %>
     </span>
     """
@@ -68,7 +68,7 @@ defmodule MishkaChelekom.Popover do
 
   def popover(assigns) do
     ~H"""
-    <div id={@id} class="relative w-fit">
+    <div id={@id} class="relative w-fit group">
       <%= render_slot(@inner_block) %>
     </div>
     """
@@ -81,7 +81,7 @@ defmodule MishkaChelekom.Popover do
 
   def popover_trigger(%{inline: true} = assigns) do
     ~H"""
-    <span id={@id} class={["inline-block cursor-pointer peer popover-trigger", @class]}>
+    <span id={@id} class={["inline-block cursor-pointer popover-trigger", @class]}>
       <%= render_slot(@inner_block) %>
     </span>
     """
@@ -89,7 +89,7 @@ defmodule MishkaChelekom.Popover do
 
   def popover_trigger(assigns) do
     ~H"""
-    <div id={@id} class={["cursor-pointer peer popover-trigger", @class]}>
+    <div id={@id} class={["cursor-pointer popover-trigger", @class]}>
       <%= render_slot(@inner_block) %>
     </div>
     """
@@ -142,7 +142,7 @@ defmodule MishkaChelekom.Popover do
   def popover_content(assigns) do
     ~H"""
     <div
-      role="tooltip"
+      role="dialog "
       id={@id}
       class={[
         "absolute z-10 transition-all ease-in-out delay-100 duratio-500 w-full",
@@ -170,7 +170,7 @@ defmodule MishkaChelekom.Popover do
     """
   end
 
-  defp tirgger_popover(), do: "peer-hover:visible peer-hover:opacity-100"
+  defp tirgger_popover(), do: "group-hover:visible group-hover:opacity-100"
 
   defp rounded_size("extra_small"), do: "rounded-sm"
   defp rounded_size("small"), do: "rounded"
