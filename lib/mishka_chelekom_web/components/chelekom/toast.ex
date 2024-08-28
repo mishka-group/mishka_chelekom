@@ -26,36 +26,6 @@ defmodule MishkaChelekom.Toast do
     "unbordered"
   ]
 
-  @doc type: :component
-  attr :id, :string, default: nil
-  attr :space, :string, default: "small", doc: ""
-  attr :vertical, :string, values: ["top", "bottom"], default: "bottom", doc: ""
-  attr :vertical_space, :string, default: "extra_small", doc: ""
-  attr :horizontal, :string, values: ["left", "right", "center"], default: "right", doc: ""
-  attr :horizontal_space, :string, default: "extra_small", doc: ""
-  attr :class, :string, default: nil
-  attr :rest, :global, doc: ""
-
-  slot :inner_block, required: false, doc: ""
-
-  def toast_group(assigns) do
-    ~H"""
-    <div
-      id={@id}
-      class={[
-        "fixed",
-        space_class(@space),
-        position_class(@horizontal_space, @horizontal),
-        vertical_position(@vertical_space, @vertical),
-        @class
-      ]}
-      {@rest}
-    >
-      <%= render_slot(@inner_block) %>
-    </div>
-    """
-  end
-
   attr :id, :string, required: true, doc: ""
   attr :size, :string, default: "large", doc: ""
   attr :is_fixed, :boolean, default: true, doc: ""
@@ -73,13 +43,10 @@ defmodule MishkaChelekom.Toast do
   attr :class, :string, default: "", doc: "Additional CSS classes to be added to the toast."
   attr :params, :map, default: %{kind: "toast"}
   attr :rest, :global, include: ~w(right_dismiss left_dismiss), doc: ""
-
   attr :content_border, :string, default: "none", doc: ""
   attr :border_position, :string, default: "start", doc: ""
-
   attr :row_direction, :string, default: "none", doc: ""
   attr :padding, :string, default: "extra_small", doc: ""
-
   slot :inner_block, required: false, doc: ""
 
   def toast(assigns) do
@@ -118,6 +85,35 @@ defmodule MishkaChelekom.Toast do
           <.toast_dismiss id={@id} params={@params} />
         </div>
       </div>
+    </div>
+    """
+  end
+
+  @doc type: :component
+  attr :id, :string, default: nil
+  attr :space, :string, default: "small", doc: ""
+  attr :vertical, :string, values: ["top", "bottom"], default: "bottom", doc: ""
+  attr :vertical_space, :string, default: "extra_small", doc: ""
+  attr :horizontal, :string, values: ["left", "right", "center"], default: "right", doc: ""
+  attr :horizontal_space, :string, default: "extra_small", doc: ""
+  attr :class, :string, default: nil
+  attr :rest, :global, doc: ""
+  slot :inner_block, required: false, doc: ""
+
+  def toast_group(assigns) do
+    ~H"""
+    <div
+      id={@id}
+      class={[
+        "fixed",
+        space_class(@space),
+        position_class(@horizontal_space, @horizontal),
+        vertical_position(@vertical_space, @vertical),
+        @class
+      ]}
+      {@rest}
+    >
+      <%= render_slot(@inner_block) %>
     </div>
     """
   end
