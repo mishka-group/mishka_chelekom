@@ -100,7 +100,7 @@ defmodule MishkaChelekom.Toast do
         "toast-content-wrapper relative",
         "before:block before:absolute before:inset-y-0 before:rounded-full before:my-1",
         content_border(@content_border),
-        boder_position(@border_position),
+        @content_border != "none" && boder_position(@border_position),
       ]}>
         <div class={[
           "flex gap-2 items-center justify-between",
