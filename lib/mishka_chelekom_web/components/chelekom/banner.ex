@@ -94,21 +94,36 @@ defmodule MishkaChelekom.Banner do
 
   attr :id, :string, default: nil
   attr :dismiss, :boolean, default: false
-  attr :icon_class, :string, default: "size-4"
+  attr :class, :string, default: nil
   attr :params, :map, default: %{kind: "badge"}
 
   defp banner_dismiss(assigns) do
     ~H"""
     <button
       type="button"
-      class="group p-2 shrink-0"
+      class="group shrink-0"
       aria-label={gettext("close")}
       phx-click={JS.push("dismiss", value: Map.merge(%{id: @id}, @params)) |> hide("##{@id}")}
     >
-      <.icon name="hero-x-mark-solid" class="banner-icon opacity-40 group-hover:opacity-70" />
+      <.icon
+        name="hero-x-mark-solid"
+        class={[
+          "banner-icon opacity-80 group-hover:opacity-70",
+          dismiss_size(@size),
+          @class
+        ]}
+       />
     </button>
     """
   end
+
+  defp dismiss_size("extra_small"), do: "size-3.5"
+  defp dismiss_size("small"), do: "size-4"
+  defp dismiss_size("medium"), do: "size-5"
+  defp dismiss_size("large"), do: "size-6"
+  defp dismiss_size("extra_large"), do: "size-7"
+  defp dismiss_size(params) when is_binary(params), do: params
+  defp dismiss_size(_), do: dismiss_size("small")
 
   defp padding_size("extra_small"), do: "p-2"
   defp padding_size("small"), do: "p-3"
