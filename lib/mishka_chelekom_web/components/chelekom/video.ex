@@ -4,7 +4,7 @@ defmodule MishkaChelekom.Video do
 
   @doc """
   https://stackoverflow.com/questions/15268604/html5-track-captions-not-showing/15268843#15268843
-  
+
   Ensure your video and .vtt files are served from the same web server.
   Browsers may block captions if accessed from the local file system or different servers.
   Use a local web server for testing to avoid these issues.
@@ -26,7 +26,7 @@ defmodule MishkaChelekom.Video do
   attr :rounded, :string, default: "none", doc: ""
   attr :height, :string, default: "auto", doc: ""
   attr :caption_size, :string, default: "extra_small", doc: ""
-  attr :caption_bakcground, :string, default: "white", doc: ""
+  attr :caption_bakcground, :string, default: "dark", doc: ""
   attr :caption_opacity, :string, default: "solid", doc: ""
   attr :ratio, :string, default: "auto", doc: ""
   attr :class, :string, default: nil, doc: ""
@@ -124,17 +124,17 @@ defmodule MishkaChelekom.Video do
   defp caption_size(params) when is_binary(params), do: params
   defp caption_size(_), do: caption_size("extra_small")
 
-  defp caption_bakcground("white"), do: "[&::cue]:bg-white [&::cue]:text-[#1E1E1E]"
-  defp caption_bakcground("primary"), do: "[&::cue]:bg-[#2441de] [&::cue]:text-white"
-  defp caption_bakcground("secondary"), do: "[&::cue]:bg-[#877C7C] [&::cue]:text-white"
-  defp caption_bakcground("success"), do: "[&::cue]:bg-[#6EE7B7] [&::cue]:text-[#1E1E1E]"
-  defp caption_bakcground("warning"), do: "[&::cue]:bg-[#FF8B08] [&::cue]:text-[#1E1E1E]"
-  defp caption_bakcground("danger"), do: "[&::cue]:bg-[#E73B3B] [&::cue]:text-[#1E1E1E]"
-  defp caption_bakcground("info"), do: "[&::cue]:bg-[#004FC4] [&::cue]:text-[#1E1E1E]"
-  defp caption_bakcground("misc"), do: "[&::cue]:bg-[#52059C] [&::cue]:text-[#1E1E1E]"
-  defp caption_bakcground("dawn"), do: "[&::cue]:bg-[#4D4137] [&::cue]:text-[#1E1E1E]"
-  defp caption_bakcground("light"), do: "[&::cue]:bg-[#707483] [&::cue]:text-[#1E1E1E]"
-  defp caption_bakcground("dark"), do: "[&::cue]:bg-[#1E1E1E] [&::cue]:text-white"
+  defp caption_bakcground("white"), do: "[&::cue]:bg-[linear-gradient(#fff,#fff)] [&::cue]:text-[#1E1E1E]"
+  defp caption_bakcground("primary"), do: "[&::cue]:bg-[linear-gradient(#2441de,#2441de)] [&::cue]:text-white"
+  defp caption_bakcground("secondary"), do: "[&::cue]:bg-[linear-gradient(#877C7C,#877C7C)] [&::cue]:text-white"
+  defp caption_bakcground("success"), do: "[&::cue]:bg-[linear-gradient(#6EE7B7,#6EE7B7)] [&::cue]:text-[#1E1E1E]"
+  defp caption_bakcground("warning"), do: "[&::cue]:bg-[linear-gradient(#FF8B08,#FF8B08)] [&::cue]:text-[#1E1E1E]"
+  defp caption_bakcground("danger"), do: "[&::cue]:bg-[linear-gradient(#E73B3B,#E73B3B)] [&::cue]:text-[#1E1E1E]"
+  defp caption_bakcground("info"), do: "[&::cue]:bg-[linear-gradient(#004FC4,#004FC4)] [&::cue]:text-[#1E1E1E]"
+  defp caption_bakcground("misc"), do: "[&::cue]:bg-[linear-gradient(#52059C,#52059C)] [&::cue]:text-[#1E1E1E]"
+  defp caption_bakcground("dawn"), do: "[&::cue]:bg-[linear-gradient(#4D4137,#4D4137)] [&::cue]:text-[#1E1E1E]"
+  defp caption_bakcground("light"), do: "[&::cue]:bg-[linear-gradient(#707483,#707483)] [&::cue]:text-[#1E1E1E]"
+  defp caption_bakcground("dark"), do: "[&::cue]:bg-[linear-gradient(#1E1E1E,#1E1E1E)] [&::cue]:text-white"
   defp caption_bakcground(params) when is_binary(params), do: params
   defp caption_bakcground(_), do: caption_bakcground("white")
 
