@@ -71,6 +71,12 @@ defmodule MishkaChelekom.Jumbotron do
   defp border_class("large", "bottom"), do: "border-b-4"
   defp border_class("extra_large", "bottom"), do: "border-b-[5px]"
 
+  defp border_class("extra_small", "vertical"), do: "border-y"
+  defp border_class("small", "vertical"), do: "border-y-2"
+  defp border_class("medium", "vertical"), do: "border-y-[3px]"
+  defp border_class("large", "vertical"), do: "border-y-4"
+  defp border_class("extra_large", "vertical"), do: "border-y-[5px]"
+
   defp border_class(params, _) when is_binary(params), do: params
   defp border_class(_, _), do: border_class("none", nil)
 
