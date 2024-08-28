@@ -34,7 +34,7 @@ defmodule MishkaChelekom.Toast do
   slot :inner_block, required: false, doc: ""
   attr :rest, :global, doc: ""
 
-  defp tooltip_wrapper(assigns) do
+  defp toast_wrapper(assigns) do
     ~H"""
     <div
       id={@id}
@@ -66,7 +66,7 @@ defmodule MishkaChelekom.Toast do
   attr :horizontal, :string, values: ["left", "right", "center"], default: "right", doc: ""
   attr :horizontal_size, :string, default: "extra_small", doc: ""
   attr :font_weight, :string, default: "font-normal", doc: ""
-  attr :class, :string, default: "", doc: "Additional CSS classes to be added to the tooltip."
+  attr :class, :string, default: "", doc: "Additional CSS classes to be added to the toast."
   attr :params, :map, default: %{kind: "toast"}
   attr :rest, :global, include: ~w(right_dismiss left_dismiss), doc: ""
 
@@ -110,20 +110,20 @@ defmodule MishkaChelekom.Toast do
           <div>
             <%= render_slot(@inner_block) %>
           </div>
-          <.tooltip_dismiss id={@id} params={@params} />
+          <.toast_dismiss id={@id} params={@params} />
         </div>
       </div>
     </div>
     """
   end
 
-  attr :id, :string, default: nil
+  attr :id, :string, required: true
   attr :dismiss, :boolean, default: false
   attr :class, :string, default: nil
   attr :size, :string, default: "small"
   attr :params, :map, default: %{kind: "toast"}
 
-  defp tooltip_dismiss(assigns) do
+  defp toast_dismiss(assigns) do
     ~H"""
     <button
       type="button"
@@ -133,7 +133,7 @@ defmodule MishkaChelekom.Toast do
     >
       <.icon name="hero-x-mark-solid"
       class={[
-        "tooltip-icon opacity-80 group-hover:opacity-70",
+        "toast-icon opacity-80 group-hover:opacity-70",
         dismiss_size(@size),
         @class
       ]}

@@ -92,7 +92,7 @@ defmodule MishkaChelekom.Banner do
     """
   end
 
-  attr :id, :string, default: nil
+  attr :id, :string, required: true
   attr :dismiss, :boolean, default: false
   attr :class, :string, default: nil
   attr :params, :map, default: %{kind: "badge"}
