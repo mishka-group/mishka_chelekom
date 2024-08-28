@@ -28,7 +28,7 @@ defmodule MishkaChelekom.Toast do
 
   attr :id, :string, required: true, doc: ""
   attr :size, :string, default: "large", doc: ""
-  attr :is_fixed, :boolean, default: true, doc: ""
+  attr :fixed, :boolean, default: true, doc: ""
   attr :variant, :string, values: @variants, default: "default", doc: ""
   attr :color, :string, values: @colors, default: "white", doc: ""
   attr :border, :string, default: "extra_small", doc: ""
@@ -55,7 +55,7 @@ defmodule MishkaChelekom.Toast do
       id={@id}
       class={[
         "overflow-hidden",
-        @is_fixed && "fixed",
+        @fixed && "fixed",
         space_class(@space),
         width_class(@width),
         rounded_size(@rounded),
