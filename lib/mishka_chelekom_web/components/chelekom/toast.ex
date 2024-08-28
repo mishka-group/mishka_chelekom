@@ -28,8 +28,32 @@ defmodule MishkaChelekom.Toast do
 
 
   @doc type: :component
-  attr :id, :string, required: true, doc: ""
+  attr :id, :string, default: nil
+  attr :space, :string, default: "small", doc: ""
+  attr :class, :string, default: nil
+  slot :inner_block, required: false, doc: ""
+  attr :rest, :global, doc: ""
 
+  defp tooltip_wrapper(assigns) do
+    ~H"""
+    <div
+      id={@id}
+      class={[
+        "overflow-hidden fixed",
+        space_class(@space),
+        width_class(@width),
+        position_class(@horizontal_size, @horizontal),
+        vertical_position(@vertical_size, @vertical),
+        @class
+      ]}
+      {@rest}
+    >
+      <%= render_slot(@inner_block) %>
+    </div>
+    """
+  end
+
+  attr :id, :string, required: true, doc: ""
   attr :size, :string, default: "large", doc: ""
   attr :variant, :string, values: @variants, default: "default", doc: ""
   attr :color, :string, values: @colors, default: "white", doc: ""
@@ -39,13 +63,18 @@ defmodule MishkaChelekom.Toast do
   attr :space, :string, default: "extra_small", doc: ""
   attr :vertical, :string, values: ["top", "bottom"], default: "top", doc: ""
   attr :vertical_size, :string, default: "extra_small", doc: ""
-  attr :horizontal, :string, values: ["left", "right"], default: "right", doc: ""
+  attr :horizontal, :string, values: ["left", "right", "center"], default: "right", doc: ""
   attr :horizontal_size, :string, default: "extra_small", doc: ""
   attr :font_weight, :string, default: "font-normal", doc: ""
-  attr :padding, :string, default: "extra_small", doc: ""
   attr :class, :string, default: "", doc: "Additional CSS classes to be added to the banner."
   attr :params, :map, default: %{kind: "banner"}
   attr :rest, :global, include: ~w(right_dismiss left_dismiss), doc: ""
+
+  attr :content_border, :string, default: "none", doc: ""
+  attr :border_position, :string, default: "start", doc: ""
+
+  attr :row_direction, :string, default: "none", doc: ""
+  attr :padding, :string, default: "extra_small", doc: ""
 
   slot :inner_block, required: false, doc: ""
 
@@ -59,7 +88,6 @@ defmodule MishkaChelekom.Toast do
         width_class(@width),
         rounded_size(@rounded),
         border_class(@border),
-        padding_size(@padding),
         color_variant(@variant, @color),
         position_class(@horizontal_size, @horizontal),
         vertical_position(@vertical_size, @vertical),
@@ -68,11 +96,22 @@ defmodule MishkaChelekom.Toast do
       ]}
       {@rest}
     >
-      <div class="flex gap-2 items-center justify-between">
-        <div>
-          <%= render_slot(@inner_block) %>
+      <div class={[
+        "toast-content-wrapper relative",
+        "before:block before:absolute before:inset-y-0 before:rounded-full before:my-1",
+        content_border(@content_border),
+        boder_position(@border_position),
+      ]}>
+        <div class={[
+          "flex gap-2 items-center justify-between",
+          row_direction(@row_direction),
+          padding_size(@padding),
+        ]}>
+          <div>
+            <%= render_slot(@inner_block) %>
+          </div>
+          <.banner_dismiss id={@id} params={@params} />
         </div>
-        <.banner_dismiss id={@id} params={@params} />
       </div>
     </div>
     """
@@ -81,21 +120,48 @@ defmodule MishkaChelekom.Toast do
 
   attr :id, :string, default: nil
   attr :dismiss, :boolean, default: false
-  attr :icon_class, :string, default: "size-4"
+  attr :class, :string, default: nil
+  attr :size, :string, default: "small"
   attr :params, :map, default: %{kind: "badge"}
 
   defp banner_dismiss(assigns) do
     ~H"""
     <button
       type="button"
-      class="group p-2 shrink-0"
+      class="group shrink-0"
       aria-label={gettext("close")}
       phx-click={JS.push("dismiss", value: Map.merge(%{id: @id}, @params)) |> hide("##{@id}")}
     >
-      <.icon name="hero-x-mark-solid" class="banner-icon opacity-40 group-hover:opacity-70" />
+      <.icon name="hero-x-mark-solid"
+      class={[
+        "banner-icon opacity-80 group-hover:opacity-70",
+        dismiss_size(@size),
+        @class
+      ]}
+       />
     </button>
     """
   end
+
+  defp boder_position("end"), do: "pe-1.5 before:end-1"
+  defp boder_position("start"), do: "ps-1.5 before:start-1"
+  defp boder_position(params) when is_binary(params), do: params
+  defp boder_position(_), do: boder_position("start")
+  #TODO: When contnet border is none whould remove pe and ps classes
+
+  defp content_border("extra_small"), do: "before:w-0.5"
+  defp content_border("small"), do: "before:w-1"
+  defp content_border("medium"), do: "before:w-1.5"
+  defp content_border("large"), do: "before:w-2"
+  defp content_border("extra_large"), do: "before:w-2.5"
+  defp content_border("none"), do: "before:content-none"
+  defp content_border(params) when is_binary(params), do: params
+  defp content_border(_), do: content_border("none")
+
+  defp row_direction("none"), do: "flex-row"
+  defp row_direction("reverse"), do: "flex-row-reverse"
+  defp row_direction(_), do: row_direction("none")
+
 
   defp padding_size("extra_small"), do: "p-2"
   defp padding_size("small"), do: "p-3"
@@ -106,6 +172,7 @@ defmodule MishkaChelekom.Toast do
   defp padding_size(params) when is_binary(params), do: params
   defp padding_size(_), do: padding_size("extra_small")
 
+
   defp width_class("extra_small"), do: "max-w-60"
   defp width_class("small"), do: "max-w-64"
   defp width_class("medium"), do: "max-w-72"
@@ -114,6 +181,14 @@ defmodule MishkaChelekom.Toast do
   defp width_class("full"), do: "w-full"
   defp width_class(params) when is_binary(params), do: params
   defp width_class(_), do: width_class("medium")
+
+  defp dismiss_size("extra_small"), do: "size-3.5"
+  defp dismiss_size("small"), do: "size-4"
+  defp dismiss_size("medium"), do: "size-5"
+  defp dismiss_size("large"), do: "size-6"
+  defp dismiss_size("extra_large"), do: "size-7"
+  defp dismiss_size(params) when is_binary(params), do: params
+  defp dismiss_size(_), do: dismiss_size("small")
 
   defp vertical_position("extra_small", "top"), do: "top-1"
   defp vertical_position("small", "top"), do: "top-2"
@@ -141,6 +216,8 @@ defmodule MishkaChelekom.Toast do
   defp position_class("medium", "right"), do: "right-3 mr-3"
   defp position_class("large", "right"), do: "right-4 mr-4"
   defp position_class("extra_large", "right"), do: "right-5 mr-5"
+
+  defp position_class(_, "center"), do: "left-1/2 -translate-x-1/2"
 
   defp position_class(params, _) when is_binary(params), do: params
   defp position_class(_, _), do: position_class("extra_small", "right")
@@ -170,223 +247,227 @@ defmodule MishkaChelekom.Toast do
   defp border_class(_), do: border_class("extra_small")
 
   defp color_variant("default", "white") do
-    "bg-white text-[#3E3E3E] border-[#DADADA]"
+    [
+      "bg-white text-[#3E3E3E] border-[#DADADA]",
+      "[&>.toast-content-wrapper]:before:bg-[#DADADA]"
+    ]
   end
 
   defp color_variant("default", "primary") do
-    "bg-[#4363EC] text-white border-[#2441de]"
+   [ "bg-[#4363EC] text-white border-[#2441de]",
+    "[&>.toast-content-wrapper]:before:bg-white"]
   end
 
   defp color_variant("default", "secondary") do
-    "bg-[#6B6E7C] text-white border-[#877C7C]"
+    ["bg-[#6B6E7C] text-white border-[#877C7C]",
+    "[&>.toast-content-wrapper]:before:bg-white"]
   end
 
   defp color_variant("default", "success") do
-    "bg-[#ECFEF3] text-[#047857] border-[#6EE7B7]"
+    ["bg-[#ECFEF3] text-[#047857] border-[#6EE7B7]",
+    "[&>.toast-content-wrapper]:before:bg-[#047857]"]
   end
 
   defp color_variant("default", "warning") do
-    "bg-[#FFF8E6] text-[#FF8B08] border-[#FF8B08]"
+    ["bg-[#FFF8E6] text-[#FF8B08] border-[#FF8B08]",
+    "[&>.toast-content-wrapper]:before:bg-[#FF8B08]"]
   end
 
   defp color_variant("default", "danger") do
-    "bg-[#FFE6E6] text-[#E73B3B] border-[#E73B3B]"
+    ["bg-[#FFE6E6] text-[#E73B3B] border-[#E73B3B]",
+    "[&>.toast-content-wrapper]:before:bg-[#E73B3B]"]
   end
 
   defp color_variant("default", "info") do
-    "bg-[#E5F0FF] text-[#004FC4] border-[#004FC4]"
+    ["bg-[#E5F0FF] text-[#004FC4] border-[#004FC4]",
+    "[&>.toast-content-wrapper]:before:bg-[#004FC4]"]
   end
 
   defp color_variant("default", "misc") do
-    "bg-[#FFE6FF] text-[#52059C] border-[#52059C]"
+    ["bg-[#FFE6FF] text-[#52059C] border-[#52059C]",
+    "[&>.toast-content-wrapper]:before:bg-[#52059C]"]
   end
 
   defp color_variant("default", "dawn") do
-    "bg-[#FFECDA] text-[#4D4137] border-[#4D4137]"
+    ["bg-[#FFECDA] text-[#4D4137] border-[#4D4137]",
+    "[&>.toast-content-wrapper]:before:bg-[#4D4137]"]
   end
 
   defp color_variant("default", "light") do
-    "bg-[#E3E7F1] text-[#707483] border-[#707483]"
+    ["bg-[#E3E7F1] text-[#707483] border-[#707483]",
+    "[&>.toast-content-wrapper]:before:bg-[#707483]"]
   end
 
   defp color_variant("default", "dark") do
-    "bg-[#1E1E1E] text-white border-[#050404]"
+    ["bg-[#1E1E1E] text-white border-[#050404]",
+    "[&>.toast-content-wrapper]:before:bg-white"]
   end
 
   defp color_variant("outline", "white") do
-    "bg-transparent text-white border-white"
+    ["bg-white text-[#1E1E1E] border-white",
+    "[&>.toast-content-wrapper]:before:bg-[#1E1E1E]"]
   end
 
   defp color_variant("outline", "primary") do
-    "bg-transparent text-[#4363EC] border-[#4363EC] "
+    [
+      "bg-white text-[#4363EC] border-[#4363EC]",
+      "[&>.toast-content-wrapper]:before:bg-[#4363EC]"
+    ]
   end
 
   defp color_variant("outline", "secondary") do
-    "bg-transparent text-[#6B6E7C] border-[#6B6E7C]"
+    ["bg-white text-[#6B6E7C] border-[#6B6E7C]",
+    "[&>.toast-content-wrapper]:before:bg-[#6B6E7C]"]
   end
 
   defp color_variant("outline", "success") do
-    "bg-transparent text-[#227A52] border-[#6EE7B7]"
+    ["bg-white text-[#227A52] border-[#6EE7B7]",
+    "[&>.toast-content-wrapper]:before:bg-[#227A52]"]
   end
 
   defp color_variant("outline", "warning") do
-    "bg-transparent text-[#FF8B08] border-[#FF8B08]"
+    ["bg-white text-[#FF8B08] border-[#FF8B08]",
+    "[&>.toast-content-wrapper]:before:bg-[#FF8B08]"]
   end
 
   defp color_variant("outline", "danger") do
-    "bg-transparent text-[#E73B3B] border-[#E73B3B]"
+    ["bg-white text-[#E73B3B] border-[#E73B3B]",
+    "[&>.toast-content-wrapper]:before:bg-[#E73B3B]"]
   end
 
   defp color_variant("outline", "info") do
-    "bg-transparent text-[#004FC4] border-[#004FC4]"
+    ["bg-white text-[#004FC4] border-[#004FC4]",
+    "[&>.toast-content-wrapper]:before:bg-[#004FC4]"]
   end
 
   defp color_variant("outline", "misc") do
-    "bg-transparent text-[#52059C] border-[#52059C]"
+    ["bg-white text-[#52059C] border-[#52059C]",
+    "[&>.toast-content-wrapper]:before:bg-[#52059C]"]
   end
 
   defp color_variant("outline", "dawn") do
-    "bg-transparent text-[#4D4137] border-[#4D4137]"
+    ["bg-white text-[#4D4137] border-[#4D4137]",
+    "[&>.toast-content-wrapper]:before:bg-[#4D4137]"]
   end
 
   defp color_variant("outline", "light") do
-    "bg-transparent text-[#707483] border-[#707483]"
+    ["bg-white text-[#707483] border-[#707483]",
+    "[&>.toast-content-wrapper]:before:bg-[#707483]"]
   end
 
   defp color_variant("outline", "dark") do
-    "bg-transparent text-[#1E1E1E] border-[#1E1E1E]"
+    ["bg-white text-[#1E1E1E] border-[#1E1E1E]",
+    "[&>.toast-content-wrapper]:before:bg-[#1E1E1E]"]
   end
 
   defp color_variant("unbordered", "white") do
-    "bg-white text-[#3E3E3E] border-transparent"
+  [  "bg-white text-[#3E3E3E] border-transparent",
+    "[&>.toast-content-wrapper]:before:bg-[#3E3E3E]"]
   end
 
   defp color_variant("unbordered", "primary") do
-    "bg-[#4363EC] text-white border-transparent"
+  [  "bg-[#4363EC] text-white border-transparent",
+    "[&>.toast-content-wrapper]:before:bg-white"]
   end
 
   defp color_variant("unbordered", "secondary") do
-    "bg-[#6B6E7C] text-white border-transparent"
+  [  "bg-[#6B6E7C] text-white border-transparent",
+    "[&>.toast-content-wrapper]:before:bg-white"]
   end
 
   defp color_variant("unbordered", "success") do
-    "bg-[#ECFEF3] text-[#047857] border-transparent"
+    ["bg-[#ECFEF3] text-[#047857] border-transparent",
+    "[&>.toast-content-wrapper]:before:bg-[#047857]"]
   end
 
   defp color_variant("unbordered", "warning") do
-    "bg-[#FFF8E6] text-[#FF8B08] border-transparent"
+    ["bg-[#FFF8E6] text-[#FF8B08] border-transparent",
+    "[&>.toast-content-wrapper]:before:bg-[#FF8B08]"]
   end
 
   defp color_variant("unbordered", "danger") do
-    "bg-[#FFE6E6] text-[#E73B3B] border-transparent"
+    ["bg-[#FFE6E6] text-[#E73B3B] border-transparent",
+    "[&>.toast-content-wrapper]:before:bg-[#E73B3B]"]
   end
 
   defp color_variant("unbordered", "info") do
-    "bg-[#E5F0FF] text-[#004FC4] border-transparent"
+    ["bg-[#E5F0FF] text-[#004FC4] border-transparent",
+    "[&>.toast-content-wrapper]:before:bg-[#004FC4]"]
   end
 
   defp color_variant("unbordered", "misc") do
-    "bg-[#FFE6FF] text-[#52059C] border-transparent"
+    ["bg-[#FFE6FF] text-[#52059C] border-transparent",
+    "[&>.toast-content-wrapper]:before:bg-[#-[#]"]
   end
 
   defp color_variant("unbordered", "dawn") do
-    "bg-[#FFECDA] text-[#4D4137] border-transparent"
+    ["bg-[#FFECDA] text-[#4D4137] border-transparent",
+    "[&>.toast-content-wrapper]:before:bg-[#4D4137]"]
   end
 
   defp color_variant("unbordered", "light") do
-    "bg-[#E3E7F1] text-[#707483] border-transparent"
+    ["bg-[#E3E7F1] text-[#707483] border-transparent",
+    "[&>.toast-content-wrapper]:before:bg-[#707483]"]
   end
 
   defp color_variant("unbordered", "dark") do
-    "bg-[#1E1E1E] text-white border-transparent"
+  [  "bg-[#1E1E1E] text-white border-transparent",
+    "[&>.toast-content-wrapper]:before:bg-white"]
   end
 
   defp color_variant("shadow", "white") do
-    "bg-white text-[#3E3E3E] border-[#DADADA] shadow-md"
+    ["bg-white text-[#3E3E3E] border-[#DADADA] shadow-md",
+    "[&>.toast-content-wrapper]:before:bg-[#3E3E3E]"]
   end
 
   defp color_variant("shadow", "primary") do
-    "bg-[#4363EC] text-white border-[#4363EC] shadow-md"
+    ["bg-[#4363EC] text-white border-[#4363EC] shadow-md",
+    "[&>.toast-content-wrapper]:before:bg-white"]
   end
 
   defp color_variant("shadow", "secondary") do
-    "bg-[#6B6E7C] text-white border-[#6B6E7C] shadow-md"
+    ["bg-[#6B6E7C] text-white border-[#6B6E7C] shadow-md",
+    "[&>.toast-content-wrapper]:before:bg-white"]
   end
 
   defp color_variant("shadow", "success") do
-    "bg-[#AFEAD0] text-[#227A52] border-[#AFEAD0] shadow-md"
+    ["bg-[#AFEAD0] text-[#227A52] border-[#AFEAD0] shadow-md",
+    "[&>.toast-content-wrapper]:before:bg-[#227A52]"]
   end
 
   defp color_variant("shadow", "warning") do
-    "bg-[#FFF8E6] text-[#FF8B08] border-[#FFF8E6] shadow-md"
+    ["bg-[#FFF8E6] text-[#FF8B08] border-[#FFF8E6] shadow-md",
+    "[&>.toast-content-wrapper]:before:bg-[#FF8B08]"]
   end
 
   defp color_variant("shadow", "danger") do
-    "bg-[#FFE6E6] text-[#E73B3B] border-[#FFE6E6] shadow-md"
+    ["bg-[#FFE6E6] text-[#E73B3B] border-[#FFE6E6] shadow-md",
+    "[&>.toast-content-wrapper]:before:bg-[#E73B3B]"]
   end
 
   defp color_variant("shadow", "info") do
-    "bg-[#E5F0FF] text-[#004FC4] border-[#E5F0FF] shadow-md"
+    ["bg-[#E5F0FF] text-[#004FC4] border-[#E5F0FF] shadow-md",
+    "[&>.toast-content-wrapper]:before:bg-[#004FC4]"]
   end
 
   defp color_variant("shadow", "misc") do
-    "bg-[#FFE6FF] text-[#52059C] border-[#FFE6FF] shadow-md"
+    ["bg-[#FFE6FF] text-[#52059C] border-[#FFE6FF] shadow-md",
+    "[&>.toast-content-wrapper]:before:bg-[#52059C]"]
   end
 
   defp color_variant("shadow", "dawn") do
-    "bg-[#FFECDA] text-[#4D4137] border-[#FFECDA] shadow-md"
+    ["bg-[#FFECDA] text-[#4D4137] border-[#FFECDA] shadow-md",
+    "[&>.toast-content-wrapper]:before:bg-[#4D4137]"]
   end
 
   defp color_variant("shadow", "light") do
-    "bg-[#E3E7F1] text-[#707483] border-[#E3E7F1] shadow-md"
+    ["bg-[#E3E7F1] text-[#707483] border-[#E3E7F1] shadow-md",
+    "[&>.toast-content-wrapper]:before:bg-[#707483]"]
   end
 
   defp color_variant("shadow", "dark") do
-    "bg-[#1E1E1E] text-white border-[#1E1E1E] shadow-md"
-  end
-
-  defp color_variant("transparent", "white") do
-    "bg-transparent text-white border-transparent"
-  end
-
-  defp color_variant("transparent", "primary") do
-    "bg-transparent text-[#4363EC] border-transparent"
-  end
-
-  defp color_variant("transparent", "secondary") do
-    "bg-transparent text-[#6B6E7C] border-transparent"
-  end
-
-  defp color_variant("transparent", "success") do
-    "bg-transparent text-[#227A52] border-transparent"
-  end
-
-  defp color_variant("transparent", "warning") do
-    "bg-transparent text-[#FF8B08] border-transparent"
-  end
-
-  defp color_variant("transparent", "danger") do
-    "bg-transparent text-[#E73B3B] border-transparent"
-  end
-
-  defp color_variant("transparent", "info") do
-    "bg-transparent text-[#6663FD] border-transparent"
-  end
-
-  defp color_variant("transparent", "misc") do
-    "bg-transparent text-[#52059C] border-transparent"
-  end
-
-  defp color_variant("transparent", "dawn") do
-    "bg-transparent text-[#4D4137] border-transparent"
-  end
-
-  defp color_variant("transparent", "light") do
-    "bg-transparent text-[#707483] border-transparent"
-  end
-
-  defp color_variant("transparent", "dark") do
-    "bg-transparent text-[#1E1E1E] border-transparent"
+    ["bg-[#1E1E1E] text-white border-[#1E1E1E] shadow-md",
+    "[&>.toast-content-wrapper]:before:bg-white"]
   end
 
   ## JS Commands
