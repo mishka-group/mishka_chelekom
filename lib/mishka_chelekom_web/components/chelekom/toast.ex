@@ -26,7 +26,6 @@ defmodule MishkaChelekom.Toast do
     "unbordered"
   ]
 
-
   @doc type: :component
   attr :id, :string, default: nil
   attr :space, :string, default: "small", doc: ""
@@ -106,12 +105,12 @@ defmodule MishkaChelekom.Toast do
         "toast-content-wrapper relative",
         "before:block before:absolute before:inset-y-0 before:rounded-full before:my-1",
         content_border(@content_border),
-        @content_border != "none" && boder_position(@border_position),
+        @content_border != "none" && boder_position(@border_position)
       ]}>
         <div class={[
           "flex gap-2 items-center justify-between",
           row_direction(@row_direction),
-          padding_size(@padding),
+          padding_size(@padding)
         ]}>
           <div>
             <%= render_slot(@inner_block) %>
@@ -137,13 +136,14 @@ defmodule MishkaChelekom.Toast do
       aria-label={gettext("close")}
       phx-click={JS.push("dismiss", value: Map.merge(%{id: @id}, @params)) |> hide("##{@id}")}
     >
-      <.icon name="hero-x-mark-solid"
-      class={[
-        "toast-icon opacity-80 group-hover:opacity-70",
-        dismiss_size(@size),
-        @class
-      ]}
-       />
+      <.icon
+        name="hero-x-mark-solid"
+        class={[
+          "toast-icon opacity-80 group-hover:opacity-70",
+          dismiss_size(@size),
+          @class
+        ]}
+      />
     </button>
     """
   end
@@ -166,7 +166,6 @@ defmodule MishkaChelekom.Toast do
   defp row_direction("reverse"), do: "flex-row-reverse"
   defp row_direction(_), do: row_direction("none")
 
-
   defp padding_size("extra_small"), do: "p-2"
   defp padding_size("small"), do: "p-3"
   defp padding_size("medium"), do: "p-4"
@@ -175,7 +174,6 @@ defmodule MishkaChelekom.Toast do
   defp padding_size("none"), do: "p-0"
   defp padding_size(params) when is_binary(params), do: params
   defp padding_size(_), do: padding_size("extra_small")
-
 
   defp width_class("extra_small"), do: "max-w-60"
   defp width_class("small"), do: "max-w-64"
@@ -258,58 +256,68 @@ defmodule MishkaChelekom.Toast do
   end
 
   defp color_variant("default", "primary") do
-   [ "bg-[#4363EC] text-white border-[#2441de]",
-    "[&>.toast-content-wrapper]:before:bg-white"]
+    ["bg-[#4363EC] text-white border-[#2441de]", "[&>.toast-content-wrapper]:before:bg-white"]
   end
 
   defp color_variant("default", "secondary") do
-    ["bg-[#6B6E7C] text-white border-[#877C7C]",
-    "[&>.toast-content-wrapper]:before:bg-white"]
+    ["bg-[#6B6E7C] text-white border-[#877C7C]", "[&>.toast-content-wrapper]:before:bg-white"]
   end
 
   defp color_variant("default", "success") do
-    ["bg-[#ECFEF3] text-[#047857] border-[#6EE7B7]",
-    "[&>.toast-content-wrapper]:before:bg-[#047857]"]
+    [
+      "bg-[#ECFEF3] text-[#047857] border-[#6EE7B7]",
+      "[&>.toast-content-wrapper]:before:bg-[#047857]"
+    ]
   end
 
   defp color_variant("default", "warning") do
-    ["bg-[#FFF8E6] text-[#FF8B08] border-[#FF8B08]",
-    "[&>.toast-content-wrapper]:before:bg-[#FF8B08]"]
+    [
+      "bg-[#FFF8E6] text-[#FF8B08] border-[#FF8B08]",
+      "[&>.toast-content-wrapper]:before:bg-[#FF8B08]"
+    ]
   end
 
   defp color_variant("default", "danger") do
-    ["bg-[#FFE6E6] text-[#E73B3B] border-[#E73B3B]",
-    "[&>.toast-content-wrapper]:before:bg-[#E73B3B]"]
+    [
+      "bg-[#FFE6E6] text-[#E73B3B] border-[#E73B3B]",
+      "[&>.toast-content-wrapper]:before:bg-[#E73B3B]"
+    ]
   end
 
   defp color_variant("default", "info") do
-    ["bg-[#E5F0FF] text-[#004FC4] border-[#004FC4]",
-    "[&>.toast-content-wrapper]:before:bg-[#004FC4]"]
+    [
+      "bg-[#E5F0FF] text-[#004FC4] border-[#004FC4]",
+      "[&>.toast-content-wrapper]:before:bg-[#004FC4]"
+    ]
   end
 
   defp color_variant("default", "misc") do
-    ["bg-[#FFE6FF] text-[#52059C] border-[#52059C]",
-    "[&>.toast-content-wrapper]:before:bg-[#52059C]"]
+    [
+      "bg-[#FFE6FF] text-[#52059C] border-[#52059C]",
+      "[&>.toast-content-wrapper]:before:bg-[#52059C]"
+    ]
   end
 
   defp color_variant("default", "dawn") do
-    ["bg-[#FFECDA] text-[#4D4137] border-[#4D4137]",
-    "[&>.toast-content-wrapper]:before:bg-[#4D4137]"]
+    [
+      "bg-[#FFECDA] text-[#4D4137] border-[#4D4137]",
+      "[&>.toast-content-wrapper]:before:bg-[#4D4137]"
+    ]
   end
 
   defp color_variant("default", "light") do
-    ["bg-[#E3E7F1] text-[#707483] border-[#707483]",
-    "[&>.toast-content-wrapper]:before:bg-[#707483]"]
+    [
+      "bg-[#E3E7F1] text-[#707483] border-[#707483]",
+      "[&>.toast-content-wrapper]:before:bg-[#707483]"
+    ]
   end
 
   defp color_variant("default", "dark") do
-    ["bg-[#1E1E1E] text-white border-[#050404]",
-    "[&>.toast-content-wrapper]:before:bg-white"]
+    ["bg-[#1E1E1E] text-white border-[#050404]", "[&>.toast-content-wrapper]:before:bg-white"]
   end
 
   defp color_variant("outline", "white") do
-    ["bg-white text-[#1E1E1E] border-white",
-    "[&>.toast-content-wrapper]:before:bg-[#1E1E1E]"]
+    ["bg-white text-[#1E1E1E] border-white", "[&>.toast-content-wrapper]:before:bg-[#1E1E1E]"]
   end
 
   defp color_variant("outline", "primary") do
@@ -320,158 +328,184 @@ defmodule MishkaChelekom.Toast do
   end
 
   defp color_variant("outline", "secondary") do
-    ["bg-white text-[#6B6E7C] border-[#6B6E7C]",
-    "[&>.toast-content-wrapper]:before:bg-[#6B6E7C]"]
+    ["bg-white text-[#6B6E7C] border-[#6B6E7C]", "[&>.toast-content-wrapper]:before:bg-[#6B6E7C]"]
   end
 
   defp color_variant("outline", "success") do
-    ["bg-white text-[#227A52] border-[#6EE7B7]",
-    "[&>.toast-content-wrapper]:before:bg-[#227A52]"]
+    ["bg-white text-[#227A52] border-[#6EE7B7]", "[&>.toast-content-wrapper]:before:bg-[#227A52]"]
   end
 
   defp color_variant("outline", "warning") do
-    ["bg-white text-[#FF8B08] border-[#FF8B08]",
-    "[&>.toast-content-wrapper]:before:bg-[#FF8B08]"]
+    ["bg-white text-[#FF8B08] border-[#FF8B08]", "[&>.toast-content-wrapper]:before:bg-[#FF8B08]"]
   end
 
   defp color_variant("outline", "danger") do
-    ["bg-white text-[#E73B3B] border-[#E73B3B]",
-    "[&>.toast-content-wrapper]:before:bg-[#E73B3B]"]
+    ["bg-white text-[#E73B3B] border-[#E73B3B]", "[&>.toast-content-wrapper]:before:bg-[#E73B3B]"]
   end
 
   defp color_variant("outline", "info") do
-    ["bg-white text-[#004FC4] border-[#004FC4]",
-    "[&>.toast-content-wrapper]:before:bg-[#004FC4]"]
+    ["bg-white text-[#004FC4] border-[#004FC4]", "[&>.toast-content-wrapper]:before:bg-[#004FC4]"]
   end
 
   defp color_variant("outline", "misc") do
-    ["bg-white text-[#52059C] border-[#52059C]",
-    "[&>.toast-content-wrapper]:before:bg-[#52059C]"]
+    ["bg-white text-[#52059C] border-[#52059C]", "[&>.toast-content-wrapper]:before:bg-[#52059C]"]
   end
 
   defp color_variant("outline", "dawn") do
-    ["bg-white text-[#4D4137] border-[#4D4137]",
-    "[&>.toast-content-wrapper]:before:bg-[#4D4137]"]
+    ["bg-white text-[#4D4137] border-[#4D4137]", "[&>.toast-content-wrapper]:before:bg-[#4D4137]"]
   end
 
   defp color_variant("outline", "light") do
-    ["bg-white text-[#707483] border-[#707483]",
-    "[&>.toast-content-wrapper]:before:bg-[#707483]"]
+    ["bg-white text-[#707483] border-[#707483]", "[&>.toast-content-wrapper]:before:bg-[#707483]"]
   end
 
   defp color_variant("outline", "dark") do
-    ["bg-white text-[#1E1E1E] border-[#1E1E1E]",
-    "[&>.toast-content-wrapper]:before:bg-[#1E1E1E]"]
+    ["bg-white text-[#1E1E1E] border-[#1E1E1E]", "[&>.toast-content-wrapper]:before:bg-[#1E1E1E]"]
   end
 
   defp color_variant("unbordered", "white") do
-  [  "bg-white text-[#3E3E3E] border-transparent",
-    "[&>.toast-content-wrapper]:before:bg-[#3E3E3E]"]
+    [
+      "bg-white text-[#3E3E3E] border-transparent",
+      "[&>.toast-content-wrapper]:before:bg-[#3E3E3E]"
+    ]
   end
 
   defp color_variant("unbordered", "primary") do
-  [  "bg-[#4363EC] text-white border-transparent",
-    "[&>.toast-content-wrapper]:before:bg-white"]
+    ["bg-[#4363EC] text-white border-transparent", "[&>.toast-content-wrapper]:before:bg-white"]
   end
 
   defp color_variant("unbordered", "secondary") do
-  [  "bg-[#6B6E7C] text-white border-transparent",
-    "[&>.toast-content-wrapper]:before:bg-white"]
+    ["bg-[#6B6E7C] text-white border-transparent", "[&>.toast-content-wrapper]:before:bg-white"]
   end
 
   defp color_variant("unbordered", "success") do
-    ["bg-[#ECFEF3] text-[#047857] border-transparent",
-    "[&>.toast-content-wrapper]:before:bg-[#047857]"]
+    [
+      "bg-[#ECFEF3] text-[#047857] border-transparent",
+      "[&>.toast-content-wrapper]:before:bg-[#047857]"
+    ]
   end
 
   defp color_variant("unbordered", "warning") do
-    ["bg-[#FFF8E6] text-[#FF8B08] border-transparent",
-    "[&>.toast-content-wrapper]:before:bg-[#FF8B08]"]
+    [
+      "bg-[#FFF8E6] text-[#FF8B08] border-transparent",
+      "[&>.toast-content-wrapper]:before:bg-[#FF8B08]"
+    ]
   end
 
   defp color_variant("unbordered", "danger") do
-    ["bg-[#FFE6E6] text-[#E73B3B] border-transparent",
-    "[&>.toast-content-wrapper]:before:bg-[#E73B3B]"]
+    [
+      "bg-[#FFE6E6] text-[#E73B3B] border-transparent",
+      "[&>.toast-content-wrapper]:before:bg-[#E73B3B]"
+    ]
   end
 
   defp color_variant("unbordered", "info") do
-    ["bg-[#E5F0FF] text-[#004FC4] border-transparent",
-    "[&>.toast-content-wrapper]:before:bg-[#004FC4]"]
+    [
+      "bg-[#E5F0FF] text-[#004FC4] border-transparent",
+      "[&>.toast-content-wrapper]:before:bg-[#004FC4]"
+    ]
   end
 
   defp color_variant("unbordered", "misc") do
-    ["bg-[#FFE6FF] text-[#52059C] border-transparent",
-    "[&>.toast-content-wrapper]:before:bg-[#-[#]"]
+    [
+      "bg-[#FFE6FF] text-[#52059C] border-transparent",
+      "[&>.toast-content-wrapper]:before:bg-[#-[#]"
+    ]
   end
 
   defp color_variant("unbordered", "dawn") do
-    ["bg-[#FFECDA] text-[#4D4137] border-transparent",
-    "[&>.toast-content-wrapper]:before:bg-[#4D4137]"]
+    [
+      "bg-[#FFECDA] text-[#4D4137] border-transparent",
+      "[&>.toast-content-wrapper]:before:bg-[#4D4137]"
+    ]
   end
 
   defp color_variant("unbordered", "light") do
-    ["bg-[#E3E7F1] text-[#707483] border-transparent",
-    "[&>.toast-content-wrapper]:before:bg-[#707483]"]
+    [
+      "bg-[#E3E7F1] text-[#707483] border-transparent",
+      "[&>.toast-content-wrapper]:before:bg-[#707483]"
+    ]
   end
 
   defp color_variant("unbordered", "dark") do
-  [  "bg-[#1E1E1E] text-white border-transparent",
-    "[&>.toast-content-wrapper]:before:bg-white"]
+    ["bg-[#1E1E1E] text-white border-transparent", "[&>.toast-content-wrapper]:before:bg-white"]
   end
 
   defp color_variant("shadow", "white") do
-    ["bg-white text-[#3E3E3E] border-[#DADADA] shadow-md",
-    "[&>.toast-content-wrapper]:before:bg-[#3E3E3E]"]
+    [
+      "bg-white text-[#3E3E3E] border-[#DADADA] shadow-md",
+      "[&>.toast-content-wrapper]:before:bg-[#3E3E3E]"
+    ]
   end
 
   defp color_variant("shadow", "primary") do
-    ["bg-[#4363EC] text-white border-[#4363EC] shadow-md",
-    "[&>.toast-content-wrapper]:before:bg-white"]
+    [
+      "bg-[#4363EC] text-white border-[#4363EC] shadow-md",
+      "[&>.toast-content-wrapper]:before:bg-white"
+    ]
   end
 
   defp color_variant("shadow", "secondary") do
-    ["bg-[#6B6E7C] text-white border-[#6B6E7C] shadow-md",
-    "[&>.toast-content-wrapper]:before:bg-white"]
+    [
+      "bg-[#6B6E7C] text-white border-[#6B6E7C] shadow-md",
+      "[&>.toast-content-wrapper]:before:bg-white"
+    ]
   end
 
   defp color_variant("shadow", "success") do
-    ["bg-[#AFEAD0] text-[#227A52] border-[#AFEAD0] shadow-md",
-    "[&>.toast-content-wrapper]:before:bg-[#227A52]"]
+    [
+      "bg-[#AFEAD0] text-[#227A52] border-[#AFEAD0] shadow-md",
+      "[&>.toast-content-wrapper]:before:bg-[#227A52]"
+    ]
   end
 
   defp color_variant("shadow", "warning") do
-    ["bg-[#FFF8E6] text-[#FF8B08] border-[#FFF8E6] shadow-md",
-    "[&>.toast-content-wrapper]:before:bg-[#FF8B08]"]
+    [
+      "bg-[#FFF8E6] text-[#FF8B08] border-[#FFF8E6] shadow-md",
+      "[&>.toast-content-wrapper]:before:bg-[#FF8B08]"
+    ]
   end
 
   defp color_variant("shadow", "danger") do
-    ["bg-[#FFE6E6] text-[#E73B3B] border-[#FFE6E6] shadow-md",
-    "[&>.toast-content-wrapper]:before:bg-[#E73B3B]"]
+    [
+      "bg-[#FFE6E6] text-[#E73B3B] border-[#FFE6E6] shadow-md",
+      "[&>.toast-content-wrapper]:before:bg-[#E73B3B]"
+    ]
   end
 
   defp color_variant("shadow", "info") do
-    ["bg-[#E5F0FF] text-[#004FC4] border-[#E5F0FF] shadow-md",
-    "[&>.toast-content-wrapper]:before:bg-[#004FC4]"]
+    [
+      "bg-[#E5F0FF] text-[#004FC4] border-[#E5F0FF] shadow-md",
+      "[&>.toast-content-wrapper]:before:bg-[#004FC4]"
+    ]
   end
 
   defp color_variant("shadow", "misc") do
-    ["bg-[#FFE6FF] text-[#52059C] border-[#FFE6FF] shadow-md",
-    "[&>.toast-content-wrapper]:before:bg-[#52059C]"]
+    [
+      "bg-[#FFE6FF] text-[#52059C] border-[#FFE6FF] shadow-md",
+      "[&>.toast-content-wrapper]:before:bg-[#52059C]"
+    ]
   end
 
   defp color_variant("shadow", "dawn") do
-    ["bg-[#FFECDA] text-[#4D4137] border-[#FFECDA] shadow-md",
-    "[&>.toast-content-wrapper]:before:bg-[#4D4137]"]
+    [
+      "bg-[#FFECDA] text-[#4D4137] border-[#FFECDA] shadow-md",
+      "[&>.toast-content-wrapper]:before:bg-[#4D4137]"
+    ]
   end
 
   defp color_variant("shadow", "light") do
-    ["bg-[#E3E7F1] text-[#707483] border-[#E3E7F1] shadow-md",
-    "[&>.toast-content-wrapper]:before:bg-[#707483]"]
+    [
+      "bg-[#E3E7F1] text-[#707483] border-[#E3E7F1] shadow-md",
+      "[&>.toast-content-wrapper]:before:bg-[#707483]"
+    ]
   end
 
   defp color_variant("shadow", "dark") do
-    ["bg-[#1E1E1E] text-white border-[#1E1E1E] shadow-md",
-    "[&>.toast-content-wrapper]:before:bg-white"]
+    [
+      "bg-[#1E1E1E] text-white border-[#1E1E1E] shadow-md",
+      "[&>.toast-content-wrapper]:before:bg-white"
+    ]
   end
 
   ## JS Commands

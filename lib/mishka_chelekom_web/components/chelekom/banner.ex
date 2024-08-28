@@ -112,7 +112,7 @@ defmodule MishkaChelekom.Banner do
           dismiss_size(@size),
           @class
         ]}
-       />
+      />
     </button>
     """
   end
