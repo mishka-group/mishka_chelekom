@@ -67,7 +67,7 @@ defmodule MishkaChelekom.Toast do
   attr :horizontal_size, :string, default: "extra_small", doc: ""
   attr :font_weight, :string, default: "font-normal", doc: ""
   attr :class, :string, default: "", doc: "Additional CSS classes to be added to the tooltip."
-  attr :params, :map, default: %{kind: "banner"}
+  attr :params, :map, default: %{kind: "toast"}
   attr :rest, :global, include: ~w(right_dismiss left_dismiss), doc: ""
 
   attr :content_border, :string, default: "none", doc: ""
@@ -121,7 +121,7 @@ defmodule MishkaChelekom.Toast do
   attr :dismiss, :boolean, default: false
   attr :class, :string, default: nil
   attr :size, :string, default: "small"
-  attr :params, :map, default: %{kind: "badge"}
+  attr :params, :map, default: %{kind: "toast"}
 
   defp tooltip_dismiss(assigns) do
     ~H"""
@@ -146,7 +146,6 @@ defmodule MishkaChelekom.Toast do
   defp boder_position("start"), do: "ps-1.5 before:start-1"
   defp boder_position(params) when is_binary(params), do: params
   defp boder_position(_), do: boder_position("start")
-  #TODO: When contnet border is none whould remove pe and ps classes
 
   defp content_border("extra_small"), do: "before:w-0.5"
   defp content_border("small"), do: "before:w-1"
