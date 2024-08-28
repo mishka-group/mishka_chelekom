@@ -61,6 +61,7 @@ defmodule MishkaChelekomWeb.Router do
     live "/examples/timeline", Examples.TimelineLive
     live "/examples/toast-group", Examples.ToastGroupLive
     live "/examples/dropdown", Examples.DropdownLive
+    live "/examples/jumbotron", Examples.JumbotronLive
   end
 
   # Other scopes may use custom stacks.
