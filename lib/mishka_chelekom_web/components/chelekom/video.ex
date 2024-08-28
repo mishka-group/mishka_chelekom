@@ -10,13 +10,15 @@ defmodule MishkaChelekom.Video do
   Use a local web server for testing to avoid these issues.
 
   1. When you access an HTML file directly from your file system (file:/// protocol),
-  browsers often have restrictions that prevent the proper functioning of certain features,
-  including the <track> tag. The captions might not display properly in such cases.
+      browsers often have restrictions that prevent the proper functioning of certain features,
+      including the <track> tag. The captions might not display properly in such cases.
 
   2. The video source and .vtt file should generally be hosted on the same server to avoid cross-origin issues (CORS).
-  If they are on different servers,
-  you may need to ensure proper CORS headers are set up to allow the browser to access the caption file.
+      If they are on different servers,
+      you may need to ensure proper CORS headers are set up to allow the browser to access the caption file.
 
+  Important:  Adding a Base64-encoded subtitle directly to a video won't cause a CORS issue,
+              so you can use it in your components even if the subtitle is not from the same origin.
   """
 
   @doc type: :component
