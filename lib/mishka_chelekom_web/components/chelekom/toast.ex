@@ -34,14 +34,13 @@ defmodule MishkaChelekom.Toast do
   slot :inner_block, required: false, doc: ""
   attr :rest, :global, doc: ""
 
-  defp toast_wrapper(assigns) do
+  def toast_group(assigns) do
     ~H"""
     <div
       id={@id}
       class={[
-        "overflow-hidden fixed",
+        "fixed",
         space_class(@space),
-        width_class(@width),
         position_class(@horizontal_size, @horizontal),
         vertical_position(@vertical_size, @vertical),
         @class
