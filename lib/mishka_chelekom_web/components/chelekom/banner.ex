@@ -4,6 +4,8 @@ defmodule MishkaChelekom.Banner do
   import MishkaChelekomComponents
   import MishkaChelekomWeb.Gettext
 
+  # TODO: refactor positions
+
   @sizes ["extra_small", "small", "medium", "large", "extra_large"]
   @colors [
     "white",
@@ -35,7 +37,7 @@ defmodule MishkaChelekom.Banner do
   attr :size, :string, default: "large", doc: ""
   attr :variant, :string, values: @variants, default: "default", doc: ""
   attr :color, :string, values: @colors, default: "white", doc: ""
-  attr :border, :string, values: @sizes ++ [nil], default: "extra_small", doc: ""
+  attr :border, :string, default: "extra_small", doc: ""
 
   attr :border_position, :string,
     values: ["top", "bottom", "full", "none"],
