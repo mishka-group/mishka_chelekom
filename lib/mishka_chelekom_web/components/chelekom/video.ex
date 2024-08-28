@@ -126,17 +126,39 @@ defmodule MishkaChelekom.Video do
   defp caption_size(params) when is_binary(params), do: params
   defp caption_size(_), do: caption_size("extra_small")
 
-  defp caption_bakcground("white"), do: "[&::cue]:bg-[linear-gradient(#fff,#fff)] [&::cue]:text-[#1E1E1E]"
-  defp caption_bakcground("primary"), do: "[&::cue]:bg-[linear-gradient(#2441de,#2441de)] [&::cue]:text-white"
-  defp caption_bakcground("secondary"), do: "[&::cue]:bg-[linear-gradient(#877C7C,#877C7C)] [&::cue]:text-white"
-  defp caption_bakcground("success"), do: "[&::cue]:bg-[linear-gradient(#6EE7B7,#6EE7B7)] [&::cue]:text-[#1E1E1E]"
-  defp caption_bakcground("warning"), do: "[&::cue]:bg-[linear-gradient(#FF8B08,#FF8B08)] [&::cue]:text-[#1E1E1E]"
-  defp caption_bakcground("danger"), do: "[&::cue]:bg-[linear-gradient(#E73B3B,#E73B3B)] [&::cue]:text-[#1E1E1E]"
-  defp caption_bakcground("info"), do: "[&::cue]:bg-[linear-gradient(#004FC4,#004FC4)] [&::cue]:text-[#1E1E1E]"
-  defp caption_bakcground("misc"), do: "[&::cue]:bg-[linear-gradient(#52059C,#52059C)] [&::cue]:text-[#1E1E1E]"
-  defp caption_bakcground("dawn"), do: "[&::cue]:bg-[linear-gradient(#4D4137,#4D4137)] [&::cue]:text-[#1E1E1E]"
-  defp caption_bakcground("light"), do: "[&::cue]:bg-[linear-gradient(#707483,#707483)] [&::cue]:text-[#1E1E1E]"
-  defp caption_bakcground("dark"), do: "[&::cue]:bg-[linear-gradient(#1E1E1E,#1E1E1E)] [&::cue]:text-white"
+  defp caption_bakcground("white"),
+    do: "[&::cue]:bg-[linear-gradient(#fff,#fff)] [&::cue]:text-[#1E1E1E]"
+
+  defp caption_bakcground("primary"),
+    do: "[&::cue]:bg-[linear-gradient(#2441de,#2441de)] [&::cue]:text-white"
+
+  defp caption_bakcground("secondary"),
+    do: "[&::cue]:bg-[linear-gradient(#877C7C,#877C7C)] [&::cue]:text-white"
+
+  defp caption_bakcground("success"),
+    do: "[&::cue]:bg-[linear-gradient(#6EE7B7,#6EE7B7)] [&::cue]:text-[#1E1E1E]"
+
+  defp caption_bakcground("warning"),
+    do: "[&::cue]:bg-[linear-gradient(#FF8B08,#FF8B08)] [&::cue]:text-[#1E1E1E]"
+
+  defp caption_bakcground("danger"),
+    do: "[&::cue]:bg-[linear-gradient(#E73B3B,#E73B3B)] [&::cue]:text-[#1E1E1E]"
+
+  defp caption_bakcground("info"),
+    do: "[&::cue]:bg-[linear-gradient(#004FC4,#004FC4)] [&::cue]:text-[#1E1E1E]"
+
+  defp caption_bakcground("misc"),
+    do: "[&::cue]:bg-[linear-gradient(#52059C,#52059C)] [&::cue]:text-[#1E1E1E]"
+
+  defp caption_bakcground("dawn"),
+    do: "[&::cue]:bg-[linear-gradient(#4D4137,#4D4137)] [&::cue]:text-[#1E1E1E]"
+
+  defp caption_bakcground("light"),
+    do: "[&::cue]:bg-[linear-gradient(#707483,#707483)] [&::cue]:text-[#1E1E1E]"
+
+  defp caption_bakcground("dark"),
+    do: "[&::cue]:bg-[linear-gradient(#1E1E1E,#1E1E1E)] [&::cue]:text-white"
+
   defp caption_bakcground(params) when is_binary(params), do: params
   defp caption_bakcground(_), do: caption_bakcground("white")
 
