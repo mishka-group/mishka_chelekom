@@ -30,9 +30,14 @@ defmodule MishkaChelekom.Toast do
   @doc type: :component
   attr :id, :string, default: nil
   attr :space, :string, default: "small", doc: ""
+  attr :vertical, :string, values: ["top", "bottom"], default: "bottom", doc: ""
+  attr :vertical_space, :string, default: "extra_small", doc: ""
+  attr :horizontal, :string, values: ["left", "right", "center"], default: "right", doc: ""
+  attr :horizontal_space, :string, default: "extra_small", doc: ""
   attr :class, :string, default: nil
-  slot :inner_block, required: false, doc: ""
   attr :rest, :global, doc: ""
+
+  slot :inner_block, required: false, doc: ""
 
   def toast_group(assigns) do
     ~H"""
@@ -41,8 +46,8 @@ defmodule MishkaChelekom.Toast do
       class={[
         "fixed",
         space_class(@space),
-        position_class(@horizontal_size, @horizontal),
-        vertical_position(@vertical_size, @vertical),
+        position_class(@horizontal_space, @horizontal),
+        vertical_position(@vertical_space, @vertical),
         @class
       ]}
       {@rest}
@@ -54,6 +59,7 @@ defmodule MishkaChelekom.Toast do
 
   attr :id, :string, required: true, doc: ""
   attr :size, :string, default: "large", doc: ""
+  attr :is_fixed, :boolean, default: true, doc: ""
   attr :variant, :string, values: @variants, default: "default", doc: ""
   attr :color, :string, values: @colors, default: "white", doc: ""
   attr :border, :string, default: "extra_small", doc: ""
@@ -61,9 +67,9 @@ defmodule MishkaChelekom.Toast do
   attr :width, :string, default: "medium", doc: ""
   attr :space, :string, default: "extra_small", doc: ""
   attr :vertical, :string, values: ["top", "bottom"], default: "top", doc: ""
-  attr :vertical_size, :string, default: "extra_small", doc: ""
+  attr :vertical_space, :string, default: "extra_small", doc: ""
   attr :horizontal, :string, values: ["left", "right", "center"], default: "right", doc: ""
-  attr :horizontal_size, :string, default: "extra_small", doc: ""
+  attr :horizontal_space, :string, default: "extra_small", doc: ""
   attr :font_weight, :string, default: "font-normal", doc: ""
   attr :class, :string, default: "", doc: "Additional CSS classes to be added to the toast."
   attr :params, :map, default: %{kind: "toast"}
@@ -82,14 +88,15 @@ defmodule MishkaChelekom.Toast do
     <div
       id={@id}
       class={[
-        "overflow-hidden fixed",
+        "overflow-hidden",
+        @is_fixed && "fixed",
         space_class(@space),
         width_class(@width),
         rounded_size(@rounded),
         border_class(@border),
         color_variant(@variant, @color),
-        position_class(@horizontal_size, @horizontal),
-        vertical_position(@vertical_size, @vertical),
+        position_class(@horizontal_space, @horizontal),
+        vertical_position(@vertical_space, @vertical),
         @font_weight,
         @class
       ]}

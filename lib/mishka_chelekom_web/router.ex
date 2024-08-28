@@ -59,6 +59,7 @@ defmodule MishkaChelekomWeb.Router do
     live "/examples/video", Examples.VideoLive
     live "/examples/toast", Examples.ToastLive
     live "/examples/timeline", Examples.TimelineLive
+    live "/examples/toast-group", Examples.ToastGroupLive
   end
 
   # Other scopes may use custom stacks.
