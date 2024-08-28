@@ -37,6 +37,7 @@ defmodule MishkaChelekom.Sidebar do
   attr :rest, :global, doc: ""
   slot :inner_block, required: false, doc: ""
 
+  @spec sidebar(map()) :: Phoenix.LiveView.Rendered.t()
   def sidebar(assigns) do
     ~H"""
     <aside
