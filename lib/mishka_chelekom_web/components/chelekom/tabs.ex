@@ -167,41 +167,31 @@ defmodule MishkaChelekom.Tabs do
   defp size_class(_), do: size_class("medium")
 
   defp border_class("none") do
-    ["border-0"]
+    "border-0"
   end
 
   defp border_class("extra_small") do
-    [
-      "border"
-    ]
+   "border"
   end
 
   defp border_class("small") do
-    [
-       "border-2"
-    ]
+    "border-2"
   end
 
   defp border_class("medium") do
-    [
-       "border-[3px]"
-    ]
+    "border-[3px]"
   end
 
   defp border_class("large") do
-    [
-      "border-4"
-    ]
+   "border-4"
   end
 
   defp border_class("extra_large") do
-    [
-      "border-[5px]"
-    ]
+   "border-[5px]"
   end
 
-  defp border_class(params, _) when is_binary(params), do: [params]
-  defp border_class(nil, _), do: nil
+  defp border_class(params) when is_binary(params), do: [params]
+  defp border_class(nil), do: border_class("extra_small")
 
   defp rounded_size("extra_small"), do: "rounded-sm"
   defp rounded_size("small"), do: "rounded"
