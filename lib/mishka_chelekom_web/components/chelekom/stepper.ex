@@ -8,6 +8,7 @@ defmodule MishkaChelekom.Stepper do
   attr :border, :string, default: "extra_small", doc: ""
   attr :size, :string, default: "small", doc: ""
   attr :gap, :string, default: "small", doc: ""
+  attr :margin, :string, default: "extra_large", doc: ""
   attr :color, :string, default: "silver", doc: ""
   attr :font_weight, :string, default: "font-normal", doc: ""
   attr :rest, :global, doc: ""
@@ -19,6 +20,7 @@ defmodule MishkaChelekom.Stepper do
     <div id={@id}
       class={[
         "flex items-center w-full text-center",
+        seperator_margin(@margin),
         border_class(@border),
         stepper_color(@color),
         size_class(@size),
@@ -89,9 +91,61 @@ defmodule MishkaChelekom.Stepper do
       "sm:[&_.stepper-section:not(:last-child)]:w-full [&_.stepper-section:not(:last-child)]:after:h-1",
       "sm:[&_.stepper-section:not(:last-child)]:after:content-[''] [&_.stepper-section:not(:last-child)]:after:w-full",
       "[&_.stepper-section:not(:last-child)]:after:hidden sm:[&_.stepper-section:not(:last-child)]:after:inline-block",
-      "[&_.stepper-section:not(:last-child)]:after:mx-6 xl:[&_.stepper-section:not(:last-child)]:after:mx-10",
     ]
   end
+
+  defp rounded_size("extra_small"), do: "rounded-sm"
+  defp rounded_size("small"), do: "rounded"
+  defp rounded_size("medium"), do: "rounded-md"
+  defp rounded_size("large"), do: "rounded-lg"
+  defp rounded_size("extra_large"), do: "rounded-xl"
+  defp rounded_size("full"), do: "rounded-full"
+  defp rounded_size(params) when is_binary(params), do: params
+  defp rounded_size(_), do: rounded_size("full")
+
+  defp seperator_margin("none") do
+    [
+      "[&_.stepper-section:not(:last-child)]:after:mx-0",
+    ]
+  end
+
+  defp seperator_margin("extra_small") do
+    [
+      "[&_.stepper-section:not(:last-child)]:after:mx-2",
+      "xl:[&_.stepper-section:not(:last-child)]:after:mx-6"
+    ]
+  end
+
+  defp seperator_margin("small") do
+    [
+      "[&_.stepper-section:not(:last-child)]:after:mx-3",
+      "xl:[&_.stepper-section:not(:last-child)]:after:mx-7"
+    ]
+  end
+
+  defp seperator_margin("medium") do
+    [
+      "[&_.stepper-section:not(:last-child)]:after:mx-4",
+      "xl:[&_.stepper-section:not(:last-child)]:after:mx-8"
+    ]
+  end
+
+  defp seperator_margin("large") do
+    [
+      "[&_.stepper-section:not(:last-child)]:after:mx-5",
+      "xl:[&_.stepper-section:not(:last-child)]:after:mx-9"
+    ]
+  end
+
+  defp seperator_margin("extra_large") do
+    [
+      "[&_.stepper-section:not(:last-child)]:after:mx-6",
+      "xl:[&_.stepper-section:not(:last-child)]:after:mx-10"
+    ]
+  end
+
+  defp seperator_margin(params) when is_binary(params), do: params
+  defp seperator_margin(_), do: seperator_margin("extra_large")
 
   defp border_class("extra_small"), do: "[&_.stepper-section:not(:last-child)]:after:border-b"
   defp border_class("small"), do: "[&_.stepper-section:not(:last-child)]:after:border-b-2"
@@ -109,6 +163,7 @@ defmodule MishkaChelekom.Stepper do
   defp size_class(params) when is_binary(params), do: params
   defp size_class(_), do: size_class("medium")
 
+  defp gap_class("none"), do: "[&_.stepper-section]:gap-0"
   defp gap_class("extra_small"), do: "[&_.stepper-section]:gap-1"
   defp gap_class("small"), do: "[&_.stepper-section]:gap-2"
   defp gap_class("medium"), do: "[&_.stepper-section]:gap-3"
@@ -135,14 +190,7 @@ defmodule MishkaChelekom.Stepper do
   defp step_size(params) when is_binary(params), do: params
   defp step_size(_), do: step_size("small")
 
-  defp rounded_size("extra_small"), do: "rounded-sm"
-  defp rounded_size("small"), do: "rounded"
-  defp rounded_size("medium"), do: "rounded-md"
-  defp rounded_size("large"), do: "rounded-lg"
-  defp rounded_size("extra_large"), do: "rounded-xl"
-  defp rounded_size("full"), do: "rounded-full"
-  defp rounded_size(params) when is_binary(params), do: params
-  defp rounded_size(_), do: rounded_size("full")
+  # colors
 
   defp step_background("transparent") do
     "bg-transparent"
