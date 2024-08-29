@@ -1,74 +1,434 @@
 defmodule MishkaChelekom.Tabs do
   use Phoenix.Component
 
+  @colors [
+    "white",
+    "primary",
+    "secondary",
+    "dark",
+    "success",
+    "warning",
+    "danger",
+    "info",
+    "light",
+    "misc",
+    "dawn"
+  ]
+
+  @variants [
+    "default",
+    "outline",
+    "transparent",
+    "shadow",
+    "unbordered"
+  ]
+
   @doc type: :component
   attr :id, :string, default: nil, doc: ""
+  attr :variant, :string, values: @variants, default: "default", doc: ""
+  attr :color, :string, values: @colors, default: "white", doc: ""
+  attr :border, :string, default: "medium", doc: ""
+  attr :rounded, :string, default: "small", doc: ""
+  attr :size, :string, default: "medium", doc: ""
+  attr :space, :string, default: "small", doc: ""
+  attr :font_weight, :string, default: "font-normal", doc: ""
+  attr :padding, :string, default: "small", doc: ""
   attr :class, :string, default: nil, doc: ""
-  attr :rest, :global, doc: ""
+  attr :icon, :string, default: "hero-quote", doc: ""
+  attr :icon_class, :string, default: nil, doc: ""
 
+  # js solution find tabpanel and if tab.getAttribute('aria-labelledby') === id then tabPanel.hidden = false
   def tabs(assigns) do
     ~H"""
-    <div class="w-full">
-      <div class="relative right-0">
-        <ul
-          class="relative flex flex-wrap p-1 list-none rounded-lg bg-blue-50"
+    <div class={[
+      "w-full",
+      space_class(@space),
+      border_class(@border),
+      color_variant(@variant, @color),
+      rounded_size(@rounded),
+      padding_size(@padding),
+      size_class(@size),
+      @font_weight,
+      @class
+    ]}>
+        <div
+          class="relative flex flex-wrap"
           data-tabs="tabs"
-          role="list"
+          aria-label="tab label"
+          role="tablist"
         >
-          <li class="z-30 flex-auto text-center">
-            <a
-              class="z-30 flex items-center justify-center w-full px-0 py-1 mb-0 transition-all ease-in-out border-0 rounded-lg cursor-pointer text-slate-700 bg-inherit"
+          <div class="z-30 flex-auto text-center">
+            <button
+              class={[
+                "z-30 flex items-center justify-center w-full px-0 py-1 mb-0",
+                "transition-all ease-in-out border-0 rounded-lg cursor-pointer text-slate-700 bg-inherit"
+              ]}
               data-tab-target=""
               active
               role="tab"
               aria-selected="true"
+              id="1"
             >
-              <span class="ml-1">HTML</span>
-            </a>
-          </li>
-          <li class="z-30 flex-auto text-center">
-            <a
-              class="z-30 flex items-center justify-center w-full px-0 py-1 mb-0 transition-all ease-in-out border-0 rounded-lg cursor-pointer text-slate-700 bg-inherit"
+              <span class="ml-1">text 1</span>
+            </button>
+            <button
+              class={[
+                "z-30 flex items-center justify-center w-full px-0 py-1 mb-0",
+                "transition-all ease-in-out border-0 rounded-lg cursor-pointer text-slate-700 bg-inherit"
+              ]}
               data-tab-target=""
               role="tab"
-              aria-selected="false"
+              id="2"
             >
-              <span class="ml-1">React</span>
-            </a>
-          </li>
-          <li class="z-30 flex-auto text-center">
-            <a
-              class="z-30 flex items-center justify-center w-full px-0 py-1 mb-0 transition-all ease-in-out border-0 rounded-lg cursor-pointer text-slate-700 bg-inherit"
+              <span class="ml-1">text 2</span>
+            </button>
+            <button
+              class={[
+                "z-30 flex items-center justify-center w-full px-0 py-1 mb-0",
+                "transition-all ease-in-out border-0 rounded-lg cursor-pointer text-slate-700 bg-inherit"
+              ]}
               data-tab-target=""
               role="tab"
-              aria-selected="false"
+              id="3"
             >
-              <span class="ml-1">Vue</span>
-            </a>
-          </li>
-          <li class="z-30 flex-auto text-center">
-            <a
-              class="z-30 flex items-center justify-center w-full px-0 py-1 mb-0 transition-all ease-in-out border-0 rounded-lg cursor-pointer text-slate-700 bg-inherit"
-              data-tab-target=""
-              role="tab"
-              aria-selected="true"
-            >
-              <span class="ml-1">Angular</span>
-            </a>
-          </li>
-          <li class="z-30 flex-auto text-center">
-            <a
-              class="z-30 flex items-center justify-center w-full px-0 py-1 mb-0 transition-all ease-in-out border-0 rounded-lg cursor-pointer text-slate-700 bg-inherit"
-              data-tab-target=""
-              role="tab"
-              aria-selected="true"
-            >
-              <span class="ml-1">Svelte</span>
-            </a>
-          </li>
-        </ul>
-      </div>
+              <span class="ml-1">text 3</span>
+            </button>
+          </div>
+        </div>
+        <div role="tabpanel" aria-labelledby="1">
+          <p>Panel 1</p>
+        </div>
+        <div role="tabpanel" aria-labelledby="2" hidden>
+          <p>panel 2</p>
+        </div>
+        <div role="tabpanel" aria-labelledby="3" hidden>
+          <p>panel 3</p>
+        </div>
     </div>
     """
   end
+
+  attr :id, :string, default: nil, doc: ""
+  attr :icon, :string, default: nil, doc: ""
+  attr :class, :string, default: nil, doc: ""
+  attr :rest, :global, doc: ""
+
+  slot :inner_block, required: false, doc: ""
+
+  def tab_button(assigns) do
+    ~H"""
+    <button class={[
+      "stepper-section flex items-center",
+    ]}>
+      <%= render_slot(@inner_block) %>
+    </button>
+    """
+  end
+
+  attr :id, :string, default: nil, doc: ""
+  attr :icon, :string, default: nil, doc: ""
+  attr :class, :string, default: nil, doc: ""
+  attr :rest, :global, doc: ""
+
+  slot :inner_block, required: false, doc: ""
+
+  def tab_panel(assigns) do
+    ~H"""
+    <div class={[
+      "stepper-section flex items-center",
+    ]}>
+      <%= render_slot(@inner_block) %>
+    </div>
+    """
+  end
+
+  defp space_class("extra_small"), do: "space-y-2"
+  defp space_class("small"), do: "space-y-3"
+  defp space_class("medium"), do: "space-y-4"
+  defp space_class("large"), do: "space-y-5"
+  defp space_class("extra_large"), do: "space-y-6"
+  defp space_class(params) when is_binary(params), do: params
+
+  defp padding_size("extra_small"), do: "p-1"
+  defp padding_size("small"), do: "p-2"
+  defp padding_size("medium"), do: "p-3"
+  defp padding_size("large"), do: "p-4"
+  defp padding_size("extra_large"), do: "p-5"
+  defp padding_size("none"), do: "p-0"
+  defp padding_size(params) when is_binary(params), do: params
+  defp padding_size(_), do: padding_size("small")
+
+  defp size_class("extra_small"), do: "text-xs [&>.quote-icon]:size-7"
+  defp size_class("small"), do: "text-sm [&>.quote-icon]:size-8"
+  defp size_class("medium"), do: "text-base [&>.quote-icon]:size-9"
+  defp size_class("large"), do: "text-lg [&>.quote-icon]:size-10"
+  defp size_class("extra_large"), do: "text-xl [&>.quote-icon]:size-12"
+  defp size_class(params) when is_binary(params), do: params
+  defp size_class(_), do: size_class("medium")
+
+  defp border_class("none") do
+    ["border-0"]
+  end
+
+  defp border_class("extra_small") do
+    [
+      "border"
+    ]
+  end
+
+  defp border_class("small") do
+    [
+       "border-2"
+    ]
+  end
+
+  defp border_class("medium") do
+    [
+       "border-[3px]"
+    ]
+  end
+
+  defp border_class("large") do
+    [
+      "border-4"
+    ]
+  end
+
+  defp border_class("extra_large") do
+    [
+      "border-[5px]"
+    ]
+  end
+
+  defp border_class(params, _) when is_binary(params), do: [params]
+  defp border_class(nil, _), do: nil
+
+  defp rounded_size("extra_small"), do: "rounded-sm"
+  defp rounded_size("small"), do: "rounded"
+  defp rounded_size("medium"), do: "rounded-md"
+  defp rounded_size("large"), do: "rounded-lg"
+  defp rounded_size("extra_large"), do: "rounded-xl"
+  defp rounded_size("full"), do: "rounded-full"
+  defp rounded_size(nil), do: "rounded-none"
+
+  defp color_variant("default", "white") do
+    "bg-white text-[#3E3E3E] border-[#DADADA]"
+  end
+
+  defp color_variant("default", "primary") do
+    "bg-[#4363EC] text-white border-[#2441de]"
+  end
+
+  defp color_variant("default", "secondary") do
+    "bg-[#6B6E7C] text-white border-[#877C7C]"
+  end
+
+  defp color_variant("default", "success") do
+    "bg-[#ECFEF3] text-[#047857] border-[#6EE7B7]"
+  end
+
+  defp color_variant("default", "warning") do
+    "bg-[#FFF8E6] text-[#FF8B08] border-[#FF8B08]"
+  end
+
+  defp color_variant("default", "danger") do
+    "bg-[#FFE6E6] text-[#E73B3B] border-[#E73B3B]"
+  end
+
+  defp color_variant("default", "info") do
+    "bg-[#E5F0FF] text-[#004FC4] border-[#004FC4]"
+  end
+
+  defp color_variant("default", "misc") do
+    "bg-[#FFE6FF] text-[#52059C] border-[#52059C]"
+  end
+
+  defp color_variant("default", "dawn") do
+    "bg-[#FFECDA] text-[#4D4137] border-[#4D4137]"
+  end
+
+  defp color_variant("default", "light") do
+    "bg-[#E3E7F1] text-[#707483] border-[#707483]"
+  end
+
+  defp color_variant("default", "dark") do
+    "bg-[#1E1E1E] text-white border-[#050404]"
+  end
+
+  defp color_variant("outline", "white") do
+    "bg-transparent text-white border-white"
+  end
+
+  defp color_variant("outline", "primary") do
+    "bg-transparent text-[#4363EC] border-[#4363EC] "
+  end
+
+  defp color_variant("outline", "secondary") do
+    "bg-transparent text-[#6B6E7C] border-[#6B6E7C]"
+  end
+
+  defp color_variant("outline", "success") do
+    "bg-transparent text-[#227A52] border-[#6EE7B7]"
+  end
+
+  defp color_variant("outline", "warning") do
+    "bg-transparent text-[#FF8B08] border-[#FF8B08]"
+  end
+
+  defp color_variant("outline", "danger") do
+    "bg-transparent text-[#E73B3B] border-[#E73B3B]"
+  end
+
+  defp color_variant("outline", "info") do
+    "bg-transparent text-[#004FC4] border-[#004FC4]"
+  end
+
+  defp color_variant("outline", "misc") do
+    "bg-transparent text-[#52059C] border-[#52059C]"
+  end
+
+  defp color_variant("outline", "dawn") do
+    "bg-transparent text-[#4D4137] border-[#4D4137]"
+  end
+
+  defp color_variant("outline", "light") do
+    "bg-transparent text-[#707483] border-[#707483]"
+  end
+
+  defp color_variant("outline", "dark") do
+    "bg-transparent text-[#1E1E1E] border-[#1E1E1E]"
+  end
+
+  defp color_variant("unbordered", "white") do
+    "bg-white text-[#3E3E3E] border-transparent"
+  end
+
+  defp color_variant("unbordered", "primary") do
+    "bg-[#4363EC] text-white border-transparent"
+  end
+
+  defp color_variant("unbordered", "secondary") do
+    "bg-[#6B6E7C] text-white border-transparent"
+  end
+
+  defp color_variant("unbordered", "success") do
+    "bg-[#ECFEF3] text-[#047857] border-transparent"
+  end
+
+  defp color_variant("unbordered", "warning") do
+    "bg-[#FFF8E6] text-[#FF8B08] border-transparent"
+  end
+
+  defp color_variant("unbordered", "danger") do
+    "bg-[#FFE6E6] text-[#E73B3B] border-transparent"
+  end
+
+  defp color_variant("unbordered", "info") do
+    "bg-[#E5F0FF] text-[#004FC4] border-transparent"
+  end
+
+  defp color_variant("unbordered", "misc") do
+    "bg-[#FFE6FF] text-[#52059C] border-transparent"
+  end
+
+  defp color_variant("unbordered", "dawn") do
+    "bg-[#FFECDA] text-[#4D4137] border-transparent"
+  end
+
+  defp color_variant("unbordered", "light") do
+    "bg-[#E3E7F1] text-[#707483] border-transparent"
+  end
+
+  defp color_variant("unbordered", "dark") do
+    "bg-[#1E1E1E] text-white border-transparent"
+  end
+
+  defp color_variant("shadow", "white") do
+    "bg-white text-[#3E3E3E] border-[#DADADA] shadow-md"
+  end
+
+  defp color_variant("shadow", "primary") do
+    "bg-[#4363EC] text-white border-[#4363EC] shadow-md"
+  end
+
+  defp color_variant("shadow", "secondary") do
+    "bg-[#6B6E7C] text-white border-[#6B6E7C] shadow-md"
+  end
+
+  defp color_variant("shadow", "success") do
+    "bg-[#AFEAD0] text-[#227A52] border-[#AFEAD0] shadow-md"
+  end
+
+  defp color_variant("shadow", "warning") do
+    "bg-[#FFF8E6] text-[#FF8B08] border-[#FFF8E6] shadow-md"
+  end
+
+  defp color_variant("shadow", "danger") do
+    "bg-[#FFE6E6] text-[#E73B3B] border-[#FFE6E6] shadow-md"
+  end
+
+  defp color_variant("shadow", "info") do
+    "bg-[#E5F0FF] text-[#004FC4] border-[#E5F0FF] shadow-md"
+  end
+
+  defp color_variant("shadow", "misc") do
+    "bg-[#FFE6FF] text-[#52059C] border-[#FFE6FF] shadow-md"
+  end
+
+  defp color_variant("shadow", "dawn") do
+    "bg-[#FFECDA] text-[#4D4137] border-[#FFECDA] shadow-md"
+  end
+
+  defp color_variant("shadow", "light") do
+    "bg-[#E3E7F1] text-[#707483] border-[#E3E7F1] shadow-md"
+  end
+
+  defp color_variant("shadow", "dark") do
+    "bg-[#1E1E1E] text-white border-[#1E1E1E] shadow-md"
+  end
+
+  defp color_variant("transparent", "white") do
+    "bg-transparent text-white border-transparent"
+  end
+
+  defp color_variant("transparent", "primary") do
+    "bg-transparent text-[#4363EC] border-transparent"
+  end
+
+  defp color_variant("transparent", "secondary") do
+    "bg-transparent text-[#6B6E7C] border-transparent"
+  end
+
+  defp color_variant("transparent", "success") do
+    "bg-transparent text-[#227A52] border-transparent"
+  end
+
+  defp color_variant("transparent", "warning") do
+    "bg-transparent text-[#FF8B08] border-transparent"
+  end
+
+  defp color_variant("transparent", "danger") do
+    "bg-transparent text-[#E73B3B] border-transparent"
+  end
+
+  defp color_variant("transparent", "info") do
+    "bg-transparent text-[#6663FD] border-transparent"
+  end
+
+  defp color_variant("transparent", "misc") do
+    "bg-transparent text-[#52059C] border-transparent"
+  end
+
+  defp color_variant("transparent", "dawn") do
+    "bg-transparent text-[#4D4137] border-transparent"
+  end
+
+  defp color_variant("transparent", "light") do
+    "bg-transparent text-[#707483] border-transparent"
+  end
+
+  defp color_variant("transparent", "dark") do
+    "bg-transparent text-[#1E1E1E] border-transparent"
+  end
+
 end
