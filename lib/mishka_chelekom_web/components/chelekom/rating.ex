@@ -70,7 +70,7 @@ defmodule MishkaChelekom.Rating do
   defp size_class(_), do: size_class("small")
 
   defp color_class("white") do
-    "[&_.rated]:text-white hover:text-white peer-hover:text-white"
+    "[&_.rated]:text-white hover:[&_.rating-button]:text-white [&_.rating-button:has(~.rating-button:hover)]:text-white"
   end
 
   defp color_class("primary") do

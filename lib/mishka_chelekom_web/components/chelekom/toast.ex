@@ -252,11 +252,17 @@ defmodule MishkaChelekom.Toast do
   end
 
   defp color_variant("default", "primary") do
-    ["bg-[#4363EC] text-white border-[#2441de]", "[&>.toast-content-wrapper]:before:bg-white"]
+    [
+      "bg-[#4363EC] text-white border-[#2441de]",
+      "[&>.toast-content-wrapper]:before:bg-white"
+    ]
   end
 
   defp color_variant("default", "secondary") do
-    ["bg-[#6B6E7C] text-white border-[#877C7C]", "[&>.toast-content-wrapper]:before:bg-white"]
+    [
+      "bg-[#6B6E7C] text-white border-[#877C7C]",
+      "[&>.toast-content-wrapper]:before:bg-white"
+    ]
   end
 
   defp color_variant("default", "success") do
@@ -309,11 +315,17 @@ defmodule MishkaChelekom.Toast do
   end
 
   defp color_variant("default", "dark") do
-    ["bg-[#1E1E1E] text-white border-[#050404]", "[&>.toast-content-wrapper]:before:bg-white"]
+    [
+      "bg-[#1E1E1E] text-white border-[#050404]",
+      "[&>.toast-content-wrapper]:before:bg-white"
+    ]
   end
 
   defp color_variant("outline", "white") do
-    ["bg-white text-[#1E1E1E] border-white", "[&>.toast-content-wrapper]:before:bg-[#1E1E1E]"]
+    [
+      "bg-white text-[#1E1E1E] border-white",
+      "[&>.toast-content-wrapper]:before:bg-[#1E1E1E]"
+    ]
   end
 
   defp color_variant("outline", "primary") do
