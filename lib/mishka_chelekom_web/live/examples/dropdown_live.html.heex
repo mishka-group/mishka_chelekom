@@ -1,49 +1,60 @@
 <div class="space-y-10 max-w-2xl mx-auto py-10">
-     <.dropdown>
-        <.dropdown_trigger>
-        <MishkaChelekom.Button.button color="primary" icon="hero-circle-stack">
-            Dropdown
-        </MishkaChelekom.Button.button>
-        </.dropdown_trigger>
+  <.dropdown>
+    <.dropdown_trigger>
+      <MishkaChelekom.Button.button color="primary" icon="hero-circle-stack">
+        Dropdown
+      </MishkaChelekom.Button.button>
+    </.dropdown_trigger>
 
-        <.dropdown_content space="small" rounded="large" width="quadruple_large" padding="large">
-            <.h4 class="font-semibold">Available storage</.h4>
-            <.p>This server has <b>30</b> of <b>150</b> GB of block storage remaining.</.p>
-            <MishkaChelekom.Progress.progress color="danger" value={40} />
-            <a href="/" class="block text-blue-400">Read more <.icon name="hero-chevron-right" /></a>
-        </.dropdown_content>
-    </.dropdown>
+    <.dropdown_content space="small" rounded="large" width="quadruple_large" padding="large">
+      <.h4 class="font-semibold">Available storage</.h4>
+      <.p>This server has <b>30</b> of <b>150</b> GB of block storage remaining.</.p>
+      <MishkaChelekom.Progress.progress color="danger" value={40} />
+      <a href="/" class="block text-blue-400">Read more <.icon name="hero-chevron-right" /></a>
+    </.dropdown_content>
+  </.dropdown>
 
-    <.dropdown>
-        <.dropdown_trigger>
-        <MishkaChelekom.Button.button color="primary">
-            Nav Item
-        </MishkaChelekom.Button.button>
-        </.dropdown_trigger>
+  <.dropdown>
+    <.dropdown_trigger>
+      <MishkaChelekom.Button.button color="primary">
+        Nav Item
+      </MishkaChelekom.Button.button>
+    </.dropdown_trigger>
 
-        <.dropdown_content space="large" rounded="none" size="smal" variant="transprant" padding="small">
-        <MishkaChelekom.List.list font_weight="font-bold" color="dawn" size="extra_small">
+    <.dropdown_content
+      space="large"
+      rounded="none"
+      size="smal"
+      variant="transprant"
+      padding="small"
+    >
+      <MishkaChelekom.List.list font_weight="font-bold" color="dawn" size="extra_small">
         <:item padding="small" icon="hero-envelope">list Icon extra_small</:item>
         <:item padding="small" icon="hero-camera">list Icon extra_small</:item>
         <:item padding="small" icon="hero-calendar">list Icon extra_small</:item>
-        </MishkaChelekom.List.list>
-        </.dropdown_content>
-    </.dropdown>
+      </MishkaChelekom.List.list>
+    </.dropdown_content>
+  </.dropdown>
 
-    <.dropdown>
-        <.dropdown_trigger>
-        <MishkaChelekom.Button.button color="secondary">
-            List
-        </MishkaChelekom.Button.button>
-        </.dropdown_trigger>
+  <.dropdown>
+    <.dropdown_trigger>
+      <MishkaChelekom.Button.button color="secondary">
+        List
+      </MishkaChelekom.Button.button>
+    </.dropdown_trigger>
 
-        <.dropdown_content space="medium" rounded="none" size="large" variant="transprant" padding="small">
-        <MishkaChelekom.List.list font_weight="font-bold" color="dawn" size="extra_small">
+    <.dropdown_content
+      space="medium"
+      rounded="none"
+      size="large"
+      variant="transprant"
+      padding="small"
+    >
+      <MishkaChelekom.List.list font_weight="font-bold" color="dawn" size="extra_small">
         <:item padding="small" icon="hero-envelope">list Icon extra_small</:item>
         <:item padding="small" icon="hero-camera">list Icon extra_small</:item>
         <:item padding="small" icon="hero-calendar">list Icon extra_small</:item>
-        </MishkaChelekom.List.list>
-        </.dropdown_content>
-    </.dropdown>
-
+      </MishkaChelekom.List.list>
+    </.dropdown_content>
+  </.dropdown>
 </div>

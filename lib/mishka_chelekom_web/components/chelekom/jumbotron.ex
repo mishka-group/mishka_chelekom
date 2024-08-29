@@ -37,7 +37,6 @@ defmodule MishkaChelekom.Jumbotron do
 
   slot :inner_block, required: false, doc: ""
 
-
   def jumbotron(assigns) do
     ~H"""
     <div

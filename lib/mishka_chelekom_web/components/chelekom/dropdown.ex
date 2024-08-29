@@ -1,7 +1,6 @@
 defmodule MishkaChelekom.Dropdown do
   use Phoenix.Component
 
-
   @colors [
     "white",
     "primary",
