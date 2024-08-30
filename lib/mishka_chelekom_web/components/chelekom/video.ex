@@ -4,6 +4,7 @@ defmodule MishkaChelekom.Video do
 
   @doc """
   https://stackoverflow.com/questions/15268604/html5-track-captions-not-showing/15268843#15268843
+  https://www.w3schools.com/tags/tag_video.asp
 
   Ensure your video and .vtt files are served from the same web server.
   Browsers may block captions if accessed from the local file system or different servers.
@@ -32,7 +33,7 @@ defmodule MishkaChelekom.Video do
   attr :caption_opacity, :string, default: "solid", doc: ""
   attr :ratio, :string, default: "auto", doc: ""
   attr :class, :string, default: nil, doc: ""
-  attr :rest, :global, include: ~w(controls), doc: ""
+  attr :rest, :global, include: ~w(controls autoplay loop muted preload), doc: ""
 
   slot :source, required: true do
     attr :src, :string, required: true
