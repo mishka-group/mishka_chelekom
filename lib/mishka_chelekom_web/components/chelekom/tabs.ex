@@ -27,12 +27,12 @@ defmodule MishkaChelekom.Tabs do
   attr :id, :string, default: nil, doc: ""
   attr :variant, :string, values: @variants, default: "default", doc: ""
   attr :color, :string, values: @colors, default: "white", doc: ""
-  attr :border, :string, default: "medium", doc: ""
-  attr :rounded, :string, default: "small", doc: ""
-  attr :size, :string, default: "medium", doc: ""
-  attr :space, :string, default: "small", doc: ""
+  attr :border, :string, default: "none", doc: ""
+  attr :rounded, :string, default: "none", doc: ""
+  attr :size, :string, default: "small", doc: ""
+  attr :space, :string, default: "none", doc: ""
   attr :font_weight, :string, default: "font-normal", doc: ""
-  attr :padding, :string, default: "small", doc: ""
+  attr :padding, :string, default: "extra_small", doc: ""
   attr :class, :string, default: nil, doc: ""
   attr :icon, :string, default: "hero-quote", doc: ""
   attr :icon_class, :string, default: nil, doc: ""
@@ -86,12 +86,14 @@ defmodule MishkaChelekom.Tabs do
     """
   end
 
+  defp space_class("none"), do: "space-y-0"
   defp space_class("extra_small"), do: "space-y-2"
   defp space_class("small"), do: "space-y-3"
   defp space_class("medium"), do: "space-y-4"
   defp space_class("large"), do: "space-y-5"
   defp space_class("extra_large"), do: "space-y-6"
   defp space_class(params) when is_binary(params), do: params
+  defp space_class(_), do: space_class("none")
 
   defp padding_size("extra_small"), do: "p-1"
   defp padding_size("small"), do: "p-2"
@@ -117,15 +119,16 @@ defmodule MishkaChelekom.Tabs do
   defp border_class("large"), do: "border-4"
   defp border_class("extra_large"), do: "border-[5px]"
   defp border_class(params) when is_binary(params), do: [params]
-  defp border_class(nil), do: border_class("extra_small")
+  defp border_class(nil), do: border_class("none")
 
+  defp rounded_size("none"), do: "rounded-none"
   defp rounded_size("extra_small"), do: "rounded-sm"
   defp rounded_size("small"), do: "rounded"
   defp rounded_size("medium"), do: "rounded-md"
   defp rounded_size("large"), do: "rounded-lg"
   defp rounded_size("extra_large"), do: "rounded-xl"
   defp rounded_size("full"), do: "rounded-full"
-  defp rounded_size(nil), do: "rounded-none"
+  defp rounded_size(nil), do: rounded_size("none")
 
   defp color_variant("default", "white") do
     "bg-white text-[#3E3E3E] border-[#DADADA]"
