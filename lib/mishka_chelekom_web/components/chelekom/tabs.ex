@@ -37,7 +37,9 @@ defmodule MishkaChelekom.Tabs do
   attr :icon, :string, default: "hero-quote", doc: ""
   attr :icon_class, :string, default: nil, doc: ""
 
-  # js solution find tabpanel and if tab.getAttribute('aria-labelledby') === id then tabPanel.hidden = false
+  slot :inner_block, required: false, doc: ""
+
+  #TODO: js solution find tabpanel and if tab.getAttribute('aria-labelledby') === id then tabPanel.hidden = false
   def tabs(assigns) do
     ~H"""
     <div class={[
@@ -51,59 +53,7 @@ defmodule MishkaChelekom.Tabs do
       @font_weight,
       @class
     ]}>
-        <div
-          class="relative flex flex-wrap"
-          data-tabs="tabs"
-          aria-label="tab label"
-          role="tablist"
-        >
-          <div class="z-30 flex-auto text-center">
-            <button
-              class={[
-                "z-30 flex items-center justify-center w-full px-0 py-1 mb-0",
-                "transition-all ease-in-out border-0 rounded-lg cursor-pointer text-slate-700 bg-inherit"
-              ]}
-              data-tab-target=""
-              active
-              role="tab"
-              aria-selected="true"
-              id="1"
-            >
-              <span class="ml-1">text 1</span>
-            </button>
-            <button
-              class={[
-                "z-30 flex items-center justify-center w-full px-0 py-1 mb-0",
-                "transition-all ease-in-out border-0 rounded-lg cursor-pointer text-slate-700 bg-inherit"
-              ]}
-              data-tab-target=""
-              role="tab"
-              id="2"
-            >
-              <span class="ml-1">text 2</span>
-            </button>
-            <button
-              class={[
-                "z-30 flex items-center justify-center w-full px-0 py-1 mb-0",
-                "transition-all ease-in-out border-0 rounded-lg cursor-pointer text-slate-700 bg-inherit"
-              ]}
-              data-tab-target=""
-              role="tab"
-              id="3"
-            >
-              <span class="ml-1">text 3</span>
-            </button>
-          </div>
-        </div>
-        <div role="tabpanel" aria-labelledby="1">
-          <p>Panel 1</p>
-        </div>
-        <div role="tabpanel" aria-labelledby="2" hidden>
-          <p>panel 2</p>
-        </div>
-        <div role="tabpanel" aria-labelledby="3" hidden>
-          <p>panel 3</p>
-        </div>
+      <%= render_slot(@inner_block) %>
     </div>
     """
   end
@@ -115,13 +65,11 @@ defmodule MishkaChelekom.Tabs do
 
   slot :inner_block, required: false, doc: ""
 
-  def tab_button(assigns) do
+  def tab_buttons(assigns) do
     ~H"""
-    <button class={[
-      "stepper-section flex items-center",
-    ]}>
-      <%= render_slot(@inner_block) %>
-    </button>
+      <div class="flex">
+        <%= render_slot(@inner_block) %>
+      </div>
     """
   end
 
@@ -132,13 +80,9 @@ defmodule MishkaChelekom.Tabs do
 
   slot :inner_block, required: false, doc: ""
 
-  def tab_panel(assigns) do
+  def tab_panels(assigns) do
     ~H"""
-    <div class={[
-      "stepper-section flex items-center",
-    ]}>
       <%= render_slot(@inner_block) %>
-    </div>
     """
   end
 
@@ -158,38 +102,20 @@ defmodule MishkaChelekom.Tabs do
   defp padding_size(params) when is_binary(params), do: params
   defp padding_size(_), do: padding_size("small")
 
-  defp size_class("extra_small"), do: "text-xs [&>.quote-icon]:size-7"
-  defp size_class("small"), do: "text-sm [&>.quote-icon]:size-8"
-  defp size_class("medium"), do: "text-base [&>.quote-icon]:size-9"
-  defp size_class("large"), do: "text-lg [&>.quote-icon]:size-10"
-  defp size_class("extra_large"), do: "text-xl [&>.quote-icon]:size-12"
+  defp size_class("extra_small"), do: "text-xs [&>.tab-icon]:size-7"
+  defp size_class("small"), do: "text-sm [&>.tab-icon]:size-8"
+  defp size_class("medium"), do: "text-base [&>.tab-icon]:size-9"
+  defp size_class("large"), do: "text-lg [&>.tab-icon]:size-10"
+  defp size_class("extra_large"), do: "text-xl [&>.tab-icon]:size-12"
   defp size_class(params) when is_binary(params), do: params
   defp size_class(_), do: size_class("medium")
 
-  defp border_class("none") do
-    "border-0"
-  end
-
-  defp border_class("extra_small") do
-   "border"
-  end
-
-  defp border_class("small") do
-    "border-2"
-  end
-
-  defp border_class("medium") do
-    "border-[3px]"
-  end
-
-  defp border_class("large") do
-   "border-4"
-  end
-
-  defp border_class("extra_large") do
-   "border-[5px]"
-  end
-
+  defp border_class("none"), do: "border-0"
+  defp border_class("extra_small"), do: "border"
+  defp border_class("small"), do: "border-2"
+  defp border_class("medium"), do: "border-[3px]"
+  defp border_class("large"), do: "border-4"
+  defp border_class("extra_large"), do: "border-[5px]"
   defp border_class(params) when is_binary(params), do: [params]
   defp border_class(nil), do: border_class("extra_small")
 
