@@ -72,7 +72,7 @@ defmodule MishkaChelekom.Dropdown do
     <div
       id={@id}
       class={[
-        "absolute z-10 transition-all ease-in-out delay-100 duratio-500 w-full",
+        "absolute z-20 transition-all ease-in-out delay-100 duratio-500 w-full",
         "invisible opacity-0",
         "top-full left-1/2 -translate-x-1/2 translate-y-[6px]",
         tirgger_dropdown(),

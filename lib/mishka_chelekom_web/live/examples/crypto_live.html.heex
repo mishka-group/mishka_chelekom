@@ -5,7 +5,7 @@
         </div>
         <div class="">
             <div class="">
-                <div class="text-white text-xl mb-2">You Pay</div>
+                <div class="text-white text-base font-semibold mb-2">You Pay</div>
                  <.dropdown width="full">
                     <.dropdown_trigger>
                     <MishkaChelekom.Button.button size="full" display="flex" content_position="between" color="dark" border="border-[#313131]" rounded="extra_large">
@@ -24,7 +24,7 @@
                         color="dark"
                         width="full"
                     >
-                        <MishkaChelekom.List.list font_weight="font-bold" variant="transparent" size="extra_small">
+                        <MishkaChelekom.List.list font_weight="font-bold" variant="transparent" size="extra_small" space="medium">
                             <:item padding="small" icon="hero-circle-stack">Crypto 1</:item>
                             <:item padding="small" icon="hero-building-library">Crypto 2</:item>
                             <:item padding="small" icon="hero-credit-card">Crypto 3</:item>
@@ -32,6 +32,37 @@
                     </.dropdown_content>
                 </.dropdown>
             </div>
+
+            <!-- Timeline -->
+            <div class="mt-5">
+                <MishkaChelekom.Timeline.timeline color="dark">
+                    <MishkaChelekom.Timeline.timeline_section line_gapped="none" bullet_size="medium">
+                        <div class="flex gap-3 items-center">
+                            <div class="text-[#747474]">7.99 USD</div>
+                            <div class="text-[#747474]">Our Fees</div>
+                        </div>
+                    </MishkaChelekom.Timeline.timeline_section>
+                    <MishkaChelekom.Timeline.timeline_section line_gapped="none" bullet_size="medium">
+                        <div class="flex gap-3 items-center">
+                            <div class="text-[#747474]">22 USD</div>
+                            <div class="text-[#747474]">Ntwork Fees</div>
+                        </div>
+                    </MishkaChelekom.Timeline.timeline_section>
+                    <MishkaChelekom.Timeline.timeline_section line_gapped="none" bullet_size="extra_large" class="border-b border-[#2F2F2F] border-dashed">
+                         <div class="flex gap-3 items-center ">
+                            <div>29.99 USD</div>
+                            <div class="text-[#B8B8B8]">Total Fees</div>
+                        </div>
+                    </MishkaChelekom.Timeline.timeline_section>
+                    <MishkaChelekom.Timeline.timeline_section line_gapped="none" bullet_size="extra_large">
+                         <div class="flex gap-3 items-center ">
+                            <div class="text-[#FF8C34]">29.99 USD</div>
+                            <div class="text-[#B8B8B8]">Total Fees</div>
+                        </div>
+                    </MishkaChelekom.Timeline.timeline_section>
+                </MishkaChelekom.Timeline.timeline>
+            </div>
+
         </div>
     </div>
 </div>

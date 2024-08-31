@@ -10,6 +10,8 @@ defmodule MishkaChelekom.Timeline do
   slot :inner_block, required: false, doc: ""
   slot :title, required: false, doc: ""
 
+  #TODO: User cannot change color based on their need
+  #TODO: CAnnot change size of bullet
   def timeline(assigns) do
     ~H"""
     <div class={[color_class(@color)]}>
@@ -24,6 +26,9 @@ defmodule MishkaChelekom.Timeline do
   end
 
   attr :id, :string, default: nil, doc: ""
+  attr :line_width, :string, default: "extra_small", doc: ""
+  attr :bullet_size, :string, default: "extra_small", doc: ""
+  attr :line_gapped, :string, default: "gapped", doc: ""
   attr :class, :string, default: nil, doc: ""
   attr :rest, :global, doc: ""
 
@@ -31,13 +36,24 @@ defmodule MishkaChelekom.Timeline do
 
   def timeline_section(assigns) do
     ~H"""
-    <div id={@id} class="flex gap-x-3">
+    <div id={@id}
+      class={[
+        "flex gap-x-3",
+        line_gapped(@line_gapped)
+      ]}
+    >
       <div class={[
-        "timeline-vertical-line relative last:after:hidden after:absolute after:top-7",
-        "after:bottom-0 after:start-3.5 after:w-px after:-translate-x-[0.5px]"
+        "timeline-vertical-line relative last:after:hidden after:absolute",
+        "after:bottom-0 after:start-3.5 after:-translate-x-[0.5px]",
+        line_width(@line_width)
       ]}>
-        <div class="relative z-10 size-7 flex justify-center items-center">
-          <div class="size-2 rounded-full timeline-bullet"></div>
+        <div class="timeline-bullet-wrapper relative z-10 size-7 flex justify-center">
+          <div
+            class={[
+              "rounded-full timeline-bullet",
+              bullet_size(@bullet_size)
+            ]}
+          ></div>
         </div>
       </div>
 
@@ -47,6 +63,25 @@ defmodule MishkaChelekom.Timeline do
     </div>
     """
   end
+
+  defp line_gapped("gapped"), do: "[&_.timeline-vertical-line]:after:top-7 [&_.timeline-bullet-wrapper]:items-center"
+  defp line_gapped("none"), do: "[&_.timeline-vertical-line]:after:top-0"
+
+defp line_width("extra_small"), do: "after:w-px"
+defp line_width("small"), do: "after:w-0.5"
+defp line_width("medium"), do: "after:w-1"
+defp line_width("large"), do: "after:w-1.5"
+defp line_width("extra_large"), do: "after:2"
+defp line_width(params) when is_binary(params), do: params
+defp line_width(_), do: line_width("extra_small")
+
+defp bullet_size("extra_small"), do: "size-2"
+defp bullet_size("small"), do: "size-2.5"
+defp bullet_size("medium"), do: "size-3"
+defp bullet_size("large"), do: "size-3.5"
+defp bullet_size("extra_large"), do: "size-4"
+defp bullet_size(params) when is_binary(params), do: params
+defp bullet_size(_), do: bullet_size("extra_small")
 
   defp color_class("silver") do
     "[&_.timeline-bullet]:bg-[#DADADA] text-[#3E3E3E] [&_.timeline-vertical-line]:after:bg-[#DADADA]"
@@ -91,4 +126,6 @@ defmodule MishkaChelekom.Timeline do
   defp color_class("dark") do
     "[&_.timeline-bullet]:bg-[#1E1E1E] text-white [&_.timeline-vertical-line]:after:bg-[#1E1E1E]"
   end
+
+  defp color_class(params) when is_binary(params), do: params
 end
