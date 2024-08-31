@@ -776,7 +776,7 @@ defmodule MishkaChelekom.Button do
   end
 
   defp border("dark") do
-    "border-[#1E1E1E] hover:border-[#111111]"
+    "border-[#050404] hover:border-[#111111]"
   end
 
   defp border(params) when is_binary(params), do: params

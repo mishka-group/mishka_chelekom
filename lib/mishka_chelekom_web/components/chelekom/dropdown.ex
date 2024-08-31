@@ -67,6 +67,7 @@ defmodule MishkaChelekom.Dropdown do
   attr :rest, :global, doc: ""
   slot :inner_block, required: false, doc: ""
 
+  #TODO: Add max-height and scroll
   def dropdown_content(assigns) do
     ~H"""
     <div

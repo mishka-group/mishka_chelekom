@@ -50,7 +50,7 @@ defmodule MishkaChelekom.Card do
   attr :rounded, :string, default: nil, doc: ""
   attr :space, :string, default: nil, doc: ""
   attr :font_weight, :string, default: "font-normal", doc: ""
-  attr :padding, :string, default: "none", doc: ""
+  attr :padding, :string, default: nil, doc: ""
   attr :class, :string, default: nil, doc: ""
   attr :rest, :global, doc: ""
   slot :inner_block, required: false, doc: ""
@@ -252,9 +252,8 @@ defmodule MishkaChelekom.Card do
   defp padding_size("medium"), do: "p-3"
   defp padding_size("large"), do: "p-4"
   defp padding_size("extra_large"), do: "p-5"
-  defp padding_size("none"), do: "p-0"
   defp padding_size(params) when is_binary(params), do: params
-  defp padding_size(_), do: padding_size("none")
+  defp padding_size(_), do: nil
 
   defp space_class("extra_small"), do: "space-y-2"
   defp space_class("small"), do: "space-y-3"

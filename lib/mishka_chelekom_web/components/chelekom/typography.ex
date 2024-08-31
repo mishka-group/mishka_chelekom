@@ -16,7 +16,7 @@ defmodule MishkaChelekom.Typography do
   ]
 
   attr :id, :string, default: nil, doc: ""
-  attr :color, :string, values: @colors, default: "inherit", doc: ""
+  attr :color, :string, default: "inherit", doc: ""
   attr :size, :string, default: "quadruple_large", doc: ""
   attr :class, :string, default: nil, doc: ""
   attr :font_weight, :string, default: "font-normal", doc: ""
