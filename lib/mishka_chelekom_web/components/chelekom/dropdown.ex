@@ -23,12 +23,19 @@ defmodule MishkaChelekom.Dropdown do
   @doc type: :component
   attr :id, :string, default: nil, doc: ""
   attr :class, :string, default: nil, doc: ""
+  attr :width, :string, default: "w-fit", doc: ""
   attr :rest, :global, doc: ""
   slot :inner_block, required: false, doc: ""
 
   def dropdown(assigns) do
     ~H"""
-    <div id={@id} class="relative w-fit group">
+    <div
+      id={@id}
+      class={[
+        "relative group",
+        @width
+      ]}
+    >
       <%= render_slot(@inner_block) %>
     </div>
     """
@@ -72,7 +79,7 @@ defmodule MishkaChelekom.Dropdown do
         space_class(@space),
         color_variant(@variant, @color),
         rounded_size(@rounded),
-        size_class(@size),
+        size_class(@size, @width),
         width_class(@width),
         border_class(@border),
         padding_size(@padding),
@@ -106,11 +113,12 @@ defmodule MishkaChelekom.Dropdown do
   defp rounded_size(params) when is_binary(params), do: params
   defp rounded_size(_), do: rounded_size("small")
 
-  defp size_class("extra_small"), do: "text-xs max-w-60"
-  defp size_class("small"), do: "text-sm max-w-64"
-  defp size_class("medium"), do: "text-base max-w-72"
-  defp size_class("large"), do: "text-lg max-w-80"
-  defp size_class("extra_large"), do: "text-xl max-w-96"
+  defp size_class("extra_small", "extra_small"), do: "text-xs max-w-60"
+  defp size_class("small", "small"), do: "text-sm max-w-64"
+  defp size_class("medium", "medium"), do: "text-base max-w-72"
+  defp size_class("large", "large"), do: "text-lg max-w-80"
+  defp size_class("extra_large","extra_large" ), do: "text-xl max-w-96"
+  defp size_class(_, "full"), do: "max-w-full"
   defp size_class(params) when is_binary(params), do: params
   defp size_class(_), do: size_class("medium")
 
@@ -131,6 +139,7 @@ defmodule MishkaChelekom.Dropdown do
   defp width_class("double_large"), do: "min-w-72"
   defp width_class("triple_large"), do: "min-w-80"
   defp width_class("quadruple_large"), do: "min-w-96"
+  defp width_class("full"), do: "w-full"
   defp width_class(params) when is_binary(params), do: params
   defp width_class(_), do: width_class("extra_large")
 

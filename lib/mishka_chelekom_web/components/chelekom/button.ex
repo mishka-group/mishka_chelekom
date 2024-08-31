@@ -91,10 +91,12 @@ defmodule MishkaChelekom.Button do
   attr :id, :string, default: nil, doc: ""
   attr :type, :string, values: ["button", "submit", "reset", nil], default: nil, doc: ""
   attr :variant, :string, values: @variants, default: "default", doc: ""
-  attr :color, :string, values: @colors, default: "white", doc: ""
-  attr :rounded, :string, values: @sizes ++ ["full", "none"], default: "large", doc: ""
+  attr :color, :string, default: "white", doc: ""
+  attr :rounded, :string, default: "large", doc: ""
+  attr :border, :string, default: "white", doc: "" #TODO: Refactor
   attr :size, :string, default: "large", doc: ""
   attr :class, :string, default: nil, doc: ""
+  attr :display, :string, default: "inline-flex", doc: ""
   attr :icon, :string, default: nil, doc: ""
   attr :font_weight, :string, default: "font-normal", doc: ""
   attr :indicator_class, :string, default: nil, doc: ""
@@ -118,7 +120,9 @@ defmodule MishkaChelekom.Button do
           [
             color_variant(@variant, @color),
             rounded_size(@rounded),
+            border(@border),
             @font_weight,
+            @display,
             @class
           ]
       }
@@ -722,6 +726,7 @@ defmodule MishkaChelekom.Button do
     "relative overflow-hidden bg-gradient-to-r from-cyan-500 to-blue-500 hover:bg-gradient-to-bl"
   end
 
+  defp color_variant(params, _) when is_binary(params), do: params
   defp color_variant(_, _), do: color_variant("default", "white")
 
   defp border("white") do
@@ -771,6 +776,9 @@ defmodule MishkaChelekom.Button do
   defp border("dark") do
     "border-[#1E1E1E] hover:border-[#111111]"
   end
+
+  defp border(params) when is_binary(params), do: params
+  defp border(_), do: border("white")
 
   defp rounded_size("extra_small"), do: "rounded-sm"
   defp rounded_size("small"), do: "rounded"
@@ -856,7 +864,7 @@ defmodule MishkaChelekom.Button do
 
   defp default_classes(pinging) do
     [
-      "phx-submit-loading:opacity-75 relative inline-flex gap-2 items-center justify-center border",
+      "phx-submit-loading:opacity-75 relative gap-2 items-center justify-center border",
       "transition-all ease-in-ou duration-100 group",
       "disabled:bg-opacity-60 disabled:border-opacity-40 disabled:cursor-not-allowed disabled:text-opacity-60",
       "disabled:cursor-not-allowed",
