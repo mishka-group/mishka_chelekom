@@ -5,6 +5,8 @@ defmodule MishkaChelekom.Timeline do
   @doc type: :component
   attr :id, :string, default: nil, doc: ""
   attr :color, :string, default: "silver", doc: ""
+  attr :hide_last__line, :boolean, default: false, doc: ""
+  attr :gapped_sections, :boolean, default: false, doc: ""
   attr :class, :string, default: nil, doc: ""
   attr :rest, :global, doc: ""
 
@@ -15,7 +17,11 @@ defmodule MishkaChelekom.Timeline do
 
   def timeline(assigns) do
     ~H"""
-    <div class={[color_class(@color)]}>
+    <div class={[
+      color_class(@color),
+      @gapped_sections && "[&_.timeline-bullet-wrapper]:items-center",
+      @hide_last__line && "[&_.timeline-section:last-child_.timeline-vertical-line]:after:hidden",
+    ]}>
     <%!-- TODO: add title conditionally --%>
         <div class="ps-2 my-2 first:mt-0">
           <div class="text-xs font-medium">
@@ -30,8 +36,6 @@ defmodule MishkaChelekom.Timeline do
   attr :id, :string, default: nil, doc: ""
   attr :line_width, :string, default: "extra_small", doc: ""
   attr :bullet_size, :string, default: "extra_small", doc: ""
-  attr :line_gapped, :string, default: "gapped", doc: ""
-  attr :hide_line, :boolean, default: false, doc: ""
   attr :bullet_icon, :string, default: nil, doc: ""
   attr :class, :string, default: nil, doc: ""
   attr :rest, :global, doc: ""
@@ -42,9 +46,7 @@ defmodule MishkaChelekom.Timeline do
     ~H"""
     <div id={@id}
       class={[
-        "flex gap-x-3",
-        line_gapped(@line_gapped),
-        @hide_line && "[&_.timeline-vertical-line]:after:hidden",
+        "timeline-section flex gap-x-3 [&_.timeline-vertical-line]:after:top-3",
         @class
       ]}
     >
@@ -68,14 +70,12 @@ defmodule MishkaChelekom.Timeline do
       <div class={[
         "grow pt-0.5 pb-5",
       ]}>
+      <%!-- TODO: We can Add title --%>
         <%= render_slot(@inner_block) %>
       </div>
     </div>
     """
   end
-
-  defp line_gapped("gapped"), do: "[&_.timeline-vertical-line]:after:top-3 [&_.timeline-bullet-wrapper]:items-center"
-  defp line_gapped("none"), do: "[&_.timeline-vertical-line]:after:top-0"
 
 defp line_width("extra_small"), do: "after:w-px"
 defp line_width("small"), do: "after:w-0.5"
