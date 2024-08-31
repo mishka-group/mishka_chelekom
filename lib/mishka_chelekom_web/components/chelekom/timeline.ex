@@ -20,14 +20,14 @@ defmodule MishkaChelekom.Timeline do
     ~H"""
     <div class={[
       "timeline-horizontal items-center sm:flex",
-      color_class(@color),
+      color_class(@color)
     ]}>
       <div class="ps-2 my-2 first:mt-0">
         <div class="text-xs font-medium">
           <%= render_slot(@title) %>
         </div>
       </div>
-       <%= render_slot(@inner_block) %>
+      <%= render_slot(@inner_block) %>
     </div>
     """
   end
@@ -44,7 +44,7 @@ defmodule MishkaChelekom.Timeline do
           <%= render_slot(@title) %>
         </div>
       </div>
-       <%= render_slot(@inner_block) %>
+      <%= render_slot(@inner_block) %>
     </div>
     """
   end
@@ -68,13 +68,11 @@ defmodule MishkaChelekom.Timeline do
         @class
       ]}
     >
-     <div class="flex items-center">
-        <div
-          class={[
-            "timeline-bullet z-10 flex items-center justify-center rounded-full shrink-0",
-            bullet_size(@bullet_size)
-          ]}
-        >
+      <div class="flex items-center">
+        <div class={[
+          "timeline-bullet z-10 flex items-center justify-center rounded-full shrink-0",
+          bullet_size(@bullet_size)
+        ]}>
           <.icon :if={@bullet_icon} name={@bullet_icon} class="bullet-icon" />
         </div>
         <div class="timeline-horizontal-line hidden sm:flex w-full h-0.5"></div>

@@ -67,7 +67,7 @@ defmodule MishkaChelekom.Dropdown do
   attr :rest, :global, doc: ""
   slot :inner_block, required: false, doc: ""
 
-  #TODO: Add max-height and scroll
+  # TODO: Add max-height and scroll
   def dropdown_content(assigns) do
     ~H"""
     <div
@@ -118,10 +118,10 @@ defmodule MishkaChelekom.Dropdown do
   defp size_class("small", "small"), do: "text-sm max-w-64"
   defp size_class("medium", "medium"), do: "text-base max-w-72"
   defp size_class("large", "large"), do: "text-lg max-w-80"
-  defp size_class("extra_large","extra_large" ), do: "text-xl max-w-96"
+  defp size_class("extra_large", "extra_large"), do: "text-xl max-w-96"
   defp size_class(_, "full"), do: "max-w-full"
   defp size_class(params, _) when is_binary(params), do: params
-  defp size_class(_,_), do: size_class("medium", "extra_large")
+  defp size_class(_, _), do: size_class("medium", "extra_large")
 
   defp padding_size("extra_small"), do: "p-2"
   defp padding_size("small"), do: "p-3"

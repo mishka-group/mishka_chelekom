@@ -39,7 +39,7 @@ defmodule MishkaChelekom.Tabs do
 
   slot :inner_block, required: false, doc: ""
 
-  #TODO: js solution find tabpanel and if tab.getAttribute('aria-labelledby') === id then tabPanel.hidden = false
+  # TODO: js solution find tabpanel and if tab.getAttribute('aria-labelledby') === id then tabPanel.hidden = false
   def tabs(assigns) do
     ~H"""
     <div class={[
@@ -67,9 +67,9 @@ defmodule MishkaChelekom.Tabs do
 
   def tab_buttons(assigns) do
     ~H"""
-      <div class="flex">
-        <%= render_slot(@inner_block) %>
-      </div>
+    <div class="flex">
+      <%= render_slot(@inner_block) %>
+    </div>
     """
   end
 
@@ -82,7 +82,7 @@ defmodule MishkaChelekom.Tabs do
 
   def tab_panels(assigns) do
     ~H"""
-      <%= render_slot(@inner_block) %>
+    <%= render_slot(@inner_block) %>
     """
   end
 
@@ -349,5 +349,4 @@ defmodule MishkaChelekom.Tabs do
   defp color_variant("transparent", "dark") do
     "bg-transparent text-[#1E1E1E] border-transparent"
   end
-
 end

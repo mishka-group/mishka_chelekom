@@ -17,7 +17,8 @@ defmodule MishkaChelekom.Stepper do
 
   def stepper(assigns) do
     ~H"""
-    <div id={@id}
+    <div
+      id={@id}
       class={[
         "flex items-center w-full text-center",
         seperator_margin(@margin),
@@ -46,15 +47,12 @@ defmodule MishkaChelekom.Stepper do
   def stepper_section(assigns) do
     ~H"""
     <div class={[
-      "stepper-section flex items-center",
+      "stepper-section flex items-center"
     ]}>
       <div :if={@icon}>
-        <.icon
-          name={@icon}
-          class="stepper-icon shrink-0"
-        />
+        <.icon name={@icon} class="stepper-icon shrink-0" />
       </div>
-        <%= render_slot(@inner_block) %>
+      <%= render_slot(@inner_block) %>
     </div>
     """
   end
@@ -90,7 +88,7 @@ defmodule MishkaChelekom.Stepper do
     [
       "sm:[&_.stepper-section:not(:last-child)]:w-full [&_.stepper-section:not(:last-child)]:after:h-1",
       "sm:[&_.stepper-section:not(:last-child)]:after:content-[''] [&_.stepper-section:not(:last-child)]:after:w-full",
-      "[&_.stepper-section:not(:last-child)]:after:hidden sm:[&_.stepper-section:not(:last-child)]:after:inline-block",
+      "[&_.stepper-section:not(:last-child)]:after:hidden sm:[&_.stepper-section:not(:last-child)]:after:inline-block"
     ]
   end
 
@@ -105,7 +103,7 @@ defmodule MishkaChelekom.Stepper do
 
   defp seperator_margin("none") do
     [
-      "[&_.stepper-section:not(:last-child)]:after:mx-0",
+      "[&_.stepper-section:not(:last-child)]:after:mx-0"
     ]
   end
 
@@ -151,7 +149,10 @@ defmodule MishkaChelekom.Stepper do
   defp border_class("small"), do: "[&_.stepper-section:not(:last-child)]:after:border-b-2"
   defp border_class("medium"), do: "[&_.stepper-section:not(:last-child)]:after:border-b-[3px]"
   defp border_class("large"), do: "[&_.stepper-section:not(:last-child)]:after:border-b-4"
-  defp border_class("extra_large"), do: "[&_.stepper-section:not(:last-child)]:after:border-b-[5px]"
+
+  defp border_class("extra_large"),
+    do: "[&_.stepper-section:not(:last-child)]:after:border-b-[5px]"
+
   defp border_class(params) when is_binary(params), do: params
   defp border_class(_), do: border_class("extra_small")
 
@@ -171,7 +172,6 @@ defmodule MishkaChelekom.Stepper do
   defp gap_class("extra_large"), do: "[&_.stepper-section]:gap-5"
   defp gap_class(params) when is_binary(params), do: params
   defp gap_class(_), do: gap_class("small")
-
 
   defp step_border("none"), do: "border-none"
   defp step_border("extra_small"), do: "border"
@@ -290,5 +290,4 @@ defmodule MishkaChelekom.Stepper do
   defp stepper_color("dark") do
     "text-white [&_.stepper-section:not(:last-child)]:after:border-[#050404]"
   end
-
 end

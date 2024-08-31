@@ -93,7 +93,8 @@ defmodule MishkaChelekom.Button do
   attr :variant, :string, values: @variants, default: "default", doc: ""
   attr :color, :string, default: "white", doc: ""
   attr :rounded, :string, default: "large", doc: ""
-  attr :border, :string, default: "white", doc: "" #TODO: Refactor
+  # TODO: Refactor
+  attr :border, :string, default: "white", doc: ""
   attr :size, :string, default: "large", doc: ""
   attr :content_position, :string, default: "center", doc: ""
   attr :display, :string, default: "inline-flex", doc: ""
