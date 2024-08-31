@@ -8,21 +8,26 @@
                 <div class="text-white text-xl mb-2">You Pay</div>
                  <.dropdown width="full">
                     <.dropdown_trigger>
-                    <MishkaChelekom.Button.button color="dawn" size="full" display="flex" color="dark" border="border-[#313131]" rounded="extra_large">
-                        List
+                    <MishkaChelekom.Button.button size="full" display="flex" content_position="between" color="dark" border="border-[#313131]" rounded="extra_large">
+                      <div>
+                        200
+                      </div>
+                      <div class="flex items-center gap-2">
+                        <img  class="rounded-full size-5" src="https://static.vecteezy.com/system/resources/previews/016/328/933/original/united-states-flat-rounded-flag-icon-with-transparent-background-free-png.png" />
+                        <.icon name="hero-chevron-down"class="size-4" />
+                      </div>
                     </MishkaChelekom.Button.button>
                     </.dropdown_trigger>
 
                     <.dropdown_content
                         rounded="large"
-                        width="large"
                         color="dark"
                         width="full"
                     >
                         <MishkaChelekom.List.list font_weight="font-bold" variant="transparent" size="extra_small">
-                            <:item padding="small" icon="hero-envelope">list Icon extra_small</:item>
-                            <:item padding="small" icon="hero-camera">list Icon extra_small</:item>
-                            <:item padding="small" icon="hero-calendar">list Icon extra_small</:item>
+                            <:item padding="small" icon="hero-circle-stack">Crypto 1</:item>
+                            <:item padding="small" icon="hero-building-library">Crypto 2</:item>
+                            <:item padding="small" icon="hero-credit-card">Crypto 3</:item>
                         </MishkaChelekom.List.list>
                     </.dropdown_content>
                 </.dropdown>

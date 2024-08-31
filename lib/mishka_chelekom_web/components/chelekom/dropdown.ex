@@ -119,8 +119,8 @@ defmodule MishkaChelekom.Dropdown do
   defp size_class("large", "large"), do: "text-lg max-w-80"
   defp size_class("extra_large","extra_large" ), do: "text-xl max-w-96"
   defp size_class(_, "full"), do: "max-w-full"
-  defp size_class(params) when is_binary(params), do: params
-  defp size_class(_), do: size_class("medium")
+  defp size_class(params, _) when is_binary(params), do: params
+  defp size_class(_,_), do: size_class("medium", "extra_large")
 
   defp padding_size("extra_small"), do: "p-2"
   defp padding_size("small"), do: "p-3"

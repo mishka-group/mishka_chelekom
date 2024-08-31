@@ -95,12 +95,13 @@ defmodule MishkaChelekom.Button do
   attr :rounded, :string, default: "large", doc: ""
   attr :border, :string, default: "white", doc: "" #TODO: Refactor
   attr :size, :string, default: "large", doc: ""
-  attr :class, :string, default: nil, doc: ""
+  attr :content_position, :string, default: "center", doc: ""
   attr :display, :string, default: "inline-flex", doc: ""
   attr :icon, :string, default: nil, doc: ""
   attr :font_weight, :string, default: "font-normal", doc: ""
   attr :indicator_class, :string, default: nil, doc: ""
   attr :indicator_size, :string, default: nil, doc: ""
+  attr :class, :string, default: nil, doc: ""
 
   attr :rest, :global,
     include:
@@ -119,6 +120,7 @@ defmodule MishkaChelekom.Button do
           size_class(@size, @rest[:circle]) ++
           [
             color_variant(@variant, @color),
+            content_position(@content_position),
             rounded_size(@rounded),
             border(@border),
             @font_weight,
@@ -855,6 +857,28 @@ defmodule MishkaChelekom.Button do
   defp indicator_size(params) when is_binary(params), do: params
   defp indicator_size(nil), do: nil
 
+  defp content_position("start") do
+    "justify-start"
+  end
+
+  defp content_position("end") do
+    "justify-end"
+  end
+
+  defp content_position("center") do
+    "justify-center"
+  end
+
+  defp content_position("between") do
+    "justify-between"
+  end
+
+  defp content_position("around") do
+    "justify-around"
+  end
+
+  defp content_position(_), do: content_position("start")
+
   defp default_classes(:grouped) do
     [
       "phx-submit-loading:opacity-75 overflow-hidden bg-white flex w-fit rounded-lg border",
@@ -864,7 +888,7 @@ defmodule MishkaChelekom.Button do
 
   defp default_classes(pinging) do
     [
-      "phx-submit-loading:opacity-75 relative gap-2 items-center justify-center border",
+      "phx-submit-loading:opacity-75 relative gap-2 items-center border",
       "transition-all ease-in-ou duration-100 group",
       "disabled:bg-opacity-60 disabled:border-opacity-40 disabled:cursor-not-allowed disabled:text-opacity-60",
       "disabled:cursor-not-allowed",
