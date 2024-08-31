@@ -80,7 +80,7 @@ defmodule MishkaChelekom.Timeline do
         <div class="timeline-horizontal-line hidden sm:flex w-full h-0.5"></div>
       </div>
 
-      <div class="">
+      <div class="mt-3 sm:pe-5">
         <%= render_slot(@inner_block) %>
       </div>
     </div>
