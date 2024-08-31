@@ -1,5 +1,5 @@
 <div class="bg-black">
-  <div class="py-10 px-2 lg:max-w-2xl mx-auto">
+  <div class="py-10 px-2 lg:max-w-xl mx-auto">
     <div class="bg-[#191919] rounded-lg p-3">
       <div class="flex justify-between items-center gap-2 mb-5">
         <.button color="dark" border="dark" rounded="full" class="text-[#666666]" circle>
@@ -26,7 +26,7 @@
             </.button>
           </.dropdown_trigger>
 
-          <.dropdown_content rounded="large" color="dark" width="small">
+          <.dropdown_content rounded="large" color="dark" width="extra_small">
             <MishkaChelekom.List.list
               font_weight="font-bold"
               variant="transparent"
@@ -88,8 +88,8 @@
         </div>
         <!-- Timeline -->
         <div class="mt-5">
-          <MishkaChelekom.Timeline.timeline color="dark">
-            <MishkaChelekom.Timeline.timeline_section line_gapped="none" bullet_size="medium">
+          <MishkaChelekom.Timeline.timeline color="light">
+            <MishkaChelekom.Timeline.timeline_section bullet_size="medium">
               <div class="flex gap-3 items-center">
                 <div class="text-[#747474]">7.99 USD</div>
 
@@ -97,7 +97,7 @@
               </div>
             </MishkaChelekom.Timeline.timeline_section>
 
-            <MishkaChelekom.Timeline.timeline_section line_gapped="none" bullet_size="medium">
+            <MishkaChelekom.Timeline.timeline_section bullet_size="medium">
               <div class="flex gap-3 items-center">
                 <div class="text-[#747474]">22 USD</div>
 
@@ -106,18 +106,21 @@
             </MishkaChelekom.Timeline.timeline_section>
 
             <MishkaChelekom.Timeline.timeline_section
-              line_gapped="none"
-              bullet_size="extra_large"
-              class="border-b border-[#2F2F2F] border-dashed"
+                bullet_icon="hero-divide"
+                bullet_size="extra_large"
             >
-              <div class="flex gap-3 items-center ">
+              <div class="flex gap-3 items-center pb-3 border-b-2 border-[#2F2F2F] border-dashed">
                 <div>29.99 USD</div>
 
                 <div class="text-[#B8B8B8]">Total Fees</div>
               </div>
             </MishkaChelekom.Timeline.timeline_section>
 
-            <MishkaChelekom.Timeline.timeline_section line_gapped="none" bullet_size="extra_large">
+            <MishkaChelekom.Timeline.timeline_section
+                bullet_icon="hero-plus"
+                bullet_size="extra_large"
+                hide_line
+            >
               <div class="flex gap-3 items-center ">
                 <div class="text-[#FF8C34]">29.99 USD</div>
 
