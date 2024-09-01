@@ -23,7 +23,7 @@ defmodule MishkaChelekom.Timeline do
       color_class(@color)
     ]}>
       <div class="ps-2 my-2 first:mt-0">
-        <div class="text-xs font-medium">
+        <div class="text-xs font-semibold">
           <%= render_slot(@title) %>
         </div>
       </div>
