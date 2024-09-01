@@ -66,7 +66,7 @@ defmodule MishkaChelekom.Stepper do
   def stepper_section(%{vertical: true} = assigns) do
     ~H"""
     <div class={[
-      "mb-6 ms-6"
+      "stepper-section mb-6 ms-6"
     ]}>
       <%= render_slot(@inner_block) %>
     </div>
@@ -107,7 +107,7 @@ defmodule MishkaChelekom.Stepper do
         @class
       ]}
     >
-      <div :if={@icon} class="shrink-0">
+      <div :if={@icon} class="flex items-center justify-center shrink-0">
         <.icon name={@icon} class="stepper-icon" />
       </div>
 
@@ -317,50 +317,50 @@ defmodule MishkaChelekom.Stepper do
   defp step_background(_), do: step_background("transparent")
 
   defp stepper_color("white") do
-    "text-white [&_.stepper-section:not(:last-child)]:after:border-white"
+    "text-white [&_.stepper-section:not(:last-child)]:after:border-white [&.vertical-stepper]:border-white"
   end
 
   defp stepper_color("silver") do
-    "text-[#3E3E3E] [&_.stepper-section:not(:last-child)]:after:border-[#DADADA]"
+    "text-[#3E3E3E] [&_.stepper-section:not(:last-child)]:after:border-[#DADADA] [&.vertical-stepper]:border-[#DADADA]"
   end
 
   defp stepper_color("primary") do
-    "text-[#2441de] [&_.stepper-section:not(:last-child)]:after:border-[#2441de]"
+    "text-[#2441de] [&_.stepper-section:not(:last-child)]:after:border-[#2441de] [&.vertical-stepper]:border-[#2441de]"
   end
 
   defp stepper_color("secondary") do
-    "text-[#2441de] [&_.stepper-section:not(:last-child)]:after:border-[#877C7C]"
+    "text-[#2441de] [&_.stepper-section:not(:last-child)]:after:border-[#877C7C] [&.vertical-stepper]:border-[#877C7C]"
   end
 
   defp stepper_color("success") do
-    "text-[#6EE7B7] [&_.stepper-section:not(:last-child)]:after:border-[#6EE7B7]"
+    "text-[#6EE7B7] [&_.stepper-section:not(:last-child)]:after:border-[#6EE7B7] [&.vertical-stepper]:border-[#6EE7B7]"
   end
 
   defp stepper_color("warning") do
-    "text-[#FF8B08] [&_.stepper-section:not(:last-child)]:after:border-[#FF8B08]"
+    "text-[#FF8B08] [&_.stepper-section:not(:last-child)]:after:border-[#FF8B08] [&.vertical-stepper]:border-[#FF8B08]"
   end
 
   defp stepper_color("danger") do
-    "text-[#E73B3B] [&_.stepper-section:not(:last-child)]:after:border-[#E73B3B]"
+    "text-[#E73B3B] [&_.stepper-section:not(:last-child)]:after:border-[#E73B3B] [&.vertical-stepper]:border-[#E73B3B]"
   end
 
   defp stepper_color("info") do
-    "text-[#004FC4] [&_.stepper-section:not(:last-child)]:after:border-[#004FC4]"
+    "text-[#004FC4] [&_.stepper-section:not(:last-child)]:after:border-[#004FC4] [&.vertical-stepper]:border-[#004FC4]"
   end
 
   defp stepper_color("misc") do
-    "text-[#52059C] [&_.stepper-section:not(:last-child)]:after:border-[#52059C]"
+    "text-[#52059C] [&_.stepper-section:not(:last-child)]:after:border-[#52059C] [&.vertical-stepper]:border-[#52059C]"
   end
 
   defp stepper_color("dawn") do
-    "text-[#4D4137] [&_.stepper-section:not(:last-child)]:after:border-[#4D4137]"
+    "text-[#4D4137] [&_.stepper-section:not(:last-child)]:after:border-[#4D4137] [&.vertical-stepper]:border-[#4D4137]"
   end
 
   defp stepper_color("light") do
-    "text-[#707483] [&_.stepper-section:not(:last-child)]:after:border-[#707483]"
+    "text-[#707483] [&_.stepper-section:not(:last-child)]:after:border-[#707483] [&.vertical-stepper]:border-[#707483]"
   end
 
   defp stepper_color("dark") do
-    "text-white [&_.stepper-section:not(:last-child)]:after:border-[#050404]"
+    "text-white [&_.stepper-section:not(:last-child)]:after:border-[#050404] [&.vertical-stepper]:border-[#050404]"
   end
 end
