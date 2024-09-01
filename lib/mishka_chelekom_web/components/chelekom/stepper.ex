@@ -17,23 +17,23 @@ defmodule MishkaChelekom.Stepper do
 
   slot :inner_block, required: false, doc: ""
 
-  #TODO: Fix responsive issues
+  # TODO: Fix responsive issues
 
-   @spec stepper(map()) :: Phoenix.LiveView.Rendered.t()
-   def stepper(%{vertical: true} = assigns) do
+  @spec stepper(map()) :: Phoenix.LiveView.Rendered.t()
+  def stepper(%{vertical: true} = assigns) do
     ~H"""
     <div class={[
       "vertical-stepper relative",
       border_class(@border, @vertical),
       stepper_color(@color),
-      size_class(@size),
+      size_class(@size)
     ]}>
       <%= render_slot(@inner_block) %>
     </div>
     """
   end
 
-   def stepper(assigns) do
+  def stepper(assigns) do
     ~H"""
     <div
       id={@id}
@@ -142,7 +142,6 @@ defmodule MishkaChelekom.Stepper do
     """
   end
 
-
   defp seperator_after() do
     [
       "sm:[&_.stepper-section:not(:last-child)]:w-full [&_.stepper-section:not(:last-child)]:after:h-1",
@@ -204,9 +203,14 @@ defmodule MishkaChelekom.Stepper do
   defp seperator_margin(params) when is_binary(params), do: params
   defp seperator_margin(_), do: seperator_margin("extra_large")
 
-  defp border_class("extra_small", false), do: "[&_.stepper-section:not(:last-child)]:after:border-b"
+  defp border_class("extra_small", false),
+    do: "[&_.stepper-section:not(:last-child)]:after:border-b"
+
   defp border_class("small", false), do: "[&_.stepper-section:not(:last-child)]:after:border-b-2"
-  defp border_class("medium", false), do: "[&_.stepper-section:not(:last-child)]:after:border-b-[3px]"
+
+  defp border_class("medium", false),
+    do: "[&_.stepper-section:not(:last-child)]:after:border-b-[3px]"
+
   defp border_class("large", false), do: "[&_.stepper-section:not(:last-child)]:after:border-b-4"
 
   defp border_class("extra_large", false),
@@ -216,16 +220,16 @@ defmodule MishkaChelekom.Stepper do
   defp border_class("small", true), do: "border-s-2"
   defp border_class("medium", true), do: "border-s-[3px]"
   defp border_class("large", true), do: "border-s-4"
-  defp border_class("extra_large", true),do: "border-s-[5px]"
+  defp border_class("extra_large", true), do: "border-s-[5px]"
 
-  defp border_class(params,_) when is_binary(params), do: params
-  defp border_class(_,_), do: border_class("extra_small", false)
+  defp border_class(params, _) when is_binary(params), do: params
+  defp border_class(_, _), do: border_class("extra_small", false)
 
   defp wrapper_width("extra_small"), do: "max-w-1/4"
   defp wrapper_width("small"), do: "max-w-2/4"
   defp wrapper_width("medium"), do: "max-w-3/4"
   defp wrapper_width("large"), do: "max-w-11/12"
-  defp wrapper_width("extra_large"),do: ""
+  defp wrapper_width("extra_large"), do: ""
   defp wrapper_width(params) when is_binary(params), do: params
   defp wrapper_width(_), do: nil
 
@@ -240,9 +244,16 @@ defmodule MishkaChelekom.Stepper do
   defp gap_class("none"), do: "gap-1.5 sm:gap-0 [&_.stepper-section]:gap-0"
   defp gap_class("extra_small"), do: "gap-2 sm:gap-0 [&_.stepper-section]:gap-1"
   defp gap_class("small"), do: "gap-2.5 sm:gap-0 [&_.stepper-section]:gap-2"
-  defp gap_class("medium"), do: "gap-3 sm:gap-0 [&_.stepper-section]:gap-1.5 sm:[&_.stepper-section]:gap-3"
-  defp gap_class("large"), do: "gap-3.5 sm:gap-0 [&_.stepper-section]:gap-2 sm:[&_.stepper-section]:gap-4"
-  defp gap_class("extra_large"), do: "gap-4 sm:gap-0 [&_.stepper-section]:gap-2.5 sm:[&_.stepper-section]:gap-5"
+
+  defp gap_class("medium"),
+    do: "gap-3 sm:gap-0 [&_.stepper-section]:gap-1.5 sm:[&_.stepper-section]:gap-3"
+
+  defp gap_class("large"),
+    do: "gap-3.5 sm:gap-0 [&_.stepper-section]:gap-2 sm:[&_.stepper-section]:gap-4"
+
+  defp gap_class("extra_large"),
+    do: "gap-4 sm:gap-0 [&_.stepper-section]:gap-2.5 sm:[&_.stepper-section]:gap-5"
+
   defp gap_class(params) when is_binary(params), do: params
   defp gap_class(_), do: gap_class("small")
 
