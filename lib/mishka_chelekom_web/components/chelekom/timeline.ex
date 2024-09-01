@@ -86,7 +86,7 @@ defmodule MishkaChelekom.Timeline do
           bullet_size(@size)
         ]}>
           <img class="rounded-full shadow-md" src={@image} alt={@image} />
-       </div>
+        </div>
         <div class="timeline-horizontal-line hidden sm:flex w-full h-0.5"></div>
       </div>
 
@@ -106,11 +106,14 @@ defmodule MishkaChelekom.Timeline do
         @class
       ]}
     >
-      <div :if={!@image} class={[
-        "timeline-vertical-line relative after:absolute",
-        "after:bottom-0 after:start-3.5 after:-translate-x-[0.5px]",
-        line_width(@line_width)
-      ]}>
+      <div
+        :if={!@image}
+        class={[
+          "timeline-vertical-line relative after:absolute",
+          "after:bottom-0 after:start-3.5 after:-translate-x-[0.5px]",
+          line_width(@line_width)
+        ]}
+      >
         <div class="timeline-bullet-wrapper relative z-10 size-7 flex justify-center">
           <div class={[
             "timeline-bullet rounded-full flex justify-center items-center",
@@ -121,11 +124,14 @@ defmodule MishkaChelekom.Timeline do
         </div>
       </div>
 
-      <div :if={@image} class={[
-        "timeline-vertical-line relative after:absolute",
-        "after:bottom-0 after:start-1/2 after:-translate-x-[0.5px] shrink-0",
-        line_width(@line_width)
-      ]}>
+      <div
+        :if={@image}
+        class={[
+          "timeline-vertical-line relative after:absolute",
+          "after:bottom-0 after:start-1/2 after:-translate-x-[0.5px] shrink-0",
+          line_width(@line_width)
+        ]}
+      >
         <div class="relative z-10">
           <div class={[
             "timeline-image-wrapper",
@@ -159,48 +165,56 @@ defmodule MishkaChelekom.Timeline do
       "[&.timeline-image-wrapper>img]:size-6"
     ]
   end
+
   defp bullet_size("small") do
     [
       "[&:not(.timeline-image-wrapper)]:size-3 [&_.bullet-icon]:size-2",
       "[&.timeline-image-wrapper>img]:size-7"
     ]
   end
+
   defp bullet_size("medium") do
     [
       "[&:not(.timeline-image-wrapper)]:size-4 [&_.bullet-icon]:size-2.5",
       "[&.timeline-image-wrapper>img]:size-8"
     ]
   end
+
   defp bullet_size("large") do
     [
       "[&:not(.timeline-image-wrapper)]:size-5 [&_.bullet-icon]:size-3",
       "[&.timeline-image-wrapper>img]:size-9"
     ]
   end
+
   defp bullet_size("extra_large") do
     [
       "[&:not(.timeline-image-wrapper)]:size-6 [&_.bullet-icon]:size-4",
       "[&.timeline-image-wrapper>img]:size-10"
     ]
   end
+
   defp bullet_size("double_large") do
     [
       "[&:not(.timeline-image-wrapper)]:size-7 [&_.bullet-icon]:size-5",
       "[&.timeline-image-wrapper>img]:size-12"
     ]
   end
+
   defp bullet_size("triple_large") do
     [
       "[&:not(.timeline-image-wrapper)]:size-8 [&_.bullet-icon]:size-6",
       "[&.timeline-image-wrapper>img]:size-14"
     ]
   end
+
   defp bullet_size("quadruple_large") do
     [
       "[&:not(.timeline-image-wrapper)]:size-9 [&_.bullet-icon]:size-7",
       "[&.timeline-image-wrapper>img]:size-16"
     ]
   end
+
   defp bullet_size(params) when is_binary(params), do: params
   defp bullet_size(_), do: bullet_size("extra_small")
 
