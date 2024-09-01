@@ -11,18 +11,37 @@ defmodule MishkaChelekom.Stepper do
   attr :margin, :string, default: "extra_large", doc: ""
   attr :color, :string, default: "silver", doc: ""
   attr :font_weight, :string, default: "font-normal", doc: ""
+  attr :max_width, :string, default: nil, doc: ""
+  attr :vertical, :boolean, default: false, doc: ""
   attr :rest, :global, doc: ""
 
   slot :inner_block, required: false, doc: ""
 
-  def stepper(assigns) do
+  #TODO: Fix responsive issues
+
+   @spec stepper(map()) :: Phoenix.LiveView.Rendered.t()
+   def stepper(%{vertical: true} = assigns) do
+    ~H"""
+    <div class={[
+      "vertical-stepper relative",
+      border_class(@border, @vertical),
+      stepper_color(@color),
+      size_class(@size),
+    ]}>
+      <%= render_slot(@inner_block) %>
+    </div>
+    """
+  end
+
+   def stepper(assigns) do
     ~H"""
     <div
       id={@id}
       class={[
         "flex items-center w-full text-center",
+        border_class(@border, @vertical),
+        wrapper_width(@max_width),
         seperator_margin(@margin),
-        border_class(@border),
         stepper_color(@color),
         size_class(@size),
         gap_class(@gap),
@@ -38,20 +57,27 @@ defmodule MishkaChelekom.Stepper do
   end
 
   attr :id, :string, default: nil, doc: ""
-  attr :icon, :string, default: nil, doc: ""
   attr :class, :string, default: nil, doc: ""
+  attr :vertical, :boolean, default: false, doc: ""
   attr :rest, :global, doc: ""
 
   slot :inner_block, required: false, doc: ""
+
+  def stepper_section(%{vertical: true} = assigns) do
+    ~H"""
+    <div class={[
+      "mb-6 ms-6"
+    ]}>
+      <%= render_slot(@inner_block) %>
+    </div>
+    """
+  end
 
   def stepper_section(assigns) do
     ~H"""
     <div class={[
       "stepper-section flex items-center"
     ]}>
-      <div :if={@icon}>
-        <.icon name={@icon} class="stepper-icon shrink-0" />
-      </div>
       <%= render_slot(@inner_block) %>
     </div>
     """
@@ -61,17 +87,19 @@ defmodule MishkaChelekom.Stepper do
   attr :class, :string, default: nil
   attr :size, :string, default: "small"
   attr :rounded, :string, default: "full"
-  attr :color, :string, default: "transparent"
+  attr :icon, :string, default: nil, doc: ""
+  attr :color, :string, default: "white"
+  attr :vertical, :boolean, default: false, doc: ""
   attr :border, :string, default: "none"
 
   slot :inner_block, required: false, doc: ""
 
-  def stepper_number(assigns) do
+  def step(%{vertical: true} = assigns) do
     ~H"""
     <div
       id={@id}
       class={[
-        "step_number inline-flex justify-center items-center shrink-0",
+        "vertical-step absolute flex items-center justify-center shrink-0",
         step_size(@size),
         step_border(@border),
         rounded_size(@rounded),
@@ -79,10 +107,41 @@ defmodule MishkaChelekom.Stepper do
         @class
       ]}
     >
-      <%= render_slot(@inner_block) %>
+      <div :if={@icon} class="shrink-0">
+        <.icon name={@icon} class="stepper-icon" />
+      </div>
+
+      <div :if={!@icon}>
+        <%= render_slot(@inner_block) %>
+      </div>
     </div>
     """
   end
+
+  def step(assigns) do
+    ~H"""
+    <div
+      id={@id}
+      class={[
+        "inline-flex justify-center items-center shrink-0",
+        step_size(@size),
+        step_border(@border),
+        rounded_size(@rounded),
+        step_background(@color),
+        @class
+      ]}
+    >
+      <div :if={@icon} class="shrink-0">
+        <.icon name={@icon} class="stepper-icon" />
+      </div>
+
+      <div :if={!@icon}>
+        <%= render_slot(@inner_block) %>
+      </div>
+    </div>
+    """
+  end
+
 
   defp seperator_after() do
     [
@@ -145,22 +204,36 @@ defmodule MishkaChelekom.Stepper do
   defp seperator_margin(params) when is_binary(params), do: params
   defp seperator_margin(_), do: seperator_margin("extra_large")
 
-  defp border_class("extra_small"), do: "[&_.stepper-section:not(:last-child)]:after:border-b"
-  defp border_class("small"), do: "[&_.stepper-section:not(:last-child)]:after:border-b-2"
-  defp border_class("medium"), do: "[&_.stepper-section:not(:last-child)]:after:border-b-[3px]"
-  defp border_class("large"), do: "[&_.stepper-section:not(:last-child)]:after:border-b-4"
+  defp border_class("extra_small", false), do: "[&_.stepper-section:not(:last-child)]:after:border-b"
+  defp border_class("small", false), do: "[&_.stepper-section:not(:last-child)]:after:border-b-2"
+  defp border_class("medium", false), do: "[&_.stepper-section:not(:last-child)]:after:border-b-[3px]"
+  defp border_class("large", false), do: "[&_.stepper-section:not(:last-child)]:after:border-b-4"
 
-  defp border_class("extra_large"),
+  defp border_class("extra_large", false),
     do: "[&_.stepper-section:not(:last-child)]:after:border-b-[5px]"
 
-  defp border_class(params) when is_binary(params), do: params
-  defp border_class(_), do: border_class("extra_small")
+  defp border_class("extra_small", true), do: "border-s"
+  defp border_class("small", true), do: "border-s-2"
+  defp border_class("medium", true), do: "border-s-[3px]"
+  defp border_class("large", true), do: "border-s-4"
+  defp border_class("extra_large", true),do: "border-s-[5px]"
 
-  defp size_class("extra_small"), do: "text-xs [&_.stepper-icon]:size-4"
-  defp size_class("small"), do: "text-sm [&_.stepper-icon]:size-5"
-  defp size_class("medium"), do: "text-base [&_.stepper-icon]:size-6"
-  defp size_class("large"), do: "text-lg [&_.stepper-icon]:size-7"
-  defp size_class("extra_large"), do: "text-xl [&_.stepper-icon]:size-8"
+  defp border_class(params,_) when is_binary(params), do: params
+  defp border_class(_,_), do: border_class("extra_small", false)
+
+  defp wrapper_width("extra_small"), do: "max-w-1/4"
+  defp wrapper_width("small"), do: "max-w-2/4"
+  defp wrapper_width("medium"), do: "max-w-3/4"
+  defp wrapper_width("large"), do: "max-w-11/12"
+  defp wrapper_width("extra_large"),do: ""
+  defp wrapper_width(params) when is_binary(params), do: params
+  defp wrapper_width(_), do: nil
+
+  defp size_class("extra_small"), do: "text-xs [&_.stepper-icon]:size-3"
+  defp size_class("small"), do: "text-sm [&_.stepper-icon]:size-4"
+  defp size_class("medium"), do: "text-base [&_.stepper-icon]:size-5"
+  defp size_class("large"), do: "text-lg [&_.stepper-icon]:size-6"
+  defp size_class("extra_large"), do: "text-xl [&_.stepper-icon]:size-7"
   defp size_class(params) when is_binary(params), do: params
   defp size_class(_), do: size_class("medium")
 
@@ -182,18 +255,18 @@ defmodule MishkaChelekom.Stepper do
   defp step_border(params) when is_binary(params), do: params
   defp step_border(_), do: step_border("none")
 
-  defp step_size("extra_small"), do: "size-5 text-xs"
-  defp step_size("small"), do: "size-6 text-sm"
-  defp step_size("medium"), do: "size-7 text-base"
-  defp step_size("large"), do: "size-8 text-lg"
-  defp step_size("extra_large"), do: "size-9 text-xl"
+  defp step_size("extra_small"), do: "size-5 text-xs [&.vertical-step]:-start-2.5"
+  defp step_size("small"), do: "size-6 text-sm [&.vertical-step]:-start-3"
+  defp step_size("medium"), do: "size-7 text-base [&.vertical-step]:-start-3.5"
+  defp step_size("large"), do: "size-8 text-lg [&.vertical-step]:-start-4"
+  defp step_size("extra_large"), do: "size-9 text-xl [&.vertical-step]:-start-[18px]"
   defp step_size(params) when is_binary(params), do: params
   defp step_size(_), do: step_size("small")
 
   # colors
 
   defp step_background("transparent") do
-    "bg-transparent"
+    "bg-transparent border-transparent"
   end
 
   defp step_background("white") do
