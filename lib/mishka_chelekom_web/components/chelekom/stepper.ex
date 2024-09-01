@@ -237,12 +237,12 @@ defmodule MishkaChelekom.Stepper do
   defp size_class(params) when is_binary(params), do: params
   defp size_class(_), do: size_class("medium")
 
-  defp gap_class("none"), do: "[&_.stepper-section]:gap-0"
-  defp gap_class("extra_small"), do: "[&_.stepper-section]:gap-1"
-  defp gap_class("small"), do: "[&_.stepper-section]:gap-2"
-  defp gap_class("medium"), do: "[&_.stepper-section]:gap-3"
-  defp gap_class("large"), do: "[&_.stepper-section]:gap-4"
-  defp gap_class("extra_large"), do: "[&_.stepper-section]:gap-5"
+  defp gap_class("none"), do: "gap-1.5 sm:gap-0 [&_.stepper-section]:gap-0"
+  defp gap_class("extra_small"), do: "gap-2 sm:gap-0 [&_.stepper-section]:gap-1"
+  defp gap_class("small"), do: "gap-2.5 sm:gap-0 [&_.stepper-section]:gap-2"
+  defp gap_class("medium"), do: "gap-3 sm:gap-0 [&_.stepper-section]:gap-1.5 sm:[&_.stepper-section]:gap-3"
+  defp gap_class("large"), do: "gap-3.5 sm:gap-0 [&_.stepper-section]:gap-2 sm:[&_.stepper-section]:gap-4"
+  defp gap_class("extra_large"), do: "gap-4 sm:gap-0 [&_.stepper-section]:gap-2.5 sm:[&_.stepper-section]:gap-5"
   defp gap_class(params) when is_binary(params), do: params
   defp gap_class(_), do: gap_class("small")
 
