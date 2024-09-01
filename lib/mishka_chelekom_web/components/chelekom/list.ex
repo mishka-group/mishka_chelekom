@@ -84,12 +84,12 @@ defmodule MishkaChelekom.List do
       {@rest}
     >
       <div class={[
-        "flex items-center gap-2",
+        "flex items-center gap-2 w-full",
         content_position(@position)
       ]}>
         <.icon :if={!is_nil(@icon)} name={@icon} class={@icon_class} />
         <span :if={is_integer(@count)}><%= @count %><%= @count_separator %></span>
-        <div>
+        <div class="w-full">
           <%= render_slot(@inner_block) %>
         </div>
       </div>
