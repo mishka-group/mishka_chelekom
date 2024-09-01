@@ -85,7 +85,7 @@ defmodule MishkaChelekom.Timeline do
           "timeline-image-wrapper z-10 shrink-0",
           bullet_size(@size)
         ]}>
-          <img class="rounded-full" src={@image} alt={@image} />
+          <img class="rounded-full shadow-md" src={@image} alt={@image} />
        </div>
         <div class="timeline-horizontal-line hidden sm:flex w-full h-0.5"></div>
       </div>
@@ -131,7 +131,7 @@ defmodule MishkaChelekom.Timeline do
             "timeline-image-wrapper",
             bullet_size(@size)
           ]}>
-            <img class="rounded-full" src={@image} alt={@image} />
+            <img class="rounded-full shadow-md" src={@image} alt={@image} />
           </div>
         </div>
       </div>
@@ -198,7 +198,7 @@ defmodule MishkaChelekom.Timeline do
   defp bullet_size("quadruple_large") do
     [
       "[&:not(.timeline-image-wrapper)]:size-9 [&_.bullet-icon]:size-7",
-      "[&.timeline-image-wrapper>img]:size-[2.5rem]"
+      "[&.timeline-image-wrapper>img]:size-16"
     ]
   end
   defp bullet_size(params) when is_binary(params), do: params
