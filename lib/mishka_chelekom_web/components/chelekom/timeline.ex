@@ -123,12 +123,12 @@ defmodule MishkaChelekom.Timeline do
 
       <div :if={@image} class={[
         "timeline-vertical-line relative after:absolute",
-        "after:bottom-0 after:start-3.5 after:-translate-x-[0.5px]",
+        "after:bottom-0 after:start-1/2 after:-translate-x-[0.5px] shrink-0",
         line_width(@line_width)
       ]}>
-        <div class="relative z-10 flex justify-center">
+        <div class="relative z-10">
           <div class={[
-            "timeline-image-wrapper rounded-full flex justify-center items-center",
+            "timeline-image-wrapper",
             bullet_size(@size)
           ]}>
             <img class="rounded-full" src={@image} alt={@image} />
