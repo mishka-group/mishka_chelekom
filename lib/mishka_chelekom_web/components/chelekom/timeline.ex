@@ -19,7 +19,7 @@ defmodule MishkaChelekom.Timeline do
   def timeline(%{horizontal: true} = assigns) do
     ~H"""
     <div class={[
-      "timeline-horizontal items-center sm:flex",
+      "timeline-horizontal items-center sm:flex px-5 lg:px-0",
       color_class(@color)
     ]}>
       <div class="ps-2 my-2 first:mt-0">
