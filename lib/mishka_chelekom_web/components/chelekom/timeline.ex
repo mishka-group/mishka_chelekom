@@ -54,13 +54,13 @@ defmodule MishkaChelekom.Timeline do
   attr :size, :string, default: "extra_small", doc: ""
   attr :bullet_icon, :string, default: nil, doc: ""
   attr :image, :string, default: nil, doc: ""
+  attr :title, :string, default: nil, doc: ""
+  attr :time, :string, default: nil, doc: ""
+  attr :description, :string, default: nil, doc: ""
   attr :horizontal, :boolean, default: false, doc: ""
   attr :class, :string, default: nil, doc: ""
   attr :rest, :global, doc: ""
 
-  slot :title, required: false, doc: ""
-  slot :time, required: false, doc: ""
-  slot :description, required: false, doc: ""
   slot :inner_block, required: false, doc: ""
 
   def timeline_section(%{horizontal: true} = assigns) do
@@ -94,15 +94,10 @@ defmodule MishkaChelekom.Timeline do
       </div>
 
       <div class="mt-3 sm:pe-5">
-        <h3 :if={@title} class="text-lg font-semibold mb-2">
-          <%= render_slot(@title) %>
-        </h3>
-        <time :if={@time} class="block mb-3 text-xs font-normal leading-none">
-          <%= render_slot(@time) %>
-        </time>
-        <p :if={@description} class="text-sm">
-          <%= render_slot(@description) %>
-        </p>
+         <h3 :if={@title} class="text-lg font-semibold mb-2"><%= @title %></h3>
+      <time :if={@time} class="block mb-3 text-xs font-normal leading-none"><%= @time %></time>
+      <p :if={@description} class="text-sm"><%= @description %></p>
+
         <%= render_slot(@inner_block) %>
       </div>
     </div>
@@ -157,15 +152,11 @@ defmodule MishkaChelekom.Timeline do
       <div class={[
         "grow pt-0.5 pb-5"
       ]}>
-        <h3 :if={@title} class="text-lg font-semibold mb-2">
-          <%= render_slot(@title) %>
-        </h3>
-        <time :if={@time} class="block mb-3 text-xs font-normal leading-none">
-          <%= render_slot(@time) %>
-        </time>
-        <p :if={@description} class="text-sm">
-          <%= render_slot(@description) %>
-        </p>
+         <h3 :if={@title} class="text-lg font-semibold mb-2"><%= @title %></h3>
+      <time :if={@time} class="block mb-3 text-xs font-normal leading-none"><%= @time %></time>
+      <p :if={@description} class="text-sm"><%= @description %></p>
+
+
         <%= render_slot(@inner_block) %>
       </div>
     </div>
