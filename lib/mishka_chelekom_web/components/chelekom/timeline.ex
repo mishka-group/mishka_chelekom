@@ -55,12 +55,12 @@ defmodule MishkaChelekom.Timeline do
   attr :bullet_icon, :string, default: nil, doc: ""
   attr :image, :string, default: nil, doc: ""
   attr :horizontal, :boolean, default: false, doc: ""
-  attr :title, :string, default: nil, doc: ""
-  attr :time, :string, default: nil, doc: ""
-  attr :description, :string, default: nil, doc: ""
   attr :class, :string, default: nil, doc: ""
   attr :rest, :global, doc: ""
 
+  slot :title, :string, default: nil, doc: ""
+  slot :time, :string, default: nil, doc: ""
+  slot :description, :string, default: nil, doc: ""
   slot :inner_block, required: false, doc: ""
 
   def timeline_section(%{horizontal: true} = assigns) do
