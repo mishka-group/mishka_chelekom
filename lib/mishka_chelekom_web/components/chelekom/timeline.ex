@@ -58,9 +58,9 @@ defmodule MishkaChelekom.Timeline do
   attr :class, :string, default: nil, doc: ""
   attr :rest, :global, doc: ""
 
-  slot :title, :string, default: nil, doc: ""
-  slot :time, :string, default: nil, doc: ""
-  slot :description, :string, default: nil, doc: ""
+  slot :title, required: false, doc: ""
+  slot :time, required: false, doc: ""
+  slot :description, required: false, doc: ""
   slot :inner_block, required: false, doc: ""
 
   def timeline_section(%{horizontal: true} = assigns) do
