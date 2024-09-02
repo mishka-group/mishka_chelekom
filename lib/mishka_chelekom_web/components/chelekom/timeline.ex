@@ -94,9 +94,9 @@ defmodule MishkaChelekom.Timeline do
       </div>
 
       <div class="mt-3 sm:pe-5">
-         <h3 :if={@title} class="text-lg font-semibold mb-2"><%= @title %></h3>
-      <time :if={@time} class="block mb-3 text-xs font-normal leading-none"><%= @time %></time>
-      <p :if={@description} class="text-sm"><%= @description %></p>
+        <h3 :if={@title} class="text-lg font-semibold mb-2"><%= @title %></h3>
+        <time :if={@time} class="block mb-3 text-xs font-normal leading-none"><%= @time %></time>
+        <p :if={@description} class="text-sm"><%= @description %></p>
 
         <%= render_slot(@inner_block) %>
       </div>
@@ -152,10 +152,9 @@ defmodule MishkaChelekom.Timeline do
       <div class={[
         "grow pt-0.5 pb-5"
       ]}>
-         <h3 :if={@title} class="text-lg font-semibold mb-2"><%= @title %></h3>
-      <time :if={@time} class="block mb-3 text-xs font-normal leading-none"><%= @time %></time>
-      <p :if={@description} class="text-sm"><%= @description %></p>
-
+        <h3 :if={@title} class="text-lg font-semibold mb-2"><%= @title %></h3>
+        <time :if={@time} class="block mb-3 text-xs font-normal leading-none"><%= @time %></time>
+        <p :if={@description} class="text-sm"><%= @description %></p>
 
         <%= render_slot(@inner_block) %>
       </div>
