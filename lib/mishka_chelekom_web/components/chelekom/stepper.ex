@@ -98,10 +98,13 @@ defmodule MishkaChelekom.Stepper do
         @class
       ]}
     >
-      <span :if={@icon} class={[
-        "stepper-step border-2 rounded-full flex justify-center items-center shrink-0",
-        "transition-all ease-in-out duration-400 delay-100"
-      ]}>
+      <span
+        :if={@icon}
+        class={[
+          "stepper-step border-2 rounded-full flex justify-center items-center shrink-0",
+          "transition-all ease-in-out duration-400 delay-100"
+        ]}
+      >
         <.icon name={@icon} class="step-symbol stepper-icon" />
         <.icon
           name="hero-check-solid"
@@ -112,10 +115,13 @@ defmodule MishkaChelekom.Stepper do
         />
       </span>
 
-      <span :if={!@icon} class={[
-        "stepper-step border-2 rounded-full flex justify-center items-center shrink-0",
-        "transition-all ease-in-out duration-400 delay-100"
-      ]}>
+      <span
+        :if={!@icon}
+        class={[
+          "stepper-step border-2 rounded-full flex justify-center items-center shrink-0",
+          "transition-all ease-in-out duration-400 delay-100"
+        ]}
+      >
         <span class="step-symbol"><%= @step %></span>
         <.icon
           name="hero-check-solid"
@@ -126,8 +132,8 @@ defmodule MishkaChelekom.Stepper do
         />
       </span>
 
-     <span class="block text-nowrap">
-      <span :if={@title} class="block font-bold">
+      <span class="block text-nowrap">
+        <span :if={@title} class="block font-bold">
           <%= @title %>
         </span>
 
@@ -136,7 +142,7 @@ defmodule MishkaChelekom.Stepper do
         </span>
 
         <%= render_slot(@inner_block) %>
-     </span>
+      </span>
     </button>
     <div class="stepper-seperator w-full border-t"></div>
     """
@@ -232,7 +238,6 @@ defmodule MishkaChelekom.Stepper do
   defp seperator_size(params) when is_binary(params), do: params
   defp seperator_size(_), do: seperator_size("extra_small")
 
-
   # defp size_class("extra_small"), do: "size-5 text-xs [&.vertical-step]:-start-2.5"
   # defp size_class("small"), do: "size-6 text-sm [&.vertical-step]:-start-3"
   # defp size_class("medium"), do: "size-7 text-base [&.vertical-step]:-start-3.5"
@@ -242,7 +247,7 @@ defmodule MishkaChelekom.Stepper do
   # defp size_class(_), do: size_class("small")
 
   # colors
-# stepper-loading-step, stepper-active-step, stepper-compeleted-step, stepper-canceled-step
+  # stepper-loading-step, stepper-active-step, stepper-compeleted-step, stepper-canceled-step
   defp color_class("white") do
     [
       "[&_.stepper-step]:bg-[#DADADA] [&_.stepper-step]:text-[#3E3E3E]",
@@ -261,7 +266,7 @@ defmodule MishkaChelekom.Stepper do
       "[&_.stepper-compeleted-step_.stepper-step]:bg-[#162da8] [&_.stepper-compeleted-step_.stepper-step]:border-[#162da8]",
       "[&_.stepper-canceled-step_.stepper-step]:bg-[#fa2d2d] [&_.stepper-canceled-step_.stepper-step]:border-[#fa2d2d]",
       "[&_.stepper-canceled-step_.stepper-step]:text-white",
-      "[&_.stepper-seperator]:border-[#5573f2] [&_.stepper-compeleted-step+.stepper-seperator]:border-[#162da8]",
+      "[&_.stepper-seperator]:border-[#5573f2] [&_.stepper-compeleted-step+.stepper-seperator]:border-[#162da8]"
     ]
   end
 
@@ -272,7 +277,7 @@ defmodule MishkaChelekom.Stepper do
       "[&_.stepper-compeleted-step_.stepper-step]:bg-[#434652] [&_.stepper-compeleted-step_.stepper-step]:border-[#434652]",
       "[&_.stepper-canceled-step_.stepper-step]:bg-[#fa2d2d] [&_.stepper-canceled-step_.stepper-step]:border-[#fa2d2d]",
       "[&_.stepper-canceled-step_.stepper-step]:text-white",
-      "[&_.stepper-seperator]:border-[#6B6E7C] [&_.stepper-compeleted-step+.stepper-seperator]:border-[#434652]",
+      "[&_.stepper-seperator]:border-[#6B6E7C] [&_.stepper-compeleted-step+.stepper-seperator]:border-[#434652]"
     ]
   end
 
@@ -284,7 +289,7 @@ defmodule MishkaChelekom.Stepper do
       "[&_.stepper-compeleted-step_.stepper-step]:text-white",
       "[&_.stepper-canceled-step_.stepper-step]:bg-[#fa2d2d] [&_.stepper-canceled-step_.stepper-step]:border-[#fa2d2d]",
       "[&_.stepper-canceled-step_.stepper-step]:text-white",
-      "[&_.stepper-seperator]:border-[#ECFEF3] [&_.stepper-compeleted-step+.stepper-seperator]:border-[#047857]",
+      "[&_.stepper-seperator]:border-[#ECFEF3] [&_.stepper-compeleted-step+.stepper-seperator]:border-[#047857]"
     ]
   end
 
