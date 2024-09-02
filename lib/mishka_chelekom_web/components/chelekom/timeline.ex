@@ -182,7 +182,7 @@ defmodule MishkaChelekom.Timeline do
 
   defp bullet_size("extra_small") do
     [
-      "[&:not(.timeline-image-wrapper)]:size-2 [&_.bullet-icon]:size-1",
+      "[&:not(.timeline-image-wrapper)]:size-2 [&_.bullet-icon]:size-1.5",
       "[&.timeline-image-wrapper>img]:size-6"
     ]
   end
@@ -196,42 +196,42 @@ defmodule MishkaChelekom.Timeline do
 
   defp bullet_size("medium") do
     [
-      "[&:not(.timeline-image-wrapper)]:size-4 [&_.bullet-icon]:size-2.5",
+      "[&:not(.timeline-image-wrapper)]:size-4 [&_.bullet-icon]:size-2",
       "[&.timeline-image-wrapper>img]:size-8"
     ]
   end
 
   defp bullet_size("large") do
     [
-      "[&:not(.timeline-image-wrapper)]:size-[18px] [&_.bullet-icon]:size-3",
+      "[&:not(.timeline-image-wrapper)]:size-[18px] [&_.bullet-icon]:size-2",
       "[&.timeline-image-wrapper>img]:size-9"
     ]
   end
 
   defp bullet_size("extra_large") do
     [
-      "[&:not(.timeline-image-wrapper)]:size-5 [&_.bullet-icon]:size-4",
+      "[&:not(.timeline-image-wrapper)]:size-5 [&_.bullet-icon]:size-3",
       "[&.timeline-image-wrapper>img]:size-10"
     ]
   end
 
   defp bullet_size("double_large") do
     [
-      "[&:not(.timeline-image-wrapper)]:size-[22px] [&_.bullet-icon]:size-5",
+      "[&:not(.timeline-image-wrapper)]:size-[22px] [&_.bullet-icon]:size-4",
       "[&.timeline-image-wrapper>img]:size-12"
     ]
   end
 
   defp bullet_size("triple_large") do
     [
-      "[&:not(.timeline-image-wrapper)]:size-[25px] [&_.bullet-icon]:size-6",
+      "[&:not(.timeline-image-wrapper)]:size-[25px] [&_.bullet-icon]:size-4",
       "[&.timeline-image-wrapper>img]:size-14"
     ]
   end
 
   defp bullet_size("quadruple_large") do
     [
-      "[&:not(.timeline-image-wrapper)]:size-7 [&_.bullet-icon]:size-7",
+      "[&:not(.timeline-image-wrapper)]:size-7 [&_.bullet-icon]:size-5",
       "[&.timeline-image-wrapper>img]:size-16"
     ]
   end
