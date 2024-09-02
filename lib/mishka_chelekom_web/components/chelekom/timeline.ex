@@ -12,7 +12,7 @@ defmodule MishkaChelekom.Timeline do
   attr :horizontal, :boolean, default: false, doc: ""
 
   slot :inner_block, required: false, doc: ""
-  slot :title, required: false, doc: ""
+  slot :label, required: false, doc: ""
 
   # TODO: User cannot change color based on their need
 
@@ -22,9 +22,9 @@ defmodule MishkaChelekom.Timeline do
       "timeline-horizontal items-center sm:flex px-5 lg:px-0",
       color_class(@color)
     ]}>
-      <div class="ps-2 my-2 first:mt-0">
+      <div :if={@label} class="ps-2 my-2 first:mt-0">
         <div class="text-xs font-semibold">
-          <%= render_slot(@title) %>
+          <%= render_slot(@label) %>
         </div>
       </div>
       <%= render_slot(@inner_block) %>
@@ -39,9 +39,9 @@ defmodule MishkaChelekom.Timeline do
       @gapped_sections && "[&_.timeline-bullet-wrapper]:items-center",
       @hide_last_line && "[&_.timeline-section:last-child_.timeline-vertical-line]:after:hidden"
     ]}>
-      <div class="ps-2 my-2 first:mt-0">
+      <div :if={@label} class="ps-2 my-2 first:mt-0">
         <div class="text-xs font-medium">
-          <%= render_slot(@title) %>
+          <%= render_slot(@label) %>
         </div>
       </div>
       <%= render_slot(@inner_block) %>
@@ -54,8 +54,11 @@ defmodule MishkaChelekom.Timeline do
   attr :size, :string, default: "extra_small", doc: ""
   attr :bullet_icon, :string, default: nil, doc: ""
   attr :image, :string, default: nil, doc: ""
-  attr :class, :string, default: nil, doc: ""
   attr :horizontal, :boolean, default: false, doc: ""
+  attr :title, :string, default: nil, doc: ""
+  attr :time, :string, default: nil, doc: ""
+  attr :description, :string, default: nil, doc: ""
+  attr :class, :string, default: nil, doc: ""
   attr :rest, :global, doc: ""
 
   slot :inner_block, required: false, doc: ""
@@ -91,6 +94,15 @@ defmodule MishkaChelekom.Timeline do
       </div>
 
       <div class="mt-3 sm:pe-5">
+        <h3 :if={@title} class="text-lg font-semibold mb-2">
+          <%= render_slot(@title) %>
+        </h3>
+        <time :if={@time} class="block mb-3 text-xs font-normal leading-none">
+          <%= render_slot(@time) %>
+        </time>
+        <p :if={@description} class="text-sm">
+          <%= render_slot(@description) %>
+        </p>
         <%= render_slot(@inner_block) %>
       </div>
     </div>
@@ -145,6 +157,15 @@ defmodule MishkaChelekom.Timeline do
       <div class={[
         "grow pt-0.5 pb-5"
       ]}>
+        <h3 :if={@title} class="text-lg font-semibold mb-2">
+          <%= render_slot(@title) %>
+        </h3>
+        <time :if={@time} class="block mb-3 text-xs font-normal leading-none">
+          <%= render_slot(@time) %>
+        </time>
+        <p :if={@description} class="text-sm">
+          <%= render_slot(@description) %>
+        </p>
         <%= render_slot(@inner_block) %>
       </div>
     </div>
@@ -220,77 +241,77 @@ defmodule MishkaChelekom.Timeline do
 
   defp color_class("silver") do
     [
-      "[&_.timeline-bullet]:bg-[#DADADA] text-[#3E3E3E] [&_.timeline-vertical-line]:after:bg-[#DADADA]",
+      "[&_.timeline-bullet]:bg-[#DADADA] [&_.timeline-bullet]:text-[#3E3E3E] [&_.timeline-vertical-line]:after:bg-[#DADADA]",
       "[&_.timeline-horizontal-line]:bg-[#DADADA]"
     ]
   end
 
   defp color_class("primary") do
     [
-      "[&_.timeline-bullet]:bg-[#2441de] text-white [&_.timeline-vertical-line]:after:bg-[#2441de]",
+      "[&_.timeline-bullet]:bg-[#2441de] [&_.timeline-bullet]:text-white [&_.timeline-vertical-line]:after:bg-[#2441de]",
       "[&_.timeline-horizontal-line]:bg-[#2441de]"
     ]
   end
 
   defp color_class("secondary") do
     [
-      "[&_.timeline-bullet]:bg-[#877C7C] text-white [&_.timeline-vertical-line]:after:bg-[#877C7C]",
+      "[&_.timeline-bullet]:bg-[#877C7C] [&_.timeline-bullet]:text-white [&_.timeline-vertical-line]:after:bg-[#877C7C]",
       "[&_.timeline-horizontal-line]:bg-[#877C7C]"
     ]
   end
 
   defp color_class("success") do
     [
-      "[&_.timeline-bullet]:bg-[#6EE7B7] text-white [&_.timeline-vertical-line]:after:bg-[#6EE7B7]",
+      "[&_.timeline-bullet]:bg-[#6EE7B7] [&_.timeline-bullet]:text-white [&_.timeline-vertical-line]:after:bg-[#6EE7B7]",
       "[&_.timeline-horizontal-line]:bg-[#6EE7B7]"
     ]
   end
 
   defp color_class("warning") do
     [
-      "[&_.timeline-bullet]:bg-[#FF8B08] text-white [&_.timeline-vertical-line]:after:bg-[#FF8B08]",
+      "[&_.timeline-bullet]:bg-[#FF8B08] [&_.timeline-bullet]:text-white [&_.timeline-vertical-line]:after:bg-[#FF8B08]",
       "[&_.timeline-horizontal-line]:bg-[#FF8B08]"
     ]
   end
 
   defp color_class("danger") do
     [
-      "[&_.timeline-bullet]:bg-[#E73B3B] text-white [&_.timeline-vertical-line]:after:bg-[#E73B3B]",
+      "[&_.timeline-bullet]:bg-[#E73B3B] [&_.timeline-bullet]:text-white [&_.timeline-vertical-line]:after:bg-[#E73B3B]",
       "[&_.timeline-horizontal-line]:bg-[#E73B3B]"
     ]
   end
 
   defp color_class("info") do
     [
-      "[&_.timeline-bullet]:bg-[#004FC4] text-white [&_.timeline-vertical-line]:after:bg-[#004FC4]",
+      "[&_.timeline-bullet]:bg-[#004FC4] [&_.timeline-bullet]:text-white [&_.timeline-vertical-line]:after:bg-[#004FC4]",
       "[&_.timeline-horizontal-line]:bg-[#004FC4]"
     ]
   end
 
   defp color_class("misc") do
     [
-      "[&_.timeline-bullet]:bg-[#52059C] text-white [&_.timeline-vertical-line]:after:bg-[#52059C]",
+      "[&_.timeline-bullet]:bg-[#52059C] [&_.timeline-bullet]:text-white [&_.timeline-vertical-line]:after:bg-[#52059C]",
       "[&_.timeline-horizontal-line]:bg-[#52059C]"
     ]
   end
 
   defp color_class("dawn") do
     [
-      "[&_.timeline-bullet]:bg-[#4D4137] text-white [&_.timeline-vertical-line]:after:bg-[#4D4137]",
+      "[&_.timeline-bullet]:bg-[#4D4137] [&_.timeline-bullet]:text-white [&_.timeline-vertical-line]:after:bg-[#4D4137]",
       "[&_.timeline-horizontal-line]:bg-[#4D4137]"
     ]
   end
 
   defp color_class("light") do
     [
-      "[&_.timeline-bullet]:bg-[#707483] text-white [&_.timeline-vertical-line]:after:bg-[#707483]",
+      "[&_.timeline-bullet]:bg-[#707483] [&_.timeline-bullet]:text-white [&_.timeline-vertical-line]:after:bg-[#707483]",
       "[&_.timeline-horizontal-line]:bg-[#707483]"
     ]
   end
 
   defp color_class("dark") do
     [
-      "[&_.timeline-bullet]:bg-[#1E1E1E] text-white [&_.timeline-vertical-line]:after:bg-[#1E1E1E]",
+      "[&_.timeline-bullet]:bg-[#1E1E1E] [&_.timeline-bullet]:text-white [&_.timeline-vertical-line]:after:bg-[#1E1E1E]",
       "[&_.timeline-horizontal-line]:bg-[#1E1E1E]"
     ]
   end
