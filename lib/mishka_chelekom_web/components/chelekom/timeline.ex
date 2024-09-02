@@ -12,7 +12,6 @@ defmodule MishkaChelekom.Timeline do
   attr :horizontal, :boolean, default: false, doc: ""
 
   slot :inner_block, required: false, doc: ""
-  slot :label, required: false, doc: ""
 
   # TODO: User cannot change color based on their need
 
@@ -22,11 +21,6 @@ defmodule MishkaChelekom.Timeline do
       "timeline-horizontal items-center sm:flex px-5 lg:px-0",
       color_class(@color)
     ]}>
-      <div :if={@label} class="ps-2 my-2 first:mt-0">
-        <div class="text-xs font-semibold">
-          <%= render_slot(@label) %>
-        </div>
-      </div>
       <%= render_slot(@inner_block) %>
     </div>
     """
@@ -39,11 +33,6 @@ defmodule MishkaChelekom.Timeline do
       @gapped_sections && "[&_.timeline-bullet-wrapper]:items-center",
       @hide_last_line && "[&_.timeline-section:last-child_.timeline-vertical-line]:after:hidden"
     ]}>
-      <div :if={@label} class="ps-2 my-2 first:mt-0">
-        <div class="text-xs font-medium">
-          <%= render_slot(@label) %>
-        </div>
-      </div>
       <%= render_slot(@inner_block) %>
     </div>
     """
