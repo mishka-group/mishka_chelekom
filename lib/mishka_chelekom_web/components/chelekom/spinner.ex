@@ -42,7 +42,7 @@ defmodule MishkaChelekom.Spinner do
 
   def spinner(assigns) do
     ~H"""
-    <div
+    <span
       id={@id}
       class={[
         default_class(@type),
@@ -55,7 +55,7 @@ defmodule MishkaChelekom.Spinner do
       {@rest}
     >
       <.spinner_content type={@type} />
-    </div>
+    </span>
     """
   end
 
@@ -143,18 +143,18 @@ defmodule MishkaChelekom.Spinner do
   defp spinner_content(%{type: "dots"} = assigns) do
     ~H"""
     <span class="sr-only">Loading...</span>
-    <div class="rounded-full animate-bounce"></div>
-    <div class="rounded-full animate-bounce [animation-delay:-0.2s]"></div>
-    <div class="rounded-full animate-bounce [animation-delay:-0.4s]"></div>
+    <span class="block rounded-full animate-bounce"></span>
+    <span class="block rounded-full animate-bounce [animation-delay:-0.2s]"></span>
+    <span class="block rounded-full animate-bounce [animation-delay:-0.4s]"></span>
     """
   end
 
   defp spinner_content(%{type: "bars"} = assigns) do
     ~H"""
     <span class="sr-only">Loading...</span>
-    <div class="rounded-sm animate-bounce [animation-delay:-0.4s]"></div>
-    <div class="rounded-sm animate-bounce [animation-delay:-0.2s]"></div>
-    <div class="rounded-sm animate-bounce"></div>
+    <span class="block rounded-sm animate-bounce [animation-delay:-0.4s]"></span>
+    <span class="block rounded-sm animate-bounce [animation-delay:-0.2s]"></span>
+    <span class="block rounded-sm animate-bounce"></span>
     """
   end
 
@@ -172,29 +172,29 @@ defmodule MishkaChelekom.Spinner do
     "w-fit flex gap-2"
   end
 
-  defp default_class("pinging"), do: nil
+  defp default_class("pinging"), do: "block"
 
   defp default_class(_) do
-    "animate-spin border-t-transparent rounded-full border-current"
+    "animate-spin border-t-transparent rounded-full border-current block"
   end
 
-  defp size_class("dots", "extra_small"), do: "[&>div]:size-1"
-  defp size_class("dots", "small"), do: "[&>div]:size-1.5"
-  defp size_class("dots", "medium"), do: "[&>div]:size-2"
-  defp size_class("dots", "large"), do: "[&>div]:size-2.5"
-  defp size_class("dots", "extra_large"), do: "[&>div]:size-3"
-  defp size_class("dots", "double_large"), do: "[&>div]:size-3.5"
-  defp size_class("dots", "triple_large"), do: "[&>div]:size-4"
-  defp size_class("dots", "quadruple_large"), do: "[&>div]:size-5"
+  defp size_class("dots", "extra_small"), do: "[&>span]:size-1"
+  defp size_class("dots", "small"), do: "[&>span]:size-1.5"
+  defp size_class("dots", "medium"), do: "[&>span]:size-2"
+  defp size_class("dots", "large"), do: "[&>span]:size-2.5"
+  defp size_class("dots", "extra_large"), do: "[&>span]:size-3"
+  defp size_class("dots", "double_large"), do: "[&>span]:size-3.5"
+  defp size_class("dots", "triple_large"), do: "[&>span]:size-4"
+  defp size_class("dots", "quadruple_large"), do: "[&>span]:size-5"
 
-  defp size_class("bars", "extra_small"), do: "[&>div]:w-1 [&>div]:h-5"
-  defp size_class("bars", "small"), do: "[&>div]:w-1 [&>div]:h-6"
-  defp size_class("bars", "medium"), do: "[&>div]:w-1.5 [&>div]:h-7"
-  defp size_class("bars", "large"), do: "[&>div]:w-1.5 [&>div]:h-8"
-  defp size_class("bars", "extra_large"), do: "[&>div]:w-2 [&>div]:h-9"
-  defp size_class("bars", "double_large"), do: "[&>div]:w-2 [&>div]:h-10"
-  defp size_class("bars", "triple_large"), do: "[&>div]:w-2.5 [&>div]:h-11"
-  defp size_class("bars", "quadruple_large"), do: "[&>div]:w-2.5 [&>div]:h-12"
+  defp size_class("bars", "extra_small"), do: "[&>span]:w-1 [&>span]:h-5"
+  defp size_class("bars", "small"), do: "[&>span]:w-1 [&>span]:h-6"
+  defp size_class("bars", "medium"), do: "[&>span]:w-1.5 [&>span]:h-7"
+  defp size_class("bars", "large"), do: "[&>span]:w-1.5 [&>span]:h-8"
+  defp size_class("bars", "extra_large"), do: "[&>span]:w-2 [&>span]:h-9"
+  defp size_class("bars", "double_large"), do: "[&>span]:w-2 [&>span]:h-10"
+  defp size_class("bars", "triple_large"), do: "[&>span]:w-2.5 [&>span]:h-11"
+  defp size_class("bars", "quadruple_large"), do: "[&>span]:w-2.5 [&>span]:h-12"
 
   defp size_class("pinging", "extra_small"), do: "[&>svgsize:w-6"
   defp size_class("pinging", "small"), do: "[&>svg]:size-7"
@@ -216,46 +216,46 @@ defmodule MishkaChelekom.Spinner do
   defp size_class(_, _), do: size_class("default", "small")
 
   defp color_class("white") do
-    "[&>div]:bg-white [&>svg]:stroke-white text-white"
+    "[&>span]:bg-white [&>svg]:stroke-white text-white"
   end
 
   defp color_class("primary") do
-    "[&>div]:bg-[#2441de] [&>svg]:stroke-[#2441de] text-[#2441de]"
+    "[&>span]:bg-[#2441de] [&>svg]:stroke-[#2441de] text-[#2441de]"
   end
 
   defp color_class("secondary") do
-    "[&>div]:bg-[#877C7C] [&>svg]:stroke-[#877C7C] text-[#877C7C]"
+    "[&>span]:bg-[#877C7C] [&>svg]:stroke-[#877C7C] text-[#877C7C]"
   end
 
   defp color_class("success") do
-    "[&>div]:bg-[#6EE7B7] [&>svg]:stroke-[#6EE7B7] text-[#6EE7B7]"
+    "[&>span]:bg-[#6EE7B7] [&>svg]:stroke-[#6EE7B7] text-[#6EE7B7]"
   end
 
   defp color_class("warning") do
-    "[&>div]:bg-[#FF8B08] [&>svg]:stroke-[#FF8B08] text-[#FF8B08]"
+    "[&>span]:bg-[#FF8B08] [&>svg]:stroke-[#FF8B08] text-[#FF8B08]"
   end
 
   defp color_class("danger") do
-    "[&>div]:bg-[#E73B3B] [&>svg]:stroke-[#E73B3B] text-[#E73B3B]"
+    "[&>span]:bg-[#E73B3B] [&>svg]:stroke-[#E73B3B] text-[#E73B3B]"
   end
 
   defp color_class("info") do
-    "[&>div]:bg-[#004FC4] [&>svg]:stroke-[#004FC4] text-[#004FC4]"
+    "[&>span]:bg-[#004FC4] [&>svg]:stroke-[#004FC4] text-[#004FC4]"
   end
 
   defp color_class("misc") do
-    "[&>div]:bg-[#52059C] [&>svg]:stroke-[#52059C] text-[#52059C]"
+    "[&>span]:bg-[#52059C] [&>svg]:stroke-[#52059C] text-[#52059C]"
   end
 
   defp color_class("dawn") do
-    "[&>div]:bg-[#4D4137] [&>svg]:stroke-[#4D4137] text-[#4D4137]"
+    "[&>span]:bg-[#4D4137] [&>svg]:stroke-[#4D4137] text-[#4D4137]"
   end
 
   defp color_class("light") do
-    "[&>div]:bg-[#707483] [&>svg]:stroke-[#707483] text-[#707483]"
+    "[&>span]:bg-[#707483] [&>svg]:stroke-[#707483] text-[#707483]"
   end
 
   defp color_class("dark") do
-    "[&>div]:bg-[#050404] [&>svg]:stroke-[#050404] text-[#050404]"
+    "[&>span]:bg-[#050404] [&>svg]:stroke-[#050404] text-[#050404]"
   end
 end

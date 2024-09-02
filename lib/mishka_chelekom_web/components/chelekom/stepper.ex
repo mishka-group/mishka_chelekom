@@ -4,29 +4,28 @@ defmodule MishkaChelekom.Stepper do
 
   @doc type: :component
   attr :id, :string, default: nil, doc: ""
-  attr :class, :string, default: nil, doc: ""
-  attr :border, :string, default: "extra_small", doc: ""
   attr :size, :string, default: "small", doc: ""
-  attr :gap, :string, default: "small", doc: ""
-  attr :margin, :string, default: "extra_large", doc: ""
-  attr :color, :string, default: "silver", doc: ""
+  attr :margin, :string, default: "medium", doc: ""
+  attr :color, :string, default: "primary", doc: ""
   attr :font_weight, :string, default: "font-normal", doc: ""
   attr :max_width, :string, default: nil, doc: ""
+  attr :seperator_size, :string, default: "extra_small", doc: ""
   attr :vertical, :boolean, default: false, doc: ""
+  attr :class, :string, default: nil, doc: ""
   attr :rest, :global, doc: ""
 
   slot :inner_block, required: false, doc: ""
-
-  # TODO: Fix responsive issues
 
   @spec stepper(map()) :: Phoenix.LiveView.Rendered.t()
   def stepper(%{vertical: true} = assigns) do
     ~H"""
     <div class={[
       "vertical-stepper relative",
-      border_class(@border, @vertical),
-      stepper_color(@color),
-      size_class(@size)
+      step_visibility(),
+      size_class(@size),
+      color_class(@color),
+      @font_weight,
+      @class
     ]}>
       <%= render_slot(@inner_block) %>
     </div>
@@ -38,46 +37,18 @@ defmodule MishkaChelekom.Stepper do
     <div
       id={@id}
       class={[
-        "flex items-center w-full text-center",
-        border_class(@border, @vertical),
+        "flex items-center w-full [&_.stepper-seperator:last-child]:hidden",
+        step_visibility(),
         wrapper_width(@max_width),
+        seperator_size(@seperator_size),
         seperator_margin(@margin),
-        stepper_color(@color),
         size_class(@size),
-        gap_class(@gap),
-        seperator_after(),
+        color_class(@color),
         @font_weight,
         @class
       ]}
       {@rest}
     >
-      <%= render_slot(@inner_block) %>
-    </div>
-    """
-  end
-
-  attr :id, :string, default: nil, doc: ""
-  attr :class, :string, default: nil, doc: ""
-  attr :vertical, :boolean, default: false, doc: ""
-  attr :rest, :global, doc: ""
-
-  slot :inner_block, required: false, doc: ""
-
-  def stepper_section(%{vertical: true} = assigns) do
-    ~H"""
-    <div class={[
-      "stepper-section mb-6 ms-6"
-    ]}>
-      <%= render_slot(@inner_block) %>
-    </div>
-    """
-  end
-
-  def stepper_section(assigns) do
-    ~H"""
-    <div class={[
-      "stepper-section flex items-center"
-    ]}>
       <%= render_slot(@inner_block) %>
     </div>
     """
@@ -89,21 +60,20 @@ defmodule MishkaChelekom.Stepper do
   attr :rounded, :string, default: "full"
   attr :icon, :string, default: nil, doc: ""
   attr :color, :string, default: "white"
+  attr :title, :string, default: nil
+  attr :description, :string, default: nil
+  attr :step, :integer, default: 1
   attr :vertical, :boolean, default: false, doc: ""
   attr :border, :string, default: "none"
 
   slot :inner_block, required: false, doc: ""
 
-  def step(%{vertical: true} = assigns) do
+  def stepper_section(%{vertical: true} = assigns) do
     ~H"""
-    <div
+    <button
       id={@id}
       class={[
-        "vertical-step absolute flex items-center justify-center shrink-0",
-        step_size(@size),
-        step_border(@border),
-        rounded_size(@rounded),
-        step_background(@color),
+        "vertical-step  text-start flex items-center justify-center shrink-0",
         @class
       ]}
     >
@@ -114,116 +84,129 @@ defmodule MishkaChelekom.Stepper do
       <div :if={!@icon}>
         <%= render_slot(@inner_block) %>
       </div>
-    </div>
+    </button>
+    <div class="stepper-seperator w-full"></div>
     """
   end
 
-  def step(assigns) do
+  def stepper_section(assigns) do
     ~H"""
-    <div
+    <button
       id={@id}
       class={[
-        "inline-flex justify-center items-center shrink-0",
-        step_size(@size),
-        step_border(@border),
-        rounded_size(@rounded),
-        step_background(@color),
+        "stepper-section text-start flex flex-nowrap justify-center items-center shrink-0 gap-5",
         @class
       ]}
     >
-      <div :if={@icon} class="shrink-0">
-        <.icon name={@icon} class="stepper-icon" />
-      </div>
+      <span :if={@icon} class={[
+        "stepper-step rounded-full flex justify-center items-center shrink-0",
+        "transition-all ease-in-out duration-400 delay-100"
+      ]}>
+        <.icon name={@icon} class="step-symbol stepper-icon" />
+        <.icon
+          name="hero-check-solid"
+          class={[
+            "stepper-icon stepper-compeleted-icon",
+            "transition-all ease-in-out duration-400 delay-100"
+          ]}
+        />
+      </span>
 
-      <div :if={!@icon}>
+      <span :if={!@icon} class={[
+        "stepper-step rounded-full flex justify-center items-center shrink-0",
+        "transition-all ease-in-out duration-400 delay-100"
+      ]}>
+        <span class="step-symbol"><%= @step %></span>
+        <.icon
+          name="hero-check-solid"
+          class={[
+            "stepper-icon stepper-compeleted-icon",
+            "transition-all ease-in-out duration-400 delay-100"
+          ]}
+        />
+      </span>
+
+     <span class="block text-nowrap">
+      <span :if={@title} class="block font-bold">
+          <%= @title %>
+        </span>
+
+        <span :if={@description} class="block text-xs">
+          <%= @description %>
+        </span>
+
         <%= render_slot(@inner_block) %>
-      </div>
-    </div>
+     </span>
+    </button>
+    <div class="stepper-seperator w-full"></div>
     """
   end
 
-  defp seperator_after() do
+  defp step_visibility() do
     [
-      "sm:[&_.stepper-section:not(:last-child)]:w-full [&_.stepper-section:not(:last-child)]:after:h-1",
-      "sm:[&_.stepper-section:not(:last-child)]:after:content-[''] [&_.stepper-section:not(:last-child)]:after:w-full",
-      "[&_.stepper-section:not(:last-child)]:after:hidden sm:[&_.stepper-section:not(:last-child)]:after:inline-block"
+      "[&_.stepper-compeleted-icon]:hidden",
+      "[&_.stepper-compeleted-icon]:invisible",
+      "[&_.stepper-compeleted-icon]:opacity-0",
+      "[&_.stepper-compeleted-step_.stepper-compeleted-icon]:block",
+      "[&_.stepper-compeleted-step_.stepper-compeleted-icon]:visible",
+      "[&_.stepper-compeleted-step_.stepper-compeleted-icon]:opacity-100",
+      "[&_.stepper-compeleted-step_.step-symbol]:hidden",
+      "[&_.stepper-compeleted-step_.step-symbol]:invisible",
+      "[&_.stepper-compeleted-step_.step-symbol]:opacity-0"
     ]
   end
 
-  defp rounded_size("extra_small"), do: "rounded-sm"
-  defp rounded_size("small"), do: "rounded"
-  defp rounded_size("medium"), do: "rounded-md"
-  defp rounded_size("large"), do: "rounded-lg"
-  defp rounded_size("extra_large"), do: "rounded-xl"
-  defp rounded_size("full"), do: "rounded-full"
-  defp rounded_size(params) when is_binary(params), do: params
-  defp rounded_size(_), do: rounded_size("full")
-
   defp seperator_margin("none") do
     [
-      "[&_.stepper-section:not(:last-child)]:after:mx-0"
+      "[&_.stepper-seperator]:mx-0"
     ]
   end
 
   defp seperator_margin("extra_small") do
     [
-      "[&_.stepper-section:not(:last-child)]:after:mx-2",
-      "xl:[&_.stepper-section:not(:last-child)]:after:mx-6"
+      "[&_.stepper-seperator]:mx-2",
+      "xl:[&_.stepper-seperator]:mx-6"
     ]
   end
 
   defp seperator_margin("small") do
     [
-      "[&_.stepper-section:not(:last-child)]:after:mx-3",
-      "xl:[&_.stepper-section:not(:last-child)]:after:mx-7"
+      "[&_.stepper-seperator]:mx-3",
+      "xl:[&_.stepper-seperator]:mx-7"
     ]
   end
 
   defp seperator_margin("medium") do
     [
-      "[&_.stepper-section:not(:last-child)]:after:mx-4",
-      "xl:[&_.stepper-section:not(:last-child)]:after:mx-8"
+      "[&_.stepper-seperator]:mx-4",
+      "xl:[&_.stepper-seperator]:mx-8"
     ]
   end
 
   defp seperator_margin("large") do
     [
-      "[&_.stepper-section:not(:last-child)]:after:mx-5",
-      "xl:[&_.stepper-section:not(:last-child)]:after:mx-9"
+      "[&_.stepper-seperator]:mx-5",
+      "xl:[&_.stepper-seperator]:mx-9"
     ]
   end
 
   defp seperator_margin("extra_large") do
     [
-      "[&_.stepper-section:not(:last-child)]:after:mx-6",
-      "xl:[&_.stepper-section:not(:last-child)]:after:mx-10"
+      "[&_.stepper-seperator]:mx-6",
+      "xl:[&_.stepper-seperator]:mx-10"
     ]
   end
 
   defp seperator_margin(params) when is_binary(params), do: params
-  defp seperator_margin(_), do: seperator_margin("extra_large")
+  defp seperator_margin(_), do: seperator_margin("medium")
 
-  defp border_class("extra_small", false),
-    do: "[&_.stepper-section:not(:last-child)]:after:border-b"
-
-  defp border_class("small", false), do: "[&_.stepper-section:not(:last-child)]:after:border-b-2"
-
-  defp border_class("medium", false),
-    do: "[&_.stepper-section:not(:last-child)]:after:border-b-[3px]"
-
-  defp border_class("large", false), do: "[&_.stepper-section:not(:last-child)]:after:border-b-4"
-
-  defp border_class("extra_large", false),
-    do: "[&_.stepper-section:not(:last-child)]:after:border-b-[5px]"
-
-  defp border_class("extra_small", true), do: "border-s"
-  defp border_class("small", true), do: "border-s-2"
-  defp border_class("medium", true), do: "border-s-[3px]"
-  defp border_class("large", true), do: "border-s-4"
-  defp border_class("extra_large", true), do: "border-s-[5px]"
-
-  defp border_class(params, _) when is_binary(params), do: params
-  defp border_class(_, _), do: border_class("extra_small", false)
+  defp border_class("extra_small"), do: "border"
+  defp border_class("small"), do: "border-2"
+  defp border_class("medium"), do: "border-[3px]"
+  defp border_class("large"), do: "border-4"
+  defp border_class("extra_large"), do: "border-[5px]"
+  defp border_class(params) when is_binary(params), do: params
+  defp border_class(_), do: border_class("extra_small")
 
   defp wrapper_width("extra_small"), do: "max-w-1/4"
   defp wrapper_width("small"), do: "max-w-2/4"
@@ -233,145 +216,150 @@ defmodule MishkaChelekom.Stepper do
   defp wrapper_width(params) when is_binary(params), do: params
   defp wrapper_width(_), do: nil
 
-  defp size_class("extra_small"), do: "text-xs [&_.stepper-icon]:size-3"
-  defp size_class("small"), do: "text-sm [&_.stepper-icon]:size-4"
-  defp size_class("medium"), do: "text-base [&_.stepper-icon]:size-5"
-  defp size_class("large"), do: "text-lg [&_.stepper-icon]:size-6"
-  defp size_class("extra_large"), do: "text-xl [&_.stepper-icon]:size-7"
+  defp size_class("extra_small"), do: "text-xs [&_.stepper-step]:size-7 [&_.stepper-icon]:size-4"
+  defp size_class("small"), do: "text-sm [&_.stepper-step]:size-8 [&_.stepper-icon]:size-5"
+  defp size_class("medium"), do: "text-base [&_.stepper-step]:size-9 [&_.stepper-icon]:size-6"
+  defp size_class("large"), do: "text-lg [&_.stepper-step]:size-10 [&_.stepper-icon]:size-7"
+  defp size_class("extra_large"), do: "text-xl [&_.stepper-step]:size-11 [&_.stepper-icon]:size-8"
   defp size_class(params) when is_binary(params), do: params
   defp size_class(_), do: size_class("medium")
 
-  defp gap_class("none"), do: "gap-1.5 sm:gap-0 [&_.stepper-section]:gap-0"
-  defp gap_class("extra_small"), do: "gap-2 sm:gap-0 [&_.stepper-section]:gap-1"
-  defp gap_class("small"), do: "gap-2.5 sm:gap-0 [&_.stepper-section]:gap-2"
+  defp seperator_size("extra_small"), do: "[&_.stepper-seperator]:h-px"
+  defp seperator_size("small"), do: "[&_.stepper-seperator]:h-0.5"
+  defp seperator_size("medium"), do: "[&_.stepper-seperator]:h-1"
+  defp seperator_size("large"), do: "[&_.stepper-seperator]:h-1.5"
+  defp seperator_size("extra_large"), do: "[&_.stepper-seperator]:h-2"
+  defp seperator_size(params) when is_binary(params), do: params
+  defp seperator_size(_), do: seperator_size("extra_small")
 
-  defp gap_class("medium"),
-    do: "gap-3 sm:gap-0 [&_.stepper-section]:gap-1.5 sm:[&_.stepper-section]:gap-3"
 
-  defp gap_class("large"),
-    do: "gap-3.5 sm:gap-0 [&_.stepper-section]:gap-2 sm:[&_.stepper-section]:gap-4"
-
-  defp gap_class("extra_large"),
-    do: "gap-4 sm:gap-0 [&_.stepper-section]:gap-2.5 sm:[&_.stepper-section]:gap-5"
-
-  defp gap_class(params) when is_binary(params), do: params
-  defp gap_class(_), do: gap_class("small")
-
-  defp step_border("none"), do: "border-none"
-  defp step_border("extra_small"), do: "border"
-  defp step_border("small"), do: "border-2"
-  defp step_border("medium"), do: "border-[3px]"
-  defp step_border("large"), do: "border-4"
-  defp step_border("extra_large"), do: "border-[5px]"
-  defp step_border(params) when is_binary(params), do: params
-  defp step_border(_), do: step_border("none")
-
-  defp step_size("extra_small"), do: "size-5 text-xs [&.vertical-step]:-start-2.5"
-  defp step_size("small"), do: "size-6 text-sm [&.vertical-step]:-start-3"
-  defp step_size("medium"), do: "size-7 text-base [&.vertical-step]:-start-3.5"
-  defp step_size("large"), do: "size-8 text-lg [&.vertical-step]:-start-4"
-  defp step_size("extra_large"), do: "size-9 text-xl [&.vertical-step]:-start-[18px]"
-  defp step_size(params) when is_binary(params), do: params
-  defp step_size(_), do: step_size("small")
+  # defp size_class("extra_small"), do: "size-5 text-xs [&.vertical-step]:-start-2.5"
+  # defp size_class("small"), do: "size-6 text-sm [&.vertical-step]:-start-3"
+  # defp size_class("medium"), do: "size-7 text-base [&.vertical-step]:-start-3.5"
+  # defp size_class("large"), do: "size-8 text-lg [&.vertical-step]:-start-4"
+  # defp size_class("extra_large"), do: "size-9 text-xl [&.vertical-step]:-start-[18px]"
+  # defp size_class(params) when is_binary(params), do: params
+  # defp size_class(_), do: size_class("small")
 
   # colors
-
-  defp step_background("transparent") do
-    "bg-transparent border-transparent"
+# stepper-loading-step, stepper-active-step, stepper-compeleted-step, stepper-canceled-step
+  defp color_class("white") do
+    [
+      "[&_.stepper-step]:bg-[#DADADA] [&_.stepper-step]:text-[#3E3E3E]",
+      "[&_.stepper-step]:border-transparent [&_.stepper-active-step_.stepper-step]:border-white",
+      "[&_.stepper-compeleted-step_.stepper-step]:bg-white [&_.stepper-compeleted-step_.stepper-step]:border-white",
+      "[&_.stepper-canceled-step_.stepper-step]:bg-[#fa2d2d] [&_.stepper-canceled-step_.stepper-step]:border-[#fa2d2d]",
+      "[&_.stepper-seperator]:bg-[#DADADA] [&_.stepper-compeleted-step_.stepper-seperator]:border-white"
+    ]
   end
 
-  defp step_background("white") do
-    "bg-white text-[#3E3E3E] border-[#DADADA]"
+  defp color_class("primary") do
+    [
+      "[&_.stepper-step]:bg-[#5573f2] [&_.stepper-step]:text-white",
+      "[&_.stepper-step]:border-transparent [&_.stepper-active-step_.stepper-step]:border-[#162da8]",
+      "[&_.stepper-compeleted-step_.stepper-step]:bg-[#162da8] [&_.stepper-compeleted-step_.stepper-step]:border-[#162da8]",
+      "[&_.stepper-canceled-step_.stepper-step]:bg-[#fa2d2d] [&_.stepper-canceled-step_.stepper-step]:border-[#fa2d2d]",
+      "[&_.stepper-seperator]:bg-[#5573f2] [&_.stepper-compeleted-step_.stepper-seperator]:border-[#162da8]"
+    ]
   end
 
-  defp step_background("primary") do
-    "bg-[#4363EC] text-white border-[#2441de]"
+  defp color_class("secondary") do
+    [
+      "[&_.stepper-step]:bg-[#6B6E7C] [&_.stepper-step]:text-white",
+      "[&_.stepper-step]:border-transparent [&_.stepper-active-step_.stepper-step]:border-[#434652]",
+      "[&_.stepper-compeleted-step_.stepper-step]:bg-[#434652] [&_.stepper-compeleted-step_.stepper-step]:border-[#434652]",
+      "[&_.stepper-canceled-step_.stepper-step]:bg-[#fa2d2d] [&_.stepper-canceled-step_.stepper-step]:border-[#fa2d2d]",
+      "[&_.stepper-seperator]:bg-[#6B6E7C] [&_.stepper-compeleted-step_.stepper-seperator]:border-[#434652]"
+    ]
   end
 
-  defp step_background("secondary") do
-    "bg-[#6B6E7C] text-white border-[#877C7C]"
+  defp color_class("success") do
+    [
+      "[&_.stepper-step]:bg-[#ECFEF3] [&_.stepper-step]:text-[#047857]",
+      "[&_.stepper-step]:border-transparent [&_.stepper-active-step_.stepper-step]:border-[#047857]",
+      "[&_.stepper-compeleted-step_.stepper-step]:bg-[#047857] [&_.stepper-compeleted-step_.stepper-step]:border-[#047857]",
+      "[&_.stepper-compeleted-step_.stepper-step]:text-white",
+      "[&_.stepper-canceled-step_.stepper-step]:bg-[#fa2d2d] [&_.stepper-canceled-step_.stepper-step]:border-[#fa2d2d]",
+      "[&_.stepper-seperator]:bg-[#ECFEF3] [&_.stepper-compeleted-step_.stepper-seperator]:border-[#047857]"
+    ]
   end
 
-  defp step_background("success") do
-    "bg-[#ECFEF3] text-[#047857] border-[#6EE7B7]"
+  defp color_class("warning") do
+    [
+      "[&_.stepper-step]:bg-[#FFF8E6] [&_.stepper-step]:text-[#FF8B08]",
+      "[&_.stepper-step]:border-transparent [&_.stepper-active-step_.stepper-step]:border-[#FF8B08]",
+      "[&_.stepper-compeleted-step_.stepper-step]:bg-[#FF8B08] [&_.stepper-compeleted-step_.stepper-step]:border-[#FF8B08]",
+      "[&_.stepper-compeleted-step_.stepper-step]:text-white",
+      "[&_.stepper-canceled-step_.stepper-step]:bg-[#fa2d2d] [&_.stepper-canceled-step_.stepper-step]:border-[#fa2d2d]",
+      "[&_.stepper-seperator]:bg-[#FFF8E6] [&_.stepper-compeleted-step_.stepper-seperator]:border-[#FF8B08]"
+    ]
   end
 
-  defp step_background("warning") do
-    "bg-[#FFF8E6] text-[#FF8B08] border-[#FF8B08]"
+  defp color_class("danger") do
+    [
+      "[&_.stepper-step]:bg-[#FFE6E6] [&_.stepper-step]:text-[#E73B3B]",
+      "[&_.stepper-step]:border-transparent [&_.stepper-active-step_.stepper-step]:border-[#E73B3B]",
+      "[&_.stepper-compeleted-step_.stepper-step]:bg-[#E73B3B] [&_.stepper-compeleted-step_.stepper-step]:border-[#E73B3B]",
+      "[&_.stepper-compeleted-step_.stepper-step]:text-white",
+      "[&_.stepper-canceled-step_.stepper-step]:bg-[#fa2d2d] [&_.stepper-canceled-step_.stepper-step]:border-[#fa2d2d]",
+      "[&_.stepper-seperator]:bg-[#FFE6E6] [&_.stepper-compeleted-step_.stepper-seperator]:border-[#E73B3B]"
+    ]
   end
 
-  defp step_background("danger") do
-    "bg-[#FFE6E6] text-[#E73B3B] border-[#E73B3B]"
+  defp color_class("info") do
+    [
+      "[&_.stepper-step]:bg-[#E5F0FF] [&_.stepper-step]:text-[#004FC4]",
+      "[&_.stepper-step]:border-transparent [&_.stepper-active-step_.stepper-step]:border-[#004FC4]",
+      "[&_.stepper-compeleted-step_.stepper-step]:bg-[#004FC4] [&_.stepper-compeleted-step_.stepper-step]:border-[#004FC4]",
+      "[&_.stepper-compeleted-step_.stepper-step]:text-white",
+      "[&_.stepper-canceled-step_.stepper-step]:bg-[#fa2d2d] [&_.stepper-canceled-step_.stepper-step]:border-[#fa2d2d]",
+      "[&_.stepper-seperator]:bg-[#E5F0FF] [&_.stepper-compeleted-step_.stepper-seperator]:border-[#004FC4]"
+    ]
   end
 
-  defp step_background("info") do
-    "bg-[#E5F0FF] text-[#004FC4] border-[#004FC4]"
+  defp color_class("misc") do
+    [
+      "[&_.stepper-step]:bg-[#FFE6FF] [&_.stepper-step]:text-[#52059C]",
+      "[&_.stepper-step]:border-transparent [&_.stepper-active-step_.stepper-step]:border-[#52059C]",
+      "[&_.stepper-compeleted-step_.stepper-step]:bg-[#52059C] [&_.stepper-compeleted-step_.stepper-step]:border-[#52059C]",
+      "[&_.stepper-compeleted-step_.stepper-step]:text-white",
+      "[&_.stepper-canceled-step_.stepper-step]:bg-[#fa2d2d] [&_.stepper-canceled-step_.stepper-step]:border-[#fa2d2d]",
+      "[&_.stepper-seperator]:bg-[#FFE6FF] [&_.stepper-compeleted-step_.stepper-seperator]:border-[#52059C]"
+    ]
   end
 
-  defp step_background("misc") do
-    "bg-[#FFE6FF] text-[#52059C] border-[#52059C]"
+  defp color_class("dawn") do
+    [
+      "[&_.stepper-step]:bg-[#FFECDA] [&_.stepper-step]:text-[#4D4137]",
+      "[&_.stepper-step]:border-transparent [&_.stepper-active-step_.stepper-step]:border-[#4D4137]",
+      "[&_.stepper-compeleted-step_.stepper-step]:bg-[#4D4137] [&_.stepper-compeleted-step_.stepper-step]:border-[#4D4137]",
+      "[&_.stepper-compeleted-step_.stepper-step]:text-white",
+      "[&_.stepper-canceled-step_.stepper-step]:bg-[#fa2d2d] [&_.stepper-canceled-step_.stepper-step]:border-[#fa2d2d]",
+      "[&_.stepper-seperator]:bg-[#FFECDA] [&_.stepper-compeleted-step_.stepper-seperator]:border-[#4D4137]"
+    ]
   end
 
-  defp step_background("dawn") do
-    "bg-[#FFECDA] text-[#4D4137] border-[#4D4137]"
+  defp color_class("light") do
+    [
+      "[&_.stepper-step]:bg-[#E3E7F1] [&_.stepper-step]:text-[#707483]",
+      "[&_.stepper-step]:border-transparent [&_.stepper-active-step_.stepper-step]:border-[#707483]",
+      "[&_.stepper-compeleted-step_.stepper-step]:bg-[#707483] [&_.stepper-compeleted-step_.stepper-step]:border-[#707483]",
+      "[&_.stepper-compeleted-step_.stepper-step]:text-white",
+      "[&_.stepper-canceled-step_.stepper-step]:bg-[#fa2d2d] [&_.stepper-canceled-step_.stepper-step]:border-[#fa2d2d]",
+      "[&_.stepper-seperator]:bg-[#E3E7F1] [&_.stepper-compeleted-step_.stepper-seperator]:border-[#707483]"
+    ]
   end
 
-  defp step_background("light") do
-    "bg-[#E3E7F1] text-[#707483] border-[#707483]"
+  defp color_class("dark") do
+    [
+      "[&_.stepper-step]:bg-[#1E1E1E] [&_.stepper-step]:text-white",
+      "[&_.stepper-step]:border-transparent [&_.stepper-active-step_.stepper-step]:border-[#050404]",
+      "[&_.stepper-compeleted-step_.stepper-step]:bg-[#050404] [&_.stepper-compeleted-step_.stepper-step]:border-[#050404]",
+      "[&_.stepper-canceled-step_.stepper-step]:bg-[#fa2d2d] [&_.stepper-canceled-step_.stepper-step]:border-[#fa2d2d]",
+      "[&_.stepper-seperator]:bg-[#1E1E1E] [&_.stepper-compeleted-step_.stepper-seperator]:border-[#050404]"
+    ]
   end
 
-  defp step_background("dark") do
-    "bg-[#1E1E1E] text-white border-[#050404]"
-  end
-
-  defp step_background(params) when is_binary(params), do: params
-  defp step_background(_), do: step_background("transparent")
-
-  defp stepper_color("white") do
-    "text-white [&_.stepper-section:not(:last-child)]:after:border-white [&.vertical-stepper]:border-white"
-  end
-
-  defp stepper_color("silver") do
-    "text-[#3E3E3E] [&_.stepper-section:not(:last-child)]:after:border-[#DADADA] [&.vertical-stepper]:border-[#DADADA]"
-  end
-
-  defp stepper_color("primary") do
-    "text-[#2441de] [&_.stepper-section:not(:last-child)]:after:border-[#2441de] [&.vertical-stepper]:border-[#2441de]"
-  end
-
-  defp stepper_color("secondary") do
-    "text-[#2441de] [&_.stepper-section:not(:last-child)]:after:border-[#877C7C] [&.vertical-stepper]:border-[#877C7C]"
-  end
-
-  defp stepper_color("success") do
-    "text-[#6EE7B7] [&_.stepper-section:not(:last-child)]:after:border-[#6EE7B7] [&.vertical-stepper]:border-[#6EE7B7]"
-  end
-
-  defp stepper_color("warning") do
-    "text-[#FF8B08] [&_.stepper-section:not(:last-child)]:after:border-[#FF8B08] [&.vertical-stepper]:border-[#FF8B08]"
-  end
-
-  defp stepper_color("danger") do
-    "text-[#E73B3B] [&_.stepper-section:not(:last-child)]:after:border-[#E73B3B] [&.vertical-stepper]:border-[#E73B3B]"
-  end
-
-  defp stepper_color("info") do
-    "text-[#004FC4] [&_.stepper-section:not(:last-child)]:after:border-[#004FC4] [&.vertical-stepper]:border-[#004FC4]"
-  end
-
-  defp stepper_color("misc") do
-    "text-[#52059C] [&_.stepper-section:not(:last-child)]:after:border-[#52059C] [&.vertical-stepper]:border-[#52059C]"
-  end
-
-  defp stepper_color("dawn") do
-    "text-[#4D4137] [&_.stepper-section:not(:last-child)]:after:border-[#4D4137] [&.vertical-stepper]:border-[#4D4137]"
-  end
-
-  defp stepper_color("light") do
-    "text-[#707483] [&_.stepper-section:not(:last-child)]:after:border-[#707483] [&.vertical-stepper]:border-[#707483]"
-  end
-
-  defp stepper_color("dark") do
-    "text-white [&_.stepper-section:not(:last-child)]:after:border-[#050404] [&.vertical-stepper]:border-[#050404]"
-  end
+  defp color_class(params) when is_binary(params), do: params
+  defp color_class(_), do: color_class("primary")
 end
