@@ -99,7 +99,7 @@ defmodule MishkaChelekom.Stepper do
       ]}
     >
       <span :if={@icon} class={[
-        "stepper-step rounded-full flex justify-center items-center shrink-0",
+        "stepper-step border-2 rounded-full flex justify-center items-center shrink-0",
         "transition-all ease-in-out duration-400 delay-100"
       ]}>
         <.icon name={@icon} class="step-symbol stepper-icon" />
@@ -113,7 +113,7 @@ defmodule MishkaChelekom.Stepper do
       </span>
 
       <span :if={!@icon} class={[
-        "stepper-step rounded-full flex justify-center items-center shrink-0",
+        "stepper-step border-2 rounded-full flex justify-center items-center shrink-0",
         "transition-all ease-in-out duration-400 delay-100"
       ]}>
         <span class="step-symbol"><%= @step %></span>
