@@ -187,7 +187,7 @@ defmodule MishkaChelekom.Stepper do
 
       <span class={[
         "block text-nowrap",
-        (if @reverse, do: "[&>span]:me-4", else: "[&>span]:ms-4")
+        if(@reverse, do: "[&>span]:me-4", else: "[&>span]:ms-4")
       ]}>
         <span :if={@title} class="block font-bold">
           <%= @title %>
@@ -325,30 +325,35 @@ defmodule MishkaChelekom.Stepper do
       "[&_.vertical-step:not(:last-child)]:min-h-10"
     ]
   end
+
   defp size_class("small") do
     [
       "text-sm [&_.stepper-step]:size-8 [&_.stepper-icon]:size-5",
       "[&_.vertical-step:not(:last-child)]:min-h-12"
     ]
   end
+
   defp size_class("medium") do
     [
       "text-base [&_.stepper-step]:size-9 [&_.stepper-icon]:size-6",
       "[&_.vertical-step:not(:last-child)]:min-h-14"
     ]
   end
+
   defp size_class("large") do
     [
       "text-lg [&_.stepper-step]:size-10 [&_.stepper-icon]:size-7",
       "[&_.vertical-step:not(:last-child)]:min-h-16"
     ]
   end
+
   defp size_class("extra_large") do
     [
       "text-xl [&_.stepper-step]:size-11 [&_.stepper-icon]:size-8",
       "[&_.vertical-step:not(:last-child)]:min-h-20"
     ]
   end
+
   defp size_class(params) when is_binary(params), do: params
   defp size_class(_), do: size_class("medium")
 
