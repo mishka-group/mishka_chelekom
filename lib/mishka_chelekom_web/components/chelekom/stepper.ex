@@ -9,7 +9,6 @@ defmodule MishkaChelekom.Stepper do
   attr :color, :string, default: "primary", doc: ""
   attr :space, :string, default: nil, doc: ""
   attr :border, :string, default: "extra_small", doc: ""
-  attr :min_height, :string, default: "extra_small", doc: ""
   attr :font_weight, :string, default: "font-normal", doc: ""
   attr :max_width, :string, default: nil, doc: ""
   attr :seperator_size, :string, default: "extra_small", doc: ""
@@ -25,10 +24,10 @@ defmodule MishkaChelekom.Stepper do
   def stepper(%{vertical: true} = assigns) do
     ~H"""
     <div class={[
-      "vertical-stepper relative flex flex-col [&_.vertical-step:last-child_.stepper-seperator]:hidden",
+      "vertical-stepper relative flex flex-col",
+      "[&_.vertical-step:last-child_.stepper-seperator]:hidden",
       step_visibility(),
       border_class(@border),
-      step_height(@min_height),
       space_class(@space),
       size_class(@size),
       color_class(@color),
@@ -45,14 +44,15 @@ defmodule MishkaChelekom.Stepper do
     <div
       id={@id}
       class={[
-        "flex items-center w-full [&_.stepper-seperator:last-child]:hidden",
+        "flex flex-row flex-start items-center flex-wrap gap-y-5",
+        "[&_.stepper-seperator:last-child]:hidden",
         step_visibility(),
-        border_class(@border),
-        wrapper_width(@max_width),
-        seperator_size(@seperator_size),
-        seperator_margin(@margin),
         size_class(@size),
         color_class(@color),
+        border_class(@border),
+        wrapper_width(@max_width),
+        seperator_margin(@margin),
+        seperator_size(@seperator_size),
         @font_weight,
         @class
       ]}
@@ -142,7 +142,7 @@ defmodule MishkaChelekom.Stepper do
     <button
       id={@id}
       class={[
-        "text-start flex flex-nowrap justify-center items-center shrink-0 gap-5 peer",
+        "text-start flex flex-nowrap justify-center items-center shrink-0",
         @class
       ]}
     >
@@ -180,19 +180,19 @@ defmodule MishkaChelekom.Stepper do
         />
       </span>
 
-      <span class="block text-nowrap">
-        <span :if={@title} class="block font-bold">
+      <span class="block text-nowrap space-x-5">
+        <span :if={@title} class="block font-bold ms-4">
           <%= @title %>
         </span>
 
-        <span :if={@description} class="block text-xs">
+        <span :if={@description} class="block text-xs ms-4">
           <%= @description %>
         </span>
         <%= render_slot(@inner_block) %>
       </span>
     </button>
 
-    <div class="stepper-seperator w-full"></div>
+    <div class="stepper-seperator w-full flex-1"></div>
     """
   end
 
@@ -300,14 +300,6 @@ defmodule MishkaChelekom.Stepper do
   defp space_class(params) when is_binary(params), do: params
   defp space_class(_), do: nil
 
-  defp step_height("extra_small"), do: "[&_.vertical-step:not(:last-child)]:min-h-16"
-  defp step_height("small"), do: "[&_.vertical-step:not(:last-child)]:min-h-18"
-  defp step_height("medium"), do: "[&_.vertical-step:not(:last-child)]:min-h-20"
-  defp step_height("large"), do: "[&_.vertical-step:not(:last-child)]:min-h-22"
-  defp step_height("extra_large"), do: "[&_.vertical-step:not(:last-child)]:min-h-24"
-  defp step_height(params) when is_binary(params), do: params
-  defp step_height(_), do: step_height("medium")
-
   defp wrapper_width("extra_small"), do: "max-w-1/4"
   defp wrapper_width("small"), do: "max-w-2/4"
   defp wrapper_width("medium"), do: "max-w-3/4"
@@ -316,11 +308,36 @@ defmodule MishkaChelekom.Stepper do
   defp wrapper_width(params) when is_binary(params), do: params
   defp wrapper_width(_), do: nil
 
-  defp size_class("extra_small"), do: "text-xs [&_.stepper-step]:size-7 [&_.stepper-icon]:size-4"
-  defp size_class("small"), do: "text-sm [&_.stepper-step]:size-8 [&_.stepper-icon]:size-5"
-  defp size_class("medium"), do: "text-base [&_.stepper-step]:size-9 [&_.stepper-icon]:size-6"
-  defp size_class("large"), do: "text-lg [&_.stepper-step]:size-10 [&_.stepper-icon]:size-7"
-  defp size_class("extra_large"), do: "text-xl [&_.stepper-step]:size-11 [&_.stepper-icon]:size-8"
+  defp size_class("extra_small") do
+    [
+      "text-xs [&_.stepper-step]:size-7 [&_.stepper-icon]:size-4",
+      "[&_.vertical-step:not(:last-child)]:min-h-10"
+    ]
+  end
+  defp size_class("small") do
+    [
+      "text-sm [&_.stepper-step]:size-8 [&_.stepper-icon]:size-5",
+      "[&_.vertical-step:not(:last-child)]:min-h-12"
+    ]
+  end
+  defp size_class("medium") do
+    [
+      "text-base [&_.stepper-step]:size-9 [&_.stepper-icon]:size-6",
+      "[&_.vertical-step:not(:last-child)]:min-h-14"
+    ]
+  end
+  defp size_class("large") do
+    [
+      "text-lg [&_.stepper-step]:size-10 [&_.stepper-icon]:size-7",
+      "[&_.vertical-step:not(:last-child)]:min-h-16"
+    ]
+  end
+  defp size_class("extra_large") do
+    [
+      "text-xl [&_.stepper-step]:size-11 [&_.stepper-icon]:size-8",
+      "[&_.vertical-step:not(:last-child)]:min-h-20"
+    ]
+  end
   defp size_class(params) when is_binary(params), do: params
   defp size_class(_), do: size_class("medium")
 
