@@ -170,6 +170,12 @@ defmodule MishkaChelekom.Popover do
     """
   end
 
+
+  # TODO: This function enables the visibility of the popover on hover.
+  # If the trigger for the popover is clickable, this function (or the corresponding class)
+  # should remove the visibility from popover_content().
+  # For the clickable option, we can simply add 'visible' and 'opacity-100' classes to the popover_content wrapper.
+
   defp tirgger_popover(), do: "group-hover:visible group-hover:opacity-100"
 
   defp rounded_size("extra_small"), do: "rounded-sm"
