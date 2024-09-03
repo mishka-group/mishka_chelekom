@@ -73,6 +73,8 @@ defmodule MishkaChelekom.Stepper do
   attr :description, :string, default: nil
   attr :step, :integer, default: 1
   attr :vertical, :boolean, default: false, doc: ""
+  attr :clickable, :boolean, default: true, doc: ""
+  attr :reverse, :boolean, default: false, doc: ""
   attr :border, :string, default: "none"
 
   slot :inner_block, required: false, doc: ""
@@ -85,6 +87,7 @@ defmodule MishkaChelekom.Stepper do
         "vertical-step overflow-hidden flex flex-row text-start gap-4",
         @class
       ]}
+      disabled={!@clickable}
     >
       <span class="block relative">
         <span class="stepper-seperator block h-screen absolute start-1/2"></span>
@@ -143,8 +146,10 @@ defmodule MishkaChelekom.Stepper do
       id={@id}
       class={[
         "text-start flex flex-nowrap justify-center items-center shrink-0",
+        @reverse && "flex-row-reverse text-end",
         @class
       ]}
+      disabled={!@clickable}
     >
       <span
         :if={@icon}
@@ -180,15 +185,21 @@ defmodule MishkaChelekom.Stepper do
         />
       </span>
 
-      <span class="block text-nowrap space-x-5">
-        <span :if={@title} class="block font-bold ms-4">
+      <span class={[
+        "block text-nowrap",
+        (if @reverse, do: "[&>span]:me-4", else: "[&>span]:ms-4")
+      ]}>
+        <span :if={@title} class="block font-bold">
           <%= @title %>
         </span>
 
-        <span :if={@description} class="block text-xs ms-4">
+        <span :if={@description} class="block text-xs">
           <%= @description %>
         </span>
-        <%= render_slot(@inner_block) %>
+
+        <span :if={@description} class="block">
+          <%= render_slot(@inner_block) %>
+        </span>
       </span>
     </button>
 
