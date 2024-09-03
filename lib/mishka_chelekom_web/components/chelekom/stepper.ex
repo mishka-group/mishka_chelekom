@@ -7,6 +7,9 @@ defmodule MishkaChelekom.Stepper do
   attr :size, :string, default: "small", doc: ""
   attr :margin, :string, default: "medium", doc: ""
   attr :color, :string, default: "primary", doc: ""
+  attr :space, :string, default: nil, doc: ""
+  attr :border, :string, default: "extra_small", doc: ""
+  attr :min_height, :string, default: "extra_small", doc: ""
   attr :font_weight, :string, default: "font-normal", doc: ""
   attr :max_width, :string, default: nil, doc: ""
   attr :seperator_size, :string, default: "extra_small", doc: ""
@@ -16,12 +19,17 @@ defmodule MishkaChelekom.Stepper do
 
   slot :inner_block, required: false, doc: ""
 
+  #TODO: Step Classes: stepper-loading-step, stepper-active-step, stepper-compeleted-step, stepper-canceled-step
+
   @spec stepper(map()) :: Phoenix.LiveView.Rendered.t()
   def stepper(%{vertical: true} = assigns) do
     ~H"""
     <div class={[
-      "vertical-stepper relative",
+      "vertical-stepper relative flex flex-col [&_.vertical-step:last-child_.stepper-seperator]:hidden",
       step_visibility(),
+      border_class(@border),
+      step_height(@min_height),
+      space_class(@space),
       size_class(@size),
       color_class(@color),
       @font_weight,
@@ -39,6 +47,7 @@ defmodule MishkaChelekom.Stepper do
       class={[
         "flex items-center w-full [&_.stepper-seperator:last-child]:hidden",
         step_visibility(),
+        border_class(@border),
         wrapper_width(@max_width),
         seperator_size(@seperator_size),
         seperator_margin(@margin),
@@ -73,19 +82,58 @@ defmodule MishkaChelekom.Stepper do
     <button
       id={@id}
       class={[
-        "vertical-step  text-start flex items-center justify-center shrink-0",
+        "vertical-step overflow-hidden flex flex-row text-start gap-4",
         @class
       ]}
     >
-      <div :if={@icon} class="flex items-center justify-center shrink-0">
-        <.icon name={@icon} class="stepper-icon" />
-      </div>
+      <span class="block relative">
+        <span class="stepper-seperator block h-screen absolute start-1/2"></span>
+        <span
+          :if={@icon}
+          class={[
+            "stepper-step relative border-2 rounded-full flex justify-center items-center shrink-0",
+            "transition-all ease-in-out duration-400 delay-100"
+          ]}
+        >
+          <.icon name={@icon} class="step-symbol stepper-icon" />
+          <.icon
+            name="hero-check-solid"
+            class={[
+              "stepper-icon stepper-compeleted-icon",
+              "transition-all ease-in-out duration-400 delay-100"
+            ]}
+          />
+        </span>
 
-      <div :if={!@icon}>
-        <%= render_slot(@inner_block) %>
-      </div>
+        <span
+          :if={!@icon}
+          class={[
+            "stepper-step relative border-2 rounded-full flex justify-center items-center shrink-0",
+            "transition-all ease-in-out duration-400 delay-100"
+          ]}
+        >
+          <span class="step-symbol"><%= @step %></span>
+          <.icon
+            name="hero-check-solid"
+            class={[
+              "stepper-icon stepper-compeleted-icon",
+              "transition-all ease-in-out duration-400 delay-100"
+            ]}
+          />
+        </span>
+      </span>
+
+      <span class="block text-nowrap">
+        <span :if={@title} class="block font-bold">
+          <%= @title %>
+        </span>
+
+        <span :if={@description} class="block text-xs">
+          <%= @description %>
+        </span>
+         <%= render_slot(@inner_block) %>
+      </span>
     </button>
-    <div class="stepper-seperator w-full"></div>
     """
   end
 
@@ -94,7 +142,7 @@ defmodule MishkaChelekom.Stepper do
     <button
       id={@id}
       class={[
-        "stepper-section text-start flex flex-nowrap justify-center items-center shrink-0 gap-5 peer",
+        "text-start flex flex-nowrap justify-center items-center shrink-0 gap-5 peer",
         @class
       ]}
     >
@@ -140,11 +188,11 @@ defmodule MishkaChelekom.Stepper do
         <span :if={@description} class="block text-xs">
           <%= @description %>
         </span>
-
-        <%= render_slot(@inner_block) %>
+         <%= render_slot(@inner_block) %>
       </span>
     </button>
-    <div class="stepper-seperator w-full border-t"></div>
+
+    <div class="stepper-seperator w-full"></div>
     """
   end
 
@@ -206,19 +254,62 @@ defmodule MishkaChelekom.Stepper do
   defp seperator_margin(params) when is_binary(params), do: params
   defp seperator_margin(_), do: seperator_margin("medium")
 
-  defp border_class("extra_small"), do: "border"
-  defp border_class("small"), do: "border-2"
-  defp border_class("medium"), do: "border-[3px]"
-  defp border_class("large"), do: "border-4"
-  defp border_class("extra_large"), do: "border-[5px]"
+  defp border_class("extra_small") do
+    [
+      "[&.vertical-stepper_.stepper-seperator]:border-s",
+      "[&:not(.vertical-stepper)_.stepper-seperator]:border-t"
+    ]
+  end
+  defp border_class("small") do
+    [
+      "[&.vertical-stepper_.stepper-seperator]:border-s-2",
+      "[&:not(.vertical-stepper)_.stepper-seperator]:border-t-2"
+    ]
+  end
+  defp border_class("medium")
+  do
+    [
+      "[&.vertical-stepper_.stepper-seperator]:border-s-[3px]",
+      "[&:not(.vertical-stepper)_.stepper-seperator]:border-t-[3px]"
+    ]
+  end
+  defp border_class("large") do
+    [
+      "[&.vertical-stepper_.stepper-seperator]:border-s-4",
+      "[&:not(.vertical-stepper)_.stepper-seperator]:border-t-4"
+    ]
+  end
+  defp border_class("extra_large") do
+    [
+      "[&.vertical-stepper_.stepper-seperator]:border-s-[5px]",
+      "[&:not(.vertical-stepper)_.stepper-seperator]:border-t-[5px]"
+    ]
+  end
+
   defp border_class(params) when is_binary(params), do: params
   defp border_class(_), do: border_class("extra_small")
+
+  defp space_class("extra_small"), do: "space-y-1"
+  defp space_class("small"), do: "space-y-2"
+  defp space_class("medium"), do: "space-y-3"
+  defp space_class("large"), do: "space-y-4"
+  defp space_class("extra_large"), do: "space-y-5"
+  defp space_class(params) when is_binary(params), do: params
+  defp space_class(_), do: nil
+
+  defp step_height("extra_small"), do: "[&_.vertical-step:not(:last-child)]:min-h-16"
+  defp step_height("small"), do: "[&_.vertical-step:not(:last-child)]:min-h-18"
+  defp step_height("medium"), do: "[&_.vertical-step:not(:last-child)]:min-h-20"
+  defp step_height("large"), do: "[&_.vertical-step:not(:last-child)]:min-h-22"
+  defp step_height("extra_large"), do: "[&_.vertical-step:not(:last-child)]:min-h-24"
+  defp step_height(params) when is_binary(params), do: params
+  defp step_height(_), do: step_height("medium")
 
   defp wrapper_width("extra_small"), do: "max-w-1/4"
   defp wrapper_width("small"), do: "max-w-2/4"
   defp wrapper_width("medium"), do: "max-w-3/4"
   defp wrapper_width("large"), do: "max-w-11/12"
-  defp wrapper_width("extra_large"), do: ""
+  defp wrapper_width("extra_large"), do: "max-"
   defp wrapper_width(params) when is_binary(params), do: params
   defp wrapper_width(_), do: nil
 
@@ -238,16 +329,9 @@ defmodule MishkaChelekom.Stepper do
   defp seperator_size(params) when is_binary(params), do: params
   defp seperator_size(_), do: seperator_size("extra_small")
 
-  # defp size_class("extra_small"), do: "size-5 text-xs [&.vertical-step]:-start-2.5"
-  # defp size_class("small"), do: "size-6 text-sm [&.vertical-step]:-start-3"
-  # defp size_class("medium"), do: "size-7 text-base [&.vertical-step]:-start-3.5"
-  # defp size_class("large"), do: "size-8 text-lg [&.vertical-step]:-start-4"
-  # defp size_class("extra_large"), do: "size-9 text-xl [&.vertical-step]:-start-[18px]"
-  # defp size_class(params) when is_binary(params), do: params
-  # defp size_class(_), do: size_class("small")
-
   # colors
   # stepper-loading-step, stepper-active-step, stepper-compeleted-step, stepper-canceled-step
+
   defp color_class("white") do
     [
       "[&_.stepper-step]:bg-[#DADADA] [&_.stepper-step]:text-[#3E3E3E]",
@@ -255,7 +339,8 @@ defmodule MishkaChelekom.Stepper do
       "[&_.stepper-compeleted-step_.stepper-step]:bg-white [&_.stepper-compeleted-step_.stepper-step]:border-white",
       "[&_.stepper-canceled-step_.stepper-step]:bg-[#fa2d2d] [&_.stepper-canceled-step_.stepper-step]:border-[#fa2d2d]",
       "[&_.stepper-canceled-step_.stepper-step]:text-white",
-      "[&_.stepper-seperator]:border-[#DADADA] [&_.stepper-compeleted-step+.stepper-seperator]:border-white"
+      "[&_.stepper-seperator]:border-[#DADADA] [&_.stepper-compeleted-step+.stepper-seperator]:border-white",
+      "[&.vertical-stepper_.stepper-compeleted-step_.stepper-seperator]:border-white"
     ]
   end
 
@@ -266,7 +351,8 @@ defmodule MishkaChelekom.Stepper do
       "[&_.stepper-compeleted-step_.stepper-step]:bg-[#162da8] [&_.stepper-compeleted-step_.stepper-step]:border-[#162da8]",
       "[&_.stepper-canceled-step_.stepper-step]:bg-[#fa2d2d] [&_.stepper-canceled-step_.stepper-step]:border-[#fa2d2d]",
       "[&_.stepper-canceled-step_.stepper-step]:text-white",
-      "[&_.stepper-seperator]:border-[#5573f2] [&_.stepper-compeleted-step+.stepper-seperator]:border-[#162da8]"
+      "[&_.stepper-seperator]:border-[#5573f2] [&_.stepper-compeleted-step+.stepper-seperator]:border-[#162da8]",
+      "[&.vertical-stepper_.stepper-compeleted-step_.stepper-seperator]:border-[#162da8]"
     ]
   end
 
@@ -277,7 +363,8 @@ defmodule MishkaChelekom.Stepper do
       "[&_.stepper-compeleted-step_.stepper-step]:bg-[#434652] [&_.stepper-compeleted-step_.stepper-step]:border-[#434652]",
       "[&_.stepper-canceled-step_.stepper-step]:bg-[#fa2d2d] [&_.stepper-canceled-step_.stepper-step]:border-[#fa2d2d]",
       "[&_.stepper-canceled-step_.stepper-step]:text-white",
-      "[&_.stepper-seperator]:border-[#6B6E7C] [&_.stepper-compeleted-step+.stepper-seperator]:border-[#434652]"
+      "[&_.stepper-seperator]:border-[#6B6E7C] [&_.stepper-compeleted-step+.stepper-seperator]:border-[#434652]",
+      "[&.vertical-stepper_.stepper-compeleted-step_.stepper-seperator]:border-[#434652]"
     ]
   end
 
@@ -289,7 +376,8 @@ defmodule MishkaChelekom.Stepper do
       "[&_.stepper-compeleted-step_.stepper-step]:text-white",
       "[&_.stepper-canceled-step_.stepper-step]:bg-[#fa2d2d] [&_.stepper-canceled-step_.stepper-step]:border-[#fa2d2d]",
       "[&_.stepper-canceled-step_.stepper-step]:text-white",
-      "[&_.stepper-seperator]:border-[#ECFEF3] [&_.stepper-compeleted-step+.stepper-seperator]:border-[#047857]"
+      "[&_.stepper-seperator]:border-[#ECFEF3] [&_.stepper-compeleted-step+.stepper-seperator]:border-[#047857]",
+      "[&.vertical-stepper_.stepper-compeleted-step_.stepper-seperator]:border-[#047857]"
     ]
   end
 
@@ -301,7 +389,8 @@ defmodule MishkaChelekom.Stepper do
       "[&_.stepper-compeleted-step_.stepper-step]:text-white",
       "[&_.stepper-canceled-step_.stepper-step]:bg-[#fa2d2d] [&_.stepper-canceled-step_.stepper-step]:border-[#fa2d2d]",
       "[&_.stepper-canceled-step_.stepper-step]:text-white",
-      "[&_.stepper-seperator]:border-[#FFF8E6] [&_.stepper-compeleted-step+.stepper-seperator]:border-[#FF8B08]"
+      "[&_.stepper-seperator]:border-[#FFF8E6] [&_.stepper-compeleted-step+.stepper-seperator]:border-[#FF8B08]",
+      "[&.vertical-stepper_.stepper-compeleted-step_.stepper-seperator]:border-[#FF8B08]"
     ]
   end
 
@@ -313,7 +402,8 @@ defmodule MishkaChelekom.Stepper do
       "[&_.stepper-compeleted-step_.stepper-step]:text-white",
       "[&_.stepper-canceled-step_.stepper-step]:bg-[#fa2d2d] [&_.stepper-canceled-step_.stepper-step]:border-[#fa2d2d]",
       "[&_.stepper-canceled-step_.stepper-step]:text-white",
-      "[&_.stepper-seperator]:border-[#FFE6E6] [&_.stepper-compeleted-step+.stepper-seperator]:border-[#E73B3B]"
+      "[&_.stepper-seperator]:border-[#FFE6E6] [&_.stepper-compeleted-step+.stepper-seperator]:border-[#E73B3B]",
+      "[&.vertical-stepper_.stepper-compeleted-step_.stepper-seperator]:border-[#E73B3B]"
     ]
   end
 
@@ -325,7 +415,8 @@ defmodule MishkaChelekom.Stepper do
       "[&_.stepper-compeleted-step_.stepper-step]:text-white",
       "[&_.stepper-canceled-step_.stepper-step]:bg-[#fa2d2d] [&_.stepper-canceled-step_.stepper-step]:border-[#fa2d2d]",
       "[&_.stepper-canceled-step_.stepper-step]:text-white",
-      "[&_.stepper-seperator]:border-[#E5F0FF] [&_.stepper-compeleted-step+.stepper-seperator]:border-[#004FC4]"
+      "[&_.stepper-seperator]:border-[#E5F0FF] [&_.stepper-compeleted-step+.stepper-seperator]:border-[#004FC4]",
+      "[&.vertical-stepper_.stepper-compeleted-step_.stepper-seperator]:border-[#004FC4]"
     ]
   end
 
@@ -337,7 +428,8 @@ defmodule MishkaChelekom.Stepper do
       "[&_.stepper-compeleted-step_.stepper-step]:text-white",
       "[&_.stepper-canceled-step_.stepper-step]:bg-[#fa2d2d] [&_.stepper-canceled-step_.stepper-step]:border-[#fa2d2d]",
       "[&_.stepper-canceled-step_.stepper-step]:text-white",
-      "[&_.stepper-seperator]:border-[#FFE6FF] [&_.stepper-compeleted-step+.stepper-seperator]:border-[#52059C]"
+      "[&_.stepper-seperator]:border-[#FFE6FF] [&_.stepper-compeleted-step+.stepper-seperator]:border-[#52059C]",
+      "[&.vertical-stepper_.stepper-compeleted-step_.stepper-seperator]:border-[#52059C]"
     ]
   end
 
@@ -349,7 +441,8 @@ defmodule MishkaChelekom.Stepper do
       "[&_.stepper-compeleted-step_.stepper-step]:text-white",
       "[&_.stepper-canceled-step_.stepper-step]:bg-[#fa2d2d] [&_.stepper-canceled-step_.stepper-step]:border-[#fa2d2d]",
       "[&_.stepper-canceled-step_.stepper-step]:text-white",
-      "[&_.stepper-seperator]:border-[#FFECDA] [&_.stepper-compeleted-step+.stepper-seperator]:border-[#4D4137]"
+      "[&_.stepper-seperator]:border-[#FFECDA] [&_.stepper-compeleted-step+.stepper-seperator]:border-[#4D4137]",
+      "[&.vertical-stepper_.stepper-compeleted-step_.stepper-seperator]:border-[#4D4137]"
     ]
   end
 
@@ -361,7 +454,8 @@ defmodule MishkaChelekom.Stepper do
       "[&_.stepper-compeleted-step_.stepper-step]:text-white",
       "[&_.stepper-canceled-step_.stepper-step]:bg-[#fa2d2d] [&_.stepper-canceled-step_.stepper-step]:border-[#fa2d2d]",
       "[&_.stepper-canceled-step_.stepper-step]:text-white",
-      "[&_.stepper-seperator]:border-[#E3E7F1] [&_.stepper-compeleted-step+.stepper-seperator]:border-[#707483]"
+      "[&_.stepper-seperator]:border-[#E3E7F1] [&_.stepper-compeleted-step+.stepper-seperator]:border-[#707483]",
+      "[&.vertical-stepper_.stepper-compeleted-step_.stepper-seperator]:border-[#707483]"
     ]
   end
 
@@ -372,7 +466,8 @@ defmodule MishkaChelekom.Stepper do
       "[&_.stepper-compeleted-step_.stepper-step]:bg-[#050404] [&_.stepper-compeleted-step_.stepper-step]:border-[#050404]",
       "[&_.stepper-canceled-step_.stepper-step]:bg-[#fa2d2d] [&_.stepper-canceled-step_.stepper-step]:border-[#fa2d2d]",
       "[&_.stepper-canceled-step_.stepper-step]:text-white",
-      "[&_.stepper-seperator]:border-[#1E1E1E] [&_.stepper-compeleted-step+.stepper-seperator]:border-[#050404]"
+      "[&_.stepper-seperator]:border-[#1E1E1E] [&_.stepper-compeleted-step+.stepper-seperator]:border-[#050404]",
+      "[&.vertical-stepper_.stepper-compeleted-step_.stepper-seperator]:border-[#050404]"
     ]
   end
 
