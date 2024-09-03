@@ -1,5 +1,6 @@
 defmodule MishkaChelekom.Tabs do
   use Phoenix.Component
+  import MishkaChelekomComponents
 
   @colors [
     "white",
@@ -32,6 +33,7 @@ defmodule MishkaChelekom.Tabs do
   attr :size, :string, default: "small", doc: ""
   attr :space, :string, default: "none", doc: ""
   attr :font_weight, :string, default: "font-normal", doc: ""
+  attr :content_position, :string, default: "start", doc: ""
   attr :padding, :string, default: "extra_small", doc: ""
   attr :class, :string, default: nil, doc: ""
   attr :icon, :string, default: "hero-quote", doc: ""
@@ -44,11 +46,12 @@ defmodule MishkaChelekom.Tabs do
     ~H"""
     <div class={[
       "w-full",
-      space_class(@space),
-      border_class(@border),
+      content_position(@content_position),
       color_variant(@variant, @color),
       rounded_size(@rounded),
       padding_size(@padding),
+      border_class(@border),
+      space_class(@space),
       size_class(@size),
       @font_weight,
       @class
@@ -61,13 +64,17 @@ defmodule MishkaChelekom.Tabs do
   attr :id, :string, default: nil, doc: ""
   attr :icon, :string, default: nil, doc: ""
   attr :class, :string, default: nil, doc: ""
+  attr :reverse, :boolean, default: false, doc: ""
   attr :rest, :global, doc: ""
 
   slot :inner_block, required: false, doc: ""
 
   def tabs_list(assigns) do
     ~H"""
-    <div class="flex">
+    <div class={[
+      "tab-trigger-list flex flex-row",
+      @reverse && "flex-row-reverse"
+    ]}>
       <%= render_slot(@inner_block) %>
     </div>
     """
@@ -75,8 +82,11 @@ defmodule MishkaChelekom.Tabs do
 
   attr :id, :string, default: nil, doc: ""
   attr :icon, :string, default: nil, doc: ""
+  attr :icon_position, :string, default: "start", doc: "start, end"
+  attr :font_weight, :string, default: "font-normal", doc: ""
   attr :class, :string, default: nil, doc: ""
   attr :rest, :global, doc: ""
+
 
   slot :inner_block, required: false, doc: ""
 
@@ -84,10 +94,18 @@ defmodule MishkaChelekom.Tabs do
     ~H"""
     <button
       class={[
+        "tab-trigger flex flex-row glex-nowrap items-center gap-3",
+        @icon_position == "end" && "flex-row-reverse",
+        @font_weight,
         @class
       ]}
     >
-      <%= render_slot(@inner_block) %>
+      <span :if={@icon} class="block">
+        <.icon name={@icon} class="tab-icon" />
+      </span>
+      <span>
+        <%= render_slot(@inner_block) %>
+      </span>
     </button>
     """
   end
@@ -105,6 +123,28 @@ defmodule MishkaChelekom.Tabs do
     """
   end
 
+  defp content_position("start") do
+    "[&_.tab-trigger-list]:justify-start"
+  end
+
+  defp content_position("end") do
+    "[&_.tab-trigger-list]:justify-end"
+  end
+
+  defp content_position("center") do
+    "[&_.tab-trigger-list]:justify-center"
+  end
+
+  defp content_position("between") do
+    "[&_.tab-trigger-list]:justify-between"
+  end
+
+  defp content_position("around") do
+    "[&_.tab-trigger-list]:justify-around"
+  end
+
+  defp content_position(_), do: content_position("start")
+
   defp space_class("none"), do: "space-y-0"
   defp space_class("extra_small"), do: "space-y-2"
   defp space_class("small"), do: "space-y-3"
@@ -114,20 +154,20 @@ defmodule MishkaChelekom.Tabs do
   defp space_class(params) when is_binary(params), do: params
   defp space_class(_), do: space_class("none")
 
+  defp padding_size("none"), do: "p-0"
   defp padding_size("extra_small"), do: "p-1"
   defp padding_size("small"), do: "p-2"
   defp padding_size("medium"), do: "p-3"
   defp padding_size("large"), do: "p-4"
   defp padding_size("extra_large"), do: "p-5"
-  defp padding_size("none"), do: "p-0"
   defp padding_size(params) when is_binary(params), do: params
   defp padding_size(_), do: padding_size("small")
 
-  defp size_class("extra_small"), do: "text-xs [&>.tab-icon]:size-7"
-  defp size_class("small"), do: "text-sm [&>.tab-icon]:size-8"
-  defp size_class("medium"), do: "text-base [&>.tab-icon]:size-9"
-  defp size_class("large"), do: "text-lg [&>.tab-icon]:size-10"
-  defp size_class("extra_large"), do: "text-xl [&>.tab-icon]:size-12"
+  defp size_class("extra_small"), do: "text-xs [&_.tab-icon]:size-3"
+  defp size_class("small"), do: "text-sm [&_.tab-icon]:size-4"
+  defp size_class("medium"), do: "text-base [&_.tab-icon]:size-5"
+  defp size_class("large"), do: "text-lg [&_.tab-icon]:size-6"
+  defp size_class("extra_large"), do: "text-xl [&_.tab-icon]:size-7"
   defp size_class(params) when is_binary(params), do: params
   defp size_class(_), do: size_class("medium")
 
