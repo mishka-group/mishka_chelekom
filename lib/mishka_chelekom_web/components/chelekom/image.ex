@@ -6,8 +6,8 @@ defmodule MishkaChelekom.Image do
   attr :src, :string, default: nil, doc: ""
   attr :alt, :string, default: nil, doc: ""
   attr :srcset, :string, default: nil, doc: ""
-  attr :loading, :string, default: nil, doc: "eager, lazya"
-  attr :referrerpolicy, :string, default: nil, doc: "eager, lazya"
+  attr :loading, :string, default: nil, doc: "eager, lazy"
+  attr :referrerpolicy, :string, default: nil, doc: ""
   attr :width, :string, default: nil, doc: ""
   attr :height, :string, default: nil, doc: ""
   attr :sizes, :string, default: nil, doc: ""
@@ -34,6 +34,7 @@ defmodule MishkaChelekom.Image do
         "max-w-full",
         @class
       ]}
+      {@rest}
     />
     """
   end
