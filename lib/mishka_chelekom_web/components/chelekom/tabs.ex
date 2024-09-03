@@ -99,7 +99,7 @@ defmodule MishkaChelekom.Tabs do
 
   slot :inner_block, required: false, doc: ""
 
-  def tab_panels(assigns) do
+  def tab_panel(assigns) do
     ~H"""
     <%= render_slot(@inner_block) %>
     """

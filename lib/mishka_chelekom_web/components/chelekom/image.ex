@@ -13,6 +13,8 @@ defmodule MishkaChelekom.Image do
   attr :sizes, :string, default: nil, doc: ""
   attr :ismap, :string, default: nil, doc: ""
   attr :decoding, :string, default: nil, doc: ""
+  attr :rounded, :string, default: nil, doc: ""
+  attr :shadow, :string, default: nil, doc: ""
   attr :class, :string, default: nil, doc: ""
   attr :rest, :global, doc: ""
 
@@ -32,10 +34,30 @@ defmodule MishkaChelekom.Image do
       referrerpolicy={@referrerpolicy}
       class={[
         "max-w-full",
+        rounded_size(@rounded),
+        shadow_size(@shadow),
         @class
       ]}
       {@rest}
     />
     """
   end
+
+  defp rounded_size("extra_small"), do: "rounded-sm"
+  defp rounded_size("small"), do: "rounded"
+  defp rounded_size("medium"), do: "rounded-md"
+  defp rounded_size("large"), do: "rounded-lg"
+  defp rounded_size("extra_large"), do: "rounded-xl"
+  defp rounded_size("full"), do: "rounded-full"
+  defp rounded_size(params) when is_binary(params), do: params
+  defp rounded_size(_), do: nil
+
+  defp shadow_size("extra_small"), do: "shadow-sm"
+  defp shadow_size("small"), do: "shadow"
+  defp shadow_size("medium"), do: "shadow-md"
+  defp shadow_size("large"), do: "shadow-lg"
+  defp shadow_size("extra_large"), do: "shadow-xl"
+  defp shadow_size(params) when is_binary(params), do: params
+  defp shadow_size(_), do: nil
+
 end
