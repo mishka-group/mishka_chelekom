@@ -19,7 +19,7 @@ defmodule MishkaChelekom.Stepper do
 
   slot :inner_block, required: false, doc: ""
 
-  #TODO: Step Classes: stepper-loading-step, stepper-active-step, stepper-compeleted-step, stepper-canceled-step
+  # TODO: Step Classes: stepper-loading-step, stepper-active-step, stepper-compeleted-step, stepper-canceled-step
 
   @spec stepper(map()) :: Phoenix.LiveView.Rendered.t()
   def stepper(%{vertical: true} = assigns) do
@@ -131,7 +131,7 @@ defmodule MishkaChelekom.Stepper do
         <span :if={@description} class="block text-xs">
           <%= @description %>
         </span>
-         <%= render_slot(@inner_block) %>
+        <%= render_slot(@inner_block) %>
       </span>
     </button>
     """
@@ -188,7 +188,7 @@ defmodule MishkaChelekom.Stepper do
         <span :if={@description} class="block text-xs">
           <%= @description %>
         </span>
-         <%= render_slot(@inner_block) %>
+        <%= render_slot(@inner_block) %>
       </span>
     </button>
 
@@ -260,25 +260,28 @@ defmodule MishkaChelekom.Stepper do
       "[&:not(.vertical-stepper)_.stepper-seperator]:border-t"
     ]
   end
+
   defp border_class("small") do
     [
       "[&.vertical-stepper_.stepper-seperator]:border-s-2",
       "[&:not(.vertical-stepper)_.stepper-seperator]:border-t-2"
     ]
   end
-  defp border_class("medium")
-  do
+
+  defp border_class("medium") do
     [
       "[&.vertical-stepper_.stepper-seperator]:border-s-[3px]",
       "[&:not(.vertical-stepper)_.stepper-seperator]:border-t-[3px]"
     ]
   end
+
   defp border_class("large") do
     [
       "[&.vertical-stepper_.stepper-seperator]:border-s-4",
       "[&:not(.vertical-stepper)_.stepper-seperator]:border-t-4"
     ]
   end
+
   defp border_class("extra_large") do
     [
       "[&.vertical-stepper_.stepper-seperator]:border-s-[5px]",
