@@ -1,18 +1,12 @@
 <div class="space-y-10 p-10">
-<MishkaChelekom.Stepper.stepper color="info" size="extra_large">
+  <MishkaChelekom.Stepper.stepper color="info" size="extra_large">
     <MishkaChelekom.Stepper.stepper_section
       class="stepper-active-step"
       title="First step"
       description="Create an account"
     />
-    <MishkaChelekom.Stepper.stepper_section
-      title="Second Step"
-      description="Verify email"
-    />
-    <MishkaChelekom.Stepper.stepper_section
-      title="Second Step"
-      description="Get full access"
-    />
+    <MishkaChelekom.Stepper.stepper_section title="Second Step" description="Verify email" />
+    <MishkaChelekom.Stepper.stepper_section title="Second Step" description="Get full access" />
   </MishkaChelekom.Stepper.stepper>
 
   <MishkaChelekom.Stepper.stepper color="info" size="extra_large">
@@ -26,10 +20,7 @@
       title="Second Step"
       description="Verify email"
     />
-    <MishkaChelekom.Stepper.stepper_section
-      title="Second Step"
-      description="Get full access"
-    />
+    <MishkaChelekom.Stepper.stepper_section title="Second Step" description="Get full access" />
   </MishkaChelekom.Stepper.stepper>
 
   <MishkaChelekom.Stepper.stepper color="info" size="extra_large">
@@ -68,15 +59,13 @@
     />
   </MishkaChelekom.Stepper.stepper>
 
-
-
-<br />
-<br />
-<br />
-<hr />
-<br />
-<br />
-<br />
+  <br />
+  <br />
+  <br />
+  <hr />
+  <br />
+  <br />
+  <br />
   <MishkaChelekom.Stepper.stepper>
     <MishkaChelekom.Stepper.stepper_section
       title="This is Title"
@@ -98,21 +87,29 @@
     <MishkaChelekom.Stepper.stepper_section />
   </MishkaChelekom.Stepper.stepper>
 
-<div>Prevent Click</div>
+  <div>Prevent Click</div>
   <MishkaChelekom.Stepper.stepper margin="none">
     <MishkaChelekom.Stepper.stepper_section icon="hero-home" clickable={false} />
     <MishkaChelekom.Stepper.stepper_section icon="hero-beaker" clickable={false} />
     <MishkaChelekom.Stepper.stepper_section icon="hero-cake" clickable={false} />
   </MishkaChelekom.Stepper.stepper>
-<div>Prevent Click</div>
+  <div>Prevent Click</div>
 
   <MishkaChelekom.Stepper.stepper margin="small" color="misc">
-    <MishkaChelekom.Stepper.stepper_section class="stepper-compeleted-step" icon="hero-home" clickable={false} />
-    <MishkaChelekom.Stepper.stepper_section class="stepper-active-step" icon="hero-beaker" clickable={false} />
+    <MishkaChelekom.Stepper.stepper_section
+      class="stepper-compeleted-step"
+      icon="hero-home"
+      clickable={false}
+    />
+    <MishkaChelekom.Stepper.stepper_section
+      class="stepper-active-step"
+      icon="hero-beaker"
+      clickable={false}
+    />
     <MishkaChelekom.Stepper.stepper_section icon="hero-cake" clickable={false} />
   </MishkaChelekom.Stepper.stepper>
 
-<div>Reverse</div>
+  <div>Reverse</div>
 
   <MishkaChelekom.Stepper.stepper color="dark">
     <MishkaChelekom.Stepper.stepper_section
@@ -276,13 +273,7 @@
     />
   </MishkaChelekom.Stepper.stepper>
 
-  <MishkaChelekom.Stepper.stepper
-    color="success"
-    space="small"
-    vertical
-    size="large"
-  >
-
+  <MishkaChelekom.Stepper.stepper color="success" space="small" vertical size="large">
     <MishkaChelekom.Stepper.stepper_section
       class="stepper-compeleted-step"
       title="This is Title"
@@ -304,32 +295,17 @@
     />
   </MishkaChelekom.Stepper.stepper>
 
-  <MishkaChelekom.Stepper.stepper
-    color="primary"
-    size="medium"
-    vertical
-  >
-
-    <MishkaChelekom.Stepper.stepper_section
-      class="stepper-compeleted-step"
-      vertical
-    />
+  <MishkaChelekom.Stepper.stepper color="primary" size="medium" vertical>
+    <MishkaChelekom.Stepper.stepper_section class="stepper-compeleted-step" vertical />
     <MishkaChelekom.Stepper.stepper_section
       class="stepper-canceled-step"
       icon="hero-exclamation-triangle"
       vertical
     />
-    <MishkaChelekom.Stepper.stepper_section
-      class="stepper-active-step"
-      vertical
-    />
+    <MishkaChelekom.Stepper.stepper_section class="stepper-active-step" vertical />
   </MishkaChelekom.Stepper.stepper>
 
-  <MishkaChelekom.Stepper.stepper
-    color="info"
-    vertical
-    size="extra_large"
-  >
+  <MishkaChelekom.Stepper.stepper color="info" vertical size="extra_large">
     <MishkaChelekom.Stepper.stepper_section
       class="stepper-compeleted-step"
       title="This is Title"
@@ -364,43 +340,55 @@
 
   <MishkaChelekom.Stepper.stepper color="danger" vertical size="extra_large">
     <MishkaChelekom.Stepper.stepper_section class="stepper-compeleted-step" vertical>
-     <div class="space-y-1">
-      <h3 class="font-bold">This is custom Step 1</h3>
-      <p class="text-xs">when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
-     </div>
+      <div class="space-y-1">
+        <h3 class="font-bold">This is custom Step 1</h3>
+        <p class="text-xs">
+          when an unknown printer took a galley of type and scrambled it to make a type specimen book.
+        </p>
+      </div>
     </MishkaChelekom.Stepper.stepper_section>
     <MishkaChelekom.Stepper.stepper_section class="stepper-compeleted-step" vertical>
-     <div class="space-y-1">
-      <h3 class="font-bold">This is custom Step 2</h3>
-      <p class="text-xs">when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
-     </div>
+      <div class="space-y-1">
+        <h3 class="font-bold">This is custom Step 2</h3>
+        <p class="text-xs">
+          when an unknown printer took a galley of type and scrambled it to make a type specimen book.
+        </p>
+      </div>
     </MishkaChelekom.Stepper.stepper_section>
     <MishkaChelekom.Stepper.stepper_section class="stepper-active-step" vertical>
-     <div class="space-y-1">
-      <h3 class="font-bold">This is custom Step 3</h3>
-      <p class="text-xs">when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
-     </div>
+      <div class="space-y-1">
+        <h3 class="font-bold">This is custom Step 3</h3>
+        <p class="text-xs">
+          when an unknown printer took a galley of type and scrambled it to make a type specimen book.
+        </p>
+      </div>
     </MishkaChelekom.Stepper.stepper_section>
   </MishkaChelekom.Stepper.stepper>
 
   <MishkaChelekom.Stepper.stepper color="misc" vertical size="extra_large">
     <MishkaChelekom.Stepper.stepper_section class="stepper-compeleted-step" vertical>
-     <div class="space-y-1">
-      <h3 class="font-bold"><.icon name="hero-home" /> This is custom Step 1</h3>
-      <p class="text-xs">when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
-     </div>
+      <div class="space-y-1">
+        <h3 class="font-bold"><.icon name="hero-home" /> This is custom Step 1</h3>
+        <p class="text-xs">
+          when an unknown printer took a galley of type and scrambled it to make a type specimen book.
+        </p>
+      </div>
     </MishkaChelekom.Stepper.stepper_section>
     <MishkaChelekom.Stepper.stepper_section class="stepper-compeleted-step" vertical>
-     <div class="space-y-1">
-      <h3 class="font-bold"><.icon name="hero-cake" /> This is custom Step 2</h3>
-      <p class="text-xs">when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
-     </div>
+      <div class="space-y-1">
+        <h3 class="font-bold"><.icon name="hero-cake" /> This is custom Step 2</h3>
+        <p class="text-xs">
+          when an unknown printer took a galley of type and scrambled it to make a type specimen book.
+        </p>
+      </div>
     </MishkaChelekom.Stepper.stepper_section>
     <MishkaChelekom.Stepper.stepper_section class="stepper-active-step" vertical>
-     <div class="space-y-1">
-      <h3 class="font-bold"><.icon name="hero-bars-3" /> This is custom Step 3</h3>
-      <p class="text-xs">when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
-     </div>
+      <div class="space-y-1">
+        <h3 class="font-bold"><.icon name="hero-bars-3" /> This is custom Step 3</h3>
+        <p class="text-xs">
+          when an unknown printer took a galley of type and scrambled it to make a type specimen book.
+        </p>
+      </div>
     </MishkaChelekom.Stepper.stepper_section>
   </MishkaChelekom.Stepper.stepper>
 </div>
