@@ -65,11 +65,30 @@ defmodule MishkaChelekom.Tabs do
 
   slot :inner_block, required: false, doc: ""
 
-  def tab_buttons(assigns) do
+  def tabs_list(assigns) do
     ~H"""
     <div class="flex">
       <%= render_slot(@inner_block) %>
     </div>
+    """
+  end
+
+  attr :id, :string, default: nil, doc: ""
+  attr :icon, :string, default: nil, doc: ""
+  attr :class, :string, default: nil, doc: ""
+  attr :rest, :global, doc: ""
+
+  slot :inner_block, required: false, doc: ""
+
+  def tab_trigger(assigns) do
+    ~H"""
+    <button
+      class={[
+        @class
+      ]}
+    >
+      <%= render_slot(@inner_block) %>
+    </button>
     """
   end
 
