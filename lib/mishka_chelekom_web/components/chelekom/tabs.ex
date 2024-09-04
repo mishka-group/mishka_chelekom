@@ -29,12 +29,14 @@ defmodule MishkaChelekom.Tabs do
   attr :variant, :string, values: @variants, default: "default", doc: ""
   attr :color, :string, values: @colors, default: "white", doc: ""
   attr :border, :string, default: "none", doc: ""
+  attr :content_border, :string, default: "none", doc: ""
   attr :rounded, :string, default: "none", doc: ""
   attr :size, :string, default: "small", doc: ""
   attr :space, :string, default: "none", doc: ""
   attr :font_weight, :string, default: "font-normal", doc: ""
   attr :content_position, :string, default: "start", doc: ""
   attr :padding, :string, default: "extra_small", doc: ""
+  attr :trigger_padding, :string, default: "extra_small", doc: ""
   attr :class, :string, default: nil, doc: ""
   attr :icon, :string, default: "hero-quote", doc: ""
   attr :icon_class, :string, default: nil, doc: ""
@@ -47,7 +49,9 @@ defmodule MishkaChelekom.Tabs do
     <div class={[
       "w-full",
       content_position(@content_position),
+      trigger_padding(@trigger_padding),
       color_variant(@variant, @color),
+      content_border(@content_border),
       rounded_size(@rounded),
       padding_size(@padding),
       border_class(@border),
@@ -154,9 +158,18 @@ defmodule MishkaChelekom.Tabs do
   defp space_class(params) when is_binary(params), do: params
   defp space_class(_), do: space_class("none")
 
+  defp trigger_padding("none"), do: "p-0"
+  defp trigger_padding("extra_small"), do: "py-1 px-2"
+  defp trigger_padding("small"), do: "py-1.5 px-3"
+  defp trigger_padding("medium"), do: "py-2 px-4"
+  defp trigger_padding("large"), do: "py-2.5 px-5"
+  defp trigger_padding("extra_large"), do: "py-3 px-5"
+  defp trigger_padding(params) when is_binary(params), do: params
+  defp trigger_padding(_), do: trigger_padding("small")
+
   defp padding_size("none"), do: "p-0"
   defp padding_size("extra_small"), do: "p-1"
-  defp padding_size("small"), do: "p-2"
+  defp padding_size("small"), do: "py-2"
   defp padding_size("medium"), do: "p-3"
   defp padding_size("large"), do: "p-4"
   defp padding_size("extra_large"), do: "p-5"
@@ -179,6 +192,15 @@ defmodule MishkaChelekom.Tabs do
   defp border_class("extra_large"), do: "border-[5px]"
   defp border_class(params) when is_binary(params), do: [params]
   defp border_class(nil), do: border_class("none")
+
+  defp content_border("none"), do: "border-b-0"
+  defp content_border("extra_small"), do: "border-b"
+  defp content_border("small"), do: "border-b-2"
+  defp content_border("medium"), do: "border-b-[3px]"
+  defp content_border("large"), do: "border-b-4"
+  defp content_border("extra_large"), do: "border-b-[5px]"
+  defp content_border(params) when is_binary(params), do: [params]
+  defp content_border(nil), do: content_border("none")
 
   defp rounded_size("none"), do: "rounded-none"
   defp rounded_size("extra_small"), do: "rounded-sm"
