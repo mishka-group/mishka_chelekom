@@ -100,7 +100,7 @@ defmodule MishkaChelekom.Dropdown do
  # TODO: This function enables the visibility of the dropdown on hover.
   # If the trigger for the dropdown is clickable, this function (or the corresponding class)
   # should remove the visibility from dropdown_content().
-  # For the clickable option, we can simply add 'visible' and 'opacity-100' classes to the dropdown_content wrapper.
+  # For the clickable option, we can simply add `show-dropdown` to the dropdown_content wrapper.
 
   defp tirgger_dropdown(), do: "[&_.dropdown-content]:hover:visible [&_.dropdown-content]:hover:opacity-100"
 
