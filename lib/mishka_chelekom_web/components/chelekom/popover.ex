@@ -60,7 +60,12 @@ defmodule MishkaChelekom.Popover do
 
   def popover(%{inline: true} = assigns) do
     ~H"""
-    <span id={@id} class={["inline-block relative w-fit group", @class]}>
+    <span id={@id}
+      class={["inline-block relative w-fit",
+        tirgger_popover(),
+        @class
+      ]}
+    >
       <%= render_slot(@inner_block) %>
     </span>
     """
@@ -68,7 +73,13 @@ defmodule MishkaChelekom.Popover do
 
   def popover(assigns) do
     ~H"""
-    <div id={@id} class="relative w-fit group">
+    <div
+      id={@id}
+      class={["relative w-fit",
+        tirgger_popover(),
+        @class
+      ]}
+    >
       <%= render_slot(@inner_block) %>
     </div>
     """
@@ -117,7 +128,7 @@ defmodule MishkaChelekom.Popover do
       role="tooltip"
       id={@id}
       class={[
-        "absolute z-10 transition-all ease-in-out delay-100 duratio-500 w-full",
+        "popover-contnet absolute z-10 transition-all ease-in-out delay-100 duratio-500 w-full",
         "invisible opacity-0",
         tirgger_popover(),
         space_class(@space),
@@ -145,7 +156,7 @@ defmodule MishkaChelekom.Popover do
       role="dialog "
       id={@id}
       class={[
-        "absolute z-10 transition-all ease-in-out delay-100 duratio-500 w-full",
+        "popover-contnet absolute z-10 transition-all ease-in-out delay-100 duratio-500 w-full",
         "invisible opacity-0",
         tirgger_popover(),
         space_class(@space),
@@ -176,7 +187,7 @@ defmodule MishkaChelekom.Popover do
   # should remove the visibility from popover_content().
   # For the clickable option, we can simply add 'visible' and 'opacity-100' classes to the popover_content wrapper.
 
-  defp tirgger_popover(), do: "group-hover:visible group-hover:opacity-100"
+  defp tirgger_popover(), do: "[&_.popover-contnet]:hover:visible [&_.popover-contnet]:hover:opacity-100"
 
   defp rounded_size("extra_small"), do: "rounded-sm"
   defp rounded_size("small"), do: "rounded"
