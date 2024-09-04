@@ -1,5 +1,6 @@
 defmodule MishkaChelekom.Popover do
   use Phoenix.Component
+  alias Phoenix.LiveView.JS
 
   @doc """
   Avoid placing block-level elements inside a `<p>` tag if you want to use inline popover. These include:
@@ -55,17 +56,19 @@ defmodule MishkaChelekom.Popover do
   attr :id, :string, default: nil, doc: ""
   attr :class, :string, default: nil, doc: ""
   attr :inline, :boolean, default: false, doc: ""
+  attr :clickable, :boolean, default: false, doc: ""
   attr :rest, :global, doc: ""
   slot :inner_block, required: false, doc: ""
 
   def popover(%{inline: true} = assigns) do
     ~H"""
-    <span id={@id}
+    <span
+      id={@id}
       class={[
         "inline-block relative w-fit",
         "[&_.popover-content]:invisible [&_.popover-content]:opacity-0",
         "[&_.popover-content.show-popover]:visible [&_.popover-content.show-popover]:opacity-100",
-        tirgger_popover(),
+        !@clickable && tirgger_popover(),
         @class
       ]}
     >
@@ -82,7 +85,7 @@ defmodule MishkaChelekom.Popover do
         "relative w-fit",
         "[&_.popover-content]:invisible [&_.popover-content]:opacity-0",
         "[&_.popover-content.show-popover]:visible [&_.popover-content.show-popover]:opacity-100",
-        tirgger_popover(),
+        !@clickable && tirgger_popover(),
         @class
       ]}
     >
@@ -92,13 +95,19 @@ defmodule MishkaChelekom.Popover do
   end
 
   attr :id, :string, default: nil, doc: ""
+  attr :trigger_id, :string, default: nil, doc: ""
   attr :class, :string, default: nil, doc: ""
   attr :inline, :boolean, default: false, doc: ""
   slot :inner_block, required: false, doc: ""
 
   def popover_trigger(%{inline: true} = assigns) do
     ~H"""
-    <span id={@id} class={["inline-block cursor-pointer popover-trigger", @class]}>
+    <span
+      id={@id}
+      phx-click-away={@trigger_id && JS.remove_class("show-popover", to: "##{@trigger_id}")}
+      phx-click={@trigger_id && JS.toggle_class("show-popover", to: "##{@trigger_id}")}
+      class={["inline-block cursor-pointer popover-trigger", @class]}
+    >
       <%= render_slot(@inner_block) %>
     </span>
     """
@@ -106,7 +115,12 @@ defmodule MishkaChelekom.Popover do
 
   def popover_trigger(assigns) do
     ~H"""
-    <div id={@id} class={["cursor-pointer popover-trigger", @class]}>
+    <div
+      id={@id}
+      phx-click-away={@trigger_id && JS.remove_class("show-popover", to: "##{@trigger_id}")}
+      phx-click={@trigger_id && JS.toggle_class("show-popover", to: "##{@trigger_id}")}
+      class={["cursor-pointer popover-trigger", @class]}
+    >
       <%= render_slot(@inner_block) %>
     </div>
     """
@@ -187,13 +201,13 @@ defmodule MishkaChelekom.Popover do
     """
   end
 
-
   # TODO: This function enables the visibility of the popover on hover.
   # If the trigger for the popover is clickable, this function (or the corresponding class)
   # should remove the visibility from popover_content().
   # For the clickable option, we can simply add 'visible' and 'opacity-100' classes to the popover_content wrapper.
 
-  defp tirgger_popover(), do: "[&_.popover-content]:hover:visible [&_.popover-content]:hover:opacity-100"
+  defp tirgger_popover(),
+    do: "[&_.popover-content]:hover:visible [&_.popover-content]:hover:opacity-100"
 
   defp rounded_size("extra_small"), do: "rounded-sm"
   defp rounded_size("small"), do: "rounded"
