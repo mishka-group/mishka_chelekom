@@ -150,7 +150,6 @@ defmodule MishkaChelekom.Popover do
       class={[
         "popover-content absolute z-10 w-full",
         "transition-all ease-in-out delay-100 duratio-500",
-        tirgger_popover(),
         space_class(@space),
         color_variant(@variant, @color),
         rounded_size(@rounded),
@@ -178,7 +177,6 @@ defmodule MishkaChelekom.Popover do
       class={[
         "popover-content absolute z-10 w-full",
         "transition-all ease-in-out delay-100 duratio-500",
-        tirgger_popover(),
         space_class(@space),
         color_variant(@variant, @color),
         rounded_size(@rounded),
@@ -200,11 +198,6 @@ defmodule MishkaChelekom.Popover do
     </div>
     """
   end
-
-  # TODO: This function enables the visibility of the popover on hover.
-  # If the trigger for the popover is clickable, this function (or the corresponding class)
-  # should remove the visibility from popover_content().
-  # For the clickable option, we can simply add 'visible' and 'opacity-100' classes to the popover_content wrapper.
 
   defp tirgger_popover(),
     do: "[&_.popover-content]:hover:visible [&_.popover-content]:hover:opacity-100"

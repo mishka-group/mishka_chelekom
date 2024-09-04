@@ -1,5 +1,6 @@
 defmodule MishkaChelekom.Dropdown do
   use Phoenix.Component
+  alias Phoenix.LiveView.JS
 
   @colors [
     "white",
@@ -24,6 +25,7 @@ defmodule MishkaChelekom.Dropdown do
   attr :id, :string, default: nil, doc: ""
   attr :class, :string, default: nil, doc: ""
   attr :width, :string, default: "w-fit", doc: ""
+  attr :clickable, :boolean, default: false, doc: ""
   attr :rest, :global, doc: ""
   slot :inner_block, required: false, doc: ""
 
@@ -35,7 +37,7 @@ defmodule MishkaChelekom.Dropdown do
         "relative",
         "[&_.dropdown-content]:invisible [&_.dropdown-content]:opacity-0",
         "[&_.dropdown-content.show-dropdown]:visible [&_.dropdown-content.show-dropdown]:opacity-100",
-        tirgger_dropdown(),
+        !@clickable && tirgger_dropdown(),
         @width
       ]}
     >
@@ -45,12 +47,18 @@ defmodule MishkaChelekom.Dropdown do
   end
 
   attr :id, :string, default: nil, doc: ""
+  attr :trigger_id, :string, default: nil, doc: ""
   attr :class, :string, default: nil, doc: ""
   slot :inner_block, required: false, doc: ""
 
   def dropdown_trigger(assigns) do
     ~H"""
-    <div id={@id} class={["cursor-pointer dropdown-trigger", @class]}>
+    <div
+      id={@id}
+      phx-click-away={@trigger_id && JS.remove_class("show-dropdown", to: "##{@trigger_id}")}
+      phx-click={@trigger_id && JS.toggle_class("show-dropdown", to: "##{@trigger_id}")}
+      class={["cursor-pointer dropdown-trigger", @class]}
+    >
       <%= render_slot(@inner_block) %>
     </div>
     """
@@ -79,7 +87,6 @@ defmodule MishkaChelekom.Dropdown do
         "dropdown-content absolute z-20 transition-all ease-in-out delay-100 duratio-500 w-full",
         "invisible opacity-0",
         "top-full left-1/2 -translate-x-1/2 translate-y-[6px]",
-        tirgger_dropdown(),
         space_class(@space),
         color_variant(@variant, @color),
         rounded_size(@rounded),
@@ -96,11 +103,6 @@ defmodule MishkaChelekom.Dropdown do
     </div>
     """
   end
-
-  # TODO: This function enables the visibility of the dropdown on hover.
-  # If the trigger for the dropdown is clickable, this function (or the corresponding class)
-  # should remove the visibility from dropdown_content().
-  # For the clickable option, we can simply add `show-dropdown` to the dropdown_content wrapper.
 
   defp tirgger_dropdown(),
     do: "[&_.dropdown-content]:hover:visible [&_.dropdown-content]:hover:opacity-100"
