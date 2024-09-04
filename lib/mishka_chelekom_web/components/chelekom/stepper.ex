@@ -82,7 +82,6 @@ defmodule MishkaChelekom.Stepper do
 
   slot :inner_block, required: false, doc: ""
 
-  # TODO: Step Classes: stepper-loading-step, stepper-current-step, stepper-compeleted-step, stepper-canceled-step
   def stepper_section(%{vertical: true} = assigns) do
     ~H"""
     <button
