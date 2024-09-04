@@ -71,6 +71,7 @@ defmodule MishkaChelekom.Popover do
         !@clickable && tirgger_popover(),
         @class
       ]}
+      {@rest}
     >
       <%= render_slot(@inner_block) %>
     </span>
@@ -88,6 +89,7 @@ defmodule MishkaChelekom.Popover do
         !@clickable && tirgger_popover(),
         @class
       ]}
+      {@rest}
     >
       <%= render_slot(@inner_block) %>
     </div>
@@ -99,6 +101,7 @@ defmodule MishkaChelekom.Popover do
   attr :class, :string, default: nil, doc: ""
   attr :inline, :boolean, default: false, doc: ""
   slot :inner_block, required: false, doc: ""
+  attr :rest, :global, doc: ""
 
   def popover_trigger(%{inline: true} = assigns) do
     ~H"""
@@ -107,6 +110,7 @@ defmodule MishkaChelekom.Popover do
       phx-click-away={@trigger_id && JS.remove_class("show-popover", to: "##{@trigger_id}")}
       phx-click={@trigger_id && JS.toggle_class("show-popover", to: "##{@trigger_id}")}
       class={["inline-block cursor-pointer popover-trigger", @class]}
+      {@rest}
     >
       <%= render_slot(@inner_block) %>
     </span>
@@ -120,6 +124,7 @@ defmodule MishkaChelekom.Popover do
       phx-click-away={@trigger_id && JS.remove_class("show-popover", to: "##{@trigger_id}")}
       phx-click={@trigger_id && JS.toggle_class("show-popover", to: "##{@trigger_id}")}
       class={["cursor-pointer popover-trigger", @class]}
+      {@rest}
     >
       <%= render_slot(@inner_block) %>
     </div>

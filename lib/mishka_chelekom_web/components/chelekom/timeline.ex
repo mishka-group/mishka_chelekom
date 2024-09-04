@@ -17,10 +17,13 @@ defmodule MishkaChelekom.Timeline do
 
   def timeline(%{horizontal: true} = assigns) do
     ~H"""
-    <div class={[
-      "timeline-horizontal items-center sm:flex px-5 lg:px-0",
-      color_class(@color)
-    ]}>
+    <div
+      class={[
+        "timeline-horizontal items-center sm:flex px-5 lg:px-0",
+        color_class(@color)
+      ]}
+      {@rest}
+    >
       <%= render_slot(@inner_block) %>
     </div>
     """
@@ -28,11 +31,14 @@ defmodule MishkaChelekom.Timeline do
 
   def timeline(assigns) do
     ~H"""
-    <div class={[
-      color_class(@color),
-      @gapped_sections && "[&_.timeline-bullet-wrapper]:items-center",
-      @hide_last_line && "[&_.timeline-section:last-child_.timeline-vertical-line]:after:hidden"
-    ]}>
+    <div
+      class={[
+        color_class(@color),
+        @gapped_sections && "[&_.timeline-bullet-wrapper]:items-center",
+        @hide_last_line && "[&_.timeline-section:last-child_.timeline-vertical-line]:after:hidden"
+      ]}
+      {@rest}
+    >
       <%= render_slot(@inner_block) %>
     </div>
     """
@@ -60,6 +66,7 @@ defmodule MishkaChelekom.Timeline do
         "timeline-section relative mb-6 sm:mb-0",
         @class
       ]}
+      {@rest}
     >
       <div :if={!@image} class="flex items-center">
         <div class={[
@@ -101,6 +108,7 @@ defmodule MishkaChelekom.Timeline do
         "timeline-section flex gap-x-3 [&_.timeline-vertical-line]:after:top-3",
         @class
       ]}
+      {@rest}
     >
       <div
         :if={!@image}

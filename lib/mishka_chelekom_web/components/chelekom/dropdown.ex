@@ -40,6 +40,7 @@ defmodule MishkaChelekom.Dropdown do
         !@clickable && tirgger_dropdown(),
         @width
       ]}
+      {@rest}
     >
       <%= render_slot(@inner_block) %>
     </div>
@@ -50,6 +51,7 @@ defmodule MishkaChelekom.Dropdown do
   attr :trigger_id, :string, default: nil, doc: ""
   attr :class, :string, default: nil, doc: ""
   slot :inner_block, required: false, doc: ""
+  attr :rest, :global, doc: ""
 
   def dropdown_trigger(assigns) do
     ~H"""
@@ -58,6 +60,7 @@ defmodule MishkaChelekom.Dropdown do
       phx-click-away={@trigger_id && JS.remove_class("show-dropdown", to: "##{@trigger_id}")}
       phx-click={@trigger_id && JS.toggle_class("show-dropdown", to: "##{@trigger_id}")}
       class={["cursor-pointer dropdown-trigger", @class]}
+      {@rest}
     >
       <%= render_slot(@inner_block) %>
     </div>
