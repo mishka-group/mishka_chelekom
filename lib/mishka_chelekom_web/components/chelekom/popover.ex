@@ -61,7 +61,10 @@ defmodule MishkaChelekom.Popover do
   def popover(%{inline: true} = assigns) do
     ~H"""
     <span id={@id}
-      class={["inline-block relative w-fit",
+      class={[
+        "inline-block relative w-fit",
+        "[&_.popover-content]:invisible [&_.popover-content]:opacity-0",
+        "[&_.popover-content.show-popover]:visible [&_.popover-content.show-popover]:opacity-100",
         tirgger_popover(),
         @class
       ]}
@@ -75,7 +78,10 @@ defmodule MishkaChelekom.Popover do
     ~H"""
     <div
       id={@id}
-      class={["relative w-fit",
+      class={[
+        "relative w-fit",
+        "[&_.popover-content]:invisible [&_.popover-content]:opacity-0",
+        "[&_.popover-content.show-popover]:visible [&_.popover-content.show-popover]:opacity-100",
         tirgger_popover(),
         @class
       ]}
@@ -128,8 +134,8 @@ defmodule MishkaChelekom.Popover do
       role="tooltip"
       id={@id}
       class={[
-        "popover-contnet absolute z-10 transition-all ease-in-out delay-100 duratio-500 w-full",
-        "invisible opacity-0",
+        "popover-content absolute z-10 w-full",
+        "transition-all ease-in-out delay-100 duratio-500",
         tirgger_popover(),
         space_class(@space),
         color_variant(@variant, @color),
@@ -156,8 +162,8 @@ defmodule MishkaChelekom.Popover do
       role="dialog "
       id={@id}
       class={[
-        "popover-contnet absolute z-10 transition-all ease-in-out delay-100 duratio-500 w-full",
-        "invisible opacity-0",
+        "popover-content absolute z-10 w-full",
+        "transition-all ease-in-out delay-100 duratio-500",
         tirgger_popover(),
         space_class(@space),
         color_variant(@variant, @color),
@@ -187,7 +193,7 @@ defmodule MishkaChelekom.Popover do
   # should remove the visibility from popover_content().
   # For the clickable option, we can simply add 'visible' and 'opacity-100' classes to the popover_content wrapper.
 
-  defp tirgger_popover(), do: "[&_.popover-contnet]:hover:visible [&_.popover-contnet]:hover:opacity-100"
+  defp tirgger_popover(), do: "[&_.popover-content]:hover:visible [&_.popover-content]:hover:opacity-100"
 
   defp rounded_size("extra_small"), do: "rounded-sm"
   defp rounded_size("small"), do: "rounded"
