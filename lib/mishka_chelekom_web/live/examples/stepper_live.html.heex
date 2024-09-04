@@ -1,7 +1,7 @@
 <div class="space-y-10 p-10">
   <MishkaChelekom.Stepper.stepper color="info" size="extra_large">
     <MishkaChelekom.Stepper.stepper_section
-      class="stepper-active-step"
+      step="current"
       title="First step"
       description="Create an account"
     />
@@ -11,12 +11,12 @@
 
   <MishkaChelekom.Stepper.stepper color="info" size="extra_large">
     <MishkaChelekom.Stepper.stepper_section
-      class="stepper-compeleted-step"
+      step="compeleted"
       title="First step"
       description="Create an account"
     />
     <MishkaChelekom.Stepper.stepper_section
-      class="stepper-active-step"
+      step="current"
       title="Second Step"
       description="Verify email"
     />
@@ -25,17 +25,17 @@
 
   <MishkaChelekom.Stepper.stepper color="info" size="extra_large">
     <MishkaChelekom.Stepper.stepper_section
-      class="stepper-compeleted-step"
+      step="compeleted"
       title="First step"
       description="Create an account"
     />
     <MishkaChelekom.Stepper.stepper_section
-      class="stepper-compeleted-step"
+      step="compeleted"
       title="Second Step"
       description="Verify email"
     />
     <MishkaChelekom.Stepper.stepper_section
-      class="stepper-active-step"
+      step="current"
       title="Second Step"
       description="Get full access"
     />
@@ -43,17 +43,17 @@
 
   <MishkaChelekom.Stepper.stepper color="info" size="extra_large">
     <MishkaChelekom.Stepper.stepper_section
-      class="stepper-compeleted-step"
+      step="compeleted"
       title="First step"
       description="Create an account"
     />
     <MishkaChelekom.Stepper.stepper_section
-      class="stepper-compeleted-step"
+      step="compeleted"
       title="Second Step"
       description="Verify email"
     />
     <MishkaChelekom.Stepper.stepper_section
-      class="stepper-compeleted-step"
+      step="compeleted"
       title="Second Step"
       description="Get full access"
     />
@@ -96,16 +96,8 @@
   <div>Prevent Click</div>
 
   <MishkaChelekom.Stepper.stepper margin="small" color="misc">
-    <MishkaChelekom.Stepper.stepper_section
-      class="stepper-compeleted-step"
-      icon="hero-home"
-      clickable={false}
-    />
-    <MishkaChelekom.Stepper.stepper_section
-      class="stepper-active-step"
-      icon="hero-beaker"
-      clickable={false}
-    />
+    <MishkaChelekom.Stepper.stepper_section step="compeleted" icon="hero-home" clickable={false} />
+    <MishkaChelekom.Stepper.stepper_section step="current" icon="hero-beaker" clickable={false} />
     <MishkaChelekom.Stepper.stepper_section icon="hero-cake" clickable={false} />
   </MishkaChelekom.Stepper.stepper>
 
@@ -113,7 +105,7 @@
 
   <MishkaChelekom.Stepper.stepper color="dark">
     <MishkaChelekom.Stepper.stepper_section
-      class="stepper-compeleted-step"
+      step="compeleted"
       title="This is Title"
       description="this is Description"
       reverse
@@ -132,7 +124,7 @@
 
   <MishkaChelekom.Stepper.stepper color="secondary" size="extra_large">
     <MishkaChelekom.Stepper.stepper_section
-      class="stepper-compeleted-step"
+      step="compeleted"
       title="This is Title"
       description="this is Description"
     />
@@ -148,7 +140,7 @@
 
   <MishkaChelekom.Stepper.stepper color="dark">
     <MishkaChelekom.Stepper.stepper_section
-      class="stepper-compeleted-step"
+      step="compeleted"
       title="This is Title"
       description="this is Description"
     />
@@ -164,12 +156,12 @@
 
   <MishkaChelekom.Stepper.stepper color="success">
     <MishkaChelekom.Stepper.stepper_section
-      class="stepper-compeleted-step"
+      step="compeleted"
       title="This is Title"
       description="this is Description"
     />
     <MishkaChelekom.Stepper.stepper_section
-      class="stepper-active-step"
+      step="current"
       title="This is Title"
       description="this is Description"
     />
@@ -181,7 +173,7 @@
 
   <MishkaChelekom.Stepper.stepper color="danger">
     <MishkaChelekom.Stepper.stepper_section
-      class="stepper-compeleted-step"
+      step="compeleted"
       title="This is Title"
       description="this is Description"
     />
@@ -197,7 +189,7 @@
 
   <MishkaChelekom.Stepper.stepper color="info">
     <MishkaChelekom.Stepper.stepper_section
-      class="stepper-compeleted-step"
+      step="compeleted"
       title="This is Title"
       description="this is Description"
     />
@@ -213,22 +205,22 @@
 
   <MishkaChelekom.Stepper.stepper color="misc" margin="extra_small">
     <MishkaChelekom.Stepper.stepper_section
-      class="stepper-compeleted-step"
+      step="compeleted"
       title="This is Title"
       description="this is Description"
     />
     <MishkaChelekom.Stepper.stepper_section
-      class="stepper-compeleted-step"
+      step="compeleted"
       title="This is Title"
       description="this is Description"
     />
     <MishkaChelekom.Stepper.stepper_section
-      class="stepper-canceled-step"
+      step="canceled"
       title="This is Title"
       description="this is Description"
     />
     <MishkaChelekom.Stepper.stepper_section
-      class="stepper-active-step"
+      step="current"
       title="This is Title"
       description="this is Description"
     />
@@ -256,7 +248,7 @@
 
   <MishkaChelekom.Stepper.stepper color="dawn" space="small" vertical>
     <MishkaChelekom.Stepper.stepper_section
-      class="stepper-compeleted-step"
+      step="compeleted"
       title="This is Title"
       description="this is Description"
       vertical
@@ -275,20 +267,20 @@
 
   <MishkaChelekom.Stepper.stepper color="success" space="small" vertical size="large">
     <MishkaChelekom.Stepper.stepper_section
-      class="stepper-compeleted-step"
+      step="compeleted"
       title="This is Title"
       description="this is Description"
       vertical
     />
     <MishkaChelekom.Stepper.stepper_section
-      class="stepper-canceled-step"
+      step="canceled"
       title="This is Title"
       description="this is Description"
       icon="hero-exclamation-triangle"
       vertical
     />
     <MishkaChelekom.Stepper.stepper_section
-      class="stepper-active-step"
+      step="current"
       title="This is Title"
       description="this is Description"
       vertical
@@ -296,30 +288,30 @@
   </MishkaChelekom.Stepper.stepper>
 
   <MishkaChelekom.Stepper.stepper color="primary" size="medium" vertical>
-    <MishkaChelekom.Stepper.stepper_section class="stepper-compeleted-step" vertical />
+    <MishkaChelekom.Stepper.stepper_section step="compeleted" vertical />
     <MishkaChelekom.Stepper.stepper_section
-      class="stepper-canceled-step"
+      step="canceled"
       icon="hero-exclamation-triangle"
       vertical
     />
-    <MishkaChelekom.Stepper.stepper_section class="stepper-active-step" vertical />
+    <MishkaChelekom.Stepper.stepper_section step="current" vertical />
   </MishkaChelekom.Stepper.stepper>
 
   <MishkaChelekom.Stepper.stepper color="info" vertical size="extra_large">
     <MishkaChelekom.Stepper.stepper_section
-      class="stepper-compeleted-step"
+      step="compeleted"
       title="This is Title"
       description="this is Description"
       vertical
     />
     <MishkaChelekom.Stepper.stepper_section
-      class="stepper-compeleted-step"
+      step="compeleted"
       title="This is Title"
       description="this is Description"
       vertical
     />
     <MishkaChelekom.Stepper.stepper_section
-      class="stepper-active-step"
+      step="current"
       title="This is Title"
       description="this is Description"
       vertical
@@ -327,19 +319,19 @@
   </MishkaChelekom.Stepper.stepper>
 
   <MishkaChelekom.Stepper.stepper color="warning" vertical size="small">
-    <MishkaChelekom.Stepper.stepper_section class="stepper-compeleted-step" vertical>
+    <MishkaChelekom.Stepper.stepper_section step="compeleted" vertical>
       This is Step 1
     </MishkaChelekom.Stepper.stepper_section>
-    <MishkaChelekom.Stepper.stepper_section class="stepper-compeleted-step" vertical>
+    <MishkaChelekom.Stepper.stepper_section step="compeleted" vertical>
       This is Step 2
     </MishkaChelekom.Stepper.stepper_section>
-    <MishkaChelekom.Stepper.stepper_section class="stepper-active-step" vertical>
+    <MishkaChelekom.Stepper.stepper_section step="current" vertical>
       This is Step 3
     </MishkaChelekom.Stepper.stepper_section>
   </MishkaChelekom.Stepper.stepper>
 
   <MishkaChelekom.Stepper.stepper color="danger" vertical size="extra_large">
-    <MishkaChelekom.Stepper.stepper_section class="stepper-compeleted-step" vertical>
+    <MishkaChelekom.Stepper.stepper_section step="compeleted" vertical>
       <div class="space-y-1">
         <h3 class="font-bold">This is custom Step 1</h3>
         <p class="text-xs">
@@ -347,7 +339,7 @@
         </p>
       </div>
     </MishkaChelekom.Stepper.stepper_section>
-    <MishkaChelekom.Stepper.stepper_section class="stepper-compeleted-step" vertical>
+    <MishkaChelekom.Stepper.stepper_section step="compeleted" vertical>
       <div class="space-y-1">
         <h3 class="font-bold">This is custom Step 2</h3>
         <p class="text-xs">
@@ -355,7 +347,7 @@
         </p>
       </div>
     </MishkaChelekom.Stepper.stepper_section>
-    <MishkaChelekom.Stepper.stepper_section class="stepper-active-step" vertical>
+    <MishkaChelekom.Stepper.stepper_section step="current" vertical>
       <div class="space-y-1">
         <h3 class="font-bold">This is custom Step 3</h3>
         <p class="text-xs">
@@ -366,7 +358,7 @@
   </MishkaChelekom.Stepper.stepper>
 
   <MishkaChelekom.Stepper.stepper color="misc" vertical size="extra_large">
-    <MishkaChelekom.Stepper.stepper_section class="stepper-compeleted-step" vertical>
+    <MishkaChelekom.Stepper.stepper_section step="compeleted" vertical>
       <div class="space-y-1">
         <h3 class="font-bold"><.icon name="hero-home" /> This is custom Step 1</h3>
         <p class="text-xs">
@@ -374,7 +366,7 @@
         </p>
       </div>
     </MishkaChelekom.Stepper.stepper_section>
-    <MishkaChelekom.Stepper.stepper_section class="stepper-compeleted-step" vertical>
+    <MishkaChelekom.Stepper.stepper_section step="compeleted" vertical>
       <div class="space-y-1">
         <h3 class="font-bold"><.icon name="hero-cake" /> This is custom Step 2</h3>
         <p class="text-xs">
@@ -382,7 +374,7 @@
         </p>
       </div>
     </MishkaChelekom.Stepper.stepper_section>
-    <MishkaChelekom.Stepper.stepper_section class="stepper-active-step" vertical>
+    <MishkaChelekom.Stepper.stepper_section step="current" vertical>
       <div class="space-y-1">
         <h3 class="font-bold"><.icon name="hero-bars-3" /> This is custom Step 3</h3>
         <p class="text-xs">

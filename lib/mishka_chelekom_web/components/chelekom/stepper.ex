@@ -18,8 +18,6 @@ defmodule MishkaChelekom.Stepper do
 
   slot :inner_block, required: false, doc: ""
 
-  # TODO: Step Classes: stepper-loading-step, stepper-active-step, stepper-compeleted-step, stepper-canceled-step
-
   @spec stepper(map()) :: Phoenix.LiveView.Rendered.t()
   def stepper(%{vertical: true} = assigns) do
     ~H"""
@@ -66,12 +64,17 @@ defmodule MishkaChelekom.Stepper do
   attr :id, :string, default: nil
   attr :class, :string, default: nil
   attr :size, :string, default: "small"
+
+  attr :step, :string,
+    values: ["none", "current", "loading", "compeleted", "canceled"],
+    default: "none"
+
   attr :rounded, :string, default: "full"
   attr :icon, :string, default: nil, doc: ""
   attr :color, :string, default: "white"
   attr :title, :string, default: nil
   attr :description, :string, default: nil
-  attr :step, :integer, default: 1
+  attr :step_number, :integer, default: 1
   attr :vertical, :boolean, default: false, doc: ""
   attr :clickable, :boolean, default: true, doc: ""
   attr :reverse, :boolean, default: false, doc: ""
@@ -79,11 +82,13 @@ defmodule MishkaChelekom.Stepper do
 
   slot :inner_block, required: false, doc: ""
 
+  # TODO: Step Classes: stepper-loading-step, stepper-current-step, stepper-compeleted-step, stepper-canceled-step
   def stepper_section(%{vertical: true} = assigns) do
     ~H"""
     <button
       id={@id}
       class={[
+        "stepper-#{@step}-step",
         "vertical-step overflow-hidden flex flex-row text-start gap-4",
         @class
       ]}
@@ -115,7 +120,7 @@ defmodule MishkaChelekom.Stepper do
             "transition-all ease-in-out duration-400 delay-100"
           ]}
         >
-          <span class="step-symbol"><%= @step %></span>
+          <span class="step-symbol"><%= @step_number %></span>
           <.icon
             name="hero-check-solid"
             class={[
@@ -145,6 +150,7 @@ defmodule MishkaChelekom.Stepper do
     <button
       id={@id}
       class={[
+        "stepper-#{@step}-step",
         "text-start flex flex-nowrap justify-center items-center shrink-0",
         @reverse && "flex-row-reverse text-end",
         @class
@@ -175,7 +181,7 @@ defmodule MishkaChelekom.Stepper do
           "transition-all ease-in-out duration-400 delay-100"
         ]}
       >
-        <span class="step-symbol"><%= @step %></span>
+        <span class="step-symbol"><%= @step_number %></span>
         <.icon
           name="hero-check-solid"
           class={[
@@ -366,12 +372,12 @@ defmodule MishkaChelekom.Stepper do
   defp seperator_size(_), do: seperator_size("extra_small")
 
   # colors
-  # stepper-loading-step, stepper-active-step, stepper-compeleted-step, stepper-canceled-step
+  # stepper-loading-step, stepper-current-step, stepper-compeleted-step, stepper-canceled-step
 
   defp color_class("white") do
     [
       "[&_.stepper-step]:bg-[#DADADA] [&_.stepper-step]:text-[#3E3E3E]",
-      "[&_.stepper-step]:border-transparent [&_.stepper-active-step_.stepper-step]:border-white",
+      "[&_.stepper-step]:border-transparent [&_.stepper-current-step_.stepper-step]:border-white",
       "[&_.stepper-compeleted-step_.stepper-step]:bg-white [&_.stepper-compeleted-step_.stepper-step]:border-white",
       "[&_.stepper-canceled-step_.stepper-step]:bg-[#fa2d2d] [&_.stepper-canceled-step_.stepper-step]:border-[#fa2d2d]",
       "[&_.stepper-canceled-step_.stepper-step]:text-white",
@@ -383,7 +389,7 @@ defmodule MishkaChelekom.Stepper do
   defp color_class("primary") do
     [
       "[&_.stepper-step]:bg-[#5573f2] [&_.stepper-step]:text-white",
-      "[&_.stepper-step]:border-transparent [&_.stepper-active-step_.stepper-step]:border-[#162da8]",
+      "[&_.stepper-step]:border-transparent [&_.stepper-current-step_.stepper-step]:border-[#162da8]",
       "[&_.stepper-compeleted-step_.stepper-step]:bg-[#162da8] [&_.stepper-compeleted-step_.stepper-step]:border-[#162da8]",
       "[&_.stepper-canceled-step_.stepper-step]:bg-[#fa2d2d] [&_.stepper-canceled-step_.stepper-step]:border-[#fa2d2d]",
       "[&_.stepper-canceled-step_.stepper-step]:text-white",
@@ -395,7 +401,7 @@ defmodule MishkaChelekom.Stepper do
   defp color_class("secondary") do
     [
       "[&_.stepper-step]:bg-[#6B6E7C] [&_.stepper-step]:text-white",
-      "[&_.stepper-step]:border-transparent [&_.stepper-active-step_.stepper-step]:border-[#434652]",
+      "[&_.stepper-step]:border-transparent [&_.stepper-current-step_.stepper-step]:border-[#434652]",
       "[&_.stepper-compeleted-step_.stepper-step]:bg-[#434652] [&_.stepper-compeleted-step_.stepper-step]:border-[#434652]",
       "[&_.stepper-canceled-step_.stepper-step]:bg-[#fa2d2d] [&_.stepper-canceled-step_.stepper-step]:border-[#fa2d2d]",
       "[&_.stepper-canceled-step_.stepper-step]:text-white",
@@ -407,7 +413,7 @@ defmodule MishkaChelekom.Stepper do
   defp color_class("success") do
     [
       "[&_.stepper-step]:bg-[#ECFEF3] [&_.stepper-step]:text-[#047857]",
-      "[&_.stepper-step]:border-transparent [&_.stepper-active-step_.stepper-step]:border-[#047857]",
+      "[&_.stepper-step]:border-transparent [&_.stepper-current-step_.stepper-step]:border-[#047857]",
       "[&_.stepper-compeleted-step_.stepper-step]:bg-[#047857] [&_.stepper-compeleted-step_.stepper-step]:border-[#047857]",
       "[&_.stepper-compeleted-step_.stepper-step]:text-white",
       "[&_.stepper-canceled-step_.stepper-step]:bg-[#fa2d2d] [&_.stepper-canceled-step_.stepper-step]:border-[#fa2d2d]",
@@ -420,7 +426,7 @@ defmodule MishkaChelekom.Stepper do
   defp color_class("warning") do
     [
       "[&_.stepper-step]:bg-[#FFF8E6] [&_.stepper-step]:text-[#FF8B08]",
-      "[&_.stepper-step]:border-transparent [&_.stepper-active-step_.stepper-step]:border-[#FF8B08]",
+      "[&_.stepper-step]:border-transparent [&_.stepper-current-step_.stepper-step]:border-[#FF8B08]",
       "[&_.stepper-compeleted-step_.stepper-step]:bg-[#FF8B08] [&_.stepper-compeleted-step_.stepper-step]:border-[#FF8B08]",
       "[&_.stepper-compeleted-step_.stepper-step]:text-white",
       "[&_.stepper-canceled-step_.stepper-step]:bg-[#fa2d2d] [&_.stepper-canceled-step_.stepper-step]:border-[#fa2d2d]",
@@ -433,7 +439,7 @@ defmodule MishkaChelekom.Stepper do
   defp color_class("danger") do
     [
       "[&_.stepper-step]:bg-[#FFE6E6] [&_.stepper-step]:text-[#E73B3B]",
-      "[&_.stepper-step]:border-transparent [&_.stepper-active-step_.stepper-step]:border-[#E73B3B]",
+      "[&_.stepper-step]:border-transparent [&_.stepper-current-step_.stepper-step]:border-[#E73B3B]",
       "[&_.stepper-compeleted-step_.stepper-step]:bg-[#E73B3B] [&_.stepper-compeleted-step_.stepper-step]:border-[#E73B3B]",
       "[&_.stepper-compeleted-step_.stepper-step]:text-white",
       "[&_.stepper-canceled-step_.stepper-step]:bg-[#fa2d2d] [&_.stepper-canceled-step_.stepper-step]:border-[#fa2d2d]",
@@ -446,7 +452,7 @@ defmodule MishkaChelekom.Stepper do
   defp color_class("info") do
     [
       "[&_.stepper-step]:bg-[#E5F0FF] [&_.stepper-step]:text-[#004FC4]",
-      "[&_.stepper-step]:border-transparent [&_.stepper-active-step_.stepper-step]:border-[#004FC4]",
+      "[&_.stepper-step]:border-transparent [&_.stepper-current-step_.stepper-step]:border-[#004FC4]",
       "[&_.stepper-compeleted-step_.stepper-step]:bg-[#004FC4] [&_.stepper-compeleted-step_.stepper-step]:border-[#004FC4]",
       "[&_.stepper-compeleted-step_.stepper-step]:text-white",
       "[&_.stepper-canceled-step_.stepper-step]:bg-[#fa2d2d] [&_.stepper-canceled-step_.stepper-step]:border-[#fa2d2d]",
@@ -459,7 +465,7 @@ defmodule MishkaChelekom.Stepper do
   defp color_class("misc") do
     [
       "[&_.stepper-step]:bg-[#FFE6FF] [&_.stepper-step]:text-[#52059C]",
-      "[&_.stepper-step]:border-transparent [&_.stepper-active-step_.stepper-step]:border-[#52059C]",
+      "[&_.stepper-step]:border-transparent [&_.stepper-current-step_.stepper-step]:border-[#52059C]",
       "[&_.stepper-compeleted-step_.stepper-step]:bg-[#52059C] [&_.stepper-compeleted-step_.stepper-step]:border-[#52059C]",
       "[&_.stepper-compeleted-step_.stepper-step]:text-white",
       "[&_.stepper-canceled-step_.stepper-step]:bg-[#fa2d2d] [&_.stepper-canceled-step_.stepper-step]:border-[#fa2d2d]",
@@ -472,7 +478,7 @@ defmodule MishkaChelekom.Stepper do
   defp color_class("dawn") do
     [
       "[&_.stepper-step]:bg-[#FFECDA] [&_.stepper-step]:text-[#4D4137]",
-      "[&_.stepper-step]:border-transparent [&_.stepper-active-step_.stepper-step]:border-[#4D4137]",
+      "[&_.stepper-step]:border-transparent [&_.stepper-current-step_.stepper-step]:border-[#4D4137]",
       "[&_.stepper-compeleted-step_.stepper-step]:bg-[#4D4137] [&_.stepper-compeleted-step_.stepper-step]:border-[#4D4137]",
       "[&_.stepper-compeleted-step_.stepper-step]:text-white",
       "[&_.stepper-canceled-step_.stepper-step]:bg-[#fa2d2d] [&_.stepper-canceled-step_.stepper-step]:border-[#fa2d2d]",
@@ -485,7 +491,7 @@ defmodule MishkaChelekom.Stepper do
   defp color_class("light") do
     [
       "[&_.stepper-step]:bg-[#E3E7F1] [&_.stepper-step]:text-[#707483]",
-      "[&_.stepper-step]:border-transparent [&_.stepper-active-step_.stepper-step]:border-[#707483]",
+      "[&_.stepper-step]:border-transparent [&_.stepper-current-step_.stepper-step]:border-[#707483]",
       "[&_.stepper-compeleted-step_.stepper-step]:bg-[#707483] [&_.stepper-compeleted-step_.stepper-step]:border-[#707483]",
       "[&_.stepper-compeleted-step_.stepper-step]:text-white",
       "[&_.stepper-canceled-step_.stepper-step]:bg-[#fa2d2d] [&_.stepper-canceled-step_.stepper-step]:border-[#fa2d2d]",
@@ -498,7 +504,7 @@ defmodule MishkaChelekom.Stepper do
   defp color_class("dark") do
     [
       "[&_.stepper-step]:bg-[#1E1E1E] [&_.stepper-step]:text-white",
-      "[&_.stepper-step]:border-transparent [&_.stepper-active-step_.stepper-step]:border-[#050404]",
+      "[&_.stepper-step]:border-transparent [&_.stepper-current-step_.stepper-step]:border-[#050404]",
       "[&_.stepper-compeleted-step_.stepper-step]:bg-[#050404] [&_.stepper-compeleted-step_.stepper-step]:border-[#050404]",
       "[&_.stepper-canceled-step_.stepper-step]:bg-[#fa2d2d] [&_.stepper-canceled-step_.stepper-step]:border-[#fa2d2d]",
       "[&_.stepper-canceled-step_.stepper-step]:text-white",
