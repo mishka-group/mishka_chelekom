@@ -32,7 +32,10 @@ defmodule MishkaChelekom.Dropdown do
     <div
       id={@id}
       class={[
-        "relative group",
+        "relative",
+        "[&_.dropdown-content]:invisible [&_.dropdown-content]:opacity-0",
+        "[&_.dropdown-content.show-dropdown]:visible [&_.dropdown-content.show-dropdown]:opacity-100",
+        tirgger_dropdown(),
         @width
       ]}
     >
@@ -73,7 +76,7 @@ defmodule MishkaChelekom.Dropdown do
     <div
       id={@id}
       class={[
-        "absolute z-20 transition-all ease-in-out delay-100 duratio-500 w-full",
+        "dropdown-content absolute z-20 transition-all ease-in-out delay-100 duratio-500 w-full",
         "invisible opacity-0",
         "top-full left-1/2 -translate-x-1/2 translate-y-[6px]",
         tirgger_dropdown(),
@@ -99,7 +102,7 @@ defmodule MishkaChelekom.Dropdown do
   # should remove the visibility from dropdown_content().
   # For the clickable option, we can simply add 'visible' and 'opacity-100' classes to the dropdown_content wrapper.
 
-  defp tirgger_dropdown(), do: "group-hover:visible group-hover:opacity-100"
+  defp tirgger_dropdown(), do: "[&_.dropdown-content]:hover:visible [&_.dropdown-content]:hover:opacity-100"
 
   defp border_class("none"), do: "border-0"
   defp border_class("extra_small"), do: "border"
