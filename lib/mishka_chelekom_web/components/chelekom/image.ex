@@ -59,5 +59,4 @@ defmodule MishkaChelekom.Image do
   defp shadow_size("extra_large"), do: "shadow-xl"
   defp shadow_size(params) when is_binary(params), do: params
   defp shadow_size(_), do: nil
-
 end

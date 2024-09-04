@@ -91,19 +91,16 @@ defmodule MishkaChelekom.Tabs do
   attr :class, :string, default: nil, doc: ""
   attr :rest, :global, doc: ""
 
-
   slot :inner_block, required: false, doc: ""
 
   def tab_trigger(assigns) do
     ~H"""
-    <button
-      class={[
-        "tab-trigger flex flex-row glex-nowrap items-center gap-3",
-        @icon_position == "end" && "flex-row-reverse",
-        @font_weight,
-        @class
-      ]}
-    >
+    <button class={[
+      "tab-trigger flex flex-row glex-nowrap items-center gap-3",
+      @icon_position == "end" && "flex-row-reverse",
+      @font_weight,
+      @class
+    ]}>
       <span :if={@icon} class="block">
         <.icon name={@icon} class="tab-icon" />
       </span>
