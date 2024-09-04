@@ -18,7 +18,7 @@ defmodule MishkaChelekom.Tabs do
 
   @variants [
     "default",
-    "transparent",
+    "transparent"
   ]
 
   @doc type: :component
@@ -50,7 +50,6 @@ defmodule MishkaChelekom.Tabs do
     attr :class, :string
   end
 
-
   # The first tab should always have the `active` class, and the corresponding first panel should be visible
 
   def tabs(%{vertical: true} = assigns) do
@@ -71,10 +70,10 @@ defmodule MishkaChelekom.Tabs do
       ]}
       {@rest}
     >
-      <div role="tablist" tabindex="0" class={"tab-trigger-list flex flex-col"}>
+      <div role="tablist" tabindex="0" class="tab-trigger-list flex flex-col">
         <button
-          role="tab"
           :for={{tab, index} <- Enum.with_index(@tab, 1)}
+          role="tab"
           class={[
             "tab-trigger flex flex-row flex-nowrap items-center gap-1.5",
             "transition-all duration-400 delay-100 disabled:opacity-80",
@@ -90,11 +89,7 @@ defmodule MishkaChelekom.Tabs do
       </div>
 
       <div class="ms-2 flex-1">
-        <div
-          :for={{panel, index} <- Enum.with_index(@panel, 1)}
-          role="tabpanel"
-          class="tab-content"
-        >
+        <div :for={{panel, index} <- Enum.with_index(@panel, 1)} role="tabpanel" class="tab-content">
           <%= render_slot(panel) %>
         </div>
       </div>
@@ -120,10 +115,10 @@ defmodule MishkaChelekom.Tabs do
       ]}
       {@rest}
     >
-      <div role="tablist" tabindex="0" class={"tab-trigger-list flex flex-wrap flex-wrap"}>
+      <div role="tablist" tabindex="0" class="tab-trigger-list flex flex-wrap flex-wrap">
         <button
-          role="tab"
           :for={{tab, index} <- Enum.with_index(@tab, 1)}
+          role="tab"
           class={[
             "tab-trigger flex flex-row flex-nowrap items-center gap-1.5",
             "transition-all duration-400 delay-100 disabled:opacity-80",
@@ -139,11 +134,7 @@ defmodule MishkaChelekom.Tabs do
       </div>
 
       <div class="mt-2">
-        <div
-          :for={{panel, index} <- Enum.with_index(@panel, 1)}
-          role="tabpanel"
-          class="tab-content"
-        >
+        <div :for={{panel, index} <- Enum.with_index(@panel, 1)} role="tabpanel" class="tab-content">
           <%= render_slot(panel) %>
         </div>
       </div>
@@ -187,31 +178,37 @@ defmodule MishkaChelekom.Tabs do
       "[&_.tab-trigger]:p-0 [&_.tab-content]:p-0"
     ]
   end
+
   defp padding_size("extra_small") do
     [
       "[&_.tab-trigger]:py-1 [&_.tab-trigger]:px-2 [&_.tab-content]:p-2"
     ]
   end
+
   defp padding_size("small") do
     [
       "[&_.tab-trigger]:py-1.5 [&_.tab-trigger]:px-3 [&_.tab-content]:p-3"
     ]
   end
+
   defp padding_size("medium") do
     [
       "[&_.tab-trigger]:py-2 [&_.tab-trigger]:px-4 [&_.tab-content]:p-4"
     ]
   end
+
   defp padding_size("large") do
     [
       "[&_.tab-trigger]:py-2.5 [&_.tab-trigger]:px-5 [&_.tab-content]:p-5"
     ]
   end
+
   defp padding_size("extra_large") do
     [
       "[&_.tab-trigger]:py-3 [&_.tab-trigger]:px-5 [&_.tab-content]:p-6"
     ]
   end
+
   defp padding_size(params) when is_binary(params), do: params
   defp padding_size(_), do: padding_size("small")
 
