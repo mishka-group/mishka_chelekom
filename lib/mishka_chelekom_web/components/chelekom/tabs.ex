@@ -53,7 +53,7 @@ defmodule MishkaChelekom.Tabs do
     attr :class, :string
   end
 
-  # The first tab should always have the `active` class, and the corresponding first panel should be visible
+  # The first tab should always have the `active-tab` class, and the corresponding first panel should have `active-tab-panel` class
 
   def tabs(%{vertical: true} = assigns) do
     ~H"""
@@ -76,6 +76,7 @@ defmodule MishkaChelekom.Tabs do
       {@rest}
     >
       <div role="tablist" tabindex="0" class="tab-trigger-list flex flex-col shrink-0">
+      <%!-- add `active-tab` class --%>
         <button
           :for={{tab, index} <- Enum.with_index(@tab, 1)}
           role="tab"
@@ -94,6 +95,7 @@ defmodule MishkaChelekom.Tabs do
       </div>
 
       <div class="ms-2 flex-1">
+      <%!-- add `active-tab-panel` class --%>
         <div
           :for={{panel, index} <- Enum.with_index(@panel, 1)}
           role="tabpanel"
