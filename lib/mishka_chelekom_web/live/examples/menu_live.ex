@@ -1,4 +1,4 @@
-defmodule MishkaChelekomWeb.Examples.KeyboardLive do
+defmodule MishkaChelekomWeb.Examples.MenuLive do
   use Phoenix.LiveView
   use Phoenix.Component
 

@@ -1,6 +1,7 @@
 defmodule MishkaChelekom.Menu do
   use Phoenix.Component
   import MishkaChelekomComponents
+  alias Phoenix.LiveView.JS
 
   @variants [
     "default",
@@ -28,28 +29,82 @@ defmodule MishkaChelekom.Menu do
   @doc type: :component
   attr :id, :string, default: nil, doc: ""
   attr :class, :string, default: nil, doc: ""
+  attr :title, :string, required: true, doc: ""
   attr :font_weight, :string, default: "font-normal", doc: ""
   attr :size, :string, default: "large", doc: ""
   attr :space, :string, default: nil, doc: ""
+  attr :image, :string, default: nil, doc: ""
+  attr :icon, :string, default: nil, doc: ""
   attr :color, :string, values: @colors, default: "white", doc: ""
   attr :variant, :string, values: @variants, default: "filled", doc: ""
+  attr :chevron_icon, :string, default: "hero-chevron-right", doc: ""
   slot :item, validate_attrs: false
   attr :rest, :global, doc: ""
   slot :inner_block, doc: ""
 
   def menu(assigns) do
     ~H"""
-    <.ul {assigns}>
-      <.li :for={item <- @item} {item}>
-        <%= render_slot(item) %>
-      </.li>
-      <%= render_slot(@inner_block) %>
-    </.ul>
+
+    <div id={@id}>
+        <div
+          role="button"
+          class={[
+            "menu-trigger block w-full",
+            "transition-all duration-100 ease-in-out [&.active-menu-button_.menu-chevron]:rotate-90",
+          ]}
+        >
+          <.menu_link
+            phx-click={
+              show_menu_content("#{@id}")
+              |> JS.hide()
+              |> JS.show(to: "##{@id}-close-chevron")
+            }
+            position={chevron_position(@rest)}
+            chevron_icon={@chevron_icon}
+            hide_chevron={@rest[:hide_chevron] || false}
+          />
+
+          <.menu_link
+            phx-click={
+              hide_menu_content("#{@id}")
+              |> JS.hide()
+              |> JS.show(to: "##{@id}-open-chevron")
+            }
+            position={chevron_position(@rest)}
+            chevron_icon={@chevron_icon}
+            class="hidden"
+            hide_chevron={@rest[:hide_chevron] || false}
+          />
+        </div>
+      <div
+        :for={{item, index} <- Enum.with_index(@item, 1)}
+        class={["group menu-item-wrapper", item[:class]]}
+      >
+        <.focus_wrap
+          id={"#{@id}-#{index}"}
+          class="menu-content-wrapper relative hidden transition [&:not(.active)_.menu-content]:grid-rows-[0fr] [&.active_.menu-content]:grid-rows-[1fr]"
+        >
+          <div
+            id={"#{@id}-#{index}-content"}
+            class={[
+              "menu-content transition-all duration-500 grid",
+              item[:content_class]
+            ]}
+          >
+            <div class="overflow-hidden">
+              <%= render_slot(item) %>
+            </div>
+          </div>
+        </.focus_wrap>
+      </div>
+    </div>
     """
   end
 
   attr :id, :string, default: nil, doc: ""
   attr :space, :string, default: nil, doc: ""
+  attr :color, :string, values: @colors, default: "white", doc: ""
+  attr :variant, :string, values: @variants, default: "filled", doc: ""
   attr :class, :string, default: nil, doc: ""
   attr :rest, :global
   slot :inner_block, required: true, doc: ""
@@ -59,6 +114,7 @@ defmodule MishkaChelekom.Menu do
     <ul
       id={@id}
       class={[
+        space_class(@space),
         color_variant(@color, @variant),
         @font_weight,
         @class
@@ -106,6 +162,64 @@ defmodule MishkaChelekom.Menu do
     </li>
     """
   end
+
+  attr :id, :string, default: nil, doc: ""
+  attr :class, :string, default: nil, doc: ""
+  attr :title, :string, default: nil, doc: ""
+  attr :item, :map
+  attr :position, :string, values: ["left", "right"]
+  attr :chevron_icon, :string
+  attr :hide_chevron, :boolean, default: false
+  attr :rest, :global
+
+  defp menu_link(%{position: "left"} = assigns) do
+    ~H"""
+    <div id={@id} class={[@class]} {@rest}>
+      <div class="flex flex-nowrap items-center rtl:justify-start ltr:justify-start gap-2">
+
+
+        <div class="flex items-center gap-5">
+          <div ><%= @title %></div>
+        </div>
+      </div>
+    </div>
+    """
+  end
+
+  defp menu_link(%{position: "right"} = assigns) do
+    ~H"""
+    <div id={@id} class={[@class]} {@rest}>
+      <div class="flex items-center justify-between gap-2">
+        <div class="flex items-center gap-5">
+
+
+            <div ><%= @title %></div>
+
+        </div>
+
+
+      </div>
+    </div>
+    """
+  end
+
+  def show_menu_content(js \\ %JS{}, id) when is_binary(id) do
+    js
+    |> JS.show(to: "##{id}")
+    |> JS.add_class("active", to: "##{id}")
+    |> JS.add_class("active-menu-button", to: "##{id}-role-button")
+  end
+
+  def hide_menu_content(js \\ %JS{}, id) do
+    js
+    |> JS.remove_class("active", to: "##{id}")
+    |> JS.remove_class("active-menu-button", to: "##{id}-role-button")
+  end
+
+  defp chevron_position(%{left_chevron: true}), do: "left"
+  defp chevron_position(%{right_chevron: true}), do: "right"
+  defp chevron_position(%{chevron: true}), do: "right"
+  defp chevron_position(_), do: "right"
 
   defp space_class("extra_small"), do: "space-y-2"
   defp space_class("small"), do: "space-y-3"
