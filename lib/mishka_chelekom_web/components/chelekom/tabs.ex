@@ -306,153 +306,153 @@ defmodule MishkaChelekom.Tabs do
   defp color_variant("default", "white") do
     [
       "[&_.tab-trigger.active-tab]:text-[#3E3E3E] [&_.tab-trigger.active-tab]:border-[#DADADA]",
-      "[&_.tab-trigger-list]:border-[#e9ecef]"
+      "[&_.tab-trigger-list]:border-[#e9ecef] hover:[&_.tab-trigger]:text-[#3E3E3E]"
     ]
   end
 
   defp color_variant("default", "primary") do
     [
       "[&_.tab-trigger.active-tab]:text-[#162da8] [&_.tab-trigger.active-tab]:border-[#162da8]",
-      "[&_.tab-trigger-list]:border-[#e9ecef]"
+      "[&_.tab-trigger-list]:border-[#e9ecef] hover:[&_.tab-trigger]:text-[#162da8]"
     ]
   end
 
   defp color_variant("default", "secondary") do
     [
       "[&_.tab-trigger.active-tab]:text-[#434652] [&_.tab-trigger.active-tab]:border-[#434652]",
-      "[&_.tab-trigger-list]:border-[#e9ecef]"
+      "[&_.tab-trigger-list]:border-[#e9ecef] hover:[&_.tab-trigger]:text-[#434652]"
     ]
   end
 
   defp color_variant("default", "success") do
     [
       "[&_.tab-trigger.active-tab]:text-[#047857] [&_.tab-trigger.active-tab]:border-[#047857]",
-      "[&_.tab-trigger-list]:border-[#e9ecef]"
+      "[&_.tab-trigger-list]:border-[#e9ecef] hover:[&_.tab-trigger]:text-[#047857]"
     ]
   end
 
   defp color_variant("default", "warning") do
     [
       "[&_.tab-trigger.active-tab]:text-[#FF8B08] [&_.tab-trigger.active-tab]:border-[#FF8B08]",
-      "[&_.tab-trigger-list]:border-[#e9ecef]"
+      "[&_.tab-trigger-list]:border-[#e9ecef] hover:[&_.tab-trigger]:text-[#FF8B08]"
     ]
   end
 
   defp color_variant("default", "danger") do
     [
       "[&_.tab-trigger.active-tab]:text-[#E73B3B] [&_.tab-trigger.active-tab]:border-[#E73B3B]",
-      "[&_.tab-trigger-list]:border-[#e9ecef]"
+      "[&_.tab-trigger-list]:border-[#e9ecef] hover:[&_.tab-trigger]:text-[#E73B3B]"
     ]
   end
 
   defp color_variant("default", "info") do
     [
       "[&_.tab-trigger.active-tab]:text-[#004FC4] [&_.tab-trigger.active-tab]:border-[#004FC4]",
-      "[&_.tab-trigger-list]:border-[#e9ecef]"
+      "[&_.tab-trigger-list]:border-[#e9ecef] hover:[&_.tab-trigger]:text-[#004FC4]"
     ]
   end
 
   defp color_variant("default", "misc") do
     [
       "[&_.tab-trigger.active-tab]:text-[#52059C] [&_.tab-trigger.active-tab]:border-[#52059C]",
-      "[&_.tab-trigger-list]:border-[#e9ecef]"
+      "[&_.tab-trigger-list]:border-[#e9ecef] hover:[&_.tab-trigger]:text-[#52059C]"
     ]
   end
 
   defp color_variant("default", "dawn") do
     [
       "[&_.tab-trigger.active-tab]:text-[#4D4137] [&_.tab-trigger.active-tab]:border-[#4D4137]",
-      "[&_.tab-trigger-list]:border-[#e9ecef]"
+      "[&_.tab-trigger-list]:border-[#e9ecef] hover:[&_.tab-trigger]:text-[#4D4137]"
     ]
   end
 
   defp color_variant("default", "light") do
     [
       "[&_.tab-trigger.active-tab]:text-[#707483] [&_.tab-trigger.active-tab]:border-[#707483]",
-      "[&_.tab-trigger-list]:border-[#e9ecef]"
+      "[&_.tab-trigger-list]:border-[#e9ecef] hover:[&_.tab-trigger]:text-[#707483]"
     ]
   end
 
   defp color_variant("default", "dark") do
     [
       "[&_.tab-trigger.active-tab]:text-[#050404] [&_.tab-trigger.active-tab]:border-[#050404]",
-      "[&_.tab-trigger-list]:border-[#e9ecef]"
+      "[&_.tab-trigger-list]:border-[#e9ecef] hover:[&_.tab-trigger]:text-[#050404]"
     ]
   end
 
   defp color_variant("pills", "white") do
     [
-      "[&_.tab-trigger.active-tab]:bg-white",
+      "[&_.tab-trigger.active-tab]:bg-white hover:[&_.tab-trigger]:bg-white",
       "[&_.tab-trigger.active-tab]:text-[#3E3E3E] [&_.tab-trigger.active-tab]:border-[#DADADA]"
     ]
   end
 
   defp color_variant("pills", "primary") do
     [
-      "[&_.tab-trigger.active-tab]:bg-[#072ed3]",
+      "[&_.tab-trigger.active-tab]:bg-[#072ed3] hover:[&_.tab-trigger]:bg-[#072ed3] hover:[&_.tab-trigger]:text-white",
       "[&_.tab-trigger.active-tab]:text-white [&_.tab-trigger.active-tab]:border-[#162da8]",
     ]
   end
 
   defp color_variant("pills", "secondary") do
     [
-      "[&_.tab-trigger.active-tab]:bg-[#4363EC]",
+      "[&_.tab-trigger.active-tab]:bg-[#4363EC] hover:[&_.tab-trigger]:bg-[#4363EC] hover:[&_.tab-trigger]:text-white",
       "[&_.tab-trigger.active-tab]:text-white [&_.tab-trigger.active-tab]:border-[#434652]"
     ]
   end
 
   defp color_variant("pills", "success") do
     [
-      "[&_.tab-trigger.active-tab]:bg-[#ECFEF3]",
+      "[&_.tab-trigger.active-tab]:bg-[#ECFEF3] hover:[&_.tab-trigger]:bg-[#ECFEF3]",
       "[&_.tab-trigger.active-tab]:text-[#047857] [&_.tab-trigger.active-tab]:border-[#047857]"
     ]
   end
 
   defp color_variant("pills", "warning") do
     [
-      "[&_.tab-trigger.active-tab]:bg-[#FFF8E6]",
+      "[&_.tab-trigger.active-tab]:bg-[#FFF8E6] hover:[&_.tab-trigger]:bg-[#FFF8E6]",
       "[&_.tab-trigger.active-tab]:text-[#FF8B08] [&_.tab-trigger.active-tab]:border-[#FF8B08]"
     ]
   end
 
   defp color_variant("pills", "danger") do
     [
-      "[&_.tab-trigger.active-tab]:bg-[#FFE6E6]",
+      "[&_.tab-trigger.active-tab]:bg-[#FFE6E6] hover:[&_.tab-trigger]:bg-[#FFE6E6]",
       "[&_.tab-trigger.active-tab]:text-[#E73B3B] [&_.tab-trigger.active-tab]:border-[#E73B3B]"
     ]
   end
 
   defp color_variant("pills", "info") do
     [
-      "[&_.tab-trigger.active-tab]:bg-[#E5F0FF]",
+      "[&_.tab-trigger.active-tab]:bg-[#E5F0FF] hover:[&_.tab-trigger]:bg-[#E5F0FF]",
       "[&_.tab-trigger.active-tab]:text-[#004FC4] [&_.tab-trigger.active-tab]:border-[#004FC4]"
     ]
   end
 
   defp color_variant("pills", "misc") do
     [
-      "[&_.tab-trigger.active-tab]:bg-[#FFE6FF]",
+      "[&_.tab-trigger.active-tab]:bg-[#FFE6FF] hover:[&_.tab-trigger]:bg-[#FFE6FF]",
       "[&_.tab-trigger.active-tab]:text-[#52059C] [&_.tab-trigger.active-tab]:border-[#52059C]"
     ]
   end
 
   defp color_variant("pills", "dawn") do
     [
-      "[&_.tab-trigger.active-tab]:bg-[#FFECDA]",
+      "[&_.tab-trigger.active-tab]:bg-[#FFECDA] hover:[&_.tab-trigger]:bg-[#FFECDA]",
       "[&_.tab-trigger.active-tab]:text-[#4D4137] [&_.tab-trigger.active-tab]:border-[#4D4137]"
     ]
   end
 
   defp color_variant("pills", "light") do
     [
-      "[&_.tab-trigger.active-tab]:bg-[#E3E7F1]",
+      "[&_.tab-trigger.active-tab]:bg-[#E3E7F1] hover:[&_.tab-trigger]:bg-[#E3E7F1]",
       "[&_.tab-trigger.active-tab]:text-[#707483] [&_.tab-trigger.active-tab]:border-[#707483]"
     ]
   end
 
   defp color_variant("pills", "dark") do
     [
-      "[&_.tab-trigger.active-tab]:bg-[#1E1E1E]",
+      "[&_.tab-trigger.active-tab]:bg-[#1E1E1E] hover:[&_.tab-trigger]:bg-[#1E1E1E] hover:[&_.tab-trigger]:text-white",
       "[&_.tab-trigger.active-tab]:text-white [&_.tab-trigger.active-tab]:border-[#050404]"
     ]
   end
