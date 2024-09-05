@@ -44,7 +44,6 @@ defmodule MishkaChelekom.Menu do
     """
   end
 
-
   defp size_class("extra_small"), do: "text-xs [&_.list-item-icon]:size-4"
   defp size_class("small"), do: "text-sm [&_.list-item-icon]:size-5"
   defp size_class("medium"), do: "text-base [&_.list-item-icon]:size-6"
