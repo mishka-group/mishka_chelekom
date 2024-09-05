@@ -60,7 +60,7 @@ defmodule MishkaChelekom.Tabs do
     <div
       id={@id}
       class={[
-        "flex",
+        "vertical-tab flex",
         @placement == "end" && "flex-row-reverse",
         content_position(@triggers_position),
         @variant == "default" && tab_border(@tab_border, @vertical),
@@ -115,7 +115,7 @@ defmodule MishkaChelekom.Tabs do
     <div
       id={@id}
       class={[
-        "w-full",
+        "horizontal-tab w-full",
         content_position(@triggers_position),
         @variant == "default" && tab_border(@tab_border, @vertical),
         color_variant(@variant, @color),
@@ -165,23 +165,38 @@ defmodule MishkaChelekom.Tabs do
   end
 
   defp content_position("start") do
-    "[&_.tab-trigger-list]:justify-start"
+    [
+      "[&_.horizontal-tab_.tab-trigger-list]:justify-start",
+      "[&_.vetrical-tab_.tab-trigger-list]:justify-start"
+    ]
   end
 
   defp content_position("end") do
-    "[&_.tab-trigger-list]:justify-end"
+    [
+      "[&_.horizontal-tab_.tab-trigger-list]:justify-end",
+      "[&_.vertical-tab_.tab-trigger-list]:justify-end"
+    ]
   end
 
   defp content_position("center") do
-    "[&_.tab-trigger-list]:justify-center"
+    [
+      "[&_.horizontal-tab_.tab-trigger-list]:justify-center",
+      "[&_.vertical-tab_.tab-trigger-list]:justify-center"
+    ]
   end
 
   defp content_position("between") do
-    "[&_.tab-trigger-list]:justify-between"
+    [
+      "[&_.horizontal-tab_.tab-trigger-list]:justify-between",
+      "[&_.vertical-tab_.tab-trigger-list]:justify-between"
+    ]
   end
 
   defp content_position("around") do
-    "[&_.tab-trigger-list]:justify-around"
+    [
+      "[&_.horizontal-tab_.tab-trigger-list]:justify-around",
+      "[&_.vertical-tab_.tab-trigger-list]:justify-around"
+    ]
   end
 
   defp content_position(_), do: content_position("start")
