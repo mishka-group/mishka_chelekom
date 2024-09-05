@@ -26,7 +26,7 @@ defmodule MishkaChelekom.Tabs do
   attr :variant, :string, values: @variants, default: "transparent", doc: ""
   attr :color, :string, values: @colors, default: "primary", doc: ""
   attr :border, :string, default: "none", doc: ""
-  attr :tab_border, :string, default: "extra_small", doc: ""
+  attr :tab_border, :string, default: "small", doc: ""
   attr :size, :string, default: "small", doc: ""
   attr :gap, :string, default: "none", doc: ""
   attr :font_weight, :string, default: "font-normal", doc: ""
@@ -108,19 +108,19 @@ defmodule MishkaChelekom.Tabs do
         color_variant(@variant, @color),
         padding_size(@padding),
         border_class(@border),
-        gap_size(@gap),
         size_class(@size),
+        gap_size(@gap),
         @font_weight,
         @class
       ]}
       {@rest}
     >
-      <div role="tablist" tabindex="0" class="tab-trigger-list flex flex-wrap flex-wrap">
+      <div role="tablist" tabindex="0" class="tab-trigger-list w-full flex flex-wrap flex-wrap">
         <button
           :for={{tab, index} <- Enum.with_index(@tab, 1)}
           role="tab"
           class={[
-            "tab-trigger flex flex-row flex-nowrap items-center gap-1.5",
+            "tab-trigger flex flex-row flex-nowrap items-center gap-1.5 -mb-px",
             "transition-all duration-400 delay-100 disabled:opacity-80",
             tab[:icon_position] == "end" && "flex-row-reverse",
             tab[:class]
@@ -243,17 +243,47 @@ defmodule MishkaChelekom.Tabs do
   defp tab_border("medium", true), do: "[&_.tab-trigger]:border-e-[3px]"
   defp tab_border("large", true), do: "[&_.tab-trigger]:border-e-4"
   defp tab_border("extra_large", true), do: "[&_.tab-trigger]:border-e-[5px]"
-  defp tab_border(params) when is_binary(params), do: [params]
-  defp tab_border(nil, true), do: tab_border("[&_.tab-trigger-list]:border-b-0", true)
+  defp tab_border(params,_) when is_binary(params), do: [params]
+  defp tab_border(_, true), do: tab_border("extra_small", true)
 
-  defp tab_border("none", false), do: "[&_.tab-trigger]:border-b-0  [&_.tab-trigger-list]:border-b-0"
-  defp tab_border("extra_small", false), do: "[&_.tab-trigger]:border-b [&_.tab-trigger-list]:border-b"
-  defp tab_border("small", false), do: "[&_.tab-trigger]:border-b-2 [&_.tab-trigger-list]:border-b-2"
-  defp tab_border("medium", false), do: "[&_.tab-trigger]:border-b-[3px] [&_.tab-trigger-list]:border-b-[3px]"
-  defp tab_border("large", false), do: "[&_.tab-trigger]:border-b-4 [&_.tab-trigger-list]:border-b-4"
-  defp tab_border("extra_large", false), do: "[&_.tab-trigger]:border-b-[5px] [&_.tab-trigger-list]:border-b-[5px]"
-  defp tab_border(params) when is_binary(params), do: [params]
-  defp tab_border(nil, false), do: tab_border("[&_.tab-trigger-list]:border-b-0", false)
+  defp tab_border("none", false) do
+    [
+      "[&_.tab-trigger]:border-b-0  [&_.tab-trigger-list]:border-b-0"
+    ]
+  end
+
+  defp tab_border("extra_small", false) do
+    [
+      "[&_.tab-trigger]:border-b [&_.tab-trigger-list]:border-b"
+    ]
+  end
+
+  defp tab_border("small", false) do
+    [
+      "[&_.tab-trigger]:border-b-2 [&_.tab-trigger-list]:border-b-2"
+    ]
+  end
+
+  defp tab_border("medium", false) do
+    [
+      "[&_.tab-trigger]:border-b-[3px] [&_.tab-trigger-list]:border-b-[3px]"
+    ]
+  end
+
+  defp tab_border("large", false) do
+    [
+      "[&_.tab-trigger]:border-b-4 [&_.tab-trigger-list]:border-b-4"
+    ]
+  end
+
+  defp tab_border("extra_large", false) do
+    [
+      "[&_.tab-trigger]:border-b-[5px] [&_.tab-trigger-list]:border-b-[5px]"
+    ]
+  end
+
+  defp tab_border(params, false) when is_binary(params), do: [params]
+  defp tab_border(_, false), do: tab_border("extra_small", false)
 
   defp rounded_size("none"), do: "rounded-none"
   defp rounded_size("extra_small"), do: "rounded-sm"
