@@ -3,13 +3,14 @@ defmodule MishkaChelekom.Image do
 
   @doc type: :component
   attr :id, :string, default: nil, doc: ""
-  attr :src, :string, default: nil, doc: ""
+  attr :src, :string, required: true,  doc: ""
   attr :alt, :string, default: nil, doc: ""
   attr :srcset, :string, default: nil, doc: ""
-  attr :loading, :string, default: nil, doc: "eager, lazy"
+  attr :loading, :string, values: ["eager", "lazy", nil], default: nil, doc: "eager: is default, lazy"
   attr :referrerpolicy, :string, default: nil, doc: ""
-  attr :width, :string, default: nil, doc: ""
-  attr :height, :string, default: nil, doc: ""
+  attr :fetchpriority, :string, values: ["high", "low", "auto", nil], default: nil, doc: "high, low, auto is default"
+  attr :width, :integer, default: nil, doc: ""
+  attr :height, :integer, default: nil, doc: ""
   attr :sizes, :string, default: nil, doc: ""
   attr :ismap, :string, default: nil, doc: ""
   attr :decoding, :string, default: nil, doc: ""
@@ -31,6 +32,7 @@ defmodule MishkaChelekom.Image do
       loading={@loading}
       ismap={@ismap}
       decoding={@decoding}
+      fetchpriority={@fetchpriority}
       referrerpolicy={@referrerpolicy}
       class={[
         "max-w-full",
