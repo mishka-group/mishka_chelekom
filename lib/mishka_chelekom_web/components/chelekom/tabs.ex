@@ -18,21 +18,24 @@ defmodule MishkaChelekom.Tabs do
 
   @variants [
     "default",
-    "transparent"
+    "outline",
+    "pills"
   ]
 
   @doc type: :component
   attr :id, :string, default: nil, doc: ""
-  attr :variant, :string, values: @variants, default: "transparent", doc: ""
+  attr :variant, :string, values: @variants, default: "default", doc: ""
   attr :color, :string, values: @colors, default: "primary", doc: ""
   attr :border, :string, default: "none", doc: ""
   attr :tab_border, :string, default: "small", doc: ""
   attr :size, :string, default: "small", doc: ""
   attr :gap, :string, default: "none", doc: ""
+  attr :rounded, :string, default: "none", doc: ""
   attr :font_weight, :string, default: "font-normal", doc: ""
   attr :padding, :string, default: "extra_small", doc: ""
   attr :triggers_position, :string, default: "extra_small", doc: ""
   attr :vertical, :boolean, default: false, doc: ""
+  attr :placement, :string, default: "start", doc: ""
   attr :class, :string, default: nil, doc: ""
   attr :rest, :global, doc: ""
 
@@ -58,13 +61,15 @@ defmodule MishkaChelekom.Tabs do
       id={@id}
       class={[
         "flex",
+        @placement == "end" && "flex-row-reverse",
         content_position(@triggers_position),
-        tab_border(@tab_border, @vertical),
+        @variant == "default" && tab_border(@tab_border, @vertical),
         color_variant(@variant, @color),
+        rounded_size(@rounded, @variant),
         padding_size(@padding),
-        gap_size(@gap),
         border_class(@border),
         size_class(@size),
+        gap_size(@gap),
         @font_weight,
         @class
       ]}
@@ -104,8 +109,9 @@ defmodule MishkaChelekom.Tabs do
       class={[
         "w-full",
         content_position(@triggers_position),
-        tab_border(@tab_border, @vertical),
+        @variant == "default" && tab_border(@tab_border, @vertical),
         color_variant(@variant, @color),
+        rounded_size(@rounded, @variant),
         padding_size(@padding),
         border_class(@border),
         size_class(@size),
@@ -120,7 +126,7 @@ defmodule MishkaChelekom.Tabs do
           :for={{tab, index} <- Enum.with_index(@tab, 1)}
           role="tab"
           class={[
-            "tab-trigger flex flex-row flex-nowrap items-center gap-1.5 -mb-px",
+            "tab-trigger flex flex-row flex-nowrap items-center gap-1.5",
             "transition-all duration-400 delay-100 disabled:opacity-80",
             tab[:icon_position] == "end" && "flex-row-reverse",
             tab[:class]
@@ -163,15 +169,6 @@ defmodule MishkaChelekom.Tabs do
   end
 
   defp content_position(_), do: content_position("start")
-
-  defp space_class("none"), do: "space-y-0"
-  defp space_class("extra_small"), do: "space-y-2"
-  defp space_class("small"), do: "space-y-3"
-  defp space_class("medium"), do: "space-y-4"
-  defp space_class("large"), do: "space-y-5"
-  defp space_class("extra_large"), do: "space-y-6"
-  defp space_class(params) when is_binary(params), do: params
-  defp space_class(_), do: space_class("none")
 
   defp padding_size("none") do
     [
@@ -220,11 +217,11 @@ defmodule MishkaChelekom.Tabs do
   defp size_class(params) when is_binary(params), do: params
   defp size_class(_), do: size_class("medium")
 
-  defp gap_size("extra_small"), do: "gap-1"
-  defp gap_size("small"), do: "gap-2"
-  defp gap_size("medium"), do: "gap-3"
-  defp gap_size("large"), do: "gap-4"
-  defp gap_size("extra_large"), do: "gap-5"
+  defp gap_size("extra_small"), do: "[&_.tab-trigger-list]:gap-1"
+  defp gap_size("small"), do: "[&_.tab-trigger-list]:gap-2"
+  defp gap_size("medium"), do: "[&_.tab-trigger-list]:gap-3"
+  defp gap_size("large"), do: "[&_.tab-trigger-list]:gap-4"
+  defp gap_size("extra_large"), do: "[&_.tab-trigger-list]:gap-5"
   defp gap_size(params) when is_binary(params), do: params
   defp gap_size(_), do: nil
 
@@ -243,7 +240,7 @@ defmodule MishkaChelekom.Tabs do
   defp tab_border("medium", true), do: "[&_.tab-trigger]:border-e-[3px]"
   defp tab_border("large", true), do: "[&_.tab-trigger]:border-e-4"
   defp tab_border("extra_large", true), do: "[&_.tab-trigger]:border-e-[5px]"
-  defp tab_border(params,_) when is_binary(params), do: [params]
+  defp tab_border(params, true) when is_binary(params), do: [params]
   defp tab_border(_, true), do: tab_border("extra_small", true)
 
   defp tab_border("none", false) do
@@ -254,208 +251,209 @@ defmodule MishkaChelekom.Tabs do
 
   defp tab_border("extra_small", false) do
     [
-      "[&_.tab-trigger]:border-b [&_.tab-trigger-list]:border-b"
+      "[&_.tab-trigger]:border-b [&_.tab-trigger]:-mb-px [&_.tab-trigger-list]:border-b"
     ]
   end
 
   defp tab_border("small", false) do
     [
-      "[&_.tab-trigger]:border-b-2 [&_.tab-trigger-list]:border-b-2"
+      "[&_.tab-trigger]:border-b-2 [&_.tab-trigger]:-mb-0.5 [&_.tab-trigger-list]:border-b-2"
     ]
   end
 
   defp tab_border("medium", false) do
     [
-      "[&_.tab-trigger]:border-b-[3px] [&_.tab-trigger-list]:border-b-[3px]"
+      "[&_.tab-trigger]:border-b-[3px]  [&_.tab-trigger]:-mb-1 [&_.tab-trigger-list]:border-b-[3px]"
     ]
   end
 
   defp tab_border("large", false) do
     [
-      "[&_.tab-trigger]:border-b-4 [&_.tab-trigger-list]:border-b-4"
+      "[&_.tab-trigger]:border-b-4 [&_.tab-trigger]:-mb-1.5 [&_.tab-trigger-list]:border-b-4"
     ]
   end
 
   defp tab_border("extra_large", false) do
     [
-      "[&_.tab-trigger]:border-b-[5px] [&_.tab-trigger-list]:border-b-[5px]"
+      "[&_.tab-trigger]:border-b-[5px] [&_.tab-trigger]:-mb-2 [&_.tab-trigger-list]:border-b-[5px]"
     ]
   end
 
   defp tab_border(params, false) when is_binary(params), do: [params]
   defp tab_border(_, false), do: tab_border("extra_small", false)
 
-  defp rounded_size("none"), do: "rounded-none"
-  defp rounded_size("extra_small"), do: "rounded-sm"
-  defp rounded_size("small"), do: "rounded"
-  defp rounded_size("medium"), do: "rounded-md"
-  defp rounded_size("large"), do: "rounded-lg"
-  defp rounded_size("extra_large"), do: "rounded-xl"
-  defp rounded_size("full"), do: "rounded-full"
-  defp rounded_size(nil), do: rounded_size("none")
+  defp rounded_size(_,"default"), do: "rounded-none"
+
+  defp rounded_size("none", "pills"), do: "[&_.tab-trigger]:rounded-none"
+  defp rounded_size("extra_small", "pills"), do: "[&_.tab-trigger]:rounded-sm"
+  defp rounded_size("small", "pills"), do: "[&_.tab-trigger]:rounded"
+  defp rounded_size("medium", "pills"), do: "[&_.tab-trigger]:rounded-md"
+  defp rounded_size("large", "pills"), do: "[&_.tab-trigger]:rounded-lg"
+  defp rounded_size("extra_large", "pills"), do: "[&_.tab-trigger]:rounded-xl"
+  defp rounded_size("full", "pills"), do: "[&_.tab-trigger]:rounded-full"
+
+  defp rounded_size("none","outline"), do: "[&_.tab-trigger]:rounded-t-none"
+  defp rounded_size("extra_small","outline"), do: "[&_.tab-trigger]:rounded-t-sm"
+  defp rounded_size("small","outline"), do: "[&_.tab-trigger]:rounded-t"
+  defp rounded_size("medium","outline"), do: "[&_.tab-trigger]:rounded-t-md"
+  defp rounded_size("large","outline"), do: "[&_.tab-trigger]:rounded-t-lg"
+  defp rounded_size("extra_large","outline"), do: "[&_.tab-trigger]:rounded-t-xl"
+  defp rounded_size("full","outline"), do: "[&_.tab-trigger]:rounded-t-full"
+
+  defp rounded_size(params, _) when is_binary(params), do: [params]
+  defp rounded_size(_,_), do: rounded_size(nil, "default")
 
   defp color_variant("default", "white") do
     [
-      "bg-white text-[#3E3E3E] border-[#DADADA]",
-      "[&_.tab-trigger.active-tab]:text-[#d9d9d9] [&_.tab-trigger.active-tab]:border-[#d9d9d9]",
-      "[&_.tab-trigger-list]:border-[#DADADA]"
+      "[&_.tab-trigger.active-tab]:text-[#3E3E3E] [&_.tab-trigger.active-tab]:border-[#DADADA]",
+      "[&_.tab-trigger-list]:border-[#e9ecef]"
     ]
   end
 
   defp color_variant("default", "primary") do
     [
-      "bg-[#4363EC] text-white border-[#2441de]",
       "[&_.tab-trigger.active-tab]:text-[#162da8] [&_.tab-trigger.active-tab]:border-[#162da8]",
-      "[&_.tab-trigger-list]:border-[#2441de]"
+      "[&_.tab-trigger-list]:border-[#e9ecef]"
     ]
   end
 
   defp color_variant("default", "secondary") do
     [
-      "bg-[#6B6E7C] text-white border-[#877C7C]",
       "[&_.tab-trigger.active-tab]:text-[#434652] [&_.tab-trigger.active-tab]:border-[#434652]",
-      "[&_.tab-trigger-list]:border-[#877C7C]"
+      "[&_.tab-trigger-list]:border-[#e9ecef]"
     ]
   end
 
   defp color_variant("default", "success") do
     [
-      "bg-[#ECFEF3] text-[#047857] border-[#6EE7B7]",
       "[&_.tab-trigger.active-tab]:text-[#047857] [&_.tab-trigger.active-tab]:border-[#047857]",
-      "[&_.tab-trigger-list]:border-[#6EE7B7]"
+      "[&_.tab-trigger-list]:border-[#e9ecef]"
     ]
   end
 
   defp color_variant("default", "warning") do
     [
-      "bg-[#FFF8E6] text-[#FF8B08] border-[#FF8B08]",
       "[&_.tab-trigger.active-tab]:text-[#FF8B08] [&_.tab-trigger.active-tab]:border-[#FF8B08]",
-      "[&_.tab-trigger-list]:border-[#FF8B08]"
+      "[&_.tab-trigger-list]:border-[#e9ecef]"
     ]
   end
 
   defp color_variant("default", "danger") do
     [
-      "bg-[#FFE6E6] text-[#E73B3B] border-[#E73B3B]",
       "[&_.tab-trigger.active-tab]:text-[#E73B3B] [&_.tab-trigger.active-tab]:border-[#E73B3B]",
-      "[&_.tab-trigger-list]:border-[#E73B3B]"
+      "[&_.tab-trigger-list]:border-[#e9ecef]"
     ]
   end
 
   defp color_variant("default", "info") do
     [
-      "bg-[#E5F0FF] text-[#004FC4] border-[#004FC4]",
       "[&_.tab-trigger.active-tab]:text-[#004FC4] [&_.tab-trigger.active-tab]:border-[#004FC4]",
-      "[&_.tab-trigger-list]:border-[#004FC4]"
+      "[&_.tab-trigger-list]:border-[#e9ecef]"
     ]
   end
 
   defp color_variant("default", "misc") do
     [
-      "bg-[#FFE6FF] text-[#52059C] border-[#52059C]",
       "[&_.tab-trigger.active-tab]:text-[#52059C] [&_.tab-trigger.active-tab]:border-[#52059C]",
-      "[&_.tab-trigger-list]:border-[#52059C]"
+      "[&_.tab-trigger-list]:border-[#e9ecef]"
     ]
   end
 
   defp color_variant("default", "dawn") do
     [
-      "bg-[#FFECDA] text-[#4D4137] border-[#4D4137]",
       "[&_.tab-trigger.active-tab]:text-[#4D4137] [&_.tab-trigger.active-tab]:border-[#4D4137]",
-      "[&_.tab-trigger-list]:border-[#4D4137]"
+      "[&_.tab-trigger-list]:border-[#e9ecef]"
     ]
   end
 
   defp color_variant("default", "light") do
     [
-      "bg-[#E3E7F1] text-[#707483] border-[#707483]",
       "[&_.tab-trigger.active-tab]:text-[#707483] [&_.tab-trigger.active-tab]:border-[#707483]",
-      "[&_.tab-trigger-list]:border-[#707483]"
+      "[&_.tab-trigger-list]:border-[#e9ecef]"
     ]
   end
 
   defp color_variant("default", "dark") do
     [
-      "bg-[#1E1E1E] text-white border-[#050404]",
       "[&_.tab-trigger.active-tab]:text-[#050404] [&_.tab-trigger.active-tab]:border-[#050404]",
-      "[&_.tab-trigger-list]:border-[#050404]"
+      "[&_.tab-trigger-list]:border-[#e9ecef]"
     ]
   end
 
-  defp color_variant("transparent", "white") do
+  defp color_variant("pills", "white") do
     [
-      " [&_.tab-trigger]:text-white [&_.tab-trigger]:border-white",
+      "[&_.tab-trigger.active-tab]:bg-white",
       "[&_.tab-trigger.active-tab]:text-[#3E3E3E] [&_.tab-trigger.active-tab]:border-[#DADADA]"
     ]
   end
 
-  defp color_variant("transparent", "primary") do
+  defp color_variant("pills", "primary") do
     [
-      "[&_.tab-trigger]:text-[#4363EC] [&_.tab-trigger]:border-[#4363EC]",
-      "[&_.tab-trigger.active-tab]:text-[#162da8] [&_.tab-trigger.active-tab]:border-[#162da8]"
+      "[&_.tab-trigger.active-tab]:bg-[#072ed3]",
+      "[&_.tab-trigger.active-tab]:text-white [&_.tab-trigger.active-tab]:border-[#162da8]",
     ]
   end
 
-  defp color_variant("transparent", "secondary") do
+  defp color_variant("pills", "secondary") do
     [
-      "[&_.tab-trigger]:text-[#6B6E7C] [&_.tab-trigger]:border-[#6B6E7C]",
-      "[&_.tab-trigger.active-tab]:text-[#434652] [&_.tab-trigger.active-tab]:border-[#434652]"
+      "[&_.tab-trigger.active-tab]:bg-[#4363EC]",
+      "[&_.tab-trigger.active-tab]:text-white [&_.tab-trigger.active-tab]:border-[#434652]"
     ]
   end
 
-  defp color_variant("transparent", "success") do
+  defp color_variant("pills", "success") do
     [
-      "[&_.tab-trigger]:text-[#6EE7B7] [&_.tab-trigger]:border-[#6EE7B7]",
+      "[&_.tab-trigger.active-tab]:bg-[#ECFEF3]",
       "[&_.tab-trigger.active-tab]:text-[#047857] [&_.tab-trigger.active-tab]:border-[#047857]"
     ]
   end
 
-  defp color_variant("transparent", "warning") do
+  defp color_variant("pills", "warning") do
     [
-      "[&_.tab-trigger]:text-[#FFF8E6] [&_.tab-trigger]:border-[#FFF8E6]",
+      "[&_.tab-trigger.active-tab]:bg-[#FFF8E6]",
       "[&_.tab-trigger.active-tab]:text-[#FF8B08] [&_.tab-trigger.active-tab]:border-[#FF8B08]"
     ]
   end
 
-  defp color_variant("transparent", "danger") do
+  defp color_variant("pills", "danger") do
     [
-      "[&_.tab-trigger]:text-[#FFE6E6] [&_.tab-trigger]:border-[#FFE6E6]",
+      "[&_.tab-trigger.active-tab]:bg-[#FFE6E6]",
       "[&_.tab-trigger.active-tab]:text-[#E73B3B] [&_.tab-trigger.active-tab]:border-[#E73B3B]"
     ]
   end
 
-  defp color_variant("transparent", "info") do
+  defp color_variant("pills", "info") do
     [
-      "[&_.tab-trigger]:text-[#E5F0FF] [&_.tab-trigger]:border-[#E5F0FF]",
+      "[&_.tab-trigger.active-tab]:bg-[#E5F0FF]",
       "[&_.tab-trigger.active-tab]:text-[#004FC4] [&_.tab-trigger.active-tab]:border-[#004FC4]"
     ]
   end
 
-  defp color_variant("transparent", "misc") do
+  defp color_variant("pills", "misc") do
     [
-      "[&_.tab-trigger]:text-[#FFE6FF] [&_.tab-trigger]:border-[#FFE6FF]",
+      "[&_.tab-trigger.active-tab]:bg-[#FFE6FF]",
       "[&_.tab-trigger.active-tab]:text-[#52059C] [&_.tab-trigger.active-tab]:border-[#52059C]"
     ]
   end
 
-  defp color_variant("transparent", "dawn") do
+  defp color_variant("pills", "dawn") do
     [
-      "[&_.tab-trigger]:text-[#FFECDA] [&_.tab-trigger]:border-[#FFECDA]",
+      "[&_.tab-trigger.active-tab]:bg-[#FFECDA]",
       "[&_.tab-trigger.active-tab]:text-[#4D4137] [&_.tab-trigger.active-tab]:border-[#4D4137]"
     ]
   end
 
-  defp color_variant("transparent", "light") do
+  defp color_variant("pills", "light") do
     [
-      "[&_.tab-trigger]:text-[#E3E7F1] [&_.tab-trigger]:border-[#E3E7F1]",
+      "[&_.tab-trigger.active-tab]:bg-[#E3E7F1]",
       "[&_.tab-trigger.active-tab]:text-[#707483] [&_.tab-trigger.active-tab]:border-[#707483]"
     ]
   end
 
-  defp color_variant("transparent", "dark") do
+  defp color_variant("pills", "dark") do
     [
-      "[&_.tab-trigger]:text-[#1E1E1E] [&_.tab-trigger]:border-[#1E1E1E]",
-      "[&_.tab-trigger.active-tab]:text-[#050404] [&_.tab-trigger.active-tab]:border-[#050404]"
+      "[&_.tab-trigger.active-tab]:bg-[#1E1E1E]",
+      "[&_.tab-trigger.active-tab]:text-white [&_.tab-trigger.active-tab]:border-[#050404]"
     ]
   end
 end
