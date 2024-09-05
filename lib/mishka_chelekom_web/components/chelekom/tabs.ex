@@ -29,7 +29,7 @@ defmodule MishkaChelekom.Tabs do
   attr :border, :string, default: "none", doc: ""
   attr :tab_border, :string, default: "small", doc: ""
   attr :size, :string, default: "small", doc: ""
-  attr :gap, :string, default: "none", doc: ""
+  attr :gap, :string, default: nil, doc: ""
   attr :rounded, :string, default: "none", doc: ""
   attr :font_weight, :string, default: "font-normal", doc: ""
   attr :padding, :string, default: "extra_small", doc: ""
@@ -94,7 +94,15 @@ defmodule MishkaChelekom.Tabs do
       </div>
 
       <div class="ms-2 flex-1">
-        <div :for={{panel, index} <- Enum.with_index(@panel, 1)} role="tabpanel" class="tab-content">
+        <div
+          :for={{panel, index} <- Enum.with_index(@panel, 1)}
+          role="tabpanel"
+          class={[
+            "tab-content",
+            "[&:not(.active-tab-panel)]:hidden [&:not(.active-tab-panel)]:opacity-0 [&:not(.active-tab-panel)]:invisible",
+            "[&.active-tab-panel]:block [&.active-tab-panel]:opacity-100 [&.active-tab-panel]:visible"
+          ]}
+        >
           <%= render_slot(panel) %>
         </div>
       </div>
@@ -140,7 +148,15 @@ defmodule MishkaChelekom.Tabs do
       </div>
 
       <div class="mt-2">
-        <div :for={{panel, index} <- Enum.with_index(@panel, 1)} role="tabpanel" class="tab-content">
+        <div
+          :for={{panel, index} <- Enum.with_index(@panel, 1)}
+          role="tabpanel"
+          class={[
+            "tab-content",
+            "[&:not(.active-tab-panel)]:hidden [&:not(.active-tab-panel)]:opacity-0 [&:not(.active-tab-panel)]:invisible",
+            "[&.active-tab-panel]:block [&.active-tab-panel]:opacity-100 [&.active-tab-panel]:visible"
+          ]}
+        >
           <%= render_slot(panel) %>
         </div>
       </div>
@@ -389,8 +405,8 @@ defmodule MishkaChelekom.Tabs do
 
   defp color_variant("pills", "primary") do
     [
-      "[&_.tab-trigger.active-tab]:bg-[#072ed3] hover:[&_.tab-trigger]:bg-[#072ed3] hover:[&_.tab-trigger]:text-white",
-      "[&_.tab-trigger.active-tab]:text-white [&_.tab-trigger.active-tab]:border-[#162da8]",
+      "[&_.tab-trigger.active-tab]:bg-[#6B6E7C] hover:[&_.tab-trigger]:bg-[#6B6E7C] hover:[&_.tab-trigger]:text-white",
+      "[&_.tab-trigger.active-tab]:text-white [&_.tab-trigger.active-tab]:border-[#877C7C]",
     ]
   end
 
