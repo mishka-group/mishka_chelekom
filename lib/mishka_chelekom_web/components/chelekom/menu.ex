@@ -61,6 +61,7 @@ defmodule MishkaChelekom.Menu do
             }
             position={chevron_position(@rest)}
             chevron_icon={@chevron_icon}
+            title={@title}
             hide_chevron={@rest[:hide_chevron] || false}
           />
 
@@ -72,6 +73,7 @@ defmodule MishkaChelekom.Menu do
             }
             position={chevron_position(@rest)}
             chevron_icon={@chevron_icon}
+            title={@title}
             class="hidden"
             hide_chevron={@rest[:hide_chevron] || false}
           />
