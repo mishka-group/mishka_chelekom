@@ -1,5 +1,6 @@
 defmodule MishkaChelekom.Menu do
   use Phoenix.Component
+  import MishkaChelekomComponents
 
   @variants [
     "default",
@@ -32,18 +33,87 @@ defmodule MishkaChelekom.Menu do
   attr :space, :string, default: nil, doc: ""
   attr :color, :string, values: @colors, default: "white", doc: ""
   attr :variant, :string, values: @variants, default: "filled", doc: ""
-  attr :style, :string, default: "list-none", doc: ""
   slot :item, validate_attrs: false
-  attr :rest, :global, include: ~w(ordered unordered), doc: ""
+  attr :rest, :global, doc: ""
+  slot :inner_block, doc: ""
 
   def menu(assigns) do
     ~H"""
-    <ul>
+    <.ul {assigns}>
+      <.li :for={item <- @item} {item}>
+        <%= render_slot(item) %>
+      </.li>
+      <%= render_slot(@inner_block) %>
+    </.ul>
+    """
+  end
+
+  attr :id, :string, default: nil, doc: ""
+  attr :space, :string, default: nil, doc: ""
+  attr :class, :string, default: nil, doc: ""
+  attr :rest, :global
+  slot :inner_block, required: true, doc: ""
+
+  def ul(assigns) do
+    ~H"""
+    <ul
+      id={@id}
+      class={[
+        color_variant(@color, @variant),
+        @font_weight,
+        @class
+      ]}
+      {@rest}
+    >
       <%= render_slot(@inner_block) %>
     </ul>
     """
   end
 
+
+  attr :id, :string, default: nil, doc: ""
+  attr :class, :list, default: nil, doc: ""
+  attr :count, :integer, default: nil, doc: ""
+  attr :count_separator, :string, default: ". ", doc: ""
+  attr :icon, :string, default: nil, doc: ""
+  attr :icon_class, :string, default: "list-item-icon", doc: ""
+  attr :content_class, :string, default: nil
+  attr :padding, :string, default: "none", doc: ""
+  attr :position, :string, values: ["start", "end", "center"], default: "start", doc: ""
+  attr :rest, :global
+  slot :inner_block, required: true, doc: ""
+
+  @spec li(map()) :: Phoenix.LiveView.Rendered.t()
+  def li(assigns) do
+    ~H"""
+    <li
+      id={@id}
+      class={[
+        padding_size(@padding),
+        @class
+      ]}
+      {@rest}
+    >
+      <div class={[
+        "flex items-center gap-2 w-full"
+      ]}>
+        <.icon :if={!is_nil(@icon)} name={@icon} class={@icon_class} />
+        <span :if={is_integer(@count)}><%= @count %><%= @count_separator %></span>
+        <div class="w-full">
+          <%= render_slot(@inner_block) %>
+        </div>
+      </div>
+    </li>
+    """
+  end
+
+  defp space_class("extra_small"), do: "space-y-2"
+  defp space_class("small"), do: "space-y-3"
+  defp space_class("medium"), do: "space-y-4"
+  defp space_class("large"), do: "space-y-5"
+  defp space_class("extra_large"), do: "space-y-6"
+  defp space_class(params) when is_binary(params), do: params
+  defp space_class(_), do: nil
 
   defp size_class("extra_small"), do: "text-xs [&_.list-item-icon]:size-4"
   defp size_class("small"), do: "text-sm [&_.list-item-icon]:size-5"
