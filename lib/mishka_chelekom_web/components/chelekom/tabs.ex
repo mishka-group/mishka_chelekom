@@ -76,7 +76,7 @@ defmodule MishkaChelekom.Tabs do
       {@rest}
     >
       <div role="tablist" tabindex="0" class="tab-trigger-list flex flex-col shrink-0">
-      <%!-- add `active-tab` class --%>
+        <%!-- add `active-tab` class --%>
         <button
           :for={{tab, index} <- Enum.with_index(@tab, 1)}
           role="tab"
@@ -95,7 +95,7 @@ defmodule MishkaChelekom.Tabs do
       </div>
 
       <div class="ms-2 flex-1">
-      <%!-- add `active-tab-panel` class --%>
+        <%!-- add `active-tab-panel` class --%>
         <div
           :for={{panel, index} <- Enum.with_index(@panel, 1)}
           role="tabpanel"
@@ -315,7 +315,7 @@ defmodule MishkaChelekom.Tabs do
   defp tab_border(params, false) when is_binary(params), do: [params]
   defp tab_border(_, false), do: tab_border("extra_small", false)
 
-  defp rounded_size(_,"default"), do: "rounded-none"
+  defp rounded_size(_, "default"), do: "rounded-none"
 
   defp rounded_size("none", "pills"), do: "[&_.tab-trigger]:rounded-none"
   defp rounded_size("extra_small", "pills"), do: "[&_.tab-trigger]:rounded-sm"
@@ -325,16 +325,16 @@ defmodule MishkaChelekom.Tabs do
   defp rounded_size("extra_large", "pills"), do: "[&_.tab-trigger]:rounded-xl"
   defp rounded_size("full", "pills"), do: "[&_.tab-trigger]:rounded-full"
 
-  defp rounded_size("none","outline"), do: "[&_.tab-trigger]:rounded-t-none"
-  defp rounded_size("extra_small","outline"), do: "[&_.tab-trigger]:rounded-t-sm"
-  defp rounded_size("small","outline"), do: "[&_.tab-trigger]:rounded-t"
-  defp rounded_size("medium","outline"), do: "[&_.tab-trigger]:rounded-t-md"
-  defp rounded_size("large","outline"), do: "[&_.tab-trigger]:rounded-t-lg"
-  defp rounded_size("extra_large","outline"), do: "[&_.tab-trigger]:rounded-t-xl"
-  defp rounded_size("full","outline"), do: "[&_.tab-trigger]:rounded-t-full"
+  defp rounded_size("none", "outline"), do: "[&_.tab-trigger]:rounded-t-none"
+  defp rounded_size("extra_small", "outline"), do: "[&_.tab-trigger]:rounded-t-sm"
+  defp rounded_size("small", "outline"), do: "[&_.tab-trigger]:rounded-t"
+  defp rounded_size("medium", "outline"), do: "[&_.tab-trigger]:rounded-t-md"
+  defp rounded_size("large", "outline"), do: "[&_.tab-trigger]:rounded-t-lg"
+  defp rounded_size("extra_large", "outline"), do: "[&_.tab-trigger]:rounded-t-xl"
+  defp rounded_size("full", "outline"), do: "[&_.tab-trigger]:rounded-t-full"
 
   defp rounded_size(params, _) when is_binary(params), do: [params]
-  defp rounded_size(_,_), do: rounded_size(nil, "default")
+  defp rounded_size(_, _), do: rounded_size(nil, "default")
 
   defp color_variant("default", "white") do
     [
@@ -423,7 +423,7 @@ defmodule MishkaChelekom.Tabs do
   defp color_variant("pills", "primary") do
     [
       "[&_.tab-trigger.active-tab]:bg-[#6B6E7C] hover:[&_.tab-trigger]:bg-[#6B6E7C] hover:[&_.tab-trigger]:text-white",
-      "[&_.tab-trigger.active-tab]:text-white [&_.tab-trigger.active-tab]:border-[#877C7C]",
+      "[&_.tab-trigger.active-tab]:text-white [&_.tab-trigger.active-tab]:border-[#877C7C]"
     ]
   end
 
