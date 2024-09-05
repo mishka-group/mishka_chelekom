@@ -70,7 +70,7 @@ defmodule MishkaChelekom.Tabs do
       ]}
       {@rest}
     >
-      <div role="tablist" tabindex="0" class="tab-trigger-list flex flex-col">
+      <div role="tablist" tabindex="0" class="tab-trigger-list flex flex-col shrink-0">
         <button
           :for={{tab, index} <- Enum.with_index(@tab, 1)}
           role="tab"
@@ -244,16 +244,16 @@ defmodule MishkaChelekom.Tabs do
   defp tab_border("large", true), do: "[&_.tab-trigger]:border-e-4"
   defp tab_border("extra_large", true), do: "[&_.tab-trigger]:border-e-[5px]"
   defp tab_border(params) when is_binary(params), do: [params]
-  defp tab_border(nil, true), do: tab_border("none", true)
+  defp tab_border(nil, true), do: tab_border("[&_.tab-trigger-list]:border-b-0", true)
 
-  defp tab_border("none", false), do: "[&_.tab-trigger]:border-b-0"
-  defp tab_border("extra_small", false), do: "[&_.tab-trigger]:border-b"
-  defp tab_border("small", false), do: "[&_.tab-trigger]:border-b-2"
-  defp tab_border("medium", false), do: "[&_.tab-trigger]:border-b-[3px]"
-  defp tab_border("large", false), do: "[&_.tab-trigger]:border-b-4"
-  defp tab_border("extra_large", false), do: "[&_.tab-trigger]:border-b-[5px]"
+  defp tab_border("none", false), do: "[&_.tab-trigger]:border-b-0  [&_.tab-trigger-list]:border-b-0"
+  defp tab_border("extra_small", false), do: "[&_.tab-trigger]:border-b [&_.tab-trigger-list]:border-b"
+  defp tab_border("small", false), do: "[&_.tab-trigger]:border-b-2 [&_.tab-trigger-list]:border-b-2"
+  defp tab_border("medium", false), do: "[&_.tab-trigger]:border-b-[3px] [&_.tab-trigger-list]:border-b-[3px]"
+  defp tab_border("large", false), do: "[&_.tab-trigger]:border-b-4 [&_.tab-trigger-list]:border-b-4"
+  defp tab_border("extra_large", false), do: "[&_.tab-trigger]:border-b-[5px] [&_.tab-trigger-list]:border-b-[5px]"
   defp tab_border(params) when is_binary(params), do: [params]
-  defp tab_border(nil, false), do: tab_border("none", false)
+  defp tab_border(nil, false), do: tab_border("[&_.tab-trigger-list]:border-b-0", false)
 
   defp rounded_size("none"), do: "rounded-none"
   defp rounded_size("extra_small"), do: "rounded-sm"
@@ -267,77 +267,88 @@ defmodule MishkaChelekom.Tabs do
   defp color_variant("default", "white") do
     [
       "bg-white text-[#3E3E3E] border-[#DADADA]",
-      "[&_.tab-trigger.active-tab]:text-[#d9d9d9] [&_.tab-trigger.active-tab]:border-[#d9d9d9]"
+      "[&_.tab-trigger.active-tab]:text-[#d9d9d9] [&_.tab-trigger.active-tab]:border-[#d9d9d9]",
+      "[&_.tab-trigger-list]:border-[#DADADA]"
     ]
   end
 
   defp color_variant("default", "primary") do
     [
       "bg-[#4363EC] text-white border-[#2441de]",
-      "[&_.tab-trigger.active-tab]:text-[#162da8] [&_.tab-trigger.active-tab]:border-[#162da8]"
+      "[&_.tab-trigger.active-tab]:text-[#162da8] [&_.tab-trigger.active-tab]:border-[#162da8]",
+      "[&_.tab-trigger-list]:border-[#2441de]"
     ]
   end
 
   defp color_variant("default", "secondary") do
     [
       "bg-[#6B6E7C] text-white border-[#877C7C]",
-      "[&_.tab-trigger.active-tab]:text-[#434652] [&_.tab-trigger.active-tab]:border-[#434652]"
+      "[&_.tab-trigger.active-tab]:text-[#434652] [&_.tab-trigger.active-tab]:border-[#434652]",
+      "[&_.tab-trigger-list]:border-[#877C7C]"
     ]
   end
 
   defp color_variant("default", "success") do
     [
       "bg-[#ECFEF3] text-[#047857] border-[#6EE7B7]",
-      "[&_.tab-trigger.active-tab]:text-[#047857] [&_.tab-trigger.active-tab]:border-[#047857]"
+      "[&_.tab-trigger.active-tab]:text-[#047857] [&_.tab-trigger.active-tab]:border-[#047857]",
+      "[&_.tab-trigger-list]:border-[#6EE7B7]"
     ]
   end
 
   defp color_variant("default", "warning") do
     [
       "bg-[#FFF8E6] text-[#FF8B08] border-[#FF8B08]",
-      "[&_.tab-trigger.active-tab]:text-[#FF8B08] [&_.tab-trigger.active-tab]:border-[#FF8B08]"
+      "[&_.tab-trigger.active-tab]:text-[#FF8B08] [&_.tab-trigger.active-tab]:border-[#FF8B08]",
+      "[&_.tab-trigger-list]:border-[#FF8B08]"
     ]
   end
 
   defp color_variant("default", "danger") do
     [
       "bg-[#FFE6E6] text-[#E73B3B] border-[#E73B3B]",
-      "[&_.tab-trigger.active-tab]:text-[#E73B3B] [&_.tab-trigger.active-tab]:border-[#E73B3B]"
+      "[&_.tab-trigger.active-tab]:text-[#E73B3B] [&_.tab-trigger.active-tab]:border-[#E73B3B]",
+      "[&_.tab-trigger-list]:border-[#E73B3B]"
     ]
   end
 
   defp color_variant("default", "info") do
     [
       "bg-[#E5F0FF] text-[#004FC4] border-[#004FC4]",
-      "[&_.tab-trigger.active-tab]:text-[#004FC4] [&_.tab-trigger.active-tab]:border-[#004FC4]"
+      "[&_.tab-trigger.active-tab]:text-[#004FC4] [&_.tab-trigger.active-tab]:border-[#004FC4]",
+      "[&_.tab-trigger-list]:border-[#004FC4]"
     ]
   end
 
   defp color_variant("default", "misc") do
     [
       "bg-[#FFE6FF] text-[#52059C] border-[#52059C]",
-      "[&_.tab-trigger.active-tab]:text-[#52059C] [&_.tab-trigger.active-tab]:border-[#52059C]"
+      "[&_.tab-trigger.active-tab]:text-[#52059C] [&_.tab-trigger.active-tab]:border-[#52059C]",
+      "[&_.tab-trigger-list]:border-[#52059C]"
     ]
   end
 
   defp color_variant("default", "dawn") do
     [
       "bg-[#FFECDA] text-[#4D4137] border-[#4D4137]",
-      "[&_.tab-trigger.active-tab]:text-[#4D4137] [&_.tab-trigger.active-tab]:border-[#4D4137]"
+      "[&_.tab-trigger.active-tab]:text-[#4D4137] [&_.tab-trigger.active-tab]:border-[#4D4137]",
+      "[&_.tab-trigger-list]:border-[#4D4137]"
     ]
   end
 
   defp color_variant("default", "light") do
     [
       "bg-[#E3E7F1] text-[#707483] border-[#707483]",
-      "[&_.tab-trigger.active-tab]:text-[#707483] [&_.tab-trigger.active-tab]:border-[#707483]"
+      "[&_.tab-trigger.active-tab]:text-[#707483] [&_.tab-trigger.active-tab]:border-[#707483]",
+      "[&_.tab-trigger-list]:border-[#707483]"
     ]
   end
 
   defp color_variant("default", "dark") do
     [
       "bg-[#1E1E1E] text-white border-[#050404]",
-      "[&_.tab-trigger.active-tab]:text-[#050404] [&_.tab-trigger.active-tab]:border-[#050404]"
+      "[&_.tab-trigger.active-tab]:text-[#050404] [&_.tab-trigger.active-tab]:border-[#050404]",
+      "[&_.tab-trigger-list]:border-[#050404]"
     ]
   end
 
