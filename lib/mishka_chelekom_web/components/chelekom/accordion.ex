@@ -32,7 +32,7 @@ defmodule MishkaChelekom.Accordion do
   attr :class, :string, default: nil, doc: ""
   attr :variant, :string, values: @variants, default: "default", doc: ""
   attr :space, :string, values: @sizes, default: "small", doc: ""
-  attr :color, :string, values: @colors, default: "white", doc: ""
+  attr :color, :string, values: @colors, default: "transparent", doc: ""
   attr :border, :string, values: @colors ++ ["transparent"], default: "transparent", doc: ""
   attr :padding, :string, values: @sizes ++ ["none"], default: "small", doc: ""
   attr :rounded, :string, values: @sizes ++ ["full", "none"], default: "none", doc: ""
@@ -45,6 +45,7 @@ defmodule MishkaChelekom.Accordion do
     attr :icon, :string
     attr :class, :string
     attr :image, :string
+    attr :hover, :string
     attr :image_class, :string
     attr :icon_class, :string
     attr :content_class, :string
@@ -222,7 +223,10 @@ defmodule MishkaChelekom.Accordion do
   defp native_chevron_position(%{position: "left"} = assigns) do
     ~H"""
     <div id={@id} class={[@class]} {@rest}>
-      <div class="flex flex-nowrap items-center rtl:justify-start ltr:justify-start gap-2">
+      <div class={[
+        "flex flex-nowrap items-center rtl:justify-start ltr:justify-start gap-2",
+        @item[:hover]
+      ]}>
         <.icon
           :if={!@hide_chevron}
           name={@chevron_icon}
@@ -258,7 +262,10 @@ defmodule MishkaChelekom.Accordion do
   defp native_chevron_position(%{position: "right"} = assigns) do
     ~H"""
     <div id={@id} class={[@class]} {@rest}>
-      <div class="flex items-center justify-between gap-2">
+      <div class={[
+        "flex items-center justify-between gap-2",
+        @item[:hover]
+      ]}>
         <div class="flex items-center gap-5">
           <img
             :if={!is_nil(@item[:image])}
