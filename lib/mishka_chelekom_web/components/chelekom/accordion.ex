@@ -35,7 +35,7 @@ defmodule MishkaChelekom.Accordion do
   attr :variant, :string, values: @variants, default: "default", doc: ""
   attr :space, :string, values: @sizes, default: "small", doc: ""
   attr :color, :string, values: @colors, default: "transparent", doc: ""
-  attr :border, :string, values: @colors ++ ["transparent"], default: "transparent", doc: ""
+  attr :border, :string, default: "transparent", doc: ""
   attr :padding, :string, default: "small", doc: ""
   attr :rounded, :string, default: "none", doc: ""
   attr :chevron_icon, :string, default: "hero-chevron-right", doc: ""
@@ -483,7 +483,7 @@ defmodule MishkaChelekom.Accordion do
 
   defp color_variant(_, "transparent") do
     [
-      "bg-transparent"
+      "bg-transparent border-transparent"
     ]
   end
 
