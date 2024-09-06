@@ -1,1 +1,41 @@
-<MishkaChelekom.Menu.menu />
+<MishkaChelekom.Menu.menu class="p-[5px]">
+  <li class="hover:bg-red-300">
+    <button>Dashaboard</button>
+  </li>
+
+  <li class="hover:bg-red-300">
+    <button>Inbox</button>
+  </li>
+
+  <li>
+    <MishkaChelekom.Accordion.accordion padding="none" id="accordion1" color="transparent">
+      <:item title="Menu item">
+        <ul>
+          <li class="hover:bg-red-300"><button>Products</button></li>
+
+          <li class="hover:bg-red-300"><button>Billing</button></li>
+
+          <MishkaChelekom.Accordion.accordion padding="none" id="accordion2" color="transparent">
+            <:item title="Invoice" class="hover:bg-red-300">
+              <ul>
+                <li class="hover:bg-red-300">Products</li>
+
+                <li class="hover:bg-red-300">Billing</li>
+
+                <li class="hover:bg-red-300">Invoice</li>
+              </ul>
+            </:item>
+          </MishkaChelekom.Accordion.accordion>
+        </ul>
+      </:item>
+    </MishkaChelekom.Accordion.accordion>
+  </li>
+
+  <li class="hover:bg-red-300">
+    <button>Inbox</button>
+  </li>
+
+  <li class="hover:bg-red-300">
+    <button>Inbox</button>
+  </li>
+</MishkaChelekom.Menu.menu>

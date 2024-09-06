@@ -408,7 +408,7 @@ defmodule MishkaChelekom.Accordion do
     ]
   end
 
-  defp padding_size("none"), do: "[&>.accordion-item-wrapper>.accordion-summary]:p-0"
+  defp padding_size("zero"), do: "[&>.accordion-item-wrapper>.accordion-summary]:p-0"
   defp padding_size(params) when is_binary(params), do: params
   defp padding_size(_), do: padding_size("small")
 
