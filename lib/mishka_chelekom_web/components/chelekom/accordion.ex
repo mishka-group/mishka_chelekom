@@ -3,7 +3,7 @@ defmodule MishkaChelekom.Accordion do
   import MishkaChelekomComponents
   alias Phoenix.LiveView.JS
 
-  #TODO: Hover styles of summary, look at menu examples
+  # TODO: Hover styles of summary, look at menu examples
   @sizes ["extra_small", "small", "medium", "large", "extra_large"]
   @variants [
     "default",
@@ -26,7 +26,7 @@ defmodule MishkaChelekom.Accordion do
     "info",
     "light",
     "misc",
-    "dawn",
+    "dawn"
   ]
 
   @doc type: :component
@@ -67,7 +67,7 @@ defmodule MishkaChelekom.Accordion do
     <div
       class={[
         "overflow-hidden w-full h-fit",
-        @variant == "menu" &&  menu_rounded(@rounded),
+        @variant == "menu" && menu_rounded(@rounded),
         @variant != "menu" && rounded_size(@rounded),
         color_variant(@variant, @color),
         space_class(@space, @variant),
@@ -176,7 +176,7 @@ defmodule MishkaChelekom.Accordion do
       id={@id}
       class={[
         "overflow-hidden",
-        @variant == "menu" &&  menu_rounded(@rounded),
+        @variant == "menu" && menu_rounded(@rounded),
         @variant != "menu" && rounded_size(@rounded),
         space_class(@space, @variant),
         padding_size(@padding),
@@ -254,12 +254,10 @@ defmodule MishkaChelekom.Accordion do
           />
 
           <div class={["space-y-2"]}>
-            <div
-              class={[
-                @item[:title_class],
-                @item[:font_weight]
-              ]}
-            >
+            <div class={[
+              @item[:title_class],
+              @item[:font_weight]
+            ]}>
               <%= @item[:title] %>
             </div>
 
@@ -294,12 +292,10 @@ defmodule MishkaChelekom.Accordion do
           />
 
           <div class={["space-y-2", @item[:title_class]]}>
-            <div
-              class={[
-                @item[:title_class],
-                @item[:font_weight]
-              ]}
-            >
+            <div class={[
+              @item[:title_class],
+              @item[:font_weight]
+            ]}>
               <%= @item[:title] %>
             </div>
 
@@ -360,33 +356,34 @@ defmodule MishkaChelekom.Accordion do
 
   defp size_class("extra_small") do
     [
-    "text-xs [&_.accordion-summary]:py-1 [&_.accordion-summary]:px-2"
+      "text-xs [&_.accordion-summary]:py-1 [&_.accordion-summary]:px-2"
     ]
   end
 
   defp size_class("small") do
     [
-    "text-sm [&_.accordion-summary]:py-1.5 [&_.accordion-summary]:px-3"
+      "text-sm [&_.accordion-summary]:py-1.5 [&_.accordion-summary]:px-3"
     ]
   end
 
   defp size_class("medium") do
     [
-    "text-base [&_.accordion-summary]:py-2 [&_.accordion-summary]:px-4",
+      "text-base [&_.accordion-summary]:py-2 [&_.accordion-summary]:px-4"
     ]
   end
 
   defp size_class("large") do
     [
-    "text-lg [&_.accordion-summary]:py-2.5 [&_.accordion-summary]:px-5",
+      "text-lg [&_.accordion-summary]:py-2.5 [&_.accordion-summary]:px-5"
     ]
   end
 
   defp size_class("extra_large") do
     [
-    "text-xl [&_.accordion-summary]:py-3 [&_.accordion-summary]:px-5",
+      "text-xl [&_.accordion-summary]:py-3 [&_.accordion-summary]:px-5"
     ]
   end
+
   defp size_class(params) when is_binary(params), do: params
   defp size_class(_), do: nil
 
