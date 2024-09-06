@@ -831,6 +831,7 @@ defmodule MishkaChelekom.Button do
     ]
   end
 
+  #TODO: Refactor width full
   defp size_class("full", _circle), do: ["py-2 px-4 w-full text-lg"]
 
   defp size_class(params, _circle) when is_binary(params), do: [params]

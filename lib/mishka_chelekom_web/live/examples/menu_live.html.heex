@@ -1,28 +1,112 @@
-<MishkaChelekom.Menu.menu class="p-[5px]">
-  <li class="hover:bg-red-300">
-    <button>Dashaboard</button>
-  </li>
-
-  <li class="hover:bg-red-300">
-    <button>Inbox</button>
+<MishkaChelekom.Menu.menu class="p-[5px] space-y-3 max-w-sm mx-auto">
+  <li>
+    <MishkaChelekom.Button.button_link
+      navigate="/"
+      size="small"
+      color="misc"
+      variant="unbordered"
+      rounded="large"
+      class="w-full block"
+      icon="hero-home"
+    >
+      Dashaboard
+    </MishkaChelekom.Button.button_link>
   </li>
 
   <li>
-    <MishkaChelekom.Accordion.accordion padding="none" id="accordion1">
-      <:item title="Menu item" hover="hover:bg-red-300 hover:text-white">
-        <ul>
-          <li class="hover:bg-red-300"><button>Products</button></li>
+    <MishkaChelekom.Button.button_link
+      size="small"
+      color="misc"
+      variant="unbordered"
+      rounded="large"
+      class="w-full block"
+      navigate="/example/footer"
+      icon="hero-server"
+    >
+      Footer
+    </MishkaChelekom.Button.button_link>
+  </li>
 
-          <li class="hover:bg-red-300"><button>Billing</button></li>
+  <li>
+    <MishkaChelekom.Accordion.accordion
+      padding="none"
+      id="accordion1"
+      size="small"
+      rounded="large"
+      color="misc"
+      variant="filled"
+    >
+      <:item title="Menu item" icon="hero-bookmark" icon_class="size-6">
+        <ul class="pl-5">
+          <MishkaChelekom.Button.button_link
+            navigate="/examples/indicator"
+            size="extra_small"
+            color="misc"
+            variant="unbordered"
+            rounded="large"
+            class="w-full block"
+            icon="hero-scissors"
+          >
+            Indicator
+          </MishkaChelekom.Button.button_link>
 
-          <MishkaChelekom.Accordion.accordion padding="none" id="accordion2">
-            <:item title="Invoice" hover="hover:bg-red-300 hover:text-white">
-              <ul>
-                <li class="hover:bg-red-300">Products</li>
+          <MishkaChelekom.Button.button_link
+            navigate="/examples/image"
+            size="extra_small"
+            color="misc"
+            variant="unbordered"
+            rounded="large"
+            class="w-full block"
+            icon="hero-scale"
+          >
+            Image
+          </MishkaChelekom.Button.button_link>
 
-                <li class="hover:bg-red-300">Billing</li>
+          <MishkaChelekom.Button.button_link
+            navigate="/examples/rating"
+            size="extra_small"
+            color="misc"
+            variant="unbordered"
+            rounded="large"
+            class="w-full block"
+            icon="hero-building-storefront"
+          >
+            Rating
+          </MishkaChelekom.Button.button_link>
 
-                <li class="hover:bg-red-300">Invoice</li>
+          <MishkaChelekom.Accordion.accordion
+            padding="none"
+            size="small"
+            rounded="large"
+            color="misc"
+            variant="filled"
+            id="accordion2"
+          >
+            <:item title="Invoice" icon="hero-calculator" icon_class="size-6">
+              <ul class="pl-5">
+                <MishkaChelekom.Button.button_link
+                  navigate="/examples/popover"
+                  size="extra_small"
+                  color="misc"
+                  variant="unbordered"
+                  rounded="large"
+                  class="w-full block"
+                  icon="hero-bolt"
+                >
+                  Popover
+                </MishkaChelekom.Button.button_link>
+
+                <MishkaChelekom.Button.button_link
+                  navigate="/examples/overlay"
+                  size="extra_small"
+                  color="misc"
+                  variant="unbordered"
+                  rounded="large"
+                  class="w-full block"
+                  icon="hero-shopping-bag"
+                >
+                  Overlay
+                </MishkaChelekom.Button.button_link>
               </ul>
             </:item>
           </MishkaChelekom.Accordion.accordion>
@@ -31,54 +115,31 @@
     </MishkaChelekom.Accordion.accordion>
   </li>
 
-  <li class="hover:bg-red-300">
-    <button>Inbox</button>
-  </li>
-
-  <li class="hover:bg-red-300">
-    <button>Inbox</button>
-  </li>
-</MishkaChelekom.Menu.menu>
-
-
-<MishkaChelekom.Menu.menu class="p-[5px] max-w-xl mx-auto">
-  <li class="hover:bg-red-300">
-    <button>Dashaboard</button>
-  </li>
-
-  <li class="hover:bg-red-300">
-    <button>Inbox</button>
+  <li>
+    <MishkaChelekom.Button.button_link
+      navigate="/example/modal"
+      size="small"
+      color="misc"
+      variant="unbordered"
+      rounded="large"
+      class="w-full block"
+      icon="hero-bell"
+    >
+      Modal
+    </MishkaChelekom.Button.button_link>
   </li>
 
   <li>
-    <MishkaChelekom.Accordion.accordion padding="none" id="accordion3">
-      <:item title="Menu item" hover="hover:bg-red-300 hover:text-white">
-        <ul class="ml-2">
-          <li class="hover:bg-red-300"><button>Products</button></li>
-
-          <li class="hover:bg-red-300"><button>Billing</button></li>
-
-          <MishkaChelekom.Accordion.accordion padding="none" id="accordion4">
-            <:item title="Invoice" hover="hover:bg-red-300 hover:text-white">
-              <ul class="ml-2">
-                <li class="hover:bg-red-300">Products</li>
-
-                <li class="hover:bg-red-300">Billing</li>
-
-                <li class="hover:bg-red-300">Invoice</li>
-              </ul>
-            </:item>
-          </MishkaChelekom.Accordion.accordion>
-        </ul>
-      </:item>
-    </MishkaChelekom.Accordion.accordion>
-  </li>
-
-  <li class="hover:bg-red-300">
-    <button>Inbox</button>
-  </li>
-
-  <li class="hover:bg-red-300">
-    <button>Inbox</button>
+    <MishkaChelekom.Button.button_link
+      navigate="/example/list"
+      size="small"
+      color="misc"
+      variant="unbordered"
+      rounded="large"
+      class="w-full block"
+      icon="hero-cake"
+    >
+      List
+    </MishkaChelekom.Button.button_link>
   </li>
 </MishkaChelekom.Menu.menu>

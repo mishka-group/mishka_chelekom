@@ -38,6 +38,7 @@ defmodule MishkaChelekom.Accordion do
   attr :rounded, :string, values: @sizes ++ ["full", "none"], default: "none", doc: ""
   attr :chevron_icon, :string, default: "hero-chevron-right", doc: ""
   attr :media_size, :string, values: @sizes, default: "small", doc: ""
+  attr :size, :string, default: nil, doc: ""
 
   slot :item, required: true do
     attr :title, :string, required: true
@@ -63,11 +64,12 @@ defmodule MishkaChelekom.Accordion do
     <div
       class={[
         "overflow-hidden w-full h-fit",
-        rounded_size(@rounded),
-        space_class(@space, @variant),
-        padding_size(@padding),
-        media_size(@media_size),
         color_variant(@variant, @color),
+        space_class(@space, @variant),
+        media_size(@media_size),
+        rounded_size(@rounded),
+        padding_size(@padding),
+        size_class(@size),
         @class
       ]}
       {drop_rest(@rest)}
@@ -230,10 +232,10 @@ defmodule MishkaChelekom.Accordion do
         <.icon
           :if={!@hide_chevron}
           name={@chevron_icon}
-          class="accordion-chevron w-5 transition-transform duration-300 ease-in-out group-open:rotate-90 rotate-180 rtl:rotate-0"
+          class="accordion-chevron size-5 transition-transform duration-300 ease-in-out group-open:rotate-90 rotate-180 rtl:rotate-0"
         />
 
-        <div class="flex items-center gap-5">
+        <div class="flex items-center gap-2">
           <img
             :if={!is_nil(@item[:image])}
             class={["accordion-title-media shrink-0", @item[:image_class]]}
@@ -266,7 +268,7 @@ defmodule MishkaChelekom.Accordion do
         "flex items-center justify-between gap-2",
         @item[:hover]
       ]}>
-        <div class="flex items-center gap-5">
+        <div class="flex items-center gap-2">
           <img
             :if={!is_nil(@item[:image])}
             class={["accordion-title-media shrink-0", @item[:image_class]]}
@@ -291,7 +293,7 @@ defmodule MishkaChelekom.Accordion do
         <.icon
           :if={!@hide_chevron}
           name={@chevron_icon}
-          class="accordion-chevron w-5 transition-transform duration-300 ease-in-out group-open:rotate-90 rtl:rotate-180"
+          class="accordion-chevron size-5 transition-transform duration-300 ease-in-out group-open:rotate-90 rtl:rotate-180"
         />
       </div>
     </div>
@@ -327,6 +329,38 @@ defmodule MishkaChelekom.Accordion do
   defp media_size("extra_large"), do: "[&>.accordion-item-wrapper_.accordion-title-media]:size-24"
   defp media_size(params) when is_binary(params), do: params
   defp media_size(_), do: media_size("small")
+
+  defp size_class("extra_small") do
+    [
+    "text-xs [&_.accordion-summary]:py-1 [&_.accordion-summary]:px-2"
+    ]
+  end
+
+  defp size_class("small") do
+    [
+    "text-sm [&_.accordion-summary]:py-1.5 [&_.accordion-summary]:px-3"
+    ]
+  end
+
+  defp size_class("medium") do
+    [
+    "text-base [&_.accordion-summary]:py-2 [&_.accordion-summary]:px-4",
+    ]
+  end
+
+  defp size_class("large") do
+    [
+    "text-lg [&_.accordion-summary]:py-2.5 [&_.accordion-summary]:px-5",
+    ]
+  end
+
+  defp size_class("extra_large") do
+    [
+    "text-xl [&_.accordion-summary]:py-3 [&_.accordion-summary]:px-5",
+    ]
+  end
+  defp size_class(params) when is_binary(params), do: params
+  defp size_class(_), do: nil
 
   defp rounded_size("extra_small") do
     [
