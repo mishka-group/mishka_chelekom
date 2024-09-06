@@ -99,6 +99,7 @@ defmodule MishkaChelekom.Button do
   attr :content_position, :string, default: "center", doc: ""
   attr :display, :string, default: "inline-flex", doc: ""
   attr :icon, :string, default: nil, doc: ""
+  attr :icon_class, :string, default: nil, doc: ""
   attr :font_weight, :string, default: "font-normal", doc: ""
   attr :indicator_class, :string, default: nil, doc: ""
   attr :indicator_size, :string, default: nil, doc: ""
@@ -132,9 +133,9 @@ defmodule MishkaChelekom.Button do
       {drop_rest(@rest)}
     >
       <.button_indicator position="left" size={@indicator_size} class={@indicator_class} {@rest} />
-      <.icon :if={icon_position(@icon, @rest) == "left"} name={@icon} />
+      <.icon :if={icon_position(@icon, @rest) == "left"} name={@icon} class={@icon_class} />
       <%= render_slot(@inner_block) %>
-      <.icon :if={icon_position(@icon, @rest) == "right"} name={@icon} />
+      <.icon :if={icon_position(@icon, @rest) == "right"} name={@icon} class={@icon_class} />
       <.button_indicator size={@indicator_size} class={@indicator_class} {@rest} />
     </button>
     """
@@ -151,6 +152,7 @@ defmodule MishkaChelekom.Button do
   attr :size, :string, default: "large", doc: ""
   attr :class, :string, default: nil, doc: ""
   attr :icon, :string, default: nil, doc: ""
+  attr :icon_class, :string, default: nil, doc: ""
   attr :font_weight, :string, default: "font-normal", doc: ""
   attr :indicator_class, :string, default: nil, doc: ""
   attr :indicator_size, :string, default: nil, doc: ""
@@ -181,9 +183,9 @@ defmodule MishkaChelekom.Button do
       {drop_rest(@rest)}
     >
       <.button_indicator position="left" size={@indicator_size} class={@indicator_class} {@rest} />
-      <.icon :if={icon_position(@icon, @rest) == "left"} name={@icon} />
+      <.icon :if={icon_position(@icon, @rest) == "left"} name={@icon} class={@icon_class} />
       <%= render_slot(@inner_block) %>
-      <.icon :if={icon_position(@icon, @rest) == "right"} name={@icon} />
+      <.icon :if={icon_position(@icon, @rest) == "right"} name={@icon} class={@icon_class} />
       <.button_indicator size={@indicator_size} class={@indicator_class} {@rest} />
     </.link>
     """

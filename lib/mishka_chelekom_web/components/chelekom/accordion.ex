@@ -9,7 +9,8 @@ defmodule MishkaChelekom.Accordion do
     "contained",
     "filled",
     "seperated",
-    "tinted_split"
+    "tinted_split",
+    "menu"
   ]
 
   @colors [
@@ -34,8 +35,8 @@ defmodule MishkaChelekom.Accordion do
   attr :space, :string, values: @sizes, default: "small", doc: ""
   attr :color, :string, values: @colors, default: "transparent", doc: ""
   attr :border, :string, values: @colors ++ ["transparent"], default: "transparent", doc: ""
-  attr :padding, :string, values: @sizes ++ ["none"], default: "small", doc: ""
-  attr :rounded, :string, values: @sizes ++ ["full", "none"], default: "none", doc: ""
+  attr :padding, :string, default: "small", doc: ""
+  attr :rounded, :string, default: "none", doc: ""
   attr :chevron_icon, :string, default: "hero-chevron-right", doc: ""
   attr :media_size, :string, values: @sizes, default: "small", doc: ""
   attr :size, :string, default: nil, doc: ""
@@ -64,10 +65,11 @@ defmodule MishkaChelekom.Accordion do
     <div
       class={[
         "overflow-hidden w-full h-fit",
+        @variant == "menu" &&  menu_rounded(@rounded),
+        @variant != "menu" && rounded_size(@rounded),
         color_variant(@variant, @color),
         space_class(@space, @variant),
         media_size(@media_size),
-        rounded_size(@rounded),
         padding_size(@padding),
         size_class(@size),
         @class
@@ -172,7 +174,8 @@ defmodule MishkaChelekom.Accordion do
       id={@id}
       class={[
         "overflow-hidden",
-        rounded_size(@rounded),
+        @variant == "menu" &&  menu_rounded(@rounded),
+        @variant != "menu" && rounded_size(@rounded),
         space_class(@space, @variant),
         padding_size(@padding),
         media_size(@media_size),
@@ -321,6 +324,15 @@ defmodule MishkaChelekom.Accordion do
   defp space_class("extra_large", _), do: "accordion-item-gap space-y-6"
   defp space_class(params, _) when is_binary(params), do: params
   defp space_class(_, _), do: nil
+
+  defp menu_rounded("extra_small"), do: "[&_.accordion-summary]:rounded-sm"
+  defp menu_rounded("small"), do: "[&_.accordion-summary]:rounded"
+  defp menu_rounded("medium"), do: "[&_.accordion-summary]:rounded-md"
+  defp menu_rounded("large"), do: "[&_.accordion-summary]:rounded-lg"
+  defp menu_rounded("extra_large"), do: "[&_.accordion-summary]:rounded-xl"
+  defp menu_rounded("full"), do: "[&_.accordion-summary]:rounded-full"
+  defp menu_rounded(params) when is_binary(params), do: params
+  defp menu_rounded(_), do: nil
 
   defp media_size("extra_small"), do: "[&>.accordion-item-wrapper_.accordion-title-media]:size-12"
   defp media_size("small"), do: "[&>.accordion-item-wrapper_.accordion-title-media]:size-14"
@@ -885,6 +897,72 @@ defmodule MishkaChelekom.Accordion do
     [
       "[&>.accordion-item-wrapper]:bg-white",
       "[&>.accordion-item-wrapper]:border [&>.accordion-item-wrapper]:border-[#1E1E1E]"
+    ]
+  end
+
+  defp color_variant("menu", "white") do
+    [
+      "[&>.accordion-item-wrapper_.accordion-summary]:bg-white text-[#3E3E3E]"
+    ]
+  end
+
+  defp color_variant("menu", "primary") do
+    [
+      "[&>.accordion-item-wrapper_.accordion-summary]:bg-[#4363EC] text-white"
+    ]
+  end
+
+  defp color_variant("menu", "secondary") do
+    [
+      "[&>.accordion-item-wrapper_.accordion-summary]:bg-[#6B6E7C] text-white"
+    ]
+  end
+
+  defp color_variant("menu", "success") do
+    [
+      "[&>.accordion-item-wrapper_.accordion-summary]:bg-[#ECFEF3] text-[#047857]"
+    ]
+  end
+
+  defp color_variant("menu", "warning") do
+    [
+      "[&>.accordion-item-wrapper_.accordion-summary]:bg-[#FFF8E6] text-[#FF8B08]"
+    ]
+  end
+
+  defp color_variant("menu", "danger") do
+    [
+      "[&>.accordion-item-wrapper_.accordion-summary]:bg-[#FFE6E6] text-[#E73B3B]"
+    ]
+  end
+
+  defp color_variant("menu", "info") do
+    [
+      "[&>.accordion-item-wrapper_.accordion-summary]:bg-[#E5F0FF] text-[#004FC4]"
+    ]
+  end
+
+  defp color_variant("menu", "misc") do
+    [
+      "[&>.accordion-item-wrapper_.accordion-summary]:bg-[#FFE6FF] text-[#52059C]"
+    ]
+  end
+
+  defp color_variant("menu", "dawn") do
+    [
+      "[&>.accordion-item-wrapper_.accordion-summary]:bg-[#FFECDA] text-[#4D4137]"
+    ]
+  end
+
+  defp color_variant("menu", "light") do
+    [
+      "[&>.accordion-item-wrapper_.accordion-summary]:bg-[#E3E7F1] text-[#707483]"
+    ]
+  end
+
+  defp color_variant("menu", "dark") do
+    [
+      "[&>.accordion-item-wrapper_.accordion-summary]:bg-[#1E1E1E] text-white"
     ]
   end
 
