@@ -151,6 +151,7 @@ defmodule MishkaChelekom.Button do
   attr :rounded, :string, values: @sizes ++ ["full", "none"], default: "large", doc: ""
   attr :size, :string, default: "large", doc: ""
   attr :class, :string, default: nil, doc: ""
+  attr :display, :string, default: "inline-flex", doc: ""
   attr :icon, :string, default: nil, doc: ""
   attr :icon_class, :string, default: nil, doc: ""
   attr :font_weight, :string, default: "font-normal", doc: ""
@@ -177,6 +178,7 @@ defmodule MishkaChelekom.Button do
             color_variant(@variant, @color),
             rounded_size(@rounded),
             @font_weight,
+            @display,
             @class
           ]
       }

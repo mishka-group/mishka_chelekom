@@ -3,6 +3,7 @@ defmodule MishkaChelekom.Accordion do
   import MishkaChelekomComponents
   alias Phoenix.LiveView.JS
 
+  #TODO: Hover styles of summary, look at menu examples
   @sizes ["extra_small", "small", "medium", "large", "extra_large"]
   @variants [
     "default",
@@ -53,6 +54,7 @@ defmodule MishkaChelekom.Accordion do
     attr :content_class, :string
     attr :title_class, :string
     attr :summary_class, :string
+    attr :font_weight, :string
     attr :open, :boolean
   end
 
@@ -251,8 +253,15 @@ defmodule MishkaChelekom.Accordion do
             class={@item[:icon_class] || "accordion-title-media"}
           />
 
-          <div class={["space-y-2", @item[:title_class]]}>
-            <div><%= @item[:title] %></div>
+          <div class={["space-y-2"]}>
+            <div
+              class={[
+                @item[:title_class],
+                @item[:font_weight]
+              ]}
+            >
+              <%= @item[:title] %>
+            </div>
 
             <div :if={!is_nil(@item[:description])} class="text-xs font-light">
               <%= @item[:description] %>
@@ -285,7 +294,14 @@ defmodule MishkaChelekom.Accordion do
           />
 
           <div class={["space-y-2", @item[:title_class]]}>
-            <div><%= @item[:title] %></div>
+            <div
+              class={[
+                @item[:title_class],
+                @item[:font_weight]
+              ]}
+            >
+              <%= @item[:title] %>
+            </div>
 
             <div :if={!is_nil(@item[:description])} class="text-xs font-light">
               <%= @item[:description] %>
