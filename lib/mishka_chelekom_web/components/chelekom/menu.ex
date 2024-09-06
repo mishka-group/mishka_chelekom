@@ -56,10 +56,24 @@ defmodule MishkaChelekom.Menu do
                   <ul>
                       <li>Products</li>
                       <li>Billing</li>
+                      <MishkaChelekom.Accordion.accordion id="accordion2" color="transparent">
+              <:item title="Menu item">
+                  <ul>
+                      <li>Products</li>
+                      <li>Billing</li>
                       <li>Invoice</li>
                   </ul>
               </:item>
           </MishkaChelekom.Accordion.accordion>
+                  </ul>
+              </:item>
+          </MishkaChelekom.Accordion.accordion>
+      </li>
+      <li>
+      <a>Inbox</a>
+      </li>
+      <li>
+      <a>Inbox</a>
       </li>
     </ul>
 
