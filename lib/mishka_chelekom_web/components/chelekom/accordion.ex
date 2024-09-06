@@ -11,6 +11,7 @@ defmodule MishkaChelekom.Accordion do
     "filled",
     "seperated",
     "tinted_split",
+    "transparent",
     "menu"
   ]
 
@@ -26,7 +27,6 @@ defmodule MishkaChelekom.Accordion do
     "light",
     "misc",
     "dawn",
-    "transparent"
   ]
 
   @doc type: :component
@@ -34,7 +34,7 @@ defmodule MishkaChelekom.Accordion do
   attr :class, :string, default: nil, doc: ""
   attr :variant, :string, values: @variants, default: "default", doc: ""
   attr :space, :string, values: @sizes, default: "small", doc: ""
-  attr :color, :string, values: @colors, default: "transparent", doc: ""
+  attr :color, :string, values: @colors, default: "white", doc: ""
   attr :border, :string, default: "transparent", doc: ""
   attr :padding, :string, default: "small", doc: ""
   attr :rounded, :string, default: "none", doc: ""
@@ -146,7 +146,7 @@ defmodule MishkaChelekom.Accordion do
   attr :variant, :string, values: @variants, default: "default", doc: ""
   attr :space, :string, values: @sizes, default: "small", doc: ""
   attr :color, :string, default: "white", doc: ""
-  attr :border, :string, values: @colors ++ ["transparent"], default: "transparent", doc: ""
+  attr :border, :string, default: "transparent", doc: ""
   attr :padding, :string, values: @sizes ++ ["none"], default: "small", doc: ""
   attr :rounded, :string, values: @sizes ++ ["full", "none"], default: "none", doc: ""
   attr :media_size, :string, values: @sizes, default: "small", doc: ""
@@ -481,9 +481,69 @@ defmodule MishkaChelekom.Accordion do
   defp padding_size(params) when is_binary(params), do: params
   defp padding_size(_), do: padding_size("small")
 
-  defp color_variant(_, "transparent") do
+  defp color_variant("transparent", "white") do
     [
-      "bg-transparent border-transparent"
+      "bg-transparent border-transparent text-white"
+    ]
+  end
+
+  defp color_variant("transparent", "primary") do
+    [
+      "bg-transparent border-transparent text-[#4363EC]"
+    ]
+  end
+
+  defp color_variant("transparent", "secondary") do
+    [
+      "bg-transparent border-transparent text-[#6B6E7C]"
+    ]
+  end
+
+  defp color_variant("transparent", "success") do
+    [
+      "bg-transparent border-transparent text-[#227A52]"
+    ]
+  end
+
+  defp color_variant("transparent", "warning") do
+    [
+      "bg-transparent border-transparent text-[#FF8B08]"
+    ]
+  end
+
+  defp color_variant("transparent", "danger") do
+    [
+      "bg-transparent border-transparent text-[#E73B3B]"
+    ]
+  end
+
+  defp color_variant("transparent", "info") do
+    [
+      "bg-transparent border-transparent text-[#6663FD]"
+    ]
+  end
+
+  defp color_variant("transparent", "misc") do
+    [
+      "bg-transparent border-transparent text-[#52059C]"
+    ]
+  end
+
+  defp color_variant("transparent", "dawn") do
+    [
+      "bg-transparent border-transparent text-[#4D4137]"
+    ]
+  end
+
+  defp color_variant("transparent", "light") do
+    [
+      "bg-transparent border-transparent text-[#707483]"
+    ]
+  end
+
+  defp color_variant("transparent", "dark") do
+    [
+      "bg-transparent border-transparent text-[#1E1E1E]"
     ]
   end
 
