@@ -138,7 +138,7 @@ defmodule MishkaChelekom.Accordion do
   attr :class, :string, default: nil, doc: ""
   attr :variant, :string, values: @variants, default: "default", doc: ""
   attr :space, :string, values: @sizes, default: "small", doc: ""
-  attr :color, :string, values: @colors, default: "white", doc: ""
+  attr :color, :string, default: "white", doc: ""
   attr :border, :string, values: @colors ++ ["transparent"], default: "transparent", doc: ""
   attr :padding, :string, values: @sizes ++ ["none"], default: "small", doc: ""
   attr :rounded, :string, values: @sizes ++ ["full", "none"], default: "none", doc: ""
@@ -411,6 +411,12 @@ defmodule MishkaChelekom.Accordion do
   defp padding_size("none"), do: "[&>.accordion-item-wrapper>.accordion-summary]:p-0"
   defp padding_size(params) when is_binary(params), do: params
   defp padding_size(_), do: padding_size("small")
+
+  defp color_variant(_, "transparent") do
+    [
+      "bg-transparent"
+    ]
+  end
 
   defp color_variant("default", "white") do
     [
