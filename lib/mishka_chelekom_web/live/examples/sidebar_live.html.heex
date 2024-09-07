@@ -1,4 +1,9 @@
-<MishkaChelekom.Sidebar.sidebar id="acc-left" size="extra_small" color="dark">
+<div class=" mx-auto w-fit pt-10">
+    <button class="p-5 mx-5 bg-gray-200">close Left</button>
+    <button class="p-5 mx-5 bg-gray-200">close Right</button>
+</div>
+
+<MishkaChelekom.Sidebar.sidebar id="acc-left" size="extra_small" color="dark" hide_position="left">
 <MishkaChelekom.Menu.menu class="px-[5px] py-10 space-y-3">
     <li>
       <MishkaChelekom.Button.button_link
@@ -39,7 +44,7 @@
         variant="transparent"
         id="accordion17"
       >
-        <:item title="Menu item" icon_class="size-5" icon="hero-bookmark" icon_class="size-5">
+        <:item title="Menu item" icon_class="size-5" icon="hero-bookmark">
           <ul class="pl-5 space-y-3 mt-3">
             <MishkaChelekom.Button.button_link
               navigate="/examples/indicator"

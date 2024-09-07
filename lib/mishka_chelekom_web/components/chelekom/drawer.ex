@@ -59,10 +59,12 @@ defmodule MishkaChelekom.Drawer do
         size_class(@size, @position),
         position_class(@position),
         border_class(@border, @position),
-        color_variant(@variant, @color)
+        color_variant(@variant, @color),
+        @class
       ]}
       tabindex="-1"
       aria-labelledby={"#{@id}-#{@position}-label"}
+      {@rest}
     >
       <div class="flex flex-row-reverse justify-between items-center gap-5 mb-2">
         <button type="button" phx-click={JS.exec(@on_hide, "phx-remove", to: "##{@id}")}>
@@ -84,6 +86,12 @@ defmodule MishkaChelekom.Drawer do
     </div>
     """
   end
+
+
+  defp translate_position("left"), do: "-translate-x-full"
+  defp translate_position("right"), do: "translate-x-full"
+  defp translate_position("bottom"), do: "translate-y-full"
+  defp translate_position("top"), do: "-translate-y-full"
 
   defp position_class("left"), do: "top-0 left-0 h-screen"
   defp position_class("right"), do: "top-0 right-0 h-screen"
@@ -364,11 +372,6 @@ defmodule MishkaChelekom.Drawer do
   defp color_variant("transparent", "dark") do
     "bg-transparent text-[#1E1E1E] border-transparent"
   end
-
-  defp translate_position("left"), do: "-translate-x-full"
-  defp translate_position("right"), do: "translate-x-full"
-  defp translate_position("bottom"), do: "translate-y-full"
-  defp translate_position("top"), do: "-translate-y-full"
 
   def show_drawer(js \\ %JS{}, id, position) when is_binary(id) do
     JS.remove_class(js, translate_position(position), to: "##{id}")

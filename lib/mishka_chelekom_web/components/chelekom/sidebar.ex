@@ -1,5 +1,6 @@
 defmodule MishkaChelekom.Sidebar do
   use Phoenix.Component
+  import MishkaChelekomComponents
 
   @colors [
     "white",
@@ -31,6 +32,7 @@ defmodule MishkaChelekom.Sidebar do
   attr :border, :string, default: "extra_small", doc: ""
   attr :rounded, :string, default: nil, doc: ""
   attr :position, :string, default: "start", doc: ""
+  attr :hide_position, :string, default: nil, doc: ""
   attr :space, :string, default: nil, doc: ""
   attr :padding, :string, default: "none", doc: ""
   attr :class, :string, default: nil, doc: ""
@@ -45,19 +47,32 @@ defmodule MishkaChelekom.Sidebar do
       class={[
         "fixed h-screen transition-transform",
         border_class(@border, @position),
+        hide_position(@hide_position),
         color_variant(@variant, @color),
         position_class(@position),
         size_class(@size),
+        @class
       ]}
       aria-label="Sidebar"
       {@rest}
     >
       <div class="h-full overflow-y-auto">
+      <div class="flex justify-end pt-2 px-2 mb-1 sm:hidden">
+        <button type="button">
+          <.icon name="hero-x-mark" />
+          <span class="sr-only">Close Sidebar</span>
+        </button>
+      </div>
         <%= render_slot(@inner_block) %>
       </div>
     </aside>
     """
   end
+
+
+  defp hide_position("left"), do: "-translate-x-full sm:translate-x-0"
+  defp hide_position("right"), do: "translate-x-full sm:translate-x-0"
+  defp hide_position(_), do: nil
 
   defp position_class("start"), do: "top-0 start-0"
   defp position_class("end"), do: "top-0 end-0"
