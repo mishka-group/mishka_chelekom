@@ -63,12 +63,12 @@ defmodule MishkaChelekom.Sidebar do
       {@rest}
     >
       <div class="h-full overflow-y-auto">
-      <div class="flex justify-end pt-2 px-2 mb-1 md:hidden">
-        <button type="button" phx-click={JS.exec(@on_hide, "phx-remove", to: "##{@id}")}>
-          <.icon name="hero-x-mark" />
-          <span class="sr-only">Close menu</span>
-        </button>
-      </div>
+        <div class="flex justify-end pt-2 px-2 mb-1 md:hidden">
+          <button type="button" phx-click={JS.exec(@on_hide, "phx-remove", to: "##{@id}")}>
+            <.icon name="hero-x-mark" />
+            <span class="sr-only">Close menu</span>
+          </button>
+        </div>
         <%= render_slot(@inner_block) %>
       </div>
     </aside>

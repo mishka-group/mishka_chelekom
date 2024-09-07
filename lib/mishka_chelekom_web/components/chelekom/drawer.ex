@@ -87,7 +87,6 @@ defmodule MishkaChelekom.Drawer do
     """
   end
 
-
   defp translate_position("left"), do: "-translate-x-full"
   defp translate_position("right"), do: "translate-x-full"
   defp translate_position("bottom"), do: "translate-y-full"
