@@ -82,14 +82,15 @@ defmodule MishkaChelekom.Dropdown do
   slot :inner_block, required: false, doc: ""
 
   # TODO: Add max-height and scroll
+
   def dropdown_content(assigns) do
     ~H"""
     <div
       id={@id}
       class={[
         "dropdown-content absolute z-20 transition-all ease-in-out delay-100 duratio-500 w-full",
-        "invisible opacity-0",
         "top-full left-1/2 -translate-x-1/2 translate-y-[6px]",
+        "invisible opacity-0",
         space_class(@space),
         color_variant(@variant, @color),
         rounded_size(@rounded),

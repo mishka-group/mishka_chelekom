@@ -59,6 +59,7 @@ defmodule MishkaChelekomComponents do
         Toast,
         Tooltip,
         ToggleInput,
+        TableContent,
         Video
       }
     end
