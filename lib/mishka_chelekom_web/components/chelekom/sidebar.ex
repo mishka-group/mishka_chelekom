@@ -40,7 +40,6 @@ defmodule MishkaChelekom.Sidebar do
   attr :on_hide, JS, default: %JS{}
   attr :on_show, JS, default: %JS{}
   attr :on_hide_away, JS, default: %JS{}
-  attr :show, :boolean, default: false
   attr :rest, :global, doc: ""
   slot :inner_block, required: false, doc: ""
 
@@ -50,7 +49,6 @@ defmodule MishkaChelekom.Sidebar do
     <aside
       id={@id}
       phx-click-away={hide_sidebar(@on_hide_away, @id, @hide_position)}
-      phx-mounted={@show && show_sidebar(@on_show, @id, @hide_position)}
       phx-remove={hide_sidebar(@id, @hide_position)}
       class={[
         "fixed h-screen transition-transform",
