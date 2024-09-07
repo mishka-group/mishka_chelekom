@@ -25,12 +25,12 @@ defmodule MishkaChelekom.TableContent do
         rounded_size(@rounded),
         border_class(@border),
         space_size(@space),
-        size_class(@size),
+        size_class(@size)
       ]}
       {@rest}
     >
-        <h5 class="font-semibold text-sm leading-6"><%= @title %></h5>
-        <%= render_slot(@inner_block) %>
+      <h5 class="font-semibold text-sm leading-6"><%= @title %></h5>
+      <%= render_slot(@inner_block) %>
     </div>
     """
   end
@@ -83,7 +83,11 @@ defmodule MishkaChelekom.TableContent do
     >
       <div :if={!is_nil(@title)}><%= @title %></div>
       <div class="flex items-center transition-all hover:font-bold">
-        <.icon :if={!is_nil(@icon)} name={@icon} class={["content-icon me-2 inline-block", @icon_class]} />
+        <.icon
+          :if={!is_nil(@icon)}
+          name={@icon}
+          class={["content-icon me-2 inline-block", @icon_class]}
+        />
         <%= render_slot(@inner_block) %>
       </div>
     </div>
@@ -162,133 +166,133 @@ defmodule MishkaChelekom.TableContent do
 
   defp color_variant("default", "white") do
     [
-      "bg-white border-[#DADADA] text-[#3E3E3E]",
+      "bg-white border-[#DADADA] text-[#3E3E3E]"
     ]
   end
 
   defp color_variant("default", "primary") do
     [
-      "bg-[#4363EC] text-white border-[#2441de]",
+      "bg-[#4363EC] text-white border-[#2441de]"
     ]
   end
 
   defp color_variant("default", "secondary") do
     [
-      "bg-[#6B6E7C] text-white border-[#877C7C]",
+      "bg-[#6B6E7C] text-white border-[#877C7C]"
     ]
   end
 
   defp color_variant("default", "success") do
     [
-      "bg-[#ECFEF3] border-[#227A52]",
+      "bg-[#ECFEF3] border-[#227A52]"
     ]
   end
 
   defp color_variant("default", "warning") do
     [
-      "bg-[#FFF8E6] border-[#FF8B08]",
+      "bg-[#FFF8E6] border-[#FF8B08]"
     ]
   end
 
   defp color_variant("default", "danger") do
     [
-      "bg-[#FFE6E6] border-[#E73B3B]",
+      "bg-[#FFE6E6] border-[#E73B3B]"
     ]
   end
 
   defp color_variant("default", "info") do
     [
-      "bg-[#E5F0FF] border-[#004FC4]",
+      "bg-[#E5F0FF] border-[#004FC4]"
     ]
   end
 
   defp color_variant("default", "misc") do
     [
-      "bg-[#FFE6FF] border-[#52059C]",
+      "bg-[#FFE6FF] border-[#52059C]"
     ]
   end
 
   defp color_variant("default", "dawn") do
     [
-      "bg-[#FFECDA] border-[#4D4137]",
+      "bg-[#FFECDA] border-[#4D4137]"
     ]
   end
 
   defp color_variant("default", "light") do
     [
-      "bg-[#E3E7F1] border-[#707483]",
+      "bg-[#E3E7F1] border-[#707483]"
     ]
   end
 
   defp color_variant("default", "dark") do
     [
-      "bg-[#1E1E1E] text-white border-[#1E1E1E]",
+      "bg-[#1E1E1E] text-white border-[#1E1E1E]"
     ]
   end
 
   defp color_variant("outline", "white") do
     [
-      "text-[#DADADA] border border-[#DADADA]",
+      "text-[#DADADA] border border-[#DADADA]"
     ]
   end
 
   defp color_variant("outline", "primary") do
     [
-      "text-[#2441de] border border-[#2441de]",
+      "text-[#2441de] border border-[#2441de]"
     ]
   end
 
   defp color_variant("outline", "secondary") do
     [
-      "text-[#877C7C] border border-[#877C7C]",
+      "text-[#877C7C] border border-[#877C7C]"
     ]
   end
 
   defp color_variant("outline", "success") do
     [
-      "text-[#227A52] border border-[#227A52]",
+      "text-[#227A52] border border-[#227A52]"
     ]
   end
 
   defp color_variant("outline", "warning") do
     [
-      "text-[#FF8B08] border border-[#FF8B08]",
+      "text-[#FF8B08] border border-[#FF8B08]"
     ]
   end
 
   defp color_variant("outline", "danger") do
     [
-      "text-[#E73B3B] border border-[#E73B3B]",
+      "text-[#E73B3B] border border-[#E73B3B]"
     ]
   end
 
   defp color_variant("outline", "info") do
     [
-      "text-[#004FC4] border border-[#004FC4]",
+      "text-[#004FC4] border border-[#004FC4]"
     ]
   end
 
   defp color_variant("outline", "misc") do
     [
-      "text-[#52059C] border border-[#52059C]",
+      "text-[#52059C] border border-[#52059C]"
     ]
   end
 
   defp color_variant("outline", "dawn") do
     [
-      "text-[#4D4137] border border-[#4D4137]",
+      "text-[#4D4137] border border-[#4D4137]"
     ]
   end
 
   defp color_variant("outline", "light") do
     [
-      "text-[#707483] border border-[#707483]",
+      "text-[#707483] border border-[#707483]"
     ]
   end
 
   defp color_variant("outline", "dark") do
     [
-      "text-[#1E1E1E] border border-[#1E1E1E]",
+      "text-[#1E1E1E] border border-[#1E1E1E]"
     ]
   end
 
