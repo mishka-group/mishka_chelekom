@@ -1,9 +1,9 @@
 <div class=" mx-auto w-fit pt-10">
-    <button class="p-5 mx-5 bg-gray-200 sm:hidden">open Left</button>
-    <button class="p-5 mx-5 bg-gray-200 sm:hidden">open Right</button>
+    <button class="p-5 mx-5 bg-gray-200 sm:hidden" phx-click={MishkaChelekom.Sidebar.show_sidebar("left-sidebar", "left")}>open Left</button>
+    <button class="p-5 mx-5 bg-gray-200 sm:hidden" phx-click={MishkaChelekom.Sidebar.show_sidebar("right-sidebar", "right")}>open Right</button>
 </div>
 
-<MishkaChelekom.Sidebar.sidebar id="acc-left" size="extra_small" color="dark" hide_position="left">
+<MishkaChelekom.Sidebar.sidebar show={true} id="left-sidebar" size="extra_small" color="dark" hide_position="left">
 <MishkaChelekom.Menu.menu class="px-[5px] py-10 space-y-3">
     <li>
       <MishkaChelekom.Button.button_link
@@ -214,7 +214,7 @@
 <div dir="rtl">
 
 <!-- end -->
-<MishkaChelekom.Sidebar.sidebar size="extra_large" position="start" color="light" hide_position="right">
+<MishkaChelekom.Sidebar.sidebar show={true} id="right-sidebar" size="extra_large" position="start" color="light" hide_position="right">
 <MishkaChelekom.Menu.menu class="px-[20px] py-10 space-y-3">
     <li>
       <MishkaChelekom.Button.button_link

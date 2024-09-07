@@ -1,6 +1,7 @@
 defmodule MishkaChelekom.Sidebar do
   use Phoenix.Component
   import MishkaChelekomComponents
+  alias Phoenix.LiveView.JS
 
   @colors [
     "white",
@@ -25,7 +26,7 @@ defmodule MishkaChelekom.Sidebar do
   ]
 
   @doc type: :component
-  attr :id, :string, default: nil, doc: ""
+  attr :id, :string, required: true, doc: ""
   attr :variant, :string, values: @variants, default: "default", doc: ""
   attr :color, :string, values: @colors, default: "white", doc: ""
   attr :size, :string, default: "large", doc: ""
@@ -36,6 +37,10 @@ defmodule MishkaChelekom.Sidebar do
   attr :space, :string, default: nil, doc: ""
   attr :padding, :string, default: "none", doc: ""
   attr :class, :string, default: nil, doc: ""
+  attr :on_hide, JS, default: %JS{}
+  attr :on_show, JS, default: %JS{}
+  attr :on_hide_away, JS, default: %JS{}
+  attr :show, :boolean, default: false
   attr :rest, :global, doc: ""
   slot :inner_block, required: false, doc: ""
 
@@ -44,6 +49,9 @@ defmodule MishkaChelekom.Sidebar do
     ~H"""
     <aside
       id={@id}
+      phx-click-away={hide_sidebar(@on_hide_away, @id, @hide_position)}
+      phx-mounted={@show && show_sidebar(@on_show, @id, @hide_position)}
+      phx-remove={hide_sidebar(@id, @hide_position)}
       class={[
         "fixed h-screen transition-transform",
         border_class(@border, @position),
@@ -57,10 +65,10 @@ defmodule MishkaChelekom.Sidebar do
       {@rest}
     >
       <div class="h-full overflow-y-auto">
-      <div class="flex justify-end pt-2 px-2 mb-1 sm:hidden">
-        <button type="button">
+      <div class="flex justify-end pt-2 px-2 mb-1 md:hidden">
+        <button type="button" phx-click={JS.exec(@on_hide, "phx-remove", to: "##{@id}")}>
           <.icon name="hero-x-mark" />
-          <span class="sr-only">Close Sidebar</span>
+          <span class="sr-only">Close menu</span>
         </button>
       </div>
         <%= render_slot(@inner_block) %>
@@ -69,9 +77,18 @@ defmodule MishkaChelekom.Sidebar do
     """
   end
 
+  def show_sidebar(js \\ %JS{}, id, position) when is_binary(id) do
+    JS.remove_class(js, hide_position(position), to: "##{id}")
+    |> JS.add_class("transform-none", to: "##{id}")
+  end
 
-  defp hide_position("left"), do: "-translate-x-full sm:translate-x-0"
-  defp hide_position("right"), do: "translate-x-full sm:translate-x-0"
+  def hide_sidebar(js \\ %JS{}, id, position) do
+    JS.remove_class(js, "transform-none", to: "##{id}")
+    |> JS.add_class(hide_position(position), to: "##{id}")
+  end
+
+  defp hide_position("left"), do: "-translate-x-full md:translate-x-0"
+  defp hide_position("right"), do: "translate-x-full md:translate-x-0"
   defp hide_position(_), do: nil
 
   defp position_class("start"), do: "top-0 start-0"
