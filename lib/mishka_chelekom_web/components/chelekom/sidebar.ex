@@ -24,13 +24,13 @@ defmodule MishkaChelekom.Sidebar do
   ]
 
   @doc type: :component
-  attr :id, :string, required: true, doc: ""
+  attr :id, :string, default: nil, doc: ""
   attr :variant, :string, values: @variants, default: "default", doc: ""
   attr :color, :string, values: @colors, default: "white", doc: ""
   attr :size, :string, default: "large", doc: ""
   attr :border, :string, default: "extra_small", doc: ""
   attr :rounded, :string, default: nil, doc: ""
-  attr :position, :string, default: "left", doc: ""
+  attr :position, :string, default: "start", doc: ""
   attr :space, :string, default: nil, doc: ""
   attr :padding, :string, default: "none", doc: ""
   attr :class, :string, default: nil, doc: ""
@@ -43,11 +43,11 @@ defmodule MishkaChelekom.Sidebar do
     <aside
       id={@id}
       class={[
-        "fixed h-screen transition-transform -translate-x-full sm:translate-x-0",
-        size_class(@size, @position),
-        position_class(@position),
+        "fixed h-screen transition-transform",
         border_class(@border, @position),
-        color_variant(@variant, @color)
+        color_variant(@variant, @color),
+        position_class(@position),
+        size_class(@size),
       ]}
       aria-label="Sidebar"
       {@rest}
@@ -65,56 +65,28 @@ defmodule MishkaChelekom.Sidebar do
   defp position_class(_), do: position_class("start")
 
   defp border_class("none", _), do: "border-0"
-  defp border_class("extra_small", "left"), do: "border-r"
-  defp border_class("small", "left"), do: "border-r-2"
-  defp border_class("medium", "left"), do: "border-r-[3px]"
-  defp border_class("large", "left"), do: "border-r-4"
-  defp border_class("extra_large", "left"), do: "border-r-[5px]"
+  defp border_class("extra_small", "start"), do: "border-e"
+  defp border_class("small", "start"), do: "border-e-2"
+  defp border_class("medium", "start"), do: "border-e-[3px]"
+  defp border_class("large", "start"), do: "border-e-4"
+  defp border_class("extra_large", "start"), do: "border-e-[5px]"
 
-  defp border_class("extra_small", "right"), do: "border-l"
-  defp border_class("small", "right"), do: "border-l-2"
-  defp border_class("medium", "right"), do: "border-l-[3px]"
-  defp border_class("large", "right"), do: "border-l-4"
-  defp border_class("extra_large", "right"), do: "border-l-[5px]"
-
-  defp border_class("extra_small", "top"), do: "border-b"
-  defp border_class("small", "top"), do: "border-b-2"
-  defp border_class("medium", "top"), do: "border-b-[3px]"
-  defp border_class("large", "top"), do: "border-b-4"
-  defp border_class("extra_large", "top"), do: "border-b-[5px]"
-
-  defp border_class("extra_small", "bottom"), do: "border-t"
-  defp border_class("small", "bottom"), do: "border-t-2"
-  defp border_class("medium", "bottom"), do: "border-t-[3px]"
-  defp border_class("large", "bottom"), do: "border-t-4"
-  defp border_class("extra_large", "bottom"), do: "border-t-[5px]"
+  defp border_class("extra_small", "end"), do: "border-s"
+  defp border_class("small", "end"), do: "border-s-2"
+  defp border_class("medium", "end"), do: "border-s-[3px]"
+  defp border_class("large", "end"), do: "border-s-4"
+  defp border_class("extra_large", "end"), do: "border-s-[5px]"
 
   defp border_class(params, _) when is_binary(params), do: params
-  defp border_class(_, _), do: border_class("extra_small", "left")
+  defp border_class(_, _), do: border_class("extra_small", "start")
 
-  defp size_class("extra_small", "left"), do: "w-60"
-  defp size_class("small", "left"), do: "w-64"
-  defp size_class("medium", "left"), do: "w-72"
-  defp size_class("large", "left"), do: "w-80"
-  defp size_class("extra_large", "left"), do: "w-96"
-
-  defp size_class("extra_small", "right"), do: "w-60"
-  defp size_class("small", "right"), do: "w-64"
-  defp size_class("medium", "right"), do: "w-72"
-  defp size_class("large", "right"), do: "w-80"
-  defp size_class("extra_large", "right"), do: "w-96"
-
-  defp size_class("extra_small", "top"), do: "min-h-32"
-  defp size_class("small", "top"), do: "min-h-36"
-  defp size_class("medium", "top"), do: "min-h-40"
-  defp size_class("large", "top"), do: "min-h-44"
-  defp size_class("extra_large", "top"), do: "min-h-48"
-
-  defp size_class("extra_small", "bottom"), do: "min-h-32"
-  defp size_class("small", "bottom"), do: "min-h-36"
-  defp size_class("medium", "bottom"), do: "min-h-40"
-  defp size_class("large", "bottom"), do: "min-h-44"
-  defp size_class("extra_large", "bottom"), do: "min-h-48"
+  defp size_class("extra_small"), do: "w-60"
+  defp size_class("small"), do: "w-64"
+  defp size_class("medium"), do: "w-72"
+  defp size_class("large"), do: "w-80"
+  defp size_class("extra_large"), do: "w-96"
+  defp size_class(params) when is_binary(params), do: params
+  defp size_class(_), do: size_class("large")
 
   defp color_variant("default", "white") do
     "bg-white text-[#3E3E3E] border-[#DADADA]"
