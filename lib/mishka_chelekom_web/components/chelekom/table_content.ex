@@ -1,6 +1,7 @@
 defmodule MishkaChelekom.TableContent do
   use Phoenix.Component
   import MishkaChelekomComponents
+  alias Phoenix.LiveView.JS
 
   @doc type: :component
   attr :id, :string, default: nil, doc: ""
@@ -19,6 +20,8 @@ defmodule MishkaChelekom.TableContent do
   def table_content(assigns) do
     ~H"""
     <div
+      id={@id}
+      phx-mount={JS.add_class("smooth-scroll", to: "html")}
       class={[
         color_variant(@variant, @color),
         padding_size(@padding),
