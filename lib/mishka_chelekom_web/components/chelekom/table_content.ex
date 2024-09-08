@@ -21,7 +21,7 @@ defmodule MishkaChelekom.TableContent do
     ~H"""
     <div
       id={@id}
-      phx-mount={JS.add_class("smooth-scroll", to: "html")}
+      phx-mounted={JS.add_class("scroll-smooth", to: "html")}
       class={[
         color_variant(@variant, @color),
         padding_size(@padding),
