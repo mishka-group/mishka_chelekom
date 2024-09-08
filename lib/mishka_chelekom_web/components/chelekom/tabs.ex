@@ -1,6 +1,7 @@
 defmodule MishkaChelekom.Tabs do
   use Phoenix.Component
   import MishkaChelekomComponents
+  alias Phoenix.LiveView.JS
 
   @colors [
     "white",
@@ -23,7 +24,7 @@ defmodule MishkaChelekom.Tabs do
   ]
 
   @doc type: :component
-  attr :id, :string, default: nil, doc: ""
+  attr :id, :string, required: true, doc: ""
   attr :variant, :string, values: @variants, default: "default", doc: ""
   attr :color, :string, values: @colors, default: "primary", doc: ""
   attr :border, :string, default: "none", doc: ""
@@ -47,18 +48,23 @@ defmodule MishkaChelekom.Tabs do
     attr :padding, :string
     attr :icon_class, :string
     attr :icon_position, :string, doc: "end, start"
+    attr :active, :boolean, doc: ""
   end
 
   slot :panel, required: true do
     attr :class, :string
   end
 
-  # The first tab should always have the `active-tab` class, and the corresponding first panel should have `active-tab-panel` class
-
   def tabs(%{vertical: true} = assigns) do
+    assigns =
+      assign_new(assigns, :mounted_active_tab, fn ->
+        Enum.find(assigns.tab, &Map.get(&1, :active))
+      end)
+
     ~H"""
     <div
       id={@id}
+      phx-mounted={is_nil(@mounted_active_tab) && hide_tab(@id, length(@tab)) |> show_tab(@id, 1)}
       class={[
         "vertical-tab flex",
         @placement == "end" && "flex-row-reverse",
@@ -76,9 +82,11 @@ defmodule MishkaChelekom.Tabs do
       {@rest}
     >
       <div role="tablist" tabindex="0" class="tab-trigger-list flex flex-col shrink-0">
-        <%!-- add `active-tab` class --%>
         <button
           :for={{tab, index} <- Enum.with_index(@tab, 1)}
+          id={"#{@id}-tab-header-#{index}"}
+          phx-click={hide_tab(@id, length(@tab)) |> show_tab(@id, index)}
+          phx-mounted={tab[:active] && hide_tab(@id, length(@tab)) |> show_tab(@id, index)}
           role="tab"
           class={[
             "tab-trigger flex flex-row flex-nowrap items-center gap-1.5",
@@ -95,9 +103,9 @@ defmodule MishkaChelekom.Tabs do
       </div>
 
       <div class="ms-2 flex-1">
-        <%!-- add `active-tab-panel` class --%>
         <div
           :for={{panel, index} <- Enum.with_index(@panel, 1)}
+          id={"#{@id}-tab-panel-#{index}"}
           role="tabpanel"
           class={[
             "tab-content",
@@ -113,9 +121,15 @@ defmodule MishkaChelekom.Tabs do
   end
 
   def tabs(assigns) do
+    assigns =
+      assign_new(assigns, :mounted_active_tab, fn ->
+        Enum.find(assigns.tab, &Map.get(&1, :active))
+      end)
+
     ~H"""
     <div
       id={@id}
+      phx-mounted={is_nil(@mounted_active_tab) && hide_tab(@id, length(@tab)) |> show_tab(@id, 1)}
       class={[
         "horizontal-tab w-full",
         content_position(@triggers_position),
@@ -134,6 +148,8 @@ defmodule MishkaChelekom.Tabs do
       <div role="tablist" tabindex="0" class="tab-trigger-list w-full flex flex-wrap flex-wrap">
         <button
           :for={{tab, index} <- Enum.with_index(@tab, 1)}
+          id={"#{@id}-tab-header-#{index}"}
+          phx-click={hide_tab(@id, length(@tab)) |> show_tab(@id, index)}
           role="tab"
           class={[
             "tab-trigger flex flex-row flex-nowrap items-center gap-1.5",
@@ -152,6 +168,7 @@ defmodule MishkaChelekom.Tabs do
       <div class="mt-2">
         <div
           :for={{panel, index} <- Enum.with_index(@panel, 1)}
+          id={"#{@id}-tab-panel-#{index}"}
           role="tabpanel"
           class={[
             "tab-content",
@@ -488,5 +505,18 @@ defmodule MishkaChelekom.Tabs do
       "[&_.tab-trigger.active-tab]:bg-[#1E1E1E] hover:[&_.tab-trigger]:bg-[#1E1E1E] hover:[&_.tab-trigger]:text-white",
       "[&_.tab-trigger.active-tab]:text-white [&_.tab-trigger.active-tab]:border-[#050404]"
     ]
+  end
+
+  def show_tab(js \\ %JS{}, id, count) when is_binary(id) do
+    JS.add_class(js, "active-tab", to: "##{id}-tab-header-#{count}")
+    |> JS.add_class("active-tab-panel", to: "##{id}-tab-panel-#{count}")
+  end
+
+  def hide_tab(js \\ %JS{}, id, count) do
+    Enum.reduce(1..count, js, fn item, acc ->
+      acc
+      |> JS.remove_class("active-tab", to: "##{id}-tab-header-#{item}")
+      |> JS.remove_class("active-tab-panel", to: "##{id}-tab-panel-#{item}")
+    end)
   end
 end
