@@ -10,6 +10,7 @@ defmodule MishkaChelekom.TableContent do
   attr :color, :string, default: "white", doc: ""
   attr :variant, :string, default: "default", doc: ""
   attr :space, :string, default: nil, doc: ""
+  attr :animated, :boolean, default: false, doc: ""
   attr :padding, :string, default: nil, doc: ""
   attr :rounded, :string, default: nil, doc: ""
   attr :border, :string, default: "extra_small", doc: ""
@@ -21,7 +22,7 @@ defmodule MishkaChelekom.TableContent do
     ~H"""
     <div
       id={@id}
-      phx-mounted={JS.add_class("scroll-smooth", to: "html")}
+      phx-mounted={@animated && JS.add_class("scroll-smooth", to: "html")}
       class={[
         color_variant(@variant, @color),
         padding_size(@padding),
@@ -46,7 +47,7 @@ defmodule MishkaChelekom.TableContent do
   attr :rest, :global, doc: ""
   slot :inner_block, required: false, doc: ""
 
-  def conternt_wrapper(assigns) do
+  def content_wrapper(assigns) do
     ~H"""
     <div
       id={@id}
@@ -72,7 +73,7 @@ defmodule MishkaChelekom.TableContent do
   attr :rest, :global, doc: ""
   slot :inner_block, required: false, doc: ""
 
-  def conternt_item(assigns) do
+  def content_item(assigns) do
     ~H"""
     <div
       id={@id}
@@ -85,13 +86,15 @@ defmodule MishkaChelekom.TableContent do
       {@rest}
     >
       <div :if={!is_nil(@title)}><%= @title %></div>
-      <div class="flex items-center transition-all hover:font-bold">
+      <div class="flex items-center transition-all hover:font-bold hover:opacity-90">
         <.icon
           :if={!is_nil(@icon)}
           name={@icon}
           class={["content-icon me-2 inline-block", @icon_class]}
         />
-        <%= render_slot(@inner_block) %>
+        <div>
+          <%= render_slot(@inner_block) %>
+        </div>
       </div>
     </div>
     """
