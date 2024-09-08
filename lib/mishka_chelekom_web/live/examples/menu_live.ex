@@ -16,7 +16,7 @@ defmodule MishkaChelekomWeb.Examples.MenuLive do
         display: "flex",
         icon_class: "size-5",
         icon: "hero-home",
-        font_weight: "font-bold"
+        active: true
       },
       %{
         id: "Footer",

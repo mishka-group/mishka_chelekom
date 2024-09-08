@@ -14,7 +14,11 @@ defmodule MishkaChelekom.Menu do
     ~H"""
     <ul id={@id} class={@class} {@rest}>
       <li :for={menu_item <- @menu_items}>
-        <.button_link :if={Map.get(menu_item, :sub_items, []) == []} {menu_item} />
+        <.button_link
+          :if={Map.get(menu_item, :sub_items, []) == []}
+          font_weight={menu_item[:active] && "font-bold"}
+          {menu_item}
+        />
         <.accordion
           :if={Map.get(menu_item, :sub_items, []) != []}
           padding="none"
