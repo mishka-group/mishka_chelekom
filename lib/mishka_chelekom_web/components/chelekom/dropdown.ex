@@ -38,7 +38,8 @@ defmodule MishkaChelekom.Dropdown do
         "[&_.dropdown-content]:invisible [&_.dropdown-content]:opacity-0",
         "[&_.dropdown-content.show-dropdown]:visible [&_.dropdown-content.show-dropdown]:opacity-100",
         !@clickable && tirgger_dropdown(),
-        @width
+        @width,
+        @class
       ]}
       {@rest}
     >
