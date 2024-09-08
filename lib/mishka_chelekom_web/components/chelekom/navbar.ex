@@ -43,6 +43,14 @@ defmodule MishkaChelekom.Navbar do
 
   slot :inner_block, required: false, doc: ""
 
+  slot :list, required: true do
+    attr :class, :string
+    attr :padding, :string
+    attr :icon, :string
+    attr :icon_class, :string
+    attr :icon_position, :string, doc: "end, start"
+  end
+
   def navbar(assigns) do
     ~H"""
     <nav
@@ -80,7 +88,21 @@ defmodule MishkaChelekom.Navbar do
         </button>
 
         <div class=" w-full md:block md:w-auto" id="custom-navbar">
-          <%= render_slot(@inner_block) %>
+          <ul class={[
+            "flex gap-4"
+          ]}>
+            <li
+              :for={{list, index} <- Enum.with_index(@list, 1)}
+              class={[
+                "inline-flex",
+                list[:icon_position] == "end" && "flex-row-reverse",
+                list[:class]
+              ]}
+            >
+              <.icon :if={list[:icon]} name={list[:icon]} class="list-icon" />
+              <%= render_slot(list) %>
+            </li>
+          </ul>
         </div>
       </div>
     </nav>

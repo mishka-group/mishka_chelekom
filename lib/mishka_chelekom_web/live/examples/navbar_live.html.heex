@@ -1,34 +1,52 @@
 <div class="space-y-5">
   <MishkaChelekom.Navbar.navbar>
-    <ul class="md:flex gap-2 p-3">
-        <li><.link navigate="/">Home</.link></li>
-        <li><.link navigate="/examples/sidebar">List</.link></li>
-        <li><.link navigate="/examples/rating">Blog</.link></li>
-        <li>
-            <MishkaChelekom.Dropdown.dropdown width="w-full" clickable>
-                <MishkaChelekom.Dropdown.dropdown_trigger width="full" trigger_id="test-1">
-                <button class="block w-full">Contact us</button>
-                </MishkaChelekom.Dropdown.dropdown_trigger>
-                <MishkaChelekom.Dropdown.dropdown_content
-                    id="test-1"
-                    space="small"
-                    rounded="large"
-                    width="large"
-                    padding="extra_small"
-                >
-                    <ul class="space-y-5">
-                        <li><.link class="py-1 px-2 block hover:bg-gray-200" navigate="/examples/list">Security</.link></li>
-                        <li><.link class="py-1 px-2 block hover:bg-gray-200" navigate="/examples/dropdown">Memory</.link></li>
-                        <li><.link class="py-1 px-2 block hover:bg-gray-200" navigate="/examples/image">Design</.link></li>
-                    </ul>
-                </MishkaChelekom.Dropdown.dropdown_content>
-            </MishkaChelekom.Dropdown.dropdown>
-        </li>
+    <:list><.link navigate="/">Home</.link></:list>
 
-         <li><.link navigate="/examples/sidebar">Calendar</.link></li>
-        <li><.link navigate="/examples/rating">Booking</.link></li>
-         <li><.link navigate="/examples/sidebar">Partners</.link></li>
-        <li><.link navigate="/examples/rating">About</.link></li>
-    </ul>
+    <:list><.link navigate="/examples/sidebar">List</.link></:list>
+
+    <:list><.link navigate="/examples/rating">Blog</.link></:list>
+
+    <:list>
+      <MishkaChelekom.Dropdown.dropdown width="w-full">
+        <MishkaChelekom.Dropdown.dropdown_trigger width="full">
+          <button class="block w-full">Dropdown</button>
+        </MishkaChelekom.Dropdown.dropdown_trigger>
+
+        <MishkaChelekom.Dropdown.dropdown_content
+          space="small"
+          rounded="large"
+          width="large"
+          padding="extra_small"
+        >
+          <ul class="space-y-5">
+            <li>
+              <.link class="py-1 px-2 block hover:bg-gray-200" navigate="/examples/list">
+                Security
+              </.link>
+            </li>
+
+            <li>
+              <.link class="py-1 px-2 block hover:bg-gray-200" navigate="/examples/dropdown">
+                Memory
+              </.link>
+            </li>
+
+            <li>
+              <.link class="py-1 px-2 block hover:bg-gray-200" navigate="/examples/image">
+                Design
+              </.link>
+            </li>
+          </ul>
+        </MishkaChelekom.Dropdown.dropdown_content>
+      </MishkaChelekom.Dropdown.dropdown>
+    </:list>
+
+    <:list><.link navigate="/examples/sidebar">Calendar</.link></:list>
+
+    <:list><.link navigate="/examples/rating">Booking</.link></:list>
+
+    <:list><.link navigate="/examples/sidebar">Partners</.link></:list>
+
+    <:list><.link navigate="/examples/rating">About</.link></:list>
   </MishkaChelekom.Navbar.navbar>
 </div>
