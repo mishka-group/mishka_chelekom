@@ -143,6 +143,7 @@ defmodule MishkaChelekom.Button do
 
   @doc type: :component
   attr :id, :string, default: nil, doc: ""
+  attr :title, :string, default: nil, doc: ""
   attr :navigate, :string, doc: ""
   attr :patch, :string, doc: ""
   attr :href, :string, doc: ""
@@ -186,7 +187,7 @@ defmodule MishkaChelekom.Button do
     >
       <.button_indicator position="left" size={@indicator_size} class={@indicator_class} {@rest} />
       <.icon :if={icon_position(@icon, @rest) == "left"} name={@icon} class={@icon_class} />
-      <%= render_slot(@inner_block) %>
+      <%= render_slot(@inner_block) || @title %>
       <.icon :if={icon_position(@icon, @rest) == "right"} name={@icon} class={@icon_class} />
       <.button_indicator size={@indicator_size} class={@indicator_class} {@rest} />
     </.link>
