@@ -60,7 +60,6 @@ defmodule MishkaChelekom.Dropdown do
     ~H"""
     <div
       id={@id}
-      phx-click-away={@trigger_id && JS.remove_class("show-dropdown", to: "##{@trigger_id}")}
       phx-click={@trigger_id && JS.toggle_class("show-dropdown", to: "##{@trigger_id}")}
       class={["cursor-pointer dropdown-trigger", @class]}
       {@rest}
@@ -90,6 +89,7 @@ defmodule MishkaChelekom.Dropdown do
     ~H"""
     <div
       id={@id}
+      phx-click-away={@id && JS.remove_class("show-dropdown", to: "##{@id}")}
       class={[
         "dropdown-content absolute z-20 transition-all ease-in-out delay-100 duratio-500 w-full",
         "invisible opacity-0",
@@ -110,7 +110,7 @@ defmodule MishkaChelekom.Dropdown do
     """
   end
 
-   defp tirgger_dropdown(),
+  defp tirgger_dropdown(),
     do: "[&>.dropdown-content]:hover:visible [&>.dropdown-content]:hover:opacity-100"
 
   defp dropdown_position("bottom") do
@@ -119,18 +119,21 @@ defmodule MishkaChelekom.Dropdown do
       "[&_.dropdown-content]:-translate-x-1/2 [&_.dropdown-content]:translate-y-[6px]"
     ]
   end
+
   defp dropdown_position("left") do
     [
       "[&_.dropdown-content]:right-full [&_.dropdown-content]:top-0",
       "[&_.dropdown-content]:-translate-y-0 [&_.dropdown-content]:-translate-x-[5%]"
     ]
   end
+
   defp dropdown_position("right") do
     [
       "[&_.dropdown-content]:left-full [&_.dropdown-content]:top-0",
       "[&_.dropdown-content]:-translate-y-0 [&_.dropdown-content]:translate-x-[5%]"
     ]
   end
+
   defp dropdown_position("top") do
     [
       "[&_.dropdown-content]:bottom-full [&_.dropdown-content]:left-1/2",

@@ -72,18 +72,20 @@ defmodule MishkaChelekom.Navbar do
       {@rest}
     >
       <div class="nav-wrapper flex items-center gap-2 md:gap-5">
-        <.link :if={!is_nil(@link)} navigate={@link} class="flex items-center space-x-3 rtl:space-x-reverse">
+        <.link
+          :if={!is_nil(@link)}
+          navigate={@link}
+          class="flex items-center space-x-3 rtl:space-x-reverse"
+        >
           <img :if={!is_nil(@image)} src={@image} class={@image_class} />
-          <h1 class={"text-xl font-semibold"}>
+          <h1 class="text-xl font-semibold">
             <%= @name %>
           </h1>
         </.link>
 
-        <div
-          class={[
-            "w-full hidden md:block md:w-auto transition-all opacity-0 md:opacity-100 [&.active-nav-menu]:opacity-100"
-          ]}
-        >
+        <div class={[
+          "w-full hidden md:block md:w-auto transition-all opacity-0 md:opacity-100 [&.active-nav-menu]:opacity-100"
+        ]}>
           <ul class={[
             "flex flex-col md:flex-row gap-4"
           ]}>
