@@ -1,6 +1,8 @@
 defmodule MishkaChelekom.Navbar do
   use Phoenix.Component
   import MishkaChelekomComponents
+  alias Phoenix.LiveView.JS
+
 
   @colors [
     "white",
@@ -25,7 +27,7 @@ defmodule MishkaChelekom.Navbar do
   ]
 
   @doc type: :component
-  attr :id, :string, default: nil, doc: ""
+  attr :id, :string, required: true, doc: ""
   attr :variant, :string, values: @variants, default: "default", doc: ""
   attr :color, :string, values: @colors, default: "white", doc: ""
   attr :border, :string, default: "extra_small", doc: ""
@@ -58,6 +60,7 @@ defmodule MishkaChelekom.Navbar do
     <nav
       id={@id}
       class={[
+        "[&.show-nav-menu_.nav-menu]:block [&.show-nav-menu_.nav-menu]:opacity-100",
         border_class(@border),
         content_position(@content_position),
         color_variant(@variant, @color),
@@ -71,7 +74,7 @@ defmodule MishkaChelekom.Navbar do
       ]}
       {@rest}
     >
-      <div class="nav-wrapper flex items-center gap-2 md:gap-5">
+      <div class="nav-wrapper flex items-center gap-2 gap-5">
         <.link
           :if={!is_nil(@link)}
           navigate={@link}
@@ -83,37 +86,55 @@ defmodule MishkaChelekom.Navbar do
           </h1>
         </.link>
 
-        <div class={[
-          "w-full hidden md:block md:w-auto transition-all opacity-0 md:opacity-100 [&.active-nav-menu]:opacity-100"
-        ]}>
-          <ul class={[
-            "flex flex-col md:flex-row gap-4"
+          <button
+            type="button"
+            aria-expanded="false"
+            phx-click={JS.toggle_class("show-nav-menu", to: "##{@id}")}
+            class="navbar-button border rounded-lg py-1.5 px-2 md:hidden"
+          >
+            <span class="sr-only">Open main menu</span>
+            <.icon name="hero-bars-3" class="size-5" />
+          </button>
+          <div class={[
+            "w-full hidden md:block md:w-auto transition-all opacity-0 md:opacity-100"
           ]}>
-            <li
-              :for={{list, index} <- Enum.with_index(@list, 1)}
-              class={[
-                "inline-flex",
-                list[:icon_position] == "end" && "flex-row-reverse",
-                list[:class]
-              ]}
-            >
-              <.icon :if={list[:icon]} name={list[:icon]} class="list-icon" />
-              <%= render_slot(list) %>
-            </li>
-          </ul>
-        </div>
+            <ul class={[
+              "flex flex-col md:flex-row gap-4"
+            ]}>
+              <li
+                :for={{list, index} <- Enum.with_index(@list, 1)}
+                class={[
+                  "inline-flex",
+                  list[:icon_position] == "end" && "flex-row-reverse",
+                  list[:class]
+                ]}
+              >
+                <.icon :if={list[:icon]} name={list[:icon]} class="list-icon" />
+                <%= render_slot(list) %>
+              </li>
+            </ul>
+          </div>
         <%= render_slot(@inner_block) %>
-
-        <%!-- TODO: click on this button will add `active-nav-menu` class to line 79 div element --%>
-        <button
-          type="button"
-          aria-expanded="false"
-          class="navbar-button border rounded-lg py-1.5 px-2 md:hidden"
-        >
-          <span class="sr-only">Open main menu</span>
-          <.icon name="hero-bars-3" class="size-5" />
-        </button>
       </div>
+      <div class={[
+            "nav-menu w-full block md:hidden md:w-auto transition-all opacity-0 md:opacity-100 p-2"
+          ]}>
+            <ul class={[
+              "flex flex-col md:flex-row gap-4"
+            ]}>
+              <li
+                :for={{list, index} <- Enum.with_index(@list, 1)}
+                class={[
+                  "inline-flex",
+                  list[:icon_position] == "end" && "flex-row-reverse",
+                  list[:class]
+                ]}
+              >
+                <.icon :if={list[:icon]} name={list[:icon]} class="list-icon" />
+                <%= render_slot(list) %>
+              </li>
+            </ul>
+          </div>
     </nav>
     """
   end
@@ -190,231 +211,231 @@ defmodule MishkaChelekom.Navbar do
   defp color_variant("default", "white") do
     [
       "bg-white text-[#3E3E3E] border-[#DADADA]",
-      "[&_.navbar-button]:bg-white [&_.navbar-button]: border-[#DADADA]"
+      "[&_.navbar-button]:bg-white [&_.navbar-button]:border-[#DADADA]"
     ]
   end
 
   defp color_variant("default", "primary") do
     [
       "bg-[#4363EC] text-white border-[#2441de]",
-      "[&_.navbar-button]:bg-[#4363EC] [&_.navbar-button]: border-[#2441de]"
+      "[&_.navbar-button]:bg-[#4363EC] [&_.navbar-button]:border-[#2441de]"
     ]
   end
 
   defp color_variant("default", "secondary") do
     [
       "bg-[#6B6E7C] text-white border-[#877C7C]",
-      "[&_.navbar-button]:bg-[#6B6E7C] [&_.navbar-button]: border-[#877C7C]"
+      "[&_.navbar-button]:bg-[#6B6E7C] [&_.navbar-button]:border-[#877C7C]"
     ]
   end
 
   defp color_variant("default", "success") do
     [
       "bg-[#ECFEF3] text-[#047857] border-[#6EE7B7]",
-      "[&_.navbar-button]:bg-[#ECFEF3] [&_.navbar-button]: border-[#6EE7B7]"
+      "[&_.navbar-button]:bg-[#ECFEF3] [&_.navbar-button]:border-[#6EE7B7]"
     ]
   end
 
   defp color_variant("default", "warning") do
     [
       "bg-[#FFF8E6] text-[#FF8B08] border-[#FF8B08]",
-      "[&_.navbar-button]:bg-[#FFF8E6] [&_.navbar-button]: border-[#FF8B08]"
+      "[&_.navbar-button]:bg-[#FFF8E6] [&_.navbar-button]:border-[#FF8B08]"
     ]
   end
 
   defp color_variant("default", "danger") do
     [
       "bg-[#FFE6E6] text-[#E73B3B] border-[#E73B3B]",
-      "[&_.navbar-button]:bg-[#FFE6E6] [&_.navbar-button]: border-[#E73B3B]"
+      "[&_.navbar-button]:bg-[#FFE6E6] [&_.navbar-button]:border-[#E73B3B]"
     ]
   end
 
   defp color_variant("default", "info") do
     [
       "bg-[#E5F0FF] text-[#004FC4] border-[#004FC4]",
-      "[&_.navbar-button]:bg-[#E5F0FF] [&_.navbar-button]: border-[#004FC4]"
+      "[&_.navbar-button]:bg-[#E5F0FF] [&_.navbar-button]:border-[#004FC4]"
     ]
   end
 
   defp color_variant("default", "misc") do
     [
       "bg-[#FFE6FF] text-[#52059C] border-[#52059C]",
-      "[&_.navbar-button]:bg-[#FFE6FF] [&_.navbar-button]: border-[#52059C]"
+      "[&_.navbar-button]:bg-[#FFE6FF] [&_.navbar-button]:border-[#52059C]"
     ]
   end
 
   defp color_variant("default", "dawn") do
     [
       "bg-[#FFECDA] text-[#4D4137] border-[#4D4137]",
-      "[&_.navbar-button]:bg-[#FFECDA] [&_.navbar-button]: border-[#4D4137]"
+      "[&_.navbar-button]:bg-[#FFECDA] [&_.navbar-button]:border-[#4D4137]"
     ]
   end
 
   defp color_variant("default", "light") do
     [
       "bg-[#E3E7F1] text-[#707483] border-[#707483]",
-      "[&_.navbar-button]:bg-[#E3E7F1] [&_.navbar-button]: border-[#707483]"
+      "[&_.navbar-button]:bg-[#E3E7F1] [&_.navbar-button]:border-[#707483]"
     ]
   end
 
   defp color_variant("default", "dark") do
     [
       "bg-[#1E1E1E] text-white border-[#050404]",
-      "[&_.navbar-button]:bg-[#1E1E1E] [&_.navbar-button]: border-[#050404]"
+      "[&_.navbar-button]:bg-[#1E1E1E] [&_.navbar-button]:border-[#050404]"
     ]
   end
 
   defp color_variant("unbordered", "white") do
     [
       "bg-white text-[#3E3E3E] border-transparent",
-      "[&_.navbar-button]:bg-white [&_.navbar-button]: border-[#DADADA]"
+      "[&_.navbar-button]:bg-white [&_.navbar-button]:border-[#DADADA]"
     ]
   end
 
   defp color_variant("unbordered", "primary") do
     [
       "bg-[#4363EC] text-white border-transparent",
-      "[&_.navbar-button]:bg-[#4363EC] [&_.navbar-button]: border-[#2441de]"
+      "[&_.navbar-button]:bg-[#4363EC] [&_.navbar-button]:border-[#2441de]"
     ]
   end
 
   defp color_variant("unbordered", "secondary") do
     [
       "bg-[#6B6E7C] text-white border-transparent",
-      "[&_.navbar-button]:bg-[#6B6E7C] [&_.navbar-button]: border-[#877C7C]"
+      "[&_.navbar-button]:bg-[#6B6E7C] [&_.navbar-button]:border-[#877C7C]"
     ]
   end
 
   defp color_variant("unbordered", "success") do
     [
       "bg-[#ECFEF3] text-[#047857] border-transparent",
-      "[&_.navbar-button]:bg-[#ECFEF3] [&_.navbar-button]: border-[#6EE7B7]"
+      "[&_.navbar-button]:bg-[#ECFEF3] [&_.navbar-button]:border-[#6EE7B7]"
     ]
   end
 
   defp color_variant("unbordered", "warning") do
     [
       "bg-[#FFF8E6] text-[#FF8B08] border-transparent",
-      "[&_.navbar-button]:bg-[#FFF8E6] [&_.navbar-button]: border-[#FF8B08]"
+      "[&_.navbar-button]:bg-[#FFF8E6] [&_.navbar-button]:border-[#FF8B08]"
     ]
   end
 
   defp color_variant("unbordered", "danger") do
     [
       "bg-[#FFE6E6] text-[#E73B3B] border-transparent",
-      "[&_.navbar-button]:bg-[#FFE6E6] [&_.navbar-button]: border-[#E73B3B]"
+      "[&_.navbar-button]:bg-[#FFE6E6] [&_.navbar-button]:border-[#E73B3B]"
     ]
   end
 
   defp color_variant("unbordered", "info") do
     [
       "bg-[#E5F0FF] text-[#004FC4] border-transparent",
-      "[&_.navbar-button]:bg-[#E5F0FF] [&_.navbar-button]: border-[#004FC4]"
+      "[&_.navbar-button]:bg-[#E5F0FF] [&_.navbar-button]:border-[#004FC4]"
     ]
   end
 
   defp color_variant("unbordered", "misc") do
     [
       "bg-[#FFE6FF] text-[#52059C] border-transparent",
-      "[&_.navbar-button]:bg-[#FFE6FF] [&_.navbar-button]: border-[#52059C]"
+      "[&_.navbar-button]:bg-[#FFE6FF] [&_.navbar-button]:border-[#52059C]"
     ]
   end
 
   defp color_variant("unbordered", "dawn") do
     [
       "bg-[#FFECDA] text-[#4D4137] border-transparent",
-      "[&_.navbar-button]:bg-[#FFECDA] [&_.navbar-button]: border-[#4D4137]"
+      "[&_.navbar-button]:bg-[#FFECDA] [&_.navbar-button]:border-[#4D4137]"
     ]
   end
 
   defp color_variant("unbordered", "light") do
     [
       "bg-[#E3E7F1] text-[#707483] border-transparent",
-      "[&_.navbar-button]:bg-[#E3E7F1] [&_.navbar-button]: border-[#707483]"
+      "[&_.navbar-button]:bg-[#E3E7F1] [&_.navbar-button]:border-[#707483]"
     ]
   end
 
   defp color_variant("unbordered", "dark") do
     [
       "bg-[#1E1E1E] text-white border-transparent",
-      "[&_.navbar-button]:bg-[#1E1E1E] [&_.navbar-button]: border-[#050404]"
+      "[&_.navbar-button]:bg-[#1E1E1E] [&_.navbar-button]:border-[#050404]"
     ]
   end
 
   defp color_variant("shadow", "white") do
     [
       "bg-white text-[#3E3E3E] border-[#DADADA] shadow-md",
-      "[&_.navbar-button]:bg-white [&_.navbar-button]: border-[#DADADA]"
+      "[&_.navbar-button]:bg-white [&_.navbar-button]:border-[#DADADA]"
     ]
   end
 
   defp color_variant("shadow", "primary") do
     [
       "bg-[#4363EC] text-white border-[#4363EC] shadow-md",
-      "[&_.navbar-button]:bg-[#4363EC] [&_.navbar-button]: border-[#2441de]"
+      "[&_.navbar-button]:bg-[#4363EC] [&_.navbar-button]:border-[#2441de]"
     ]
   end
 
   defp color_variant("shadow", "secondary") do
     [
       "bg-[#6B6E7C] text-white border-[#6B6E7C] shadow-md",
-      "[&_.navbar-button]:bg-[#6B6E7C] [&_.navbar-button]: border-[#877C7C]"
+      "[&_.navbar-button]:bg-[#6B6E7C] [&_.navbar-button]:border-[#877C7C]"
     ]
   end
 
   defp color_variant("shadow", "success") do
     [
       "bg-[#AFEAD0] text-[#227A52] border-[#AFEAD0] shadow-md",
-      "[&_.navbar-button]:bg-[#ECFEF3] [&_.navbar-button]: border-[#6EE7B7]"
+      "[&_.navbar-button]:bg-[#ECFEF3] [&_.navbar-button]:border-[#6EE7B7]"
     ]
   end
 
   defp color_variant("shadow", "warning") do
     [
       "bg-[#FFF8E6] text-[#FF8B08] border-[#FFF8E6] shadow-md",
-      "[&_.navbar-button]:bg-[#FFF8E6] [&_.navbar-button]: border-[#FF8B08]"
+      "[&_.navbar-button]:bg-[#FFF8E6] [&_.navbar-button]:border-[#FF8B08]"
     ]
   end
 
   defp color_variant("shadow", "danger") do
     [
       "bg-[#FFE6E6] text-[#E73B3B] border-[#FFE6E6] shadow-md",
-      "[&_.navbar-button]:bg-[#FFE6E6] [&_.navbar-button]: border-[#E73B3B]"
+      "[&_.navbar-button]:bg-[#FFE6E6] [&_.navbar-button]:border-[#E73B3B]"
     ]
   end
 
   defp color_variant("shadow", "info") do
     [
       "bg-[#E5F0FF] text-[#004FC4] border-[#E5F0FF] shadow-md",
-      "[&_.navbar-button]:bg-[#E5F0FF] [&_.navbar-button]: border-[#004FC4]"
+      "[&_.navbar-button]:bg-[#E5F0FF] [&_.navbar-button]:border-[#004FC4]"
     ]
   end
 
   defp color_variant("shadow", "misc") do
     [
       "bg-[#FFE6FF] text-[#52059C] border-[#FFE6FF] shadow-md",
-      "[&_.navbar-button]:bg-[#FFE6FF] [&_.navbar-button]: border-[#52059C]"
+      "[&_.navbar-button]:bg-[#FFE6FF] [&_.navbar-button]:border-[#52059C]"
     ]
   end
 
   defp color_variant("shadow", "dawn") do
     [
       "bg-[#FFECDA] text-[#4D4137] border-[#FFECDA] shadow-md",
-      "[&_.navbar-button]:bg-[#FFECDA] [&_.navbar-button]: border-[#4D4137]"
+      "[&_.navbar-button]:bg-[#FFECDA] [&_.navbar-button]:border-[#4D4137]"
     ]
   end
 
   defp color_variant("shadow", "light") do
     [
       "bg-[#E3E7F1] text-[#707483] border-[#E3E7F1] shadow-md",
-      "[&_.navbar-button]:bg-[#E3E7F1] [&_.navbar-button]: border-[#707483]"
+      "[&_.navbar-button]:bg-[#E3E7F1] [&_.navbar-button]:border-[#707483]"
     ]
   end
 
   defp color_variant("shadow", "dark") do
     [
       "bg-[#1E1E1E] text-white border-[#1E1E1E] shadow-md",
-      "[&_.navbar-button]:bg-[#1E1E1E] [&_.navbar-button]: border-[#050404]"
+      "[&_.navbar-button]:bg-[#1E1E1E] [&_.navbar-button]:border-[#050404]"
     ]
   end
 end
