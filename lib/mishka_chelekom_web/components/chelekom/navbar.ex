@@ -78,7 +78,7 @@ defmodule MishkaChelekom.Navbar do
         <.link
           :if={!is_nil(@link)}
           navigate={@link}
-          class="flex items-center space-x-3 rtl:space-x-reverse"
+          class="flex items-center space-x-3 rtl:space-x-reverse mb-5 md:mb-0"
         >
           <img :if={!is_nil(@image)} src={@image} class={@image_class} />
           <h1 class="text-xl font-semibold">
@@ -87,10 +87,10 @@ defmodule MishkaChelekom.Navbar do
         </.link>
 
           <div class={[
-            "w-full block w-auto transition-all"
+            "w-auto"
           ]}>
             <ul class={[
-              "flex  gap-4"
+              "flex flex-wrap md:flex-nowrap gap-4"
             ]}>
               <li
                 :for={{list, index} <- Enum.with_index(@list, 1)}
