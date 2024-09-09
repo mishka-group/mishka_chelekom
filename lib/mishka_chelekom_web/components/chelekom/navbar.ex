@@ -93,7 +93,7 @@ defmodule MishkaChelekom.Navbar do
               "flex flex-wrap md:flex-nowrap gap-4"
             ]}>
               <li
-                :for={{list, index} <- Enum.with_index(@list, 1)}
+                :for={list<- @list}
                 class={[
                   "inline-flex",
                   list[:icon_position] == "end" && "flex-row-reverse",
