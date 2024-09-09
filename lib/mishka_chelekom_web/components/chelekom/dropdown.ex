@@ -115,29 +115,29 @@ defmodule MishkaChelekom.Dropdown do
 
   defp dropdown_position("bottom") do
     [
-      "[&_.dropdown-content]:top-full [&_.dropdown-content]:left-1/2",
-      "[&_.dropdown-content]:-translate-x-1/2 [&_.dropdown-content]:translate-y-[6px]"
+      "[&>.dropdown-content]:top-full [&>.dropdown-content]:left-1/2",
+      "[&>.dropdown-content]:-translate-x-1/2 [&>.dropdown-content]:translate-y-[6px]"
     ]
   end
 
   defp dropdown_position("left") do
     [
-      "[&_.dropdown-content]:right-full [&_.dropdown-content]:top-0",
-      "top-0 [&_.dropdown-content]:-translate-x-[5%]"
+      "[&>.dropdown-content]:right-full [&>.dropdown-content]:top-0",
+      "[&>.dropdown-content]:-translate-x-[5%]"
     ]
   end
 
   defp dropdown_position("right") do
     [
-      "[&_.dropdown-content]:left-full [&_.dropdown-content]:top-0",
-      "top-0 [&_.dropdown-content]:translate-x-[5%]"
+      "[&>.dropdown-content]:left-full [&>.dropdown-content]:top-0",
+      "[&>.dropdown-content]:translate-x-[5%]"
     ]
   end
 
   defp dropdown_position("top") do
     [
-      "[&_.dropdown-content]:bottom-full [&_.dropdown-content]:left-1/2",
-      "[&_.dropdown-content]:-translate-x-1/2 [&_.dropdown-content]:-translate-y-[4px]"
+      "[&>.dropdown-content]:bottom-full [&>.dropdown-content]:left-1/2",
+      "[&>.dropdown-content]:-translate-x-1/2 [&>.dropdown-content]:-translate-y-[4px]"
     ]
   end
 
