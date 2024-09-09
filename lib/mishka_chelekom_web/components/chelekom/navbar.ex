@@ -1,8 +1,6 @@
 defmodule MishkaChelekom.Navbar do
   use Phoenix.Component
   import MishkaChelekomComponents
-  alias Phoenix.LiveView.JS
-
 
   @colors [
     "white",
@@ -90,7 +88,7 @@ defmodule MishkaChelekom.Navbar do
             "w-auto"
           ]}>
             <ul class={[
-              "flex flex-wrap md:flex-nowrap gap-4"
+              "relative flex flex-wrap md:flex-nowrap gap-4"
             ]}>
               <li
                 :for={list<- @list}
