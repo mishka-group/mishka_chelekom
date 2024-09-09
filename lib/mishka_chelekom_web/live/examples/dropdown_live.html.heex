@@ -1,4 +1,27 @@
 <div class="space-y-10 max-w-2xl mx-auto py-10">
+  <MishkaChelekom.Dropdown.dropdown position="right">
+    <MishkaChelekom.Dropdown.dropdown_trigger trigger_id="test-1">
+      <MishkaChelekom.Button.button color="primary" icon="hero-chevron-down" right_icon>
+        Dropdown Right
+      </MishkaChelekom.Button.button>
+    </MishkaChelekom.Dropdown.dropdown_trigger>
+
+    <MishkaChelekom.Dropdown.dropdown_content
+      id="test-1"
+      space="small"
+      rounded="large"
+      width="full"
+      padding="extra_small"
+    >
+      <MishkaChelekom.List.list size="small">
+        <:item padding="extra_small" icon="hero-envelope">Dashboard</:item>
+        <:item padding="extra_small" icon="hero-camera">Settings</:item>
+        <:item padding="extra_small" icon="hero-camera">Earning</:item>
+        <:item padding="extra_small" icon="hero-calendar">Sign out</:item>
+      </MishkaChelekom.List.list>
+    </MishkaChelekom.Dropdown.dropdown_content>
+  </MishkaChelekom.Dropdown.dropdown>
+
   <MishkaChelekom.Dropdown.dropdown clickable>
     <MishkaChelekom.Dropdown.dropdown_trigger trigger_id="test-1">
       <MishkaChelekom.Button.button color="primary" icon="hero-chevron-down" right_icon>

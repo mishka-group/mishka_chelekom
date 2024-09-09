@@ -25,6 +25,7 @@ defmodule MishkaChelekom.Dropdown do
   attr :id, :string, default: nil, doc: ""
   attr :class, :string, default: nil, doc: ""
   attr :width, :string, default: "w-fit", doc: ""
+  attr :position, :string, default: "bottom", doc: ""
   attr :clickable, :boolean, default: false, doc: ""
   attr :rest, :global, doc: ""
   slot :inner_block, required: false, doc: ""
@@ -38,6 +39,7 @@ defmodule MishkaChelekom.Dropdown do
         "[&_.dropdown-content]:invisible [&_.dropdown-content]:opacity-0",
         "[&_.dropdown-content.show-dropdown]:visible [&_.dropdown-content.show-dropdown]:opacity-100",
         !@clickable && tirgger_dropdown(),
+        dropdown_position(@position),
         @width,
         @class
       ]}
@@ -90,7 +92,6 @@ defmodule MishkaChelekom.Dropdown do
       id={@id}
       class={[
         "dropdown-content absolute z-20 transition-all ease-in-out delay-100 duratio-500 w-full",
-        "top-full left-1/2 -translate-x-1/2 translate-y-[6px]",
         "invisible opacity-0",
         space_class(@space),
         color_variant(@variant, @color),
@@ -107,6 +108,31 @@ defmodule MishkaChelekom.Dropdown do
       <%= render_slot(@inner_block) %>
     </div>
     """
+  end
+
+  defp dropdown_position("bottom") do
+    [
+      "[&_.dropdown-content]:top-full [&_.dropdown-content]:left-1/2",
+      "[&_.dropdown-content]:-translate-x-1/2 [&_.dropdown-content]:translate-y-[6px]"
+    ]
+  end
+  defp dropdown_position("left") do
+    [
+      "[&_.dropdown-content]:right-full [&_.dropdown-content]:top-0",
+      "[&_.dropdown-content]:-translate-y-0 [&_.dropdown-content]:-translate-x-[6px]"
+    ]
+  end
+  defp dropdown_position("right") do
+    [
+      "[&_.dropdown-content]:left-full [&_.dropdown-content]:top-0",
+      "[&_.dropdown-content]:-translate-y-0 [&_.dropdown-content]:translate-x-[6px]"
+    ]
+  end
+  defp dropdown_position("top") do
+    [
+      "[&_.dropdown-content]:bottom-full [&_.dropdown-content]:left-1/2",
+      "[&_.dropdown-content]:-translate-x-1/2 [&_.dropdown-content]:-translate-y-[4px]"
+    ]
   end
 
   defp tirgger_dropdown(),
