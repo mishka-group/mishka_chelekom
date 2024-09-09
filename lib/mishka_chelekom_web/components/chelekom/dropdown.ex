@@ -28,6 +28,7 @@ defmodule MishkaChelekom.Dropdown do
   attr :position, :string, default: "bottom", doc: ""
   attr :relative, :string, default: "relative", doc: ""
   attr :clickable, :boolean, default: false, doc: ""
+  attr :nomobile, :boolean, default: false, doc: ""
   attr :rest, :global, doc: ""
   slot :inner_block, required: false, doc: ""
 
@@ -39,7 +40,8 @@ defmodule MishkaChelekom.Dropdown do
         "[&>.dropdown-content]:invisible [&>.dropdown-content]:opacity-0",
         "[&>.dropdown-content.show-dropdown]:visible [&>.dropdown-content.show-dropdown]:opacity-100",
         !@clickable && tirgger_dropdown(),
-        dropdown_position(@position),
+        !@nomobile && dropdown_position(@position),
+        !@nomobile && @position == "left" || @position == "right" && dropdown_mobile_position(@position),
         @relative,
         @width,
         @class
@@ -123,19 +125,15 @@ defmodule MishkaChelekom.Dropdown do
 
   defp dropdown_position("left") do
     [
-      "md:[&>.dropdown-content]:right-full md:[&>.dropdown-content]:top-0",
-      "md:[&>.dropdown-content]:-translate-x-[5%]",
-      "[&>.dropdown-content]:top-full [&>.dropdown-content]:left-1/2",
-      "[&>.dropdown-content]:translate-x-1/2 [&>.dropdown-content]:translate-y-[6px]"
+      "[&>.dropdown-content]:right-full [&>.dropdown-content]:top-0",
+      "[&>.dropdown-content]:-translate-x-[5%]"
     ]
   end
 
   defp dropdown_position("right") do
     [
-      "md:[&>.dropdown-content]:left-full md:[&>.dropdown-content]:top-0",
-      "md:[&>.dropdown-content]:translate-x-[5%]",
-      "[&>.dropdown-content]:top-full [&>.dropdown-content]:left-1/2",
-      "[&>.dropdown-content]:-translate-x-1/2 [&>.dropdown-content]:translate-y-[6px]"
+      "[&>.dropdown-content]:left-full [&>.dropdown-content]:top-0",
+      "[&>.dropdown-content]:translate-x-[5%]"
     ]
   end
 
@@ -143,6 +141,24 @@ defmodule MishkaChelekom.Dropdown do
     [
       "[&>.dropdown-content]:bottom-full [&>.dropdown-content]:left-1/2",
       "[&>.dropdown-content]:-translate-x-1/2 [&>.dropdown-content]:-translate-y-[4px]"
+    ]
+  end
+
+  defp dropdown_mobile_position("left") do
+    [
+      "md:[&>.dropdown-content]:right-full md:[&>.dropdown-content]:top-0",
+      "md:[&>.dropdown-content]:-translate-x-[5%]",
+      "[&>.dropdown-content]:top-full [&>.dropdown-content]:left-1/2",
+      "[&>.dropdown-content]:translate-x-1/2 [&>.dropdown-content]:translate-y-[6px]"
+    ]
+  end
+
+  defp dropdown_mobile_position("right") do
+    [
+      "md:[&>.dropdown-content]:left-full md:[&>.dropdown-content]:top-0",
+      "md:[&>.dropdown-content]:translate-x-[5%]",
+      "[&>.dropdown-content]:top-full [&>.dropdown-content]:left-1/2",
+      "[&>.dropdown-content]:-translate-x-1/2 [&>.dropdown-content]:translate-y-[6px]"
     ]
   end
 
