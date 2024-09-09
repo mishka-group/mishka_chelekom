@@ -84,25 +84,25 @@ defmodule MishkaChelekom.Navbar do
           </h1>
         </.link>
 
-          <div class={[
-            "w-auto"
+        <div class={[
+          "w-auto"
+        ]}>
+          <ul class={[
+            "relative flex flex-wrap md:flex-nowrap gap-4"
           ]}>
-            <ul class={[
-              "relative flex flex-wrap md:flex-nowrap gap-4"
-            ]}>
-              <li
-                :for={list<- @list}
-                class={[
-                  "inline-flex",
-                  list[:icon_position] == "end" && "flex-row-reverse",
-                  list[:class]
-                ]}
-              >
-                <.icon :if={list[:icon]} name={list[:icon]} class="list-icon" />
-                <%= render_slot(list) %>
-              </li>
-            </ul>
-          </div>
+            <li
+              :for={list <- @list}
+              class={[
+                "inline-flex",
+                list[:icon_position] == "end" && "flex-row-reverse",
+                list[:class]
+              ]}
+            >
+              <.icon :if={list[:icon]} name={list[:icon]} class="list-icon" />
+              <%= render_slot(list) %>
+            </li>
+          </ul>
+        </div>
         <%= render_slot(@inner_block) %>
       </div>
     </nav>

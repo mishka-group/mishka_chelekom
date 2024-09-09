@@ -41,7 +41,8 @@ defmodule MishkaChelekom.Dropdown do
         "[&>.dropdown-content.show-dropdown]:visible [&>.dropdown-content.show-dropdown]:opacity-100",
         !@clickable && tirgger_dropdown(),
         !@nomobile && dropdown_position(@position),
-        !@nomobile && @position == "left" || @position == "right" && dropdown_mobile_position(@position),
+        (!@nomobile && @position == "left") ||
+          (@position == "right" && dropdown_mobile_position(@position)),
         @relative,
         @width,
         @class
@@ -63,7 +64,13 @@ defmodule MishkaChelekom.Dropdown do
     ~H"""
     <div
       id={@id}
-      phx-click={@trigger_id && JS.toggle_class("show-dropdown", to: "##{@trigger_id}-dropdown-content", transition: "duration-100")}
+      phx-click={
+        @trigger_id &&
+          JS.toggle_class("show-dropdown",
+            to: "##{@trigger_id}-dropdown-content",
+            transition: "duration-100"
+          )
+      }
       class={["cursor-pointer dropdown-trigger", @class]}
       {@rest}
     >
@@ -92,7 +99,10 @@ defmodule MishkaChelekom.Dropdown do
     ~H"""
     <div
       id={@id && "#{@id}-dropdown-content"}
-      phx-click-away={@id && JS.remove_class("show-dropdown", to: "##{@id}-dropdown-content", transition: "duration-300")}
+      phx-click-away={
+        @id &&
+          JS.remove_class("show-dropdown", to: "##{@id}-dropdown-content", transition: "duration-300")
+      }
       class={[
         "dropdown-content absolute z-20 transition-all ease-in-out delay-100 duratio-500 w-full",
         "invisible opacity-0",
