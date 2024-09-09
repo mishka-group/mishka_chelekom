@@ -86,15 +86,6 @@ defmodule MishkaChelekom.Navbar do
           </h1>
         </.link>
 
-          <button
-            type="button"
-            aria-expanded="false"
-            phx-click={JS.toggle_class("show-nav-menu", to: "##{@id}")}
-            class="navbar-button border rounded-lg py-1.5 px-2 md:hidden"
-          >
-            <span class="sr-only">Open main menu</span>
-            <.icon name="hero-bars-3" class="size-5" />
-          </button>
           <div class={[
             "w-full hidden md:block md:w-auto transition-all opacity-0 md:opacity-100"
           ]}>
