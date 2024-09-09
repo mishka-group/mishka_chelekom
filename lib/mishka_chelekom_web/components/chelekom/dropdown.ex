@@ -60,7 +60,7 @@ defmodule MishkaChelekom.Dropdown do
     ~H"""
     <div
       id={@id}
-      phx-click={@trigger_id && JS.toggle_class("show-dropdown", to: "##{@trigger_id}")}
+      phx-click={@trigger_id && JS.toggle_class("show-dropdown", to: "##{@trigger_id}-dropdown-content")}
       class={["cursor-pointer dropdown-trigger", @class]}
       {@rest}
     >
@@ -88,8 +88,8 @@ defmodule MishkaChelekom.Dropdown do
   def dropdown_content(assigns) do
     ~H"""
     <div
-      id={@id}
-      phx-click-away={@id && JS.remove_class("show-dropdown", to: "##{@id}")}
+      id={@id && "#{@id}-dropdown-content"}
+      phx-click-away={@id && JS.remove_class("show-dropdown", to: "##{@id}-dropdown-content")}
       class={[
         "dropdown-content absolute z-20 transition-all ease-in-out delay-100 duratio-500 w-full",
         "invisible opacity-0",
