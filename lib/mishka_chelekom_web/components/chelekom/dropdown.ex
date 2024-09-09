@@ -123,14 +123,14 @@ defmodule MishkaChelekom.Dropdown do
   defp dropdown_position("left") do
     [
       "[&_.dropdown-content]:right-full [&_.dropdown-content]:top-0",
-      "[&_.dropdown-content]:-translate-x-[5%]"
+      "top-0 [&_.dropdown-content]:-translate-x-[5%]"
     ]
   end
 
   defp dropdown_position("right") do
     [
       "[&_.dropdown-content]:left-full [&_.dropdown-content]:top-0",
-      "[&_.dropdown-content]:translate-x-[5%]"
+      "top-0 [&_.dropdown-content]:translate-x-[5%]"
     ]
   end
 
