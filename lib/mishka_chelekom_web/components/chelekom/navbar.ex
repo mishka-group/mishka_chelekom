@@ -82,7 +82,6 @@ defmodule MishkaChelekom.Navbar do
           class={[
             "w-full hidden md:block md:w-auto transition-all opacity-0 md:opacity-100 [&.active-nav-menu]:opacity-100"
           ]}
-          id="custom-navbar"
         >
           <ul class={[
             "flex flex-col md:flex-row gap-4"
@@ -104,9 +103,7 @@ defmodule MishkaChelekom.Navbar do
 
         <%!-- TODO: click on this button will add `active-nav-menu` class to line 79 div element --%>
         <button
-          data-collapse-toggle="custom-navbar"
           type="button"
-          aria-controls="custom-navbar"
           aria-expanded="false"
           class="navbar-button border rounded-lg py-1.5 px-2 md:hidden"
         >
