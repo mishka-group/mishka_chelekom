@@ -8,25 +8,27 @@
     <:list><.link navigate="/examples/rating">Blog</.link></:list>
 
     <:list>
-      <MishkaChelekom.Dropdown.dropdown width="w-full">
-        <MishkaChelekom.Dropdown.dropdown_trigger width="full">
+      <MishkaChelekom.Dropdown.dropdown width="w-full" clickable>
+        <MishkaChelekom.Dropdown.dropdown_trigger width="full" trigger_id="test-1">
           <button class="text-start w-full block">Dropdown</button>
         </MishkaChelekom.Dropdown.dropdown_trigger>
 
         <MishkaChelekom.Dropdown.dropdown_content
           space="small"
+          id="test-1"
           rounded="large"
           width="large"
           padding="extra_small"
         >
           <ul class="space-y-5">
             <li>
-              <MishkaChelekom.Dropdown.dropdown width="w-full" position="right">
-                <MishkaChelekom.Dropdown.dropdown_trigger>
+              <MishkaChelekom.Dropdown.dropdown width="w-full" position="right" clickable>
+                <MishkaChelekom.Dropdown.dropdown_trigger trigger_id="test-2">
                   <button class="text-start w-full flex items-center justify-between">Nested Dropdown <.icon name="hero-chevron-right" /></button>
                 </MishkaChelekom.Dropdown.dropdown_trigger>
 
                 <MishkaChelekom.Dropdown.dropdown_content
+                  id="test-2"
                   space="small"
                   rounded="large"
                   width="large"
@@ -339,14 +341,14 @@
     <:list><.link navigate="/examples/rating">About</.link></:list>
 
     <MishkaChelekom.Dropdown.dropdown clickable>
-    <MishkaChelekom.Dropdown.dropdown_trigger trigger_id="test-1">
+    <MishkaChelekom.Dropdown.dropdown_trigger trigger_id="dropdown-button">
       <MishkaChelekom.Button.button color="warning" icon="hero-chevron-down" right_icon>
         Dropdown Button
       </MishkaChelekom.Button.button>
     </MishkaChelekom.Dropdown.dropdown_trigger>
 
     <MishkaChelekom.Dropdown.dropdown_content
-      id="test-1"
+      id="dropdown-button"
       space="small"
       rounded="large"
       width="full"
