@@ -74,7 +74,7 @@ defmodule MishkaChelekom.Navbar do
       ]}
       {@rest}
     >
-      <div class="nav-wrapper flex items-center gap-2 gap-5">
+      <div class="nav-wrapper md:flex items-center gap-2 gap-5">
         <.link
           :if={!is_nil(@link)}
           navigate={@link}
@@ -87,10 +87,10 @@ defmodule MishkaChelekom.Navbar do
         </.link>
 
           <div class={[
-            "w-full hidden md:block md:w-auto transition-all opacity-0 md:opacity-100"
+            "w-full block w-auto transition-all"
           ]}>
             <ul class={[
-              "flex flex-col md:flex-row gap-4"
+              "flex  gap-4"
             ]}>
               <li
                 :for={{list, index} <- Enum.with_index(@list, 1)}
