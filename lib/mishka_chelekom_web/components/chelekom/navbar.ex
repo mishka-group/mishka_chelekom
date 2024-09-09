@@ -116,25 +116,6 @@ defmodule MishkaChelekom.Navbar do
           </div>
         <%= render_slot(@inner_block) %>
       </div>
-      <div class={[
-            "nav-menu w-full block md:hidden md:w-auto transition-all opacity-0 md:opacity-100 p-2"
-          ]}>
-            <ul class={[
-              "flex flex-col md:flex-row gap-4"
-            ]}>
-              <li
-                :for={{list, index} <- Enum.with_index(@list, 1)}
-                class={[
-                  "inline-flex",
-                  list[:icon_position] == "end" && "flex-row-reverse",
-                  list[:class]
-                ]}
-              >
-                <.icon :if={list[:icon]} name={list[:icon]} class="list-icon" />
-                <%= render_slot(list) %>
-              </li>
-            </ul>
-          </div>
     </nav>
     """
   end
