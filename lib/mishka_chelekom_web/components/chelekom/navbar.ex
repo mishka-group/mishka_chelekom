@@ -34,6 +34,7 @@ defmodule MishkaChelekom.Navbar do
   attr :max_width, :string, default: nil, doc: ""
   attr :content_position, :string, default: "between", doc: ""
   attr :image, :string, default: nil, doc: ""
+  attr :image_class, :string, default: nil, doc: ""
   attr :name, :string, default: nil, doc: ""
   attr :link, :string, default: nil, doc: ""
   attr :space, :string, default: nil, doc: ""
@@ -74,7 +75,7 @@ defmodule MishkaChelekom.Navbar do
         <.link :if={!is_nil(@link)} navigate={@link} class="flex items-center space-x-3 rtl:space-x-reverse">
           <img :if={!is_nil(@image)} src={@image} class={@image_class} />
           <h1 class={"text-xl font-semibold"}>
-            {@name}
+            <%= @name %>
           </h1>
         </.link>
 
