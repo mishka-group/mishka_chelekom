@@ -9,7 +9,7 @@
     <:list>
       <MishkaChelekom.Dropdown.dropdown width="w-full">
         <MishkaChelekom.Dropdown.dropdown_trigger width="full">
-          <button class="block w-full">Dropdown</button>
+          <button class="text-start w-full block">Dropdown</button>
         </MishkaChelekom.Dropdown.dropdown_trigger>
 
         <MishkaChelekom.Dropdown.dropdown_content
@@ -20,9 +20,38 @@
         >
           <ul class="space-y-5">
             <li>
-              <.link class="py-1 px-2 block hover:bg-gray-200" navigate="/examples/list">
-                Security
-              </.link>
+              <MishkaChelekom.Dropdown.dropdown width="w-full" position="right">
+                <MishkaChelekom.Dropdown.dropdown_trigger>
+                  <button class="text-start w-full flex items-center justify-between">NEsted Dropdown <.icon name="hero-chevron-right" /></button>
+                </MishkaChelekom.Dropdown.dropdown_trigger>
+
+                <MishkaChelekom.Dropdown.dropdown_content
+                  space="small"
+                  rounded="large"
+                  width="large"
+                  padding="extra_small"
+                >
+                  <ul class="space-y-5">
+                    <li>
+                      <.link class="py-1 px-2 block hover:bg-gray-200" navigate="/examples/list">
+                        Security
+                      </.link>
+                    </li>
+
+                    <li>
+                      <.link class="py-1 px-2 block hover:bg-gray-200" navigate="/examples/dropdown">
+                        Memory
+                      </.link>
+                    </li>
+
+                    <li>
+                      <.link class="py-1 px-2 block hover:bg-gray-200" navigate="/examples/image">
+                        Design
+                      </.link>
+                    </li>
+                  </ul>
+                </MishkaChelekom.Dropdown.dropdown_content>
+              </MishkaChelekom.Dropdown.dropdown>
             </li>
 
             <li>

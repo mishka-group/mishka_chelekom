@@ -36,8 +36,8 @@ defmodule MishkaChelekom.Dropdown do
       id={@id}
       class={[
         "relative",
-        "[&_.dropdown-content]:invisible [&_.dropdown-content]:opacity-0",
-        "[&_.dropdown-content.show-dropdown]:visible [&_.dropdown-content.show-dropdown]:opacity-100",
+        "[&>.dropdown-content]:invisible [&>.dropdown-content]:opacity-0",
+        "[&>.dropdown-content.show-dropdown]:visible [&>.dropdown-content.show-dropdown]:opacity-100",
         !@clickable && tirgger_dropdown(),
         dropdown_position(@position),
         @width,
@@ -110,6 +110,9 @@ defmodule MishkaChelekom.Dropdown do
     """
   end
 
+   defp tirgger_dropdown(),
+    do: "[&>.dropdown-content]:hover:visible [&>.dropdown-content]:hover:opacity-100"
+
   defp dropdown_position("bottom") do
     [
       "[&_.dropdown-content]:top-full [&_.dropdown-content]:left-1/2",
@@ -119,13 +122,13 @@ defmodule MishkaChelekom.Dropdown do
   defp dropdown_position("left") do
     [
       "[&_.dropdown-content]:right-full [&_.dropdown-content]:top-0",
-      "[&_.dropdown-content]:-translate-y-0 [&_.dropdown-content]:-translate-x-[6px]"
+      "[&_.dropdown-content]:-translate-y-0 [&_.dropdown-content]:-translate-x-[5%]"
     ]
   end
   defp dropdown_position("right") do
     [
       "[&_.dropdown-content]:left-full [&_.dropdown-content]:top-0",
-      "[&_.dropdown-content]:-translate-y-0 [&_.dropdown-content]:translate-x-[6px]"
+      "[&_.dropdown-content]:-translate-y-0 [&_.dropdown-content]:translate-x-[5%]"
     ]
   end
   defp dropdown_position("top") do
@@ -134,9 +137,6 @@ defmodule MishkaChelekom.Dropdown do
       "[&_.dropdown-content]:-translate-x-1/2 [&_.dropdown-content]:-translate-y-[4px]"
     ]
   end
-
-  defp tirgger_dropdown(),
-    do: "[&_.dropdown-content]:hover:visible [&_.dropdown-content]:hover:opacity-100"
 
   defp border_class("none"), do: "border-0"
   defp border_class("extra_small"), do: "border"
