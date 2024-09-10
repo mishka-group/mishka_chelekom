@@ -11,6 +11,8 @@ defmodule MishkaChelekom.Carousel do
   attr :padding, :string, default: "medium", doc: ""
   attr :text_position, :string, default: "center", doc: ""
   attr :rest, :global, doc: ""
+  attr :indicator, :boolean, default: true
+  attr :control, :boolean, default: true
 
   slot :inner_block, required: false, doc: ""
 
@@ -61,10 +63,13 @@ defmodule MishkaChelekom.Carousel do
           }
         >
           <div class="relative w-full">
-            <div class={[
-              "carousel-button-wrapper drop-shadow-2xl w-fit absolute top-0 bottom-0 left-0 p-5 flex justify-center items-center",
-              "z-20 text-white transition-all ease-in-out duration-300 hover:bg-black/5"
-            ]}>
+            <div
+              :if={@control}
+              class={[
+                "carousel-button-wrapper drop-shadow-2xl w-fit absolute top-0 bottom-0 left-0 p-5 flex justify-center items-center",
+                "z-20 text-white transition-all ease-in-out duration-300 hover:bg-black/5"
+              ]}
+            >
               <button
                 id={"#{@id}-carousel-pervious-btn-#{index}"}
                 phx-click={
@@ -121,10 +126,13 @@ defmodule MishkaChelekom.Carousel do
               </div>
             </div>
 
-            <div class={[
-              "carousel-button-wrapper drop-shadow-2xl w-fit absolute top-0 bottom-0 right-0 p-5 flex justify-center items-center",
-              "z-20 text-white transition-all ease-in-out duration-300"
-            ]}>
+            <div
+              :if={@control}
+              class={[
+                "carousel-button-wrapper drop-shadow-2xl w-fit absolute top-0 bottom-0 right-0 p-5 flex justify-center items-center",
+                "z-20 text-white transition-all ease-in-out duration-300"
+              ]}
+            >
               <button
                 id={"#{@id}-carousel-next-btn-#{index}"}
                 phx-click={
@@ -137,6 +145,7 @@ defmodule MishkaChelekom.Carousel do
             </div>
 
             <div
+              :if={@indicator}
               id={"#{@id}-carousel-slide-indicator-#{index}"}
               class="absolute inset-x-0 bottom-0 z-50 flex justify-center gap-3 py-2.5"
             >
