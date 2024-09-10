@@ -69,6 +69,7 @@ defmodule MishkaChelekomWeb.Router do
     live "/examples/menu", Examples.MenuLive
     live "/examples/sidebar", Examples.SidebarLive
     live "/examples/table-content", Examples.TableContentLive
+    live "/examples/carousel", Examples.CarouselLive
   end
 
   # Other scopes may use custom stacks.
