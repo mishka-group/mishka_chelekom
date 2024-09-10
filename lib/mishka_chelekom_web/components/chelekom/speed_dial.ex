@@ -11,4 +11,3 @@ defmodule MishkaChelekom.SpeedDial do
     """
   end
 end
- 

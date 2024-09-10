@@ -63,20 +63,20 @@ defmodule MishkaChelekom.Carousel do
           }
         >
           <div class="relative w-full">
-              <button
-                :if={@control}
-                class={[
-                  "carousel-controls drop-shadow-2xl w-fit absolute top-0 bottom-0 left-0 p-5 flex justify-center items-center",
-                  "z-20 text-white transition-all ease-in-out duration-300 hover:bg-black/5"
-                ]}
-                id={"#{@id}-carousel-pervious-btn-#{index}"}
-                phx-click={
-                  index - 1 != 0 &&
-                    unselect_carousel(@id, length(@slide)) |> select_carousel(@id, index - 1)
-                }
-              >
-                <.icon name="hero-chevron-left" class="size-5 md:size-7 lg:size-9" />
-              </button>
+            <button
+              :if={@control}
+              class={[
+                "carousel-controls drop-shadow-2xl w-fit absolute top-0 bottom-0 left-0 p-5 flex justify-center items-center",
+                "z-20 text-white transition-all ease-in-out duration-300 hover:bg-black/5"
+              ]}
+              id={"#{@id}-carousel-pervious-btn-#{index}"}
+              phx-click={
+                index - 1 != 0 &&
+                  unselect_carousel(@id, length(@slide)) |> select_carousel(@id, index - 1)
+              }
+            >
+              <.icon name="hero-chevron-left" class="size-5 md:size-7 lg:size-9" />
+            </button>
 
             <.link :if={!is_nil(slide[:link])} navigate={slide[:link]}>
               <MishkaChelekom.Image.image
@@ -123,20 +123,20 @@ defmodule MishkaChelekom.Carousel do
               </div>
             </div>
 
-              <button
-                :if={@control}
-                id={"#{@id}-carousel-next-btn-#{index}"}
-                class={[
-                  "carousel-controls drop-shadow-2xl w-fit absolute top-0 bottom-0 right-0 p-5 flex justify-center items-center",
-                  "z-20 text-white transition-all ease-in-out duration-300"
-                ]}
-                phx-click={
-                  index + 1 <= length(@slide) &&
-                    unselect_carousel(@id, length(@slide)) |> select_carousel(@id, index + 1)
-                }
-              >
-                <.icon name="hero-chevron-right" class="size-5 md:size-7 lg:size-9" />
-              </button>
+            <button
+              :if={@control}
+              id={"#{@id}-carousel-next-btn-#{index}"}
+              class={[
+                "carousel-controls drop-shadow-2xl w-fit absolute top-0 bottom-0 right-0 p-5 flex justify-center items-center",
+                "z-20 text-white transition-all ease-in-out duration-300"
+              ]}
+              phx-click={
+                index + 1 <= length(@slide) &&
+                  unselect_carousel(@id, length(@slide)) |> select_carousel(@id, index + 1)
+              }
+            >
+              <.icon name="hero-chevron-right" class="size-5 md:size-7 lg:size-9" />
+            </button>
 
             <div
               :if={@indicator}
