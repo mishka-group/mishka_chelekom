@@ -65,10 +65,10 @@ defmodule MishkaChelekom.Carousel do
             "z-20 text-white transition-all ease-in-out duration-300 hover:bg-black/5"
           ]}>
             <button
-              id={"#{@id}-carousel-next-btn-#{index}"}
+              id={"#{@id}-carousel-pervious-btn-#{index}"}
               phx-click={
-                index + 1 <= length(@slide) &&
-                  unselect_carousel(@id, length(@slide)) |> select_carousel(@id, index + 1)
+                index - 1 != 0 &&
+                  unselect_carousel(@id, length(@slide)) |> select_carousel(@id, index - 1)
               }
             >
               <.icon name="hero-chevron-left" class="size-5 md:size-7 lg:size-9" />
@@ -125,10 +125,10 @@ defmodule MishkaChelekom.Carousel do
             "z-20 text-white transition-all ease-in-out duration-300"
           ]}>
             <button
-              id={"#{@id}-carousel-pervious-btn-#{index}"}
+              id={"#{@id}-carousel-next-btn-#{index}"}
               phx-click={
-                index - 1 != 0 &&
-                  unselect_carousel(@id, length(@slide)) |> select_carousel(@id, index - 1)
+                index + 1 <= length(@slide) &&
+                  unselect_carousel(@id, length(@slide)) |> select_carousel(@id, index + 1)
               }
             >
               <.icon name="hero-chevron-right" class="size-5 md:size-7 lg:size-9" />
