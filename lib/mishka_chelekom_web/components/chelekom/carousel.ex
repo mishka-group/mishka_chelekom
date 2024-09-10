@@ -36,131 +36,135 @@ defmodule MishkaChelekom.Carousel do
 
     ~H"""
     <div>
-    <div
-      id={@id}
-      phx-mounted={
-        is_nil(@mounted_active_carousel) &&
-          unselect_carousel(@id, length(@slide)) |> select_carousel(@id, 1)
-      }
-      class={[
-        "relative w-full",
-        "[&_.slide]:absolute [&_.slide]:inset-0 [&_.slide]:opacity-0 [&_.slide.active-slide]:opacity-100",
-        "[&_.slide]:transition-all [&_.slide]:delay-75 [&_.slide]:duration-1000 [&_.slide]:ease-in-out",
-        text_position(@text_position),
-        padding_size(@padding),
-        color_class(@overlay),
-        size_class(@size)
-      ]}
-    >
       <div
-        :for={{slide, index} <- Enum.with_index(@slide, 1)}
-        id={"#{@id}-carousel-slide-#{index}"}
-        class={["slide h-full", slide[:class]]}
+        id={@id}
         phx-mounted={
-          slide[:active] && unselect_carousel(@id, length(@slide)) |> select_carousel(@id, index)
+          is_nil(@mounted_active_carousel) &&
+            unselect_carousel(@id, length(@slide)) |> select_carousel(@id, 1)
         }
+        class={[
+          "relative w-full",
+          "[&_.slide]:absolute [&_.slide]:inset-0 [&_.slide]:opacity-0 [&_.slide.active-slide]:opacity-100",
+          "[&_.slide]:transition-all [&_.slide]:delay-75 [&_.slide]:duration-1000 [&_.slide]:ease-in-out",
+          text_position(@text_position),
+          padding_size(@padding),
+          color_class(@overlay),
+          size_class(@size)
+        ]}
       >
-        <div class="relative w-full">
-          <div class={[
-            "carousel-button-wrapper drop-shadow-2xl w-fit absolute top-0 bottom-0 left-0 p-5 flex justify-center items-center",
-            "z-20 text-white transition-all ease-in-out duration-300 hover:bg-black/5"
-          ]}>
-            <button
-              id={"#{@id}-carousel-pervious-btn-#{index}"}
-              phx-click={
-                index - 1 != 0 &&
-                  unselect_carousel(@id, length(@slide)) |> select_carousel(@id, index - 1)
-              }
-            >
-              <.icon name="hero-chevron-left" class="size-5 md:size-7 lg:size-9" />
-            </button>
-          </div>
+        <div
+          :for={{slide, index} <- Enum.with_index(@slide, 1)}
+          id={"#{@id}-carousel-slide-#{index}"}
+          class={["slide h-full", slide[:class]]}
+          phx-mounted={
+            slide[:active] && unselect_carousel(@id, length(@slide)) |> select_carousel(@id, index)
+          }
+        >
+          <div class="relative w-full">
+            <div class={[
+              "carousel-button-wrapper drop-shadow-2xl w-fit absolute top-0 bottom-0 left-0 p-5 flex justify-center items-center",
+              "z-20 text-white transition-all ease-in-out duration-300 hover:bg-black/5"
+            ]}>
+              <button
+                id={"#{@id}-carousel-pervious-btn-#{index}"}
+                phx-click={
+                  index - 1 != 0 &&
+                    unselect_carousel(@id, length(@slide)) |> select_carousel(@id, index - 1)
+                }
+              >
+                <.icon name="hero-chevron-left" class="size-5 md:size-7 lg:size-9" />
+              </button>
+            </div>
 
-          <.link :if={!is_nil(slide[:link])} navigate={slide[:link]}>
+            <.link :if={!is_nil(slide[:link])} navigate={slide[:link]}>
+              <MishkaChelekom.Image.image
+                class="max-w-full"
+                src={slide[:image]}
+                id={"#{@id}-carousel-slide-image-#{index}"}
+              />
+            </.link>
+
             <MishkaChelekom.Image.image
+              :if={is_nil(slide[:link])}
               class="max-w-full"
               src={slide[:image]}
               id={"#{@id}-carousel-slide-image-#{index}"}
             />
-          </.link>
 
-          <MishkaChelekom.Image.image
-            :if={is_nil(slide[:link])}
-            class="max-w-full"
-            src={slide[:image]}
-            id={"#{@id}-carousel-slide-image-#{index}"}
-          />
-
-          <div
-            :if={!is_nil(slide[:title]) || !is_nil(slide[:description])}
-            class="carousel-overlay absolute inset-0"
-            id={"#{@id}-carousel-slide-content-#{index}"}
-          >
             <div
-              class={[
-                "description-wrapper h-full mx-auto flex flex-col gap-5",
-                content_position(slide[:content_position]),
-                slide[:wrapper_class]
-              ]}
-              id={"#{@id}-carousel-slide-content-position-#{index}"}
+              :if={!is_nil(slide[:title]) || !is_nil(slide[:description])}
+              class="carousel-overlay absolute inset-0"
+              id={"#{@id}-carousel-slide-content-#{index}"}
             >
               <div
-                :if={!is_nil(slide[:title])}
-                id={"#{@id}-carousel-slide-content-title-#{index}"}
-                class={["carousel-title", slide[:title_class] || "text-white"]}
+                class={[
+                  "description-wrapper h-full mx-auto flex flex-col gap-5",
+                  content_position(slide[:content_position]),
+                  slide[:wrapper_class]
+                ]}
+                id={"#{@id}-carousel-slide-content-position-#{index}"}
               >
-                <%= slide[:title] %>
+                <div
+                  :if={!is_nil(slide[:title])}
+                  id={"#{@id}-carousel-slide-content-title-#{index}"}
+                  class={["carousel-title", slide[:title_class] || "text-white"]}
+                >
+                  <%= slide[:title] %>
+                </div>
+                <p
+                  :if={!is_nil(slide[:description])}
+                  id={"#{@id}-carousel-slide-content-description-#{index}"}
+                  class={["carousel-description", slide[:description_class]]}
+                >
+                  <%= slide[:description] %>
+                </p>
               </div>
-              <p
-                :if={!is_nil(slide[:description])}
-                id={"#{@id}-carousel-slide-content-description-#{index}"}
-                class={["carousel-description", slide[:description_class]]}
+            </div>
+
+            <div class={[
+              "carousel-button-wrapper drop-shadow-2xl w-fit absolute top-0 bottom-0 right-0 p-5 flex justify-center items-center",
+              "z-20 text-white transition-all ease-in-out duration-300"
+            ]}>
+              <button
+                id={"#{@id}-carousel-next-btn-#{index}"}
+                phx-click={
+                  index + 1 <= length(@slide) &&
+                    unselect_carousel(@id, length(@slide)) |> select_carousel(@id, index + 1)
+                }
               >
-                <%= slide[:description] %>
-              </p>
+                <.icon name="hero-chevron-right" class="size-5 md:size-7 lg:size-9" />
+              </button>
+            </div>
+
+            <div
+              id={"#{@id}-carousel-slide-indicator-#{index}"}
+              class="absolute inset-x-0 bottom-0 z-50 flex justify-center gap-3 py-2.5"
+            >
+              <button
+                :for={indicator_item <- 1..length(@slide)}
+                data-indicator-index={"#{indicator_item}"}
+                phx-click={
+                  unselect_carousel(@id, length(@slide))
+                  |> select_carousel(@id, indicator_item)
+                  |> JS.add_class("active-indicator")
+                }
+                class={[
+                  "carousel-indicator",
+                  "h-1 w-6",
+                  "border-solid border-transparent bg-white bg-clip-padding p-0",
+                  "opacity-80 transition-opacity duration-[600ms] ease-[cubic-bezier(0.25,0.1,0.25,1.0)] motion-reduce:transition-none",
+                  "[&.active-indicator]opacity-100",
+                  indicator_item == index && "active-indicator"
+                ]}
+                aria-label={
+                  Map.get(Enum.at(@slide, indicator_item - 1), :title, "Slide #{indicator_item}")
+                }
+                aria-current={indicator_item == index && "true"}
+              />
             </div>
           </div>
-
-          <div class={[
-            "carousel-button-wrapper drop-shadow-2xl w-fit absolute top-0 bottom-0 right-0 p-5 flex justify-center items-center",
-            "z-20 text-white transition-all ease-in-out duration-300"
-          ]}>
-            <button
-              id={"#{@id}-carousel-next-btn-#{index}"}
-              phx-click={
-                index + 1 <= length(@slide) &&
-                  unselect_carousel(@id, length(@slide)) |> select_carousel(@id, index + 1)
-              }
-            >
-              <.icon name="hero-chevron-right" class="size-5 md:size-7 lg:size-9" />
-            </button>
-          </div>
-      <%!-- Indocator --%>
-      <%!-- TODO: Add `active-indicator` class to active slide --%>
-      <div class="absolute inset-x-0 bottom-0 z-50 flex justify-center gap-3 py-2.5">
-        <button
-          class={[
-            "h-1 w-6",
-            "border-solid border-transparent bg-white bg-clip-padding p-0",
-            "opacity-80 transition-opacity duration-[600ms] ease-[cubic-bezier(0.25,0.1,0.25,1.0)] motion-reduce:transition-none",
-            "[&.active-indicator]opacity-100"
-          ]}
-          aria-label="Slide 1"
-          aria-current="true"
-        ></button>
-        <button
-          class={[
-            "h-1 w-6",
-            "border-solid border-transparent bg-white bg-clip-padding p-0",
-            "opacity-80 transition-opacity duration-[600ms] ease-[cubic-bezier(0.25,0.1,0.25,1.0)] motion-reduce:transition-none",
-            "[&.active-indicator]opacity-100"
-          ]}
-          aria-label="Slide 2"
-        ></button>
-      </div>
         </div>
       </div>
-    </div>
     </div>
     """
   end
@@ -302,6 +306,7 @@ defmodule MishkaChelekom.Carousel do
         to: "##{id}-carousel-slide-#{item}",
         transition: "duration-0"
       )
+      |> JS.remove_class("active-indicator", to: ".carousel-indicator")
     end)
   end
 end
