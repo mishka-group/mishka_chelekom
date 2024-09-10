@@ -21,6 +21,7 @@ defmodule MishkaChelekom.Carousel do
     attr :description, :string
     attr :title_class, :string
     attr :description_class, :string
+    attr :wrapper_class, :string
     attr :content_position, :string
     attr :class, :string
   end
@@ -60,6 +61,7 @@ defmodule MishkaChelekom.Carousel do
             <div class={[
               "description-wrapper h-full mx-auto flex flex-col gap-5",
               content_position(slide[:content_position]),
+              slide[:wrapper_class]
             ]}>
               <div class={[
                 "carousel-title",
