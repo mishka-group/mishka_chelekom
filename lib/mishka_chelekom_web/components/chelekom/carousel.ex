@@ -35,6 +35,7 @@ defmodule MishkaChelekom.Carousel do
       end)
 
     ~H"""
+    <div>
     <div
       id={@id}
       phx-mounted={
@@ -42,7 +43,7 @@ defmodule MishkaChelekom.Carousel do
           unselect_carousel(@id, length(@slide)) |> select_carousel(@id, 1)
       }
       class={[
-        "relative h-full w-full",
+        "relative w-full",
         "[&_.slide]:absolute [&_.slide]:inset-0 [&_.slide]:opacity-0 [&_.slide.active-slide]:opacity-100",
         "[&_.slide]:transition-all [&_.slide]:delay-75 [&_.slide]:duration-1000 [&_.slide]:ease-in-out",
         text_position(@text_position),
@@ -134,8 +135,32 @@ defmodule MishkaChelekom.Carousel do
               <.icon name="hero-chevron-right" class="size-5 md:size-7 lg:size-9" />
             </button>
           </div>
+      <%!-- Indocator --%>
+      <%!-- TODO: Add `active-indicator` class to active slide --%>
+      <div class="absolute inset-x-0 bottom-0 z-50 flex justify-center gap-3 py-2.5">
+        <button
+          class={[
+            "h-1 w-6",
+            "border-solid border-transparent bg-white bg-clip-padding p-0",
+            "opacity-80 transition-opacity duration-[600ms] ease-[cubic-bezier(0.25,0.1,0.25,1.0)] motion-reduce:transition-none",
+            "[&.active-indicator]opacity-100"
+          ]}
+          aria-label="Slide 1"
+          aria-current="true"
+        ></button>
+        <button
+          class={[
+            "h-1 w-6",
+            "border-solid border-transparent bg-white bg-clip-padding p-0",
+            "opacity-80 transition-opacity duration-[600ms] ease-[cubic-bezier(0.25,0.1,0.25,1.0)] motion-reduce:transition-none",
+            "[&.active-indicator]opacity-100"
+          ]}
+          aria-label="Slide 2"
+        ></button>
+      </div>
         </div>
       </div>
+    </div>
     </div>
     """
   end
