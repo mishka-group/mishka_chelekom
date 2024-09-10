@@ -32,7 +32,7 @@ defmodule MishkaChelekom.Carousel do
       id={@id}
       class={[
         "relative h-full w-full",
-        "[&_.slide]:absolute [&_.slide]:inset-0 [&_.slide]:opacity-0 [&_.slide.active]:opacity-100",
+        "[&_.slide]:absolute [&_.slide]:inset-0 [&_.slide]:opacity-0 [&_.slide.active-slide]:opacity-100",
         "[&_.slide]:transition-all [&_.slide]:delay-75 [&_.slide]:duration-1000 [&_.slide]:ease-in-out",
         text_position(@text_position),
         padding_size(@padding),
