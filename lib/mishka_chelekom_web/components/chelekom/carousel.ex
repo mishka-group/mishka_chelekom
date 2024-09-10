@@ -63,14 +63,12 @@ defmodule MishkaChelekom.Carousel do
           }
         >
           <div class="relative w-full">
-            <div
-              :if={@control}
-              class={[
-                "carousel-button-wrapper drop-shadow-2xl w-fit absolute top-0 bottom-0 left-0 p-5 flex justify-center items-center",
-                "z-20 text-white transition-all ease-in-out duration-300 hover:bg-black/5"
-              ]}
-            >
               <button
+                :if={@control}
+                class={[
+                  "carousel-controls drop-shadow-2xl w-fit absolute top-0 bottom-0 left-0 p-5 flex justify-center items-center",
+                  "z-20 text-white transition-all ease-in-out duration-300 hover:bg-black/5"
+                ]}
                 id={"#{@id}-carousel-pervious-btn-#{index}"}
                 phx-click={
                   index - 1 != 0 &&
@@ -79,7 +77,6 @@ defmodule MishkaChelekom.Carousel do
               >
                 <.icon name="hero-chevron-left" class="size-5 md:size-7 lg:size-9" />
               </button>
-            </div>
 
             <.link :if={!is_nil(slide[:link])} navigate={slide[:link]}>
               <MishkaChelekom.Image.image
@@ -126,15 +123,13 @@ defmodule MishkaChelekom.Carousel do
               </div>
             </div>
 
-            <div
-              :if={@control}
-              class={[
-                "carousel-button-wrapper drop-shadow-2xl w-fit absolute top-0 bottom-0 right-0 p-5 flex justify-center items-center",
-                "z-20 text-white transition-all ease-in-out duration-300"
-              ]}
-            >
               <button
+                :if={@control}
                 id={"#{@id}-carousel-next-btn-#{index}"}
+                class={[
+                  "carousel-controls drop-shadow-2xl w-fit absolute top-0 bottom-0 right-0 p-5 flex justify-center items-center",
+                  "z-20 text-white transition-all ease-in-out duration-300"
+                ]}
                 phx-click={
                   index + 1 <= length(@slide) &&
                     unselect_carousel(@id, length(@slide)) |> select_carousel(@id, index + 1)
@@ -142,7 +137,6 @@ defmodule MishkaChelekom.Carousel do
               >
                 <.icon name="hero-chevron-right" class="size-5 md:size-7 lg:size-9" />
               </button>
-            </div>
 
             <div
               :if={@indicator}
@@ -254,47 +248,47 @@ defmodule MishkaChelekom.Carousel do
   defp text_position(_), do: text_position("center")
 
   defp color_class("white") do
-    "[&_.carousel-overlay]:bg-white/30 text-[#3E3E3E] hover:[&_.carousel-button-wrapper]:bg-white/5"
+    "[&_.carousel-overlay]:bg-white/30 text-[#3E3E3E] hover:[&_.carousel-controls]:bg-white/5"
   end
 
   defp color_class("primary") do
-    "[&_.carousel-overlay]:bg-[#4363EC]/30 text-white hover:[&_.carousel-button-wrapper]:bg-[#4363EC]/5"
+    "[&_.carousel-overlay]:bg-[#4363EC]/30 text-white hover:[&_.carousel-controls]:bg-[#4363EC]/5"
   end
 
   defp color_class("secondary") do
-    "[&_.carousel-overlay]:bg-[#6B6E7C]/30 text-white hover:[&_.carousel-button-wrapper]:bg-[#6B6E7C]/5"
+    "[&_.carousel-overlay]:bg-[#6B6E7C]/30 text-white hover:[&_.carousel-controls]:bg-[#6B6E7C]/5"
   end
 
   defp color_class("success") do
-    "[&_.carousel-overlay]:bg-[#ECFEF3]/30 text-[#047857] hover:[&_.carousel-button-wrapper]:bg-[#ECFEF3]/5"
+    "[&_.carousel-overlay]:bg-[#ECFEF3]/30 text-[#047857] hover:[&_.carousel-controls]:bg-[#ECFEF3]/5"
   end
 
   defp color_class("warning") do
-    "[&_.carousel-overlay]:bg-[#FFF8E6]/30 text-[#FF8B08] hover:[&_.carousel-button-wrapper]:bg-[#FFF8E6]/5"
+    "[&_.carousel-overlay]:bg-[#FFF8E6]/30 text-[#FF8B08] hover:[&_.carousel-controls]:bg-[#FFF8E6]/5"
   end
 
   defp color_class("danger") do
-    "[&_.carousel-overlay]:bg-[#FFE6E6]/30 text-[#E73B3B] hover:[&_.carousel-button-wrapper]:bg-[#FFE6E6]/5"
+    "[&_.carousel-overlay]:bg-[#FFE6E6]/30 text-[#E73B3B] hover:[&_.carousel-controls]:bg-[#FFE6E6]/5"
   end
 
   defp color_class("info") do
-    "[&_.carousel-overlay]:bg-[#E5F0FF]/30 text-[#004FC4] hover:[&_.carousel-button-wrapper]:bg-[#E5F0FF]/5"
+    "[&_.carousel-overlay]:bg-[#E5F0FF]/30 text-[#004FC4] hover:[&_.carousel-controls]:bg-[#E5F0FF]/5"
   end
 
   defp color_class("misc") do
-    "[&_.carousel-overlay]:bg-[#FFE6FF]/30 text-[#52059C] hover:[&_.carousel-button-wrapper]:bg-[#FFE6FF]/5"
+    "[&_.carousel-overlay]:bg-[#FFE6FF]/30 text-[#52059C] hover:[&_.carousel-controls]:bg-[#FFE6FF]/5"
   end
 
   defp color_class("dawn") do
-    "[&_.carousel-overlay]:bg-[#FFECDA]/30 text-[#4D4137] hover:[&_.carousel-button-wrapper]:bg-[#FFECDA]/5"
+    "[&_.carousel-overlay]:bg-[#FFECDA]/30 text-[#4D4137] hover:[&_.carousel-controls]:bg-[#FFECDA]/5"
   end
 
   defp color_class("light") do
-    "[&_.carousel-overlay]:bg-[#E3E7F1]/30 text-[#707483] hover:[&_.carousel-button-wrapper]:bg-[#E3E7F1]/5"
+    "[&_.carousel-overlay]:bg-[#E3E7F1]/30 text-[#707483] hover:[&_.carousel-controls]:bg-[#E3E7F1]/5"
   end
 
   defp color_class("dark") do
-    "[&_.carousel-overlay]:bg-[#1E1E1E]/30 text-white hover:[&_.carousel-button-wrapper]:bg-[#1E1E1E]/5"
+    "[&_.carousel-overlay]:bg-[#1E1E1E]/30 text-white hover:[&_.carousel-controls]:bg-[#1E1E1E]/5"
   end
 
   def select_carousel(js \\ %JS{}, id, count) when is_binary(id) do
