@@ -13,13 +13,12 @@ defmodule MishkaChelekom.SpeedDial do
   def speed_dial(assigns) do
     ~H"""
     <div class={[
-        "fixed group",
-        action_position(@position_size, @action_position),
-        border_class(@border)
-      ]}>
+      "fixed group",
+      action_position(@position_size, @action_position),
+      border_class(@border)
+    ]}>
       <div id="speed-dial-menu-default" class="flex flex-col items-center hidden mb-4 space-y-2">
-      <%= render_slot(@inner_block) %>
-
+        <%= render_slot(@inner_block) %>
       </div>
 
       <button
@@ -34,8 +33,6 @@ defmodule MishkaChelekom.SpeedDial do
     </div>
     """
   end
-
-
 
   defp action_position("none", "top_start"), do: "top-0 start-0 ml-0"
   defp action_position("extra_small", "top_start"), do: "top-1 start-1 ml-1"
