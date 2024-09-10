@@ -152,9 +152,9 @@ defmodule MishkaChelekom.Carousel do
                   "carousel-indicator",
                   "h-1 w-6",
                   "border-solid border-transparent bg-white bg-clip-padding p-0",
-                  "opacity-80 transition-opacity duration-[600ms] ease-[cubic-bezier(0.25,0.1,0.25,1.0)] motion-reduce:transition-none",
-                  "[&.active-indicator]opacity-100",
-                  indicator_item == index && "active-indicator"
+                  "opacity-70 transition-opacity duration-[600ms] ease-[cubic-bezier(0.25,0.1,0.25,1.0)]",
+                  "motion-reduce:transition-none",
+                  "[&.active-indicator]opacity-100"
                 ]}
                 aria-label={
                   Map.get(Enum.at(@slide, indicator_item - 1), :title, "Slide #{indicator_item}")
