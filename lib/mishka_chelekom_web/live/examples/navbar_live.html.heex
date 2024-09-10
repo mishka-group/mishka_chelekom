@@ -531,6 +531,76 @@
     <:list><.link navigate="/examples/rating">Blog</.link></:list>
 
     <:list><.link navigate="/examples/sidebar">Calendar</.link></:list>
+    <:list>
+      <MishkaChelekom.Dropdown.dropdown relative="md:relative" width="w-full">
+        <MishkaChelekom.Dropdown.dropdown_trigger width="full">
+          <button class="text-start w-full block">Dropdown</button>
+        </MishkaChelekom.Dropdown.dropdown_trigger>
+
+        <MishkaChelekom.Dropdown.dropdown_content
+          space="small"
+          rounded="large"
+          width="large"
+          padding="extra_small"
+          color="info"
+        >
+          <ul class="space-y-5">
+            <li>
+              <MishkaChelekom.Dropdown.dropdown width="w-full" position="right">
+                <MishkaChelekom.Dropdown.dropdown_trigger>
+                  <button class="py-1 px-2 text-start w-full flex items-center justify-between hover:bg-blue-500 hover:text-white">
+                    Nested Dropdown <.icon name="hero-chevron-right" />
+                  </button>
+                </MishkaChelekom.Dropdown.dropdown_trigger>
+
+                <MishkaChelekom.Dropdown.dropdown_content
+                  space="small"
+                  rounded="large"
+                  width="large"
+                  padding="extra_small"
+                  color="info"
+                >
+                  <ul class="space-y-5">
+                    <li>
+                      <.link class="py-1 px-2 block hover:bg-blue-500 hover:text-white" navigate="/examples/list">
+                        Security
+                      </.link>
+                    </li>
+
+                    <li>
+                      <.link
+                        class="py-1 px-2 block hover:bg-blue-500 hover:text-white"
+                        navigate="/examples/dropdown"
+                      >
+                        Memory
+                      </.link>
+                    </li>
+
+                    <li>
+                      <.link class="py-1 px-2 block hover:bg-blue-500 hover:text-white" navigate="/examples/image">
+                        Design
+                      </.link>
+                    </li>
+                  </ul>
+                </MishkaChelekom.Dropdown.dropdown_content>
+              </MishkaChelekom.Dropdown.dropdown>
+            </li>
+
+            <li>
+              <.link class="py-1 px-2 block hover:bg-blue-500 hover:text-white" navigate="/examples/dropdown">
+                Memory
+              </.link>
+            </li>
+
+            <li>
+              <.link class="py-1 px-2 block hover:bg-blue-500 hover:text-white" navigate="/examples/image">
+                Design
+              </.link>
+            </li>
+          </ul>
+        </MishkaChelekom.Dropdown.dropdown_content>
+      </MishkaChelekom.Dropdown.dropdown>
+    </:list>
 
     <:list><.link navigate="/examples/rating">Booking</.link></:list>
 
