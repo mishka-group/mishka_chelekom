@@ -19,7 +19,9 @@ defmodule MishkaChelekom.Carousel do
   slot :slide, required: true do
     attr :image, :string
     attr :image_class, :string
-    attr :link, :string
+    attr :navigate, :string, doc: ""
+    attr :patch, :string, doc: ""
+    attr :href, :string, doc: ""
     attr :title, :string
     attr :description, :string
     attr :title_class, :string
@@ -79,20 +81,7 @@ defmodule MishkaChelekom.Carousel do
               <.icon name="hero-chevron-left" class="size-5 md:size-7 lg:size-9" />
             </button>
 
-            <.link :if={!is_nil(slide[:link])} navigate={slide[:link]}>
-              <MishkaChelekom.Image.image
-                class="max-w-full"
-                src={slide[:image]}
-                id={"#{@id}-carousel-slide-image-#{index}"}
-              />
-            </.link>
-
-            <MishkaChelekom.Image.image
-              :if={is_nil(slide[:link])}
-              class="max-w-full"
-              src={slide[:image]}
-              id={"#{@id}-carousel-slide-image-#{index}"}
-            />
+            <.slid_image id={@id} index={index} {Map.take(slide, [:navigate, :patch, :href, :image])} />
 
             <div
               :if={!is_nil(slide[:title]) || !is_nil(slide[:description])}
@@ -173,25 +162,55 @@ defmodule MishkaChelekom.Carousel do
     """
   end
 
-  defp size_class("extra_small"),
-    do:
-      "text-xs [&_.description-wrapper]:max-w-80 [&_.carousel-title]:md:text-xl [&_.carousel-title]:md:text-3xl"
+  attr :id, :string, required: true, doc: ""
+  attr :navigate, :string, default: nil, doc: ""
+  attr :patch, :string, default: nil, doc: ""
+  attr :href, :string, default: nil, doc: ""
+  attr :image, :string, required: true, doc: ""
+  attr :index, :integer, required: true, doc: ""
 
-  defp size_class("small"),
-    do:
-      "text-sm [&_.description-wrapper]:max-w-96 [&_.carousel-title]:md:text-xl [&_.carousel-title]:md:text-4xl"
+  defp slid_image(%{navigate: nav, patch: pat, href: hrf} = assigns)
+       when is_binary(nav) or is_binary(pat) or is_binary(hrf) do
+    ~H"""
+    <.link navigate={@navigate} patch={@patch} href={@href}>
+      <MishkaChelekom.Image.image
+        class="max-w-full"
+        src={@image}
+        id={"#{@id}-carousel-slide-image-#{@index}"}
+      />
+    </.link>
+    """
+  end
 
-  defp size_class("medium"),
-    do:
-      "text-base [&_.description-wrapper]:max-w-xl [&_.carousel-title]:md:text-2xl [&_.carousel-title]:md:text-5xl"
+  defp slid_image(assigns) do
+    ~H"""
+    <MishkaChelekom.Image.image
+      class="max-w-full"
+      src={@image}
+      id={"#{@id}-carousel-slide-image-#{@index}"}
+    />
+    """
+  end
 
-  defp size_class("large"),
-    do:
-      "text-lg [&_.description-wrapper]:max-w-2xl [&_.carousel-title]:md:text-3xl [&_.carousel-title]:md:text-6xl"
+  defp size_class("extra_small") do
+    "text-xs [&_.description-wrapper]:max-w-80 [&_.carousel-title]:md:text-xl [&_.carousel-title]:md:text-3xl"
+  end
 
-  defp size_class("extra_large"),
-    do:
-      "text-xl [&_.description-wrapper]:max-w-3xl [&_.carousel-title]:md:text-3xl [&_.carousel-title]:md:text-7xl"
+  defp size_class("small") do
+    "text-sm [&_.description-wrapper]:max-w-96 [&_.carousel-title]:md:text-xl [&_.carousel-title]:md:text-4xl"
+  end
+
+  defp size_class("medium") do
+    "text-base [&_.description-wrapper]:max-w-xl [&_.carousel-title]:md:text-2xl [&_.carousel-title]:md:text-5xl"
+  end
+
+  defp size_class("large") do
+    "text-lg [&_.description-wrapper]:max-w-2xl [&_.carousel-title]:md:text-3xl [&_.carousel-title]:md:text-6xl"
+  end
+
+  defp size_class("extra_large") do
+    "text-xl [&_.description-wrapper]:max-w-3xl [&_.carousel-title]:md:text-3xl [&_.carousel-title]:md:text-7xl"
+  end
 
   defp size_class(params) when is_binary(params), do: params
   defp size_class(_), do: size_class("medium")
