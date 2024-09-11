@@ -69,7 +69,7 @@ defmodule MishkaChelekom.SpeedDial do
           "absolute z-10 w-full transition-all ease-in-out delay-100 duratio-500",
           (@wrapper_position == "top" || @wrapper_position == "bottom") && "flex-col"
         ]}
-        id={@id && "#{@id}-speed-dial-content"}
+        id={@trigger_id && "#{@trigger_id}-speed-dial-content"}
         phx-click-away={
           @id &&
             JS.remove_class("show-speed-dial", to: "##{@id}-speed-dial-content", transition: "duration-300")
@@ -77,7 +77,7 @@ defmodule MishkaChelekom.SpeedDial do
       >
         <div
           :for={{item, index} <- Enum.with_index(@item, 1)}
-          id={"#{@id}-item-header-#{index}"}
+          id={"#{@trigger_id}-item-header-#{index}"}
           class={[
             "speed-dial-item w-fit h-fit",
             item[:icon_position] == "end" && "flex-row-reverse",
