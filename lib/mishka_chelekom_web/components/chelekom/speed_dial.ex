@@ -1,6 +1,7 @@
 defmodule MishkaChelekom.SpeedDial do
   use Phoenix.Component
   import MishkaChelekomComponents
+  import MishkaChelekomWeb.Gettext
   alias Phoenix.LiveView.JS
 
   @doc type: :component
@@ -110,7 +111,7 @@ defmodule MishkaChelekom.SpeedDial do
           class={@icon_animated && "transition-transform group-hover:rotate-45"}
         />
         <span :if={is_nil(@icon)} class={@trigger_content[:class]}><%= @trigger_content %></span>
-        <span class="sr-only">Open actions menu</span>
+        <span class="sr-only"><%= gettext("Open actions menu") %></span>
       </button>
     </div>
     """
@@ -140,13 +141,7 @@ defmodule MishkaChelekom.SpeedDial do
       href={@href}
     >
       <.icon :if={@icon} name={@icon} class={["item-icon", @icon_class]} />
-      <span
-        :if={is_nil(@icon)}
-        class={[
-          "block text-xs text-center",
-          @content_class
-        ]}
-      >
+      <span :if={is_nil(@icon)} class={["block text-xs text-center", @content_class]}>
         <%= render_slot(@inner_block) %>
       </span>
     </.link>
@@ -157,19 +152,10 @@ defmodule MishkaChelekom.SpeedDial do
     ~H"""
     <div
       id={"#{@id}-speed-dial-item-#{@index}"}
-      class={[
-        "speed-dial-base flex flex-col",
-        color_variant(@variant, @color)
-      ]}
+      class={["speed-dial-base flex flex-col", color_variant(@variant, @color)]}
     >
       <.icon :if={@icon} name={@icon} class={["item-icon", @icon_class]} />
-      <span
-        :if={is_nil(@icon)}
-        class={[
-          "block text-xs text-center",
-          @content_class
-        ]}
-      >
+      <span :if={is_nil(@icon)} class={["block text-xs text-center", @content_class]}>
         <%= render_slot(@inner_block) %>
       </span>
     </div>

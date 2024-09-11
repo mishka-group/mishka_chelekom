@@ -2,6 +2,7 @@ defmodule MishkaChelekom.Drawer do
   use Phoenix.Component
   import MishkaChelekomComponents
   alias Phoenix.LiveView.JS
+  import MishkaChelekomWeb.Gettext
 
   @colors [
     "white",
@@ -69,7 +70,7 @@ defmodule MishkaChelekom.Drawer do
       <div class="flex flex-row-reverse justify-between items-center gap-5 mb-2">
         <button type="button" phx-click={JS.exec(@on_hide, "phx-remove", to: "##{@id}")}>
           <.icon name="hero-x-mark" />
-          <span class="sr-only">Close menu</span>
+          <span class="sr-only"><%= gettext("Close menu") %></span>
         </button>
         <h5
           :if={title = @title || render_slot(@header)}

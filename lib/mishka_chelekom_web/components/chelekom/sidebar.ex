@@ -1,6 +1,7 @@
 defmodule MishkaChelekom.Sidebar do
   use Phoenix.Component
   import MishkaChelekomComponents
+  import MishkaChelekomWeb.Gettext
   alias Phoenix.LiveView.JS
 
   @colors [
@@ -66,7 +67,7 @@ defmodule MishkaChelekom.Sidebar do
         <div class="flex justify-end pt-2 px-2 mb-1 md:hidden">
           <button type="button" phx-click={JS.exec(@on_hide, "phx-remove", to: "##{@id}")}>
             <.icon name="hero-x-mark" />
-            <span class="sr-only">Close menu</span>
+            <span class="sr-only"><%= gettext("Close menu") %></span>
           </button>
         </div>
         <%= render_slot(@inner_block) %>
