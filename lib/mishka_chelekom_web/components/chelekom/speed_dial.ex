@@ -6,7 +6,7 @@ defmodule MishkaChelekom.SpeedDial do
   @doc type: :component
   attr :id, :string, default: nil, doc: ""
   attr :class, :string, default: nil, doc: ""
-  attr :trigger_id, :string, default: nil, doc: ""
+  attr :trigger_id, :string, required: true, doc: ""
   attr :action_position, :string, default: "bottom-end", doc: ""
   attr :position_size, :string, default: "large", doc: ""
   attr :wrapper_position, :string, default: "top", doc: ""
@@ -72,19 +72,19 @@ defmodule MishkaChelekom.SpeedDial do
         id={@trigger_id && "#{@trigger_id}-speed-dial-content"}
         phx-click-away={
           @id &&
-            JS.remove_class("show-speed-dial", to: "##{@id}-speed-dial-content", transition: "duration-300")
+            JS.remove_class("show-speed-dial", to: "##{@trigger_id}-speed-dial-content", transition: "duration-300")
         }
       >
         <div
           :for={{item, index} <- Enum.with_index(@item, 1)}
-          id={"#{@trigger_id}-item-header-#{index}"}
+          id={"#{@trigger_id}-item-#{index}"}
           class={[
             "speed-dial-item w-fit h-fit",
             item[:icon_position] == "end" && "flex-row-reverse",
             item[:class]
           ]}
         >
-          <.speed_dial_content id={@id} index={index} {item}>
+          <.speed_dial_content id={@trigger_id} index={index} {item}>
             <%= render_slot(item) %>
           </.speed_dial_content>
         </div>
