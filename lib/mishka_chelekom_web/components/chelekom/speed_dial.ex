@@ -22,6 +22,7 @@ defmodule MishkaChelekom.SpeedDial do
   attr :rest, :global, doc: ""
 
   slot :inner_block, required: false, doc: ""
+
   slot :item, required: false do
     attr :icon, :string
     attr :class, :string
@@ -56,17 +57,15 @@ defmodule MishkaChelekom.SpeedDial do
         padding_class(@padding),
         width_class(@width),
         space_class(@space),
-        size_class(@size),
+        size_class(@size)
       ]}
       {@rest}
     >
-      <div
-        class={[
-          "speed-dial-content flex items-center",
-          "absolute z-10 w-full transition-all ease-in-out delay-100 duratio-500",
-          (@wrapper_position == "top" || @wrapper_position == "bottom") && "flex-col"
-        ]}
-      >
+      <div class={[
+        "speed-dial-content flex items-center",
+        "absolute z-10 w-full transition-all ease-in-out delay-100 duratio-500",
+        (@wrapper_position == "top" || @wrapper_position == "bottom") && "flex-col"
+      ]}>
         <div
           :for={{item, index} <- Enum.with_index(@item, 1)}
           id={"#{@id}-item-header-#{index}"}
@@ -77,16 +76,19 @@ defmodule MishkaChelekom.SpeedDial do
             item[:class]
           ]}
         >
-          <.speed_dial_content id={@id} index={index} {item}/>
+          <.speed_dial_content id={@id} index={index} {item}>
+            <%= render_slot(item) %>
+          </.speed_dial_content>
         </div>
         <%= render_slot(@inner_block) %>
       </div>
 
-      <button
-        type="button"
-        class="speed-dial-base"
-      >
-        <.icon :if={!is_nil(@icon)} name={@icon} class={@icon_animated && "transition-transform group-hover:rotate-45"} />
+      <button type="button" class="speed-dial-base">
+        <.icon
+          :if={!is_nil(@icon)}
+          name={@icon}
+          class={@icon_animated && "transition-transform group-hover:rotate-45"}
+        />
         <span :if={is_nil(@icon)} class={@trigger_content[:class]}><%= @trigger_content %></span>
         <span class="sr-only">Open actions menu</span>
       </button>
@@ -114,11 +116,14 @@ defmodule MishkaChelekom.SpeedDial do
       patch={@patch}
       href={@href}
     >
-      <.icon :if={@icon} name={@icon}
+      <.icon
+        :if={@icon}
+        name={@icon}
         class={[
           "item-icon",
           @icon_class
-        ]} />
+        ]}
+      />
       <span class="block">
         <%= render_slot(@inner_block) %>
       </span>
@@ -128,15 +133,15 @@ defmodule MishkaChelekom.SpeedDial do
 
   defp speed_dial_content(assigns) do
     ~H"""
-    <div
-      id={"#{@id}-speed-dial-item-#{@index}"}
-      class="speed-dial-base"
-    >
-      <.icon :if={@icon} name={@icon}
+    <div id={"#{@id}-speed-dial-item-#{@index}"} class="speed-dial-base">
+      <.icon
+        :if={@icon}
+        name={@icon}
         class={[
           "item-icon",
           @icon_class
-        ]} />
+        ]}
+      />
       <span class="block">
         <%= render_slot(@inner_block) %>
       </span>
@@ -146,7 +151,6 @@ defmodule MishkaChelekom.SpeedDial do
 
   defp trigger_dial(),
     do: "[&_.speed-dial-content]:hover:visible [&_.speed-dial-content]:hover:opacity-100"
-
 
   defp position_class("top") do
     [
@@ -213,11 +217,16 @@ defmodule MishkaChelekom.SpeedDial do
   defp rounded_size("full"), do: "[&_.speed-dial-base]:rounded-full"
   defp rounded_size(_), do: rounded_size("full")
 
-  defp size_class("extra_small"), do: "[&_.speed-dial-content]:max-w-60 [&_.speed-dial-base]:size-9"
+  defp size_class("extra_small"),
+    do: "[&_.speed-dial-content]:max-w-60 [&_.speed-dial-base]:size-9"
+
   defp size_class("small"), do: "[&_.speed-dial-content]:max-w-64 [&_.speed-dial-base]:size-10"
   defp size_class("medium"), do: "[&_.speed-dial-content]:max-w-72 [&_.speed-dial-base]:size-12"
   defp size_class("large"), do: "[&_.speed-dial-content]:max-w-80 [&_.speed-dial-base]:size-14"
-  defp size_class("extra_large"), do: "[&_.speed-dial-content]:max-w-96 [&_.speed-dial-base]:size-18"
+
+  defp size_class("extra_large"),
+    do: "[&_.speed-dial-content]:max-w-96 [&_.speed-dial-base]:size-18"
+
   defp size_class(params) when is_binary(params), do: params
   defp size_class(_), do: size_class("extra_large")
 
