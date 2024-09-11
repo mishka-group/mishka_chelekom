@@ -51,6 +51,7 @@ defmodule MishkaChelekom.Carousel do
           "relative w-full",
           "[&_.slide]:absolute [&_.slide]:inset-0 [&_.slide]:opacity-0 [&_.slide.active-slide]:opacity-100",
           "[&_.slide]:transition-all [&_.slide]:delay-75 [&_.slide]:duration-1000 [&_.slide]:ease-in-out",
+          "[&_.slide.active-slide]:z-10",
           text_position(@text_position),
           padding_size(@padding),
           color_class(@overlay),
@@ -70,7 +71,7 @@ defmodule MishkaChelekom.Carousel do
               :if={@control}
               class={[
                 "carousel-controls drop-shadow-2xl w-fit absolute top-0 bottom-0 left-0 p-5 flex justify-center items-center",
-                "z-20 text-white transition-all ease-in-out duration-300 hover:bg-black/5"
+                "z-10 text-white transition-all ease-in-out duration-300 hover:bg-black/5"
               ]}
               id={"#{@id}-carousel-pervious-btn-#{index}"}
               phx-click={
@@ -90,7 +91,7 @@ defmodule MishkaChelekom.Carousel do
               id={"#{@id}-carousel-next-btn-#{index}"}
               class={[
                 "carousel-controls drop-shadow-2xl w-fit absolute top-0 bottom-0 right-0 p-5 flex justify-center items-center",
-                "z-20 text-white transition-all ease-in-out duration-300"
+                "z-10 text-white transition-all ease-in-out duration-300"
               ]}
               phx-click={
                 index + 1 <= length(@slide) &&
@@ -103,7 +104,7 @@ defmodule MishkaChelekom.Carousel do
             <div
               :if={@indicator}
               id={"#{@id}-carousel-slide-indicator-#{index}"}
-              class="absolute inset-x-0 bottom-0 z-50 flex justify-center gap-3 py-2.5"
+              class="absolute inset-x-0 bottom-0 z-10 flex justify-center gap-3 py-2.5"
             >
               <button
                 :for={indicator_item <- 1..length(@slide)}

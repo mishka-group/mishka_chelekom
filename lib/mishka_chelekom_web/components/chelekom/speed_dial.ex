@@ -7,12 +7,15 @@ defmodule MishkaChelekom.SpeedDial do
   attr :class, :string, default: nil, doc: ""
   attr :action_position, :string, default: "bottom_end", doc: ""
   attr :position_size, :string, default: "large", doc: ""
+  attr :wrapper_position, :string, default: "top", doc: ""
   attr :rounded, :string, default: "full", doc: ""
   attr :size, :string, default: "medium", doc: ""
   attr :color, :string, default: "primary", doc: ""
   attr :variant, :string, default: "default", doc: ""
-  attr :space, :string, default: "medium", doc: ""
+  attr :space, :string, default: "extra_small", doc: ""
+  attr :width, :string, default: "fit", doc: ""
   attr :border, :string, default: "extra_small", doc: ""
+  attr :clickable, :boolean, default: false, doc: ""
   attr :icon, :string, default: nil, doc: ""
   attr :icon_animated, :boolean, default: false, doc: ""
   attr :rest, :global, doc: ""
@@ -27,18 +30,27 @@ defmodule MishkaChelekom.SpeedDial do
       id={@id}
       class={[
         "fixed group",
+        "[&_.speed-dial-content]:invisible [&_.speed-dial-content]:opacity-0",
+        "[&_.speed-dial-content.show-dial]:visible [&_.speed-dial-content.show-dial]:opacity-100",
+        !@clickable && trigger_dial(),
         action_position(@position_size, @action_position),
         color_variant(@variant, @color),
         rounded_size(@rounded),
         border_class(@border),
-        size_class(@size),
+        width_class(@width),
         space_class(@space),
+        size_class(@size),
       ]}
       {@rest}
     >
-      <div class="speed-dial-menu-wrapper flex flex-col items-center hidden mb-4 space-y-2">
-        <%= render_slot(@inner_block) %>
-      </div>
+      <div class={[
+          "speed-dial-content flex flex-col items-center mb-4",
+          "absolute z-10 w-full transition-all ease-in-out delay-100 duratio-500",
+          position_class(@wrapper_position),
+        ]}>
+          <%= render_slot(@inner_block) %>
+        </div>
+
 
       <button
         type="button"
@@ -52,11 +64,51 @@ defmodule MishkaChelekom.SpeedDial do
     """
   end
 
-  defp space_class("extra_small"), do: "[&_.speed-dial-menu-wrapper]:space-y-2"
-  defp space_class("small"), do: "[&_.speed-dial-menu-wrapper]:space-y-3"
-  defp space_class("medium"), do: "[&_.speed-dial-menu-wrapper]:space-y-4"
-  defp space_class("large"), do: "[&_.speed-dial-menu-wrapper]:space-y-5"
-  defp space_class("extra_large"), do: "[&_.speed-dial-menu-wrapper]:space-y-6"
+  defp trigger_dial(),
+    do: "[&_.speed-dial-content]:hover:visible [&_.speed-dial-content]:hover:opacity-100"
+
+
+  defp position_class("top") do
+    [
+      "bottom-full left-1/2 -translate-x-1/2 -translate-y-[6px]",
+    ]
+  end
+
+  defp position_class("bottom") do
+    [
+      "top-full left-1/2 -translate-x-1/2 translate-y-[6px]",
+    ]
+  end
+
+  defp position_class("left") do
+    [
+      "right-full top-1/2 -translate-y-1/2 -translate-x-[6px]",
+    ]
+  end
+
+  defp position_class("right") do
+    [
+      "left-full top-1/2 -translate-y-1/2 translate-x-[6px]",
+    ]
+  end
+
+  defp width_class("extra_small"), do: "[&_.speed-dial-content]:w-48"
+  defp width_class("small"), do: "[&_.speed-dial-content]:w-52"
+  defp width_class("medium"), do: "[&_.speed-dial-content]:w-56"
+  defp width_class("large"), do: "[&_.speed-dial-content]:w-60"
+  defp width_class("extra_large"), do: "[&_.speed-dial-content]:w-64"
+  defp width_class("double_large"), do: "[&_.speed-dial-content]:w-72"
+  defp width_class("triple_large"), do: "[&_.speed-dial-content]:w-80"
+  defp width_class("quadruple_large"), do: "[&_.speed-dial-content]:w-96"
+  defp width_class("fit"), do: "[&_.speed-dial-content]:w-fit"
+  defp width_class(params) when is_binary(params), do: params
+  defp width_class(_), do: width_class("fit")
+
+  defp space_class("extra_small"), do: "[&_.speed-dial-content]:space-y-2"
+  defp space_class("small"), do: "[&_.speed-dial-content]:space-y-3"
+  defp space_class("medium"), do: "[&_.speed-dial-content]:space-y-4"
+  defp space_class("large"), do: "[&_.speed-dial-content]:space-y-5"
+  defp space_class("extra_large"), do: "[&_.speed-dial-content]:space-y-6"
   defp space_class(params) when is_binary(params), do: params
   defp space_class(_), do: space_class("extra_small")
 
@@ -68,11 +120,11 @@ defmodule MishkaChelekom.SpeedDial do
   defp rounded_size("full"), do: "[&_.peed-dial-trigger]:rounded-full"
   defp rounded_size(_), do: rounded_size("full")
 
-  defp size_class("extra_small"), do: "[&_.peed-dial-trigger]:size-9"
-  defp size_class("small"), do: "[&_.peed-dial-trigger]:size-10"
-  defp size_class("medium"), do: "[&_.peed-dial-trigger]:size-12"
-  defp size_class("large"), do: "[&_.peed-dial-trigger]:size-14"
-  defp size_class("extra_large"), do: "[&_.peed-dial-trigger]:size-18"
+  defp size_class("extra_small"), do: "[&_.speed-dial-content]:max-w-60 [&_.peed-dial-trigger]:size-9"
+  defp size_class("small"), do: "[&_.speed-dial-content]:max-w-64 [&_.peed-dial-trigger]:size-10"
+  defp size_class("medium"), do: "[&_.speed-dial-content]:max-w-72 [&_.peed-dial-trigger]:size-12"
+  defp size_class("large"), do: "[&_.speed-dial-content]:max-w-80 [&_.peed-dial-trigger]:size-14"
+  defp size_class("extra_large"), do: "[&_.speed-dial-content]:max-w-96 [&_.peed-dial-trigger]:size-18"
   defp size_class(params) when is_binary(params), do: params
   defp size_class(_), do: size_class("extra_large")
 
