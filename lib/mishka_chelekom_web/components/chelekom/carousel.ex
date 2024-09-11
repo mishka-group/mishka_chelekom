@@ -101,32 +101,7 @@ defmodule MishkaChelekom.Carousel do
               <.icon name="hero-chevron-right" class="size-5 md:size-7 lg:size-9" />
             </button>
 
-            <div
-              :if={@indicator}
-              id={"#{@id}-carousel-slide-indicator-#{index}"}
-              class={[
-                "absolute inset-x-0 bottom-0 z-10 flex justify-center gap-3 py-2.5",
-                "[&>.carousel-indicator]:h-1 [&>.carousel-indicator]:w-6 [&>.carousel-indicator]:bg-white",
-                "[&>.carousel-indicator]:opacity-70 [&>.carousel-indicator]:transition-all",
-                "[&>.carousel-indicator]:duration-500 [&>.carousel-indicator]:ease-in-out",
-                "[&>.carousel-indicator.active-indicator]opacity-100"
-              ]}
-            >
-              <button
-                :for={indicator_item <- 1..length(@slide)}
-                data-indicator-index={"#{indicator_item}"}
-                phx-click={
-                  JS.exec("phx-remove", to: "##{@id}")
-                  |> select_carousel(@id, indicator_item)
-                  |> JS.add_class("active-indicator")
-                }
-                class="carousel-indicator"
-                aria-label={
-                  Map.get(Enum.at(@slide, indicator_item - 1), :title, "Slide #{indicator_item}")
-                }
-                aria-current={indicator_item == index && "true"}
-              />
-            </div>
+            <.slide_indicators :if={@indicator} id={@id} index={index} count={length(@slide)} />
           </div>
         </div>
       </div>
@@ -206,6 +181,38 @@ defmodule MishkaChelekom.Carousel do
           <%= @description %>
         </p>
       </div>
+    </div>
+    """
+  end
+
+  attr :id, :string, required: true, doc: ""
+  attr :count, :integer, required: true, doc: ""
+  attr :index, :integer, required: true, doc: ""
+
+  defp slide_indicators(assigns) do
+    ~H"""
+    <div
+      id={"#{@id}-carousel-slide-indicator-#{@index}"}
+      class={[
+        "absolute inset-x-0 bottom-0 z-10 flex justify-center gap-3 py-2.5",
+        "[&>.carousel-indicator]:h-1 [&>.carousel-indicator]:w-6 [&>.carousel-indicator]:bg-white",
+        "[&>.carousel-indicator]:opacity-70 [&>.carousel-indicator]:transition-all",
+        "[&>.carousel-indicator]:duration-500 [&>.carousel-indicator]:ease-in-out",
+        "[&>.carousel-indicator.active-indicator]opacity-100"
+      ]}
+    >
+      <button
+        :for={indicator_item <- 1..@count}
+        data-indicator-index={"#{indicator_item}"}
+        phx-click={
+          JS.exec("phx-remove", to: "##{@id}")
+          |> select_carousel(@id, indicator_item)
+          |> JS.add_class("active-indicator")
+        }
+        class="carousel-indicator"
+        aria-label={"Slide #{indicator_item}"}
+        aria-current={indicator_item == @index && "true"}
+      />
     </div>
     """
   end
