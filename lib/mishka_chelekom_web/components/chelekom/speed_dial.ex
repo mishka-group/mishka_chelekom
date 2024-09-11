@@ -67,41 +67,20 @@ defmodule MishkaChelekom.SpeedDial do
           (@wrapper_position == "top" || @wrapper_position == "bottom") && "flex-col"
         ]}
       >
-
-      <div
-        :for={{item, index} <- Enum.with_index(@item, 1)}
-        id={"#{@id}-item-header-#{index}"}
-        class={[
-          "speed-dial-item",
-          item[:icon_position] == "end" && "flex-row-reverse",
-          color_variant(item[:variant], item[:color]),
-          item[:class]
-        ]}
-      >
-        <div class="speed-dial-base" :if={is_nil(item[:navigate]) || is_nil(item[:patch]) || is_nil(item[:href])}>
-          <.icon :if={item[:icon]} name={item[:icon]} class="item-icon" />
-          <span class="block">
-            <%= render_slot(item) %>
-          </span>
-        </div>
-
-        <.link
-          :if={!is_nil(item[:navigate]) || !is_nil(item[:patch]) || !is_nil(item[:href])}
-          class="block speed-dial-base"
-          navigate={item[:navigate]}
-          patch={item[:patch]}
-          href={item[:href]}
+        <div
+          :for={{item, index} <- Enum.with_index(@item, 1)}
+          id={"#{@id}-item-header-#{index}"}
+          class={[
+            "speed-dial-item",
+            item[:icon_position] == "end" && "flex-row-reverse",
+            color_variant(item[:variant], item[:color]),
+            item[:class]
+          ]}
         >
-          <.icon :if={item[:icon]} name={item[:icon]} class="item-icon" />
-          <span class="block">
-            <%= render_slot(item) %>
-          </span>
-        </.link>
-      </div>
-
+          <.speed_dial_content id={@id} index={index} {item}/>
+        </div>
         <%= render_slot(@inner_block) %>
       </div>
-
 
       <button
         type="button"
@@ -111,6 +90,56 @@ defmodule MishkaChelekom.SpeedDial do
         <span :if={is_nil(@icon)} class={@trigger_content[:class]}><%= @trigger_content %></span>
         <span class="sr-only">Open actions menu</span>
       </button>
+    </div>
+    """
+  end
+
+  attr :id, :string, required: true, doc: ""
+  attr :navigate, :string, default: nil, doc: ""
+  attr :patch, :string, default: nil, doc: ""
+  attr :href, :string, default: nil, doc: ""
+  attr :icon, :string, default: nil, doc: ""
+  attr :icon_class, :string, default: nil, doc: ""
+  attr :index, :integer, required: true, doc: ""
+  attr :icon_position, :string, doc: "end, start"
+  slot :inner_block, required: false, doc: ""
+
+  defp speed_dial_content(%{navigate: nav, patch: pat, href: hrf} = assigns)
+       when is_binary(nav) or is_binary(pat) or is_binary(hrf) do
+    ~H"""
+    <.link
+      id={"#{@id}-speed-dial-item-#{@index}"}
+      class="block speed-dial-base"
+      navigate={@navigate}
+      patch={@patch}
+      href={@href}
+    >
+      <.icon :if={@icon} name={@icon}
+        class={[
+          "item-icon",
+          @icon_class
+        ]} />
+      <span class="block">
+        <%= render_slot(@inner_block) %>
+      </span>
+    </.link>
+    """
+  end
+
+  defp speed_dial_content(assigns) do
+    ~H"""
+    <div
+      id={"#{@id}-speed-dial-item-#{@index}"}
+      class="speed-dial-base"
+    >
+      <.icon :if={@icon} name={@icon}
+        class={[
+          "item-icon",
+          @icon_class
+        ]} />
+      <span class="block">
+        <%= render_slot(@inner_block) %>
+      </span>
     </div>
     """
   end
