@@ -71,7 +71,7 @@ defmodule MishkaChelekom.SpeedDial do
         ]}
         id={@trigger_id && "#{@trigger_id}-speed-dial-content"}
         phx-click-away={
-          @id &&
+          @trigger_id &&
             JS.remove_class("show-speed-dial", to: "##{@trigger_id}-speed-dial-content", transition: "duration-300")
         }
       >
