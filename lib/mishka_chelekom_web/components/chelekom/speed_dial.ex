@@ -1,10 +1,12 @@
 defmodule MishkaChelekom.SpeedDial do
   use Phoenix.Component
   import MishkaChelekomComponents
+  alias Phoenix.LiveView.JS
 
   @doc type: :component
   attr :id, :string, default: nil, doc: ""
   attr :class, :string, default: nil, doc: ""
+  attr :trigger_id, :string, default: nil, doc: ""
   attr :action_position, :string, default: "bottom-end", doc: ""
   attr :position_size, :string, default: "large", doc: ""
   attr :wrapper_position, :string, default: "top", doc: ""
@@ -46,7 +48,7 @@ defmodule MishkaChelekom.SpeedDial do
       class={[
         "fixed group",
         "[&_.speed-dial-content]:invisible [&_.speed-dial-content]:opacity-0",
-        "[&_.speed-dial-content.show-dial]:visible [&_.speed-dial-content.show-dial]:opacity-100",
+        "[&_.speed-dial-content.show-speed-dial]:visible [&_.speed-dial-content.show-speed-dial]:opacity-100",
         "[&_.speed-dial-base]:flex [&_.speed-dial-base]:items-center [&_.speed-dial-base]:justify-center",
         !@clickable && trigger_dial(),
         action_position(@position_size, @action_position),
@@ -60,11 +62,18 @@ defmodule MishkaChelekom.SpeedDial do
       ]}
       {@rest}
     >
-      <div class={[
-        "speed-dial-content flex items-center",
-        "absolute z-10 w-full transition-all ease-in-out delay-100 duratio-500",
-        (@wrapper_position == "top" || @wrapper_position == "bottom") && "flex-col"
-      ]}>
+      <div
+        class={[
+          "speed-dial-content flex items-center",
+          "absolute z-10 w-full transition-all ease-in-out delay-100 duratio-500",
+          (@wrapper_position == "top" || @wrapper_position == "bottom") && "flex-col"
+        ]}
+        id={@id && "#{@id}-speed-dial-content"}
+        phx-click-away={
+          @id &&
+            JS.remove_class("show-speed-dial", to: "##{@id}-speed-dial-content", transition: "duration-300")
+        }
+      >
         <div
           :for={{item, index} <- Enum.with_index(@item, 1)}
           id={"#{@id}-item-header-#{index}"}
@@ -81,7 +90,17 @@ defmodule MishkaChelekom.SpeedDial do
         <%= render_slot(@inner_block) %>
       </div>
 
-      <button type="button" class={["speed-dial-base", color_variant(@variant, @color)]}>
+      <button
+        type="button"
+        class={["speed-dial-base", color_variant(@variant, @color)]}
+        phx-click={
+        @trigger_id &&
+          JS.toggle_class("show-speed-dial",
+            to: "##{@trigger_id}-speed-dial-content",
+            transition: "duration-100"
+          )
+      }
+      >
         <.icon
           :if={!is_nil(@icon)}
           name={@icon}
@@ -117,7 +136,7 @@ defmodule MishkaChelekom.SpeedDial do
       href={@href}
     >
       <.icon :if={@icon} name={@icon} class={["item-icon", @icon_class]} />
-      <span class="block">
+      <span class="block text-[8px] text-center">
         <%= render_slot(@inner_block) %>
       </span>
     </.link>
@@ -131,7 +150,7 @@ defmodule MishkaChelekom.SpeedDial do
       class={["speed-dial-base", color_variant(@variant, @color)]}
     >
       <.icon :if={@icon} name={@icon} class={["item-icon", @icon_class]} />
-      <span class="block">
+      <span class="block text-[8px] text-center">
         <%= render_slot(@inner_block) %>
       </span>
     </div>
@@ -181,11 +200,11 @@ defmodule MishkaChelekom.SpeedDial do
   defp width_class(params) when is_binary(params), do: params
   defp width_class(_), do: width_class("fit")
 
-  defp space_class("extra_small"), do: "[&_.speed-dial-item]:space-y-2"
-  defp space_class("small"), do: "[&_.speed-dial-item]:space-y-3"
-  defp space_class("medium"), do: "[&_.speed-dial-item]:space-y-4"
-  defp space_class("large"), do: "[&_.speed-dial-item]:space-y-5"
-  defp space_class("extra_large"), do: "[&_.speed-dial-item]:space-y-6"
+  defp space_class("extra_small"), do: "[&_.speed-dial-content]:space-y-2"
+  defp space_class("small"), do: "[&_.speed-dial-content]:space-y-3"
+  defp space_class("medium"), do: "[&_.speed-dial-content]:space-y-4"
+  defp space_class("large"), do: "[&_.speed-dial-content]:space-y-5"
+  defp space_class("extra_large"), do: "[&_.speed-dial-content]:space-y-6"
   defp space_class(params) when is_binary(params), do: params
   defp space_class(_), do: space_class("extra_small")
 
@@ -395,7 +414,7 @@ defmodule MishkaChelekom.SpeedDial do
 
   defp color_variant("shadow", "misc") do
     [
-      "bg-[#FFE6FF] text-[#52059C",
+      "bg-[#FFE6FF] text-[#52059C]",
       "border-[#FFE6FF] shadow"
     ]
   end
