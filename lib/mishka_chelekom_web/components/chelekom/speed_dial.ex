@@ -278,7 +278,7 @@ defmodule MishkaChelekom.SpeedDial do
 
   defp size_class("extra_large") do
     [
-       "[&_.speed-dial-content]:max-w-96 [&_.speed-dial-icon-base]:size-5 [&_.speed-dial-base]:size-11"
+      "[&_.speed-dial-content]:max-w-96 [&_.speed-dial-icon-base]:size-5 [&_.speed-dial-base]:size-11"
     ]
   end
 
