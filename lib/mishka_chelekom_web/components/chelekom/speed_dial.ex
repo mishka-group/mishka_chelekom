@@ -273,6 +273,15 @@ defmodule MishkaChelekom.SpeedDial do
   defp size_class("extra_large"),
     do: "[&_.speed-dial-content]:max-w-96 [&_.speed-dial-base]:size-18"
 
+  defp size_class("double_large"),
+    do: "[&_.speed-dial-content]:max-w-96 [&_.speed-dial-base]:size-20"
+
+  defp size_class("triple_large"),
+    do: "[&_.speed-dial-content]:max-w-96 [&_.speed-dial-base]:size-22"
+
+  defp size_class("quadruple_large"),
+    do: "[&_.speed-dial-content]:max-w-96 [&_.speed-dial-base]:size-24"
+
   defp size_class(params) when is_binary(params), do: params
   defp size_class(_), do: size_class("extra_large")
 
