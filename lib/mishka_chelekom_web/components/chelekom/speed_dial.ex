@@ -30,6 +30,7 @@ defmodule MishkaChelekom.SpeedDial do
     attr :patch, :string, doc: ""
     attr :href, :string, doc: ""
     attr :icon_class, :string
+    attr :content_class, :string
     attr :color, :string
     attr :variant, :string
     attr :icon_position, :string, doc: "end, start"
@@ -52,12 +53,12 @@ defmodule MishkaChelekom.SpeedDial do
         "[&_.speed-dial-base]:flex [&_.speed-dial-base]:items-center [&_.speed-dial-base]:justify-center",
         !@clickable && trigger_dial(),
         action_position(@position_size, @action_position),
+        space_class(@space, @wrapper_position),
         position_class(@wrapper_position),
         rounded_size(@rounded),
         border_class(@border),
         padding_class(@padding),
         width_class(@width),
-        space_class(@space),
         size_class(@size)
       ]}
       {@rest}
@@ -78,7 +79,7 @@ defmodule MishkaChelekom.SpeedDial do
           :for={{item, index} <- Enum.with_index(@item, 1)}
           id={"#{@id}-item-header-#{index}"}
           class={[
-            "speed-dial-item",
+            "speed-dial-item w-fit h-fit",
             item[:icon_position] == "end" && "flex-row-reverse",
             item[:class]
           ]}
@@ -121,6 +122,7 @@ defmodule MishkaChelekom.SpeedDial do
   attr :variant, :string, default: "default", doc: ""
   attr :icon, :string, default: nil, doc: ""
   attr :icon_class, :string, default: nil, doc: ""
+  attr :content_class, :string, default: nil, doc: ""
   attr :index, :integer, required: true, doc: ""
   attr :icon_position, :string, doc: "end, start"
   slot :inner_block, required: false, doc: ""
@@ -130,13 +132,18 @@ defmodule MishkaChelekom.SpeedDial do
     ~H"""
     <.link
       id={"#{@id}-speed-dial-item-#{@index}"}
-      class={["block speed-dial-base", color_variant(@variant, @color)]}
+      class={["block speed-dial-base flex flex-col", color_variant(@variant, @color)]}
       navigate={@navigate}
       patch={@patch}
       href={@href}
     >
       <.icon :if={@icon} name={@icon} class={["item-icon", @icon_class]} />
-      <span class="block text-[8px] text-center">
+      <span :if={is_nil(@icon)}
+        class={[
+          "block text-xs text-center",
+          @content_class
+        ]}
+      >
         <%= render_slot(@inner_block) %>
       </span>
     </.link>
@@ -147,10 +154,18 @@ defmodule MishkaChelekom.SpeedDial do
     ~H"""
     <div
       id={"#{@id}-speed-dial-item-#{@index}"}
-      class={["speed-dial-base", color_variant(@variant, @color)]}
+      class={[
+        "speed-dial-base flex flex-col",
+        color_variant(@variant, @color)
+      ]}
     >
       <.icon :if={@icon} name={@icon} class={["item-icon", @icon_class]} />
-      <span class="block text-[8px] text-center">
+      <span :if={is_nil(@icon)}
+        class={[
+          "block text-xs text-center",
+          @content_class
+        ]}
+      >
         <%= render_slot(@inner_block) %>
       </span>
     </div>
@@ -200,13 +215,32 @@ defmodule MishkaChelekom.SpeedDial do
   defp width_class(params) when is_binary(params), do: params
   defp width_class(_), do: width_class("fit")
 
-  defp space_class("extra_small"), do: "[&_.speed-dial-content]:space-y-2"
-  defp space_class("small"), do: "[&_.speed-dial-content]:space-y-3"
-  defp space_class("medium"), do: "[&_.speed-dial-content]:space-y-4"
-  defp space_class("large"), do: "[&_.speed-dial-content]:space-y-5"
-  defp space_class("extra_large"), do: "[&_.speed-dial-content]:space-y-6"
-  defp space_class(params) when is_binary(params), do: params
-  defp space_class(_), do: space_class("extra_small")
+  defp space_class("extra_small", "top"), do: "[&_.speed-dial-content]:space-y-2"
+  defp space_class("small", "top"), do: "[&_.speed-dial-content]:space-y-3"
+  defp space_class("medium", "top"), do: "[&_.speed-dial-content]:space-y-4"
+  defp space_class("large", "top"), do: "[&_.speed-dial-content]:space-y-5"
+  defp space_class("extra_large", "top"), do: "[&_.speed-dial-content]:space-y-6"
+
+  defp space_class("extra_small", "bottom"), do: "[&_.speed-dial-content]:space-y-2"
+  defp space_class("small", "bottom"), do: "[&_.speed-dial-content]:space-y-3"
+  defp space_class("medium", "bottom"), do: "[&_.speed-dial-content]:space-y-4"
+  defp space_class("large", "bottom"), do: "[&_.speed-dial-content]:space-y-5"
+  defp space_class("extra_large", "bottom"), do: "[&_.speed-dial-content]:space-y-6"
+
+  defp space_class("extra_small", "left"), do: "[&_.speed-dial-content]:space-x-2"
+  defp space_class("small", "left"), do: "[&_.speed-dial-content]:space-x-3"
+  defp space_class("medium", "left"), do: "[&_.speed-dial-content]:space-x-4"
+  defp space_class("large", "left"), do: "[&_.speed-dial-content]:space-x-5"
+  defp space_class("extra_large", "left"), do: "[&_.speed-dial-content]:space-x-6"
+
+  defp space_class("extra_small", "right"), do: "[&_.speed-dial-content]:space-x-2"
+  defp space_class("small", "right"), do: "[&_.speed-dial-content]:space-x-3"
+  defp space_class("medium", "right"), do: "[&_.speed-dial-content]:space-x-4"
+  defp space_class("large", "right"), do: "[&_.speed-dial-content]:space-x-5"
+  defp space_class("extra_large", "right"), do: "[&_.speed-dial-content]:space-x-6"
+
+  defp space_class(_, params) when is_binary(params), do: params
+  defp space_class(_,_), do: space_class("extra_small", "bottom")
 
   defp padding_class("none"), do: "[&_.speed-dial-content]:p-0"
   defp padding_class("extra_small"), do: "[&_.speed-dial-content]:p-1"
