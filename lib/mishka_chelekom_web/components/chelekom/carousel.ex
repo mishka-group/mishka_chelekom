@@ -81,37 +81,9 @@ defmodule MishkaChelekom.Carousel do
               <.icon name="hero-chevron-left" class="size-5 md:size-7 lg:size-9" />
             </button>
 
-            <.slide_image id={@id} index={index} {Map.take(slide, [:navigate, :patch, :href, :image])} />
-
-            <div
-              :if={!is_nil(slide[:title]) || !is_nil(slide[:description])}
-              class="carousel-overlay absolute inset-0"
-              id={"#{@id}-carousel-slide-content-#{index}"}
-            >
-              <div
-                class={[
-                  "description-wrapper h-full mx-auto flex flex-col gap-5",
-                  content_position(slide[:content_position]),
-                  slide[:wrapper_class]
-                ]}
-                id={"#{@id}-carousel-slide-content-position-#{index}"}
-              >
-                <div
-                  :if={!is_nil(slide[:title])}
-                  id={"#{@id}-carousel-slide-content-title-#{index}"}
-                  class={["carousel-title", slide[:title_class] || "text-white"]}
-                >
-                  <%= slide[:title] %>
-                </div>
-                <p
-                  :if={!is_nil(slide[:description])}
-                  id={"#{@id}-carousel-slide-content-description-#{index}"}
-                  class={["carousel-description", slide[:description_class]]}
-                >
-                  <%= slide[:description] %>
-                </p>
-              </div>
-            </div>
+            <.slide_image id={@id} index={index} {Map.take(slide, [:navigate, :patch, :href, :image])}>
+              <.slide_content id={@id} index={index} {slide} />
+            </.slide_image>
 
             <button
               :if={@control}
@@ -168,6 +140,7 @@ defmodule MishkaChelekom.Carousel do
   attr :href, :string, default: nil, doc: ""
   attr :image, :string, required: true, doc: ""
   attr :index, :integer, required: true, doc: ""
+  slot :inner_block, required: false, doc: ""
 
   defp slide_image(%{navigate: nav, patch: pat, href: hrf} = assigns)
        when is_binary(nav) or is_binary(pat) or is_binary(hrf) do
@@ -178,6 +151,7 @@ defmodule MishkaChelekom.Carousel do
         src={@image}
         id={"#{@id}-carousel-slide-image-#{@index}"}
       />
+      <%= render_slot(@inner_block) %>
     </.link>
     """
   end
@@ -189,6 +163,50 @@ defmodule MishkaChelekom.Carousel do
       src={@image}
       id={"#{@id}-carousel-slide-image-#{@index}"}
     />
+    <%= render_slot(@inner_block) %>
+    """
+  end
+
+  attr :id, :string, required: true, doc: ""
+  attr :title, :string, default: nil
+  attr :description, :string, default: nil
+  attr :title_class, :string, default: "text-white"
+  attr :description_class, :string, default: nil
+  attr :wrapper_class, :string, default: nil
+  attr :content_position, :string, default: nil
+  attr :index, :integer, required: true, doc: ""
+
+  defp slide_content(assigns) do
+    ~H"""
+    <div
+      :if={!is_nil(@title) || !is_nil(@description)}
+      class="carousel-overlay absolute inset-0"
+      id={"#{@id}-carousel-slide-content-#{@index}"}
+    >
+      <div
+        class={[
+          "description-wrapper h-full mx-auto flex flex-col gap-5",
+          content_position(@content_position),
+          @wrapper_class
+        ]}
+        id={"#{@id}-carousel-slide-content-position-#{@index}"}
+      >
+        <div
+          :if={!is_nil(@title)}
+          id={"#{@id}-carousel-slide-content-title-#{@index}"}
+          class={["carousel-title", @title_class]}
+        >
+          <%= @title %>
+        </div>
+        <p
+          :if={!is_nil(@description)}
+          id={"#{@id}-carousel-slide-content-description-#{@index}"}
+          class={["carousel-description", @description_class]}
+        >
+          <%= @description %>
+        </p>
+      </div>
+    </div>
     """
   end
 
