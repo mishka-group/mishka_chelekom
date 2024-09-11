@@ -104,7 +104,13 @@ defmodule MishkaChelekom.Carousel do
             <div
               :if={@indicator}
               id={"#{@id}-carousel-slide-indicator-#{index}"}
-              class="absolute inset-x-0 bottom-0 z-10 flex justify-center gap-3 py-2.5"
+              class={[
+                "absolute inset-x-0 bottom-0 z-10 flex justify-center gap-3 py-2.5",
+                "[&>.carousel-indicator]:h-1 [&>.carousel-indicator]:w-6 [&>.carousel-indicator]:bg-white",
+                "[&>.carousel-indicator]:opacity-70 [&>.carousel-indicator]:transition-all",
+                "[&>.carousel-indicator]:duration-500 [&>.carousel-indicator]:ease-in-out",
+                "[&>.carousel-indicator.active-indicator]opacity-100"
+              ]}
             >
               <button
                 :for={indicator_item <- 1..length(@slide)}
@@ -114,14 +120,7 @@ defmodule MishkaChelekom.Carousel do
                   |> select_carousel(@id, indicator_item)
                   |> JS.add_class("active-indicator")
                 }
-                class={[
-                  "carousel-indicator",
-                  "h-1 w-6",
-                  "border-solid border-transparent bg-white bg-clip-padding p-0",
-                  "opacity-70 transition-opacity duration-[600ms] ease-[cubic-bezier(0.25,0.1,0.25,1.0)]",
-                  "motion-reduce:transition-none",
-                  "[&.active-indicator]opacity-100"
-                ]}
+                class="carousel-indicator"
                 aria-label={
                   Map.get(Enum.at(@slide, indicator_item - 1), :title, "Slide #{indicator_item}")
                 }
