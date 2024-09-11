@@ -4,9 +4,8 @@ defmodule MishkaChelekom.SpeedDial do
   alias Phoenix.LiveView.JS
 
   @doc type: :component
-  attr :id, :string, default: nil, doc: ""
+  attr :id, :string, required: true, doc: ""
   attr :class, :string, default: nil, doc: ""
-  attr :trigger_id, :string, required: true, doc: ""
   attr :action_position, :string, default: "bottom-end", doc: ""
   attr :position_size, :string, default: "large", doc: ""
   attr :wrapper_position, :string, default: "top", doc: ""
@@ -69,22 +68,25 @@ defmodule MishkaChelekom.SpeedDial do
           "absolute z-10 w-full transition-all ease-in-out delay-100 duratio-500",
           (@wrapper_position == "top" || @wrapper_position == "bottom") && "flex-col"
         ]}
-        id={@trigger_id && "#{@trigger_id}-speed-dial-content"}
+        id={@id && "#{@id}-speed-dial-content"}
         phx-click-away={
-          @trigger_id &&
-            JS.remove_class("show-speed-dial", to: "##{@trigger_id}-speed-dial-content", transition: "duration-300")
+          @id &&
+            JS.remove_class("show-speed-dial",
+              to: "##{@id}-speed-dial-content",
+              transition: "duration-300"
+            )
         }
       >
         <div
           :for={{item, index} <- Enum.with_index(@item, 1)}
-          id={"#{@trigger_id}-item-#{index}"}
+          id={"#{@id}-item-#{index}"}
           class={[
             "speed-dial-item w-fit h-fit",
             item[:icon_position] == "end" && "flex-row-reverse",
             item[:class]
           ]}
         >
-          <.speed_dial_content id={@trigger_id} index={index} {item}>
+          <.speed_dial_content id={@id} index={index} {item}>
             <%= render_slot(item) %>
           </.speed_dial_content>
         </div>
@@ -95,12 +97,12 @@ defmodule MishkaChelekom.SpeedDial do
         type="button"
         class={["speed-dial-base", color_variant(@variant, @color)]}
         phx-click={
-        @trigger_id &&
-          JS.toggle_class("show-speed-dial",
-            to: "##{@trigger_id}-speed-dial-content",
-            transition: "duration-100"
-          )
-      }
+          @id &&
+            JS.toggle_class("show-speed-dial",
+              to: "##{@id}-speed-dial-content",
+              transition: "duration-100"
+            )
+        }
       >
         <.icon
           :if={!is_nil(@icon)}
@@ -138,7 +140,8 @@ defmodule MishkaChelekom.SpeedDial do
       href={@href}
     >
       <.icon :if={@icon} name={@icon} class={["item-icon", @icon_class]} />
-      <span :if={is_nil(@icon)}
+      <span
+        :if={is_nil(@icon)}
         class={[
           "block text-xs text-center",
           @content_class
@@ -160,7 +163,8 @@ defmodule MishkaChelekom.SpeedDial do
       ]}
     >
       <.icon :if={@icon} name={@icon} class={["item-icon", @icon_class]} />
-      <span :if={is_nil(@icon)}
+      <span
+        :if={is_nil(@icon)}
         class={[
           "block text-xs text-center",
           @content_class
@@ -240,7 +244,7 @@ defmodule MishkaChelekom.SpeedDial do
   defp space_class("extra_large", "right"), do: "[&_.speed-dial-content]:space-x-6"
 
   defp space_class(_, params) when is_binary(params), do: params
-  defp space_class(_,_), do: space_class("extra_small", "bottom")
+  defp space_class(_, _), do: space_class("extra_small", "bottom")
 
   defp padding_class("none"), do: "[&_.speed-dial-content]:p-0"
   defp padding_class("extra_small"), do: "[&_.speed-dial-content]:p-1"
