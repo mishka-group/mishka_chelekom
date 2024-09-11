@@ -81,7 +81,7 @@ defmodule MishkaChelekom.Carousel do
               <.icon name="hero-chevron-left" class="size-5 md:size-7 lg:size-9" />
             </button>
 
-            <.slid_image id={@id} index={index} {Map.take(slide, [:navigate, :patch, :href, :image])} />
+            <.slide_image id={@id} index={index} {Map.take(slide, [:navigate, :patch, :href, :image])} />
 
             <div
               :if={!is_nil(slide[:title]) || !is_nil(slide[:description])}
@@ -169,7 +169,7 @@ defmodule MishkaChelekom.Carousel do
   attr :image, :string, required: true, doc: ""
   attr :index, :integer, required: true, doc: ""
 
-  defp slid_image(%{navigate: nav, patch: pat, href: hrf} = assigns)
+  defp slide_image(%{navigate: nav, patch: pat, href: hrf} = assigns)
        when is_binary(nav) or is_binary(pat) or is_binary(hrf) do
     ~H"""
     <.link navigate={@navigate} patch={@patch} href={@href}>
@@ -182,7 +182,7 @@ defmodule MishkaChelekom.Carousel do
     """
   end
 
-  defp slid_image(assigns) do
+  defp slide_image(assigns) do
     ~H"""
     <MishkaChelekom.Image.image
       class="max-w-full"
