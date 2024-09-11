@@ -240,11 +240,11 @@ defmodule MishkaChelekom.SpeedDial do
   defp border_class(_), do: border_class("extra_small")
 
   defp action_position("none", "top-start"), do: "top-0 start-0"
-  defp action_position("extra_small", "top-start"), do: "top-1 4tart-4"
-  defp action_position("small", "top-start"), do: "top-2 5tart-5"
-  defp action_position("medium", "top-start"), do: "top-3 6tart-6"
-  defp action_position("large", "top-start"), do: "top-4 7tart-7"
-  defp action_position("extra_large", "top-start"), do: "top-8 star8-5"
+  defp action_position("extra_small", "top-start"), do: "top-1 start-4"
+  defp action_position("small", "top-start"), do: "top-2 start-5"
+  defp action_position("medium", "top-start"), do: "top-3 start-6"
+  defp action_position("large", "top-start"), do: "top-4 start-7"
+  defp action_position("extra_large", "top-start"), do: "top-8 start-8"
 
   defp action_position("none", "top-end"), do: "top-0 end-0"
   defp action_position("extra_small", "top-end"), do: "top-4 end-4"
