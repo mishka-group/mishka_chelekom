@@ -296,7 +296,7 @@ defmodule MishkaChelekom.SpeedDial do
 
   defp size_class("quadruple_large") do
     [
-      "[&_.speed-dial-content]:max-w-96 [&_.speed-dial-icon-base]:size-8 [&_.speed-dial-base]:size-18"
+      "[&_.speed-dial-content]:max-w-96 [&_.speed-dial-icon-base]:size-8 [&_.speed-dial-base]:size-16"
     ]
   end
 
