@@ -11,7 +11,7 @@ defmodule MishkaChelekom.Carousel do
   attr :padding, :string, default: "medium", doc: ""
   attr :text_position, :string, default: "center", doc: ""
   attr :rest, :global, doc: ""
-  attr :indicator, :boolean, default: true
+  attr :indicator, :boolean, default: false
   attr :control, :boolean, default: true
 
   slot :inner_block, required: false, doc: ""

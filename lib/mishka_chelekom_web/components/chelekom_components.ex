@@ -16,7 +16,6 @@ defmodule MishkaChelekomComponents do
         Carousel,
         Chat,
         CheckboxInput,
-        Clipboard,
         DatepickerInput,
         DeviceMockup,
         Drawer,
