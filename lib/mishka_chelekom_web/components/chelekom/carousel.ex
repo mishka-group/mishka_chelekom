@@ -40,9 +40,10 @@ defmodule MishkaChelekom.Carousel do
     <div>
       <div
         id={@id}
+        phx-remove={unselect_carousel(@id, length(@slide))}
         phx-mounted={
           is_nil(@mounted_active_carousel) &&
-            unselect_carousel(@id, length(@slide)) |> select_carousel(@id, 1)
+            JS.exec("phx-remove", to: "##{@id}") |> select_carousel(@id, 1)
         }
         class={[
           "relative w-full",
@@ -59,7 +60,7 @@ defmodule MishkaChelekom.Carousel do
           id={"#{@id}-carousel-slide-#{index}"}
           class={["slide h-full", slide[:class]]}
           phx-mounted={
-            slide[:active] && unselect_carousel(@id, length(@slide)) |> select_carousel(@id, index)
+            slide[:active] && JS.exec("phx-remove", to: "##{@id}") |> select_carousel(@id, index)
           }
         >
           <div class="relative w-full">
@@ -72,7 +73,7 @@ defmodule MishkaChelekom.Carousel do
               id={"#{@id}-carousel-pervious-btn-#{index}"}
               phx-click={
                 index - 1 != 0 &&
-                  unselect_carousel(@id, length(@slide)) |> select_carousel(@id, index - 1)
+                  JS.exec("phx-remove", to: "##{@id}") |> select_carousel(@id, index - 1)
               }
             >
               <.icon name="hero-chevron-left" class="size-5 md:size-7 lg:size-9" />
@@ -132,7 +133,7 @@ defmodule MishkaChelekom.Carousel do
               ]}
               phx-click={
                 index + 1 <= length(@slide) &&
-                  unselect_carousel(@id, length(@slide)) |> select_carousel(@id, index + 1)
+                  JS.exec("phx-remove", to: "##{@id}") |> select_carousel(@id, index + 1)
               }
             >
               <.icon name="hero-chevron-right" class="size-5 md:size-7 lg:size-9" />
@@ -147,7 +148,7 @@ defmodule MishkaChelekom.Carousel do
                 :for={indicator_item <- 1..length(@slide)}
                 data-indicator-index={"#{indicator_item}"}
                 phx-click={
-                  unselect_carousel(@id, length(@slide))
+                  JS.exec("phx-remove", to: "##{@id}")
                   |> select_carousel(@id, indicator_item)
                   |> JS.add_class("active-indicator")
                 }
