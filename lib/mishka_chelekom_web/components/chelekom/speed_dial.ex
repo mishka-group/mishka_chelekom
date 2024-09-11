@@ -102,7 +102,7 @@ defmodule MishkaChelekom.SpeedDial do
   attr :patch, :string, default: nil, doc: ""
   attr :href, :string, default: nil, doc: ""
   attr :color, :string, default: "primary", doc: ""
-  attr :variant, :string, default: "defauly", doc: ""
+  attr :variant, :string, default: "default", doc: ""
   attr :icon, :string, default: nil, doc: ""
   attr :icon_class, :string, default: nil, doc: ""
   attr :index, :integer, required: true, doc: ""
