@@ -51,7 +51,6 @@ defmodule MishkaChelekom.SpeedDial do
         !@clickable && trigger_dial(),
         action_position(@position_size, @action_position),
         position_class(@wrapper_position),
-        color_variant(@variant, @color),
         rounded_size(@rounded),
         border_class(@border),
         padding_class(@padding),
@@ -72,7 +71,6 @@ defmodule MishkaChelekom.SpeedDial do
           class={[
             "speed-dial-item",
             item[:icon_position] == "end" && "flex-row-reverse",
-            color_variant(item[:variant], item[:color]),
             item[:class]
           ]}
         >
@@ -83,7 +81,10 @@ defmodule MishkaChelekom.SpeedDial do
         <%= render_slot(@inner_block) %>
       </div>
 
-      <button type="button" class="speed-dial-base">
+      <button type="button" class={[
+        "speed-dial-base",
+        color_variant(@variant, @color),
+      ]}>
         <.icon
           :if={!is_nil(@icon)}
           name={@icon}
@@ -100,6 +101,8 @@ defmodule MishkaChelekom.SpeedDial do
   attr :navigate, :string, default: nil, doc: ""
   attr :patch, :string, default: nil, doc: ""
   attr :href, :string, default: nil, doc: ""
+  attr :color, :string, default: "primary", doc: ""
+  attr :variant, :string, default: "defauly", doc: ""
   attr :icon, :string, default: nil, doc: ""
   attr :icon_class, :string, default: nil, doc: ""
   attr :index, :integer, required: true, doc: ""
@@ -111,7 +114,10 @@ defmodule MishkaChelekom.SpeedDial do
     ~H"""
     <.link
       id={"#{@id}-speed-dial-item-#{@index}"}
-      class="block speed-dial-base"
+      class={[
+        "block speed-dial-base",
+        color_variant(@variant, @color),
+      ]}
       navigate={@navigate}
       patch={@patch}
       href={@href}
@@ -133,7 +139,12 @@ defmodule MishkaChelekom.SpeedDial do
 
   defp speed_dial_content(assigns) do
     ~H"""
-    <div id={"#{@id}-speed-dial-item-#{@index}"} class="speed-dial-base">
+    <div id={"#{@id}-speed-dial-item-#{@index}"}
+      class={[
+        "speed-dial-base",
+        color_variant(@variant, @color),
+      ]}
+    >
       <.icon
         :if={@icon}
         name={@icon}
@@ -268,135 +279,168 @@ defmodule MishkaChelekom.SpeedDial do
   defp action_position("extra_large", "bottom-end"), do: "bottom-9 end-9"
 
   defp color_variant("default", "white") do
-    "[&_.speed-dial-base]:bg-white [&_.speed-dial-base]:text-[#3E3E3E] [&_.speed-dial-base]:border-[#DADADA]"
+    "bg-white text-[#3E3E3E] border-[#DADADA]"
   end
 
   defp color_variant("default", "primary") do
-    "[&_.speed-dial-base]:bg-[#4363EC] [&_.speed-dial-base]:text-white [&_.speed-dial-base]:border-[#2441de]"
+    "bg-[#4363EC] text-white border-[#2441de]"
   end
 
   defp color_variant("default", "secondary") do
-    "[&_.speed-dial-base]:bg-[#6B6E7C] [&_.speed-dial-base]:text-white [&_.speed-dial-base]:border-[#877C7C]"
+    "bg-[#6B6E7C] text-white border-[#877C7C]"
   end
 
   defp color_variant("default", "success") do
-    "[&_.speed-dial-base]:bg-[#ECFEF3] [&_.speed-dial-base]:text-[#047857] [&_.speed-dial-base]:border-[#6EE7B7]"
+    "bg-[#ECFEF3] text-[#047857] border-[#6EE7B7]"
   end
 
   defp color_variant("default", "warning") do
-    "[&_.speed-dial-base]:bg-[#FFF8E6] [&_.speed-dial-base]:text-[#FF8B08] [&_.speed-dial-base]:border-[#FF8B08]"
+    "bg-[#FFF8E6] text-[#FF8B08] border-[#FF8B08]"
   end
 
   defp color_variant("default", "danger") do
-    "[&_.speed-dial-base]:bg-[#FFE6E6] [&_.speed-dial-base]:text-[#E73B3B] [&_.speed-dial-base]:border-[#E73B3B]"
+    "bg-[#FFE6E6] text-[#E73B3B] border-[#E73B3B]"
   end
 
   defp color_variant("default", "info") do
-    "[&_.speed-dial-base]:bg-[#E5F0FF] [&_.speed-dial-base]:text-[#004FC4] [&_.speed-dial-base]:border-[#004FC4]"
+    "bg-[#E5F0FF] text-[#004FC4] border-[#004FC4]"
   end
 
   defp color_variant("default", "misc") do
-    "[&_.speed-dial-base]:bg-[#FFE6FF] [&_.speed-dial-base]:text-[#52059C] [&_.speed-dial-base]:border-[#52059C]"
+    "bg-[#FFE6FF] text-[#52059C] border-[#52059C]"
   end
 
   defp color_variant("default", "dawn") do
-    "[&_.speed-dial-base]:bg-[#FFECDA] [&_.speed-dial-base]:text-[#4D4137] [&_.speed-dial-base]:border-[#4D4137]"
+    "bg-[#FFECDA] text-[#4D4137] border-[#4D4137]"
   end
 
   defp color_variant("default", "light") do
-    "[&_.speed-dial-base]:bg-[#E3E7F1] [&_.speed-dial-base]:text-[#707483] [&_.speed-dial-base]:border-[#707483]"
+    "bg-[#E3E7F1] text-[#707483] border-[#707483]"
   end
 
   defp color_variant("default", "dark") do
-    "[&_.speed-dial-base]:bg-[#1E1E1E] [&_.speed-dial-base]:text-white [&_.speed-dial-base]:border-[#050404]"
+    "bg-[#1E1E1E] text-white border-[#050404]"
   end
 
   defp color_variant("unbordered", "white") do
-    "[&_.speed-dial-base]:bg-white [&_.speed-dial-base]:border-transparent [&_.speed-dial-base]:text-[#3E3E3E]"
+    "bg-white border-transparent text-[#3E3E3E]"
   end
 
   defp color_variant("unbordered", "primary") do
-    "[&_.speed-dial-base]:bg-[#4363EC] [&_.speed-dial-base]:border-transparent [&_.speed-dial-base]:text-white"
+    "bg-[#4363EC] border-transparent text-white"
   end
 
   defp color_variant("unbordered", "secondary") do
-    "[&_.speed-dial-base]:bg-[#6B6E7C] [&_.speed-dial-base]:border-transparent [&_.speed-dial-base]:text-white"
+    "bg-[#6B6E7C] border-transparent text-white"
   end
 
   defp color_variant("unbordered", "success") do
-    "[&_.speed-dial-base]:bg-[#ECFEF3] [&_.speed-dial-base]:border-transparent [&_.speed-dial-base]:text-[#047857]"
+    "bg-[#ECFEF3] border-transparent text-[#047857]"
   end
 
   defp color_variant("unbordered", "warning") do
-    "[&_.speed-dial-base]:bg-[#FFF8E6] [&_.speed-dial-base]:border-transparent [&_.speed-dial-base]:text-[#FF8B08]"
+    "bg-[#FFF8E6] border-transparent text-[#FF8B08]"
   end
 
   defp color_variant("unbordered", "danger") do
-    "[&_.speed-dial-base]:bg-[#FFE6E6] [&_.speed-dial-base]:border-transparent [&_.speed-dial-base]:text-[#E73B3B]"
+    "bg-[#FFE6E6] border-transparent text-[#E73B3B]"
   end
 
   defp color_variant("unbordered", "info") do
-    "[&_.speed-dial-base]:bg-[#E5F0FF] [&_.speed-dial-base]:border-transparent [&_.speed-dial-base]:text-[#004FC4]"
+    "bg-[#E5F0FF] border-transparent text-[#004FC4]"
   end
 
   defp color_variant("unbordered", "misc") do
-    "[&_.speed-dial-base]:bg-[#FFE6FF] [&_.speed-dial-base]:border-transparent [&_.speed-dial-base]:text-[#52059C]"
+    "bg-[#FFE6FF] border-transparent text-[#52059C]"
   end
 
   defp color_variant("unbordered", "dawn") do
-    "[&_.speed-dial-base]:bg-[#FFECDA] [&_.speed-dial-base]:border-transparent [&_.speed-dial-base]:text-[#4D4137]"
+    "bg-[#FFECDA] border-transparent text-[#4D4137]"
   end
 
   defp color_variant("unbordered", "light") do
-    "[&_.speed-dial-base]:bg-[#E3E7F1] [&_.speed-dial-base]:border-transparent [&_.speed-dial-base]:text-[#707483]"
+    "bg-[#E3E7F1] border-transparent text-[#707483]"
   end
 
   defp color_variant("unbordered", "dark") do
-    "[&_.speed-dial-base]:bg-[#1E1E1E] [&_.speed-dial-base]:border-transparent [&_.speed-dial-base]:text-white"
+    "bg-[#1E1E1E] border-transparent text-white"
   end
 
   defp color_variant("shadow", "white") do
-    "[&_.speed-dial-base]:bg-white [&_.speed-dial-base]:text-[#3E3E3E] [&_.speed-dial-base]:border-[#DADADA] [&_.speed-dial-base]:shadow"
+    [
+      "bg-white text-[#3E3E3E]",
+      "border-[#DADADA] shadow"
+    ]
   end
 
   defp color_variant("shadow", "primary") do
-    "[&_.speed-dial-base]:bg-[#4363EC] [&_.speed-dial-base]:text-white [&_.speed-dial-base]:border-[#4363EC] [&_.speed-dial-base]:shadow"
+    [
+      "bg-[#4363EC] text-white",
+      "border-[#4363EC] shadow"
+    ]
   end
 
   defp color_variant("shadow", "secondary") do
-    "[&_.speed-dial-base]:bg-[#6B6E7C] [&_.speed-dial-base]:text-white [&_.speed-dial-base]:border-[#6B6E7C] [&_.speed-dial-base]:shadow"
+    [
+      "bg-[#6B6E7C] text-white",
+      "border-[#6B6E7C] shadow"
+    ]
   end
 
   defp color_variant("shadow", "success") do
-    "[&_.speed-dial-base]:bg-[#AFEAD0] [&_.speed-dial-base]:text-[#227A52] [&_.speed-dial-base]:border-[#AFEAD0] [&_.speed-dial-base]:shadow"
+    [
+      "bg-[#AFEAD0] text-[#227A52]",
+      "border-[#AFEAD0] shadow"
+    ]
   end
 
   defp color_variant("shadow", "warning") do
-    "[&_.speed-dial-base]:bg-[#FFF8E6] [&_.speed-dial-base]:text-[#FF8B08] [&_.speed-dial-base]:border-[#FFF8E6] [&_.speed-dial-base]:shadow"
+    [
+      "bg-[#FFF8E6] text-[#FF8B08]",
+      "border-[#FFF8E6] shadow"
+    ]
   end
 
   defp color_variant("shadow", "danger") do
-    "[&_.speed-dial-base]:bg-[#FFE6E6] [&_.speed-dial-base]:text-[#E73B3B] [&_.speed-dial-base]:border-[#FFE6E6] [&_.speed-dial-base]:shadow"
+    [
+      "bg-[#FFE6E6] text-[#E73B3B]",
+      "border-[#FFE6E6] shadow"
+    ]
   end
 
   defp color_variant("shadow", "info") do
-    "[&_.speed-dial-base]:bg-[#E5F0FF] [&_.speed-dial-base]:text-[#004FC4] [&_.speed-dial-base]:border-[#E5F0FF] [&_.speed-dial-base]:shadow"
+    [
+      "bg-[#E5F0FF] text-[#004FC4]",
+      "border-[#E5F0FF] shadow"
+    ]
   end
 
   defp color_variant("shadow", "misc") do
-    "[&_.speed-dial-base]:bg-[#FFE6FF] [&_.speed-dial-base]:text-[#52059C] [&_.speed-dial-base]:border-[#FFE6FF] [&_.speed-dial-base]:shadow"
+    [
+      "bg-[#FFE6FF] text-[#52059C",
+      "border-[#FFE6FF] shadow"
+    ]
   end
 
   defp color_variant("shadow", "dawn") do
-    "[&_.speed-dial-base]:bg-[#FFECDA] [&_.speed-dial-base]:text-[#4D4137] [&_.speed-dial-base]:border-[#FFECDA] [&_.speed-dial-base]:shadow"
+    [
+      "bg-[#FFECDA] text-[#4D4137]",
+      "border-[#FFECDA] shadow"
+    ]
   end
 
   defp color_variant("shadow", "light") do
-    "[&_.speed-dial-base]:bg-[#E3E7F1] [&_.speed-dial-base]:text-[#707483] [&_.speed-dial-base]:border-[#E3E7F1] [&_.speed-dial-base]:shadow"
+    [
+      "bg-[#E3E7F1] text-[#707483]",
+      "border-[#E3E7F1] shadow"
+    ]
   end
 
   defp color_variant("shadow", "dark") do
-    "[&_.speed-dial-base]:bg-[#1E1E1E] [&_.speed-dial-base]:text-white [&_.speed-dial-base]:border-[#1E1E1E] [&_.speed-dial-base]:shadow"
+    [
+      "bg-[#1E1E1E] text-white",
+      "border-[#1E1E1E] shadow"
+    ]
   end
 
   defp color_variant(_, _), do: color_variant("default", "primary")
