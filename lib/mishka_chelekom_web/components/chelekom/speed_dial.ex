@@ -21,8 +21,6 @@ defmodule MishkaChelekom.SpeedDial do
   attr :icon_animated, :boolean, default: false, doc: ""
   attr :rest, :global, doc: ""
 
-  slot :inner_block, required: false, doc: ""
-
   slot :item, required: false do
     attr :icon, :string
     attr :class, :string
@@ -38,6 +36,8 @@ defmodule MishkaChelekom.SpeedDial do
   slot :trigger_content, required: false do
     attr :class, :string
   end
+
+  slot :inner_block, required: false, doc: ""
 
   def speed_dial(assigns) do
     ~H"""
@@ -81,10 +81,7 @@ defmodule MishkaChelekom.SpeedDial do
         <%= render_slot(@inner_block) %>
       </div>
 
-      <button type="button" class={[
-        "speed-dial-base",
-        color_variant(@variant, @color),
-      ]}>
+      <button type="button" class={["speed-dial-base", color_variant(@variant, @color)]}>
         <.icon
           :if={!is_nil(@icon)}
           name={@icon}
@@ -114,22 +111,12 @@ defmodule MishkaChelekom.SpeedDial do
     ~H"""
     <.link
       id={"#{@id}-speed-dial-item-#{@index}"}
-      class={[
-        "block speed-dial-base",
-        color_variant(@variant, @color),
-      ]}
+      class={["block speed-dial-base", color_variant(@variant, @color)]}
       navigate={@navigate}
       patch={@patch}
       href={@href}
     >
-      <.icon
-        :if={@icon}
-        name={@icon}
-        class={[
-          "item-icon",
-          @icon_class
-        ]}
-      />
+      <.icon :if={@icon} name={@icon} class={["item-icon", @icon_class]} />
       <span class="block">
         <%= render_slot(@inner_block) %>
       </span>
@@ -139,20 +126,11 @@ defmodule MishkaChelekom.SpeedDial do
 
   defp speed_dial_content(assigns) do
     ~H"""
-    <div id={"#{@id}-speed-dial-item-#{@index}"}
-      class={[
-        "speed-dial-base",
-        color_variant(@variant, @color),
-      ]}
+    <div
+      id={"#{@id}-speed-dial-item-#{@index}"}
+      class={["speed-dial-base", color_variant(@variant, @color)]}
     >
-      <.icon
-        :if={@icon}
-        name={@icon}
-        class={[
-          "item-icon",
-          @icon_class
-        ]}
-      />
+      <.icon :if={@icon} name={@icon} class={["item-icon", @icon_class]} />
       <span class="block">
         <%= render_slot(@inner_block) %>
       </span>
