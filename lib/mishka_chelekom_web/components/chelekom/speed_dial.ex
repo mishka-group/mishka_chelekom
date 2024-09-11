@@ -108,7 +108,10 @@ defmodule MishkaChelekom.SpeedDial do
         <.icon
           :if={!is_nil(@icon)}
           name={@icon}
-          class={@icon_animated && "transition-transform group-hover:rotate-45"}
+          class={[
+            "speed-dial-icon-base",
+            @icon_animated && "transition-transform group-hover:rotate-45"
+          ]}
         />
         <span :if={is_nil(@icon)} class={@trigger_content[:class]}><%= @trigger_content %></span>
         <span class="sr-only"><%= gettext("Open actions menu") %></span>
@@ -140,7 +143,7 @@ defmodule MishkaChelekom.SpeedDial do
       patch={@patch}
       href={@href}
     >
-      <.icon :if={@icon} name={@icon} class={["item-icon", @icon_class]} />
+      <.icon :if={@icon} name={@icon} class={["speed-dial-icon-base", @icon_class]} />
       <span :if={is_nil(@icon)} class={["block text-xs text-center", @content_class]}>
         <%= render_slot(@inner_block) %>
       </span>
@@ -154,7 +157,7 @@ defmodule MishkaChelekom.SpeedDial do
       id={"#{@id}-speed-dial-item-#{@index}"}
       class={["speed-dial-base flex flex-col", color_variant(@variant, @color)]}
     >
-      <.icon :if={@icon} name={@icon} class={["item-icon", @icon_class]} />
+      <.icon :if={@icon} name={@icon} class={["speed-dial-icon-base", @icon_class]} />
       <span :if={is_nil(@icon)} class={["block text-xs text-center", @content_class]}>
         <%= render_slot(@inner_block) %>
       </span>
@@ -249,24 +252,53 @@ defmodule MishkaChelekom.SpeedDial do
   defp rounded_size("full"), do: "[&_.speed-dial-base]:rounded-full"
   defp rounded_size(_), do: rounded_size("full")
 
-  defp size_class("extra_small"),
-    do: "[&_.speed-dial-content]:max-w-60 [&_.speed-dial-base]:size-9"
+  defp size_class("extra_small") do
+    [
+      "[&_.speed-dial-content]:max-w-60 [&_.speed-dial-icon-base]:size-2.5 [&_.speed-dial-base]:size-7"
+    ]
+  end
 
-  defp size_class("small"), do: "[&_.speed-dial-content]:max-w-64 [&_.speed-dial-base]:size-10"
-  defp size_class("medium"), do: "[&_.speed-dial-content]:max-w-72 [&_.speed-dial-base]:size-12"
-  defp size_class("large"), do: "[&_.speed-dial-content]:max-w-80 [&_.speed-dial-base]:size-14"
+  defp size_class("small") do
+    [
+      "[&_.speed-dial-content]:max-w-64 [&_.speed-dial-icon-base]:size-3 [&_.speed-dial-base]:size-8"
+    ]
+  end
 
-  defp size_class("extra_large"),
-    do: "[&_.speed-dial-content]:max-w-96 [&_.speed-dial-base]:size-18"
+  defp size_class("medium") do
+    [
+      "[&_.speed-dial-content]:max-w-72 [&_.speed-dial-icon-base]:size-3.5 [&_.speed-dial-base]:size-9"
+    ]
+  end
 
-  defp size_class("double_large"),
-    do: "[&_.speed-dial-content]:max-w-96 [&_.speed-dial-base]:size-20"
+  defp size_class("large") do
+    [
+      "[&_.speed-dial-content]:max-w-80 [&_.speed-dial-icon-base]:size-4 [&_.speed-dial-base]:size-10"
+    ]
+  end
 
-  defp size_class("triple_large"),
-    do: "[&_.speed-dial-content]:max-w-96 [&_.speed-dial-base]:size-22"
+  defp size_class("extra_large") do
+    [
+       "[&_.speed-dial-content]:max-w-96 [&_.speed-dial-icon-base]:size-5 [&_.speed-dial-base]:size-11"
+    ]
+  end
 
-  defp size_class("quadruple_large"),
-    do: "[&_.speed-dial-content]:max-w-96 [&_.speed-dial-base]:size-24"
+  defp size_class("double_large") do
+    [
+      "[&_.speed-dial-content]:max-w-96 [&_.speed-dial-icon-base]:size-6 [&_.speed-dial-base]:size-12"
+    ]
+  end
+
+  defp size_class("triple_large") do
+    [
+      "[&_.speed-dial-content]:max-w-96 [&_.speed-dial-icon-base]:size-7 [&_.speed-dial-base]:size-14"
+    ]
+  end
+
+  defp size_class("quadruple_large") do
+    [
+      "[&_.speed-dial-content]:max-w-96 [&_.speed-dial-icon-base]:size-8 [&_.speed-dial-base]:size-18"
+    ]
+  end
 
   defp size_class(params) when is_binary(params), do: params
   defp size_class(_), do: size_class("extra_large")
