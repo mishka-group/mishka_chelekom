@@ -6,12 +6,13 @@ defmodule MishkaChelekom.DeviceMockup do
   attr :class, :string, default: nil, doc: ""
   attr :color, :string, default: "silver", doc: ""
   attr :alt, :string, default: nil, doc: ""
+  attr :type, :string, default: "iphone", doc: "android watch laptop iphone ipad imac"
   attr :image, :string, default: nil, doc: ""
   attr :image_class, :string, default: nil, doc: ""
   attr :rest, :global, include: ~w(android watch laptop iphone ipad imac), doc: ""
   slot :inner_block, doc: ""
 
-  def device_mockup(%{rest: %{watch: true}} = assigns) do
+  def device_mockup(%{type: "watch"} = assigns) do
     ~H"""
     <div class={[
       "w-fit",
@@ -39,7 +40,7 @@ defmodule MishkaChelekom.DeviceMockup do
     """
   end
 
-  def device_mockup(%{rest: %{android: true}} = assigns) do
+  def device_mockup(%{type: "android"} = assigns) do
     ~H"""
      <div class={[
       "w-fit",
@@ -68,7 +69,7 @@ defmodule MishkaChelekom.DeviceMockup do
     """
   end
 
-  def device_mockup(%{rest: %{laptop: true}} = assigns) do
+  def device_mockup(%{type: "laptop"} = assigns) do
     ~H"""
      <div class={[
       "w-fit",
@@ -95,7 +96,7 @@ defmodule MishkaChelekom.DeviceMockup do
     """
   end
 
-  def device_mockup(%{rest: %{ipad: true}} = assigns) do
+  def device_mockup(%{type: "ipad"} = assigns) do
     ~H"""
     <div class={[
       "w-fit",
@@ -123,7 +124,7 @@ defmodule MishkaChelekom.DeviceMockup do
     """
   end
 
-  def device_mockup(%{rest: %{imac: true}} = assigns) do
+  def device_mockup(%{type: "imac"} = assigns) do
     ~H"""
      <div class={[
       "w-fit",
