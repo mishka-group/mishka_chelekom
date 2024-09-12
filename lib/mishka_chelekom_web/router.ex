@@ -72,6 +72,7 @@ defmodule MishkaChelekomWeb.Router do
     live "/examples/carousel", Examples.CarouselLive
     live "/examples/speed-dial", Examples.SpeedDialLive
     live "/examples/mega-menu", Examples.MegaMenuLive
+    live "/examples/devices", Examples.DeviceMockupLive
   end
 
   # Other scopes may use custom stacks.
