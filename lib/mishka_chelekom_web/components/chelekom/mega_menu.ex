@@ -31,7 +31,7 @@ defmodule MishkaChelekom.MegaMenu do
 
   def mega_menu(assigns) do
     ~H"""
-     <div
+    <div
       id={@id}
       class={[
         "[&>.mega-menu-content]:invisible [&>.mega-menu-content]:opacity-0",
@@ -45,7 +45,6 @@ defmodule MishkaChelekom.MegaMenu do
     </div>
     """
   end
-
 
   attr :id, :string, default: nil, doc: ""
   attr :trigger_id, :string, default: nil, doc: ""
@@ -93,7 +92,10 @@ defmodule MishkaChelekom.MegaMenu do
       id={@id && "#{@id}-mega-menu-content"}
       phx-click-away={
         @id &&
-          JS.remove_class("show-mega-menu", to: "##{@id}-mega-menu-content", transition: "duration-300")
+          JS.remove_class("show-mega-menu",
+            to: "##{@id}-mega-menu-content",
+            transition: "duration-300"
+          )
       }
       class={[
         "mega-menu-content inset-x-0 top-full absolute z-20 transition-all ease-in-out delay-100 duratio-500 w-full",
@@ -119,7 +121,6 @@ defmodule MishkaChelekom.MegaMenu do
   defp tirgger_mega_menu(),
     do: "[&>.mega-menu-content]:hover:visible [&>.mega-menu-content]:hover:opacity-100"
 
-
   defp top_gap("none"), do: "mt-0"
   defp top_gap("extra_small"), do: "mt-1"
   defp top_gap("small"), do: "mt-2"
@@ -128,7 +129,6 @@ defmodule MishkaChelekom.MegaMenu do
   defp top_gap("extra_large"), do: "mt-5"
   defp top_gap(params) when is_binary(params), do: params
   defp top_gap(_), do: top_gap("extra_small")
-
 
   defp width_size("full"), do: "w-ful"
   defp width_size("half"), do: "w-full md:w-1/2 md:mx-auto"
