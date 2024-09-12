@@ -95,6 +95,7 @@ defmodule MishkaChelekom.Banner do
   attr :id, :string, required: true
   attr :dismiss, :boolean, default: false
   attr :class, :string, default: nil
+  attr :size, :string, default: "small"
   attr :params, :map, default: %{kind: "badge"}
 
   defp banner_dismiss(assigns) do
