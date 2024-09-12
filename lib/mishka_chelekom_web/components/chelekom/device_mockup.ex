@@ -14,21 +14,15 @@ defmodule MishkaChelekom.DeviceMockup do
 
   def device_mockup(%{type: "watch"} = assigns) do
     ~H"""
-    <div class={[
-      "w-fit",
-      color_class(@color),
-      @class
-    ]}>
+    <div class={["w-fit", color_class(@color), @class]}>
       <div class="mock-base relative mx-auto rounded-t-[2.5rem] h-[63px] max-w-[133px]"></div>
       <div class="mock-base relative mx-auto border-[10px] rounded-[2.5rem] h-[213px] w-[208px]">
         <div class="mock-base h-[41px] w-[6px] absolute -end-[16px] top-[40px] rounded-e-lg"></div>
         <div class="mock-base h-[32px] w-[6px] absolute -end-[16px] top-[88px] rounded-e-lg"></div>
         <div class="bg-white rounded-[2rem] overflow-hidden h-[193px] w-[188px]">
           <MishkaChelekom.Image.image
-             :if={!is_nil(@image)}
-            class={
-              @image_class || "h-[193px] w-[188px]"
-            }
+            :if={!is_nil(@image)}
+            class={@image_class || "h-[193px] w-[188px]"}
             src={@image}
             alt={@alt}
           />
@@ -42,23 +36,18 @@ defmodule MishkaChelekom.DeviceMockup do
 
   def device_mockup(%{type: "android"} = assigns) do
     ~H"""
-     <div class={[
-      "w-fit",
-      color_class(@color),
-      @class
-    ]}>
+    <div class={["w-fit", color_class(@color), @class]}>
       <div class="mock-base relative mx-auto border-[14px] rounded-xl h-[600px] w-[300px] shadow-xl">
-        <div class="mock-base w-[148px] h-[18px] top-0 rounded-b-[1rem] left-1/2 -translate-x-1/2 absolute"></div>
+        <div class="mock-base w-[148px] h-[18px] top-0 rounded-b-[1rem] left-1/2 -translate-x-1/2 absolute">
+        </div>
         <div class="mock-base h-[32px] w-[3px] absolute -start-[17px] top-[72px] rounded-s-lg"></div>
         <div class="mock-base h-[46px] w-[3px] absolute -start-[17px] top-[124px] rounded-s-lg"></div>
         <div class="mock-base h-[46px] w-[3px] absolute -start-[17px] top-[178px] rounded-s-lg"></div>
         <div class="mock-base h-[64px] w-[3px] absolute -end-[17px] top-[142px] rounded-e-lg"></div>
         <div class="rounded overflow-hidden w-[272px] h-[572px] bg-white">
           <MishkaChelekom.Image.image
-             :if={!is_nil(@image)}
-            class={
-              @image_class || "w-[272px] h-[572px]"
-            }
+            :if={!is_nil(@image)}
+            class={@image_class || "w-[272px] h-[572px]"}
             src={@image}
             alt={@alt}
           />
@@ -71,18 +60,12 @@ defmodule MishkaChelekom.DeviceMockup do
 
   def device_mockup(%{type: "laptop"} = assigns) do
     ~H"""
-     <div class={[
-      "w-fit",
-      color_class(@color),
-      @class
-    ]}>
+    <div class={["w-fit", color_class(@color), @class]}>
       <div class="mock-base relative mx-auto border-[8px] rounded-t-xl h-[172px] max-w-[301px] md:h-[294px] md:max-w-[512px]">
         <div class="rounded overflow-hidden h-[156px] md:h-[278px] bg-white">
           <MishkaChelekom.Image.image
-             :if={!is_nil(@image)}
-            class={
-              @image_class || "h-[140px] md:h-[262px] w-full"
-            }
+            :if={!is_nil(@image)}
+            class={@image_class || "h-[140px] md:h-[262px] w-full"}
             src={@image}
             alt={@alt}
           />
@@ -90,7 +73,8 @@ defmodule MishkaChelekom.DeviceMockup do
         </div>
       </div>
       <div class="mock-darker-base relative mx-auto rounded-b-xl rounded-t-sm h-[17px] max-w-[351px] md:h-[21px] md:max-w-[597px]">
-        <div class="mock-base absolute left-1/2 top-0 -translate-x-1/2 rounded-b-xl w-[56px] h-[5px] md:w-[96px] md:h-[8px]"></div>
+        <div class="mock-base absolute left-1/2 top-0 -translate-x-1/2 rounded-b-xl w-[56px] h-[5px] md:w-[96px] md:h-[8px]">
+        </div>
       </div>
     </div>
     """
@@ -98,11 +82,7 @@ defmodule MishkaChelekom.DeviceMockup do
 
   def device_mockup(%{type: "ipad"} = assigns) do
     ~H"""
-    <div class={[
-      "w-fit",
-      color_class(@color),
-      @class
-    ]}>
+    <div class={["w-fit", color_class(@color), @class]}>
       <div class="mock-base relative mx-auto border-[14px] rounded-[2.5rem] h-[454px] max-w-[341px] md:h-[682px] md:max-w-[512px]">
         <div class="mock-base h-[32px] w-[3px] absolute -start-[17px] top-[72px] rounded-s-lg"></div>
         <div class="mock-base h-[46px] w-[3px] absolute -start-[17px] top-[124px] rounded-s-lg"></div>
@@ -110,10 +90,8 @@ defmodule MishkaChelekom.DeviceMockup do
         <div class="mock-base h-[64px] w-[3px] absolute -end-[17px] top-[142px] rounded-e-lg"></div>
         <div class="bg-white rounded-3xl overflow-hidden h-[426px] md:h-[654px]">
           <MishkaChelekom.Image.image
-             :if={!is_nil(@image)}
-            class={
-              @image_class || "h-[426px] md:h-[654px]"
-            }
+            :if={!is_nil(@image)}
+            class={@image_class || "h-[426px] md:h-[654px]"}
             src={@image}
             alt={@alt}
           />
@@ -126,48 +104,39 @@ defmodule MishkaChelekom.DeviceMockup do
 
   def device_mockup(%{type: "imac"} = assigns) do
     ~H"""
-     <div class={[
-      "w-fit",
-      color_class(@color),
-      @class
-    ]}>
+    <div class={["w-fit", color_class(@color), @class]}>
       <div class="mock-base relative mx-auto border-[16px] rounded-t-xl h-[172px] max-w-[301px] md:h-[294px] md:max-w-[512px]">
         <div class="overflow-hidden h-[140px] md:h-[262px]">
           <MishkaChelekom.Image.image
             :if={!is_nil(@image)}
-            class={
-              @image_class || "h-[140px] md:h-[262px] w-full"
-            }
+            class={@image_class || "h-[140px] md:h-[262px] w-full"}
             src={@image}
             alt={@alt}
           />
           <%= render_slot(@inner_block) %>
         </div>
       </div>
-      <div class="mock-darker-base relative mx-auto rounded-b-xl h-[24px] max-w-[301px] md:h-[42px] md:max-w-[512px]"></div>
-      <div class="mock-base relative mx-auto rounded-b-xl h-[55px] max-w-[83px] md:h-[95px] md:max-w-[142px]"></div>
+      <div class="mock-darker-base relative mx-auto rounded-b-xl h-[24px] max-w-[301px] md:h-[42px] md:max-w-[512px]">
+      </div>
+      <div class="mock-base relative mx-auto rounded-b-xl h-[55px] max-w-[83px] md:h-[95px] md:max-w-[142px]">
+      </div>
     </div>
     """
   end
 
   def device_mockup(assigns) do
     ~H"""
-     <div class={[
-      "w-fit",
-      color_class(@color),
-      @class
-    ]}>
+    <div class={["w-fit", color_class(@color), @class]}>
       <div class="mock-base relative mx-auto border-[14px] rounded-[2.5rem] h-[600px] w-[300px] shadow-xl">
-        <div class="mock-base w-[148px] h-[18px] top-0 rounded-b-[1rem] left-1/2 -translate-x-1/2 absolute"></div>
+        <div class="mock-base w-[148px] h-[18px] top-0 rounded-b-[1rem] left-1/2 -translate-x-1/2 absolute">
+        </div>
         <div class="mock-base h-[46px] w-[3px] absolute -start-[17px] top-[124px] rounded-s-lg"></div>
         <div class="mock-base h-[46px] w-[3px] absolute -start-[17px] top-[178px] rounded-s-lg"></div>
         <div class="mock-base h-[64px] w-[3px] absolute -end-[17px] top-[142px] rounded-e-lg"></div>
         <div class="bg-white rounded-3xl overflow-hidden w-[272px] h-[572px]">
           <MishkaChelekom.Image.image
-             :if={!is_nil(@image)}
-            class={
-              @image_class || "w-[272px] h-[572px]"
-            }
+            :if={!is_nil(@image)}
+            class={@image_class || "w-[272px] h-[572px]"}
             src={@image}
             alt={@alt}
           />
