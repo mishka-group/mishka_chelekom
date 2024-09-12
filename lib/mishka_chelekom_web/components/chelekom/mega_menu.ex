@@ -68,16 +68,17 @@ defmodule MishkaChelekom.MegaMenu do
       ]}
       {@rest}
     >
-
       <button
+        :if={!is_nil(@title)}
         phx-click={
-            @id &&
-              JS.toggle_class("show-mega-menu",
-                to: "##{@id}-mega-menu-content",
-                transition: "duration-100"
-              )
-          }
-       :if={(!is_nil(@title))} class={["flex items-center", @title_class]}>
+          @id &&
+            JS.toggle_class("show-mega-menu",
+              to: "##{@id}-mega-menu-content",
+              transition: "duration-100"
+            )
+        }
+        class={["flex items-center", @title_class]}
+      >
         <.icon :if={!is_nil(@icon)} name={@icon} class={["aler-icon", @icon_class]} />
         <span><%= @title %></span>
       </button>
@@ -97,20 +98,21 @@ defmodule MishkaChelekom.MegaMenu do
       </div>
 
       <div
-      id={@id && "#{@id}-mega-menu-content"}
-      phx-click-away={
-        @id &&
-          JS.remove_class("show-mega-menu",
-            to: "##{@id}-mega-menu-content",
-            transition: "duration-300"
-          )
-      }
-      class={[
-        "mega-menu-content inset-x-0 top-full absolute z-20 transition-all ease-in-out delay-100 duratio-500 w-full",
-        "invisible opacity-0"]}
-    >
-      <%= render_slot(@inner_block) %>
-    </div>
+        id={@id && "#{@id}-mega-menu-content"}
+        phx-click-away={
+          @id &&
+            JS.remove_class("show-mega-menu",
+              to: "##{@id}-mega-menu-content",
+              transition: "duration-300"
+            )
+        }
+        class={[
+          "mega-menu-content inset-x-0 top-full absolute z-20 transition-all ease-in-out delay-100 duratio-500 w-full",
+          "invisible opacity-0"
+        ]}
+      >
+        <%= render_slot(@inner_block) %>
+      </div>
     </div>
     """
   end
@@ -128,7 +130,11 @@ defmodule MishkaChelekom.MegaMenu do
   defp top_gap(_), do: top_gap("extra_small")
 
   defp width_size("full"), do: "[&>.mega-menu-content]:w-ful"
-  defp width_size("half"), do: "[&>.mega-menu-content]:w-full md:[&>.mega-menu-content]:w-1/2 md:[&>.mega-menu-content]:mx-auto"
+
+  defp width_size("half"),
+    do:
+      "[&>.mega-menu-content]:w-full md:[&>.mega-menu-content]:w-1/2 md:[&>.mega-menu-content]:mx-auto"
+
   defp width_size(params) when is_binary(params), do: params
   defp width_size(_), do: width_size("full")
 
@@ -137,7 +143,10 @@ defmodule MishkaChelekom.MegaMenu do
   defp border_class("small"), do: "[&>.mega-menu-content]:border-2"
   defp border_class("medium"), do: "[&>.mega-menu-content]:[&>.mega-menu-content]:border-[3px]"
   defp border_class("large"), do: "[&>.mega-menu-content]:border-4"
-  defp border_class("extra_large"), do: "[&>.mega-menu-content]:[&>.mega-menu-content]:border-[5px]"
+
+  defp border_class("extra_large"),
+    do: "[&>.mega-menu-content]:[&>.mega-menu-content]:border-[5px]"
+
   defp border_class(params) when is_binary(params), do: params
   defp border_class(_), do: border_class("extra_small")
 
