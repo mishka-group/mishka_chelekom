@@ -26,7 +26,7 @@ defmodule MishkaChelekom.Dropdown do
   attr :class, :string, default: nil, doc: ""
   attr :width, :string, default: "w-fit", doc: ""
   attr :position, :string, default: "bottom", doc: ""
-  attr :relative, :string, default: "relative", doc: ""
+  attr :relative, :boolean, default: true, doc: ""
   attr :clickable, :boolean, default: false, doc: ""
   attr :nomobile, :boolean, default: false, doc: ""
   attr :rest, :global, doc: ""
@@ -39,11 +39,11 @@ defmodule MishkaChelekom.Dropdown do
       class={[
         "[&>.dropdown-content]:invisible [&>.dropdown-content]:opacity-0",
         "[&>.dropdown-content.show-dropdown]:visible [&>.dropdown-content.show-dropdown]:opacity-100",
+        @relative && "relative",
         !@clickable && tirgger_dropdown(),
         !@nomobile && dropdown_position(@position),
         (!@nomobile && @position == "left") ||
           (@position == "right" && dropdown_mobile_position(@position)),
-        @relative,
         @width,
         @class
       ]}

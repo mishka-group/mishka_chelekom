@@ -36,6 +36,7 @@ defmodule MishkaChelekom.Navbar do
   attr :image, :string, default: nil, doc: ""
   attr :image_class, :string, default: nil, doc: ""
   attr :name, :string, default: nil, doc: ""
+  attr :relative, :boolean, default: false, doc: ""
   attr :link, :string, default: nil, doc: ""
   attr :space, :string, default: nil, doc: ""
   attr :font_weight, :string, default: "font-normal", doc: ""
@@ -58,6 +59,7 @@ defmodule MishkaChelekom.Navbar do
     <nav
       id={@id}
       class={[
+        "relative",
         "[&.show-nav-menu_.nav-menu]:block [&.show-nav-menu_.nav-menu]:opacity-100",
         border_class(@border),
         content_position(@content_position),
@@ -88,7 +90,8 @@ defmodule MishkaChelekom.Navbar do
           "w-auto"
         ]}>
           <ul class={[
-            "relative flex flex-wrap md:flex-nowrap gap-4"
+            "flex flex-wrap md:flex-nowrap gap-4",
+            @relative && "relative"
           ]}>
             <li
               :for={list <- @list}

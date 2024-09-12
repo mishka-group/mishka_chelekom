@@ -24,11 +24,8 @@ defmodule MishkaChelekom.MegaMenu do
   @doc type: :component
   attr :id, :string, default: nil, doc: ""
   attr :class, :string, default: nil, doc: ""
-  attr :width, :string, default: "w-fit", doc: ""
   attr :position, :string, default: "bottom", doc: ""
-  attr :relative, :string, default: "relative", doc: ""
   attr :clickable, :boolean, default: false, doc: ""
-  attr :nomobile, :boolean, default: false, doc: ""
   attr :rest, :global, doc: ""
   slot :inner_block, required: false, doc: ""
 
@@ -40,8 +37,6 @@ defmodule MishkaChelekom.MegaMenu do
         "[&>.mega-menu-content]:invisible [&>.mega-menu-content]:opacity-0",
         "[&>.mega-menu-content.show-mega-menu]:visible [&>.mega-menu-content.show-mega-menu]:opacity-100",
         !@clickable && tirgger_mega_menu(),
-        @relative,
-        @width,
         @class
       ]}
       {@rest}
@@ -83,10 +78,11 @@ defmodule MishkaChelekom.MegaMenu do
   attr :rounded, :string, default: nil, doc: ""
   attr :size, :string, default: nil, doc: ""
   attr :space, :string, default: nil, doc: ""
-  attr :width, :string, default: "extra_large", doc: ""
+  attr :width, :string, default: "full", doc: ""
   attr :font_weight, :string, default: "font-normal", doc: ""
   attr :padding, :string, default: "none", doc: ""
   attr :border, :string, default: "extra_small", doc: ""
+  attr :top_gap, :string, default: "extra_small", doc: ""
   attr :class, :string, default: nil, doc: ""
   attr :rest, :global, doc: ""
   slot :inner_block, required: false, doc: ""
@@ -100,12 +96,14 @@ defmodule MishkaChelekom.MegaMenu do
           JS.remove_class("show-mega-menu", to: "##{@id}-mega-menu-content", transition: "duration-300")
       }
       class={[
-        "mega-menu-content w-full absolute z-20 transition-all ease-in-out delay-100 duratio-500 w-full",
+        "mega-menu-content inset-x-0 top-full absolute z-20 transition-all ease-in-out delay-100 duratio-500 w-full",
         "invisible opacity-0",
         color_variant(@variant, @color),
         padding_size(@padding),
         rounded_size(@rounded),
+        width_size(@width),
         border_class(@border),
+        top_gap(@top_gap),
         space_class(@space),
         size_class(@size),
         @font_weight,
@@ -120,6 +118,22 @@ defmodule MishkaChelekom.MegaMenu do
 
   defp tirgger_mega_menu(),
     do: "[&>.mega-menu-content]:hover:visible [&>.mega-menu-content]:hover:opacity-100"
+
+
+  defp top_gap("none"), do: "mt-0"
+  defp top_gap("extra_small"), do: "mt-1"
+  defp top_gap("small"), do: "mt-2"
+  defp top_gap("medium"), do: "mt-3"
+  defp top_gap("large"), do: "mt-4"
+  defp top_gap("extra_large"), do: "mt-5"
+  defp top_gap(params) when is_binary(params), do: params
+  defp top_gap(_), do: top_gap("extra_small")
+
+
+  defp width_size("full"), do: "w-ful"
+  defp width_size("half"), do: "w-full md:w-1/2 md:mx-auto"
+  defp width_size(params) when is_binary(params), do: params
+  defp width_size(_), do: width_size("full")
 
   defp border_class("none"), do: "border-0"
   defp border_class("extra_small"), do: "border"
