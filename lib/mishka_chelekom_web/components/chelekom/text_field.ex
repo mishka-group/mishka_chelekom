@@ -72,7 +72,7 @@ defmodule MishkaChelekom.TextField do
         />
 
         <.label
-          class="floating-label p-px start-1 z-[1] absolute text-sm duration-300 transform  scale-75 top-[0.45rem] -z-10 origin-[0] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+          class="floating-label p-px start-1.5 z-[1] absolute text-sm duration-300 transform scale-75 top-[0.42rem] -z-10 origin-[0] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
           for={@id}><%= @label %></.label>
 
         <div :if={@end_section} class={["flex items-center justify-center shrink-0 pe-2 h-[inherit]", @end_section[:class]]}>
@@ -190,9 +190,18 @@ defmodule MishkaChelekom.TextField do
 
   defp color_variant("outline", "white") do
     [
-      "text-[#DADADA] [&_.text-field-wrapper:not(:has(.text-field-error))]:border-[#DADADA]",
+      "text-white [&_.text-field-wrapper:not(:has(.text-field-error))]:border-white",
       "[&_.text-field-wrapper.text-field-error]:border-rose-700",
-      "[&_.text-field-wrapper>input]:placeholder:text-[#DADADA] focus-within:[&_.text-field-wrapper]:ring-[#DADADA]",
+      "[&_.text-field-wrapper>input]:placeholder:text-white focus-within:[&_.text-field-wrapper]:ring-white",
+      "[&_.text-field-wrapper_.floating-label]:bg-white"
+    ]
+  end
+
+  defp color_variant("outline", "silver") do
+    [
+      "text-[#afafaf] [&_.text-field-wrapper:not(:has(.text-field-error))]:border-[#afafaf]",
+      "[&_.text-field-wrapper.text-field-error]:border-rose-700",
+      "[&_.text-field-wrapper>input]:placeholder:text-[#afafaf] focus-within:[&_.text-field-wrapper]:ring-[#afafaf]",
       "[&_.text-field-wrapper_.floating-label]:bg-white"
     ]
   end
