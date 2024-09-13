@@ -11,6 +11,9 @@ defmodule MishkaChelekom.TextField do
   attr :rounded, :string, default: "small", doc: ""
   attr :variant, :string, default: "default", doc: ""
   attr :space, :string, default: "medium", doc: ""
+  attr :size, :string, default: "extra_large", doc: ""
+  attr :input_icon, :string, default: nil, doc: ""
+  attr :icon_position, :string, default: nil, doc: "start, end"
   attr :ring, :boolean, default: true, doc: ""
   attr :label, :string, default: nil
   attr :errors, :list, default: [""]
@@ -28,8 +31,10 @@ defmodule MishkaChelekom.TextField do
         color_variant(@variant, @color),
         rounded_size(@rounded),
         border_class(@border),
+        size_class(@size),
         space_class(@space),
         @ring && "[&_.input-text-wrapper]:focus-within:ring-[0.02rem]",
+        @icon_position == "start" && "[&_.input-text-wrapper]:flex-row-reverse",
         @class
       ]}
     >
@@ -37,7 +42,7 @@ defmodule MishkaChelekom.TextField do
 
       <div
         class={[
-          "input-text-wrapper overflow-hidden transition-all ease-in-out duration-200",
+          "input-text-wrapper overflow-hidden transition-all ease-in-out duration-200 flex flex-nowrap",
           @errors != [] && "text-input-error"
         ]}
       >
@@ -47,11 +52,14 @@ defmodule MishkaChelekom.TextField do
           id={@id}
           value={@value}
           class={[
-            "rounded py-1 px-2 h-9 text-sm disabled:neutral-200 block w-full border-0 bg-transparent",
+            "flex-1 py-1 px-2 text-sm disabled:neutral-200 block w-full border-0 bg-transparent",
             "focus:outline-none focus:ring-0"
           ]}
           {@rest}
         />
+        <div class="flex items-center justify-center shrink-0 px-2 h-[inherit]">
+          <.icon :if={!is_nil(@input_icon)} name={@input_icon} class="text-input-icon" />
+        </div>
       </div>
 
       <.error :for={msg <- @errors}><%= msg %></.error>
@@ -81,6 +89,13 @@ defmodule MishkaChelekom.TextField do
     </p>
     """
   end
+
+  defp size_class("extra_small"), do: "[&_.input-text-wrapper>input]:h-5 [&_.input-text-wrapper>.text-input-icon]:size-2"
+  defp size_class("small"), do: "[&_.input-text-wrapper>input]:h-6 [&_.input-text-wrapper>.text-input-icon]:size-2.5"
+  defp size_class("medium"), do: "[&_.input-text-wrapper>input]:h-7 [&_.input-text-wrapper>.text-input-icon]:size-3"
+  defp size_class("large"), do: "[&_.input-text-wrapper>input]:h-8 [&_.input-text-wrapper>.text-input-icon]:size-3.5"
+  defp size_class("extra_large"), do: "[&_.input-text-wrapper>input]:h-9 [&_.input-text-wrapper>.text-input-icon]:size-4"
+  defp size_class(_), do: size_class("extra_large")
 
   defp rounded_size("extra_small"), do: "[&_.input-text-wrapper]:rounded-sm"
   defp rounded_size("small"), do: "[&_.input-text-wrapper]:rounded"
@@ -179,7 +194,7 @@ defmodule MishkaChelekom.TextField do
 
   defp color_variant("default", "dark") do
    [
-      "[&_.input-text-wrapper]:bg-[#1E1E1E] text-[#1E1E1E] [&_.input-text-wrapper]:border-[#050404]",
+      "[&_.input-text-wrapper]:bg-[#1E1E1E] text-[#1E1E1E] [&_.input-text-wrapper]:text-white [&_.input-text-wrapper]:border-[#050404]",
       "[&_.input-text-wrapper>input]:placeholder:text-white focus-within:[&_.input-text-wrapper]:ring-[#050404]"
    ]
   end
