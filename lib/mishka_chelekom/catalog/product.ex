@@ -7,6 +7,7 @@ defmodule MishkaChelekom.Catalog.Product do
     field :description, :string
     field :unit_price, :float
     field :sku, :integer
+    field :gku, :integer
 
     timestamps(type: :utc_datetime)
   end
@@ -14,8 +15,8 @@ defmodule MishkaChelekom.Catalog.Product do
   @doc false
   def changeset(product, attrs) do
     product
-    |> cast(attrs, [:name, :description, :unit_price, :sku])
-    |> validate_required([:name, :description, :unit_price, :sku])
+    |> cast(attrs, [:name, :description, :unit_price, :sku, :gku])
+    |> validate_required([:name, :description, :unit_price, :sku, :gku])
     |> unique_constraint(:sku)
   end
 end

@@ -32,29 +32,31 @@ defmodule MishkaChelekom.TextField do
     attr :icon, :string
   end
 
-  #TODO: How add success status to text field
-  #TODO: add description
+  # TODO: How add success status to text field
+  # TODO: add description
 
   def text_field(%{floating_label: true} = assigns) do
     ~H"""
-    <div
-      class={[
-        color_variant(@variant, @color),
-        rounded_size(@rounded),
-        border_class(@border),
-        size_class(@size),
-        space_class(@space),
-        @ring && "[&_.text-field-wrapper]:focus-within:ring-[0.03rem]",
-        @class
-      ]}
-    >
-    <div
-        class={[
-          "text-field-wrapper relative transition-all z-0 ease-in-out duration-200 w-full flex flex-nowrap",
-          @errors != [] && "text-field-error",
-        ]}
-      >
-        <div :if={@start_section} class={["flex items-center justify-center shrink-0 ps-2 h-[inherit]", @start_section[:class]]}>
+    <div class={[
+      color_variant(@variant, @color),
+      rounded_size(@rounded),
+      border_class(@border),
+      size_class(@size),
+      space_class(@space),
+      @ring && "[&_.text-field-wrapper]:focus-within:ring-[0.03rem]",
+      @class
+    ]}>
+      <div class={[
+        "text-field-wrapper relative transition-all z-0 ease-in-out duration-200 w-full flex flex-nowrap",
+        @errors != [] && "text-field-error"
+      ]}>
+        <div
+          :if={@start_section}
+          class={[
+            "flex items-center justify-center shrink-0 ps-2 h-[inherit]",
+            @start_section[:class]
+          ]}
+        >
           <%= render_slot(@start_section) %>
         </div>
 
@@ -65,17 +67,23 @@ defmodule MishkaChelekom.TextField do
           value={@value}
           class={[
             "disabled:opacity-80 block w-full focus:ring-0 z-[2] peer placeholder:text-transparent flex-1 py-1 px-2 text-sm disabled:neutral-200",
-            "block w-full appearance-none bg-transparent border-0 focus:outline-none focus:border-red-600 peer",
+            "block w-full appearance-none bg-transparent border-0 focus:outline-none focus:border-red-600 peer"
           ]}
-          placeholder= " "
+          placeholder=" "
           {@rest}
         />
 
         <.label
           class="floating-label p-px start-1.5 z-[1] absolute text-sm duration-300 transform scale-75 top-[0.42rem] -z-10 origin-[0] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
-          for={@id}><%= @label %></.label>
+          for={@id}
+        >
+          <%= @label %>
+        </.label>
 
-        <div :if={@end_section} class={["flex items-center justify-center shrink-0 pe-2 h-[inherit]", @end_section[:class]]}>
+        <div
+          :if={@end_section}
+          class={["flex items-center justify-center shrink-0 pe-2 h-[inherit]", @end_section[:class]]}
+        >
           <%= render_slot(@end_section) %>
         </div>
       </div>
@@ -87,26 +95,28 @@ defmodule MishkaChelekom.TextField do
 
   def text_field(assigns) do
     ~H"""
-    <div
-      class={[
-        color_variant(@variant, @color),
-        rounded_size(@rounded),
-        border_class(@border),
-        size_class(@size),
-        space_class(@space),
-        @ring && "[&_.text-field-wrapper]:focus-within:ring-[0.03rem]",
-        @class
-      ]}
-    >
+    <div class={[
+      color_variant(@variant, @color),
+      rounded_size(@rounded),
+      border_class(@border),
+      size_class(@size),
+      space_class(@space),
+      @ring && "[&_.text-field-wrapper]:focus-within:ring-[0.03rem]",
+      @class
+    ]}>
       <.label for={@id}><%= @label %></.label>
 
-      <div
-        class={[
-          "text-field-wrapper overflow-hidden transition-all ease-in-out duration-200 flex flex-nowrap",
-          @errors != [] && "text-field-error",
-        ]}
-      >
-        <div :if={@start_section} class={["flex items-center justify-center shrink-0 ps-2 h-[inherit]", @start_section[:class]]}>
+      <div class={[
+        "text-field-wrapper overflow-hidden transition-all ease-in-out duration-200 flex flex-nowrap",
+        @errors != [] && "text-field-error"
+      ]}>
+        <div
+          :if={@start_section}
+          class={[
+            "flex items-center justify-center shrink-0 ps-2 h-[inherit]",
+            @start_section[:class]
+          ]}
+        >
           <%= render_slot(@start_section) %>
         </div>
 
@@ -122,7 +132,10 @@ defmodule MishkaChelekom.TextField do
           {@rest}
         />
 
-        <div :if={@end_section} class={["flex items-center justify-center shrink-0 pe-2 h-[inherit]", @end_section[:class]]}>
+        <div
+          :if={@end_section}
+          class={["flex items-center justify-center shrink-0 pe-2 h-[inherit]", @end_section[:class]]}
+        >
           <%= render_slot(@end_section) %>
         </div>
       </div>
@@ -156,11 +169,21 @@ defmodule MishkaChelekom.TextField do
     """
   end
 
-  defp size_class("extra_small"), do: "[&_.text-field-wrapper>input]:h-5 [&_.text-field-wrapper>.text-field-icon]:size-3.5"
-  defp size_class("small"), do: "[&_.text-field-wrapper>input]:h-6 [&_.text-field-wrapper>.text-field-icon]:size-4"
-  defp size_class("medium"), do: "[&_.text-field-wrapper>input]:h-7 [&_.text-field-wrapper>.text-field-icon]:size-5"
-  defp size_class("large"), do: "[&_.text-field-wrapper>input]:h-8 [&_.text-field-wrapper>.text-field-icon]:size-6"
-  defp size_class("extra_large"), do: "[&_.text-field-wrapper>input]:h-9 [&_.text-field-wrapper>.text-field-icon]:size-7"
+  defp size_class("extra_small"),
+    do: "[&_.text-field-wrapper>input]:h-5 [&_.text-field-wrapper>.text-field-icon]:size-3.5"
+
+  defp size_class("small"),
+    do: "[&_.text-field-wrapper>input]:h-6 [&_.text-field-wrapper>.text-field-icon]:size-4"
+
+  defp size_class("medium"),
+    do: "[&_.text-field-wrapper>input]:h-7 [&_.text-field-wrapper>.text-field-icon]:size-5"
+
+  defp size_class("large"),
+    do: "[&_.text-field-wrapper>input]:h-8 [&_.text-field-wrapper>.text-field-icon]:size-6"
+
+  defp size_class("extra_large"),
+    do: "[&_.text-field-wrapper>input]:h-9 [&_.text-field-wrapper>.text-field-icon]:size-7"
+
   defp size_class(_), do: size_class("extra_large")
 
   defp rounded_size("extra_small"), do: "[&_.text-field-wrapper]:rounded-sm"
@@ -288,12 +311,12 @@ defmodule MishkaChelekom.TextField do
   end
 
   defp color_variant("outline", "dark") do
-   [
+    [
       "text-[#1E1E1E] [&_.text-field-wrapper]:text-white [&_.text-field-wrapper:not(:has(.text-field-error))]:border-[#050404]",
       "[&_.text-field-wrapper.text-field-error]:border-rose-700",
       "[&_.text-field-wrapper>input]:placeholder:text-[#1E1E1E] focus-within:[&_.text-field-wrapper]:ring-[#050404]",
       "[&_.text-field-wrapper_.floating-label]:bg-white"
-   ]
+    ]
   end
 
   defp color_variant("default", "white") do
@@ -377,11 +400,11 @@ defmodule MishkaChelekom.TextField do
   end
 
   defp color_variant("default", "dark") do
-   [
+    [
       "[&_.text-field-wrapper]:bg-[#1E1E1E] text-[#1E1E1E] [&_.text-field-wrapper]:text-white [&_.text-field-wrapper:not(:has(.text-field-error))]:border-[#050404]",
       "[&_.text-field-wrapper.text-field-error]:border-rose-700",
       "[&_.text-field-wrapper>input]:placeholder:text-white focus-within:[&_.text-field-wrapper]:ring-[#050404]"
-   ]
+    ]
   end
 
   defp color_variant("unbordered", "white") do

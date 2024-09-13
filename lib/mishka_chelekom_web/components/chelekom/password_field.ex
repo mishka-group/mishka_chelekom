@@ -13,15 +13,12 @@ defmodule MishkaChelekom.InputField do
   attr :rest, :global, doc: ""
   slot :inner_block
 
-
   def text_field(assigns) do
     ~H"""
-    <div
-      class={[
-        space_class(@space),
-        @class
-      ]}
-    >
+    <div class={[
+      space_class(@space),
+      @class
+    ]}>
       <.label for={@id}><%= @label %></.label>
 
       <input

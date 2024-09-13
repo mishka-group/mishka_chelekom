@@ -23,6 +23,7 @@ defmodule MishkaChelekomWeb.ProductLive.FormComponent do
         <.input field={@form[:description]} type="text" label="Description" />
         <.input field={@form[:unit_price]} type="number" label="Unit price" step="any" />
         <.input field={@form[:sku]} type="number" label="Sku" />
+        <.input field={@form[:gku]} type="number" label="Gku" />
         <:actions>
           <.button phx-disable-with="Saving...">Save Product</.button>
         </:actions>
