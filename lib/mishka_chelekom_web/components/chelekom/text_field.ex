@@ -124,75 +124,152 @@ defmodule MishkaChelekom.TextField do
 
   defp color_variant("default", "white") do
     [
-      "[&_.input-text-wrapper]:bg-white text-[#3E3E3E] [&_.input-text-wrapper]:border-[#DADADA]",
-      "[&_.input-text-wrapper>input]:placeholder:text-[#3E3E3E] focus-within:[&_.input-text-wrapper]:ring-[#DADADA]"
+      "[&_.input-text-wrapper]:bg-white text-[#DADADA] [&_.input-text-wrapper]:border-[#DADADA]",
+      "[&_.input-text-wrapper>input]:placeholder:text-[#DADADA] focus-within:[&_.input-text-wrapper]:ring-[#DADADA]"
     ]
   end
 
   defp color_variant("default", "primary") do
     [
-      "[&_.input-text-wrapper]:bg-[#4363EC] text-[#4363EC] [&_.input-text-wrapper]:border-[#2441de]",
-      "[&_.input-text-wrapper>input]:placeholder:text-white focus-within:[&_.input-text-wrapper]:ring-[#2441de]"
+      "[&_.input-text-wrapper]:bg-white text-[#2441de] [&_.input-text-wrapper]:border-[#2441de]",
+      "[&_.input-text-wrapper>input]:placeholder:text-[#2441de] focus-within:[&_.input-text-wrapper]:ring-[#2441de]"
     ]
   end
 
   defp color_variant("default", "secondary") do
     [
-      "[&_.input-text-wrapper]:bg-[#6B6E7C] text-[#6B6E7C] [&_.input-text-wrapper]:border-[#877C7C]",
-      "[&_.input-text-wrapper>input]:placeholder:text-white focus-within:[&_.input-text-wrapper]:ring-[#877C7C]"
+      "[&_.input-text-wrapper]:bg-white text-[#877C7C] [&_.input-text-wrapper]:border-[#877C7C]",
+      "[&_.input-text-wrapper>input]:placeholder:text-[#877C7Cb] focus-within:[&_.input-text-wrapper]:ring-[#877C7C]"
     ]
   end
 
   defp color_variant("default", "success") do
     [
-      "[&_.input-text-wrapper]:bg-[#ECFEF3] text-[#047857] [&_.input-text-wrapper]:border-[#6EE7B7]",
-      "[&_.input-text-wrapper>input]:placeholder:text-[#047857] focus-within:[&_.input-text-wrapper]:ring-[#6EE7B7]"
+      "[&_.input-text-wrapper]:bg-white text-[#6EE7B7] [&_.input-text-wrapper]:border-[#6EE7B7]",
+      "[&_.input-text-wrapper>input]:placeholder:text-[#6EE7B7] focus-within:[&_.input-text-wrapper]:ring-[#6EE7B7]"
     ]
   end
 
   defp color_variant("default", "warning") do
     [
-      "[&_.input-text-wrapper]:bg-[#FFF8E6] text-[#FF8B08] [&_.input-text-wrapper]:border-[#FF8B08]",
+      "[&_.input-text-wrapper]:bg-white text-[#FF8B08] [&_.input-text-wrapper]:border-[#FF8B08]",
       "[&_.input-text-wrapper>input]:placeholder:text-[#FF8B08] focus-within:[&_.input-text-wrapper]:ring-[#FF8B08]"
     ]
   end
 
   defp color_variant("default", "danger") do
     [
-      "[&_.input-text-wrapper]:bg-[#FFE6E6] text-[#E73B3B] [&_.input-text-wrapper]:border-[#E73B3B]",
+      "[&_.input-text-wrapper]:bg-white text-[#E73B3B] [&_.input-text-wrapper]:border-[#E73B3B]",
       "[&_.input-text-wrapper>input]:placeholder:text-[#E73B3B] focus-within:[&_.input-text-wrapper]:ring-[#E73B3B]"
     ]
   end
 
   defp color_variant("default", "info") do
     [
-      "[&_.input-text-wrapper]:bg-[#E5F0FF] text-[#004FC4] [&_.input-text-wrapper]:border-[#004FC4]",
+      "[&_.input-text-wrapper]:bg-white text-[#004FC4] [&_.input-text-wrapper]:border-[#004FC4]",
       "[&_.input-text-wrapper>input]:placeholder:text-[#004FC4] focus-within:[&_.input-text-wrapper]:ring-[#004FC4]"
     ]
   end
 
   defp color_variant("default", "misc") do
     [
-      "[&_.input-text-wrapper]:bg-[#FFE6FF] text-[#52059C] [&_.input-text-wrapper]:border-[#52059C]",
+      "[&_.input-text-wrapper]:bg-white text-[#52059C] [&_.input-text-wrapper]:border-[#52059C]",
       "[&_.input-text-wrapper>input]:placeholder:text-[#52059C] focus-within:[&_.input-text-wrapper]:ring-[#52059C]"
     ]
   end
 
   defp color_variant("default", "dawn") do
     [
-      "[&_.input-text-wrapper]:bg-[#FFECDA] text-[#4D4137] [&_.input-text-wrapper]:border-[#4D4137]",
+      "[&_.input-text-wrapper]:bg-white text-[#4D4137] [&_.input-text-wrapper]:border-[#4D4137]",
       "[&_.input-text-wrapper>input]:placeholder:text-[#4D4137] focus-within:[&_.input-text-wrapper]:ring-[#4D4137]"
     ]
   end
 
   defp color_variant("default", "light") do
     [
-      "[&_.input-text-wrapper]:bg-[#E3E7F1] text-[#707483] [&_.input-text-wrapper]:border-[#707483]",
+      "[&_.input-text-wrapper]:bg-white text-[#707483] [&_.input-text-wrapper]:border-[#707483]",
       "[&_.input-text-wrapper>input]:placeholder:text-[#707483] focus-within:[&_.input-text-wrapper]:ring-[#707483]"
     ]
   end
 
   defp color_variant("default", "dark") do
+   [
+      "[&_.input-text-wrapper]:bg-white text-[#1E1E1E] [&_.input-text-wrapper]:text-white [&_.input-text-wrapper]:border-[#050404]",
+      "[&_.input-text-wrapper>input]:placeholder:text-[#1E1E1E] focus-within:[&_.input-text-wrapper]:ring-[#050404]"
+   ]
+  end
+
+  defp color_variant("filled", "white") do
+    [
+      "[&_.input-text-wrapper]:bg-white text-[#3E3E3E] [&_.input-text-wrapper]:border-[#DADADA]",
+      "[&_.input-text-wrapper>input]:placeholder:text-[#3E3E3E] focus-within:[&_.input-text-wrapper]:ring-[#DADADA]"
+    ]
+  end
+
+  defp color_variant("filled", "primary") do
+    [
+      "[&_.input-text-wrapper]:bg-[#4363EC] text-[#4363EC] [&_.input-text-wrapper]:border-[#2441de]",
+      "[&_.input-text-wrapper>input]:placeholder:text-white focus-within:[&_.input-text-wrapper]:ring-[#2441de]"
+    ]
+  end
+
+  defp color_variant("filled", "secondary") do
+    [
+      "[&_.input-text-wrapper]:bg-[#6B6E7C] text-[#6B6E7C] [&_.input-text-wrapper]:border-[#877C7C]",
+      "[&_.input-text-wrapper>input]:placeholder:text-white focus-within:[&_.input-text-wrapper]:ring-[#877C7C]"
+    ]
+  end
+
+  defp color_variant("filled", "success") do
+    [
+      "[&_.input-text-wrapper]:bg-[#ECFEF3] text-[#047857] [&_.input-text-wrapper]:border-[#6EE7B7]",
+      "[&_.input-text-wrapper>input]:placeholder:text-[#047857] focus-within:[&_.input-text-wrapper]:ring-[#6EE7B7]"
+    ]
+  end
+
+  defp color_variant("filled", "warning") do
+    [
+      "[&_.input-text-wrapper]:bg-[#FFF8E6] text-[#FF8B08] [&_.input-text-wrapper]:border-[#FF8B08]",
+      "[&_.input-text-wrapper>input]:placeholder:text-[#FF8B08] focus-within:[&_.input-text-wrapper]:ring-[#FF8B08]"
+    ]
+  end
+
+  defp color_variant("filled", "danger") do
+    [
+      "[&_.input-text-wrapper]:bg-[#FFE6E6] text-[#E73B3B] [&_.input-text-wrapper]:border-[#E73B3B]",
+      "[&_.input-text-wrapper>input]:placeholder:text-[#E73B3B] focus-within:[&_.input-text-wrapper]:ring-[#E73B3B]"
+    ]
+  end
+
+  defp color_variant("filled", "info") do
+    [
+      "[&_.input-text-wrapper]:bg-[#E5F0FF] text-[#004FC4] [&_.input-text-wrapper]:border-[#004FC4]",
+      "[&_.input-text-wrapper>input]:placeholder:text-[#004FC4] focus-within:[&_.input-text-wrapper]:ring-[#004FC4]"
+    ]
+  end
+
+  defp color_variant("filled", "misc") do
+    [
+      "[&_.input-text-wrapper]:bg-[#FFE6FF] text-[#52059C] [&_.input-text-wrapper]:border-[#52059C]",
+      "[&_.input-text-wrapper>input]:placeholder:text-[#52059C] focus-within:[&_.input-text-wrapper]:ring-[#52059C]"
+    ]
+  end
+
+  defp color_variant("filled", "dawn") do
+    [
+      "[&_.input-text-wrapper]:bg-[#FFECDA] text-[#4D4137] [&_.input-text-wrapper]:border-[#4D4137]",
+      "[&_.input-text-wrapper>input]:placeholder:text-[#4D4137] focus-within:[&_.input-text-wrapper]:ring-[#4D4137]"
+    ]
+  end
+
+  defp color_variant("filled", "light") do
+    [
+      "[&_.input-text-wrapper]:bg-[#E3E7F1] text-[#707483] [&_.input-text-wrapper]:border-[#707483]",
+      "[&_.input-text-wrapper>input]:placeholder:text-[#707483] focus-within:[&_.input-text-wrapper]:ring-[#707483]"
+    ]
+  end
+
+  defp color_variant("filled", "dark") do
    [
       "[&_.input-text-wrapper]:bg-[#1E1E1E] text-[#1E1E1E] [&_.input-text-wrapper]:text-white [&_.input-text-wrapper]:border-[#050404]",
       "[&_.input-text-wrapper>input]:placeholder:text-white focus-within:[&_.input-text-wrapper]:ring-[#050404]"
