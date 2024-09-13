@@ -1,4 +1,4 @@
-defmodule MishkaChelekomWeb.Examples.InputFieldLive do
+defmodule MishkaChelekomWeb.Examples.TextFieldLive do
   use Phoenix.LiveView
   use Phoenix.Component
 

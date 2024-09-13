@@ -4,7 +4,6 @@ defmodule MishkaChelekom.InputField do
 
   @doc type: :component
   attr :id, :string, default: nil, doc: ""
-  attr :type, :string, default: nil, doc: ""
   attr :class, :string, default: nil, doc: ""
   attr :space, :string, default: "medium", doc: ""
   attr :name, :any
@@ -15,7 +14,7 @@ defmodule MishkaChelekom.InputField do
   slot :inner_block
 
 
-  def input_filed(assigns) do
+  def text_field(assigns) do
     ~H"""
     <div
       class={[
@@ -26,7 +25,7 @@ defmodule MishkaChelekom.InputField do
       <.label for={@id}><%= @label %></.label>
 
       <input
-        type={@type}
+        type="password"
         name={@name}
         id={@id}
         value={@value}
