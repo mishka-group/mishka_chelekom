@@ -15,6 +15,7 @@ defmodule MishkaChelekom.TextField do
   attr :size, :string, default: "extra_large", doc: ""
   attr :ring, :boolean, default: true, doc: ""
   attr :floating_label, :boolean, default: false, doc: ""
+  attr :error_icon, :string, default: nil, doc: ""
   attr :label, :string, default: nil
   attr :errors, :list, default: []
   attr :name, :any
@@ -94,7 +95,7 @@ defmodule MishkaChelekom.TextField do
         </div>
       </div>
 
-      <.error :for={msg <- @errors}><%= msg %></.error>
+      <.error icon={@error_icon} :for={msg <- @errors}><%= msg %></.error>
     </div>
     """
   end
