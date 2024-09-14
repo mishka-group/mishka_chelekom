@@ -33,7 +33,6 @@ defmodule MishkaChelekom.TextField do
   end
 
   # TODO: How add success status to text field
-  # TODO: add description
 
   def text_field(%{floating_label: true} = assigns) do
     ~H"""
@@ -46,6 +45,9 @@ defmodule MishkaChelekom.TextField do
       @ring && "[&_.text-field-wrapper]:focus-within:ring-[0.03rem]",
       @class
     ]}>
+      <div :if={!is_nil(@description)} class="text-xs pb-2">
+        <%= @description %>
+      </div>
       <div class={[
         "text-field-wrapper transition-all ease-in-out duration-200 w-full flex flex-nowrap",
         @errors != [] && "text-field-error"
@@ -108,7 +110,12 @@ defmodule MishkaChelekom.TextField do
       @ring && "[&_.text-field-wrapper]:focus-within:ring-[0.03rem]",
       @class
     ]}>
-      <.label for={@id}><%= @label %></.label>
+      <div>
+        <.label for={@id}><%= @label %></.label>
+        <div :if={!is_nil(@description)} class="text-xs">
+          <%= @description %>
+        </div>
+      </div>
 
       <div class={[
         "text-field-wrapper overflow-hidden transition-all ease-in-out duration-200 flex flex-nowrap",
