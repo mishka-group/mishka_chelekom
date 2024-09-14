@@ -14,7 +14,7 @@ defmodule MishkaChelekom.TextField do
   attr :space, :string, default: "medium", doc: ""
   attr :size, :string, default: "extra_large", doc: ""
   attr :ring, :boolean, default: true, doc: ""
-  attr :floating_label, :boolean, default: false, doc: ""
+  attr :floating, :string, default: "none", doc: "none, inner, outer"
   attr :error_icon, :string, default: nil, doc: ""
   attr :label, :string, default: nil
   attr :errors, :list, default: []
@@ -35,10 +35,10 @@ defmodule MishkaChelekom.TextField do
 
   # TODO: How add success status to text field
 
-  def text_field(%{floating_label: true} = assigns) do
+  def text_field(%{floating: floating} = assigns) when floating in ["inner", "outer"] do
     ~H"""
     <div class={[
-      color_variant(@variant, @color, true),
+      color_variant(@variant, @color, @floating),
       rounded_size(@rounded),
       border_class(@border),
       size_class(@size),
@@ -79,7 +79,7 @@ defmodule MishkaChelekom.TextField do
           <label
             class={[
               "floating-label p-1 start-1 -z-[1] absolute text-xs duration-300 transform scale-75 origin-[0]",
-              variant_label_position(@variant)
+              variant_label_position(@variant, @floating)
             ]}
             for={@id}
           >
@@ -103,7 +103,7 @@ defmodule MishkaChelekom.TextField do
   def text_field(assigns) do
     ~H"""
     <div class={[
-      color_variant(@variant, @color, false),
+      color_variant(@variant, @color, @floating),
       rounded_size(@rounded),
       border_class(@border),
       size_class(@size),
@@ -181,7 +181,7 @@ defmodule MishkaChelekom.TextField do
     """
   end
 
-  defp variant_label_position("outline") do
+  defp variant_label_position(_, "outer") do
     [
       "-translate-y-4 top-2",
       "peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-3",
@@ -189,36 +189,35 @@ defmodule MishkaChelekom.TextField do
     ]
   end
 
-  defp variant_label_position("default") do
+  defp variant_label_position("default", "inner") do
     [
       "-translate-y-4 top-2 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2",
       "peer-focus:scale-75 peer-focus:-translate-y-4"
     ]
   end
 
-  defp variant_label_position("transparent") do
+  defp variant_label_position("unbordered", "inner") do
+    [
+      "-translate-y-4 top-2",
+      "peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-5",
+      "peer-focus:scale-75 peer-focus:-translate-y-6"
+    ]
+  end
+
+  defp variant_label_position("shadow", "inner") do
+    [
+      "-translate-y-4 top-2",
+      "peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-5",
+      "peer-focus:scale-75 peer-focus:-translate-y-6"
+    ]
+  end
+
+  defp variant_label_position("transparent", _) do
     [
       "transform -translate-y-4 top-2 peer-focus:start-0 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0",
       "peer-focus:scale-75 peer-focus:-translate-y-6"
     ]
   end
-
-  defp variant_label_position("unbordered") do
-    [
-      "-translate-y-4 top-2",
-      "peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-5",
-      "peer-focus:scale-75 peer-focus:-translate-y-6"
-    ]
-  end
-
-  defp variant_label_position("shadow") do
-    [
-      "-translate-y-4 top-2",
-      "peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-5",
-      "peer-focus:scale-75 peer-focus:-translate-y-6"
-    ]
-  end
-
 
   defp size_class("extra_small"),
     do: "[&_.text-field-wrapper_input]:h-7 [&_.text-field-wrapper>.text-field-icon]:size-3.5"
@@ -267,7 +266,7 @@ defmodule MishkaChelekom.TextField do
       "text-white [&_.text-field-wrapper:not(:has(.text-field-error))]:border-white",
       "[&_.text-field-wrapper.text-field-error]:border-rose-700",
       "[&_.text-field-wrapper>input]:placeholder:text-white focus-within:[&_.text-field-wrapper]:ring-white",
-      floating && "[&_.text-field-wrapper_.floating-label]:bg-white"
+      floating == "outer" && "[&_.text-field-wrapper_.floating-label]:bg-white"
     ]
   end
 
@@ -276,7 +275,7 @@ defmodule MishkaChelekom.TextField do
       "text-[#afafaf] [&_.text-field-wrapper:not(:has(.text-field-error))]:border-[#afafaf]",
       "[&_.text-field-wrapper.text-field-error]:border-rose-700",
       "[&_.text-field-wrapper>input]:placeholder:text-[#afafaf] focus-within:[&_.text-field-wrapper]:ring-[#afafaf]",
-       floating && "[&_.text-field-wrapper_.floating-label]:bg-white"
+       floating == "outer" && "[&_.text-field-wrapper_.floating-label]:bg-white"
     ]
   end
 
@@ -285,7 +284,7 @@ defmodule MishkaChelekom.TextField do
       "text-[#2441de] [&_.text-field-wrapper:not(:has(.text-field-error))]:border-[#2441de]",
       "[&_.text-field-wrapper.text-field-error]:border-rose-700",
       "[&_.text-field-wrapper>input]:placeholder:text-[#2441de] focus-within:[&_.text-field-wrapper]:ring-[#2441de]",
-       floating && "[&_.text-field-wrapper_.floating-label]:bg-white"
+       floating == "outer" && "[&_.text-field-wrapper_.floating-label]:bg-white"
     ]
   end
 
@@ -294,7 +293,7 @@ defmodule MishkaChelekom.TextField do
       "text-[#877C7C] [&_.text-field-wrapper:not(:has(.text-field-error))]:border-[#877C7C]",
       "[&_.text-field-wrapper.text-field-error]:border-rose-700",
       "[&_.text-field-wrapper>input]:placeholder:text-[#877C7Cb] focus-within:[&_.text-field-wrapper]:ring-[#877C7C]",
-       floating && "[&_.text-field-wrapper_.floating-label]:bg-white"
+       floating == "outer" && "[&_.text-field-wrapper_.floating-label]:bg-white"
     ]
   end
 
@@ -303,7 +302,7 @@ defmodule MishkaChelekom.TextField do
       "text-[#047857] [&_.text-field-wrapper:not(:has(.text-field-error))]:border-[#047857]",
       "[&_.text-field-wrapper.text-field-error]:border-rose-700",
       "[&_.text-field-wrapper>input]:placeholder:text-[#047857] focus-within:[&_.text-field-wrapper]:ring-[#047857]",
-       floating && "[&_.text-field-wrapper_.floating-label]:bg-white"
+       floating == "outer" && "[&_.text-field-wrapper_.floating-label]:bg-white"
     ]
   end
 
@@ -312,7 +311,7 @@ defmodule MishkaChelekom.TextField do
       "text-[#FF8B08] [&_.text-field-wrapper:not(:has(.text-field-error))]:border-[#FF8B08]",
       "[&_.text-field-wrapper.text-field-error]:border-rose-700",
       "[&_.text-field-wrapper>input]:placeholder:text-[#FF8B08] focus-within:[&_.text-field-wrapper]:ring-[#FF8B08]",
-       floating && "[&_.text-field-wrapper_.floating-label]:bg-white"
+       floating == "outer" && "[&_.text-field-wrapper_.floating-label]:bg-white"
     ]
   end
 
@@ -321,7 +320,7 @@ defmodule MishkaChelekom.TextField do
       "text-[#E73B3B] [&_.text-field-wrapper:not(:has(.text-field-error))]:border-[#E73B3B]",
       "[&_.text-field-wrapper.text-field-error]:border-rose-700",
       "[&_.text-field-wrapper>input]:placeholder:text-[#E73B3B] focus-within:[&_.text-field-wrapper]:ring-[#E73B3B]",
-       floating && "[&_.text-field-wrapper_.floating-label]:bg-white"
+       floating == "outer" && "[&_.text-field-wrapper_.floating-label]:bg-white"
     ]
   end
 
@@ -330,7 +329,7 @@ defmodule MishkaChelekom.TextField do
       "text-[#004FC4] [&_.text-field-wrapper:not(:has(.text-field-error))]:border-[#004FC4]",
       "[&_.text-field-wrapper.text-field-error]:border-rose-700",
       "[&_.text-field-wrapper>input]:placeholder:text-[#004FC4] focus-within:[&_.text-field-wrapper]:ring-[#004FC4]",
-       floating && "[&_.text-field-wrapper_.floating-label]:bg-white"
+       floating == "outer" && "[&_.text-field-wrapper_.floating-label]:bg-white"
     ]
   end
 
@@ -339,7 +338,7 @@ defmodule MishkaChelekom.TextField do
       "text-[#52059C] [&_.text-field-wrapper:not(:has(.text-field-error))]:border-[#52059C]",
       "[&_.text-field-wrapper.text-field-error]:border-rose-700",
       "[&_.text-field-wrapper>input]:placeholder:text-[#52059C] focus-within:[&_.text-field-wrapper]:ring-[#52059C]",
-       floating && "[&_.text-field-wrapper_.floating-label]:bg-white"
+       floating == "outer" && "[&_.text-field-wrapper_.floating-label]:bg-white"
     ]
   end
 
@@ -348,7 +347,7 @@ defmodule MishkaChelekom.TextField do
       "text-[#4D4137] [&_.text-field-wrapper:not(:has(.text-field-error))]:border-[#4D4137]",
       "[&_.text-field-wrapper.text-field-error]:border-rose-700",
       "[&_.text-field-wrapper>input]:placeholder:text-[#4D4137] focus-within:[&_.text-field-wrapper]:ring-[#4D4137]",
-       floating && "[&_.text-field-wrapper_.floating-label]:bg-white"
+       floating == "outer" && "[&_.text-field-wrapper_.floating-label]:bg-white"
     ]
   end
 
@@ -357,7 +356,7 @@ defmodule MishkaChelekom.TextField do
       "text-[#707483] [&_.text-field-wrapper:not(:has(.text-field-error))]:border-[#707483]",
       "[&_.text-field-wrapper.text-field-error]:border-rose-700",
       "[&_.text-field-wrapper>input]:placeholder:text-[#707483] focus-within:[&_.text-field-wrapper]:ring-[#707483]",
-       floating && "[&_.text-field-wrapper_.floating-label]:bg-white"
+       floating == "outer" && "[&_.text-field-wrapper_.floating-label]:bg-white"
     ]
   end
 
@@ -366,260 +365,293 @@ defmodule MishkaChelekom.TextField do
       "text-[#1E1E1E] [&_.text-field-wrapper]:text-text-[#1E1E1E] [&_.text-field-wrapper:not(:has(.text-field-error))]:border-[#050404]",
       "[&_.text-field-wrapper.text-field-error]:border-rose-700",
       "[&_.text-field-wrapper>input]:placeholder:text-[#1E1E1E] focus-within:[&_.text-field-wrapper]:ring-[#050404]",
-       floating && "[&_.text-field-wrapper_.floating-label]:bg-white"
+       floating == "outer" && "[&_.text-field-wrapper_.floating-label]:bg-white"
     ]
   end
 
-  defp color_variant("default", "white", _) do
+  defp color_variant("default", "white", floating) do
     [
       "[&_.text-field-wrapper]:bg-white text-[#3E3E3E] [&_.text-field-wrapper:not(:has(.text-field-error))]:border-[#DADADA]",
       "[&_.text-field-wrapper.text-field-error]:border-rose-700",
       "[&_.text-field-wrapper>input]:placeholder:text-[#3E3E3E] focus-within:[&_.text-field-wrapper]:ring-[#DADADA]",
+      floating == "outer" && "[&_.text-field-wrapper_.floating-label]:bg-white"
     ]
   end
 
-  defp color_variant("default", "primary", _) do
+  defp color_variant("default", "primary", floating) do
     [
       "[&_.text-field-wrapper]:bg-[#4363EC] text-[#4363EC] [&_.text-field-wrapper:not(:has(.text-field-error))]:border-[#2441de]",
       "[&_.text-field-wrapper.text-field-error]:border-rose-700 [&_.text-field-wrapper]:text-white",
       "[&_.text-field-wrapper>input]:placeholder:text-white focus-within:[&_.text-field-wrapper]:ring-[#2441de]",
+      floating == "outer" && "[&_.text-field-wrapper_.floating-label]:bg-[#4363EC]"
     ]
   end
 
-  defp color_variant("default", "secondary", _) do
+  defp color_variant("default", "secondary", floating) do
     [
       "[&_.text-field-wrapper]:bg-[#6B6E7C] text-[#6B6E7C] [&_.text-field-wrapper:not(:has(.text-field-error))]:border-[#877C7C]",
       "[&_.text-field-wrapper.text-field-error]:border-rose-700 [&_.text-field-wrapper]:text-white",
       "[&_.text-field-wrapper>input]:placeholder:text-white focus-within:[&_.text-field-wrapper]:ring-[#877C7C]",
+      floating == "outer" && "[&_.text-field-wrapper_.floating-label]:bg-[#6B6E7C]"
     ]
   end
 
-  defp color_variant("default", "success", _) do
+  defp color_variant("default", "success", floating) do
     [
       "[&_.text-field-wrapper]:bg-[#ECFEF3] text-[#047857] [&_.text-field-wrapper:not(:has(.text-field-error))]:border-[#6EE7B7]",
       "[&_.text-field-wrapper.text-field-error]:border-rose-700",
       "[&_.text-field-wrapper>input]:placeholder:text-[#047857] focus-within:[&_.text-field-wrapper]:ring-[#6EE7B7]",
+      floating == "outer" && "[&_.text-field-wrapper_.floating-label]:bg-[#6B6E7C]"
     ]
   end
 
-  defp color_variant("default", "warning", _) do
+  defp color_variant("default", "warning", floating) do
     [
       "[&_.text-field-wrapper]:bg-[#FFF8E6] text-[#FF8B08] [&_.text-field-wrapper:not(:has(.text-field-error))]:border-[#FF8B08]",
       "[&_.text-field-wrapper.text-field-error]:border-rose-700",
       "[&_.text-field-wrapper>input]:placeholder:text-[#FF8B08] focus-within:[&_.text-field-wrapper]:ring-[#FF8B08]",
+      floating == "outer" && "[&_.text-field-wrapper_.floating-label]:bg-[#FFF8E6]"
     ]
   end
 
-  defp color_variant("default", "danger", _) do
+  defp color_variant("default", "danger", floating) do
     [
       "[&_.text-field-wrapper]:bg-[#FFE6E6] text-[#E73B3B] [&_.text-field-wrapper:not(:has(.text-field-error))]:border-[#E73B3B]",
       "[&_.text-field-wrapper.text-field-error]:border-rose-700",
       "[&_.text-field-wrapper>input]:placeholder:text-[#E73B3B] focus-within:[&_.text-field-wrapper]:ring-[#E73B3B]",
+      floating == "outer" && "[&_.text-field-wrapper_.floating-label]:bg-[#FFE6E6]"
     ]
   end
 
-  defp color_variant("default", "info", _) do
+  defp color_variant("default", "info", floating) do
     [
       "[&_.text-field-wrapper]:bg-[#E5F0FF] text-[#004FC4] [&_.text-field-wrapper:not(:has(.text-field-error))]:border-[#004FC4]",
       "[&_.text-field-wrapper.text-field-error]:border-rose-700",
       "[&_.text-field-wrapper>input]:placeholder:text-[#004FC4] focus-within:[&_.text-field-wrapper]:ring-[#004FC4]",
+      floating == "outer" && "[&_.text-field-wrapper_.floating-label]:bg-[#E5F0FF]"
     ]
   end
 
-  defp color_variant("default", "misc", _) do
+  defp color_variant("default", "misc", floating) do
     [
       "[&_.text-field-wrapper]:bg-[#FFE6FF] text-[#52059C] [&_.text-field-wrapper:not(:has(.text-field-error))]:border-[#52059C]",
       "[&_.text-field-wrapper.text-field-error]:border-rose-700",
       "[&_.text-field-wrapper>input]:placeholder:text-[#52059C] focus-within:[&_.text-field-wrapper]:ring-[#52059C]",
+      floating == "outer" && "[&_.text-field-wrapper_.floating-label]:bg-[#FFE6FF]"
     ]
   end
 
-  defp color_variant("default", "dawn", _) do
+  defp color_variant("default", "dawn", floating) do
     [
       "[&_.text-field-wrapper]:bg-[#FFECDA] text-[#4D4137] [&_.text-field-wrapper:not(:has(.text-field-error))]:border-[#4D4137]",
       "[&_.text-field-wrapper.text-field-error]:border-rose-700",
       "[&_.text-field-wrapper>input]:placeholder:text-[#4D4137] focus-within:[&_.text-field-wrapper]:ring-[#4D4137]",
+      floating == "outer" && "[&_.text-field-wrapper_.floating-label]:bg-[#FFECDA]"
     ]
   end
 
-  defp color_variant("default", "light", _) do
+  defp color_variant("default", "light", floating) do
     [
       "[&_.text-field-wrapper]:bg-[#E3E7F1] text-[#707483] [&_.text-field-wrapper:not(:has(.text-field-error))]:border-[#707483]",
       "[&_.text-field-wrapper.text-field-error]:border-rose-700",
       "[&_.text-field-wrapper>input]:placeholder:text-[#707483] focus-within:[&_.text-field-wrapper]:ring-[#707483]",
+      floating == "outer" && "[&_.text-field-wrapper_.floating-label]:bg-[#E3E7F1]"
     ]
   end
 
-  defp color_variant("default", "dark", _) do
+  defp color_variant("default", "dark", floating) do
     [
       "[&_.text-field-wrapper]:bg-[#1E1E1E] text-[#1E1E1E] [&_.text-field-wrapper]:text-white [&_.text-field-wrapper:not(:has(.text-field-error))]:border-[#050404]",
       "[&_.text-field-wrapper.text-field-error]:border-rose-700",
       "[&_.text-field-wrapper>input]:placeholder:text-white focus-within:[&_.text-field-wrapper]:ring-[#050404]",
+      floating == "outer" && "[&_.text-field-wrapper_.floating-label]:bg-[#1E1E1E]"
     ]
   end
 
-  defp color_variant("unbordered", "white", _) do
+  defp color_variant("unbordered", "white", floating) do
     [
       "[&_.text-field-wrapper]:bg-white [&_.text-field-wrapper]:border-transparent text-[#3E3E3E]",
-      "[&_.text-field-wrapper>input]:placeholder:text-[#3E3E3E]"
+      "[&_.text-field-wrapper>input]:placeholder:text-[#3E3E3E]",
+      floating == "outer" && "[&_.text-field-wrapper_.floating-label]:bg-white"
     ]
   end
 
-  defp color_variant("unbordered", "primary", _) do
+  defp color_variant("unbordered", "primary", floating) do
     [
       "[&_.text-field-wrapper]:bg-[#4363EC] text-[#4363EC] [&_.text-field-wrapper]:border-transparent text-white",
-      "[&_.text-field-wrapper>input]:placeholder:text-white"
+      "[&_.text-field-wrapper>input]:placeholder:text-white",
+      floating == "outer" && "[&_.text-field-wrapper_.floating-label]:bg-[#4363EC]"
     ]
   end
 
-  defp color_variant("unbordered", "secondary", _) do
+  defp color_variant("unbordered", "secondary", floating) do
     [
       "[&_.text-field-wrapper]:bg-[#6B6E7C] text-[#6B6E7C] [&_.text-field-wrapper]:border-transparent text-white",
-      "[&_.text-field-wrapper>input]:placeholder:text-white"
+      "[&_.text-field-wrapper>input]:placeholder:text-white",
+      floating == "outer" && "[&_.text-field-wrapper_.floating-label]:bg-[#6B6E7C]"
     ]
   end
 
-  defp color_variant("unbordered", "success", _) do
+  defp color_variant("unbordered", "success", floating) do
     [
       "[&_.text-field-wrapper]:bg-[#ECFEF3] [&_.text-field-wrapper]:border-transparent text-[#047857]",
-      "[&_.text-field-wrapper>input]:placeholder:text-[#047857]"
+      "[&_.text-field-wrapper>input]:placeholder:text-[#047857]",
+      floating == "outer" && "[&_.text-field-wrapper_.floating-label]:bg-[#ECFEF3]"
     ]
   end
 
-  defp color_variant("unbordered", "warning", _) do
+  defp color_variant("unbordered", "warning", floating) do
     [
       "[&_.text-field-wrapper]:bg-[#FFF8E6] [&_.text-field-wrapper]:border-transparent text-[#FF8B08]",
-      "[&_.text-field-wrapper>input]:placeholder:text-[#FF8B08]"
+      "[&_.text-field-wrapper>input]:placeholder:text-[#FF8B08]",
+      floating == "outer" && "[&_.text-field-wrapper_.floating-label]:bg-[#FFF8E6]"
     ]
   end
 
-  defp color_variant("unbordered", "danger", _) do
+  defp color_variant("unbordered", "danger", floating) do
     [
       "[&_.text-field-wrapper]:bg-[#FFE6E6] [&_.text-field-wrapper]:border-transparent text-[#E73B3B]",
-      "[&_.text-field-wrapper>input]:placeholder:text-[#E73B3B]"
+      "[&_.text-field-wrapper>input]:placeholder:text-[#E73B3B]",
+      floating == "outer" && "[&_.text-field-wrapper_.floating-label]:bg-[#FFE6E6]"
     ]
   end
 
-  defp color_variant("unbordered", "info", _) do
+  defp color_variant("unbordered", "info", floating) do
     [
       "[&_.text-field-wrapper]:bg-[#E5F0FF] [&_.text-field-wrapper]:border-transparent text-[#004FC4]",
-      "[&_.text-field-wrapper>input]:placeholder:text-[#004FC4]"
+      "[&_.text-field-wrapper>input]:placeholder:text-[#004FC4]",
+      floating == "outer" && "[&_.text-field-wrapper_.floating-label]:bg-[#E5F0FF]"
     ]
   end
 
-  defp color_variant("unbordered", "misc", _) do
+  defp color_variant("unbordered", "misc", floating) do
     [
       "[&_.text-field-wrapper]:bg-[#FFE6FF] [&_.text-field-wrapper]:border-transparent text-[#52059C]",
-      "[&_.text-field-wrapper>input]:placeholder:text-[#52059C]"
+      "[&_.text-field-wrapper>input]:placeholder:text-[#52059C]",
+      floating == "outer" && "[&_.text-field-wrapper_.floating-label]:bg-[#FFE6FF]"
     ]
   end
 
-  defp color_variant("unbordered", "dawn", _) do
+  defp color_variant("unbordered", "dawn", floating) do
     [
       "[&_.text-field-wrapper]:bg-[#FFECDA] [&_.text-field-wrapper]:border-transparent text-[#4D4137]",
-      "[&_.text-field-wrapper>input]:placeholder:text-[#4D4137]"
+      "[&_.text-field-wrapper>input]:placeholder:text-[#4D4137]",
+      floating == "outer" && "[&_.text-field-wrapper_.floating-label]:bg-[#FFECDA]"
     ]
   end
 
-  defp color_variant("unbordered", "light", _) do
+  defp color_variant("unbordered", "light", floating) do
     [
       "[&_.text-field-wrapper]:bg-[#E3E7F1] [&_.text-field-wrapper]:border-transparent text-[#707483]",
-      "[&_.text-field-wrapper>input]:placeholder:text-[#707483]"
+      "[&_.text-field-wrapper>input]:placeholder:text-[#707483]",
+      floating == "outer" && "[&_.text-field-wrapper_.floating-label]:bg-[#E3E7F1]"
     ]
   end
 
-  defp color_variant("unbordered", "dark", _) do
+  defp color_variant("unbordered", "dark", floating) do
     [
       "[&_.text-field-wrapper]:bg-[#1E1E1E] text-[#1E1E1E] [&_.text-field-wrapper]:border-transparent text-white",
-      "[&_.text-field-wrapper>input]:placeholder:text-white"
+      "[&_.text-field-wrapper>input]:placeholder:text-white",
+      floating == "outer" && "[&_.text-field-wrapper_.floating-label]:bg-[#1E1E1E]"
     ]
   end
 
-  defp color_variant("shadow", "white", _) do
+  defp color_variant("shadow", "white", floating) do
     [
       "[&_.text-field-wrapper]:bg-white text-[#3E3E3E] [&_.text-field-wrapper:not(:has(.text-field-error))]:border-[#DADADA]",
       "[&_.text-field-wrapper.text-field-error]:border-rose-700",
-      "[&_.text-field-wrapper]:shadow [&_.text-field-wrapper>input]:placeholder:text-[#3E3E3E]"
+      "[&_.text-field-wrapper]:shadow [&_.text-field-wrapper>input]:placeholder:text-[#3E3E3E]",
+      floating == "outer" && "[&_.text-field-wrapper_.floating-label]:bg-[#3E3E3E]"
     ]
   end
 
-  defp color_variant("shadow", "primary", _) do
+  defp color_variant("shadow", "primary", floating) do
     [
       "[&_.text-field-wrapper]:bg-[#4363EC] text-[#4363EC] [&_.text-field-wrapper:not(:has(.text-field-error))]:border-[#4363EC]",
       "[&_.text-field-wrapper.text-field-error]:border-rose-700",
-      "[&_.text-field-wrapper]:shadow [&_.text-field-wrapper>input]:placeholder:text-white"
+      "[&_.text-field-wrapper]:shadow [&_.text-field-wrapper>input]:placeholder:text-white",
+      floating == "outer" && "[&_.text-field-wrapper_.floating-label]:bg-[#3E3E3E]"
     ]
   end
 
-  defp color_variant("shadow", "secondary", _) do
+  defp color_variant("shadow", "secondary", floating) do
     [
       "[&_.text-field-wrapper]:bg-[#6B6E7C] text-[#6B6E7C] [&_.text-field-wrapper:not(:has(.text-field-error))]:border-[#6B6E7C]",
       "[&_.text-field-wrapper.text-field-error]:border-rose-700",
-      "[&_.text-field-wrapper]:shadow [&_.text-field-wrapper>input]:placeholder:text-white"
+      "[&_.text-field-wrapper]:shadow [&_.text-field-wrapper>input]:placeholder:text-white",
+      floating == "outer" && "[&_.text-field-wrapper_.floating-label]:bg-[#6B6E7C]"
     ]
   end
 
-  defp color_variant("shadow", "success", _) do
+  defp color_variant("shadow", "success", floating) do
     [
       "[&_.text-field-wrapper]:bg-[#ECFEF3] text-[#227A52] [&_.text-field-wrapper:not(:has(.text-field-error))]:border-[#047857]",
       "[&_.text-field-wrapper.text-field-error]:border-rose-700",
-      "[&_.text-field-wrapper]:shadow [&_.text-field-wrapper>input]:placeholder:text-[#047857]"
+      "[&_.text-field-wrapper]:shadow [&_.text-field-wrapper>input]:placeholder:text-[#047857]",
+      floating == "outer" && "[&_.text-field-wrapper_.floating-label]:bg-[#ECFEF3]"
     ]
   end
 
-  defp color_variant("shadow", "warning", _) do
+  defp color_variant("shadow", "warning", floating) do
     [
       "[&_.text-field-wrapper]:bg-[#FFF8E6] text-[#FF8B08] [&_.text-field-wrapper:not(:has(.text-field-error))]:border-[#FFF8E6]",
       "[&_.text-field-wrapper.text-field-error]:border-rose-700",
-      "[&_.text-field-wrapper]:shadow [&_.text-field-wrapper>input]:placeholder:text-[#FF8B08]"
+      "[&_.text-field-wrapper]:shadow [&_.text-field-wrapper>input]:placeholder:text-[#FF8B08]",
+      floating == "outer" && "[&_.text-field-wrapper_.floating-label]:bg-[#FFF8E6]"
     ]
   end
 
-  defp color_variant("shadow", "danger", _) do
+  defp color_variant("shadow", "danger", floating) do
     [
       "[&_.text-field-wrapper]:bg-[#FFE6E6] text-[#E73B3B] [&_.text-field-wrapper:not(:has(.text-field-error))]:border-[#FFE6E6]",
       "[&_.text-field-wrapper.text-field-error]:border-rose-700",
-      "[&_.text-field-wrapper]:shadow [&_.text-field-wrapper>input]:placeholder:text-[#E73B3B]"
+      "[&_.text-field-wrapper]:shadow [&_.text-field-wrapper>input]:placeholder:text-[#E73B3B]",
+      floating == "outer" && "[&_.text-field-wrapper_.floating-label]:bg-[#FFE6E6]"
     ]
   end
 
-  defp color_variant("shadow", "info", _) do
+  defp color_variant("shadow", "info", floating) do
     [
       "[&_.text-field-wrapper]:bg-[#E5F0FF] text-[#004FC4] [&_.text-field-wrapper:not(:has(.text-field-error))]:border-[#E5F0FF]",
       "[&_.text-field-wrapper.text-field-error]:border-rose-700",
-      "[&_.text-field-wrapper]:shadow [&_.text-field-wrapper>input]:placeholder:text-[#004FC4]"
+      "[&_.text-field-wrapper]:shadow [&_.text-field-wrapper>input]:placeholder:text-[#004FC4]",
+      floating == "outer" && "[&_.text-field-wrapper_.floating-label]:bg-[#E5F0FF]"
     ]
   end
 
-  defp color_variant("shadow", "misc", _) do
+  defp color_variant("shadow", "misc", floating) do
     [
       "[&_.text-field-wrapper]:bg-[#FFE6FF] text-[#52059C] [&_.text-field-wrapper:not(:has(.text-field-error))]:border-[#FFE6FF]",
       "[&_.text-field-wrapper.text-field-error]:border-rose-700",
-      "[&_.text-field-wrapper]:shadow [&_.text-field-wrapper>input]:placeholder:text-[#52059C]"
+      "[&_.text-field-wrapper]:shadow [&_.text-field-wrapper>input]:placeholder:text-[#52059C]",
+      floating == "outer" && "[&_.text-field-wrapper_.floating-label]:bg-[#FFE6FF]"
     ]
   end
 
-  defp color_variant("shadow", "dawn", _) do
+  defp color_variant("shadow", "dawn", floating) do
     [
       "[&_.text-field-wrapper]:bg-[#FFECDA] text-[#4D4137] [&_.text-field-wrapper:not(:has(.text-field-error))]:border-[#FFECDA]",
       "[&_.text-field-wrapper.text-field-error]:border-rose-700",
-      "[&_.text-field-wrapper]:shadow [&_.text-field-wrapper>input]:placeholder:text-[#4D4137]"
+      "[&_.text-field-wrapper]:shadow [&_.text-field-wrapper>input]:placeholder:text-[#4D4137]",
+      floating == "outer" && "[&_.text-field-wrapper_.floating-label]:bg-[#FFECDA]"
     ]
   end
 
-  defp color_variant("shadow", "light", _) do
+  defp color_variant("shadow", "light", floating) do
     [
       "[&_.text-field-wrapper]:bg-[#E3E7F1] text-[#707483] [&_.text-field-wrapper:not(:has(.text-field-error))]:border-[#E3E7F1]",
       "[&_.text-field-wrapper.text-field-error]:border-rose-700",
-      "[&_.text-field-wrapper]:shadow [&_.text-field-wrapper>input]:placeholder:text-[#707483]"
+      "[&_.text-field-wrapper]:shadow [&_.text-field-wrapper>input]:placeholder:text-[#707483]",
+      floating == "outer" && "[&_.text-field-wrapper_.floating-label]:bg-[#E3E7F1]"
     ]
   end
 
-  defp color_variant("shadow", "dark", _) do
+  defp color_variant("shadow", "dark", floating) do
     [
       "[&_.text-field-wrapper]:bg-[#1E1E1E] text-[#1E1E1E] [&_.text-field-wrapper:not(:has(.text-field-error))]:border-[#1E1E1E]",
       "[&_.text-field-wrapper.text-field-error]:border-rose-700",
-      "[&_.text-field-wrapper]:shadow [&_.text-field-wrapper>input]:placeholder:text-white"
+      "[&_.text-field-wrapper]:shadow [&_.text-field-wrapper>input]:placeholder:text-white",
+      floating == "outer" && "[&_.text-field-wrapper_.floating-label]:bg-[#1E1E1E]"
     ]
   end
 
