@@ -74,6 +74,8 @@ defmodule MishkaChelekomWeb.Router do
     live "/examples/mega-menu", Examples.MegaMenuLive
     live "/examples/devices", Examples.DeviceMockupLive
     live "/examples/text-input", Examples.TextFieldLive
+
+    live "/examples/user-form", Examples.UserFormLive
   end
 
   # Other scopes may use custom stacks.
