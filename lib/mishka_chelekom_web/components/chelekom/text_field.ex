@@ -152,7 +152,7 @@ defmodule MishkaChelekom.TextField do
         </div>
       </div>
 
-      <.error :for={msg <- @errors}><%= msg %></.error>
+      <.error icon={@error_icon} :for={msg <- @errors}><%= msg %></.error>
     </div>
     """
   end
