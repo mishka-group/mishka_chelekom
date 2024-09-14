@@ -40,7 +40,14 @@ defmodule MishkaChelekomWeb.Examples.UserFormLive do
       {:ok, user} ->
         uploaded_files =
           consume_uploaded_entries(socket, :avatar, fn %{path: path}, _entry ->
-            dest = Path.join([:code.priv_dir(:my_app), "static", "uploads", Path.basename(path)])
+            dest =
+              Path.join([
+                :code.priv_dir(:mishka_chelekom),
+                "static",
+                "uploads",
+                Path.basename(path)
+              ])
+
             # You will need to create `priv/static/uploads` for `File.cp!/2` to work.
             # File.cp!(path, dest)
             {:ok, "/uploads/#{Path.basename(dest)}"}
