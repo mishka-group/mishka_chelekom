@@ -59,15 +59,15 @@ defmodule MishkaChelekom.TextField do
         >
           <%= render_slot(@start_section) %>
         </div>
-        <div class="relative w-full -z-1 py-0.5">
+        <div class="relative w-full z-[2]">
           <input
             type="text"
             name={@name}
             id={@id}
             value={@value}
             class={[
-              "mt-2 block disabled:opacity-80 block w-full focus:ring-0 z-[2] peer placeholder:text-transparent flex-1 py-1 px-2",
-              "text-sm disabled:neutral-200 w-full appearance-none bg-transparent border-0 focus:outline-none focus:border-red-600 peer"
+              "block disabled:opacity-80 block w-full z-[2] focus:ring-0 placeholder:text-transparent py-1 px-2",
+              "text-sm disabled:opacity-80 w-full appearance-none bg-transparent border-0 focus:outline-none peer"
             ]}
             placeholder=" "
             {@rest}
@@ -75,7 +75,7 @@ defmodule MishkaChelekom.TextField do
 
           <label
             class={[
-              "floating-label p-px start-1.5 z-[5] absolute text-sm duration-300 transform scale-75 top-[0.42rem] -z-10 origin-[0]",
+              "floating-label p-1 start-1 -z-[1] absolute text-xs duration-300 transform scale-75 origin-[0]",
               variant_label_position(@variant)
             ]}
             for={@id}
@@ -173,38 +173,61 @@ defmodule MishkaChelekom.TextField do
     """
   end
 
-  defp variant_label_position("outline"),
-    do: "peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+  defp variant_label_position("outline") do
+    [
+      "-translate-y-4 top-2",
+      "peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-3",
+      "peer-focus:scale-75 peer-focus:-translate-y-7"
+    ]
+  end
 
-  defp variant_label_position("default"),
-    do: "peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-[0.63rem]"
+  defp variant_label_position("default") do
+    [
+      "-translate-y-4 top-2 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2",
+      "peer-focus:scale-75 peer-focus:-translate-y-4"
+    ]
+  end
 
-  defp variant_label_position("transparent"),
-    do: "peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+  defp variant_label_position("transparent") do
+    [
+      "transform -translate-y-4 top-2 peer-focus:start-0 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0",
+      "peer-focus:scale-75 peer-focus:-translate-y-6"
+    ]
+  end
 
-  defp variant_label_position("unbordered"),
-    do: "peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+  defp variant_label_position("unbordered") do
+    [
+      "-translate-y-4 top-2",
+      "peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-5",
+      "peer-focus:scale-75 peer-focus:-translate-y-6"
+    ]
+  end
 
-  defp variant_label_position("shadow"),
-    do: "peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+  defp variant_label_position("shadow") do
+    [
+      "-translate-y-4 top-2",
+      "peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-5",
+      "peer-focus:scale-75 peer-focus:-translate-y-6"
+    ]
+  end
 
 
   defp size_class("extra_small"),
-    do: "[&_.text-field-wrapper_input]:h-5 [&_.text-field-wrapper>.text-field-icon]:size-3.5"
+    do: "[&_.text-field-wrapper_input]:h-7 [&_.text-field-wrapper>.text-field-icon]:size-3.5"
 
   defp size_class("small"),
-    do: "[&_.text-field-wrapper_input]:h-6 [&_.text-field-wrapper>.text-field-icon]:size-4"
+    do: "[&_.text-field-wrapper_input]:h-8 [&_.text-field-wrapper>.text-field-icon]:size-4"
 
   defp size_class("medium"),
-    do: "[&_.text-field-wrapper_input]:h-7 [&_.text-field-wrapper>.text-field-icon]:size-5"
+    do: "[&_.text-field-wrapper_input]:h-9 [&_.text-field-wrapper>.text-field-icon]:size-5"
 
   defp size_class("large"),
-    do: "[&_.text-field-wrapper_input]:h-8 [&_.text-field-wrapper>.text-field-icon]:size-6"
+    do: "[&_.text-field-wrapper_input]:h-10 [&_.text-field-wrapper>.text-field-icon]:size-6"
 
   defp size_class("extra_large"),
-    do: "[&_.text-field-wrapper_input]:h-9 [&_.text-field-wrapper>.text-field-icon]:size-7"
+    do: "[&_.text-field-wrapper_input]:h-12 [&_.text-field-wrapper>.text-field-icon]:size-7"
 
-  defp size_class(_), do: size_class("extra_large")
+  defp size_class(_), do: size_class("medium")
 
   defp rounded_size("extra_small"), do: "[&_.text-field-wrapper]:rounded-sm"
   defp rounded_size("small"), do: "[&_.text-field-wrapper]:rounded"
@@ -269,9 +292,9 @@ defmodule MishkaChelekom.TextField do
 
   defp color_variant("outline", "success", floating) do
     [
-      "text-[#6EE7B7] [&_.text-field-wrapper:not(:has(.text-field-error))]:border-[#6EE7B7]",
+      "text-[#047857] [&_.text-field-wrapper:not(:has(.text-field-error))]:border-[#047857]",
       "[&_.text-field-wrapper.text-field-error]:border-rose-700",
-      "[&_.text-field-wrapper>input]:placeholder:text-[#6EE7B7] focus-within:[&_.text-field-wrapper]:ring-[#6EE7B7]",
+      "[&_.text-field-wrapper>input]:placeholder:text-[#047857] focus-within:[&_.text-field-wrapper]:ring-[#047857]",
        floating && "[&_.text-field-wrapper_.floating-label]:bg-white"
     ]
   end
@@ -530,7 +553,7 @@ defmodule MishkaChelekom.TextField do
 
   defp color_variant("shadow", "success", _) do
     [
-      "[&_.text-field-wrapper]:bg-[#AFEAD0] text-[#227A52] [&_.text-field-wrapper:not(:has(.text-field-error))]:border-[#AFEAD0]",
+      "[&_.text-field-wrapper]:bg-[#ECFEF3] text-[#227A52] [&_.text-field-wrapper:not(:has(.text-field-error))]:border-[#047857]",
       "[&_.text-field-wrapper.text-field-error]:border-rose-700",
       "[&_.text-field-wrapper]:shadow [&_.text-field-wrapper>input]:placeholder:text-[#047857]"
     ]
@@ -595,77 +618,88 @@ defmodule MishkaChelekom.TextField do
   defp color_variant("transparent", "white", _) do
     [
       "[&_.text-field-wrapper]:bg-transparent text-[#DADADA] [&_.text-field-wrapper]:border-transparent",
-      "[&_.text-field-wrapper>input]:placeholder:text-[#DADADA]"
+      "[&_.text-field-wrapper>input]:placeholder:text-[#DADADA]",
+      "focus-within:[&_.text-field-wrapper]:ring-transparent"
     ]
   end
 
   defp color_variant("transparent", "primary", _) do
     [
       "[&_.text-field-wrapper]:bg-transparent text-[#4363EC] [&_.text-field-wrapper]:border-transparent",
-      "[&_.text-field-wrapper>input]:placeholder:text-[#4363EC]"
+      "[&_.text-field-wrapper>input]:placeholder:text-[#4363EC]",
+      "focus-within:[&_.text-field-wrapper]:ring-transparent"
     ]
   end
 
   defp color_variant("transparent", "secondary", _) do
     [
       "[&_.text-field-wrapper]:bg-transparent text-[#6B6E7C] [&_.text-field-wrapper]:border-transparent",
-      "[&_.text-field-wrapper>input]:placeholder:text-[#6B6E7C]"
+      "[&_.text-field-wrapper>input]:placeholder:text-[#6B6E7C]",
+      "focus-within:[&_.text-field-wrapper]:ring-transparent"
     ]
   end
 
   defp color_variant("transparent", "success", _) do
     [
       "[&_.text-field-wrapper]:bg-transparent text-[#047857] [&_.text-field-wrapper]:border-transparent",
-      "[&_.text-field-wrapper>input]:placeholder:text-[#047857]"
+      "[&_.text-field-wrapper>input]:placeholder:text-[#047857]",
+      "focus-within:[&_.text-field-wrapper]:ring-transparent"
     ]
   end
 
   defp color_variant("transparent", "warning", _) do
     [
       "[&_.text-field-wrapper]:bg-transparent text-[#FF8B08] [&_.text-field-wrapper]:border-transparent",
-      "[&_.text-field-wrapper>input]:placeholder:text-[#FF8B08]"
+      "[&_.text-field-wrapper>input]:placeholder:text-[#FF8B08]",
+      "focus-within:[&_.text-field-wrapper]:ring-transparent"
     ]
   end
 
   defp color_variant("transparent", "danger", _) do
     [
       "[&_.text-field-wrapper]:bg-transparent text-[#E73B3B] [&_.text-field-wrapper]:border-transparent",
-      "[&_.text-field-wrapper>input]:placeholder:text-[#E73B3B]"
+      "[&_.text-field-wrapper>input]:placeholder:text-[#E73B3B]",
+      "focus-within:[&_.text-field-wrapper]:ring-transparent"
     ]
   end
 
   defp color_variant("transparent", "info", _) do
     [
       "[&_.text-field-wrapper]:bg-transparent text-[#004FC4] [&_.text-field-wrapper]:border-transparent",
-      "[&_.text-field-wrapper>input]:placeholder:text-[#004FC4]"
+      "[&_.text-field-wrapper>input]:placeholder:text-[#004FC4]",
+      "focus-within:[&_.text-field-wrapper]:ring-transparent"
     ]
   end
 
   defp color_variant("transparent", "misc", _) do
     [
       "[&_.text-field-wrapper]:bg-transparent text-[#52059C] [&_.text-field-wrapper]:border-transparent",
-      "[&_.text-field-wrapper>input]:placeholder:text-[#52059C]"
+      "[&_.text-field-wrapper>input]:placeholder:text-[#52059C]",
+      "focus-within:[&_.text-field-wrapper]:ring-transparent"
     ]
   end
 
   defp color_variant("transparent", "dawn", _) do
     [
       "[&_.text-field-wrapper]:bg-transparent text-[#4D4137] [&_.text-field-wrapper]:border-transparent",
-      "[&_.text-field-wrapper>input]:placeholder:text-[#4D4137]"
+      "[&_.text-field-wrapper>input]:placeholder:text-[#4D4137]",
+      "focus-within:[&_.text-field-wrapper]:ring-transparent"
     ]
   end
 
   defp color_variant("transparent", "light", _) do
     [
       "[&_.text-field-wrapper]:bg-transparent text-[#707483] [&_.text-field-wrapper]:border-transparent",
-      "[&_.text-field-wrapper>input]:placeholder:text-[#707483]"
+      "[&_.text-field-wrapper>input]:placeholder:text-[#707483]",
+      "focus-within:[&_.text-field-wrapper]:ring-transparent"
     ]
   end
 
   defp color_variant("transparent", "dark", _) do
     [
       "[&_.text-field-wrapper]:bg-transparent text-[#1E1E1E] [&_.text-field-wrapper]:border-transparent",
-      "[&_.text-field-wrapper>input]:placeholder:text-[#1E1E1E]"
+      "[&_.text-field-wrapper>input]:placeholder:text-[#1E1E1E]",
+      "focus-within:[&_.text-field-wrapper]:ring-transparent"
     ]
   end
 end
