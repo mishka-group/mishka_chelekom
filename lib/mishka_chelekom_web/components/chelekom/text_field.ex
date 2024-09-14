@@ -17,11 +17,6 @@ defmodule MishkaChelekom.TextField do
   attr :floating, :string, default: "none", doc: "none, inner, outer"
   attr :error_icon, :string, default: nil, doc: ""
   attr :label, :string, default: nil
-  attr :errors, :list, default: []
-  attr :name, :any
-  attr :value, :any
-  attr :rest, :global, doc: ""
-  slot :inner_block
 
   slot :start_section, required: false do
     attr :class, :string
@@ -33,7 +28,26 @@ defmodule MishkaChelekom.TextField do
     attr :icon, :string
   end
 
-  # TODO: How add success status to text field
+  attr :errors, :list, default: []
+  attr :name, :any
+  attr :value, :any
+
+  attr :field, Phoenix.HTML.FormField,
+    doc: "a form field struct retrieved from the form, for example: @form[:email]"
+
+  attr :rest, :global,
+    include:
+      ~w(autocomplete disabled form list maxlength minlength pattern placeholder readonly required size)
+
+  def text_field(%{field: %Phoenix.HTML.FormField{} = field} = assigns) do
+    errors = if Phoenix.Component.used_input?(field), do: field.errors, else: []
+
+    assigns
+    |> assign(field: nil, id: assigns.id || field.id)
+    |> assign(:errors, Enum.map(errors, &translate_error(&1)))
+    |> assign_new(:value, fn -> field.value end)
+    |> text_field()
+  end
 
   def text_field(%{floating: floating} = assigns) when floating in ["inner", "outer"] do
     ~H"""
