@@ -153,6 +153,24 @@ Floating
   <MishkaChelekom.TextField.text_field
     name="name1"
     value="The value of input"
+    size="small"
+    space="medium"
+    variant="transparent"
+    label="This is label"
+    placeholder="This is placeholder"
+    errors={["Enter name"]}
+  >
+    <:start_section>
+      <.icon name="hero-home" class="size-4" />
+    </:start_section>
+    <:end_section>
+      <button><.icon name="hero-home" class="size-4" /></button>
+    </:end_section>
+  </MishkaChelekom.TextField.text_field>
+
+  <MishkaChelekom.TextField.text_field
+    name="name1"
+    value="The value of input"
     space="small"
     label="This is label"
     placeholder="This is placeholder"
