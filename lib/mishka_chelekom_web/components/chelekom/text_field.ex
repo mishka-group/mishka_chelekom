@@ -380,7 +380,8 @@ defmodule MishkaChelekom.TextField do
     [
       "[&_.text-field-wrapper]:bg-white text-[#3E3E3E] [&_.text-field-wrapper:not(:has(.text-field-error))]:border-[#DADADA]",
       "[&_.text-field-wrapper.text-field-error]:border-rose-700",
-      "[&_.text-field-wrapper>input]:placeholder:text-[#3E3E3E] focus-within:[&_.text-field-wrapper]:ring-[#DADADA]"
+      "[&_.text-field-wrapper>input]:placeholder:text-[#3E3E3E] focus-within:[&_.text-field-wrapper]:ring-[#DADADA]",
+      floating && "[&_.text-field-wrapper_.floating-label]:bg-white"
     ]
   end
 
@@ -388,7 +389,8 @@ defmodule MishkaChelekom.TextField do
     [
       "[&_.text-field-wrapper]:bg-[#4363EC] text-[#4363EC] [&_.text-field-wrapper:not(:has(.text-field-error))]:border-[#2441de]",
       "[&_.text-field-wrapper.text-field-error]:border-rose-700 [&_.text-field-wrapper]:text-white",
-      "[&_.text-field-wrapper>input]:placeholder:text-white focus-within:[&_.text-field-wrapper]:ring-[#2441de]"
+      "[&_.text-field-wrapper>input]:placeholder:text-white focus-within:[&_.text-field-wrapper]:ring-[#2441de]",
+      floating && "[&_.text-field-wrapper_.floating-label]:bg-[#4363EC]"
     ]
   end
 
@@ -396,7 +398,8 @@ defmodule MishkaChelekom.TextField do
     [
       "[&_.text-field-wrapper]:bg-[#6B6E7C] text-[#6B6E7C] [&_.text-field-wrapper:not(:has(.text-field-error))]:border-[#877C7C]",
       "[&_.text-field-wrapper.text-field-error]:border-rose-700 [&_.text-field-wrapper]:text-white",
-      "[&_.text-field-wrapper>input]:placeholder:text-white focus-within:[&_.text-field-wrapper]:ring-[#877C7C]"
+      "[&_.text-field-wrapper>input]:placeholder:text-white focus-within:[&_.text-field-wrapper]:ring-[#877C7C]",
+      floating && "[&_.text-field-wrapper_.floating-label]:bg-[#6B6E7C]"
     ]
   end
 
@@ -404,7 +407,8 @@ defmodule MishkaChelekom.TextField do
     [
       "[&_.text-field-wrapper]:bg-[#ECFEF3] text-[#047857] [&_.text-field-wrapper:not(:has(.text-field-error))]:border-[#6EE7B7]",
       "[&_.text-field-wrapper.text-field-error]:border-rose-700",
-      "[&_.text-field-wrapper>input]:placeholder:text-[#047857] focus-within:[&_.text-field-wrapper]:ring-[#6EE7B7]"
+      "[&_.text-field-wrapper>input]:placeholder:text-[#047857] focus-within:[&_.text-field-wrapper]:ring-[#6EE7B7]",
+      floating && "[&_.text-field-wrapper_.floating-label]:bg-[#ECFEF3]"
     ]
   end
 
@@ -412,7 +416,8 @@ defmodule MishkaChelekom.TextField do
     [
       "[&_.text-field-wrapper]:bg-[#FFF8E6] text-[#FF8B08] [&_.text-field-wrapper:not(:has(.text-field-error))]:border-[#FF8B08]",
       "[&_.text-field-wrapper.text-field-error]:border-rose-700",
-      "[&_.text-field-wrapper>input]:placeholder:text-[#FF8B08] focus-within:[&_.text-field-wrapper]:ring-[#FF8B08]"
+      "[&_.text-field-wrapper>input]:placeholder:text-[#FF8B08] focus-within:[&_.text-field-wrapper]:ring-[#FF8B08]",
+      floating && "[&_.text-field-wrapper_.floating-label]:bg-[#FFF8E6]"
     ]
   end
 
@@ -420,7 +425,8 @@ defmodule MishkaChelekom.TextField do
     [
       "[&_.text-field-wrapper]:bg-[#FFE6E6] text-[#E73B3B] [&_.text-field-wrapper:not(:has(.text-field-error))]:border-[#E73B3B]",
       "[&_.text-field-wrapper.text-field-error]:border-rose-700",
-      "[&_.text-field-wrapper>input]:placeholder:text-[#E73B3B] focus-within:[&_.text-field-wrapper]:ring-[#E73B3B]"
+      "[&_.text-field-wrapper>input]:placeholder:text-[#E73B3B] focus-within:[&_.text-field-wrapper]:ring-[#E73B3B]",
+      floating && "[&_.text-field-wrapper_.floating-label]:bg-[#FFE6E6]"
     ]
   end
 
@@ -428,7 +434,8 @@ defmodule MishkaChelekom.TextField do
     [
       "[&_.text-field-wrapper]:bg-[#E5F0FF] text-[#004FC4] [&_.text-field-wrapper:not(:has(.text-field-error))]:border-[#004FC4]",
       "[&_.text-field-wrapper.text-field-error]:border-rose-700",
-      "[&_.text-field-wrapper>input]:placeholder:text-[#004FC4] focus-within:[&_.text-field-wrapper]:ring-[#004FC4]"
+      "[&_.text-field-wrapper>input]:placeholder:text-[#004FC4] focus-within:[&_.text-field-wrapper]:ring-[#004FC4]",
+      floating && "[&_.text-field-wrapper_.floating-label]:bg-[#E5F0FF]"
     ]
   end
 
@@ -436,7 +443,8 @@ defmodule MishkaChelekom.TextField do
     [
       "[&_.text-field-wrapper]:bg-[#FFE6FF] text-[#52059C] [&_.text-field-wrapper:not(:has(.text-field-error))]:border-[#52059C]",
       "[&_.text-field-wrapper.text-field-error]:border-rose-700",
-      "[&_.text-field-wrapper>input]:placeholder:text-[#52059C] focus-within:[&_.text-field-wrapper]:ring-[#52059C]"
+      "[&_.text-field-wrapper>input]:placeholder:text-[#52059C] focus-within:[&_.text-field-wrapper]:ring-[#52059C]",
+      floating && "[&_.text-field-wrapper_.floating-label]:bg-[#FFE6FF]"
     ]
   end
 
@@ -444,7 +452,8 @@ defmodule MishkaChelekom.TextField do
     [
       "[&_.text-field-wrapper]:bg-[#FFECDA] text-[#4D4137] [&_.text-field-wrapper:not(:has(.text-field-error))]:border-[#4D4137]",
       "[&_.text-field-wrapper.text-field-error]:border-rose-700",
-      "[&_.text-field-wrapper>input]:placeholder:text-[#4D4137] focus-within:[&_.text-field-wrapper]:ring-[#4D4137]"
+      "[&_.text-field-wrapper>input]:placeholder:text-[#4D4137] focus-within:[&_.text-field-wrapper]:ring-[#4D4137]",
+      floating && "[&_.text-field-wrapper_.floating-label]:bg-[#FFECDA]"
     ]
   end
 
@@ -452,7 +461,8 @@ defmodule MishkaChelekom.TextField do
     [
       "[&_.text-field-wrapper]:bg-[#E3E7F1] text-[#707483] [&_.text-field-wrapper:not(:has(.text-field-error))]:border-[#707483]",
       "[&_.text-field-wrapper.text-field-error]:border-rose-700",
-      "[&_.text-field-wrapper>input]:placeholder:text-[#707483] focus-within:[&_.text-field-wrapper]:ring-[#707483]"
+      "[&_.text-field-wrapper>input]:placeholder:text-[#707483] focus-within:[&_.text-field-wrapper]:ring-[#707483]",
+      floating && "[&_.text-field-wrapper_.floating-label]:bg-[#E3E7F1]"
     ]
   end
 
@@ -460,7 +470,8 @@ defmodule MishkaChelekom.TextField do
     [
       "[&_.text-field-wrapper]:bg-[#1E1E1E] text-[#1E1E1E] [&_.text-field-wrapper]:text-white [&_.text-field-wrapper:not(:has(.text-field-error))]:border-[#050404]",
       "[&_.text-field-wrapper.text-field-error]:border-rose-700",
-      "[&_.text-field-wrapper>input]:placeholder:text-white focus-within:[&_.text-field-wrapper]:ring-[#050404]"
+      "[&_.text-field-wrapper>input]:placeholder:text-white focus-within:[&_.text-field-wrapper]:ring-[#050404]",
+      floating && "[&_.text-field-wrapper_.floating-label]:bg-[#1E1E1E]"
     ]
   end
 
