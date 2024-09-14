@@ -355,7 +355,7 @@ defmodule MishkaChelekom.TextField do
 
   defp color_variant("outline", "dark", floating) do
     [
-      "text-[#1E1E1E] [&_.text-field-wrapper]:text-white [&_.text-field-wrapper:not(:has(.text-field-error))]:border-[#050404]",
+      "text-[#1E1E1E] [&_.text-field-wrapper]:text-text-[#1E1E1E] [&_.text-field-wrapper:not(:has(.text-field-error))]:border-[#050404]",
       "[&_.text-field-wrapper.text-field-error]:border-rose-700",
       "[&_.text-field-wrapper>input]:placeholder:text-[#1E1E1E] focus-within:[&_.text-field-wrapper]:ring-[#050404]",
        floating && "[&_.text-field-wrapper_.floating-label]:bg-white"
@@ -373,7 +373,7 @@ defmodule MishkaChelekom.TextField do
   defp color_variant("default", "primary", _) do
     [
       "[&_.text-field-wrapper]:bg-[#4363EC] text-[#4363EC] [&_.text-field-wrapper:not(:has(.text-field-error))]:border-[#2441de]",
-      "[&_.text-field-wrapper.text-field-error]:border-rose-700",
+      "[&_.text-field-wrapper.text-field-error]:border-rose-700 [&_.text-field-wrapper]:text-white",
       "[&_.text-field-wrapper>input]:placeholder:text-white focus-within:[&_.text-field-wrapper]:ring-[#2441de]",
     ]
   end
@@ -381,7 +381,7 @@ defmodule MishkaChelekom.TextField do
   defp color_variant("default", "secondary", _) do
     [
       "[&_.text-field-wrapper]:bg-[#6B6E7C] text-[#6B6E7C] [&_.text-field-wrapper:not(:has(.text-field-error))]:border-[#877C7C]",
-      "[&_.text-field-wrapper.text-field-error]:border-rose-700",
+      "[&_.text-field-wrapper.text-field-error]:border-rose-700 [&_.text-field-wrapper]:text-white",
       "[&_.text-field-wrapper>input]:placeholder:text-white focus-within:[&_.text-field-wrapper]:ring-[#877C7C]",
     ]
   end
@@ -459,14 +459,14 @@ defmodule MishkaChelekom.TextField do
 
   defp color_variant("unbordered", "primary", _) do
     [
-      "[&_.text-field-wrapper]:bg-[#4363EC] [&_.text-field-wrapper]:border-transparent text-white",
+      "[&_.text-field-wrapper]:bg-[#4363EC] text-[#4363EC] [&_.text-field-wrapper]:border-transparent text-white",
       "[&_.text-field-wrapper>input]:placeholder:text-white"
     ]
   end
 
   defp color_variant("unbordered", "secondary", _) do
     [
-      "[&_.text-field-wrapper]:bg-[#6B6E7C] [&_.text-field-wrapper]:border-transparent text-white",
+      "[&_.text-field-wrapper]:bg-[#6B6E7C] text-[#6B6E7C] [&_.text-field-wrapper]:border-transparent text-white",
       "[&_.text-field-wrapper>input]:placeholder:text-white"
     ]
   end
@@ -522,7 +522,7 @@ defmodule MishkaChelekom.TextField do
 
   defp color_variant("unbordered", "dark", _) do
     [
-      "[&_.text-field-wrapper]:bg-[#1E1E1E] [&_.text-field-wrapper]:border-transparent text-white",
+      "[&_.text-field-wrapper]:bg-[#1E1E1E] text-[#1E1E1E] [&_.text-field-wrapper]:border-transparent text-white",
       "[&_.text-field-wrapper>input]:placeholder:text-white"
     ]
   end
@@ -537,7 +537,7 @@ defmodule MishkaChelekom.TextField do
 
   defp color_variant("shadow", "primary", _) do
     [
-      "[&_.text-field-wrapper]:bg-[#4363EC] text-white [&_.text-field-wrapper:not(:has(.text-field-error))]:border-[#4363EC]",
+      "[&_.text-field-wrapper]:bg-[#4363EC] text-[#4363EC] [&_.text-field-wrapper:not(:has(.text-field-error))]:border-[#4363EC]",
       "[&_.text-field-wrapper.text-field-error]:border-rose-700",
       "[&_.text-field-wrapper]:shadow [&_.text-field-wrapper>input]:placeholder:text-white"
     ]
@@ -545,7 +545,7 @@ defmodule MishkaChelekom.TextField do
 
   defp color_variant("shadow", "secondary", _) do
     [
-      "[&_.text-field-wrapper]:bg-[#6B6E7C] text-white [&_.text-field-wrapper:not(:has(.text-field-error))]:border-[#6B6E7C]",
+      "[&_.text-field-wrapper]:bg-[#6B6E7C] text-[#6B6E7C] [&_.text-field-wrapper:not(:has(.text-field-error))]:border-[#6B6E7C]",
       "[&_.text-field-wrapper.text-field-error]:border-rose-700",
       "[&_.text-field-wrapper]:shadow [&_.text-field-wrapper>input]:placeholder:text-white"
     ]
@@ -609,7 +609,7 @@ defmodule MishkaChelekom.TextField do
 
   defp color_variant("shadow", "dark", _) do
     [
-      "[&_.text-field-wrapper]:bg-[#1E1E1E] text-white [&_.text-field-wrapper:not(:has(.text-field-error))]:border-[#1E1E1E]",
+      "[&_.text-field-wrapper]:bg-[#1E1E1E] text-[#1E1E1E] [&_.text-field-wrapper:not(:has(.text-field-error))]:border-[#1E1E1E]",
       "[&_.text-field-wrapper.text-field-error]:border-rose-700",
       "[&_.text-field-wrapper]:shadow [&_.text-field-wrapper>input]:placeholder:text-white"
     ]
