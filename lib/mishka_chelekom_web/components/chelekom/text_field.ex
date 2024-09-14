@@ -592,77 +592,77 @@ defmodule MishkaChelekom.TextField do
     ]
   end
 
-  defp color_variant("transparent", "white") do
+  defp color_variant("transparent", "white", _) do
     [
       "[&_.text-field-wrapper]:bg-transparent text-[#DADADA] [&_.text-field-wrapper]:border-transparent",
       "[&_.text-field-wrapper>input]:placeholder:text-[#DADADA]"
     ]
   end
 
-  defp color_variant("transparent", "primary") do
+  defp color_variant("transparent", "primary", _) do
     [
       "[&_.text-field-wrapper]:bg-transparent text-[#4363EC] [&_.text-field-wrapper]:border-transparent",
       "[&_.text-field-wrapper>input]:placeholder:text-[#4363EC]"
     ]
   end
 
-  defp color_variant("transparent", "secondary") do
+  defp color_variant("transparent", "secondary", _) do
     [
       "[&_.text-field-wrapper]:bg-transparent text-[#6B6E7C] [&_.text-field-wrapper]:border-transparent",
       "[&_.text-field-wrapper>input]:placeholder:text-[#6B6E7C]"
     ]
   end
 
-  defp color_variant("transparent", "success") do
+  defp color_variant("transparent", "success", _) do
     [
       "[&_.text-field-wrapper]:bg-transparent text-[#047857] [&_.text-field-wrapper]:border-transparent",
       "[&_.text-field-wrapper>input]:placeholder:text-[#047857]"
     ]
   end
 
-  defp color_variant("transparent", "warning") do
+  defp color_variant("transparent", "warning", _) do
     [
       "[&_.text-field-wrapper]:bg-transparent text-[#FF8B08] [&_.text-field-wrapper]:border-transparent",
       "[&_.text-field-wrapper>input]:placeholder:text-[#FF8B08]"
     ]
   end
 
-  defp color_variant("transparent", "danger") do
+  defp color_variant("transparent", "danger", _) do
     [
       "[&_.text-field-wrapper]:bg-transparent text-[#E73B3B] [&_.text-field-wrapper]:border-transparent",
       "[&_.text-field-wrapper>input]:placeholder:text-[#E73B3B]"
     ]
   end
 
-  defp color_variant("transparent", "info") do
+  defp color_variant("transparent", "info", _) do
     [
       "[&_.text-field-wrapper]:bg-transparent text-[#004FC4] [&_.text-field-wrapper]:border-transparent",
       "[&_.text-field-wrapper>input]:placeholder:text-[#004FC4]"
     ]
   end
 
-  defp color_variant("transparent", "misc") do
+  defp color_variant("transparent", "misc", _) do
     [
       "[&_.text-field-wrapper]:bg-transparent text-[#52059C] [&_.text-field-wrapper]:border-transparent",
       "[&_.text-field-wrapper>input]:placeholder:text-[#52059C]"
     ]
   end
 
-  defp color_variant("transparent", "dawn") do
+  defp color_variant("transparent", "dawn", _) do
     [
       "[&_.text-field-wrapper]:bg-transparent text-[#4D4137] [&_.text-field-wrapper]:border-transparent",
       "[&_.text-field-wrapper>input]:placeholder:text-[#4D4137]"
     ]
   end
 
-  defp color_variant("transparent", "light") do
+  defp color_variant("transparent", "light", _) do
     [
       "[&_.text-field-wrapper]:bg-transparent text-[#707483] [&_.text-field-wrapper]:border-transparent",
       "[&_.text-field-wrapper>input]:placeholder:text-[#707483]"
     ]
   end
 
-  defp color_variant("transparent", "dark") do
+  defp color_variant("transparent", "dark", _) do
     [
       "[&_.text-field-wrapper]:bg-transparent text-[#1E1E1E] [&_.text-field-wrapper]:border-transparent",
       "[&_.text-field-wrapper>input]:placeholder:text-[#1E1E1E]"
