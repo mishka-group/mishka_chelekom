@@ -13,7 +13,6 @@ defmodule MishkaChelekom.TelField do
   attr :space, :string, default: "medium", doc: ""
   attr :size, :string, default: "extra_large", doc: ""
   attr :ring, :boolean, default: true, doc: ""
-  attr :controls, :string, default: "default", doc: "fixed, hide, default"
   attr :floating, :string, default: "none", doc: "none, inner, outer"
   attr :error_icon, :string, default: nil, doc: ""
   attr :label, :string, default: nil
@@ -38,18 +37,18 @@ defmodule MishkaChelekom.TelField do
   attr :rest, :global, include: ~w(autocomplete disabled form list min max pattern placeholder
         readonly required size inputmode inputmode step title autofocus)
 
-  @spec number_field(map()) :: Phoenix.LiveView.Rendered.t()
-  def number_field(%{field: %Phoenix.HTML.FormField{} = field} = assigns) do
+  @spec tel_field(map()) :: Phoenix.LiveView.Rendered.t()
+  def tel_field(%{field: %Phoenix.HTML.FormField{} = field} = assigns) do
     errors = if Phoenix.Component.used_input?(field), do: field.errors, else: []
 
     assigns
     |> assign(field: nil, id: assigns.id || field.id)
     |> assign(:errors, Enum.map(errors, &translate_error(&1)))
     |> assign_new(:value, fn -> field.value end)
-    |> number_field()
+    |> tel_field()
   end
 
-  def number_field(%{floating: floating} = assigns) when floating in ["inner", "outer"] do
+  def tel_field(%{floating: floating} = assigns) when floating in ["inner", "outer"] do
     ~H"""
     <div class={[
       color_variant(@variant, @color, @floating),
@@ -57,15 +56,15 @@ defmodule MishkaChelekom.TelField do
       border_class(@border),
       size_class(@size),
       space_class(@space),
-      @ring && "[&_.number-field-wrapper]:focus-within:ring-[0.03rem]",
+      @ring && "[&_.tel-field-wrapper]:focus-within:ring-[0.03rem]",
       @class
     ]}>
       <div :if={!is_nil(@description)} class="text-xs pb-2">
         <%= @description %>
       </div>
       <div class={[
-        "number-field-wrapper transition-all ease-in-out duration-200 w-full flex flex-nowrap",
-        @errors != [] && "number-field-error"
+        "tel-field-wrapper transition-all ease-in-out duration-200 w-full flex flex-nowrap",
+        @errors != [] && "tel-field-error"
       ]}>
         <div
           :if={@start_section}
@@ -78,17 +77,13 @@ defmodule MishkaChelekom.TelField do
         </div>
         <div class="relative w-full z-[2]">
           <input
-            type="number"
+            type="tel"
             name={@name}
             id={@id}
             value={@value}
             class={[
               "disabled:opacity-80 block w-full z-[2] focus:ring-0 placeholder:text-transparent pb-1 pt-2.5 px-2",
               "text-sm appearance-none bg-transparent border-0 focus:outline-none peer",
-              @controls == "fixed" &&
-                "[&::-webkit-outer-spin-button]:opacity-100 [&::-webkit-inner-spin-button]:opacity-100",
-              @controls == "hide" &&
-                "[appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
             ]}
             placeholder=" "
             {@rest}
@@ -118,7 +113,7 @@ defmodule MishkaChelekom.TelField do
     """
   end
 
-  def number_field(assigns) do
+  def tel_field(assigns) do
     ~H"""
     <div class={[
       color_variant(@variant, @color, @floating),
@@ -126,7 +121,7 @@ defmodule MishkaChelekom.TelField do
       border_class(@border),
       size_class(@size),
       space_class(@space),
-      @ring && "[&_.number-field-wrapper]:focus-within:ring-[0.03rem]",
+      @ring && "[&_.tel-field-wrapper]:focus-within:ring-[0.03rem]",
       @class
     ]}>
       <div>
@@ -137,8 +132,8 @@ defmodule MishkaChelekom.TelField do
       </div>
 
       <div class={[
-        "number-field-wrapper overflow-hidden transition-all ease-in-out duration-200 flex flex-nowrap",
-        @errors != [] && "number-field-error"
+        "tel-field-wrapper overflow-hidden transition-all ease-in-out duration-200 flex flex-nowrap",
+        @errors != [] && "tel-field-error"
       ]}>
         <div
           :if={@start_section}
@@ -151,17 +146,13 @@ defmodule MishkaChelekom.TelField do
         </div>
 
         <input
-          type="number"
+          type="tel"
           name={@name}
           id={@id}
           value={@value}
           class={[
             "flex-1 py-1 px-2 text-sm disabled:opacity-80 block w-full appearance-none",
             "bg-transparent border-0 focus:outline-none focus:ring-0",
-            @controls == "fixed" &&
-              "[&::-webkit-outer-spin-button]:opacity-100 [&::-webkit-inner-spin-button]:opacity-100",
-            @controls == "hide" &&
-              "[appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
           ]}
           {@rest}
         />
@@ -220,40 +211,40 @@ defmodule MishkaChelekom.TelField do
 
   defp size_class("extra_small"),
     do:
-      "[&_.number-field-wrapper_input]:h-7 [&_.number-field-wrapper_.password-field-icon]:size-3"
+      "[&_.tel-field-wrapper_input]:h-7 [&_.tel-field-wrapper_.password-field-icon]:size-3"
 
   defp size_class("small"),
     do:
-      "[&_.number-field-wrapper_input]:h-8 [&_.number-field-wrapper_.password-field-icon]:size-3.5"
+      "[&_.tel-field-wrapper_input]:h-8 [&_.tel-field-wrapper_.password-field-icon]:size-3.5"
 
   defp size_class("medium"),
     do:
-      "[&_.number-field-wrapper_input]:h-9 [&_.number-field-wrapper_.password-field-icon]:size-4"
+      "[&_.tel-field-wrapper_input]:h-9 [&_.tel-field-wrapper_.password-field-icon]:size-4"
 
   defp size_class("large"),
     do:
-      "[&_.number-field-wrapper_input]:h-10 [&_.number-field-wrapper_.password-field-icon]:size-5"
+      "[&_.tel-field-wrapper_input]:h-10 [&_.tel-field-wrapper_.password-field-icon]:size-5"
 
   defp size_class("extra_large"),
     do:
-      "[&_.number-field-wrapper_input]:h-11 [&_.number-field-wrapper_.password-field-icon]:size-6"
+      "[&_.tel-field-wrapper_input]:h-11 [&_.tel-field-wrapper_.password-field-icon]:size-6"
 
   defp size_class(_), do: size_class("medium")
 
-  defp rounded_size("extra_small"), do: "[&_.number-field-wrapper]:rounded-sm"
-  defp rounded_size("small"), do: "[&_.number-field-wrapper]:rounded"
-  defp rounded_size("medium"), do: "[&_.number-field-wrapper]:rounded-md"
-  defp rounded_size("large"), do: "[&_.number-field-wrapper]:rounded-lg"
-  defp rounded_size("extra_large"), do: "[&_.number-field-wrapper]:rounded-xl"
-  defp rounded_size("full"), do: "[&_.number-field-wrapper]:rounded-full"
-  defp rounded_size(_), do: "[&_.number-field-wrapper]:rounded-none"
+  defp rounded_size("extra_small"), do: "[&_.tel-field-wrapper]:rounded-sm"
+  defp rounded_size("small"), do: "[&_.tel-field-wrapper]:rounded"
+  defp rounded_size("medium"), do: "[&_.tel-field-wrapper]:rounded-md"
+  defp rounded_size("large"), do: "[&_.tel-field-wrapper]:rounded-lg"
+  defp rounded_size("extra_large"), do: "[&_.tel-field-wrapper]:rounded-xl"
+  defp rounded_size("full"), do: "[&_.tel-field-wrapper]:rounded-full"
+  defp rounded_size(_), do: "[&_.tel-field-wrapper]:rounded-none"
 
-  defp border_class("none"), do: "[&_.number-field-wrapper]:border-0"
-  defp border_class("extra_small"), do: "[&_.number-field-wrapper]:border"
-  defp border_class("small"), do: "[&_.number-field-wrapper]:border-2"
-  defp border_class("medium"), do: "[&_.number-field-wrapper]:border-[3px]"
-  defp border_class("large"), do: "[&_.number-field-wrapper]:border-4"
-  defp border_class("extra_large"), do: "[&_.number-field-wrapper]:border-[5px]"
+  defp border_class("none"), do: "[&_.tel-field-wrapper]:border-0"
+  defp border_class("extra_small"), do: "[&_.tel-field-wrapper]:border"
+  defp border_class("small"), do: "[&_.tel-field-wrapper]:border-2"
+  defp border_class("medium"), do: "[&_.tel-field-wrapper]:border-[3px]"
+  defp border_class("large"), do: "[&_.tel-field-wrapper]:border-4"
+  defp border_class("extra_large"), do: "[&_.tel-field-wrapper]:border-[5px]"
   defp border_class(params) when is_binary(params), do: params
   defp border_class(_), do: border_class("extra_small")
 
@@ -267,483 +258,483 @@ defmodule MishkaChelekom.TelField do
 
   defp color_variant("outline", "white", floating) do
     [
-      "text-white [&_.number-field-wrapper:not(:has(.number-field-error))]:border-white",
-      "[&_.number-field-wrapper.number-field-error]:border-rose-700",
-      "[&_.number-field-wrapper>input]:placeholder:text-white focus-within:[&_.number-field-wrapper]:ring-white",
-      floating == "outer" && "[&_.number-field-wrapper_.floating-label]:bg-white"
+      "text-white [&_.tel-field-wrapper:not(:has(.tel-field-error))]:border-white",
+      "[&_.tel-field-wrapper.tel-field-error]:border-rose-700",
+      "[&_.tel-field-wrapper>input]:placeholder:text-white focus-within:[&_.tel-field-wrapper]:ring-white",
+      floating == "outer" && "[&_.tel-field-wrapper_.floating-label]:bg-white"
     ]
   end
 
   defp color_variant("outline", "silver", floating) do
     [
-      "text-[#afafaf] [&_.number-field-wrapper:not(:has(.number-field-error))]:border-[#afafaf]",
-      "[&_.number-field-wrapper.number-field-error]:border-rose-700",
-      "[&_.number-field-wrapper>input]:placeholder:text-[#afafaf] focus-within:[&_.number-field-wrapper]:ring-[#afafaf]",
-      floating && "[&_.number-field-wrapper_.floating-label]:bg-white"
+      "text-[#afafaf] [&_.tel-field-wrapper:not(:has(.tel-field-error))]:border-[#afafaf]",
+      "[&_.tel-field-wrapper.tel-field-error]:border-rose-700",
+      "[&_.tel-field-wrapper>input]:placeholder:text-[#afafaf] focus-within:[&_.tel-field-wrapper]:ring-[#afafaf]",
+      floating && "[&_.tel-field-wrapper_.floating-label]:bg-white"
     ]
   end
 
   defp color_variant("outline", "primary", floating) do
     [
-      "text-[#2441de] [&_.number-field-wrapper:not(:has(.number-field-error))]:border-[#2441de]",
-      "[&_.number-field-wrapper.number-field-error]:border-rose-700",
-      "[&_.number-field-wrapper>input]:placeholder:text-[#2441de] focus-within:[&_.number-field-wrapper]:ring-[#2441de]",
-      floating && "[&_.number-field-wrapper_.floating-label]:bg-white"
+      "text-[#2441de] [&_.tel-field-wrapper:not(:has(.tel-field-error))]:border-[#2441de]",
+      "[&_.tel-field-wrapper.tel-field-error]:border-rose-700",
+      "[&_.tel-field-wrapper>input]:placeholder:text-[#2441de] focus-within:[&_.tel-field-wrapper]:ring-[#2441de]",
+      floating && "[&_.tel-field-wrapper_.floating-label]:bg-white"
     ]
   end
 
   defp color_variant("outline", "secondary", floating) do
     [
-      "text-[#877C7C] [&_.number-field-wrapper:not(:has(.number-field-error))]:border-[#877C7C]",
-      "[&_.number-field-wrapper.number-field-error]:border-rose-700",
-      "[&_.number-field-wrapper>input]:placeholder:text-[#877C7Cb] focus-within:[&_.number-field-wrapper]:ring-[#877C7C]",
-      floating && "[&_.number-field-wrapper_.floating-label]:bg-white"
+      "text-[#877C7C] [&_.tel-field-wrapper:not(:has(.tel-field-error))]:border-[#877C7C]",
+      "[&_.tel-field-wrapper.tel-field-error]:border-rose-700",
+      "[&_.tel-field-wrapper>input]:placeholder:text-[#877C7Cb] focus-within:[&_.tel-field-wrapper]:ring-[#877C7C]",
+      floating && "[&_.tel-field-wrapper_.floating-label]:bg-white"
     ]
   end
 
   defp color_variant("outline", "success", floating) do
     [
-      "text-[#047857] [&_.number-field-wrapper:not(:has(.number-field-error))]:border-[#047857]",
-      "[&_.number-field-wrapper.number-field-error]:border-rose-700",
-      "[&_.number-field-wrapper>input]:placeholder:text-[#047857] focus-within:[&_.number-field-wrapper]:ring-[#047857]",
-      floating && "[&_.number-field-wrapper_.floating-label]:bg-white"
+      "text-[#047857] [&_.tel-field-wrapper:not(:has(.tel-field-error))]:border-[#047857]",
+      "[&_.tel-field-wrapper.tel-field-error]:border-rose-700",
+      "[&_.tel-field-wrapper>input]:placeholder:text-[#047857] focus-within:[&_.tel-field-wrapper]:ring-[#047857]",
+      floating && "[&_.tel-field-wrapper_.floating-label]:bg-white"
     ]
   end
 
   defp color_variant("outline", "warning", floating) do
     [
-      "text-[#FF8B08] [&_.number-field-wrapper:not(:has(.number-field-error))]:border-[#FF8B08]",
-      "[&_.number-field-wrapper.number-field-error]:border-rose-700",
-      "[&_.number-field-wrapper>input]:placeholder:text-[#FF8B08] focus-within:[&_.number-field-wrapper]:ring-[#FF8B08]",
-      floating && "[&_.number-field-wrapper_.floating-label]:bg-white"
+      "text-[#FF8B08] [&_.tel-field-wrapper:not(:has(.tel-field-error))]:border-[#FF8B08]",
+      "[&_.tel-field-wrapper.tel-field-error]:border-rose-700",
+      "[&_.tel-field-wrapper>input]:placeholder:text-[#FF8B08] focus-within:[&_.tel-field-wrapper]:ring-[#FF8B08]",
+      floating && "[&_.tel-field-wrapper_.floating-label]:bg-white"
     ]
   end
 
   defp color_variant("outline", "danger", floating) do
     [
-      "text-[#E73B3B] [&_.number-field-wrapper:not(:has(.number-field-error))]:border-[#E73B3B]",
-      "[&_.number-field-wrapper.number-field-error]:border-rose-700",
-      "[&_.number-field-wrapper>input]:placeholder:text-[#E73B3B] focus-within:[&_.number-field-wrapper]:ring-[#E73B3B]",
-      floating && "[&_.number-field-wrapper_.floating-label]:bg-white"
+      "text-[#E73B3B] [&_.tel-field-wrapper:not(:has(.tel-field-error))]:border-[#E73B3B]",
+      "[&_.tel-field-wrapper.tel-field-error]:border-rose-700",
+      "[&_.tel-field-wrapper>input]:placeholder:text-[#E73B3B] focus-within:[&_.tel-field-wrapper]:ring-[#E73B3B]",
+      floating && "[&_.tel-field-wrapper_.floating-label]:bg-white"
     ]
   end
 
   defp color_variant("outline", "info", floating) do
     [
-      "text-[#004FC4] [&_.number-field-wrapper:not(:has(.number-field-error))]:border-[#004FC4]",
-      "[&_.number-field-wrapper.number-field-error]:border-rose-700",
-      "[&_.number-field-wrapper>input]:placeholder:text-[#004FC4] focus-within:[&_.number-field-wrapper]:ring-[#004FC4]",
-      floating && "[&_.number-field-wrapper_.floating-label]:bg-white"
+      "text-[#004FC4] [&_.tel-field-wrapper:not(:has(.tel-field-error))]:border-[#004FC4]",
+      "[&_.tel-field-wrapper.tel-field-error]:border-rose-700",
+      "[&_.tel-field-wrapper>input]:placeholder:text-[#004FC4] focus-within:[&_.tel-field-wrapper]:ring-[#004FC4]",
+      floating && "[&_.tel-field-wrapper_.floating-label]:bg-white"
     ]
   end
 
   defp color_variant("outline", "misc", floating) do
     [
-      "text-[#52059C] [&_.number-field-wrapper:not(:has(.number-field-error))]:border-[#52059C]",
-      "[&_.number-field-wrapper.number-field-error]:border-rose-700",
-      "[&_.number-field-wrapper>input]:placeholder:text-[#52059C] focus-within:[&_.number-field-wrapper]:ring-[#52059C]",
-      floating && "[&_.number-field-wrapper_.floating-label]:bg-white"
+      "text-[#52059C] [&_.tel-field-wrapper:not(:has(.tel-field-error))]:border-[#52059C]",
+      "[&_.tel-field-wrapper.tel-field-error]:border-rose-700",
+      "[&_.tel-field-wrapper>input]:placeholder:text-[#52059C] focus-within:[&_.tel-field-wrapper]:ring-[#52059C]",
+      floating && "[&_.tel-field-wrapper_.floating-label]:bg-white"
     ]
   end
 
   defp color_variant("outline", "dawn", floating) do
     [
-      "text-[#4D4137] [&_.number-field-wrapper:not(:has(.number-field-error))]:border-[#4D4137]",
-      "[&_.number-field-wrapper.number-field-error]:border-rose-700",
-      "[&_.number-field-wrapper>input]:placeholder:text-[#4D4137] focus-within:[&_.number-field-wrapper]:ring-[#4D4137]",
-      floating && "[&_.number-field-wrapper_.floating-label]:bg-white"
+      "text-[#4D4137] [&_.tel-field-wrapper:not(:has(.tel-field-error))]:border-[#4D4137]",
+      "[&_.tel-field-wrapper.tel-field-error]:border-rose-700",
+      "[&_.tel-field-wrapper>input]:placeholder:text-[#4D4137] focus-within:[&_.tel-field-wrapper]:ring-[#4D4137]",
+      floating && "[&_.tel-field-wrapper_.floating-label]:bg-white"
     ]
   end
 
   defp color_variant("outline", "light", floating) do
     [
-      "text-[#707483] [&_.number-field-wrapper:not(:has(.number-field-error))]:border-[#707483]",
-      "[&_.number-field-wrapper.number-field-error]:border-rose-700",
-      "[&_.number-field-wrapper>input]:placeholder:text-[#707483] focus-within:[&_.number-field-wrapper]:ring-[#707483]",
-      floating && "[&_.number-field-wrapper_.floating-label]:bg-white"
+      "text-[#707483] [&_.tel-field-wrapper:not(:has(.tel-field-error))]:border-[#707483]",
+      "[&_.tel-field-wrapper.tel-field-error]:border-rose-700",
+      "[&_.tel-field-wrapper>input]:placeholder:text-[#707483] focus-within:[&_.tel-field-wrapper]:ring-[#707483]",
+      floating && "[&_.tel-field-wrapper_.floating-label]:bg-white"
     ]
   end
 
   defp color_variant("outline", "dark", floating) do
     [
-      "text-[#1E1E1E] [&_.number-field-wrapper]:text-text-[#1E1E1E] [&_.number-field-wrapper:not(:has(.number-field-error))]:border-[#050404]",
-      "[&_.number-field-wrapper.number-field-error]:border-rose-700",
-      "[&_.number-field-wrapper>input]:placeholder:text-[#1E1E1E] focus-within:[&_.number-field-wrapper]:ring-[#050404]",
-      floating && "[&_.number-field-wrapper_.floating-label]:bg-white"
+      "text-[#1E1E1E] [&_.tel-field-wrapper]:text-text-[#1E1E1E] [&_.tel-field-wrapper:not(:has(.tel-field-error))]:border-[#050404]",
+      "[&_.tel-field-wrapper.tel-field-error]:border-rose-700",
+      "[&_.tel-field-wrapper>input]:placeholder:text-[#1E1E1E] focus-within:[&_.tel-field-wrapper]:ring-[#050404]",
+      floating && "[&_.tel-field-wrapper_.floating-label]:bg-white"
     ]
   end
 
   defp color_variant("default", "white", floating) do
     [
-      "[&_.number-field-wrapper]:bg-white text-[#3E3E3E] [&_.number-field-wrapper:not(:has(.number-field-error))]:border-[#DADADA]",
-      "[&_.number-field-wrapper.number-field-error]:border-rose-700",
-      "[&_.number-field-wrapper>input]:placeholder:text-[#3E3E3E] focus-within:[&_.number-field-wrapper]:ring-[#DADADA]",
-      floating && "[&_.number-field-wrapper_.floating-label]:bg-white"
+      "[&_.tel-field-wrapper]:bg-white text-[#3E3E3E] [&_.tel-field-wrapper:not(:has(.tel-field-error))]:border-[#DADADA]",
+      "[&_.tel-field-wrapper.tel-field-error]:border-rose-700",
+      "[&_.tel-field-wrapper>input]:placeholder:text-[#3E3E3E] focus-within:[&_.tel-field-wrapper]:ring-[#DADADA]",
+      floating && "[&_.tel-field-wrapper_.floating-label]:bg-white"
     ]
   end
 
   defp color_variant("default", "primary", floating) do
     [
-      "[&_.number-field-wrapper]:bg-[#4363EC] text-[#4363EC] [&_.number-field-wrapper:not(:has(.number-field-error))]:border-[#2441de]",
-      "[&_.number-field-wrapper.number-field-error]:border-rose-700 [&_.number-field-wrapper]:text-white",
-      "[&_.number-field-wrapper>input]:placeholder:text-white focus-within:[&_.number-field-wrapper]:ring-[#2441de]",
-      floating && "[&_.number-field-wrapper_.floating-label]:bg-[#4363EC]"
+      "[&_.tel-field-wrapper]:bg-[#4363EC] text-[#4363EC] [&_.tel-field-wrapper:not(:has(.tel-field-error))]:border-[#2441de]",
+      "[&_.tel-field-wrapper.tel-field-error]:border-rose-700 [&_.tel-field-wrapper]:text-white",
+      "[&_.tel-field-wrapper>input]:placeholder:text-white focus-within:[&_.tel-field-wrapper]:ring-[#2441de]",
+      floating && "[&_.tel-field-wrapper_.floating-label]:bg-[#4363EC]"
     ]
   end
 
   defp color_variant("default", "secondary", floating) do
     [
-      "[&_.number-field-wrapper]:bg-[#6B6E7C] text-[#6B6E7C] [&_.number-field-wrapper:not(:has(.number-field-error))]:border-[#877C7C]",
-      "[&_.number-field-wrapper.number-field-error]:border-rose-700 [&_.number-field-wrapper]:text-white",
-      "[&_.number-field-wrapper>input]:placeholder:text-white focus-within:[&_.number-field-wrapper]:ring-[#877C7C]",
-      floating && "[&_.number-field-wrapper_.floating-label]:bg-[#6B6E7C]"
+      "[&_.tel-field-wrapper]:bg-[#6B6E7C] text-[#6B6E7C] [&_.tel-field-wrapper:not(:has(.tel-field-error))]:border-[#877C7C]",
+      "[&_.tel-field-wrapper.tel-field-error]:border-rose-700 [&_.tel-field-wrapper]:text-white",
+      "[&_.tel-field-wrapper>input]:placeholder:text-white focus-within:[&_.tel-field-wrapper]:ring-[#877C7C]",
+      floating && "[&_.tel-field-wrapper_.floating-label]:bg-[#6B6E7C]"
     ]
   end
 
   defp color_variant("default", "success", floating) do
     [
-      "[&_.number-field-wrapper]:bg-[#ECFEF3] text-[#047857] [&_.number-field-wrapper:not(:has(.number-field-error))]:border-[#6EE7B7]",
-      "[&_.number-field-wrapper.number-field-error]:border-rose-700",
-      "[&_.number-field-wrapper>input]:placeholder:text-[#047857] focus-within:[&_.number-field-wrapper]:ring-[#6EE7B7]",
-      floating && "[&_.number-field-wrapper_.floating-label]:bg-[#ECFEF3]"
+      "[&_.tel-field-wrapper]:bg-[#ECFEF3] text-[#047857] [&_.tel-field-wrapper:not(:has(.tel-field-error))]:border-[#6EE7B7]",
+      "[&_.tel-field-wrapper.tel-field-error]:border-rose-700",
+      "[&_.tel-field-wrapper>input]:placeholder:text-[#047857] focus-within:[&_.tel-field-wrapper]:ring-[#6EE7B7]",
+      floating && "[&_.tel-field-wrapper_.floating-label]:bg-[#ECFEF3]"
     ]
   end
 
   defp color_variant("default", "warning", floating) do
     [
-      "[&_.number-field-wrapper]:bg-[#FFF8E6] text-[#FF8B08] [&_.number-field-wrapper:not(:has(.number-field-error))]:border-[#FF8B08]",
-      "[&_.number-field-wrapper.number-field-error]:border-rose-700",
-      "[&_.number-field-wrapper>input]:placeholder:text-[#FF8B08] focus-within:[&_.number-field-wrapper]:ring-[#FF8B08]",
-      floating && "[&_.number-field-wrapper_.floating-label]:bg-[#FFF8E6]"
+      "[&_.tel-field-wrapper]:bg-[#FFF8E6] text-[#FF8B08] [&_.tel-field-wrapper:not(:has(.tel-field-error))]:border-[#FF8B08]",
+      "[&_.tel-field-wrapper.tel-field-error]:border-rose-700",
+      "[&_.tel-field-wrapper>input]:placeholder:text-[#FF8B08] focus-within:[&_.tel-field-wrapper]:ring-[#FF8B08]",
+      floating && "[&_.tel-field-wrapper_.floating-label]:bg-[#FFF8E6]"
     ]
   end
 
   defp color_variant("default", "danger", floating) do
     [
-      "[&_.number-field-wrapper]:bg-[#FFE6E6] text-[#E73B3B] [&_.number-field-wrapper:not(:has(.number-field-error))]:border-[#E73B3B]",
-      "[&_.number-field-wrapper.number-field-error]:border-rose-700",
-      "[&_.number-field-wrapper>input]:placeholder:text-[#E73B3B] focus-within:[&_.number-field-wrapper]:ring-[#E73B3B]",
-      floating && "[&_.number-field-wrapper_.floating-label]:bg-[#FFE6E6]"
+      "[&_.tel-field-wrapper]:bg-[#FFE6E6] text-[#E73B3B] [&_.tel-field-wrapper:not(:has(.tel-field-error))]:border-[#E73B3B]",
+      "[&_.tel-field-wrapper.tel-field-error]:border-rose-700",
+      "[&_.tel-field-wrapper>input]:placeholder:text-[#E73B3B] focus-within:[&_.tel-field-wrapper]:ring-[#E73B3B]",
+      floating && "[&_.tel-field-wrapper_.floating-label]:bg-[#FFE6E6]"
     ]
   end
 
   defp color_variant("default", "info", floating) do
     [
-      "[&_.number-field-wrapper]:bg-[#E5F0FF] text-[#004FC4] [&_.number-field-wrapper:not(:has(.number-field-error))]:border-[#004FC4]",
-      "[&_.number-field-wrapper.number-field-error]:border-rose-700",
-      "[&_.number-field-wrapper>input]:placeholder:text-[#004FC4] focus-within:[&_.number-field-wrapper]:ring-[#004FC4]",
-      floating && "[&_.number-field-wrapper_.floating-label]:bg-[#E5F0FF]"
+      "[&_.tel-field-wrapper]:bg-[#E5F0FF] text-[#004FC4] [&_.tel-field-wrapper:not(:has(.tel-field-error))]:border-[#004FC4]",
+      "[&_.tel-field-wrapper.tel-field-error]:border-rose-700",
+      "[&_.tel-field-wrapper>input]:placeholder:text-[#004FC4] focus-within:[&_.tel-field-wrapper]:ring-[#004FC4]",
+      floating && "[&_.tel-field-wrapper_.floating-label]:bg-[#E5F0FF]"
     ]
   end
 
   defp color_variant("default", "misc", floating) do
     [
-      "[&_.number-field-wrapper]:bg-[#FFE6FF] text-[#52059C] [&_.number-field-wrapper:not(:has(.number-field-error))]:border-[#52059C]",
-      "[&_.number-field-wrapper.number-field-error]:border-rose-700",
-      "[&_.number-field-wrapper>input]:placeholder:text-[#52059C] focus-within:[&_.number-field-wrapper]:ring-[#52059C]",
-      floating && "[&_.number-field-wrapper_.floating-label]:bg-[#FFE6FF]"
+      "[&_.tel-field-wrapper]:bg-[#FFE6FF] text-[#52059C] [&_.tel-field-wrapper:not(:has(.tel-field-error))]:border-[#52059C]",
+      "[&_.tel-field-wrapper.tel-field-error]:border-rose-700",
+      "[&_.tel-field-wrapper>input]:placeholder:text-[#52059C] focus-within:[&_.tel-field-wrapper]:ring-[#52059C]",
+      floating && "[&_.tel-field-wrapper_.floating-label]:bg-[#FFE6FF]"
     ]
   end
 
   defp color_variant("default", "dawn", floating) do
     [
-      "[&_.number-field-wrapper]:bg-[#FFECDA] text-[#4D4137] [&_.number-field-wrapper:not(:has(.number-field-error))]:border-[#4D4137]",
-      "[&_.number-field-wrapper.number-field-error]:border-rose-700",
-      "[&_.number-field-wrapper>input]:placeholder:text-[#4D4137] focus-within:[&_.number-field-wrapper]:ring-[#4D4137]",
-      floating && "[&_.number-field-wrapper_.floating-label]:bg-[#FFECDA]"
+      "[&_.tel-field-wrapper]:bg-[#FFECDA] text-[#4D4137] [&_.tel-field-wrapper:not(:has(.tel-field-error))]:border-[#4D4137]",
+      "[&_.tel-field-wrapper.tel-field-error]:border-rose-700",
+      "[&_.tel-field-wrapper>input]:placeholder:text-[#4D4137] focus-within:[&_.tel-field-wrapper]:ring-[#4D4137]",
+      floating && "[&_.tel-field-wrapper_.floating-label]:bg-[#FFECDA]"
     ]
   end
 
   defp color_variant("default", "light", floating) do
     [
-      "[&_.number-field-wrapper]:bg-[#E3E7F1] text-[#707483] [&_.number-field-wrapper:not(:has(.number-field-error))]:border-[#707483]",
-      "[&_.number-field-wrapper.number-field-error]:border-rose-700",
-      "[&_.number-field-wrapper>input]:placeholder:text-[#707483] focus-within:[&_.number-field-wrapper]:ring-[#707483]",
-      floating && "[&_.number-field-wrapper_.floating-label]:bg-[#E3E7F1]"
+      "[&_.tel-field-wrapper]:bg-[#E3E7F1] text-[#707483] [&_.tel-field-wrapper:not(:has(.tel-field-error))]:border-[#707483]",
+      "[&_.tel-field-wrapper.tel-field-error]:border-rose-700",
+      "[&_.tel-field-wrapper>input]:placeholder:text-[#707483] focus-within:[&_.tel-field-wrapper]:ring-[#707483]",
+      floating && "[&_.tel-field-wrapper_.floating-label]:bg-[#E3E7F1]"
     ]
   end
 
   defp color_variant("default", "dark", floating) do
     [
-      "[&_.number-field-wrapper]:bg-[#1E1E1E] text-[#1E1E1E] [&_.number-field-wrapper]:text-white [&_.number-field-wrapper:not(:has(.number-field-error))]:border-[#050404]",
-      "[&_.number-field-wrapper.number-field-error]:border-rose-700",
-      "[&_.number-field-wrapper>input]:placeholder:text-white focus-within:[&_.number-field-wrapper]:ring-[#050404]",
-      floating && "[&_.number-field-wrapper_.floating-label]:bg-[#1E1E1E]"
+      "[&_.tel-field-wrapper]:bg-[#1E1E1E] text-[#1E1E1E] [&_.tel-field-wrapper]:text-white [&_.tel-field-wrapper:not(:has(.tel-field-error))]:border-[#050404]",
+      "[&_.tel-field-wrapper.tel-field-error]:border-rose-700",
+      "[&_.tel-field-wrapper>input]:placeholder:text-white focus-within:[&_.tel-field-wrapper]:ring-[#050404]",
+      floating && "[&_.tel-field-wrapper_.floating-label]:bg-[#1E1E1E]"
     ]
   end
 
   defp color_variant("unbordered", "white", floating) do
     [
-      "[&_.number-field-wrapper]:bg-white [&_.number-field-wrapper]:border-transparent text-[#3E3E3E]",
-      "[&_.number-field-wrapper>input]:placeholder:text-[#3E3E3E]",
-      floating == "outer" && "[&_.number-field-wrapper_.floating-label]:bg-white"
+      "[&_.tel-field-wrapper]:bg-white [&_.tel-field-wrapper]:border-transparent text-[#3E3E3E]",
+      "[&_.tel-field-wrapper>input]:placeholder:text-[#3E3E3E]",
+      floating == "outer" && "[&_.tel-field-wrapper_.floating-label]:bg-white"
     ]
   end
 
   defp color_variant("unbordered", "primary", floating) do
     [
-      "[&_.number-field-wrapper]:bg-[#4363EC] text-[#4363EC] [&_.number-field-wrapper]:border-transparent text-white",
-      "[&_.number-field-wrapper>input]:placeholder:text-white",
-      floating == "outer" && "[&_.number-field-wrapper_.floating-label]:bg-[#4363EC]"
+      "[&_.tel-field-wrapper]:bg-[#4363EC] text-[#4363EC] [&_.tel-field-wrapper]:border-transparent text-white",
+      "[&_.tel-field-wrapper>input]:placeholder:text-white",
+      floating == "outer" && "[&_.tel-field-wrapper_.floating-label]:bg-[#4363EC]"
     ]
   end
 
   defp color_variant("unbordered", "secondary", floating) do
     [
-      "[&_.number-field-wrapper]:bg-[#6B6E7C] text-[#6B6E7C] [&_.number-field-wrapper]:border-transparent text-white",
-      "[&_.number-field-wrapper>input]:placeholder:text-white",
-      floating == "outer" && "[&_.number-field-wrapper_.floating-label]:bg-[#6B6E7C]"
+      "[&_.tel-field-wrapper]:bg-[#6B6E7C] text-[#6B6E7C] [&_.tel-field-wrapper]:border-transparent text-white",
+      "[&_.tel-field-wrapper>input]:placeholder:text-white",
+      floating == "outer" && "[&_.tel-field-wrapper_.floating-label]:bg-[#6B6E7C]"
     ]
   end
 
   defp color_variant("unbordered", "success", floating) do
     [
-      "[&_.number-field-wrapper]:bg-[#ECFEF3] [&_.number-field-wrapper]:border-transparent text-[#047857]",
-      "[&_.number-field-wrapper>input]:placeholder:text-[#047857]",
-      floating == "outer" && "[&_.number-field-wrapper_.floating-label]:bg-[#ECFEF3]"
+      "[&_.tel-field-wrapper]:bg-[#ECFEF3] [&_.tel-field-wrapper]:border-transparent text-[#047857]",
+      "[&_.tel-field-wrapper>input]:placeholder:text-[#047857]",
+      floating == "outer" && "[&_.tel-field-wrapper_.floating-label]:bg-[#ECFEF3]"
     ]
   end
 
   defp color_variant("unbordered", "warning", floating) do
     [
-      "[&_.number-field-wrapper]:bg-[#FFF8E6] [&_.number-field-wrapper]:border-transparent text-[#FF8B08]",
-      "[&_.number-field-wrapper>input]:placeholder:text-[#FF8B08]",
-      floating == "outer" && "[&_.number-field-wrapper_.floating-label]:bg-[#FFF8E6]"
+      "[&_.tel-field-wrapper]:bg-[#FFF8E6] [&_.tel-field-wrapper]:border-transparent text-[#FF8B08]",
+      "[&_.tel-field-wrapper>input]:placeholder:text-[#FF8B08]",
+      floating == "outer" && "[&_.tel-field-wrapper_.floating-label]:bg-[#FFF8E6]"
     ]
   end
 
   defp color_variant("unbordered", "danger", floating) do
     [
-      "[&_.number-field-wrapper]:bg-[#FFE6E6] [&_.number-field-wrapper]:border-transparent text-[#E73B3B]",
-      "[&_.number-field-wrapper>input]:placeholder:text-[#E73B3B]",
-      floating == "outer" && "[&_.number-field-wrapper_.floating-label]:bg-[#FFE6E6]"
+      "[&_.tel-field-wrapper]:bg-[#FFE6E6] [&_.tel-field-wrapper]:border-transparent text-[#E73B3B]",
+      "[&_.tel-field-wrapper>input]:placeholder:text-[#E73B3B]",
+      floating == "outer" && "[&_.tel-field-wrapper_.floating-label]:bg-[#FFE6E6]"
     ]
   end
 
   defp color_variant("unbordered", "info", floating) do
     [
-      "[&_.number-field-wrapper]:bg-[#E5F0FF] [&_.number-field-wrapper]:border-transparent text-[#004FC4]",
-      "[&_.number-field-wrapper>input]:placeholder:text-[#004FC4]",
-      floating == "outer" && "[&_.number-field-wrapper_.floating-label]:bg-[#E5F0FF]"
+      "[&_.tel-field-wrapper]:bg-[#E5F0FF] [&_.tel-field-wrapper]:border-transparent text-[#004FC4]",
+      "[&_.tel-field-wrapper>input]:placeholder:text-[#004FC4]",
+      floating == "outer" && "[&_.tel-field-wrapper_.floating-label]:bg-[#E5F0FF]"
     ]
   end
 
   defp color_variant("unbordered", "misc", floating) do
     [
-      "[&_.number-field-wrapper]:bg-[#FFE6FF] [&_.number-field-wrapper]:border-transparent text-[#52059C]",
-      "[&_.number-field-wrapper>input]:placeholder:text-[#52059C]",
-      floating == "outer" && "[&_.number-field-wrapper_.floating-label]:bg-[#FFE6FF]"
+      "[&_.tel-field-wrapper]:bg-[#FFE6FF] [&_.tel-field-wrapper]:border-transparent text-[#52059C]",
+      "[&_.tel-field-wrapper>input]:placeholder:text-[#52059C]",
+      floating == "outer" && "[&_.tel-field-wrapper_.floating-label]:bg-[#FFE6FF]"
     ]
   end
 
   defp color_variant("unbordered", "dawn", floating) do
     [
-      "[&_.number-field-wrapper]:bg-[#FFECDA] [&_.number-field-wrapper]:border-transparent text-[#4D4137]",
-      "[&_.number-field-wrapper>input]:placeholder:text-[#4D4137]",
-      floating == "outer" && "[&_.number-field-wrapper_.floating-label]:bg-[#FFECDA]"
+      "[&_.tel-field-wrapper]:bg-[#FFECDA] [&_.tel-field-wrapper]:border-transparent text-[#4D4137]",
+      "[&_.tel-field-wrapper>input]:placeholder:text-[#4D4137]",
+      floating == "outer" && "[&_.tel-field-wrapper_.floating-label]:bg-[#FFECDA]"
     ]
   end
 
   defp color_variant("unbordered", "light", floating) do
     [
-      "[&_.number-field-wrapper]:bg-[#E3E7F1] [&_.number-field-wrapper]:border-transparent text-[#707483]",
-      "[&_.number-field-wrapper>input]:placeholder:text-[#707483]",
-      floating == "outer" && "[&_.number-field-wrapper_.floating-label]:bg-[#E3E7F1]"
+      "[&_.tel-field-wrapper]:bg-[#E3E7F1] [&_.tel-field-wrapper]:border-transparent text-[#707483]",
+      "[&_.tel-field-wrapper>input]:placeholder:text-[#707483]",
+      floating == "outer" && "[&_.tel-field-wrapper_.floating-label]:bg-[#E3E7F1]"
     ]
   end
 
   defp color_variant("unbordered", "dark", floating) do
     [
-      "[&_.number-field-wrapper]:bg-[#1E1E1E] text-[#1E1E1E] [&_.number-field-wrapper]:border-transparent text-white",
-      "[&_.number-field-wrapper>input]:placeholder:text-white",
-      floating == "outer" && "[&_.number-field-wrapper_.floating-label]:bg-[#1E1E1E]"
+      "[&_.tel-field-wrapper]:bg-[#1E1E1E] text-[#1E1E1E] [&_.tel-field-wrapper]:border-transparent text-white",
+      "[&_.tel-field-wrapper>input]:placeholder:text-white",
+      floating == "outer" && "[&_.tel-field-wrapper_.floating-label]:bg-[#1E1E1E]"
     ]
   end
 
   defp color_variant("shadow", "white", floating) do
     [
-      "[&_.number-field-wrapper]:bg-white text-[#3E3E3E] [&_.number-field-wrapper:not(:has(.number-field-error))]:border-[#DADADA]",
-      "[&_.number-field-wrapper.number-field-error]:border-rose-700",
-      "[&_.number-field-wrapper]:shadow [&_.number-field-wrapper>input]:placeholder:text-[#3E3E3E]",
-      floating == "outer" && "[&_.number-field-wrapper_.floating-label]:bg-[#3E3E3E]"
+      "[&_.tel-field-wrapper]:bg-white text-[#3E3E3E] [&_.tel-field-wrapper:not(:has(.tel-field-error))]:border-[#DADADA]",
+      "[&_.tel-field-wrapper.tel-field-error]:border-rose-700",
+      "[&_.tel-field-wrapper]:shadow [&_.tel-field-wrapper>input]:placeholder:text-[#3E3E3E]",
+      floating == "outer" && "[&_.tel-field-wrapper_.floating-label]:bg-[#3E3E3E]"
     ]
   end
 
   defp color_variant("shadow", "primary", floating) do
     [
-      "[&_.number-field-wrapper]:bg-[#4363EC] text-[#4363EC] [&_.number-field-wrapper:not(:has(.number-field-error))]:border-[#4363EC]",
-      "[&_.number-field-wrapper.number-field-error]:border-rose-700",
-      "[&_.number-field-wrapper]:shadow [&_.number-field-wrapper>input]:placeholder:text-white",
-      floating == "outer" && "[&_.number-field-wrapper_.floating-label]:bg-[#3E3E3E]"
+      "[&_.tel-field-wrapper]:bg-[#4363EC] text-[#4363EC] [&_.tel-field-wrapper:not(:has(.tel-field-error))]:border-[#4363EC]",
+      "[&_.tel-field-wrapper.tel-field-error]:border-rose-700",
+      "[&_.tel-field-wrapper]:shadow [&_.tel-field-wrapper>input]:placeholder:text-white",
+      floating == "outer" && "[&_.tel-field-wrapper_.floating-label]:bg-[#3E3E3E]"
     ]
   end
 
   defp color_variant("shadow", "secondary", floating) do
     [
-      "[&_.number-field-wrapper]:bg-[#6B6E7C] text-[#6B6E7C] [&_.number-field-wrapper:not(:has(.number-field-error))]:border-[#6B6E7C]",
-      "[&_.number-field-wrapper.number-field-error]:border-rose-700",
-      "[&_.number-field-wrapper]:shadow [&_.number-field-wrapper>input]:placeholder:text-white",
-      floating == "outer" && "[&_.number-field-wrapper_.floating-label]:bg-[#6B6E7C]"
+      "[&_.tel-field-wrapper]:bg-[#6B6E7C] text-[#6B6E7C] [&_.tel-field-wrapper:not(:has(.tel-field-error))]:border-[#6B6E7C]",
+      "[&_.tel-field-wrapper.tel-field-error]:border-rose-700",
+      "[&_.tel-field-wrapper]:shadow [&_.tel-field-wrapper>input]:placeholder:text-white",
+      floating == "outer" && "[&_.tel-field-wrapper_.floating-label]:bg-[#6B6E7C]"
     ]
   end
 
   defp color_variant("shadow", "success", floating) do
     [
-      "[&_.number-field-wrapper]:bg-[#ECFEF3] text-[#227A52] [&_.number-field-wrapper:not(:has(.number-field-error))]:border-[#047857]",
-      "[&_.number-field-wrapper.number-field-error]:border-rose-700",
-      "[&_.number-field-wrapper]:shadow [&_.number-field-wrapper>input]:placeholder:text-[#047857]",
-      floating == "outer" && "[&_.number-field-wrapper_.floating-label]:bg-[#ECFEF3]"
+      "[&_.tel-field-wrapper]:bg-[#ECFEF3] text-[#227A52] [&_.tel-field-wrapper:not(:has(.tel-field-error))]:border-[#047857]",
+      "[&_.tel-field-wrapper.tel-field-error]:border-rose-700",
+      "[&_.tel-field-wrapper]:shadow [&_.tel-field-wrapper>input]:placeholder:text-[#047857]",
+      floating == "outer" && "[&_.tel-field-wrapper_.floating-label]:bg-[#ECFEF3]"
     ]
   end
 
   defp color_variant("shadow", "warning", floating) do
     [
-      "[&_.number-field-wrapper]:bg-[#FFF8E6] text-[#FF8B08] [&_.number-field-wrapper:not(:has(.number-field-error))]:border-[#FFF8E6]",
-      "[&_.number-field-wrapper.number-field-error]:border-rose-700",
-      "[&_.number-field-wrapper]:shadow [&_.number-field-wrapper>input]:placeholder:text-[#FF8B08]",
-      floating == "outer" && "[&_.number-field-wrapper_.floating-label]:bg-[#FFF8E6]"
+      "[&_.tel-field-wrapper]:bg-[#FFF8E6] text-[#FF8B08] [&_.tel-field-wrapper:not(:has(.tel-field-error))]:border-[#FFF8E6]",
+      "[&_.tel-field-wrapper.tel-field-error]:border-rose-700",
+      "[&_.tel-field-wrapper]:shadow [&_.tel-field-wrapper>input]:placeholder:text-[#FF8B08]",
+      floating == "outer" && "[&_.tel-field-wrapper_.floating-label]:bg-[#FFF8E6]"
     ]
   end
 
   defp color_variant("shadow", "danger", floating) do
     [
-      "[&_.number-field-wrapper]:bg-[#FFE6E6] text-[#E73B3B] [&_.number-field-wrapper:not(:has(.number-field-error))]:border-[#FFE6E6]",
-      "[&_.number-field-wrapper.number-field-error]:border-rose-700",
-      "[&_.number-field-wrapper]:shadow [&_.number-field-wrapper>input]:placeholder:text-[#E73B3B]",
-      floating == "outer" && "[&_.number-field-wrapper_.floating-label]:bg-[#FFE6E6]"
+      "[&_.tel-field-wrapper]:bg-[#FFE6E6] text-[#E73B3B] [&_.tel-field-wrapper:not(:has(.tel-field-error))]:border-[#FFE6E6]",
+      "[&_.tel-field-wrapper.tel-field-error]:border-rose-700",
+      "[&_.tel-field-wrapper]:shadow [&_.tel-field-wrapper>input]:placeholder:text-[#E73B3B]",
+      floating == "outer" && "[&_.tel-field-wrapper_.floating-label]:bg-[#FFE6E6]"
     ]
   end
 
   defp color_variant("shadow", "info", floating) do
     [
-      "[&_.number-field-wrapper]:bg-[#E5F0FF] text-[#004FC4] [&_.number-field-wrapper:not(:has(.number-field-error))]:border-[#E5F0FF]",
-      "[&_.number-field-wrapper.number-field-error]:border-rose-700",
-      "[&_.number-field-wrapper]:shadow [&_.number-field-wrapper>input]:placeholder:text-[#004FC4]",
-      floating == "outer" && "[&_.number-field-wrapper_.floating-label]:bg-[#E5F0FF]"
+      "[&_.tel-field-wrapper]:bg-[#E5F0FF] text-[#004FC4] [&_.tel-field-wrapper:not(:has(.tel-field-error))]:border-[#E5F0FF]",
+      "[&_.tel-field-wrapper.tel-field-error]:border-rose-700",
+      "[&_.tel-field-wrapper]:shadow [&_.tel-field-wrapper>input]:placeholder:text-[#004FC4]",
+      floating == "outer" && "[&_.tel-field-wrapper_.floating-label]:bg-[#E5F0FF]"
     ]
   end
 
   defp color_variant("shadow", "misc", floating) do
     [
-      "[&_.number-field-wrapper]:bg-[#FFE6FF] text-[#52059C] [&_.number-field-wrapper:not(:has(.number-field-error))]:border-[#FFE6FF]",
-      "[&_.number-field-wrapper.number-field-error]:border-rose-700",
-      "[&_.number-field-wrapper]:shadow [&_.number-field-wrapper>input]:placeholder:text-[#52059C]",
-      floating == "outer" && "[&_.number-field-wrapper_.floating-label]:bg-[#FFE6FF]"
+      "[&_.tel-field-wrapper]:bg-[#FFE6FF] text-[#52059C] [&_.tel-field-wrapper:not(:has(.tel-field-error))]:border-[#FFE6FF]",
+      "[&_.tel-field-wrapper.tel-field-error]:border-rose-700",
+      "[&_.tel-field-wrapper]:shadow [&_.tel-field-wrapper>input]:placeholder:text-[#52059C]",
+      floating == "outer" && "[&_.tel-field-wrapper_.floating-label]:bg-[#FFE6FF]"
     ]
   end
 
   defp color_variant("shadow", "dawn", floating) do
     [
-      "[&_.number-field-wrapper]:bg-[#FFECDA] text-[#4D4137] [&_.number-field-wrapper:not(:has(.number-field-error))]:border-[#FFECDA]",
-      "[&_.number-field-wrapper.number-field-error]:border-rose-700",
-      "[&_.number-field-wrapper]:shadow [&_.number-field-wrapper>input]:placeholder:text-[#4D4137]",
-      floating == "outer" && "[&_.number-field-wrapper_.floating-label]:bg-[#FFECDA]"
+      "[&_.tel-field-wrapper]:bg-[#FFECDA] text-[#4D4137] [&_.tel-field-wrapper:not(:has(.tel-field-error))]:border-[#FFECDA]",
+      "[&_.tel-field-wrapper.tel-field-error]:border-rose-700",
+      "[&_.tel-field-wrapper]:shadow [&_.tel-field-wrapper>input]:placeholder:text-[#4D4137]",
+      floating == "outer" && "[&_.tel-field-wrapper_.floating-label]:bg-[#FFECDA]"
     ]
   end
 
   defp color_variant("shadow", "light", floating) do
     [
-      "[&_.number-field-wrapper]:bg-[#E3E7F1] text-[#707483] [&_.number-field-wrapper:not(:has(.number-field-error))]:border-[#E3E7F1]",
-      "[&_.number-field-wrapper.number-field-error]:border-rose-700",
-      "[&_.number-field-wrapper]:shadow [&_.number-field-wrapper>input]:placeholder:text-[#707483]",
-      floating == "outer" && "[&_.number-field-wrapper_.floating-label]:bg-[#E3E7F1]"
+      "[&_.tel-field-wrapper]:bg-[#E3E7F1] text-[#707483] [&_.tel-field-wrapper:not(:has(.tel-field-error))]:border-[#E3E7F1]",
+      "[&_.tel-field-wrapper.tel-field-error]:border-rose-700",
+      "[&_.tel-field-wrapper]:shadow [&_.tel-field-wrapper>input]:placeholder:text-[#707483]",
+      floating == "outer" && "[&_.tel-field-wrapper_.floating-label]:bg-[#E3E7F1]"
     ]
   end
 
   defp color_variant("shadow", "dark", floating) do
     [
-      "[&_.number-field-wrapper]:bg-[#1E1E1E] text-[#1E1E1E] [&_.number-field-wrapper:not(:has(.number-field-error))]:border-[#1E1E1E]",
-      "[&_.number-field-wrapper.number-field-error]:border-rose-700",
-      "[&_.number-field-wrapper]:shadow [&_.number-field-wrapper>input]:placeholder:text-white",
-      floating == "outer" && "[&_.number-field-wrapper_.floating-label]:bg-[#1E1E1E]"
+      "[&_.tel-field-wrapper]:bg-[#1E1E1E] text-[#1E1E1E] [&_.tel-field-wrapper:not(:has(.tel-field-error))]:border-[#1E1E1E]",
+      "[&_.tel-field-wrapper.tel-field-error]:border-rose-700",
+      "[&_.tel-field-wrapper]:shadow [&_.tel-field-wrapper>input]:placeholder:text-white",
+      floating == "outer" && "[&_.tel-field-wrapper_.floating-label]:bg-[#1E1E1E]"
     ]
   end
 
   defp color_variant("transparent", "white", _) do
     [
-      "[&_.number-field-wrapper]:bg-transparent text-[#DADADA] [&_.number-field-wrapper]:border-transparent",
-      "[&_.number-field-wrapper>input]:placeholder:text-[#DADADA]",
-      "focus-within:[&_.number-field-wrapper]:ring-transparent"
+      "[&_.tel-field-wrapper]:bg-transparent text-[#DADADA] [&_.tel-field-wrapper]:border-transparent",
+      "[&_.tel-field-wrapper>input]:placeholder:text-[#DADADA]",
+      "focus-within:[&_.tel-field-wrapper]:ring-transparent"
     ]
   end
 
   defp color_variant("transparent", "primary", _) do
     [
-      "[&_.number-field-wrapper]:bg-transparent text-[#4363EC] [&_.number-field-wrapper]:border-transparent",
-      "[&_.number-field-wrapper>input]:placeholder:text-[#4363EC]",
-      "focus-within:[&_.number-field-wrapper]:ring-transparent"
+      "[&_.tel-field-wrapper]:bg-transparent text-[#4363EC] [&_.tel-field-wrapper]:border-transparent",
+      "[&_.tel-field-wrapper>input]:placeholder:text-[#4363EC]",
+      "focus-within:[&_.tel-field-wrapper]:ring-transparent"
     ]
   end
 
   defp color_variant("transparent", "secondary", _) do
     [
-      "[&_.number-field-wrapper]:bg-transparent text-[#6B6E7C] [&_.number-field-wrapper]:border-transparent",
-      "[&_.number-field-wrapper>input]:placeholder:text-[#6B6E7C]",
-      "focus-within:[&_.number-field-wrapper]:ring-transparent"
+      "[&_.tel-field-wrapper]:bg-transparent text-[#6B6E7C] [&_.tel-field-wrapper]:border-transparent",
+      "[&_.tel-field-wrapper>input]:placeholder:text-[#6B6E7C]",
+      "focus-within:[&_.tel-field-wrapper]:ring-transparent"
     ]
   end
 
   defp color_variant("transparent", "success", _) do
     [
-      "[&_.number-field-wrapper]:bg-transparent text-[#047857] [&_.number-field-wrapper]:border-transparent",
-      "[&_.number-field-wrapper>input]:placeholder:text-[#047857]",
-      "focus-within:[&_.number-field-wrapper]:ring-transparent"
+      "[&_.tel-field-wrapper]:bg-transparent text-[#047857] [&_.tel-field-wrapper]:border-transparent",
+      "[&_.tel-field-wrapper>input]:placeholder:text-[#047857]",
+      "focus-within:[&_.tel-field-wrapper]:ring-transparent"
     ]
   end
 
   defp color_variant("transparent", "warning", _) do
     [
-      "[&_.number-field-wrapper]:bg-transparent text-[#FF8B08] [&_.number-field-wrapper]:border-transparent",
-      "[&_.number-field-wrapper>input]:placeholder:text-[#FF8B08]",
-      "focus-within:[&_.number-field-wrapper]:ring-transparent"
+      "[&_.tel-field-wrapper]:bg-transparent text-[#FF8B08] [&_.tel-field-wrapper]:border-transparent",
+      "[&_.tel-field-wrapper>input]:placeholder:text-[#FF8B08]",
+      "focus-within:[&_.tel-field-wrapper]:ring-transparent"
     ]
   end
 
   defp color_variant("transparent", "danger", _) do
     [
-      "[&_.number-field-wrapper]:bg-transparent text-[#E73B3B] [&_.number-field-wrapper]:border-transparent",
-      "[&_.number-field-wrapper>input]:placeholder:text-[#E73B3B]",
-      "focus-within:[&_.number-field-wrapper]:ring-transparent"
+      "[&_.tel-field-wrapper]:bg-transparent text-[#E73B3B] [&_.tel-field-wrapper]:border-transparent",
+      "[&_.tel-field-wrapper>input]:placeholder:text-[#E73B3B]",
+      "focus-within:[&_.tel-field-wrapper]:ring-transparent"
     ]
   end
 
   defp color_variant("transparent", "info", _) do
     [
-      "[&_.number-field-wrapper]:bg-transparent text-[#004FC4] [&_.number-field-wrapper]:border-transparent",
-      "[&_.number-field-wrapper>input]:placeholder:text-[#004FC4]",
-      "focus-within:[&_.number-field-wrapper]:ring-transparent"
+      "[&_.tel-field-wrapper]:bg-transparent text-[#004FC4] [&_.tel-field-wrapper]:border-transparent",
+      "[&_.tel-field-wrapper>input]:placeholder:text-[#004FC4]",
+      "focus-within:[&_.tel-field-wrapper]:ring-transparent"
     ]
   end
 
   defp color_variant("transparent", "misc", _) do
     [
-      "[&_.number-field-wrapper]:bg-transparent text-[#52059C] [&_.number-field-wrapper]:border-transparent",
-      "[&_.number-field-wrapper>input]:placeholder:text-[#52059C]",
-      "focus-within:[&_.number-field-wrapper]:ring-transparent"
+      "[&_.tel-field-wrapper]:bg-transparent text-[#52059C] [&_.tel-field-wrapper]:border-transparent",
+      "[&_.tel-field-wrapper>input]:placeholder:text-[#52059C]",
+      "focus-within:[&_.tel-field-wrapper]:ring-transparent"
     ]
   end
 
   defp color_variant("transparent", "dawn", _) do
     [
-      "[&_.number-field-wrapper]:bg-transparent text-[#4D4137] [&_.number-field-wrapper]:border-transparent",
-      "[&_.number-field-wrapper>input]:placeholder:text-[#4D4137]",
-      "focus-within:[&_.number-field-wrapper]:ring-transparent"
+      "[&_.tel-field-wrapper]:bg-transparent text-[#4D4137] [&_.tel-field-wrapper]:border-transparent",
+      "[&_.tel-field-wrapper>input]:placeholder:text-[#4D4137]",
+      "focus-within:[&_.tel-field-wrapper]:ring-transparent"
     ]
   end
 
   defp color_variant("transparent", "light", _) do
     [
-      "[&_.number-field-wrapper]:bg-transparent text-[#707483] [&_.number-field-wrapper]:border-transparent",
-      "[&_.number-field-wrapper>input]:placeholder:text-[#707483]",
-      "focus-within:[&_.number-field-wrapper]:ring-transparent"
+      "[&_.tel-field-wrapper]:bg-transparent text-[#707483] [&_.tel-field-wrapper]:border-transparent",
+      "[&_.tel-field-wrapper>input]:placeholder:text-[#707483]",
+      "focus-within:[&_.tel-field-wrapper]:ring-transparent"
     ]
   end
 
   defp color_variant("transparent", "dark", _) do
     [
-      "[&_.number-field-wrapper]:bg-transparent text-[#1E1E1E] [&_.number-field-wrapper]:border-transparent",
-      "[&_.number-field-wrapper>input]:placeholder:text-[#1E1E1E]",
-      "focus-within:[&_.number-field-wrapper]:ring-transparent"
+      "[&_.tel-field-wrapper]:bg-transparent text-[#1E1E1E] [&_.tel-field-wrapper]:border-transparent",
+      "[&_.tel-field-wrapper>input]:placeholder:text-[#1E1E1E]",
+      "focus-within:[&_.tel-field-wrapper]:ring-transparent"
     ]
   end
 end
