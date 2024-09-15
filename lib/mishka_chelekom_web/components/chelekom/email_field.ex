@@ -230,7 +230,8 @@ defmodule MishkaChelekom.EmailField do
     do: "[&_.email-field-wrapper_input]:h-7 [&_.email-field-wrapper_.password-field-icon]:size-3"
 
   defp size_class("small"),
-    do: "[&_.email-field-wrapper_input]:h-8 [&_.email-field-wrapper_.password-field-icon]:size-3.5"
+    do:
+      "[&_.email-field-wrapper_input]:h-8 [&_.email-field-wrapper_.password-field-icon]:size-3.5"
 
   defp size_class("medium"),
     do: "[&_.email-field-wrapper_input]:h-9 [&_.email-field-wrapper_.password-field-icon]:size-4"

@@ -112,7 +112,7 @@ defmodule MishkaChelekom.PasswordField do
           :if={@show_password}
           class={["flex items-center justify-center shrink-0 pe-2 h-[inherit]", @end_section[:class]]}
         >
-            <%!-- TODO: Add ability to change icon to hero-eye whn it clicked --%>
+          <%!-- TODO: Add ability to change icon to hero-eye whn it clicked --%>
           <button><.icon name="hero-eye-slash" class="password-field-icon" /></button>
         </div>
       </div>
@@ -177,7 +177,7 @@ defmodule MishkaChelekom.PasswordField do
           :if={@show_password}
           class={["flex items-center justify-center shrink-0 pe-2 h-[inherit]", @end_section[:class]]}
         >
-            <%!-- TODO: Add ability to change icon to hero-eye whn it clicked --%>
+          <%!-- TODO: Add ability to change icon to hero-eye whn it clicked --%>
           <button><.icon name="hero-eye-slash" class="password-field-icon" /></button>
         </div>
       </div>
@@ -243,19 +243,24 @@ defmodule MishkaChelekom.PasswordField do
   end
 
   defp size_class("extra_small"),
-    do: "[&_.password-field-wrapper_input]:h-7 [&_.password-field-wrapper_.password-field-icon]:size-3"
+    do:
+      "[&_.password-field-wrapper_input]:h-7 [&_.password-field-wrapper_.password-field-icon]:size-3"
 
   defp size_class("small"),
-    do: "[&_.password-field-wrapper_input]:h-8 [&_.password-field-wrapper_.password-field-icon]:size-3.5"
+    do:
+      "[&_.password-field-wrapper_input]:h-8 [&_.password-field-wrapper_.password-field-icon]:size-3.5"
 
   defp size_class("medium"),
-    do: "[&_.password-field-wrapper_input]:h-9 [&_.password-field-wrapper_.password-field-icon]:size-4"
+    do:
+      "[&_.password-field-wrapper_input]:h-9 [&_.password-field-wrapper_.password-field-icon]:size-4"
 
   defp size_class("large"),
-    do: "[&_.password-field-wrapper_input]:h-10 [&_.password-field-wrapper_.password-field-icon]:size-5"
+    do:
+      "[&_.password-field-wrapper_input]:h-10 [&_.password-field-wrapper_.password-field-icon]:size-5"
 
   defp size_class("extra_large"),
-    do: "[&_.password-field-wrapper_input]:h-12 [&_.password-field-wrapper_.password-field-icon]:size-6"
+    do:
+      "[&_.password-field-wrapper_input]:h-12 [&_.password-field-wrapper_.password-field-icon]:size-6"
 
   defp size_class(_), do: size_class("medium")
 
