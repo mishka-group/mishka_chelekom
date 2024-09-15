@@ -26,7 +26,7 @@ defmodule MishkaChelekom.ColorField do
 
   attr :errors, :list, default: []
   attr :name, :any
-  attr :value, :any
+  attr :value, :any, default: "#000000"
 
   attr :field, Phoenix.HTML.FormField,
     doc: "a form field struct retrieved from the form, for example: @form[:email]"

@@ -35,6 +35,7 @@ defmodule MishkaChelekomComponents do
         TelField,
         UrlField,
         CheckboxField,
+        ToggleField,
         Jumbotron,
         Keyboard,
         List,
