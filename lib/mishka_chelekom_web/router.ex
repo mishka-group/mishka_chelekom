@@ -73,7 +73,7 @@ defmodule MishkaChelekomWeb.Router do
     live "/examples/speed-dial", Examples.SpeedDialLive
     live "/examples/mega-menu", Examples.MegaMenuLive
     live "/examples/devices", Examples.DeviceMockupLive
-    live "/examples/text-input", Examples.TextFieldLive
+    live "/examples/text-field", Examples.TextFieldLive
     live "/examples/password-field", Examples.PasswordFieldLive
     live "/examples/email-field", Examples.EmailFieldLive
     live "/examples/number-field", Examples.NumberFieldLive

@@ -83,8 +83,8 @@ defmodule MishkaChelekom.TextField do
             id={@id}
             value={@value}
             class={[
-              "block disabled:opacity-80 block w-full z-[2] focus:ring-0 placeholder:text-transparent py-1 px-2",
-              "text-sm disabled:opacity-80 w-full appearance-none bg-transparent border-0 focus:outline-none peer"
+              "disabled:opacity-80 block w-full z-[2] focus:ring-0 placeholder:text-transparent pb-1 pt-2.5 px-2",
+              "text-sm appearance-none bg-transparent border-0 focus:outline-none peer",
             ]}
             placeholder=" "
             {@rest}
@@ -92,8 +92,8 @@ defmodule MishkaChelekom.TextField do
 
           <label
             class={[
-              "floating-label p-1 start-1 -z-[1] absolute text-xs duration-300 transform scale-75 origin-[0]",
-              variant_label_position(@variant, @floating)
+              "floating-label px-1 start-1 -z-[1] absolute text-xs duration-300 transform scale-75 origin-[0]",
+              variant_label_position(@floating)
             ]}
             for={@id}
           >
@@ -195,34 +195,18 @@ defmodule MishkaChelekom.TextField do
     """
   end
 
-  defp variant_label_position(_, "outer") do
+  defp variant_label_position("outer") do
     [
-      "-translate-y-4 top-2",
-      "peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-3",
-      "peer-focus:scale-75 peer-focus:-translate-y-7"
+      "-translate-y-4 top-2 origin-[0] peer-focus:px-1 peer-placeholder-shown:scale-100",
+      "peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4",
+      "rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto"
     ]
   end
 
-  defp variant_label_position("default", "inner") do
+  defp variant_label_position("inner") do
     [
-      "-translate-y-4 top-2 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2",
-      "peer-focus:scale-75 peer-focus:-translate-y-4"
-    ]
-  end
-
-  defp variant_label_position("unbordered", "inner") do
-    [
-      "-translate-y-4 top-2",
-      "peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-5",
-      "peer-focus:scale-75 peer-focus:-translate-y-6"
-    ]
-  end
-
-  defp variant_label_position("shadow", "inner") do
-    [
-      "-translate-y-4 top-2",
-      "peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-5",
-      "peer-focus:scale-75 peer-focus:-translate-y-6"
+     "-translate-y-4 scale-75 top-4 origin-[0] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0",
+     "peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto"
     ]
   end
 
