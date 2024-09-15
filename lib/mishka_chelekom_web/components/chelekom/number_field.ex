@@ -35,9 +35,8 @@ defmodule MishkaChelekom.NumberField do
   attr :field, Phoenix.HTML.FormField,
     doc: "a form field struct retrieved from the form, for example: @form[:email]"
 
-  attr :rest, :global,
-    include:
-      ~w(autocomplete disabled form list min max pattern placeholder readonly required size inputmode inputmode step title)
+  attr :rest, :global, include: ~w(autocomplete disabled form list min max pattern placeholder
+        readonly required size inputmode inputmode step title)
 
   @spec number_field(map()) :: Phoenix.LiveView.Rendered.t()
   def number_field(%{field: %Phoenix.HTML.FormField{} = field} = assigns) do
@@ -86,9 +85,10 @@ defmodule MishkaChelekom.NumberField do
             class={[
               "disabled:opacity-80 block w-full z-[2] focus:ring-0 placeholder:text-transparent pb-1 pt-2.5 px-2",
               "text-sm appearance-none bg-transparent border-0 focus:outline-none peer",
-              @controls == "fixed" && "[&::-webkit-outer-spin-button]:opacity-100 [&::-webkit-inner-spin-button]:opacity-100",
+              @controls == "fixed" &&
+                "[&::-webkit-outer-spin-button]:opacity-100 [&::-webkit-inner-spin-button]:opacity-100",
               @controls == "hide" &&
-                "[appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none",
+                "[appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
             ]}
             placeholder=" "
             {@rest}
@@ -158,7 +158,8 @@ defmodule MishkaChelekom.NumberField do
           class={[
             "flex-1 py-1 px-2 text-sm disabled:opacity-80 block w-full appearance-none",
             "bg-transparent border-0 focus:outline-none focus:ring-0",
-            @controls == "fixed" && "[&::-webkit-outer-spin-button]:opacity-100 [&::-webkit-inner-spin-button]:opacity-100",
+            @controls == "fixed" &&
+              "[&::-webkit-outer-spin-button]:opacity-100 [&::-webkit-inner-spin-button]:opacity-100",
             @controls == "hide" &&
               "[appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
           ]}

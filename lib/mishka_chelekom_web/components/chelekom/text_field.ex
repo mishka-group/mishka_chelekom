@@ -35,8 +35,8 @@ defmodule MishkaChelekom.TextField do
     doc: "a form field struct retrieved from the form, for example: @form[:email]"
 
   attr :rest, :global,
-    include:
-      ~w(autocomplete disabled form list maxlength minlength pattern placeholder readonly required size spellcheck inputmode title)
+    include: ~w(autocomplete disabled form list maxlength minlength pattern placeholder
+        readonly required size spellcheck inputmode title)
 
   @spec text_field(map()) :: Phoenix.LiveView.Rendered.t()
   def text_field(%{field: %Phoenix.HTML.FormField{} = field} = assigns) do

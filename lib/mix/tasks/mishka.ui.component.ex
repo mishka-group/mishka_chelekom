@@ -1,9 +1,9 @@
 defmodule Mix.Tasks.Mishka.Ui.Component do
   use Igniter.Mix.Task
 
-  @example "mix mishka.ui.component --example arg"
+  @example "mix mishka.ui.component component --example arg"
 
-  @shortdoc "A short description of your task"
+  @shortdoc "A Mix Task for generating and configuring Phoenix components"
   @moduledoc """
   #{@shortdoc}
 
@@ -17,7 +17,12 @@ defmodule Mix.Tasks.Mishka.Ui.Component do
 
   ## Options
 
-  * `--example-option` or `-e` - Docs for your option
+  * `--module_name` or `-m` - Docs for your option
+  * `--variant` or `-v` - Docs for your option
+  * `--color` or `-c` - Docs for your option
+  * `--size` or `-s` - Docs for your option
+  * `--padding` or `-p` - Docs for your option
+  * `--space` or `-sp` - Docs for your option
   """
 
   def info(_argv, _composing_task) do
@@ -39,19 +44,27 @@ defmodule Mix.Tasks.Mishka.Ui.Component do
       # This ensures your option schema includes options from nested tasks
       composes: [],
       # `OptionParser` schema
-      schema: [short_name: :string],
+      schema: [
+        variant: :string,
+        color: :string,
+        size: :string,
+        module_name: :string,
+        padding: :string,
+        space: :string
+      ],
       # CLI aliases
-      aliases: [s: :short_name]
+      aliases: [v: :variant, c: :color, s: :size, m: :module_name, p: :padding, sp: :space]
     }
   end
 
   def igniter(igniter, argv) do
     # extract positional arguments according to `positional` above
-    {arguments, argv} = positional_args!(argv)
+    {_arguments, argv} = positional_args!(argv)
     # extract options according to `schema` and `aliases` above
     _options = options!(argv)
-    IO.inspect(arguments)
     # Do your work here and return an updated igniter
+    IO.inspect(argv)
+
     igniter
     |> Igniter.add_warning("mix mishka.ui.component is not yet implemented")
   end
