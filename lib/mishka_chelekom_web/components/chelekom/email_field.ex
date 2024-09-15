@@ -36,7 +36,7 @@ defmodule MishkaChelekom.EmailField do
 
   attr :rest, :global,
     include:
-      ~w(autocomplete disabled form list maxlength minlength pattern placeholder readonly required size multiple)
+      ~w(autocomplete disabled form list maxlength minlength spellcheck pattern placeholder readonly required size multiple)
 
   @spec email_field(map()) :: Phoenix.LiveView.Rendered.t()
   def email_field(%{field: %Phoenix.HTML.FormField{} = field} = assigns) do
