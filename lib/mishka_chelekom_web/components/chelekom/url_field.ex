@@ -78,7 +78,7 @@ defmodule MishkaChelekom.UrlField do
         </div>
         <div class="relative w-full z-[2]">
           <input
-            type="text"
+            type="url"
             name={@name}
             id={@id}
             value={@value}
@@ -147,7 +147,7 @@ defmodule MishkaChelekom.UrlField do
         </div>
 
         <input
-          type="text"
+          type="url"
           name={@name}
           id={@id}
           value={@value}
