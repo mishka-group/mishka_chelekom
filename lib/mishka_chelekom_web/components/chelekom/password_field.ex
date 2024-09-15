@@ -58,15 +58,15 @@ defmodule MishkaChelekom.PasswordField do
       border_class(@border),
       size_class(@size),
       space_class(@space),
-      @ring && "[&_.text-field-wrapper]:focus-within:ring-[0.03rem]",
+      @ring && "[&_.password-field-wrapper]:focus-within:ring-[0.03rem]",
       @class
     ]}>
       <div :if={!is_nil(@description)} class="text-xs pb-2">
         <%= @description %>
       </div>
       <div class={[
-        "text-field-wrapper transition-all ease-in-out duration-200 w-full flex flex-nowrap",
-        @errors != [] && "text-field-error"
+        "password-field-wrapper transition-all ease-in-out duration-200 w-full flex flex-nowrap",
+        @errors != [] && "password-field-error"
       ]}>
         <div
           :if={@start_section}
@@ -130,7 +130,7 @@ defmodule MishkaChelekom.PasswordField do
       border_class(@border),
       size_class(@size),
       space_class(@space),
-      @ring && "[&_.text-field-wrapper]:focus-within:ring-[0.03rem]",
+      @ring && "[&_.password-field-wrapper]:focus-within:ring-[0.03rem]",
       @class
     ]}>
       <div>
@@ -141,8 +141,8 @@ defmodule MishkaChelekom.PasswordField do
       </div>
 
       <div class={[
-        "text-field-wrapper overflow-hidden transition-all ease-in-out duration-200 flex flex-nowrap",
-        @errors != [] && "text-field-error"
+        "password-field-wrapper overflow-hidden transition-all ease-in-out duration-200 flex flex-nowrap",
+        @errors != [] && "password-field-error"
       ]}>
         <div
           :if={@start_section}
@@ -171,6 +171,14 @@ defmodule MishkaChelekom.PasswordField do
           class={["flex items-center justify-center shrink-0 pe-2 h-[inherit]", @end_section[:class]]}
         >
           <%= render_slot(@end_section) %>
+        </div>
+        <%!-- TODO: Change icon when password is shown --%>
+        <div
+          :if={@show_password}
+          class={["flex items-center justify-center shrink-0 pe-2 h-[inherit]", @end_section[:class]]}
+        >
+            <%!-- TODO: Add ability to change icon to hero-eye whn it clicked --%>
+          <button><.icon name="hero-eye-slash" class="password-field-icon" /></button>
         </div>
       </div>
 
@@ -235,36 +243,36 @@ defmodule MishkaChelekom.PasswordField do
   end
 
   defp size_class("extra_small"),
-    do: "[&_.text-field-wrapper_input]:h-7 [&_.text-field-wrapper_.password-field-icon]:size-3"
+    do: "[&_.password-field-wrapper_input]:h-7 [&_.password-field-wrapper_.password-field-icon]:size-3"
 
   defp size_class("small"),
-    do: "[&_.text-field-wrapper_input]:h-8 [&_.text-field-wrapper_.password-field-icon]:size-3.5"
+    do: "[&_.password-field-wrapper_input]:h-8 [&_.password-field-wrapper_.password-field-icon]:size-3.5"
 
   defp size_class("medium"),
-    do: "[&_.text-field-wrapper_input]:h-9 [&_.text-field-wrapper_.password-field-icon]:size-4"
+    do: "[&_.password-field-wrapper_input]:h-9 [&_.password-field-wrapper_.password-field-icon]:size-4"
 
   defp size_class("large"),
-    do: "[&_.text-field-wrapper_input]:h-10 [&_.text-field-wrapper_.password-field-icon]:size-5"
+    do: "[&_.password-field-wrapper_input]:h-10 [&_.password-field-wrapper_.password-field-icon]:size-5"
 
   defp size_class("extra_large"),
-    do: "[&_.text-field-wrapper_input]:h-12 [&_.text-field-wrapper_.password-field-icon]:size-6"
+    do: "[&_.password-field-wrapper_input]:h-12 [&_.password-field-wrapper_.password-field-icon]:size-6"
 
   defp size_class(_), do: size_class("medium")
 
-  defp rounded_size("extra_small"), do: "[&_.text-field-wrapper]:rounded-sm"
-  defp rounded_size("small"), do: "[&_.text-field-wrapper]:rounded"
-  defp rounded_size("medium"), do: "[&_.text-field-wrapper]:rounded-md"
-  defp rounded_size("large"), do: "[&_.text-field-wrapper]:rounded-lg"
-  defp rounded_size("extra_large"), do: "[&_.text-field-wrapper]:rounded-xl"
-  defp rounded_size("full"), do: "[&_.text-field-wrapper]:rounded-full"
-  defp rounded_size(_), do: "[&_.text-field-wrapper]:rounded-none"
+  defp rounded_size("extra_small"), do: "[&_.password-field-wrapper]:rounded-sm"
+  defp rounded_size("small"), do: "[&_.password-field-wrapper]:rounded"
+  defp rounded_size("medium"), do: "[&_.password-field-wrapper]:rounded-md"
+  defp rounded_size("large"), do: "[&_.password-field-wrapper]:rounded-lg"
+  defp rounded_size("extra_large"), do: "[&_.password-field-wrapper]:rounded-xl"
+  defp rounded_size("full"), do: "[&_.password-field-wrapper]:rounded-full"
+  defp rounded_size(_), do: "[&_.password-field-wrapper]:rounded-none"
 
-  defp border_class("none"), do: "[&_.text-field-wrapper]:border-0"
-  defp border_class("extra_small"), do: "[&_.text-field-wrapper]:border"
-  defp border_class("small"), do: "[&_.text-field-wrapper]:border-2"
-  defp border_class("medium"), do: "[&_.text-field-wrapper]:border-[3px]"
-  defp border_class("large"), do: "[&_.text-field-wrapper]:border-4"
-  defp border_class("extra_large"), do: "[&_.text-field-wrapper]:border-[5px]"
+  defp border_class("none"), do: "[&_.password-field-wrapper]:border-0"
+  defp border_class("extra_small"), do: "[&_.password-field-wrapper]:border"
+  defp border_class("small"), do: "[&_.password-field-wrapper]:border-2"
+  defp border_class("medium"), do: "[&_.password-field-wrapper]:border-[3px]"
+  defp border_class("large"), do: "[&_.password-field-wrapper]:border-4"
+  defp border_class("extra_large"), do: "[&_.password-field-wrapper]:border-[5px]"
   defp border_class(params) when is_binary(params), do: params
   defp border_class(_), do: border_class("extra_small")
 
@@ -278,483 +286,483 @@ defmodule MishkaChelekom.PasswordField do
 
   defp color_variant("outline", "white", floating) do
     [
-      "text-white [&_.text-field-wrapper:not(:has(.text-field-error))]:border-white",
-      "[&_.text-field-wrapper.text-field-error]:border-rose-700",
-      "[&_.text-field-wrapper>input]:placeholder:text-white focus-within:[&_.text-field-wrapper]:ring-white",
-      floating == "outer" && "[&_.text-field-wrapper_.floating-label]:bg-white"
+      "text-white [&_.password-field-wrapper:not(:has(.password-field-error))]:border-white",
+      "[&_.password-field-wrapper.password-field-error]:border-rose-700",
+      "[&_.password-field-wrapper>input]:placeholder:text-white focus-within:[&_.password-field-wrapper]:ring-white",
+      floating == "outer" && "[&_.password-field-wrapper_.floating-label]:bg-white"
     ]
   end
 
   defp color_variant("outline", "silver", floating) do
     [
-      "text-[#afafaf] [&_.text-field-wrapper:not(:has(.text-field-error))]:border-[#afafaf]",
-      "[&_.text-field-wrapper.text-field-error]:border-rose-700",
-      "[&_.text-field-wrapper>input]:placeholder:text-[#afafaf] focus-within:[&_.text-field-wrapper]:ring-[#afafaf]",
-      floating && "[&_.text-field-wrapper_.floating-label]:bg-white"
+      "text-[#afafaf] [&_.password-field-wrapper:not(:has(.password-field-error))]:border-[#afafaf]",
+      "[&_.password-field-wrapper.password-field-error]:border-rose-700",
+      "[&_.password-field-wrapper>input]:placeholder:text-[#afafaf] focus-within:[&_.password-field-wrapper]:ring-[#afafaf]",
+      floating && "[&_.password-field-wrapper_.floating-label]:bg-white"
     ]
   end
 
   defp color_variant("outline", "primary", floating) do
     [
-      "text-[#2441de] [&_.text-field-wrapper:not(:has(.text-field-error))]:border-[#2441de]",
-      "[&_.text-field-wrapper.text-field-error]:border-rose-700",
-      "[&_.text-field-wrapper>input]:placeholder:text-[#2441de] focus-within:[&_.text-field-wrapper]:ring-[#2441de]",
-      floating && "[&_.text-field-wrapper_.floating-label]:bg-white"
+      "text-[#2441de] [&_.password-field-wrapper:not(:has(.password-field-error))]:border-[#2441de]",
+      "[&_.password-field-wrapper.password-field-error]:border-rose-700",
+      "[&_.password-field-wrapper>input]:placeholder:text-[#2441de] focus-within:[&_.password-field-wrapper]:ring-[#2441de]",
+      floating && "[&_.password-field-wrapper_.floating-label]:bg-white"
     ]
   end
 
   defp color_variant("outline", "secondary", floating) do
     [
-      "text-[#877C7C] [&_.text-field-wrapper:not(:has(.text-field-error))]:border-[#877C7C]",
-      "[&_.text-field-wrapper.text-field-error]:border-rose-700",
-      "[&_.text-field-wrapper>input]:placeholder:text-[#877C7Cb] focus-within:[&_.text-field-wrapper]:ring-[#877C7C]",
-      floating && "[&_.text-field-wrapper_.floating-label]:bg-white"
+      "text-[#877C7C] [&_.password-field-wrapper:not(:has(.password-field-error))]:border-[#877C7C]",
+      "[&_.password-field-wrapper.password-field-error]:border-rose-700",
+      "[&_.password-field-wrapper>input]:placeholder:text-[#877C7Cb] focus-within:[&_.password-field-wrapper]:ring-[#877C7C]",
+      floating && "[&_.password-field-wrapper_.floating-label]:bg-white"
     ]
   end
 
   defp color_variant("outline", "success", floating) do
     [
-      "text-[#047857] [&_.text-field-wrapper:not(:has(.text-field-error))]:border-[#047857]",
-      "[&_.text-field-wrapper.text-field-error]:border-rose-700",
-      "[&_.text-field-wrapper>input]:placeholder:text-[#047857] focus-within:[&_.text-field-wrapper]:ring-[#047857]",
-      floating && "[&_.text-field-wrapper_.floating-label]:bg-white"
+      "text-[#047857] [&_.password-field-wrapper:not(:has(.password-field-error))]:border-[#047857]",
+      "[&_.password-field-wrapper.password-field-error]:border-rose-700",
+      "[&_.password-field-wrapper>input]:placeholder:text-[#047857] focus-within:[&_.password-field-wrapper]:ring-[#047857]",
+      floating && "[&_.password-field-wrapper_.floating-label]:bg-white"
     ]
   end
 
   defp color_variant("outline", "warning", floating) do
     [
-      "text-[#FF8B08] [&_.text-field-wrapper:not(:has(.text-field-error))]:border-[#FF8B08]",
-      "[&_.text-field-wrapper.text-field-error]:border-rose-700",
-      "[&_.text-field-wrapper>input]:placeholder:text-[#FF8B08] focus-within:[&_.text-field-wrapper]:ring-[#FF8B08]",
-      floating && "[&_.text-field-wrapper_.floating-label]:bg-white"
+      "text-[#FF8B08] [&_.password-field-wrapper:not(:has(.password-field-error))]:border-[#FF8B08]",
+      "[&_.password-field-wrapper.password-field-error]:border-rose-700",
+      "[&_.password-field-wrapper>input]:placeholder:text-[#FF8B08] focus-within:[&_.password-field-wrapper]:ring-[#FF8B08]",
+      floating && "[&_.password-field-wrapper_.floating-label]:bg-white"
     ]
   end
 
   defp color_variant("outline", "danger", floating) do
     [
-      "text-[#E73B3B] [&_.text-field-wrapper:not(:has(.text-field-error))]:border-[#E73B3B]",
-      "[&_.text-field-wrapper.text-field-error]:border-rose-700",
-      "[&_.text-field-wrapper>input]:placeholder:text-[#E73B3B] focus-within:[&_.text-field-wrapper]:ring-[#E73B3B]",
-      floating && "[&_.text-field-wrapper_.floating-label]:bg-white"
+      "text-[#E73B3B] [&_.password-field-wrapper:not(:has(.password-field-error))]:border-[#E73B3B]",
+      "[&_.password-field-wrapper.password-field-error]:border-rose-700",
+      "[&_.password-field-wrapper>input]:placeholder:text-[#E73B3B] focus-within:[&_.password-field-wrapper]:ring-[#E73B3B]",
+      floating && "[&_.password-field-wrapper_.floating-label]:bg-white"
     ]
   end
 
   defp color_variant("outline", "info", floating) do
     [
-      "text-[#004FC4] [&_.text-field-wrapper:not(:has(.text-field-error))]:border-[#004FC4]",
-      "[&_.text-field-wrapper.text-field-error]:border-rose-700",
-      "[&_.text-field-wrapper>input]:placeholder:text-[#004FC4] focus-within:[&_.text-field-wrapper]:ring-[#004FC4]",
-      floating && "[&_.text-field-wrapper_.floating-label]:bg-white"
+      "text-[#004FC4] [&_.password-field-wrapper:not(:has(.password-field-error))]:border-[#004FC4]",
+      "[&_.password-field-wrapper.password-field-error]:border-rose-700",
+      "[&_.password-field-wrapper>input]:placeholder:text-[#004FC4] focus-within:[&_.password-field-wrapper]:ring-[#004FC4]",
+      floating && "[&_.password-field-wrapper_.floating-label]:bg-white"
     ]
   end
 
   defp color_variant("outline", "misc", floating) do
     [
-      "text-[#52059C] [&_.text-field-wrapper:not(:has(.text-field-error))]:border-[#52059C]",
-      "[&_.text-field-wrapper.text-field-error]:border-rose-700",
-      "[&_.text-field-wrapper>input]:placeholder:text-[#52059C] focus-within:[&_.text-field-wrapper]:ring-[#52059C]",
-      floating && "[&_.text-field-wrapper_.floating-label]:bg-white"
+      "text-[#52059C] [&_.password-field-wrapper:not(:has(.password-field-error))]:border-[#52059C]",
+      "[&_.password-field-wrapper.password-field-error]:border-rose-700",
+      "[&_.password-field-wrapper>input]:placeholder:text-[#52059C] focus-within:[&_.password-field-wrapper]:ring-[#52059C]",
+      floating && "[&_.password-field-wrapper_.floating-label]:bg-white"
     ]
   end
 
   defp color_variant("outline", "dawn", floating) do
     [
-      "text-[#4D4137] [&_.text-field-wrapper:not(:has(.text-field-error))]:border-[#4D4137]",
-      "[&_.text-field-wrapper.text-field-error]:border-rose-700",
-      "[&_.text-field-wrapper>input]:placeholder:text-[#4D4137] focus-within:[&_.text-field-wrapper]:ring-[#4D4137]",
-      floating && "[&_.text-field-wrapper_.floating-label]:bg-white"
+      "text-[#4D4137] [&_.password-field-wrapper:not(:has(.password-field-error))]:border-[#4D4137]",
+      "[&_.password-field-wrapper.password-field-error]:border-rose-700",
+      "[&_.password-field-wrapper>input]:placeholder:text-[#4D4137] focus-within:[&_.password-field-wrapper]:ring-[#4D4137]",
+      floating && "[&_.password-field-wrapper_.floating-label]:bg-white"
     ]
   end
 
   defp color_variant("outline", "light", floating) do
     [
-      "text-[#707483] [&_.text-field-wrapper:not(:has(.text-field-error))]:border-[#707483]",
-      "[&_.text-field-wrapper.text-field-error]:border-rose-700",
-      "[&_.text-field-wrapper>input]:placeholder:text-[#707483] focus-within:[&_.text-field-wrapper]:ring-[#707483]",
-      floating && "[&_.text-field-wrapper_.floating-label]:bg-white"
+      "text-[#707483] [&_.password-field-wrapper:not(:has(.password-field-error))]:border-[#707483]",
+      "[&_.password-field-wrapper.password-field-error]:border-rose-700",
+      "[&_.password-field-wrapper>input]:placeholder:text-[#707483] focus-within:[&_.password-field-wrapper]:ring-[#707483]",
+      floating && "[&_.password-field-wrapper_.floating-label]:bg-white"
     ]
   end
 
   defp color_variant("outline", "dark", floating) do
     [
-      "text-[#1E1E1E] [&_.text-field-wrapper]:text-text-[#1E1E1E] [&_.text-field-wrapper:not(:has(.text-field-error))]:border-[#050404]",
-      "[&_.text-field-wrapper.text-field-error]:border-rose-700",
-      "[&_.text-field-wrapper>input]:placeholder:text-[#1E1E1E] focus-within:[&_.text-field-wrapper]:ring-[#050404]",
-      floating && "[&_.text-field-wrapper_.floating-label]:bg-white"
+      "text-[#1E1E1E] [&_.password-field-wrapper]:text-text-[#1E1E1E] [&_.password-field-wrapper:not(:has(.password-field-error))]:border-[#050404]",
+      "[&_.password-field-wrapper.password-field-error]:border-rose-700",
+      "[&_.password-field-wrapper>input]:placeholder:text-[#1E1E1E] focus-within:[&_.password-field-wrapper]:ring-[#050404]",
+      floating && "[&_.password-field-wrapper_.floating-label]:bg-white"
     ]
   end
 
   defp color_variant("default", "white", floating) do
     [
-      "[&_.text-field-wrapper]:bg-white text-[#3E3E3E] [&_.text-field-wrapper:not(:has(.text-field-error))]:border-[#DADADA]",
-      "[&_.text-field-wrapper.text-field-error]:border-rose-700",
-      "[&_.text-field-wrapper>input]:placeholder:text-[#3E3E3E] focus-within:[&_.text-field-wrapper]:ring-[#DADADA]",
-      floating && "[&_.text-field-wrapper_.floating-label]:bg-white"
+      "[&_.password-field-wrapper]:bg-white text-[#3E3E3E] [&_.password-field-wrapper:not(:has(.password-field-error))]:border-[#DADADA]",
+      "[&_.password-field-wrapper.password-field-error]:border-rose-700",
+      "[&_.password-field-wrapper>input]:placeholder:text-[#3E3E3E] focus-within:[&_.password-field-wrapper]:ring-[#DADADA]",
+      floating && "[&_.password-field-wrapper_.floating-label]:bg-white"
     ]
   end
 
   defp color_variant("default", "primary", floating) do
     [
-      "[&_.text-field-wrapper]:bg-[#4363EC] text-[#4363EC] [&_.text-field-wrapper:not(:has(.text-field-error))]:border-[#2441de]",
-      "[&_.text-field-wrapper.text-field-error]:border-rose-700 [&_.text-field-wrapper]:text-white",
-      "[&_.text-field-wrapper>input]:placeholder:text-white focus-within:[&_.text-field-wrapper]:ring-[#2441de]",
-      floating && "[&_.text-field-wrapper_.floating-label]:bg-[#4363EC]"
+      "[&_.password-field-wrapper]:bg-[#4363EC] text-[#4363EC] [&_.password-field-wrapper:not(:has(.password-field-error))]:border-[#2441de]",
+      "[&_.password-field-wrapper.password-field-error]:border-rose-700 [&_.password-field-wrapper]:text-white",
+      "[&_.password-field-wrapper>input]:placeholder:text-white focus-within:[&_.password-field-wrapper]:ring-[#2441de]",
+      floating && "[&_.password-field-wrapper_.floating-label]:bg-[#4363EC]"
     ]
   end
 
   defp color_variant("default", "secondary", floating) do
     [
-      "[&_.text-field-wrapper]:bg-[#6B6E7C] text-[#6B6E7C] [&_.text-field-wrapper:not(:has(.text-field-error))]:border-[#877C7C]",
-      "[&_.text-field-wrapper.text-field-error]:border-rose-700 [&_.text-field-wrapper]:text-white",
-      "[&_.text-field-wrapper>input]:placeholder:text-white focus-within:[&_.text-field-wrapper]:ring-[#877C7C]",
-      floating && "[&_.text-field-wrapper_.floating-label]:bg-[#6B6E7C]"
+      "[&_.password-field-wrapper]:bg-[#6B6E7C] text-[#6B6E7C] [&_.password-field-wrapper:not(:has(.password-field-error))]:border-[#877C7C]",
+      "[&_.password-field-wrapper.password-field-error]:border-rose-700 [&_.password-field-wrapper]:text-white",
+      "[&_.password-field-wrapper>input]:placeholder:text-white focus-within:[&_.password-field-wrapper]:ring-[#877C7C]",
+      floating && "[&_.password-field-wrapper_.floating-label]:bg-[#6B6E7C]"
     ]
   end
 
   defp color_variant("default", "success", floating) do
     [
-      "[&_.text-field-wrapper]:bg-[#ECFEF3] text-[#047857] [&_.text-field-wrapper:not(:has(.text-field-error))]:border-[#6EE7B7]",
-      "[&_.text-field-wrapper.text-field-error]:border-rose-700",
-      "[&_.text-field-wrapper>input]:placeholder:text-[#047857] focus-within:[&_.text-field-wrapper]:ring-[#6EE7B7]",
-      floating && "[&_.text-field-wrapper_.floating-label]:bg-[#ECFEF3]"
+      "[&_.password-field-wrapper]:bg-[#ECFEF3] text-[#047857] [&_.password-field-wrapper:not(:has(.password-field-error))]:border-[#6EE7B7]",
+      "[&_.password-field-wrapper.password-field-error]:border-rose-700",
+      "[&_.password-field-wrapper>input]:placeholder:text-[#047857] focus-within:[&_.password-field-wrapper]:ring-[#6EE7B7]",
+      floating && "[&_.password-field-wrapper_.floating-label]:bg-[#ECFEF3]"
     ]
   end
 
   defp color_variant("default", "warning", floating) do
     [
-      "[&_.text-field-wrapper]:bg-[#FFF8E6] text-[#FF8B08] [&_.text-field-wrapper:not(:has(.text-field-error))]:border-[#FF8B08]",
-      "[&_.text-field-wrapper.text-field-error]:border-rose-700",
-      "[&_.text-field-wrapper>input]:placeholder:text-[#FF8B08] focus-within:[&_.text-field-wrapper]:ring-[#FF8B08]",
-      floating && "[&_.text-field-wrapper_.floating-label]:bg-[#FFF8E6]"
+      "[&_.password-field-wrapper]:bg-[#FFF8E6] text-[#FF8B08] [&_.password-field-wrapper:not(:has(.password-field-error))]:border-[#FF8B08]",
+      "[&_.password-field-wrapper.password-field-error]:border-rose-700",
+      "[&_.password-field-wrapper>input]:placeholder:text-[#FF8B08] focus-within:[&_.password-field-wrapper]:ring-[#FF8B08]",
+      floating && "[&_.password-field-wrapper_.floating-label]:bg-[#FFF8E6]"
     ]
   end
 
   defp color_variant("default", "danger", floating) do
     [
-      "[&_.text-field-wrapper]:bg-[#FFE6E6] text-[#E73B3B] [&_.text-field-wrapper:not(:has(.text-field-error))]:border-[#E73B3B]",
-      "[&_.text-field-wrapper.text-field-error]:border-rose-700",
-      "[&_.text-field-wrapper>input]:placeholder:text-[#E73B3B] focus-within:[&_.text-field-wrapper]:ring-[#E73B3B]",
-      floating && "[&_.text-field-wrapper_.floating-label]:bg-[#FFE6E6]"
+      "[&_.password-field-wrapper]:bg-[#FFE6E6] text-[#E73B3B] [&_.password-field-wrapper:not(:has(.password-field-error))]:border-[#E73B3B]",
+      "[&_.password-field-wrapper.password-field-error]:border-rose-700",
+      "[&_.password-field-wrapper>input]:placeholder:text-[#E73B3B] focus-within:[&_.password-field-wrapper]:ring-[#E73B3B]",
+      floating && "[&_.password-field-wrapper_.floating-label]:bg-[#FFE6E6]"
     ]
   end
 
   defp color_variant("default", "info", floating) do
     [
-      "[&_.text-field-wrapper]:bg-[#E5F0FF] text-[#004FC4] [&_.text-field-wrapper:not(:has(.text-field-error))]:border-[#004FC4]",
-      "[&_.text-field-wrapper.text-field-error]:border-rose-700",
-      "[&_.text-field-wrapper>input]:placeholder:text-[#004FC4] focus-within:[&_.text-field-wrapper]:ring-[#004FC4]",
-      floating && "[&_.text-field-wrapper_.floating-label]:bg-[#E5F0FF]"
+      "[&_.password-field-wrapper]:bg-[#E5F0FF] text-[#004FC4] [&_.password-field-wrapper:not(:has(.password-field-error))]:border-[#004FC4]",
+      "[&_.password-field-wrapper.password-field-error]:border-rose-700",
+      "[&_.password-field-wrapper>input]:placeholder:text-[#004FC4] focus-within:[&_.password-field-wrapper]:ring-[#004FC4]",
+      floating && "[&_.password-field-wrapper_.floating-label]:bg-[#E5F0FF]"
     ]
   end
 
   defp color_variant("default", "misc", floating) do
     [
-      "[&_.text-field-wrapper]:bg-[#FFE6FF] text-[#52059C] [&_.text-field-wrapper:not(:has(.text-field-error))]:border-[#52059C]",
-      "[&_.text-field-wrapper.text-field-error]:border-rose-700",
-      "[&_.text-field-wrapper>input]:placeholder:text-[#52059C] focus-within:[&_.text-field-wrapper]:ring-[#52059C]",
-      floating && "[&_.text-field-wrapper_.floating-label]:bg-[#FFE6FF]"
+      "[&_.password-field-wrapper]:bg-[#FFE6FF] text-[#52059C] [&_.password-field-wrapper:not(:has(.password-field-error))]:border-[#52059C]",
+      "[&_.password-field-wrapper.password-field-error]:border-rose-700",
+      "[&_.password-field-wrapper>input]:placeholder:text-[#52059C] focus-within:[&_.password-field-wrapper]:ring-[#52059C]",
+      floating && "[&_.password-field-wrapper_.floating-label]:bg-[#FFE6FF]"
     ]
   end
 
   defp color_variant("default", "dawn", floating) do
     [
-      "[&_.text-field-wrapper]:bg-[#FFECDA] text-[#4D4137] [&_.text-field-wrapper:not(:has(.text-field-error))]:border-[#4D4137]",
-      "[&_.text-field-wrapper.text-field-error]:border-rose-700",
-      "[&_.text-field-wrapper>input]:placeholder:text-[#4D4137] focus-within:[&_.text-field-wrapper]:ring-[#4D4137]",
-      floating && "[&_.text-field-wrapper_.floating-label]:bg-[#FFECDA]"
+      "[&_.password-field-wrapper]:bg-[#FFECDA] text-[#4D4137] [&_.password-field-wrapper:not(:has(.password-field-error))]:border-[#4D4137]",
+      "[&_.password-field-wrapper.password-field-error]:border-rose-700",
+      "[&_.password-field-wrapper>input]:placeholder:text-[#4D4137] focus-within:[&_.password-field-wrapper]:ring-[#4D4137]",
+      floating && "[&_.password-field-wrapper_.floating-label]:bg-[#FFECDA]"
     ]
   end
 
   defp color_variant("default", "light", floating) do
     [
-      "[&_.text-field-wrapper]:bg-[#E3E7F1] text-[#707483] [&_.text-field-wrapper:not(:has(.text-field-error))]:border-[#707483]",
-      "[&_.text-field-wrapper.text-field-error]:border-rose-700",
-      "[&_.text-field-wrapper>input]:placeholder:text-[#707483] focus-within:[&_.text-field-wrapper]:ring-[#707483]",
-      floating && "[&_.text-field-wrapper_.floating-label]:bg-[#E3E7F1]"
+      "[&_.password-field-wrapper]:bg-[#E3E7F1] text-[#707483] [&_.password-field-wrapper:not(:has(.password-field-error))]:border-[#707483]",
+      "[&_.password-field-wrapper.password-field-error]:border-rose-700",
+      "[&_.password-field-wrapper>input]:placeholder:text-[#707483] focus-within:[&_.password-field-wrapper]:ring-[#707483]",
+      floating && "[&_.password-field-wrapper_.floating-label]:bg-[#E3E7F1]"
     ]
   end
 
   defp color_variant("default", "dark", floating) do
     [
-      "[&_.text-field-wrapper]:bg-[#1E1E1E] text-[#1E1E1E] [&_.text-field-wrapper]:text-white [&_.text-field-wrapper:not(:has(.text-field-error))]:border-[#050404]",
-      "[&_.text-field-wrapper.text-field-error]:border-rose-700",
-      "[&_.text-field-wrapper>input]:placeholder:text-white focus-within:[&_.text-field-wrapper]:ring-[#050404]",
-      floating && "[&_.text-field-wrapper_.floating-label]:bg-[#1E1E1E]"
+      "[&_.password-field-wrapper]:bg-[#1E1E1E] text-[#1E1E1E] [&_.password-field-wrapper]:text-white [&_.password-field-wrapper:not(:has(.password-field-error))]:border-[#050404]",
+      "[&_.password-field-wrapper.password-field-error]:border-rose-700",
+      "[&_.password-field-wrapper>input]:placeholder:text-white focus-within:[&_.password-field-wrapper]:ring-[#050404]",
+      floating && "[&_.password-field-wrapper_.floating-label]:bg-[#1E1E1E]"
     ]
   end
 
   defp color_variant("unbordered", "white", floating) do
     [
-      "[&_.text-field-wrapper]:bg-white [&_.text-field-wrapper]:border-transparent text-[#3E3E3E]",
-      "[&_.text-field-wrapper>input]:placeholder:text-[#3E3E3E]",
-      floating == "outer" && "[&_.text-field-wrapper_.floating-label]:bg-white"
+      "[&_.password-field-wrapper]:bg-white [&_.password-field-wrapper]:border-transparent text-[#3E3E3E]",
+      "[&_.password-field-wrapper>input]:placeholder:text-[#3E3E3E]",
+      floating == "outer" && "[&_.password-field-wrapper_.floating-label]:bg-white"
     ]
   end
 
   defp color_variant("unbordered", "primary", floating) do
     [
-      "[&_.text-field-wrapper]:bg-[#4363EC] text-[#4363EC] [&_.text-field-wrapper]:border-transparent text-white",
-      "[&_.text-field-wrapper>input]:placeholder:text-white",
-      floating == "outer" && "[&_.text-field-wrapper_.floating-label]:bg-[#4363EC]"
+      "[&_.password-field-wrapper]:bg-[#4363EC] text-[#4363EC] [&_.password-field-wrapper]:border-transparent text-white",
+      "[&_.password-field-wrapper>input]:placeholder:text-white",
+      floating == "outer" && "[&_.password-field-wrapper_.floating-label]:bg-[#4363EC]"
     ]
   end
 
   defp color_variant("unbordered", "secondary", floating) do
     [
-      "[&_.text-field-wrapper]:bg-[#6B6E7C] text-[#6B6E7C] [&_.text-field-wrapper]:border-transparent text-white",
-      "[&_.text-field-wrapper>input]:placeholder:text-white",
-      floating == "outer" && "[&_.text-field-wrapper_.floating-label]:bg-[#6B6E7C]"
+      "[&_.password-field-wrapper]:bg-[#6B6E7C] text-[#6B6E7C] [&_.password-field-wrapper]:border-transparent text-white",
+      "[&_.password-field-wrapper>input]:placeholder:text-white",
+      floating == "outer" && "[&_.password-field-wrapper_.floating-label]:bg-[#6B6E7C]"
     ]
   end
 
   defp color_variant("unbordered", "success", floating) do
     [
-      "[&_.text-field-wrapper]:bg-[#ECFEF3] [&_.text-field-wrapper]:border-transparent text-[#047857]",
-      "[&_.text-field-wrapper>input]:placeholder:text-[#047857]",
-      floating == "outer" && "[&_.text-field-wrapper_.floating-label]:bg-[#ECFEF3]"
+      "[&_.password-field-wrapper]:bg-[#ECFEF3] [&_.password-field-wrapper]:border-transparent text-[#047857]",
+      "[&_.password-field-wrapper>input]:placeholder:text-[#047857]",
+      floating == "outer" && "[&_.password-field-wrapper_.floating-label]:bg-[#ECFEF3]"
     ]
   end
 
   defp color_variant("unbordered", "warning", floating) do
     [
-      "[&_.text-field-wrapper]:bg-[#FFF8E6] [&_.text-field-wrapper]:border-transparent text-[#FF8B08]",
-      "[&_.text-field-wrapper>input]:placeholder:text-[#FF8B08]",
-      floating == "outer" && "[&_.text-field-wrapper_.floating-label]:bg-[#FFF8E6]"
+      "[&_.password-field-wrapper]:bg-[#FFF8E6] [&_.password-field-wrapper]:border-transparent text-[#FF8B08]",
+      "[&_.password-field-wrapper>input]:placeholder:text-[#FF8B08]",
+      floating == "outer" && "[&_.password-field-wrapper_.floating-label]:bg-[#FFF8E6]"
     ]
   end
 
   defp color_variant("unbordered", "danger", floating) do
     [
-      "[&_.text-field-wrapper]:bg-[#FFE6E6] [&_.text-field-wrapper]:border-transparent text-[#E73B3B]",
-      "[&_.text-field-wrapper>input]:placeholder:text-[#E73B3B]",
-      floating == "outer" && "[&_.text-field-wrapper_.floating-label]:bg-[#FFE6E6]"
+      "[&_.password-field-wrapper]:bg-[#FFE6E6] [&_.password-field-wrapper]:border-transparent text-[#E73B3B]",
+      "[&_.password-field-wrapper>input]:placeholder:text-[#E73B3B]",
+      floating == "outer" && "[&_.password-field-wrapper_.floating-label]:bg-[#FFE6E6]"
     ]
   end
 
   defp color_variant("unbordered", "info", floating) do
     [
-      "[&_.text-field-wrapper]:bg-[#E5F0FF] [&_.text-field-wrapper]:border-transparent text-[#004FC4]",
-      "[&_.text-field-wrapper>input]:placeholder:text-[#004FC4]",
-      floating == "outer" && "[&_.text-field-wrapper_.floating-label]:bg-[#E5F0FF]"
+      "[&_.password-field-wrapper]:bg-[#E5F0FF] [&_.password-field-wrapper]:border-transparent text-[#004FC4]",
+      "[&_.password-field-wrapper>input]:placeholder:text-[#004FC4]",
+      floating == "outer" && "[&_.password-field-wrapper_.floating-label]:bg-[#E5F0FF]"
     ]
   end
 
   defp color_variant("unbordered", "misc", floating) do
     [
-      "[&_.text-field-wrapper]:bg-[#FFE6FF] [&_.text-field-wrapper]:border-transparent text-[#52059C]",
-      "[&_.text-field-wrapper>input]:placeholder:text-[#52059C]",
-      floating == "outer" && "[&_.text-field-wrapper_.floating-label]:bg-[#FFE6FF]"
+      "[&_.password-field-wrapper]:bg-[#FFE6FF] [&_.password-field-wrapper]:border-transparent text-[#52059C]",
+      "[&_.password-field-wrapper>input]:placeholder:text-[#52059C]",
+      floating == "outer" && "[&_.password-field-wrapper_.floating-label]:bg-[#FFE6FF]"
     ]
   end
 
   defp color_variant("unbordered", "dawn", floating) do
     [
-      "[&_.text-field-wrapper]:bg-[#FFECDA] [&_.text-field-wrapper]:border-transparent text-[#4D4137]",
-      "[&_.text-field-wrapper>input]:placeholder:text-[#4D4137]",
-      floating == "outer" && "[&_.text-field-wrapper_.floating-label]:bg-[#FFECDA]"
+      "[&_.password-field-wrapper]:bg-[#FFECDA] [&_.password-field-wrapper]:border-transparent text-[#4D4137]",
+      "[&_.password-field-wrapper>input]:placeholder:text-[#4D4137]",
+      floating == "outer" && "[&_.password-field-wrapper_.floating-label]:bg-[#FFECDA]"
     ]
   end
 
   defp color_variant("unbordered", "light", floating) do
     [
-      "[&_.text-field-wrapper]:bg-[#E3E7F1] [&_.text-field-wrapper]:border-transparent text-[#707483]",
-      "[&_.text-field-wrapper>input]:placeholder:text-[#707483]",
-      floating == "outer" && "[&_.text-field-wrapper_.floating-label]:bg-[#E3E7F1]"
+      "[&_.password-field-wrapper]:bg-[#E3E7F1] [&_.password-field-wrapper]:border-transparent text-[#707483]",
+      "[&_.password-field-wrapper>input]:placeholder:text-[#707483]",
+      floating == "outer" && "[&_.password-field-wrapper_.floating-label]:bg-[#E3E7F1]"
     ]
   end
 
   defp color_variant("unbordered", "dark", floating) do
     [
-      "[&_.text-field-wrapper]:bg-[#1E1E1E] text-[#1E1E1E] [&_.text-field-wrapper]:border-transparent text-white",
-      "[&_.text-field-wrapper>input]:placeholder:text-white",
-      floating == "outer" && "[&_.text-field-wrapper_.floating-label]:bg-[#1E1E1E]"
+      "[&_.password-field-wrapper]:bg-[#1E1E1E] text-[#1E1E1E] [&_.password-field-wrapper]:border-transparent text-white",
+      "[&_.password-field-wrapper>input]:placeholder:text-white",
+      floating == "outer" && "[&_.password-field-wrapper_.floating-label]:bg-[#1E1E1E]"
     ]
   end
 
   defp color_variant("shadow", "white", floating) do
     [
-      "[&_.text-field-wrapper]:bg-white text-[#3E3E3E] [&_.text-field-wrapper:not(:has(.text-field-error))]:border-[#DADADA]",
-      "[&_.text-field-wrapper.text-field-error]:border-rose-700",
-      "[&_.text-field-wrapper]:shadow [&_.text-field-wrapper>input]:placeholder:text-[#3E3E3E]",
-      floating == "outer" && "[&_.text-field-wrapper_.floating-label]:bg-[#3E3E3E]"
+      "[&_.password-field-wrapper]:bg-white text-[#3E3E3E] [&_.password-field-wrapper:not(:has(.password-field-error))]:border-[#DADADA]",
+      "[&_.password-field-wrapper.password-field-error]:border-rose-700",
+      "[&_.password-field-wrapper]:shadow [&_.password-field-wrapper>input]:placeholder:text-[#3E3E3E]",
+      floating == "outer" && "[&_.password-field-wrapper_.floating-label]:bg-[#3E3E3E]"
     ]
   end
 
   defp color_variant("shadow", "primary", floating) do
     [
-      "[&_.text-field-wrapper]:bg-[#4363EC] text-[#4363EC] [&_.text-field-wrapper:not(:has(.text-field-error))]:border-[#4363EC]",
-      "[&_.text-field-wrapper.text-field-error]:border-rose-700",
-      "[&_.text-field-wrapper]:shadow [&_.text-field-wrapper>input]:placeholder:text-white",
-      floating == "outer" && "[&_.text-field-wrapper_.floating-label]:bg-[#3E3E3E]"
+      "[&_.password-field-wrapper]:bg-[#4363EC] text-[#4363EC] [&_.password-field-wrapper:not(:has(.password-field-error))]:border-[#4363EC]",
+      "[&_.password-field-wrapper.password-field-error]:border-rose-700",
+      "[&_.password-field-wrapper]:shadow [&_.password-field-wrapper>input]:placeholder:text-white",
+      floating == "outer" && "[&_.password-field-wrapper_.floating-label]:bg-[#3E3E3E]"
     ]
   end
 
   defp color_variant("shadow", "secondary", floating) do
     [
-      "[&_.text-field-wrapper]:bg-[#6B6E7C] text-[#6B6E7C] [&_.text-field-wrapper:not(:has(.text-field-error))]:border-[#6B6E7C]",
-      "[&_.text-field-wrapper.text-field-error]:border-rose-700",
-      "[&_.text-field-wrapper]:shadow [&_.text-field-wrapper>input]:placeholder:text-white",
-      floating == "outer" && "[&_.text-field-wrapper_.floating-label]:bg-[#6B6E7C]"
+      "[&_.password-field-wrapper]:bg-[#6B6E7C] text-[#6B6E7C] [&_.password-field-wrapper:not(:has(.password-field-error))]:border-[#6B6E7C]",
+      "[&_.password-field-wrapper.password-field-error]:border-rose-700",
+      "[&_.password-field-wrapper]:shadow [&_.password-field-wrapper>input]:placeholder:text-white",
+      floating == "outer" && "[&_.password-field-wrapper_.floating-label]:bg-[#6B6E7C]"
     ]
   end
 
   defp color_variant("shadow", "success", floating) do
     [
-      "[&_.text-field-wrapper]:bg-[#ECFEF3] text-[#227A52] [&_.text-field-wrapper:not(:has(.text-field-error))]:border-[#047857]",
-      "[&_.text-field-wrapper.text-field-error]:border-rose-700",
-      "[&_.text-field-wrapper]:shadow [&_.text-field-wrapper>input]:placeholder:text-[#047857]",
-      floating == "outer" && "[&_.text-field-wrapper_.floating-label]:bg-[#ECFEF3]"
+      "[&_.password-field-wrapper]:bg-[#ECFEF3] text-[#227A52] [&_.password-field-wrapper:not(:has(.password-field-error))]:border-[#047857]",
+      "[&_.password-field-wrapper.password-field-error]:border-rose-700",
+      "[&_.password-field-wrapper]:shadow [&_.password-field-wrapper>input]:placeholder:text-[#047857]",
+      floating == "outer" && "[&_.password-field-wrapper_.floating-label]:bg-[#ECFEF3]"
     ]
   end
 
   defp color_variant("shadow", "warning", floating) do
     [
-      "[&_.text-field-wrapper]:bg-[#FFF8E6] text-[#FF8B08] [&_.text-field-wrapper:not(:has(.text-field-error))]:border-[#FFF8E6]",
-      "[&_.text-field-wrapper.text-field-error]:border-rose-700",
-      "[&_.text-field-wrapper]:shadow [&_.text-field-wrapper>input]:placeholder:text-[#FF8B08]",
-      floating == "outer" && "[&_.text-field-wrapper_.floating-label]:bg-[#FFF8E6]"
+      "[&_.password-field-wrapper]:bg-[#FFF8E6] text-[#FF8B08] [&_.password-field-wrapper:not(:has(.password-field-error))]:border-[#FFF8E6]",
+      "[&_.password-field-wrapper.password-field-error]:border-rose-700",
+      "[&_.password-field-wrapper]:shadow [&_.password-field-wrapper>input]:placeholder:text-[#FF8B08]",
+      floating == "outer" && "[&_.password-field-wrapper_.floating-label]:bg-[#FFF8E6]"
     ]
   end
 
   defp color_variant("shadow", "danger", floating) do
     [
-      "[&_.text-field-wrapper]:bg-[#FFE6E6] text-[#E73B3B] [&_.text-field-wrapper:not(:has(.text-field-error))]:border-[#FFE6E6]",
-      "[&_.text-field-wrapper.text-field-error]:border-rose-700",
-      "[&_.text-field-wrapper]:shadow [&_.text-field-wrapper>input]:placeholder:text-[#E73B3B]",
-      floating == "outer" && "[&_.text-field-wrapper_.floating-label]:bg-[#FFE6E6]"
+      "[&_.password-field-wrapper]:bg-[#FFE6E6] text-[#E73B3B] [&_.password-field-wrapper:not(:has(.password-field-error))]:border-[#FFE6E6]",
+      "[&_.password-field-wrapper.password-field-error]:border-rose-700",
+      "[&_.password-field-wrapper]:shadow [&_.password-field-wrapper>input]:placeholder:text-[#E73B3B]",
+      floating == "outer" && "[&_.password-field-wrapper_.floating-label]:bg-[#FFE6E6]"
     ]
   end
 
   defp color_variant("shadow", "info", floating) do
     [
-      "[&_.text-field-wrapper]:bg-[#E5F0FF] text-[#004FC4] [&_.text-field-wrapper:not(:has(.text-field-error))]:border-[#E5F0FF]",
-      "[&_.text-field-wrapper.text-field-error]:border-rose-700",
-      "[&_.text-field-wrapper]:shadow [&_.text-field-wrapper>input]:placeholder:text-[#004FC4]",
-      floating == "outer" && "[&_.text-field-wrapper_.floating-label]:bg-[#E5F0FF]"
+      "[&_.password-field-wrapper]:bg-[#E5F0FF] text-[#004FC4] [&_.password-field-wrapper:not(:has(.password-field-error))]:border-[#E5F0FF]",
+      "[&_.password-field-wrapper.password-field-error]:border-rose-700",
+      "[&_.password-field-wrapper]:shadow [&_.password-field-wrapper>input]:placeholder:text-[#004FC4]",
+      floating == "outer" && "[&_.password-field-wrapper_.floating-label]:bg-[#E5F0FF]"
     ]
   end
 
   defp color_variant("shadow", "misc", floating) do
     [
-      "[&_.text-field-wrapper]:bg-[#FFE6FF] text-[#52059C] [&_.text-field-wrapper:not(:has(.text-field-error))]:border-[#FFE6FF]",
-      "[&_.text-field-wrapper.text-field-error]:border-rose-700",
-      "[&_.text-field-wrapper]:shadow [&_.text-field-wrapper>input]:placeholder:text-[#52059C]",
-      floating == "outer" && "[&_.text-field-wrapper_.floating-label]:bg-[#FFE6FF]"
+      "[&_.password-field-wrapper]:bg-[#FFE6FF] text-[#52059C] [&_.password-field-wrapper:not(:has(.password-field-error))]:border-[#FFE6FF]",
+      "[&_.password-field-wrapper.password-field-error]:border-rose-700",
+      "[&_.password-field-wrapper]:shadow [&_.password-field-wrapper>input]:placeholder:text-[#52059C]",
+      floating == "outer" && "[&_.password-field-wrapper_.floating-label]:bg-[#FFE6FF]"
     ]
   end
 
   defp color_variant("shadow", "dawn", floating) do
     [
-      "[&_.text-field-wrapper]:bg-[#FFECDA] text-[#4D4137] [&_.text-field-wrapper:not(:has(.text-field-error))]:border-[#FFECDA]",
-      "[&_.text-field-wrapper.text-field-error]:border-rose-700",
-      "[&_.text-field-wrapper]:shadow [&_.text-field-wrapper>input]:placeholder:text-[#4D4137]",
-      floating == "outer" && "[&_.text-field-wrapper_.floating-label]:bg-[#FFECDA]"
+      "[&_.password-field-wrapper]:bg-[#FFECDA] text-[#4D4137] [&_.password-field-wrapper:not(:has(.password-field-error))]:border-[#FFECDA]",
+      "[&_.password-field-wrapper.password-field-error]:border-rose-700",
+      "[&_.password-field-wrapper]:shadow [&_.password-field-wrapper>input]:placeholder:text-[#4D4137]",
+      floating == "outer" && "[&_.password-field-wrapper_.floating-label]:bg-[#FFECDA]"
     ]
   end
 
   defp color_variant("shadow", "light", floating) do
     [
-      "[&_.text-field-wrapper]:bg-[#E3E7F1] text-[#707483] [&_.text-field-wrapper:not(:has(.text-field-error))]:border-[#E3E7F1]",
-      "[&_.text-field-wrapper.text-field-error]:border-rose-700",
-      "[&_.text-field-wrapper]:shadow [&_.text-field-wrapper>input]:placeholder:text-[#707483]",
-      floating == "outer" && "[&_.text-field-wrapper_.floating-label]:bg-[#E3E7F1]"
+      "[&_.password-field-wrapper]:bg-[#E3E7F1] text-[#707483] [&_.password-field-wrapper:not(:has(.password-field-error))]:border-[#E3E7F1]",
+      "[&_.password-field-wrapper.password-field-error]:border-rose-700",
+      "[&_.password-field-wrapper]:shadow [&_.password-field-wrapper>input]:placeholder:text-[#707483]",
+      floating == "outer" && "[&_.password-field-wrapper_.floating-label]:bg-[#E3E7F1]"
     ]
   end
 
   defp color_variant("shadow", "dark", floating) do
     [
-      "[&_.text-field-wrapper]:bg-[#1E1E1E] text-[#1E1E1E] [&_.text-field-wrapper:not(:has(.text-field-error))]:border-[#1E1E1E]",
-      "[&_.text-field-wrapper.text-field-error]:border-rose-700",
-      "[&_.text-field-wrapper]:shadow [&_.text-field-wrapper>input]:placeholder:text-white",
-      floating == "outer" && "[&_.text-field-wrapper_.floating-label]:bg-[#1E1E1E]"
+      "[&_.password-field-wrapper]:bg-[#1E1E1E] text-[#1E1E1E] [&_.password-field-wrapper:not(:has(.password-field-error))]:border-[#1E1E1E]",
+      "[&_.password-field-wrapper.password-field-error]:border-rose-700",
+      "[&_.password-field-wrapper]:shadow [&_.password-field-wrapper>input]:placeholder:text-white",
+      floating == "outer" && "[&_.password-field-wrapper_.floating-label]:bg-[#1E1E1E]"
     ]
   end
 
   defp color_variant("transparent", "white", _) do
     [
-      "[&_.text-field-wrapper]:bg-transparent text-[#DADADA] [&_.text-field-wrapper]:border-transparent",
-      "[&_.text-field-wrapper>input]:placeholder:text-[#DADADA]",
-      "focus-within:[&_.text-field-wrapper]:ring-transparent"
+      "[&_.password-field-wrapper]:bg-transparent text-[#DADADA] [&_.password-field-wrapper]:border-transparent",
+      "[&_.password-field-wrapper>input]:placeholder:text-[#DADADA]",
+      "focus-within:[&_.password-field-wrapper]:ring-transparent"
     ]
   end
 
   defp color_variant("transparent", "primary", _) do
     [
-      "[&_.text-field-wrapper]:bg-transparent text-[#4363EC] [&_.text-field-wrapper]:border-transparent",
-      "[&_.text-field-wrapper>input]:placeholder:text-[#4363EC]",
-      "focus-within:[&_.text-field-wrapper]:ring-transparent"
+      "[&_.password-field-wrapper]:bg-transparent text-[#4363EC] [&_.password-field-wrapper]:border-transparent",
+      "[&_.password-field-wrapper>input]:placeholder:text-[#4363EC]",
+      "focus-within:[&_.password-field-wrapper]:ring-transparent"
     ]
   end
 
   defp color_variant("transparent", "secondary", _) do
     [
-      "[&_.text-field-wrapper]:bg-transparent text-[#6B6E7C] [&_.text-field-wrapper]:border-transparent",
-      "[&_.text-field-wrapper>input]:placeholder:text-[#6B6E7C]",
-      "focus-within:[&_.text-field-wrapper]:ring-transparent"
+      "[&_.password-field-wrapper]:bg-transparent text-[#6B6E7C] [&_.password-field-wrapper]:border-transparent",
+      "[&_.password-field-wrapper>input]:placeholder:text-[#6B6E7C]",
+      "focus-within:[&_.password-field-wrapper]:ring-transparent"
     ]
   end
 
   defp color_variant("transparent", "success", _) do
     [
-      "[&_.text-field-wrapper]:bg-transparent text-[#047857] [&_.text-field-wrapper]:border-transparent",
-      "[&_.text-field-wrapper>input]:placeholder:text-[#047857]",
-      "focus-within:[&_.text-field-wrapper]:ring-transparent"
+      "[&_.password-field-wrapper]:bg-transparent text-[#047857] [&_.password-field-wrapper]:border-transparent",
+      "[&_.password-field-wrapper>input]:placeholder:text-[#047857]",
+      "focus-within:[&_.password-field-wrapper]:ring-transparent"
     ]
   end
 
   defp color_variant("transparent", "warning", _) do
     [
-      "[&_.text-field-wrapper]:bg-transparent text-[#FF8B08] [&_.text-field-wrapper]:border-transparent",
-      "[&_.text-field-wrapper>input]:placeholder:text-[#FF8B08]",
-      "focus-within:[&_.text-field-wrapper]:ring-transparent"
+      "[&_.password-field-wrapper]:bg-transparent text-[#FF8B08] [&_.password-field-wrapper]:border-transparent",
+      "[&_.password-field-wrapper>input]:placeholder:text-[#FF8B08]",
+      "focus-within:[&_.password-field-wrapper]:ring-transparent"
     ]
   end
 
   defp color_variant("transparent", "danger", _) do
     [
-      "[&_.text-field-wrapper]:bg-transparent text-[#E73B3B] [&_.text-field-wrapper]:border-transparent",
-      "[&_.text-field-wrapper>input]:placeholder:text-[#E73B3B]",
-      "focus-within:[&_.text-field-wrapper]:ring-transparent"
+      "[&_.password-field-wrapper]:bg-transparent text-[#E73B3B] [&_.password-field-wrapper]:border-transparent",
+      "[&_.password-field-wrapper>input]:placeholder:text-[#E73B3B]",
+      "focus-within:[&_.password-field-wrapper]:ring-transparent"
     ]
   end
 
   defp color_variant("transparent", "info", _) do
     [
-      "[&_.text-field-wrapper]:bg-transparent text-[#004FC4] [&_.text-field-wrapper]:border-transparent",
-      "[&_.text-field-wrapper>input]:placeholder:text-[#004FC4]",
-      "focus-within:[&_.text-field-wrapper]:ring-transparent"
+      "[&_.password-field-wrapper]:bg-transparent text-[#004FC4] [&_.password-field-wrapper]:border-transparent",
+      "[&_.password-field-wrapper>input]:placeholder:text-[#004FC4]",
+      "focus-within:[&_.password-field-wrapper]:ring-transparent"
     ]
   end
 
   defp color_variant("transparent", "misc", _) do
     [
-      "[&_.text-field-wrapper]:bg-transparent text-[#52059C] [&_.text-field-wrapper]:border-transparent",
-      "[&_.text-field-wrapper>input]:placeholder:text-[#52059C]",
-      "focus-within:[&_.text-field-wrapper]:ring-transparent"
+      "[&_.password-field-wrapper]:bg-transparent text-[#52059C] [&_.password-field-wrapper]:border-transparent",
+      "[&_.password-field-wrapper>input]:placeholder:text-[#52059C]",
+      "focus-within:[&_.password-field-wrapper]:ring-transparent"
     ]
   end
 
   defp color_variant("transparent", "dawn", _) do
     [
-      "[&_.text-field-wrapper]:bg-transparent text-[#4D4137] [&_.text-field-wrapper]:border-transparent",
-      "[&_.text-field-wrapper>input]:placeholder:text-[#4D4137]",
-      "focus-within:[&_.text-field-wrapper]:ring-transparent"
+      "[&_.password-field-wrapper]:bg-transparent text-[#4D4137] [&_.password-field-wrapper]:border-transparent",
+      "[&_.password-field-wrapper>input]:placeholder:text-[#4D4137]",
+      "focus-within:[&_.password-field-wrapper]:ring-transparent"
     ]
   end
 
   defp color_variant("transparent", "light", _) do
     [
-      "[&_.text-field-wrapper]:bg-transparent text-[#707483] [&_.text-field-wrapper]:border-transparent",
-      "[&_.text-field-wrapper>input]:placeholder:text-[#707483]",
-      "focus-within:[&_.text-field-wrapper]:ring-transparent"
+      "[&_.password-field-wrapper]:bg-transparent text-[#707483] [&_.password-field-wrapper]:border-transparent",
+      "[&_.password-field-wrapper>input]:placeholder:text-[#707483]",
+      "focus-within:[&_.password-field-wrapper]:ring-transparent"
     ]
   end
 
   defp color_variant("transparent", "dark", _) do
     [
-      "[&_.text-field-wrapper]:bg-transparent text-[#1E1E1E] [&_.text-field-wrapper]:border-transparent",
-      "[&_.text-field-wrapper>input]:placeholder:text-[#1E1E1E]",
-      "focus-within:[&_.text-field-wrapper]:ring-transparent"
+      "[&_.password-field-wrapper]:bg-transparent text-[#1E1E1E] [&_.password-field-wrapper]:border-transparent",
+      "[&_.password-field-wrapper>input]:placeholder:text-[#1E1E1E]",
+      "focus-within:[&_.password-field-wrapper]:ring-transparent"
     ]
   end
 end

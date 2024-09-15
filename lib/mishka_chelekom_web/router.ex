@@ -75,6 +75,7 @@ defmodule MishkaChelekomWeb.Router do
     live "/examples/devices", Examples.DeviceMockupLive
     live "/examples/text-input", Examples.TextFieldLive
     live "/examples/password-field", Examples.PasswordFieldLive
+    live "/examples/email-field", Examples.EmailFieldLive
 
     live "/examples/user-form", Examples.UserFormLive
   end

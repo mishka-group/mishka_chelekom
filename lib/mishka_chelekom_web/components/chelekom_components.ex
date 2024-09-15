@@ -29,6 +29,7 @@ defmodule MishkaChelekomComponents do
         Indicator,
         TextField,
         PasswordField,
+        EmailField,
         Jumbotron,
         Keyboard,
         List,
