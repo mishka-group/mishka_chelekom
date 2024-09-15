@@ -94,21 +94,12 @@ defmodule MishkaChelekom.CheckboxField do
     """
   end
 
-  defp size_class("extra_small"),
-    do: "[&_.checkbox-field-wrapper_input]:size-2.5"
-
-  defp size_class("small"),
-    do: "[&_.checkbox-field-wrapper_input]:size-3"
-
-  defp size_class("medium"),
-    do: "[&_.checkbox-field-wrapper_input]:size-3.5"
-
-  defp size_class("large"),
-    do: "[&_.checkbox-field-wrapper_input]:size-4"
-
-  defp size_class("extra_large"),
-    do: "[&_.checkbox-field-wrapper_input]:size-5"
-
+  defp size_class("extra_small"), do: "[&_.checkbox-field-wrapper_input]:size-2.5"
+  defp size_class("small"),do: "[&_.checkbox-field-wrapper_input]:size-3"
+  defp size_class("medium"), do: "[&_.checkbox-field-wrapper_input]:size-3.5"
+  defp size_class("large"),do: "[&_.checkbox-field-wrapper_input]:size-4"
+  defp size_class("extra_large"), do: "[&_.checkbox-field-wrapper_input]:size-5"
+  defp size_class(params) when is_binary(params), do: params
   defp size_class(_), do: size_class("medium")
 
   defp rounded_size("extra_small"), do: "[&_.checkbox-field-wrapper_.checkbox-input]:rounded-sm"

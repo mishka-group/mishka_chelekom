@@ -226,6 +226,7 @@ defmodule MishkaChelekom.EmailField do
   defp size_class("extra_large"),
     do: "[&_.email-field-wrapper_input]:h-12 [&_.email-field-wrapper_.password-field-icon]:size-6"
 
+  defp size_class(params) when is_binary(params), do: params
   defp size_class(_), do: size_class("medium")
 
   defp rounded_size("extra_small"), do: "[&_.email-field-wrapper]:rounded-sm"
@@ -234,6 +235,7 @@ defmodule MishkaChelekom.EmailField do
   defp rounded_size("large"), do: "[&_.email-field-wrapper]:rounded-lg"
   defp rounded_size("extra_large"), do: "[&_.email-field-wrapper]:rounded-xl"
   defp rounded_size("full"), do: "[&_.email-field-wrapper]:rounded-full"
+  defp rounded_size(params) when is_binary(params), do: params
   defp rounded_size(_), do: "[&_.email-field-wrapper]:rounded-none"
 
   defp border_class("none"), do: "[&_.email-field-wrapper]:border-0"
