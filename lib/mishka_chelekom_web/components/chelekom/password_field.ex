@@ -53,7 +53,7 @@ defmodule MishkaChelekom.PasswordField do
   end
 
   def password_field(%{floating: floating} = assigns) when floating in ["inner", "outer"] do
-    assigns = assign(assigns, field: nil, id: assigns.id || random_id())
+    assigns = assign(assigns, field: nil, id: assigns.id || random_id() <> "password-field")
 
     ~H"""
     <div class={[
@@ -131,7 +131,7 @@ defmodule MishkaChelekom.PasswordField do
   end
 
   def password_field(assigns) do
-    assigns = assign(assigns, field: nil, id: assigns.id || random_id())
+    assigns = assign(assigns, field: nil, id: assigns.id || random_id() <> "password-field")
 
     ~H"""
     <div class={[
