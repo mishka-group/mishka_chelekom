@@ -31,6 +31,7 @@ defmodule MishkaChelekomComponents do
         PasswordField,
         EmailField,
         NumberField,
+        ColorField,
         Jumbotron,
         Keyboard,
         List,
