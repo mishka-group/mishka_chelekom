@@ -13,7 +13,8 @@ defmodule MishkaChelekom.NumberField do
   attr :space, :string, default: "medium", doc: ""
   attr :size, :string, default: "extra_large", doc: ""
   attr :ring, :boolean, default: true, doc: ""
-  attr :hide_arrows, :boolean, default: false, doc: ""
+  attr :hide_controls, :boolean, default: false, doc: ""
+  attr :fixed_controls, :boolean, default: false, doc: ""
   attr :floating, :string, default: "none", doc: "none, inner, outer"
   attr :error_icon, :string, default: nil, doc: ""
   attr :label, :string, default: nil
@@ -86,8 +87,9 @@ defmodule MishkaChelekom.NumberField do
             class={[
               "disabled:opacity-80 block w-full z-[2] focus:ring-0 placeholder:text-transparent pb-1 pt-2.5 px-2",
               "text-sm appearance-none bg-transparent border-0 focus:outline-none peer",
-              @hide_arrows &&
-                "[appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+              @fixed_controls && "[&::-webkit-outer-spin-button]:opacity-100 [&::-webkit-inner-spin-button]:opacity-100",
+              @hide_controls &&
+                "[appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none",
             ]}
             placeholder=" "
             {@rest}
@@ -157,7 +159,8 @@ defmodule MishkaChelekom.NumberField do
           class={[
             "flex-1 py-1 px-2 text-sm disabled:opacity-80 block w-full appearance-none",
             "bg-transparent border-0 focus:outline-none focus:ring-0",
-            @hide_arrows &&
+            @fixed_controls && "[&::-webkit-outer-spin-button]:opacity-100 [&::-webkit-inner-spin-button]:opacity-100",
+            @hide_controls &&
               "[appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
           ]}
           {@rest}
