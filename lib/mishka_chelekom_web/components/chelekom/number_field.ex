@@ -86,7 +86,8 @@ defmodule MishkaChelekom.NumberField do
             class={[
               "disabled:opacity-80 block w-full z-[2] focus:ring-0 placeholder:text-transparent pb-1 pt-2.5 px-2",
               "text-sm appearance-none bg-transparent border-0 focus:outline-none peer",
-              @hide_arrows && "[appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+              @hide_arrows &&
+                "[appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
             ]}
             placeholder=" "
             {@rest}
@@ -156,7 +157,8 @@ defmodule MishkaChelekom.NumberField do
           class={[
             "flex-1 py-1 px-2 text-sm disabled:opacity-80 block w-full appearance-none",
             "bg-transparent border-0 focus:outline-none focus:ring-0",
-            @hide_arrows && "[appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+            @hide_arrows &&
+              "[appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
           ]}
           {@rest}
         />
@@ -208,26 +210,30 @@ defmodule MishkaChelekom.NumberField do
 
   defp variant_label_position("inner") do
     [
-     "-translate-y-4 scale-75 top-4 origin-[0] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0",
-     "peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto"
+      "-translate-y-4 scale-75 top-4 origin-[0] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0",
+      "peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto"
     ]
   end
 
   defp size_class("extra_small"),
-    do: "[&_.number-field-wrapper_input]:h-7 [&_.number-field-wrapper_.password-field-icon]:size-3"
+    do:
+      "[&_.number-field-wrapper_input]:h-7 [&_.number-field-wrapper_.password-field-icon]:size-3"
 
   defp size_class("small"),
     do:
       "[&_.number-field-wrapper_input]:h-8 [&_.number-field-wrapper_.password-field-icon]:size-3.5"
 
   defp size_class("medium"),
-    do: "[&_.number-field-wrapper_input]:h-9 [&_.number-field-wrapper_.password-field-icon]:size-4"
+    do:
+      "[&_.number-field-wrapper_input]:h-9 [&_.number-field-wrapper_.password-field-icon]:size-4"
 
   defp size_class("large"),
-    do: "[&_.number-field-wrapper_input]:h-10 [&_.number-field-wrapper_.password-field-icon]:size-5"
+    do:
+      "[&_.number-field-wrapper_input]:h-10 [&_.number-field-wrapper_.password-field-icon]:size-5"
 
   defp size_class("extra_large"),
-    do: "[&_.number-field-wrapper_input]:h-11 [&_.number-field-wrapper_.password-field-icon]:size-6"
+    do:
+      "[&_.number-field-wrapper_input]:h-11 [&_.number-field-wrapper_.password-field-icon]:size-6"
 
   defp size_class(_), do: size_class("medium")
 
