@@ -79,6 +79,7 @@ defmodule MishkaChelekomWeb.Router do
     live "/examples/number-field", Examples.NumberFieldLive
     live "/examples/color-field", Examples.ColorFieldLive
     live "/examples/tel-field", Examples.TelFieldLive
+    live "/examples/url-field", Examples.UrlFieldLive
 
     live "/examples/user-form", Examples.UserFormLive
   end

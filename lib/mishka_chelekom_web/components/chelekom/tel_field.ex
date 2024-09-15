@@ -34,7 +34,7 @@ defmodule MishkaChelekom.TelField do
   attr :field, Phoenix.HTML.FormField,
     doc: "a form field struct retrieved from the form, for example: @form[:email]"
 
-  attr :rest, :global, include: ~w(autocomplete disabled form list min max pattern placeholder
+  attr :rest, :global, include: ~w(autocomplete disabled form list maxlength minlength pattern placeholder
         readonly required size inputmode inputmode step title autofocus)
 
   @spec tel_field(map()) :: Phoenix.LiveView.Rendered.t()
