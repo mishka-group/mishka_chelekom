@@ -1,4 +1,4 @@
-defmodule MishkaChelekom.NumberField do
+defmodule MishkaChelekom.TelField do
   use Phoenix.Component
   import MishkaChelekomComponents
 

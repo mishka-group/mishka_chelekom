@@ -39,7 +39,7 @@ defmodule MishkaChelekom.PasswordField do
 
   attr :rest, :global,
     include: ~w(autocomplete disabled form maxlength minlength pattern placeholder
-        readonly required size spellcheck inputmode title)
+        readonly required size spellcheck inputmode title autofocus)
 
   @spec password_field(map()) :: Phoenix.LiveView.Rendered.t()
   def password_field(%{field: %Phoenix.HTML.FormField{} = field} = assigns) do

@@ -36,7 +36,7 @@ defmodule MishkaChelekom.TextField do
 
   attr :rest, :global,
     include: ~w(autocomplete disabled form list maxlength minlength pattern placeholder
-        readonly required size spellcheck inputmode title)
+        readonly required size spellcheck inputmode title autofocus)
 
   @spec text_field(map()) :: Phoenix.LiveView.Rendered.t()
   def text_field(%{field: %Phoenix.HTML.FormField{} = field} = assigns) do
