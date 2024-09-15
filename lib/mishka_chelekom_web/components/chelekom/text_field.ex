@@ -7,7 +7,6 @@ defmodule MishkaChelekom.TextField do
   attr :class, :string, default: nil, doc: ""
   attr :color, :string, default: "light", doc: ""
   attr :border, :string, default: "extra_small", doc: ""
-  attr :padding, :string, default: "none", doc: ""
   attr :rounded, :string, default: "small", doc: ""
   attr :variant, :string, default: "outline", doc: ""
   attr :description, :string, default: nil, doc: ""
@@ -39,6 +38,7 @@ defmodule MishkaChelekom.TextField do
     include:
       ~w(autocomplete disabled form list maxlength minlength pattern placeholder readonly required size)
 
+  @spec text_field(map()) :: Phoenix.LiveView.Rendered.t()
   def text_field(%{field: %Phoenix.HTML.FormField{} = field} = assigns) do
     errors = if Phoenix.Component.used_input?(field), do: field.errors, else: []
 
@@ -152,7 +152,7 @@ defmodule MishkaChelekom.TextField do
           id={@id}
           value={@value}
           class={[
-            "flex-1 py-1 px-2 text-sm disabled:neutral-200 block w-full appearance-none",
+            "flex-1 py-1 px-2 text-sm disabled:opacity-80 block w-full appearance-none",
             "bg-transparent border-0 focus:outline-none focus:ring-0"
           ]}
           {@rest}
