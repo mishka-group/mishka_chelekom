@@ -1,6 +1,8 @@
 defmodule MishkaChelekom.PasswordField do
   use Phoenix.Component
   import MishkaChelekomComponents
+  alias Phoenix.LiveView.JS
+  import Phoenix.LiveView.Utils, only: [random_id: 0]
 
   @doc type: :component
   attr :id, :string, default: nil, doc: ""
@@ -44,13 +46,15 @@ defmodule MishkaChelekom.PasswordField do
     errors = if Phoenix.Component.used_input?(field), do: field.errors, else: []
 
     assigns
-    |> assign(field: nil, id: assigns.id || field.id)
+    |> assign(field: nil, id: assigns.id || field.id || random_id())
     |> assign(:errors, Enum.map(errors, &translate_error(&1)))
     |> assign_new(:value, fn -> field.value end)
     |> password_field()
   end
 
   def password_field(%{floating: floating} = assigns) when floating in ["inner", "outer"] do
+    assigns = assign(assigns, field: nil, id: assigns.id || random_id())
+
     ~H"""
     <div class={[
       color_variant(@variant, @color, @floating),
@@ -87,7 +91,6 @@ defmodule MishkaChelekom.PasswordField do
               "block disabled:opacity-80 block w-full z-[2] focus:ring-0 placeholder:text-transparent py-1 px-2",
               "text-sm disabled:opacity-80 w-full appearance-none bg-transparent border-0 focus:outline-none peer"
             ]}
-            placeholder=" "
             {@rest}
           />
 
@@ -113,7 +116,12 @@ defmodule MishkaChelekom.PasswordField do
           class={["flex items-center justify-center shrink-0 pe-2 h-[inherit]", @end_section[:class]]}
         >
           <%!-- TODO: Add ability to change icon to hero-eye whn it clicked --%>
-          <button><.icon name="hero-eye-slash" class="password-field-icon" /></button>
+          <button phx-click={
+            JS.toggle_class("hero-eye-slash")
+            |> JS.toggle_attribute({"type", "password", "text"}, to: "##{@id}")
+          }>
+            <.icon name="hero-eye" class="password-field-icon" />
+          </button>
         </div>
       </div>
 
@@ -123,6 +131,8 @@ defmodule MishkaChelekom.PasswordField do
   end
 
   def password_field(assigns) do
+    assigns = assign(assigns, field: nil, id: assigns.id || random_id())
+
     ~H"""
     <div class={[
       color_variant(@variant, @color, @floating),
@@ -178,7 +188,12 @@ defmodule MishkaChelekom.PasswordField do
           class={["flex items-center justify-center shrink-0 pe-2 h-[inherit]", @end_section[:class]]}
         >
           <%!-- TODO: Add ability to change icon to hero-eye whn it clicked --%>
-          <button><.icon name="hero-eye-slash" class="password-field-icon" /></button>
+          <button phx-click={
+            JS.toggle_class("hero-eye-slash")
+            |> JS.toggle_attribute({"type", "password", "text"}, to: "##{@id}")
+          }>
+            <.icon name="hero-eye" class="password-field-icon" />
+          </button>
         </div>
       </div>
 

@@ -34,14 +34,14 @@ defmodule Mix.Tasks.Mishka.Ui.Component do
       # A list of environments that this should be installed in, only relevant if this is an installer.
       only: nil,
       # a list of positional arguments, i.e `[:file]`
-      positional: [],
+      positional: [:component],
       # Other tasks your task composes using `Igniter.compose_task`, passing in the CLI argv
       # This ensures your option schema includes options from nested tasks
       composes: [],
       # `OptionParser` schema
-      schema: [],
+      schema: [short_name: :string],
       # CLI aliases
-      aliases: []
+      aliases: [s: :short_name]
     }
   end
 
@@ -49,8 +49,8 @@ defmodule Mix.Tasks.Mishka.Ui.Component do
     # extract positional arguments according to `positional` above
     {arguments, argv} = positional_args!(argv)
     # extract options according to `schema` and `aliases` above
-    options = options!(argv)
-
+    _options = options!(argv)
+    IO.inspect(arguments)
     # Do your work here and return an updated igniter
     igniter
     |> Igniter.add_warning("mix mishka.ui.component is not yet implemented")
