@@ -84,6 +84,7 @@ defmodule MishkaChelekomWeb.Router do
     live "/examples/toggle-field", Examples.ToggleFieldLive
     live "/examples/radio-field", Examples.RadioFieldLive
     live "/examples/datetime-field", Examples.DateTimeFieldLive
+    live "/examples/range-field", Examples.RangeFieldLive
 
     live "/examples/user-form", Examples.UserFormLive
   end

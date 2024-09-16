@@ -46,7 +46,7 @@ defmodule MishkaChelekomComponents do
         Popover,
         Progress,
         RadioField,
-        RangeInput,
+        RangeField,
         Rating,
         SearchInput,
         SelectInput,

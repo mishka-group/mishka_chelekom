@@ -6,7 +6,7 @@ defmodule MishkaChelekom.DateTimeField do
   attr :id, :string, default: nil, doc: ""
   attr :class, :string, default: nil, doc: ""
   attr :color, :string, default: "light", doc: ""
-  attr :type, :string, default: "date", doc: "date, datetime-local, time, week, month"
+  attr :type, :string, values: ["date", "datetime-local", "time", "week", "month"], default: "date", doc: "date, datetime-local, time, week, month"
   attr :border, :string, default: "extra_small", doc: ""
   attr :rounded, :string, default: "small", doc: ""
   attr :variant, :string, default: "outline", doc: ""
@@ -36,8 +36,7 @@ defmodule MishkaChelekom.DateTimeField do
     doc: "a form field struct retrieved from the form, for example: @form[:email]"
 
   attr :rest, :global,
-    include: ~w(autocomplete disabled form list maxlength minlength pattern placeholder
-        readonly required size spellcheck inputmode title autofocus)
+    include: ~w(disabled form min max readonly required step autofocus)
 
   @spec date_time_field(map()) :: Phoenix.LiveView.Rendered.t()
   def date_time_field(%{field: %Phoenix.HTML.FormField{} = field} = assigns) do
