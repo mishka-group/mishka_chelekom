@@ -67,7 +67,6 @@ defmodule Mix.Tasks.Mishka.Ui.Component do
       Application.app_dir(:mishka_chelekom, ["priv", "templates"])
       |> Path.join("#{component}.eex")
 
-    owl =
       """
          ,_,
         {o,o}

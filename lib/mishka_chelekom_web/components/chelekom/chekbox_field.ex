@@ -53,7 +53,7 @@ defmodule MishkaChelekom.CheckboxField do
       @reverse && "[&_.checkbox-field-wrapper]:flex-row-reverse",
       @class
     ]}>
-      <.label class={["checkbox-field-wrapper flex items-center w-fit", @labe_class]} for={@id} }>
+      <.label class={["checkbox-field-wrapper flex items-center w-fit", @labe_class]} for={@id}}>
         <input
           type="checkbox"
           name={@name}
@@ -139,7 +139,7 @@ defmodule MishkaChelekom.CheckboxField do
   end
 
   attr :for, :string, default: nil
-  attr :class, :string, default: nil
+  attr :class, :list, default: nil
   slot :inner_block, required: true
 
   def label(assigns) do
