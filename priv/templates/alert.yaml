@@ -1,0 +1,9 @@
+name: "alert"
+args:
+  - "variant"
+  - "color"
+deps:
+  - "button"
+  - "xx"
+  - "yy"
+optional_deps: []
