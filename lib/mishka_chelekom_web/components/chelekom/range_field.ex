@@ -57,7 +57,7 @@ defmodule MishkaChelekom.RangeField do
           :for={{range_value, index} <- Enum.with_index(@range_value, 1)}
           id={"#{@id}-value-#{index}"}
           class={[
-            "absolute -bottom-6 text-sm",
+            "absolute block -bottom-10 text-sm",
             value_position(range_value[:position]),
             range_value[:class]
           ]}
@@ -103,7 +103,7 @@ defmodule MishkaChelekom.RangeField do
           :for={{range_value, index} <- Enum.with_index(@range_value, 1)}
           id={"#{@id}-value-#{index}"}
           class={[
-            "absolute -bottom-6 text-sm",
+            "absolute block -bottom-10 text-sm",
             value_position(range_value[:position]),
             range_value[:class]
           ]}
