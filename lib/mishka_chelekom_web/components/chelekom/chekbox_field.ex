@@ -53,8 +53,7 @@ defmodule MishkaChelekom.CheckboxField do
       @reverse && "[&_.checkbox-field-wrapper]:flex-row-reverse",
       @class
     ]}>
-
-      <.label class={["checkbox-field-wrapper flex items-center w-fit", @labe_class]} for={@id}}>
+      <.label class={["checkbox-field-wrapper flex items-center w-fit", @labe_class]} for={@id} }>
         <input
           type="checkbox"
           name={@name}
@@ -87,9 +86,10 @@ defmodule MishkaChelekom.CheckboxField do
   attr :errors, :list, default: []
   attr :name, :any
   attr :value, :any
+
   attr :rest, :global,
-  include:
-    ~w(autocomplete disabled form indeterminate multiple readonly required title autofocus)
+    include:
+      ~w(autocomplete disabled form indeterminate multiple readonly required title autofocus)
 
   slot :checkbox, required: true do
     attr :value, :string, required: true
@@ -116,11 +116,10 @@ defmodule MishkaChelekom.CheckboxField do
           size_class(@size),
           space_class(checkbox[:space]),
           @ring && "[&_.checkbox-field-wrapper_input]:focus-within:ring-1",
-          @reverse && "[&_.checkbox-field-wrapper]:flex-row-reverse",
+          @reverse && "[&_.checkbox-field-wrapper]:flex-row-reverse"
         ]}
       >
-
-      <.label class={"checkbox-field-wrapper flex items-center w-fit"} for={"#{@id}-#{index}"}>
+        <.label class="checkbox-field-wrapper flex items-center w-fit" for={"#{@id}-#{index}"}>
           <input
             type="checkbox"
             name={@name}
@@ -131,11 +130,11 @@ defmodule MishkaChelekom.CheckboxField do
             ]}
             {@rest}
           />
-        <span class="block"><%= render_slot(checkbox) %></span>
-      </.label>
+          <span class="block"><%= render_slot(checkbox) %></span>
+        </.label>
       </div>
     </div>
-      <.error :for={msg <- @errors} icon={@error_icon}><%= msg %></.error>
+    <.error :for={msg <- @errors} icon={@error_icon}><%= msg %></.error>
     """
   end
 
@@ -209,7 +208,7 @@ defmodule MishkaChelekom.CheckboxField do
   defp variation_gap("extra_large", "horizontal"), do: "space-x-5"
 
   defp variation_gap(_, params) when is_binary(params), do: params
-  defp variation_gap(_,_), do: variation_gap("medium", "vertical")
+  defp variation_gap(_, _), do: variation_gap("medium", "vertical")
 
   defp color_class("white") do
     [
