@@ -63,15 +63,15 @@ defmodule MishkaChelekom.ColorField do
       </div>
       <div class="color-field-wrapper">
         <input
-            type="color"
-            name={@name}
-            id={@id}
-            value={@value}
-            class={[
-              "color-input",
-            ]}
-            {@rest}
-          />
+          type="color"
+          name={@name}
+          id={@id}
+          value={@value}
+          class={[
+            "color-input"
+          ]}
+          {@rest}
+        />
       </div>
       <.error :for={msg <- @errors} icon={@error_icon}><%= msg %></.error>
     </div>
@@ -107,26 +107,31 @@ defmodule MishkaChelekom.ColorField do
       "[&_.color-field-wrapper_.color-input]:w-7 [&_.color-field-wrapper_.color-input]:h-4"
     ]
   end
+
   defp size_class("small") do
     [
       "[&_.color-field-wrapper_.color-input]:w-8 [&_.color-field-wrapper_.color-input]:h-5"
     ]
   end
+
   defp size_class("medium") do
     [
       "[&_.color-field-wrapper_.color-input]:w-9 [&_.color-field-wrapper_.color-input]:h-6"
     ]
   end
+
   defp size_class("large") do
     [
       "[&_.color-field-wrapper_.color-input]:w-10 [&_.color-field-wrapper_.color-input]:h-7"
     ]
   end
+
   defp size_class("extra_large") do
     [
       "[&_.color-field-wrapper_.color-input]:w-11 [&_.color-field-wrapper_.color-input]:h-8"
     ]
   end
+
   defp size_class("full"), do: "[&_.color-field-wrapper_.color-input]:w-full h-4"
 
   defp size_class(params) when is_binary(params), do: params
@@ -151,67 +156,67 @@ defmodule MishkaChelekom.ColorField do
 
   defp color_class("white") do
     [
-      "[&_.color-field-wrapper_.color-input]:border-[#DADADA]",
+      "[&_.color-field-wrapper_.color-input]:border-[#DADADA]"
     ]
   end
 
   defp color_class("primary") do
     [
-      "[&_.color-field-wrapper_.color-input]:border-[#2441de]",
+      "[&_.color-field-wrapper_.color-input]:border-[#2441de]"
     ]
   end
 
   defp color_class("secondary") do
     [
-      "[&_.color-field-wrapper_.color-input]:border-[#877C7C]",
+      "[&_.color-field-wrapper_.color-input]:border-[#877C7C]"
     ]
   end
 
   defp color_class("success") do
     [
-      "[&_.color-field-wrapper_.color-input]:border-[#6EE7B7]",
+      "[&_.color-field-wrapper_.color-input]:border-[#6EE7B7]"
     ]
   end
 
   defp color_class("warning") do
     [
-      "[&_.color-field-wrapper_.color-input]:border-[#FF8B08]",
+      "[&_.color-field-wrapper_.color-input]:border-[#FF8B08]"
     ]
   end
 
   defp color_class("danger") do
     [
-      "[&_.color-field-wrapper_.color-input]:border-[#E73B3B]",
+      "[&_.color-field-wrapper_.color-input]:border-[#E73B3B]"
     ]
   end
 
   defp color_class("info") do
     [
-      "[&_.color-field-wrapper_.color-input]:border-[#004FC4]",
+      "[&_.color-field-wrapper_.color-input]:border-[#004FC4]"
     ]
   end
 
   defp color_class("misc") do
     [
-      "[&_.color-field-wrapper_.color-input]:border-[#52059C]",
+      "[&_.color-field-wrapper_.color-input]:border-[#52059C]"
     ]
   end
 
   defp color_class("dawn") do
     [
-      "[&_.color-field-wrapper_.color-input]:border-[#4D4137]",
+      "[&_.color-field-wrapper_.color-input]:border-[#4D4137]"
     ]
   end
 
   defp color_class("light") do
     [
-      "[&_.color-field-wrapper_.color-input]:border-[#707483]",
+      "[&_.color-field-wrapper_.color-input]:border-[#707483]"
     ]
   end
 
   defp color_class("dark") do
     [
-      "[&_.color-field-wrapper_.color-input]:border-[#050404]",
+      "[&_.color-field-wrapper_.color-input]:border-[#050404]"
     ]
   end
 end

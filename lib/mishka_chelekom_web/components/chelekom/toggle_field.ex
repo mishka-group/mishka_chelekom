@@ -25,7 +25,8 @@ defmodule MishkaChelekom.ToggleField do
     doc: "a form field struct retrieved from the form, for example: @form[:email]"
 
   attr :rest, :global,
-    include: ~w(autocomplete disabled form indeterminate checked multiple readonly required size spellcheck inputmode title autofocus)
+    include:
+      ~w(autocomplete disabled form indeterminate checked multiple readonly required size spellcheck inputmode title autofocus)
 
   @spec toggle_field(map()) :: Phoenix.LiveView.Rendered.t()
   def toggle_field(%{field: %Phoenix.HTML.FormField{} = field} = assigns) do
@@ -37,7 +38,6 @@ defmodule MishkaChelekom.ToggleField do
     |> assign_new(:value, fn -> field.value end)
     |> toggle_field()
   end
-
 
   def toggle_field(assigns) do
     ~H"""
@@ -51,24 +51,21 @@ defmodule MishkaChelekom.ToggleField do
           <%= @description %>
         </div>
       </div>
-      <label
-            for={@id}
-            class="flex items-center cursor-pointer select-none w-fit"
-          >
-            <div class="relative toggle-field-wrapper">
-              <input type="checkbox" checked={@checked} id={@id} class="peer sr-only" />
-              <div class={[
-                "rounded-full bg-[#e6e6e6] transition-all ease-in-out duration-500 toggle-field-base",
-                color_class(@color),
-                ]}></div>
-              <div
-                class={[
-                  "toggle-field-circle absolute transition-all ease-in-out duration-500 bg-white",
-                  "rounded-full top-1 peer-checked:translate-x-full left-1",
-                ]}
-              ></div>
-            </div>
-            </label>
+      <label for={@id} class="flex items-center cursor-pointer select-none w-fit">
+        <div class="relative toggle-field-wrapper">
+          <input type="checkbox" checked={@checked} id={@id} class="peer sr-only" />
+          <div class={[
+            "rounded-full bg-[#e6e6e6] transition-all ease-in-out duration-500 toggle-field-base",
+            color_class(@color)
+          ]}>
+          </div>
+          <div class={[
+            "toggle-field-circle absolute transition-all ease-in-out duration-500 bg-white",
+            "rounded-full top-1 peer-checked:translate-x-full left-1"
+          ]}>
+          </div>
+        </div>
+      </label>
 
       <.error :for={msg <- @errors} icon={@error_icon}><%= msg %></.error>
     </div>
@@ -134,68 +131,67 @@ defmodule MishkaChelekom.ToggleField do
 
   defp color_class("white") do
     [
-      "peer-checked:bg-[#DADADA]",
+      "peer-checked:bg-[#DADADA]"
     ]
   end
 
   defp color_class("primary") do
     [
-      "peer-checked:bg-[#2441de]",
+      "peer-checked:bg-[#2441de]"
     ]
   end
 
   defp color_class("secondary") do
     [
-      "peer-checked:bg-[#877C7C]",
+      "peer-checked:bg-[#877C7C]"
     ]
   end
 
   defp color_class("success") do
     [
-      "peer-checked:bg-[#047857]",
+      "peer-checked:bg-[#047857]"
     ]
   end
 
   defp color_class("warning") do
     [
-      "peer-checked:bg-[#FF8B08]",
+      "peer-checked:bg-[#FF8B08]"
     ]
   end
 
   defp color_class("danger") do
     [
-      "peer-checked:bg-[#E73B3B]",
+      "peer-checked:bg-[#E73B3B]"
     ]
   end
 
   defp color_class("info") do
     [
-      "peer-checked:bg-[#004FC4]",
+      "peer-checked:bg-[#004FC4]"
     ]
   end
 
   defp color_class("misc") do
     [
-      "peer-checked:bg-[#52059C]",
+      "peer-checked:bg-[#52059C]"
     ]
   end
 
   defp color_class("dawn") do
     [
-      "peer-checked:bg-[#4D4137]",
+      "peer-checked:bg-[#4D4137]"
     ]
   end
 
   defp color_class("light") do
     [
-      "peer-checked:bg-[#707483]",
+      "peer-checked:bg-[#707483]"
     ]
   end
 
   defp color_class("dark") do
     [
-      "peer-checked:bg-[#050404]",
+      "peer-checked:bg-[#050404]"
     ]
   end
-
 end

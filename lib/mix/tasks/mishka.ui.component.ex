@@ -23,6 +23,7 @@ defmodule Mix.Tasks.Mishka.Ui.Component do
   * `--size` or `-s` - Docs for your option
   * `--padding` or `-p` - Docs for your option
   * `--space` or `-sp` - Docs for your option
+  * `--type` or `-t` - Docs for your option
   """
 
   def info(_argv, _composing_task) do
@@ -48,24 +49,42 @@ defmodule Mix.Tasks.Mishka.Ui.Component do
         variant: :string,
         color: :string,
         size: :string,
-        module_name: :string,
+        module: :string,
         padding: :string,
-        space: :string
+        space: :string,
+        type: :string
       ],
       # CLI aliases
-      aliases: [v: :variant, c: :color, s: :size, m: :module_name, p: :padding, sp: :space]
+      aliases: [v: :variant, c: :color, s: :size, m: :module, p: :padding, sp: :space, t: :type]
     }
   end
 
   def igniter(igniter, argv) do
     # extract positional arguments according to `positional` above
-    {_arguments, argv} = positional_args!(argv)
+    {%{component: component}, argv} = positional_args!(argv)
+
+    template_path =
+      Application.app_dir(:mishka_chelekom, ["priv", "templates"])
+      |> Path.join("#{component}.eex")
+
     # extract options according to `schema` and `aliases` above
-    _options = options!(argv)
+    options = options!(argv)
+
     # Do your work here and return an updated igniter
-    IO.inspect(argv)
+    part_module_name = Igniter.Code.Module.parse(Keyword.get(options, :module, component))
+
+    module_place =
+      Igniter.Project.Module.proper_location(
+        igniter,
+        part_module_name,
+        {:source_folder, "component"}
+      )
+
+    assign = [module: String.capitalize(component)]
 
     igniter
-    |> Igniter.add_warning("mix mishka.ui.component is not yet implemented")
+    |> Igniter.copy_template(template_path, module_place, assign, on_exists: :overwrite)
+
+    # |> Igniter.add_warning("mix mishka.ui.component is not yet implemented")
   end
 end

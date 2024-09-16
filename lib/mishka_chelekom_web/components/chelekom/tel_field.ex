@@ -34,7 +34,8 @@ defmodule MishkaChelekom.TelField do
   attr :field, Phoenix.HTML.FormField,
     doc: "a form field struct retrieved from the form, for example: @form[:email]"
 
-  attr :rest, :global, include: ~w(autocomplete disabled form list maxlength minlength pattern placeholder
+  attr :rest, :global,
+    include: ~w(autocomplete disabled form list maxlength minlength pattern placeholder
         readonly required size inputmode inputmode step title autofocus)
 
   @spec tel_field(map()) :: Phoenix.LiveView.Rendered.t()
@@ -83,7 +84,7 @@ defmodule MishkaChelekom.TelField do
             value={@value}
             class={[
               "disabled:opacity-80 block w-full z-[2] focus:ring-0 placeholder:text-transparent pb-1 pt-2.5 px-2",
-              "text-sm appearance-none bg-transparent border-0 focus:outline-none peer",
+              "text-sm appearance-none bg-transparent border-0 focus:outline-none peer"
             ]}
             placeholder=" "
             {@rest}
@@ -152,7 +153,7 @@ defmodule MishkaChelekom.TelField do
           value={@value}
           class={[
             "flex-1 py-1 px-2 text-sm disabled:opacity-80 block w-full appearance-none",
-            "bg-transparent border-0 focus:outline-none focus:ring-0",
+            "bg-transparent border-0 focus:outline-none focus:ring-0"
           ]}
           {@rest}
         />
@@ -210,24 +211,19 @@ defmodule MishkaChelekom.TelField do
   end
 
   defp size_class("extra_small"),
-    do:
-      "[&_.tel-field-wrapper_input]:h-7 [&_.tel-field-wrapper_.password-field-icon]:size-3"
+    do: "[&_.tel-field-wrapper_input]:h-7 [&_.tel-field-wrapper_.password-field-icon]:size-3"
 
   defp size_class("small"),
-    do:
-      "[&_.tel-field-wrapper_input]:h-8 [&_.tel-field-wrapper_.password-field-icon]:size-3.5"
+    do: "[&_.tel-field-wrapper_input]:h-8 [&_.tel-field-wrapper_.password-field-icon]:size-3.5"
 
   defp size_class("medium"),
-    do:
-      "[&_.tel-field-wrapper_input]:h-9 [&_.tel-field-wrapper_.password-field-icon]:size-4"
+    do: "[&_.tel-field-wrapper_input]:h-9 [&_.tel-field-wrapper_.password-field-icon]:size-4"
 
   defp size_class("large"),
-    do:
-      "[&_.tel-field-wrapper_input]:h-10 [&_.tel-field-wrapper_.password-field-icon]:size-5"
+    do: "[&_.tel-field-wrapper_input]:h-10 [&_.tel-field-wrapper_.password-field-icon]:size-5"
 
   defp size_class("extra_large"),
-    do:
-      "[&_.tel-field-wrapper_input]:h-11 [&_.tel-field-wrapper_.password-field-icon]:size-6"
+    do: "[&_.tel-field-wrapper_input]:h-11 [&_.tel-field-wrapper_.password-field-icon]:size-6"
 
   defp size_class(_), do: size_class("medium")
 

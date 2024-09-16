@@ -25,7 +25,8 @@ defmodule MishkaChelekom.CheckboxField do
     doc: "a form field struct retrieved from the form, for example: @form[:email]"
 
   attr :rest, :global,
-    include: ~w(autocomplete disabled form indeterminate checked multiple readonly required size spellcheck inputmode title autofocus)
+    include:
+      ~w(autocomplete disabled form indeterminate checked multiple readonly required size spellcheck inputmode title autofocus)
 
   @spec checkbox_field(map()) :: Phoenix.LiveView.Rendered.t()
   def checkbox_field(%{field: %Phoenix.HTML.FormField{} = field} = assigns) do
@@ -54,16 +55,16 @@ defmodule MishkaChelekom.CheckboxField do
     ]}>
       <div class="checkbox-field-wrapper flex items-center">
         <input
-            type="checkbox"
-            name={@name}
-            id={@id}
-            checked={@cheked}
-            class={[
-              "bg-white checkbox-input"
-            ]}
-            {@rest}
-          />
-          <.label class={@labe_class} for={@id}><%= @label %></.label>
+          type="checkbox"
+          name={@name}
+          id={@id}
+          checked={@cheked}
+          class={[
+            "bg-white checkbox-input"
+          ]}
+          {@rest}
+        />
+        <.label class={@labe_class} for={@id}><%= @label %></.label>
       </div>
 
       <.error :for={msg <- @errors} icon={@error_icon}><%= msg %></.error>
@@ -96,9 +97,9 @@ defmodule MishkaChelekom.CheckboxField do
   end
 
   defp size_class("extra_small"), do: "[&_.checkbox-field-wrapper_input]:size-2.5"
-  defp size_class("small"),do: "[&_.checkbox-field-wrapper_input]:size-3"
+  defp size_class("small"), do: "[&_.checkbox-field-wrapper_input]:size-3"
   defp size_class("medium"), do: "[&_.checkbox-field-wrapper_input]:size-3.5"
-  defp size_class("large"),do: "[&_.checkbox-field-wrapper_input]:size-4"
+  defp size_class("large"), do: "[&_.checkbox-field-wrapper_input]:size-4"
   defp size_class("extra_large"), do: "[&_.checkbox-field-wrapper_input]:size-5"
   defp size_class(params) when is_binary(params), do: params
   defp size_class(_), do: size_class("medium")
@@ -132,7 +133,7 @@ defmodule MishkaChelekom.CheckboxField do
     [
       "[&_.checkbox-field-wrapper_.checkbox-input]:bg-white checked:[&_.checkbox-field-wrapper_.checkbox-input]:accent-[#3E3E3E]",
       "[&_.checkbox-field-wrapper_.checkbox-input]:border-[#DADADA]",
-      "focus-within:[&_.checkbox-field-wrapper_.checkbox-input]:ring-[#DADADA]",
+      "focus-within:[&_.checkbox-field-wrapper_.checkbox-input]:ring-[#DADADA]"
     ]
   end
 
@@ -140,7 +141,7 @@ defmodule MishkaChelekom.CheckboxField do
     [
       "checked:[&_.checkbox-field-wrapper_.checkbox-input]:text-[#4363EC]",
       "[&_.checkbox-field-wrapper_.checkbox-input]:border-[#2441de]",
-      "focus-within:[&_.checkbox-field-wrapper_.checkbox-input]:ring-[#2441de]",
+      "focus-within:[&_.checkbox-field-wrapper_.checkbox-input]:ring-[#2441de]"
     ]
   end
 
@@ -148,7 +149,7 @@ defmodule MishkaChelekom.CheckboxField do
     [
       "[&_.checkbox-field-wrapper_.checkbox-input]:text-[#6B6E7C]",
       "[&_.checkbox-field-wrapper_.checkbox-input]:border-[#877C7C]",
-      "focus-within:[&_.checkbox-field-wrapper_.checkbox-input]:ring-[#877C7C]",
+      "focus-within:[&_.checkbox-field-wrapper_.checkbox-input]:ring-[#877C7C]"
     ]
   end
 
@@ -156,7 +157,7 @@ defmodule MishkaChelekom.CheckboxField do
     [
       "[&_.checkbox-field-wrapper_.checkbox-input]:text-[#047857]",
       "[&_.checkbox-field-wrapper_.checkbox-input]:border-[#6EE7B7]",
-      "focus-within:[&_.checkbox-field-wrapper_.checkbox-input]:ring-[#6EE7B7]",
+      "focus-within:[&_.checkbox-field-wrapper_.checkbox-input]:ring-[#6EE7B7]"
     ]
   end
 
@@ -164,7 +165,7 @@ defmodule MishkaChelekom.CheckboxField do
     [
       "[&_.checkbox-field-wrapper_.checkbox-input]:text-[#FF8B08]",
       "[&_.checkbox-field-wrapper_.checkbox-input]:border-[#FF8B08]",
-      "focus-within:[&_.checkbox-field-wrapper_.checkbox-input]:ring-[#FF8B08]",
+      "focus-within:[&_.checkbox-field-wrapper_.checkbox-input]:ring-[#FF8B08]"
     ]
   end
 
@@ -172,7 +173,7 @@ defmodule MishkaChelekom.CheckboxField do
     [
       "[&_.checkbox-field-wrapper_.checkbox-input]:text-[#E73B3B]",
       "[&_.checkbox-field-wrapper_.checkbox-input]:border-[#E73B3B]",
-      "focus-within:[&_.checkbox-field-wrapper_.checkbox-input]:ring-[#E73B3B]",
+      "focus-within:[&_.checkbox-field-wrapper_.checkbox-input]:ring-[#E73B3B]"
     ]
   end
 
@@ -180,7 +181,7 @@ defmodule MishkaChelekom.CheckboxField do
     [
       "[&_.checkbox-field-wrapper_.checkbox-input]:text-[#004FC4]",
       "[&_.checkbox-field-wrapper_.checkbox-input]:border-[#004FC4]",
-      "focus-within:[&_.checkbox-field-wrapper_.checkbox-input]:ring-[#004FC4]",
+      "focus-within:[&_.checkbox-field-wrapper_.checkbox-input]:ring-[#004FC4]"
     ]
   end
 
@@ -188,7 +189,7 @@ defmodule MishkaChelekom.CheckboxField do
     [
       "[&_.checkbox-field-wrapper_.checkbox-input]:text-[#52059C]",
       "[&_.checkbox-field-wrapper_.checkbox-input]:border-[#52059C]",
-      "focus-within:[&_.checkbox-field-wrapper_.checkbox-input]:ring-[#52059C]",
+      "focus-within:[&_.checkbox-field-wrapper_.checkbox-input]:ring-[#52059C]"
     ]
   end
 
@@ -196,7 +197,7 @@ defmodule MishkaChelekom.CheckboxField do
     [
       "[&_.checkbox-field-wrapper_.checkbox-input]:text-[#4D4137]",
       "[&_.checkbox-field-wrapper_.checkbox-input]:border-[#4D4137]",
-      "focus-within:[&_.checkbox-field-wrapper_.checkbox-input]:ring-[#4D4137]",
+      "focus-within:[&_.checkbox-field-wrapper_.checkbox-input]:ring-[#4D4137]"
     ]
   end
 
@@ -204,7 +205,7 @@ defmodule MishkaChelekom.CheckboxField do
     [
       "[&_.checkbox-field-wrapper_.checkbox-input]:text-[#707483]",
       "[&_.checkbox-field-wrapper_.checkbox-input]:border-[#707483]",
-      "focus-within:[&_.checkbox-field-wrapper_.checkbox-input]:ring-[#707483]",
+      "focus-within:[&_.checkbox-field-wrapper_.checkbox-input]:ring-[#707483]"
     ]
   end
 
@@ -212,7 +213,7 @@ defmodule MishkaChelekom.CheckboxField do
     [
       "[&_.checkbox-field-wrapper_.checkbox-input]:text-[#1E1E1E]",
       "[&_.checkbox-field-wrapper_.checkbox-input]:border-[#050404]",
-      "focus-within:[&_.checkbox-field-wrapper_.checkbox-input]:ring-[#050404]",
+      "focus-within:[&_.checkbox-field-wrapper_.checkbox-input]:ring-[#050404]"
     ]
   end
 end
