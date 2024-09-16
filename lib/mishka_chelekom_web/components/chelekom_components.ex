@@ -15,7 +15,7 @@ defmodule MishkaChelekomComponents do
         Card,
         Carousel,
         Chat,
-        DatepickerInput,
+        DateTimeField,
         DeviceMockup,
         Drawer,
         Dropdown,
