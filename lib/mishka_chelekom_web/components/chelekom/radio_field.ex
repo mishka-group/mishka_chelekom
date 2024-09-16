@@ -5,10 +5,10 @@ defmodule MishkaChelekom.RadioField do
   @doc type: :component
   attr :id, :string, default: nil, doc: ""
   attr :class, :string, default: nil, doc: ""
+  attr :label_class, :string, default: nil, doc: ""
   attr :color, :string, default: "primary", doc: ""
   attr :border, :string, default: "extra_small", doc: ""
   attr :space, :string, default: "medium", doc: ""
-  attr :labe_class, :string, default: nil, doc: ""
   attr :size, :string, default: "extra_large", doc: ""
   attr :ring, :boolean, default: true, doc: ""
   attr :reverse, :boolean, default: false, doc: ""
@@ -49,7 +49,7 @@ defmodule MishkaChelekom.RadioField do
       @reverse && "[&_.radio-field-wrapper]:flex-row-reverse",
       @class
     ]}>
-      <.label class={["radio-field-wrapper flex items-center w-fit", @labe_class]} for={@id}}>
+      <.label class={["radio-field-wrapper flex items-center w-fit", @label_class]} for={@id}>
         <input
           type="radio"
           name={@name}
@@ -75,6 +75,7 @@ defmodule MishkaChelekom.RadioField do
   attr :rounded, :string, default: "small", doc: ""
   attr :space, :string, default: "medium", doc: ""
   attr :variation, :string, default: "vetrical", doc: ""
+  attr :label_class, :string, default: nil, doc: ""
   attr :size, :string, default: "extra_large", doc: ""
   attr :ring, :boolean, default: true, doc: ""
   attr :reverse, :boolean, default: false, doc: ""
@@ -90,7 +91,7 @@ defmodule MishkaChelekom.RadioField do
   slot :radio, required: true do
     attr :value, :string, required: true
     attr :checked, :boolean, required: false
-    attr :space, :string, required: false
+    attr :space, :any, required: false
   end
 
   slot :inner_block
@@ -114,7 +115,7 @@ defmodule MishkaChelekom.RadioField do
           @reverse && "[&_.radio-field-wrapper]:flex-row-reverse"
         ]}
       >
-        <.label class="radio-field-wrapper flex items-center w-fit" for={"#{@id}-#{index}"}>
+        <.label class={["radio-field-wrapper flex items-center w-fit", @label_class]} for={"#{@id}-#{index}"}>
           <input
             type="radio"
             name={@name}
@@ -134,7 +135,7 @@ defmodule MishkaChelekom.RadioField do
   end
 
   attr :for, :string, default: nil
-  attr :class, :list, default: nil
+  attr :class, :any, default: nil
   slot :inner_block, required: true
 
   def label(assigns) do
