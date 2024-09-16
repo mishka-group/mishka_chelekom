@@ -9,7 +9,7 @@ defmodule MishkaChelekom.CheckboxField do
   attr :border, :string, default: "extra_small", doc: ""
   attr :rounded, :string, default: "small", doc: ""
   attr :space, :string, default: "medium", doc: ""
-  attr :labe_class, :string, default: nil, doc: ""
+  attr :label_class, :string, default: nil, doc: ""
   attr :size, :string, default: "extra_large", doc: ""
   attr :ring, :boolean, default: true, doc: ""
   attr :reverse, :boolean, default: false, doc: ""
@@ -53,7 +53,8 @@ defmodule MishkaChelekom.CheckboxField do
       @reverse && "[&_.checkbox-field-wrapper]:flex-row-reverse",
       @class
     ]}>
-      <.label class={["checkbox-field-wrapper flex items-center w-fit", @labe_class]} for={@id}}>
+      <.label class={["checkbox-field-wrapper flex items-center w-fit", @label_class]} for={@id}>
+
         <input
           type="checkbox"
           name={@name}
