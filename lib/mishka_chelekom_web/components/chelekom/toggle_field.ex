@@ -58,7 +58,7 @@ defmodule MishkaChelekom.ToggleField do
             <div class="relative toggle-field-wrapper">
               <input type="checkbox" checked={@checked} id={@id} class="peer sr-only" />
               <div class={[
-                "rounded-full bg-gray-100 transition-all ease-in-out duration-500 toggle-field-base",
+                "rounded-full bg-[#e6e6e6] transition-all ease-in-out duration-500 toggle-field-base",
                 color_class(@color),
                 ]}></div>
               <div
