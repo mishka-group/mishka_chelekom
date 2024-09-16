@@ -13,6 +13,7 @@ defmodule MishkaChelekom.CheckboxField do
   attr :size, :string, default: "extra_large", doc: ""
   attr :ring, :boolean, default: true, doc: ""
   attr :reverse, :boolean, default: false, doc: ""
+  attr :checked, :boolean, default: false, doc: ""
   attr :error_icon, :string, default: nil, doc: ""
   attr :label, :string, default: nil
 
@@ -56,7 +57,7 @@ defmodule MishkaChelekom.CheckboxField do
             type="checkbox"
             name={@name}
             id={@id}
-            value={@value}
+            checked={@cheked}
             class={[
               "bg-white checkbox-input"
             ]}
