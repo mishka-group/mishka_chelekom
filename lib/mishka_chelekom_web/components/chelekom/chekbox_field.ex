@@ -48,7 +48,7 @@ defmodule MishkaChelekom.CheckboxField do
       rounded_size(@rounded),
       border_class(@border),
       size_class(@size),
-      horizontal_space(@space),
+      space_class(@space),
       @ring && "[&_.checkbox-field-wrapper_input]:focus-within:ring-1",
       @reverse && "[&_.checkbox-field-wrapper]:flex-row-reverse",
       @class
@@ -78,9 +78,8 @@ defmodule MishkaChelekom.CheckboxField do
   attr :color, :string, default: "primary", doc: ""
   attr :border, :string, default: "extra_small", doc: ""
   attr :rounded, :string, default: "small", doc: ""
-  attr :vertical_space, :string, default: "medium", doc: ""
-  attr :inline, :boolean, default: false, doc: ""
-  attr :horizontal_space, :string, default: "medium", doc: ""
+  attr :space, :string, default: "medium", doc: ""
+  attr :variation, :string, default: "vetrical", doc: ""
   attr :size, :string, default: "extra_large", doc: ""
   attr :ring, :boolean, default: true, doc: ""
   attr :reverse, :boolean, default: false, doc: ""
@@ -95,6 +94,7 @@ defmodule MishkaChelekom.CheckboxField do
   slot :checkbox, required: true do
     attr :value, :string, required: true
     attr :checked, :boolean, required: false
+    attr :space, :string, required: false
   end
 
   slot :inner_block
@@ -102,8 +102,8 @@ defmodule MishkaChelekom.CheckboxField do
   def group_checkbox(assigns) do
     ~H"""
     <div class={[
-      @inline && "flex flex-wrap items-center gap-5",
-      !@inline && vertical_space(@vertical_space),
+      @variation == "horizontal" && "flex flex-wrap items-center",
+      variation_gap(@space, @variation),
       @class
     ]}>
       <%= render_slot(@inner_block) %>
@@ -114,7 +114,7 @@ defmodule MishkaChelekom.CheckboxField do
           rounded_size(@rounded),
           border_class(@border),
           size_class(@size),
-          horizontal_space(@horizontal_space),
+          space_class(checkbox[:space]),
           @ring && "[&_.checkbox-field-wrapper_input]:focus-within:ring-1",
           @reverse && "[&_.checkbox-field-wrapper]:flex-row-reverse",
         ]}
@@ -188,21 +188,28 @@ defmodule MishkaChelekom.CheckboxField do
   defp border_class(params) when is_binary(params), do: params
   defp border_class(_), do: border_class("extra_small")
 
-  defp horizontal_space("extra_small"), do: "[&_.checkbox-field-wrapper]:space-x-1"
-  defp horizontal_space("small"), do: "[&_.checkbox-field-wrapper]:space-x-1.5"
-  defp horizontal_space("medium"), do: "[&_.checkbox-field-wrapper]:space-x-2"
-  defp horizontal_space("large"), do: "[&_.checkbox-field-wrapper]:space-x-2.5"
-  defp horizontal_space("extra_large"), do: "[&_.checkbox-field-wrapper]:space-x-3"
-  defp horizontal_space(params) when is_binary(params), do: params
-  defp horizontal_space(_), do: horizontal_space("medium")
+  defp space_class("extra_small"), do: "[&_.checkbox-field-wrapper]:space-x-1"
+  defp space_class("small"), do: "[&_.checkbox-field-wrapper]:space-x-1.5"
+  defp space_class("medium"), do: "[&_.checkbox-field-wrapper]:space-x-2"
+  defp space_class("large"), do: "[&_.checkbox-field-wrapper]:space-x-2.5"
+  defp space_class("extra_large"), do: "[&_.checkbox-field-wrapper]:space-x-3"
+  defp space_class(params) when is_binary(params), do: params
+  defp space_class(_), do: space_class("medium")
 
-  defp vertical_space("extra_small"), do: "space-y-1"
-  defp vertical_space("small"), do: "space-y-1.5"
-  defp vertical_space("medium"), do: "space-y-2"
-  defp vertical_space("large"), do: "space-y-2.5"
-  defp vertical_space("extra_large"), do: "space-y-3"
-  defp vertical_space(params) when is_binary(params), do: params
-  defp vertical_space(_), do: vertical_space("medium")
+  defp variation_gap("extra_small", "vertical"), do: "space-y-1"
+  defp variation_gap("small", "vertical"), do: "space-y-1.5"
+  defp variation_gap("medium", "vertical"), do: "space-y-2"
+  defp variation_gap("large", "vertical"), do: "space-y-2.5"
+  defp variation_gap("extra_large", "vertical"), do: "space-y-3"
+
+  defp variation_gap("extra_small", "horizontal"), do: "space-x-1"
+  defp variation_gap("small", "horizontal"), do: "space-x-1.5"
+  defp variation_gap("medium", "horizontal"), do: "space-x-2"
+  defp variation_gap("large", "horizontal"), do: "space-x-2.5"
+  defp variation_gap("extra_large", "horizontal"), do: "space-x-3"
+  
+  defp variation_gap(_, params) when is_binary(params), do: params
+  defp variation_gap(_,_), do: variation_gap("medium", "vertical")
 
   defp color_class("white") do
     [
