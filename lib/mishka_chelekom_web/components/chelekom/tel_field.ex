@@ -36,7 +36,7 @@ defmodule MishkaChelekom.TelField do
 
   attr :rest, :global,
     include: ~w(autocomplete disabled form list maxlength minlength pattern placeholder
-        readonly required size inputmode inputmode step title autofocus)
+        readonly required size inputmode inputmode title autofocus)
 
   @spec tel_field(map()) :: Phoenix.LiveView.Rendered.t()
   def tel_field(%{field: %Phoenix.HTML.FormField{} = field} = assigns) do
