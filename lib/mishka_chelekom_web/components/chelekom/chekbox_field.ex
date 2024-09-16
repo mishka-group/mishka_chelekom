@@ -54,7 +54,6 @@ defmodule MishkaChelekom.CheckboxField do
       @class
     ]}>
       <.label class={["checkbox-field-wrapper flex items-center w-fit", @label_class]} for={@id}>
-
         <input
           type="checkbox"
           name={@name}
