@@ -10,6 +10,7 @@ defmodule MishkaChelekom.RangeField do
   attr :border, :string, default: "extra_small", doc: ""
   attr :space, :string, default: "medium", doc: ""
   attr :size, :string, default: "extra_small", doc: ""
+  attr :appearance, :string, default: "default", doc: "custom"
   attr :width, :string, default: "full", doc: ""
   attr :ring, :boolean, default: true, doc: ""
   attr :reverse, :boolean, default: false, doc: ""
@@ -37,6 +38,25 @@ defmodule MishkaChelekom.RangeField do
     |> range_field()
   end
 
+  def range_field(%{appearance: "default"} = assigns) do
+    ~H"""
+    <div class={[
+      width_class(@width),
+      @class
+    ]}>
+        <.label for={@id}><%= @label %></.label>
+    <input
+        type="range"
+        value={@value}
+        name={@name}
+        id={@id}
+        class="w-full"
+        {@rest}
+      />
+      <.error :for={msg <- @errors} icon={@error_icon}><%= msg %></.error>
+    </div>
+    """
+  end
 
   def range_field(assigns) do
     ~H"""
@@ -46,7 +66,7 @@ defmodule MishkaChelekom.RangeField do
       width_class(@width),
       @class
     ]}>
-    <label for={@id} class="sr-only">Range Field</label>
+        <.label for={@id}><%= @label %></.label>
     <input
         type="range"
         value={@value}
@@ -66,8 +86,33 @@ defmodule MishkaChelekom.RangeField do
         ]}
         {@rest}
       />
-      <%!-- <.error :for={msg <- @errors} icon={@error_icon}><%= msg %></.error> --%>
+      <.error :for={msg <- @errors} icon={@error_icon}><%= msg %></.error>
     </div>
+    """
+  end
+
+
+  attr :for, :string, default: nil
+  attr :class, :string, default: nil
+  slot :inner_block, required: true
+
+  def label(assigns) do
+    ~H"""
+    <label for={@for} class={["block text-sm font-semibold leading-6", @class]}>
+      <%= render_slot(@inner_block) %>
+    </label>
+    """
+  end
+
+  attr :icon, :string, default: nil
+  slot :inner_block, required: true
+
+  def error(assigns) do
+    ~H"""
+    <p class="mt-3 flex items-center gap-3 text-sm leading-6 text-rose-700">
+      <.icon :if={!is_nil(@icon)} name={@icon} class="shrink-0" />
+      <%= render_slot(@inner_block) %>
+    </p>
     """
   end
 
