@@ -98,22 +98,22 @@ defmodule Mix.Tasks.Mishka.Ui.Component do
 
   def supports_umbrella?(), do: false
 
-  defp get_component_template(_igniter, component) do
-    # TODO: check the component eex file exist or not
-    # TODO: check the yaml file exist or not
-    # TODO: get map of component yaml
-    # TODO: if we have error it should prevent the code and return error
-    # TODO: return {template_path, yaml_args}
-    component
-  end
+  # defp get_component_template(_igniter, component) do
+  #   # TODO: check the component eex file exist or not
+  #   # TODO: check the yaml file exist or not
+  #   # TODO: get map of component yaml
+  #   # TODO: if we have error it should prevent the code and return error
+  #   # TODO: return {template_path, yaml_args}
+  #   component
+  # end
 
-  defp update_eex_assign(options, _source_args) do
-    # TODO: create module name based on user inout
-    # TODO: create list of all args event it is not be used in the eex file
-    options
-  end
+  # defp update_eex_assign(options, _source_args) do
+  #   # TODO: create module name based on user inout
+  #   # TODO: create list of all args event it is not be used in the eex file
+  #   options
+  # end
 
-  defp converted_components_path() do
-    # TODO: create path of user project components directory based on user input
-  end
+  # defp converted_components_path() do
+  #   # TODO: create path of user project components directory based on user input
+  # end
 end

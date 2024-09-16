@@ -138,9 +138,10 @@ defmodule MishkaChelekom.CheckboxField do
     """
   end
 
+  attr :class, :any, default: nil
   attr :for, :string, default: nil
-  attr :class, :list, default: nil
   slot :inner_block, required: true
+  attr :rest, :global
 
   def label(assigns) do
     ~H"""
