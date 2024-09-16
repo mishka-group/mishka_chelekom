@@ -25,8 +25,7 @@ defmodule MishkaChelekom.CheckboxField do
     doc: "a form field struct retrieved from the form, for example: @form[:email]"
 
   attr :rest, :global,
-    include:
-      ~w(autocomplete disabled form checked multiple readonly required title autofocus)
+    include: ~w(autocomplete disabled form checked multiple readonly required title autofocus)
 
   @spec checkbox_field(map()) :: Phoenix.LiveView.Rendered.t()
   def checkbox_field(%{field: %Phoenix.HTML.FormField{} = field} = assigns) do
@@ -120,7 +119,10 @@ defmodule MishkaChelekom.CheckboxField do
           @reverse && "[&_.checkbox-field-wrapper]:flex-row-reverse"
         ]}
       >
-        <.label class={["checkbox-field-wrapper flex items-center w-fit", @label_class]} for={"#{@id}-#{index}"}>
+        <.label
+          class={["checkbox-field-wrapper flex items-center w-fit", @label_class]}
+          for={"#{@id}-#{index}"}
+        >
           <input
             type="checkbox"
             name={@name}

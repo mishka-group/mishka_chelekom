@@ -67,14 +67,14 @@ defmodule Mix.Tasks.Mishka.Ui.Component do
       Application.app_dir(:mishka_chelekom, ["priv", "templates"])
       |> Path.join("#{component}.eex")
 
-      """
-         ,_,
-        {o,o}
-        /)  )
-      ---"-"--
-      """
-      |> String.trim_trailing()
-      |> IO.puts()
+    """
+       ,_,
+      {o,o}
+      /)  )
+    ---"-"--
+    """
+    |> String.trim_trailing()
+    |> IO.puts()
 
     # extract options according to `schema` and `aliases` above
     options = options!(argv)

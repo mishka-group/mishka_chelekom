@@ -24,8 +24,7 @@ defmodule MishkaChelekom.RadioField do
     doc: "a form field struct retrieved from the form, for example: @form[:email]"
 
   attr :rest, :global,
-    include:
-      ~w(autocomplete disabled form checked multiple readonly required title autofocus)
+    include: ~w(autocomplete disabled form checked multiple readonly required title autofocus)
 
   @spec radio_field(map()) :: Phoenix.LiveView.Rendered.t()
   def radio_field(%{field: %Phoenix.HTML.FormField{} = field} = assigns) do
@@ -115,7 +114,10 @@ defmodule MishkaChelekom.RadioField do
           @reverse && "[&_.radio-field-wrapper]:flex-row-reverse"
         ]}
       >
-        <.label class={["radio-field-wrapper flex items-center w-fit", @label_class]} for={"#{@id}-#{index}"}>
+        <.label
+          class={["radio-field-wrapper flex items-center w-fit", @label_class]}
+          for={"#{@id}-#{index}"}
+        >
           <input
             type="radio"
             name={@name}
