@@ -48,27 +48,114 @@ defmodule MishkaChelekom.CheckboxField do
       rounded_size(@rounded),
       border_class(@border),
       size_class(@size),
-      space_class(@space),
+      horizontal_space(@space),
       @ring && "[&_.checkbox-field-wrapper_input]:focus-within:ring-1",
       @reverse && "[&_.checkbox-field-wrapper]:flex-row-reverse",
       @class
     ]}>
-      <div class="checkbox-field-wrapper flex items-center">
+
+      <.label class={["checkbox-field-wrapper flex items-center", @labe_class]} for={@id}}>
         <input
           type="checkbox"
           name={@name}
           id={@id}
-          checked={@cheked}
+          checked={@checked}
           class={[
             "bg-white checkbox-input"
           ]}
           {@rest}
         />
-        <.label class={@labe_class} for={@id}><%= @label %></.label>
-      </div>
+        <span class="block"><%= @label %></span>
+      </.label>
 
       <.error :for={msg <- @errors} icon={@error_icon}><%= msg %></.error>
     </div>
+    """
+  end
+
+  attr :id, :string, default: nil, doc: ""
+  attr :alt, :string, doc: ""
+  attr :src, :string, required: false, doc: ""
+  attr :class, :string, default: nil, doc: ""
+  attr :rest, :global, doc: ""
+  slot :inner_block, required: false, doc: ""
+
+  # TODO: we should support other media like video (should have inner block)
+
+  def card_media(assigns) do
+    ~H"""
+    <div id={@id}>
+      <img
+        src={@src}
+        alt={@alt}
+        class={[
+          "max-w-full",
+          @class
+        ]}
+      />
+    </div>
+    """
+  end
+
+  attr :id, :string, default: nil, doc: ""
+  attr :class, :string, default: nil, doc: ""
+  attr :color, :string, default: "primary", doc: ""
+  attr :border, :string, default: "extra_small", doc: ""
+  attr :rounded, :string, default: "small", doc: ""
+  attr :vertical_space, :string, default: "medium", doc: ""
+  attr :horizontal_space, :string, default: "medium", doc: ""
+  attr :size, :string, default: "extra_large", doc: ""
+  attr :ring, :boolean, default: true, doc: ""
+  attr :reverse, :boolean, default: false, doc: ""
+  attr :error_icon, :string, default: nil, doc: ""
+  attr :errors, :list, default: []
+  attr :name, :any
+  attr :value, :any
+  attr :rest, :global,
+  include:
+    ~w(autocomplete disabled form indeterminate multiple readonly required title autofocus)
+
+  slot :checkbox, required: true do
+    attr :value, :string, required: true
+    attr :checked, :boolean, required: false
+  end
+
+  slot :inner_block
+
+  def group_checkbox(assigns) do
+    ~H"""
+    <div class={vertical_space(@vertical_space)}>
+      <%= render_slot(@inner_block) %>
+      <div
+        :for={{checkbox, index} <- Enum.with_index(@checkbox, 1)}
+        class={[
+          color_class(@color),
+          rounded_size(@rounded),
+          border_class(@border),
+          size_class(@size),
+          horizontal_space(@horizontal_space),
+          @ring && "[&_.checkbox-field-wrapper_input]:focus-within:ring-1",
+          @reverse && "[&_.checkbox-field-wrapper]:flex-row-reverse",
+          @class
+        ]}
+      >
+
+      <.label class={"checkbox-field-wrapper flex items-center"} for={"#{@id}-#{index}"}>
+          <input
+            type="checkbox"
+            name={@name}
+            id={"#{@id}-#{index}"}
+            checked={checkbox[:checked]}
+            class={[
+              "bg-white checkbox-input"
+            ]}
+            {@rest}
+          />
+        <span class="block"><%= render_slot(checkbox) %></span>
+      </.label>
+      </div>
+    </div>
+      <.error :for={msg <- @errors} icon={@error_icon}><%= msg %></.error>
     """
   end
 
@@ -121,13 +208,21 @@ defmodule MishkaChelekom.CheckboxField do
   defp border_class(params) when is_binary(params), do: params
   defp border_class(_), do: border_class("extra_small")
 
-  defp space_class("extra_small"), do: "[&_.checkbox-field-wrapper]:space-x-1"
-  defp space_class("small"), do: "[&_.checkbox-field-wrapper]:space-x-1.5"
-  defp space_class("medium"), do: "[&_.checkbox-field-wrapper]:space-x-2"
-  defp space_class("large"), do: "[&_.checkbox-field-wrapper]:space-x-2.5"
-  defp space_class("extra_large"), do: "[&_.checkbox-field-wrapper]:space-x-3"
-  defp space_class(params) when is_binary(params), do: params
-  defp space_class(_), do: space_class("medium")
+  defp horizontal_space("extra_small"), do: "[&_.checkbox-field-wrapper]:space-x-1"
+  defp horizontal_space("small"), do: "[&_.checkbox-field-wrapper]:space-x-1.5"
+  defp horizontal_space("medium"), do: "[&_.checkbox-field-wrapper]:space-x-2"
+  defp horizontal_space("large"), do: "[&_.checkbox-field-wrapper]:space-x-2.5"
+  defp horizontal_space("extra_large"), do: "[&_.checkbox-field-wrapper]:space-x-3"
+  defp horizontal_space(params) when is_binary(params), do: params
+  defp horizontal_space(_), do: horizontal_space("medium")
+
+  defp vertical_space("extra_small"), do: "space-y-1"
+  defp vertical_space("small"), do: "space-y-1.5"
+  defp vertical_space("medium"), do: "space-y-2"
+  defp vertical_space("large"), do: "space-y-2.5"
+  defp vertical_space("extra_large"), do: "space-y-3"
+  defp vertical_space(params) when is_binary(params), do: params
+  defp vertical_space(_), do: vertical_space("medium")
 
   defp color_class("white") do
     [
