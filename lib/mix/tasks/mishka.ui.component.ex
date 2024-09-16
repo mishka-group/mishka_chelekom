@@ -90,6 +90,13 @@ defmodule Mix.Tasks.Mishka.Ui.Component do
       )
 
     assign = [module: String.capitalize(component)]
+    # IO.inspect(Igniter.Libs.Phoenix.web_module(igniter))
+    # Module.concat([Igniter.Libs.Phoenix.web_module(igniter), Your.Suffix])
+    # Mix.shell().prompt("What's your name?")
+    # name = Mix.Shell.IO.prompt("What's your name?")
+    # Mix.shell().info("Hello, #{name}!")
+    # Mix.Shell.IO.error("That's not a valid age! Please enter a number.")
+    IO.inspect(igniter.rewrite)
 
     igniter
     |> Igniter.add_warning("mix mishka.ui.component is not yet implemented")
