@@ -11,6 +11,7 @@ defmodule MishkaChelekom.ToggleField do
   attr :space, :string, default: "medium", doc: ""
   attr :labe_class, :string, default: nil, doc: ""
   attr :size, :string, default: "medium", doc: ""
+  attr :checked, :boolean, default: false, doc: ""
   attr :ring, :boolean, default: true, doc: ""
   attr :reverse, :boolean, default: false, doc: ""
   attr :error_icon, :string, default: nil, doc: ""
@@ -55,14 +56,15 @@ defmodule MishkaChelekom.ToggleField do
             class="flex items-center cursor-pointer select-none w-fit"
           >
             <div class="relative toggle-field-wrapper">
-              <input type="checkbox" id={@id} class="peer sr-only" />
+              <input type="checkbox" checked={@checked} id={@id} class="peer sr-only" />
               <div class={[
-                "rounded-full bg-gray-200 transition-all ease-in-out duration-500 toggle-field-base",
+                "rounded-full bg-gray-100 transition-all ease-in-out duration-500 toggle-field-base",
                 color_class(@color),
                 ]}></div>
               <div
                 class={[
-                  "toggle-field-circle absolute w-6 h-6 transition-all ease-in-out duration-500 bg-white rounded-full left-1 top-1 peer-checked:translate-x-full",
+                  "toggle-field-circle absolute transition-all ease-in-out duration-500 bg-white",
+                  "rounded-full top-1 peer-checked:translate-x-full left-1",
                 ]}
               ></div>
             </div>
@@ -97,21 +99,35 @@ defmodule MishkaChelekom.ToggleField do
     """
   end
 
-  defp size_class("extra_small"),
-    do: "[&_.toggle-field-base]:w-11 [&_.toggle-field-base]:h-6"
+  defp size_class("extra_small") do
+    [
+      "[&_.toggle-field-base]:w-10 [&_.toggle-field-base]:h-6 [&_.toggle-field-circle]:size-4"
+    ]
+  end
 
-  defp size_class("small"),
-    do:
-      "[&_.toggle-field-base]:w-12 [&_.toggle-field-base]:h-7"
+  defp size_class("small") do
+    [
+      "[&_.toggle-field-base]:w-12 [&_.toggle-field-base]:h-7 [&_.toggle-field-circle]:size-5"
+    ]
+  end
 
-  defp size_class("medium"),
-    do: "[&_.toggle-field-base]:w-14 [&_.toggle-field-base]:h-8 [&_.toggle-field-circle]:size-6"
+  defp size_class("medium") do
+    [
+      "[&_.toggle-field-base]:w-14 [&_.toggle-field-base]:h-8 [&_.toggle-field-circle]:size-6"
+    ]
+  end
 
-  defp size_class("large"),
-    do: "[&_.toggle-field-base]:h-16 [&_.toggle-field-base]:h-5"
+  defp size_class("large") do
+    [
+      "[&_.toggle-field-base]:w-16 [&_.toggle-field-base]:h-9 [&_.toggle-field-circle]:size-7"
+    ]
+  end
 
-  defp size_class("extra_large"),
-    do: "[&_.toggle-field-base]:h-20 [&_.toggle-field-base]:h-6"
+  defp size_class("extra_large") do
+    [
+      "[&_.toggle-field-base]:w-[72px] [&_.toggle-field-base]:h-10 [&_.toggle-field-circle]:size-8"
+    ]
+  end
 
   defp size_class(params) when is_binary(params), do: params
   defp size_class(_), do: size_class("medium")
@@ -136,7 +152,7 @@ defmodule MishkaChelekom.ToggleField do
 
   defp color_class("success") do
     [
-      "peer-checked:bg-[#6EE7B7]",
+      "peer-checked:bg-[#047857]",
     ]
   end
 
