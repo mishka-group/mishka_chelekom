@@ -54,7 +54,7 @@ defmodule MishkaChelekom.CheckboxField do
       @class
     ]}>
 
-      <.label class={["checkbox-field-wrapper flex items-center", @labe_class]} for={@id}}>
+      <.label class={["checkbox-field-wrapper flex items-center w-fit", @labe_class]} for={@id}}>
         <input
           type="checkbox"
           name={@name}
@@ -74,35 +74,12 @@ defmodule MishkaChelekom.CheckboxField do
   end
 
   attr :id, :string, default: nil, doc: ""
-  attr :alt, :string, doc: ""
-  attr :src, :string, required: false, doc: ""
-  attr :class, :string, default: nil, doc: ""
-  attr :rest, :global, doc: ""
-  slot :inner_block, required: false, doc: ""
-
-  # TODO: we should support other media like video (should have inner block)
-
-  def card_media(assigns) do
-    ~H"""
-    <div id={@id}>
-      <img
-        src={@src}
-        alt={@alt}
-        class={[
-          "max-w-full",
-          @class
-        ]}
-      />
-    </div>
-    """
-  end
-
-  attr :id, :string, default: nil, doc: ""
   attr :class, :string, default: nil, doc: ""
   attr :color, :string, default: "primary", doc: ""
   attr :border, :string, default: "extra_small", doc: ""
   attr :rounded, :string, default: "small", doc: ""
   attr :vertical_space, :string, default: "medium", doc: ""
+  attr :inline, :boolean, default: false, doc: ""
   attr :horizontal_space, :string, default: "medium", doc: ""
   attr :size, :string, default: "extra_large", doc: ""
   attr :ring, :boolean, default: true, doc: ""
@@ -124,7 +101,11 @@ defmodule MishkaChelekom.CheckboxField do
 
   def group_checkbox(assigns) do
     ~H"""
-    <div class={vertical_space(@vertical_space)}>
+    <div class={[
+      @inline && "flex flex-wrap items-center gap-5",
+      !@inline && vertical_space(@vertical_space),
+      @class
+    ]}>
       <%= render_slot(@inner_block) %>
       <div
         :for={{checkbox, index} <- Enum.with_index(@checkbox, 1)}
@@ -136,11 +117,10 @@ defmodule MishkaChelekom.CheckboxField do
           horizontal_space(@horizontal_space),
           @ring && "[&_.checkbox-field-wrapper_input]:focus-within:ring-1",
           @reverse && "[&_.checkbox-field-wrapper]:flex-row-reverse",
-          @class
         ]}
       >
 
-      <.label class={"checkbox-field-wrapper flex items-center"} for={"#{@id}-#{index}"}>
+      <.label class={"checkbox-field-wrapper flex items-center w-fit"} for={"#{@id}-#{index}"}>
           <input
             type="checkbox"
             name={@name}

@@ -4,6 +4,8 @@
     value="Home"
     space="small"
     label="This is label of checkbox"
+    intermediate
+    id="k1"
   />
   <MishkaChelekom.CheckboxField.checkbox_field
     name="home"
@@ -62,7 +64,7 @@
   />
 </div>
 
-<div class="p-10">
+<div class="p-10 space-y-10">
   <div class="text-2xl my-10">Group</div>
   <MishkaChelekom.CheckboxField.group_checkbox
   name="items"
@@ -72,5 +74,18 @@
         <:checkbox value="20">label of item 2 in group</:checkbox>
         <:checkbox value="20">label of item 3 in group</:checkbox>
         <:checkbox value="20" checked={true}>label of item 4 in group</:checkbox>
+  </MishkaChelekom.CheckboxField.group_checkbox>
+
+  <MishkaChelekom.CheckboxField.group_checkbox
+  id="items-2"
+    inline
+    name="items2"
+    vertical_space="small"
+    color="danger"
+  >
+        <:checkbox value="10">label of item 1 in group</:checkbox>
+        <:checkbox value="30">label of item 2 in group</:checkbox>
+        <:checkbox value="50">label of item 3 in group</:checkbox>
+        <:checkbox value="60" checked={true}>label of item 4 in group</:checkbox>
   </MishkaChelekom.CheckboxField.group_checkbox>
 </div>
