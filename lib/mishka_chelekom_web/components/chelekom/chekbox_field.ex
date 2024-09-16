@@ -197,17 +197,17 @@ defmodule MishkaChelekom.CheckboxField do
   defp space_class(_), do: space_class("medium")
 
   defp variation_gap("extra_small", "vertical"), do: "space-y-1"
-  defp variation_gap("small", "vertical"), do: "space-y-1.5"
-  defp variation_gap("medium", "vertical"), do: "space-y-2"
-  defp variation_gap("large", "vertical"), do: "space-y-2.5"
-  defp variation_gap("extra_large", "vertical"), do: "space-y-3"
+  defp variation_gap("small", "vertical"), do: "space-y-2"
+  defp variation_gap("medium", "vertical"), do: "space-y-3"
+  defp variation_gap("large", "vertical"), do: "space-y-4"
+  defp variation_gap("extra_large", "vertical"), do: "space-y-5"
 
   defp variation_gap("extra_small", "horizontal"), do: "space-x-1"
-  defp variation_gap("small", "horizontal"), do: "space-x-1.5"
-  defp variation_gap("medium", "horizontal"), do: "space-x-2"
-  defp variation_gap("large", "horizontal"), do: "space-x-2.5"
-  defp variation_gap("extra_large", "horizontal"), do: "space-x-3"
-  
+  defp variation_gap("small", "horizontal"), do: "space-x-2"
+  defp variation_gap("medium", "horizontal"), do: "space-x-3"
+  defp variation_gap("large", "horizontal"), do: "space-x-4"
+  defp variation_gap("extra_large", "horizontal"), do: "space-x-5"
+
   defp variation_gap(_, params) when is_binary(params), do: params
   defp variation_gap(_,_), do: variation_gap("medium", "vertical")
 
