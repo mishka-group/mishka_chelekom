@@ -19,7 +19,7 @@
     <.input field={@form[:start_office_day]} type="datetime-local" label="Start office day" />
 
     <%!-- Drag and drop upload --%>
-    <section phx-drop-target={@uploads.avatar.ref} class="w-full min-h-96 border flex flex-row">
+    <section phx-drop-target={@uploads.avatar.ref} class="w-full min-h-96 border">
       <.live_file_input upload={@uploads.avatar} />
       <%!-- render each avatar entry --%>
       <%= for entry <- @uploads.avatar.entries do %>

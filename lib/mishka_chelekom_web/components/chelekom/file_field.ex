@@ -2,7 +2,6 @@ defmodule MishkaChelekom.FileField do
   use Phoenix.Component
   import MishkaChelekomComponents
 
-
   @doc type: :component
   attr :id, :string, default: nil, doc: ""
   attr :class, :string, default: nil, doc: ""
@@ -12,6 +11,7 @@ defmodule MishkaChelekom.FileField do
   attr :space, :string, default: "medium", doc: ""
   attr :size, :string, default: "extra_small", doc: ""
   attr :error_icon, :string, default: nil, doc: ""
+  attr :dropzone, :boolean, default: false, doc: ""
   attr :label, :string, default: nil
   attr :errors, :list, default: []
   attr :name, :any
@@ -35,6 +35,11 @@ defmodule MishkaChelekom.FileField do
     |> file_field()
   end
 
+  def file_field(%{dropzone: true} = assigns) do
+    ~H"""
+
+    """
+  end
 
   def file_field(assigns) do
     ~H"""
@@ -105,7 +110,7 @@ defmodule MishkaChelekom.FileField do
 
   defp color_class("primary") do
     [
-      "[&_.file-input]:bg-[#4363EC] file:[&_.file-input]:text-white file:[&_.file-input]:bg-[#4363EC]",
+      "[&_.file-input]:bg-[#4363EC] file:[&_.file-input]:text-white [&_.file-input]:text-white file:[&_.file-input]:bg-[#2441de]",
 
     ]
   end
@@ -136,32 +141,33 @@ defmodule MishkaChelekom.FileField do
 
   defp color_class("info") do
     [
-      "[&_.file-input]:bg-[#E73B3B] file:[&_.file-input]:text-[#E73B3B] file:[&_.file-input]:bg-[#FFE6E6]",
+      "[&_.file-input]:bg-[#E5F0FF] file:[&_.file-input]:text-white [&_.file-input]:text-[#004FC4] file:[&_.file-input]:bg-[#004FC4]",
     ]
   end
 
   defp color_class("misc") do
     [
-      "[&_.file-input]:bg-[#004FC4] file:[&_.file-input]:text-[#004FC4] file:[&_.file-input]:bg-[#E5F0FF]",
+      "[&_.file-input]:bg-[#FFE6FF] file:[&_.file-input]:text-white [&_.file-input]:text-[#52059C] file:[&_.file-input]:bg-[#52059C]",
 
     ]
   end
 
   defp color_class("dawn") do
     [
-      "[&_.file-input]:bg-[#52059C] file:[&_.file-input]:text-[#52059C] file:[&_.file-input]:bg-[#FFE6FF]",
+      "[&_.file-input]:bg-[#FFECDA] file:[&_.file-input]:text-white [&_.file-input]:text-[#4D4137] file:[&_.file-input]:bg-[#4D4137]",
     ]
   end
 
   defp color_class("light") do
     [
-      "[&_.file-input]:bg-[#4D4137] file:[&_.file-input]:text-[#4D4137] file:[&_.file-input]:bg-[#FFECDA]",
+      "[&_.file-input]:bg-[#E3E7F1] file:[&_.file-input]:text-white [&_.file-input]:text-[#707483] file:[&_.file-input]:bg-[#707483]",
+
     ]
   end
 
   defp color_class("dark") do
     [
-      "[&_.file-input]:bg-[#707483] file:[&_.file-input]:text-[#707483] file:[&_.file-input]:bg-[#E3E7F1]",
+      "[&_.file-input]:bg-[#383838] file:[&_.file-input]:text-white [&_.file-input]:text-white file:[&_.file-input]:bg-[#1E1E1E]",
     ]
   end
 end
