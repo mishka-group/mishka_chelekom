@@ -8,7 +8,7 @@ defmodule MishkaChelekom.SelectField do
   attr :color, :string, default: "light", doc: ""
   attr :border, :string, default: "extra_small", doc: ""
   attr :rounded, :string, default: "small", doc: ""
-  attr :variant, :string, default: "default", doc: ""
+  attr :variant, :string, default: "native", doc: ""
   attr :description, :string, default: nil, doc: ""
   attr :space, :string, default: "medium", doc: ""
   attr :size, :string, default: "extra_large", doc: ""
@@ -29,17 +29,19 @@ defmodule MishkaChelekom.SelectField do
   attr :errors, :list, default: []
   attr :name, :any
 
-  slot :option, required: true do
+  slot :inner_block, required: false, doc: ""
+
+  slot :option, required: false do
     attr :value, :string
     attr :selected, :string, required: false
+    attr :disabled, :string, required: false
   end
 
   attr :field, Phoenix.HTML.FormField,
     doc: "a form field struct retrieved from the form, for example: @form[:email]"
 
   attr :rest, :global,
-    include: ~w(autocomplete disabled form list maxlength minlength pattern placeholder
-        readonly required size spellcheck inputmode title autofocus)
+    include: ~w(autocomplete disabled form maxlength minlength readonly required inputmode title autofocus)
 
   @spec select_field(map()) :: Phoenix.LiveView.Rendered.t()
   def select_field(%{field: %Phoenix.HTML.FormField{} = field} = assigns) do
@@ -55,7 +57,7 @@ defmodule MishkaChelekom.SelectField do
   def select_field(assigns) do
     ~H"""
     <div class={[
-      color_variant(@variant, @color),
+      @variant != "native" && color_variant(@variant, @color),
       rounded_size(@rounded),
       border_class(@border),
       size_class(@size),
@@ -74,17 +76,47 @@ defmodule MishkaChelekom.SelectField do
         id={@id}
         class={["select-field block w-full", @errors != [] && "select-field-error"]}
       >
+        <%= render_slot(@inner_block) %>
         <option
           :for={{option, index} <- Enum.with_index(@option, 1)}
           id={"#{@id}-option-#{index}"}
           value={option[:value]}
           selected={option[:selected]}
+          disabled={option[:disabled]}
         >
           <%= render_slot(option) %>
         </option>
       </select>
       <.error :for={msg <- @errors} icon={@error_icon}><%= msg %></.error>
     </div>
+    """
+  end
+
+  attr :id, :string, default: nil, doc: ""
+  attr :label, :string, default: nil
+  attr :class, :string, default: nil
+  attr :seperator, :boolean, default: nil
+
+  slot :option, required: false do
+    attr :value, :string
+    attr :selected, :string, required: false
+    attr :disabled, :string, required: false
+  end
+
+  def select_option_group(assigns) do
+    ~H"""
+    <optgroup label={@label} class={@class}>
+      <option
+        :for={{option, index} <- Enum.with_index(@option, 1)}
+        id={"#{@id}-option-#{index}"}
+        value={option[:value]}
+        selected={option[:selected]}
+        disabled={option[:disabled]}
+      >
+        <%= render_slot(option) %>
+      </option>
+    </optgroup>
+    <hr />
     """
   end
 

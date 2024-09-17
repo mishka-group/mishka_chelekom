@@ -1,66 +1,99 @@
 <div class="p-10 space-y-10">
-    <MishkaChelekom.SelectField.select_field
+  <MishkaChelekom.SelectField.select_field
     name="name1"
     space="small"
     color="danger"
     description="This is description"
     label="This is outline label"
-    placeholder="This is placeholder"
   >
     <:option value="usa">
       USA
     </:option>
+
     <:option value="uae" selected>
       UAE
     </:option>
   </MishkaChelekom.SelectField.select_field>
-    <MishkaChelekom.SelectField.select_field
+
+  <MishkaChelekom.SelectField.select_field
+    name="name1"
+    space="small"
+    color="danger"
+    variant="default"
+    description="This is option group"
+    label="This is outline label"
+  >
+    <MishkaChelekom.SelectField.select_option_group label="group 1">
+      <:option value="usa">
+        USA
+      </:option>
+
+      <:option value="uae" selected>
+        UAE
+      </:option>
+    </MishkaChelekom.SelectField.select_option_group>
+    <hr class="my-5" />
+    <MishkaChelekom.SelectField.select_option_group label="group 2">
+      <:option value="usa">
+        USA
+      </:option>
+
+      <:option value="uae" selected>
+        UAE
+      </:option>
+    </MishkaChelekom.SelectField.select_option_group>
+  </MishkaChelekom.SelectField.select_field>
+
+  <MishkaChelekom.SelectField.select_field
     name="name1"
     space="small"
     variant="unbordered"
     color="misc"
     description="This is description"
     label="This is outline label"
-    placeholder="This is placeholder"
   >
     <:option value="usa">
       USA
     </:option>
+
     <:option value="uae">
       UAE
     </:option>
+
     <:option value="en" selected>
       England
     </:option>
   </MishkaChelekom.SelectField.select_field>
-    <MishkaChelekom.SelectField.select_field
+
+  <MishkaChelekom.SelectField.select_field
     name="name1"
     space="small"
     variant="transparent"
     color="info"
     description="This is description"
     label="This is outline label"
-    placeholder="This is placeholder"
   >
     <:option value="usa">
       USA
     </:option>
+
     <:option value="uae">
       UAE
     </:option>
   </MishkaChelekom.SelectField.select_field>
-    <MishkaChelekom.SelectField.select_field
+
+  <MishkaChelekom.SelectField.select_field
     name="name1"
     space="small"
     variant="shadow"
     color="info"
     description="This is description"
     label="This is outline label"
-    placeholder="This is placeholder"
   >
     <:option value="usa">
       USA
     </:option>
+
     <:option value="uae">
       UAE
     </:option>

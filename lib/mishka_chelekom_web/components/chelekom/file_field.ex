@@ -37,6 +37,7 @@ defmodule MishkaChelekom.FileField do
 
   def file_field(%{dropzone: true} = assigns) do
     ~H"""
+    <.label for={@id}><%= @label %></.label>
 
     """
   end
