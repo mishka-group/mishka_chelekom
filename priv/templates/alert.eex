@@ -1,5 +1,5 @@
-defmodule <%= @module %>.Alert do
+defmodule <%= @module %> do
   def flash(assigns) do
-    assigns <> "-alert-field-1"
+    assigns <> "-alert-field-2"
   end
 end

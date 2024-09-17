@@ -15,7 +15,7 @@
   "glob_ex": {:hex, :glob_ex, "0.1.8", "f7ef872877ca2ae7a792ab1f9ff73d9c16bf46ecb028603a8a3c5283016adc07", [:mix], [], "hexpm", "9e39d01729419a60a937c9260a43981440c43aa4cadd1fa6672fecd58241c464"},
   "heroicons": {:git, "https://github.com/tailwindlabs/heroicons.git", "c1b192b8cd0f1b3c569d25ba995d170f3db86039", [tag: "v2.1.4", sparse: "optimized", depth: 1]},
   "hpax": {:hex, :hpax, "0.2.0", "5a58219adcb75977b2edce5eb22051de9362f08236220c9e859a47111c194ff5", [:mix], [], "hexpm", "bea06558cdae85bed075e6c036993d43cd54d447f76d8190a8db0dc5893fa2f1"},
-  "igniter": {:git, "https://github.com/ash-project/igniter.git", "86c93968b12c0942caf97734951b87f4ac1915ee", [branch: "main"]},
+  "igniter": {:git, "https://github.com/ash-project/igniter.git", "c8fd9687db89ca9ea9cf23bfe9f41eadfb5cab79", [branch: "main"]},
   "jason": {:hex, :jason, "1.4.4", "b9226785a9aa77b6857ca22832cffa5d5011a667207eb2a0ad56adb5db443b8a", [:mix], [{:decimal, "~> 1.0 or ~> 2.0", [hex: :decimal, repo: "hexpm", optional: true]}], "hexpm", "c5eb0cab91f094599f94d55bc63409236a8ec69a21a67814529e8d5f6cc90b3b"},
   "mime": {:hex, :mime, "2.0.5", "dc34c8efd439abe6ae0343edbb8556f4d63f178594894720607772a041b04b02", [:mix], [], "hexpm", "da0d64a365c45bc9935cc5c8a7fc5e49a0e0f9932a761c55d6c52b142780a05c"},
   "mint": {:hex, :mint, "1.6.2", "af6d97a4051eee4f05b5500671d47c3a67dac7386045d87a904126fd4bbcea2e", [:mix], [{:castore, "~> 0.1.0 or ~> 1.0", [hex: :castore, repo: "hexpm", optional: true]}, {:hpax, "~> 0.1.1 or ~> 0.2.0 or ~> 1.0", [hex: :hpax, repo: "hexpm", optional: false]}], "hexpm", "5ee441dffc1892f1ae59127f74afe8fd82fda6587794278d924e4d90ea3d63f9"},
