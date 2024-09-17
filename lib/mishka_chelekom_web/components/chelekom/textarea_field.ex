@@ -76,7 +76,7 @@ defmodule MishkaChelekom.TextareaField do
             rows={@rows}
             value={@value}
             class={[
-              "disabled:opacity-80 block w-full z-[2] focus:ring-0 placeholder:text-transparent pb-1 pt-2.5 px-2",
+              "disabled:opacity-80 block w-full z-[2] focus:ring-0 placeholder:text-transparent pb-1 pt-3 px-2",
               "text-sm appearance-none bg-transparent border-0 focus:outline-none peer",
               @disable_resize && "resize-none"
             ]}
@@ -169,7 +169,7 @@ defmodule MishkaChelekom.TextareaField do
   defp variant_label_position("outer") do
     [
       "-translate-y-4 top-2 origin-[0] peer-focus:px-1 peer-placeholder-shown:scale-100",
-      "peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4",
+      "peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-4 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4",
       "rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto"
     ]
   end
