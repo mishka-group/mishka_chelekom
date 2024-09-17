@@ -19,7 +19,7 @@ defmodule MishkaChelekomComponents do
         DeviceMockup,
         Drawer,
         Dropdown,
-        FileInput,
+        FileField,
         Footer,
         Form,
         Gallery,
