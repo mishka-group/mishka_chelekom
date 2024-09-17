@@ -2,7 +2,7 @@ defmodule Mix.Tasks.Mishka.Ui.Component do
   use Igniter.Mix.Task
 
   @example "mix mishka.ui.component component --example arg"
-
+  # @components_path_pattern ~r/lib\/mishka_chelekom_web\/components/
   @shortdoc "A Mix Task for generating and configuring Phoenix components"
   @moduledoc """
   #{@shortdoc}
@@ -79,28 +79,19 @@ defmodule Mix.Tasks.Mishka.Ui.Component do
     # extract options according to `schema` and `aliases` above
     options = options!(argv)
 
-    # Do your work here and return an updated igniter
-    part_module_name = Igniter.Code.Module.parse(Keyword.get(options, :module, component))
-
-    module_place =
-      Igniter.Project.Module.proper_location(
-        igniter,
-        part_module_name,
-        {:source_folder, "component"}
-      )
-
-    assign = [module: String.capitalize(component)]
-    # IO.inspect(Igniter.Libs.Phoenix.web_module(igniter))
-    # Module.concat([Igniter.Libs.Phoenix.web_module(igniter), Your.Suffix])
     # Mix.shell().prompt("What's your name?")
     # name = Mix.Shell.IO.prompt("What's your name?")
     # Mix.shell().info("Hello, #{name}!")
     # Mix.Shell.IO.error("That's not a valid age! Please enter a number.")
-    IO.inspect(igniter.rewrite)
+    converted_components_path(igniter, component, Keyword.get(options, :module))
+    |> case do
+      {:ok, igniter, proper_location, assign} ->
+        igniter
+        |> Igniter.copy_template(template_path, proper_location, assign, on_exists: :overwrite)
 
-    igniter
-    |> Igniter.add_warning("mix mishka.ui.component is not yet implemented")
-    |> Igniter.copy_template(template_path, module_place, assign, on_exists: :overwrite)
+      {:error, _} ->
+        false
+    end
   end
 
   def supports_umbrella?(), do: false
@@ -120,7 +111,61 @@ defmodule Mix.Tasks.Mishka.Ui.Component do
   #   options
   # end
 
-  # defp converted_components_path() do
-  #   # TODO: create path of user project components directory based on user input
-  # end
+  defp converted_components_path(igniter, component, custom_module) do
+    web_module = Macro.underscore(Igniter.Libs.Phoenix.web_module(igniter))
+
+    Path.join("lib", web_module <> "/components")
+    |> File.dir?()
+    |> case do
+      false ->
+        re_dir(igniter, component, custom_module)
+
+      true ->
+        component = atom_to_module(custom_module || web_module <> ".components.#{component}")
+
+        proper_location =
+          Module.concat([
+            Igniter.Libs.Phoenix.web_module(igniter),
+            "components",
+            (!is_nil(custom_module) && atom_to_module(custom_module, :last)) || component
+          ])
+          |> then(&Igniter.Project.Module.proper_location(igniter, &1))
+
+        new_igniter =
+          if !is_nil(custom_module) do
+            igniter
+            |> Igniter.Project.IgniterConfig.dont_move_file_pattern(~r/#{proper_location}/)
+            |> Igniter.compose_task("igniter.add_extension", ["phoenix"])
+          else
+            igniter
+          end
+
+        {:ok, new_igniter, proper_location, [module: component]}
+    end
+  end
+
+  defp re_dir(igniter, component, custom_module) do
+    if Igniter.Util.IO.yes?("Do you want to continue?") do
+      # TODO: create the directory
+      converted_components_path(igniter, component, custom_module)
+    else
+      {:error, :no_dir, "error_msg"}
+    end
+  end
+
+  def atom_to_module(field) do
+    field
+    |> String.split(".", trim: true)
+    |> Enum.map(&Macro.camelize/1)
+    |> Enum.join(".")
+    |> String.to_atom()
+  end
+
+  def atom_to_module(field, :last) do
+    field
+    |> String.split(".", trim: true)
+    |> List.last()
+    |> Macro.camelize()
+    |> String.to_atom()
+  end
 end
