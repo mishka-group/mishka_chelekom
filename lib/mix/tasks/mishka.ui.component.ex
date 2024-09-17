@@ -63,10 +63,6 @@ defmodule Mix.Tasks.Mishka.Ui.Component do
     # extract positional arguments according to `positional` above
     {%{component: component}, argv} = positional_args!(argv)
 
-    template_path =
-      Application.app_dir(:mishka_chelekom, ["priv", "templates"])
-      |> Path.join("#{component}.eex")
-
     """
        ,_,
       {o,o}
@@ -79,77 +75,97 @@ defmodule Mix.Tasks.Mishka.Ui.Component do
     # extract options according to `schema` and `aliases` above
     options = options!(argv)
 
-    # Mix.shell().prompt("What's your name?")
-    # name = Mix.Shell.IO.prompt("What's your name?")
-    # Mix.shell().info("Hello, #{name}!")
-    # Mix.Shell.IO.error("That's not a valid age! Please enter a number.")
-    converted_components_path(igniter, component, Keyword.get(options, :module))
-    |> case do
-      {:ok, igniter, proper_location, assign} ->
-        igniter
-        |> Igniter.copy_template(template_path, proper_location, assign, on_exists: :overwrite)
-
-      {:error, _} ->
-        false
-    end
+    igniter
+    |> get_component_template(component)
+    |> converted_components_path(Keyword.get(options, :module))
+    |> update_eex_assign(options)
+    |> create_update_component()
   end
 
   def supports_umbrella?(), do: false
 
-  # defp get_component_template(_igniter, component) do
-  #   # TODO: check the component eex file exist or not
-  #   # TODO: check the yaml file exist or not
-  #   # TODO: get map of component yaml
-  #   # TODO: if we have error it should prevent the code and return error
-  #   # TODO: return {template_path, yaml_args}
-  #   component
-  # end
+  defp get_component_template(igniter, component) do
+    component = String.replace(component, " ", "") |> Macro.underscore()
 
-  # defp update_eex_assign(options, _source_args) do
-  #   # TODO: create module name based on user inout
-  #   # TODO: create list of all args event it is not be used in the eex file
-  #   options
-  # end
+    template_path =
+      Path.join(Application.app_dir(:mishka_chelekom, ["priv", "templates"]), "#{component}.eex")
 
-  defp converted_components_path(igniter, component, custom_module) do
-    web_module = Macro.underscore(Igniter.Libs.Phoenix.web_module(igniter))
+    template_config_path = Path.rootname(template_path) <> ".exs"
+
+    {File.exists?(template_path), File.exists?(template_config_path)}
+    |> case do
+      {true, true} ->
+        %{
+          igniter: igniter,
+          component: component,
+          path: template_path,
+          config: Config.Reader.read!(template_config_path)[String.to_atom(component)]
+        }
+
+      _ ->
+        {:error, :no_component, "error_msg", igniter}
+    end
+  end
+
+  defp converted_components_path({:error, _, _, _igniter} = error, _), do: error
+
+  defp converted_components_path(template, custom_module) do
+    web_module = Macro.underscore(Igniter.Libs.Phoenix.web_module(template.igniter))
 
     Path.join("lib", web_module <> "/components")
     |> File.dir?()
     |> case do
       false ->
-        re_dir(igniter, component, custom_module)
+        re_dir(template, custom_module)
 
       true ->
-        component = atom_to_module(custom_module || web_module <> ".components.#{component}")
+        component = atom_to_module(custom_module || web_module <> ".components.#{template.component}")
 
         proper_location =
           Module.concat([
-            Igniter.Libs.Phoenix.web_module(igniter),
+            Igniter.Libs.Phoenix.web_module(template.igniter),
             "components",
             (!is_nil(custom_module) && atom_to_module(custom_module, :last)) || component
           ])
-          |> then(&Igniter.Project.Module.proper_location(igniter, &1))
+          |> then(&Igniter.Project.Module.proper_location(template.igniter, &1))
 
         new_igniter =
           if !is_nil(custom_module) do
-            igniter
+            template.igniter
             |> Igniter.Project.IgniterConfig.dont_move_file_pattern(~r/#{proper_location}/)
             |> Igniter.compose_task("igniter.add_extension", ["phoenix"])
           else
-            igniter
+            template.igniter
           end
 
-        {:ok, new_igniter, proper_location, [module: component]}
+        {new_igniter, proper_location, [module: component], template.path, template.config}
     end
   end
 
-  defp re_dir(igniter, component, custom_module) do
+  defp update_eex_assign({:error, _, _, _igniter} = error, _), do: error
+
+  defp update_eex_assign(
+         {igniter, proper_location, assign, template_path, _template_config},
+         _options
+       ) do
+    # TODO: create module name based on user inout
+    # TODO: create list of all args event it is not be used in the eex file
+    {igniter, template_path, proper_location, assign}
+  end
+
+  def create_update_component({:error, _, msg, igniter}), do: Igniter.add_issue(igniter, msg)
+
+  def create_update_component({igniter, template_path, proper_location, assign}) do
+    igniter
+    |> Igniter.copy_template(template_path, proper_location, assign, on_exists: :overwrite)
+  end
+
+  defp re_dir(template, custom_module) do
     if Igniter.Util.IO.yes?("Do you want to continue?") do
       # TODO: create the directory
-      converted_components_path(igniter, component, custom_module)
+      converted_components_path(template, custom_module)
     else
-      {:error, :no_dir, "error_msg"}
+      {:error, :no_dir, "error_msg", template.igniter}
     end
   end
 
