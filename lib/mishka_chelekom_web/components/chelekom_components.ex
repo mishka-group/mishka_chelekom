@@ -57,7 +57,7 @@ defmodule MishkaChelekomComponents do
         Stepper,
         Table,
         Tabs,
-        TextareaInput,
+        TextareaField,
         Timeline,
         TimepickerInput,
         Toast,
