@@ -48,7 +48,7 @@ defmodule MishkaChelekomComponents do
         RadioField,
         RangeField,
         Rating,
-        SearchInput,
+        SearchField,
         SelectField,
         Sidebar,
         Skeleton,

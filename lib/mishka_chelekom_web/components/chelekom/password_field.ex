@@ -113,9 +113,8 @@ defmodule MishkaChelekom.PasswordField do
         </div>
         <div
           :if={@show_password}
-          class={["flex items-center justify-center shrink-0 pe-2 h-[inherit]", @end_section[:class]]}
+          class={["flex items-center justify-center shrink-0 pe-2 h-[inherit]"]}
         >
-          <%!-- TODO: Add ability to change icon to hero-eye whn it clicked --%>
           <button phx-click={
             JS.toggle_class("hero-eye-slash")
             |> JS.toggle_attribute({"type", "password", "text"}, to: "##{@id}")
@@ -187,7 +186,6 @@ defmodule MishkaChelekom.PasswordField do
           :if={@show_password}
           class={["flex items-center justify-center shrink-0 pe-2 h-[inherit]", @end_section[:class]]}
         >
-          <%!-- TODO: Add ability to change icon to hero-eye whn it clicked --%>
           <button phx-click={
             JS.toggle_class("hero-eye-slash")
             |> JS.toggle_attribute({"type", "password", "text"}, to: "##{@id}")
