@@ -54,7 +54,7 @@ defmodule MishkaChelekom.SelectField do
       border_class(@border),
       size_class(@size),
       space_class(@space),
-      @ring && "[&_.select-field]:focus-within:ring-[0.03rem]",
+      @ring && "[&_.select-field]:focus-within:ring-[0.03rem]"
     ]}>
       <div>
         <.label for={@id}><%= @label %></.label>
@@ -357,7 +357,7 @@ defmodule MishkaChelekom.SelectField do
 
   defp color_variant("unbordered", "white") do
     [
-      "[&_.select-field]:bg-white [&_.select-field]:border-transparent text-[#3E3E3E]",
+      "[&_.select-field]:bg-white [&_.select-field]:border-transparent text-[#3E3E3E]"
     ]
   end
 
@@ -377,43 +377,43 @@ defmodule MishkaChelekom.SelectField do
 
   defp color_variant("unbordered", "success") do
     [
-      "[&_.select-field]:bg-[#ECFEF3] [&_.select-field]:border-transparent text-[#047857]",
+      "[&_.select-field]:bg-[#ECFEF3] [&_.select-field]:border-transparent text-[#047857]"
     ]
   end
 
   defp color_variant("unbordered", "warning") do
     [
-      "[&_.select-field]:bg-[#FFF8E6] [&_.select-field]:border-transparent text-[#FF8B08]",
+      "[&_.select-field]:bg-[#FFF8E6] [&_.select-field]:border-transparent text-[#FF8B08]"
     ]
   end
 
   defp color_variant("unbordered", "danger") do
     [
-      "[&_.select-field]:bg-[#FFE6E6] [&_.select-field]:border-transparent text-[#E73B3B]",
+      "[&_.select-field]:bg-[#FFE6E6] [&_.select-field]:border-transparent text-[#E73B3B]"
     ]
   end
 
   defp color_variant("unbordered", "info") do
     [
-      "[&_.select-field]:bg-[#E5F0FF] [&_.select-field]:border-transparent text-[#004FC4]",
+      "[&_.select-field]:bg-[#E5F0FF] [&_.select-field]:border-transparent text-[#004FC4]"
     ]
   end
 
   defp color_variant("unbordered", "misc") do
     [
-      "[&_.select-field]:bg-[#FFE6FF] [&_.select-field]:border-transparent text-[#52059C]",
+      "[&_.select-field]:bg-[#FFE6FF] [&_.select-field]:border-transparent text-[#52059C]"
     ]
   end
 
   defp color_variant("unbordered", "dawn") do
     [
-      "[&_.select-field]:bg-[#FFECDA] [&_.select-field]:border-transparent text-[#4D4137]",
+      "[&_.select-field]:bg-[#FFECDA] [&_.select-field]:border-transparent text-[#4D4137]"
     ]
   end
 
   defp color_variant("unbordered", "light") do
     [
-      "[&_.select-field]:bg-[#E3E7F1] [&_.select-field]:border-transparent text-[#707483]",
+      "[&_.select-field]:bg-[#E3E7F1] [&_.select-field]:border-transparent text-[#707483]"
     ]
   end
 
@@ -426,67 +426,67 @@ defmodule MishkaChelekom.SelectField do
 
   defp color_variant("shadow", "white") do
     [
-      "[&_.select-field]:shadow [&_.select-field]:bg-white text-[#3E3E3E] [&_.select-field]:border-[#DADADA]",
+      "[&_.select-field]:shadow [&_.select-field]:bg-white text-[#3E3E3E] [&_.select-field]:border-[#DADADA]"
     ]
   end
 
   defp color_variant("shadow", "primary") do
     [
-      "[&_.select-field]:shadow [&_.select-field]:bg-[#4363EC] text-[#4363EC] [&_.select-field]:border-[#4363EC]",
+      "[&_.select-field]:shadow [&_.select-field]:bg-[#4363EC] text-[#4363EC] [&_.select-field]:border-[#4363EC]"
     ]
   end
 
   defp color_variant("shadow", "secondary") do
     [
-      "[&_.select-field]:shadow [&_.select-field]:bg-[#6B6E7C] text-[#6B6E7C] [&_.select-field]:border-[#6B6E7C]",
+      "[&_.select-field]:shadow [&_.select-field]:bg-[#6B6E7C] text-[#6B6E7C] [&_.select-field]:border-[#6B6E7C]"
     ]
   end
 
   defp color_variant("shadow", "success") do
     [
-      "[&_.select-field]:shadow [&_.select-field]:bg-[#ECFEF3] text-[#227A52] [&_.select-field]:border-[#047857]",
+      "[&_.select-field]:shadow [&_.select-field]:bg-[#ECFEF3] text-[#227A52] [&_.select-field]:border-[#047857]"
     ]
   end
 
   defp color_variant("shadow", "warning") do
     [
-      "[&_.select-field]:shadow [&_.select-field]:bg-[#FFF8E6] text-[#FF8B08] [&_.select-field]:border-[#FFF8E6]",
+      "[&_.select-field]:shadow [&_.select-field]:bg-[#FFF8E6] text-[#FF8B08] [&_.select-field]:border-[#FFF8E6]"
     ]
   end
 
   defp color_variant("shadow", "danger") do
     [
-      "[&_.select-field]:shadow [&_.select-field]:bg-[#FFE6E6] text-[#E73B3B] [&_.select-field]:border-[#FFE6E6]",
+      "[&_.select-field]:shadow [&_.select-field]:bg-[#FFE6E6] text-[#E73B3B] [&_.select-field]:border-[#FFE6E6]"
     ]
   end
 
   defp color_variant("shadow", "info") do
     [
-      "[&_.select-field]:shadow [&_.select-field]:bg-[#E5F0FF] text-[#004FC4] [&_.select-field]:border-[#E5F0FF]",
+      "[&_.select-field]:shadow [&_.select-field]:bg-[#E5F0FF] text-[#004FC4] [&_.select-field]:border-[#E5F0FF]"
     ]
   end
 
   defp color_variant("shadow", "misc") do
     [
-      "[&_.select-field]:shadow [&_.select-field]:bg-[#FFE6FF] text-[#52059C] [&_.select-field]:border-[#FFE6FF]",
+      "[&_.select-field]:shadow [&_.select-field]:bg-[#FFE6FF] text-[#52059C] [&_.select-field]:border-[#FFE6FF]"
     ]
   end
 
   defp color_variant("shadow", "dawn") do
     [
-      "[&_.select-field]:shadow [&_.select-field]:bg-[#FFECDA] text-[#4D4137] [&_.select-field]:border-[#FFECDA]",
+      "[&_.select-field]:shadow [&_.select-field]:bg-[#FFECDA] text-[#4D4137] [&_.select-field]:border-[#FFECDA]"
     ]
   end
 
   defp color_variant("shadow", "light") do
     [
-      "[&_.select-field]:shadow [&_.select-field]:bg-[#E3E7F1] text-[#707483] [&_.select-field]:border-[#E3E7F1]",
+      "[&_.select-field]:shadow [&_.select-field]:bg-[#E3E7F1] text-[#707483] [&_.select-field]:border-[#E3E7F1]"
     ]
   end
 
   defp color_variant("shadow", "dark") do
     [
-      "[&_.select-field]:shadow [&_.select-field]:bg-[#1E1E1E] [&_.select-field]:text-white text-[#1E1E1E] [&_.select-field]:border-[#1E1E1E]",
+      "[&_.select-field]:shadow [&_.select-field]:bg-[#1E1E1E] [&_.select-field]:text-white text-[#1E1E1E] [&_.select-field]:border-[#1E1E1E]"
     ]
   end
 

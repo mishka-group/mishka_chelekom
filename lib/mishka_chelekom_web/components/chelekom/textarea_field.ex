@@ -37,7 +37,8 @@ defmodule MishkaChelekom.TextareaField do
     doc: "a form field struct retrieved from the form, for example: @form[:email]"
 
   attr :rest, :global,
-    include: ~w(disabled form maxlength minlength placeholder readonly required spellcheck inputmode title autofocus wrap dirname)
+    include:
+      ~w(disabled form maxlength minlength placeholder readonly required spellcheck inputmode title autofocus wrap dirname)
 
   @spec textarea_field(map()) :: Phoenix.LiveView.Rendered.t()
   def textarea_field(%{field: %Phoenix.HTML.FormField{} = field} = assigns) do
@@ -49,7 +50,6 @@ defmodule MishkaChelekom.TextareaField do
     |> assign_new(:value, fn -> field.value end)
     |> textarea_field()
   end
-
 
   def textarea_field(%{floating: floating} = assigns) when floating in ["inner", "outer"] do
     ~H"""
@@ -69,30 +69,30 @@ defmodule MishkaChelekom.TextareaField do
         "textarea-field-wrapper transition-all ease-in-out duration-200 relative w-full z-[2]",
         @errors != [] && "textarea-field-error"
       ]}>
-          <textarea
-            type="text"
-            name={@name}
-            id={@id}
-            rows={@rows}
-            value={@value}
-            class={[
-              "disabled:opacity-80 block w-full z-[2] focus:ring-0 placeholder:text-transparent pb-1 pt-3 px-2",
-              "text-sm appearance-none bg-transparent border-0 focus:outline-none peer",
-              @disable_resize && "resize-none"
-            ]}
-            placeholder=" "
-            {@rest}
-          ></textarea>
+        <textarea
+          type="text"
+          name={@name}
+          id={@id}
+          rows={@rows}
+          value={@value}
+          class={[
+            "disabled:opacity-80 block w-full z-[2] focus:ring-0 placeholder:text-transparent pb-1 pt-3 px-2",
+            "text-sm appearance-none bg-transparent border-0 focus:outline-none peer",
+            @disable_resize && "resize-none"
+          ]}
+          placeholder=" "
+          {@rest}
+        ></textarea>
 
-          <label
-            class={[
-              "floating-label px-1 start-1 -z-[1] absolute text-xs duration-300 transform scale-75 origin-[0]",
-              variant_label_position(@floating)
-            ]}
-            for={@id}
-          >
-            <%= @label %>
-          </label>
+        <label
+          class={[
+            "floating-label px-1 start-1 -z-[1] absolute text-xs duration-300 transform scale-75 origin-[0]",
+            variant_label_position(@floating)
+          ]}
+          for={@id}
+        >
+          <%= @label %>
+        </label>
       </div>
 
       <.error :for={msg <- @errors} icon={@error_icon}><%= msg %></.error>
@@ -122,7 +122,7 @@ defmodule MishkaChelekom.TextareaField do
         "textarea-field-wrapper overflow-hidden transition-all ease-in-out duration-200 flex flex-nowrap",
         @errors != [] && "textarea-field-error"
       ]}>
-      <textarea
+        <textarea
           type="text"
           name={@name}
           id={@id}
@@ -240,7 +240,7 @@ defmodule MishkaChelekom.TextareaField do
       "text-[#afafaf] [&_.textarea-field-wrapper:not(:has(.textarea-field-error))]:border-[#afafaf]",
       "[&_.textarea-field-wrapper.textarea-field-error]:border-rose-700",
       "[&_.textarea-field-wrapper>textarea]:placeholder:text-[#afafaf] focus-within:[&_.textarea-field-wrapper]:ring-[#afafaf]",
-       floating == "outer" && "[&_.textarea-field-wrapper_.floating-label]:bg-white"
+      floating == "outer" && "[&_.textarea-field-wrapper_.floating-label]:bg-white"
     ]
   end
 
@@ -249,7 +249,7 @@ defmodule MishkaChelekom.TextareaField do
       "text-[#2441de] [&_.textarea-field-wrapper:not(:has(.textarea-field-error))]:border-[#2441de]",
       "[&_.textarea-field-wrapper.textarea-field-error]:border-rose-700",
       "[&_.textarea-field-wrapper>textarea]:placeholder:text-[#2441de] focus-within:[&_.textarea-field-wrapper]:ring-[#2441de]",
-       floating == "outer" && "[&_.textarea-field-wrapper_.floating-label]:bg-white"
+      floating == "outer" && "[&_.textarea-field-wrapper_.floating-label]:bg-white"
     ]
   end
 
@@ -258,7 +258,7 @@ defmodule MishkaChelekom.TextareaField do
       "text-[#877C7C] [&_.textarea-field-wrapper:not(:has(.textarea-field-error))]:border-[#877C7C]",
       "[&_.textarea-field-wrapper.textarea-field-error]:border-rose-700",
       "[&_.textarea-field-wrapper>textarea]:placeholder:text-[#877C7Cb] focus-within:[&_.textarea-field-wrapper]:ring-[#877C7C]",
-       floating == "outer" && "[&_.textarea-field-wrapper_.floating-label]:bg-white"
+      floating == "outer" && "[&_.textarea-field-wrapper_.floating-label]:bg-white"
     ]
   end
 
@@ -267,7 +267,7 @@ defmodule MishkaChelekom.TextareaField do
       "text-[#047857] [&_.textarea-field-wrapper:not(:has(.textarea-field-error))]:border-[#047857]",
       "[&_.textarea-field-wrapper.textarea-field-error]:border-rose-700",
       "[&_.textarea-field-wrapper>textarea]:placeholder:text-[#047857] focus-within:[&_.textarea-field-wrapper]:ring-[#047857]",
-       floating == "outer" && "[&_.textarea-field-wrapper_.floating-label]:bg-white"
+      floating == "outer" && "[&_.textarea-field-wrapper_.floating-label]:bg-white"
     ]
   end
 
@@ -276,7 +276,7 @@ defmodule MishkaChelekom.TextareaField do
       "text-[#FF8B08] [&_.textarea-field-wrapper:not(:has(.textarea-field-error))]:border-[#FF8B08]",
       "[&_.textarea-field-wrapper.textarea-field-error]:border-rose-700",
       "[&_.textarea-field-wrapper>textarea]:placeholder:text-[#FF8B08] focus-within:[&_.textarea-field-wrapper]:ring-[#FF8B08]",
-       floating == "outer" && "[&_.textarea-field-wrapper_.floating-label]:bg-white"
+      floating == "outer" && "[&_.textarea-field-wrapper_.floating-label]:bg-white"
     ]
   end
 
@@ -285,7 +285,7 @@ defmodule MishkaChelekom.TextareaField do
       "text-[#E73B3B] [&_.textarea-field-wrapper:not(:has(.textarea-field-error))]:border-[#E73B3B]",
       "[&_.textarea-field-wrapper.textarea-field-error]:border-rose-700",
       "[&_.textarea-field-wrapper>textarea]:placeholder:text-[#E73B3B] focus-within:[&_.textarea-field-wrapper]:ring-[#E73B3B]",
-       floating == "outer" && "[&_.textarea-field-wrapper_.floating-label]:bg-white"
+      floating == "outer" && "[&_.textarea-field-wrapper_.floating-label]:bg-white"
     ]
   end
 
@@ -294,7 +294,7 @@ defmodule MishkaChelekom.TextareaField do
       "text-[#004FC4] [&_.textarea-field-wrapper:not(:has(.textarea-field-error))]:border-[#004FC4]",
       "[&_.textarea-field-wrapper.textarea-field-error]:border-rose-700",
       "[&_.textarea-field-wrapper>textarea]:placeholder:text-[#004FC4] focus-within:[&_.textarea-field-wrapper]:ring-[#004FC4]",
-       floating == "outer" && "[&_.textarea-field-wrapper_.floating-label]:bg-white"
+      floating == "outer" && "[&_.textarea-field-wrapper_.floating-label]:bg-white"
     ]
   end
 
@@ -303,7 +303,7 @@ defmodule MishkaChelekom.TextareaField do
       "text-[#52059C] [&_.textarea-field-wrapper:not(:has(.textarea-field-error))]:border-[#52059C]",
       "[&_.textarea-field-wrapper.textarea-field-error]:border-rose-700",
       "[&_.textarea-field-wrapper>textarea]:placeholder:text-[#52059C] focus-within:[&_.textarea-field-wrapper]:ring-[#52059C]",
-       floating == "outer" && "[&_.textarea-field-wrapper_.floating-label]:bg-white"
+      floating == "outer" && "[&_.textarea-field-wrapper_.floating-label]:bg-white"
     ]
   end
 
@@ -312,7 +312,7 @@ defmodule MishkaChelekom.TextareaField do
       "text-[#4D4137] [&_.textarea-field-wrapper:not(:has(.textarea-field-error))]:border-[#4D4137]",
       "[&_.textarea-field-wrapper.textarea-field-error]:border-rose-700",
       "[&_.textarea-field-wrapper>textarea]:placeholder:text-[#4D4137] focus-within:[&_.textarea-field-wrapper]:ring-[#4D4137]",
-       floating == "outer" && "[&_.textarea-field-wrapper_.floating-label]:bg-white"
+      floating == "outer" && "[&_.textarea-field-wrapper_.floating-label]:bg-white"
     ]
   end
 
@@ -321,7 +321,7 @@ defmodule MishkaChelekom.TextareaField do
       "text-[#707483] [&_.textarea-field-wrapper:not(:has(.textarea-field-error))]:border-[#707483]",
       "[&_.textarea-field-wrapper.textarea-field-error]:border-rose-700",
       "[&_.textarea-field-wrapper>textarea]:placeholder:text-[#707483] focus-within:[&_.textarea-field-wrapper]:ring-[#707483]",
-       floating == "outer" && "[&_.textarea-field-wrapper_.floating-label]:bg-white"
+      floating == "outer" && "[&_.textarea-field-wrapper_.floating-label]:bg-white"
     ]
   end
 
@@ -330,7 +330,7 @@ defmodule MishkaChelekom.TextareaField do
       "text-[#1E1E1E] [&_.textarea-field-wrapper]:text-text-[#1E1E1E] [&_.textarea-field-wrapper:not(:has(.textarea-field-error))]:border-[#050404]",
       "[&_.textarea-field-wrapper.textarea-field-error]:border-rose-700",
       "[&_.textarea-field-wrapper>textarea]:placeholder:text-[#1E1E1E] focus-within:[&_.textarea-field-wrapper]:ring-[#050404]",
-       floating == "outer" && "[&_.textarea-field-wrapper_.floating-label]:bg-white"
+      floating == "outer" && "[&_.textarea-field-wrapper_.floating-label]:bg-white"
     ]
   end
 
@@ -339,7 +339,7 @@ defmodule MishkaChelekom.TextareaField do
       "[&_.textarea-field-wrapper]:bg-white text-[#3E3E3E] [&_.textarea-field-wrapper:not(:has(.textarea-field-error))]:border-[#DADADA]",
       "[&_.textarea-field-wrapper.textarea-field-error]:border-rose-700",
       "[&_.textarea-field-wrapper>textarea]:placeholder:text-[#3E3E3E] focus-within:[&_.textarea-field-wrapper]:ring-[#DADADA]",
-       floating == "outer" && "[&_.textarea-field-wrapper_.floating-label]:bg-white"
+      floating == "outer" && "[&_.textarea-field-wrapper_.floating-label]:bg-white"
     ]
   end
 
@@ -348,7 +348,7 @@ defmodule MishkaChelekom.TextareaField do
       "[&_.textarea-field-wrapper]:bg-[#4363EC] text-[#4363EC] [&_.textarea-field-wrapper:not(:has(.textarea-field-error))]:border-[#2441de]",
       "[&_.textarea-field-wrapper.textarea-field-error]:border-rose-700 [&_.textarea-field-wrapper]:text-white",
       "[&_.textarea-field-wrapper>textarea]:placeholder:text-white focus-within:[&_.textarea-field-wrapper]:ring-[#2441de]",
-       floating == "outer" && "[&_.textarea-field-wrapper_.floating-label]:bg-[#4363EC]"
+      floating == "outer" && "[&_.textarea-field-wrapper_.floating-label]:bg-[#4363EC]"
     ]
   end
 
@@ -357,7 +357,7 @@ defmodule MishkaChelekom.TextareaField do
       "[&_.textarea-field-wrapper]:bg-[#6B6E7C] text-[#6B6E7C] [&_.textarea-field-wrapper:not(:has(.textarea-field-error))]:border-[#877C7C]",
       "[&_.textarea-field-wrapper.textarea-field-error]:border-rose-700 [&_.textarea-field-wrapper]:text-white",
       "[&_.textarea-field-wrapper>textarea]:placeholder:text-white focus-within:[&_.textarea-field-wrapper]:ring-[#877C7C]",
-       floating == "outer" && "[&_.textarea-field-wrapper_.floating-label]:bg-[#6B6E7C]"
+      floating == "outer" && "[&_.textarea-field-wrapper_.floating-label]:bg-[#6B6E7C]"
     ]
   end
 
@@ -366,7 +366,7 @@ defmodule MishkaChelekom.TextareaField do
       "[&_.textarea-field-wrapper]:bg-[#ECFEF3] text-[#047857] [&_.textarea-field-wrapper:not(:has(.textarea-field-error))]:border-[#6EE7B7]",
       "[&_.textarea-field-wrapper.textarea-field-error]:border-rose-700",
       "[&_.textarea-field-wrapper>textarea]:placeholder:text-[#047857] focus-within:[&_.textarea-field-wrapper]:ring-[#6EE7B7]",
-       floating == "outer" && "[&_.textarea-field-wrapper_.floating-label]:bg-[#ECFEF3]"
+      floating == "outer" && "[&_.textarea-field-wrapper_.floating-label]:bg-[#ECFEF3]"
     ]
   end
 
@@ -375,7 +375,7 @@ defmodule MishkaChelekom.TextareaField do
       "[&_.textarea-field-wrapper]:bg-[#FFF8E6] text-[#FF8B08] [&_.textarea-field-wrapper:not(:has(.textarea-field-error))]:border-[#FF8B08]",
       "[&_.textarea-field-wrapper.textarea-field-error]:border-rose-700",
       "[&_.textarea-field-wrapper>textarea]:placeholder:text-[#FF8B08] focus-within:[&_.textarea-field-wrapper]:ring-[#FF8B08]",
-       floating == "outer" && "[&_.textarea-field-wrapper_.floating-label]:bg-[#FFF8E6]"
+      floating == "outer" && "[&_.textarea-field-wrapper_.floating-label]:bg-[#FFF8E6]"
     ]
   end
 
@@ -384,7 +384,7 @@ defmodule MishkaChelekom.TextareaField do
       "[&_.textarea-field-wrapper]:bg-[#FFE6E6] text-[#E73B3B] [&_.textarea-field-wrapper:not(:has(.textarea-field-error))]:border-[#E73B3B]",
       "[&_.textarea-field-wrapper.textarea-field-error]:border-rose-700",
       "[&_.textarea-field-wrapper>textarea]:placeholder:text-[#E73B3B] focus-within:[&_.textarea-field-wrapper]:ring-[#E73B3B]",
-       floating == "outer" && "[&_.textarea-field-wrapper_.floating-label]:bg-[#FFE6E6]"
+      floating == "outer" && "[&_.textarea-field-wrapper_.floating-label]:bg-[#FFE6E6]"
     ]
   end
 
@@ -393,7 +393,7 @@ defmodule MishkaChelekom.TextareaField do
       "[&_.textarea-field-wrapper]:bg-[#E5F0FF] text-[#004FC4] [&_.textarea-field-wrapper:not(:has(.textarea-field-error))]:border-[#004FC4]",
       "[&_.textarea-field-wrapper.textarea-field-error]:border-rose-700",
       "[&_.textarea-field-wrapper>textarea]:placeholder:text-[#004FC4] focus-within:[&_.textarea-field-wrapper]:ring-[#004FC4]",
-       floating == "outer" && "[&_.textarea-field-wrapper_.floating-label]:bg-[#E5F0FF]"
+      floating == "outer" && "[&_.textarea-field-wrapper_.floating-label]:bg-[#E5F0FF]"
     ]
   end
 
@@ -402,7 +402,7 @@ defmodule MishkaChelekom.TextareaField do
       "[&_.textarea-field-wrapper]:bg-[#FFE6FF] text-[#52059C] [&_.textarea-field-wrapper:not(:has(.textarea-field-error))]:border-[#52059C]",
       "[&_.textarea-field-wrapper.textarea-field-error]:border-rose-700",
       "[&_.textarea-field-wrapper>textarea]:placeholder:text-[#52059C] focus-within:[&_.textarea-field-wrapper]:ring-[#52059C]",
-       floating == "outer" && "[&_.textarea-field-wrapper_.floating-label]:bg-[#FFE6FF]"
+      floating == "outer" && "[&_.textarea-field-wrapper_.floating-label]:bg-[#FFE6FF]"
     ]
   end
 
@@ -411,7 +411,7 @@ defmodule MishkaChelekom.TextareaField do
       "[&_.textarea-field-wrapper]:bg-[#FFECDA] text-[#4D4137] [&_.textarea-field-wrapper:not(:has(.textarea-field-error))]:border-[#4D4137]",
       "[&_.textarea-field-wrapper.textarea-field-error]:border-rose-700",
       "[&_.textarea-field-wrapper>textarea]:placeholder:text-[#4D4137] focus-within:[&_.textarea-field-wrapper]:ring-[#4D4137]",
-       floating == "outer" && "[&_.textarea-field-wrapper_.floating-label]:bg-[#FFECDA]"
+      floating == "outer" && "[&_.textarea-field-wrapper_.floating-label]:bg-[#FFECDA]"
     ]
   end
 
@@ -420,7 +420,7 @@ defmodule MishkaChelekom.TextareaField do
       "[&_.textarea-field-wrapper]:bg-[#E3E7F1] text-[#707483] [&_.textarea-field-wrapper:not(:has(.textarea-field-error))]:border-[#707483]",
       "[&_.textarea-field-wrapper.textarea-field-error]:border-rose-700",
       "[&_.textarea-field-wrapper>textarea]:placeholder:text-[#707483] focus-within:[&_.textarea-field-wrapper]:ring-[#707483]",
-       floating == "outer" && "[&_.textarea-field-wrapper_.floating-label]:bg-[#E3E7F1]"
+      floating == "outer" && "[&_.textarea-field-wrapper_.floating-label]:bg-[#E3E7F1]"
     ]
   end
 
@@ -429,7 +429,7 @@ defmodule MishkaChelekom.TextareaField do
       "[&_.textarea-field-wrapper]:bg-[#1E1E1E] text-[#1E1E1E] [&_.textarea-field-wrapper]:text-white [&_.textarea-field-wrapper:not(:has(.textarea-field-error))]:border-[#050404]",
       "[&_.textarea-field-wrapper.textarea-field-error]:border-rose-700",
       "[&_.textarea-field-wrapper>textarea]:placeholder:text-white focus-within:[&_.textarea-field-wrapper]:ring-[#050404]",
-       floating == "outer" && "[&_.textarea-field-wrapper_.floating-label]:bg-[#1E1E1E]"
+      floating == "outer" && "[&_.textarea-field-wrapper_.floating-label]:bg-[#1E1E1E]"
     ]
   end
 

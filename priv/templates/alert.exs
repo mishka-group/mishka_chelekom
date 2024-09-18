@@ -1,6 +1,8 @@
 [
   alert: [
     name: "alert",
-    args: []
+    args: [],
+    optional: ["accordion", "avatar"],
+    necessary: [],
   ]
 ]

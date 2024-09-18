@@ -228,7 +228,8 @@ defmodule MishkaChelekom.SearchField do
   end
 
   defp size_class("extra_small"),
-    do: "[&_.search-field-wrapper_input]:h-7 [&_.search-field-wrapper_.search-field-icon]:size-3.5"
+    do:
+      "[&_.search-field-wrapper_input]:h-7 [&_.search-field-wrapper_.search-field-icon]:size-3.5"
 
   defp size_class("small"),
     do: "[&_.search-field-wrapper_input]:h-8 [&_.search-field-wrapper_.search-field-icon]:size-4"

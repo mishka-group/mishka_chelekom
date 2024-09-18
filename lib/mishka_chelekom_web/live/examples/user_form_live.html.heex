@@ -29,7 +29,7 @@
             <figcaption><%= entry.client_name %></figcaption>
           </figure>
 
-          <%  IO.inspect(entry)  %>
+          <% IO.inspect(entry) %>
           <%!-- entry.progress will update automatically for in-flight entries --%>
           <progress value={entry.progress} max="100"><%= entry.progress %>%</progress>
 

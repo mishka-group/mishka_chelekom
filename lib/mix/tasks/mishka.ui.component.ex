@@ -119,7 +119,8 @@ defmodule Mix.Tasks.Mishka.Ui.Component do
         re_dir(template, custom_module)
 
       true ->
-        component = atom_to_module(custom_module || web_module <> ".components.#{template.component}")
+        component =
+          atom_to_module(custom_module || web_module <> ".components.#{template.component}")
 
         proper_location =
           Module.concat([
@@ -145,11 +146,32 @@ defmodule Mix.Tasks.Mishka.Ui.Component do
   defp update_eex_assign({:error, _, _, _igniter} = error, _), do: error
 
   defp update_eex_assign(
-         {igniter, proper_location, assign, template_path, _template_config},
+         {igniter, proper_location, assign, template_path, template_config},
          _options
        ) do
-    # TODO: create module name based on user inout
+    # TODO: create module name based on user input
     # TODO: create list of all args event it is not be used in the eex file
+    # TODO: what we should do when a component needs some another component
+    igniter =
+      if Keyword.get(template_config, :optional, []) != [] do
+        igniter
+        |> Igniter.add_warning(
+          """
+            Some other optional components are suggested for this component. You can create them separately.
+            Note that if you use custom module names and their names are different each time,
+            you may need to manually change the components.
+
+            Components: #{Enum.join(template_config[:optional], " - ")}
+
+            You can run:
+                #{Enum.map(template_config[:optional], &"\n   * mix mishka.ui.component #{&1}\n")}
+          """
+          |> String.trim()
+        )
+      else
+        igniter
+      end
+
     {igniter, template_path, proper_location, assign}
   end
 
