@@ -52,6 +52,39 @@
   <MishkaChelekom.SelectField.select_field
     name="name1"
     space="small"
+    color="dawn"
+    variant="default"
+    multiple
+    size="extra_small"
+    description="This is multiple option group"
+    label="This is outline label"
+  >
+    <MishkaChelekom.SelectField.select_option_group label="group 1">
+      <:option value="usa">
+        USA
+      </:option>
+
+      <:option value="uae" selected>
+        UAE
+      </:option>
+    </MishkaChelekom.SelectField.select_option_group>
+    <MishkaChelekom.SelectField.select_option_group label="group 2">
+      <:option value="usa">
+        USA
+      </:option>
+
+      <:option value="uae">
+        UAE
+      </:option>
+      <:option value="br">
+       Great Britain
+      </:option>
+    </MishkaChelekom.SelectField.select_option_group>
+  </MishkaChelekom.SelectField.select_field>
+
+  <MishkaChelekom.SelectField.select_field
+    name="name1"
+    space="small"
     variant="unbordered"
     color="misc"
     description="This is description"
