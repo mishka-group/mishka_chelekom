@@ -59,7 +59,8 @@ defmodule MishkaChelekom.MixProject do
       {:jason, "~> 1.2"},
       {:dns_cluster, "~> 0.1.1"},
       {:bandit, "~> 1.5"},
-      {:igniter, github: "ash-project/igniter", branch: "main"}
+      {:igniter, github: "ash-project/igniter", branch: "main"},
+      {:owl, "~> 0.11.0"}
     ]
   end
 
