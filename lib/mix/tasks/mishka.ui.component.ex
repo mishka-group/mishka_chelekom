@@ -66,7 +66,7 @@ defmodule Mix.Tasks.Mishka.Ui.Component do
 
     options = options!(argv)
 
-    if options[:sub] == "true" do
+    if options[:sub] != "true" do
       """
         ,_,
         {o,o}
