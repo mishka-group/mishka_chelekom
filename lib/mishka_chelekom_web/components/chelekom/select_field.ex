@@ -15,16 +15,7 @@ defmodule MishkaChelekom.SelectField do
   attr :ring, :boolean, default: true, doc: ""
   attr :error_icon, :string, default: nil, doc: ""
   attr :label, :string, default: nil
-
-  slot :start_section, required: false do
-    attr :class, :string
-    attr :icon, :string
-  end
-
-  slot :end_section, required: false do
-    attr :class, :string
-    attr :icon, :string
-  end
+  attr :multiple, :boolean, default: false
 
   attr :errors, :list, default: []
   attr :name, :any
@@ -33,7 +24,7 @@ defmodule MishkaChelekom.SelectField do
 
   slot :option, required: false do
     attr :value, :string
-    attr :selected, :string, required: false
+    attr :selected, :boolean, required: false
     attr :disabled, :string, required: false
   end
 
@@ -41,7 +32,7 @@ defmodule MishkaChelekom.SelectField do
     doc: "a form field struct retrieved from the form, for example: @form[:email]"
 
   attr :rest, :global,
-    include: ~w(autocomplete disabled form maxlength minlength readonly required inputmode title autofocus)
+    include: ~w(autocomplete disabled form readonly multiple required title autofocus tabindex)
 
   @spec select_field(map()) :: Phoenix.LiveView.Rendered.t()
   def select_field(%{field: %Phoenix.HTML.FormField{} = field} = assigns) do
@@ -74,7 +65,12 @@ defmodule MishkaChelekom.SelectField do
       <select
         name={@name}
         id={@id}
-        class={["select-field block w-full", @errors != [] && "select-field-error"]}
+        multiple={@multiple}
+        class={[
+          "select-field block w-full",
+          @multiple && "select-multiple-option",
+          @errors != [] && "select-field-error"
+        ]}
       >
         <%= render_slot(@inner_block) %>
         <option
@@ -99,7 +95,7 @@ defmodule MishkaChelekom.SelectField do
 
   slot :option, required: false do
     attr :value, :string
-    attr :selected, :string, required: false
+    attr :selected, :boolean, required: false
     attr :disabled, :string, required: false
   end
 
@@ -144,20 +140,35 @@ defmodule MishkaChelekom.SelectField do
     """
   end
 
-  defp size_class("extra_small"),
-    do: "[&_.select-field_input]:h-7 [&_.select-field>.select-field-icon]:size-3.5"
+  defp size_class("extra_small") do
+    [
+      "text-xs [&_.select-field]:text-xs [&_.select-field:not(.select-multiple-option)]:h-9"
+    ]
+  end
 
-  defp size_class("small"),
-    do: "[&_.select-field_input]:h-8 [&_.select-field>.select-field-icon]:size-4"
+  defp size_class("small") do
+    [
+      "text-sm [&_.select-field]:text-sm [&_.select-field:not(.select-multiple-option)]:h-10"
+    ]
+  end
 
-  defp size_class("medium"),
-    do: "[&_.select-field_input]:h-9 [&_.select-field>.select-field-icon]:size-5"
+  defp size_class("medium") do
+    [
+      "text-base [&_.select-field]:text-base [&_.select-field:not(.select-multiple-option)]:h-11"
+    ]
+  end
 
-  defp size_class("large"),
-    do: "[&_.select-field_input]:h-10 [&_.select-field>.select-field-icon]:size-6"
+  defp size_class("large") do
+    [
+      "text-lg [&_.select-field]:text-lg [&_.select-field:not(.select-multiple-option)]:h-12"
+    ]
+  end
 
-  defp size_class("extra_large"),
-    do: "[&_.select-field_input]:h-12 [&_.select-field>.select-field-icon]:size-7"
+  defp size_class("extra_large") do
+    [
+      "text-xl [&_.select-field]:text-xl [&_.select-field:not(.select-multiple-option)]:h-14"
+    ]
+  end
 
   defp size_class(_), do: size_class("medium")
 
@@ -473,7 +484,7 @@ defmodule MishkaChelekom.SelectField do
 
   defp color_variant("shadow", "dark") do
     [
-      "[&_.select-field]:shadow [&_.select-field]:bg-[#1E1E1E] text-[#1E1E1E] [&_.select-field]:border-[#1E1E1E]",
+      "[&_.select-field]:shadow [&_.select-field]:bg-[#1E1E1E] [&_.select-field]:text-white text-[#1E1E1E] [&_.select-field]:border-[#1E1E1E]",
     ]
   end
 
