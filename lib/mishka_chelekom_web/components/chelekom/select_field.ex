@@ -11,6 +11,7 @@ defmodule MishkaChelekom.SelectField do
   attr :variant, :string, default: "native", doc: ""
   attr :description, :string, default: nil, doc: ""
   attr :space, :string, default: "medium", doc: ""
+  attr :min_height, :string, default: nil, doc: ""
   attr :size, :string, default: "extra_large", doc: ""
   attr :ring, :boolean, default: true, doc: ""
   attr :error_icon, :string, default: nil, doc: ""
@@ -54,7 +55,6 @@ defmodule MishkaChelekom.SelectField do
       size_class(@size),
       space_class(@space),
       @ring && "[&_.select-field]:focus-within:ring-[0.03rem]",
-      @class
     ]}>
       <div>
         <.label for={@id}><%= @label %></.label>
@@ -69,7 +69,9 @@ defmodule MishkaChelekom.SelectField do
         class={[
           "select-field block w-full",
           @multiple && "select-multiple-option",
-          @errors != [] && "select-field-error"
+          @errors != [] && "select-field-error",
+          @min_height,
+          @class
         ]}
       >
         <%= render_slot(@inner_block) %>
