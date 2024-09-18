@@ -1,4 +1,4 @@
-defmodule MishkaChelekomWeb.Examples.SelectFieldLive do
+defmodule MishkaChelekomWeb.Examples.NativeSelectLive do
   use Phoenix.LiveView
   use Phoenix.Component
 

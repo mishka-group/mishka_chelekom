@@ -49,7 +49,7 @@ defmodule MishkaChelekomComponents do
         RangeField,
         Rating,
         SearchField,
-        SelectField,
+        NativeSelect,
         Sidebar,
         Skeleton,
         SpeedDial,

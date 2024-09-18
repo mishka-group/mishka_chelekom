@@ -1,4 +1,4 @@
-defmodule MishkaChelekom.SelectField do
+defmodule MishkaChelekom.NativeSelect do
   use Phoenix.Component
   import MishkaChelekomComponents
 
@@ -35,18 +35,18 @@ defmodule MishkaChelekom.SelectField do
   attr :rest, :global,
     include: ~w(autocomplete disabled form readonly multiple required title autofocus tabindex)
 
-  @spec select_field(map()) :: Phoenix.LiveView.Rendered.t()
-  def select_field(%{field: %Phoenix.HTML.FormField{} = field} = assigns) do
+  @spec native_select(map()) :: Phoenix.LiveView.Rendered.t()
+  def native_select(%{field: %Phoenix.HTML.FormField{} = field} = assigns) do
     errors = if Phoenix.Component.used_input?(field), do: field.errors, else: []
 
     assigns
     |> assign(field: nil, id: assigns.id || field.id)
     |> assign(:errors, Enum.map(errors, &translate_error(&1)))
     |> assign_new(:value, fn -> field.value end)
-    |> select_field()
+    |> native_select()
   end
 
-  def select_field(assigns) do
+  def native_select(assigns) do
     ~H"""
     <div class={[
       @variant != "native" && color_variant(@variant, @color),
@@ -73,6 +73,7 @@ defmodule MishkaChelekom.SelectField do
           @min_height,
           @class
         ]}
+        {@rest}
       >
         <%= render_slot(@inner_block) %>
         <option
