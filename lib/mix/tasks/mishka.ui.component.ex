@@ -147,32 +147,16 @@ defmodule Mix.Tasks.Mishka.Ui.Component do
 
   defp update_eex_assign(
          {igniter, proper_location, assign, template_path, template_config},
-         _options
+         options
        ) do
-    # TODO: create module name based on user input
-    # TODO: create list of all args event it is not be used in the eex file
+
+    new_assign = options |> Keyword.take(template_config[:args]) |> Keyword.merge(assign)
+
     # TODO: what we should do when a component needs some another component
-    igniter =
-      if Keyword.get(template_config, :optional, []) != [] do
-        igniter
-        |> Igniter.add_warning(
-          """
-            Some other optional components are suggested for this component. You can create them separately.
-            Note that if you use custom module names and their names are different each time,
-            you may need to manually change the components.
 
-            Components: #{Enum.join(template_config[:optional], " - ")}
+    igniter = optional_components(igniter, template_config)
 
-            You can run:
-                #{Enum.map(template_config[:optional], &"\n   * mix mishka.ui.component #{&1}\n")}
-          """
-          |> String.trim()
-        )
-      else
-        igniter
-      end
-
-    {igniter, template_path, proper_location, assign}
+    {igniter, template_path, proper_location, new_assign}
   end
 
   def create_update_component({:error, _, msg, igniter}), do: Igniter.add_issue(igniter, msg)
@@ -188,6 +172,27 @@ defmodule Mix.Tasks.Mishka.Ui.Component do
       converted_components_path(template, custom_module)
     else
       {:error, :no_dir, "error_msg", template.igniter}
+    end
+  end
+
+  defp optional_components(igniter, template_config) do
+    if Keyword.get(template_config, :optional, []) != [] do
+      igniter
+      |> Igniter.add_warning(
+        """
+          Some other optional components are suggested for this component. You can create them separately.
+          Note that if you use custom module names and their names are different each time,
+          you may need to manually change the components.
+
+          Components: #{Enum.join(template_config[:optional], " - ")}
+
+          You can run:
+              #{Enum.map(template_config[:optional], &"\n   * mix mishka.ui.component #{&1}\n")}
+        """
+        |> String.trim()
+      )
+    else
+      igniter
     end
   end
 
