@@ -164,13 +164,6 @@ defmodule Mix.Tasks.Mishka.Ui.Component do
     {igniter, template_path, proper_location, new_assign}
   end
 
-  def create_update_component({:error, _, msg, igniter}), do: Igniter.add_issue(igniter, msg)
-
-  def create_update_component({igniter, template_path, proper_location, assign}) do
-    igniter
-    |> Igniter.copy_template(template_path, proper_location, assign, on_exists: :overwrite)
-  end
-
   # TODO: for another version
   defp re_dir(template, custom_module) do
     # if Igniter.Util.IO.yes?("Do you want to continue?") do
@@ -239,6 +232,13 @@ defmodule Mix.Tasks.Mishka.Ui.Component do
     else
       igniter
     end
+  end
+
+  def create_update_component({:error, _, msg, igniter}), do: Igniter.add_issue(igniter, msg)
+
+  def create_update_component({igniter, template_path, proper_location, assign}) do
+    igniter
+    |> Igniter.copy_template(template_path, proper_location, assign, on_exists: :overwrite)
   end
 
   def atom_to_module(field) do
