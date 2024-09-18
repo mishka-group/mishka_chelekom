@@ -1,1 +1,6 @@
-[]
+[
+  alert: [
+    name: "alert",
+    args: []
+  ]
+]
