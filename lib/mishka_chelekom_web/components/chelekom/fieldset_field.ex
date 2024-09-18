@@ -1,4 +1,4 @@
-defmodule MishkaChelekom.TextField do
+defmodule MishkaChelekom.FieldsetField do
   use Phoenix.Component
   import MishkaChelekomComponents
 
@@ -16,16 +16,6 @@ defmodule MishkaChelekom.TextField do
   attr :floating, :string, default: "none", doc: "none, inner, outer"
   attr :error_icon, :string, default: nil, doc: ""
   attr :label, :string, default: nil
-
-  slot :start_section, required: false do
-    attr :class, :string
-    attr :icon, :string
-  end
-
-  slot :end_section, required: false do
-    attr :class, :string
-    attr :icon, :string
-  end
 
   attr :errors, :list, default: []
   attr :name, :any

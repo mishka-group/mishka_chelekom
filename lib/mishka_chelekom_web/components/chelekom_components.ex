@@ -50,6 +50,7 @@ defmodule MishkaChelekomComponents do
         Rating,
         SearchField,
         NativeSelect,
+        FieldsetField,
         Sidebar,
         Skeleton,
         SpeedDial,

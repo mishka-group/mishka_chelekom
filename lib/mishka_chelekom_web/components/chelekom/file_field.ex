@@ -8,6 +8,7 @@ defmodule MishkaChelekom.FileField do
   attr :label_class, :string, default: nil, doc: ""
   attr :color, :string, default: "primary", doc: ""
   attr :rounded, :string, default: "small", doc: ""
+  attr :live, :boolean, default: false, doc: ""
   attr :space, :string, default: "medium", doc: ""
   attr :size, :string, default: "extra_small", doc: ""
   attr :error_icon, :string, default: nil, doc: ""
@@ -51,11 +52,25 @@ defmodule MishkaChelekom.FileField do
     ]}>
       <.label for={@id}><%= @label %></.label>
 
-      <input
-        class="file-input block w-full cursor-pointer focus:outline-none file:border-0 file:cursor-pointer file:py-3 file:px-8 file:font-bold file:-ms-4 file:me-4"
-        type="file"
-        {@rest}
-      />
+      <%= if @live do %>
+        <.live_file_input
+          class={[
+            "file-input block w-full cursor-pointer focus:outline-none file:border-0 file:cursor-pointer",
+            "file:py-3 file:px-8 file:font-bold file:-ms-4 file:me-4"
+          ]}
+          {@rest}
+        />
+      <% else %>
+        <input
+          class={[
+            "file-input block w-full cursor-pointer focus:outline-none file:border-0 file:cursor-pointer",
+            "file:py-3 file:px-8 file:font-bold file:-ms-4 file:me-4"
+          ]}
+          type="file"
+          {@rest}
+        />
+      <% end %>
+
       <.error :for={msg <- @errors} icon={@error_icon}><%= msg %></.error>
     </div>
     """
@@ -79,8 +94,7 @@ defmodule MishkaChelekom.FileField do
   def error(assigns) do
     ~H"""
     <p class="mt-3 flex items-center gap-3 text-sm leading-6 text-rose-700">
-      <.icon :if={!is_nil(@icon)} name={@icon} class="shrink-0" />
-      <%= render_slot(@inner_block) %>
+      <.icon :if={!is_nil(@icon)} name={@icon} class="shrink-0" /> <%= render_slot(@inner_block) %>
     </p>
     """
   end
