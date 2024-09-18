@@ -202,7 +202,7 @@ defmodule MishkaChelekom.RadioField do
 
   defp color_class("white") do
     [
-      "[&_.radio-field-wrapper_.radio-input]:bg-white checked:[&_.radio-field-wrapper_.radio-input]:accent-[#3E3E3E]",
+      "[&_.radio-field-wrapper_.radio-input]:text-white text-[#DADADA]",
       "[&_.radio-field-wrapper_.radio-input]:border-[#DADADA]",
       "focus-within:[&_.radio-field-wrapper_.radio-input]:ring-[#DADADA]"
     ]
@@ -210,7 +210,7 @@ defmodule MishkaChelekom.RadioField do
 
   defp color_class("primary") do
     [
-      "checked:[&_.radio-field-wrapper_.radio-input]:text-[#4363EC]",
+      "checked:[&_.radio-field-wrapper_.radio-input]:text-[#4363EC] text-[#4363EC]",
       "[&_.radio-field-wrapper_.radio-input]:border-[#2441de]",
       "focus-within:[&_.radio-field-wrapper_.radio-input]:ring-[#2441de]"
     ]
@@ -218,7 +218,7 @@ defmodule MishkaChelekom.RadioField do
 
   defp color_class("secondary") do
     [
-      "[&_.radio-field-wrapper_.radio-input]:text-[#6B6E7C]",
+      "[&_.radio-field-wrapper_.radio-input]:text-[#6B6E7C] text-[#6B6E7C]",
       "[&_.radio-field-wrapper_.radio-input]:border-[#877C7C]",
       "focus-within:[&_.radio-field-wrapper_.radio-input]:ring-[#877C7C]"
     ]
@@ -226,7 +226,7 @@ defmodule MishkaChelekom.RadioField do
 
   defp color_class("success") do
     [
-      "[&_.radio-field-wrapper_.radio-input]:text-[#047857]",
+      "[&_.radio-field-wrapper_.radio-input]:text-[#047857] text-[#047857]",
       "[&_.radio-field-wrapper_.radio-input]:border-[#6EE7B7]",
       "focus-within:[&_.radio-field-wrapper_.radio-input]:ring-[#6EE7B7]"
     ]
@@ -234,7 +234,7 @@ defmodule MishkaChelekom.RadioField do
 
   defp color_class("warning") do
     [
-      "[&_.radio-field-wrapper_.radio-input]:text-[#FF8B08]",
+      "[&_.radio-field-wrapper_.radio-input]:text-[#FF8B08] text-[#FF8B08]",
       "[&_.radio-field-wrapper_.radio-input]:border-[#FF8B08]",
       "focus-within:[&_.radio-field-wrapper_.radio-input]:ring-[#FF8B08]"
     ]
@@ -242,7 +242,7 @@ defmodule MishkaChelekom.RadioField do
 
   defp color_class("danger") do
     [
-      "[&_.radio-field-wrapper_.radio-input]:text-[#E73B3B]",
+      "[&_.radio-field-wrapper_.radio-input]:text-[#E73B3B] text-[#E73B3B]",
       "[&_.radio-field-wrapper_.radio-input]:border-[#E73B3B]",
       "focus-within:[&_.radio-field-wrapper_.radio-input]:ring-[#E73B3B]"
     ]
@@ -250,7 +250,7 @@ defmodule MishkaChelekom.RadioField do
 
   defp color_class("info") do
     [
-      "[&_.radio-field-wrapper_.radio-input]:text-[#004FC4]",
+      "[&_.radio-field-wrapper_.radio-input]:text-[#004FC4] text-[#004FC4]",
       "[&_.radio-field-wrapper_.radio-input]:border-[#004FC4]",
       "focus-within:[&_.radio-field-wrapper_.radio-input]:ring-[#004FC4]"
     ]
@@ -258,7 +258,7 @@ defmodule MishkaChelekom.RadioField do
 
   defp color_class("misc") do
     [
-      "[&_.radio-field-wrapper_.radio-input]:text-[#52059C]",
+      "[&_.radio-field-wrapper_.radio-input]:text-[#52059C] text-[#52059C]",
       "[&_.radio-field-wrapper_.radio-input]:border-[#52059C]",
       "focus-within:[&_.radio-field-wrapper_.radio-input]:ring-[#52059C]"
     ]
@@ -266,7 +266,7 @@ defmodule MishkaChelekom.RadioField do
 
   defp color_class("dawn") do
     [
-      "[&_.radio-field-wrapper_.radio-input]:text-[#4D4137]",
+      "[&_.radio-field-wrapper_.radio-input]:text-[#4D4137] text-[#4D4137]",
       "[&_.radio-field-wrapper_.radio-input]:border-[#4D4137]",
       "focus-within:[&_.radio-field-wrapper_.radio-input]:ring-[#4D4137]"
     ]
@@ -274,7 +274,7 @@ defmodule MishkaChelekom.RadioField do
 
   defp color_class("light") do
     [
-      "[&_.radio-field-wrapper_.radio-input]:text-[#707483]",
+      "[&_.radio-field-wrapper_.radio-input]:text-[#707483] text-[#707483]",
       "[&_.radio-field-wrapper_.radio-input]:border-[#707483]",
       "focus-within:[&_.radio-field-wrapper_.radio-input]:ring-[#707483]"
     ]
@@ -282,7 +282,7 @@ defmodule MishkaChelekom.RadioField do
 
   defp color_class("dark") do
     [
-      "[&_.radio-field-wrapper_.radio-input]:text-[#1E1E1E]",
+      "[&_.radio-field-wrapper_.radio-input]:text-[#1E1E1E] text-[#1E1E1E]",
       "[&_.radio-field-wrapper_.radio-input]:border-[#050404]",
       "focus-within:[&_.radio-field-wrapper_.radio-input]:ring-[#050404]"
     ]

@@ -51,6 +51,7 @@ defmodule MishkaChelekomComponents do
         SearchField,
         NativeSelect,
         FieldsetField,
+        FormWrapper,
         Sidebar,
         Skeleton,
         SpeedDial,

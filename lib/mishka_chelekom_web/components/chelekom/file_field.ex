@@ -38,7 +38,141 @@ defmodule MishkaChelekom.FileField do
 
   def file_field(%{dropzone: true} = assigns) do
     ~H"""
-    <.label for={@id}><%= @label %></.label>
+    <.label :if={@label} for={@id}><%= @label %></.label>
+
+    <div>
+          <div class="flex items-center justify-center w-full">
+            <label
+              for="dropzone"
+              class="group flex flex-col items-center justify-center w-full h-64 border border-custome-100 hover:border-custome-black-100 border-dashed rounded cursor-pointer bg-gray-50 hover:bg-custome-gray-200"
+            >
+              <div
+                class="flex flex-col gap-3 items-center justify-center pt-5 pb-6 text-custome-black-100/60 group-hover:text-custome-black-100"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke-width="1.5"
+                  stroke="currentColor"
+                  class="w-16 h-16"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M12 16.5V9.75m0 0 3 3m-3-3-3 3M6.75 19.5a4.5 4.5 0 0 1-1.41-8.775 5.25 5.25 0 0 1 10.233-2.33 3 3 0 0 1 3.758 3.848A3.752 3.752 0 0 1 18 19.5H6.75Z"
+                  />
+                </svg>
+                <p class="mb-2 font-semibold">
+                  <span class="underline">Click to uplaod</span> or drap and
+                  drop a file
+                </p>
+                <p>Maximum file size of 50MB.</p>
+              </div>
+              <input id="dropzone" type="file" class="hidden" />
+            </label>
+          </div>
+          <div class="mt-5 space-y-4">
+            <div
+              class="shadow-custom-main-shadow relative border border-custome-gray-100 hover:border-custome-black-100 rounded p-3 flex justify-around gap-3"
+            >
+              <div>
+                <!-- preview -->
+                <img
+                  src="../../image/placeholder.svg"
+                  class="w-10 h-10 rounded"
+                  alt=""
+                />
+              </div>
+              <div class="w-full space-y-2">
+                <div>Test.mp4</div>
+                <div>20 <span>MB</span></div>
+                <div class="flex justify-between gap-3 items-center">
+                  <!-- progressbar -->
+                  <div
+                    role="progressbar"
+                    class="bg-custome-gray-100 rounded-full w-full overflow-hidden relative h-2 flex items-center justify-start"
+                  >
+                    <div class="bg-custome-black-100/75 h-full w-1/2"></div>
+                  </div>
+                  <div><span>50</span>%</div>
+                </div>
+              </div>
+              <button
+                class="absolute top-2 right-2 text-custome-black-100/60 hover:text-custome-black-100"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke-width="1.5"
+                  stroke="currentColor"
+                  class="w-5 h-5"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M6 18 18 6M6 6l12 12"
+                  />
+                </svg>
+              </button>
+            </div>
+            <div
+              class="shadow-custom-main-shadow relative border border-custome-gray-100 hover:border-custome-black-100 rounded p-3 flex items-start justify-around gap-3"
+            >
+              <div
+                class="p-2 rounded bg-custome-gray-100 text-custome-gray-300"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke-width="1.5"
+                  stroke="currentColor"
+                  class="w-6 h-6"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="m15.75 10.5 4.72-4.72a.75.75 0 0 1 1.28.53v11.38a.75.75 0 0 1-1.28.53l-4.72-4.72M4.5 18.75h9a2.25 2.25 0 0 0 2.25-2.25v-9a2.25 2.25 0 0 0-2.25-2.25h-9A2.25 2.25 0 0 0 2.25 7.5v9a2.25 2.25 0 0 0 2.25 2.25Z"
+                  />
+                </svg>
+              </div>
+              <div class="w-full space-y-2">
+                <div>Test.mp4</div>
+                <div>20 <span>MB</span></div>
+                <div class="flex justify-between gap-3 items-center">
+                  <!-- progressbar -->
+                  <div
+                    role="progressbar"
+                    class="bg-custome-gray-100 rounded-full w-full overflow-hidden relative h-2 flex items-center justify-start"
+                  >
+                    <div class="bg-custome-black-100/45 h-full w-1/3"></div>
+                  </div>
+                  <div><span>30</span>%</div>
+                </div>
+              </div>
+              <button
+                class="absolute top-2 right-2 text-custome-black-100/60 hover:text-custome-black-100"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke-width="1.5"
+                  stroke="currentColor"
+                  class="w-5 h-5"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M6 18 18 6M6 6l12 12"
+                  />
+                </svg>
+              </button>
+            </div>
+          </div>
+        </div>
     """
   end
 

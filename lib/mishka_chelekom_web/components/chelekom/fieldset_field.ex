@@ -230,16 +230,14 @@ defmodule MishkaChelekom.FieldsetField do
   defp color_variant("default", "primary") do
     [
       "[&_.fieldset-field]:bg-[#4363EC] text-[#4363EC]",
-      "[&_.fieldset-field]:text-white",
-      "[&_.fieldset-field>input]:placeholder:text-whi [&_.fieldset-field]:border-[#2441de]"
+      "[&_.fieldset-field]:text-white [&_.fieldset-field]:border-[#2441de]"
     ]
   end
 
   defp color_variant("default", "secondary") do
     [
-      "[&_.fieldset-field]:bg-[#6B6E7C] text-[#6B6E7C]",
-      "[&_.fieldset-field]:text-white",
-      "[&_.fieldset-field>input]:placeholder:text-whi [&_.fieldset-field]:border-[#877C7C]"
+      "[&_.fieldset-field]:bg-[#6B6E7C] text-[#6B6E7C] [&_.fieldset-field]:text-white",
+      "[&_.fieldset-field]:border-[#877C7C]"
     ]
   end
 
@@ -288,7 +286,7 @@ defmodule MishkaChelekom.FieldsetField do
   defp color_variant("default", "dark") do
     [
       "[&_.fieldset-field]:bg-[#1E1E1E] text-[#1E1E1E] [&_.fieldset-field]:text-white",
-      "[&_.fieldset-field>input]:placeholder:text-whi [&_.fieldset-field]:border-[#050404]"
+      "[&_.fieldset-field]:border-[#050404]"
     ]
   end
 
