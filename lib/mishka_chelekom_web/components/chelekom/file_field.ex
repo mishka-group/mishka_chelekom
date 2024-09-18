@@ -53,9 +53,7 @@ defmodule MishkaChelekom.FileField do
         @class
       ]}
     >
-     <.label :if={@label} for={@id}><%= @label %></.label>
-
-      <div
+      <label
         class={[
           "dropzone-wrapper group flex flex-col items-center justify-center w-full cursor-pointer"
         ]}
@@ -72,8 +70,8 @@ defmodule MishkaChelekom.FileField do
           </div>
         </div>
         <%!-- Use live component .live_file_input --%>
-        <input id="dropzone" type="file" class="hidden" />
-      </div>
+        <input type="file" class="hidden" />
+      </label>
       <div class="mt-5 space-y-4">
         <div
           class="upload-item border rounded relative p-3 flex justify-around gap-3"
