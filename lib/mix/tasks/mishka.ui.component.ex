@@ -103,7 +103,11 @@ defmodule Mix.Tasks.Mishka.Ui.Component do
         }
 
       _ ->
-        {:error, :no_component, "error_msg", igniter}
+        msg = """
+        The component you requested does not exist or you wrote its name incorrectly.
+        Please read the site documentation.
+        """
+        {:error, :no_component, msg, igniter}
     end
   end
 
@@ -152,9 +156,10 @@ defmodule Mix.Tasks.Mishka.Ui.Component do
 
     new_assign = options |> Keyword.take(template_config[:args]) |> Keyword.merge(assign)
 
-    # TODO: what we should do when a component needs some another component
-
-    igniter = optional_components(igniter, template_config)
+    igniter =
+      igniter
+      |> optional_components(template_config)
+      |> necessary_components(template_config)
 
     {igniter, template_path, proper_location, new_assign}
   end
@@ -166,20 +171,30 @@ defmodule Mix.Tasks.Mishka.Ui.Component do
     |> Igniter.copy_template(template_path, proper_location, assign, on_exists: :overwrite)
   end
 
+  # TODO: for another version
   defp re_dir(template, custom_module) do
-    if Igniter.Util.IO.yes?("Do you want to continue?") do
-      # TODO: create the directory
-      converted_components_path(template, custom_module)
-    else
-      {:error, :no_dir, "error_msg", template.igniter}
-    end
+    # if Igniter.Util.IO.yes?("Do you want to continue?") do
+    #   # TODO: create the directory
+    #   converted_components_path(template, custom_module)
+    # else
+    #   {:error, :no_dir, "error_msg", template.igniter}
+    # end
+    msg = """
+    You should have the path to the components folder in your Phoenix Framework web directory.
+    Otherwise, the operation will stop.
+    """
+    {:error, :no_dir, msg, template.igniter}
   end
 
   defp optional_components(igniter, template_config) do
     if Keyword.get(template_config, :optional, []) != [] do
       igniter
-      |> Igniter.add_warning(
+      |> Igniter.add_notice(
         """
+          --------------------------------------------------------------------------------
+          The component was successfully created/updated/no changed in the specified path!
+          --------------------------------------------------------------------------------
+
           Some other optional components are suggested for this component. You can create them separately.
           Note that if you use custom module names and their names are different each time,
           you may need to manually change the components.
@@ -188,6 +203,36 @@ defmodule Mix.Tasks.Mishka.Ui.Component do
 
           You can run:
               #{Enum.map(template_config[:optional], &"\n   * mix mishka.ui.component #{&1}\n")}
+        """
+
+      )
+    else
+      igniter
+    end
+  end
+
+  defp necessary_components(igniter, template_config) do
+    # TODO: what we should do when a component needs some another component
+    if Keyword.get(template_config, :necessary, []) != [] do
+      igniter
+      |> Igniter.add_warning(
+        """
+          This component is dependent on other components, so it is necessary to build other
+          items along with this component.
+
+          If you want to limit the creation of any dependent component to the features you need,
+          it is suggested to stop the routine of doing this component and fix the following items first,
+          then create this component again.
+
+          Note: If you have used custom names for your dependent modules, this script will not be able to find them,
+          so it will think that they have not been created.
+
+          Components: #{Enum.join(template_config[:necessary], " - ")}
+
+          You can run before generating this component:
+              #{Enum.map(template_config[:necessary], &"\n   * mix mishka.ui.component #{&1}\n")}
+
+          If approved, dependent components will be created without restrictions and you can change them manually.
         """
         |> String.trim()
       )
