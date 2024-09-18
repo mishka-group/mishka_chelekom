@@ -52,7 +52,8 @@ defmodule Mix.Tasks.Mishka.Ui.Component do
         module: :string,
         padding: :string,
         space: :string,
-        type: :string
+        type: :string,
+        sub: :string
       ],
       # CLI aliases
       aliases: [v: :variant, c: :color, s: :size, m: :module, p: :padding, sp: :space, t: :type]
@@ -63,17 +64,18 @@ defmodule Mix.Tasks.Mishka.Ui.Component do
     # extract positional arguments according to `positional` above
     {%{component: component}, argv} = positional_args!(argv)
 
-    """
-       ,_,
-      {o,o}
-      /)  )
-    ---"-"--
-    """
-    |> String.trim_trailing()
-    |> IO.puts()
-
-    # extract options according to `schema` and `aliases` above
     options = options!(argv)
+
+    if options[:sub] == "true" do
+      """
+        ,_,
+        {o,o}
+        /)  )
+      ---"-"--
+      """
+      |> String.trim_trailing()
+      |> IO.puts()
+    end
 
     igniter
     |> get_component_template(component)
@@ -188,7 +190,7 @@ defmodule Mix.Tasks.Mishka.Ui.Component do
 
     igniter
     |> optional_components(template_config)
-    |> necessary_components(template_config)
+    |> necessary_components(template_config, proper_location)
   end
 
   defp optional_components(igniter, template_config) do
@@ -196,7 +198,7 @@ defmodule Mix.Tasks.Mishka.Ui.Component do
       igniter
       |> Igniter.add_notice("""
         --------------------------------------------------------------------------------
-        The component was successfully created/updated/no changed in the specified path!
+        The component was successfully created/updated in the specified path!
         --------------------------------------------------------------------------------
 
         Some other optional components are suggested for this component. You can create them separately.
@@ -213,31 +215,38 @@ defmodule Mix.Tasks.Mishka.Ui.Component do
     end
   end
 
-  defp necessary_components(igniter, template_config) do
+  defp necessary_components(igniter, template_config, proper_location) do
+    _dir_path = Path.dirname(proper_location)
     # TODO: what we should do when a component needs some another component
     if Keyword.get(template_config, :necessary, []) != [] and Igniter.changed?(igniter) do
-      igniter
-      |> Igniter.add_warning(
-        """
-          This component is dependent on other components, so it is necessary to build other
-          items along with this component.
+      igniter =
+        igniter
+        |> Igniter.add_warning(
+          """
+            This component is dependent on other components, so it is necessary to build other
+            items along with this component.
 
-          If you want to limit the creation of any dependent component to the features you need,
-          it is suggested to stop the routine of doing this component and fix the following items first,
-          then create this component again.
+            If you want to limit the creation of any dependent component to the features you need,
+            it is suggested to stop the routine of doing this component and fix the following items first,
+            then create this component again.
 
-          Note: If you have used custom names for your dependent modules, this script will not be able to find them,
-          so it will think that they have not been created.
+            Note: If you have used custom names for your dependent modules, this script will not be able to find them,
+            so it will think that they have not been created.
 
-          Components: #{Enum.join(template_config[:necessary], " - ")}
+            Components: #{Enum.join(template_config[:necessary], " - ")}
 
-          You can run before generating this component:
-              #{Enum.map(template_config[:necessary], &"\n   * mix mishka.ui.component #{&1}\n")}
+            You can run before generating this component:
+                #{Enum.map(template_config[:necessary], &"\n   * mix mishka.ui.component #{&1}\n")}
 
-          If approved, dependent components will be created without restrictions and you can change them manually.
-        """
-        |> String.trim()
-      )
+            If approved, dependent components will be created without restrictions and you can change them manually.
+          """
+          |> String.trim()
+        )
+
+      Enum.reduce(template_config[:necessary], igniter, fn item, acc ->
+        acc
+        |> Igniter.compose_task("mishka.ui.component", [item, "--sub", "true", "--yes"])
+      end)
     else
       igniter
     end
