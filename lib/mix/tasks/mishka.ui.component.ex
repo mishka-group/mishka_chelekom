@@ -107,6 +107,7 @@ defmodule Mix.Tasks.Mishka.Ui.Component do
         The component you requested does not exist or you wrote its name incorrectly.
         Please read the site documentation.
         """
+
         {:error, :no_component, msg, igniter}
     end
   end
@@ -127,16 +128,16 @@ defmodule Mix.Tasks.Mishka.Ui.Component do
           atom_to_module(custom_module || web_module <> ".components.#{template.component}")
 
         proper_location =
-        if is_nil(custom_module) do
-          Module.concat([component])
+          if is_nil(custom_module) do
+            Module.concat([component])
           else
-          Module.concat([
-            Igniter.Libs.Phoenix.web_module(template.igniter),
-            "components",
-            atom_to_module(custom_module, :last)
-          ])
-        end
-        |> then(&Igniter.Project.Module.proper_location(template.igniter, &1))
+            Module.concat([
+              Igniter.Libs.Phoenix.web_module(template.igniter),
+              "components",
+              atom_to_module(custom_module, :last)
+            ])
+          end
+          |> then(&Igniter.Project.Module.proper_location(template.igniter, &1))
 
         new_igniter =
           if !is_nil(custom_module) do
@@ -157,15 +158,9 @@ defmodule Mix.Tasks.Mishka.Ui.Component do
          {igniter, proper_location, assign, template_path, template_config},
          options
        ) do
-
     new_assign = options |> Keyword.take(template_config[:args]) |> Keyword.merge(assign)
 
-    igniter =
-      igniter
-      |> optional_components(template_config)
-      |> necessary_components(template_config)
-
-    {igniter, template_path, proper_location, new_assign}
+    {igniter, template_path, template_config, proper_location, new_assign}
   end
 
   # TODO: for another version
@@ -180,29 +175,39 @@ defmodule Mix.Tasks.Mishka.Ui.Component do
     You should have the path to the components folder in your Phoenix Framework web directory.
     Otherwise, the operation will stop.
     """
+
     {:error, :no_dir, msg, template.igniter}
   end
 
-  defp optional_components(igniter, template_config) do
-    if Keyword.get(template_config, :optional, []) != [] do
+  def create_update_component({:error, _, msg, igniter}), do: Igniter.add_issue(igniter, msg)
+
+  def create_update_component({igniter, template_path, template_config, proper_location, assign}) do
+    igniter =
       igniter
-      |> Igniter.add_notice(
-        """
-          --------------------------------------------------------------------------------
-          The component was successfully created/updated/no changed in the specified path!
-          --------------------------------------------------------------------------------
+      |> Igniter.copy_template(template_path, proper_location, assign, on_exists: :overwrite)
 
-          Some other optional components are suggested for this component. You can create them separately.
-          Note that if you use custom module names and their names are different each time,
-          you may need to manually change the components.
+    igniter
+    |> optional_components(template_config)
+    |> necessary_components(template_config)
+  end
 
-          Components: #{Enum.join(template_config[:optional], " - ")}
+  defp optional_components(igniter, template_config) do
+    if Keyword.get(template_config, :optional, []) != [] and Igniter.changed?(igniter) do
+      igniter
+      |> Igniter.add_notice("""
+        --------------------------------------------------------------------------------
+        The component was successfully created/updated/no changed in the specified path!
+        --------------------------------------------------------------------------------
 
-          You can run:
-              #{Enum.map(template_config[:optional], &"\n   * mix mishka.ui.component #{&1}\n")}
-        """
+        Some other optional components are suggested for this component. You can create them separately.
+        Note that if you use custom module names and their names are different each time,
+        you may need to manually change the components.
 
-      )
+        Components: #{Enum.join(template_config[:optional], " - ")}
+
+        You can run:
+            #{Enum.map(template_config[:optional], &"\n   * mix mishka.ui.component #{&1}\n")}
+      """)
     else
       igniter
     end
@@ -210,7 +215,7 @@ defmodule Mix.Tasks.Mishka.Ui.Component do
 
   defp necessary_components(igniter, template_config) do
     # TODO: what we should do when a component needs some another component
-    if Keyword.get(template_config, :necessary, []) != [] do
+    if Keyword.get(template_config, :necessary, []) != [] and Igniter.changed?(igniter) do
       igniter
       |> Igniter.add_warning(
         """
@@ -236,15 +241,6 @@ defmodule Mix.Tasks.Mishka.Ui.Component do
     else
       igniter
     end
-  end
-
-  def create_update_component({:error, _, msg, igniter}), do: Igniter.add_issue(igniter, msg)
-
-  def create_update_component({igniter, template_path, proper_location, assign}) do
-    # IO.inspect(proper_location, label: "proper_location==--=-=-=-=-=-=-=-==-=--=-=>")
-    # IO.inspect(assign, label: "assign==--=-=-=-=-=-=-=-==-=--=-=>")
-    igniter
-    |> Igniter.copy_template(template_path, proper_location, assign, on_exists: :overwrite)
   end
 
   def atom_to_module(field) do
