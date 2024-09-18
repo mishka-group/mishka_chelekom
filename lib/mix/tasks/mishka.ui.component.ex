@@ -127,12 +127,16 @@ defmodule Mix.Tasks.Mishka.Ui.Component do
           atom_to_module(custom_module || web_module <> ".components.#{template.component}")
 
         proper_location =
+        if is_nil(custom_module) do
+          Module.concat([component])
+          else
           Module.concat([
             Igniter.Libs.Phoenix.web_module(template.igniter),
             "components",
-            (!is_nil(custom_module) && atom_to_module(custom_module, :last)) || component
+            atom_to_module(custom_module, :last)
           ])
-          |> then(&Igniter.Project.Module.proper_location(template.igniter, &1))
+        end
+        |> then(&Igniter.Project.Module.proper_location(template.igniter, &1))
 
         new_igniter =
           if !is_nil(custom_module) do
@@ -165,7 +169,7 @@ defmodule Mix.Tasks.Mishka.Ui.Component do
   end
 
   # TODO: for another version
-  defp re_dir(template, custom_module) do
+  defp re_dir(template, _custom_module) do
     # if Igniter.Util.IO.yes?("Do you want to continue?") do
     #   # TODO: create the directory
     #   converted_components_path(template, custom_module)
@@ -237,6 +241,8 @@ defmodule Mix.Tasks.Mishka.Ui.Component do
   def create_update_component({:error, _, msg, igniter}), do: Igniter.add_issue(igniter, msg)
 
   def create_update_component({igniter, template_path, proper_location, assign}) do
+    # IO.inspect(proper_location, label: "proper_location==--=-=-=-=-=-=-=-==-=--=-=>")
+    # IO.inspect(assign, label: "assign==--=-=-=-=-=-=-=-==-=--=-=>")
     igniter
     |> Igniter.copy_template(template_path, proper_location, assign, on_exists: :overwrite)
   end
