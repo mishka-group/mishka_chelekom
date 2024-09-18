@@ -151,7 +151,7 @@ defmodule MishkaChelekom.FieldsetField do
 
   defp color_variant("outline", "white") do
     [
-      "text-white focus-within:[&_.fieldset-field]:ring-white"
+      "text-white [&_.fieldset-field]:border-white"
     ]
   end
 
@@ -217,7 +217,7 @@ defmodule MishkaChelekom.FieldsetField do
 
   defp color_variant("outline", "dark") do
     [
-      "text-[#1E1E1E] [&_.fieldset-field]:text-text-[#1E1E1E] [&_.fieldset-field]:border-[#050404]"
+      "text-[#1E1E1E] [#1E1E1E] [&_.fieldset-field]:border-[#050404]"
     ]
   end
 
