@@ -8,14 +8,12 @@ defmodule MishkaChelekom.FieldsetField do
   attr :color, :string, default: "light", doc: ""
   attr :border, :string, default: "extra_small", doc: ""
   attr :rounded, :string, default: "small", doc: ""
+  attr :padding, :string, default: "small", doc: ""
   attr :variant, :string, default: "outline", doc: ""
-  attr :description, :string, default: nil, doc: ""
   attr :space, :string, default: "medium", doc: ""
   attr :size, :string, default: "extra_large", doc: ""
-  attr :ring, :boolean, default: true, doc: ""
-  attr :floating, :string, default: "none", doc: "none, inner, outer"
   attr :error_icon, :string, default: nil, doc: ""
-  attr :label, :string, default: nil
+  attr :legend, :string, default: nil
 
   attr :errors, :list, default: []
   attr :name, :any
@@ -24,137 +22,39 @@ defmodule MishkaChelekom.FieldsetField do
   attr :field, Phoenix.HTML.FormField,
     doc: "a form field struct retrieved from the form, for example: @form[:email]"
 
-  attr :rest, :global,
-    include: ~w(autocomplete disabled form list maxlength minlength pattern placeholder
-        readonly required size spellcheck inputmode title autofocus)
+  attr :rest, :global, include: ~w(disabled form title)
 
-  @spec text_field(map()) :: Phoenix.LiveView.Rendered.t()
-  def text_field(%{field: %Phoenix.HTML.FormField{} = field} = assigns) do
+  slot :control, required: false
+
+  @spec fieldset_field(map()) :: Phoenix.LiveView.Rendered.t()
+  def fieldset_field(%{field: %Phoenix.HTML.FormField{} = field} = assigns) do
     errors = if Phoenix.Component.used_input?(field), do: field.errors, else: []
 
     assigns
     |> assign(field: nil, id: assigns.id || field.id)
     |> assign(:errors, Enum.map(errors, &translate_error(&1)))
     |> assign_new(:value, fn -> field.value end)
-    |> text_field()
+    |> fieldset_field()
   end
 
-  def text_field(%{floating: floating} = assigns) when floating in ["inner", "outer"] do
+  def fieldset_field(assigns) do
     ~H"""
     <div class={[
-      color_variant(@variant, @color, @floating),
+      color_variant(@variant, @color),
       rounded_size(@rounded),
       border_class(@border),
+      padding_class(@padding),
       size_class(@size),
       space_class(@space),
-      @ring && "[&_.text-field-wrapper]:focus-within:ring-[0.03rem]",
       @class
     ]}>
-      <div :if={!is_nil(@description)} class="text-xs pb-2">
-        <%= @description %>
-      </div>
-      <div class={[
-        "text-field-wrapper transition-all ease-in-out duration-200 w-full flex flex-nowrap",
-        @errors != [] && "text-field-error"
-      ]}>
-        <div
-          :if={@start_section}
-          class={[
-            "flex items-center justify-center shrink-0 ps-2 h-[inherit]",
-            @start_section[:class]
-          ]}
-        >
-          <%= render_slot(@start_section) %>
+      <fieldset class="fieldset-field">
+        <legend :if={@legend} for={@id}>{@legend}</legend>
+
+        <div :for={{control, index} <- Enum.with_index(@control, 1)} id={"#{@id}-control-#{index}"}>
+          <%= render_slot(control) %>
         </div>
-        <div class="relative w-full z-[2]">
-          <input
-            type="text"
-            name={@name}
-            id={@id}
-            value={@value}
-            class={[
-              "disabled:opacity-80 block w-full z-[2] focus:ring-0 placeholder:text-transparent pb-1 pt-2.5 px-2",
-              "text-sm appearance-none bg-transparent border-0 focus:outline-none peer"
-            ]}
-            placeholder=" "
-            {@rest}
-          />
-
-          <label
-            class={[
-              "floating-label px-1 start-1 -z-[1] absolute text-xs duration-300 transform scale-75 origin-[0]",
-              variant_label_position(@floating)
-            ]}
-            for={@id}
-          >
-            <%= @label %>
-          </label>
-        </div>
-
-        <div
-          :if={@end_section}
-          class={["flex items-center justify-center shrink-0 pe-2 h-[inherit]", @end_section[:class]]}
-        >
-          <%= render_slot(@end_section) %>
-        </div>
-      </div>
-
-      <.error :for={msg <- @errors} icon={@error_icon}><%= msg %></.error>
-    </div>
-    """
-  end
-
-  def text_field(assigns) do
-    ~H"""
-    <div class={[
-      color_variant(@variant, @color, @floating),
-      rounded_size(@rounded),
-      border_class(@border),
-      size_class(@size),
-      space_class(@space),
-      @ring && "[&_.text-field-wrapper]:focus-within:ring-[0.03rem]",
-      @class
-    ]}>
-      <div>
-        <.label for={@id}><%= @label %></.label>
-        <div :if={!is_nil(@description)} class="text-xs">
-          <%= @description %>
-        </div>
-      </div>
-
-      <div class={[
-        "text-field-wrapper overflow-hidden transition-all ease-in-out duration-200 flex flex-nowrap",
-        @errors != [] && "text-field-error"
-      ]}>
-        <div
-          :if={@start_section}
-          class={[
-            "flex items-center justify-center shrink-0 ps-2 h-[inherit]",
-            @start_section[:class]
-          ]}
-        >
-          <%= render_slot(@start_section) %>
-        </div>
-
-        <input
-          type="text"
-          name={@name}
-          id={@id}
-          value={@value}
-          class={[
-            "flex-1 py-1 px-2 text-sm disabled:opacity-80 block w-full appearance-none",
-            "bg-transparent border-0 focus:outline-none focus:ring-0"
-          ]}
-          {@rest}
-        />
-
-        <div
-          :if={@end_section}
-          class={["flex items-center justify-center shrink-0 pe-2 h-[inherit]", @end_section[:class]]}
-        >
-          <%= render_slot(@end_section) %>
-        </div>
-      </div>
+      </fieldset>
 
       <.error :for={msg <- @errors} icon={@error_icon}><%= msg %></.error>
     </div>
@@ -179,60 +79,67 @@ defmodule MishkaChelekom.FieldsetField do
   def error(assigns) do
     ~H"""
     <p class="mt-3 flex items-center gap-3 text-sm leading-6 text-rose-700">
-      <.icon :if={!is_nil(@icon)} name={@icon} class="shrink-0" />
-      <%= render_slot(@inner_block) %>
+      <.icon :if={!is_nil(@icon)} name={@icon} class="shrink-0" /> <%= render_slot(@inner_block) %>
     </p>
     """
   end
 
-  defp variant_label_position("outer") do
+  defp size_class("extra_small") do
     [
-      "-translate-y-4 top-2 origin-[0] peer-focus:px-1 peer-placeholder-shown:scale-100",
-      "peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4",
-      "rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto"
+      "text-xs"
     ]
   end
 
-  defp variant_label_position("inner") do
+  defp size_class("small") do
     [
-      "-translate-y-4 scale-75 top-4 origin-[0] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0",
-      "peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto"
+      "text-sm"
     ]
   end
 
-  defp size_class("extra_small"),
-    do: "[&_.text-field-wrapper_input]:h-7 [&_.text-field-wrapper>.text-field-icon]:size-3.5"
+  defp size_class("medium") do
+    [
+      "text-base"
+    ]
+  end
 
-  defp size_class("small"),
-    do: "[&_.text-field-wrapper_input]:h-8 [&_.text-field-wrapper>.text-field-icon]:size-4"
+  defp size_class("large") do
+    [
+      "text-lg"
+    ]
+  end
 
-  defp size_class("medium"),
-    do: "[&_.text-field-wrapper_input]:h-9 [&_.text-field-wrapper>.text-field-icon]:size-5"
-
-  defp size_class("large"),
-    do: "[&_.text-field-wrapper_input]:h-10 [&_.text-field-wrapper>.text-field-icon]:size-6"
-
-  defp size_class("extra_large"),
-    do: "[&_.text-field-wrapper_input]:h-12 [&_.text-field-wrapper>.text-field-icon]:size-7"
+  defp size_class("extra_large") do
+    [
+      "text-xl"
+    ]
+  end
 
   defp size_class(_), do: size_class("medium")
 
-  defp rounded_size("extra_small"), do: "[&_.text-field-wrapper]:rounded-sm"
-  defp rounded_size("small"), do: "[&_.text-field-wrapper]:rounded"
-  defp rounded_size("medium"), do: "[&_.text-field-wrapper]:rounded-md"
-  defp rounded_size("large"), do: "[&_.text-field-wrapper]:rounded-lg"
-  defp rounded_size("extra_large"), do: "[&_.text-field-wrapper]:rounded-xl"
-  defp rounded_size("full"), do: "[&_.text-field-wrapper]:rounded-full"
-  defp rounded_size(_), do: "[&_.text-field-wrapper]:rounded-none"
+  defp rounded_size("extra_small"), do: "[&_.fieldset-field]:rounded-sm"
+  defp rounded_size("small"), do: "[&_.fieldset-field]:rounded"
+  defp rounded_size("medium"), do: "[&_.fieldset-field]:rounded-md"
+  defp rounded_size("large"), do: "[&_.fieldset-field]:rounded-lg"
+  defp rounded_size("extra_large"), do: "[&_.fieldset-field]:rounded-xl"
+  defp rounded_size("full"), do: "[&_.fieldset-field]:rounded-full"
+  defp rounded_size(_), do: "[&_.fieldset-field]:rounded-none"
 
-  defp border_class("none"), do: "[&_.text-field-wrapper]:border-0"
-  defp border_class("extra_small"), do: "[&_.text-field-wrapper]:border"
-  defp border_class("small"), do: "[&_.text-field-wrapper]:border-2"
-  defp border_class("medium"), do: "[&_.text-field-wrapper]:border-[3px]"
-  defp border_class("large"), do: "[&_.text-field-wrapper]:border-4"
-  defp border_class("extra_large"), do: "[&_.text-field-wrapper]:border-[5px]"
+  defp border_class("none"), do: "[&_.fieldset-field]:border-0"
+  defp border_class("extra_small"), do: "[&_.fieldset-field]:border"
+  defp border_class("small"), do: "[&_.fieldset-field]:border-2"
+  defp border_class("medium"), do: "[&_.fieldset-field]:border-[3px]"
+  defp border_class("large"), do: "[&_.fieldset-field]:border-4"
+  defp border_class("extra_large"), do: "[&_.fieldset-field]:border-[5px]"
   defp border_class(params) when is_binary(params), do: params
   defp border_class(_), do: border_class("extra_small")
+
+  defp padding_class("extra_small"), do: "[&_.fieldset-field]:p-2"
+  defp padding_class("small"), do: "[&_.fieldset-field]:p-3"
+  defp padding_class("medium"), do: "[&_.fieldset-field]:p-4"
+  defp padding_class("large"), do: "[&_.fieldset-field]:p-5"
+  defp padding_class("extra_large"), do: "[&_.fieldset-field]:p-6"
+  defp padding_class(params) when is_binary(params), do: params
+  defp padding_class(_), do: padding_class("medium")
 
   defp space_class("extra_small"), do: "space-y-1"
   defp space_class("small"), do: "space-y-1.5"
@@ -242,485 +149,355 @@ defmodule MishkaChelekom.FieldsetField do
   defp space_class(params) when is_binary(params), do: params
   defp space_class(_), do: space_class("medium")
 
-  defp color_variant("outline", "white", floating) do
+  defp color_variant("outline", "white") do
     [
-      "text-white [&_.text-field-wrapper:not(:has(.text-field-error))]:border-white",
-      "[&_.text-field-wrapper.text-field-error]:border-rose-700",
-      "[&_.text-field-wrapper>input]:placeholder:text-white focus-within:[&_.text-field-wrapper]:ring-white",
-      floating == "outer" && "[&_.text-field-wrapper_.floating-label]:bg-white"
+      "text-white focus-within:[&_.fieldset-field]:ring-white"
     ]
   end
 
-  defp color_variant("outline", "silver", floating) do
+  defp color_variant("outline", "silver") do
     [
-      "text-[#afafaf] [&_.text-field-wrapper:not(:has(.text-field-error))]:border-[#afafaf]",
-      "[&_.text-field-wrapper.text-field-error]:border-rose-700",
-      "[&_.text-field-wrapper>input]:placeholder:text-[#afafaf] focus-within:[&_.text-field-wrapper]:ring-[#afafaf]",
-      floating == "outer" && "[&_.text-field-wrapper_.floating-label]:bg-white"
+      "text-[#afafaf] [&_.fieldset-field]:border-[#afafaf]"
     ]
   end
 
-  defp color_variant("outline", "primary", floating) do
+  defp color_variant("outline", "primary") do
     [
-      "text-[#2441de] [&_.text-field-wrapper:not(:has(.text-field-error))]:border-[#2441de]",
-      "[&_.text-field-wrapper.text-field-error]:border-rose-700",
-      "[&_.text-field-wrapper>input]:placeholder:text-[#2441de] focus-within:[&_.text-field-wrapper]:ring-[#2441de]",
-      floating == "outer" && "[&_.text-field-wrapper_.floating-label]:bg-white"
+      "text-[#2441de] [&_.fieldset-field]:border-[#2441de]"
     ]
   end
 
-  defp color_variant("outline", "secondary", floating) do
+  defp color_variant("outline", "secondary") do
     [
-      "text-[#877C7C] [&_.text-field-wrapper:not(:has(.text-field-error))]:border-[#877C7C]",
-      "[&_.text-field-wrapper.text-field-error]:border-rose-700",
-      "[&_.text-field-wrapper>input]:placeholder:text-[#877C7Cb] focus-within:[&_.text-field-wrapper]:ring-[#877C7C]",
-      floating == "outer" && "[&_.text-field-wrapper_.floating-label]:bg-white"
+      "text-[#877C7C] [&_.fieldset-field]:border-[#877C7C]"
     ]
   end
 
-  defp color_variant("outline", "success", floating) do
+  defp color_variant("outline", "success") do
     [
-      "text-[#047857] [&_.text-field-wrapper:not(:has(.text-field-error))]:border-[#047857]",
-      "[&_.text-field-wrapper.text-field-error]:border-rose-700",
-      "[&_.text-field-wrapper>input]:placeholder:text-[#047857] focus-within:[&_.text-field-wrapper]:ring-[#047857]",
-      floating == "outer" && "[&_.text-field-wrapper_.floating-label]:bg-white"
+      "text-[#047857] [&_.fieldset-field]:border-[#047857]"
     ]
   end
 
-  defp color_variant("outline", "warning", floating) do
+  defp color_variant("outline", "warning") do
     [
-      "text-[#FF8B08] [&_.text-field-wrapper:not(:has(.text-field-error))]:border-[#FF8B08]",
-      "[&_.text-field-wrapper.text-field-error]:border-rose-700",
-      "[&_.text-field-wrapper>input]:placeholder:text-[#FF8B08] focus-within:[&_.text-field-wrapper]:ring-[#FF8B08]",
-      floating == "outer" && "[&_.text-field-wrapper_.floating-label]:bg-white"
+      "text-[#FF8B08] [&_.fieldset-field]:border-[#FF8B08]"
     ]
   end
 
-  defp color_variant("outline", "danger", floating) do
+  defp color_variant("outline", "danger") do
     [
-      "text-[#E73B3B] [&_.text-field-wrapper:not(:has(.text-field-error))]:border-[#E73B3B]",
-      "[&_.text-field-wrapper.text-field-error]:border-rose-700",
-      "[&_.text-field-wrapper>input]:placeholder:text-[#E73B3B] focus-within:[&_.text-field-wrapper]:ring-[#E73B3B]",
-      floating == "outer" && "[&_.text-field-wrapper_.floating-label]:bg-white"
+      "text-[#E73B3B] [&_.fieldset-field]:border-[#E73B3B]"
     ]
   end
 
-  defp color_variant("outline", "info", floating) do
+  defp color_variant("outline", "info") do
     [
-      "text-[#004FC4] [&_.text-field-wrapper:not(:has(.text-field-error))]:border-[#004FC4]",
-      "[&_.text-field-wrapper.text-field-error]:border-rose-700",
-      "[&_.text-field-wrapper>input]:placeholder:text-[#004FC4] focus-within:[&_.text-field-wrapper]:ring-[#004FC4]",
-      floating == "outer" && "[&_.text-field-wrapper_.floating-label]:bg-white"
+      "text-[#004FC4] [&_.fieldset-field]:border-[#004FC4]"
     ]
   end
 
-  defp color_variant("outline", "misc", floating) do
+  defp color_variant("outline", "misc") do
     [
-      "text-[#52059C] [&_.text-field-wrapper:not(:has(.text-field-error))]:border-[#52059C]",
-      "[&_.text-field-wrapper.text-field-error]:border-rose-700",
-      "[&_.text-field-wrapper>input]:placeholder:text-[#52059C] focus-within:[&_.text-field-wrapper]:ring-[#52059C]",
-      floating == "outer" && "[&_.text-field-wrapper_.floating-label]:bg-white"
+      "text-[#52059C] [&_.fieldset-field]:border-[#52059C]"
     ]
   end
 
-  defp color_variant("outline", "dawn", floating) do
+  defp color_variant("outline", "dawn") do
     [
-      "text-[#4D4137] [&_.text-field-wrapper:not(:has(.text-field-error))]:border-[#4D4137]",
-      "[&_.text-field-wrapper.text-field-error]:border-rose-700",
-      "[&_.text-field-wrapper>input]:placeholder:text-[#4D4137] focus-within:[&_.text-field-wrapper]:ring-[#4D4137]",
-      floating == "outer" && "[&_.text-field-wrapper_.floating-label]:bg-white"
+      "text-[#4D4137] [&_.fieldset-field]:border-[#4D4137]"
     ]
   end
 
-  defp color_variant("outline", "light", floating) do
+  defp color_variant("outline", "light") do
     [
-      "text-[#707483] [&_.text-field-wrapper:not(:has(.text-field-error))]:border-[#707483]",
-      "[&_.text-field-wrapper.text-field-error]:border-rose-700",
-      "[&_.text-field-wrapper>input]:placeholder:text-[#707483] focus-within:[&_.text-field-wrapper]:ring-[#707483]",
-      floating == "outer" && "[&_.text-field-wrapper_.floating-label]:bg-white"
+      "text-[#707483] [&_.fieldset-field]:border-[#707483]"
     ]
   end
 
-  defp color_variant("outline", "dark", floating) do
+  defp color_variant("outline", "dark") do
     [
-      "text-[#1E1E1E] [&_.text-field-wrapper]:text-text-[#1E1E1E] [&_.text-field-wrapper:not(:has(.text-field-error))]:border-[#050404]",
-      "[&_.text-field-wrapper.text-field-error]:border-rose-700",
-      "[&_.text-field-wrapper>input]:placeholder:text-[#1E1E1E] focus-within:[&_.text-field-wrapper]:ring-[#050404]",
-      floating == "outer" && "[&_.text-field-wrapper_.floating-label]:bg-white"
+      "text-[#1E1E1E] [&_.fieldset-field]:text-text-[#1E1E1E] [&_.fieldset-field]:border-[#050404]"
     ]
   end
 
-  defp color_variant("default", "white", floating) do
+  defp color_variant("default", "white") do
     [
-      "[&_.text-field-wrapper]:bg-white text-[#3E3E3E] [&_.text-field-wrapper:not(:has(.text-field-error))]:border-[#DADADA]",
-      "[&_.text-field-wrapper.text-field-error]:border-rose-700",
-      "[&_.text-field-wrapper>input]:placeholder:text-[#3E3E3E] focus-within:[&_.text-field-wrapper]:ring-[#DADADA]",
-      floating == "outer" && "[&_.text-field-wrapper_.floating-label]:bg-white"
+      "[&_.fieldset-field]:bg-white text-[#3E3E3E] [&_.fieldset-field]:border-[#DADADA]"
     ]
   end
 
-  defp color_variant("default", "primary", floating) do
+  defp color_variant("default", "primary") do
     [
-      "[&_.text-field-wrapper]:bg-[#4363EC] text-[#4363EC] [&_.text-field-wrapper:not(:has(.text-field-error))]:border-[#2441de]",
-      "[&_.text-field-wrapper.text-field-error]:border-rose-700 [&_.text-field-wrapper]:text-white",
-      "[&_.text-field-wrapper>input]:placeholder:text-white focus-within:[&_.text-field-wrapper]:ring-[#2441de]",
-      floating == "outer" && "[&_.text-field-wrapper_.floating-label]:bg-[#4363EC]"
+      "[&_.fieldset-field]:bg-[#4363EC] text-[#4363EC]",
+      "[&_.fieldset-field]:text-white",
+      "[&_.fieldset-field>input]:placeholder:text-whi [&_.fieldset-field]:border-[#2441de]"
     ]
   end
 
-  defp color_variant("default", "secondary", floating) do
+  defp color_variant("default", "secondary") do
     [
-      "[&_.text-field-wrapper]:bg-[#6B6E7C] text-[#6B6E7C] [&_.text-field-wrapper:not(:has(.text-field-error))]:border-[#877C7C]",
-      "[&_.text-field-wrapper.text-field-error]:border-rose-700 [&_.text-field-wrapper]:text-white",
-      "[&_.text-field-wrapper>input]:placeholder:text-white focus-within:[&_.text-field-wrapper]:ring-[#877C7C]",
-      floating == "outer" && "[&_.text-field-wrapper_.floating-label]:bg-[#6B6E7C]"
+      "[&_.fieldset-field]:bg-[#6B6E7C] text-[#6B6E7C]",
+      "[&_.fieldset-field]:text-white",
+      "[&_.fieldset-field>input]:placeholder:text-whi [&_.fieldset-field]:border-[#877C7C]"
     ]
   end
 
-  defp color_variant("default", "success", floating) do
+  defp color_variant("default", "success") do
     [
-      "[&_.text-field-wrapper]:bg-[#ECFEF3] text-[#047857] [&_.text-field-wrapper:not(:has(.text-field-error))]:border-[#6EE7B7]",
-      "[&_.text-field-wrapper.text-field-error]:border-rose-700",
-      "[&_.text-field-wrapper>input]:placeholder:text-[#047857] focus-within:[&_.text-field-wrapper]:ring-[#6EE7B7]",
-      floating == "outer" && "[&_.text-field-wrapper_.floating-label]:bg-[#ECFEF3]"
+      "[&_.fieldset-field]:bg-[#ECFEF3] text-[#047857] [&_.fieldset-field]:border-[#6EE7B7]"
     ]
   end
 
-  defp color_variant("default", "warning", floating) do
+  defp color_variant("default", "warning") do
     [
-      "[&_.text-field-wrapper]:bg-[#FFF8E6] text-[#FF8B08] [&_.text-field-wrapper:not(:has(.text-field-error))]:border-[#FF8B08]",
-      "[&_.text-field-wrapper.text-field-error]:border-rose-700",
-      "[&_.text-field-wrapper>input]:placeholder:text-[#FF8B08] focus-within:[&_.text-field-wrapper]:ring-[#FF8B08]",
-      floating == "outer" && "[&_.text-field-wrapper_.floating-label]:bg-[#FFF8E6]"
+      "[&_.fieldset-field]:bg-[#FFF8E6] text-[#FF8B08] [&_.fieldset-field]:border-[#FF8B08]"
     ]
   end
 
-  defp color_variant("default", "danger", floating) do
+  defp color_variant("default", "danger") do
     [
-      "[&_.text-field-wrapper]:bg-[#FFE6E6] text-[#E73B3B] [&_.text-field-wrapper:not(:has(.text-field-error))]:border-[#E73B3B]",
-      "[&_.text-field-wrapper.text-field-error]:border-rose-700",
-      "[&_.text-field-wrapper>input]:placeholder:text-[#E73B3B] focus-within:[&_.text-field-wrapper]:ring-[#E73B3B]",
-      floating == "outer" && "[&_.text-field-wrapper_.floating-label]:bg-[#FFE6E6]"
+      "[&_.fieldset-field]:bg-[#FFE6E6] text-[#E73B3B] [&_.fieldset-field]:border-[#E73B3B]"
     ]
   end
 
-  defp color_variant("default", "info", floating) do
+  defp color_variant("default", "info") do
     [
-      "[&_.text-field-wrapper]:bg-[#E5F0FF] text-[#004FC4] [&_.text-field-wrapper:not(:has(.text-field-error))]:border-[#004FC4]",
-      "[&_.text-field-wrapper.text-field-error]:border-rose-700",
-      "[&_.text-field-wrapper>input]:placeholder:text-[#004FC4] focus-within:[&_.text-field-wrapper]:ring-[#004FC4]",
-      floating == "outer" && "[&_.text-field-wrapper_.floating-label]:bg-[#E5F0FF]"
+      "[&_.fieldset-field]:bg-[#E5F0FF] text-[#004FC4] [&_.fieldset-field]:border-[#004FC4]"
     ]
   end
 
-  defp color_variant("default", "misc", floating) do
+  defp color_variant("default", "misc") do
     [
-      "[&_.text-field-wrapper]:bg-[#FFE6FF] text-[#52059C] [&_.text-field-wrapper:not(:has(.text-field-error))]:border-[#52059C]",
-      "[&_.text-field-wrapper.text-field-error]:border-rose-700",
-      "[&_.text-field-wrapper>input]:placeholder:text-[#52059C] focus-within:[&_.text-field-wrapper]:ring-[#52059C]",
-      floating == "outer" && "[&_.text-field-wrapper_.floating-label]:bg-[#FFE6FF]"
+      "[&_.fieldset-field]:bg-[#FFE6FF] text-[#52059C] [&_.fieldset-field]:border-[#52059C]"
     ]
   end
 
-  defp color_variant("default", "dawn", floating) do
+  defp color_variant("default", "dawn") do
     [
-      "[&_.text-field-wrapper]:bg-[#FFECDA] text-[#4D4137] [&_.text-field-wrapper:not(:has(.text-field-error))]:border-[#4D4137]",
-      "[&_.text-field-wrapper.text-field-error]:border-rose-700",
-      "[&_.text-field-wrapper>input]:placeholder:text-[#4D4137] focus-within:[&_.text-field-wrapper]:ring-[#4D4137]",
-      floating == "outer" && "[&_.text-field-wrapper_.floating-label]:bg-[#FFECDA]"
+      "[&_.fieldset-field]:bg-[#FFECDA] text-[#4D4137] [&_.fieldset-field]:border-[#4D4137]"
     ]
   end
 
-  defp color_variant("default", "light", floating) do
+  defp color_variant("default", "light") do
     [
-      "[&_.text-field-wrapper]:bg-[#E3E7F1] text-[#707483] [&_.text-field-wrapper:not(:has(.text-field-error))]:border-[#707483]",
-      "[&_.text-field-wrapper.text-field-error]:border-rose-700",
-      "[&_.text-field-wrapper>input]:placeholder:text-[#707483] focus-within:[&_.text-field-wrapper]:ring-[#707483]",
-      floating == "outer" && "[&_.text-field-wrapper_.floating-label]:bg-[#E3E7F1]"
+      "[&_.fieldset-field]:bg-[#E3E7F1] text-[#707483] [&_.fieldset-field]:border-[#707483]"
     ]
   end
 
-  defp color_variant("default", "dark", floating) do
+  defp color_variant("default", "dark") do
     [
-      "[&_.text-field-wrapper]:bg-[#1E1E1E] text-[#1E1E1E] [&_.text-field-wrapper]:text-white [&_.text-field-wrapper:not(:has(.text-field-error))]:border-[#050404]",
-      "[&_.text-field-wrapper.text-field-error]:border-rose-700",
-      "[&_.text-field-wrapper>input]:placeholder:text-white focus-within:[&_.text-field-wrapper]:ring-[#050404]",
-      floating == "outer" && "[&_.text-field-wrapper_.floating-label]:bg-[#1E1E1E]"
+      "[&_.fieldset-field]:bg-[#1E1E1E] text-[#1E1E1E] [&_.fieldset-field]:text-white",
+      "[&_.fieldset-field>input]:placeholder:text-whi [&_.fieldset-field]:border-[#050404]"
     ]
   end
 
-  defp color_variant("unbordered", "white", floating) do
+  defp color_variant("unbordered", "white") do
     [
-      "[&_.text-field-wrapper]:bg-white [&_.text-field-wrapper]:border-transparent text-[#3E3E3E]",
-      "[&_.text-field-wrapper>input]:placeholder:text-[#3E3E3E]",
-      floating == "outer" && "[&_.text-field-wrapper_.floating-label]:bg-white"
+      "[&_.fieldset-field]:bg-white [&_.fieldset-field]:border-transparent text-[#3E3E3E]"
     ]
   end
 
-  defp color_variant("unbordered", "primary", floating) do
+  defp color_variant("unbordered", "primary") do
     [
-      "[&_.text-field-wrapper]:bg-[#4363EC] text-[#4363EC] [&_.text-field-wrapper]:border-transparent text-white",
-      "[&_.text-field-wrapper>input]:placeholder:text-white",
-      floating == "outer" && "[&_.text-field-wrapper_.floating-label]:bg-[#4363EC]"
+      "[&_.fieldset-field]:bg-[#4363EC] text-[#4363EC] [&_.fieldset-field]:border-transparent text-white"
     ]
   end
 
-  defp color_variant("unbordered", "secondary", floating) do
+  defp color_variant("unbordered", "secondary") do
     [
-      "[&_.text-field-wrapper]:bg-[#6B6E7C] text-[#6B6E7C] [&_.text-field-wrapper]:border-transparent text-white",
-      "[&_.text-field-wrapper>input]:placeholder:text-white",
-      floating == "outer" && "[&_.text-field-wrapper_.floating-label]:bg-[#6B6E7C]"
+      "[&_.fieldset-field]:bg-[#6B6E7C] text-[#6B6E7C] [&_.fieldset-field]:border-transparent text-white"
     ]
   end
 
-  defp color_variant("unbordered", "success", floating) do
+  defp color_variant("unbordered", "success") do
     [
-      "[&_.text-field-wrapper]:bg-[#ECFEF3] [&_.text-field-wrapper]:border-transparent text-[#047857]",
-      "[&_.text-field-wrapper>input]:placeholder:text-[#047857]",
-      floating == "outer" && "[&_.text-field-wrapper_.floating-label]:bg-[#ECFEF3]"
+      "[&_.fieldset-field]:bg-[#ECFEF3] [&_.fieldset-field]:border-transparent text-[#047857]"
     ]
   end
 
-  defp color_variant("unbordered", "warning", floating) do
+  defp color_variant("unbordered", "warning") do
     [
-      "[&_.text-field-wrapper]:bg-[#FFF8E6] [&_.text-field-wrapper]:border-transparent text-[#FF8B08]",
-      "[&_.text-field-wrapper>input]:placeholder:text-[#FF8B08]",
-      floating == "outer" && "[&_.text-field-wrapper_.floating-label]:bg-[#FFF8E6]"
+      "[&_.fieldset-field]:bg-[#FFF8E6] [&_.fieldset-field]:border-transparent text-[#FF8B08]"
     ]
   end
 
-  defp color_variant("unbordered", "danger", floating) do
+  defp color_variant("unbordered", "danger") do
     [
-      "[&_.text-field-wrapper]:bg-[#FFE6E6] [&_.text-field-wrapper]:border-transparent text-[#E73B3B]",
-      "[&_.text-field-wrapper>input]:placeholder:text-[#E73B3B]",
-      floating == "outer" && "[&_.text-field-wrapper_.floating-label]:bg-[#FFE6E6]"
+      "[&_.fieldset-field]:bg-[#FFE6E6] [&_.fieldset-field]:border-transparent text-[#E73B3B]"
     ]
   end
 
-  defp color_variant("unbordered", "info", floating) do
+  defp color_variant("unbordered", "info") do
     [
-      "[&_.text-field-wrapper]:bg-[#E5F0FF] [&_.text-field-wrapper]:border-transparent text-[#004FC4]",
-      "[&_.text-field-wrapper>input]:placeholder:text-[#004FC4]",
-      floating == "outer" && "[&_.text-field-wrapper_.floating-label]:bg-[#E5F0FF]"
+      "[&_.fieldset-field]:bg-[#E5F0FF] [&_.fieldset-field]:border-transparent text-[#004FC4]"
     ]
   end
 
-  defp color_variant("unbordered", "misc", floating) do
+  defp color_variant("unbordered", "misc") do
     [
-      "[&_.text-field-wrapper]:bg-[#FFE6FF] [&_.text-field-wrapper]:border-transparent text-[#52059C]",
-      "[&_.text-field-wrapper>input]:placeholder:text-[#52059C]",
-      floating == "outer" && "[&_.text-field-wrapper_.floating-label]:bg-[#FFE6FF]"
+      "[&_.fieldset-field]:bg-[#FFE6FF] [&_.fieldset-field]:border-transparent text-[#52059C]"
     ]
   end
 
-  defp color_variant("unbordered", "dawn", floating) do
+  defp color_variant("unbordered", "dawn") do
     [
-      "[&_.text-field-wrapper]:bg-[#FFECDA] [&_.text-field-wrapper]:border-transparent text-[#4D4137]",
-      "[&_.text-field-wrapper>input]:placeholder:text-[#4D4137]",
-      floating == "outer" && "[&_.text-field-wrapper_.floating-label]:bg-[#FFECDA]"
+      "[&_.fieldset-field]:bg-[#FFECDA] [&_.fieldset-field]:border-transparent text-[#4D4137]"
     ]
   end
 
-  defp color_variant("unbordered", "light", floating) do
+  defp color_variant("unbordered", "light") do
     [
-      "[&_.text-field-wrapper]:bg-[#E3E7F1] [&_.text-field-wrapper]:border-transparent text-[#707483]",
-      "[&_.text-field-wrapper>input]:placeholder:text-[#707483]",
-      floating == "outer" && "[&_.text-field-wrapper_.floating-label]:bg-[#E3E7F1]"
+      "[&_.fieldset-field]:bg-[#E3E7F1] [&_.fieldset-field]:border-transparent text-[#707483]"
     ]
   end
 
-  defp color_variant("unbordered", "dark", floating) do
+  defp color_variant("unbordered", "dark") do
     [
-      "[&_.text-field-wrapper]:bg-[#1E1E1E] text-[#1E1E1E] [&_.text-field-wrapper]:border-transparent text-white",
-      "[&_.text-field-wrapper>input]:placeholder:text-white",
-      floating == "outer" && "[&_.text-field-wrapper_.floating-label]:bg-[#1E1E1E]"
+      "[&_.fieldset-field]:bg-[#1E1E1E] text-[#1E1E1E] [&_.fieldset-field]:border-transparent text-white"
     ]
   end
 
-  defp color_variant("shadow", "white", floating) do
+  defp color_variant("shadow", "white") do
     [
-      "[&_.text-field-wrapper]:bg-white text-[#3E3E3E] [&_.text-field-wrapper:not(:has(.text-field-error))]:border-[#DADADA]",
-      "[&_.text-field-wrapper.text-field-error]:border-rose-700",
-      "[&_.text-field-wrapper]:shadow [&_.text-field-wrapper>input]:placeholder:text-[#3E3E3E]",
-      floating == "outer" && "[&_.text-field-wrapper_.floating-label]:bg-[#3E3E3E]"
+      "[&_.fieldset-field]:bg-white text-[#3E3E3E]",
+      "[&_.fieldset-field]:shadow"
     ]
   end
 
-  defp color_variant("shadow", "primary", floating) do
+  defp color_variant("shadow", "primary") do
     [
-      "[&_.text-field-wrapper]:bg-[#4363EC] text-[#4363EC] [&_.text-field-wrapper:not(:has(.text-field-error))]:border-[#4363EC]",
-      "[&_.text-field-wrapper.text-field-error]:border-rose-700",
-      "[&_.text-field-wrapper]:shadow [&_.text-field-wrapper>input]:placeholder:text-white",
-      floating == "outer" && "[&_.text-field-wrapper_.floating-label]:bg-[#3E3E3E]"
+      "[&_.fieldset-field]:bg-[#4363EC] text-[#4363EC]",
+      "[&_.fieldset-field]:shadow"
     ]
   end
 
-  defp color_variant("shadow", "secondary", floating) do
+  defp color_variant("shadow", "secondary") do
     [
-      "[&_.text-field-wrapper]:bg-[#6B6E7C] text-[#6B6E7C] [&_.text-field-wrapper:not(:has(.text-field-error))]:border-[#6B6E7C]",
-      "[&_.text-field-wrapper.text-field-error]:border-rose-700",
-      "[&_.text-field-wrapper]:shadow [&_.text-field-wrapper>input]:placeholder:text-white",
-      floating == "outer" && "[&_.text-field-wrapper_.floating-label]:bg-[#6B6E7C]"
+      "[&_.fieldset-field]:bg-[#6B6E7C] text-[#6B6E7C]",
+      "[&_.fieldset-field]:shadow"
     ]
   end
 
-  defp color_variant("shadow", "success", floating) do
+  defp color_variant("shadow", "success") do
     [
-      "[&_.text-field-wrapper]:bg-[#ECFEF3] text-[#227A52] [&_.text-field-wrapper:not(:has(.text-field-error))]:border-[#047857]",
-      "[&_.text-field-wrapper.text-field-error]:border-rose-700",
-      "[&_.text-field-wrapper]:shadow [&_.text-field-wrapper>input]:placeholder:text-[#047857]",
-      floating == "outer" && "[&_.text-field-wrapper_.floating-label]:bg-[#ECFEF3]"
+      "[&_.fieldset-field]:bg-[#ECFEF3] text-[#227A52]",
+      "[&_.fieldset-field]:shadow"
     ]
   end
 
-  defp color_variant("shadow", "warning", floating) do
+  defp color_variant("shadow", "warning") do
     [
-      "[&_.text-field-wrapper]:bg-[#FFF8E6] text-[#FF8B08] [&_.text-field-wrapper:not(:has(.text-field-error))]:border-[#FFF8E6]",
-      "[&_.text-field-wrapper.text-field-error]:border-rose-700",
-      "[&_.text-field-wrapper]:shadow [&_.text-field-wrapper>input]:placeholder:text-[#FF8B08]",
-      floating == "outer" && "[&_.text-field-wrapper_.floating-label]:bg-[#FFF8E6]"
+      "[&_.fieldset-field]:bg-[#FFF8E6] text-[#FF8B08]",
+      "[&_.fieldset-field]:shadow"
     ]
   end
 
-  defp color_variant("shadow", "danger", floating) do
+  defp color_variant("shadow", "danger") do
     [
-      "[&_.text-field-wrapper]:bg-[#FFE6E6] text-[#E73B3B] [&_.text-field-wrapper:not(:has(.text-field-error))]:border-[#FFE6E6]",
-      "[&_.text-field-wrapper.text-field-error]:border-rose-700",
-      "[&_.text-field-wrapper]:shadow [&_.text-field-wrapper>input]:placeholder:text-[#E73B3B]",
-      floating == "outer" && "[&_.text-field-wrapper_.floating-label]:bg-[#FFE6E6]"
+      "[&_.fieldset-field]:bg-[#FFE6E6] text-[#E73B3B]",
+      "[&_.fieldset-field]:shadow"
     ]
   end
 
-  defp color_variant("shadow", "info", floating) do
+  defp color_variant("shadow", "info") do
     [
-      "[&_.text-field-wrapper]:bg-[#E5F0FF] text-[#004FC4] [&_.text-field-wrapper:not(:has(.text-field-error))]:border-[#E5F0FF]",
-      "[&_.text-field-wrapper.text-field-error]:border-rose-700",
-      "[&_.text-field-wrapper]:shadow [&_.text-field-wrapper>input]:placeholder:text-[#004FC4]",
-      floating == "outer" && "[&_.text-field-wrapper_.floating-label]:bg-[#E5F0FF]"
+      "[&_.fieldset-field]:bg-[#E5F0FF] text-[#004FC4]",
+      "[&_.fieldset-field]:shadow"
     ]
   end
 
-  defp color_variant("shadow", "misc", floating) do
+  defp color_variant("shadow", "misc") do
     [
-      "[&_.text-field-wrapper]:bg-[#FFE6FF] text-[#52059C] [&_.text-field-wrapper:not(:has(.text-field-error))]:border-[#FFE6FF]",
-      "[&_.text-field-wrapper.text-field-error]:border-rose-700",
-      "[&_.text-field-wrapper]:shadow [&_.text-field-wrapper>input]:placeholder:text-[#52059C]",
-      floating == "outer" && "[&_.text-field-wrapper_.floating-label]:bg-[#FFE6FF]"
+      "[&_.fieldset-field]:bg-[#FFE6FF] text-[#52059C]",
+      "[&_.fieldset-field]:shadow"
     ]
   end
 
-  defp color_variant("shadow", "dawn", floating) do
+  defp color_variant("shadow", "dawn") do
     [
-      "[&_.text-field-wrapper]:bg-[#FFECDA] text-[#4D4137] [&_.text-field-wrapper:not(:has(.text-field-error))]:border-[#FFECDA]",
-      "[&_.text-field-wrapper.text-field-error]:border-rose-700",
-      "[&_.text-field-wrapper]:shadow [&_.text-field-wrapper>input]:placeholder:text-[#4D4137]",
-      floating == "outer" && "[&_.text-field-wrapper_.floating-label]:bg-[#FFECDA]"
+      "[&_.fieldset-field]:bg-[#FFECDA] text-[#4D4137]",
+      "[&_.fieldset-field]:shadow"
     ]
   end
 
-  defp color_variant("shadow", "light", floating) do
+  defp color_variant("shadow", "light") do
     [
-      "[&_.text-field-wrapper]:bg-[#E3E7F1] text-[#707483] [&_.text-field-wrapper:not(:has(.text-field-error))]:border-[#E3E7F1]",
-      "[&_.text-field-wrapper.text-field-error]:border-rose-700",
-      "[&_.text-field-wrapper]:shadow [&_.text-field-wrapper>input]:placeholder:text-[#707483]",
-      floating == "outer" && "[&_.text-field-wrapper_.floating-label]:bg-[#E3E7F1]"
+      "[&_.fieldset-field]:bg-[#E3E7F1] text-[#707483]",
+      "[&_.fieldset-field]:shadow"
     ]
   end
 
-  defp color_variant("shadow", "dark", floating) do
+  defp color_variant("shadow", "dark") do
     [
-      "[&_.text-field-wrapper]:bg-[#1E1E1E] text-[#1E1E1E] [&_.text-field-wrapper:not(:has(.text-field-error))]:border-[#1E1E1E]",
-      "[&_.text-field-wrapper.text-field-error]:border-rose-700",
-      "[&_.text-field-wrapper]:shadow [&_.text-field-wrapper>input]:placeholder:text-white",
-      floating == "outer" && "[&_.text-field-wrapper_.floating-label]:bg-[#1E1E1E]"
+      "[&_.fieldset-field]:bg-[#1E1E1E] text-[#1E1E1E]",
+      "[&_.fieldset-field]:shadow"
     ]
   end
 
-  defp color_variant("transparent", "white", _) do
+  defp color_variant("transparent", "white") do
     [
-      "[&_.text-field-wrapper]:bg-transparent text-[#DADADA] [&_.text-field-wrapper]:border-transparent",
-      "[&_.text-field-wrapper>input]:placeholder:text-[#DADADA]",
-      "focus-within:[&_.text-field-wrapper]:ring-transparent"
+      "[&_.fieldset-field]:bg-transparent text-[#DADADA] [&_.fieldset-field]:border-transparent",
     ]
   end
 
-  defp color_variant("transparent", "primary", _) do
+  defp color_variant("transparent", "primary") do
     [
-      "[&_.text-field-wrapper]:bg-transparent text-[#4363EC] [&_.text-field-wrapper]:border-transparent",
-      "[&_.text-field-wrapper>input]:placeholder:text-[#4363EC]",
-      "focus-within:[&_.text-field-wrapper]:ring-transparent"
+      "[&_.fieldset-field]:bg-transparent text-[#4363EC] [&_.fieldset-field]:border-transparent",
     ]
   end
 
-  defp color_variant("transparent", "secondary", _) do
+  defp color_variant("transparent", "secondary") do
     [
-      "[&_.text-field-wrapper]:bg-transparent text-[#6B6E7C] [&_.text-field-wrapper]:border-transparent",
-      "[&_.text-field-wrapper>input]:placeholder:text-[#6B6E7C]",
-      "focus-within:[&_.text-field-wrapper]:ring-transparent"
+      "[&_.fieldset-field]:bg-transparent text-[#6B6E7C] [&_.fieldset-field]:border-transparent",
     ]
   end
 
-  defp color_variant("transparent", "success", _) do
+  defp color_variant("transparent", "success") do
     [
-      "[&_.text-field-wrapper]:bg-transparent text-[#047857] [&_.text-field-wrapper]:border-transparent",
-      "[&_.text-field-wrapper>input]:placeholder:text-[#047857]",
-      "focus-within:[&_.text-field-wrapper]:ring-transparent"
+      "[&_.fieldset-field]:bg-transparent text-[#047857] [&_.fieldset-field]:border-transparent",
     ]
   end
 
-  defp color_variant("transparent", "warning", _) do
+  defp color_variant("transparent", "warning") do
     [
-      "[&_.text-field-wrapper]:bg-transparent text-[#FF8B08] [&_.text-field-wrapper]:border-transparent",
-      "[&_.text-field-wrapper>input]:placeholder:text-[#FF8B08]",
-      "focus-within:[&_.text-field-wrapper]:ring-transparent"
+      "[&_.fieldset-field]:bg-transparent text-[#FF8B08] [&_.fieldset-field]:border-transparent",
     ]
   end
 
-  defp color_variant("transparent", "danger", _) do
+  defp color_variant("transparent", "danger") do
     [
-      "[&_.text-field-wrapper]:bg-transparent text-[#E73B3B] [&_.text-field-wrapper]:border-transparent",
-      "[&_.text-field-wrapper>input]:placeholder:text-[#E73B3B]",
-      "focus-within:[&_.text-field-wrapper]:ring-transparent"
+      "[&_.fieldset-field]:bg-transparent text-[#E73B3B] [&_.fieldset-field]:border-transparent",
     ]
   end
 
-  defp color_variant("transparent", "info", _) do
+  defp color_variant("transparent", "info") do
     [
-      "[&_.text-field-wrapper]:bg-transparent text-[#004FC4] [&_.text-field-wrapper]:border-transparent",
-      "[&_.text-field-wrapper>input]:placeholder:text-[#004FC4]",
-      "focus-within:[&_.text-field-wrapper]:ring-transparent"
+      "[&_.fieldset-field]:bg-transparent text-[#004FC4] [&_.fieldset-field]:border-transparent",
     ]
   end
 
-  defp color_variant("transparent", "misc", _) do
+  defp color_variant("transparent", "misc") do
     [
-      "[&_.text-field-wrapper]:bg-transparent text-[#52059C] [&_.text-field-wrapper]:border-transparent",
-      "[&_.text-field-wrapper>input]:placeholder:text-[#52059C]",
-      "focus-within:[&_.text-field-wrapper]:ring-transparent"
+      "[&_.fieldset-field]:bg-transparent text-[#52059C] [&_.fieldset-field]:border-transparent",
     ]
   end
 
-  defp color_variant("transparent", "dawn", _) do
+  defp color_variant("transparent", "dawn") do
     [
-      "[&_.text-field-wrapper]:bg-transparent text-[#4D4137] [&_.text-field-wrapper]:border-transparent",
-      "[&_.text-field-wrapper>input]:placeholder:text-[#4D4137]",
-      "focus-within:[&_.text-field-wrapper]:ring-transparent"
+      "[&_.fieldset-field]:bg-transparent text-[#4D4137] [&_.fieldset-field]:border-transparent",
     ]
   end
 
-  defp color_variant("transparent", "light", _) do
+  defp color_variant("transparent", "light") do
     [
-      "[&_.text-field-wrapper]:bg-transparent text-[#707483] [&_.text-field-wrapper]:border-transparent",
-      "[&_.text-field-wrapper>input]:placeholder:text-[#707483]",
-      "focus-within:[&_.text-field-wrapper]:ring-transparent"
+      "[&_.fieldset-field]:bg-transparent text-[#707483] [&_.fieldset-field]:border-transparent",
     ]
   end
 
-  defp color_variant("transparent", "dark", _) do
+  defp color_variant("transparent", "dark") do
     [
-      "[&_.text-field-wrapper]:bg-transparent text-[#1E1E1E] [&_.text-field-wrapper]:border-transparent",
-      "[&_.text-field-wrapper>input]:placeholder:text-[#1E1E1E]",
-      "focus-within:[&_.text-field-wrapper]:ring-transparent"
+      "[&_.fieldset-field]:bg-transparent text-[#1E1E1E] [&_.fieldset-field]:border-transparent",
     ]
   end
 end

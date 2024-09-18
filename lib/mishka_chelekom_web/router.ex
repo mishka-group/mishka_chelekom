@@ -90,6 +90,7 @@ defmodule MishkaChelekomWeb.Router do
     live "/examples/select-field", Examples.NativeSelectLive
     live "/examples/search-field", Examples.SearchFieldLive
     live "/examples/input-field", Examples.InputFieldLive
+    live "/examples/fieldset-field", Examples.FieldsetFieldLive
 
     live "/examples/user-form", Examples.UserFormLive
   end
