@@ -11,6 +11,7 @@ defmodule MishkaChelekom.FormWrapper do
   attr :padding, :string, default: nil, doc: ""
   attr :space, :string, default: nil, doc: ""
   attr :size, :string, default: nil, doc: ""
+
   attr :for, :any, required: false, doc: "the data structure for the form"
   attr :as, :any, default: nil, doc: "the server side parameter to collect all input under"
 
@@ -23,7 +24,11 @@ defmodule MishkaChelekom.FormWrapper do
 
   def form_wrapper(assigns) do
     ~H"""
-    <form
+    <.form
+      :let={f}
+      for={@for}
+      as={@as}
+      {@rest}
       class={[
         color_variant(@variant, @color),
         padding_class(@padding),
@@ -35,8 +40,11 @@ defmodule MishkaChelekom.FormWrapper do
       ]}
       {@rest}
     >
-      <%= render_slot(@inner_block) %>
-    </form>
+      <%= render_slot(@inner_block, f) %>
+      <div :for={action <- @actions}>
+        <%= render_slot(action, f) %>
+      </div>
+    </.form>
     """
   end
 
