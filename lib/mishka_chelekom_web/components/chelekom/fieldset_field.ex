@@ -435,67 +435,67 @@ defmodule MishkaChelekom.FieldsetField do
 
   defp color_variant("transparent", "white") do
     [
-      "[&_.fieldset-field]:bg-transparent text-[#DADADA] [&_.fieldset-field]:border-transparent",
+      "[&_.fieldset-field]:bg-transparent text-[#DADADA] [&_.fieldset-field]:border-transparent"
     ]
   end
 
   defp color_variant("transparent", "primary") do
     [
-      "[&_.fieldset-field]:bg-transparent text-[#4363EC] [&_.fieldset-field]:border-transparent",
+      "[&_.fieldset-field]:bg-transparent text-[#4363EC] [&_.fieldset-field]:border-transparent"
     ]
   end
 
   defp color_variant("transparent", "secondary") do
     [
-      "[&_.fieldset-field]:bg-transparent text-[#6B6E7C] [&_.fieldset-field]:border-transparent",
+      "[&_.fieldset-field]:bg-transparent text-[#6B6E7C] [&_.fieldset-field]:border-transparent"
     ]
   end
 
   defp color_variant("transparent", "success") do
     [
-      "[&_.fieldset-field]:bg-transparent text-[#047857] [&_.fieldset-field]:border-transparent",
+      "[&_.fieldset-field]:bg-transparent text-[#047857] [&_.fieldset-field]:border-transparent"
     ]
   end
 
   defp color_variant("transparent", "warning") do
     [
-      "[&_.fieldset-field]:bg-transparent text-[#FF8B08] [&_.fieldset-field]:border-transparent",
+      "[&_.fieldset-field]:bg-transparent text-[#FF8B08] [&_.fieldset-field]:border-transparent"
     ]
   end
 
   defp color_variant("transparent", "danger") do
     [
-      "[&_.fieldset-field]:bg-transparent text-[#E73B3B] [&_.fieldset-field]:border-transparent",
+      "[&_.fieldset-field]:bg-transparent text-[#E73B3B] [&_.fieldset-field]:border-transparent"
     ]
   end
 
   defp color_variant("transparent", "info") do
     [
-      "[&_.fieldset-field]:bg-transparent text-[#004FC4] [&_.fieldset-field]:border-transparent",
+      "[&_.fieldset-field]:bg-transparent text-[#004FC4] [&_.fieldset-field]:border-transparent"
     ]
   end
 
   defp color_variant("transparent", "misc") do
     [
-      "[&_.fieldset-field]:bg-transparent text-[#52059C] [&_.fieldset-field]:border-transparent",
+      "[&_.fieldset-field]:bg-transparent text-[#52059C] [&_.fieldset-field]:border-transparent"
     ]
   end
 
   defp color_variant("transparent", "dawn") do
     [
-      "[&_.fieldset-field]:bg-transparent text-[#4D4137] [&_.fieldset-field]:border-transparent",
+      "[&_.fieldset-field]:bg-transparent text-[#4D4137] [&_.fieldset-field]:border-transparent"
     ]
   end
 
   defp color_variant("transparent", "light") do
     [
-      "[&_.fieldset-field]:bg-transparent text-[#707483] [&_.fieldset-field]:border-transparent",
+      "[&_.fieldset-field]:bg-transparent text-[#707483] [&_.fieldset-field]:border-transparent"
     ]
   end
 
   defp color_variant("transparent", "dark") do
     [
-      "[&_.fieldset-field]:bg-transparent text-[#1E1E1E] [&_.fieldset-field]:border-transparent",
+      "[&_.fieldset-field]:bg-transparent text-[#1E1E1E] [&_.fieldset-field]:border-transparent"
     ]
   end
 end

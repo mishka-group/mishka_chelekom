@@ -73,7 +73,7 @@ defmodule MishkaChelekom.FileField do
             <%= @dropzone_description %>
           </div>
         </div>
-         <.live_file_input upload={@uplaod} class="hidden" />
+        <.live_file_input upload={@uplaod} class="hidden" />
       </label>
 
       <.error :for={msg <- @errors} icon={@error_icon}><%= msg %></.error>

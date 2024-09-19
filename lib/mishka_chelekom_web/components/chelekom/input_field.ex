@@ -1,5 +1,3 @@
-
-
 defmodule MishkaChelekom.InputField do
   use Phoenix.Component
   import MishkaChelekomComponents
