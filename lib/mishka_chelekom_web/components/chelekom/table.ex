@@ -40,7 +40,7 @@ defmodule MishkaChelekom.Table do
     <div class="-m-1.5 overflow-x-auto">
       <div class="p-1.5 min-w-full inline-block align-middle">
         <div class={[
-          "overflow-hidden",
+          "overflow-hidden gg",
           color_variant(@variant, @color),
           text_position(@text_position),
           rounded_size(@rounded),
@@ -171,11 +171,11 @@ defmodule MishkaChelekom.Table do
   defp text_position("end"), do: "[&_table]:text-end [&_table_thead]:text-end"
   defp text_position(_), do: text_position("left")
 
-  defp border_class("extra_small"), do: "[&_table]:border"
-  defp border_class("small"), do: "[&_table]:border-2"
-  defp border_class("medium"), do: "[&_table]:[&_*]:border-[3px]"
-  defp border_class("large"), do: "[&_table]:border-4"
-  defp border_class("extra_large"), do: "[&_table]:[&_*]:border-[5px]"
+  defp border_class("extra_small"), do: "border"
+  defp border_class("small"), do: "border-2"
+  defp border_class("medium"), do: "border-[3px]"
+  defp border_class("large"), do: "border-4"
+  defp border_class("extra_large"), do: "[&_*]:border-[5px]"
   defp border_class(params) when is_binary(params), do: [params]
   defp border_class(_), do: nil
 
