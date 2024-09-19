@@ -15,7 +15,6 @@ defmodule MishkaChelekom.Table do
   attr :rows_border, :string, default: nil, doc: ""
   attr :cols_border, :string, default: nil, doc: ""
   attr :thead_class, :string, default: nil, doc: ""
-  attr :table_footer, :boolean, default: false, doc: ""
   attr :footer_class, :string, default: nil, doc: ""
   attr :table_fixed, :boolean, default: false, doc: ""
   attr :text_position, :string, default: "left", doc: ""
@@ -81,7 +80,7 @@ defmodule MishkaChelekom.Table do
               <%= render_slot(@inner_block) %>
             </tbody>
 
-            <tfoot :if={@table_footer} class={@footer_class}>
+            <tfoot :if={length(@footer) > 0} class={@footer_class}>
               <.tr>
                 <.td
                   :for={{footer, index} <- Enum.with_index(@footer, 1)}
