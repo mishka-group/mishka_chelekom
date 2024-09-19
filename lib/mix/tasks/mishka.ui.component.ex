@@ -225,9 +225,9 @@ defmodule Mix.Tasks.Mishka.Ui.Component do
     {:error, :no_dir, msg, template.igniter}
   end
 
-  def create_update_component({:error, _, msg, igniter}), do: Igniter.add_issue(igniter, msg)
+  defp create_update_component({:error, _, msg, igniter}), do: Igniter.add_issue(igniter, msg)
 
-  def create_update_component(
+  defp create_update_component(
         {igniter, template_path, template_config, proper_location, assign, options}
       ) do
     igniter =
@@ -366,7 +366,7 @@ defmodule Mix.Tasks.Mishka.Ui.Component do
     end
   end
 
-  def atom_to_module(field) do
+  defp atom_to_module(field) do
     field
     |> String.split(".", trim: true)
     |> Enum.map(&Macro.camelize/1)
@@ -374,7 +374,7 @@ defmodule Mix.Tasks.Mishka.Ui.Component do
     |> String.to_atom()
   end
 
-  def atom_to_module(field, :last) do
+  defp atom_to_module(field, :last) do
     field
     |> String.split(".", trim: true)
     |> List.last()
