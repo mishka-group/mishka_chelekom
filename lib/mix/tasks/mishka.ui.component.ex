@@ -285,11 +285,16 @@ defmodule Mix.Tasks.Mishka.Ui.Component do
 
           You can run before generating this component:
         """
-        Mix.Shell.IO.info(IO.ANSI.cyan() <>  String.trim_trailing(msg) <> IO.ANSI.reset())
 
-        IO.puts("#{IO.ANSI.yellow() <> "#{Enum.map(template_config[:necessary], &"\n   * mix mishka.ui.component #{&1}\n")}" <> IO.ANSI.reset()}")
+        Mix.Shell.IO.info(IO.ANSI.cyan() <> String.trim_trailing(msg) <> IO.ANSI.reset())
 
-        IO.puts("#{IO.ANSI.cyan() <> "If approved, dependent components will be created without restrictions and you can change them manually." <> IO.ANSI.reset()}")
+        IO.puts(
+          "#{IO.ANSI.yellow() <> "#{Enum.map(template_config[:necessary], &"\n   * mix mishka.ui.component #{&1}\n")}" <> IO.ANSI.reset()}"
+        )
+
+        IO.puts(
+          "#{IO.ANSI.cyan() <> "If approved, dependent components will be created without restrictions and you can change them manually." <> IO.ANSI.reset()}"
+        )
 
         Mix.Shell.IO.error("""
 
