@@ -13,15 +13,21 @@ defmodule MishkaChelekom.FileField do
   attr :live, :boolean, default: false, doc: ""
   attr :space, :string, default: "medium", doc: ""
   attr :size, :string, default: "extra_small", doc: ""
+  attr :label, :string, default: nil
   attr :dashed, :boolean, default: true, doc: ""
   attr :error_icon, :string, default: nil, doc: ""
-  attr :dropzone, :boolean, default: false, doc: ""
-  attr :dropzone_title, :string, default: "Click to upload, or drag and drop a file", doc: ""
-  attr :dropzone_description, :string, default: nil, doc: ""
-  attr :label, :string, default: nil
   attr :errors, :list, default: []
   attr :name, :any
   attr :value, :any
+
+  attr :dropzone, :boolean, default: false, doc: ""
+  attr :upload, :any, doc: ""
+  attr :entries, :any, doc: ""
+  attr :ref, :any, doc: ""
+  attr :remove, :any, doc: ""
+  attr :dropzone_icon, :string, default: "hero-cloud-arrow-up", doc: ""
+  attr :dropzone_title, :string, default: "Click to upload, or drag and drop a file", doc: ""
+  attr :dropzone_description, :string, default: nil, doc: ""
 
   attr :field, Phoenix.HTML.FormField,
     doc: "a form field struct retrieved from the form for example: @form[:email]"
@@ -43,53 +49,69 @@ defmodule MishkaChelekom.FileField do
 
   def file_field(%{dropzone: true} = assigns) do
     ~H"""
-    <div
-      class={[
-        dropzone_color(@variant, @color),
-        border_class(@border),
-        rounded_size(@rounded),
-        size_class(@size),
-        @dashed && "[&_.dropzone-wrapper]:border-dashed",
-        @class
-      ]}
-    >
+    <div class={[
+      dropzone_color(@variant, @color),
+      border_class(@border),
+      rounded_size(@rounded),
+      size_class(@size),
+      @dashed && "[&_.dropzone-wrapper]:border-dashed",
+      @class
+    ]}>
       <label
         class={[
           "dropzone-wrapper group flex flex-col items-center justify-center w-full cursor-pointer"
         ]}
+        phx-drop-target={@ref}
       >
-        <div
-          class="flex flex-col gap-3 items-center justify-center pt-5 pb-6"
-        >
-          <.icon name="hero-cloud-arrow-up" class="size-14" />
+        <div class="flex flex-col gap-3 items-center justify-center pt-5 pb-6">
+          <.icon name={@dropzone_icon} class="size-14" />
           <div class="mb-2 font-semibold">
             <%= @dropzone_title %>
           </div>
+
           <div>
             <%= @dropzone_description %>
           </div>
         </div>
-        <%!-- Use live component .live_file_input --%>
-        <input type="file" class="hidden" />
+         <.live_file_input upload={@uplaod} class="hidden" />
       </label>
+
+      <.error :for={msg <- @errors} icon={@error_icon}><%= msg %></.error>
+
       <div class="mt-5 space-y-4">
-        <div
-          class="upload-item border rounded relative p-3 flex justify-around gap-3"
-        >
+        <%= for entry <- @entries do %>
+          <div class="upload-item border rounded relative p-3 flex justify-around gap-3">
+            <.icon name="hero-document-arrow-up" class="size-8" />
+            <div class="w-full space-y-3">
+              <div class="text-ellipsis	overflow-hidden w-44 whitespace-nowrap">
+                <%= entry.client_name %>
+              </div>
 
-         <.icon name="hero-document-arrow-up" class="size-8" />
-          <div class="w-full space-y-3">
-            <div>Test.mp4</div>
-            <div>20 <span>MB</span></div>
+              <div>
+                <%= entry.client_size %> <span>MB</span>
+              </div>
 
-          <MishkaChelekom.Progress.progress value={30} color={@color} size="extra_small" />
+              <MishkaChelekom.Progress.progress
+                value={entry.progress}
+                color={@color}
+                size="extra_small"
+              />
+            </div>
+
+            <button
+              phx-click={@remove}
+              phx-value-ref={entry.ref}
+              aria-label="cancel"
+              class="absolute top-2 right-2 text-custome-black-100/60 hover:text-custome-black-100"
+            >
+              <.icon name="hero-x-mark" class="size-4" />
+            </button>
+
+            <%!-- <%= for err <- upload_errors(@upload_error, entry) do %>
+              <p class="text-rose-600 font-medium"><%= err %></p>
+            <% end %> --%>
           </div>
-          <button
-          class="absolute top-2 right-2 text-custome-black-100/60 hover:text-custome-black-100"
-        >
-         <.icon name="hero-x-mark" class="size-4" />
-        </button>
-        </div>
+        <% end %>
       </div>
     </div>
     """
@@ -169,11 +191,16 @@ defmodule MishkaChelekom.FileField do
   defp size_class(params) when is_binary(params), do: params
   defp size_class(_), do: size_class("extra_small")
 
-  defp rounded_size("extra_small"), do: "[&_.file-filed]:rounded-sm [&_.dropzone-wrapper]:rounded-sm"
+  defp rounded_size("extra_small"),
+    do: "[&_.file-filed]:rounded-sm [&_.dropzone-wrapper]:rounded-sm"
+
   defp rounded_size("small"), do: "[&_.file-filed]:rounded [&_.dropzone-wrapper]:rounded"
   defp rounded_size("medium"), do: "[&_.file-filed]:rounded-md [&_.dropzone-wrapper]:rounded-md"
   defp rounded_size("large"), do: "[&_.file-filed]:rounded-lg [&_.dropzone-wrapper]:rounded-lg"
-  defp rounded_size("extra_large"), do: "[&_.file-filed]:rounded-xl [&_.dropzone-wrapper]:rounded-xl"
+
+  defp rounded_size("extra_large"),
+    do: "[&_.file-filed]:rounded-xl [&_.dropzone-wrapper]:rounded-xl"
+
   defp rounded_size(params) when is_binary(params), do: params
   defp rounded_size(_), do: rounded_size("small")
 
@@ -250,7 +277,6 @@ defmodule MishkaChelekom.FileField do
       "[&_.file-input]:bg-[#383838] file:[&_.file-input]:text-white [&_.file-input]:text-white file:[&_.file-input]:bg-[#1E1E1E]"
     ]
   end
-
 
   defp dropzone_color("outline", "white") do
     [
@@ -350,268 +376,268 @@ defmodule MishkaChelekom.FileField do
 
   defp dropzone_color("default", "white") do
     [
-      "[&_.dropzone-wrapper]:bg-white text-[#3E3E3E] [&_.dropzone-wrapper]:border-[#DADADA]"
+      "[&_.dropzone-wrapper]:bg-white/80 text-[#3E3E3E] [&_.dropzone-wrapper]:border-[#DADADA]/80",
+      "[&_.dropzone-wrapper]:text-[#3E3E3E]/80 [&_.upload-item]:border-[#DADADA]",
+      "hover:[&_.dropzone-wrapper]:text-[#3E3E3E] hover:[&_.dropzone-wrapper]:border-[#DADADA]",
+      "hover:[&_.dropzone-wrapper]:bg-white"
     ]
   end
 
   defp dropzone_color("default", "primary") do
     [
-      "[&_.dropzone-wrapper]:bg-[#4363EC] text-[#4363EC]",
-      "[&_.dropzone-wrapper]:text-white [&_.dropzone-wrapper]:border-[#2441de]"
+      "[&_.dropzone-wrapper]:bg-[#4363EC]/80 text-[#4363EC] [&_.dropzone-wrapper]:border-[#2441de]/80",
+      "[&_.dropzone-wrapper]:text-white/80 hover:[&_.dropzone-wrapper]:text-white hover:[&_.dropzone-wrapper]:border-[#2441de]",
+      "hover:[&_.dropzone-wrapper]:bg-[#4363EC] [&_.upload-item]:border-[#2441de]"
     ]
   end
 
   defp dropzone_color("default", "secondary") do
     [
-      "[&_.dropzone-wrapper]:bg-[#6B6E7C] text-[#6B6E7C] [&_.dropzone-wrapper]:text-white",
-      "[&_.dropzone-wrapper]:border-[#877C7C]"
+      "[&_.dropzone-wrapper]:bg-[#6B6E7C]/80 text-[#6B6E7C] [&_.dropzone-wrapper]:border-[#877C7C]/80",
+      "[&_.dropzone-wrapper]:text-white/80 hover:[&_.dropzone-wrapper]:text-white hover:[&_.dropzone-wrapper]:border-[#877C7C]",
+      "hover:[&_.dropzone-wrapper]:bg-[#4363EC] [&_.upload-item]:border-[#ECFEF3]"
     ]
   end
 
   defp dropzone_color("default", "success") do
     [
-      "[&_.dropzone-wrapper]:bg-[#ECFEF3] text-[#047857] [&_.dropzone-wrapper]:border-[#6EE7B7]"
+      "[&_.dropzone-wrapper]:bg-[#ECFEF3]/80 text-[#047857] [&_.dropzone-wrapper]:border-[#6EE7B7]/80",
+      "[&_.dropzone-wrapper]:text-[#047857]/80 hover:[&_.dropzone-wrapper]:text-[#047857] hover:[&_.dropzone-wrapper]:border-[#6EE7B7]",
+      "hover:[&_.dropzone-wrapper]:bg-[#ECFEF3] [&_.upload-item]:border-[#6EE7B7]"
     ]
   end
 
   defp dropzone_color("default", "warning") do
     [
-      "[&_.dropzone-wrapper]:bg-[#FFF8E6] text-[#FF8B08] [&_.dropzone-wrapper]:border-[#FF8B08]"
+      "[&_.dropzone-wrapper]:bg-[#FFF8E6]/80 text-[#FF8B08] [&_.dropzone-wrapper]:border-[#FF8B08]/80",
+      "[&_.dropzone-wrapper]:text-[#FF8B08]/80 hover:[&_.dropzone-wrapper]:text-[#FF8B08] hover:[&_.dropzone-wrapper]:border-[#FF8B08]",
+      "hover:[&_.dropzone-wrapper]:bg-[#FFF8E6] [&_.upload-item]:border-[#FF8B08]"
     ]
   end
 
   defp dropzone_color("default", "danger") do
     [
-      "[&_.dropzone-wrapper]:bg-[#FFE6E6] text-[#E73B3B] [&_.dropzone-wrapper]:border-[#E73B3B]"
+      "[&_.dropzone-wrapper]:bg-[#FFE6E6]/80 text-[#E73B3B] [&_.dropzone-wrapper]:border-[#E73B3B]/80",
+      "[&_.dropzone-wrapper]:text-[#E73B3B]/80 hover:[&_.dropzone-wrapper]:text-[#E73B3B] hover:[&_.dropzone-wrapper]:border-[#E73B3B]",
+      "hover:[&_.dropzone-wrapper]:bg-[#FFE6E6] [&_.upload-item]:border-[#E73B3B]"
     ]
   end
 
   defp dropzone_color("default", "info") do
     [
-      "[&_.dropzone-wrapper]:bg-[#E5F0FF] text-[#004FC4] [&_.dropzone-wrapper]:border-[#004FC4]"
+      "[&_.dropzone-wrapper]:bg-[#E5F0FF]/80 text-[#004FC4] [&_.dropzone-wrapper]:border-[#004FC4]/80",
+      "[&_.dropzone-wrapper]:text-[#004FC4]/80 hover:[&_.dropzone-wrapper]:text-[#004FC4] hover:[&_.dropzone-wrapper]:border-[#004FC4]",
+      "hover:[&_.dropzone-wrapper]:bg-[#E5F0FF] [&_.upload-item]:border-[#004FC4]"
     ]
   end
 
   defp dropzone_color("default", "misc") do
     [
-      "[&_.dropzone-wrapper]:bg-[#FFE6FF] text-[#52059C] [&_.dropzone-wrapper]:border-[#52059C]"
+      "[&_.dropzone-wrapper]:bg-[#FFE6FF]/80 text-[#52059C] [&_.dropzone-wrapper]:border-[#52059C]/80",
+      "[&_.dropzone-wrapper]:text-[#52059C]/80 hover:[&_.dropzone-wrapper]:text-[#52059C] hover:[&_.dropzone-wrapper]:border-[#52059C]",
+      "hover:[&_.dropzone-wrapper]:bg-[#FFE6FF] [&_.upload-item]:border-[#52059C]"
     ]
   end
 
   defp dropzone_color("default", "dawn") do
     [
-      "[&_.dropzone-wrapper]:bg-[#FFECDA] text-[#4D4137] [&_.dropzone-wrapper]:border-[#4D4137]"
+      "[&_.dropzone-wrapper]:bg-[#FFECDA]/80 text-[#4D4137] [&_.dropzone-wrapper]:border-[#4D4137]/80",
+      "[&_.dropzone-wrapper]:text-[#4D4137]/80 hover:[&_.dropzone-wrapper]:text-[#4D4137] hover:[&_.dropzone-wrapper]:border-[#4D4137]",
+      "hover:[&_.dropzone-wrapper]:bg-[#FFECDA] [&_.upload-item]:border-[#4D4137]"
     ]
   end
 
   defp dropzone_color("default", "light") do
     [
-      "[&_.dropzone-wrapper]:bg-[#E3E7F1] text-[#707483] [&_.dropzone-wrapper]:border-[#707483]"
+      "[&_.dropzone-wrapper]:bg-[#E3E7F1]/80 text-[#707483] [&_.dropzone-wrapper]:border-[#707483]/80",
+      "[&_.dropzone-wrapper]:text-[#707483]/80 hover:[&_.dropzone-wrapper]:text-[#707483] hover:[&_.dropzone-wrapper]:border-[#707483]",
+      "hover:[&_.dropzone-wrapper]:bg-[#E3E7F1] [&_.upload-item]:border-[#707483]"
     ]
   end
 
   defp dropzone_color("default", "dark") do
     [
-      "[&_.dropzone-wrapper]:bg-[#1E1E1E] text-[#1E1E1E] [&_.dropzone-wrapper]:text-white",
-      "[&_.dropzone-wrapper]:border-[#050404]"
+      "[&_.dropzone-wrapper]:bg-[#1E1E1E]/80 text-[#1E1E1E] [&_.dropzone-wrapper]:border-[#050404]/80",
+      "[&_.dropzone-wrapper]:text-white/80 hover:[&_.dropzone-wrapper]:text-white hover:[&_.dropzone-wrapper]:border-[#050404]",
+      "hover:[&_.dropzone-wrapper]:bg-[#1E1E1E] [&_.upload-item]:border-[#050404]"
     ]
   end
 
   defp dropzone_color("unbordered", "white") do
     [
-      "[&_.dropzone-wrapper]:bg-white [&_.dropzone-wrapper]:border-transparent text-[#3E3E3E]"
+      "[&_.dropzone-wrapper]:bg-white/80 text-[#3E3E3E] [&_.dropzone-wrapper]:border-transparent",
+      "[&_.dropzone-wrapper]:text-[#3E3E3E]/80 [&_.upload-item]:border-[#DADADA]",
+      "hover:[&_.dropzone-wrapper]:text-[#3E3E3E]",
+      "hover:[&_.dropzone-wrapper]:bg-white"
     ]
   end
 
   defp dropzone_color("unbordered", "primary") do
     [
-      "[&_.dropzone-wrapper]:bg-[#4363EC] text-[#4363EC] [&_.dropzone-wrapper]:border-transparent text-white"
+      "[&_.dropzone-wrapper]:bg-[#4363EC]/80 text-[#4363EC] [&_.dropzone-wrapper]:border-transparent",
+      "[&_.dropzone-wrapper]:text-white/80 hover:[&_.dropzone-wrapper]:text-white",
+      "hover:[&_.dropzone-wrapper]:bg-[#4363EC] [&_.upload-item]:border-[#2441de]"
     ]
   end
 
   defp dropzone_color("unbordered", "secondary") do
     [
-      "[&_.dropzone-wrapper]:bg-[#6B6E7C] text-[#6B6E7C] [&_.dropzone-wrapper]:border-transparent text-white"
+      "[&_.dropzone-wrapper]:bg-[#6B6E7C]/80 text-[#6B6E7C] [&_.dropzone-wrapper]:border-transparent",
+      "[&_.dropzone-wrapper]:text-white/80 hover:[&_.dropzone-wrapper]:text-white",
+      "hover:[&_.dropzone-wrapper]:bg-[#4363EC] [&_.upload-item]:border-[#ECFEF3]"
     ]
   end
 
   defp dropzone_color("unbordered", "success") do
     [
-      "[&_.dropzone-wrapper]:bg-[#ECFEF3] [&_.dropzone-wrapper]:border-transparent text-[#047857]"
+      "[&_.dropzone-wrapper]:bg-[#ECFEF3]/80 text-[#047857] [&_.dropzone-wrapper]:border-transparent",
+      "[&_.dropzone-wrapper]:text-[#047857]/80 hover:[&_.dropzone-wrapper]:text-[#047857]",
+      "hover:[&_.dropzone-wrapper]:bg-[#ECFEF3] [&_.upload-item]:border-[#6EE7B7]"
     ]
   end
 
   defp dropzone_color("unbordered", "warning") do
     [
-      "[&_.dropzone-wrapper]:bg-[#FFF8E6] [&_.dropzone-wrapper]:border-transparent text-[#FF8B08]"
+      "[&_.dropzone-wrapper]:bg-[#FFF8E6]/80 text-[#FF8B08] [&_.dropzone-wrapper]:border-transparent",
+      "[&_.dropzone-wrapper]:text-[#FF8B08]/80 hover:[&_.dropzone-wrapper]:text-[#FF8B08]",
+      "hover:[&_.dropzone-wrapper]:bg-[#FFF8E6] [&_.upload-item]:border-[#FF8B08]"
     ]
   end
 
   defp dropzone_color("unbordered", "danger") do
     [
-      "[&_.dropzone-wrapper]:bg-[#FFE6E6] [&_.dropzone-wrapper]:border-transparent text-[#E73B3B]"
+      "[&_.dropzone-wrapper]:bg-[#FFE6E6]/80 text-[#E73B3B] [&_.dropzone-wrapper]:border-transparent",
+      "[&_.dropzone-wrapper]:text-[#E73B3B]/80 hover:[&_.dropzone-wrapper]:text-[#E73B3B]",
+      "hover:[&_.dropzone-wrapper]:bg-[#FFE6E6] [&_.upload-item]:border-[#E73B3B]"
     ]
   end
 
   defp dropzone_color("unbordered", "info") do
     [
-      "[&_.dropzone-wrapper]:bg-[#E5F0FF] [&_.dropzone-wrapper]:border-transparent text-[#004FC4]"
+      "[&_.dropzone-wrapper]:bg-[#E5F0FF]/80 text-[#004FC4] [&_.dropzone-wrapper]:border-transparent",
+      "[&_.dropzone-wrapper]:text-[#004FC4]/80 hover:[&_.dropzone-wrapper]:text-[#004FC4]",
+      "hover:[&_.dropzone-wrapper]:bg-[#E5F0FF] [&_.upload-item]:border-[#004FC4]"
     ]
   end
 
   defp dropzone_color("unbordered", "misc") do
     [
-      "[&_.dropzone-wrapper]:bg-[#FFE6FF] [&_.dropzone-wrapper]:border-transparent text-[#52059C]"
+      "[&_.dropzone-wrapper]:bg-[#FFE6FF]/80 text-[#52059C] [&_.dropzone-wrapper]:border-transparent",
+      "[&_.dropzone-wrapper]:text-[#52059C]/80 hover:[&_.dropzone-wrapper]:text-[#52059C]",
+      "hover:[&_.dropzone-wrapper]:bg-[#FFE6FF] [&_.upload-item]:border-[#52059C]"
     ]
   end
 
   defp dropzone_color("unbordered", "dawn") do
     [
-      "[&_.dropzone-wrapper]:bg-[#FFECDA] [&_.dropzone-wrapper]:border-transparent text-[#4D4137]"
+      "[&_.dropzone-wrapper]:bg-[#FFECDA]/80 text-[#4D4137] [&_.dropzone-wrapper]:border-transparent",
+      "[&_.dropzone-wrapper]:text-[#4D4137]/80 hover:[&_.dropzone-wrapper]:text-[#4D4137]",
+      "hover:[&_.dropzone-wrapper]:bg-[#FFECDA] [&_.upload-item]:border-[#4D4137]"
     ]
   end
 
   defp dropzone_color("unbordered", "light") do
     [
-      "[&_.dropzone-wrapper]:bg-[#E3E7F1] [&_.dropzone-wrapper]:border-transparent text-[#707483]"
+      "[&_.dropzone-wrapper]:bg-[#E3E7F1]/80 text-[#707483] [&_.dropzone-wrapper]:border-transparent",
+      "[&_.dropzone-wrapper]:text-[#707483]/80 hover:[&_.dropzone-wrapper]:text-[#707483]",
+      "hover:[&_.dropzone-wrapper]:bg-[#E3E7F1] [&_.upload-item]:border-[#707483]"
     ]
   end
 
   defp dropzone_color("unbordered", "dark") do
     [
-      "[&_.dropzone-wrapper]:bg-[#1E1E1E] text-[#1E1E1E] [&_.dropzone-wrapper]:border-transparent text-white"
+      "[&_.dropzone-wrapper]:bg-[#1E1E1E]/80 text-[#1E1E1E] [&_.dropzone-wrapper]:border-transparent",
+      "[&_.dropzone-wrapper]:text-white/80 hover:[&_.dropzone-wrapper]:text-white",
+      "hover:[&_.dropzone-wrapper]:bg-[#1E1E1E] [&_.upload-item]:border-[#050404]"
     ]
   end
 
   defp dropzone_color("shadow", "white") do
     [
-      "[&_.dropzone-wrapper]:bg-white text-[#3E3E3E] [&_.dropzone-wrapper]:shadow"
+      "[&_.dropzone-wrapper]:bg-white/80 text-[#3E3E3E] [&_.dropzone-wrapper]:border-[#DADADA]/80",
+      "[&_.dropzone-wrapper]:text-[#3E3E3E]/80 [&_.upload-item]:border-[#DADADA]",
+      "hover:[&_.dropzone-wrapper]:text-[#3E3E3E] hover:[&_.dropzone-wrapper]:border-[#DADADA]",
+      "[&_.dropzone-wrapper]:shadow [&_.upload-item]:shadow hover:[&_.dropzone-wrapper]:bg-white"
     ]
   end
 
   defp dropzone_color("shadow", "primary") do
     [
-      "[&_.dropzone-wrapper]:bg-[#4363EC] text-[#4363EC] [&_.dropzone-wrapper]:shadow"
+      "[&_.dropzone-wrapper]:bg-[#4363EC]/80 text-[#4363EC] [&_.dropzone-wrapper]:border-[#2441de]/80",
+      "[&_.dropzone-wrapper]:text-white/80 hover:[&_.dropzone-wrapper]:text-white hover:[&_.dropzone-wrapper]:border-[#2441de]",
+      "[&_.dropzone-wrapper]:shadow [&_.upload-item]:shadow hover:[&_.dropzone-wrapper]:bg-[#4363EC] [&_.upload-item]:border-[#2441de]"
     ]
   end
 
   defp dropzone_color("shadow", "secondary") do
     [
-      "[&_.dropzone-wrapper]:bg-[#6B6E7C] text-[#6B6E7C] [&_.dropzone-wrapper]:shadow"
+      "[&_.dropzone-wrapper]:bg-[#6B6E7C]/80 text-[#6B6E7C] [&_.dropzone-wrapper]:border-[#877C7C]/80",
+      "[&_.dropzone-wrapper]:text-white/80 hover:[&_.dropzone-wrapper]:text-white hover:[&_.dropzone-wrapper]:border-[#877C7C]",
+      "[&_.dropzone-wrapper]:shadow [&_.upload-item]:shadow hover:[&_.dropzone-wrapper]:bg-[#4363EC] [&_.upload-item]:border-[#ECFEF3]"
     ]
   end
 
   defp dropzone_color("shadow", "success") do
     [
-      "[&_.dropzone-wrapper]:bg-[#ECFEF3] text-[#227A52] [&_.dropzone-wrapper]:shadow"
+      "[&_.dropzone-wrapper]:bg-[#ECFEF3]/80 text-[#047857] [&_.dropzone-wrapper]:border-[#6EE7B7]/80",
+      "[&_.dropzone-wrapper]:text-[#047857]/80 hover:[&_.dropzone-wrapper]:text-[#047857] hover:[&_.dropzone-wrapper]:border-[#6EE7B7]",
+      "[&_.dropzone-wrapper]:shadow [&_.upload-item]:shadow hover:[&_.dropzone-wrapper]:bg-[#ECFEF3] [&_.upload-item]:border-[#6EE7B7]"
     ]
   end
 
   defp dropzone_color("shadow", "warning") do
     [
-      "[&_.dropzone-wrapper]:bg-[#FFF8E6] text-[#FF8B08] [&_.dropzone-wrapper]:shadow"
+      "[&_.dropzone-wrapper]:bg-[#FFF8E6]/80 text-[#FF8B08] [&_.dropzone-wrapper]:border-[#FF8B08]/80",
+      "[&_.dropzone-wrapper]:text-[#FF8B08]/80 hover:[&_.dropzone-wrapper]:text-[#FF8B08] hover:[&_.dropzone-wrapper]:border-[#FF8B08]",
+      "[&_.dropzone-wrapper]:shadow [&_.upload-item]:shadow hover:[&_.dropzone-wrapper]:bg-[#FFF8E6] [&_.upload-item]:border-[#FF8B08]"
     ]
   end
 
   defp dropzone_color("shadow", "danger") do
     [
-      "[&_.dropzone-wrapper]:bg-[#FFE6E6] text-[#E73B3B] [&_.dropzone-wrapper]:shadow"
+      "[&_.dropzone-wrapper]:bg-[#FFE6E6]/80 text-[#E73B3B] [&_.dropzone-wrapper]:border-[#E73B3B]/80",
+      "[&_.dropzone-wrapper]:text-[#E73B3B]/80 hover:[&_.dropzone-wrapper]:text-[#E73B3B] hover:[&_.dropzone-wrapper]:border-[#E73B3B]",
+      "[&_.dropzone-wrapper]:shadow [&_.upload-item]:shadow hover:[&_.dropzone-wrapper]:bg-[#FFE6E6] [&_.upload-item]:border-[#E73B3B]"
     ]
   end
 
   defp dropzone_color("shadow", "info") do
     [
-      "[&_.dropzone-wrapper]:bg-[#E5F0FF] text-[#004FC4] [&_.dropzone-wrapper]:shadow"
+      "[&_.dropzone-wrapper]:bg-[#E5F0FF]/80 text-[#004FC4] [&_.dropzone-wrapper]:border-[#004FC4]/80",
+      "[&_.dropzone-wrapper]:text-[#004FC4]/80 hover:[&_.dropzone-wrapper]:text-[#004FC4] hover:[&_.dropzone-wrapper]:border-[#004FC4]",
+      "[&_.dropzone-wrapper]:shadow [&_.upload-item]:shadow hover:[&_.dropzone-wrapper]:bg-[#E5F0FF] [&_.upload-item]:border-[#004FC4]"
     ]
   end
 
   defp dropzone_color("shadow", "misc") do
     [
-      "[&_.dropzone-wrapper]:bg-[#FFE6FF] text-[#52059C] [&_.dropzone-wrapper]:shadow"
+      "[&_.dropzone-wrapper]:bg-[#FFE6FF]/80 text-[#52059C] [&_.dropzone-wrapper]:border-[#52059C]/80",
+      "[&_.dropzone-wrapper]:text-[#52059C]/80 hover:[&_.dropzone-wrapper]:text-[#52059C] hover:[&_.dropzone-wrapper]:border-[#52059C]",
+      "[&_.dropzone-wrapper]:shadow [&_.upload-item]:shadow hover:[&_.dropzone-wrapper]:bg-[#FFE6FF] [&_.upload-item]:border-[#52059C]"
     ]
   end
 
   defp dropzone_color("shadow", "dawn") do
     [
-      "[&_.dropzone-wrapper]:bg-[#FFECDA] text-[#4D4137] [&_.dropzone-wrapper]:shadow"
+      "[&_.dropzone-wrapper]:bg-[#FFECDA]/80 text-[#4D4137] [&_.dropzone-wrapper]:border-[#4D4137]/80",
+      "[&_.dropzone-wrapper]:text-[#4D4137]/80 hover:[&_.dropzone-wrapper]:text-[#4D4137] hover:[&_.dropzone-wrapper]:border-[#4D4137]",
+      "[&_.dropzone-wrapper]:shadow [&_.upload-item]:shadow hover:[&_.dropzone-wrapper]:bg-[#FFECDA] [&_.upload-item]:border-[#4D4137]"
     ]
   end
 
   defp dropzone_color("shadow", "light") do
     [
-      "[&_.dropzone-wrapper]:bg-[#E3E7F1] text-[#707483] [&_.dropzone-wrapper]:shadow"
+      "[&_.dropzone-wrapper]:bg-[#E3E7F1]/80 text-[#707483] [&_.dropzone-wrapper]:border-[#707483]/80",
+      "[&_.dropzone-wrapper]:text-[#707483]/80 hover:[&_.dropzone-wrapper]:text-[#707483] hover:[&_.dropzone-wrapper]:border-[#707483]",
+      "[&_.dropzone-wrapper]:shadow [&_.upload-item]:shadow hover:[&_.dropzone-wrapper]:bg-[#E3E7F1] [&_.upload-item]:border-[#707483]"
     ]
   end
 
   defp dropzone_color("shadow", "dark") do
     [
-      "[&_.dropzone-wrapper]:bg-[#1E1E1E] text-[#1E1E1E] [&_.dropzone-wrapper]:shadow"
-    ]
-  end
-
-  defp dropzone_color("transparent", "white") do
-    [
-      "[&_.dropzone-wrapper]:bg-transparent text-[#DADADA] [&_.dropzone-wrapper]:border-transparent",
-    ]
-  end
-
-  defp dropzone_color("transparent", "primary") do
-    [
-      "[&_.dropzone-wrapper]:bg-transparent text-[#4363EC] [&_.dropzone-wrapper]:border-transparent",
-    ]
-  end
-
-  defp dropzone_color("transparent", "secondary") do
-    [
-      "[&_.dropzone-wrapper]:bg-transparent text-[#6B6E7C] [&_.dropzone-wrapper]:border-transparent",
-    ]
-  end
-
-  defp dropzone_color("transparent", "success") do
-    [
-      "[&_.dropzone-wrapper]:bg-transparent text-[#047857] [&_.dropzone-wrapper]:border-transparent",
-    ]
-  end
-
-  defp dropzone_color("transparent", "warning") do
-    [
-      "[&_.dropzone-wrapper]:bg-transparent text-[#FF8B08] [&_.dropzone-wrapper]:border-transparent",
-    ]
-  end
-
-  defp dropzone_color("transparent", "danger") do
-    [
-      "[&_.dropzone-wrapper]:bg-transparent text-[#E73B3B] [&_.dropzone-wrapper]:border-transparent",
-    ]
-  end
-
-  defp dropzone_color("transparent", "info") do
-    [
-      "[&_.dropzone-wrapper]:bg-transparent text-[#004FC4] [&_.dropzone-wrapper]:border-transparent",
-    ]
-  end
-
-  defp dropzone_color("transparent", "misc") do
-    [
-      "[&_.dropzone-wrapper]:bg-transparent text-[#52059C] [&_.dropzone-wrapper]:border-transparent",
-    ]
-  end
-
-  defp dropzone_color("transparent", "dawn") do
-    [
-      "[&_.dropzone-wrapper]:bg-transparent text-[#4D4137] [&_.dropzone-wrapper]:border-transparent",
-    ]
-  end
-
-  defp dropzone_color("transparent", "light") do
-    [
-      "[&_.dropzone-wrapper]:bg-transparent text-[#707483] [&_.dropzone-wrapper]:border-transparent",
-    ]
-  end
-
-  defp dropzone_color("transparent", "dark") do
-    [
-      "[&_.dropzone-wrapper]:bg-transparent text-[#1E1E1E] [&_.dropzone-wrapper]:border-transparent",
+      "[&_.dropzone-wrapper]:bg-[#1E1E1E]/80 text-[#1E1E1E] [&_.dropzone-wrapper]:border-[#050404]/80",
+      "[&_.dropzone-wrapper]:text-white/80 hover:[&_.dropzone-wrapper]:text-white hover:[&_.dropzone-wrapper]:border-[#050404]",
+      "[&_.dropzone-wrapper]:shadow [&_.upload-item]:shadow hover:[&_.dropzone-wrapper]:bg-[#1E1E1E] [&_.upload-item]:border-[#050404]"
     ]
   end
 end
