@@ -92,6 +92,7 @@ defmodule MishkaChelekomWeb.Router do
     live "/examples/input-field", Examples.InputFieldLive
     live "/examples/fieldset-field", Examples.FieldsetFieldLive
     live "/examples/form", Examples.FormWrapperLive
+    live "/examples/table", Examples.TableLive
 
     live "/examples/user-form", Examples.UserFormLive
   end
