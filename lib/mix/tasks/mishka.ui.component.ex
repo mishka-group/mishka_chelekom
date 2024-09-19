@@ -161,9 +161,34 @@ defmodule Mix.Tasks.Mishka.Ui.Component do
          {igniter, proper_location, assign, template_path, template_config},
          options
        ) do
-    new_assign = options |> Keyword.take(template_config[:args]) |> Keyword.merge(assign)
+    new_assign = options |> Keyword.take(Keyword.keys(template_config[:args])) |> Keyword.merge(assign)
 
-    {igniter, template_path, template_config, proper_location, new_assign, options}
+    user_bad_args =
+      Enum.map(new_assign, fn {key, value} ->
+        case template_config[:args][key] do
+          args when is_list(args) ->
+            user_values =
+              String.split(value, ",", trim: true)
+              |> Enum.all?(& &1 in args)
+            if !user_values, do: {key, args}, else: nil
+          _ -> nil
+        end
+      end)
+      |> Enum.reject(&is_nil(&1))
+
+    if length(user_bad_args) > 0 do
+      msg = """
+      Unfortunately, the arguments you sent were incorrect. You can only send the following options for
+      each of the following arguments
+
+      #{Enum.map(user_bad_args, fn {key, value} ->
+        "* #{String.capitalize("#{key}")}: #{Enum.join(value, " - ")}\n"
+      end)}
+      """
+      {:error, :bad_args, msg, igniter}
+    else
+      {igniter, template_path, template_config, proper_location, new_assign, options}
+    end
   end
 
   # TODO: for another version
