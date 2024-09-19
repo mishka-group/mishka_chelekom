@@ -2,12 +2,20 @@ defmodule Mix.Tasks.Mishka.Ui.Component do
   use Igniter.Mix.Task
 
   @example "mix mishka.ui.component component --example arg"
-  # @components_path_pattern ~r/lib\/mishka_chelekom_web\/components/
   @shortdoc "A Mix Task for generating and configuring Phoenix components"
   @moduledoc """
   #{@shortdoc}
 
-  Longer explanation of your task
+  This script is used in the development environment and allows you to easily add all Mishka
+  components to the components directory in your Phoenix project.
+
+  It should be noted that you can create any component with limited arguments.
+  For example, put only a certain color in the button and do not put other codes in the component.
+
+  For this reason, the main goal is to build the component and its dependencies, and approval at every stage.
+
+  > With this method, you no longer need to add anything you don't need to your project
+  > and minimize dependencies and attacks on dependencies and project maintenance.
 
   ## Example
 
@@ -17,13 +25,16 @@ defmodule Mix.Tasks.Mishka.Ui.Component do
 
   ## Options
 
-  * `--module_name` or `-m` - Docs for your option
-  * `--variant` or `-v` - Docs for your option
-  * `--color` or `-c` - Docs for your option
-  * `--size` or `-s` - Docs for your option
-  * `--padding` or `-p` - Docs for your option
-  * `--space` or `-sp` - Docs for your option
-  * `--type` or `-t` - Docs for your option
+  * `--variant` or `-v` - Specifies component variant
+  * `--color` or `-c` - Specifies component color
+  * `--size` or `-s` - Specifies component size
+  * `--padding` or `-p` - Specifies component padding
+  * `--space` or `-sp` - Specifies component space
+  * `--type` or `-t` - Specifies component type
+  * `--no-sub-config` - Creates dependent components with default settings
+  * `--module` or `-m` - Specifies a custom name for the component module
+  * `--sub` - Specifies this task is a sub task
+  * `--yes` - Makes directly without questions
   """
 
   def info(_argv, _composing_task) do
@@ -91,7 +102,10 @@ defmodule Mix.Tasks.Mishka.Ui.Component do
     component = String.replace(component, " ", "") |> Macro.underscore()
 
     template_path =
-      Path.join(Application.app_dir(:mishka_chelekom, ["priv", "templates"]), "#{component}.eex")
+      Path.join(
+        Application.app_dir(:mishka_chelekom, ["priv", "templates", "components"]),
+        "#{component}.eex"
+      )
 
     template_config_path = Path.rootname(template_path) <> ".exs"
 
@@ -161,7 +175,8 @@ defmodule Mix.Tasks.Mishka.Ui.Component do
          {igniter, proper_location, assign, template_path, template_config},
          options
        ) do
-    new_assign = options |> Keyword.take(Keyword.keys(template_config[:args])) |> Keyword.merge(assign)
+    new_assign =
+      options |> Keyword.take(Keyword.keys(template_config[:args])) |> Keyword.merge(assign)
 
     user_bad_args =
       Enum.map(new_assign, fn {key, value} ->
@@ -169,9 +184,12 @@ defmodule Mix.Tasks.Mishka.Ui.Component do
           args when is_list(args) ->
             user_values =
               String.split(value, ",", trim: true)
-              |> Enum.all?(& &1 in args)
+              |> Enum.all?(&(&1 in args))
+
             if !user_values, do: {key, args}, else: nil
-          _ -> nil
+
+          _ ->
+            nil
         end
       end)
       |> Enum.reject(&is_nil(&1))
@@ -181,10 +199,9 @@ defmodule Mix.Tasks.Mishka.Ui.Component do
       Unfortunately, the arguments you sent were incorrect. You can only send the following options for
       each of the following arguments
 
-      #{Enum.map(user_bad_args, fn {key, value} ->
-        "* #{String.capitalize("#{key}")}: #{Enum.join(value, " - ")}\n"
-      end)}
+      #{Enum.map(user_bad_args, fn {key, value} -> "* #{String.capitalize("#{key}")}: #{Enum.join(value, " - ")}\n" end)}
       """
+
       {:error, :bad_args, msg, igniter}
     else
       {igniter, template_path, template_config, proper_location, new_assign, options}
