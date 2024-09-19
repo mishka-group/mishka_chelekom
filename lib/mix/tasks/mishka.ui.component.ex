@@ -80,12 +80,13 @@ defmodule Mix.Tasks.Mishka.Ui.Component do
 
     if !options[:sub] do
       msg =
-      """
-        ,_,
-        {o,o}
-        /)  )
-      ---"-"--
-      """
+        """
+          ,_,
+          {o,o}
+          /)  )
+        ---"-"--
+        """
+
       IO.puts(IO.ANSI.green() <> String.trim_trailing(msg) <> IO.ANSI.reset())
     end
 
@@ -271,9 +272,9 @@ defmodule Mix.Tasks.Mishka.Ui.Component do
     if Keyword.get(template_config, :necessary, []) != [] and Igniter.changed?(igniter) do
       if template_config[:necessary] != [] and !options[:sub] and !options[:yes] and
            !options[:no_sub_config] do
-        msg = """
-          Note:
+        IO.puts("#{IO.ANSI.bright() <> "Note:" <> IO.ANSI.reset()}")
 
+        msg = """
           This component is dependent on other components, so it is necessary to build other
           items along with this component.
 
@@ -283,12 +284,12 @@ defmodule Mix.Tasks.Mishka.Ui.Component do
           Components: #{Enum.join(template_config[:necessary], " - ")}
 
           You can run before generating this component:
-              #{Enum.map(template_config[:necessary], &"\n   * mix mishka.ui.component #{&1}\n")}
-
-          If approved, dependent components will be created without restrictions and you can change them manually.
         """
+        Mix.Shell.IO.info(IO.ANSI.cyan() <>  String.trim_trailing(msg) <> IO.ANSI.reset())
 
-        Mix.Shell.IO.info(IO.ANSI.cyan() <> msg <> IO.ANSI.reset())
+        IO.puts("#{IO.ANSI.yellow() <> "#{Enum.map(template_config[:necessary], &"\n   * mix mishka.ui.component #{&1}\n")}" <> IO.ANSI.reset()}")
+
+        IO.puts("#{IO.ANSI.cyan() <> "If approved, dependent components will be created without restrictions and you can change them manually." <> IO.ANSI.reset()}")
 
         Mix.Shell.IO.error("""
 
