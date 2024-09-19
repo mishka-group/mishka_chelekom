@@ -54,7 +54,7 @@ defmodule Mix.Tasks.Mishka.Ui.Component do
         space: :string,
         type: :string,
         sub: :boolean,
-        no_sub_config: :boolean,
+        no_sub_config: :boolean
       ],
       # CLI aliases
       aliases: [v: :variant, c: :color, s: :size, m: :module, p: :padding, sp: :space, t: :type]
@@ -193,7 +193,7 @@ defmodule Mix.Tasks.Mishka.Ui.Component do
 
     igniter
     |> optional_components(template_config)
-    |> necessary_components(template_config, proper_location, options)
+    |> necessary_components(template_path, template_config, proper_location, options, assign)
   end
 
   defp optional_components(igniter, template_config) do
@@ -218,7 +218,14 @@ defmodule Mix.Tasks.Mishka.Ui.Component do
     end
   end
 
-  defp necessary_components(igniter, template_config, _proper_location, options) do
+  defp necessary_components(
+         igniter,
+         template_path,
+         template_config,
+         proper_location,
+         options,
+         assign
+       ) do
     if Keyword.get(template_config, :necessary, []) != [] and Igniter.changed?(igniter) do
       igniter =
         igniter
@@ -244,7 +251,8 @@ defmodule Mix.Tasks.Mishka.Ui.Component do
           |> String.trim()
         )
 
-      if template_config[:necessary] != [] and !options[:sub] and !options[:yes] and !options[:no_sub_config] do
+      if template_config[:necessary] != [] and !options[:sub] and !options[:yes] and
+           !options[:no_sub_config] do
         Mix.Shell.IO.error("""
 
         In this section you can set your custom args for each dependent component.
@@ -252,7 +260,7 @@ defmodule Mix.Tasks.Mishka.Ui.Component do
         """)
       end
 
-      Enum.reduce(template_config[:necessary], igniter, fn item, acc ->
+      Enum.reduce(template_config[:necessary], {[], igniter}, fn item, {module_coms, acc} ->
         commands =
           if !options[:yes] and !options[:no_sub_config] do
             Mix.Shell.IO.prompt("* Component #{String.capitalize(item)}: Enter your args:")
@@ -262,11 +270,46 @@ defmodule Mix.Tasks.Mishka.Ui.Component do
             []
           end
 
-        args = if commands == [], do: [item, "--sub", "--yes"], else: [item] ++ commands
-        # TODO: module name if is custom what we should do?
-        acc
-        |> Igniter.compose_task("mishka.ui.component", args)
+        args =
+          cond do
+            !is_nil(options[:yes]) ->
+              [item, "--sub", "--no-sub-config", "--yes"]
+
+            !is_nil(options[:no_sub_config]) ->
+              [item, "--sub", "--no-sub-config"]
+
+            commands == [] ->
+              [item, "--sub"]
+
+            true ->
+              [item, "--sub"] ++ commands
+          end
+
+        templ_options = options!(args)
+
+        component_acc =
+          if !is_nil(templ_options[:module]) do
+            [{item, atom_to_module(templ_options[:module])}]
+          else
+            []
+          end
+
+        {module_coms ++ component_acc, Igniter.compose_task(acc, "mishka.ui.component", args)}
       end)
+      |> case do
+        {[], igniter} ->
+          igniter
+
+        {custom_modules, igniter} ->
+          new_assign =
+            Enum.map(custom_modules, fn {k, v} -> {String.to_atom(k), v} end)
+            |> then(&Keyword.merge(assign, &1))
+
+          igniter
+          |> Igniter.copy_template(template_path, proper_location, new_assign,
+            on_exists: :overwrite
+          )
+      end
     else
       igniter
     end
