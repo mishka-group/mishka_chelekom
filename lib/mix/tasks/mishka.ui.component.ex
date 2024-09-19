@@ -79,14 +79,14 @@ defmodule Mix.Tasks.Mishka.Ui.Component do
     options = options!(argv)
 
     if !options[:sub] do
+      msg =
       """
         ,_,
         {o,o}
         /)  )
       ---"-"--
       """
-      |> String.trim_trailing()
-      |> IO.puts()
+      IO.puts(IO.ANSI.green() <> String.trim_trailing(msg) <> IO.ANSI.reset())
     end
 
     igniter
@@ -269,32 +269,27 @@ defmodule Mix.Tasks.Mishka.Ui.Component do
          assign
        ) do
     if Keyword.get(template_config, :necessary, []) != [] and Igniter.changed?(igniter) do
-      igniter =
-        igniter
-        |> Igniter.add_warning(
-          """
-            This component is dependent on other components, so it is necessary to build other
-            items along with this component.
-
-            If you want to limit the creation of any dependent component to the features you need,
-            it is suggested to stop the routine of doing this component and fix the following items first,
-            then create this component again.
-
-            Note: If you have used custom names for your dependent modules, this script will not be able to find them,
-            so it will think that they have not been created.
-
-            Components: #{Enum.join(template_config[:necessary], " - ")}
-
-            You can run before generating this component:
-                #{Enum.map(template_config[:necessary], &"\n   * mix mishka.ui.component #{&1}\n")}
-
-            If approved, dependent components will be created without restrictions and you can change them manually.
-          """
-          |> String.trim()
-        )
-
       if template_config[:necessary] != [] and !options[:sub] and !options[:yes] and
            !options[:no_sub_config] do
+        msg = """
+          Note:
+
+          This component is dependent on other components, so it is necessary to build other
+          items along with this component.
+
+          Note: If you have used custom names for your dependent modules, this script will not be able to find them,
+          so it will think that they have not been created.
+
+          Components: #{Enum.join(template_config[:necessary], " - ")}
+
+          You can run before generating this component:
+              #{Enum.map(template_config[:necessary], &"\n   * mix mishka.ui.component #{&1}\n")}
+
+          If approved, dependent components will be created without restrictions and you can change them manually.
+        """
+
+        Mix.Shell.IO.info(IO.ANSI.cyan() <> msg <> IO.ANSI.reset())
+
         Mix.Shell.IO.error("""
 
         In this section you can set your custom args for each dependent component.
