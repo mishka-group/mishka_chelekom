@@ -276,383 +276,383 @@ defmodule MishkaChelekom.Table do
   defp padding_size(_), do: padding_size("small")
 
   defp color_variant("default", "white") do
-    "[&_table]:bg-white text-[#3E3E3E] border-white [&_*]:divide-white [&_td]:border-white"
+    "[&_table]:bg-white text-[#3E3E3E] border-white [&_*]:divide-white [&_td]:border-white [&_th]:border-white"
   end
 
   defp color_variant("default", "primary") do
-    "[&_table]:bg-[#4363EC] text-white border-[#2441de] [&_*]:divide-[#2441de] [&_td]:border-[#2441de]"
+    "[&_table]:bg-[#4363EC] text-white border-[#2441de] [&_*]:divide-[#2441de] [&_td]:border-[#2441de] [&_th]:border-[#2441de]"
   end
 
   defp color_variant("default", "secondary") do
-    "[&_table]:bg-[#6B6E7C] text-white border-[#877C7C] [&_*]:divide-[#877C7C] [&_td]:border-[#877C7C]"
+    "[&_table]:bg-[#6B6E7C] text-white border-[#877C7C] [&_*]:divide-[#877C7C] [&_td]:border-[#877C7C] [&_th]:border-[#877C7C]"
   end
 
   defp color_variant("default", "success") do
-    "[&_table]:bg-[#ECFEF3] text-[#047857] border-[#6EE7B7] [&_*]:divide-[#6EE7B7] [&_td]:border-[#6EE7B7]"
+    "[&_table]:bg-[#ECFEF3] text-[#047857] border-[#6EE7B7] [&_*]:divide-[#6EE7B7] [&_td]:border-[#6EE7B7] [&_th]:border-[#6EE7B7]"
   end
 
   defp color_variant("default", "warning") do
-    "[&_table]:bg-[#FFF8E6] text-[#FF8B08] border-[#FF8B08] [&_*]:divide-[#FF8B08] [&_td]:border-[#FF8B08]"
+    "[&_table]:bg-[#FFF8E6] text-[#FF8B08] border-[#FF8B08] [&_*]:divide-[#FF8B08] [&_td]:border-[#FF8B08] [&_th]:border-[#FF8B08]"
   end
 
   defp color_variant("default", "danger") do
-    "[&_table]:bg-[#FFE6E6] text-[#E73B3B] border-[#E73B3B] [&_*]:divide-[#E73B3B] [&_td]:border-[#E73B3B]"
+    "[&_table]:bg-[#FFE6E6] text-[#E73B3B] border-[#E73B3B] [&_*]:divide-[#E73B3B] [&_td]:border-[#E73B3B] [&_th]:border-[#E73B3B]"
   end
 
   defp color_variant("default", "info") do
-    "[&_table]:bg-[#E5F0FF] text-[#004FC4] border-[#004FC4] [&_*]:divide-[#004FC4] [&_td]:border-[#004FC4]"
+    "[&_table]:bg-[#E5F0FF] text-[#004FC4] border-[#004FC4] [&_*]:divide-[#004FC4] [&_td]:border-[#004FC4] [&_th]:border-[#004FC4]"
   end
 
   defp color_variant("default", "misc") do
-    "[&_table]:bg-[#FFE6FF] text-[#52059C] border-[#52059C] [&_*]:divide-[#52059C] [&_td]:border-[#52059C]"
+    "[&_table]:bg-[#FFE6FF] text-[#52059C] border-[#52059C] [&_*]:divide-[#52059C] [&_td]:border-[#52059C] [&_th]:border-[#52059C]"
   end
 
   defp color_variant("default", "dawn") do
-    "[&_table]:bg-[#FFECDA] text-[#4D4137] border-[#4D4137] [&_*]:divide-[#4D4137] [&_td]:border-[#4D4137]"
+    "[&_table]:bg-[#FFECDA] text-[#4D4137] border-[#4D4137] [&_*]:divide-[#4D4137] [&_td]:border-[#4D4137] [&_th]:border-[#4D4137]"
   end
 
   defp color_variant("default", "light") do
-    "[&_table]:bg-[#E3E7F1] text-[#707483] border-[#707483] [&_*]:divide-[#707483] [&_td]:border-[#707483]"
+    "[&_table]:bg-[#E3E7F1] text-[#707483] border-[#707483] [&_*]:divide-[#707483] [&_td]:border-[#707483] [&_th]:border-[#707483]"
   end
 
   defp color_variant("default", "dark") do
-    "[&_table]:bg-[#1E1E1E] text-white border-[#050404] [&_*]:divide-[#DADADA] [&_td]:border-[#050404]"
+    "[&_table]:bg-[#1E1E1E] text-white border-[#050404] [&_*]:divide-[#DADADA] [&_td]:border-[#050404] [&_th]:border-[#050404]"
   end
 
   defp color_variant("outline", "white") do
-    "text-white border-white [&_*]:divide-white [&_td]:border-white"
+    "text-white border-white [&_*]:divide-white [&_td]:border-white [&_th]:border-white"
   end
 
   defp color_variant("outline", "primary") do
-    "text-[#4363EC] border-[#4363EC] [&_*]:divide-[#4363EC] [&_td]:border-[#4363EC]"
+    "text-[#4363EC] border-[#4363EC] [&_*]:divide-[#4363EC] [&_td]:border-[#4363EC] [&_th]:border-[#4363EC]"
   end
 
   defp color_variant("outline", "secondary") do
-    "text-[#6B6E7C] border-[#6B6E7C] [&_*]:divide-[#6B6E7C] [&_td]:border-[#6B6E7C]"
+    "text-[#6B6E7C] border-[#6B6E7C] [&_*]:divide-[#6B6E7C] [&_td]:border-[#6B6E7C] [&_th]:border-[#6B6E7C]"
   end
 
   defp color_variant("outline", "success") do
-    "text-[#227A52] border-[#6EE7B7] [&_*]:divide-[#6EE7B7] [&_td]:border-[#6EE7B7]"
+    "text-[#227A52] border-[#6EE7B7] [&_*]:divide-[#6EE7B7] [&_td]:border-[#6EE7B7] [&_th]:border-[#6EE7B7]"
   end
 
   defp color_variant("outline", "warning") do
-    "text-[#FF8B08] border-[#FF8B08] [&_*]:divide-[#FF8B08] [&_td]:border-[#FF8B08]"
+    "text-[#FF8B08] border-[#FF8B08] [&_*]:divide-[#FF8B08] [&_td]:border-[#FF8B08] [&_th]:border-[#FF8B08]"
   end
 
   defp color_variant("outline", "danger") do
-    "text-[#E73B3B] border-[#E73B3B] [&_*]:divide-[#E73B3B] [&_td]:border-[#E73B3B]"
+    "text-[#E73B3B] border-[#E73B3B] [&_*]:divide-[#E73B3B] [&_td]:border-[#E73B3B] [&_th]:border-[#E73B3B]"
   end
 
   defp color_variant("outline", "info") do
-    "text-[#004FC4] border-[#004FC4] [&_*]:divide-[#004FC4] [&_td]:border-[#004FC4]"
+    "text-[#004FC4] border-[#004FC4] [&_*]:divide-[#004FC4] [&_td]:border-[#004FC4] [&_th]:border-[#004FC4]"
   end
 
   defp color_variant("outline", "misc") do
-    "text-[#52059C] border-[#52059C] [&_*]:divide-[#52059C] [&_td]:border-[#52059C]"
+    "text-[#52059C] border-[#52059C] [&_*]:divide-[#52059C] [&_td]:border-[#52059C] [&_th]:border-[#52059C]"
   end
 
   defp color_variant("outline", "dawn") do
-    "text-[#4D4137] border-[#4D4137] [&_*]:divide-[#4D4137] [&_td]:border-[#4D4137]"
+    "text-[#4D4137] border-[#4D4137] [&_*]:divide-[#4D4137] [&_td]:border-[#4D4137] [&_th]:border-[#4D4137]"
   end
 
   defp color_variant("outline", "light") do
-    "text-[#707483] border-[#707483] [&_*]:divide-[#707483] [&_td]:border-[#707483]"
+    "text-[#707483] border-[#707483] [&_*]:divide-[#707483] [&_td]:border-[#707483] [&_th]:border-[#707483]"
   end
 
   defp color_variant("outline", "dark") do
-    "text-[#1E1E1E] border-[#050404] [&_*]:divide-[#050404] [&_td]:border-[#050404]"
+    "text-[#1E1E1E] border-[#050404] [&_*]:divide-[#050404] [&_td]:border-[#050404] [&_th]:border-[#050404]"
   end
 
   defp color_variant("unbordered", "white") do
-    "[&_table]:bg-white border-transparent text-[#3E3E3E] [&_*]:divide-transparent [&_td]:border-transparent"
+    "[&_table]:bg-white border-transparent text-[#3E3E3E] [&_*]:divide-transparent [&_td]:border-transparent [&_th]:border-transparent"
   end
 
   defp color_variant("unbordered", "primary") do
-    "[&_table]:bg-[#4363EC] border-transparent text-white [&_*]:divide-transparent [&_td]:border-transparent"
+    "[&_table]:bg-[#4363EC] border-transparent text-white [&_*]:divide-transparent [&_td]:border-transparent [&_th]:border-transparent"
   end
 
   defp color_variant("unbordered", "secondary") do
-    "[&_table]:bg-[#6B6E7C] border-transparent text-white [&_*]:divide-transparent [&_td]:border-transparent"
+    "[&_table]:bg-[#6B6E7C] border-transparent text-white [&_*]:divide-transparent [&_td]:border-transparent [&_th]:border-transparent"
   end
 
   defp color_variant("unbordered", "success") do
-    "[&_table]:bg-[#ECFEF3] border-transparent text-[#047857] [&_*]:divide-transparent [&_td]:border-transparent"
+    "[&_table]:bg-[#ECFEF3] border-transparent text-[#047857] [&_*]:divide-transparent [&_td]:border-transparent [&_th]:border-transparent"
   end
 
   defp color_variant("unbordered", "warning") do
-    "[&_table]:bg-[#FFF8E6] border-transparent text-[#FF8B08] [&_*]:divide-transparent [&_td]:border-transparent"
+    "[&_table]:bg-[#FFF8E6] border-transparent text-[#FF8B08] [&_*]:divide-transparent [&_td]:border-transparent [&_th]:border-transparent"
   end
 
   defp color_variant("unbordered", "danger") do
-    "[&_table]:bg-[#FFE6E6] border-transparent text-[#E73B3B] [&_*]:divide-transparent [&_td]:border-transparent"
+    "[&_table]:bg-[#FFE6E6] border-transparent text-[#E73B3B] [&_*]:divide-transparent [&_td]:border-transparent [&_th]:border-transparent"
   end
 
   defp color_variant("unbordered", "info") do
-    "[&_table]:bg-[#E5F0FF] border-transparent text-[#004FC4] [&_*]:divide-transparent [&_td]:border-transparent"
+    "[&_table]:bg-[#E5F0FF] border-transparent text-[#004FC4] [&_*]:divide-transparent [&_td]:border-transparent [&_th]:border-transparent"
   end
 
   defp color_variant("unbordered", "misc") do
-    "[&_table]:bg-[#FFE6FF] border-transparent text-[#52059C] [&_*]:divide-transparent [&_td]:border-transparent"
+    "[&_table]:bg-[#FFE6FF] border-transparent text-[#52059C] [&_*]:divide-transparent [&_td]:border-transparent [&_th]:border-transparent"
   end
 
   defp color_variant("unbordered", "dawn") do
-    "[&_table]:bg-[#FFECDA] border-transparent text-[#4D4137] [&_*]:divide-transparent [&_td]:border-transparent"
+    "[&_table]:bg-[#FFECDA] border-transparent text-[#4D4137] [&_*]:divide-transparent [&_td]:border-transparent [&_th]:border-transparent"
   end
 
   defp color_variant("unbordered", "light") do
-    "[&_table]:bg-[#E3E7F1] border-transparent text-[#707483] [&_*]:divide-transparent [&_td]:border-transparent"
+    "[&_table]:bg-[#E3E7F1] border-transparent text-[#707483] [&_*]:divide-transparent [&_td]:border-transparent [&_th]:border-transparent"
   end
 
   defp color_variant("unbordered", "dark") do
-    "[&_table]:bg-[#1E1E1E] border-transparent text-white [&_*]:divide-transparent [&_td]:border-transparent"
+    "[&_table]:bg-[#1E1E1E] border-transparent text-white [&_*]:divide-transparent [&_td]:border-transparent [&_th]:border-transparent"
   end
 
   defp color_variant("shadow", "white") do
-    "[&_table]:bg-white border-[#DADADA] text-[#3E3E3E] [&_*]:divide-[#DADADA] [&_td]:border-[#DADADA] shadow"
+    "[&_table]:bg-white border-[#DADADA] text-[#3E3E3E] [&_*]:divide-[#DADADA] [&_td]:border-[#DADADA] [&_th]:border-[#DADADA] shadow"
   end
 
   defp color_variant("shadow", "primary") do
-    "[&_table]:bg-[#4363EC] border-[#2441de] text-white [&_*]:divide-[#2441de] [&_td]:border-[#2441de] shadow"
+    "[&_table]:bg-[#4363EC] border-[#2441de] text-white [&_*]:divide-[#2441de] [&_td]:border-[#2441de] [&_th]:border-[#2441de] shadow"
   end
 
   defp color_variant("shadow", "secondary") do
-    "[&_table]:bg-[#6B6E7C] border-[#877C7C] text-white [&_*]:divide-[#877C7C] [&_td]:border-[#877C7C] shadow"
+    "[&_table]:bg-[#6B6E7C] border-[#877C7C] text-white [&_*]:divide-[#877C7C] [&_td]:border-[#877C7C] [&_th]:border-[#877C7C] shadow"
   end
 
   defp color_variant("shadow", "success") do
-    "[&_table]:bg-[#ECFEF3] border-[#6EE7B7] text-[#227A52] [&_*]:divide-[#6EE7B7] [&_td]:border-[#6EE7B7] shadow"
+    "[&_table]:bg-[#ECFEF3] border-[#6EE7B7] text-[#227A52] [&_*]:divide-[#6EE7B7] [&_td]:border-[#6EE7B7] [&_th]:border-[#6EE7B7] shadow"
   end
 
   defp color_variant("shadow", "warning") do
-    "[&_table]:bg-[#FFF8E6] border-[#FF8B08] text-[#FF8B08] [&_*]:divide-[#FF8B08] [&_td]:border-[#FF8B08] shadow"
+    "[&_table]:bg-[#FFF8E6] border-[#FF8B08] text-[#FF8B08] [&_*]:divide-[#FF8B08] [&_td]:border-[#FF8B08] [&_th]:border-[#FF8B08] shadow"
   end
 
   defp color_variant("shadow", "danger") do
-    "[&_table]:bg-[#FFE6E6] border-[#E73B3B] text-[#E73B3B] [&_*]:divide-[#E73B3B] [&_td]:border-[#E73B3B] shadow"
+    "[&_table]:bg-[#FFE6E6] border-[#E73B3B] text-[#E73B3B] [&_*]:divide-[#E73B3B] [&_td]:border-[#E73B3B] [&_th]:border-[#E73B3B] shadow"
   end
 
   defp color_variant("shadow", "info") do
-    "[&_table]:bg-[#E5F0FF] border-[#004FC4] text-[#004FC4] [&_*]:divide-[#004FC4] [&_td]:border-[#004FC4] shadow"
+    "[&_table]:bg-[#E5F0FF] border-[#004FC4] text-[#004FC4] [&_*]:divide-[#004FC4] [&_td]:border-[#004FC4] [&_th]:border-[#004FC4] shadow"
   end
 
   defp color_variant("shadow", "misc") do
-    "[&_table]:bg-[#FFE6FF] border-[#52059C] text-[#52059C] [&_*]:divide-[#52059C] [&_td]:border-[#52059C] shadow"
+    "[&_table]:bg-[#FFE6FF] border-[#52059C] text-[#52059C] [&_*]:divide-[#52059C] [&_td]:border-[#52059C] [&_th]:border-[#52059C] shadow"
   end
 
   defp color_variant("shadow", "dawn") do
-    "[&_table]:bg-[#FFECDA] border-[#4D4137] text-[#4D4137] [&_*]:divide-[#4D4137] [&_td]:border-[#4D4137] shadow"
+    "[&_table]:bg-[#FFECDA] border-[#4D4137] text-[#4D4137] [&_*]:divide-[#4D4137] [&_td]:border-[#4D4137] [&_th]:border-[#4D4137] shadow"
   end
 
   defp color_variant("shadow", "light") do
-    "[&_table]:bg-[#E3E7F1] border-[#707483] text-[#707483] [&_*]:divide-[#707483] [&_td]:border-[#707483] shadow"
+    "[&_table]:bg-[#E3E7F1] border-[#707483] text-[#707483] [&_*]:divide-[#707483] [&_td]:border-[#707483] [&_th]:border-[#707074837483] shadow"
   end
 
   defp color_variant("shadow", "dark") do
-    "[&_table]:bg-[#1E1E1E] border-[#050404] text-white [&_*]:divide-[#050404] [&_td]:border-[#050404] shadow"
+    "[&_table]:bg-[#1E1E1E] border-[#050404] text-white [&_*]:divide-[#050404] [&_td]:border-[#050404] [&_th]:border-[#050404] shadow"
   end
 
   defp color_variant("transparent", "white") do
-    "text-white border-transparent [&_*]:divide-transparent [&_td]:border-transparent"
+    "text-white border-transparent [&_*]:divide-transparent [&_td]:border-transparent [&_th]:border-transparent"
   end
 
   defp color_variant("transparent", "primary") do
-    "text-[#4363EC] border-transparent [&_*]:divide-transparent [&_td]:border-transparent"
+    "text-[#4363EC] border-transparent [&_*]:divide-transparent [&_td]:border-transparent [&_th]:border-transparent"
   end
 
   defp color_variant("transparent", "secondary") do
-    "text-[#6B6E7C] border-transparent [&_*]:divide-transparent [&_td]:border-transparent"
+    "text-[#6B6E7C] border-transparent [&_*]:divide-transparent [&_td]:border-transparent [&_th]:border-transparent"
   end
 
   defp color_variant("transparent", "success") do
-    "text-[#227A52] border-transparent [&_*]:divide-transparent [&_td]:border-transparent"
+    "text-[#227A52] border-transparent [&_*]:divide-transparent [&_td]:border-transparent [&_th]:border-transparent"
   end
 
   defp color_variant("transparent", "warning") do
-    "text-[#FF8B08] border-transparent [&_*]:divide-transparent [&_td]:border-transparent"
+    "text-[#FF8B08] border-transparent [&_*]:divide-transparent [&_td]:border-transparent [&_th]:border-transparent"
   end
 
   defp color_variant("transparent", "danger") do
-    "text-[#E73B3B] border-transparent [&_*]:divide-transparent [&_td]:border-transparent"
+    "text-[#E73B3B] border-transparent [&_*]:divide-transparent [&_td]:border-transparent [&_th]:border-transparent"
   end
 
   defp color_variant("transparent", "info") do
-    "text-[#6663FD] border-transparent [&_*]:divide-transparent [&_td]:border-transparent"
+    "text-[#6663FD] border-transparent [&_*]:divide-transparent [&_td]:border-transparent [&_th]:border-transparent"
   end
 
   defp color_variant("transparent", "misc") do
-    "text-[#52059C] border-transparent [&_*]:divide-transparent [&_td]:border-transparent"
+    "text-[#52059C] border-transparent [&_*]:divide-transparent [&_td]:border-transparent [&_th]:border-transparent"
   end
 
   defp color_variant("transparent", "dawn") do
-    "text-[#4D4137] border-transparent [&_*]:divide-transparent [&_td]:border-transparent"
+    "text-[#4D4137] border-transparent [&_*]:divide-transparent [&_td]:border-transparent [&_th]:border-transparent"
   end
 
   defp color_variant("transparent", "light") do
-    "text-[#707483] border-transparent [&_*]:divide-transparent [&_td]:border-transparent"
+    "text-[#707483] border-transparent [&_*]:divide-transparent [&_td]:border-transparent [&_th]:border-transparent"
   end
 
   defp color_variant("transparent", "dark") do
-    "text-[#1E1E1E] border-transparent [&_*]:divide-transparent [&_td]:border-transparent"
+    "text-[#1E1E1E] border-transparent [&_*]:divide-transparent [&_td]:border-transparent [&_th]:border-transparent"
   end
 
   defp color_variant("hoverable", "white") do
     [
       "[&_table]:bg-white hover:[&_table_tbody_tr]:bg-[#DADADA] text-[#3E3E3E]",
-      "border-white [&_*]:divide-white [&_td]:border-white"
+      "border-white [&_*]:divide-white [&_td]:border-white [&_th]:border-white"
     ]
   end
 
   defp color_variant("hoverable", "silver") do
     [
       "[&_table]:bg-white hover:[&_table_tbody_tr]:bg-[#e3e3e3] text-[#3E3E3E]",
-      "border-[#B5b7bb] [&_*]:divide-[#B5b7bb] [&_td]:border-[#B5b7bb]"
+      "border-[#B5b7bb] [&_*]:divide-[#B5b7bb] [&_td]:border-[#B5b7bb] [&_th]:border-[#B5b7bb]"
     ]
   end
 
   defp color_variant("hoverable", "primary") do
     [
       "[&_table]:bg-white text-[#4363EC] hover:[&_table_tbody_tr]:bg-[#4363EC] hover:[&_table_tbody_tr]:text-white",
-      "border-[#2441de] [&_*]:divide-[#2441de] [&_td]:border-[#2441de]"
+      "border-[#2441de] [&_*]:divide-[#2441de] [&_td]:border-[#2441de] [&_th]:border-[#2441de]"
     ]
   end
 
   defp color_variant("hoverable", "secondary") do
     [
       "[&_table]:bg-white hover:[&_table_tbody_tr]:bg-[#6B6E7C] hover:[&_table_tbody_tr]:text-white border-[#877C7C]",
-    "[&_*]:divide-[#877C7C] [&_td]:border-[#877C7C]"
+    "[&_*]:divide-[#877C7C] [&_td]:border-[#877C7C] [&_th]:border-[#877C7C]"
     ]
   end
 
   defp color_variant("hoverable", "success") do
     [
       "[&_table]:bg-white hover:[&_table_tbody_tr]:bg-[#ECFEF3] text-[#047857]",
-      "border-[#6EE7B7] [&_*]:divide-[#6EE7B7] [&_td]:border-[#6EE7B7]"
+      "border-[#6EE7B7] [&_*]:divide-[#6EE7B7] [&_td]:border-[#6EE7B7] [&_th]:border-[#6EE7B7]"
     ]
   end
 
   defp color_variant("hoverable", "warning") do
     [
       "[&_table]:bg-white hover:[&_table_tbody_tr]:bg-[#FFF8E6] text-[#FF8B08]",
-      "border-[#FF8B08] [&_*]:divide-[#FF8B08] [&_td]:border-[#FF8B08]"
+      "border-[#FF8B08] [&_*]:divide-[#FF8B08] [&_td]:border-[#FF8B08] [&_th]:border-[#FF8B08]"
     ]
   end
 
   defp color_variant("hoverable", "danger") do
     [
       "[&_table]:bg-white hover:[&_table_tbody_tr]:bg-[#FFE6E6] text-[#E73B3B]",
-    "border-[#E73B3B] [&_*]:divide-[#E73B3B] [&_td]:border-[#E73B3B]"
+    "border-[#E73B3B] [&_*]:divide-[#E73B3B] [&_td]:border-[#E73B3B] [&_th]:border-[#E73B3B]"
     ]
   end
 
   defp color_variant("hoverable", "info") do
     [
       "[&_table]:bg-white hover:[&_table_tbody_tr]:bg-[#E5F0FF] text-[#004FC4]",
-      "border-[#004FC4] [&_*]:divide-[#004FC4] [&_td]:border-[#004FC4]"
+      "border-[#004FC4] [&_*]:divide-[#004FC4] [&_td]:border-[#004FC4] [&_th]:border-[#004FC4]"
     ]
   end
 
   defp color_variant("hoverable", "misc") do
     [
       "[&_table]:bg-white hover:[&_table_tbody_tr]:bg-[#FFE6FF] text-[#52059C]",
-      "border-[#52059C] [&_*]:divide-[#52059C] [&_td]:border-[#52059C]"
+      "border-[#52059C] [&_*]:divide-[#52059C] [&_td]:border-[#52059C] [&_th]:border-[#52059C]"
     ]
   end
 
   defp color_variant("hoverable", "dawn") do
     [
       "[&_table]:bg-white hover:[&_table_tbody_tr]:bg-[#FFECDA] text-[#4D4137]",
-      "border-[#4D4137] [&_*]:divide-[#4D4137] [&_td]:border-[#4D4137]"
+      "border-[#4D4137] [&_*]:divide-[#4D4137] [&_td]:border-[#4D4137] [&_th]:border-[#4D4137]"
     ]
   end
 
   defp color_variant("hoverable", "light") do
     [
       "[&_table]:bg-white hover:[&_table_tbody_tr]:bg-[#E3E7F1] text-[#707483]",
-      "border-[#707483] [&_*]:divide-[#707483] [&_td]:border-[#707483]"
+      "border-[#707483] [&_*]:divide-[#707483] [&_td]:border-[#707483] [&_th]:border-[#707483]"
     ]
   end
 
   defp color_variant("hoverable", "dark") do
     [
       "[&_table]:bg-white text-[#1E1E1E] hover:[&_table_tbody_tr]:bg-[#1E1E1E] hover:[&_table_tbody_tr]:text-white",
-      "border-[#050404] [&_*]:divide-[#DADADA] [&_td]:border-[#050404]"
+      "border-[#050404] [&_*]:divide-[#DADADA] [&_td]:border-[#050404] [&_th]:border-[#050404]"
     ]
   end
 
   defp color_variant("stripped", "white") do
     [
       "[&_table]:bg-white odd:[&_table_tbody_tr]:bg-[#f7f7f7] text-[#3E3E3E] border-white",
-      "[&_*]:divide-white [&_td]:border-white"
+      "[&_*]:divide-white [&_td]:border-white [&_th]:border-white"
     ]
   end
 
   defp color_variant("stripped", "primary") do
     [
       "[&_table]:bg-[#4363EC] odd:[&_table_tbody_tr]:bg-[#5874ed] text-white border-[#2441de]",
-      "[&_*]:divide-[#2441de] [&_td]:border-[#2441de]"
+      "[&_*]:divide-[#2441de] [&_td]:border-[#2441de] [&_th]:border-[#2441de]"
     ]
   end
 
   defp color_variant("stripped", "secondary") do
     [
       "[&_table]:bg-[#6B6E7C] odd:[&_table_tbody_tr]:bg-[#8a8d9e] text-white border-[#877C7C]",
-      "[&_*]:divide-[#877C7C] [&_td]:border-[#877C7C]"
+      "[&_*]:divide-[#877C7C] [&_td]:border-[#877C7C] [&_th]:border-[#877C7C]"
     ]
   end
 
   defp color_variant("stripped", "success") do
     [
       "[&_table]:bg-[#ECFEF3] odd:[&_table_tbody_tr]:bg-[#cffae0] text-[#047857] border-[#6EE7B7]",
-      "[&_*]:divide-[#6EE7B7] [&_td]:border-[#6EE7B7]"
+      "[&_*]:divide-[#6EE7B7] [&_td]:border-[#6EE7B7] [&_th]:border-[#6EE7B7]"
     ]
   end
 
   defp color_variant("stripped", "warning") do
     [
       "[&_table]:bg-[#FFF8E6] odd:[&_table_tbody_tr]:bg-[#faedcd] text-[#FF8B08] border-[#FF8B08]",
-      "[&_*]:divide-[#FF8B08] [&_td]:border-[#FF8B08]"
+      "[&_*]:divide-[#FF8B08] [&_td]:border-[#FF8B08] [&_th]:border-[#FF8B08]"
     ]
   end
 
   defp color_variant("stripped", "danger") do
     [
       "[&_table]:bg-[#FFE6E6] odd:[&_table_tbody_tr]:bg-[#fcd4d4] text-[#E73B3B] border-[#E73B3B]",
-      "[&_*]:divide-[#E73B3B] [&_td]:border-[#E73B3B]"
+      "[&_*]:divide-[#E73B3B] [&_td]:border-[#E73B3B] [&_th]:border-[#E73B3B]"
     ]
   end
 
   defp color_variant("stripped", "info") do
     [
       "[&_table]:bg-[#E5F0FF] odd:[&_table_tbody_tr]:bg-[#d2e4fc] text-[#004FC4] border-[#004FC4]",
-      "[&_*]:divide-[#004FC4] [&_td]:border-[#004FC4]"
+      "[&_*]:divide-[#004FC4] [&_td]:border-[#004FC4] [&_th]:border-[#004FC4]"
     ]
   end
 
   defp color_variant("stripped", "misc") do
     [
       "[&_table]:bg-[#FFE6FF] odd:[&_table_tbody_tr]:bg-[#ffdbff] text-[#52059C] border-[#52059C]",
-      "[&_*]:divide-[#52059C] [&_td]:border-[#52059C]"
+      "[&_*]:divide-[#52059C] [&_td]:border-[#52059C] [&_th]:border-[#52059C]"
     ]
   end
 
   defp color_variant("stripped", "dawn") do
     [
       "[&_table]:bg-[#FFECDA] odd:[&_table_tbody_tr]:bg-[#ffe0c2] text-[#4D4137] border-[#4D4137]",
-      "[&_*]:divide-[#4D4137] [&_td]:border-[#4D4137]"
+      "[&_*]:divide-[#4D4137] [&_td]:border-[#4D4137] [&_th]:border-[#4D4137]"
     ]
   end
 
   defp color_variant("stripped", "light") do
     [
       "[&_table]:bg-[#E3E7F1] odd:[&_table_tbody_tr]:bg-[#d1d9ed] text-[#707483] border-[#707483]",
-      "[&_*]:divide-[#707483] [&_td]:border-[#707483]"
+      "[&_*]:divide-[#707483] [&_td]:border-[#707483] [&_th]:border-[#707483]"
     ]
   end
 
   defp color_variant("stripped", "dark") do
     [
       "[&_table]:bg-[#1E1E1E] odd:[&_table_tbody_tr]:bg-[#333333] text-white border-[#050404]",
-      "[&_*]:divide-[#DADADA] [&_td]:border-[#050404]"
+      "[&_*]:divide-[#DADADA] [&_td]:border-[#050404] [&_th]:border-[#050404]"
     ]
   end
 
