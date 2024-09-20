@@ -12,12 +12,33 @@
 </div>
 
 <div class="p-10 gap-5 grid md:grid-cols-2">
-  <.simple_form for={@form} id="product-form" phx-change="validate" phx-submit="save">
+  <MishkaChelekom.FormWrapper.form_wrapper for={@form} id="product-form" phx-change="validate" phx-submit="save" class="space-y-5">
+   <MishkaChelekom.InputField.input_field field={@form[:fullname]} type="text" label="Full Name" />
+    <MishkaChelekom.InputField.input_field field={@form[:adress]} type="text" label="Adress" />
+    <MishkaChelekom.InputField.input_field field={@form[:phone]} type="text" label="Phone" />
+    <MishkaChelekom.InputField.input_field field={@form[:zipcode]} type="text" label="Zipcode" />
+    <MishkaChelekom.InputField.input_field field={@form[:email]} label="Email" />
+    <MishkaChelekom.InputField.input_field
+      field={@form[:job]}
+      type="select"
+      label="Choose your Job"
+      options={Ecto.Enum.values(MishkaChelekom.User, :job)}
+    />
+
+<MishkaChelekom.InputField.input_field field={@form[:accepted_terms]} type="checkbox" label="Terms" />
+
+    <MishkaChelekom.InputField.input_field field={@form[:salary]} type="range" label="Salary" />
+
+    <%!-- experience --%>
+
+    <MishkaChelekom.InputField.input_field field={@form[:start_office_hour]} type="datetime-local" label="Start office hour" />
+
+    <MishkaChelekom.InputField.input_field field={@form[:start_office_day]} type="datetime-local" label="Start office day" />
 
    <MishkaChelekom.FileField.file_field
       target={@uploads.avatar.ref}
       upload={@uploads.avatar}
-      remove="cancel-upload"
+      cancel="cancel-upload"
       entries={@uploads.avatar.entries}
       color="dark"
       upload_error={@uploads.avatar}
@@ -25,38 +46,11 @@
       dropzone
   />
 
-  <section phx-drop-target={@uploads.avatar.ref} class="w-full min-h-96 border">
-      <.live_file_input upload={@uploads.avatar} />
-      <%!-- render each avatar entry --%>
-      <%= for entry <- @uploads.avatar.entries do %>
-        <article class="upload-entry">
-          <figure>
-            <.live_img_preview entry={entry} />
-            <figcaption><%= entry.client_name %></figcaption>
-          </figure>
 
-          <% IO.inspect(entry) %>
-          <%!-- entry.progress will update automatically for in-flight entries --%>
-          <progress value={entry.progress} max="100"><%= entry.progress %>%</progress>
-
-          <%!-- a regular click event whose handler will invoke Phoenix.LiveView.cancel_upload/3 --%>
-          <button
-            type="button"
-            phx-click="cancel-upload"
-            phx-value-ref={entry.ref}
-            aria-label="cancel"
-          >
-            &times;
-          </button>
-
-
-        </article>
-      <% end %>
-
-
-    </section>
-    </.simple_form>
-
+    <:actions>
+      <.button phx-disable-with="Saving...">Save Product</.button>
+    </:actions>
+  </MishkaChelekom.FormWrapper.form_wrapper>
 
 
 </div>

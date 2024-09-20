@@ -2,7 +2,6 @@ defmodule MishkaChelekom.FileField do
   use Phoenix.Component
   import MishkaChelekomComponents
 
-
   @doc type: :component
   attr :id, :string, default: nil, doc: ""
   attr :class, :string, default: nil, doc: ""
@@ -23,11 +22,11 @@ defmodule MishkaChelekom.FileField do
 
   attr :dropzone, :boolean, default: false, doc: ""
   attr :upload, :any, doc: ""
-  attr :dropzone_type, :string, default: "image", doc: "file, image"
+  attr :dropzone_type, :string, default: "file", doc: "file, image"
   attr :entries, :any, doc: ""
   attr :target, :any, doc: ""
   attr :upload_error, :list, default: []
-  attr :remove, :any, doc: ""
+  attr :cancel, :any, doc: ""
   attr :dropzone_icon, :string, default: "hero-cloud-arrow-up", doc: ""
   attr :dropzone_title, :string, default: "Click to upload, or drag and drop a file", doc: ""
   attr :dropzone_description, :string, default: nil, doc: ""
@@ -83,26 +82,28 @@ defmodule MishkaChelekom.FileField do
 
       <div class="mt-5 space-y-4">
         <%= for entry <- @entries do %>
-          <div class="upload-item border rounded relative p-3 flex justify-around gap-3">
-            <.icon name="hero-document-arrow-up" class="size-8" />
-            <div class="w-full space-y-3">
-              <div class="text-ellipsis	overflow-hidden w-44 whitespace-nowrap">
-                <%= entry.client_name %>
-              </div>
+          <div class="upload-item border rounded relative p-3">
+            <div class="flex justify-around gap-3">
+              <.icon name="hero-document-arrow-up" class="size-8" />
+              <div class="w-full space-y-3">
+                <div class="text-ellipsis	overflow-hidden w-44 whitespace-nowrap">
+                  <%= entry.client_name %>
+                </div>
 
-              <div>
-                <%= entry.client_size %> <span>MB</span>
-              </div>
+                <div>
+                  <%= convert_to_mb(entry.client_size) %> <span>MB</span>
+                </div>
 
-              <MishkaChelekom.Progress.progress
-                value={entry.progress}
-                color={@color}
-                size="extra_small"
-              />
+                <MishkaChelekom.Progress.progress
+                  value={entry.progress}
+                  color={@color}
+                  size="extra_small"
+                />
+              </div>
             </div>
 
             <button
-              phx-click={@remove}
+              phx-click={@cancel}
               phx-value-ref={entry.ref}
               aria-label="cancel"
               class="absolute top-2 right-2 text-custome-black-100/60 hover:text-custome-black-100"
@@ -111,7 +112,7 @@ defmodule MishkaChelekom.FileField do
             </button>
 
             <%= for err <- upload_errors(@upload_error, entry) do %>
-              <p class="text-rose-600 font-medium text-xs"><%= err %></p>
+              <p class="text-rose-600 font-medium text-xs mt-3">Error: <%= err %></p>
             <% end %>
           </div>
         <% end %>
@@ -167,13 +168,12 @@ defmodule MishkaChelekom.FileField do
             <button class="bg-black/30 rounded p-px text-white flex justify-center items-center absolute top-2 right-2 z-10">
               <.icon name="hero-x-mark" class="size-4" />
             </button>
-            <%!-- tODO: Remove when upload compeleted --%>
+             <%!-- tODO: Remove when upload compeleted --%>
             <div
-                role="status"
-                class="absolute top-1 left-1 bottom-1 right-1 bg-black/25 flex justify-center items-center"
-              >
+              role="status"
+              class="absolute top-1 left-1 bottom-1 right-1 bg-black/25 flex justify-center items-center"
+            >
               <MishkaChelekom.Spinner.spinner color="white" />
-
             </div>
           </div>
         <% end %>
@@ -243,6 +243,9 @@ defmodule MishkaChelekom.FileField do
     """
   end
 
+  def convert_to_mb(size_in_bytes) when is_integer(size_in_bytes) do
+    Float.round(size_in_bytes / (1024 * 1024), 2)
+  end
 
   defp error_to_string(:too_large), do: "Too large"
   defp error_to_string(:not_accepted), do: "You have selected an unacceptable file type"
