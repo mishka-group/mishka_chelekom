@@ -200,7 +200,7 @@ defmodule MishkaChelekom.FileField do
         <.live_file_input
           upload={@upload}
           class={[
-            "file-input block w-full cursor-pointer focus:outline-none file:border-0 file:cursor-pointer",
+            "file-filed block w-full cursor-pointer focus:outline-none file:border-0 file:cursor-pointer",
             "file:py-3 file:px-8 file:font-bold file:-ms-4 file:me-4"
           ]}
           {@rest}
@@ -208,7 +208,7 @@ defmodule MishkaChelekom.FileField do
       <% else %>
         <input
           class={[
-            "file-input block w-full cursor-pointer focus:outline-none file:border-0 file:cursor-pointer",
+            "file-filed block w-full cursor-pointer focus:outline-none file:border-0 file:cursor-pointer",
             "file:py-3 file:px-8 file:font-bold file:-ms-4 file:me-4"
           ]}
           type="file"
