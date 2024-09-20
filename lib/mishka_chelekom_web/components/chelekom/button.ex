@@ -355,7 +355,7 @@ defmodule MishkaChelekom.Button do
   end
 
   defp color_variant("default", "white") do
-    "bg-white text-[#3E3E3E] border-[#DADADA] [&>.indicator]:bg-[#3E3E3E] hover:bg-[#E8E8E8] hover:border-[#d9d9d9]"
+    "bg-white text-[#3E3E3E] border-[#DADADA] [&>.indicator]:bg-[#3E3E3E] hover:bg-[#E8E8E8] hover:border-[#DADADA]"
   end
 
   defp color_variant("default", "primary") do
@@ -363,11 +363,11 @@ defmodule MishkaChelekom.Button do
   end
 
   defp color_variant("default", "secondary") do
-    "bg-[#6B6E7C] text-white border-[#877C7C] [&>.indicator]:bg-white hover:bg-[#60636f] hover:border-[#3d3f49]"
+    "bg-[#6B6E7C] text-white border-[#877C7C] [&>.indicator]:bg-white hover:bg-[#60636f] hover:border-[#877C7C]"
   end
 
   defp color_variant("default", "success") do
-    "bg-[#ECFEF3] text-[#047857] border-[#6EE7B7] [&>.indicator]:bg-[#047857] hover:bg-[#d4fde4] hover:border-[#6EE7B7]"
+    "bg-[#ECFEF3] text-[#047857] border-[#6de8b7] [&>.indicator]:bg-[#047857] hover:bg-[#d4fde4] hover:border-[#6de8b7]"
   end
 
   defp color_variant("default", "warning") do
@@ -375,27 +375,27 @@ defmodule MishkaChelekom.Button do
   end
 
   defp color_variant("default", "danger") do
-    "bg-[#FFE6E6] text-[#E73B3B] border-[#E73B3B] [&>.indicator]:bg-[#E73B3B] hover:bg-[#ffcdcd] hover:border-[#E73B3B]"
+    "bg-[#FFE6E6] text-[#E73B3B] border-[#E73B3C] [&>.indicator]:bg-[#E73B3B] hover:bg-[#ffcdcd] hover:border-[#E73B3C]"
   end
 
   defp color_variant("default", "info") do
-    "bg-[#E5F0FF] text-[#004FC4] border-[#004FC4] [&>.indicator]:bg-[#004FC4] hover:bg-[#cce1ff] hover:border-[#004FC4]"
+    "bg-[#E5F0FF] text-[#004FC4] border-[#004FC3] [&>.indicator]:bg-[#004FC4] hover:bg-[#cce1ff] hover:border-[#004FC3]"
   end
 
   defp color_variant("default", "misc") do
-    "bg-[#FFE6FF] text-[#52059C] border-[#52059C] [&>.indicator]:bg-[#52059C] hover:bg-[#ffe0ff] hover:border-[#52059C]"
+    "bg-[#FFE6FF] text-[#52059C] border-[#52059D] [&>.indicator]:bg-[#52059C] hover:bg-[#ffe0ff] hover:border-[#52059D]"
   end
 
   defp color_variant("default", "dawn") do
-    "bg-[#FFECDA] text-[#4D4137] border-[#4D4137] [&>.indicator]:bg-[#4D4137] hover:bg-[#ffdfc1] hover:border-[#4D4137]"
+    "bg-[#FFECDA] text-[#4D4137] border-[#4D4138] [&>.indicator]:bg-[#4D4137] hover:bg-[#ffdfc1] hover:border-[#4D4138]"
   end
 
   defp color_variant("default", "light") do
-    "bg-[#E3E7F1] text-[#707483] border-[#707483] [&>.indicator]:bg-[#707483] hover:bg-[#d2d8e9] hover:border-[#707483]"
+    "bg-[#E3E7F1] text-[#707483] border-[#707484] [&>.indicator]:bg-[#707483] hover:bg-[#d2d8e9] hover:border-[#707484]"
   end
 
   defp color_variant("default", "dark") do
-    "bg-[#1E1E1E] text-white border-[#050404] [&>.indicator]:bg-white hover:bg-[#111111] hover:border-[#050404]"
+    "bg-[#1E1E1E] text-white border-[#050405] [&>.indicator]:bg-white hover:bg-[#111111] hover:border-[#050405]"
   end
 
   defp color_variant("outline", "white") do

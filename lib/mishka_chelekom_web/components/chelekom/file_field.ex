@@ -17,11 +17,11 @@ defmodule MishkaChelekom.FileField do
   attr :dashed, :boolean, default: true, doc: ""
   attr :error_icon, :string, default: nil, doc: ""
   attr :errors, :list, default: []
+  attr :upload, :any, doc: ""
   attr :name, :any
   attr :value, :any
 
   attr :dropzone, :boolean, default: false, doc: ""
-  attr :upload, :any, doc: ""
   attr :dropzone_type, :string, default: "file", doc: "file, image"
   attr :entries, :any, doc: ""
   attr :target, :any, doc: ""
@@ -198,6 +198,7 @@ defmodule MishkaChelekom.FileField do
 
       <%= if @live do %>
         <.live_file_input
+          upload={@upload}
           class={[
             "file-input block w-full cursor-pointer focus:outline-none file:border-0 file:cursor-pointer",
             "file:py-3 file:px-8 file:font-bold file:-ms-4 file:me-4"
