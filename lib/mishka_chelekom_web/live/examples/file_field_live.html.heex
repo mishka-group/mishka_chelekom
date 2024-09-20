@@ -12,10 +12,10 @@
 </div>
 
 <div class="p-10 gap-5 grid md:grid-cols-2">
-  <MishkaChelekom.FormWrapper.form_wrapper for={@form} id="product-form" phx-change="validate" phx-submit="save">
+  <.simple_form for={@form} id="product-form" phx-change="validate" phx-submit="save">
 
    <MishkaChelekom.FileField.file_field
-      ref={@uploads.avatar.ref}
+      target={@uploads.avatar.ref}
       upload={@uploads.avatar}
       remove="cancel-upload"
       entries={@uploads.avatar.entries}
@@ -25,5 +25,38 @@
       dropzone
   />
 
-  </MishkaChelekom.FormWrapper.form_wrapper>
+  <section phx-drop-target={@uploads.avatar.ref} class="w-full min-h-96 border">
+      <.live_file_input upload={@uploads.avatar} />
+      <%!-- render each avatar entry --%>
+      <%= for entry <- @uploads.avatar.entries do %>
+        <article class="upload-entry">
+          <figure>
+            <.live_img_preview entry={entry} />
+            <figcaption><%= entry.client_name %></figcaption>
+          </figure>
+
+          <% IO.inspect(entry) %>
+          <%!-- entry.progress will update automatically for in-flight entries --%>
+          <progress value={entry.progress} max="100"><%= entry.progress %>%</progress>
+
+          <%!-- a regular click event whose handler will invoke Phoenix.LiveView.cancel_upload/3 --%>
+          <button
+            type="button"
+            phx-click="cancel-upload"
+            phx-value-ref={entry.ref}
+            aria-label="cancel"
+          >
+            &times;
+          </button>
+
+
+        </article>
+      <% end %>
+
+
+    </section>
+    </.simple_form>
+
+
+
 </div>

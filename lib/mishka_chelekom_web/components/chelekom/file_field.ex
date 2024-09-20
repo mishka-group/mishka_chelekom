@@ -25,7 +25,7 @@ defmodule MishkaChelekom.FileField do
   attr :upload, :any, doc: ""
   attr :dropzone_type, :string, default: "image", doc: "file, image"
   attr :entries, :any, doc: ""
-  attr :ref, :any, doc: ""
+  attr :target, :any, doc: ""
   attr :upload_error, :list, default: []
   attr :remove, :any, doc: ""
   attr :dropzone_icon, :string, default: "hero-cloud-arrow-up", doc: ""
@@ -64,7 +64,7 @@ defmodule MishkaChelekom.FileField do
         class={[
           "dropzone-wrapper group flex flex-col items-center justify-center w-full cursor-pointer"
         ]}
-        phx-drop-target={@ref}
+        phx-drop-target={@target}
       >
         <div class="flex flex-col gap-3 items-center justify-center pt-5 pb-6">
           <.icon name={@dropzone_icon} class="size-14" />
@@ -138,7 +138,7 @@ defmodule MishkaChelekom.FileField do
         class={[
           "dropzone-wrapper group flex flex-col items-center justify-center w-full cursor-pointer"
         ]}
-        phx-drop-target={@ref}
+        phx-drop-target={@target}
       >
         <div class="flex flex-col gap-3 items-center justify-center pt-5 pb-6">
           <.icon name={@dropzone_icon} class="size-14" />

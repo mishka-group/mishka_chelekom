@@ -2,7 +2,8 @@ defmodule MishkaChelekomWeb.Examples.FileFieldLive do
   use Phoenix.LiveView
   use Phoenix.Component
   alias MishkaChelekom.User
-
+  import MishkaChelekomWeb.CoreComponents
+  
 
   @impl Phoenix.LiveView
   def mount(_params, _session, socket) do
@@ -18,11 +19,6 @@ defmodule MishkaChelekomWeb.Examples.FileFieldLive do
   end
 
   @impl Phoenix.LiveView
-  def handle_event("cancel-upload", %{"ref" => ref}, socket) do
-    {:noreply, cancel_upload(socket, :avatar, ref)}
-  end
-
-  @impl Phoenix.LiveView
   def handle_event("validate", %{"user" => user_params}, socket) do
     changeset = User.changeset(%User{}, user_params)
 
@@ -31,6 +27,11 @@ defmodule MishkaChelekomWeb.Examples.FileFieldLive do
       |> assign(:form, to_form(changeset, action: :validate))
 
     {:noreply, new_socket}
+  end
+
+  @impl Phoenix.LiveView
+  def handle_event("cancel-upload", %{"ref" => ref}, socket) do
+    {:noreply, cancel_upload(socket, :avatar, ref)}
   end
 
   @impl Phoenix.LiveView
