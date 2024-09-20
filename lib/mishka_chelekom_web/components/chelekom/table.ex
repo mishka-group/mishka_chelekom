@@ -174,7 +174,7 @@ defmodule MishkaChelekom.Table do
   defp border_class("small"), do: "border-2"
   defp border_class("medium"), do: "border-[3px]"
   defp border_class("large"), do: "border-4"
-  defp border_class("extra_large"), do: "[&_*]:border-[5px]"
+  defp border_class("extra_large"), do: "border-[5px]"
   defp border_class(params) when is_binary(params), do: [params]
   defp border_class(_), do: nil
 
@@ -580,47 +580,80 @@ defmodule MishkaChelekom.Table do
   end
 
   defp color_variant("stripped", "white") do
-    "[&_table]:bg-white text-[#3E3E3E] border-white [&_*]:divide-white [&_*]:border-white"
+    [
+      "[&_table]:bg-white odd:[&_table_tbody_tr]:bg-[#f7f7f7] text-[#3E3E3E] border-white",
+      "[&_*]:divide-white [&_*]:border-white"
+    ]
   end
 
   defp color_variant("stripped", "primary") do
-    "[&_table]:bg-[#4363EC] text-white border-[#2441de] [&_*]:divide-[#2441de] [&_*]:border-[#2441de]"
+    [
+      "[&_table]:bg-[#4363EC] odd:[&_table_tbody_tr]:bg-[#5874ed] text-white border-[#2441de]",
+      "[&_td]:divide-[#2441de] [&_td]:border-[#2441de]"
+    ]
   end
 
   defp color_variant("stripped", "secondary") do
-    "[&_table]:bg-[#6B6E7C] text-white border-[#877C7C] [&_*]:divide-[#877C7C] [&_*]:border-[#877C7C]"
+    [
+      "[&_table]:bg-[#6B6E7C] odd:[&_table_tbody_tr]:bg-[#8a8d9e] text-white border-[#877C7C]",
+      "[&_*]:divide-[#877C7C] [&_*]:border-[#877C7C]"
+    ]
   end
 
   defp color_variant("stripped", "success") do
-    "[&_table]:bg-[#ECFEF3] text-[#047857] border-[#6EE7B7] [&_*]:divide-[#6EE7B7] [&_*]:border-[#6EE7B7]"
+    [
+      "[&_table]:bg-[#ECFEF3] odd:[&_table_tbody_tr]:bg-[#cffae0] text-[#047857] border-[#6EE7B7]",
+      "[&_*]:divide-[#6EE7B7] [&_*]:border-[#6EE7B7]"
+    ]
   end
 
   defp color_variant("stripped", "warning") do
-    "[&_table]:bg-[#FFF8E6] text-[#FF8B08] border-[#FF8B08] [&_*]:divide-[#FF8B08] [&_*]:border-[#FF8B08]"
+    [
+      "[&_table]:bg-[#FFF8E6] odd:[&_table_tbody_tr]:bg-[#faedcd] text-[#FF8B08] border-[#FF8B08]",
+      "[&_*]:divide-[#FF8B08] [&_*]:border-[#FF8B08]"
+    ]
   end
 
   defp color_variant("stripped", "danger") do
-    "[&_table]:bg-[#FFE6E6] text-[#E73B3B] border-[#E73B3B] [&_*]:divide-[#E73B3B] [&_*]:border-[#E73B3B]"
+    [
+      "[&_table]:bg-[#FFE6E6] odd:[&_table_tbody_tr]:bg-[#fcd4d4] text-[#E73B3B] border-[#E73B3B]",
+      "[&_*]:divide-[#E73B3B] [&_*]:border-[#E73B3B]"
+    ]
   end
 
   defp color_variant("stripped", "info") do
-    "[&_table]:bg-[#E5F0FF] text-[#004FC4] border-[#004FC4] [&_*]:divide-[#004FC4] [&_*]:border-[#004FC4]"
+    [
+      "[&_table]:bg-[#E5F0FF] odd:[&_table_tbody_tr]:bg-[#d2e4fc] text-[#004FC4] border-[#004FC4]",
+      "[&_*]:divide-[#004FC4] [&_*]:border-[#004FC4]"
+    ]
   end
 
   defp color_variant("stripped", "misc") do
-    "[&_table]:bg-[#FFE6FF] text-[#52059C] border-[#52059C] [&_*]:divide-[#52059C] [&_*]:border-[#52059C]"
+    [
+      "[&_table]:bg-[#FFE6FF] odd:[&_table_tbody_tr]:bg-[#ffdbff] text-[#52059C] border-[#52059C]",
+      "[&_*]:divide-[#52059C] [&_*]:border-[#52059C]"
+    ]
   end
 
   defp color_variant("stripped", "dawn") do
-    "[&_table]:bg-[#FFECDA] text-[#4D4137] border-[#4D4137] [&_*]:divide-[#4D4137] [&_*]:border-[#4D4137]"
+    [
+      "[&_table]:bg-[#FFECDA] odd:[&_table_tbody_tr]:bg-[#ffe7d1] text-[#4D4137] border-[#4D4137]",
+      "[&_*]:divide-[#4D4137] [&_*]:border-[#4D4137]"
+    ]
   end
 
   defp color_variant("stripped", "light") do
-    "[&_table]:bg-[#E3E7F1] text-[#707483] border-[#707483] [&_*]:divide-[#707483] [&_*]:border-[#707483]"
+    [
+      "[&_table]:bg-[#E3E7F1] odd:[&_table_tbody_tr]:bg-[#d1d9ed] text-[#707483] border-[#707483]",
+      "[&_*]:divide-[#707483] [&_*]:border-[#707483]"
+    ]
   end
 
   defp color_variant("stripped", "dark") do
-    "[&_table]:bg-[#1E1E1E] text-white border-[#050404] [&_*]:divide-[#DADADA] [&_*]:border-[#050404]"
+    [
+      "[&_table]:bg-[#1E1E1E] odd:[&_table_tbody_tr]:bg-[#333333] text-white border-[#050404]",
+      "[&_*]:divide-[#DADADA] [&_*]:border-[#050404]"
+    ]
   end
 
   defp color_variant(_, _), do: nil
