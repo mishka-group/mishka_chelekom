@@ -51,6 +51,12 @@ defmodule MishkaChelekom.MegaMenu do
     ~H"""
     <div
       id={@id}
+      phx-open-mega={
+        JS.toggle_class("show-mega-menu",
+          to: "##{@id}-mega-menu-content",
+          transition: "duration-100"
+        )
+      }
       class={[
         "[&>.mega-menu-content]:invisible [&>.mega-menu-content]:opacity-0",
         "[&>.mega-menu-content.show-mega-menu]:visible [&>.mega-menu-content.show-mega-menu]:opacity-100",
@@ -70,13 +76,7 @@ defmodule MishkaChelekom.MegaMenu do
     >
       <button
         :if={!is_nil(@title)}
-        phx-click={
-          @id &&
-            JS.toggle_class("show-mega-menu",
-              to: "##{@id}-mega-menu-content",
-              transition: "duration-100"
-            )
-        }
+        phx-click={@id && JS.exec("phx-open-mega", to: "##{@id}")}
         class={["flex items-center", @title_class]}
       >
         <.icon :if={!is_nil(@icon)} name={@icon} class={["aler-icon", @icon_class]} />
@@ -85,13 +85,7 @@ defmodule MishkaChelekom.MegaMenu do
 
       <div
         :if={@trigger}
-        phx-click={
-          @id &&
-            JS.toggle_class("show-mega-menu",
-              to: "##{@id}-mega-menu-content",
-              transition: "duration-100"
-            )
-        }
+        phx-click={@id && JS.exec("phx-open-mega", to: "##{@id}")}
         class={["cursor-pointer mega-menu-trigger", @trigger[:class]]}
       >
         <%= render_slot(@trigger) %>

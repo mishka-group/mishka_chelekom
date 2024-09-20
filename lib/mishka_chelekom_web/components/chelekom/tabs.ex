@@ -85,8 +85,9 @@ defmodule MishkaChelekom.Tabs do
         <button
           :for={{tab, index} <- Enum.with_index(@tab, 1)}
           id={"#{@id}-tab-header-#{index}"}
-          phx-click={hide_tab(@id, length(@tab)) |> show_tab(@id, index)}
-          phx-mounted={tab[:active] && hide_tab(@id, length(@tab)) |> show_tab(@id, index)}
+          phx-show-tab={hide_tab(@id, length(@tab)) |> show_tab(@id, index)}
+          phx-click={JS.exec("phx-show-tab", to: "##{@id}-tab-header-#{index}")}
+          phx-mounted={tab[:active] && JS.exec("phx-show-tab", to: "##{@id}-tab-header-#{index}")}
           role="tab"
           class={[
             "tab-trigger flex flex-row flex-nowrap items-center gap-1.5",
