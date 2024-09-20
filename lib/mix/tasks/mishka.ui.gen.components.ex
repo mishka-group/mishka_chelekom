@@ -1,4 +1,4 @@
-defmodule Mix.Tasks.Mishka.Gen.Ui.Components do
+defmodule Mix.Tasks.Mishka.Ui.Gen.Components do
   use Igniter.Mix.Task
 
   @example "mix mishka.ui.gen.components component1, component1"
@@ -10,7 +10,7 @@ defmodule Mix.Tasks.Mishka.Gen.Ui.Components do
 
   > This task does not do any additional work compared to the `mix mishka.ui.gen.component` task,
   > it just creates all the components in one place. For this purpose, all components
-  > are created with default arguments
+  > are created with default arguments.
 
   ## Example
 
@@ -50,23 +50,39 @@ defmodule Mix.Tasks.Mishka.Gen.Ui.Components do
 
   def igniter(igniter, argv) do
     # extract positional arguments according to `positional` above
-    {%{component: component}, argv} = positional_args!(argv)
+    {%{components: components}, _rgs} = positional_args!(argv)
 
-    options = options!(argv)
+    msg =
+      """
+        ,_,
+        {o,o}
+        /)  )
+      ---"-"--
+      """
 
-    if !options[:sub] do
-      msg =
-        """
-          ,_,
-          {o,o}
-          /)  )
-        ---"-"--
-        """
+    IO.puts(IO.ANSI.red() <> String.trim_trailing(msg) <> IO.ANSI.reset())
 
-      IO.puts(IO.ANSI.green() <> String.trim_trailing(msg) <> IO.ANSI.reset())
-    end
+    components = String.split(components || "", ",", trim: true)
+
+    list =
+      if components == [] or Enum.member?(components, "all"),
+        do: get_all_components_names(),
+        else: components
+
+    igniter =
+      Enum.reduce(list, igniter, fn item, acc ->
+        acc
+        |> Igniter.compose_task("mishka.ui.gen.component", [item, "--no-deps", "--sub", "--yes"])
+      end)
 
     igniter
-    |> Igniter.compose_task("mishka.ui.gen.component", ["alert", "--no-deps", "--yes"])
+  end
+
+  defp get_all_components_names() do
+    Application.app_dir(:mishka_chelekom, ["priv", "templates", "components"])
+    |> Path.join("*.eex")
+    |> Path.wildcard()
+    |> Enum.map(&Path.basename(&1, ".eex"))
+    |> Enum.uniq()
   end
 end

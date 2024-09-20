@@ -67,7 +67,7 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Component do
         type: :string,
         sub: :boolean,
         no_deps: :boolean,
-        no_sub_config: :boolean,
+        no_sub_config: :boolean
       ],
       # CLI aliases
       aliases: [v: :variant, c: :color, s: :size, m: :module, p: :padding, sp: :space, t: :type]
