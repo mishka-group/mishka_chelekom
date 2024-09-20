@@ -89,11 +89,10 @@ defmodule MishkaChelekom.Button do
 
   @doc type: :component
   attr :id, :string, default: nil, doc: ""
-  attr :type, :string, values: ["button", "submit", "reset", nil], default: nil, doc: ""
   attr :variant, :string, values: @variants, default: "default", doc: ""
+  attr :type, :string, values: ["button", "submit", "reset", nil], default: nil, doc: ""
   attr :color, :string, default: "white", doc: ""
   attr :rounded, :string, default: "large", doc: ""
-  # TODO: Refactor
   attr :border, :string, default: "white", doc: ""
   attr :size, :string, default: "large", doc: ""
   attr :content_position, :string, default: "center", doc: ""
@@ -138,6 +137,44 @@ defmodule MishkaChelekom.Button do
       <.icon :if={icon_position(@icon, @rest) == "right"} name={@icon} class={@icon_class} />
       <.button_indicator size={@indicator_size} class={@indicator_class} {@rest} />
     </button>
+    """
+  end
+
+  attr :id, :string, default: nil, doc: ""
+  attr :variant, :string, values: @variants, default: "default", doc: ""
+  attr :color, :string, default: "white", doc: ""
+  attr :rounded, :string, default: "large", doc: ""
+  attr :value, :string, default: "", doc: ""
+  attr :border, :string, default: "white", doc: ""
+  attr :size, :string, default: "large", doc: ""
+  attr :type, :string, default: "button", doc: "button, submit, reset"
+  attr :content_position, :string, default: "center", doc: ""
+  attr :display, :string, default: "inline-block", doc: ""
+  attr :font_weight, :string, default: "font-normal", doc: ""
+  attr :class, :string, default: nil, doc: ""
+  attr :rest, :global, doc: ""
+
+  def input_button(assigns) do
+    ~H"""
+    <input
+      type={@type}
+      id={@id}
+      value={@value}
+      class={
+        default_classes(@rest[:pinging]) ++
+          size_class(@size, @rest[:circle]) ++
+          [
+            color_variant(@variant, @color),
+            content_position(@content_position),
+            rounded_size(@rounded),
+            border(@border),
+            @font_weight,
+            @display,
+            @class
+          ]
+      }
+      {@rest}
+    />
     """
   end
 
@@ -371,7 +408,7 @@ defmodule MishkaChelekom.Button do
   end
 
   defp color_variant("default", "warning") do
-    "bg-[#FFF8E6] text-[#FF8B08] border-[#FF8B08] [&>.indicator]:bg-[#FF8B08] hover:bg-[#fff1cd] hover:border-[#FF8B08]"
+    "bg-[#FFF8E6] text-[#FF8B08] border-[#FF8B09] [&>.indicator]:bg-[#FF8B08] hover:bg-[#fff1cd] hover:border-[#FF8B09]"
   end
 
   defp color_variant("default", "danger") do
@@ -836,7 +873,6 @@ defmodule MishkaChelekom.Button do
     ]
   end
 
-  # TODO: Refactor width full
   defp size_class("full", _circle), do: ["py-2 px-4 w-full text-lg"]
 
   defp size_class(params, _circle) when is_binary(params), do: [params]
