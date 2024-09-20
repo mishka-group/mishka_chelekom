@@ -1,7 +1,7 @@
-defmodule Mix.Tasks.Mishka.Ui.Component do
+defmodule Mix.Tasks.Mishka.Ui.Gen.Component do
   use Igniter.Mix.Task
 
-  @example "mix mishka.ui.component component --example arg"
+  @example "mix mishka.ui.gen.component component --example arg"
   @shortdoc "A Mix Task for generating and configuring Phoenix components"
   @moduledoc """
   #{@shortdoc}
@@ -250,7 +250,7 @@ defmodule Mix.Tasks.Mishka.Ui.Component do
         Components: #{Enum.join(template_config[:optional], " - ")}
 
         You can run:
-            #{Enum.map(template_config[:optional], &"\n   * mix mishka.ui.component #{&1}\n")}
+            #{Enum.map(template_config[:optional], &"\n   * mix mishka.ui.gen.component #{&1}\n")}
       """)
     else
       igniter
@@ -294,7 +294,7 @@ defmodule Mix.Tasks.Mishka.Ui.Component do
 
       if template_config[:necessary] != [] and !options[:yes] and !options[:no_sub_config] do
         IO.puts(
-          "#{IO.ANSI.yellow() <> "#{Enum.map(template_config[:necessary], &"\n   * mix mishka.ui.component #{&1}\n")}" <> IO.ANSI.reset()}"
+          "#{IO.ANSI.yellow() <> "#{Enum.map(template_config[:necessary], &"\n   * mix mishka.ui.gen.component #{&1}\n")}" <> IO.ANSI.reset()}"
         )
       end
 
