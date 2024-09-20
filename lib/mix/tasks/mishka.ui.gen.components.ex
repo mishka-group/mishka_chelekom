@@ -66,8 +66,7 @@ defmodule Mix.Tasks.Mishka.Gen.Ui.Components do
       IO.puts(IO.ANSI.green() <> String.trim_trailing(msg) <> IO.ANSI.reset())
     end
 
-    # sub = [item, "--sub", "--no-sub-config", "--yes"]
     igniter
-    |> Igniter.compose_task("mishka.ui.component", [])
+    |> Igniter.compose_task("mishka.ui.gen.component", ["alert", "--no-deps", "--yes"])
   end
 end

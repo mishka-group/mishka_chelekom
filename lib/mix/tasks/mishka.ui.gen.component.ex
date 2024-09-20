@@ -34,6 +34,7 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Component do
   * `--no-sub-config` - Creates dependent components with default settings
   * `--module` or `-m` - Specifies a custom name for the component module
   * `--sub` - Specifies this task is a sub task
+  * `--no-deps` - Specifies this task is created without sub task
   * `--yes` - Makes directly without questions
   """
 
@@ -65,7 +66,8 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Component do
         space: :string,
         type: :string,
         sub: :boolean,
-        no_sub_config: :boolean
+        no_deps: :boolean,
+        no_sub_config: :boolean,
       ],
       # CLI aliases
       aliases: [v: :variant, c: :color, s: :size, m: :module, p: :padding, sp: :space, t: :type]
@@ -234,9 +236,13 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Component do
       igniter
       |> Igniter.copy_template(template_path, proper_location, assign, on_exists: :overwrite)
 
-    igniter
-    |> optional_components(template_config)
-    |> necessary_components(template_path, template_config, proper_location, options, assign)
+    if is_nil(options[:no_deps]) do
+      igniter
+      |> optional_components(template_config)
+      |> necessary_components(template_path, template_config, proper_location, options, assign)
+    else
+      igniter
+    end
   end
 
   defp optional_components(igniter, template_config) do
@@ -341,7 +347,7 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Component do
             []
           end
 
-        {module_coms ++ component_acc, Igniter.compose_task(acc, "mishka.ui.component", args)}
+        {module_coms ++ component_acc, Igniter.compose_task(acc, "mishka.ui.gen.component", args)}
       end)
       |> case do
         {[], igniter} ->
