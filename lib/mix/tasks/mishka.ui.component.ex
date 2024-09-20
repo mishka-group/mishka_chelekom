@@ -243,10 +243,6 @@ defmodule Mix.Tasks.Mishka.Ui.Component do
     if Keyword.get(template_config, :optional, []) != [] and Igniter.changed?(igniter) do
       igniter
       |> Igniter.add_notice("""
-        --------------------------------------------------------------------------------
-        The component was successfully created/updated in the specified path!
-        --------------------------------------------------------------------------------
-
         Some other optional components are suggested for this component. You can create them separately.
         Note that if you use custom module names and their names are different each time,
         you may need to manually change the components.
