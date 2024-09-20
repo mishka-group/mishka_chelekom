@@ -3,6 +3,7 @@ defmodule MishkaChelekomWeb.Examples.FileFieldLive do
   use Phoenix.Component
   alias MishkaChelekom.User
 
+
   @impl Phoenix.LiveView
   def mount(_params, _session, socket) do
     init_form = User.changeset(%User{}, %{})
@@ -19,6 +20,17 @@ defmodule MishkaChelekomWeb.Examples.FileFieldLive do
   @impl Phoenix.LiveView
   def handle_event("cancel-upload", %{"ref" => ref}, socket) do
     {:noreply, cancel_upload(socket, :avatar, ref)}
+  end
+
+  @impl Phoenix.LiveView
+  def handle_event("validate", %{"user" => user_params}, socket) do
+    changeset = User.changeset(%User{}, user_params)
+
+    new_socket =
+      socket
+      |> assign(:form, to_form(changeset, action: :validate))
+
+    {:noreply, new_socket}
   end
 
   @impl Phoenix.LiveView
@@ -53,8 +65,4 @@ defmodule MishkaChelekomWeb.Examples.FileFieldLive do
         {:noreply, assign(socket, form: to_form(changeset))}
     end
   end
-
-  defp error_to_string(:too_large), do: "Too large"
-  defp error_to_string(:not_accepted), do: "You have selected an unacceptable file type"
-  defp error_to_string(:too_many_files), do: "You have selected too many files"
 end

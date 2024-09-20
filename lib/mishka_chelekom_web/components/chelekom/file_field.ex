@@ -2,6 +2,7 @@ defmodule MishkaChelekom.FileField do
   use Phoenix.Component
   import MishkaChelekomComponents
 
+
   @doc type: :component
   attr :id, :string, default: nil, doc: ""
   attr :class, :string, default: nil, doc: ""
@@ -22,8 +23,10 @@ defmodule MishkaChelekom.FileField do
 
   attr :dropzone, :boolean, default: false, doc: ""
   attr :upload, :any, doc: ""
+  attr :dropzone_type, :string, default: "image", doc: "file, image"
   attr :entries, :any, doc: ""
   attr :ref, :any, doc: ""
+  attr :upload_error, :list, default: []
   attr :remove, :any, doc: ""
   attr :dropzone_icon, :string, default: "hero-cloud-arrow-up", doc: ""
   attr :dropzone_title, :string, default: "Click to upload, or drag and drop a file", doc: ""
@@ -47,7 +50,7 @@ defmodule MishkaChelekom.FileField do
     |> file_field()
   end
 
-  def file_field(%{dropzone: true} = assigns) do
+  def file_field(%{dropzone: true, dropzone_type: "file"} = assigns) do
     ~H"""
     <div class={[
       dropzone_color(@variant, @color),
@@ -73,7 +76,7 @@ defmodule MishkaChelekom.FileField do
             <%= @dropzone_description %>
           </div>
         </div>
-        <.live_file_input upload={@uplaod} class="hidden" />
+         <.live_file_input upload={@upload} class="hidden" />
       </label>
 
       <.error :for={msg <- @errors} icon={@error_icon}><%= msg %></.error>
@@ -107,12 +110,78 @@ defmodule MishkaChelekom.FileField do
               <.icon name="hero-x-mark" class="size-4" />
             </button>
 
-            <%!-- <%= for err <- upload_errors(@upload_error, entry) do %>
-              <p class="text-rose-600 font-medium"><%= err %></p>
-            <% end %> --%>
+            <%= for err <- upload_errors(@upload_error, entry) do %>
+              <p class="text-rose-600 font-medium text-xs"><%= err %></p>
+            <% end %>
           </div>
         <% end %>
       </div>
+
+      <%= for err <- upload_errors(@upload_error) do %>
+        <p class="text-rose-600 font-medium text-xs"><%= error_to_string(err) %></p>
+      <% end %>
+    </div>
+    """
+  end
+
+  def file_field(%{dropzone: true, dropzone_type: "image"} = assigns) do
+    ~H"""
+    <div class={[
+      dropzone_color(@variant, @color),
+      border_class(@border),
+      rounded_size(@rounded),
+      size_class(@size),
+      @dashed && "[&_.dropzone-wrapper]:border-dashed",
+      @class
+    ]}>
+      <label
+        class={[
+          "dropzone-wrapper group flex flex-col items-center justify-center w-full cursor-pointer"
+        ]}
+        phx-drop-target={@ref}
+      >
+        <div class="flex flex-col gap-3 items-center justify-center pt-5 pb-6">
+          <.icon name={@dropzone_icon} class="size-14" />
+          <div class="mb-2 font-semibold">
+            <%= @dropzone_title %>
+          </div>
+
+          <div>
+            <%= @dropzone_description %>
+          </div>
+        </div>
+         <.live_file_input upload={@upload} class="hidden" />
+      </label>
+
+      <.error :for={msg <- @errors} icon={@error_icon}><%= msg %></.error>
+
+      <div class="flex flex-wrap gap-3 my-3">
+        <%= for entry <- @entries do %>
+          <div class="relative">
+            <div class="rounded w-24 h-24 overflow-hidden">
+              <figure class="w-full h-full object-cover">
+                <.live_img_preview entry={entry} class="w-full h-full object-cover rounded" />
+              </figure>
+            </div>
+
+            <button class="bg-black/30 rounded p-px text-white flex justify-center items-center absolute top-2 right-2 z-10">
+              <.icon name="hero-x-mark" class="size-4" />
+            </button>
+            <%!-- tODO: Remove when upload compeleted --%>
+            <div
+                role="status"
+                class="absolute top-1 left-1 bottom-1 right-1 bg-black/25 flex justify-center items-center"
+              >
+              <MishkaChelekom.Spinner.spinner color="white" />
+
+            </div>
+          </div>
+        <% end %>
+      </div>
+
+      <%= for err <- upload_errors(@upload_error) do %>
+        <p class="text-rose-600 font-medium text-xs"><%= error_to_string(err) %></p>
+      <% end %>
     </div>
     """
   end
@@ -173,6 +242,11 @@ defmodule MishkaChelekom.FileField do
     </p>
     """
   end
+
+
+  defp error_to_string(:too_large), do: "Too large"
+  defp error_to_string(:not_accepted), do: "You have selected an unacceptable file type"
+  defp error_to_string(:too_many_files), do: "You have selected too many files"
 
   defp border_class("none"), do: "[&_.dropzone-wrapper]:border-0"
   defp border_class("extra_small"), do: "[&_.dropzone-wrapper]:border"

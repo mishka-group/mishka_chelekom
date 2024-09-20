@@ -12,13 +12,18 @@
 </div>
 
 <div class="p-10 gap-5 grid md:grid-cols-2">
-  <!--<MishkaChelekom.FileField.file_field
-    ref={@uploads.avatar.ref}
-    upload={@uploads.avatar}
-    remove="cancel-upload"
-    entries={@uploads.avatar.entries}
-    color="dark"
-    variant="outline"
-    dropzone
-  /> -->
+  <MishkaChelekom.FormWrapper.form_wrapper for={@form} id="product-form" phx-change="validate" phx-submit="save">
+
+   <MishkaChelekom.FileField.file_field
+      ref={@uploads.avatar.ref}
+      upload={@uploads.avatar}
+      remove="cancel-upload"
+      entries={@uploads.avatar.entries}
+      color="dark"
+      upload_error={@uploads.avatar}
+      variant="outline"
+      dropzone
+  />
+
+  </MishkaChelekom.FormWrapper.form_wrapper>
 </div>
