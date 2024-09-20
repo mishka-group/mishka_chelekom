@@ -152,7 +152,7 @@ defmodule MishkaChelekom.Table do
   defp rounded_size("large"), do: "rounded-lg"
   defp rounded_size("extra_large"), do: "rounded-xl"
   defp rounded_size(params) when is_binary(params), do: [params]
-  defp rounded_size(_), do: rounded_size("none")
+  defp rounded_size(_), do: nil
 
   defp text_size("extra_small"), do: "text-xs"
   defp text_size("small"), do: "text-sm"
@@ -493,6 +493,134 @@ defmodule MishkaChelekom.Table do
 
   defp color_variant("transparent", "dark") do
     "text-[#1E1E1E] border-transparent [&_*]:divide-transparent [&_*]:border-transparent"
+  end
+
+  defp color_variant("hoverable", "white") do
+    [
+      "[&_table]:bg-white hover:[&_table_tbody_tr]:bg-[#DADADA] text-[#3E3E3E]",
+      "border-white [&_*]:divide-white [&_*]:border-white"
+    ]
+  end
+
+  defp color_variant("hoverable", "silver") do
+    [
+      "[&_table]:bg-white hover:[&_table_tbody_tr]:bg-[#DADADA] text-[#3E3E3E]",
+      "border-[#DADADA] [&_*]:divide-[#DADADA] [&_*]:border-[#DADADA]"
+    ]
+  end
+
+  defp color_variant("hoverable", "primary") do
+    [
+      "[&_table]:bg-white text-[#4363EC] hover:[&_table_tbody_tr]:bg-[#4363EC] hover:[&_table_tbody_tr]:text-white",
+      "border-[#2441de] [&_*]:divide-[#2441de] [&_*]:border-[#2441de]"
+    ]
+  end
+
+  defp color_variant("hoverable", "secondary") do
+    [
+      "[&_table]:bg-white hover:[&_table_tbody_tr]:bg-[#6B6E7C] hover:[&_table_tbody_tr]:text-white border-[#877C7C]",
+    "[&_*]:divide-[#877C7C] [&_*]:border-[#877C7C]"
+    ]
+  end
+
+  defp color_variant("hoverable", "success") do
+    [
+      "[&_table]:bg-white hover:[&_table_tbody_tr]:bg-[#ECFEF3] text-[#047857]",
+      "border-[#6EE7B7] [&_*]:divide-[#6EE7B7] [&_*]:border-[#6EE7B7]"
+    ]
+  end
+
+  defp color_variant("hoverable", "warning") do
+    [
+      "[&_table]:bg-white hover:[&_table_tbody_tr]:bg-[#FFF8E6] text-[#FF8B08]",
+      "border-[#FF8B08] [&_*]:divide-[#FF8B08] [&_*]:border-[#FF8B08]"
+    ]
+  end
+
+  defp color_variant("hoverable", "danger") do
+    [
+      "[&_table]:bg-white hover:[&_table_tbody_tr]:bg-[#FFE6E6] text-[#E73B3B]",
+    "border-[#E73B3B] [&_*]:divide-[#E73B3B] [&_*]:border-[#E73B3B]"
+    ]
+  end
+
+  defp color_variant("hoverable", "info") do
+    [
+      "[&_table]:bg-white hover:[&_table_tbody_tr]:bg-[#E5F0FF] text-[#004FC4]",
+      "border-[#004FC4] [&_*]:divide-[#004FC4] [&_*]:border-[#004FC4]"
+    ]
+  end
+
+  defp color_variant("hoverable", "misc") do
+    [
+      "[&_table]:bg-white hover:[&_table_tbody_tr]:bg-[#FFE6FF] text-[#52059C]",
+      "border-[#52059C] [&_*]:divide-[#52059C] [&_*]:border-[#52059C]"
+    ]
+  end
+
+  defp color_variant("hoverable", "dawn") do
+    [
+      "[&_table]:bg-white hover:[&_table_tbody_tr]:bg-[#FFECDA] text-[#4D4137]",
+      "border-[#4D4137] [&_*]:divide-[#4D4137] [&_*]:border-[#4D4137]"
+    ]
+  end
+
+  defp color_variant("hoverable", "light") do
+    [
+      "[&_table]:bg-white hover:[&_table_tbody_tr]:bg-[#E3E7F1] text-[#707483]",
+      "border-[#707483] [&_*]:divide-[#707483] [&_*]:border-[#707483]"
+    ]
+  end
+
+  defp color_variant("hoverable", "dark") do
+    [
+      "[&_table]:bg-white text-[#1E1E1E] hover:[&_table_tbody_tr]:bg-[#1E1E1E] hover:[&_table_tbody_tr]:text-white",
+      "border-[#050404] [&_*]:divide-[#DADADA] [&_*]:border-[#050404]"
+    ]
+  end
+
+  defp color_variant("stripped", "white") do
+    "[&_table]:bg-white text-[#3E3E3E] border-white [&_*]:divide-white [&_*]:border-white"
+  end
+
+  defp color_variant("stripped", "primary") do
+    "[&_table]:bg-[#4363EC] text-white border-[#2441de] [&_*]:divide-[#2441de] [&_*]:border-[#2441de]"
+  end
+
+  defp color_variant("stripped", "secondary") do
+    "[&_table]:bg-[#6B6E7C] text-white border-[#877C7C] [&_*]:divide-[#877C7C] [&_*]:border-[#877C7C]"
+  end
+
+  defp color_variant("stripped", "success") do
+    "[&_table]:bg-[#ECFEF3] text-[#047857] border-[#6EE7B7] [&_*]:divide-[#6EE7B7] [&_*]:border-[#6EE7B7]"
+  end
+
+  defp color_variant("stripped", "warning") do
+    "[&_table]:bg-[#FFF8E6] text-[#FF8B08] border-[#FF8B08] [&_*]:divide-[#FF8B08] [&_*]:border-[#FF8B08]"
+  end
+
+  defp color_variant("stripped", "danger") do
+    "[&_table]:bg-[#FFE6E6] text-[#E73B3B] border-[#E73B3B] [&_*]:divide-[#E73B3B] [&_*]:border-[#E73B3B]"
+  end
+
+  defp color_variant("stripped", "info") do
+    "[&_table]:bg-[#E5F0FF] text-[#004FC4] border-[#004FC4] [&_*]:divide-[#004FC4] [&_*]:border-[#004FC4]"
+  end
+
+  defp color_variant("stripped", "misc") do
+    "[&_table]:bg-[#FFE6FF] text-[#52059C] border-[#52059C] [&_*]:divide-[#52059C] [&_*]:border-[#52059C]"
+  end
+
+  defp color_variant("stripped", "dawn") do
+    "[&_table]:bg-[#FFECDA] text-[#4D4137] border-[#4D4137] [&_*]:divide-[#4D4137] [&_*]:border-[#4D4137]"
+  end
+
+  defp color_variant("stripped", "light") do
+    "[&_table]:bg-[#E3E7F1] text-[#707483] border-[#707483] [&_*]:divide-[#707483] [&_*]:border-[#707483]"
+  end
+
+  defp color_variant("stripped", "dark") do
+    "[&_table]:bg-[#1E1E1E] text-white border-[#050404] [&_*]:divide-[#DADADA] [&_*]:border-[#050404]"
   end
 
   defp color_variant(_, _), do: nil
