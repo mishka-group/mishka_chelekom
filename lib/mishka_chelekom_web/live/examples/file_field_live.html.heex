@@ -12,8 +12,14 @@
 </div>
 
 <div class="p-10 gap-5 grid md:grid-cols-2">
-  <MishkaChelekom.FormWrapper.form_wrapper for={@form} id="product-form" phx-change="validate" phx-submit="save" class="space-y-5">
-   <MishkaChelekom.InputField.input_field field={@form[:fullname]} type="text" label="Full Name" />
+  <MishkaChelekom.FormWrapper.form_wrapper
+    for={@form}
+    id="product-form"
+    phx-change="validate"
+    phx-submit="save"
+    class="space-y-5"
+  >
+    <MishkaChelekom.InputField.input_field field={@form[:fullname]} type="text" label="Full Name" />
     <MishkaChelekom.InputField.input_field field={@form[:adress]} type="text" label="Adress" />
     <MishkaChelekom.InputField.input_field field={@form[:phone]} type="text" label="Phone" />
     <MishkaChelekom.InputField.input_field field={@form[:zipcode]} type="text" label="Zipcode" />
@@ -25,17 +31,29 @@
       options={Ecto.Enum.values(MishkaChelekom.User, :job)}
     />
 
-<MishkaChelekom.InputField.input_field field={@form[:accepted_terms]} type="checkbox" label="Terms" />
+    <MishkaChelekom.InputField.input_field
+      field={@form[:accepted_terms]}
+      type="checkbox"
+      label="Terms"
+    />
 
     <MishkaChelekom.InputField.input_field field={@form[:salary]} type="range" label="Salary" />
 
     <%!-- experience --%>
 
-    <MishkaChelekom.InputField.input_field field={@form[:start_office_hour]} type="datetime-local" label="Start office hour" />
+    <MishkaChelekom.InputField.input_field
+      field={@form[:start_office_hour]}
+      type="datetime-local"
+      label="Start office hour"
+    />
 
-    <MishkaChelekom.InputField.input_field field={@form[:start_office_day]} type="datetime-local" label="Start office day" />
+    <MishkaChelekom.InputField.input_field
+      field={@form[:start_office_day]}
+      type="datetime-local"
+      label="Start office day"
+    />
 
-   <MishkaChelekom.FileField.file_field
+    <MishkaChelekom.FileField.file_field
       target={@uploads.avatar.ref}
       upload={@uploads.avatar}
       cancel="cancel-upload"
@@ -44,13 +62,10 @@
       upload_error={@uploads.avatar}
       variant="outline"
       dropzone
-  />
-
+    />
 
     <:actions>
       <.button phx-disable-with="Saving...">Save Product</.button>
     </:actions>
   </MishkaChelekom.FormWrapper.form_wrapper>
-
-
 </div>

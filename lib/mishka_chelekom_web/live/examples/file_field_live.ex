@@ -3,7 +3,6 @@ defmodule MishkaChelekomWeb.Examples.FileFieldLive do
   use Phoenix.Component
   alias MishkaChelekom.User
   import MishkaChelekomWeb.CoreComponents
-  
 
   @impl Phoenix.LiveView
   def mount(_params, _session, socket) do

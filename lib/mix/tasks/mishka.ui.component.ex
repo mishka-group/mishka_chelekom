@@ -228,8 +228,8 @@ defmodule Mix.Tasks.Mishka.Ui.Component do
   defp create_update_component({:error, _, msg, igniter}), do: Igniter.add_issue(igniter, msg)
 
   defp create_update_component(
-        {igniter, template_path, template_config, proper_location, assign, options}
-      ) do
+         {igniter, template_path, template_config, proper_location, assign, options}
+       ) do
     igniter =
       igniter
       |> Igniter.copy_template(template_path, proper_location, assign, on_exists: :overwrite)

@@ -519,7 +519,7 @@ defmodule MishkaChelekom.Table do
   defp color_variant("hoverable", "secondary") do
     [
       "[&_table]:bg-white hover:[&_table_tbody_tr]:bg-[#6B6E7C] hover:[&_table_tbody_tr]:text-white border-[#877C7C]",
-    "[&_*]:divide-[#877C7C] [&_td]:border-[#877C7C] [&_th]:border-[#877C7C]"
+      "[&_*]:divide-[#877C7C] [&_td]:border-[#877C7C] [&_th]:border-[#877C7C]"
     ]
   end
 
@@ -540,7 +540,7 @@ defmodule MishkaChelekom.Table do
   defp color_variant("hoverable", "danger") do
     [
       "[&_table]:bg-white hover:[&_table_tbody_tr]:bg-[#FFE6E6] text-[#E73B3B]",
-    "border-[#E73B3B] [&_*]:divide-[#E73B3B] [&_td]:border-[#E73B3B] [&_th]:border-[#E73B3B]"
+      "border-[#E73B3B] [&_*]:divide-[#E73B3B] [&_td]:border-[#E73B3B] [&_th]:border-[#E73B3B]"
     ]
   end
 

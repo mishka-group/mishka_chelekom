@@ -75,7 +75,7 @@ defmodule MishkaChelekom.FileField do
             <%= @dropzone_description %>
           </div>
         </div>
-         <.live_file_input upload={@upload} class="hidden" />
+        <.live_file_input upload={@upload} class="hidden" />
       </label>
 
       <.error :for={msg <- @errors} icon={@error_icon}><%= msg %></.error>
@@ -151,7 +151,7 @@ defmodule MishkaChelekom.FileField do
             <%= @dropzone_description %>
           </div>
         </div>
-         <.live_file_input upload={@upload} class="hidden" />
+        <.live_file_input upload={@upload} class="hidden" />
       </label>
 
       <.error :for={msg <- @errors} icon={@error_icon}><%= msg %></.error>
@@ -168,7 +168,7 @@ defmodule MishkaChelekom.FileField do
             <button class="bg-black/30 rounded p-px text-white flex justify-center items-center absolute top-2 right-2 z-10">
               <.icon name="hero-x-mark" class="size-4" />
             </button>
-             <%!-- tODO: Remove when upload compeleted --%>
+            <%!-- tODO: Remove when upload compeleted --%>
             <div
               role="status"
               class="absolute top-1 left-1 bottom-1 right-1 bg-black/25 flex justify-center items-center"
