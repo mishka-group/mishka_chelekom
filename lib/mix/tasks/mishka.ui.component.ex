@@ -79,14 +79,15 @@ defmodule Mix.Tasks.Mishka.Ui.Component do
     options = options!(argv)
 
     if !options[:sub] do
-      """
-        ,_,
-        {o,o}
-        /)  )
-      ---"-"--
-      """
-      |> String.trim_trailing()
-      |> IO.puts()
+      msg =
+        """
+          ,_,
+          {o,o}
+          /)  )
+        ---"-"--
+        """
+
+      IO.puts(IO.ANSI.green() <> String.trim_trailing(msg) <> IO.ANSI.reset())
     end
 
     igniter
@@ -224,9 +225,9 @@ defmodule Mix.Tasks.Mishka.Ui.Component do
     {:error, :no_dir, msg, template.igniter}
   end
 
-  def create_update_component({:error, _, msg, igniter}), do: Igniter.add_issue(igniter, msg)
+  defp create_update_component({:error, _, msg, igniter}), do: Igniter.add_issue(igniter, msg)
 
-  def create_update_component(
+  defp create_update_component(
         {igniter, template_path, template_config, proper_location, assign, options}
       ) do
     igniter =
@@ -269,29 +270,37 @@ defmodule Mix.Tasks.Mishka.Ui.Component do
          assign
        ) do
     if Keyword.get(template_config, :necessary, []) != [] and Igniter.changed?(igniter) do
-      igniter =
-        igniter
-        |> Igniter.add_warning(
-          """
-            This component is dependent on other components, so it is necessary to build other
-            items along with this component.
+      if template_config[:necessary] != [] and !options[:sub] and !options[:yes] and
+           !options[:no_sub_config] do
+        IO.puts("#{IO.ANSI.bright() <> "Note:\n" <> IO.ANSI.reset()}")
 
-            If you want to limit the creation of any dependent component to the features you need,
-            it is suggested to stop the routine of doing this component and fix the following items first,
-            then create this component again.
+        msg = """
+        This component is dependent on other components, so it is necessary to build other
+        items along with this component.
 
-            Note: If you have used custom names for your dependent modules, this script will not be able to find them,
-            so it will think that they have not been created.
+        Note: If you have used custom names for your dependent modules, this script will not be able to find them,
+        so it will think that they have not been created.
 
-            Components: #{Enum.join(template_config[:necessary], " - ")}
+        Components: #{Enum.join(template_config[:necessary], " - ")}
+        """
 
-            You can run before generating this component:
-                #{Enum.map(template_config[:necessary], &"\n   * mix mishka.ui.component #{&1}\n")}
+        Mix.Shell.IO.info(IO.ANSI.cyan() <> String.trim_trailing(msg) <> IO.ANSI.reset())
 
-            If approved, dependent components will be created without restrictions and you can change them manually.
-          """
-          |> String.trim()
+        msg =
+          "\nNote: \nIf approved, dependent components will be created without restrictions and you can change them manually."
+
+        IO.puts("#{IO.ANSI.blue() <> msg <> IO.ANSI.reset()}")
+
+        IO.puts(
+          "#{IO.ANSI.cyan() <> "\nYou can run before generating this component:" <> IO.ANSI.reset()}"
         )
+      end
+
+      if template_config[:necessary] != [] and !options[:yes] and !options[:no_sub_config] do
+        IO.puts(
+          "#{IO.ANSI.yellow() <> "#{Enum.map(template_config[:necessary], &"\n   * mix mishka.ui.component #{&1}\n")}" <> IO.ANSI.reset()}"
+        )
+      end
 
       if template_config[:necessary] != [] and !options[:sub] and !options[:yes] and
            !options[:no_sub_config] do
@@ -357,7 +366,7 @@ defmodule Mix.Tasks.Mishka.Ui.Component do
     end
   end
 
-  def atom_to_module(field) do
+  defp atom_to_module(field) do
     field
     |> String.split(".", trim: true)
     |> Enum.map(&Macro.camelize/1)
@@ -365,7 +374,7 @@ defmodule Mix.Tasks.Mishka.Ui.Component do
     |> String.to_atom()
   end
 
-  def atom_to_module(field, :last) do
+  defp atom_to_module(field, :last) do
     field
     |> String.split(".", trim: true)
     |> List.last()
