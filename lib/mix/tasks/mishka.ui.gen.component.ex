@@ -83,10 +83,11 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Component do
     if !options[:sub] do
       msg =
         """
-          ,_,
-          {o,o}
-          /)  )
-        ---"-"--
+              .-.
+             /'v'\\
+            (/   \\)
+            =="="==
+          Mishka.life
         """
 
       IO.puts(IO.ANSI.green() <> String.trim_trailing(msg) <> IO.ANSI.reset())

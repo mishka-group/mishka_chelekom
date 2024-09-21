@@ -54,10 +54,11 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Components do
 
     msg =
       """
-        ,_,
-        {o,o}
-        /)  )
-      ---"-"--
+            .-.
+           /'v'\\
+          (/   \\)
+          =="="==
+        Mishka.life
       """
 
     IO.puts(IO.ANSI.red() <> String.trim_trailing(msg) <> IO.ANSI.reset())
