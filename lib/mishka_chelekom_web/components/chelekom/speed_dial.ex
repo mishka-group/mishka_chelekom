@@ -130,7 +130,7 @@ defmodule MishkaChelekom.SpeedDial do
   attr :icon, :string, default: nil, doc: "Icon displayed alongside of an item"
   attr :icon_class, :string, default: nil, doc: "Determines custom class for the icon"
   attr :content_class, :string, default: nil, doc: "Determines custom class for the content"
-  attr :index, :integer, required: true, doc: ""
+  attr :index, :integer, required: true, doc: "Determines item index"
   attr :icon_position, :string, doc: "end, start"
   slot :inner_block, required: false, doc: "Inner block that renders HEEx content"
 

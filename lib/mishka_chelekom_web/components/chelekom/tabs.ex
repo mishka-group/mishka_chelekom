@@ -48,7 +48,7 @@ defmodule MishkaChelekom.Tabs do
     attr :padding, :string, doc: "Determines padding for items"
     attr :icon_class, :string, doc: "Determines custom class for the icon"
     attr :icon_position, :string, doc: "end, start"
-    attr :active, :boolean, doc: ""
+    attr :active, :boolean, doc: "Indicates whether the element is currently active and visible"
   end
 
   slot :panel, required: true do

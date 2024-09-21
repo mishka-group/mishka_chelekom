@@ -1,6 +1,7 @@
 defmodule MishkaChelekom.Blockquote do
   @moduledoc """
-  This module provides a versatile `Blockquote` component for creating stylish and customizable blockquotes in your Phoenix LiveView application.
+  This module provides a versatile `MishkaChelekom.Blockquote` component for creating
+  stylish and customizable blockquotes in your Phoenix LiveView application.
 
   ## Features
 

@@ -32,7 +32,7 @@ defmodule MishkaChelekom.Tooltip do
   attr :width, :string, default: "fit", doc: "Determines the element width"
   attr :padding, :string, default: "small", doc: "Determines padding for items"
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
-  attr :text_position, :string, default: "center", doc: ""
+  attr :text_position, :string, default: "center", doc: "Determines the element' text position"
   attr :text, :string, default: "", doc: ""
   attr :rest, :global, doc: "Global attributes can define defaults which are merged with attributes provided by the caller"
   slot :inner_block, required: false, doc: "Inner block that renders HEEx content"

@@ -17,7 +17,7 @@ defmodule MishkaChelekom.Table do
   attr :thead_class, :string, default: nil, doc: ""
   attr :footer_class, :string, default: nil, doc: ""
   attr :table_fixed, :boolean, default: false, doc: ""
-  attr :text_position, :string, default: "left", doc: ""
+  attr :text_position, :string, default: "left", doc: "Determines the element' text position"
   attr :rest, :global, doc: "Global attributes can define defaults which are merged with attributes provided by the caller"
 
   slot :inner_block, required: false, doc: "Inner block that renders HEEx content"

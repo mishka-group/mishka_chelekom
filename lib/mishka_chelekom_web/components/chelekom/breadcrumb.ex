@@ -1,6 +1,6 @@
 defmodule MishkaChelekom.Breadcrumb do
   @moduledoc """
-  Provides a flexible and customizable `Breadcrumb` component for displaying
+  Provides a flexible and customizable `MishkaChelekom.Breadcrumb` component for displaying
   breadcrumb navigation in your Phoenix LiveView applications.
 
   ## Features

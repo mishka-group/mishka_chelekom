@@ -1,6 +1,8 @@
 defmodule MishkaChelekom.Button do
   @moduledoc """
-  Provides a comprehensive set of button components for the `MishkaChelekom` project. These components are highly customizable, allowing various styles, sizes, colors, and configurations, including buttons with icons, gradients, and different indicator positions.
+  Provides a comprehensive set of button components for the `MishkaChelekom.Button` project.
+  These components are highly customizable, allowing various styles, sizes, colors,
+  and configurations, including buttons with icons, gradients, and different indicator positions.
 
   ## Components
 

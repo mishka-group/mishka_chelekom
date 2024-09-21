@@ -71,7 +71,7 @@ defmodule MishkaChelekom.TableContent do
   attr :icon, :string, default: nil, doc: "Icon displayed alongside of an item"
   attr :icon_class, :string, default: nil, doc: "Determines custom class for the icon"
   attr :font_weight, :string, default: "font-noraml", doc: "Determines custom class for the font weight"
-  attr :active, :boolean, default: false, doc: ""
+  attr :active, :boolean, default: false, doc: "Indicates whether the element is currently active and visible"
   attr :rest, :global, doc: "Global attributes can define defaults which are merged with attributes provided by the caller"
   slot :inner_block, required: false, doc: "Inner block that renders HEEx content"
 

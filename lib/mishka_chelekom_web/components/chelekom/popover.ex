@@ -142,7 +142,7 @@ defmodule MishkaChelekom.Popover do
   attr :size, :string, default: nil, doc: "Determines the overall size of the elements, including padding, font size, and other items"
   attr :space, :string, default: nil, doc: "Space between items"
   attr :width, :string, default: "extra_large", doc: "Determines the element width"
-  attr :text_position, :string, default: "start", doc: ""
+  attr :text_position, :string, default: "start", doc: "Determines the element' text position"
   attr :font_weight, :string, default: "font-normal", doc: "Determines custom class for the font weight"
   attr :padding, :string, default: "none", doc: "Determines padding for items"
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"

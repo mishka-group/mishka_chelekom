@@ -1,4 +1,50 @@
 defmodule MishkaChelekom.Card do
+  @moduledoc """
+  Provides a set of card components for the `MishkaChelekom.Card` project. These components
+  allow for flexible and customizable card layouts, including features such as card titles,
+  media, content sections, and footers.
+
+  ## Components
+
+    - `card/1`: Renders a basic card container with customizable size, color, border,
+    padding, and other styling options.
+    - `card_title/1`: Renders a title section for the card with support for icons and
+    custom positioning.
+    - `card_media/1`: Renders a media section within the card, such as an image or other media types.
+    - `card_content/1`: Renders a content section within the card to display various information.
+    - `card_footer/1`: Renders a footer section for the card, suitable for additional
+    information or actions.
+
+  ## Configuration Options
+
+  The module supports various attributes such as size, color, variant, and border
+  styles to match different design requirements. Components can be nested and
+  combined to create complex card layouts with ease.
+
+  ## Usage
+
+  ### Basic Example
+
+  ```elixir
+  ...example...
+  ```
+
+  ### Card with Media
+
+  ```elixir
+  ...example...
+  ```
+
+  ### Card with Custom Styles
+
+  ```elixir
+  ...example...
+  ```
+
+  This module offers a powerful and easy-to-use way to create cards with consistent
+  styling and behavior while providing the flexibility to adapt to various use cases.
+  """
+
   use Phoenix.Component
   import MishkaChelekomComponents
 
@@ -113,9 +159,9 @@ defmodule MishkaChelekom.Card do
 
   @doc type: :component
   attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
-  attr :alt, :string, doc: ""
-  attr :src, :string, required: true, doc: ""
-  attr :rounded, :string, values: @sizes ++ [nil], default: nil, doc: ""
+  attr :alt, :string, doc: "Media link description"
+  attr :src, :string, required: true, doc: "Media link"
+  attr :rounded, :string, values: @sizes ++ [nil], default: nil, doc: "Determines the border radius"
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :rest, :global, doc: "Global attributes can define defaults which are merged with attributes provided by the caller"
   slot :inner_block, required: false, doc: "Inner block that renders HEEx content"
