@@ -44,7 +44,7 @@ defmodule MishkaChelekom.Banner do
     default: "top",
     doc: ""
 
-  attr :rounded, :string, values: @sizes ++ ["none"], default: "none", doc: ""
+  attr :rounded, :string, values: @sizes ++ ["none"], default: "none", doc: "Determines the border radius"
 
   attr :rounded_position, :string,
     values: ["top", "bottom", "all", "none"],
@@ -57,7 +57,7 @@ defmodule MishkaChelekom.Banner do
   attr :position, :string, values: @positions, default: "full", doc: ""
   attr :position_size, :string, values: @sizes ++ ["none"], default: "none", doc: ""
   attr :font_weight, :string, default: "font-normal", doc: ""
-  attr :padding, :string, values: @sizes ++ ["none"], default: "extra_small", doc: ""
+  attr :padding, :string, values: @sizes ++ ["none"], default: "extra_small", doc: "Determines padding for items"
   attr :class, :string, default: "", doc: "Custom CSS class for additional styling"
   attr :params, :map, default: %{kind: "banner"}
   attr :rest, :global, include: ~w(right_dismiss left_dismiss), doc: ""

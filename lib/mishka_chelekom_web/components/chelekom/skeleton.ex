@@ -9,7 +9,7 @@ defmodule MishkaChelekom.Skeleton do
   attr :color, :string, default: "silver", doc: "Determines color theme"
   attr :height, :string, default: "extra_small", doc: ""
   attr :width, :string, default: "full", doc: ""
-  attr :rounded, :string, values: @sizes ++ ["full", "none"], default: "small", doc: ""
+  attr :rounded, :string, values: @sizes ++ ["full", "none"], default: "small", doc: "Determines the border radius"
   attr :visible, :boolean, default: true, doc: ""
   attr :rest, :global, include: ~w(animated), doc: ""
 

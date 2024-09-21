@@ -31,7 +31,7 @@ defmodule MishkaChelekom.Jumbotron do
   attr :border_position, :string, default: "bottom", doc: ""
   attr :space, :string, default: nil, doc: "Space between items"
   attr :font_weight, :string, default: "font-normal", doc: ""
-  attr :padding, :string, default: "none", doc: ""
+  attr :padding, :string, default: "none", doc: "Determines padding for items"
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :rest, :global, doc: ""
 

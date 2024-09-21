@@ -9,7 +9,7 @@ defmodule MishkaChelekom.FileField do
   attr :color, :string, default: "primary", doc: "Determines color theme"
   attr :variant, :string, default: "default", doc: "Determines the style"
   attr :border, :string, default: "extra_small", doc: "Determines border style"
-  attr :rounded, :string, default: "small", doc: ""
+  attr :rounded, :string, default: "small", doc: "Determines the border radius"
   attr :live, :boolean, default: false, doc: ""
   attr :space, :string, default: "medium", doc: "Space between items"
   attr :size, :string, default: "extra_small", doc: ""

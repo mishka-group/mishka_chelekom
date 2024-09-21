@@ -48,7 +48,7 @@ defmodule MishkaChelekom.Badge do
     doc: "Determines the style"
 
   attr :size, :string, default: "extra_small", doc: ""
-  attr :rounded, :string, values: @sizes ++ ["full", "none"], default: "small", doc: ""
+  attr :rounded, :string, values: @sizes ++ ["full", "none"], default: "small", doc: "Determines the border radius"
   attr :color, :string, values: @colors, default: "white", doc: "Determines color theme"
   attr :font_weight, :string, default: "font-normal", doc: ""
   attr :icon, :string, default: nil, doc: ""

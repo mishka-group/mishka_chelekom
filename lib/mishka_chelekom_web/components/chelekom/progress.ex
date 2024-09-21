@@ -57,7 +57,7 @@ defmodule MishkaChelekom.Progress do
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :variation, :string, values: ["horizontal", "vertical"], default: "horizontal", doc: ""
   attr :color, :string, values: @colors, default: "white", doc: "Determines color theme"
-  attr :rounded, :string, default: "none", doc: ""
+  attr :rounded, :string, default: "none", doc: "Determines the border radius"
   attr :variant, :string, values: @variants, default: "default", doc: "Determines the style"
   attr :rest, :global, doc: ""
 

@@ -71,7 +71,7 @@ defmodule MishkaChelekom.RadioField do
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :color, :string, default: "primary", doc: "Determines color theme"
   attr :border, :string, default: "extra_small", doc: "Determines border style"
-  attr :rounded, :string, default: "small", doc: ""
+  attr :rounded, :string, default: "small", doc: "Determines the border radius"
   attr :space, :string, default: "medium", doc: "Space between items"
   attr :variation, :string, default: "vetrical", doc: ""
   attr :label_class, :string, default: nil, doc: ""

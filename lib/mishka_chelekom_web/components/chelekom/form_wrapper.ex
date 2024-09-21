@@ -7,8 +7,8 @@ defmodule MishkaChelekom.FormWrapper do
   attr :color, :string, default: nil, doc: "Determines color theme"
   attr :variant, :string, default: nil, doc: "Determines the style"
   attr :border, :string, default: nil, doc: "Determines border style"
-  attr :rounded, :string, default: nil, doc: ""
-  attr :padding, :string, default: nil, doc: ""
+  attr :rounded, :string, default: nil, doc: "Determines the border radius"
+  attr :padding, :string, default: nil, doc: "Determines padding for items"
   attr :space, :string, default: nil, doc: "Space between items"
   attr :size, :string, default: nil, doc: ""
 

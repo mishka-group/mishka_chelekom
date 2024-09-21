@@ -24,7 +24,7 @@ defmodule MishkaChelekom.Image do
   attr :sizes, :string, default: nil, doc: ""
   attr :ismap, :string, default: nil, doc: ""
   attr :decoding, :string, default: nil, doc: ""
-  attr :rounded, :string, default: nil, doc: ""
+  attr :rounded, :string, default: nil, doc: "Determines the border radius"
   attr :shadow, :string, default: nil, doc: ""
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :rest, :global, doc: ""

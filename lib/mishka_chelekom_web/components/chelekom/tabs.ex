@@ -31,9 +31,9 @@ defmodule MishkaChelekom.Tabs do
   attr :tab_border, :string, default: "small", doc: ""
   attr :size, :string, default: "small", doc: ""
   attr :gap, :string, default: nil, doc: ""
-  attr :rounded, :string, default: "none", doc: ""
+  attr :rounded, :string, default: "none", doc: "Determines the border radius"
   attr :font_weight, :string, default: "font-normal", doc: ""
-  attr :padding, :string, default: "extra_small", doc: ""
+  attr :padding, :string, default: "extra_small", doc: "Determines padding for items"
   attr :triggers_position, :string, default: "extra_small", doc: ""
   attr :vertical, :boolean, default: false, doc: ""
   attr :placement, :string, default: "start", doc: ""
@@ -45,7 +45,7 @@ defmodule MishkaChelekom.Tabs do
   slot :tab, required: true do
     attr :icon, :string
     attr :class, :string, doc: "Custom CSS class for additional styling"
-    attr :padding, :string
+    attr :padding, :string, doc: "Determines padding for items"
     attr :icon_class, :string
     attr :icon_position, :string, doc: "end, start"
     attr :active, :boolean, doc: ""

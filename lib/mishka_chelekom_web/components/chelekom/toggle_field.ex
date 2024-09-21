@@ -7,7 +7,7 @@ defmodule MishkaChelekom.ToggleField do
   attr :color, :string, default: "primary", doc: "Determines color theme"
   attr :description, :string, default: nil, doc: ""
   attr :border, :string, default: "extra_small", doc: "Determines border style"
-  attr :rounded, :string, default: "small", doc: ""
+  attr :rounded, :string, default: "small", doc: "Determines the border radius"
   attr :space, :string, default: "medium", doc: "Space between items"
   attr :labe_class, :string, default: nil, doc: ""
   attr :size, :string, default: "medium", doc: ""

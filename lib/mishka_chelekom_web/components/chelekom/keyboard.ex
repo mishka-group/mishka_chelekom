@@ -29,7 +29,7 @@ defmodule MishkaChelekom.Keyboard do
   attr :variant, :string, values: @variants, default: "default", doc: "Determines the style"
   attr :color, :string, values: @colors, default: "white", doc: "Determines color theme"
   attr :size, :string, default: "small", doc: ""
-  attr :rounded, :string, values: @sizes ++ ["full", "none"], default: "small", doc: ""
+  attr :rounded, :string, values: @sizes ++ ["full", "none"], default: "small", doc: "Determines the border radius"
   attr :font_weight, :string, default: "font-semibold", doc: ""
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :rest, :global, doc: ""

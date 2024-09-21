@@ -7,7 +7,7 @@ defmodule MishkaChelekom.ColorField do
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :color, :string, default: "white", doc: "Determines color theme"
   attr :border, :string, default: "extra_small", doc: "Determines border style"
-  attr :rounded, :string, default: "small", doc: ""
+  attr :rounded, :string, default: "small", doc: "Determines the border radius"
   attr :description, :string, default: nil, doc: ""
   attr :size, :string, default: "extra_large", doc: ""
   attr :circle, :boolean, default: false, doc: ""

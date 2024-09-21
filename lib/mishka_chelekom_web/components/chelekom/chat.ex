@@ -30,11 +30,11 @@ defmodule MishkaChelekom.Chat do
   attr :variant, :string, values: @variants, default: "default", doc: "Determines the style"
   attr :color, :string, values: @colors, default: "light", doc: ""
   attr :border, :string, default: "extra_small", doc: "Determines border style"
-  attr :rounded, :string, default: "extra_large", doc: ""
+  attr :rounded, :string, default: "extra_large", doc: "Determines the border radius"
   attr :size, :string, default: "medium", doc: ""
   attr :space, :string, default: "extra_small", doc: "Space between items"
   attr :position, :string, values: ["normal", "flipped"], default: "normal", doc: ""
-  attr :padding, :string, default: "small", doc: ""
+  attr :padding, :string, default: "small", doc: "Determines padding for items"
   attr :rest, :global, doc: ""
   slot :inner_block, required: false, doc: ""
 

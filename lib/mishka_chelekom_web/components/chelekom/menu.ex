@@ -8,7 +8,7 @@ defmodule MishkaChelekom.Menu do
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :menu_items, :list, default: [], doc: ""
   attr :space, :string, default: "small", doc: "Space between items"
-  attr :padding, :string, default: "small", doc: ""
+  attr :padding, :string, default: "small", doc: "Determines padding for items"
   slot :inner_block, doc: ""
   attr :rest, :global, doc: ""
 

@@ -13,7 +13,7 @@ defmodule MishkaChelekom.DateTimeField do
     doc: "date, datetime-local, time, week, month"
 
   attr :border, :string, default: "extra_small", doc: "Determines border style"
-  attr :rounded, :string, default: "small", doc: ""
+  attr :rounded, :string, default: "small", doc: "Determines the border radius"
   attr :variant, :string, default: "outline", doc: "Determines the style"
   attr :description, :string, default: nil, doc: ""
   attr :space, :string, default: "medium", doc: "Space between items"

@@ -33,7 +33,7 @@ defmodule MishkaChelekom.Avatar do
   attr :size, :string, default: "small", doc: ""
   attr :shadow, :string, values: @sizes ++ ["none"], default: "none", doc: ""
   attr :font_weight, :string, default: "font-normal", doc: ""
-  attr :rounded, :string, values: @sizes ++ ["full", "none"], default: "medium", doc: ""
+  attr :rounded, :string, values: @sizes ++ ["full", "none"], default: "medium", doc: "Determines the border radius"
   attr :border, :string, default: "none", doc: "Determines border style"
 
   slot :icon, required: false do

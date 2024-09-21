@@ -8,7 +8,7 @@ defmodule MishkaChelekom.Carousel do
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :overlay, :string, default: "dark", doc: ""
   attr :size, :string, default: "large", doc: ""
-  attr :padding, :string, default: "medium", doc: ""
+  attr :padding, :string, default: "medium", doc: "Determines padding for items"
   attr :text_position, :string, default: "center", doc: ""
   attr :rest, :global, doc: ""
   attr :indicator, :boolean, default: false

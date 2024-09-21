@@ -69,7 +69,7 @@ defmodule MishkaChelekom.Stepper do
     values: ["none", "current", "loading", "compeleted", "canceled"],
     default: "none"
 
-  attr :rounded, :string, default: "full"
+  attr :rounded, :string, default: "full", doc: "Determines the border radius"
   attr :icon, :string, default: nil, doc: ""
   attr :color, :string, default: "white"
   attr :title, :string, default: nil

@@ -32,7 +32,7 @@ defmodule MishkaChelekom.Toast do
   attr :variant, :string, values: @variants, default: "default", doc: "Determines the style"
   attr :color, :string, values: @colors, default: "white", doc: "Determines color theme"
   attr :border, :string, default: "extra_small", doc: "Determines border style"
-  attr :rounded, :string, default: "medium", doc: ""
+  attr :rounded, :string, default: "medium", doc: "Determines the border radius"
   attr :width, :string, default: "medium", doc: ""
   attr :space, :string, default: "extra_small", doc: "Space between items"
   attr :vertical, :string, values: ["top", "bottom"], default: "top", doc: ""
@@ -46,7 +46,7 @@ defmodule MishkaChelekom.Toast do
   attr :content_border, :string, default: "none", doc: ""
   attr :border_position, :string, default: "start", doc: ""
   attr :row_direction, :string, default: "none", doc: ""
-  attr :padding, :string, default: "extra_small", doc: ""
+  attr :padding, :string, default: "extra_small", doc: "Determines padding for items"
   slot :inner_block, required: false, doc: ""
 
   def toast(assigns) do

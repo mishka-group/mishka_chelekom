@@ -32,11 +32,11 @@ defmodule MishkaChelekom.Sidebar do
   attr :color, :string, values: @colors, default: "white", doc: "Determines color theme"
   attr :size, :string, default: "large", doc: ""
   attr :border, :string, default: "extra_small", doc: "Determines border style"
-  attr :rounded, :string, default: nil, doc: ""
+  attr :rounded, :string, default: nil, doc: "Determines the border radius"
   attr :position, :string, default: "start", doc: ""
   attr :hide_position, :string, default: nil, doc: ""
   attr :space, :string, default: nil, doc: "Space between items"
-  attr :padding, :string, default: "none", doc: ""
+  attr :padding, :string, default: "none", doc: "Determines padding for items"
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :on_hide, JS, default: %JS{}
   attr :on_show, JS, default: %JS{}

@@ -29,11 +29,11 @@ defmodule MishkaChelekom.Footer do
   attr :color, :string, values: @colors, default: "white", doc: "Determines color theme"
   attr :border, :string, default: "extra_small", doc: "Determines border style"
   attr :text_position, :string, default: nil, doc: ""
-  attr :rounded, :string, default: nil, doc: ""
+  attr :rounded, :string, default: nil, doc: "Determines the border radius"
   attr :max_width, :string, default: nil, doc: ""
   attr :space, :string, default: nil, doc: "Space between items"
   attr :font_weight, :string, default: "font-normal", doc: ""
-  attr :padding, :string, default: "none", doc: ""
+  attr :padding, :string, default: "none", doc: "Determines padding for items"
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :rest, :global, doc: ""
 
@@ -67,7 +67,7 @@ defmodule MishkaChelekom.Footer do
   attr :font_weight, :string, default: "font-normal", doc: ""
   attr :text_position, :string, default: nil, doc: ""
   attr :space, :string, default: nil, doc: "Space between items"
-  attr :padding, :string, default: "none", doc: ""
+  attr :padding, :string, default: "none", doc: "Determines padding for items"
   slot :inner_block, required: false, doc: ""
 
   def footer_section(assigns) do
