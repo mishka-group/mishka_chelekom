@@ -1,4 +1,35 @@
 defmodule MishkaChelekom.Chat do
+  @moduledoc """
+  `MishkaChelekom.Chat` is a Phoenix LiveView component module for creating customizable chat interfaces.
+
+  This module provides components to display chat messages with various styles, colors,
+  sizes, and configurations. The main component, `chat/1`, acts as a container for chat
+  messages, and `chat_section/1` is used to render individual chat messages with optional
+  metadata and status information.
+
+  ### Attributes
+  - `:id` - A unique identifier used to manage state and interaction.
+  - `:class` - Custom CSS class for additional styling.
+  - `:variant` - Determines the style of the chat element, such as "default", "outline", or "transparent".
+  - `:color` - Sets the color theme for the chat element.
+  - `:border` - Defines the border style for the chat bubble.
+  - `:rounded` - Specifies the border radius of the chat element.
+  - `:size` - Controls the overall size of the chat elements, including padding, font size, and other items.
+  - `:space` - Space between chat messages.
+  - `:position` - Sets the position of the chat element, with options like "normal" or "flipped".
+  - `:padding` - Padding around the chat message content.
+  - `:rest` - Global attributes that can define defaults and are merged with attributes provided by the caller.
+
+  ### Slots
+  - `:inner_block` - A slot for rendering custom content within the chat element.
+  - `:status` - A slot for displaying status information related to the chat message, such as the time it was sent or the delivery status.
+  - `:meta` - A slot for adding custom metadata or additional information related to the chat message.
+
+  ### Usage
+  ```elixir
+  ...example...
+  ```
+  """
   use Phoenix.Component
 
   @colors [
@@ -28,7 +59,7 @@ defmodule MishkaChelekom.Chat do
   attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :variant, :string, values: @variants, default: "default", doc: "Determines the style"
-  attr :color, :string, values: @colors, default: "light", doc: ""
+  attr :color, :string, values: @colors, default: "light", doc: "Determines color theme"
   attr :border, :string, default: "extra_small", doc: "Determines border style"
   attr :rounded, :string, default: "extra_large", doc: "Determines the border radius"
   attr :size, :string, default: "medium", doc: "Determines the overall size of the elements, including padding, font size, and other items"
@@ -66,12 +97,12 @@ defmodule MishkaChelekom.Chat do
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :rest, :global, doc: "Global attributes can define defaults which are merged with attributes provided by the caller"
 
-  slot :status, required: false do
-    attr :time, :string
-    attr :deliver, :string
+  slot :status, required: false, doc: "Defines a slot for displaying status information" do
+    attr :time, :string, doc: "Displays the time"
+    attr :deliver, :string, doc: "Indicates the delivery status"
   end
 
-  slot :meta, required: false
+  slot :meta, required: false, doc: "Defines a slot for adding custom metadata or additional information"
   slot :inner_block, required: false, doc: "Inner block that renders HEEx content"
 
   def chat_section(assigns) do
