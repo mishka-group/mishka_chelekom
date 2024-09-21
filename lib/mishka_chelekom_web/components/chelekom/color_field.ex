@@ -35,14 +35,14 @@ defmodule MishkaChelekom.ColorField do
   attr :size, :string, default: "extra_large", doc: "Determines the overall size of the elements, including padding, font size, and other items"
   attr :circle, :boolean, default: false, doc: "Determines if the color input should be displayed as a circle"
   attr :error_icon, :string, default: nil, doc: "Icon to be displayed alongside error messages"
-  attr :label, :string, default: nil, doc: "Text label for the label"
+  attr :label, :string, default: nil, doc: "Specifies text for the label"
 
-  slot :start_section, required: false do
+  slot :start_section, required: false, doc: "Renders heex content in start of an element" do
     attr :class, :string, doc: "Custom CSS class for additional styling"
     attr :icon, :string, doc: "Icon displayed alongside of an item"
   end
 
-  slot :end_section, required: false do
+  slot :end_section, required: false, doc: "Renders heex content in end of an element" do
     attr :class, :string, doc: "Custom CSS class for additional styling"
     attr :icon, :string, doc: "Icon displayed alongside of an item"
   end

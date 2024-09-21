@@ -62,7 +62,7 @@ defmodule MishkaChelekom.FieldsetField do
   end
 
   @doc type: :component
-  attr :for, :string, default: nil
+  attr :for, :string, default: nil, doc: "Specifies the form which is associated with"
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   slot :inner_block, required: true, doc: "Inner block that renders HEEx content"
 

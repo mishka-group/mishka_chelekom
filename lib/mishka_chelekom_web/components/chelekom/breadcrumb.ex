@@ -79,7 +79,7 @@ defmodule MishkaChelekom.Breadcrumb do
 
   slot :item, required: false, doc: "Specifies item slot of a breadcrumb" do
     attr :icon, :string, doc: "Icon displayed alongside of an item"
-    attr :link, :string, do: "Renders a navigation, patch link or normal link"
+    attr :link, :string, doc: "Renders a navigation, patch link or normal link"
     attr :separator, :string, doc: "Determines a separator for items of an element"
     attr :class, :string, doc: "Custom CSS class for additional styling"
   end

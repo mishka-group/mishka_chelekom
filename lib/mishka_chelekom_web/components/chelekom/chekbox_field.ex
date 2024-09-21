@@ -32,11 +32,11 @@ defmodule MishkaChelekom.CheckboxField do
   attr :space, :string, default: "medium", doc: "Space between items"
   attr :label_class, :string, default: nil, doc: "Custom CSS class for the label styling"
   attr :size, :string, default: "extra_large", doc: "Determines the overall size of the elements, including padding, font size, and other items"
-  attr :ring, :boolean, default: true, doc: "Enables or disables focus ring effect around the element"
+  attr :ring, :boolean, default: true, doc: "Determines a ring border on focused input, utilities for creating outline rings with box-shadows."
   attr :reverse, :boolean, default: false, doc: "Switches the order of the element and label"
   attr :checked, :boolean, default: false, doc: "Specifies if the element is checked by default"
   attr :error_icon, :string, default: nil, doc: "Icon to be displayed alongside error messages"
-  attr :label, :string, default: nil, doc: "Text label for the label"
+  attr :label, :string, default: nil, doc: "Specifies text for the label"
 
   attr :errors, :list, default: [], doc: "List of error messages to be displayed"
   attr :name, :any, doc: "Name of input"
@@ -103,7 +103,7 @@ defmodule MishkaChelekom.CheckboxField do
   attr :variation, :string, default: "vetrical", doc: "Defines the layout orientation of the component"
   attr :size, :string, default: "extra_large", doc: "Determines the overall size of the elements, including padding, font size, and other items"
   attr :label_class, :string, default: nil, doc: ""
-  attr :ring, :boolean, default: true, doc: ""
+  attr :ring, :boolean, default: true, doc: "Determines a ring border on focused input, utilities for creating outline rings with box-shadows."
   attr :reverse, :boolean, default: false, doc: "Switches the order of the element and label"
   attr :error_icon, :string, default: nil, doc: "Icon to be displayed alongside error messages"
   attr :errors, :list, default: [], doc: "List of error messages to be displayed"
@@ -167,7 +167,7 @@ defmodule MishkaChelekom.CheckboxField do
 
   @doc type: :component
   attr :class, :any, default: nil, doc: "Custom CSS class for additional styling"
-  attr :for, :string, default: nil
+  attr :for, :string, default: nil, doc: "Specifies the form which is associated with"
   slot :inner_block, required: true, doc: "Inner block that renders HEEx content"
   attr :rest, :global, doc: "Global attributes can define defaults which are merged with attributes provided by the caller"
 

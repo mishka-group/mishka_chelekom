@@ -12,17 +12,17 @@ defmodule MishkaChelekom.UrlField do
   attr :description, :string, default: nil, doc: "Determines a short description"
   attr :space, :string, default: "medium", doc: "Space between items"
   attr :size, :string, default: "extra_large", doc: "Determines the overall size of the elements, including padding, font size, and other items"
-  attr :ring, :boolean, default: true, doc: ""
+  attr :ring, :boolean, default: true, doc: "Determines a ring border on focused input, utilities for creating outline rings with box-shadows."
   attr :floating, :string, default: "none", doc: "none, inner, outer"
   attr :error_icon, :string, default: nil, doc: "Icon to be displayed alongside error messages"
-  attr :label, :string, default: nil, doc: "Text label for the label"
+  attr :label, :string, default: nil, doc: "Specifies text for the label"
 
-  slot :start_section, required: false do
+  slot :start_section, required: false, doc: "Renders heex content in start of an element" do
     attr :class, :string, doc: "Custom CSS class for additional styling"
     attr :icon, :string, doc: "Icon displayed alongside of an item"
   end
 
-  slot :end_section, required: false do
+  slot :end_section, required: false, doc: "Renders heex content in end of an element" do
     attr :class, :string, doc: "Custom CSS class for additional styling"
     attr :icon, :string, doc: "Icon displayed alongside of an item"
   end
@@ -173,7 +173,7 @@ defmodule MishkaChelekom.UrlField do
   end
 
   @doc type: :component
-  attr :for, :string, default: nil
+  attr :for, :string, default: nil, doc: "Specifies the form which is associated with"
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   slot :inner_block, required: true, doc: "Inner block that renders HEEx content"
 

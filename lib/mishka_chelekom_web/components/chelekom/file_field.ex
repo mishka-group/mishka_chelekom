@@ -13,7 +13,7 @@ defmodule MishkaChelekom.FileField do
   attr :live, :boolean, default: false, doc: ""
   attr :space, :string, default: "medium", doc: "Space between items"
   attr :size, :string, default: "extra_small", doc: "Determines the overall size of the elements, including padding, font size, and other items"
-  attr :label, :string, default: nil, doc: "Text label for the label"
+  attr :label, :string, default: nil, doc: "Specifies text for the label"
   attr :dashed, :boolean, default: true, doc: ""
   attr :error_icon, :string, default: nil, doc: "Icon to be displayed alongside error messages"
   attr :errors, :list, default: [], doc: "List of error messages to be displayed"
@@ -223,7 +223,7 @@ defmodule MishkaChelekom.FileField do
   end
 
   @doc type: :component
-  attr :for, :string, default: nil
+  attr :for, :string, default: nil, doc: "Specifies the form which is associated with"
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   slot :inner_block, required: true, doc: "Inner block that renders HEEx content"
 

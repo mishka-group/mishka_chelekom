@@ -397,7 +397,7 @@ defmodule MishkaChelekomWeb.CoreComponents do
   @doc """
   Renders a label.
   """
-  attr :for, :string, default: nil
+  attr :for, :string, default: nil, doc: "Specifies the form which is associated with"
   slot :inner_block, required: true, doc: "Inner block that renders HEEx content"
 
   def label(assigns) do

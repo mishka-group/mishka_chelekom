@@ -1,4 +1,24 @@
 defmodule MishkaChelekom.DateTimeField do
+  @moduledoc """
+  The `MishkaChelekom.DateTimeField` module provides a reusable component for rendering
+  various types of date and time inputs in Phoenix applications.
+
+  It includes options for customization, validation, and styling, supporting different
+  use cases in forms and interactive interfaces.
+
+  ## Features:
+  - Supports multiple input types: `date`, `datetime-local`, `time`, `week`, and `month`.
+  - Configurable appearance with various styles, border options, and rounded corners.
+  - Flexible error handling with the ability to display custom error messages and icons.
+  - Optional floating label support, allowing labels to animate based on user interaction.
+  - Integration with Phoenix form fields for seamless form data management.
+
+  ## Usage:
+  This component can be used within a Phoenix form or as a standalone input element.
+  It offers a high degree of customization for layout, styling, and behavior, making it
+  suitable for diverse UI requirements in web applications.
+  """
+
   use Phoenix.Component
   import MishkaChelekomComponents
 
@@ -10,7 +30,7 @@ defmodule MishkaChelekom.DateTimeField do
   attr :type, :string,
     values: ["date", "datetime-local", "time", "week", "month"],
     default: "date",
-    doc: "date, datetime-local, time, week, month"
+    doc: "Determines type of input"
 
   attr :border, :string, default: "extra_small", doc: "Determines border style"
   attr :rounded, :string, default: "small", doc: "Determines the border radius"
@@ -18,17 +38,17 @@ defmodule MishkaChelekom.DateTimeField do
   attr :description, :string, default: nil, doc: "Determines a short description"
   attr :space, :string, default: "medium", doc: "Space between items"
   attr :size, :string, default: "extra_large", doc: "Determines the overall size of the elements, including padding, font size, and other items"
-  attr :ring, :boolean, default: true, doc: ""
+  attr :ring, :boolean, default: true, doc: "Determines a ring border on focused input, utilities for creating outline rings with box-shadows."
   attr :floating, :string, default: "none", doc: "none, inner, outer"
   attr :error_icon, :string, default: nil, doc: "Icon to be displayed alongside error messages"
-  attr :label, :string, default: "Text label for the label"
+  attr :label, :string, default: "Specifies text for the label"
 
-  slot :start_section, required: false do
+  slot :start_section, required: false, doc: "Renders heex content in start of an element" do
     attr :class, :string, doc: "Custom CSS class for additional styling"
     attr :icon, :string, doc: "Icon displayed alongside of an item"
   end
 
-  slot :end_section, required: false do
+  slot :end_section, required: false, doc: "Renders heex content in end of an element" do
     attr :class, :string, doc: "Custom CSS class for additional styling"
     attr :icon, :string, doc: "Icon displayed alongside of an item"
   end
@@ -176,7 +196,7 @@ defmodule MishkaChelekom.DateTimeField do
   end
 
   @doc type: :component
-  attr :for, :string, default: nil
+  attr :for, :string, default: nil, doc: "Specifies the form which is associated with"
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   slot :inner_block, required: true, doc: "Inner block that renders HEEx content"
 
