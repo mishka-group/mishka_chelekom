@@ -1,4 +1,27 @@
 defmodule MishkaChelekom.ColorField do
+  @moduledoc """
+  The `MishkaChelekom.ColorField` module provides a reusable and customizable color
+  input component for Phoenix applications. This component supports various styling options,
+  error handling, and additional customization through attributes and slots.
+
+  ## Features:
+  - Customizable color themes, border styles, and rounded corners.
+  - Optional sections for displaying icons or additional elements before and after the input field.
+  - Flexible error handling with support for custom error icons and messages.
+  - Configurable size and layout options for various use cases.
+  - Support for Phoenix form field integration.
+
+  ## Usage:
+  This component can be used as a standalone color input or integrated into a Phoenix form.
+  It allows for high customization of styles and behavior, making it suitable for a wide range
+  of UI requirements.
+
+  ### Example:
+
+  ```elixir
+  ```
+  """
+
   use Phoenix.Component
   import MishkaChelekomComponents
 
@@ -10,9 +33,9 @@ defmodule MishkaChelekom.ColorField do
   attr :rounded, :string, default: "small", doc: "Determines the border radius"
   attr :description, :string, default: nil, doc: "Determines a short description"
   attr :size, :string, default: "extra_large", doc: "Determines the overall size of the elements, including padding, font size, and other items"
-  attr :circle, :boolean, default: false, doc: ""
-  attr :error_icon, :string, default: nil, doc: ""
-  attr :label, :string, default: nil
+  attr :circle, :boolean, default: false, doc: "Determines if the color input should be displayed as a circle"
+  attr :error_icon, :string, default: nil, doc: "Icon to be displayed alongside error messages"
+  attr :label, :string, default: nil, doc: "Text label for the label"
 
   slot :start_section, required: false do
     attr :class, :string, doc: "Custom CSS class for additional styling"
@@ -80,7 +103,7 @@ defmodule MishkaChelekom.ColorField do
   end
 
   @doc type: :component
-  attr :for, :string, default: nil
+  attr :for, :string, default: nil, doc: "Specifies the form which is associated with"
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   slot :inner_block, required: true, doc: "Inner block that renders HEEx content"
 

@@ -14,8 +14,8 @@ defmodule MishkaChelekom.UrlField do
   attr :size, :string, default: "extra_large", doc: "Determines the overall size of the elements, including padding, font size, and other items"
   attr :ring, :boolean, default: true, doc: ""
   attr :floating, :string, default: "none", doc: "none, inner, outer"
-  attr :error_icon, :string, default: nil, doc: ""
-  attr :label, :string, default: nil
+  attr :error_icon, :string, default: nil, doc: "Icon to be displayed alongside error messages"
+  attr :label, :string, default: nil, doc: "Text label for the label"
 
   slot :start_section, required: false do
     attr :class, :string, doc: "Custom CSS class for additional styling"

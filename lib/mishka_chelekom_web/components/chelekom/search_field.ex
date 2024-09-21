@@ -15,8 +15,8 @@ defmodule MishkaChelekom.SearchField do
   attr :ring, :boolean, default: true, doc: ""
   attr :search_button, :boolean, default: false, doc: ""
   attr :floating, :string, default: "none", doc: "none, inner, outer"
-  attr :error_icon, :string, default: nil, doc: ""
-  attr :label, :string, default: nil
+  attr :error_icon, :string, default: nil, doc: "Icon to be displayed alongside error messages"
+  attr :label, :string, default: nil, doc: "Text label for the label"
 
   slot :start_section, required: false do
     attr :class, :string, doc: "Custom CSS class for additional styling"

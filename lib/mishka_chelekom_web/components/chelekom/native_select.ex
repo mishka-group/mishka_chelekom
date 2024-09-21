@@ -14,8 +14,8 @@ defmodule MishkaChelekom.NativeSelect do
   attr :min_height, :string, default: nil, doc: ""
   attr :size, :string, default: "extra_large", doc: "Determines the overall size of the elements, including padding, font size, and other items"
   attr :ring, :boolean, default: true, doc: ""
-  attr :error_icon, :string, default: nil, doc: ""
-  attr :label, :string, default: nil
+  attr :error_icon, :string, default: nil, doc: "Icon to be displayed alongside error messages"
+  attr :label, :string, default: nil, doc: "Text label for the label"
   attr :multiple, :boolean, default: false
 
   attr :errors, :list, default: [], doc: "List of error messages to be displayed"

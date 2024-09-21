@@ -12,7 +12,7 @@ defmodule MishkaChelekom.FieldsetField do
   attr :variant, :string, default: "outline", doc: "Determines the style"
   attr :space, :string, default: "medium", doc: "Space between items"
   attr :size, :string, default: "extra_large", doc: "Determines the overall size of the elements, including padding, font size, and other items"
-  attr :error_icon, :string, default: nil, doc: ""
+  attr :error_icon, :string, default: nil, doc: "Icon to be displayed alongside error messages"
   attr :legend, :string, default: nil
 
   attr :errors, :list, default: [], doc: "List of error messages to be displayed"

@@ -14,9 +14,9 @@ defmodule MishkaChelekom.ToggleField do
   attr :size, :string, default: "medium", doc: "Determines the overall size of the elements, including padding, font size, and other items"
   attr :checked, :boolean, default: false, doc: ""
   attr :ring, :boolean, default: true, doc: ""
-  attr :reverse, :boolean, default: false, doc: ""
-  attr :error_icon, :string, default: nil, doc: ""
-  attr :label, :string, default: nil
+  attr :reverse, :boolean, default: false, doc: "Switches the order of the element and label"
+  attr :error_icon, :string, default: nil, doc: "Icon to be displayed alongside error messages"
+  attr :label, :string, default: nil, doc: "Text label for the label"
 
   attr :errors, :list, default: [], doc: "List of error messages to be displayed"
   attr :name, :any, doc: "Name of input"

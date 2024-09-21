@@ -13,11 +13,11 @@ defmodule MishkaChelekom.FileField do
   attr :live, :boolean, default: false, doc: ""
   attr :space, :string, default: "medium", doc: "Space between items"
   attr :size, :string, default: "extra_small", doc: "Determines the overall size of the elements, including padding, font size, and other items"
-  attr :label, :string, default: nil
+  attr :label, :string, default: nil, doc: "Text label for the label"
   attr :dashed, :boolean, default: true, doc: ""
-  attr :error_icon, :string, default: nil, doc: ""
+  attr :error_icon, :string, default: nil, doc: "Icon to be displayed alongside error messages"
   attr :errors, :list, default: [], doc: "List of error messages to be displayed"
-  attr :upload, :any, doc: ""
+  attr :upload, :any, doc: "LiveView upload map"
   attr :name, :any, doc: "Name of input"
   attr :value, :any
 
