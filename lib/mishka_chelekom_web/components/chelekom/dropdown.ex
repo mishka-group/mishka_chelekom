@@ -1,4 +1,13 @@
 defmodule MishkaChelekom.Dropdown do
+  @moduledoc """
+  The `MishkaChelekom.Dropdown` module provides a customizable dropdown component
+  built using Phoenix LiveView. It allows you to create dropdown menus with different styles,
+  positions, and behaviors, supporting various customization options through attributes and slots.
+
+  This module facilitates creating and managing dropdown components in a
+  Phoenix LiveView application with flexible customization options.
+  """
+
   use Phoenix.Component
   alias Phoenix.LiveView.JS
 
@@ -26,9 +35,9 @@ defmodule MishkaChelekom.Dropdown do
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :width, :string, default: "w-fit", doc: "Determines the element width"
   attr :position, :string, default: "bottom", doc: "Determines the element position"
-  attr :relative, :string, default: nil, doc: ""
-  attr :clickable, :boolean, default: false, doc: ""
-  attr :nomobile, :boolean, default: false, doc: ""
+  attr :relative, :string, default: nil, doc: "Custom relative position for the dropdown"
+  attr :clickable, :boolean, default: false, doc: "Determines if the element can be activated on click"
+  attr :nomobile, :boolean, default: false, doc: "Controls whether the dropdown is disabled on mobile devices"
   attr :rest, :global, doc: "Global attributes can define defaults which are merged with attributes provided by the caller"
   slot :inner_block, required: false, doc: "Inner block that renders HEEx content"
 
@@ -56,7 +65,7 @@ defmodule MishkaChelekom.Dropdown do
 
   @doc type: :component
   attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
-  attr :trigger_id, :string, default: nil, doc: ""
+  attr :trigger_id, :string, default: nil, doc: "Identifies what is the triggered element id"
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   slot :inner_block, required: false, doc: "Inner block that renders HEEx content"
   attr :rest, :global, doc: "Global attributes can define defaults which are merged with attributes provided by the caller"

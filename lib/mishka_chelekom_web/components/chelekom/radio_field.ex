@@ -5,7 +5,7 @@ defmodule MishkaChelekom.RadioField do
   @doc type: :component
   attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
-  attr :label_class, :string, default: nil, doc: ""
+  attr :label_class, :string, default: nil, doc: "Custom CSS class for the label styling"
   attr :color, :string, default: "primary", doc: "Determines color theme"
   attr :border, :string, default: "extra_small", doc: "Determines border style"
   attr :space, :string, default: "medium", doc: "Space between items"
@@ -76,7 +76,7 @@ defmodule MishkaChelekom.RadioField do
   attr :rounded, :string, default: "small", doc: "Determines the border radius"
   attr :space, :string, default: "medium", doc: "Space between items"
   attr :variation, :string, default: "vetrical", doc: "Defines the layout orientation of the component"
-  attr :label_class, :string, default: nil, doc: ""
+  attr :label_class, :string, default: nil, doc: "Custom CSS class for the label styling"
   attr :size, :string, default: "extra_large", doc: "Determines the overall size of the elements, including padding, font size, and other items"
   attr :ring, :boolean, default: true, doc: "Determines a ring border on focused input, utilities for creating outline rings with box-shadows."
   attr :reverse, :boolean, default: false, doc: "Switches the order of the element and label"

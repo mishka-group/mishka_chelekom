@@ -102,7 +102,7 @@ defmodule MishkaChelekom.CheckboxField do
   attr :space, :string, default: "medium", doc: "Space between items"
   attr :variation, :string, default: "vetrical", doc: "Defines the layout orientation of the component"
   attr :size, :string, default: "extra_large", doc: "Determines the overall size of the elements, including padding, font size, and other items"
-  attr :label_class, :string, default: nil, doc: ""
+  attr :label_class, :string, default: nil, doc: "Custom CSS class for the label styling"
   attr :ring, :boolean, default: true, doc: "Determines a ring border on focused input, utilities for creating outline rings with box-shadows."
   attr :reverse, :boolean, default: false, doc: "Switches the order of the element and label"
   attr :error_icon, :string, default: nil, doc: "Icon to be displayed alongside error messages"

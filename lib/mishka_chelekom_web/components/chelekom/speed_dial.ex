@@ -18,7 +18,7 @@ defmodule MishkaChelekom.SpeedDial do
   attr :width, :string, default: "fit", doc: "Determines the element width"
   attr :border, :string, default: "extra_small", doc: "Determines border style"
   attr :padding, :string, default: "extra_small", doc: "Determines padding for items"
-  attr :clickable, :boolean, default: false, doc: ""
+  attr :clickable, :boolean, default: false, doc: "Determines if the element can be activated on click"
   attr :icon, :string, default: nil, doc: "Icon displayed alongside of an item"
   attr :icon_animated, :boolean, default: false, doc: ""
   attr :rest, :global, doc: "Global attributes can define defaults which are merged with attributes provided by the caller"

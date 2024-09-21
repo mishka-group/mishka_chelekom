@@ -77,8 +77,8 @@ defmodule MishkaChelekom.Stepper do
   attr :description, :string, default: nil, doc: "Determines a short description"
   attr :step_number, :integer, default: 1
   attr :vertical, :boolean, default: false, doc: ""
-  attr :clickable, :boolean, default: true, doc: ""
-  attr :reverse, :boolean, default: false, doc: ""
+  attr :clickable, :boolean, default: true, doc: "Determines if the element can be activated on click"
+  attr :reverse, :boolean, default: false, doc: "Switches the order of the element and label"
   attr :border, :string, default: "none", doc: "Determines border style"
 
   slot :inner_block, required: false, doc: "Inner block that renders HEEx content"

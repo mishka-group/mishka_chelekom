@@ -56,7 +56,7 @@ defmodule MishkaChelekom.Popover do
   attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :inline, :boolean, default: false, doc: ""
-  attr :clickable, :boolean, default: false, doc: ""
+  attr :clickable, :boolean, default: false, doc: "Determines if the element can be activated on click"
   attr :rest, :global, doc: "Global attributes can define defaults which are merged with attributes provided by the caller"
   slot :inner_block, required: false, doc: "Inner block that renders HEEx content"
 
@@ -98,7 +98,7 @@ defmodule MishkaChelekom.Popover do
 
   @doc type: :component
   attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
-  attr :trigger_id, :string, default: nil, doc: ""
+  attr :trigger_id, :string, default: nil, doc: "Identifies what is the triggered element id"
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :inline, :boolean, default: false, doc: ""
   slot :inner_block, required: false, doc: "Inner block that renders HEEx content"

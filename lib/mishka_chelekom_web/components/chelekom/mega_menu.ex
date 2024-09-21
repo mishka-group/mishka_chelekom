@@ -24,7 +24,7 @@ defmodule MishkaChelekom.MegaMenu do
 
   @doc type: :component
   attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
-  attr :clickable, :boolean, default: false, doc: ""
+  attr :clickable, :boolean, default: false, doc: "Determines if the element can be activated on click"
   attr :variant, :string, values: @variants, default: "shadow", doc: "Determines the style"
   attr :color, :string, values: @colors, default: "white", doc: "Determines color theme"
   attr :rounded, :string, default: nil, doc: "Determines the border radius"
