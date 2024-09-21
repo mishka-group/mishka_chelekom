@@ -33,7 +33,7 @@ defmodule MishkaChelekom.Chat do
   attr :rounded, :string, default: "extra_large", doc: "Determines the border radius"
   attr :size, :string, default: "medium", doc: "Determines the overall size of the elements, including padding, font size, and other items"
   attr :space, :string, default: "extra_small", doc: "Space between items"
-  attr :position, :string, values: ["normal", "flipped"], default: "normal", doc: ""
+  attr :position, :string, values: ["normal", "flipped"], default: "normal", doc: "Determines the element position"
   attr :padding, :string, default: "small", doc: "Determines padding for items"
   attr :rest, :global, doc: "Global attributes can define defaults which are merged with attributes provided by the caller"
   slot :inner_block, required: false, doc: "Inner block that renders HEEx content"

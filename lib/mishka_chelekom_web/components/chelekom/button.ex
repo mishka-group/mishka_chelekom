@@ -285,9 +285,9 @@ defmodule MishkaChelekom.Button do
   end
 
   @doc type: :component
-  attr :position, :string, default: "none"
+  attr :position, :string, default: "none", doc: "Determines the element position"
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
-  attr :size, :string
+  attr :size, :string, doc: "Determines the overall size of the elements, including padding, font size, and other items"
   attr :rest, :global, doc: "Global attributes can define defaults which are merged with attributes provided by the caller"
 
   defp button_indicator(%{position: "left", rest: %{left_indicator: true}} = assigns) do

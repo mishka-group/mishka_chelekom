@@ -54,7 +54,7 @@ defmodule MishkaChelekom.Banner do
   attr :space, :string, values: @sizes ++ ["none"], default: "extra_small", doc: "Space between items"
   attr :vertical_position, :string, values: ["top", "bottom"], default: "top", doc: ""
   attr :vertical_size, :string, default: "none", doc: ""
-  attr :position, :string, values: @positions, default: "full", doc: ""
+  attr :position, :string, values: @positions, default: "full", doc: "Determines the element position"
   attr :position_size, :string, values: @sizes ++ ["none"], default: "none", doc: ""
   attr :font_weight, :string, default: "font-normal", doc: "Determines custom class for the font weight"
   attr :padding, :string, values: @sizes ++ ["none"], default: "extra_small", doc: "Determines padding for items"

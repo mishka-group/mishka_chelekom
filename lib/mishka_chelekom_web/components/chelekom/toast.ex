@@ -34,7 +34,7 @@ defmodule MishkaChelekom.Toast do
   attr :color, :string, values: @colors, default: "white", doc: "Determines color theme"
   attr :border, :string, default: "extra_small", doc: "Determines border style"
   attr :rounded, :string, default: "medium", doc: "Determines the border radius"
-  attr :width, :string, default: "medium", doc: ""
+  attr :width, :string, default: "medium", doc: "Determines the element width"
   attr :space, :string, default: "extra_small", doc: "Space between items"
   attr :vertical, :string, values: ["top", "bottom"], default: "top", doc: ""
   attr :vertical_space, :string, default: "extra_small", doc: ""

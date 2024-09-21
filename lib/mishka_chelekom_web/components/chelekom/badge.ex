@@ -109,7 +109,7 @@ defmodule MishkaChelekom.Badge do
   end
 
   @doc type: :component
-  attr :position, :string, default: "none"
+  attr :position, :string, default: "none", doc: "Determines the element position"
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :size, :string
   attr :rest, :global, doc: "Global attributes can define defaults which are merged with attributes provided by the caller"

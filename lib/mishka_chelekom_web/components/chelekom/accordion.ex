@@ -222,7 +222,7 @@ defmodule MishkaChelekom.Accordion do
   attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :item, :map
-  attr :position, :string, values: ["left", "right"]
+  attr :position, :string, values: ["left", "right"], doc: "Determines the element position"
   attr :chevron_icon, :string, doc: "Determines the icon for the chevron"
   attr :hide_chevron, :boolean, default: false
   attr :rest, :global, doc: "Global attributes can define defaults which are merged with attributes provided by the caller"

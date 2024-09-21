@@ -22,14 +22,14 @@ defmodule MishkaChelekom.Tooltip do
 
   @doc type: :component
   attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
-  attr :position, :string, default: "top", doc: ""
+  attr :position, :string, default: "top", doc: "Determines the element position"
   attr :variant, :string, values: @variants, default: "shadow", doc: "Determines the style"
   attr :color, :string, values: @colors, default: "dark", doc: "Determines color theme"
   attr :rounded, :string, default: nil, doc: "Determines the border radius"
   attr :size, :string, default: nil, doc: "Determines the overall size of the elements, including padding, font size, and other items"
   attr :space, :string, default: nil, doc: "Space between items"
   attr :font_weight, :string, default: "font-normal", doc: "Determines custom class for the font weight"
-  attr :width, :string, default: "fit", doc: ""
+  attr :width, :string, default: "fit", doc: "Determines the element width"
   attr :padding, :string, default: "small", doc: "Determines padding for items"
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :text_position, :string, default: "center", doc: ""

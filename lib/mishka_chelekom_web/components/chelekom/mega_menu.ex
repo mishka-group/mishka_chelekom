@@ -30,7 +30,7 @@ defmodule MishkaChelekom.MegaMenu do
   attr :rounded, :string, default: nil, doc: "Determines the border radius"
   attr :size, :string, default: nil, doc: "Determines the overall size of the elements, including padding, font size, and other items"
   attr :space, :string, default: nil, doc: "Space between items"
-  attr :width, :string, default: "full", doc: ""
+  attr :width, :string, default: "full", doc: "Determines the element width"
   attr :font_weight, :string, default: "font-normal", doc: "Determines custom class for the font weight"
   attr :padding, :string, default: "none", doc: "Determines padding for items"
   attr :icon, :string, default: nil, doc: "Icon displayed alongside of an item"

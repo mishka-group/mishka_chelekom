@@ -81,7 +81,7 @@ defmodule MishkaChelekom.Card do
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :title, :string, default: nil, doc: "Specifies the title of the element"
   attr :icon, :string, default: nil, doc: "Icon displayed alongside of an item"
-  attr :position, :string, values: @positions, default: "start", doc: ""
+  attr :position, :string, values: @positions, default: "start", doc: "Determines the element position"
   attr :font_weight, :string, default: "font-semibold", doc: "Determines custom class for the font weight"
   attr :size, :string, values: @sizes, default: "large", doc: "Determines the overall size of the elements, including padding, font size, and other items"
   attr :padding, :string, default: "none", doc: "Determines padding for items"

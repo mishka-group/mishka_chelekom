@@ -42,7 +42,7 @@ defmodule MishkaChelekom.Blockquote do
   slot :caption, required: false do
     attr :image, :string, doc: "Image displayed alongside of an item"
     attr :image_class, :string, doc: "Determines custom class for the image"
-    attr :position, :string, values: ["right", "left", "center"]
+    attr :position, :string, values: ["right", "left", "center"], doc: "Determines the element position"
   end
 
   slot :content, required: false

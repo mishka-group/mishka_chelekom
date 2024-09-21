@@ -22,16 +22,16 @@ defmodule MishkaChelekom.Divider do
   attr :type, :string, values: ["dashed", "dotted", "solid"], default: "solid", doc: ""
   attr :color, :string, values: @colors, default: "silver", doc: ""
   attr :size, :string, default: "extra_small", doc: "Determines the overall size of the elements, including padding, font size, and other items"
-  attr :width, :string, default: "full", doc: ""
-  attr :height, :string, default: "auto", doc: ""
-  attr :margin, :string, default: "none", doc: ""
+  attr :width, :string, default: "full", doc: "Determines the element width"
+  attr :height, :string, default: "auto", doc: "Determines the element width"
+  attr :margin, :string, default: "none", doc: "Determines the element margin"
   attr :variation, :string, values: ["horizontal", "vertical"], default: "horizontal", doc: ""
 
   slot :text, required: false do
     attr :class, :string, doc: "Custom CSS class for additional styling"
     attr :color, :string, doc: "Determines color theme"
-    attr :size, :string
-    attr :position, :string
+    attr :size, :string, doc: "Determines the overall size of the elements, including padding, font size, and other items"
+    attr :position, :string, doc: "Determines the element position"
   end
 
   slot :icon, required: false do
@@ -39,8 +39,8 @@ defmodule MishkaChelekom.Divider do
     attr :class, :string, doc: "Custom CSS class for additional styling"
     attr :icon_class, :string, doc: "Determines custom class for the icon"
     attr :color, :string, doc: "Determines color theme"
-    attr :size, :string
-    attr :position, :string
+    attr :size, :string, doc: "Determines the overall size of the elements, including padding, font size, and other items"
+    attr :position, :string, doc: "Determines the element position"
   end
 
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
@@ -136,14 +136,14 @@ defmodule MishkaChelekom.Divider do
   attr :type, :string, values: ["dashed", "dotted", "solid"], default: "solid", doc: ""
   attr :color, :string, values: @colors, default: "silver", doc: ""
   attr :size, :string, default: "extra_small", doc: "Determines the overall size of the elements, including padding, font size, and other items"
-  attr :width, :string, default: "full", doc: ""
-  attr :margin, :string, default: "none", doc: ""
+  attr :width, :string, default: "full", doc: "Determines the element width"
+  attr :margin, :string, default: "none", doc: "Determines the element margin"
 
   slot :text, required: false do
     attr :class, :string, doc: "Custom CSS class for additional styling"
     attr :color, :string, doc: "Determines color theme"
-    attr :size, :string
-    attr :position, :string
+    attr :size, :string, doc: "Determines the overall size of the elements, including padding, font size, and other items"
+    attr :position, :string, doc: "Determines the element position"
   end
 
   slot :icon, required: false do

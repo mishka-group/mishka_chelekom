@@ -33,7 +33,7 @@ defmodule MishkaChelekom.Sidebar do
   attr :size, :string, default: "large", doc: "Determines the overall size of the elements, including padding, font size, and other items"
   attr :border, :string, default: "extra_small", doc: "Determines border style"
   attr :rounded, :string, default: nil, doc: "Determines the border radius"
-  attr :position, :string, default: "start", doc: ""
+  attr :position, :string, default: "start", doc: "Determines the element position"
   attr :hide_position, :string, default: nil, doc: ""
   attr :space, :string, default: nil, doc: "Space between items"
   attr :padding, :string, default: "none", doc: "Determines padding for items"

@@ -15,7 +15,7 @@ defmodule MishkaChelekom.SpeedDial do
   attr :color, :string, default: "primary", doc: "Determines color theme"
   attr :variant, :string, default: "default", doc: "Determines the style"
   attr :space, :string, default: "extra_small", doc: "Space between items"
-  attr :width, :string, default: "fit", doc: ""
+  attr :width, :string, default: "fit", doc: "Determines the element width"
   attr :border, :string, default: "extra_small", doc: "Determines border style"
   attr :padding, :string, default: "extra_small", doc: "Determines padding for items"
   attr :clickable, :boolean, default: false, doc: ""

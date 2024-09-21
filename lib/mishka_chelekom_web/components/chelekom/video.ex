@@ -25,9 +25,9 @@ defmodule MishkaChelekom.Video do
   @doc type: :component
   attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
   attr :thumbnail, :string, default: nil, doc: ""
-  attr :width, :string, default: "full", doc: ""
+  attr :width, :string, default: "full", doc: "Determines the element width"
   attr :rounded, :string, default: "none", doc: "Determines the border radius"
-  attr :height, :string, default: "auto", doc: ""
+  attr :height, :string, default: "auto", doc: "Determines the element width"
   attr :caption_size, :string, default: "extra_small", doc: ""
   attr :caption_bakcground, :string, default: "dark", doc: ""
   attr :caption_opacity, :string, default: "solid", doc: ""

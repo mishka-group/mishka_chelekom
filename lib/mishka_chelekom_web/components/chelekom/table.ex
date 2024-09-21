@@ -24,14 +24,14 @@ defmodule MishkaChelekom.Table do
 
   slot :header do
     attr :class, :any, doc: "Custom CSS class for additional styling"
-    attr :icon, :any
-    attr :icon_class, :any
+    attr :icon, :any, doc: "Icon displayed alongside of an item"
+    attr :icon_class, :any, doc: "Determines custom class for the icon"
   end
 
   slot :footer do
     attr :class, :any, doc: "Custom CSS class for additional styling"
-    attr :icon, :any
-    attr :icon_class, :any
+    attr :icon, :any, doc: "Icon displayed alongside of an item"
+    attr :icon_class, :any, doc: "Determines custom class for the icon"
   end
 
   def table(assigns) do

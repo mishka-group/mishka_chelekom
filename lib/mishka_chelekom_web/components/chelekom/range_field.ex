@@ -11,7 +11,7 @@ defmodule MishkaChelekom.RangeField do
   attr :space, :string, default: "medium", doc: "Space between items"
   attr :size, :string, default: "extra_small", doc: "Determines the overall size of the elements, including padding, font size, and other items"
   attr :appearance, :string, default: "default", doc: "custom"
-  attr :width, :string, default: "full", doc: ""
+  attr :width, :string, default: "full", doc: "Determines the element width"
   attr :ring, :boolean, default: true, doc: ""
   attr :reverse, :boolean, default: false, doc: ""
   attr :checked, :boolean, default: false, doc: ""
@@ -31,7 +31,7 @@ defmodule MishkaChelekom.RangeField do
 
   slot :range_value, required: false do
     attr :class, :string, doc: "Custom CSS class for additional styling"
-    attr :position, :any, required: false
+    attr :position, :any, required: false, doc: "Determines the element position"
   end
 
   @spec range_field(map()) :: Phoenix.LiveView.Rendered.t()

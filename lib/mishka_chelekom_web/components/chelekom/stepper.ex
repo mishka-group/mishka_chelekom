@@ -5,7 +5,7 @@ defmodule MishkaChelekom.Stepper do
   @doc type: :component
   attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
   attr :size, :string, default: "small", doc: "Determines the overall size of the elements, including padding, font size, and other items"
-  attr :margin, :string, default: "medium", doc: ""
+  attr :margin, :string, default: "medium", doc: "Determines the element margin"
   attr :color, :string, default: "primary", doc: "Determines color theme"
   attr :space, :string, default: nil, doc: "Space between items"
   attr :border, :string, default: "extra_small", doc: "Determines border style"
