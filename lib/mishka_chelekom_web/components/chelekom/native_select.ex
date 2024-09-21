@@ -1,4 +1,19 @@
 defmodule MishkaChelekom.NativeSelect do
+  @moduledoc """
+  The `MishkaChelekom.NativeSelect` module provides a customizable native select component
+  for forms in Phoenix LiveView. It supports a variety of styles, colors, and sizes, making
+  it adaptable to different design requirements. The module allows for flexible configuration
+  of the select element, including options for multi-selection, custom labels, and error handling.
+
+  This component is highly versatile, with extensive theming options such as border styles,
+  color variants, and rounded corners. It also provides a convenient way to render select
+  options through slots, enabling dynamic rendering of form elements based on the passed data.
+
+  With built-in error handling and custom error messages, `MishkaChelekom.NativeSelect`
+  enhances the user experience by providing clear feedback and interaction states,
+  ensuring a polished and user-friendly interface for form-based applications.
+  """
+
   use Phoenix.Component
   import MishkaChelekomComponents
 
@@ -14,7 +29,7 @@ defmodule MishkaChelekom.NativeSelect do
   attr :variant, :string, default: "native", doc: "Determines the style"
   attr :description, :string, default: nil, doc: "Determines a short description"
   attr :space, :string, default: "medium", doc: "Space between items"
-  attr :min_height, :string, default: nil, doc: ""
+  attr :min_height, :string, default: nil, doc: "Determines min height style"
 
   attr :size, :string,
     default: "extra_large",
@@ -28,7 +43,7 @@ defmodule MishkaChelekom.NativeSelect do
 
   attr :error_icon, :string, default: nil, doc: "Icon to be displayed alongside error messages"
   attr :label, :string, default: nil, doc: "Specifies text for the label"
-  attr :multiple, :boolean, default: false
+  attr :multiple, :boolean, default: false, doc: "Specifies if the select input allows multiple selections"
 
   attr :errors, :list, default: [], doc: "List of error messages to be displayed"
   attr :name, :any, doc: "Name of input"
@@ -36,9 +51,9 @@ defmodule MishkaChelekom.NativeSelect do
   slot :inner_block, required: false, doc: "Inner block that renders HEEx content"
 
   slot :option, required: false do
-    attr :value, :string
-    attr :selected, :boolean, required: false
-    attr :disabled, :string, required: false
+    attr :value, :string, doc: "Value of each select option"
+    attr :selected, :boolean, required: false, doc: "Specifies this option is seleted"
+    attr :disabled, :string, required: false, doc: "Specifies this option is disabled"
   end
 
   attr :field, Phoenix.HTML.FormField, doc: "a form field struct retrieved from the form"
@@ -109,14 +124,15 @@ defmodule MishkaChelekom.NativeSelect do
     default: nil,
     doc: "A unique identifier is used to manage state and interaction"
 
-  attr :label, :string, default: nil
+  attr :label, :string, default: nil, doc: "Specifies text for the label"
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
-  attr :seperator, :boolean, default: nil
+  # TODO. this is not be used
+  attr :separator, :boolean, default: nil, doc: "Whether separator is active for select option group"
 
-  slot :option, required: false do
-    attr :value, :string
-    attr :selected, :boolean, required: false
-    attr :disabled, :string, required: false
+  slot :option, required: false, doc: "Option slot for select" do
+    attr :value, :string, doc: "Value of each select option"
+    attr :selected, :boolean, required: false, doc: "Specifies this option is seleted"
+    attr :disabled, :string, required: false, doc: "Specifies this option is disabled"
   end
 
   def select_option_group(assigns) do

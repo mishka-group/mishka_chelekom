@@ -278,9 +278,9 @@ defmodule MishkaChelekomWeb.CoreComponents do
       <.input name="my-input" errors={["oh no!"]} />
   """
   attr :id, :any, default: nil
-  attr :name, :any
+  attr :name, :any, doc: "Name of input"
   attr :label, :string, default: nil
-  attr :value, :any
+  attr :value, :any, doc: "Value of input"
 
   attr :type, :string,
     default: "text",

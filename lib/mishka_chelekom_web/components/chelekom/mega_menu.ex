@@ -1,4 +1,27 @@
 defmodule MishkaChelekom.MegaMenu do
+  @moduledoc """
+  The `MishkaChelekom.MegaMenu` module provides a customizable and interactive mega menu component
+  for building sophisticated navigation systems in Phoenix LiveView applications.
+
+  This component can be used to create multi-level navigation menus with various styling and
+  layout options, making it ideal for sites with complex information architectures.
+
+  ### Features
+
+  - **Multiple Styling Options:** Choose from several variants, including `default` and `shadow`,
+  to match your design needs.
+  - **Color Customization:** Supports a wide range of color themes to integrate seamlessly with
+  your application's style.
+  - **Interactive Elements:** Allows for click or hover-based activation of the menu, giving users
+  flexibility in interaction.
+  - **Customizable Slots:** Utilize the `trigger` and `inner_block` slots to define custom content
+  and layout within the mega menu.
+
+  This example creates a clickable mega menu with a shadow variant and a primary color theme.
+  The menu can be triggered by clicking on the "Menu" text, and it displays a list of navigation
+  links when activated.
+  """
+
   use Phoenix.Component
   alias Phoenix.LiveView.JS
   import MishkaChelekomComponents
@@ -53,7 +76,7 @@ defmodule MishkaChelekom.MegaMenu do
   attr :title, :string, default: nil, doc: "Specifies the title of the element"
   attr :title_class, :string, default: nil, doc: "Determines custom class for the title"
   attr :border, :string, default: "extra_small", doc: "Determines border style"
-  attr :top_gap, :string, default: "extra_small", doc: ""
+  attr :top_gap, :string, default: "extra_small", doc: "Determines top gap of the element"
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
 
   attr :rest, :global,

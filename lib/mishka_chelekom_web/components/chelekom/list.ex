@@ -1,4 +1,25 @@
 defmodule MishkaChelekom.List do
+  @moduledoc """
+  The `MishkaChelekom.List` module provides a versatile and customizable list
+  component for building both ordered and unordered lists, as well as a list
+  group component for more structured content. This module is designed to cater to
+  various styles and use cases, such as navigation menus, data presentations, or simple item listings.
+
+  ### Features
+
+  - **Styling Variants:** The component offers multiple variants like `default`,
+  `filled`, `outline`, `seperated`, `tinted_split`, and `transparent` to meet diverse design requirements.
+  - **Color Customization:** Choose from a variety of colors to style the list according to
+  your application's theme.
+  - **Flexible Layouts:** Control the size, spacing, and appearance of list items with extensive
+  customization options.
+  - **Nested Structure:** Easily nest lists and group items together with the list group
+  component for more complex layouts.
+
+  This module is ideal for creating well-structured and visually appealing lists in
+  your Phoenix LiveView applications.
+  """
+
   use Phoenix.Component
   import MishkaChelekomComponents
 
@@ -83,8 +104,8 @@ defmodule MishkaChelekom.List do
     doc: "A unique identifier is used to manage state and interaction"
 
   attr :class, :list, default: nil, doc: "Custom CSS class for additional styling"
-  attr :count, :integer, default: nil, doc: ""
-  attr :count_separator, :string, default: ". ", doc: ""
+  attr :count, :integer, default: nil, doc: "Li counter"
+  attr :count_separator, :string, default: ". ", doc: "Li counter separator"
   attr :icon, :string, default: nil, doc: "Icon displayed alongside of an item"
 
   attr :icon_class, :string,
@@ -144,7 +165,7 @@ defmodule MishkaChelekom.List do
       "Determines the overall size of the elements, including padding, font size, and other items"
 
   attr :width, :string, default: "full", doc: "Determines the element width"
-  attr :style, :string, default: "list-none", doc: ""
+  attr :style, :string, default: "list-none", doc: "Determines the element style"
   attr :space, :string, values: @sizes ++ [nil], default: nil, doc: "Space between items"
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
 

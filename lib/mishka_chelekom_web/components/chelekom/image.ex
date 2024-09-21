@@ -1,4 +1,12 @@
 defmodule MishkaChelekom.Image do
+  @moduledoc """
+  The `MishkaChelekom.Image` module provides a component for rendering images in a Phoenix application.
+  It supports various attributes to control the display, loading behavior, and styling of the image.
+
+  This module simplifies the use of images with various configurations and styling
+  options in a Phoenix application.
+  """
+
   use Phoenix.Component
 
   @doc type: :component
@@ -8,7 +16,7 @@ defmodule MishkaChelekom.Image do
 
   attr :src, :string, required: true, doc: "Media link"
   attr :alt, :string, default: nil, doc: "Media link description"
-  attr :srcset, :string, default: nil, doc: ""
+  attr :srcset, :string, default: nil, doc: "Allows you to specify a list of different images"
 
   attr :loading, :string,
     values: ["eager", "lazy", nil],
@@ -22,11 +30,11 @@ defmodule MishkaChelekom.Image do
     default: nil,
     doc: "high, low, auto is default"
 
-  attr :width, :integer, default: nil, doc: ""
-  attr :height, :integer, default: nil, doc: ""
-  attr :sizes, :string, default: nil, doc: ""
-  attr :ismap, :string, default: nil, doc: ""
-  attr :decoding, :string, default: nil, doc: ""
+  attr :width, :integer, default: nil, doc: "Determines width style"
+  attr :height, :integer, default: nil, doc: "Determines width height"
+  attr :sizes, :string, default: nil, doc: "Specifies the intended display size of the image in the layout for different viewport conditions"
+  attr :ismap, :string, default: nil, doc: "Make the image act as a server-side image map"
+  attr :decoding, :string, default: nil, doc: "Refers to the process of converting encoded or encrypted data back into its original format"
   attr :rounded, :string, default: nil, doc: "Determines the border radius"
   attr :shadow, :string, default: nil, doc: "Determines shadow style"
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"

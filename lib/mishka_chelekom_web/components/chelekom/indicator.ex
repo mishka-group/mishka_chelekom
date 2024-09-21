@@ -1,4 +1,20 @@
 defmodule MishkaChelekom.Indicator do
+  @moduledoc """
+  The `MishkaChelekom.Indicator` module provides a versatile component for visually highlighting
+  specific areas or elements in your Phoenix application.
+
+  It is designed to display small, circular indicators that can be used for notifications,
+  status updates, or visual cues on UI elements.
+
+  This component supports various sizes and colors and can be positioned in multiple areas
+  relative to its parent element. Additionally, it has an optional ping animation for drawing
+  attention to a specific point on the interface.
+
+  The indicator can be used in diverse scenarios, such as showing the number of unread messages,
+  indicating active states, or displaying connectivity status. It is customizable with different
+  styles, making it adaptable to various design needs.
+  """
+
   use Phoenix.Component
 
   @sizes ["extra_small", "small", "medium", "large", "extra_large"]

@@ -1,4 +1,28 @@
 defmodule MishkaChelekom.InputField do
+  @moduledoc """
+  The `MishkaChelekom.InputField` module provides a customizable input field component that
+  integrates with Phoenix forms.
+
+  This component supports a variety of input types, including text, email, password,
+  select, textarea, and checkbox, making it versatile for
+  different data entry scenarios.
+
+  It includes features such as displaying error messages, handling various HTML
+  attributes, and generating labels for inputs. This component is ideal for creating
+  form fields with consistent styling and behavior across your application.
+
+  ### Key Features:
+
+  - **Flexible Input Types:** Supports multiple input types such as text, email,
+  password, select, textarea, and checkbox.
+  - **Form Integration:** Can be integrated with Phoenix.HTML.FormField for easier
+  management of form data and error handling.
+  - **Error Display:** Automatically displays error messages associated with the input field.
+  - **Custom Styling:** Provides options for custom classes, labels, and other HTML attributes.
+
+  This component is designed to simplify form handling and user input validation in Phoenix applications.
+  """
+
   use Phoenix.Component
   import MishkaChelekomComponents
 
@@ -31,9 +55,9 @@ defmodule MishkaChelekom.InputField do
 
   @doc type: :component
   attr :id, :any, default: nil, doc: "A unique identifier is used to manage state and interaction"
-  attr :name, :any
+  attr :name, :any, doc: "Name of input"
   attr :label, :string, default: nil
-  attr :value, :any
+  attr :value, :any, doc: "Value of input"
 
   attr :type, :string,
     default: "text",

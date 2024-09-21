@@ -1,4 +1,23 @@
 defmodule MishkaChelekom.Jumbotron do
+  @moduledoc """
+  The `MishkaChelekom.Jumbotron` module provides a versatile component for creating large,
+  prominent sections within a Phoenix LiveView or static page. This component is typically
+  used for showcasing important content or messages, often at the top of a page, similar to a
+  traditional `hero` section.
+
+  ### Key Features:
+
+  - **Customizable Variants and Colors:** Supports multiple variants (`default`, `outline`, `transparent`,
+  `shadow`, `unbordered`) and a wide range of colors, allowing you to adapt the style to your needs.
+  - **Border and Spacing Control:** Options for configuring border size and position, as well as spacing
+  and padding, give you fine-grained control over the component's appearance.
+  - **Inner Block Rendering:** Supports an inner block slot for rendering custom content
+  within the jumbotron, making it flexible for various types of content such as headings,
+  paragraphs, images, and more.
+
+  This component is designed to provide a visually appealing and prominent section for
+  highlighting key content on your pages.
+  """
   use Phoenix.Component
 
   @colors [

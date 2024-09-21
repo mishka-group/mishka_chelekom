@@ -1,4 +1,21 @@
 defmodule MishkaChelekom.Modal do
+  @moduledoc """
+  The `MishkaChelekom.Modal` module provides a versatile and customizable modal component for
+  Phoenix LiveView applications. It supports various configurations for size, style, color,
+  padding, and border radius to match different design requirements. The module is designed
+  to facilitate user interactions with dynamic content, such as forms,
+  confirmation dialogs, or notifications.
+
+  The modal component includes JavaScript hooks for showing and hiding the modal,
+  which are triggered based on user actions or programmatic events.
+
+  The component is equipped to handle accessibility features like focus management
+  and keyboard navigation to ensure a seamless user experience.
+
+  This module can be integrated with other components and tailored for various use cases
+  in web applications, making it a powerful tool for enhancing user interfaces and interaction workflows.
+  """
+
   use Phoenix.Component
   import MishkaChelekomComponents
   import MishkaChelekomWeb.Gettext
@@ -76,7 +93,7 @@ defmodule MishkaChelekom.Modal do
 
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :show, :boolean, default: false, doc: "Show element"
-  attr :on_cancel, JS, default: %JS{}
+  attr :on_cancel, JS, default: %JS{}, doc: "Custom JS module for on_cancel action"
   slot :inner_block, required: true, doc: "Inner block that renders HEEx content"
 
   def modal(assigns) do

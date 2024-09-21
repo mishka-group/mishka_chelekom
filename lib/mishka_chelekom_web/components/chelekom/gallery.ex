@@ -1,4 +1,22 @@
 defmodule MishkaChelekom.Gallery do
+  @moduledoc """
+  The `MishkaChelekom.Gallery` module provides a customizable gallery component for displaying
+  media content in a structured and visually appealing layout.
+
+  It supports various styles, including default, masonry, and featured galleries,
+  with options to control the number of columns, gaps, and additional styling.
+
+  ### Features:
+
+  - **Gallery Types:** Choose between "default", "masonry", and "featured" gallery layouts.
+  - **Customizable Columns and Gaps:** Configure the number of columns and spacing between gallery items.
+  - **Flexible Media Display:** Includes a `gallery_media` component for displaying individual
+  media items with options for styling, shadow, and border radius.
+
+  This component is ideal for showcasing images, videos, or other media content in a grid
+  or masonry layout, offering a clean and flexible way to present visual elements on a web page.
+  """
+
   use Phoenix.Component
 
   @doc type: :component
@@ -8,8 +26,8 @@ defmodule MishkaChelekom.Gallery do
 
   attr :type, :string, values: ["default", "masonary", "featured"], default: "default", doc: ""
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
-  attr :cols, :string, default: nil, doc: ""
-  attr :gap, :string, default: nil, doc: ""
+  attr :cols, :string, default: nil, doc: "Determines cols of elements"
+  attr :gap, :string, default: nil, doc: "Determines gap between elements"
 
   attr :rest, :global,
     doc:
@@ -42,7 +60,7 @@ defmodule MishkaChelekom.Gallery do
 
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :src, :string, default: nil, doc: "Media link"
-  attr :alt, :string, default: "", doc: ""
+  attr :alt, :string, default: "", doc: "Media link description"
   attr :rounded, :string, default: "none", doc: "Determines the border radius"
   attr :shadow, :string, default: "shadow-none", doc: "Determines shadow style"
 

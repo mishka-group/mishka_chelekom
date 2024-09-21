@@ -1,4 +1,20 @@
 defmodule MishkaChelekom.Menu do
+  @moduledoc """
+  The `MishkaChelekom.Menu` module is designed to render a hierarchical menu structure in
+  Phoenix LiveView applications. It provides a versatile menu component capable of
+  handling both simple and complex navigation systems with nested sub-menus.
+
+  This module supports dynamic configuration of menu items through a list of maps,
+  allowing for a wide range of customization options. Menu items can be rendered as
+  standalone buttons or as expandable accordions containing nested sub-menus.
+  The `MishkaChelekom.Menu` is ideal for creating multi-level navigation menus in
+  applications with complex information architectures.
+
+  The component integrates smoothly with other components from the `MishkaChelekom`
+  library, such as `accordion` and `button_link`, to offer a consistent and cohesive
+  UI experience. It also includes support for various padding and spacing options to
+  control the layout and appearance of the menu.
+  """
   use Phoenix.Component
   import MishkaChelekom.Accordion, only: [accordion: 1]
   import MishkaChelekom.Button, only: [button_link: 1]
@@ -9,7 +25,7 @@ defmodule MishkaChelekom.Menu do
     doc: "A unique identifier is used to manage state and interaction"
 
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
-  attr :menu_items, :list, default: [], doc: ""
+  attr :menu_items, :list, default: [], doc: "Determines menu items as a list of maps"
   attr :space, :string, default: "small", doc: "Space between items"
   attr :padding, :string, default: "small", doc: "Determines padding for items"
 

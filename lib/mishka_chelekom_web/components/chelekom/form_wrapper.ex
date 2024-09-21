@@ -1,4 +1,19 @@
 defmodule MishkaChelekom.FormWrapper do
+  @moduledoc """
+  The `MishkaChelekom.FormWrapper` module provides a flexible and customizable form
+  wrapper component for Phoenix applications. It offers various options for styling,
+  size, and layout to suit different form designs and requirements.
+
+  ### Features:
+  - **Customizable Styles:** Choose from multiple color themes, border styles, and design variants.
+  - **Layout Flexibility:** Control padding, spacing, and border radius to adjust the form's appearance.
+  - **Form Slots:** Define inner content and actions slots to organize form elements and buttons.
+  - **Global Attribute Support:** Allows for additional attributes like `autocomplete`, `method`,
+  and more to be merged with component defaults.
+
+  This component is ideal for wrapping forms with consistent styles and structure across an application.
+  """
+
   use Phoenix.Component
 
   @doc type: :component

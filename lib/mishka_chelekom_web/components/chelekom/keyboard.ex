@@ -1,4 +1,24 @@
 defmodule MishkaChelekom.Keyboard do
+  @moduledoc """
+  The `MishkaChelekom.Keyboard` module provides a customizable keyboard component,
+  primarily used for displaying keyboard shortcuts, key combinations, or highlighting
+  key inputs in a user interface. The component is designed with flexibility in mind,
+  allowing you to easily change its appearance and style through various attributes.
+
+  ### Key Features:
+
+  - **Flexible Styling Options:** Choose from multiple color themes and variants
+  (e.g., `default`, `outline`, `transparent`, `shadow`) to match your application's look and feel.
+  - **Customizable Size and Border Radius:** Adjust the size of the keyboard
+  keys and control the border radius with predefined sizes like `small`, `medium`,
+  `large`, or even `full` for a rounded key appearance.
+  - **Inner Block Content:** Use the inner block slot to include text, icons, or any other
+  content inside the keyboard component, providing context or explanation for the
+  keys being represented.
+
+  This component is ideal for visually representing keyboard shortcuts or commands,
+  making it easy for users to understand and remember key combinations.
+  """
   use Phoenix.Component
 
   @sizes ["extra_small", "small", "medium", "large", "extra_large"]
