@@ -396,11 +396,51 @@ defmodule MishkaChelekom.Drawer do
     "bg-transparent text-[#1E1E1E] border-transparent"
   end
 
+  @doc """
+  Shows the drawer component by modifying its CSS classes to transition it into view.
+
+  ## Parameters:
+    - `js` (optional, `Phoenix.LiveView.JS`): The JS struct used to chain JavaScript commands.
+    Defaults to an empty `%JS{}`.
+    - `id` (string): The unique identifier of the drawer element to show.
+    - `position` (string): The position of the drawer, such as "left", "right", "top", or "bottom".
+
+  ## Behavior:
+  Removes the CSS class that keeps the drawer off-screen and adds the class `"transform-none"`
+  to bring the drawer into view.
+
+  ## Examples:
+
+  ```elixir
+  show_drawer(%JS{}, "drawer-id", "left")
+  ```
+
+  This will show the drawer with ID `drawer-id` positioned on the left side of the screen.
+  """
   def show_drawer(js \\ %JS{}, id, position) when is_binary(id) do
     JS.remove_class(js, translate_position(position), to: "##{id}")
     |> JS.add_class("transform-none", to: "##{id}")
   end
 
+  @doc """
+  Hides the drawer component by modifying its CSS classes to transition it out of view.
+
+  ## Parameters:
+    - `js` (optional, `Phoenix.LiveView.JS`): The JS struct used to chain JavaScript commands. Defaults to an empty `%JS{}`.
+    - `id` (string): The unique identifier of the drawer element to hide.
+    - `position` (string): The position of the drawer, such as "left", "right", "top", or "bottom".
+
+  ## Behavior:
+  Removes the `"transform-none"` CSS class that keeps the drawer visible and adds the class based on the drawer's position (e.g., `"-translate-x-full"` for a left-positioned drawer) to move the drawer off-screen.
+
+  ## Examples:
+
+  ```elixir
+  hide_drawer(%JS{}, "drawer-id", "left")
+  ```
+
+  This will hide the drawer with ID "drawer-id" positioned on the left side of the screen.
+  """
   def hide_drawer(js \\ %JS{}, id, position) do
     JS.remove_class(js, "transform-none", to: "##{id}")
     |> JS.add_class(translate_position(position), to: "##{id}")
