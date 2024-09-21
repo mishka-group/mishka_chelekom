@@ -10,7 +10,7 @@ defmodule MishkaChelekom.FormWrapper do
   attr :rounded, :string, default: nil, doc: "Determines the border radius"
   attr :padding, :string, default: nil, doc: "Determines padding for items"
   attr :space, :string, default: nil, doc: "Space between items"
-  attr :size, :string, default: nil, doc: ""
+  attr :size, :string, default: nil, doc: "Determines the overall size of the elements, including padding, font size, and other items"
 
   attr :for, :any, required: false, doc: "the data structure for the form"
   attr :as, :any, default: nil, doc: "the server side parameter to collect all input under"

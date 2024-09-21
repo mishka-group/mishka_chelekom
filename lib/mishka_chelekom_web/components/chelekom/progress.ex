@@ -24,7 +24,7 @@ defmodule MishkaChelekom.Progress do
   attr :variation, :string, values: ["horizontal", "vertical"], default: "horizontal", doc: ""
   attr :color, :string, values: @colors, default: "white", doc: "Determines color theme"
   attr :variant, :string, values: @variants, default: "default", doc: "Determines the style"
-  attr :size, :string, values: @sizes, default: "small", doc: ""
+  attr :size, :string, values: @sizes, default: "small", doc: "Determines the overall size of the elements, including padding, font size, and other items"
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :rest, :global, doc: ""
   slot :inner_block

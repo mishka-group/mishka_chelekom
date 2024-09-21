@@ -29,7 +29,7 @@ defmodule MishkaChelekom.Tabs do
   attr :color, :string, values: @colors, default: "primary", doc: "Determines color theme"
   attr :border, :string, default: "none", doc: "Determines border style"
   attr :tab_border, :string, default: "small", doc: ""
-  attr :size, :string, default: "small", doc: ""
+  attr :size, :string, default: "small", doc: "", doc: "Determines the overall size of the elements, including padding, font size, and other items"
   attr :gap, :string, default: nil, doc: ""
   attr :rounded, :string, default: "none", doc: "Determines the border radius"
   attr :font_weight, :string, default: "font-normal", doc: ""

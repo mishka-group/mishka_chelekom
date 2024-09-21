@@ -28,7 +28,7 @@ defmodule MishkaChelekom.Keyboard do
   attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
   attr :variant, :string, values: @variants, default: "default", doc: "Determines the style"
   attr :color, :string, values: @colors, default: "white", doc: "Determines color theme"
-  attr :size, :string, default: "small", doc: ""
+  attr :size, :string, default: "small", doc: "Determines the overall size of the elements, including padding, font size, and other items"
   attr :rounded, :string, values: @sizes ++ ["full", "none"], default: "small", doc: "Determines the border radius"
   attr :font_weight, :string, default: "font-semibold", doc: ""
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"

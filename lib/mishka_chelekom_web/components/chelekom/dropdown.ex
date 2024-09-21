@@ -83,7 +83,7 @@ defmodule MishkaChelekom.Dropdown do
   attr :variant, :string, values: @variants, default: "shadow", doc: "Determines the style"
   attr :color, :string, values: @colors, default: "white", doc: "Determines color theme"
   attr :rounded, :string, default: nil, doc: "Determines the border radius"
-  attr :size, :string, default: nil, doc: ""
+  attr :size, :string, default: nil, doc: "Determines the overall size of the elements, including padding, font size, and other items"
   attr :space, :string, default: nil, doc: "Space between items"
   attr :width, :string, default: "extra_large", doc: ""
   attr :font_weight, :string, default: "font-normal", doc: ""

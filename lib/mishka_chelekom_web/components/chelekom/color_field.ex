@@ -9,7 +9,7 @@ defmodule MishkaChelekom.ColorField do
   attr :border, :string, default: "extra_small", doc: "Determines border style"
   attr :rounded, :string, default: "small", doc: "Determines the border radius"
   attr :description, :string, default: nil, doc: ""
-  attr :size, :string, default: "extra_large", doc: ""
+  attr :size, :string, default: "extra_large", doc: "Determines the overall size of the elements, including padding, font size, and other items"
   attr :circle, :boolean, default: false, doc: ""
   attr :error_icon, :string, default: nil, doc: ""
   attr :label, :string, default: nil

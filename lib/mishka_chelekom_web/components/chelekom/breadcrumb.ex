@@ -22,7 +22,7 @@ defmodule MishkaChelekom.Breadcrumb do
   attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
   attr :separator, :string, default: "hero-chevron-right", doc: ""
   attr :color, :string, values: @colors, default: "dark", doc: "Determines color theme"
-  attr :size, :string, values: @sizes, default: "small", doc: ""
+  attr :size, :string, values: @sizes, default: "small", doc: "Determines the overall size of the elements, including padding, font size, and other items"
 
   slot :item, required: false do
     attr :icon, :string

@@ -27,7 +27,7 @@ defmodule MishkaChelekom.Toast do
   ]
 
   attr :id, :string, required: true, doc: "A unique identifier is used to manage state and interaction"
-  attr :size, :string, default: "large", doc: ""
+  attr :size, :string, default: "large", doc: "Determines the overall size of the elements, including padding, font size, and other items"
   attr :fixed, :boolean, default: true, doc: ""
   attr :variant, :string, values: @variants, default: "default", doc: "Determines the style"
   attr :color, :string, values: @colors, default: "white", doc: "Determines color theme"
@@ -121,7 +121,7 @@ defmodule MishkaChelekom.Toast do
   attr :id, :string, required: true, doc: "A unique identifier is used to manage state and interaction"
   attr :dismiss, :boolean, default: false
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
-  attr :size, :string, default: "small"
+  attr :size, :string, doc: "Determines the overall size of the elements, including padding, font size, and other items"
   attr :params, :map, default: %{kind: "toast"}
 
   defp toast_dismiss(assigns) do

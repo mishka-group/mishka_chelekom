@@ -12,7 +12,7 @@ defmodule MishkaChelekom.FileField do
   attr :rounded, :string, default: "small", doc: "Determines the border radius"
   attr :live, :boolean, default: false, doc: ""
   attr :space, :string, default: "medium", doc: "Space between items"
-  attr :size, :string, default: "extra_small", doc: ""
+  attr :size, :string, default: "extra_small", doc: "Determines the overall size of the elements, including padding, font size, and other items"
   attr :label, :string, default: nil
   attr :dashed, :boolean, default: true, doc: ""
   attr :error_icon, :string, default: nil, doc: ""

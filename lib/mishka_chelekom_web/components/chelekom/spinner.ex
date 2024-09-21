@@ -37,7 +37,7 @@ defmodule MishkaChelekom.Spinner do
   attr :type, :string, values: @spinner_types, default: "default", doc: ""
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :color, :string, values: @colors, default: "dark", doc: "Determines color theme"
-  attr :size, :string, values: @sizes, default: "small", doc: ""
+  attr :size, :string, values: @sizes, default: "small", doc: "Determines the overall size of the elements, including padding, font size, and other items"
   attr :rest, :global
 
   def spinner(assigns) do

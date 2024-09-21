@@ -4,7 +4,7 @@ defmodule MishkaChelekom.Stepper do
 
   @doc type: :component
   attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
-  attr :size, :string, default: "small", doc: ""
+  attr :size, :string, default: "small", doc: "Determines the overall size of the elements, including padding, font size, and other items"
   attr :margin, :string, default: "medium", doc: ""
   attr :color, :string, default: "primary", doc: "Determines color theme"
   attr :space, :string, default: nil, doc: "Space between items"
@@ -63,7 +63,7 @@ defmodule MishkaChelekom.Stepper do
 
   attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
-  attr :size, :string, default: "small"
+  attr :size, :string, default: "small", doc: "Determines the overall size of the elements, including padding, font size, and other items"
 
   attr :step, :string,
     values: ["none", "current", "loading", "compeleted", "canceled"],

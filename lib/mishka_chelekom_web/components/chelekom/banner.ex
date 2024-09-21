@@ -34,7 +34,7 @@ defmodule MishkaChelekom.Banner do
   @doc type: :component
   attr :id, :string, required: true, doc: "A unique identifier is used to manage state and interaction"
 
-  attr :size, :string, default: "large", doc: ""
+  attr :size, :string, default: "large", doc: "Determines the overall size of the elements, including padding, font size, and other items"
   attr :variant, :string, values: @variants, default: "default", doc: "Determines the style"
   attr :color, :string, values: @colors, default: "white", doc: "Determines color theme"
   attr :border, :string, default: "extra_small", doc: "Determines border style"
@@ -95,7 +95,7 @@ defmodule MishkaChelekom.Banner do
   attr :id, :string, required: true, doc: "A unique identifier is used to manage state and interaction"
   attr :dismiss, :boolean, default: false
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
-  attr :size, :string, default: "small"
+  attr :size, :string, default: "small", doc: "Determines the overall size of the elements, including padding, font size, and other items"
   attr :params, :map, default: %{kind: "badge"}
 
   defp banner_dismiss(assigns) do

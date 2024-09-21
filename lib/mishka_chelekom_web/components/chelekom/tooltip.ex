@@ -26,7 +26,7 @@ defmodule MishkaChelekom.Tooltip do
   attr :variant, :string, values: @variants, default: "shadow", doc: "Determines the style"
   attr :color, :string, values: @colors, default: "dark", doc: "Determines color theme"
   attr :rounded, :string, default: nil, doc: "Determines the border radius"
-  attr :size, :string, default: nil, doc: ""
+  attr :size, :string, default: nil, doc: "Determines the overall size of the elements, including padding, font size, and other items"
   attr :space, :string, default: nil, doc: "Space between items"
   attr :font_weight, :string, default: "font-normal", doc: ""
   attr :width, :string, default: "fit", doc: ""

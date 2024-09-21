@@ -59,7 +59,7 @@ defmodule MishkaChelekom.Modal do
   attr :color, :string, values: @colors, default: "white", doc: "Determines color theme"
   attr :rounded, :string, values: @sizes, default: "small", doc: "Determines the border radius"
   attr :padding, :string, values: @sizes ++ ["none"], default: "medium", doc: "Determines padding for items"
-  attr :size, :string, values: @sizes ++ ["screen"], default: "extra_large", doc: ""
+  attr :size, :string, values: @sizes ++ ["screen"], default: "extra_large", doc: "Determines the overall size of the elements, including padding, font size, and other items"
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :show, :boolean, default: false
   attr :on_cancel, JS, default: %JS{}

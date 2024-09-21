@@ -12,7 +12,7 @@ defmodule MishkaChelekom.NativeSelect do
   attr :description, :string, default: nil, doc: ""
   attr :space, :string, default: "medium", doc: "Space between items"
   attr :min_height, :string, default: nil, doc: ""
-  attr :size, :string, default: "extra_large", doc: ""
+  attr :size, :string, default: "extra_large", doc: "Determines the overall size of the elements, including padding, font size, and other items"
   attr :ring, :boolean, default: true, doc: ""
   attr :error_icon, :string, default: nil, doc: ""
   attr :label, :string, default: nil

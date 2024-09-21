@@ -14,7 +14,7 @@ defmodule MishkaChelekom.TableContent do
   attr :padding, :string, default: nil, doc: "Determines padding for items"
   attr :rounded, :string, default: nil, doc: "Determines the border radius"
   attr :border, :string, default: "extra_small", doc: "Determines border style"
-  attr :size, :string, default: "small", doc: ""
+  attr :size, :string, default: "small", doc: "Determines the overall size of the elements, including padding, font size, and other items"
   attr :rest, :global, doc: ""
   slot :inner_block, required: false, doc: ""
 

@@ -11,7 +11,7 @@ defmodule MishkaChelekom.FieldsetField do
   attr :padding, :string, default: "small", doc: "Determines padding for items"
   attr :variant, :string, default: "outline", doc: "Determines the style"
   attr :space, :string, default: "medium", doc: "Space between items"
-  attr :size, :string, default: "extra_large", doc: ""
+  attr :size, :string, default: "extra_large", doc: "Determines the overall size of the elements, including padding, font size, and other items"
   attr :error_icon, :string, default: nil, doc: ""
   attr :legend, :string, default: nil
 

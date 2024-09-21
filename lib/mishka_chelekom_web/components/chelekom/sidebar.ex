@@ -30,7 +30,7 @@ defmodule MishkaChelekom.Sidebar do
   attr :id, :string, required: true, doc: "A unique identifier is used to manage state and interaction"
   attr :variant, :string, values: @variants, default: "default", doc: "Determines the style"
   attr :color, :string, values: @colors, default: "white", doc: "Determines color theme"
-  attr :size, :string, default: "large", doc: ""
+  attr :size, :string, default: "large", doc: "Determines the overall size of the elements, including padding, font size, and other items"
   attr :border, :string, default: "extra_small", doc: "Determines border style"
   attr :rounded, :string, default: nil, doc: "Determines the border radius"
   attr :position, :string, default: "start", doc: ""

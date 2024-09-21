@@ -7,7 +7,7 @@ defmodule MishkaChelekom.Rating do
   attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :gap, :string, default: "small", doc: ""
-  attr :size, :string, default: "small", doc: ""
+  attr :size, :string, default: "small", doc: "Determines the overall size of the elements, including padding, font size, and other items"
   attr :color, :string, default: "warning", doc: "Determines color theme"
   attr :count, :integer, default: 5, doc: "Number of stars to display"
   attr :select, :integer, default: 0, doc: ""

@@ -21,7 +21,7 @@ defmodule MishkaChelekom.Divider do
   attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
   attr :type, :string, values: ["dashed", "dotted", "solid"], default: "solid", doc: ""
   attr :color, :string, values: @colors, default: "silver", doc: ""
-  attr :size, :string, default: "extra_small", doc: ""
+  attr :size, :string, default: "extra_small", doc: "Determines the overall size of the elements, including padding, font size, and other items"
   attr :width, :string, default: "full", doc: ""
   attr :height, :string, default: "auto", doc: ""
   attr :margin, :string, default: "none", doc: ""
@@ -135,7 +135,7 @@ defmodule MishkaChelekom.Divider do
   attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
   attr :type, :string, values: ["dashed", "dotted", "solid"], default: "solid", doc: ""
   attr :color, :string, values: @colors, default: "silver", doc: ""
-  attr :size, :string, default: "extra_small", doc: ""
+  attr :size, :string, default: "extra_small", doc: "Determines the overall size of the elements, including padding, font size, and other items"
   attr :width, :string, default: "full", doc: ""
   attr :margin, :string, default: "none", doc: ""
 

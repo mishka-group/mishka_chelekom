@@ -9,7 +9,7 @@ defmodule MishkaChelekom.RangeField do
   attr :color, :string, default: "primary", doc: "Determines color theme"
   attr :border, :string, default: "extra_small", doc: "Determines border style"
   attr :space, :string, default: "medium", doc: "Space between items"
-  attr :size, :string, default: "extra_small", doc: ""
+  attr :size, :string, default: "extra_small", doc: "Determines the overall size of the elements, including padding, font size, and other items"
   attr :appearance, :string, default: "default", doc: "custom"
   attr :width, :string, default: "full", doc: ""
   attr :ring, :boolean, default: true, doc: ""

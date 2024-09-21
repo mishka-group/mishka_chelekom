@@ -38,9 +38,9 @@ defmodule MishkaChelekom.Accordion do
   attr :border, :string, default: "transparent", doc: "Determines border style"
   attr :padding, :string, default: "small", doc: "Determines padding for items"
   attr :rounded, :string, default: "none", doc: "Determines the border radius"
-  attr :chevron_icon, :string, default: "hero-chevron-right", doc: ""
-  attr :media_size, :string, values: @sizes, default: "small", doc: ""
-  attr :size, :string, default: nil, doc: ""
+  attr :chevron_icon, :string, default: "hero-chevron-right", doc: "Determines the icon for the chevron"
+  attr :media_size, :string, values: @sizes, default: "small", doc: "Determines size of the media elements"
+  attr :size, :string, default: nil, doc: "Determines the overall size of the elements, including padding, font size, and other items"
 
   slot :item, required: true do
     attr :title, :string, required: true
@@ -149,8 +149,8 @@ defmodule MishkaChelekom.Accordion do
   attr :border, :string, default: "transparent", doc: "Determines border style"
   attr :padding, :string, values: @sizes ++ ["none"], default: "small", doc: "Determines padding for items"
   attr :rounded, :string, values: @sizes ++ ["full", "none"], default: "none", doc: "Determines the border radius"
-  attr :media_size, :string, values: @sizes, default: "small", doc: ""
-  attr :chevron_icon, :string, default: "hero-chevron-right", doc: ""
+  attr :media_size, :string, values: @sizes, default: "small", doc: "Determines size of the media elements"
+  attr :chevron_icon, :string, default: "hero-chevron-right", doc: "Determines the icon for the chevron"
 
   slot :item, required: true do
     attr :title, :string, required: true
@@ -223,7 +223,7 @@ defmodule MishkaChelekom.Accordion do
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :item, :map
   attr :position, :string, values: ["left", "right"]
-  attr :chevron_icon, :string
+  attr :chevron_icon, :string, doc: "Determines the icon for the chevron"
   attr :hide_chevron, :boolean, default: false
   attr :rest, :global
 

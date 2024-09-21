@@ -31,7 +31,7 @@ defmodule MishkaChelekom.Chat do
   attr :color, :string, values: @colors, default: "light", doc: ""
   attr :border, :string, default: "extra_small", doc: "Determines border style"
   attr :rounded, :string, default: "extra_large", doc: "Determines the border radius"
-  attr :size, :string, default: "medium", doc: ""
+  attr :size, :string, default: "medium", doc: "Determines the overall size of the elements, including padding, font size, and other items"
   attr :space, :string, default: "extra_small", doc: "Space between items"
   attr :position, :string, values: ["normal", "flipped"], default: "normal", doc: ""
   attr :padding, :string, default: "small", doc: "Determines padding for items"

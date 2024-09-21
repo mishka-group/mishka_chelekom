@@ -82,7 +82,7 @@ defmodule MishkaChelekom.Card do
   attr :icon, :string, default: nil, doc: ""
   attr :position, :string, values: @positions, default: "start", doc: ""
   attr :font_weight, :string, default: "font-semibold", doc: ""
-  attr :size, :string, values: @sizes, default: "large", doc: ""
+  attr :size, :string, values: @sizes, default: "large", doc: "Determines the overall size of the elements, including padding, font size, and other items"
   attr :padding, :string, default: "none", doc: "Determines padding for items"
   attr :rest, :global, doc: ""
   slot :inner_block, required: false, doc: ""

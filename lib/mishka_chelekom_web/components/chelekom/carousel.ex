@@ -7,7 +7,7 @@ defmodule MishkaChelekom.Carousel do
   attr :id, :string, required: true, doc: "A unique identifier is used to manage state and interaction"
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :overlay, :string, default: "dark", doc: ""
-  attr :size, :string, default: "large", doc: ""
+  attr :size, :string, default: "large", doc: "Determines the overall size of the elements, including padding, font size, and other items"
   attr :padding, :string, default: "medium", doc: "Determines padding for items"
   attr :text_position, :string, default: "center", doc: ""
   attr :rest, :global, doc: ""

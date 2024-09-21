@@ -13,7 +13,7 @@ defmodule MishkaChelekom.PasswordField do
   attr :variant, :string, default: "outline", doc: "Determines the style"
   attr :description, :string, default: nil, doc: ""
   attr :space, :string, default: "medium", doc: "Space between items"
-  attr :size, :string, default: "extra_large", doc: ""
+  attr :size, :string, default: "extra_large", doc: "Determines the overall size of the elements, including padding, font size, and other items"
   attr :show_password, :boolean, default: false, doc: ""
   attr :ring, :boolean, default: true, doc: ""
   attr :floating, :string, default: "none", doc: "none, inner, outer"

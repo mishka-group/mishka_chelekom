@@ -10,7 +10,7 @@ defmodule MishkaChelekom.ToggleField do
   attr :rounded, :string, default: "small", doc: "Determines the border radius"
   attr :space, :string, default: "medium", doc: "Space between items"
   attr :labe_class, :string, default: nil, doc: ""
-  attr :size, :string, default: "medium", doc: ""
+  attr :size, :string, default: "medium", doc: "Determines the overall size of the elements, including padding, font size, and other items"
   attr :checked, :boolean, default: false, doc: ""
   attr :ring, :boolean, default: true, doc: ""
   attr :reverse, :boolean, default: false, doc: ""

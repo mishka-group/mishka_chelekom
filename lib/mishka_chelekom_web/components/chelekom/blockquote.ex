@@ -31,7 +31,7 @@ defmodule MishkaChelekom.Blockquote do
   attr :color, :string, values: @colors, default: "white", doc: "Determines color theme"
   attr :border, :string, values: @sizes ++ [nil], default: "medium", doc: "Determines border style"
   attr :rounded, :string, values: @sizes ++ ["full", "none"], default: "small", doc: "Determines the border radius"
-  attr :size, :string, default: "medium", doc: ""
+  attr :size, :string, default: "medium", doc: "Determines the overall size of the elements, including padding, font size, and other items"
   attr :space, :string, values: @sizes, default: "small", doc: "Space between items"
   attr :font_weight, :string, default: "font-normal", doc: ""
   attr :padding, :string, values: @sizes ++ ["none"], default: "small", doc: "Determines padding for items"

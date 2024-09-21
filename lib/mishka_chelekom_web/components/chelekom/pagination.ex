@@ -41,7 +41,7 @@ defmodule MishkaChelekom.Pagination do
   attr :on_last, JS, default: %JS{}
   attr :on_next, JS, default: %JS{}
   attr :on_previous, JS, default: %JS{}
-  attr :size, :string, default: "medium", doc: ""
+  attr :size, :string, default: "medium", doc: "Determines the overall size of the elements, including padding, font size, and other items"
   attr :space, :string, default: "gap-3", doc: "Space between items"
   attr :color, :string, values: @colors, default: "white", doc: "Determines color theme"
   attr :rounded, :string, values: @sizes ++ ["full", "none"], default: "small", doc: "Determines the border radius"
