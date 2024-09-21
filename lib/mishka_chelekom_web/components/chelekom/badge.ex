@@ -1,4 +1,68 @@
 defmodule MishkaChelekom.Badge do
+  @moduledoc """
+  Provides customizable and flexible badge components for use in Phoenix LiveView.
+
+  The `MishkaChelekom.Badge` module allows you to create badge elements with various styles,
+  sizes, and colors. You can add icons, indicators, and dismiss buttons, and configure
+  the badge's appearance and behavior using a range of attributes.
+  This module also provides helper functions to show and hide badges with smooth transition effects.
+
+  ## Examples
+
+  To create a basic badge:
+
+  ```elixir
+  ...example...
+  ```
+
+  To create a badge with an icon and dismiss button:
+
+  ```elixir
+  ...example...
+  ```
+
+  To add an indicator and customize the badge:
+
+  ```elixir
+  ...example...
+  ```
+
+  > The badges can be customized further with global attributes such as position, padding, and more.
+  > Utilize the built-in helper functions to dynamically show and hide badges as needed.
+
+  ## Available Attributes
+
+  - **`id`**: A unique identifier used to manage state and interaction.
+  - **`variant`**: Determines the style of the badge, such as `"default"`,
+  `"outline"`, `"transparent"`, `"unbordered"`, or `"shadow"`.
+  - **`size`**: Specifies the size of the badge, ranging from `"extra_small"` to `"extra_large"`.
+  - **`rounded`**: Defines the border radius of the badge, with options like
+  `"small"`, `"medium"`, `"large"`, `"full"`, and more.
+  - **`color`**: Sets the color theme of the badge, supporting a variety of
+  predefined colors such as `"primary"`, `"danger"`, `"success"`, etc.
+  - **`font_weight`**: Customizes the font weight class for the badge text.
+  - **`icon`**: Displays an icon alongside the badge content.
+  - **`class`**: Allows additional CSS classes for custom styling.
+  - **`indicator_class`**: Custom CSS class for the indicator element.
+  - **`indicator_size`**: Defines the size of the indicator.
+  - **`params`**: A map of parameters that can be passed to the badge component.
+  - **`dismiss`**: Adds a dismiss button to the badge when set to true.
+  - **`rest`**: Allows global attributes such as positions, icons, and indicators
+  to be merged with provided attributes.
+
+  ## Slots
+
+  - **`inner_block`**: Slot to insert custom HEEx content inside the badge.
+
+  ## Helper Functions
+
+  - **`show_badge/2`**: Shows a badge element with a smooth transition effect.
+  - **`hide_badge/2`**: Hides a badge element with a smooth transition effect.
+
+  This module is designed to be highly customizable, enabling you to create badges
+  that fit your application's needs seamlessly.
+  """
+
   use Phoenix.Component
   alias Phoenix.LiveView.JS
   import MishkaChelekomComponents
@@ -53,9 +117,9 @@ defmodule MishkaChelekom.Badge do
   attr :font_weight, :string, default: "font-normal", doc: "Determines custom class for the font weight"
   attr :icon, :string, default: nil, doc: "Icon displayed alongside of an item"
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
-  attr :indicator_class, :string, default: nil, doc: ""
-  attr :indicator_size, :string, default: nil, doc: ""
-  attr :params, :map, default: %{kind: "badge"}
+  attr :indicator_class, :string, default: nil, doc: "CSS class for additional styling of the badge indicator"
+  attr :indicator_size, :string, default: nil, doc: "Specifies the size of the badge indicator"
+  attr :params, :map, default: %{kind: "badge"}, doc: "A map of additional parameters used for badge configuration, such as type or kind"
 
   attr :rest, :global,
     include:
@@ -93,15 +157,15 @@ defmodule MishkaChelekom.Badge do
 
   @doc type: :component
   attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
-  attr :dismiss, :boolean, default: false
+  attr :dismiss, :boolean, default: false, doc: "Determines if the badge should include a dismiss button"
   attr :icon_class, :string, default: "size-4", doc: "Determines custom class for the icon"
-  attr :params, :map, default: %{kind: "badge"}
+  attr :params, :map, default: %{kind: "badge"}, doc: "A map of additional parameters used for badge configuration, such as type or kind"
 
   defp badge_dismiss(assigns) do
     ~H"""
     <button
       class="dismmiss-button inline-flex justify-center items-center w-fit shrink-0"
-      phx-click={JS.push("dismiss", value: Map.merge(%{id: @id}, @params)) |> hide("##{@id}")}
+      phx-click={JS.push("dismiss", value: Map.merge(%{id: @id}, @params)) |> hide_badge("##{@id}")}
     >
       <.icon name="hero-x-mark" class={"#{@icon_class}"} />
     </button>
@@ -111,7 +175,7 @@ defmodule MishkaChelekom.Badge do
   @doc type: :component
   attr :position, :string, default: "none", doc: "Determines the element position"
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
-  attr :size, :string
+  attr :size, :string, doc: "Determines the overall size of the elements, including padding, font size, and other items"
   attr :rest, :global, doc: "Global attributes can define defaults which are merged with attributes provided by the caller"
 
   defp badge_indicator(%{position: "left", rest: %{left_indicator: true}} = assigns) do
@@ -526,8 +590,35 @@ defmodule MishkaChelekom.Badge do
   end
 
   ## JS Commands
+  @doc """
+  Displays a badge element by applying a transition effect.
 
-  def show(js \\ %JS{}, selector) do
+  ## Parameters
+
+    - `js`: (optional) An existing `Phoenix.LiveView.JS` structure to apply
+    transformations on. Defaults to a new `%JS{}`.
+    - `selector`: A string representing the CSS selector of the badge element to be shown.
+
+  ## Returns
+
+    - A `Phoenix.LiveView.JS` structure with commands to show the badge element with a
+    smooth transition effect.
+
+  ## Transition Details
+
+    - The element transitions from an initial state of reduced opacity and
+    scale (`opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95`) to full opacity
+    and scale (`opacity-100 translate-y-0 sm:scale-100`) over a duration of 300 milliseconds.
+
+  ## Example
+
+  ```elixir
+  show_badge(%JS{}, "#badge-element")
+  ```
+
+  This example will show the badge element with the ID badge-element using the defined transition effect.
+  """
+  def show_badge(js \\ %JS{}, selector) do
     JS.show(js,
       to: selector,
       time: 300,
@@ -538,7 +629,36 @@ defmodule MishkaChelekom.Badge do
     )
   end
 
-  def hide(js \\ %JS{}, selector) do
+  @doc """
+  Hides a badge element by applying a transition effect.
+
+  ## Parameters
+
+    - `js`: (optional) An existing `Phoenix.LiveView.JS` structure to apply transformations on.
+    Defaults to a new `%JS{}`.
+    - `selector`: A string representing the CSS selector of the badge element to be hidden.
+
+  ## Returns
+
+    - A `Phoenix.LiveView.JS` structure with commands to hide the badge element
+    with a smooth transition effect.
+
+  ## Transition Details
+
+    - The element transitions from full opacity and scale (`opacity-100 translate-y-0 sm:scale-100`)
+    to reduced opacity and scale (`opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95`)
+    over a duration of 200 milliseconds.
+
+  ## Example
+
+  ```elixir
+  hide_badge(%JS{}, "#badge-element")
+  ```
+
+  This example will hide the badge element with the ID badge-element using the defined transition effect.
+  """
+
+  def hide_badge(js \\ %JS{}, selector) do
     JS.hide(js,
       to: selector,
       time: 200,
