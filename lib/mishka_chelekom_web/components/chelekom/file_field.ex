@@ -209,7 +209,7 @@ defmodule MishkaChelekom.FileField do
         <.live_file_input
           upload={@upload}
           class={[
-            "file-filed block w-full cursor-pointer focus:outline-none file:border-0 file:cursor-pointer",
+            "file-field block w-full cursor-pointer focus:outline-none file:border-0 file:cursor-pointer",
             "file:py-3 file:px-8 file:font-bold file:-ms-4 file:me-4"
           ]}
           {@rest}
@@ -217,7 +217,7 @@ defmodule MishkaChelekom.FileField do
       <% else %>
         <input
           class={[
-            "file-filed block w-full cursor-pointer focus:outline-none file:border-0 file:cursor-pointer",
+            "file-field block w-full cursor-pointer focus:outline-none file:border-0 file:cursor-pointer",
             "file:py-3 file:px-8 file:font-bold file:-ms-4 file:me-4"
           ]}
           type="file"
@@ -281,14 +281,14 @@ defmodule MishkaChelekom.FileField do
   defp size_class(_), do: size_class("extra_small")
 
   defp rounded_size("extra_small"),
-    do: "[&_.file-filed]:rounded-sm [&_.dropzone-wrapper]:rounded-sm"
+    do: "[&_.file-field]:rounded-sm [&_.dropzone-wrapper]:rounded-sm"
 
-  defp rounded_size("small"), do: "[&_.file-filed]:rounded [&_.dropzone-wrapper]:rounded"
-  defp rounded_size("medium"), do: "[&_.file-filed]:rounded-md [&_.dropzone-wrapper]:rounded-md"
-  defp rounded_size("large"), do: "[&_.file-filed]:rounded-lg [&_.dropzone-wrapper]:rounded-lg"
+  defp rounded_size("small"), do: "[&_.file-field]:rounded [&_.dropzone-wrapper]:rounded"
+  defp rounded_size("medium"), do: "[&_.file-field]:rounded-md [&_.dropzone-wrapper]:rounded-md"
+  defp rounded_size("large"), do: "[&_.file-field]:rounded-lg [&_.dropzone-wrapper]:rounded-lg"
 
   defp rounded_size("extra_large"),
-    do: "[&_.file-filed]:rounded-xl [&_.dropzone-wrapper]:rounded-xl"
+    do: "[&_.file-field]:rounded-xl [&_.dropzone-wrapper]:rounded-xl"
 
   defp rounded_size(params) when is_binary(params), do: params
   defp rounded_size(_), do: rounded_size("small")
@@ -303,67 +303,67 @@ defmodule MishkaChelekom.FileField do
 
   defp color_class("white") do
     [
-      "[&_.file-input]:bg-white file:[&_.file-input]:text-[#DADADA] file:[&_.file-input]:bg-[#DADADA]"
+      "[&_.file-field]:bg-white file:[&_.file-field]:text-[#DADADA] file:[&_.file-field]:bg-[#DADADA]"
     ]
   end
 
   defp color_class("primary") do
     [
-      "[&_.file-input]:bg-[#4363EC] file:[&_.file-input]:text-white [&_.file-input]:text-white file:[&_.file-input]:bg-[#2441de]"
+      "[&_.file-field]:bg-[#4363EC] file:[&_.file-field]:text-white [&_.file-field]:text-white file:[&_.file-field]:bg-[#2441de]"
     ]
   end
 
   defp color_class("secondary") do
     [
-      "[&_.file-input]:bg-[#877C7C] file:[&_.file-input]:text-white [&_.file-input]:text-white file:[&_.file-input]:bg-[#6B6E7C]"
+      "[&_.file-field]:bg-[#877C7C] file:[&_.file-field]:text-white [&_.file-field]:text-white file:[&_.file-field]:bg-[#6B6E7C]"
     ]
   end
 
   defp color_class("success") do
     [
-      "[&_.file-input]:bg-[#ECFEF3] file:[&_.file-input]:text-white [&_.file-input]:text-[#047857] file:[&_.file-input]:bg-[#047857]"
+      "[&_.file-field]:bg-[#ECFEF3] file:[&_.file-field]:text-white [&_.file-field]:text-[#047857] file:[&_.file-field]:bg-[#047857]"
     ]
   end
 
   defp color_class("warning") do
     [
-      "[&_.file-input]:bg-[#FFF8E6] file:[&_.file-input]:text-white [&_.file-input]:text-[#FF8B08] file:[&_.file-input]:bg-[#FF8B08]"
+      "[&_.file-field]:bg-[#FFF8E6] file:[&_.file-field]:text-white [&_.file-field]:text-[#FF8B08] file:[&_.file-field]:bg-[#FF8B08]"
     ]
   end
 
   defp color_class("danger") do
     [
-      "[&_.file-input]:bg-[#FFE6E6] [&_.file-input]:text-[#E73B3B] file:[&_.file-input]:text-white file:[&_.file-input]:bg-[#E73B3B]"
+      "[&_.file-field]:bg-[#FFE6E6] [&_.file-field]:text-[#E73B3B] file:[&_.file-field]:text-white file:[&_.file-field]:bg-[#E73B3B]"
     ]
   end
 
   defp color_class("info") do
     [
-      "[&_.file-input]:bg-[#E5F0FF] file:[&_.file-input]:text-white [&_.file-input]:text-[#004FC4] file:[&_.file-input]:bg-[#004FC4]"
+      "[&_.file-field]:bg-[#E5F0FF] file:[&_.file-field]:text-white [&_.file-field]:text-[#004FC4] file:[&_.file-field]:bg-[#004FC4]"
     ]
   end
 
   defp color_class("misc") do
     [
-      "[&_.file-input]:bg-[#FFE6FF] file:[&_.file-input]:text-white [&_.file-input]:text-[#52059C] file:[&_.file-input]:bg-[#52059C]"
+      "[&_.file-field]:bg-[#FFE6FF] file:[&_.file-field]:text-white [&_.file-field]:text-[#52059C] file:[&_.file-field]:bg-[#52059C]"
     ]
   end
 
   defp color_class("dawn") do
     [
-      "[&_.file-input]:bg-[#FFECDA] file:[&_.file-input]:text-white [&_.file-input]:text-[#4D4137] file:[&_.file-input]:bg-[#4D4137]"
+      "[&_.file-field]:bg-[#FFECDA] file:[&_.file-field]:text-white [&_.file-field]:text-[#4D4137] file:[&_.file-field]:bg-[#4D4137]"
     ]
   end
 
   defp color_class("light") do
     [
-      "[&_.file-input]:bg-[#E3E7F1] file:[&_.file-input]:text-white [&_.file-input]:text-[#707483] file:[&_.file-input]:bg-[#707483]"
+      "[&_.file-field]:bg-[#E3E7F1] file:[&_.file-field]:text-white [&_.file-field]:text-[#707483] file:[&_.file-field]:bg-[#707483]"
     ]
   end
 
   defp color_class("dark") do
     [
-      "[&_.file-input]:bg-[#383838] file:[&_.file-input]:text-white [&_.file-input]:text-white file:[&_.file-input]:bg-[#1E1E1E]"
+      "[&_.file-field]:bg-[#383838] file:[&_.file-field]:text-white [&_.file-field]:text-white file:[&_.file-field]:bg-[#1E1E1E]"
     ]
   end
 
