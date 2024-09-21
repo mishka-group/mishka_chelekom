@@ -1,4 +1,24 @@
 defmodule MishkaChelekom.FileField do
+  @moduledoc """
+  The `MishkaChelekom.FileField` module provides a versatile and customizable component
+  for handling file uploads in Phoenix LiveView applications.
+
+  This module supports various configurations, allowing users to upload files or
+  images through traditional file inputs or interactive dropzones.
+
+  ### Key Features:
+  - **Custom Styling Options:** Allows for customized styles, including colors, borders, and rounded corners.
+  - **Flexible Input Types:** Supports both live uploads and standard file inputs.
+  - **Dropzone Functionality:** Provides an interactive drag-and-drop area for file
+  uploads with customizable icons and descriptions.
+  - **Error Handling:** Displays error messages for issues like file size, file type,
+  and maximum number of files.
+  - **Upload Progress:** Shows real-time upload progress for each file.
+
+  This component is designed to simplify file handling in forms and offers a visually
+  appealing and user-friendly experience for uploading files in LiveView applications.
+  """
+
   use Phoenix.Component
   import MishkaChelekomComponents
 
@@ -25,19 +45,16 @@ defmodule MishkaChelekom.FileField do
   attr :dashed, :boolean, default: true, doc: "Determines dashed border"
   attr :error_icon, :string, default: nil, doc: "Icon to be displayed alongside error messages"
   attr :errors, :list, default: [], doc: "List of error messages to be displayed"
-  attr :upload, :any, doc: "LiveView upload map"
+  attr :uploads, :any, doc: "LiveView upload map"
   attr :name, :any, doc: "Name of input"
   attr :value, :any, doc: "Value of input"
 
   attr :dropzone, :boolean, default: false, doc: ""
   attr :dropzone_type, :string, default: "file", doc: "file, image"
-  attr :entries, :any, doc: ""
-  attr :target, :any, doc: ""
-  attr :upload_error, :list, default: []
-  attr :cancel, :any, doc: ""
+  attr :target, :atom, doc: "Name of upload input when is used as Live Upload"
   attr :dropzone_icon, :string, default: "hero-cloud-arrow-up", doc: ""
   attr :dropzone_title, :string, default: "Click to upload, or drag and drop a file", doc: ""
-  attr :dropzone_description, :string, default: nil, doc: ""
+  attr :dropzone_description, :string, default: nil, doc: "Specifies description for dropzone"
 
   attr :field, Phoenix.HTML.FormField, doc: "a form field struct retrieved from the form"
 
@@ -59,6 +76,14 @@ defmodule MishkaChelekom.FileField do
   end
 
   def file_field(%{dropzone: true, dropzone_type: "file"} = assigns) do
+    targeted_upload = assigns.uploads[assigns.target]
+
+    assigns =
+      assigns
+      |> assign_new(:entries, fn -> targeted_upload.entries end)
+      |> assign_new(:upload_error, fn -> targeted_upload end)
+      |> assign_new(:upload, fn -> targeted_upload end)
+
     ~H"""
     <div class={[
       dropzone_color(@variant, @color),
@@ -72,7 +97,7 @@ defmodule MishkaChelekom.FileField do
         class={[
           "dropzone-wrapper group flex flex-col items-center justify-center w-full cursor-pointer"
         ]}
-        phx-drop-target={@target}
+        phx-drop-target={@upload.ref}
       >
         <div class="flex flex-col gap-3 items-center justify-center pt-5 pb-6">
           <.icon name={@dropzone_icon} class="size-14" />
@@ -112,7 +137,7 @@ defmodule MishkaChelekom.FileField do
             </div>
 
             <button
-              phx-click={@cancel}
+              phx-click="cancel-upload"
               phx-value-ref={entry.ref}
               aria-label="cancel"
               class="absolute top-2 right-2 text-custome-black-100/60 hover:text-custome-black-100"
@@ -135,6 +160,14 @@ defmodule MishkaChelekom.FileField do
   end
 
   def file_field(%{dropzone: true, dropzone_type: "image"} = assigns) do
+    targeted_upload = assigns.uploads[assigns.target]
+
+    assigns =
+      assigns
+      |> assign_new(:entries, fn -> targeted_upload.entries end)
+      |> assign_new(:upload_error, fn -> targeted_upload end)
+      |> assign_new(:upload, fn -> targeted_upload end)
+
     ~H"""
     <div class={[
       dropzone_color(@variant, @color),
@@ -148,7 +181,7 @@ defmodule MishkaChelekom.FileField do
         class={[
           "dropzone-wrapper group flex flex-col items-center justify-center w-full cursor-pointer"
         ]}
-        phx-drop-target={@target}
+        phx-drop-target={@upload.ref}
       >
         <div class="flex flex-col gap-3 items-center justify-center pt-5 pb-6">
           <.icon name={@dropzone_icon} class="size-14" />
@@ -177,7 +210,7 @@ defmodule MishkaChelekom.FileField do
             <button class="bg-black/30 rounded p-px text-white flex justify-center items-center absolute top-2 right-2 z-10">
               <.icon name="hero-x-mark" class="size-4" />
             </button>
-            <%!-- tODO: Remove when upload compeleted --%>
+            <%!-- TODO: Remove when upload compeleted --%>
             <div
               role="status"
               class="absolute top-1 left-1 bottom-1 right-1 bg-black/25 flex justify-center items-center"
