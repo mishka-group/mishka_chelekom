@@ -1,4 +1,23 @@
 defmodule MishkaChelekom.Toast do
+  @moduledoc """
+  A module for creating toast notifications in a Phoenix application.
+
+  This module provides components for rendering toast messages, including
+  options for customization such as size, color, and dismiss behavior. It
+  supports a variety of visual styles and positions, allowing for
+  flexible integration into any user interface.
+
+  Toasts can be used to provide feedback to users or display
+  informational messages without interrupting their workflow. The
+  components defined in this module handle the presentation and
+  interaction logic, enabling developers to easily implement toast
+  notifications within their applications.
+
+  ## Examples
+
+  You can create a toast notification with various styles and
+  configurations to suit your application's needs.
+  """
   use Phoenix.Component
   alias Phoenix.LiveView.JS
   import MishkaChelekomComponents
@@ -36,17 +55,22 @@ defmodule MishkaChelekom.Toast do
     doc:
       "Determines the overall size of the elements, including padding, font size, and other items"
 
-  attr :fixed, :boolean, default: true, doc: ""
+  attr :fixed, :boolean, default: true, doc: "Determines whether the element is fixed"
   attr :variant, :string, values: @variants, default: "default", doc: "Determines the style"
   attr :color, :string, values: @colors, default: "white", doc: "Determines color theme"
   attr :border, :string, default: "extra_small", doc: "Determines border style"
   attr :rounded, :string, default: "medium", doc: "Determines the border radius"
   attr :width, :string, default: "medium", doc: "Determines the element width"
   attr :space, :string, default: "extra_small", doc: "Space between items"
-  attr :vertical, :string, values: ["top", "bottom"], default: "top", doc: ""
-  attr :vertical_space, :string, default: "extra_small", doc: ""
-  attr :horizontal, :string, values: ["left", "right", "center"], default: "right", doc: ""
-  attr :horizontal_space, :string, default: "extra_small", doc: ""
+  attr :vertical, :string, values: ["top", "bottom"], default: "top", doc: "Type of vertical"
+  attr :vertical_space, :string, default: "extra_small", doc: "Space between vertical items"
+
+  attr :horizontal, :string,
+    values: ["left", "right", "center"],
+    default: "right",
+    doc: "Type of horizontal"
+
+  attr :horizontal_space, :string, default: "extra_small", doc: "Space between horizontal items"
 
   attr :font_weight, :string,
     default: "font-normal",
@@ -63,9 +87,9 @@ defmodule MishkaChelekom.Toast do
     doc:
       "Global attributes can define defaults which are merged with attributes provided by the caller"
 
-  attr :content_border, :string, default: "none", doc: ""
-  attr :border_position, :string, default: "start", doc: ""
-  attr :row_direction, :string, default: "none", doc: ""
+  attr :content_border, :string, default: "none", doc: "Determines the content border style"
+  attr :border_position, :string, default: "start", doc: "Determines the border position style"
+  attr :row_direction, :string, default: "none", doc: "Determines row direction"
   attr :padding, :string, default: "extra_small", doc: "Determines padding for items"
   slot :inner_block, required: false, doc: "Inner block that renders HEEx content"
 
@@ -115,10 +139,15 @@ defmodule MishkaChelekom.Toast do
     doc: "A unique identifier is used to manage state and interaction"
 
   attr :space, :string, default: "small", doc: "Space between items"
-  attr :vertical, :string, values: ["top", "bottom"], default: "bottom", doc: ""
-  attr :vertical_space, :string, default: "extra_small", doc: ""
-  attr :horizontal, :string, values: ["left", "right", "center"], default: "right", doc: ""
-  attr :horizontal_space, :string, default: "extra_small", doc: ""
+  attr :vertical, :string, values: ["top", "bottom"], default: "bottom", doc: "Type of vertical"
+  attr :vertical_space, :string, default: "extra_small", doc: "Space between vertical items"
+
+  attr :horizontal, :string,
+    values: ["left", "right", "center"],
+    default: "right",
+    doc: "Type of horizontal"
+
+  attr :horizontal_space, :string, default: "extra_small", doc: "Space between horizontal items"
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
 
   attr :rest, :global,
@@ -150,7 +179,10 @@ defmodule MishkaChelekom.Toast do
     required: true,
     doc: "A unique identifier is used to manage state and interaction"
 
-  attr :dismiss, :boolean, default: false
+  attr :dismiss, :boolean,
+    default: false,
+    doc: "Determines if the toast should include a dismiss button"
+
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
 
   attr :size, :string,
@@ -167,7 +199,7 @@ defmodule MishkaChelekom.Toast do
       type="button"
       class="group shrink-0"
       aria-label={gettext("close")}
-      phx-click={JS.push("dismiss", value: Map.merge(%{id: @id}, @params)) |> hide("##{@id}")}
+      phx-click={JS.push("dismiss", value: Map.merge(%{id: @id}, @params)) |> hide_toast("##{@id}")}
     >
       <.icon
         name="hero-x-mark-solid"
@@ -555,7 +587,28 @@ defmodule MishkaChelekom.Toast do
 
   ## JS Commands
 
-  def show(js \\ %JS{}, selector) do
+  @doc """
+  Displays a toast notification.
+
+  This function shows a toast notification by applying a specified transition effect to the
+  element identified by the provided `selector`. It utilizes the `JS.show/2` function to handle
+  the showing animation with a duration of 300 milliseconds.
+
+  ## Parameters
+
+  - `js` (optional): A `JS` struct that can be used to chain further JavaScript actions.
+  - `selector`: A string representing the CSS selector for the toast element to be displayed.
+
+  ## Example
+
+  ```elixir
+  show_toast(js, "#my-toast")
+  ```
+
+  This documentation provides a clear explanation of what the function does,
+  its parameters, and an example usage.
+  """
+  def show_toast(js \\ %JS{}, selector) do
     JS.show(js,
       to: selector,
       time: 300,
@@ -566,7 +619,28 @@ defmodule MishkaChelekom.Toast do
     )
   end
 
-  def hide(js \\ %JS{}, selector) do
+  @doc """
+  Hides a toast notification.
+
+  This function hides a toast notification by applying a specified transition effect to the
+  element identified by the provided `selector`. It utilizes the `JS.hide/2` function to handle
+  the hiding animation with a duration of 200 milliseconds.
+
+  ## Parameters
+
+  - `js` (optional): A `JS` struct that can be used to chain further JavaScript actions.
+  - `selector`: A string representing the CSS selector for the toast element to be hidden.
+
+  ## Example
+
+  ```elixir
+  hide_toast(js, "#my-toast")
+  ```
+
+  This documentation clearly outlines the purpose of the function, its parameters,
+  and an example of how to use it.
+  """
+  def hide_toast(js \\ %JS{}, selector) do
     JS.hide(js,
       to: selector,
       time: 200,

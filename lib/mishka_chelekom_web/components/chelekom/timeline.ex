@@ -1,4 +1,30 @@
 defmodule MishkaChelekom.Timeline do
+  @moduledoc """
+  The `MishkaChelekom.Timeline` module is a versatile and customizable component
+  designed for displaying timeline-style content in Phoenix LiveView applications.
+
+  It allows users to present chronological or sequential events in both horizontal and vertical formats.
+
+  ### Features:
+  - **Layout Options**: Supports both horizontal and vertical timeline orientations,
+  providing flexibility in content presentation.
+  - **Customizable Appearance**: Offers various attributes to modify the appearance of
+  timeline sections, such as colors, line widths, and bullet sizes.
+  - **Thematic Colors**: Includes multiple color themes like primary, secondary, success,
+  warning, and more to match the design aesthetic.
+  - **Bullet and Icon Support**: Provides options to include icons or images in place of the
+  standard timeline bullets for enhanced visual representation.
+  - **Slot-based Content**: Supports slot-based content insertion, allowing developers to include
+  custom HTML or components within the timeline sections.
+  - **Responsive Design**: Adapts to different screen sizes and orientations, ensuring a consistent
+  user experience across devices.
+  - **Flexible Styling**: Attributes like `gapped_sections` and `hide_last_line` offer additional
+  control over the layout and visibility of timeline elements.
+
+  This component integrates seamlessly into Phoenix LiveView applications, providing a rich
+  and interactive way to visualize timelines, events, or progressions.
+  """
+
   use Phoenix.Component
   import MishkaChelekomComponents
 
@@ -56,14 +82,14 @@ defmodule MishkaChelekom.Timeline do
     default: nil,
     doc: "A unique identifier is used to manage state and interaction"
 
-  attr :line_width, :string, default: "extra_small", doc: ""
+  attr :line_width, :string, default: "extra_small", doc: "Determines line width of timeline"
 
   attr :size, :string,
     default: "extra_small",
     doc:
       "Determines the overall size of the elements, including padding, font size, and other items"
 
-  attr :bullet_icon, :string, default: nil, doc: ""
+  attr :bullet_icon, :string, default: nil, doc: "Determines bullet icon"
   attr :image, :string, default: nil, doc: "Image displayed alongside of an item"
   attr :title, :string, default: nil, doc: "Specifies the title of the element"
   attr :time, :string, default: nil, doc: "Specifies the time"

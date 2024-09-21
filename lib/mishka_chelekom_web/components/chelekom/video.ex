@@ -1,4 +1,18 @@
 defmodule MishkaChelekom.Video do
+  @moduledoc """
+  A customizable video component for Phoenix applications, designed to simplify the
+  embedding of HTML5 video elements with support for various configurations.
+
+  This module ensures compatibility with web standards, addressing common issues such
+  as CORS when handling video and subtitle files. It provides a robust interface for
+  rendering videos with customizable features, including thumbnail images, aspect ratios, and caption styling.
+
+  The component is built to enhance user experience by offering options for caption display
+  and responsive design, catering to various screen sizes and user preferences.
+
+  By leveraging this module, developers can efficiently integrate video playback into their
+  Phoenix applications while maintaining flexibility in design and functionality.
+  """
   use Phoenix.Component
   import MishkaChelekomWeb.Gettext
 
@@ -27,14 +41,18 @@ defmodule MishkaChelekom.Video do
     default: nil,
     doc: "A unique identifier is used to manage state and interaction"
 
-  attr :thumbnail, :string, default: nil, doc: ""
+  attr :thumbnail, :string, default: nil, doc: "Determines thumbnail for video"
   attr :width, :string, default: "full", doc: "Determines the element width"
   attr :rounded, :string, default: "none", doc: "Determines the border radius"
   attr :height, :string, default: "auto", doc: "Determines the element width"
-  attr :caption_size, :string, default: "extra_small", doc: ""
-  attr :caption_bakcground, :string, default: "dark", doc: ""
-  attr :caption_opacity, :string, default: "solid", doc: ""
-  attr :ratio, :string, default: "auto", doc: ""
+  attr :caption_size, :string, default: "extra_small", doc: "Determines the video caption size"
+
+  attr :caption_bakcground, :string,
+    default: "dark",
+    doc: "Determines the video caption bakcground"
+
+  attr :caption_opacity, :string, default: "solid", doc: "Determines the video caption opacity"
+  attr :ratio, :string, default: "auto", doc: "Determines the video ratio"
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
 
   attr :rest, :global,
@@ -42,17 +60,17 @@ defmodule MishkaChelekom.Video do
     doc:
       "Global attributes can define defaults which are merged with attributes provided by the caller"
 
-  slot :source, required: true do
+  slot :source, required: true, doc: "Determines media source" do
     attr :src, :string, required: true, doc: "Media link"
     attr :type, :string, required: true, doc: "Media type"
   end
 
-  slot :track, required: false do
+  slot :track, required: false, doc: "Determines media subtitle" do
     attr :src, :string, required: true, doc: "Subtitle link"
     attr :label, :string, doc: "Subtitle Lable"
     attr :kind, :string, doc: "Subtitle Kind"
-    attr :srclang, :string
-    attr :default, :boolean
+    attr :srclang, :string, doc: "Subtitle language link or symbol"
+    attr :default, :boolean, doc: "Determines whether this subtitle is default"
   end
 
   def video(assigns) do

@@ -1,4 +1,26 @@
 defmodule MishkaChelekom.TextField do
+  @moduledoc """
+  The `MishkaChelekom.TelField` module provides a highly customizable telephone input field
+  component for use in Phoenix LiveView applications. This component supports various
+  styling options such as color themes, border styles, padding, and more.
+
+  It also includes options for displaying error messages, descriptions, and floating labels,
+  allowing for a rich user experience.
+
+  ### Features:
+  - **Color Themes**: Choose from different color options for both the input field and the error states.
+  - **Border Styles**: Apply various border styles, including outline, unbordered, and shadow.
+  - **Padding and Size Options**: Customize the overall size and padding of the input field.
+  - **Error Handling**: Easily display error messages with optional icons.
+  - **Label Placement**: Support for floating labels in both inner and outer styles.
+  - **Accessibility**: Includes support for ARIA attributes and accessible error handling.
+  - **Slots**: Provides slots for rendering additional content at the start and end of the
+  input field, allowing for flexible customization.
+
+  This component is designed to integrate seamlessly into your Phoenix LiveView forms and provides
+  a wide range of customization options to suit different design needs.
+  """
+
   use Phoenix.Component
   import MishkaChelekomComponents
 

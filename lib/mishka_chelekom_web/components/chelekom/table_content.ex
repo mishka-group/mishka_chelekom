@@ -1,4 +1,18 @@
 defmodule MishkaChelekom.TableContent do
+  @moduledoc """
+  `MishkaChelekom.TableContent` is a component module designed to create flexible and dynamic
+  content within a table. This module allows for a variety of customizations, including styles,
+  colors, borders, padding, and animations. It is composed of several subcomponents such as
+  `table_content/1`, `content_wrapper/1`, and `content_item/1`, each providing specific
+  roles for content display and interaction.
+
+  The `table_content/1` function creates a container with customizable styles and an optional title.
+  `content_wrapper/1` and `content_item/1` allow further structuring of content, including icons,
+  font weights, and active states, making it easy to build interactive and visually appealing
+  layouts within tables. The module leverages slots to enable dynamic content rendering,
+  offering high flexibility in the design of complex table layouts.
+  """
+
   use Phoenix.Component
   import MishkaChelekomComponents
   alias Phoenix.LiveView.JS
@@ -13,7 +27,7 @@ defmodule MishkaChelekom.TableContent do
   attr :color, :string, default: "white", doc: "Determines color theme"
   attr :variant, :string, default: "default", doc: "Determines the style"
   attr :space, :string, default: nil, doc: "Space between items"
-  attr :animated, :boolean, default: false, doc: ""
+  attr :animated, :boolean, default: false, doc: "Determines whether element's icon has animation"
   attr :padding, :string, default: nil, doc: "Determines padding for items"
   attr :rounded, :string, default: nil, doc: "Determines the border radius"
   attr :border, :string, default: "extra_small", doc: "Determines border style"

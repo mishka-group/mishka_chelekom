@@ -1,4 +1,16 @@
 defmodule MishkaChelekom.Typography do
+  @moduledoc """
+  The `MishkaChelekom.Typography` module provides components for rendering
+  typographic elements in a Phoenix application.
+
+  This module offers various components such as headings (h1 to h6), paragraphs, and other
+  text-related HTML elements. Each component allows customization of attributes such
+  as `id`, `color`, `size`, and `font_weight`, enabling developers to create styled
+  text elements that align with the design requirements of their applications.
+
+  The components are designed to work seamlessly with HEEx templates, supporting slots for
+  rendering dynamic content.
+  """
   use Phoenix.Component
 
   @colors [

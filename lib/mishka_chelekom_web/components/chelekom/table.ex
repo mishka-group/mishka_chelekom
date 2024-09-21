@@ -1,4 +1,17 @@
 defmodule MishkaChelekom.Table do
+  @moduledoc """
+  `MishkaChelekom.Table` is a versatile component for creating customizable tables in a
+  Phoenix LiveView application. This module offers a wide range of configurations to tailor table
+  presentations, including options for styling, borders, text alignment, padding, and various visual variants.
+
+  It provides components for table structure (`table/1`), headers (`th/1`), rows (`tr/1`), and cells
+  (`td/1`). These elements can be easily customized to fit different design requirements,
+  such as fixed layouts, border styles, and hover effects.
+
+  By utilizing slots, the module allows for the inclusion of dynamic content in the table's header and
+  footer sections, with the ability to embed icons and custom classes for a polished and interactive interface.
+  """
+
   use Phoenix.Component
   import MishkaChelekomComponents
 
@@ -11,15 +24,15 @@ defmodule MishkaChelekom.Table do
   attr :variant, :string, default: nil, doc: "Determines the style"
   attr :rounded, :string, default: nil, doc: "Determines the border radius"
   attr :padding, :string, default: "small", doc: "Determines padding for items"
-  attr :text_size, :string, default: "small", doc: ""
+  attr :text_size, :string, default: "small", doc: "Determines text size"
   attr :color, :string, default: nil, doc: "Determines color theme"
   attr :border, :string, default: nil, doc: "Determines border style"
-  attr :header_border, :string, default: nil, doc: ""
-  attr :rows_border, :string, default: nil, doc: ""
-  attr :cols_border, :string, default: nil, doc: ""
-  attr :thead_class, :string, default: nil, doc: ""
-  attr :footer_class, :string, default: nil, doc: ""
-  attr :table_fixed, :boolean, default: false, doc: ""
+  attr :header_border, :string, default: nil, doc: "Sets the border style for the table header"
+  attr :rows_border, :string, default: nil, doc: "Sets the border style for rows in the table"
+  attr :cols_border, :string, default: nil, doc: "Sets the border style for columns in the table"
+  attr :thead_class, :string, default: nil, doc: "Adds custom CSS classes to the table header"
+  attr :footer_class, :string, default: nil, doc: "Adds custom CSS classes to the table footer"
+  attr :table_fixed, :boolean, default: false, doc: "Enables or disables the table's fixed layout"
   attr :text_position, :string, default: "left", doc: "Determines the element' text position"
 
   attr :rest, :global,
@@ -117,7 +130,7 @@ defmodule MishkaChelekom.Table do
     doc: "A unique identifier is used to manage state and interaction"
 
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
-  attr :scope, :string, default: nil, doc: ""
+  attr :scope, :string, default: nil, doc: "Specifies the scope of the table header cell"
 
   attr :rest, :global,
     doc:

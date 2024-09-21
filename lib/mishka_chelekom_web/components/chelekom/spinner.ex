@@ -1,4 +1,19 @@
 defmodule MishkaChelekom.Spinner do
+  @moduledoc """
+  The `MishkaChelekom.Spinner` module provides a dynamic and customizable loading spinner
+  component for Phoenix LiveView applications. It supports various animation styles and
+  configurations to visually indicate ongoing processes or loading states within an application.
+
+  This module includes several types of spinners, offering a range of visual effects, such as
+  traditional spinning animations, bouncing dots, bars, and more intricate radial patterns.
+  It also allows extensive customization, including color themes and size variations,
+  making it adaptable to different UI designs and user interfaces.
+
+  With its flexible design, the `MishkaChelekom.Spinner` module enables developers to provide
+  visual feedback for asynchronous operations, enhancing user experience and maintaining engagement
+  during content loading or background processes.
+  """
+
   use Phoenix.Component
 
   @sizes [

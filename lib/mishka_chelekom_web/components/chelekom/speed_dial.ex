@@ -1,4 +1,32 @@
 defmodule MishkaChelekom.SpeedDial do
+  @moduledoc """
+  The `MishkaChelekom.SpeedDial` module provides a versatile speed dial component for Phoenix
+  LiveView applications. This component enhances user interactions by offering a dynamic
+  menu of actions that can be triggered from a single button. The speed dial is
+  especially useful for applications that need to offer quick access to multiple
+  actions without cluttering the UI.
+
+  ## Features
+
+  - **Customizable Appearance:** Supports various size, color, and style options, including
+  `default`, `outline`, `transparent`, `shadow`, and `unbordered` variants. Users can control the
+  overall size, border radius, padding, and spacing between elements to fit different design requirements.
+  - **Action Configuration:** The `SpeedDial` component can hold multiple action items,
+  each with individual icons, colors, and navigation paths. Items can link to different parts
+  of the application, trigger patches, or direct to external URLs.
+  - **Interactive Control:** The speed dial can be toggled to show or hide the list of actions.
+  This makes it easy to manage the visibility of the component based on user interactions.
+  - **Flexible Positioning:** Allows placement at various positions on the screen, such as
+  `top-start`, `top-end`, `bottom-start`, and `bottom-end`. The position can be adjusted
+  based on the container's size and requirements.
+  - **Animation and Icon Support:** Includes built-in animation options for icons and button
+  states, creating an engaging user experience. Icons can be added or animated when hovering
+  over the speed dial button.
+
+  This component is perfect for implementing quick action menus in applications where users need
+  to perform frequent operations from a single access point.
+  """
+
   use Phoenix.Component
   import MishkaChelekomComponents
   import MishkaChelekomWeb.Gettext
@@ -32,7 +60,10 @@ defmodule MishkaChelekom.SpeedDial do
     doc: "Determines if the element can be activated on click"
 
   attr :icon, :string, default: nil, doc: "Icon displayed alongside of an item"
-  attr :icon_animated, :boolean, default: false, doc: ""
+
+  attr :icon_animated, :boolean,
+    default: false,
+    doc: "Determines whether element's icon has animation"
 
   attr :rest, :global,
     doc:
@@ -49,12 +80,12 @@ defmodule MishkaChelekom.SpeedDial do
     attr :href, :string, doc: "Sets the URL for an external link."
     attr :icon_class, :string, doc: "Determines custom class for the icon"
     attr :content_class, :string, doc: "Determines custom class for the content"
-    attr :color, :string
+    attr :color, :string, doc: "Determines color theme"
     attr :variant, :string, doc: "Determines the style"
     attr :icon_position, :string, doc: "Determines icon position"
   end
 
-  slot :trigger_content, required: false do
+  slot :trigger_content, required: false, doc: "Determines triggered content" do
     attr :class, :string, doc: "Custom CSS class for additional styling"
   end
 

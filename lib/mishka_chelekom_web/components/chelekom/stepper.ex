@@ -1,4 +1,19 @@
 defmodule MishkaChelekom.Stepper do
+  @moduledoc """
+  The `MishkaChelekom.Stepper` module provides a flexible and interactive stepper component
+  for Phoenix LiveView applications. It supports both horizontal and vertical layouts,
+  making it ideal for displaying multi-step processes, such as onboarding, forms, or any
+  workflow that requires users to follow a sequence of steps.
+
+  This module allows extensive customization options, including size, color themes, border styles,
+  and spacing between steps. Each step can display icons, titles, descriptions, and custom content.
+  The component also offers various step states like `current`, `loading`, `completed`, and `canceled`,
+  enabling a visual indication of the user's progress.
+
+  The `MishkaChelekom.Stepper` enhances user experience by providing a clear and concise representation
+  of step-by-step workflows, ensuring users can easily track their position and progress within the application.
+  """
+
   use Phoenix.Component
   import MishkaChelekomComponents
 
@@ -22,7 +37,7 @@ defmodule MishkaChelekom.Stepper do
     doc: "Determines custom class for the font weight"
 
   attr :max_width, :string, default: nil, doc: "Determines the style of element max width"
-  attr :seperator_size, :string, default: "extra_small", doc: ""
+  attr :seperator_size, :string, default: "extra_small", doc: "Determines the seperator size"
   attr :vertical, :boolean, default: false, doc: "Determines whether element is vertical"
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
 

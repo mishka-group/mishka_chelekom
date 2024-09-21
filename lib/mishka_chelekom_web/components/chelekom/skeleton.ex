@@ -1,4 +1,28 @@
 defmodule MishkaChelekom.Skeleton do
+  @moduledoc """
+  The `MishkaChelekom.Skeleton` module provides a reusable component for displaying skeleton
+  loaders in a Phoenix LiveView application. Skeleton loaders serve as placeholders to indicate
+  that content is currently loading or being processed, improving the user experience by offering
+  a visual cue in place of the final content.
+
+  ## Features
+
+  - **Size Options:** Multiple size options for both height and width, including
+  `extra_small`, `small`, `medium`, `large`, and `extra_large`. The width can also be set to
+  `full` to occupy the entire container.
+  - **Rounded Corners:** Configurable border radius with options for different sizes, as
+  well as `full` and `none` for complete circular shapes or no rounding at all.
+  - **Color Themes:** Various color options to match the design of the application, such as `white`,
+  `silver`, `primary`, `secondary`, `success`, `warning`, `danger`, `info`, `misc`, `dawn`, `light`, and `dark`.
+  - **Visibility Control:** The component's visibility can be toggled with the `visible` attribute,
+  allowing for dynamic control over when the skeleton is displayed.
+  - **Custom Animation:** The `animated` global attribute can be used to enable or disable a
+  pulsating animation effect, giving the skeleton loader a dynamic appearance.
+
+  This component is ideal for providing visual feedback during data fetching or other asynchronous
+  operations, making the UI more responsive and engaging for users.
+  """
+
   use Phoenix.Component
 
   @sizes ["extra_small", "small", "medium", "large", "extra_large"]

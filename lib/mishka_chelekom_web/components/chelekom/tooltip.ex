@@ -1,4 +1,20 @@
 defmodule MishkaChelekom.Tooltip do
+  @moduledoc """
+  A Tooltip component for use in Phoenix applications.
+
+  This component allows you to display informative text when the user hovers over or focuses on an element.
+  It supports various customization options, including position, color themes, and sizes, allowing for
+  flexible integration within your UI.
+
+  ## Features
+
+  - Customizable tooltip position (top, bottom, left, right).
+  - Multiple color variants and styles for different contexts.
+  - Adjustable size and padding to fit design requirements.
+  - Support for additional CSS classes to further customize appearance.
+
+  Use this component to enhance user experience by providing contextual information without cluttering the interface.
+  """
   use Phoenix.Component
 
   @colors [
@@ -45,7 +61,7 @@ defmodule MishkaChelekom.Tooltip do
   attr :padding, :string, default: "small", doc: "Determines padding for items"
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :text_position, :string, default: "center", doc: "Determines the element' text position"
-  attr :text, :string, default: "", doc: ""
+  attr :text, :string, default: "", doc: "Determines element's text"
 
   attr :rest, :global,
     doc:

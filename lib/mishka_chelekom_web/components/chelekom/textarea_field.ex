@@ -1,4 +1,27 @@
 defmodule MishkaChelekom.TextareaField do
+  @moduledoc """
+  The `MishkaChelekom.TextareaField` module provides a versatile and customizable textarea field component
+  for Phoenix LiveView applications. It supports a range of styles, themes, and functional attributes
+  to enhance the user experience when working with large text inputs.
+
+  ### Features:
+  - **Color Themes**: Offers a variety of color options to style the textarea field and error states.
+  - **Border and Padding**: Customizable border styles and padding for a consistent look and feel.
+  - **Size Options**: Allows adjustments to the height and size of the textarea field to suit different
+  requirements.
+  - **Floating Labels**: Supports floating labels that adapt to different styles, including inner and
+  outer placements.
+  - **Error Handling**: Displays error messages with optional icons, integrated seamlessly into the
+  field's design.
+  - **Resize Control**: Includes an option to disable textarea resizing.
+  - **Accessibility**: Supports ARIA attributes for accessibility and user-friendly error handling.
+  - **Slots for Customization**: Provides slots for adding content before and after the textarea field,
+  enabling a high degree of customization.
+
+  This component integrates smoothly into Phoenix LiveView forms, providing a user-friendly interface
+  for text input with extensive customization options.
+  """
+
   use Phoenix.Component
   import MishkaChelekomComponents
 
@@ -21,7 +44,7 @@ defmodule MishkaChelekom.TextareaField do
       "Determines the overall size of the elements, including padding, font size, and other items"
 
   attr :disable_resize, :boolean, default: false, doc: ""
-  attr :rows, :string, default: nil, doc: ""
+  attr :rows, :string, default: nil, doc: "Determines count of textarea rows"
 
   attr :ring, :boolean,
     default: true,

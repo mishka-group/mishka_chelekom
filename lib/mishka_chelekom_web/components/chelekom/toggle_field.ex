@@ -1,4 +1,15 @@
 defmodule MishkaChelekom.ToggleField do
+  @moduledoc """
+  A component that renders a toggle field with customizable options.
+
+  This module provides functionality for creating a toggle switch UI element
+  that can be integrated into forms. It supports various attributes to tailor
+  the appearance and behavior of the toggle, including size, color, and error handling.
+
+  The toggle field includes support for accessibility features and can display
+  error messages when validation fails. It is designed to be used within
+  Phoenix LiveView applications, enabling dynamic interactions.
+  """
   use Phoenix.Component
   import MishkaChelekomComponents
 
@@ -13,7 +24,7 @@ defmodule MishkaChelekom.ToggleField do
   attr :border, :string, default: "extra_small", doc: "Determines border style"
   attr :rounded, :string, default: "small", doc: "Determines the border radius"
   attr :space, :string, default: "medium", doc: "Space between items"
-  attr :labe_class, :string, default: nil, doc: ""
+  attr :labe_class, :string, default: nil, doc: "Determines the labe class"
 
   attr :size, :string,
     default: "medium",

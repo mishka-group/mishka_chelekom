@@ -1,4 +1,18 @@
 defmodule MishkaChelekom.UrlField do
+  @moduledoc """
+  A component for rendering a URL input field in a Phoenix application.
+
+  This module provides a customizable URL input field with various options
+  for styling and layout, including the ability to display errors, descriptions,
+  and additional elements before or after the input. It supports both floating
+  label and standard label styles.
+
+  The `url_field/1` function can be used to render the URL input, and it accepts
+  attributes for customization such as color, border style, and size.
+
+  Additionally, helper functions for rendering labels and error messages are provided
+  to enhance usability and accessibility.
+  """
   use Phoenix.Component
   import MishkaChelekomComponents
 
