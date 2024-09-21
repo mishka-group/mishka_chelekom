@@ -34,7 +34,7 @@ defmodule MishkaChelekom.Gallery do
   attr :src, :string, default: nil, doc: ""
   attr :alt, :string, default: "", doc: ""
   attr :rounded, :string, default: "none", doc: "Determines the border radius"
-  attr :shadow, :string, default: "shadow-none", doc: ""
+  attr :shadow, :string, default: "shadow-none", doc: "Determines shadow style"
   attr :rest, :global, doc: "Global attributes can define defaults which are merged with attributes provided by the caller"
   slot :inner_block, required: false, doc: "Inner block that renders HEEx content"
 

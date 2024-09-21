@@ -1,4 +1,45 @@
 defmodule MishkaChelekom.Avatar do
+  @moduledoc """
+  The `MishkaChelekom.Avatar` module provides a set of components for creating and
+  managing avatar elements in your **Phoenix LiveView** applications.
+
+  It supports various avatar types, including standard avatars, placeholders, and placeholder icons.
+  You can customize the appearance and behavior of avatars using attributes such as size, color,
+  border, and shadow.
+
+  ### Components
+
+  - **Avatar (`avatar/1`)**: Renders an individual avatar element, which can include an image,
+  icon, or text content. The component supports several attributes for customization,
+  such as size, color, shadow, and border radius. Slots are available for adding additional
+  content like icons.
+
+  - **Avatar Group (`avatar_group/1`)**: Renders a group of avatar elements arranged in a flex container.
+  You can control the spacing between avatars and provide custom styling using the
+  available attributes and slots.
+
+  ### Attributes
+
+  - **`id`**: Unique identifier for the component.
+  - **`type`**: Specifies the type of avatar to render. Options include `default`,
+  "placeholder", and `placeholder_icon`.
+  - **`class`**: Custom CSS class for additional styling.
+  - **`src`**: Image source URL for the avatar.
+  - **`color`**: Defines the color theme of the avatar. Available options include `white`,
+  "primary", `secondary`, and more.
+  - **`size`**: Determines the size of the avatar and its elements.
+  - **`shadow`**: Applies shadow styling to the avatar.
+  - **`rounded`**: Controls the border radius of the avatar.
+  - **`border`**: Specifies the border style of the avatar.
+
+  ### Usage
+
+  The `MishkaChelekom.Avatar` module allows for flexible and customizable avatar components
+  that can be integrated seamlessly into your user interfaces.
+  Whether you need a simple avatar or a complex avatar group, this module provides the tools
+  to create rich and engaging UI elements.
+  """
+
   use Phoenix.Component
   import MishkaChelekomComponents
 
@@ -31,7 +72,7 @@ defmodule MishkaChelekom.Avatar do
   attr :src, :string, default: nil, doc: "Image address"
   attr :color, :string, values: @colors ++ ["transparent"], default: "transparent", doc: "Determines color theme"
   attr :size, :string, default: "small", doc: "Determines the overall size of the elements, including padding, font size, and other items"
-  attr :shadow, :string, values: @sizes ++ ["none"], default: "none", doc: ""
+  attr :shadow, :string, values: @sizes ++ ["none"], default: "none", doc: "Determines shadow style"
   attr :font_weight, :string, default: "font-normal", doc: "Determines custom class for the font weight"
   attr :rounded, :string, values: @sizes ++ ["full", "none"], default: "medium", doc: "Determines the border radius"
   attr :border, :string, default: "none", doc: "Determines border style"
@@ -41,7 +82,7 @@ defmodule MishkaChelekom.Avatar do
     attr :class, :string, doc: "Custom CSS class for additional styling"
     attr :icon_class, :string, doc: "Determines custom class for the icon"
     attr :color, :string, doc: "Determines color theme"
-    attr :size, :string
+    attr :size, :string, doc: "Determines the overall size of the elements, including padding, font size, and other items"
   end
 
   attr :rest, :global, doc: "Global attributes can define defaults which are merged with attributes provided by the caller"
@@ -141,7 +182,7 @@ defmodule MishkaChelekom.Avatar do
   attr :type, :string,
     values: ["default", "placeholder", "placeholder_icon", nil],
     default: "default",
-    doc: ""
+    doc: "Specifies the type of avatar group to be rendered"
 
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :space, :string, values: @sizes ++ ["none"], default: "medium", doc: "Space between items"

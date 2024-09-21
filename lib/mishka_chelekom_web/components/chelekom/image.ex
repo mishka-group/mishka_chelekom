@@ -25,7 +25,7 @@ defmodule MishkaChelekom.Image do
   attr :ismap, :string, default: nil, doc: ""
   attr :decoding, :string, default: nil, doc: ""
   attr :rounded, :string, default: nil, doc: "Determines the border radius"
-  attr :shadow, :string, default: nil, doc: ""
+  attr :shadow, :string, default: nil, doc: "Determines shadow style"
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :rest, :global, doc: "Global attributes can define defaults which are merged with attributes provided by the caller"
 
