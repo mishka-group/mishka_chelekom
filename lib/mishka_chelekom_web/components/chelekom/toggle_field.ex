@@ -18,9 +18,9 @@ defmodule MishkaChelekom.ToggleField do
   attr :error_icon, :string, default: nil, doc: ""
   attr :label, :string, default: nil
 
-  attr :errors, :list, default: []
-  attr :name, :any
-  attr :value, :any
+  attr :errors, :list, default: [], doc: "List of error messages to be displayed"
+  attr :name, :any, doc: "Name of input"
+  attr :value, :any, doc: "Value of input"
 
   attr :field, Phoenix.HTML.FormField,
     doc: "a form field struct retrieved from the form, for example: @form[:email]"

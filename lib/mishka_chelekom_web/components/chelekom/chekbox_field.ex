@@ -1,4 +1,25 @@
 defmodule MishkaChelekom.CheckboxField do
+  @moduledoc """
+  Provides a customizable checkbox component for use in Phoenix LiveView forms.
+
+  This module includes individual checkbox fields as well as grouped
+  checkbox fields, each with configurable options such as colors, borders,
+  sizes, and more. It allows for easy integration and styling of checkboxes,
+  with support for form validation and error handling.
+
+  ### Features:
+  - Individual and grouped checkbox fields with flexible styling options.
+  - Support for form integration using `Phoenix.HTML.FormField`.
+  - Customizable properties like color themes, border styles, sizes, and layout variations.
+  - Error handling with customizable icons and messages.
+
+  ### Example:
+
+  ```elixir
+  ...example...
+  ```
+  """
+
   use Phoenix.Component
   import MishkaChelekomComponents
 
@@ -9,17 +30,17 @@ defmodule MishkaChelekom.CheckboxField do
   attr :border, :string, default: "extra_small", doc: "Determines border style"
   attr :rounded, :string, default: "small", doc: "Determines the border radius"
   attr :space, :string, default: "medium", doc: "Space between items"
-  attr :label_class, :string, default: nil, doc: ""
+  attr :label_class, :string, default: nil, doc: "Custom CSS class for the label styling"
   attr :size, :string, default: "extra_large", doc: "Determines the overall size of the elements, including padding, font size, and other items"
-  attr :ring, :boolean, default: true, doc: ""
-  attr :reverse, :boolean, default: false, doc: ""
-  attr :checked, :boolean, default: false, doc: ""
-  attr :error_icon, :string, default: nil, doc: ""
-  attr :label, :string, default: nil
+  attr :ring, :boolean, default: true, doc: "Enables or disables focus ring effect around the element"
+  attr :reverse, :boolean, default: false, doc: "Switches the order of the element and label"
+  attr :checked, :boolean, default: false, doc: "Specifies if the element is checked by default"
+  attr :error_icon, :string, default: nil, doc: "Icon to be displayed alongside error messages"
+  attr :label, :string, default: nil, doc: "Text label for the label"
 
-  attr :errors, :list, default: []
-  attr :name, :any
-  attr :value, :any
+  attr :errors, :list, default: [], doc: "List of error messages to be displayed"
+  attr :name, :any, doc: "Name of input"
+  attr :value, :any, doc: "Value of input"
 
   attr :field, Phoenix.HTML.FormField,
     doc: "a form field struct retrieved from the form, for example: @form[:email]"
@@ -85,9 +106,9 @@ defmodule MishkaChelekom.CheckboxField do
   attr :ring, :boolean, default: true, doc: ""
   attr :reverse, :boolean, default: false, doc: ""
   attr :error_icon, :string, default: nil, doc: ""
-  attr :errors, :list, default: []
-  attr :name, :any
-  attr :value, :any
+  attr :errors, :list, default: [], doc: "List of error messages to be displayed"
+  attr :name, :any, doc: "Name of input"
+  attr :value, :any, doc: "Value of input"
 
   attr :rest, :global,
     include:

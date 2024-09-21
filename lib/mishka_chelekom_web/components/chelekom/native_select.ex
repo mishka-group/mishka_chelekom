@@ -18,8 +18,8 @@ defmodule MishkaChelekom.NativeSelect do
   attr :label, :string, default: nil
   attr :multiple, :boolean, default: false
 
-  attr :errors, :list, default: []
-  attr :name, :any
+  attr :errors, :list, default: [], doc: "List of error messages to be displayed"
+  attr :name, :any, doc: "Name of input"
 
   slot :inner_block, required: false, doc: "Inner block that renders HEEx content"
 

@@ -16,9 +16,9 @@ defmodule MishkaChelekom.FileField do
   attr :label, :string, default: nil
   attr :dashed, :boolean, default: true, doc: ""
   attr :error_icon, :string, default: nil, doc: ""
-  attr :errors, :list, default: []
+  attr :errors, :list, default: [], doc: "List of error messages to be displayed"
   attr :upload, :any, doc: ""
-  attr :name, :any
+  attr :name, :any, doc: "Name of input"
   attr :value, :any
 
   attr :dropzone, :boolean, default: false, doc: ""
