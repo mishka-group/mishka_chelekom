@@ -119,7 +119,7 @@ defmodule MishkaChelekom.Badge do
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :indicator_class, :string, default: nil, doc: "CSS class for additional styling of the badge indicator"
   attr :indicator_size, :string, default: nil, doc: "Specifies the size of the badge indicator"
-  attr :params, :map, default: %{kind: "badge"}, doc: "A map of additional parameters used for badge configuration, such as type or kind"
+  attr :params, :map, default: %{kind: "badge"}, doc: "A map of additional parameters used for element configuration, such as type or kind"
 
   attr :rest, :global,
     include:

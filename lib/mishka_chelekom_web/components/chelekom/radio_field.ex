@@ -75,7 +75,7 @@ defmodule MishkaChelekom.RadioField do
   attr :border, :string, default: "extra_small", doc: "Determines border style"
   attr :rounded, :string, default: "small", doc: "Determines the border radius"
   attr :space, :string, default: "medium", doc: "Space between items"
-  attr :variation, :string, default: "vetrical", doc: ""
+  attr :variation, :string, default: "vetrical", doc: "Defines the layout orientation of the component"
   attr :label_class, :string, default: nil, doc: ""
   attr :size, :string, default: "extra_large", doc: "Determines the overall size of the elements, including padding, font size, and other items"
   attr :ring, :boolean, default: true, doc: ""

@@ -46,7 +46,7 @@ defmodule MishkaChelekom.Pagination do
   attr :color, :string, values: @colors, default: "white", doc: "Determines color theme"
   attr :rounded, :string, values: @sizes ++ ["full", "none"], default: "small", doc: "Determines the border radius"
   attr :variant, :string, values: @variants, default: "default", doc: "Determines the style"
-  attr :separator, :string, default: "hero-ellipsis-horizontal", doc: ""
+  attr :separator, :string, default: "hero-ellipsis-horizontal", doc: "Determines a separator for items of an element"
   attr :next_label, :string, default: "hero-chevron-right", doc: ""
   attr :previous_label, :string, default: "hero-chevron-left", doc: ""
   attr :first_label, :string, default: "hero-chevron-double-left", doc: ""

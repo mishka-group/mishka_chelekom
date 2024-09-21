@@ -26,9 +26,9 @@ defmodule MishkaChelekom.SpeedDial do
   slot :item, required: false, doc: "Specifies item slot of a speed dial" do
     attr :icon, :string, doc: "Icon displayed alongside of an item"
     attr :class, :string, doc: "Custom CSS class for additional styling"
-    attr :navigate, :string, doc: ""
-    attr :patch, :string, doc: ""
-    attr :href, :string, doc: ""
+    attr :navigate, :string, doc: "Defines the path for navigation within the application using a `navigate` attribute."
+    attr :patch, :string, doc: "Specifies the path for navigation using a LiveView patch."
+    attr :href, :string, doc: "Sets the URL for an external link."
     attr :icon_class, :string, doc: "Determines custom class for the icon"
     attr :content_class, :string, doc: "Determines custom class for the content"
     attr :color, :string
@@ -122,9 +122,9 @@ defmodule MishkaChelekom.SpeedDial do
 
   @doc type: :component
   attr :id, :string, required: true, doc: "A unique identifier is used to manage state and interaction"
-  attr :navigate, :string, default: nil, doc: ""
-  attr :patch, :string, default: nil, doc: ""
-  attr :href, :string, default: nil, doc: ""
+  attr :navigate, :string, default: nil, doc: "Defines the path for navigation within the application using a `navigate` attribute."
+  attr :patch, :string, default: nil, doc: "Specifies the path for navigation using a LiveView patch."
+  attr :href, :string, default: nil, doc: "Sets the URL for an external link."
   attr :color, :string, default: "primary", doc: "Determines color theme"
   attr :variant, :string, default: "default", doc: "Determines the style"
   attr :icon, :string, default: nil, doc: "Icon displayed alongside of an item"

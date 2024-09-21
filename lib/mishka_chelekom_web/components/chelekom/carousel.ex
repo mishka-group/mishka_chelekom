@@ -19,9 +19,9 @@ defmodule MishkaChelekom.Carousel do
   slot :slide, required: true do
     attr :image, :string, doc: "Image displayed alongside of an item"
     attr :image_class, :string, doc: "Determines custom class for the image"
-    attr :navigate, :string, doc: ""
-    attr :patch, :string, doc: ""
-    attr :href, :string, doc: ""
+    attr :navigate, :string, doc: "Defines the path for navigation within the application using a `navigate` attribute."
+    attr :patch, :string, doc: "Specifies the path for navigation using a LiveView patch."
+    attr :href, :string, doc: "Sets the URL for an external link."
     attr :title, :string, doc: "Specifies the title of the element"
     attr :description, :string, doc: "Determines a short description"
     attr :title_class, :string, doc: "Determines custom class for the title"
@@ -111,9 +111,9 @@ defmodule MishkaChelekom.Carousel do
 
   @doc type: :component
   attr :id, :string, required: true, doc: "A unique identifier is used to manage state and interaction"
-  attr :navigate, :string, default: nil, doc: ""
-  attr :patch, :string, default: nil, doc: ""
-  attr :href, :string, default: nil, doc: ""
+  attr :navigate, :string, default: nil, doc: "Defines the path for navigation within the application using a `navigate` attribute."
+  attr :patch, :string, default: nil, doc: "Specifies the path for navigation using a LiveView patch."
+  attr :href, :string, default: nil, doc: "Sets the URL for an external link."
   attr :image, :string, required: true, doc: "Image displayed alongside of an item"
   attr :index, :integer, required: true, doc: ""
   slot :inner_block, required: false, doc: "Inner block that renders HEEx content"

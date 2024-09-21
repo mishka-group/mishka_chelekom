@@ -1,4 +1,66 @@
 defmodule MishkaChelekom.Blockquote do
+  @moduledoc """
+  This module provides a versatile `Blockquote` component for creating stylish and customizable blockquotes in your Phoenix LiveView application.
+
+  ## Features
+
+  - **Customizable Styles**: Choose from multiple `variant` styles like `default`,
+  `outline`, `transparent`, `shadow`, and `unbordered` to match your design needs.
+  - **Color Themes**: Apply different color themes, including `primary`, `secondary`,
+  `success`, `warning`, and more.
+  - **Flexible Sizing**: Control the overall size of the blockquote, as well as specific
+  attributes like padding, border radius, and font weight.
+  - **Icon and Caption Support**: Add icons and captions to your blockquotes for
+  enhanced visual appeal and content clarity.
+  - **Positioning Options**: Fine-tune the positioning and spacing of content within the
+  blockquote for a polished layout.
+  - **Global Attributes**: Utilize global attributes such as `left_border`, `right_border`,
+  `hide_border`, and `full_border` to easily customize the border display and positioning.
+
+  ## Available Components
+
+  ### Blockquote
+
+  The main component for rendering a blockquote with optional inner content, icons, and captions.
+
+  #### Attributes
+
+  - `id`: A unique identifier for managing state and interaction.
+  - `variant`: Determines the style of the blockquote.
+  - `color`: Sets the color theme for the blockquote.
+  - `border`: Specifies the border style for the blockquote.
+  - `rounded`: Sets the border radius for the blockquote.
+  - `size`: Controls the overall size, including padding and font size.
+  - `space`: Defines the space between items within the blockquote.
+  - `font_weight`: Customizes the font weight.
+  - `padding`: Sets the padding for items within the blockquote.
+  - `class`: Additional custom CSS classes.
+  - `icon`: The icon displayed alongside the blockquote content.
+  - `icon_class`: Custom CSS class for the icon.
+  - `rest`: Global attributes for further customization.
+
+  ### Caption Slot
+
+  A slot for adding a caption with optional image and text.
+
+  #### Attributes
+
+  - `image`: The image displayed alongside the caption text.
+  - `image_class`: Custom CSS class for styling the image.
+  - `position`: Specifies the alignment of the caption.
+
+  ### Content Slot
+
+  A slot for adding the main content of the blockquote.
+
+  ### Inner Block Slot
+
+  A slot for adding custom HEEx content within the blockquote.
+
+  Use this module to create visually appealing and content-rich blockquotes that enhance
+  the readability and aesthetics of your LiveView applications.
+  """
+
   use Phoenix.Component
   import MishkaChelekomComponents
 

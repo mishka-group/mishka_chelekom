@@ -1,4 +1,71 @@
 defmodule MishkaChelekom.Banner do
+  @moduledoc """
+  This module provides components for rendering customizable banners in your **Phoenix LiveView**
+  application.
+
+  ## Features
+
+  - **Banner Component**: Create visually appealing banners with various styles, colors, and sizes.
+  - **Dismissable Banners**: Add dismiss buttons to banners to allow users to hide them with a
+  smooth transition.
+  - **Positioning Options**: Control the positioning of the banners on the screen with flexible
+  vertical and horizontal alignment options.
+  - **Custom Styles**: Customize the look and feel of your banners using various attributes for size,
+  border, padding, and more.
+  - **Animation Transitions**: Use built-in JavaScript commands to show and hide banners with
+  smooth animation transitions.
+
+  ### Banner
+  ```elixir
+  ...example
+  ```
+
+  The main component for rendering a banner with optional inner content and dismiss functionality.
+
+  #### Attributes
+
+  - `id` (required): A unique identifier used for managing the banner state and interaction.
+  - `size`: Specifies the size of the banner, including padding and font size.
+  - `variant`: Determines the style of the banner, such as "default" or "outline".
+  - `color`: Sets the color theme for the banner.
+  - `border`: Specifies the border style for the banner.
+  - `border_position`: Controls where the border appears (top, bottom, or full).
+  - `rounded`: Sets the border radius for the banner.
+  - `rounded_position`: Controls where the rounded corners appear.
+  - `space`: Sets the space between items within the banner.
+  - `vertical_position`: Specifies the vertical positioning of the banner.
+  - `vertical_size`: Sets the size of the vertical positioning.
+  - `position`: Determines the overall position of the banner on the screen.
+  - `position_size`: Sets the size of the position for finer control.
+  - `font_weight`: Customizes the font weight.
+  - `padding`: Sets the padding around the banner content.
+  - `class`: Additional custom CSS classes.
+  - `params`: Additional parameters passed to the banner.
+  - `rest`: Global attributes for further customization.
+  - `inner_block`: Slot for adding custom inner content to the banner.
+
+  ### Banner Dismiss
+
+  A button to dismiss the banner with a smooth hiding transition.
+
+  #### Attributes
+
+  - `id` (required): A unique identifier used for managing the state and interaction
+  of the dismiss button.
+  - `dismiss`: Specifies whether the dismiss button should be rendered.
+  - `class`: Additional custom CSS classes.
+  - `size`: Sets the size of the dismiss button.
+  - `params`: Additional parameters passed to the dismiss button.
+
+  ## JS Commands
+
+  - `show_banner/2`: Displays the banner element with a smooth transition.
+  - `hide_banner/2`: Hides the banner element with a smooth transition.
+
+  Use this module to create interactive and aesthetically pleasing banner elements for
+  your **LiveView** applications.
+  """
+
   use Phoenix.Component
   alias Phoenix.LiveView.JS
   import MishkaChelekomComponents
@@ -53,14 +120,14 @@ defmodule MishkaChelekom.Banner do
 
   attr :space, :string, values: @sizes ++ ["none"], default: "extra_small", doc: "Space between items"
   attr :vertical_position, :string, values: ["top", "bottom"], default: "top", doc: ""
-  attr :vertical_size, :string, default: "none", doc: ""
+  attr :vertical_size, :string, default: "none", doc: "Specifies the vertical size of the element"
   attr :position, :string, values: @positions, default: "full", doc: "Determines the element position"
-  attr :position_size, :string, values: @sizes ++ ["none"], default: "none", doc: ""
+  attr :position_size, :string, values: @sizes ++ ["none"], default: "none", doc: "Determines the size for positioning the element"
   attr :font_weight, :string, default: "font-normal", doc: "Determines custom class for the font weight"
   attr :padding, :string, values: @sizes ++ ["none"], default: "extra_small", doc: "Determines padding for items"
   attr :class, :string, default: "", doc: "Custom CSS class for additional styling"
-  attr :params, :map, default: %{kind: "banner"}
-  attr :rest, :global, include: ~w(right_dismiss left_dismiss), doc: ""
+  attr :params, :map, default: %{kind: "banner"}, doc: "A map of additional parameters used for element configuration, such as type or kind"
+  attr :rest, :global, include: ~w(right_dismiss left_dismiss), doc: "Global attributes can define defaults which are merged with attributes provided by the caller"
 
   slot :inner_block, required: false, doc: "Inner block that renders HEEx content"
 
@@ -94,10 +161,10 @@ defmodule MishkaChelekom.Banner do
 
   @doc type: :component
   attr :id, :string, required: true, doc: "A unique identifier is used to manage state and interaction"
-  attr :dismiss, :boolean, default: false
+  attr :dismiss, :boolean, default: false, doc: "Indicates if the element can be dismissed with a close button."
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :size, :string, default: "small", doc: "Determines the overall size of the elements, including padding, font size, and other items"
-  attr :params, :map, default: %{kind: "badge"}
+  attr :params, :map, default: %{kind: "badge"}, doc: "A map of additional parameters used for element configuration, such as type or kind"
 
   defp banner_dismiss(assigns) do
     ~H"""
@@ -105,7 +172,7 @@ defmodule MishkaChelekom.Banner do
       type="button"
       class="group shrink-0"
       aria-label={gettext("close")}
-      phx-click={JS.push("dismiss", value: Map.merge(%{id: @id}, @params)) |> hide("##{@id}")}
+      phx-click={JS.push("dismiss", value: Map.merge(%{id: @id}, @params)) |> hide_banner("##{@id}")}
     >
       <.icon
         name="hero-x-mark-solid"
@@ -461,8 +528,35 @@ defmodule MishkaChelekom.Banner do
   end
 
   ## JS Commands
+  @doc """
+  Displays a banner element with a smooth transition effect.
 
-  def show(js \\ %JS{}, selector) do
+  ## Parameters
+
+    - `js` (optional): An existing `Phoenix.LiveView.JS` structure to apply transformations on.
+    Defaults to a new `%JS{}`.
+    - `selector`: A string representing the CSS selector of the banner element to be shown.
+
+  ## Returns
+
+    - A `Phoenix.LiveView.JS` structure with commands to show the banner element with a
+    smooth transition effect.
+
+  ## Transition Details
+
+    - The element transitions from an initial state of reduced opacity and scale
+    (`opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95`) to full opacity and scale
+    (`opacity-100 translate-y-0 sm:scale-100`) over a duration of 300 milliseconds.
+
+  ## Example
+
+    ```elixir
+    show_banner(%JS{}, "#banner-element")
+    ```
+
+    This example will show the banner element with the ID banner-element using the defined transition effect.
+  """
+  def show_banner(js \\ %JS{}, selector) do
     JS.show(js,
       to: selector,
       time: 300,
@@ -473,7 +567,35 @@ defmodule MishkaChelekom.Banner do
     )
   end
 
-  def hide(js \\ %JS{}, selector) do
+  @doc """
+  Hides a banner element with a smooth transition effect.
+
+  ## Parameters
+
+    - `js` (optional): An existing `Phoenix.LiveView.JS` structure to apply transformations on.
+    Defaults to a new `%JS{}`.
+    - `selector`: A string representing the CSS selector of the banner element to be hidden.
+
+  ## Returns
+
+    - A `Phoenix.LiveView.JS` structure with commands to hide the banner element with a
+    smooth transition effect.
+
+  ## Transition Details
+
+    - The element transitions from full opacity and scale (`opacity-100 translate-y-0 sm:scale-100`)
+    to reduced opacity and scale (`opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95`)
+    over a duration of 200 milliseconds.
+
+  ## Example
+
+    ```elixir
+    hide_banner(%JS{}, "#banner-element")
+    ```
+
+  This example will hide the banner element with the ID banner-element using the defined transition effect.
+  """
+  def hide_banner(js \\ %JS{}, selector) do
     JS.hide(js,
       to: selector,
       time: 200,

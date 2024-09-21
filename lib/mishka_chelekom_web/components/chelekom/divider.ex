@@ -25,7 +25,7 @@ defmodule MishkaChelekom.Divider do
   attr :width, :string, default: "full", doc: "Determines the element width"
   attr :height, :string, default: "auto", doc: "Determines the element width"
   attr :margin, :string, default: "none", doc: "Determines the element margin"
-  attr :variation, :string, values: ["horizontal", "vertical"], default: "horizontal", doc: ""
+  attr :variation, :string, values: ["horizontal", "vertical"], default: "horizontal", doc: "Defines the layout orientation of the component"
 
   slot :text, required: false do
     attr :class, :string, doc: "Custom CSS class for additional styling"

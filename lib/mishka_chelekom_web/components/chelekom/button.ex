@@ -1,4 +1,50 @@
 defmodule MishkaChelekom.Button do
+  @moduledoc """
+  Provides a comprehensive set of button components for the `MishkaChelekom` project. These components are highly customizable, allowing various styles, sizes, colors, and configurations, including buttons with icons, gradients, and different indicator positions.
+
+  ## Components
+
+    - `button/1`: Renders a standard button with extensive customization options.
+    - `button_group/1`: Renders a group of buttons with configurable layout and styling.
+    - `input_button/1`: Renders a button with input attributes, useful for form submissions.
+    - `button_link/1`: Renders a button as a link, supporting different navigation types.
+    - `button_indicator/1`: A utility component to render indicators on buttons based on configuration.
+
+  ## Configuration Options
+
+  The module supports various predefined options for attributes like size, color,
+  variant, and border style. These can be customized through the attributes of each
+  component function to match specific design requirements.
+
+  ## Usage
+
+  ### Basic Example
+
+  ```elixir
+  ...example...
+  ```
+
+  ### Button with Custom Attributes
+
+  ```elixir
+  ...example...
+  ```
+
+  ### Button with Icon and Indicator
+
+  ```elixir
+  ...example...
+  ```
+
+  ### Button Group
+
+  ```elixir
+  ...example...
+  ```
+
+  This module makes it easy to render buttons with consistent styling and behavior across your application while offering the flexibility needed for various use cases.
+  """
+
   use Phoenix.Component
   import MishkaChelekomComponents
 
@@ -58,7 +104,7 @@ defmodule MishkaChelekom.Button do
   @doc type: :component
   attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
   attr :variant, :string, values: @variants, default: "default", doc: "Determines the style"
-  attr :variation, :string, values: ["horizontal", "vertical"], default: "horizontal", doc: ""
+  attr :variation, :string, values: ["horizontal", "vertical"], default: "horizontal", doc: "Defines the layout orientation of the component"
   attr :color, :string, values: @colors, default: "white", doc: "Determines color theme"
   attr :border, :string, values: @colors, default: "white", doc: "Determines border style"
   attr :rounded, :string, values: @sizes ++ ["full", "none"], default: "small", doc: "Determines the border radius"
@@ -90,18 +136,18 @@ defmodule MishkaChelekom.Button do
   @doc type: :component
   attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
   attr :variant, :string, values: @variants, default: "default", doc: "Determines the style"
-  attr :type, :string, values: ["button", "submit", "reset", nil], default: nil, doc: ""
+  attr :type, :string, values: ["button", "submit", "reset", nil], default: nil, doc: "Specifies the type of the element"
   attr :color, :string, default: "white", doc: "Determines color theme"
   attr :rounded, :string, default: "large", doc: "Determines the border radius"
   attr :border, :string, default: "white", doc: "Determines border style"
   attr :size, :string, default: "large", doc: "Determines the overall size of the elements, including padding, font size, and other items"
-  attr :content_position, :string, default: "center", doc: ""
-  attr :display, :string, default: "inline-flex", doc: ""
+  attr :content_position, :string, default: "center", doc: "Determines the alignment of the element's content"
+  attr :display, :string, default: "inline-flex", doc: "Specifies the CSS display property for the element"
   attr :icon, :string, default: nil, doc: "Icon displayed alongside of an item"
   attr :icon_class, :string, default: nil, doc: "Determines custom class for the icon"
   attr :font_weight, :string, default: "font-normal", doc: "Determines custom class for the font weight"
-  attr :indicator_class, :string, default: nil, doc: ""
-  attr :indicator_size, :string, default: nil, doc: ""
+  attr :indicator_class, :string, default: nil, doc: "Custom CSS class for styling the indicator element"
+  attr :indicator_size, :string, default: nil, doc: "Defines the size of the indicator element"
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
 
   attr :rest, :global,
@@ -145,12 +191,12 @@ defmodule MishkaChelekom.Button do
   attr :variant, :string, values: @variants, default: "default", doc: "Determines the style"
   attr :color, :string, default: "white", doc: "Determines color theme"
   attr :rounded, :string, default: "large", doc: "Determines the border radius"
-  attr :value, :string, default: "", doc: ""
+  attr :value, :string, default: "", doc: "Value of input"
   attr :border, :string, default: "white", doc: "Determines border style"
   attr :size, :string, default: "large", doc: "Determines the overall size of the elements, including padding, font size, and other items"
   attr :type, :string, default: "button", doc: "button, submit, reset"
-  attr :content_position, :string, default: "center", doc: ""
-  attr :display, :string, default: "inline-block", doc: ""
+  attr :content_position, :string, default: "center", doc: "Determines the alignment of the element's content"
+  attr :display, :string, default: "inline-block", doc: "Specifies the CSS display property for the element"
   attr :font_weight, :string, default: "font-normal", doc: "Determines custom class for the font weight"
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :rest, :global, doc: "Global attributes can define defaults which are merged with attributes provided by the caller"
@@ -182,20 +228,20 @@ defmodule MishkaChelekom.Button do
   @doc type: :component
   attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
   attr :title, :string, default: nil, doc: "Specifies the title of the element"
-  attr :navigate, :string, doc: ""
-  attr :patch, :string, doc: ""
-  attr :href, :string, doc: ""
+  attr :navigate, :string, doc: "Defines the path for navigation within the application using a `navigate` attribute."
+  attr :patch, :string, doc: "Specifies the path for navigation using a LiveView patch"
+  attr :href, :string, doc: "Sets the URL for an external link"
   attr :variant, :string, values: @variants, default: "default", doc: "Determines the style"
   attr :color, :string, values: @colors, default: "white", doc: "Determines color theme"
   attr :rounded, :string, values: @sizes ++ ["full", "none"], default: "large", doc: ""
   attr :size, :string, default: "large", doc: "Determines the overall size of the elements, including padding, font size, and other items"
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
-  attr :display, :string, default: "inline-flex", doc: ""
+  attr :display, :string, default: "inline-flex", doc: "Specifies the CSS display property for the element"
   attr :icon, :string, default: nil, doc: "Icon displayed alongside of an item"
   attr :icon_class, :string, default: nil, doc: "Determines custom class for the icon"
   attr :font_weight, :string, default: "font-normal", doc: "Determines custom class for the font weight"
-  attr :indicator_class, :string, default: nil, doc: ""
-  attr :indicator_size, :string, default: nil, doc: ""
+  attr :indicator_class, :string, default: nil, doc: "Custom CSS class for styling the indicator element"
+  attr :indicator_size, :string, default: nil, doc: "Defines the size of the indicator element"
 
   attr :rest, :global,
     include:

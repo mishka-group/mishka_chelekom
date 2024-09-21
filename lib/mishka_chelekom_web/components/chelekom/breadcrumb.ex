@@ -1,4 +1,57 @@
 defmodule MishkaChelekom.Breadcrumb do
+  @moduledoc """
+  Provides a flexible and customizable `Breadcrumb` component for displaying
+  breadcrumb navigation in your Phoenix LiveView applications.
+
+  ## Features
+
+  - **Customizable Appearance**: Choose from various color themes and sizes to match your design needs.
+  - **Icon and Separator Support**: Easily add icons and separators between breadcrumb items
+  for improved navigation.
+  - **Flexible Structure**: Use slots to define breadcrumb items, each with optional icons,
+  links, and custom separators.
+  - **Global Attributes**: Utilize global attributes to customize and extend the component's
+  behavior and appearance.
+
+  ## Available Attributes
+
+  ### Breadcrumb
+
+  The main component for rendering a breadcrumb navigation.
+
+  #### Attributes
+
+  - `class`: Custom CSS class for additional styling.
+  - `id`: Unique identifier for the breadcrumb component.
+  - `separator`: Determines the default separator between breadcrumb items.
+  Can be customized at the item level.
+  - `color`: Specifies the color theme for the breadcrumb.
+  - `size`: Sets the overall size, including padding, font size, and other elements.
+
+  ### Item Slot
+
+  Defines individual breadcrumb items within the breadcrumb component.
+
+  #### Attributes
+
+  - `icon`: Icon displayed alongside the breadcrumb item.
+  - `link`: Specifies the navigation link for the item. Can be a path, live patch, or standard link.
+  - `separator`: Custom separator for this specific item, overriding the default separator.
+  - `class`: Custom CSS class for additional styling.
+
+  ### Inner Block Slot
+
+  Allows for the inclusion of additional custom HEEx content within the breadcrumb component.
+
+  ## Example Usage
+
+  ```elixir
+  ...example
+  ```
+
+  This will render a breadcrumb navigation with the items "Home", "Products", and "Electronics",
+  where "Home" and "Products" are clickable links.
+  """
   use Phoenix.Component
   import MishkaChelekomComponents
 
@@ -20,14 +73,14 @@ defmodule MishkaChelekom.Breadcrumb do
   @doc type: :component
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
-  attr :separator, :string, default: "hero-chevron-right", doc: ""
+  attr :separator, :string, default: "hero-chevron-right", doc: "Determines a separator for items of an element"
   attr :color, :string, values: @colors, default: "dark", doc: "Determines color theme"
   attr :size, :string, values: @sizes, default: "small", doc: "Determines the overall size of the elements, including padding, font size, and other items"
 
   slot :item, required: false, doc: "Specifies item slot of a breadcrumb" do
     attr :icon, :string, doc: "Icon displayed alongside of an item"
-    attr :link, :string
-    attr :separator, :string
+    attr :link, :string, do: "Renders a navigation, patch link or normal link"
+    attr :separator, :string, doc: "Determines a separator for items of an element"
     attr :class, :string, doc: "Custom CSS class for additional styling"
   end
 
