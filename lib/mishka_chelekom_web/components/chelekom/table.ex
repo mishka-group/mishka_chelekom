@@ -20,7 +20,7 @@ defmodule MishkaChelekom.Table do
   attr :text_position, :string, default: "left", doc: ""
   attr :rest, :global, doc: "Global attributes can define defaults which are merged with attributes provided by the caller"
 
-  slot :inner_block, required: false, doc: ""
+  slot :inner_block, required: false, doc: "Inner block that renders HEEx content"
 
   slot :header do
     attr :class, :any, doc: "Custom CSS class for additional styling"
@@ -109,7 +109,7 @@ defmodule MishkaChelekom.Table do
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :scope, :string, default: nil, doc: ""
   attr :rest, :global, doc: "Global attributes can define defaults which are merged with attributes provided by the caller"
-  slot :inner_block, required: false, doc: ""
+  slot :inner_block, required: false, doc: "Inner block that renders HEEx content"
 
   def th(assigns) do
     ~H"""
@@ -122,7 +122,7 @@ defmodule MishkaChelekom.Table do
   attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :rest, :global, doc: "Global attributes can define defaults which are merged with attributes provided by the caller"
-  slot :inner_block, required: false, doc: ""
+  slot :inner_block, required: false, doc: "Inner block that renders HEEx content"
 
   def tr(assigns) do
     ~H"""
@@ -135,7 +135,7 @@ defmodule MishkaChelekom.Table do
   attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :rest, :global, doc: "Global attributes can define defaults which are merged with attributes provided by the caller"
-  slot :inner_block, required: false, doc: ""
+  slot :inner_block, required: false, doc: "Inner block that renders HEEx content"
 
   def td(assigns) do
     ~H"""

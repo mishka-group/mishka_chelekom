@@ -10,7 +10,7 @@ defmodule MishkaChelekom.DeviceMockup do
   attr :image, :string, default: nil, doc: "Image displayed alongside of an item"
   attr :image_class, :string, default: nil, doc: "Determines custom class for the image"
   attr :rest, :global, include: ~w(android watch laptop iphone ipad imac), doc: "Global attributes can define defaults which are merged with attributes provided by the caller"
-  slot :inner_block, doc: ""
+  slot :inner_block, doc: "Inner block that renders HEEx content"
 
   def device_mockup(%{type: "watch"} = assigns) do
     ~H"""

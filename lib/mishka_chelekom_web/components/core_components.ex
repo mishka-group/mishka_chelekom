@@ -39,7 +39,7 @@ defmodule MishkaChelekomWeb.CoreComponents do
   attr :id, :string, required: true, doc: "A unique identifier is used to manage state and interaction"
   attr :show, :boolean, default: false
   attr :on_cancel, JS, default: %JS{}
-  slot :inner_block, required: true
+  slot :inner_block, required: true, doc: "Inner block that renders HEEx content"
 
   def modal(assigns) do
     ~H"""
@@ -198,7 +198,7 @@ defmodule MishkaChelekomWeb.CoreComponents do
     include: ~w(autocomplete name rel action enctype method novalidate target multipart),
     doc: "Global attributes can define defaults which are merged with attributes provided by the caller"
 
-  slot :inner_block, required: true
+  slot :inner_block, required: true, doc: "Inner block that renders HEEx content"
   slot :actions, doc: "the slot for form actions, such as a submit button"
 
   def simple_form(assigns) do
@@ -226,7 +226,7 @@ defmodule MishkaChelekomWeb.CoreComponents do
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :rest, :global, include: ~w(disabled form name value)
 
-  slot :inner_block, required: true
+  slot :inner_block, required: true, doc: "Inner block that renders HEEx content"
 
   def button(assigns) do
     ~H"""
@@ -398,7 +398,7 @@ defmodule MishkaChelekomWeb.CoreComponents do
   Renders a label.
   """
   attr :for, :string, default: nil
-  slot :inner_block, required: true
+  slot :inner_block, required: true, doc: "Inner block that renders HEEx content"
 
   def label(assigns) do
     ~H"""
@@ -411,7 +411,7 @@ defmodule MishkaChelekomWeb.CoreComponents do
   @doc """
   Generates a generic error message.
   """
-  slot :inner_block, required: true
+  slot :inner_block, required: true, doc: "Inner block that renders HEEx content"
 
   def error(assigns) do
     ~H"""
@@ -428,7 +428,7 @@ defmodule MishkaChelekomWeb.CoreComponents do
   """
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
 
-  slot :inner_block, required: true
+  slot :inner_block, required: true, doc: "Inner block that renders HEEx content"
   slot :subtitle
   slot :actions
 
@@ -567,7 +567,7 @@ defmodule MishkaChelekomWeb.CoreComponents do
       <.back navigate={~p"/posts"}>Back to posts</.back>
   """
   attr :navigate, :any, required: true
-  slot :inner_block, required: true
+  slot :inner_block, required: true, doc: "Inner block that renders HEEx content"
 
   def back(assigns) do
     ~H"""

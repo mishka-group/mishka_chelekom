@@ -14,7 +14,7 @@ defmodule MishkaChelekom.Carousel do
   attr :indicator, :boolean, default: false
   attr :control, :boolean, default: true
 
-  slot :inner_block, required: false, doc: ""
+  slot :inner_block, required: false, doc: "Inner block that renders HEEx content"
 
   slot :slide, required: true do
     attr :image, :string, doc: "Image displayed alongside of an item"
@@ -115,7 +115,7 @@ defmodule MishkaChelekom.Carousel do
   attr :href, :string, default: nil, doc: ""
   attr :image, :string, required: true, doc: "Image displayed alongside of an item"
   attr :index, :integer, required: true, doc: ""
-  slot :inner_block, required: false, doc: ""
+  slot :inner_block, required: false, doc: "Inner block that renders HEEx content"
 
   defp slide_image(%{navigate: nav, patch: pat, href: hrf} = assigns)
        when is_binary(nav) or is_binary(pat) or is_binary(hrf) do

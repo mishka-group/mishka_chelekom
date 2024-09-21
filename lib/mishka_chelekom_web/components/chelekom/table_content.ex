@@ -16,7 +16,7 @@ defmodule MishkaChelekom.TableContent do
   attr :border, :string, default: "extra_small", doc: "Determines border style"
   attr :size, :string, default: "small", doc: "Determines the overall size of the elements, including padding, font size, and other items"
   attr :rest, :global, doc: "Global attributes can define defaults which are merged with attributes provided by the caller"
-  slot :inner_block, required: false, doc: ""
+  slot :inner_block, required: false, doc: "Inner block that renders HEEx content"
 
   def table_content(assigns) do
     ~H"""
@@ -45,7 +45,7 @@ defmodule MishkaChelekom.TableContent do
   attr :icon, :string, default: nil, doc: "Icon displayed alongside of an item"
   attr :font_weight, :string, default: "font-normal", doc: "Determines custom class for the font weight"
   attr :rest, :global, doc: "Global attributes can define defaults which are merged with attributes provided by the caller"
-  slot :inner_block, required: false, doc: ""
+  slot :inner_block, required: false, doc: "Inner block that renders HEEx content"
 
   def content_wrapper(assigns) do
     ~H"""
@@ -71,7 +71,7 @@ defmodule MishkaChelekom.TableContent do
   attr :font_weight, :string, default: "font-noraml", doc: "Determines custom class for the font weight"
   attr :active, :boolean, default: false, doc: ""
   attr :rest, :global, doc: "Global attributes can define defaults which are merged with attributes provided by the caller"
-  slot :inner_block, required: false, doc: ""
+  slot :inner_block, required: false, doc: "Inner block that renders HEEx content"
 
   def content_item(assigns) do
     ~H"""

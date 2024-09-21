@@ -45,7 +45,7 @@ defmodule MishkaChelekom.Avatar do
   end
 
   attr :rest, :global, doc: "Global attributes can define defaults which are merged with attributes provided by the caller"
-  slot :inner_block, required: false, doc: ""
+  slot :inner_block, required: false, doc: "Inner block that renders HEEx content"
 
   def avatar(%{src: src, rounded: "full"} = assigns) when not is_nil(src) do
     ~H"""
@@ -146,7 +146,7 @@ defmodule MishkaChelekom.Avatar do
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :space, :string, values: @sizes ++ ["none"], default: "medium", doc: "Space between items"
   attr :rest, :global, doc: "Global attributes can define defaults which are merged with attributes provided by the caller"
-  slot :inner_block, required: false, doc: ""
+  slot :inner_block, required: false, doc: "Inner block that renders HEEx content"
 
   def avatar_group(assigns) do
     ~H"""

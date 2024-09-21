@@ -36,7 +36,7 @@ defmodule MishkaChelekom.List do
   attr :style, :string, default: "list-none", doc: ""
   slot :item, validate_attrs: false
   attr :rest, :global, include: ~w(ordered unordered), doc: "Global attributes can define defaults which are merged with attributes provided by the caller"
-  slot :inner_block, doc: ""
+  slot :inner_block, doc: "Inner block that renders HEEx content"
 
   def list(%{rest: %{ordered: true}} = assigns) do
     ~H"""
@@ -70,7 +70,7 @@ defmodule MishkaChelekom.List do
   attr :padding, :string, default: "none", doc: "Determines padding for items"
   attr :position, :string, values: ["start", "end", "center"], default: "start", doc: ""
   attr :rest, :global, doc: "Global attributes can define defaults which are merged with attributes provided by the caller"
-  slot :inner_block, required: true, doc: ""
+  slot :inner_block, required: true, doc: "Inner block that renders HEEx content"
 
   @spec li(map()) :: Phoenix.LiveView.Rendered.t()
   def li(assigns) do
@@ -107,7 +107,7 @@ defmodule MishkaChelekom.List do
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :font_weight, :string, default: "font-normal", doc: "Determines custom class for the font weight"
   attr :rest, :global, doc: "Global attributes can define defaults which are merged with attributes provided by the caller"
-  slot :inner_block, required: true, doc: ""
+  slot :inner_block, required: true, doc: "Inner block that renders HEEx content"
 
   def ul(assigns) do
     ~H"""
@@ -139,7 +139,7 @@ defmodule MishkaChelekom.List do
   attr :space, :string, values: @sizes ++ [nil], default: nil, doc: "Space between items"
   attr :font_weight, :string, default: "font-normal", doc: "Determines custom class for the font weight"
   attr :rest, :global, doc: "Global attributes can define defaults which are merged with attributes provided by the caller"
-  slot :inner_block, required: true, doc: ""
+  slot :inner_block, required: true, doc: "Inner block that renders HEEx content"
 
   def ol(assigns) do
     ~H"""
@@ -173,7 +173,7 @@ defmodule MishkaChelekom.List do
   attr :padding, :string, values: @sizes ++ ["none"], default: "none", doc: "Determines padding for items"
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :rest, :global, doc: "Global attributes can define defaults which are merged with attributes provided by the caller"
-  slot :inner_block, required: true, doc: ""
+  slot :inner_block, required: true, doc: "Inner block that renders HEEx content"
 
   def list_group(assigns) do
     ~H"""

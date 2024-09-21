@@ -21,7 +21,7 @@ defmodule MishkaChelekom.Typography do
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :font_weight, :string, default: "font-normal", doc: "Determines custom class for the font weight"
   attr :rest, :global, doc: "Global attributes can define defaults which are merged with attributes provided by the caller"
-  slot :inner_block, required: true, doc: ""
+  slot :inner_block, required: true, doc: "Inner block that renders HEEx content"
 
   @spec h1(map()) :: Phoenix.LiveView.Rendered.t()
   def h1(assigns) do
@@ -47,7 +47,7 @@ defmodule MishkaChelekom.Typography do
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :font_weight, :string, default: "font-normal", doc: "Determines custom class for the font weight"
   attr :rest, :global, doc: "Global attributes can define defaults which are merged with attributes provided by the caller"
-  slot :inner_block, required: true, doc: ""
+  slot :inner_block, required: true, doc: "Inner block that renders HEEx content"
 
   @spec h2(any()) :: Phoenix.LiveView.Rendered.t()
   def h2(assigns) do
@@ -73,7 +73,7 @@ defmodule MishkaChelekom.Typography do
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :font_weight, :string, default: "font-normal", doc: "Determines custom class for the font weight"
   attr :rest, :global, doc: "Global attributes can define defaults which are merged with attributes provided by the caller"
-  slot :inner_block, required: true, doc: ""
+  slot :inner_block, required: true, doc: "Inner block that renders HEEx content"
 
   def h3(assigns) do
     ~H"""
@@ -98,7 +98,7 @@ defmodule MishkaChelekom.Typography do
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :font_weight, :string, default: "font-normal", doc: "Determines custom class for the font weight"
   attr :rest, :global, doc: "Global attributes can define defaults which are merged with attributes provided by the caller"
-  slot :inner_block, required: true, doc: ""
+  slot :inner_block, required: true, doc: "Inner block that renders HEEx content"
 
   def h4(assigns) do
     ~H"""
@@ -123,7 +123,7 @@ defmodule MishkaChelekom.Typography do
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :font_weight, :string, default: "font-normal", doc: "Determines custom class for the font weight"
   attr :rest, :global, doc: "Global attributes can define defaults which are merged with attributes provided by the caller"
-  slot :inner_block, required: true, doc: ""
+  slot :inner_block, required: true, doc: "Inner block that renders HEEx content"
 
   def h5(assigns) do
     ~H"""
@@ -148,7 +148,7 @@ defmodule MishkaChelekom.Typography do
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :font_weight, :string, default: "font-normal", doc: "Determines custom class for the font weight"
   attr :rest, :global, doc: "Global attributes can define defaults which are merged with attributes provided by the caller"
-  slot :inner_block, required: true, doc: ""
+  slot :inner_block, required: true, doc: "Inner block that renders HEEx content"
 
   def h6(assigns) do
     ~H"""
@@ -173,7 +173,7 @@ defmodule MishkaChelekom.Typography do
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :font_weight, :string, default: "font-normal", doc: "Determines custom class for the font weight"
   attr :rest, :global, doc: "Global attributes can define defaults which are merged with attributes provided by the caller"
-  slot :inner_block, required: true, doc: ""
+  slot :inner_block, required: true, doc: "Inner block that renders HEEx content"
 
   def p(assigns) do
     ~H"""
@@ -198,7 +198,7 @@ defmodule MishkaChelekom.Typography do
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :font_weight, :string, default: "font-bold", doc: "Determines custom class for the font weight"
   attr :rest, :global, doc: "Global attributes can define defaults which are merged with attributes provided by the caller"
-  slot :inner_block, required: true, doc: ""
+  slot :inner_block, required: true, doc: "Inner block that renders HEEx content"
 
   def strong(assigns) do
     ~H"""
@@ -223,7 +223,7 @@ defmodule MishkaChelekom.Typography do
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :font_weight, :string, default: "font-normal", doc: "Determines custom class for the font weight"
   attr :rest, :global, doc: "Global attributes can define defaults which are merged with attributes provided by the caller"
-  slot :inner_block, required: true, doc: ""
+  slot :inner_block, required: true, doc: "Inner block that renders HEEx content"
 
   def em(assigns) do
     ~H"""
@@ -248,7 +248,7 @@ defmodule MishkaChelekom.Typography do
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :font_weight, :string, default: "font-normal", doc: "Determines custom class for the font weight"
   attr :rest, :global, doc: "Global attributes can define defaults which are merged with attributes provided by the caller"
-  slot :inner_block, required: true, doc: ""
+  slot :inner_block, required: true, doc: "Inner block that renders HEEx content"
 
   def dl(assigns) do
     ~H"""
@@ -273,7 +273,7 @@ defmodule MishkaChelekom.Typography do
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :font_weight, :string, default: "font-bold", doc: "Determines custom class for the font weight"
   attr :rest, :global, doc: "Global attributes can define defaults which are merged with attributes provided by the caller"
-  slot :inner_block, required: true, doc: ""
+  slot :inner_block, required: true, doc: "Inner block that renders HEEx content"
 
   def dt(assigns) do
     ~H"""
@@ -298,7 +298,7 @@ defmodule MishkaChelekom.Typography do
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :font_weight, :string, default: "font-normal", doc: "Determines custom class for the font weight"
   attr :rest, :global, doc: "Global attributes can define defaults which are merged with attributes provided by the caller"
-  slot :inner_block, required: true, doc: ""
+  slot :inner_block, required: true, doc: "Inner block that renders HEEx content"
 
   def dd(assigns) do
     ~H"""
@@ -323,7 +323,7 @@ defmodule MishkaChelekom.Typography do
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :font_weight, :string, default: "font-normal", doc: "Determines custom class for the font weight"
   attr :rest, :global, doc: "Global attributes can define defaults which are merged with attributes provided by the caller"
-  slot :inner_block, required: true, doc: ""
+  slot :inner_block, required: true, doc: "Inner block that renders HEEx content"
 
   def figure(assigns) do
     ~H"""
@@ -348,7 +348,7 @@ defmodule MishkaChelekom.Typography do
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :font_weight, :string, default: "font-normal", doc: "Determines custom class for the font weight"
   attr :rest, :global, doc: "Global attributes can define defaults which are merged with attributes provided by the caller"
-  slot :inner_block, required: true, doc: ""
+  slot :inner_block, required: true, doc: "Inner block that renders HEEx content"
 
   def figcaption(assigns) do
     ~H"""
@@ -373,7 +373,7 @@ defmodule MishkaChelekom.Typography do
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :font_weight, :string, default: "font-normal", doc: "Determines custom class for the font weight"
   attr :rest, :global, doc: "Global attributes can define defaults which are merged with attributes provided by the caller"
-  slot :inner_block, required: true, doc: ""
+  slot :inner_block, required: true, doc: "Inner block that renders HEEx content"
 
   def abbr(assigns) do
     ~H"""
@@ -398,7 +398,7 @@ defmodule MishkaChelekom.Typography do
   attr :class, :string, default: "p-0.5 bg-rose-200", doc: "Custom CSS class for additional styling"
   attr :font_weight, :string, default: "font-normal", doc: "Determines custom class for the font weight"
   attr :rest, :global, doc: "Global attributes can define defaults which are merged with attributes provided by the caller"
-  slot :inner_block, required: true, doc: ""
+  slot :inner_block, required: true, doc: "Inner block that renders HEEx content"
 
   def mark(assigns) do
     ~H"""
@@ -423,7 +423,7 @@ defmodule MishkaChelekom.Typography do
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :font_weight, :string, default: "font-normal", doc: "Determines custom class for the font weight"
   attr :rest, :global, doc: "Global attributes can define defaults which are merged with attributes provided by the caller"
-  slot :inner_block, required: true, doc: ""
+  slot :inner_block, required: true, doc: "Inner block that renders HEEx content"
 
   def small(assigns) do
     ~H"""
@@ -448,7 +448,7 @@ defmodule MishkaChelekom.Typography do
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :font_weight, :string, default: "font-normal", doc: "Determines custom class for the font weight"
   attr :rest, :global, doc: "Global attributes can define defaults which are merged with attributes provided by the caller"
-  slot :inner_block, required: true, doc: ""
+  slot :inner_block, required: true, doc: "Inner block that renders HEEx content"
 
   def s(assigns) do
     ~H"""
@@ -473,7 +473,7 @@ defmodule MishkaChelekom.Typography do
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :font_weight, :string, default: "font-normal", doc: "Determines custom class for the font weight"
   attr :rest, :global, doc: "Global attributes can define defaults which are merged with attributes provided by the caller"
-  slot :inner_block, required: true, doc: ""
+  slot :inner_block, required: true, doc: "Inner block that renders HEEx content"
 
   def u(assigns) do
     ~H"""
@@ -498,7 +498,7 @@ defmodule MishkaChelekom.Typography do
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :font_weight, :string, default: "font-normal", doc: "Determines custom class for the font weight"
   attr :rest, :global, doc: "Global attributes can define defaults which are merged with attributes provided by the caller"
-  slot :inner_block, required: true, doc: ""
+  slot :inner_block, required: true, doc: "Inner block that renders HEEx content"
 
   def cite(assigns) do
     ~H"""
@@ -523,7 +523,7 @@ defmodule MishkaChelekom.Typography do
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :font_weight, :string, default: "font-normal", doc: "Determines custom class for the font weight"
   attr :rest, :global, doc: "Global attributes can define defaults which are merged with attributes provided by the caller"
-  slot :inner_block, required: true, doc: ""
+  slot :inner_block, required: true, doc: "Inner block that renders HEEx content"
 
   def del(assigns) do
     ~H"""

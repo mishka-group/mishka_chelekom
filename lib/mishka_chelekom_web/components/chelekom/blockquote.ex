@@ -46,7 +46,7 @@ defmodule MishkaChelekom.Blockquote do
   end
 
   slot :content, required: false
-  slot :inner_block, required: false, doc: ""
+  slot :inner_block, required: false, doc: "Inner block that renders HEEx content"
 
   attr :rest, :global,
     include: ~w(left_border right_border hide_border full_border hide_icon),

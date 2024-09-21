@@ -47,7 +47,7 @@ defmodule MishkaChelekom.Toast do
   attr :border_position, :string, default: "start", doc: ""
   attr :row_direction, :string, default: "none", doc: ""
   attr :padding, :string, default: "extra_small", doc: "Determines padding for items"
-  slot :inner_block, required: false, doc: ""
+  slot :inner_block, required: false, doc: "Inner block that renders HEEx content"
 
   def toast(assigns) do
     ~H"""
@@ -98,7 +98,7 @@ defmodule MishkaChelekom.Toast do
   attr :horizontal_space, :string, default: "extra_small", doc: ""
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :rest, :global, doc: "Global attributes can define defaults which are merged with attributes provided by the caller"
-  slot :inner_block, required: false, doc: ""
+  slot :inner_block, required: false, doc: "Inner block that renders HEEx content"
 
   def toast_group(assigns) do
     ~H"""

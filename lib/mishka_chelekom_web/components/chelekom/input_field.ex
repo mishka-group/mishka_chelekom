@@ -158,7 +158,7 @@ defmodule MishkaChelekom.InputField do
   Renders a label.
   """
   attr :for, :string, default: nil
-  slot :inner_block, required: true
+  slot :inner_block, required: true, doc: "Inner block that renders HEEx content"
 
   def label(assigns) do
     ~H"""
@@ -171,7 +171,7 @@ defmodule MishkaChelekom.InputField do
   @doc """
   Generates a generic error message.
   """
-  slot :inner_block, required: true
+  slot :inner_block, required: true, doc: "Inner block that renders HEEx content"
 
   def error(assigns) do
     ~H"""

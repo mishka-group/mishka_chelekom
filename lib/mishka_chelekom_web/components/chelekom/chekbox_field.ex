@@ -145,7 +145,7 @@ defmodule MishkaChelekom.CheckboxField do
 
   attr :class, :any, default: nil, doc: "Custom CSS class for additional styling"
   attr :for, :string, default: nil
-  slot :inner_block, required: true
+  slot :inner_block, required: true, doc: "Inner block that renders HEEx content"
   attr :rest, :global, doc: "Global attributes can define defaults which are merged with attributes provided by the caller"
 
   def label(assigns) do
@@ -157,7 +157,7 @@ defmodule MishkaChelekom.CheckboxField do
   end
 
   attr :icon, :string, default: nil, doc: "Icon displayed alongside of an item"
-  slot :inner_block, required: true
+  slot :inner_block, required: true, doc: "Inner block that renders HEEx content"
 
   def error(assigns) do
     ~H"""

@@ -35,7 +35,7 @@ defmodule MishkaChelekom.Tooltip do
   attr :text_position, :string, default: "center", doc: ""
   attr :text, :string, default: "", doc: ""
   attr :rest, :global, doc: "Global attributes can define defaults which are merged with attributes provided by the caller"
-  slot :inner_block, required: false, doc: ""
+  slot :inner_block, required: false, doc: "Inner block that renders HEEx content"
 
   def tooltip(assigns) do
     ~H"""

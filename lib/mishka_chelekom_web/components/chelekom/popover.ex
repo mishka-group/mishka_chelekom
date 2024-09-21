@@ -58,7 +58,7 @@ defmodule MishkaChelekom.Popover do
   attr :inline, :boolean, default: false, doc: ""
   attr :clickable, :boolean, default: false, doc: ""
   attr :rest, :global, doc: "Global attributes can define defaults which are merged with attributes provided by the caller"
-  slot :inner_block, required: false, doc: ""
+  slot :inner_block, required: false, doc: "Inner block that renders HEEx content"
 
   def popover(%{inline: true} = assigns) do
     ~H"""
@@ -100,7 +100,7 @@ defmodule MishkaChelekom.Popover do
   attr :trigger_id, :string, default: nil, doc: ""
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :inline, :boolean, default: false, doc: ""
-  slot :inner_block, required: false, doc: ""
+  slot :inner_block, required: false, doc: "Inner block that renders HEEx content"
   attr :rest, :global, doc: "Global attributes can define defaults which are merged with attributes provided by the caller"
 
   def popover_trigger(%{inline: true} = assigns) do
@@ -145,7 +145,7 @@ defmodule MishkaChelekom.Popover do
   attr :padding, :string, default: "none", doc: "Determines padding for items"
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :rest, :global, doc: "Global attributes can define defaults which are merged with attributes provided by the caller"
-  slot :inner_block, required: false, doc: ""
+  slot :inner_block, required: false, doc: "Inner block that renders HEEx content"
 
   def popover_content(%{inline: true} = assigns) do
     ~H"""

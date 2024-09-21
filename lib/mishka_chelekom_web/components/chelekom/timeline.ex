@@ -11,7 +11,7 @@ defmodule MishkaChelekom.Timeline do
   attr :rest, :global, doc: "Global attributes can define defaults which are merged with attributes provided by the caller"
   attr :horizontal, :boolean, default: false, doc: ""
 
-  slot :inner_block, required: false, doc: ""
+  slot :inner_block, required: false, doc: "Inner block that renders HEEx content"
 
   # TODO: User cannot change color based on their need
 
@@ -56,7 +56,7 @@ defmodule MishkaChelekom.Timeline do
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :rest, :global, doc: "Global attributes can define defaults which are merged with attributes provided by the caller"
 
-  slot :inner_block, required: false, doc: ""
+  slot :inner_block, required: false, doc: "Inner block that renders HEEx content"
 
   def timeline_section(%{horizontal: true} = assigns) do
     ~H"""

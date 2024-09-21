@@ -36,7 +36,7 @@ defmodule MishkaChelekom.Chat do
   attr :position, :string, values: ["normal", "flipped"], default: "normal", doc: ""
   attr :padding, :string, default: "small", doc: "Determines padding for items"
   attr :rest, :global, doc: "Global attributes can define defaults which are merged with attributes provided by the caller"
-  slot :inner_block, required: false, doc: ""
+  slot :inner_block, required: false, doc: "Inner block that renders HEEx content"
 
   def chat(assigns) do
     ~H"""
@@ -71,7 +71,7 @@ defmodule MishkaChelekom.Chat do
   end
 
   slot :meta, required: false
-  slot :inner_block, required: false, doc: ""
+  slot :inner_block, required: false, doc: "Inner block that renders HEEx content"
 
   def chat_section(assigns) do
     ~H"""

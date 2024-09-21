@@ -16,7 +16,7 @@ defmodule MishkaChelekom.Stepper do
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :rest, :global, doc: "Global attributes can define defaults which are merged with attributes provided by the caller"
 
-  slot :inner_block, required: false, doc: ""
+  slot :inner_block, required: false, doc: "Inner block that renders HEEx content"
 
   @spec stepper(map()) :: Phoenix.LiveView.Rendered.t()
   def stepper(%{vertical: true} = assigns) do
@@ -80,7 +80,7 @@ defmodule MishkaChelekom.Stepper do
   attr :reverse, :boolean, default: false, doc: ""
   attr :border, :string, default: "none", doc: "Determines border style"
 
-  slot :inner_block, required: false, doc: ""
+  slot :inner_block, required: false, doc: "Inner block that renders HEEx content"
 
   def stepper_section(%{vertical: true} = assigns) do
     ~H"""

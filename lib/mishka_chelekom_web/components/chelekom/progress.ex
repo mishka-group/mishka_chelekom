@@ -27,7 +27,7 @@ defmodule MishkaChelekom.Progress do
   attr :size, :string, values: @sizes, default: "small", doc: "Determines the overall size of the elements, including padding, font size, and other items"
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :rest, :global, doc: "Global attributes can define defaults which are merged with attributes provided by the caller"
-  slot :inner_block
+  slot :inner_block, doc: "Inner block that renders HEEx content"
 
   def progress(assigns) do
     ~H"""

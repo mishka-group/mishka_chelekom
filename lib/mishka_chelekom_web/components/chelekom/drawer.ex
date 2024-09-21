@@ -45,7 +45,7 @@ defmodule MishkaChelekom.Drawer do
   attr :show, :boolean, default: false
   attr :rest, :global, doc: "Global attributes can define defaults which are merged with attributes provided by the caller"
   slot :header, required: false
-  slot :inner_block, required: false, doc: ""
+  slot :inner_block, required: false, doc: "Inner block that renders HEEx content"
 
   def drawer(assigns) do
     ~H"""

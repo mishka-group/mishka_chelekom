@@ -30,7 +30,7 @@ defmodule MishkaChelekom.Dropdown do
   attr :clickable, :boolean, default: false, doc: ""
   attr :nomobile, :boolean, default: false, doc: ""
   attr :rest, :global, doc: "Global attributes can define defaults which are merged with attributes provided by the caller"
-  slot :inner_block, required: false, doc: ""
+  slot :inner_block, required: false, doc: "Inner block that renders HEEx content"
 
   def dropdown(assigns) do
     ~H"""
@@ -57,7 +57,7 @@ defmodule MishkaChelekom.Dropdown do
   attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
   attr :trigger_id, :string, default: nil, doc: ""
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
-  slot :inner_block, required: false, doc: ""
+  slot :inner_block, required: false, doc: "Inner block that renders HEEx content"
   attr :rest, :global, doc: "Global attributes can define defaults which are merged with attributes provided by the caller"
 
   def dropdown_trigger(assigns) do
@@ -91,7 +91,7 @@ defmodule MishkaChelekom.Dropdown do
   attr :border, :string, default: "extra_small", doc: "Determines border style"
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :rest, :global, doc: "Global attributes can define defaults which are merged with attributes provided by the caller"
-  slot :inner_block, required: false, doc: ""
+  slot :inner_block, required: false, doc: "Inner block that renders HEEx content"
 
   # TODO: Add max-height and scroll
 

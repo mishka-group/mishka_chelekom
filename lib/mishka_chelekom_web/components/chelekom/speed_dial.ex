@@ -40,7 +40,7 @@ defmodule MishkaChelekom.SpeedDial do
     attr :class, :string, doc: "Custom CSS class for additional styling"
   end
 
-  slot :inner_block, required: false, doc: ""
+  slot :inner_block, required: false, doc: "Inner block that renders HEEx content"
 
   def speed_dial(assigns) do
     ~H"""
@@ -131,7 +131,7 @@ defmodule MishkaChelekom.SpeedDial do
   attr :content_class, :string, default: nil, doc: "Determines custom class for the content"
   attr :index, :integer, required: true, doc: ""
   attr :icon_position, :string, doc: "end, start"
-  slot :inner_block, required: false, doc: ""
+  slot :inner_block, required: false, doc: "Inner block that renders HEEx content"
 
   defp speed_dial_content(%{navigate: nav, patch: pat, href: hrf} = assigns)
        when is_binary(nav) or is_binary(pat) or is_binary(hrf) do

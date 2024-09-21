@@ -63,7 +63,7 @@ defmodule MishkaChelekom.Modal do
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :show, :boolean, default: false
   attr :on_cancel, JS, default: %JS{}
-  slot :inner_block, required: true
+  slot :inner_block, required: true, doc: "Inner block that renders HEEx content"
 
   def modal(assigns) do
     ~H"""

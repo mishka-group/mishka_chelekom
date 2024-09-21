@@ -62,7 +62,7 @@ defmodule MishkaChelekom.Banner do
   attr :params, :map, default: %{kind: "banner"}
   attr :rest, :global, include: ~w(right_dismiss left_dismiss), doc: ""
 
-  slot :inner_block, required: false, doc: ""
+  slot :inner_block, required: false, doc: "Inner block that renders HEEx content"
 
   def banner(assigns) do
     ~H"""

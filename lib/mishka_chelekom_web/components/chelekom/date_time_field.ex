@@ -177,7 +177,7 @@ defmodule MishkaChelekom.DateTimeField do
 
   attr :for, :string, default: nil
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
-  slot :inner_block, required: true
+  slot :inner_block, required: true, doc: "Inner block that renders HEEx content"
 
   def label(assigns) do
     ~H"""
@@ -188,7 +188,7 @@ defmodule MishkaChelekom.DateTimeField do
   end
 
   attr :icon, :string, default: nil, doc: "Icon displayed alongside of an item"
-  slot :inner_block, required: true
+  slot :inner_block, required: true, doc: "Inner block that renders HEEx content"
 
   def error(assigns) do
     ~H"""

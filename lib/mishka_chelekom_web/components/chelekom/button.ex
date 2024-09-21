@@ -65,7 +65,7 @@ defmodule MishkaChelekom.Button do
   attr :size, :string, default: "large", doc: "Determines the overall size of the elements, including padding, font size, and other items"
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :rest, :global, doc: "Global attributes can define defaults which are merged with attributes provided by the caller"
-  slot :inner_block, required: false, doc: ""
+  slot :inner_block, required: false, doc: "Inner block that renders HEEx content"
 
   def button_group(assigns) do
     ~H"""
@@ -109,7 +109,7 @@ defmodule MishkaChelekom.Button do
       ~w(disabled form name value right_icon left_icon pinging circle) ++ @indicator_positions,
     doc: "Global attributes can define defaults which are merged with attributes provided by the caller"
 
-  slot :inner_block, required: false, doc: ""
+  slot :inner_block, required: false, doc: "Inner block that renders HEEx content"
 
   def button(assigns) do
     ~H"""
@@ -202,7 +202,7 @@ defmodule MishkaChelekom.Button do
         @indicator_positions,
     doc: "Global attributes can define defaults which are merged with attributes provided by the caller"
 
-  slot :inner_block, required: false, doc: ""
+  slot :inner_block, required: false, doc: "Inner block that renders HEEx content"
 
   def button_link(%{navigate: _navigate} = assigns) do
     ~H"""

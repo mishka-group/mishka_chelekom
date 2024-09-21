@@ -53,7 +53,7 @@ defmodule MishkaChelekom.Card do
   attr :padding, :string, default: nil, doc: "Determines padding for items"
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :rest, :global, doc: "Global attributes can define defaults which are merged with attributes provided by the caller"
-  slot :inner_block, required: false, doc: ""
+  slot :inner_block, required: false, doc: "Inner block that renders HEEx content"
 
   def card(assigns) do
     ~H"""
@@ -85,7 +85,7 @@ defmodule MishkaChelekom.Card do
   attr :size, :string, values: @sizes, default: "large", doc: "Determines the overall size of the elements, including padding, font size, and other items"
   attr :padding, :string, default: "none", doc: "Determines padding for items"
   attr :rest, :global, doc: "Global attributes can define defaults which are merged with attributes provided by the caller"
-  slot :inner_block, required: false, doc: ""
+  slot :inner_block, required: false, doc: "Inner block that renders HEEx content"
 
   def card_title(assigns) do
     ~H"""
@@ -116,7 +116,7 @@ defmodule MishkaChelekom.Card do
   attr :rounded, :string, values: @sizes ++ [nil], default: nil, doc: ""
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :rest, :global, doc: "Global attributes can define defaults which are merged with attributes provided by the caller"
-  slot :inner_block, required: false, doc: ""
+  slot :inner_block, required: false, doc: "Inner block that renders HEEx content"
 
   # TODO: we should support other media like video (should have inner block)
 
@@ -141,7 +141,7 @@ defmodule MishkaChelekom.Card do
   attr :padding, :string, values: @sizes ++ ["none"], default: "none", doc: "Determines padding for items"
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :rest, :global, doc: "Global attributes can define defaults which are merged with attributes provided by the caller"
-  slot :inner_block, required: false, doc: ""
+  slot :inner_block, required: false, doc: "Inner block that renders HEEx content"
 
   def card_content(assigns) do
     ~H"""
@@ -163,7 +163,7 @@ defmodule MishkaChelekom.Card do
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :padding, :string, values: @sizes ++ ["none"], default: "none", doc: "Determines padding for items"
   attr :rest, :global, doc: "Global attributes can define defaults which are merged with attributes provided by the caller"
-  slot :inner_block, required: false, doc: ""
+  slot :inner_block, required: false, doc: "Inner block that renders HEEx content"
 
   def card_footer(assigns) do
     ~H"""

@@ -37,7 +37,7 @@ defmodule MishkaChelekom.Footer do
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :rest, :global, doc: "Global attributes can define defaults which are merged with attributes provided by the caller"
 
-  slot :inner_block, required: false, doc: ""
+  slot :inner_block, required: false, doc: "Inner block that renders HEEx content"
 
   def footer(assigns) do
     ~H"""
@@ -68,7 +68,7 @@ defmodule MishkaChelekom.Footer do
   attr :text_position, :string, default: nil, doc: ""
   attr :space, :string, default: nil, doc: "Space between items"
   attr :padding, :string, default: "none", doc: "Determines padding for items"
-  slot :inner_block, required: false, doc: ""
+  slot :inner_block, required: false, doc: "Inner block that renders HEEx content"
 
   def footer_section(assigns) do
     ~H"""

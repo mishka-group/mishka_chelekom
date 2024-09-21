@@ -62,7 +62,7 @@ defmodule MishkaChelekom.Badge do
       ["pinging", "circle"] ++ @dismiss_positions ++ @indicator_positions ++ @icon_positions,
     doc: "Global attributes can define defaults which are merged with attributes provided by the caller"
 
-  slot :inner_block, required: false, doc: ""
+  slot :inner_block, required: false, doc: "Inner block that renders HEEx content"
 
   def badge(assigns) do
     ~H"""

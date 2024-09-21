@@ -56,7 +56,7 @@ defmodule MishkaChelekom.Alert do
   attr :icon, :any, default: "hero-chat-bubble-bottom-center-text", doc: ""
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
 
-  slot :inner_block, doc: "the optional inner block that renders the flash message"
+  slot :inner_block, doc: "Inner block that renders HEEx content"
 
   def flash(assigns) do
     assigns = assign_new(assigns, :id, fn -> "flash-#{assigns.variant}-#{assigns.kind}" end)
@@ -158,7 +158,7 @@ defmodule MishkaChelekom.Alert do
   attr :icon, :any, default: "hero-chat-bubble-bottom-center-text", doc: ""
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
 
-  slot :inner_block, doc: "the optional inner block that renders the flash message"
+  slot :inner_block, doc: "Inner block that renders HEEx content"
   attr :rest, :global, doc: "Global attributes can define defaults which are merged with attributes provided by the caller"
 
   def alert(assigns) do
