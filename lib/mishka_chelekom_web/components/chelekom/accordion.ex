@@ -1,4 +1,52 @@
 defmodule MishkaChelekom.Accordion do
+  @moduledoc """
+  The `MishkaChelekom.Accordion` module provides a flexible and customizable accordion
+  component for Phoenix LiveView applications.
+
+  It supports a variety of configuration options including size, variant, color, padding,
+  and border styles.
+
+  ### Features
+
+  - **Customizable Design**: Supports multiple variants such as `"default"`, `"contained"`,
+  `"filled"`, `"separated"`, `"tinted_split"`, `"transparent"`, and `"menu"`.
+  - **Size and Spacing**: Provides control over the size and spacing of accordion items
+  using predefined values such as `"extra_small"`, `"small"`, `"medium"`,
+  `"large"`, and `"extra_large"`.
+  - **Color Themes**: Offers a range of color options including `"primary"`,
+  `"secondary"`, `"success"`, `"warning"`, `"danger"`, `"info"`, `"light"`, `"dark"`, and more.
+  - **Interactive Animations**: Includes interactive JavaScript-based animations
+  for showing and hiding content with smooth transitions.
+  - **Icon and Media Support**: Allows the inclusion of icons and images within
+  accordion items, enhancing the visual appeal and usability of the component.
+
+  ### Usage
+
+  The module provides two main components:
+
+  1. **`accordion/1`**: A fully customizable accordion with advanced configurations
+  for layout, colors, and interactivity.
+  2. **`native_accordion/1`**: A native `<details>` based accordion component with
+  minimalistic design and functionality.
+
+  ### Slots
+
+  The module supports an item slot, which allows defining custom attributes for each
+  accordion item including title, description, icon, and other styling options.
+
+  ### Example
+
+  ```elixir
+  ....example....
+  ```
+
+  This example creates an accordion with two items, using the "default" variant and
+  "primary" color theme.
+
+  ### Dependencies
+
+  1. `Phoenix.Component` and `Phoenix.LiveView.JS` for rendering and interactivity.
+  """
   use Phoenix.Component
   import MishkaChelekomComponents
   alias Phoenix.LiveView.JS
