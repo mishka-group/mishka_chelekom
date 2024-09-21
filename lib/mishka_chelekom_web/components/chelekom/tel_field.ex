@@ -31,8 +31,7 @@ defmodule MishkaChelekom.TelField do
   attr :name, :any, doc: "Name of input"
   attr :value, :any, doc: "Value of input"
 
-  attr :field, Phoenix.HTML.FormField,
-    doc: "a form field struct retrieved from the form, for example: @form[:email]"
+  attr :field, Phoenix.HTML.FormField, doc: "a form field struct retrieved from the form"
 
   attr :rest, :global,
     include: ~w(autocomplete disabled form list maxlength minlength pattern placeholder

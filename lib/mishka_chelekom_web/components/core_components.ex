@@ -280,8 +280,7 @@ defmodule MishkaChelekomWeb.CoreComponents do
     values: ~w(checkbox color date datetime-local email file month number password
                range search select tel text textarea time url week)
 
-  attr :field, Phoenix.HTML.FormField,
-    doc: "a form field struct retrieved from the form, for example: @form[:email]"
+  attr :field, Phoenix.HTML.FormField, doc: "a form field struct retrieved from the form"
 
   attr :errors, :list, default: [], doc: "List of error messages to be displayed"
   attr :checked, :boolean, doc: "the checked flag for checkbox inputs"

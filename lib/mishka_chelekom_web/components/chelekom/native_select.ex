@@ -29,8 +29,7 @@ defmodule MishkaChelekom.NativeSelect do
     attr :disabled, :string, required: false
   end
 
-  attr :field, Phoenix.HTML.FormField,
-    doc: "a form field struct retrieved from the form, for example: @form[:email]"
+  attr :field, Phoenix.HTML.FormField, doc: "a form field struct retrieved from the form"
 
   attr :rest, :global,
     include: ~w(autocomplete disabled form readonly multiple required title autofocus tabindex),

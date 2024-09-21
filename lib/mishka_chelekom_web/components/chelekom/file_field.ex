@@ -31,8 +31,7 @@ defmodule MishkaChelekom.FileField do
   attr :dropzone_title, :string, default: "Click to upload, or drag and drop a file", doc: ""
   attr :dropzone_description, :string, default: nil, doc: ""
 
-  attr :field, Phoenix.HTML.FormField,
-    doc: "a form field struct retrieved from the form for example: @form[:email]"
+  attr :field, Phoenix.HTML.FormField, doc: "a form field struct retrieved from the form"
 
   attr :rest, :global,
     include:

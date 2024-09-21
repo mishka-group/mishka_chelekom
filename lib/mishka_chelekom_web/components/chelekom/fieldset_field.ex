@@ -1,4 +1,18 @@
 defmodule MishkaChelekom.FieldsetField do
+  @moduledoc """
+  The `MishkaChelekom.FieldsetField` module provides a reusable and customizable
+  component for creating styled fieldsets in Phoenix LiveView applications.
+
+  It offers various options for styling, layout, and interaction, including:
+
+  - Customizable color themes, border styles, and sizes.
+  - Support for displaying error messages alongside form fields.
+  - Flexible layout options using slots for adding controls and content inside the fieldset.
+  - Global attributes support for enhanced configurability and integration.
+
+  This component is designed to enhance the user interface of forms by providing consistent
+  and visually appealing fieldsets that can be easily integrated into any LiveView application.
+  """
   use Phoenix.Component
   import MishkaChelekomComponents
 
@@ -13,18 +27,17 @@ defmodule MishkaChelekom.FieldsetField do
   attr :space, :string, default: "medium", doc: "Space between items"
   attr :size, :string, default: "extra_large", doc: "Determines the overall size of the elements, including padding, font size, and other items"
   attr :error_icon, :string, default: nil, doc: "Icon to be displayed alongside error messages"
-  attr :legend, :string, default: nil
+  attr :legend, :string, default: nil, doc: "Determines a caption for the content of its parent"
 
   attr :errors, :list, default: [], doc: "List of error messages to be displayed"
   attr :name, :any, doc: "Name of input"
   attr :value, :any, doc: "Value of input"
 
-  attr :field, Phoenix.HTML.FormField,
-    doc: "a form field struct retrieved from the form, for example: @form[:email]"
+  attr :field, Phoenix.HTML.FormField, doc: "a form field struct retrieved from the form"
 
   attr :rest, :global, include: ~w(disabled form title), doc: "Global attributes can define defaults which are merged with attributes provided by the caller"
 
-  slot :control, required: false
+  slot :control, required: false, doc: "Defines a collection of elements inside the fieldset"
 
   @spec fieldset_field(map()) :: Phoenix.LiveView.Rendered.t()
   def fieldset_field(%{field: %Phoenix.HTML.FormField{} = field} = assigns) do
