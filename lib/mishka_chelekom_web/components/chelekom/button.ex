@@ -196,7 +196,7 @@ defmodule MishkaChelekom.Button do
   attr :value, :string, default: "", doc: "Value of input"
   attr :border, :string, default: "white", doc: "Determines border style"
   attr :size, :string, default: "large", doc: "Determines the overall size of the elements, including padding, font size, and other items"
-  attr :type, :string, default: "button", doc: "button, submit, reset"
+  attr :type, :string, default: "button", doc: "Determines type of input"
   attr :content_position, :string, default: "center", doc: "Determines the alignment of the element's content"
   attr :display, :string, default: "inline-block", doc: "Specifies the CSS display property for the element"
   attr :font_weight, :string, default: "font-normal", doc: "Determines custom class for the font weight"

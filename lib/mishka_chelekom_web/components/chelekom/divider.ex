@@ -1,4 +1,24 @@
 defmodule MishkaChelekom.Divider do
+  @moduledoc """
+  The `MishkaChelekom.Divider` module provides a versatile and customizable divider
+  component for creating horizontal and vertical dividers with various styling options
+  in a Phoenix LiveView application.
+
+  ## Features:
+  - Supports different divider types: `solid`, `dashed`, and `dotted`.
+  - Flexible color themes with predefined options such as `primary`, `secondary`,
+  `success`, `danger`, and more.
+  - Allows for horizontal and vertical orientation.
+  - Customizable size, width, height, and margin for precise control over the appearance.
+  - Includes slots for adding text or icons with individual styling and positioning options.
+  - Global attributes and custom CSS classes can be applied for additional customization.
+
+  ## Usage:
+
+  This component is ideal for visually separating content sections in your Phoenix LiveView application.
+  It can be styled and customized to match various design requirements, ensuring a
+  consistent and polished user interface.
+  """
   use Phoenix.Component
   import MishkaChelekomComponents
 
@@ -19,8 +39,8 @@ defmodule MishkaChelekom.Divider do
 
   @doc type: :component
   attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
-  attr :type, :string, values: ["dashed", "dotted", "solid"], default: "solid", doc: ""
-  attr :color, :string, values: @colors, default: "silver", doc: ""
+  attr :type, :string, values: ["dashed", "dotted", "solid"], default: "solid", doc: "Determines type of element"
+  attr :color, :string, values: @colors, default: "silver", doc: "Determines color theme"
   attr :size, :string, default: "extra_small", doc: "Determines the overall size of the elements, including padding, font size, and other items"
   attr :width, :string, default: "full", doc: "Determines the element width"
   attr :height, :string, default: "auto", doc: "Determines the element width"
@@ -133,8 +153,8 @@ defmodule MishkaChelekom.Divider do
 
   @doc type: :component
   attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
-  attr :type, :string, values: ["dashed", "dotted", "solid"], default: "solid", doc: ""
-  attr :color, :string, values: @colors, default: "silver", doc: ""
+  attr :type, :string, values: ["dashed", "dotted", "solid"], default: "solid", doc: "Specifies the type of the element"
+  attr :color, :string, values: @colors, default: "silver", doc: "Determines color theme"
   attr :size, :string, default: "extra_small", doc: "Determines the overall size of the elements, including padding, font size, and other items"
   attr :width, :string, default: "full", doc: "Determines the element width"
   attr :margin, :string, default: "none", doc: "Determines the element margin"
@@ -151,7 +171,7 @@ defmodule MishkaChelekom.Divider do
     attr :class, :string, doc: "Custom CSS class for additional styling"
     attr :icon_class, :string, doc: "Determines custom class for the icon"
     attr :color, :string, doc: "Determines color theme"
-    attr :size, :string
+    attr :size, :string, doc: "Determines the overall size of the elements, including padding, font size, and other items"
   end
 
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
