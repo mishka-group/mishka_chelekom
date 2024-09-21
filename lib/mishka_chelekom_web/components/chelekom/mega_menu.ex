@@ -37,7 +37,7 @@ defmodule MishkaChelekom.MegaMenu do
   attr :icon_class, :string, default: nil, doc: ""
   attr :title, :string, default: nil, doc: ""
   attr :title_class, :string, default: nil, doc: ""
-  attr :border, :string, default: "extra_small", doc: ""
+  attr :border, :string, default: "extra_small", doc: "Determines border style"
   attr :top_gap, :string, default: "extra_small", doc: ""
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :rest, :global, doc: ""

@@ -6,7 +6,7 @@ defmodule MishkaChelekom.ColorField do
   attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :color, :string, default: "white", doc: "Determines color theme"
-  attr :border, :string, default: "extra_small", doc: ""
+  attr :border, :string, default: "extra_small", doc: "Determines border style"
   attr :rounded, :string, default: "small", doc: ""
   attr :description, :string, default: nil, doc: ""
   attr :size, :string, default: "extra_large", doc: ""

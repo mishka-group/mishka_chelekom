@@ -37,7 +37,7 @@ defmodule MishkaChelekom.Indicator do
   attr :border, :string,
     values: @colors ++ ["transparent", "none"],
     default: "transparent",
-    doc: ""
+    doc: "Determines border style"
 
   attr :rest, :global, include: ["pinging"] ++ @indicator_positions, doc: ""
 

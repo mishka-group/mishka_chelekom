@@ -31,7 +31,7 @@ defmodule MishkaChelekom.Sidebar do
   attr :variant, :string, values: @variants, default: "default", doc: "Determines the style"
   attr :color, :string, values: @colors, default: "white", doc: "Determines color theme"
   attr :size, :string, default: "large", doc: ""
-  attr :border, :string, default: "extra_small", doc: ""
+  attr :border, :string, default: "extra_small", doc: "Determines border style"
   attr :rounded, :string, default: nil, doc: ""
   attr :position, :string, default: "start", doc: ""
   attr :hide_position, :string, default: nil, doc: ""

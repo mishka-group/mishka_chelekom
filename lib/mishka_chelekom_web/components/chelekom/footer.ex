@@ -27,7 +27,7 @@ defmodule MishkaChelekom.Footer do
   attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
   attr :variant, :string, values: @variants, default: "default", doc: "Determines the style"
   attr :color, :string, values: @colors, default: "white", doc: "Determines color theme"
-  attr :border, :string, default: "extra_small", doc: ""
+  attr :border, :string, default: "extra_small", doc: "Determines border style"
   attr :text_position, :string, default: nil, doc: ""
   attr :rounded, :string, default: nil, doc: ""
   attr :max_width, :string, default: nil, doc: ""

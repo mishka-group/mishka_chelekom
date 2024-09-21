@@ -7,7 +7,7 @@ defmodule MishkaChelekom.RangeField do
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :label_class, :string, default: nil, doc: ""
   attr :color, :string, default: "primary", doc: "Determines color theme"
-  attr :border, :string, default: "extra_small", doc: ""
+  attr :border, :string, default: "extra_small", doc: "Determines border style"
   attr :space, :string, default: "medium", doc: "Space between items"
   attr :size, :string, default: "extra_small", doc: ""
   attr :appearance, :string, default: "default", doc: "custom"

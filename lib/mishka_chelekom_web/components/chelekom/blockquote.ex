@@ -29,7 +29,7 @@ defmodule MishkaChelekom.Blockquote do
   attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
   attr :variant, :string, values: @variants, default: "default", doc: "Determines the style"
   attr :color, :string, values: @colors, default: "white", doc: "Determines color theme"
-  attr :border, :string, values: @sizes ++ [nil], default: "medium", doc: ""
+  attr :border, :string, values: @sizes ++ [nil], default: "medium", doc: "Determines border style"
   attr :rounded, :string, values: @sizes ++ ["full", "none"], default: "small", doc: ""
   attr :size, :string, default: "medium", doc: ""
   attr :space, :string, values: @sizes, default: "small", doc: "Space between items"

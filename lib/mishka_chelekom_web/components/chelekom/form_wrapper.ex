@@ -6,7 +6,7 @@ defmodule MishkaChelekom.FormWrapper do
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :color, :string, default: nil, doc: "Determines color theme"
   attr :variant, :string, default: nil, doc: "Determines the style"
-  attr :border, :string, default: nil, doc: ""
+  attr :border, :string, default: nil, doc: "Determines border style"
   attr :rounded, :string, default: nil, doc: ""
   attr :padding, :string, default: nil, doc: ""
   attr :space, :string, default: nil, doc: "Space between items"

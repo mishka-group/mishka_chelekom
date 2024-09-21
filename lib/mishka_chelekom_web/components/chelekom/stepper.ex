@@ -8,7 +8,7 @@ defmodule MishkaChelekom.Stepper do
   attr :margin, :string, default: "medium", doc: ""
   attr :color, :string, default: "primary", doc: "Determines color theme"
   attr :space, :string, default: nil, doc: "Space between items"
-  attr :border, :string, default: "extra_small", doc: ""
+  attr :border, :string, default: "extra_small", doc: "Determines border style"
   attr :font_weight, :string, default: "font-normal", doc: ""
   attr :max_width, :string, default: nil, doc: ""
   attr :seperator_size, :string, default: "extra_small", doc: ""
@@ -78,7 +78,7 @@ defmodule MishkaChelekom.Stepper do
   attr :vertical, :boolean, default: false, doc: ""
   attr :clickable, :boolean, default: true, doc: ""
   attr :reverse, :boolean, default: false, doc: ""
-  attr :border, :string, default: "none"
+  attr :border, :string, default: "none", doc: "Determines border style"
 
   slot :inner_block, required: false, doc: ""
 

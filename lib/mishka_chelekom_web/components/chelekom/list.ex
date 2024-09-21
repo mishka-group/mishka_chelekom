@@ -168,7 +168,7 @@ defmodule MishkaChelekom.List do
   attr :width, :string, default: "full", doc: ""
   attr :space, :string, values: @sizes ++ [nil], default: "small", doc: "Space between items"
   attr :rounded, :string, values: @sizes ++ ["full", "none"], default: "small", doc: ""
-  attr :border, :string, values: @sizes ++ [nil], default: "extra_small", doc: ""
+  attr :border, :string, values: @sizes ++ [nil], default: "extra_small", doc: "Determines border style"
   attr :font_weight, :string, default: "font-normal", doc: ""
   attr :padding, :string, values: @sizes ++ ["none"], default: "none", doc: ""
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"

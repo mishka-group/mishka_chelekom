@@ -27,7 +27,7 @@ defmodule MishkaChelekom.Tabs do
   attr :id, :string, required: true, doc: "A unique identifier is used to manage state and interaction"
   attr :variant, :string, values: @variants, default: "default", doc: "Determines the style"
   attr :color, :string, values: @colors, default: "primary", doc: "Determines color theme"
-  attr :border, :string, default: "none", doc: ""
+  attr :border, :string, default: "none", doc: "Determines border style"
   attr :tab_border, :string, default: "small", doc: ""
   attr :size, :string, default: "small", doc: ""
   attr :gap, :string, default: nil, doc: ""

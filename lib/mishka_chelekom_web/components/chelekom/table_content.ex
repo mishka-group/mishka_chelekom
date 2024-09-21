@@ -13,7 +13,7 @@ defmodule MishkaChelekom.TableContent do
   attr :animated, :boolean, default: false, doc: ""
   attr :padding, :string, default: nil, doc: ""
   attr :rounded, :string, default: nil, doc: ""
-  attr :border, :string, default: "extra_small", doc: ""
+  attr :border, :string, default: "extra_small", doc: "Determines border style"
   attr :size, :string, default: "small", doc: ""
   attr :rest, :global, doc: ""
   slot :inner_block, required: false, doc: ""

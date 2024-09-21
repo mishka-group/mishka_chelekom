@@ -37,7 +37,7 @@ defmodule MishkaChelekom.Banner do
   attr :size, :string, default: "large", doc: ""
   attr :variant, :string, values: @variants, default: "default", doc: "Determines the style"
   attr :color, :string, values: @colors, default: "white", doc: "Determines color theme"
-  attr :border, :string, default: "extra_small", doc: ""
+  attr :border, :string, default: "extra_small", doc: "Determines border style"
 
   attr :border_position, :string,
     values: ["top", "bottom", "full", "none"],

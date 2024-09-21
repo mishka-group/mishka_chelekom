@@ -29,7 +29,7 @@ defmodule MishkaChelekom.Chat do
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :variant, :string, values: @variants, default: "default", doc: "Determines the style"
   attr :color, :string, values: @colors, default: "light", doc: ""
-  attr :border, :string, default: "extra_small", doc: ""
+  attr :border, :string, default: "extra_small", doc: "Determines border style"
   attr :rounded, :string, default: "extra_large", doc: ""
   attr :size, :string, default: "medium", doc: ""
   attr :space, :string, default: "extra_small", doc: "Space between items"
