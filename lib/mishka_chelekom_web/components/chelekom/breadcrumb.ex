@@ -24,7 +24,7 @@ defmodule MishkaChelekom.Breadcrumb do
   attr :color, :string, values: @colors, default: "dark", doc: "Determines color theme"
   attr :size, :string, values: @sizes, default: "small", doc: "Determines the overall size of the elements, including padding, font size, and other items"
 
-  slot :item, required: false do
+  slot :item, required: false, doc: "Specifies item slot of a breadcrumb" do
     attr :icon, :string, doc: "Icon displayed alongside of an item"
     attr :link, :string
     attr :separator, :string
@@ -66,7 +66,7 @@ defmodule MishkaChelekom.Breadcrumb do
   end
 
   @doc type: :component
-  attr :name, :string
+  attr :name, :string, doc: "Specifies the name of the element"
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
 
   defp separator(%{name: "hero-" <> _icon_name} = assigns) do

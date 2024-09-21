@@ -600,7 +600,7 @@ defmodule MishkaChelekomWeb.CoreComponents do
       <.icon name="hero-x-mark-solid" />
       <.icon name="hero-arrow-path" class="ml-1 w-3 h-3 animate-spin" />
   """
-  attr :name, :string, required: true
+  attr :name, :string, required: true, doc: "Specifies the name of the element"
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
 
   def icon(%{name: "hero-" <> _} = assigns) do

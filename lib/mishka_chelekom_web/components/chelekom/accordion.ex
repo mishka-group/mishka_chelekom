@@ -141,7 +141,7 @@ defmodule MishkaChelekom.Accordion do
 
   @doc type: :component
   attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
-  attr :name, :string, default: nil, doc: ""
+  attr :name, :string, default: nil, doc: "Specifies the name of the element"
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :variant, :string, values: @variants, default: "default", doc: "Determines the style"
   attr :space, :string, values: @sizes, default: "small", doc: "Space between items"
@@ -152,7 +152,7 @@ defmodule MishkaChelekom.Accordion do
   attr :media_size, :string, values: @sizes, default: "small", doc: "Determines size of the media elements"
   attr :chevron_icon, :string, default: "hero-chevron-right", doc: "Determines the icon for the chevron"
 
-  slot :item, required: true do
+  slot :item, required: true, doc: "Specifies item slot of a accordion" do
     attr :title, :string, required: true, doc: "Specifies the title of the element"
     attr :description, :string, doc: "Determines a short description"
     attr :icon, :string, doc: "Icon displayed alongside of an item"
@@ -163,12 +163,12 @@ defmodule MishkaChelekom.Accordion do
     attr :content_class, :string, doc: "Determines custom class for the content"
     attr :title_class, :string, doc: "Determines custom class for the title"
     attr :summary_class, :string, doc: "Determines custom class for the summary"
-    attr :open, :boolean
+    attr :open, :boolean, doc: "Whether the accordion item is initially open or closed"
   end
 
   attr :rest, :global,
     include: ~w(left_chevron right_chevron chevron hide_chevron),
-    doc: ""
+    doc: "Global attributes can define defaults which are merged with attributes provided by the caller"
 
   def native_accordion(assigns) do
     ~H"""
@@ -221,10 +221,10 @@ defmodule MishkaChelekom.Accordion do
 
   attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
-  attr :item, :map
+  attr :item, :map, doc: "Determines each item"
   attr :position, :string, values: ["left", "right"], doc: "Determines the element position"
   attr :chevron_icon, :string, doc: "Determines the icon for the chevron"
-  attr :hide_chevron, :boolean, default: false
+  attr :hide_chevron, :boolean, default: false, doc: "Hide chevron icon"
   attr :rest, :global, doc: "Global attributes can define defaults which are merged with attributes provided by the caller"
 
   defp native_chevron_position(%{position: "left"} = assigns) do
@@ -315,6 +315,31 @@ defmodule MishkaChelekom.Accordion do
     """
   end
 
+  @doc """
+  Shows the content of an accordion item and applies the necessary CSS classes to indicate
+  its active state.
+
+  ## Parameters
+
+    - `js`: (optional) An existing `Phoenix.LiveView.JS` structure to apply transformations on.
+    Defaults to a new `%JS{}`.
+    - `id`: A string representing the unique identifier of the accordion item. It is used
+    to target the specific DOM elements for showing content and applying classes.
+
+  ## Returns
+
+    - A `Phoenix.LiveView.JS` structure with commands to show the accordion content,
+    add the `active` class to the content, and add the `active-accordion-button`
+    class to the corresponding button.
+
+  ## Example
+  ```elixir
+  show_accordion_content(%JS{}, "accordion-item-1")
+  ```
+
+  This example will show the content of the accordion item with the ID `accordion-item-1`
+  and add the active classes to it.
+  """
   def show_accordion_content(js \\ %JS{}, id) when is_binary(id) do
     js
     |> JS.show(to: "##{id}")
@@ -322,6 +347,29 @@ defmodule MishkaChelekom.Accordion do
     |> JS.add_class("active-accordion-button", to: "##{id}-role-button")
   end
 
+  @doc """
+  Hides the content of an accordion item and removes the active CSS classes to indicate its
+  inactive state.
+
+  ## Parameters
+
+    - `js`: (optional) An existing `Phoenix.LiveView.JS` structure to apply transformations on.
+    Defaults to a new `%JS{}`.
+    - `id`: A string representing the unique identifier of the accordion item. It is used to
+    target the specific DOM elements for hiding content and removing classes.
+
+  ## Returns
+
+    - A `Phoenix.LiveView.JS` structure with commands to remove the `active` class from
+    the content and the `active-accordion-button` class from the corresponding button.
+
+  ## Example
+  ```elixir
+  hide_accordion_content(%JS{}, "accordion-item-1")
+  ```
+  This example will hide the content of the accordion item with the ID "accordion-item-1" and remove
+  the active classes from it.
+  """
   def hide_accordion_content(js \\ %JS{}, id) do
     js
     |> JS.remove_class("active", to: "##{id}")

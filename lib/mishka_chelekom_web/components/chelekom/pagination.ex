@@ -135,7 +135,7 @@ defmodule MishkaChelekom.Pagination do
   end
 
   @doc type: :component
-  attr :name, :string
+  attr :name, :string, doc: "Specifies the name of the element"
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
 
   defp icon_or_text(%{name: "hero-" <> _icon_name} = assigns) do

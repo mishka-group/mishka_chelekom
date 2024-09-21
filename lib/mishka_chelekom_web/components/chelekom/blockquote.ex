@@ -93,7 +93,7 @@ defmodule MishkaChelekom.Blockquote do
   end
 
   @doc type: :component
-  attr :name, :string, required: true
+  attr :name, :string, required: true, doc: "Specifies the name of the element"
   attr :class, :list, default: nil, doc: "Custom CSS class for additional styling"
 
   defp blockquote_icon(%{name: "hero-quote"} = assigns) do

@@ -23,7 +23,7 @@ defmodule MishkaChelekom.SpeedDial do
   attr :icon_animated, :boolean, default: false, doc: ""
   attr :rest, :global, doc: "Global attributes can define defaults which are merged with attributes provided by the caller"
 
-  slot :item, required: false do
+  slot :item, required: false, doc: "Specifies item slot of a speed dial" do
     attr :icon, :string, doc: "Icon displayed alongside of an item"
     attr :class, :string, doc: "Custom CSS class for additional styling"
     attr :navigate, :string, doc: ""

@@ -37,7 +37,7 @@ defmodule MishkaChelekom.Avatar do
   attr :border, :string, default: "none", doc: "Determines border style"
 
   slot :icon, required: false do
-    attr :name, :string, required: true
+    attr :name, :string, required: true, doc: "Specifies the name of the element"
     attr :class, :string, doc: "Custom CSS class for additional styling"
     attr :icon_class, :string, doc: "Determines custom class for the icon"
     attr :color, :string, doc: "Determines color theme"

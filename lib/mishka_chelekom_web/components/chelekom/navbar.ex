@@ -35,7 +35,7 @@ defmodule MishkaChelekom.Navbar do
   attr :content_position, :string, default: "between", doc: ""
   attr :image, :string, default: nil, doc: "Image displayed alongside of an item"
   attr :image_class, :string, default: nil, doc: "Determines custom class for the image"
-  attr :name, :string, default: nil, doc: ""
+  attr :name, :string, default: nil, doc: "Specifies the name of the element"
   attr :relative, :boolean, default: false, doc: ""
   attr :link, :string, default: nil, doc: ""
   attr :space, :string, default: nil, doc: "Space between items"

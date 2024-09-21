@@ -35,7 +35,7 @@ defmodule MishkaChelekom.List do
   attr :color, :string, values: @colors, default: "white", doc: "Determines color theme"
   attr :variant, :string, values: @variants, default: "filled", doc: "Determines the style"
   attr :style, :string, default: "list-none", doc: ""
-  slot :item, validate_attrs: false
+  slot :item, validate_attrs: false, doc: "Specifies item slot of a list"
   attr :rest, :global, include: ~w(ordered unordered), doc: "Global attributes can define defaults which are merged with attributes provided by the caller"
   slot :inner_block, doc: "Inner block that renders HEEx content"
 
