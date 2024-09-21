@@ -58,7 +58,7 @@ defmodule MishkaChelekom.Pagination do
 
   attr :rest, :global,
     include: ~w(disabled hide_one_page show_edges hide_controls grouped),
-    doc: ""
+    doc: "Global attributes can define defaults which are merged with attributes provided by the caller"
 
   def pagination(
         %{siblings: siblings, boundaries: boundaries, total: total, active: active} = assigns
@@ -152,7 +152,7 @@ defmodule MishkaChelekom.Pagination do
   attr :params, :map, default: %{}
   attr :page, :list, required: true
   attr :on_action, JS, default: %JS{}
-  attr :icon, :string, required: false
+  attr :icon, :string, required: false, doc: "Icon displayed alongside of an item"
   attr :disabled, :boolean, required: false
 
   defp item_button(%{on_action: {"select", _on_action}} = assigns) do

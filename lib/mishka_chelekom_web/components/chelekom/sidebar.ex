@@ -41,7 +41,7 @@ defmodule MishkaChelekom.Sidebar do
   attr :on_hide, JS, default: %JS{}
   attr :on_show, JS, default: %JS{}
   attr :on_hide_away, JS, default: %JS{}
-  attr :rest, :global, doc: ""
+  attr :rest, :global, doc: "Global attributes can define defaults which are merged with attributes provided by the caller"
   slot :inner_block, required: false, doc: ""
 
   @spec sidebar(map()) :: Phoenix.LiveView.Rendered.t()

@@ -9,12 +9,12 @@ defmodule MishkaChelekom.Stepper do
   attr :color, :string, default: "primary", doc: "Determines color theme"
   attr :space, :string, default: nil, doc: "Space between items"
   attr :border, :string, default: "extra_small", doc: "Determines border style"
-  attr :font_weight, :string, default: "font-normal", doc: ""
+  attr :font_weight, :string, default: "font-normal", doc: "Determines custom class for the font weight"
   attr :max_width, :string, default: nil, doc: ""
   attr :seperator_size, :string, default: "extra_small", doc: ""
   attr :vertical, :boolean, default: false, doc: ""
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
-  attr :rest, :global, doc: ""
+  attr :rest, :global, doc: "Global attributes can define defaults which are merged with attributes provided by the caller"
 
   slot :inner_block, required: false, doc: ""
 
@@ -70,10 +70,10 @@ defmodule MishkaChelekom.Stepper do
     default: "none"
 
   attr :rounded, :string, default: "full", doc: "Determines the border radius"
-  attr :icon, :string, default: nil, doc: ""
+  attr :icon, :string, default: nil, doc: "Icon displayed alongside of an item"
   attr :color, :string, default: "white"
-  attr :title, :string, default: nil
-  attr :description, :string, default: nil
+  attr :title, :string, default: nil, doc: "Specifies the title of the element"
+  attr :description, :string, default: nil, doc: "Determines a short description"
   attr :step_number, :integer, default: 1
   attr :vertical, :boolean, default: false, doc: ""
   attr :clickable, :boolean, default: true, doc: ""

@@ -11,7 +11,7 @@ defmodule MishkaChelekom.PasswordField do
   attr :border, :string, default: "extra_small", doc: "Determines border style"
   attr :rounded, :string, default: "small", doc: "Determines the border radius"
   attr :variant, :string, default: "outline", doc: "Determines the style"
-  attr :description, :string, default: nil, doc: ""
+  attr :description, :string, default: nil, doc: "Determines a short description"
   attr :space, :string, default: "medium", doc: "Space between items"
   attr :size, :string, default: "extra_large", doc: "Determines the overall size of the elements, including padding, font size, and other items"
   attr :show_password, :boolean, default: false, doc: ""
@@ -22,12 +22,12 @@ defmodule MishkaChelekom.PasswordField do
 
   slot :start_section, required: false do
     attr :class, :string, doc: "Custom CSS class for additional styling"
-    attr :icon, :string
+    attr :icon, :string, doc: "Icon displayed alongside of an item"
   end
 
   slot :end_section, required: false do
     attr :class, :string, doc: "Custom CSS class for additional styling"
-    attr :icon, :string
+    attr :icon, :string, doc: "Icon displayed alongside of an item"
   end
 
   attr :errors, :list, default: []
@@ -39,7 +39,8 @@ defmodule MishkaChelekom.PasswordField do
 
   attr :rest, :global,
     include: ~w(autocomplete disabled form maxlength minlength pattern placeholder
-        readonly required size spellcheck inputmode title autofocus)
+        readonly required size spellcheck inputmode title autofocus),
+    doc: "Global attributes can define defaults which are merged with attributes provided by the caller"
 
   @spec password_field(map()) :: Phoenix.LiveView.Rendered.t()
   def password_field(%{field: %Phoenix.HTML.FormField{} = field} = assigns) do
@@ -212,7 +213,7 @@ defmodule MishkaChelekom.PasswordField do
     """
   end
 
-  attr :icon, :string, default: nil
+  attr :icon, :string, default: nil, doc: "Icon displayed alongside of an item"
   slot :inner_block, required: true
 
   def error(assigns) do

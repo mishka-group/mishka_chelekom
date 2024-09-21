@@ -25,7 +25,8 @@ defmodule MishkaChelekom.CheckboxField do
     doc: "a form field struct retrieved from the form, for example: @form[:email]"
 
   attr :rest, :global,
-    include: ~w(autocomplete disabled form checked multiple readonly required title autofocus)
+    include: ~w(autocomplete disabled form checked multiple readonly required title autofocus),
+    doc: "Global attributes can define defaults which are merged with attributes provided by the caller"
 
   @spec checkbox_field(map()) :: Phoenix.LiveView.Rendered.t()
   def checkbox_field(%{field: %Phoenix.HTML.FormField{} = field} = assigns) do
@@ -89,7 +90,8 @@ defmodule MishkaChelekom.CheckboxField do
 
   attr :rest, :global,
     include:
-      ~w(autocomplete disabled form indeterminate multiple readonly required title autofocus)
+      ~w(autocomplete disabled form indeterminate multiple readonly required title autofocus),
+      doc: "Global attributes can define defaults which are merged with attributes provided by the caller"
 
   slot :checkbox, required: true do
     attr :value, :string, required: true
@@ -144,7 +146,7 @@ defmodule MishkaChelekom.CheckboxField do
   attr :class, :any, default: nil, doc: "Custom CSS class for additional styling"
   attr :for, :string, default: nil
   slot :inner_block, required: true
-  attr :rest, :global
+  attr :rest, :global, doc: "Global attributes can define defaults which are merged with attributes provided by the caller"
 
   def label(assigns) do
     ~H"""
@@ -154,7 +156,7 @@ defmodule MishkaChelekom.CheckboxField do
     """
   end
 
-  attr :icon, :string, default: nil
+  attr :icon, :string, default: nil, doc: "Icon displayed alongside of an item"
   slot :inner_block, required: true
 
   def error(assigns) do

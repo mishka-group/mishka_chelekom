@@ -10,21 +10,21 @@ defmodule MishkaChelekom.Carousel do
   attr :size, :string, default: "large", doc: "Determines the overall size of the elements, including padding, font size, and other items"
   attr :padding, :string, default: "medium", doc: "Determines padding for items"
   attr :text_position, :string, default: "center", doc: ""
-  attr :rest, :global, doc: ""
+  attr :rest, :global, doc: "Global attributes can define defaults which are merged with attributes provided by the caller"
   attr :indicator, :boolean, default: false
   attr :control, :boolean, default: true
 
   slot :inner_block, required: false, doc: ""
 
   slot :slide, required: true do
-    attr :image, :string
-    attr :image_class, :string
+    attr :image, :string, doc: "Image displayed alongside of an item"
+    attr :image_class, :string, doc: "Determines custom class for the image"
     attr :navigate, :string, doc: ""
     attr :patch, :string, doc: ""
     attr :href, :string, doc: ""
-    attr :title, :string
-    attr :description, :string
-    attr :title_class, :string
+    attr :title, :string, doc: "Specifies the title of the element"
+    attr :description, :string, doc: "Determines a short description"
+    attr :title_class, :string, doc: "Determines custom class for the title"
     attr :description_class, :string
     attr :wrapper_class, :string
     attr :content_position, :string
@@ -113,7 +113,7 @@ defmodule MishkaChelekom.Carousel do
   attr :navigate, :string, default: nil, doc: ""
   attr :patch, :string, default: nil, doc: ""
   attr :href, :string, default: nil, doc: ""
-  attr :image, :string, required: true, doc: ""
+  attr :image, :string, required: true, doc: "Image displayed alongside of an item"
   attr :index, :integer, required: true, doc: ""
   slot :inner_block, required: false, doc: ""
 
@@ -143,9 +143,9 @@ defmodule MishkaChelekom.Carousel do
   end
 
   attr :id, :string, required: true, doc: "A unique identifier is used to manage state and interaction"
-  attr :title, :string, default: nil
-  attr :description, :string, default: nil
-  attr :title_class, :string, default: "text-white"
+  attr :title, :string, default: nil, doc: "Specifies the title of the element"
+  attr :description, :string, default: nil, doc: "Determines a short description"
+  attr :title_class, :string, default: "text-white", doc: "Determines custom class for the title"
   attr :description_class, :string, default: nil
   attr :wrapper_class, :string, default: nil
   attr :content_position, :string, default: nil

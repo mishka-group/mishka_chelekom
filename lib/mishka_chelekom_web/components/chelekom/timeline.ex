@@ -8,7 +8,7 @@ defmodule MishkaChelekom.Timeline do
   attr :hide_last_line, :boolean, default: false, doc: ""
   attr :gapped_sections, :boolean, default: false, doc: ""
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
-  attr :rest, :global, doc: ""
+  attr :rest, :global, doc: "Global attributes can define defaults which are merged with attributes provided by the caller"
   attr :horizontal, :boolean, default: false, doc: ""
 
   slot :inner_block, required: false, doc: ""
@@ -48,13 +48,13 @@ defmodule MishkaChelekom.Timeline do
   attr :line_width, :string, default: "extra_small", doc: ""
   attr :size, :string, default: "extra_small", doc: "Determines the overall size of the elements, including padding, font size, and other items"
   attr :bullet_icon, :string, default: nil, doc: ""
-  attr :image, :string, default: nil, doc: ""
-  attr :title, :string, default: nil, doc: ""
+  attr :image, :string, default: nil, doc: "Image displayed alongside of an item"
+  attr :title, :string, default: nil, doc: "Specifies the title of the element"
   attr :time, :string, default: nil, doc: ""
-  attr :description, :string, default: nil, doc: ""
+  attr :description, :string, default: nil, doc: "Determines a short description"
   attr :horizontal, :boolean, default: false, doc: ""
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
-  attr :rest, :global, doc: ""
+  attr :rest, :global, doc: "Global attributes can define defaults which are merged with attributes provided by the caller"
 
   slot :inner_block, required: false, doc: ""
 

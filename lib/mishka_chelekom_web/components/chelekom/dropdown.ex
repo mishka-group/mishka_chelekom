@@ -29,7 +29,7 @@ defmodule MishkaChelekom.Dropdown do
   attr :relative, :string, default: nil, doc: ""
   attr :clickable, :boolean, default: false, doc: ""
   attr :nomobile, :boolean, default: false, doc: ""
-  attr :rest, :global, doc: ""
+  attr :rest, :global, doc: "Global attributes can define defaults which are merged with attributes provided by the caller"
   slot :inner_block, required: false, doc: ""
 
   def dropdown(assigns) do
@@ -58,7 +58,7 @@ defmodule MishkaChelekom.Dropdown do
   attr :trigger_id, :string, default: nil, doc: ""
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   slot :inner_block, required: false, doc: ""
-  attr :rest, :global, doc: ""
+  attr :rest, :global, doc: "Global attributes can define defaults which are merged with attributes provided by the caller"
 
   def dropdown_trigger(assigns) do
     ~H"""
@@ -86,11 +86,11 @@ defmodule MishkaChelekom.Dropdown do
   attr :size, :string, default: nil, doc: "Determines the overall size of the elements, including padding, font size, and other items"
   attr :space, :string, default: nil, doc: "Space between items"
   attr :width, :string, default: "extra_large", doc: ""
-  attr :font_weight, :string, default: "font-normal", doc: ""
+  attr :font_weight, :string, default: "font-normal", doc: "Determines custom class for the font weight"
   attr :padding, :string, default: "none", doc: "Determines padding for items"
   attr :border, :string, default: "extra_small", doc: "Determines border style"
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
-  attr :rest, :global, doc: ""
+  attr :rest, :global, doc: "Global attributes can define defaults which are merged with attributes provided by the caller"
   slot :inner_block, required: false, doc: ""
 
   # TODO: Add max-height and scroll

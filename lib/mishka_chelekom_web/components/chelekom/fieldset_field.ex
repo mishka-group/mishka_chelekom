@@ -22,7 +22,7 @@ defmodule MishkaChelekom.FieldsetField do
   attr :field, Phoenix.HTML.FormField,
     doc: "a form field struct retrieved from the form, for example: @form[:email]"
 
-  attr :rest, :global, include: ~w(disabled form title)
+  attr :rest, :global, include: ~w(disabled form title), doc: "Global attributes can define defaults which are merged with attributes provided by the caller"
 
   slot :control, required: false
 
@@ -73,7 +73,7 @@ defmodule MishkaChelekom.FieldsetField do
     """
   end
 
-  attr :icon, :string, default: nil
+  attr :icon, :string, default: nil, doc: "Icon displayed alongside of an item"
   slot :inner_block, required: true
 
   def error(assigns) do

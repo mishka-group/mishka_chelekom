@@ -19,8 +19,8 @@ defmodule MishkaChelekom.Typography do
   attr :color, :string, values: @colors, default: "inherit", doc: "Determines color theme"
   attr :size, :string, default: "quadruple_large", doc: "Determines the overall size of the elements, including padding, font size, and other items"
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
-  attr :font_weight, :string, default: "font-normal", doc: ""
-  attr :rest, :global
+  attr :font_weight, :string, default: "font-normal", doc: "Determines custom class for the font weight"
+  attr :rest, :global, doc: "Global attributes can define defaults which are merged with attributes provided by the caller"
   slot :inner_block, required: true, doc: ""
 
   @spec h1(map()) :: Phoenix.LiveView.Rendered.t()
@@ -45,8 +45,8 @@ defmodule MishkaChelekom.Typography do
   attr :color, :string, values: @colors, default: "inherit", doc: "Determines color theme"
   attr :size, :string, default: "triple_large", doc: "Determines the overall size of the elements, including padding, font size, and other items"
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
-  attr :font_weight, :string, default: "font-normal", doc: ""
-  attr :rest, :global
+  attr :font_weight, :string, default: "font-normal", doc: "Determines custom class for the font weight"
+  attr :rest, :global, doc: "Global attributes can define defaults which are merged with attributes provided by the caller"
   slot :inner_block, required: true, doc: ""
 
   @spec h2(any()) :: Phoenix.LiveView.Rendered.t()
@@ -71,8 +71,8 @@ defmodule MishkaChelekom.Typography do
   attr :color, :string, values: @colors, default: "inherit", doc: "Determines color theme"
   attr :size, :string, default: "double_large", doc: "Determines the overall size of the elements, including padding, font size, and other items"
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
-  attr :font_weight, :string, default: "font-normal", doc: ""
-  attr :rest, :global
+  attr :font_weight, :string, default: "font-normal", doc: "Determines custom class for the font weight"
+  attr :rest, :global, doc: "Global attributes can define defaults which are merged with attributes provided by the caller"
   slot :inner_block, required: true, doc: ""
 
   def h3(assigns) do
@@ -96,8 +96,8 @@ defmodule MishkaChelekom.Typography do
   attr :color, :string, values: @colors, default: "inherit", doc: "Determines color theme"
   attr :size, :string, default: "extra_large", doc: "Determines the overall size of the elements, including padding, font size, and other items"
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
-  attr :font_weight, :string, default: "font-normal", doc: ""
-  attr :rest, :global
+  attr :font_weight, :string, default: "font-normal", doc: "Determines custom class for the font weight"
+  attr :rest, :global, doc: "Global attributes can define defaults which are merged with attributes provided by the caller"
   slot :inner_block, required: true, doc: ""
 
   def h4(assigns) do
@@ -121,8 +121,8 @@ defmodule MishkaChelekom.Typography do
   attr :color, :string, values: @colors, default: "inherit", doc: "Determines color theme"
   attr :size, :string, default: "large", doc: "Determines the overall size of the elements, including padding, font size, and other items"
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
-  attr :font_weight, :string, default: "font-normal", doc: ""
-  attr :rest, :global
+  attr :font_weight, :string, default: "font-normal", doc: "Determines custom class for the font weight"
+  attr :rest, :global, doc: "Global attributes can define defaults which are merged with attributes provided by the caller"
   slot :inner_block, required: true, doc: ""
 
   def h5(assigns) do
@@ -146,8 +146,8 @@ defmodule MishkaChelekom.Typography do
   attr :color, :string, values: @colors, default: "inherit", doc: "Determines color theme"
   attr :size, :string, default: "medium", doc: "Determines the overall size of the elements, including padding, font size, and other items"
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
-  attr :font_weight, :string, default: "font-normal", doc: ""
-  attr :rest, :global
+  attr :font_weight, :string, default: "font-normal", doc: "Determines custom class for the font weight"
+  attr :rest, :global, doc: "Global attributes can define defaults which are merged with attributes provided by the caller"
   slot :inner_block, required: true, doc: ""
 
   def h6(assigns) do
@@ -171,8 +171,8 @@ defmodule MishkaChelekom.Typography do
   attr :color, :string, values: @colors, default: "inherit", doc: "Determines color theme"
   attr :size, :string, default: "medium", doc: "Determines the overall size of the elements, including padding, font size, and other items"
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
-  attr :font_weight, :string, default: "font-normal", doc: ""
-  attr :rest, :global
+  attr :font_weight, :string, default: "font-normal", doc: "Determines custom class for the font weight"
+  attr :rest, :global, doc: "Global attributes can define defaults which are merged with attributes provided by the caller"
   slot :inner_block, required: true, doc: ""
 
   def p(assigns) do
@@ -196,8 +196,8 @@ defmodule MishkaChelekom.Typography do
   attr :color, :string, values: @colors, default: "inherit", doc: "Determines color theme"
   attr :size, :string, default: "medium", doc: "Determines the overall size of the elements, including padding, font size, and other items"
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
-  attr :font_weight, :string, default: "font-bold", doc: ""
-  attr :rest, :global
+  attr :font_weight, :string, default: "font-bold", doc: "Determines custom class for the font weight"
+  attr :rest, :global, doc: "Global attributes can define defaults which are merged with attributes provided by the caller"
   slot :inner_block, required: true, doc: ""
 
   def strong(assigns) do
@@ -221,8 +221,8 @@ defmodule MishkaChelekom.Typography do
   attr :color, :string, values: @colors, default: "inherit", doc: "Determines color theme"
   attr :size, :string, default: "medium", doc: "Determines the overall size of the elements, including padding, font size, and other items"
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
-  attr :font_weight, :string, default: "font-normal", doc: ""
-  attr :rest, :global
+  attr :font_weight, :string, default: "font-normal", doc: "Determines custom class for the font weight"
+  attr :rest, :global, doc: "Global attributes can define defaults which are merged with attributes provided by the caller"
   slot :inner_block, required: true, doc: ""
 
   def em(assigns) do
@@ -246,8 +246,8 @@ defmodule MishkaChelekom.Typography do
   attr :color, :string, values: @colors, default: "inherit", doc: "Determines color theme"
   attr :size, :string, default: "medium", doc: "Determines the overall size of the elements, including padding, font size, and other items"
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
-  attr :font_weight, :string, default: "font-normal", doc: ""
-  attr :rest, :global
+  attr :font_weight, :string, default: "font-normal", doc: "Determines custom class for the font weight"
+  attr :rest, :global, doc: "Global attributes can define defaults which are merged with attributes provided by the caller"
   slot :inner_block, required: true, doc: ""
 
   def dl(assigns) do
@@ -271,8 +271,8 @@ defmodule MishkaChelekom.Typography do
   attr :color, :string, values: @colors, default: "inherit", doc: "Determines color theme"
   attr :size, :string, default: "medium", doc: "Determines the overall size of the elements, including padding, font size, and other items"
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
-  attr :font_weight, :string, default: "font-bold", doc: ""
-  attr :rest, :global
+  attr :font_weight, :string, default: "font-bold", doc: "Determines custom class for the font weight"
+  attr :rest, :global, doc: "Global attributes can define defaults which are merged with attributes provided by the caller"
   slot :inner_block, required: true, doc: ""
 
   def dt(assigns) do
@@ -296,8 +296,8 @@ defmodule MishkaChelekom.Typography do
   attr :color, :string, values: @colors, default: "inherit", doc: "Determines color theme"
   attr :size, :string, default: "medium", doc: "Determines the overall size of the elements, including padding, font size, and other items"
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
-  attr :font_weight, :string, default: "font-normal", doc: ""
-  attr :rest, :global
+  attr :font_weight, :string, default: "font-normal", doc: "Determines custom class for the font weight"
+  attr :rest, :global, doc: "Global attributes can define defaults which are merged with attributes provided by the caller"
   slot :inner_block, required: true, doc: ""
 
   def dd(assigns) do
@@ -321,8 +321,8 @@ defmodule MishkaChelekom.Typography do
   attr :color, :string, values: @colors, default: "inherit", doc: "Determines color theme"
   attr :size, :string, default: "medium", doc: "Determines the overall size of the elements, including padding, font size, and other items"
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
-  attr :font_weight, :string, default: "font-normal", doc: ""
-  attr :rest, :global
+  attr :font_weight, :string, default: "font-normal", doc: "Determines custom class for the font weight"
+  attr :rest, :global, doc: "Global attributes can define defaults which are merged with attributes provided by the caller"
   slot :inner_block, required: true, doc: ""
 
   def figure(assigns) do
@@ -346,8 +346,8 @@ defmodule MishkaChelekom.Typography do
   attr :color, :string, values: @colors, default: "inherit", doc: "Determines color theme"
   attr :size, :string, default: "medium", doc: "Determines the overall size of the elements, including padding, font size, and other items"
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
-  attr :font_weight, :string, default: "font-normal", doc: ""
-  attr :rest, :global
+  attr :font_weight, :string, default: "font-normal", doc: "Determines custom class for the font weight"
+  attr :rest, :global, doc: "Global attributes can define defaults which are merged with attributes provided by the caller"
   slot :inner_block, required: true, doc: ""
 
   def figcaption(assigns) do
@@ -371,8 +371,8 @@ defmodule MishkaChelekom.Typography do
   attr :color, :string, values: @colors, default: "inherit", doc: "Determines color theme"
   attr :size, :string, default: "medium", doc: "Determines the overall size of the elements, including padding, font size, and other items"
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
-  attr :font_weight, :string, default: "font-normal", doc: ""
-  attr :rest, :global
+  attr :font_weight, :string, default: "font-normal", doc: "Determines custom class for the font weight"
+  attr :rest, :global, doc: "Global attributes can define defaults which are merged with attributes provided by the caller"
   slot :inner_block, required: true, doc: ""
 
   def abbr(assigns) do
@@ -396,8 +396,8 @@ defmodule MishkaChelekom.Typography do
   attr :color, :string, values: @colors, default: "inherit", doc: "Determines color theme"
   attr :size, :string, default: "medium", doc: "Determines the overall size of the elements, including padding, font size, and other items"
   attr :class, :string, default: "p-0.5 bg-rose-200", doc: "Custom CSS class for additional styling"
-  attr :font_weight, :string, default: "font-normal", doc: ""
-  attr :rest, :global
+  attr :font_weight, :string, default: "font-normal", doc: "Determines custom class for the font weight"
+  attr :rest, :global, doc: "Global attributes can define defaults which are merged with attributes provided by the caller"
   slot :inner_block, required: true, doc: ""
 
   def mark(assigns) do
@@ -421,8 +421,8 @@ defmodule MishkaChelekom.Typography do
   attr :color, :string, values: @colors, default: "inherit", doc: "Determines color theme"
   attr :size, :string, default: "medium", doc: "Determines the overall size of the elements, including padding, font size, and other items"
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
-  attr :font_weight, :string, default: "font-normal", doc: ""
-  attr :rest, :global
+  attr :font_weight, :string, default: "font-normal", doc: "Determines custom class for the font weight"
+  attr :rest, :global, doc: "Global attributes can define defaults which are merged with attributes provided by the caller"
   slot :inner_block, required: true, doc: ""
 
   def small(assigns) do
@@ -446,8 +446,8 @@ defmodule MishkaChelekom.Typography do
   attr :color, :string, values: @colors, default: "inherit", doc: "Determines color theme"
   attr :size, :string, default: "medium", doc: "Determines the overall size of the elements, including padding, font size, and other items"
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
-  attr :font_weight, :string, default: "font-normal", doc: ""
-  attr :rest, :global
+  attr :font_weight, :string, default: "font-normal", doc: "Determines custom class for the font weight"
+  attr :rest, :global, doc: "Global attributes can define defaults which are merged with attributes provided by the caller"
   slot :inner_block, required: true, doc: ""
 
   def s(assigns) do
@@ -471,8 +471,8 @@ defmodule MishkaChelekom.Typography do
   attr :color, :string, values: @colors, default: "inherit", doc: "Determines color theme"
   attr :size, :string, default: "medium", doc: "Determines the overall size of the elements, including padding, font size, and other items"
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
-  attr :font_weight, :string, default: "font-normal", doc: ""
-  attr :rest, :global
+  attr :font_weight, :string, default: "font-normal", doc: "Determines custom class for the font weight"
+  attr :rest, :global, doc: "Global attributes can define defaults which are merged with attributes provided by the caller"
   slot :inner_block, required: true, doc: ""
 
   def u(assigns) do
@@ -496,8 +496,8 @@ defmodule MishkaChelekom.Typography do
   attr :color, :string, values: @colors, default: "inherit", doc: "Determines color theme"
   attr :size, :string, default: "medium", doc: "Determines the overall size of the elements, including padding, font size, and other items"
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
-  attr :font_weight, :string, default: "font-normal", doc: ""
-  attr :rest, :global
+  attr :font_weight, :string, default: "font-normal", doc: "Determines custom class for the font weight"
+  attr :rest, :global, doc: "Global attributes can define defaults which are merged with attributes provided by the caller"
   slot :inner_block, required: true, doc: ""
 
   def cite(assigns) do
@@ -521,8 +521,8 @@ defmodule MishkaChelekom.Typography do
   attr :color, :string, values: @colors, default: "inherit", doc: "Determines color theme"
   attr :size, :string, default: "medium", doc: "Determines the overall size of the elements, including padding, font size, and other items"
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
-  attr :font_weight, :string, default: "font-normal", doc: ""
-  attr :rest, :global
+  attr :font_weight, :string, default: "font-normal", doc: "Determines custom class for the font weight"
+  attr :rest, :global, doc: "Global attributes can define defaults which are merged with attributes provided by the caller"
   slot :inner_block, required: true, doc: ""
 
   def del(assigns) do

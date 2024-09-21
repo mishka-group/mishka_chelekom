@@ -33,24 +33,24 @@ defmodule MishkaChelekom.Navbar do
   attr :rounded, :string, default: nil, doc: "Determines the border radius"
   attr :max_width, :string, default: nil, doc: ""
   attr :content_position, :string, default: "between", doc: ""
-  attr :image, :string, default: nil, doc: ""
-  attr :image_class, :string, default: nil, doc: ""
+  attr :image, :string, default: nil, doc: "Image displayed alongside of an item"
+  attr :image_class, :string, default: nil, doc: "Determines custom class for the image"
   attr :name, :string, default: nil, doc: ""
   attr :relative, :boolean, default: false, doc: ""
   attr :link, :string, default: nil, doc: ""
   attr :space, :string, default: nil, doc: "Space between items"
-  attr :font_weight, :string, default: "font-normal", doc: ""
+  attr :font_weight, :string, default: "font-normal", doc: "Determines custom class for the font weight"
   attr :padding, :string, default: "small", doc: "Determines padding for items"
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
-  attr :rest, :global, doc: ""
+  attr :rest, :global, doc: "Global attributes can define defaults which are merged with attributes provided by the caller"
 
   slot :inner_block, required: false, doc: ""
 
   slot :list, required: true do
     attr :class, :string, doc: "Custom CSS class for additional styling"
     attr :padding, :string, doc: "Determines padding for items"
-    attr :icon, :string
-    attr :icon_class, :string
+    attr :icon, :string, doc: "Icon displayed alongside of an item"
+    attr :icon_class, :string, doc: "Determines custom class for the icon"
     attr :icon_position, :string, doc: "end, start"
   end
 

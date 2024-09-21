@@ -50,8 +50,8 @@ defmodule MishkaChelekom.Badge do
   attr :size, :string, default: "extra_small", doc: "Determines the overall size of the elements, including padding, font size, and other items"
   attr :rounded, :string, values: @sizes ++ ["full", "none"], default: "small", doc: "Determines the border radius"
   attr :color, :string, values: @colors, default: "white", doc: "Determines color theme"
-  attr :font_weight, :string, default: "font-normal", doc: ""
-  attr :icon, :string, default: nil, doc: ""
+  attr :font_weight, :string, default: "font-normal", doc: "Determines custom class for the font weight"
+  attr :icon, :string, default: nil, doc: "Icon displayed alongside of an item"
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :indicator_class, :string, default: nil, doc: ""
   attr :indicator_size, :string, default: nil, doc: ""
@@ -60,7 +60,7 @@ defmodule MishkaChelekom.Badge do
   attr :rest, :global,
     include:
       ["pinging", "circle"] ++ @dismiss_positions ++ @indicator_positions ++ @icon_positions,
-    doc: ""
+    doc: "Global attributes can define defaults which are merged with attributes provided by the caller"
 
   slot :inner_block, required: false, doc: ""
 
@@ -93,7 +93,7 @@ defmodule MishkaChelekom.Badge do
 
   attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
   attr :dismiss, :boolean, default: false
-  attr :icon_class, :string, default: "size-4"
+  attr :icon_class, :string, default: "size-4", doc: "Determines custom class for the icon"
   attr :params, :map, default: %{kind: "badge"}
 
   defp badge_dismiss(assigns) do
@@ -110,7 +110,7 @@ defmodule MishkaChelekom.Badge do
   attr :position, :string, default: "none"
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :size, :string
-  attr :rest, :global
+  attr :rest, :global, doc: "Global attributes can define defaults which are merged with attributes provided by the caller"
 
   defp badge_indicator(%{position: "left", rest: %{left_indicator: true}} = assigns) do
     ~H"""

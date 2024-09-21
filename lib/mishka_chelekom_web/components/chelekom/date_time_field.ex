@@ -15,7 +15,7 @@ defmodule MishkaChelekom.DateTimeField do
   attr :border, :string, default: "extra_small", doc: "Determines border style"
   attr :rounded, :string, default: "small", doc: "Determines the border radius"
   attr :variant, :string, default: "outline", doc: "Determines the style"
-  attr :description, :string, default: nil, doc: ""
+  attr :description, :string, default: nil, doc: "Determines a short description"
   attr :space, :string, default: "medium", doc: "Space between items"
   attr :size, :string, default: "extra_large", doc: "Determines the overall size of the elements, including padding, font size, and other items"
   attr :ring, :boolean, default: true, doc: ""
@@ -25,12 +25,12 @@ defmodule MishkaChelekom.DateTimeField do
 
   slot :start_section, required: false do
     attr :class, :string, doc: "Custom CSS class for additional styling"
-    attr :icon, :string
+    attr :icon, :string, doc: "Icon displayed alongside of an item"
   end
 
   slot :end_section, required: false do
     attr :class, :string, doc: "Custom CSS class for additional styling"
-    attr :icon, :string
+    attr :icon, :string, doc: "Icon displayed alongside of an item"
   end
 
   attr :errors, :list, default: []
@@ -40,7 +40,7 @@ defmodule MishkaChelekom.DateTimeField do
   attr :field, Phoenix.HTML.FormField,
     doc: "a form field struct retrieved from the form, for example: @form[:email]"
 
-  attr :rest, :global, include: ~w(disabled form min max readonly required step autofocus)
+  attr :rest, :global, include: ~w(disabled form min max readonly required step autofocus), doc: "Global attributes can define defaults which are merged with attributes provided by the caller"
 
   @spec date_time_field(map()) :: Phoenix.LiveView.Rendered.t()
   def date_time_field(%{field: %Phoenix.HTML.FormField{} = field} = assigns) do
@@ -187,7 +187,7 @@ defmodule MishkaChelekom.DateTimeField do
     """
   end
 
-  attr :icon, :string, default: nil
+  attr :icon, :string, default: nil, doc: "Icon displayed alongside of an item"
   slot :inner_block, required: true
 
   def error(assigns) do

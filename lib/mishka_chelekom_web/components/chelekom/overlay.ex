@@ -34,7 +34,7 @@ defmodule MishkaChelekom.Overlay do
   attr :opacity, :string, values: @opacities ++ [nil], default: nil, doc: ""
   attr :blur, :string, values: @sizes ++ ["none", nil], default: nil, doc: ""
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
-  attr :rest, :global, doc: ""
+  attr :rest, :global, doc: "Global attributes can define defaults which are merged with attributes provided by the caller"
 
   slot :inner_block, required: false, doc: ""
 

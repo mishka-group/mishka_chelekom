@@ -56,7 +56,7 @@ defmodule MishkaChelekom.Banner do
   attr :vertical_size, :string, default: "none", doc: ""
   attr :position, :string, values: @positions, default: "full", doc: ""
   attr :position_size, :string, values: @sizes ++ ["none"], default: "none", doc: ""
-  attr :font_weight, :string, default: "font-normal", doc: ""
+  attr :font_weight, :string, default: "font-normal", doc: "Determines custom class for the font weight"
   attr :padding, :string, values: @sizes ++ ["none"], default: "extra_small", doc: "Determines padding for items"
   attr :class, :string, default: "", doc: "Custom CSS class for additional styling"
   attr :params, :map, default: %{kind: "banner"}

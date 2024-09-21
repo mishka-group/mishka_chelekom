@@ -8,7 +8,7 @@ defmodule MishkaChelekom.ColorField do
   attr :color, :string, default: "white", doc: "Determines color theme"
   attr :border, :string, default: "extra_small", doc: "Determines border style"
   attr :rounded, :string, default: "small", doc: "Determines the border radius"
-  attr :description, :string, default: nil, doc: ""
+  attr :description, :string, default: nil, doc: "Determines a short description"
   attr :size, :string, default: "extra_large", doc: "Determines the overall size of the elements, including padding, font size, and other items"
   attr :circle, :boolean, default: false, doc: ""
   attr :error_icon, :string, default: nil, doc: ""
@@ -16,12 +16,12 @@ defmodule MishkaChelekom.ColorField do
 
   slot :start_section, required: false do
     attr :class, :string, doc: "Custom CSS class for additional styling"
-    attr :icon, :string
+    attr :icon, :string, doc: "Icon displayed alongside of an item"
   end
 
   slot :end_section, required: false do
     attr :class, :string, doc: "Custom CSS class for additional styling"
-    attr :icon, :string
+    attr :icon, :string, doc: "Icon displayed alongside of an item"
   end
 
   attr :errors, :list, default: []
@@ -32,7 +32,8 @@ defmodule MishkaChelekom.ColorField do
     doc: "a form field struct retrieved from the form, for example: @form[:email]"
 
   attr :rest, :global, include: ~w(autocomplete disabled form list min max pattern placeholder
-        readonly required size inputmode inputmode step title autofocus)
+        readonly required size inputmode inputmode step title autofocus),
+  doc: "Global attributes can define defaults which are merged with attributes provided by the caller"
 
   @spec color_field(map()) :: Phoenix.LiveView.Rendered.t()
   def color_field(%{field: %Phoenix.HTML.FormField{} = field} = assigns) do
@@ -90,7 +91,7 @@ defmodule MishkaChelekom.ColorField do
     """
   end
 
-  attr :icon, :string, default: nil
+  attr :icon, :string, default: nil, doc: "Icon displayed alongside of an item"
   slot :inner_block, required: true
 
   def error(assigns) do

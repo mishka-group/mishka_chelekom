@@ -28,14 +28,14 @@ defmodule MishkaChelekom.List do
 
   attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
-  attr :font_weight, :string, default: "font-normal", doc: ""
+  attr :font_weight, :string, default: "font-normal", doc: "Determines custom class for the font weight"
   attr :size, :string, default: "large", doc: "Determines the overall size of the elements, including padding, font size, and other items"
   attr :space, :string, values: @sizes ++ [nil], default: nil, doc: "Space between items"
   attr :color, :string, values: @colors, default: "white", doc: "Determines color theme"
   attr :variant, :string, values: @variants, default: "filled", doc: "Determines the style"
   attr :style, :string, default: "list-none", doc: ""
   slot :item, validate_attrs: false
-  attr :rest, :global, include: ~w(ordered unordered), doc: ""
+  attr :rest, :global, include: ~w(ordered unordered), doc: "Global attributes can define defaults which are merged with attributes provided by the caller"
   slot :inner_block, doc: ""
 
   def list(%{rest: %{ordered: true}} = assigns) do
@@ -64,12 +64,12 @@ defmodule MishkaChelekom.List do
   attr :class, :list, default: nil, doc: "Custom CSS class for additional styling"
   attr :count, :integer, default: nil, doc: ""
   attr :count_separator, :string, default: ". ", doc: ""
-  attr :icon, :string, default: nil, doc: ""
-  attr :icon_class, :string, default: "list-item-icon", doc: ""
-  attr :content_class, :string, default: nil
+  attr :icon, :string, default: nil, doc: "Icon displayed alongside of an item"
+  attr :icon_class, :string, default: "list-item-icon", doc: "Determines custom class for the icon"
+  attr :content_class, :string, default: nil, doc: "Determines custom class for the content"
   attr :padding, :string, default: "none", doc: "Determines padding for items"
   attr :position, :string, values: ["start", "end", "center"], default: "start", doc: ""
-  attr :rest, :global
+  attr :rest, :global, doc: "Global attributes can define defaults which are merged with attributes provided by the caller"
   slot :inner_block, required: true, doc: ""
 
   @spec li(map()) :: Phoenix.LiveView.Rendered.t()
@@ -105,8 +105,8 @@ defmodule MishkaChelekom.List do
   attr :style, :string, default: "list-none", doc: ""
   attr :space, :string, values: @sizes ++ [nil], default: nil, doc: "Space between items"
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
-  attr :font_weight, :string, default: "font-normal", doc: ""
-  attr :rest, :global
+  attr :font_weight, :string, default: "font-normal", doc: "Determines custom class for the font weight"
+  attr :rest, :global, doc: "Global attributes can define defaults which are merged with attributes provided by the caller"
   slot :inner_block, required: true, doc: ""
 
   def ul(assigns) do
@@ -137,8 +137,8 @@ defmodule MishkaChelekom.List do
   attr :width, :string, default: "full", doc: ""
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :space, :string, values: @sizes ++ [nil], default: nil, doc: "Space between items"
-  attr :font_weight, :string, default: "font-normal", doc: ""
-  attr :rest, :global
+  attr :font_weight, :string, default: "font-normal", doc: "Determines custom class for the font weight"
+  attr :rest, :global, doc: "Global attributes can define defaults which are merged with attributes provided by the caller"
   slot :inner_block, required: true, doc: ""
 
   def ol(assigns) do
@@ -169,10 +169,10 @@ defmodule MishkaChelekom.List do
   attr :space, :string, values: @sizes ++ [nil], default: "small", doc: "Space between items"
   attr :rounded, :string, values: @sizes ++ ["full", "none"], default: "small", doc: "Determines the border radius"
   attr :border, :string, values: @sizes ++ [nil], default: "extra_small", doc: "Determines border style"
-  attr :font_weight, :string, default: "font-normal", doc: ""
+  attr :font_weight, :string, default: "font-normal", doc: "Determines custom class for the font weight"
   attr :padding, :string, values: @sizes ++ ["none"], default: "none", doc: "Determines padding for items"
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
-  attr :rest, :global
+  attr :rest, :global, doc: "Global attributes can define defaults which are merged with attributes provided by the caller"
   slot :inner_block, required: true, doc: ""
 
   def list_group(assigns) do

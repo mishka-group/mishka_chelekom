@@ -33,7 +33,7 @@ defmodule MishkaChelekom.Video do
   attr :caption_opacity, :string, default: "solid", doc: ""
   attr :ratio, :string, default: "auto", doc: ""
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
-  attr :rest, :global, include: ~w(controls autoplay loop muted preload), doc: ""
+  attr :rest, :global, include: ~w(controls autoplay loop muted preload), doc: "Global attributes can define defaults which are merged with attributes provided by the caller"
 
   slot :source, required: true do
     attr :src, :string, required: true

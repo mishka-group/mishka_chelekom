@@ -28,13 +28,13 @@ defmodule MishkaChelekom.Tooltip do
   attr :rounded, :string, default: nil, doc: "Determines the border radius"
   attr :size, :string, default: nil, doc: "Determines the overall size of the elements, including padding, font size, and other items"
   attr :space, :string, default: nil, doc: "Space between items"
-  attr :font_weight, :string, default: "font-normal", doc: ""
+  attr :font_weight, :string, default: "font-normal", doc: "Determines custom class for the font weight"
   attr :width, :string, default: "fit", doc: ""
   attr :padding, :string, default: "small", doc: "Determines padding for items"
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :text_position, :string, default: "center", doc: ""
   attr :text, :string, default: "", doc: ""
-  attr :rest, :global, doc: ""
+  attr :rest, :global, doc: "Global attributes can define defaults which are merged with attributes provided by the caller"
   slot :inner_block, required: false, doc: ""
 
   def tooltip(assigns) do

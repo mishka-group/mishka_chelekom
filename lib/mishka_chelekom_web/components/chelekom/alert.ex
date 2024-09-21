@@ -44,15 +44,15 @@ defmodule MishkaChelekom.Alert do
   """
   attr :id, :string, doc: "A unique identifier is used to manage state and interaction"
   attr :flash, :map, default: %{}, doc: "the map of flash messages to display"
-  attr :title, :string, default: nil
+  attr :title, :string, default: nil, doc: "Specifies the title of the element"
   attr :kind, :atom, values: @kind_typs, doc: "used for styling and flash lookup"
-  attr :rest, :global, doc: "the arbitrary HTML attributes to add to the flash container"
+  attr :rest, :global, doc: "Global attributes can define defaults which are merged with attributes provided by the caller"
   attr :variant, :string, values: @variants, default: "default", doc: "Determines the style"
   attr :position, :string, values: @positions ++ [nil], default: nil, doc: ""
   attr :width, :string, values: @sizes ++ ["full"], default: "full", doc: ""
   attr :size, :string, values: @sizes, default: "medium", doc: "Determines the overall size of the elements, including padding, font size, and other items"
   attr :rounded, :string, values: @sizes ++ ["full", "none"], default: "small", doc: "Determines the border radius"
-  attr :font_weight, :string, default: "font-normal", doc: ""
+  attr :font_weight, :string, default: "font-normal", doc: "Determines custom class for the font weight"
   attr :icon, :any, default: "hero-chat-bubble-bottom-center-text", doc: ""
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
 
@@ -147,19 +147,19 @@ defmodule MishkaChelekom.Alert do
       <.flash kind={:info} phx-mounted={show("#flash")}>Welcome Back!</.flash>
   """
   attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
-  attr :title, :string, default: nil
+  attr :title, :string, default: nil, doc: "Specifies the title of the element"
   attr :kind, :atom, values: @kind_typs, doc: "used for styling and flash lookup"
   attr :variant, :string, values: @variants, default: "default", doc: "Determines the style"
   attr :position, :string, values: @positions ++ [nil], default: nil, doc: ""
   attr :width, :string, values: @sizes ++ ["full"], default: "full", doc: ""
   attr :size, :string, values: @sizes, default: "medium", doc: "Determines the overall size of the elements, including padding, font size, and other items"
   attr :rounded, :string, values: @sizes ++ ["full", "none"], default: "small", doc: "Determines the border radius"
-  attr :font_weight, :string, default: "font-normal", doc: ""
+  attr :font_weight, :string, default: "font-normal", doc: "Determines custom class for the font weight"
   attr :icon, :any, default: "hero-chat-bubble-bottom-center-text", doc: ""
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
 
   slot :inner_block, doc: "the optional inner block that renders the flash message"
-  attr :rest, :global, doc: "the arbitrary HTML attributes to add to the flash container"
+  attr :rest, :global, doc: "Global attributes can define defaults which are merged with attributes provided by the caller"
 
   def alert(assigns) do
     ~H"""

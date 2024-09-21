@@ -64,7 +64,7 @@ defmodule MishkaChelekom.Button do
   attr :rounded, :string, values: @sizes ++ ["full", "none"], default: "small", doc: "Determines the border radius"
   attr :size, :string, default: "large", doc: "Determines the overall size of the elements, including padding, font size, and other items"
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
-  attr :rest, :global, doc: ""
+  attr :rest, :global, doc: "Global attributes can define defaults which are merged with attributes provided by the caller"
   slot :inner_block, required: false, doc: ""
 
   def button_group(assigns) do
@@ -97,9 +97,9 @@ defmodule MishkaChelekom.Button do
   attr :size, :string, default: "large", doc: "Determines the overall size of the elements, including padding, font size, and other items"
   attr :content_position, :string, default: "center", doc: ""
   attr :display, :string, default: "inline-flex", doc: ""
-  attr :icon, :string, default: nil, doc: ""
-  attr :icon_class, :string, default: nil, doc: ""
-  attr :font_weight, :string, default: "font-normal", doc: ""
+  attr :icon, :string, default: nil, doc: "Icon displayed alongside of an item"
+  attr :icon_class, :string, default: nil, doc: "Determines custom class for the icon"
+  attr :font_weight, :string, default: "font-normal", doc: "Determines custom class for the font weight"
   attr :indicator_class, :string, default: nil, doc: ""
   attr :indicator_size, :string, default: nil, doc: ""
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
@@ -107,7 +107,7 @@ defmodule MishkaChelekom.Button do
   attr :rest, :global,
     include:
       ~w(disabled form name value right_icon left_icon pinging circle) ++ @indicator_positions,
-    doc: ""
+    doc: "Global attributes can define defaults which are merged with attributes provided by the caller"
 
   slot :inner_block, required: false, doc: ""
 
@@ -150,9 +150,9 @@ defmodule MishkaChelekom.Button do
   attr :type, :string, default: "button", doc: "button, submit, reset"
   attr :content_position, :string, default: "center", doc: ""
   attr :display, :string, default: "inline-block", doc: ""
-  attr :font_weight, :string, default: "font-normal", doc: ""
+  attr :font_weight, :string, default: "font-normal", doc: "Determines custom class for the font weight"
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
-  attr :rest, :global, doc: ""
+  attr :rest, :global, doc: "Global attributes can define defaults which are merged with attributes provided by the caller"
 
   def input_button(assigns) do
     ~H"""
@@ -180,7 +180,7 @@ defmodule MishkaChelekom.Button do
 
   @doc type: :component
   attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
-  attr :title, :string, default: nil, doc: ""
+  attr :title, :string, default: nil, doc: "Specifies the title of the element"
   attr :navigate, :string, doc: ""
   attr :patch, :string, doc: ""
   attr :href, :string, doc: ""
@@ -190,9 +190,9 @@ defmodule MishkaChelekom.Button do
   attr :size, :string, default: "large", doc: "Determines the overall size of the elements, including padding, font size, and other items"
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :display, :string, default: "inline-flex", doc: ""
-  attr :icon, :string, default: nil, doc: ""
-  attr :icon_class, :string, default: nil, doc: ""
-  attr :font_weight, :string, default: "font-normal", doc: ""
+  attr :icon, :string, default: nil, doc: "Icon displayed alongside of an item"
+  attr :icon_class, :string, default: nil, doc: "Determines custom class for the icon"
+  attr :font_weight, :string, default: "font-normal", doc: "Determines custom class for the font weight"
   attr :indicator_class, :string, default: nil, doc: ""
   attr :indicator_size, :string, default: nil, doc: ""
 
@@ -200,7 +200,7 @@ defmodule MishkaChelekom.Button do
     include:
       ~w(right_icon left_icon pinging circle download hreflang referrerpolicy rel target type csrf_token method replace) ++
         @indicator_positions,
-    doc: ""
+    doc: "Global attributes can define defaults which are merged with attributes provided by the caller"
 
   slot :inner_block, required: false, doc: ""
 
@@ -286,7 +286,7 @@ defmodule MishkaChelekom.Button do
   attr :position, :string, default: "none"
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :size, :string
-  attr :rest, :global
+  attr :rest, :global, doc: "Global attributes can define defaults which are merged with attributes provided by the caller"
 
   defp button_indicator(%{position: "left", rest: %{left_indicator: true}} = assigns) do
     ~H"""

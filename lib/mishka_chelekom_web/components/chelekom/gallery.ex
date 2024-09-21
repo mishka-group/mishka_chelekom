@@ -7,7 +7,7 @@ defmodule MishkaChelekom.Gallery do
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :cols, :string, default: nil, doc: ""
   attr :gap, :string, default: nil, doc: ""
-  attr :rest, :global, doc: ""
+  attr :rest, :global, doc: "Global attributes can define defaults which are merged with attributes provided by the caller"
   slot :inner_block, required: false, doc: ""
 
   def gallery(assigns) do
@@ -34,7 +34,7 @@ defmodule MishkaChelekom.Gallery do
   attr :alt, :string, default: "", doc: ""
   attr :rounded, :string, default: "none", doc: "Determines the border radius"
   attr :shadow, :string, default: "shadow-none", doc: ""
-  attr :rest, :global, doc: ""
+  attr :rest, :global, doc: "Global attributes can define defaults which are merged with attributes provided by the caller"
   slot :inner_block, required: false, doc: ""
 
   def gallery_media(assigns) do

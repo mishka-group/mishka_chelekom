@@ -33,15 +33,15 @@ defmodule MishkaChelekom.Blockquote do
   attr :rounded, :string, values: @sizes ++ ["full", "none"], default: "small", doc: "Determines the border radius"
   attr :size, :string, default: "medium", doc: "Determines the overall size of the elements, including padding, font size, and other items"
   attr :space, :string, values: @sizes, default: "small", doc: "Space between items"
-  attr :font_weight, :string, default: "font-normal", doc: ""
+  attr :font_weight, :string, default: "font-normal", doc: "Determines custom class for the font weight"
   attr :padding, :string, values: @sizes ++ ["none"], default: "small", doc: "Determines padding for items"
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
-  attr :icon, :string, default: "hero-quote", doc: ""
-  attr :icon_class, :string, default: nil, doc: ""
+  attr :icon, :string, default: "hero-quote", doc: "Icon displayed alongside of an item"
+  attr :icon_class, :string, default: nil, doc: "Determines custom class for the icon"
 
   slot :caption, required: false do
-    attr :image, :string
-    attr :image_class, :string
+    attr :image, :string, doc: "Image displayed alongside of an item"
+    attr :image_class, :string, doc: "Determines custom class for the image"
     attr :position, :string, values: ["right", "left", "center"]
   end
 
@@ -50,7 +50,7 @@ defmodule MishkaChelekom.Blockquote do
 
   attr :rest, :global,
     include: ~w(left_border right_border hide_border full_border hide_icon),
-    doc: ""
+    doc: "Global attributes can define defaults which are merged with attributes provided by the caller"
 
   def blockquote(assigns) do
     ~H"""

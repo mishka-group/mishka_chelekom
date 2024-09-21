@@ -37,14 +37,14 @@ defmodule MishkaChelekom.Divider do
   slot :icon, required: false do
     attr :name, :string, required: true
     attr :class, :string, doc: "Custom CSS class for additional styling"
-    attr :icon_class, :string
+    attr :icon_class, :string, doc: "Determines custom class for the icon"
     attr :color, :string, doc: "Determines color theme"
     attr :size, :string
     attr :position, :string
   end
 
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
-  attr :rest, :global
+  attr :rest, :global, doc: "Global attributes can define defaults which are merged with attributes provided by the caller"
 
   def divider(%{variation: "vertical"} = assigns) do
     ~H"""
@@ -149,13 +149,13 @@ defmodule MishkaChelekom.Divider do
   slot :icon, required: false do
     attr :name, :string, required: true
     attr :class, :string, doc: "Custom CSS class for additional styling"
-    attr :icon_class, :string
+    attr :icon_class, :string, doc: "Determines custom class for the icon"
     attr :color, :string, doc: "Determines color theme"
     attr :size, :string
   end
 
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
-  attr :rest, :global
+  attr :rest, :global, doc: "Global attributes can define defaults which are merged with attributes provided by the caller"
 
   def hr(assigns) do
     ~H"""

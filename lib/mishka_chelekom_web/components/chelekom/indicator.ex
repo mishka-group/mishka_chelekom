@@ -39,7 +39,7 @@ defmodule MishkaChelekom.Indicator do
     default: "transparent",
     doc: "Determines border style"
 
-  attr :rest, :global, include: ["pinging"] ++ @indicator_positions, doc: ""
+  attr :rest, :global, include: ["pinging"] ++ @indicator_positions, doc: "Global attributes can define defaults which are merged with attributes provided by the caller"
 
   def indicator(%{rest: %{top_left: true}} = assigns) do
     ~H"""

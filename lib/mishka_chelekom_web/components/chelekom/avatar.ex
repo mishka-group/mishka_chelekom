@@ -32,19 +32,19 @@ defmodule MishkaChelekom.Avatar do
   attr :color, :string, values: @colors ++ ["transparent"], default: "transparent", doc: "Determines color theme"
   attr :size, :string, default: "small", doc: "Determines the overall size of the elements, including padding, font size, and other items"
   attr :shadow, :string, values: @sizes ++ ["none"], default: "none", doc: ""
-  attr :font_weight, :string, default: "font-normal", doc: ""
+  attr :font_weight, :string, default: "font-normal", doc: "Determines custom class for the font weight"
   attr :rounded, :string, values: @sizes ++ ["full", "none"], default: "medium", doc: "Determines the border radius"
   attr :border, :string, default: "none", doc: "Determines border style"
 
   slot :icon, required: false do
     attr :name, :string, required: true
     attr :class, :string, doc: "Custom CSS class for additional styling"
-    attr :icon_class, :string
+    attr :icon_class, :string, doc: "Determines custom class for the icon"
     attr :color, :string, doc: "Determines color theme"
     attr :size, :string
   end
 
-  attr :rest, :global
+  attr :rest, :global, doc: "Global attributes can define defaults which are merged with attributes provided by the caller"
   slot :inner_block, required: false, doc: ""
 
   def avatar(%{src: src, rounded: "full"} = assigns) when not is_nil(src) do
@@ -145,7 +145,7 @@ defmodule MishkaChelekom.Avatar do
 
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :space, :string, values: @sizes ++ ["none"], default: "medium", doc: "Space between items"
-  attr :rest, :global
+  attr :rest, :global, doc: "Global attributes can define defaults which are merged with attributes provided by the caller"
   slot :inner_block, required: false, doc: ""
 
   def avatar_group(assigns) do

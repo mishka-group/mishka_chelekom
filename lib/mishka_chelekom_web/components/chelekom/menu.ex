@@ -9,7 +9,7 @@ defmodule MishkaChelekom.Menu do
   attr :menu_items, :list, default: [], doc: ""
   attr :space, :string, default: "small", doc: "Space between items"
   attr :padding, :string, default: "small", doc: "Determines padding for items"
-  slot :inner_block, doc: ""
+  slot :inner_block, doc: "Global attributes can define defaults which are merged with attributes provided by the caller"
   attr :rest, :global, doc: ""
 
   def menu(assigns) do

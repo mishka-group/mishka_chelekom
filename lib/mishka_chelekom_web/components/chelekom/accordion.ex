@@ -42,25 +42,25 @@ defmodule MishkaChelekom.Accordion do
   attr :media_size, :string, values: @sizes, default: "small", doc: "Determines size of the media elements"
   attr :size, :string, default: nil, doc: "Determines the overall size of the elements, including padding, font size, and other items"
 
-  slot :item, required: true do
-    attr :title, :string, required: true
-    attr :description, :string
-    attr :icon, :string
+  slot :item, required: true, doc: "Specifies item slot of a accordion" do
+    attr :title, :string, required: true, doc: "Specifies the title of the element", doc: "Specifies the title of the element"
+    attr :description, :string, doc: "Determines a short description"
+    attr :icon, :string, doc: "Icon displayed alongside of an item"
     attr :class, :string, doc: "Custom CSS class for additional styling"
-    attr :image, :string
-    attr :hover, :string
-    attr :image_class, :string
-    attr :icon_class, :string
-    attr :content_class, :string
-    attr :title_class, :string
-    attr :summary_class, :string
-    attr :font_weight, :string
-    attr :open, :boolean
+    attr :image, :string, doc: "Image displayed alongside of an item"
+    attr :hover, :string, doc: "Determines custom class for the hover"
+    attr :image_class, :string, doc: "Determines custom class for the image"
+    attr :icon_class, :string, doc: "Determines custom class for the icon"
+    attr :content_class, :string, doc: "Determines custom class for the content"
+    attr :title_class, :string, doc: "Determines custom class for the title"
+    attr :summary_class, :string, doc: "Determines custom class for the summary"
+    attr :font_weight, :string, doc: "Determines custom class for the font weight"
+    attr :open, :boolean, doc: "Whether the accordion item is initially open or closed"
   end
 
   attr :rest, :global,
     include: ~w(left_chevron right_chevron chevron hide_chevron),
-    doc: ""
+    doc: "Global attributes can define defaults which are merged with attributes provided by the caller"
 
   def accordion(assigns) do
     ~H"""
@@ -153,16 +153,16 @@ defmodule MishkaChelekom.Accordion do
   attr :chevron_icon, :string, default: "hero-chevron-right", doc: "Determines the icon for the chevron"
 
   slot :item, required: true do
-    attr :title, :string, required: true
-    attr :description, :string
-    attr :icon, :string
+    attr :title, :string, required: true, doc: "Specifies the title of the element"
+    attr :description, :string, doc: "Determines a short description"
+    attr :icon, :string, doc: "Icon displayed alongside of an item"
     attr :class, :string, doc: "Custom CSS class for additional styling"
-    attr :image, :string
-    attr :image_class, :string
-    attr :icon_class, :string
-    attr :content_class, :string
-    attr :title_class, :string
-    attr :summary_class, :string
+    attr :image, :string, doc: "Image displayed alongside of an item"
+    attr :image_class, :string, doc: "Determines custom class for the image"
+    attr :icon_class, :string, doc: "Determines custom class for the icon"
+    attr :content_class, :string, doc: "Determines custom class for the content"
+    attr :title_class, :string, doc: "Determines custom class for the title"
+    attr :summary_class, :string, doc: "Determines custom class for the summary"
     attr :open, :boolean
   end
 
@@ -225,7 +225,7 @@ defmodule MishkaChelekom.Accordion do
   attr :position, :string, values: ["left", "right"]
   attr :chevron_icon, :string, doc: "Determines the icon for the chevron"
   attr :hide_chevron, :boolean, default: false
-  attr :rest, :global
+  attr :rest, :global, doc: "Global attributes can define defaults which are merged with attributes provided by the caller"
 
   defp native_chevron_position(%{position: "left"} = assigns) do
     ~H"""

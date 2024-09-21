@@ -18,7 +18,7 @@ defmodule MishkaChelekom.Rating do
     default: false,
     doc: "If true, stars are wrapped in a button for selecting a rating"
 
-  attr :rest, :global, doc: ""
+  attr :rest, :global, doc: "Global attributes can define defaults which are merged with attributes provided by the caller"
 
   def rating(assigns) do
     ~H"""

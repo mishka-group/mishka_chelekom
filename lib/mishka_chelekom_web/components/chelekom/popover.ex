@@ -57,7 +57,7 @@ defmodule MishkaChelekom.Popover do
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :inline, :boolean, default: false, doc: ""
   attr :clickable, :boolean, default: false, doc: ""
-  attr :rest, :global, doc: ""
+  attr :rest, :global, doc: "Global attributes can define defaults which are merged with attributes provided by the caller"
   slot :inner_block, required: false, doc: ""
 
   def popover(%{inline: true} = assigns) do
@@ -101,7 +101,7 @@ defmodule MishkaChelekom.Popover do
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :inline, :boolean, default: false, doc: ""
   slot :inner_block, required: false, doc: ""
-  attr :rest, :global, doc: ""
+  attr :rest, :global, doc: "Global attributes can define defaults which are merged with attributes provided by the caller"
 
   def popover_trigger(%{inline: true} = assigns) do
     ~H"""
@@ -141,10 +141,10 @@ defmodule MishkaChelekom.Popover do
   attr :space, :string, default: nil, doc: "Space between items"
   attr :width, :string, default: "extra_large", doc: ""
   attr :text_position, :string, default: "start", doc: ""
-  attr :font_weight, :string, default: "font-normal", doc: ""
+  attr :font_weight, :string, default: "font-normal", doc: "Determines custom class for the font weight"
   attr :padding, :string, default: "none", doc: "Determines padding for items"
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
-  attr :rest, :global, doc: ""
+  attr :rest, :global, doc: "Global attributes can define defaults which are merged with attributes provided by the caller"
   slot :inner_block, required: false, doc: ""
 
   def popover_content(%{inline: true} = assigns) do

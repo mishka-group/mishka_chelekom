@@ -24,7 +24,8 @@ defmodule MishkaChelekom.RadioField do
     doc: "a form field struct retrieved from the form, for example: @form[:email]"
 
   attr :rest, :global,
-    include: ~w(autocomplete disabled form checked multiple readonly required title autofocus)
+    include: ~w(autocomplete disabled form checked multiple readonly required title autofocus),
+    doc: "Global attributes can define defaults which are merged with attributes provided by the caller"
 
   @spec radio_field(map()) :: Phoenix.LiveView.Rendered.t()
   def radio_field(%{field: %Phoenix.HTML.FormField{} = field} = assigns) do
@@ -85,7 +86,8 @@ defmodule MishkaChelekom.RadioField do
 
   attr :rest, :global,
     include:
-      ~w(autocomplete disabled form indeterminate multiple readonly required title autofocus)
+      ~w(autocomplete disabled form indeterminate multiple readonly required title autofocus),
+      doc: "Global attributes can define defaults which are merged with attributes provided by the caller"
 
   slot :radio, required: true do
     attr :value, :string, required: true
@@ -148,7 +150,7 @@ defmodule MishkaChelekom.RadioField do
     """
   end
 
-  attr :icon, :string, default: nil
+  attr :icon, :string, default: nil, doc: "Icon displayed alongside of an item"
   slot :inner_block, required: true
 
   def error(assigns) do

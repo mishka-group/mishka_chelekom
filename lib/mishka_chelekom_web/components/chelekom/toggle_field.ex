@@ -5,7 +5,7 @@ defmodule MishkaChelekom.ToggleField do
   attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :color, :string, default: "primary", doc: "Determines color theme"
-  attr :description, :string, default: nil, doc: ""
+  attr :description, :string, default: nil, doc: "Determines a short description"
   attr :border, :string, default: "extra_small", doc: "Determines border style"
   attr :rounded, :string, default: "small", doc: "Determines the border radius"
   attr :space, :string, default: "medium", doc: "Space between items"
@@ -26,7 +26,8 @@ defmodule MishkaChelekom.ToggleField do
 
   attr :rest, :global,
     include:
-      ~w(autocomplete disabled form indeterminate checked multiple readonly required title autofocus)
+      ~w(autocomplete disabled form indeterminate checked multiple readonly required title autofocus),
+      doc: "Global attributes can define defaults which are merged with attributes provided by the caller"
 
   @spec toggle_field(map()) :: Phoenix.LiveView.Rendered.t()
   def toggle_field(%{field: %Phoenix.HTML.FormField{} = field} = assigns) do
@@ -84,7 +85,7 @@ defmodule MishkaChelekom.ToggleField do
     """
   end
 
-  attr :icon, :string, default: nil
+  attr :icon, :string, default: nil, doc: "Icon displayed alongside of an item"
   slot :inner_block, required: true
 
   def error(assigns) do

@@ -19,18 +19,18 @@ defmodule MishkaChelekom.SpeedDial do
   attr :border, :string, default: "extra_small", doc: "Determines border style"
   attr :padding, :string, default: "extra_small", doc: "Determines padding for items"
   attr :clickable, :boolean, default: false, doc: ""
-  attr :icon, :string, default: nil, doc: ""
+  attr :icon, :string, default: nil, doc: "Icon displayed alongside of an item"
   attr :icon_animated, :boolean, default: false, doc: ""
-  attr :rest, :global, doc: ""
+  attr :rest, :global, doc: "Global attributes can define defaults which are merged with attributes provided by the caller"
 
   slot :item, required: false do
-    attr :icon, :string
+    attr :icon, :string, doc: "Icon displayed alongside of an item"
     attr :class, :string, doc: "Custom CSS class for additional styling"
     attr :navigate, :string, doc: ""
     attr :patch, :string, doc: ""
     attr :href, :string, doc: ""
-    attr :icon_class, :string
-    attr :content_class, :string
+    attr :icon_class, :string, doc: "Determines custom class for the icon"
+    attr :content_class, :string, doc: "Determines custom class for the content"
     attr :color, :string
     attr :variant, :string, doc: "Determines the style"
     attr :icon_position, :string, doc: "end, start"
@@ -126,9 +126,9 @@ defmodule MishkaChelekom.SpeedDial do
   attr :href, :string, default: nil, doc: ""
   attr :color, :string, default: "primary", doc: "Determines color theme"
   attr :variant, :string, default: "default", doc: "Determines the style"
-  attr :icon, :string, default: nil, doc: ""
-  attr :icon_class, :string, default: nil, doc: ""
-  attr :content_class, :string, default: nil, doc: ""
+  attr :icon, :string, default: nil, doc: "Icon displayed alongside of an item"
+  attr :icon_class, :string, default: nil, doc: "Determines custom class for the icon"
+  attr :content_class, :string, default: nil, doc: "Determines custom class for the content"
   attr :index, :integer, required: true, doc: ""
   attr :icon_position, :string, doc: "end, start"
   slot :inner_block, required: false, doc: ""

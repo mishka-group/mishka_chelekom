@@ -7,9 +7,9 @@ defmodule MishkaChelekom.DeviceMockup do
   attr :color, :string, default: "silver", doc: "Determines color theme"
   attr :alt, :string, default: nil, doc: ""
   attr :type, :string, default: "iphone", doc: "android watch laptop iphone ipad imac"
-  attr :image, :string, default: nil, doc: ""
-  attr :image_class, :string, default: nil, doc: ""
-  attr :rest, :global, include: ~w(android watch laptop iphone ipad imac), doc: ""
+  attr :image, :string, default: nil, doc: "Image displayed alongside of an item"
+  attr :image_class, :string, default: nil, doc: "Determines custom class for the image"
+  attr :rest, :global, include: ~w(android watch laptop iphone ipad imac), doc: "Global attributes can define defaults which are merged with attributes provided by the caller"
   slot :inner_block, doc: ""
 
   def device_mockup(%{type: "watch"} = assigns) do

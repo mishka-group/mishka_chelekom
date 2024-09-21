@@ -11,7 +11,7 @@ defmodule MishkaChelekom.Skeleton do
   attr :width, :string, default: "full", doc: ""
   attr :rounded, :string, values: @sizes ++ ["full", "none"], default: "small", doc: "Determines the border radius"
   attr :visible, :boolean, default: true, doc: ""
-  attr :rest, :global, include: ~w(animated), doc: ""
+  attr :rest, :global, include: ~w(animated), doc: "Global attributes can define defaults which are merged with attributes provided by the caller"
 
   def skeleton(assigns) do
     ~H"""

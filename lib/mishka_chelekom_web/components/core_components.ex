@@ -100,9 +100,9 @@ defmodule MishkaChelekomWeb.CoreComponents do
   """
   attr :id, :string, doc: "the optional id of flash container"
   attr :flash, :map, default: %{}, doc: "the map of flash messages to display"
-  attr :title, :string, default: nil
+  attr :title, :string, default: nil, doc: "Specifies the title of the element"
   attr :kind, :atom, values: [:info, :error], doc: "used for styling and flash lookup"
-  attr :rest, :global, doc: "the arbitrary HTML attributes to add to the flash container"
+  attr :rest, :global, doc: "Global attributes can define defaults which are merged with attributes provided by the caller"
 
   slot :inner_block, doc: "the optional inner block that renders the flash message"
 
@@ -196,7 +196,7 @@ defmodule MishkaChelekomWeb.CoreComponents do
 
   attr :rest, :global,
     include: ~w(autocomplete name rel action enctype method novalidate target multipart),
-    doc: "the arbitrary HTML attributes to apply to the form tag"
+    doc: "Global attributes can define defaults which are merged with attributes provided by the caller"
 
   slot :inner_block, required: true
   slot :actions, doc: "the slot for form actions, such as a submit button"
@@ -291,7 +291,8 @@ defmodule MishkaChelekomWeb.CoreComponents do
 
   attr :rest, :global,
     include: ~w(accept autocomplete capture cols disabled form list max maxlength min minlength
-                multiple pattern placeholder readonly required rows size step)
+                multiple pattern placeholder readonly required rows size step),
+    doc: "Global attributes can define defaults which are merged with attributes provided by the caller"
 
   def input(%{field: %Phoenix.HTML.FormField{} = field} = assigns) do
     errors = if Phoenix.Component.used_input?(field), do: field.errors, else: []
@@ -541,7 +542,7 @@ defmodule MishkaChelekomWeb.CoreComponents do
       </.list>
   """
   slot :item, required: true do
-    attr :title, :string, required: true
+    attr :title, :string, required: true, doc: "Specifies the title of the element"
   end
 
   def list(assigns) do

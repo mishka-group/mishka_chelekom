@@ -27,7 +27,7 @@ defmodule MishkaChelekom.Image do
   attr :rounded, :string, default: nil, doc: "Determines the border radius"
   attr :shadow, :string, default: nil, doc: ""
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
-  attr :rest, :global, doc: ""
+  attr :rest, :global, doc: "Global attributes can define defaults which are merged with attributes provided by the caller"
 
   def image(assigns) do
     ~H"""

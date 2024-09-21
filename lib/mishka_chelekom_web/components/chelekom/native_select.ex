@@ -9,7 +9,7 @@ defmodule MishkaChelekom.NativeSelect do
   attr :border, :string, default: "extra_small", doc: "Determines border style"
   attr :rounded, :string, default: "small", doc: "Determines the border radius"
   attr :variant, :string, default: "native", doc: "Determines the style"
-  attr :description, :string, default: nil, doc: ""
+  attr :description, :string, default: nil, doc: "Determines a short description"
   attr :space, :string, default: "medium", doc: "Space between items"
   attr :min_height, :string, default: nil, doc: ""
   attr :size, :string, default: "extra_large", doc: "Determines the overall size of the elements, including padding, font size, and other items"
@@ -33,7 +33,8 @@ defmodule MishkaChelekom.NativeSelect do
     doc: "a form field struct retrieved from the form, for example: @form[:email]"
 
   attr :rest, :global,
-    include: ~w(autocomplete disabled form readonly multiple required title autofocus tabindex)
+    include: ~w(autocomplete disabled form readonly multiple required title autofocus tabindex),
+    doc: "Global attributes can define defaults which are merged with attributes provided by the caller"
 
   @spec native_select(map()) :: Phoenix.LiveView.Rendered.t()
   def native_select(%{field: %Phoenix.HTML.FormField{} = field} = assigns) do
@@ -131,7 +132,7 @@ defmodule MishkaChelekom.NativeSelect do
     """
   end
 
-  attr :icon, :string, default: nil
+  attr :icon, :string, default: nil, doc: "Icon displayed alongside of an item"
   slot :inner_block, required: true
 
   def error(assigns) do

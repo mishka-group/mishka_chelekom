@@ -17,7 +17,7 @@ defmodule MishkaChelekom.FormWrapper do
 
   attr :rest, :global,
     include: ~w(autocomplete name rel action enctype method novalidate target multipart),
-    doc: "the arbitrary HTML attributes to apply to the form tag"
+    doc: "Global attributes can define defaults which are merged with attributes provided by the caller"
 
   slot :inner_block, required: true
   slot :actions, required: false, doc: "the slot for form actions, such as a submit button"

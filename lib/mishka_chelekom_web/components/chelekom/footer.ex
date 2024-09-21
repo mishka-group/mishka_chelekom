@@ -32,10 +32,10 @@ defmodule MishkaChelekom.Footer do
   attr :rounded, :string, default: nil, doc: "Determines the border radius"
   attr :max_width, :string, default: nil, doc: ""
   attr :space, :string, default: nil, doc: "Space between items"
-  attr :font_weight, :string, default: "font-normal", doc: ""
+  attr :font_weight, :string, default: "font-normal", doc: "Determines custom class for the font weight"
   attr :padding, :string, default: "none", doc: "Determines padding for items"
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
-  attr :rest, :global, doc: ""
+  attr :rest, :global, doc: "Global attributes can define defaults which are merged with attributes provided by the caller"
 
   slot :inner_block, required: false, doc: ""
 
@@ -64,7 +64,7 @@ defmodule MishkaChelekom.Footer do
   end
 
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
-  attr :font_weight, :string, default: "font-normal", doc: ""
+  attr :font_weight, :string, default: "font-normal", doc: "Determines custom class for the font weight"
   attr :text_position, :string, default: nil, doc: ""
   attr :space, :string, default: nil, doc: "Space between items"
   attr :padding, :string, default: "none", doc: "Determines padding for items"

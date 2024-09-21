@@ -54,7 +54,7 @@ defmodule MishkaChelekom.Modal do
 
   """
   attr :id, :string, required: true, doc: "A unique identifier is used to manage state and interaction"
-  attr :title, :string
+  attr :title, :string, doc: "Specifies the title of the element"
   attr :variant, :string, values: @variants, default: "default", doc: "Determines the style"
   attr :color, :string, values: @colors, default: "white", doc: "Determines color theme"
   attr :rounded, :string, values: @sizes, default: "small", doc: "Determines the border radius"

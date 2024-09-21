@@ -39,10 +39,10 @@ defmodule MishkaChelekom.Toast do
   attr :vertical_space, :string, default: "extra_small", doc: ""
   attr :horizontal, :string, values: ["left", "right", "center"], default: "right", doc: ""
   attr :horizontal_space, :string, default: "extra_small", doc: ""
-  attr :font_weight, :string, default: "font-normal", doc: ""
+  attr :font_weight, :string, default: "font-normal", doc: "Determines custom class for the font weight"
   attr :class, :string, default: "", doc: "Additional CSS classes to be added to the toast."
   attr :params, :map, default: %{kind: "toast"}
-  attr :rest, :global, include: ~w(right_dismiss left_dismiss), doc: ""
+  attr :rest, :global, include: ~w(right_dismiss left_dismiss), doc: "Global attributes can define defaults which are merged with attributes provided by the caller"
   attr :content_border, :string, default: "none", doc: ""
   attr :border_position, :string, default: "start", doc: ""
   attr :row_direction, :string, default: "none", doc: ""
@@ -97,7 +97,7 @@ defmodule MishkaChelekom.Toast do
   attr :horizontal, :string, values: ["left", "right", "center"], default: "right", doc: ""
   attr :horizontal_space, :string, default: "extra_small", doc: ""
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
-  attr :rest, :global, doc: ""
+  attr :rest, :global, doc: "Global attributes can define defaults which are merged with attributes provided by the caller"
   slot :inner_block, required: false, doc: ""
 
   def toast_group(assigns) do
