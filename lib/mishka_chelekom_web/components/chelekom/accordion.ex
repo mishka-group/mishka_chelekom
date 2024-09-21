@@ -30,7 +30,7 @@ defmodule MishkaChelekom.Accordion do
   ]
 
   @doc type: :component
-  attr :id, :string, required: true, doc: ""
+  attr :id, :string, required: true, doc: "A unique identifier is used to manage state and interaction"
   attr :class, :string, default: nil, doc: ""
   attr :variant, :string, values: @variants, default: "default", doc: ""
   attr :space, :string, values: @sizes, default: "small", doc: ""
@@ -140,7 +140,7 @@ defmodule MishkaChelekom.Accordion do
   end
 
   @doc type: :component
-  attr :id, :string, default: nil, doc: ""
+  attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
   attr :name, :string, default: nil, doc: ""
   attr :class, :string, default: nil, doc: ""
   attr :variant, :string, values: @variants, default: "default", doc: ""
@@ -219,7 +219,7 @@ defmodule MishkaChelekom.Accordion do
     """
   end
 
-  attr :id, :string, default: nil, doc: ""
+  attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
   attr :class, :string, default: nil, doc: ""
   attr :item, :map
   attr :position, :string, values: ["left", "right"]

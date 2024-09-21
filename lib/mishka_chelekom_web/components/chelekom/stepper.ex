@@ -3,7 +3,7 @@ defmodule MishkaChelekom.Stepper do
   import MishkaChelekomComponents
 
   @doc type: :component
-  attr :id, :string, default: nil, doc: ""
+  attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
   attr :size, :string, default: "small", doc: ""
   attr :margin, :string, default: "medium", doc: ""
   attr :color, :string, default: "primary", doc: ""
@@ -61,7 +61,7 @@ defmodule MishkaChelekom.Stepper do
     """
   end
 
-  attr :id, :string, default: nil
+  attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
   attr :class, :string, default: nil
   attr :size, :string, default: "small"
 

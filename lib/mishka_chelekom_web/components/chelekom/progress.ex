@@ -19,7 +19,7 @@ defmodule MishkaChelekom.Progress do
   @variants ["default", "gradient"]
 
   @doc type: :component
-  attr :id, :string, default: nil, doc: ""
+  attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
   attr :value, :integer, default: nil, doc: ""
   attr :variation, :string, values: ["horizontal", "vertical"], default: "horizontal", doc: ""
   attr :color, :string, values: @colors, default: "white", doc: ""

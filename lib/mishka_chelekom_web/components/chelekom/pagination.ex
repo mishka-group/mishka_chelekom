@@ -31,7 +31,7 @@ defmodule MishkaChelekom.Pagination do
   ]
 
   @doc type: :component
-  attr :id, :string, default: nil, doc: ""
+  attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
   attr :total, :integer, required: true, doc: ""
   attr :active, :integer, default: 1, doc: ""
   attr :siblings, :integer, default: 1, doc: ""

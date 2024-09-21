@@ -3,7 +3,7 @@ defmodule MishkaChelekom.Timeline do
   import MishkaChelekomComponents
 
   @doc type: :component
-  attr :id, :string, default: nil, doc: ""
+  attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
   attr :color, :string, default: "silver", doc: ""
   attr :hide_last_line, :boolean, default: false, doc: ""
   attr :gapped_sections, :boolean, default: false, doc: ""
@@ -44,7 +44,7 @@ defmodule MishkaChelekom.Timeline do
     """
   end
 
-  attr :id, :string, default: nil, doc: ""
+  attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
   attr :line_width, :string, default: "extra_small", doc: ""
   attr :size, :string, default: "extra_small", doc: ""
   attr :bullet_icon, :string, default: nil, doc: ""

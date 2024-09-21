@@ -3,7 +3,7 @@ defmodule MishkaChelekom.NativeSelect do
   import MishkaChelekomComponents
 
   @doc type: :component
-  attr :id, :string, default: nil, doc: ""
+  attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
   attr :class, :string, default: nil, doc: ""
   attr :color, :string, default: "light", doc: ""
   attr :border, :string, default: "extra_small", doc: ""
@@ -91,7 +91,7 @@ defmodule MishkaChelekom.NativeSelect do
     """
   end
 
-  attr :id, :string, default: nil, doc: ""
+  attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
   attr :label, :string, default: nil
   attr :class, :string, default: nil
   attr :seperator, :boolean, default: nil

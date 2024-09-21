@@ -3,7 +3,7 @@ defmodule MishkaChelekom.CheckboxField do
   import MishkaChelekomComponents
 
   @doc type: :component
-  attr :id, :string, default: nil, doc: ""
+  attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
   attr :class, :string, default: nil, doc: ""
   attr :color, :string, default: "primary", doc: ""
   attr :border, :string, default: "extra_small", doc: ""
@@ -71,7 +71,7 @@ defmodule MishkaChelekom.CheckboxField do
     """
   end
 
-  attr :id, :string, default: nil, doc: ""
+  attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
   attr :class, :string, default: nil, doc: ""
   attr :color, :string, default: "primary", doc: ""
   attr :border, :string, default: "extra_small", doc: ""

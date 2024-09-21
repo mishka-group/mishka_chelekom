@@ -53,7 +53,7 @@ defmodule MishkaChelekom.Modal do
       </.modal>
 
   """
-  attr :id, :string, required: true
+  attr :id, :string, required: true, doc: "A unique identifier is used to manage state and interaction"
   attr :title, :string
   attr :variant, :string, values: @variants, default: "default", doc: ""
   attr :color, :string, values: @colors, default: "white", doc: ""

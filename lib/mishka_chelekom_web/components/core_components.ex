@@ -36,7 +36,7 @@ defmodule MishkaChelekomWeb.CoreComponents do
       </.modal>
 
   """
-  attr :id, :string, required: true
+  attr :id, :string, required: true, doc: "A unique identifier is used to manage state and interaction"
   attr :show, :boolean, default: false
   attr :on_cancel, JS, default: %JS{}
   slot :inner_block, required: true
@@ -459,7 +459,7 @@ defmodule MishkaChelekomWeb.CoreComponents do
         <:col :let={user} label="username"><%= user.username %></:col>
       </.table>
   """
-  attr :id, :string, required: true
+  attr :id, :string, required: true, doc: "A unique identifier is used to manage state and interaction"
   attr :rows, :list, required: true
   attr :row_id, :any, default: nil, doc: "the function for generating the row id"
   attr :row_click, :any, default: nil, doc: "the function for handling phx-click on each row"

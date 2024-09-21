@@ -26,7 +26,7 @@ defmodule MishkaChelekom.List do
     "dawn"
   ]
 
-  attr :id, :string, default: nil, doc: ""
+  attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
   attr :class, :string, default: nil, doc: ""
   attr :font_weight, :string, default: "font-normal", doc: ""
   attr :size, :string, default: "large", doc: ""
@@ -60,7 +60,7 @@ defmodule MishkaChelekom.List do
     """
   end
 
-  attr :id, :string, default: nil, doc: ""
+  attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
   attr :class, :list, default: nil, doc: ""
   attr :count, :integer, default: nil, doc: ""
   attr :count_separator, :string, default: ". ", doc: ""
@@ -97,7 +97,7 @@ defmodule MishkaChelekom.List do
     """
   end
 
-  attr :id, :string, default: nil, doc: ""
+  attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
   attr :color, :string, values: @colors, default: "white", doc: ""
   attr :variant, :string, values: @variants, default: "filled", doc: ""
   attr :size, :string, default: "medium", doc: ""
@@ -130,7 +130,7 @@ defmodule MishkaChelekom.List do
     """
   end
 
-  attr :id, :string, default: nil, doc: ""
+  attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
   attr :color, :string, values: @colors, default: "white", doc: ""
   attr :variant, :string, values: @variants, default: "filled", doc: ""
   attr :size, :string, default: "medium", doc: ""
@@ -161,7 +161,7 @@ defmodule MishkaChelekom.List do
     """
   end
 
-  attr :id, :string, default: nil, doc: ""
+  attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
   attr :variant, :string, values: @variants, default: "default", doc: ""
   attr :color, :string, values: @colors, default: "white", doc: ""
   attr :size, :string, default: "medium", doc: ""

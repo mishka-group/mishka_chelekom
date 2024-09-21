@@ -27,7 +27,7 @@ defmodule MishkaChelekom.Drawer do
   ]
 
   @doc type: :component
-  attr :id, :string, required: true, doc: ""
+  attr :id, :string, required: true, doc: "A unique identifier is used to manage state and interaction"
   attr :title, :string, default: nil
   attr :title_class, :string, default: nil
   attr :variant, :string, values: @variants, default: "default", doc: ""

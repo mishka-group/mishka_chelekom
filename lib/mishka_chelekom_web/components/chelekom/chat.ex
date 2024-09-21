@@ -25,7 +25,7 @@ defmodule MishkaChelekom.Chat do
   ]
 
   @doc type: :component
-  attr :id, :string, default: nil, doc: ""
+  attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
   attr :class, :string, default: nil, doc: ""
   attr :variant, :string, values: @variants, default: "default", doc: ""
   attr :color, :string, values: @colors, default: "light", doc: ""
@@ -60,7 +60,7 @@ defmodule MishkaChelekom.Chat do
     """
   end
 
-  attr :id, :string, default: nil, doc: ""
+  attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
   attr :font_weight, :string, default: "font-normal", doc: ""
   attr :class, :string, default: nil, doc: ""
   attr :rest, :global, doc: ""

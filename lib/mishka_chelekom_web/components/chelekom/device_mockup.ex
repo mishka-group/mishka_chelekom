@@ -2,7 +2,7 @@ defmodule MishkaChelekom.DeviceMockup do
   use Phoenix.Component
 
   @doc type: :component
-  attr :id, :string, default: nil, doc: ""
+  attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
   attr :class, :string, default: nil, doc: ""
   attr :color, :string, default: "silver", doc: ""
   attr :alt, :string, default: nil, doc: ""

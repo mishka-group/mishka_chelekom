@@ -20,7 +20,7 @@ defmodule MishkaChelekom.Avatar do
   ]
 
   @doc type: :component
-  attr :id, :string, default: nil, doc: ""
+  attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
 
   attr :type, :string,
     values: ["default", "placeholder", "placeholder_icon"],
@@ -136,7 +136,7 @@ defmodule MishkaChelekom.Avatar do
   end
 
   @doc type: :component
-  attr :id, :string, default: nil, doc: ""
+  attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
 
   attr :type, :string,
     values: ["default", "placeholder", "placeholder_icon", nil],

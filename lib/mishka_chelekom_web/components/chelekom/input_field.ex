@@ -30,7 +30,7 @@ defmodule MishkaChelekom.InputField do
   """
 
   @doc type: :component
-  attr :id, :any, default: nil
+  attr :id, :any, default: nil, doc: "A unique identifier is used to manage state and interaction"
   attr :name, :any
   attr :label, :string, default: nil
   attr :value, :any

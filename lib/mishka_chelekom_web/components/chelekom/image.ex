@@ -2,7 +2,7 @@ defmodule MishkaChelekom.Image do
   use Phoenix.Component
 
   @doc type: :component
-  attr :id, :string, default: nil, doc: ""
+  attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
   attr :src, :string, required: true, doc: ""
   attr :alt, :string, default: nil, doc: ""
   attr :srcset, :string, default: nil, doc: ""

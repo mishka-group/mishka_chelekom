@@ -23,7 +23,7 @@ defmodule MishkaChelekom.Video do
   """
 
   @doc type: :component
-  attr :id, :string, default: nil, doc: ""
+  attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
   attr :thumbnail, :string, default: nil, doc: ""
   attr :width, :string, default: "full", doc: ""
   attr :rounded, :string, default: "none", doc: ""

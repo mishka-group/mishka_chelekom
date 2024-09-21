@@ -42,7 +42,7 @@ defmodule MishkaChelekom.Alert do
       <.flash kind={:info} flash={@flash} />
       <.flash kind={:info} phx-mounted={show("#flash")}>Welcome Back!</.flash>
   """
-  attr :id, :string, doc: "the optional id of flash container"
+  attr :id, :string, doc: "A unique identifier is used to manage state and interaction"
   attr :flash, :map, default: %{}, doc: "the map of flash messages to display"
   attr :title, :string, default: nil
   attr :kind, :atom, values: @kind_typs, doc: "used for styling and flash lookup"
@@ -103,8 +103,8 @@ defmodule MishkaChelekom.Alert do
 
       <.flash_group flash={@flash} />
   """
+  attr :id, :string, default: "flash-group", doc: "A unique identifier is used to manage state and interaction"
   attr :flash, :map, required: true, doc: "the map of flash messages"
-  attr :id, :string, default: "flash-group", doc: "the optional id of flash container"
 
   def flash_group(assigns) do
     ~H"""
@@ -146,7 +146,7 @@ defmodule MishkaChelekom.Alert do
       <.flash kind={:info} flash={@flash} />
       <.flash kind={:info} phx-mounted={show("#flash")}>Welcome Back!</.flash>
   """
-  attr :id, :string, default: nil, doc: "the optional id of flash container"
+  attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
   attr :title, :string, default: nil
   attr :kind, :atom, values: @kind_typs, doc: "used for styling and flash lookup"
   attr :variant, :string, values: @variants, default: "default", doc: ""

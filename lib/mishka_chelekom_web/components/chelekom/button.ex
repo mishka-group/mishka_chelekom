@@ -56,7 +56,7 @@ defmodule MishkaChelekom.Button do
       <.button phx-click="go" class="ml-2">Send!</.button>
   """
   @doc type: :component
-  attr :id, :string, default: nil, doc: ""
+  attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
   attr :variant, :string, values: @variants, default: "default", doc: ""
   attr :variation, :string, values: ["horizontal", "vertical"], default: "horizontal", doc: ""
   attr :color, :string, values: @colors, default: "white", doc: ""
@@ -88,7 +88,7 @@ defmodule MishkaChelekom.Button do
   end
 
   @doc type: :component
-  attr :id, :string, default: nil, doc: ""
+  attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
   attr :variant, :string, values: @variants, default: "default", doc: ""
   attr :type, :string, values: ["button", "submit", "reset", nil], default: nil, doc: ""
   attr :color, :string, default: "white", doc: ""
@@ -140,7 +140,7 @@ defmodule MishkaChelekom.Button do
     """
   end
 
-  attr :id, :string, default: nil, doc: ""
+  attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
   attr :variant, :string, values: @variants, default: "default", doc: ""
   attr :color, :string, default: "white", doc: ""
   attr :rounded, :string, default: "large", doc: ""
@@ -179,7 +179,7 @@ defmodule MishkaChelekom.Button do
   end
 
   @doc type: :component
-  attr :id, :string, default: nil, doc: ""
+  attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
   attr :title, :string, default: nil, doc: ""
   attr :navigate, :string, doc: ""
   attr :patch, :string, doc: ""

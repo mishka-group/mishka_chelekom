@@ -4,7 +4,7 @@ defmodule MishkaChelekom.Carousel do
   alias Phoenix.LiveView.JS
 
   @doc type: :component
-  attr :id, :string, required: true, doc: ""
+  attr :id, :string, required: true, doc: "A unique identifier is used to manage state and interaction"
   attr :class, :string, default: nil, doc: ""
   attr :overlay, :string, default: "dark", doc: ""
   attr :size, :string, default: "large", doc: ""
@@ -109,7 +109,7 @@ defmodule MishkaChelekom.Carousel do
     """
   end
 
-  attr :id, :string, required: true, doc: ""
+  attr :id, :string, required: true, doc: "A unique identifier is used to manage state and interaction"
   attr :navigate, :string, default: nil, doc: ""
   attr :patch, :string, default: nil, doc: ""
   attr :href, :string, default: nil, doc: ""
@@ -142,7 +142,7 @@ defmodule MishkaChelekom.Carousel do
     """
   end
 
-  attr :id, :string, required: true, doc: ""
+  attr :id, :string, required: true, doc: "A unique identifier is used to manage state and interaction"
   attr :title, :string, default: nil
   attr :description, :string, default: nil
   attr :title_class, :string, default: "text-white"
@@ -185,7 +185,7 @@ defmodule MishkaChelekom.Carousel do
     """
   end
 
-  attr :id, :string, required: true, doc: ""
+  attr :id, :string, required: true, doc: "A unique identifier is used to manage state and interaction"
   attr :count, :integer, required: true, doc: ""
   attr :index, :integer, required: true, doc: ""
 

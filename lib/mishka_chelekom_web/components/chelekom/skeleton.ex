@@ -4,7 +4,7 @@ defmodule MishkaChelekom.Skeleton do
   @sizes ["extra_small", "small", "medium", "large", "extra_large"]
 
   @doc type: :component
-  attr :id, :string, default: nil, doc: ""
+  attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
   attr :class, :string, default: nil, doc: ""
   attr :color, :string, default: "silver", doc: ""
   attr :height, :string, default: "extra_small", doc: ""

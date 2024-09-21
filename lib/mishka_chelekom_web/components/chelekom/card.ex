@@ -43,7 +43,7 @@ defmodule MishkaChelekom.Card do
   ]
 
   @doc type: :component
-  attr :id, :string, default: nil, doc: ""
+  attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
   attr :variant, :string, values: @variants, default: "default", doc: ""
   attr :color, :string, values: @colors, default: "white", doc: ""
   attr :border, :string, default: "extra_small", doc: ""
@@ -76,7 +76,7 @@ defmodule MishkaChelekom.Card do
     """
   end
 
-  attr :id, :string, default: nil, doc: ""
+  attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
   attr :class, :string, default: nil, doc: ""
   attr :title, :string, default: nil, doc: ""
   attr :icon, :string, default: nil, doc: ""
@@ -110,7 +110,7 @@ defmodule MishkaChelekom.Card do
     """
   end
 
-  attr :id, :string, default: nil, doc: ""
+  attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
   attr :alt, :string, doc: ""
   attr :src, :string, required: true, doc: ""
   attr :rounded, :string, values: @sizes ++ [nil], default: nil, doc: ""
@@ -136,7 +136,7 @@ defmodule MishkaChelekom.Card do
     """
   end
 
-  attr :id, :string, default: nil, doc: ""
+  attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
   attr :space, :string, values: @sizes, default: "extra_small", doc: ""
   attr :padding, :string, values: @sizes ++ ["none"], default: "none", doc: ""
   attr :class, :string, default: nil, doc: ""
@@ -159,7 +159,7 @@ defmodule MishkaChelekom.Card do
     """
   end
 
-  attr :id, :string, default: nil, doc: ""
+  attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
   attr :class, :string, default: nil, doc: ""
   attr :padding, :string, values: @sizes ++ ["none"], default: "none", doc: ""
   attr :rest, :global, doc: ""

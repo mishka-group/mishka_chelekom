@@ -18,7 +18,7 @@ defmodule MishkaChelekom.Divider do
   ]
 
   @doc type: :component
-  attr :id, :string, default: nil, doc: ""
+  attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
   attr :type, :string, values: ["dashed", "dotted", "solid"], default: "solid", doc: ""
   attr :color, :string, values: @colors, default: "silver", doc: ""
   attr :size, :string, default: "extra_small", doc: ""
@@ -132,7 +132,7 @@ defmodule MishkaChelekom.Divider do
   end
 
   @doc type: :component
-  attr :id, :string, default: nil, doc: ""
+  attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
   attr :type, :string, values: ["dashed", "dotted", "solid"], default: "solid", doc: ""
   attr :color, :string, values: @colors, default: "silver", doc: ""
   attr :size, :string, default: "extra_small", doc: ""

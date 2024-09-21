@@ -27,7 +27,7 @@ defmodule MishkaChelekom.Sidebar do
   ]
 
   @doc type: :component
-  attr :id, :string, required: true, doc: ""
+  attr :id, :string, required: true, doc: "A unique identifier is used to manage state and interaction"
   attr :variant, :string, values: @variants, default: "default", doc: ""
   attr :color, :string, values: @colors, default: "white", doc: ""
   attr :size, :string, default: "large", doc: ""

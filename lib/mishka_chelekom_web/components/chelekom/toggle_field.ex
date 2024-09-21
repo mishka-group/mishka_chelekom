@@ -2,7 +2,7 @@ defmodule MishkaChelekom.ToggleField do
   use Phoenix.Component
   import MishkaChelekomComponents
 
-  attr :id, :string, default: nil, doc: ""
+  attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
   attr :class, :string, default: nil, doc: ""
   attr :color, :string, default: "primary", doc: ""
   attr :description, :string, default: nil, doc: ""

@@ -26,7 +26,7 @@ defmodule MishkaChelekom.Toast do
     "unbordered"
   ]
 
-  attr :id, :string, required: true, doc: ""
+  attr :id, :string, required: true, doc: "A unique identifier is used to manage state and interaction"
   attr :size, :string, default: "large", doc: ""
   attr :fixed, :boolean, default: true, doc: ""
   attr :variant, :string, values: @variants, default: "default", doc: ""
@@ -90,7 +90,7 @@ defmodule MishkaChelekom.Toast do
   end
 
   @doc type: :component
-  attr :id, :string, default: nil
+  attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
   attr :space, :string, default: "small", doc: ""
   attr :vertical, :string, values: ["top", "bottom"], default: "bottom", doc: ""
   attr :vertical_space, :string, default: "extra_small", doc: ""
@@ -118,7 +118,7 @@ defmodule MishkaChelekom.Toast do
     """
   end
 
-  attr :id, :string, required: true
+  attr :id, :string, required: true, doc: "A unique identifier is used to manage state and interaction"
   attr :dismiss, :boolean, default: false
   attr :class, :string, default: nil
   attr :size, :string, default: "small"

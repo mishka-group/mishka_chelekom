@@ -2,7 +2,7 @@ defmodule MishkaChelekom.Gallery do
   use Phoenix.Component
 
   @doc type: :component
-  attr :id, :string, default: nil, doc: ""
+  attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
   attr :type, :string, values: ["default", "masonary", "featured"], default: "default", doc: ""
   attr :class, :string, default: nil, doc: ""
   attr :cols, :string, default: nil, doc: ""
@@ -28,7 +28,7 @@ defmodule MishkaChelekom.Gallery do
     """
   end
 
-  attr :id, :string, default: nil, doc: ""
+  attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
   attr :class, :string, default: nil, doc: ""
   attr :src, :string, default: nil, doc: ""
   attr :alt, :string, default: "", doc: ""

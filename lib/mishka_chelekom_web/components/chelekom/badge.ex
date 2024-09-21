@@ -40,7 +40,7 @@ defmodule MishkaChelekom.Badge do
   @dismiss_positions ["dismiss", "right_dismiss", "left_dismiss"]
 
   @doc type: :component
-  attr :id, :string, default: nil, doc: ""
+  attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
 
   attr :variant, :string,
     values: ["default", "outline", "transparent", "unbordered", "shadow"],
@@ -91,7 +91,7 @@ defmodule MishkaChelekom.Badge do
     """
   end
 
-  attr :id, :string, default: nil
+  attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
   attr :dismiss, :boolean, default: false
   attr :icon_class, :string, default: "size-4"
   attr :params, :map, default: %{kind: "badge"}

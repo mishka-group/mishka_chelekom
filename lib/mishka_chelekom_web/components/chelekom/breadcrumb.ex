@@ -19,7 +19,7 @@ defmodule MishkaChelekom.Breadcrumb do
 
   @doc type: :component
   attr :class, :string, default: nil, doc: ""
-  attr :id, :string, default: nil, doc: ""
+  attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
   attr :separator, :string, default: "hero-chevron-right", doc: ""
   attr :color, :string, values: @colors, default: "dark", doc: ""
   attr :size, :string, values: @sizes, default: "small", doc: ""

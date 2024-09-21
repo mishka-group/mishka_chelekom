@@ -22,7 +22,7 @@ defmodule MishkaChelekom.Dropdown do
   ]
 
   @doc type: :component
-  attr :id, :string, default: nil, doc: ""
+  attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
   attr :class, :string, default: nil, doc: ""
   attr :width, :string, default: "w-fit", doc: ""
   attr :position, :string, default: "bottom", doc: ""
@@ -54,7 +54,7 @@ defmodule MishkaChelekom.Dropdown do
     """
   end
 
-  attr :id, :string, default: nil, doc: ""
+  attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
   attr :trigger_id, :string, default: nil, doc: ""
   attr :class, :string, default: nil, doc: ""
   slot :inner_block, required: false, doc: ""
@@ -79,7 +79,7 @@ defmodule MishkaChelekom.Dropdown do
     """
   end
 
-  attr :id, :string, default: nil, doc: ""
+  attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
   attr :variant, :string, values: @variants, default: "shadow", doc: ""
   attr :color, :string, values: @colors, default: "white", doc: ""
   attr :rounded, :string, default: nil, doc: ""

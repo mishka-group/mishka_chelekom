@@ -4,7 +4,7 @@ defmodule MishkaChelekom.TableContent do
   alias Phoenix.LiveView.JS
 
   @doc type: :component
-  attr :id, :string, default: nil, doc: ""
+  attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
   attr :class, :string, default: nil, doc: ""
   attr :title, :string, default: nil, doc: ""
   attr :color, :string, default: "white", doc: ""
@@ -39,7 +39,7 @@ defmodule MishkaChelekom.TableContent do
     """
   end
 
-  attr :id, :string, default: nil, doc: ""
+  attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
   attr :class, :string, default: nil, doc: ""
   attr :title, :string, default: nil, doc: ""
   attr :icon, :string, default: nil, doc: ""
@@ -63,7 +63,7 @@ defmodule MishkaChelekom.TableContent do
     """
   end
 
-  attr :id, :string, default: nil, doc: ""
+  attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
   attr :class, :string, default: nil, doc: ""
   attr :title, :string, default: nil, doc: ""
   attr :icon, :string, default: nil, doc: ""

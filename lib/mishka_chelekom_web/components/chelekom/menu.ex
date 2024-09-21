@@ -4,7 +4,7 @@ defmodule MishkaChelekom.Menu do
   import MishkaChelekom.Button, only: [button_link: 1]
 
   @doc type: :component
-  attr :id, :string, default: nil, doc: ""
+  attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
   attr :class, :string, default: nil, doc: ""
   attr :menu_items, :list, default: [], doc: ""
   attr :space, :string, default: "small", doc: ""

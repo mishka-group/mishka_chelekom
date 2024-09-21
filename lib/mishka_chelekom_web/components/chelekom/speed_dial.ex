@@ -5,7 +5,7 @@ defmodule MishkaChelekom.SpeedDial do
   alias Phoenix.LiveView.JS
 
   @doc type: :component
-  attr :id, :string, required: true, doc: ""
+  attr :id, :string, required: true, doc: "A unique identifier is used to manage state and interaction"
   attr :class, :string, default: nil, doc: ""
   attr :action_position, :string, default: "bottom-end", doc: ""
   attr :position_size, :string, default: "large", doc: ""
@@ -120,7 +120,7 @@ defmodule MishkaChelekom.SpeedDial do
     """
   end
 
-  attr :id, :string, required: true, doc: ""
+  attr :id, :string, required: true, doc: "A unique identifier is used to manage state and interaction"
   attr :navigate, :string, default: nil, doc: ""
   attr :patch, :string, default: nil, doc: ""
   attr :href, :string, default: nil, doc: ""

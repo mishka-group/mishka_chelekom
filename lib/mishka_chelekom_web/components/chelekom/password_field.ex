@@ -5,7 +5,7 @@ defmodule MishkaChelekom.PasswordField do
   import Phoenix.LiveView.Utils, only: [random_id: 0]
 
   @doc type: :component
-  attr :id, :string, default: nil, doc: ""
+  attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
   attr :class, :string, default: nil, doc: ""
   attr :color, :string, default: "light", doc: ""
   attr :border, :string, default: "extra_small", doc: ""

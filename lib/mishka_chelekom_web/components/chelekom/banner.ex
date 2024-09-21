@@ -32,7 +32,7 @@ defmodule MishkaChelekom.Banner do
   @positions ["top_left", "top_right", "bottom_left", "bottom_right", "center", "full"]
 
   @doc type: :component
-  attr :id, :string, required: true, doc: ""
+  attr :id, :string, required: true, doc: "A unique identifier is used to manage state and interaction"
 
   attr :size, :string, default: "large", doc: ""
   attr :variant, :string, values: @variants, default: "default", doc: ""
@@ -92,7 +92,7 @@ defmodule MishkaChelekom.Banner do
     """
   end
 
-  attr :id, :string, required: true
+  attr :id, :string, required: true, doc: "A unique identifier is used to manage state and interaction"
   attr :dismiss, :boolean, default: false
   attr :class, :string, default: nil
   attr :size, :string, default: "small"
