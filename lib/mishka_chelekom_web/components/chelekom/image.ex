@@ -3,8 +3,8 @@ defmodule MishkaChelekom.Image do
 
   @doc type: :component
   attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
-  attr :src, :string, required: true, doc: ""
-  attr :alt, :string, default: nil, doc: ""
+  attr :src, :string, required: true, doc: "Media link"
+  attr :alt, :string, default: nil, doc: "Media link description"
   attr :srcset, :string, default: nil, doc: ""
 
   attr :loading, :string,

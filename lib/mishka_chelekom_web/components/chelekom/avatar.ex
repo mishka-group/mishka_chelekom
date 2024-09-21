@@ -69,7 +69,7 @@ defmodule MishkaChelekom.Avatar do
     doc: ""
 
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
-  attr :src, :string, default: nil, doc: "Image address"
+  attr :src, :string, default: nil, doc: "Media link"
   attr :color, :string, values: @colors ++ ["transparent"], default: "transparent", doc: "Determines color theme"
   attr :size, :string, default: "small", doc: "Determines the overall size of the elements, including padding, font size, and other items"
   attr :shadow, :string, values: @sizes ++ ["none"], default: "none", doc: "Determines shadow style"

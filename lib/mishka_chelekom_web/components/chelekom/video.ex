@@ -36,14 +36,14 @@ defmodule MishkaChelekom.Video do
   attr :rest, :global, include: ~w(controls autoplay loop muted preload), doc: "Global attributes can define defaults which are merged with attributes provided by the caller"
 
   slot :source, required: true do
-    attr :src, :string, required: true
-    attr :type, :string, required: true
+    attr :src, :string, required: true, doc: "Media link"
+    attr :type, :string, required: true, doc: "Media type"
   end
 
   slot :track, required: false do
-    attr :src, :string, required: true
-    attr :label, :string
-    attr :kind, :string
+    attr :src, :string, required: true, doc: "Subtitle link"
+    attr :label, :string, doc: "Subtitle Lable"
+    attr :kind, :string, doc: "Subtitle Kind"
     attr :srclang, :string
     attr :default, :boolean
   end

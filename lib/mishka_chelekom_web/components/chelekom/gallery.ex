@@ -31,7 +31,7 @@ defmodule MishkaChelekom.Gallery do
   @doc type: :component
   attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
-  attr :src, :string, default: nil, doc: ""
+  attr :src, :string, default: nil, doc: "Media link"
   attr :alt, :string, default: "", doc: ""
   attr :rounded, :string, default: "none", doc: "Determines the border radius"
   attr :shadow, :string, default: "shadow-none", doc: "Determines shadow style"

@@ -1,11 +1,30 @@
 defmodule MishkaChelekom.DeviceMockup do
+  @moduledoc """
+  The `MishkaChelekom.DeviceMockup` module provides a customizable component for displaying
+  various device mockups such as iPhone, Android, Watch, Laptop, iPad, and iMac.
+
+  It supports different color themes and includes options for adding images or custom
+  content to represent device screens.
+
+  ## Features:
+  - Supports multiple device types: `iphone`, `android`, `watch`, `laptop`, `ipad`, and `imac`.
+  - Customizable color themes with various pre-defined options.
+  - Flexible layout options, allowing you to include images or custom content within the device frame.
+  - Easily integrable with other components for displaying responsive media content or
+  application previews.
+
+  ## Usage:
+
+  This component can be used to showcase designs, prototypes, or media content within a
+  realistic device frame, enhancing the visual presentation in your Phoenix application.
+  """
   use Phoenix.Component
 
   @doc type: :component
   attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :color, :string, default: "silver", doc: "Determines color theme"
-  attr :alt, :string, default: nil, doc: ""
+  attr :alt, :string, default: nil, doc: "Media link description"
   attr :type, :string, default: "iphone", doc: "android watch laptop iphone ipad imac"
   attr :image, :string, default: nil, doc: "Image displayed alongside of an item"
   attr :image_class, :string, default: nil, doc: "Determines custom class for the image"
