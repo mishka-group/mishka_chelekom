@@ -1,4 +1,21 @@
 defmodule MishkaChelekom.Pagination do
+  @moduledoc """
+  The `MishkaChelekom.Pagination` module provides a comprehensive and highly customizable
+  pagination component for Phoenix LiveView applications.
+
+  It is designed to handle complex pagination scenarios, supporting various styles,
+  sizes, colors, and interaction patterns.
+
+  This module offers several options to tailor the pagination component's appearance and behavior,
+  such as custom icons, separators, and control buttons.
+
+  It allows for fine-tuning of the pagination layout, including sibling and boundary
+  controls, as well as different visual variants like outlined, shadowed, and inverted styles.
+
+  These features enable developers to integrate pagination seamlessly into their UI,
+  enhancing user experience and interaction.
+  """
+
   use Phoenix.Component
   import MishkaChelekomComponents
   alias Phoenix.LiveView.JS
@@ -39,11 +56,11 @@ defmodule MishkaChelekom.Pagination do
   attr :active, :integer, default: 1, doc: ""
   attr :siblings, :integer, default: 1, doc: ""
   attr :boundaries, :integer, default: 1, doc: ""
-  attr :on_select, JS, default: %JS{}
-  attr :on_first, JS, default: %JS{}
-  attr :on_last, JS, default: %JS{}
-  attr :on_next, JS, default: %JS{}
-  attr :on_previous, JS, default: %JS{}
+  attr :on_select, JS, default: %JS{}, doc: "Custom JS module for on_select action"
+  attr :on_first, JS, default: %JS{}, doc: "Custom JS module for on_first action"
+  attr :on_last, JS, default: %JS{}, doc: "Custom JS module for on_last action"
+  attr :on_next, JS, default: %JS{}, doc: "Custom JS module for on_next action"
+  attr :on_previous, JS, default: %JS{}, doc: "Custom JS module for on_previous action"
 
   attr :size, :string,
     default: "medium",
@@ -64,14 +81,30 @@ defmodule MishkaChelekom.Pagination do
     default: "hero-ellipsis-horizontal",
     doc: "Determines a separator for items of an element"
 
-  attr :next_label, :string, default: "hero-chevron-right", doc: ""
-  attr :previous_label, :string, default: "hero-chevron-left", doc: ""
-  attr :first_label, :string, default: "hero-chevron-double-left", doc: ""
-  attr :last_label, :string, default: "hero-chevron-double-right", doc: ""
+  attr :next_label, :string,
+    default: "hero-chevron-right",
+    doc: "Determines the next icon or label"
+
+  attr :previous_label, :string,
+    default: "hero-chevron-left",
+    doc: "Determines the previous icon or label"
+
+  attr :first_label, :string,
+    default: "hero-chevron-double-left",
+    doc: "Determines the first icon or label"
+
+  attr :last_label, :string,
+    default: "hero-chevron-double-right",
+    doc: "Determines the last icon or label"
+
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
-  attr :params, :map, default: %{}
-  slot :start_items, required: false
-  slot :end_items, required: false
+
+  attr :params, :map,
+    default: %{},
+    doc: "A map of additional parameters used for element configuration"
+
+  slot :start_items, required: false, doc: "Determines the start items which accept heex"
+  slot :end_items, required: false, doc: "Determines the end items which accept heex"
 
   attr :rest, :global,
     include: ~w(disabled hide_one_page show_edges hide_controls grouped),
@@ -169,11 +202,14 @@ defmodule MishkaChelekom.Pagination do
   end
 
   @doc type: :component
-  attr :params, :map, default: %{}
-  attr :page, :list, required: true
-  attr :on_action, JS, default: %JS{}
+  attr :params, :map,
+    default: %{},
+    doc: "A map of additional parameters used for element configuration"
+
+  attr :page, :list, required: true, doc: "Specifies pagination pages"
+  attr :on_action, JS, default: %JS{}, doc: "Custom JS module for on_action action"
   attr :icon, :string, required: false, doc: "Icon displayed alongside of an item"
-  attr :disabled, :boolean, required: false
+  attr :disabled, :boolean, required: false, doc: "Specifies whether the element is disabled"
 
   defp item_button(%{on_action: {"select", _on_action}} = assigns) do
     ~H"""

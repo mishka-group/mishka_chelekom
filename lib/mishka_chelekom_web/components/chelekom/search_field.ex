@@ -1,4 +1,17 @@
 defmodule MishkaChelekom.SearchField do
+  @moduledoc """
+  The `MishkaChelekom.SearchField` module provides a highly customizable search input
+  component for Phoenix LiveView applications. This component is designed to offer advanced
+  search functionality with support for custom styles, layouts, and interactions.
+
+  It includes features such as configurable size, border style, rounded corners, and color
+  variants, making it adaptable to various design requirements. The component also supports
+  optional start and end sections for icons or additional content, as well as a search button for executing queries.
+
+  The `SearchField` component is ideal for implementing search forms, filters, or any other
+  user interface elements where search functionality is needed. Its flexibility and ease of
+  integration make it a powerful tool for enhancing user experiences in Phoenix LiveView applications.
+  """
   use Phoenix.Component
   import MishkaChelekomComponents
 
@@ -25,7 +38,7 @@ defmodule MishkaChelekom.SearchField do
     doc:
       "Determines a ring border on focused input, utilities for creating outline rings with box-shadows."
 
-  attr :search_button, :boolean, default: false, doc: ""
+  attr :search_button, :boolean, default: false, doc: "Specifies search button"
   attr :floating, :string, default: "none", doc: "none, inner, outer"
   attr :error_icon, :string, default: nil, doc: "Icon to be displayed alongside error messages"
   attr :label, :string, default: nil, doc: "Specifies text for the label"

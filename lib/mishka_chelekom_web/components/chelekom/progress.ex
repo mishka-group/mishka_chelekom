@@ -1,4 +1,20 @@
 defmodule MishkaChelekom.Progress do
+  @moduledoc """
+  The `MishkaChelekom.Progress` module provides a customizable progress bar component for
+  Phoenix LiveView applications.
+
+  It offers a range of styling options, including different sizes, colors, and variants,
+  allowing developers to create both horizontal and vertical progress bars tailored to
+  their design requirements.
+
+  This component supports a variety of visual configurations, such as gradient backgrounds
+  and rounded corners, and can be used in diverse use cases, from displaying loading states
+  to indicating progress in forms and surveys.
+
+  The module's flexibility is further enhanced by its use of `slots`, enabling developers
+  to include custom content within the progress bar, making it a versatile choice for building
+  interactive and dynamic UIs.
+  """
   use Phoenix.Component
 
   @sizes ["extra_small", "small", "medium", "large", "extra_large"]
@@ -23,7 +39,7 @@ defmodule MishkaChelekom.Progress do
     default: nil,
     doc: "A unique identifier is used to manage state and interaction"
 
-  attr :value, :integer, default: nil, doc: ""
+  attr :value, :integer, default: nil, doc: "Value of inout"
 
   attr :variation, :string,
     values: ["horizontal", "vertical"],

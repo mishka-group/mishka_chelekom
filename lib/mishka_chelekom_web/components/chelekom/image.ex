@@ -32,9 +32,19 @@ defmodule MishkaChelekom.Image do
 
   attr :width, :integer, default: nil, doc: "Determines width style"
   attr :height, :integer, default: nil, doc: "Determines width height"
-  attr :sizes, :string, default: nil, doc: "Specifies the intended display size of the image in the layout for different viewport conditions"
+
+  attr :sizes, :string,
+    default: nil,
+    doc:
+      "Specifies the intended display size of the image in the layout for different viewport conditions"
+
   attr :ismap, :string, default: nil, doc: "Make the image act as a server-side image map"
-  attr :decoding, :string, default: nil, doc: "Refers to the process of converting encoded or encrypted data back into its original format"
+
+  attr :decoding, :string,
+    default: nil,
+    doc:
+      "Refers to the process of converting encoded or encrypted data back into its original format"
+
   attr :rounded, :string, default: nil, doc: "Determines the border radius"
   attr :shadow, :string, default: nil, doc: "Determines shadow style"
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"

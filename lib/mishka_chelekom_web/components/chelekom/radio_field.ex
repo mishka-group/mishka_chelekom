@@ -1,4 +1,19 @@
 defmodule MishkaChelekom.RadioField do
+  @moduledoc """
+  The `MishkaChelekom.RadioField` module provides a highly customizable radio button
+  component for Phoenix LiveView applications. This module supports various styling options,
+  including different colors, sizes, and border styles, allowing developers to
+  integrate radio buttons seamlessly into their design system.
+
+  The component offers attributes and slots to control layout, appearance, and behavior,
+  making it versatile for use cases ranging from simple forms to complex UI elements.
+  With features such as error handling and custom labels, it enhances the usability and
+  accessibility of forms, ensuring a cohesive user experience across the application.
+
+  In addition, the module includes support for grouped radio buttons with the `group_radio`
+  component, enabling the creation of sets of related radio inputs. This facilitates the
+  development of dynamic and interactive form elements in a clean and organized manner.
+  """
   use Phoenix.Component
   import MishkaChelekomComponents
 

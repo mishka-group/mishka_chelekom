@@ -1,4 +1,18 @@
 defmodule MishkaChelekom.Rating do
+  @moduledoc """
+  The `MishkaChelekom.Rating` module provides a versatile rating component for Phoenix LiveView
+  applications. This component is designed to display a configurable number of rating stars with
+  customizable colors, sizes, and interactive capabilities.
+
+  The `Rating` component supports both static and interactive modes. In static mode,
+  the stars represent a pre-defined rating value, while in interactive mode, users can select a
+  rating by clicking on the stars. It offers a range of customization options such as gap size,
+  star color, and size, making it suitable for various user interfaces where feedback or ratings are required.
+
+  This component is ideal for implementing user reviews, feedback forms, and any other scenario where
+  a visual rating system is needed. Its flexibility and ease of integration make it a powerful
+  tool for enhancing the user experience in Phoenix LiveView applications.
+  """
   use Phoenix.Component
   import MishkaChelekomComponents
   alias Phoenix.LiveView.JS
@@ -9,7 +23,7 @@ defmodule MishkaChelekom.Rating do
     doc: "A unique identifier is used to manage state and interaction"
 
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
-  attr :gap, :string, default: "small", doc: ""
+  attr :gap, :string, default: "small", doc: "Custom gap style"
 
   attr :size, :string,
     default: "small",
@@ -19,8 +33,12 @@ defmodule MishkaChelekom.Rating do
   attr :color, :string, default: "warning", doc: "Determines color theme"
   attr :count, :integer, default: 5, doc: "Number of stars to display"
   attr :select, :integer, default: 0, doc: ""
-  attr :params, :map, default: %{}
-  attr :on_action, JS, default: %JS{}
+
+  attr :params, :map,
+    default: %{},
+    doc: "A map of additional parameters used for element configuration"
+
+  attr :on_action, JS, default: %JS{}, doc: "Custom JS module for on_action action"
 
   attr :interactive, :boolean,
     default: false,

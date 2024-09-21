@@ -1,4 +1,19 @@
 defmodule MishkaChelekom.PasswordField do
+  @moduledoc """
+  The `MishkaChelekom.PasswordField` module is a Phoenix component designed to render a customizable
+  password input field within LiveView applications. It provides a flexible and highly configurable
+  way to integrate password inputs with various visual styles, handling for error messages, and
+  toggle functionality for showing or hiding password text.
+
+  This module includes built-in support for multiple configuration options, such as color themes,
+  border styles, size, and spacing. It also allows users to easily add custom slots to render
+  additional content before and after the input field, enhancing the field's usability and appearance.
+
+  Moreover, it handles the common requirements for form input components, including error display,
+  label positioning, and visual feedback on user interaction. The module is intended to be integrated
+  seamlessly with Phoenix forms and is ideal for applications that require an interactive and
+  user-friendly password field.
+  """
   use Phoenix.Component
   import MishkaChelekomComponents
   alias Phoenix.LiveView.JS

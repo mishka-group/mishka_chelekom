@@ -1,37 +1,22 @@
 defmodule MishkaChelekom.Popover do
+  @moduledoc """
+  The `MishkaChelekom.Popover` module provides a versatile popover component for Phoenix LiveView
+  applications. It allows developers to create interactive and visually appealing popover elements
+  with various customization options.
+
+  This component supports different display configurations, such as inline and block styles, and
+  can be triggered by various user interactions like clicks or hover events. The popover can be
+  styled using predefined color schemes and variants, including options for shadowed elements.
+
+  The module also offers control over positioning, size, and spacing of the popover content, making
+  it adaptable to different use cases. It is built to be highly configurable while maintaining a
+  consistent design system across the application.
+
+  By utilizing `slots`, it allows developers to include custom content within the popover and
+  trigger elements, enhancing its flexibility and usability for complex UI scenarios.
+  """
   use Phoenix.Component
   alias Phoenix.LiveView.JS
-
-  @doc """
-  Avoid placing block-level elements inside a `<p>` tag if you want to use inline popover. These include:
-   - `<div>`
-   - `<header>`
-   - `<footer>`
-   - `<section>`
-   - `<article>`
-   - `<aside>`
-   - `<h1>`, `<h2>`, `<h3>`, etc.
-   - `<nav>`
-   - `<form>`
-   - `<table>`
-   - `<ul>`, `<ol>`, `<li>`
-    These elements create their own block context and should not be nested within a paragraph.
-
-    2. **Other `<p>` Tags**: Nesting one `<p>` tag inside another can lead to invalid HTML and unexpected rendering.
-
-    3. **Semantic Inconsistencies**: While you can technically include inline elements like:
-     `<a>`, `<strong>`, `<em>`, `<span>`, and `<img>` within a `<p>` tag,
-      avoid misusing them or using them in ways that don't align with their semantic purpose.
-
-    4. **Structural Tags**: Tags that define the structure of the document or a section, like:
-    `<main>`, `<section>`, `<article>`, `<aside>`, `<figure>`, etc., should not be inside a `<p>` tag.
-
-    ### Proper Usage
-  The `<p>` tag should primarily contain inline elements,
-  such as text, `<a>`, `<strong>`, `<em>`, `<span>`, and `<img>`
-  (with caution), or other inline elements that do not disrupt the flow of text within the paragraph.
-
-  """
 
   @colors [
     "white",
@@ -58,7 +43,7 @@ defmodule MishkaChelekom.Popover do
     doc: "A unique identifier is used to manage state and interaction"
 
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
-  attr :inline, :boolean, default: false, doc: ""
+  attr :inline, :boolean, default: false, doc: "Determines whether this element is inline"
 
   attr :clickable, :boolean,
     default: false,
@@ -113,7 +98,7 @@ defmodule MishkaChelekom.Popover do
 
   attr :trigger_id, :string, default: nil, doc: "Identifies what is the triggered element id"
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
-  attr :inline, :boolean, default: false, doc: ""
+  attr :inline, :boolean, default: false, doc: "Determines whether this element is inline"
   slot :inner_block, required: false, doc: "Inner block that renders HEEx content"
 
   attr :rest, :global,
@@ -153,7 +138,7 @@ defmodule MishkaChelekom.Popover do
     default: nil,
     doc: "A unique identifier is used to manage state and interaction"
 
-  attr :inline, :boolean, default: false, doc: ""
+  attr :inline, :boolean, default: false, doc: "Determines whether this element is inline"
   attr :position, :string, default: "top", doc: "Determines the element position"
   attr :variant, :string, values: @variants, default: "shadow", doc: "Determines the style"
   attr :color, :string, values: @colors, default: "white", doc: "Determines color theme"

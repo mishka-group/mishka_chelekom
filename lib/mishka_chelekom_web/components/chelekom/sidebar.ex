@@ -1,4 +1,19 @@
 defmodule MishkaChelekom.Sidebar do
+  @moduledoc """
+  The `MishkaChelekom.Sidebar` module provides a versatile and customizable sidebar
+  component for Phoenix LiveView applications. This component is designed to create a
+  navigation or information panel that can be toggled in and out of view, enhancing the user
+  experience by offering easy access to additional content or navigation links.
+
+  The component supports various configuration options, such as color themes, border styles,
+  size, and positioning. It also allows developers to control the visibility and behavior of
+  the sidebar through custom JavaScript actions. The sidebar can be positioned on either side of
+  the screen, and it includes options for different visual variants, such as shadowed or transparent styles.
+
+  The `Sidebar` component is ideal for building dynamic user interfaces that require collapsible
+  navigation or content panels, and it integrates seamlessly with other Phoenix LiveView components
+  for a cohesive and interactive application experience.
+  """
   use Phoenix.Component
   import MishkaChelekomComponents
   import MishkaChelekomWeb.Gettext
@@ -42,7 +57,11 @@ defmodule MishkaChelekom.Sidebar do
   attr :border, :string, default: "extra_small", doc: "Determines border style"
   attr :rounded, :string, default: nil, doc: "Determines the border radius"
   attr :position, :string, default: "start", doc: "Determines the element position"
-  attr :hide_position, :string, default: nil, doc: ""
+
+  attr :hide_position, :string,
+    values: ["left", "right"],
+    doc: "Determines what position should be hidden"
+
   attr :space, :string, default: nil, doc: "Space between items"
   attr :padding, :string, default: "none", doc: "Determines padding for items"
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
@@ -88,10 +107,53 @@ defmodule MishkaChelekom.Sidebar do
     """
   end
 
+  @doc """
+  Shows the sidebar by applying specific CSS classes to animate it onto the screen.
+
+  ## Parameters
+
+    - `js`: A `Phoenix.LiveView.JS` struct used for managing client-side JavaScript interactions. Defaults to an empty `%JS{}`.
+    - `id`: A unique identifier (string) for the sidebar element to be shown. This should correspond to the `id` attribute of the sidebar HTML element.
+    - `position`: A string representing the initial position of the sidebar when hidden. Valid values include `"left"` or `"right"`, indicating whether the sidebar is off-screen to the left or right.
+
+  ## Returns
+
+    - Returns an updated `Phoenix.LiveView.JS` struct with the appropriate class changes applied to show the sidebar.
+
+  ## Example
+
+    ```elixir
+    show_sidebar(%JS{}, "sidebar-id", "right")
+    ```
+  This will show the sidebar with the ID "sidebar-id" by sliding it onto the screen from the right.
+  """
+
   def show_sidebar(js \\ %JS{}, id, position) when is_binary(id) do
     JS.remove_class(js, hide_position(position), to: "##{id}")
     |> JS.add_class("transform-none", to: "##{id}")
   end
+
+  @doc """
+  Hides the sidebar by applying specific CSS classes to animate it off-screen.
+
+  ## Parameters
+
+    - `js`: A `Phoenix.LiveView.JS` struct used for managing client-side JavaScript interactions. Defaults to an empty `%JS{}`.
+    - `id`: A unique identifier (string) for the sidebar element to be hidden. The ID should correspond to the `id` attribute of the sidebar HTML element.
+    - `position`: A string representing the direction in which the sidebar should be hidden. Valid values include `"left"` or `"right"`, indicating whether the sidebar will slide off the screen to the left or right, respectively.
+
+  ## Returns
+
+    - Returns an updated `Phoenix.LiveView.JS` struct with the appropriate class changes applied to hide the sidebar.
+
+  ## Example
+
+    ```elixir
+    hide_sidebar(%JS{}, "sidebar-id", "left")
+    ```
+
+  This will hide the sidebar with the ID "sidebar-id" by sliding it off-screen to the left.
+  """
 
   def hide_sidebar(js \\ %JS{}, id, position) do
     JS.remove_class(js, "transform-none", to: "##{id}")

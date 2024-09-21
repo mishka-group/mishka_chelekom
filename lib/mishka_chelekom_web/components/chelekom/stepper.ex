@@ -21,9 +21,9 @@ defmodule MishkaChelekom.Stepper do
     default: "font-normal",
     doc: "Determines custom class for the font weight"
 
-  attr :max_width, :string, default: nil, doc: ""
+  attr :max_width, :string, default: nil, doc: "Determines the style of element max width"
   attr :seperator_size, :string, default: "extra_small", doc: ""
-  attr :vertical, :boolean, default: false, doc: ""
+  attr :vertical, :boolean, default: false, doc: "Determines whether element is vertical"
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
 
   attr :rest, :global,
@@ -97,7 +97,7 @@ defmodule MishkaChelekom.Stepper do
   attr :title, :string, default: nil, doc: "Specifies the title of the element"
   attr :description, :string, default: nil, doc: "Determines a short description"
   attr :step_number, :integer, default: 1
-  attr :vertical, :boolean, default: false, doc: ""
+  attr :vertical, :boolean, default: false, doc: "Determines whether element is vertical"
 
   attr :clickable, :boolean,
     default: true,

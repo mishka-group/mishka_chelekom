@@ -1,4 +1,16 @@
 defmodule MishkaChelekom.Overlay do
+  @moduledoc """
+  The `MishkaChelekom.Overlay` module provides a versatile overlay component for
+  Phoenix LiveView applications, allowing developers to create layered content effects.
+  It supports various customization options, including color themes, opacity levels,
+  and blur effects, which enable the creation of visually engaging overlays.
+
+  This component is designed to be highly adaptable, offering predefined color themes,
+  opacity variations, and blur sizes to match the needs of different interface designs.
+  The `MishkaChelekom.Overlay` is perfect for creating modal backgrounds, loading screens,
+  and other interactive elements that require content layering.
+  """
+
   use Phoenix.Component
 
   @sizes ["extra_small", "small", "medium", "large", "extra_large"]

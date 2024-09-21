@@ -16,7 +16,7 @@ defmodule MishkaChelekom.Timeline do
     doc:
       "Global attributes can define defaults which are merged with attributes provided by the caller"
 
-  attr :horizontal, :boolean, default: false, doc: ""
+  attr :horizontal, :boolean, default: false, doc: "Determines whether element is horizontal"
 
   slot :inner_block, required: false, doc: "Inner block that renders HEEx content"
 
@@ -66,9 +66,9 @@ defmodule MishkaChelekom.Timeline do
   attr :bullet_icon, :string, default: nil, doc: ""
   attr :image, :string, default: nil, doc: "Image displayed alongside of an item"
   attr :title, :string, default: nil, doc: "Specifies the title of the element"
-  attr :time, :string, default: nil, doc: ""
+  attr :time, :string, default: nil, doc: "Specifies the time"
   attr :description, :string, default: nil, doc: "Determines a short description"
-  attr :horizontal, :boolean, default: false, doc: ""
+  attr :horizontal, :boolean, default: false, doc: "Determines whether element is horizontal"
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
 
   attr :rest, :global,

@@ -43,7 +43,10 @@ defmodule MishkaChelekom.NativeSelect do
 
   attr :error_icon, :string, default: nil, doc: "Icon to be displayed alongside error messages"
   attr :label, :string, default: nil, doc: "Specifies text for the label"
-  attr :multiple, :boolean, default: false, doc: "Specifies if the select input allows multiple selections"
+
+  attr :multiple, :boolean,
+    default: false,
+    doc: "Specifies if the select input allows multiple selections"
 
   attr :errors, :list, default: [], doc: "List of error messages to be displayed"
   attr :name, :any, doc: "Name of input"
@@ -127,7 +130,9 @@ defmodule MishkaChelekom.NativeSelect do
   attr :label, :string, default: nil, doc: "Specifies text for the label"
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   # TODO. this is not be used
-  attr :separator, :boolean, default: nil, doc: "Whether separator is active for select option group"
+  attr :separator, :boolean,
+    default: nil,
+    doc: "Whether separator is active for select option group"
 
   slot :option, required: false, doc: "Option slot for select" do
     attr :value, :string, doc: "Value of each select option"

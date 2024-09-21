@@ -53,7 +53,10 @@ defmodule MishkaChelekom.Toast do
     doc: "Determines custom class for the font weight"
 
   attr :class, :string, default: "", doc: "Additional CSS classes to be added to the toast."
-  attr :params, :map, default: %{kind: "toast"}
+
+  attr :params, :map,
+    default: %{kind: "toast"},
+    doc: "A map of additional parameters used for element configuration"
 
   attr :rest, :global,
     include: ~w(right_dismiss left_dismiss),
@@ -154,7 +157,9 @@ defmodule MishkaChelekom.Toast do
     doc:
       "Determines the overall size of the elements, including padding, font size, and other items"
 
-  attr :params, :map, default: %{kind: "toast"}
+  attr :params, :map,
+    default: %{kind: "toast"},
+    doc: "A map of additional parameters used for element configuration"
 
   defp toast_dismiss(assigns) do
     ~H"""

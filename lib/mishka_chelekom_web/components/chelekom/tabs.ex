@@ -48,7 +48,7 @@ defmodule MishkaChelekom.Tabs do
 
   attr :padding, :string, default: "extra_small", doc: "Determines padding for items"
   attr :triggers_position, :string, default: "extra_small", doc: ""
-  attr :vertical, :boolean, default: false, doc: ""
+  attr :vertical, :boolean, default: false, doc: "Determines whether element is vertical"
   attr :placement, :string, default: "start", doc: ""
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
 
@@ -63,7 +63,7 @@ defmodule MishkaChelekom.Tabs do
     attr :class, :string, doc: "Custom CSS class for additional styling"
     attr :padding, :string, doc: "Determines padding for items"
     attr :icon_class, :string, doc: "Determines custom class for the icon"
-    attr :icon_position, :string, doc: "end, start"
+    attr :icon_position, :string, doc: "Determines icon position"
     attr :active, :boolean, doc: "Indicates whether the element is currently active and visible"
   end
 

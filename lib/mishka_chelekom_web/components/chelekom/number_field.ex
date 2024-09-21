@@ -1,4 +1,16 @@
 defmodule MishkaChelekom.NumberField do
+  @moduledoc """
+  The `MishkaChelekom.NumberField` module provides a versatile and customizable
+  number input component for Phoenix LiveView applications. This component offers
+  extensive options for theming, styling, and layout configurations, including border styles,
+  color variants, rounded corners, and size settings.
+
+  With support for custom slots and icon placements, it allows for enhanced user
+  interactions and detailed input structures. The module also includes advanced features
+  like floating labels, control visibility options, and error handling, making it an ideal
+  solution for creating dynamic and user-friendly forms in web applications.
+  """
+
   use Phoenix.Component
   import MishkaChelekomComponents
 

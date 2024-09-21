@@ -1,4 +1,20 @@
 defmodule MishkaChelekom.RangeField do
+  @moduledoc """
+  The `MishkaChelekom.RangeField` module provides a comprehensive range input field
+  component for Phoenix LiveView applications. This component is designed with flexibility and
+  customization in mind, allowing developers to configure various aspects such as size, color, and
+  styling options.
+
+  With attributes for managing state, interaction, and layout, the `RangeField` component can be
+  easily adapted to different use cases, from simple form inputs to more complex data-driven interfaces.
+  The module supports custom labels, error handling, and a range value slot for displaying dynamic
+  content based on the input value.
+
+  This component is particularly useful for scenarios that require user input in a defined range,
+  such as sliders for adjusting numerical values or settings. It ensures a visually consistent
+  and user-friendly experience across different parts of the application, while maintaining a
+  high level of customization and control.
+  """
   use Phoenix.Component
   import MishkaChelekomComponents
 

@@ -51,7 +51,7 @@ defmodule MishkaChelekom.SpeedDial do
     attr :content_class, :string, doc: "Determines custom class for the content"
     attr :color, :string
     attr :variant, :string, doc: "Determines the style"
-    attr :icon_position, :string, doc: "end, start"
+    attr :icon_position, :string, doc: "Determines icon position"
   end
 
   slot :trigger_content, required: false do
@@ -158,7 +158,7 @@ defmodule MishkaChelekom.SpeedDial do
   attr :icon_class, :string, default: nil, doc: "Determines custom class for the icon"
   attr :content_class, :string, default: nil, doc: "Determines custom class for the content"
   attr :index, :integer, required: true, doc: "Determines item index"
-  attr :icon_position, :string, doc: "end, start"
+  attr :icon_position, :string, doc: "Determines icon position"
   slot :inner_block, required: false, doc: "Inner block that renders HEEx content"
 
   defp speed_dial_content(%{navigate: nav, patch: pat, href: hrf} = assigns)

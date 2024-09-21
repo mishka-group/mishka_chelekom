@@ -1,4 +1,18 @@
 defmodule MishkaChelekom.Navbar do
+  @moduledoc """
+  The `MishkaChelekom.Navbar` module provides a flexible and customizable navigation
+  bar component for Phoenix LiveView applications. It allows for a variety of styles,
+  colors, and configurations to fit different design needs, including border styles,
+  content alignment, and text positioning.
+
+  This component supports nested elements through slots, enabling complex navigation structures.
+
+  It also offers extensive theming options, such as rounded corners, shadow effects,
+  and maximum width settings.
+
+  With built-in support for icons and images, the `Navbar` module makes it easy to create
+  visually appealing and interactive navigation bars that enhance the user experience.
+  """
   use Phoenix.Component
   import MishkaChelekomComponents
 
@@ -34,7 +48,7 @@ defmodule MishkaChelekom.Navbar do
   attr :border, :string, default: "extra_small", doc: "Determines border style"
   attr :text_position, :string, default: nil, doc: "Determines the element' text position"
   attr :rounded, :string, default: nil, doc: "Determines the border radius"
-  attr :max_width, :string, default: nil, doc: ""
+  attr :max_width, :string, default: nil, doc: "Determines the style of element max width"
 
   attr :content_position, :string,
     default: "between",
@@ -65,7 +79,7 @@ defmodule MishkaChelekom.Navbar do
     attr :padding, :string, doc: "Determines padding for items"
     attr :icon, :string, doc: "Icon displayed alongside of an item"
     attr :icon_class, :string, doc: "Determines custom class for the icon"
-    attr :icon_position, :string, doc: "end, start"
+    attr :icon_position, :string, doc: "Determines icon position"
   end
 
   def navbar(assigns) do
