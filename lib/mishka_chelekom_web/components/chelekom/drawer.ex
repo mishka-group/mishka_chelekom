@@ -1,4 +1,27 @@
 defmodule MishkaChelekom.Drawer do
+  @moduledoc """
+  The `MishkaChelekom.Drawer` module provides a flexible and customizable drawer component
+  for use in Phoenix LiveView applications.
+
+  ## Features:
+  - **Positioning:** Drawers can be positioned on the left, right, top, or bottom of the screen.
+  - **Styling Variants:** Offers several styling options like `default`, `outline`,
+  `transparent`, `shadow`, and `unbordered`.
+  - **Color Themes:** Supports a variety of predefined color themes, including `primary`,
+  `secondary`, `success`, `danger`, `info`, and more.
+  - **Customizable:** Allows customization of border style, size, border radius,
+  and padding to fit various design needs.
+  - **Interactive:** Integrated with `Phoenix.LiveView.JS` for show/hide functionality and
+  nteraction management.
+  - **Slots Support:** Includes slots for adding a custom header and inner content,
+  with full HEEx support for dynamic rendering.
+
+  ## Usage:
+
+  This component is ideal for creating side panels, modal-like interactions, and other
+  interactive UI elements that slide in from various positions. It supports responsive
+  design and can be customized to match different design systems and requirements.
+  """
   use Phoenix.Component
   import MishkaChelekomComponents
   alias Phoenix.LiveView.JS
@@ -39,12 +62,12 @@ defmodule MishkaChelekom.Drawer do
   attr :space, :string, default: nil, doc: "Space between items"
   attr :padding, :string, default: "none", doc: "Determines padding for items"
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
-  attr :on_hide, JS, default: %JS{}
-  attr :on_show, JS, default: %JS{}
-  attr :on_hide_away, JS, default: %JS{}
-  attr :show, :boolean, default: false
+  attr :on_hide, JS, default: %JS{}, doc: "Custom JS module for on_hide action"
+  attr :on_show, JS, default: %JS{}, doc: "Custom JS module for on_show action"
+  attr :on_hide_away, JS, default: %JS{}, doc: "Custom JS module for on_hide_away action"
+  attr :show, :boolean, default: false, doc: "Show element"
   attr :rest, :global, doc: "Global attributes can define defaults which are merged with attributes provided by the caller"
-  slot :header, required: false
+  slot :header, required: false, doc: "Specifies element's header that accepts heex"
   slot :inner_block, required: false, doc: "Inner block that renders HEEx content"
 
   def drawer(assigns) do

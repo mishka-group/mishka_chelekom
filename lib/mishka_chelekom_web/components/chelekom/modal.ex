@@ -62,7 +62,7 @@ defmodule MishkaChelekom.Modal do
   attr :padding, :string, values: @sizes ++ ["none"], default: "medium", doc: "Determines padding for items"
   attr :size, :string, values: @sizes ++ ["screen"], default: "extra_large", doc: "Determines the overall size of the elements, including padding, font size, and other items"
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
-  attr :show, :boolean, default: false
+  attr :show, :boolean, default: false, doc: "Show element"
   attr :on_cancel, JS, default: %JS{}
   slot :inner_block, required: true, doc: "Inner block that renders HEEx content"
 

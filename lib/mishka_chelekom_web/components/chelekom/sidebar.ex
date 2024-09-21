@@ -38,9 +38,9 @@ defmodule MishkaChelekom.Sidebar do
   attr :space, :string, default: nil, doc: "Space between items"
   attr :padding, :string, default: "none", doc: "Determines padding for items"
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
-  attr :on_hide, JS, default: %JS{}
-  attr :on_show, JS, default: %JS{}
-  attr :on_hide_away, JS, default: %JS{}
+  attr :on_hide, JS, default: %JS{}, doc: "Custom JS module for on_hide action"
+  attr :on_show, JS, default: %JS{}, doc: "Custom JS module for on_show action"
+  attr :on_hide_away, JS, default: %JS{}, doc: "Custom JS module for on_hide_away action"
   attr :rest, :global, doc: "Global attributes can define defaults which are merged with attributes provided by the caller"
   slot :inner_block, required: false, doc: "Inner block that renders HEEx content"
 

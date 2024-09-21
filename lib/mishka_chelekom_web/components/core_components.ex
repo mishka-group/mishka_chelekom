@@ -37,7 +37,7 @@ defmodule MishkaChelekomWeb.CoreComponents do
 
   """
   attr :id, :string, required: true, doc: "A unique identifier is used to manage state and interaction"
-  attr :show, :boolean, default: false
+  attr :show, :boolean, default: false, doc: "Show element"
   attr :on_cancel, JS, default: %JS{}
   slot :inner_block, required: true, doc: "Inner block that renders HEEx content"
 
