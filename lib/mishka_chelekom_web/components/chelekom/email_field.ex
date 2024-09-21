@@ -1,4 +1,20 @@
 defmodule MishkaChelekom.EmailField do
+  @moduledoc """
+  The `MishkaChelekom.EmailField` module provides a customizable email input field
+  component built using Phoenix LiveView. It offers extensive styling options and behavior
+  customizations for email input fields, such as:
+
+  - Setting the size, color, and style of the input field.
+  - Customizable labels, error messages, and descriptions.
+  - Support for floating labels with inner and outer options.
+  - Additional slots for icons or content at the start and end of the input field.
+  - Integration with `Phoenix.HTML.FormField` for easy form handling.
+
+  This component is designed to simplify the creation of styled and functional email
+  input fields in Phoenix LiveView applications, providing developers with the flexibility
+  to customize appearance and behavior according to their application's needs.
+  """
+
   use Phoenix.Component
   import MishkaChelekomComponents
 
