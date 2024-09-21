@@ -44,7 +44,7 @@ defmodule MishkaChelekom.Card do
 
   @doc type: :component
   attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
-  attr :variant, :string, values: @variants, default: "default", doc: ""
+  attr :variant, :string, values: @variants, default: "default", doc: "Determines the style"
   attr :color, :string, values: @colors, default: "white", doc: ""
   attr :border, :string, default: "extra_small", doc: ""
   attr :rounded, :string, default: nil, doc: ""

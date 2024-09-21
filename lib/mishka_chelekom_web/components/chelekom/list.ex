@@ -32,7 +32,7 @@ defmodule MishkaChelekom.List do
   attr :size, :string, default: "large", doc: ""
   attr :space, :string, values: @sizes ++ [nil], default: nil, doc: ""
   attr :color, :string, values: @colors, default: "white", doc: ""
-  attr :variant, :string, values: @variants, default: "filled", doc: ""
+  attr :variant, :string, values: @variants, default: "filled", doc: "Determines the style"
   attr :style, :string, default: "list-none", doc: ""
   slot :item, validate_attrs: false
   attr :rest, :global, include: ~w(ordered unordered), doc: ""
@@ -99,7 +99,7 @@ defmodule MishkaChelekom.List do
 
   attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
   attr :color, :string, values: @colors, default: "white", doc: ""
-  attr :variant, :string, values: @variants, default: "filled", doc: ""
+  attr :variant, :string, values: @variants, default: "filled", doc: "Determines the style"
   attr :size, :string, default: "medium", doc: ""
   attr :width, :string, default: "full", doc: ""
   attr :style, :string, default: "list-none", doc: ""
@@ -132,7 +132,7 @@ defmodule MishkaChelekom.List do
 
   attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
   attr :color, :string, values: @colors, default: "white", doc: ""
-  attr :variant, :string, values: @variants, default: "filled", doc: ""
+  attr :variant, :string, values: @variants, default: "filled", doc: "Determines the style"
   attr :size, :string, default: "medium", doc: ""
   attr :width, :string, default: "full", doc: ""
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
@@ -162,7 +162,7 @@ defmodule MishkaChelekom.List do
   end
 
   attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
-  attr :variant, :string, values: @variants, default: "default", doc: ""
+  attr :variant, :string, values: @variants, default: "default", doc: "Determines the style"
   attr :color, :string, values: @colors, default: "white", doc: ""
   attr :size, :string, default: "medium", doc: ""
   attr :width, :string, default: "full", doc: ""

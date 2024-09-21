@@ -27,7 +27,7 @@ defmodule MishkaChelekom.Chat do
   @doc type: :component
   attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
-  attr :variant, :string, values: @variants, default: "default", doc: ""
+  attr :variant, :string, values: @variants, default: "default", doc: "Determines the style"
   attr :color, :string, values: @colors, default: "light", doc: ""
   attr :border, :string, default: "extra_small", doc: ""
   attr :rounded, :string, default: "extra_large", doc: ""

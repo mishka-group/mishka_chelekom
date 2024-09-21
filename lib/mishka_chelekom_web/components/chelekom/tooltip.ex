@@ -23,7 +23,7 @@ defmodule MishkaChelekom.Tooltip do
   @doc type: :component
   attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
   attr :position, :string, default: "top", doc: ""
-  attr :variant, :string, values: @variants, default: "shadow", doc: ""
+  attr :variant, :string, values: @variants, default: "shadow", doc: "Determines the style"
   attr :color, :string, values: @colors, default: "dark", doc: ""
   attr :rounded, :string, default: nil, doc: ""
   attr :size, :string, default: nil, doc: ""

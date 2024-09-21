@@ -10,7 +10,7 @@ defmodule MishkaChelekom.PasswordField do
   attr :color, :string, default: "light", doc: ""
   attr :border, :string, default: "extra_small", doc: ""
   attr :rounded, :string, default: "small", doc: ""
-  attr :variant, :string, default: "outline", doc: ""
+  attr :variant, :string, default: "outline", doc: "Determines the style"
   attr :description, :string, default: nil, doc: ""
   attr :space, :string, default: "medium", doc: ""
   attr :size, :string, default: "extra_large", doc: ""

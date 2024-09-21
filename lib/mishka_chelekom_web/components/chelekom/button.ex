@@ -57,7 +57,7 @@ defmodule MishkaChelekom.Button do
   """
   @doc type: :component
   attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
-  attr :variant, :string, values: @variants, default: "default", doc: ""
+  attr :variant, :string, values: @variants, default: "default", doc: "Determines the style"
   attr :variation, :string, values: ["horizontal", "vertical"], default: "horizontal", doc: ""
   attr :color, :string, values: @colors, default: "white", doc: ""
   attr :border, :string, values: @colors, default: "white", doc: ""
@@ -89,7 +89,7 @@ defmodule MishkaChelekom.Button do
 
   @doc type: :component
   attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
-  attr :variant, :string, values: @variants, default: "default", doc: ""
+  attr :variant, :string, values: @variants, default: "default", doc: "Determines the style"
   attr :type, :string, values: ["button", "submit", "reset", nil], default: nil, doc: ""
   attr :color, :string, default: "white", doc: ""
   attr :rounded, :string, default: "large", doc: ""
@@ -141,7 +141,7 @@ defmodule MishkaChelekom.Button do
   end
 
   attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
-  attr :variant, :string, values: @variants, default: "default", doc: ""
+  attr :variant, :string, values: @variants, default: "default", doc: "Determines the style"
   attr :color, :string, default: "white", doc: ""
   attr :rounded, :string, default: "large", doc: ""
   attr :value, :string, default: "", doc: ""
@@ -184,7 +184,7 @@ defmodule MishkaChelekom.Button do
   attr :navigate, :string, doc: ""
   attr :patch, :string, doc: ""
   attr :href, :string, doc: ""
-  attr :variant, :string, values: @variants, default: "default", doc: ""
+  attr :variant, :string, values: @variants, default: "default", doc: "Determines the style"
   attr :color, :string, values: @colors, default: "white", doc: ""
   attr :rounded, :string, values: @sizes ++ ["full", "none"], default: "large", doc: ""
   attr :size, :string, default: "large", doc: ""

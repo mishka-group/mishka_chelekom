@@ -47,7 +47,7 @@ defmodule MishkaChelekom.Alert do
   attr :title, :string, default: nil
   attr :kind, :atom, values: @kind_typs, doc: "used for styling and flash lookup"
   attr :rest, :global, doc: "the arbitrary HTML attributes to add to the flash container"
-  attr :variant, :string, values: @variants, default: "default", doc: ""
+  attr :variant, :string, values: @variants, default: "default", doc: "Determines the style"
   attr :position, :string, values: @positions ++ [nil], default: nil, doc: ""
   attr :width, :string, values: @sizes ++ ["full"], default: "full", doc: ""
   attr :size, :string, values: @sizes, default: "medium", doc: ""
@@ -149,7 +149,7 @@ defmodule MishkaChelekom.Alert do
   attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
   attr :title, :string, default: nil
   attr :kind, :atom, values: @kind_typs, doc: "used for styling and flash lookup"
-  attr :variant, :string, values: @variants, default: "default", doc: ""
+  attr :variant, :string, values: @variants, default: "default", doc: "Determines the style"
   attr :position, :string, values: @positions ++ [nil], default: nil, doc: ""
   attr :width, :string, values: @sizes ++ ["full"], default: "full", doc: ""
   attr :size, :string, values: @sizes, default: "medium", doc: ""

@@ -29,7 +29,7 @@ defmodule MishkaChelekom.Toast do
   attr :id, :string, required: true, doc: "A unique identifier is used to manage state and interaction"
   attr :size, :string, default: "large", doc: ""
   attr :fixed, :boolean, default: true, doc: ""
-  attr :variant, :string, values: @variants, default: "default", doc: ""
+  attr :variant, :string, values: @variants, default: "default", doc: "Determines the style"
   attr :color, :string, values: @colors, default: "white", doc: ""
   attr :border, :string, default: "extra_small", doc: ""
   attr :rounded, :string, default: "medium", doc: ""

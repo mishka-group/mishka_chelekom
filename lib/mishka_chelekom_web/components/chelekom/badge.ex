@@ -45,7 +45,7 @@ defmodule MishkaChelekom.Badge do
   attr :variant, :string,
     values: ["default", "outline", "transparent", "unbordered", "shadow"],
     default: "default",
-    doc: ""
+    doc: "Determines the style"
 
   attr :size, :string, default: "extra_small", doc: ""
   attr :rounded, :string, values: @sizes ++ ["full", "none"], default: "small", doc: ""

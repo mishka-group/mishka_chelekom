@@ -8,7 +8,7 @@ defmodule MishkaChelekom.TableContent do
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :title, :string, default: nil, doc: ""
   attr :color, :string, default: "white", doc: ""
-  attr :variant, :string, default: "default", doc: ""
+  attr :variant, :string, default: "default", doc: "Determines the style"
   attr :space, :string, default: nil, doc: ""
   attr :animated, :boolean, default: false, doc: ""
   attr :padding, :string, default: nil, doc: ""

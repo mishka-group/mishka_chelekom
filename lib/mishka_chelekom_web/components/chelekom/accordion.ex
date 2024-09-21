@@ -32,7 +32,7 @@ defmodule MishkaChelekom.Accordion do
   @doc type: :component
   attr :id, :string, required: true, doc: "A unique identifier is used to manage state and interaction"
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
-  attr :variant, :string, values: @variants, default: "default", doc: ""
+  attr :variant, :string, values: @variants, default: "default", doc: "Determines the style"
   attr :space, :string, values: @sizes, default: "small", doc: ""
   attr :color, :string, values: @colors, default: "white", doc: ""
   attr :border, :string, default: "transparent", doc: ""
@@ -143,7 +143,7 @@ defmodule MishkaChelekom.Accordion do
   attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
   attr :name, :string, default: nil, doc: ""
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
-  attr :variant, :string, values: @variants, default: "default", doc: ""
+  attr :variant, :string, values: @variants, default: "default", doc: "Determines the style"
   attr :space, :string, values: @sizes, default: "small", doc: ""
   attr :color, :string, default: "white", doc: ""
   attr :border, :string, default: "transparent", doc: ""

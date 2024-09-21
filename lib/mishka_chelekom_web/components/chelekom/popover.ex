@@ -134,7 +134,7 @@ defmodule MishkaChelekom.Popover do
   attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
   attr :inline, :boolean, default: false, doc: ""
   attr :position, :string, default: "top", doc: ""
-  attr :variant, :string, values: @variants, default: "shadow", doc: ""
+  attr :variant, :string, values: @variants, default: "shadow", doc: "Determines the style"
   attr :color, :string, values: @colors, default: "white", doc: ""
   attr :rounded, :string, default: nil, doc: ""
   attr :size, :string, default: nil, doc: ""

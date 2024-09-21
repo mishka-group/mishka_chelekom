@@ -13,7 +13,7 @@ defmodule MishkaChelekom.SpeedDial do
   attr :rounded, :string, default: "full", doc: ""
   attr :size, :string, default: "medium", doc: ""
   attr :color, :string, default: "primary", doc: ""
-  attr :variant, :string, default: "default", doc: ""
+  attr :variant, :string, default: "default", doc: "Determines the style"
   attr :space, :string, default: "extra_small", doc: ""
   attr :width, :string, default: "fit", doc: ""
   attr :border, :string, default: "extra_small", doc: ""
@@ -32,7 +32,7 @@ defmodule MishkaChelekom.SpeedDial do
     attr :icon_class, :string
     attr :content_class, :string
     attr :color, :string
-    attr :variant, :string
+    attr :variant, :string, doc: "Determines the style"
     attr :icon_position, :string, doc: "end, start"
   end
 
@@ -125,7 +125,7 @@ defmodule MishkaChelekom.SpeedDial do
   attr :patch, :string, default: nil, doc: ""
   attr :href, :string, default: nil, doc: ""
   attr :color, :string, default: "primary", doc: ""
-  attr :variant, :string, default: "default", doc: ""
+  attr :variant, :string, default: "default", doc: "Determines the style"
   attr :icon, :string, default: nil, doc: ""
   attr :icon_class, :string, default: nil, doc: ""
   attr :content_class, :string, default: nil, doc: ""

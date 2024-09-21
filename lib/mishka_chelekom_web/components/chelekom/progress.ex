@@ -23,7 +23,7 @@ defmodule MishkaChelekom.Progress do
   attr :value, :integer, default: nil, doc: ""
   attr :variation, :string, values: ["horizontal", "vertical"], default: "horizontal", doc: ""
   attr :color, :string, values: @colors, default: "white", doc: ""
-  attr :variant, :string, values: @variants, default: "default", doc: ""
+  attr :variant, :string, values: @variants, default: "default", doc: "Determines the style"
   attr :size, :string, values: @sizes, default: "small", doc: ""
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :rest, :global, doc: ""
@@ -58,7 +58,7 @@ defmodule MishkaChelekom.Progress do
   attr :variation, :string, values: ["horizontal", "vertical"], default: "horizontal", doc: ""
   attr :color, :string, values: @colors, default: "white", doc: ""
   attr :rounded, :string, default: "none", doc: ""
-  attr :variant, :string, values: @variants, default: "default", doc: ""
+  attr :variant, :string, values: @variants, default: "default", doc: "Determines the style"
   attr :rest, :global, doc: ""
 
   def progress_section(assigns) do

@@ -45,7 +45,7 @@ defmodule MishkaChelekom.Pagination do
   attr :space, :string, default: "gap-3", doc: ""
   attr :color, :string, values: @colors, default: "white", doc: ""
   attr :rounded, :string, values: @sizes ++ ["full", "none"], default: "small", doc: ""
-  attr :variant, :string, values: @variants, default: "default", doc: ""
+  attr :variant, :string, values: @variants, default: "default", doc: "Determines the style"
   attr :separator, :string, default: "hero-ellipsis-horizontal", doc: ""
   attr :next_label, :string, default: "hero-chevron-right", doc: ""
   attr :previous_label, :string, default: "hero-chevron-left", doc: ""

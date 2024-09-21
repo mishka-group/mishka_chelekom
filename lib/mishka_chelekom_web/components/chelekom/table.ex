@@ -5,7 +5,7 @@ defmodule MishkaChelekom.Table do
   @doc type: :component
   attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
-  attr :variant, :string, default: nil, doc: ""
+  attr :variant, :string, default: nil, doc: "Determines the style"
   attr :rounded, :string, default: nil, doc: ""
   attr :padding, :string, default: "small", doc: ""
   attr :text_size, :string, default: "small", doc: ""

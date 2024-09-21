@@ -7,7 +7,7 @@ defmodule MishkaChelekom.FileField do
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :label_class, :string, default: nil, doc: ""
   attr :color, :string, default: "primary", doc: ""
-  attr :variant, :string, default: "default", doc: ""
+  attr :variant, :string, default: "default", doc: "Determines the style"
   attr :border, :string, default: "extra_small", doc: ""
   attr :rounded, :string, default: "small", doc: ""
   attr :live, :boolean, default: false, doc: ""
