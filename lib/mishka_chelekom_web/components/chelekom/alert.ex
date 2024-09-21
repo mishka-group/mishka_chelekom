@@ -1,4 +1,41 @@
 defmodule MishkaChelekom.Alert do
+  @moduledoc """
+  A collection of alert components and helper functions for managing and displaying alerts
+  in a **Phoenix LiveView** application.
+
+  This module provides a set of customizable components for rendering various types of alerts,
+  such as information, warning, and error messages. It also includes functions to show and hide
+  alerts with smooth transition effects.
+
+  ## Components
+
+    - `flash/1`: Renders a flash notice with support for different styles and sizes.
+    - `flash_group/1`: Renders a group of flash messages with predefined content.
+    - `alert/1`: Renders a generic alert component with customizable styles and icons.
+
+  ## Functions
+
+    - `show_alert/2`: Displays an alert element using a defined transition effect.
+    - `hide_alert/2`: Hides an alert element using a defined transition effect.
+
+  ## Configuration
+
+  The module offers various configuration options through attributes and slots to allow
+  fine-grained control over the appearance and behavior of alerts. Attributes like `variant`,
+  `kind`, `position`, and `rounded` can be used to modify the styling, while slots provide
+  flexibility in rendering custom content within alerts.
+
+  ## Usage
+
+  Use the provided components in your LiveView templates to display notifications, warnings,
+  and other messages in a visually consistent manner across your application.
+
+  ### Example
+
+  ```elixir
+  ..example...
+  ```
+  """
   use Phoenix.Component
   import MishkaChelekomComponents
   import MishkaChelekomWeb.Gettext
@@ -66,7 +103,7 @@ defmodule MishkaChelekom.Alert do
     <div
       :if={msg = render_slot(@inner_block) || Phoenix.Flash.get(@flash, @kind)}
       id={@id}
-      phx-click={JS.push("lv:clear-flash", value: %{key: @kind}) |> hide("##{@id}")}
+      phx-click={JS.push("lv:clear-flash", value: %{key: @kind}) |> hide_alert("##{@id}")}
       role="alert"
       class={[
         "z-50 px-2 py-1.5",
@@ -117,8 +154,8 @@ defmodule MishkaChelekom.Alert do
         id="client-error"
         kind={:error}
         title={gettext("We can't find the internet")}
-        phx-disconnected={show(".phx-client-error #client-error")}
-        phx-connected={hide("#client-error")}
+        phx-disconnected={show_alert(".phx-client-error #client-error")}
+        phx-connected={hide_alert("#client-error")}
         hidden
       >
         <%= gettext("Attempting to reconnect") %>
@@ -129,8 +166,8 @@ defmodule MishkaChelekom.Alert do
         id="server-error"
         kind={:error}
         title={gettext("Something went wrong!")}
-        phx-disconnected={show(".phx-server-error #server-error")}
-        phx-connected={hide("#server-error")}
+        phx-disconnected={show_alert(".phx-server-error #server-error")}
+        phx-connected={hide_alert("#server-error")}
         hidden
       >
         <%= gettext("Hang in there while we get back on track") %>
@@ -404,7 +441,36 @@ defmodule MishkaChelekom.Alert do
 
   ## JS Commands
 
-  def show(js \\ %JS{}, selector) do
+  @doc """
+  Displays an alert element by applying a transition effect.
+
+  ## Parameters
+
+    - `js`: (optional) An existing `Phoenix.LiveView.JS` structure to apply transformations on.
+    Defaults to a new `%JS{}`.
+    - `selector`: A string representing the CSS selector of the alert element to be shown.
+
+  ## Returns
+
+    - A `Phoenix.LiveView.JS` structure with commands to show the alert element with a
+    smooth transition effect.
+
+  ## Transition Details
+
+    - The element transitions from an initial state of reduced opacity and scale
+    (`opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95`) to full opacity and scale
+    (`opacity-100 translate-y-0 sm:scale-100`) over a duration of 300 milliseconds.
+
+  ## Example
+
+    ```elixir
+    show_alert(%JS{}, "#alert-box")
+    ```
+
+  This example will show the alert element with the ID `alert-box` using the defined transition effect.
+  """
+
+  def show_alert(js \\ %JS{}, selector) do
     JS.show(js,
       to: selector,
       time: 300,
@@ -415,7 +481,36 @@ defmodule MishkaChelekom.Alert do
     )
   end
 
-  def hide(js \\ %JS{}, selector) do
+  @doc """
+  Hides an alert element by applying a transition effect.
+
+  ## Parameters
+
+    - `js`: (optional) An existing `Phoenix.LiveView.JS` structure to apply transformations on.
+    Defaults to a new `%JS{}`.
+    - `selector`: A string representing the CSS selector of the alert element to be hidden.
+
+  ## Returns
+
+    - A `Phoenix.LiveView.JS` structure with commands to hide the alert element with
+    a smooth transition effect.
+
+  ## Transition Details
+
+    - The element transitions from full opacity and scale (`opacity-100 translate-y-0 sm:scale-100`)
+    to reduced opacity and scale (`opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95`)
+    over a duration of 200 milliseconds.
+
+  ## Example
+
+    ```elixir
+    hide_alert(%JS{}, "#alert-box")
+    ```
+
+  This example will hide the alert element with the ID `alert-box` using the defined transition effect.
+  """
+
+  def hide_alert(js \\ %JS{}, selector) do
     JS.hide(js,
       to: selector,
       time: 200,
