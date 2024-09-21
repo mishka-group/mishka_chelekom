@@ -23,7 +23,7 @@ defmodule MishkaChelekom.Dropdown do
 
   @doc type: :component
   attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
-  attr :class, :string, default: nil, doc: ""
+  attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :width, :string, default: "w-fit", doc: ""
   attr :position, :string, default: "bottom", doc: ""
   attr :relative, :string, default: nil, doc: ""
@@ -56,7 +56,7 @@ defmodule MishkaChelekom.Dropdown do
 
   attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
   attr :trigger_id, :string, default: nil, doc: ""
-  attr :class, :string, default: nil, doc: ""
+  attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   slot :inner_block, required: false, doc: ""
   attr :rest, :global, doc: ""
 
@@ -89,7 +89,7 @@ defmodule MishkaChelekom.Dropdown do
   attr :font_weight, :string, default: "font-normal", doc: ""
   attr :padding, :string, default: "none", doc: ""
   attr :border, :string, default: "extra_small", doc: ""
-  attr :class, :string, default: nil, doc: ""
+  attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :rest, :global, doc: ""
   slot :inner_block, required: false, doc: ""
 

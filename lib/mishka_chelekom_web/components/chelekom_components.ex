@@ -118,7 +118,7 @@ defmodule MishkaChelekomComponents do
       <.icon name="hero-arrow-path" class="ml-1 w-3 h-3 animate-spin" />
   """
   attr :name, :string, required: true
-  attr :class, :any, default: nil
+  attr :class, :any, default: nil, doc: "Custom CSS class for additional styling"
 
   def icon(%{name: "hero-" <> _, class: class} = assigns) when is_list(class) do
     ~H"""

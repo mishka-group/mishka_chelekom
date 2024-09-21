@@ -41,13 +41,13 @@ defmodule MishkaChelekom.Navbar do
   attr :space, :string, default: nil, doc: ""
   attr :font_weight, :string, default: "font-normal", doc: ""
   attr :padding, :string, default: "small", doc: ""
-  attr :class, :string, default: nil, doc: ""
+  attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :rest, :global, doc: ""
 
   slot :inner_block, required: false, doc: ""
 
   slot :list, required: true do
-    attr :class, :string
+    attr :class, :string, doc: "Custom CSS class for additional styling"
     attr :padding, :string
     attr :icon, :string
     attr :icon_class, :string

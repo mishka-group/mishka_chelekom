@@ -5,7 +5,7 @@ defmodule MishkaChelekom.Carousel do
 
   @doc type: :component
   attr :id, :string, required: true, doc: "A unique identifier is used to manage state and interaction"
-  attr :class, :string, default: nil, doc: ""
+  attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :overlay, :string, default: "dark", doc: ""
   attr :size, :string, default: "large", doc: ""
   attr :padding, :string, default: "medium", doc: ""
@@ -28,7 +28,7 @@ defmodule MishkaChelekom.Carousel do
     attr :description_class, :string
     attr :wrapper_class, :string
     attr :content_position, :string
-    attr :class, :string
+    attr :class, :string, doc: "Custom CSS class for additional styling"
     attr :active, :boolean, doc: ""
   end
 

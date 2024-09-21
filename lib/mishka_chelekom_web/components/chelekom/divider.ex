@@ -28,7 +28,7 @@ defmodule MishkaChelekom.Divider do
   attr :variation, :string, values: ["horizontal", "vertical"], default: "horizontal", doc: ""
 
   slot :text, required: false do
-    attr :class, :string
+    attr :class, :string, doc: "Custom CSS class for additional styling"
     attr :color, :string
     attr :size, :string
     attr :position, :string
@@ -36,14 +36,14 @@ defmodule MishkaChelekom.Divider do
 
   slot :icon, required: false do
     attr :name, :string, required: true
-    attr :class, :string
+    attr :class, :string, doc: "Custom CSS class for additional styling"
     attr :icon_class, :string
     attr :color, :string
     attr :size, :string
     attr :position, :string
   end
 
-  attr :class, :string, default: nil, doc: ""
+  attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :rest, :global
 
   def divider(%{variation: "vertical"} = assigns) do
@@ -140,7 +140,7 @@ defmodule MishkaChelekom.Divider do
   attr :margin, :string, default: "none", doc: ""
 
   slot :text, required: false do
-    attr :class, :string
+    attr :class, :string, doc: "Custom CSS class for additional styling"
     attr :color, :string
     attr :size, :string
     attr :position, :string
@@ -148,13 +148,13 @@ defmodule MishkaChelekom.Divider do
 
   slot :icon, required: false do
     attr :name, :string, required: true
-    attr :class, :string
+    attr :class, :string, doc: "Custom CSS class for additional styling"
     attr :icon_class, :string
     attr :color, :string
     attr :size, :string
   end
 
-  attr :class, :string, default: nil, doc: ""
+  attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :rest, :global
 
   def hr(assigns) do

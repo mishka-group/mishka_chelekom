@@ -32,7 +32,7 @@ defmodule MishkaChelekom.Video do
   attr :caption_bakcground, :string, default: "dark", doc: ""
   attr :caption_opacity, :string, default: "solid", doc: ""
   attr :ratio, :string, default: "auto", doc: ""
-  attr :class, :string, default: nil, doc: ""
+  attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :rest, :global, include: ~w(controls autoplay loop muted preload), doc: ""
 
   slot :source, required: true do

@@ -13,7 +13,7 @@ defmodule MishkaChelekom.Stepper do
   attr :max_width, :string, default: nil, doc: ""
   attr :seperator_size, :string, default: "extra_small", doc: ""
   attr :vertical, :boolean, default: false, doc: ""
-  attr :class, :string, default: nil, doc: ""
+  attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :rest, :global, doc: ""
 
   slot :inner_block, required: false, doc: ""
@@ -62,7 +62,7 @@ defmodule MishkaChelekom.Stepper do
   end
 
   attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
-  attr :class, :string, default: nil
+  attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :size, :string, default: "small"
 
   attr :step, :string,

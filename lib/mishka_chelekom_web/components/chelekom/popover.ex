@@ -54,7 +54,7 @@ defmodule MishkaChelekom.Popover do
 
   @doc type: :component
   attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
-  attr :class, :string, default: nil, doc: ""
+  attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :inline, :boolean, default: false, doc: ""
   attr :clickable, :boolean, default: false, doc: ""
   attr :rest, :global, doc: ""
@@ -98,7 +98,7 @@ defmodule MishkaChelekom.Popover do
 
   attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
   attr :trigger_id, :string, default: nil, doc: ""
-  attr :class, :string, default: nil, doc: ""
+  attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :inline, :boolean, default: false, doc: ""
   slot :inner_block, required: false, doc: ""
   attr :rest, :global, doc: ""
@@ -143,7 +143,7 @@ defmodule MishkaChelekom.Popover do
   attr :text_position, :string, default: "start", doc: ""
   attr :font_weight, :string, default: "font-normal", doc: ""
   attr :padding, :string, default: "none", doc: ""
-  attr :class, :string, default: nil, doc: ""
+  attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :rest, :global, doc: ""
   slot :inner_block, required: false, doc: ""
 

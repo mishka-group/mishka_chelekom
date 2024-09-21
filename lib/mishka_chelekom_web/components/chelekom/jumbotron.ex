@@ -32,7 +32,7 @@ defmodule MishkaChelekom.Jumbotron do
   attr :space, :string, default: nil, doc: ""
   attr :font_weight, :string, default: "font-normal", doc: ""
   attr :padding, :string, default: "none", doc: ""
-  attr :class, :string, default: nil, doc: ""
+  attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :rest, :global, doc: ""
 
   slot :inner_block, required: false, doc: ""

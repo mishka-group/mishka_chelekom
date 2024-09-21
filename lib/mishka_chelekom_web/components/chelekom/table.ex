@@ -4,7 +4,7 @@ defmodule MishkaChelekom.Table do
 
   @doc type: :component
   attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
-  attr :class, :string, default: nil, doc: ""
+  attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :variant, :string, default: nil, doc: ""
   attr :rounded, :string, default: nil, doc: ""
   attr :padding, :string, default: "small", doc: ""
@@ -23,13 +23,13 @@ defmodule MishkaChelekom.Table do
   slot :inner_block, required: false, doc: ""
 
   slot :header do
-    attr :class, :any
+    attr :class, :any, doc: "Custom CSS class for additional styling"
     attr :icon, :any
     attr :icon_class, :any
   end
 
   slot :footer do
-    attr :class, :any
+    attr :class, :any, doc: "Custom CSS class for additional styling"
     attr :icon, :any
     attr :icon_class, :any
   end
@@ -106,7 +106,7 @@ defmodule MishkaChelekom.Table do
   end
 
   attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
-  attr :class, :string, default: nil, doc: ""
+  attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :scope, :string, default: nil, doc: ""
   attr :rest, :global, doc: ""
   slot :inner_block, required: false, doc: ""
@@ -120,7 +120,7 @@ defmodule MishkaChelekom.Table do
   end
 
   attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
-  attr :class, :string, default: nil, doc: ""
+  attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :rest, :global, doc: ""
   slot :inner_block, required: false, doc: ""
 
@@ -133,7 +133,7 @@ defmodule MishkaChelekom.Table do
   end
 
   attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
-  attr :class, :string, default: nil, doc: ""
+  attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :rest, :global, doc: ""
   slot :inner_block, required: false, doc: ""
 

@@ -34,7 +34,7 @@ defmodule MishkaChelekom.Footer do
   attr :space, :string, default: nil, doc: ""
   attr :font_weight, :string, default: "font-normal", doc: ""
   attr :padding, :string, default: "none", doc: ""
-  attr :class, :string, default: nil, doc: ""
+  attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :rest, :global, doc: ""
 
   slot :inner_block, required: false, doc: ""
@@ -63,7 +63,7 @@ defmodule MishkaChelekom.Footer do
     """
   end
 
-  attr :class, :string, default: nil, doc: ""
+  attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :font_weight, :string, default: "font-normal", doc: ""
   attr :text_position, :string, default: nil, doc: ""
   attr :space, :string, default: nil, doc: ""

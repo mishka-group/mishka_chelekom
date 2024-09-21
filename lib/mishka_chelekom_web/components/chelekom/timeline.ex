@@ -7,7 +7,7 @@ defmodule MishkaChelekom.Timeline do
   attr :color, :string, default: "silver", doc: ""
   attr :hide_last_line, :boolean, default: false, doc: ""
   attr :gapped_sections, :boolean, default: false, doc: ""
-  attr :class, :string, default: nil, doc: ""
+  attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :rest, :global, doc: ""
   attr :horizontal, :boolean, default: false, doc: ""
 
@@ -53,7 +53,7 @@ defmodule MishkaChelekom.Timeline do
   attr :time, :string, default: nil, doc: ""
   attr :description, :string, default: nil, doc: ""
   attr :horizontal, :boolean, default: false, doc: ""
-  attr :class, :string, default: nil, doc: ""
+  attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :rest, :global, doc: ""
 
   slot :inner_block, required: false, doc: ""

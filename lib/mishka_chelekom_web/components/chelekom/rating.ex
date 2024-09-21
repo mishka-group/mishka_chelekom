@@ -5,7 +5,7 @@ defmodule MishkaChelekom.Rating do
 
   @doc type: :component
   attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
-  attr :class, :string, default: nil, doc: ""
+  attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :gap, :string, default: "small", doc: ""
   attr :size, :string, default: "small", doc: ""
   attr :color, :string, default: "warning", doc: ""

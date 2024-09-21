@@ -4,7 +4,7 @@ defmodule MishkaChelekom.CheckboxField do
 
   @doc type: :component
   attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
-  attr :class, :string, default: nil, doc: ""
+  attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :color, :string, default: "primary", doc: ""
   attr :border, :string, default: "extra_small", doc: ""
   attr :rounded, :string, default: "small", doc: ""
@@ -72,7 +72,7 @@ defmodule MishkaChelekom.CheckboxField do
   end
 
   attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
-  attr :class, :string, default: nil, doc: ""
+  attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :color, :string, default: "primary", doc: ""
   attr :border, :string, default: "extra_small", doc: ""
   attr :rounded, :string, default: "small", doc: ""
@@ -141,7 +141,7 @@ defmodule MishkaChelekom.CheckboxField do
     """
   end
 
-  attr :class, :any, default: nil
+  attr :class, :any, default: nil, doc: "Custom CSS class for additional styling"
   attr :for, :string, default: nil
   slot :inner_block, required: true
   attr :rest, :global

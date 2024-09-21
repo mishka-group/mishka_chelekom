@@ -18,7 +18,7 @@ defmodule MishkaChelekom.Breadcrumb do
   ]
 
   @doc type: :component
-  attr :class, :string, default: nil, doc: ""
+  attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
   attr :separator, :string, default: "hero-chevron-right", doc: ""
   attr :color, :string, values: @colors, default: "dark", doc: ""
@@ -28,7 +28,7 @@ defmodule MishkaChelekom.Breadcrumb do
     attr :icon, :string
     attr :link, :string
     attr :separator, :string
-    attr :class, :string
+    attr :class, :string, doc: "Custom CSS class for additional styling"
   end
 
   attr :rest, :global
@@ -66,7 +66,7 @@ defmodule MishkaChelekom.Breadcrumb do
   end
 
   attr :name, :string
-  attr :class, :string, default: nil, doc: ""
+  attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
 
   defp separator(%{name: "hero-" <> _icon_name} = assigns) do
     ~H"""

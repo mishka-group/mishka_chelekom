@@ -5,7 +5,7 @@ defmodule MishkaChelekom.Skeleton do
 
   @doc type: :component
   attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
-  attr :class, :string, default: nil, doc: ""
+  attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :color, :string, default: "silver", doc: ""
   attr :height, :string, default: "extra_small", doc: ""
   attr :width, :string, default: "full", doc: ""

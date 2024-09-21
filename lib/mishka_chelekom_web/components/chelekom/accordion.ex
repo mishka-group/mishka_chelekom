@@ -31,7 +31,7 @@ defmodule MishkaChelekom.Accordion do
 
   @doc type: :component
   attr :id, :string, required: true, doc: "A unique identifier is used to manage state and interaction"
-  attr :class, :string, default: nil, doc: ""
+  attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :variant, :string, values: @variants, default: "default", doc: ""
   attr :space, :string, values: @sizes, default: "small", doc: ""
   attr :color, :string, values: @colors, default: "white", doc: ""
@@ -46,7 +46,7 @@ defmodule MishkaChelekom.Accordion do
     attr :title, :string, required: true
     attr :description, :string
     attr :icon, :string
-    attr :class, :string
+    attr :class, :string, doc: "Custom CSS class for additional styling"
     attr :image, :string
     attr :hover, :string
     attr :image_class, :string
@@ -142,7 +142,7 @@ defmodule MishkaChelekom.Accordion do
   @doc type: :component
   attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
   attr :name, :string, default: nil, doc: ""
-  attr :class, :string, default: nil, doc: ""
+  attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :variant, :string, values: @variants, default: "default", doc: ""
   attr :space, :string, values: @sizes, default: "small", doc: ""
   attr :color, :string, default: "white", doc: ""
@@ -156,7 +156,7 @@ defmodule MishkaChelekom.Accordion do
     attr :title, :string, required: true
     attr :description, :string
     attr :icon, :string
-    attr :class, :string
+    attr :class, :string, doc: "Custom CSS class for additional styling"
     attr :image, :string
     attr :image_class, :string
     attr :icon_class, :string
@@ -220,7 +220,7 @@ defmodule MishkaChelekom.Accordion do
   end
 
   attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
-  attr :class, :string, default: nil, doc: ""
+  attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :item, :map
   attr :position, :string, values: ["left", "right"]
   attr :chevron_icon, :string

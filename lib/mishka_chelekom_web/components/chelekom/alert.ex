@@ -54,7 +54,7 @@ defmodule MishkaChelekom.Alert do
   attr :rounded, :string, values: @sizes ++ ["full", "none"], default: "small", doc: ""
   attr :font_weight, :string, default: "font-normal", doc: ""
   attr :icon, :any, default: "hero-chat-bubble-bottom-center-text", doc: ""
-  attr :class, :string, default: nil, doc: ""
+  attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
 
   slot :inner_block, doc: "the optional inner block that renders the flash message"
 
@@ -156,7 +156,7 @@ defmodule MishkaChelekom.Alert do
   attr :rounded, :string, values: @sizes ++ ["full", "none"], default: "small", doc: ""
   attr :font_weight, :string, default: "font-normal", doc: ""
   attr :icon, :any, default: "hero-chat-bubble-bottom-center-text", doc: ""
-  attr :class, :string, default: nil, doc: ""
+  attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
 
   slot :inner_block, doc: "the optional inner block that renders the flash message"
   attr :rest, :global, doc: "the arbitrary HTML attributes to add to the flash container"

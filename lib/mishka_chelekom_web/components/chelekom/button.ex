@@ -63,7 +63,7 @@ defmodule MishkaChelekom.Button do
   attr :border, :string, values: @colors, default: "white", doc: ""
   attr :rounded, :string, values: @sizes ++ ["full", "none"], default: "small", doc: ""
   attr :size, :string, default: "large", doc: ""
-  attr :class, :string, default: nil, doc: ""
+  attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :rest, :global, doc: ""
   slot :inner_block, required: false, doc: ""
 
@@ -102,7 +102,7 @@ defmodule MishkaChelekom.Button do
   attr :font_weight, :string, default: "font-normal", doc: ""
   attr :indicator_class, :string, default: nil, doc: ""
   attr :indicator_size, :string, default: nil, doc: ""
-  attr :class, :string, default: nil, doc: ""
+  attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
 
   attr :rest, :global,
     include:
@@ -151,7 +151,7 @@ defmodule MishkaChelekom.Button do
   attr :content_position, :string, default: "center", doc: ""
   attr :display, :string, default: "inline-block", doc: ""
   attr :font_weight, :string, default: "font-normal", doc: ""
-  attr :class, :string, default: nil, doc: ""
+  attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :rest, :global, doc: ""
 
   def input_button(assigns) do
@@ -188,7 +188,7 @@ defmodule MishkaChelekom.Button do
   attr :color, :string, values: @colors, default: "white", doc: ""
   attr :rounded, :string, values: @sizes ++ ["full", "none"], default: "large", doc: ""
   attr :size, :string, default: "large", doc: ""
-  attr :class, :string, default: nil, doc: ""
+  attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :display, :string, default: "inline-flex", doc: ""
   attr :icon, :string, default: nil, doc: ""
   attr :icon_class, :string, default: nil, doc: ""
@@ -284,7 +284,7 @@ defmodule MishkaChelekom.Button do
   end
 
   attr :position, :string, default: "none"
-  attr :class, :string, default: nil
+  attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :size, :string
   attr :rest, :global
 

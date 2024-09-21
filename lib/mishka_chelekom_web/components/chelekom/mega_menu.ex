@@ -39,12 +39,12 @@ defmodule MishkaChelekom.MegaMenu do
   attr :title_class, :string, default: nil, doc: ""
   attr :border, :string, default: "extra_small", doc: ""
   attr :top_gap, :string, default: "extra_small", doc: ""
-  attr :class, :string, default: nil, doc: ""
+  attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :rest, :global, doc: ""
   slot :inner_block, required: false, doc: ""
 
   slot :trigger, required: false do
-    attr :class, :string
+    attr :class, :string, doc: "Custom CSS class for additional styling"
   end
 
   def mega_menu(assigns) do

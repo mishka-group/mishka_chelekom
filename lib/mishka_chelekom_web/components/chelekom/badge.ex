@@ -52,7 +52,7 @@ defmodule MishkaChelekom.Badge do
   attr :color, :string, values: @colors, default: "white", doc: ""
   attr :font_weight, :string, default: "font-normal", doc: ""
   attr :icon, :string, default: nil, doc: ""
-  attr :class, :string, default: nil, doc: ""
+  attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :indicator_class, :string, default: nil, doc: ""
   attr :indicator_size, :string, default: nil, doc: ""
   attr :params, :map, default: %{kind: "badge"}
@@ -108,7 +108,7 @@ defmodule MishkaChelekom.Badge do
   end
 
   attr :position, :string, default: "none"
-  attr :class, :string, default: nil
+  attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :size, :string
   attr :rest, :global
 

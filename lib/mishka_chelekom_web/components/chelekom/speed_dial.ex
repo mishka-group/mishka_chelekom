@@ -6,7 +6,7 @@ defmodule MishkaChelekom.SpeedDial do
 
   @doc type: :component
   attr :id, :string, required: true, doc: "A unique identifier is used to manage state and interaction"
-  attr :class, :string, default: nil, doc: ""
+  attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :action_position, :string, default: "bottom-end", doc: ""
   attr :position_size, :string, default: "large", doc: ""
   attr :wrapper_position, :string, default: "top", doc: ""
@@ -25,7 +25,7 @@ defmodule MishkaChelekom.SpeedDial do
 
   slot :item, required: false do
     attr :icon, :string
-    attr :class, :string
+    attr :class, :string, doc: "Custom CSS class for additional styling"
     attr :navigate, :string, doc: ""
     attr :patch, :string, doc: ""
     attr :href, :string, doc: ""
@@ -37,7 +37,7 @@ defmodule MishkaChelekom.SpeedDial do
   end
 
   slot :trigger_content, required: false do
-    attr :class, :string
+    attr :class, :string, doc: "Custom CSS class for additional styling"
   end
 
   slot :inner_block, required: false, doc: ""

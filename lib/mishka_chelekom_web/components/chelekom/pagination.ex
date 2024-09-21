@@ -51,7 +51,7 @@ defmodule MishkaChelekom.Pagination do
   attr :previous_label, :string, default: "hero-chevron-left", doc: ""
   attr :first_label, :string, default: "hero-chevron-double-left", doc: ""
   attr :last_label, :string, default: "hero-chevron-double-right", doc: ""
-  attr :class, :string, default: nil, doc: ""
+  attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :params, :map, default: %{}
   slot :start_items, required: false
   slot :end_items, required: false
@@ -135,7 +135,7 @@ defmodule MishkaChelekom.Pagination do
   end
 
   attr :name, :string
-  attr :class, :string, default: nil, doc: ""
+  attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
 
   defp icon_or_text(%{name: "hero-" <> _icon_name} = assigns) do
     ~H"""

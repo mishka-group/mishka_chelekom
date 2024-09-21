@@ -51,7 +51,7 @@ defmodule MishkaChelekom.Card do
   attr :space, :string, default: nil, doc: ""
   attr :font_weight, :string, default: "font-normal", doc: ""
   attr :padding, :string, default: nil, doc: ""
-  attr :class, :string, default: nil, doc: ""
+  attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :rest, :global, doc: ""
   slot :inner_block, required: false, doc: ""
 
@@ -77,7 +77,7 @@ defmodule MishkaChelekom.Card do
   end
 
   attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
-  attr :class, :string, default: nil, doc: ""
+  attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :title, :string, default: nil, doc: ""
   attr :icon, :string, default: nil, doc: ""
   attr :position, :string, values: @positions, default: "start", doc: ""
@@ -114,7 +114,7 @@ defmodule MishkaChelekom.Card do
   attr :alt, :string, doc: ""
   attr :src, :string, required: true, doc: ""
   attr :rounded, :string, values: @sizes ++ [nil], default: nil, doc: ""
-  attr :class, :string, default: nil, doc: ""
+  attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :rest, :global, doc: ""
   slot :inner_block, required: false, doc: ""
 
@@ -139,7 +139,7 @@ defmodule MishkaChelekom.Card do
   attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
   attr :space, :string, values: @sizes, default: "extra_small", doc: ""
   attr :padding, :string, values: @sizes ++ ["none"], default: "none", doc: ""
-  attr :class, :string, default: nil, doc: ""
+  attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :rest, :global, doc: ""
   slot :inner_block, required: false, doc: ""
 
@@ -160,7 +160,7 @@ defmodule MishkaChelekom.Card do
   end
 
   attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
-  attr :class, :string, default: nil, doc: ""
+  attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :padding, :string, values: @sizes ++ ["none"], default: "none", doc: ""
   attr :rest, :global, doc: ""
   slot :inner_block, required: false, doc: ""

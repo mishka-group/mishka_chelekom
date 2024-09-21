@@ -4,7 +4,7 @@ defmodule MishkaChelekom.Gallery do
   @doc type: :component
   attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
   attr :type, :string, values: ["default", "masonary", "featured"], default: "default", doc: ""
-  attr :class, :string, default: nil, doc: ""
+  attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :cols, :string, default: nil, doc: ""
   attr :gap, :string, default: nil, doc: ""
   attr :rest, :global, doc: ""
@@ -29,7 +29,7 @@ defmodule MishkaChelekom.Gallery do
   end
 
   attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
-  attr :class, :string, default: nil, doc: ""
+  attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :src, :string, default: nil, doc: ""
   attr :alt, :string, default: "", doc: ""
   attr :rounded, :string, default: "none", doc: ""

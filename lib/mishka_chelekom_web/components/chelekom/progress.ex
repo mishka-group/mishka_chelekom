@@ -25,7 +25,7 @@ defmodule MishkaChelekom.Progress do
   attr :color, :string, values: @colors, default: "white", doc: ""
   attr :variant, :string, values: @variants, default: "default", doc: ""
   attr :size, :string, values: @sizes, default: "small", doc: ""
-  attr :class, :string, default: nil, doc: ""
+  attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :rest, :global, doc: ""
   slot :inner_block
 
@@ -54,7 +54,7 @@ defmodule MishkaChelekom.Progress do
   end
 
   attr :value, :integer, default: 0, doc: ""
-  attr :class, :string, default: nil, doc: ""
+  attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :variation, :string, values: ["horizontal", "vertical"], default: "horizontal", doc: ""
   attr :color, :string, values: @colors, default: "white", doc: ""
   attr :rounded, :string, default: "none", doc: ""

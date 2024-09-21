@@ -5,7 +5,7 @@ defmodule MishkaChelekom.TableContent do
 
   @doc type: :component
   attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
-  attr :class, :string, default: nil, doc: ""
+  attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :title, :string, default: nil, doc: ""
   attr :color, :string, default: "white", doc: ""
   attr :variant, :string, default: "default", doc: ""
@@ -40,7 +40,7 @@ defmodule MishkaChelekom.TableContent do
   end
 
   attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
-  attr :class, :string, default: nil, doc: ""
+  attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :title, :string, default: nil, doc: ""
   attr :icon, :string, default: nil, doc: ""
   attr :font_weight, :string, default: "font-normal", doc: ""
@@ -64,7 +64,7 @@ defmodule MishkaChelekom.TableContent do
   end
 
   attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
-  attr :class, :string, default: nil, doc: ""
+  attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :title, :string, default: nil, doc: ""
   attr :icon, :string, default: nil, doc: ""
   attr :icon_class, :string, default: nil, doc: ""

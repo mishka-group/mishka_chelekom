@@ -96,7 +96,7 @@ defmodule MishkaChelekom.Toast do
   attr :vertical_space, :string, default: "extra_small", doc: ""
   attr :horizontal, :string, values: ["left", "right", "center"], default: "right", doc: ""
   attr :horizontal_space, :string, default: "extra_small", doc: ""
-  attr :class, :string, default: nil
+  attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :rest, :global, doc: ""
   slot :inner_block, required: false, doc: ""
 
@@ -120,7 +120,7 @@ defmodule MishkaChelekom.Toast do
 
   attr :id, :string, required: true, doc: "A unique identifier is used to manage state and interaction"
   attr :dismiss, :boolean, default: false
-  attr :class, :string, default: nil
+  attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :size, :string, default: "small"
   attr :params, :map, default: %{kind: "toast"}
 

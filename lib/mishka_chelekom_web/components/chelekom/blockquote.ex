@@ -35,7 +35,7 @@ defmodule MishkaChelekom.Blockquote do
   attr :space, :string, values: @sizes, default: "small", doc: ""
   attr :font_weight, :string, default: "font-normal", doc: ""
   attr :padding, :string, values: @sizes ++ ["none"], default: "small", doc: ""
-  attr :class, :string, default: nil, doc: ""
+  attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :icon, :string, default: "hero-quote", doc: ""
   attr :icon_class, :string, default: nil, doc: ""
 
@@ -93,7 +93,7 @@ defmodule MishkaChelekom.Blockquote do
   end
 
   attr :name, :string, required: true
-  attr :class, :list, default: nil
+  attr :class, :list, default: nil, doc: "Custom CSS class for additional styling"
 
   defp blockquote_icon(%{name: "hero-quote"} = assigns) do
     ~H"""

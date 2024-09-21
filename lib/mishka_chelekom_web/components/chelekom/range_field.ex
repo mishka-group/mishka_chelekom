@@ -4,7 +4,7 @@ defmodule MishkaChelekom.RangeField do
 
   @doc type: :component
   attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
-  attr :class, :string, default: nil, doc: ""
+  attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :label_class, :string, default: nil, doc: ""
   attr :color, :string, default: "primary", doc: ""
   attr :border, :string, default: "extra_small", doc: ""
@@ -29,7 +29,7 @@ defmodule MishkaChelekom.RangeField do
       ~w(autocomplete disabled form checked multiple readonly min max step required title autofocus)
 
   slot :range_value, required: false do
-    attr :class, :string
+    attr :class, :string, doc: "Custom CSS class for additional styling"
     attr :position, :any, required: false
   end
 
@@ -117,7 +117,7 @@ defmodule MishkaChelekom.RangeField do
   end
 
   attr :for, :string, default: nil
-  attr :class, :string, default: nil
+  attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   slot :inner_block, required: true
 
   def label(assigns) do

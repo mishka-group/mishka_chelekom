@@ -58,7 +58,7 @@ defmodule MishkaChelekom.Banner do
   attr :position_size, :string, values: @sizes ++ ["none"], default: "none", doc: ""
   attr :font_weight, :string, default: "font-normal", doc: ""
   attr :padding, :string, values: @sizes ++ ["none"], default: "extra_small", doc: ""
-  attr :class, :string, default: "", doc: "Additional CSS classes to be added to the banner."
+  attr :class, :string, default: "", doc: "Custom CSS class for additional styling"
   attr :params, :map, default: %{kind: "banner"}
   attr :rest, :global, include: ~w(right_dismiss left_dismiss), doc: ""
 
@@ -94,7 +94,7 @@ defmodule MishkaChelekom.Banner do
 
   attr :id, :string, required: true, doc: "A unique identifier is used to manage state and interaction"
   attr :dismiss, :boolean, default: false
-  attr :class, :string, default: nil
+  attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :size, :string, default: "small"
   attr :params, :map, default: %{kind: "badge"}
 

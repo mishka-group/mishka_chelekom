@@ -26,7 +26,7 @@ defmodule MishkaChelekom.Image do
   attr :decoding, :string, default: nil, doc: ""
   attr :rounded, :string, default: nil, doc: ""
   attr :shadow, :string, default: nil, doc: ""
-  attr :class, :string, default: nil, doc: ""
+  attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :rest, :global, doc: ""
 
   def image(assigns) do

@@ -31,7 +31,7 @@ defmodule MishkaChelekom.Keyboard do
   attr :size, :string, default: "small", doc: ""
   attr :rounded, :string, values: @sizes ++ ["full", "none"], default: "small", doc: ""
   attr :font_weight, :string, default: "font-semibold", doc: ""
-  attr :class, :string, default: nil, doc: ""
+  attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :rest, :global, doc: ""
 
   slot :inner_block, required: false, doc: ""

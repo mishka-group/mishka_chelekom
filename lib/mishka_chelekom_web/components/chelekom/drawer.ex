@@ -38,7 +38,7 @@ defmodule MishkaChelekom.Drawer do
   attr :position, :string, default: "left", doc: ""
   attr :space, :string, default: nil, doc: ""
   attr :padding, :string, default: "none", doc: ""
-  attr :class, :string, default: nil, doc: ""
+  attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :on_hide, JS, default: %JS{}
   attr :on_show, JS, default: %JS{}
   attr :on_hide_away, JS, default: %JS{}

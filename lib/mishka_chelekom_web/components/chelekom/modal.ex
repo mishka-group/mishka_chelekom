@@ -60,7 +60,7 @@ defmodule MishkaChelekom.Modal do
   attr :rounded, :string, values: @sizes, default: "small", doc: ""
   attr :padding, :string, values: @sizes ++ ["none"], default: "medium", doc: ""
   attr :size, :string, values: @sizes ++ ["screen"], default: "extra_large", doc: ""
-  attr :class, :string, default: nil, doc: ""
+  attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :show, :boolean, default: false
   attr :on_cancel, JS, default: %JS{}
   slot :inner_block, required: true

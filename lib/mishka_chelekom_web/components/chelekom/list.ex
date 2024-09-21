@@ -27,7 +27,7 @@ defmodule MishkaChelekom.List do
   ]
 
   attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
-  attr :class, :string, default: nil, doc: ""
+  attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :font_weight, :string, default: "font-normal", doc: ""
   attr :size, :string, default: "large", doc: ""
   attr :space, :string, values: @sizes ++ [nil], default: nil, doc: ""
@@ -61,7 +61,7 @@ defmodule MishkaChelekom.List do
   end
 
   attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
-  attr :class, :list, default: nil, doc: ""
+  attr :class, :list, default: nil, doc: "Custom CSS class for additional styling"
   attr :count, :integer, default: nil, doc: ""
   attr :count_separator, :string, default: ". ", doc: ""
   attr :icon, :string, default: nil, doc: ""
@@ -104,7 +104,7 @@ defmodule MishkaChelekom.List do
   attr :width, :string, default: "full", doc: ""
   attr :style, :string, default: "list-none", doc: ""
   attr :space, :string, values: @sizes ++ [nil], default: nil, doc: ""
-  attr :class, :string, default: nil, doc: ""
+  attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :font_weight, :string, default: "font-normal", doc: ""
   attr :rest, :global
   slot :inner_block, required: true, doc: ""
@@ -135,7 +135,7 @@ defmodule MishkaChelekom.List do
   attr :variant, :string, values: @variants, default: "filled", doc: ""
   attr :size, :string, default: "medium", doc: ""
   attr :width, :string, default: "full", doc: ""
-  attr :class, :string, default: nil, doc: ""
+  attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :space, :string, values: @sizes ++ [nil], default: nil, doc: ""
   attr :font_weight, :string, default: "font-normal", doc: ""
   attr :rest, :global
@@ -171,7 +171,7 @@ defmodule MishkaChelekom.List do
   attr :border, :string, values: @sizes ++ [nil], default: "extra_small", doc: ""
   attr :font_weight, :string, default: "font-normal", doc: ""
   attr :padding, :string, values: @sizes ++ ["none"], default: "none", doc: ""
-  attr :class, :string, default: nil, doc: ""
+  attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :rest, :global
   slot :inner_block, required: true, doc: ""
 

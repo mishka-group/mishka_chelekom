@@ -4,7 +4,7 @@ defmodule MishkaChelekom.NativeSelect do
 
   @doc type: :component
   attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
-  attr :class, :string, default: nil, doc: ""
+  attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :color, :string, default: "light", doc: ""
   attr :border, :string, default: "extra_small", doc: ""
   attr :rounded, :string, default: "small", doc: ""
@@ -93,7 +93,7 @@ defmodule MishkaChelekom.NativeSelect do
 
   attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
   attr :label, :string, default: nil
-  attr :class, :string, default: nil
+  attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :seperator, :boolean, default: nil
 
   slot :option, required: false do
@@ -120,7 +120,7 @@ defmodule MishkaChelekom.NativeSelect do
   end
 
   attr :for, :string, default: nil
-  attr :class, :string, default: nil
+  attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   slot :inner_block, required: true
 
   def label(assigns) do

@@ -31,7 +31,7 @@ defmodule MishkaChelekom.Tooltip do
   attr :font_weight, :string, default: "font-normal", doc: ""
   attr :width, :string, default: "fit", doc: ""
   attr :padding, :string, default: "small", doc: ""
-  attr :class, :string, default: nil, doc: ""
+  attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :text_position, :string, default: "center", doc: ""
   attr :text, :string, default: "", doc: ""
   attr :rest, :global, doc: ""

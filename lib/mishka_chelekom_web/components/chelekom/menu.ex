@@ -5,7 +5,7 @@ defmodule MishkaChelekom.Menu do
 
   @doc type: :component
   attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
-  attr :class, :string, default: nil, doc: ""
+  attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :menu_items, :list, default: [], doc: ""
   attr :space, :string, default: "small", doc: ""
   attr :padding, :string, default: "small", doc: ""

@@ -37,14 +37,14 @@ defmodule MishkaChelekom.Tabs do
   attr :triggers_position, :string, default: "extra_small", doc: ""
   attr :vertical, :boolean, default: false, doc: ""
   attr :placement, :string, default: "start", doc: ""
-  attr :class, :string, default: nil, doc: ""
+  attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :rest, :global, doc: ""
 
   slot :inner_block, required: false, doc: ""
 
   slot :tab, required: true do
     attr :icon, :string
-    attr :class, :string
+    attr :class, :string, doc: "Custom CSS class for additional styling"
     attr :padding, :string
     attr :icon_class, :string
     attr :icon_position, :string, doc: "end, start"
@@ -52,7 +52,7 @@ defmodule MishkaChelekom.Tabs do
   end
 
   slot :panel, required: true do
-    attr :class, :string
+    attr :class, :string, doc: "Custom CSS class for additional styling"
   end
 
   def tabs(%{vertical: true} = assigns) do
