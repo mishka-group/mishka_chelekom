@@ -96,6 +96,7 @@ defmodule MishkaChelekom.Popover do
     """
   end
 
+  @doc type: :component
   attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
   attr :trigger_id, :string, default: nil, doc: ""
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
@@ -131,6 +132,7 @@ defmodule MishkaChelekom.Popover do
     """
   end
 
+  @doc type: :component
   attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
   attr :inline, :boolean, default: false, doc: ""
   attr :position, :string, default: "top", doc: ""

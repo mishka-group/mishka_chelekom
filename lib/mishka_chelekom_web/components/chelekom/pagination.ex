@@ -134,6 +134,7 @@ defmodule MishkaChelekom.Pagination do
     """
   end
 
+  @doc type: :component
   attr :name, :string
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
 
@@ -149,6 +150,7 @@ defmodule MishkaChelekom.Pagination do
     """
   end
 
+  @doc type: :component
   attr :params, :map, default: %{}
   attr :page, :list, required: true
   attr :on_action, JS, default: %JS{}

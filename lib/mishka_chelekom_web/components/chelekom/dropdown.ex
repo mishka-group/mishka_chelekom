@@ -54,6 +54,7 @@ defmodule MishkaChelekom.Dropdown do
     """
   end
 
+  @doc type: :component
   attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
   attr :trigger_id, :string, default: nil, doc: ""
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
@@ -79,6 +80,7 @@ defmodule MishkaChelekom.Dropdown do
     """
   end
 
+  @doc type: :component
   attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
   attr :variant, :string, values: @variants, default: "shadow", doc: "Determines the style"
   attr :color, :string, values: @colors, default: "white", doc: "Determines color theme"

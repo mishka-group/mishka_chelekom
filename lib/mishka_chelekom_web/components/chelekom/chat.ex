@@ -60,6 +60,7 @@ defmodule MishkaChelekom.Chat do
     """
   end
 
+  @doc type: :component
   attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
   attr :font_weight, :string, default: "font-normal", doc: "Determines custom class for the font weight"
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"

@@ -91,6 +91,7 @@ defmodule MishkaChelekom.Badge do
     """
   end
 
+  @doc type: :component
   attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
   attr :dismiss, :boolean, default: false
   attr :icon_class, :string, default: "size-4", doc: "Determines custom class for the icon"
@@ -107,6 +108,7 @@ defmodule MishkaChelekom.Badge do
     """
   end
 
+  @doc type: :component
   attr :position, :string, default: "none"
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :size, :string

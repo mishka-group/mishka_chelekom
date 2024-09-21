@@ -65,6 +65,7 @@ defmodule MishkaChelekom.Breadcrumb do
     """
   end
 
+  @doc type: :component
   attr :name, :string
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
 

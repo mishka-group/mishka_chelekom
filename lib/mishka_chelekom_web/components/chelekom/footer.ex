@@ -63,6 +63,7 @@ defmodule MishkaChelekom.Footer do
     """
   end
 
+  @doc type: :component
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :font_weight, :string, default: "font-normal", doc: "Determines custom class for the font weight"
   attr :text_position, :string, default: nil, doc: ""

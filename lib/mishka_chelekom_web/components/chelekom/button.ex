@@ -140,6 +140,7 @@ defmodule MishkaChelekom.Button do
     """
   end
 
+  @doc type: :component
   attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
   attr :variant, :string, values: @variants, default: "default", doc: "Determines the style"
   attr :color, :string, default: "white", doc: "Determines color theme"
@@ -283,6 +284,7 @@ defmodule MishkaChelekom.Button do
     """
   end
 
+  @doc type: :component
   attr :position, :string, default: "none"
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :size, :string

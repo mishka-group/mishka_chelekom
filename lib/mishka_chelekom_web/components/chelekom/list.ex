@@ -26,6 +26,7 @@ defmodule MishkaChelekom.List do
     "dawn"
   ]
 
+  @doc type: :component
   attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :font_weight, :string, default: "font-normal", doc: "Determines custom class for the font weight"
@@ -60,6 +61,7 @@ defmodule MishkaChelekom.List do
     """
   end
 
+  @doc type: :component
   attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
   attr :class, :list, default: nil, doc: "Custom CSS class for additional styling"
   attr :count, :integer, default: nil, doc: ""
@@ -97,6 +99,7 @@ defmodule MishkaChelekom.List do
     """
   end
 
+  @doc type: :component
   attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
   attr :color, :string, values: @colors, default: "white", doc: "Determines color theme"
   attr :variant, :string, values: @variants, default: "filled", doc: "Determines the style"
@@ -130,6 +133,7 @@ defmodule MishkaChelekom.List do
     """
   end
 
+  @doc type: :component
   attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
   attr :color, :string, values: @colors, default: "white", doc: "Determines color theme"
   attr :variant, :string, values: @variants, default: "filled", doc: "Determines the style"
@@ -161,6 +165,7 @@ defmodule MishkaChelekom.List do
     """
   end
 
+  @doc type: :component
   attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
   attr :variant, :string, values: @variants, default: "default", doc: "Determines the style"
   attr :color, :string, values: @colors, default: "white", doc: "Determines color theme"

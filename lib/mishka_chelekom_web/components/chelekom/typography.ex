@@ -15,6 +15,7 @@ defmodule MishkaChelekom.Typography do
     "inherit"
   ]
 
+  @doc type: :component
   attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
   attr :color, :string, values: @colors, default: "inherit", doc: "Determines color theme"
   attr :size, :string, default: "quadruple_large", doc: "Determines the overall size of the elements, including padding, font size, and other items"
@@ -41,6 +42,7 @@ defmodule MishkaChelekom.Typography do
     """
   end
 
+  @doc type: :component
   attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
   attr :color, :string, values: @colors, default: "inherit", doc: "Determines color theme"
   attr :size, :string, default: "triple_large", doc: "Determines the overall size of the elements, including padding, font size, and other items"
@@ -67,6 +69,7 @@ defmodule MishkaChelekom.Typography do
     """
   end
 
+  @doc type: :component
   attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
   attr :color, :string, values: @colors, default: "inherit", doc: "Determines color theme"
   attr :size, :string, default: "double_large", doc: "Determines the overall size of the elements, including padding, font size, and other items"
@@ -75,6 +78,7 @@ defmodule MishkaChelekom.Typography do
   attr :rest, :global, doc: "Global attributes can define defaults which are merged with attributes provided by the caller"
   slot :inner_block, required: true, doc: "Inner block that renders HEEx content"
 
+  @doc type: :component
   def h3(assigns) do
     ~H"""
     <h3
@@ -100,6 +104,7 @@ defmodule MishkaChelekom.Typography do
   attr :rest, :global, doc: "Global attributes can define defaults which are merged with attributes provided by the caller"
   slot :inner_block, required: true, doc: "Inner block that renders HEEx content"
 
+  @doc type: :component
   def h4(assigns) do
     ~H"""
     <h4
@@ -117,6 +122,7 @@ defmodule MishkaChelekom.Typography do
     """
   end
 
+  @doc type: :component
   attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
   attr :color, :string, values: @colors, default: "inherit", doc: "Determines color theme"
   attr :size, :string, default: "large", doc: "Determines the overall size of the elements, including padding, font size, and other items"
@@ -142,6 +148,7 @@ defmodule MishkaChelekom.Typography do
     """
   end
 
+  @doc type: :component
   attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
   attr :color, :string, values: @colors, default: "inherit", doc: "Determines color theme"
   attr :size, :string, default: "medium", doc: "Determines the overall size of the elements, including padding, font size, and other items"
@@ -167,6 +174,7 @@ defmodule MishkaChelekom.Typography do
     """
   end
 
+  @doc type: :component
   attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
   attr :color, :string, values: @colors, default: "inherit", doc: "Determines color theme"
   attr :size, :string, default: "medium", doc: "Determines the overall size of the elements, including padding, font size, and other items"
@@ -192,6 +200,7 @@ defmodule MishkaChelekom.Typography do
     """
   end
 
+  @doc type: :component
   attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
   attr :color, :string, values: @colors, default: "inherit", doc: "Determines color theme"
   attr :size, :string, default: "medium", doc: "Determines the overall size of the elements, including padding, font size, and other items"
@@ -217,6 +226,7 @@ defmodule MishkaChelekom.Typography do
     """
   end
 
+  @doc type: :component
   attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
   attr :color, :string, values: @colors, default: "inherit", doc: "Determines color theme"
   attr :size, :string, default: "medium", doc: "Determines the overall size of the elements, including padding, font size, and other items"
@@ -242,6 +252,7 @@ defmodule MishkaChelekom.Typography do
     """
   end
 
+  @doc type: :component
   attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
   attr :color, :string, values: @colors, default: "inherit", doc: "Determines color theme"
   attr :size, :string, default: "medium", doc: "Determines the overall size of the elements, including padding, font size, and other items"
@@ -267,6 +278,7 @@ defmodule MishkaChelekom.Typography do
     """
   end
 
+  @doc type: :component
   attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
   attr :color, :string, values: @colors, default: "inherit", doc: "Determines color theme"
   attr :size, :string, default: "medium", doc: "Determines the overall size of the elements, including padding, font size, and other items"
@@ -292,6 +304,7 @@ defmodule MishkaChelekom.Typography do
     """
   end
 
+  @doc type: :component
   attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
   attr :color, :string, values: @colors, default: "inherit", doc: "Determines color theme"
   attr :size, :string, default: "medium", doc: "Determines the overall size of the elements, including padding, font size, and other items"
@@ -317,6 +330,7 @@ defmodule MishkaChelekom.Typography do
     """
   end
 
+  @doc type: :component
   attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
   attr :color, :string, values: @colors, default: "inherit", doc: "Determines color theme"
   attr :size, :string, default: "medium", doc: "Determines the overall size of the elements, including padding, font size, and other items"
@@ -342,6 +356,7 @@ defmodule MishkaChelekom.Typography do
     """
   end
 
+  @doc type: :component
   attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
   attr :color, :string, values: @colors, default: "inherit", doc: "Determines color theme"
   attr :size, :string, default: "medium", doc: "Determines the overall size of the elements, including padding, font size, and other items"
@@ -367,6 +382,7 @@ defmodule MishkaChelekom.Typography do
     """
   end
 
+  @doc type: :component
   attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
   attr :color, :string, values: @colors, default: "inherit", doc: "Determines color theme"
   attr :size, :string, default: "medium", doc: "Determines the overall size of the elements, including padding, font size, and other items"
@@ -392,6 +408,7 @@ defmodule MishkaChelekom.Typography do
     """
   end
 
+  @doc type: :component
   attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
   attr :color, :string, values: @colors, default: "inherit", doc: "Determines color theme"
   attr :size, :string, default: "medium", doc: "Determines the overall size of the elements, including padding, font size, and other items"
@@ -417,6 +434,7 @@ defmodule MishkaChelekom.Typography do
     """
   end
 
+  @doc type: :component
   attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
   attr :color, :string, values: @colors, default: "inherit", doc: "Determines color theme"
   attr :size, :string, default: "medium", doc: "Determines the overall size of the elements, including padding, font size, and other items"
@@ -442,6 +460,7 @@ defmodule MishkaChelekom.Typography do
     """
   end
 
+  @doc type: :component
   attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
   attr :color, :string, values: @colors, default: "inherit", doc: "Determines color theme"
   attr :size, :string, default: "medium", doc: "Determines the overall size of the elements, including padding, font size, and other items"
@@ -467,6 +486,7 @@ defmodule MishkaChelekom.Typography do
     """
   end
 
+  @doc type: :component
   attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
   attr :color, :string, values: @colors, default: "inherit", doc: "Determines color theme"
   attr :size, :string, default: "medium", doc: "Determines the overall size of the elements, including padding, font size, and other items"
@@ -492,6 +512,7 @@ defmodule MishkaChelekom.Typography do
     """
   end
 
+  @doc type: :component
   attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
   attr :color, :string, values: @colors, default: "inherit", doc: "Determines color theme"
   attr :size, :string, default: "medium", doc: "Determines the overall size of the elements, including padding, font size, and other items"
@@ -517,6 +538,7 @@ defmodule MishkaChelekom.Typography do
     """
   end
 
+  @doc type: :component
   attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
   attr :color, :string, values: @colors, default: "inherit", doc: "Determines color theme"
   attr :size, :string, default: "medium", doc: "Determines the overall size of the elements, including padding, font size, and other items"

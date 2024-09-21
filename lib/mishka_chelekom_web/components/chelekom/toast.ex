@@ -26,6 +26,7 @@ defmodule MishkaChelekom.Toast do
     "unbordered"
   ]
 
+  @doc type: :component
   attr :id, :string, required: true, doc: "A unique identifier is used to manage state and interaction"
   attr :size, :string, default: "large", doc: "Determines the overall size of the elements, including padding, font size, and other items"
   attr :fixed, :boolean, default: true, doc: ""
@@ -118,6 +119,7 @@ defmodule MishkaChelekom.Toast do
     """
   end
 
+  @doc type: :component
   attr :id, :string, required: true, doc: "A unique identifier is used to manage state and interaction"
   attr :dismiss, :boolean, default: false
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"

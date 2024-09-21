@@ -76,6 +76,7 @@ defmodule MishkaChelekom.Card do
     """
   end
 
+  @doc type: :component
   attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :title, :string, default: nil, doc: "Specifies the title of the element"
@@ -110,6 +111,7 @@ defmodule MishkaChelekom.Card do
     """
   end
 
+  @doc type: :component
   attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
   attr :alt, :string, doc: ""
   attr :src, :string, required: true, doc: ""
@@ -136,6 +138,7 @@ defmodule MishkaChelekom.Card do
     """
   end
 
+  @doc type: :component
   attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
   attr :space, :string, values: @sizes, default: "extra_small", doc: "Space between items"
   attr :padding, :string, values: @sizes ++ ["none"], default: "none", doc: "Determines padding for items"
@@ -159,6 +162,7 @@ defmodule MishkaChelekom.Card do
     """
   end
 
+  @doc type: :component
   attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :padding, :string, values: @sizes ++ ["none"], default: "none", doc: "Determines padding for items"

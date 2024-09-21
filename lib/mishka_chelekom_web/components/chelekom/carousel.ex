@@ -109,6 +109,7 @@ defmodule MishkaChelekom.Carousel do
     """
   end
 
+  @doc type: :component
   attr :id, :string, required: true, doc: "A unique identifier is used to manage state and interaction"
   attr :navigate, :string, default: nil, doc: ""
   attr :patch, :string, default: nil, doc: ""
@@ -142,6 +143,7 @@ defmodule MishkaChelekom.Carousel do
     """
   end
 
+  @doc type: :component
   attr :id, :string, required: true, doc: "A unique identifier is used to manage state and interaction"
   attr :title, :string, default: nil, doc: "Specifies the title of the element"
   attr :description, :string, default: nil, doc: "Determines a short description"
@@ -185,6 +187,7 @@ defmodule MishkaChelekom.Carousel do
     """
   end
 
+  @doc type: :component
   attr :id, :string, required: true, doc: "A unique identifier is used to manage state and interaction"
   attr :count, :integer, required: true, doc: ""
   attr :index, :integer, required: true, doc: ""

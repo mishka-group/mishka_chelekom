@@ -120,6 +120,7 @@ defmodule MishkaChelekom.SpeedDial do
     """
   end
 
+  @doc type: :component
   attr :id, :string, required: true, doc: "A unique identifier is used to manage state and interaction"
   attr :navigate, :string, default: nil, doc: ""
   attr :patch, :string, default: nil, doc: ""

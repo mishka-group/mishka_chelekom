@@ -53,6 +53,7 @@ defmodule MishkaChelekom.Progress do
     """
   end
 
+  @doc type: :component
   attr :value, :integer, default: 0, doc: ""
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :variation, :string, values: ["horizontal", "vertical"], default: "horizontal", doc: ""

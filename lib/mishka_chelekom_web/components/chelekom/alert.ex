@@ -42,6 +42,7 @@ defmodule MishkaChelekom.Alert do
       <.flash kind={:info} flash={@flash} />
       <.flash kind={:info} phx-mounted={show("#flash")}>Welcome Back!</.flash>
   """
+  @doc type: :component
   attr :id, :string, doc: "A unique identifier is used to manage state and interaction"
   attr :flash, :map, default: %{}, doc: "the map of flash messages to display"
   attr :title, :string, default: nil, doc: "Specifies the title of the element"

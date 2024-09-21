@@ -53,6 +53,7 @@ defmodule MishkaChelekom.Modal do
       </.modal>
 
   """
+  @doc type: :component
   attr :id, :string, required: true, doc: "A unique identifier is used to manage state and interaction"
   attr :title, :string, doc: "Specifies the title of the element"
   attr :variant, :string, values: @variants, default: "default", doc: "Determines the style"

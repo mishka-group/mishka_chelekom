@@ -184,6 +184,7 @@ defmodule MishkaChelekom.EmailField do
     """
   end
 
+  @doc type: :component
   attr :icon, :string, default: nil, doc: "Icon displayed alongside of an item"
   slot :inner_block, required: true, doc: "Inner block that renders HEEx content"
 

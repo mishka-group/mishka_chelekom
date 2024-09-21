@@ -92,6 +92,7 @@ defmodule MishkaChelekom.Blockquote do
     """
   end
 
+  @doc type: :component
   attr :name, :string, required: true
   attr :class, :list, default: nil, doc: "Custom CSS class for additional styling"
 

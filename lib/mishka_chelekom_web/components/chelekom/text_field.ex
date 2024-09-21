@@ -172,6 +172,7 @@ defmodule MishkaChelekom.TextField do
     """
   end
 
+  @doc type: :component
   attr :for, :string, default: nil
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   slot :inner_block, required: true, doc: "Inner block that renders HEEx content"
@@ -184,6 +185,7 @@ defmodule MishkaChelekom.TextField do
     """
   end
 
+  @doc type: :component
   attr :icon, :string, default: nil, doc: "Icon displayed alongside of an item"
   slot :inner_block, required: true, doc: "Inner block that renders HEEx content"
 

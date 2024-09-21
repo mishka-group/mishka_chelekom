@@ -92,6 +92,7 @@ defmodule MishkaChelekom.Banner do
     """
   end
 
+  @doc type: :component
   attr :id, :string, required: true, doc: "A unique identifier is used to manage state and interaction"
   attr :dismiss, :boolean, default: false
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"

@@ -44,6 +44,7 @@ defmodule MishkaChelekom.Timeline do
     """
   end
 
+  @doc type: :component
   attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
   attr :line_width, :string, default: "extra_small", doc: ""
   attr :size, :string, default: "extra_small", doc: "Determines the overall size of the elements, including padding, font size, and other items"

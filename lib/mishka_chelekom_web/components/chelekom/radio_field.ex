@@ -68,6 +68,7 @@ defmodule MishkaChelekom.RadioField do
     """
   end
 
+  @doc type: :component
   attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :color, :string, default: "primary", doc: "Determines color theme"
@@ -138,6 +139,7 @@ defmodule MishkaChelekom.RadioField do
     """
   end
 
+  @doc type: :component
   attr :for, :string, default: nil
   attr :class, :any, default: nil, doc: "Custom CSS class for additional styling"
   slot :inner_block, required: true, doc: "Inner block that renders HEEx content"
@@ -150,6 +152,7 @@ defmodule MishkaChelekom.RadioField do
     """
   end
 
+  @doc type: :component
   attr :icon, :string, default: nil, doc: "Icon displayed alongside of an item"
   slot :inner_block, required: true, doc: "Inner block that renders HEEx content"
 

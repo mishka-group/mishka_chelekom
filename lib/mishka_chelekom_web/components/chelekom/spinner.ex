@@ -59,6 +59,7 @@ defmodule MishkaChelekom.Spinner do
     """
   end
 
+  @doc type: :component
   attr :type, :string, values: @spinner_types
 
   defp spinner_content(%{type: "pinging"} = assigns) do

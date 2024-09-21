@@ -105,6 +105,7 @@ defmodule MishkaChelekom.Table do
     """
   end
 
+  @doc type: :component
   attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :scope, :string, default: nil, doc: ""
@@ -119,6 +120,7 @@ defmodule MishkaChelekom.Table do
     """
   end
 
+  @doc type: :component
   attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :rest, :global, doc: "Global attributes can define defaults which are merged with attributes provided by the caller"
@@ -132,6 +134,7 @@ defmodule MishkaChelekom.Table do
     """
   end
 
+  @doc type: :component
   attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :rest, :global, doc: "Global attributes can define defaults which are merged with attributes provided by the caller"

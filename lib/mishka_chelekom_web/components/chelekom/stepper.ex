@@ -61,6 +61,7 @@ defmodule MishkaChelekom.Stepper do
     """
   end
 
+  @doc type: :component
   attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :size, :string, default: "small", doc: "Determines the overall size of the elements, including padding, font size, and other items"

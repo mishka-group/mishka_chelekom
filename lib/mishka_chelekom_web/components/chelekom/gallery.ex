@@ -28,6 +28,7 @@ defmodule MishkaChelekom.Gallery do
     """
   end
 
+  @doc type: :component
   attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :src, :string, default: nil, doc: ""
