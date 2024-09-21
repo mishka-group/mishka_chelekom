@@ -2,7 +2,10 @@ defmodule MishkaChelekom.Image do
   use Phoenix.Component
 
   @doc type: :component
-  attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
+  attr :id, :string,
+    default: nil,
+    doc: "A unique identifier is used to manage state and interaction"
+
   attr :src, :string, required: true, doc: "Media link"
   attr :alt, :string, default: nil, doc: "Media link description"
   attr :srcset, :string, default: nil, doc: ""
@@ -27,7 +30,10 @@ defmodule MishkaChelekom.Image do
   attr :rounded, :string, default: nil, doc: "Determines the border radius"
   attr :shadow, :string, default: nil, doc: "Determines shadow style"
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
-  attr :rest, :global, doc: "Global attributes can define defaults which are merged with attributes provided by the caller"
+
+  attr :rest, :global,
+    doc:
+      "Global attributes can define defaults which are merged with attributes provided by the caller"
 
   def image(assigns) do
     ~H"""

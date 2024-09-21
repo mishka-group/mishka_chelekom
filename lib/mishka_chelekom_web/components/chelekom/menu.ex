@@ -4,13 +4,22 @@ defmodule MishkaChelekom.Menu do
   import MishkaChelekom.Button, only: [button_link: 1]
 
   @doc type: :component
-  attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
+  attr :id, :string,
+    default: nil,
+    doc: "A unique identifier is used to manage state and interaction"
+
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :menu_items, :list, default: [], doc: ""
   attr :space, :string, default: "small", doc: "Space between items"
   attr :padding, :string, default: "small", doc: "Determines padding for items"
-  slot :inner_block, doc: "Global attributes can define defaults which are merged with attributes provided by the caller"
-  attr :rest, :global, doc: "Global attributes can define defaults which are merged with attributes provided by the caller"
+
+  slot :inner_block,
+    doc:
+      "Global attributes can define defaults which are merged with attributes provided by the caller"
+
+  attr :rest, :global,
+    doc:
+      "Global attributes can define defaults which are merged with attributes provided by the caller"
 
   def menu(assigns) do
     ~H"""

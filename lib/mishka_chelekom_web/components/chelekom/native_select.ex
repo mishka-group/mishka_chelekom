@@ -3,7 +3,10 @@ defmodule MishkaChelekom.NativeSelect do
   import MishkaChelekomComponents
 
   @doc type: :component
-  attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
+  attr :id, :string,
+    default: nil,
+    doc: "A unique identifier is used to manage state and interaction"
+
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :color, :string, default: "light", doc: "Determines color theme"
   attr :border, :string, default: "extra_small", doc: "Determines border style"
@@ -12,8 +15,17 @@ defmodule MishkaChelekom.NativeSelect do
   attr :description, :string, default: nil, doc: "Determines a short description"
   attr :space, :string, default: "medium", doc: "Space between items"
   attr :min_height, :string, default: nil, doc: ""
-  attr :size, :string, default: "extra_large", doc: "Determines the overall size of the elements, including padding, font size, and other items"
-  attr :ring, :boolean, default: true, doc: "Determines a ring border on focused input, utilities for creating outline rings with box-shadows."
+
+  attr :size, :string,
+    default: "extra_large",
+    doc:
+      "Determines the overall size of the elements, including padding, font size, and other items"
+
+  attr :ring, :boolean,
+    default: true,
+    doc:
+      "Determines a ring border on focused input, utilities for creating outline rings with box-shadows."
+
   attr :error_icon, :string, default: nil, doc: "Icon to be displayed alongside error messages"
   attr :label, :string, default: nil, doc: "Specifies text for the label"
   attr :multiple, :boolean, default: false
@@ -33,7 +45,8 @@ defmodule MishkaChelekom.NativeSelect do
 
   attr :rest, :global,
     include: ~w(autocomplete disabled form readonly multiple required title autofocus tabindex),
-    doc: "Global attributes can define defaults which are merged with attributes provided by the caller"
+    doc:
+      "Global attributes can define defaults which are merged with attributes provided by the caller"
 
   @spec native_select(map()) :: Phoenix.LiveView.Rendered.t()
   def native_select(%{field: %Phoenix.HTML.FormField{} = field} = assigns) do
@@ -92,7 +105,10 @@ defmodule MishkaChelekom.NativeSelect do
   end
 
   @doc type: :component
-  attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
+  attr :id, :string,
+    default: nil,
+    doc: "A unique identifier is used to manage state and interaction"
+
   attr :label, :string, default: nil
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :seperator, :boolean, default: nil

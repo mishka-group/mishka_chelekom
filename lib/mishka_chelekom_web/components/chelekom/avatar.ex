@@ -61,7 +61,9 @@ defmodule MishkaChelekom.Avatar do
   ]
 
   @doc type: :component
-  attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
+  attr :id, :string,
+    default: nil,
+    doc: "A unique identifier is used to manage state and interaction"
 
   attr :type, :string,
     values: ["default", "placeholder", "placeholder_icon"],
@@ -70,11 +72,31 @@ defmodule MishkaChelekom.Avatar do
 
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :src, :string, default: nil, doc: "Media link"
-  attr :color, :string, values: @colors ++ ["transparent"], default: "transparent", doc: "Determines color theme"
-  attr :size, :string, default: "small", doc: "Determines the overall size of the elements, including padding, font size, and other items"
-  attr :shadow, :string, values: @sizes ++ ["none"], default: "none", doc: "Determines shadow style"
-  attr :font_weight, :string, default: "font-normal", doc: "Determines custom class for the font weight"
-  attr :rounded, :string, values: @sizes ++ ["full", "none"], default: "medium", doc: "Determines the border radius"
+
+  attr :color, :string,
+    values: @colors ++ ["transparent"],
+    default: "transparent",
+    doc: "Determines color theme"
+
+  attr :size, :string,
+    default: "small",
+    doc:
+      "Determines the overall size of the elements, including padding, font size, and other items"
+
+  attr :shadow, :string,
+    values: @sizes ++ ["none"],
+    default: "none",
+    doc: "Determines shadow style"
+
+  attr :font_weight, :string,
+    default: "font-normal",
+    doc: "Determines custom class for the font weight"
+
+  attr :rounded, :string,
+    values: @sizes ++ ["full", "none"],
+    default: "medium",
+    doc: "Determines the border radius"
+
   attr :border, :string, default: "none", doc: "Determines border style"
 
   slot :icon, required: false do
@@ -82,10 +104,16 @@ defmodule MishkaChelekom.Avatar do
     attr :class, :string, doc: "Custom CSS class for additional styling"
     attr :icon_class, :string, doc: "Determines custom class for the icon"
     attr :color, :string, doc: "Determines color theme"
-    attr :size, :string, doc: "Determines the overall size of the elements, including padding, font size, and other items"
+
+    attr :size, :string,
+      doc:
+        "Determines the overall size of the elements, including padding, font size, and other items"
   end
 
-  attr :rest, :global, doc: "Global attributes can define defaults which are merged with attributes provided by the caller"
+  attr :rest, :global,
+    doc:
+      "Global attributes can define defaults which are merged with attributes provided by the caller"
+
   slot :inner_block, required: false, doc: "Inner block that renders HEEx content"
 
   def avatar(%{src: src, rounded: "full"} = assigns) when not is_nil(src) do
@@ -177,7 +205,9 @@ defmodule MishkaChelekom.Avatar do
   end
 
   @doc type: :component
-  attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
+  attr :id, :string,
+    default: nil,
+    doc: "A unique identifier is used to manage state and interaction"
 
   attr :type, :string,
     values: ["default", "placeholder", "placeholder_icon", nil],
@@ -186,7 +216,11 @@ defmodule MishkaChelekom.Avatar do
 
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :space, :string, values: @sizes ++ ["none"], default: "medium", doc: "Space between items"
-  attr :rest, :global, doc: "Global attributes can define defaults which are merged with attributes provided by the caller"
+
+  attr :rest, :global,
+    doc:
+      "Global attributes can define defaults which are merged with attributes provided by the caller"
+
   slot :inner_block, required: false, doc: "Inner block that renders HEEx content"
 
   def avatar_group(assigns) do

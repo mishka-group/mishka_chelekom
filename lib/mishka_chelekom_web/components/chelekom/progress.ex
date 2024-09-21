@@ -19,14 +19,32 @@ defmodule MishkaChelekom.Progress do
   @variants ["default", "gradient"]
 
   @doc type: :component
-  attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
+  attr :id, :string,
+    default: nil,
+    doc: "A unique identifier is used to manage state and interaction"
+
   attr :value, :integer, default: nil, doc: ""
-  attr :variation, :string, values: ["horizontal", "vertical"], default: "horizontal", doc: "Defines the layout orientation of the component"
+
+  attr :variation, :string,
+    values: ["horizontal", "vertical"],
+    default: "horizontal",
+    doc: "Defines the layout orientation of the component"
+
   attr :color, :string, values: @colors, default: "white", doc: "Determines color theme"
   attr :variant, :string, values: @variants, default: "default", doc: "Determines the style"
-  attr :size, :string, values: @sizes, default: "small", doc: "Determines the overall size of the elements, including padding, font size, and other items"
+
+  attr :size, :string,
+    values: @sizes,
+    default: "small",
+    doc:
+      "Determines the overall size of the elements, including padding, font size, and other items"
+
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
-  attr :rest, :global, doc: "Global attributes can define defaults which are merged with attributes provided by the caller"
+
+  attr :rest, :global,
+    doc:
+      "Global attributes can define defaults which are merged with attributes provided by the caller"
+
   slot :inner_block, doc: "Inner block that renders HEEx content"
 
   def progress(assigns) do
@@ -56,11 +74,19 @@ defmodule MishkaChelekom.Progress do
   @doc type: :component
   attr :value, :integer, default: 0, doc: ""
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
-  attr :variation, :string, values: ["horizontal", "vertical"], default: "horizontal", doc: "Defines the layout orientation of the component"
+
+  attr :variation, :string,
+    values: ["horizontal", "vertical"],
+    default: "horizontal",
+    doc: "Defines the layout orientation of the component"
+
   attr :color, :string, values: @colors, default: "white", doc: "Determines color theme"
   attr :rounded, :string, default: "none", doc: "Determines the border radius"
   attr :variant, :string, values: @variants, default: "default", doc: "Determines the style"
-  attr :rest, :global, doc: "Global attributes can define defaults which are merged with attributes provided by the caller"
+
+  attr :rest, :global,
+    doc:
+      "Global attributes can define defaults which are merged with attributes provided by the caller"
 
   def progress_section(assigns) do
     assigns = assign(assigns, :value, (is_integer(assigns.value) && assigns.value) || 0)

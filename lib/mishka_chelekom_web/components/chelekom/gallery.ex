@@ -2,12 +2,19 @@ defmodule MishkaChelekom.Gallery do
   use Phoenix.Component
 
   @doc type: :component
-  attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
+  attr :id, :string,
+    default: nil,
+    doc: "A unique identifier is used to manage state and interaction"
+
   attr :type, :string, values: ["default", "masonary", "featured"], default: "default", doc: ""
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :cols, :string, default: nil, doc: ""
   attr :gap, :string, default: nil, doc: ""
-  attr :rest, :global, doc: "Global attributes can define defaults which are merged with attributes provided by the caller"
+
+  attr :rest, :global,
+    doc:
+      "Global attributes can define defaults which are merged with attributes provided by the caller"
+
   slot :inner_block, required: false, doc: "Inner block that renders HEEx content"
 
   def gallery(assigns) do
@@ -29,13 +36,20 @@ defmodule MishkaChelekom.Gallery do
   end
 
   @doc type: :component
-  attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
+  attr :id, :string,
+    default: nil,
+    doc: "A unique identifier is used to manage state and interaction"
+
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :src, :string, default: nil, doc: "Media link"
   attr :alt, :string, default: "", doc: ""
   attr :rounded, :string, default: "none", doc: "Determines the border radius"
   attr :shadow, :string, default: "shadow-none", doc: "Determines shadow style"
-  attr :rest, :global, doc: "Global attributes can define defaults which are merged with attributes provided by the caller"
+
+  attr :rest, :global,
+    doc:
+      "Global attributes can define defaults which are merged with attributes provided by the caller"
+
   slot :inner_block, required: false, doc: "Inner block that renders HEEx content"
 
   def gallery_media(assigns) do

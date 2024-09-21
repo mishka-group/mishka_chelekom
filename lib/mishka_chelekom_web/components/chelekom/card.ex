@@ -89,16 +89,27 @@ defmodule MishkaChelekom.Card do
   ]
 
   @doc type: :component
-  attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
+  attr :id, :string,
+    default: nil,
+    doc: "A unique identifier is used to manage state and interaction"
+
   attr :variant, :string, values: @variants, default: "default", doc: "Determines the style"
   attr :color, :string, values: @colors, default: "white", doc: "Determines color theme"
   attr :border, :string, default: "extra_small", doc: "Determines border style"
   attr :rounded, :string, default: nil, doc: "Determines the border radius"
   attr :space, :string, default: nil, doc: "Space between items"
-  attr :font_weight, :string, default: "font-normal", doc: "Determines custom class for the font weight"
+
+  attr :font_weight, :string,
+    default: "font-normal",
+    doc: "Determines custom class for the font weight"
+
   attr :padding, :string, default: nil, doc: "Determines padding for items"
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
-  attr :rest, :global, doc: "Global attributes can define defaults which are merged with attributes provided by the caller"
+
+  attr :rest, :global,
+    doc:
+      "Global attributes can define defaults which are merged with attributes provided by the caller"
+
   slot :inner_block, required: false, doc: "Inner block that renders HEEx content"
 
   def card(assigns) do
@@ -123,15 +134,35 @@ defmodule MishkaChelekom.Card do
   end
 
   @doc type: :component
-  attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
+  attr :id, :string,
+    default: nil,
+    doc: "A unique identifier is used to manage state and interaction"
+
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :title, :string, default: nil, doc: "Specifies the title of the element"
   attr :icon, :string, default: nil, doc: "Icon displayed alongside of an item"
-  attr :position, :string, values: @positions, default: "start", doc: "Determines the element position"
-  attr :font_weight, :string, default: "font-semibold", doc: "Determines custom class for the font weight"
-  attr :size, :string, values: @sizes, default: "large", doc: "Determines the overall size of the elements, including padding, font size, and other items"
+
+  attr :position, :string,
+    values: @positions,
+    default: "start",
+    doc: "Determines the element position"
+
+  attr :font_weight, :string,
+    default: "font-semibold",
+    doc: "Determines custom class for the font weight"
+
+  attr :size, :string,
+    values: @sizes,
+    default: "large",
+    doc:
+      "Determines the overall size of the elements, including padding, font size, and other items"
+
   attr :padding, :string, default: "none", doc: "Determines padding for items"
-  attr :rest, :global, doc: "Global attributes can define defaults which are merged with attributes provided by the caller"
+
+  attr :rest, :global,
+    doc:
+      "Global attributes can define defaults which are merged with attributes provided by the caller"
+
   slot :inner_block, required: false, doc: "Inner block that renders HEEx content"
 
   def card_title(assigns) do
@@ -158,12 +189,24 @@ defmodule MishkaChelekom.Card do
   end
 
   @doc type: :component
-  attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
+  attr :id, :string,
+    default: nil,
+    doc: "A unique identifier is used to manage state and interaction"
+
   attr :alt, :string, doc: "Media link description"
   attr :src, :string, required: true, doc: "Media link"
-  attr :rounded, :string, values: @sizes ++ [nil], default: nil, doc: "Determines the border radius"
+
+  attr :rounded, :string,
+    values: @sizes ++ [nil],
+    default: nil,
+    doc: "Determines the border radius"
+
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
-  attr :rest, :global, doc: "Global attributes can define defaults which are merged with attributes provided by the caller"
+
+  attr :rest, :global,
+    doc:
+      "Global attributes can define defaults which are merged with attributes provided by the caller"
+
   slot :inner_block, required: false, doc: "Inner block that renders HEEx content"
 
   # TODO: we should support other media like video (should have inner block)
@@ -185,11 +228,23 @@ defmodule MishkaChelekom.Card do
   end
 
   @doc type: :component
-  attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
+  attr :id, :string,
+    default: nil,
+    doc: "A unique identifier is used to manage state and interaction"
+
   attr :space, :string, values: @sizes, default: "extra_small", doc: "Space between items"
-  attr :padding, :string, values: @sizes ++ ["none"], default: "none", doc: "Determines padding for items"
+
+  attr :padding, :string,
+    values: @sizes ++ ["none"],
+    default: "none",
+    doc: "Determines padding for items"
+
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
-  attr :rest, :global, doc: "Global attributes can define defaults which are merged with attributes provided by the caller"
+
+  attr :rest, :global,
+    doc:
+      "Global attributes can define defaults which are merged with attributes provided by the caller"
+
   slot :inner_block, required: false, doc: "Inner block that renders HEEx content"
 
   def card_content(assigns) do
@@ -209,10 +264,21 @@ defmodule MishkaChelekom.Card do
   end
 
   @doc type: :component
-  attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
+  attr :id, :string,
+    default: nil,
+    doc: "A unique identifier is used to manage state and interaction"
+
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
-  attr :padding, :string, values: @sizes ++ ["none"], default: "none", doc: "Determines padding for items"
-  attr :rest, :global, doc: "Global attributes can define defaults which are merged with attributes provided by the caller"
+
+  attr :padding, :string,
+    values: @sizes ++ ["none"],
+    default: "none",
+    doc: "Determines padding for items"
+
+  attr :rest, :global,
+    doc:
+      "Global attributes can define defaults which are merged with attributes provided by the caller"
+
   slot :inner_block, required: false, doc: "Inner block that renders HEEx content"
 
   def card_footer(assigns) do

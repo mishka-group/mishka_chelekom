@@ -36,7 +36,10 @@ defmodule MishkaChelekomWeb.CoreComponents do
       </.modal>
 
   """
-  attr :id, :string, required: true, doc: "A unique identifier is used to manage state and interaction"
+  attr :id, :string,
+    required: true,
+    doc: "A unique identifier is used to manage state and interaction"
+
   attr :show, :boolean, default: false, doc: "Show element"
   attr :on_cancel, JS, default: %JS{}
   slot :inner_block, required: true, doc: "Inner block that renders HEEx content"
@@ -102,7 +105,10 @@ defmodule MishkaChelekomWeb.CoreComponents do
   attr :flash, :map, default: %{}, doc: "the map of flash messages to display"
   attr :title, :string, default: nil, doc: "Specifies the title of the element"
   attr :kind, :atom, values: [:info, :error], doc: "used for styling and flash lookup"
-  attr :rest, :global, doc: "Global attributes can define defaults which are merged with attributes provided by the caller"
+
+  attr :rest, :global,
+    doc:
+      "Global attributes can define defaults which are merged with attributes provided by the caller"
 
   slot :inner_block, doc: "the optional inner block that renders the flash message"
 
@@ -196,7 +202,8 @@ defmodule MishkaChelekomWeb.CoreComponents do
 
   attr :rest, :global,
     include: ~w(autocomplete name rel action enctype method novalidate target multipart),
-    doc: "Global attributes can define defaults which are merged with attributes provided by the caller"
+    doc:
+      "Global attributes can define defaults which are merged with attributes provided by the caller"
 
   slot :inner_block, required: true, doc: "Inner block that renders HEEx content"
   slot :actions, doc: "the slot for form actions, such as a submit button"
@@ -291,7 +298,8 @@ defmodule MishkaChelekomWeb.CoreComponents do
   attr :rest, :global,
     include: ~w(accept autocomplete capture cols disabled form list max maxlength min minlength
                 multiple pattern placeholder readonly required rows size step),
-    doc: "Global attributes can define defaults which are merged with attributes provided by the caller"
+    doc:
+      "Global attributes can define defaults which are merged with attributes provided by the caller"
 
   def input(%{field: %Phoenix.HTML.FormField{} = field} = assigns) do
     errors = if Phoenix.Component.used_input?(field), do: field.errors, else: []
@@ -459,7 +467,10 @@ defmodule MishkaChelekomWeb.CoreComponents do
         <:col :let={user} label="username"><%= user.username %></:col>
       </.table>
   """
-  attr :id, :string, required: true, doc: "A unique identifier is used to manage state and interaction"
+  attr :id, :string,
+    required: true,
+    doc: "A unique identifier is used to manage state and interaction"
+
   attr :rows, :list, required: true
   attr :row_id, :any, default: nil, doc: "the function for generating the row id"
   attr :row_click, :any, default: nil, doc: "the function for handling phx-click on each row"

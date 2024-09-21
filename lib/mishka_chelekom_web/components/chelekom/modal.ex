@@ -54,13 +54,26 @@ defmodule MishkaChelekom.Modal do
 
   """
   @doc type: :component
-  attr :id, :string, required: true, doc: "A unique identifier is used to manage state and interaction"
+  attr :id, :string,
+    required: true,
+    doc: "A unique identifier is used to manage state and interaction"
+
   attr :title, :string, doc: "Specifies the title of the element"
   attr :variant, :string, values: @variants, default: "default", doc: "Determines the style"
   attr :color, :string, values: @colors, default: "white", doc: "Determines color theme"
   attr :rounded, :string, values: @sizes, default: "small", doc: "Determines the border radius"
-  attr :padding, :string, values: @sizes ++ ["none"], default: "medium", doc: "Determines padding for items"
-  attr :size, :string, values: @sizes ++ ["screen"], default: "extra_large", doc: "Determines the overall size of the elements, including padding, font size, and other items"
+
+  attr :padding, :string,
+    values: @sizes ++ ["none"],
+    default: "medium",
+    doc: "Determines padding for items"
+
+  attr :size, :string,
+    values: @sizes ++ ["screen"],
+    default: "extra_large",
+    doc:
+      "Determines the overall size of the elements, including padding, font size, and other items"
+
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :show, :boolean, default: false, doc: "Show element"
   attr :on_cancel, JS, default: %JS{}

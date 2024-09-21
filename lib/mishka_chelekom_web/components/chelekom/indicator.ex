@@ -29,8 +29,16 @@ defmodule MishkaChelekom.Indicator do
   ]
 
   @doc type: :component
-  attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
-  attr :size, :string, values: @sizes, default: "small", doc: "Determines the overall size of the elements, including padding, font size, and other items"
+  attr :id, :string,
+    default: nil,
+    doc: "A unique identifier is used to manage state and interaction"
+
+  attr :size, :string,
+    values: @sizes,
+    default: "small",
+    doc:
+      "Determines the overall size of the elements, including padding, font size, and other items"
+
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :color, :string, values: @colors, default: "primary", doc: "Determines color theme"
 
@@ -39,7 +47,10 @@ defmodule MishkaChelekom.Indicator do
     default: "transparent",
     doc: "Determines border style"
 
-  attr :rest, :global, include: ["pinging"] ++ @indicator_positions, doc: "Global attributes can define defaults which are merged with attributes provided by the caller"
+  attr :rest, :global,
+    include: ["pinging"] ++ @indicator_positions,
+    doc:
+      "Global attributes can define defaults which are merged with attributes provided by the caller"
 
   def indicator(%{rest: %{top_left: true}} = assigns) do
     ~H"""

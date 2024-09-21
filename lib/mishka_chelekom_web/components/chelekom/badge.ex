@@ -104,27 +104,49 @@ defmodule MishkaChelekom.Badge do
   @dismiss_positions ["dismiss", "right_dismiss", "left_dismiss"]
 
   @doc type: :component
-  attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
+  attr :id, :string,
+    default: nil,
+    doc: "A unique identifier is used to manage state and interaction"
 
   attr :variant, :string,
     values: ["default", "outline", "transparent", "unbordered", "shadow"],
     default: "default",
     doc: "Determines the style"
 
-  attr :size, :string, default: "extra_small", doc: "Determines the overall size of the elements, including padding, font size, and other items"
-  attr :rounded, :string, values: @sizes ++ ["full", "none"], default: "small", doc: "Determines the border radius"
+  attr :size, :string,
+    default: "extra_small",
+    doc:
+      "Determines the overall size of the elements, including padding, font size, and other items"
+
+  attr :rounded, :string,
+    values: @sizes ++ ["full", "none"],
+    default: "small",
+    doc: "Determines the border radius"
+
   attr :color, :string, values: @colors, default: "white", doc: "Determines color theme"
-  attr :font_weight, :string, default: "font-normal", doc: "Determines custom class for the font weight"
+
+  attr :font_weight, :string,
+    default: "font-normal",
+    doc: "Determines custom class for the font weight"
+
   attr :icon, :string, default: nil, doc: "Icon displayed alongside of an item"
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
-  attr :indicator_class, :string, default: nil, doc: "CSS class for additional styling of the badge indicator"
+
+  attr :indicator_class, :string,
+    default: nil,
+    doc: "CSS class for additional styling of the badge indicator"
+
   attr :indicator_size, :string, default: nil, doc: "Specifies the size of the badge indicator"
-  attr :params, :map, default: %{kind: "badge"}, doc: "A map of additional parameters used for element configuration, such as type or kind"
+
+  attr :params, :map,
+    default: %{kind: "badge"},
+    doc: "A map of additional parameters used for element configuration, such as type or kind"
 
   attr :rest, :global,
     include:
       ["pinging", "circle"] ++ @dismiss_positions ++ @indicator_positions ++ @icon_positions,
-    doc: "Global attributes can define defaults which are merged with attributes provided by the caller"
+    doc:
+      "Global attributes can define defaults which are merged with attributes provided by the caller"
 
   slot :inner_block, required: false, doc: "Inner block that renders HEEx content"
 
@@ -156,10 +178,19 @@ defmodule MishkaChelekom.Badge do
   end
 
   @doc type: :component
-  attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
-  attr :dismiss, :boolean, default: false, doc: "Determines if the badge should include a dismiss button"
+  attr :id, :string,
+    default: nil,
+    doc: "A unique identifier is used to manage state and interaction"
+
+  attr :dismiss, :boolean,
+    default: false,
+    doc: "Determines if the badge should include a dismiss button"
+
   attr :icon_class, :string, default: "size-4", doc: "Determines custom class for the icon"
-  attr :params, :map, default: %{kind: "badge"}, doc: "A map of additional parameters used for badge configuration, such as type or kind"
+
+  attr :params, :map,
+    default: %{kind: "badge"},
+    doc: "A map of additional parameters used for badge configuration, such as type or kind"
 
   defp badge_dismiss(assigns) do
     ~H"""
@@ -175,8 +206,14 @@ defmodule MishkaChelekom.Badge do
   @doc type: :component
   attr :position, :string, default: "none", doc: "Determines the element position"
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
-  attr :size, :string, doc: "Determines the overall size of the elements, including padding, font size, and other items"
-  attr :rest, :global, doc: "Global attributes can define defaults which are merged with attributes provided by the caller"
+
+  attr :size, :string,
+    doc:
+      "Determines the overall size of the elements, including padding, font size, and other items"
+
+  attr :rest, :global,
+    doc:
+      "Global attributes can define defaults which are merged with attributes provided by the caller"
 
   defp badge_indicator(%{position: "left", rest: %{left_indicator: true}} = assigns) do
     ~H"""

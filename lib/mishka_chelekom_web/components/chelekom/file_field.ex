@@ -3,23 +3,31 @@ defmodule MishkaChelekom.FileField do
   import MishkaChelekomComponents
 
   @doc type: :component
-  attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
+  attr :id, :string,
+    default: nil,
+    doc: "A unique identifier is used to manage state and interaction"
+
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :label_class, :string, default: nil, doc: "Custom CSS class for the label styling"
   attr :color, :string, default: "primary", doc: "Determines color theme"
   attr :variant, :string, default: "default", doc: "Determines the style"
   attr :border, :string, default: "extra_small", doc: "Determines border style"
   attr :rounded, :string, default: "small", doc: "Determines the border radius"
-  attr :live, :boolean, default: false, doc: ""
+  attr :live, :boolean, default: false, doc: "Specifies whether this upload is live or input file"
   attr :space, :string, default: "medium", doc: "Space between items"
-  attr :size, :string, default: "extra_small", doc: "Determines the overall size of the elements, including padding, font size, and other items"
+
+  attr :size, :string,
+    default: "extra_small",
+    doc:
+      "Determines the overall size of the elements, including padding, font size, and other items"
+
   attr :label, :string, default: nil, doc: "Specifies text for the label"
-  attr :dashed, :boolean, default: true, doc: ""
+  attr :dashed, :boolean, default: true, doc: "Determines dashed border"
   attr :error_icon, :string, default: nil, doc: "Icon to be displayed alongside error messages"
   attr :errors, :list, default: [], doc: "List of error messages to be displayed"
   attr :upload, :any, doc: "LiveView upload map"
   attr :name, :any, doc: "Name of input"
-  attr :value, :any
+  attr :value, :any, doc: "Value of input"
 
   attr :dropzone, :boolean, default: false, doc: ""
   attr :dropzone_type, :string, default: "file", doc: "file, image"
@@ -36,7 +44,8 @@ defmodule MishkaChelekom.FileField do
   attr :rest, :global,
     include:
       ~w(autocomplete disabled form checked multiple readonly min max step required title autofocus),
-      doc: "Global attributes can define defaults which are merged with attributes provided by the caller"
+    doc:
+      "Global attributes can define defaults which are merged with attributes provided by the caller"
 
   @spec file_field(map()) :: Phoenix.LiveView.Rendered.t()
   def file_field(%{field: %Phoenix.HTML.FormField{} = field} = assigns) do

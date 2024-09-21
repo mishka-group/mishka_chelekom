@@ -3,16 +3,29 @@ defmodule MishkaChelekom.RangeField do
   import MishkaChelekomComponents
 
   @doc type: :component
-  attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
+  attr :id, :string,
+    default: nil,
+    doc: "A unique identifier is used to manage state and interaction"
+
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :label_class, :string, default: nil, doc: "Custom CSS class for the label styling"
   attr :color, :string, default: "primary", doc: "Determines color theme"
   attr :border, :string, default: "extra_small", doc: "Determines border style"
   attr :space, :string, default: "medium", doc: "Space between items"
-  attr :size, :string, default: "extra_small", doc: "Determines the overall size of the elements, including padding, font size, and other items"
+
+  attr :size, :string,
+    default: "extra_small",
+    doc:
+      "Determines the overall size of the elements, including padding, font size, and other items"
+
   attr :appearance, :string, default: "default", doc: "custom"
   attr :width, :string, default: "full", doc: "Determines the element width"
-  attr :ring, :boolean, default: true, doc: "Determines a ring border on focused input, utilities for creating outline rings with box-shadows."
+
+  attr :ring, :boolean,
+    default: true,
+    doc:
+      "Determines a ring border on focused input, utilities for creating outline rings with box-shadows."
+
   attr :reverse, :boolean, default: false, doc: "Switches the order of the element and label"
   attr :checked, :boolean, default: false, doc: "Specifies if the element is checked by default"
   attr :error_icon, :string, default: nil, doc: "Icon to be displayed alongside error messages"
@@ -26,7 +39,8 @@ defmodule MishkaChelekom.RangeField do
   attr :rest, :global,
     include:
       ~w(autocomplete disabled form checked multiple readonly min max step required title autofocus),
-      doc: "Global attributes can define defaults which are merged with attributes provided by the caller"
+    doc:
+      "Global attributes can define defaults which are merged with attributes provided by the caller"
 
   slot :range_value, required: false do
     attr :class, :string, doc: "Custom CSS class for additional styling"

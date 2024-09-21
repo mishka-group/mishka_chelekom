@@ -38,13 +38,25 @@ defmodule MishkaChelekom.Carousel do
   alias Phoenix.LiveView.JS
 
   @doc type: :component
-  attr :id, :string, required: true, doc: "A unique identifier is used to manage state and interaction"
+  attr :id, :string,
+    required: true,
+    doc: "A unique identifier is used to manage state and interaction"
+
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :overlay, :string, default: "dark", doc: "Determines an overlay"
-  attr :size, :string, default: "large", doc: "Determines the overall size of the elements, including padding, font size, and other items"
+
+  attr :size, :string,
+    default: "large",
+    doc:
+      "Determines the overall size of the elements, including padding, font size, and other items"
+
   attr :padding, :string, default: "medium", doc: "Determines padding for items"
   attr :text_position, :string, default: "center", doc: "Determines the element' text position"
-  attr :rest, :global, doc: "Global attributes can define defaults which are merged with attributes provided by the caller"
+
+  attr :rest, :global,
+    doc:
+      "Global attributes can define defaults which are merged with attributes provided by the caller"
+
   attr :indicator, :boolean, default: false, doc: "Specifies whether to show element indicators"
   attr :control, :boolean, default: true, doc: "Determines whether to show navigation controls"
 
@@ -53,7 +65,10 @@ defmodule MishkaChelekom.Carousel do
   slot :slide, required: true do
     attr :image, :string, doc: "Image displayed alongside of an item"
     attr :image_class, :string, doc: "Determines custom class for the image"
-    attr :navigate, :string, doc: "Defines the path for navigation within the application using a `navigate` attribute."
+
+    attr :navigate, :string,
+      doc: "Defines the path for navigation within the application using a `navigate` attribute."
+
     attr :patch, :string, doc: "Specifies the path for navigation using a LiveView patch."
     attr :href, :string, doc: "Sets the URL for an external link."
     attr :title, :string, doc: "Specifies the title of the element"
@@ -144,9 +159,18 @@ defmodule MishkaChelekom.Carousel do
   end
 
   @doc type: :component
-  attr :id, :string, required: true, doc: "A unique identifier is used to manage state and interaction"
-  attr :navigate, :string, default: nil, doc: "Defines the path for navigation within the application using a `navigate` attribute."
-  attr :patch, :string, default: nil, doc: "Specifies the path for navigation using a LiveView patch."
+  attr :id, :string,
+    required: true,
+    doc: "A unique identifier is used to manage state and interaction"
+
+  attr :navigate, :string,
+    default: nil,
+    doc: "Defines the path for navigation within the application using a `navigate` attribute."
+
+  attr :patch, :string,
+    default: nil,
+    doc: "Specifies the path for navigation using a LiveView patch."
+
   attr :href, :string, default: nil, doc: "Sets the URL for an external link."
   attr :image, :string, required: true, doc: "Image displayed alongside of an item"
   attr :index, :integer, required: true, doc: "Determines item index"
@@ -178,13 +202,24 @@ defmodule MishkaChelekom.Carousel do
   end
 
   @doc type: :component
-  attr :id, :string, required: true, doc: "A unique identifier is used to manage state and interaction"
+  attr :id, :string,
+    required: true,
+    doc: "A unique identifier is used to manage state and interaction"
+
   attr :title, :string, default: nil, doc: "Specifies the title of the element"
   attr :description, :string, default: nil, doc: "Determines a short description"
   attr :title_class, :string, default: "text-white", doc: "Determines custom class for the title"
-  attr :description_class, :string, default: nil, doc: "Determines custom class for the description"
+
+  attr :description_class, :string,
+    default: nil,
+    doc: "Determines custom class for the description"
+
   attr :wrapper_class, :string, default: nil, doc: "Determines custom class for the wrapper"
-  attr :content_position, :string, default: nil, doc: "Determines the alignment of the element's content"
+
+  attr :content_position, :string,
+    default: nil,
+    doc: "Determines the alignment of the element's content"
+
   attr :index, :integer, required: true, doc: "Determines item index"
 
   defp slide_content(assigns) do
@@ -222,7 +257,10 @@ defmodule MishkaChelekom.Carousel do
   end
 
   @doc type: :component
-  attr :id, :string, required: true, doc: "A unique identifier is used to manage state and interaction"
+  attr :id, :string,
+    required: true,
+    doc: "A unique identifier is used to manage state and interaction"
+
   attr :count, :integer, required: true, doc: "Count of items"
   attr :index, :integer, required: true, doc: "Determines item index"
 

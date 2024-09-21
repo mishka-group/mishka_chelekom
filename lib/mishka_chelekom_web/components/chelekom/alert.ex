@@ -84,14 +84,42 @@ defmodule MishkaChelekom.Alert do
   attr :flash, :map, default: %{}, doc: "the map of flash messages to display"
   attr :title, :string, default: nil, doc: "Specifies the title of the element"
   attr :kind, :atom, values: @kind_typs, doc: "used for styling and flash lookup"
-  attr :rest, :global, doc: "Global attributes can define defaults which are merged with attributes provided by the caller"
+
+  attr :rest, :global,
+    doc:
+      "Global attributes can define defaults which are merged with attributes provided by the caller"
+
   attr :variant, :string, values: @variants, default: "default", doc: "Determines the style"
-  attr :position, :string, values: @positions ++ [nil], default: nil, doc: "Determines the element position"
-  attr :width, :string, values: @sizes ++ ["full"], default: "full", doc: "Determines the element width"
-  attr :size, :string, values: @sizes, default: "medium", doc: "Determines the overall size of the elements, including padding, font size, and other items"
-  attr :rounded, :string, values: @sizes ++ ["full", "none"], default: "small", doc: "Determines the border radius"
-  attr :font_weight, :string, default: "font-normal", doc: "Determines custom class for the font weight"
-  attr :icon, :any, default: "hero-chat-bubble-bottom-center-text", doc: "Icon displayed alongside of an item"
+
+  attr :position, :string,
+    values: @positions ++ [nil],
+    default: nil,
+    doc: "Determines the element position"
+
+  attr :width, :string,
+    values: @sizes ++ ["full"],
+    default: "full",
+    doc: "Determines the element width"
+
+  attr :size, :string,
+    values: @sizes,
+    default: "medium",
+    doc:
+      "Determines the overall size of the elements, including padding, font size, and other items"
+
+  attr :rounded, :string,
+    values: @sizes ++ ["full", "none"],
+    default: "small",
+    doc: "Determines the border radius"
+
+  attr :font_weight, :string,
+    default: "font-normal",
+    doc: "Determines custom class for the font weight"
+
+  attr :icon, :any,
+    default: "hero-chat-bubble-bottom-center-text",
+    doc: "Icon displayed alongside of an item"
+
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
 
   slot :inner_block, doc: "Inner block that renders HEEx content"
@@ -142,7 +170,10 @@ defmodule MishkaChelekom.Alert do
       <.flash_group flash={@flash} />
   """
   @doc type: :component
-  attr :id, :string, default: "flash-group", doc: "A unique identifier is used to manage state and interaction"
+  attr :id, :string,
+    default: "flash-group",
+    doc: "A unique identifier is used to manage state and interaction"
+
   attr :flash, :map, required: true, doc: "the map of flash messages"
 
   def flash_group(assigns) do
@@ -186,20 +217,50 @@ defmodule MishkaChelekom.Alert do
       <.flash kind={:info} phx-mounted={show("#flash")}>Welcome Back!</.flash>
   """
   @doc type: :component
-  attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
+  attr :id, :string,
+    default: nil,
+    doc: "A unique identifier is used to manage state and interaction"
+
   attr :title, :string, default: nil, doc: "Specifies the title of the element"
   attr :kind, :atom, values: @kind_typs, doc: "used for styling and flash lookup"
   attr :variant, :string, values: @variants, default: "default", doc: "Determines the style"
-  attr :position, :string, values: @positions ++ [nil], default: nil, doc: "Determines the element position"
-  attr :width, :string, values: @sizes ++ ["full"], default: "full", doc: "Determines the element width"
-  attr :size, :string, values: @sizes, default: "medium", doc: "Determines the overall size of the elements, including padding, font size, and other items"
-  attr :rounded, :string, values: @sizes ++ ["full", "none"], default: "small", doc: "Determines the border radius"
-  attr :font_weight, :string, default: "font-normal", doc: "Determines custom class for the font weight"
-  attr :icon, :any, default: "hero-chat-bubble-bottom-center-text", doc: "Icon displayed alongside of an item"
+
+  attr :position, :string,
+    values: @positions ++ [nil],
+    default: nil,
+    doc: "Determines the element position"
+
+  attr :width, :string,
+    values: @sizes ++ ["full"],
+    default: "full",
+    doc: "Determines the element width"
+
+  attr :size, :string,
+    values: @sizes,
+    default: "medium",
+    doc:
+      "Determines the overall size of the elements, including padding, font size, and other items"
+
+  attr :rounded, :string,
+    values: @sizes ++ ["full", "none"],
+    default: "small",
+    doc: "Determines the border radius"
+
+  attr :font_weight, :string,
+    default: "font-normal",
+    doc: "Determines custom class for the font weight"
+
+  attr :icon, :any,
+    default: "hero-chat-bubble-bottom-center-text",
+    doc: "Icon displayed alongside of an item"
+
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
 
   slot :inner_block, doc: "Inner block that renders HEEx content"
-  attr :rest, :global, doc: "Global attributes can define defaults which are merged with attributes provided by the caller"
+
+  attr :rest, :global,
+    doc:
+      "Global attributes can define defaults which are merged with attributes provided by the caller"
 
   def alert(assigns) do
     ~H"""

@@ -31,14 +31,27 @@ defmodule MishkaChelekom.Dropdown do
   ]
 
   @doc type: :component
-  attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
+  attr :id, :string,
+    default: nil,
+    doc: "A unique identifier is used to manage state and interaction"
+
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :width, :string, default: "w-fit", doc: "Determines the element width"
   attr :position, :string, default: "bottom", doc: "Determines the element position"
   attr :relative, :string, default: nil, doc: "Custom relative position for the dropdown"
-  attr :clickable, :boolean, default: false, doc: "Determines if the element can be activated on click"
-  attr :nomobile, :boolean, default: false, doc: "Controls whether the dropdown is disabled on mobile devices"
-  attr :rest, :global, doc: "Global attributes can define defaults which are merged with attributes provided by the caller"
+
+  attr :clickable, :boolean,
+    default: false,
+    doc: "Determines if the element can be activated on click"
+
+  attr :nomobile, :boolean,
+    default: false,
+    doc: "Controls whether the dropdown is disabled on mobile devices"
+
+  attr :rest, :global,
+    doc:
+      "Global attributes can define defaults which are merged with attributes provided by the caller"
+
   slot :inner_block, required: false, doc: "Inner block that renders HEEx content"
 
   def dropdown(assigns) do
@@ -64,11 +77,17 @@ defmodule MishkaChelekom.Dropdown do
   end
 
   @doc type: :component
-  attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
+  attr :id, :string,
+    default: nil,
+    doc: "A unique identifier is used to manage state and interaction"
+
   attr :trigger_id, :string, default: nil, doc: "Identifies what is the triggered element id"
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   slot :inner_block, required: false, doc: "Inner block that renders HEEx content"
-  attr :rest, :global, doc: "Global attributes can define defaults which are merged with attributes provided by the caller"
+
+  attr :rest, :global,
+    doc:
+      "Global attributes can define defaults which are merged with attributes provided by the caller"
 
   def dropdown_trigger(assigns) do
     ~H"""
@@ -90,18 +109,34 @@ defmodule MishkaChelekom.Dropdown do
   end
 
   @doc type: :component
-  attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
+  attr :id, :string,
+    default: nil,
+    doc: "A unique identifier is used to manage state and interaction"
+
   attr :variant, :string, values: @variants, default: "shadow", doc: "Determines the style"
   attr :color, :string, values: @colors, default: "white", doc: "Determines color theme"
   attr :rounded, :string, default: nil, doc: "Determines the border radius"
-  attr :size, :string, default: nil, doc: "Determines the overall size of the elements, including padding, font size, and other items"
+
+  attr :size, :string,
+    default: nil,
+    doc:
+      "Determines the overall size of the elements, including padding, font size, and other items"
+
   attr :space, :string, default: nil, doc: "Space between items"
   attr :width, :string, default: "extra_large", doc: "Determines the element width"
-  attr :font_weight, :string, default: "font-normal", doc: "Determines custom class for the font weight"
+
+  attr :font_weight, :string,
+    default: "font-normal",
+    doc: "Determines custom class for the font weight"
+
   attr :padding, :string, default: "none", doc: "Determines padding for items"
   attr :border, :string, default: "extra_small", doc: "Determines border style"
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
-  attr :rest, :global, doc: "Global attributes can define defaults which are merged with attributes provided by the caller"
+
+  attr :rest, :global,
+    doc:
+      "Global attributes can define defaults which are merged with attributes provided by the caller"
+
   slot :inner_block, required: false, doc: "Inner block that renders HEEx content"
 
   # TODO: Add max-height and scroll

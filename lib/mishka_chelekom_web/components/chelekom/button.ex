@@ -104,15 +104,36 @@ defmodule MishkaChelekom.Button do
       <.button phx-click="go" class="ml-2">Send!</.button>
   """
   @doc type: :component
-  attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
+  attr :id, :string,
+    default: nil,
+    doc: "A unique identifier is used to manage state and interaction"
+
   attr :variant, :string, values: @variants, default: "default", doc: "Determines the style"
-  attr :variation, :string, values: ["horizontal", "vertical"], default: "horizontal", doc: "Defines the layout orientation of the component"
+
+  attr :variation, :string,
+    values: ["horizontal", "vertical"],
+    default: "horizontal",
+    doc: "Defines the layout orientation of the component"
+
   attr :color, :string, values: @colors, default: "white", doc: "Determines color theme"
   attr :border, :string, values: @colors, default: "white", doc: "Determines border style"
-  attr :rounded, :string, values: @sizes ++ ["full", "none"], default: "small", doc: "Determines the border radius"
-  attr :size, :string, default: "large", doc: "Determines the overall size of the elements, including padding, font size, and other items"
+
+  attr :rounded, :string,
+    values: @sizes ++ ["full", "none"],
+    default: "small",
+    doc: "Determines the border radius"
+
+  attr :size, :string,
+    default: "large",
+    doc:
+      "Determines the overall size of the elements, including padding, font size, and other items"
+
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
-  attr :rest, :global, doc: "Global attributes can define defaults which are merged with attributes provided by the caller"
+
+  attr :rest, :global,
+    doc:
+      "Global attributes can define defaults which are merged with attributes provided by the caller"
+
   slot :inner_block, required: false, doc: "Inner block that renders HEEx content"
 
   def button_group(assigns) do
@@ -136,26 +157,53 @@ defmodule MishkaChelekom.Button do
   end
 
   @doc type: :component
-  attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
+  attr :id, :string,
+    default: nil,
+    doc: "A unique identifier is used to manage state and interaction"
+
   attr :variant, :string, values: @variants, default: "default", doc: "Determines the style"
-  attr :type, :string, values: ["button", "submit", "reset", nil], default: nil, doc: "Specifies the type of the element"
+
+  attr :type, :string,
+    values: ["button", "submit", "reset", nil],
+    default: nil,
+    doc: "Specifies the type of the element"
+
   attr :color, :string, default: "white", doc: "Determines color theme"
   attr :rounded, :string, default: "large", doc: "Determines the border radius"
   attr :border, :string, default: "white", doc: "Determines border style"
-  attr :size, :string, default: "large", doc: "Determines the overall size of the elements, including padding, font size, and other items"
-  attr :content_position, :string, default: "center", doc: "Determines the alignment of the element's content"
-  attr :display, :string, default: "inline-flex", doc: "Specifies the CSS display property for the element"
+
+  attr :size, :string,
+    default: "large",
+    doc:
+      "Determines the overall size of the elements, including padding, font size, and other items"
+
+  attr :content_position, :string,
+    default: "center",
+    doc: "Determines the alignment of the element's content"
+
+  attr :display, :string,
+    default: "inline-flex",
+    doc: "Specifies the CSS display property for the element"
+
   attr :icon, :string, default: nil, doc: "Icon displayed alongside of an item"
   attr :icon_class, :string, default: nil, doc: "Determines custom class for the icon"
-  attr :font_weight, :string, default: "font-normal", doc: "Determines custom class for the font weight"
-  attr :indicator_class, :string, default: nil, doc: "Custom CSS class for styling the indicator element"
+
+  attr :font_weight, :string,
+    default: "font-normal",
+    doc: "Determines custom class for the font weight"
+
+  attr :indicator_class, :string,
+    default: nil,
+    doc: "Custom CSS class for styling the indicator element"
+
   attr :indicator_size, :string, default: nil, doc: "Defines the size of the indicator element"
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
 
   attr :rest, :global,
     include:
       ~w(disabled form name value right_icon left_icon pinging circle) ++ @indicator_positions,
-    doc: "Global attributes can define defaults which are merged with attributes provided by the caller"
+    doc:
+      "Global attributes can define defaults which are merged with attributes provided by the caller"
 
   slot :inner_block, required: false, doc: "Inner block that renders HEEx content"
 
@@ -189,19 +237,40 @@ defmodule MishkaChelekom.Button do
   end
 
   @doc type: :component
-  attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
+  attr :id, :string,
+    default: nil,
+    doc: "A unique identifier is used to manage state and interaction"
+
   attr :variant, :string, values: @variants, default: "default", doc: "Determines the style"
   attr :color, :string, default: "white", doc: "Determines color theme"
   attr :rounded, :string, default: "large", doc: "Determines the border radius"
   attr :value, :string, default: "", doc: "Value of input"
   attr :border, :string, default: "white", doc: "Determines border style"
-  attr :size, :string, default: "large", doc: "Determines the overall size of the elements, including padding, font size, and other items"
+
+  attr :size, :string,
+    default: "large",
+    doc:
+      "Determines the overall size of the elements, including padding, font size, and other items"
+
   attr :type, :string, default: "button", doc: "Determines type of input"
-  attr :content_position, :string, default: "center", doc: "Determines the alignment of the element's content"
-  attr :display, :string, default: "inline-block", doc: "Specifies the CSS display property for the element"
-  attr :font_weight, :string, default: "font-normal", doc: "Determines custom class for the font weight"
+
+  attr :content_position, :string,
+    default: "center",
+    doc: "Determines the alignment of the element's content"
+
+  attr :display, :string,
+    default: "inline-block",
+    doc: "Specifies the CSS display property for the element"
+
+  attr :font_weight, :string,
+    default: "font-normal",
+    doc: "Determines custom class for the font weight"
+
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
-  attr :rest, :global, doc: "Global attributes can define defaults which are merged with attributes provided by the caller"
+
+  attr :rest, :global,
+    doc:
+      "Global attributes can define defaults which are merged with attributes provided by the caller"
 
   def input_button(assigns) do
     ~H"""
@@ -228,28 +297,51 @@ defmodule MishkaChelekom.Button do
   end
 
   @doc type: :component
-  attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
+  attr :id, :string,
+    default: nil,
+    doc: "A unique identifier is used to manage state and interaction"
+
   attr :title, :string, default: nil, doc: "Specifies the title of the element"
-  attr :navigate, :string, doc: "Defines the path for navigation within the application using a `navigate` attribute."
+
+  attr :navigate, :string,
+    doc: "Defines the path for navigation within the application using a `navigate` attribute."
+
   attr :patch, :string, doc: "Specifies the path for navigation using a LiveView patch"
   attr :href, :string, doc: "Sets the URL for an external link"
   attr :variant, :string, values: @variants, default: "default", doc: "Determines the style"
   attr :color, :string, values: @colors, default: "white", doc: "Determines color theme"
   attr :rounded, :string, values: @sizes ++ ["full", "none"], default: "large", doc: ""
-  attr :size, :string, default: "large", doc: "Determines the overall size of the elements, including padding, font size, and other items"
+
+  attr :size, :string,
+    default: "large",
+    doc:
+      "Determines the overall size of the elements, including padding, font size, and other items"
+
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
-  attr :display, :string, default: "inline-flex", doc: "Specifies the CSS display property for the element"
+
+  attr :display, :string,
+    default: "inline-flex",
+    doc: "Specifies the CSS display property for the element"
+
   attr :icon, :string, default: nil, doc: "Icon displayed alongside of an item"
   attr :icon_class, :string, default: nil, doc: "Determines custom class for the icon"
-  attr :font_weight, :string, default: "font-normal", doc: "Determines custom class for the font weight"
-  attr :indicator_class, :string, default: nil, doc: "Custom CSS class for styling the indicator element"
+
+  attr :font_weight, :string,
+    default: "font-normal",
+    doc: "Determines custom class for the font weight"
+
+  attr :indicator_class, :string,
+    default: nil,
+    doc: "Custom CSS class for styling the indicator element"
+
   attr :indicator_size, :string, default: nil, doc: "Defines the size of the indicator element"
 
   attr :rest, :global,
     include:
       ~w(right_icon left_icon pinging circle download hreflang referrerpolicy rel target type csrf_token method replace) ++
         @indicator_positions,
-    doc: "Global attributes can define defaults which are merged with attributes provided by the caller"
+    doc:
+      "Global attributes can define defaults which are merged with attributes provided by the caller"
 
   slot :inner_block, required: false, doc: "Inner block that renders HEEx content"
 
@@ -335,8 +427,14 @@ defmodule MishkaChelekom.Button do
   @doc type: :component
   attr :position, :string, default: "none", doc: "Determines the element position"
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
-  attr :size, :string, doc: "Determines the overall size of the elements, including padding, font size, and other items"
-  attr :rest, :global, doc: "Global attributes can define defaults which are merged with attributes provided by the caller"
+
+  attr :size, :string,
+    doc:
+      "Determines the overall size of the elements, including padding, font size, and other items"
+
+  attr :rest, :global,
+    doc:
+      "Global attributes can define defaults which are merged with attributes provided by the caller"
 
   defp button_indicator(%{position: "left", rest: %{left_indicator: true}} = assigns) do
     ~H"""

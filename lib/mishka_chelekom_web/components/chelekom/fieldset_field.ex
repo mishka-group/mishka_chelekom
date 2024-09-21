@@ -17,7 +17,10 @@ defmodule MishkaChelekom.FieldsetField do
   import MishkaChelekomComponents
 
   @doc type: :component
-  attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
+  attr :id, :string,
+    default: nil,
+    doc: "A unique identifier is used to manage state and interaction"
+
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :color, :string, default: "light", doc: "Determines color theme"
   attr :border, :string, default: "extra_small", doc: "Determines border style"
@@ -25,7 +28,12 @@ defmodule MishkaChelekom.FieldsetField do
   attr :padding, :string, default: "small", doc: "Determines padding for items"
   attr :variant, :string, default: "outline", doc: "Determines the style"
   attr :space, :string, default: "medium", doc: "Space between items"
-  attr :size, :string, default: "extra_large", doc: "Determines the overall size of the elements, including padding, font size, and other items"
+
+  attr :size, :string,
+    default: "extra_large",
+    doc:
+      "Determines the overall size of the elements, including padding, font size, and other items"
+
   attr :error_icon, :string, default: nil, doc: "Icon to be displayed alongside error messages"
   attr :legend, :string, default: nil, doc: "Determines a caption for the content of its parent"
 
@@ -35,7 +43,10 @@ defmodule MishkaChelekom.FieldsetField do
 
   attr :field, Phoenix.HTML.FormField, doc: "a form field struct retrieved from the form"
 
-  attr :rest, :global, include: ~w(disabled form title), doc: "Global attributes can define defaults which are merged with attributes provided by the caller"
+  attr :rest, :global,
+    include: ~w(disabled form title),
+    doc:
+      "Global attributes can define defaults which are merged with attributes provided by the caller"
 
   slot :control, required: false, doc: "Defines a collection of elements inside the fieldset"
 

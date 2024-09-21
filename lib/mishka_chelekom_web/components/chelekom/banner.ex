@@ -99,9 +99,15 @@ defmodule MishkaChelekom.Banner do
   @positions ["top_left", "top_right", "bottom_left", "bottom_right", "center", "full"]
 
   @doc type: :component
-  attr :id, :string, required: true, doc: "A unique identifier is used to manage state and interaction"
+  attr :id, :string,
+    required: true,
+    doc: "A unique identifier is used to manage state and interaction"
 
-  attr :size, :string, default: "large", doc: "Determines the overall size of the elements, including padding, font size, and other items"
+  attr :size, :string,
+    default: "large",
+    doc:
+      "Determines the overall size of the elements, including padding, font size, and other items"
+
   attr :variant, :string, values: @variants, default: "default", doc: "Determines the style"
   attr :color, :string, values: @colors, default: "white", doc: "Determines color theme"
   attr :border, :string, default: "extra_small", doc: "Determines border style"
@@ -111,23 +117,53 @@ defmodule MishkaChelekom.Banner do
     default: "top",
     doc: ""
 
-  attr :rounded, :string, values: @sizes ++ ["none"], default: "none", doc: "Determines the border radius"
+  attr :rounded, :string,
+    values: @sizes ++ ["none"],
+    default: "none",
+    doc: "Determines the border radius"
 
   attr :rounded_position, :string,
     values: ["top", "bottom", "all", "none"],
     default: "none",
     doc: ""
 
-  attr :space, :string, values: @sizes ++ ["none"], default: "extra_small", doc: "Space between items"
+  attr :space, :string,
+    values: @sizes ++ ["none"],
+    default: "extra_small",
+    doc: "Space between items"
+
   attr :vertical_position, :string, values: ["top", "bottom"], default: "top", doc: ""
   attr :vertical_size, :string, default: "none", doc: "Specifies the vertical size of the element"
-  attr :position, :string, values: @positions, default: "full", doc: "Determines the element position"
-  attr :position_size, :string, values: @sizes ++ ["none"], default: "none", doc: "Determines the size for positioning the element"
-  attr :font_weight, :string, default: "font-normal", doc: "Determines custom class for the font weight"
-  attr :padding, :string, values: @sizes ++ ["none"], default: "extra_small", doc: "Determines padding for items"
+
+  attr :position, :string,
+    values: @positions,
+    default: "full",
+    doc: "Determines the element position"
+
+  attr :position_size, :string,
+    values: @sizes ++ ["none"],
+    default: "none",
+    doc: "Determines the size for positioning the element"
+
+  attr :font_weight, :string,
+    default: "font-normal",
+    doc: "Determines custom class for the font weight"
+
+  attr :padding, :string,
+    values: @sizes ++ ["none"],
+    default: "extra_small",
+    doc: "Determines padding for items"
+
   attr :class, :string, default: "", doc: "Custom CSS class for additional styling"
-  attr :params, :map, default: %{kind: "banner"}, doc: "A map of additional parameters used for element configuration, such as type or kind"
-  attr :rest, :global, include: ~w(right_dismiss left_dismiss), doc: "Global attributes can define defaults which are merged with attributes provided by the caller"
+
+  attr :params, :map,
+    default: %{kind: "banner"},
+    doc: "A map of additional parameters used for element configuration, such as type or kind"
+
+  attr :rest, :global,
+    include: ~w(right_dismiss left_dismiss),
+    doc:
+      "Global attributes can define defaults which are merged with attributes provided by the caller"
 
   slot :inner_block, required: false, doc: "Inner block that renders HEEx content"
 
@@ -160,11 +196,24 @@ defmodule MishkaChelekom.Banner do
   end
 
   @doc type: :component
-  attr :id, :string, required: true, doc: "A unique identifier is used to manage state and interaction"
-  attr :dismiss, :boolean, default: false, doc: "Indicates if the element can be dismissed with a close button."
+  attr :id, :string,
+    required: true,
+    doc: "A unique identifier is used to manage state and interaction"
+
+  attr :dismiss, :boolean,
+    default: false,
+    doc: "Indicates if the element can be dismissed with a close button."
+
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
-  attr :size, :string, default: "small", doc: "Determines the overall size of the elements, including padding, font size, and other items"
-  attr :params, :map, default: %{kind: "badge"}, doc: "A map of additional parameters used for element configuration, such as type or kind"
+
+  attr :size, :string,
+    default: "small",
+    doc:
+      "Determines the overall size of the elements, including padding, font size, and other items"
+
+  attr :params, :map,
+    default: %{kind: "badge"},
+    doc: "A map of additional parameters used for element configuration, such as type or kind"
 
   defp banner_dismiss(assigns) do
     ~H"""

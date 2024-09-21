@@ -2,7 +2,10 @@ defmodule MishkaChelekom.FormWrapper do
   use Phoenix.Component
 
   @doc type: :component
-  attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
+  attr :id, :string,
+    default: nil,
+    doc: "A unique identifier is used to manage state and interaction"
+
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :color, :string, default: nil, doc: "Determines color theme"
   attr :variant, :string, default: nil, doc: "Determines the style"
@@ -10,14 +13,19 @@ defmodule MishkaChelekom.FormWrapper do
   attr :rounded, :string, default: nil, doc: "Determines the border radius"
   attr :padding, :string, default: nil, doc: "Determines padding for items"
   attr :space, :string, default: nil, doc: "Space between items"
-  attr :size, :string, default: nil, doc: "Determines the overall size of the elements, including padding, font size, and other items"
+
+  attr :size, :string,
+    default: nil,
+    doc:
+      "Determines the overall size of the elements, including padding, font size, and other items"
 
   attr :for, :any, required: false, doc: "the data structure for the form"
   attr :as, :any, default: nil, doc: "the server side parameter to collect all input under"
 
   attr :rest, :global,
     include: ~w(autocomplete name rel action enctype method novalidate target multipart),
-    doc: "Global attributes can define defaults which are merged with attributes provided by the caller"
+    doc:
+      "Global attributes can define defaults which are merged with attributes provided by the caller"
 
   slot :inner_block, required: true, doc: "Inner block that renders HEEx content"
   slot :actions, required: false, doc: "the slot for form actions, such as a submit button"

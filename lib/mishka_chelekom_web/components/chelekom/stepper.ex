@@ -3,18 +3,32 @@ defmodule MishkaChelekom.Stepper do
   import MishkaChelekomComponents
 
   @doc type: :component
-  attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
-  attr :size, :string, default: "small", doc: "Determines the overall size of the elements, including padding, font size, and other items"
+  attr :id, :string,
+    default: nil,
+    doc: "A unique identifier is used to manage state and interaction"
+
+  attr :size, :string,
+    default: "small",
+    doc:
+      "Determines the overall size of the elements, including padding, font size, and other items"
+
   attr :margin, :string, default: "medium", doc: "Determines the element margin"
   attr :color, :string, default: "primary", doc: "Determines color theme"
   attr :space, :string, default: nil, doc: "Space between items"
   attr :border, :string, default: "extra_small", doc: "Determines border style"
-  attr :font_weight, :string, default: "font-normal", doc: "Determines custom class for the font weight"
+
+  attr :font_weight, :string,
+    default: "font-normal",
+    doc: "Determines custom class for the font weight"
+
   attr :max_width, :string, default: nil, doc: ""
   attr :seperator_size, :string, default: "extra_small", doc: ""
   attr :vertical, :boolean, default: false, doc: ""
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
-  attr :rest, :global, doc: "Global attributes can define defaults which are merged with attributes provided by the caller"
+
+  attr :rest, :global,
+    doc:
+      "Global attributes can define defaults which are merged with attributes provided by the caller"
 
   slot :inner_block, required: false, doc: "Inner block that renders HEEx content"
 
@@ -62,9 +76,16 @@ defmodule MishkaChelekom.Stepper do
   end
 
   @doc type: :component
-  attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
+  attr :id, :string,
+    default: nil,
+    doc: "A unique identifier is used to manage state and interaction"
+
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
-  attr :size, :string, default: "small", doc: "Determines the overall size of the elements, including padding, font size, and other items"
+
+  attr :size, :string,
+    default: "small",
+    doc:
+      "Determines the overall size of the elements, including padding, font size, and other items"
 
   attr :step, :string,
     values: ["none", "current", "loading", "compeleted", "canceled"],
@@ -77,7 +98,11 @@ defmodule MishkaChelekom.Stepper do
   attr :description, :string, default: nil, doc: "Determines a short description"
   attr :step_number, :integer, default: 1
   attr :vertical, :boolean, default: false, doc: ""
-  attr :clickable, :boolean, default: true, doc: "Determines if the element can be activated on click"
+
+  attr :clickable, :boolean,
+    default: true,
+    doc: "Determines if the element can be activated on click"
+
   attr :reverse, :boolean, default: false, doc: "Switches the order of the element and label"
   attr :border, :string, default: "none", doc: "Determines border style"
 

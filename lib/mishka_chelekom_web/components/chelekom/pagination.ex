@@ -31,7 +31,10 @@ defmodule MishkaChelekom.Pagination do
   ]
 
   @doc type: :component
-  attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
+  attr :id, :string,
+    default: nil,
+    doc: "A unique identifier is used to manage state and interaction"
+
   attr :total, :integer, required: true, doc: ""
   attr :active, :integer, default: 1, doc: ""
   attr :siblings, :integer, default: 1, doc: ""
@@ -41,12 +44,26 @@ defmodule MishkaChelekom.Pagination do
   attr :on_last, JS, default: %JS{}
   attr :on_next, JS, default: %JS{}
   attr :on_previous, JS, default: %JS{}
-  attr :size, :string, default: "medium", doc: "Determines the overall size of the elements, including padding, font size, and other items"
+
+  attr :size, :string,
+    default: "medium",
+    doc:
+      "Determines the overall size of the elements, including padding, font size, and other items"
+
   attr :space, :string, default: "gap-3", doc: "Space between items"
   attr :color, :string, values: @colors, default: "white", doc: "Determines color theme"
-  attr :rounded, :string, values: @sizes ++ ["full", "none"], default: "small", doc: "Determines the border radius"
+
+  attr :rounded, :string,
+    values: @sizes ++ ["full", "none"],
+    default: "small",
+    doc: "Determines the border radius"
+
   attr :variant, :string, values: @variants, default: "default", doc: "Determines the style"
-  attr :separator, :string, default: "hero-ellipsis-horizontal", doc: "Determines a separator for items of an element"
+
+  attr :separator, :string,
+    default: "hero-ellipsis-horizontal",
+    doc: "Determines a separator for items of an element"
+
   attr :next_label, :string, default: "hero-chevron-right", doc: ""
   attr :previous_label, :string, default: "hero-chevron-left", doc: ""
   attr :first_label, :string, default: "hero-chevron-double-left", doc: ""
@@ -58,7 +75,8 @@ defmodule MishkaChelekom.Pagination do
 
   attr :rest, :global,
     include: ~w(disabled hide_one_page show_edges hide_controls grouped),
-    doc: "Global attributes can define defaults which are merged with attributes provided by the caller"
+    doc:
+      "Global attributes can define defaults which are merged with attributes provided by the caller"
 
   def pagination(
         %{siblings: siblings, boundaries: boundaries, total: total, active: active} = assigns

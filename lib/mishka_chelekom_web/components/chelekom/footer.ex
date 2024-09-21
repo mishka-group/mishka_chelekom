@@ -24,7 +24,10 @@ defmodule MishkaChelekom.Footer do
   ]
 
   @doc type: :component
-  attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
+  attr :id, :string,
+    default: nil,
+    doc: "A unique identifier is used to manage state and interaction"
+
   attr :variant, :string, values: @variants, default: "default", doc: "Determines the style"
   attr :color, :string, values: @colors, default: "white", doc: "Determines color theme"
   attr :border, :string, default: "extra_small", doc: "Determines border style"
@@ -32,10 +35,17 @@ defmodule MishkaChelekom.Footer do
   attr :rounded, :string, default: nil, doc: "Determines the border radius"
   attr :max_width, :string, default: nil, doc: ""
   attr :space, :string, default: nil, doc: "Space between items"
-  attr :font_weight, :string, default: "font-normal", doc: "Determines custom class for the font weight"
+
+  attr :font_weight, :string,
+    default: "font-normal",
+    doc: "Determines custom class for the font weight"
+
   attr :padding, :string, default: "none", doc: "Determines padding for items"
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
-  attr :rest, :global, doc: "Global attributes can define defaults which are merged with attributes provided by the caller"
+
+  attr :rest, :global,
+    doc:
+      "Global attributes can define defaults which are merged with attributes provided by the caller"
 
   slot :inner_block, required: false, doc: "Inner block that renders HEEx content"
 
@@ -65,7 +75,11 @@ defmodule MishkaChelekom.Footer do
 
   @doc type: :component
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
-  attr :font_weight, :string, default: "font-normal", doc: "Determines custom class for the font weight"
+
+  attr :font_weight, :string,
+    default: "font-normal",
+    doc: "Determines custom class for the font weight"
+
   attr :text_position, :string, default: nil, doc: "Determines the element' text position"
   attr :space, :string, default: nil, doc: "Space between items"
   attr :padding, :string, default: "none", doc: "Determines padding for items"

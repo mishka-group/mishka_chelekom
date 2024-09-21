@@ -27,8 +27,15 @@ defmodule MishkaChelekom.Toast do
   ]
 
   @doc type: :component
-  attr :id, :string, required: true, doc: "A unique identifier is used to manage state and interaction"
-  attr :size, :string, default: "large", doc: "Determines the overall size of the elements, including padding, font size, and other items"
+  attr :id, :string,
+    required: true,
+    doc: "A unique identifier is used to manage state and interaction"
+
+  attr :size, :string,
+    default: "large",
+    doc:
+      "Determines the overall size of the elements, including padding, font size, and other items"
+
   attr :fixed, :boolean, default: true, doc: ""
   attr :variant, :string, values: @variants, default: "default", doc: "Determines the style"
   attr :color, :string, values: @colors, default: "white", doc: "Determines color theme"
@@ -40,10 +47,19 @@ defmodule MishkaChelekom.Toast do
   attr :vertical_space, :string, default: "extra_small", doc: ""
   attr :horizontal, :string, values: ["left", "right", "center"], default: "right", doc: ""
   attr :horizontal_space, :string, default: "extra_small", doc: ""
-  attr :font_weight, :string, default: "font-normal", doc: "Determines custom class for the font weight"
+
+  attr :font_weight, :string,
+    default: "font-normal",
+    doc: "Determines custom class for the font weight"
+
   attr :class, :string, default: "", doc: "Additional CSS classes to be added to the toast."
   attr :params, :map, default: %{kind: "toast"}
-  attr :rest, :global, include: ~w(right_dismiss left_dismiss), doc: "Global attributes can define defaults which are merged with attributes provided by the caller"
+
+  attr :rest, :global,
+    include: ~w(right_dismiss left_dismiss),
+    doc:
+      "Global attributes can define defaults which are merged with attributes provided by the caller"
+
   attr :content_border, :string, default: "none", doc: ""
   attr :border_position, :string, default: "start", doc: ""
   attr :row_direction, :string, default: "none", doc: ""
@@ -91,14 +107,21 @@ defmodule MishkaChelekom.Toast do
   end
 
   @doc type: :component
-  attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
+  attr :id, :string,
+    default: nil,
+    doc: "A unique identifier is used to manage state and interaction"
+
   attr :space, :string, default: "small", doc: "Space between items"
   attr :vertical, :string, values: ["top", "bottom"], default: "bottom", doc: ""
   attr :vertical_space, :string, default: "extra_small", doc: ""
   attr :horizontal, :string, values: ["left", "right", "center"], default: "right", doc: ""
   attr :horizontal_space, :string, default: "extra_small", doc: ""
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
-  attr :rest, :global, doc: "Global attributes can define defaults which are merged with attributes provided by the caller"
+
+  attr :rest, :global,
+    doc:
+      "Global attributes can define defaults which are merged with attributes provided by the caller"
+
   slot :inner_block, required: false, doc: "Inner block that renders HEEx content"
 
   def toast_group(assigns) do
@@ -120,10 +143,17 @@ defmodule MishkaChelekom.Toast do
   end
 
   @doc type: :component
-  attr :id, :string, required: true, doc: "A unique identifier is used to manage state and interaction"
+  attr :id, :string,
+    required: true,
+    doc: "A unique identifier is used to manage state and interaction"
+
   attr :dismiss, :boolean, default: false
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
-  attr :size, :string, doc: "Determines the overall size of the elements, including padding, font size, and other items"
+
+  attr :size, :string,
+    doc:
+      "Determines the overall size of the elements, including padding, font size, and other items"
+
   attr :params, :map, default: %{kind: "toast"}
 
   defp toast_dismiss(assigns) do

@@ -89,15 +89,39 @@ defmodule MishkaChelekom.Blockquote do
   ]
 
   @doc type: :component
-  attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
+  attr :id, :string,
+    default: nil,
+    doc: "A unique identifier is used to manage state and interaction"
+
   attr :variant, :string, values: @variants, default: "default", doc: "Determines the style"
   attr :color, :string, values: @colors, default: "white", doc: "Determines color theme"
-  attr :border, :string, values: @sizes ++ [nil], default: "medium", doc: "Determines border style"
-  attr :rounded, :string, values: @sizes ++ ["full", "none"], default: "small", doc: "Determines the border radius"
-  attr :size, :string, default: "medium", doc: "Determines the overall size of the elements, including padding, font size, and other items"
+
+  attr :border, :string,
+    values: @sizes ++ [nil],
+    default: "medium",
+    doc: "Determines border style"
+
+  attr :rounded, :string,
+    values: @sizes ++ ["full", "none"],
+    default: "small",
+    doc: "Determines the border radius"
+
+  attr :size, :string,
+    default: "medium",
+    doc:
+      "Determines the overall size of the elements, including padding, font size, and other items"
+
   attr :space, :string, values: @sizes, default: "small", doc: "Space between items"
-  attr :font_weight, :string, default: "font-normal", doc: "Determines custom class for the font weight"
-  attr :padding, :string, values: @sizes ++ ["none"], default: "small", doc: "Determines padding for items"
+
+  attr :font_weight, :string,
+    default: "font-normal",
+    doc: "Determines custom class for the font weight"
+
+  attr :padding, :string,
+    values: @sizes ++ ["none"],
+    default: "small",
+    doc: "Determines padding for items"
+
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :icon, :string, default: "hero-quote", doc: "Icon displayed alongside of an item"
   attr :icon_class, :string, default: nil, doc: "Determines custom class for the icon"
@@ -105,7 +129,10 @@ defmodule MishkaChelekom.Blockquote do
   slot :caption, required: false do
     attr :image, :string, doc: "Image displayed alongside of an item"
     attr :image_class, :string, doc: "Determines custom class for the image"
-    attr :position, :string, values: ["right", "left", "center"], doc: "Determines the element position"
+
+    attr :position, :string,
+      values: ["right", "left", "center"],
+      doc: "Determines the element position"
   end
 
   slot :content, required: false
@@ -113,7 +140,8 @@ defmodule MishkaChelekom.Blockquote do
 
   attr :rest, :global,
     include: ~w(left_border right_border hide_border full_border hide_icon),
-    doc: "Global attributes can define defaults which are merged with attributes provided by the caller"
+    doc:
+      "Global attributes can define defaults which are merged with attributes provided by the caller"
 
   def blockquote(assigns) do
     ~H"""

@@ -38,19 +38,39 @@ defmodule MishkaChelekom.Divider do
   ]
 
   @doc type: :component
-  attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
-  attr :type, :string, values: ["dashed", "dotted", "solid"], default: "solid", doc: "Determines type of element"
+  attr :id, :string,
+    default: nil,
+    doc: "A unique identifier is used to manage state and interaction"
+
+  attr :type, :string,
+    values: ["dashed", "dotted", "solid"],
+    default: "solid",
+    doc: "Determines type of element"
+
   attr :color, :string, values: @colors, default: "silver", doc: "Determines color theme"
-  attr :size, :string, default: "extra_small", doc: "Determines the overall size of the elements, including padding, font size, and other items"
+
+  attr :size, :string,
+    default: "extra_small",
+    doc:
+      "Determines the overall size of the elements, including padding, font size, and other items"
+
   attr :width, :string, default: "full", doc: "Determines the element width"
   attr :height, :string, default: "auto", doc: "Determines the element width"
   attr :margin, :string, default: "none", doc: "Determines the element margin"
-  attr :variation, :string, values: ["horizontal", "vertical"], default: "horizontal", doc: "Defines the layout orientation of the component"
+
+  attr :variation, :string,
+    values: ["horizontal", "vertical"],
+    default: "horizontal",
+    doc: "Defines the layout orientation of the component"
 
   slot :text, required: false do
     attr :class, :string, doc: "Custom CSS class for additional styling"
     attr :color, :string, doc: "Determines color theme"
-    attr :size, :string, doc: "Determines the overall size of the elements, including padding, font size, and other items"
+
+    attr :size, :string,
+      doc:
+        "Determines the overall size of the elements, including padding, font size, and other items"
+
     attr :position, :string, doc: "Determines the element position"
   end
 
@@ -59,12 +79,19 @@ defmodule MishkaChelekom.Divider do
     attr :class, :string, doc: "Custom CSS class for additional styling"
     attr :icon_class, :string, doc: "Determines custom class for the icon"
     attr :color, :string, doc: "Determines color theme"
-    attr :size, :string, doc: "Determines the overall size of the elements, including padding, font size, and other items"
+
+    attr :size, :string,
+      doc:
+        "Determines the overall size of the elements, including padding, font size, and other items"
+
     attr :position, :string, doc: "Determines the element position"
   end
 
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
-  attr :rest, :global, doc: "Global attributes can define defaults which are merged with attributes provided by the caller"
+
+  attr :rest, :global,
+    doc:
+      "Global attributes can define defaults which are merged with attributes provided by the caller"
 
   def divider(%{variation: "vertical"} = assigns) do
     ~H"""
@@ -152,17 +179,33 @@ defmodule MishkaChelekom.Divider do
   end
 
   @doc type: :component
-  attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
-  attr :type, :string, values: ["dashed", "dotted", "solid"], default: "solid", doc: "Specifies the type of the element"
+  attr :id, :string,
+    default: nil,
+    doc: "A unique identifier is used to manage state and interaction"
+
+  attr :type, :string,
+    values: ["dashed", "dotted", "solid"],
+    default: "solid",
+    doc: "Specifies the type of the element"
+
   attr :color, :string, values: @colors, default: "silver", doc: "Determines color theme"
-  attr :size, :string, default: "extra_small", doc: "Determines the overall size of the elements, including padding, font size, and other items"
+
+  attr :size, :string,
+    default: "extra_small",
+    doc:
+      "Determines the overall size of the elements, including padding, font size, and other items"
+
   attr :width, :string, default: "full", doc: "Determines the element width"
   attr :margin, :string, default: "none", doc: "Determines the element margin"
 
   slot :text, required: false do
     attr :class, :string, doc: "Custom CSS class for additional styling"
     attr :color, :string, doc: "Determines color theme"
-    attr :size, :string, doc: "Determines the overall size of the elements, including padding, font size, and other items"
+
+    attr :size, :string,
+      doc:
+        "Determines the overall size of the elements, including padding, font size, and other items"
+
     attr :position, :string, doc: "Determines the element position"
   end
 
@@ -171,11 +214,17 @@ defmodule MishkaChelekom.Divider do
     attr :class, :string, doc: "Custom CSS class for additional styling"
     attr :icon_class, :string, doc: "Determines custom class for the icon"
     attr :color, :string, doc: "Determines color theme"
-    attr :size, :string, doc: "Determines the overall size of the elements, including padding, font size, and other items"
+
+    attr :size, :string,
+      doc:
+        "Determines the overall size of the elements, including padding, font size, and other items"
   end
 
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
-  attr :rest, :global, doc: "Global attributes can define defaults which are merged with attributes provided by the caller"
+
+  attr :rest, :global,
+    doc:
+      "Global attributes can define defaults which are merged with attributes provided by the caller"
 
   def hr(assigns) do
     ~H"""

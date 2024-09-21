@@ -26,14 +26,25 @@ defmodule MishkaChelekom.ColorField do
   import MishkaChelekomComponents
 
   @doc type: :component
-  attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
+  attr :id, :string,
+    default: nil,
+    doc: "A unique identifier is used to manage state and interaction"
+
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :color, :string, default: "white", doc: "Determines color theme"
   attr :border, :string, default: "extra_small", doc: "Determines border style"
   attr :rounded, :string, default: "small", doc: "Determines the border radius"
   attr :description, :string, default: nil, doc: "Determines a short description"
-  attr :size, :string, default: "extra_large", doc: "Determines the overall size of the elements, including padding, font size, and other items"
-  attr :circle, :boolean, default: false, doc: "Determines if the color input should be displayed as a circle"
+
+  attr :size, :string,
+    default: "extra_large",
+    doc:
+      "Determines the overall size of the elements, including padding, font size, and other items"
+
+  attr :circle, :boolean,
+    default: false,
+    doc: "Determines if the color input should be displayed as a circle"
+
   attr :error_icon, :string, default: nil, doc: "Icon to be displayed alongside error messages"
   attr :label, :string, default: nil, doc: "Specifies text for the label"
 
@@ -53,9 +64,11 @@ defmodule MishkaChelekom.ColorField do
 
   attr :field, Phoenix.HTML.FormField, doc: "a form field struct retrieved from the form"
 
-  attr :rest, :global, include: ~w(autocomplete disabled form list min max pattern placeholder
+  attr :rest, :global,
+    include: ~w(autocomplete disabled form list min max pattern placeholder
         readonly required size inputmode inputmode step title autofocus),
-  doc: "Global attributes can define defaults which are merged with attributes provided by the caller"
+    doc:
+      "Global attributes can define defaults which are merged with attributes provided by the caller"
 
   @spec color_field(map()) :: Phoenix.LiveView.Rendered.t()
   def color_field(%{field: %Phoenix.HTML.FormField{} = field} = assigns) do

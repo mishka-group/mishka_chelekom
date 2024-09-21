@@ -78,7 +78,10 @@ defmodule MishkaChelekom.Accordion do
   ]
 
   @doc type: :component
-  attr :id, :string, required: true, doc: "A unique identifier is used to manage state and interaction"
+  attr :id, :string,
+    required: true,
+    doc: "A unique identifier is used to manage state and interaction"
+
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :variant, :string, values: @variants, default: "default", doc: "Determines the style"
   attr :space, :string, values: @sizes, default: "small", doc: "Space between items"
@@ -86,12 +89,27 @@ defmodule MishkaChelekom.Accordion do
   attr :border, :string, default: "transparent", doc: "Determines border style"
   attr :padding, :string, default: "small", doc: "Determines padding for items"
   attr :rounded, :string, default: "none", doc: "Determines the border radius"
-  attr :chevron_icon, :string, default: "hero-chevron-right", doc: "Determines the icon for the chevron"
-  attr :media_size, :string, values: @sizes, default: "small", doc: "Determines size of the media elements"
-  attr :size, :string, default: nil, doc: "Determines the overall size of the elements, including padding, font size, and other items"
+
+  attr :chevron_icon, :string,
+    default: "hero-chevron-right",
+    doc: "Determines the icon for the chevron"
+
+  attr :media_size, :string,
+    values: @sizes,
+    default: "small",
+    doc: "Determines size of the media elements"
+
+  attr :size, :string,
+    default: nil,
+    doc:
+      "Determines the overall size of the elements, including padding, font size, and other items"
 
   slot :item, required: true, doc: "Specifies item slot of a accordion" do
-    attr :title, :string, required: true, doc: "Specifies the title of the element", doc: "Specifies the title of the element"
+    attr :title, :string,
+      required: true,
+      doc: "Specifies the title of the element",
+      doc: "Specifies the title of the element"
+
     attr :description, :string, doc: "Determines a short description"
     attr :icon, :string, doc: "Icon displayed alongside of an item"
     attr :class, :string, doc: "Custom CSS class for additional styling"
@@ -108,7 +126,8 @@ defmodule MishkaChelekom.Accordion do
 
   attr :rest, :global,
     include: ~w(left_chevron right_chevron chevron hide_chevron),
-    doc: "Global attributes can define defaults which are merged with attributes provided by the caller"
+    doc:
+      "Global attributes can define defaults which are merged with attributes provided by the caller"
 
   def accordion(assigns) do
     ~H"""
@@ -188,17 +207,35 @@ defmodule MishkaChelekom.Accordion do
   end
 
   @doc type: :component
-  attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
+  attr :id, :string,
+    default: nil,
+    doc: "A unique identifier is used to manage state and interaction"
+
   attr :name, :string, default: nil, doc: "Specifies the name of the element"
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :variant, :string, values: @variants, default: "default", doc: "Determines the style"
   attr :space, :string, values: @sizes, default: "small", doc: "Space between items"
   attr :color, :string, default: "white", doc: "Determines color theme"
   attr :border, :string, default: "transparent", doc: "Determines border style"
-  attr :padding, :string, values: @sizes ++ ["none"], default: "small", doc: "Determines padding for items"
-  attr :rounded, :string, values: @sizes ++ ["full", "none"], default: "none", doc: "Determines the border radius"
-  attr :media_size, :string, values: @sizes, default: "small", doc: "Determines size of the media elements"
-  attr :chevron_icon, :string, default: "hero-chevron-right", doc: "Determines the icon for the chevron"
+
+  attr :padding, :string,
+    values: @sizes ++ ["none"],
+    default: "small",
+    doc: "Determines padding for items"
+
+  attr :rounded, :string,
+    values: @sizes ++ ["full", "none"],
+    default: "none",
+    doc: "Determines the border radius"
+
+  attr :media_size, :string,
+    values: @sizes,
+    default: "small",
+    doc: "Determines size of the media elements"
+
+  attr :chevron_icon, :string,
+    default: "hero-chevron-right",
+    doc: "Determines the icon for the chevron"
 
   slot :item, required: true, doc: "Specifies item slot of a accordion" do
     attr :title, :string, required: true, doc: "Specifies the title of the element"
@@ -216,7 +253,8 @@ defmodule MishkaChelekom.Accordion do
 
   attr :rest, :global,
     include: ~w(left_chevron right_chevron chevron hide_chevron),
-    doc: "Global attributes can define defaults which are merged with attributes provided by the caller"
+    doc:
+      "Global attributes can define defaults which are merged with attributes provided by the caller"
 
   def native_accordion(assigns) do
     ~H"""
@@ -267,13 +305,19 @@ defmodule MishkaChelekom.Accordion do
     """
   end
 
-  attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
+  attr :id, :string,
+    default: nil,
+    doc: "A unique identifier is used to manage state and interaction"
+
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :item, :map, doc: "Determines each item"
   attr :position, :string, values: ["left", "right"], doc: "Determines the element position"
   attr :chevron_icon, :string, doc: "Determines the icon for the chevron"
   attr :hide_chevron, :boolean, default: false, doc: "Hide chevron icon"
-  attr :rest, :global, doc: "Global attributes can define defaults which are merged with attributes provided by the caller"
+
+  attr :rest, :global,
+    doc:
+      "Global attributes can define defaults which are merged with attributes provided by the caller"
 
   defp native_chevron_position(%{position: "left"} = assigns) do
     ~H"""

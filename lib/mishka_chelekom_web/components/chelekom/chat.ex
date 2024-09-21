@@ -56,17 +56,34 @@ defmodule MishkaChelekom.Chat do
   ]
 
   @doc type: :component
-  attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
+  attr :id, :string,
+    default: nil,
+    doc: "A unique identifier is used to manage state and interaction"
+
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :variant, :string, values: @variants, default: "default", doc: "Determines the style"
   attr :color, :string, values: @colors, default: "light", doc: "Determines color theme"
   attr :border, :string, default: "extra_small", doc: "Determines border style"
   attr :rounded, :string, default: "extra_large", doc: "Determines the border radius"
-  attr :size, :string, default: "medium", doc: "Determines the overall size of the elements, including padding, font size, and other items"
+
+  attr :size, :string,
+    default: "medium",
+    doc:
+      "Determines the overall size of the elements, including padding, font size, and other items"
+
   attr :space, :string, default: "extra_small", doc: "Space between items"
-  attr :position, :string, values: ["normal", "flipped"], default: "normal", doc: "Determines the element position"
+
+  attr :position, :string,
+    values: ["normal", "flipped"],
+    default: "normal",
+    doc: "Determines the element position"
+
   attr :padding, :string, default: "small", doc: "Determines padding for items"
-  attr :rest, :global, doc: "Global attributes can define defaults which are merged with attributes provided by the caller"
+
+  attr :rest, :global,
+    doc:
+      "Global attributes can define defaults which are merged with attributes provided by the caller"
+
   slot :inner_block, required: false, doc: "Inner block that renders HEEx content"
 
   def chat(assigns) do
@@ -92,17 +109,29 @@ defmodule MishkaChelekom.Chat do
   end
 
   @doc type: :component
-  attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
-  attr :font_weight, :string, default: "font-normal", doc: "Determines custom class for the font weight"
+  attr :id, :string,
+    default: nil,
+    doc: "A unique identifier is used to manage state and interaction"
+
+  attr :font_weight, :string,
+    default: "font-normal",
+    doc: "Determines custom class for the font weight"
+
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
-  attr :rest, :global, doc: "Global attributes can define defaults which are merged with attributes provided by the caller"
+
+  attr :rest, :global,
+    doc:
+      "Global attributes can define defaults which are merged with attributes provided by the caller"
 
   slot :status, required: false, doc: "Defines a slot for displaying status information" do
     attr :time, :string, doc: "Displays the time"
     attr :deliver, :string, doc: "Indicates the delivery status"
   end
 
-  slot :meta, required: false, doc: "Defines a slot for adding custom metadata or additional information"
+  slot :meta,
+    required: false,
+    doc: "Defines a slot for adding custom metadata or additional information"
+
   slot :inner_block, required: false, doc: "Inner block that renders HEEx content"
 
   def chat_section(assigns) do

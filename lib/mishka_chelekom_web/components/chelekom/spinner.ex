@@ -33,12 +33,23 @@ defmodule MishkaChelekom.Spinner do
   ]
 
   @doc type: :component
-  attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
+  attr :id, :string,
+    default: nil,
+    doc: "A unique identifier is used to manage state and interaction"
+
   attr :type, :string, values: @spinner_types, default: "default", doc: ""
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :color, :string, values: @colors, default: "dark", doc: "Determines color theme"
-  attr :size, :string, values: @sizes, default: "small", doc: "Determines the overall size of the elements, including padding, font size, and other items"
-  attr :rest, :global, doc: "Global attributes can define defaults which are merged with attributes provided by the caller"
+
+  attr :size, :string,
+    values: @sizes,
+    default: "small",
+    doc:
+      "Determines the overall size of the elements, including padding, font size, and other items"
+
+  attr :rest, :global,
+    doc:
+      "Global attributes can define defaults which are merged with attributes provided by the caller"
 
   def spinner(assigns) do
     ~H"""

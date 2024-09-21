@@ -4,7 +4,10 @@ defmodule MishkaChelekom.TableContent do
   alias Phoenix.LiveView.JS
 
   @doc type: :component
-  attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
+  attr :id, :string,
+    default: nil,
+    doc: "A unique identifier is used to manage state and interaction"
+
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :title, :string, default: nil, doc: "Specifies the title of the element"
   attr :color, :string, default: "white", doc: "Determines color theme"
@@ -14,8 +17,16 @@ defmodule MishkaChelekom.TableContent do
   attr :padding, :string, default: nil, doc: "Determines padding for items"
   attr :rounded, :string, default: nil, doc: "Determines the border radius"
   attr :border, :string, default: "extra_small", doc: "Determines border style"
-  attr :size, :string, default: "small", doc: "Determines the overall size of the elements, including padding, font size, and other items"
-  attr :rest, :global, doc: "Global attributes can define defaults which are merged with attributes provided by the caller"
+
+  attr :size, :string,
+    default: "small",
+    doc:
+      "Determines the overall size of the elements, including padding, font size, and other items"
+
+  attr :rest, :global,
+    doc:
+      "Global attributes can define defaults which are merged with attributes provided by the caller"
+
   slot :inner_block, required: false, doc: "Inner block that renders HEEx content"
 
   def table_content(assigns) do
@@ -40,12 +51,22 @@ defmodule MishkaChelekom.TableContent do
   end
 
   @doc type: :component
-  attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
+  attr :id, :string,
+    default: nil,
+    doc: "A unique identifier is used to manage state and interaction"
+
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :title, :string, default: nil, doc: "Specifies the title of the element"
   attr :icon, :string, default: nil, doc: "Icon displayed alongside of an item"
-  attr :font_weight, :string, default: "font-normal", doc: "Determines custom class for the font weight"
-  attr :rest, :global, doc: "Global attributes can define defaults which are merged with attributes provided by the caller"
+
+  attr :font_weight, :string,
+    default: "font-normal",
+    doc: "Determines custom class for the font weight"
+
+  attr :rest, :global,
+    doc:
+      "Global attributes can define defaults which are merged with attributes provided by the caller"
+
   slot :inner_block, required: false, doc: "Inner block that renders HEEx content"
 
   def content_wrapper(assigns) do
@@ -65,14 +86,27 @@ defmodule MishkaChelekom.TableContent do
   end
 
   @doc type: :component
-  attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
+  attr :id, :string,
+    default: nil,
+    doc: "A unique identifier is used to manage state and interaction"
+
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :title, :string, default: nil, doc: "Specifies the title of the element"
   attr :icon, :string, default: nil, doc: "Icon displayed alongside of an item"
   attr :icon_class, :string, default: nil, doc: "Determines custom class for the icon"
-  attr :font_weight, :string, default: "font-noraml", doc: "Determines custom class for the font weight"
-  attr :active, :boolean, default: false, doc: "Indicates whether the element is currently active and visible"
-  attr :rest, :global, doc: "Global attributes can define defaults which are merged with attributes provided by the caller"
+
+  attr :font_weight, :string,
+    default: "font-noraml",
+    doc: "Determines custom class for the font weight"
+
+  attr :active, :boolean,
+    default: false,
+    doc: "Indicates whether the element is currently active and visible"
+
+  attr :rest, :global,
+    doc:
+      "Global attributes can define defaults which are merged with attributes provided by the caller"
+
   slot :inner_block, required: false, doc: "Inner block that renders HEEx content"
 
   def content_item(assigns) do

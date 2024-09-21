@@ -3,12 +3,19 @@ defmodule MishkaChelekom.Timeline do
   import MishkaChelekomComponents
 
   @doc type: :component
-  attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
+  attr :id, :string,
+    default: nil,
+    doc: "A unique identifier is used to manage state and interaction"
+
   attr :color, :string, default: "silver", doc: "Determines color theme"
   attr :hide_last_line, :boolean, default: false, doc: ""
   attr :gapped_sections, :boolean, default: false, doc: ""
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
-  attr :rest, :global, doc: "Global attributes can define defaults which are merged with attributes provided by the caller"
+
+  attr :rest, :global,
+    doc:
+      "Global attributes can define defaults which are merged with attributes provided by the caller"
+
   attr :horizontal, :boolean, default: false, doc: ""
 
   slot :inner_block, required: false, doc: "Inner block that renders HEEx content"
@@ -45,9 +52,17 @@ defmodule MishkaChelekom.Timeline do
   end
 
   @doc type: :component
-  attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
+  attr :id, :string,
+    default: nil,
+    doc: "A unique identifier is used to manage state and interaction"
+
   attr :line_width, :string, default: "extra_small", doc: ""
-  attr :size, :string, default: "extra_small", doc: "Determines the overall size of the elements, including padding, font size, and other items"
+
+  attr :size, :string,
+    default: "extra_small",
+    doc:
+      "Determines the overall size of the elements, including padding, font size, and other items"
+
   attr :bullet_icon, :string, default: nil, doc: ""
   attr :image, :string, default: nil, doc: "Image displayed alongside of an item"
   attr :title, :string, default: nil, doc: "Specifies the title of the element"
@@ -55,7 +70,10 @@ defmodule MishkaChelekom.Timeline do
   attr :description, :string, default: nil, doc: "Determines a short description"
   attr :horizontal, :boolean, default: false, doc: ""
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
-  attr :rest, :global, doc: "Global attributes can define defaults which are merged with attributes provided by the caller"
+
+  attr :rest, :global,
+    doc:
+      "Global attributes can define defaults which are merged with attributes provided by the caller"
 
   slot :inner_block, required: false, doc: "Inner block that renders HEEx content"
 

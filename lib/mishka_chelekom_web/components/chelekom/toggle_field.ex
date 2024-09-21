@@ -3,7 +3,10 @@ defmodule MishkaChelekom.ToggleField do
   import MishkaChelekomComponents
 
   @doc type: :component
-  attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
+  attr :id, :string,
+    default: nil,
+    doc: "A unique identifier is used to manage state and interaction"
+
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :color, :string, default: "primary", doc: "Determines color theme"
   attr :description, :string, default: nil, doc: "Determines a short description"
@@ -11,9 +14,19 @@ defmodule MishkaChelekom.ToggleField do
   attr :rounded, :string, default: "small", doc: "Determines the border radius"
   attr :space, :string, default: "medium", doc: "Space between items"
   attr :labe_class, :string, default: nil, doc: ""
-  attr :size, :string, default: "medium", doc: "Determines the overall size of the elements, including padding, font size, and other items"
+
+  attr :size, :string,
+    default: "medium",
+    doc:
+      "Determines the overall size of the elements, including padding, font size, and other items"
+
   attr :checked, :boolean, default: false, doc: ""
-  attr :ring, :boolean, default: true, doc: "Determines a ring border on focused input, utilities for creating outline rings with box-shadows."
+
+  attr :ring, :boolean,
+    default: true,
+    doc:
+      "Determines a ring border on focused input, utilities for creating outline rings with box-shadows."
+
   attr :reverse, :boolean, default: false, doc: "Switches the order of the element and label"
   attr :error_icon, :string, default: nil, doc: "Icon to be displayed alongside error messages"
   attr :label, :string, default: nil, doc: "Specifies text for the label"
@@ -27,7 +40,8 @@ defmodule MishkaChelekom.ToggleField do
   attr :rest, :global,
     include:
       ~w(autocomplete disabled form indeterminate checked multiple readonly required title autofocus),
-      doc: "Global attributes can define defaults which are merged with attributes provided by the caller"
+    doc:
+      "Global attributes can define defaults which are merged with attributes provided by the caller"
 
   @spec toggle_field(map()) :: Phoenix.LiveView.Rendered.t()
   def toggle_field(%{field: %Phoenix.HTML.FormField{} = field} = assigns) do

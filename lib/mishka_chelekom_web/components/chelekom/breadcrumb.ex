@@ -72,10 +72,22 @@ defmodule MishkaChelekom.Breadcrumb do
 
   @doc type: :component
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
-  attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
-  attr :separator, :string, default: "hero-chevron-right", doc: "Determines a separator for items of an element"
+
+  attr :id, :string,
+    default: nil,
+    doc: "A unique identifier is used to manage state and interaction"
+
+  attr :separator, :string,
+    default: "hero-chevron-right",
+    doc: "Determines a separator for items of an element"
+
   attr :color, :string, values: @colors, default: "dark", doc: "Determines color theme"
-  attr :size, :string, values: @sizes, default: "small", doc: "Determines the overall size of the elements, including padding, font size, and other items"
+
+  attr :size, :string,
+    values: @sizes,
+    default: "small",
+    doc:
+      "Determines the overall size of the elements, including padding, font size, and other items"
 
   slot :item, required: false, doc: "Specifies item slot of a breadcrumb" do
     attr :icon, :string, doc: "Icon displayed alongside of an item"
@@ -84,7 +96,10 @@ defmodule MishkaChelekom.Breadcrumb do
     attr :class, :string, doc: "Custom CSS class for additional styling"
   end
 
-  attr :rest, :global, doc: "Global attributes can define defaults which are merged with attributes provided by the caller"
+  attr :rest, :global,
+    doc:
+      "Global attributes can define defaults which are merged with attributes provided by the caller"
+
   slot :inner_block, required: false, doc: "Inner block that renders HEEx content"
 
   def breadcrumb(assigns) do

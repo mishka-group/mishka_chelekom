@@ -50,12 +50,20 @@ defmodule MishkaChelekom.Drawer do
   ]
 
   @doc type: :component
-  attr :id, :string, required: true, doc: "A unique identifier is used to manage state and interaction"
+  attr :id, :string,
+    required: true,
+    doc: "A unique identifier is used to manage state and interaction"
+
   attr :title, :string, default: nil, doc: "Specifies the title of the element"
   attr :title_class, :string, default: nil, doc: "Determines custom class for the title"
   attr :variant, :string, values: @variants, default: "default", doc: "Determines the style"
   attr :color, :string, values: @colors, default: "white", doc: "Determines color theme"
-  attr :size, :string, default: "large", doc: "Determines the overall size of the elements, including padding, font size, and other items"
+
+  attr :size, :string,
+    default: "large",
+    doc:
+      "Determines the overall size of the elements, including padding, font size, and other items"
+
   attr :border, :string, default: "extra_small", doc: "Determines border style"
   attr :rounded, :string, default: nil, doc: "Determines the border radius"
   attr :position, :string, default: "left", doc: "Determines the element position"
@@ -66,7 +74,11 @@ defmodule MishkaChelekom.Drawer do
   attr :on_show, JS, default: %JS{}, doc: "Custom JS module for on_show action"
   attr :on_hide_away, JS, default: %JS{}, doc: "Custom JS module for on_hide_away action"
   attr :show, :boolean, default: false, doc: "Show element"
-  attr :rest, :global, doc: "Global attributes can define defaults which are merged with attributes provided by the caller"
+
+  attr :rest, :global,
+    doc:
+      "Global attributes can define defaults which are merged with attributes provided by the caller"
+
   slot :header, required: false, doc: "Specifies element's header that accepts heex"
   slot :inner_block, required: false, doc: "Inner block that renders HEEx content"
 

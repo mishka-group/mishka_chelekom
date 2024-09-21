@@ -23,15 +23,30 @@ defmodule MishkaChelekom.MegaMenu do
   ]
 
   @doc type: :component
-  attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
-  attr :clickable, :boolean, default: false, doc: "Determines if the element can be activated on click"
+  attr :id, :string,
+    default: nil,
+    doc: "A unique identifier is used to manage state and interaction"
+
+  attr :clickable, :boolean,
+    default: false,
+    doc: "Determines if the element can be activated on click"
+
   attr :variant, :string, values: @variants, default: "shadow", doc: "Determines the style"
   attr :color, :string, values: @colors, default: "white", doc: "Determines color theme"
   attr :rounded, :string, default: nil, doc: "Determines the border radius"
-  attr :size, :string, default: nil, doc: "Determines the overall size of the elements, including padding, font size, and other items"
+
+  attr :size, :string,
+    default: nil,
+    doc:
+      "Determines the overall size of the elements, including padding, font size, and other items"
+
   attr :space, :string, default: nil, doc: "Space between items"
   attr :width, :string, default: "full", doc: "Determines the element width"
-  attr :font_weight, :string, default: "font-normal", doc: "Determines custom class for the font weight"
+
+  attr :font_weight, :string,
+    default: "font-normal",
+    doc: "Determines custom class for the font weight"
+
   attr :padding, :string, default: "none", doc: "Determines padding for items"
   attr :icon, :string, default: nil, doc: "Icon displayed alongside of an item"
   attr :icon_class, :string, default: nil, doc: "Determines custom class for the icon"
@@ -40,7 +55,11 @@ defmodule MishkaChelekom.MegaMenu do
   attr :border, :string, default: "extra_small", doc: "Determines border style"
   attr :top_gap, :string, default: "extra_small", doc: ""
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
-  attr :rest, :global, doc: "Global attributes can define defaults which are merged with attributes provided by the caller"
+
+  attr :rest, :global,
+    doc:
+      "Global attributes can define defaults which are merged with attributes provided by the caller"
+
   slot :inner_block, required: false, doc: "Inner block that renders HEEx content"
 
   slot :trigger, required: false do

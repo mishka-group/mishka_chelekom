@@ -27,16 +27,32 @@ defmodule MishkaChelekom.List do
   ]
 
   @doc type: :component
-  attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
+  attr :id, :string,
+    default: nil,
+    doc: "A unique identifier is used to manage state and interaction"
+
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
-  attr :font_weight, :string, default: "font-normal", doc: "Determines custom class for the font weight"
-  attr :size, :string, default: "large", doc: "Determines the overall size of the elements, including padding, font size, and other items"
+
+  attr :font_weight, :string,
+    default: "font-normal",
+    doc: "Determines custom class for the font weight"
+
+  attr :size, :string,
+    default: "large",
+    doc:
+      "Determines the overall size of the elements, including padding, font size, and other items"
+
   attr :space, :string, values: @sizes ++ [nil], default: nil, doc: "Space between items"
   attr :color, :string, values: @colors, default: "white", doc: "Determines color theme"
   attr :variant, :string, values: @variants, default: "filled", doc: "Determines the style"
   attr :style, :string, default: "list-none", doc: ""
   slot :item, validate_attrs: false, doc: "Specifies item slot of a list"
-  attr :rest, :global, include: ~w(ordered unordered), doc: "Global attributes can define defaults which are merged with attributes provided by the caller"
+
+  attr :rest, :global,
+    include: ~w(ordered unordered),
+    doc:
+      "Global attributes can define defaults which are merged with attributes provided by the caller"
+
   slot :inner_block, doc: "Inner block that renders HEEx content"
 
   def list(%{rest: %{ordered: true}} = assigns) do
@@ -62,16 +78,31 @@ defmodule MishkaChelekom.List do
   end
 
   @doc type: :component
-  attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
+  attr :id, :string,
+    default: nil,
+    doc: "A unique identifier is used to manage state and interaction"
+
   attr :class, :list, default: nil, doc: "Custom CSS class for additional styling"
   attr :count, :integer, default: nil, doc: ""
   attr :count_separator, :string, default: ". ", doc: ""
   attr :icon, :string, default: nil, doc: "Icon displayed alongside of an item"
-  attr :icon_class, :string, default: "list-item-icon", doc: "Determines custom class for the icon"
+
+  attr :icon_class, :string,
+    default: "list-item-icon",
+    doc: "Determines custom class for the icon"
+
   attr :content_class, :string, default: nil, doc: "Determines custom class for the content"
   attr :padding, :string, default: "none", doc: "Determines padding for items"
-  attr :position, :string, values: ["start", "end", "center"], default: "start", doc: "Determines the element position"
-  attr :rest, :global, doc: "Global attributes can define defaults which are merged with attributes provided by the caller"
+
+  attr :position, :string,
+    values: ["start", "end", "center"],
+    default: "start",
+    doc: "Determines the element position"
+
+  attr :rest, :global,
+    doc:
+      "Global attributes can define defaults which are merged with attributes provided by the caller"
+
   slot :inner_block, required: true, doc: "Inner block that renders HEEx content"
 
   @spec li(map()) :: Phoenix.LiveView.Rendered.t()
@@ -100,16 +131,31 @@ defmodule MishkaChelekom.List do
   end
 
   @doc type: :component
-  attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
+  attr :id, :string,
+    default: nil,
+    doc: "A unique identifier is used to manage state and interaction"
+
   attr :color, :string, values: @colors, default: "white", doc: "Determines color theme"
   attr :variant, :string, values: @variants, default: "filled", doc: "Determines the style"
-  attr :size, :string, default: "medium", doc: "Determines the overall size of the elements, including padding, font size, and other items"
+
+  attr :size, :string,
+    default: "medium",
+    doc:
+      "Determines the overall size of the elements, including padding, font size, and other items"
+
   attr :width, :string, default: "full", doc: "Determines the element width"
   attr :style, :string, default: "list-none", doc: ""
   attr :space, :string, values: @sizes ++ [nil], default: nil, doc: "Space between items"
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
-  attr :font_weight, :string, default: "font-normal", doc: "Determines custom class for the font weight"
-  attr :rest, :global, doc: "Global attributes can define defaults which are merged with attributes provided by the caller"
+
+  attr :font_weight, :string,
+    default: "font-normal",
+    doc: "Determines custom class for the font weight"
+
+  attr :rest, :global,
+    doc:
+      "Global attributes can define defaults which are merged with attributes provided by the caller"
+
   slot :inner_block, required: true, doc: "Inner block that renders HEEx content"
 
   def ul(assigns) do
@@ -134,15 +180,30 @@ defmodule MishkaChelekom.List do
   end
 
   @doc type: :component
-  attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
+  attr :id, :string,
+    default: nil,
+    doc: "A unique identifier is used to manage state and interaction"
+
   attr :color, :string, values: @colors, default: "white", doc: "Determines color theme"
   attr :variant, :string, values: @variants, default: "filled", doc: "Determines the style"
-  attr :size, :string, default: "medium", doc: "Determines the overall size of the elements, including padding, font size, and other items"
+
+  attr :size, :string,
+    default: "medium",
+    doc:
+      "Determines the overall size of the elements, including padding, font size, and other items"
+
   attr :width, :string, default: "full", doc: "Determines the element width"
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :space, :string, values: @sizes ++ [nil], default: nil, doc: "Space between items"
-  attr :font_weight, :string, default: "font-normal", doc: "Determines custom class for the font weight"
-  attr :rest, :global, doc: "Global attributes can define defaults which are merged with attributes provided by the caller"
+
+  attr :font_weight, :string,
+    default: "font-normal",
+    doc: "Determines custom class for the font weight"
+
+  attr :rest, :global,
+    doc:
+      "Global attributes can define defaults which are merged with attributes provided by the caller"
+
   slot :inner_block, required: true, doc: "Inner block that renders HEEx content"
 
   def ol(assigns) do
@@ -166,18 +227,46 @@ defmodule MishkaChelekom.List do
   end
 
   @doc type: :component
-  attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
+  attr :id, :string,
+    default: nil,
+    doc: "A unique identifier is used to manage state and interaction"
+
   attr :variant, :string, values: @variants, default: "default", doc: "Determines the style"
   attr :color, :string, values: @colors, default: "white", doc: "Determines color theme"
-  attr :size, :string, default: "medium", doc: "Determines the overall size of the elements, including padding, font size, and other items"
+
+  attr :size, :string,
+    default: "medium",
+    doc:
+      "Determines the overall size of the elements, including padding, font size, and other items"
+
   attr :width, :string, default: "full", doc: "Determines the element width"
   attr :space, :string, values: @sizes ++ [nil], default: "small", doc: "Space between items"
-  attr :rounded, :string, values: @sizes ++ ["full", "none"], default: "small", doc: "Determines the border radius"
-  attr :border, :string, values: @sizes ++ [nil], default: "extra_small", doc: "Determines border style"
-  attr :font_weight, :string, default: "font-normal", doc: "Determines custom class for the font weight"
-  attr :padding, :string, values: @sizes ++ ["none"], default: "none", doc: "Determines padding for items"
+
+  attr :rounded, :string,
+    values: @sizes ++ ["full", "none"],
+    default: "small",
+    doc: "Determines the border radius"
+
+  attr :border, :string,
+    values: @sizes ++ [nil],
+    default: "extra_small",
+    doc: "Determines border style"
+
+  attr :font_weight, :string,
+    default: "font-normal",
+    doc: "Determines custom class for the font weight"
+
+  attr :padding, :string,
+    values: @sizes ++ ["none"],
+    default: "none",
+    doc: "Determines padding for items"
+
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
-  attr :rest, :global, doc: "Global attributes can define defaults which are merged with attributes provided by the caller"
+
+  attr :rest, :global,
+    doc:
+      "Global attributes can define defaults which are merged with attributes provided by the caller"
+
   slot :inner_block, required: true, doc: "Inner block that renders HEEx content"
 
   def list_group(assigns) do
