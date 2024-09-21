@@ -4,11 +4,11 @@ defmodule MishkaChelekom.ToggleField do
 
   attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
-  attr :color, :string, default: "primary", doc: ""
+  attr :color, :string, default: "primary", doc: "Determines color theme"
   attr :description, :string, default: nil, doc: ""
   attr :border, :string, default: "extra_small", doc: ""
   attr :rounded, :string, default: "small", doc: ""
-  attr :space, :string, default: "medium", doc: ""
+  attr :space, :string, default: "medium", doc: "Space between items"
   attr :labe_class, :string, default: nil, doc: ""
   attr :size, :string, default: "medium", doc: ""
   attr :checked, :boolean, default: false, doc: ""

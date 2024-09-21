@@ -4,7 +4,7 @@ defmodule MishkaChelekom.Timeline do
 
   @doc type: :component
   attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
-  attr :color, :string, default: "silver", doc: ""
+  attr :color, :string, default: "silver", doc: "Determines color theme"
   attr :hide_last_line, :boolean, default: false, doc: ""
   attr :gapped_sections, :boolean, default: false, doc: ""
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"

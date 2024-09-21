@@ -16,7 +16,7 @@ defmodule MishkaChelekom.Typography do
   ]
 
   attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
-  attr :color, :string, values: @colors, default: "inherit", doc: ""
+  attr :color, :string, values: @colors, default: "inherit", doc: "Determines color theme"
   attr :size, :string, default: "quadruple_large", doc: ""
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :font_weight, :string, default: "font-normal", doc: ""
@@ -42,7 +42,7 @@ defmodule MishkaChelekom.Typography do
   end
 
   attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
-  attr :color, :string, values: @colors, default: "inherit", doc: ""
+  attr :color, :string, values: @colors, default: "inherit", doc: "Determines color theme"
   attr :size, :string, default: "triple_large", doc: ""
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :font_weight, :string, default: "font-normal", doc: ""
@@ -68,7 +68,7 @@ defmodule MishkaChelekom.Typography do
   end
 
   attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
-  attr :color, :string, values: @colors, default: "inherit", doc: ""
+  attr :color, :string, values: @colors, default: "inherit", doc: "Determines color theme"
   attr :size, :string, default: "double_large", doc: ""
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :font_weight, :string, default: "font-normal", doc: ""
@@ -93,7 +93,7 @@ defmodule MishkaChelekom.Typography do
   end
 
   attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
-  attr :color, :string, values: @colors, default: "inherit", doc: ""
+  attr :color, :string, values: @colors, default: "inherit", doc: "Determines color theme"
   attr :size, :string, default: "extra_large", doc: ""
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :font_weight, :string, default: "font-normal", doc: ""
@@ -118,7 +118,7 @@ defmodule MishkaChelekom.Typography do
   end
 
   attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
-  attr :color, :string, values: @colors, default: "inherit", doc: ""
+  attr :color, :string, values: @colors, default: "inherit", doc: "Determines color theme"
   attr :size, :string, default: "large", doc: ""
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :font_weight, :string, default: "font-normal", doc: ""
@@ -143,7 +143,7 @@ defmodule MishkaChelekom.Typography do
   end
 
   attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
-  attr :color, :string, values: @colors, default: "inherit", doc: ""
+  attr :color, :string, values: @colors, default: "inherit", doc: "Determines color theme"
   attr :size, :string, default: "medium", doc: ""
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :font_weight, :string, default: "font-normal", doc: ""
@@ -168,7 +168,7 @@ defmodule MishkaChelekom.Typography do
   end
 
   attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
-  attr :color, :string, values: @colors, default: "inherit", doc: ""
+  attr :color, :string, values: @colors, default: "inherit", doc: "Determines color theme"
   attr :size, :string, default: "medium", doc: ""
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :font_weight, :string, default: "font-normal", doc: ""
@@ -193,7 +193,7 @@ defmodule MishkaChelekom.Typography do
   end
 
   attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
-  attr :color, :string, values: @colors, default: "inherit", doc: ""
+  attr :color, :string, values: @colors, default: "inherit", doc: "Determines color theme"
   attr :size, :string, default: "medium", doc: ""
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :font_weight, :string, default: "font-bold", doc: ""
@@ -218,7 +218,7 @@ defmodule MishkaChelekom.Typography do
   end
 
   attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
-  attr :color, :string, values: @colors, default: "inherit", doc: ""
+  attr :color, :string, values: @colors, default: "inherit", doc: "Determines color theme"
   attr :size, :string, default: "medium", doc: ""
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :font_weight, :string, default: "font-normal", doc: ""
@@ -243,7 +243,7 @@ defmodule MishkaChelekom.Typography do
   end
 
   attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
-  attr :color, :string, values: @colors, default: "inherit", doc: ""
+  attr :color, :string, values: @colors, default: "inherit", doc: "Determines color theme"
   attr :size, :string, default: "medium", doc: ""
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :font_weight, :string, default: "font-normal", doc: ""
@@ -268,7 +268,7 @@ defmodule MishkaChelekom.Typography do
   end
 
   attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
-  attr :color, :string, values: @colors, default: "inherit", doc: ""
+  attr :color, :string, values: @colors, default: "inherit", doc: "Determines color theme"
   attr :size, :string, default: "medium", doc: ""
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :font_weight, :string, default: "font-bold", doc: ""
@@ -293,7 +293,7 @@ defmodule MishkaChelekom.Typography do
   end
 
   attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
-  attr :color, :string, values: @colors, default: "inherit", doc: ""
+  attr :color, :string, values: @colors, default: "inherit", doc: "Determines color theme"
   attr :size, :string, default: "medium", doc: ""
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :font_weight, :string, default: "font-normal", doc: ""
@@ -318,7 +318,7 @@ defmodule MishkaChelekom.Typography do
   end
 
   attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
-  attr :color, :string, values: @colors, default: "inherit", doc: ""
+  attr :color, :string, values: @colors, default: "inherit", doc: "Determines color theme"
   attr :size, :string, default: "medium", doc: ""
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :font_weight, :string, default: "font-normal", doc: ""
@@ -343,7 +343,7 @@ defmodule MishkaChelekom.Typography do
   end
 
   attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
-  attr :color, :string, values: @colors, default: "inherit", doc: ""
+  attr :color, :string, values: @colors, default: "inherit", doc: "Determines color theme"
   attr :size, :string, default: "medium", doc: ""
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :font_weight, :string, default: "font-normal", doc: ""
@@ -368,7 +368,7 @@ defmodule MishkaChelekom.Typography do
   end
 
   attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
-  attr :color, :string, values: @colors, default: "inherit", doc: ""
+  attr :color, :string, values: @colors, default: "inherit", doc: "Determines color theme"
   attr :size, :string, default: "medium", doc: ""
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :font_weight, :string, default: "font-normal", doc: ""
@@ -393,7 +393,7 @@ defmodule MishkaChelekom.Typography do
   end
 
   attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
-  attr :color, :string, values: @colors, default: "inherit", doc: ""
+  attr :color, :string, values: @colors, default: "inherit", doc: "Determines color theme"
   attr :size, :string, default: "medium", doc: ""
   attr :class, :string, default: "p-0.5 bg-rose-200", doc: "Custom CSS class for additional styling"
   attr :font_weight, :string, default: "font-normal", doc: ""
@@ -418,7 +418,7 @@ defmodule MishkaChelekom.Typography do
   end
 
   attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
-  attr :color, :string, values: @colors, default: "inherit", doc: ""
+  attr :color, :string, values: @colors, default: "inherit", doc: "Determines color theme"
   attr :size, :string, default: "medium", doc: ""
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :font_weight, :string, default: "font-normal", doc: ""
@@ -443,7 +443,7 @@ defmodule MishkaChelekom.Typography do
   end
 
   attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
-  attr :color, :string, values: @colors, default: "inherit", doc: ""
+  attr :color, :string, values: @colors, default: "inherit", doc: "Determines color theme"
   attr :size, :string, default: "medium", doc: ""
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :font_weight, :string, default: "font-normal", doc: ""
@@ -468,7 +468,7 @@ defmodule MishkaChelekom.Typography do
   end
 
   attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
-  attr :color, :string, values: @colors, default: "inherit", doc: ""
+  attr :color, :string, values: @colors, default: "inherit", doc: "Determines color theme"
   attr :size, :string, default: "medium", doc: ""
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :font_weight, :string, default: "font-normal", doc: ""
@@ -493,7 +493,7 @@ defmodule MishkaChelekom.Typography do
   end
 
   attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
-  attr :color, :string, values: @colors, default: "inherit", doc: ""
+  attr :color, :string, values: @colors, default: "inherit", doc: "Determines color theme"
   attr :size, :string, default: "medium", doc: ""
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :font_weight, :string, default: "font-normal", doc: ""
@@ -518,7 +518,7 @@ defmodule MishkaChelekom.Typography do
   end
 
   attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
-  attr :color, :string, values: @colors, default: "inherit", doc: ""
+  attr :color, :string, values: @colors, default: "inherit", doc: "Determines color theme"
   attr :size, :string, default: "medium", doc: ""
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :font_weight, :string, default: "font-normal", doc: ""

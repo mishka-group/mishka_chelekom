@@ -30,11 +30,11 @@ defmodule MishkaChelekom.Toast do
   attr :size, :string, default: "large", doc: ""
   attr :fixed, :boolean, default: true, doc: ""
   attr :variant, :string, values: @variants, default: "default", doc: "Determines the style"
-  attr :color, :string, values: @colors, default: "white", doc: ""
+  attr :color, :string, values: @colors, default: "white", doc: "Determines color theme"
   attr :border, :string, default: "extra_small", doc: ""
   attr :rounded, :string, default: "medium", doc: ""
   attr :width, :string, default: "medium", doc: ""
-  attr :space, :string, default: "extra_small", doc: ""
+  attr :space, :string, default: "extra_small", doc: "Space between items"
   attr :vertical, :string, values: ["top", "bottom"], default: "top", doc: ""
   attr :vertical_space, :string, default: "extra_small", doc: ""
   attr :horizontal, :string, values: ["left", "right", "center"], default: "right", doc: ""
@@ -91,7 +91,7 @@ defmodule MishkaChelekom.Toast do
 
   @doc type: :component
   attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
-  attr :space, :string, default: "small", doc: ""
+  attr :space, :string, default: "small", doc: "Space between items"
   attr :vertical, :string, values: ["top", "bottom"], default: "bottom", doc: ""
   attr :vertical_space, :string, default: "extra_small", doc: ""
   attr :horizontal, :string, values: ["left", "right", "center"], default: "right", doc: ""

@@ -81,10 +81,10 @@ defmodule MishkaChelekom.Dropdown do
 
   attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
   attr :variant, :string, values: @variants, default: "shadow", doc: "Determines the style"
-  attr :color, :string, values: @colors, default: "white", doc: ""
+  attr :color, :string, values: @colors, default: "white", doc: "Determines color theme"
   attr :rounded, :string, default: nil, doc: ""
   attr :size, :string, default: nil, doc: ""
-  attr :space, :string, default: nil, doc: ""
+  attr :space, :string, default: nil, doc: "Space between items"
   attr :width, :string, default: "extra_large", doc: ""
   attr :font_weight, :string, default: "font-normal", doc: ""
   attr :padding, :string, default: "none", doc: ""

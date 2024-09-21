@@ -5,10 +5,10 @@ defmodule MishkaChelekom.CheckboxField do
   @doc type: :component
   attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
-  attr :color, :string, default: "primary", doc: ""
+  attr :color, :string, default: "primary", doc: "Determines color theme"
   attr :border, :string, default: "extra_small", doc: ""
   attr :rounded, :string, default: "small", doc: ""
-  attr :space, :string, default: "medium", doc: ""
+  attr :space, :string, default: "medium", doc: "Space between items"
   attr :label_class, :string, default: nil, doc: ""
   attr :size, :string, default: "extra_large", doc: ""
   attr :ring, :boolean, default: true, doc: ""
@@ -73,10 +73,10 @@ defmodule MishkaChelekom.CheckboxField do
 
   attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
-  attr :color, :string, default: "primary", doc: ""
+  attr :color, :string, default: "primary", doc: "Determines color theme"
   attr :border, :string, default: "extra_small", doc: ""
   attr :rounded, :string, default: "small", doc: ""
-  attr :space, :string, default: "medium", doc: ""
+  attr :space, :string, default: "medium", doc: "Space between items"
   attr :variation, :string, default: "vetrical", doc: ""
   attr :size, :string, default: "extra_large", doc: ""
   attr :label_class, :string, default: nil, doc: ""
@@ -94,7 +94,7 @@ defmodule MishkaChelekom.CheckboxField do
   slot :checkbox, required: true do
     attr :value, :string, required: true
     attr :checked, :boolean, required: false
-    attr :space, :string, required: false
+    attr :space, :string, required: false, doc: "Space between items"
   end
 
   slot :inner_block

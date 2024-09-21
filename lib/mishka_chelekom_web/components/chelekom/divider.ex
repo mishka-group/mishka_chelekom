@@ -29,7 +29,7 @@ defmodule MishkaChelekom.Divider do
 
   slot :text, required: false do
     attr :class, :string, doc: "Custom CSS class for additional styling"
-    attr :color, :string
+    attr :color, :string, doc: "Determines color theme"
     attr :size, :string
     attr :position, :string
   end
@@ -38,7 +38,7 @@ defmodule MishkaChelekom.Divider do
     attr :name, :string, required: true
     attr :class, :string, doc: "Custom CSS class for additional styling"
     attr :icon_class, :string
-    attr :color, :string
+    attr :color, :string, doc: "Determines color theme"
     attr :size, :string
     attr :position, :string
   end
@@ -141,7 +141,7 @@ defmodule MishkaChelekom.Divider do
 
   slot :text, required: false do
     attr :class, :string, doc: "Custom CSS class for additional styling"
-    attr :color, :string
+    attr :color, :string, doc: "Determines color theme"
     attr :size, :string
     attr :position, :string
   end
@@ -150,7 +150,7 @@ defmodule MishkaChelekom.Divider do
     attr :name, :string, required: true
     attr :class, :string, doc: "Custom CSS class for additional styling"
     attr :icon_class, :string
-    attr :color, :string
+    attr :color, :string, doc: "Determines color theme"
     attr :size, :string
   end
 

@@ -30,7 +30,7 @@ defmodule MishkaChelekom.Overlay do
 
   @doc type: :component
   attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
-  attr :color, :string, values: @colors, default: "white", doc: ""
+  attr :color, :string, values: @colors, default: "white", doc: "Determines color theme"
   attr :opacity, :string, values: @opacities ++ [nil], default: nil, doc: ""
   attr :blur, :string, values: @sizes ++ ["none", nil], default: nil, doc: ""
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"

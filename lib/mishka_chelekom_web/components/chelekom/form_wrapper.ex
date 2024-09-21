@@ -4,12 +4,12 @@ defmodule MishkaChelekom.FormWrapper do
   @doc type: :component
   attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
-  attr :color, :string, default: nil, doc: ""
+  attr :color, :string, default: nil, doc: "Determines color theme"
   attr :variant, :string, default: nil, doc: "Determines the style"
   attr :border, :string, default: nil, doc: ""
   attr :rounded, :string, default: nil, doc: ""
   attr :padding, :string, default: nil, doc: ""
-  attr :space, :string, default: nil, doc: ""
+  attr :space, :string, default: nil, doc: "Space between items"
   attr :size, :string, default: nil, doc: ""
 
   attr :for, :any, required: false, doc: "the data structure for the form"

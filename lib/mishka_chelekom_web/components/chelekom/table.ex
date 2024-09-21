@@ -9,7 +9,7 @@ defmodule MishkaChelekom.Table do
   attr :rounded, :string, default: nil, doc: ""
   attr :padding, :string, default: "small", doc: ""
   attr :text_size, :string, default: "small", doc: ""
-  attr :color, :string, default: nil, doc: ""
+  attr :color, :string, default: nil, doc: "Determines color theme"
   attr :border, :string, default: nil, doc: ""
   attr :header_border, :string, default: nil, doc: ""
   attr :rows_border, :string, default: nil, doc: ""

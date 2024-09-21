@@ -32,7 +32,7 @@ defmodule MishkaChelekom.Chat do
   attr :border, :string, default: "extra_small", doc: ""
   attr :rounded, :string, default: "extra_large", doc: ""
   attr :size, :string, default: "medium", doc: ""
-  attr :space, :string, default: "extra_small", doc: ""
+  attr :space, :string, default: "extra_small", doc: "Space between items"
   attr :position, :string, values: ["normal", "flipped"], default: "normal", doc: ""
   attr :padding, :string, default: "small", doc: ""
   attr :rest, :global, doc: ""

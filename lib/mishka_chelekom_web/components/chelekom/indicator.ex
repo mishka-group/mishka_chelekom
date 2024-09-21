@@ -32,7 +32,7 @@ defmodule MishkaChelekom.Indicator do
   attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
   attr :size, :string, values: @sizes, default: "small", doc: ""
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
-  attr :color, :string, values: @colors, default: "primary", doc: ""
+  attr :color, :string, values: @colors, default: "primary", doc: "Determines color theme"
 
   attr :border, :string,
     values: @colors ++ ["transparent", "none"],

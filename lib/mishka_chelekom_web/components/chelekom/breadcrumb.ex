@@ -21,7 +21,7 @@ defmodule MishkaChelekom.Breadcrumb do
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
   attr :separator, :string, default: "hero-chevron-right", doc: ""
-  attr :color, :string, values: @colors, default: "dark", doc: ""
+  attr :color, :string, values: @colors, default: "dark", doc: "Determines color theme"
   attr :size, :string, values: @sizes, default: "small", doc: ""
 
   slot :item, required: false do

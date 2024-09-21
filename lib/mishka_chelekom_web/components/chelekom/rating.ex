@@ -8,7 +8,7 @@ defmodule MishkaChelekom.Rating do
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :gap, :string, default: "small", doc: ""
   attr :size, :string, default: "small", doc: ""
-  attr :color, :string, default: "warning", doc: ""
+  attr :color, :string, default: "warning", doc: "Determines color theme"
   attr :count, :integer, default: 5, doc: "Number of stars to display"
   attr :select, :integer, default: 0, doc: ""
   attr :params, :map, default: %{}

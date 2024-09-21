@@ -30,8 +30,8 @@ defmodule MishkaChelekom.List do
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :font_weight, :string, default: "font-normal", doc: ""
   attr :size, :string, default: "large", doc: ""
-  attr :space, :string, values: @sizes ++ [nil], default: nil, doc: ""
-  attr :color, :string, values: @colors, default: "white", doc: ""
+  attr :space, :string, values: @sizes ++ [nil], default: nil, doc: "Space between items"
+  attr :color, :string, values: @colors, default: "white", doc: "Determines color theme"
   attr :variant, :string, values: @variants, default: "filled", doc: "Determines the style"
   attr :style, :string, default: "list-none", doc: ""
   slot :item, validate_attrs: false
@@ -98,12 +98,12 @@ defmodule MishkaChelekom.List do
   end
 
   attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
-  attr :color, :string, values: @colors, default: "white", doc: ""
+  attr :color, :string, values: @colors, default: "white", doc: "Determines color theme"
   attr :variant, :string, values: @variants, default: "filled", doc: "Determines the style"
   attr :size, :string, default: "medium", doc: ""
   attr :width, :string, default: "full", doc: ""
   attr :style, :string, default: "list-none", doc: ""
-  attr :space, :string, values: @sizes ++ [nil], default: nil, doc: ""
+  attr :space, :string, values: @sizes ++ [nil], default: nil, doc: "Space between items"
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :font_weight, :string, default: "font-normal", doc: ""
   attr :rest, :global
@@ -131,12 +131,12 @@ defmodule MishkaChelekom.List do
   end
 
   attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
-  attr :color, :string, values: @colors, default: "white", doc: ""
+  attr :color, :string, values: @colors, default: "white", doc: "Determines color theme"
   attr :variant, :string, values: @variants, default: "filled", doc: "Determines the style"
   attr :size, :string, default: "medium", doc: ""
   attr :width, :string, default: "full", doc: ""
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
-  attr :space, :string, values: @sizes ++ [nil], default: nil, doc: ""
+  attr :space, :string, values: @sizes ++ [nil], default: nil, doc: "Space between items"
   attr :font_weight, :string, default: "font-normal", doc: ""
   attr :rest, :global
   slot :inner_block, required: true, doc: ""
@@ -163,10 +163,10 @@ defmodule MishkaChelekom.List do
 
   attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
   attr :variant, :string, values: @variants, default: "default", doc: "Determines the style"
-  attr :color, :string, values: @colors, default: "white", doc: ""
+  attr :color, :string, values: @colors, default: "white", doc: "Determines color theme"
   attr :size, :string, default: "medium", doc: ""
   attr :width, :string, default: "full", doc: ""
-  attr :space, :string, values: @sizes ++ [nil], default: "small", doc: ""
+  attr :space, :string, values: @sizes ++ [nil], default: "small", doc: "Space between items"
   attr :rounded, :string, values: @sizes ++ ["full", "none"], default: "small", doc: ""
   attr :border, :string, values: @sizes ++ [nil], default: "extra_small", doc: ""
   attr :font_weight, :string, default: "font-normal", doc: ""

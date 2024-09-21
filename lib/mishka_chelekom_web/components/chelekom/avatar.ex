@@ -29,7 +29,7 @@ defmodule MishkaChelekom.Avatar do
 
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :src, :string, default: nil, doc: ""
-  attr :color, :string, values: @colors ++ ["transparent"], default: "transparent", doc: ""
+  attr :color, :string, values: @colors ++ ["transparent"], default: "transparent", doc: "Determines color theme"
   attr :size, :string, default: "small", doc: ""
   attr :shadow, :string, values: @sizes ++ ["none"], default: "none", doc: ""
   attr :font_weight, :string, default: "font-normal", doc: ""
@@ -40,7 +40,7 @@ defmodule MishkaChelekom.Avatar do
     attr :name, :string, required: true
     attr :class, :string, doc: "Custom CSS class for additional styling"
     attr :icon_class, :string
-    attr :color, :string
+    attr :color, :string, doc: "Determines color theme"
     attr :size, :string
   end
 
@@ -144,7 +144,7 @@ defmodule MishkaChelekom.Avatar do
     doc: ""
 
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
-  attr :space, :string, values: @sizes ++ ["none"], default: "medium", doc: ""
+  attr :space, :string, values: @sizes ++ ["none"], default: "medium", doc: "Space between items"
   attr :rest, :global
   slot :inner_block, required: false, doc: ""
 

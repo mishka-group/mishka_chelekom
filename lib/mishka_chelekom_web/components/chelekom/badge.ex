@@ -49,7 +49,7 @@ defmodule MishkaChelekom.Badge do
 
   attr :size, :string, default: "extra_small", doc: ""
   attr :rounded, :string, values: @sizes ++ ["full", "none"], default: "small", doc: ""
-  attr :color, :string, values: @colors, default: "white", doc: ""
+  attr :color, :string, values: @colors, default: "white", doc: "Determines color theme"
   attr :font_weight, :string, default: "font-normal", doc: ""
   attr :icon, :string, default: nil, doc: ""
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"

@@ -26,12 +26,12 @@ defmodule MishkaChelekom.Footer do
   @doc type: :component
   attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
   attr :variant, :string, values: @variants, default: "default", doc: "Determines the style"
-  attr :color, :string, values: @colors, default: "white", doc: ""
+  attr :color, :string, values: @colors, default: "white", doc: "Determines color theme"
   attr :border, :string, default: "extra_small", doc: ""
   attr :text_position, :string, default: nil, doc: ""
   attr :rounded, :string, default: nil, doc: ""
   attr :max_width, :string, default: nil, doc: ""
-  attr :space, :string, default: nil, doc: ""
+  attr :space, :string, default: nil, doc: "Space between items"
   attr :font_weight, :string, default: "font-normal", doc: ""
   attr :padding, :string, default: "none", doc: ""
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
@@ -66,7 +66,7 @@ defmodule MishkaChelekom.Footer do
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :font_weight, :string, default: "font-normal", doc: ""
   attr :text_position, :string, default: nil, doc: ""
-  attr :space, :string, default: nil, doc: ""
+  attr :space, :string, default: nil, doc: "Space between items"
   attr :padding, :string, default: "none", doc: ""
   slot :inner_block, required: false, doc: ""
 

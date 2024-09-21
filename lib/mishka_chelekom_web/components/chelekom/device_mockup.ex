@@ -4,7 +4,7 @@ defmodule MishkaChelekom.DeviceMockup do
   @doc type: :component
   attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
-  attr :color, :string, default: "silver", doc: ""
+  attr :color, :string, default: "silver", doc: "Determines color theme"
   attr :alt, :string, default: nil, doc: ""
   attr :type, :string, default: "iphone", doc: "android watch laptop iphone ipad imac"
   attr :image, :string, default: nil, doc: ""

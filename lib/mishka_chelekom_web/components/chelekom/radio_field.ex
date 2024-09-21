@@ -6,9 +6,9 @@ defmodule MishkaChelekom.RadioField do
   attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :label_class, :string, default: nil, doc: ""
-  attr :color, :string, default: "primary", doc: ""
+  attr :color, :string, default: "primary", doc: "Determines color theme"
   attr :border, :string, default: "extra_small", doc: ""
-  attr :space, :string, default: "medium", doc: ""
+  attr :space, :string, default: "medium", doc: "Space between items"
   attr :size, :string, default: "extra_large", doc: ""
   attr :ring, :boolean, default: true, doc: ""
   attr :reverse, :boolean, default: false, doc: ""
@@ -69,10 +69,10 @@ defmodule MishkaChelekom.RadioField do
 
   attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
-  attr :color, :string, default: "primary", doc: ""
+  attr :color, :string, default: "primary", doc: "Determines color theme"
   attr :border, :string, default: "extra_small", doc: ""
   attr :rounded, :string, default: "small", doc: ""
-  attr :space, :string, default: "medium", doc: ""
+  attr :space, :string, default: "medium", doc: "Space between items"
   attr :variation, :string, default: "vetrical", doc: ""
   attr :label_class, :string, default: nil, doc: ""
   attr :size, :string, default: "extra_large", doc: ""
@@ -90,7 +90,7 @@ defmodule MishkaChelekom.RadioField do
   slot :radio, required: true do
     attr :value, :string, required: true
     attr :checked, :boolean, required: false
-    attr :space, :any, required: false
+    attr :space, :any, required: false, doc: "Space between items"
   end
 
   slot :inner_block

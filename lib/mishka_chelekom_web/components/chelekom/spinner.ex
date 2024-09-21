@@ -36,7 +36,7 @@ defmodule MishkaChelekom.Spinner do
   attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
   attr :type, :string, values: @spinner_types, default: "default", doc: ""
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
-  attr :color, :string, values: @colors, default: "dark", doc: ""
+  attr :color, :string, values: @colors, default: "dark", doc: "Determines color theme"
   attr :size, :string, values: @sizes, default: "small", doc: ""
   attr :rest, :global
 

@@ -42,8 +42,8 @@ defmodule MishkaChelekom.Pagination do
   attr :on_next, JS, default: %JS{}
   attr :on_previous, JS, default: %JS{}
   attr :size, :string, default: "medium", doc: ""
-  attr :space, :string, default: "gap-3", doc: ""
-  attr :color, :string, values: @colors, default: "white", doc: ""
+  attr :space, :string, default: "gap-3", doc: "Space between items"
+  attr :color, :string, values: @colors, default: "white", doc: "Determines color theme"
   attr :rounded, :string, values: @sizes ++ ["full", "none"], default: "small", doc: ""
   attr :variant, :string, values: @variants, default: "default", doc: "Determines the style"
   attr :separator, :string, default: "hero-ellipsis-horizontal", doc: ""
