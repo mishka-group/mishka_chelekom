@@ -104,6 +104,7 @@ defmodule MishkaChelekom.Alert do
 
       <.flash_group flash={@flash} />
   """
+  @doc type: :component
   attr :id, :string, default: "flash-group", doc: "A unique identifier is used to manage state and interaction"
   attr :flash, :map, required: true, doc: "the map of flash messages"
 
@@ -147,6 +148,7 @@ defmodule MishkaChelekom.Alert do
       <.flash kind={:info} flash={@flash} />
       <.flash kind={:info} phx-mounted={show("#flash")}>Welcome Back!</.flash>
   """
+  @doc type: :component
   attr :id, :string, default: nil, doc: "A unique identifier is used to manage state and interaction"
   attr :title, :string, default: nil, doc: "Specifies the title of the element"
   attr :kind, :atom, values: @kind_typs, doc: "used for styling and flash lookup"
