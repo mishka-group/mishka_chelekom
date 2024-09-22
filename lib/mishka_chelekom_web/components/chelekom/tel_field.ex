@@ -23,6 +23,41 @@ defmodule MishkaChelekom.TelField do
   use Phoenix.Component
   import MishkaChelekomComponents
 
+  @doc """
+  The `TelField` component is a customizable telephone input field with support for various
+  styles, including floating labels and error messages.
+
+  ## Examples
+
+  ```elixir
+  <.tel_field
+    name="name"
+    space="small"
+    color="danger"
+    description="This is description"
+    label="This is outline label Tel"
+    placeholder="This is Tel placeholder"
+    floating="outer"
+  />
+
+  <.tel_field
+      name="name"
+      space="small"
+      color="danger"
+      description="This is description"
+      label="This is outline label Tel"
+      placeholder="This is Tel placeholder"
+      floating="outer"
+    >
+      <:start_section>
+        <.icon name="hero-home" class="size-4" />
+      </:start_section>
+      <:end_section>
+        <.icon name="hero-home" class="size-4" />
+      </:end_section>
+  </.tel_field>
+  ```
+  """
   @doc type: :component
   attr :id, :string,
     default: nil,
@@ -210,7 +245,7 @@ defmodule MishkaChelekom.TelField do
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   slot :inner_block, required: true, doc: "Inner block that renders HEEx content"
 
-  def label(assigns) do
+  defp label(assigns) do
     ~H"""
     <label for={@for} class={["block text-sm font-semibold leading-6", @class]}>
       <%= render_slot(@inner_block) %>
@@ -222,7 +257,7 @@ defmodule MishkaChelekom.TelField do
   attr :icon, :string, default: nil, doc: "Icon displayed alongside of an item"
   slot :inner_block, required: true, doc: "Inner block that renders HEEx content"
 
-  def error(assigns) do
+  defp error(assigns) do
     ~H"""
     <p class="mt-3 flex items-center gap-3 text-sm leading-6 text-rose-700">
       <.icon :if={!is_nil(@icon)} name={@icon} class="shrink-0" />
