@@ -28,6 +28,66 @@ defmodule MishkaChelekom.Timeline do
   use Phoenix.Component
   import MishkaChelekomComponents
 
+  @doc """
+  The `Timeline` component provides a structured layout to display a sequence of events or actions,
+  either horizontally or vertically.
+
+  It can include various content, such as images and text, and supports customization options
+  like color themes and spacing.
+
+  ## Examples
+
+  ```elixir
+  <.timeline>
+    <.timeline_section
+      size="double_large"
+      image="https://example.com/profile.jpg"
+    >
+      <.card padding="large" rounded="large">
+        <div class="items-center justify-between">
+          <time class="mb-1 text-xs font-normal text-gray-400 sm:order-last sm:mb-0">
+            just now
+          </time>
+          <div class="text-sm font-normal text-gray-500">
+            Bonnie moved
+            <a href="#" class="font-semibold text-blue-600 dark:text-blue-500 hover:underline">
+              Jese Leos
+            </a>
+            to
+            <span class={[
+              "bg-gray-100 text-gray-800 text-xs font-normal me-2 px-2.5 py-0.5 rounded",
+              "dark:bg-gray-600 dark:text-gray-300"
+            ]}>
+              Funny Group
+            </span>
+          </div>
+        </div>
+      </.card>
+    </.timeline_section>
+    <.timeline_section
+      size="double_large"
+      image="https://example.com/profile.jpg"
+    >
+      <.card padding="large" rounded="large">
+        <div class="items-center justify-between mb-3 sm:flex">
+          <time class="mb-1 text-xs font-normal text-gray-400 sm:order-last sm:mb-0">
+            2 hours ago
+          </time>
+          <div class="text-sm font-normal text-gray-500">
+            Thomas Lean commented on
+            <a href="#" class="font-semibold text-gray-900 hover:underline">Flowbite Pro</a>
+          </div>
+        </div>
+        <div class="p-3 text-xs italic font-normal text-gray-500 border border-gray-200 rounded-lg bg-gray-50">
+          Hi ya'll! I wanted to share a webinar zeroheight is having regarding how to
+          best measure your design system! This is the second session of our new webinar
+          series on #DesignSystems discussions where we'll be speaking about Measurement.
+        </div>
+      </.card>
+    </.timeline_section>
+  </.timeline>
+  ```
+  """
   @doc type: :component
   attr :id, :string,
     default: nil,
@@ -77,6 +137,39 @@ defmodule MishkaChelekom.Timeline do
     """
   end
 
+  @doc """
+  The `TimelineSection` component is used to define individual sections within a `Timeline`.
+
+  It supports both vertical and horizontal layouts, and can include a title, time, description,
+  and additional content. It also allows for custom icons or images to be displayed alongside
+  each timeline section.
+
+  ## Examples
+
+  ```elixir
+  <.timeline_section
+    size="double_large"
+    image="https://example.com/profile.jpg"
+  >
+    <.card padding="large" rounded="large">
+      <div class="items-center justify-between mb-3 sm:flex">
+        <time class="mb-1 text-xs font-normal text-gray-400 sm:order-last sm:mb-0">
+          2 hours ago
+        </time>
+        <div class="text-sm font-normal text-gray-500">
+          Thomas Lean commented on
+          <a href="#" class="font-semibold text-gray-900 hover:underline">Flowbite Pro</a>
+        </div>
+      </div>
+      <div class="p-3 text-xs italic font-normal text-gray-500 border border-gray-200 rounded-lg bg-gray-50">
+        Hi ya'll! I wanted to share a webinar zeroheight is having regarding how to
+        best measure your design system! This is the second session of our new webinar
+        series on #DesignSystems discussions where we'll be speaking about Measurement.
+      </div>
+    </.card>
+  </.timeline_section>
+  ```
+  """
   @doc type: :component
   attr :id, :string,
     default: nil,
