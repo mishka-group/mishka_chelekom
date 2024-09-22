@@ -34,6 +34,42 @@ defmodule MishkaChelekom.Progress do
 
   @variants ["default", "gradient"]
 
+  @doc """
+  Renders a progress bar component that visually represents the completion status of a task.
+
+  It supports both horizontal and vertical orientations and can be customized with various colors and styles.
+
+  ## Examples
+
+  ```elixir
+  <.progress value={10} />
+  <.progress color="primary" value={20} />
+  <.progress color="secondary" value={30} />
+  <.progress variation="vertical" color="primary" value={20} />
+
+  <.progress>
+    <.progress_section color="primary" value={10} />
+    <.progress_section color="secondary" value={15} />
+    <.progress_section color="misc" value={10} />
+    <.progress_section color="danger" value={5} />
+    <.progress_section color="warning" value={10} />
+    <.progress_section color="success" value={10} />
+    <.progress_section color="info" value={5} />
+  </.progress>
+
+  <.progress variation="horizontal" size="large" value={70}>
+    <div class="absolute inset-y-0 left-0 flex items-center pl-3 text-white">
+      70%
+    </div>
+  </.progress>
+
+  <.progress variation="vertical" size="extra_large" value={80}>
+    <div class="absolute bottom-0 left-0 flex items-center text-white">
+      80%
+    </div>
+  </.progress>
+  ```
+  """
   @doc type: :component
   attr :id, :string,
     default: nil,
@@ -87,6 +123,24 @@ defmodule MishkaChelekom.Progress do
     """
   end
 
+  @doc """
+  Renders a section of a progress bar component. Each section represents a part of the progress
+  with its own value and color, allowing for segmented progress bars.
+
+  ## Examples
+
+  ```elixir
+  <.progress>
+    <.progress_section color="primary" value={10} />
+    <.progress_section color="secondary" value={15} />
+    <.progress_section color="misc" value={10} />
+    <.progress_section color="danger" value={5} />
+    <.progress_section color="warning" value={10} />
+    <.progress_section color="success" value={10} />
+    <.progress_section color="info" value={5} />
+  </.progress>
+  ```
+  """
   @doc type: :component
   attr :value, :integer, default: 0, doc: ""
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
