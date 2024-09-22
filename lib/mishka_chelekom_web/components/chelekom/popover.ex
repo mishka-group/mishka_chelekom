@@ -37,6 +37,58 @@ defmodule MishkaChelekom.Popover do
     "shadow"
   ]
 
+  @doc """
+  Renders a customizable popover component that can display additional information when an element is
+  hovered or clicked.
+
+  You can choose between inline and block rendering, and include rich content within the popover.
+
+  ## Examples
+
+  ```elixir
+  <p>
+    Due to its central geographic location in Southern Europe,
+    <.popover inline clickable>
+      <.popover_trigger trigger_id="popover-1" inline class="text-blue-400">Italy</.popover_trigger>
+      <.popover_content
+        id="popover-1"
+        rounded="large"
+        width="quadruple_large"
+        color="light"
+        padding="none"
+        class="grid grid-cols-5"
+        inline
+      >
+        <span class="block p-2 space-y-5 col-span-3">
+          <span class="font-semibold block">About Italy</span>
+          <span class="block">
+            Italy is located in the middle of the Mediterranean Sea, in Southern Europe,
+            and it is also considered part of Western Europe. It is a unitary parliamentary
+            republic with Rome as its capital and largest city.
+          </span>
+          <a href="/" class="block text-blue-400">Read more <.icon name="hero-link" /></a>
+        </span>
+        <img
+          src="https://example.com/italy.png"
+          class="h-full w-full col-span-2"
+          alt="Map of Italy"
+        />
+      </.popover_content>
+    </.popover>
+    has historically been home to myriad peoples and cultures. In addition to the various ancient peoples dispersed throughout what is now modern-day Italy, the most predominant being the Indo-European Italic peoples who gave the peninsula its name, beginning from the classical era, Phoenicians and Carthaginians founded colonies mostly in insular Italy.
+  </p>
+
+  <.popover clickable>
+    <.popover_trigger trigger_id="popover-2" class="text-blue-400">Hover or Click here</.popover_trigger>
+    <.popover_content id="popover-2" color="light" rounded="large" padding="medium">
+      <div class="p-4">
+        <h4 class="text-lg font-semibold">Popover Title</h4>
+        <p class="mt-2">This is a simple popover example with content that can be customized.</p>
+      </div>
+    </.popover_content>
+  </.popover>
+  ```
+  """
   @doc type: :component
   attr :id, :string,
     default: nil,
@@ -91,6 +143,53 @@ defmodule MishkaChelekom.Popover do
     """
   end
 
+  @doc """
+  Renders a popover trigger element, which is used to show or hide a popover content element.
+  The trigger can be rendered as either an inline or block element. When the trigger is clicked,
+  it toggles the visibility of the associated popover content.
+
+  ## Examples
+
+  ```elixir
+  <p>
+    Discover more about
+    <.popover_trigger trigger_id="popover-1" inline class="text-blue-400">Italy</.popover_trigger>
+    by clicking on the name.
+    <.popover_content
+      id="popover-1"
+      inline
+      rounded="large"
+      width="quadruple_large"
+      color="light"
+      padding="none"
+      class="grid grid-cols-5"
+    >
+      <span class="block p-2 space-y-5 col-span-3">
+        <span class="font-semibold block">About Italy</span>
+        <span class="block">
+          Italy is located in the middle of the Mediterranean Sea, in Southern Europe, and it is also considered part of Western Europe. It is a unitary parliamentary republic with Rome as its capital and largest city.
+        </span>
+        <a href="/" class="block text-blue-400">Read more <.icon name="hero-link" /></a>
+      </span>
+      <img
+        src="https://flowbite.com/docs/images/popovers/italy.png"
+        class="h-full w-full col-span-2"
+        alt="Map of Italy"
+      />
+    </.popover_content>
+  </p>
+
+  <.popover_trigger trigger_id="popover-2" class="text-blue-400">
+    Hover or Click here to show the popover
+  </.popover_trigger>
+  <.popover_content id="popover-2" color="light" rounded="large" padding="medium">
+    <div class="p-4">
+      <h4 class="text-lg font-semibold">Popover Title</h4>
+      <p class="mt-2">This is a simple popover example with content that can be customized.</p>
+    </div>
+  </.popover_content>
+  ```
+  """
   @doc type: :component
   attr :id, :string,
     default: nil,
@@ -133,6 +232,21 @@ defmodule MishkaChelekom.Popover do
     """
   end
 
+  @doc """
+  Renders a popover content element, which displays additional information when the associated
+  popover trigger is activated.
+
+  The content can be positioned relative to the trigger and customized with various styles,
+  such as color, padding, and size.
+
+  ## Examples
+
+  ```elixir
+  <.popover_content id="popover-3" inline position="top" color="dark" rounded="small" padding="small">
+    <span class="block text-white p-2">This is a tooltip message!</span>
+  </.popover_content>
+  ```
+  """
   @doc type: :component
   attr :id, :string,
     default: nil,
