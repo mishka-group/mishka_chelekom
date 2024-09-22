@@ -44,6 +44,20 @@ defmodule MishkaChelekom.Indicator do
     "bottom_right"
   ]
 
+  @doc """
+  Renders an indicator component with customizable size, color, and position.
+
+  The indicator can be positioned around its parent element and supports various sizes and styles.
+
+  ## Examples
+
+  ```elixir
+  <.indicator />
+  <.indicator color="misc" />
+  <.indicator size="extra_small" />
+  <.indicator color="warning" size="extra_small" bottom_left />
+  ```
+  """
   @doc type: :component
   attr :id, :string,
     default: nil,
