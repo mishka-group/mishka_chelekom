@@ -17,6 +17,20 @@ defmodule MishkaChelekom.Rating do
   import MishkaChelekomComponents
   alias Phoenix.LiveView.JS
 
+  @doc """
+  Renders a rating component using stars to represent a score or rating value.
+  The component supports interactive and non-interactive modes, making it suitable
+  for both display and user input scenarios.
+
+  ## Examples
+
+  ```elixir
+  <.rating interactive />
+  <.rating color="primary" gap="large" interactive />
+  <.rating color="danger" gap="extra_large" select={5} interactive />
+  <.rating color="success" gap="extra_large" select={3} interactive />
+  ```
+  """
   @doc type: :component
   attr :id, :string,
     default: nil,
