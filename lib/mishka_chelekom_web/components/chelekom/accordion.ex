@@ -34,15 +34,6 @@ defmodule MishkaChelekom.Accordion do
   The module supports an item slot, which allows defining custom attributes for each
   accordion item including title, description, icon, and other styling options.
 
-  ### Example
-
-  ```elixir
-  ....example....
-  ```
-
-  This example creates an accordion with two items, using the "default" variant and
-  "primary" color theme.
-
   ### Dependencies
 
   1. `Phoenix.Component` and `Phoenix.LiveView.JS` for rendering and interactivity.
@@ -77,6 +68,35 @@ defmodule MishkaChelekom.Accordion do
     "dawn"
   ]
 
+  @doc """
+  The Accordion component provides a collapsible structure with various styling options,
+  ideal for organizing content into expandable panels. It supports customizable attributes such
+  as `variant`, `color`, and `media_size.
+
+  ## Examples
+  ```elixir
+  <.accordion id="test-108" media_size="medium" color="secondary">
+    <:item
+      title="Accordion Version native"
+      description="Need to be something like this yeehh!?"
+      image="https://img.icons8.com/clouds/256/000000/futurama-bender.png"
+    >
+      Lorem ipsum dolor, sit amet consectetur adipisicing elit. Omnis fugit, voluptas nam quia,
+      sunt sapiente itaque velit illo sed nesciunt molestias commodi, veniam adipisci quo
+      laboriosam in ipsa illum tenetur.
+    </:item>
+    <:item
+      title="Accordion Version native"
+      description="Need to be something like this yeehh!?"
+      image="https://img.icons8.com/clouds/256/000000/futurama-bender.png"
+    >
+      Lorem ipsum dolor, sit amet consectetur adipisicing elit. Omnis fugit, voluptas nam quia,
+      sunt sapiente itaque velit illo sed nesciunt molestias commodi, veniam adipisci quo
+      laboriosam in ipsa illum tenetur.
+    </:item>
+  </.accordion>
+  ```
+  """
   @doc type: :component
   attr :id, :string,
     required: true,
@@ -206,6 +226,37 @@ defmodule MishkaChelekom.Accordion do
     """
   end
 
+  @doc """
+  The Native Accordion component provides an expandable structure that uses the native `<details>`
+  HTML element.
+
+  It offers various customization options such as `variant`, `color`, and `media_size` for
+  styling and configuration.
+
+  ## Examples
+  ```elixir
+  <.native_accordion name="example-zero" media_size="small">
+    <:item
+      title="Accordion Version native"
+      description="Need to be something like this yeehh!?"
+      image="https://img.icons8.com/clouds/256/000000/futurama-bender.png"
+    >
+      Lorem ipsum dolor, sit amet consectetur adipisicing elit. Omnis fugit, voluptas nam quia,
+      sunt sapiente itaque velit illo sed nesciunt molestias commodi, veniam adipisci quo
+      laboriosam in ipsa illum tenetur.
+    </:item>
+    <:item
+      title="Accordion Version native"
+      description="Need to be something like this yeehh!?"
+      image="https://img.icons8.com/clouds/256/000000/futurama-bender.png"
+    >
+      Lorem ipsum dolor, sit amet consectetur adipisicing elit. Omnis fugit, voluptas nam quia,
+      sunt sapiente itaque velit illo sed nesciunt molestias commodi, veniam adipisci quo
+      laboriosam in ipsa illum tenetur.
+    </:item>
+  </.native_accordion>
+  ```
+  """
   @doc type: :component
   attr :id, :string,
     default: nil,

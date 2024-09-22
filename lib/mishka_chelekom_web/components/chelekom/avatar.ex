@@ -18,20 +18,6 @@ defmodule MishkaChelekom.Avatar do
   You can control the spacing between avatars and provide custom styling using the
   available attributes and slots.
 
-  ### Attributes
-
-  - **`id`**: Unique identifier for the component.
-  - **`type`**: Specifies the type of avatar to render. Options include `default`,
-  "placeholder", and `placeholder_icon`.
-  - **`class`**: Custom CSS class for additional styling.
-  - **`src`**: Image source URL for the avatar.
-  - **`color`**: Defines the color theme of the avatar. Available options include `white`,
-  "primary", `secondary`, and more.
-  - **`size`**: Determines the size of the avatar and its elements.
-  - **`shadow`**: Applies shadow styling to the avatar.
-  - **`rounded`**: Controls the border radius of the avatar.
-  - **`border`**: Specifies the border style of the avatar.
-
   ### Usage
 
   The `MishkaChelekom.Avatar` module allows for flexible and customizable avatar components
@@ -60,6 +46,29 @@ defmodule MishkaChelekom.Avatar do
     "dawn"
   ]
 
+  @doc """
+  The `avatar` component is used to display user avatars with various customization options,
+  including size, shape, and styling.
+
+  It supports displaying an image or an icon with optional inner content.
+
+  ## Examples
+
+  ```elixir
+  <.avatar size="medium" rounded="full" color="light">
+    <:icon name="hero-user" />
+    <.indicator size="small" bottom_right />
+  </.avatar>
+
+  <.avatar src="https://example.com/profile.jpg" size="extra_small" rounded="full">
+    <.indicator size="extra_small" bottom_left />
+  </.avatar>
+
+  <.avatar src="https://example.com/profile.jpg" size="extra_large" rounded="full">
+    <.indicator size="extra_small" color="success" top_left />
+  </.avatar>
+  ```
+  """
   @doc type: :component
   attr :id, :string,
     default: nil,
@@ -204,6 +213,23 @@ defmodule MishkaChelekom.Avatar do
     """
   end
 
+  @doc """
+  The `avatar_group` component is used to display a group of avatars with customizable spacing and layout.
+  It supports different types of avatars such as `default`, `placeholder`, and `placeholder_icon`,
+  allowing for flexible content presentation within a group.
+
+  ## Examples
+
+  ```elixir
+  <.avatar_group>
+    <.avatar src="https://example.com/profile.jpg" size="large" color="dark" rounded="full"/>
+    <.avatar src="https://example.com/profile.jpg" size="large" border="extra_large" rounded="full"/>
+    <.avatar src="https://example.com/profile.jpg" size="large" color="warning" rounded="full"/>
+    <.avatar src="https://example.com/profile.jpg" size="large" color="dark" rounded="full"/>
+    <.avatar size="large" rounded="full" border="medium">+20</.avatar>
+  </.avatar_group>
+  ```
+  """
   @doc type: :component
   attr :id, :string,
     default: nil,

@@ -29,12 +29,6 @@ defmodule MishkaChelekom.Alert do
 
   Use the provided components in your LiveView templates to display notifications, warnings,
   and other messages in a visually consistent manner across your application.
-
-  ### Example
-
-  ```elixir
-  ..example...
-  ```
   """
   use Phoenix.Component
   import MishkaChelekomComponents
@@ -71,15 +65,25 @@ defmodule MishkaChelekom.Alert do
     :error
   ]
 
+  @doc type: :component
   @doc """
-  Renders flash notices.
+  The `flash` component is used to display flash messages with various styling options.
+  It supports customizable attributes such as `kind`, `variant`, and `position` for tailored appearance.
 
   ## Examples
 
-      <.flash kind={:info} flash={@flash} />
-      <.flash kind={:info} phx-mounted={show("#flash")}>Welcome Back!</.flash>
+  ```elixir
+  <.flash kind={:info} title="This is info titlee" width="full" size="large">
+    <p>This is info Description</p>
+  </.flash>
+
+  <.flash kind={:error} title="This is misc titlee" width="large" size="large" flash={@flash} />
+
+  <.flash_group flash={@flash} />
+
+  <.flash kind={:info} phx-mounted={show("#flash")}>Welcome Back!</.flash>
+  ```
   """
-  @doc type: :component
   attr :id, :string, doc: "A unique identifier is used to manage state and interaction"
   attr :flash, :map, default: %{}, doc: "the map of flash messages to display"
   attr :title, :string, default: nil, doc: "Specifies the title of the element"
@@ -165,9 +169,10 @@ defmodule MishkaChelekom.Alert do
   @doc """
   Shows the flash group with standard titles and content.
 
-  ## Examples
-
-      <.flash_group flash={@flash} />
+  ## Example
+  ```
+  <.flash_group flash={@flash} />
+  ```
   """
   @doc type: :component
   attr :id, :string,
@@ -209,12 +214,28 @@ defmodule MishkaChelekom.Alert do
   end
 
   @doc """
-  Renders flash notices.
+  The `alert` component is used to display alert messages with various styling options.
+  It supports attributes like `kind`, `variant`, and `position` to control its appearance and behavior.
 
   ## Examples
 
-      <.flash kind={:info} flash={@flash} />
-      <.flash kind={:info} phx-mounted={show("#flash")}>Welcome Back!</.flash>
+  ```elixir
+  <.alert kind={:info} title="This is info titlee" width="full" size="large">
+    <p>This is info Description</p>
+  </.alert>
+
+  <.alert kind={:misc} title="This is misc titlee" width="full" />
+
+  <.alert kind={:danger} title="This is title" width="large" size="extra_small" rounded="extra_large">
+    This is Danger
+  </.alert>
+
+  <.alert kind={:success} title="This is success title" size="extra_large" icon={nil}>
+    This is Success
+  </.alert>
+
+  <.alert kind={:primary}>This is Primary</.alert>
+  ```
   """
   @doc type: :component
   attr :id, :string,
