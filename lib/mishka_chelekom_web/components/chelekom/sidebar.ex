@@ -41,6 +41,22 @@ defmodule MishkaChelekom.Sidebar do
     "unbordered"
   ]
 
+  @doc """
+  Renders a sidebar component that can be shown or hidden based on user interactions.
+
+  The sidebar supports various customizations such as size, color theme, and border style.
+
+  ## Examples
+
+  ```elixir
+  <.sidebar id="left" size="extra_small" color="dark" hide_position="left">
+    <div class="px-4 py-2">
+      <h2 class="text-white">Menu</h2>
+      ...
+    </div>
+  </.sidebar>
+  ```
+  """
   @doc type: :component
   attr :id, :string,
     required: true,
