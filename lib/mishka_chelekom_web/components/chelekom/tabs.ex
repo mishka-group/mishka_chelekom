@@ -48,6 +48,38 @@ defmodule MishkaChelekom.Tabs do
     "pills"
   ]
 
+  @doc """
+  The `Tabs` component provides a set of clickable tabs for organizing content.
+
+  Each tab can have an icon and supports various styles and configurations like vertical
+  or horizontal alignment.
+
+  ## Examples
+
+  ```heex
+  <.tabs id="tab-1" color="warning" padding="large" gap="small" variant="pills" vertical>
+      <:tab icon="hero-home">1</:tab>
+      <:tab icon="hero-home">2</:tab>
+      <:tab icon="hero-home" active>3</:tab>
+
+      <:panel>
+        <p>
+          Tab1 Lorem ipsum dolor sit amet consectetur adipisicing elit. Nostrum quis sapiente id?
+        </p>
+      </:panel>
+      <:panel>
+        <p>
+          Tab2 Lorem ipsum dolor sit amet consectetur adipisicing elit. Nostrum quis sapiente id?
+        </p>
+      </:panel>
+      <:panel>
+        <p>
+          Tab3 Lorem ipsum dolor sit amet consectetur adipisicing elit. Nostrum quis sapiente id?
+        </p>
+      </:panel>
+  </.tabs>
+  ```
+  """
   @doc type: :component
   attr :id, :string,
     required: true,
