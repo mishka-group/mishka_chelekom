@@ -7,57 +7,8 @@ defmodule MishkaChelekom.Badge do
   the badge's appearance and behavior using a range of attributes.
   This module also provides helper functions to show and hide badges with smooth transition effects.
 
-  ## Examples
-
-  To create a basic badge:
-
-  ```elixir
-  ...example...
-  ```
-
-  To create a badge with an icon and dismiss button:
-
-  ```elixir
-  ...example...
-  ```
-
-  To add an indicator and customize the badge:
-
-  ```elixir
-  ...example...
-  ```
-
   > The badges can be customized further with global attributes such as position, padding, and more.
   > Utilize the built-in helper functions to dynamically show and hide badges as needed.
-
-  ## Available Attributes
-
-  - **`id`**: A unique identifier used to manage state and interaction.
-  - **`variant`**: Determines the style of the badge, such as `"default"`,
-  `"outline"`, `"transparent"`, `"unbordered"`, or `"shadow"`.
-  - **`size`**: Specifies the size of the badge, ranging from `"extra_small"` to `"extra_large"`.
-  - **`rounded`**: Defines the border radius of the badge, with options like
-  `"small"`, `"medium"`, `"large"`, `"full"`, and more.
-  - **`color`**: Sets the color theme of the badge, supporting a variety of
-  predefined colors such as `"primary"`, `"danger"`, `"success"`, etc.
-  - **`font_weight`**: Customizes the font weight class for the badge text.
-  - **`icon`**: Displays an icon alongside the badge content.
-  - **`class`**: Allows additional CSS classes for custom styling.
-  - **`indicator_class`**: Custom CSS class for the indicator element.
-  - **`indicator_size`**: Defines the size of the indicator.
-  - **`params`**: A map of parameters that can be passed to the badge component.
-  - **`dismiss`**: Adds a dismiss button to the badge when set to true.
-  - **`rest`**: Allows global attributes such as positions, icons, and indicators
-  to be merged with provided attributes.
-
-  ## Slots
-
-  - **`inner_block`**: Slot to insert custom HEEx content inside the badge.
-
-  ## Helper Functions
-
-  - **`show_badge/2`**: Shows a badge element with a smooth transition effect.
-  - **`hide_badge/2`**: Hides a badge element with a smooth transition effect.
 
   This module is designed to be highly customizable, enabling you to create badges
   that fit your application's needs seamlessly.
@@ -103,6 +54,23 @@ defmodule MishkaChelekom.Badge do
 
   @dismiss_positions ["dismiss", "right_dismiss", "left_dismiss"]
 
+  @doc """
+  The `badge` component is used to display badges with various styles and indicators.
+
+  It supports customization of attributes such as `variant`, `size`, and `color`,
+  along with optional icons and indicator styles.
+
+  ## Examples
+
+  ```elixir
+  <.badge icon="hero-arrow-down-tray" color="warning" dismiss indicator>Default warning</.badge>
+  <.badge variant="shadow" rounded="large" indicator>Active</.badge>
+
+  <.badge icon="hero-square-2-stack" color="danger" size="medium" bottom_center_indicator pinging>
+    Duplicate
+  </.badge>
+  ```
+  """
   @doc type: :component
   attr :id, :string,
     default: nil,
