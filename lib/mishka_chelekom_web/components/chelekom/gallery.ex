@@ -19,6 +19,28 @@ defmodule MishkaChelekom.Gallery do
 
   use Phoenix.Component
 
+  @doc """
+  Renders a gallery component that supports various layout types including default grid,
+  masonry, and featured styles.
+
+  You can customize the number of columns and gaps between items to achieve the desired layout.
+
+  ## Examples
+
+  ```elixir
+  <.gallery type="masonary" cols="four" gap="large">
+    <.gallery_media src="https://example.com/gallery/masonry/image.jpg" />
+    <.gallery_media src="https://example.com/gallery/masonry/image-2.jpg" />
+    <.gallery_media src="https://example.com/gallery/masonry/image-3.jpg" />
+    <.gallery_media src="https://example.com/gallery/masonry/image-4.jpg" />
+    <.gallery_media src="https://example.com/gallery/masonry/image-5.jpg" />
+    <.gallery_media src="https://example.com/gallery/masonry/image-6.jpg" />
+    <.gallery_media src="https://example.com/gallery/masonry/image-7.jpg" />
+    <.gallery_media src="https://example.com/gallery/masonry/image-8.jpg" />
+    <.gallery_media src="https://example.com/gallery/masonry/image-1.jpg" />
+  </.gallery>
+  ```
+  """
   @doc type: :component
   attr :id, :string,
     default: nil,
@@ -53,6 +75,17 @@ defmodule MishkaChelekom.Gallery do
     """
   end
 
+  @doc """
+  Renders a media component within a gallery, which typically includes images.
+  You can customize the border radius and shadow style of the media element.
+
+  ## Examples
+
+  ```elixir
+  <.gallery_media src="https://example.com/gallery/masonry/image.jpg" />
+  <.gallery_media src="https://example.com/gallery/masonry/image-2.jpg" rounded="large" shadow="shadow-lg" />
+  ```
+  """
   @doc type: :component
   attr :id, :string,
     default: nil,
