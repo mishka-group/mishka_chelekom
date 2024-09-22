@@ -38,6 +38,41 @@ defmodule MishkaChelekom.Footer do
     "unbordered"
   ]
 
+  @doc """
+  Renders a customizable footer component with different sections and styling options, allowing
+  for the inclusion of text, links, and other content.
+
+  ## Examples
+
+  ```elixir
+  <.footer color="secondary" padding="large" space="medium">
+    <.footer_section class="border-b" padding="small">Mishka Chelekom</.footer_section>
+
+    <.footer_section class="grid grid-cols-3 gap-2 justify-between" padding="large">
+      <MishkaChelekom.List.list color="secondary">
+        <:item><a href="/">Home</a></:item>
+        <:item><a href="/">Contact</a></:item>
+        <:item><a href="/">About</a></:item>
+      </MishkaChelekom.List.list>
+
+      <MishkaChelekom.List.list color="secondary" style="list-disc">
+        <:item>list</:item>
+        <:item>list</:item>
+        <:item>list</:item>
+      </MishkaChelekom.List.list>
+
+      <div>
+        Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an
+        unknown printer took a galley of type and scrambled it to make a type specimen bookged.
+      </div>
+    </.footer_section>
+
+    <.footer_section text_position="center" class="border-t" padding="small">
+      © 2023 Mishka Chelekom
+    </.footer_section>
+  </.footer>
+  ```
+  """
   @doc type: :component
   attr :id, :string,
     default: nil,
@@ -88,6 +123,15 @@ defmodule MishkaChelekom.Footer do
     """
   end
 
+  @doc """
+  Renders a section within a footer component, allowing for customized text alignment, spacing, and styling.
+
+  ## Examples
+
+  ```elixir
+  <.footer_section class="border-b" padding="small">Mishka Chelekom</.footer_section>
+  ```
+  """
   @doc type: :component
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
 
