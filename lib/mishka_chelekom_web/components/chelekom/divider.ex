@@ -12,12 +12,6 @@ defmodule MishkaChelekom.Divider do
   - Customizable size, width, height, and margin for precise control over the appearance.
   - Includes slots for adding text or icons with individual styling and positioning options.
   - Global attributes and custom CSS classes can be applied for additional customization.
-
-  ## Usage:
-
-  This component is ideal for visually separating content sections in your Phoenix LiveView application.
-  It can be styled and customized to match various design requirements, ensuring a
-  consistent and polished user interface.
   """
   use Phoenix.Component
   import MishkaChelekomComponents
@@ -37,6 +31,26 @@ defmodule MishkaChelekom.Divider do
     "silver"
   ]
 
+  @doc """
+  The `divider` component is used to visually separate content with either a horizontal or
+  vertical line. It supports different line styles (like dashed, dotted, or solid) and can
+  be customized with various attributes like `size`, `width`, `height`, and `color`.
+
+  ### Examples
+
+  ```elixir
+  <.divider type="dashed" size="small" color="primary">
+    <:text position="right">Or</:text>
+  </.divider>
+
+  <.divider type="dotted" size="extra_large">
+    <:icon name="hero-circle-stack" class="p-10 bg-white text-yellow-600" />
+  </.divider>
+  ```
+
+  This component is ideal for creating visual separations in your layout, whether it’s for breaking
+  up text, sections, or other elements in your design.
+  """
   @doc type: :component
   attr :id, :string,
     default: nil,
@@ -178,6 +192,22 @@ defmodule MishkaChelekom.Divider do
     """
   end
 
+  @doc """
+  `MishkaChelekom.Divider.hr` is used to create a horizontal divider with customizable style, color,
+  and size options.
+
+  It can also include text or icons to enhance visual separation between content sections.
+
+  ## Examples
+
+  ```heex
+  <.hr type="dashed" color="primary" />
+  <.hr type="dotted" size="large" />
+  <.hr><:text>Or</:text></.hr>
+  <.hr color="dawn"><:icon name="hero-circle-stack" /></.hr>
+  <.hr type="dashed" size="small"><:text>Or</:text></.hr>
+  ```
+  """
   @doc type: :component
   attr :id, :string,
     default: nil,
