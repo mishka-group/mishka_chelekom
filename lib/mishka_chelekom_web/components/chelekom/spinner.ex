@@ -47,6 +47,20 @@ defmodule MishkaChelekom.Spinner do
     "pinging"
   ]
 
+  @doc """
+  Renders a customizable spinner component to indicate loading or processing states.
+  The spinner can be adjusted in size, color, and type to match the desired style and theme.
+
+  ## Examples
+
+  ```elixir
+  <.spinner color="danger" size="extra_small" type="pinging" />
+  <.spinner color="misc" type="pinging" />
+  <.spinner color="warning" size="medium" type="pinging" />
+  <.spinner color="success" size="large" type="pinging" />
+  <.spinner color="primary" size="extra_large" type="pinging" />
+  ```
+  """
   @doc type: :component
   attr :id, :string,
     default: nil,
