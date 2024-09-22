@@ -12,16 +12,72 @@ defmodule MishkaChelekom.DateTimeField do
   - Flexible error handling with the ability to display custom error messages and icons.
   - Optional floating label support, allowing labels to animate based on user interaction.
   - Integration with Phoenix form fields for seamless form data management.
-
-  ## Usage:
-  This component can be used within a Phoenix form or as a standalone input element.
-  It offers a high degree of customization for layout, styling, and behavior, making it
-  suitable for diverse UI requirements in web applications.
   """
 
   use Phoenix.Component
   import MishkaChelekomComponents
 
+  @doc """
+  The `date_time_field` component is used to create a customizable date, time, or datetime input field with various options such as `type`, `color`, and `size`. It supports floating labels, descriptions, and error messages, making it suitable for form validation and enhanced UX.
+
+  ## Examples
+
+  ```elixir
+  <.date_time_field name="name" type="date" space="small" color="dark" floating="outer"/>
+  <.date_time_field name="name" type="time" space="small" color="danger" floating="outer"/>
+  <.date_time_field name="name1" type="week" space="small" color="success" floating="outer"/>
+
+  <.date_time_field
+    name="name"
+    type="month"
+    space="small"
+    color="warning"
+    description="This is description"
+    label="This is label month"
+    floating="outer"
+  />
+
+  <.date_time_field
+    name="name"
+    type="datetime-local"
+    space="small"
+    color="primary"
+    description="This is description"
+    label="This is label datetime-local"
+    floating="outer"
+  />
+
+  <.date_time_field
+    name="name"
+    type="week"
+    space="large"
+    color="secondary"
+    description="This is description"
+    label="This is label week"
+    size="medium"
+  />
+
+  <.date_time_field
+    name="name"
+    type="date"
+    space="large"
+    color="misc"
+    description="This is description"
+    label="This is label date"
+    size="small"
+  />
+
+  <.date_time_field
+    name="name"
+    type="month"
+    space="large"
+    color="dawn"
+    description="This is description"
+    label="This is label month"
+    size="large"
+  />
+  ```
+  """
   @doc type: :component
   attr :id, :string,
     default: nil,
@@ -214,7 +270,7 @@ defmodule MishkaChelekom.DateTimeField do
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   slot :inner_block, required: true, doc: "Inner block that renders HEEx content"
 
-  def label(assigns) do
+  defp label(assigns) do
     ~H"""
     <label for={@for} class={["block text-sm font-semibold leading-6", @class]}>
       <%= render_slot(@inner_block) %>
@@ -226,7 +282,7 @@ defmodule MishkaChelekom.DateTimeField do
   attr :icon, :string, default: nil, doc: "Icon displayed alongside of an item"
   slot :inner_block, required: true, doc: "Inner block that renders HEEx content"
 
-  def error(assigns) do
+  defp error(assigns) do
     ~H"""
     <p class="mt-3 flex items-center gap-3 text-sm leading-6 text-rose-700">
       <.icon :if={!is_nil(@icon)} name={@icon} class="shrink-0" />
