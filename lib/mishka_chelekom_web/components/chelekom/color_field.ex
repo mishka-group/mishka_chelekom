@@ -10,21 +10,43 @@ defmodule MishkaChelekom.ColorField do
   - Flexible error handling with support for custom error icons and messages.
   - Configurable size and layout options for various use cases.
   - Support for Phoenix form field integration.
-
-  ## Usage:
-  This component can be used as a standalone color input or integrated into a Phoenix form.
-  It allows for high customization of styles and behavior, making it suitable for a wide range
-  of UI requirements.
-
-  ### Example:
-
-  ```elixir
-  ```
   """
 
   use Phoenix.Component
   import MishkaChelekomComponents
 
+  @doc """
+  The `color_field` component is used to create a customizable color input field with various
+  options such as `size`, `color`, and `rounded`.
+
+  It supports labels, descriptions, and error messages, making it suitable for form validation and styling.
+
+  ## Examples
+
+  ```elixir
+  <div class="p-10">
+    <.color_field
+      name="name1"
+      value="#ff5733"
+      border="none"
+      rounded="small"
+      color="danger"
+      description="This is description"
+      label="This is label"
+    />
+
+    <.color_field
+      name="name1"
+      color="dark"
+      description="This is description"
+      label="This is label"
+      size="extra_large"
+    />
+
+    <.color_field name="name1" color="dark" size="full" label="This is label"/>
+  </div>
+  ```
+  """
   @doc type: :component
   attr :id, :string,
     default: nil,
@@ -119,7 +141,7 @@ defmodule MishkaChelekom.ColorField do
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   slot :inner_block, required: true, doc: "Inner block that renders HEEx content"
 
-  def label(assigns) do
+  defp label(assigns) do
     ~H"""
     <label for={@for} class={["block text-sm font-semibold leading-6", @class]}>
       <%= render_slot(@inner_block) %>
@@ -131,7 +153,7 @@ defmodule MishkaChelekom.ColorField do
   attr :icon, :string, default: nil, doc: "Icon displayed alongside of an item"
   slot :inner_block, required: true, doc: "Inner block that renders HEEx content"
 
-  def error(assigns) do
+  defp error(assigns) do
     ~H"""
     <p class="mt-3 flex items-center gap-3 text-sm leading-6 text-rose-700">
       <.icon :if={!is_nil(@icon)} name={@icon} class="shrink-0" />
