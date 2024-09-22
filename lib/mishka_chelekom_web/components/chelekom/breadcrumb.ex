@@ -70,6 +70,38 @@ defmodule MishkaChelekom.Breadcrumb do
     "dawn"
   ]
 
+  @doc """
+  The `breadcrumb` component is used to display a navigational path with customizable
+  attributes such as `color`, `size`, and `separator`.
+
+  It supports defining individual items with optional icons and links, allowing for flexible
+  breadcrumb trails.
+
+  ## Examples
+
+  ```elixir
+  <.breadcrumb>
+    <:item icon="hero-academic-cap" link="/">Route1</:item>
+    <:item icon="hero-beaker" link="/">Route2</:item>
+    <:item icon="hero-computer-desktop" link="/">Route3</:item>
+    <:item>Route3</:item>
+  </.breadcrumb>
+
+  <.breadcrumb color="info" size="medium">
+    <:item icon="hero-academic-cap">Route1</:item>
+    <:item icon="hero-beaker">Route2</:item>
+    <:item icon="hero-computer-desktop">Route3</:item>
+    <:item>Route3</:item>
+  </.breadcrumb>
+
+  <.breadcrumb color="secondary" size="small">
+    <:item link="/">Route1</:item>
+    <:item link="/">Route2</:item>
+    <:item link="/">Route3</:item>
+    <:item link="/">Route3</:item>
+  </.breadcrumb>
+  ```
+  """
   @doc type: :component
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
 
