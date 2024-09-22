@@ -17,6 +17,42 @@ defmodule MishkaChelekom.TableContent do
   import MishkaChelekomComponents
   alias Phoenix.LiveView.JS
 
+  @doc """
+  The `table_content` component is used to display organized content with customizable styling
+  options such as color, padding, and animation.
+
+  It supports nested content items and wrappers for better content management and display.
+
+  ## Examples
+
+  ```heex
+  <.table_content color="primary" animated>
+    <.content_item icon="hero-hashtag">
+      <.link href="#prag">Content 1</.link>
+    </.content_item>
+
+    <.content_item icon="hero-hashtag">
+      <.link href="#home">Content 2</.link>
+    </.content_item>
+
+    <.content_item title="Wrapper Content">
+      <.content_wrapper>
+        <.content_item icon="hero-hashtag">
+          <.link href="#home">Content 1</.link>
+        </.content_item>
+
+        <.content_item icon="hero-hashtag">
+          <.link href="#home">Content 2</.link>
+        </.content_item>
+
+        <.content_item icon="hero-hashtag" active>
+          <.link href="#home">Content 3</.link>
+        </.content_item>
+      </.content_wrapper>
+    </.content_item>
+  </.table_content>
+  ```
+  """
   @doc type: :component
   attr :id, :string,
     default: nil,
@@ -64,6 +100,29 @@ defmodule MishkaChelekom.TableContent do
     """
   end
 
+  @doc """
+  The `content_wrapper` component is used to wrap multiple content items, allowing for grouped
+  and structured presentation of content. It provides options for custom styling and font
+  weight, making it versatile for various use cases.
+
+  ## Examples
+
+  ```elixir
+  <.content_wrapper>
+    <.content_item icon="hero-hashtag">
+      <.link href="#home">Content 1</.link>
+    </.content_item>
+
+    <.content_item icon="hero-hashtag">
+      <.link href="#home">Content 2</.link>
+    </.content_item>
+
+    <.content_item icon="hero-hashtag" active>
+      <.link href="#home">Content 3</.link>
+    </.content_item>
+  </.content_wrapper>
+  ```
+  """
   @doc type: :component
   attr :id, :string,
     default: nil,
@@ -99,6 +158,21 @@ defmodule MishkaChelekom.TableContent do
     """
   end
 
+  @doc """
+  The `content_item` component is used to represent a single content item with an optional
+  icon and custom styling.
+
+  It allows for active state management and supports various configurations such as font
+  weight and additional CSS classes.
+
+  ## Examples
+
+  ```elixir
+  <.content_item icon="hero-hashtag">
+    <.link href="#prag">Content 1</.link>
+  </.content_item>
+  ```
+  """
   @doc type: :component
   attr :id, :string,
     default: nil,
