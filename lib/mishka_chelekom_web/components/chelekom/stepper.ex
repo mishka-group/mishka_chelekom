@@ -17,6 +17,21 @@ defmodule MishkaChelekom.Stepper do
   use Phoenix.Component
   import MishkaChelekomComponents
 
+  @doc """
+  Renders a customizable stepper component that visually represents a multi-step process.
+  This component can be configured to display either horizontally or vertically, with various
+  styling options like color, size, and spacing.
+
+  ## Examples
+
+  ```elixir
+  <.stepper color="info" size="extra_large">
+    <.stepper_section step="current" title="First step" description="Create an account" />
+    <.stepper_section title="Second Step" description="Verify email" />
+    <.stepper_section title="Third Step" description="Get full access" />
+  </.stepper>
+  ```
+  """
   @doc type: :component
   attr :id, :string,
     default: nil,
@@ -90,6 +105,23 @@ defmodule MishkaChelekom.Stepper do
     """
   end
 
+  @doc """
+  Renders a step section within the stepper component, representing each individual step of
+  a multi-step process.
+
+  This section can display information such as the step number, title, description, and an icon.
+  It can also be customized to show different states, such as current, loading, completed, or canceled.
+
+  ## Examples
+
+  Horizontal Step Section:
+
+  ```elixir
+  <.stepper_section step="current" title="First step" description="Create an account" />
+  <.stepper_section title="Second Step" description="Verify email" />
+  <.stepper_section title="Third Step" description="Get full access" />
+  ```
+  """
   @doc type: :component
   attr :id, :string,
     default: nil,
