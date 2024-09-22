@@ -47,6 +47,27 @@ defmodule MishkaChelekom.Pagination do
     "unbordered"
   ]
 
+  @doc """
+  Renders a pagination component that allows users to navigate through pages. The component supports various configurations such as setting the total number of pages, current active page, and the number of sibling and boundary pages to display. Custom icons or labels can be used for navigation controls, and slots are available for additional start and end items.
+
+  ## Examples
+
+  ```elixir
+  <.pagination
+    total={200}
+    active={@posts.active}
+    siblings={3}
+    show_edges
+    grouped
+    next_label="next"
+    previous_label="prev"
+    first_label="first"
+    last_label="last"
+  />
+
+  <.pagination total={@posts.total} active={@posts.active} siblings={3} variant="outline" show_edges grouped/>
+  ```
+  """
   @doc type: :component
   attr :id, :string,
     default: nil,
