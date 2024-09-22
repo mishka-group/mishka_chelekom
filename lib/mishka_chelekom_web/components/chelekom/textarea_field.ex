@@ -25,6 +25,34 @@ defmodule MishkaChelekom.TextareaField do
   use Phoenix.Component
   import MishkaChelekomComponents
 
+  @doc """
+  The `TextareaField` component provides a customizable text area input with various styling options,
+  including floating labels, error messages, and resizing control.
+
+  ## Examples
+
+  ```elixir
+  <.textarea_field
+    name="name"
+    space="small"
+    color="danger"
+    description="This is description"
+    label="This is outline label"
+    placeholder="This is placeholder"
+    floating="outer"
+    disable_resize
+  />
+
+  <.textarea_field
+    name="name"
+    variant="unbordered"
+    space="small"
+    color="success"
+    label="This is Unbordered Success"
+    placeholder="This is placeholder"
+  />
+  ```
+  """
   @doc type: :component
   attr :id, :string,
     default: nil,
@@ -184,7 +212,7 @@ defmodule MishkaChelekom.TextareaField do
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   slot :inner_block, required: true, doc: "Inner block that renders HEEx content"
 
-  def label(assigns) do
+  defp label(assigns) do
     ~H"""
     <label for={@for} class={["block text-sm font-semibold leading-6", @class]}>
       <%= render_slot(@inner_block) %>
@@ -196,7 +224,7 @@ defmodule MishkaChelekom.TextareaField do
   attr :icon, :string, default: nil, doc: "Icon displayed alongside of an item"
   slot :inner_block, required: true, doc: "Inner block that renders HEEx content"
 
-  def error(assigns) do
+  defp error(assigns) do
     ~H"""
     <p class="mt-3 flex items-center gap-3 text-sm leading-6 text-rose-700">
       <.icon :if={!is_nil(@icon)} name={@icon} class="shrink-0" />
