@@ -13,6 +13,22 @@ defmodule MishkaChelekom.ToggleField do
   use Phoenix.Component
   import MishkaChelekomComponents
 
+  @doc """
+  The `ToggleField` component is a customizable toggle switch input, often used for binary on/off
+  choices like enabling or disabling a feature.
+
+  ## Examples
+
+  ```elixir
+  <.toggle_field id="name1" color="danger" label="This is label" />
+
+  <.toggle_field id="name2" color="dark" label="This is label" size="extra_large"/>
+
+  <.toggle_field id="name3" color="warning" label="This is label" size="extra_small" checked={true} />
+
+  <.toggle_field id="name4" color="success" label="This is label" size="small"/>
+  ```
+  """
   @doc type: :component
   attr :id, :string,
     default: nil,
@@ -103,7 +119,7 @@ defmodule MishkaChelekom.ToggleField do
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   slot :inner_block, required: true, doc: "Inner block that renders HEEx content"
 
-  def label(assigns) do
+  defp label(assigns) do
     ~H"""
     <label for={@for} class={["block text-sm font-semibold leading-6", @class]}>
       <%= render_slot(@inner_block) %>
@@ -115,7 +131,7 @@ defmodule MishkaChelekom.ToggleField do
   attr :icon, :string, default: nil, doc: "Icon displayed alongside of an item"
   slot :inner_block, required: true, doc: "Inner block that renders HEEx content"
 
-  def error(assigns) do
+  defp error(assigns) do
     ~H"""
     <p class="mt-3 flex items-center gap-3 text-sm leading-6 text-rose-700">
       <.icon :if={!is_nil(@icon)} name={@icon} class="shrink-0" />
