@@ -38,6 +38,85 @@ defmodule MishkaChelekom.Navbar do
     "unbordered"
   ]
 
+  @doc """
+  Renders a customizable navigation bar that can include links, dropdowns, and other components.
+
+  The navigation bar is designed to handle various styles, colors, and layouts.
+
+  ## Examples
+
+  ```elixir
+  <.navbar id="nav-11" color="success" variant="shadow">
+    <:list><.link navigate="/">Home</.link></:list>
+    <:list><.link navigate="/examples/sidebar">List</.link></:list>
+
+    <:list>
+      <.dropdown relative="md:relative" width="w-full" clickable>
+        <.dropdown_trigger width="full" trigger_id="test-31">
+          <button class="text-start w-full block">Dropdown</button>
+        </.dropdown_trigger>
+
+        <.dropdown_content space="small" id="test-31" rounded="large" width="large" padding="extra_small">
+          <ul class="space-y-5">
+            <li>
+              <.dropdown width="w-full" position="right" clickable>
+                <.dropdown_trigger trigger_id="test-19">
+                  <button class={[
+                    "py-1 px-2 text-start w-full flex items-center justify-between hover:bg-gray-200"
+                  ]}
+                  >
+                    Nested Dropdown <.icon name="hero-chevron-right" />
+                  </button>
+                </.dropdown_trigger>
+
+                <.dropdown_content id="test-19" rounded="large" width="large" padding="extra_small">
+                  <ul class="space-y-5">
+                    <li>
+                      <.link class="py-1 px-2 block hover:bg-gray-200" navigate="/examples/list">
+                        Security
+                      </.link>
+                    </li>
+
+                    <li>
+                      <.link class="py-1 px-2 block hover:bg-gray-200" navigate="/examples/dropdown">
+                        Memory
+                      </.link>
+                    </li>
+
+                    <li>
+                      <.link class="py-1 px-2 block hover:bg-gray-200" navigate="/examples/image">
+                        Design
+                      </.link>
+                    </li>
+                  </ul>
+                </.dropdown_content>
+              </.dropdown>
+            </li>
+
+            <li>
+              <.link class="py-1 px-2 block hover:bg-gray-200" navigate="/examples/dropdown">
+                Memory
+              </.link>
+            </li>
+
+            <li>
+              <.link class="py-1 px-2 block hover:bg-gray-200" navigate="/examples/image">
+                Design
+              </.link>
+            </li>
+          </ul>
+        </.dropdown_content>
+      </.dropdown>
+    </:list>
+
+    <:list><.link navigate="/examples/rating">Blog</.link></:list>
+    <:list><.link navigate="/examples/sidebar">Calendar</.link></:list>
+    <:list><.link navigate="/examples/rating">Booking</.link></:list>
+    <:list><.link navigate="/examples/sidebar">Partners</.link></:list>
+    <:list><.link navigate="/examples/rating">About</.link></:list>
+  </.navbar>
+  ```
+  """
   @doc type: :component
   attr :id, :string,
     required: true,
