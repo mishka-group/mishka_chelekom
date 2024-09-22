@@ -16,10 +16,6 @@ defmodule MishkaChelekom.MegaMenu do
   flexibility in interaction.
   - **Customizable Slots:** Utilize the `trigger` and `inner_block` slots to define custom content
   and layout within the mega menu.
-
-  This example creates a clickable mega menu with a shadow variant and a primary color theme.
-  The menu can be triggered by clicking on the "Menu" text, and it displays a list of navigation
-  links when activated.
   """
 
   use Phoenix.Component
@@ -45,6 +41,95 @@ defmodule MishkaChelekom.MegaMenu do
     "shadow"
   ]
 
+  @doc """
+  Renders a customizable mega menu component that can display various sections of content. It includes slots for defining a trigger element, such as a button, and inner content blocks.
+
+  ## Examples
+
+  ```elixir
+  <.mega_menu id="mega" space="small" rounded="large" padding="extra_small" top_gap="large" clickable>
+    <:trigger>
+      <button class="text-start w-full block">MegaMenu</button>
+    </:trigger>
+
+    <div>
+      <div class="grid md:grid-cols-2 lg:grid-cols-3">
+        <ul class="space-y-4 sm:mb-4 md:mb-0" aria-labelledby="mega-menu-full-cta-button">
+          <li>
+            <a href="#" class="hover:underline hover:text-blue-600">
+              Online Stores
+            </a>
+          </li>
+          <li>
+            <a href="#" class="hover:underline hover:text-blue-600">
+              Segmentation
+            </a>
+          </li>
+          <li>
+            <a href="#" class="hover:underline hover:text-blue-600">
+              Marketing CRM
+            </a>
+          </li>
+          <li>
+            <a href="#" class="hover:underline hover:text-blue-600">
+              Online Stores
+            </a>
+          </li>
+        </ul>
+        <ul class="hidden mb-4 space-y-4 md:mb-0 sm:block">
+          <li>
+            <a href="#" class="hover:underline hover:text-blue-600">
+              Our Blog
+            </a>
+          </li>
+          <li>
+            <a href="#" class="hover:underline hover:text-blue-600">
+              Terms & Conditions
+            </a>
+          </li>
+          <li>
+            <a href="#" class="hover:underline hover:text-blue-600">
+              License
+            </a>
+          </li>
+          <li>
+            <a href="#" class="hover:underline hover:text-blue-600">
+              Resources
+            </a>
+          </li>
+        </ul>
+        <div class="mt-4 md:mt-0">
+          <h2 class="mb-2 font-semibold text-gray-900">Our brands</h2>
+          <p class="mb-2 text-gray-500">
+            At Flowbite, we have a portfolio of brands that cater to a variety of preferences.
+          </p>
+          <a
+            href="#"
+            class="inline-flex items-center text-sm font-medium text-blue-600 hover:underline hover:text-blue-600"
+          >
+            Explore our brands <span class="sr-only">Explore our brands </span>
+            <svg
+              class="w-3 h-3 ms-2 rtl:rotate-180"
+              aria-hidden="true"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 14 10"
+            >
+              <path
+                stroke="currentColor"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M1 5h12m0 0L9 1m4 4L9 9"
+              />
+            </svg>
+          </a>
+        </div>
+      </div>
+    </div>
+  </.mega_menu>
+  ```
+  """
   @doc type: :component
   attr :id, :string,
     default: nil,
