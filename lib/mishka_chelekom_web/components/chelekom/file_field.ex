@@ -22,6 +22,18 @@ defmodule MishkaChelekom.FileField do
   use Phoenix.Component
   import MishkaChelekomComponents
 
+  @doc """
+  Renders a file input field with customizable styles, labels, and live upload capabilities.
+
+  It can be used as a simple file input or as a dropzone with drag-and-drop support for files and images.
+
+  ## Examples
+
+  ```elixir
+  <MishkaChelekom.FileField.file_field color="danger" />
+  <MishkaChelekom.FileField.file_field target={:avatar} uploads={@uploads} dropzone/>
+  ```
+  """
   @doc type: :component
   attr :id, :string,
     default: nil,
@@ -268,7 +280,7 @@ defmodule MishkaChelekom.FileField do
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   slot :inner_block, required: true, doc: "Inner block that renders HEEx content"
 
-  def label(assigns) do
+  defp label(assigns) do
     ~H"""
     <label for={@for} class={["block text-sm font-semibold leading-6", @class]}>
       <%= render_slot(@inner_block) %>
@@ -280,7 +292,7 @@ defmodule MishkaChelekom.FileField do
   attr :icon, :string, default: nil, doc: "Icon displayed alongside of an item"
   slot :inner_block, required: true, doc: "Inner block that renders HEEx content"
 
-  def error(assigns) do
+  defp error(assigns) do
     ~H"""
     <p class="mt-3 flex items-center gap-3 text-sm leading-6 text-rose-700">
       <.icon :if={!is_nil(@icon)} name={@icon} class="shrink-0" /> <%= render_slot(@inner_block) %>
