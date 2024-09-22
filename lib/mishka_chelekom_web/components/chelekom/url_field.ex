@@ -16,6 +16,35 @@ defmodule MishkaChelekom.UrlField do
   use Phoenix.Component
   import MishkaChelekomComponents
 
+  @doc """
+  The `url_field` component is used to create an input field for URLs.
+  It supports various attributes for customization, including color, size, border style, and more.
+
+  ## Examples
+
+  ```elixir
+  <.url_field
+    name="website"
+    value="https://example.com"
+    label="Website URL"
+    description="Enter your website URL"
+    floating="outer"
+  />
+
+  <.url_field
+    name="social_media"
+    value="https://linkedin.com/in/username"
+    label="LinkedIn Profile"
+    color="success"
+    description="Enter your LinkedIn profile URL"
+    floating="inner"
+  >
+    <:start_section>
+      <.icon name="hero-link" class="size-4" />
+    </:start_section>
+  </.url_field>
+  ```
+  """
   @doc type: :component
   attr :id, :string,
     default: nil,
@@ -203,7 +232,7 @@ defmodule MishkaChelekom.UrlField do
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   slot :inner_block, required: true, doc: "Inner block that renders HEEx content"
 
-  def label(assigns) do
+  defp label(assigns) do
     ~H"""
     <label for={@for} class={["block text-sm font-semibold leading-6", @class]}>
       <%= render_slot(@inner_block) %>
@@ -215,7 +244,7 @@ defmodule MishkaChelekom.UrlField do
   attr :icon, :string, default: nil, doc: "Icon displayed alongside of an item"
   slot :inner_block, required: true, doc: "Inner block that renders HEEx content"
 
-  def error(assigns) do
+  defp error(assigns) do
     ~H"""
     <p class="mt-3 flex items-center gap-3 text-sm leading-6 text-rose-700">
       <.icon :if={!is_nil(@icon)} name={@icon} class="shrink-0" />
