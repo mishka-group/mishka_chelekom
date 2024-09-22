@@ -9,6 +9,31 @@ defmodule MishkaChelekom.Image do
 
   use Phoenix.Component
 
+  @doc """
+  Renders an image component with various customization options such as border `radius`, `shadow`,
+  and `loading` behavior.
+
+  It supports additional attributes like width, height, and srcset for responsive images.
+
+  ## Examples
+
+  ```elixir
+  <MishkaChelekom.Image.image src="https://example.com/1.jpg" />
+
+  <MishkaChelekom.Image.image src="https://example.com/1.jpg" loading="lazy"/>
+
+  <MishkaChelekom.Image.image shadow="large" src="https://example.com/1.jpg" width={100} height={100}/>
+
+  <MishkaChelekom.Image.image rounded="full" src="https://example.com/1.jpg" width={100} height={100}/>
+
+  <MishkaChelekom.Image.image
+    fetchpriority="low"
+    rounded="rounded-3xl"
+    shadow="extra_large"
+    src="https://example.com/1.jpg"
+  />
+  ```
+  """
   @doc type: :component
   attr :id, :string,
     default: nil,
