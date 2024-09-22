@@ -30,6 +30,48 @@ defmodule MishkaChelekom.Dropdown do
     "shadow"
   ]
 
+  @doc """
+  A dropdown component that displays a list of options or content when triggered.
+  It can be activated by a click or hover, and positioned in various directions relative to its parent.
+
+  ## Examples
+
+  ```elixir
+  <.dropdown relative="relative" position="right">
+    <.dropdown_trigger>
+      <.button color="primary" icon="hero-chevron-down" right_icon>
+        Dropdown Right
+      </.button>
+    </.dropdown_trigger>
+
+    <.dropdown_content space="small" rounded="large" width="full" padding="extra_small">
+      <.list size="small">
+        <:item padding="extra_small" icon="hero-envelope">Dashboard</:item>
+        <:item padding="extra_small" icon="hero-camera">Settings</:item>
+        <:item padding="extra_small" icon="hero-camera">Earning</:item>
+        <:item padding="extra_small" icon="hero-calendar">Sign out</:item>
+      </.list>
+    </.dropdown_content>
+  </.dropdown>
+
+  <.dropdown relative="relative" clickable>
+    <.dropdown_trigger trigger_id="test-1">
+      <.button color="primary" icon="hero-chevron-down" right_icon>
+        Dropdown Button
+      </.button>
+    </.dropdown_trigger>
+
+    <.dropdown_content id="test-1" space="small" rounded="large" width="full" padding="extra_small">
+      <.list size="small">
+        <:item padding="extra_small" icon="hero-envelope">Dashboard</:item>
+        <:item padding="extra_small" icon="hero-camera">Settings</:item>
+        <:item padding="extra_small" icon="hero-camera">Earning</:item>
+        <:item padding="extra_small" icon="hero-calendar">Sign out</:item>
+      </.list>
+    </.dropdown_content>
+  </.dropdown>
+  ```
+  """
   @doc type: :component
   attr :id, :string,
     default: nil,
@@ -76,6 +118,18 @@ defmodule MishkaChelekom.Dropdown do
     """
   end
 
+  @doc """
+  Defines a trigger for the dropdown component. When the element is clicked,
+  it toggles the visibility of the associated dropdown content.
+
+  ## Examples
+
+  ```elixir
+  <.dropdown_trigger>
+    <.button color="primary" icon="hero-chevron-down" right_icon>Dropdown Right</.button>
+  </.dropdown_trigger>
+  ```
+  """
   @doc type: :component
   attr :id, :string,
     default: nil,
@@ -108,6 +162,23 @@ defmodule MishkaChelekom.Dropdown do
     """
   end
 
+  @doc """
+  Defines the content area of a dropdown component. The content appears when the dropdown trigger
+  is activated and can be customized with various styles such as size, color, padding, and border.
+
+  ## Examples
+
+  ```elixir
+  <.dropdown_content space="small" rounded="large" width="full" padding="extra_small">
+    <.list size="small">
+      <:item padding="extra_small" icon="hero-envelope">Dashboard</:item>
+      <:item padding="extra_small" icon="hero-camera">Settings</:item>
+      <:item padding="extra_small" icon="hero-camera">Earning</:item>
+      <:item padding="extra_small" icon="hero-calendar">Sign out</:item>
+    </.list>
+  </.dropdown_content>
+  ```
+  """
   @doc type: :component
   attr :id, :string,
     default: nil,
