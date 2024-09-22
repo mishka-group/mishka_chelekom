@@ -15,47 +15,7 @@ defmodule MishkaChelekom.Banner do
   - **Animation Transitions**: Use built-in JavaScript commands to show and hide banners with
   smooth animation transitions.
 
-  ### Banner
-  ```elixir
-  ...example
-  ```
-
-  The main component for rendering a banner with optional inner content and dismiss functionality.
-
-  #### Attributes
-
-  - `id` (required): A unique identifier used for managing the banner state and interaction.
-  - `size`: Specifies the size of the banner, including padding and font size.
-  - `variant`: Determines the style of the banner, such as "default" or "outline".
-  - `color`: Sets the color theme for the banner.
-  - `border`: Specifies the border style for the banner.
-  - `border_position`: Controls where the border appears (top, bottom, or full).
-  - `rounded`: Sets the border radius for the banner.
-  - `rounded_position`: Controls where the rounded corners appear.
-  - `space`: Sets the space between items within the banner.
-  - `vertical_position`: Specifies the vertical positioning of the banner.
-  - `vertical_size`: Sets the size of the vertical positioning.
-  - `position`: Determines the overall position of the banner on the screen.
-  - `position_size`: Sets the size of the position for finer control.
-  - `font_weight`: Customizes the font weight.
-  - `padding`: Sets the padding around the banner content.
-  - `class`: Additional custom CSS classes.
-  - `params`: Additional parameters passed to the banner.
-  - `rest`: Global attributes for further customization.
-  - `inner_block`: Slot for adding custom inner content to the banner.
-
-  ### Banner Dismiss
-
-  A button to dismiss the banner with a smooth hiding transition.
-
-  #### Attributes
-
-  - `id` (required): A unique identifier used for managing the state and interaction
-  of the dismiss button.
-  - `dismiss`: Specifies whether the dismiss button should be rendered.
-  - `class`: Additional custom CSS classes.
-  - `size`: Sets the size of the dismiss button.
-  - `params`: Additional parameters passed to the dismiss button.
+  > The main component for rendering a banner with optional inner content and dismiss functionality.
 
   ## JS Commands
 
@@ -98,6 +58,42 @@ defmodule MishkaChelekom.Banner do
 
   @positions ["top_left", "top_right", "bottom_left", "bottom_right", "center", "full"]
 
+  @doc """
+  The `banner` component is used to display fixed position banners with various customization
+  options such as size, color, and position. It supports displaying content through an inner block,
+  and attributes like `vertical_position` and `rounded_position` for flexible layout configuration.
+
+  ## Examples
+
+  ```elixir
+  <.banner id="banner">
+    <div>
+      Lorem ipsum dolor sit amet consectetur adipisicing elit. Commodi ea
+      atque soluta praesentium quidem dicta sapiente accusamus nihil.
+    </div>
+  </.banner>
+
+  <.banner id="banner" color="primary" space="large" vertical_position="bottom">
+    <div>
+      Lorem ipsum dolor sit amet consectetur adipisicing elit. Commodi ea atque soluta
+      praesentium quidem dicta sapiente accusamus nihil.
+    </div>
+    <div>
+      Lorem ipsum dolor sit amet consectetur adipisicing elit. Commodi ea atque
+      soluta praesentium quidem dicta sapiente accusamus nihil.
+    </div>
+  </.banner>
+
+  <.banner id="banner" color="secondary" space="large" vertical_position="top" vertical_size="top-24">
+    <div>
+      Lorem ipsum dolor sit amet consectetur adipisicing elit. Commodi ea atque soluta praesentium quidem dicta sapiente accusamus nihil.
+    </div>
+    <div>
+      Lorem ipsum dolor sit amet consectetur adipisicing elit. Commodi ea atque soluta praesentium quidem dicta sapiente accusamus nihil.
+    </div>
+  </.banner>
+  ```
+  """
   @doc type: :component
   attr :id, :string,
     required: true,
