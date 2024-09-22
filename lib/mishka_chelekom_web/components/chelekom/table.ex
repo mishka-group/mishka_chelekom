@@ -15,6 +15,56 @@ defmodule MishkaChelekom.Table do
   use Phoenix.Component
   import MishkaChelekomComponents
 
+  @doc """
+  Renders a customizable table component that supports custom styling for rows, columns,
+  and table headers. This component allows for specifying borders, padding, rounded corners,
+  and text alignment.
+
+  It also supports fixed layout and various configurations for headers, footers, and cells.
+
+  ## Examples
+
+  ```elixir
+  <.table>
+    <:header>Name</:header>
+    <:header>Age</:header>
+    <:header>Address</:header>
+    <:header>Email</:header>
+    <:header>Job</:header>
+    <:header>Action</:header>
+
+    <.tr>
+      <.td>Jim Emerald</.td>
+      <.td>27</.td>
+      <.td>London No. 1 Lake Park</.td>
+      <.td>test@mail.com</.td>
+      <.td>Frontend Developer</.td>
+      <.td><MishkaChelekom.Rating.rating select={3} count={5} /></.td>
+    </.tr>
+
+    <.tr>
+      <.td>Alex Brown</.td>
+      <.td>32</.td>
+      <.td>New York No. 2 River Park</.td>
+      <.td>alex@mail.com</.td>
+      <.td>Backend Developer</.td>
+      <.td><MishkaChelekom.Rating.rating select={4} count={5} /></.td>
+    </.tr>
+
+    <.tr>
+      <.td>John Doe</.td>
+      <.td>28</.td>
+      <.td>Los Angeles No. 3 Sunset Boulevard</.td>
+      <.td>john@mail.com</.td>
+      <.td>UI/UX Designer</.td>
+      <.td><MishkaChelekom.Rating.rating select={5} count={5} /></.td>
+    </.tr>
+
+    <:footer>Total</:footer>
+    <:footer>3 Employees</:footer>
+  </.table>
+  ```
+  """
   @doc type: :component
   attr :id, :string,
     default: nil,
@@ -124,6 +174,16 @@ defmodule MishkaChelekom.Table do
     """
   end
 
+  @doc """
+  Renders a table header cell (`<th>`) component with customizable class and scope attributes.
+  This component allows for additional styling and accepts global attributes.
+
+  ## Examples
+
+  ```elixir
+  <.th>Column Title</.th>
+  ```
+  """
   @doc type: :component
   attr :id, :string,
     default: nil,
@@ -146,6 +206,19 @@ defmodule MishkaChelekom.Table do
     """
   end
 
+  @doc """
+  Renders a table row (<tr>) component with customizable class attributes.
+  This component allows for additional styling and accepts global attributes.
+
+  ## Examples
+
+  ```elixir
+  <.tr>
+    <.td>Data 1</.td>
+    <.td>Data 2</.td>
+  </.tr>
+  ```
+  """
   @doc type: :component
   attr :id, :string,
     default: nil,
@@ -167,6 +240,15 @@ defmodule MishkaChelekom.Table do
     """
   end
 
+  @doc """
+  Renders a table data cell (`<td>`) component with customizable class attributes.
+  This component allows for additional styling and accepts global attributes.
+
+  ## Examples
+  ```elixir
+  <.td>Data</.td>
+  ```
+  """
   @doc type: :component
   attr :id, :string,
     default: nil,
