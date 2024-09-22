@@ -17,6 +17,41 @@ defmodule MishkaChelekom.NativeSelect do
   use Phoenix.Component
   import MishkaChelekomComponents
 
+  @doc """
+  Renders a customizable native select input component with options for single or multiple selections. Supports validation and various styling options.
+
+  ## Examples
+
+  ```elixir
+  <.native_select name="name" description="This is description" label="This is outline label">
+    <:option value="usa">USA</:option>
+    <:option value="uae" selected>UAE</:option>
+  </.native_select>
+
+  <.native_select
+    name="name"
+    space="small"
+    color="danger"
+    variant="default"
+    multiple
+    min_height="min-h-36"
+    size="extra_small"
+    description="This is multiple option group"
+    label="This is outline label"
+  >
+    <.select_option_group label="group 1">
+      <:option value="usa">USA</:option>
+      <:option value="uae" selected>UAE</:option>
+    </.select_option_group>
+
+    <.select_option_group label="group 2">
+      <:option value="usa">USA</:option>
+      <:option value="uae">UAE</:option>
+      <:option value="br" selected>Great Britain</:option>
+    </.select_option_group>
+  </.native_select>
+  ```
+  """
   @doc type: :component
   attr :id, :string,
     default: nil,
@@ -122,6 +157,20 @@ defmodule MishkaChelekom.NativeSelect do
     """
   end
 
+  @doc """
+  Renders a group of selectable options within a native select input.
+  The group can have a label and multiple options, with support for selected and disabled states.
+
+  ## Examples
+
+  ```elixir
+  <.select_option_group label="group 2">
+    <:option value="usa">USA</:option>
+    <:option value="uae">UAE</:option>
+    <:option value="br" selected>Great Britain</:option>
+  </.select_option_group>
+  ```
+  """
   @doc type: :component
   attr :id, :string,
     default: nil,
@@ -162,7 +211,7 @@ defmodule MishkaChelekom.NativeSelect do
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   slot :inner_block, required: true, doc: "Inner block that renders HEEx content"
 
-  def label(assigns) do
+  defp label(assigns) do
     ~H"""
     <label for={@for} class={["block text-sm font-semibold leading-6", @class]}>
       <%= render_slot(@inner_block) %>
@@ -174,7 +223,7 @@ defmodule MishkaChelekom.NativeSelect do
   attr :icon, :string, default: nil, doc: "Icon displayed alongside of an item"
   slot :inner_block, required: true, doc: "Inner block that renders HEEx content"
 
-  def error(assigns) do
+  defp error(assigns) do
     ~H"""
     <p class="mt-3 flex items-center gap-3 text-sm leading-6 text-rose-700">
       <.icon :if={!is_nil(@icon)} name={@icon} class="shrink-0" />
