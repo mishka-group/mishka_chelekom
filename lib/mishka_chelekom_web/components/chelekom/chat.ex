@@ -6,29 +6,6 @@ defmodule MishkaChelekom.Chat do
   sizes, and configurations. The main component, `chat/1`, acts as a container for chat
   messages, and `chat_section/1` is used to render individual chat messages with optional
   metadata and status information.
-
-  ### Attributes
-  - `:id` - A unique identifier used to manage state and interaction.
-  - `:class` - Custom CSS class for additional styling.
-  - `:variant` - Determines the style of the chat element, such as "default", "outline", or "transparent".
-  - `:color` - Sets the color theme for the chat element.
-  - `:border` - Defines the border style for the chat bubble.
-  - `:rounded` - Specifies the border radius of the chat element.
-  - `:size` - Controls the overall size of the chat elements, including padding, font size, and other items.
-  - `:space` - Space between chat messages.
-  - `:position` - Sets the position of the chat element, with options like "normal" or "flipped".
-  - `:padding` - Padding around the chat message content.
-  - `:rest` - Global attributes that can define defaults and are merged with attributes provided by the caller.
-
-  ### Slots
-  - `:inner_block` - A slot for rendering custom content within the chat element.
-  - `:status` - A slot for displaying status information related to the chat message, such as the time it was sent or the delivery status.
-  - `:meta` - A slot for adding custom metadata or additional information related to the chat message.
-
-  ### Usage
-  ```elixir
-  ...example...
-  ```
   """
   use Phoenix.Component
 
@@ -55,6 +32,53 @@ defmodule MishkaChelekom.Chat do
     "unbordered"
   ]
 
+  @doc """
+  The `chat` component is used to create a chat message container with customizable attributes such
+  as `variant`, `color`, and `position`.
+
+  It supports different layouts for normal and flipped chat bubbles and allows for nested content
+  using an inner block for flexible message design.
+
+  ## Examples
+
+  ```elixir
+  <.chat>
+    <.avatar
+      src="https://flowbite.com/docs/images/people/profile-picture-4.jpg"
+      size="extra_large"
+      rounded="full"
+      border="small"
+    />
+
+    <.chat_section>
+      <div class="flex items-center space-x-2 rtl:space-x-reverse">
+        <div class="">Bonnie Green</div>
+      </div>
+      <p class="">
+        That's awesome. I think our users will really appreciate the improvements.
+      </p>
+      <:status time="22:10" deliver="Delivered" />
+      <:meta><div class="">Bonnie Green</div></:meta>
+    </.chat_section>
+    <div><.icon name="hero-ellipsis-vertical" class="size-4" /></div>
+  </.chat>
+
+  <.chat position="flipped">
+    <.avatar src="https://example.com/picture.jpg" size="extra_large" rounded="full" border="small"/>
+
+    <.chat_section>
+      <div class="flex items-center space-x-2 rtl:space-x-reverse">
+        <div class="">Bonnie Green</div>
+      </div>
+      <p class="">
+        That's awesome. I think our users will really appreciate the improvements.
+      </p>
+      <:status time="22:10" deliver="Delivered" />
+    </.chat_section>
+    <div><.icon name="hero-ellipsis-vertical" class="size-4" /></div>
+  </.chat>
+  ```
+  """
   @doc type: :component
   attr :id, :string,
     default: nil,
@@ -108,6 +132,28 @@ defmodule MishkaChelekom.Chat do
     """
   end
 
+  @doc """
+  The `chat_section` component is used to display individual chat messages or sections with customizable
+  attributes such as `font_weight` and `class`.
+
+  It supports slots for adding status information and metadata, making it easy to create detailed
+  chat message layouts.
+
+  ## Examples
+
+  ```elixir
+  <.chat_section>
+    <div class="flex items-center space-x-2 rtl:space-x-reverse">
+      <div class="">Bonnie Green</div>
+    </div>
+    <p class="">
+      That's awesome. I think our users will really appreciate the improvements.
+    </p>
+    <:status time="22:10" deliver="Delivered" />
+    <:meta><div class="">Bonnie Green</div></:meta>
+  </.chat_section>
+  ```
+  """
   @doc type: :component
   attr :id, :string,
     default: nil,
