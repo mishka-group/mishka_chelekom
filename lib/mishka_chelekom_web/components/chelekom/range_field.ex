@@ -18,6 +18,40 @@ defmodule MishkaChelekom.RangeField do
   use Phoenix.Component
   import MishkaChelekomComponents
 
+  @doc """
+  Renders a customizable range field, which allows users to select a numeric value from a defined range. The component can be styled in different ways and supports additional labels or values at specified positions.
+
+  ## Examples
+
+  ```elixir
+  <.range_field
+    appearance="custom"
+    value="40"
+    color="warning"
+    size="small"
+    min="10"
+    id="custom-range-1"
+    max="100"
+    name="custom-range"
+    step="5"
+  >
+    <:range_value position="start">Min ($100)</:range_value>
+    <:range_value position="middle">$700</:range_value>
+    <:range_value position="end">Max ($1500)</:range_value>
+  </.range_field>
+
+  <.range_field
+    value="60"
+    size="medium"
+    color="primary"
+    id="default-range-2"
+    name="default-range-2"
+    label="Primary Range"
+  >
+    <:range_value position="end">60%</:range_value>
+  </.range_field>
+  ```
+  """
   @doc type: :component
   attr :id, :string,
     default: nil,
@@ -151,7 +185,7 @@ defmodule MishkaChelekom.RangeField do
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   slot :inner_block, required: true, doc: "Inner block that renders HEEx content"
 
-  def label(assigns) do
+  defp label(assigns) do
     ~H"""
     <label for={@for} class={["block text-sm font-semibold leading-6", @class]}>
       <%= render_slot(@inner_block) %>
@@ -163,7 +197,7 @@ defmodule MishkaChelekom.RangeField do
   attr :icon, :string, default: nil, doc: "Icon displayed alongside of an item"
   slot :inner_block, required: true, doc: "Inner block that renders HEEx content"
 
-  def error(assigns) do
+  defp error(assigns) do
     ~H"""
     <p class="mt-3 flex items-center gap-3 text-sm leading-6 text-rose-700">
       <.icon :if={!is_nil(@icon)} name={@icon} class="shrink-0" />
