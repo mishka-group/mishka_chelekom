@@ -177,7 +177,7 @@ defmodule MishkaChelekom.Toast do
 
   ## Examples
 
-  ```heex
+  ```elixir
   <.toast_group vertical_space="large" horizontal_space="extra_large">
     <.toast
       id="toast-1"

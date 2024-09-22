@@ -56,7 +56,7 @@ defmodule MishkaChelekom.Tabs do
 
   ## Examples
 
-  ```heex
+  ```elixir
   <.tabs id="tab-1" color="warning" padding="large" gap="small" variant="pills" vertical>
       <:tab icon="hero-home">1</:tab>
       <:tab icon="hero-home">2</:tab>

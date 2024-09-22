@@ -200,7 +200,7 @@ defmodule MishkaChelekom.Divider do
 
   ## Examples
 
-  ```heex
+  ```elixir
   <.hr type="dashed" color="primary" />
   <.hr type="dotted" size="large" />
   <.hr><:text>Or</:text></.hr>

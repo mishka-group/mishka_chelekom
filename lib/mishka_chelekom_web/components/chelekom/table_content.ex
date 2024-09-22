@@ -25,7 +25,7 @@ defmodule MishkaChelekom.TableContent do
 
   ## Examples
 
-  ```heex
+  ```elixir
   <.table_content color="primary" animated>
     <.content_item icon="hero-hashtag">
       <.link href="#prag">Content 1</.link>

@@ -36,6 +36,36 @@ defmodule MishkaChelekom.Tooltip do
     "shadow"
   ]
 
+  @doc """
+  The `Tooltip` component is used to display additional information when users hover over an element.
+
+  It provides a small box with text or content and is positioned around the target
+  element based on the specified `position`.
+
+  ## Examples
+
+  ```elixir
+  <.tooltip text="This is text" position="bottom">
+    <button class="p-2 bg-orange-700">
+      This is Tooltip a long text for bottom tooltip
+    </button>
+  </.tooltip>
+
+  <.tooltip text="This is text" color="warning" position="left">
+    <button class="p-2 bg-orange-700">This is Tooltip left</button>
+  </.tooltip>
+
+  <.tooltip text="Delete" color="light" position="left">
+    <button class="p-2 bg-red-500 text-white">
+      <.icon name="hero-trash" />
+    </button>
+  </.tooltip>
+
+  <.tooltip text="This is text" color="dark" position="right">
+    <button class="p-2 bg-orange-700">This is Tooltip right</button>
+  </.tooltip>
+  ```
+  """
   @doc type: :component
   attr :id, :string,
     default: nil,
