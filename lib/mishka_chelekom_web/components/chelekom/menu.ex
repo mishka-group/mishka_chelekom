@@ -19,6 +19,315 @@ defmodule MishkaChelekom.Menu do
   import MishkaChelekom.Accordion, only: [accordion: 1]
   import MishkaChelekom.Button, only: [button_link: 1]
 
+  @doc """
+  Renders a customizable menu component that can include menu items as a list of maps or use
+  additional slots to define nested content.
+
+  It supports both direct menu items and nested accordion submenus.
+
+  ## Examples
+
+  ```elixir
+  <.menu>
+    <li>
+      <.button_link
+        navigate="/"
+        size="extra_small"
+        color="misc"
+        variant="unbordered"
+        rounded="large"
+        class="w-full"
+        display="flex"
+        icon_class="size-5"
+        icon="hero-home"
+        font_weight="font-bold"
+      >
+        Dashboard
+      </.button_link>
+    </li>
+
+    <li>
+      <.button_link
+        size="extra_small"
+        color="misc"
+        variant="unbordered"
+        rounded="large"
+        class="w-full"
+        display="flex"
+        navigate="/examples/footer"
+        icon_class="size-5"
+        icon="hero-server"
+      >
+        Footer
+      </.button_link>
+    </li>
+
+    <li>
+      <MishkaChelekom.Accordion.accordion
+        padding="none"
+        id="accordion1"
+        size="extra_small"
+        rounded="large"
+        color="misc"
+        variant="menu"
+      >
+        <:item title="Menu item" icon_class="size-5" icon="hero-bookmark">
+          <ul class="pl-5 space-y-3 mt-3">
+            <.button_link
+              navigate="/examples/indicator"
+              size="extra_small"
+              color="misc"
+              variant="unbordered"
+              rounded="large"
+              class="w-full"
+              display="flex"
+              icon_class="size-5"
+              icon="hero-scissors"
+            >
+              Indicator
+            </.button_link>
+
+            <.button_link
+              navigate="/examples/image"
+              size="extra_small"
+              color="misc"
+              variant="unbordered"
+              rounded="large"
+              class="w-full"
+              display="flex"
+              icon_class="size-5"
+              icon="hero-scale"
+            >
+              Image
+            </.button_link>
+
+            <.button_link
+              navigate="/examples/rating"
+              size="extra_small"
+              color="misc"
+              variant="unbordered"
+              rounded="large"
+              class="w-full"
+              display="flex"
+              icon_class="size-5"
+              icon="hero-building-storefront"
+            >
+              Rating
+            </.button_link>
+
+            <MishkaChelekom.Accordion.accordion
+              variant="menu"
+              padding="none"
+              size="extra_small"
+              rounded="large"
+              color="misc"
+              id="accordion2"
+            >
+              <:item title="Invoice" icon_class="size-5" icon="hero-building-storefront">
+                <ul class="pl-5 space-y-3 mt-3">
+                  <.button_link
+                    navigate="/examples/popover"
+                    size="extra_small"
+                    color="misc"
+                    variant="unbordered"
+                    rounded="large"
+                    class="w-full"
+                    display="flex"
+                    icon_class="size-5"
+                    icon="hero-bolt"
+                  >
+                    Popover
+                  </.button_link>
+
+                  <.button_link
+                    navigate="/examples/overlay"
+                    size="extra_small"
+                    color="misc"
+                    variant="unbordered"
+                    rounded="large"
+                    class="w-full"
+                    display="flex"
+                    icon_class="size-5"
+                    icon="hero-shopping-bag"
+                  >
+                    Overlay
+                  </.button_link>
+                </ul>
+              </:item>
+            </MishkaChelekom.Accordion.accordion>
+          </ul>
+        </:item>
+      </MishkaChelekom.Accordion.accordion>
+    </li>
+
+    <li>
+      <.button_link
+        navigate="/examples/modal"
+        size="extra_small"
+        color="misc"
+        variant="unbordered"
+        rounded="large"
+        class="w-full"
+        display="flex"
+        icon_class="size-5"
+        icon="hero-bell"
+      >
+        Modal
+      </.button_link>
+    </li>
+
+    <li>
+      <.button_link
+        navigate="/examples/list"
+        size="extra_small"
+        color="misc"
+        variant="unbordered"
+        rounded="large"
+        class="w-full"
+        display="flex"
+        icon_class="size-5"
+        icon="hero-cake"
+      >
+        List
+      </.button_link>
+    </li>
+  </.menu>
+  ```
+
+  ### It can be used as list of map
+
+  ```elixir
+  list_menues = [
+    %{
+      id: "Dashaboard",
+      navigate: "/",
+      title: "Dashaboard",
+      size: "extra_small",
+      color: "misc",
+      variant: "unbordered",
+      rounded: "large",
+      class: "w-full",
+      display: "flex",
+      icon_class: "size-5",
+      icon: "hero-home",
+      active: true
+    },
+    %{
+      id: "Footer",
+      navigate: "/examples/footer",
+      title: "Footer",
+      size: "extra_small",
+      color: "misc",
+      variant: "unbordered",
+      rounded: "large",
+      class: "w-full",
+      display: "flex",
+      icon_class: "size-5",
+      icon: "hero-server"
+    },
+    %{
+      id: "Menu-item",
+      title: "Menu item",
+      padding: "pl-5 space-y-3 mt-3",
+      size: "extra_small",
+      rounded: "large",
+      color: "misc",
+      variant: "menu",
+      icon: "hero-bookmark",
+      icon_class: "size-5",
+      sub_items: [
+        %{
+          navigate: "/examples/indicator",
+          title: "Indicator",
+          size: "extra_small",
+          color: "misc",
+          variant: "unbordered",
+          rounded: "large",
+          class: "w-full",
+          display: "flex",
+          icon_class: "size-5",
+          icon: "hero-scissors"
+        },
+        %{
+          navigate: "/examples/image",
+          title: "Image",
+          size: "extra_small",
+          color: "misc",
+          variant: "unbordered",
+          rounded: "large",
+          class: "w-full",
+          display: "flex",
+          icon_class: "size-5",
+          icon: "hero-scale"
+        },
+        %{
+          navigate: "/examples/rating",
+          title: "Rating",
+          size: "extra_small",
+          color: "misc",
+          variant: "unbordered",
+          rounded: "large",
+          class: "w-full",
+          display: "flex",
+          icon_class: "size-5",
+          icon: "hero-building-storefront"
+        },
+        %{
+          id: "Invoice",
+          title: "Invoice",
+          variant: "menu",
+          padding: "pl-5 space-y-3 mt-3",
+          size: "extra_small",
+          rounded: "large",
+          color: "misc",
+          icon: "hero-bookmark",
+          icon_class: "size-5",
+          sub_items: [
+            %{
+              navigate: "/examples/popover",
+              title: "Popover",
+              size: "extra_small",
+              color: "misc",
+              variant: "unbordered",
+              rounded: "large",
+              class: "w-full",
+              display: "flex",
+              icon_class: "size-5",
+              icon: "hero-bolt"
+            },
+            %{
+              navigate: "/examples/overlay",
+              title: "Overlay",
+              size: "extra_small",
+              color: "misc",
+              variant: "unbordered",
+              rounded: "large",
+              class: "w-full",
+              display: "flex",
+              icon_class: "size-5",
+              icon: "hero-shopping-bag"
+            }
+          ]
+        }
+      ]
+    },
+    %{
+      navigate: "/examples/modal",
+      title: "Modal",
+      size: "extra_small",
+      color: "misc",
+      variant: "unbordered",
+      rounded: "large",
+      class: "w-full",
+      display: "flex",
+      icon_class: "size-5",
+      icon: "hero-bell"
+    }
+  ]
+
+  <.menu menu_items={@list_menues} />
+  ```
+  """
   @doc type: :component
   attr :id, :string,
     default: nil,
