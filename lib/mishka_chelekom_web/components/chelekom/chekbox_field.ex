@@ -12,17 +12,32 @@ defmodule MishkaChelekom.CheckboxField do
   - Support for form integration using `Phoenix.HTML.FormField`.
   - Customizable properties like color themes, border styles, sizes, and layout variations.
   - Error handling with customizable icons and messages.
-
-  ### Example:
-
-  ```elixir
-  ...example...
-  ```
   """
 
   use Phoenix.Component
   import MishkaChelekomComponents
 
+  @doc """
+  The `checkbox_field` component is used to create customizable checkbox input elements with various
+  attributes such as `color`, `size`, and `label`.
+
+  It supports form field structures and displays error messages when present, making it suitable
+  for form validation.
+
+  ## Examples
+
+  ```elixir
+  <.checkbox_field name="home" value="Home" space="small" label="This is label"/>
+  <.checkbox_field name="home" value="Home" space="small" label="This is label"/>
+  <.checkbox_field name="home" value="Home" space="small" color="misc" label="This is label"/>
+  <.checkbox_field name="home" value="Home" space="small" color="dawn" label="This is label"/>
+  <.checkbox_field name="home" value="Home" space="large" color="success" label="This is label"/>
+  <.checkbox_field name="home" value="Home" space="small" color="info" label="This is label"/>
+  <.checkbox_field name="home" value="Home" space="small" color="light" label="This is label"/>
+  <.checkbox_field name="home" value="Home" space="small" color="danger" label="This is label"/>
+  <.checkbox_field name="home" value="Home" space="small" color="warning" label="This is label"/>
+  ```
+  """
   @doc type: :component
   attr :id, :string,
     default: nil,
@@ -105,6 +120,24 @@ defmodule MishkaChelekom.CheckboxField do
     """
   end
 
+  @doc """
+  The `group_checkbox` component is used to create a group of checkboxes with customizable attributes
+  such as `color`, `size`, and `variation`.
+
+  It supports both horizontal and vertical layouts, and allows for individual styling of each
+  checkbox within the group.
+
+  ## Examples
+
+  ```elixir
+  <.group_checkbox id="items-2" variation="horizontal" name="items2" space="large" color="danger">
+    <:checkbox value="10">Label of item 1 in group</:checkbox>
+    <:checkbox value="30">Label of item 2 in group</:checkbox>
+    <:checkbox value="50">Label of item 3 in group</:checkbox>
+    <:checkbox value="60" checked={true}>Label of item 4 in group</:checkbox>
+  </.group_checkbox>
+  ```
+  """
   @doc type: :component
   attr :id, :string,
     default: nil,
@@ -203,7 +236,7 @@ defmodule MishkaChelekom.CheckboxField do
     doc:
       "Global attributes can define defaults which are merged with attributes provided by the caller"
 
-  def label(assigns) do
+  defp label(assigns) do
     ~H"""
     <label for={@for} class={["block text-sm font-semibold leading-6", @class]}>
       <%= render_slot(@inner_block) %>
@@ -215,7 +248,7 @@ defmodule MishkaChelekom.CheckboxField do
   attr :icon, :string, default: nil, doc: "Icon displayed alongside of an item"
   slot :inner_block, required: true, doc: "Inner block that renders HEEx content"
 
-  def error(assigns) do
+  defp error(assigns) do
     ~H"""
     <p class="mt-3 flex items-center gap-3 text-sm leading-6 text-rose-700">
       <.icon :if={!is_nil(@icon)} name={@icon} class="shrink-0" />
