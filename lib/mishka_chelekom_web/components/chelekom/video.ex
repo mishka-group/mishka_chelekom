@@ -34,7 +34,6 @@ defmodule MishkaChelekom.Video do
   # Important:  Adding a Base64-encoded subtitle directly to a video won't cause a CORS issue,
   #             so you can use it in your components even if the subtitle is not from the same origin.
 
-
   @doc """
   The `video` component is used to embed a video element with various customization options like thumbnail, caption, size, and control settings. It supports multiple sources and subtitles.
 

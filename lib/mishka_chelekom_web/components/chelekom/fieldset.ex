@@ -1,4 +1,4 @@
-defmodule MishkaChelekom.FieldsetField do
+defmodule MishkaChelekom.Fieldset do
   @moduledoc """
   The `MishkaChelekom.FieldsetField` module provides a reusable and customizable
   component for creating styled fieldsets in Phoenix LiveView applications.
@@ -16,6 +16,39 @@ defmodule MishkaChelekom.FieldsetField do
   use Phoenix.Component
   import MishkaChelekomComponents
 
+  @doc """
+  Renders a `fieldset` component that groups related form elements visually and semantically.
+
+  ## Examples
+
+  ```elixir
+  <.fieldset space="small" color="success" variant="outline">
+    <:control>
+      <.radio_field name="home" value="Home" space="small" color="success" label="This is label"/>
+    </:control>
+
+    <:control>
+      <.radio_field
+        name="home"
+        value="Home"
+        space="small"
+        color="success"
+        label="This is label of radio"
+      />
+    </:control>
+
+    <:control>
+      <.radio_field
+        name="home"
+        value="Home"
+        space="small"
+        color="success"
+        label="This is label of radio"
+      />
+    </:control>
+  </.fieldset>
+  ```
+  """
   @doc type: :component
   attr :id, :string,
     default: nil,
@@ -41,8 +74,6 @@ defmodule MishkaChelekom.FieldsetField do
   attr :name, :any, doc: "Name of input"
   attr :value, :any, doc: "Value of input"
 
-  attr :field, Phoenix.HTML.FormField, doc: "a form field struct retrieved from the form"
-
   attr :rest, :global,
     include: ~w(disabled form title),
     doc:
@@ -50,18 +81,7 @@ defmodule MishkaChelekom.FieldsetField do
 
   slot :control, required: false, doc: "Defines a collection of elements inside the fieldset"
 
-  @spec fieldset_field(map()) :: Phoenix.LiveView.Rendered.t()
-  def fieldset_field(%{field: %Phoenix.HTML.FormField{} = field} = assigns) do
-    errors = if Phoenix.Component.used_input?(field), do: field.errors, else: []
-
-    assigns
-    |> assign(field: nil, id: assigns.id || field.id)
-    |> assign(:errors, Enum.map(errors, &translate_error(&1)))
-    |> assign_new(:value, fn -> field.value end)
-    |> fieldset_field()
-  end
-
-  def fieldset_field(assigns) do
+  def fieldset(assigns) do
     ~H"""
     <div class={[
       color_variant(@variant, @color),
@@ -90,7 +110,7 @@ defmodule MishkaChelekom.FieldsetField do
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   slot :inner_block, required: true, doc: "Inner block that renders HEEx content"
 
-  def label(assigns) do
+  defp label(assigns) do
     ~H"""
     <label for={@for} class={["block text-sm font-semibold leading-6", @class]}>
       <%= render_slot(@inner_block) %>
@@ -102,7 +122,7 @@ defmodule MishkaChelekom.FieldsetField do
   attr :icon, :string, default: nil, doc: "Icon displayed alongside of an item"
   slot :inner_block, required: true, doc: "Inner block that renders HEEx content"
 
-  def error(assigns) do
+  defp error(assigns) do
     ~H"""
     <p class="mt-3 flex items-center gap-3 text-sm leading-6 text-rose-700">
       <.icon :if={!is_nil(@icon)} name={@icon} class="shrink-0" /> <%= render_slot(@inner_block) %>
