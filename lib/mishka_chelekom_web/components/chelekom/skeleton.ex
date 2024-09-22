@@ -27,6 +27,24 @@ defmodule MishkaChelekom.Skeleton do
 
   @sizes ["extra_small", "small", "medium", "large", "extra_large"]
 
+  @doc """
+  Renders a skeleton loader component to indicate loading state in your application.
+  The skeleton component provides customizable options such as size, color, and rounded corners.
+
+  You can also add animations to create a more engaging user experience.
+
+  ## Examples
+
+  ```elixir
+  <div class="p-5 space-y-5">
+    <.skeleton animated />
+    <.skeleton height="h-[20px]" width="w-[150px]" />
+    <.skeleton animated height="h-[40px]" width="large" color="bg-rose-400" />
+    <.skeleton width="large" height="small" color="bg-rose-400" />
+    <.skeleton width="w-10" height="h-10" color="bg-green-400" rounded="full"/>
+  </div>
+  ```
+  """
   @doc type: :component
   attr :id, :string,
     default: nil,
