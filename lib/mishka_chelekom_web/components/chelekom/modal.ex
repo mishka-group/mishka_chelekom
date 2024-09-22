@@ -54,21 +54,30 @@ defmodule MishkaChelekom.Modal do
   ]
 
   @doc """
-  Renders a modal.
+  Renders a customizable modal component that displays overlay content with optional title and inner content.
+  It can be controlled with the `show` attribute and includes actions for closing the modal.
 
   ## Examples
 
-      <.modal id="confirm-modal">
-        This is a modal.
-      </.modal>
+  ```elixir
+  <.modal id="modal-1" title="default">
+    <div>
+      Lorem ipsum dolor sit amet consectetur adipisicing elit.
+      Commodi ea atque soluta praesentium quidem dicta sapiente accusamus nihil.
+    </div>
+  </.modal>
 
-  JS commands may be passed to the `:on_cancel` to configure
-  the closing/cancel event, for example:
+  <.modal id="modal-2" title="Info Modal" show>
+    <div>
+      Lorem ipsum dolor sit amet consectetur adipisicing elit.
+      Commodi ea atque soluta praesentium quidem dicta sapiente accusamus nihil.
+    </div>
+  </.modal>
 
-      <.modal id="confirm" on_cancel={JS.navigate(~p"/posts")}>
-        This is another modal.
-      </.modal>
-
+  <.modal id="modal-3" color="primary" rounded="large" title="Custom Modal">
+    <p>Customize the modal appearance by changing attributes like `color` and `rounded`.</p>
+  </.modal>
+  ```
   """
   @doc type: :component
   attr :id, :string,
@@ -155,29 +164,6 @@ defmodule MishkaChelekom.Modal do
   end
 
   ## JS Commands
-
-  def show(js \\ %JS{}, selector) do
-    JS.show(js,
-      to: selector,
-      time: 300,
-      transition:
-        {"transition-all transform ease-out duration-300",
-         "opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95",
-         "opacity-100 translate-y-0 sm:scale-100"}
-    )
-  end
-
-  def hide(js \\ %JS{}, selector) do
-    JS.hide(js,
-      to: selector,
-      time: 200,
-      transition:
-        {"transition-all transform ease-in duration-200",
-         "opacity-100 translate-y-0 sm:scale-100",
-         "opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"}
-    )
-  end
-
   def show_modal(js \\ %JS{}, id) when is_binary(id) do
     js
     |> JS.show(to: "##{id}")
@@ -186,7 +172,7 @@ defmodule MishkaChelekom.Modal do
       time: 300,
       transition: {"transition-all transform ease-out duration-300", "opacity-0", "opacity-100"}
     )
-    |> show("##{id}-container")
+    |> transition_show("##{id}-container")
     |> JS.add_class("overflow-hidden", to: "body")
     |> JS.focus_first(to: "##{id}-content")
   end
@@ -197,10 +183,32 @@ defmodule MishkaChelekom.Modal do
       to: "##{id}-bg",
       transition: {"transition-all transform ease-in duration-200", "opacity-100", "opacity-0"}
     )
-    |> hide("##{id}-container")
+    |> transition_hide("##{id}-container")
     |> JS.hide(to: "##{id}", transition: {"block", "block", "hidden"})
     |> JS.remove_class("overflow-hidden", to: "body")
     |> JS.pop_focus()
+  end
+
+  defp transition_show(js, selector) do
+    JS.show(js,
+      to: selector,
+      time: 300,
+      transition:
+        {"transition-all transform ease-out duration-300",
+         "opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95",
+         "opacity-100 translate-y-0 sm:scale-100"}
+    )
+  end
+
+  defp transition_hide(js, selector) do
+    JS.hide(js,
+      to: selector,
+      time: 200,
+      transition:
+        {"transition-all transform ease-in duration-200",
+         "opacity-100 translate-y-0 sm:scale-100",
+         "opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"}
+    )
   end
 
   defp rounded_size("extra_small"), do: "rounded-sm"
