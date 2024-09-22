@@ -45,6 +45,44 @@ defmodule MishkaChelekom.Toast do
     "unbordered"
   ]
 
+  @doc """
+  The `Toast` component displays temporary notifications or messages, usually at the top
+  or bottom of the screen.
+
+  It supports customization for size, color, border, and positioning, allowing you to
+  style the toast as needed.
+
+  ## Examples
+
+  ```elixir
+  <.toast id="toast-1">
+    <div>Lorem ipsum dolor sit amet consectetur adipisicing elit.</div>
+  </.toast>
+
+  <.toast
+    id="toast-2"
+    color="success"
+    content_border="small"
+    border_position="end"
+    horizontal="center"
+    vertical_space="large"
+  >
+    <div>Lorem ipsum dolor sit amet consectetur adipisicing elit.</div>
+  </.toast>
+
+  <.toast
+    id="toast-3"
+    color="misc"
+    horizontal="left"
+    content_border="extra_small"
+    border_position="start"
+    rounded="medium"
+    width="extra_large"
+  >
+    <div>Lorem ipsum dolor sit amet consectetur adipisicing elit.</div>
+  </.toast>
+  ```
+  """
   @doc type: :component
   attr :id, :string,
     required: true,
@@ -133,6 +171,54 @@ defmodule MishkaChelekom.Toast do
     """
   end
 
+  @doc """
+  The `ToastGroup` component is used to group multiple `Toast` elements together,
+  allowing for coordinated display and positioning of toast notifications.
+
+  ## Examples
+
+  ```heex
+  <.toast_group vertical_space="large" horizontal_space="extra_large">
+    <.toast
+      id="toast-1"
+      color="success"
+      content_border="small"
+      border_position="end"
+      fixed={false}
+    >
+      <div>
+        Lorem ipsum dolor sit amet consectetur adipisicing elit.
+      </div>
+    </.toast>
+
+    <.toast
+      id="toast-2"
+      variant="outline"
+      color="danger"
+      content_border="small"
+      border_position="start"
+      fixed={false}
+    >
+      <div>
+        Lorem ipsum dolor sit amet consectetur adipisicing elit.
+      </div>
+    </.toast>
+
+    <.toast
+      id="toast-3"
+      variant="unbordered"
+      color="warning"
+      content_border="small"
+      border_position="start"
+      fixed={false}
+    >
+      <div>
+        Lorem ipsum dolor sit amet consectetur adipisicing elit.
+      </div>
+    </.toast>
+  </.toast_group>
+  ```
+  """
   @doc type: :component
   attr :id, :string,
     default: nil,
