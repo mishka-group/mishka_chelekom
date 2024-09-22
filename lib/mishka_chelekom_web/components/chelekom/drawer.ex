@@ -15,12 +15,6 @@ defmodule MishkaChelekom.Drawer do
   nteraction management.
   - **Slots Support:** Includes slots for adding a custom header and inner content,
   with full HEEx support for dynamic rendering.
-
-  ## Usage:
-
-  This component is ideal for creating side panels, modal-like interactions, and other
-  interactive UI elements that slide in from various positions. It supports responsive
-  design and can be customized to match different design systems and requirements.
   """
   use Phoenix.Component
   import MishkaChelekomComponents
@@ -49,6 +43,25 @@ defmodule MishkaChelekom.Drawer do
     "unbordered"
   ]
 
+  @doc """
+  A drawer component for displaying content in a sliding panel. It can be positioned on the left or
+  right side of the viewport and controlled using custom JavaScript actions.
+
+  ## Examples
+
+  ```elixir
+  <.drawer id="acc-left" show={true}>
+    Lorem ipsum dolor sit amet consectetur adipisicing elit. Commodi ea atque soluta
+    praesentium quidem dicta sapiente accusamus nihil.
+  </.drawer>
+
+  <.drawer id="acc-right" title_class="text-2xl font-light" position="right">
+    <:header><p>Right Drawer</p></:header>
+    Lorem ipsum dolor sit amet consectetur adipisicing elit. Commodi ea atque soluta praesentium
+    quidem dicta sapiente accusamus nihil.
+  </.drawer>
+  ```
+  """
   @doc type: :component
   attr :id, :string,
     required: true,
