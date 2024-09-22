@@ -18,46 +18,6 @@ defmodule MishkaChelekom.Blockquote do
   - **Global Attributes**: Utilize global attributes such as `left_border`, `right_border`,
   `hide_border`, and `full_border` to easily customize the border display and positioning.
 
-  ## Available Components
-
-  ### Blockquote
-
-  The main component for rendering a blockquote with optional inner content, icons, and captions.
-
-  #### Attributes
-
-  - `id`: A unique identifier for managing state and interaction.
-  - `variant`: Determines the style of the blockquote.
-  - `color`: Sets the color theme for the blockquote.
-  - `border`: Specifies the border style for the blockquote.
-  - `rounded`: Sets the border radius for the blockquote.
-  - `size`: Controls the overall size, including padding and font size.
-  - `space`: Defines the space between items within the blockquote.
-  - `font_weight`: Customizes the font weight.
-  - `padding`: Sets the padding for items within the blockquote.
-  - `class`: Additional custom CSS classes.
-  - `icon`: The icon displayed alongside the blockquote content.
-  - `icon_class`: Custom CSS class for the icon.
-  - `rest`: Global attributes for further customization.
-
-  ### Caption Slot
-
-  A slot for adding a caption with optional image and text.
-
-  #### Attributes
-
-  - `image`: The image displayed alongside the caption text.
-  - `image_class`: Custom CSS class for styling the image.
-  - `position`: Specifies the alignment of the caption.
-
-  ### Content Slot
-
-  A slot for adding the main content of the blockquote.
-
-  ### Inner Block Slot
-
-  A slot for adding custom HEEx content within the blockquote.
-
   Use this module to create visually appealing and content-rich blockquotes that enhance
   the readability and aesthetics of your LiveView applications.
   """
@@ -88,6 +48,61 @@ defmodule MishkaChelekom.Blockquote do
     "unbordered"
   ]
 
+  @doc """
+  The `blockquote` component is used to display stylized quotations with customizable attributes
+  such as `variant`, `color`, and `padding`. It supports optional captions and icons to
+  enhance the visual presentation.
+
+  ## Examples
+
+  ```elixir
+  <.blockquote left_border hide_icon>
+    <p>
+      Lorem ipsum, dolor sit amet consectetur adipisicing elit. Rem nihil commodi,
+      facere voluptatum dolores tempora vero soluta harum nam esse
+    </p>
+    <:caption
+      image="https://example.com/profile.jpg"
+      position="left"
+    >
+      Shahryar Tavakkoli | CEO
+    </:caption>
+  </.blockquote>
+
+  <.blockquote left_border icon="hero-chat-bubble-left-ellipsis">
+    <p>
+      Lorem ipsum, dolor sit amet consectetur adipisicing elit. Rem nihil commodi,
+      facere voluptatum dolores tempora vero soluta harum nam esse
+    </p>
+    <:caption
+      image="https://example.com/profile.jpg"
+      position="left"
+    >
+      Shahryar Tavakkoli | CEO
+    </:caption>
+  </.blockquote>
+
+  <.blockquote variant="transparent" color="primary">
+    <p>
+      Lorem ipsum, dolor sit amet consectetur adipisicing elit. Rem nihil commodi,
+      facere voluptatum dolores tempora vero soluta harum nam esse
+    </p>
+    <:caption image="https://example.com/profile.jpg">
+      Shahryar Tavakkoli | CEO
+    </:caption>
+  </.blockquote>
+
+  <.blockquote variant="shadow" color="dark">
+    <p>
+      Lorem ipsum, dolor sit amet consectetur adipisicing elit. Rem nihil commodi,
+      facere voluptatum dolores tempora vero soluta harum nam esse
+    </p>
+    <:caption image="https://example.com/profile.jpg">
+      Shahryar Tavakkoli | CEO
+    </:caption>
+  </.blockquote>
+  ```
+  """
   @doc type: :component
   attr :id, :string,
     default: nil,
