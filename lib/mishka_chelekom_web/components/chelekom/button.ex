@@ -18,33 +18,8 @@ defmodule MishkaChelekom.Button do
   variant, and border style. These can be customized through the attributes of each
   component function to match specific design requirements.
 
-  ## Usage
-
-  ### Basic Example
-
-  ```elixir
-  ...example...
-  ```
-
-  ### Button with Custom Attributes
-
-  ```elixir
-  ...example...
-  ```
-
-  ### Button with Icon and Indicator
-
-  ```elixir
-  ...example...
-  ```
-
-  ### Button Group
-
-  ```elixir
-  ...example...
-  ```
-
-  This module makes it easy to render buttons with consistent styling and behavior across your application while offering the flexibility needed for various use cases.
+  > This module makes it easy to render buttons with consistent styling and behavior
+  > across your application while offering the flexibility needed for various use cases.
   """
 
   use Phoenix.Component
@@ -96,12 +71,36 @@ defmodule MishkaChelekom.Button do
   ]
 
   @doc """
-  Renders a button.
+  The `button_group` component is used to group multiple buttons together with customizable
+  attributes like `variant`, `color`, and `variation`.
+
+  It supports different layout orientations, allowing buttons to be displayed horizontally or vertically.
 
   ## Examples
 
-      <.button>Send!</.button>
-      <.button phx-click="go" class="ml-2">Send!</.button>
+  ```elixir
+  <.button_group>
+    <.button icon="hero-adjustments-vertical">Button 1</.button>
+    <.button icon="hero-adjustments-vertical" />
+    <.button icon="hero-adjustments-vertical" />
+    <.button>Button 3</.button>
+  </.button_group>
+
+  <.button_group>
+    <.button>Button 1</.button>
+    <.button>Button 2</.button>
+    <.button>Button 3</.button>
+    <.button>Button 4</.button>
+    <.button>Button 5</.button>
+  </.button_group>
+
+  <.button_group color="success">
+    <.button icon="hero-adjustments-vertical">Button 1</.button>
+    <.button icon="hero-adjustments-vertical" color="success" />
+    <.button icon="hero-adjustments-vertical" />
+    <.button color="success">Button 3</.button>
+  </.button_group>
+  ```
   """
   @doc type: :component
   attr :id, :string,
@@ -156,6 +155,20 @@ defmodule MishkaChelekom.Button do
     """
   end
 
+  @doc """
+  The `button` component is used to create customizable buttons with various styles, icons, and indicators.
+
+  It supports different types such as `button`, `submit`, and `reset`, and provides
+  options for configuring size, color, and border radius.
+
+  ## Examples
+
+  ```elixir
+  <.button variant="inverted_gradient" color="danger">Button 4</.button>
+  <.button variant="inverted_gradient" color="info">Button 2</.button>
+  <.button icon="hero-adjustments-vertical" variant="inverted_gradient" color="success"/>
+  ```
+  """
   @doc type: :component
   attr :id, :string,
     default: nil,
@@ -236,6 +249,21 @@ defmodule MishkaChelekom.Button do
     """
   end
 
+  @doc """
+  The `input_button` component is used to create input elements with button-like styles and various
+  customization options such as `color`, `size`, and `border`.
+
+  It supports different input types like `button`, `submit`, and `reset`, allowing for
+  flexible usage in forms and interactive elements.
+
+  ## Examples
+
+  ```elixir
+  <.input_button value="input button" color="warning" />
+  <.input_button value="input submit" type="submit" color="dark" />
+  <.input_button value="input reset" type="reset" color="light" />
+  ```
+  """
   @doc type: :component
   attr :id, :string,
     default: nil,
@@ -296,6 +324,23 @@ defmodule MishkaChelekom.Button do
     """
   end
 
+  @doc """
+  The `button_link` component is used to create stylized link elements that resemble buttons.
+
+  It supports different navigation methods like `navigate`, `patch`, and `href` along with
+  customizable attributes for appearance and behavior.
+
+  ## Examples
+
+  ```elixir
+  <.button_link navigate="/admin" icon="hero-adjustments-vertical" />
+  <.button_link navigate="/admin">Button 3</.button_link>
+
+  <.button_link navigate="/admin" variant="unbordered" icon="hero-adjustments-vertical">
+    Button 1
+  </.button_link>
+  ```
+  """
   @doc type: :component
   attr :id, :string,
     default: nil,
