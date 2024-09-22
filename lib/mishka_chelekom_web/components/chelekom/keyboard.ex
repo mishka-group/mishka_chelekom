@@ -44,6 +44,20 @@ defmodule MishkaChelekom.Keyboard do
     "unbordered"
   ]
 
+  @doc """
+  Renders a keyboard component, typically used to represent key presses or shortcuts in UI documentation.
+  It supports various styles, colors, and border radius options.
+
+  ## Examples
+
+  ```elixir
+  <.keyboard>CTRL</.keyboard>
+  <.keyboard color="primary">Esc</.keyboard>
+  <.keyboard color="secondary">Tab</.keyboard>
+  <.keyboard color="light">Tab</.keyboard>
+  <.keyboard color="info">Tab</.keyboard>
+  ```
+  """
   @doc type: :component
   attr :id, :string,
     default: nil,
