@@ -21,26 +21,6 @@ defmodule MishkaChelekom.Card do
   styles to match different design requirements. Components can be nested and
   combined to create complex card layouts with ease.
 
-  ## Usage
-
-  ### Basic Example
-
-  ```elixir
-  ...example...
-  ```
-
-  ### Card with Media
-
-  ```elixir
-  ...example...
-  ```
-
-  ### Card with Custom Styles
-
-  ```elixir
-  ...example...
-  ```
-
   This module offers a powerful and easy-to-use way to create cards with consistent
   styling and behavior while providing the flexibility to adapt to various use cases.
   """
@@ -88,6 +68,55 @@ defmodule MishkaChelekom.Card do
     "around"
   ]
 
+  @doc """
+  The `card` component is used to display content in a structured container with various customization options such as `variant`, `color`, and `padding`. It supports an inner block for rendering nested content like media, titles, and footers, allowing for flexible layout designs.
+
+  ## Examples
+
+  ```elixir
+  <.card>
+    <.card_title title="This is a title in inner content" icon="hero-home" size="extra_large" />
+    <.card_content>
+      Lorem ipsum dolor sit amet consectetur adipisicing elit. Commodi ea atque soluta praesentium
+      quidem dicta sapiente accusamus nihil.
+    </.card_content>
+  </.card>
+
+  <.card>
+    <.card_media src="https://example.com/bg.png" alt="test"/>
+    <.card_content padding="large">
+      <p>
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Commodi ea atque soluta praesentium
+        quidem dicta sapiente accusamus nihil.
+      </p>
+    </.card_content>
+    <.card_footer padding="large">
+      <.button size="full">See more</.button>
+    </.card_footer>
+  </.card>
+
+  <.card padding="small">
+    <.card_title class="flex items-center gap-2 justify-between">
+      <div>Title</div>
+      <div>Link</div>
+    </.card_title>
+    <MishkaChelekom.Divider.hr />
+    <.card_content space="large">
+      <.card_media rounded="large" src="https://example.com/bg.png" alt="test"/>
+      <p>
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Commodi ea atque soluta
+        praesentium quidem dicta sapiente accusamus nihil.
+      </p>
+    </.card_content>
+    <MishkaChelekom.Divider.hr />
+    <.card_footer class="flex items-center gap-2">
+      <.card_media src="https://example.com/bg.png" alt="test"/>
+      <.card_media src="https://example.com/bg.png" alt="test"/>
+      <.card_media src="https://example.com/bg.png" alt="test"/>
+    </.card_footer>
+  </.card>
+  ```
+  """
   @doc type: :component
   attr :id, :string,
     default: nil,
@@ -133,6 +162,21 @@ defmodule MishkaChelekom.Card do
     """
   end
 
+  @doc """
+  The `card_title` component is used to display the title section of a card with customizable
+  attributes such as `position`, `size`, and `padding`.
+
+  It supports adding an optional icon alongside the title and includes an inner block for additional content.
+
+  ## Examples
+
+  ```elixir
+  <.card_title class="border-b" padding="small" position="between">
+    <div>Title</div>
+    <div><.icon name="hero-ellipsis-horizontal" /></div>
+  </.card_title>
+  ```
+  """
   @doc type: :component
   attr :id, :string,
     default: nil,
@@ -188,6 +232,18 @@ defmodule MishkaChelekom.Card do
     """
   end
 
+  @doc """
+  The `card_media` component is used to display media elements, such as images, within a card.
+
+  It supports customizable attributes like `rounded` and `class` for styling and can include an inner
+  block for additional content.
+
+  ## Examples
+
+  ```elixir
+  <.card_media src="https://example.com/bg.png" alt="test"/>
+  ```
+  """
   @doc type: :component
   attr :id, :string,
     default: nil,
@@ -227,6 +283,23 @@ defmodule MishkaChelekom.Card do
     """
   end
 
+  @doc """
+  The `card_content` component is used to display the main content of a card with customizable attributes
+  such as `padding` and `space` between items.
+
+  It supports an inner block for rendering additional content, allowing for flexible layout and styling.
+
+  ## Examples
+
+  ```elixir
+  <.card_content padding="large">
+    <p>
+      Lorem ipsum dolor sit amet consectetur adipisicing elit. Commodi ea atque soluta praesentium
+      quidem dicta sapiente accusamus nihil.
+    </p>
+  </.card_content>
+  ```
+  """
   @doc type: :component
   attr :id, :string,
     default: nil,
@@ -263,6 +336,21 @@ defmodule MishkaChelekom.Card do
     """
   end
 
+  @doc """
+  The `card_footer` component is used to display the footer section of a card, allowing for
+  additional actions or information at the bottom of the card.
+
+  It supports customizable attributes such as `padding` and `class` for styling and includes an
+  inner block for rendering content.
+
+  ## Examples
+
+  ```elixir
+  <.card_footer padding="large">
+    <.button size="full">See more</.button>
+  </.card_footer>
+  ```
+  """
   @doc type: :component
   attr :id, :string,
     default: nil,
