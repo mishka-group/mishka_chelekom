@@ -47,6 +47,21 @@ defmodule MishkaChelekom.List do
     "dawn"
   ]
 
+  @doc """
+  Renders a list component that supports both ordered and unordered lists with customizable styles,
+  sizes, and colors.
+
+  ## Examples
+
+  ```elixir
+  <.list font_weight="font-bold" color="light" size="small">
+    <:item padding="small" count={1}>list count small</:item>
+    <:item padding="small" count={2}>list count small</:item>
+    <:item padding="small" count={3}>list count small</:item>
+    <:item padding="small" count={23658}>list count small</:item>
+  </.list>
+  ```
+  """
   @doc type: :component
   attr :id, :string,
     default: nil,
@@ -98,6 +113,19 @@ defmodule MishkaChelekom.List do
     """
   end
 
+  @doc """
+  Renders a list item (`li`) component with optional count, icon, and custom styles.
+  This component is versatile and can be used within a list to display content with specific alignment,
+  padding, and style.
+
+  ## Examples
+
+  ```elixir
+  <MishkaChelekom.List.li>LI 1</MishkaChelekom.List.li>
+
+  <MishkaChelekom.List.li>L2</MishkaChelekom.List.li>
+  ```
+  """
   @doc type: :component
   attr :id, :string,
     default: nil,
@@ -151,6 +179,22 @@ defmodule MishkaChelekom.List do
     """
   end
 
+  @doc """
+  Renders an unordered list (`ul`) component with customizable styles and attributes.
+  You can define the appearance of the list using options for color, variant, size, width, and more.
+
+  It supports a variety of styles including `list-disc` for bulleted lists.
+
+  ## Examples
+
+  ```elixir
+  <.ul style="list-disc">
+    <li>Default background ul list disc</li>
+    <li>Default background ul list disc</li>
+    <li>Default background ul list disc</li>
+  </.ul>
+  ```
+  """
   @doc type: :component
   attr :id, :string,
     default: nil,
@@ -200,6 +244,21 @@ defmodule MishkaChelekom.List do
     """
   end
 
+  @doc """
+  Renders an ordered list (`ol`) component with customizable styles and attributes.
+  The list can be styled with different colors, variants, sizes, widths, and spacing to
+  fit various design needs.
+
+  ## Examples
+
+  ```elixir
+  <.ol style="list-decimal">
+    <li>Ordered list item 1</li>
+    <li>Ordered list item 2</li>
+    <li>Ordered list item 3</li>
+  </.ol>
+  ```
+  """
   @doc type: :component
   attr :id, :string,
     default: nil,
@@ -247,6 +306,19 @@ defmodule MishkaChelekom.List do
     """
   end
 
+  @doc """
+  Renders a list group component with customizable styles, borders, and padding. It can be used to group list items with different variants, colors, and sizes.
+
+  ## Examples
+
+  ```elixir
+  <.list_group variant="seperated" rounded="extra_small" color="dawn">
+    <.li position="end" icon="hero-chat-bubble-left-ellipsis">HBase</.li>
+    <.li>PSQL</.li>
+    <.li>Sqlight</.li>
+  </.list_group>
+  ```
+  """
   @doc type: :component
   attr :id, :string,
     default: nil,
