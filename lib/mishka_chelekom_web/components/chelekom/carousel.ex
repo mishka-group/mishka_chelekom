@@ -37,6 +37,58 @@ defmodule MishkaChelekom.Carousel do
   import MishkaChelekomComponents
   alias Phoenix.LiveView.JS
 
+  @doc """
+  The `carousel` component is used to create interactive image carousels with customizable attributes
+  such as `size`, `padding`, and `overlay`. It supports adding multiple slides with different content,
+  and includes options for navigation controls and indicators.
+
+  ## Examples
+
+  ```elixir
+  <.carousel id="carousel-test-one" indicator={true}>
+    <:slide
+      content_position="end"
+      title="This is a dummy title 1"
+      description="This is a description for our carousel and this is a dummy text"
+      image="https://example.com/slides/1.webp"
+      navigate="/examples/navbar"
+    />
+    <:slide
+      content_position="center"
+      title="This is a dummy title 2"
+      image="https://example.com/slides/2.webp"
+    />
+    <:slide
+      content_position="start"
+      title="This is a dummy title 3"
+      image="https://example.com/slides/3.webp"
+    />
+    <:slide title="This is a dummy title 4" image="https://example.com/slides/3.webp"/>
+    <:slide title="This is a dummy title 5" image="https://example.com/slides/4.webp"/>
+    <:slide
+      title="This is a dummy title 6"
+      image="https://example.com/slides/5.webp"
+    />
+    <:slide
+      title="This is a dummy title 7"
+      image="https://example.com/slides/6.webp"
+      content_position="end"
+      navigate="/examples/popover"
+    />
+    <:slide
+      image="https://example.com/slides/8.webp"
+      content_position="end"
+      title="This is a dummy title 8"
+      description="This is a description for our carousel and this is a dummy text"
+      navigate="/examples/list"
+    />
+  </.carousel>
+  ```
+
+  > If you want to reduce the volume of this component when sending from the server to the client,
+  > it is better not to activate the indicator option. In the next versions, javascript will be used
+  > to solve this problem
+  """
   @doc type: :component
   attr :id, :string,
     required: true,
