@@ -24,6 +24,43 @@ defmodule MishkaChelekom.TextField do
   use Phoenix.Component
   import MishkaChelekomComponents
 
+  @doc """
+  The `TextField` component is a customizable text input field with support for various styles,
+  including floating labels, error messages, and content sections.
+
+  ## Examples
+
+  ```elixir
+  <MishkaChelekom.TextField.text_field
+    name="name1"
+    value=""
+    space="small"
+    color="danger"
+    description="This is description"
+    label="This is outline label"
+    placeholder="This is placeholder"
+    floating="outer"
+  />
+
+    <MishkaChelekom.TextField.text_field
+      name="name"
+      value=""
+      space="small"
+      color="danger"
+      description="This is description"
+      label="This is outline label"
+      placeholder="This is placeholder"
+      floating="outer"
+    >
+      <:start_section>
+        <.icon name="hero-home" class="size-4" />
+      </:start_section>
+      <:end_section>
+        <.icon name="hero-home" class="size-4" />
+      </:end_section>
+    </MishkaChelekom.TextField.text_field>
+  ```
+  """
   @doc type: :component
   attr :id, :string,
     default: nil,
@@ -211,7 +248,7 @@ defmodule MishkaChelekom.TextField do
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   slot :inner_block, required: true, doc: "Inner block that renders HEEx content"
 
-  def label(assigns) do
+  defp label(assigns) do
     ~H"""
     <label for={@for} class={["block text-sm font-semibold leading-6", @class]}>
       <%= render_slot(@inner_block) %>
@@ -223,7 +260,7 @@ defmodule MishkaChelekom.TextField do
   attr :icon, :string, default: nil, doc: "Icon displayed alongside of an item"
   slot :inner_block, required: true, doc: "Inner block that renders HEEx content"
 
-  def error(assigns) do
+  defp error(assigns) do
     ~H"""
     <p class="mt-3 flex items-center gap-3 text-sm leading-6 text-rose-700">
       <.icon :if={!is_nil(@icon)} name={@icon} class="shrink-0" />
