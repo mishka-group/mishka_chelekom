@@ -20,6 +20,94 @@ defmodule MishkaChelekom.DeviceMockup do
   """
   use Phoenix.Component
 
+  @doc """
+  The `device_mockup` component renders a responsive device mockup for various devices like
+  `iphone`, `android`, `ipad`, `laptop`, and `imac`.
+
+  It supports different colors, images, and slot-based content to simulate device screens.
+
+  ## Examples
+
+  ```elixir
+  # iPhone mockup with image
+  <.device_mockup image="https://example.com/mockup-2-light.png" />
+
+  # Watch mockup with custom image
+  <.device_mockup image="https://example.com/watch-screen-image.png" type="watch"/>
+
+  # iPad mockup with image and additional content
+  <.device_mockup image="https://example.com/tablet-mockup-image.png" type="ipad">
+    <div class="text-center">This is inside the iPad mockup</div>
+  </.device_mockup>
+
+  # iMac mockup with image and nested content
+  <.device_mockup image="https://example.com/screen-image-imac.png" type="imac">
+    <div class="flex justify-center items-center h-full">iMac Screen Content</div>
+  </.device_mockup>
+
+  # Laptop mockup with content slot
+  <.device_mockup type="laptop"><div class="p-4">Laptop Screen Content Here</div></.device_mockup>
+
+  # Android mockup with image and content
+  <.device_mockup image="https://example.com/mockup-1-light.png" type="android"
+  >
+    <div class="text-center">Android Device Content</div>
+  </.device_mockup>
+
+  # Custom content inside various mockups with color themes
+  <.device_mockup color="primary">
+    <div class="bg-white h-full flex flex-col gap-2 justify-between">
+      <div class="pt-8 pb-2 px-1">
+        Sample text content for primary color theme.
+      </div>
+      <div class="border-t py-2 px-5">
+        <div class="w-full h-7 bg-gray-300 text-gray-500 rounded-lg text-center flex items-center justify-center">
+          mishka.life
+        </div>
+      </div>
+    </div>
+  </.device_mockup>
+
+  <.device_mockup color="success">
+    <div class="bg-white h-full flex flex-col gap-2 justify-between">
+      <div class="pt-8 pb-2 px-1">
+        Success-themed device content with additional styling.
+      </div>
+      <div class="border-t py-2 px-5">
+        <div class="w-full h-7 bg-gray-300 text-gray-500 rounded-lg text-center flex items-center justify-center">
+          mishka.life
+        </div>
+      </div>
+    </div>
+  </.device_mockup>
+
+  <.device_mockup color="danger">
+    <div class="bg-white h-full flex flex-col gap-2 justify-between">
+      <div class="pt-8 pb-2 px-1">
+        Danger-themed device mockup with content and styling.
+      </div>
+      <div class="border-t py-2 px-5">
+        <div class="w-full h-7 bg-gray-300 text-gray-500 rounded-lg text-center flex items-center justify-center">
+          mishka.life
+        </div>
+      </div>
+    </div>
+  </.device_mockup>
+
+  <.device_mockup color="dark">
+    <div class="bg-white h-full flex flex-col gap-2 justify-between">
+      <div class="pt-8 pb-2 px-1">
+        Dark-themed device mockup with content and additional options.
+      </div>
+      <div class="border-t py-2 px-5">
+        <div class="w-full h-7 bg-gray-300 text-gray-500 rounded-lg text-center flex items-center justify-center">
+          mishka.life
+        </div>
+      </div>
+    </div>
+  </.device_mockup>
+  ```
+  """
   @doc type: :component
   attr :id, :string,
     default: nil,
