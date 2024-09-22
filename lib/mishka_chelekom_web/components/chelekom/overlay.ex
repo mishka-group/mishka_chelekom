@@ -40,6 +40,24 @@ defmodule MishkaChelekom.Overlay do
     "almost_solid"
   ]
 
+  @doc """
+  Renders an overlay element with customizable color, opacity, and blur options.
+
+  The overlay can be used to create various visual effects such as loading screens or background dimming.
+
+  ## Examples
+
+  ```elixir
+  <.overlay color="misc" opacity="semi_opaque" />
+
+  <.overlay color="dawn" opacity="semi_opaque">
+    <div class="flex justify-center items-center gap-2 h-full">
+      <.spinner color="white" size="large" />
+      <div class="text-white">Loading...</div>
+    </div>
+  </.overlay>
+  ```
+  """
   @doc type: :component
   attr :id, :string,
     default: nil,

@@ -22,7 +22,7 @@ defmodule MishkaChelekom.NumberField do
   ## Examples
 
   ```elixir
-  <MishkaChelekom.NumberField.number_field
+  <.number_field
     name="name"
     value=""
     space="small"
@@ -34,7 +34,7 @@ defmodule MishkaChelekom.NumberField do
     floating="outer"
   />
 
-  <MishkaChelekom.NumberField.number_field
+  <.number_field
     name="name"
     value="The value of input"
     space="small"
@@ -45,7 +45,7 @@ defmodule MishkaChelekom.NumberField do
     <:end_section>
       <button><.icon name="hero-clipboard-document" class="size-6" /></button>
     </:end_section>
-  </MishkaChelekom.NumberField.number_field>
+  </.number_field>
   ```
   """
   @doc type: :component
