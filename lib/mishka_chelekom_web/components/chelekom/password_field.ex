@@ -19,6 +19,38 @@ defmodule MishkaChelekom.PasswordField do
   alias Phoenix.LiveView.JS
   import Phoenix.LiveView.Utils, only: [random_id: 0]
 
+  @doc """
+  Renders a customizable password field with options for size, color, label, and validation errors.
+
+  It includes support for showing and hiding the password with an icon toggle.
+  You can add start and end sections with custom icons or text, and handle validation
+  errors with custom messages.
+
+  ## Examples
+
+  ```elixir
+  <.password_field
+    name="password"
+    value=""
+    space="small"
+    color="danger"
+    description="Enter your password"
+    label="Password"
+    placeholder="Enter your password"
+    floating="outer"
+    show_password={true}
+  >
+    <:start_section>
+      <.icon name="hero-lock-closed" class="size-4" />
+    </:start_section>
+    <:end_section>
+      <.icon name="hero-eye-slash" class="size-4" />
+    </:end_section>
+  </.password_field>
+
+  <.password_field name="confirm_password" value="" color="success" show_password={true}/>
+  ```
+  """
   @doc type: :component
   attr :id, :string,
     default: nil,
@@ -234,7 +266,7 @@ defmodule MishkaChelekom.PasswordField do
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   slot :inner_block, required: true, doc: "Inner block that renders HEEx content"
 
-  def label(assigns) do
+  defp label(assigns) do
     ~H"""
     <label for={@for} class={["block text-sm font-semibold leading-6", @class]}>
       <%= render_slot(@inner_block) %>
@@ -246,7 +278,7 @@ defmodule MishkaChelekom.PasswordField do
   attr :icon, :string, default: nil, doc: "Icon displayed alongside of an item"
   slot :inner_block, required: true, doc: "Inner block that renders HEEx content"
 
-  def error(assigns) do
+  defp error(assigns) do
     ~H"""
     <p class="mt-3 flex items-center gap-3 text-sm leading-6 text-rose-700">
       <.icon :if={!is_nil(@icon)} name={@icon} class="shrink-0" />
