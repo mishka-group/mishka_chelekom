@@ -16,26 +16,58 @@ defmodule MishkaChelekom.Video do
   use Phoenix.Component
   import MishkaChelekomWeb.Gettext
 
+  # https://stackoverflow.com/questions/15268604/html5-track-captions-not-showing/15268843#15268843
+  # https://www.w3schools.com/tags/tag_video.asp
+
+  # Ensure your video and .vtt files are served from the same web server.
+  # Browsers may block captions if accessed from the local file system or different servers.
+  # Use a local web server for testing to avoid these issues.
+
+  # 1. When you access an HTML file directly from your file system (file:/// protocol),
+  #     browsers often have restrictions that prevent the proper functioning of certain features,
+  #     including the <track> tag. The captions might not display properly in such cases.
+
+  # 2. The video source and .vtt file should generally be hosted on the same server to avoid cross-origin issues (CORS).
+  #     If they are on different servers,
+  #     you may need to ensure proper CORS headers are set up to allow the browser to access the caption file.
+
+  # Important:  Adding a Base64-encoded subtitle directly to a video won't cause a CORS issue,
+  #             so you can use it in your components even if the subtitle is not from the same origin.
+
+
   @doc """
-  https://stackoverflow.com/questions/15268604/html5-track-captions-not-showing/15268843#15268843
-  https://www.w3schools.com/tags/tag_video.asp
+  The `video` component is used to embed a video element with various customization options like thumbnail, caption, size, and control settings. It supports multiple sources and subtitles.
 
-  Ensure your video and .vtt files are served from the same web server.
-  Browsers may block captions if accessed from the local file system or different servers.
-  Use a local web server for testing to avoid these issues.
+  ## Examples
 
-  1. When you access an HTML file directly from your file system (file:/// protocol),
-      browsers often have restrictions that prevent the proper functioning of certain features,
-      including the <track> tag. The captions might not display properly in such cases.
-
-  2. The video source and .vtt file should generally be hosted on the same server to avoid cross-origin issues (CORS).
-      If they are on different servers,
-      you may need to ensure proper CORS headers are set up to allow the browser to access the caption file.
-
-  Important:  Adding a Base64-encoded subtitle directly to a video won't cause a CORS issue,
-              so you can use it in your components even if the subtitle is not from the same origin.
+  ```elixir
+  <div class="space-y-5 max-w-xl mx-auto py-10">
+    <.video
+      ratio="video"
+      caption_bakcground="danger"
+      caption_size="quadruple_large"
+      thumbnail="https://example.com/uploads/title_anouncement.jpg"
+      controls
+    >
+      <:source
+        src="https://example.com/flower.webm"
+        type="video/webm"
+      />
+      <:source
+        src="https://example.com/flower.mp4"
+        type="video/mp4"
+      />
+      <:track
+        label="English"
+        kind="captions"
+        srclang="en"
+        src="data:text/vtt;base64,V0VCVlRUCgowMDowMDowMC4wMDAgLS0+IDAwOjAwOjAwLjk5OSAgbGluZTo4MCUKSGlsZHkhCgowMDowMDowMS4wMDAgLS0+IDAwOjAwOjAxLjQ5OSBsaW5lOjgwJQpIb3cgYXJlIHlvdT8KCjAwOjAwOjAxLjUwMCAtLT4gMDA6MDA6MDIuOTk5IGxpbmU6ODAlClRlbGwgbWUsIGlzIHRoZSA8dT5sb3JkIG9mIHRoZSB1bml2ZXJzZTwvdT4gaW4/CgowMDowMDowMy4wMDAgLS0+IDAwOjAwOjA0LjI5OSBsaW5lOjgwJQpZZXMsIGhlJ3MgaW4gLSBpbiBhIGJhZCBodW1vcgoKMDA6MDA6MDQuMzAwIC0tPiAwMDowMDowNi4wMDAgbGluZTo4MCUKU29tZWJ5IG11c3QndmUgc3RvbGVuIHRoZSBjcm93biBqZXdlbHMK"
+        default
+      />
+    </.video>
+  </div>
+  ```
   """
-
   @doc type: :component
   attr :id, :string,
     default: nil,
