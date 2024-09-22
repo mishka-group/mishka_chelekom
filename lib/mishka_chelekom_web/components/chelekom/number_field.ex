@@ -14,6 +14,40 @@ defmodule MishkaChelekom.NumberField do
   use Phoenix.Component
   import MishkaChelekomComponents
 
+  @doc """
+  Renders a customizable number input field with various options such as labels, descriptions,
+  and error messages.
+  It supports different sizes, colors, and styles, and can include additional sections and icons.
+
+  ## Examples
+
+  ```elixir
+  <MishkaChelekom.NumberField.number_field
+    name="name"
+    value=""
+    space="small"
+    color="danger"
+    controls="hide"
+    description="This is description"
+    label="This is outline label Number"
+    placeholder="This is Number placeholder"
+    floating="outer"
+  />
+
+  <MishkaChelekom.NumberField.number_field
+    name="name"
+    value="The value of input"
+    space="small"
+    label="This is label Number"
+    placeholder="This is Number placeholder"
+    errors={["Enter name"]}
+  >
+    <:end_section>
+      <button><.icon name="hero-clipboard-document" class="size-6" /></button>
+    </:end_section>
+  </MishkaChelekom.NumberField.number_field>
+  ```
+  """
   @doc type: :component
   attr :id, :string,
     default: nil,
@@ -210,7 +244,7 @@ defmodule MishkaChelekom.NumberField do
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   slot :inner_block, required: true, doc: "Inner block that renders HEEx content"
 
-  def label(assigns) do
+  defp label(assigns) do
     ~H"""
     <label for={@for} class={["block text-sm font-semibold leading-6", @class]}>
       <%= render_slot(@inner_block) %>
@@ -222,7 +256,7 @@ defmodule MishkaChelekom.NumberField do
   attr :icon, :string, default: nil, doc: "Icon displayed alongside of an item"
   slot :inner_block, required: true, doc: "Inner block that renders HEEx content"
 
-  def error(assigns) do
+  defp error(assigns) do
     ~H"""
     <p class="mt-3 flex items-center gap-3 text-sm leading-6 text-rose-700">
       <.icon :if={!is_nil(@icon)} name={@icon} class="shrink-0" />
