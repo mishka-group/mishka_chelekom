@@ -16,6 +16,23 @@ defmodule MishkaChelekom.FormWrapper do
 
   use Phoenix.Component
 
+  @doc """
+  Renders a form wrapper component that supports custom styles and input fields.
+
+  It allows for the inclusion of multiple input fields and form actions, such as a submit button,
+  within a consistent layout.
+
+  ## Examples
+
+  ```elixir
+  <.form_wrapper class="space-y-10">
+    <div class="grid lg:grid-cols-2 gap-2">
+      <.text_field name="name1" space="small" color="light"/>
+      ...
+    </div>
+  </.form_wrapper>
+  ```
+  """
   @doc type: :component
   attr :id, :string,
     default: nil,
