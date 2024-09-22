@@ -17,6 +17,38 @@ defmodule MishkaChelekom.RadioField do
   use Phoenix.Component
   import MishkaChelekomComponents
 
+  @doc """
+  Renders a radio field component. This component allows users to select a single option from
+  a list of options, and provides various customization options for appearance and behavior.
+
+  ## Examples
+
+  ```elixir
+  <.radio_field name="option" value="Option 1" space="small" label="Option 1 Label"/>
+
+  <.radio_field
+    name="option"
+    value="Option 2"
+    space="medium"
+    color="secondary"
+    label="Option 2 Label"
+    checked
+  />
+
+  <.radio_field name="option" value="Option 3" color="dawn" label="Option 3 Label" reverse/>
+
+  <.radio_field
+    name="option"
+    value="Option 4"
+    space="medium"
+    color="danger"
+    label="Option 4 Label"
+    errors={["Error message for Option 4"]}
+  />
+
+  <.radio_field name="option" value="Option 5" space="small" color="info" label="Option 5 Label"/>
+  ```
+  """
   @doc type: :component
   attr :id, :string,
     default: nil,
@@ -95,6 +127,21 @@ defmodule MishkaChelekom.RadioField do
     """
   end
 
+  @doc """
+  Renders a group of radio fields, allowing users to select a single option from a list of
+  grouped options. This component provides flexibility in layout, appearance, and behavior.
+
+  ## Examples
+
+  ```elixir
+  <.group_radio name="items_group_1" space="small">
+    <:radio value="option1">Option 1</:radio>
+    <:radio value="option2">Option 2</:radio>
+    <:radio value="option3">Option 3</:radio>
+    <:radio value="option4" checked>Option 4</:radio>
+  </.group_radio>
+  ```
+  """
   @doc type: :component
   attr :id, :string,
     default: nil,
@@ -188,7 +235,7 @@ defmodule MishkaChelekom.RadioField do
   attr :class, :any, default: nil, doc: "Custom CSS class for additional styling"
   slot :inner_block, required: true, doc: "Inner block that renders HEEx content"
 
-  def label(assigns) do
+  defp label(assigns) do
     ~H"""
     <label for={@for} class={["block text-sm font-semibold leading-6", @class]}>
       <%= render_slot(@inner_block) %>
@@ -200,7 +247,7 @@ defmodule MishkaChelekom.RadioField do
   attr :icon, :string, default: nil, doc: "Icon displayed alongside of an item"
   slot :inner_block, required: true, doc: "Inner block that renders HEEx content"
 
-  def error(assigns) do
+  defp error(assigns) do
     ~H"""
     <p class="mt-3 flex items-center gap-3 text-sm leading-6 text-rose-700">
       <.icon :if={!is_nil(@icon)} name={@icon} class="shrink-0" />
