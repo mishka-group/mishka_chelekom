@@ -179,7 +179,7 @@ defmodule MishkaChelekom.NativeSelect do
 
   attr :label, :string, default: nil, doc: "Specifies text for the label"
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
-  
+
   slot :option, required: false, doc: "Option slot for select" do
     attr :value, :string, doc: "Value of each select option"
     attr :selected, :boolean, required: false, doc: "Specifies this option is seleted"
