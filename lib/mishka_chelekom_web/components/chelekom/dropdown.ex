@@ -210,8 +210,6 @@ defmodule MishkaChelekom.Dropdown do
 
   slot :inner_block, required: false, doc: "Inner block that renders HEEx content"
 
-  # TODO: Add max-height and scroll
-
   def dropdown_content(assigns) do
     ~H"""
     <div

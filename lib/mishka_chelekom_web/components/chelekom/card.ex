@@ -265,8 +265,6 @@ defmodule MishkaChelekom.Card do
 
   slot :inner_block, required: false, doc: "Inner block that renders HEEx content"
 
-  # TODO: we should support other media like video (should have inner block)
-
   def card_media(assigns) do
     ~H"""
     <div id={@id}>

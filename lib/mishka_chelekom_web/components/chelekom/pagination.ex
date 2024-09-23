@@ -19,7 +19,6 @@ defmodule MishkaChelekom.Pagination do
   use Phoenix.Component
   import MishkaChelekomComponents
   alias Phoenix.LiveView.JS
-  # TODO: add color to active button
 
   @sizes ["extra_small", "small", "medium", "large", "extra_large"]
   @colors [

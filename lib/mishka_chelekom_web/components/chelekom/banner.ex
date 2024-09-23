@@ -31,8 +31,6 @@ defmodule MishkaChelekom.Banner do
   import MishkaChelekomComponents
   import MishkaChelekomWeb.Gettext
 
-  # TODO: refactor positions
-
   @sizes ["extra_small", "small", "medium", "large", "extra_large"]
   @colors [
     "white",

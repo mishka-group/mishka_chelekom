@@ -106,8 +106,6 @@ defmodule MishkaChelekom.Timeline do
 
   slot :inner_block, required: false, doc: "Inner block that renders HEEx content"
 
-  # TODO: User cannot change color based on their need
-
   def timeline(%{horizontal: true} = assigns) do
     ~H"""
     <div

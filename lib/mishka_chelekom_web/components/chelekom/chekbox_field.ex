@@ -87,8 +87,6 @@ defmodule MishkaChelekom.CheckboxField do
     |> checkbox_field()
   end
 
-  # TODO: We can have indeterminate with this js line `document.getElementById('myCheckbox').indeterminate = true;`
-
   def checkbox_field(assigns) do
     ~H"""
     <div class={[

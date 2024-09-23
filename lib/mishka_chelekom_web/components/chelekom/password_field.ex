@@ -242,7 +242,6 @@ defmodule MishkaChelekom.PasswordField do
         >
           <%= render_slot(@end_section) %>
         </div>
-        <%!-- TODO: Change icon when password is shown --%>
         <div
           :if={@show_password}
           class={["flex items-center justify-center shrink-0 pe-2 h-[inherit]", @end_section[:class]]}

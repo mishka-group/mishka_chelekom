@@ -25,8 +25,6 @@ defmodule MishkaChelekom.Button do
   use Phoenix.Component
   import MishkaChelekomComponents
 
-  # TODO: We need Loader for Button, after creating spinner module
-
   @sizes ["extra_small", "small", "medium", "large", "extra_large"]
   @variants [
     "default",

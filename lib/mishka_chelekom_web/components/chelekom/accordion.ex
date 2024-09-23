@@ -24,7 +24,6 @@ defmodule MishkaChelekom.Accordion do
   import MishkaChelekomComponents
   alias Phoenix.LiveView.JS
 
-  # TODO: Hover styles of summary, look at menu examples
   @sizes ["extra_small", "small", "medium", "large", "extra_large"]
   @variants [
     "default",
