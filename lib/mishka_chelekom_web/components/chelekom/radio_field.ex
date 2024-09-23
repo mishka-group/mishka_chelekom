@@ -18,7 +18,7 @@ defmodule MishkaChelekom.RadioField do
   import MishkaChelekomComponents
 
   @doc """
-  Renders a radio field component. This component allows users to select a single option from
+  Renders a `radio_field` component. This component allows users to select a single option from
   a list of options, and provides various customization options for appearance and behavior.
 
   ## Examples
@@ -128,7 +128,7 @@ defmodule MishkaChelekom.RadioField do
   end
 
   @doc """
-  Renders a group of radio fields, allowing users to select a single option from a list of
+  Renders a `group_radio` component, allowing users to select a single option from a list of
   grouped options. This component provides flexibility in layout, appearance, and behavior.
 
   ## Examples

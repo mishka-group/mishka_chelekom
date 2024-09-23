@@ -25,13 +25,13 @@ defmodule MishkaChelekom.TextField do
   import MishkaChelekomComponents
 
   @doc """
-  The `TextField` component is a customizable text input field with support for various styles,
+  The `text_field` component is a customizable text input field with support for various styles,
   including floating labels, error messages, and content sections.
 
   ## Examples
 
   ```elixir
-  <MishkaChelekom.TextField.text_field
+  <.text_field
     name="name1"
     value=""
     space="small"
@@ -42,23 +42,23 @@ defmodule MishkaChelekom.TextField do
     floating="outer"
   />
 
-    <MishkaChelekom.TextField.text_field
-      name="name"
-      value=""
-      space="small"
-      color="danger"
-      description="This is description"
-      label="This is outline label"
-      placeholder="This is placeholder"
-      floating="outer"
-    >
-      <:start_section>
-        <.icon name="hero-home" class="size-4" />
-      </:start_section>
-      <:end_section>
-        <.icon name="hero-home" class="size-4" />
-      </:end_section>
-    </MishkaChelekom.TextField.text_field>
+  <.text_field
+    name="name"
+    value=""
+    space="small"
+    color="danger"
+    description="This is description"
+    label="This is outline label"
+    placeholder="This is placeholder"
+    floating="outer"
+  >
+    <:start_section>
+      <.icon name="hero-home" class="size-4" />
+    </:start_section>
+    <:end_section>
+      <.icon name="hero-home" class="size-4" />
+    </:end_section>
+  </.text_field>
   ```
   """
   @doc type: :component

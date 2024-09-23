@@ -42,7 +42,7 @@ defmodule MishkaChelekom.MegaMenu do
   ]
 
   @doc """
-  Renders a customizable mega menu component that can display various sections of content.
+  Renders a customizable `mega_menu` component that can display various sections of content.
   It includes slots for defining a trigger element, such as a button, and inner content blocks.
 
   ## Examples

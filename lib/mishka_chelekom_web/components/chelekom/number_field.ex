@@ -15,7 +15,7 @@ defmodule MishkaChelekom.NumberField do
   import MishkaChelekomComponents
 
   @doc """
-  Renders a customizable number input field with various options such as labels, descriptions,
+  Renders a customizable `number_input` field with various options such as labels, descriptions,
   and error messages.
   It supports different sizes, colors, and styles, and can include additional sections and icons.
 

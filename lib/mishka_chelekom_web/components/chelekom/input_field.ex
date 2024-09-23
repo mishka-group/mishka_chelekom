@@ -27,7 +27,7 @@ defmodule MishkaChelekom.InputField do
   import MishkaChelekomComponents
 
   @doc """
-  Renders an input with label and error messages.
+  Renders an `input_field` with label and error messages.
 
   A `Phoenix.HTML.FormField` may be passed as argument,
   which is used to retrieve the input name, id, and values.

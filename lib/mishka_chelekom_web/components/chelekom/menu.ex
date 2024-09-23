@@ -20,7 +20,7 @@ defmodule MishkaChelekom.Menu do
   import MishkaChelekom.Button, only: [button_link: 1]
 
   @doc """
-  Renders a customizable menu component that can include menu items as a list of maps or use
+  Renders a customizable `menu` component that can include menu items as a list of maps or use
   additional slots to define nested content.
 
   It supports both direct menu items and nested accordion submenus.

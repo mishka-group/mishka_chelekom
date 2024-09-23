@@ -44,7 +44,7 @@ defmodule MishkaChelekom.Drawer do
   ]
 
   @doc """
-  A drawer component for displaying content in a sliding panel. It can be positioned on the left or
+  A `drawer` component for displaying content in a sliding panel. It can be positioned on the left or
   right side of the viewport and controlled using custom JavaScript actions.
 
   ## Examples

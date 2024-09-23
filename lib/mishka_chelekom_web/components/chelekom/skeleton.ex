@@ -28,7 +28,7 @@ defmodule MishkaChelekom.Skeleton do
   @sizes ["extra_small", "small", "medium", "large", "extra_large"]
 
   @doc """
-  Renders a skeleton loader component to indicate loading state in your application.
+  Renders a `skeleton` loader component to indicate loading state in your application.
   The skeleton component provides customizable options such as size, color, and rounded corners.
 
   You can also add animations to create a more engaging user experience.

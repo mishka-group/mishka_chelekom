@@ -26,7 +26,7 @@ defmodule MishkaChelekom.TextareaField do
   import MishkaChelekomComponents
 
   @doc """
-  The `TextareaField` component provides a customizable text area input with various styling options,
+  The `textarea_field` component provides a customizable text area input with various styling options,
   including floating labels, error messages, and resizing control.
 
   ## Examples

@@ -18,7 +18,7 @@ defmodule MishkaChelekom.Stepper do
   import MishkaChelekomComponents
 
   @doc """
-  Renders a customizable stepper component that visually represents a multi-step process.
+  Renders a customizable `stepper` component that visually represents a multi-step process.
   This component can be configured to display either horizontally or vertically, with various
   styling options like color, size, and spacing.
 
@@ -106,7 +106,7 @@ defmodule MishkaChelekom.Stepper do
   end
 
   @doc """
-  Renders a step section within the stepper component, representing each individual step of
+  Renders a `stepper_section` within the stepper component, representing each individual step of
   a multi-step process.
 
   This section can display information such as the step number, title, description, and an icon.

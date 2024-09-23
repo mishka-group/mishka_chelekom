@@ -35,7 +35,10 @@ defmodule MishkaChelekom.Video do
   #             so you can use it in your components even if the subtitle is not from the same origin.
 
   @doc """
-  The `video` component is used to embed a video element with various customization options like thumbnail, caption, size, and control settings. It supports multiple sources and subtitles.
+  The `video` component is used to embed a video element with various customization options
+  like thumbnail, caption, size, and control settings.
+
+  It supports multiple sources and subtitles.
 
   ## Examples
 

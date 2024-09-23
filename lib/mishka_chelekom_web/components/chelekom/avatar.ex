@@ -17,13 +17,6 @@ defmodule MishkaChelekom.Avatar do
   - **Avatar Group (`avatar_group/1`)**: Renders a group of avatar elements arranged in a flex container.
   You can control the spacing between avatars and provide custom styling using the
   available attributes and slots.
-
-  ### Usage
-
-  The `MishkaChelekom.Avatar` module allows for flexible and customizable avatar components
-  that can be integrated seamlessly into your user interfaces.
-  Whether you need a simple avatar or a complex avatar group, this module provides the tools
-  to create rich and engaging UI elements.
   """
 
   use Phoenix.Component

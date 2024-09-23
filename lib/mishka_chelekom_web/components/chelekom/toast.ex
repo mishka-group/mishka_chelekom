@@ -13,10 +13,8 @@ defmodule MishkaChelekom.Toast do
   interaction logic, enabling developers to easily implement toast
   notifications within their applications.
 
-  ## Examples
-
-  You can create a toast notification with various styles and
-  configurations to suit your application's needs.
+  > You can create a toast notification with various styles and
+  > configurations to suit your application's needs.
   """
   use Phoenix.Component
   alias Phoenix.LiveView.JS
@@ -46,7 +44,7 @@ defmodule MishkaChelekom.Toast do
   ]
 
   @doc """
-  The `Toast` component displays temporary notifications or messages, usually at the top
+  The `toast` component displays temporary notifications or messages, usually at the top
   or bottom of the screen.
 
   It supports customization for size, color, border, and positioning, allowing you to
@@ -172,7 +170,7 @@ defmodule MishkaChelekom.Toast do
   end
 
   @doc """
-  The `ToastGroup` component is used to group multiple `Toast` elements together,
+  The `toast_group` component is used to group multiple `toast` elements together,
   allowing for coordinated display and positioning of toast notifications.
 
   ## Examples

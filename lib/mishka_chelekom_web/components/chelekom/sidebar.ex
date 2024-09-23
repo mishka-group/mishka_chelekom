@@ -42,7 +42,7 @@ defmodule MishkaChelekom.Sidebar do
   ]
 
   @doc """
-  Renders a sidebar component that can be shown or hidden based on user interactions.
+  Renders a `sidebar` component that can be shown or hidden based on user interactions.
 
   The sidebar supports various customizations such as size, color theme, and border style.
 

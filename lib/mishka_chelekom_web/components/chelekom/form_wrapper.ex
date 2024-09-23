@@ -17,7 +17,7 @@ defmodule MishkaChelekom.FormWrapper do
   use Phoenix.Component
 
   @doc """
-  Renders a form wrapper component that supports custom styles and input fields.
+  Renders a `form_wrapper` component that supports custom styles and input fields.
 
   It allows for the inclusion of multiple input fields and form actions, such as a submit button,
   within a consistent layout.

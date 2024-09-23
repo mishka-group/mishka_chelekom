@@ -14,7 +14,7 @@ defmodule MishkaChelekom.ToggleField do
   import MishkaChelekomComponents
 
   @doc """
-  The `ToggleField` component is a customizable toggle switch input, often used for binary on/off
+  The `toggle_field` component is a customizable toggle switch input, often used for binary on/off
   choices like enabling or disabling a feature.
 
   ## Examples

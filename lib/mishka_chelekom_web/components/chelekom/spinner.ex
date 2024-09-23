@@ -48,7 +48,7 @@ defmodule MishkaChelekom.Spinner do
   ]
 
   @doc """
-  Renders a customizable spinner component to indicate loading or processing states.
+  Renders a customizable `spinner` component to indicate loading or processing states.
   The spinner can be adjusted in size, color, and type to match the desired style and theme.
 
   ## Examples

@@ -45,7 +45,7 @@ defmodule MishkaChelekom.Indicator do
   ]
 
   @doc """
-  Renders an indicator component with customizable size, color, and position.
+  Renders an `indicator` component with customizable size, color, and position.
 
   The indicator can be positioned around its parent element and supports various sizes and styles.
 

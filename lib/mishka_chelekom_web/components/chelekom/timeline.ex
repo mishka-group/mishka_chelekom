@@ -29,7 +29,7 @@ defmodule MishkaChelekom.Timeline do
   import MishkaChelekomComponents
 
   @doc """
-  The `Timeline` component provides a structured layout to display a sequence of events or actions,
+  The `timeline` component provides a structured layout to display a sequence of events or actions,
   either horizontally or vertically.
 
   It can include various content, such as images and text, and supports customization options
@@ -138,7 +138,7 @@ defmodule MishkaChelekom.Timeline do
   end
 
   @doc """
-  The `TimelineSection` component is used to define individual sections within a `Timeline`.
+  The `timeline_section` component is used to define individual sections within a `Timeline`.
 
   It supports both vertical and horizontal layouts, and can include a title, time, description,
   and additional content. It also allows for custom icons or images to be displayed alongside

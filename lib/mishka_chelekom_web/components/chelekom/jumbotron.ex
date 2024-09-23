@@ -43,7 +43,8 @@ defmodule MishkaChelekom.Jumbotron do
   ]
 
   @doc """
-  Renders a jumbotron component, a large content area designed to showcase key information with a prominent background. It supports customizable styles, borders, and spacing.
+  Renders a `jumbotron` component, a large content area designed to showcase key information with a
+  prominent background. It supports customizable styles, borders, and spacing.
 
   ## Examples
 

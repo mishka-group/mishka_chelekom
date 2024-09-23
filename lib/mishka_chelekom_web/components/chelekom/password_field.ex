@@ -20,7 +20,7 @@ defmodule MishkaChelekom.PasswordField do
   import Phoenix.LiveView.Utils, only: [random_id: 0]
 
   @doc """
-  Renders a customizable password field with options for size, color, label, and validation errors.
+  Renders a customizable `password_field` with options for size, color, label, and validation errors.
 
   It includes support for showing and hiding the password with an icon toggle.
   You can add start and end sections with custom icons or text, and handle validation

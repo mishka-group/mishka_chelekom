@@ -37,7 +37,7 @@ defmodule MishkaChelekom.Tooltip do
   ]
 
   @doc """
-  The `Tooltip` component is used to display additional information when users hover over an element.
+  The `tooltip` component is used to display additional information when users hover over an element.
 
   It provides a small box with text or content and is positioned around the target
   element based on the specified `position`.

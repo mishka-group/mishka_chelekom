@@ -16,7 +16,7 @@ defmodule MishkaChelekom.SearchField do
   import MishkaChelekomComponents
 
   @doc """
-  Renders a search field component that allows users to input search queries.
+  Renders a `search_field` component that allows users to input search queries.
   The component supports an optional search button and sections for custom content at the
   start and end of the input.
 

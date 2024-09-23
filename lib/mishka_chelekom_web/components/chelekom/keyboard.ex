@@ -45,7 +45,7 @@ defmodule MishkaChelekom.Keyboard do
   ]
 
   @doc """
-  Renders a keyboard component, typically used to represent key presses or shortcuts in UI documentation.
+  Renders a `keyboard` component, typically used to represent key presses or shortcuts in UI documentation.
   It supports various styles, colors, and border radius options.
 
   ## Examples

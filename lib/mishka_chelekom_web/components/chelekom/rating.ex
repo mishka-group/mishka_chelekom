@@ -18,7 +18,7 @@ defmodule MishkaChelekom.Rating do
   alias Phoenix.LiveView.JS
 
   @doc """
-  Renders a rating component using stars to represent a score or rating value.
+  Renders a `rating` component using stars to represent a score or rating value.
   The component supports interactive and non-interactive modes, making it suitable
   for both display and user input scenarios.
 

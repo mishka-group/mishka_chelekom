@@ -13,19 +13,6 @@ defmodule MishkaChelekom.Carousel do
   - **Indicators**: Optional indicators show the current slide and allow direct navigation to any slide.
   - **Overlay Options**: Customize the appearance of the overlay for a more distinct visual style.
   - **Responsive Design**: Supports various sizes and padding options to adapt to different screen sizes.
-
-  ## Usage
-
-  ### Basic Carousel Example
-
-  ```elixir
-  ..example...
-  ```
-
-  ### Carousel with Custom Navigation
-
-  ```elixir
-  ..example...
   ```
 
   This module offers an easy-to-use interface for building carousels with consistent

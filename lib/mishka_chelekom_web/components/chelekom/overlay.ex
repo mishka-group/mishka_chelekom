@@ -41,7 +41,7 @@ defmodule MishkaChelekom.Overlay do
   ]
 
   @doc """
-  Renders an overlay element with customizable color, opacity, and blur options.
+  Renders an `overlay` element with customizable color, opacity, and blur options.
 
   The overlay can be used to create various visual effects such as loading screens or background dimming.
 

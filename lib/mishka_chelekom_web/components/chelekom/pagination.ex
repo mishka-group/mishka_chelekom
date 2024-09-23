@@ -48,7 +48,13 @@ defmodule MishkaChelekom.Pagination do
   ]
 
   @doc """
-  Renders a pagination component that allows users to navigate through pages. The component supports various configurations such as setting the total number of pages, current active page, and the number of sibling and boundary pages to display. Custom icons or labels can be used for navigation controls, and slots are available for additional start and end items.
+  Renders a `pagination` component that allows users to navigate through pages.
+
+  The component supports various configurations such as setting the total number of pages,
+  current active page, and the number of sibling and boundary pages to display.
+
+  Custom icons or labels can be used for navigation controls, and slots are available
+  for additional start and end items.
 
   ## Examples
 

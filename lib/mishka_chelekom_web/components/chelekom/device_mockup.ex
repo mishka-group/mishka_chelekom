@@ -12,11 +12,6 @@ defmodule MishkaChelekom.DeviceMockup do
   - Flexible layout options, allowing you to include images or custom content within the device frame.
   - Easily integrable with other components for displaying responsive media content or
   application previews.
-
-  ## Usage:
-
-  This component can be used to showcase designs, prototypes, or media content within a
-  realistic device frame, enhancing the visual presentation in your Phoenix application.
   """
   use Phoenix.Component
 

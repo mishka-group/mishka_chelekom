@@ -19,7 +19,7 @@ defmodule MishkaChelekom.RangeField do
   import MishkaChelekomComponents
 
   @doc """
-  Renders a customizable range field, which allows users to select a numeric value from a defined range.
+  Renders a customizable `range_field`, which allows users to select a numeric value from a defined range.
   The component can be styled in different ways and supports additional labels or values at specified positions.
 
   ## Examples

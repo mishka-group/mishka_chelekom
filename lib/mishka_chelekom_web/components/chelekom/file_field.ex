@@ -23,7 +23,7 @@ defmodule MishkaChelekom.FileField do
   import MishkaChelekomComponents
 
   @doc """
-  Renders a file input field with customizable styles, labels, and live upload capabilities.
+  Renders a `file_input` field with customizable styles, labels, and live upload capabilities.
 
   It can be used as a simple file input or as a dropzone with drag-and-drop support for files and images.
 

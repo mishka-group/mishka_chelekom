@@ -20,7 +20,7 @@ defmodule MishkaChelekom.Gallery do
   use Phoenix.Component
 
   @doc """
-  Renders a gallery component that supports various layout types including default grid,
+  Renders a `gallery` component that supports various layout types including default grid,
   masonry, and featured styles.
 
   You can customize the number of columns and gaps between items to achieve the desired layout.
@@ -76,7 +76,7 @@ defmodule MishkaChelekom.Gallery do
   end
 
   @doc """
-  Renders a media component within a gallery, which typically includes images.
+  Renders a `gallery_media` component within a gallery, which typically includes images.
   You can customize the border radius and shadow style of the media element.
 
   ## Examples

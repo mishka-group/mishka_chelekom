@@ -24,11 +24,6 @@ defmodule MishkaChelekom.Alert do
   fine-grained control over the appearance and behavior of alerts. Attributes like `variant`,
   `kind`, `position`, and `rounded` can be used to modify the styling, while slots provide
   flexibility in rendering custom content within alerts.
-
-  ## Usage
-
-  Use the provided components in your LiveView templates to display notifications, warnings,
-  and other messages in a visually consistent manner across your application.
   """
   use Phoenix.Component
   import MishkaChelekomComponents

@@ -48,7 +48,7 @@ defmodule MishkaChelekom.List do
   ]
 
   @doc """
-  Renders a list component that supports both ordered and unordered lists with customizable styles,
+  Renders a `list` component that supports both ordered and unordered lists with customizable styles,
   sizes, and colors.
 
   ## Examples

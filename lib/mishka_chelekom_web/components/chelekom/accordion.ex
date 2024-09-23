@@ -19,24 +19,6 @@ defmodule MishkaChelekom.Accordion do
   for showing and hiding content with smooth transitions.
   - **Icon and Media Support**: Allows the inclusion of icons and images within
   accordion items, enhancing the visual appeal and usability of the component.
-
-  ### Usage
-
-  The module provides two main components:
-
-  1. **`accordion/1`**: A fully customizable accordion with advanced configurations
-  for layout, colors, and interactivity.
-  2. **`native_accordion/1`**: A native `<details>` based accordion component with
-  minimalistic design and functionality.
-
-  ### Slots
-
-  The module supports an item slot, which allows defining custom attributes for each
-  accordion item including title, description, icon, and other styling options.
-
-  ### Dependencies
-
-  1. `Phoenix.Component` and `Phoenix.LiveView.JS` for rendering and interactivity.
   """
   use Phoenix.Component
   import MishkaChelekomComponents
@@ -69,7 +51,7 @@ defmodule MishkaChelekom.Accordion do
   ]
 
   @doc """
-  The Accordion component provides a collapsible structure with various styling options,
+  The `accordion` component provides a collapsible structure with various styling options,
   ideal for organizing content into expandable panels. It supports customizable attributes such
   as `variant`, `color`, and `media_size.
 

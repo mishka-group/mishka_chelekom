@@ -24,7 +24,7 @@ defmodule MishkaChelekom.TelField do
   import MishkaChelekomComponents
 
   @doc """
-  The `TelField` component is a customizable telephone input field with support for various
+  The `tel_field` component is a customizable telephone input field with support for various
   styles, including floating labels and error messages.
 
   ## Examples

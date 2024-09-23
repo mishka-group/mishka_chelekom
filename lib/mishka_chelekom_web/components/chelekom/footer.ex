@@ -39,7 +39,7 @@ defmodule MishkaChelekom.Footer do
   ]
 
   @doc """
-  Renders a customizable footer component with different sections and styling options, allowing
+  Renders a customizable `footer` component with different sections and styling options, allowing
   for the inclusion of text, links, and other content.
 
   ## Examples

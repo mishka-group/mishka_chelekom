@@ -19,7 +19,7 @@ defmodule MishkaChelekom.EmailField do
   import MishkaChelekomComponents
 
   @doc """
-  Renders a customizable email input field with options for styling, floating labels, and additional
+  Renders a customizable `email_field` with options for styling, floating labels, and additional
   start or end sections.
 
   The component allows you to create an email input field with various attributes

@@ -35,7 +35,7 @@ defmodule MishkaChelekom.Progress do
   @variants ["default", "gradient"]
 
   @doc """
-  Renders a progress bar component that visually represents the completion status of a task.
+  Renders a `progress` bar component that visually represents the completion status of a task.
 
   It supports both horizontal and vertical orientations and can be customized with various colors and styles.
 
@@ -124,8 +124,10 @@ defmodule MishkaChelekom.Progress do
   end
 
   @doc """
-  Renders a section of a progress bar component. Each section represents a part of the progress
-  with its own value and color, allowing for segmented progress bars.
+  Renders a section of a progress bar component (`progress_section`).
+
+  Each section represents a part of the progress with its own value and color, allowing for
+  segmented progress bars.
 
   ## Examples
 

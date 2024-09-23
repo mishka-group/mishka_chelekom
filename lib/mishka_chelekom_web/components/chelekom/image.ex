@@ -10,7 +10,7 @@ defmodule MishkaChelekom.Image do
   use Phoenix.Component
 
   @doc """
-  Renders an image component with various customization options such as border `radius`, `shadow`,
+  Renders an `image` component with various customization options such as border `radius`, `shadow`,
   and `loading` behavior.
 
   It supports additional attributes like width, height, and srcset for responsive images.

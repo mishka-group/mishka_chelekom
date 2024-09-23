@@ -16,7 +16,7 @@ defmodule MishkaChelekom.Table do
   import MishkaChelekomComponents
 
   @doc """
-  Renders a customizable table component that supports custom styling for rows, columns,
+  Renders a customizable `table` component that supports custom styling for rows, columns,
   and table headers. This component allows for specifying borders, padding, rounded corners,
   and text alignment.
 

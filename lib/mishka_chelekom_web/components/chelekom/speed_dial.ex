@@ -33,7 +33,7 @@ defmodule MishkaChelekom.SpeedDial do
   alias Phoenix.LiveView.JS
 
   @doc """
-  Renders a customizable speed dial component that provides quick access to multiple actions.
+  Renders a customizable `speed_dial` component that provides quick access to multiple actions.
   The speed dial can be configured with various styles, sizes, and colors.
 
   It supports navigation, icons, and custom content in each item.
@@ -41,14 +41,7 @@ defmodule MishkaChelekom.SpeedDial do
   ## Examples
 
   ```elixir
-  <.speed_dial
-    icon="hero-plus"
-    space="large"
-    icon_animated
-    id="test-1"
-    size="extra_small"
-    clickable
-  >
+  <.speed_dial icon="hero-plus" space="large" icon_animated id="test-1" size="extra_small" clickable>
     <:item icon="hero-home" href="/examples/navbar" color="danger"></:item>
     <:item icon="hero-bars-3" href="/examples/navbar" variant="shadow" color="misc">11</:item>
     <:item icon="hero-chart-bar" href="/examples/navbar" variant="unbordered" color="warning">

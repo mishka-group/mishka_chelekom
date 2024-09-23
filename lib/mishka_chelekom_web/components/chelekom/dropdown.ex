@@ -31,7 +31,7 @@ defmodule MishkaChelekom.Dropdown do
   ]
 
   @doc """
-  A dropdown component that displays a list of options or content when triggered.
+  A `dropdown` component that displays a list of options or content when triggered.
   It can be activated by a click or hover, and positioned in various directions relative to its parent.
 
   ## Examples

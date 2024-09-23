@@ -12,45 +12,6 @@ defmodule MishkaChelekom.Breadcrumb do
   links, and custom separators.
   - **Global Attributes**: Utilize global attributes to customize and extend the component's
   behavior and appearance.
-
-  ## Available Attributes
-
-  ### Breadcrumb
-
-  The main component for rendering a breadcrumb navigation.
-
-  #### Attributes
-
-  - `class`: Custom CSS class for additional styling.
-  - `id`: Unique identifier for the breadcrumb component.
-  - `separator`: Determines the default separator between breadcrumb items.
-  Can be customized at the item level.
-  - `color`: Specifies the color theme for the breadcrumb.
-  - `size`: Sets the overall size, including padding, font size, and other elements.
-
-  ### Item Slot
-
-  Defines individual breadcrumb items within the breadcrumb component.
-
-  #### Attributes
-
-  - `icon`: Icon displayed alongside the breadcrumb item.
-  - `link`: Specifies the navigation link for the item. Can be a path, live patch, or standard link.
-  - `separator`: Custom separator for this specific item, overriding the default separator.
-  - `class`: Custom CSS class for additional styling.
-
-  ### Inner Block Slot
-
-  Allows for the inclusion of additional custom HEEx content within the breadcrumb component.
-
-  ## Example Usage
-
-  ```elixir
-  ...example
-  ```
-
-  This will render a breadcrumb navigation with the items "Home", "Products", and "Electronics",
-  where "Home" and "Products" are clickable links.
   """
   use Phoenix.Component
   import MishkaChelekomComponents

@@ -39,7 +39,8 @@ defmodule MishkaChelekom.Navbar do
   ]
 
   @doc """
-  Renders a customizable navigation bar that can include links, dropdowns, and other components.
+  Renders a customizable navigation bar (`navbar` component) that can include links,
+  dropdowns, and other components.
 
   The navigation bar is designed to handle various styles, colors, and layouts.
 

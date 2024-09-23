@@ -38,7 +38,7 @@ defmodule MishkaChelekom.Popover do
   ]
 
   @doc """
-  Renders a customizable popover component that can display additional information when an element is
+  Renders a customizable `popover` component that can display additional information when an element is
   hovered or clicked.
 
   You can choose between inline and block rendering, and include rich content within the popover.
@@ -144,7 +144,7 @@ defmodule MishkaChelekom.Popover do
   end
 
   @doc """
-  Renders a popover trigger element, which is used to show or hide a popover content element.
+  Renders a `popover_trigger` element, which is used to show or hide a popover content element.
   The trigger can be rendered as either an inline or block element. When the trigger is clicked,
   it toggles the visibility of the associated popover content.
 
@@ -233,7 +233,7 @@ defmodule MishkaChelekom.Popover do
   end
 
   @doc """
-  Renders a popover content element, which displays additional information when the associated
+  Renders a `popover_content` element, which displays additional information when the associated
   popover trigger is activated.
 
   The content can be positioned relative to the trigger and customized with various styles,

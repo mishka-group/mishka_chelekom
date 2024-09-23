@@ -54,7 +54,7 @@ defmodule MishkaChelekom.Modal do
   ]
 
   @doc """
-  Renders a customizable modal component that displays overlay content with optional title and inner content.
+  Renders a customizable `modal` component that displays overlay content with optional title and inner content.
   It can be controlled with the `show` attribute and includes actions for closing the modal.
 
   ## Examples

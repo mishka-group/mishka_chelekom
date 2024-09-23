@@ -18,7 +18,8 @@ defmodule MishkaChelekom.NativeSelect do
   import MishkaChelekomComponents
 
   @doc """
-  Renders a customizable native select input component with options for single or multiple selections. Supports validation and various styling options.
+  Renders a customizable `native_select` input component with options for single or multiple selections.
+  Supports validation and various styling options.
 
   ## Examples
 
@@ -158,7 +159,7 @@ defmodule MishkaChelekom.NativeSelect do
   end
 
   @doc """
-  Renders a group of selectable options within a native select input.
+  Renders a group (`select_option_group`) of selectable options within a native select input.
   The group can have a label and multiple options, with support for selected and disabled states.
 
   ## Examples
