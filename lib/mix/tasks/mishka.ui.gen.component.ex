@@ -179,24 +179,25 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Component do
          {igniter, proper_location, assign, template_path, template_config},
          options
        ) do
-    new_assign =
-      options |> Keyword.take(Keyword.keys(template_config[:args])) |> Keyword.merge(assign)
-
-    user_bad_args =
-      Enum.map(new_assign, fn {key, value} ->
+    {user_bad_args, new_assign} =
+      options
+      |> Keyword.take(Keyword.keys(template_config[:args]))
+      |> Keyword.merge(assign)
+      |> Enum.reduce({[], []}, fn {key, value}, {bad_acc, data_acc} ->
         case template_config[:args][key] do
           args when is_list(args) ->
-            user_values =
-              String.split(value, ",", trim: true)
-              |> Enum.all?(&(&1 in args))
+            splited_args = String.split(value, ",", trim: true)
 
-            if !user_values, do: {key, args}, else: nil
+            if !Enum.all?(splited_args, &(&1 in args)) do
+              {[{key, args} | bad_acc], data_acc}
+            else
+              {bad_acc, [{key, splited_args} | data_acc]}
+            end
 
           _ ->
-            nil
+            {bad_acc, [{key, value} | data_acc]}
         end
       end)
-      |> Enum.reject(&is_nil(&1))
 
     if length(user_bad_args) > 0 do
       msg = """

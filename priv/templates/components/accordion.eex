@@ -49,6 +49,7 @@ defmodule <%= @module %> do
     "dawn"
   ]
 
+  <%= if is_nil(@type) or "accordion" in @type  do %>
   @doc """
   The `accordion` component provides a collapsible structure with various styling options,
   ideal for organizing content into expandable panels. It supports customizable attributes such
@@ -206,7 +207,8 @@ defmodule <%= @module %> do
     </div>
     """
   end
-
+  <% end %>
+  <%= if is_nil(@type) or @type == "native_accordion" do %>
   @doc """
   The Native Accordion component provides an expandable structure that uses the native `<details>`
   HTML element.
@@ -336,7 +338,7 @@ defmodule <%= @module %> do
     </div>
     """
   end
-
+  <% end %>
   attr :id, :string,
     default: nil,
     doc: "A unique identifier is used to manage state and interaction"
