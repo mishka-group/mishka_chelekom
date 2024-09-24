@@ -13,7 +13,6 @@ defmodule MishkaChelekom.Table do
   """
 
   use Phoenix.Component
-  import MishkaChelekomComponents
 
   @doc """
   Renders a customizable `table` component that supports custom styling for rows, columns,
@@ -782,4 +781,19 @@ defmodule MishkaChelekom.Table do
   end
 
   defp color_variant(_, _), do: nil
+
+  attr :name, :string, required: true, doc: "Specifies the name of the element"
+  attr :class, :any, default: nil, doc: "Custom CSS class for additional styling"
+
+  defp icon(%{name: "hero-" <> _, class: class} = assigns) when is_list(class) do
+    ~H"""
+    <span class={[@name] ++ @class} />
+    """
+  end
+
+  defp icon(%{name: "hero-" <> _} = assigns) do
+    ~H"""
+    <span class={[@name, @class]} />
+    """
+  end
 end

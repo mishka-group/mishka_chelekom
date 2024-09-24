@@ -17,7 +17,6 @@ defmodule MishkaChelekom.Modal do
   """
 
   use Phoenix.Component
-  import MishkaChelekomComponents
   import MishkaChelekomWeb.Gettext
   alias Phoenix.LiveView.JS
 
@@ -460,4 +459,19 @@ defmodule MishkaChelekom.Modal do
   end
 
   defp color_variant(_, _), do: color_variant("default", "white")
+
+  attr :name, :string, required: true, doc: "Specifies the name of the element"
+  attr :class, :any, default: nil, doc: "Custom CSS class for additional styling"
+
+  defp icon(%{name: "hero-" <> _, class: class} = assigns) when is_list(class) do
+    ~H"""
+    <span class={[@name] ++ @class} />
+    """
+  end
+
+  defp icon(%{name: "hero-" <> _} = assigns) do
+    ~H"""
+    <span class={[@name, @class]} />
+    """
+  end
 end

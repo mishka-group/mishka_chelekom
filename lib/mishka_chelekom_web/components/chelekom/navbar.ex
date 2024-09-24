@@ -14,7 +14,6 @@ defmodule MishkaChelekom.Navbar do
   visually appealing and interactive navigation bars that enhance the user experience.
   """
   use Phoenix.Component
-  import MishkaChelekomComponents
 
   @colors [
     "white",
@@ -518,5 +517,20 @@ defmodule MishkaChelekom.Navbar do
       "bg-[#1E1E1E] text-white border-[#1E1E1E] shadow-md",
       "[&_.navbar-button]:bg-[#1E1E1E] [&_.navbar-button]:border-[#050404]"
     ]
+  end
+
+  attr :name, :string, required: true, doc: "Specifies the name of the element"
+  attr :class, :any, default: nil, doc: "Custom CSS class for additional styling"
+
+  defp icon(%{name: "hero-" <> _, class: class} = assigns) when is_list(class) do
+    ~H"""
+    <span class={[@name] ++ @class} />
+    """
+  end
+
+  defp icon(%{name: "hero-" <> _} = assigns) do
+    ~H"""
+    <span class={[@name, @class]} />
+    """
   end
 end

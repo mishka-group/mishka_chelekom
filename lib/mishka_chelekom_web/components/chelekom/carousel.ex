@@ -21,7 +21,6 @@ defmodule MishkaChelekom.Carousel do
   """
 
   use Phoenix.Component
-  import MishkaChelekomComponents
   alias Phoenix.LiveView.JS
 
   @doc """
@@ -526,5 +525,20 @@ defmodule MishkaChelekom.Carousel do
       )
       |> JS.remove_class("active-indicator", to: ".carousel-indicator")
     end)
+  end
+
+  attr :name, :string, required: true, doc: "Specifies the name of the element"
+  attr :class, :any, default: nil, doc: "Custom CSS class for additional styling"
+
+  defp icon(%{name: "hero-" <> _, class: class} = assigns) when is_list(class) do
+    ~H"""
+    <span class={[@name] ++ @class} />
+    """
+  end
+
+  defp icon(%{name: "hero-" <> _} = assigns) do
+    ~H"""
+    <span class={[@name, @class]} />
+    """
   end
 end

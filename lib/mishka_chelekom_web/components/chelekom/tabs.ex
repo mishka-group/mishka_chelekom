@@ -25,7 +25,6 @@ defmodule MishkaChelekom.Tabs do
   """
 
   use Phoenix.Component
-  import MishkaChelekomComponents
   alias Phoenix.LiveView.JS
 
   @colors [
@@ -631,5 +630,20 @@ defmodule MishkaChelekom.Tabs do
       |> JS.remove_class("active-tab", to: "##{id}-tab-header-#{item}")
       |> JS.remove_class("active-tab-panel", to: "##{id}-tab-panel-#{item}")
     end)
+  end
+
+  attr :name, :string, required: true, doc: "Specifies the name of the element"
+  attr :class, :any, default: nil, doc: "Custom CSS class for additional styling"
+
+  defp icon(%{name: "hero-" <> _, class: class} = assigns) when is_list(class) do
+    ~H"""
+    <span class={[@name] ++ @class} />
+    """
+  end
+
+  defp icon(%{name: "hero-" <> _} = assigns) do
+    ~H"""
+    <span class={[@name, @class]} />
+    """
   end
 end

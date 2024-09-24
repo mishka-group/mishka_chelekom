@@ -14,7 +14,6 @@ defmodule MishkaChelekom.Fieldset do
   and visually appealing fieldsets that can be easily integrated into any LiveView application.
   """
   use Phoenix.Component
-  import MishkaChelekomComponents
 
   @doc """
   Renders a `fieldset` component that groups related form elements visually and semantically.
@@ -543,5 +542,20 @@ defmodule MishkaChelekom.Fieldset do
     [
       "[&_.fieldset-field]:bg-transparent text-[#1E1E1E] [&_.fieldset-field]:border-transparent"
     ]
+  end
+
+  attr :name, :string, required: true, doc: "Specifies the name of the element"
+  attr :class, :any, default: nil, doc: "Custom CSS class for additional styling"
+
+  defp icon(%{name: "hero-" <> _, class: class} = assigns) when is_list(class) do
+    ~H"""
+    <span class={[@name] ++ @class} />
+    """
+  end
+
+  defp icon(%{name: "hero-" <> _} = assigns) do
+    ~H"""
+    <span class={[@name, @class]} />
+    """
   end
 end

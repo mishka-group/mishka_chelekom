@@ -15,7 +15,6 @@ defmodule MishkaChelekom.PasswordField do
   user-friendly password field.
   """
   use Phoenix.Component
-  import MishkaChelekomComponents
   alias Phoenix.LiveView.JS
   import Phoenix.LiveView.Utils, only: [random_id: 0]
 
@@ -828,5 +827,38 @@ defmodule MishkaChelekom.PasswordField do
       "[&_.password-field-wrapper>input]:placeholder:text-[#1E1E1E]",
       "focus-within:[&_.password-field-wrapper]:ring-transparent"
     ]
+  end
+
+  defp translate_error({msg, opts}) do
+    # When using gettext, we typically pass the strings we want
+    # to translate as a static argument:
+    #
+    #     # Translate the number of files with plural rules
+    #     dngettext("errors", "1 file", "%{count} files", count)
+    #
+    # However the error messages in our forms and APIs are generated
+    # dynamically, so we need to translate them by calling Gettext
+    # with our gettext backend as first argument. Translations are
+    # available in the errors.po file (as we use the "errors" domain).
+    if count = opts[:count] do
+      Gettext.dngettext(MishkaChelekomWeb.Gettext, "errors", msg, msg, count, opts)
+    else
+      Gettext.dgettext(MishkaChelekomWeb.Gettext, "errors", msg, opts)
+    end
+  end
+
+  attr :name, :string, required: true, doc: "Specifies the name of the element"
+  attr :class, :any, default: nil, doc: "Custom CSS class for additional styling"
+
+  defp icon(%{name: "hero-" <> _, class: class} = assigns) when is_list(class) do
+    ~H"""
+    <span class={[@name] ++ @class} />
+    """
+  end
+
+  defp icon(%{name: "hero-" <> _} = assigns) do
+    ~H"""
+    <span class={[@name, @class]} />
+    """
   end
 end

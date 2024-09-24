@@ -14,7 +14,6 @@ defmodule MishkaChelekom.Divider do
   - Global attributes and custom CSS classes can be applied for additional customization.
   """
   use Phoenix.Component
-  import MishkaChelekomComponents
 
   @colors [
     "white",
@@ -548,4 +547,19 @@ defmodule MishkaChelekom.Divider do
   end
 
   defp text_position(:divider, _), do: text_position(:divider, "middle")
+
+  attr :name, :string, required: true, doc: "Specifies the name of the element"
+  attr :class, :any, default: nil, doc: "Custom CSS class for additional styling"
+
+  defp icon(%{name: "hero-" <> _, class: class} = assigns) when is_list(class) do
+    ~H"""
+    <span class={[@name] ++ @class} />
+    """
+  end
+
+  defp icon(%{name: "hero-" <> _} = assigns) do
+    ~H"""
+    <span class={[@name, @class]} />
+    """
+  end
 end

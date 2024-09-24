@@ -14,7 +14,6 @@ defmodule MishkaChelekom.Rating do
   tool for enhancing the user experience in Phoenix LiveView applications.
   """
   use Phoenix.Component
-  import MishkaChelekomComponents
   alias Phoenix.LiveView.JS
 
   @doc """
@@ -183,5 +182,20 @@ defmodule MishkaChelekom.Rating do
       "[&_.rated]:text-[#1E1E1E]",
       "hover:[&_.rating-button]:text-[#1E1E1E] [&_.rating-button:has(~.rating-button:hover)]:text-[#1E1E1E]"
     ]
+  end
+
+  attr :name, :string, required: true, doc: "Specifies the name of the element"
+  attr :class, :any, default: nil, doc: "Custom CSS class for additional styling"
+
+  defp icon(%{name: "hero-" <> _, class: class} = assigns) when is_list(class) do
+    ~H"""
+    <span class={[@name] ++ @class} />
+    """
+  end
+
+  defp icon(%{name: "hero-" <> _} = assigns) do
+    ~H"""
+    <span class={[@name, @class]} />
+    """
   end
 end

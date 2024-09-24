@@ -17,7 +17,6 @@ defmodule MishkaChelekom.Drawer do
   with full HEEx support for dynamic rendering.
   """
   use Phoenix.Component
-  import MishkaChelekomComponents
   alias Phoenix.LiveView.JS
   import MishkaChelekomWeb.Gettext
 
@@ -469,5 +468,20 @@ defmodule MishkaChelekom.Drawer do
   def hide_drawer(js \\ %JS{}, id, position) do
     JS.remove_class(js, "transform-none", to: "##{id}")
     |> JS.add_class(translate_position(position), to: "##{id}")
+  end
+
+  attr :name, :string, required: true, doc: "Specifies the name of the element"
+  attr :class, :any, default: nil, doc: "Custom CSS class for additional styling"
+
+  defp icon(%{name: "hero-" <> _, class: class} = assigns) when is_list(class) do
+    ~H"""
+    <span class={[@name] ++ @class} />
+    """
+  end
+
+  defp icon(%{name: "hero-" <> _} = assigns) do
+    ~H"""
+    <span class={[@name, @class]} />
+    """
   end
 end

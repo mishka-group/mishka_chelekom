@@ -26,7 +26,6 @@ defmodule MishkaChelekom.Timeline do
   """
 
   use Phoenix.Component
-  import MishkaChelekomComponents
 
   @doc """
   The `timeline` component provides a structured layout to display a sequence of events or actions,
@@ -440,4 +439,19 @@ defmodule MishkaChelekom.Timeline do
   end
 
   defp color_class(params) when is_binary(params), do: params
+
+  attr :name, :string, required: true, doc: "Specifies the name of the element"
+  attr :class, :any, default: nil, doc: "Custom CSS class for additional styling"
+
+  defp icon(%{name: "hero-" <> _, class: class} = assigns) when is_list(class) do
+    ~H"""
+    <span class={[@name] ++ @class} />
+    """
+  end
+
+  defp icon(%{name: "hero-" <> _} = assigns) do
+    ~H"""
+    <span class={[@name, @class]} />
+    """
+  end
 end

@@ -28,7 +28,6 @@ defmodule MishkaChelekom.Banner do
 
   use Phoenix.Component
   alias Phoenix.LiveView.JS
-  import MishkaChelekomComponents
   import MishkaChelekomWeb.Gettext
 
   @sizes ["extra_small", "small", "medium", "large", "extra_large"]
@@ -647,5 +646,20 @@ defmodule MishkaChelekom.Banner do
          "opacity-100 translate-y-0 sm:scale-100",
          "opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"}
     )
+  end
+
+  attr :name, :string, required: true, doc: "Specifies the name of the element"
+  attr :class, :any, default: nil, doc: "Custom CSS class for additional styling"
+
+  defp icon(%{name: "hero-" <> _, class: class} = assigns) when is_list(class) do
+    ~H"""
+    <span class={[@name] ++ @class} />
+    """
+  end
+
+  defp icon(%{name: "hero-" <> _} = assigns) do
+    ~H"""
+    <span class={[@name, @class]} />
+    """
   end
 end

@@ -15,7 +15,6 @@ defmodule MishkaChelekom.Stepper do
   """
 
   use Phoenix.Component
-  import MishkaChelekomComponents
 
   @doc """
   Renders a customizable `stepper` component that visually represents a multi-step process.
@@ -587,4 +586,19 @@ defmodule MishkaChelekom.Stepper do
 
   defp color_class(params) when is_binary(params), do: params
   defp color_class(_), do: color_class("primary")
+
+  attr :name, :string, required: true, doc: "Specifies the name of the element"
+  attr :class, :any, default: nil, doc: "Custom CSS class for additional styling"
+
+  defp icon(%{name: "hero-" <> _, class: class} = assigns) when is_list(class) do
+    ~H"""
+    <span class={[@name] ++ @class} />
+    """
+  end
+
+  defp icon(%{name: "hero-" <> _} = assigns) do
+    ~H"""
+    <span class={[@name, @class]} />
+    """
+  end
 end

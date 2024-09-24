@@ -21,7 +21,6 @@ defmodule MishkaChelekom.Accordion do
   accordion items, enhancing the visual appeal and usability of the component.
   """
   use Phoenix.Component
-  import MishkaChelekomComponents
   alias Phoenix.LiveView.JS
 
   @sizes ["extra_small", "small", "medium", "large", "extra_large"]
@@ -1552,5 +1551,20 @@ defmodule MishkaChelekom.Accordion do
       |> Enum.map(&if(is_binary(&1), do: String.to_atom(&1), else: &1))
 
     Map.drop(rest, all_rest)
+  end
+
+  attr :name, :string, required: true, doc: "Specifies the name of the element"
+  attr :class, :any, default: nil, doc: "Custom CSS class for additional styling"
+
+  defp icon(%{name: "hero-" <> _, class: class} = assigns) when is_list(class) do
+    ~H"""
+    <span class={[@name] ++ @class} />
+    """
+  end
+
+  defp icon(%{name: "hero-" <> _} = assigns) do
+    ~H"""
+    <span class={[@name, @class]} />
+    """
   end
 end

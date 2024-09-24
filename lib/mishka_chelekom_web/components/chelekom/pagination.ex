@@ -17,7 +17,6 @@ defmodule MishkaChelekom.Pagination do
   """
 
   use Phoenix.Component
-  import MishkaChelekomComponents
   alias Phoenix.LiveView.JS
 
   @sizes ["extra_small", "small", "medium", "large", "extra_large"]
@@ -1440,4 +1439,19 @@ defmodule MishkaChelekom.Pagination do
   defp show_pagination?(true, total) when total <= 1, do: false
   defp show_pagination?(_, total) when total > 1, do: true
   defp show_pagination?(_, _), do: false
+
+  attr :name, :string, required: true, doc: "Specifies the name of the element"
+  attr :class, :any, default: nil, doc: "Custom CSS class for additional styling"
+
+  defp icon(%{name: "hero-" <> _, class: class} = assigns) when is_list(class) do
+    ~H"""
+    <span class={[@name] ++ @class} />
+    """
+  end
+
+  defp icon(%{name: "hero-" <> _} = assigns) do
+    ~H"""
+    <span class={[@name, @class]} />
+    """
+  end
 end

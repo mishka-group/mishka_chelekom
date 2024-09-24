@@ -20,7 +20,6 @@ defmodule MishkaChelekom.MegaMenu do
 
   use Phoenix.Component
   alias Phoenix.LiveView.JS
-  import MishkaChelekomComponents
 
   @colors [
     "white",
@@ -481,5 +480,20 @@ defmodule MishkaChelekom.MegaMenu do
 
   defp color_variant("shadow", "dark") do
     "[&>.mega-menu-content]:bg-[#1E1E1E] text-white [&>.mega-menu-content]:border-[#1E1E1E] [&>.mega-menu-content]:shadow"
+  end
+
+  attr :name, :string, required: true, doc: "Specifies the name of the element"
+  attr :class, :any, default: nil, doc: "Custom CSS class for additional styling"
+
+  defp icon(%{name: "hero-" <> _, class: class} = assigns) when is_list(class) do
+    ~H"""
+    <span class={[@name] ++ @class} />
+    """
+  end
+
+  defp icon(%{name: "hero-" <> _} = assigns) do
+    ~H"""
+    <span class={[@name, @class]} />
+    """
   end
 end
