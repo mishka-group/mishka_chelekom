@@ -208,7 +208,14 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Component do
 
       {:error, :bad_args, msg, igniter}
     else
-      {igniter, template_path, template_config, proper_location, new_assign, options}
+      # we put nil assigns keys to prevent the does not exist warning
+      updated_new_assign =
+        Keyword.keys(template_config[:args])
+        |> Enum.reduce(new_assign, fn key, acc ->
+          if Keyword.has_key?(acc, key), do: acc, else: Keyword.put(acc, key, nil)
+        end)
+
+      {igniter, template_path, template_config, proper_location, updated_new_assign, options}
     end
   end
 
