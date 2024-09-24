@@ -642,7 +642,7 @@ defmodule <%= @module %> do
   end
   <% end %>
   defp rounded_size("none"), do: "rounded-none"
-
+  <%= if is_nil(@padding) or "extra_small" in @padding do %>
   defp padding_size("extra_small") do
     [
       "[&>.accordion-item-wrapper>.accordion-summary]:p-1",
@@ -651,7 +651,8 @@ defmodule <%= @module %> do
       "[&>.accordion-item-wrapper>.accordion-content-wrapper.active>.accordion-content]:py-1"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@padding) or "small" in @padding do %>
   defp padding_size("small") do
     [
       "[&>.accordion-item-wrapper>.accordion-summary]:p-2",
@@ -660,7 +661,8 @@ defmodule <%= @module %> do
       "[&>.accordion-item-wrapper>.accordion-content-wrapper.active>.accordion-content]:py-2"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@padding) or "medium" in @padding do %>
   defp padding_size("medium") do
     [
       "[&>.accordion-item-wrapper>.accordion-summary]:p-3",
@@ -669,7 +671,8 @@ defmodule <%= @module %> do
       "[&>.accordion-item-wrapper>.accordion-content-wrapper.active>.accordion-content]:py-3"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@padding) or "large" in @padding do %>
   defp padding_size("large") do
     [
       "[&>.accordion-item-wrapper>.accordion-summary]:p-4",
@@ -678,7 +681,8 @@ defmodule <%= @module %> do
       "[&>.accordion-item-wrapper>.accordion-content-wrapper.active>.accordion-content]:py-4"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@padding) or "extra_large" in @padding do %>
   defp padding_size("extra_large") do
     [
       "[&>.accordion-item-wrapper>.accordion-summary]:p-5",
@@ -687,7 +691,7 @@ defmodule <%= @module %> do
       "[&>.accordion-item-wrapper>.accordion-content-wrapper.active>.accordion-content]:py-5"
     ]
   end
-
+  <% end %>
   defp padding_size("zero"), do: "[&>.accordion-item-wrapper>.accordion-summary]:p-0"
   defp padding_size(params) when is_binary(params), do: params
   defp padding_size(_), do: padding_size("small")
