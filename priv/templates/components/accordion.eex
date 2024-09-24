@@ -542,45 +542,58 @@ defmodule <%= @module %> do
   <% end %>
   defp menu_rounded(params) when is_binary(params), do: params
   defp menu_rounded(_), do: nil
-
+  <%= if is_nil(@size) or "extra_small" in @size do %>
   defp media_size("extra_small"), do: "[&>.accordion-item-wrapper_.accordion-title-media]:size-12"
+  <% end %>
+  <%= if is_nil(@size) or "small" in @size do %>
   defp media_size("small"), do: "[&>.accordion-item-wrapper_.accordion-title-media]:size-14"
+  <% end %>
+  <%= if is_nil(@size) or "medium" in @size do %>
   defp media_size("medium"), do: "[&>.accordion-item-wrapper_.accordion-title-media]:size-16"
+  <% end %>
+  <%= if is_nil(@size) or "large" in @size do %>
   defp media_size("large"), do: "[&>.accordion-item-wrapper_.accordion-title-media]:size-20"
+  <% end %>
+  <%= if is_nil(@size) or "extra_large" in @size do %>
   defp media_size("extra_large"), do: "[&>.accordion-item-wrapper_.accordion-title-media]:size-24"
+  <% end %>
   defp media_size(params) when is_binary(params), do: params
   defp media_size(_), do: media_size("small")
-
+  <%= if is_nil(@size) or "extra_small" in @size do %>
   defp size_class("extra_small") do
     [
       "text-xs [&_.accordion-summary]:py-1 [&_.accordion-summary]:px-2"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@size) or "small" in @size do %>
   defp size_class("small") do
     [
       "text-sm [&_.accordion-summary]:py-1.5 [&_.accordion-summary]:px-3"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@size) or "medium" in @size do %>
   defp size_class("medium") do
     [
       "text-base [&_.accordion-summary]:py-2 [&_.accordion-summary]:px-4"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@size) or "large" in @size do %>
   defp size_class("large") do
     [
       "text-lg [&_.accordion-summary]:py-2.5 [&_.accordion-summary]:px-5"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@size) or "extra_large" in @size do %>
   defp size_class("extra_large") do
     [
       "text-xl [&_.accordion-summary]:py-3 [&_.accordion-summary]:px-5"
     ]
   end
-
+  <% end %>
   defp size_class(params) when is_binary(params), do: params
   defp size_class(_), do: nil
   <%= if is_nil(@rounded) or "extra_small" in @rounded do %>
