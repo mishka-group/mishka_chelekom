@@ -31,6 +31,7 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Component do
   * `--padding` or `-p` - Specifies component padding
   * `--space` or `-sp` - Specifies component space
   * `--type` or `-t` - Specifies component type
+  * `--rounded` or `-r` - Specifies component type
   * `--no-sub-config` - Creates dependent components with default settings
   * `--module` or `-m` - Specifies a custom name for the component module
   * `--sub` - Specifies this task is a sub task
@@ -65,12 +66,22 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Component do
         padding: :string,
         space: :string,
         type: :string,
+        rounded: :string,
         sub: :boolean,
         no_deps: :boolean,
         no_sub_config: :boolean
       ],
       # CLI aliases
-      aliases: [v: :variant, c: :color, s: :size, m: :module, p: :padding, sp: :space, t: :type]
+      aliases: [
+        v: :variant,
+        c: :color,
+        s: :size,
+        m: :module,
+        p: :padding,
+        sp: :space,
+        t: :type,
+        r: :rounded
+      ]
     }
   end
 
