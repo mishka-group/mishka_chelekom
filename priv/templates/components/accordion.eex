@@ -583,7 +583,7 @@ defmodule <%= @module %> do
 
   defp size_class(params) when is_binary(params), do: params
   defp size_class(_), do: nil
-
+  <%= if is_nil(@rounded) or "extra_small" in @rounded do %>
   defp rounded_size("extra_small") do
     [
       "rounded-sm [&:not(.accordion-item-gap)>.accordion-item-wrapper:first-child>.accordion-summary]:rounded-t-sm",
@@ -591,7 +591,8 @@ defmodule <%= @module %> do
       "[&.accordion-item-gap>.accordion-item-wrapper>:not(.accordion-summary)]:rounded-b-sm"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@rounded) or "small" in @rounded do %>
   defp rounded_size("small") do
     [
       "rounded [&:not(.accordion-item-gap)>.accordion-item-wrapper:first-child>.accordion-summary]:rounded-t",
@@ -599,7 +600,8 @@ defmodule <%= @module %> do
       "[&.accordion-item-gap>.accordion-item-wrapper>:not(.accordion-summary)]:rounded-b"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@rounded) or "medium" in @rounded do %>
   defp rounded_size("medium") do
     [
       "rounded-md [&:not(.accordion-item-gap)>.accordion-item-wrapper:first-child>.accordion-summary]:rounded-t-md",
@@ -607,7 +609,8 @@ defmodule <%= @module %> do
       "[&.accordion-item-gap>.accordion-item-wrapper>:not(.accordion-summary)]:rounded-b-md"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@rounded) or "large" in @rounded do %>
   defp rounded_size("large") do
     [
       "rounded-lg [&:not(.accordion-item-gap)>.accordion-item-wrapper:first-child>.accordion-summary]:rounded-t-lg",
@@ -615,7 +618,8 @@ defmodule <%= @module %> do
       "[&.accordion-item-gap>.accordion-item-wrapper>:not(.accordion-summary)]:rounded-b-lg"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@rounded) or "extra_large" in @rounded do %>
   defp rounded_size("extra_large") do
     [
       "rounded-xl [&:not(.accordion-item-gap)>.accordion-item-wrapper:first-child>.accordion-summary]:rounded-t-xl",
@@ -623,7 +627,7 @@ defmodule <%= @module %> do
       "[&.accordion-item-gap>.accordion-item-wrapper>:not(.accordion-summary)]:rounded-b-xl"
     ]
   end
-
+  <% end %>
   defp rounded_size("none"), do: "rounded-none"
 
   defp padding_size("extra_small") do
