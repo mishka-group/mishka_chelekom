@@ -140,72 +140,91 @@ defmodule <%= @module %> do
     <span class={@class || "separator-text"}><%%= @name %></span>
     """
   end
-
+  <%= if is_nil(@color) or "white" in @color do %>
   defp color_class("white") do
     "text-white hover:[&>li_a]:text-[#ededed]"
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "primary" in @color do %>
   defp color_class("primary") do
     "text-[#4363EC] hover:[&>li_a]:text-[#072ed3]"
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "secondary" in @color do %>
   defp color_class("secondary") do
     "text-[#6B6E7C] hover:[&>li_a]:text-[#60636f]"
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "success" in @color do %>
   defp color_class("success") do
     "text-[#047857] hover:[&>li_a]:text-[#d4fde4] "
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "warning" in @color do %>
   defp color_class("warning") do
     "text-[#FF8B08] hover:[&>li_a]:text-[#fff1cd]"
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "danger" in @color do %>
   defp color_class("danger") do
     "text-[#E73B3B] hover:[&>li_a]:text-[#ffcdcd]"
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "info" in @color do %>
   defp color_class("info") do
     "text-[#004FC4] hover:[&>li_a]:text-[#cce1ff]"
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "misc" in @color do %>
   defp color_class("misc") do
     "text-[#52059C] hover:[&>li_a]:text-[#ffe0ff]"
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "dawn" in @color do %>
   defp color_class("dawn") do
     "text-[#4D4137] hover:[&>li_a]:text-[#FFECDA]"
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "light" in @color do %>
   defp color_class("light") do
     "text-[#707483] hover:[&>li_a]:text-[#d2d8e9]"
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "dark" in @color do %>
   defp color_class("dark") do
     "text-[#1E1E1E] hover:[&>li_a]:text-[#869093]"
   end
-
-  defp size_class("extra_small"),
-    do:
-      "text-xs gap-1.5 [&>li]:gap-1.5 [&>li>.separator-icon]:size-3 [&>li>.breadcrumb-icon]:size-4"
-
-  defp size_class("small"),
-    do:
-      "text-sm gap-2 [&>li]:gap-2 [&>li>.separator-icon]:size-3.5 [&>li>.breadcrumb-icon]:size-5"
-
-  defp size_class("medium"),
-    do:
-      "text-base gap-2.5 [&>li]:gap-2.5 [&>li>.separator-icon]:size-4 [&>li>.breadcrumb-icon]:size-6"
-
-  defp size_class("large"),
-    do: "text-lg gap-3 [&>li]:gap-3 [&>li>.separator-icon]:size-5 [&>li>.breadcrumb-icon]:size-7"
-
-  defp size_class("extra_large"),
-    do:
-      "text-xl gap-3.5 [&>li]:gap-3.5 [&>li>.separator-icon]:size-6 [&>li>.breadcrumb-icon]:size-8"
+  <% end %>
+  <%= if is_nil(@size) or "extra_small" in @size do %>
+  defp size_class("extra_small") do
+    "text-xs gap-1.5 [&>li]:gap-1.5 [&>li>.separator-icon]:size-3 [&>li>.breadcrumb-icon]:size-4"
+  end
+  <% end %>
+  <%= if is_nil(@size) or "small" in @size do %>
+  defp size_class("small") do
+    "text-sm gap-2 [&>li]:gap-2 [&>li>.separator-icon]:size-3.5 [&>li>.breadcrumb-icon]:size-5"
+  end
+  <% end %>
+  <%= if is_nil(@size) or "medium" in @size do %>
+  defp size_class("medium") do
+    "text-base gap-2.5 [&>li]:gap-2.5 [&>li>.separator-icon]:size-4 [&>li>.breadcrumb-icon]:size-6"
+  end
+  <% end %>
+  <%= if is_nil(@size) or "large" in @size do %>
+  defp size_class("large") do
+  "text-lg gap-3 [&>li]:gap-3 [&>li>.separator-icon]:size-5 [&>li>.breadcrumb-icon]:size-7"
+  end
+  <% end %>
+  <%= if is_nil(@size) or "extra_large" in @size do %>
+  defp size_class("extra_large") do
+    "text-xl gap-3.5 [&>li]:gap-3.5 [&>li>.separator-icon]:size-6 [&>li>.breadcrumb-icon]:size-8"
+  end
+  <% end %>
 
   defp size_class(params) when is_binary(params), do: params
+  <%= if is_nil(@size) or "small" in @size do %>
   defp size_class(_), do: size_class("small")
+  <% end %>
 
   defp default_classes() do
     [
