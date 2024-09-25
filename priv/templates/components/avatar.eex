@@ -592,13 +592,24 @@ defmodule <%= @module %> do
   defp shadow_class("none"), do: "shadow-none"
   defp shadow_class(params) when is_binary(params), do: params
   defp shadow_class(_), do: shadow_class("none")
-
+  <%= if is_nil(@space) or "extra_small" in @space do %>
   defp space_class("extra_small"), do: "-space-x-2"
+  <% end %>
+  <%= if is_nil(@space) or "small" in @space do %>
   defp space_class("small"), do: "-space-x-3"
+  <% end %>
+  <%= if is_nil(@space) or "medium" in @space do %>
   defp space_class("medium"), do: "-space-x-4"
+  <% end %>
+  <%= if is_nil(@space) or "large" in @space do %>
   defp space_class("large"), do: "-space-x-5"
+  <% end %>
+  <%= if is_nil(@space) or "extra_large" in @space do %>
   defp space_class("extra_large"), do: "-space-x-6"
+  <% end %>
+  <%= if is_nil(@space) or "none" in @space do %>
   defp space_class("none"), do: "space-x-0"
+  <% end %>
   defp space_class(params) when is_binary(params), do: params
   defp space_class(_), do: space_class("medium")
 
