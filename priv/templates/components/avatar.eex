@@ -256,100 +256,122 @@ defmodule <%= @module %> do
     """
   end
   <% end %>
+  <%= if is_nil(@color) or "transparent" in @color do %>
   defp image_color("transparent") do
     "border-0"
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "white" in @color do %>
   defp image_color("white") do
     "border border-white"
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "primary" in @color do %>
   defp image_color("primary") do
     "border border-[#4363EC]"
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "secondary" in @color do %>
   defp image_color("secondary") do
     "border border-[#6B6E7C]"
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "success" in @color do %>
   defp image_color("success") do
     "border border-[#227A52]"
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "warning" in @color do %>
   defp image_color("warning") do
     "border border-[#FF8B08]"
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "danger" in @color do %>
   defp image_color("danger") do
     "border border-[#E73B3B]"
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "info" in @color do %>
   defp image_color("info") do
     "border border-[#6663FD]"
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "misc" in @color do %>
   defp image_color("misc") do
     "border border-[#52059C]"
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "dawn" in @color do %>
   defp image_color("dawn") do
     "border border-[#4D4137]"
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "light" in @color do %>
   defp image_color("light") do
     "border border-[#707483]"
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "dark" in @color do %>
   defp image_color("dark") do
     "border border-[#1E1E1E]"
   end
-
+  <% end %>
   defp image_color(params), do: params
-
+  <%= if is_nil(@color) or "white" in @color do %>
   defp color_class("white") do
     "bg-white text-[#3E3E3E] border-[#DADADA]"
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "primary" in @color do %>
   defp color_class("primary") do
     "bg-[#4363EC] text-white border-[#2441de]"
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "secondary" in @color do %>
   defp color_class("secondary") do
     "bg-[#6B6E7C] text-white border-[#877C7C]"
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "success" in @color do %>
   defp color_class("success") do
     "bg-[#ECFEF3] text-[#047857] border-[#6EE7B7]"
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "warning" in @color do %>
   defp color_class("warning") do
     "bg-[#FFF8E6] text-[#FF8B08] border-[#FF8B08]"
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "danger" in @color do %>
   defp color_class("danger") do
     "bg-[#FFE6E6] text-[#E73B3B] border-[#E73B3B]"
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "info" in @color do %>
   defp color_class("info") do
     "bg-[#E5F0FF] text-[#004FC4] border-[#004FC4]"
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "misc" in @color do %>
   defp color_class("misc") do
     "bg-[#FFE6FF] text-[#52059C] border-[#52059C]"
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "dawn" in @color do %>
   defp color_class("dawn") do
     "bg-[#FFECDA] text-[#4D4137] border-[#4D4137]"
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "light" in @color do %>
   defp color_class("light") do
     "bg-[#E3E7F1] text-[#707483] border-[#707483]"
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "dark" in @color do %>
   defp color_class("dark") do
     "bg-[#1E1E1E] text-white border-[#050404]"
   end
-
+  <% end %>
   defp color_class(_), do: color_class("white")
 
   defp border_class("extra_small"), do: "border-avatar border"
@@ -360,33 +382,64 @@ defmodule <%= @module %> do
   defp border_class("none"), do: "border-0"
   defp border_class(params) when is_binary(params), do: params
   defp border_class(_), do: border_class("none")
-
+  <%= if is_nil(@rounded) or "extra_small" in @rounded do %>
   defp rounded_size("extra_small"), do: "rounded-sm"
+  <% end %>
+  <%= if is_nil(@rounded) or "small" in @rounded do %>
   defp rounded_size("small"), do: "rounded"
+  <% end %>
+  <%= if is_nil(@rounded) or "medium" in @rounded do %>
   defp rounded_size("medium"), do: "rounded-md"
+  <% end %>
+  <%= if is_nil(@rounded) or "large" in @rounded do %>
   defp rounded_size("large"), do: "rounded-lg"
+  <% end %>
+  <%= if is_nil(@rounded) or "extra_large" in @rounded do %>
   defp rounded_size("extra_large"), do: "rounded-xl"
+  <% end %>
+  <%= if is_nil(@rounded) or "full" in @rounded do %>
   defp rounded_size("full"), do: "rounded-full"
+  <% end %>
+  <%= if is_nil(@rounded) or "none" in @rounded do %>
   defp rounded_size("none"), do: "rounded-none"
+  <% end %>
   defp rounded_size(params) when is_binary(params), do: params
   defp rounded_size(_), do: rounded_size("medium")
-
+  <%= if is_nil(@size) or "extra_small" in @size do %>
   defp size_class("extra_small"), do: "size-8 text-xs"
+  <% end %>
+  <%= if is_nil(@size) or "small" in @size do %>
   defp size_class("small"), do: "size-9 text-sm"
+  <% end %>
+  <%= if is_nil(@size) or "medium" in @size do %>
   defp size_class("medium"), do: "size-10 text-base"
+  <% end %>
+  <%= if is_nil(@size) or "large" in @size do %>
   defp size_class("large"), do: "size-12 text-lg"
+  <% end %>
+  <%= if is_nil(@size) or "extra_large" in @size do %>
   defp size_class("extra_large"), do: "size-14 text-xl"
+  <% end %>
   defp size_class(params) when is_binary(params), do: params
   defp size_class(_), do: size_class("small")
-
+  <%= if is_nil(@size) or "extra_small" in @size do %>
   defp size_class("extra_small", :icon), do: "size-4"
+  <% end %>
+  <%= if is_nil(@size) or "small" in @size do %>
   defp size_class("small", :icon), do: "size-5"
+  <% end %>
+  <%= if is_nil(@size) or "medium" in @size do %>
   defp size_class("medium", :icon), do: "size-6"
+  <% end %>
+  <%= if is_nil(@size) or "large" in @size do %>
   defp size_class("large", :icon), do: "size-7"
+  <% end %>
+  <%= if is_nil(@size) or "extra_large" in @size do %>
   defp size_class("extra_large", :icon), do: "size-8"
+  <% end %>
   defp size_class(params, :icon) when is_binary(params), do: params
   defp size_class(_, :icon), do: size_class("small", :icon)
-
+  <%= if is_nil(@size) or "extra_small" in @size do %>
   defp size_class("extra_small", :image) do
     [
       "[&>img]:size-8 [&_.indicator-top-left]:!top-0 [&_.indicator-top-left]:!left-0",
@@ -399,7 +452,8 @@ defmodule <%= @module %> do
       "[&_.indicator-bottom-left]:!translate-y-0 [&_.indicator-bottom-left]:!translate-x-0"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@size) or "small" in @size do %>
   defp size_class("small", :image) do
     [
       "[&>img]:size-9 [&_.indicator-top-left]:!top-0 [&_.indicator-top-left]:!left-0",
@@ -412,7 +466,8 @@ defmodule <%= @module %> do
       "[&_.indicator-bottom-left]:!translate-y-0 [&_.indicator-bottom-left]:!translate-x-0"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@size) or "medium" in @size do %>
   defp size_class("medium", :image) do
     [
       "[&>img]:size-10 [&_.indicator-top-left]:!top-0 [&_.indicator-top-left]:!left-0",
@@ -425,7 +480,8 @@ defmodule <%= @module %> do
       "[&_.indicator-bottom-left]:!translate-y-0 [&_.indicator-bottom-left]:!translate-x-0"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@size) or "large" in @size do %>
   defp size_class("large", :image) do
     [
       "[&>img]:size-11 [&_.indicator-top-left]:!top-0.5 [&_.indicator-top-left]:!left-0.5",
@@ -438,7 +494,8 @@ defmodule <%= @module %> do
       "[&_.indicator-bottom-left]:!translate-y-0 [&_.indicator-bottom-left]:!translate-x-0"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@size) or "extra_large" in @size do %>
   defp size_class("extra_large", :image) do
     [
       "[&>img]:size-12 [&_.indicator-top-left]:!top-0.5 [&_.indicator-top-left]:!left-0.5",
@@ -451,10 +508,10 @@ defmodule <%= @module %> do
       "[&_.indicator-bottom-left]:!translate-y-0 [&_.indicator-bottom-left]:!translate-x-0"
     ]
   end
-
+  <% end %>
   defp size_class(params, :image) when is_binary(params), do: params
   defp size_class(_, :image), do: size_class("small", :image)
-
+  <%= if is_nil(@size) or "extra_small" in @size do %>
   defp size_class("extra_small", :text) do
     [
       "size-8 text-xs [&_.indicator-top-left]:!top-0 [&_.indicator-top-left]:!left-0",
@@ -467,7 +524,8 @@ defmodule <%= @module %> do
       "[&_.indicator-bottom-left]:!translate-y-0 [&_.indicator-bottom-left]:!translate-x-0"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@size) or "small" in @size do %>
   defp size_class("small", :text) do
     [
       "size-9 text-sm [&_.indicator-top-left]:!top-0 [&_.indicator-top-left]:!left-0",
@@ -480,7 +538,8 @@ defmodule <%= @module %> do
       "[&_.indicator-bottom-left]:!translate-y-0 [&_.indicator-bottom-left]:!translate-x-0"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@size) or "medium" in @size do %>
   defp size_class("medium", :text) do
     [
       "size-10 text-base [&_.indicator-top-left]:!top-0 [&_.indicator-top-left]:!left-0",
@@ -493,7 +552,8 @@ defmodule <%= @module %> do
       "[&_.indicator-bottom-left]:!translate-y-0 [&_.indicator-bottom-left]:!translate-x-0"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@size) or "large" in @size do %>
   defp size_class("large", :text) do
     [
       "size-11 text-lg [&_.indicator-top-left]:!top-0.5 [&_.indicator-top-left]:!left-0.5",
@@ -506,7 +566,8 @@ defmodule <%= @module %> do
       "[&_.indicator-bottom-left]:!translate-y-0 [&_.indicator-bottom-left]:!translate-x-0"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@size) or "extra_large" in @size do %>
   defp size_class("extra_large", :text) do
     [
       "size-12 text-xl [&_.indicator-top-left]:!top-0.5 [&_.indicator-top-left]:!left-0.5",
@@ -519,7 +580,7 @@ defmodule <%= @module %> do
       "[&_.indicator-bottom-left]:!translate-y-0 [&_.indicator-bottom-left]:!translate-x-0"
     ]
   end
-
+  <% end %>
   defp size_class(params, :text) when is_binary(params), do: params
   defp size_class(_, :text), do: size_class("small", :text)
 
