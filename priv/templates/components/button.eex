@@ -66,7 +66,7 @@ defmodule <%= @module %> do
     "bottom_center_indicator",
     "bottom_right_indicator"
   ]
-
+  <%= if is_nil(@type) or "button_group" in @type do %>
   @doc """
   The `button_group` component is used to group multiple buttons together with customizable
   attributes like `variant`, `color`, and `variation`.
@@ -151,7 +151,8 @@ defmodule <%= @module %> do
     </div>
     """
   end
-
+  <% end %>
+  <%= if is_nil(@type) or "button" in @type do %>
   @doc """
   The `button` component is used to create customizable buttons with various styles, icons, and indicators.
 
@@ -245,7 +246,8 @@ defmodule <%= @module %> do
     </button>
     """
   end
-
+  <% end %>
+  <%= if is_nil(@type) or "input_button" in @type do %>
   @doc """
   The `input_button` component is used to create input elements with button-like styles and various
   customization options such as `color`, `size`, and `border`.
@@ -320,7 +322,8 @@ defmodule <%= @module %> do
     />
     """
   end
-
+  <% end %>
+  <%= if is_nil(@type) or "button_link" in @type do %>
   @doc """
   The `button_link` component is used to create stylized link elements that resemble buttons.
 
@@ -465,7 +468,7 @@ defmodule <%= @module %> do
     </.link>
     """
   end
-
+  <% end %>
   @doc type: :component
   attr :position, :string, default: "none", doc: "Determines the element position"
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
