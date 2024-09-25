@@ -1,4 +1,4 @@
-defmodule MishkaChelekom.Alert do
+defmodule <%= @module %> do
   @moduledoc """
   A collection of alert components and helper functions for managing and displaying alerts
   in a **Phoenix LiveView** application.
@@ -26,7 +26,7 @@ defmodule MishkaChelekom.Alert do
   flexibility in rendering custom content within alerts.
   """
   use Phoenix.Component
-  import MishkaChelekomWeb.Gettext
+  import <%= @web_module %>.Gettext
   alias Phoenix.LiveView.JS
 
   @sizes ["extra_small", "small", "medium", "large", "extra_large"]
@@ -59,6 +59,7 @@ defmodule MishkaChelekom.Alert do
     :error
   ]
 
+  <%= if is_nil(@type) or "flash" in @type do %>
   @doc type: :component
   @doc """
   The `flash` component is used to display flash messages with various styling options.
@@ -159,7 +160,8 @@ defmodule MishkaChelekom.Alert do
     </div>
     """
   end
-
+  <% end %>
+  <%= if is_nil(@type) or "flash_group" in @type do %>
   @doc """
   Shows the flash group with standard titles and content.
 
@@ -206,7 +208,8 @@ defmodule MishkaChelekom.Alert do
     </div>
     """
   end
-
+  <% end %>
+  <%= if is_nil(@type) or "alert" in @type do %>
   @doc """
   The `alert` component is used to display alert messages with various styling options.
   It supports attributes like `kind`, `variant`, and `position` to control its appearance and behavior.
@@ -306,13 +309,25 @@ defmodule MishkaChelekom.Alert do
     </div>
     """
   end
-
+  <% end %>
+  <%= if is_nil(@rounded) or "extra_small" in @rounded do %>
   defp rounded_size("extra_small"), do: "rounded-sm"
+  <% end %>
+  <%= if is_nil(@rounded) or "small" in @rounded do %>
   defp rounded_size("small"), do: "rounded"
+  <% end %>
+  <%= if is_nil(@rounded) or "medium" in @rounded do %>
   defp rounded_size("medium"), do: "rounded-md"
+  <% end %>
+  <%= if is_nil(@rounded) or "large" in @rounded do %>
   defp rounded_size("large"), do: "rounded-lg"
+  <% end %>
+  <%= if is_nil(@rounded) or "extra_large" in @rounded do %>
   defp rounded_size("extra_large"), do: "rounded-xl"
+  <% end %>
+  <%= if is_nil(@rounded) or "full" in @rounded do %>
   defp rounded_size("full"), do: "rounded-full"
+  <% end %>
   defp rounded_size("none"), do: "rounded-none"
 
   defp width_class("extra_small"), do: "w-60"
@@ -323,14 +338,25 @@ defmodule MishkaChelekom.Alert do
   defp width_class("full"), do: "w-full"
   defp width_class(params) when is_binary(params), do: params
   defp width_class(_), do: width_class("full")
-
+  <%= if is_nil(@size) or "extra_small" in @size do %>
   defp content_size("extra_small"), do: "text-xs [&_.aler-icon]:size-3.5"
+  <% end %>
+  <%= if is_nil(@size) or "small" in @size do %>
   defp content_size("small"), do: "text-sm [&_.aler-icon]:size-4"
+  <% end %>
+  <%= if is_nil(@size) or "medium" in @size do %>
   defp content_size("medium"), do: "text-base [&_.aler-icon]:size-5"
+  <% end %>
+  <%= if is_nil(@size) or "large" in @size do %>
   defp content_size("large"), do: "text-lg [&_.aler-icon]:size-6"
+  <% end %>
+  <%= if is_nil(@size) or "extra_large" in @size do %>
   defp content_size("extra_large"), do: "text-xl [&_.aler-icon]:size-7"
+  <% end %>
   defp content_size(params) when is_binary(params), do: params
+  <%= if is_nil(@size) or "medium" in @size do %>
   defp content_size(_), do: content_size("medium")
+  <% end %>
 
   defp position_class("top_left"), do: "fixed top-2 left-0 ml-2"
   defp position_class("top_right"), do: "fixed top-2 right-0 mr-2"
@@ -338,7 +364,7 @@ defmodule MishkaChelekom.Alert do
   defp position_class("bottom_right"), do: "fixed bottom-2 right-0 mr-2"
   defp position_class(params) when is_binary(params), do: params
   defp position_class(nil), do: nil
-
+  <%= if is_nil(@variant) or "default" in @variant do %>
   defp color_variant("default", :white) do
     "bg-white text-[#3E3E3E] border border-[#DADADA] hover:[&>button]:text-[#787878]"
   end
@@ -382,7 +408,8 @@ defmodule MishkaChelekom.Alert do
   defp color_variant("default", :dark) do
     "bg-[#1E1E1E] text-white border border-[#050404] hover:[&>button]:text-[#787878]"
   end
-
+  <% end %>
+  <%= if is_nil(@variant) or "outline" in @variant do %>
   defp color_variant("outline", :white) do
     "bg-white text-white border border-white hover:[&>button]:text-[#787878]"
   end
@@ -426,7 +453,8 @@ defmodule MishkaChelekom.Alert do
   defp color_variant("outline", :dark) do
     "bg-white text-[#1E1E1E] border border-[#1E1E1E] hover:[&>button]:text-[#787878]"
   end
-
+  <% end %>
+  <%= if is_nil(@variant) or "unbordered" in @variant do %>
   defp color_variant("unbordered", :white) do
     "bg-white text-[#3E3E3E] border border-transparent hover:[&>button]:text-[#787878]"
   end
@@ -470,7 +498,8 @@ defmodule MishkaChelekom.Alert do
   defp color_variant("unbordered", :dark) do
     "bg-[#1E1E1E] text-white border border-transparent hover:[&>button]:text-[#787878]"
   end
-
+  <% end %>
+  <%= if is_nil(@variant) or "shadow" in @variant do %>
   defp color_variant("shadow", :white) do
     "bg-white text-[#3E3E3E] border border-[#DADADA] shadow-md hover:[&>button]:text-[#787878]"
   end
@@ -514,7 +543,7 @@ defmodule MishkaChelekom.Alert do
   defp color_variant("shadow", :dark) do
     "bg-[#1E1E1E] text-white border border-[#1E1E1E] shadow-md hover:[&>button]:text-[#787878]"
   end
-
+  <% end %>
   ## JS Commands
 
   @doc """
