@@ -141,7 +141,7 @@ defmodule <%= @module %> do
           [
             variation(@variation),
             rounded_size(@rounded),
-            border(@color),
+            border_class(@color),
             @class
           ]
       }
@@ -230,7 +230,7 @@ defmodule <%= @module %> do
             color_variant(@variant, @color),
             content_position(@content_position),
             rounded_size(@rounded),
-            border(@border),
+            border_class(@border),
             @font_weight,
             @display,
             @class
@@ -312,7 +312,7 @@ defmodule <%= @module %> do
             color_variant(@variant, @color),
             content_position(@content_position),
             rounded_size(@rounded),
-            border(@border),
+            border_class(@border),
             @font_weight,
             @display,
             @class
@@ -583,7 +583,7 @@ defmodule <%= @module %> do
     ~H"""
     """
   end
-
+  <%= if is_nil(@variant) or "default" in @variant do %>
   defp color_variant("default", "white") do
     "bg-white text-[#3E3E3E] border-[#DADADA] [&>.indicator]:bg-[#3E3E3E] hover:bg-[#E8E8E8] hover:border-[#DADADA]"
   end
@@ -627,7 +627,8 @@ defmodule <%= @module %> do
   defp color_variant("default", "dark") do
     "bg-[#1E1E1E] text-white border-[#050405] [&>.indicator]:bg-white hover:bg-[#111111] hover:border-[#050405]"
   end
-
+  <% end %>
+  <%= if is_nil(@variant) or "outline" in @variant do %>
   defp color_variant("outline", "white") do
     "bg-transparent text-white border-white [&>.indicator]:bg-white hover:text-[#E8E8E8] hover:border-[#E8E8E8]"
   end
@@ -671,7 +672,8 @@ defmodule <%= @module %> do
   defp color_variant("outline", "dark") do
     "bg-transparent text-[#1E1E1E] border-[#1E1E1E] [&>.indicator]:bg-[#1E1E1E] hover:text-[#787878] hover:border-[#787878]"
   end
-
+  <% end %>
+  <%= if is_nil(@variant) or "unbordered" in @variant do %>
   defp color_variant("unbordered", "white") do
     "bg-white text-[#3E3E3E] border-transparent [&>.indicator]:bg-[#3E3E3E] hover:bg-[#E8E8E8]"
   end
@@ -715,7 +717,8 @@ defmodule <%= @module %> do
   defp color_variant("unbordered", "dark") do
     "bg-[#1E1E1E] text-white border-transparent [&>.indicator]:bg-white hover:bg-[#111111]"
   end
-
+  <% end %>
+  <%= if is_nil(@variant) or "transparent" in @variant do %>
   defp color_variant("transparent", "white") do
     "bg-transparent text-white border-transparent [&>.indicator]:bg-white [&>.indicator]:hover:bg-[#E8E8E8] hover:text-[#E8E8E8]"
   end
@@ -759,7 +762,8 @@ defmodule <%= @module %> do
   defp color_variant("transparent", "dark") do
     "bg-transparent text-[#1E1E1E] border-transparent [&>.indicator]:bg-[#1E1E1E] [&>.indicator]:hover:bg-[#787878] hover:text-[#787878]"
   end
-
+  <% end %>
+  <%= if is_nil(@variant) or "subtle" in @variant do %>
   defp color_variant("subtle", "white") do
     "bg-transparent text-white border-transparent [&>.indicator]:bg-white [&>.indicator]:hover:bg-[#3E3E3E] hover:bg-white hover:text-[#3E3E3E]"
   end
@@ -803,7 +807,8 @@ defmodule <%= @module %> do
   defp color_variant("subtle", "dark") do
     "bg-transparent text-[#1E1E1E] border-transparent [&>.indicator]:bg-[#1E1E1E] [&>.indicator]:hover:bg-white hover:bg-[#111111] hover:text-white"
   end
-
+  <% end %>
+  <%= if is_nil(@variant) or "shadow" in @variant do %>
   defp color_variant("shadow", "white") do
     "bg-white text-[#3E3E3E] border-[#DADADA] shadow [&>.indicator]:bg-[#3E3E3E] hover:bg-[#E8E8E8] hover:border-[#d9d9d9]"
   end
@@ -847,7 +852,8 @@ defmodule <%= @module %> do
   defp color_variant("shadow", "dark") do
     "bg-[#1E1E1E] text-white border-[#1E1E1E] shadow [&>.indicator]:bg-white hover:bg-[#111111] hover:border-[#050404]"
   end
-
+  <% end %>
+  <%= if is_nil(@variant) or "inverted" in @variant do %>
   defp color_variant("inverted", "white") do
     "bg-transparent text-white border-white [&>.indicator]:bg-white [&>.indicator]:hover:bg-[#3E3E3E] hover:bg-white hover:text-[#3E3E3E] hover:border-[#DADADA]"
   end
@@ -891,7 +897,8 @@ defmodule <%= @module %> do
   defp color_variant("inverted", "dark") do
     "bg-transparent text-[#1E1E1E] border-[#1E1E1E] [&>.indicator]:bg-[#1E1E1E] [&>.indicator]:hover:bg-white hover:bg-[#111111] hover:text-white hover:border-[#111111]"
   end
-
+  <% end %>
+  <%= if is_nil(@variant) or "default_gradient" in @variant do %>
   defp color_variant("default_gradient", "primary") do
     "text-white bg-gradient-to-br from-purple-600 to-blue-500 [&>.indicator]:bg-white hover:bg-gradient-to-bl"
   end
@@ -915,7 +922,8 @@ defmodule <%= @module %> do
   defp color_variant("default_gradient", "info") do
     "text-white bg-gradient-to-r from-cyan-500 to-blue-500 [&>.indicator]:bg-white hover:bg-gradient-to-bl"
   end
-
+  <% end %>
+  <%= if is_nil(@variant) or "outline_gradient" in @variant do %>
   defp color_variant("outline_gradient", "primary") do
     "relative overflow-hidden bg-gradient-to-br from-purple-600 to-blue-500 hover:bg-gradient-to-bl"
   end
@@ -939,7 +947,8 @@ defmodule <%= @module %> do
   defp color_variant("outline_gradient", "info") do
     "relative overflow-hidden bg-gradient-to-br from-cyan-500 to-blue-500 hover:bg-gradient-to-bl"
   end
-
+  <% end %>
+  <%= if is_nil(@variant) or "inverted_gradient" in @variant do %>
   defp color_variant("inverted_gradient", "primary") do
     "relative overflow-hidden bg-gradient-to-br from-purple-600 to-blue-500 hover:bg-gradient-to-bl"
   end
@@ -963,60 +972,62 @@ defmodule <%= @module %> do
   defp color_variant("inverted_gradient", "info") do
     "relative overflow-hidden bg-gradient-to-r from-cyan-500 to-blue-500 hover:bg-gradient-to-bl"
   end
-
+  <% end %>
   defp color_variant(params, _) when is_binary(params), do: params
+  <%= if is_nil(@variant) or "default" in @variant do %>
   defp color_variant(_, _), do: color_variant("default", "white")
+  <% end %>
 
-  defp border("white") do
+  defp border_class("white") do
     "border-[#DADADA] hover:border-[#d9d9d9]"
   end
 
-  defp border("transparent") do
+  defp border_class("transparent") do
     "border-transparent"
   end
 
-  defp border("primary") do
+  defp border_class("primary") do
     "border-[#4363EC] hover:border-[#072ed3]"
   end
 
-  defp border("secondary") do
+  defp border_class("secondary") do
     "border-[#6B6E7C] hover:border-[#60636f]"
   end
 
-  defp border("success") do
+  defp border_class("success") do
     "border-[#227A52] hover:border-[#d4fde4]"
   end
 
-  defp border("warning") do
+  defp border_class("warning") do
     "border-[#FF8B08] hover:border-[#fff1cd]"
   end
 
-  defp border("danger") do
+  defp border_class("danger") do
     "border-[#E73B3B] hover:border-[#ffcdcd]"
   end
 
-  defp border("info") do
+  defp border_class("info") do
     "border-[#004FC4] hover:border-[#cce1ff]"
   end
 
-  defp border("misc") do
+  defp border_class("misc") do
     "border-[#52059C] hover:border-[#ffe0ff]"
   end
 
-  defp border("dawn") do
+  defp border_class("dawn") do
     "border-[#4D4137] hover:border-[#FFECDA]"
   end
 
-  defp border("light") do
+  defp border_class("light") do
     "border-[#707483] hover:border-[#d2d8e9]"
   end
 
-  defp border("dark") do
+  defp border_class("dark") do
     "border-[#050404] hover:border-[#111111]"
   end
 
-  defp border(params) when is_binary(params), do: params
-  defp border(_), do: border("white")
+  defp border_class(params) when is_binary(params), do: params
+  defp border_class(_), do: border_class("white")
 
   defp rounded_size("extra_small"), do: "rounded-sm"
   defp rounded_size("small"), do: "rounded"
