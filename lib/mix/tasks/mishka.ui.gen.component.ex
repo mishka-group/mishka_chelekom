@@ -226,7 +226,7 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Component do
         |> Enum.reduce(new_assign, fn key, acc ->
           if Keyword.has_key?(acc, key), do: acc, else: Keyword.put(acc, key, nil)
         end)
-        |> Keyword.merge([web_module: Igniter.Libs.Phoenix.web_module(igniter)])
+        |> Keyword.merge(web_module: Igniter.Libs.Phoenix.web_module(igniter))
 
       {igniter, template_path, template_config, proper_location, updated_new_assign, options}
     end
