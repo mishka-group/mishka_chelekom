@@ -227,24 +227,47 @@ defmodule <%= @module %> do
     </button>
     """
   end
-
+  <%= if is_nil(@size) or "extra_small" in @size do %>
   defp dismiss_size("extra_small"), do: "size-3.5"
+  <% end %>
+  <%= if is_nil(@size) or "small" in @size do %>
   defp dismiss_size("small"), do: "size-4"
+  <% end %>
+  <%= if is_nil(@size) or "medium" in @size do %>
   defp dismiss_size("medium"), do: "size-5"
+  <% end %>
+  <%= if is_nil(@size) or "large" in @size do %>
   defp dismiss_size("large"), do: "size-6"
+  <% end %>
+  <%= if is_nil(@size) or "extra_large" in @size do %>
   defp dismiss_size("extra_large"), do: "size-7"
+  <% end %>
   defp dismiss_size(params) when is_binary(params), do: params
+  <%= if is_nil(@size) or "small" in @size do %>
   defp dismiss_size(_), do: dismiss_size("small")
-
+  <% end %>
+  <%= if is_nil(@padding) or "extra_small" in @padding do %>
   defp padding_size("extra_small"), do: "p-2"
+  <% end %>
+  <%= if is_nil(@padding) or "small" in @padding do %>
   defp padding_size("small"), do: "p-3"
+  <% end %>
+  <%= if is_nil(@padding) or "medium" in @padding do %>
   defp padding_size("medium"), do: "p-4"
+  <% end %>
+  <%= if is_nil(@padding) or "large" in @padding do %>
   defp padding_size("large"), do: "p-5"
+  <% end %>
+  <%= if is_nil(@padding) or "extra_large" in @padding do %>
   defp padding_size("extra_large"), do: "p-6"
+  <% end %>
+  <%= if is_nil(@padding) or "none" in @padding do %>
   defp padding_size("none"), do: "p-0"
+  <% end %>
   defp padding_size(params) when is_binary(params), do: params
+  <%= if is_nil(@padding) or "extra_small" in @padding do %>
   defp padding_size(_), do: padding_size("extra_small")
-
+  <% end %>
   defp vertical_position("none", "top"), do: "top-0"
   defp vertical_position("extra_small", "top"), do: "top-1"
   defp vertical_position("small", "top"), do: "top-2"
