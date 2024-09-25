@@ -282,7 +282,7 @@ defmodule <%= @module %> do
     ~H"""
     """
   end
-
+  <%= if is_nil(@variant) or "default" in @variant do %>
   defp color_variant("default", "white") do
     "bg-white text-[#3E3E3E] border-[#DADADA] [&>.indicator]:bg-[#3E3E3E] hover:[&>button]:text-[#787878]"
   end
@@ -326,7 +326,8 @@ defmodule <%= @module %> do
   defp color_variant("default", "dark") do
     "bg-[#1E1E1E] text-white border-[#050404] [&>.indicator]:bg-white hover:[&>button]:text-[#787878]"
   end
-
+  <% end %>
+  <%= if is_nil(@variant) or "outline" in @variant do %>
   defp color_variant("outline", "white") do
     "bg-transparent text-white border-white [&>.indicator]:bg-white hover:[&>button]:text-[#787878]"
   end
@@ -370,7 +371,8 @@ defmodule <%= @module %> do
   defp color_variant("outline", "dark") do
     "bg-transparent text-[#1E1E1E] border-[#1E1E1E] [&>.indicator]:bg-[#1E1E1E] hover:[&>button]:text-[#787878]"
   end
-
+  <% end %>
+  <%= if is_nil(@variant) or "unbordered" in @variant do %>
   defp color_variant("unbordered", "white") do
     "bg-white text-[#3E3E3E] border-transparent [&>.indicator]:bg-[#3E3E3E] hover:[&>button]:text-[#787878]"
   end
@@ -414,7 +416,8 @@ defmodule <%= @module %> do
   defp color_variant("unbordered", "dark") do
     "bg-[#1E1E1E] text-white border-transparent [&>.indicator]:bg-white hover:[&>button]:text-[#787878]"
   end
-
+  <% end %>
+  <%= if is_nil(@variant) or "transparent" in @variant do %>
   defp color_variant("transparent", "white") do
     "bg-transparent text-white border-transparent [&>.indicator]:bg-white hover:[&>button]:text-[#787878]"
   end
@@ -458,7 +461,8 @@ defmodule <%= @module %> do
   defp color_variant("transparent", "dark") do
     "bg-transparent text-[#1E1E1E] border-transparent [&>.indicator]:bg-[#1E1E1E] hover:[&>button]:text-[#787878]"
   end
-
+  <% end %>
+  <%= if is_nil(@variant) or "shadow" in @variant do %>
   defp color_variant("shadow", "white") do
     "bg-white text-[#3E3E3E] border-[#DADADA] shadow [&>.indicator]:bg-[#3E3E3E] hover:[&>button]:text-[#787878]"
   end
@@ -502,8 +506,10 @@ defmodule <%= @module %> do
   defp color_variant("shadow", "dark") do
     "bg-[#1E1E1E] text-white border-[#1E1E1E] shadow [&>.indicator]:bg-white hover:[&>button]:text-[#787878]"
   end
-
+  <% end %>
+  <%= if is_nil(@variant) or "default" in @variant do %>
   defp color_variant(_, _), do: color_variant("default", "white")
+  <% end %>
 
   defp rounded_size("extra_small"), do: "rounded-sm"
   defp rounded_size("small"), do: "rounded"
