@@ -413,229 +413,289 @@ defmodule <%= @module %> do
   defp border_class(params, _) when is_binary(params), do: params
   defp border_class(_, _), do: border_class("extra_small", "top")
   <%= if is_nil(@variant) or "default" in @variant do %>
+  <%= if is_nil(@color) or "white" in @color do %>
   defp color_variant("default", "white") do
     "bg-white text-[#3E3E3E] border-[#DADADA]"
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "primary" in @color do %>
   defp color_variant("default", "primary") do
     "bg-[#4363EC] text-white border-[#2441de]"
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "secondary" in @color do %>
   defp color_variant("default", "secondary") do
     "bg-[#6B6E7C] text-white border-[#877C7C]"
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "success" in @color do %>
   defp color_variant("default", "success") do
     "bg-[#ECFEF3] text-[#047857] border-[#6EE7B7]"
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "warning" in @color do %>
   defp color_variant("default", "warning") do
     "bg-[#FFF8E6] text-[#FF8B08] border-[#FF8B08]"
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "danger" in @color do %>
   defp color_variant("default", "danger") do
     "bg-[#FFE6E6] text-[#E73B3B] border-[#E73B3B]"
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "info" in @color do %>
   defp color_variant("default", "info") do
     "bg-[#E5F0FF] text-[#004FC4] border-[#004FC4]"
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "misc" in @color do %>
   defp color_variant("default", "misc") do
     "bg-[#FFE6FF] text-[#52059C] border-[#52059C]"
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "dawn" in @color do %>
   defp color_variant("default", "dawn") do
     "bg-[#FFECDA] text-[#4D4137] border-[#4D4137]"
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "light" in @color do %>
   defp color_variant("default", "light") do
     "bg-[#E3E7F1] text-[#707483] border-[#707483]"
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "dark" in @color do %>
   defp color_variant("default", "dark") do
     "bg-[#1E1E1E] text-white border-[#050404]"
   end
   <% end %>
+  <% end %>
   <%= if is_nil(@variant) or "outline" in @variant do %>
+  <%= if is_nil(@color) or "white" in @color do %>
   defp color_variant("outline", "white") do
     "bg-transparent text-white border-white"
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "primary" in @color do %>
   defp color_variant("outline", "primary") do
     "bg-transparent text-[#4363EC] border-[#4363EC] "
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "secondary" in @color do %>
   defp color_variant("outline", "secondary") do
     "bg-transparent text-[#6B6E7C] border-[#6B6E7C]"
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "success" in @color do %>
   defp color_variant("outline", "success") do
     "bg-transparent text-[#227A52] border-[#6EE7B7]"
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "warning" in @color do %>
   defp color_variant("outline", "warning") do
     "bg-transparent text-[#FF8B08] border-[#FF8B08]"
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "danger" in @color do %>
   defp color_variant("outline", "danger") do
     "bg-transparent text-[#E73B3B] border-[#E73B3B]"
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "info" in @color do %>
   defp color_variant("outline", "info") do
     "bg-transparent text-[#004FC4] border-[#004FC4]"
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "misc" in @color do %>
   defp color_variant("outline", "misc") do
     "bg-transparent text-[#52059C] border-[#52059C]"
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "dawn" in @color do %>
   defp color_variant("outline", "dawn") do
     "bg-transparent text-[#4D4137] border-[#4D4137]"
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "light" in @color do %>
   defp color_variant("outline", "light") do
     "bg-transparent text-[#707483] border-[#707483]"
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "dark" in @color do %>
   defp color_variant("outline", "dark") do
     "bg-transparent text-[#1E1E1E] border-[#1E1E1E]"
   end
   <% end %>
+  <% end %>
   <%= if is_nil(@variant) or "unbordered" in @variant do %>
+  <%= if is_nil(@color) or "white" in @color do %>
   defp color_variant("unbordered", "white") do
     "bg-white text-[#3E3E3E] border-transparent"
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "primary" in @color do %>
   defp color_variant("unbordered", "primary") do
     "bg-[#4363EC] text-white border-transparent"
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "secondary" in @color do %>
   defp color_variant("unbordered", "secondary") do
     "bg-[#6B6E7C] text-white border-transparent"
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "success" in @color do %>
   defp color_variant("unbordered", "success") do
     "bg-[#ECFEF3] text-[#047857] border-transparent"
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "warning" in @color do %>
   defp color_variant("unbordered", "warning") do
     "bg-[#FFF8E6] text-[#FF8B08] border-transparent"
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "danger" in @color do %>
   defp color_variant("unbordered", "danger") do
     "bg-[#FFE6E6] text-[#E73B3B] border-transparent"
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "info" in @color do %>
   defp color_variant("unbordered", "info") do
     "bg-[#E5F0FF] text-[#004FC4] border-transparent"
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "misc" in @color do %>
   defp color_variant("unbordered", "misc") do
     "bg-[#FFE6FF] text-[#52059C] border-transparent"
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "dawn" in @color do %>
   defp color_variant("unbordered", "dawn") do
     "bg-[#FFECDA] text-[#4D4137] border-transparent"
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "light" in @color do %>
   defp color_variant("unbordered", "light") do
     "bg-[#E3E7F1] text-[#707483] border-transparent"
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "dark" in @color do %>
   defp color_variant("unbordered", "dark") do
     "bg-[#1E1E1E] text-white border-transparent"
   end
   <% end %>
+  <% end %>
   <%= if is_nil(@variant) or "shadow" in @variant do %>
+  <%= if is_nil(@color) or "white" in @color do %>
   defp color_variant("shadow", "white") do
     "bg-white text-[#3E3E3E] border-[#DADADA] shadow-md"
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "primary" in @color do %>
   defp color_variant("shadow", "primary") do
     "bg-[#4363EC] text-white border-[#4363EC] shadow-md"
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "secondary" in @color do %>
   defp color_variant("shadow", "secondary") do
     "bg-[#6B6E7C] text-white border-[#6B6E7C] shadow-md"
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "success" in @color do %>
   defp color_variant("shadow", "success") do
     "bg-[#AFEAD0] text-[#227A52] border-[#AFEAD0] shadow-md"
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "warning" in @color do %>
   defp color_variant("shadow", "warning") do
     "bg-[#FFF8E6] text-[#FF8B08] border-[#FFF8E6] shadow-md"
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "danger" in @color do %>
   defp color_variant("shadow", "danger") do
     "bg-[#FFE6E6] text-[#E73B3B] border-[#FFE6E6] shadow-md"
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "info" in @color do %>
   defp color_variant("shadow", "info") do
     "bg-[#E5F0FF] text-[#004FC4] border-[#E5F0FF] shadow-md"
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "misc" in @color do %>
   defp color_variant("shadow", "misc") do
     "bg-[#FFE6FF] text-[#52059C] border-[#FFE6FF] shadow-md"
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "dawn" in @color do %>
   defp color_variant("shadow", "dawn") do
     "bg-[#FFECDA] text-[#4D4137] border-[#FFECDA] shadow-md"
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "light" in @color do %>
   defp color_variant("shadow", "light") do
     "bg-[#E3E7F1] text-[#707483] border-[#E3E7F1] shadow-md"
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "dark" in @color do %>
   defp color_variant("shadow", "dark") do
     "bg-[#1E1E1E] text-white border-[#1E1E1E] shadow-md"
   end
   <% end %>
+  <% end %>
   <%= if is_nil(@variant) or "transparent" in @variant do %>
+  <%= if is_nil(@color) or "white" in @color do %>
   defp color_variant("transparent", "white") do
     "bg-transparent text-white border-transparent"
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "primary" in @color do %>
   defp color_variant("transparent", "primary") do
     "bg-transparent text-[#4363EC] border-transparent"
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "secondary" in @color do %>
   defp color_variant("transparent", "secondary") do
     "bg-transparent text-[#6B6E7C] border-transparent"
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "success" in @color do %>
   defp color_variant("transparent", "success") do
     "bg-transparent text-[#227A52] border-transparent"
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "warning" in @color do %>
   defp color_variant("transparent", "warning") do
     "bg-transparent text-[#FF8B08] border-transparent"
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "danger" in @color do %>
   defp color_variant("transparent", "danger") do
     "bg-transparent text-[#E73B3B] border-transparent"
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "info" in @color do %>
   defp color_variant("transparent", "info") do
     "bg-transparent text-[#6663FD] border-transparent"
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "misc" in @color do %>
   defp color_variant("transparent", "misc") do
     "bg-transparent text-[#52059C] border-transparent"
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "dawn" in @color do %>
   defp color_variant("transparent", "dawn") do
     "bg-transparent text-[#4D4137] border-transparent"
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "light" in @color do %>
   defp color_variant("transparent", "light") do
     "bg-transparent text-[#707483] border-transparent"
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "dark" in @color do %>
   defp color_variant("transparent", "dark") do
     "bg-transparent text-[#1E1E1E] border-transparent"
   end
+  <% end %>
   <% end %>
   ## JS Commands
   @doc """
