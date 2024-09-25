@@ -35,7 +35,7 @@ defmodule <%= @module %> do
     "misc",
     "dawn"
   ]
-
+  <%= if is_nil(@type) or "avatar" in @type do %>
   @doc """
   The `avatar` component is used to display user avatars with various customization options,
   including size, shape, and styling.
@@ -202,7 +202,8 @@ defmodule <%= @module %> do
     </div>
     """
   end
-
+  <% end %>
+  <%= if is_nil(@type) or "avatar_group" in @type do %>
   @doc """
   The `avatar_group` component is used to display a group of avatars with customizable spacing and layout.
   It supports different types of avatars such as `default`, `placeholder`, and `placeholder_icon`,
@@ -254,7 +255,7 @@ defmodule <%= @module %> do
     </div>
     """
   end
-
+  <% end %>
   defp image_color("transparent") do
     "border-0"
   end
