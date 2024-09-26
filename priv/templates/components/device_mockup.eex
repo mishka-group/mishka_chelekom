@@ -275,52 +275,64 @@ defmodule <%= @module %> do
     </div>
     """
   end
-
+  <%= if is_nil(@color) or "white" in @color do %>
   defp color_class("white") do
     "[&_.mock-base]:bg-white [&_.mock-darker-base]:bg-[#f5f5f5] [&_.mock-base]:border-[#f5f5f5]"
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "silver" in @color do %>
   defp color_class("silver") do
     "[&_.mock-base]:bg-[#BFBFC1] [&_.mock-darker-base]:bg-[#959595] [&_.mock-base]:border-[#959595]"
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "primary" in @color do %>
   defp color_class("primary") do
     "[&_.mock-base]:bg-[#576cde] [&_.mock-darker-base]:bg-[#2441de] [&_.mock-base]:border-[#2441de]"
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "secondary" in @color do %>
   defp color_class("secondary") do
     "[&_.mock-base]:bg-[#878CA9] [&_.mock-darker-base]:bg-[#3D404C] [&_.mock-base]:border-[#3D404C]"
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "success" in @color do %>
   defp color_class("success") do
     "[&_.mock-base]:bg-[#bce8cd] [&_.mock-darker-base]:bg-[#6EE7B7] [&_.mock-base]:border-[#6EE7B7]"
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "warning" in @color do %>
   defp color_class("warning") do
     "[&_.mock-base]:bg-[#e3be94] [&_.mock-darker-base]:bg-[#FF8B08] [&_.mock-base]:border-[#FF8B08]"
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "danger" in @color do %>
   defp color_class("danger") do
     "[&_.mock-base]:bg-[#e68c8c] [&_.mock-darker-base]:bg-[#d44e4e] [&_.mock-base]:border-[#d44e4e]"
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "info" in @color do %>
   defp color_class("info") do
     "[&_.mock-base]:bg-[#799dd4] [&_.mock-darker-base]:bg-[#004FC4] [&_.mock-base]:border-[#004FC4]"
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "misc" in @color do %>
   defp color_class("misc") do
     "[&_.mock-base]:bg-[#a574d4] [&_.mock-darker-base]:bg-[#52059C] [&_.mock-base]:border-[#52059C]"
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "dawn" in @color do %>
   defp color_class("dawn") do
     "[&_.mock-base]:bg-[#bda28c] [&_.mock-darker-base]:bg-[#4D4137] [&_.mock-base]:border-[#4D4137]"
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "light" in @color do %>
   defp color_class("light") do
     "[&_.mock-base]:bg-[#a8abba] [&_.mock-darker-base]:bg-[#707483] [&_.mock-base]:border-[#707483]"
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "dark" in @color do %>
   defp color_class("dark") do
     "[&_.mock-base]:bg-[#454545] [&_.mock-darker-base]:bg-[#1E1E1E] [&_.mock-base]:border-[#1E1E1E]"
   end
+  <% end %>
 end
