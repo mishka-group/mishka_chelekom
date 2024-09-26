@@ -381,6 +381,7 @@ defmodule <%= @module %>  do
   defp space_class(_), do: space_class("medium")
   <% end %>
 
+  <%= if is_nil(@variant) or "outline" in @variant do %>
   defp color_variant("outline", "white", floating) do
     [
       "text-white [&_.email-field-wrapper:not(:has(.email-field-error))]:border-white",
@@ -488,7 +489,8 @@ defmodule <%= @module %>  do
       floating && "[&_.email-field-wrapper_.floating-label]:bg-white"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@variant) or "default" in @variant do %>
   defp color_variant("default", "white", floating) do
     [
       "[&_.email-field-wrapper]:bg-white text-[#3E3E3E] [&_.email-field-wrapper:not(:has(.email-field-error))]:border-[#DADADA]",
@@ -587,7 +589,8 @@ defmodule <%= @module %>  do
       floating && "[&_.email-field-wrapper_.floating-label]:bg-[#1E1E1E]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@variant) or "unbordered" in @variant do %>
   defp color_variant("unbordered", "white", floating) do
     [
       "[&_.email-field-wrapper]:bg-white [&_.email-field-wrapper]:border-transparent text-[#3E3E3E]",
@@ -675,7 +678,8 @@ defmodule <%= @module %>  do
       floating == "outer" && "[&_.email-field-wrapper_.floating-label]:bg-[#1E1E1E]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@variant) or "shadow" in @variant do %>
   defp color_variant("shadow", "white", floating) do
     [
       "[&_.email-field-wrapper]:bg-white text-[#3E3E3E] [&_.email-field-wrapper:not(:has(.email-field-error))]:border-[#DADADA]",
@@ -774,7 +778,8 @@ defmodule <%= @module %>  do
       floating == "outer" && "[&_.email-field-wrapper_.floating-label]:bg-[#1E1E1E]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@variant) or "transparent" in @variant do %>
   defp color_variant("transparent", "white", _) do
     [
       "[&_.email-field-wrapper]:bg-transparent text-[#DADADA] [&_.email-field-wrapper]:border-transparent",
@@ -862,6 +867,7 @@ defmodule <%= @module %>  do
       "focus-within:[&_.email-field-wrapper]:ring-transparent"
     ]
   end
+  <% end %>
 
   defp translate_error({msg, opts}) do
     # When using gettext, we typically pass the strings we want
