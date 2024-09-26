@@ -320,64 +320,105 @@ defmodule <%= @module %> do
       "peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto"
     ]
   end
-
+  <%= if is_nil(@size) or "extra_small" in @size do %>
   defp size_class("extra_small") do
     [
       "[&_.date-time-field-wrapper_input]:h-7 [&_.date-time-field-wrapper>.date-time-field-icon]:size-3.5"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@size) or "small" in @size do %>
   defp size_class("small") do
     [
       "[&_.date-time-field-wrapper_input]:h-8 [&_.date-time-field-wrapper>.date-time-field-icon]:size-4"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@size) or "medium" in @size do %>
   defp size_class("medium") do
     [
       "[&_.date-time-field-wrapper_input]:h-9 [&_.date-time-field-wrapper>.date-time-field-icon]:size-5"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@size) or "large" in @size do %>
   defp size_class("large") do
     [
       "[&_.date-time-field-wrapper_input]:h-10 [&_.date-time-field-wrapper>.date-time-field-icon]:size-6"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@size) or "extra_large" in @size do %>
   defp size_class("extra_large") do
     [
       "[&_.date-time-field-wrapper_input]:h-12 [&_.date-time-field-wrapper>.date-time-field-icon]:size-7"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@size) or "medium" in @size do %>
   defp size_class(_), do: size_class("medium")
-
+  <% end %>
+  <%= if is_nil(@rounded) or "extra_small" in @rounded do %>
   defp rounded_size("extra_small"), do: "[&_.date-time-field-wrapper]:rounded-sm"
+  <% end %>
+  <%= if is_nil(@rounded) or "small" in @rounded do %>
   defp rounded_size("small"), do: "[&_.date-time-field-wrapper]:rounded"
+  <% end %>
+  <%= if is_nil(@rounded) or "medium" in @rounded do %>
   defp rounded_size("medium"), do: "[&_.date-time-field-wrapper]:rounded-md"
+  <% end %>
+  <%= if is_nil(@rounded) or "large" in @rounded do %>
   defp rounded_size("large"), do: "[&_.date-time-field-wrapper]:rounded-lg"
+  <% end %>
+  <%= if is_nil(@rounded) or "extra_large" in @rounded do %>
   defp rounded_size("extra_large"), do: "[&_.date-time-field-wrapper]:rounded-xl"
+  <% end %>
+  <%= if is_nil(@rounded) or "full" in @rounded do %>
   defp rounded_size("full"), do: "[&_.date-time-field-wrapper]:rounded-full"
+  <% end %>
   defp rounded_size(_), do: "[&_.date-time-field-wrapper]:rounded-none"
 
   defp border_class("none"), do: "[&_.date-time-field-wrapper]:border-0"
+  <%= if is_nil(@size) or "extra_small" in @size do %>
   defp border_class("extra_small"), do: "[&_.date-time-field-wrapper]:border"
+  <% end %>
+  <%= if is_nil(@size) or "small" in @size do %>
   defp border_class("small"), do: "[&_.date-time-field-wrapper]:border-2"
+  <% end %>
+  <%= if is_nil(@size) or "medium" in @size do %>
   defp border_class("medium"), do: "[&_.date-time-field-wrapper]:border-[3px]"
+  <% end %>
+  <%= if is_nil(@size) or "large" in @size do %>
   defp border_class("large"), do: "[&_.date-time-field-wrapper]:border-4"
+  <% end %>
+  <%= if is_nil(@size) or "extra_large" in @size do %>
   defp border_class("extra_large"), do: "[&_.date-time-field-wrapper]:border-[5px]"
+  <% end %>
   defp border_class(params) when is_binary(params), do: params
+  <%= if is_nil(@size) or "extra_small" in @size do %>
   defp border_class(_), do: border_class("extra_small")
-
+  <% end %>
+  <%= if is_nil(@space) or "extra_small" in @space do %>
   defp space_class("extra_small"), do: "space-y-1"
+  <% end %>
+  <%= if is_nil(@space) or "small" in @space do %>
   defp space_class("small"), do: "space-y-1.5"
+  <% end %>
+  <%= if is_nil(@space) or "medium" in @space do %>
   defp space_class("medium"), do: "space-y-2"
+  <% end %>
+  <%= if is_nil(@space) or "large" in @space do %>
   defp space_class("large"), do: "space-y-2.5"
+  <% end %>
+  <%= if is_nil(@space) or "extra_large" in @space do %>
   defp space_class("extra_large"), do: "space-y-3"
+  <% end %>
   defp space_class(params) when is_binary(params), do: params
+  <%= if is_nil(@space) or "medium" in @space do %>
   defp space_class(_), do: space_class("medium")
-
+  <% end %>
+  <%= if is_nil(@variant) or "outline" in @variant do %>
+  <%= if is_nil(@color) or "white" in @color do %>
   defp color_variant("outline", "white", floating) do
     [
       "text-white [&_.date-time-field-wrapper:not(:has(.date-time-field-error))]:border-white",
@@ -386,7 +427,8 @@ defmodule <%= @module %> do
       floating == "outer" && "[&_.date-time-field-wrapper_.floating-label]:bg-white"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "silver" in @color do %>
   defp color_variant("outline", "silver", floating) do
     [
       "text-[#afafaf] [&_.date-time-field-wrapper:not(:has(.date-time-field-error))]:border-[#afafaf]",
@@ -395,7 +437,8 @@ defmodule <%= @module %> do
       floating == "outer" && "[&_.date-time-field-wrapper_.floating-label]:bg-white"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "primary" in @color do %>
   defp color_variant("outline", "primary", floating) do
     [
       "text-[#2441de] [&_.date-time-field-wrapper:not(:has(.date-time-field-error))]:border-[#2441de]",
@@ -404,7 +447,8 @@ defmodule <%= @module %> do
       floating == "outer" && "[&_.date-time-field-wrapper_.floating-label]:bg-white"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "secondary" in @color do %>
   defp color_variant("outline", "secondary", floating) do
     [
       "text-[#877C7C] [&_.date-time-field-wrapper:not(:has(.date-time-field-error))]:border-[#877C7C]",
@@ -413,7 +457,8 @@ defmodule <%= @module %> do
       floating == "outer" && "[&_.date-time-field-wrapper_.floating-label]:bg-white"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "success" in @color do %>
   defp color_variant("outline", "success", floating) do
     [
       "text-[#047857] [&_.date-time-field-wrapper:not(:has(.date-time-field-error))]:border-[#047857]",
@@ -422,7 +467,8 @@ defmodule <%= @module %> do
       floating == "outer" && "[&_.date-time-field-wrapper_.floating-label]:bg-white"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "warning" in @color do %>
   defp color_variant("outline", "warning", floating) do
     [
       "text-[#FF8B08] [&_.date-time-field-wrapper:not(:has(.date-time-field-error))]:border-[#FF8B08]",
@@ -431,7 +477,8 @@ defmodule <%= @module %> do
       floating == "outer" && "[&_.date-time-field-wrapper_.floating-label]:bg-white"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "danger" in @color do %>
   defp color_variant("outline", "danger", floating) do
     [
       "text-[#E73B3B] [&_.date-time-field-wrapper:not(:has(.date-time-field-error))]:border-[#E73B3B]",
@@ -440,7 +487,8 @@ defmodule <%= @module %> do
       floating == "outer" && "[&_.date-time-field-wrapper_.floating-label]:bg-white"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "info" in @color do %>
   defp color_variant("outline", "info", floating) do
     [
       "text-[#004FC4] [&_.date-time-field-wrapper:not(:has(.date-time-field-error))]:border-[#004FC4]",
@@ -449,7 +497,8 @@ defmodule <%= @module %> do
       floating == "outer" && "[&_.date-time-field-wrapper_.floating-label]:bg-white"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "misc" in @color do %>
   defp color_variant("outline", "misc", floating) do
     [
       "text-[#52059C] [&_.date-time-field-wrapper:not(:has(.date-time-field-error))]:border-[#52059C]",
@@ -458,7 +507,8 @@ defmodule <%= @module %> do
       floating == "outer" && "[&_.date-time-field-wrapper_.floating-label]:bg-white"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "dawn" in @color do %>
   defp color_variant("outline", "dawn", floating) do
     [
       "text-[#4D4137] [&_.date-time-field-wrapper:not(:has(.date-time-field-error))]:border-[#4D4137]",
@@ -467,7 +517,8 @@ defmodule <%= @module %> do
       floating == "outer" && "[&_.date-time-field-wrapper_.floating-label]:bg-white"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "light" in @color do %>
   defp color_variant("outline", "light", floating) do
     [
       "text-[#707483] [&_.date-time-field-wrapper:not(:has(.date-time-field-error))]:border-[#707483]",
@@ -476,7 +527,8 @@ defmodule <%= @module %> do
       floating == "outer" && "[&_.date-time-field-wrapper_.floating-label]:bg-white"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "dark" in @color do %>
   defp color_variant("outline", "dark", floating) do
     [
       "text-[#1E1E1E] [&_.date-time-field-wrapper]:text-text-[#1E1E1E] [&_.date-time-field-wrapper:not(:has(.date-time-field-error))]:border-[#050404]",
@@ -485,7 +537,10 @@ defmodule <%= @module %> do
       floating == "outer" && "[&_.date-time-field-wrapper_.floating-label]:bg-white"
     ]
   end
-
+  <% end %>
+  <% end %>
+  <%= if is_nil(@variant) or "default" in @variant do %>
+  <%= if is_nil(@color) or "white" in @color do %>
   defp color_variant("default", "white", floating) do
     [
       "[&_.date-time-field-wrapper]:bg-white text-[#3E3E3E] [&_.date-time-field-wrapper:not(:has(.date-time-field-error))]:border-[#DADADA]",
@@ -494,7 +549,8 @@ defmodule <%= @module %> do
       floating == "outer" && "[&_.date-time-field-wrapper_.floating-label]:bg-white"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "primary" in @color do %>
   defp color_variant("default", "primary", floating) do
     [
       "[&_.date-time-field-wrapper]:bg-[#4363EC] text-[#4363EC] [&_.date-time-field-wrapper:not(:has(.date-time-field-error))]:border-[#2441de]",
@@ -503,7 +559,8 @@ defmodule <%= @module %> do
       floating == "outer" && "[&_.date-time-field-wrapper_.floating-label]:bg-[#4363EC]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "secondary" in @color do %>
   defp color_variant("default", "secondary", floating) do
     [
       "[&_.date-time-field-wrapper]:bg-[#6B6E7C] text-[#6B6E7C] [&_.date-time-field-wrapper:not(:has(.date-time-field-error))]:border-[#877C7C]",
@@ -512,7 +569,8 @@ defmodule <%= @module %> do
       floating == "outer" && "[&_.date-time-field-wrapper_.floating-label]:bg-[#6B6E7C]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "success" in @color do %>
   defp color_variant("default", "success", floating) do
     [
       "[&_.date-time-field-wrapper]:bg-[#ECFEF3] text-[#047857] [&_.date-time-field-wrapper:not(:has(.date-time-field-error))]:border-[#6EE7B7]",
@@ -521,7 +579,8 @@ defmodule <%= @module %> do
       floating == "outer" && "[&_.date-time-field-wrapper_.floating-label]:bg-[#ECFEF3]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "warning" in @color do %>
   defp color_variant("default", "warning", floating) do
     [
       "[&_.date-time-field-wrapper]:bg-[#FFF8E6] text-[#FF8B08] [&_.date-time-field-wrapper:not(:has(.date-time-field-error))]:border-[#FF8B08]",
@@ -530,7 +589,8 @@ defmodule <%= @module %> do
       floating == "outer" && "[&_.date-time-field-wrapper_.floating-label]:bg-[#FFF8E6]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "danger" in @color do %>
   defp color_variant("default", "danger", floating) do
     [
       "[&_.date-time-field-wrapper]:bg-[#FFE6E6] text-[#E73B3B] [&_.date-time-field-wrapper:not(:has(.date-time-field-error))]:border-[#E73B3B]",
@@ -539,7 +599,8 @@ defmodule <%= @module %> do
       floating == "outer" && "[&_.date-time-field-wrapper_.floating-label]:bg-[#FFE6E6]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "info" in @color do %>
   defp color_variant("default", "info", floating) do
     [
       "[&_.date-time-field-wrapper]:bg-[#E5F0FF] text-[#004FC4] [&_.date-time-field-wrapper:not(:has(.date-time-field-error))]:border-[#004FC4]",
@@ -548,7 +609,8 @@ defmodule <%= @module %> do
       floating == "outer" && "[&_.date-time-field-wrapper_.floating-label]:bg-[#E5F0FF]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "misc" in @color do %>
   defp color_variant("default", "misc", floating) do
     [
       "[&_.date-time-field-wrapper]:bg-[#FFE6FF] text-[#52059C] [&_.date-time-field-wrapper:not(:has(.date-time-field-error))]:border-[#52059C]",
@@ -557,7 +619,8 @@ defmodule <%= @module %> do
       floating == "outer" && "[&_.date-time-field-wrapper_.floating-label]:bg-[#FFE6FF]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "dawn" in @color do %>
   defp color_variant("default", "dawn", floating) do
     [
       "[&_.date-time-field-wrapper]:bg-[#FFECDA] text-[#4D4137] [&_.date-time-field-wrapper:not(:has(.date-time-field-error))]:border-[#4D4137]",
@@ -566,7 +629,8 @@ defmodule <%= @module %> do
       floating == "outer" && "[&_.date-time-field-wrapper_.floating-label]:bg-[#FFECDA]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "light" in @color do %>
   defp color_variant("default", "light", floating) do
     [
       "[&_.date-time-field-wrapper]:bg-[#E3E7F1] text-[#707483] [&_.date-time-field-wrapper:not(:has(.date-time-field-error))]:border-[#707483]",
@@ -575,7 +639,8 @@ defmodule <%= @module %> do
       floating == "outer" && "[&_.date-time-field-wrapper_.floating-label]:bg-[#E3E7F1]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "dark" in @color do %>
   defp color_variant("default", "dark", floating) do
     [
       "[&_.date-time-field-wrapper]:bg-[#1E1E1E] text-[#1E1E1E] [&_.date-time-field-wrapper]:text-white [&_.date-time-field-wrapper:not(:has(.date-time-field-error))]:border-[#050404]",
@@ -584,7 +649,10 @@ defmodule <%= @module %> do
       floating == "outer" && "[&_.date-time-field-wrapper_.floating-label]:bg-[#1E1E1E]"
     ]
   end
-
+  <% end %>
+  <% end %>
+  <%= if is_nil(@variant) or "unbordered" in @variant do %>
+  <%= if is_nil(@color) or "white" in @color do %>
   defp color_variant("unbordered", "white", floating) do
     [
       "[&_.date-time-field-wrapper]:bg-white [&_.date-time-field-wrapper]:border-transparent text-[#3E3E3E]",
@@ -592,7 +660,8 @@ defmodule <%= @module %> do
       floating == "outer" && "[&_.date-time-field-wrapper_.floating-label]:bg-white"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "primary" in @color do %>
   defp color_variant("unbordered", "primary", floating) do
     [
       "[&_.date-time-field-wrapper]:bg-[#4363EC] text-[#4363EC] [&_.date-time-field-wrapper]:border-transparent text-white",
@@ -600,7 +669,8 @@ defmodule <%= @module %> do
       floating == "outer" && "[&_.date-time-field-wrapper_.floating-label]:bg-[#4363EC]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "secondary" in @color do %>
   defp color_variant("unbordered", "secondary", floating) do
     [
       "[&_.date-time-field-wrapper]:bg-[#6B6E7C] text-[#6B6E7C] [&_.date-time-field-wrapper]:border-transparent text-white",
@@ -608,7 +678,8 @@ defmodule <%= @module %> do
       floating == "outer" && "[&_.date-time-field-wrapper_.floating-label]:bg-[#6B6E7C]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "success" in @color do %>
   defp color_variant("unbordered", "success", floating) do
     [
       "[&_.date-time-field-wrapper]:bg-[#ECFEF3] [&_.date-time-field-wrapper]:border-transparent text-[#047857]",
@@ -616,7 +687,8 @@ defmodule <%= @module %> do
       floating == "outer" && "[&_.date-time-field-wrapper_.floating-label]:bg-[#ECFEF3]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "warning" in @color do %>
   defp color_variant("unbordered", "warning", floating) do
     [
       "[&_.date-time-field-wrapper]:bg-[#FFF8E6] [&_.date-time-field-wrapper]:border-transparent text-[#FF8B08]",
@@ -624,7 +696,8 @@ defmodule <%= @module %> do
       floating == "outer" && "[&_.date-time-field-wrapper_.floating-label]:bg-[#FFF8E6]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "danger" in @color do %>
   defp color_variant("unbordered", "danger", floating) do
     [
       "[&_.date-time-field-wrapper]:bg-[#FFE6E6] [&_.date-time-field-wrapper]:border-transparent text-[#E73B3B]",
@@ -632,7 +705,8 @@ defmodule <%= @module %> do
       floating == "outer" && "[&_.date-time-field-wrapper_.floating-label]:bg-[#FFE6E6]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "info" in @color do %>
   defp color_variant("unbordered", "info", floating) do
     [
       "[&_.date-time-field-wrapper]:bg-[#E5F0FF] [&_.date-time-field-wrapper]:border-transparent text-[#004FC4]",
@@ -640,7 +714,8 @@ defmodule <%= @module %> do
       floating == "outer" && "[&_.date-time-field-wrapper_.floating-label]:bg-[#E5F0FF]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "misc" in @color do %>
   defp color_variant("unbordered", "misc", floating) do
     [
       "[&_.date-time-field-wrapper]:bg-[#FFE6FF] [&_.date-time-field-wrapper]:border-transparent text-[#52059C]",
@@ -648,7 +723,8 @@ defmodule <%= @module %> do
       floating == "outer" && "[&_.date-time-field-wrapper_.floating-label]:bg-[#FFE6FF]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "dawn" in @color do %>
   defp color_variant("unbordered", "dawn", floating) do
     [
       "[&_.date-time-field-wrapper]:bg-[#FFECDA] [&_.date-time-field-wrapper]:border-transparent text-[#4D4137]",
@@ -656,7 +732,8 @@ defmodule <%= @module %> do
       floating == "outer" && "[&_.date-time-field-wrapper_.floating-label]:bg-[#FFECDA]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "light" in @color do %>
   defp color_variant("unbordered", "light", floating) do
     [
       "[&_.date-time-field-wrapper]:bg-[#E3E7F1] [&_.date-time-field-wrapper]:border-transparent text-[#707483]",
@@ -664,7 +741,8 @@ defmodule <%= @module %> do
       floating == "outer" && "[&_.date-time-field-wrapper_.floating-label]:bg-[#E3E7F1]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "dark" in @color do %>
   defp color_variant("unbordered", "dark", floating) do
     [
       "[&_.date-time-field-wrapper]:bg-[#1E1E1E] text-[#1E1E1E] [&_.date-time-field-wrapper]:border-transparent text-white",
@@ -672,7 +750,10 @@ defmodule <%= @module %> do
       floating == "outer" && "[&_.date-time-field-wrapper_.floating-label]:bg-[#1E1E1E]"
     ]
   end
-
+  <% end %>
+  <% end %>
+  <%= if is_nil(@variant) or "shadow" in @variant do %>
+  <%= if is_nil(@color) or "white" in @color do %>
   defp color_variant("shadow", "white", floating) do
     [
       "[&_.date-time-field-wrapper]:bg-white text-[#3E3E3E] [&_.date-time-field-wrapper:not(:has(.date-time-field-error))]:border-[#DADADA]",
@@ -681,7 +762,8 @@ defmodule <%= @module %> do
       floating == "outer" && "[&_.date-time-field-wrapper_.floating-label]:bg-[#3E3E3E]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "primary" in @color do %>
   defp color_variant("shadow", "primary", floating) do
     [
       "[&_.date-time-field-wrapper]:bg-[#4363EC] text-[#4363EC] [&_.date-time-field-wrapper:not(:has(.date-time-field-error))]:border-[#4363EC]",
@@ -690,7 +772,8 @@ defmodule <%= @module %> do
       floating == "outer" && "[&_.date-time-field-wrapper_.floating-label]:bg-[#3E3E3E]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "secondary" in @color do %>
   defp color_variant("shadow", "secondary", floating) do
     [
       "[&_.date-time-field-wrapper]:bg-[#6B6E7C] text-[#6B6E7C] [&_.date-time-field-wrapper:not(:has(.date-time-field-error))]:border-[#6B6E7C]",
@@ -699,7 +782,8 @@ defmodule <%= @module %> do
       floating == "outer" && "[&_.date-time-field-wrapper_.floating-label]:bg-[#6B6E7C]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "success" in @color do %>
   defp color_variant("shadow", "success", floating) do
     [
       "[&_.date-time-field-wrapper]:bg-[#ECFEF3] text-[#227A52] [&_.date-time-field-wrapper:not(:has(.date-time-field-error))]:border-[#047857]",
@@ -708,7 +792,8 @@ defmodule <%= @module %> do
       floating == "outer" && "[&_.date-time-field-wrapper_.floating-label]:bg-[#ECFEF3]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "warning" in @color do %>
   defp color_variant("shadow", "warning", floating) do
     [
       "[&_.date-time-field-wrapper]:bg-[#FFF8E6] text-[#FF8B08] [&_.date-time-field-wrapper:not(:has(.date-time-field-error))]:border-[#FFF8E6]",
@@ -717,7 +802,8 @@ defmodule <%= @module %> do
       floating == "outer" && "[&_.date-time-field-wrapper_.floating-label]:bg-[#FFF8E6]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "danger" in @color do %>
   defp color_variant("shadow", "danger", floating) do
     [
       "[&_.date-time-field-wrapper]:bg-[#FFE6E6] text-[#E73B3B] [&_.date-time-field-wrapper:not(:has(.date-time-field-error))]:border-[#FFE6E6]",
@@ -726,7 +812,8 @@ defmodule <%= @module %> do
       floating == "outer" && "[&_.date-time-field-wrapper_.floating-label]:bg-[#FFE6E6]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "info" in @color do %>
   defp color_variant("shadow", "info", floating) do
     [
       "[&_.date-time-field-wrapper]:bg-[#E5F0FF] text-[#004FC4] [&_.date-time-field-wrapper:not(:has(.date-time-field-error))]:border-[#E5F0FF]",
@@ -735,7 +822,8 @@ defmodule <%= @module %> do
       floating == "outer" && "[&_.date-time-field-wrapper_.floating-label]:bg-[#E5F0FF]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "misc" in @color do %>
   defp color_variant("shadow", "misc", floating) do
     [
       "[&_.date-time-field-wrapper]:bg-[#FFE6FF] text-[#52059C] [&_.date-time-field-wrapper:not(:has(.date-time-field-error))]:border-[#FFE6FF]",
@@ -744,7 +832,8 @@ defmodule <%= @module %> do
       floating == "outer" && "[&_.date-time-field-wrapper_.floating-label]:bg-[#FFE6FF]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "dawn" in @color do %>
   defp color_variant("shadow", "dawn", floating) do
     [
       "[&_.date-time-field-wrapper]:bg-[#FFECDA] text-[#4D4137] [&_.date-time-field-wrapper:not(:has(.date-time-field-error))]:border-[#FFECDA]",
@@ -753,7 +842,8 @@ defmodule <%= @module %> do
       floating == "outer" && "[&_.date-time-field-wrapper_.floating-label]:bg-[#FFECDA]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "light" in @color do %>
   defp color_variant("shadow", "light", floating) do
     [
       "[&_.date-time-field-wrapper]:bg-[#E3E7F1] text-[#707483] [&_.date-time-field-wrapper:not(:has(.date-time-field-error))]:border-[#E3E7F1]",
@@ -762,7 +852,8 @@ defmodule <%= @module %> do
       floating == "outer" && "[&_.date-time-field-wrapper_.floating-label]:bg-[#E3E7F1]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "dark" in @color do %>
   defp color_variant("shadow", "dark", floating) do
     [
       "[&_.date-time-field-wrapper]:bg-[#1E1E1E] text-[#1E1E1E] [&_.date-time-field-wrapper:not(:has(.date-time-field-error))]:border-[#1E1E1E]",
@@ -771,7 +862,10 @@ defmodule <%= @module %> do
       floating == "outer" && "[&_.date-time-field-wrapper_.floating-label]:bg-[#1E1E1E]"
     ]
   end
-
+  <% end %>
+  <% end %>
+  <%= if is_nil(@variant) or "transparent" in @variant do %>
+  <%= if is_nil(@color) or "white" in @color do %>
   defp color_variant("transparent", "white", _) do
     [
       "[&_.date-time-field-wrapper]:bg-transparent text-[#DADADA] [&_.date-time-field-wrapper]:border-transparent",
@@ -779,7 +873,8 @@ defmodule <%= @module %> do
       "focus-within:[&_.date-time-field-wrapper]:ring-transparent"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "primary" in @color do %>
   defp color_variant("transparent", "primary", _) do
     [
       "[&_.date-time-field-wrapper]:bg-transparent text-[#4363EC] [&_.date-time-field-wrapper]:border-transparent",
@@ -787,7 +882,8 @@ defmodule <%= @module %> do
       "focus-within:[&_.date-time-field-wrapper]:ring-transparent"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "secondary" in @color do %>
   defp color_variant("transparent", "secondary", _) do
     [
       "[&_.date-time-field-wrapper]:bg-transparent text-[#6B6E7C] [&_.date-time-field-wrapper]:border-transparent",
@@ -795,7 +891,8 @@ defmodule <%= @module %> do
       "focus-within:[&_.date-time-field-wrapper]:ring-transparent"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "success" in @color do %>
   defp color_variant("transparent", "success", _) do
     [
       "[&_.date-time-field-wrapper]:bg-transparent text-[#047857] [&_.date-time-field-wrapper]:border-transparent",
@@ -803,7 +900,8 @@ defmodule <%= @module %> do
       "focus-within:[&_.date-time-field-wrapper]:ring-transparent"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "warning" in @color do %>
   defp color_variant("transparent", "warning", _) do
     [
       "[&_.date-time-field-wrapper]:bg-transparent text-[#FF8B08] [&_.date-time-field-wrapper]:border-transparent",
@@ -811,7 +909,8 @@ defmodule <%= @module %> do
       "focus-within:[&_.date-time-field-wrapper]:ring-transparent"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "danger" in @color do %>
   defp color_variant("transparent", "danger", _) do
     [
       "[&_.date-time-field-wrapper]:bg-transparent text-[#E73B3B] [&_.date-time-field-wrapper]:border-transparent",
@@ -819,7 +918,8 @@ defmodule <%= @module %> do
       "focus-within:[&_.date-time-field-wrapper]:ring-transparent"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "info" in @color do %>
   defp color_variant("transparent", "info", _) do
     [
       "[&_.date-time-field-wrapper]:bg-transparent text-[#004FC4] [&_.date-time-field-wrapper]:border-transparent",
@@ -827,7 +927,8 @@ defmodule <%= @module %> do
       "focus-within:[&_.date-time-field-wrapper]:ring-transparent"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "misc" in @color do %>
   defp color_variant("transparent", "misc", _) do
     [
       "[&_.date-time-field-wrapper]:bg-transparent text-[#52059C] [&_.date-time-field-wrapper]:border-transparent",
@@ -835,7 +936,8 @@ defmodule <%= @module %> do
       "focus-within:[&_.date-time-field-wrapper]:ring-transparent"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "dawn" in @color do %>
   defp color_variant("transparent", "dawn", _) do
     [
       "[&_.date-time-field-wrapper]:bg-transparent text-[#4D4137] [&_.date-time-field-wrapper]:border-transparent",
@@ -843,7 +945,8 @@ defmodule <%= @module %> do
       "focus-within:[&_.date-time-field-wrapper]:ring-transparent"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "light" in @color do %>
   defp color_variant("transparent", "light", _) do
     [
       "[&_.date-time-field-wrapper]:bg-transparent text-[#707483] [&_.date-time-field-wrapper]:border-transparent",
@@ -851,7 +954,8 @@ defmodule <%= @module %> do
       "focus-within:[&_.date-time-field-wrapper]:ring-transparent"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "dark" in @color do %>
   defp color_variant("transparent", "dark", _) do
     [
       "[&_.date-time-field-wrapper]:bg-transparent text-[#1E1E1E] [&_.date-time-field-wrapper]:border-transparent",
@@ -859,6 +963,8 @@ defmodule <%= @module %> do
       "focus-within:[&_.date-time-field-wrapper]:ring-transparent"
     ]
   end
+  <% end %>
+  <% end %>
 
   defp translate_error({msg, opts}) do
     # When using gettext, we typically pass the strings we want
