@@ -160,124 +160,163 @@ defmodule <%= @module %> do
     </p>
     """
   end
-
+  <%= if is_nil(@size) or "extra_small" in @size do %>
   defp size_class("extra_small") do
     [
       "[&_.color-field-wrapper_.color-input]:w-7 [&_.color-field-wrapper_.color-input]:h-4"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@size) or "small" in @size do %>
   defp size_class("small") do
     [
       "[&_.color-field-wrapper_.color-input]:w-8 [&_.color-field-wrapper_.color-input]:h-5"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@size) or "medium" in @size do %>
   defp size_class("medium") do
     [
       "[&_.color-field-wrapper_.color-input]:w-9 [&_.color-field-wrapper_.color-input]:h-6"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@size) or "large" in @size do %>
   defp size_class("large") do
     [
       "[&_.color-field-wrapper_.color-input]:w-10 [&_.color-field-wrapper_.color-input]:h-7"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@size) or "extra_large" in @size do %>
   defp size_class("extra_large") do
     [
       "[&_.color-field-wrapper_.color-input]:w-11 [&_.color-field-wrapper_.color-input]:h-8"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@size) or "full" in @size do %>
   defp size_class("full"), do: "[&_.color-field-wrapper_.color-input]:w-full h-4"
+  <% end %>
 
   defp size_class(params) when is_binary(params), do: params
+  <%= if is_nil(@size) or "medium" in @size do %>
   defp size_class(_), do: size_class("medium")
-
+  <% end %>
+  <%= if is_nil(@rounded) or "extra_small" in @rounded do %>
   defp rounded_size("extra_small"), do: "[&_.color-field-wrapper_.color-input]:rounded-sm"
+  <% end %>
+  <%= if is_nil(@rounded) or "small" in @rounded do %>
   defp rounded_size("small"), do: "[&_.color-field-wrapper_.color-input]:rounded"
+  <% end %>
+  <%= if is_nil(@rounded) or "medium" in @rounded do %>
   defp rounded_size("medium"), do: "[&_.color-field-wrapper_.color-input]:rounded-md"
+  <% end %>
+  <%= if is_nil(@rounded) or "large" in @rounded do %>
   defp rounded_size("large"), do: "[&_.color-field-wrapper_.color-input]:rounded-lg"
+  <% end %>
+  <%= if is_nil(@rounded) or "extra_large" in @rounded do %>
   defp rounded_size("extra_large"), do: "[&_.color-field-wrapper_.color-input]:rounded-xl"
+  <% end %>
   defp rounded_size(params) when is_binary(params), do: params
   defp rounded_size(_), do: "[&_.color-field-wrapper_.color-input]:rounded-none"
-
   defp border_class("none"), do: "[&_.color-field-wrapper_.color-input]:border-0"
+  <%= if is_nil(@size) or "extra_small" in @size do %>
   defp border_class("extra_small"), do: "[&_.color-field-wrapper_.color-input]:border"
+  <% end %>
+  <%= if is_nil(@size) or "small" in @size do %>
   defp border_class("small"), do: "[&_.color-field-wrapper_.color-input]:border-2"
+  <% end %>
+  <%= if is_nil(@size) or "medium" in @size do %>
   defp border_class("medium"), do: "[&_.color-field-wrapper_.color-input]:border-[3px]"
+  <% end %>
+  <%= if is_nil(@size) or "large" in @size do %>
   defp border_class("large"), do: "[&_.color-field-wrapper_.color-input]:border-4"
+  <% end %>
+  <%= if is_nil(@size) or "extra_large" in @size do %>
   defp border_class("extra_large"), do: "[&_.color-field-wrapper_.color-input]:border-[5px]"
+  <% end %>
   defp border_class(params) when is_binary(params), do: params
+  <%= if is_nil(@size) or "extra_small" in @size do %>
   defp border_class(_), do: border_class("extra_small")
-
+  <% end %>
+  <%= if is_nil(@color) or "white" in @color do %>
   defp color_class("white") do
     [
       "[&_.color-field-wrapper_.color-input]:border-[#DADADA]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "primary" in @color do %>
   defp color_class("primary") do
     [
       "[&_.color-field-wrapper_.color-input]:border-[#2441de]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "secondary" in @color do %>
   defp color_class("secondary") do
     [
       "[&_.color-field-wrapper_.color-input]:border-[#877C7C]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "success" in @color do %>
   defp color_class("success") do
     [
       "[&_.color-field-wrapper_.color-input]:border-[#6EE7B7]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "warning" in @color do %>
   defp color_class("warning") do
     [
       "[&_.color-field-wrapper_.color-input]:border-[#FF8B08]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "danger" in @color do %>
   defp color_class("danger") do
     [
       "[&_.color-field-wrapper_.color-input]:border-[#E73B3B]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "info" in @color do %>
   defp color_class("info") do
     [
       "[&_.color-field-wrapper_.color-input]:border-[#004FC4]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "misc" in @color do %>
   defp color_class("misc") do
     [
       "[&_.color-field-wrapper_.color-input]:border-[#52059C]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "dawn" in @color do %>
   defp color_class("dawn") do
     [
       "[&_.color-field-wrapper_.color-input]:border-[#4D4137]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "light" in @color do %>
   defp color_class("light") do
     [
       "[&_.color-field-wrapper_.color-input]:border-[#707483]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "dark" in @color do %>
   defp color_class("dark") do
     [
       "[&_.color-field-wrapper_.color-input]:border-[#050404]"
     ]
   end
+  <% end %>
 
   defp translate_error({msg, opts}) do
     # When using gettext, we typically pass the strings we want
