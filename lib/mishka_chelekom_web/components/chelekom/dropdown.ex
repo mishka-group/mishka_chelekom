@@ -224,7 +224,7 @@ defmodule MishkaChelekom.Dropdown do
         space_class(@space),
         color_variant(@variant, @color),
         rounded_size(@rounded),
-        size_class(@size, @width),
+        size_class(@size),
         width_class(@width),
         border_class(@border),
         padding_size(@padding),
@@ -333,14 +333,13 @@ defmodule MishkaChelekom.Dropdown do
   defp rounded_size(params) when is_binary(params), do: params
   defp rounded_size(_), do: rounded_size("small")
 
-  defp size_class("extra_small", "extra_small"), do: "text-xs max-w-60"
-  defp size_class("small", "small"), do: "text-sm max-w-64"
-  defp size_class("medium", "medium"), do: "text-base max-w-72"
-  defp size_class("large", "large"), do: "text-lg max-w-80"
-  defp size_class("extra_large", "extra_large"), do: "text-xl max-w-96"
-  defp size_class(_, "full"), do: "max-w-full"
-  defp size_class(params, _) when is_binary(params), do: params
-  defp size_class(_, _), do: size_class("medium", "extra_large")
+  defp size_class("extra_small"), do: "text-xs"
+  defp size_class("small"), do: "text-sm"
+  defp size_class("medium"), do: "text-base"
+  defp size_class("large"), do: "text-lg"
+  defp size_class("extra_large"), do: "text-xl"
+  defp size_class(params) when is_binary(params), do: params
+  defp size_class(_), do: size_class("medium")
 
   defp padding_size("extra_small"), do: "p-2"
   defp padding_size("small"), do: "p-3"
