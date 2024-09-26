@@ -1,8 +1,8 @@
 [
-  drawer: [
-    name: "drawer",
+  email_field: [
+    name: "email_field",
     args: [
-      variant: ["default", "outline", "transparent", "shadow", "unbordered"],
+      variant: ["default", "outline", "unbordered", "shadow", "transparent"],
       color: [
         "white",
         "primary",
@@ -17,6 +17,8 @@
         "dawn"
       ],
       size: ["extra_small", "small", "medium", "large", "extra_large"],
+      space: ["extra_small", "small", "medium", "large", "extra_large"],
+      rounded: ["extra_small", "small", "medium", "large", "extra_large", "full"],
       module: ""
     ],
     optional: [],
