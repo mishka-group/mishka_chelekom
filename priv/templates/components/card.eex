@@ -99,7 +99,7 @@ defmodule <%= @module %> do
       <div>Title</div>
       <div>Link</div>
     </.card_title>
-    <MishkaChelekom.Divider.hr />
+    <.hr />
     <.card_content space="large">
       <.card_media rounded="large" src="https://example.com/bg.png" alt="test"/>
       <p>
@@ -107,7 +107,7 @@ defmodule <%= @module %> do
         praesentium quidem dicta sapiente accusamus nihil.
       </p>
     </.card_content>
-    <MishkaChelekom.Divider.hr />
+    <.hr />
     <.card_footer class="flex items-center gap-2">
       <.card_media src="https://example.com/bg.png" alt="test"/>
       <.card_media src="https://example.com/bg.png" alt="test"/>
