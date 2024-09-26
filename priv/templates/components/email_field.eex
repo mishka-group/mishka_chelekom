@@ -382,6 +382,7 @@ defmodule <%= @module %>  do
   <% end %>
 
   <%= if is_nil(@variant) or "outline" in @variant do %>
+  <%= if is_nil(@color) or "white" in @color do %>
   defp color_variant("outline", "white", floating) do
     [
       "text-white [&_.email-field-wrapper:not(:has(.email-field-error))]:border-white",
@@ -390,7 +391,8 @@ defmodule <%= @module %>  do
       floating == "outer" && "[&_.email-field-wrapper_.floating-label]:bg-white"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "silver" in @color do %>
   defp color_variant("outline", "silver", floating) do
     [
       "text-[#afafaf] [&_.email-field-wrapper:not(:has(.email-field-error))]:border-[#afafaf]",
@@ -399,7 +401,8 @@ defmodule <%= @module %>  do
       floating && "[&_.email-field-wrapper_.floating-label]:bg-white"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "primary" in @color do %>
   defp color_variant("outline", "primary", floating) do
     [
       "text-[#2441de] [&_.email-field-wrapper:not(:has(.email-field-error))]:border-[#2441de]",
@@ -408,7 +411,8 @@ defmodule <%= @module %>  do
       floating && "[&_.email-field-wrapper_.floating-label]:bg-white"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "secondary" in @color do %>
   defp color_variant("outline", "secondary", floating) do
     [
       "text-[#877C7C] [&_.email-field-wrapper:not(:has(.email-field-error))]:border-[#877C7C]",
@@ -417,7 +421,8 @@ defmodule <%= @module %>  do
       floating && "[&_.email-field-wrapper_.floating-label]:bg-white"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "success" in @color do %>
   defp color_variant("outline", "success", floating) do
     [
       "text-[#047857] [&_.email-field-wrapper:not(:has(.email-field-error))]:border-[#047857]",
@@ -426,7 +431,8 @@ defmodule <%= @module %>  do
       floating && "[&_.email-field-wrapper_.floating-label]:bg-white"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "warning" in @color do %>
   defp color_variant("outline", "warning", floating) do
     [
       "text-[#FF8B08] [&_.email-field-wrapper:not(:has(.email-field-error))]:border-[#FF8B08]",
@@ -435,7 +441,8 @@ defmodule <%= @module %>  do
       floating && "[&_.email-field-wrapper_.floating-label]:bg-white"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "danger" in @color do %>
   defp color_variant("outline", "danger", floating) do
     [
       "text-[#E73B3B] [&_.email-field-wrapper:not(:has(.email-field-error))]:border-[#E73B3B]",
@@ -444,7 +451,8 @@ defmodule <%= @module %>  do
       floating && "[&_.email-field-wrapper_.floating-label]:bg-white"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "info" in @color do %>
   defp color_variant("outline", "info", floating) do
     [
       "text-[#004FC4] [&_.email-field-wrapper:not(:has(.email-field-error))]:border-[#004FC4]",
@@ -453,7 +461,8 @@ defmodule <%= @module %>  do
       floating && "[&_.email-field-wrapper_.floating-label]:bg-white"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "misc" in @color do %>
   defp color_variant("outline", "misc", floating) do
     [
       "text-[#52059C] [&_.email-field-wrapper:not(:has(.email-field-error))]:border-[#52059C]",
@@ -462,7 +471,8 @@ defmodule <%= @module %>  do
       floating && "[&_.email-field-wrapper_.floating-label]:bg-white"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "dawn" in @color do %>
   defp color_variant("outline", "dawn", floating) do
     [
       "text-[#4D4137] [&_.email-field-wrapper:not(:has(.email-field-error))]:border-[#4D4137]",
@@ -471,7 +481,8 @@ defmodule <%= @module %>  do
       floating && "[&_.email-field-wrapper_.floating-label]:bg-white"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "light" in @color do %>
   defp color_variant("outline", "light", floating) do
     [
       "text-[#707483] [&_.email-field-wrapper:not(:has(.email-field-error))]:border-[#707483]",
@@ -480,7 +491,8 @@ defmodule <%= @module %>  do
       floating && "[&_.email-field-wrapper_.floating-label]:bg-white"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "dark" in @color do %>
   defp color_variant("outline", "dark", floating) do
     [
       "text-[#1E1E1E] [&_.email-field-wrapper]:text-text-[#1E1E1E] [&_.email-field-wrapper:not(:has(.email-field-error))]:border-[#050404]",
@@ -490,7 +502,9 @@ defmodule <%= @module %>  do
     ]
   end
   <% end %>
+  <% end %>
   <%= if is_nil(@variant) or "default" in @variant do %>
+  <%= if is_nil(@color) or "white" in @color do %>
   defp color_variant("default", "white", floating) do
     [
       "[&_.email-field-wrapper]:bg-white text-[#3E3E3E] [&_.email-field-wrapper:not(:has(.email-field-error))]:border-[#DADADA]",
@@ -499,7 +513,8 @@ defmodule <%= @module %>  do
       floating && "[&_.email-field-wrapper_.floating-label]:bg-white"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "primary" in @color do %>
   defp color_variant("default", "primary", floating) do
     [
       "[&_.email-field-wrapper]:bg-[#4363EC] text-[#4363EC] [&_.email-field-wrapper:not(:has(.email-field-error))]:border-[#2441de]",
@@ -508,7 +523,8 @@ defmodule <%= @module %>  do
       floating && "[&_.email-field-wrapper_.floating-label]:bg-[#4363EC]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "secondary" in @color do %>
   defp color_variant("default", "secondary", floating) do
     [
       "[&_.email-field-wrapper]:bg-[#6B6E7C] text-[#6B6E7C] [&_.email-field-wrapper:not(:has(.email-field-error))]:border-[#877C7C]",
@@ -517,7 +533,8 @@ defmodule <%= @module %>  do
       floating && "[&_.email-field-wrapper_.floating-label]:bg-[#6B6E7C]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "success" in @color do %>
   defp color_variant("default", "success", floating) do
     [
       "[&_.email-field-wrapper]:bg-[#ECFEF3] text-[#047857] [&_.email-field-wrapper:not(:has(.email-field-error))]:border-[#6EE7B7]",
@@ -526,7 +543,8 @@ defmodule <%= @module %>  do
       floating && "[&_.email-field-wrapper_.floating-label]:bg-[#ECFEF3]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "warning" in @color do %>
   defp color_variant("default", "warning", floating) do
     [
       "[&_.email-field-wrapper]:bg-[#FFF8E6] text-[#FF8B08] [&_.email-field-wrapper:not(:has(.email-field-error))]:border-[#FF8B08]",
@@ -535,7 +553,8 @@ defmodule <%= @module %>  do
       floating && "[&_.email-field-wrapper_.floating-label]:bg-[#FFF8E6]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "danger" in @color do %>
   defp color_variant("default", "danger", floating) do
     [
       "[&_.email-field-wrapper]:bg-[#FFE6E6] text-[#E73B3B] [&_.email-field-wrapper:not(:has(.email-field-error))]:border-[#E73B3B]",
@@ -544,7 +563,8 @@ defmodule <%= @module %>  do
       floating && "[&_.email-field-wrapper_.floating-label]:bg-[#FFE6E6]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "info" in @color do %>
   defp color_variant("default", "info", floating) do
     [
       "[&_.email-field-wrapper]:bg-[#E5F0FF] text-[#004FC4] [&_.email-field-wrapper:not(:has(.email-field-error))]:border-[#004FC4]",
@@ -553,7 +573,8 @@ defmodule <%= @module %>  do
       floating && "[&_.email-field-wrapper_.floating-label]:bg-[#E5F0FF]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "misc" in @color do %>
   defp color_variant("default", "misc", floating) do
     [
       "[&_.email-field-wrapper]:bg-[#FFE6FF] text-[#52059C] [&_.email-field-wrapper:not(:has(.email-field-error))]:border-[#52059C]",
@@ -562,7 +583,8 @@ defmodule <%= @module %>  do
       floating && "[&_.email-field-wrapper_.floating-label]:bg-[#FFE6FF]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "dawn" in @color do %>
   defp color_variant("default", "dawn", floating) do
     [
       "[&_.email-field-wrapper]:bg-[#FFECDA] text-[#4D4137] [&_.email-field-wrapper:not(:has(.email-field-error))]:border-[#4D4137]",
@@ -571,7 +593,8 @@ defmodule <%= @module %>  do
       floating && "[&_.email-field-wrapper_.floating-label]:bg-[#FFECDA]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "light" in @color do %>
   defp color_variant("default", "light", floating) do
     [
       "[&_.email-field-wrapper]:bg-[#E3E7F1] text-[#707483] [&_.email-field-wrapper:not(:has(.email-field-error))]:border-[#707483]",
@@ -580,7 +603,8 @@ defmodule <%= @module %>  do
       floating && "[&_.email-field-wrapper_.floating-label]:bg-[#E3E7F1]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "dark" in @color do %>
   defp color_variant("default", "dark", floating) do
     [
       "[&_.email-field-wrapper]:bg-[#1E1E1E] text-[#1E1E1E] [&_.email-field-wrapper]:text-white [&_.email-field-wrapper:not(:has(.email-field-error))]:border-[#050404]",
@@ -590,7 +614,9 @@ defmodule <%= @module %>  do
     ]
   end
   <% end %>
+  <% end %>
   <%= if is_nil(@variant) or "unbordered" in @variant do %>
+  <%= if is_nil(@color) or "white" in @color do %>
   defp color_variant("unbordered", "white", floating) do
     [
       "[&_.email-field-wrapper]:bg-white [&_.email-field-wrapper]:border-transparent text-[#3E3E3E]",
@@ -598,7 +624,8 @@ defmodule <%= @module %>  do
       floating == "outer" && "[&_.email-field-wrapper_.floating-label]:bg-white"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "primary" in @color do %>
   defp color_variant("unbordered", "primary", floating) do
     [
       "[&_.email-field-wrapper]:bg-[#4363EC] text-[#4363EC] [&_.email-field-wrapper]:border-transparent text-white",
@@ -606,7 +633,8 @@ defmodule <%= @module %>  do
       floating == "outer" && "[&_.email-field-wrapper_.floating-label]:bg-[#4363EC]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "secondary" in @color do %>
   defp color_variant("unbordered", "secondary", floating) do
     [
       "[&_.email-field-wrapper]:bg-[#6B6E7C] text-[#6B6E7C] [&_.email-field-wrapper]:border-transparent text-white",
@@ -614,7 +642,8 @@ defmodule <%= @module %>  do
       floating == "outer" && "[&_.email-field-wrapper_.floating-label]:bg-[#6B6E7C]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "success" in @color do %>
   defp color_variant("unbordered", "success", floating) do
     [
       "[&_.email-field-wrapper]:bg-[#ECFEF3] [&_.email-field-wrapper]:border-transparent text-[#047857]",
@@ -622,7 +651,8 @@ defmodule <%= @module %>  do
       floating == "outer" && "[&_.email-field-wrapper_.floating-label]:bg-[#ECFEF3]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "warning" in @color do %>
   defp color_variant("unbordered", "warning", floating) do
     [
       "[&_.email-field-wrapper]:bg-[#FFF8E6] [&_.email-field-wrapper]:border-transparent text-[#FF8B08]",
@@ -630,7 +660,8 @@ defmodule <%= @module %>  do
       floating == "outer" && "[&_.email-field-wrapper_.floating-label]:bg-[#FFF8E6]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "danger" in @color do %>
   defp color_variant("unbordered", "danger", floating) do
     [
       "[&_.email-field-wrapper]:bg-[#FFE6E6] [&_.email-field-wrapper]:border-transparent text-[#E73B3B]",
@@ -638,7 +669,8 @@ defmodule <%= @module %>  do
       floating == "outer" && "[&_.email-field-wrapper_.floating-label]:bg-[#FFE6E6]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "info" in @color do %>
   defp color_variant("unbordered", "info", floating) do
     [
       "[&_.email-field-wrapper]:bg-[#E5F0FF] [&_.email-field-wrapper]:border-transparent text-[#004FC4]",
@@ -646,7 +678,8 @@ defmodule <%= @module %>  do
       floating == "outer" && "[&_.email-field-wrapper_.floating-label]:bg-[#E5F0FF]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "misc" in @color do %>
   defp color_variant("unbordered", "misc", floating) do
     [
       "[&_.email-field-wrapper]:bg-[#FFE6FF] [&_.email-field-wrapper]:border-transparent text-[#52059C]",
@@ -654,7 +687,8 @@ defmodule <%= @module %>  do
       floating == "outer" && "[&_.email-field-wrapper_.floating-label]:bg-[#FFE6FF]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "dawn" in @color do %>
   defp color_variant("unbordered", "dawn", floating) do
     [
       "[&_.email-field-wrapper]:bg-[#FFECDA] [&_.email-field-wrapper]:border-transparent text-[#4D4137]",
@@ -662,7 +696,8 @@ defmodule <%= @module %>  do
       floating == "outer" && "[&_.email-field-wrapper_.floating-label]:bg-[#FFECDA]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "light" in @color do %>
   defp color_variant("unbordered", "light", floating) do
     [
       "[&_.email-field-wrapper]:bg-[#E3E7F1] [&_.email-field-wrapper]:border-transparent text-[#707483]",
@@ -670,7 +705,8 @@ defmodule <%= @module %>  do
       floating == "outer" && "[&_.email-field-wrapper_.floating-label]:bg-[#E3E7F1]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "dark" in @color do %>
   defp color_variant("unbordered", "dark", floating) do
     [
       "[&_.email-field-wrapper]:bg-[#1E1E1E] text-[#1E1E1E] [&_.email-field-wrapper]:border-transparent text-white",
@@ -679,7 +715,9 @@ defmodule <%= @module %>  do
     ]
   end
   <% end %>
+  <% end %>
   <%= if is_nil(@variant) or "shadow" in @variant do %>
+  <%= if is_nil(@color) or "white" in @color do %>
   defp color_variant("shadow", "white", floating) do
     [
       "[&_.email-field-wrapper]:bg-white text-[#3E3E3E] [&_.email-field-wrapper:not(:has(.email-field-error))]:border-[#DADADA]",
@@ -688,7 +726,8 @@ defmodule <%= @module %>  do
       floating == "outer" && "[&_.email-field-wrapper_.floating-label]:bg-[#3E3E3E]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "primary" in @color do %>
   defp color_variant("shadow", "primary", floating) do
     [
       "[&_.email-field-wrapper]:bg-[#4363EC] text-[#4363EC] [&_.email-field-wrapper:not(:has(.email-field-error))]:border-[#4363EC]",
@@ -697,7 +736,8 @@ defmodule <%= @module %>  do
       floating == "outer" && "[&_.email-field-wrapper_.floating-label]:bg-[#3E3E3E]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "secondary" in @color do %>
   defp color_variant("shadow", "secondary", floating) do
     [
       "[&_.email-field-wrapper]:bg-[#6B6E7C] text-[#6B6E7C] [&_.email-field-wrapper:not(:has(.email-field-error))]:border-[#6B6E7C]",
@@ -706,7 +746,8 @@ defmodule <%= @module %>  do
       floating == "outer" && "[&_.email-field-wrapper_.floating-label]:bg-[#6B6E7C]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "success" in @color do %>
   defp color_variant("shadow", "success", floating) do
     [
       "[&_.email-field-wrapper]:bg-[#ECFEF3] text-[#227A52] [&_.email-field-wrapper:not(:has(.email-field-error))]:border-[#047857]",
@@ -715,7 +756,8 @@ defmodule <%= @module %>  do
       floating == "outer" && "[&_.email-field-wrapper_.floating-label]:bg-[#ECFEF3]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "warning" in @color do %>
   defp color_variant("shadow", "warning", floating) do
     [
       "[&_.email-field-wrapper]:bg-[#FFF8E6] text-[#FF8B08] [&_.email-field-wrapper:not(:has(.email-field-error))]:border-[#FFF8E6]",
@@ -724,7 +766,8 @@ defmodule <%= @module %>  do
       floating == "outer" && "[&_.email-field-wrapper_.floating-label]:bg-[#FFF8E6]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "danger" in @color do %>
   defp color_variant("shadow", "danger", floating) do
     [
       "[&_.email-field-wrapper]:bg-[#FFE6E6] text-[#E73B3B] [&_.email-field-wrapper:not(:has(.email-field-error))]:border-[#FFE6E6]",
@@ -733,7 +776,8 @@ defmodule <%= @module %>  do
       floating == "outer" && "[&_.email-field-wrapper_.floating-label]:bg-[#FFE6E6]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "info" in @color do %>
   defp color_variant("shadow", "info", floating) do
     [
       "[&_.email-field-wrapper]:bg-[#E5F0FF] text-[#004FC4] [&_.email-field-wrapper:not(:has(.email-field-error))]:border-[#E5F0FF]",
@@ -742,7 +786,8 @@ defmodule <%= @module %>  do
       floating == "outer" && "[&_.email-field-wrapper_.floating-label]:bg-[#E5F0FF]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "misc" in @color do %>
   defp color_variant("shadow", "misc", floating) do
     [
       "[&_.email-field-wrapper]:bg-[#FFE6FF] text-[#52059C] [&_.email-field-wrapper:not(:has(.email-field-error))]:border-[#FFE6FF]",
@@ -751,7 +796,8 @@ defmodule <%= @module %>  do
       floating == "outer" && "[&_.email-field-wrapper_.floating-label]:bg-[#FFE6FF]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "dawn" in @color do %>
   defp color_variant("shadow", "dawn", floating) do
     [
       "[&_.email-field-wrapper]:bg-[#FFECDA] text-[#4D4137] [&_.email-field-wrapper:not(:has(.email-field-error))]:border-[#FFECDA]",
@@ -760,7 +806,8 @@ defmodule <%= @module %>  do
       floating == "outer" && "[&_.email-field-wrapper_.floating-label]:bg-[#FFECDA]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "light" in @color do %>
   defp color_variant("shadow", "light", floating) do
     [
       "[&_.email-field-wrapper]:bg-[#E3E7F1] text-[#707483] [&_.email-field-wrapper:not(:has(.email-field-error))]:border-[#E3E7F1]",
@@ -769,7 +816,8 @@ defmodule <%= @module %>  do
       floating == "outer" && "[&_.email-field-wrapper_.floating-label]:bg-[#E3E7F1]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "dark" in @color do %>
   defp color_variant("shadow", "dark", floating) do
     [
       "[&_.email-field-wrapper]:bg-[#1E1E1E] text-[#1E1E1E] [&_.email-field-wrapper:not(:has(.email-field-error))]:border-[#1E1E1E]",
@@ -779,7 +827,9 @@ defmodule <%= @module %>  do
     ]
   end
   <% end %>
+  <% end %>
   <%= if is_nil(@variant) or "transparent" in @variant do %>
+  <%= if is_nil(@color) or "white" in @color do %>
   defp color_variant("transparent", "white", _) do
     [
       "[&_.email-field-wrapper]:bg-transparent text-[#DADADA] [&_.email-field-wrapper]:border-transparent",
@@ -787,7 +837,8 @@ defmodule <%= @module %>  do
       "focus-within:[&_.email-field-wrapper]:ring-transparent"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "primary" in @color do %>
   defp color_variant("transparent", "primary", _) do
     [
       "[&_.email-field-wrapper]:bg-transparent text-[#4363EC] [&_.email-field-wrapper]:border-transparent",
@@ -795,7 +846,8 @@ defmodule <%= @module %>  do
       "focus-within:[&_.email-field-wrapper]:ring-transparent"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "secondary" in @color do %>
   defp color_variant("transparent", "secondary", _) do
     [
       "[&_.email-field-wrapper]:bg-transparent text-[#6B6E7C] [&_.email-field-wrapper]:border-transparent",
@@ -803,7 +855,8 @@ defmodule <%= @module %>  do
       "focus-within:[&_.email-field-wrapper]:ring-transparent"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "success" in @color do %>
   defp color_variant("transparent", "success", _) do
     [
       "[&_.email-field-wrapper]:bg-transparent text-[#047857] [&_.email-field-wrapper]:border-transparent",
@@ -811,7 +864,8 @@ defmodule <%= @module %>  do
       "focus-within:[&_.email-field-wrapper]:ring-transparent"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "warning" in @color do %>
   defp color_variant("transparent", "warning", _) do
     [
       "[&_.email-field-wrapper]:bg-transparent text-[#FF8B08] [&_.email-field-wrapper]:border-transparent",
@@ -819,7 +873,8 @@ defmodule <%= @module %>  do
       "focus-within:[&_.email-field-wrapper]:ring-transparent"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "danger" in @color do %>
   defp color_variant("transparent", "danger", _) do
     [
       "[&_.email-field-wrapper]:bg-transparent text-[#E73B3B] [&_.email-field-wrapper]:border-transparent",
@@ -827,7 +882,8 @@ defmodule <%= @module %>  do
       "focus-within:[&_.email-field-wrapper]:ring-transparent"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "info" in @color do %>
   defp color_variant("transparent", "info", _) do
     [
       "[&_.email-field-wrapper]:bg-transparent text-[#004FC4] [&_.email-field-wrapper]:border-transparent",
@@ -835,7 +891,8 @@ defmodule <%= @module %>  do
       "focus-within:[&_.email-field-wrapper]:ring-transparent"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "misc" in @color do %>
   defp color_variant("transparent", "misc", _) do
     [
       "[&_.email-field-wrapper]:bg-transparent text-[#52059C] [&_.email-field-wrapper]:border-transparent",
@@ -843,7 +900,8 @@ defmodule <%= @module %>  do
       "focus-within:[&_.email-field-wrapper]:ring-transparent"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "dawn" in @color do %>
   defp color_variant("transparent", "dawn", _) do
     [
       "[&_.email-field-wrapper]:bg-transparent text-[#4D4137] [&_.email-field-wrapper]:border-transparent",
@@ -851,7 +909,8 @@ defmodule <%= @module %>  do
       "focus-within:[&_.email-field-wrapper]:ring-transparent"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "light" in @color do %>
   defp color_variant("transparent", "light", _) do
     [
       "[&_.email-field-wrapper]:bg-transparent text-[#707483] [&_.email-field-wrapper]:border-transparent",
@@ -859,7 +918,8 @@ defmodule <%= @module %>  do
       "focus-within:[&_.email-field-wrapper]:ring-transparent"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "dark" in @color do %>
   defp color_variant("transparent", "dark", _) do
     [
       "[&_.email-field-wrapper]:bg-transparent text-[#1E1E1E] [&_.email-field-wrapper]:border-transparent",
@@ -867,6 +927,7 @@ defmodule <%= @module %>  do
       "focus-within:[&_.email-field-wrapper]:ring-transparent"
     ]
   end
+  <% end %>
   <% end %>
 
   defp translate_error({msg, opts}) do
