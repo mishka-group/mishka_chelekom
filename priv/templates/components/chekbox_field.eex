@@ -15,6 +15,21 @@ defmodule <%= @module %> do
   """
 
   use Phoenix.Component
+
+  @colors [
+    "white",
+    "primary",
+    "secondary",
+    "dark",
+    "success",
+    "warning",
+    "danger",
+    "info",
+    "light",
+    "misc",
+    "dawn"
+  ]
+
   <%= if is_nil(@type) or "checkbox" in @type do %>
   @doc """
   The `checkbox_field` component is used to create customizable checkbox input elements with various
@@ -43,7 +58,7 @@ defmodule <%= @module %> do
     doc: "A unique identifier is used to manage state and interaction"
 
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
-  attr :color, :string, default: "primary", doc: "Determines color theme"
+  attr :color, :string, values: @colors, default: "primary", doc: "Determines color theme"
   attr :border, :string, default: "extra_small", doc: "Determines border style"
   attr :rounded, :string, default: "small", doc: "Determines the border radius"
   attr :space, :string, default: "medium", doc: "Space between items"
@@ -142,7 +157,7 @@ defmodule <%= @module %> do
     doc: "A unique identifier is used to manage state and interaction"
 
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
-  attr :color, :string, default: "primary", doc: "Determines color theme"
+  attr :color, :string, values: @colors, default: "primary", doc: "Determines color theme"
   attr :border, :string, default: "extra_small", doc: "Determines border style"
   attr :rounded, :string, default: "small", doc: "Determines the border radius"
   attr :space, :string, default: "medium", doc: "Space between items"

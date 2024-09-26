@@ -14,6 +14,20 @@ defmodule <%= @module %> do
 
   use Phoenix.Component
 
+  @colors [
+    "white",
+    "primary",
+    "secondary",
+    "dark",
+    "success",
+    "warning",
+    "danger",
+    "info",
+    "light",
+    "misc",
+    "dawn"
+  ]
+
   @doc """
   The `color_field` component is used to create a customizable color input field with various
   options such as `size`, `color`, and `rounded`.
@@ -52,7 +66,7 @@ defmodule <%= @module %> do
     doc: "A unique identifier is used to manage state and interaction"
 
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
-  attr :color, :string, default: "white", doc: "Determines color theme"
+  attr :color, :string, values: @colors, default: "white", doc: "Determines color theme"
   attr :border, :string, default: "extra_small", doc: "Determines border style"
   attr :rounded, :string, default: "small", doc: "Determines the border radius"
   attr :description, :string, default: nil, doc: "Determines a short description"
