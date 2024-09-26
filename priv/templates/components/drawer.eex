@@ -271,7 +271,7 @@ defmodule <%= @module %> do
   <%= if is_nil(@size) or "extra_large" in @size do %>
   defp size_class("extra_large", "bottom"), do: "min-h-48"
   <% end %>
-
+  <%= if is_nil(@variant) or "default" in @variant do %>
   defp color_variant("default", "white") do
     "bg-white text-[#3E3E3E] border-[#DADADA]"
   end
@@ -315,7 +315,8 @@ defmodule <%= @module %> do
   defp color_variant("default", "dark") do
     "bg-[#1E1E1E] text-white border-[#050404]"
   end
-
+  <% end %>
+  <%= if is_nil(@variant) or "outline" in @variant do %>
   defp color_variant("outline", "white") do
     "bg-transparent text-white border-white"
   end
@@ -359,7 +360,8 @@ defmodule <%= @module %> do
   defp color_variant("outline", "dark") do
     "bg-transparent text-[#1E1E1E] border-[#1E1E1E]"
   end
-
+  <% end %>
+  <%= if is_nil(@variant) or "unbordered" in @variant do %>
   defp color_variant("unbordered", "white") do
     "bg-white text-[#3E3E3E] border-transparent"
   end
@@ -403,7 +405,8 @@ defmodule <%= @module %> do
   defp color_variant("unbordered", "dark") do
     "bg-[#1E1E1E] text-white border-transparent"
   end
-
+  <% end %>
+  <%= if is_nil(@variant) or "shadow" in @variant do %>
   defp color_variant("shadow", "white") do
     "bg-white text-[#3E3E3E] border-[#DADADA] shadow-md"
   end
@@ -447,7 +450,8 @@ defmodule <%= @module %> do
   defp color_variant("shadow", "dark") do
     "bg-[#1E1E1E] text-white border-[#1E1E1E] shadow-md"
   end
-
+  <% end %>
+  <%= if is_nil(@variant) or "transparent" in @variant do %>
   defp color_variant("transparent", "white") do
     "bg-transparent text-white border-transparent"
   end
@@ -491,7 +495,7 @@ defmodule <%= @module %> do
   defp color_variant("transparent", "dark") do
     "bg-transparent text-[#1E1E1E] border-transparent"
   end
-
+  <% end %>
   @doc """
   Shows the drawer component by modifying its CSS classes to transition it into view.
 
