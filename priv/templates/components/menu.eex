@@ -381,21 +381,43 @@ defmodule MishkaChelekom.Menu do
     </ul>
     """
   end
-
+  <%= if is_nil(@padding) or "extra_small" in @padding do %>
   defp padding_size("extra_small"), do: "p-2"
+  <% end %>
+  <%= if is_nil(@padding) or "small" in @padding do %>
   defp padding_size("small"), do: "p-2.5"
+  <% end %>
+  <%= if is_nil(@padding) or "medium" in @padding do %>
   defp padding_size("medium"), do: "p-3"
+  <% end %>
+  <%= if is_nil(@padding) or "large" in @padding do %>
   defp padding_size("large"), do: "p-3.5"
+  <% end %>
+  <%= if is_nil(@padding) or "extra_large" in @padding do %>
   defp padding_size("extra_large"), do: "p-4"
+  <% end %>
+  <%= if is_nil(@padding) or "none" in @padding do %>
   defp padding_size("none"), do: "p-0"
+  <% end %>
   defp padding_size(params) when is_binary(params), do: params
+  <%= if is_nil(@padding) or "extra_small" in @padding do %>
   defp padding_size(_), do: padding_size("extra_small")
-
+  <% end %>
+  <%= if is_nil(@space) or "extra_small" in @space do %>
   defp space_class("extra_small"), do: "space-y-2"
+  <% end %>
+  <%= if is_nil(@space) or "small" in @space do %>
   defp space_class("small"), do: "space-y-3"
+  <% end %>
+  <%= if is_nil(@space) or "medium" in @space do %>
   defp space_class("medium"), do: "space-y-4"
+  <% end %>
+  <%= if is_nil(@space) or "large" in @space do %>
   defp space_class("large"), do: "space-y-5"
+  <% end %>
+  <%= if is_nil(@space) or "extra_large" in @space do %>
   defp space_class("extra_large"), do: "space-y-6"
+  <% end %>
   defp space_class(params) when is_binary(params), do: params
   defp space_class(_), do: "space-y-0"
 end
