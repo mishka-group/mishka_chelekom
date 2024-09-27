@@ -489,6 +489,7 @@ defmodule <%= @module %>  do
   <% end %>
 
   <%= if is_nil(@variant) or "outline" in @variant do %>
+  <%= if is_nil(@color) or "white" in @color do %>
   defp dropzone_color("outline", "white") do
     [
       "text-white [&_.dropzone-wrapper]:text-white [&_.dropzone-wrapper]:border-white",
@@ -496,7 +497,8 @@ defmodule <%= @module %>  do
       "[&_.upload-item]:border-white"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "silver" in @color do %>
   defp dropzone_color("outline", "silver") do
     [
       "text-[#afafaf] [&_.dropzone-wrapper]:text-[#afafaf]/80 [&_.dropzone-wrapper]:border-[#afafaf]/80",
@@ -504,7 +506,8 @@ defmodule <%= @module %>  do
       "[&_.upload-item]:border-[#afafaf]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "primary" in @color do %>
   defp dropzone_color("outline", "primary") do
     [
       "text-[#2441de] [&_.dropzone-wrapper]:text-[#2441de] [&_.dropzone-wrapper]:border-[#2441de]/80",
@@ -512,7 +515,8 @@ defmodule <%= @module %>  do
       "[&_.upload-item]:border-[#2441de]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "secondary" in @color do %>
   defp dropzone_color("outline", "secondary") do
     [
       "text-[#877C7C] [&_.dropzone-wrapper]:border-[#877C7C]/80 [&_.dropzone-wrapper]:border-[#877C7C]/80",
@@ -520,7 +524,8 @@ defmodule <%= @module %>  do
       "[&_.upload-item]:border-[#877C7C]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "success" in @color do %>
   defp dropzone_color("outline", "success") do
     [
       "text-[#047857] [&_.dropzone-wrapper]:text-[#047857]/80 [&_.dropzone-wrapper]:border-[#047857]/80",
@@ -528,7 +533,8 @@ defmodule <%= @module %>  do
       "[&_.upload-item]:border-[#047857]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "warning" in @color do %>
   defp dropzone_color("outline", "warning") do
     [
       "text-[#FF8B08] [&_.dropzone-wrapper]:text-[#FF8B08]/80 [&_.dropzone-wrapper]:border-[#FF8B08]/80",
@@ -536,7 +542,8 @@ defmodule <%= @module %>  do
       "[&_.upload-item]:border-[#FF8B08]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "danger" in @color do %>
   defp dropzone_color("outline", "danger") do
     [
       "text-[#E73B3B] [&_.dropzone-wrapper]:text-[#E73B3B]/80 [&_.dropzone-wrapper]:border-[#E73B3B]/80",
@@ -544,7 +551,8 @@ defmodule <%= @module %>  do
       "[&_.upload-item]:border-[#E73B3B]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "info" in @color do %>
   defp dropzone_color("outline", "info") do
     [
       "text-[#004FC4] [&_.dropzone-wrapper]:text-[#004FC4]/80 [&_.dropzone-wrapper]:border-[#004FC4]/80",
@@ -552,7 +560,8 @@ defmodule <%= @module %>  do
       "[&_.upload-item]:border-[#004FC4]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "misc" in @color do %>
   defp dropzone_color("outline", "misc") do
     [
       "text-[#52059C] [&_.dropzone-wrapper]:text-[#52059C]/80 [&_.dropzone-wrapper]:border-[#52059C]/80",
@@ -560,7 +569,8 @@ defmodule <%= @module %>  do
       "[&_.upload-item]:border-[#52059C]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "dawn" in @color do %>
   defp dropzone_color("outline", "dawn") do
     [
       "text-[#4D4137] [&_.dropzone-wrapper]:text-[#4D4137]/80 [&_.dropzone-wrapper]:border-[#4D4137]/80",
@@ -568,7 +578,8 @@ defmodule <%= @module %>  do
       "[&_.upload-item]:border-[#4D4137]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "light" in @color do %>
   defp dropzone_color("outline", "light") do
     [
       "text-[#707483] [&_.dropzone-wrapper]:text-[#707483]/80 [&_.dropzone-wrapper]:border-[#707483]/80",
@@ -576,7 +587,8 @@ defmodule <%= @module %>  do
       "[&_.upload-item]:border-[#707483]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "dark" in @color do %>
   defp dropzone_color("outline", "dark") do
     [
       "text-[#1E1E1E] [&_.dropzone-wrapper]:text-[#1E1E1E]/80 [&_.dropzone-wrapper]:border-[#050404]/80",
@@ -585,7 +597,9 @@ defmodule <%= @module %>  do
     ]
   end
   <% end %>
+  <% end %>
   <%= if is_nil(@variant) or "default" in @variant do %>
+  <%= if is_nil(@color) or "white" in @color do %>
   defp dropzone_color("default", "white") do
     [
       "[&_.dropzone-wrapper]:bg-white/80 text-[#3E3E3E] [&_.dropzone-wrapper]:border-[#DADADA]/80",
@@ -594,7 +608,8 @@ defmodule <%= @module %>  do
       "hover:[&_.dropzone-wrapper]:bg-white"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "primary" in @color do %>
   defp dropzone_color("default", "primary") do
     [
       "[&_.dropzone-wrapper]:bg-[#4363EC]/80 text-[#4363EC] [&_.dropzone-wrapper]:border-[#2441de]/80",
@@ -602,7 +617,8 @@ defmodule <%= @module %>  do
       "hover:[&_.dropzone-wrapper]:bg-[#4363EC] [&_.upload-item]:border-[#2441de]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "secondary" in @color do %>
   defp dropzone_color("default", "secondary") do
     [
       "[&_.dropzone-wrapper]:bg-[#6B6E7C]/80 text-[#6B6E7C] [&_.dropzone-wrapper]:border-[#877C7C]/80",
@@ -610,7 +626,8 @@ defmodule <%= @module %>  do
       "hover:[&_.dropzone-wrapper]:bg-[#4363EC] [&_.upload-item]:border-[#ECFEF3]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "success" in @color do %>
   defp dropzone_color("default", "success") do
     [
       "[&_.dropzone-wrapper]:bg-[#ECFEF3]/80 text-[#047857] [&_.dropzone-wrapper]:border-[#6EE7B7]/80",
@@ -618,7 +635,8 @@ defmodule <%= @module %>  do
       "hover:[&_.dropzone-wrapper]:bg-[#ECFEF3] [&_.upload-item]:border-[#6EE7B7]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "warning" in @color do %>
   defp dropzone_color("default", "warning") do
     [
       "[&_.dropzone-wrapper]:bg-[#FFF8E6]/80 text-[#FF8B08] [&_.dropzone-wrapper]:border-[#FF8B08]/80",
@@ -626,7 +644,8 @@ defmodule <%= @module %>  do
       "hover:[&_.dropzone-wrapper]:bg-[#FFF8E6] [&_.upload-item]:border-[#FF8B08]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "danger" in @color do %>
   defp dropzone_color("default", "danger") do
     [
       "[&_.dropzone-wrapper]:bg-[#FFE6E6]/80 text-[#E73B3B] [&_.dropzone-wrapper]:border-[#E73B3B]/80",
@@ -634,7 +653,8 @@ defmodule <%= @module %>  do
       "hover:[&_.dropzone-wrapper]:bg-[#FFE6E6] [&_.upload-item]:border-[#E73B3B]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "info" in @color do %>
   defp dropzone_color("default", "info") do
     [
       "[&_.dropzone-wrapper]:bg-[#E5F0FF]/80 text-[#004FC4] [&_.dropzone-wrapper]:border-[#004FC4]/80",
@@ -642,7 +662,8 @@ defmodule <%= @module %>  do
       "hover:[&_.dropzone-wrapper]:bg-[#E5F0FF] [&_.upload-item]:border-[#004FC4]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "misc" in @color do %>
   defp dropzone_color("default", "misc") do
     [
       "[&_.dropzone-wrapper]:bg-[#FFE6FF]/80 text-[#52059C] [&_.dropzone-wrapper]:border-[#52059C]/80",
@@ -650,7 +671,8 @@ defmodule <%= @module %>  do
       "hover:[&_.dropzone-wrapper]:bg-[#FFE6FF] [&_.upload-item]:border-[#52059C]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "dawn" in @color do %>
   defp dropzone_color("default", "dawn") do
     [
       "[&_.dropzone-wrapper]:bg-[#FFECDA]/80 text-[#4D4137] [&_.dropzone-wrapper]:border-[#4D4137]/80",
@@ -658,7 +680,8 @@ defmodule <%= @module %>  do
       "hover:[&_.dropzone-wrapper]:bg-[#FFECDA] [&_.upload-item]:border-[#4D4137]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "light" in @color do %>
   defp dropzone_color("default", "light") do
     [
       "[&_.dropzone-wrapper]:bg-[#E3E7F1]/80 text-[#707483] [&_.dropzone-wrapper]:border-[#707483]/80",
@@ -666,7 +689,8 @@ defmodule <%= @module %>  do
       "hover:[&_.dropzone-wrapper]:bg-[#E3E7F1] [&_.upload-item]:border-[#707483]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "dark" in @color do %>
   defp dropzone_color("default", "dark") do
     [
       "[&_.dropzone-wrapper]:bg-[#1E1E1E]/80 text-[#1E1E1E] [&_.dropzone-wrapper]:border-[#050404]/80",
@@ -675,7 +699,9 @@ defmodule <%= @module %>  do
     ]
   end
   <% end %>
+  <% end %>
   <%= if is_nil(@variant) or "unbordered" in @variant do %>
+  <%= if is_nil(@color) or "white" in @color do %>
   defp dropzone_color("unbordered", "white") do
     [
       "[&_.dropzone-wrapper]:bg-white/80 text-[#3E3E3E] [&_.dropzone-wrapper]:border-transparent",
@@ -684,7 +710,8 @@ defmodule <%= @module %>  do
       "hover:[&_.dropzone-wrapper]:bg-white"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "primary" in @color do %>
   defp dropzone_color("unbordered", "primary") do
     [
       "[&_.dropzone-wrapper]:bg-[#4363EC]/80 text-[#4363EC] [&_.dropzone-wrapper]:border-transparent",
@@ -692,7 +719,8 @@ defmodule <%= @module %>  do
       "hover:[&_.dropzone-wrapper]:bg-[#4363EC] [&_.upload-item]:border-[#2441de]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "secondary" in @color do %>
   defp dropzone_color("unbordered", "secondary") do
     [
       "[&_.dropzone-wrapper]:bg-[#6B6E7C]/80 text-[#6B6E7C] [&_.dropzone-wrapper]:border-transparent",
@@ -700,7 +728,8 @@ defmodule <%= @module %>  do
       "hover:[&_.dropzone-wrapper]:bg-[#4363EC] [&_.upload-item]:border-[#ECFEF3]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "success" in @color do %>
   defp dropzone_color("unbordered", "success") do
     [
       "[&_.dropzone-wrapper]:bg-[#ECFEF3]/80 text-[#047857] [&_.dropzone-wrapper]:border-transparent",
@@ -708,7 +737,8 @@ defmodule <%= @module %>  do
       "hover:[&_.dropzone-wrapper]:bg-[#ECFEF3] [&_.upload-item]:border-[#6EE7B7]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "warning" in @color do %>
   defp dropzone_color("unbordered", "warning") do
     [
       "[&_.dropzone-wrapper]:bg-[#FFF8E6]/80 text-[#FF8B08] [&_.dropzone-wrapper]:border-transparent",
@@ -716,7 +746,8 @@ defmodule <%= @module %>  do
       "hover:[&_.dropzone-wrapper]:bg-[#FFF8E6] [&_.upload-item]:border-[#FF8B08]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "danger" in @color do %>
   defp dropzone_color("unbordered", "danger") do
     [
       "[&_.dropzone-wrapper]:bg-[#FFE6E6]/80 text-[#E73B3B] [&_.dropzone-wrapper]:border-transparent",
@@ -724,7 +755,8 @@ defmodule <%= @module %>  do
       "hover:[&_.dropzone-wrapper]:bg-[#FFE6E6] [&_.upload-item]:border-[#E73B3B]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "info" in @color do %>
   defp dropzone_color("unbordered", "info") do
     [
       "[&_.dropzone-wrapper]:bg-[#E5F0FF]/80 text-[#004FC4] [&_.dropzone-wrapper]:border-transparent",
@@ -732,7 +764,8 @@ defmodule <%= @module %>  do
       "hover:[&_.dropzone-wrapper]:bg-[#E5F0FF] [&_.upload-item]:border-[#004FC4]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "misc" in @color do %>
   defp dropzone_color("unbordered", "misc") do
     [
       "[&_.dropzone-wrapper]:bg-[#FFE6FF]/80 text-[#52059C] [&_.dropzone-wrapper]:border-transparent",
@@ -740,7 +773,8 @@ defmodule <%= @module %>  do
       "hover:[&_.dropzone-wrapper]:bg-[#FFE6FF] [&_.upload-item]:border-[#52059C]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "dawn" in @color do %>
   defp dropzone_color("unbordered", "dawn") do
     [
       "[&_.dropzone-wrapper]:bg-[#FFECDA]/80 text-[#4D4137] [&_.dropzone-wrapper]:border-transparent",
@@ -748,7 +782,8 @@ defmodule <%= @module %>  do
       "hover:[&_.dropzone-wrapper]:bg-[#FFECDA] [&_.upload-item]:border-[#4D4137]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "light" in @color do %>
   defp dropzone_color("unbordered", "light") do
     [
       "[&_.dropzone-wrapper]:bg-[#E3E7F1]/80 text-[#707483] [&_.dropzone-wrapper]:border-transparent",
@@ -756,7 +791,8 @@ defmodule <%= @module %>  do
       "hover:[&_.dropzone-wrapper]:bg-[#E3E7F1] [&_.upload-item]:border-[#707483]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "dark" in @color do %>
   defp dropzone_color("unbordered", "dark") do
     [
       "[&_.dropzone-wrapper]:bg-[#1E1E1E]/80 text-[#1E1E1E] [&_.dropzone-wrapper]:border-transparent",
@@ -765,7 +801,9 @@ defmodule <%= @module %>  do
     ]
   end
   <% end %>
+  <% end %>
   <%= if is_nil(@variant) or "shadow" in @variant do %>
+  <%= if is_nil(@color) or "white" in @color do %>
   defp dropzone_color("shadow", "white") do
     [
       "[&_.dropzone-wrapper]:bg-white/80 text-[#3E3E3E] [&_.dropzone-wrapper]:border-[#DADADA]/80",
@@ -774,7 +812,8 @@ defmodule <%= @module %>  do
       "[&_.dropzone-wrapper]:shadow [&_.upload-item]:shadow hover:[&_.dropzone-wrapper]:bg-white"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "primary" in @color do %>
   defp dropzone_color("shadow", "primary") do
     [
       "[&_.dropzone-wrapper]:bg-[#4363EC]/80 text-[#4363EC] [&_.dropzone-wrapper]:border-[#2441de]/80",
@@ -782,7 +821,8 @@ defmodule <%= @module %>  do
       "[&_.dropzone-wrapper]:shadow [&_.upload-item]:shadow hover:[&_.dropzone-wrapper]:bg-[#4363EC] [&_.upload-item]:border-[#2441de]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "secondary" in @color do %>
   defp dropzone_color("shadow", "secondary") do
     [
       "[&_.dropzone-wrapper]:bg-[#6B6E7C]/80 text-[#6B6E7C] [&_.dropzone-wrapper]:border-[#877C7C]/80",
@@ -790,7 +830,8 @@ defmodule <%= @module %>  do
       "[&_.dropzone-wrapper]:shadow [&_.upload-item]:shadow hover:[&_.dropzone-wrapper]:bg-[#4363EC] [&_.upload-item]:border-[#ECFEF3]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "success" in @color do %>
   defp dropzone_color("shadow", "success") do
     [
       "[&_.dropzone-wrapper]:bg-[#ECFEF3]/80 text-[#047857] [&_.dropzone-wrapper]:border-[#6EE7B7]/80",
@@ -798,7 +839,8 @@ defmodule <%= @module %>  do
       "[&_.dropzone-wrapper]:shadow [&_.upload-item]:shadow hover:[&_.dropzone-wrapper]:bg-[#ECFEF3] [&_.upload-item]:border-[#6EE7B7]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "warning" in @color do %>
   defp dropzone_color("shadow", "warning") do
     [
       "[&_.dropzone-wrapper]:bg-[#FFF8E6]/80 text-[#FF8B08] [&_.dropzone-wrapper]:border-[#FF8B08]/80",
@@ -806,7 +848,8 @@ defmodule <%= @module %>  do
       "[&_.dropzone-wrapper]:shadow [&_.upload-item]:shadow hover:[&_.dropzone-wrapper]:bg-[#FFF8E6] [&_.upload-item]:border-[#FF8B08]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "danger" in @color do %>
   defp dropzone_color("shadow", "danger") do
     [
       "[&_.dropzone-wrapper]:bg-[#FFE6E6]/80 text-[#E73B3B] [&_.dropzone-wrapper]:border-[#E73B3B]/80",
@@ -814,7 +857,8 @@ defmodule <%= @module %>  do
       "[&_.dropzone-wrapper]:shadow [&_.upload-item]:shadow hover:[&_.dropzone-wrapper]:bg-[#FFE6E6] [&_.upload-item]:border-[#E73B3B]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "info" in @color do %>
   defp dropzone_color("shadow", "info") do
     [
       "[&_.dropzone-wrapper]:bg-[#E5F0FF]/80 text-[#004FC4] [&_.dropzone-wrapper]:border-[#004FC4]/80",
@@ -822,7 +866,8 @@ defmodule <%= @module %>  do
       "[&_.dropzone-wrapper]:shadow [&_.upload-item]:shadow hover:[&_.dropzone-wrapper]:bg-[#E5F0FF] [&_.upload-item]:border-[#004FC4]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "misc" in @color do %>
   defp dropzone_color("shadow", "misc") do
     [
       "[&_.dropzone-wrapper]:bg-[#FFE6FF]/80 text-[#52059C] [&_.dropzone-wrapper]:border-[#52059C]/80",
@@ -830,7 +875,8 @@ defmodule <%= @module %>  do
       "[&_.dropzone-wrapper]:shadow [&_.upload-item]:shadow hover:[&_.dropzone-wrapper]:bg-[#FFE6FF] [&_.upload-item]:border-[#52059C]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "dawn" in @color do %>
   defp dropzone_color("shadow", "dawn") do
     [
       "[&_.dropzone-wrapper]:bg-[#FFECDA]/80 text-[#4D4137] [&_.dropzone-wrapper]:border-[#4D4137]/80",
@@ -838,7 +884,8 @@ defmodule <%= @module %>  do
       "[&_.dropzone-wrapper]:shadow [&_.upload-item]:shadow hover:[&_.dropzone-wrapper]:bg-[#FFECDA] [&_.upload-item]:border-[#4D4137]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "light" in @color do %>
   defp dropzone_color("shadow", "light") do
     [
       "[&_.dropzone-wrapper]:bg-[#E3E7F1]/80 text-[#707483] [&_.dropzone-wrapper]:border-[#707483]/80",
@@ -846,7 +893,8 @@ defmodule <%= @module %>  do
       "[&_.dropzone-wrapper]:shadow [&_.upload-item]:shadow hover:[&_.dropzone-wrapper]:bg-[#E3E7F1] [&_.upload-item]:border-[#707483]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "dark" in @color do %>
   defp dropzone_color("shadow", "dark") do
     [
       "[&_.dropzone-wrapper]:bg-[#1E1E1E]/80 text-[#1E1E1E] [&_.dropzone-wrapper]:border-[#050404]/80",
@@ -854,6 +902,7 @@ defmodule <%= @module %>  do
       "[&_.dropzone-wrapper]:shadow [&_.upload-item]:shadow hover:[&_.dropzone-wrapper]:bg-[#1E1E1E] [&_.upload-item]:border-[#050404]"
     ]
   end
+  <% end %>
   <% end %>
   defp translate_error({msg, opts}) do
     # When using gettext, we typically pass the strings we want
