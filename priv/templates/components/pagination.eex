@@ -326,6 +326,7 @@ defmodule <%= @module %> do
     ["[&.grouped-pagination]:border border-transparent"]
   end
 
+  <%= if is_nil(@color) or "white" in @color do %>
   defp border_class("white") do
     [
       "[&.grouped-pagination]:border [&.grouped-pagination_.pagination-button]:border-r",
@@ -336,7 +337,8 @@ defmodule <%= @module %> do
       "[&.grouped-pagination_.pagination-seperator]:border-[#DADADA]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "primary" in @color do %>
   defp border_class("primary") do
     [
       "[&.grouped-pagination]:border [&.grouped-pagination_.pagination-button]:border-r",
@@ -347,7 +349,8 @@ defmodule <%= @module %> do
       "[&.grouped-pagination_.pagination-seperator]:border-[#2441de]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "secondary" in @color do %>
   defp border_class("secondary") do
     [
       "[&.grouped-pagination]:border [&.grouped-pagination_.pagination-button]:border-r",
@@ -358,7 +361,8 @@ defmodule <%= @module %> do
       "[&.grouped-pagination_.pagination-seperator]:border-[#3d3f49]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "success" in @color do %>
   defp border_class("success") do
     [
       "[&.grouped-pagination]:border [&.grouped-pagination_.pagination-button]:border-r",
@@ -369,7 +373,8 @@ defmodule <%= @module %> do
       "[&.grouped-pagination_.pagination-seperator]:border-[#227A52]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "warning" in @color do %>
   defp border_class("warning") do
     [
       "[&.grouped-pagination]:border [&.grouped-pagination_.pagination-button]:border-r",
@@ -380,7 +385,8 @@ defmodule <%= @module %> do
       "[&.grouped-pagination_.pagination-seperator]:border-[#FF8B08]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "danger" in @color do %>
   defp border_class("danger") do
     [
       "[&.grouped-pagination]:border [&.grouped-pagination_.pagination-button]:border-r",
@@ -391,7 +397,8 @@ defmodule <%= @module %> do
       "[&.grouped-pagination_.pagination-seperator]:border-[#E73B3B]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "info" in @color do %>
   defp border_class("info") do
     [
       "[&.grouped-pagination]:border [&.grouped-pagination_.pagination-button]:border-r",
@@ -402,7 +409,8 @@ defmodule <%= @module %> do
       "[&.grouped-pagination_.pagination-seperator]:border-[#004FC4]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "misc" in @color do %>
   defp border_class("misc") do
     [
       "[&.grouped-pagination]:border [&.grouped-pagination_.pagination-button]:border-r",
@@ -413,7 +421,8 @@ defmodule <%= @module %> do
       "[&.grouped-pagination_.pagination-seperator]:border-[#52059C]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "dawn" in @color do %>
   defp border_class("dawn") do
     [
       "[&.grouped-pagination]:border [&.grouped-pagination_.pagination-button]:border-r",
@@ -424,7 +433,8 @@ defmodule <%= @module %> do
       "[&.grouped-pagination_.pagination-seperator]:border-[#4D4137]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "light" in @color do %>
   defp border_class("light") do
     [
       "[&.grouped-pagination]:border [&.grouped-pagination_.pagination-button]:border-r",
@@ -435,7 +445,8 @@ defmodule <%= @module %> do
       "[&.grouped-pagination_.pagination-seperator]:border-[#707483]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "dark" in @color do %>
   defp border_class("dark") do
     [
       "[&.grouped-pagination]:border [&.grouped-pagination_.pagination-button]:border-r",
@@ -446,33 +457,42 @@ defmodule <%= @module %> do
       "[&.grouped-pagination_.pagination-seperator]:border-[#1E1E1E]"
     ]
   end
+  <% end %>
 
+  <%= if is_nil(@rounded) or "extra_small" in @rounded do %>
   defp rounded_size("extra_small"),
     do:
       "[&.grouped-pagination]:rounded-sm [&:not(.grouped-pagination)_.pagination-button]:rounded-sm"
-
+  <% end %>
+  <%= if is_nil(@rounded) or "small" in @rounded do %>
   defp rounded_size("small"),
     do: "[&.grouped-pagination]:rounded [&:not(.grouped-pagination)_.pagination-button]:rounded"
-
+  <% end %>
+  <%= if is_nil(@rounded) or "medium" in @rounded do %>
   defp rounded_size("medium"),
     do:
       "[&.grouped-pagination]:rounded-md [&:not(.grouped-pagination)_.pagination-button]:rounded-md"
-
+  <% end %>
+  <%= if is_nil(@rounded) or "large" in @rounded do %>
   defp rounded_size("large"),
     do:
       "[&.grouped-pagination]:rounded-lg [&:not(.grouped-pagination)_.pagination-button]:rounded-lg"
-
+  <% end %>
+  <%= if is_nil(@rounded) or "extra_large" in @rounded do %>
   defp rounded_size("extra_large"),
     do:
       "[&.grouped-pagination]:rounded-xl [&:not(.grouped-pagination)_.pagination-button]:rounded-xl"
-
+  <% end %>
+  <%= if is_nil(@rounded) or "full" in @rounded do %>
   defp rounded_size("full"),
     do:
       "[&.grouped-pagination]:rounded-full [&:not(.grouped-pagination)_.pagination-button]:rounded-full"
-
+  <% end %>
+  <%= if is_nil(@rounded) or "none" in @rounded do %>
   defp rounded_size("none"),
     do:
       "[&.grouped-pagination]:rounded-none [&:not(.grouped-pagination)_.pagination-button]:rounded-none"
+  <% end %>
 
   defp size_class("extra_small") do
     [
