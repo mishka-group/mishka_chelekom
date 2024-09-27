@@ -317,76 +317,87 @@ defmodule <%= @module %> do
   defp rounded_size(_), do: "rounded-t-none"
 
   <%= if is_nil(@variant) or "default" in @variant do %>
+  <%= if is_nil(@color) or "white" in @color do %>
   defp color_variant("default", "white") do
     [
       "bg-white text-[#3E3E3E] border-[#DADADA]",
       "[&_.navbar-button]:bg-white [&_.navbar-button]:border-[#DADADA]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "primary" in @color do %>
   defp color_variant("default", "primary") do
     [
       "bg-[#4363EC] text-white border-[#2441de]",
       "[&_.navbar-button]:bg-[#4363EC] [&_.navbar-button]:border-[#2441de]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "secondary" in @color do %>
   defp color_variant("default", "secondary") do
     [
       "bg-[#6B6E7C] text-white border-[#877C7C]",
       "[&_.navbar-button]:bg-[#6B6E7C] [&_.navbar-button]:border-[#877C7C]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "success" in @color do %>
   defp color_variant("default", "success") do
     [
       "bg-[#ECFEF3] text-[#047857] border-[#6EE7B7]",
       "[&_.navbar-button]:bg-[#ECFEF3] [&_.navbar-button]:border-[#6EE7B7]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "warning" in @color do %>
   defp color_variant("default", "warning") do
     [
       "bg-[#FFF8E6] text-[#FF8B08] border-[#FF8B08]",
       "[&_.navbar-button]:bg-[#FFF8E6] [&_.navbar-button]:border-[#FF8B08]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "danger" in @color do %>
   defp color_variant("default", "danger") do
     [
       "bg-[#FFE6E6] text-[#E73B3B] border-[#E73B3B]",
       "[&_.navbar-button]:bg-[#FFE6E6] [&_.navbar-button]:border-[#E73B3B]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "info" in @color do %>
   defp color_variant("default", "info") do
     [
       "bg-[#E5F0FF] text-[#004FC4] border-[#004FC4]",
       "[&_.navbar-button]:bg-[#E5F0FF] [&_.navbar-button]:border-[#004FC4]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "misc" in @color do %>
   defp color_variant("default", "misc") do
     [
       "bg-[#FFE6FF] text-[#52059C] border-[#52059C]",
       "[&_.navbar-button]:bg-[#FFE6FF] [&_.navbar-button]:border-[#52059C]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "dawn" in @color do %>
   defp color_variant("default", "dawn") do
     [
       "bg-[#FFECDA] text-[#4D4137] border-[#4D4137]",
       "[&_.navbar-button]:bg-[#FFECDA] [&_.navbar-button]:border-[#4D4137]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "light" in @color do %>
   defp color_variant("default", "light") do
     [
       "bg-[#E3E7F1] text-[#707483] border-[#707483]",
       "[&_.navbar-button]:bg-[#E3E7F1] [&_.navbar-button]:border-[#707483]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "dark" in @color do %>
   defp color_variant("default", "dark") do
     [
       "bg-[#1E1E1E] text-white border-[#050404]",
@@ -394,77 +405,89 @@ defmodule <%= @module %> do
     ]
   end
   <% end %>
+  <% end %>
   <%= if is_nil(@variant) or "unbordered" in @variant do %>
+  <%= if is_nil(@color) or "white" in @color do %>
   defp color_variant("unbordered", "white") do
     [
       "bg-white text-[#3E3E3E] border-transparent",
       "[&_.navbar-button]:bg-white [&_.navbar-button]:border-[#DADADA]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "primary" in @color do %>
   defp color_variant("unbordered", "primary") do
     [
       "bg-[#4363EC] text-white border-transparent",
       "[&_.navbar-button]:bg-[#4363EC] [&_.navbar-button]:border-[#2441de]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "secondary" in @color do %>
   defp color_variant("unbordered", "secondary") do
     [
       "bg-[#6B6E7C] text-white border-transparent",
       "[&_.navbar-button]:bg-[#6B6E7C] [&_.navbar-button]:border-[#877C7C]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "success" in @color do %>
   defp color_variant("unbordered", "success") do
     [
       "bg-[#ECFEF3] text-[#047857] border-transparent",
       "[&_.navbar-button]:bg-[#ECFEF3] [&_.navbar-button]:border-[#6EE7B7]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "warning" in @color do %>
   defp color_variant("unbordered", "warning") do
     [
       "bg-[#FFF8E6] text-[#FF8B08] border-transparent",
       "[&_.navbar-button]:bg-[#FFF8E6] [&_.navbar-button]:border-[#FF8B08]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "danger" in @color do %>
   defp color_variant("unbordered", "danger") do
     [
       "bg-[#FFE6E6] text-[#E73B3B] border-transparent",
       "[&_.navbar-button]:bg-[#FFE6E6] [&_.navbar-button]:border-[#E73B3B]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "info" in @color do %>
   defp color_variant("unbordered", "info") do
     [
       "bg-[#E5F0FF] text-[#004FC4] border-transparent",
       "[&_.navbar-button]:bg-[#E5F0FF] [&_.navbar-button]:border-[#004FC4]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "misc" in @color do %>
   defp color_variant("unbordered", "misc") do
     [
       "bg-[#FFE6FF] text-[#52059C] border-transparent",
       "[&_.navbar-button]:bg-[#FFE6FF] [&_.navbar-button]:border-[#52059C]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "dawn" in @color do %>
   defp color_variant("unbordered", "dawn") do
     [
       "bg-[#FFECDA] text-[#4D4137] border-transparent",
       "[&_.navbar-button]:bg-[#FFECDA] [&_.navbar-button]:border-[#4D4137]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "light" in @color do %>
   defp color_variant("unbordered", "light") do
     [
       "bg-[#E3E7F1] text-[#707483] border-transparent",
       "[&_.navbar-button]:bg-[#E3E7F1] [&_.navbar-button]:border-[#707483]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "dark" in @color do %>
   defp color_variant("unbordered", "dark") do
     [
       "bg-[#1E1E1E] text-white border-transparent",
@@ -472,77 +495,89 @@ defmodule <%= @module %> do
     ]
   end
   <% end %>
+  <% end %>
   <%= if is_nil(@variant) or "shadow" in @variant do %>
+  <%= if is_nil(@color) or "white" in @color do %>
   defp color_variant("shadow", "white") do
     [
       "bg-white text-[#3E3E3E] border-[#DADADA] shadow-md",
       "[&_.navbar-button]:bg-white [&_.navbar-button]:border-[#DADADA]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "primary" in @color do %>
   defp color_variant("shadow", "primary") do
     [
       "bg-[#4363EC] text-white border-[#4363EC] shadow-md",
       "[&_.navbar-button]:bg-[#4363EC] [&_.navbar-button]:border-[#2441de]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "secondary" in @color do %>
   defp color_variant("shadow", "secondary") do
     [
       "bg-[#6B6E7C] text-white border-[#6B6E7C] shadow-md",
       "[&_.navbar-button]:bg-[#6B6E7C] [&_.navbar-button]:border-[#877C7C]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "success" in @color do %>
   defp color_variant("shadow", "success") do
     [
       "bg-[#AFEAD0] text-[#227A52] border-[#AFEAD0] shadow-md",
       "[&_.navbar-button]:bg-[#ECFEF3] [&_.navbar-button]:border-[#6EE7B7]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "warning" in @color do %>
   defp color_variant("shadow", "warning") do
     [
       "bg-[#FFF8E6] text-[#FF8B08] border-[#FFF8E6] shadow-md",
       "[&_.navbar-button]:bg-[#FFF8E6] [&_.navbar-button]:border-[#FF8B08]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "danger" in @color do %>
   defp color_variant("shadow", "danger") do
     [
       "bg-[#FFE6E6] text-[#E73B3B] border-[#FFE6E6] shadow-md",
       "[&_.navbar-button]:bg-[#FFE6E6] [&_.navbar-button]:border-[#E73B3B]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "info" in @color do %>
   defp color_variant("shadow", "info") do
     [
       "bg-[#E5F0FF] text-[#004FC4] border-[#E5F0FF] shadow-md",
       "[&_.navbar-button]:bg-[#E5F0FF] [&_.navbar-button]:border-[#004FC4]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "misc" in @color do %>
   defp color_variant("shadow", "misc") do
     [
       "bg-[#FFE6FF] text-[#52059C] border-[#FFE6FF] shadow-md",
       "[&_.navbar-button]:bg-[#FFE6FF] [&_.navbar-button]:border-[#52059C]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "dawn" in @color do %>
   defp color_variant("shadow", "dawn") do
     [
       "bg-[#FFECDA] text-[#4D4137] border-[#FFECDA] shadow-md",
       "[&_.navbar-button]:bg-[#FFECDA] [&_.navbar-button]:border-[#4D4137]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "light" in @color do %>
   defp color_variant("shadow", "light") do
     [
       "bg-[#E3E7F1] text-[#707483] border-[#E3E7F1] shadow-md",
       "[&_.navbar-button]:bg-[#E3E7F1] [&_.navbar-button]:border-[#707483]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "dark" in @color do %>
   defp color_variant("shadow", "dark") do
     [
       "bg-[#1E1E1E] text-white border-[#1E1E1E] shadow-md",
@@ -550,6 +585,8 @@ defmodule <%= @module %> do
     ]
   end
   <% end %>
+  <% end %>
+
   attr :name, :string, required: true, doc: "Specifies the name of the element"
   attr :class, :any, default: nil, doc: "Custom CSS class for additional styling"
 
