@@ -182,6 +182,7 @@ defmodule <%= @module %> do
   defp space_class(params) when is_binary(params), do: params
   defp space_class(_), do: nil
 
+  <%= if is_nil(@variant) or "outline" in @variant do %>
   defp color_variant("outline", "white") do
     ["text-[@dadada] border-white"]
   end
@@ -229,7 +230,8 @@ defmodule <%= @module %> do
   defp color_variant("outline", "dark") do
     ["text-[#1E1E1E] border-[#050404]"]
   end
-
+  <% end %>
+  <%= if is_nil(@variant) or "default" in @variant do %>
   defp color_variant("default", "white") do
     ["bg-white text-[#3E3E3E] border-[#DADADA]"]
   end
@@ -273,7 +275,8 @@ defmodule <%= @module %> do
   defp color_variant("default", "dark") do
     ["bg-[#1E1E1E] text-white border-[#050404]"]
   end
-
+  <% end %>
+  <%= if is_nil(@variant) or "unbordered" in @variant do %>
   defp color_variant("unbordered", "white") do
     ["bg-white border-transparent text-[#3E3E3E]"]
   end
@@ -317,7 +320,8 @@ defmodule <%= @module %> do
   defp color_variant("unbordered", "dark") do
     ["bg-[#1E1E1E] border-transparent text-white"]
   end
-
+  <% end %>
+  <%= if is_nil(@variant) or "shadow" in @variant do %>
   defp color_variant("shadow", "white") do
     ["bg-white text-[#3E3E3E] shadow"]
   end
@@ -361,6 +365,6 @@ defmodule <%= @module %> do
   defp color_variant("shadow", "dark") do
     ["bg-[#1E1E1E] text-[#1E1E1E] shadow"]
   end
-
+  <% end %>
   defp color_variant(_, _), do: nil
 end
