@@ -36,7 +36,7 @@ defmodule <%= @module %> do
     "default",
     "shadow"
   ]
-
+  <%= if is_nil(@type) or "popover" in @type do %>
   @doc """
   Renders a customizable `popover` component that can display additional information when an element is
   hovered or clicked.
@@ -142,7 +142,8 @@ defmodule <%= @module %> do
     </div>
     """
   end
-
+  <% end %>
+  <%= if is_nil(@type) or "popover_trigger" in @type do %>
   @doc """
   Renders a `popover_trigger` element, which is used to show or hide a popover content element.
   The trigger can be rendered as either an inline or block element. When the trigger is clicked,
@@ -231,7 +232,8 @@ defmodule <%= @module %> do
     </div>
     """
   end
-
+  <% end %>
+  <%= if is_nil(@type) or "popover_content" in @type do %>
   @doc """
   Renders a `popover_content` element, which displays additional information when the associated
   popover trigger is activated.
@@ -336,6 +338,7 @@ defmodule <%= @module %> do
     </div>
     """
   end
+  <% end %>
 
   defp tirgger_popover(),
     do: "[&_.popover-content]:hover:visible [&_.popover-content]:hover:opacity-100"
