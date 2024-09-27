@@ -46,6 +46,7 @@ defmodule <%= @module %> do
     "dawn"
   ]
 
+  <%= if is_nil(@type) or "list" in @type do %>
   @doc """
   Renders a `list` component that supports both ordered and unordered lists with customizable styles,
   sizes, and colors.
@@ -111,7 +112,8 @@ defmodule <%= @module %> do
     </.ul>
     """
   end
-
+  <% end %>
+  <%= if is_nil(@type) or "li" in @type do %>
   @doc """
   Renders a list item (`li`) component with optional count, icon, and custom styles.
   This component is versatile and can be used within a list to display content with specific alignment,
@@ -177,7 +179,8 @@ defmodule <%= @module %> do
     </li>
     """
   end
-
+  <% end %>
+  <%= if is_nil(@type) or "ul" in @type do %>
   @doc """
   Renders an unordered list (`ul`) component with customizable styles and attributes.
   You can define the appearance of the list using options for color, variant, size, width, and more.
@@ -242,7 +245,8 @@ defmodule <%= @module %> do
     </ul>
     """
   end
-
+  <% end %>
+  <%= if is_nil(@type) or "ol" in @type do %>
   @doc """
   Renders an ordered list (`ol`) component with customizable styles and attributes.
   The list can be styled with different colors, variants, sizes, widths, and spacing to
@@ -304,7 +308,8 @@ defmodule <%= @module %> do
     </ol>
     """
   end
-
+  <% end %>
+  <%= if is_nil(@type) or "list_group" in @type do %>
   @doc """
   Renders a list group component with customizable styles, borders, and padding. It can be used to group list items with different variants, colors, and sizes.
 
@@ -383,7 +388,7 @@ defmodule <%= @module %> do
     </ul>
     """
   end
-
+  <% end %>
   defp content_position("start") do
     "justify-start"
   end
@@ -399,49 +404,89 @@ defmodule <%= @module %> do
   defp content_position(_), do: content_position("start")
 
   defp border_class(_, variant) when variant in ["seperated", "tinted_split"], do: "border-0"
+  <%= if is_nil(@size) or "extra_small" in @size do %>
   defp border_class("extra_small", _), do: "border"
+  <% end %>
+  <%= if is_nil(@size) or "small" in @size do %>
   defp border_class("small", _), do: "border-2"
+  <% end %>
+  <%= if is_nil(@size) or "medium" in @size do %>
   defp border_class("medium", _), do: "border-[3px]"
+  <% end %>
+  <%= if is_nil(@size) or "large" in @size do %>
   defp border_class("large", _), do: "border-4"
+  <% end %>
+  <%= if is_nil(@size) or "extra_large" in @size do %>
   defp border_class("extra_large", _), do: "border-[5px]"
+  <% end %>
+  <%= if is_nil(@size) or "none" in @size do %>
   defp border_class("none", _), do: "border-0"
+  <% end %>
   defp border_class(params, _) when is_binary(params), do: params
   defp border_class(_, _), do: nil
 
+  <%= if is_nil(@rounded) or "extra_small" in @rounded do %>
   defp rounded_size("extra_small"),
     do: "[&:not(.list-items-gap)]:rounded-sm [&.list-items-gap>li]:rounded-sm"
-
+  <% end %>
+  <%= if is_nil(@rounded) or "small" in @rounded do %>
   defp rounded_size("small"), do: "[&:not(.list-items-gap)]:rounded [&.list-items-gap>li]:rounded"
-
+  <% end %>
+  <%= if is_nil(@rounded) or "medium" in @rounded do %>
   defp rounded_size("medium"),
     do: "[&:not(.list-items-gap)]:rounded-md [&.list-items-gap>li]:rounded-md"
-
+  <% end %>
+  <%= if is_nil(@rounded) or "large" in @rounded do %>
   defp rounded_size("large"),
     do: "[&:not(.list-items-gap)]:rounded-lg [&.list-items-gap>li]:rounded-lg"
-
+  <% end %>
+  <%= if is_nil(@rounded) or "extra_large" in @rounded do %>
   defp rounded_size("extra_large"),
     do: "[&:not(.list-items-gap)]:rounded-xl [&.list-items-gap>li]:rounded-xl"
-
+  <% end %>
+  <%= if is_nil(@rounded) or "full" in @rounded do %>
   defp rounded_size("full"),
     do: "[&:not(.list-items-gap)]:rounded-full [&.list-items-gap>li]:rounded:full"
-
+  <% end %>
+  <%= if is_nil(@rounded) or "none" in @rounded do %>
   defp rounded_size("none"),
     do: "[&:not(.list-items-gap)]:rounded-none [&.list-items-gap>li]:rounded-none"
+  <% end %>
 
   defp variant_space(_, variant) when variant not in ["seperated", "tinted_split"], do: nil
+  <%= if is_nil(@space) or "extra_small" in @space do %>
   defp variant_space("extra_small", _), do: "list-items-gap space-y-2"
+  <% end %>
+  <%= if is_nil(@space) or "small" in @space do %>
   defp variant_space("small", _), do: "list-items-gap space-y-3"
+  <% end %>
+  <%= if is_nil(@space) or "medium" in @space do %>
   defp variant_space("medium", _), do: "list-items-gap space-y-4"
+  <% end %>
+  <%= if is_nil(@space) or "large" in @space do %>
   defp variant_space("large", _), do: "list-items-gap space-y-5"
+  <% end %>
+  <%= if is_nil(@space) or "extra_large" in @space do %>
   defp variant_space("extra_large", _), do: "list-items-gap space-y-6"
+  <% end %>
   defp variant_space(params, _) when is_binary(params), do: params
   defp variant_space(_, _), do: nil
 
+  <%= if is_nil(@space) or "extra_small" in @space do %>
   defp list_space("extra_small"), do: "space-y-2"
+  <% end %>
+  <%= if is_nil(@space) or "small" in @space do %>
   defp list_space("small"), do: "space-y-3"
+  <% end %>
+  <%= if is_nil(@space) or "medium" in @space do %>
   defp list_space("medium"), do: "space-y-4"
+  <% end %>
+  <%= if is_nil(@space) or "large" in @space do %>
   defp list_space("large"), do: "space-y-5"
+  <% end %>
+  <%= if is_nil(@space) or "extra_large" in @space do %>
   defp list_space("extra_large"), do: "space-y-6"
+  <% end %>
   defp list_space(params) when is_binary(params), do: params
   defp list_space(_), do: nil
 
@@ -454,23 +499,50 @@ defmodule <%= @module %> do
   defp width_class(params) when is_binary(params), do: params
   defp width_class(_), do: width_class("full")
 
+  <%= if is_nil(@size) or "extra_small" in @size do %>
   defp size_class("extra_small"), do: "text-xs [&_.list-item-icon]:size-4"
+  <% end %>
+  <%= if is_nil(@size) or "small" in @size do %>
   defp size_class("small"), do: "text-sm [&_.list-item-icon]:size-5"
+  <% end %>
+  <%= if is_nil(@size) or "medium" in @size do %>
   defp size_class("medium"), do: "text-base [&_.list-item-icon]:size-6"
+  <% end %>
+  <%= if is_nil(@size) or "large" in @size do %>
   defp size_class("large"), do: "text-lg [&_.list-item-icon]:size-7"
+  <% end %>
+  <%= if is_nil(@size) or "extra_large" in @size do %>
   defp size_class("extra_large"), do: "text-xl [&_.list-item-icon]:size-8"
+  <% end %>
   defp size_class(params) when is_binary(params), do: params
+  <%= if is_nil(@size) or "medium" in @size do %>
   defp size_class(_), do: size_class("medium")
+  <% end %>
 
+  <%= if is_nil(@padding) or "extra_small" in @padding do %>
   defp padding_size("extra_small"), do: "p-1"
+  <% end %>
+  <%= if is_nil(@padding) or "small" in @padding do %>
   defp padding_size("small"), do: "p-2"
+  <% end %>
+  <%= if is_nil(@padding) or "medium" in @padding do %>
   defp padding_size("medium"), do: "p-3"
+  <% end %>
+  <%= if is_nil(@padding) or "large" in @padding do %>
   defp padding_size("large"), do: "p-4"
+  <% end %>
+  <%= if is_nil(@padding) or "extra_large" in @padding do %>
   defp padding_size("extra_large"), do: "p-5"
+  <% end %>
+  <%= if is_nil(@padding) or "none" in @padding do %>
   defp padding_size("none"), do: "p-0"
+  <% end %>
   defp padding_size(params) when is_binary(params), do: params
+  <%= if is_nil(@padding) or "none" in @padding do %>
   defp padding_size(_), do: padding_size("none")
+  <% end %>
 
+  <%= if is_nil(@variant) or "default" in @variant do %>
   defp color_variant("default", "white") do
     [
       "bg-white border border-[#DADADA] text-[#3E3E3E]",
@@ -566,7 +638,8 @@ defmodule <%= @module %> do
       "[&>li:not(:last-child)]:border-[#DADADA]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@variant) or "outline" in @variant do %>
   defp color_variant("outline", "primary") do
     [
       "border border-[#2441de]",
@@ -646,7 +719,8 @@ defmodule <%= @module %> do
       "[&>li:not(:last-child)]:border-[#1E1E1E]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@variant) or "filled" in @variant do %>
   defp color_variant("filled", "white") do
     [
       "bg-white text-[#3E3E3E]"
@@ -712,7 +786,8 @@ defmodule <%= @module %> do
       "bg-[#1E1E1E] text-white"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@variant) or "tinted_split" in @variant do %>
   defp color_variant("tinted_split", "white") do
     [
       "[&>li]:bg-white text-[#3E3E3E]",
@@ -789,7 +864,8 @@ defmodule <%= @module %> do
       "[&>li]:border [&>li]:border-[#1E1E1E]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@variant) or "seperated" in @variant do %>
   defp color_variant("seperated", "white") do
     [
       "[&>li]:bg-white",
@@ -866,12 +942,10 @@ defmodule <%= @module %> do
       "[&>li]:border [&>li]:border-[#1E1E1E]"
     ]
   end
-
-  defp color_variant("transparent", _) do
-    [
-      "bg-transplant"
-    ]
-  end
+  <% end %>
+  <%= if is_nil(@variant) or "transparent" in @variant do %>
+  defp color_variant("transparent", _), do: ["bg-transplant"]
+  <% end %>
 
   attr :name, :string, required: true, doc: "Specifies the name of the element"
   attr :class, :any, default: nil, doc: "Custom CSS class for additional styling"
