@@ -1,0 +1,27 @@
+[
+  number_field: [
+    name: "number_field",
+    args: [
+      variant: ["outline", "default", "shadow", "unbordered", "transparent"],
+      color: [
+        "white",
+        "primary",
+        "secondary",
+        "dark",
+        "success",
+        "warning",
+        "danger",
+        "info",
+        "light",
+        "misc",
+        "dawn"
+      ],
+      padding: ["extra_small", "small", "medium", "large", "extra_large", "none"],
+      rounded: ["extra_small", "small", "medium", "large", "extra_large"],
+      space: ["extra_small", "small", "medium", "large", "extra_large"],
+      module: ""
+    ],
+    optional: [],
+    necessary: []
+  ]
+]
