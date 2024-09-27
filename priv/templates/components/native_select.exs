@@ -19,6 +19,7 @@
       space: ["extra_small", "small", "medium", "large", "extra_large"],
       rounded: ["extra_small", "small", "medium", "large", "extra_large", "full"],
       size: ["extra_small", "small", "medium", "large", "extra_large"],
+      type: ["native_select", "select_option_group"],
       module: ""
     ],
     optional: [],
