@@ -59,8 +59,8 @@ defmodule <%= @module %>  do
 
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :label_class, :string, default: nil, doc: "Custom CSS class for the label styling"
-  attr :color, :string, default: "primary", doc: "Determines color theme"
-  attr :variant, :string, default: "default", doc: "Determines the style"
+  attr :color, :string, values: @colors, default: "primary", doc: "Determines color theme"
+  attr :variant, :string, values: @variants, default: "default", doc: "Determines the style"
   attr :border, :string, default: "extra_small", doc: "Determines border style"
   attr :rounded, :string, default: "small", doc: "Determines the border radius"
   attr :live, :boolean, default: false, doc: "Specifies whether this upload is live or input file"
@@ -326,109 +326,169 @@ defmodule <%= @module %>  do
   defp error_to_string(:too_many_files), do: "You have selected too many files"
 
   defp border_class("none"), do: "[&_.dropzone-wrapper]:border-0"
+  <%= if is_nil(@size) or "extra_small" in @size do %>
   defp border_class("extra_small"), do: "[&_.dropzone-wrapper]:border"
+  <% end %>
+  <%= if is_nil(@size) or "small" in @size do %>
   defp border_class("small"), do: "[&_.dropzone-wrapper]:border-2"
+  <% end %>
+  <%= if is_nil(@size) or "medium" in @size do %>
   defp border_class("medium"), do: "[&_.dropzone-wrapper]:border-[3px]"
+  <% end %>
+  <%= if is_nil(@size) or "large" in @size do %>
   defp border_class("large"), do: "[&_.dropzone-wrapper]:border-4"
+  <% end %>
+  <%= if is_nil(@size) or "extra_large" in @size do %>
   defp border_class("extra_large"), do: "[&_.dropzone-wrapper]:border-[5px]"
+  <% end %>
   defp border_class(params) when is_binary(params), do: params
+  <%= if is_nil(@size) or "extra_small" in @size do %>
   defp border_class(_), do: border_class("extra_small")
+  <% end %>
 
+  <%= if is_nil(@size) or "extra_small" in @size do %>
   defp size_class("extra_small"), do: "[&_.dropzone-wrapper]:h-52"
+  <% end %>
+  <%= if is_nil(@size) or "small" in @size do %>
   defp size_class("small"), do: "[&_.dropzone-wrapper]:h-56"
+  <% end %>
+  <%= if is_nil(@size) or "medium" in @size do %>
   defp size_class("medium"), do: "[&_.dropzone-wrapper]:h-60"
+  <% end %>
+  <%= if is_nil(@size) or "large" in @size do %>
   defp size_class("large"), do: "[&_.dropzone-wrapper]:h-64"
+  <% end %>
+  <%= if is_nil(@size) or "extra_large" in @size do %>
   defp size_class("extra_large"), do: "[&_.dropzone-wrapper]:h-72"
+  <% end %>
   defp size_class(params) when is_binary(params), do: params
+  <%= if is_nil(@size) or "extra_small" in @size do %>
   defp size_class(_), do: size_class("extra_small")
+  <% end %>
 
+  <%= if is_nil(@rounded) or "extra_small" in @rounded do %>
   defp rounded_size("extra_small"),
     do: "[&_.file-field]:rounded-sm [&_.dropzone-wrapper]:rounded-sm"
-
+  <% end %>
+  <%= if is_nil(@rounded) or "small" in @rounded do %>
   defp rounded_size("small"), do: "[&_.file-field]:rounded [&_.dropzone-wrapper]:rounded"
+  <% end %>
+  <%= if is_nil(@rounded) or "medium" in @rounded do %>
   defp rounded_size("medium"), do: "[&_.file-field]:rounded-md [&_.dropzone-wrapper]:rounded-md"
+  <% end %>
+  <%= if is_nil(@rounded) or "large" in @rounded do %>
   defp rounded_size("large"), do: "[&_.file-field]:rounded-lg [&_.dropzone-wrapper]:rounded-lg"
+  <% end %>
 
+  <%= if is_nil(@rounded) or "extra_large" in @rounded do %>
   defp rounded_size("extra_large"),
     do: "[&_.file-field]:rounded-xl [&_.dropzone-wrapper]:rounded-xl"
+  <% end %>
 
   defp rounded_size(params) when is_binary(params), do: params
+  <%= if is_nil(@rounded) or "small" in @rounded do %>
   defp rounded_size(_), do: rounded_size("small")
+  <% end %>
 
+  <%= if is_nil(@space) or "extra_small" in @space do %>
   defp space_class("extra_small"), do: "space-y-1"
+  <% end %>
+  <%= if is_nil(@space) or "small" in @space do %>
   defp space_class("small"), do: "space-y-1.5"
+  <% end %>
+  <%= if is_nil(@space) or "medium" in @space do %>
   defp space_class("medium"), do: "space-y-2"
+  <% end %>
+  <%= if is_nil(@space) or "large" in @space do %>
   defp space_class("large"), do: "space-y-2.5"
+  <% end %>
+  <%= if is_nil(@space) or "extra_large" in @space do %>
   defp space_class("extra_large"), do: "space-y-3"
+  <% end %>
   defp space_class(params) when is_binary(params), do: params
+  <%= if is_nil(@space) or "medium" in @space do %>
   defp space_class(_), do: space_class("medium")
+  <% end %>
 
+  <%= if is_nil(@color) or "white" in @color do %>
   defp color_class("white") do
     [
       "[&_.file-field]:bg-white file:[&_.file-field]:text-[#DADADA] file:[&_.file-field]:bg-[#DADADA]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "primary" in @color do %>
   defp color_class("primary") do
     [
       "[&_.file-field]:bg-[#4363EC] file:[&_.file-field]:text-white [&_.file-field]:text-white file:[&_.file-field]:bg-[#2441de]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "secondary" in @color do %>
   defp color_class("secondary") do
     [
       "[&_.file-field]:bg-[#877C7C] file:[&_.file-field]:text-white [&_.file-field]:text-white file:[&_.file-field]:bg-[#6B6E7C]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "success" in @color do %>
   defp color_class("success") do
     [
       "[&_.file-field]:bg-[#ECFEF3] file:[&_.file-field]:text-white [&_.file-field]:text-[#047857] file:[&_.file-field]:bg-[#047857]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "warning" in @color do %>
   defp color_class("warning") do
     [
       "[&_.file-field]:bg-[#FFF8E6] file:[&_.file-field]:text-white [&_.file-field]:text-[#FF8B08] file:[&_.file-field]:bg-[#FF8B08]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "danger" in @color do %>
   defp color_class("danger") do
     [
       "[&_.file-field]:bg-[#FFE6E6] [&_.file-field]:text-[#E73B3B] file:[&_.file-field]:text-white file:[&_.file-field]:bg-[#E73B3B]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "info" in @color do %>
   defp color_class("info") do
     [
       "[&_.file-field]:bg-[#E5F0FF] file:[&_.file-field]:text-white [&_.file-field]:text-[#004FC4] file:[&_.file-field]:bg-[#004FC4]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "misc" in @color do %>
   defp color_class("misc") do
     [
       "[&_.file-field]:bg-[#FFE6FF] file:[&_.file-field]:text-white [&_.file-field]:text-[#52059C] file:[&_.file-field]:bg-[#52059C]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "dawn" in @color do %>
   defp color_class("dawn") do
     [
       "[&_.file-field]:bg-[#FFECDA] file:[&_.file-field]:text-white [&_.file-field]:text-[#4D4137] file:[&_.file-field]:bg-[#4D4137]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "light" in @color do %>
   defp color_class("light") do
     [
       "[&_.file-field]:bg-[#E3E7F1] file:[&_.file-field]:text-white [&_.file-field]:text-[#707483] file:[&_.file-field]:bg-[#707483]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "dark" in @color do %>
   defp color_class("dark") do
     [
       "[&_.file-field]:bg-[#383838] file:[&_.file-field]:text-white [&_.file-field]:text-white file:[&_.file-field]:bg-[#1E1E1E]"
     ]
   end
+  <% end %>
 
+  <%= if is_nil(@variant) or "outline" in @variant do %>
   defp dropzone_color("outline", "white") do
     [
       "text-white [&_.dropzone-wrapper]:text-white [&_.dropzone-wrapper]:border-white",
@@ -524,7 +584,8 @@ defmodule <%= @module %>  do
       "[&_.upload-item]:border-[#050404]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@variant) or "default" in @variant do %>
   defp dropzone_color("default", "white") do
     [
       "[&_.dropzone-wrapper]:bg-white/80 text-[#3E3E3E] [&_.dropzone-wrapper]:border-[#DADADA]/80",
@@ -613,7 +674,8 @@ defmodule <%= @module %>  do
       "hover:[&_.dropzone-wrapper]:bg-[#1E1E1E] [&_.upload-item]:border-[#050404]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@variant) or "unbordered" in @variant do %>
   defp dropzone_color("unbordered", "white") do
     [
       "[&_.dropzone-wrapper]:bg-white/80 text-[#3E3E3E] [&_.dropzone-wrapper]:border-transparent",
@@ -702,7 +764,8 @@ defmodule <%= @module %>  do
       "hover:[&_.dropzone-wrapper]:bg-[#1E1E1E] [&_.upload-item]:border-[#050404]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@variant) or "shadow" in @variant do %>
   defp dropzone_color("shadow", "white") do
     [
       "[&_.dropzone-wrapper]:bg-white/80 text-[#3E3E3E] [&_.dropzone-wrapper]:border-[#DADADA]/80",
@@ -791,7 +854,7 @@ defmodule <%= @module %>  do
       "[&_.dropzone-wrapper]:shadow [&_.upload-item]:shadow hover:[&_.dropzone-wrapper]:bg-[#1E1E1E] [&_.upload-item]:border-[#050404]"
     ]
   end
-
+  <% end %>
   defp translate_error({msg, opts}) do
     # When using gettext, we typically pass the strings we want
     # to translate as a static argument:
