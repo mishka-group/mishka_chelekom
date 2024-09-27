@@ -1,6 +1,6 @@
-defmodule MishkaChelekom.Menu do
+defmodule <%= @module %> do
   @moduledoc """
-  The `MishkaChelekom.Menu` module is designed to render a hierarchical menu structure in
+  The `<%= @module %>` module is designed to render a hierarchical menu structure in
   Phoenix LiveView applications. It provides a versatile menu component capable of
   handling both simple and complex navigation systems with nested sub-menus.
 
