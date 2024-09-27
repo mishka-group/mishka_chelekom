@@ -31,8 +31,7 @@ defmodule <%= @module %> do
     "info",
     "light",
     "misc",
-    "dawn",
-    "transparent"
+    "dawn"
   ]
 
   @variants [
@@ -151,7 +150,7 @@ defmodule <%= @module %> do
           [
             rounded_size(@rounded),
             size_class(@size),
-            border(@color),
+            border_class(@color),
             if(is_nil(@rest[:grouped]), do: @space, else: "gap-0 grouped-pagination"),
             @class
           ]
@@ -323,11 +322,11 @@ defmodule <%= @module %> do
   defp range(start, stop) when start > stop, do: []
   defp range(start, stop), do: Enum.to_list(start..stop)
 
-  defp border("transparent") do
+  defp border_class("transparent") do
     ["[&.grouped-pagination]:border border-transparent"]
   end
 
-  defp border("white") do
+  defp border_class("white") do
     [
       "[&.grouped-pagination]:border [&.grouped-pagination_.pagination-button]:border-r",
       "border-[#DADADA] [&.grouped-pagination_.pagination-button]:border-[#DADADA]",
@@ -338,7 +337,7 @@ defmodule <%= @module %> do
     ]
   end
 
-  defp border("primary") do
+  defp border_class("primary") do
     [
       "[&.grouped-pagination]:border [&.grouped-pagination_.pagination-button]:border-r",
       "border-[#4363EC] [&.grouped-pagination_.pagination-button]:border-[#2441de]",
@@ -349,7 +348,7 @@ defmodule <%= @module %> do
     ]
   end
 
-  defp border("secondary") do
+  defp border_class("secondary") do
     [
       "[&.grouped-pagination]:border [&.grouped-pagination_.pagination-button]:border-r",
       "border-[#6B6E7C] [&.grouped-pagination_.pagination-button]:border-[#3d3f49]",
@@ -360,7 +359,7 @@ defmodule <%= @module %> do
     ]
   end
 
-  defp border("success") do
+  defp border_class("success") do
     [
       "[&.grouped-pagination]:border [&.grouped-pagination_.pagination-button]:border-r",
       "border-[#227A52] [&.grouped-pagination_.pagination-button]:border-[#227A52]",
@@ -371,7 +370,7 @@ defmodule <%= @module %> do
     ]
   end
 
-  defp border("warning") do
+  defp border_class("warning") do
     [
       "[&.grouped-pagination]:border [&.grouped-pagination_.pagination-button]:border-r",
       "border-[#FF8B08] [&.grouped-pagination_.pagination-button]:border-[#FF8B08]",
@@ -382,7 +381,7 @@ defmodule <%= @module %> do
     ]
   end
 
-  defp border("danger") do
+  defp border_class("danger") do
     [
       "[&.grouped-pagination]:border [&.grouped-pagination_.pagination-button]:border-r",
       "border-[#E73B3B] [&.grouped-pagination_.pagination-button]:border-[#E73B3B]",
@@ -393,7 +392,7 @@ defmodule <%= @module %> do
     ]
   end
 
-  defp border("info") do
+  defp border_class("info") do
     [
       "[&.grouped-pagination]:border [&.grouped-pagination_.pagination-button]:border-r",
       "border-[#004FC4] [&.grouped-pagination_.pagination-button]:border-[#004FC4]",
@@ -404,7 +403,7 @@ defmodule <%= @module %> do
     ]
   end
 
-  defp border("misc") do
+  defp border_class("misc") do
     [
       "[&.grouped-pagination]:border [&.grouped-pagination_.pagination-button]:border-r",
       "border-[#52059C] [&.grouped-pagination_.pagination-button]:border-[#52059C]",
@@ -415,7 +414,7 @@ defmodule <%= @module %> do
     ]
   end
 
-  defp border("dawn") do
+  defp border_class("dawn") do
     [
       "[&.grouped-pagination]:border [&.grouped-pagination_.pagination-button]:border-r",
       "border-[#4D4137] [&.grouped-pagination_.pagination-button]:border-[#4D4137]",
@@ -426,7 +425,7 @@ defmodule <%= @module %> do
     ]
   end
 
-  defp border("light") do
+  defp border_class("light") do
     [
       "[&.grouped-pagination]:border [&.grouped-pagination_.pagination-button]:border-r",
       "border-[#707483] [&.grouped-pagination_.pagination-button]:border-[#707483]",
@@ -437,7 +436,7 @@ defmodule <%= @module %> do
     ]
   end
 
-  defp border("dark") do
+  defp border_class("dark") do
     [
       "[&.grouped-pagination]:border [&.grouped-pagination_.pagination-button]:border-r",
       "border-[#1E1E1E] [&.grouped-pagination_.pagination-button]:border-[#1E1E1E]",

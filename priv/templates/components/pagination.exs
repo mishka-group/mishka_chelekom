@@ -2,7 +2,7 @@
   pagination: [
     name: "pagination",
     args: [
-      variant: ["outline", "default", "shadow", "unbordered", "transparent"],
+      variant: ["default", "outline", "transparent", "subtle", "shadow", "inverted", "unbordered"],
       color: [
         "white",
         "primary",
@@ -14,11 +14,9 @@
         "info",
         "light",
         "misc",
-        "dawn",
-        "silver"
+        "dawn"
       ],
       size: ["extra_small", "small", "medium", "large", "extra_large"],
-      padding: ["extra_small", "small", "medium", "large", "extra_large", "none"],
       rounded: ["extra_small", "small", "medium", "large", "extra_large", "full"],
       space: ["extra_small", "small", "medium", "large", "extra_large"],
       module: ""
