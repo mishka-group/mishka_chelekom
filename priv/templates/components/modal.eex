@@ -233,6 +233,7 @@ defmodule <%= @module %> do
   defp size_class(_), do: size_class("extra_large")
   <% end %>
 
+  <%= if is_nil(@variant) or "default" in @variant do %>
   defp color_variant("default", "white") do
     "bg-white text-[#3E3E3E] border border-[#DADADA]"
   end
@@ -276,7 +277,8 @@ defmodule <%= @module %> do
   defp color_variant("default", "dark") do
     "bg-[#1E1E1E] text-white border border-[#050404]"
   end
-
+  <% end %>
+  <%= if is_nil(@variant) or "outline" in @variant do %>
   defp color_variant("outline", "white") do
     "bg-transparent text-white border-white"
   end
@@ -320,7 +322,8 @@ defmodule <%= @module %> do
   defp color_variant("outline", "dark") do
     "bg-transparent text-[#1E1E1E] border border-[#1E1E1E]"
   end
-
+  <% end %>
+  <%= if is_nil(@variant) or "unbordered" in @variant do %>
   defp color_variant("unbordered", "white") do
     "bg-white text-[#3E3E3E]"
   end
@@ -364,7 +367,8 @@ defmodule <%= @module %> do
   defp color_variant("unbordered", "dark") do
     "bg-[#1E1E1E] text-white"
   end
-
+  <% end %>
+  <%= if is_nil(@variant) or "transparent" in @variant do %>
   defp color_variant("transparent", "white") do
     "bg-transparent text-white"
   end
@@ -408,7 +412,8 @@ defmodule <%= @module %> do
   defp color_variant("transparent", "dark") do
     "bg-transparent text-[#1E1E1E]"
   end
-
+  <% end %>
+  <%= if is_nil(@variant) or "shadow" in @variant do %>
   defp color_variant("shadow", "white") do
     "bg-white text-[#3E3E3E] border border-[#DADADA] shadow"
   end
@@ -452,8 +457,13 @@ defmodule <%= @module %> do
   defp color_variant("shadow", "dark") do
     "bg-[#1E1E1E] text-white border border-[#1E1E1E] shadow"
   end
+  <% end %>
 
+  <%= if is_nil(@variant) or "default" in @variant do %>
+  <%= if is_nil(@color) or "white" in @color do %>
   defp color_variant(_, _), do: color_variant("default", "white")
+  <% end %>
+  <% end %>
 
   attr :name, :string, required: true, doc: "Specifies the name of the element"
   attr :class, :any, default: nil, doc: "Custom CSS class for additional styling"
