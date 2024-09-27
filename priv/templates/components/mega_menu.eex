@@ -355,184 +355,232 @@ defmodule <%= @module %> do
   <% end %>
 
   <%= if is_nil(@variant) or "default" in @variant do %>
+  <%= if is_nil(@color) or "white" in @color do %>
   defp color_variant("default", "white") do
     "[&>.mega-menu-content]:bg-white text-[#3E3E3E] [&>.mega-menu-content]:border-[#DADADA]"
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "primary" in @color do %>
   defp color_variant("default", "primary") do
     "[&>.mega-menu-content]:bg-[#4363EC] text-white [&>.mega-menu-content]:border-[#2441de]"
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "secondary" in @color do %>
   defp color_variant("default", "secondary") do
     "[&>.mega-menu-content]:bg-[#6B6E7C] text-white [&>.mega-menu-content]:border-[#877C7C]"
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "success" in @color do %>
   defp color_variant("default", "success") do
     "[&>.mega-menu-content]:bg-[#ECFEF3] text-[#047857] [&>.mega-menu-content]:border-[#6EE7B7]"
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "warning" in @color do %>
   defp color_variant("default", "warning") do
     "[&>.mega-menu-content]:bg-[#FFF8E6] text-[#FF8B08] [&>.mega-menu-content]:border-[#FF8B08]"
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "danger" in @color do %>
   defp color_variant("default", "danger") do
     "[&>.mega-menu-content]:bg-[#FFE6E6] text-[#E73B3B] [&>.mega-menu-content]:border-[#E73B3B]"
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "info" in @color do %>
   defp color_variant("default", "info") do
     "[&>.mega-menu-content]:bg-[#E5F0FF] text-[#004FC4] [&>.mega-menu-content]:border-[#004FC4]"
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "misc" in @color do %>
   defp color_variant("default", "misc") do
     "[&>.mega-menu-content]:bg-[#FFE6FF] text-[#52059C] [&>.mega-menu-content]:border-[#52059C]"
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "dawn" in @color do %>
   defp color_variant("default", "dawn") do
     "[&>.mega-menu-content]:bg-[#FFECDA] text-[#4D4137] [&>.mega-menu-content]:border-[#4D4137]"
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "light" in @color do %>
   defp color_variant("default", "light") do
     "[&>.mega-menu-content]:bg-[#E3E7F1] text-[#707483] [&>.mega-menu-content]:border-[#707483]"
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "dark" in @color do %>
   defp color_variant("default", "dark") do
     "[&>.mega-menu-content]:bg-[#1E1E1E] text-white [&>.mega-menu-content]:border-[#050404]"
   end
   <% end %>
+  <% end %>
   <%= if is_nil(@variant) or "outline" in @variant do %>
+  <%= if is_nil(@color) or "white" in @color do %>
   defp color_variant("outline", "white") do
     "[&>.mega-menu-content]:bg-transparent text-white border-white"
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "primary" in @color do %>
   defp color_variant("outline", "primary") do
     "[&>.mega-menu-content]:bg-transparent text-[#4363EC] [&>.mega-menu-content]:border-[#4363EC] "
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "secondary" in @color do %>
   defp color_variant("outline", "secondary") do
     "[&>.mega-menu-content]:bg-transparent text-[#6B6E7C] [&>.mega-menu-content]:border-[#6B6E7C]"
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "success" in @color do %>
   defp color_variant("outline", "success") do
     "[&>.mega-menu-content]:bg-transparent text-[#227A52] [&>.mega-menu-content]:border-[#6EE7B7]"
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "warning" in @color do %>
   defp color_variant("outline", "warning") do
     "[&>.mega-menu-content]:bg-transparent text-[#FF8B08] [&>.mega-menu-content]:border-[#FF8B08]"
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "danger" in @color do %>
   defp color_variant("outline", "danger") do
     "[&>.mega-menu-content]:bg-transparent text-[#E73B3B] [&>.mega-menu-content]:border-[#E73B3B]"
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "info" in @color do %>
   defp color_variant("outline", "info") do
     "[&>.mega-menu-content]:bg-transparent text-[#004FC4] [&>.mega-menu-content]:border-[#004FC4]"
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "misc" in @color do %>
   defp color_variant("outline", "misc") do
     "[&>.mega-menu-content]:bg-transparent text-[#52059C] [&>.mega-menu-content]:border-[#52059C]"
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "dawn" in @color do %>
   defp color_variant("outline", "dawn") do
     "[&>.mega-menu-content]:bg-transparent text-[#4D4137] [&>.mega-menu-content]:border-[#4D4137]"
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "light" in @color do %>
   defp color_variant("outline", "light") do
     "[&>.mega-menu-content]:bg-transparent text-[#707483] [&>.mega-menu-content]:border-[#707483]"
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "dark" in @color do %>
   defp color_variant("outline", "dark") do
     "[&>.mega-menu-content]:bg-transparent text-[#1E1E1E] [&>.mega-menu-content]:border-[#1E1E1E]"
   end
   <% end %>
+  <% end %>
   <%= if is_nil(@variant) or "unbordered" in @variant do %>
+  <%= if is_nil(@color) or "white" in @color do %>
   defp color_variant("unbordered", "white") do
     "[&>.mega-menu-content]:bg-white text-[#3E3E3E] border-transparent"
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "primary" in @color do %>
   defp color_variant("unbordered", "primary") do
     "[&>.mega-menu-content]:bg-[#4363EC] text-white border-transparent"
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "secondary" in @color do %>
   defp color_variant("unbordered", "secondary") do
     "[&>.mega-menu-content]:bg-[#6B6E7C] text-white border-transparent"
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "success" in @color do %>
   defp color_variant("unbordered", "success") do
     "[&>.mega-menu-content]:bg-[#ECFEF3] text-[#047857] border-transparent"
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "warning" in @color do %>
   defp color_variant("unbordered", "warning") do
     "[&>.mega-menu-content]:bg-[#FFF8E6] text-[#FF8B08] border-transparent"
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "danger" in @color do %>
   defp color_variant("unbordered", "danger") do
     "[&>.mega-menu-content]:bg-[#FFE6E6] text-[#E73B3B] border-transparent"
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "info" in @color do %>
   defp color_variant("unbordered", "info") do
     "[&>.mega-menu-content]:bg-[#E5F0FF] text-[#004FC4] border-transparent"
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "misc" in @color do %>
   defp color_variant("unbordered", "misc") do
     "[&>.mega-menu-content]:bg-[#FFE6FF] text-[#52059C] border-transparent"
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "dawn" in @color do %>
   defp color_variant("unbordered", "dawn") do
     "[&>.mega-menu-content]:bg-[#FFECDA] text-[#4D4137] border-transparent"
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "light" in @color do %>
   defp color_variant("unbordered", "light") do
     "[&>.mega-menu-content]:bg-[#E3E7F1] text-[#707483] border-transparent"
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "dark" in @color do %>
   defp color_variant("unbordered", "dark") do
     "[&>.mega-menu-content]:bg-[#1E1E1E] text-white border-transparent"
   end
   <% end %>
+  <% end %>
   <%= if is_nil(@variant) or "shadow" in @variant do %>
+  <%= if is_nil(@color) or "white" in @color do %>
   defp color_variant("shadow", "white") do
     "[&>.mega-menu-content]:bg-white text-[#3E3E3E] [&>.mega-menu-content]:border-[#DADADA] [&>.mega-menu-content]:shadow"
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "primary" in @color do %>
   defp color_variant("shadow", "primary") do
     "[&>.mega-menu-content]:bg-[#4363EC] text-white [&>.mega-menu-content]:border-[#4363EC] [&>.mega-menu-content]:shadow"
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "secondary" in @color do %>
   defp color_variant("shadow", "secondary") do
     "[&>.mega-menu-content]:bg-[#6B6E7C] text-white [&>.mega-menu-content]:border-[#6B6E7C] [&>.mega-menu-content]:shadow"
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "success" in @color do %>
   defp color_variant("shadow", "success") do
     "[&>.mega-menu-content]:bg-[#AFEAD0] text-[#227A52] [&>.mega-menu-content]:border-[#AFEAD0] [&>.mega-menu-content]:shadow"
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "warning" in @color do %>
   defp color_variant("shadow", "warning") do
     "[&>.mega-menu-content]:bg-[#FFF8E6] text-[#FF8B08] [&>.mega-menu-content]:border-[#FFF8E6] [&>.mega-menu-content]:shadow"
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "danger" in @color do %>
   defp color_variant("shadow", "danger") do
     "[&>.mega-menu-content]:bg-[#FFE6E6] text-[#E73B3B] [&>.mega-menu-content]:border-[#FFE6E6] [&>.mega-menu-content]:shadow"
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "info" in @color do %>
   defp color_variant("shadow", "info") do
     "[&>.mega-menu-content]:bg-[#E5F0FF] text-[#004FC4] [&>.mega-menu-content]:border-[#E5F0FF] [&>.mega-menu-content]:shadow"
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "misc" in @color do %>
   defp color_variant("shadow", "misc") do
     "[&>.mega-menu-content]:bg-[#FFE6FF] text-[#52059C] [&>.mega-menu-content]:border-[#FFE6FF] [&>.mega-menu-content]:shadow"
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "dawn" in @color do %>
   defp color_variant("shadow", "dawn") do
     "[&>.mega-menu-content]:bg-[#FFECDA] text-[#4D4137] [&>.mega-menu-content]:border-[#FFECDA] [&>.mega-menu-content]:shadow"
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "light" in @color do %>
   defp color_variant("shadow", "light") do
     "[&>.mega-menu-content]:bg-[#E3E7F1] text-[#707483] [&>.mega-menu-content]:border-[#E3E7F1] [&>.mega-menu-content]:shadow"
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "dark" in @color do %>
   defp color_variant("shadow", "dark") do
     "[&>.mega-menu-content]:bg-[#1E1E1E] text-white [&>.mega-menu-content]:border-[#1E1E1E] [&>.mega-menu-content]:shadow"
   end
+  <% end %>
   <% end %>
 
   attr :name, :string, required: true, doc: "Specifies the name of the element"
