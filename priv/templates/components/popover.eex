@@ -484,91 +484,118 @@ defmodule <%= @module %> do
   defp space_class(params) when is_binary(params), do: params
   defp space_class(_), do: "space-y-0"
 
+  <%= if is_nil(@variant) or "default" in @variant do %>
+  <%= if is_nil(@color) or "white" in @color do %>
   defp color_variant("default", "white") do
     "bg-white text-[#3E3E3E]"
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "primary" in @color do %>
   defp color_variant("default", "primary") do
     "bg-[#4363EC] text-white"
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "secondary" in @color do %>
   defp color_variant("default", "secondary") do
     "bg-[#6B6E7C] text-white"
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "success" in @color do %>
   defp color_variant("default", "success") do
     "bg-[#ECFEF3] text-[#047857]"
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "warning" in @color do %>
   defp color_variant("default", "warning") do
     "bg-[#FFF8E6] text-[#FF8B08]"
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "danger" in @color do %>
   defp color_variant("default", "danger") do
     "bg-[#FFE6E6] text-[#E73B3B]"
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "info" in @color do %>
   defp color_variant("default", "info") do
     "bg-[#E5F0FF] text-[#004FC4]"
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "misc" in @color do %>
   defp color_variant("default", "misc") do
     "bg-[#FFE6FF] text-[#52059C]"
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "dawn" in @color do %>
   defp color_variant("default", "dawn") do
     "bg-[#FFECDA] text-[#4D4137]"
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "light" in @color do %>
   defp color_variant("default", "light") do
     "bg-[#E3E7F1] text-[#707483]"
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "dark" in @color do %>
   defp color_variant("default", "dark") do
     "bg-[#1E1E1E] text-white"
   end
-
+  <% end %>
+  <% end %>
+  <%= if is_nil(@variant) or "shadow" in @variant do %>
+  <%= if is_nil(@color) or "white" in @color do %>
   defp color_variant("shadow", "white") do
     "bg-white text-[#3E3E3E] shadow-md"
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "primary" in @color do %>
   defp color_variant("shadow", "primary") do
     "bg-[#4363EC] text-white shadow-md"
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "secondary" in @color do %>
   defp color_variant("shadow", "secondary") do
     "bg-[#6B6E7C] text-white shadow-md"
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "success" in @color do %>
   defp color_variant("shadow", "success") do
     "bg-[#AFEAD0] text-[#227A52] shadow-md"
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "warning" in @color do %>
   defp color_variant("shadow", "warning") do
     "bg-[#FFF8E6] text-[#FF8B08] shadow-md"
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "danger" in @color do %>
   defp color_variant("shadow", "danger") do
     "bg-[#FFE6E6] text-[#E73B3B] shadow-md"
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "info" in @color do %>
   defp color_variant("shadow", "info") do
     "bg-[#E5F0FF] text-[#004FC4] shadow-md"
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "misc" in @color do %>
   defp color_variant("shadow", "misc") do
     "bg-[#FFE6FF] text-[#52059C] shadow-md"
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "dawn" in @color do %>
   defp color_variant("shadow", "dawn") do
     "bg-[#FFECDA] text-[#4D4137] shadow-md"
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "light" in @color do %>
   defp color_variant("shadow", "light") do
     "bg-[#E3E7F1] text-[#707483] shadow-md"
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "dark" in @color do %>
   defp color_variant("shadow", "dark") do
     "bg-[#1E1E1E] text-white shadow-md"
   end
+  <% end %>
+  <% end %>
 end
