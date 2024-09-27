@@ -494,6 +494,7 @@ defmodule <%= @module %> do
       "[&.grouped-pagination]:rounded-none [&:not(.grouped-pagination)_.pagination-button]:rounded-none"
   <% end %>
 
+  <%= if is_nil(@size) or "extra_small" in @size do %>
   defp size_class("extra_small") do
     [
       "[&.grouped-pagination_.pagination-button]:w-full [&.grouped-pagination_.pagination-button]:px-3",
@@ -505,7 +506,8 @@ defmodule <%= @module %> do
       "[&_:not(.pagination-seperator)>.pagination-icon]:size-3.5"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@size) or "small" in @size do %>
   defp size_class("small") do
     [
       "[&.grouped-pagination_.pagination-button]:w-full [&.grouped-pagination_.pagination-button]:px-3",
@@ -517,7 +519,8 @@ defmodule <%= @module %> do
       "[&_:not(.pagination-seperator)>.pagination-icon]:size-4"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@size) or "medium" in @size do %>
   defp size_class("medium") do
     [
       "[&.grouped-pagination_.pagination-button]:w-full [&.grouped-pagination_.pagination-button]:px-3",
@@ -529,7 +532,8 @@ defmodule <%= @module %> do
       "[&_:not(.pagination-seperator)>.pagination-icon]:size-5"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@size) or "large" in @size do %>
   defp size_class("large") do
     [
       "[&.grouped-pagination_.pagination-button]:w-full [&.grouped-pagination_.pagination-button]:px-3",
@@ -541,7 +545,8 @@ defmodule <%= @module %> do
       "[&_:not(.pagination-seperator)>.pagination-icon]:size-6"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@size) or "extra_large" in @size do %>
   defp size_class("extra_large") do
     [
       "[&.grouped-pagination_.pagination-button]:w-full [&.grouped-pagination_.pagination-button]:px-3",
@@ -553,9 +558,10 @@ defmodule <%= @module %> do
       "[&_:not(.pagination-seperator)>.pagination-icon]:size-7"
     ]
   end
-
+  <% end %>
   defp size_class(params) when is_binary(params), do: params
 
+  <%= if is_nil(@variant) or "default" in @variant do %>
   defp color_variant("default", "white") do
     [
       "[&:not(.grouped-pagination)_.pagination-button]:border",
@@ -709,7 +715,8 @@ defmodule <%= @module %> do
       "[&:not(.grouped-pagination)_.pagination-button.active-pagination-button]:border-[#050404]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@variant) or "outline" in @variant do %>
   defp color_variant("outline", "white") do
     [
       "[&:not(.grouped-pagination)_.pagination-button]:border",
@@ -832,7 +839,8 @@ defmodule <%= @module %> do
       "[&:not(.grouped-pagination)_.pagination-button.active-pagination-button]:border-[#787878]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@variant) or "unbordered" in @variant do %>
   defp color_variant("unbordered", "white") do
     [
       "[&:not(.grouped-pagination)_.pagination-button]:border",
@@ -956,7 +964,8 @@ defmodule <%= @module %> do
       "[&_.pagination-button.active-pagination-button]:bg-[#111111]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@variant) or "transparent" in @variant do %>
   defp color_variant("transparent", "white") do
     [
       "[&:not(.grouped-pagination)_.pagination-button]:border",
@@ -1053,7 +1062,8 @@ defmodule <%= @module %> do
       "[&_.pagination-button.active-pagination-button]:text-[#787878]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@variant) or "subtle" in @variant do %>
   defp color_variant("subtle", "white") do
     [
       "[&:not(.grouped-pagination)_.pagination-button]:border",
@@ -1174,7 +1184,8 @@ defmodule <%= @module %> do
       "[&_.pagination-button.active-pagination-button]:text-white"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@variant) or "shadow" in @variant do %>
   defp color_variant("shadow", "white") do
     [
       "[&:not(.grouped-pagination)_.pagination-button]:border",
@@ -1306,7 +1317,8 @@ defmodule <%= @module %> do
       "[&:not(.grouped-pagination)_.pagination-button.active-pagination-button]:border-[#050404]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@variant) or "inverted" in @variant do %>
   defp color_variant("inverted", "white") do
     [
       "[&:not(.grouped-pagination)_.pagination-button]:border",
@@ -1447,6 +1459,7 @@ defmodule <%= @module %> do
       "[&:not(.grouped-pagination)_.pagination-button.active-pagination-button]:border-[#111111]"
     ]
   end
+  <% end %>
 
   defp default_classes() do
     [
