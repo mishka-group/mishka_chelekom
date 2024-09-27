@@ -543,6 +543,7 @@ defmodule <%= @module %> do
   <% end %>
 
   <%= if is_nil(@variant) or "default" in @variant do %>
+  <%= if is_nil(@color) or "white" in @color do %>
   defp color_variant("default", "white") do
     [
       "bg-white border border-[#DADADA] text-[#3E3E3E]",
@@ -550,7 +551,8 @@ defmodule <%= @module %> do
       "[&>li:not(:last-child)]:border-[#DADADA]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "primary" in @color do %>
   defp color_variant("default", "primary") do
     [
       "bg-[#4363EC] text-white border border-[#2441de]",
@@ -558,7 +560,8 @@ defmodule <%= @module %> do
       "[&>li:not(:last-child)]:border-[#2441de]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "secondary" in @color do %>
   defp color_variant("default", "secondary") do
     [
       "bg-[#6B6E7C] text-white border border-[#877C7C]",
@@ -566,7 +569,8 @@ defmodule <%= @module %> do
       "[&>li:not(:last-child)]:border-[#877C7C]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "success" in @color do %>
   defp color_variant("default", "success") do
     [
       "bg-[#ECFEF3] border border-[#227A52]",
@@ -574,7 +578,8 @@ defmodule <%= @module %> do
       "[&>li:not(:last-child)]:border-[#227A52]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "warning" in @color do %>
   defp color_variant("default", "warning") do
     [
       "bg-[#FFF8E6] border border-[#FF8B08]",
@@ -582,7 +587,8 @@ defmodule <%= @module %> do
       "[&>li:not(:last-child)]:border-[#FF8B08]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "danger" in @color do %>
   defp color_variant("default", "danger") do
     [
       "bg-[#FFE6E6] border border-[#E73B3B]",
@@ -590,7 +596,8 @@ defmodule <%= @module %> do
       "[&>li:not(:last-child)]:border-[#E73B3B]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "info" in @color do %>
   defp color_variant("default", "info") do
     [
       "bg-[#E5F0FF] border border-[#004FC4]",
@@ -598,7 +605,8 @@ defmodule <%= @module %> do
       "[&>li:not(:last-child)]:border-[#004FC4]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "misc" in @color do %>
   defp color_variant("default", "misc") do
     [
       "bg-[#FFE6FF] border border-[#52059C]",
@@ -606,7 +614,8 @@ defmodule <%= @module %> do
       "[&>li:not(:last-child)]:border-[#52059C]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "dawn" in @color do %>
   defp color_variant("default", "dawn") do
     [
       "bg-[#FFECDA] border border-[#4D4137]",
@@ -614,7 +623,8 @@ defmodule <%= @module %> do
       "[&>li:not(:last-child)]:border-[#4D4137]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "light" in @color do %>
   defp color_variant("default", "light") do
     [
       "bg-[#E3E7F1] border border-[#707483]",
@@ -622,7 +632,8 @@ defmodule <%= @module %> do
       "[&>li:not(:last-child)]:border-[#707483]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "dark" in @color do %>
   defp color_variant("default", "dark") do
     [
       "bg-[#1E1E1E] text-white border border-[#1E1E1E]",
@@ -630,7 +641,10 @@ defmodule <%= @module %> do
       "[&>li:not(:last-child)]:border-[#1E1E1E]"
     ]
   end
-
+  <% end %>
+  <% end %>
+  <%= if is_nil(@variant) or "outline" in @variant do %>
+  <%= if is_nil(@color) or "white" in @color do %>
   defp color_variant("outline", "white") do
     [
       "border border-[#DADADA]",
@@ -639,7 +653,7 @@ defmodule <%= @module %> do
     ]
   end
   <% end %>
-  <%= if is_nil(@variant) or "outline" in @variant do %>
+  <%= if is_nil(@color) or "primary" in @color do %>
   defp color_variant("outline", "primary") do
     [
       "border border-[#2441de]",
@@ -647,7 +661,8 @@ defmodule <%= @module %> do
       "[&>li:not(:last-child)]:border-[#2441de]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "secondary" in @color do %>
   defp color_variant("outline", "secondary") do
     [
       "border border-[#2441de]",
@@ -655,7 +670,8 @@ defmodule <%= @module %> do
       "[&>li:not(:last-child)]:border-[#2441de]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "success" in @color do %>
   defp color_variant("outline", "success") do
     [
       "border border-[#227A52]",
@@ -663,7 +679,8 @@ defmodule <%= @module %> do
       "[&>li:not(:last-child)]:border-[#227A52]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "warning" in @color do %>
   defp color_variant("outline", "warning") do
     [
       "border border-[#FF8B08]",
@@ -671,7 +688,8 @@ defmodule <%= @module %> do
       "[&>li:not(:last-child)]:border-[#FF8B08]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "danger" in @color do %>
   defp color_variant("outline", "danger") do
     [
       "border border-[#E73B3B]",
@@ -679,7 +697,8 @@ defmodule <%= @module %> do
       "[&>li:not(:last-child)]:border-[#E73B3B]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "info" in @color do %>
   defp color_variant("outline", "info") do
     [
       "border border-[#004FC4]",
@@ -687,7 +706,8 @@ defmodule <%= @module %> do
       "[&>li:not(:last-child)]:border-[#004FC4]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "misc" in @color do %>
   defp color_variant("outline", "misc") do
     [
       "border border-[#52059C]",
@@ -695,7 +715,8 @@ defmodule <%= @module %> do
       "[&>li:not(:last-child)]:border-[#52059C]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "dawn" in @color do %>
   defp color_variant("outline", "dawn") do
     [
       "border border-[#4D4137]",
@@ -703,7 +724,8 @@ defmodule <%= @module %> do
       "[&>li:not(:last-child)]:border-[#4D4137]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "light" in @color do %>
   defp color_variant("outline", "light") do
     [
       "border border-[#707483]",
@@ -711,7 +733,8 @@ defmodule <%= @module %> do
       "[&>li:not(:last-child)]:border-[#707483]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "dark" in @color do %>
   defp color_variant("outline", "dark") do
     [
       "border border-[#1E1E1E]",
@@ -720,144 +743,168 @@ defmodule <%= @module %> do
     ]
   end
   <% end %>
+  <% end %>
   <%= if is_nil(@variant) or "filled" in @variant do %>
+  <%= if is_nil(@color) or "white" in @color do %>
   defp color_variant("filled", "white") do
     [
       "bg-white text-[#3E3E3E]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "primary" in @color do %>
   defp color_variant("filled", "primary") do
     [
       "bg-[#4363EC] text-white"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "secondary" in @color do %>
   defp color_variant("filled", "secondary") do
     [
       "bg-[#6B6E7C] text-white"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "success" in @color do %>
   defp color_variant("filled", "success") do
     [
       "bg-[#ECFEF3] text-[#047857]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "warning" in @color do %>
   defp color_variant("filled", "warning") do
     [
       "bg-[#FFF8E6] text-[#FF8B08]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "danger" in @color do %>
   defp color_variant("filled", "danger") do
     [
       "bg-[#FFE6E6] text-[#E73B3B]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "info" in @color do %>
   defp color_variant("filled", "info") do
     [
       "bg-[#E5F0FF] text-[#004FC4]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "misc" in @color do %>
   defp color_variant("filled", "misc") do
     [
       "bg-[#FFE6FF] text-[#52059C]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "dawn" in @color do %>
   defp color_variant("filled", "dawn") do
     [
       "bg-[#FFECDA] text-[#4D4137]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "light" in @color do %>
   defp color_variant("filled", "light") do
     [
       "bg-[#E3E7F1] text-[#707483]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "dark" in @color do %>
   defp color_variant("filled", "dark") do
     [
       "bg-[#1E1E1E] text-white"
     ]
   end
   <% end %>
+  <% end %>
   <%= if is_nil(@variant) or "tinted_split" in @variant do %>
+  <%= if is_nil(@color) or "white" in @color do %>
   defp color_variant("tinted_split", "white") do
     [
       "[&>li]:bg-white text-[#3E3E3E]",
       "[&>li]:border [&>li]:border-[#2441de]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "primary" in @color do %>
   defp color_variant("tinted_split", "primary") do
     [
       "[&>li]:bg-[#4363EC] text-white",
       "[&>li]:border [&>li]:border-[#2441de]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "secondary" in @color do %>
   defp color_variant("tinted_split", "secondary") do
     [
       "[&>li]:bg-[#6B6E7C] text-white",
       "[&>li]:border [&>li]:border-[#2441de]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "success" in @color do %>
   defp color_variant("tinted_split", "success") do
     [
       "[&>li]:bg-[#ECFEF3] text-[#047857]",
       "[&>li]:border [&>li]:border-[#227A52]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "warning" in @color do %>
   defp color_variant("tinted_split", "warning") do
     [
       "[&>li]:bg-[#FFF8E6] text-[#FF8B08]",
       "[&>li]:border [&>li]:border-[#FF8B08]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "danger" in @color do %>
   defp color_variant("tinted_split", "danger") do
     [
       "[&>li]:bg-[#FFE6E6] text-[#E73B3B]",
       "[&>li]:border [&>li]:border-[#E73B3B]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "info" in @color do %>
   defp color_variant("tinted_split", "info") do
     [
       "[&>li]:bg-[#E5F0FF] text-[#004FC4]",
       "[&>li]:border [&>li]:border-[#004FC4]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "misc" in @color do %>
   defp color_variant("tinted_split", "misc") do
     [
       "[&>li]:bg-[#FFE6FF] text-[#52059C]",
       "[&>li]:border [&>li]:border-[#52059C]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "dawn" in @color do %>
   defp color_variant("tinted_split", "dawn") do
     [
       "[&>li]:bg-[#FFECDA] text-[#4D4137]",
       "[&>li]:border [&>li]:border-[#4D4137]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "light" in @color do %>
   defp color_variant("tinted_split", "light") do
     [
       "[&>li]:bg-[#E3E7F1] text-[#707483]",
       "[&>li]:border [&>li]:border-[#707483]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "dark" in @color do %>
   defp color_variant("tinted_split", "dark") do
     [
       "[&>li]:bg-[#1E1E1E] text-white",
@@ -865,83 +912,96 @@ defmodule <%= @module %> do
     ]
   end
   <% end %>
+  <% end %>
   <%= if is_nil(@variant) or "seperated" in @variant do %>
+  <%= if is_nil(@color) or "white" in @color do %>
   defp color_variant("seperated", "white") do
     [
       "[&>li]:bg-white",
       "[&>li]:border [&>li]:border-[#DADADA]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "primary" in @color do %>
   defp color_variant("seperated", "primary") do
     [
       "[&>li]:bg-white",
       "[&>li]:border [&>li]:border-[#2441de]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "secondary" in @color do %>
   defp color_variant("seperated", "secondary") do
     [
       "[&>li]:bg-white",
       "[&>li]:border [&>li]:border-[#2441de]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "success" in @color do %>
   defp color_variant("seperated", "success") do
     [
       "[&>li]:bg-white",
       "[&>li]:border [&>li]:border-[#227A52]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "warning" in @color do %>
   defp color_variant("seperated", "warning") do
     [
       "[&>li]:bg-white",
       "[&>li]:border [&>li]:border-[#FF8B08]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "danger" in @color do %>
   defp color_variant("seperated", "danger") do
     [
       "[&>li]:bg-white",
       "[&>li]:border [&>li]:border-[#E73B3B]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "info" in @color do %>
   defp color_variant("seperated", "info") do
     [
       "[&>li]:bg-white",
       "[&>li]:border [&>li]:border-[#004FC4]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "misc" in @color do %>
   defp color_variant("seperated", "misc") do
     [
       "[&>li]:bg-white",
       "[&>li]:border [&>li]:border-[#52059C]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "dawn" in @color do %>
   defp color_variant("seperated", "dawn") do
     [
       "[&>li]:bg-white",
       "[&>li]:border [&>li]:border-[#4D4137]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "light" in @color do %>
   defp color_variant("seperated", "light") do
     [
       "[&>li]:bg-white",
       "[&>li]:border [&>li]:border-[#707483]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "dark" in @color do %>
   defp color_variant("seperated", "dark") do
     [
       "[&>li]:bg-white",
       "[&>li]:border [&>li]:border-[#1E1E1E]"
     ]
   end
+  <% end %>
   <% end %>
   <%= if is_nil(@variant) or "transparent" in @variant do %>
   defp color_variant("transparent", _), do: ["bg-transplant"]
