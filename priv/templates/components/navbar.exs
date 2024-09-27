@@ -2,7 +2,7 @@
   navbar: [
     name: "navbar",
     args: [
-      variant: ["default", "outline", "transparent", "shadow", "unbordered"],
+      variant: ["default", "shadow", "unbordered"],
       color: [
         "white",
         "primary",

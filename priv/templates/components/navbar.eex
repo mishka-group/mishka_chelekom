@@ -29,13 +29,7 @@ defmodule <%= @module %> do
     "dawn"
   ]
 
-  @variants [
-    "default",
-    "outline",
-    "transparent",
-    "shadow",
-    "unbordered"
-  ]
+  @variants ["default", "shadow", "unbordered"]
 
   @doc """
   Renders a customizable navigation bar (`navbar` component) that can include links,
@@ -322,6 +316,7 @@ defmodule <%= @module %> do
   defp rounded_size(params) when is_binary(params), do: params
   defp rounded_size(_), do: "rounded-t-none"
 
+  <%= if is_nil(@variant) or "default" in @variant do %>
   defp color_variant("default", "white") do
     [
       "bg-white text-[#3E3E3E] border-[#DADADA]",
@@ -398,7 +393,8 @@ defmodule <%= @module %> do
       "[&_.navbar-button]:bg-[#1E1E1E] [&_.navbar-button]:border-[#050404]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@variant) or "unbordered" in @variant do %>
   defp color_variant("unbordered", "white") do
     [
       "bg-white text-[#3E3E3E] border-transparent",
@@ -475,7 +471,8 @@ defmodule <%= @module %> do
       "[&_.navbar-button]:bg-[#1E1E1E] [&_.navbar-button]:border-[#050404]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@variant) or "shadow" in @variant do %>
   defp color_variant("shadow", "white") do
     [
       "bg-white text-[#3E3E3E] border-[#DADADA] shadow-md",
@@ -552,7 +549,7 @@ defmodule <%= @module %> do
       "[&_.navbar-button]:bg-[#1E1E1E] [&_.navbar-button]:border-[#050404]"
     ]
   end
-
+  <% end %>
   attr :name, :string, required: true, doc: "Specifies the name of the element"
   attr :class, :any, default: nil, doc: "Custom CSS class for additional styling"
 
