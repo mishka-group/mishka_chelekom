@@ -20,8 +20,8 @@ defmodule <%= @module %>  do
   """
 
   use Phoenix.Component
-  import <%= @web_module %>.Progress, only: [progress: 1]
-  import <%= @web_module %>.Spinner, only: [spinner: 1]
+  import <%= @web_module %>.Components.Progress, only: [progress: 1]
+  import <%= @web_module %>.Components.Spinner, only: [spinner: 1]
 
   @variants ["default", "outline", "unbordered", "shadow"]
 
