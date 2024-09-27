@@ -1,6 +1,6 @@
 defmodule <%= @module %> do
   @moduledoc """
-  This module provides components for rendering customizable banners in your **Phoenix LiveView**
+  <%= @module %> module provides components for rendering customizable banners in your **Phoenix LiveView**
   application.
 
   ## Features

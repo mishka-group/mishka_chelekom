@@ -1,6 +1,6 @@
 defmodule <%= @module %>  do
   @moduledoc """
-  The `MishkaChelekom.EmailField` module provides a customizable email input field
+  The `<%= @module %>` module provides a customizable email input field
   component built using Phoenix LiveView. It offers extensive styling options and behavior
   customizations for email input fields, such as:
 

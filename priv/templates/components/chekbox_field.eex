@@ -1,6 +1,6 @@
 defmodule <%= @module %> do
   @moduledoc """
-  Provides a customizable checkbox component for use in Phoenix LiveView forms.
+  <%= @module %> Module Provides a customizable checkbox component for use in Phoenix LiveView forms.
 
   This module includes individual checkbox fields as well as grouped
   checkbox fields, each with configurable options such as colors, borders,

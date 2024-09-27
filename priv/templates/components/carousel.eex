@@ -1,6 +1,6 @@
 defmodule <%= @module %> do
   @moduledoc """
-  Provides a versatile and customizable carousel component for the `MishkaChelekom.Carousel`
+  Provides a versatile and customizable carousel component for the `<%= @module %>`
   project.
 
   This component enables the creation of image carousels with various features such as

@@ -1,6 +1,6 @@
 defmodule <%= @module %> do
   @moduledoc """
-  The `MishkaChelekom.DateTimeField` module provides a reusable component for rendering
+  The `<%= @module %>` module provides a reusable component for rendering
   various types of date and time inputs in Phoenix applications.
 
   It includes options for customization, validation, and styling, supporting different

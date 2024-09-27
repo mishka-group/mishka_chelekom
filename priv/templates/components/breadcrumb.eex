@@ -1,6 +1,6 @@
 defmodule <%= @module %> do
   @moduledoc """
-  Provides a flexible and customizable `MishkaChelekom.Breadcrumb` component for displaying
+  Provides a flexible and customizable `<%= @module %>` component for displaying
   breadcrumb navigation in your Phoenix LiveView applications.
 
   ## Features

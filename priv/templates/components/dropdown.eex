@@ -1,6 +1,6 @@
 defmodule <%= @module %> do
   @moduledoc """
-  The `MishkaChelekom.Dropdown` module provides a customizable dropdown component
+  The `<%= @module %>` module provides a customizable dropdown component
   built using Phoenix LiveView. It allows you to create dropdown menus with different styles,
   positions, and behaviors, supporting various customization options through attributes and slots.
 

@@ -1,6 +1,6 @@
 defmodule <%= @module %> do
   @moduledoc """
-  The `MishkaChelekom.ColorField` module provides a reusable and customizable color
+  The `<%= @module %>` module provides a reusable and customizable color
   input component for Phoenix applications. This component supports various styling options,
   error handling, and additional customization through attributes and slots.
 

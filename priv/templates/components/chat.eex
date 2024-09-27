@@ -1,6 +1,6 @@
 defmodule <%= @module %> do
   @moduledoc """
-  `MishkaChelekom.Chat` is a Phoenix LiveView component module for creating customizable chat interfaces.
+  `<%= @module %>` is a Phoenix LiveView component module for creating customizable chat interfaces.
 
   This module provides components to display chat messages with various styles, colors,
   sizes, and configurations. The main component, `chat/1`, acts as a container for chat

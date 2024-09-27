@@ -1,6 +1,6 @@
 defmodule <%= @module %> do
   @moduledoc """
-  The `MishkaChelekom.DeviceMockup` module provides a customizable component for displaying
+  The `<%= @module %>` module provides a customizable component for displaying
   various device mockups such as iPhone, Android, Watch, Laptop, iPad, and iMac.
 
   It supports different color themes and includes options for adding images or custom

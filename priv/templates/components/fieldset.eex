@@ -1,6 +1,6 @@
 defmodule <%= @module %> do
   @moduledoc """
-  The `MishkaChelekom.FieldsetField` module provides a reusable and customizable
+  The `<%= @module %>` module provides a reusable and customizable
   component for creating styled fieldsets in Phoenix LiveView applications.
 
   It offers various options for styling, layout, and interaction, including:

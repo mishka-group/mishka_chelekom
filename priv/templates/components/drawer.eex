@@ -1,6 +1,6 @@
 defmodule <%= @module %> do
   @moduledoc """
-  The `MishkaChelekom.Drawer` module provides a flexible and customizable drawer component
+  The `<%= @module %>` module provides a flexible and customizable drawer component
   for use in Phoenix LiveView applications.
 
   ## Features:

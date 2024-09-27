@@ -1,6 +1,6 @@
 defmodule <%= @module %> do
   @moduledoc """
-  A collection of alert components and helper functions for managing and displaying alerts
+  <%= @module %> module provides collection of alert components and helper functions for managing and displaying alerts
   in a **Phoenix LiveView** application.
 
   This module provides a set of customizable components for rendering various types of alerts,

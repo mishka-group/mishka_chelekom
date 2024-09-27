@@ -1,6 +1,6 @@
 defmodule <%= @module %> do
   @moduledoc """
-  Provides a set of card components for the `MishkaChelekom.Card` project. These components
+  Provides a set of card components for the `<%= @module %>` project. These components
   allow for flexible and customizable card layouts, including features such as card titles,
   media, content sections, and footers.
 

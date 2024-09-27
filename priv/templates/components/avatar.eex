@@ -1,6 +1,6 @@
 defmodule <%= @module %> do
   @moduledoc """
-  The `MishkaChelekom.Avatar` module provides a set of components for creating and
+  The `<%= @module %>` module provides a set of components for creating and
   managing avatar elements in your **Phoenix LiveView** applications.
 
   It supports various avatar types, including standard avatars, placeholders, and placeholder icons.

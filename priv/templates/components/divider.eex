@@ -1,6 +1,6 @@
 defmodule <%= @module %> do
   @moduledoc """
-  The `MishkaChelekom.Divider` module provides a versatile and customizable divider
+  The `<%= @module %>` module provides a versatile and customizable divider
   component for creating horizontal and vertical dividers with various styling options
   in a Phoenix LiveView application.
 
