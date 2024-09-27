@@ -93,49 +93,61 @@ defmodule <%= @module %> do
     """
   end
 
+  <%= if is_nil(@color) or "white" in @color do %>
   defp color_class("white") do
     "bg-white"
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "primary" in @color do %>
   defp color_class("primary") do
     "bg-[#2441de]"
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "secondary" in @color do %>
   defp color_class("secondary") do
     "bg-[#877C7C]"
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "success" in @color do %>
   defp color_class("success") do
     "bg-[#6EE7B7]"
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "warning" in @color do %>
   defp color_class("warning") do
     "bg-[#FF8B08]"
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "danger" in @color do %>
   defp color_class("danger") do
     "bg-[#E73B3B]"
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "info" in @color do %>
   defp color_class("info") do
     "bg-[#004FC4]"
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "misc" in @color do %>
   defp color_class("misc") do
     "bg-[#52059C]"
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "dawn" in @color do %>
   defp color_class("dawn") do
     "bg-[#4D4137]"
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "light" in @color do %>
   defp color_class("light") do
     "bg-[#707483]"
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "dark" in @color do %>
   defp color_class("dark") do
     "bg-[#050404]"
   end
+  <% end %>
 
   defp color_class(params) when is_binary(params), do: params
 
@@ -182,25 +194,31 @@ defmodule <%= @module %> do
   defp opacity_class(params) when is_binary(params), do: params
   defp opacity_class(_), do: nil
 
+  <%= if is_nil(@size) or "extra_small" in @size do %>
   defp blur_class("extra_small") do
     "backdrop-blur-[1px]"
   end
-
+  <% end %>
+  <%= if is_nil(@size) or "small" in @size do %>
   defp blur_class("small") do
     "backdrop-blur-[2px]"
   end
-
+  <% end %>
+  <%= if is_nil(@size) or "medium" in @size do %>
   defp blur_class("medium") do
     "backdrop-blur-[3px]"
   end
-
+  <% end %>
+  <%= if is_nil(@size) or "large" in @size do %>
   defp blur_class("large") do
     "backdrop-blur-[4px]"
   end
-
+  <% end %>
+  <%= if is_nil(@size) or "extra_large" in @size do %>
   defp blur_class("extra_large") do
     "backdrop-blur-[5px]"
   end
+  <% end %>
 
   defp blur_class(params) when is_binary(params), do: params
   defp blur_class(_), do: nil
