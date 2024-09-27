@@ -14,7 +14,8 @@
         "info",
         "light",
         "misc",
-        "dawn"
+        "dawn",
+        "silver"
       ],
       size: ["extra_small", "small", "medium", "large", "extra_large"],
       padding: ["extra_small", "small", "medium", "large", "extra_large", "none"],
