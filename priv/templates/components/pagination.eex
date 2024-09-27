@@ -562,6 +562,7 @@ defmodule <%= @module %> do
   defp size_class(params) when is_binary(params), do: params
 
   <%= if is_nil(@variant) or "default" in @variant do %>
+  <%= if is_nil(@color) or "white" in @color do %>
   defp color_variant("default", "white") do
     [
       "[&:not(.grouped-pagination)_.pagination-button]:border",
@@ -575,7 +576,8 @@ defmodule <%= @module %> do
       "[&:not(.grouped-pagination)_.pagination-button.active-pagination-button]:border-[#d9d9d9]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "primary" in @color do %>
   defp color_variant("default", "primary") do
     [
       "[&:not(.grouped-pagination)_.pagination-button]:border",
@@ -589,7 +591,8 @@ defmodule <%= @module %> do
       "[&:not(.grouped-pagination)_.pagination-button.active-pagination-button]:border-[#2441de]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "secondary" in @color do %>
   defp color_variant("default", "secondary") do
     [
       "[&:not(.grouped-pagination)_.pagination-button]:border",
@@ -603,7 +606,8 @@ defmodule <%= @module %> do
       "[&:not(.grouped-pagination)_.pagination-button.active-pagination-button]:border-[#3d3f49]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "success" in @color do %>
   defp color_variant("default", "success") do
     [
       "[&:not(.grouped-pagination)_.pagination-button]:border",
@@ -617,7 +621,8 @@ defmodule <%= @module %> do
       "[&:not(.grouped-pagination)_.pagination-button.active-pagination-button]:border-[#6EE7B7]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "warning" in @color do %>
   defp color_variant("default", "warning") do
     [
       "[&:not(.grouped-pagination)_.pagination-button]:border",
@@ -631,7 +636,8 @@ defmodule <%= @module %> do
       "[&:not(.grouped-pagination)_.pagination-button.active-pagination-button]:border-[#FF8B08]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "danger" in @color do %>
   defp color_variant("default", "danger") do
     [
       "[&:not(.grouped-pagination)_.pagination-button]:border",
@@ -645,7 +651,8 @@ defmodule <%= @module %> do
       "[&:not(.grouped-pagination)_.pagination-button.active-pagination-button]:border-[#E73B3B]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "info" in @color do %>
   defp color_variant("default", "info") do
     [
       "[&:not(.grouped-pagination)_.pagination-button]:border",
@@ -659,7 +666,8 @@ defmodule <%= @module %> do
       "[&:not(.grouped-pagination)_.pagination-button.active-pagination-button]:border-[#004FC4]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "misc" in @color do %>
   defp color_variant("default", "misc") do
     [
       "[&:not(.grouped-pagination)_.pagination-button]:border",
@@ -673,7 +681,8 @@ defmodule <%= @module %> do
       "[&:not(.grouped-pagination)_.pagination-button.active-pagination-button]:border-[#52059C]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "dawn" in @color do %>
   defp color_variant("default", "dawn") do
     [
       "[&:not(.grouped-pagination)_.pagination-button]:border",
@@ -687,7 +696,8 @@ defmodule <%= @module %> do
       "[&:not(.grouped-pagination)_.pagination-button.active-pagination-button]:border-[#4D4137]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "light" in @color do %>
   defp color_variant("default", "light") do
     [
       "[&:not(.grouped-pagination)_.pagination-button]:border",
@@ -701,7 +711,8 @@ defmodule <%= @module %> do
       "[&:not(.grouped-pagination)_.pagination-button.active-pagination-button]:border-[#707483]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "dark" in @color do %>
   defp color_variant("default", "dark") do
     [
       "[&:not(.grouped-pagination)_.pagination-button]:border",
@@ -716,7 +727,9 @@ defmodule <%= @module %> do
     ]
   end
   <% end %>
+  <% end %>
   <%= if is_nil(@variant) or "outline" in @variant do %>
+  <%= if is_nil(@color) or "white" in @color do %>
   defp color_variant("outline", "white") do
     [
       "[&:not(.grouped-pagination)_.pagination-button]:border",
@@ -729,7 +742,8 @@ defmodule <%= @module %> do
       "[&:not(.grouped-pagination)_.pagination-button.active-pagination-button]:border-[#E8E8E8]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "primary" in @color do %>
   defp color_variant("outline", "primary") do
     [
       "[&:not(.grouped-pagination)_.pagination-button]:border",
@@ -740,7 +754,8 @@ defmodule <%= @module %> do
       "[&:not(.grouped-pagination)_.pagination-button.active-pagination-button]:border-[#002cff]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "secondary" in @color do %>
   defp color_variant("outline", "secondary") do
     [
       "[&:not(.grouped-pagination)_.pagination-button]:border",
@@ -751,7 +766,8 @@ defmodule <%= @module %> do
       "[&:not(.grouped-pagination)_.pagination-button.active-pagination-button]:border-[#020202]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "success" in @color do %>
   defp color_variant("outline", "success") do
     [
       "[&:not(.grouped-pagination)_.pagination-button]:border",
@@ -762,7 +778,8 @@ defmodule <%= @module %> do
       "[&:not(.grouped-pagination)_.pagination-button.active-pagination-button]:border-[#126c3a]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "warning" in @color do %>
   defp color_variant("outline", "warning") do
     [
       "[&:not(.grouped-pagination)_.pagination-button]:border",
@@ -773,7 +790,8 @@ defmodule <%= @module %> do
       "[&:not(.grouped-pagination)_.pagination-button.active-pagination-button]:border-[#9b6112]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "danger" in @color do %>
   defp color_variant("outline", "danger") do
     [
       "[&:not(.grouped-pagination)_.pagination-button]:border",
@@ -784,7 +802,8 @@ defmodule <%= @module %> do
       "[&:not(.grouped-pagination)_.pagination-button.active-pagination-button]:border-[#a52e23]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "info" in @color do %>
   defp color_variant("outline", "info") do
     [
       "[&:not(.grouped-pagination)_.pagination-button]:border",
@@ -795,7 +814,8 @@ defmodule <%= @module %> do
       "[&:not(.grouped-pagination)_.pagination-button.active-pagination-button]:border-[#132e50]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "misc" in @color do %>
   defp color_variant("outline", "misc") do
     [
       "[&:not(.grouped-pagination)_.pagination-button]:border",
@@ -806,7 +826,8 @@ defmodule <%= @module %> do
       "[&:not(.grouped-pagination)_.pagination-button.active-pagination-button]:border-[#491d6a]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "dawn" in @color do %>
   defp color_variant("outline", "dawn") do
     [
       "[&:not(.grouped-pagination)_.pagination-button]:border",
@@ -817,7 +838,8 @@ defmodule <%= @module %> do
       "[&:not(.grouped-pagination)_.pagination-button.active-pagination-button]:border-[#28231d]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "light" in @color do %>
   defp color_variant("outline", "light") do
     [
       "[&:not(.grouped-pagination)_.pagination-button]:border",
@@ -828,7 +850,8 @@ defmodule <%= @module %> do
       "[&:not(.grouped-pagination)_.pagination-button.active-pagination-button]:border-[#42485a]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "dark" in @color do %>
   defp color_variant("outline", "dark") do
     [
       "[&:not(.grouped-pagination)_.pagination-button]:border",
@@ -840,7 +863,9 @@ defmodule <%= @module %> do
     ]
   end
   <% end %>
+  <% end %>
   <%= if is_nil(@variant) or "unbordered" in @variant do %>
+  <%= if is_nil(@color) or "white" in @color do %>
   defp color_variant("unbordered", "white") do
     [
       "[&:not(.grouped-pagination)_.pagination-button]:border",
@@ -851,7 +876,8 @@ defmodule <%= @module %> do
       "hover:[&.grouped-pagination_.pagination-control]:bg-[#E8E8E8]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "primary" in @color do %>
   defp color_variant("unbordered", "primary") do
     [
       "[&:not(.grouped-pagination)_.pagination-button]:border",
@@ -863,7 +889,8 @@ defmodule <%= @module %> do
       "[&_.pagination-button.active-pagination-button]:bg-[#072ed3]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "secondary" in @color do %>
   defp color_variant("unbordered", "secondary") do
     [
       "[&:not(.grouped-pagination)_.pagination-button]:border",
@@ -875,7 +902,8 @@ defmodule <%= @module %> do
       "[&_.pagination-button.active-pagination-button]:bg-[#4c4f59]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "success" in @color do %>
   defp color_variant("unbordered", "success") do
     [
       "[&:not(.grouped-pagination)_.pagination-button]:border",
@@ -886,7 +914,8 @@ defmodule <%= @module %> do
       "hover:[&.grouped-pagination_.pagination-control]:bg-[#c0fad7]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "warning" in @color do %>
   defp color_variant("unbordered", "warning") do
     [
       "[&:not(.grouped-pagination)_.pagination-button]:border",
@@ -897,7 +926,8 @@ defmodule <%= @module %> do
       "hover:[&.grouped-pagination_.pagination-control]:bg-[#fcebc0]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "danger" in @color do %>
   defp color_variant("unbordered", "danger") do
     [
       "[&:not(.grouped-pagination)_.pagination-button]:border",
@@ -908,7 +938,8 @@ defmodule <%= @module %> do
       "hover:[&.grouped-pagination_.pagination-control]:bg-[#fcbbbb]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "info" in @color do %>
   defp color_variant("unbordered", "info") do
     [
       "[&:not(.grouped-pagination)_.pagination-button]:border",
@@ -919,7 +950,8 @@ defmodule <%= @module %> do
       "hover:[&.grouped-pagination_.pagination-control]:bg-[#bdd3f2]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "misc" in @color do %>
   defp color_variant("unbordered", "misc") do
     [
       "[&:not(.grouped-pagination)_.pagination-button]:border",
@@ -930,7 +962,8 @@ defmodule <%= @module %> do
       "hover:[&.grouped-pagination_.pagination-control]:bg-[#edcced]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "dawn" in @color do %>
   defp color_variant("unbordered", "dawn") do
     [
       "[&:not(.grouped-pagination)_.pagination-button]:border",
@@ -941,7 +974,8 @@ defmodule <%= @module %> do
       "hover:[&.grouped-pagination_.pagination-control]:bg-[#ffdfc1]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "light" in @color do %>
   defp color_variant("unbordered", "light") do
     [
       "[&:not(.grouped-pagination)_.pagination-button]:border",
@@ -952,7 +986,8 @@ defmodule <%= @module %> do
       "hover:[&.grouped-pagination_.pagination-control]:bg-[#c8cee0]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "dark" in @color do %>
   defp color_variant("unbordered", "dark") do
     [
       "[&:not(.grouped-pagination)_.pagination-button]:border",
@@ -965,7 +1000,9 @@ defmodule <%= @module %> do
     ]
   end
   <% end %>
+  <% end %>
   <%= if is_nil(@variant) or "transparent" in @variant do %>
+  <%= if is_nil(@color) or "white" in @color do %>
   defp color_variant("transparent", "white") do
     [
       "[&:not(.grouped-pagination)_.pagination-button]:border",
@@ -973,7 +1010,8 @@ defmodule <%= @module %> do
       "hover:[&_.pagination-button]:text-[#E8E8E8] [&_.pagination-button.active-pagination-button]:bg-[#484747] [&_.pagination-button.active-pagination-button]:text-[#E8E8E8]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "primary" in @color do %>
   defp color_variant("transparent", "primary") do
     [
       "[&:not(.grouped-pagination)_.pagination-button]:border",
@@ -982,7 +1020,8 @@ defmodule <%= @module %> do
       "[&_.pagination-button.active-pagination-button]:text-[#002cff]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "secondary" in @color do %>
   defp color_variant("transparent", "secondary") do
     [
       "[&:not(.grouped-pagination)_.pagination-button]:border",
@@ -991,7 +1030,8 @@ defmodule <%= @module %> do
       "[&_.pagination-button.active-pagination-button]:text-[#020202]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "success" in @color do %>
   defp color_variant("transparent", "success") do
     [
       "[&:not(.grouped-pagination)_.pagination-button]:border",
@@ -999,7 +1039,8 @@ defmodule <%= @module %> do
       "hover:[&_.pagination-button]:text-[#126c3a] [&_.pagination-button.active-pagination-button]:text-[#126c3a]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "warning" in @color do %>
   defp color_variant("transparent", "warning") do
     [
       "[&:not(.grouped-pagination)_.pagination-button]:border",
@@ -1008,7 +1049,8 @@ defmodule <%= @module %> do
       "[&_.pagination-button.active-pagination-button]:text-[#9b6112]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "danger" in @color do %>
   defp color_variant("transparent", "danger") do
     [
       "[&:not(.grouped-pagination)_.pagination-button]:border",
@@ -1017,7 +1059,8 @@ defmodule <%= @module %> do
       "[&_.pagination-button.active-pagination-button]:text-[#a52e23]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "info" in @color do %>
   defp color_variant("transparent", "info") do
     [
       "[&:not(.grouped-pagination)_.pagination-button]:border",
@@ -1026,7 +1069,8 @@ defmodule <%= @module %> do
       "[&_.pagination-button.active-pagination-button]:text-[#132e50]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "misc" in @color do %>
   defp color_variant("transparent", "misc") do
     [
       "[&:not(.grouped-pagination)_.pagination-button]:border",
@@ -1035,7 +1079,8 @@ defmodule <%= @module %> do
       "[&_.pagination-button.active-pagination-button]:text-[#491d6a]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "dawn" in @color do %>
   defp color_variant("transparent", "dawn") do
     [
       "[&:not(.grouped-pagination)_.pagination-button]:border",
@@ -1044,7 +1089,8 @@ defmodule <%= @module %> do
       "[&_.pagination-button.active-pagination-button]:text-[#28231d]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "light" in @color do %>
   defp color_variant("transparent", "light") do
     [
       "[&:not(.grouped-pagination)_.pagination-button]:border",
@@ -1053,7 +1099,8 @@ defmodule <%= @module %> do
       "[&_.pagination-button.active-pagination-button]:text-[#42485a]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "dark" in @color do %>
   defp color_variant("transparent", "dark") do
     [
       "[&:not(.grouped-pagination)_.pagination-button]:border",
@@ -1063,7 +1110,9 @@ defmodule <%= @module %> do
     ]
   end
   <% end %>
+  <% end %>
   <%= if is_nil(@variant) or "subtle" in @variant do %>
+  <%= if is_nil(@color) or "white" in @color do %>
   defp color_variant("subtle", "white") do
     [
       "[&:not(.grouped-pagination)_.pagination-button]:border",
@@ -1074,7 +1123,8 @@ defmodule <%= @module %> do
       "[&_.pagination-button.active-pagination-button]:text-[#3E3E3E]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "primary" in @color do %>
   defp color_variant("subtle", "primary") do
     [
       "[&:not(.grouped-pagination)_.pagination-button]:border",
@@ -1085,7 +1135,8 @@ defmodule <%= @module %> do
       "[&_.pagination-button.active-pagination-button]:text-white"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "secondary" in @color do %>
   defp color_variant("subtle", "secondary") do
     [
       "[&:not(.grouped-pagination)_.pagination-button]:border",
@@ -1096,7 +1147,8 @@ defmodule <%= @module %> do
       "[&_.pagination-button.active-pagination-button]:text-white"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "success" in @color do %>
   defp color_variant("subtle", "success") do
     [
       "[&:not(.grouped-pagination)_.pagination-button]:border",
@@ -1107,7 +1159,8 @@ defmodule <%= @module %> do
       "[&_.pagination-button.active-pagination-button]:text-[#227A52]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "warning" in @color do %>
   defp color_variant("subtle", "warning") do
     [
       "[&:not(.grouped-pagination)_.pagination-button]:border",
@@ -1118,7 +1171,8 @@ defmodule <%= @module %> do
       "[&_.pagination-button.active-pagination-button]:text-[#FF8B08]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "danger" in @color do %>
   defp color_variant("subtle", "danger") do
     [
       "[&:not(.grouped-pagination)_.pagination-button]:border",
@@ -1129,7 +1183,8 @@ defmodule <%= @module %> do
       "[&_.pagination-button.active-pagination-button]:text-[#E73B3B]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "info" in @color do %>
   defp color_variant("subtle", "info") do
     [
       "[&:not(.grouped-pagination)_.pagination-button]:border",
@@ -1140,7 +1195,8 @@ defmodule <%= @module %> do
       "[&_.pagination-button.active-pagination-button]:text-[#103483]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "misc" in @color do %>
   defp color_variant("subtle", "misc") do
     [
       "[&:not(.grouped-pagination)_.pagination-button]:border",
@@ -1151,7 +1207,8 @@ defmodule <%= @module %> do
       "[&_.pagination-button.active-pagination-button]:text-[#52059C]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "dawn" in @color do %>
   defp color_variant("subtle", "dawn") do
     [
       "[&:not(.grouped-pagination)_.pagination-button]:border",
@@ -1162,7 +1219,8 @@ defmodule <%= @module %> do
       "[&_.pagination-button.active-pagination-button]:text-[#4D4137]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "light" in @color do %>
   defp color_variant("subtle", "light") do
     [
       "[&:not(.grouped-pagination)_.pagination-button]:border",
@@ -1173,7 +1231,8 @@ defmodule <%= @module %> do
       "[&_.pagination-button.active-pagination-button]:text-[#707483]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "dark" in @color do %>
   defp color_variant("subtle", "dark") do
     [
       "[&:not(.grouped-pagination)_.pagination-button]:border",
@@ -1185,7 +1244,9 @@ defmodule <%= @module %> do
     ]
   end
   <% end %>
+  <% end %>
   <%= if is_nil(@variant) or "shadow" in @variant do %>
+  <%= if is_nil(@color) or "white" in @color do %>
   defp color_variant("shadow", "white") do
     [
       "[&:not(.grouped-pagination)_.pagination-button]:border",
@@ -1197,7 +1258,8 @@ defmodule <%= @module %> do
       "[&:not(.grouped-pagination)_.pagination-button.active-pagination-button]:border-[#d9d9d9]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "primary" in @color do %>
   defp color_variant("shadow", "primary") do
     [
       "[&:not(.grouped-pagination)_.pagination-button]:border",
@@ -1209,7 +1271,8 @@ defmodule <%= @module %> do
       "[&:not(.grouped-pagination)_.pagination-button.active-pagination-button]:border-[#072ed3]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "secondary" in @color do %>
   defp color_variant("shadow", "secondary") do
     [
       "[&:not(.grouped-pagination)_.pagination-button]:border",
@@ -1221,7 +1284,8 @@ defmodule <%= @module %> do
       "[&:not(.grouped-pagination)_.pagination-button.active-pagination-button]:border-[#4c4f59]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "success" in @color do %>
   defp color_variant("shadow", "success") do
     [
       "[&:not(.grouped-pagination)_.pagination-button]:border",
@@ -1233,7 +1297,8 @@ defmodule <%= @module %> do
       "[&:not(.grouped-pagination)_.pagination-button.active-pagination-button]:border-[#c0fad7]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "warning" in @color do %>
   defp color_variant("shadow", "warning") do
     [
       "[&:not(.grouped-pagination)_.pagination-button]:border",
@@ -1245,7 +1310,8 @@ defmodule <%= @module %> do
       "[&:not(.grouped-pagination)_.pagination-button.active-pagination-button]:border-[#fcebc0]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "danger" in @color do %>
   defp color_variant("shadow", "danger") do
     [
       "[&:not(.grouped-pagination)_.pagination-button]:border",
@@ -1257,7 +1323,8 @@ defmodule <%= @module %> do
       "[&:not(.grouped-pagination)_.pagination-button.active-pagination-button]:border-[#fcbbbb]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "info" in @color do %>
   defp color_variant("shadow", "info") do
     [
       "[&:not(.grouped-pagination)_.pagination-button]:border",
@@ -1269,7 +1336,8 @@ defmodule <%= @module %> do
       "[&:not(.grouped-pagination)_.pagination-button.active-pagination-button]:border-[#bdd3f2]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "misc" in @color do %>
   defp color_variant("shadow", "misc") do
     [
       "[&:not(.grouped-pagination)_.pagination-button]:border",
@@ -1281,7 +1349,8 @@ defmodule <%= @module %> do
       "[&:not(.grouped-pagination)_.pagination-button.active-pagination-button]:border-[#edcced]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "dawn" in @color do %>
   defp color_variant("shadow", "dawn") do
     [
       "[&:not(.grouped-pagination)_.pagination-button]:border",
@@ -1293,7 +1362,8 @@ defmodule <%= @module %> do
       "[&:not(.grouped-pagination)_.pagination-button.active-pagination-button]:border-[#ffdfc1]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "light" in @color do %>
   defp color_variant("shadow", "light") do
     [
       "[&:not(.grouped-pagination)_.pagination-button]:border",
@@ -1305,7 +1375,8 @@ defmodule <%= @module %> do
       "[&:not(.grouped-pagination)_.pagination-button.active-pagination-button]:border-[#c8cee0]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "dark" in @color do %>
   defp color_variant("shadow", "dark") do
     [
       "[&:not(.grouped-pagination)_.pagination-button]:border",
@@ -1318,7 +1389,9 @@ defmodule <%= @module %> do
     ]
   end
   <% end %>
+  <% end %>
   <%= if is_nil(@variant) or "inverted" in @variant do %>
+  <%= if is_nil(@color) or "white" in @color do %>
   defp color_variant("inverted", "white") do
     [
       "[&:not(.grouped-pagination)_.pagination-button]:border",
@@ -1330,7 +1403,8 @@ defmodule <%= @module %> do
       "[&:not(.grouped-pagination)_.pagination-button.active-pagination-button]:border-[#DADADA]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "primary" in @color do %>
   defp color_variant("inverted", "primary") do
     [
       "[&:not(.grouped-pagination)_.pagination-button]:border",
@@ -1342,7 +1416,8 @@ defmodule <%= @module %> do
       "[&:not(.grouped-pagination)_.pagination-button.active-pagination-button]:border-[#4363EC]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "secondary" in @color do %>
   defp color_variant("inverted", "secondary") do
     [
       "[&:not(.grouped-pagination)_.pagination-button]:border",
@@ -1355,7 +1430,8 @@ defmodule <%= @module %> do
       "[&:not(.grouped-pagination)_.pagination-button.active-pagination-button]:border-[#6B6E7C]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "success" in @color do %>
   defp color_variant("inverted", "success") do
     [
       "[&:not(.grouped-pagination)_.pagination-button]:border",
@@ -1368,7 +1444,8 @@ defmodule <%= @module %> do
       "[&:not(.grouped-pagination)_.pagination-button.active-pagination-button]:border-[#AFEAD0]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "warning" in @color do %>
   defp color_variant("inverted", "warning") do
     [
       "[&:not(.grouped-pagination)_.pagination-button]:border",
@@ -1381,7 +1458,8 @@ defmodule <%= @module %> do
       "[&:not(.grouped-pagination)_.pagination-button.active-pagination-button]:border-[#FFF8E6]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "danger" in @color do %>
   defp color_variant("inverted", "danger") do
     [
       "[&:not(.grouped-pagination)_.pagination-button]:border",
@@ -1394,7 +1472,8 @@ defmodule <%= @module %> do
       "[&:not(.grouped-pagination)_.pagination-button.active-pagination-button]:border-[#FFE6E6]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "info" in @color do %>
   defp color_variant("inverted", "info") do
     [
       "[&:not(.grouped-pagination)_.pagination-button]:border",
@@ -1407,7 +1486,8 @@ defmodule <%= @module %> do
       "[&:not(.grouped-pagination)_.pagination-button.active-pagination-button]:border-[#E5F0FF]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "misc" in @color do %>
   defp color_variant("inverted", "misc") do
     [
       "[&:not(.grouped-pagination)_.pagination-button]:border",
@@ -1420,7 +1500,8 @@ defmodule <%= @module %> do
       "[&:not(.grouped-pagination)_.pagination-button.active-pagination-button]:border-[#FFE6FF]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "dawn" in @color do %>
   defp color_variant("inverted", "dawn") do
     [
       "[&:not(.grouped-pagination)_.pagination-button]:border",
@@ -1433,7 +1514,8 @@ defmodule <%= @module %> do
       "[&:not(.grouped-pagination)_.pagination-button.active-pagination-button]:border-[#FFECDA]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "light" in @color do %>
   defp color_variant("inverted", "light") do
     [
       "[&:not(.grouped-pagination)_.pagination-button]:border",
@@ -1446,7 +1528,8 @@ defmodule <%= @module %> do
       "[&:not(.grouped-pagination)_.pagination-button.active-pagination-button]:border-[#E3E7F1]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "dark" in @color do %>
   defp color_variant("inverted", "dark") do
     [
       "[&:not(.grouped-pagination)_.pagination-button]:border",
@@ -1459,6 +1542,7 @@ defmodule <%= @module %> do
       "[&:not(.grouped-pagination)_.pagination-button.active-pagination-button]:border-[#111111]"
     ]
   end
+  <% end %>
   <% end %>
 
   defp default_classes() do
