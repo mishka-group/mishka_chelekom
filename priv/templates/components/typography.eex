@@ -1190,64 +1190,70 @@ defmodule <%= @module %> do
     """
   end
 
-  defp color("white") do
-    "text-white"
-  end
-
-  defp color("primary") do
-    "text-[#4363EC]"
-  end
-
-  defp color("secondary") do
-    "text-[#6B6E7C]"
-  end
-
-  defp color("success") do
-    "text-[#227A52]"
-  end
-
-  defp color("warning") do
-    "text-[#FF8B08]"
-  end
-
-  defp color("danger") do
-    "text-[#E73B3B]"
-  end
-
-  defp color("info") do
-    "text-[#6663FD]"
-  end
-
-  defp color("misc") do
-    "text-[#52059C]"
-  end
-
-  defp color("dawn") do
-    "text-[#4D4137]"
-  end
-
-  defp color("light") do
-    "text-[#707483]"
-  end
-
-  defp color("dark") do
-    "text-[#1E1E1E]"
-  end
-
-  defp color("inherit") do
-    "text-inherit"
-  end
-
+  <%= if is_nil(@color) or "white" in @color do %>
+  defp color("white"), do: "text-white"
+  <% end %>
+  <%= if is_nil(@color) or "primary" in @color do %>
+  defp color("primary"), do: "text-[#4363EC]"
+  <% end %>
+  <%= if is_nil(@color) or "secondary" in @color do %>
+  defp color("secondary"), do: "text-[#6B6E7C]"
+  <% end %>
+  <%= if is_nil(@color) or "success" in @color do %>
+  defp color("success"), do: "text-[#227A52]"
+  <% end %>
+  <%= if is_nil(@color) or "warning" in @color do %>
+  defp color("warning"), do: "text-[#FF8B08]"
+  <% end %>
+  <%= if is_nil(@color) or "danger" in @color do %>
+  defp color("danger"), do: "text-[#E73B3B]"
+  <% end %>
+  <%= if is_nil(@color) or "info" in @color do %>
+  defp color("info"), do: "text-[#6663FD]"
+  <% end %>
+  <%= if is_nil(@color) or "misc" in @color do %>
+  defp color("misc"), do: "text-[#52059C]"
+  <% end %>
+  <%= if is_nil(@color) or "dawn" in @color do %>
+  defp color("dawn"), do: "text-[#4D4137]"
+  <% end %>
+  <%= if is_nil(@color) or "light" in @color do %>
+  defp color("light"), do: "text-[#707483]"
+  <% end %>
+  <%= if is_nil(@color) or "dark" in @color do %>
+  defp color("dark"), do: "text-[#1E1E1E]"
+  <% end %>
+  <%= if is_nil(@color) or "inherit" in @color do %>
+  defp color("inherit"), do: "text-inherit"
+  <% end %>
   defp color(params), do: params
 
+  <%= if is_nil(@size) or "extra_small" in @size do %>
   defp size_class("extra_small"), do: "text-xs"
+  <% end %>
+  <%= if is_nil(@size) or "small" in @size do %>
   defp size_class("small"), do: "text-sm"
+  <% end %>
+  <%= if is_nil(@size) or "medium" in @size do %>
   defp size_class("medium"), do: "text-base"
+  <% end %>
+  <%= if is_nil(@size) or "large" in @size do %>
   defp size_class("large"), do: "text-lg"
+  <% end %>
+  <%= if is_nil(@size) or "extra_large" in @size do %>
   defp size_class("extra_large"), do: "text-xl"
+  <% end %>
+  <%= if is_nil(@size) or "double_large" in @size do %>
   defp size_class("double_large"), do: "text-2xl"
+  <% end %>
+  <%= if is_nil(@size) or "triple_large" in @size do %>
   defp size_class("triple_large"), do: "text-3xl"
+  <% end %>
+  <%= if is_nil(@size) or "quadruple_large" in @size do %>
   defp size_class("quadruple_large"), do: "text-4xl"
+  <% end %>
   defp size_class(params) when is_binary(params), do: params
+  <%= if is_nil(@size) or "medium" in @size do %>
   defp size_class(_), do: size_class("medium")
+  <% end %>
 end
