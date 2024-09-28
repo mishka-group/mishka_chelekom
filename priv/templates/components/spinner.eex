@@ -228,6 +228,7 @@ defmodule <%= @module %> do
   end
   <% end %>
 
+  <%= if is_nil(@type) or "dots" in @type do %>
   <%= if is_nil(@size) or "extra_small" in @size do %>
   defp size_class("dots", "extra_small"), do: "[&>span]:size-1"
   <% end %>
@@ -252,6 +253,9 @@ defmodule <%= @module %> do
   <%= if is_nil(@size) or "quadruple_large" in @size do %>
   defp size_class("dots", "quadruple_large"), do: "[&>span]:size-5"
   <% end %>
+  <% end %>
+
+  <%= if is_nil(@type) or "bars" in @type do %>
   <%= if is_nil(@size) or "extra_small" in @size do %>
   defp size_class("bars", "extra_small"), do: "[&>span]:w-1 [&>span]:h-5"
   <% end %>
@@ -276,6 +280,9 @@ defmodule <%= @module %> do
   <%= if is_nil(@size) or "quadruple_large" in @size do %>
   defp size_class("bars", "quadruple_large"), do: "[&>span]:w-2.5 [&>span]:h-12"
   <% end %>
+  <% end %>
+
+  <%= if is_nil(@type) or "pinging" in @type do %>
   <%= if is_nil(@size) or "extra_small" in @size do %>
   defp size_class("pinging", "extra_small"), do: "[&>svgsize:w-6"
   <% end %>
@@ -300,6 +307,9 @@ defmodule <%= @module %> do
   <%= if is_nil(@size) or "quadruple_large" in @size do %>
   defp size_class("pinging", "quadruple_large"), do: "[&>svg]:size-16"
   <% end %>
+  <% end %>
+
+  <%= if is_nil(@type) or "default" in @type do %>
   <%= if is_nil(@size) or "extra_small" in @size do %>
   defp size_class("default", "extra_small"), do: "size-3.5 border-2"
   <% end %>
@@ -326,6 +336,7 @@ defmodule <%= @module %> do
   <% end %>
   <%= if is_nil(@size) or "small" in @size do %>
   defp size_class(_, _), do: size_class("default", "small")
+  <% end %>
   <% end %>
 
   defp color_class("white") do
