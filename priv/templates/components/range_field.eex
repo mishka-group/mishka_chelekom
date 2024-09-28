@@ -61,7 +61,6 @@ defmodule <%= @module %> do
   attr :label_class, :string, default: nil, doc: "Custom CSS class for the label styling"
   attr :color, :string, default: "primary", doc: "Determines color theme"
   attr :border, :string, default: "extra_small", doc: "Determines border style"
-  attr :space, :string, default: "medium", doc: "Space between items"
 
   attr :size, :string,
     default: "extra_small",
@@ -221,120 +220,139 @@ defmodule <%= @module %> do
   defp width_class(params) when is_binary(params), do: params
   defp width_class(_), do: width_class("full")
 
+  <%= if is_nil(@size) or "extra_small" in @size do %>
   defp size_class("extra_small") do
     [
       "[&_.range-field::-webkit-slider-runnable-track]:h-2 [&_.range-field::-webkit-slider-thumb]:size-2.5",
       "[&_.range-field::-moz-range-track]:h-2 [&_.range-field::-moz-range-thumb]:size-2.5"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@size) or "small" in @size do %>
   defp size_class("small") do
     [
       "[&_.range-field::-webkit-slider-runnable-track]:h-2.5 [&_.range-field::-webkit-slider-thumb]:size-3",
       "[&_.range-field::-moz-range-track]:h-2.5 [&_.range-field::-moz-range-thumb]:size-3"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@size) or "medium" in @size do %>
   defp size_class("medium") do
     [
       "[&_.range-field::-webkit-slider-runnable-track]:h-3 [&_.range-field::-webkit-slider-thumb]:size-3.5",
       "[&_.range-field::-moz-range-track]:h-3 [&_.range-field::-moz-range-thumb]:size-3.5"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@size) or "large" in @size do %>
   defp size_class("large") do
     [
       "[&_.range-field::-webkit-slider-runnable-track]:h-3.5 [&_.range-field::-webkit-slider-thumb]:size-4",
       "[&_.range-field::-moz-range-track]:h-3.5 [&_.range-field::-moz-range-thumb]:size-4"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@size) or "extra_large" in @size do %>
   defp size_class("extra_large") do
     [
       "[&_.range-field::-webkit-slider-runnable-track]:h-4 [&_.range-field::-webkit-slider-thumb]:size-5",
       "[&_.range-field::-moz-range-track]:h-4 [&_.range-field::-moz-range-thumb]:size-5"
     ]
   end
-
+  <% end %>
   defp size_class(params) when is_binary(params), do: params
+  <%= if is_nil(@size) or "extra_small" in @size do %>
   defp size_class(_), do: size_class("extra_small")
+  <% end %>
 
+  <%= if is_nil(@color) or "white" in @color do %>
   defp color_class("white") do
     [
       "[&_.range-field::-moz-range-thumb]:border-white",
       "[&_.range-field::-webkit-slider-thumb]:shadow-[0_0_0_4px_rgba(255,255,255,1)]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "primary" in @color do %>
   defp color_class("primary") do
     [
       "[&_.range-field::-moz-range-thumb]:border-[#2441de]",
       "[&_.range-field::-webkit-slider-thumb]:shadow-[0_0_0_4px_rgba(36,65,222,1)]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "secondary" in @color do %>
   defp color_class("secondary") do
     [
       "[&_.range-field::-moz-range-thumb]:border-[#047857]",
       "[&_.range-field::-webkit-slider-thumb]:shadow-[0_0_0_4px_rgba(135,124,124,1)]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "success" in @color do %>
   defp color_class("success") do
     [
       "[&_.range-field::-moz-range-thumb]:border-[#047857]",
       "[&_.range-field::-webkit-slider-thumb]:shadow-[0_0_0_4px_rgba(4,120,87,1)]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "warning" in @color do %>
   defp color_class("warning") do
     [
       "[&_.range-field::-moz-range-thumb]:border-[#FF8B08]",
       "[&_.range-field::-webkit-slider-thumb]:shadow-[0_0_0_4px_rgba(255,139,8,1)]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "danger" in @color do %>
   defp color_class("danger") do
     [
       "[&_.range-field::-moz-range-thumb]:border-[#E73B3B]",
       "[&_.range-field::-webkit-slider-thumb]:shadow-[0_0_0_4px_rgba(231,59,59,1)]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "info" in @color do %>
   defp color_class("info") do
     [
       "[&_.range-field::-moz-range-thumb]:border-[#004FC4]",
       "[&_.range-field::-webkit-slider-thumb]:shadow-[0_0_0_4px_rgba(0,79,196,1)]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "misc" in @color do %>
   defp color_class("misc") do
     [
       "[&_.range-field::-moz-range-thumb]:border-[#52059C]",
       "[&_.range-field::-webkit-slider-thumb]:shadow-[0_0_0_4px_rgba(82,5,156,1)]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "dawn" in @color do %>
   defp color_class("dawn") do
     [
       "[&_.range-field::-moz-range-thumb]:border-[#4D4137]",
       "[&_.range-field::-webkit-slider-thumb]:shadow-[0_0_0_4px_rgba(77,65,55,1)]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "light" in @color do %>
   defp color_class("light") do
     [
       "[&_.range-field::-moz-range-thumb]:border-[#707483]",
       "[&_.range-field::-webkit-slider-thumb]:shadow-[0_0_0_4px_rgba(112,116,131,1)]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "dark" in @color do %>
   defp color_class("dark") do
     [
       "[&_.range-field::-moz-range-thumb]:border-[#050404]",
       "[&_.range-field::-webkit-slider-thumb]:shadow-[0_0_0_4px_rgba(5,4,4,1)]"
     ]
   end
+  <% end %>
 
   defp translate_error({msg, opts}) do
     # When using gettext, we typically pass the strings we want

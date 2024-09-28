@@ -17,7 +17,6 @@
       ],
       size: ["extra_small", "small", "medium", "large", "extra_large"],
       space: ["extra_small", "small", "medium", "large", "extra_large"],
-      type: ["checkbox", "group_checkbox"],
       module: ""
     ],
     optional: [],
