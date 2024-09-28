@@ -13,7 +13,8 @@
         "info",
         "light",
         "misc",
-        "dawn"
+        "dawn",
+        "silver"
       ],
       rounded: ["extra_small", "small", "medium", "large", "extra_large", "full", "none"],
       module: ""
