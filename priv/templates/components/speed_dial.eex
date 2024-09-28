@@ -298,100 +298,176 @@ defmodule <%= @module %> do
   defp width_class(params) when is_binary(params), do: params
   defp width_class(_), do: width_class("fit")
 
+  <%= if is_nil(@space) or "extra_small" in @space do %>
   defp space_class("extra_small", "top"), do: "[&_.speed-dial-content]:space-y-2"
+  <% end %>
+  <%= if is_nil(@space) or "small" in @space do %>
   defp space_class("small", "top"), do: "[&_.speed-dial-content]:space-y-3"
+  <% end %>
+  <%= if is_nil(@space) or "medium" in @space do %>
   defp space_class("medium", "top"), do: "[&_.speed-dial-content]:space-y-4"
+  <% end %>
+  <%= if is_nil(@space) or "large" in @space do %>
   defp space_class("large", "top"), do: "[&_.speed-dial-content]:space-y-5"
+  <% end %>
+  <%= if is_nil(@space) or "extra_large" in @space do %>
   defp space_class("extra_large", "top"), do: "[&_.speed-dial-content]:space-y-6"
-
+  <% end %>
+  <%= if is_nil(@space) or "extra_small" in @space do %>
   defp space_class("extra_small", "bottom"), do: "[&_.speed-dial-content]:space-y-2"
+  <% end %>
+  <%= if is_nil(@space) or "small" in @space do %>
   defp space_class("small", "bottom"), do: "[&_.speed-dial-content]:space-y-3"
+  <% end %>
+  <%= if is_nil(@space) or "medium" in @space do %>
   defp space_class("medium", "bottom"), do: "[&_.speed-dial-content]:space-y-4"
+  <% end %>
+  <%= if is_nil(@space) or "large" in @space do %>
   defp space_class("large", "bottom"), do: "[&_.speed-dial-content]:space-y-5"
+  <% end %>
+  <%= if is_nil(@space) or "extra_large" in @space do %>
   defp space_class("extra_large", "bottom"), do: "[&_.speed-dial-content]:space-y-6"
-
+  <% end %>
+  <%= if is_nil(@space) or "extra_small" in @space do %>
   defp space_class("extra_small", "left"), do: "[&_.speed-dial-content]:space-x-2"
+  <% end %>
+  <%= if is_nil(@space) or "small" in @space do %>
   defp space_class("small", "left"), do: "[&_.speed-dial-content]:space-x-3"
+  <% end %>
+  <%= if is_nil(@space) or "medium" in @space do %>
   defp space_class("medium", "left"), do: "[&_.speed-dial-content]:space-x-4"
+  <% end %>
+  <%= if is_nil(@space) or "large" in @space do %>
   defp space_class("large", "left"), do: "[&_.speed-dial-content]:space-x-5"
+  <% end %>
+  <%= if is_nil(@space) or "extra_large" in @space do %>
   defp space_class("extra_large", "left"), do: "[&_.speed-dial-content]:space-x-6"
-
+  <% end %>
+  <%= if is_nil(@space) or "extra_small" in @space do %>
   defp space_class("extra_small", "right"), do: "[&_.speed-dial-content]:space-x-2"
+  <% end %>
+  <%= if is_nil(@space) or "small" in @space do %>
   defp space_class("small", "right"), do: "[&_.speed-dial-content]:space-x-3"
+  <% end %>
+  <%= if is_nil(@space) or "medium" in @space do %>
   defp space_class("medium", "right"), do: "[&_.speed-dial-content]:space-x-4"
+  <% end %>
+  <%= if is_nil(@space) or "large" in @space do %>
   defp space_class("large", "right"), do: "[&_.speed-dial-content]:space-x-5"
+  <% end %>
+  <%= if is_nil(@space) or "extra_large" in @space do %>
   defp space_class("extra_large", "right"), do: "[&_.speed-dial-content]:space-x-6"
+  <% end %>
 
   defp space_class(_, params) when is_binary(params), do: params
+  <%= if is_nil(@space) or "extra_small" in @space do %>
   defp space_class(_, _), do: space_class("extra_small", "bottom")
+  <% end %>
 
+  <%= if is_nil(@padding) or "none" in @padding do %>
   defp padding_class("none"), do: "[&_.speed-dial-content]:p-0"
+  <% end %>
+  <%= if is_nil(@padding) or "extra_small" in @padding do %>
   defp padding_class("extra_small"), do: "[&_.speed-dial-content]:p-1"
+  <% end %>
+  <%= if is_nil(@padding) or "small" in @padding do %>
   defp padding_class("small"), do: "[&_.speed-dial-content]:p-1.5"
+  <% end %>
+  <%= if is_nil(@padding) or "medium" in @padding do %>
   defp padding_class("medium"), do: "[&_.speed-dial-content]:p-2"
+  <% end %>
+  <%= if is_nil(@padding) or "large" in @padding do %>
   defp padding_class("large"), do: "[&_.speed-dial-content]:p-2.5"
+  <% end %>
+  <%= if is_nil(@padding) or "extra_large" in @padding do %>
   defp padding_class("extra_large"), do: "[&_.speed-dial-content]:p-3"
+  <% end %>
   defp padding_class(params) when is_binary(params), do: params
+  <%= if is_nil(@padding) or "extra_small" in @padding do %>
   defp padding_class(_), do: padding_class("extra_small")
+  <% end %>
 
+  <%= if is_nil(@rounded) or "extra_small" in @rounded do %>
   defp rounded_size("extra_small"), do: "[&_.speed-dial-base]:rounded-sm"
+  <% end %>
+  <%= if is_nil(@rounded) or "small" in @rounded do %>
   defp rounded_size("small"), do: "[&_.speed-dial-base]:rounded"
+  <% end %>
+  <%= if is_nil(@rounded) or "medium" in @rounded do %>
   defp rounded_size("medium"), do: "[&_.speed-dial-base]:rounded-md"
+  <% end %>
+  <%= if is_nil(@rounded) or "large" in @rounded do %>
   defp rounded_size("large"), do: "[&_.speed-dial-base]:rounded-lg"
+  <% end %>
+  <%= if is_nil(@rounded) or "extra_large" in @rounded do %>
   defp rounded_size("extra_large"), do: "[&_.speed-dial-base]:rounded-xl"
+  <% end %>
+  <%= if is_nil(@rounded) or "full" in @rounded do %>
   defp rounded_size("full"), do: "[&_.speed-dial-base]:rounded-full"
   defp rounded_size(_), do: rounded_size("full")
+  <% end %>
 
+  <%= if is_nil(@size) or "extra_small" in @size do %>
   defp size_class("extra_small") do
     [
       "[&_.speed-dial-content]:max-w-60 [&_.speed-dial-icon-base]:size-2.5 [&_.speed-dial-base]:size-7"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@size) or "small" in @size do %>
   defp size_class("small") do
     [
       "[&_.speed-dial-content]:max-w-64 [&_.speed-dial-icon-base]:size-3 [&_.speed-dial-base]:size-8"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@size) or "medium" in @size do %>
   defp size_class("medium") do
     [
       "[&_.speed-dial-content]:max-w-72 [&_.speed-dial-icon-base]:size-3.5 [&_.speed-dial-base]:size-9"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@size) or "large" in @size do %>
   defp size_class("large") do
     [
       "[&_.speed-dial-content]:max-w-80 [&_.speed-dial-icon-base]:size-4 [&_.speed-dial-base]:size-10"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@size) or "extra_large" in @size do %>
   defp size_class("extra_large") do
     [
       "[&_.speed-dial-content]:max-w-96 [&_.speed-dial-icon-base]:size-5 [&_.speed-dial-base]:size-11"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@size) or "double_large" in @size do %>
   defp size_class("double_large") do
     [
       "[&_.speed-dial-content]:max-w-96 [&_.speed-dial-icon-base]:size-6 [&_.speed-dial-base]:size-12"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@size) or "triple_large" in @size do %>
   defp size_class("triple_large") do
     [
       "[&_.speed-dial-content]:max-w-96 [&_.speed-dial-icon-base]:size-7 [&_.speed-dial-base]:size-14"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@size) or "quadruple_large" in @size do %>
   defp size_class("quadruple_large") do
     [
       "[&_.speed-dial-content]:max-w-96 [&_.speed-dial-icon-base]:size-8 [&_.speed-dial-base]:size-16"
     ]
   end
+  <% end %>
 
   defp size_class(params) when is_binary(params), do: params
+  <%= if is_nil(@size) or "extra_large" in @size do %>
   defp size_class(_), do: size_class("extra_large")
+  <% end %>
 
   defp border_class("none"), do: "[&_.speed-dial-base]:border-0"
   defp border_class("extra_small"), do: "[&_.speed-dial-base]:border"
@@ -430,6 +506,8 @@ defmodule <%= @module %> do
   defp action_position("large", "bottom-end"), do: "bottom-8 end-8"
   defp action_position("extra_large", "bottom-end"), do: "bottom-9 end-9"
 
+  <%= if is_nil(@variant) or "default" in @variant do %>
+  <%= if is_nil(@color) or "white" in @color do %>
   defp color_variant("default", "white") do
     "bg-white text-[#3E3E3E] border-[#DADADA]"
   end
@@ -473,7 +551,10 @@ defmodule <%= @module %> do
   defp color_variant("default", "dark") do
     "bg-[#1E1E1E] text-white border-[#050404]"
   end
-
+  <% end %>
+  <% end %>
+  <%= if is_nil(@variant) or "unbordered" in @variant do %>
+  <%= if is_nil(@color) or "white" in @color do %>
   defp color_variant("unbordered", "white") do
     "bg-white border-transparent text-[#3E3E3E]"
   end
@@ -517,7 +598,10 @@ defmodule <%= @module %> do
   defp color_variant("unbordered", "dark") do
     "bg-[#1E1E1E] border-transparent text-white"
   end
-
+  <% end %>
+  <% end %>
+  <%= if is_nil(@variant) or "shadow" in @variant do %>
+  <%= if is_nil(@color) or "white" in @color do %>
   defp color_variant("shadow", "white") do
     [
       "bg-white text-[#3E3E3E]",
@@ -594,8 +678,14 @@ defmodule <%= @module %> do
       "border-[#1E1E1E] shadow"
     ]
   end
+  <% end %>
+  <% end %>
 
+  <%= if is_nil(@variant) or "default" in @variant do %>
+  <%= if is_nil(@color) or "primary" in @color do %>
   defp color_variant(_, _), do: color_variant("default", "primary")
+  <% end %>
+  <% end %>
 
   attr :name, :string, required: true, doc: "Specifies the name of the element"
   attr :class, :any, default: nil, doc: "Custom CSS class for additional styling"
