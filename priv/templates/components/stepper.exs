@@ -1,6 +1,6 @@
 [
-  spinner: [
-    name: "spinner",
+  stepper: [
+    name: "stepper",
     args: [
       variant: ["default", "unbordered", "shadow"],
       color: [
@@ -16,17 +16,9 @@
         "misc",
         "dawn"
       ],
-      size: [
-        "extra_small",
-        "small",
-        "medium",
-        "large",
-        "extra_large",
-        "double_large",
-        "triple_large",
-        "quadruple_large"
-      ],
-      type: ["default", "pinging", "dots", "bars"],
+      size: ["extra_small", "small", "medium", "large", "extra_large"],
+      space: ["extra_small", "small", "medium", "large", "extra_large"],
+      type: ["stepper", "stepper_section"],
       module: ""
     ],
     optional: [],
