@@ -30,6 +30,7 @@ defmodule <%= @module %> do
     "dawn"
   ]
 
+  <%= if is_nil(@type) or "stepper" in @type do %>
   @doc """
   Renders a customizable `stepper` component that visually represents a multi-step process.
   This component can be configured to display either horizontally or vertically, with various
@@ -117,7 +118,8 @@ defmodule <%= @module %> do
     </div>
     """
   end
-
+  <% end %>
+  <%= if is_nil(@type) or "stepper_section" in @type do %>
   @doc """
   Renders a `stepper_section` within the stepper component, representing each individual step of
   a multi-step process.
@@ -296,7 +298,7 @@ defmodule <%= @module %> do
     <div class="stepper-seperator w-full flex-1"></div>
     """
   end
-
+  <% end %>
   defp step_visibility() do
     [
       "[&_.stepper-compeleted-icon]:hidden",
