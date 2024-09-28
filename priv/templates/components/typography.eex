@@ -27,6 +27,7 @@ defmodule <%= @module %> do
     "inherit"
   ]
 
+  <%= if is_nil(@type) or "h1" in @type do %>
   @doc """
   The `h1` component renders a large header text with customizable size, color, and other styling options.
   It is used to display primary headings in your layout.
@@ -80,7 +81,8 @@ defmodule <%= @module %> do
     </h1>
     """
   end
-
+  <% end %>
+  <%= if is_nil(@type) or "h2" in @type do %>
   @doc """
   The `h2` component renders a large header text with customizable size, color, and other styling options.
   It is used to display primary headings in your layout.
@@ -134,7 +136,8 @@ defmodule <%= @module %> do
     </h2>
     """
   end
-
+  <% end %>
+  <%= if is_nil(@type) or "h3" in @type do %>
   @doc """
   The `h1` component renders a large header text with customizable size, color, and other styling options.
   It is used to display primary headings in your layout.
@@ -188,7 +191,8 @@ defmodule <%= @module %> do
     </h3>
     """
   end
-
+  <% end %>
+  <%= if is_nil(@type) or "h4" in @type do %>
   @doc """
   The `h4` component renders a large header text with customizable size, color, and other styling options.
   It is used to display primary headings in your layout.
@@ -241,7 +245,8 @@ defmodule <%= @module %> do
     </h4>
     """
   end
-
+  <% end %>
+  <%= if is_nil(@type) or "h5" in @type do %>
   @doc """
   The `h1` component renders a large header text with customizable size, color, and other styling options.
   It is used to display primary headings in your layout.
@@ -294,7 +299,8 @@ defmodule <%= @module %> do
     </h5>
     """
   end
-
+  <% end %>
+  <%= if is_nil(@type) or "h6" in @type do %>
   @doc """
   The `h6` component renders a large header text with customizable size, color, and other styling options.
   It is used to display primary headings in your layout.
@@ -347,7 +353,8 @@ defmodule <%= @module %> do
     </h6>
     """
   end
-
+  <% end %>
+  <%= if is_nil(@type) or "p" in @type do %>
   @doc """
   The `p` component is used to render a paragraph with customizable size, color, and other
   styling options.
@@ -402,7 +409,8 @@ defmodule <%= @module %> do
     </p>
     """
   end
-
+  <% end %>
+  <%= if is_nil(@type) or "strong" in @type do %>
   @doc """
   The `strong` component is used to emphasize important text by rendering it in a bold style.
 
@@ -458,7 +466,8 @@ defmodule <%= @module %> do
     </strong>
     """
   end
-
+  <% end %>
+  <%= if is_nil(@type) or "em" in @type do %>
   @doc """
   The `em` component is used to emphasize text, rendering it in italics to indicate importance or stress.
 
@@ -518,7 +527,8 @@ defmodule <%= @module %> do
     </em>
     """
   end
-
+  <% end %>
+  <%= if is_nil(@type) or "dl" in @type do %>
   @doc """
   The `dl` component represents a description list, typically used for name-value pairs such as
   terms and definitions. It can be styled with custom colors, sizes, and other attributes.
@@ -574,7 +584,8 @@ defmodule <%= @module %> do
     </dl>
     """
   end
-
+  <% end %>
+  <%= if is_nil(@type) or "dt" in @type do %>
   @doc """
   The `dt` component represents a term or name in a description list (`dl`). It is typically used in
   conjunction with the `dd` component to display a description or definition for the term.
@@ -628,7 +639,8 @@ defmodule <%= @module %> do
     </dt>
     """
   end
-
+  <% end %>
+  <%= if is_nil(@type) or "dd" in @type do %>
   @doc """
   The `dd` component represents the description or definition of a term in a description
   list (`dl`).
@@ -686,7 +698,8 @@ defmodule <%= @module %> do
     </dd>
     """
   end
-
+  <% end %>
+  <%= if is_nil(@type) or "figure" in @type do %>
   @doc """
   The `figure` component is used to group content, such as an image and its caption,
   as a single unit.
@@ -753,7 +766,8 @@ defmodule <%= @module %> do
     </figure>
     """
   end
-
+  <% end %>
+  <%= if is_nil(@type) or "figcaption" in @type do %>
   @doc """
   The `figcaption` component is used to add a caption or description to a `figure` element.
 
@@ -815,7 +829,8 @@ defmodule <%= @module %> do
     </figcaption>
     """
   end
-
+  <% end %>
+  <%= if is_nil(@type) or "abbr" in @type do %>
   @doc """
   The `abbr` component is used to display an abbreviation or acronym, providing a way to
   define or explain the shortened text using the `title` attribute.
@@ -871,7 +886,8 @@ defmodule <%= @module %> do
     </abbr>
     """
   end
-
+  <% end %>
+  <%= if is_nil(@type) or "mark" in @type do %>
   @doc """
   The `mark` component is used to highlight text, typically by applying a background color to
   the wrapped content.
@@ -926,7 +942,8 @@ defmodule <%= @module %> do
     </mark>
     """
   end
-
+  <% end %>
+  <%= if is_nil(@type) or "small" in @type do %>
   @doc """
   The `small` component is used for rendering small-sized text with various
   styling options such as color, size, and weight.
@@ -979,7 +996,8 @@ defmodule <%= @module %> do
     </small>
     """
   end
-
+  <% end %>
+  <%= if is_nil(@type) or "s" in @type do %>
   @doc """
   The `s` component is used to render text with a strikethrough style, r
   epresenting content that is no longer relevant or accurate.
@@ -1030,7 +1048,8 @@ defmodule <%= @module %> do
     </s>
     """
   end
-
+  <% end %>
+  <%= if is_nil(@type) or "u" in @type do %>
   @doc """
   The `u` component is used to underline text content.
 
@@ -1082,7 +1101,8 @@ defmodule <%= @module %> do
     </u>
     """
   end
-
+  <% end %>
+  <%= if is_nil(@type) or "cite" in @type do %>
   @doc """
   The `cite` component is used to reference the title of a work or to indicate a citation.
   It allows customization through attributes such as color, size, and font weight.
@@ -1137,7 +1157,8 @@ defmodule <%= @module %> do
     </cite>
     """
   end
-
+  <% end %>
+  <%= if is_nil(@type) or "del" in @type do %>
   @doc """
   The `del` component is used to represent text that has been deleted or marked for removal.
 
@@ -1189,6 +1210,7 @@ defmodule <%= @module %> do
     </del>
     """
   end
+  <% end %>
 
   <%= if is_nil(@color) or "white" in @color do %>
   defp color("white"), do: "text-white"
