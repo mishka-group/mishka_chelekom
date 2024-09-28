@@ -42,6 +42,7 @@ defmodule <%= @module %> do
     "silver"
   ]
 
+  <%= if is_nil(@type) or "timeline" in @type do %>
   @doc """
   The `timeline` component provides a structured layout to display a sequence of events or actions,
   either horizontally or vertically.
@@ -148,7 +149,8 @@ defmodule <%= @module %> do
     </div>
     """
   end
-
+  <% end %>
+  <%= if is_nil(@type) or "timeline_section" in @type do %>
   @doc """
   The `timeline_section` component is used to define individual sections within a `Timeline`.
 
@@ -308,6 +310,7 @@ defmodule <%= @module %> do
     </div>
     """
   end
+  <% end %>
 
   defp line_width("extra_small"), do: "after:w-px"
   defp line_width("small"), do: "after:w-0.5"
@@ -317,141 +320,164 @@ defmodule <%= @module %> do
   defp line_width(params) when is_binary(params), do: params
   defp line_width(_), do: line_width("extra_small")
 
+  <%= if is_nil(@size) or "extra_small" in @size do %>
   defp bullet_size("extra_small") do
     [
       "[&:not(.timeline-image-wrapper)]:size-2 [&_.bullet-icon]:size-1.5",
       "[&.timeline-image-wrapper>img]:size-6"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@size) or "small" in @size do %>
   defp bullet_size("small") do
     [
       "[&:not(.timeline-image-wrapper)]:size-3 [&_.bullet-icon]:size-2",
       "[&.timeline-image-wrapper>img]:size-7"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@size) or "medium" in @size do %>
   defp bullet_size("medium") do
     [
       "[&:not(.timeline-image-wrapper)]:size-4 [&_.bullet-icon]:size-2",
       "[&.timeline-image-wrapper>img]:size-8"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@size) or "large" in @size do %>
   defp bullet_size("large") do
     [
       "[&:not(.timeline-image-wrapper)]:size-[18px] [&_.bullet-icon]:size-2",
       "[&.timeline-image-wrapper>img]:size-9"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@size) or "extra_large" in @size do %>
   defp bullet_size("extra_large") do
     [
       "[&:not(.timeline-image-wrapper)]:size-5 [&_.bullet-icon]:size-3",
       "[&.timeline-image-wrapper>img]:size-10"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@size) or "double_large" in @size do %>
   defp bullet_size("double_large") do
     [
       "[&:not(.timeline-image-wrapper)]:size-[22px] [&_.bullet-icon]:size-4",
       "[&.timeline-image-wrapper>img]:size-12"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@size) or "triple_large" in @size do %>
   defp bullet_size("triple_large") do
     [
       "[&:not(.timeline-image-wrapper)]:size-[25px] [&_.bullet-icon]:size-4",
       "[&.timeline-image-wrapper>img]:size-14"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@size) or "quadruple_large" in @size do %>
   defp bullet_size("quadruple_large") do
     [
       "[&:not(.timeline-image-wrapper)]:size-7 [&_.bullet-icon]:size-5",
       "[&.timeline-image-wrapper>img]:size-16"
     ]
   end
+  <% end %>
 
   defp bullet_size(params) when is_binary(params), do: params
+  <%= if is_nil(@size) or "extra_small" in @size do %>
   defp bullet_size(_), do: bullet_size("extra_small")
+  <% end %>
 
+  <%= if is_nil(@color) or "silver" in @color do %>
   defp color_class("silver") do
     [
       "[&_.timeline-bullet]:bg-[#DADADA] [&_.timeline-bullet]:text-[#3E3E3E] [&_.timeline-vertical-line]:after:bg-[#DADADA]",
       "[&_.timeline-horizontal-line]:bg-[#DADADA]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "primary" in @color do %>
   defp color_class("primary") do
     [
       "[&_.timeline-bullet]:bg-[#2441de] [&_.timeline-bullet]:text-white [&_.timeline-vertical-line]:after:bg-[#2441de]",
       "[&_.timeline-horizontal-line]:bg-[#2441de]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "secondary" in @color do %>
   defp color_class("secondary") do
     [
       "[&_.timeline-bullet]:bg-[#877C7C] [&_.timeline-bullet]:text-white [&_.timeline-vertical-line]:after:bg-[#877C7C]",
       "[&_.timeline-horizontal-line]:bg-[#877C7C]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "success" in @color do %>
   defp color_class("success") do
     [
       "[&_.timeline-bullet]:bg-[#6EE7B7] [&_.timeline-bullet]:text-white [&_.timeline-vertical-line]:after:bg-[#6EE7B7]",
       "[&_.timeline-horizontal-line]:bg-[#6EE7B7]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "warning" in @color do %>
   defp color_class("warning") do
     [
       "[&_.timeline-bullet]:bg-[#FF8B08] [&_.timeline-bullet]:text-white [&_.timeline-vertical-line]:after:bg-[#FF8B08]",
       "[&_.timeline-horizontal-line]:bg-[#FF8B08]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "danger" in @color do %>
   defp color_class("danger") do
     [
       "[&_.timeline-bullet]:bg-[#E73B3B] [&_.timeline-bullet]:text-white [&_.timeline-vertical-line]:after:bg-[#E73B3B]",
       "[&_.timeline-horizontal-line]:bg-[#E73B3B]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "info" in @color do %>
   defp color_class("info") do
     [
       "[&_.timeline-bullet]:bg-[#004FC4] [&_.timeline-bullet]:text-white [&_.timeline-vertical-line]:after:bg-[#004FC4]",
       "[&_.timeline-horizontal-line]:bg-[#004FC4]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "misc" in @color do %>
   defp color_class("misc") do
     [
       "[&_.timeline-bullet]:bg-[#52059C] [&_.timeline-bullet]:text-white [&_.timeline-vertical-line]:after:bg-[#52059C]",
       "[&_.timeline-horizontal-line]:bg-[#52059C]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "dawn" in @color do %>
   defp color_class("dawn") do
     [
       "[&_.timeline-bullet]:bg-[#4D4137] [&_.timeline-bullet]:text-white [&_.timeline-vertical-line]:after:bg-[#4D4137]",
       "[&_.timeline-horizontal-line]:bg-[#4D4137]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "light" in @color do %>
   defp color_class("light") do
     [
       "[&_.timeline-bullet]:bg-[#707483] [&_.timeline-bullet]:text-white [&_.timeline-vertical-line]:after:bg-[#707483]",
       "[&_.timeline-horizontal-line]:bg-[#707483]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "dark" in @color do %>
   defp color_class("dark") do
     [
       "[&_.timeline-bullet]:bg-[#1E1E1E] [&_.timeline-bullet]:text-white [&_.timeline-vertical-line]:after:bg-[#1E1E1E]",
       "[&_.timeline-horizontal-line]:bg-[#1E1E1E]"
     ]
   end
+  <% end %>
 
   defp color_class(params) when is_binary(params), do: params
 
