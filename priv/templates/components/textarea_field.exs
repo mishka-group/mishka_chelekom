@@ -17,7 +17,7 @@
         "dawn",
         "silver"
       ],
-      size: ["extra_small", "small", "medium", "large", "extra_large"],
+      size: ["extra_small", "small", "medium", "large", "extra_large", "auto"],
       rounded: ["extra_small", "small", "medium", "large", "extra_large", "full"],
       space: ["extra_small", "small", "medium", "large", "extra_large"],
       module: ""
