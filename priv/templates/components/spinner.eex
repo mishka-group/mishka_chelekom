@@ -339,47 +339,59 @@ defmodule <%= @module %> do
   <% end %>
   <% end %>
 
+  <%= if is_nil(@color) or "white" in @color do %>
   defp color_class("white") do
     "[&>span]:bg-white [&>svg]:stroke-white text-white"
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "primary" in @color do %>
   defp color_class("primary") do
     "[&>span]:bg-[#2441de] [&>svg]:stroke-[#2441de] text-[#2441de]"
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "secondary" in @color do %>
   defp color_class("secondary") do
     "[&>span]:bg-[#877C7C] [&>svg]:stroke-[#877C7C] text-[#877C7C]"
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "success" in @color do %>
   defp color_class("success") do
     "[&>span]:bg-[#6EE7B7] [&>svg]:stroke-[#6EE7B7] text-[#6EE7B7]"
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "warning" in @color do %>
   defp color_class("warning") do
     "[&>span]:bg-[#FF8B08] [&>svg]:stroke-[#FF8B08] text-[#FF8B08]"
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "danger" in @color do %>
   defp color_class("danger") do
     "[&>span]:bg-[#E73B3B] [&>svg]:stroke-[#E73B3B] text-[#E73B3B]"
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "info" in @color do %>
   defp color_class("info") do
     "[&>span]:bg-[#004FC4] [&>svg]:stroke-[#004FC4] text-[#004FC4]"
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "misc" in @color do %>
   defp color_class("misc") do
     "[&>span]:bg-[#52059C] [&>svg]:stroke-[#52059C] text-[#52059C]"
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "dawn" in @color do %>
   defp color_class("dawn") do
     "[&>span]:bg-[#4D4137] [&>svg]:stroke-[#4D4137] text-[#4D4137]"
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "light" in @color do %>
   defp color_class("light") do
     "[&>span]:bg-[#707483] [&>svg]:stroke-[#707483] text-[#707483]"
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "dark" in @color do %>
   defp color_class("dark") do
     "[&>span]:bg-[#050404] [&>svg]:stroke-[#050404] text-[#050404]"
   end
+  <% end %>
 end
