@@ -1,4 +1,4 @@
-defmodule <%= @module %>  do
+defmodule <%= @module %> do
   @moduledoc """
   The `<%= @module %>` module provides a versatile and customizable component
   for handling file uploads in Phoenix LiveView applications.

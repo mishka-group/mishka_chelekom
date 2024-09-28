@@ -1,4 +1,4 @@
-defmodule <%= @module %>  do
+defmodule <%= @module %> do
   @moduledoc """
   The `<%= @module %>` module provides a versatile component for visually highlighting
   specific areas or elements in your Phoenix application.
