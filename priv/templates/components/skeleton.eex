@@ -101,13 +101,27 @@ defmodule <%= @module %> do
     """
   end
 
+  <%= if is_nil(@rounded) or "extra_small" in @rounded do %>
   defp rounded_size("extra_small"), do: "rounded-sm"
+  <% end %>
+  <%= if is_nil(@rounded) or "small" in @rounded do %>
   defp rounded_size("small"), do: "rounded"
+  <% end %>
+  <%= if is_nil(@rounded) or "medium" in @rounded do %>
   defp rounded_size("medium"), do: "rounded-md"
+  <% end %>
+  <%= if is_nil(@rounded) or "large" in @rounded do %>
   defp rounded_size("large"), do: "rounded-lg"
+  <% end %>
+  <%= if is_nil(@rounded) or "extra_large" in @rounded do %>
   defp rounded_size("extra_large"), do: "rounded-xl"
+  <% end %>
+  <%= if is_nil(@rounded) or "full" in @rounded do %>
   defp rounded_size("full"), do: "rounded-full"
+  <% end %>
+  <%= if is_nil(@rounded) or "none" in @rounded do %>
   defp rounded_size("none"), do: "rounded-none"
+  <% end %>
 
   defp height_class("extra_small"), do: "h-1"
   defp height_class("small"), do: "h-2"
@@ -126,17 +140,41 @@ defmodule <%= @module %> do
   defp width_class(params) when is_binary(params), do: params
   defp width_class(_), do: width_class("full")
 
+  <%= if is_nil(@color) or "white" in @color do %>
   defp color_class("white"), do: "bg-white"
+  <% end %>
+  <%= if is_nil(@color) or "silver" in @color do %>
   defp color_class("silver"), do: "bg-[#e9ecef]"
+  <% end %>
+  <%= if is_nil(@color) or "primary" in @color do %>
   defp color_class("primary"), do: "bg-[#4363EC]"
+  <% end %>
+  <%= if is_nil(@color) or "secondary" in @color do %>
   defp color_class("secondary"), do: "bg-[#6B6E7C]"
+  <% end %>
+  <%= if is_nil(@color) or "success" in @color do %>
   defp color_class("success"), do: "bg-[#D2F6E0]"
+  <% end %>
+  <%= if is_nil(@color) or "warning" in @color do %>
   defp color_class("warning"), do: "bg-[#FBF0D0]"
+  <% end %>
+  <%= if is_nil(@color) or "danger" in @color do %>
   defp color_class("danger"), do: "bg-[#FCD4D4]"
+  <% end %>
+  <%= if is_nil(@color) or "info" in @color do %>
   defp color_class("info"), do: "bg-[#D9E8FC]"
+  <% end %>
+  <%= if is_nil(@color) or "misc" in @color do %>
   defp color_class("misc"), do: "bg-[#FFD8FF]"
+  <% end %>
+  <%= if is_nil(@color) or "dawn" in @color do %>
   defp color_class("dawn"), do: "bg-[#FCE7D2]"
+  <% end %>
+  <%= if is_nil(@color) or "light" in @color do %>
   defp color_class("light"), do: "bg-[#E3E7F1]"
+  <% end %>
+  <%= if is_nil(@color) or "dark" in @color do %>
   defp color_class("dark"), do: "bg-[#1E1E1E]"
+  <% end %>
   defp color_class(params) when is_binary(params), do: params
 end
