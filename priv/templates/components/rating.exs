@@ -15,7 +15,7 @@
         "misc",
         "dawn"
       ],
-      size: ["extra_small", "small", "medium", "large", "extra_large"],
+      size: ["extra_small", "small", "medium", "large", "extra_large", "double_large", "triple_large", "quadruple_large"],
       module: ""
     ],
     optional: [],
