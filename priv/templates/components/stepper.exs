@@ -2,7 +2,6 @@
   stepper: [
     name: "stepper",
     args: [
-      variant: ["default", "unbordered", "shadow"],
       color: [
         "white",
         "primary",

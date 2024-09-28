@@ -2,7 +2,6 @@
   spinner: [
     name: "spinner",
     args: [
-      variant: ["default", "unbordered", "shadow"],
       color: [
         "white",
         "primary",

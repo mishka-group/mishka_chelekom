@@ -395,11 +395,21 @@ defmodule <%= @module %> do
   defp border_class(params) when is_binary(params), do: params
   defp border_class(_), do: border_class("extra_small")
 
+  <%= if is_nil(@space) or "extra_small" in @space do %>
   defp space_class("extra_small"), do: "space-y-1"
+  <% end %>
+  <%= if is_nil(@space) or "small" in @space do %>
   defp space_class("small"), do: "space-y-2"
+  <% end %>
+  <%= if is_nil(@space) or "medium" in @space do %>
   defp space_class("medium"), do: "space-y-3"
+  <% end %>
+  <%= if is_nil(@space) or "large" in @space do %>
   defp space_class("large"), do: "space-y-4"
+  <% end %>
+  <%= if is_nil(@space) or "extra_large" in @space do %>
   defp space_class("extra_large"), do: "space-y-5"
+  <% end %>
   defp space_class(params) when is_binary(params), do: params
   defp space_class(_), do: nil
 
@@ -411,43 +421,50 @@ defmodule <%= @module %> do
   defp wrapper_width(params) when is_binary(params), do: params
   defp wrapper_width(_), do: nil
 
+  <%= if is_nil(@size) or "extra_small" in @size do %>
   defp size_class("extra_small") do
     [
       "text-xs [&_.stepper-step]:size-7 [&_.stepper-icon]:size-4",
       "[&_.vertical-step:not(:last-child)]:min-h-10"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@size) or "small" in @size do %>
   defp size_class("small") do
     [
       "text-sm [&_.stepper-step]:size-8 [&_.stepper-icon]:size-5",
       "[&_.vertical-step:not(:last-child)]:min-h-12"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@size) or "medium" in @size do %>
   defp size_class("medium") do
     [
       "text-base [&_.stepper-step]:size-9 [&_.stepper-icon]:size-6",
       "[&_.vertical-step:not(:last-child)]:min-h-14"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@size) or "large" in @size do %>
   defp size_class("large") do
     [
       "text-lg [&_.stepper-step]:size-10 [&_.stepper-icon]:size-7",
       "[&_.vertical-step:not(:last-child)]:min-h-16"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@size) or "extra_large" in @size do %>
   defp size_class("extra_large") do
     [
       "text-xl [&_.stepper-step]:size-11 [&_.stepper-icon]:size-8",
       "[&_.vertical-step:not(:last-child)]:min-h-20"
     ]
   end
-
+  <% end %>
   defp size_class(params) when is_binary(params), do: params
+  <%= if is_nil(@size) or "medium" in @size do %>
   defp size_class(_), do: size_class("medium")
+  <% end %>
 
   defp seperator_size("extra_small"), do: "[&_.stepper-seperator]:h-px"
   defp seperator_size("small"), do: "[&_.stepper-seperator]:h-0.5"
@@ -459,7 +476,7 @@ defmodule <%= @module %> do
 
   # colors
   # stepper-loading-step, stepper-current-step, stepper-compeleted-step, stepper-canceled-step
-
+  <%= if is_nil(@color) or "white" in @color do %>
   defp color_class("white") do
     [
       "[&_.stepper-step]:bg-[#DADADA] [&_.stepper-step]:text-[#3E3E3E]",
@@ -471,7 +488,8 @@ defmodule <%= @module %> do
       "[&.vertical-stepper_.stepper-compeleted-step_.stepper-seperator]:border-white"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "primary" in @color do %>
   defp color_class("primary") do
     [
       "[&_.stepper-step]:bg-[#5573f2] [&_.stepper-step]:text-white",
@@ -483,7 +501,8 @@ defmodule <%= @module %> do
       "[&.vertical-stepper_.stepper-compeleted-step_.stepper-seperator]:border-[#162da8]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "secondary" in @color do %>
   defp color_class("secondary") do
     [
       "[&_.stepper-step]:bg-[#6B6E7C] [&_.stepper-step]:text-white",
@@ -495,7 +514,8 @@ defmodule <%= @module %> do
       "[&.vertical-stepper_.stepper-compeleted-step_.stepper-seperator]:border-[#434652]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "success" in @color do %>
   defp color_class("success") do
     [
       "[&_.stepper-step]:bg-[#ECFEF3] [&_.stepper-step]:text-[#047857]",
@@ -508,7 +528,8 @@ defmodule <%= @module %> do
       "[&.vertical-stepper_.stepper-compeleted-step_.stepper-seperator]:border-[#047857]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "warning" in @color do %>
   defp color_class("warning") do
     [
       "[&_.stepper-step]:bg-[#FFF8E6] [&_.stepper-step]:text-[#FF8B08]",
@@ -521,7 +542,8 @@ defmodule <%= @module %> do
       "[&.vertical-stepper_.stepper-compeleted-step_.stepper-seperator]:border-[#FF8B08]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "danger" in @color do %>
   defp color_class("danger") do
     [
       "[&_.stepper-step]:bg-[#FFE6E6] [&_.stepper-step]:text-[#E73B3B]",
@@ -534,7 +556,8 @@ defmodule <%= @module %> do
       "[&.vertical-stepper_.stepper-compeleted-step_.stepper-seperator]:border-[#E73B3B]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "info" in @color do %>
   defp color_class("info") do
     [
       "[&_.stepper-step]:bg-[#E5F0FF] [&_.stepper-step]:text-[#004FC4]",
@@ -547,7 +570,8 @@ defmodule <%= @module %> do
       "[&.vertical-stepper_.stepper-compeleted-step_.stepper-seperator]:border-[#004FC4]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "misc" in @color do %>
   defp color_class("misc") do
     [
       "[&_.stepper-step]:bg-[#FFE6FF] [&_.stepper-step]:text-[#52059C]",
@@ -560,7 +584,8 @@ defmodule <%= @module %> do
       "[&.vertical-stepper_.stepper-compeleted-step_.stepper-seperator]:border-[#52059C]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "dawn" in @color do %>
   defp color_class("dawn") do
     [
       "[&_.stepper-step]:bg-[#FFECDA] [&_.stepper-step]:text-[#4D4137]",
@@ -573,7 +598,8 @@ defmodule <%= @module %> do
       "[&.vertical-stepper_.stepper-compeleted-step_.stepper-seperator]:border-[#4D4137]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "light" in @color do %>
   defp color_class("light") do
     [
       "[&_.stepper-step]:bg-[#E3E7F1] [&_.stepper-step]:text-[#707483]",
@@ -586,7 +612,8 @@ defmodule <%= @module %> do
       "[&.vertical-stepper_.stepper-compeleted-step_.stepper-seperator]:border-[#707483]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "dark" in @color do %>
   defp color_class("dark") do
     [
       "[&_.stepper-step]:bg-[#1E1E1E] [&_.stepper-step]:text-white",
@@ -598,9 +625,11 @@ defmodule <%= @module %> do
       "[&.vertical-stepper_.stepper-compeleted-step_.stepper-seperator]:border-[#050404]"
     ]
   end
-
+  <% end %>
   defp color_class(params) when is_binary(params), do: params
+  <%= if is_nil(@color) or "primary" in @color do %>
   defp color_class(_), do: color_class("primary")
+  <% end %>
 
   attr :name, :string, required: true, doc: "Specifies the name of the element"
   attr :class, :any, default: nil, doc: "Custom CSS class for additional styling"
