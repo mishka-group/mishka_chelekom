@@ -39,6 +39,7 @@ defmodule <%= @module %> do
     "silver"
   ]
 
+  <%= if is_nil(@type) or "table" in @type do %>
   @doc """
   Renders a customizable `table` component that supports custom styling for rows, columns,
   and table headers. This component allows for specifying borders, padding, rounded corners,
@@ -197,7 +198,8 @@ defmodule <%= @module %> do
     </div>
     """
   end
-
+  <% end %>
+  <%= if is_nil(@type) or "th" in @type do %>
   @doc """
   Renders a table header cell (`<th>`) component with customizable class and scope attributes.
   This component allows for additional styling and accepts global attributes.
@@ -229,7 +231,8 @@ defmodule <%= @module %> do
     </th>
     """
   end
-
+  <% end %>
+  <%= if is_nil(@type) or "tr" in @type do %>
   @doc """
   Renders a table row (<tr>) component with customizable class attributes.
   This component allows for additional styling and accepts global attributes.
@@ -263,7 +266,8 @@ defmodule <%= @module %> do
     </tr>
     """
   end
-
+  <% end %>
+  <%= if is_nil(@type) or "td" in @type do %>
   @doc """
   Renders a table data cell (`<td>`) component with customizable class attributes.
   This component allows for additional styling and accepts global attributes.
@@ -293,13 +297,26 @@ defmodule <%= @module %> do
     </td>
     """
   end
+  <% end %>
 
+  <%= if is_nil(@rounded) or "none" in @rounded do %>
   defp rounded_size("none"), do: "rounded-none"
+  <% end %>
+  <%= if is_nil(@rounded) or "extra_small" in @rounded do %>
   defp rounded_size("extra_small"), do: "rounded-sm"
+  <% end %>
+  <%= if is_nil(@rounded) or "small" in @rounded do %>
   defp rounded_size("small"), do: "rounded"
+  <% end %>
+  <%= if is_nil(@rounded) or "medium" in @rounded do %>
   defp rounded_size("medium"), do: "rounded-md"
+  <% end %>
+  <%= if is_nil(@rounded) or "large" in @rounded do %>
   defp rounded_size("large"), do: "rounded-lg"
+  <% end %>
+  <%= if is_nil(@rounded) or "extra_large" in @rounded do %>
   defp rounded_size("extra_large"), do: "rounded-xl"
+  <% end %>
   defp rounded_size(params) when is_binary(params), do: [params]
   defp rounded_size(_), do: nil
 
@@ -386,43 +403,50 @@ defmodule <%= @module %> do
   defp header_border(params) when is_binary(params), do: [params]
   defp header_border(_), do: nil
 
+  <%= if is_nil(@padding) or "extra_small" in @padding do %>
   defp padding_size("extra_small") do
     [
       "[&_table_.table-data-cell]:px-3 [&_table_.table-data-cell]:py-1.5",
       "[&_table_.table-header]:px-3 [&_table_.table-header]:py-1.5"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@padding) or "small" in @padding do %>
   defp padding_size("small") do
     [
       "[&_table_.table-data-cell]:px-4 [&_table_.table-data-cell]:py-2",
       "[&_table_.table-header]:px-4 [&_table_.table-header]:py-2"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@padding) or "medium" in @padding do %>
   defp padding_size("medium") do
     [
       "[&_table_.table-data-cell]:px-5 [&_table_.table-data-cell]:py-2.5",
       "[&_table_.table-header]:px-5 [&_table_.table-header]:py-2.5"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@padding) or "large" in @padding do %>
   defp padding_size("large") do
     [
       "[&_table_.table-data-cell]:px-6 [&_table_.table-data-cell]:py-3",
       "[&_table_.table-header]:px-6 [&_table_.table-header]:py-3"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@padding) or "extra_large" in @padding do %>
   defp padding_size("extra_large") do
     [
       "[&_table_.table-data-cell]:px-7 [&_table_.table-data-cell]:py-3.5",
       "[&_table_.table-header]:px-7 [&_table_.table-header]:py-3.5"
     ]
   end
-
+  <% end %>
   defp padding_size(params) when is_binary(params), do: params
+  <%= if is_nil(@padding) or "small" in @padding do %>
   defp padding_size(_), do: padding_size("small")
+  <% end %>
 
   defp color_variant("default", "white") do
     "[&_table]:bg-white text-[#3E3E3E] border-white [&_*]:divide-white [&_td]:border-white [&_th]:border-white"
