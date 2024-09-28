@@ -16,6 +16,7 @@ defmodule <%= @module %> do
   use Phoenix.Component
   alias Phoenix.LiveView.JS
 
+  <%= if is_nil(@type) or "table_content" in @type do %>
   @doc """
   The `table_content` component is used to display organized content with customizable styling
   options such as color, padding, and animation.
@@ -98,7 +99,8 @@ defmodule <%= @module %> do
     </div>
     """
   end
-
+  <% end %>
+  <%= if is_nil(@type) or "content_wrapper" in @type do %>
   @doc """
   The `content_wrapper` component is used to wrap multiple content items, allowing for grouped
   and structured presentation of content. It provides options for custom styling and font
@@ -156,7 +158,8 @@ defmodule <%= @module %> do
     </div>
     """
   end
-
+  <% end %>
+  <%= if is_nil(@type) or "content_item" in @type do %>
   @doc """
   The `content_item` component is used to represent a single content item with an optional
   icon and custom styling.
@@ -222,7 +225,7 @@ defmodule <%= @module %> do
     </div>
     """
   end
-
+  <% end %>
   defp size_class("extra_small") do
     [
       "text-xs [&_.content-item]:py-1 [&_.content-item]:px-1.5 [&_.content-icon]:size-2.5"
@@ -491,11 +494,7 @@ defmodule <%= @module %> do
     ]
   end
 
-  defp color_variant("transparent", _) do
-    [
-      "bg-transplant"
-    ]
-  end
+  defp color_variant("transparent", _), do: ["bg-transplant"]
 
   attr :name, :string, required: true, doc: "Specifies the name of the element"
   attr :class, :any, default: nil, doc: "Custom CSS class for additional styling"
