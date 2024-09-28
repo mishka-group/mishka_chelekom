@@ -18,7 +18,7 @@
       ],
       rounded: ["extra_small", "small", "medium", "large", "extra_large", "full", "none"],
       size: ["extra_small", "small", "medium", "large", "extra_large"],
-      padding: ["extra_small", "small", "medium", "large"],
+      padding: ["extra_small", "small", "medium", "large", "none"],
       module: ""
     ],
     optional: [],

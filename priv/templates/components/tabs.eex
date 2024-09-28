@@ -293,52 +293,73 @@ defmodule <%= @module %> do
 
   defp content_position(_), do: content_position("start")
 
+  <%= if is_nil(@padding) or "none" in @padding do %>
   defp padding_size("none") do
     [
       "[&_.tab-trigger]:p-0 [&_.tab-content]:p-0"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@padding) or "extra_small" in @padding do %>
   defp padding_size("extra_small") do
     [
       "[&_.tab-trigger]:py-1 [&_.tab-trigger]:px-2 [&_.tab-content]:p-2"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@padding) or "small" in @padding do %>
   defp padding_size("small") do
     [
       "[&_.tab-trigger]:py-1.5 [&_.tab-trigger]:px-3 [&_.tab-content]:p-3"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@padding) or "medium" in @padding do %>
   defp padding_size("medium") do
     [
       "[&_.tab-trigger]:py-2 [&_.tab-trigger]:px-4 [&_.tab-content]:p-4"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@padding) or "large" in @padding do %>
   defp padding_size("large") do
     [
       "[&_.tab-trigger]:py-2.5 [&_.tab-trigger]:px-5 [&_.tab-content]:p-5"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@padding) or "extra_large" in @padding do %>
   defp padding_size("extra_large") do
     [
       "[&_.tab-trigger]:py-3 [&_.tab-trigger]:px-5 [&_.tab-content]:p-6"
     ]
   end
+  <% end %>
 
   defp padding_size(params) when is_binary(params), do: params
+  <%= if is_nil(@padding) or "small" in @padding do %>
   defp padding_size(_), do: padding_size("small")
+  <% end %>
 
+  <%= if is_nil(@size) or "extra_small" in @size do %>
   defp size_class("extra_small"), do: "text-xs [&_.tab-icon]:size-4"
+  <% end %>
+  <%= if is_nil(@size) or "small" in @size do %>
   defp size_class("small"), do: "text-sm [&_.tab-icon]:size-5"
+  <% end %>
+  <%= if is_nil(@size) or "medium" in @size do %>
   defp size_class("medium"), do: "text-base [&_.tab-icon]:size-6"
+  <% end %>
+  <%= if is_nil(@size) or "large" in @size do %>
   defp size_class("large"), do: "text-lg [&_.tab-icon]:size-7"
+  <% end %>
+  <%= if is_nil(@size) or "extra_large" in @size do %>
   defp size_class("extra_large"), do: "text-xl [&_.tab-icon]:size-8"
+  <% end %>
   defp size_class(params) when is_binary(params), do: params
+  <%= if is_nil(@size) or "medium" in @size do %>
   defp size_class(_), do: size_class("medium")
+  <% end %>
 
   defp gap_size("extra_small"), do: "[&_.tab-trigger-list]:gap-1"
   defp gap_size("small"), do: "[&_.tab-trigger-list]:gap-2"
@@ -405,8 +426,11 @@ defmodule <%= @module %> do
   defp tab_border(params, false) when is_binary(params), do: [params]
   defp tab_border(_, false), do: tab_border("extra_small", false)
 
+  <%= if is_nil(@variant) or "default" in @variant do %>
   defp rounded_size(_, "default"), do: "rounded-none"
+  <% end %>
 
+  <%= if is_nil(@variant) or "pills" in @variant do %>
   defp rounded_size("none", "pills"), do: "[&_.tab-trigger]:rounded-none"
   defp rounded_size("extra_small", "pills"), do: "[&_.tab-trigger]:rounded-sm"
   defp rounded_size("small", "pills"), do: "[&_.tab-trigger]:rounded"
@@ -414,7 +438,9 @@ defmodule <%= @module %> do
   defp rounded_size("large", "pills"), do: "[&_.tab-trigger]:rounded-lg"
   defp rounded_size("extra_large", "pills"), do: "[&_.tab-trigger]:rounded-xl"
   defp rounded_size("full", "pills"), do: "[&_.tab-trigger]:rounded-full"
+  <% end %>
 
+  <%= if is_nil(@variant) or "outline" in @variant do %>
   defp rounded_size("none", "outline"), do: "[&_.tab-trigger]:rounded-t-none"
   defp rounded_size("extra_small", "outline"), do: "[&_.tab-trigger]:rounded-t-sm"
   defp rounded_size("small", "outline"), do: "[&_.tab-trigger]:rounded-t"
@@ -422,10 +448,14 @@ defmodule <%= @module %> do
   defp rounded_size("large", "outline"), do: "[&_.tab-trigger]:rounded-t-lg"
   defp rounded_size("extra_large", "outline"), do: "[&_.tab-trigger]:rounded-t-xl"
   defp rounded_size("full", "outline"), do: "[&_.tab-trigger]:rounded-t-full"
+  <% end %>
 
   defp rounded_size(params, _) when is_binary(params), do: [params]
+  <%= if is_nil(@variant) or "default" in @variant do %>
   defp rounded_size(_, _), do: rounded_size(nil, "default")
+  <% end %>
 
+  <%= if is_nil(@variant) or "default" in @variant do %>
   defp color_variant("default", "white") do
     [
       "[&_.tab-trigger.active-tab]:text-[#3E3E3E] [&_.tab-trigger.active-tab]:border-[#DADADA]",
@@ -502,7 +532,8 @@ defmodule <%= @module %> do
       "[&_.tab-trigger-list]:border-[#e9ecef] hover:[&_.tab-trigger]:text-[#050404]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@variant) or "pills" in @variant do %>
   defp color_variant("pills", "white") do
     [
       "[&_.tab-trigger.active-tab]:bg-white hover:[&_.tab-trigger]:bg-white",
@@ -579,6 +610,7 @@ defmodule <%= @module %> do
       "[&_.tab-trigger.active-tab]:text-white [&_.tab-trigger.active-tab]:border-[#050404]"
     ]
   end
+  <% end %>
 
   @doc """
   Sets a specific tab as active by adding `active-tab` and `active-tab-panel` CSS classes to the
