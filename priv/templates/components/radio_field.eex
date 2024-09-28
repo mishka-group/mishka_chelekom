@@ -149,7 +149,6 @@ defmodule <%= @module %> do
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :color, :string, default: "primary", doc: "Determines color theme"
   attr :border, :string, default: "extra_small", doc: "Determines border style"
-  attr :rounded, :string, default: "small", doc: "Determines the border radius"
   attr :space, :string, default: "medium", doc: "Space between items"
 
   attr :variation, :string,
@@ -255,13 +254,25 @@ defmodule <%= @module %> do
     """
   end
 
+  <%= if is_nil(@size) or "extra_small" in @size do %>
   defp size_class("extra_small"), do: "[&_.radio-field-wrapper_input]:size-2.5"
+  <% end %>
+  <%= if is_nil(@size) or "small" in @size do %>
   defp size_class("small"), do: "[&_.radio-field-wrapper_input]:size-3"
+  <% end %>
+  <%= if is_nil(@size) or "medium" in @size do %>
   defp size_class("medium"), do: "[&_.radio-field-wrapper_input]:size-3.5"
+  <% end %>
+  <%= if is_nil(@size) or "large" in @size do %>
   defp size_class("large"), do: "[&_.radio-field-wrapper_input]:size-4"
+  <% end %>
+  <%= if is_nil(@size) or "extra_large" in @size do %>
   defp size_class("extra_large"), do: "[&_.radio-field-wrapper_input]:size-5"
+  <% end %>
   defp size_class(params) when is_binary(params), do: params
+  <%= if is_nil(@size) or "medium" in @size do %>
   defp size_class(_), do: size_class("medium")
+  <% end %>
 
   defp border_class("none"), do: "[&_.radio-field-wrapper_.radio-input]:border-0"
   defp border_class("extra_small"), do: "[&_.radio-field-wrapper_.radio-input]:border"
@@ -272,13 +283,25 @@ defmodule <%= @module %> do
   defp border_class(params) when is_binary(params), do: params
   defp border_class(_), do: border_class("extra_small")
 
+  <%= if is_nil(@space) or "extra_small" in @space do %>
   defp space_class("extra_small"), do: "[&_.radio-field-wrapper]:space-x-1"
+  <% end %>
+  <%= if is_nil(@space) or "small" in @space do %>
   defp space_class("small"), do: "[&_.radio-field-wrapper]:space-x-1.5"
+  <% end %>
+  <%= if is_nil(@space) or "medium" in @space do %>
   defp space_class("medium"), do: "[&_.radio-field-wrapper]:space-x-2"
+  <% end %>
+  <%= if is_nil(@space) or "large" in @space do %>
   defp space_class("large"), do: "[&_.radio-field-wrapper]:space-x-2.5"
+  <% end %>
+  <%= if is_nil(@space) or "extra_large" in @space do %>
   defp space_class("extra_large"), do: "[&_.radio-field-wrapper]:space-x-3"
+  <% end %>
   defp space_class(params) when is_binary(params), do: params
+  <%= if is_nil(@space) or "medium" in @space do %>
   defp space_class(_), do: space_class("medium")
+  <% end %>
 
   defp variation_gap("extra_small", "vertical"), do: "space-y-1"
   defp variation_gap("small", "vertical"), do: "space-y-2"
@@ -295,6 +318,7 @@ defmodule <%= @module %> do
   defp variation_gap(_, params) when is_binary(params), do: params
   defp variation_gap(_, _), do: variation_gap("medium", "vertical")
 
+  <%= if is_nil(@color) or "white" in @color do %>
   defp color_class("white") do
     [
       "[&_.radio-field-wrapper_.radio-input]:text-white text-[#DADADA]",
@@ -302,7 +326,8 @@ defmodule <%= @module %> do
       "focus-within:[&_.radio-field-wrapper_.radio-input]:ring-[#DADADA]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "primary" in @color do %>
   defp color_class("primary") do
     [
       "checked:[&_.radio-field-wrapper_.radio-input]:text-[#4363EC] text-[#4363EC]",
@@ -310,7 +335,8 @@ defmodule <%= @module %> do
       "focus-within:[&_.radio-field-wrapper_.radio-input]:ring-[#2441de]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "secondary" in @color do %>
   defp color_class("secondary") do
     [
       "[&_.radio-field-wrapper_.radio-input]:text-[#6B6E7C] text-[#6B6E7C]",
@@ -318,7 +344,8 @@ defmodule <%= @module %> do
       "focus-within:[&_.radio-field-wrapper_.radio-input]:ring-[#877C7C]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "success" in @color do %>
   defp color_class("success") do
     [
       "[&_.radio-field-wrapper_.radio-input]:text-[#047857] text-[#047857]",
@@ -326,7 +353,8 @@ defmodule <%= @module %> do
       "focus-within:[&_.radio-field-wrapper_.radio-input]:ring-[#6EE7B7]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "warning" in @color do %>
   defp color_class("warning") do
     [
       "[&_.radio-field-wrapper_.radio-input]:text-[#FF8B08] text-[#FF8B08]",
@@ -334,7 +362,8 @@ defmodule <%= @module %> do
       "focus-within:[&_.radio-field-wrapper_.radio-input]:ring-[#FF8B08]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "danger" in @color do %>
   defp color_class("danger") do
     [
       "[&_.radio-field-wrapper_.radio-input]:text-[#E73B3B] text-[#E73B3B]",
@@ -342,7 +371,8 @@ defmodule <%= @module %> do
       "focus-within:[&_.radio-field-wrapper_.radio-input]:ring-[#E73B3B]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "info" in @color do %>
   defp color_class("info") do
     [
       "[&_.radio-field-wrapper_.radio-input]:text-[#004FC4] text-[#004FC4]",
@@ -350,7 +380,8 @@ defmodule <%= @module %> do
       "focus-within:[&_.radio-field-wrapper_.radio-input]:ring-[#004FC4]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "misc" in @color do %>
   defp color_class("misc") do
     [
       "[&_.radio-field-wrapper_.radio-input]:text-[#52059C] text-[#52059C]",
@@ -358,7 +389,8 @@ defmodule <%= @module %> do
       "focus-within:[&_.radio-field-wrapper_.radio-input]:ring-[#52059C]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "dawn" in @color do %>
   defp color_class("dawn") do
     [
       "[&_.radio-field-wrapper_.radio-input]:text-[#4D4137] text-[#4D4137]",
@@ -366,7 +398,8 @@ defmodule <%= @module %> do
       "focus-within:[&_.radio-field-wrapper_.radio-input]:ring-[#4D4137]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "light" in @color do %>
   defp color_class("light") do
     [
       "[&_.radio-field-wrapper_.radio-input]:text-[#707483] text-[#707483]",
@@ -374,7 +407,8 @@ defmodule <%= @module %> do
       "focus-within:[&_.radio-field-wrapper_.radio-input]:ring-[#707483]"
     ]
   end
-
+  <% end %>
+  <%= if is_nil(@color) or "dark" in @color do %>
   defp color_class("dark") do
     [
       "[&_.radio-field-wrapper_.radio-input]:text-[#1E1E1E] text-[#1E1E1E]",
@@ -382,6 +416,7 @@ defmodule <%= @module %> do
       "focus-within:[&_.radio-field-wrapper_.radio-input]:ring-[#050404]"
     ]
   end
+  <% end %>
 
   defp translate_error({msg, opts}) do
     # When using gettext, we typically pass the strings we want
