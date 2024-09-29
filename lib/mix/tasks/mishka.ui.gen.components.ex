@@ -43,15 +43,17 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Components do
       # This ensures your option schema includes options from nested tasks
       composes: ["mishka.ui.gen.component"],
       # `OptionParser` schema
-      schema: [],
+      schema: [import: :boolean],
       # CLI aliases
-      aliases: []
+      aliases: [i: :import]
     }
   end
 
   def igniter(igniter, argv) do
     # extract positional arguments according to `positional` above
-    {%{components: components}, _rgs} = positional_args!(argv)
+    {%{components: components}, argv} = positional_args!(argv)
+
+    options = options!(argv)
 
     msg =
       """
@@ -72,46 +74,55 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Components do
         else: components
 
     igniter =
-      Enum.reduce(list, igniter, fn item, acc ->
+      Enum.reduce(Enum.take(list, 1), igniter, fn item, acc ->
         acc
         |> Igniter.compose_task("mishka.ui.gen.component", [item, "--no-deps", "--sub", "--yes"])
       end)
-      |> create_import_macro(list)
+      |> create_import_macro(list, options[:import])
 
     igniter
   end
 
-  defp create_import_macro(igniter, list) do
-    web_module = Igniter.Libs.Phoenix.web_module(igniter)
+  defp create_import_macro(igniter, list, status) do
+    igniter =
+      if status do
+        web_module = Igniter.Libs.Phoenix.web_module(igniter)
 
-    proper_location =
-      Module.concat([web_module, "components", "mishka_components"])
-      |> then(&Igniter.Project.Module.proper_location(igniter, &1))
+        proper_location =
+          Module.concat([web_module, "components", "mishka_components"])
+          |> then(&Igniter.Project.Module.proper_location(igniter, &1))
 
-    module_name =
-      Component.atom_to_module(Macro.underscore(web_module) <> ".components.mishka_components")
+        module_name =
+          Component.atom_to_module(
+            Macro.underscore(web_module) <> ".components.mishka_components"
+          )
 
-    children_list =
-      Enum.map(list, &Component.get_component_template(igniter, &1).config[:args][:only])
-      |> List.flatten()
-      |> Enum.map(&{String.to_atom(&1), 1})
+        children_list =
+          Enum.map(list, &Component.get_component_template(igniter, &1).config[:args][:only])
+          |> List.flatten()
+          |> Enum.map(&{String.to_atom(&1), 1})
+
+        igniter
+        |> Igniter.create_new_file(
+          proper_location,
+          """
+          defmodule #{module_name} do
+            defmacro __using__(_) do
+              quote do
+                import #{inspect(web_module)}.Components.{
+                 #{Enum.map(list, &"#{Component.atom_to_module(&1)},\n")}
+                }, only: [#{Enum.map_join(children_list, ",\n", fn {key, value} -> "#{key}: #{value}" end)}]
+              end
+            end
+          end
+          """,
+          on_exists: :overwrite
+        )
+      else
+        igniter
+      end
 
     igniter
-    |> Igniter.create_new_file(
-      proper_location,
-      """
-      defmodule #{module_name} do
-        defmacro __using__(_) do
-          quote do
-            import #{inspect(web_module)}.Components.{
-             #{Enum.map(list, &"#{Component.atom_to_module(&1)},\n")}
-            }, only: [#{Enum.map_join(children_list, ",\n", fn {key, value} -> "#{key}: #{value}" end)}]
-          end
-        end
-      end
-      """,
-      on_exists: :overwrite
-    )
   end
 
   defp get_all_components_names() do
