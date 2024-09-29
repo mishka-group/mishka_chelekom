@@ -21,6 +21,7 @@
       space: ["extra_small", "small", "medium", "large", "extra_large"],
       padding: ["extra_small", "small", "medium", "large", "extra_large"],
       type: ["chat", "chat_section"],
+      only: ["chat", "chat_section"],
       module: ""
     ],
     optional: [],

@@ -21,6 +21,7 @@
       padding: ["extra_small", "small", "medium", "large", "extra_large", "none"],
       rounded: ["extra_small", "small", "medium", "large", "extra_large", "full", "none"],
       type: ["list", "li", "ul", "ol", "list_group"],
+      only: ["list", "li", "ul", "ol", "list_group"],
       module: ""
     ],
     optional: [],

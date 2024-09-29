@@ -29,6 +29,7 @@
         "quadruple_large",
         "screen"
       ],
+      only: ["modal"],
       module: ""
     ],
     optional: [],

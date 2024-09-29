@@ -17,6 +17,7 @@
         "silver"
       ],
       type: ["watch", "android", "laptop", "ipad", "imac"],
+      only: ["device_mockup"],
       module: ""
     ],
     optional: [],

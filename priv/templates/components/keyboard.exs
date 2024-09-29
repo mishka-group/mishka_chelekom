@@ -18,6 +18,7 @@
       ],
       size: ["extra_small", "small", "medium", "large", "extra_large"],
       rounded: ["extra_small", "small", "medium", "large", "extra_large", "full", "none"],
+      only: ["keyboard"],
       module: ""
     ],
     optional: [],

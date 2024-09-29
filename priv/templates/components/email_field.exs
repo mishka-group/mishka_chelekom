@@ -20,6 +20,7 @@
       size: ["extra_small", "small", "medium", "large", "extra_large"],
       space: ["extra_small", "small", "medium", "large", "extra_large"],
       rounded: ["extra_small", "small", "medium", "large", "extra_large", "full"],
+      only: ["email_field"],
       module: ""
     ],
     optional: [],

@@ -31,6 +31,7 @@
       size: ["extra_small", "small", "medium", "large", "extra_large", "full"],
       rounded: ["extra_small", "small", "medium", "large", "extra_large", "full", "none"],
       type: ["button_group", "button", "input_button", "button_link"],
+      only: ["button_group", "button", "input_button", "button_link"],
       module: ""
     ],
     optional: [],

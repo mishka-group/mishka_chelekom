@@ -16,6 +16,7 @@
         "dawn"
       ],
       size: ["extra_small", "small", "medium", "large", "extra_large"],
+      only: ["toggle_field"],
       module: ""
     ],
     optional: [],

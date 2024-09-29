@@ -19,6 +19,7 @@
       rounded: ["extra_small", "small", "medium", "large", "extra_large", "full", "none"],
       size: ["extra_small", "small", "medium", "large", "extra_large"],
       padding: ["extra_small", "small", "medium", "large", "none"],
+      only: ["tabs"],
       module: ""
     ],
     optional: [],

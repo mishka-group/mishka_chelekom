@@ -113,7 +113,8 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Component do
 
   def supports_umbrella?(), do: false
 
-  defp get_component_template(igniter, component) do
+  @doc false
+  def get_component_template(igniter, component) do
     component = String.replace(component, " ", "") |> Macro.underscore()
 
     template_path =
@@ -389,7 +390,8 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Component do
     end
   end
 
-  defp atom_to_module(field) do
+  @doc false
+  def atom_to_module(field) do
     field
     |> String.split(".", trim: true)
     |> Enum.map(&Macro.camelize/1)
@@ -397,7 +399,8 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Component do
     |> String.to_atom()
   end
 
-  defp atom_to_module(field, :last) do
+  @doc false
+  def atom_to_module(field, :last) do
     field
     |> String.split(".", trim: true)
     |> List.last()

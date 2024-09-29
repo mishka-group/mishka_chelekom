@@ -26,6 +26,7 @@
         "quadruple_large"
       ],
       type: ["default", "pinging", "dots", "bars"],
+      only: ["spinner"],
       module: ""
     ],
     optional: [],

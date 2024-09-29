@@ -17,6 +17,7 @@
         "silver"
       ],
       size: ["extra_small", "small", "medium", "large", "extra_large"],
+      only: ["overlay"],
       module: ""
     ],
     optional: [],

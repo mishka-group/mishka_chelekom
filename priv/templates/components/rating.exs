@@ -25,6 +25,7 @@
         "triple_large",
         "quadruple_large"
       ],
+      only: ["rating"],
       module: ""
     ],
     optional: [],

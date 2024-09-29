@@ -94,6 +94,8 @@ defmodule MishkaChelekomWeb.Router do
     live "/examples/form", Examples.FormWrapperLive
     live "/examples/table", Examples.TableLive
 
+    live "/examples/home", HomeLive
+
     live "/examples/user-form", Examples.UserFormLive
   end
 

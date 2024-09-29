@@ -20,6 +20,7 @@
       size: ["extra_small", "small", "medium", "large", "extra_large"],
       space: ["extra_small", "small", "medium", "large", "extra_large"],
       rounded: ["extra_small", "small", "medium", "large", "extra_large"],
+      only: ["file_field"],
       module: ""
     ],
     optional: [],

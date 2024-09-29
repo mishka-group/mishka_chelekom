@@ -29,6 +29,7 @@
         "quadruple_large",
         "none"
       ],
+      only: ["jumbotron"],
       module: ""
     ],
     optional: [],

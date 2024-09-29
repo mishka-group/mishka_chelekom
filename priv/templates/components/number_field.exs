@@ -21,6 +21,7 @@
       padding: ["extra_small", "small", "medium", "large", "extra_large", "none"],
       rounded: ["extra_small", "small", "medium", "large", "extra_large", "full"],
       space: ["extra_small", "small", "medium", "large", "extra_large"],
+      only: ["number_field"],
       module: ""
     ],
     optional: [],

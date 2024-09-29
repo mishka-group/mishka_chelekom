@@ -18,6 +18,7 @@
       ],
       size: ["extra_small", "small", "medium", "large", "extra_large"],
       type: ["divider", "hr"],
+      only: ["divider", "hr"],
       module: ""
     ],
     optional: [],

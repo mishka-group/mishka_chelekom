@@ -20,6 +20,7 @@
       size: ["extra_small", "small", "medium", "large", "extra_large"],
       space: ["extra_small", "small", "medium", "large", "extra_large"],
       rounded: ["extra_small", "small", "medium", "large", "extra_large"],
+      only: ["date_time_field"],
       module: ""
     ],
     optional: [],

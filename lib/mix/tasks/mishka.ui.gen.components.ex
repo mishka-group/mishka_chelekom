@@ -1,4 +1,5 @@
 defmodule Mix.Tasks.Mishka.Ui.Gen.Components do
+  alias Mix.Tasks.Mishka.Ui.Gen.Component
   use Igniter.Mix.Task
 
   @example "mix mishka.ui.gen.components component1, component1"
@@ -75,8 +76,42 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Components do
         acc
         |> Igniter.compose_task("mishka.ui.gen.component", [item, "--no-deps", "--sub", "--yes"])
       end)
+      |> create_import_macro(list)
 
     igniter
+  end
+
+  defp create_import_macro(igniter, list) do
+    web_module = Igniter.Libs.Phoenix.web_module(igniter)
+
+    proper_location =
+      Module.concat([web_module, "components", "mishka_components"])
+      |> then(&Igniter.Project.Module.proper_location(igniter, &1))
+
+    module_name =
+      Component.atom_to_module(Macro.underscore(web_module) <> ".components.mishka_components")
+
+    children_list =
+      Enum.map(list, &Component.get_component_template(igniter, &1).config[:args][:only])
+      |> List.flatten()
+      |> Enum.map(&{String.to_atom(&1), 1})
+
+    igniter
+    |> Igniter.create_new_file(
+      proper_location,
+      """
+      defmodule #{module_name} do
+        defmacro __using__(_) do
+          quote do
+            import #{inspect(web_module)}.Components.{
+             #{Enum.map(list, &"#{Component.atom_to_module(&1)},\n")}
+            }, only: [#{Enum.map_join(children_list, ",\n", fn {key, value} -> "#{key}: #{value}" end)}]
+          end
+        end
+      end
+      """,
+      on_exists: :overwrite
+    )
   end
 
   defp get_all_components_names() do
