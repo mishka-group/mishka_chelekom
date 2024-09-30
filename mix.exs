@@ -1,88 +1,59 @@
 defmodule MishkaChelekom.MixProject do
   use Mix.Project
 
+  @version "0.0.1"
+  @source_url "https://github.com/mishka-group/mishka_chelekom"
+
   def project do
     [
       app: :mishka_chelekom,
-      version: "0.1.0",
+      name: "Mishka Chelekom",
+      version: @version,
       elixir: "~> 1.17",
       elixirc_paths: elixirc_paths(Mix.env()),
       start_permanent: Mix.env() == :prod,
-      aliases: aliases(),
-      deps: deps()
+      deps: deps(),
+      description: description(),
+      package: package(),
+      homepage_url: "https://github.com/mishka-group",
+      source_url: @source_url,
+      docs: [
+        main: "MishkaChelekom",
+        source_ref: "master",
+        extras: ["README.md"],
+        source_url: @source_url
+      ]
     ]
   end
 
-  # Configuration for the OTP application.
-  #
-  # Type `mix help compile.app` for more information.
   def application do
     [
-      mod: {MishkaChelekom.Application, []},
-      extra_applications: [:logger, :runtime_tools]
+      extra_applications: [:logger],
+      mod: {MishkaChelekom.Application, []}
     ]
   end
 
-  # Specifies which paths to compile per environment.
-  defp elixirc_paths(:test), do: ["lib", "test/support"]
-  defp elixirc_paths(_), do: ["lib"]
+  defp elixirc_paths(_mode), do: ["lib", "priv"]
 
-  # Specifies your project dependencies.
-  #
-  # Type `mix help deps` for examples and options.
   defp deps do
     [
-      {:phoenix, "~> 1.7.14"},
-      {:phoenix_ecto, "~> 4.5"},
-      {:ecto_sql, "~> 3.10"},
-      {:postgrex, ">= 0.0.0"},
-      {:phoenix_html, "~> 4.1"},
-      {:phoenix_live_reload, "~> 1.2", only: :dev},
-      # TODO bump on release to {:phoenix_live_view, "~> 1.0.0"},
-      {:phoenix_live_view, "~> 1.0.0-rc.6", override: true},
-      {:floki, ">= 0.30.0", only: :test},
-      {:phoenix_live_dashboard, "~> 0.8.3"},
-      {:esbuild, "~> 0.8", runtime: Mix.env() == :dev},
-      {:tailwind, "~> 0.2", runtime: Mix.env() == :dev},
-      {:heroicons,
-       github: "tailwindlabs/heroicons",
-       tag: "v2.1.4",
-       sparse: "optimized",
-       app: false,
-       compile: false,
-       depth: 1},
-      {:swoosh, "~> 1.5"},
-      {:finch, "~> 0.13"},
-      {:telemetry_metrics, "~> 1.0"},
-      {:telemetry_poller, "~> 1.0"},
-      {:gettext, "~> 0.20"},
-      {:jason, "~> 1.2"},
-      {:dns_cluster, "~> 0.1.1"},
-      {:bandit, "~> 1.5"},
-      {:igniter, github: "ash-project/igniter", branch: "main"},
-      {:owl, "~> 0.11.0"}
+      {:igniter, github: "ash-project/igniter", branch: "main"}
     ]
   end
 
-  # Aliases are shortcuts or tasks specific to the current project.
-  # For example, to install project dependencies and perform other setup tasks, run:
-  #
-  #     $ mix setup
-  #
-  # See the documentation for `Mix` for more info on aliases.
-  defp aliases do
+  defp description() do
+    "Mishka Chelekom is a fully featured components and UI kit library for Phoenix & Phoenix LiveView"
+  end
+
+  defp package() do
     [
-      setup: ["deps.get", "ecto.setup", "assets.setup", "assets.build"],
-      "ecto.setup": ["ecto.create", "ecto.migrate", "run priv/repo/seeds.exs"],
-      "ecto.reset": ["ecto.drop", "ecto.setup"],
-      test: ["ecto.create --quiet", "ecto.migrate --quiet", "test"],
-      "assets.setup": ["tailwind.install --if-missing", "esbuild.install --if-missing"],
-      "assets.build": ["tailwind mishka_chelekom", "esbuild mishka_chelekom"],
-      "assets.deploy": [
-        "tailwind mishka_chelekom --minify",
-        "esbuild mishka_chelekom --minify",
-        "phx.digest"
-      ]
+      files: ~w(lib priv .formatter.exs mix.exs LICENSE README*),
+      licenses: ["Apache-2.0"],
+      maintainers: ["Shahryar Tavakkoli", "Mona Aghili", "Arian Alijani"],
+      links: %{
+        "GitHub" => @source_url,
+        "Changelog" => "#{@source_url}/blob/master/CHANGELOG.md"
+      }
     ]
   end
 end
