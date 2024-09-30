@@ -1,0 +1,771 @@
+defmodule <%= @module %> do
+  @moduledoc """
+  `<%= @module %>` is a Phoenix LiveView component module for creating customizable chat interfaces.
+
+  This module provides components to display chat messages with various styles, colors,
+  sizes, and configurations. The main component, `chat/1`, acts as a container for chat
+  messages, and `chat_section/1` is used to render individual chat messages with optional
+  metadata and status information.
+  """
+  use Phoenix.Component
+
+  @colors [
+    "white",
+    "primary",
+    "secondary",
+    "dark",
+    "success",
+    "warning",
+    "danger",
+    "info",
+    "light",
+    "misc",
+    "dawn"
+  ]
+
+  @variants [
+    "default",
+    "outline",
+    "transparent",
+    "shadow",
+    "gradient",
+    "unbordered"
+  ]
+  <%= if is_nil(@type) or "chat" in @type do %>
+  @doc """
+  The `chat` component is used to create a chat message container with customizable attributes such
+  as `variant`, `color`, and `position`.
+
+  It supports different layouts for normal and flipped chat bubbles and allows for nested content
+  using an inner block for flexible message design.
+
+  ## Examples
+
+  ```elixir
+  <.chat>
+    <.avatar
+      src="https://flowbite.com/docs/images/people/profile-picture-4.jpg"
+      size="extra_large"
+      rounded="full"
+      border="small"
+    />
+
+    <.chat_section>
+      <div class="flex items-center space-x-2 rtl:space-x-reverse">
+        <div class="">Bonnie Green</div>
+      </div>
+      <p class="">
+        That's awesome. I think our users will really appreciate the improvements.
+      </p>
+      <:status time="22:10" deliver="Delivered" />
+      <:meta><div class="">Bonnie Green</div></:meta>
+    </.chat_section>
+    <div><.icon name="hero-ellipsis-vertical" class="size-4" /></div>
+  </.chat>
+
+  <.chat position="flipped">
+    <.avatar src="https://example.com/picture.jpg" size="extra_large" rounded="full" border="small"/>
+
+    <.chat_section>
+      <div class="flex items-center space-x-2 rtl:space-x-reverse">
+        <div class="">Bonnie Green</div>
+      </div>
+      <p class="">
+        That's awesome. I think our users will really appreciate the improvements.
+      </p>
+      <:status time="22:10" deliver="Delivered" />
+    </.chat_section>
+    <div><.icon name="hero-ellipsis-vertical" class="size-4" /></div>
+  </.chat>
+  ```
+  """
+  @doc type: :component
+  attr :id, :string,
+    default: nil,
+    doc: "A unique identifier is used to manage state and interaction"
+
+  attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
+  attr :variant, :string, values: @variants, default: "default", doc: "Determines the style"
+  attr :color, :string, values: @colors, default: "light", doc: "Determines color theme"
+  attr :border, :string, default: "extra_small", doc: "Determines border style"
+  attr :rounded, :string, default: "extra_large", doc: "Determines the border radius"
+
+  attr :size, :string,
+    default: "medium",
+    doc:
+      "Determines the overall size of the elements, including padding, font size, and other items"
+
+  attr :space, :string, default: "extra_small", doc: "Space between items"
+
+  attr :position, :string,
+    values: ["normal", "flipped"],
+    default: "normal",
+    doc: "Determines the element position"
+
+  attr :padding, :string, default: "small", doc: "Determines padding for items"
+
+  attr :rest, :global,
+    doc:
+      "Global attributes can define defaults which are merged with attributes provided by the caller"
+
+  slot :inner_block, required: false, doc: "Inner block that renders HEEx content"
+
+  def chat(assigns) do
+    ~H"""
+    <div
+      id={@id}
+      class={[
+        "flex items-start gap-3",
+        position_class(@position),
+        rounded_size(@rounded, @position),
+        border_class(@border),
+        color_variant(@variant, @color),
+        space_class(@space),
+        padding_size(@padding),
+        size_class(@size),
+        @class
+      ]}
+      {@rest}
+    >
+      <%%= render_slot(@inner_block) %>
+    </div>
+    """
+  end
+  <% end %>
+  <%= if is_nil(@type) or "chat_section" in @type do %>
+  @doc """
+  The `chat_section` component is used to display individual chat messages or sections with customizable
+  attributes such as `font_weight` and `class`.
+
+  It supports slots for adding status information and metadata, making it easy to create detailed
+  chat message layouts.
+
+  ## Examples
+
+  ```elixir
+  <.chat_section>
+    <div class="flex items-center space-x-2 rtl:space-x-reverse">
+      <div class="">Bonnie Green</div>
+    </div>
+    <p class="">
+      That's awesome. I think our users will really appreciate the improvements.
+    </p>
+    <:status time="22:10" deliver="Delivered" />
+    <:meta><div class="">Bonnie Green</div></:meta>
+  </.chat_section>
+  ```
+  """
+  @doc type: :component
+  attr :id, :string,
+    default: nil,
+    doc: "A unique identifier is used to manage state and interaction"
+
+  attr :font_weight, :string,
+    default: "font-normal",
+    doc: "Determines custom class for the font weight"
+
+  attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
+
+  attr :rest, :global,
+    doc:
+      "Global attributes can define defaults which are merged with attributes provided by the caller"
+
+  slot :status, required: false, doc: "Defines a slot for displaying status information" do
+    attr :time, :string, doc: "Displays the time"
+    attr :deliver, :string, doc: "Indicates the delivery status"
+  end
+
+  slot :meta,
+    required: false,
+    doc: "Defines a slot for adding custom metadata or additional information"
+
+  slot :inner_block, required: false, doc: "Inner block that renders HEEx content"
+
+  def chat_section(assigns) do
+    ~H"""
+    <div
+      id={@id}
+      class={[
+        "chat-section-bubble leading-1.5",
+        @font_weight,
+        @class
+      ]}
+      {@rest}
+    >
+      <%%= render_slot(@inner_block) %>
+      <div :for={status <- @status} class="flex items-center justify-between gap-2 text-xs">
+        <div :if={status[:time]}><%%= status[:time] %></div>
+        <div :if={status[:deliver]} class="font-semibold"><%%= status[:deliver] %></div>
+      </div>
+
+      <div :for={meta <- @meta} class="flex items-center justify-between gap-2 text-xs">
+        <%%= render_slot(meta) %>
+      </div>
+    </div>
+    """
+  end
+  <% end %>
+
+  defp position_class("normal"), do: "justify-start flex-row"
+  defp position_class("flipped"), do: "justify-start flex-row-reverse"
+  defp position_class(params) when is_binary(params), do: params
+  <%= if is_nil(@rounded) or "extra_small" in @rounded do %>
+  defp rounded_size("extra_small", "normal") do
+    [
+      "[&>.chat-section-bubble]:rounded-e-sm [&>.chat-section-bubble]:rounded-es-sm"
+    ]
+  end
+  <% end %>
+  <%= if is_nil(@rounded) or "small" in @rounded do %>
+  defp rounded_size("small", "normal") do
+    [
+      "[&>.chat-section-bubble]:rounded-e [&>.chat-section-bubble]:rounded-es"
+    ]
+  end
+  <% end %>
+  <%= if is_nil(@rounded) or "medium" in @rounded do %>
+  defp rounded_size("medium", "normal") do
+    [
+      "[&>.chat-section-bubble]:rounded-e-md [&>.chat-section-bubble]:rounded-es-md"
+    ]
+  end
+  <% end %>
+  <%= if is_nil(@rounded) or "large" in @rounded do %>
+  defp rounded_size("large", "normal") do
+    [
+      "[&>.chat-section-bubble]:rounded-e-lg [&>.chat-section-bubble]:rounded-es-lg"
+    ]
+  end
+  <% end %>
+  <%= if is_nil(@rounded) or "extra_large" in @rounded do %>
+  defp rounded_size("extra_large", "normal") do
+    [
+      "[&>.chat-section-bubble]:rounded-e-xl [&>.chat-section-bubble]:rounded-es-xl"
+    ]
+  end
+  <% end %>
+  <%= if is_nil(@rounded) or "extra_small" in @rounded do %>
+  defp rounded_size("extra_small", "flipped") do
+    [
+      "[&>.chat-section-bubble]:rounded-s-sm [&>.chat-section-bubble]:rounded-ee-sm"
+    ]
+  end
+  <% end %>
+  <%= if is_nil(@rounded) or "small" in @rounded do %>
+  defp rounded_size("small", "flipped") do
+    [
+      "[&>.chat-section-bubble]:rounded-s [&>.chat-section-bubble]:rounded-ee"
+    ]
+  end
+  <% end %>
+  <%= if is_nil(@rounded) or "medium" in @rounded do %>
+  defp rounded_size("medium", "flipped") do
+    [
+      "[&>.chat-section-bubble]:rounded-s-md [&>.chat-section-bubble]:rounded-ee-md"
+    ]
+  end
+  <% end %>
+  <%= if is_nil(@rounded) or "large" in @rounded do %>
+  defp rounded_size("large", "flipped") do
+    [
+      "[&>.chat-section-bubble]:rounded-s-lg [&>.chat-section-bubble]:rounded-ee-lg"
+    ]
+  end
+  <% end %>
+  <%= if is_nil(@rounded) or "extra_large" in @rounded do %>
+  defp rounded_size("extra_large", "flipped") do
+    [
+      "[&>.chat-section-bubble]:rounded-s-xl [&>.chat-section-bubble]:rounded-ee-xl"
+    ]
+  end
+
+  defp rounded_size(_, _), do: rounded_size("extra_large", "normal")
+  <% end %>
+  <%= if is_nil(@space) or "extra_small" in @space do %>
+  defp space_class("extra_small"), do: "[&>.chat-section-bubble]:space-y-2"
+  <% end %>
+  <%= if is_nil(@space) or "small" in @space do %>
+  defp space_class("small"), do: "[&>.chat-section-bubble]:space-y-3"
+  <% end %>
+  <%= if is_nil(@space) or "medium" in @space do %>
+  defp space_class("medium"), do: "[&>.chat-section-bubble]:space-y-4"
+  <% end %>
+  <%= if is_nil(@space) or "large" in @space do %>
+  defp space_class("large"), do: "[&>.chat-section-bubble]:space-y-5"
+  <% end %>
+  <%= if is_nil(@space) or "extra_large" in @space do %>
+  defp space_class("extra_large"), do: "[&>.chat-section-bubble]:space-y-6"
+  <% end %>
+  defp space_class(params) when is_binary(params), do: params
+
+  <%= if is_nil(@padding) or "extra_small" in @padding do %>
+  defp padding_size("extra_small"), do: "[&>.chat-section-bubble]:p-1"
+  <% end %>
+  <%= if is_nil(@padding) or "small" in @padding do %>
+  defp padding_size("small"), do: "[&>.chat-section-bubble]:p-2"
+  <% end %>
+  <%= if is_nil(@padding) or "medium" in @padding do %>
+  defp padding_size("medium"), do: "[&>.chat-section-bubble]:p-3"
+  <% end %>
+  <%= if is_nil(@padding) or "large" in @padding do %>
+  defp padding_size("large"), do: "[&>.chat-section-bubble]:p-4"
+  <% end %>
+  <%= if is_nil(@padding) or "extra_large" in @padding do %>
+  defp padding_size("extra_large"), do: "[&>.chat-section-bubble]:p-5"
+  <% end %>
+  defp padding_size(params) when is_binary(params), do: params
+  <%= if is_nil(@padding) or "small" in @padding do %>
+  defp padding_size(_), do: padding_size("small")
+  <% end %>
+
+  <%= if is_nil(@size) or "extra_small" in @size do %>
+  defp border_class("extra_small"), do: "[&>.chat-section-bubble]:border"
+  <% end %>
+  <%= if is_nil(@size) or "small" in @size do %>
+  defp border_class("small"), do: "[&>.chat-section-bubble]:border-2"
+  <% end %>
+  <%= if is_nil(@size) or "medium" in @size do %>
+  defp border_class("medium"), do: "[&>.chat-section-bubble]:border-[3px]"
+  <% end %>
+  <%= if is_nil(@size) or "large" in @size do %>
+  defp border_class("large"), do: "[&>.chat-section-bubble]:border-4"
+  <% end %>
+  <%= if is_nil(@size) or "extra_large" in @size do %>
+  defp border_class("extra_large"), do: "[&>.chat-section-bubble]:border-[5px]"
+  <% end %>
+  <%= if is_nil(@size) or "none" in @size do %>
+  defp border_class("none"), do: "[&>.chat-section-bubble]:border-0"
+  <% end %>
+  defp border_class(params) when is_binary(params), do: params
+  <%= if is_nil(@size) or "extra_small" in @size do %>
+  defp border_class(_), do: border_class("extra_small")
+  <% end %>
+
+  <%= if is_nil(@size) or "extra_small" in @size do %>
+  defp size_class("extra_small"), do: "text-xs [&>.chat-section-bubble]:max-w-[12rem]"
+  <% end %>
+  <%= if is_nil(@size) or "small" in @size do %>
+  defp size_class("small"), do: "text-sm [&>.chat-section-bubble]:max-w-[14rem]"
+  <% end %>
+  <%= if is_nil(@size) or "medium" in @size do %>
+  defp size_class("medium"), do: "text-base [&>.chat-section-bubble]:max-w-[16rem]"
+  <% end %>
+  <%= if is_nil(@size) or "large" in @size do %>
+  defp size_class("large"), do: "text-lg [&>.chat-section-bubble]:max-w-[18rem]"
+  <% end %>
+  <%= if is_nil(@size) or "extra_large" in @size do %>
+  defp size_class("extra_large"), do: "text-xl [&>.chat-section-bubble]:max-w-[20rem]"
+  <% end %>
+  <%= if is_nil(@size) or "medium" in @size do %>
+  defp size_class(_), do: size_class("medium")
+  <% end %>
+
+  <%= if is_nil(@variant) or "default" in @variant do %>
+  <%= if is_nil(@color) or "white" in @color do %>
+  defp color_variant("default", "white") do
+    "[&>.chat-section-bubble]:bg-white text-[#3E3E3E] [&>.chat-section-bubble]:border-[#DADADA]"
+  end
+  <% end %>
+  <%= if is_nil(@color) or "primary" in @color do %>
+  defp color_variant("default", "primary") do
+    "[&>.chat-section-bubble]:bg-[#4363EC] text-white [&>.chat-section-bubble]:border-[#F6F6FA]"
+  end
+  <% end %>
+  <%= if is_nil(@color) or "secondary" in @color do %>
+  defp color_variant("default", "secondary") do
+    "[&>.chat-section-bubble]:bg-[#6B6E7C] text-white [&>.chat-section-bubble]:border-[#877C7C]"
+  end
+  <% end %>
+  <%= if is_nil(@color) or "success" in @color do %>
+  defp color_variant("default", "success") do
+    "[&>.chat-section-bubble]:bg-[#ECFEF3] text-[#047857] [&>.chat-section-bubble]:border-[#6EE7B7]"
+  end
+  <% end %>
+  <%= if is_nil(@color) or "warning" in @color do %>
+  defp color_variant("default", "warning") do
+    "[&>.chat-section-bubble]:bg-[#FFF8E6] text-[#FF8B08] [&>.chat-section-bubble]:border-[#FF8B08]"
+  end
+  <% end %>
+  <%= if is_nil(@color) or "danger" in @color do %>
+  defp color_variant("default", "danger") do
+    "[&>.chat-section-bubble]:bg-[#FFE6E6] text-[#E73B3B] [&>.chat-section-bubble]:border-[#E73B3B]"
+  end
+  <% end %>
+  <%= if is_nil(@color) or "info" in @color do %>
+  defp color_variant("default", "info") do
+    "[&>.chat-section-bubble]:bg-[#E5F0FF] text-[#004FC4] [&>.chat-section-bubble]:border-[#004FC4]"
+  end
+  <% end %>
+  <%= if is_nil(@color) or "misc" in @color do %>
+  defp color_variant("default", "misc") do
+    "[&>.chat-section-bubble]:bg-[#FFE6FF] text-[#52059C] [&>.chat-section-bubble]:border-[#52059C]"
+  end
+  <% end %>
+  <%= if is_nil(@color) or "dawn" in @color do %>
+  defp color_variant("default", "dawn") do
+    "[&>.chat-section-bubble]:bg-[#FFECDA] text-[#4D4137] [&>.chat-section-bubble]:border-[#4D4137]"
+  end
+  <% end %>
+  <%= if is_nil(@color) or "light" in @color do %>
+  defp color_variant("default", "light") do
+    "[&>.chat-section-bubble]:bg-[#E3E7F1] text-[#707483] [&>.chat-section-bubble]:border-[#707483]"
+  end
+  <% end %>
+  <%= if is_nil(@color) or "dark" in @color do %>
+  defp color_variant("default", "dark") do
+    "[&>.chat-section-bubble]:bg-[#1E1E1E] text-white [&>.chat-section-bubble]:border-[#050404]"
+  end
+  <% end %>
+  <% end %>
+  <%= if is_nil(@variant) or "outline" in @variant do %>
+  <%= if is_nil(@color) or "white" in @color do %>
+  defp color_variant("outline", "white") do
+    "[&>.chat-section-bubble]:bg-transparent text-white [&>.chat-section-bubble]:border-white"
+  end
+  <% end %>
+  <%= if is_nil(@color) or "primary" in @color do %>
+  defp color_variant("outline", "primary") do
+    "[&>.chat-section-bubble]:bg-transparent text-[#4363EC] [&>.chat-section-bubble]:border-[#4363EC] "
+  end
+  <% end %>
+  <%= if is_nil(@color) or "secondary" in @color do %>
+  defp color_variant("outline", "secondary") do
+    "[&>.chat-section-bubble]:bg-transparent text-[#6B6E7C] [&>.chat-section-bubble]:border-[#6B6E7C]"
+  end
+  <% end %>
+  <%= if is_nil(@color) or "success" in @color do %>
+  defp color_variant("outline", "success") do
+    "[&>.chat-section-bubble]:bg-transparent text-[#227A52] [&>.chat-section-bubble]:border-[#6EE7B7]"
+  end
+  <% end %>
+  <%= if is_nil(@color) or "warning" in @color do %>
+  defp color_variant("outline", "warning") do
+    "[&>.chat-section-bubble]:bg-transparent text-[#FF8B08] [&>.chat-section-bubble]:border-[#FF8B08]"
+  end
+  <% end %>
+  <%= if is_nil(@color) or "danger" in @color do %>
+  defp color_variant("outline", "danger") do
+    "[&>.chat-section-bubble]:bg-transparent text-[#E73B3B] [&>.chat-section-bubble]:border-[#E73B3B]"
+  end
+  <% end %>
+  <%= if is_nil(@color) or "info" in @color do %>
+  defp color_variant("outline", "info") do
+    "[&>.chat-section-bubble]:bg-transparent text-[#004FC4] [&>.chat-section-bubble]:border-[#004FC4]"
+  end
+  <% end %>
+  <%= if is_nil(@color) or "misc" in @color do %>
+  defp color_variant("outline", "misc") do
+    "[&>.chat-section-bubble]:bg-transparent text-[#52059C] [&>.chat-section-bubble]:border-[#52059C]"
+  end
+  <% end %>
+  <%= if is_nil(@color) or "dawn" in @color do %>
+  defp color_variant("outline", "dawn") do
+    "[&>.chat-section-bubble]:bg-transparent text-[#4D4137] [&>.chat-section-bubble]:border-[#4D4137]"
+  end
+  <% end %>
+  <%= if is_nil(@color) or "light" in @color do %>
+  defp color_variant("outline", "light") do
+    "[&>.chat-section-bubble]:bg-transparent text-[#707483] [&>.chat-section-bubble]:border-[#707483]"
+  end
+  <% end %>
+  <%= if is_nil(@color) or "dark" in @color do %>
+  defp color_variant("outline", "dark") do
+    "[&>.chat-section-bubble]:bg-transparent text-[#1E1E1E] [&>.chat-section-bubble]:border-[#1E1E1E]"
+  end
+  <% end %>
+  <% end %>
+  <%= if is_nil(@variant) or "unbordered" in @variant do %>
+  <%= if is_nil(@color) or "white" in @color do %>
+  defp color_variant("unbordered", "white") do
+    "[&>.chat-section-bubble]:bg-white text-[#3E3E3E] [&>.chat-section-bubble]:border-transparent"
+  end
+  <% end %>
+  <%= if is_nil(@color) or "primary" in @color do %>
+  defp color_variant("unbordered", "primary") do
+    "[&>.chat-section-bubble]:bg-[#4363EC] text-white [&>.chat-section-bubble]:border-transparent"
+  end
+  <% end %>
+  <%= if is_nil(@color) or "secondary" in @color do %>
+  defp color_variant("unbordered", "secondary") do
+    "[&>.chat-section-bubble]:bg-[#6B6E7C] text-white [&>.chat-section-bubble]:border-transparent"
+  end
+  <% end %>
+  <%= if is_nil(@color) or "success" in @color do %>
+  defp color_variant("unbordered", "success") do
+    "[&>.chat-section-bubble]:bg-[#ECFEF3] text-[#047857] [&>.chat-section-bubble]:border-transparent"
+  end
+  <% end %>
+  <%= if is_nil(@color) or "warning" in @color do %>
+  defp color_variant("unbordered", "warning") do
+    "[&>.chat-section-bubble]:bg-[#FFF8E6] text-[#FF8B08] [&>.chat-section-bubble]:border-transparent"
+  end
+  <% end %>
+  <%= if is_nil(@color) or "danger" in @color do %>
+  defp color_variant("unbordered", "danger") do
+    "[&>.chat-section-bubble]:bg-[#FFE6E6] text-[#E73B3B] [&>.chat-section-bubble]:border-transparent"
+  end
+  <% end %>
+  <%= if is_nil(@color) or "info" in @color do %>
+  defp color_variant("unbordered", "info") do
+    "[&>.chat-section-bubble]:bg-[#E5F0FF] text-[#004FC4] [&>.chat-section-bubble]:border-transparent"
+  end
+  <% end %>
+  <%= if is_nil(@color) or "misc" in @color do %>
+  defp color_variant("unbordered", "misc") do
+    "[&>.chat-section-bubble]:bg-[#FFE6FF] text-[#52059C] [&>.chat-section-bubble]:border-transparent"
+  end
+  <% end %>
+  <%= if is_nil(@color) or "dawn" in @color do %>
+  defp color_variant("unbordered", "dawn") do
+    "[&>.chat-section-bubble]:bg-[#FFECDA] text-[#4D4137] [&>.chat-section-bubble]:border-transparent"
+  end
+  <% end %>
+  <%= if is_nil(@color) or "light" in @color do %>
+  defp color_variant("unbordered", "light") do
+    "[&>.chat-section-bubble]:bg-[#E3E7F1] text-[#707483] [&>.chat-section-bubble]:border-transparent"
+  end
+  <% end %>
+  <%= if is_nil(@color) or "dark" in @color do %>
+  defp color_variant("unbordered", "dark") do
+    "[&>.chat-section-bubble]:bg-[#1E1E1E] text-white [&>.chat-section-bubble]:border-transparent"
+  end
+  <% end %>
+  <% end %>
+  <%= if is_nil(@variant) or "shadow" in @variant do %>
+  <%= if is_nil(@color) or "white" in @color do %>
+  defp color_variant("shadow", "white") do
+    [
+      "[&>.chat-section-bubble]:bg-white text-[#3E3E3E] [&>.chat-section-bubble]:border-[#DADADA]",
+      "[&>.chat-section-bubble]:shadow-md"
+    ]
+  end
+  <% end %>
+  <%= if is_nil(@color) or "primary" in @color do %>
+  defp color_variant("shadow", "primary") do
+    [
+      "[&>.chat-section-bubble]:bg-[#4363EC] text-white [&>.chat-section-bubble]:border-[#4363EC]",
+      "[&>.chat-section-bubble]:shadow-md"
+    ]
+  end
+  <% end %>
+  <%= if is_nil(@color) or "secondary" in @color do %>
+  defp color_variant("shadow", "secondary") do
+    [
+      "[&>.chat-section-bubble]:bg-[#6B6E7C] text-white [&>.chat-section-bubble]:border-[#6B6E7C]",
+      "[&>.chat-section-bubble]:shadow-md"
+    ]
+  end
+  <% end %>
+  <%= if is_nil(@color) or "success" in @color do %>
+  defp color_variant("shadow", "success") do
+    [
+      "[&>.chat-section-bubble]:bg-[#AFEAD0] text-[#227A52] [&>.chat-section-bubble]:border-[#AFEAD0]",
+      "[&>.chat-section-bubble]:shadow-md"
+    ]
+  end
+  <% end %>
+  <%= if is_nil(@color) or "warning" in @color do %>
+  defp color_variant("shadow", "warning") do
+    [
+      "[&>.chat-section-bubble]:bg-[#FFF8E6] text-[#FF8B08] [&>.chat-section-bubble]:border-[#FFF8E6]",
+      "[&>.chat-section-bubble]:shadow-md"
+    ]
+  end
+  <% end %>
+  <%= if is_nil(@color) or "danger" in @color do %>
+  defp color_variant("shadow", "danger") do
+    [
+      "[&>.chat-section-bubble]:bg-[#FFE6E6] text-[#E73B3B] [&>.chat-section-bubble]:border-[#FFE6E6]",
+      "[&>.chat-section-bubble]:shadow-md"
+    ]
+  end
+  <% end %>
+  <%= if is_nil(@color) or "info" in @color do %>
+  defp color_variant("shadow", "info") do
+    [
+      "[&>.chat-section-bubble]:bg-[#E5F0FF] text-[#004FC4] [&>.chat-section-bubble]:border-[#E5F0FF]",
+      "[&>.chat-section-bubble]:shadow-md"
+    ]
+  end
+  <% end %>
+  <%= if is_nil(@color) or "misc" in @color do %>
+  defp color_variant("shadow", "misc") do
+    [
+      "[&>.chat-section-bubble]:bg-[#FFE6FF] text-[#52059C] [&>.chat-section-bubble]:border-[#FFE6FF]",
+      "[&>.chat-section-bubble]:shadow-md"
+    ]
+  end
+  <% end %>
+  <%= if is_nil(@color) or "dawn" in @color do %>
+  defp color_variant("shadow", "dawn") do
+    [
+      "[&>.chat-section-bubble]:bg-[#FFECDA] text-[#4D4137] [&>.chat-section-bubble]:border-[#FFECDA]",
+      "[&>.chat-section-bubble]:shadow-md"
+    ]
+  end
+  <% end %>
+  <%= if is_nil(@color) or "light" in @color do %>
+  defp color_variant("shadow", "light") do
+    [
+      "[&>.chat-section-bubble]:bg-[#E3E7F1] text-[#707483] [&>.chat-section-bubble]:border-[#E3E7F1]",
+      "[&>.chat-section-bubble]:shadow-md"
+    ]
+  end
+  <% end %>
+  <%= if is_nil(@color) or "dark" in @color do %>
+  defp color_variant("shadow", "dark") do
+    [
+      "[&>.chat-section-bubble]:bg-[#1E1E1E] text-white [&>.chat-section-bubble]:border-[#1E1E1E]",
+      "[&>.chat-section-bubble]:shadow-md"
+    ]
+  end
+  <% end %>
+  <% end %>
+  <%= if is_nil(@variant) or "transparent" in @variant do %>
+  <%= if is_nil(@color) or "white" in @color do %>
+  defp color_variant("transparent", "white") do
+    "[&>.chat-section-bubble]:bg-transparent text-white [&>.chat-section-bubble]:border-transparent"
+  end
+  <% end %>
+  <%= if is_nil(@color) or "primary" in @color do %>
+  defp color_variant("transparent", "primary") do
+    "[&>.chat-section-bubble]:bg-transparent text-[#4363EC] [&>.chat-section-bubble]:border-transparent"
+  end
+  <% end %>
+  <%= if is_nil(@color) or "secondary" in @color do %>
+  defp color_variant("transparent", "secondary") do
+    "[&>.chat-section-bubble]:bg-transparent text-[#6B6E7C] [&>.chat-section-bubble]:border-transparent"
+  end
+  <% end %>
+  <%= if is_nil(@color) or "success" in @color do %>
+  defp color_variant("transparent", "success") do
+    "[&>.chat-section-bubble]:bg-transparent text-[#227A52] [&>.chat-section-bubble]:border-transparent"
+  end
+  <% end %>
+  <%= if is_nil(@color) or "warning" in @color do %>
+  defp color_variant("transparent", "warning") do
+    "[&>.chat-section-bubble]:bg-transparent text-[#FF8B08] [&>.chat-section-bubble]:border-transparent"
+  end
+  <% end %>
+  <%= if is_nil(@color) or "danger" in @color do %>
+  defp color_variant("transparent", "danger") do
+    "[&>.chat-section-bubble]:bg-transparent text-[#E73B3B] [&>.chat-section-bubble]:border-transparent"
+  end
+  <% end %>
+  <%= if is_nil(@color) or "info" in @color do %>
+  defp color_variant("transparent", "info") do
+    "[&>.chat-section-bubble]:bg-transparent text-[#6663FD] [&>.chat-section-bubble]:border-transparent"
+  end
+  <% end %>
+  <%= if is_nil(@color) or "misc" in @color do %>
+  defp color_variant("transparent", "misc") do
+    "[&>.chat-section-bubble]:bg-transparent text-[#52059C] [&>.chat-section-bubble]:border-transparent"
+  end
+  <% end %>
+  <%= if is_nil(@color) or "dawn" in @color do %>
+  defp color_variant("transparent", "dawn") do
+    "[&>.chat-section-bubble]:bg-transparent text-[#4D4137] [&>.chat-section-bubble]:border-transparent"
+  end
+  <% end %>
+  <%= if is_nil(@color) or "light" in @color do %>
+  defp color_variant("transparent", "light") do
+    "[&>.chat-section-bubble]:bg-transparent text-[#707483] [&>.chat-section-bubble]:border-transparent"
+  end
+  <% end %>
+  <%= if is_nil(@color) or "dark" in @color do %>
+  defp color_variant("transparent", "dark") do
+    "[&>.chat-section-bubble]:bg-transparent text-[#1E1E1E] [&>.chat-section-bubble]:border-transparent"
+  end
+  <% end %>
+  <% end %>
+  <%= if is_nil(@variant) or "gradient" in @variant do %>
+  <%= if is_nil(@color) or "white" in @color do %>
+  defp color_variant("gradient", "white") do
+    [
+      "[&>.chat-section-bubble]:bg-gradient-to-b [&>.chat-section-bubble]:from-[#e9ecef]",
+      "[&>.chat-section-bubble]:to-[#F6F6FA] text-[#3E3E3E]"
+    ]
+  end
+  <% end %>
+  <%= if is_nil(@color) or "primary" in @color do %>
+  defp color_variant("gradient", "primary") do
+    [
+      "[&>.chat-section-bubble]:bg-gradient-to-b [&>.chat-section-bubble]:from-[#4363ec94]",
+      "[&>.chat-section-bubble]:to-[#F6F6FA] text-[#1E1E1E]"
+    ]
+  end
+  <% end %>
+  <%= if is_nil(@color) or "secondary" in @color do %>
+  defp color_variant("gradient", "secondary") do
+    [
+      "[&>.chat-section-bubble]:bg-gradient-to-b [&>.chat-section-bubble]:from-[#6B6E7C]",
+      "[&>.chat-section-bubble]:to-[#F6F6FA] text-[#1E1E1E]"
+    ]
+  end
+  <% end %>
+  <%= if is_nil(@color) or "success" in @color do %>
+  defp color_variant("gradient", "success") do
+    [
+      "[&>.chat-section-bubble]:bg-gradient-to-b [&>.chat-section-bubble]:from-[#ECFEF3]",
+      "[&>.chat-section-bubble]:to-[#F6F6FA] text-[#047857]"
+    ]
+  end
+  <% end %>
+  <%= if is_nil(@color) or "warning" in @color do %>
+  defp color_variant("gradient", "warning") do
+    [
+      "[&>.chat-section-bubble]:bg-gradient-to-b [&>.chat-section-bubble]:from-[#FFF8E6]",
+      "[&>.chat-section-bubble]:to-[#F6F6FA] text-[#FF8B08]"
+    ]
+  end
+  <% end %>
+  <%= if is_nil(@color) or "danger" in @color do %>
+  defp color_variant("gradient", "danger") do
+    [
+      "[&>.chat-section-bubble]:bg-gradient-to-b [&>.chat-section-bubble]:from-[#FFE6E6]",
+      "[&>.chat-section-bubble]:to-[#F6F6FA] text-[#E73B3B]"
+    ]
+  end
+  <% end %>
+  <%= if is_nil(@color) or "info" in @color do %>
+  defp color_variant("gradient", "info") do
+    [
+      "[&>.chat-section-bubble]:bg-gradient-to-b [&>.chat-section-bubble]:from-[#E5F0FF]",
+      "[&>.chat-section-bubble]:to-[#F6F6FA] text-[#6663FD]"
+    ]
+  end
+  <% end %>
+  <%= if is_nil(@color) or "misc" in @color do %>
+  defp color_variant("gradient", "misc") do
+    [
+      "[&>.chat-section-bubble]:bg-gradient-to-b [&>.chat-section-bubble]:from-[#FFE6FF]",
+      "[&>.chat-section-bubble]:to-[#F6F6FA] text-[#52059C]"
+    ]
+  end
+  <% end %>
+  <%= if is_nil(@color) or "dawn" in @color do %>
+  defp color_variant("gradient", "dawn") do
+    [
+      "[&>.chat-section-bubble]:bg-gradient-to-b [&>.chat-section-bubble]:from-[#FFECDA]",
+      "[&>.chat-section-bubble]:to-[#F6F6FA] text-[#4D4137]"
+    ]
+  end
+  <% end %>
+  <%= if is_nil(@color) or "light" in @color do %>
+  defp color_variant("gradient", "light") do
+    [
+      "[&>.chat-section-bubble]:bg-gradient-to-b [&>.chat-section-bubble]:from-[#E3E7F1]",
+      "[&>.chat-section-bubble]:to-[#F6F6FA] text-[#707483]"
+    ]
+  end
+  <% end %>
+  <%= if is_nil(@color) or "dark" in @color do %>
+  defp color_variant("gradient", "dark") do
+    [
+      "[&>.chat-section-bubble]:bg-gradient-to-b [&>.chat-section-bubble]:from-[#000]",
+      "[&>.chat-section-bubble]:to-[#777777] text-white"
+    ]
+  end
+  <% end %>
+  <% end %>
+end

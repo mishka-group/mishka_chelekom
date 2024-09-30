@@ -1,0 +1,419 @@
+defmodule <%= @module %> do
+  @moduledoc """
+  The `<%= @module %>` module provides a flexible and customizable form
+  wrapper component for Phoenix applications. It offers various options for styling,
+  size, and layout to suit different form designs and requirements.
+
+  ### Features:
+  - **Customizable Styles:** Choose from multiple color themes, border styles, and design variants.
+  - **Layout Flexibility:** Control padding, spacing, and border radius to adjust the form's appearance.
+  - **Form Slots:** Define inner content and actions slots to organize form elements and buttons.
+  - **Global Attribute Support:** Allows for additional attributes like `autocomplete`, `method`,
+  and more to be merged with component defaults.
+
+  This component is ideal for wrapping forms with consistent styles and structure across an application.
+  """
+
+  use Phoenix.Component
+
+  @doc """
+  Renders a `form_wrapper` component that supports custom styles and input fields.
+
+  It allows for the inclusion of multiple input fields and form actions, such as a submit button,
+  within a consistent layout.
+
+  ## Examples
+
+  ```elixir
+  <.form_wrapper class="space-y-10">
+    <div class="grid lg:grid-cols-2 gap-2">
+      <.text_field name="name1" space="small" color="light"/>
+      ...
+    </div>
+  </.form_wrapper>
+  ```
+  """
+  @doc type: :component
+  attr :id, :string,
+    default: nil,
+    doc: "A unique identifier is used to manage state and interaction"
+
+  attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
+  attr :color, :string, default: nil, doc: "Determines color theme"
+  attr :variant, :string, default: nil, doc: "Determines the style"
+  attr :border, :string, default: nil, doc: "Determines border style"
+  attr :rounded, :string, default: nil, doc: "Determines the border radius"
+  attr :padding, :string, default: nil, doc: "Determines padding for items"
+  attr :space, :string, default: nil, doc: "Space between items"
+
+  attr :size, :string,
+    default: nil,
+    doc:
+      "Determines the overall size of the elements, including padding, font size, and other items"
+
+  attr :for, :any, required: false, doc: "the data structure for the form"
+  attr :as, :any, default: nil, doc: "the server side parameter to collect all input under"
+
+  attr :rest, :global,
+    include: ~w(autocomplete name rel action enctype method novalidate target multipart),
+    doc:
+      "Global attributes can define defaults which are merged with attributes provided by the caller"
+
+  slot :inner_block, required: true, doc: "Inner block that renders HEEx content"
+  slot :actions, required: false, doc: "the slot for form actions, such as a submit button"
+
+  def form_wrapper(assigns) do
+    ~H"""
+    <.form
+      :let={f}
+      for={@for}
+      as={@as}
+      {@rest}
+      class={[
+        color_variant(@variant, @color),
+        padding_class(@padding),
+        rounded_size(@rounded),
+        border_class(@border),
+        space_class(@space),
+        size_class(@size),
+        @class
+      ]}
+      {@rest}
+    >
+      <%%= render_slot(@inner_block, f) %>
+      <div :for={action <- @actions}>
+        <%%= render_slot(action, f) %>
+      </div>
+    </.form>
+    """
+  end
+  <%= if is_nil(@size) or "extra_small" in @size do %>
+  defp size_class("extra_small"), do: "text-xs"
+  <% end %>
+  <%= if is_nil(@size) or "small" in @size do %>
+  defp size_class("small"), do: "text-sm"
+  <% end %>
+  <%= if is_nil(@size) or "medium" in @size do %>
+  defp size_class("medium"), do: "text-base"
+  <% end %>
+  <%= if is_nil(@size) or "large" in @size do %>
+  defp size_class("large"), do: "text-lg"
+  <% end %>
+  <%= if is_nil(@size) or "extra_large" in @size do %>
+  defp size_class("extra_large"), do: "text-xl"
+  <% end %>
+  defp size_class(_), do: nil
+
+  <%= if is_nil(@rounded) or "none" in @rounded do %>
+  defp rounded_size("none"), do: "rounded-none"
+  <% end %>
+  <%= if is_nil(@rounded) or "extra_small" in @rounded do %>
+  defp rounded_size("extra_small"), do: "rounded-sm"
+  <% end %>
+  <%= if is_nil(@rounded) or "small" in @rounded do %>
+  defp rounded_size("small"), do: "rounded"
+  <% end %>
+  <%= if is_nil(@rounded) or "medium" in @rounded do %>
+  defp rounded_size("medium"), do: "rounded-md"
+  <% end %>
+  <%= if is_nil(@rounded) or "large" in @rounded do %>
+  defp rounded_size("large"), do: "rounded-lg"
+  <% end %>
+  <%= if is_nil(@rounded) or "extra_large" in @rounded do %>
+  defp rounded_size("extra_large"), do: "rounded-xl"
+  <% end %>
+  <%= if is_nil(@rounded) or "full" in @rounded do %>
+  defp rounded_size("full"), do: "rounded-full"
+  <% end %>
+  defp rounded_size(_), do: nil
+
+  defp border_class("none"), do: "border-0"
+  <%= if is_nil(@size) or "extra_small" in @size do %>
+  defp border_class("extra_small"), do: "border"
+  <% end %>
+  <%= if is_nil(@size) or "small" in @size do %>
+  defp border_class("small"), do: "border-2"
+  <% end %>
+  <%= if is_nil(@size) or "medium" in @size do %>
+  defp border_class("medium"), do: "border-[3px]"
+  <% end %>
+  <%= if is_nil(@size) or "large" in @size do %>
+  defp border_class("large"), do: "border-4"
+  <% end %>
+  <%= if is_nil(@size) or "extra_large" in @size do %>
+  defp border_class("extra_large"), do: "border-[5px]"
+  <% end %>
+  defp border_class(params) when is_binary(params), do: params
+  defp border_class(_), do: nil
+
+  <%= if is_nil(@padding) or "extra_large" in @padding do %>
+  defp padding_class("extra_small"), do: "p-2"
+  <% end %>
+  <%= if is_nil(@padding) or "small" in @padding do %>
+  defp padding_class("small"), do: "p-3"
+  <% end %>
+  <%= if is_nil(@padding) or "medium" in @padding do %>
+  defp padding_class("medium"), do: "p-4"
+  <% end %>
+  <%= if is_nil(@padding) or "large" in @padding do %>
+  defp padding_class("large"), do: "p-5"
+  <% end %>
+  <%= if is_nil(@padding) or "extra_large" in @padding do %>
+  defp padding_class("extra_large"), do: "p-6"
+  <% end %>
+  defp padding_class(params) when is_binary(params), do: params
+  defp padding_class(_), do: nil
+
+  <%= if is_nil(@space) or "extra_small" in @space do %>
+  defp space_class("extra_small"), do: "space-y-1"
+  <% end %>
+  <%= if is_nil(@space) or "small" in @space do %>
+  defp space_class("small"), do: "space-y-1.5"
+  <% end %>
+  <%= if is_nil(@space) or "medium" in @space do %>
+  defp space_class("medium"), do: "space-y-2"
+  <% end %>
+  <%= if is_nil(@space) or "large" in @space do %>
+  defp space_class("large"), do: "space-y-2.5"
+  <% end %>
+  <%= if is_nil(@space) or "extra_large" in @space do %>
+  defp space_class("extra_large"), do: "space-y-3"
+  <% end %>
+  defp space_class(params) when is_binary(params), do: params
+  defp space_class(_), do: nil
+
+  <%= if is_nil(@variant) or "outline" in @variant do %>
+  <%= if is_nil(@color) or "white" in @color do %>
+  defp color_variant("outline", "white") do
+    ["text-[@dadada] border-white"]
+  end
+  <% end %>
+  <%= if is_nil(@color) or "silver" in @color do %>
+  defp color_variant("outline", "silver") do
+    ["text-[#afafaf] border-[#afafaf]"]
+  end
+  <% end %>
+  <%= if is_nil(@color) or "primary" in @color do %>
+  defp color_variant("outline", "primary") do
+    ["text-[#2441de] border-[#2441de]"]
+  end
+  <% end %>
+  <%= if is_nil(@color) or "secondary" in @color do %>
+  defp color_variant("outline", "secondary") do
+    ["text-[#877C7C] border-[#877C7C]"]
+  end
+  <% end %>
+  <%= if is_nil(@color) or "success" in @color do %>
+  defp color_variant("outline", "success") do
+    ["text-[#047857] border-[#047857]"]
+  end
+  <% end %>
+  <%= if is_nil(@color) or "warning" in @color do %>
+  defp color_variant("outline", "warning") do
+    ["text-[#FF8B08] border-[#FF8B08]"]
+  end
+  <% end %>
+  <%= if is_nil(@color) or "danger" in @color do %>
+  defp color_variant("outline", "danger") do
+    ["text-[#E73B3B] border-[#E73B3B]"]
+  end
+  <% end %>
+  <%= if is_nil(@color) or "info" in @color do %>
+  defp color_variant("outline", "info") do
+    ["text-[#004FC4] border-[#004FC4]"]
+  end
+  <% end %>
+  <%= if is_nil(@color) or "misc" in @color do %>
+  defp color_variant("outline", "misc") do
+    ["text-[#52059C] border-[#52059C]"]
+  end
+  <% end %>
+  <%= if is_nil(@color) or "dawn" in @color do %>
+  defp color_variant("outline", "dawn") do
+    ["text-[#4D4137] border-[#4D4137]"]
+  end
+  <% end %>
+  <%= if is_nil(@color) or "light" in @color do %>
+  defp color_variant("outline", "light") do
+    ["text-[#707483] border-[#707483]"]
+  end
+  <% end %>
+  <%= if is_nil(@color) or "dark" in @color do %>
+  defp color_variant("outline", "dark") do
+    ["text-[#1E1E1E] border-[#050404]"]
+  end
+  <% end %>
+  <% end %>
+  <%= if is_nil(@variant) or "default" in @variant do %>
+  <%= if is_nil(@color) or "white" in @color do %>
+  defp color_variant("default", "white") do
+    ["bg-white text-[#3E3E3E] border-[#DADADA]"]
+  end
+  <% end %>
+  <%= if is_nil(@color) or "primary" in @color do %>
+  defp color_variant("default", "primary") do
+    ["bg-[#4363EC] text-[#4363EC] text-white"]
+  end
+  <% end %>
+  <%= if is_nil(@color) or "secondary" in @color do %>
+  defp color_variant("default", "secondary") do
+    ["bg-[#6B6E7C] text-[#6B6E7C] text-white"]
+  end
+  <% end %>
+  <%= if is_nil(@color) or "success" in @color do %>
+  defp color_variant("default", "success") do
+    ["bg-[#ECFEF3] text-[#047857] border-[#6EE7B7]"]
+  end
+  <% end %>
+  <%= if is_nil(@color) or "warning" in @color do %>
+  defp color_variant("default", "warning") do
+    ["bg-[#FFF8E6] text-[#FF8B08] border-[#FF8B08]"]
+  end
+  <% end %>
+  <%= if is_nil(@color) or "danger" in @color do %>
+  defp color_variant("default", "danger") do
+    ["bg-[#FFE6E6] text-[#E73B3B] border-[#E73B3B]"]
+  end
+  <% end %>
+  <%= if is_nil(@color) or "info" in @color do %>
+  defp color_variant("default", "info") do
+    ["bg-[#E5F0FF] text-[#004FC4] border-[#004FC4]"]
+  end
+  <% end %>
+  <%= if is_nil(@color) or "misc" in @color do %>
+  defp color_variant("default", "misc") do
+    ["bg-[#FFE6FF] text-[#52059C] border-[#52059C]"]
+  end
+  <% end %>
+  <%= if is_nil(@color) or "dawn" in @color do %>
+  defp color_variant("default", "dawn") do
+    ["bg-[#FFECDA] text-[#4D4137] border-[#4D4137]"]
+  end
+  <% end %>
+  <%= if is_nil(@color) or "light" in @color do %>
+  defp color_variant("default", "light") do
+    ["bg-[#E3E7F1] text-[#707483] border-[#707483]"]
+  end
+  <% end %>
+  <%= if is_nil(@color) or "dark" in @color do %>
+  defp color_variant("default", "dark") do
+    ["bg-[#1E1E1E] text-white border-[#050404]"]
+  end
+  <% end %>
+  <% end %>
+  <%= if is_nil(@variant) or "unbordered" in @variant do %>
+  <%= if is_nil(@color) or "white" in @color do %>
+  defp color_variant("unbordered", "white") do
+    ["bg-white border-transparent text-[#3E3E3E]"]
+  end
+  <% end %>
+  <%= if is_nil(@color) or "primary" in @color do %>
+  defp color_variant("unbordered", "primary") do
+    ["bg-[#4363EC] text-[#4363EC] border-transparent text-white"]
+  end
+  <% end %>
+  <%= if is_nil(@color) or "secondary" in @color do %>
+  defp color_variant("unbordered", "secondary") do
+    ["bg-[#6B6E7C] text-[#6B6E7C] border-transparent text-white"]
+  end
+  <% end %>
+  <%= if is_nil(@color) or "success" in @color do %>
+  defp color_variant("unbordered", "success") do
+    ["bg-[#ECFEF3] border-transparent text-[#047857]"]
+  end
+  <% end %>
+  <%= if is_nil(@color) or "warning" in @color do %>
+  defp color_variant("unbordered", "warning") do
+    ["bg-[#FFF8E6] border-transparent text-[#FF8B08]"]
+  end
+  <% end %>
+  <%= if is_nil(@color) or "danger" in @color do %>
+  defp color_variant("unbordered", "danger") do
+    ["bg-[#FFE6E6] border-transparent text-[#E73B3B]"]
+  end
+  <% end %>
+  <%= if is_nil(@color) or "info" in @color do %>
+  defp color_variant("unbordered", "info") do
+    ["bg-[#E5F0FF] border-transparent text-[#004FC4]"]
+  end
+  <% end %>
+  <%= if is_nil(@color) or "misc" in @color do %>
+  defp color_variant("unbordered", "misc") do
+    ["bg-[#FFE6FF] border-transparent text-[#52059C]"]
+  end
+  <% end %>
+  <%= if is_nil(@color) or "dawn" in @color do %>
+  defp color_variant("unbordered", "dawn") do
+    ["bg-[#FFECDA] border-transparent text-[#4D4137]"]
+  end
+  <% end %>
+  <%= if is_nil(@color) or "light" in @color do %>
+  defp color_variant("unbordered", "light") do
+    ["bg-[#E3E7F1] border-transparent text-[#707483]"]
+  end
+  <% end %>
+  <%= if is_nil(@color) or "dark" in @color do %>
+  defp color_variant("unbordered", "dark") do
+    ["bg-[#1E1E1E] border-transparent text-white"]
+  end
+  <% end %>
+  <% end %>
+  <%= if is_nil(@variant) or "shadow" in @variant do %>
+  <%= if is_nil(@color) or "white" in @color do %>
+  defp color_variant("shadow", "white") do
+    ["bg-white text-[#3E3E3E] shadow"]
+  end
+  <% end %>
+  <%= if is_nil(@color) or "primary" in @color do %>
+  defp color_variant("shadow", "primary") do
+    ["bg-[#4363EC] text-[#4363EC] shadow"]
+  end
+  <% end %>
+  <%= if is_nil(@color) or "secondary" in @color do %>
+  defp color_variant("shadow", "secondary") do
+    ["bg-[#6B6E7C] text-[#6B6E7C] shadow"]
+  end
+  <% end %>
+  <%= if is_nil(@color) or "success" in @color do %>
+  defp color_variant("shadow", "success") do
+    ["bg-[#ECFEF3] text-[#227A52] shadow"]
+  end
+  <% end %>
+  <%= if is_nil(@color) or "warning" in @color do %>
+  defp color_variant("shadow", "warning") do
+    ["bg-[#FFF8E6] text-[#FF8B08] shadow"]
+  end
+  <% end %>
+  <%= if is_nil(@color) or "danger" in @color do %>
+  defp color_variant("shadow", "danger") do
+    ["bg-[#FFE6E6] text-[#E73B3B] shadow"]
+  end
+  <% end %>
+  <%= if is_nil(@color) or "info" in @color do %>
+  defp color_variant("shadow", "info") do
+    ["bg-[#E5F0FF] text-[#004FC4] shadow"]
+  end
+  <% end %>
+  <%= if is_nil(@color) or "misc" in @color do %>
+  defp color_variant("shadow", "misc") do
+    ["bg-[#FFE6FF] text-[#52059C] shadow"]
+  end
+  <% end %>
+  <%= if is_nil(@color) or "dawn" in @color do %>
+  defp color_variant("shadow", "dawn") do
+    ["bg-[#FFECDA] text-[#4D4137] shadow"]
+  end
+  <% end %>
+  <%= if is_nil(@color) or "light" in @color do %>
+  defp color_variant("shadow", "light") do
+    ["bg-[#E3E7F1] text-[#707483] shadow"]
+  end
+  <% end %>
+  <%= if is_nil(@color) or "dark" in @color do %>
+  defp color_variant("shadow", "dark") do
+    ["bg-[#1E1E1E] text-[#1E1E1E] shadow"]
+  end
+  <% end %>
+  <% end %>
+  defp color_variant(_, _), do: nil
+end
