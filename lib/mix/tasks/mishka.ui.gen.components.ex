@@ -50,6 +50,8 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Components do
   end
 
   def igniter(igniter, argv) do
+    # Based on https://github.com/fuelen/owl/issues/27
+    Application.ensure_all_started(:owl)
     # extract positional arguments according to `positional` above
     {%{components: components}, argv} = positional_args!(argv)
 
@@ -68,6 +70,8 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Components do
 
     components = String.split(components || "", ",", trim: true)
 
+    Owl.Spinner.start(id: :my_spinner, labels: [processing: "Please wait..."])
+
     list =
       if components == [] or Enum.member?(components, "all"),
         do: get_all_components_names(),
@@ -80,6 +84,7 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Components do
       end)
       |> create_import_macro(list, options[:import])
 
+    Owl.Spinner.stop(id: :my_spinner, resolution: :ok)
     igniter
   end
 

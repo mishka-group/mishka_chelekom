@@ -37,8 +37,9 @@ defmodule MishkaChelekom.MixProject do
 
   defp deps do
     [
-      {:igniter, "~> 0.3.45"},
-      {:ex_doc, "~> 0.34", only: :dev, runtime: false}
+      {:igniter, "~> 0.3.49"},
+      {:ex_doc, "~> 0.34", only: :dev, runtime: false},
+      {:owl, "~> 0.12.0"}
     ]
   end
 
