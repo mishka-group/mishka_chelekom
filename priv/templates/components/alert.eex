@@ -424,57 +424,57 @@ defmodule <%= @module %> do
   <%= if is_nil(@variant) or "outline" in @variant do %>
   <%= if is_nil(@color) or "white" in @color do %>
   defp color_variant("outline", :white) do
-    "bg-white text-white border border-white hover:[&>button]:text-[#787878]"
+    "text-white border border-white hover:[&>button]:text-[#787878]"
   end
   <% end %>
   <%= if is_nil(@color) or "primary" in @color do %>
   defp color_variant("outline", :primary) do
-    "bg-white text-[#4363EC] border border-[#4363EC] hover:[&>button]:text-[#072ed3] "
+    "text-[#4363EC] border border-[#4363EC] hover:[&>button]:text-[#072ed3] "
   end
   <% end %>
   <%= if is_nil(@color) or "secondary" in @color do %>
   defp color_variant("outline", :secondary) do
-    "bg-white text-[#6B6E7C] border border-[#6B6E7C] hover:[&>button]:text-[#60636f]"
+    "text-[#6B6E7C] border border-[#6B6E7C] hover:[&>button]:text-[#60636f]"
   end
   <% end %>
   <%= if is_nil(@color) or "success" in @color do %>
   defp color_variant("outline",  type) when type in [:info, :success] do
-    "bg-white text-[#227A52] border border-[#6EE7B7] hover:[&>button]:text-[#50AF7A]"
+    "text-[#227A52] border border-[#6EE7B7] hover:[&>button]:text-[#50AF7A]"
   end
   <% end %>
   <%= if is_nil(@color) or "warning" in @color do %>
   defp color_variant("outline", :warning) do
-    "bg-white text-[#FF8B08] border border-[#FF8B08] hover:[&>button]:text-[#FFB045]"
+    "text-[#FF8B08] border border-[#FF8B08] hover:[&>button]:text-[#FFB045]"
   end
   <% end %>
   <%= if is_nil(@color) or "error" in @color or "danger" in @color do %>
   defp color_variant("outline", type) when type in [:error, :danger] do
-    "bg-white text-[#E73B3B] border border-[#E73B3B] hover:[&>button]:text-[#F0756A]"
+    "text-[#E73B3B] border border-[#E73B3B] hover:[&>button]:text-[#F0756A]"
   end
   <% end %>
   <%= if is_nil(@color) or "info" in @color do %>
   defp color_variant("outline", :info) do
-    "bg-white text-[#004FC4] border border-[#004FC4] hover:[&>button]:text-[#3680DB]"
+    "text-[#004FC4] border border-[#004FC4] hover:[&>button]:text-[#3680DB]"
   end
   <% end %>
   <%= if is_nil(@color) or "misc" in @color do %>
   defp color_variant("outline", :misc) do
-    "bg-white text-[#52059C] border border-[#52059C] hover:[&>button]:text-[#8535C3]"
+    "text-[#52059C] border border-[#52059C] hover:[&>button]:text-[#8535C3]"
   end
   <% end %>
   <%= if is_nil(@color) or "dawn" in @color do %>
   defp color_variant("outline", :dawn) do
-    "bg-white text-[#4D4137] border border-[#4D4137] hover:[&>button]:text-[#FFECDA]"
+    "text-[#4D4137] border border-[#4D4137] hover:[&>button]:text-[#FFECDA]"
   end
   <% end %>
   <%= if is_nil(@color) or "light" in @color do %>
   defp color_variant("outline", :light) do
-    "bg-white text-[#707483] border border-[#707483] hover:[&>button]:text-[#A0A5B4]"
+    "text-[#707483] border border-[#707483] hover:[&>button]:text-[#A0A5B4]"
   end
   <% end %>
   <%= if is_nil(@color) or "dark" in @color do %>
   defp color_variant("outline", :dark) do
-    "bg-white text-[#1E1E1E] border border-[#1E1E1E] hover:[&>button]:text-[#787878]"
+    "text-[#1E1E1E] border border-[#1E1E1E] hover:[&>button]:text-[#787878]"
   end
   <% end %>
   <% end %>
