@@ -63,7 +63,7 @@ defmodule <%= @module %> do
 
   attr :rounded, :string, default: nil, doc: "Determines the border radius"
   attr :shadow, :string, default: nil, doc: "Determines shadow style"
-  attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
+  attr :class, :any, default: nil, doc: "Custom CSS class for additional styling"
 
   attr :rest, :global,
     doc:

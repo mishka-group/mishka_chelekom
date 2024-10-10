@@ -170,7 +170,7 @@ defmodule <%= @module %> do
               <.icon name="hero-chevron-left" class="size-5 md:size-7 lg:size-9" />
             </button>
 
-            <.slide_image id={@id} index={index} {Map.take(slide, [:navigate, :patch, :href, :image])}>
+            <.slide_image id={@id} index={index} {slide}>
               <.slide_content id={@id} index={index} {slide} />
             </.slide_image>
 
