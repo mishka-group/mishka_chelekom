@@ -137,7 +137,7 @@ defmodule <%= @module %> do
         }
         class={[
           "relative w-full",
-          "[&_.slide]:absolute [&_.slide]:inset-0 [&_.slide]:opacity-0 [&_.slide.active-slide]:opacity-100",
+          "[&_.slide:not(.active-slide)]:absolute [&_.slide]:inset-0 [&_.slide:not(.active-slide)]:opacity-0",
           "[&_.slide]:transition-all [&_.slide]:delay-75 [&_.slide]:duration-1000 [&_.slide]:ease-in-out",
           "[&_.slide.active-slide]:z-10",
           text_position(@text_position),
@@ -150,9 +150,8 @@ defmodule <%= @module %> do
           :for={{slide, index} <- Enum.with_index(@slide, 1)}
           id={"#{@id}-carousel-slide-#{index}"}
           class={["slide h-full", slide[:class]]}
-          phx-mounted={
-            slide[:active] && JS.exec("phx-remove", to: "##{@id}") |> select_carousel(@id, index)
-          }
+          phx-select={JS.exec("phx-remove", to: "##{@id}") |> select_carousel(@id, index)}
+          phx-mounted={slide[:active] && JS.exec("phx-select", to: "##{@id}-carousel-slide-#{index}")}
         >
           <div class="relative w-full">
             <button
@@ -164,7 +163,7 @@ defmodule <%= @module %> do
               id={"#{@id}-carousel-pervious-btn-#{index}"}
               phx-click={
                 index - 1 != 0 &&
-                  JS.exec("phx-remove", to: "##{@id}") |> select_carousel(@id, index - 1)
+                  JS.exec("phx-select", to: "##{@id}-carousel-slide-#{index - 1}")
               }
             >
               <.icon name="hero-chevron-left" class="size-5 md:size-7 lg:size-9" />
@@ -183,15 +182,14 @@ defmodule <%= @module %> do
               ]}
               phx-click={
                 index + 1 <= length(@slide) &&
-                  JS.exec("phx-remove", to: "##{@id}") |> select_carousel(@id, index + 1)
+                  JS.exec("phx-select", to: "##{@id}-carousel-slide-#{index + 1}")
               }
             >
               <.icon name="hero-chevron-right" class="size-5 md:size-7 lg:size-9" />
             </button>
-
-            <.slide_indicators :if={@indicator} id={@id} index={index} count={length(@slide)} />
           </div>
         </div>
+        <.slide_indicators :if={@indicator} id={@id} count={length(@slide)} />
       </div>
     </div>
     """
@@ -212,6 +210,7 @@ defmodule <%= @module %> do
 
   attr :href, :string, default: nil, doc: "Sets the URL for an external link."
   attr :image, :string, required: true, doc: "Image displayed alongside of an item"
+  attr :image_class, :string, default: nil, doc: "Sets classes for images"
   attr :index, :integer, required: true, doc: "Determines item index"
   slot :inner_block, required: false, doc: "Inner block that renders HEEx content"
 
@@ -220,7 +219,7 @@ defmodule <%= @module %> do
     ~H"""
     <.link navigate={@navigate} patch={@patch} href={@href}>
       <.image
-        class="max-w-full"
+        class={["max-w-full", @image_class]}
         src={@image}
         id={"#{@id}-carousel-slide-image-#{@index}"}
       />
@@ -232,7 +231,7 @@ defmodule <%= @module %> do
   defp slide_image(assigns) do
     ~H"""
     <.image
-      class="max-w-full"
+      class={["max-w-full", @image_class]}
       src={@image}
       id={"#{@id}-carousel-slide-image-#{@index}"}
     />
@@ -301,31 +300,26 @@ defmodule <%= @module %> do
     doc: "A unique identifier is used to manage state and interaction"
 
   attr :count, :integer, required: true, doc: "Count of items"
-  attr :index, :integer, required: true, doc: "Determines item index"
 
   defp slide_indicators(assigns) do
     ~H"""
     <div
-      id={"#{@id}-carousel-slide-indicator-#{@index}"}
+      id={"#{@id}-carousel-slide-indicator"}
       class={[
         "absolute inset-x-0 bottom-0 z-10 flex justify-center gap-3 py-2.5",
         "[&>.carousel-indicator]:h-1 [&>.carousel-indicator]:w-6 [&>.carousel-indicator]:bg-white",
-        "[&>.carousel-indicator]:opacity-70 [&>.carousel-indicator]:transition-all",
-        "[&>.carousel-indicator]:duration-500 [&>.carousel-indicator]:ease-in-out",
-        "[&>.carousel-indicator.active-indicator]opacity-100"
+        "[&>.carousel-indicator.active-indicator]:opacity-100",
+        "[&>.carousel-indicator]:opacity-40 [&>.carousel-indicator]:transition-all",
+        "[&>.carousel-indicator]:duration-500 [&>.carousel-indicator]:ease-in-out shadow"
       ]}
     >
       <button
         :for={indicator_item <- 1..@count}
+        id={"#{@id}-carousel-indicator-#{indicator_item}"}
         data-indicator-index={"#{indicator_item}"}
-        phx-click={
-          JS.exec("phx-remove", to: "##{@id}")
-          |> select_carousel(@id, indicator_item)
-          |> JS.add_class("active-indicator")
-        }
+        phx-click={JS.exec("phx-select", to: "##{@id}-carousel-slide-#{indicator_item}")}
         class="carousel-indicator"
         aria-label={"Slide #{indicator_item}"}
-        aria-current={indicator_item == @index && "true"}
       />
     </div>
     """
@@ -508,6 +502,8 @@ defmodule <%= @module %> do
     )
     |> JS.remove_attribute("disabled", to: "##{id}-carousel-pervious-btn-#{count}")
     |> JS.remove_attribute("disabled", to: "##{id}-carousel-next-btn-#{count}")
+    |> JS.set_attribute({"aria-current", "true"}, to: "##{id}-carousel-indicator-#{count}")
+    |> JS.add_class("active-indicator", to: "##{id}-carousel-indicator-#{count}")
   end
 
   @doc """
@@ -543,6 +539,7 @@ defmodule <%= @module %> do
       acc
       |> JS.set_attribute({"disabled", "true"}, to: "##{id}-carousel-pervious-btn-#{item}")
       |> JS.set_attribute({"disabled", "true"}, to: "##{id}-carousel-next-btn-#{item}")
+      |> JS.set_attribute({"aria-current", "false"}, to: "##{id}-carousel-indicator-#{item}")
       |> JS.remove_class("active-slide",
         to: "##{id}-carousel-slide-#{item}",
         transition: "duration-0"
