@@ -74,7 +74,7 @@ defmodule <%= @module %> do
 
   attr :border, :string,
     values: @colors ++ ["none"],
-    default: "transparent",
+    default: "none",
     doc: "Determines border style"
 
   attr :rest, :global,
