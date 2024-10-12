@@ -122,8 +122,8 @@ defmodule <%= @module %> do
 
   def carousel(assigns) do
     assigns =
-      assign_new(assigns, :mounted_active_carousel, fn ->
-        Enum.find(assigns.slide, &Map.get(&1, :active))
+      assign_new(assigns, :actived_carousel, fn ->
+        Enum.find_index(assigns.slide, &(Map.get(&1, :active) == true)) || 0
       end)
 
     ~H"""
@@ -132,8 +132,7 @@ defmodule <%= @module %> do
         id={@id}
         phx-remove={unselect_carousel(@id, length(@slide))}
         phx-mounted={
-          is_nil(@mounted_active_carousel) &&
-            JS.exec("phx-remove", to: "##{@id}") |> select_carousel(@id, 1)
+          JS.exec("phx-remove", to: "##{@id}") |> select_carousel(@id, @actived_carousel + 1)
         }
         class={[
           "relative w-full",
@@ -151,7 +150,6 @@ defmodule <%= @module %> do
           id={"#{@id}-carousel-slide-#{index}"}
           class={["slide h-full", slide[:class]]}
           phx-select={JS.exec("phx-remove", to: "##{@id}") |> select_carousel(@id, index)}
-          phx-mounted={slide[:active] && JS.exec("phx-select", to: "##{@id}-carousel-slide-#{index}")}
         >
           <div class="relative w-full">
             <button
@@ -544,7 +542,7 @@ defmodule <%= @module %> do
         to: "##{id}-carousel-slide-#{item}",
         transition: "duration-0"
       )
-      |> JS.remove_class("active-indicator", to: ".carousel-indicator")
+      |> JS.remove_class("active-indicator", to: "##{id}-carousel-indicator-#{item}")
     end)
   end
 

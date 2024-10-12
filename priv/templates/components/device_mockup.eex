@@ -73,7 +73,7 @@ defmodule <%= @module %> do
       </div>
       <div class="border-t py-2 px-5">
         <div class="w-full h-7 bg-gray-300 text-gray-500 rounded-lg text-center flex items-center justify-center">
-          mishka.life
+          mishka.app
         </div>
       </div>
     </div>
@@ -86,7 +86,7 @@ defmodule <%= @module %> do
       </div>
       <div class="border-t py-2 px-5">
         <div class="w-full h-7 bg-gray-300 text-gray-500 rounded-lg text-center flex items-center justify-center">
-          mishka.life
+          mishka.app
         </div>
       </div>
     </div>
@@ -99,7 +99,7 @@ defmodule <%= @module %> do
       </div>
       <div class="border-t py-2 px-5">
         <div class="w-full h-7 bg-gray-300 text-gray-500 rounded-lg text-center flex items-center justify-center">
-          mishka.life
+          mishka.app
         </div>
       </div>
     </div>
@@ -112,7 +112,7 @@ defmodule <%= @module %> do
       </div>
       <div class="border-t py-2 px-5">
         <div class="w-full h-7 bg-gray-300 text-gray-500 rounded-lg text-center flex items-center justify-center">
-          mishka.life
+          mishka.app
         </div>
       </div>
     </div>
