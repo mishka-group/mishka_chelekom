@@ -73,7 +73,7 @@ defmodule <%= @module %> do
   attr :color, :string, values: @colors, default: "primary", doc: "Determines color theme"
 
   attr :border, :string,
-    values: @colors ++ ["transparent", "none"],
+    values: @colors ++ ["none"],
     default: "transparent",
     doc: "Determines border style"
 
@@ -320,7 +320,7 @@ defmodule <%= @module %> do
   defp border_class("dark"), do: "border-[#1E1E1E]"
   <% end %>
 
-  defp border_class(type) when type in ["transparent", "none"], do: "border-transparent"
+  defp border_class(type) when type in ["none"], do: "border-transparent"
 
   defp drop_rest(rest) do
     all_rest =
