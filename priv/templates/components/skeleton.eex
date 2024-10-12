@@ -39,7 +39,8 @@ defmodule <%= @module %> do
     "light",
     "misc",
     "dawn",
-    "silver"
+    "silver",
+    "none"
   ]
 
   @doc """
@@ -66,7 +67,7 @@ defmodule <%= @module %> do
     doc: "A unique identifier is used to manage state and interaction"
 
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
-  attr :color, :string, values: @colors, default: "silver", doc: "Determines color theme"
+  attr :color, :string, values: @colors, default: "none", doc: "Determines color theme"
   attr :height, :string, default: "extra_small", doc: "Determines the element width"
   attr :width, :string, default: "full", doc: "Determines the element width"
 
@@ -176,5 +177,5 @@ defmodule <%= @module %> do
   <%= if is_nil(@color) or "dark" in @color do %>
   defp color_class("dark"), do: "bg-[#1E1E1E]"
   <% end %>
-  defp color_class(params) when is_binary(params), do: params
+  defp color_class("none"), do: nil
 end
