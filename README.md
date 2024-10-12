@@ -1,6 +1,6 @@
 # MishkaChelekom
 
-Mishka Chelekom is a library offering various templates for components in **Phoenix** and **Phoenix LiveView** - [Phoenix UI kit and components](https://mishka.life/chelekom).
+Mishka Chelekom is a library offering various templates for components in **Phoenix** and **Phoenix LiveView** - [Phoenix UI kit and components](https://mishka.tools/chelekom).
 
 This means you can generate any component listed in this project using a `CLI` command with customizable options.
 
@@ -51,8 +51,8 @@ This project ensures optimal performance by minimizing dependencies and leveragi
 
 ### Links:
 
-- Project Page: https://mishka.life/chelekom
-- Project Documentation: https://mishka.life/chelekom/docs
+- Project Page: https://mishka.tools/chelekom
+- Project Documentation: https://mishka.tools/chelekom/docs
 - Created components list: [Heex file and configs](https://github.com/mishka-group/mishka_chelekom/tree/master/priv/templates/components)
 
 ---
@@ -103,7 +103,7 @@ We appreciate any contribution to MishkaChelekom. Just create a PR!! 🎉🥳
 - Ask question in elixir forum: https://elixirforum.com ➝ mention `@shahryarjb`
 - Ask question in elixir Slack: https://elixir-slack.community ➝ mention `@shahryarjb`
 - Ask question in elixir Discord: https://discord.gg/elixir ➝ mention `@shahryarjb`
-- For commercial & sponsoring communication: `shahryar@mishka.life`
+- For commercial & sponsoring communication: `shahryar@mishka.tools`
 
 ---
 

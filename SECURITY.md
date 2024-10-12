@@ -8,4 +8,4 @@
 
 ## Reporting a Vulnerability
 
-Please be sure to contact `info@mishka.life` email if you find a security bug.
+Please be sure to contact `info@mishka.tools` email if you find a security bug.

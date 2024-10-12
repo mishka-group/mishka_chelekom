@@ -63,7 +63,7 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Components do
            /'v'\\
           (/   \\)
           =="="==
-        Mishka.life
+        Mishka.tools
       """
 
     IO.puts(IO.ANSI.red() <> String.trim_trailing(msg) <> IO.ANSI.reset())

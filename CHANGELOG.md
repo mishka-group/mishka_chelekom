@@ -3,7 +3,7 @@
 > We are delighted to introduce our new version of MishkaChelekom fully featured components and UI kit library for Phoenix & Phoenix LiveView.
 > Kindly ensure that the MishkaChelekom Library is updated as quickly as feasible.
 
-**For more information please see**: https://mishka.life/chelekom
+**For more information please see**: https://mishka.tools/chelekom
 
 ### Features:
 - Add generator mix CLI task for creating component
