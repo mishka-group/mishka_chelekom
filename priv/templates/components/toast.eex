@@ -267,6 +267,7 @@ defmodule <%= @module %> do
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
 
   attr :size, :string,
+    default: "large",
     doc:
       "Determines the overall size of the elements, including padding, font size, and other items"
 
