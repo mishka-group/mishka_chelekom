@@ -241,7 +241,7 @@ defmodule <%= @module %> do
     <div
       id={@id}
       class={[
-        "fixed",
+        "fixed z-50",
         space_class(@space),
         position_class(@horizontal_space, @horizontal),
         vertical_position(@vertical_space, @vertical),
