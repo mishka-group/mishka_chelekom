@@ -37,7 +37,6 @@ defmodule <%= @module %> do
   @variants [
     "default",
     "outline",
-    "transparent",
     "shadow",
     "unbordered"
   ]
@@ -341,7 +340,7 @@ defmodule <%= @module %> do
   defp width_class("medium"), do: "max-w-72"
   defp width_class("large"), do: "max-w-80"
   defp width_class("extra_large"), do: "max-w-96"
-  defp width_class("full"), do: "w-full"
+  defp width_class("full"), do: "w-[calc(100%-10px)]"
   defp width_class(params) when is_binary(params), do: params
   defp width_class(_), do: width_class("medium")
 
