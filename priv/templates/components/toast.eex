@@ -129,7 +129,7 @@ defmodule <%= @module %> do
     <div
       id={@id}
       class={[
-        "overflow-hidden",
+        "overflow-hidden z-50",
         @fixed && "fixed",
         space_class(@space),
         width_class(@width),
