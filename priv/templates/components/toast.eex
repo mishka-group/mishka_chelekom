@@ -130,7 +130,6 @@ defmodule <%= @module %> do
       class={[
         "overflow-hidden z-50",
         @fixed && "fixed",
-        space_class(@space),
         width_class(@width),
         rounded_size(@rounded),
         border_class(@border),
@@ -153,7 +152,11 @@ defmodule <%= @module %> do
           row_direction(@row_direction),
           padding_size(@padding)
         ]}>
-          <div>
+          <div
+            class={[
+                space_class(@space),
+            ]}
+          >
             <%%= render_slot(@inner_block) %>
           </div>
           <.toast_dismiss id={@id} params={@params} />
@@ -404,7 +407,7 @@ defmodule <%= @module %> do
   <% end %>
 
   <%= if is_nil(@space) or "none" in @space do %>
-  defp space_class("none"), do: "space-y-0"
+  defp space_class("none"), do: nil
   <% end %>
   <%= if is_nil(@space) or "extra_small" in @space do %>
   defp space_class("extra_small"), do: "space-y-2"
