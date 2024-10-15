@@ -236,7 +236,7 @@ defmodule <%= @module %> do
     ~H"""
     <div class={["max-w-fit md:max-w-[512px]", color_class(@color), @class]}>
       <div class="mock-base relative mx-auto border-[16px] rounded-t-xl h-[172px] max-w-[301px] md:h-[294px] md:max-w-[512px]">
-        <div class="overflow-hidden h-[140px] md:h-[262px]">
+        <div class="overflow-hidden h-[140px] md:h-[262px] bg-white">
           <.image
             :if={!is_nil(@image)}
             class={@image_class || "h-[140px] md:h-[262px] w-full"}
