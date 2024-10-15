@@ -188,7 +188,7 @@ defmodule <%= @module %> do
   <%= if is_nil(@type) or "laptop" in @type do %>
   def device_mockup(%{type: "laptop"} = assigns) do
     ~H"""
-    <div class={["w-fit", color_class(@color), @class]}>
+    <div class={["max-w-fit md:max-w-[512px]", color_class(@color), @class]}>
       <div class="mock-base relative mx-auto border-[8px] rounded-t-xl h-[172px] max-w-[301px] md:h-[294px] md:max-w-[512px]">
         <div class="rounded overflow-hidden h-[156px] md:h-[278px] bg-white">
           <.image
@@ -211,7 +211,7 @@ defmodule <%= @module %> do
   <%= if is_nil(@type) or "ipad" in @type do %>
   def device_mockup(%{type: "ipad"} = assigns) do
     ~H"""
-    <div class={["w-fit", color_class(@color), @class]}>
+    <div class={["max-w-fit md:max-w-[512px]", color_class(@color), @class]}>
       <div class="mock-base relative mx-auto border-[14px] rounded-[2.5rem] h-[454px] max-w-[341px] md:h-[682px] md:max-w-[512px]">
         <div class="mock-base h-[32px] w-[3px] absolute -start-[17px] top-[72px] rounded-s-lg"></div>
         <div class="mock-base h-[46px] w-[3px] absolute -start-[17px] top-[124px] rounded-s-lg"></div>
@@ -234,7 +234,7 @@ defmodule <%= @module %> do
   <%= if is_nil(@type) or "imac" in @type do %>
   def device_mockup(%{type: "imac"} = assigns) do
     ~H"""
-    <div class={["w-fit", color_class(@color), @class]}>
+    <div class={["max-w-fit md:max-w-[512px]", color_class(@color), @class]}>
       <div class="mock-base relative mx-auto border-[16px] rounded-t-xl h-[172px] max-w-[301px] md:h-[294px] md:max-w-[512px]">
         <div class="overflow-hidden h-[140px] md:h-[262px]">
           <.image
