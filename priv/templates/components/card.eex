@@ -482,7 +482,7 @@ defmodule <%= @module %> do
     do: "[&:has(.card-section)>.card-section]:p-5 [&:not(:has(.card-section))]:p-5"
   <% end %>
   <%= if is_nil(@padding) or "none" in @padding do %>
-  defp wrapper_padding("none"), do: "p-0"
+  defp wrapper_padding("none"), do: nil
   <% end %>
   defp wrapper_padding(params) when is_binary(params), do: params
   <%= if is_nil(@padding) or "none" in @padding do %>
