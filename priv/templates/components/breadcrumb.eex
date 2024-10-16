@@ -84,6 +84,7 @@ defmodule <%= @module %> do
   slot :item, required: false, doc: "Specifies item slot of a breadcrumb" do
     attr :icon, :string, doc: "Icon displayed alongside of an item"
     attr :link, :string, doc: "Renders a navigation, patch link or normal link"
+    attr :title, :string, doc: "Renders a navigation, patch link or normal link"
     attr :separator, :string, doc: "Determines a separator for items of an element"
     attr :class, :string, doc: "Custom CSS class for additional styling"
   end
@@ -114,7 +115,7 @@ defmodule <%= @module %> do
       >
         <.icon :if={!is_nil(item[:icon])} name={item[:icon]} class="breadcrumb-icon" />
         <div :if={!is_nil(item[:link])}>
-          <.link navigate={item[:link]}><%%= render_slot(item) %></.link>
+          <.link navigate={item[:link]} title={item[:tile]}><%%= render_slot(item) %></.link>
         </div>
 
         <div :if={is_nil(item[:link])}><%%= render_slot(item) %></div>
