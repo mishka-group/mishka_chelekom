@@ -21,10 +21,7 @@
         "small",
         "medium",
         "large",
-        "extra_large",
-        "double_large",
-        "triple_large",
-        "quadruple_large"
+        "extra_large"
       ],
       space: [
         "extra_small",

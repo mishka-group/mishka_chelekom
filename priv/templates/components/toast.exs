@@ -2,7 +2,7 @@
   toast: [
     name: "toast",
     args: [
-      variant: ["default", "outline", "transparent", "shadow", "unbordered"],
+      variant: ["default", "outline", "shadow", "unbordered"],
       color: [
         "white",
         "primary",
