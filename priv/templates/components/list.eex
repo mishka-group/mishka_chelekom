@@ -665,9 +665,9 @@ defmodule <%= @module %> do
   <%= if is_nil(@color) or "secondary" in @color do %>
   defp color_variant("outline", "secondary") do
     [
-      "border border-[#2441de]",
+      "border border-[#877C7C]",
       "[&>li:not(:last-child)]:border-b",
-      "[&>li:not(:last-child)]:border-[#2441de]"
+      "[&>li:not(:last-child)]:border-[#877C7C]"
     ]
   end
   <% end %>
@@ -844,7 +844,7 @@ defmodule <%= @module %> do
   defp color_variant("tinted_split", "secondary") do
     [
       "[&>li]:bg-[#6B6E7C] text-white",
-      "[&>li]:border [&>li]:border-[#2441de]"
+      "[&>li]:border [&>li]:border-[#877C7C]"
     ]
   end
   <% end %>
@@ -934,7 +934,7 @@ defmodule <%= @module %> do
   defp color_variant("seperated", "secondary") do
     [
       "[&>li]:bg-white",
-      "[&>li]:border [&>li]:border-[#2441de]"
+      "[&>li]:border [&>li]:border-[#877C7C]"
     ]
   end
   <% end %>
@@ -1004,7 +1004,7 @@ defmodule <%= @module %> do
   <% end %>
   <% end %>
   <%= if is_nil(@variant) or "transparent" in @variant do %>
-  defp color_variant("transparent", _), do: ["bg-transplant"]
+  defp color_variant("transparent", _), do: ["bg-transplant border-transparent"]
   <% end %>
 
   attr :name, :string, required: true, doc: "Specifies the name of the element"
