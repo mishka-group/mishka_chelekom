@@ -230,7 +230,7 @@ defmodule <%= @module %> do
     <ul
       id={@id}
       class={[
-        "ltr:[&.list-decimal]:pl-5 rtl:[&.list-decimal]:pr-5 ltr:[&.list-disc]:pl-5 rtl:[&.list-disc]:pr-5",
+        "[&.list-decimal]:ps-5 [&.list-disc]:ps-5",
         color_variant(@variant, @color),
         size_class(@size),
         width_class(@width),
@@ -294,7 +294,7 @@ defmodule <%= @module %> do
     <ol
       id={@id}
       class={[
-        "list-decimal ltr:[&.list-decimal]:pl-5 rtl:[&.list-decimal]:pr-5 ltr:[&.list-disc]:pl-5 rtl:[&.list-disc]:pr-5",
+        "list-decimal [&.list-decimal]:ps-5 [&.list-disc]:ps-5",
         color_variant(@variant, @color),
         size_class(@size),
         width_class(@width),
