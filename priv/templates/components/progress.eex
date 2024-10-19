@@ -16,6 +16,8 @@ defmodule <%= @module %> do
   interactive and dynamic UIs.
   """
   use Phoenix.Component
+  alias Phoenix.LiveView.JS
+  import Phoenix.LiveView.Utils, only: [random_id: 0]
 
   @sizes ["extra_small", "small", "medium", "large", "extra_large"]
   @colors [
@@ -92,6 +94,7 @@ defmodule <%= @module %> do
       "Determines the overall size of the elements, including padding, font size, and other items"
 
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
+  attr :csp_nonce, :string, default: nil, doc: "csp nonce"
 
   attr :rest, :global,
     doc:
@@ -156,16 +159,38 @@ defmodule <%= @module %> do
   attr :color, :string, values: @colors, default: "white", doc: "Determines color theme"
   attr :rounded, :string, default: "none", doc: "Determines the border radius"
   attr :variant, :string, values: @variants, default: "default", doc: "Determines the style"
+  attr :csp_nonce, :string, default: nil, doc: "csp nonce"
 
   attr :rest, :global,
     doc:
       "Global attributes can define defaults which are merged with attributes provided by the caller"
 
   def progress_section(assigns) do
-    assigns = assign(assigns, :value, (is_integer(assigns.value) && assigns.value) || 0)
+    assigns =
+      assigns
+      |> assign(:value, (is_integer(assigns.value) && assigns.value) || 0)
+      |> assign_new(:id, fn -> random_id() end)
 
     ~H"""
+    <style :if={@csp_nonce} nonce={@csp_nonce}>
+      #<%= @id %> {
+        <%= if @variation == "horizontal" do %>
+          width: <%= @value %>%;
+        <% else %>
+          height: <%= @value %>%;
+        <% end %>
+      }
+    </style>
+
     <div
+      phx-mounted={
+        is_nil(@csp_nonce) &&
+          JS.set_attribute(
+            {"aria-style",
+             (@variation == "horizontal" && "width: #{@value}%;") || "height: #{@value}%;"}
+          )
+      }
+      id={@id}
       class={[
         "rounded-full w-full",
         if(@variation == "vertical", do: "progress-vertical"),
@@ -173,9 +198,7 @@ defmodule <%= @module %> do
         rounded_size(@rounded),
         @class
       ]}
-      style={(@variation == "horizontal" && "width: #{@value}%;") || "height: #{@value}%;"}
-    >
-    </div>
+    />
     """
   end
   <% end %>
