@@ -312,11 +312,11 @@ defmodule <%= @module %> do
   end
   <% end %>
 
-  defp line_width("extra_small"), do: "after:w-px"
-  defp line_width("small"), do: "after:w-0.5"
-  defp line_width("medium"), do: "after:w-1"
-  defp line_width("large"), do: "after:w-1.5"
-  defp line_width("extra_large"), do: "after:2"
+  defp line_width("extra_small"), do: "after:w-[0.031rem]"
+  defp line_width("small"), do: "after:w-[0.063rem]"
+  defp line_width("medium"), do: "after:w-[0.094rem]"
+  defp line_width("large"), do: "after:w-[0.156rem]"
+  defp line_width("extra_large"), do: "after:w-[0.188rem]"
   defp line_width(params) when is_binary(params), do: params
   defp line_width(_), do: line_width("extra_small")
 
