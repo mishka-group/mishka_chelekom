@@ -96,11 +96,11 @@ defmodule <%= @module %> do
     doc: "A unique identifier is used to manage state and interaction"
 
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
-  attr :variant, :string, values: @variants, doc: "Determines the style"
+  attr :variant, :string, values: @variants, default: "default", doc: "Determines the style"
   attr :rounded, :string, default: nil, doc: "Determines the border radius"
   attr :padding, :string, default: "small", doc: "Determines padding for items"
   attr :text_size, :string, default: "small", doc: "Determines text size"
-  attr :color, :string, values: @colors, doc: "Determines color theme"
+  attr :color, :string, values: @colors, default: "white", doc: "Determines color theme"
   attr :border, :string, default: nil, doc: "Determines border style"
   attr :header_border, :string, default: nil, doc: "Sets the border style for the table header"
   attr :rows_border, :string, default: nil, doc: "Sets the border style for rows in the table"
