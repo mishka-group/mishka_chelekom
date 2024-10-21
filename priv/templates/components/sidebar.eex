@@ -95,7 +95,7 @@ defmodule <%= @module %> do
       phx-click-away={hide_sidebar(@on_hide_away, @id, @hide_position)}
       phx-remove={hide_sidebar(@id, @hide_position)}
       class={[
-        "fixed h-screen transition-transform",
+        "fixed h-screen transition-transform z-10",
         border_class(@border, @position),
         hide_position(@hide_position),
         color_variant(@variant, @color),
@@ -107,8 +107,8 @@ defmodule <%= @module %> do
       {@rest}
     >
       <div class="h-full overflow-y-auto">
-        <div class="flex justify-end pt-2 px-2 mb-1 md:hidden">
-          <button type="button" phx-click={JS.exec(@on_hide, "phx-remove", to: "##{@id}")}>
+        <div class="flex justify-end pt-2 px-2 mb-1 md:hidden dismiss-sidebar-wrapper">
+          <button type="button" class="dismiss-sidebar-button" phx-click={JS.exec(@on_hide, "phx-remove", to: "##{@id}")}>
             <.icon name="hero-x-mark" />
             <span class="sr-only"><%%= gettext("Close menu") %></span>
           </button>
