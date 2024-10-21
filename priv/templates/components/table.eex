@@ -226,7 +226,7 @@ defmodule <%= @module %> do
 
   def th(assigns) do
     ~H"""
-    <th scoep={@scope} class={["table-header", @class]} {@rest}>
+    <th scope={@scope} class={["table-header", @class]} {@rest}>
       <%%= render_slot(@inner_block) %>
     </th>
     """
