@@ -334,7 +334,7 @@ defmodule <%= @module %> do
   defp text_position("justify"), do: "[&_table]:text-justify [&_table_thead]:text-justify"
   defp text_position("start"), do: "[&_table]:text-start [&_table_thead]:text-start"
   defp text_position("end"), do: "[&_table]:text-end [&_table_thead]:text-end"
-  defp text_position(_), do: text_position("left")
+  defp text_position(_), do: text_position("start")
 
   defp border_class("extra_small"), do: "border"
   defp border_class("small"), do: "border-2"
@@ -451,7 +451,7 @@ defmodule <%= @module %> do
   <%= if is_nil(@variant) or "default" in @variant do %>
   <%= if is_nil(@color) or "white" in @color do %>
   defp color_variant("default", "white") do
-    "[&_table]:bg-white text-[#3E3E3E] border-white [&_*]:divide-white [&_td]:border-white [&_th]:border-white"
+    "[&_table]:bg-white text-[#3E3E3E] border-[#DADADA] [&_*]:divide-[#DADADA] [&_td]:border-[#DADADA] [&_th]:border-[#DADADA]"
   end
   <% end %>
   <%= if is_nil(@color) or "primary" in @color do %>
