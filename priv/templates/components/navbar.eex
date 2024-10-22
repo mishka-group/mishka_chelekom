@@ -200,12 +200,12 @@ defmodule <%= @module %> do
             <li
               :for={list <- @list}
               class={[
-                "inline-flex",
+                "inline-flex items-center",
                 list[:icon_position] == "end" && "flex-row-reverse",
                 list[:class]
               ]}
             >
-              <.icon :if={list[:icon]} name={list[:icon]} class="list-icon" />
+              <.icon :if={list[:icon]} name={list[:icon]} class={["list-icon", list[:icon_class]]} />
               <%%= render_slot(list) %>
             </li>
           </ul>
