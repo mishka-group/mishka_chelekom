@@ -147,7 +147,7 @@ defmodule <%= @module %> do
 
   slot :inner_block, required: false, doc: "Inner block that renders HEEx content"
 
-  slot :list, required: true do
+  slot :list, required: false do
     attr :class, :string, doc: "Custom CSS class for additional styling"
     attr :padding, :string, doc: "Determines padding for items"
     attr :icon, :string, doc: "Icon displayed alongside of an item"
@@ -187,9 +187,12 @@ defmodule <%= @module %> do
           </h1>
         </.link>
 
-        <div class={[
-          "w-auto"
-        ]}>
+        <div
+          :if={!is_nil(@list) && length(@list) > 0}
+          class={[
+            "w-auto"
+          ]}
+        >
           <ul class={[
             "flex flex-wrap md:flex-nowrap gap-4",
             @relative && "relative"
