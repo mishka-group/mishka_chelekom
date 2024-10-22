@@ -175,7 +175,7 @@ defmodule <%= @module %> do
       ]}
       {@rest}
     >
-      <div class="nav-wrapper md:flex items-center gap-2 gap-5">
+      <div class="nav-wrapper md:flex items-center gap-2 md:gap-5">
         <.link
           :if={!is_nil(@link)}
           navigate={@link}
