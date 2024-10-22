@@ -182,7 +182,7 @@ defmodule <%= @module %> do
           class="flex items-center space-x-3 rtl:space-x-reverse mb-5 md:mb-0"
         >
           <img :if={!is_nil(@image)} src={@image} class={@image_class} />
-          <h1 class="text-xl font-semibold">
+          <h1 :if={!is_nil(@name)} class="text-xl font-semibold">
             <%%= @name %>
           </h1>
         </.link>
