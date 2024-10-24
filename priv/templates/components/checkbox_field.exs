@@ -1,6 +1,6 @@
 [
-  chekbox_field: [
-    name: "chekbox_field",
+  checkbox_field: [
+    name: "checkbox_field",
     args: [
       color: [
         "white",
