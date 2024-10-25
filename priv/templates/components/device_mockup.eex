@@ -145,7 +145,7 @@ defmodule <%= @module %> do
       <div class="mock-base relative mx-auto border-[10px] rounded-[2.5rem] h-[213px] w-[208px]">
         <div class="mock-base h-[41px] w-[6px] absolute -end-[16px] top-[40px] rounded-e-lg"></div>
         <div class="mock-base h-[32px] w-[6px] absolute -end-[16px] top-[88px] rounded-e-lg"></div>
-        <div class="bg-white rounded-[2rem] overflow-hidden h-[193px] w-[188px]">
+        <div class="bg-white dark:bg-[#404040] rounded-[2rem] overflow-hidden h-[193px] w-[188px]">
           <.image
             :if={!is_nil(@image)}
             class={@image_class || "h-[193px] w-[188px]"}
@@ -171,7 +171,7 @@ defmodule <%= @module %> do
         <div class="mock-base h-[46px] w-[3px] absolute -start-[17px] top-[124px] rounded-s-lg"></div>
         <div class="mock-base h-[46px] w-[3px] absolute -start-[17px] top-[178px] rounded-s-lg"></div>
         <div class="mock-base h-[64px] w-[3px] absolute -end-[17px] top-[142px] rounded-e-lg"></div>
-        <div class="rounded overflow-hidden w-[272px] h-[572px] bg-white">
+        <div class="rounded overflow-hidden w-[272px] h-[572px] bg-white dark:bg-[#404040]">
           <.image
             :if={!is_nil(@image)}
             class={@image_class || "w-[272px] h-[572px]"}
@@ -190,7 +190,7 @@ defmodule <%= @module %> do
     ~H"""
     <div class={["max-w-fit md:max-w-[512px]", color_class(@color), @class]}>
       <div class="mock-base relative mx-auto border-[8px] rounded-t-xl h-[172px] max-w-[301px] md:h-[294px] md:max-w-[512px]">
-        <div class="rounded overflow-hidden h-[156px] md:h-[278px] bg-white">
+        <div class="rounded overflow-hidden h-[156px] md:h-[278px] bg-white dark:bg-[#404040]">
           <.image
             :if={!is_nil(@image)}
             class={@image_class || "h-[140px] md:h-[262px] w-full"}
@@ -217,7 +217,7 @@ defmodule <%= @module %> do
         <div class="mock-base h-[46px] w-[3px] absolute -start-[17px] top-[124px] rounded-s-lg"></div>
         <div class="mock-base h-[46px] w-[3px] absolute -start-[17px] top-[178px] rounded-s-lg"></div>
         <div class="mock-base h-[64px] w-[3px] absolute -end-[17px] top-[142px] rounded-e-lg"></div>
-        <div class="bg-white rounded-3xl overflow-hidden h-[426px] md:h-[654px]">
+        <div class="dark:bg-[#404040] bg-white rounded-3xl overflow-hidden h-[426px] md:h-[654px]">
           <.image
             :if={!is_nil(@image)}
             class={@image_class || "h-[426px] md:h-[654px]"}
@@ -236,7 +236,7 @@ defmodule <%= @module %> do
     ~H"""
     <div class={["max-w-fit md:max-w-[512px]", color_class(@color), @class]}>
       <div class="mock-base relative mx-auto border-[16px] rounded-t-xl h-[172px] max-w-[301px] md:h-[294px] md:max-w-[512px]">
-        <div class="overflow-hidden h-[140px] md:h-[262px] bg-white">
+        <div class="overflow-hidden h-[140px] md:h-[262px] bg-white dark:bg-[#404040]">
           <.image
             :if={!is_nil(@image)}
             class={@image_class || "h-[140px] md:h-[262px] w-full"}
@@ -263,7 +263,7 @@ defmodule <%= @module %> do
         <div class="mock-base h-[46px] w-[3px] absolute -start-[17px] top-[124px] rounded-s-lg"></div>
         <div class="mock-base h-[46px] w-[3px] absolute -start-[17px] top-[178px] rounded-s-lg"></div>
         <div class="mock-base h-[64px] w-[3px] absolute -end-[17px] top-[142px] rounded-e-lg"></div>
-        <div class="bg-white rounded-3xl overflow-hidden w-[272px] h-[572px]">
+        <div class="bg-white dark:bg-[#404040] rounded-3xl overflow-hidden w-[272px] h-[572px]">
           <.image
             :if={!is_nil(@image)}
             class={@image_class || "w-[272px] h-[572px]"}

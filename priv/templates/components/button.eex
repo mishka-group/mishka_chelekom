@@ -104,25 +104,17 @@ defmodule <%= @module %> do
     default: nil,
     doc: "A unique identifier is used to manage state and interaction"
 
-  attr :variant, :string, values: @variants, default: "default", doc: "Determines the style"
-
   attr :variation, :string,
     values: ["horizontal", "vertical"],
     default: "horizontal",
     doc: "Defines the layout orientation of the component"
 
   attr :color, :string, values: @colors, default: "white", doc: "Determines color theme"
-  attr :border, :string, values: @colors, default: "white", doc: "Determines border style"
 
   attr :rounded, :string,
     values: @sizes ++ ["full", "none"],
     default: "small",
     doc: "Determines the border radius"
-
-  attr :size, :string,
-    default: "large",
-    doc:
-      "Determines the overall size of the elements, including padding, font size, and other items"
 
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
 
@@ -181,7 +173,7 @@ defmodule <%= @module %> do
 
   attr :color, :string, default: "white", doc: "Determines color theme"
   attr :rounded, :string, default: "large", doc: "Determines the border radius"
-  attr :border, :string, default: "white", doc: "Determines border style"
+  attr :border, :string, default: "extra_small", doc: "Determines border style"
 
   attr :size, :string,
     default: "large",
@@ -230,7 +222,7 @@ defmodule <%= @module %> do
             color_variant(@variant, @color),
             content_position(@content_position),
             rounded_size(@rounded),
-            border_class(@border),
+            border_size(@border),
             @font_weight,
             @display,
             @class
@@ -272,7 +264,7 @@ defmodule <%= @module %> do
   attr :color, :string, default: "white", doc: "Determines color theme"
   attr :rounded, :string, default: "large", doc: "Determines the border radius"
   attr :value, :string, default: "", doc: "Value of input"
-  attr :border, :string, default: "white", doc: "Determines border style"
+  attr :border, :string, default: "extra_small", doc: "Determines border style"
 
   attr :size, :string,
     default: "large",
@@ -312,7 +304,7 @@ defmodule <%= @module %> do
             color_variant(@variant, @color),
             content_position(@content_position),
             rounded_size(@rounded),
-            border_class(@border),
+            border_size(@border),
             @font_weight,
             @display,
             @class
@@ -356,6 +348,7 @@ defmodule <%= @module %> do
   attr :variant, :string, values: @variants, default: "default", doc: "Determines the style"
   attr :color, :string, values: @colors, default: "white", doc: "Determines color theme"
   attr :rounded, :string, values: @sizes ++ ["full", "none"], default: "large", doc: ""
+  attr :border, :string, default: "extra_small", doc: "Determines border style"
 
   attr :size, :string,
     default: "large",
@@ -401,6 +394,7 @@ defmodule <%= @module %> do
           [
             color_variant(@variant, @color),
             rounded_size(@rounded),
+            border_size(@border),
             @font_weight,
             @display,
             @class
@@ -428,6 +422,7 @@ defmodule <%= @module %> do
           [
             color_variant(@variant, @color),
             rounded_size(@rounded),
+            border_size(@border),
             @font_weight,
             @class
           ]
@@ -454,6 +449,7 @@ defmodule <%= @module %> do
           [
             color_variant(@variant, @color),
             rounded_size(@rounded),
+            border_size(@border),
             @font_weight,
             @class
           ]
@@ -583,6 +579,16 @@ defmodule <%= @module %> do
     ~H"""
     """
   end
+
+  defp border_size("none"), do: "border-0"
+  defp border_size("extra_small"), do: "border"
+  defp border_size("small"), do: "border-2"
+  defp border_size("medium"), do: "border-[3px]"
+  defp border_size("large"), do: "border-4"
+  defp border_size("extra_large"), do: "border-[5px]"
+  defp border_size(params) when is_binary(params), do: params
+  defp border_size(_), do: border_size("extra_small")
+
   <%= if is_nil(@variant) or "default" in @variant do %>
   <%= if is_nil(@color) or "white" in @color do %>
   defp color_variant("default", "white") do
@@ -985,96 +991,96 @@ defmodule <%= @module %> do
   <%= if is_nil(@variant) or "default_gradient" in @variant do %>
   <%= if is_nil(@color) or "primary" in @color do %>
   defp color_variant("default_gradient", "primary") do
-    "text-white bg-gradient-to-br from-purple-600 to-blue-500 [&>.indicator]:bg-white hover:bg-gradient-to-bl"
+    "text-white bg-gradient-to-br from-purple-600 to-blue-500 [&>.indicator]:bg-white border-none hover:bg-gradient-to-bl"
   end
   <% end %>
   <%= if is_nil(@color) or "secondary" in @color do %>
   defp color_variant("default_gradient", "secondary") do
-    "text-white bg-gradient-to-br from-green-400 to-blue-600 [&>.indicator]:bg-white hover:bg-gradient-to-bl"
+    "text-white bg-gradient-to-br from-green-400 to-blue-600 [&>.indicator]:bg-white border-none hover:bg-gradient-to-bl"
   end
   <% end %>
   <%= if is_nil(@color) or "success" in @color do %>
   defp color_variant("default_gradient", "success") do
-    "text-[#111827] bg-gradient-to-r from-teal-200 to-lime-200 [&>.indicator]:bg-[#111827] hover:bg-gradient-to-bl"
+    "text-[#111827] bg-gradient-to-r from-teal-200 to-lime-200 [&>.indicator]:bg-[#111827] border-none hover:bg-gradient-to-bl"
   end
   <% end %>
   <%= if is_nil(@color) or "warning" in @color do %>
   defp color_variant("default_gradient", "warning") do
-    "text-[#111827] bg-gradient-to-r from-red-200 via-red-300 to-yellow-200 [&>.indicator]:bg-[#111827] hover:bg-gradient-to-bl"
+    "text-[#111827] bg-gradient-to-r from-red-200 via-red-300 to-yellow-200 [&>.indicator]:bg-[#111827] border-none hover:bg-gradient-to-bl"
   end
   <% end %>
   <%= if is_nil(@color) or "danger" in @color do %>
   defp color_variant("default_gradient", "danger") do
-    "text-white bg-gradient-to-br from-pink-500 to-orange-400 [&>.indicator]:bg-white hover:bg-gradient-to-bl"
+    "text-white bg-gradient-to-br from-pink-500 to-orange-400 [&>.indicator]:bg-white border-none hover:bg-gradient-to-bl"
   end
   <% end %>
   <%= if is_nil(@color) or "info" in @color do %>
   defp color_variant("default_gradient", "info") do
-    "text-white bg-gradient-to-r from-cyan-500 to-blue-500 [&>.indicator]:bg-white hover:bg-gradient-to-bl"
+    "text-white bg-gradient-to-r from-cyan-500 to-blue-500 [&>.indicator]:bg-white border-none hover:bg-gradient-to-bl"
   end
   <% end %>
   <% end %>
   <%= if is_nil(@variant) or "outline_gradient" in @variant do %>
   <%= if is_nil(@color) or "primary" in @color do %>
   defp color_variant("outline_gradient", "primary") do
-    "relative overflow-hidden bg-gradient-to-br from-purple-600 to-blue-500 hover:bg-gradient-to-bl"
+    "relative overflow-hidden bg-gradient-to-br from-purple-600 to-blue-500 border-none hover:bg-gradient-to-bl"
   end
   <% end %>
   <%= if is_nil(@color) or "secondary" in @color do %>
   defp color_variant("outline_gradient", "secondary") do
-    "relative overflow-hidden bg-gradient-to-br from-green-400 to-blue-600 hover:bg-gradient-to-bl"
+    "relative overflow-hidden bg-gradient-to-br from-green-400 to-blue-600 border-none hover:bg-gradient-to-bl"
   end
   <% end %>
   <%= if is_nil(@color) or "success" in @color do %>
   defp color_variant("outline_gradient", "success") do
-    "relative overflow-hidden text-[#111827] bg-gradient-to-br from-teal-200 to-lime-200 hover:bg-gradient-to-bl"
+    "relative overflow-hidden text-[#111827] bg-gradient-to-br from-teal-200 to-lime-200 border-none hover:bg-gradient-to-bl"
   end
   <% end %>
   <%= if is_nil(@color) or "warning" in @color do %>
   defp color_variant("outline_gradient", "warning") do
-    "relative overflow-hidden text-[#111827] bg-gradient-to-br from-red-200 via-red-300 to-yellow-200 hover:bg-gradient-to-bl"
+    "relative overflow-hidden text-[#111827] bg-gradient-to-br from-red-200 via-red-300 to-yellow-200 border-none hover:bg-gradient-to-bl"
   end
   <% end %>
   <%= if is_nil(@color) or "danger" in @color do %>
   defp color_variant("outline_gradient", "danger") do
-    "relative overflow-hidden bg-gradient-to-br from-pink-500 to-orange-400 hover:bg-gradient-to-bl"
+    "relative overflow-hidden bg-gradient-to-br from-pink-500 to-orange-400 border-none hover:bg-gradient-to-bl"
   end
   <% end %>
   <%= if is_nil(@color) or "info" in @color do %>
   defp color_variant("outline_gradient", "info") do
-    "relative overflow-hidden bg-gradient-to-br from-cyan-500 to-blue-500 hover:bg-gradient-to-bl"
+    "relative overflow-hidden bg-gradient-to-br from-cyan-500 to-blue-500 border-none hover:bg-gradient-to-bl"
   end
   <% end %>
   <% end %>
   <%= if is_nil(@variant) or "inverted_gradient" in @variant do %>
   <%= if is_nil(@color) or "primary" in @color do %>
   defp color_variant("inverted_gradient", "primary") do
-    "relative overflow-hidden bg-gradient-to-br from-purple-600 to-blue-500 hover:bg-gradient-to-bl"
+    "relative overflow-hidden bg-gradient-to-br from-purple-600 to-blue-500 border-none hover:bg-gradient-to-bl"
   end
   <% end %>
   <%= if is_nil(@color) or "secondary" in @color do %>
   defp color_variant("inverted_gradient", "secondary") do
-    "relative overflow-hidden bg-gradient-to-br from-green-400 to-blue-600 hover:bg-gradient-to-bl"
+    "relative overflow-hidden bg-gradient-to-br from-green-400 to-blue-600 border-none hover:bg-gradient-to-bl"
   end
   <% end %>
   <%= if is_nil(@color) or "success" in @color do %>
   defp color_variant("inverted_gradient", "success") do
-    "relative overflow-hidden bg-gradient-to-r from-teal-200 to-lime-200 hover:bg-gradient-to-bl"
+    "relative overflow-hidden bg-gradient-to-r from-teal-200 to-lime-200 border-none hover:bg-gradient-to-bl"
   end
   <% end %>
   <%= if is_nil(@color) or "warning" in @color do %>
   defp color_variant("inverted_gradient", "warning") do
-    "relative overflow-hidden bg-gradient-to-r from-red-200 via-red-300 to-yellow-200 hover:bg-gradient-to-bl"
+    "relative overflow-hidden bg-gradient-to-r from-red-200 via-red-300 to-yellow-200 border-none hover:bg-gradient-to-bl"
   end
   <% end %>
   <%= if is_nil(@color) or "danger" in @color do %>
   defp color_variant("inverted_gradient", "danger") do
-    "relative overflow-hidden bg-gradient-to-br from-pink-500 to-orange-400 hover:bg-gradient-to-bl"
+    "relative overflow-hidden bg-gradient-to-br from-pink-500 to-orange-400 border-none hover:bg-gradient-to-bl"
   end
   <% end %>
   <%= if is_nil(@color) or "info" in @color do %>
   defp color_variant("inverted_gradient", "info") do
-    "relative overflow-hidden bg-gradient-to-r from-cyan-500 to-blue-500 hover:bg-gradient-to-bl"
+    "relative overflow-hidden bg-gradient-to-r from-cyan-500 to-blue-500 border-none hover:bg-gradient-to-bl"
   end
   <% end %>
   <% end %>
@@ -1214,9 +1220,6 @@ defmodule <%= @module %> do
       !is_nil(circle) && "size-10"
     ]
   end
-  <% end %>
-  <%= if is_nil(@size) or "full" in @size do %>
-  defp size_class("full", _circle), do: ["py-2 px-4 w-full text-lg"]
   <% end %>
 
   defp size_class(params, _circle) when is_binary(params), do: [params]
