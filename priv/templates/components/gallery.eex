@@ -29,7 +29,7 @@ defmodule <%= @module %> do
   ## Examples
 
   ```elixir
-  <.gallery type="masonary" cols="four" gap="large">
+  <.gallery type="masonry" cols="four" gap="large">
     <.gallery_media src="https://example.com/gallery/masonry/image.jpg" />
     <.gallery_media src="https://example.com/gallery/masonry/image-2.jpg" />
     <.gallery_media src="https://example.com/gallery/masonry/image-3.jpg" />
@@ -47,7 +47,7 @@ defmodule <%= @module %> do
     default: nil,
     doc: "A unique identifier is used to manage state and interaction"
 
-  attr :type, :string, values: ["default", "masonary", "featured"], default: "default", doc: ""
+  attr :type, :string, values: ["default", "masonry", "featured"], default: "default", doc: ""
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :cols, :string, default: nil, doc: "Determines cols of elements"
   attr :gap, :string, default: nil, doc: "Determines gap between elements"
@@ -63,10 +63,10 @@ defmodule <%= @module %> do
     <div
       id={@id}
       class={[
-        (@type == "masonary" && "gallery-masonary") || "grid",
+        (@type == "masonry" && "gallery-masonry") || "grid",
         grid_gap(@gap),
-        @type == "masonary" && column_class(@cols),
-        grid_cols(@cols) != "masonary" && grid_cols(@cols),
+        @type == "masonry" && column_class(@cols),
+        grid_cols(@cols) != "masonry" && grid_cols(@cols),
         @class
       ]}
       {@rest}
@@ -186,14 +186,14 @@ defmodule <%= @module %> do
   defp column_class(params) when is_binary(params), do: params
   defp column_class(_), do: column_class("one")
 
-  defp grid_gap("extra_small"), do: "gap-1 [&.gallery-masonary_.gallery-media]:mb-1"
-  defp grid_gap("small"), do: "gap-2 [&.gallery-masonary_.gallery-media]:mb-2"
-  defp grid_gap("medium"), do: "gap-3 [&.gallery-masonary_.gallery-media]:mb-3"
-  defp grid_gap("large"), do: "gap-4 [&.gallery-masonary_.gallery-media]:mb-4"
-  defp grid_gap("extra_large"), do: "gap-5 [&.gallery-masonary_.gallery-media]:mb-5"
-  defp grid_gap("double_large"), do: "gap-6 [&.gallery-masonary_.gallery-media]:mb-6"
-  defp grid_gap("triple_large"), do: "gap-7 [&.gallery-masonary_.gallery-media]:mb-7"
-  defp grid_gap("quadruple_large"), do: "gap-8 [&.gallery-masonary_.gallery-media]:mb-8"
+  defp grid_gap("extra_small"), do: "gap-1 [&.gallery-masonry_.gallery-media]:mb-1"
+  defp grid_gap("small"), do: "gap-2 [&.gallery-masonry_.gallery-media]:mb-2"
+  defp grid_gap("medium"), do: "gap-3 [&.gallery-masonry_.gallery-media]:mb-3"
+  defp grid_gap("large"), do: "gap-4 [&.gallery-masonry_.gallery-media]:mb-4"
+  defp grid_gap("extra_large"), do: "gap-5 [&.gallery-masonry_.gallery-media]:mb-5"
+  defp grid_gap("double_large"), do: "gap-6 [&.gallery-masonry_.gallery-media]:mb-6"
+  defp grid_gap("triple_large"), do: "gap-7 [&.gallery-masonry_.gallery-media]:mb-7"
+  defp grid_gap("quadruple_large"), do: "gap-8 [&.gallery-masonry_.gallery-media]:mb-8"
   defp grid_gap(params) when is_binary(params), do: params
   defp grid_gap(_), do: nil
 end
