@@ -167,6 +167,7 @@ defmodule <%= @module %> do
             </div>
 
             <button
+              type="button"
               phx-click="cancel-upload"
               phx-value-ref={entry.ref}
               aria-label="cancel"
@@ -176,7 +177,7 @@ defmodule <%= @module %> do
             </button>
 
             <%%= for err <- upload_errors(@upload_error, entry) do %>
-              <p class="text-rose-600 font-medium text-xs mt-3">Error: <%%= err %></p>
+              <p class="text-rose-600 font-medium text-xs mt-3">Error: <%%= error_to_string(err) %></p>
             <%% end %>
           </div>
         <%% end %>
@@ -228,31 +229,44 @@ defmodule <%= @module %> do
 
       <.error :for={msg <- @errors} icon={@error_icon}><%%= msg %></.error>
 
+      <%%= for err <- upload_errors(@upload_error) do %>
+        <p class="text-rose-600 font-semibold text-sm my-5"><%%= error_to_string(err) %></p>
+      <%% end %>
+
       <div class="flex flex-wrap gap-3 my-3">
         <%%= for entry <- @entries do %>
-          <div class="relative">
+          <div>
+            <div class="relative">
             <div class="rounded w-24 h-24 overflow-hidden">
               <figure class="w-full h-full object-cover">
                 <.live_img_preview entry={entry} class="w-full h-full object-cover rounded" />
               </figure>
             </div>
 
-            <button class="bg-black/30 rounded p-px text-white flex justify-center items-center absolute top-2 right-2 z-10">
+            <button
+              type="button"
+              phx-click="cancel-upload"
+              phx-value-ref={entry.ref}
+              aria-label="cancel"
+              class="bg-black/30 rounded p-px text-white flex justify-center items-center absolute top-2 right-2 z-10"
+            >
               <.icon name="hero-x-mark" class="size-4" />
             </button>
+
+
             <div
               role="status"
               class="absolute top-1 left-1 bottom-1 right-1 bg-black/25 flex justify-center items-center"
             >
               <.spinner color="white" />
             </div>
+            </div>
+            <%%= for err <- upload_errors(@upload_error, entry) do %>
+              <p class="text-rose-600 font-medium text-xs mt-3">Error: <%%= error_to_string(err) %></p>
+            <%% end %>
           </div>
         <%% end %>
       </div>
-
-      <%%= for err <- upload_errors(@upload_error) do %>
-        <p class="text-rose-600 font-medium text-xs"><%%= error_to_string(err) %></p>
-      <%% end %>
     </div>
     """
   end
