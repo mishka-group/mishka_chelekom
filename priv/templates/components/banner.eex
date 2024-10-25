@@ -128,6 +128,9 @@ defmodule <%= @module %> do
   attr :vertical_position, :string, values: ["top", "bottom"], default: "top", doc: ""
   attr :vertical_size, :string, default: "none", doc: "Specifies the vertical size of the element"
 
+  attr :hide_dismiss, :boolean, default: false, doc: "Show or hide dismiss classes"
+  attr :dismiss_size, :string, values: @sizes, default: "small", doc: "Add custom classes to control dismiss sizes"
+
   attr :position, :string,
     values: @positions,
     default: "full",
@@ -182,7 +185,7 @@ defmodule <%= @module %> do
         <div>
           <%%= render_slot(@inner_block) %>
         </div>
-        <.banner_dismiss id={@id} params={@params} />
+        <.banner_dismiss :if={!@hide_dismiss} id={@id} dismiss_size={@dismiss_size} params={@params} />
       </div>
     </div>
     """
@@ -193,16 +196,9 @@ defmodule <%= @module %> do
     required: true,
     doc: "A unique identifier is used to manage state and interaction"
 
-  attr :dismiss, :boolean,
-    default: false,
-    doc: "Indicates if the element can be dismissed with a close button."
-
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
 
-  attr :size, :string,
-    default: "small",
-    doc:
-      "Determines the overall size of the elements, including padding, font size, and other items"
+  attr :dismiss_size, :string,values: @sizes, default: "small", doc: "Add custom classes to control dismiss sizes"
 
   attr :params, :map,
     default: %{kind: "badge"},
@@ -220,7 +216,7 @@ defmodule <%= @module %> do
         name="hero-x-mark-solid"
         class={[
           "banner-icon opacity-80 group-hover:opacity-70",
-          dismiss_size(@size),
+          dismiss_size(@dismiss_size),
           @class
         ]}
       />
