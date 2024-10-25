@@ -64,11 +64,6 @@ defmodule <%= @module %> do
     default: nil,
     doc: "A unique identifier is used to manage state and interaction"
 
-  attr :type, :string,
-    values: ["default", "placeholder", "placeholder_icon"],
-    default: "default",
-    doc: ""
-
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :src, :string, default: nil, doc: "Media link"
 
@@ -225,11 +220,6 @@ defmodule <%= @module %> do
   attr :id, :string,
     default: nil,
     doc: "A unique identifier is used to manage state and interaction"
-
-  attr :type, :string,
-    values: ["default", "placeholder", "placeholder_icon", nil],
-    default: "default",
-    doc: "Specifies the type of avatar group to be rendered"
 
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :space, :string, values: @sizes ++ ["none"], default: "medium", doc: "Space between items"

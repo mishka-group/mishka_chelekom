@@ -44,7 +44,7 @@ defmodule <%= @module %> do
   ```elixir
   <.chat>
     <.avatar
-      src="https://flowbite.com/docs/images/people/profile-picture-4.jpg"
+      src="example.com/images/1.jpg"
       size="extra_large"
       rounded="full"
       border="small"
@@ -198,9 +198,7 @@ defmodule <%= @module %> do
         <div :if={status[:deliver]} class="font-semibold"><%%= status[:deliver] %></div>
       </div>
 
-      <div :for={meta <- @meta} class="flex items-center justify-between gap-2 text-xs">
-        <%%= render_slot(meta) %>
-      </div>
+      <div :for={meta <- @meta}><%%= render_slot(meta) %></div>
     </div>
     """
   end

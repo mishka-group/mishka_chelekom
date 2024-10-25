@@ -165,7 +165,7 @@ defmodule <%= @module %> do
     <div
       id={@id}
       class={[
-        "overflow-hidden fixed",
+        "overflow-hidden fixed z-50",
         vertical_position(@vertical_size, @vertical_position),
         rounded_size(@rounded, @rounded_position),
         border_class(@border, @border_position),

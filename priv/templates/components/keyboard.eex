@@ -77,7 +77,7 @@ defmodule <%= @module %> do
     doc: "Determines the border radius"
 
   attr :font_weight, :string,
-    default: "font-semibold",
+    default: "font-normal",
     doc: "Determines custom class for the font weight"
 
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
@@ -209,7 +209,7 @@ defmodule <%= @module %> do
   <%= if is_nil(@variant) or "outline" in @variant do %>
   <%= if is_nil(@color) or "white" in @color do %>
   defp color_variant("outline", "white") do
-    "bg-transparent text-white border-white"
+    "bg-transparent text-white border border-white"
   end
   <% end %>
   <%= if is_nil(@color) or "primary" in @color do %>

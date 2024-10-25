@@ -302,11 +302,11 @@ defmodule <%= @module %> do
   defp boder_position(params) when is_binary(params), do: params
   defp boder_position(_), do: boder_position("start")
 
-  defp content_border("extra_small"), do: "before:w-0.5"
-  defp content_border("small"), do: "before:w-1"
-  defp content_border("medium"), do: "before:w-1.5"
-  defp content_border("large"), do: "before:w-2"
-  defp content_border("extra_large"), do: "before:w-2.5"
+  defp content_border("extra_small"), do: "before:w-px"
+  defp content_border("small"), do: "before:w-0.5"
+  defp content_border("medium"), do: "before:w-[3px]"
+  defp content_border("large"), do: "before:w-1"
+  defp content_border("extra_large"), do: "before:w-[5px]"
   defp content_border("none"), do: "before:content-none"
   defp content_border(params) when is_binary(params), do: params
   defp content_border(_), do: content_border("none")
