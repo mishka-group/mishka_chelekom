@@ -53,6 +53,7 @@ defmodule MishkaChelekom.MixProject do
       licenses: ["Apache-2.0"],
       maintainers: ["Shahryar Tavakkoli", "Mona Aghili", "Arian Alijani"],
       links: %{
+        "Chelekom" => "https://mishka.tools/chelekom",
         "Official document" => "https://mishka.tools/chelekom/docs",
         "GitHub" => @source_url,
         "Changelog" => "#{@source_url}/blob/master/CHANGELOG.md"

@@ -186,7 +186,7 @@ defmodule <%= @module %> do
       phx-mounted={
         is_nil(@csp_nonce) &&
           JS.set_attribute(
-            {"aria-style",
+            {"style",
              (@variation == "horizontal" && "width: #{@value}%;") || "height: #{@value}%;"}
           )
       }
