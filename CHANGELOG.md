@@ -8,6 +8,7 @@
 ### Bugs:
 - Fix un-CSP progress mounted #72
 - Fix Adjust spacing for checkbox and radio fields #73
+- Fix modal title `default: nil` value #76
 
 
 ---
