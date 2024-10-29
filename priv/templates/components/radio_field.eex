@@ -284,19 +284,19 @@ defmodule <%= @module %> do
   defp border_class(_), do: border_class("extra_small")
 
   <%= if is_nil(@space) or "extra_small" in @space do %>
-  defp space_class("extra_small"), do: "[&_.radio-field-wrapper]:space-x-1"
+  defp space_class("extra_small"), do: "[&_.radio-field-wrapper]:gap-1"
   <% end %>
   <%= if is_nil(@space) or "small" in @space do %>
-  defp space_class("small"), do: "[&_.radio-field-wrapper]:space-x-1.5"
+  defp space_class("small"), do: "[&_.radio-field-wrapper]:gap-1.5"
   <% end %>
   <%= if is_nil(@space) or "medium" in @space do %>
-  defp space_class("medium"), do: "[&_.radio-field-wrapper]:space-x-2"
+  defp space_class("medium"), do: "[&_.radio-field-wrapper]:gap-2"
   <% end %>
   <%= if is_nil(@space) or "large" in @space do %>
-  defp space_class("large"), do: "[&_.radio-field-wrapper]:space-x-2.5"
+  defp space_class("large"), do: "[&_.radio-field-wrapper]:gap-2.5"
   <% end %>
   <%= if is_nil(@space) or "extra_large" in @space do %>
-  defp space_class("extra_large"), do: "[&_.radio-field-wrapper]:space-x-3"
+  defp space_class("extra_large"), do: "[&_.radio-field-wrapper]:gap-3"
   <% end %>
   defp space_class(params) when is_binary(params), do: params
   <%= if is_nil(@space) or "medium" in @space do %>
