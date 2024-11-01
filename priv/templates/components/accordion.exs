@@ -6,7 +6,7 @@
         "default",
         "contained",
         "filled",
-        "seperated",
+        "separated",
         "tinted_split",
         "transparent",
         "menu"

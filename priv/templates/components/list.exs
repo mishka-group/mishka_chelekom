@@ -2,7 +2,7 @@
   list: [
     name: "list",
     args: [
-      variant: ["default", "filled", "outline", "seperated", "tinted_split", "transparent"],
+      variant: ["default", "filled", "outline", "separated", "tinted_split", "transparent"],
       color: [
         "white",
         "primary",

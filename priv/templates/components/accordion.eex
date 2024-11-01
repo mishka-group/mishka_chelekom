@@ -31,7 +31,7 @@ defmodule <%= @module %> do
     "default",
     "contained",
     "filled",
-    "seperated",
+    "separated",
     "tinted_split",
     "transparent",
     "menu"
@@ -504,7 +504,7 @@ defmodule <%= @module %> do
     |> JS.remove_class("active-accordion-button", to: "##{id}-role-button")
   end
   <% end %>
-  defp space_class(_, variant) when variant not in ["seperated", "tinted_split"], do: nil
+  defp space_class(_, variant) when variant not in ["separated", "tinted_split"], do: nil
   <%= if is_nil(@space) or "extra_small" in @space do %>
   defp space_class("extra_small", _), do: "accordion-item-gap space-y-2"
   <% end %>
@@ -1179,9 +1179,9 @@ defmodule <%= @module %> do
   end
   <% end %>
   <% end %>
-  <%= if is_nil(@variant) or "seperated" in @variant do %>
+  <%= if is_nil(@variant) or "separated" in @variant do %>
   <%= if is_nil(@color) or "white" in @color do %>
-  defp color_variant("seperated", "white") do
+  defp color_variant("separated", "white") do
     [
       "[&>.accordion-item-wrapper]:bg-white",
       "[&>.accordion-item-wrapper]:border [&>.accordion-item-wrapper]:border-[#DADADA]"
@@ -1189,7 +1189,7 @@ defmodule <%= @module %> do
   end
   <% end %>
   <%= if is_nil(@color) or "primary" in @color do %>
-  defp color_variant("seperated", "primary") do
+  defp color_variant("separated", "primary") do
     [
       "[&>.accordion-item-wrapper]:bg-white",
       "[&>.accordion-item-wrapper]:border [&>.accordion-item-wrapper]:border-[#4363EC]"
@@ -1197,7 +1197,7 @@ defmodule <%= @module %> do
   end
   <% end %>
   <%= if is_nil(@color) or "secondary" in @color do %>
-  defp color_variant("seperated", "secondary") do
+  defp color_variant("separated", "secondary") do
     [
       "[&>.accordion-item-wrapper]:bg-white",
       "[&>.accordion-item-wrapper]:border [&>.accordion-item-wrapper]:border-[#6B6E7C]"
@@ -1205,7 +1205,7 @@ defmodule <%= @module %> do
   end
   <% end %>
   <%= if is_nil(@color) or "success" in @color do %>
-  defp color_variant("seperated", "success") do
+  defp color_variant("separated", "success") do
     [
       "[&>.accordion-item-wrapper]:bg-white",
       "[&>.accordion-item-wrapper]:border [&>.accordion-item-wrapper]:border-[#227A52]"
@@ -1213,7 +1213,7 @@ defmodule <%= @module %> do
   end
   <% end %>
   <%= if is_nil(@color) or "warning" in @color do %>
-  defp color_variant("seperated", "warning") do
+  defp color_variant("separated", "warning") do
     [
       "[&>.accordion-item-wrapper]:bg-white",
       "[&>.accordion-item-wrapper]:border [&>.accordion-item-wrapper]:border-[#FF8B08]"
@@ -1221,7 +1221,7 @@ defmodule <%= @module %> do
   end
   <% end %>
   <%= if is_nil(@color) or "danger" in @color do %>
-  defp color_variant("seperated", "danger") do
+  defp color_variant("separated", "danger") do
     [
       "[&>.accordion-item-wrapper]:bg-white",
       "[&>.accordion-item-wrapper]:border [&>.accordion-item-wrapper]:border-[#E73B3B]"
@@ -1229,7 +1229,7 @@ defmodule <%= @module %> do
   end
   <% end %>
   <%= if is_nil(@color) or "info" in @color do %>
-  defp color_variant("seperated", "info") do
+  defp color_variant("separated", "info") do
     [
       "[&>.accordion-item-wrapper]:bg-white",
       "[&>.accordion-item-wrapper]:border [&>.accordion-item-wrapper]:border-[#004FC4]"
@@ -1237,7 +1237,7 @@ defmodule <%= @module %> do
   end
   <% end %>
   <%= if is_nil(@color) or "misc" in @color do %>
-  defp color_variant("seperated", "misc") do
+  defp color_variant("separated", "misc") do
     [
       "[&>.accordion-item-wrapper]:bg-white",
       "[&>.accordion-item-wrapper]:border [&>.accordion-item-wrapper]:border-[#52059C]"
@@ -1245,7 +1245,7 @@ defmodule <%= @module %> do
   end
   <% end %>
   <%= if is_nil(@color) or "dawn" in @color do %>
-  defp color_variant("seperated", "dawn") do
+  defp color_variant("separated", "dawn") do
     [
       "[&>.accordion-item-wrapper]:bg-white",
       "[&>.accordion-item-wrapper]:border [&>.accordion-item-wrapper]:border-[#4D4137]"
@@ -1253,7 +1253,7 @@ defmodule <%= @module %> do
   end
   <% end %>
   <%= if is_nil(@color) or "light" in @color do %>
-  defp color_variant("seperated", "light") do
+  defp color_variant("separated", "light") do
     [
       "[&>.accordion-item-wrapper]:bg-white",
       "[&>.accordion-item-wrapper]:border [&>.accordion-item-wrapper]:border-[#707483]"
@@ -1261,7 +1261,7 @@ defmodule <%= @module %> do
   end
   <% end %>
   <%= if is_nil(@color) or "dark" in @color do %>
-  defp color_variant("seperated", "dark") do
+  defp color_variant("separated", "dark") do
     [
       "[&>.accordion-item-wrapper]:bg-white",
       "[&>.accordion-item-wrapper]:border [&>.accordion-item-wrapper]:border-[#1E1E1E]"
@@ -1664,79 +1664,79 @@ defmodule <%= @module %> do
   end
   <% end %>
   <% end %>
-  <%= if is_nil(@variant) or "seperated" in @variant do %>
+  <%= if is_nil(@variant) or "separated" in @variant do %>
   <%= if is_nil(@color) or "white" in @color do %>
-  defp item_color("seperated", "white") do
+  defp item_color("separated", "white") do
     [
       "group-open:bg-white"
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "primary" in @color do %>
-  defp item_color("seperated", "primary") do
+  defp item_color("separated", "primary") do
     [
       "group-open:bg-white"
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "secondary" in @color do %>
-  defp item_color("seperated", "secondary") do
+  defp item_color("separated", "secondary") do
     [
       "group-open:bg-white"
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "success" in @color do %>
-  defp item_color("seperated", "success") do
+  defp item_color("separated", "success") do
     [
       "group-open:bg-white"
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "warning" in @color do %>
-  defp item_color("seperated", "warning") do
+  defp item_color("separated", "warning") do
     [
       "group-open:bg-white"
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "danger" in @color do %>
-  defp item_color("seperated", "danger") do
+  defp item_color("separated", "danger") do
     [
       "group-open:bg-white"
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "info" in @color do %>
-  defp item_color("seperated", "info") do
+  defp item_color("separated", "info") do
     [
       "group-open:bg-white"
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "misc" in @color do %>
-  defp item_color("seperated", "misc") do
+  defp item_color("separated", "misc") do
     [
       "group-open:bg-white"
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "dawn" in @color do %>
-  defp item_color("seperated", "dawn") do
+  defp item_color("separated", "dawn") do
     [
       "group-open:bg-white"
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "light" in @color do %>
-  defp item_color("seperated", "light") do
+  defp item_color("separated", "light") do
     [
       "group-open:bg-white"
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "dark" in @color do %>
-  defp item_color("seperated", "dark") do
+  defp item_color("separated", "dark") do
     [
       "group-open:bg-white"
     ]
