@@ -128,6 +128,7 @@ defmodule <%= @module %> do
     assigns
     |> assign(field: nil, id: assigns.id || field.id)
     |> assign(:errors, Enum.map(errors, &translate_error(&1)))
+    |> assign_new(:name, fn -> field.name end)
     |> assign_new(:value, fn -> field.value end)
     |> textarea_field()
   end
@@ -163,7 +164,7 @@ defmodule <%= @module %> do
           ]}
           placeholder=" "
           {@rest}
-        ></textarea>
+        ><%%= Phoenix.HTML.Form.normalize_value("textarea", @value) %></textarea>
 
         <label
           class={[
@@ -215,7 +216,7 @@ defmodule <%= @module %> do
             @disable_resize && "resize-none"
           ]}
           {@rest}
-        ></textarea>
+        ><%= Phoenix.HTML.Form.normalize_value("textarea", @value) %></textarea>
       </div>
 
       <.error :for={msg <- @errors} icon={@error_icon}><%%= msg %></.error>
