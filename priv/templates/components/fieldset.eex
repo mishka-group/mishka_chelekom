@@ -109,7 +109,7 @@ defmodule <%= @module %> do
       @class
     ]}>
       <fieldset class="fieldset-field">
-        <legend :if={@legend} for={@id}>{@legend}</legend>
+        <legend :if={@legend} for={@id}><%= @legend %></legend>
 
         <div :for={{control, index} <- Enum.with_index(@control, 1)} id={"#{@id}-control-#{index}"}>
           <%%= render_slot(control) %>
