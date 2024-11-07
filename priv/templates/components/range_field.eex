@@ -100,8 +100,7 @@ defmodule <%= @module %> do
   attr :field, Phoenix.HTML.FormField, doc: "a form field struct retrieved from the form"
 
   attr :rest, :global,
-    include:
-      ~w(autocomplete disabled form checked multiple readonly min max step required title autofocus),
+    include: ~w(autocomplete disabled form readonly min max step required title autofocus),
     doc:
       "Global attributes can define defaults which are merged with attributes provided by the caller"
 
@@ -117,6 +116,7 @@ defmodule <%= @module %> do
     assigns
     |> assign(field: nil, id: assigns.id || field.id)
     |> assign(:errors, Enum.map(errors, &translate_error(&1)))
+    |> assign_new(:name, fn -> field.name end)
     |> assign_new(:value, fn -> field.value end)
     |> range_field()
   end
