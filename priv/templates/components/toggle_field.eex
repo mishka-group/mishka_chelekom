@@ -11,6 +11,7 @@ defmodule <%= @module %> do
   Phoenix LiveView applications, enabling dynamic interactions.
   """
   use Phoenix.Component
+  alias Phoenix.HTML.Form
 
   @colors [
     "white",
@@ -58,7 +59,7 @@ defmodule <%= @module %> do
     doc:
       "Determines the overall size of the elements, including padding, font size, and other items"
 
-  attr :checked, :boolean, default: false, doc: ""
+  attr :checked, :boolean, doc: ""
 
   attr :ring, :boolean,
     default: true,
@@ -71,13 +72,12 @@ defmodule <%= @module %> do
 
   attr :errors, :list, default: [], doc: "List of error messages to be displayed"
   attr :name, :any, doc: "Name of input"
-  attr :value, :any, doc: "Value of input"
+  attr :value, :any, default: nil
 
   attr :field, Phoenix.HTML.FormField, doc: "a form field struct retrieved from the form"
 
   attr :rest, :global,
-    include:
-      ~w(autocomplete disabled form indeterminate checked multiple readonly required title autofocus),
+    include: ~w(autocomplete disabled form indeterminate readonly required title autofocus),
     doc:
       "Global attributes can define defaults which are merged with attributes provided by the caller"
 
@@ -88,11 +88,17 @@ defmodule <%= @module %> do
     assigns
     |> assign(field: nil, id: assigns.id || field.id)
     |> assign(:errors, Enum.map(errors, &translate_error(&1)))
+    |> assign_new(:name, fn -> field.name end)
     |> assign_new(:value, fn -> field.value end)
     |> toggle_field()
   end
 
   def toggle_field(assigns) do
+    assigns =
+      assign_new(assigns, :checked, fn ->
+        Phoenix.HTML.Form.normalize_value("checkbox", assigns[:value])
+      end)
+
     ~H"""
     <div class={[
       size_class(@size),
@@ -106,15 +112,24 @@ defmodule <%= @module %> do
       </div>
       <label for={@id} class="flex items-center cursor-pointer select-none w-fit">
         <div class="relative toggle-field-wrapper">
-          <input type="checkbox" checked={@checked} id={@id} class="peer sr-only" />
-          <div class={[
-            "rounded-full bg-[#e6e6e6] transition-all ease-in-out duration-500 toggle-field-base",
-            color_class(@color)
-          ]}>
-          </div>
+          <input type="hidden" name={@name} value="false" disabled={@rest[:disabled]} />
+          <input
+            type="checkbox"
+            checked={@checked}
+            id={@id}
+            name={@name}
+            value="true"
+            class="peer sr-only"
+            {@rest}
+          />
           <div class={[
             "toggle-field-circle absolute transition-all ease-in-out duration-500 bg-white",
             "rounded-full top-1 peer-checked:translate-x-full left-1"
+          ]}>
+          </div>
+          <div class={[
+            "rounded-full bg-[#e6e6e6] transition-all ease-in-out duration-500 toggle-field-base",
+            color_class(@color)
           ]}>
           </div>
         </div>
@@ -123,6 +138,14 @@ defmodule <%= @module %> do
       <.error :for={msg <- @errors} icon={@error_icon}><%%= msg %></.error>
     </div>
     """
+  end
+
+  def toggle_check(field, %{params: params, data: data} = _form) do
+    if params[Atom.to_string(field)] do
+      Form.normalize_value("checkbox", params[Atom.to_string(field)])
+    else
+      Map.get(data, field, false)
+    end
   end
 
   @doc type: :component
