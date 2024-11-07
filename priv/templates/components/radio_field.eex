@@ -15,6 +15,7 @@ defmodule <%= @module %> do
   development of dynamic and interactive form elements in a clean and organized manner.
   """
   use Phoenix.Component
+  alias Phoenix.HTML.Form
 
   @doc """
   Renders a `radio_field` component. This component allows users to select a single option from
@@ -81,7 +82,7 @@ defmodule <%= @module %> do
   attr :field, Phoenix.HTML.FormField, doc: "a form field struct retrieved from the form"
 
   attr :rest, :global,
-    include: ~w(autocomplete disabled form checked multiple readonly required title autofocus),
+    include: ~w(autocomplete disabled form checked readonly required title autofocus),
     doc:
       "Global attributes can define defaults which are merged with attributes provided by the caller"
 
@@ -92,6 +93,7 @@ defmodule <%= @module %> do
     assigns
     |> assign(field: nil, id: assigns.id || field.id)
     |> assign(:errors, Enum.map(errors, &translate_error(&1)))
+    |> assign_new(:name, fn -> field.name end)
     |> assign_new(:value, fn -> field.value end)
     |> radio_field()
   end
@@ -112,6 +114,7 @@ defmodule <%= @module %> do
           type="radio"
           name={@name}
           id={@id}
+          value={@value}
           checked={@checked}
           class={[
             "bg-white radio-input rounded-full"
@@ -179,6 +182,8 @@ defmodule <%= @module %> do
     doc:
       "Global attributes can define defaults which are merged with attributes provided by the caller"
 
+  attr :field, Phoenix.HTML.FormField, doc: "a form field struct retrieved from the form"
+
   slot :radio, required: true do
     attr :value, :string, required: true
     attr :checked, :boolean, required: false
@@ -187,14 +192,27 @@ defmodule <%= @module %> do
 
   slot :inner_block
 
+  @spec group_radio(map()) :: Phoenix.LiveView.Rendered.t()
+  def group_radio(%{field: %Phoenix.HTML.FormField{} = field} = assigns) do
+    errors = if Phoenix.Component.used_input?(field), do: field.errors, else: []
+    assigns
+    |> assign(field: nil, id: assigns.id || field.id)
+    |> assign(:errors, Enum.map(errors, &translate_error(&1)))
+    |> assign_new(:name, fn -> field.name end)
+    |> assign_new(:value, fn -> field.value end)
+    |> group_radio()
+  end
+
   def group_radio(assigns) do
     ~H"""
     <div class={[
       @variation == "horizontal" && "flex flex-wrap items-center",
-      variation_gap(@space, @variation),
+      @variation == "vetrical" && "flex flex-col",
+      variation_gap(@space),
       @class
     ]}>
       <%%= render_slot(@inner_block) %>
+      <input type="hidden" name={@name} value="" disabled={@rest[:disabled]} />
       <div
         :for={{radio, index} <- Enum.with_index(@radio, 1)}
         class={[
@@ -214,7 +232,9 @@ defmodule <%= @module %> do
             type="radio"
             name={@name}
             id={"#{@id}-#{index}"}
+            value={radio[:value]}
             checked={radio[:checked]}
+            class={["bg-white radio-input rounded-full"]}
             class={[
               "bg-white radio-input rounded-full"
             ]}
@@ -226,6 +246,22 @@ defmodule <%= @module %> do
     </div>
     <.error :for={msg <- @errors} icon={@error_icon}><%%= msg %></.error>
     """
+  end
+
+  def radio_check(:list, {field, value}, %{params: params, data: data} = _form) do
+    if params[Atom.to_string(field)] do
+      new_value = if is_atom(value), do: Atom.to_string(value), else: value
+      new_value == params[Atom.to_string(field)]
+    else
+      Map.get(data, field) == value
+    end
+  end
+  def radio_check(:boolean, field, %{params: params, data: data} = _form) do
+    if params[Atom.to_string(field)] do
+      Form.normalize_value("radio", params[Atom.to_string(field)])
+    else
+      Map.get(data, field, false)
+    end
   end
 
   @doc type: :component
@@ -303,20 +339,14 @@ defmodule <%= @module %> do
   defp space_class(_), do: space_class("medium")
   <% end %>
 
-  defp variation_gap("extra_small", "vertical"), do: "space-y-1"
-  defp variation_gap("small", "vertical"), do: "space-y-2"
-  defp variation_gap("medium", "vertical"), do: "space-y-3"
-  defp variation_gap("large", "vertical"), do: "space-y-4"
-  defp variation_gap("extra_large", "vertical"), do: "space-y-5"
+  defp variation_gap("extra_small"), do: "gap-1"
+  defp variation_gap("small"), do: "gap-2"
+  defp variation_gap("medium"), do: "gap-3"
+  defp variation_gap("large"), do: "gap-4"
+  defp variation_gap("extra_large"), do: "gap-5"
 
-  defp variation_gap("extra_small", "horizontal"), do: "space-x-1"
-  defp variation_gap("small", "horizontal"), do: "space-x-2"
-  defp variation_gap("medium", "horizontal"), do: "space-x-3"
-  defp variation_gap("large", "horizontal"), do: "space-x-4"
-  defp variation_gap("extra_large", "horizontal"), do: "space-x-5"
-
-  defp variation_gap(_, params) when is_binary(params), do: params
-  defp variation_gap(_, _), do: variation_gap("medium", "vertical")
+  defp variation_gap(params) when is_binary(params), do: params
+  defp variation_gap(_), do: variation_gap("medium")
 
   <%= if is_nil(@color) or "white" in @color do %>
   defp color_class("white") do
