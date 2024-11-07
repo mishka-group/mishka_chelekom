@@ -124,11 +124,11 @@ defmodule <%= @module %> do
       @class
     ]}>
       <.label class={["checkbox-field-wrapper flex items-center w-fit", @label_class]} for={@id}>
-        <%= if @value in ["true", "false"] do %>
+        <%%= if @value in ["true", "false"] do %>
           <input type="hidden" name={@name} value="false" disabled={@rest[:disabled]} />
-        <% else %>
+        <%% else %>
           <input type="hidden" name={@name} value="" disabled={@rest[:disabled]} />
-        <% end %>
+        <%% end %>
 
         <input
           type="checkbox"
