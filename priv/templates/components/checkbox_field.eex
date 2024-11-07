@@ -234,7 +234,7 @@ defmodule <%= @module %> do
       variation_gap(@space),
       @class
     ]}>
-      <%= render_slot(@inner_block) %>
+      <%%= render_slot(@inner_block) %>
       <input type="hidden" name={@name} value="" disabled={@rest[:disabled]} />
       <div
         :for={{checkbox, index} <- Enum.with_index(@checkbox, 1)}
