@@ -216,7 +216,7 @@ defmodule <%= @module %> do
             @disable_resize && "resize-none"
           ]}
           {@rest}
-        ><%= Phoenix.HTML.Form.normalize_value("textarea", @value) %></textarea>
+        ><%%= Phoenix.HTML.Form.normalize_value("textarea", @value) %></textarea>
       </div>
 
       <.error :for={msg <- @errors} icon={@error_icon}><%%= msg %></.error>
