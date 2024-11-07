@@ -101,6 +101,9 @@ defmodule <%= @module %> do
     assigns
     |> assign(field: nil, id: assigns.id || field.id)
     |> assign(:errors, Enum.map(errors, &translate_error(&1)))
+    |> assign_new(:name, fn ->
+      if assigns.rest[:multiple], do: field.name <> "[]", else: field.name
+    end)
     |> assign_new(:value, fn -> field.value end)
     |> file_field()
   end
@@ -128,6 +131,7 @@ defmodule <%= @module %> do
           "dropzone-wrapper group flex flex-col items-center justify-center w-full cursor-pointer"
         ]}
         phx-drop-target={@upload.ref}
+        for={@id}
       >
         <div class="flex flex-col gap-3 items-center justify-center pt-5 pb-6">
           <.icon name={@dropzone_icon} class="size-14" />
@@ -139,7 +143,7 @@ defmodule <%= @module %> do
             <%%= @dropzone_description %>
           </div>
         </div>
-        <.live_file_input upload={@upload} class="hidden" />
+        <.live_file_input id={@id} upload={@upload} class="hidden" />
       </label>
 
       <.error :for={msg <- @errors} icon={@error_icon}><%%= msg %></.error>
@@ -213,6 +217,7 @@ defmodule <%= @module %> do
           "dropzone-wrapper group flex flex-col items-center justify-center w-full cursor-pointer"
         ]}
         phx-drop-target={@upload.ref}
+        for={@id}
       >
         <div class="flex flex-col gap-3 items-center justify-center pt-5 pb-6">
           <.icon name={@dropzone_icon} class="size-14" />
@@ -224,7 +229,7 @@ defmodule <%= @module %> do
             <%%= @dropzone_description %>
           </div>
         </div>
-        <.live_file_input upload={@upload} class="hidden" />
+        <.live_file_input id={@id} upload={@upload} class="hidden" />
       </label>
 
       <.error :for={msg <- @errors} icon={@error_icon}><%%= msg %></.error>
@@ -284,6 +289,7 @@ defmodule <%= @module %> do
       <%%= if @live do %>
         <.live_file_input
           upload={@upload}
+          id={@id}
           class={[
             "file-field block w-full cursor-pointer focus:outline-none file:border-0 file:cursor-pointer",
             "file:py-3 file:px-8 file:font-bold file:-ms-4 file:me-4"
@@ -292,6 +298,8 @@ defmodule <%= @module %> do
         />
       <%% else %>
         <input
+          name={@name}
+          id={@id}
           class={[
             "file-field block w-full cursor-pointer focus:outline-none file:border-0 file:cursor-pointer",
             "file:py-3 file:px-8 file:font-bold file:-ms-4 file:me-4"
