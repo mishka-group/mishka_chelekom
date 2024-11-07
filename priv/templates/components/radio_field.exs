@@ -18,6 +18,7 @@
       size: ["extra_small", "small", "medium", "large", "extra_large"],
       space: ["extra_small", "small", "medium", "large", "extra_large"],
       only: ["radio_field"],
+      helper: [checkbox_check: 3],
       module: ""
     ],
     optional: [],
