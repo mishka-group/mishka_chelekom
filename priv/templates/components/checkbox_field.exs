@@ -20,6 +20,7 @@
       space: ["extra_small", "small", "medium", "large", "extra_large"],
       type: ["checkbox_field", "group_checkbox"],
       only: ["checkbox_field", "group_checkbox"],
+      helper: [checkbox_check: 3],
       module: ""
     ],
     optional: [],
