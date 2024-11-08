@@ -93,6 +93,7 @@ defmodule Mix.Tasks.Mishka.Ui.Add do
         field(:type, list(String.t()), derive: "validate(list)", default: [])
         field(:rounded, list(String.t()), derive: "validate(list)", default: [])
         field(:only, list(String.t()), derive: "validate(list)", default: [])
+        field(:helpers, list(String.t()), derive: "validate(list)", default: [])
 
         field(:module, String.t(), derive: "validate(string)", default: "")
       end
@@ -142,52 +143,55 @@ defmodule Mix.Tasks.Mishka.Ui.Add do
 
     IO.puts(IO.ANSI.blue() <> String.trim_trailing(msg) <> IO.ANSI.reset())
 
-    _file_url = repo_url(repo) |> IO.inspect()
+    {url, igniter} = repo_url(repo, igniter)
+    # resp = Req.get!("https://fancy-mountain-ac66.mishka.workers.dev")
 
-    resp = Req.get!("https://fancy-mountain-ac66.mishka.workers.dev")
+    if url != "none_url_error" do
+      Req.get!(url).body
+      |> __MODULE__.builder()
+      |> case do
+        {:ok, params} ->
+          params = Map.merge(params, %{from: String.trim(repo)})
 
-    resp.body
-    |> __MODULE__.builder()
-    |> case do
-      {:ok, params} ->
-        params = Map.merge(params, %{from: String.trim(repo)})
+          Enum.reduce(params.files, igniter, fn item, acc ->
+            args =
+              if is_struct(item.args),
+                do:
+                  item.args
+                  |> Map.from_struct()
+                  |> Map.to_list()
+                  |> Enum.reject(&(match?({_, []}, &1) and elem(&1, 0) not in [:only, :helpers]))
+                  |> Enum.sort(),
+                else: []
 
-        Enum.reduce(params.files, igniter, fn item, acc ->
-          args =
-            if is_struct(item.args),
-              do:
-                item.args
-                |> Map.from_struct()
-                |> Map.to_list()
-                |> Enum.reject(&match?({_, []}, &1))
-                |> Enum.sort(),
-              else: []
+            direct_path =
+              File.cwd!()
+              |> Path.join(["priv", "/mishka_chelekom", "/#{item.type}s", "/#{item.name}"])
 
-          direct_path =
-            File.cwd!()
-            |> Path.join(["priv", "/mishka_chelekom", "/#{item.type}s", "/#{item.name}"])
+            config =
+              [
+                {String.to_atom(item.name),
+                 [
+                   name: item.name,
+                   args: args,
+                   optional: item.necessary,
+                   necessary: item.optional
+                 ]}
+              ]
+              |> Enum.into([])
 
-          config =
-            [
-              {String.to_atom(item.name),
-               [
-                 name: item.name,
-                 args: args,
-                 optional: item.necessary,
-                 necessary: item.optional
-               ]}
-            ]
-            |> Enum.into([])
+            acc
+            |> Igniter.create_new_file(direct_path <> ".eex", item.content, on_exists: :overwrite)
+            |> Igniter.create_new_file(direct_path <> ".exs", "#{inspect(config)}",
+              on_exists: :overwrite
+            )
+          end)
 
-          acc
-          |> Igniter.create_new_file(direct_path <> ".eex", item.content, on_exists: :overwrite)
-          |> Igniter.create_new_file(direct_path <> ".exs", "#{inspect(config)}",
-            on_exists: :overwrite
-          )
-        end)
-
-      {:error, errors} ->
-        show_errors(igniter, errors)
+        {:error, errors} ->
+          show_errors(igniter, errors)
+      end
+    else
+      igniter
     end
 
     # TODO: Mix tasks must can create it as a component
@@ -294,23 +298,27 @@ defmodule Mix.Tasks.Mishka.Ui.Add do
     |> Enum.join("\n")
   end
 
-  defp repo_url("component-" <> _file_name) do
+  defp repo_url("component-" <> _file_name, _igniter) do
     nil
   end
 
-  defp repo_url("preset-" <> _file_name) do
+  defp repo_url("preset-" <> _file_name, _igniter) do
     nil
   end
 
-  defp repo_url("template-" <> _file_name) do
+  defp repo_url("template-" <> _file_name, _igniter) do
     nil
   end
 
-  defp repo_url(repo) do
+  defp repo_url(repo, igniter) do
     ValidationDerive.validate(:url, repo, :repo)
     |> case do
-      {:error, :repo, :url, _msg} -> nil
-      url when is_binary(url) -> nil
+      {:error, :repo, :url, msg} ->
+        {"none_url_error",
+         show_errors(igniter, %{fields: :repo, message: msg, action: :get_repo})}
+
+      url when is_binary(url) ->
+        {url, igniter}
     end
   end
 end
