@@ -110,7 +110,7 @@ We appreciate any contribution to MishkaChelekom. Just create a PR!! 🎉🥳
 
 # Donate
 
-If the project was useful for you, the only way you can donate to me is the following ways
+You can support this project through the "[Sponsor](https://github.com/sponsors/mishka-group)" button on GitHub or via cryptocurrency donations. All our projects are **open-source** and **free**, and we rely on community contributions to enhance and improve them further.
 
 | **BTC**                                                                                                                            | **ETH**                                                                                                                            | **DOGE**                                                                                                                           | **TRX**                                                                                                                            |
 | ---------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------- |
