@@ -12,18 +12,16 @@
         "default_gradient",
         "outline_gradient",
         "inverted_gradient",
-        "unbordered"
       ],
       color: [
-        "white",
+        "natural",
         "primary",
         "secondary",
-        "dark",
         "success",
         "warning",
         "danger",
         "info",
-        "light",
+        "silver",
         "misc",
         "dawn",
         "transparent"
