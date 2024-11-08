@@ -220,7 +220,7 @@ defmodule <%= @module %> do
             color_variant(@variant, @color),
             content_position(@content_position),
             rounded_size(@rounded),
-            border_size(@border),
+            border_size(@border, @variant),
             @font_weight,
             @display,
             @class
@@ -302,7 +302,7 @@ defmodule <%= @module %> do
             color_variant(@variant, @color),
             content_position(@content_position),
             rounded_size(@rounded),
-            border_size(@border),
+            border_size(@border, @variant),
             @font_weight,
             @display,
             @class
@@ -392,7 +392,7 @@ defmodule <%= @module %> do
           [
             color_variant(@variant, @color),
             rounded_size(@rounded),
-            border_size(@border),
+            border_size(@border, @variant),
             @font_weight,
             @display,
             @class
@@ -420,7 +420,7 @@ defmodule <%= @module %> do
           [
             color_variant(@variant, @color),
             rounded_size(@rounded),
-            border_size(@border),
+            border_size(@border, @variant),
             @font_weight,
             @class
           ]
@@ -447,7 +447,7 @@ defmodule <%= @module %> do
           [
             color_variant(@variant, @color),
             rounded_size(@rounded),
-            border_size(@border),
+            border_size(@border, @variant),
             @font_weight,
             @class
           ]
@@ -578,15 +578,15 @@ defmodule <%= @module %> do
     """
   end
 
-  defp border_size(_, variant) when variant in ["default", "sahdow", "transparent", "subtle", "default_gradient", "outline_gradient", "inverted_gradient"], do: nil
-  defp border_size("none"), do: nil
-  defp border_size("extra_small"), do: "border"
-  defp border_size("small"), do: "border-2"
-  defp border_size("medium"), do: "border-[3px]"
-  defp border_size("large"), do: "border-4"
-  defp border_size("extra_large"), do: "border-[5px]"
-  defp border_size(params) when is_binary(params), do: params
-  defp border_size(_), do: border_size("extra_small")
+  defp border_size(_, variant) when variant in ["default", "shadow", "transparent", "subtle", "default_gradient", "outline_gradient", "inverted_gradient"], do: nil
+  defp border_size("none",_), do: nil
+  defp border_size("extra_small",_), do: "border"
+  defp border_size("small",_), do: "border-2"
+  defp border_size("medium",_), do: "border-[3px]"
+  defp border_size("large",_), do: "border-4"
+  defp border_size("extra_large",_), do: "border-[5px]"
+  defp border_size(params,_) when is_binary(params), do: params
+  defp border_size(_,_), do: border_size("extra_small", nil)
 
   <%= if is_nil(@variant) or "default" in @variant do %>
   <%= if is_nil(@color) or "natural" in @color do %>
