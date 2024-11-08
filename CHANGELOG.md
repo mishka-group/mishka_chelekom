@@ -1,6 +1,7 @@
 # Changelog for MishkaChelekom 0.0.2
 
 ### Features:
+- Add dark mode and fix issues of gradient variants of button component #91
 
 ### Refactors:
 - Fix Adjust spacing for checkbox and radio fields #73
