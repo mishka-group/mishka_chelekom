@@ -159,7 +159,8 @@ defmodule Mix.Tasks.Mishka.Ui.Add do
                 item.args
                 |> Map.from_struct()
                 |> Map.to_list()
-                |> Enum.reject(&match?({_, []}, &1)),
+                |> Enum.reject(&match?({_, []}, &1))
+                |> Enum.sort(),
               else: []
 
           direct_path =
