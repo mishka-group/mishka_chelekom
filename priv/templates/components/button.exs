@@ -12,18 +12,16 @@
         "default_gradient",
         "outline_gradient",
         "inverted_gradient",
-        "unbordered"
       ],
       color: [
-        "white",
+        "natural",
         "primary",
         "secondary",
-        "dark",
         "success",
         "warning",
         "danger",
         "info",
-        "light",
+        "silver",
         "misc",
         "dawn",
         "transparent"
@@ -32,6 +30,7 @@
       rounded: ["extra_small", "small", "medium", "large", "extra_large", "full", "none"],
       type: ["button_group", "button", "input_button", "button_link"],
       only: ["button_group", "button", "input_button", "button_link"],
+      helpers: [],
       module: ""
     ],
     optional: [],
