@@ -21,7 +21,8 @@ defmodule Mix.Tasks.Mishka.Ui.Add do
 
   * `--variant` or `-v` - Specifies component variant
   """
-
+  # TODO: headers
+  # TODO: add prompt for external resources
   guardedstruct do
     field(:name, String.t(),
       derive: "sanitize(tag=strip_tags) validate(not_empty_string, max_len=80, min_len=3)",
@@ -214,8 +215,7 @@ defmodule Mix.Tasks.Mishka.Ui.Add do
         igniter
       end
 
-    # TODO: Mix tasks must can create it as a component
-    # TODO: Should be in --import
+    IO.inspect(Map.get(igniter, :issues), label: "=======>")
     Owl.Spinner.stop(id: :my_spinner, resolution: :ok, label: "Done")
     igniter
   rescue
