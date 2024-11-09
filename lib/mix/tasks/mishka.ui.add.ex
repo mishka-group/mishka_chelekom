@@ -150,7 +150,7 @@ defmodule Mix.Tasks.Mishka.Ui.Add do
     {url, repo_action, igniter} = repo_url(String.trim(repo), igniter)
     # resp = Req.get!("https://fancy-mountain-ac66.mishka.workers.dev")
 
-    igniter =
+    final_igniter =
       if url != "none_url_error" do
         resp = Req.get!(url)
 
@@ -215,9 +215,9 @@ defmodule Mix.Tasks.Mishka.Ui.Add do
         igniter
       end
 
-    IO.inspect(Map.get(igniter, :issues), label: "=======>")
+    IO.inspect(Map.get(final_igniter, :issues), label: "=======>")
     Owl.Spinner.stop(id: :my_spinner, resolution: :ok, label: "Done")
-    igniter
+    final_igniter
   rescue
     errors ->
       show_errors(igniter, errors)
