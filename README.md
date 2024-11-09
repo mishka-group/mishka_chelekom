@@ -1,5 +1,9 @@
 # MishkaChelekom
 
+<a href="https://www.buymeacoffee.com/mishkagroup" target="_blank">
+  <img src="https://img.buymeacoffee.com/button-api/?text=Buy me a coffee&emoji=☕&slug=mishkagroup&button_colour=FFDD00&font_colour=000000&font_family=Cookie&outline_colour=000000&coffee_colour=ffffff" alt="Buy Me A Coffee" height="50" width="210">
+</a>
+
 Mishka Chelekom is a library offering various templates for components in **Phoenix** and **Phoenix LiveView** - [Phoenix UI kit and components](https://mishka.tools/chelekom).
 
 This means you can generate any component listed in this project using a `CLI` command with customizable options.
