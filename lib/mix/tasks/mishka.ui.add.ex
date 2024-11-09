@@ -363,6 +363,28 @@ defmodule Mix.Tasks.Mishka.Ui.Add do
   end
 
   defp convert_request_body(body, :url, igniter) do
-    {:ok, igniter, body}
+    Owl.Spinner.stop(id: :my_spinner, resolution: :ok)
+
+    msg = """
+    #{IO.ANSI.red()}#{IO.ANSI.bright()}#{IO.ANSI.underline()}This is a security message, please pay attention to it!!!#{IO.ANSI.reset()}
+
+    #{IO.ANSI.yellow()}You are directly requesting from an address that the Mishka team cannot validate.
+    Therefore, if you are not sure about the source, do not download it.
+    If needed, please refer to the link below. This is a security warning, so take it seriously.
+
+    Ref: https://mishka.tools/chelekom/docs/security#{IO.ANSI.reset()}
+
+    #{IO.ANSI.red()}#{IO.ANSI.bright()}Do you want to continue?#{IO.ANSI.reset()}
+    """
+
+    case Igniter.Util.IO.yes?(msg) do
+      false ->
+        Owl.Spinner.start(id: :my_spinner, labels: [processing: "Please wait..."])
+        {:error, "The operation was stopped at your request."}
+
+      true ->
+        Owl.Spinner.start(id: :my_spinner, labels: [processing: "Please wait..."])
+        {:ok, igniter, body}
+    end
   end
 end
