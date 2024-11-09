@@ -3,6 +3,7 @@ defmodule Mix.Tasks.Mishka.Ui.Add do
   use GuardedStruct
   alias GuardedStruct.Derive.ValidationDerive
 
+  @community_url "https://api.github.com/repos/shahryarjb/test/contents/"
   @example "mix mishka.ui.add repo --example arg"
   @shortdoc "A Mix Task for generating and configuring Phoenix components from a repo"
   @moduledoc """
@@ -143,14 +144,16 @@ defmodule Mix.Tasks.Mishka.Ui.Add do
 
     IO.puts(IO.ANSI.blue() <> String.trim_trailing(msg) <> IO.ANSI.reset())
 
-    {url, igniter} = repo_url(repo, igniter)
+    {url, repo_action, igniter} = repo_url(String.trim(repo), igniter)
     # resp = Req.get!("https://fancy-mountain-ac66.mishka.workers.dev")
 
     if url != "none_url_error" do
-      Req.get!(url).body
-      |> __MODULE__.builder()
-      |> case do
-        {:ok, params} ->
+      resp = Req.get!(url)
+
+      igniter =
+        with %Req.Response{status: 200, body: body} <- resp,
+             {:ok, igniter, decoded_body} <- convert_request_body(body, repo_action, igniter),
+             {:ok, params} <- __MODULE__.builder(decoded_body) do
           params = Map.merge(params, %{from: String.trim(repo)})
 
           Enum.reduce(params.files, igniter, fn item, acc ->
@@ -186,10 +189,16 @@ defmodule Mix.Tasks.Mishka.Ui.Add do
               on_exists: :overwrite
             )
           end)
+        else
+          %Req.Response{status: 404} ->
+            msg = "The link or repo name entered is wrong."
+            show_errors(igniter, %{fields: :repo, message: msg, action: :get_repo})
 
-        {:error, errors} ->
-          show_errors(igniter, errors)
-      end
+          {:error, errors} ->
+            show_errors(igniter, errors)
+        end
+
+      igniter
     else
       igniter
     end
@@ -298,16 +307,16 @@ defmodule Mix.Tasks.Mishka.Ui.Add do
     |> Enum.join("\n")
   end
 
-  defp repo_url("component-" <> _file_name, _igniter) do
-    nil
+  defp repo_url("component-" <> _name = file_name, igniter) do
+    {Path.join(@community_url, ["components", "/#{file_name}.json"]), :community, igniter}
   end
 
-  defp repo_url("preset-" <> _file_name, _igniter) do
-    nil
+  defp repo_url("preset-" <> _name = file_name, igniter) do
+    {Path.join(@community_url, ["presets", "/#{file_name}.json"]), :community, igniter}
   end
 
-  defp repo_url("template-" <> _file_name, _igniter) do
-    nil
+  defp repo_url("template-" <> _name = file_name, igniter) do
+    {Path.join(@community_url, ["templates", "/#{file_name}.json"]), :community, igniter}
   end
 
   defp repo_url(repo, igniter) do
@@ -318,7 +327,27 @@ defmodule Mix.Tasks.Mishka.Ui.Add do
          show_errors(igniter, %{fields: :repo, message: msg, action: :get_repo})}
 
       url when is_binary(url) ->
-        {url, igniter}
+        {url, :url, igniter}
     end
+  end
+
+  defp convert_request_body(body, :community, igniter) do
+    with body_content <- String.replace(body["content"], ~r/\s+/, ""),
+         {:base64, {:ok, decoded_body}} <- {:base64, Base.decode64(body_content)},
+         {:json, {:ok, json_decoded_body}} <- {:json, Jason.decode(decoded_body)} do
+      {:ok, igniter, json_decoded_body}
+    else
+      {:base64, _error} ->
+        msg = "There is a problem in converting Base64 text to Elixir structure."
+        show_errors(igniter, %{fields: :repo, message: msg, action: :get_repo})
+
+      {:json, _error} ->
+        msg = "There is a problem in converting JSON to Elixir structure."
+        show_errors(igniter, %{fields: :repo, message: msg, action: :get_repo})
+    end
+  end
+
+  defp convert_request_body(body, :url, igniter) do
+    {:ok, igniter, body}
   end
 end
