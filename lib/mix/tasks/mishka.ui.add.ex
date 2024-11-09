@@ -127,7 +127,8 @@ defmodule Mix.Tasks.Mishka.Ui.Add do
   end
 
   def igniter(igniter, argv) do
-    {:ok, _} = Application.ensure_all_started(:req)
+    Application.ensure_all_started(:req)
+    Application.ensure_all_started(:owl)
     # extract positional arguments according to `positional` above
     {%{repo: repo}, argv} = positional_args!(argv)
 
@@ -144,73 +145,79 @@ defmodule Mix.Tasks.Mishka.Ui.Add do
 
     IO.puts(IO.ANSI.blue() <> String.trim_trailing(msg) <> IO.ANSI.reset())
 
+    Owl.Spinner.start(id: :my_spinner, labels: [processing: "Please wait..."])
     {url, repo_action, igniter} = repo_url(String.trim(repo), igniter)
     # resp = Req.get!("https://fancy-mountain-ac66.mishka.workers.dev")
 
-    if url != "none_url_error" do
-      resp = Req.get!(url)
+    igniter =
+      if url != "none_url_error" do
+        resp = Req.get!(url)
 
-      igniter =
-        with %Req.Response{status: 200, body: body} <- resp,
-             {:ok, igniter, decoded_body} <- convert_request_body(body, repo_action, igniter),
-             {:ok, params} <- __MODULE__.builder(decoded_body) do
-          params = Map.merge(params, %{from: String.trim(repo)})
+        igniter =
+          with %Req.Response{status: 200, body: body} <- resp,
+               {:ok, igniter, decoded_body} <- convert_request_body(body, repo_action, igniter),
+               {:ok, params} <- __MODULE__.builder(decoded_body) do
+            params = Map.merge(params, %{from: String.trim(repo)})
 
-          Enum.reduce(params.files, igniter, fn item, acc ->
-            args =
-              if is_struct(item.args),
-                do:
-                  item.args
-                  |> Map.from_struct()
-                  |> Map.to_list()
-                  |> Enum.reject(&(match?({_, []}, &1) and elem(&1, 0) not in [:only, :helpers]))
-                  |> Enum.sort(),
-                else: []
+            Enum.reduce(params.files, igniter, fn item, acc ->
+              args =
+                if is_struct(item.args),
+                  do:
+                    item.args
+                    |> Map.from_struct()
+                    |> Map.to_list()
+                    |> Enum.reject(
+                      &(match?({_, []}, &1) and elem(&1, 0) not in [:only, :helpers])
+                    )
+                    |> Enum.sort(),
+                  else: []
 
-            direct_path =
-              File.cwd!()
-              |> Path.join(["priv", "/mishka_chelekom", "/#{item.type}s", "/#{item.name}"])
+              direct_path =
+                File.cwd!()
+                |> Path.join(["priv", "/mishka_chelekom", "/#{item.type}s", "/#{item.name}"])
 
-            config =
-              [
-                {String.to_atom(item.name),
-                 [
-                   name: item.name,
-                   args: args,
-                   optional: item.necessary,
-                   necessary: item.optional
-                 ]}
-              ]
-              |> Enum.into([])
+              config =
+                [
+                  {String.to_atom(item.name),
+                   [
+                     name: item.name,
+                     args: args,
+                     optional: item.necessary,
+                     necessary: item.optional
+                   ]}
+                ]
+                |> Enum.into([])
 
-            decode! =
-              case Base.decode64(item.content) do
-                :error -> item.content
-                {:ok, content} -> content
-              end
+              decode! =
+                case Base.decode64(item.content) do
+                  :error -> item.content
+                  {:ok, content} -> content
+                end
 
-            acc
-            |> Igniter.create_new_file(direct_path <> ".eex", decode!, on_exists: :overwrite)
-            |> Igniter.create_new_file(direct_path <> ".exs", "#{inspect(config)}",
-              on_exists: :overwrite
-            )
-          end)
-        else
-          %Req.Response{status: 404} ->
-            msg = "The link or repo name entered is wrong."
-            show_errors(igniter, %{fields: :repo, message: msg, action: :get_repo})
+              acc
+              |> Igniter.create_new_file(direct_path <> ".eex", decode!, on_exists: :overwrite)
+              |> Igniter.create_new_file(direct_path <> ".exs", "#{inspect(config)}",
+                on_exists: :overwrite
+              )
+            end)
+          else
+            %Req.Response{status: 404} ->
+              msg = "The link or repo name entered is wrong."
+              show_errors(igniter, %{fields: :repo, message: msg, action: :get_repo})
 
-          {:error, errors} ->
-            show_errors(igniter, errors)
-        end
+            {:error, errors} ->
+              show_errors(igniter, errors)
+          end
 
-      igniter
-    else
-      igniter
-    end
+        igniter
+      else
+        igniter
+      end
 
     # TODO: Mix tasks must can create it as a component
     # TODO: Should be in --import
+    Owl.Spinner.stop(id: :my_spinner, resolution: :ok, label: "Done")
+    igniter
   rescue
     errors ->
       show_errors(igniter, errors)
