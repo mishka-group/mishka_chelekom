@@ -215,8 +215,10 @@ defmodule Mix.Tasks.Mishka.Ui.Add do
         igniter
       end
 
-    IO.inspect(Map.get(final_igniter, :issues), label: "=======>")
-    Owl.Spinner.stop(id: :my_spinner, resolution: :ok, label: "Done")
+    if Map.get(final_igniter, :issues, []) == [],
+      do: Owl.Spinner.stop(id: :my_spinner, resolution: :ok, label: "Done"),
+      else: Owl.Spinner.stop(id: :my_spinner, resolution: :error, label: "Error")
+
     final_igniter
   rescue
     errors ->
