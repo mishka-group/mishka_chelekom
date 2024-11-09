@@ -84,7 +84,10 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Components do
       end)
       |> create_import_macro(list, options[:import])
 
-    Owl.Spinner.stop(id: :my_spinner, resolution: :ok)
+    if Map.get(igniter, :issues, []) == [],
+      do: Owl.Spinner.stop(id: :my_spinner, resolution: :ok, label: "Done"),
+      else: Owl.Spinner.stop(id: :my_spinner, resolution: :error, label: "Error")
+
     igniter
   end
 
