@@ -259,7 +259,7 @@ defmodule Mix.Tasks.Mishka.Ui.Add do
     )
   end
 
-  defp show_errors(igniter, errors) when is_map(errors) do
+  defp show_errors(igniter, errors) when is_non_struct_map(errors) do
     igniter
     |> Igniter.add_issue("""
     \e[1mOne or more errors occurred while processing your request.\e[0m\n
