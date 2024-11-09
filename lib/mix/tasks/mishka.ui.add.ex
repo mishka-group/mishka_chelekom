@@ -183,8 +183,14 @@ defmodule Mix.Tasks.Mishka.Ui.Add do
               ]
               |> Enum.into([])
 
+            decode! =
+              case Base.decode64(item.content) do
+                :error -> item.content
+                {:ok, content} -> content
+              end
+
             acc
-            |> Igniter.create_new_file(direct_path <> ".eex", item.content, on_exists: :overwrite)
+            |> Igniter.create_new_file(direct_path <> ".eex", decode!, on_exists: :overwrite)
             |> Igniter.create_new_file(direct_path <> ".exs", "#{inspect(config)}",
               on_exists: :overwrite
             )
