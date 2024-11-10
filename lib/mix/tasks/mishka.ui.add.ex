@@ -29,10 +29,9 @@ defmodule Mix.Tasks.Mishka.Ui.Add do
 
   ## Options
 
-  * `--variant` or `-v` - Specifies component variant
+  * `--no-github` or `-v` - Specifies a URL without github replacing
   """
   # TODO: headers
-  # TODO: add prompt for external resources
   guardedstruct do
     field(:name, String.t(),
       derive: "sanitize(tag=strip_tags) validate(not_empty_string, max_len=80, min_len=3)",
@@ -131,7 +130,7 @@ defmodule Mix.Tasks.Mishka.Ui.Add do
       # This ensures your option schema includes options from nested tasks
       composes: [],
       # `OptionParser` schema
-      schema: [],
+      schema: [no_github: :boolean],
       # CLI aliases
       aliases: []
     }
@@ -143,7 +142,7 @@ defmodule Mix.Tasks.Mishka.Ui.Add do
     # extract positional arguments according to `positional` above
     {%{repo: repo}, argv} = positional_args!(argv)
 
-    _options = options!(argv)
+    options = options!(argv)
 
     msg =
       """
@@ -157,8 +156,10 @@ defmodule Mix.Tasks.Mishka.Ui.Add do
     IO.puts(IO.ANSI.blue() <> String.trim_trailing(msg) <> IO.ANSI.reset())
 
     Owl.Spinner.start(id: :my_spinner, labels: [processing: "Please wait..."])
-    {url, repo_action, igniter} = repo_url(String.trim(repo), igniter)
-    # resp = Req.get!("https://fancy-mountain-ac66.mishka.workers.dev")
+
+    {url, repo_action, igniter} =
+      Keyword.get(options, :no_github, false)
+      |> then(&repo_url(String.trim(repo), igniter, &1))
 
     final_igniter =
       if url != "none_url_error" do
@@ -166,7 +167,8 @@ defmodule Mix.Tasks.Mishka.Ui.Add do
 
         igniter =
           with %Req.Response{status: 200, body: body} <- resp,
-               {:ok, igniter, decoded_body} <- convert_request_body(body, repo_action, igniter),
+               {:ok, igniter, decoded_body} <-
+                 convert_request_body(body, repo_action, igniter),
                {:ok, params} <- __MODULE__.builder(decoded_body) do
             params = Map.merge(params, %{from: String.trim(repo)})
 
@@ -332,19 +334,19 @@ defmodule Mix.Tasks.Mishka.Ui.Add do
     |> Enum.join("\n")
   end
 
-  defp repo_url("component-" <> _name = file_name, igniter) do
+  defp repo_url("component-" <> _name = file_name, igniter, _github?) do
     {Path.join(@community_url, ["components", "/#{file_name}.json"]), :community, igniter}
   end
 
-  defp repo_url("preset-" <> _name = file_name, igniter) do
+  defp repo_url("preset-" <> _name = file_name, igniter, _github?) do
     {Path.join(@community_url, ["presets", "/#{file_name}.json"]), :community, igniter}
   end
 
-  defp repo_url("template-" <> _name = file_name, igniter) do
+  defp repo_url("template-" <> _name = file_name, igniter, _github?) do
     {Path.join(@community_url, ["templates", "/#{file_name}.json"]), :community, igniter}
   end
 
-  defp repo_url(repo, igniter) do
+  defp repo_url(repo, igniter, github?) do
     ValidationDerive.validate(:url, repo, :repo)
     |> case do
       {:error, :repo, :url, msg} ->
@@ -355,7 +357,7 @@ defmodule Mix.Tasks.Mishka.Ui.Add do
         type = external_url_type(url)
 
         converted_url =
-          if type == :github,
+          if type == :github and !github?,
             do:
               String.replace(url, "github.com", "api.github.com/repos")
               |> String.replace(~r{/blob/[^/]+/}, "/contents/"),
