@@ -143,7 +143,7 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Component do
           igniter: igniter,
           component: component,
           path: template_path,
-          config: Config.Reader.read!(template_config_path)[String.to_atom(component)]
+          config: Config.Reader.read!(template_config_path)[component_to_atom(component)]
         }
 
       _ ->
@@ -169,7 +169,9 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Component do
 
       true ->
         component =
-          atom_to_module(custom_module || web_module <> ".components.#{template.component}")
+          atom_to_module(
+            custom_module || web_module <> ".components.#{component_to_atom(template.component)}"
+          )
 
         proper_location =
           if is_nil(custom_module) do
@@ -416,6 +418,14 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Component do
     |> String.split(".", trim: true)
     |> List.last()
     |> Macro.camelize()
+    |> String.to_atom()
+  end
+
+  def component_to_atom(component_str) do
+    component_str
+    |> String.replace_prefix("component_", "")
+    |> String.replace_prefix("preset_", "")
+    |> String.replace_prefix("template_", "")
     |> String.to_atom()
   end
 end
