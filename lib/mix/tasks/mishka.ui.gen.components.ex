@@ -128,9 +128,12 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Components do
 
   defp create_import_string(list, web_module, igniter) do
     children = fn component ->
-      Component.get_component_template(igniter, component).config[:args][:only]
+      config = Component.get_component_template(igniter, component).config[:args]
+
+      Keyword.get(config, :only, [])
       |> List.flatten()
       |> Enum.map(&{String.to_atom(&1), 1})
+      |> Keyword.merge(Keyword.get(config, :helpers, []))
       |> Enum.map_join(", ", fn {key, value} -> "#{key}: #{value}" end)
     end
 
