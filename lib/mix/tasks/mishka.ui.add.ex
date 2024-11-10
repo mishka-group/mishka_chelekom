@@ -29,9 +29,9 @@ defmodule Mix.Tasks.Mishka.Ui.Add do
 
   ## Options
 
-  * `--no-github` or `-v` - Specifies a URL without github replacing
+  * `--no-github` - Specifies a URL without github replacing
+  * `--headers` - Specifies a repo url request headers
   """
-  # TODO: headers
   guardedstruct do
     field(:name, String.t(),
       derive: "sanitize(tag=strip_tags) validate(not_empty_string, max_len=80, min_len=3)",
@@ -130,7 +130,7 @@ defmodule Mix.Tasks.Mishka.Ui.Add do
       # This ensures your option schema includes options from nested tasks
       composes: [],
       # `OptionParser` schema
-      schema: [no_github: :boolean],
+      schema: [no_github: :boolean, headers: :keep],
       # CLI aliases
       aliases: []
     }
@@ -178,7 +178,7 @@ defmodule Mix.Tasks.Mishka.Ui.Add do
               end
             end
           )
-          |> Req.get!(url: url)
+          |> Req.get!(url: url, headers: convert_headers(Keyword.get(options, :headers, [])))
 
         igniter =
           with %Req.Response{status: 200, body: body} <- resp,
@@ -436,5 +436,13 @@ defmodule Mix.Tasks.Mishka.Ui.Add do
 
     #{IO.ANSI.red()}#{IO.ANSI.bright()}Do you want to continue?#{IO.ANSI.reset()}
     """
+  end
+
+  def convert_headers(headers_list) do
+    headers_list
+    |> Enum.map(fn item ->
+      [key, value] = String.split(item, ": ")
+      {String.trim(key), String.trim(value)}
+    end)
   end
 end
