@@ -1,6 +1,7 @@
 defmodule Mix.Tasks.Mishka.Ui.Gen.Components do
   alias Mix.Tasks.Mishka.Ui.Gen.Component
   use Igniter.Mix.Task
+  alias Igniter.Project.Application, as: IAPP
 
   @example "mix mishka.ui.gen.components component1, component1"
   @shortdoc "A Mix Task for generating and configuring multi components of Phoenix"
@@ -74,7 +75,7 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Components do
 
     list =
       if components == [] or Enum.member?(components, "all"),
-        do: get_all_components_names(),
+        do: get_all_components_names(igniter),
         else: components
 
     igniter =
@@ -93,7 +94,7 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Components do
 
   defp create_import_macro(igniter, list, import_status, helpers_status) do
     igniter =
-      if import_status do
+      if import_status and Map.get(igniter, :issues, []) == [] do
         web_module = Igniter.Libs.Phoenix.web_module(igniter)
 
         proper_location =
@@ -127,28 +128,42 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Components do
   end
 
   defp create_import_string(list, web_module, igniter, helpers?) do
-    children = fn component ->
-      config = Component.get_component_template(igniter, component).config[:args]
+    if Map.get(igniter, :issues, []) == [] do
+      children = fn component ->
+        config = Component.get_component_template(igniter, component).config[:args]
 
-      Keyword.get(config, :only, [])
-      |> List.flatten()
-      |> Enum.map(&{String.to_atom(&1), 1})
-      |> Keyword.merge(if helpers?, do: Keyword.get(config, :helpers, []), else: [])
-      |> Enum.map_join(", ", fn {key, value} -> "#{key}: #{value}" end)
+        Keyword.get(config, :only, [])
+        |> List.flatten()
+        |> Enum.map(&{String.to_atom(&1), 1})
+        |> Keyword.merge(if helpers?, do: Keyword.get(config, :helpers, []), else: [])
+        |> Enum.map_join(", ", fn {key, value} -> "#{key}: #{value}" end)
+      end
+
+      Enum.map(list, fn item ->
+        child_imports = children.(item)
+
+        "import #{inspect(web_module)}.Components.#{Component.atom_to_module(item)}, only: [#{child_imports}]"
+      end)
+    else
+      igniter
     end
-
-    Enum.map(list, fn item ->
-      child_imports = children.(item)
-
-      "import #{inspect(web_module)}.Components.#{Component.atom_to_module(item)}, only: [#{child_imports}]"
-    end)
   end
 
-  defp get_all_components_names() do
-    Application.app_dir(:mishka_chelekom, ["priv", "templates", "components"])
-    |> Path.join("*.eex")
-    |> Path.wildcard()
-    |> Enum.map(&Path.basename(&1, ".eex"))
+  defp get_all_components_names(igniter) do
+    [
+      Application.app_dir(:mishka_chelekom, ["priv", "templates", "components"]),
+      IAPP.priv_dir(igniter, ["mishka_chelekom", "components"]),
+      IAPP.priv_dir(igniter, ["mishka_chelekom", "templates"]),
+      IAPP.priv_dir(igniter, ["mishka_chelekom", "presets"])
+    ]
+    |> Enum.map(fn item ->
+      item
+      |> Path.join("*.eex")
+      |> Path.wildcard()
+      |> Enum.map(&Path.basename(&1, ".eex"))
+      |> Enum.uniq()
+    end)
+    |> List.flatten()
     |> Enum.uniq()
   end
 end
