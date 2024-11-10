@@ -19,7 +19,18 @@ defmodule Mix.Tasks.Mishka.Ui.Add do
   @moduledoc """
   #{@shortdoc}
 
-  This script is used in the development environment and allows you to easily add all Mishka
+  This section is part of the CLI community version, which allows you to download components,
+  templates, and presets from another repository and add them to the `priv` directory of
+  your project—without requiring any additional plugins.
+  Additionally, you can specify your own custom URLs to share components you've developed
+  with your team. This CLI provides functionalities to facilitate such sharing.
+  For more details, please refer to the documentation on the https://mishka.tools/chelekom website.
+
+  **Official Library Repository**:
+  - https://github.com/mishka-group/mishka_chelekom
+
+  **Official Community Version Repository**:
+  - https://github.com/mishka-group/mishka_chelekom_community
 
   ## Example
 
