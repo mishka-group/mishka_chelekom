@@ -4,6 +4,16 @@ defmodule Mix.Tasks.Mishka.Ui.Add do
   alias GuardedStruct.Derive.ValidationDerive
 
   @community_url "https://api.github.com/repos/shahryarjb/test/contents/"
+
+  @github_domains [
+    github: "github.com",
+    gist: "gist.github.com",
+    gist_content: "gist.githubusercontent.com",
+    github_raw: "raw.githubusercontent.com"
+  ]
+
+  @domain_types [:url] ++ Keyword.keys(@github_domains)
+
   @example "mix mishka.ui.add repo --example arg"
   @shortdoc "A Mix Task for generating and configuring Phoenix components from a repo"
   @moduledoc """
@@ -342,7 +352,25 @@ defmodule Mix.Tasks.Mishka.Ui.Add do
          show_errors(igniter, %{fields: :repo, message: msg, action: :get_repo})}
 
       url when is_binary(url) ->
-        {url, :url, igniter}
+        type = external_url_type(url)
+
+        converted_url =
+          if type == :github,
+            do:
+              String.replace(url, "github.com", "api.github.com/repos")
+              |> String.replace(~r{/blob/[^/]+/}, "/contents/"),
+            else: url
+
+        {converted_url, type, igniter}
+    end
+  end
+
+  defp external_url_type(url) do
+    with %URI{scheme: "https", host: host} <- URI.parse(url),
+         data when not is_nil(data) <- Enum.find(@github_domains, &match?({_, ^host}, &1)) do
+      elem(data, 0)
+    else
+      _ -> :url
     end
   end
 
@@ -362,10 +390,25 @@ defmodule Mix.Tasks.Mishka.Ui.Add do
     end
   end
 
-  defp convert_request_body(body, :url, igniter) do
+  defp convert_request_body(body, url, igniter) when url in @domain_types do
     Owl.Spinner.stop(id: :my_spinner, resolution: :ok)
 
-    msg = """
+    case Igniter.Util.IO.yes?(external_call_warning()) do
+      false ->
+        Owl.Spinner.start(id: :my_spinner, labels: [processing: "Please wait..."])
+        {:error, "The operation was stopped at your request."}
+
+      true ->
+        Owl.Spinner.start(id: :my_spinner, labels: [processing: "Please wait..."])
+
+        if url == :github,
+          do: convert_request_body(body, :community, igniter),
+          else: {:ok, igniter, body}
+    end
+  end
+
+  defp external_call_warning() do
+    """
     #{IO.ANSI.red()}#{IO.ANSI.bright()}#{IO.ANSI.underline()}This is a security message, please pay attention to it!!!#{IO.ANSI.reset()}
 
     #{IO.ANSI.yellow()}You are directly requesting from an address that the Mishka team cannot validate.
@@ -376,15 +419,5 @@ defmodule Mix.Tasks.Mishka.Ui.Add do
 
     #{IO.ANSI.red()}#{IO.ANSI.bright()}Do you want to continue?#{IO.ANSI.reset()}
     """
-
-    case Igniter.Util.IO.yes?(msg) do
-      false ->
-        Owl.Spinner.start(id: :my_spinner, labels: [processing: "Please wait..."])
-        {:error, "The operation was stopped at your request."}
-
-      true ->
-        Owl.Spinner.start(id: :my_spinner, labels: [processing: "Please wait..."])
-        {:ok, igniter, body}
-    end
   end
 end
