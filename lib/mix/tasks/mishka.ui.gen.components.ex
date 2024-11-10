@@ -156,14 +156,8 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Components do
       IAPP.priv_dir(igniter, ["mishka_chelekom", "templates"]),
       IAPP.priv_dir(igniter, ["mishka_chelekom", "presets"])
     ]
-    |> Enum.map(fn item ->
-      item
-      |> Path.join("*.eex")
-      |> Path.wildcard()
-      |> Enum.map(&Path.basename(&1, ".eex"))
-      |> Enum.uniq()
-    end)
-    |> List.flatten()
+    |> Enum.flat_map(&Path.wildcard(Path.join(&1, "*.eex")))
+    |> Enum.map(&Path.basename(&1, ".eex"))
     |> Enum.uniq()
   end
 end

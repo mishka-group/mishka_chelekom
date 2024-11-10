@@ -1,5 +1,6 @@
 defmodule Mix.Tasks.Mishka.Ui.Gen.Component do
   use Igniter.Mix.Task
+  alias Igniter.Project.Application, as: IAPP
 
   @example "mix mishka.ui.gen.component component --example arg"
   @shortdoc "A Mix Task for generating and configuring Phoenix components"
@@ -118,10 +119,20 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Component do
     component = String.replace(component, " ", "") |> Macro.underscore()
 
     template_path =
-      Path.join(
-        Application.app_dir(:mishka_chelekom, ["priv", "templates", "components"]),
-        "#{component}.eex"
-      )
+      cond do
+        String.starts_with?(component, "component_") ->
+          Path.join(IAPP.priv_dir(igniter, ["mishka_chelekom", "components"]), "#{component}.eex")
+
+        String.starts_with?(component, "preset_") ->
+          Path.join(IAPP.priv_dir(igniter, ["mishka_chelekom", "presets"]), "#{component}.eex")
+
+        String.starts_with?(component, "template_") ->
+          Path.join(IAPP.priv_dir(igniter, ["mishka_chelekom", "templates"]), "#{component}.eex")
+
+        true ->
+          Application.app_dir(:mishka_chelekom, ["priv", "templates", "components"])
+          |> Path.join("#{component}.eex")
+      end
 
     template_config_path = Path.rootname(template_path) <> ".exs"
 

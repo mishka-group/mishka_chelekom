@@ -213,7 +213,12 @@ defmodule Mix.Tasks.Mishka.Ui.Add do
 
               direct_path =
                 File.cwd!()
-                |> Path.join(["priv", "/mishka_chelekom", "/#{item.type}s", "/#{item.name}"])
+                |> Path.join([
+                  "priv",
+                  "/mishka_chelekom",
+                  "/#{item.type}s",
+                  "/#{item.type}_#{item.name}"
+                ])
 
               config =
                 [
@@ -360,23 +365,23 @@ defmodule Mix.Tasks.Mishka.Ui.Add do
     |> Enum.join("\n")
   end
 
-  defp repo_url("component-" <> _name = file_name, igniter, _github?) do
-    {Path.join(@community_url, ["components", "/#{file_name}.json"]), :community, igniter}
+  defp repo_url("component_" <> name, igniter, _github?) do
+    {Path.join(@community_url, ["components", "/#{name}.json"]), :community, igniter}
   end
 
-  defp repo_url("preset-" <> _name = file_name, igniter, _github?) do
-    {Path.join(@community_url, ["presets", "/#{file_name}.json"]), :community, igniter}
+  defp repo_url("preset_" <> name, igniter, _github?) do
+    {Path.join(@community_url, ["presets", "/#{name}.json"]), :community, igniter}
   end
 
-  defp repo_url("template-" <> _name = file_name, igniter, _github?) do
-    {Path.join(@community_url, ["templates", "/#{file_name}.json"]), :community, igniter}
+  defp repo_url("template_" <> name, igniter, _github?) do
+    {Path.join(@community_url, ["templates", "/#{name}.json"]), :community, igniter}
   end
 
   defp repo_url(repo, igniter, github?) do
     ValidationDerive.validate(:url, repo, :repo)
     |> case do
       {:error, :repo, :url, msg} ->
-        {"none_url_error",
+        {"none_url_error", :url,
          show_errors(igniter, %{fields: :repo, message: msg, action: :get_repo})}
 
       url when is_binary(url) ->
