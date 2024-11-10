@@ -3,7 +3,7 @@ defmodule Mix.Tasks.Mishka.Ui.Add do
   use GuardedStruct
   alias GuardedStruct.Derive.ValidationDerive
 
-  @community_url "https://api.github.com/repos/shahryarjb/test/contents/"
+  @community_url "https://api.github.com/repos/mishka-group/mishka_chelekom_community/contents/"
 
   @github_domains [
     github: "github.com",
