@@ -141,8 +141,13 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Components do
 
       Enum.map(list, fn item ->
         child_imports = children.(item)
+        item = Component.component_to_atom(item)
 
-        "import #{inspect(web_module)}.Components.#{Component.atom_to_module(item)}, only: [#{child_imports}]"
+        if child_imports != "" do
+          "import #{inspect(web_module)}.Components.#{Component.atom_to_module("#{item}")}, only: [#{child_imports}]"
+        else
+          "import #{inspect(web_module)}.Components.#{Component.atom_to_module("#{item}")}"
+        end
       end)
     else
       igniter
