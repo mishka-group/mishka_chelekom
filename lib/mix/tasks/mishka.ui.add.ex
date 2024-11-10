@@ -163,7 +163,22 @@ defmodule Mix.Tasks.Mishka.Ui.Add do
 
     final_igniter =
       if url != "none_url_error" do
-        resp = Req.get!(url)
+        resp =
+          Req.new()
+          |> Req.Request.prepend_response_steps(
+            noop: fn {req, res} ->
+              is_text_plain? = res.headers["content-type"] == ["text/plain; charset=utf-8"]
+
+              if repo_action in [:gist_content, :github_raw] and
+                   !Keyword.get(options, :no_github, false) and is_text_plain? do
+                {converted_req, converted_res} = Req.Steps.decompress_body({req, res})
+                {converted_req, update_in(converted_res.body, &Jason.decode!/1)}
+              else
+                {req, res}
+              end
+            end
+          )
+          |> Req.get!(url: url)
 
         igniter =
           with %Req.Response{status: 200, body: body} <- resp,
