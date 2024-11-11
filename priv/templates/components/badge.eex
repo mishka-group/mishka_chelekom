@@ -668,7 +668,7 @@ defmodule <%= @module %> do
   defp rounded_size("none"), do: nil
   <% end %>
 
-  <%= if is_nil(@variant) or "default" in @variant or "shadow" in @variant or "transparent" in @variant do %>
+  <%= if is_nil(@variant) or Enum.any?(["default", "shadow", "transparent"], &(&1 in @variant)) do %>
     defp border_size(_, variant) when variant in ["default", "shadow", "transparent"], do: nil
   <% end %>
   <%= if is_nil(@border) or "none" in @border do %>
