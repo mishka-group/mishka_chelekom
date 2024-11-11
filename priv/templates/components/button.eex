@@ -578,15 +578,31 @@ defmodule <%= @module %> do
     """
   end
 
-  defp border_size(_, variant) when variant in ["default", "shadow", "transparent", "subtle", "default_gradient", "outline_gradient", "inverted_gradient"], do: nil
-  defp border_size("none",_), do: nil
-  defp border_size("extra_small",_), do: "border"
-  defp border_size("small",_), do: "border-2"
-  defp border_size("medium",_), do: "border-[3px]"
-  defp border_size("large",_), do: "border-4"
-  defp border_size("extra_large",_), do: "border-[5px]"
-  defp border_size(params,_) when is_binary(params), do: params
-  defp border_size(_,_), do: border_size("extra_small", nil)
+ <%= if is_nil(@variant) or Enum.any?(["default", "shadow", "transparent", "subtle", "default_gradient", "outline_gradient", "inverted_gradient"], &(&1 in @variant)) do %>
+    defp border_size(_, variant) when variant in ["default", "shadow", "transparent", "subtle", "default_gradient", "outline_gradient", "inverted_gradient"], do: nil
+  <% end %>
+  <%= if is_nil(@border) or "none" in @border do %>
+    defp border_size("none", _), do: nil
+  <% end %>
+  <%= if is_nil(@border) or "extra_small" in @border do %>
+    defp border_size("extra_small", _), do: "border"
+  <% end %>
+  <%= if is_nil(@border) or "small" in @border do %>
+    defp border_size("small", _), do: "border-2"
+  <% end %>
+  <%= if is_nil(@border) or "medium" in @border do %>
+    defp border_size("medium", _), do: "border-[3px]"
+  <% end %>
+  <%= if is_nil(@border) or "large" in @border do %>
+    defp border_size("large", _), do: "border-4"
+  <% end %>
+  <%= if is_nil(@border) or "extra_large" in @border do %>
+    defp border_size("extra_large", _), do: "border-[5px]"
+  <% end %>
+  defp border_size(params, _) when is_binary(params), do: params
+  <%= if is_nil(@border) do %>
+    defp border_size(_, _), do: border_size("extra_small", nil)
+  <% end %>
 
   <%= if is_nil(@variant) or "default" in @variant do %>
   <%= if is_nil(@color) or "natural" in @color do %>
