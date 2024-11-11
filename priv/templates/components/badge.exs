@@ -2,17 +2,16 @@
   badge: [
     name: "badge",
     args: [
-      variant: ["default", "outline", "transparent", "unbordered", "shadow"],
+      variant: ["default", "outline", "transparent", "shadow"],
       color: [
-        "white",
+        "natural",
         "primary",
         "secondary",
-        "dark",
         "success",
         "warning",
         "danger",
         "info",
-        "light",
+        "silver",
         "misc",
         "dawn"
       ],
