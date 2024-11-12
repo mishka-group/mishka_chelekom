@@ -100,7 +100,6 @@ defmodule <%= @module %> do
       {@rest}
     >
       <div class="fixed bg-black/10 inset-0 -z-10 transition duration-100"></div>
-
       <div
         phx-remove={hide_drawer(@id, @position)}
         phx-click-away={hide_drawer(@on_hide_away, @id, @position)}
