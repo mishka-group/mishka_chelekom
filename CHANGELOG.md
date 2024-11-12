@@ -8,6 +8,7 @@
 - Fix Adjust spacing for checkbox and radio fields [#73](https://github.com/mishka-group/mishka_chelekom/pull/73)
 - Add dark mode and fix issues of gradient variants of button component [#91](https://github.com/mishka-group/mishka_chelekom/pull/91)
 - Add dark mode and fix issues of gradient variants of badge component [#94](https://github.com/mishka-group/mishka_chelekom/pull/94)
+- Add dark mode and fix issues of Overlay of Drawer component [#96](https://github.com/mishka-group/mishka_chelekom/pull/96)
 
 ### Bugs:
 - Fix un-CSP progress mounted [#72](https://github.com/mishka-group/mishka_chelekom/pull/72)
