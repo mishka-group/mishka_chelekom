@@ -17,6 +17,7 @@
       ],
       size: ["extra_small", "small", "medium", "large", "extra_large"],
       only: ["drawer"],
+      helpers: [hide_drawer: 3, show_drawer: 3],
       module: ""
     ],
     optional: [],
