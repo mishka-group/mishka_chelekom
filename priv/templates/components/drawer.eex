@@ -580,7 +580,9 @@ defmodule <%= @module %> do
   This will hide the drawer with ID "drawer-id" positioned on the left side of the screen.
   """
   def hide_drawer(js \\ %JS{}, id, position) do
-    JS.remove_class(js, "transform-none", to: "##{id}")
+    js
+    |> JS.remove_class("drawer-showed", to: "##{id}")
+    |> JS.remove_class("transform-none", to: "##{id}")
     |> JS.add_class(translate_position(position), to: "##{id}")
   end
 
