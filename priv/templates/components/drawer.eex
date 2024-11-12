@@ -93,6 +93,7 @@ defmodule <%= @module %> do
       phx-remove={hide_drawer(@id, @position)}
       class={[
         "fixed z-50 transition-transform",
+        "[&:not(.drawer-showed)_.drawer-overlay]:opacity-0 [&.drawer-showed_.drawer-overlay]:opacity-100",
         translate_position(@position),
         position_class(@position)
       ]}
@@ -100,7 +101,7 @@ defmodule <%= @module %> do
       aria-labelledby={"#{@id}-#{@position}-label"}
       {@rest}
     >
-      <div class="fixed bg-black/60 inset-0 -z-10 transition duration-100"></div>
+    <div class="fixed bg-black/20 inset-0 -z-10 transition-all duration-[0.2s] delay-[0.1s] ease-in-out drawer-overlay"></div>
       <div
         phx-click-away={hide_drawer(@on_hide_away, @id, @position)}
         class={[
@@ -556,6 +557,7 @@ defmodule <%= @module %> do
   def show_drawer(js \\ %JS{}, id, position) when is_binary(id) do
     JS.remove_class(js, translate_position(position), to: "##{id}")
     |> JS.add_class("transform-none", to: "##{id}")
+    |> JS.add_class("drawer-showed", to: "##{id}")
   end
 
   @doc """
