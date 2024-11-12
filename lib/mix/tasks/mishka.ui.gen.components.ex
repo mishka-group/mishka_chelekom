@@ -22,6 +22,8 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Components do
 
   ## Options
 
+  * `--import` - Generates import file
+  * `--helpers` - Specifies helper functions of each component in import file
   * `--yes` - Makes directly without questions
   """
 

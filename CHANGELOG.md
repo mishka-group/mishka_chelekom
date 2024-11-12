@@ -1,12 +1,13 @@
 # Changelog for MishkaChelekom 0.0.2
 
 ### Features:
-- Add dark mode and fix issues of gradient variants of button component [#91](https://github.com/mishka-group/mishka_chelekom/pull/91)
 - Support community cli version (beta) [#92](https://github.com/mishka-group/mishka_chelekom/pull/92)
 - Supports cli helpers import [#93](https://github.com/mishka-group/mishka_chelekom/pull/93)
 
 ### Refactors:
 - Fix Adjust spacing for checkbox and radio fields [#73](https://github.com/mishka-group/mishka_chelekom/pull/73)
+- Add dark mode and fix issues of gradient variants of button component [#91](https://github.com/mishka-group/mishka_chelekom/pull/91)
+- Add dark mode and fix issues of gradient variants of badge component [#94](https://github.com/mishka-group/mishka_chelekom/pull/94)
 
 ### Bugs:
 - Fix un-CSP progress mounted [#72](https://github.com/mishka-group/mishka_chelekom/pull/72)

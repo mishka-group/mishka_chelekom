@@ -39,15 +39,58 @@ mix mishka.ui.gen.component alert
 
 ```bash
 mix mishka.ui.gen.components
+mix mishka.ui.gen.components alert,accordion,chat
 ```
 
 ### Generating All Components with an Import File
 
 ```bash
 mix mishka.ui.gen.components --import --yes
+mix mishka.ui.gen.components alert,accordion,chat --import --yes
 ```
 
 > This command creates all the components along with a file where all the components are imported.
+
+### Generating All Components Using an Import File with Helper Functions
+
+```bash
+mix mishka.ui.gen.components --import --helpers --yes
+mix mishka.ui.gen.components alert,accordion,chat --import --helpers --yes
+```
+
+<details>
+  <summary>All options</summary>
+
+
+  ## Options `mishka.ui.gen.component` task
+
+  * `--variant` or `-v` - Specifies component variant
+  * `--color` or `-c` - Specifies component color
+  * `--size` or `-s` - Specifies component size
+  * `--padding` or `-p` - Specifies component padding
+  * `--space` or `-sp` - Specifies component space
+  * `--type` or `-t` - Specifies component type
+  * `--rounded` or `-r` - Specifies component type
+  * `--no-sub-config` - Creates dependent components with default settings
+  * `--module` or `-m` - Specifies a custom name for the component module
+  * `--sub` - Specifies this task is a sub task
+  * `--no-deps` - Specifies this task is created without sub task
+  * `--yes` - Makes directly without questions
+
+  ## Options `mishka.ui.gen.components` task
+
+  * `--import` - Generates import file
+  * `--helpers` - Specifies helper functions of each component in import file
+  * `--yes` - Makes directly without questions
+
+  ## Options `mishka.ui.add` task
+
+  * `--no-github` - Specifies a URL without github replacing
+  * `--headers` - Specifies a repo url request headers
+
+  ---
+
+</details>
 
 ### Optimized for Minimal Dependencies
 

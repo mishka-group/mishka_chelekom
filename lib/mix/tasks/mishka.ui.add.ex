@@ -249,6 +249,10 @@ defmodule Mix.Tasks.Mishka.Ui.Add do
               msg = "The link or repo name entered is wrong."
               show_errors(igniter, %{fields: :repo, message: msg, action: :get_repo})
 
+            %Req.Response{status: 401} ->
+              msg = "Unauthorized: Access denied. Please check your credentials."
+              show_errors(igniter, %{fields: :repo, message: msg, action: :get_repo})
+
             {:error, errors} ->
               show_errors(igniter, errors)
           end
