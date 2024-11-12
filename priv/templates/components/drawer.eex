@@ -90,6 +90,7 @@ defmodule <%= @module %> do
     <div
       id={@id}
       phx-mounted={@show && show_drawer(@on_show, @id, @position)}
+      phx-remove={hide_drawer(@id, @position)}
       class={[
         "fixed z-50 transition-transform",
         translate_position(@position),
@@ -101,7 +102,6 @@ defmodule <%= @module %> do
     >
       <div class="fixed bg-black/60 inset-0 -z-10 transition duration-100"></div>
       <div
-        phx-remove={hide_drawer(@id, @position)}
         phx-click-away={hide_drawer(@on_hide_away, @id, @position)}
         class={[
           "p-2 overflow-y-auto",
