@@ -11,7 +11,7 @@
         "warning",
         "danger",
         "info",
-        "light",
+        "silver",
         "misc",
         "dawn"
       ],

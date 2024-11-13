@@ -101,7 +101,7 @@ defmodule <%= @module %> do
       aria-labelledby={"#{@id}-#{@position}-label"}
       {@rest}
     >
-    <div class="fixed bg-black/60 inset-0 -z-10 transition-all duration-[0.2s] delay-[0.1s] ease-in-out drawer-overlay"></div>
+    <div class="fixed bg-black/60 inset-0 -z-10 transition-all duration-[0.4s] delay-[0.1s] ease-in-out drawer-overlay"></div>
       <div
         phx-click-away={hide_drawer(@on_hide_away, @id, @position)}
         class={[

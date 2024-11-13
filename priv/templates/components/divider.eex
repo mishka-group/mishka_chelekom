@@ -16,15 +16,13 @@ defmodule <%= @module %> do
   use Phoenix.Component
 
   @colors [
-    "white",
+    "natural",
     "primary",
     "secondary",
-    "dark",
     "success",
     "warning",
     "danger",
     "info",
-    "light",
     "misc",
     "dawn",
     "silver"
@@ -478,66 +476,117 @@ defmodule <%= @module %> do
   defp margin_class("none", :vertical) do
     ["mx-0"]
   end
-  <%= if is_nil(@color) or "white" in @color do %>
-  defp color_class("white") do
-    "border-white has-[.divider-content.devider-middle]:before:border-white has-[.divider-content.devider-middle]:after:border-white has-[.divider-content.devider-right]:before:border-white has-[.divider-content.devider-left]:after:border-white text-[#3E3E3E]"
-  end
-  <% end %>
-  <%= if is_nil(@color) or "silver" in @color do %>
-  defp color_class("silver") do
-    "border-[#DADADA] has-[.divider-content.devider-middle]:before:border-[#DADADA] has-[.divider-content.devider-middle]:after:border-[#DADADA] has-[.divider-content.devider-right]:before:border-[#DADADA] has-[.divider-content.devider-left]:after:border-[#DADADA] text-[#3E3E3E]"
+  <%= if is_nil(@color) or "natural" in @color do %>
+  defp color_class("natural") do
+    [
+      "text-[#4B4B4B] border-[#4B4B4B] dark:text-[#DDDDDD] dark:border-[#DDDDDD]",
+      "has-[.divider-content.devider-middle]:before:border-[#4B4B4B] has-[.divider-content.devider-middle]:after:border-[#4B4B4B]",
+      "has-[.divider-content.devider-right]:before:border-[#4B4B4B] has-[.divider-content.devider-left]:after:border-[#4B4B4B]",
+      "dark:has-[.divider-content.devider-middle]:before:border-[#DDDDDD] dark:has-[.divider-content.devider-middle]:after:border-[#DDDDDD]",
+      "dark:has-[.divider-content.devider-right]:before:border-[#DDDDDD] dark:has-[.divider-content.devider-left]:after:border-[#DDDDDD]"
+    ]
   end
   <% end %>
   <%= if is_nil(@color) or "primary" in @color do %>
   defp color_class("primary") do
-    "border-[#4363EC] has-[.divider-content.devider-middle]:before:border-[#4363EC] has-[.divider-content.devider-middle]:after:border-[#4363EC] has-[.divider-content.devider-right]:before:border-[#4363EC] has-[.divider-content.devider-left]:after:border-[#4363EC] text-[#4363EC]"
+    [
+      "text-[#007F8C] border-[#007F8C] dark:text-[#01B8CA] dark:border-[#01B8CA]",
+      "has-[.divider-content.devider-middle]:before:border-[#007F8C] has-[.divider-content.devider-middle]:after:border-[#007F8C]",
+      "has-[.divider-content.devider-right]:before:border-[#007F8C] has-[.divider-content.devider-left]:after:border-[#007F8C]",
+      "dark:has-[.divider-content.devider-middle]:before:border-[#01B8CA] dark:has-[.divider-content.devider-middle]:after:border-[#01B8CA]",
+      "dark:has-[.divider-content.devider-right]:before:border-[#01B8CA] dark:has-[.divider-content.devider-left]:after:border-[#01B8CA]"
+    ]
   end
   <% end %>
   <%= if is_nil(@color) or "secondary" in @color do %>
   defp color_class("secondary") do
-    "border-[#6B6E7C] has-[.divider-content.devider-middle]:before:border-[#6B6E7C] has-[.divider-content.devider-middle]:after:border-[#6B6E7C] has-[.divider-content.devider-right]:before:border-[#6B6E7C] has-[.divider-content.devider-left]:after:border-[#6B6E7C] text-[#6B6E7C]"
+    [
+      "text-[#266EF1] border-[#266EF1] dark:text-[#6DAAFB] dark:border-[#6DAAFB]",
+      "has-[.divider-content.devider-middle]:before:border-[#266EF1] has-[.divider-content.devider-middle]:after:border-[#266EF1]",
+      "has-[.divider-content.devider-right]:before:border-[#266EF1] has-[.divider-content.devider-left]:after:border-[#266EF1]",
+      "dark:has-[.divider-content.devider-middle]:before:border-[#6DAAFB] dark:has-[.divider-content.devider-middle]:after:border-[#6DAAFB]",
+      "dark:has-[.divider-content.devider-right]:before:border-[#6DAAFB] dark:has-[.divider-content.devider-left]:after:border-[#6DAAFB]"
+    ]
   end
   <% end %>
   <%= if is_nil(@color) or "success" in @color do %>
   defp color_class("success") do
-    "border-[#227A52] has-[.divider-content.devider-middle]:before:border-[#227A52] has-[.divider-content.devider-middle]:after:border-[#227A52] has-[.divider-content.devider-right]:before:border-[#227A52] has-[.divider-content.devider-left]:after:border-[#227A52] text-[#047857]"
+    [
+      "text-[#0E8345] border-[#0E8345] dark:text-[#06C167] dark:border-[#06C167]",
+      "has-[.divider-content.devider-middle]:before:border-[#0E8345] has-[.divider-content.devider-middle]:after:border-[#0E8345]",
+      "has-[.divider-content.devider-right]:before:border-[#0E8345] has-[.divider-content.devider-left]:after:border-[#0E8345]",
+      "dark:has-[.divider-content.devider-middle]:before:border-[#06C167] dark:has-[.divider-content.devider-middle]:after:border-[#06C167]",
+      "dark:has-[.divider-content.devider-right]:before:border-[#06C167] dark:has-[.divider-content.devider-left]:after:border-[#06C167]"
+    ]
   end
   <% end %>
   <%= if is_nil(@color) or "warning" in @color do %>
   defp color_class("warning") do
-    "border-[#FF8B08] has-[.divider-content.devider-middle]:before:border-[#FF8B08] has-[.divider-content.devider-middle]:after:border-[#FF8B08] has-[.divider-content.devider-right]:before:border-[#FF8B08] has-[.divider-content.devider-left]:after:border-[#FF8B08] text-[#FF8B08]"
+    [
+      "text-[#CA8D01] border-[#CA8D01] dark:text-[#FDC034] dark:border-[#FDC034]",
+      "has-[.divider-content.devider-middle]:before:border-[#CA8D01] has-[.divider-content.devider-middle]:after:border-[#CA8D01]",
+      "has-[.divider-content.devider-right]:before:border-[#CA8D01] has-[.divider-content.devider-left]:after:border-[#CA8D01]",
+      "dark:has-[.divider-content.devider-middle]:before:border-[#FDC034] dark:has-[.divider-content.devider-middle]:after:border-[#FDC034]",
+      "dark:has-[.divider-content.devider-right]:before:border-[#FDC034] dark:has-[.divider-content.devider-left]:after:border-[#FDC034]"
+    ]
   end
   <% end %>
   <%= if is_nil(@color) or "danger" in @color do %>
   defp color_class("danger") do
-    "border-[#E73B3B] has-[.divider-content.devider-middle]:before:border-[#E73B3B] has-[.divider-content.devider-middle]:after:border-[#E73B3B] has-[.divider-content.devider-right]:before:border-[#E73B3B] has-[.divider-content.devider-left]:after:border-[#E73B3B] text-[#E73B3B]"
+    [
+      "text-[#DE1135] border-[#DE1135] dark:text-[#FC7F79] dark:border-[#FC7F79]",
+      "has-[.divider-content.devider-middle]:before:border-[#DE1135] has-[.divider-content.devider-middle]:after:border-[#DE1135]",
+      "has-[.divider-content.devider-right]:before:border-[#DE1135] has-[.divider-content.devider-left]:after:border-[#DE1135]",
+      "dark:has-[.divider-content.devider-middle]:before:border-[#FC7F79] dark:has-[.divider-content.devider-middle]:after:border-[#FC7F79]",
+      "dark:has-[.divider-content.devider-right]:before:border-[#FC7F79] dark:has-[.divider-content.devider-left]:after:border-[#FC7F79]"
+    ]
   end
   <% end %>
   <%= if is_nil(@color) or "info" in @color do %>
   defp color_class("info") do
-    "border-[#6663FD] has-[.divider-content.devider-middle]:before:border-[#6663FD] has-[.divider-content.devider-middle]:after:border-[#6663FD] has-[.divider-content.devider-right]:before:border-[#6663FD] has-[.divider-content.devider-left]:after:border-[#6663FD] text-[#004FC4]"
+    [
+      "text-[#0B84BA] border-[#0B84BA] dark:text-[#3EB7ED] dark:border-[#3EB7ED]",
+      "has-[.divider-content.devider-middle]:before:border-[#0B84BA] has-[.divider-content.devider-middle]:after:border-[#0B84BA]",
+      "has-[.divider-content.devider-right]:before:border-[#0B84BA] has-[.divider-content.devider-left]:after:border-[#0B84BA]",
+      "dark:has-[.divider-content.devider-middle]:before:border-[#3EB7ED] dark:has-[.divider-content.devider-middle]:after:border-[#3EB7ED]",
+      "dark:has-[.divider-content.devider-right]:before:border-[#3EB7ED] dark:has-[.divider-content.devider-left]:after:border-[#3EB7ED]"
+    ]
   end
   <% end %>
   <%= if is_nil(@color) or "misc" in @color do %>
   defp color_class("misc") do
-    "border-[#52059C] has-[.divider-content.devider-middle]:before:border-[#52059C] has-[.divider-content.devider-middle]:after:border-[#52059C] has-[.divider-content.devider-right]:before:border-[#52059C] has-[.divider-content.devider-left]:after:border-[#52059C] text-[#52059C]"
+    [
+      "text-[#8750C5] border-[#8750C5] dark:text-[#BA83F9] dark:border-[#BA83F9]",
+      "has-[.divider-content.devider-middle]:before:border-[#8750C5] has-[.divider-content.devider-middle]:after:border-[#8750C5]",
+      "has-[.divider-content.devider-right]:before:border-[#8750C5] has-[.divider-content.devider-left]:after:border-[#8750C5]",
+      "dark:has-[.divider-content.devider-middle]:before:border-[#BA83F9] dark:has-[.divider-content.devider-middle]:after:border-[#BA83F9]",
+      "dark:has-[.divider-content.devider-right]:before:border-[#BA83F9] dark:has-[.divider-content.devider-left]:after:border-[#BA83F9]"
+    ]
   end
   <% end %>
   <%= if is_nil(@color) or "dawn" in @color do %>
   defp color_class("dawn") do
-    "border-[#FFECDA] has-[.divider-content.devider-middle]:before:border-[#FFECDA] has-[.divider-content.devider-middle]:after:border-[#FFECDA] has-[.divider-content.devider-right]:before:border-[#FFECDA] has-[.divider-content.devider-left]:after:border-[#FFECDA] text-[#4D4137]"
+    [
+      "text-[#A86438] border-[#A86438] dark:text-[#DB976B] dark:border-[#DB976B]",
+      "has-[.divider-content.devider-middle]:before:border-[#A86438] has-[.divider-content.devider-middle]:after:border-[#A86438]",
+      "has-[.divider-content.devider-right]:before:border-[#A86438] has-[.divider-content.devider-left]:after:border-[#A86438]",
+      "dark:has-[.divider-content.devider-middle]:before:border-[#DB976B] dark:has-[.divider-content.devider-middle]:after:border-[#DB976B]",
+      "dark:has-[.divider-content.devider-right]:before:border-[#DB976B] dark:has-[.divider-content.devider-left]:after:border-[#DB976B]"
+    ]
   end
   <% end %>
-  <%= if is_nil(@color) or "light" in @color do %>
-  defp color_class("light") do
-    "border-[#707483] has-[.divider-content.devider-middle]:before:border-[#707483] has-[.divider-content.devider-middle]:after:border-[#707483] has-[.divider-content.devider-right]:before:border-[#707483] has-[.divider-content.devider-left]:after:border-[#707483] text-[#707483]"
+  <%= if is_nil(@color) or "silver" in @color do %>
+  defp color_class("silver") do
+    [
+      "text-[#868686] border-[#868686] dark:text-[#A6A6A6] dark:border-[#A6A6A6]",
+      "has-[.divider-content.devider-middle]:before:border-[#868686] has-[.divider-content.devider-middle]:after:border-[#868686]",
+      "has-[.divider-content.devider-right]:before:border-[#868686] has-[.divider-content.devider-left]:after:border-[#868686]",
+      "dark:has-[.divider-content.devider-middle]:before:border-[#A6A6A6] dark:has-[.divider-content.devider-middle]:after:border-[#A6A6A6]",
+      "dark:has-[.divider-content.devider-right]:before:border-[#A6A6A6] dark:has-[.divider-content.devider-left]:after:border-[#A6A6A6]"
+    ]
   end
   <% end %>
-  <%= if is_nil(@color) or "dark" in @color do %>
-  defp color_class("dark") do
-    "border-[#1E1E1E] has-[.divider-content.devider-middle]:before:border-[#1E1E1E] has-[.divider-content.devider-middle]:after:border-[#1E1E1E] has-[.divider-content.devider-right]:before:border-[#1E1E1E] has-[.divider-content.devider-left]:after:border-[#1E1E1E] text-[#1E1E1E]"
-  end
-  <% end %>
+
   defp border_type_class("dashed") do
     "border-dashed has-[.divider-content.devider-middle]:before:border-dashed has-[.divider-content.devider-middle]:after:border-dashed has-[.divider-content.devider-right]:before:border-dashed has-[.divider-content.devider-left]:after:border-dashed"
   end
