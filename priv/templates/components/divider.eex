@@ -19,12 +19,10 @@ defmodule <%= @module %> do
     "natural",
     "primary",
     "secondary",
-    "dark",
     "success",
     "warning",
     "danger",
     "info",
-    "light",
     "misc",
     "dawn",
     "silver"
