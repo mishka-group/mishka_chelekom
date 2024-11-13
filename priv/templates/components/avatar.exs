@@ -20,6 +20,7 @@
       rounded: ["extra_small", "small", "medium", "large", "extra_large", "full", "none"],
       type: ["avatar", "avatar_group"],
       only: ["avatar", "avatar_group"],
+      helpers: [],
       module: ""
     ],
     optional: [],
