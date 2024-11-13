@@ -107,7 +107,7 @@ defmodule <%= @module %> do
         class={[
           "p-2 overflow-y-auto",
           (@position == "left" || "right") && "h-full",
-          size_class(@size, @position), 
+          size_class(@size, @position),
           border_class(@border, @position, @variant),
           color_variant(@variant, @color),
           @class
