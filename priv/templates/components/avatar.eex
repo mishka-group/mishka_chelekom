@@ -23,15 +23,14 @@ defmodule <%= @module %> do
 
   @sizes ["extra_small", "small", "medium", "large", "extra_large"]
   @colors [
-    "white",
+    "natural",
     "primary",
     "secondary",
-    "dark",
     "success",
     "warning",
     "danger",
     "info",
-    "light",
+    "silver",
     "misc",
     "dawn"
   ]
@@ -45,7 +44,7 @@ defmodule <%= @module %> do
   ## Examples
 
   ```elixir
-  <.avatar size="medium" rounded="full" color="light">
+  <.avatar size="medium" rounded="full" color="silver">
     <:icon name="hero-user" />
     <.indicator size="small" bottom_right />
   </.avatar>
@@ -208,10 +207,10 @@ defmodule <%= @module %> do
 
   ```elixir
   <.avatar_group>
-    <.avatar src="https://example.com/profile.jpg" size="large" color="dark" rounded="full"/>
+    <.avatar src="https://example.com/profile.jpg" size="large" rounded="full"/>
     <.avatar src="https://example.com/profile.jpg" size="large" border="extra_large" rounded="full"/>
     <.avatar src="https://example.com/profile.jpg" size="large" color="warning" rounded="full"/>
-    <.avatar src="https://example.com/profile.jpg" size="large" color="dark" rounded="full"/>
+    <.avatar src="https://example.com/profile.jpg" size="large" rounded="full"/>
     <.avatar size="large" rounded="full" border="medium">+20</.avatar>
   </.avatar_group>
   ```
@@ -248,121 +247,141 @@ defmodule <%= @module %> do
   <% end %>
   <%= if is_nil(@color) or "transparent" in @color do %>
   defp image_color("transparent") do
-    "border-0"
+    nil
   end
   <% end %>
-  <%= if is_nil(@color) or "white" in @color do %>
-  defp image_color("white") do
-    "border border-white"
+  <%= if is_nil(@color) or "natural" in @color do %>
+  defp image_color("natural") do
+    "border-[#282828] dark:border-[#E8E8E8]"
   end
   <% end %>
   <%= if is_nil(@color) or "primary" in @color do %>
   defp image_color("primary") do
-    "border border-[#4363EC]"
+    "border-[#016974] dark:border-[#77D5E3]"
   end
   <% end %>
   <%= if is_nil(@color) or "secondary" in @color do %>
   defp image_color("secondary") do
-    "border border-[#6B6E7C]"
+    "border-[#175BCC] dark:border-[#A9C9FF]"
   end
   <% end %>
   <%= if is_nil(@color) or "success" in @color do %>
   defp image_color("success") do
-    "border border-[#227A52]"
+    "border-[#166C3B] dark:border-[#7FD99A]"
   end
   <% end %>
   <%= if is_nil(@color) or "warning" in @color do %>
   defp image_color("warning") do
-    "border border-[#FF8B08]"
+    "border-[#FFF7E6] dark:border-[#FDD067]"
   end
   <% end %>
   <%= if is_nil(@color) or "danger" in @color do %>
   defp image_color("danger") do
-    "border border-[#E73B3B]"
+    "border-[#BB032A] dark:border-[#FFB2AB]"
   end
   <% end %>
   <%= if is_nil(@color) or "info" in @color do %>
   defp image_color("info") do
-    "border border-[#6663FD]"
+    "border-[#08638C] dark:border-[#6EC9F2]"
   end
   <% end %>
   <%= if is_nil(@color) or "misc" in @color do %>
   defp image_color("misc") do
-    "border border-[#52059C]"
+    "border-[#653C94] dark:border-[#653C94]"
   end
   <% end %>
   <%= if is_nil(@color) or "dawn" in @color do %>
   defp image_color("dawn") do
-    "border border-[#4D4137]"
+    "border-[#7E4B2A] dark:border-[#E4B190]"
   end
   <% end %>
-  <%= if is_nil(@color) or "light" in @color do %>
-  defp image_color("light") do
-    "border border-[#707483]"
-  end
-  <% end %>
-  <%= if is_nil(@color) or "dark" in @color do %>
-  defp image_color("dark") do
-    "border border-[#1E1E1E]"
+  <%= if is_nil(@color) or "silver" in @color do %>
+  defp image_color("silver") do
+    "border-[#727272] dark:border-[#BBBBBB]"
   end
   <% end %>
   defp image_color(params), do: params
-  <%= if is_nil(@color) or "white" in @color do %>
-  defp color_class("white") do
-    "bg-white text-[#3E3E3E] border-[#DADADA]"
+  <%= if is_nil(@color) or "natural" in @color do %>
+  defp color_class("natural") do
+    [
+      "text-[#282828] border-[#282828] bg-[#F3F3F3]",
+      "dark:text-[#E8E8E8] dark:border-[#E8E8E8] dark:bg-[#4B4B4B]"
+    ]
   end
   <% end %>
   <%= if is_nil(@color) or "primary" in @color do %>
   defp color_class("primary") do
-    "bg-[#4363EC] text-white border-[#2441de]"
+    [
+      "text-[#016974] border-[#016974] bg-[#E2F8FB]",
+      "dark:text-[#77D5E3] dark:border-[#77D5E3] dark:bg-[#002D33]",
+    ]
   end
   <% end %>
   <%= if is_nil(@color) or "secondary" in @color do %>
   defp color_class("secondary") do
-    "bg-[#6B6E7C] text-white border-[#877C7C]"
+    [
+      "text-[#175BCC] border-[#175BCC] bg-[#EFF4FE]",
+      "dark:text-[#A9C9FF] dark:border-[#A9C9FF] dark:bg-[#002661]",
+    ]
   end
   <% end %>
   <%= if is_nil(@color) or "success" in @color do %>
   defp color_class("success") do
-    "bg-[#ECFEF3] text-[#047857] border-[#6EE7B7]"
+    [
+      "text-[#166C3B] border-[#166C3B] bg-[#EAF6ED]",
+      "dark:text-[#7FD99A] dark:border-[#7FD99A] dark:bg-[#002F14]",
+    ]
   end
   <% end %>
   <%= if is_nil(@color) or "warning" in @color do %>
   defp color_class("warning") do
-    "bg-[#FFF8E6] text-[#FF8B08] border-[#FF8B08]"
+    [
+      "text-[#976A01] border-[#976A01] bg-[#FFF7E6]",
+      "dark:text-[#FDD067] dark:border-[#FDD067] dark:bg-[#322300]"
+    ]
   end
   <% end %>
   <%= if is_nil(@color) or "danger" in @color do %>
   defp color_class("danger") do
-    "bg-[#FFE6E6] text-[#E73B3B] border-[#E73B3B]"
+    [
+      "text-[#BB032A] border-[#BB032A] bg-[#FFF0EE]",
+      "dark:text-[#FFB2AB] dark:border-[#FFB2AB] dark:bg-[#520810]"
+    ]
   end
   <% end %>
   <%= if is_nil(@color) or "info" in @color do %>
   defp color_class("info") do
-    "bg-[#E5F0FF] text-[#004FC4] border-[#004FC4]"
+    [
+      "text-[#0B84BA] border-[#0B84BA] bg-[#E7F6FD]",
+      "dark:text-[#6EC9F2] dark:border-[#6EC9F2] dark:bg-[#03212F]"
+    ]
   end
   <% end %>
   <%= if is_nil(@color) or "misc" in @color do %>
   defp color_class("misc") do
-    "bg-[#FFE6FF] text-[#52059C] border-[#52059C]"
+    [
+      "text-[#653C94] border-[#653C94] bg-[#F6F0FE]",
+      "dark:text-[#CBA2FA] dark:border-[#CBA2FA] dark:bg-[#221431]"
+    ]
   end
   <% end %>
   <%= if is_nil(@color) or "dawn" in @color do %>
   defp color_class("dawn") do
-    "bg-[#FFECDA] text-[#4D4137] border-[#4D4137]"
+    [
+      "text-[#7E4B2A] border-[#7E4B2A] bg-[#FBF2ED]",
+      "dark:text-[#E4B190] dark:border-[#E4B190] dark:bg-[#2A190E]"
+    ]
   end
   <% end %>
-  <%= if is_nil(@color) or "light" in @color do %>
-  defp color_class("light") do
-    "bg-[#E3E7F1] text-[#707483] border-[#707483]"
+  <%= if is_nil(@color) or "silver" in @color do %>
+  defp color_class("silver") do
+    [
+      "text-[#727272] border-[#727272] bg-[#F3F3F3]",
+      "dark:text-[#BBBBBB] dark:border-[#BBBBBB] dark:bg-[#4B4B4B]",
+    ]
   end
   <% end %>
-  <%= if is_nil(@color) or "dark" in @color do %>
-  defp color_class("dark") do
-    "bg-[#1E1E1E] text-white border-[#050404]"
-  end
-  <% end %>
-  defp color_class(_), do: color_class("white")
+  defp color_class(_), do: color_class("natural")
 
   defp border_class("extra_small"), do: "border-avatar border"
   defp border_class("small"), do: "border-avatar border-2"
