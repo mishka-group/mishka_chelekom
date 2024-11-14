@@ -26,6 +26,7 @@
       ],
       type: ["default", "pinging", "dots", "bars"],
       only: ["spinner"],
+      helper: [],
       module: ""
     ],
     optional: [],
