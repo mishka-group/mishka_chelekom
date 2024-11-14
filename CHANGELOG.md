@@ -11,6 +11,7 @@
 - Add dark mode and fix issues of Overlay of Drawer component [#96](https://github.com/mishka-group/mishka_chelekom/pull/96)
 - Add dark mode of Divider component [#97](https://github.com/mishka-group/mishka_chelekom/pull/97)
 - Add dark mode of Avatar component [#98](https://github.com/mishka-group/mishka_chelekom/pull/98)
+- Add dark mode of Alert component [#99](https://github.com/mishka-group/mishka_chelekom/pull/99)
 
 ### Bugs:
 - Fix un-CSP progress mounted [#72](https://github.com/mishka-group/mishka_chelekom/pull/72)
