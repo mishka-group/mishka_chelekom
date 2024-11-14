@@ -27,15 +27,14 @@ defmodule <%= @module %> do
     "quadruple_large"
   ]
   @colors [
-    "white",
+    "natural",
     "primary",
     "secondary",
-    "dark",
     "success",
     "warning",
     "danger",
     "info",
-    "light",
+    "silver",
     "misc",
     "dawn"
   ]
@@ -68,7 +67,7 @@ defmodule <%= @module %> do
 
   attr :type, :string, values: @spinner_types, default: "default", doc: ""
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
-  attr :color, :string, values: @colors, default: "dark", doc: "Determines color theme"
+  attr :color, :string, values: @colors, default: "natural", doc: "Determines color theme"
 
   attr :size, :string,
     values: @sizes,
@@ -339,59 +338,84 @@ defmodule <%= @module %> do
   <% end %>
   <% end %>
 
-  <%= if is_nil(@color) or "white" in @color do %>
-  defp color_class("white") do
-    "[&>span]:bg-white [&>svg]:stroke-white text-white"
+  <%= if is_nil(@color) or "natural" in @color do %>
+  defp color_class("natural") do
+    [
+      "[&>span]:bg-[#4B4B4B] [&>svg]:stroke-[#4B4B4B] text-[#4B4B4B]",
+      "dark:[&>span]:bg-[#DDDDDD] dark:[&>svg]:stroke-[#DDDDDD] dark:text-[#DDDDDD]"
+    ]
   end
   <% end %>
   <%= if is_nil(@color) or "primary" in @color do %>
   defp color_class("primary") do
-    "[&>span]:bg-[#2441de] [&>svg]:stroke-[#2441de] text-[#2441de]"
+    [
+      "[&>span]:bg-[#007F8C] [&>svg]:stroke-[#007F8C] text-[#007F8C]",
+      "dark:[&>span]:bg-[#01B8CA] dark:[&>svg]:stroke-[#01B8CA] dark:text-[#01B8CA]"
+    ]
   end
   <% end %>
   <%= if is_nil(@color) or "secondary" in @color do %>
   defp color_class("secondary") do
-    "[&>span]:bg-[#877C7C] [&>svg]:stroke-[#877C7C] text-[#877C7C]"
+    [
+      "[&>span]:bg-[#266EF1] [&>svg]:stroke-[#266EF1] text-[#266EF1]",
+      "dark:[&>span]:bg-[#6DAAFB] dark:[&>svg]:stroke-[#6DAAFB] dark:text-[#6DAAFB]"
+    ]
   end
   <% end %>
   <%= if is_nil(@color) or "success" in @color do %>
   defp color_class("success") do
-    "[&>span]:bg-[#6EE7B7] [&>svg]:stroke-[#6EE7B7] text-[#6EE7B7]"
+    [
+      "[&>span]:bg-[#0E8345] [&>svg]:stroke-[#0E8345] text-[#0E8345]",
+      "dark:[&>span]:bg-[#06C167] dark:[&>svg]:stroke-[#06C167] dark:text-[#06C167]"
+    ]
   end
   <% end %>
   <%= if is_nil(@color) or "warning" in @color do %>
   defp color_class("warning") do
-    "[&>span]:bg-[#FF8B08] [&>svg]:stroke-[#FF8B08] text-[#FF8B08]"
+    [
+      "[&>span]:bg-[#CA8D01] [&>svg]:stroke-[#CA8D01] text-[#CA8D01]",
+      "dark:[&>span]:bg-[#FDC034] dark:[&>svg]:stroke-[#FDC034] dark:text-[#FDC034]"
+    ]
   end
   <% end %>
   <%= if is_nil(@color) or "danger" in @color do %>
   defp color_class("danger") do
-    "[&>span]:bg-[#E73B3B] [&>svg]:stroke-[#E73B3B] text-[#E73B3B]"
+    [
+      "[&>span]:bg-[#DE1135] [&>svg]:stroke-[#DE1135] text-[#DE1135]",
+      "dark:[&>span]:bg-[#FC7F79] dark:[&>svg]:stroke-[#FC7F79] dark:text-[#FC7F79]"
+    ]
   end
   <% end %>
   <%= if is_nil(@color) or "info" in @color do %>
   defp color_class("info") do
-    "[&>span]:bg-[#004FC4] [&>svg]:stroke-[#004FC4] text-[#004FC4]"
+    [
+      "[&>span]:bg-[#0B84BA] [&>svg]:stroke-[#0B84BA] text-[#0B84BA]",
+      "dark:[&>span]:bg-[#3EB7ED] dark:[&>svg]:stroke-[#3EB7ED] dark:text-[#3EB7ED]"
+    ]
   end
   <% end %>
   <%= if is_nil(@color) or "misc" in @color do %>
   defp color_class("misc") do
-    "[&>span]:bg-[#52059C] [&>svg]:stroke-[#52059C] text-[#52059C]"
+    [
+      "[&>span]:bg-[#8750C5] [&>svg]:stroke-[#8750C5] text-[#8750C5]",
+      "dark:[&>span]:bg-[#BA83F9] dark:[&>svg]:stroke-[#BA83F9] dark:text-[#BA83F9]"
+    ]
   end
   <% end %>
   <%= if is_nil(@color) or "dawn" in @color do %>
   defp color_class("dawn") do
-    "[&>span]:bg-[#4D4137] [&>svg]:stroke-[#4D4137] text-[#4D4137]"
+    [
+      "[&>span]:bg-[#A86438] [&>svg]:stroke-[#A86438] text-[#A86438]",
+      "dark:[&>span]:bg-[#DB976B] dark:[&>svg]:stroke-[#DB976B] dark:text-[#DB976B]"
+    ]
   end
   <% end %>
-  <%= if is_nil(@color) or "light" in @color do %>
-  defp color_class("light") do
-    "[&>span]:bg-[#707483] [&>svg]:stroke-[#707483] text-[#707483]"
-  end
-  <% end %>
-  <%= if is_nil(@color) or "dark" in @color do %>
-  defp color_class("dark") do
-    "[&>span]:bg-[#050404] [&>svg]:stroke-[#050404] text-[#050404]"
+  <%= if is_nil(@color) or "silver" in @color do %>
+  defp color_class("silver") do
+    [
+      "[&>span]:bg-[#868686] [&>svg]:stroke-[#868686] text-[#868686]",
+      "dark:[&>span]:bg-[#A6A6A6] dark:[&>svg]:stroke-[#A6A6A6] dark:text-[#A6A6A6]"
+    ]
   end
   <% end %>
 end
