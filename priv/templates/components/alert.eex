@@ -53,8 +53,7 @@ defmodule <%= @module %> do
     :secondary,
     :misc,
     :warning,
-    :dark,
-    :light,
+    :silver,
     :dawn,
     :error
   ]
