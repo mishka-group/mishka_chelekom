@@ -2,18 +2,17 @@
   alert: [
     name: "alert",
     args: [
-      variant: ["default", "outline", "shadow", "unbordered"],
+      variant: ["default", "outline", "shadow"],
       color: [
         "info",
         "danger",
         "success",
-        "white",
+        "natural",
         "primary",
         "secondary",
         "misc",
         "warning",
-        "dark",
-        "light",
+        "silver",
         "dawn",
         "error"
       ],
