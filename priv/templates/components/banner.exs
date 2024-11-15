@@ -20,7 +20,7 @@
       rounded: ["extra_small", "small", "medium", "large", "extra_large", "none"],
       padding: ["extra_small", "small", "medium", "large", "extra_large", "none"],
       only: ["banner"],
-      helpers: [],
+      helpers: [show_banner: 2, hide_banner: 2],
       module: ""
     ],
     optional: [],
