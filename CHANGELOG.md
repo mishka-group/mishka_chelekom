@@ -13,6 +13,7 @@
 - Add dark mode of Avatar component [#98](https://github.com/mishka-group/mishka_chelekom/pull/98)
 - Add dark mode of Alert component [#99](https://github.com/mishka-group/mishka_chelekom/pull/99)
 - Add dark mode of Spinner component [#100](https://github.com/mishka-group/mishka_chelekom/pull/100)
+- Add dark mode of Banner component [#101](https://github.com/mishka-group/mishka_chelekom/pull/101)
 
 ### Bugs:
 - Fix un-CSP progress mounted [#72](https://github.com/mishka-group/mishka_chelekom/pull/72)

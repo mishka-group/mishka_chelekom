@@ -2,17 +2,16 @@
   banner: [
     name: "banner",
     args: [
-      variant: ["default", "outline", "transparent", "shadow", "unbordered"],
+      variant: ["default", "outline", "transparent", "shadow"],
       color: [
-        "white",
+        "natural",
         "primary",
         "secondary",
-        "dark",
         "success",
         "warning",
         "danger",
         "info",
-        "light",
+        "silver",
         "misc",
         "dawn"
       ],
@@ -21,6 +20,7 @@
       rounded: ["extra_small", "small", "medium", "large", "extra_large", "none"],
       padding: ["extra_small", "small", "medium", "large", "extra_large", "none"],
       only: ["banner"],
+      helpers: [show_banner: 2, hide_banner: 2],
       module: ""
     ],
     optional: [],
