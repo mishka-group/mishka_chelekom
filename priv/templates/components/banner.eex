@@ -384,16 +384,10 @@ defmodule <%= @module %> do
   defp space_class(_), do: space_class("extra_small")
   <% end %>
 
-  defp border_class(_, _, variant)
-       when variant in [
-              "default",
-              "shadow",
-              "transparent"
-            ],
-       do: nil
+
+  defp border_class(_, _, variant) when variant in ["default", "shadow", "transparent"], do: nil
 
   defp border_class("none", _, _), do: nil
-
   defp border_class("extra_small", "top", _), do: "border-b"
   defp border_class("small", "top", _), do: "border-b-2"
   defp border_class("medium", "top", _), do: "border-b-[3px]"
@@ -413,7 +407,7 @@ defmodule <%= @module %> do
   defp border_class("extra_large", "full", _), do: "border-[5px]"
 
   defp border_class(params, _, _) when is_binary(params), do: params
-  defp border_class(_, _, _), do: border_class("extra_small", "top")
+  defp border_class(_, _, _), do: border_class("extra_small", "top", nil)
   <%= if is_nil(@variant) or "default" in @variant do %>
   <%= if is_nil(@color) or "natural" in @color do %>
   defp color_variant("default", "natural") do
