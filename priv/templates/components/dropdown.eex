@@ -188,8 +188,8 @@ defmodule <%= @module %> do
     default: nil,
     doc: "A unique identifier is used to manage state and interaction"
 
-  attr :variant, :string, values: @variants, default: "shadow", doc: "Determines the style"
-  attr :color, :string, values: @colors, default: "white", doc: "Determines color theme"
+  attr :variant, :string, values: @variants, default: "default", doc: "Determines the style"
+  attr :color, :string, values: @colors, default: "natural", doc: "Determines color theme"
   attr :rounded, :string, default: nil, doc: "Determines the border radius"
 
   attr :size, :string,
