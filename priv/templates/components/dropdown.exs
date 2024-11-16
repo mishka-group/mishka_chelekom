@@ -4,15 +4,14 @@
     args: [
       variant: ["default", "outline", "unbordered", "shadow"],
       color: [
-        "white",
+        "natural",
         "primary",
         "secondary",
-        "dark",
         "success",
         "warning",
         "danger",
         "info",
-        "light",
+        "silver",
         "misc",
         "dawn"
       ],
@@ -22,6 +21,7 @@
       padding: ["extra_small", "small", "medium", "large", "extra_large", "none"],
       type: ["dropdown", "dropdown_trigger", "dropdown_content"],
       only: ["dropdown", "dropdown_trigger", "dropdown_content"],
+      helpers: [],
       module: ""
     ],
     optional: [],
