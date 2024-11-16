@@ -297,8 +297,8 @@ defmodule <%= @module %> do
     ]
   end
 
-  defp border_class(params, _) when is_binary(params), do: [params]
-  defp border_class(nil, _), do: nil
+  defp border_class(params, _, _) when is_binary(params), do: [params]
+  defp border_class(nil, _, _), do: nil
   <%= if is_nil(@rounded) or "extra_small" in @rounded do %>
   defp rounded_size("extra_small"), do: "rounded-sm"
   <% end %>
