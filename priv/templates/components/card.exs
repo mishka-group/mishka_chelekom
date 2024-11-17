@@ -46,6 +46,7 @@
       rounded: ["extra_small", "small", "medium", "large", "extra_large"],
       type: ["card", "card_title", "card_media", "card_content", "card_footer"],
       only: ["card", "card_title", "card_media", "card_content", "card_footer"],
+      helpers: [],
       module: ""
     ],
     optional: [],
