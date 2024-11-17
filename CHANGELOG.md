@@ -17,6 +17,7 @@
 - Add dark mode of Breadcrumb component [#102](https://github.com/mishka-group/mishka_chelekom/pull/102)
 - Add dark mode of Blockquote component [#103](https://github.com/mishka-group/mishka_chelekom/pull/103)
 - Add dark mode of dropdown component [#104](https://github.com/mishka-group/mishka_chelekom/pull/104)
+- Add dark mode of Overlay component [#106](https://github.com/mishka-group/mishka_chelekom/pull/106)
 
 ### Bugs:
 - Fix un-CSP progress mounted [#72](https://github.com/mishka-group/mishka_chelekom/pull/72)
