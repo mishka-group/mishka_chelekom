@@ -769,14 +769,14 @@ defmodule <%= @module %> do
   <% end %>
   <%= if is_nil(@variant) or "bordered" in @variant do %>
   <%= if is_nil(@color) or "white" in @color do %>
-  defp color_variant("default", "white") do
+  defp color_variant("bordered", "white") do
     [
       "bg-white text-black border-[#DDDDDD]"
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "dark" in @color do %>
-  defp color_variant("default", "dark") do
+  defp color_variant("bordered", "dark") do
     [
       "bg-[#282828] text-white border-[#727272]"
     ]
@@ -980,11 +980,7 @@ defmodule <%= @module %> do
   defp color_variant("gradient", "danger") do
     [
       "bg-gradient-to-br from-[#BB032A] to-[#FC7F79] text-white",
-      "dark:from-[#FC7F79] dark:to-[#FFD2CD] dark:text-black",
-      "[&>.indicator]:bg-[#950F22] dark:[&>.indicator]:bg-[#FFE1DE]",
-      "disabled:text-[#BBBBBB] dark:disabled:bg-[#4B4B4B] dark:disabled:text-[#868686]",
-      "disabled:from-[#F3F3F3] disabled:to-[#F3F3F3]",
-      "dark:disabled:from-[#4B4B4B] dark:disabled:to-[#4B4B4B]"
+      "dark:from-[#FC7F79] dark:to-[#FFD2CD] dark:text-black"
     ]
   end
   <% end %>
@@ -1021,10 +1017,10 @@ defmodule <%= @module %> do
   end
   <% end %>
   <% end %>
-  defp color_variant(params, _) when is_binary(params), do: params
+  defp color_variant(params,_) when is_binary(params), do: params
   <%= if is_nil(@variant) or "default" in @variant do %>
   <%= if is_nil(@color) or "natural" in @color do %>
-  defp color_variant(_, _), do: color_variant("default", "natural")
+  defp color_variant(_,_), do: color_variant("default", "natural")
   <% end %>
   <% end %>
 
