@@ -2,7 +2,7 @@
   card: [
     name: "card",
     args: [
-      variant: ["default", "outline", "transparent", "shadow", "bordered"],
+      variant: ["default", "outline", "transparent", "shadow", "bordered", "gradient"],
       color: [
         "natural",
         "primary",
@@ -13,6 +13,8 @@
         "info",
         "silver",
         "misc",
+        "dark",
+        "white",
         "dawn"
       ],
       size: [
