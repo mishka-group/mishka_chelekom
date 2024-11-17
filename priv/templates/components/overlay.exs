@@ -3,21 +3,20 @@
     name: "overlay",
     args: [
       color: [
-        "white",
+        "natural",
         "primary",
         "secondary",
-        "dark",
         "success",
         "warning",
         "danger",
         "info",
-        "light",
         "misc",
         "dawn",
         "silver"
       ],
       size: ["extra_small", "small", "medium", "large", "extra_large"],
       only: ["overlay"],
+      helpers: [],
       module: ""
     ],
     optional: [],

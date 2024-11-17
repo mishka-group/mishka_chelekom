@@ -15,15 +15,14 @@ defmodule <%= @module %> do
 
   @sizes ["extra_small", "small", "medium", "large", "extra_large"]
   @colors [
-    "white",
+    "natural",
     "primary",
     "secondary",
-    "dark",
     "success",
     "warning",
     "danger",
     "info",
-    "light",
+    "silver",
     "misc",
     "dawn"
   ]
@@ -52,7 +51,7 @@ defmodule <%= @module %> do
 
   <.overlay color="dawn" opacity="semi_opaque">
     <div class="flex justify-center items-center gap-2 h-full">
-      <.spinner color="white" size="large" />
+      <.spinner color="natural" size="large" />
       <div class="text-white">Loading...</div>
     </div>
   </.overlay>
@@ -63,7 +62,7 @@ defmodule <%= @module %> do
     default: nil,
     doc: "A unique identifier is used to manage state and interaction"
 
-  attr :color, :string, values: @colors, default: "white", doc: "Determines color theme"
+  attr :color, :string, values: @colors, default: "natural", doc: "Determines color theme"
   attr :opacity, :string, values: @opacities ++ [nil], default: nil, doc: ""
   attr :blur, :string, values: @sizes ++ ["none", nil], default: nil, doc: ""
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
@@ -93,59 +92,54 @@ defmodule <%= @module %> do
     """
   end
 
-  <%= if is_nil(@color) or "white" in @color do %>
-  defp color_class("white") do
-    "bg-white"
+  <%= if is_nil(@color) or "natural" in @color do %>
+  defp color_class("natural") do
+    ["bg-[#4B4B4B] dark:bg-[#DDDDDD]"]
   end
   <% end %>
   <%= if is_nil(@color) or "primary" in @color do %>
   defp color_class("primary") do
-    "bg-[#2441de]"
+    ["bg-[#007F8C] dark:bg-[#01B8CA]"]
   end
   <% end %>
   <%= if is_nil(@color) or "secondary" in @color do %>
   defp color_class("secondary") do
-    "bg-[#877C7C]"
+    ["bg-[#266EF1] dark:bg-[#6DAAFB]"]
   end
   <% end %>
   <%= if is_nil(@color) or "success" in @color do %>
   defp color_class("success") do
-    "bg-[#6EE7B7]"
+    ["bg-[#0E8345] dark:bg-[#06C167]"]
   end
   <% end %>
   <%= if is_nil(@color) or "warning" in @color do %>
   defp color_class("warning") do
-    "bg-[#FF8B08]"
+    ["bg-[#CA8D01] dark:bg-[#FDC034]"]
   end
   <% end %>
   <%= if is_nil(@color) or "danger" in @color do %>
   defp color_class("danger") do
-    "bg-[#E73B3B]"
+    ["bg-[#DE1135] dark:bg-[#FC7F79]"]
   end
   <% end %>
   <%= if is_nil(@color) or "info" in @color do %>
   defp color_class("info") do
-    "bg-[#004FC4]"
+    ["bg-[#0B84BA] dark:bg-[#3EB7ED]"]
   end
   <% end %>
   <%= if is_nil(@color) or "misc" in @color do %>
   defp color_class("misc") do
-    "bg-[#52059C]"
+    ["bg-[#8750C5] dark:bg-[#BA83F9]"]
   end
   <% end %>
   <%= if is_nil(@color) or "dawn" in @color do %>
   defp color_class("dawn") do
-    "bg-[#4D4137]"
+    ["bg-[#A86438] dark:bg-[#DB976B]"]
   end
   <% end %>
-  <%= if is_nil(@color) or "light" in @color do %>
-  defp color_class("light") do
-    "bg-[#707483]"
-  end
-  <% end %>
-  <%= if is_nil(@color) or "dark" in @color do %>
-  defp color_class("dark") do
-    "bg-[#050404]"
+  <%= if is_nil(@color) or "silver" in @color do %>
+  defp color_class("silver") do
+    ["bg-[#868686] dark:bg-[#A6A6A6]"]
   end
   <% end %>
 
