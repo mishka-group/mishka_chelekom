@@ -2,17 +2,16 @@
   card: [
     name: "card",
     args: [
-      variant: ["default", "outline", "transparent", "shadow", "unbordered"],
+      variant: ["default", "outline", "transparent", "shadow", "bordered"],
       color: [
-        "white",
+        "natural",
         "primary",
         "secondary",
-        "dark",
         "success",
         "warning",
         "danger",
         "info",
-        "light",
+        "silver",
         "misc",
         "dawn"
       ],
