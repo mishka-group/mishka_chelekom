@@ -11,7 +11,7 @@
         "inverted",
         "default_gradient",
         "outline_gradient",
-        "inverted_gradient",
+        "inverted_gradient"
       ],
       color: [
         "natural",
