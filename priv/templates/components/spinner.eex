@@ -341,12 +341,12 @@ defmodule <%= @module %> do
   <% end %>
 
   <%= if is_nil(@color) or "white" in @color do %>
-  defp color_class("natural") do
+  defp color_class("white") do
     ["[&>span]:bg-white [&>svg]:stroke-white text-white"]
   end
   <% end %>
   <%= if is_nil(@color) or "dark" in @color do %>
-  defp color_class("natural") do
+  defp color_class("dark") do
     ["[&>span]:bg-[#282828] [&>svg]:stroke-[#282828] text-[#282828]"]
   end
   <% end %>
