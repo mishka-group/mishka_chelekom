@@ -2,9 +2,11 @@
   drawer: [
     name: "drawer",
     args: [
-      variant: ["default", "outline", "transparent"],
+      variant: ["default", "outline", "transparent", "bordered", "gradient"],
       color: [
         "natural",
+        "white",
+        "dark",
         "primary",
         "secondary",
         "success",
