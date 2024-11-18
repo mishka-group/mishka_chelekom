@@ -34,7 +34,8 @@ defmodule <%= @module %> do
     "default",
     "outline",
     "shadow",
-    "unbordered"
+    "bordered",
+    "gradient"
   ]
 
   @positions [
@@ -45,6 +46,8 @@ defmodule <%= @module %> do
   ]
 
   @kind_typs [
+   :white,
+    :dark,
     :info,
     :danger,
     :success,
@@ -380,6 +383,7 @@ defmodule <%= @module %> do
       when variant in [
             "default",
             "shadow",
+            "gradient"
           ],
       do: nil
 
@@ -392,74 +396,64 @@ defmodule <%= @module %> do
   defp border_class(params, _) when is_binary(params), do: params
   defp border_class(_, _), do: border_class("extra_small", nil)
   <%= if is_nil(@variant) or "default" in @variant do %>
+  <%= if is_nil(@color) or "white" in @color do %>
+  defp color_variant("default", :white) do
+    ["bg-white text-black"]
+  end
+  <% end %>
+  <%= if is_nil(@color) or "dark" in @color do %>
+  defp color_variant("default", :dark) do
+    ["bg-[#282828] text-white"]
+  end
+  <% end %>
   <%= if is_nil(@color) or "natural" in @color do %>
   defp color_variant("default", :natural) do
-     [
-      "bg-[#4B4B4B] text-white dark:bg-[#DDDDDD] dark:text-black"
-    ]
+    ["bg-[#4B4B4B] text-white dark:bg-[#DDDDDD] dark:text-black"]
   end
   <% end %>
   <%= if is_nil(@color) or "primary" in @color do %>
   defp color_variant("default", :primary) do
-    [
-      "bg-[#007F8C] text-white dark:bg-[#01B8CA] dark:text-black"
-    ]
+    ["bg-[#007F8C] text-white dark:bg-[#01B8CA] dark:text-black"]
   end
   <% end %>
   <%= if is_nil(@color) or "secondary" in @color do %>
   defp color_variant("default", :secondary) do
-    [
-      "bg-[#266EF1] text-white dark:bg-[#6DAAFB] dark:text-black"
-    ]
+    ["bg-[#266EF1] text-white dark:bg-[#6DAAFB] dark:text-black"]
   end
   <% end %>
   <%= if is_nil(@color) or "success" in @color do %>
   defp color_variant("default", :success) do
-    [
-      "bg-[#0E8345] text-white dark:bg-[#06C167] dark:text-black"
-    ]
+    ["bg-[#0E8345] text-white dark:bg-[#06C167] dark:text-black"]
   end
   <% end %>
   <%= if is_nil(@color) or "warning" in @color do %>
   defp color_variant("default", :warning) do
-    [
-      "bg-[#CA8D01] text-white dark:bg-[#FDC034] dark:text-black"
-    ]
+    ["bg-[#CA8D01] text-white dark:bg-[#FDC034] dark:text-black"]
   end
   <% end %>
   <%= if is_nil(@color) or "error" in @color or "danger" in @color  do %>
   defp color_variant("default", type) when type in [:error, :danger] do
-    [
-      "bg-[#DE1135] text-white dark:bg-[#FC7F79] dark:text-black"
-    ]
+    ["bg-[#DE1135] text-white dark:bg-[#FC7F79] dark:text-black"]
   end
   <% end %>
   <%= if is_nil(@color) or "info" in @color do %>
   defp color_variant("default", :info) do
-    [
-      "bg-[#0B84BA] text-white dark:bg-[#3EB7ED] dark:text-black"
-    ]
+    ["bg-[#0B84BA] text-white dark:bg-[#3EB7ED] dark:text-black"]
   end
   <% end %>
   <%= if is_nil(@color) or "misc" in @color do %>
   defp color_variant("default", :misc) do
-    [
-      "bg-[#8750C5] text-white dark:bg-[#BA83F9] dark:text-black"
-    ]
+    ["bg-[#8750C5] text-white dark:bg-[#BA83F9] dark:text-black"]
   end
   <% end %>
   <%= if is_nil(@color) or "dawn" in @color do %>
   defp color_variant("default", :dawn) do
-    [
-      "bg-[#A86438] text-white dark:bg-[#DB976B] dark:text-black"
-    ]
+    ["bg-[#A86438] text-white dark:bg-[#DB976B] dark:text-black"]
   end
   <% end %>
   <%= if is_nil(@color) or "silver" in @color do %>
   defp color_variant("default", :silver) do
-    [
-      "bg-[#868686] text-white dark:bg-[#A6A6A6] dark:text-black"
-    ]
+    ["bg-[#868686] text-white dark:bg-[#A6A6A6] dark:text-black"]
   end
   <% end %>
   <% end %>
@@ -467,70 +461,80 @@ defmodule <%= @module %> do
   <%= if is_nil(@color) or "natural" in @color do %>
   defp color_variant("outline", :natural) do
     [
-      "text-[#4B4B4B] border-[#4B4B4B] dark:text-[#DDDDDD] dark:border-[#DDDDDD]"
+      "text-[#4B4B4B] border-[#4B4B4B]",
+      "dark:text-[#DDDDDD] dark:border-[#DDDDDD]"
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "primary" in @color do %>
   defp color_variant("outline", :primary) do
     [
-      "text-[#007F8C] border-[#007F8C]  dark:text-[#01B8CA] dark:border-[#01B8CA]"
+      "text-[#007F8C] border-[#007F8C] ",
+      "dark:text-[#01B8CA] dark:border-[#01B8CA]"
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "secondary" in @color do %>
   defp color_variant("outline", :secondary) do
     [
-      "text-[#266EF1] border-[#266EF1] dark:text-[#6DAAFB] dark:border-[#6DAAFB]"
+      "text-[#266EF1] border-[#266EF1]",
+      "dark:text-[#6DAAFB] dark:border-[#6DAAFB]"
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "success" in @color do %>
   defp color_variant("outline", :success) do
     [
-      "text-[#0E8345] border-[#0E8345] dark:text-[#06C167] dark:border-[#06C167]"
+      "text-[#0E8345] border-[#0E8345]",
+      "dark:text-[#06C167] dark:border-[#06C167]"
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "warning" in @color do %>
   defp color_variant("outline", :warning) do
     [
-      "text-[#CA8D01] border-[#CA8D01] dark:text-[#FDC034] dark:border-[#FDC034]"
+      "text-[#CA8D01] border-[#CA8D01]",
+      "dark:text-[#FDC034] dark:border-[#FDC034]"
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "error" in @color or "danger" in @color do %>
   defp color_variant("outline", type) when type in [:error, :danger] do
     [
-      "text-[#DE1135] border-[#DE1135] dark:text-[#FC7F79] dark:border-[#FC7F79]"
+      "text-[#DE1135] border-[#DE1135]",
+      "dark:text-[#FC7F79] dark:border-[#FC7F79]"
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "info" in @color do %>
   defp color_variant("outline", :info) do
     [
-      "text-[#0B84BA] border-[#0B84BA] dark:text-[#3EB7ED] dark:border-[#3EB7ED]"
+      "text-[#0B84BA] border-[#0B84BA]",
+      "dark:text-[#3EB7ED] dark:border-[#3EB7ED]"
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "misc" in @color do %>
   defp color_variant("outline", :misc) do
     [
-      "text-[#8750C5] border-[#8750C5] dark:text-[#BA83F9] dark:border-[#BA83F9]"
+      "text-[#8750C5] border-[#8750C5]",
+      "dark:text-[#BA83F9] dark:border-[#BA83F9]"
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "dawn" in @color do %>
   defp color_variant("outline", :dawn) do
     [
-      "text-[#A86438] border-[#A86438] dark:text-[#DB976B] dark:border-[#DB976B]"
+      "text-[#A86438] border-[#A86438]",
+      "dark:text-[#DB976B] dark:border-[#DB976B]"
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "silver" in @color do %>
   defp color_variant("outline", :silver) do
     [
-      "text-[#868686] border-[#868686] dark:text-[#A6A6A6] dark:border-[#A6A6A6]"
+      "text-[#868686] border-[#868686]",
+      "dark:text-[#A6A6A6] dark:border-[#A6A6A6]"
     ]
   end
   <% end %>
@@ -615,6 +619,186 @@ defmodule <%= @module %> do
       "shadow-[0px_4px_6px_-4px_rgba(134,134,134,0.5)] shadow-[0px_10px_15px_-3px_rgba(134,134,134,0.5)] dark:shadow-none"
     ]
   end
+  <% end %>
+  <% end %>
+  <%= if is_nil(@variant) or "bordered" in @variant do %>
+  <%= if is_nil(@color) or "white" in @color do %>
+  defp color_variant("bordered", :white) do
+    ["bg-white text-black border-[#DDDDDD]"]
+  end
+  <% end %>
+  <%= if is_nil(@color) or "dark" in @color do %>
+  defp color_variant("bordered", :dark) do
+    ["bg-[#282828] text-white border-[#727272]"]
+  end
+  <% end %>
+  <%= if is_nil(@color) or "natural" in @color do %>
+  defp color_variant("bordered", :natural) do
+    [
+      "text-[#282828] border-[#282828] bg-[#F3F3F3]",
+      "dark:text-[#E8E8E8] dark:border-[#E8E8E8] dark:bg-[#4B4B4B]"
+    ]
+  end
+  <% end %>
+  <%= if is_nil(@color) or "primary" in @color do %>
+  defp color_variant("bordered", :primary) do
+    [
+      "text-[#016974] border-[#016974] bg-[#E2F8FB]",
+      "dark:text-[#77D5E3] dark:border-[#77D5E3] dark:bg-[#002D33]"
+    ]
+  end
+  <% end %>
+  <%= if is_nil(@color) or "secondary" in @color do %>
+  defp color_variant("bordered", :secondary) do
+    [
+      "text-[#175BCC] border-[#175BCC] bg-[#EFF4FE]",
+      "dark:text-[#A9C9FF] dark:border-[#A9C9FF] dark:bg-[#002661]"
+    ]
+  end
+  <% end %>
+  <%= if is_nil(@color) or "success" in @color do %>
+  defp color_variant("bordered", :success) do
+    [
+      "text-[#166C3B] border-[#166C3B] bg-[#EAF6ED]",
+      "dark:text-[#7FD99A] dark:border-[#7FD99A] dark:bg-[#002F14]"
+    ]
+  end
+  <% end %>
+  <%= if is_nil(@color) or "warning" in @color do %>
+  defp color_variant("bordered", :warning) do
+    [
+      "text-[#976A01] border-[#976A01] bg-[#FFF7E6]",
+      "dark:text-[#FDD067] dark:border-[#FDD067] dark:bg-[#322300]"
+    ]
+  end
+  <% end %>
+  <%= if is_nil(@color) or "error" in @color or "danger" in @color do %>
+  defp color_variant("bordered", type) when type in [:error, :danger] do
+    [
+      "text-[#BB032A] border-[#BB032A] bg-[#FFF0EE]",
+      "dark:text-[#FFB2AB] dark:border-[#FFB2AB] dark:bg-[#520810]"
+    ]
+  end
+  <% end %>
+  <%= if is_nil(@color) or "info" in @color do %>
+  defp color_variant("bordered", :info) do
+    [
+      "text-[#0B84BA] border-[#0B84BA] bg-[#E7F6FD]",
+      "dark:text-[#6EC9F2] dark:border-[#6EC9F2] dark:bg-[#03212F]"
+    ]
+  end
+  <% end %>
+  <%= if is_nil(@color) or "misc" in @color do %>
+  defp color_variant("bordered", :misc) do
+    [
+      "text-[#653C94] border-[#653C94] bg-[#F6F0FE]",
+      "dark:text-[#CBA2FA] dark:border-[#CBA2FA] dark:bg-[#221431]"
+    ]
+  end
+  <% end %>
+  <%= if is_nil(@color) or "dawn" in @color do %>
+  defp color_variant("bordered", :dawn) do
+    [
+      "text-[#7E4B2A] border-[#7E4B2A] bg-[#FBF2ED]",
+      "dark:text-[#E4B190] dark:border-[#E4B190] dark:bg-[#2A190E]"
+    ]
+  end
+  <% end %>
+  <%= if is_nil(@color) or "silver" in @color do %>
+  defp color_variant("bordered", :silver) do
+    [
+      "text-[#727272] border-[#727272] bg-[#F3F3F3]",
+      "dark:text-[#BBBBBB] dark:border-[#BBBBBB] dark:bg-[#4B4B4B]"
+    ]
+  end
+  <% end %>
+  <% end %>
+  <%= if is_nil(@variant) or "gradient" in @variant do %>
+  <%= if is_nil(@color) or "natural" in @color do %>
+  defp color_variant("gradient", :natural) do
+    [
+      "bg-gradient-to-br from-[#282828] to-[#727272] text-white",
+      "dark:from-[#A6A6A6] dark:to-[#FFFFFF] dark:text-black"
+    ]
+  end
+  <% end %>
+  <%= if is_nil(@color) or "primary" in @color do %>
+  defp color_variant("gradient", :primary) do
+    [
+      "bg-gradient-to-br from-[#016974] to-[#01B8CA] text-white",
+      "dark:from-[#01B8CA] dark:to-[#B0E7EF] dark:text-black"
+    ]
+  end
+  <% end %>
+  <%= if is_nil(@color) or "secondary" in @color do %>
+  defp color_variant("gradient", :secondary) do
+    [
+      "bg-gradient-to-br from-[#175BCC] to-[#6DAAFB] text-white",
+      "dark:from-[#6DAAFB] dark:to-[#CDDEFF] dark:text-black"
+    ]
+  end
+  <% end %>
+  <%= if is_nil(@color) or "success" in @color do %>
+  defp color_variant("gradient", :success) do
+    [
+      "bg-gradient-to-br from-[#166C3B] to-[#06C167] text-white",
+      "dark:from-[#06C167] dark:to-[#B1EAC2] dark:text-black"
+    ]
+  end
+  <% end %>
+  <%= if is_nil(@color) or "warning" in @color do %>
+  defp color_variant("gradient", :warning) do
+    [
+      "bg-gradient-to-br from-[#976A01] to-[#FDC034] text-white",
+      "dark:from-[#FDC034] dark:to-[#FEDF99] dark:text-black"
+    ]
+  end
+  <% end %>
+  <%= if is_nil(@color) or "error" in @color or "danger" in @color do %>
+  defp color_variant("gradient", type) when type in [:error, :danger] do
+    [
+      "bg-gradient-to-br from-[#BB032A] to-[#FC7F79] text-white",
+      "dark:from-[#FC7F79] dark:to-[#FFD2CD] dark:text-black"
+    ]
+  end
+  <% end %>
+  <%= if is_nil(@color) or "info" in @color do %>
+  defp color_variant("gradient", :info) do
+    [
+      "bg-gradient-to-br from-[#08638C] to-[#3EB7ED] text-white",
+      "dark:from-[#3EB7ED] dark:to-[#9FDBF6] dark:text-black"
+    ]
+  end
+  <% end %>
+  <%= if is_nil(@color) or "misc" in @color do %>
+  defp color_variant("gradient", :misc) do
+   [
+      "bg-gradient-to-br from-[#653C94] to-[#BA83F9] text-white",
+      "dark:from-[#BA83F9] dark:to-[#DDC1FC] dark:text-black"
+    ]
+  end
+  <% end %>
+  <%= if is_nil(@color) or "dawn" in @color do %>
+  defp color_variant("gradient", :dawn) do
+    [
+      "bg-gradient-to-br from-[#7E4B2A] to-[#DB976B] text-white",
+      "dark:from-[#DB976B] dark:to-[#EDCBB5] dark:text-black"
+    ]
+  end
+  <% end %>
+  <%= if is_nil(@color) or "silver" in @color do %>
+  defp color_variant("gradient", :silver) do
+    [
+      "bg-gradient-to-br from-[#5E5E5E] to-[#A6A6A6] text-white",
+      "dark:from-[#868686] dark:to-[#BBBBBB] dark:text-black"
+    ]
+  end
+  <% end %>
+  <% end %>
+  defp color_variant(params,_) when is_binary(params), do: params
+  <%= if is_nil(@variant) or "default" in @variant do %>
+  <%= if is_nil(@color) or "natural" in @color do %>
+  defp color_variant(_,_), do: color_variant("default", "natural")
   <% end %>
   <% end %>
   ## JS Commands
