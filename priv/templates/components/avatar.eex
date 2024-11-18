@@ -24,6 +24,8 @@ defmodule <%= @module %> do
   @sizes ["extra_small", "small", "medium", "large", "extra_large"]
   @colors [
     "natural",
+    "white",
+    "dark",
     "primary",
     "secondary",
     "success",
@@ -250,6 +252,16 @@ defmodule <%= @module %> do
     nil
   end
   <% end %>
+  <%= if is_nil(@color) or "white" in @color do %>
+  defp image_color("white") do
+    "border-white"
+  end
+  <% end %>
+  <%= if is_nil(@color) or "dark" in @color do %>
+  defp image_color("dark") do
+    "border-[#282828]"
+  end
+  <% end %>
   <%= if is_nil(@color) or "natural" in @color do %>
   defp image_color("natural") do
     "border-[#282828] dark:border-[#E8E8E8]"
@@ -301,6 +313,16 @@ defmodule <%= @module %> do
   end
   <% end %>
   defp image_color(params), do: params
+  <%= if is_nil(@color) or "white" in @color do %>
+  defp color_class("white") do
+    ["bg-white text-black border-[#DDDDDD]"]
+  end
+  <% end %>
+  <%= if is_nil(@color) or "dark" in @color do %>
+  defp color_class("dark") do
+    ["bg-[#282828] text-white border-[#727272]"]
+  end
+  <% end %>
   <%= if is_nil(@color) or "natural" in @color do %>
   defp color_class("natural") do
     [
