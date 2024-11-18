@@ -17,6 +17,8 @@ defmodule <%= @module %> do
 
   @colors [
     "natural",
+    "white",
+    "dark",
     "primary",
     "secondary",
     "success",
@@ -476,6 +478,24 @@ defmodule <%= @module %> do
   defp margin_class("none", :vertical) do
     ["mx-0"]
   end
+  <%= if is_nil(@color) or "white" in @color do %>
+  defp color_class("white") do
+    [
+      "text-white border-white",
+      "has-[.divider-content.devider-middle]:before:border-white has-[.divider-content.devider-middle]:after:border-white",
+      "has-[.divider-content.devider-right]:before:border-white has-[.divider-content.devider-left]:after:border-white"
+    ]
+  end
+  <% end %>
+  <%= if is_nil(@color) or "dark" in @color do %>
+  defp color_class("dark") do
+    [
+      "text-[#282828] border-[#282828]",
+      "has-[.divider-content.devider-middle]:before:border-[#282828] has-[.divider-content.devider-middle]:after:border-[#282828]",
+      "has-[.divider-content.devider-right]:before:border-[#282828] has-[.divider-content.devider-left]:after:border-[#282828]"
+    ]
+  end
+  <% end %>
   <%= if is_nil(@color) or "natural" in @color do %>
   defp color_class("natural") do
     [
