@@ -33,6 +33,8 @@ defmodule <%= @module %> do
   @sizes ["extra_small", "small", "medium", "large", "extra_large"]
   @colors [
     "natural",
+    "white",
+    "dark",
     "primary",
     "secondary",
     "success",
@@ -49,6 +51,8 @@ defmodule <%= @module %> do
     "outline",
     "transparent",
     "shadow",
+    "bordered",
+    "gradient"
   ]
 
   @positions ["top_left", "top_right", "bottom_left", "bottom_right", "center", "full"]
