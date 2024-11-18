@@ -5,8 +5,8 @@
       variant: ["default", "outline", "transparent", "shadow", "bordered", "gradient"],
       color: [
         "natural",
-        "dark",
         "white",
+        "dark",
         "primary",
         "secondary",
         "success",
