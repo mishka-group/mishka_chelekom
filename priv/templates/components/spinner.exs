@@ -4,6 +4,8 @@
     args: [
       color: [
         "natural",
+        "white",
+        "dark",
         "primary",
         "secondary",
         "success",
