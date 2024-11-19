@@ -2,7 +2,7 @@
   popover: [
     name: "popover",
     args: [
-      variant: ["default", "shadow"],
+      variant: ["default", "shadow", "bordered", "gradient"],
       color: [
         "white",
         "primary",
@@ -12,7 +12,7 @@
         "warning",
         "danger",
         "info",
-        "light",
+        "silver",
         "misc",
         "dawn"
       ],
