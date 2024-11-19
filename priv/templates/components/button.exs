@@ -9,12 +9,15 @@
         "subtle",
         "shadow",
         "inverted",
+        "bordered",
         "default_gradient",
         "outline_gradient",
         "inverted_gradient"
       ],
       color: [
         "natural",
+        "white",
+        "dark",
         "primary",
         "secondary",
         "success",

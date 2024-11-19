@@ -32,6 +32,7 @@ defmodule <%= @module %> do
     "subtle",
     "shadow",
     "inverted",
+    "bordered",
     "default_gradient",
     "outline_gradient",
     "inverted_gradient"
@@ -39,6 +40,8 @@ defmodule <%= @module %> do
 
   @colors [
     "natural",
+    "white",
+    "dark",
     "primary",
     "secondary",
     "success",
@@ -589,9 +592,19 @@ defmodule <%= @module %> do
   defp border_size(_,_), do: border_size("extra_small", nil)
 
   <%= if is_nil(@variant) or "default" in @variant do %>
+  <%= if is_nil(@color) or "white" in @color do %>
+  defp color_variant("default", "white") do
+    ["bg-white text-black"]
+  end
+  <% end %>
+  <%= if is_nil(@color) or "dark" in @color do %>
+  defp color_variant("default", "dark") do
+    ["bg-[#282828] text-white"]
+  end
+  <% end %>
   <%= if is_nil(@color) or "natural" in @color do %>
   defp color_variant("default", "natural") do
-     [
+    [
       "bg-[#4B4B4B] text-white hover:bg-[#282828] dark:bg-[#DDDDDD]",
       "dark:text-black dark:hover:bg-[#E8E8E8] [&>.indicator]:bg-white",
       "dark:[&>.indicator]:bg-black disabled:bg-[#F3F3F3] disabled:text-[#BBBBBB]",
@@ -1012,6 +1025,118 @@ defmodule <%= @module %> do
       " border-transparent [&>.indicator]:bg-[#5E5E5E] dark:[&>.indicator]:bg-[#DDDDDD]",
       "disabled:text-[#DDDDDD] dark:disabled:text-[#727272]",
       "disabled:hover:bg-transparent dark:disabled:hover:bg-transparent"
+    ]
+  end
+  <% end %>
+  <% end %>
+  <%= if is_nil(@variant) or "bordered" in @variant do %>
+  <%= if is_nil(@color) or "natural" in @color do %>
+  defp color_variant-white dark:bg-[#282828]d", "natural") do
+    [
+      "bg-white dark:bg-[#282828] text-[#4B4B4B] border-[#4B4B4B] hover:text-[#282828]",
+      "hover:border-[#282828] dark:text-[#DDDDDD] dark:border-[#DDDDDD]",
+      "dark:hover:text-[#E8E8E8] dark:hover:border-[#E8E8E8] [&>.indicator]:bg-black",
+      "dark:[&>.indicator]:bg-white disabled:text-[#DDDDDD]",
+      "disabled:border-[#DDDDDD] dark:disabled:text-[#727272] dark:disabled:border-[#727272]"
+    ]
+  end
+  <% end %>
+  <%= if is_nil(@color) or "primary" in @color do %>
+  defp color_variant("bordered", "primary") do
+    [
+      "bg-white dark:bg-[#282828] text-[#007F8C] border-[#007F8C] hover:text-[#016974]",
+      "hover:border-[#016974] dark:text-[#01B8CA] dark:border-[#01B8CA]",
+      "dark:hover:text-[#77D5E3] dark:hover:border-[#77D5E3] [&>.indicator]:bg-[#1A535A]",
+      "dark:[&>.indicator]:bg-[#B0E7EF] disabled:text-[#DDDDDD]",
+      "disabled:border-[#DDDDDD] dark:disabled:text-[#727272] dark:disabled:border-[#727272]"
+    ]
+  end
+  <% end %>
+  <%= if is_nil(@color) or "secondary" in @color do %>
+  defp color_variant("bordered", "secondary") do
+    [
+      "bg-white dark:bg-[#282828] text-[#266EF1] border-[#266EF1] hover:text-[#175BCC]",
+      "hover:border-[#175BCC] dark:text-[#6DAAFB] dark:border-[#6DAAFB]",
+      "dark:hover:text-[#A9C9FF] dark:hover:border-[#A9C9FF] [&>.indicator]:bg-[#1948A3]",
+      "dark:[&>.indicator]:bg-[#CDDEFF] disabled:text-[#DDDDDD]",
+      " disabled:border-[#DDDDDD] dark:disabled:text-[#727272] dark:disabled:border-[#727272]"
+    ]
+  end
+  <% end %>
+  <%= if is_nil(@color) or "success" in @color do %>
+  defp color_variant("bordered", "success") do
+    [
+      "bg-white dark:bg-[#282828] text-[#0E8345] border-[#0E8345] hover:text-[#166C3B]",
+      "hover:border-[#166C3B] dark:text-[#06C167] dark:border-[#06C167]",
+      "dark:hover:text-[#7FD99A] dark:hover:border-[#7FD99A] [&>.indicator]:bg-[#0D572D]",
+      "dark:[&>.indicator]:bg-[#B1EAC2] disabled:text-[#DDDDDD]",
+      "disabled:border-[#DDDDDD] dark:disabled:text-[#727272] dark:disabled:border-[#727272]"
+    ]
+  end
+  <% end %>
+  <%= if is_nil(@color) or "warning" in @color do %>
+  defp color_variant("bordered", "warning") do
+    [
+      "bg-white dark:bg-[#282828] text-[#CA8D01] border-[#CA8D01] hover:text-[#976A01]",
+      "hover:border-[#976A01] dark:text-[#FDC034] dark:border-[#FDC034]",
+      "dark:hover:text-[#FDD067] dark:hover:border-[#FDD067] [&>.indicator]:bg-[#654600]",
+      "dark:[&>.indicator]:bg-[#FEDF99] disabled:text-[#DDDDDD]",
+      "disabled:border-[#DDDDDD] dark:disabled:text-[#727272] dark:disabled:border-[#727272]"
+    ]
+  end
+  <% end %>
+  <%= if is_nil(@color) or "danger" in @color do %>
+  defp color_variant("bordered", "danger") do
+    [
+      "bg-white dark:bg-[#282828] text-[#DE1135] border-[#DE1135] hover:text-[#BB032A]",
+      "hover:border-[#BB032A] dark:text-[#FC7F79] dark:border-[#FC7F79]",
+      "dark:hover:text-[#FFB2AB] dark:hover:border-[#FFB2AB] [&>.indicator]:bg-[#950F22]",
+      "dark:[&>.indicator]:bg-[#FFD2CD] disabled:text-[#DDDDDD]",
+      "disabled:border-[#DDDDDD] dark:disabled:text-[#727272] dark:disabled:border-[#727272]"
+    ]
+  end
+  <% end %>
+  <%= if is_nil(@color) or "info" in @color do %>
+  defp color_variant("bordered", "info") do
+    [
+      "bg-white dark:bg-[#282828] text-[#0B84BA] border-[#0B84BA] hover:text-[#0B84BA]",
+      "hover:border-[#0B84BA] dark:text-[#3EB7ED] dark:border-[#3EB7ED]",
+      "dark:hover:text-[#6EC9F2] dark:hover:border-[#6EC9F2] [&>.indicator]:bg-[#06425D]",
+      "dark:[&>.indicator]:bg-[#9FDBF6] disabled:text-[#DDDDDD]",
+      "disabled:border-[#DDDDDD] dark:disabled:text-[#727272] dark:disabled:border-[#727272]"
+    ]
+  end
+  <% end %>
+  <%= if is_nil(@color) or "misc" in @color do %>
+  defp color_variant("bordered", "misc") do
+    [
+      "bg-white dark:bg-[#282828] text-[#8750C5] border-[#8750C5] hover:text-[#653C94]",
+      "hover:border-[#653C94] dark:text-[#BA83F9] dark:border-[#BA83F9]",
+      "dark:hover:text-[#CBA2FA] dark:hover:border-[#CBA2FA] [&>.indicator]:bg-[#442863]",
+      "dark:[&>.indicator]:bg-[#DDC1FC] disabled:text-[#DDDDDD]",
+      "disabled:border-[#DDDDDD] dark:disabled:text-[#727272] dark:disabled:border-[#727272]"
+    ]
+  end
+  <% end %>
+  <%= if is_nil(@color) or "dawn" in @color do %>
+  defp color_variant("bordered", "dawn") do
+    [
+      "bg-white dark:bg-[#282828] text-[#A86438] border-[#A86438] hover:text-[#7E4B2A]",
+      "hover:border-[#7E4B2A] dark:text-[#DB976B] dark:border-[#DB976B]",
+      "dark:hover:text-[#E4B190] dark:hover:border-[#E4B190] [&>.indicator]:bg-[#54321C]",
+      "dark:[&>.indicator]:bg-[#EDCBB5] disabled:text-[#DDDDDD]",
+      "disabled:border-[#DDDDDD] dark:disabled:text-[#727272] dark:disabled:border-[#727272]"
+    ]
+  end
+  <% end %>
+  <%= if is_nil(@color) or "silver" in @color do %>
+  defp color_variant("bordered", "silver") do
+    [
+      "bg-white dark:bg-[#282828] text-[#868686] border-[#868686] hover:text-[#727272]",
+      "hover:border-[#727272] dark:text-[#A6A6A6] dark:border-[#A6A6A6]",
+      "dark:hover:text-[#BBBBBB] dark:hover:border-[#BBBBBB] [&>.indicator]:bg-[#5E5E5E]",
+      "dark:[&>.indicator]:bg-[#DDDDDD] disabled:text-[#DDDDDD]",
+      "disabled:border-[#DDDDDD] dark:disabled:text-[#727272] dark:disabled:border-[#727272]"
     ]
   end
   <% end %>
