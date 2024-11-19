@@ -4,6 +4,7 @@
     args: [
       variant: ["default", "shadow", "bordered", "gradient"],
       color: [
+        "natural",
         "white",
         "primary",
         "secondary",
@@ -22,6 +23,7 @@
       space: ["extra_small", "small", "medium", "large", "extra_large"],
       type: ["popover", "popover_trigger", "popover_content"],
       only: ["popover", "popover_trigger", "popover_content"],
+      helpers: [],
       module: ""
     ],
     optional: [],
