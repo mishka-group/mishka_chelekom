@@ -18,6 +18,8 @@ defmodule <%= @module %> do
   @sizes ["extra_small", "small", "medium", "large", "extra_large"]
   @colors [
     "natural",
+    "dark",
+    "white",
     "primary",
     "secondary",
     "success",
@@ -140,6 +142,20 @@ defmodule <%= @module %> do
     <span class={@class || "separator-text"}><%%= @name %></span>
     """
   end
+  <%= if is_nil(@color) or "white" in @color do %>
+  defp color_class("white") do
+    [
+      "text-white hover:[&>li_a]:text-[#DDDDDD]",
+    ]
+  end
+  <% end %>
+  <%= if is_nil(@color) or "dark" in @color do %>
+  defp color_class("dark") do
+    [
+      "text-[#282828] hover:[&>li_a]:text-[#727272]",
+    ]
+  end
+  <% end %>
   <%= if is_nil(@color) or "natural" in @color do %>
   defp color_class("natural") do
     [
