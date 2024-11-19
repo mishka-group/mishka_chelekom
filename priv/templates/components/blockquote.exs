@@ -2,9 +2,11 @@
   blockquote: [
     name: "blockquote",
     args: [
-      variant: ["default", "outline", "transparent", "shadow", "bordered"],
+      variant: ["default", "outline", "transparent", "shadow", "bordered", "gradient"],
       color: [
         "natural",
+        "white",
+        "natudarkral",
         "primary",
         "secondary",
         "success",
