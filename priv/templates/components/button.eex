@@ -1031,7 +1031,7 @@ defmodule <%= @module %> do
   <% end %>
   <%= if is_nil(@variant) or "bordered" in @variant do %>
   <%= if is_nil(@color) or "natural" in @color do %>
-  defp color_variant-white dark:bg-[#282828]d", "natural") do
+  defp color_variant("bordered", "natural") do
     [
       "bg-white dark:bg-[#282828] text-[#4B4B4B] border-[#4B4B4B] hover:text-[#282828]",
       "hover:border-[#282828] dark:text-[#DDDDDD] dark:border-[#DDDDDD]",
