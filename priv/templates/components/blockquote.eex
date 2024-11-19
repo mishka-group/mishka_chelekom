@@ -28,7 +28,7 @@ defmodule <%= @module %> do
   @colors [
     "natural",
     "white",
-    "natudarkral",
+    "dark",
     "primary",
     "secondary",
     "success",
