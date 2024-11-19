@@ -2,7 +2,7 @@
   dropdown: [
     name: "dropdown",
     args: [
-      variant: ["default", "outline", "unbordered", "shadow", "bordered","gradient"],
+      variant: ["default", "outline", "unbordered", "shadow", "gradient"],
       color: [
         "natural",
         "white",

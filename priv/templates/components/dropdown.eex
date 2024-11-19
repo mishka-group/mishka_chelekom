@@ -31,7 +31,6 @@ defmodule <%= @module %> do
     "outline",
     "bordered",
     "shadow",
-    "bordered",
     "gradient"
   ]
   <%= if is_nil(@type) or "dropdown" in @type do %>
@@ -443,9 +442,23 @@ defmodule <%= @module %> do
   defp space_class(_), do: nil
 
   <%= if is_nil(@variant) or "default" in @variant do %>
+  <%= if is_nil(@color) or "white" in @color do %>
+  defp color_variant("default", "white") do
+    [
+      "bg-white text-black"
+    ]
+  end
+  <% end %>
+  <%= if is_nil(@color) or "dark" in @color do %>
+  defp color_variant("default", "dark") do
+    [
+      "bg-[#282828] text-white"
+    ]
+  end
+  <% end %>
   <%= if is_nil(@color) or "natural" in @color do %>
   defp color_variant("default", "natural") do
-     [
+    [
       "bg-[#4B4B4B] text-white dark:bg-[#DDDDDD] dark:text-black"
     ]
   end
@@ -669,6 +682,20 @@ defmodule <%= @module %> do
   <% end %>
   <% end %>
   <%= if is_nil(@variant) or "bordered" in @variant do %>
+   <%= if is_nil(@color) or "white" in @color do %>
+  defp color_variant("bordered", "white") do
+    [
+      "bg-white text-black border-[#DDDDDD]"
+    ]
+  end
+  <% end %>
+  <%= if is_nil(@color) or "dark" in @color do %>
+  defp color_variant("bordered", "dark") do
+    [
+      "bg-[#282828] text-white border-[#727272]"
+    ]
+  end
+  <% end %>
   <%= if is_nil(@color) or "natural" in @color do %>
   defp color_variant("bordered", "natural") do
      [
@@ -748,6 +775,94 @@ defmodule <%= @module %> do
       "dark:text-[#BBBBBB] dark:border-[#BBBBBB] dark:bg-[#4B4B4B]"
     ]
   end
+  <% end %>
+  <% end %>
+   <%= if is_nil(@variant) or "gradient" in @variant do %>
+  <%= if is_nil(@color) or "natural" in @color do %>
+  defp color_variant("gradient", "natural") do
+    [
+      "bg-gradient-to-br from-[#282828] to-[#727272] text-white",
+      "dark:from-[#A6A6A6] dark:to-[#FFFFFF] dark:text-black"
+    ]
+  end
+  <% end %>
+  <%= if is_nil(@color) or "primary" in @color do %>
+  defp color_variant("gradient", "primary") do
+    [
+      "bg-gradient-to-br from-[#016974] to-[#01B8CA] text-white",
+      "dark:from-[#01B8CA] dark:to-[#B0E7EF] dark:text-black"
+    ]
+  end
+  <% end %>
+  <%= if is_nil(@color) or "secondary" in @color do %>
+  defp color_variant("gradient", "secondary") do
+    [
+      "bg-gradient-to-br from-[#175BCC] to-[#6DAAFB] text-white",
+      "dark:from-[#6DAAFB] dark:to-[#CDDEFF] dark:text-black"
+    ]
+  end
+  <% end %>
+  <%= if is_nil(@color) or "success" in @color do %>
+  defp color_variant("gradient", "success") do
+    [
+      "bg-gradient-to-br from-[#166C3B] to-[#06C167] text-white",
+      "dark:from-[#06C167] dark:to-[#B1EAC2] dark:text-black"
+    ]
+  end
+  <% end %>
+  <%= if is_nil(@color) or "warning" in @color do %>
+  defp color_variant("gradient", "warning") do
+    [
+      "bg-gradient-to-br from-[#976A01] to-[#FDC034] text-white",
+      "dark:from-[#FDC034] dark:to-[#FEDF99] dark:text-black"
+    ]
+  end
+  <% end %>
+  <%= if is_nil(@color) or "danger" in @color do %>
+  defp color_variant("gradient", "danger") do
+    [
+      "bg-gradient-to-br from-[#BB032A] to-[#FC7F79] text-white",
+      "dark:from-[#FC7F79] dark:to-[#FFD2CD] dark:text-black"
+    ]
+  end
+  <% end %>
+  <%= if is_nil(@color) or "info" in @color do %>
+  defp color_variant("gradient", "info") do
+    [
+      "bg-gradient-to-br from-[#08638C] to-[#3EB7ED] text-white",
+      "dark:from-[#3EB7ED] dark:to-[#9FDBF6] dark:text-black"
+    ]
+  end
+  <% end %>
+  <%= if is_nil(@color) or "misc" in @color do %>
+  defp color_variant("gradient", "misc") do
+   [
+      "bg-gradient-to-br from-[#653C94] to-[#BA83F9] text-white",
+      "dark:from-[#BA83F9] dark:to-[#DDC1FC] dark:text-black"
+    ]
+  end
+  <% end %>
+  <%= if is_nil(@color) or "dawn" in @color do %>
+  defp color_variant("gradient", "dawn") do
+    [
+      "bg-gradient-to-br from-[#7E4B2A] to-[#DB976B] text-white",
+      "dark:from-[#DB976B] dark:to-[#EDCBB5] dark:text-black"
+    ]
+  end
+  <% end %>
+  <%= if is_nil(@color) or "silver" in @color do %>
+  defp color_variant("gradient", "silver") do
+    [
+      "bg-gradient-to-br from-[#5E5E5E] to-[#A6A6A6] text-white",
+      "dark:from-[#868686] dark:to-[#BBBBBB] dark:text-black"
+    ]
+  end
+  <% end %>
+  <% end %>
+  defp color_variant(params,_) when is_binary(params), do: params
+  <%= if is_nil(@variant) or "default" in @variant do %>
+  <%= if is_nil(@color) or "natural" in @color do %>
+  defp color_variant(_,_), do: color_variant("default", "natural")
   <% end %>
   <% end %>
 end
