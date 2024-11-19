@@ -13,6 +13,8 @@ defmodule <%= @module %> do
 
   @colors [
     "natural",
+    "white",
+    "dark",
     "primary",
     "secondary",
     "success",
@@ -28,7 +30,9 @@ defmodule <%= @module %> do
     "default",
     "outline",
     "bordered",
-    "shadow"
+    "shadow",
+    "bordered",
+    "gradient"
   ]
   <%= if is_nil(@type) or "dropdown" in @type do %>
   @doc """
