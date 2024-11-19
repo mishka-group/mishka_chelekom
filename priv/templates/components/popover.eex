@@ -262,7 +262,7 @@ defmodule <%= @module %> do
   attr :variant, :string, values: @variants, default: "shadow", doc: "Determines the style"
   attr :color, :string, values: @colors, default: "natural", doc: "Determines color theme"
   attr :rounded, :string, default: nil, doc: "Determines the border radius"
-  attr :show_arrow, :boolean, default: true, doc: "Determines the border radius"
+  attr :show_arrow, :boolean, default: true, doc: "Show or hide arrow of popover"
   attr :border, :string, default: "extra_small", doc: "Determines border style"
 
   attr :size, :string,
@@ -346,6 +346,21 @@ defmodule <%= @module %> do
 
   defp tirgger_popover(),
     do: "[&_.popover-content]:hover:visible [&_.popover-content]:hover:opacity-100"
+
+
+  defp border_class("extra_small"), do: "border"
+
+  defp border_class("small"), do: "border-2"
+
+  defp border_class("medium"), do: "border-[3px]"
+
+  defp border_class("large"), do: "border-4"
+
+  defp border_class("extra_large"), do: "border-[5px]"
+
+  defp border_class(params) when is_binary(params), do: params
+
+  defp border_class(_), do: border_class("extra_small")
 
   <%= if is_nil(@rounded) or "extra_small" in @rounded do %>
   defp rounded_size("extra_small"), do: "rounded-sm"
