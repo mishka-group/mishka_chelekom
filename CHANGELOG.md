@@ -19,6 +19,7 @@
 - Add dark mode of dropdown component [#104](https://github.com/mishka-group/mishka_chelekom/pull/104)
 - Add dark mode of Overlay component [#106](https://github.com/mishka-group/mishka_chelekom/pull/106)
 - Add dark mode of Card component [#107](https://github.com/mishka-group/mishka_chelekom/pull/107)
+- Add dark mode and add `show_arrow` prop of Popover component [#121](https://github.com/mishka-group/mishka_chelekom/pull/121)
 
 ### Bugs:
 - Fix un-CSP progress mounted [#72](https://github.com/mishka-group/mishka_chelekom/pull/72)
