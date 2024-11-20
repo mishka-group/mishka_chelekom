@@ -21,6 +21,7 @@
 - Add dark mode of Card component [#107](https://github.com/mishka-group/mishka_chelekom/pull/107)
 - Add dark mode and add `show_arrow` prop of Popover component [#121](https://github.com/mishka-group/mishka_chelekom/pull/121)
 - Add dark mode of Rating component [#123](https://github.com/mishka-group/mishka_chelekom/pull/123)
+- Add dark mode of Chat component [#125](https://github.com/mishka-group/mishka_chelekom/pull/125)
 
 ### Bugs:
 - Fix un-CSP progress mounted [#72](https://github.com/mishka-group/mishka_chelekom/pull/72)
