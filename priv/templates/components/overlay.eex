@@ -95,12 +95,12 @@ defmodule <%= @module %> do
   end
 
  <%= if is_nil(@color) or "white" in @color do %>
-  defp color_variant("default", "white") do
+  defp color_class("white") do
     ["bg-white text-black"]
   end
   <% end %>
   <%= if is_nil(@color) or "dark" in @color do %>
-  defp color_variant("default", "dark") do
+  defp color_class("dark") do
     ["bg-[#282828] text-white"]
   end
   <% end %>
