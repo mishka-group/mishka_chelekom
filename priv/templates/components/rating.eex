@@ -66,7 +66,7 @@ defmodule <%= @module %> do
     <div
       id={@id}
       class={[
-        "flex flex-nowrap text-[#cccbca]",
+        "flex flex-nowrap text-[#DDDDDD] dark:text-[#4B4B4B]",
         gap_class(@gap),
         size_class(@size),
         color_class(@color)
@@ -130,86 +130,107 @@ defmodule <%= @module %> do
 
   <%= if is_nil(@color) or "white" in @color do %>
   defp color_class("white") do
-    "[&_.rated]:text-white hover:[&_.rating-button]:text-white [&_.rating-button:has(~.rating-button:hover)]:text-white"
+    [
+      "[&_.rated]:text-white hover:[&_.rating-button]:text-white",
+      "[&_.rating-button:has(~.rating-button:hover)]:text-white"
+    ]
+  end
+  <% end %>
+  <%= if is_nil(@color) or "natural" in @color do %>
+  defp color_class("natural") do
+     [
+      "[&_.rated]:text-[#4B4B4B] dark:[&_.rated]:text-[#DDDDDD]",
+      "hover:[&_.rating-button]:text-[#4B4B4B] [&_.rating-button:has(~.rating-button:hover)]:text-[#4B4B4B]",
+      "dark:hover:[&_.rating-button]:text-[#DDDDDD] dark:[&_.rating-button:has(~.rating-button:hover)]:text-[#DDDDDD]",
+    ]
   end
   <% end %>
   <%= if is_nil(@color) or "primary" in @color do %>
   defp color_class("primary") do
     [
-      "[&_.rated]:text-[#2441de]",
-      "hover:[&_.rating-button]:text-[#2441de] [&_.rating-button:has(~.rating-button:hover)]:text-[#2441de]"
+      "[&_.rated]:text-[#007F8C] dark:[&_.rated]:text-[#01B8CA]",
+      "hover:[&_.rating-button]:text-[#007F8C] [&_.rating-button:has(~.rating-button:hover)]:text-[#007F8C]",
+      "dark:hover:[&_.rating-button]:text-[#01B8CA] dark:[&_.rating-button:has(~.rating-button:hover)]:text-[#01B8CA]",
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "secondary" in @color do %>
   defp color_class("secondary") do
     [
-      "[&_.rated]:text-[#877C7C]",
-      "hover:[&_.rating-button]:text-[#877C7C] [&_.rating-button:has(~.rating-button:hover)]:text-[#877C7C]"
+      "[&_.rated]:text-[#266EF1] dark:[&_.rated]:text-[#6DAAFB]",
+      "hover:[&_.rating-button]:text-[#266EF1] [&_.rating-button:has(~.rating-button:hover)]:text-[#266EF1]",
+      "dark:hover:[&_.rating-button]:text-[#6DAAFB] dark:[&_.rating-button:has(~.rating-button:hover)]:text-[#6DAAFB]",
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "success" in @color do %>
   defp color_class("success") do
     [
-      "[&_.rated]:text-[#6EE7B7]",
-      "hover:[&_.rating-button]:text-[#6EE7B7] [&_.rating-button:has(~.rating-button:hover)]:text-[#6EE7B7]"
+      "[&_.rated]:text-[#0E8345] dark:[&_.rated]:text-[#06C167]",
+      "hover:[&_.rating-button]:text-[#0E8345] [&_.rating-button:has(~.rating-button:hover)]:text-[#0E8345]",
+      "dark:hover:[&_.rating-button]:text-[#06C167] dark:[&_.rating-button:has(~.rating-button:hover)]:text-[#06C167]",
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "warning" in @color do %>
   defp color_class("warning") do
     [
-      "[&_.rated]:text-[#FF8B08]",
-      "hover:[&_.rating-button]:text-[#FF8B08] [&_.rating-button:has(~.rating-button:hover)]:text-[#FF8B08]"
+      "[&_.rated]:text-[#CA8D01] dark:[&_.rated]:text-[#FDC034]",
+      "hover:[&_.rating-button]:text-[#CA8D01] [&_.rating-button:has(~.rating-button:hover)]:text-[#CA8D01]",
+      "dark:hover:[&_.rating-button]:text-[#FDC034] dark:[&_.rating-button:has(~.rating-button:hover)]:text-[#FDC034]",
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "danger" in @color do %>
   defp color_class("danger") do
     [
-      "[&_.rated]:text-[#E73B3B]",
-      "hover:[&_.rating-button]:text-[#E73B3B] [&_.rating-button:has(~.rating-button:hover)]:text-[#E73B3B]"
+      "[&_.rated]:text-[#DE1135] dark:[&_.rated]:text-[#FC7F79]",
+      "hover:[&_.rating-button]:text-[#DE1135] [&_.rating-button:has(~.rating-button:hover)]:text-[#DE1135]",
+      "dark:hover:[&_.rating-button]:text-[#FC7F79] dark:[&_.rating-button:has(~.rating-button:hover)]:text-[#FC7F79]",
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "info" in @color do %>
   defp color_class("info") do
     [
-      "[&_.rated]:text-[#004FC4]",
-      "hover:[&_.rating-button]:text-[#004FC4] [&_.rating-button:has(~.rating-button:hover)]:text-[#004FC4]"
+      "[&_.rated]:text-[#0B84BA] dark:[&_.rated]:text-[#3EB7ED]",
+      "hover:[&_.rating-button]:text-[#0B84BA] [&_.rating-button:has(~.rating-button:hover)]:text-[#0B84BA]",
+      "dark:hover:[&_.rating-button]:text-[#3EB7ED] dark:[&_.rating-button:has(~.rating-button:hover)]:text-[#3EB7ED]",
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "misc" in @color do %>
   defp color_class("misc") do
     [
-      "[&_.rated]:text-[#52059C]",
-      "hover:[&_.rating-button]:text-[#52059C] [&_.rating-button:has(~.rating-button:hover)]:text-[#52059C]"
+      "[&_.rated]:text-[#8750C5] dark:[&_.rated]:text-[#BA83F9]",
+      "hover:[&_.rating-button]:text-[#8750C5] [&_.rating-button:has(~.rating-button:hover)]:text-[#8750C5]",
+      "dark:hover:[&_.rating-button]:text-[#BA83F9] dark:[&_.rating-button:has(~.rating-button:hover)]:text-[#BA83F9]",
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "dawn" in @color do %>
   defp color_class("dawn") do
     [
-      "[&_.rated]:text-[#4D4137]",
-      "hover:[&_.rating-button]:text-[#4D4137] [&_.rating-button:has(~.rating-button:hover)]:text-[#4D4137]"
+      "[&_.rated]:text-[#A86438] dark:[&_.rated]:text-[#DB976B]",
+      "hover:[&_.rating-button]:text-[#A86438] [&_.rating-button:has(~.rating-button:hover)]:text-[#A86438]",
+      "dark:hover:[&_.rating-button]:text-[#DB976B] dark:[&_.rating-button:has(~.rating-button:hover)]:text-[#DB976B]",
     ]
   end
   <% end %>
-  <%= if is_nil(@color) or "light" in @color do %>
-  defp color_class("light") do
+  <%= if is_nil(@color) or "silver" in @color do %>
+  defp color_class("silver") do
     [
-      "[&_.rated]:text-[#707483]",
-      "hover:[&_.rating-button]:text-[#707483] [&_.rating-button:has(~.rating-button:hover)]:text-[#707483]"
+      "[&_.rated]:text-[#868686] dark:[&_.rated]:text-[#A6A6A6]",
+      "hover:[&_.rating-button]:text-[#868686] [&_.rating-button:has(~.rating-button:hover)]:text-[#868686]",
+      "dark:hover:[&_.rating-button]:text-[#A6A6A6] dark:[&_.rating-button:has(~.rating-button:hover)]:text-[#A6A6A6]",
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "dark" in @color do %>
   defp color_class("dark") do
     [
-      "[&_.rated]:text-[#1E1E1E]",
-      "hover:[&_.rating-button]:text-[#1E1E1E] [&_.rating-button:has(~.rating-button:hover)]:text-[#1E1E1E]"
+      "[&_.rated]:text-[#282828]",
+      "hover:[&_.rating-button]:text-[#282828] [&_.rating-button:has(~.rating-button:hover)]:text-[#282828]"
     ]
   end
   <% end %>

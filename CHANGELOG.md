@@ -6,8 +6,8 @@
 
 ### Refactors:
 - Fix Adjust spacing for checkbox and radio fields [#73](https://github.com/mishka-group/mishka_chelekom/pull/73)
-- Add dark mode and fix issues of gradient variants of button component [#91](https://github.com/mishka-group/mishka_chelekom/pull/91)
-- Add dark mode and fix issues of gradient variants of badge component [#94](https://github.com/mishka-group/mishka_chelekom/pull/94)
+- Add dark mode and fix issues of gradient variants of Button component [#91](https://github.com/mishka-group/mishka_chelekom/pull/91)
+- Add dark mode and fix issues of gradient variants of Badge component [#94](https://github.com/mishka-group/mishka_chelekom/pull/94)
 - Add dark mode and fix issues of Overlay of Drawer component [#96](https://github.com/mishka-group/mishka_chelekom/pull/96)
 - Add dark mode of Divider component [#97](https://github.com/mishka-group/mishka_chelekom/pull/97)
 - Add dark mode of Avatar component [#98](https://github.com/mishka-group/mishka_chelekom/pull/98)
@@ -16,10 +16,11 @@
 - Add dark mode of Banner component [#101](https://github.com/mishka-group/mishka_chelekom/pull/101)
 - Add dark mode of Breadcrumb component [#102](https://github.com/mishka-group/mishka_chelekom/pull/102)
 - Add dark mode of Blockquote component [#103](https://github.com/mishka-group/mishka_chelekom/pull/103)
-- Add dark mode of dropdown component [#104](https://github.com/mishka-group/mishka_chelekom/pull/104)
+- Add dark mode of Dropdown component [#104](https://github.com/mishka-group/mishka_chelekom/pull/104)
 - Add dark mode of Overlay component [#106](https://github.com/mishka-group/mishka_chelekom/pull/106)
 - Add dark mode of Card component [#107](https://github.com/mishka-group/mishka_chelekom/pull/107)
 - Add dark mode and add `show_arrow` prop of Popover component [#121](https://github.com/mishka-group/mishka_chelekom/pull/121)
+- Add dark mode of Rating component [#123](https://github.com/mishka-group/mishka_chelekom/pull/123)
 
 ### Bugs:
 - Fix un-CSP progress mounted [#72](https://github.com/mishka-group/mishka_chelekom/pull/72)
