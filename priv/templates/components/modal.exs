@@ -2,9 +2,10 @@
   modal: [
     name: "modal",
     args: [
-      variant: ["default", "outline", "transparent", "shadow", "unbordered"],
+      variant: ["default", "shadow", "bordered", "gradient"],
       color: [
         "white",
+        "natural",
         "primary",
         "secondary",
         "dark",
@@ -12,7 +13,7 @@
         "warning",
         "danger",
         "info",
-        "light",
+        "silver",
         "misc",
         "dawn"
       ],
@@ -30,6 +31,7 @@
         "screen"
       ],
       only: ["modal"],
+      helpers: [],
       module: ""
     ],
     optional: [],
