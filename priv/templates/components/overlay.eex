@@ -16,6 +16,8 @@ defmodule <%= @module %> do
   @sizes ["extra_small", "small", "medium", "large", "extra_large"]
   @colors [
     "natural",
+    "white",
+    "dark",
     "primary",
     "secondary",
     "success",
@@ -92,6 +94,16 @@ defmodule <%= @module %> do
     """
   end
 
+ <%= if is_nil(@color) or "white" in @color do %>
+  defp color_class("white") do
+    ["bg-white text-black"]
+  end
+  <% end %>
+  <%= if is_nil(@color) or "dark" in @color do %>
+  defp color_class("dark") do
+    ["bg-[#282828] text-white"]
+  end
+  <% end %>
   <%= if is_nil(@color) or "natural" in @color do %>
   defp color_class("natural") do
     ["bg-[#4B4B4B] dark:bg-[#DDDDDD]"]

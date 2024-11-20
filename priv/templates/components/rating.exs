@@ -26,6 +26,7 @@
         "quadruple_large"
       ],
       only: ["rating"],
+      helpers: [],
       module: ""
     ],
     optional: [],

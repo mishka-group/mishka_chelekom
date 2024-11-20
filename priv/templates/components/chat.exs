@@ -2,9 +2,10 @@
   chat: [
     name: "chat",
     args: [
-      variant: ["default", "outline", "transparent", "shadow", "gradient", "unbordered"],
+      variant: ["default", "outline", "transparent", "shadow", "gradient", "bordered"],
       color: [
         "white",
+        "natural",
         "primary",
         "secondary",
         "dark",
@@ -12,7 +13,7 @@
         "warning",
         "danger",
         "info",
-        "light",
+        "silver",
         "misc",
         "dawn"
       ],
@@ -22,6 +23,7 @@
       padding: ["extra_small", "small", "medium", "large", "extra_large"],
       type: ["chat", "chat_section"],
       only: ["chat", "chat_section"],
+      helpers: [],
       module: ""
     ],
     optional: [],
