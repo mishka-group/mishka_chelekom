@@ -87,6 +87,7 @@ defmodule <%= @module %> do
   attr :variant, :string, values: @variants, default: "default", doc: "Determines the style"
   attr :color, :string, values: @colors, default: "white", doc: "Determines color theme"
   attr :rounded, :string, values: @sizes, default: "small", doc: "Determines the border radius"
+  attr :border, :string, default: "extra_small", doc: "Determines border style"
 
   attr :padding, :string,
     values: @sizes ++ ["none"],
