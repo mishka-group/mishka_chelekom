@@ -19,7 +19,7 @@ defmodule <%= @module %> do
     "warning",
     "danger",
     "info",
-    "light",
+    "silver",
     "misc",
     "dawn"
   ]
@@ -119,7 +119,7 @@ defmodule <%= @module %> do
         "flex items-start gap-3",
         position_class(@position),
         rounded_size(@rounded, @position),
-        border_class(@border),
+        border_class(@border, @variant),
         color_variant(@variant, @color),
         space_class(@space),
         padding_size(@padding),
@@ -327,13 +327,13 @@ defmodule <%= @module %> do
   defp border_class("small", _), do: "[&>.chat-section-bubble]:border-2"
   <% end %>
   <%= if is_nil(@size) or "medium" in @size do %>
-  defp border_class("medium", _), do: "[&>.chat-section-bubble]:border-[3px]"
+  defp border_class("medium", _), do: "[&>.chat-section-bubble]:[&>.chat-section-bubble]:border-[3px]"
   <% end %>
   <%= if is_nil(@size) or "large" in @size do %>
   defp border_class("large", _), do: "[&>.chat-section-bubble]:border-4"
   <% end %>
   <%= if is_nil(@size) or "extra_large" in @size do %>
-  defp border_class("extra_large", _), do: "[&>.chat-section-bubble]:border-[5px]"
+  defp border_class("extra_large", _), do: "[&>.chat-section-bubble]:[&>.chat-section-bubble]:border-[5px]"
   <% end %>
   <%= if is_nil(@size) or "none" in @size do %>
   defp border_class("none", _), do: "[&>.chat-section-bubble]:border-0"
@@ -366,85 +366,95 @@ defmodule <%= @module %> do
   <%= if is_nil(@variant) or "default" in @variant do %>
   <%= if is_nil(@color) or "white" in @color do %>
   defp color_variant("default", "white") do
-     [
-      "bg-white text-black"
+    [
+      "[&>.chat-section-bubble]:bg-white text-black"
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "dark" in @color do %>
   defp color_variant("default", "dark") do
-     [
-      "bg-[#282828] text-white"
+    [
+      "[&>.chat-section-bubble]:bg-[#282828] [&>.chat-section-bubble]:text-white"
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "natural" in @color do %>
   defp color_variant("default", "natural") do
-     [
-      "bg-[#4B4B4B] text-white dark:bg-[#DDDDDD] dark:text-black"
+    [
+      "[&>.chat-section-bubble]:bg-[#4B4B4B] [&>.chat-section-bubble]:text-white",
+      "dark:[&>.chat-section-bubble]:bg-[#DDDDDD] dark:[&>.chat-section-bubble]:text-black"
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "primary" in @color do %>
   defp color_variant("default", "primary") do
     [
-      "bg-[#007F8C] text-white dark:bg-[#01B8CA] dark:text-black"
+      "[&>.chat-section-bubble]:bg-[#007F8C] [&>.chat-section-bubble]:text-white",
+      "dark:[&>.chat-section-bubble]:bg-[#01B8CA] dark:[&>.chat-section-bubble]:text-black"
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "secondary" in @color do %>
   defp color_variant("default", "secondary") do
     [
-      "bg-[#266EF1] text-white dark:bg-[#6DAAFB] dark:text-black"
+      "[&>.chat-section-bubble]:bg-[#266EF1] [&>.chat-section-bubble]:text-white",
+      "dark:[&>.chat-section-bubble]:bg-[#6DAAFB] dark:[&>.chat-section-bubble]:text-black"
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "success" in @color do %>
   defp color_variant("default", "success") do
     [
-      "bg-[#0E8345] text-white dark:bg-[#06C167] dark:text-black"
+      "[&>.chat-section-bubble]:bg-[#0E8345] [&>.chat-section-bubble]:text-white",
+      "dark:[&>.chat-section-bubble]:bg-[#06C167] dark:[&>.chat-section-bubble]:text-black"
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "warning" in @color do %>
   defp color_variant("default", "warning") do
     [
-      "bg-[#CA8D01] text-white dark:bg-[#FDC034] dark:text-black"
+      "[&>.chat-section-bubble]:bg-[#CA8D01] [&>.chat-section-bubble]:text-white",
+      "dark:[&>.chat-section-bubble]:bg-[#FDC034] dark:[&>.chat-section-bubble]:text-black"
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "danger" in @color do %>
   defp color_variant("default", "danger") do
     [
-      "bg-[#DE1135] text-white dark:bg-[#FC7F79] dark:text-black"
+      "[&>.chat-section-bubble]:bg-[#DE1135] [&>.chat-section-bubble]:text-white",
+      "dark:[&>.chat-section-bubble]:bg-[#FC7F79] dark:[&>.chat-section-bubble]:text-black"
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "info" in @color do %>
   defp color_variant("default", "info") do
     [
-      "bg-[#0B84BA] text-white dark:bg-[#3EB7ED] dark:text-black"
+      "[&>.chat-section-bubble]:bg-[#0B84BA] [&>.chat-section-bubble]:text-white",
+      "dark:[&>.chat-section-bubble]:bg-[#3EB7ED] dark:[&>.chat-section-bubble]:text-black"
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "misc" in @color do %>
   defp color_variant("default", "misc") do
     [
-      "bg-[#8750C5] text-white dark:bg-[#BA83F9] dark:text-black"
+      "[&>.chat-section-bubble]:bg-[#8750C5] [&>.chat-section-bubble]:text-white",
+      "dark:[&>.chat-section-bubble]:bg-[#BA83F9] dark:[&>.chat-section-bubble]:text-black"
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "dawn" in @color do %>
   defp color_variant("default", "dawn") do
     [
-      "bg-[#A86438] text-white dark:bg-[#DB976B] dark:text-black"
+      "[&>.chat-section-bubble]:bg-[#A86438] [&>.chat-section-bubble]:text-white",
+      "dark:[&>.chat-section-bubble]:bg-[#DB976B] dark:[&>.chat-section-bubble]:text-black"
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "silver" in @color do %>
   defp color_variant("default", "silver") do
-     [
-      "bg-[#868686] text-white dark:bg-[#A6A6A6] dark:text-black"
+    [
+      "[&>.chat-section-bubble]:bg-[#868686] [&>.chat-section-bubble]:text-white",
+      "dark:[&>.chat-section-bubble]:bg-[#A6A6A6] dark:[&>.chat-section-bubble]:text-black"
     ]
   end
   <% end %>
@@ -453,70 +463,80 @@ defmodule <%= @module %> do
   <%= if is_nil(@color) or "natural" in @color do %>
   defp color_variant("outline", "natural") do
     [
-      "text-[#4B4B4B] border-[#4B4B4B] dark:text-[#DDDDDD] dark:border-[#DDDDDD]"
+      "[&>.chat-section-bubble]:text-[#4B4B4B] [&>.chat-section-bubble]:border-[#4B4B4B]",
+      "dark:[&>.chat-section-bubble]:text-[#DDDDDD] dark:[&>.chat-section-bubble]:border-[#DDDDDD]"
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "primary" in @color do %>
   defp color_variant("outline", "primary") do
     [
-      "text-[#007F8C] border-[#007F8C]  dark:text-[#01B8CA] dark:border-[#01B8CA]"
+      "[&>.chat-section-bubble]:text-[#007F8C] [&>.chat-section-bubble]:border-[#007F8C] ",
+      "dark:[&>.chat-section-bubble]:text-[#01B8CA] dark:[&>.chat-section-bubble]:border-[#01B8CA]"
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "secondary" in @color do %>
   defp color_variant("outline", "secondary") do
     [
-      "text-[#266EF1] border-[#266EF1] dark:text-[#6DAAFB] dark:border-[#6DAAFB]"
+      "[&>.chat-section-bubble]:text-[#266EF1] [&>.chat-section-bubble]:border-[#266EF1]",
+      "dark:[&>.chat-section-bubble]:text-[#6DAAFB] dark:[&>.chat-section-bubble]:border-[#6DAAFB]"
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "success" in @color do %>
   defp color_variant("outline", "success") do
     [
-      "text-[#0E8345] border-[#0E8345] dark:text-[#06C167] dark:border-[#06C167]"
+      "[&>.chat-section-bubble]:text-[#0E8345] [&>.chat-section-bubble]:border-[#0E8345]",
+      "dark:[&>.chat-section-bubble]:text-[#06C167] dark:[&>.chat-section-bubble]:border-[#06C167]"
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "warning" in @color do %>
   defp color_variant("outline", "warning") do
     [
-      "text-[#CA8D01] border-[#CA8D01] dark:text-[#FDC034] dark:border-[#FDC034]"
+      "[&>.chat-section-bubble]:text-[#CA8D01] [&>.chat-section-bubble]:border-[#CA8D01]",
+      "dark:[&>.chat-section-bubble]:text-[#FDC034] dark:[&>.chat-section-bubble]:border-[#FDC034]"
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "danger" in @color do %>
   defp color_variant("outline", "danger") do
     [
-      "text-[#DE1135] border-[#DE1135] dark:text-[#FC7F79] dark:border-[#FC7F79]"
+      "[&>.chat-section-bubble]:text-[#DE1135] [&>.chat-section-bubble]:border-[#DE1135]",
+      "dark:[&>.chat-section-bubble]:text-[#FC7F79] dark:[&>.chat-section-bubble]:border-[#FC7F79]"
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "info" in @color do %>
   defp color_variant("outline", "info") do
     [
-      "text-[#0B84BA] border-[#0B84BA] dark:text-[#3EB7ED] dark:border-[#3EB7ED]"
+      "[&>.chat-section-bubble]:text-[#0B84BA] [&>.chat-section-bubble]:border-[#0B84BA]",
+      "dark:[&>.chat-section-bubble]:text-[#3EB7ED] dark:[&>.chat-section-bubble]:border-[#3EB7ED]"
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "misc" in @color do %>
   defp color_variant("outline", "misc") do
     [
-      "text-[#8750C5] border-[#8750C5] dark:text-[#BA83F9] dark:border-[#BA83F9]"
+      "[&>.chat-section-bubble]:text-[#8750C5] [&>.chat-section-bubble]:border-[#8750C5]",
+      "dark:[&>.chat-section-bubble]:text-[#BA83F9] dark:[&>.chat-section-bubble]:border-[#BA83F9]"
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "dawn" in @color do %>
   defp color_variant("outline", "dawn") do
     [
-      "text-[#A86438] border-[#A86438] dark:text-[#DB976B] dark:border-[#DB976B]"
+      "[&>.chat-section-bubble]:text-[#A86438] [&>.chat-section-bubble]:border-[#A86438]",
+      "dark:[&>.chat-section-bubble]:text-[#DB976B] dark:[&>.chat-section-bubble]:border-[#DB976B]"
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "silver" in @color do %>
   defp color_variant("outline", "silver") do
     [
-      "text-[#868686] border-[#868686] dark:text-[#A6A6A6] dark:border-[#A6A6A6]"
+      "[&>.chat-section-bubble]:text-[#868686] [&>.chat-section-bubble]:border-[#868686]",
+      "dark:[&>.chat-section-bubble]:text-[#A6A6A6] dark:[&>.chat-section-bubble]:border-[#A6A6A6]"
     ]
   end
   <% end %>
@@ -525,80 +545,100 @@ defmodule <%= @module %> do
   <%= if is_nil(@color) or "natural" in @color do %>
   defp color_variant("shadow", "natural") do
     [
-      "bg-[#4B4B4B] text-white dark:bg-[#DDDDDD] dark:text-black",
-      "shadow-[0px_4px_6px_-4px_rgba(134,134,134,0.5)] shadow-[0px_10px_15px_-3px_rgba(134,134,134,0.5)] dark:shadow-none"
+      "[&>.chat-section-bubble]:bg-[#4B4B4B] [&>.chat-section-bubble]:text-white",
+      "dark:[&>.chat-section-bubble]:bg-[#DDDDDD] dark:[&>.chat-section-bubble]:text-black",
+      "[&>.chat-section-bubble]:shadow-[0px_4px_6px_-4px_rgba(134,134,134,0.5)]",
+      "[&>.chat-section-bubble]:shadow-[0px_10px_15px_-3px_rgba(134,134,134,0.5)] [&>.chat-section-bubble]:dark:shadow-none"
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "primary" in @color do %>
   defp color_variant("shadow", "primary") do
     [
-      "bg-[#007F8C] text-white dark:bg-[#01B8CA] dark:text-black",
-      "shadow-[0px_4px_6px_-4px_rgba(0,149,164,0.5)] shadow-[0px_10px_15px_-3px_rgba(0,149,164,0.5)] dark:shadow-none"
+      "[&>.chat-section-bubble]:bg-[#007F8C] [&>.chat-section-bubble]:text-white",
+      "dark:[&>.chat-section-bubble]:bg-[#01B8CA] dark:[&>.chat-section-bubble]:text-black",
+      "[&>.chat-section-bubble]:shadow-[0px_4px_6px_-4px_rgba(0,149,164,0.5)]",
+      "[&>.chat-section-bubble]:shadow-[0px_10px_15px_-3px_rgba(0,149,164,0.5)] [&>.chat-section-bubble]:dark:shadow-none"
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "secondary" in @color do %>
   defp color_variant("shadow", "secondary") do
     [
-      "bg-[#266EF1] text-white dark:bg-[#6DAAFB] dark:text-black",
-      "shadow-[0px_4px_6px_-4px_rgba(6,139,238,0.5)] shadow-[0px_10px_15px_-3px_rgba(6,139,238,0.5)] dark:shadow-none"
+      "[&>.chat-section-bubble]:bg-[#266EF1] [&>.chat-section-bubble]:text-white",
+      "dark:[&>.chat-section-bubble]:bg-[#6DAAFB] dark:[&>.chat-section-bubble]:text-black",
+      "[&>.chat-section-bubble]:shadow-[0px_4px_6px_-4px_rgba(6,139,238,0.5)]",
+      "[&>.chat-section-bubble]:shadow-[0px_10px_15px_-3px_rgba(6,139,238,0.5)] [&>.chat-section-bubble]:dark:shadow-none"
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "success" in @color do %>
   defp color_variant("shadow", "success") do
     [
-      "bg-[#0E8345] text-white hover:bg-[#166C3B] dark:bg-[#06C167] dark:text-black",
-      "shadow-[0px_4px_6px_-4px_rgba(0,154,81,0.5)] shadow-[0px_10px_15px_-3px_rgba(0,154,81,0.5)] dark:shadow-none"
+      "[&>.chat-section-bubble]:bg-[#0E8345] [&>.chat-section-bubble]:text-white",
+      "dark:[&>.chat-section-bubble]:bg-[#06C167] dark:[&>.chat-section-bubble]:text-black",
+      "[&>.chat-section-bubble]:shadow-[0px_4px_6px_-4px_rgba(0,154,81,0.5)]",
+      "[&>.chat-section-bubble]:shadow-[0px_10px_15px_-3px_rgba(0,154,81,0.5)] [&>.chat-section-bubble]:dark:shadow-none"
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "warning" in @color do %>
   defp color_variant("shadow", "warning") do
-     [
-      "bg-[#CA8D01] text-white dark:bg-[#FDC034] dark:text-black",
-      "shadow-[0px_4px_6px_-4px_rgba(252,176,1,0.5)] shadow-[0px_10px_15px_-3px_rgba(252,176,1,0.5)] dark:shadow-none"
+    [
+      "[&>.chat-section-bubble]:bg-[#CA8D01] [&>.chat-section-bubble]:text-white",
+      "dark:[&>.chat-section-bubble]:bg-[#FDC034] dark:[&>.chat-section-bubble]:text-black",
+      "[&>.chat-section-bubble]:shadow-[0px_4px_6px_-4px_rgba(252,176,1,0.5)]",
+      "[&>.chat-section-bubble]:shadow-[0px_10px_15px_-3px_rgba(252,176,1,0.5)] [&>.chat-section-bubble]:dark:shadow-none"
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "danger" in @color do %>
   defp color_variant("shadow", "danger") do
     [
-      "bg-[#DE1135] text-white dark:bg-[#FC7F79] dark:text-black",
-      "shadow-[0px_4px_6px_-4px_rgba(248,52,70,0.5)] shadow-[0px_10px_15px_-3px_rgba(248,52,70,0.5)] dark:shadow-none"
+      "[&>.chat-section-bubble]:bg-[#DE1135] [&>.chat-section-bubble]:text-white",
+      "dark:[&>.chat-section-bubble]:bg-[#FC7F79] dark:[&>.chat-section-bubble]:text-black",
+      "[&>.chat-section-bubble]:shadow-[0px_4px_6px_-4px_rgba(248,52,70,0.5)]",
+      "[&>.chat-section-bubble]:shadow-[0px_10px_15px_-3px_rgba(248,52,70,0.5)] [&>.chat-section-bubble]:dark:shadow-none"
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "info" in @color do %>
   defp color_variant("shadow", "info") do
     [
-      "bg-[#0B84BA] text-white dark:bg-[#3EB7ED] dark:text-black",
-      "shadow-[0px_4px_6px_-4px_rgba(14,165,233,0.5)] shadow-[0px_10px_15px_-3px_rgba(14,165,233,0.5)] dark:shadow-none"
+      "[&>.chat-section-bubble]:bg-[#0B84BA] [&>.chat-section-bubble]:text-white",
+      "dark:[&>.chat-section-bubble]:bg-[#3EB7ED] dark:[&>.chat-section-bubble]:text-black",
+      "[&>.chat-section-bubble]:shadow-[0px_4px_6px_-4px_rgba(14,165,233,0.5)]",
+      "[&>.chat-section-bubble]:shadow-[0px_10px_15px_-3px_rgba(14,165,233,0.5)] [&>.chat-section-bubble]:dark:shadow-none"
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "misc" in @color do %>
   defp color_variant("shadow", "misc") do
     [
-      "bg-[#8750C5] text-white dark:bg-[#BA83F9] dark:text-black",
-      "shadow-[0px_4px_6px_-4px_rgba(169,100,247,0.5)] shadow-[0px_10px_15px_-3px_rgba(169,100,247,0.5)] dark:shadow-none"
+      "[&>.chat-section-bubble]:bg-[#8750C5] [&>.chat-section-bubble]:text-white",
+      "dark:[&>.chat-section-bubble]:bg-[#BA83F9] dark:[&>.chat-section-bubble]:text-black",
+      "[&>.chat-section-bubble]:shadow-[0px_4px_6px_-4px_rgba(169,100,247,0.5)]",
+      "[&>.chat-section-bubble]:shadow-[0px_10px_15px_-3px_rgba(169,100,247,0.5)] [&>.chat-section-bubble]:dark:shadow-none"
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "dawn" in @color do %>
   defp color_variant("shadow", "dawn") do
     [
-      "bg-[#A86438] text-white dark:bg-[#DB976B] dark:text-black",
-      "shadow-[0px_4px_6px_-4px_rgba(210,125,70,0.5)] shadow-[0px_10px_15px_-3px_rgba(210,125,70,0.5)] dark:shadow-none"
+      "[&>.chat-section-bubble]:bg-[#A86438] [&>.chat-section-bubble]:text-white",
+      "dark:[&>.chat-section-bubble]:bg-[#DB976B] dark:[&>.chat-section-bubble]:text-black",
+      "[&>.chat-section-bubble]:shadow-[0px_4px_6px_-4px_rgba(210,125,70,0.5)]",
+      "[&>.chat-section-bubble]:shadow-[0px_10px_15px_-3px_rgba(210,125,70,0.5)] [&>.chat-section-bubble]:dark:shadow-none"
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "silver" in @color do %>
   defp color_variant("shadow", "silver") do
     [
-      "bg-[#868686] text-white dark:bg-[#A6A6A6] dark:text-black",
-      "shadow-[0px_4px_6px_-4px_rgba(134,134,134,0.5)] shadow-[0px_10px_15px_-3px_rgba(134,134,134,0.5)] dark:shadow-none"
+      "[&>.chat-section-bubble]:bg-[#868686] [&>.chat-section-bubble]:text-white",
+      "dark:[&>.chat-section-bubble]:bg-[#A6A6A6] dark:[&>.chat-section-bubble]:text-black",
+      "[&>.chat-section-bubble]:shadow-[0px_4px_6px_-4px_rgba(134,134,134,0.5)]",
+      "[&>.chat-section-bubble]:shadow-[0px_10px_15px_-3px_rgba(134,134,134,0.5)] [&>.chat-section-bubble]:dark:shadow-none"
     ]
   end
   <% end %>
@@ -607,94 +647,94 @@ defmodule <%= @module %> do
   <%= if is_nil(@color) or "white" in @color do %>
   defp color_variant("bordered", "white") do
     [
-      "bg-white text-black border-[#DDDDDD]"
+      "[&>.chat-section-bubble]:bg-white [&>.chat-section-bubble]:text-black [&>.chat-section-bubble]:border-[#DDDDDD]"
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "dark" in @color do %>
   defp color_variant("bordered", "dark") do
     [
-      "bg-[#282828] text-white border-[#727272]"
+      "[&>.chat-section-bubble]:bg-[#282828] [&>.chat-section-bubble]:text-white [&>.chat-section-bubble]:border-[#727272]"
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "natural" in @color do %>
   defp color_variant("bordered", "natural") do
     [
-      "text-[#282828] border-[#282828] bg-[#F3F3F3]",
-      "dark:text-[#E8E8E8] dark:border-[#E8E8E8] dark:bg-[#4B4B4B]"
+      "[&>.chat-section-bubble]:text-[#282828] [&>.chat-section-bubble]:border-[#282828] [&>.chat-section-bubble]:bg-[#F3F3F3]",
+      "dark:[&>.chat-section-bubble]:text-[#E8E8E8] dark:[&>.chat-section-bubble]:border-[#E8E8E8] dark:[&>.chat-section-bubble]:bg-[#4B4B4B]"
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "primary" in @color do %>
   defp color_variant("bordered", "primary") do
     [
-      "text-[#016974] border-[#016974] bg-[#E2F8FB]",
-      "dark:text-[#77D5E3] dark:border-[#77D5E3] dark:bg-[#002D33]"
+      "[&>.chat-section-bubble]:text-[#016974] [&>.chat-section-bubble]:border-[#016974] [&>.chat-section-bubble]:bg-[#E2F8FB]",
+      "dark:[&>.chat-section-bubble]:text-[#77D5E3] dark:[&>.chat-section-bubble]:border-[#77D5E3] dark:[&>.chat-section-bubble]:bg-[#002D33]"
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "secondary" in @color do %>
   defp color_variant("bordered", "secondary") do
     [
-      "text-[#175BCC] border-[#175BCC] bg-[#EFF4FE]",
-      "dark:text-[#A9C9FF] dark:border-[#A9C9FF] dark:bg-[#002661]"
+      "[&>.chat-section-bubble]:text-[#175BCC] [&>.chat-section-bubble]:border-[#175BCC] [&>.chat-section-bubble]:bg-[#EFF4FE]",
+      "dark:[&>.chat-section-bubble]:text-[#A9C9FF] dark:[&>.chat-section-bubble]:border-[#A9C9FF] dark:[&>.chat-section-bubble]:bg-[#002661]"
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "success" in @color do %>
   defp color_variant("bordered", "success") do
     [
-      "text-[#166C3B] border-[#166C3B] bg-[#EAF6ED]",
-      "dark:text-[#7FD99A] dark:border-[#7FD99A] dark:bg-[#002F14]"
+      "[&>.chat-section-bubble]:text-[#166C3B] [&>.chat-section-bubble]:border-[#166C3B] [&>.chat-section-bubble]:bg-[#EAF6ED]",
+      "dark:[&>.chat-section-bubble]:text-[#7FD99A] dark:[&>.chat-section-bubble]:border-[#7FD99A] dark:[&>.chat-section-bubble]:bg-[#002F14]"
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "warning" in @color do %>
   defp color_variant("bordered", "warning") do
     [
-      "text-[#976A01] border-[#976A01] bg-[#FFF7E6]",
-      "dark:text-[#FDD067] dark:border-[#FDD067] dark:bg-[#322300]"
+      "[&>.chat-section-bubble]:text-[#976A01] [&>.chat-section-bubble]:border-[#976A01] [&>.chat-section-bubble]:bg-[#FFF7E6]",
+      "dark:[&>.chat-section-bubble]:text-[#FDD067] dark:[&>.chat-section-bubble]:border-[#FDD067] dark:[&>.chat-section-bubble]:bg-[#322300]"
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "danger" in @color do %>
   defp color_variant("bordered", "danger") do
     [
-      "text-[#BB032A] border-[#BB032A] bg-[#FFF0EE]",
-      "dark:text-[#FFB2AB] dark:border-[#FFB2AB] dark:bg-[#520810]"
+      "[&>.chat-section-bubble]:text-[#BB032A] [&>.chat-section-bubble]:border-[#BB032A] [&>.chat-section-bubble]:bg-[#FFF0EE]",
+      "dark:[&>.chat-section-bubble]:text-[#FFB2AB] dark:[&>.chat-section-bubble]:border-[#FFB2AB] dark:[&>.chat-section-bubble]:bg-[#520810]"
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "info" in @color do %>
   defp color_variant("bordered", "info") do
     [
-      "text-[#0B84BA] border-[#0B84BA] bg-[#E7F6FD]",
-      "dark:text-[#6EC9F2] dark:border-[#6EC9F2] dark:bg-[#03212F]"
+      "[&>.chat-section-bubble]:text-[#0B84BA] [&>.chat-section-bubble]:border-[#0B84BA] [&>.chat-section-bubble]:bg-[#E7F6FD]",
+      "dark:[&>.chat-section-bubble]:text-[#6EC9F2] dark:[&>.chat-section-bubble]:border-[#6EC9F2] dark:[&>.chat-section-bubble]:bg-[#03212F]"
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "misc" in @color do %>
   defp color_variant("bordered", "misc") do
     [
-      "text-[#653C94] border-[#653C94] bg-[#F6F0FE]",
-      "dark:text-[#CBA2FA] dark:border-[#CBA2FA] dark:bg-[#221431]"
+      "[&>.chat-section-bubble]:text-[#653C94] [&>.chat-section-bubble]:border-[#653C94] [&>.chat-section-bubble]:bg-[#F6F0FE]",
+      "dark:[&>.chat-section-bubble]:text-[#CBA2FA] dark:[&>.chat-section-bubble]:border-[#CBA2FA] dark:[&>.chat-section-bubble]:bg-[#221431]"
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "dawn" in @color do %>
   defp color_variant("bordered", "dawn") do
     [
-      "text-[#7E4B2A] border-[#7E4B2A] bg-[#FBF2ED]",
-      "dark:text-[#E4B190] dark:border-[#E4B190] dark:bg-[#2A190E]"
+      "[&>.chat-section-bubble]:text-[#7E4B2A] [&>.chat-section-bubble]:border-[#7E4B2A] [&>.chat-section-bubble]:bg-[#FBF2ED]",
+      "dark:[&>.chat-section-bubble]:text-[#E4B190] dark:[&>.chat-section-bubble]:border-[#E4B190] dark:[&>.chat-section-bubble]:bg-[#2A190E]"
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "silver" in @color do %>
   defp color_variant("bordered", "silver") do
     [
-      "text-[#727272] border-[#727272] bg-[#F3F3F3]",
-      "dark:text-[#BBBBBB] dark:border-[#BBBBBB] dark:bg-[#4B4B4B]"
+      "[&>.chat-section-bubble]:text-[#727272] [&>.chat-section-bubble]:border-[#727272] [&>.chat-section-bubble]:bg-[#F3F3F3]",
+      "dark:[&>.chat-section-bubble]:text-[#BBBBBB] dark:[&>.chat-section-bubble]:border-[#BBBBBB] dark:[&>.chat-section-bubble]:bg-[#4B4B4B]"
     ]
   end
   <% end %>
@@ -703,70 +743,70 @@ defmodule <%= @module %> do
   <%= if is_nil(@color) or "natural" in @color do %>
   defp color_variant("transparent", "natural") do
     [
-      "text-[#4B4B4B] dark:text-[#DDDDDD]"
+      "[&>.chat-section-bubble]:text-[#4B4B4B] dark:[&>.chat-section-bubble]:text-[#DDDDDD]"
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "primary" in @color do %>
   defp color_variant("transparent", "primary") do
     [
-      "text-[#007F8C] dark:text-[#01B8CA]"
+      "[&>.chat-section-bubble]:text-[#007F8C] dark:[&>.chat-section-bubble]:text-[#01B8CA]"
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "secondary" in @color do %>
   defp color_variant("transparent", "secondary") do
     [
-      "text-[#266EF1] dark:text-[#6DAAFB]"
+      "[&>.chat-section-bubble]:text-[#266EF1] dark:[&>.chat-section-bubble]:text-[#6DAAFB]"
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "success" in @color do %>
   defp color_variant("transparent", "success") do
     [
-      "text-[#0E8345] dark:text-[#06C167]"
+      "[&>.chat-section-bubble]:text-[#0E8345] dark:[&>.chat-section-bubble]:text-[#06C167]"
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "warning" in @color do %>
   defp color_variant("transparent", "warning") do
    [
-      "text-[#CA8D01] dark:text-[#FDC034]"
+      "[&>.chat-section-bubble]:text-[#CA8D01] dark:[&>.chat-section-bubble]:text-[#FDC034]"
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "danger" in @color do %>
   defp color_variant("transparent", "danger") do
     [
-      "text-[#DE1135] dark:text-[#FC7F79]"
+      "[&>.chat-section-bubble]:text-[#DE1135] dark:[&>.chat-section-bubble]:text-[#FC7F79]"
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "info" in @color do %>
   defp color_variant("transparent", "info") do
     [
-      "text-[#0B84BA] dark:text-[#3EB7ED]"
+      "[&>.chat-section-bubble]:text-[#0B84BA] dark:[&>.chat-section-bubble]:text-[#3EB7ED]"
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "misc" in @color do %>
   defp color_variant("transparent", "misc") do
     [
-      "text-[#8750C5] dark:text-[#BA83F9]"
+      "[&>.chat-section-bubble]:text-[#8750C5] dark:[&>.chat-section-bubble]:text-[#BA83F9]"
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "dawn" in @color do %>
   defp color_variant("transparent", "dawn") do
     [
-      "text-[#A86438] dark:text-[#DB976B]"
+      "[&>.chat-section-bubble]:text-[#A86438] dark:[&>.chat-section-bubble]:text-[#DB976B]"
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "silver" in @color do %>
   defp color_variant("transparent", "silver") do
     [
-      "text-[#868686] dark:text-[#A6A6A6]"
+      "[&>.chat-section-bubble]:text-[#868686] dark:[&>.chat-section-bubble]:text-[#A6A6A6]"
     ]
   end
   <% end %>
@@ -775,80 +815,80 @@ defmodule <%= @module %> do
   <%= if is_nil(@color) or "natural" in @color do %>
   defp color_variant("gradient", "natural") do
     [
-      "bg-gradient-to-br from-[#282828] to-[#727272] text-white",
-      "dark:from-[#A6A6A6] dark:to-[#FFFFFF] dark:text-black"
+      "[&>.chat-section-bubble]:bg-gradient-to-br from-[#282828] to-[#727272] [&>.chat-section-bubble]:text-white",
+      "dark:from-[#A6A6A6] dark:to-[#FFFFFF] dark:[&>.chat-section-bubble]:text-black"
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "primary" in @color do %>
   defp color_variant("gradient", "primary") do
     [
-      "bg-gradient-to-br from-[#016974] to-[#01B8CA] text-white",
-      "dark:from-[#01B8CA] dark:to-[#B0E7EF] dark:text-black"
+      "[&>.chat-section-bubble]:bg-gradient-to-br from-[#016974] to-[#01B8CA] [&>.chat-section-bubble]:text-white",
+      "dark:from-[#01B8CA] dark:to-[#B0E7EF] dark:[&>.chat-section-bubble]:text-black"
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "secondary" in @color do %>
   defp color_variant("gradient", "secondary") do
     [
-      "bg-gradient-to-br from-[#175BCC] to-[#6DAAFB] text-white",
-      "dark:from-[#6DAAFB] dark:to-[#CDDEFF] dark:text-black"
+      "[&>.chat-section-bubble]:bg-gradient-to-br from-[#175BCC] to-[#6DAAFB] [&>.chat-section-bubble]:text-white",
+      "dark:from-[#6DAAFB] dark:to-[#CDDEFF] dark:[&>.chat-section-bubble]:text-black"
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "success" in @color do %>
   defp color_variant("gradient", "success") do
     [
-      "bg-gradient-to-br from-[#166C3B] to-[#06C167] text-white",
-      "dark:from-[#06C167] dark:to-[#B1EAC2] dark:text-black"
+      "[&>.chat-section-bubble]:bg-gradient-to-br from-[#166C3B] to-[#06C167] [&>.chat-section-bubble]:text-white",
+      "dark:from-[#06C167] dark:to-[#B1EAC2] dark:[&>.chat-section-bubble]:text-black"
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "warning" in @color do %>
   defp color_variant("gradient", "warning") do
     [
-      "bg-gradient-to-br from-[#976A01] to-[#FDC034] text-white",
-      "dark:from-[#FDC034] dark:to-[#FEDF99] dark:text-black"
+      "[&>.chat-section-bubble]:bg-gradient-to-br from-[#976A01] to-[#FDC034] [&>.chat-section-bubble]:text-white",
+      "dark:from-[#FDC034] dark:to-[#FEDF99] dark:[&>.chat-section-bubble]:text-black"
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "danger" in @color do %>
   defp color_variant("gradient", "danger") do
     [
-      "bg-gradient-to-br from-[#BB032A] to-[#FC7F79] text-white",
-      "dark:from-[#FC7F79] dark:to-[#FFD2CD] dark:text-black"
+      "[&>.chat-section-bubble]:bg-gradient-to-br from-[#BB032A] to-[#FC7F79] [&>.chat-section-bubble]:text-white",
+      "dark:from-[#FC7F79] dark:to-[#FFD2CD] dark:[&>.chat-section-bubble]:text-black"
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "info" in @color do %>
   defp color_variant("gradient", "info") do
     [
-      "bg-gradient-to-br from-[#08638C] to-[#3EB7ED] text-white",
-      "dark:from-[#3EB7ED] dark:to-[#9FDBF6] dark:text-black"
+      "[&>.chat-section-bubble]:bg-gradient-to-br from-[#08638C] to-[#3EB7ED] [&>.chat-section-bubble]:text-white",
+      "dark:from-[#3EB7ED] dark:to-[#9FDBF6] dark:[&>.chat-section-bubble]:text-black"
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "misc" in @color do %>
   defp color_variant("gradient", "misc") do
    [
-      "bg-gradient-to-br from-[#653C94] to-[#BA83F9] text-white",
-      "dark:from-[#BA83F9] dark:to-[#DDC1FC] dark:text-black"
+      "[&>.chat-section-bubble]:bg-gradient-to-br from-[#653C94] to-[#BA83F9] [&>.chat-section-bubble]:text-white",
+      "dark:from-[#BA83F9] dark:to-[#DDC1FC] dark:[&>.chat-section-bubble]:text-black"
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "dawn" in @color do %>
   defp color_variant("gradient", "dawn") do
     [
-      "bg-gradient-to-br from-[#7E4B2A] to-[#DB976B] text-white",
-      "dark:from-[#DB976B] dark:to-[#EDCBB5] dark:text-black"
+      "[&>.chat-section-bubble]:bg-gradient-to-br from-[#7E4B2A] to-[#DB976B] [&>.chat-section-bubble]:text-white",
+      "dark:from-[#DB976B] dark:to-[#EDCBB5] dark:[&>.chat-section-bubble]:text-black"
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "silver" in @color do %>
   defp color_variant("gradient", "silver") do
     [
-      "bg-gradient-to-br from-[#5E5E5E] to-[#A6A6A6] text-white",
-      "dark:from-[#868686] dark:to-[#BBBBBB] dark:text-black"
+      "[&>.chat-section-bubble]:bg-gradient-to-br from-[#5E5E5E] to-[#A6A6A6] [&>.chat-section-bubble]:text-white",
+      "dark:from-[#868686] dark:to-[#BBBBBB] dark:[&>.chat-section-bubble]:text-black"
     ]
   end
   <% end %>
