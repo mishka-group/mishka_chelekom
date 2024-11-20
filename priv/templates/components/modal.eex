@@ -167,7 +167,6 @@ defmodule <%= @module %> do
        when variant in [
               "default",
               "shadow",
-              "transparent",
               "gradient"
             ],
        do: nil
