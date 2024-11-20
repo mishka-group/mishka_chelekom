@@ -31,7 +31,7 @@
         "screen"
       ],
       only: ["modal"],
-      helpers: [],
+      helpers: [show_modal: 2, hide_modal: 2],
       module: ""
     ],
     optional: [],
