@@ -82,7 +82,7 @@ defmodule <%= @module %> do
     doc: "A unique identifier is used to manage state and interaction"
 
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
-  attr :overlay, :string, default: "dark", doc: "Determines an overlay"
+  attr :overlay, :string, default: "natural", doc: "Determines an overlay"
 
   attr :size, :string,
     default: "large",
