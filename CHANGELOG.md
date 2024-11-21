@@ -23,6 +23,7 @@
 - Add dark mode of Rating component [#123](https://github.com/mishka-group/mishka_chelekom/pull/123)
 - Add dark mode of Chat component [#125](https://github.com/mishka-group/mishka_chelekom/pull/125)
 - Add dark mode of Modal component [#126](https://github.com/mishka-group/mishka_chelekom/pull/126)
+- Add dark mode of Keyboard component [#127](https://github.com/mishka-group/mishka_chelekom/pull/127)
 
 ### Bugs:
 - Fix un-CSP progress mounted [#72](https://github.com/mishka-group/mishka_chelekom/pull/72)
