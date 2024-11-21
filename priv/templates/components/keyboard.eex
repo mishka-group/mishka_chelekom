@@ -67,6 +67,7 @@ defmodule <%= @module %> do
 
   attr :variant, :string, values: @variants, default: "default", doc: "Determines the style"
   attr :color, :string, values: @colors, default: "natural", doc: "Determines color theme"
+  attr :border, :string, default: "extra_small", doc: "Determines border style"
 
   attr :size, :string,
     default: "small",
