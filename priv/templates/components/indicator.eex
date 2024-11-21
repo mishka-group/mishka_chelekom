@@ -213,7 +213,7 @@ defmodule <%= @module %> do
       class={[
         indicator_size(@size),
         color_class(@color),
-        "block indicator rounded-full border",
+        "block indicator rounded-full",
         !is_nil(@rest[:pinging]) && "animate-ping",
         @class
       ]}
