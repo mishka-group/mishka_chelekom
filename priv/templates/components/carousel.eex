@@ -410,7 +410,7 @@ defmodule <%= @module %> do
 
   defp text_position(_), do: text_position("center")
   <%= if is_nil(@color) or "natural" in @color do %>
-  defp color_class("white") do
+  defp color_class("natural") do
     [
       "[&_.carousel-overlay]:bg-[#4B4B4B]/30 text-white hover:[&_.carousel-controls]:bg-[#4B4B4B]/5",
       "dark:[&_.carousel-overlay]:bg-[#DDDDDD]/30 text-black dark:hover:[&_.carousel-controls]:bg-[#DDDDDD]/5",
