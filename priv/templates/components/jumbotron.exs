@@ -2,7 +2,7 @@
   jumbotron: [
     name: "jumbotron",
     args: [
-      variant: ["default", "outline", "transparent", "shadow", "unbordered"],
+      variant: ["default", "outline", "transparent", "shadow", "bordered", "gradient"],
       color: [
         "white",
         "primary",
@@ -12,7 +12,7 @@
         "warning",
         "danger",
         "info",
-        "light",
+        "silver",
         "misc",
         "dawn"
       ],
@@ -30,6 +30,7 @@
         "none"
       ],
       only: ["jumbotron"],
+      helpers: [],
       module: ""
     ],
     optional: [],
