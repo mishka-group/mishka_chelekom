@@ -409,6 +409,14 @@ defmodule <%= @module %> do
   end
 
   defp text_position(_), do: text_position("center")
+  <%= if is_nil(@color) or "natural" in @color do %>
+  defp color_class("white") do
+    [
+      "[&_.carousel-overlay]:bg-[#4B4B4B]/30 text-white hover:[&_.carousel-controls]:bg-[#4B4B4B]/5",
+      "dark:[&_.carousel-overlay]:bg-[#DDDDDD]/30 text-black dark:hover:[&_.carousel-controls]:bg-[#DDDDDD]/5",
+    ]
+  end
+  <% end %>
   <%= if is_nil(@color) or "white" in @color do %>
   defp color_class("white") do
     "[&_.carousel-overlay]:bg-white/30 text-[#3E3E3E] hover:[&_.carousel-controls]:bg-white/5"
@@ -416,52 +424,79 @@ defmodule <%= @module %> do
   <% end %>
   <%= if is_nil(@color) or "primary" in @color do %>
   defp color_class("primary") do
-    "[&_.carousel-overlay]:bg-[#4363EC]/30 text-white hover:[&_.carousel-controls]:bg-[#4363EC]/5"
+    [
+      "[&_.carousel-overlay]:bg-[#007F8C]/30 text-white hover:[&_.carousel-controls]:bg-[#007F8C]/5",
+      "dark:[&_.carousel-overlay]:bg-[#01B8CA]/30 text-black dark:hover:[&_.carousel-controls]:bg-[#01B8CA]/5",
+    ]
   end
   <% end %>
   <%= if is_nil(@color) or "secondary" in @color do %>
   defp color_class("secondary") do
-    "[&_.carousel-overlay]:bg-[#6B6E7C]/30 text-white hover:[&_.carousel-controls]:bg-[#6B6E7C]/5"
+    [
+      "[&_.carousel-overlay]:bg-[#266EF1]/30 text-white hover:[&_.carousel-controls]:bg-[#266EF1]/5",
+      "dark:[&_.carousel-overlay]:bg-[#6DAAFB]/30 text-black dark:hover:[&_.carousel-controls]:bg-[#6DAAFB]/5",
+    ]
   end
   <% end %>
   <%= if is_nil(@color) or "success" in @color do %>
   defp color_class("success") do
-    "[&_.carousel-overlay]:bg-[#ECFEF3]/30 text-[#047857] hover:[&_.carousel-controls]:bg-[#ECFEF3]/5"
+    [
+      "[&_.carousel-overlay]:bg-[#0E8345]/30 text-white hover:[&_.carousel-controls]:bg-[#0E8345]/5",
+      "dark:[&_.carousel-overlay]:bg-[#06C167]/30 text-black dark:hover:[&_.carousel-controls]:bg-[#06C167]/5",
+    ]
   end
   <% end %>
   <%= if is_nil(@color) or "warning" in @color do %>
   defp color_class("warning") do
-    "[&_.carousel-overlay]:bg-[#FFF8E6]/30 text-[#FF8B08] hover:[&_.carousel-controls]:bg-[#FFF8E6]/5"
+    [
+      "[&_.carousel-overlay]:bg-[#CA8D01]/30 text-white hover:[&_.carousel-controls]:bg-[#CA8D01]/5",
+      "dark:[&_.carousel-overlay]:bg-[#FDC034]/30 text-black dark:hover:[&_.carousel-controls]:bg-[#FDC034]/5",
+    ]
   end
   <% end %>
   <%= if is_nil(@color) or "danger" in @color do %>
   defp color_class("danger") do
-    "[&_.carousel-overlay]:bg-[#FFE6E6]/30 text-[#E73B3B] hover:[&_.carousel-controls]:bg-[#FFE6E6]/5"
+    [
+      "[&_.carousel-overlay]:bg-[#DE1135]/30 text-white hover:[&_.carousel-controls]:bg-[#DE1135]/5",
+      "dark:[&_.carousel-overlay]:bg-[#FC7F79]/30 text-black dark:hover:[&_.carousel-controls]:bg-[#FC7F79]/5",
+    ]
   end
   <% end %>
   <%= if is_nil(@color) or "info" in @color do %>
   defp color_class("info") do
-    "[&_.carousel-overlay]:bg-[#E5F0FF]/30 text-[#004FC4] hover:[&_.carousel-controls]:bg-[#E5F0FF]/5"
+    [
+      "[&_.carousel-overlay]:bg-[#0B84BA]/30 text-white hover:[&_.carousel-controls]:bg-[#0B84BA]/5",
+      "dark:[&_.carousel-overlay]:bg-[#3EB7ED]/30 text-black dark:hover:[&_.carousel-controls]:bg-[#3EB7ED]/5",
+    ]
   end
   <% end %>
   <%= if is_nil(@color) or "misc" in @color do %>
   defp color_class("misc") do
-    "[&_.carousel-overlay]:bg-[#FFE6FF]/30 text-[#52059C] hover:[&_.carousel-controls]:bg-[#FFE6FF]/5"
+    [
+      "[&_.carousel-overlay]:bg-[#8750C5]/30 text-white hover:[&_.carousel-controls]:bg-[#8750C5]/5",
+      "dark:[&_.carousel-overlay]:bg-[#BA83F9]/30 text-black dark:hover:[&_.carousel-controls]:bg-[#BA83F9]/5",
+    ]
   end
   <% end %>
   <%= if is_nil(@color) or "dawn" in @color do %>
   defp color_class("dawn") do
-    "[&_.carousel-overlay]:bg-[#FFECDA]/30 text-[#4D4137] hover:[&_.carousel-controls]:bg-[#FFECDA]/5"
+    [
+      "[&_.carousel-overlay]:bg-[#A86438]/30 text-white hover:[&_.carousel-controls]:bg-[#A86438]/5",
+      "dark:[&_.carousel-overlay]:bg-[#DB976B]/30 text-black dark:hover:[&_.carousel-controls]:bg-[#DB976B]/5",
+    ]
   end
   <% end %>
-  <%= if is_nil(@color) or "light" in @color do %>
-  defp color_class("light") do
-    "[&_.carousel-overlay]:bg-[#E3E7F1]/30 text-[#707483] hover:[&_.carousel-controls]:bg-[#E3E7F1]/5"
+  <%= if is_nil(@color) or "silver" in @color do %>
+  defp color_class("silver") do
+    [
+      "[&_.carousel-overlay]:bg-[#868686]/30 text-white hover:[&_.carousel-controls]:bg-[#868686]/5",
+      "dark:[&_.carousel-overlay]:bg-[#A6A6A6]/30 text-black dark:hover:[&_.carousel-controls]:bg-[#A6A6A6]/5",
+    ]
   end
   <% end %>
   <%= if is_nil(@color) or "dark" in @color do %>
   defp color_class("dark") do
-    "[&_.carousel-overlay]:bg-[#1E1E1E]/30 text-white hover:[&_.carousel-controls]:bg-[#1E1E1E]/5"
+    "[&_.carousel-overlay]:bg-[#282828]/30 text-white hover:[&_.carousel-controls]:bg-[#282828]/5"
   end
   <% end %>
 
