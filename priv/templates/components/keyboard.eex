@@ -32,7 +32,7 @@ defmodule <%= @module %> do
     "warning",
     "danger",
     "info",
-    "light",
+    "silver",
     "misc",
     "dawn"
   ]
@@ -56,11 +56,11 @@ defmodule <%= @module %> do
   <.keyboard>CTRL</.keyboard>
   <.keyboard color="primary">Esc</.keyboard>
   <.keyboard color="secondary">Tab</.keyboard>
-  <.keyboard color="light">Tab</.keyboard>
+  <.keyboard color="silver">Tab</.keyboard>
   <.keyboard color="info">Tab</.keyboard>
   ```
   """
-  @doc type: :component 
+  @doc type: :component
   attr :id, :string,
     default: nil,
     doc: "A unique identifier is used to manage state and interaction"
