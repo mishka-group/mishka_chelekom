@@ -25,6 +25,7 @@
 - Add dark mode of Modal component [#126](https://github.com/mishka-group/mishka_chelekom/pull/126)
 - Add dark mode of Keyboard component [#127](https://github.com/mishka-group/mishka_chelekom/pull/127)
 - Add dark mode of Jumbotron component [#128](https://github.com/mishka-group/mishka_chelekom/pull/128)
+- Add dark mode of Indicator component [#129](https://github.com/mishka-group/mishka_chelekom/pull/129)
 
 ### Bugs:
 - Fix un-CSP progress mounted [#72](https://github.com/mishka-group/mishka_chelekom/pull/72)

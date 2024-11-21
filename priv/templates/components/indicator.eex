@@ -20,6 +20,7 @@ defmodule <%= @module %> do
   @sizes ["extra_small", "small", "medium", "large", "extra_large"]
 
   @colors [
+    "natural",
     "white",
     "primary",
     "secondary",
@@ -28,7 +29,7 @@ defmodule <%= @module %> do
     "warning",
     "danger",
     "info",
-    "light",
+    "silver",
     "misc",
     "dawn"
   ]
@@ -72,11 +73,6 @@ defmodule <%= @module %> do
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :color, :string, values: @colors, default: "primary", doc: "Determines color theme"
 
-  attr :border, :string,
-    values: @colors ++ ["none"],
-    default: "none",
-    doc: "Determines border style"
-
   attr :rest, :global,
     include: ["pinging"] ++ @indicator_positions,
     doc:
@@ -89,8 +85,7 @@ defmodule <%= @module %> do
       class={[
         indicator_size(@size),
         color_class(@color),
-        border_class(@border),
-        "indicator block rounded-full border absolute -translate-y-1/2 -translate-x-1/2 right-auto top-0 left-0 indicator-top-left",
+        "indicator block rounded-full absolute -translate-y-1/2 -translate-x-1/2 right-auto top-0 left-0 indicator-top-left",
         !is_nil(@rest[:pinging]) && "animate-ping",
         @class
       ]}
@@ -106,8 +101,7 @@ defmodule <%= @module %> do
       class={[
         indicator_size(@size),
         color_class(@color),
-        border_class(@border),
-        "indicator block rounded-full border absolute top-0 -translate-y-1/2 translate-x-1/2 right-1/2",
+        "indicator block rounded-full absolute top-0 -translate-y-1/2 translate-x-1/2 right-1/2",
         !is_nil(@rest[:pinging]) && "animate-ping",
         @class
       ]}
@@ -123,8 +117,7 @@ defmodule <%= @module %> do
       class={[
         indicator_size(@size),
         color_class(@color),
-        border_class(@border),
-        "indicator block rounded-full border absolute -translate-y-1/2 translate-x-1/2 left-auto top-0 right-0  indicator-top-right",
+        "indicator block rounded-full absolute -translate-y-1/2 translate-x-1/2 left-auto top-0 right-0  indicator-top-right",
         !is_nil(@rest[:pinging]) && "animate-ping",
         @class
       ]}
@@ -140,8 +133,7 @@ defmodule <%= @module %> do
       class={[
         indicator_size(@size),
         color_class(@color),
-        border_class(@border),
-        "indicator block rounded-full border absolute -translate-y-1/2 -translate-x-1/2 right-auto left-0 top-2/4",
+        "indicator block rounded-full absolute -translate-y-1/2 -translate-x-1/2 right-auto left-0 top-2/4",
         !is_nil(@rest[:pinging]) && "animate-ping",
         @class
       ]}
@@ -157,8 +149,7 @@ defmodule <%= @module %> do
       class={[
         indicator_size(@size),
         color_class(@color),
-        border_class(@border),
-        "indicator block rounded-full border absolute -translate-y-1/2 translate-x-1/2 left-auto right-0 top-2/4",
+        "indicator block rounded-full absolute -translate-y-1/2 translate-x-1/2 left-auto right-0 top-2/4",
         !is_nil(@rest[:pinging]) && "animate-ping",
         @class
       ]}
@@ -174,8 +165,7 @@ defmodule <%= @module %> do
       class={[
         indicator_size(@size),
         color_class(@color),
-        border_class(@border),
-        "indicator block rounded-full border absolute translate-y-1/2 -translate-x-1/2 right-auto bottom-0 left-0  indicator-bottom-left",
+        "indicator block rounded-full absolute translate-y-1/2 -translate-x-1/2 right-auto bottom-0 left-0  indicator-bottom-left",
         !is_nil(@rest[:pinging]) && "animate-ping",
         @class
       ]}
@@ -191,8 +181,7 @@ defmodule <%= @module %> do
       class={[
         indicator_size(@size),
         color_class(@color),
-        border_class(@border),
-        "indicator block rounded-full border absolute translate-y-1/2 translate-x-1/2 bottom-0 right-1/2",
+        "indicator block rounded-full absolute translate-y-1/2 translate-x-1/2 bottom-0 right-1/2",
         !is_nil(@rest[:pinging]) && "animate-ping",
         @class
       ]}
@@ -208,8 +197,7 @@ defmodule <%= @module %> do
       class={[
         indicator_size(@size),
         color_class(@color),
-        border_class(@border),
-        "indicator block rounded-full border absolute translate-y-1/2 translate-x-1/2 left-auto bottom-0 right-0  indicator-bottom-right",
+        "indicator block rounded-full absolute translate-y-1/2 translate-x-1/2 left-auto bottom-0 right-0  indicator-bottom-right",
         !is_nil(@rest[:pinging]) && "animate-ping",
         @class
       ]}
@@ -225,8 +213,7 @@ defmodule <%= @module %> do
       class={[
         indicator_size(@size),
         color_class(@color),
-        border_class(@border),
-        "block indicator rounded-full border",
+        "block indicator rounded-full",
         !is_nil(@rest[:pinging]) && "animate-ping",
         @class
       ]}
@@ -256,71 +243,39 @@ defmodule <%= @module %> do
   <%= if is_nil(@color) or "white" in @color do %>
   defp color_class("white"), do: "bg-white"
   <% end %>
-  <%= if is_nil(@color) or "primary" in @color do %>
-  defp color_class("primary"), do: "bg-[#4363EC]"
-  <% end %>
-  <%= if is_nil(@color) or "secondary" in @color do %>
-  defp color_class("secondary"), do: "bg-[#6B6E7C]"
-  <% end %>
-  <%= if is_nil(@color) or "success" in @color do %>
-  defp color_class("success"), do: "bg-[#047857]"
-  <% end %>
-  <%= if is_nil(@color) or "warning" in @color do %>
-  defp color_class("warning"), do: "bg-[#FF8B08]"
-  <% end %>
-  <%= if is_nil(@color) or "danger" in @color do %>
-  defp color_class("danger"), do: "bg-[#E73B3B]"
-  <% end %>
-  <%= if is_nil(@color) or "info" in @color do %>
-  defp color_class("info"), do: "bg-[#004FC4]"
-  <% end %>
-  <%= if is_nil(@color) or "misc" in @color do %>
-  defp color_class("misc"), do: "bg-[#52059C]"
-  <% end %>
-  <%= if is_nil(@color) or "dawn" in @color do %>
-  defp color_class("dawn"), do: "bg-[#4D4137]"
-  <% end %>
-  <%= if is_nil(@color) or "light" in @color do %>
-  defp color_class("light"), do: "bg-[#707483]"
-  <% end %>
-  <%= if is_nil(@color) or "dark" in @color do %>
-  defp color_class("dark"), do: "bg-[#1E1E1E]"
-  <% end %>
-  <%= if is_nil(@color) or "white" in @color do %>
-  defp border_class("white"), do: "border-white"
+  <%= if is_nil(@color) or "natural" in @color do %>
+  defp color_class("natural"), do: "bg-[#4B4B4B] dark:bg-[#DDDDDD]"
   <% end %>
   <%= if is_nil(@color) or "primary" in @color do %>
-  defp border_class("primary"), do: "border-[#4363EC]"
+  defp color_class("primary"), do: "bg-[#007F8C] dark:bg-[#01B8CA]"
   <% end %>
   <%= if is_nil(@color) or "secondary" in @color do %>
-  defp border_class("secondary"), do: "border-[#6B6E7C]"
+  defp color_class("secondary"), do: "bg-[#266EF1] dark:bg-[#6DAAFB]"
   <% end %>
   <%= if is_nil(@color) or "success" in @color do %>
-  defp border_class("success"), do: "border-[#047857]"
+  defp color_class("success"), do: "bg-[#0E8345] dark:bg-[#06C167]"
   <% end %>
   <%= if is_nil(@color) or "warning" in @color do %>
-  defp border_class("warning"), do: "border-[#FF8B08]"
+  defp color_class("warning"), do: "bg-[#CA8D01] dark:bg-[#FDC034]"
   <% end %>
   <%= if is_nil(@color) or "danger" in @color do %>
-  defp border_class("danger"), do: "border-[#E73B3B]"
+  defp color_class("danger"), do: "bg-[#DE1135] dark:bg-[#FC7F79]"
   <% end %>
   <%= if is_nil(@color) or "info" in @color do %>
-  defp border_class("info"), do: "border-[#004FC4]"
+  defp color_class("info"), do: "bg-[#0B84BA] dark:bg-[#3EB7ED]"
   <% end %>
   <%= if is_nil(@color) or "misc" in @color do %>
-  defp border_class("misc"), do: "border-[#52059C]"
+  defp color_class("misc"), do: "bg-[#8750C5] dark:bg-[#BA83F9]"
   <% end %>
   <%= if is_nil(@color) or "dawn" in @color do %>
-  defp border_class("dawn"), do: "border-[#4D4137]"
+  defp color_class("dawn"), do: "bg-[#A86438] dark:bg-[#DB976B]"
   <% end %>
-  <%= if is_nil(@color) or "light" in @color do %>
-  defp border_class("light"), do: "border-[#707483]"
+  <%= if is_nil(@color) or "silver" in @color do %>
+  defp color_class("silver"), do: "bg-[#868686] dark:bg-[#A6A6A6]"
   <% end %>
   <%= if is_nil(@color) or "dark" in @color do %>
-  defp border_class("dark"), do: "border-[#1E1E1E]"
+  defp color_class("dark"), do: "bg-[#282828]"
   <% end %>
-
-  defp border_class(type) when type in ["none"], do: "border-transparent"
 
   defp drop_rest(rest) do
     all_rest =
