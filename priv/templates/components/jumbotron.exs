@@ -30,6 +30,7 @@
         "none"
       ],
       only: ["jumbotron"],
+      helpers: [],
       module: ""
     ],
     optional: [],
