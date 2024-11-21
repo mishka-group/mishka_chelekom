@@ -1,6 +1,6 @@
 defmodule <%= @module %> do
   @moduledoc """
-  The `<%= @module %>` module provides a versatile component for visually highsilvering
+  The `<%= @module %>` module provides a versatile component for visually highlighting
   specific areas or elements in your Phoenix application.
 
   It is designed to display small, circular indicators that can be used for notifications,
@@ -276,8 +276,6 @@ defmodule <%= @module %> do
   <%= if is_nil(@color) or "dark" in @color do %>
   defp color_class("dark"), do: "bg-[#282828]"
   <% end %>
-
-  defp border_class(type) when type in ["none"], do: "border-transparent"
 
   defp drop_rest(rest) do
     all_rest =
