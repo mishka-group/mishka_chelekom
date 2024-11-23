@@ -21,6 +21,7 @@
       space: ["extra_small", "small", "medium", "large", "extra_large"],
       rounded: ["extra_small", "small", "medium", "large", "extra_large", "full"],
       only: ["email_field"],
+      helpers: [],
       module: ""
     ],
     optional: [],
