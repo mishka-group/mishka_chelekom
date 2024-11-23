@@ -27,6 +27,7 @@
 - Add dark mode of Jumbotron component [#128](https://github.com/mishka-group/mishka_chelekom/pull/128)
 - Add dark mode of Indicator component [#129](https://github.com/mishka-group/mishka_chelekom/pull/129)
 - Add dark mode of Carousel component [#130](https://github.com/mishka-group/mishka_chelekom/pull/130)
+- Add dark mode of email, url, search, number, password, textarea, tel, text fields components [#138](https://github.com/mishka-group/mishka_chelekom/pull/138)
 
 ### Bugs:
 - Fix un-CSP progress mounted [#72](https://github.com/mishka-group/mishka_chelekom/pull/72)

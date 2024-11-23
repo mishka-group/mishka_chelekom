@@ -22,6 +22,7 @@
       rounded: ["extra_small", "small", "medium", "large", "extra_large", "full"],
       space: ["extra_small", "small", "medium", "large", "extra_large"],
       only: ["number_field"],
+      helpers: [],
       module: ""
     ],
     optional: [],
