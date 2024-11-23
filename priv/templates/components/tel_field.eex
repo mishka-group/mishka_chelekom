@@ -1082,7 +1082,7 @@ defmodule <%= @module %> do
   defp color_variant(params,_,_) when is_binary(params), do: params
   <%= if is_nil(@variant) or "outline" in @variant do %>
   <%= if is_nil(@color) or "natural" in @color do %>
-  defp color_variant(_,_,_), do: color_variant("default", "natural","none")
+  defp color_variant(_,_,_), do: color_variant("outline", "natural","none")
   <% end %>
   <% end %>
 
