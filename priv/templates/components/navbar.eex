@@ -293,17 +293,17 @@ defmodule <%= @module %> do
   defp padding_size(_), do: padding_size("none")
   <% end %>
 
-  defp border_class(_, variant) when variant in ["default", "shadow", "gradient"],
+   defp border_class(_, variant) when variant in ["default", "shadow", "gradient"],
     do: nil
 
-  defp border_class("none"), do: "border-b-0"
-  defp border_class("extra_small"), do: "border-b"
-  defp border_class("small"), do: "border-b-2"
-  defp border_class("medium"), do: "border-b-[3px]"
-  defp border_class("large"), do: "border-b-4"
-  defp border_class("extra_large"), do: "border-b-[5px]"
-  defp border_class(params) when is_binary(params), do: params
-  defp border_class(_), do: border_class("extra_small")
+  defp border_class("none", _), do: "border-b-0"
+  defp border_class("extra_small", _), do: "border-b"
+  defp border_class("small", _), do: "border-b-2"
+  defp border_class("medium", _), do: "border-b-[3px]"
+  defp border_class("large", _), do: "border-b-4"
+  defp border_class("extra_large", _), do: "border-b-[5px]"
+  defp border_class(params, _) when is_binary(params), do: params
+  defp border_class(_, _), do: border_class("extra_small", nil)
 
   <%= if is_nil(@rounded) or "extra_small" in @rounded do %>
   defp rounded_size("extra_small"), do: "rounded-b-sm"
