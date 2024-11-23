@@ -35,7 +35,6 @@ defmodule <%= @module %> do
     "warning",
     "danger",
     "info",
-    "light",
     "misc",
     "dawn",
     "silver"
@@ -353,7 +352,7 @@ defmodule <%= @module %> do
 
   defp border_class(_, variant) when variant in ["default", "shadow", "transparent"],
     do: nil
-    
+
   defp border_class("none", _), do: "[&_.text-field-wrapper]:border-0"
   defp border_class("extra_small", _), do: "[&_.text-field-wrapper]:border"
   defp border_class("small", _), do: "[&_.text-field-wrapper]:border-2"
@@ -382,7 +381,6 @@ defmodule <%= @module %> do
   <%= if is_nil(@space) or "medium" in @space do %>
   defp space_class(_), do: space_class("medium")
   <% end %>
-
 
   <%= if is_nil(@variant) or "outline" in @variant do %>
   <%= if is_nil(@color) or "natural" in @color do %>
@@ -1082,6 +1080,12 @@ defmodule <%= @module %> do
       "focus-within:[&_.text-field-wrapper]:ring-transparent",
     ]
   end
+  <% end %>
+  <% end %>
+  defp color_variant(params,_,_) when is_binary(params), do: params
+  <%= if is_nil(@variant) or "outline" in @variant do %>
+  <%= if is_nil(@color) or "natural" in @color do %>
+  defp color_variant(_,_,_), do: color_variant("default", "natural","none")
   <% end %>
   <% end %>
 

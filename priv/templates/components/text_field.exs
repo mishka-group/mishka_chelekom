@@ -13,7 +13,6 @@
         "warning",
         "danger",
         "info",
-        "light",
         "misc",
         "dawn",
         "silver"
