@@ -22,6 +22,7 @@
       padding: ["extra_small", "small", "medium", "large", "extra_large", "none"],
       rounded: ["extra_small", "small", "medium", "large", "extra_large", "none"],
       only: ["mega_menu"],
+      helpers: [],
       module: ""
     ],
     optional: [],
