@@ -392,18 +392,6 @@ defmodule <%= @module %> do
     ]
   end
   <% end %>
-  <%= if is_nil(@color) or "silver" in @color do %>
-  defp color_variant("outline", "silver", floating) do
-    [
-      "text-[#868686] dark:text-[#A6A6A6] [&_.tel-field-wrapper:not(:has(.text-field-error))]:border-[#868686]",
-      "dark:[&_.tel-field-wrapper:not(:has(.text-field-error))]:border-[#A6A6A6]",
-      "[&_.tel-field-wrapper.text-field-error]:border-rose-700",
-      "[&_.tel-field-wrapper>input]:placeholder:text-[#868686] dark:[&_.tel-field-wrapper>input]:placeholder:text-[#A6A6A6]",
-      "focus-within:[&_.tel-field-wrapper]:ring-white",
-      floating == "outer" && "[&_.tel-field-wrapper_.floating-label]:bg-white dark:[&_.tel-field-wrapper_.floating-label]:bg-[#282828]"
-    ]
-  end
-  <% end %>
   <%= if is_nil(@color) or "primary" in @color do %>
   defp color_variant("outline", "primary", floating) do
     [
