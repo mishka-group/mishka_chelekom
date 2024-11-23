@@ -23,6 +23,7 @@
       padding: ["extra_small", "small", "medium", "large", "extra_large", "none"],
       type: ["footer", "footer_section"],
       only: ["footer", "footer_section"],
+      helpers: [],
       module: ""
     ],
     optional: [],
