@@ -22,7 +22,6 @@ defmodule <%= @module %>  do
   @colors [
     "natural",
     "white",
-    "natural",
     "primary",
     "secondary",
     "dark",
