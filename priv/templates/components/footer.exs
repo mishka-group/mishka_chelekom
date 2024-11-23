@@ -2,8 +2,9 @@
   footer: [
     name: "footer",
     args: [
-      variant: ["default", "outline", "transparent", "shadow", "unbordered"],
+      variant: ["default", "outline", "transparent", "shadow", "bordered", "gradient"],
       color: [
+        "natural",
         "white",
         "primary",
         "secondary",
@@ -12,7 +13,7 @@
         "warning",
         "danger",
         "info",
-        "light",
+        "silver",
         "misc",
         "dawn"
       ],
@@ -22,6 +23,7 @@
       padding: ["extra_small", "small", "medium", "large", "extra_large", "none"],
       type: ["footer", "footer_section"],
       only: ["footer", "footer_section"],
+      helpers: [],
       module: ""
     ],
     optional: [],

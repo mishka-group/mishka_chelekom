@@ -2,8 +2,8 @@
   tel_field: [
     name: "tel_field",
     args: [
-      variants: ["outline", "default", "shadow", "bordered", "transparent"],
-      colors: [
+      variant: ["outline", "default", "shadow", "bordered", "transparent"],
+      color: [
         "natural",
         "white",
         "primary",

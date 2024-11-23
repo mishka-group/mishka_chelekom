@@ -22,7 +22,6 @@ defmodule <%= @module %>  do
   @colors [
     "natural",
     "white",
-    "natural",
     "primary",
     "secondary",
     "dark",
@@ -383,18 +382,6 @@ defmodule <%= @module %>  do
       "dark:[&_.email-field-wrapper:not(:has(.text-field-error))]:border-[#DDDDDD]",
       "[&_.email-field-wrapper.text-field-error]:border-rose-700",
       "[&_.email-field-wrapper>input]:placeholder:text-[#4B4B4B] dark:[&_.email-field-wrapper>input]:placeholder:text-[#DDDDDD]",
-      "focus-within:[&_.email-field-wrapper]:ring-white",
-      floating == "outer" && "[&_.email-field-wrapper_.floating-label]:bg-white dark:[&_.email-field-wrapper_.floating-label]:bg-[#282828]"
-    ]
-  end
-  <% end %>
-  <%= if is_nil(@color) or "silver" in @color do %>
-  defp color_variant("outline", "silver", floating) do
-    [
-      "text-[#868686] dark:text-[#A6A6A6] [&_.email-field-wrapper:not(:has(.text-field-error))]:border-[#868686]",
-      "dark:[&_.email-field-wrapper:not(:has(.text-field-error))]:border-[#A6A6A6]",
-      "[&_.email-field-wrapper.text-field-error]:border-rose-700",
-      "[&_.email-field-wrapper>input]:placeholder:text-[#868686] dark:[&_.email-field-wrapper>input]:placeholder:text-[#A6A6A6]",
       "focus-within:[&_.email-field-wrapper]:ring-white",
       floating == "outer" && "[&_.email-field-wrapper_.floating-label]:bg-white dark:[&_.email-field-wrapper_.floating-label]:bg-[#282828]"
     ]
@@ -1078,7 +1065,7 @@ defmodule <%= @module %>  do
   defp color_variant(params,_,_) when is_binary(params), do: params
   <%= if is_nil(@variant) or "outline" in @variant do %>
   <%= if is_nil(@color) or "natural" in @color do %>
-  defp color_variant(_,_,_), do: color_variant("default", "natural","none")
+  defp color_variant(_,_,_), do: color_variant("outline", "natural","none")
   <% end %>
   <% end %>
 
