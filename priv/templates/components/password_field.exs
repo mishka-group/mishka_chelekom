@@ -2,8 +2,9 @@
   password_field: [
     name: "password_field",
     args: [
-      variant: ["default", "outline", "transparent", "shadow", "unbordered"],
-      color: [
+      variants: ["outline", "default", "shadow", "bordered", "transparent"],
+      colors: [
+        "natural",
         "white",
         "primary",
         "secondary",
@@ -12,7 +13,6 @@
         "warning",
         "danger",
         "info",
-        "light",
         "misc",
         "dawn",
         "silver"
