@@ -2,7 +2,7 @@
   search_field: [
     name: "search_field",
     args: [
-      variants: ["outline", "default", "shadow", "bordered", "transparent"],
+      variant: ["outline", "default", "shadow", "bordered", "transparent"],
       colors: [
         "natural",
         "white",

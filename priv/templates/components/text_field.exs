@@ -2,7 +2,7 @@
   text_field: [
     name: "text_field",
     args: [
-      variants: ["outline", "default", "shadow", "bordered", "transparent"],
+      variant: ["outline", "default", "shadow", "bordered", "transparent"],
       colors: [
         "natural",
         "white",
