@@ -2,8 +2,9 @@
   navbar: [
     name: "navbar",
     args: [
-      variant: ["default", "shadow", "unbordered"],
+      variant: ["default", "shadow", "bordered", "gradient"],
       color: [
+        "natural",
         "white",
         "primary",
         "secondary",
@@ -12,7 +13,7 @@
         "warning",
         "danger",
         "info",
-        "light",
+        "silver",
         "misc",
         "dawn"
       ],
@@ -20,6 +21,7 @@
       rounded: ["extra_small", "small", "medium", "large", "extra_large"],
       space: ["extra_small", "small", "medium", "large", "extra_large"],
       only: ["navbar"],
+      helpers: [],
       module: ""
     ],
     optional: [],
