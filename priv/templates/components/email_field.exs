@@ -2,8 +2,9 @@
   email_field: [
     name: "email_field",
     args: [
-      variant: ["default", "outline", "unbordered", "shadow", "transparent"],
-      color: [
+      variants: ["outline", "default", "shadow", "bordered", "transparent"],
+      colors: [
+        "natural",
         "white",
         "primary",
         "secondary",
@@ -12,7 +13,6 @@
         "warning",
         "danger",
         "info",
-        "light",
         "misc",
         "dawn",
         "silver"
