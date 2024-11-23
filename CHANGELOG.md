@@ -29,6 +29,7 @@
 - Add dark mode of Carousel component [#130](https://github.com/mishka-group/mishka_chelekom/pull/130)
 - Add dark mode of Footer component [#132](https://github.com/mishka-group/mishka_chelekom/pull/132)
 - Add dark mode of MegaMenu component [#133](https://github.com/mishka-group/mishka_chelekom/pull/133)
+- Add dark mode of Navbar component [#134](https://github.com/mishka-group/mishka_chelekom/pull/134)
 
 ### Bugs:
 - Fix un-CSP progress mounted [#72](https://github.com/mishka-group/mishka_chelekom/pull/72)
