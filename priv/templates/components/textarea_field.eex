@@ -61,10 +61,10 @@ defmodule <%= @module %> do
 
   <.textarea_field
     name="name"
-    variant="unbordered"
+    variant="bordered"
     space="small"
     color="success"
-    label="This is Unbordered Success"
+    label="This is bordered Success"
     placeholder="This is placeholder"
   />
   ```
