@@ -4,6 +4,7 @@
     args: [
       variant: ["default", "gradient"],
       color: [
+        "natural",
         "white",
         "primary",
         "secondary",
@@ -12,7 +13,7 @@
         "warning",
         "danger",
         "info",
-        "light",
+        "silver",
         "misc",
         "dawn"
       ],
@@ -20,6 +21,7 @@
       rounded: ["extra_small", "small", "medium", "large", "extra_large", "full"],
       type: ["progress", "progress_section"],
       only: ["progress", "progress_section"],
+      helpers: [],
       module: ""
     ],
     optional: [],
