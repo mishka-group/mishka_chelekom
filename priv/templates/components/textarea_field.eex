@@ -310,12 +310,12 @@ defmodule <%= @module %> do
  defp border_class(_, variant) when variant in ["default", "shadow", "transparent"],
     do: nil
 
-  defp border_class("none", _), do: "[&_.tel-field-wrapper]:border-0"
-  defp border_class("extra_small", _), do: "[&_.tel-field-wrapper]:border"
-  defp border_class("small", _), do: "[&_.tel-field-wrapper]:border-2"
-  defp border_class("medium", _), do: "[&_.tel-field-wrapper]:border-[3px]"
-  defp border_class("large", _), do: "[&_.tel-field-wrapper]:border-4"
-  defp border_class("extra_large", _), do: "[&_.tel-field-wrapper]:border-[5px]"
+  defp border_class("none", _), do: "[&_.textarea-field-wrapper]:border-0"
+  defp border_class("extra_small", _), do: "[&_.textarea-field-wrapper]:border"
+  defp border_class("small", _), do: "[&_.textarea-field-wrapper]:border-2"
+  defp border_class("medium", _), do: "[&_.textarea-field-wrapper]:border-[3px]"
+  defp border_class("large", _), do: "[&_.textarea-field-wrapper]:border-4"
+  defp border_class("extra_large", _), do: "[&_.textarea-field-wrapper]:border-[5px]"
   defp border_class(params, _) when is_binary(params), do: params
   defp border_class(_, _), do: border_class("extra_small", nil)
 
