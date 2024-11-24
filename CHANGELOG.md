@@ -32,6 +32,7 @@
 - Add dark mode of Navbar component [#134](https://github.com/mishka-group/mishka_chelekom/pull/134)
 - Add dark mode of Progress component [#136](https://github.com/mishka-group/mishka_chelekom/pull/136)
 - Add dark mode of email, url, search, number, password, textarea, tel, text fields components [#138](https://github.com/mishka-group/mishka_chelekom/pull/138)
+- Add dark mode of FormWrapper component [#140](https://github.com/mishka-group/mishka_chelekom/pull/140)
 
 
 ### Bugs:
@@ -39,6 +40,7 @@
 - Fix modal title `default: nil` value [#76](https://github.com/mishka-group/mishka_chelekom/pull/76)
 - Correct typo separated across the project [#81](https://github.com/mishka-group/mishka_chelekom/pull/81)
 - Revision and fix some missing part of some fields (version 0.0.1) [#84](https://github.com/mishka-group/mishka_chelekom/pull/84)
+- Fix without `--import` option error of components task CLI [b0b7492](https://github.com/mishka-group/mishka_chelekom/commit/b0b7492e636663d2c55d4b56a04c89b2376f422a)
 
 
 ---
