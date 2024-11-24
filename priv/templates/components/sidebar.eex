@@ -177,12 +177,7 @@ defmodule <%= @module %> do
   defp position_class(_), do: position_class("start")
 
   defp border_class(_, _, variant)
-       when variant in [
-              "default",
-              "shadow",
-              "transparent",
-              "gradient"
-            ],
+       when variant in ["default", "shadow", "transparent", "gradient"],
        do: nil
 
   defp border_class("none", _, _), do: "border-0"

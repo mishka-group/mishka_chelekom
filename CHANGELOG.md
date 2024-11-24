@@ -35,6 +35,7 @@
 - Add dark mode of FormWrapper component [#140](https://github.com/mishka-group/mishka_chelekom/pull/140)
 - Add dark mode of RadioField component [#143](https://github.com/mishka-group/mishka_chelekom/pull/143)
 - Add dark mode of CheckboxField component [#144](https://github.com/mishka-group/mishka_chelekom/pull/144)
+- Add dark mode of Sidebar component [#145](https://github.com/mishka-group/mishka_chelekom/pull/145)
 
 
 ### Bugs:
