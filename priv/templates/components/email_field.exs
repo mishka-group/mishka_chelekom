@@ -2,8 +2,9 @@
   email_field: [
     name: "email_field",
     args: [
-      variant: ["default", "outline", "unbordered", "shadow", "transparent"],
+      variant: ["outline", "default", "shadow", "bordered", "transparent"],
       color: [
+        "natural",
         "white",
         "primary",
         "secondary",
@@ -12,7 +13,6 @@
         "warning",
         "danger",
         "info",
-        "light",
         "misc",
         "dawn",
         "silver"
@@ -21,6 +21,7 @@
       space: ["extra_small", "small", "medium", "large", "extra_large"],
       rounded: ["extra_small", "small", "medium", "large", "extra_large", "full"],
       only: ["email_field"],
+      helpers: [],
       module: ""
     ],
     optional: [],

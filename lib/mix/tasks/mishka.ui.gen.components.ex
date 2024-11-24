@@ -85,7 +85,7 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Components do
         acc
         |> Igniter.compose_task("mishka.ui.gen.component", [item, "--no-deps", "--sub", "--yes"])
       end)
-      |> create_import_macro(list, options[:import], options[:helpers])
+      |> create_import_macro(list, options[:import] || false, options[:helpers])
 
     if Map.get(igniter, :issues, []) == [],
       do: Owl.Spinner.stop(id: :my_spinner, resolution: :ok, label: "Done"),

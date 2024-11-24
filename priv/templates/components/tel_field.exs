@@ -2,8 +2,9 @@
   tel_field: [
     name: "tel_field",
     args: [
-      variant: ["outline", "default", "shadow", "unbordered", "transparent"],
+      variant: ["outline", "default", "shadow", "bordered", "transparent"],
       color: [
+        "natural",
         "white",
         "primary",
         "secondary",
@@ -12,7 +13,6 @@
         "warning",
         "danger",
         "info",
-        "light",
         "misc",
         "dawn",
         "silver"
@@ -21,6 +21,7 @@
       rounded: ["extra_small", "small", "medium", "large", "extra_large", "full"],
       space: ["extra_small", "small", "medium", "large", "extra_large"],
       only: ["tel_field"],
+      helpers: [],
       module: ""
     ],
     optional: [],
