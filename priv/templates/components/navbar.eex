@@ -146,7 +146,9 @@ defmodule <%= @module %> do
     doc:
       "Global attributes can define defaults which are merged with attributes provided by the caller"
 
+  slot :start_content, required: false, doc: ""
   slot :inner_block, required: false, doc: "Inner block that renders HEEx content"
+  slot :end_content, required: false, doc: ""
 
   slot :list, required: false do
     attr :class, :string, doc: "Custom CSS class for additional styling"
@@ -177,6 +179,7 @@ defmodule <%= @module %> do
       {@rest}
     >
       <div class="nav-wrapper md:flex items-center gap-2 md:gap-5">
+        <div :if={@start_content != [] and !is_nil(@start_content)}><%%= render_slot(@start_content) %></div>
         <.link
           :if={!is_nil(@link)}
           navigate={@link}
@@ -188,12 +191,7 @@ defmodule <%= @module %> do
           </h1>
         </.link>
 
-        <div
-          :if={!is_nil(@list) && length(@list) > 0}
-          class={[
-            "w-auto"
-          ]}
-        >
+        <div :if={!is_nil(@list) && length(@list) > 0} class={["w-auto"]}>
           <ul class={[
             "flex flex-wrap md:flex-nowrap gap-4",
             @relative && "relative"
@@ -212,6 +210,7 @@ defmodule <%= @module %> do
           </ul>
         </div>
         <%%= render_slot(@inner_block) %>
+        <div :if={@end_content != [] and !is_nil(@end_content)}><%%= render_slot(@end_content) %></div>
       </div>
     </nav>
     """
