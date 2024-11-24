@@ -129,7 +129,6 @@ defmodule <%= @module %> do
     doc: "Determines the alignment of the element's content"
 
   attr :image, :string, default: nil, doc: "Image displayed alongside of an item"
-  attr :darkmode_image, :string, default: nil, doc: "Image displayed alongside of an item"
   attr :image_class, :string, default: nil, doc: "Determines custom class for the image"
   attr :name, :string, default: nil, doc: "Specifies the name of the element"
   attr :relative, :boolean, default: false, doc: ""
@@ -147,7 +146,9 @@ defmodule <%= @module %> do
     doc:
       "Global attributes can define defaults which are merged with attributes provided by the caller"
 
+  slot :start_content, required: false, doc: ""
   slot :inner_block, required: false, doc: "Inner block that renders HEEx content"
+  slot :end_content, required: false, doc: ""
 
   slot :list, required: false do
     attr :class, :string, doc: "Custom CSS class for additional styling"
@@ -178,20 +179,13 @@ defmodule <%= @module %> do
       {@rest}
     >
       <div class="nav-wrapper md:flex items-center gap-2 md:gap-5">
+        <div :if={@start_content != [] and !is_nil(@start_content)}><%%= render_slot(@start_content) %></div>
         <.link
           :if={!is_nil(@link)}
           navigate={@link}
           class="flex items-center space-x-3 rtl:space-x-reverse mb-5 md:mb-0"
         >
-          <img
-            :if={!is_nil(@darkmode_image)}
-            src={@darkmode_image}
-            class={[@image_class, "dark:block hidden"]}
-          />
-          <img
-            src={@image}
-            class={[@image_class, !is_nil(@darkmode_image) && "dark:hidden"]}
-          />
+          <img :if={!is_nil(@image)} src={@image} class={@image_class} />
           <h1 :if={!is_nil(@name)} class="text-xl font-semibold">
             <%%= @name %>
           </h1>
@@ -221,6 +215,7 @@ defmodule <%= @module %> do
           </ul>
         </div>
         <%%= render_slot(@inner_block) %>
+        <div :if={@end_content != [] and !is_nil(@end_content)}><%%= render_slot(@end_content) %></div>
       </div>
     </nav>
     """
