@@ -191,12 +191,7 @@ defmodule <%= @module %> do
           </h1>
         </.link>
 
-        <div
-          :if={!is_nil(@list) && length(@list) > 0}
-          class={[
-            "w-auto"
-          ]}
-        >
+        <div :if={!is_nil(@list) && length(@list) > 0} class={["w-auto"]}>
           <ul class={[
             "flex flex-wrap md:flex-nowrap gap-4",
             @relative && "relative"
