@@ -348,9 +348,9 @@ defmodule <%= @module %> do
   <%= if is_nil(@color) or "white" in @color do %>
   defp color_class("white") do
     [
-      "[&_.radio-field-wrapper_.radio-input]:text-white text-[#DADADA]",
-      "[&_.radio-field-wrapper_.radio-input]:border-[#DADADA]",
-      "focus-within:[&_.radio-field-wrapper_.radio-input]:ring-[#DADADA]"
+      "[&_.radio-field-wrapper_.radio-input]:text-white text-[#DDDDDD]",
+      "[&_.radio-field-wrapper_.radio-input]:border-[#DDDDDD]",
+      "focus-within:[&_.radio-field-wrapper_.radio-input_.radio-input]:ring-[#DDDDDD]"
     ]
   end
   <% end %>
