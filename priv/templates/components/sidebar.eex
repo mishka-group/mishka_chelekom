@@ -91,7 +91,7 @@ defmodule <%= @module %> do
       phx-remove={hide_sidebar(@id, @hide_position)}
       class={[
         "fixed h-screen transition-transform z-10",
-        border_class(@border, @position),
+        border_class(@border, @position, @variant),
         hide_position(@hide_position),
         color_variant(@variant, @color),
         position_class(@position),
@@ -176,21 +176,30 @@ defmodule <%= @module %> do
   defp position_class(params) when is_binary(params), do: params
   defp position_class(_), do: position_class("start")
 
-  defp border_class("none", _), do: "border-0"
-  defp border_class("extra_small", "start"), do: "border-e"
-  defp border_class("small", "start"), do: "border-e-2"
-  defp border_class("medium", "start"), do: "border-e-[3px]"
-  defp border_class("large", "start"), do: "border-e-4"
-  defp border_class("extra_large", "start"), do: "border-e-[5px]"
+  defp border_class(_, _, variant)
+       when variant in [
+              "default",
+              "shadow",
+              "transparent",
+              "gradient"
+            ],
+       do: nil
 
-  defp border_class("extra_small", "end"), do: "border-s"
-  defp border_class("small", "end"), do: "border-s-2"
-  defp border_class("medium", "end"), do: "border-s-[3px]"
-  defp border_class("large", "end"), do: "border-s-4"
-  defp border_class("extra_large", "end"), do: "border-s-[5px]"
+  defp border_class("none", _, _), do: "border-0"
+  defp border_class("extra_small", "start", _), do: "border-e"
+  defp border_class("small", "start", _), do: "border-e-2"
+  defp border_class("medium", "start", _), do: "border-e-[3px]"
+  defp border_class("large", "start", _), do: "border-e-4"
+  defp border_class("extra_large", "start", _), do: "border-e-[5px]"
 
-  defp border_class(params, _) when is_binary(params), do: params
-  defp border_class(_, _), do: border_class("extra_small", "start")
+  defp border_class("extra_small", "end", _), do: "border-s"
+  defp border_class("small", "end", _), do: "border-s-2"
+  defp border_class("medium", "end", _), do: "border-s-[3px]"
+  defp border_class("large", "end", _), do: "border-s-4"
+  defp border_class("extra_large", "end", _), do: "border-s-[5px]"
+
+  defp border_class(params, _, _) when is_binary(params), do: params
+  defp border_class(_, _, _), do: border_class("extra_small", "start", nil)
 
   <%= if is_nil(@size) or "extra_small" in @size do %>
   defp size_class("extra_small"), do: "w-60"
