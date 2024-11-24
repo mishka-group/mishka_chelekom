@@ -3,6 +3,7 @@
     name: "radio_field",
     args: [
       color: [
+        "natural",
         "white",
         "primary",
         "secondary",
@@ -11,7 +12,7 @@
         "warning",
         "danger",
         "info",
-        "light",
+        "silver",
         "misc",
         "dawn"
       ],
