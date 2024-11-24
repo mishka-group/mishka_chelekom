@@ -33,6 +33,7 @@
 - Add dark mode of Progress component [#136](https://github.com/mishka-group/mishka_chelekom/pull/136)
 - Add dark mode of email, url, search, number, password, textarea, tel, text fields components [#138](https://github.com/mishka-group/mishka_chelekom/pull/138)
 - Add dark mode of FormWrapper component [#140](https://github.com/mishka-group/mishka_chelekom/pull/140)
+- Add dark mode of RadioField component [#143](https://github.com/mishka-group/mishka_chelekom/pull/143)
 
 
 ### Bugs:

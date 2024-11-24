@@ -348,99 +348,138 @@ defmodule <%= @module %> do
   <%= if is_nil(@color) or "white" in @color do %>
   defp color_class("white") do
     [
-      "[&_.radio-field-wrapper_.radio-input]:text-white text-[#DADADA]",
-      "[&_.radio-field-wrapper_.radio-input]:border-[#DADADA]",
-      "focus-within:[&_.radio-field-wrapper_.radio-input]:ring-[#DADADA]"
+      "[&_.radio-field-wrapper_.radio-input]:text-white text-[#DDDDDD]",
+      "[&_.radio-field-wrapper_.radio-input]:border-[#DDDDDD]",
+      "focus-within:[&_.radio-field-wrapper_.radio-input_.radio-input]:ring-[#DDDDDD]"
+    ]
+  end
+  <% end %>
+  <%= if is_nil(@color) or "natural" in @color do %>
+  defp color_class("natural") do
+    [
+      "text-[#282828] dark:text-[#E8E8E8]",
+      "checked:[&_.radio-field-wrapper_.radio-input]:text-[#282828]",
+      "dark:checked:[&_.radio-field-wrapper_.radio-input]:text-[#E8E8E8]",
+      "[&_.radio-field-wrapper_.radio-input]:border-[#282828]",
+      "dark:[&_.radio-field-wrapper_.radio-input]:border-[#868686]",
+      "focus-within:[&_.radio-field-wrapper_.radio-input]:ring-[#4B4B4B] dark:focus-within:[&_.radio-field-wrapper_.radio-input]:ring-[#DDDDDD]"
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "primary" in @color do %>
   defp color_class("primary") do
     [
-      "checked:[&_.radio-field-wrapper_.radio-input]:text-[#4363EC] text-[#4363EC]",
-      "[&_.radio-field-wrapper_.radio-input]:border-[#2441de]",
-      "focus-within:[&_.radio-field-wrapper_.radio-input]:ring-[#2441de]"
+      "text-[#016974] dark:text-[#77D5E3]",
+      "checked:[&_.radio-field-wrapper_.radio-input]:text-[#016974]",
+      "dark:checked:[&_.radio-field-wrapper_.radio-input]:text-[#77D5E3]",
+      "[&_.radio-field-wrapper_.radio-input]:border-[#016974]",
+      "dark:[&_.radio-field-wrapper_.radio-input]:border-[#77D5E3]",
+      "focus-within:[&_.radio-field-wrapper_.radio-input]:ring-[#007F8C] dark:focus-within:[&_.radio-field-wrapper_.radio-input]:ring-[#01B8CA]",
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "secondary" in @color do %>
   defp color_class("secondary") do
     [
-      "[&_.radio-field-wrapper_.radio-input]:text-[#6B6E7C] text-[#6B6E7C]",
-      "[&_.radio-field-wrapper_.radio-input]:border-[#877C7C]",
-      "focus-within:[&_.radio-field-wrapper_.radio-input]:ring-[#877C7C]"
+      "text-[#175BCC] dark:text-[#A9C9FF]",
+      "checked:[&_.radio-field-wrapper_.radio-input]:text-[#175BCC]",
+      "dark:checked:[&_.radio-field-wrapper_.radio-input]:text-[#A9C9FF]",
+      "[&_.radio-field-wrapper_.radio-input]:border-[#175BCC]",
+      "dark:[&_.radio-field-wrapper_.radio-input]:border-[#A9C9FF]",
+      "focus-within:[&_.radio-field-wrapper_.radio-input]:ring-[#266EF1] dark:focus-within:[&_.radio-field-wrapper_.radio-input]:ring-[#6DAAFB]",
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "success" in @color do %>
   defp color_class("success") do
     [
-      "[&_.radio-field-wrapper_.radio-input]:text-[#047857] text-[#047857]",
-      "[&_.radio-field-wrapper_.radio-input]:border-[#6EE7B7]",
-      "focus-within:[&_.radio-field-wrapper_.radio-input]:ring-[#6EE7B7]"
+      "text-[#166C3B] dark:text-[#7FD99A]",
+      "checked:[&_.radio-field-wrapper_.radio-input]:text-[#166C3B]",
+      "dark:checked:[&_.radio-field-wrapper_.radio-input]:text-[#7FD99A]",
+      "[&_.radio-field-wrapper_.radio-input]:border-[#166C3B]",
+      "dark:[&_.radio-field-wrapper_.radio-input]:border-[#7FD99A]",
+      "focus-within:[&_.radio-field-wrapper_.radio-input]:ring-[#0E8345] dark:focus-within:[&_.radio-field-wrapper_.radio-input]:ring-[#06C167]",
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "warning" in @color do %>
   defp color_class("warning") do
     [
-      "[&_.radio-field-wrapper_.radio-input]:text-[#FF8B08] text-[#FF8B08]",
-      "[&_.radio-field-wrapper_.radio-input]:border-[#FF8B08]",
-      "focus-within:[&_.radio-field-wrapper_.radio-input]:ring-[#FF8B08]"
+      "text-[#976A01] dark:text-[#FDD067]",
+      "checked:[&_.radio-field-wrapper_.radio-input]:text-[#976A01]",
+      "dark:checked:[&_.radio-field-wrapper_.radio-input]:text-[#FDD067]",
+      "[&_.radio-field-wrapper_.radio-input]:border-[#976A01]",
+      "dark:[&_.radio-field-wrapper_.radio-input]:border-[#FDD067]",
+      "focus-within:[&_.radio-field-wrapper_.radio-input]:ring-[#CA8D01] dark:focus-within:[&_.radio-field-wrapper_.radio-input]:ring-[#FDC034]",
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "danger" in @color do %>
   defp color_class("danger") do
     [
-      "[&_.radio-field-wrapper_.radio-input]:text-[#E73B3B] text-[#E73B3B]",
-      "[&_.radio-field-wrapper_.radio-input]:border-[#E73B3B]",
-      "focus-within:[&_.radio-field-wrapper_.radio-input]:ring-[#E73B3B]"
+      "text-[#BB032A] dark:text-[#FFB2AB]",
+      "checked:[&_.radio-field-wrapper_.radio-input]:text-[#BB032A]",
+      "dark:checked:[&_.radio-field-wrapper_.radio-input]:text-[#FFB2AB]",
+      "[&_.radio-field-wrapper_.radio-input]:border-[#BB032A]",
+      "dark:[&_.radio-field-wrapper_.radio-input]:border-[#FFB2AB]",
+      "focus-within:[&_.radio-field-wrapper_.radio-input]:ring-[#DE1135] dark:focus-within:[&_.radio-field-wrapper_.radio-input]:ring-[#FC7F79]",
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "info" in @color do %>
   defp color_class("info") do
     [
-      "[&_.radio-field-wrapper_.radio-input]:text-[#004FC4] text-[#004FC4]",
-      "[&_.radio-field-wrapper_.radio-input]:border-[#004FC4]",
-      "focus-within:[&_.radio-field-wrapper_.radio-input]:ring-[#004FC4]"
+      "text-[#0B84BA] dark:text-[#6EC9F2]",
+      "checked:[&_.radio-field-wrapper_.radio-input]:text-[#0B84BA]",
+      "dark:checked:[&_.radio-field-wrapper_.radio-input]:text-[#6EC9F2]",
+      "[&_.radio-field-wrapper_.radio-input]:border-[#0B84BA]",
+      "dark:[&_.radio-field-wrapper_.radio-input]:border-[#6EC9F2]",
+      "focus-within:[&_.radio-field-wrapper_.radio-input]:ring-[#0B84BA] dark:focus-within:[&_.radio-field-wrapper_.radio-input]:ring-[#3EB7ED]",
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "misc" in @color do %>
   defp color_class("misc") do
     [
-      "[&_.radio-field-wrapper_.radio-input]:text-[#52059C] text-[#52059C]",
-      "[&_.radio-field-wrapper_.radio-input]:border-[#52059C]",
-      "focus-within:[&_.radio-field-wrapper_.radio-input]:ring-[#52059C]"
+      "text-[#653C94] dark:text-[#CBA2FA]",
+      "checked:[&_.radio-field-wrapper_.radio-input]:text-[#653C94]",
+      "dark:checked:[&_.radio-field-wrapper_.radio-input]:text-[#CBA2FA]",
+      "[&_.radio-field-wrapper_.radio-input]:border-[#653C94]",
+      "dark:[&_.radio-field-wrapper_.radio-input]:border-[#CBA2FA]",
+      "focus-within:[&_.radio-field-wrapper_.radio-input]:ring-[#8750C5] dark:focus-within:[&_.radio-field-wrapper_.radio-input]:ring-[#BA83F9]",
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "dawn" in @color do %>
   defp color_class("dawn") do
     [
-      "[&_.radio-field-wrapper_.radio-input]:text-[#4D4137] text-[#4D4137]",
-      "[&_.radio-field-wrapper_.radio-input]:border-[#4D4137]",
-      "focus-within:[&_.radio-field-wrapper_.radio-input]:ring-[#4D4137]"
+      "text-[#7E4B2A] dark:text-[#E4B190]",
+      "checked:[&_.radio-field-wrapper_.radio-input]:text-[#7E4B2A]",
+      "dark:checked:[&_.radio-field-wrapper_.radio-input]:text-[#E4B190]",
+      "[&_.radio-field-wrapper_.radio-input]:border-[#7E4B2A]",
+      "dark:[&_.radio-field-wrapper_.radio-input]:border-[#E4B190]",
+      "focus-within:[&_.radio-field-wrapper_.radio-input]:ring-[#A86438] dark:focus-within:[&_.radio-field-wrapper_.radio-input]:ring-[#DB976B]",
     ]
   end
   <% end %>
-  <%= if is_nil(@color) or "light" in @color do %>
-  defp color_class("light") do
+  <%= if is_nil(@color) or "silver" in @color do %>
+  defp color_class("silver") do
     [
-      "[&_.radio-field-wrapper_.radio-input]:text-[#707483] text-[#707483]",
-      "[&_.radio-field-wrapper_.radio-input]:border-[#707483]",
-      "focus-within:[&_.radio-field-wrapper_.radio-input]:ring-[#707483]"
+      "text-[#727272] dark:text-[#BBBBBB]",
+      "checked:[&_.radio-field-wrapper_.radio-input]:text-[#727272]",
+      "dark:checked:[&_.radio-field-wrapper_.radio-input]:text-[#BBBBBB]",
+      "[&_.radio-field-wrapper_.radio-input]:border-[#727272]",
+      "dark:[&_.radio-field-wrapper_.radio-input]:border-[#BBBBBB]",
+      "focus-within:[&_.radio-field-wrapper_.radio-input]:ring-[#868686] dark:focus-within:[&_.radio-field-wrapper_.radio-input]:ring-[#A6A6A6]",
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "dark" in @color do %>
   defp color_class("dark") do
     [
-      "[&_.radio-field-wrapper_.radio-input]:text-[#1E1E1E] text-[#1E1E1E]",
-      "[&_.radio-field-wrapper_.radio-input]:border-[#050404]",
-      "focus-within:[&_.radio-field-wrapper_.radio-input]:ring-[#050404]"
+      "[&_.radio-field-wrapper_.radio-input]:text-[#282828] text-[#282828]",
+      "[&_.radio-field-wrapper_.radio-input]:border-[#727272]",
+      "focus-within:[&_.radio-field-wrapper_.radio-input]:ring-[#282828]"
     ]
   end
   <% end %>
