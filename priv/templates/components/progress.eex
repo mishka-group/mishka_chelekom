@@ -352,10 +352,10 @@ defmodule <%= @module %> do
   defp color_variant("gradient", "natural") do
     [
       "[&:not(.progress-vertical)]:bg-gradient-to-r rtl:[&:not(.progress-vertical)]:bg-gradient-to-l",
-      "[&:not(.progress-vertical)]:from-[#282828] [&:not(.progress-vertical)]:to-[#727272] text-white",
-      "[&.progress-vertical]:bg-gradient-to-b [&.progress-vertical]:from-[#727272] [&.progress-vertical]:to-[#282828]",
-      "dark:[&:not(.progress-vertical)]:from-[#A6A6A6] dark:[&:not(.progress-vertical)]:to-[#FFFFFF] text-black",
-      "dark:[&.progress-vertical]:from-[#FFFFFF] dark:[&.progress-vertical]:to-[#A6A6A6]",
+      "[&:not(.progress-vertical)]:from-[#282828] [&:not(.progress-vertical)]:via-[#727272] [&:not(.progress-vertical)]:to-[#e9ecef] text-white",
+      "[&.progress-vertical]:bg-gradient-to-b [&.progress-vertical]:from-[#e9ecef] [&.progress-vertical]:to-[#727272] [&.progress-vertical]:via-[#727272] ",
+      "dark:[&:not(.progress-vertical)]:from-[#A6A6A6] dark:[&:not(.progress-vertical)]:via-[#FFFFFF] dark:[&:not(.progress-vertical)]:to-[#e9ecef] text-black",
+      "dark:[&.progress-vertical]:to-[#A6A6A6] dark:[&.progress-vertical]:via-[#A6A6A6] dark:[&.progress-vertical]:from-[#e9ecef]"
     ]
   end
   <% end %>
@@ -363,10 +363,10 @@ defmodule <%= @module %> do
   defp color_variant("gradient", "primary") do
      [
       "[&:not(.progress-vertical)]:bg-gradient-to-r rtl:[&:not(.progress-vertical)]:bg-gradient-to-l",
-      "[&:not(.progress-vertical)]:from-[#016974] [&:not(.progress-vertical)]:to-[#01B8CA] text-white",
-      "[&.progress-vertical]:bg-gradient-to-b [&.progress-vertical]:from-[#01B8CA] [&.progress-vertical]:to-[#016974]",
-      "dark:[&:not(.progress-vertical)]:from-[#01B8CA] dark:[&:not(.progress-vertical)]:to-[#B0E7EF] text-black",
-      "dark:[&.progress-vertical]:from-[#B0E7EF] dark:[&.progress-vertical]:to-[#01B8CA]",
+      "[&:not(.progress-vertical)]:from-[#016974] [&:not(.progress-vertical)]:via-[#01B8CA] [&:not(.progress-vertical)]:to-[#e9ecef] text-white",
+      "[&.progress-vertical]:bg-gradient-to-b [&.progress-vertical]:from-[#e9ecef] [&.progress-vertical]:to-[#01B8CA] [&.progress-vertical]:via-[#01B8CA] ",
+      "dark:[&:not(.progress-vertical)]:from-[#01B8CA] dark:[&:not(.progress-vertical)]:via-[#B0E7EF] dark:[&:not(.progress-vertical)]:to-[#e9ecef] text-black",
+      "dark:[&.progress-vertical]:to-[#B0E7EF] dark:[&.progress-vertical]:via-[#B0E7EF] dark:[&.progress-vertical]:from-[#e9ecef]"
     ]
   end
   <% end %>
@@ -374,10 +374,10 @@ defmodule <%= @module %> do
   defp color_variant("gradient", "secondary") do
     [
       "[&:not(.progress-vertical)]:bg-gradient-to-r rtl:[&:not(.progress-vertical)]:bg-gradient-to-l",
-      "[&:not(.progress-vertical)]:from-[#175BCC] [&:not(.progress-vertical)]:to-[#6DAAFB] text-white",
-      "[&.progress-vertical]:bg-gradient-to-b [&.progress-vertical]:from-[#6DAAFB] [&.progress-vertical]:to-[#175BCC]",
-      "dark:[&:not(.progress-vertical)]:from-[#6DAAFB] dark:[&:not(.progress-vertical)]:to-[#CDDEFF] text-black",
-      "dark:[&.progress-vertical]:from-[#CDDEFF] dark:[&.progress-vertical]:to-[#6DAAFB]",
+      "[&:not(.progress-vertical)]:from-[#175BCC] [&:not(.progress-vertical)]:via-[#6DAAFB] [&:not(.progress-vertical)]:to-[#e9ecef] text-white",
+      "[&.progress-vertical]:bg-gradient-to-b [&.progress-vertical]:from-[#e9ecef] [&.progress-vertical]:to-[#6DAAFB] [&.progress-vertical]:via-[#6DAAFB] ",
+      "dark:[&:not(.progress-vertical)]:from-[#6DAAFB] dark:[&:not(.progress-vertical)]:via-[#CDDEFF] dark:[&:not(.progress-vertical)]:to-[#e9ecef] text-black",
+      "dark:[&.progress-vertical]:to-[#CDDEFF] dark:[&.progress-vertical]:via-[#CDDEFF] dark:[&.progress-vertical]:from-[#e9ecef]"
     ]
   end
   <% end %>
@@ -385,21 +385,21 @@ defmodule <%= @module %> do
   defp color_variant("gradient", "success") do
     [
       "[&:not(.progress-vertical)]:bg-gradient-to-r rtl:[&:not(.progress-vertical)]:bg-gradient-to-l",
-      "[&:not(.progress-vertical)]:from-[#166C3B] [&:not(.progress-vertical)]:to-[#06C167] text-white",
-      "[&.progress-vertical]:bg-gradient-to-b [&.progress-vertical]:from-[#06C167] [&.progress-vertical]:to-[#166C3B]",
-      "dark:[&:not(.progress-vertical)]:from-[#06C167] dark:[&:not(.progress-vertical)]:to-[#B1EAC2] text-black",
-      "dark:[&.progress-vertical]:from-[#B1EAC2] dark:[&.progress-vertical]:to-[#06C167]",
+      "[&:not(.progress-vertical)]:from-[#166C3B] [&:not(.progress-vertical)]:via-[#06C167] [&:not(.progress-vertical)]:to-[#e9ecef] text-white",
+      "[&.progress-vertical]:bg-gradient-to-b [&.progress-vertical]:from-[#e9ecef] [&.progress-vertical]:to-[#06C167] [&.progress-vertical]:via-[#06C167] ",
+      "dark:[&:not(.progress-vertical)]:from-[#06C167] dark:[&:not(.progress-vertical)]:via-[#B1EAC2] dark:[&:not(.progress-vertical)]:to-[#e9ecef] text-black",
+      "dark:[&.progress-vertical]:to-[#B1EAC2] dark:[&.progress-vertical]:via-[#B1EAC2] dark:[&.progress-vertical]:from-[#e9ecef]"
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "warning" in @color do %>
   defp color_variant("gradient", "warning") do
-     [
+    [
       "[&:not(.progress-vertical)]:bg-gradient-to-r rtl:[&:not(.progress-vertical)]:bg-gradient-to-l",
-      "[&:not(.progress-vertical)]:from-[#976A01] [&:not(.progress-vertical)]:to-[#FDC034] text-white",
-      "[&.progress-vertical]:bg-gradient-to-b [&.progress-vertical]:from-[#FDC034] [&.progress-vertical]:to-[#976A01]",
-      "dark:[&:not(.progress-vertical)]:from-[#FDC034] dark:[&:not(.progress-vertical)]:to-[#FEDF99] text-black",
-      "dark:[&.progress-vertical]:from-[#FEDF99] dark:[&.progress-vertical]:to-[#FDC034]",
+      "[&:not(.progress-vertical)]:from-[#976A01] [&:not(.progress-vertical)]:via-[#FDC034] [&:not(.progress-vertical)]:to-[#e9ecef] text-white",
+      "[&.progress-vertical]:bg-gradient-to-b [&.progress-vertical]:from-[#e9ecef] [&.progress-vertical]:to-[#976A01] [&.progress-vertical]:via-[#976A01]",
+      "dark:[&:not(.progress-vertical)]:from-[#FDC034] dark:[&:not(.progress-vertical)]:via-[#FEDF99] dark:[&:not(.progress-vertical)]:to-[#e9ecef] text-black",
+      "dark:[&.progress-vertical]:to-[#FEDF99] dark:[&.progress-vertical]:via-[#FEDF99] dark:[&.progress-vertical]:from-[#e9ecef]"
     ]
   end
   <% end %>
@@ -407,10 +407,10 @@ defmodule <%= @module %> do
   defp color_variant("gradient", "danger") do
     [
       "[&:not(.progress-vertical)]:bg-gradient-to-r rtl:[&:not(.progress-vertical)]:bg-gradient-to-l",
-      "[&:not(.progress-vertical)]:from-[#BB032A] [&:not(.progress-vertical)]:to-[#FC7F79] text-white",
-      "[&.progress-vertical]:bg-gradient-to-b [&.progress-vertical]:from-[#FC7F79] [&.progress-vertical]:to-[#BB032A]",
-      "dark:[&:not(.progress-vertical)]:from-[#FC7F79] dark:[&:not(.progress-vertical)]:to-[#FFD2CD] text-black",
-      "dark:[&.progress-vertical]:from-[#FFD2CD] dark:[&.progress-vertical]:to-[#FC7F79]",
+      "[&:not(.progress-vertical)]:from-[#BB032A] [&:not(.progress-vertical)]:via-[#FC7F79] [&:not(.progress-vertical)]:to-[#e9ecef] text-white",
+      "[&.progress-vertical]:bg-gradient-to-b [&.progress-vertical]:from-[#e9ecef] [&.progress-vertical]:to-[#FC7F79] [&.progress-vertical]:via-[#FC7F79] ",
+      "dark:[&:not(.progress-vertical)]:from-[#FC7F79] dark:[&:not(.progress-vertical)]:via-[#FFD2CD] dark:[&:not(.progress-vertical)]:to-[#e9ecef] text-black",
+      "dark:[&.progress-vertical]:to-[#FFD2CD] dark:[&.progress-vertical]:via-[#FFD2CD] dark:[&.progress-vertical]:from-[#e9ecef]"
     ]
   end
   <% end %>
@@ -418,10 +418,10 @@ defmodule <%= @module %> do
   defp color_variant("gradient", "info") do
     [
       "[&:not(.progress-vertical)]:bg-gradient-to-r rtl:[&:not(.progress-vertical)]:bg-gradient-to-l",
-      "[&:not(.progress-vertical)]:from-[#08638C] [&:not(.progress-vertical)]:to-[#3EB7ED] text-white",
-      "[&.progress-vertical]:bg-gradient-to-b [&.progress-vertical]:from-[#3EB7ED] [&.progress-vertical]:to-[#08638C]",
-      "dark:[&:not(.progress-vertical)]:from-[#3EB7ED] dark:[&:not(.progress-vertical)]:to-[#9FDBF6] text-black",
-      "dark:[&.progress-vertical]:from-[#9FDBF6] dark:[&.progress-vertical]:to-[#3EB7ED]",
+      "[&:not(.progress-vertical)]:from-[#08638C] [&:not(.progress-vertical)]:via-[#3EB7ED] [&:not(.progress-vertical)]:to-[#e9ecef] text-white",
+      "[&.progress-vertical]:bg-gradient-to-b [&.progress-vertical]:from-[#e9ecef] [&.progress-vertical]:to-[#3EB7ED] [&.progress-vertical]:via-[#3EB7ED] ",
+      "dark:[&:not(.progress-vertical)]:from-[#3EB7ED] dark:[&:not(.progress-vertical)]:via-[#9FDBF6] dark:[&:not(.progress-vertical)]:to-[#e9ecef] text-black",
+      "dark:[&.progress-vertical]:to-[#9FDBF6] dark:[&.progress-vertical]:via-[#9FDBF6] dark:[&.progress-vertical]:from-[#e9ecef]"
     ]
   end
   <% end %>
@@ -429,10 +429,10 @@ defmodule <%= @module %> do
   defp color_variant("gradient", "misc") do
     [
       "[&:not(.progress-vertical)]:bg-gradient-to-r rtl:[&:not(.progress-vertical)]:bg-gradient-to-l",
-      "[&:not(.progress-vertical)]:from-[#653C94] [&:not(.progress-vertical)]:to-[#BA83F9] text-white",
-      "[&.progress-vertical]:bg-gradient-to-b [&.progress-vertical]:from-[#BA83F9] [&.progress-vertical]:to-[#653C94]",
-      "dark:[&:not(.progress-vertical)]:from-[#BA83F9] dark:[&:not(.progress-vertical)]:to-[#DDC1FC] text-black",
-      "dark:[&.progress-vertical]:from-[#DDC1FC] dark:[&.progress-vertical]:to-[#BA83F9]",
+      "[&:not(.progress-vertical)]:from-[#653C94] [&:not(.progress-vertical)]:via-[#BA83F9] [&:not(.progress-vertical)]:to-[#e9ecef] text-white",
+      "[&.progress-vertical]:bg-gradient-to-b [&.progress-vertical]:from-[#e9ecef] [&.progress-vertical]:to-[#BA83F9] [&.progress-vertical]:via-[#BA83F9] ",
+      "dark:[&:not(.progress-vertical)]:from-[#BA83F9] dark:[&:not(.progress-vertical)]:via-[#DDC1FC] dark:[&:not(.progress-vertical)]:to-[#e9ecef] text-black",
+      "dark:[&.progress-vertical]:to-[#DDC1FC] dark:[&.progress-vertical]:via-[#DDC1FC] dark:[&.progress-vertical]:from-[#e9ecef]"
     ]
   end
   <% end %>
@@ -440,10 +440,10 @@ defmodule <%= @module %> do
   defp color_variant("gradient", "dawn") do
     [
       "[&:not(.progress-vertical)]:bg-gradient-to-r rtl:[&:not(.progress-vertical)]:bg-gradient-to-l",
-      "[&:not(.progress-vertical)]:from-[#7E4B2A] [&:not(.progress-vertical)]:to-[#DB976B] text-white",
-      "[&.progress-vertical]:bg-gradient-to-b [&.progress-vertical]:from-[#DB976B] [&.progress-vertical]:to-[#7E4B2A]",
-      "dark:[&:not(.progress-vertical)]:from-[#DB976B] dark:[&:not(.progress-vertical)]:to-[#EDCBB5] text-black",
-      "dark:[&.progress-vertical]:from-[#EDCBB5] dark:[&.progress-vertical]:to-[#DB976B]",
+      "[&:not(.progress-vertical)]:from-[#7E4B2A] [&:not(.progress-vertical)]:via-[#DB976B] [&:not(.progress-vertical)]:to-[#e9ecef] text-white",
+      "[&.progress-vertical]:bg-gradient-to-b [&.progress-vertical]:from-[#e9ecef] [&.progress-vertical]:to-[#DB976B] [&.progress-vertical]:via-[#DB976B] ",
+      "dark:[&:not(.progress-vertical)]:from-[#DB976B] dark:[&:not(.progress-vertical)]:via-[#EDCBB5] dark:[&:not(.progress-vertical)]:to-[#e9ecef] text-black",
+      "dark:[&.progress-vertical]:to-[#EDCBB5] dark:[&.progress-vertical]:via-[#EDCBB5] dark:[&.progress-vertical]:from-[#e9ecef]"
     ]
   end
   <% end %>
@@ -451,10 +451,10 @@ defmodule <%= @module %> do
   defp color_variant("gradient", "silver") do
     [
       "[&:not(.progress-vertical)]:bg-gradient-to-r rtl:[&:not(.progress-vertical)]:bg-gradient-to-l",
-      "[&:not(.progress-vertical)]:from-[#5E5E5E] [&:not(.progress-vertical)]:to-[#A6A6A6] text-white",
-      "[&.progress-vertical]:bg-gradient-to-b [&.progress-vertical]:from-[#A6A6A6] [&.progress-vertical]:to-[#5E5E5E]",
-      "dark:[&:not(.progress-vertical)]:from-[#868686] dark:[&:not(.progress-vertical)]:to-[#BBBBBB] text-black",
-      "dark:[&.progress-vertical]:from-[#BBBBBB] dark:[&.progress-vertical]:to-[#868686]",
+      "[&:not(.progress-vertical)]:from-[#5E5E5E] [&:not(.progress-vertical)]:via-[#A6A6A6] [&:not(.progress-vertical)]:to-[#e9ecef] text-white",
+      "[&.progress-vertical]:bg-gradient-to-b [&.progress-vertical]:from-[#e9ecef] [&.progress-vertical]:to-[#5E5E5E] [&.progress-vertical]:via-[#5E5E5E] ",
+      "dark:[&:not(.progress-vertical)]:from-[#868686] dark:[&:not(.progress-vertical)]:via-[#BBBBBB] dark:[&:not(.progress-vertical)]:to-[#e9ecef] text-black",
+      "dark:[&.progress-vertical]:to-[#BBBBBB] dark:[&.progress-vertical]:via-[#BBBBBB] dark:[&.progress-vertical]:from-[#e9ecef]"
     ]
   end
   <% end %>
