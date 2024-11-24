@@ -148,7 +148,7 @@ defmodule <%= @module %> do
   <% end %>
   defp border_class(params, _) when is_binary(params), do: params
   <%= if is_nil(@size) or "extra_small" in @size do %>
-  defp border_class(_, _), do: border_class("extra_small", nil)
+  defp border_class(_, _), do: nil
   <% end %>
 
   <%= if is_nil(@padding) or "extra_large" in @padding do %>
