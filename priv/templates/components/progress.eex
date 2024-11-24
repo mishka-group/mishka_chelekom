@@ -353,7 +353,7 @@ defmodule <%= @module %> do
     [
       "[&:not(.progress-vertical)]:bg-gradient-to-r rtl:[&:not(.progress-vertical)]:bg-gradient-to-l",
       "[&:not(.progress-vertical)]:from-[#282828] [&:not(.progress-vertical)]:via-[#727272] [&:not(.progress-vertical)]:to-[#e9ecef] text-white",
-      "[&.progress-vertical]:bg-gradient-to-b [&.progress-vertical]:from-[#e9ecef] [&.progress-vertical]:to-[#727272] [&.progress-vertical]:via-[#727272] ",
+      "[&.progress-vertical]:bg-gradient-to-b [&.progress-vertical]:from-[#e9ecef] [&.progress-vertical]:to-[#727272] [&.progress-vertical]:via-[#727272]",
       "dark:[&:not(.progress-vertical)]:from-[#A6A6A6] dark:[&:not(.progress-vertical)]:via-[#FFFFFF] dark:[&:not(.progress-vertical)]:to-[#e9ecef] text-black",
       "dark:[&.progress-vertical]:to-[#A6A6A6] dark:[&.progress-vertical]:via-[#A6A6A6] dark:[&.progress-vertical]:from-[#e9ecef]"
     ]
@@ -364,7 +364,7 @@ defmodule <%= @module %> do
      [
       "[&:not(.progress-vertical)]:bg-gradient-to-r rtl:[&:not(.progress-vertical)]:bg-gradient-to-l",
       "[&:not(.progress-vertical)]:from-[#016974] [&:not(.progress-vertical)]:via-[#01B8CA] [&:not(.progress-vertical)]:to-[#e9ecef] text-white",
-      "[&.progress-vertical]:bg-gradient-to-b [&.progress-vertical]:from-[#e9ecef] [&.progress-vertical]:to-[#01B8CA] [&.progress-vertical]:via-[#01B8CA] ",
+      "[&.progress-vertical]:bg-gradient-to-b [&.progress-vertical]:from-[#e9ecef] [&.progress-vertical]:to-[#01B8CA] [&.progress-vertical]:via-[#01B8CA]",
       "dark:[&:not(.progress-vertical)]:from-[#01B8CA] dark:[&:not(.progress-vertical)]:via-[#B0E7EF] dark:[&:not(.progress-vertical)]:to-[#e9ecef] text-black",
       "dark:[&.progress-vertical]:to-[#B0E7EF] dark:[&.progress-vertical]:via-[#B0E7EF] dark:[&.progress-vertical]:from-[#e9ecef]"
     ]
@@ -375,7 +375,7 @@ defmodule <%= @module %> do
     [
       "[&:not(.progress-vertical)]:bg-gradient-to-r rtl:[&:not(.progress-vertical)]:bg-gradient-to-l",
       "[&:not(.progress-vertical)]:from-[#175BCC] [&:not(.progress-vertical)]:via-[#6DAAFB] [&:not(.progress-vertical)]:to-[#e9ecef] text-white",
-      "[&.progress-vertical]:bg-gradient-to-b [&.progress-vertical]:from-[#e9ecef] [&.progress-vertical]:to-[#6DAAFB] [&.progress-vertical]:via-[#6DAAFB] ",
+      "[&.progress-vertical]:bg-gradient-to-b [&.progress-vertical]:from-[#e9ecef] [&.progress-vertical]:to-[#6DAAFB] [&.progress-vertical]:via-[#6DAAFB]",
       "dark:[&:not(.progress-vertical)]:from-[#6DAAFB] dark:[&:not(.progress-vertical)]:via-[#CDDEFF] dark:[&:not(.progress-vertical)]:to-[#e9ecef] text-black",
       "dark:[&.progress-vertical]:to-[#CDDEFF] dark:[&.progress-vertical]:via-[#CDDEFF] dark:[&.progress-vertical]:from-[#e9ecef]"
     ]
@@ -386,7 +386,7 @@ defmodule <%= @module %> do
     [
       "[&:not(.progress-vertical)]:bg-gradient-to-r rtl:[&:not(.progress-vertical)]:bg-gradient-to-l",
       "[&:not(.progress-vertical)]:from-[#166C3B] [&:not(.progress-vertical)]:via-[#06C167] [&:not(.progress-vertical)]:to-[#e9ecef] text-white",
-      "[&.progress-vertical]:bg-gradient-to-b [&.progress-vertical]:from-[#e9ecef] [&.progress-vertical]:to-[#06C167] [&.progress-vertical]:via-[#06C167] ",
+      "[&.progress-vertical]:bg-gradient-to-b [&.progress-vertical]:from-[#e9ecef] [&.progress-vertical]:to-[#06C167] [&.progress-vertical]:via-[#06C167]",
       "dark:[&:not(.progress-vertical)]:from-[#06C167] dark:[&:not(.progress-vertical)]:via-[#B1EAC2] dark:[&:not(.progress-vertical)]:to-[#e9ecef] text-black",
       "dark:[&.progress-vertical]:to-[#B1EAC2] dark:[&.progress-vertical]:via-[#B1EAC2] dark:[&.progress-vertical]:from-[#e9ecef]"
     ]
@@ -408,7 +408,7 @@ defmodule <%= @module %> do
     [
       "[&:not(.progress-vertical)]:bg-gradient-to-r rtl:[&:not(.progress-vertical)]:bg-gradient-to-l",
       "[&:not(.progress-vertical)]:from-[#BB032A] [&:not(.progress-vertical)]:via-[#FC7F79] [&:not(.progress-vertical)]:to-[#e9ecef] text-white",
-      "[&.progress-vertical]:bg-gradient-to-b [&.progress-vertical]:from-[#e9ecef] [&.progress-vertical]:to-[#FC7F79] [&.progress-vertical]:via-[#FC7F79] ",
+      "[&.progress-vertical]:bg-gradient-to-b [&.progress-vertical]:from-[#e9ecef] [&.progress-vertical]:to-[#FC7F79] [&.progress-vertical]:via-[#FC7F79]",
       "dark:[&:not(.progress-vertical)]:from-[#FC7F79] dark:[&:not(.progress-vertical)]:via-[#FFD2CD] dark:[&:not(.progress-vertical)]:to-[#e9ecef] text-black",
       "dark:[&.progress-vertical]:to-[#FFD2CD] dark:[&.progress-vertical]:via-[#FFD2CD] dark:[&.progress-vertical]:from-[#e9ecef]"
     ]
@@ -419,7 +419,7 @@ defmodule <%= @module %> do
     [
       "[&:not(.progress-vertical)]:bg-gradient-to-r rtl:[&:not(.progress-vertical)]:bg-gradient-to-l",
       "[&:not(.progress-vertical)]:from-[#08638C] [&:not(.progress-vertical)]:via-[#3EB7ED] [&:not(.progress-vertical)]:to-[#e9ecef] text-white",
-      "[&.progress-vertical]:bg-gradient-to-b [&.progress-vertical]:from-[#e9ecef] [&.progress-vertical]:to-[#3EB7ED] [&.progress-vertical]:via-[#3EB7ED] ",
+      "[&.progress-vertical]:bg-gradient-to-b [&.progress-vertical]:from-[#e9ecef] [&.progress-vertical]:to-[#3EB7ED] [&.progress-vertical]:via-[#3EB7ED]",
       "dark:[&:not(.progress-vertical)]:from-[#3EB7ED] dark:[&:not(.progress-vertical)]:via-[#9FDBF6] dark:[&:not(.progress-vertical)]:to-[#e9ecef] text-black",
       "dark:[&.progress-vertical]:to-[#9FDBF6] dark:[&.progress-vertical]:via-[#9FDBF6] dark:[&.progress-vertical]:from-[#e9ecef]"
     ]
@@ -430,7 +430,7 @@ defmodule <%= @module %> do
     [
       "[&:not(.progress-vertical)]:bg-gradient-to-r rtl:[&:not(.progress-vertical)]:bg-gradient-to-l",
       "[&:not(.progress-vertical)]:from-[#653C94] [&:not(.progress-vertical)]:via-[#BA83F9] [&:not(.progress-vertical)]:to-[#e9ecef] text-white",
-      "[&.progress-vertical]:bg-gradient-to-b [&.progress-vertical]:from-[#e9ecef] [&.progress-vertical]:to-[#BA83F9] [&.progress-vertical]:via-[#BA83F9] ",
+      "[&.progress-vertical]:bg-gradient-to-b [&.progress-vertical]:from-[#e9ecef] [&.progress-vertical]:to-[#BA83F9] [&.progress-vertical]:via-[#BA83F9]",
       "dark:[&:not(.progress-vertical)]:from-[#BA83F9] dark:[&:not(.progress-vertical)]:via-[#DDC1FC] dark:[&:not(.progress-vertical)]:to-[#e9ecef] text-black",
       "dark:[&.progress-vertical]:to-[#DDC1FC] dark:[&.progress-vertical]:via-[#DDC1FC] dark:[&.progress-vertical]:from-[#e9ecef]"
     ]
@@ -441,7 +441,7 @@ defmodule <%= @module %> do
     [
       "[&:not(.progress-vertical)]:bg-gradient-to-r rtl:[&:not(.progress-vertical)]:bg-gradient-to-l",
       "[&:not(.progress-vertical)]:from-[#7E4B2A] [&:not(.progress-vertical)]:via-[#DB976B] [&:not(.progress-vertical)]:to-[#e9ecef] text-white",
-      "[&.progress-vertical]:bg-gradient-to-b [&.progress-vertical]:from-[#e9ecef] [&.progress-vertical]:to-[#DB976B] [&.progress-vertical]:via-[#DB976B] ",
+      "[&.progress-vertical]:bg-gradient-to-b [&.progress-vertical]:from-[#e9ecef] [&.progress-vertical]:to-[#DB976B] [&.progress-vertical]:via-[#DB976B]",
       "dark:[&:not(.progress-vertical)]:from-[#DB976B] dark:[&:not(.progress-vertical)]:via-[#EDCBB5] dark:[&:not(.progress-vertical)]:to-[#e9ecef] text-black",
       "dark:[&.progress-vertical]:to-[#EDCBB5] dark:[&.progress-vertical]:via-[#EDCBB5] dark:[&.progress-vertical]:from-[#e9ecef]"
     ]
@@ -452,7 +452,7 @@ defmodule <%= @module %> do
     [
       "[&:not(.progress-vertical)]:bg-gradient-to-r rtl:[&:not(.progress-vertical)]:bg-gradient-to-l",
       "[&:not(.progress-vertical)]:from-[#5E5E5E] [&:not(.progress-vertical)]:via-[#A6A6A6] [&:not(.progress-vertical)]:to-[#e9ecef] text-white",
-      "[&.progress-vertical]:bg-gradient-to-b [&.progress-vertical]:from-[#e9ecef] [&.progress-vertical]:to-[#5E5E5E] [&.progress-vertical]:via-[#5E5E5E] ",
+      "[&.progress-vertical]:bg-gradient-to-b [&.progress-vertical]:from-[#e9ecef] [&.progress-vertical]:to-[#5E5E5E] [&.progress-vertical]:via-[#5E5E5E]",
       "dark:[&:not(.progress-vertical)]:from-[#868686] dark:[&:not(.progress-vertical)]:via-[#BBBBBB] dark:[&:not(.progress-vertical)]:to-[#e9ecef] text-black",
       "dark:[&.progress-vertical]:to-[#BBBBBB] dark:[&.progress-vertical]:via-[#BBBBBB] dark:[&.progress-vertical]:from-[#e9ecef]"
     ]
