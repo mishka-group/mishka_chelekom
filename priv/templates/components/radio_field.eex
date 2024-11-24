@@ -362,7 +362,7 @@ defmodule <%= @module %> do
       "dark:checked:[&_.radio-field-wrapper_.radio-input]:text-[#E8E8E8]",
       "[&_.radio-field-wrapper_.radio-input]:border-[#282828]",
       "dark:[&_.radio-field-wrapper_.radio-input]:border-[#868686]",
-      "focus-within:[&_.radio-field-wrapper]:ring-[#4B4B4B] dark:focus-within:[&_.radio-field-wrapper]:ring-[#DDDDDD]"
+      "focus-within:[&_.radio-field-wrapper_.radio-input]:ring-[#4B4B4B] dark:focus-within:[&_.radio-field-wrapper_.radio-input]:ring-[#DDDDDD]"
     ]
   end
   <% end %>
@@ -374,7 +374,7 @@ defmodule <%= @module %> do
       "dark:checked:[&_.radio-field-wrapper_.radio-input]:text-[#77D5E3]",
       "[&_.radio-field-wrapper_.radio-input]:border-[#016974]",
       "dark:[&_.radio-field-wrapper_.radio-input]:border-[#77D5E3]",
-      "focus-within:[&_.radio-field-wrapper]:ring-[#007F8C] dark:focus-within:[&_.radio-field-wrapper]:ring-[#01B8CA]",
+      "focus-within:[&_.radio-field-wrapper_.radio-input]:ring-[#007F8C] dark:focus-within:[&_.radio-field-wrapper_.radio-input]:ring-[#01B8CA]",
     ]
   end
   <% end %>
@@ -386,7 +386,7 @@ defmodule <%= @module %> do
       "dark:checked:[&_.radio-field-wrapper_.radio-input]:text-[#A9C9FF]",
       "[&_.radio-field-wrapper_.radio-input]:border-[#175BCC]",
       "dark:[&_.radio-field-wrapper_.radio-input]:border-[#A9C9FF]",
-      "focus-within:[&_.radio-field-wrapper]:ring-[#266EF1] dark:focus-within:[&_.radio-field-wrapper]:ring-[#6DAAFB]",
+      "focus-within:[&_.radio-field-wrapper_.radio-input]:ring-[#266EF1] dark:focus-within:[&_.radio-field-wrapper_.radio-input]:ring-[#6DAAFB]",
     ]
   end
   <% end %>
@@ -398,7 +398,7 @@ defmodule <%= @module %> do
       "dark:checked:[&_.radio-field-wrapper_.radio-input]:text-[#7FD99A]",
       "[&_.radio-field-wrapper_.radio-input]:border-[#166C3B]",
       "dark:[&_.radio-field-wrapper_.radio-input]:border-[#7FD99A]",
-      "focus-within:[&_.radio-field-wrapper]:ring-[#0E8345] dark:focus-within:[&_.radio-field-wrapper]:ring-[#06C167]",
+      "focus-within:[&_.radio-field-wrapper_.radio-input]:ring-[#0E8345] dark:focus-within:[&_.radio-field-wrapper_.radio-input]:ring-[#06C167]",
     ]
   end
   <% end %>
@@ -410,7 +410,7 @@ defmodule <%= @module %> do
       "dark:checked:[&_.radio-field-wrapper_.radio-input]:text-[#FDD067]",
       "[&_.radio-field-wrapper_.radio-input]:border-[#976A01]",
       "dark:[&_.radio-field-wrapper_.radio-input]:border-[#FDD067]",
-      "focus-within:[&_.radio-field-wrapper]:ring-[#CA8D01] dark:focus-within:[&_.radio-field-wrapper]:ring-[#FDC034]",
+      "focus-within:[&_.radio-field-wrapper_.radio-input]:ring-[#CA8D01] dark:focus-within:[&_.radio-field-wrapper_.radio-input]:ring-[#FDC034]",
     ]
   end
   <% end %>
@@ -422,7 +422,7 @@ defmodule <%= @module %> do
       "dark:checked:[&_.radio-field-wrapper_.radio-input]:text-[#FFB2AB]",
       "[&_.radio-field-wrapper_.radio-input]:border-[#BB032A]",
       "dark:[&_.radio-field-wrapper_.radio-input]:border-[#FFB2AB]",
-      "focus-within:[&_.radio-field-wrapper]:ring-[#DE1135] dark:focus-within:[&_.radio-field-wrapper]:ring-[#FC7F79]",
+      "focus-within:[&_.radio-field-wrapper_.radio-input]:ring-[#DE1135] dark:focus-within:[&_.radio-field-wrapper_.radio-input]:ring-[#FC7F79]",
     ]
   end
   <% end %>
@@ -434,7 +434,7 @@ defmodule <%= @module %> do
       "dark:checked:[&_.radio-field-wrapper_.radio-input]:text-[#6EC9F2]",
       "[&_.radio-field-wrapper_.radio-input]:border-[#0B84BA]",
       "dark:[&_.radio-field-wrapper_.radio-input]:border-[#6EC9F2]",
-      "focus-within:[&_.radio-field-wrapper]:ring-[#0B84BA] dark:focus-within:[&_.radio-field-wrapper]:ring-[#3EB7ED]",
+      "focus-within:[&_.radio-field-wrapper_.radio-input]:ring-[#0B84BA] dark:focus-within:[&_.radio-field-wrapper_.radio-input]:ring-[#3EB7ED]",
     ]
   end
   <% end %>
@@ -446,7 +446,7 @@ defmodule <%= @module %> do
       "dark:checked:[&_.radio-field-wrapper_.radio-input]:text-[#CBA2FA]",
       "[&_.radio-field-wrapper_.radio-input]:border-[#653C94]",
       "dark:[&_.radio-field-wrapper_.radio-input]:border-[#CBA2FA]",
-      "focus-within:[&_.radio-field-wrapper]:ring-[#8750C5] dark:focus-within:[&_.radio-field-wrapper]:ring-[#BA83F9]",
+      "focus-within:[&_.radio-field-wrapper_.radio-input]:ring-[#8750C5] dark:focus-within:[&_.radio-field-wrapper_.radio-input]:ring-[#BA83F9]",
     ]
   end
   <% end %>
@@ -458,7 +458,7 @@ defmodule <%= @module %> do
       "dark:checked:[&_.radio-field-wrapper_.radio-input]:text-[#E4B190]",
       "[&_.radio-field-wrapper_.radio-input]:border-[#7E4B2A]",
       "dark:[&_.radio-field-wrapper_.radio-input]:border-[#E4B190]",
-      "focus-within:[&_.radio-field-wrapper]:ring-[#A86438] dark:focus-within:[&_.radio-field-wrapper]:ring-[#DB976B]",
+      "focus-within:[&_.radio-field-wrapper_.radio-input]:ring-[#A86438] dark:focus-within:[&_.radio-field-wrapper_.radio-input]:ring-[#DB976B]",
     ]
   end
   <% end %>
@@ -470,7 +470,7 @@ defmodule <%= @module %> do
       "dark:checked:[&_.radio-field-wrapper_.radio-input]:text-[#BBBBBB]",
       "[&_.radio-field-wrapper_.radio-input]:border-[#727272]",
       "dark:[&_.radio-field-wrapper_.radio-input]:border-[#BBBBBB]",
-      "focus-within:[&_.radio-field-wrapper]:ring-[#868686] dark:focus-within:[&_.radio-field-wrapper]:ring-[#A6A6A6]",
+      "focus-within:[&_.radio-field-wrapper_.radio-input]:ring-[#868686] dark:focus-within:[&_.radio-field-wrapper_.radio-input]:ring-[#A6A6A6]",
     ]
   end
   <% end %>
