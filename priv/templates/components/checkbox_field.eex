@@ -19,6 +19,7 @@ defmodule <%= @module %> do
   alias Phoenix.HTML.Form
 
   @colors [
+    "natural",
     "white",
     "primary",
     "secondary",
@@ -27,7 +28,7 @@ defmodule <%= @module %> do
     "warning",
     "danger",
     "info",
-    "light",
+    "silver",
     "misc",
     "dawn"
   ]
@@ -413,102 +414,143 @@ defmodule <%= @module %> do
   <%= if is_nil(@space) or "medium" in @space do %>
   defp variation_gap(_), do: variation_gap("medium")
   <% end %>
+
+
   <%= if is_nil(@color) or "white" in @color do %>
   defp color_class("white") do
     [
-      "[&_.checkbox-field-wrapper_.checkbox-input]:bg-white checked:[&_.checkbox-field-wrapper_.checkbox-input]:accent-[#3E3E3E]",
-      "[&_.checkbox-field-wrapper_.checkbox-input]:border-[#DADADA]",
-      "focus-within:[&_.checkbox-field-wrapper_.checkbox-input]:ring-[#DADADA]"
+      "[&_.checkbox-field-wrapper_.checkbox-input]:text-white text-[#DDDDDD]",
+      "[&_.checkbox-field-wrapper_.checkbox-input]:border-[#DDDDDD]",
+      "focus-within:[&_.checkbox-field-wrapper_.checkbox-input_.radio-input]:ring-[#DDDDDD]"
+    ]
+  end
+  <% end %>
+  <%= if is_nil(@color) or "natural" in @color do %>
+  defp color_class("natural") do
+    [
+      "text-[#282828] dark:text-[#E8E8E8]",
+      "checked:[&_.checkbox-field-wrapper_.checkbox-input]:text-[#282828]",
+      "dark:checked:[&_.checkbox-field-wrapper_.checkbox-input]:text-[#E8E8E8]",
+      "[&_.checkbox-field-wrapper_.checkbox-input]:border-[#282828]",
+      "dark:[&_.checkbox-field-wrapper_.checkbox-input]:border-[#868686]",
+      "focus-within:[&_.checkbox-field-wrapper_.checkbox-input]:ring-[#4B4B4B] dark:focus-within:[&_.checkbox-field-wrapper_.checkbox-input]:ring-[#DDDDDD]"
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "primary" in @color do %>
   defp color_class("primary") do
     [
-      "checked:[&_.checkbox-field-wrapper_.checkbox-input]:text-[#4363EC]",
-      "[&_.checkbox-field-wrapper_.checkbox-input]:border-[#2441de]",
-      "focus-within:[&_.checkbox-field-wrapper_.checkbox-input]:ring-[#2441de]"
+      "text-[#016974] dark:text-[#77D5E3]",
+      "checked:[&_.checkbox-field-wrapper_.checkbox-input]:text-[#016974]",
+      "dark:checked:[&_.checkbox-field-wrapper_.checkbox-input]:text-[#77D5E3]",
+      "[&_.checkbox-field-wrapper_.checkbox-input]:border-[#016974]",
+      "dark:[&_.checkbox-field-wrapper_.checkbox-input]:border-[#77D5E3]",
+      "focus-within:[&_.checkbox-field-wrapper_.checkbox-input]:ring-[#007F8C] dark:focus-within:[&_.checkbox-field-wrapper_.checkbox-input]:ring-[#01B8CA]",
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "secondary" in @color do %>
   defp color_class("secondary") do
     [
-      "[&_.checkbox-field-wrapper_.checkbox-input]:text-[#6B6E7C]",
-      "[&_.checkbox-field-wrapper_.checkbox-input]:border-[#877C7C]",
-      "focus-within:[&_.checkbox-field-wrapper_.checkbox-input]:ring-[#877C7C]"
+      "text-[#175BCC] dark:text-[#A9C9FF]",
+      "checked:[&_.checkbox-field-wrapper_.checkbox-input]:text-[#175BCC]",
+      "dark:checked:[&_.checkbox-field-wrapper_.checkbox-input]:text-[#A9C9FF]",
+      "[&_.checkbox-field-wrapper_.checkbox-input]:border-[#175BCC]",
+      "dark:[&_.checkbox-field-wrapper_.checkbox-input]:border-[#A9C9FF]",
+      "focus-within:[&_.checkbox-field-wrapper_.checkbox-input]:ring-[#266EF1] dark:focus-within:[&_.checkbox-field-wrapper_.checkbox-input]:ring-[#6DAAFB]",
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "success" in @color do %>
   defp color_class("success") do
     [
-      "[&_.checkbox-field-wrapper_.checkbox-input]:text-[#047857]",
-      "[&_.checkbox-field-wrapper_.checkbox-input]:border-[#6EE7B7]",
-      "focus-within:[&_.checkbox-field-wrapper_.checkbox-input]:ring-[#6EE7B7]"
+      "text-[#166C3B] dark:text-[#7FD99A]",
+      "checked:[&_.checkbox-field-wrapper_.checkbox-input]:text-[#166C3B]",
+      "dark:checked:[&_.checkbox-field-wrapper_.checkbox-input]:text-[#7FD99A]",
+      "[&_.checkbox-field-wrapper_.checkbox-input]:border-[#166C3B]",
+      "dark:[&_.checkbox-field-wrapper_.checkbox-input]:border-[#7FD99A]",
+      "focus-within:[&_.checkbox-field-wrapper_.checkbox-input]:ring-[#0E8345] dark:focus-within:[&_.checkbox-field-wrapper_.checkbox-input]:ring-[#06C167]",
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "warning" in @color do %>
   defp color_class("warning") do
     [
-      "[&_.checkbox-field-wrapper_.checkbox-input]:text-[#FF8B08]",
-      "[&_.checkbox-field-wrapper_.checkbox-input]:border-[#FF8B08]",
-      "focus-within:[&_.checkbox-field-wrapper_.checkbox-input]:ring-[#FF8B08]"
+      "text-[#976A01] dark:text-[#FDD067]",
+      "checked:[&_.checkbox-field-wrapper_.checkbox-input]:text-[#976A01]",
+      "dark:checked:[&_.checkbox-field-wrapper_.checkbox-input]:text-[#FDD067]",
+      "[&_.checkbox-field-wrapper_.checkbox-input]:border-[#976A01]",
+      "dark:[&_.checkbox-field-wrapper_.checkbox-input]:border-[#FDD067]",
+      "focus-within:[&_.checkbox-field-wrapper_.checkbox-input]:ring-[#CA8D01] dark:focus-within:[&_.checkbox-field-wrapper_.checkbox-input]:ring-[#FDC034]",
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "danger" in @color do %>
   defp color_class("danger") do
     [
-      "[&_.checkbox-field-wrapper_.checkbox-input]:text-[#E73B3B]",
-      "[&_.checkbox-field-wrapper_.checkbox-input]:border-[#E73B3B]",
-      "focus-within:[&_.checkbox-field-wrapper_.checkbox-input]:ring-[#E73B3B]"
+      "text-[#BB032A] dark:text-[#FFB2AB]",
+      "checked:[&_.checkbox-field-wrapper_.checkbox-input]:text-[#BB032A]",
+      "dark:checked:[&_.checkbox-field-wrapper_.checkbox-input]:text-[#FFB2AB]",
+      "[&_.checkbox-field-wrapper_.checkbox-input]:border-[#BB032A]",
+      "dark:[&_.checkbox-field-wrapper_.checkbox-input]:border-[#FFB2AB]",
+      "focus-within:[&_.checkbox-field-wrapper_.checkbox-input]:ring-[#DE1135] dark:focus-within:[&_.checkbox-field-wrapper_.checkbox-input]:ring-[#FC7F79]",
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "info" in @color do %>
   defp color_class("info") do
     [
-      "[&_.checkbox-field-wrapper_.checkbox-input]:text-[#004FC4]",
-      "[&_.checkbox-field-wrapper_.checkbox-input]:border-[#004FC4]",
-      "focus-within:[&_.checkbox-field-wrapper_.checkbox-input]:ring-[#004FC4]"
+      "text-[#0B84BA] dark:text-[#6EC9F2]",
+      "checked:[&_.checkbox-field-wrapper_.checkbox-input]:text-[#0B84BA]",
+      "dark:checked:[&_.checkbox-field-wrapper_.checkbox-input]:text-[#6EC9F2]",
+      "[&_.checkbox-field-wrapper_.checkbox-input]:border-[#0B84BA]",
+      "dark:[&_.checkbox-field-wrapper_.checkbox-input]:border-[#6EC9F2]",
+      "focus-within:[&_.checkbox-field-wrapper_.checkbox-input]:ring-[#0B84BA] dark:focus-within:[&_.checkbox-field-wrapper_.checkbox-input]:ring-[#3EB7ED]",
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "misc" in @color do %>
   defp color_class("misc") do
     [
-      "[&_.checkbox-field-wrapper_.checkbox-input]:text-[#52059C]",
-      "[&_.checkbox-field-wrapper_.checkbox-input]:border-[#52059C]",
-      "focus-within:[&_.checkbox-field-wrapper_.checkbox-input]:ring-[#52059C]"
+      "text-[#653C94] dark:text-[#CBA2FA]",
+      "checked:[&_.checkbox-field-wrapper_.checkbox-input]:text-[#653C94]",
+      "dark:checked:[&_.checkbox-field-wrapper_.checkbox-input]:text-[#CBA2FA]",
+      "[&_.checkbox-field-wrapper_.checkbox-input]:border-[#653C94]",
+      "dark:[&_.checkbox-field-wrapper_.checkbox-input]:border-[#CBA2FA]",
+      "focus-within:[&_.checkbox-field-wrapper_.checkbox-input]:ring-[#8750C5] dark:focus-within:[&_.checkbox-field-wrapper_.checkbox-input]:ring-[#BA83F9]",
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "dawn" in @color do %>
   defp color_class("dawn") do
     [
-      "[&_.checkbox-field-wrapper_.checkbox-input]:text-[#4D4137]",
-      "[&_.checkbox-field-wrapper_.checkbox-input]:border-[#4D4137]",
-      "focus-within:[&_.checkbox-field-wrapper_.checkbox-input]:ring-[#4D4137]"
+      "text-[#7E4B2A] dark:text-[#E4B190]",
+      "checked:[&_.checkbox-field-wrapper_.checkbox-input]:text-[#7E4B2A]",
+      "dark:checked:[&_.checkbox-field-wrapper_.checkbox-input]:text-[#E4B190]",
+      "[&_.checkbox-field-wrapper_.checkbox-input]:border-[#7E4B2A]",
+      "dark:[&_.checkbox-field-wrapper_.checkbox-input]:border-[#E4B190]",
+      "focus-within:[&_.checkbox-field-wrapper_.checkbox-input]:ring-[#A86438] dark:focus-within:[&_.checkbox-field-wrapper_.checkbox-input]:ring-[#DB976B]",
     ]
   end
   <% end %>
-  <%= if is_nil(@color) or "light" in @color do %>
-  defp color_class("light") do
+  <%= if is_nil(@color) or "silver" in @color do %>
+  defp color_class("silver") do
     [
-      "[&_.checkbox-field-wrapper_.checkbox-input]:text-[#707483]",
-      "[&_.checkbox-field-wrapper_.checkbox-input]:border-[#707483]",
-      "focus-within:[&_.checkbox-field-wrapper_.checkbox-input]:ring-[#707483]"
+      "text-[#727272] dark:text-[#BBBBBB]",
+      "checked:[&_.checkbox-field-wrapper_.checkbox-input]:text-[#727272]",
+      "dark:checked:[&_.checkbox-field-wrapper_.checkbox-input]:text-[#BBBBBB]",
+      "[&_.checkbox-field-wrapper_.checkbox-input]:border-[#727272]",
+      "dark:[&_.checkbox-field-wrapper_.checkbox-input]:border-[#BBBBBB]",
+      "focus-within:[&_.checkbox-field-wrapper_.checkbox-input]:ring-[#868686] dark:focus-within:[&_.checkbox-field-wrapper_.checkbox-input]:ring-[#A6A6A6]",
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "dark" in @color do %>
   defp color_class("dark") do
     [
-      "[&_.checkbox-field-wrapper_.checkbox-input]:text-[#1E1E1E]",
-      "[&_.checkbox-field-wrapper_.checkbox-input]:border-[#050404]",
-      "focus-within:[&_.checkbox-field-wrapper_.checkbox-input]:ring-[#050404]"
+      "[&_.checkbox-field-wrapper_.checkbox-input]:text-[#282828] text-[#282828]",
+      "[&_.checkbox-field-wrapper_.checkbox-input]:border-[#727272]",
+      "focus-within:[&_.checkbox-field-wrapper_.checkbox-input]:ring-[#282828]"
     ]
   end
   <% end %>
