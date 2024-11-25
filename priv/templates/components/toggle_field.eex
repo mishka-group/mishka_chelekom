@@ -14,7 +14,8 @@ defmodule <%= @module %> do
   alias Phoenix.HTML.Form
 
   @colors [
-    "white",
+   "white",
+    "natural",
     "primary",
     "secondary",
     "dark",
@@ -22,7 +23,7 @@ defmodule <%= @module %> do
     "warning",
     "danger",
     "info",
-    "light",
+    "silver",
     "misc",
     "dawn"
   ]
@@ -49,7 +50,7 @@ defmodule <%= @module %> do
     doc: "A unique identifier is used to manage state and interaction"
 
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
-  attr :color, :string, values: @colors, default: "primary", doc: "Determines color theme"
+  attr :color, :string, values: @colors, default: "natural", doc: "Determines color theme"
   attr :description, :string, default: nil, doc: "Determines a short description"
   attr :border, :string, default: "extra_small", doc: "Determines border style"
   attr :labe_class, :string, default: nil, doc: "Determines the labe class"
@@ -218,77 +219,84 @@ defmodule <%= @module %> do
   <%= if is_nil(@color) or "white" in @color do %>
   defp color_class("white") do
     [
-      "peer-checked:bg-[#DADADA]"
+      "peer-checked:bg-white"
+    ]
+  end
+  <% end %>
+  <%= if is_nil(@color) or "natural" in @color do %>
+  defp color_class("natural") do
+    [
+      "peer-checked:bg-[#4B4B4B] dark:peer-checked:bg-[#DDDDDD]"
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "primary" in @color do %>
   defp color_class("primary") do
     [
-      "peer-checked:bg-[#2441de]"
+      "peer-checked:bg-[#007F8C] dark:peer-checked:bg-[#01B8CA]"
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "secondary" in @color do %>
   defp color_class("secondary") do
     [
-      "peer-checked:bg-[#877C7C]"
+      "peer-checked:bg-[#266EF1] dark:peer-checked:bg-[#6DAAFB]"
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "success" in @color do %>
   defp color_class("success") do
     [
-      "peer-checked:bg-[#047857]"
+      "peer-checked:bg-[#0E8345] dark:peer-checked:bg-[#06C167]"
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "warning" in @color do %>
   defp color_class("warning") do
     [
-      "peer-checked:bg-[#FF8B08]"
+      "peer-checked:bg-[#CA8D01] dark:peer-checked:bg-[#FDC034]"
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "danger" in @color do %>
   defp color_class("danger") do
     [
-      "peer-checked:bg-[#E73B3B]"
+      "peer-checked:bg-[#DE1135] dark:peer-checked:bg-[#FC7F79]"
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "info" in @color do %>
   defp color_class("info") do
     [
-      "peer-checked:bg-[#004FC4]"
+      "peer-checked:bg-[#0B84BA] dark:peer-checked:bg-[#3EB7ED]"
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "misc" in @color do %>
   defp color_class("misc") do
     [
-      "peer-checked:bg-[#52059C]"
+      "peer-checked:bg-[#8750C5] dark:peer-checked:bg-[#BA83F9]"
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "dawn" in @color do %>
   defp color_class("dawn") do
     [
-      "peer-checked:bg-[#4D4137]"
+      "peer-checked:bg-[#A86438] dark:peer-checked:bg-[#DB976B]"
     ]
   end
   <% end %>
-  <%= if is_nil(@color) or "light" in @color do %>
-  defp color_class("light") do
+  <%= if is_nil(@color) or "silver" in @color do %>
+  defp color_class("silver") do
     [
-      "peer-checked:bg-[#707483]"
+      "peer-checked:bg-[#868686] dark:peer-checked:bg-[#A6A6A6]"
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "dark" in @color do %>
   defp color_class("dark") do
     [
-      "peer-checked:bg-[#050404]"
+      "peer-checked:bg-[#282828]"
     ]
   end
   <% end %>

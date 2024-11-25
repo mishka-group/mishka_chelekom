@@ -4,6 +4,7 @@
     args: [
       color: [
         "white",
+        "natural",
         "primary",
         "secondary",
         "dark",
@@ -11,7 +12,7 @@
         "warning",
         "danger",
         "info",
-        "light",
+        "silver",
         "misc",
         "dawn"
       ],
