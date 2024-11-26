@@ -3,17 +3,19 @@
     name: "typography",
     args: [
       color: [
-        "white",
         "primary",
+        "white",
+        "natural",
         "secondary",
         "dark",
         "success",
         "warning",
         "danger",
         "info",
-        "light",
+        "silver",
         "misc",
-        "dawn"
+        "dawn",
+        "inherit"
       ],
       size: [
         "extra_small",
@@ -71,6 +73,7 @@
         "cite",
         "del"
       ],
+      helpers: [],
       module: ""
     ],
     optional: [],
