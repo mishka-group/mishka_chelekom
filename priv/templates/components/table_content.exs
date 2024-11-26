@@ -2,8 +2,9 @@
   table_content: [
     name: "table_content",
     args: [
-      variant: ["outline", "default", "unbordered", "transparent"],
+      variant: ["outline", "default", "unbordered", "transparent", "gradient"],
       color: [
+        "natural",
         "white",
         "primary",
         "secondary",
@@ -12,7 +13,7 @@
         "warning",
         "danger",
         "info",
-        "light",
+        "silver",
         "misc",
         "dawn"
       ],
