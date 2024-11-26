@@ -9,7 +9,7 @@ defmodule <%= @module %> do
   ## Features
 
   - **Customizable Appearance:** Supports various size, color, and style options, including
-  `default`, `outline`, `transparent`, `shadow`, and `unbordered` variants. Users can control the
+  `default`, `outline`,`shadow`, and `unbordered` variants. Users can control the
   overall size, border radius, padding, and spacing between elements to fit different design requirements.
   - **Action Configuration:** The `SpeedDial` component can hold multiple action items,
   each with individual icons, colors, and navigation paths. Items can link to different parts
