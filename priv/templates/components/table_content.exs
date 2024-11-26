@@ -2,7 +2,7 @@
   table_content: [
     name: "table_content",
     args: [
-      variant: ["outline", "default", "unbordered", "transparent", "gradient"],
+      variant: ["outline", "default", "bordered", "transparent", "gradient"],
       color: [
         "natural",
         "white",
@@ -32,6 +32,7 @@
       ],
       type: ["table_content", "content_wrapper", "content_item"],
       only: ["table_content", "content_wrapper", "content_item"],
+      helpers: [],
       module: ""
     ],
     optional: [],
