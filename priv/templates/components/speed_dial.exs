@@ -31,6 +31,7 @@
       padding: ["extra_small", "small", "medium", "large", "extra_large", "none"],
       rounded: ["extra_small", "small", "medium", "large", "extra_large", "full"],
       only: ["speed_dial"],
+      helpers: [],
       module: ""
     ],
     optional: [],
