@@ -73,6 +73,7 @@
         "cite",
         "del"
       ],
+      helpers: [],
       module: ""
     ],
     optional: [],
