@@ -28,6 +28,7 @@ defmodule <%= @module %> do
   use Phoenix.Component
 
   @colors [
+    "natural",
     "white",
     "primary",
     "secondary",
@@ -36,7 +37,6 @@ defmodule <%= @module %> do
     "warning",
     "danger",
     "info",
-    "light",
     "misc",
     "dawn",
     "silver"
@@ -108,7 +108,7 @@ defmodule <%= @module %> do
     default: nil,
     doc: "A unique identifier is used to manage state and interaction"
 
-  attr :color, :string, values: @colors, default: "silver", doc: "Determines color theme"
+  attr :color, :string, values: @colors, default: "natural", doc: "Determines color theme"
   attr :hide_last_line, :boolean, default: false, doc: ""
   attr :gapped_sections, :boolean, default: false, doc: ""
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
@@ -390,91 +390,119 @@ defmodule <%= @module %> do
   defp bullet_size(_), do: bullet_size("extra_small")
   <% end %>
 
-  <%= if is_nil(@color) or "silver" in @color do %>
-  defp color_class("silver") do
+  <%= if is_nil(@color) or "white" in @color do %>
+  defp color_class("white") do
+   [
+      "[&_.timeline-bullet]:bg-white [&_.timeline-bullet]:text-[#DADADA] [&_.timeline-vertical-line]:after:bg-white",
+      "[&_.timeline-horizontal-line]:bg-white"
+    ]
+  end
+  <% end %>
+  <%= if is_nil(@color) or "natural" in @color do %>
+  defp color_class("natural") do
     [
-      "[&_.timeline-bullet]:bg-[#DADADA] [&_.timeline-bullet]:text-[#3E3E3E] [&_.timeline-vertical-line]:after:bg-[#DADADA]",
-      "[&_.timeline-horizontal-line]:bg-[#DADADA]"
+      "[&_.timeline-bullet]:bg-[#4B4B4B] [&_.timeline-bullet]:text-white [&_.timeline-vertical-line]:after:bg-[#4B4B4B]",
+      "[&_.timeline-horizontal-line]:bg-[#4B4B4B]",
+      "dark:[&_.timeline-bullet]:bg-[#DDDDDD] dark:[&_.timeline-bullet]:text-black dark:[&_.timeline-vertical-line]:after:bg-[#DDDDDD]",
+      "dark:[&_.timeline-horizontal-line]:bg-[#DDDDDD]",
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "primary" in @color do %>
   defp color_class("primary") do
     [
-      "[&_.timeline-bullet]:bg-[#2441de] [&_.timeline-bullet]:text-white [&_.timeline-vertical-line]:after:bg-[#2441de]",
-      "[&_.timeline-horizontal-line]:bg-[#2441de]"
+      "[&_.timeline-bullet]:bg-[#007F8C] [&_.timeline-bullet]:text-white [&_.timeline-vertical-line]:after:bg-[#007F8C]",
+      "[&_.timeline-horizontal-line]:bg-[#007F8C]",
+      "dark:[&_.timeline-bullet]:bg-[#01B8CA] dark:[&_.timeline-bullet]:text-black dark:[&_.timeline-vertical-line]:after:bg-[#01B8CA]",
+      "dark:[&_.timeline-horizontal-line]:bg-[#01B8CA]",
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "secondary" in @color do %>
   defp color_class("secondary") do
     [
-      "[&_.timeline-bullet]:bg-[#877C7C] [&_.timeline-bullet]:text-white [&_.timeline-vertical-line]:after:bg-[#877C7C]",
-      "[&_.timeline-horizontal-line]:bg-[#877C7C]"
+      "[&_.timeline-bullet]:bg-[#266EF1] [&_.timeline-bullet]:text-white [&_.timeline-vertical-line]:after:bg-[#266EF1]",
+      "[&_.timeline-horizontal-line]:bg-[#266EF1]",
+      "dark:[&_.timeline-bullet]:bg-[#6DAAFB] dark:[&_.timeline-bullet]:text-black dark:[&_.timeline-vertical-line]:after:bg-[#6DAAFB]",
+      "dark:[&_.timeline-horizontal-line]:bg-[#6DAAFB]",
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "success" in @color do %>
   defp color_class("success") do
     [
-      "[&_.timeline-bullet]:bg-[#6EE7B7] [&_.timeline-bullet]:text-white [&_.timeline-vertical-line]:after:bg-[#6EE7B7]",
-      "[&_.timeline-horizontal-line]:bg-[#6EE7B7]"
+      "[&_.timeline-bullet]:bg-[#0E8345] [&_.timeline-bullet]:text-white [&_.timeline-vertical-line]:after:bg-[#0E8345]",
+      "[&_.timeline-horizontal-line]:bg-[#0E8345]",
+      "[&_.timeline-bullet]:bg-[#06C167] [&_.timeline-bullet]:text-black [&_.timeline-vertical-line]:after:bg-[#06C167]",
+      "[&_.timeline-horizontal-line]:bg-[#06C167]",
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "warning" in @color do %>
   defp color_class("warning") do
     [
-      "[&_.timeline-bullet]:bg-[#FF8B08] [&_.timeline-bullet]:text-white [&_.timeline-vertical-line]:after:bg-[#FF8B08]",
-      "[&_.timeline-horizontal-line]:bg-[#FF8B08]"
+      "[&_.timeline-bullet]:bg-[#CA8D01] [&_.timeline-bullet]:text-white [&_.timeline-vertical-line]:after:bg-[#CA8D01]",
+      "[&_.timeline-horizontal-line]:bg-[#CA8D01]",
+      "[&_.timeline-bullet]:bg-[#FDC034] [&_.timeline-bullet]:text-black [&_.timeline-vertical-line]:after:bg-[#FDC034]",
+      "[&_.timeline-horizontal-line]:bg-[#FDC034]",
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "danger" in @color do %>
   defp color_class("danger") do
     [
-      "[&_.timeline-bullet]:bg-[#E73B3B] [&_.timeline-bullet]:text-white [&_.timeline-vertical-line]:after:bg-[#E73B3B]",
-      "[&_.timeline-horizontal-line]:bg-[#E73B3B]"
+      "[&_.timeline-bullet]:bg-[#DE1135] [&_.timeline-bullet]:text-white [&_.timeline-vertical-line]:after:bg-[#DE1135]",
+      "[&_.timeline-horizontal-line]:bg-[#DE1135]",
+      "[&_.timeline-bullet]:bg-[#FC7F79] [&_.timeline-bullet]:text-black [&_.timeline-vertical-line]:after:bg-[#FC7F79]",
+      "[&_.timeline-horizontal-line]:bg-[#FC7F79]",
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "info" in @color do %>
   defp color_class("info") do
     [
-      "[&_.timeline-bullet]:bg-[#004FC4] [&_.timeline-bullet]:text-white [&_.timeline-vertical-line]:after:bg-[#004FC4]",
-      "[&_.timeline-horizontal-line]:bg-[#004FC4]"
+      "[&_.timeline-bullet]:bg-[#0B84BA] [&_.timeline-bullet]:text-white [&_.timeline-vertical-line]:after:bg-[#0B84BA]",
+      "[&_.timeline-horizontal-line]:bg-[#0B84BA]",
+      "[&_.timeline-bullet]:bg-[#3EB7ED] [&_.timeline-bullet]:text-black [&_.timeline-vertical-line]:after:bg-[#3EB7ED]",
+      "[&_.timeline-horizontal-line]:bg-[#3EB7ED]",
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "misc" in @color do %>
   defp color_class("misc") do
     [
-      "[&_.timeline-bullet]:bg-[#52059C] [&_.timeline-bullet]:text-white [&_.timeline-vertical-line]:after:bg-[#52059C]",
-      "[&_.timeline-horizontal-line]:bg-[#52059C]"
+      "[&_.timeline-bullet]:bg-[#8750C5] [&_.timeline-bullet]:text-white [&_.timeline-vertical-line]:after:bg-[#8750C5]",
+      "[&_.timeline-horizontal-line]:bg-[#8750C5]",
+      "[&_.timeline-bullet]:bg-[#BA83F9] [&_.timeline-bullet]:text-black [&_.timeline-vertical-line]:after:bg-[#BA83F9]",
+      "[&_.timeline-horizontal-line]:bg-[#BA83F9]",
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "dawn" in @color do %>
   defp color_class("dawn") do
     [
-      "[&_.timeline-bullet]:bg-[#4D4137] [&_.timeline-bullet]:text-white [&_.timeline-vertical-line]:after:bg-[#4D4137]",
-      "[&_.timeline-horizontal-line]:bg-[#4D4137]"
+      "[&_.timeline-bullet]:bg-[#A86438] [&_.timeline-bullet]:text-white [&_.timeline-vertical-line]:after:bg-[#A86438]",
+      "[&_.timeline-horizontal-line]:bg-[#A86438]",
+      "[&_.timeline-bullet]:bg-[#DB976B] [&_.timeline-bullet]:text-black [&_.timeline-vertical-line]:after:bg-[#DB976B]",
+      "[&_.timeline-horizontal-line]:bg-[#DB976B]",
     ]
   end
   <% end %>
-  <%= if is_nil(@color) or "light" in @color do %>
-  defp color_class("light") do
+  <%= if is_nil(@color) or "silver" in @color do %>
+  defp color_class("silver") do
     [
-      "[&_.timeline-bullet]:bg-[#707483] [&_.timeline-bullet]:text-white [&_.timeline-vertical-line]:after:bg-[#707483]",
-      "[&_.timeline-horizontal-line]:bg-[#707483]"
+      "[&_.timeline-bullet]:bg-[#868686] [&_.timeline-bullet]:text-white [&_.timeline-vertical-line]:after:bg-[#868686]",
+      "[&_.timeline-horizontal-line]:bg-[#868686]",
+      "[&_.timeline-bullet]:bg-[#A6A6A6] [&_.timeline-bullet]:text-black [&_.timeline-vertical-line]:after:bg-[#A6A6A6]",
+      "[&_.timeline-horizontal-line]:bg-[#A6A6A6]",
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "dark" in @color do %>
   defp color_class("dark") do
     [
-      "[&_.timeline-bullet]:bg-[#1E1E1E] [&_.timeline-bullet]:text-white [&_.timeline-vertical-line]:after:bg-[#1E1E1E]",
-      "[&_.timeline-horizontal-line]:bg-[#1E1E1E]"
+      "[&_.timeline-bullet]:bg-[#282828] [&_.timeline-bullet]:text-white [&_.timeline-vertical-line]:after:bg-[#282828]",
+      "[&_.timeline-horizontal-line]:bg-[#282828]"
     ]
   end
   <% end %>
