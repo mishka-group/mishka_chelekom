@@ -2,8 +2,9 @@
   tooltip: [
     name: "tooltip",
     args: [
-      variant: ["default", "shadow"],
+      variant: ["default", "shadow", "bordered", "gradient"],
       color: [
+        "natural",
         "white",
         "primary",
         "secondary",
@@ -12,7 +13,7 @@
         "warning",
         "danger",
         "info",
-        "light",
+        "silver",
         "misc",
         "dawn"
       ],
@@ -21,6 +22,7 @@
       padding: ["extra_small", "small", "medium", "large", "extra_large", "none"],
       rounded: ["extra_small", "small", "medium", "large", "extra_large", "none"],
       only: ["tooltip"],
+      helpers: [],
       module: ""
     ],
     optional: [],

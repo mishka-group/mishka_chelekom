@@ -28,6 +28,7 @@ defmodule <%= @module %> do
   @sizes ["extra_small", "small", "medium", "large", "extra_large"]
 
   @colors [
+    "natural",
     "white",
     "primary",
     "secondary",
@@ -36,7 +37,6 @@ defmodule <%= @module %> do
     "warning",
     "danger",
     "info",
-    "light",
     "misc",
     "dawn",
     "silver",
@@ -144,38 +144,38 @@ defmodule <%= @module %> do
   <%= if is_nil(@color) or "white" in @color do %>
   defp color_class("white"), do: "bg-white"
   <% end %>
-  <%= if is_nil(@color) or "silver" in @color do %>
-  defp color_class("silver"), do: "bg-[#e9ecef]"
+  <%= if is_nil(@color) or "natural" in @color do %>
+  defp color_class("natural"), do: "bg-[#4B4B4B] dark:bg-[#DDDDDD]"
   <% end %>
   <%= if is_nil(@color) or "primary" in @color do %>
-  defp color_class("primary"), do: "bg-[#4363EC]"
+  defp color_class("primary"), do: "bg-[#007F8C] dark:bg-[#01B8CA]"
   <% end %>
   <%= if is_nil(@color) or "secondary" in @color do %>
-  defp color_class("secondary"), do: "bg-[#6B6E7C]"
+  defp color_class("secondary"), do: "bg-[#266EF1] dark:bg-[#6DAAFB]"
   <% end %>
   <%= if is_nil(@color) or "success" in @color do %>
-  defp color_class("success"), do: "bg-[#D2F6E0]"
+  defp color_class("success"), do: "bg-[#0E8345] dark:bg-[#06C167]"
   <% end %>
   <%= if is_nil(@color) or "warning" in @color do %>
-  defp color_class("warning"), do: "bg-[#FBF0D0]"
+  defp color_class("warning"), do: "bg-[#CA8D01] dark:bg-[#FDC034]"
   <% end %>
   <%= if is_nil(@color) or "danger" in @color do %>
-  defp color_class("danger"), do: "bg-[#FCD4D4]"
+  defp color_class("danger"), do: "bg-[#DE1135] dark:bg-[#FC7F79]"
   <% end %>
   <%= if is_nil(@color) or "info" in @color do %>
-  defp color_class("info"), do: "bg-[#D9E8FC]"
+  defp color_class("info"), do:  "bg-[#0B84BA] dark:bg-[#3EB7ED]"
   <% end %>
   <%= if is_nil(@color) or "misc" in @color do %>
-  defp color_class("misc"), do: "bg-[#FFD8FF]"
+  defp color_class("misc"), do: "bg-[#8750C5] dark:bg-[#BA83F9]"
   <% end %>
   <%= if is_nil(@color) or "dawn" in @color do %>
-  defp color_class("dawn"), do: "bg-[#FCE7D2]"
+  defp color_class("dawn"), do: "bg-[#A86438] dark:bg-[#DB976B]"
   <% end %>
-  <%= if is_nil(@color) or "light" in @color do %>
-  defp color_class("light"), do: "bg-[#E3E7F1]"
+  <%= if is_nil(@color) or "silver" in @color do %>
+  defp color_class("silver"), do: "bg-[#868686] dark:bg-[#A6A6A6]"
   <% end %>
   <%= if is_nil(@color) or "dark" in @color do %>
-  defp color_class("dark"), do: "bg-[#1E1E1E]"
+  defp color_class("dark"), do: "bg-[#282828]"
   <% end %>
   defp color_class("none"), do: nil
 end

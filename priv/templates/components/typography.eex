@@ -15,13 +15,15 @@ defmodule <%= @module %> do
 
   @colors [
     "primary",
+    "white",
+    "natural",
     "secondary",
     "dark",
     "success",
     "warning",
     "danger",
     "info",
-    "light",
+    "silver",
     "misc",
     "dawn",
     "inherit"
@@ -1215,35 +1217,38 @@ defmodule <%= @module %> do
   <%= if is_nil(@color) or "white" in @color do %>
   defp color("white"), do: "text-white"
   <% end %>
+  <%= if is_nil(@color) or "natural" in @color do %>
+  defp color("natural"), do: "text-[#4B4B4B] dark:text-[#DDDDDD]"
+  <% end %>
   <%= if is_nil(@color) or "primary" in @color do %>
-  defp color("primary"), do: "text-[#4363EC]"
+  defp color("primary"), do: "text-[#007F8C] dark:text-[#01B8CA]"
   <% end %>
   <%= if is_nil(@color) or "secondary" in @color do %>
-  defp color("secondary"), do: "text-[#6B6E7C]"
+  defp color("secondary"), do: "text-[#266EF1] dark:text-[#6DAAFB]"
   <% end %>
   <%= if is_nil(@color) or "success" in @color do %>
-  defp color("success"), do: "text-[#227A52]"
+  defp color("success"), do: "text-[#0E8345] dark:text-[#06C167]"
   <% end %>
   <%= if is_nil(@color) or "warning" in @color do %>
-  defp color("warning"), do: "text-[#FF8B08]"
+  defp color("warning"), do: "text-[#CA8D01] dark:text-[#FDC034]"
   <% end %>
   <%= if is_nil(@color) or "danger" in @color do %>
-  defp color("danger"), do: "text-[#E73B3B]"
+  defp color("danger"), do: "text-[#DE1135] dark:text-[#FC7F79]"
   <% end %>
   <%= if is_nil(@color) or "info" in @color do %>
-  defp color("info"), do: "text-[#6663FD]"
+  defp color("info"), do: "text-[#0B84BA] dark:text-[#3EB7ED]"
   <% end %>
   <%= if is_nil(@color) or "misc" in @color do %>
-  defp color("misc"), do: "text-[#52059C]"
+  defp color("misc"), do: "text-[#8750C5] dark:text-[#BA83F9]"
   <% end %>
   <%= if is_nil(@color) or "dawn" in @color do %>
-  defp color("dawn"), do: "text-[#4D4137]"
+  defp color("dawn"), do: "text-[#A86438] dark:text-[#DB976B]"
   <% end %>
-  <%= if is_nil(@color) or "light" in @color do %>
-  defp color("light"), do: "text-[#707483]"
+  <%= if is_nil(@color) or "silver" in @color do %>
+  defp color("silver"), do: "text-[#868686] dark:text-[#A6A6A6]"
   <% end %>
   <%= if is_nil(@color) or "dark" in @color do %>
-  defp color("dark"), do: "text-[#1E1E1E]"
+  defp color("dark"), do: "text-[#282828]"
   <% end %>
   <%= if is_nil(@color) or "inherit" in @color do %>
   defp color("inherit"), do: "text-inherit"

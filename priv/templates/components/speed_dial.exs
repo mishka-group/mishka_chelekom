@@ -2,18 +2,19 @@
   speed_dial: [
     name: "speed_dial",
     args: [
-      variant: ["default", "unbordered", "shadow"],
+      variant: ["default", "bordered", "shadow", "gradient"],
       color: [
-        "white",
+       "natural",
         "primary",
         "secondary",
-        "dark",
         "success",
         "warning",
         "danger",
         "info",
-        "light",
+        "silver",
         "misc",
+        "dark",
+        "white",
         "dawn"
       ],
       size: [
@@ -30,6 +31,7 @@
       padding: ["extra_small", "small", "medium", "large", "extra_large", "none"],
       rounded: ["extra_small", "small", "medium", "large", "extra_large", "full"],
       only: ["speed_dial"],
+      helpers: [],
       module: ""
     ],
     optional: [],
