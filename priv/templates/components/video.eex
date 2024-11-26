@@ -216,11 +216,14 @@ defmodule <%= @module %> do
   defp caption_bakcground("white"),
     do: "[&::cue]:bg-[linear-gradient(#fff,#fff)] [&::cue]:text-[#282828]"
 
-  defp caption_bakcground("primary"),
+  defp caption_bakcground("natural"),
     do: "[&::cue]:bg-[linear-gradient(#4B4B4B,#4B4B4B)] [&::cue]:text-white"
 
-  defp caption_bakcground("secondary"),
+  defp caption_bakcground("primary"),
     do: "[&::cue]:bg-[linear-gradient(#007F8C,#007F8C)] [&::cue]:text-white"
+
+  defp caption_bakcground("secondary"),
+    do: "[&::cue]:bg-[linear-gradient(#266EF1,#266EF1)] [&::cue]:text-white"
 
   defp caption_bakcground("success"),
     do: "[&::cue]:bg-[linear-gradient(#0E8345,#0E8345)] [&::cue]:text-[#282828]"
