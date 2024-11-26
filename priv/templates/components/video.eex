@@ -18,6 +18,7 @@ defmodule <%= @module %> do
 
   @colors [
     "white",
+    "natrual",
     "primary",
     "secondary",
     "dark",
@@ -25,10 +26,9 @@ defmodule <%= @module %> do
     "warning",
     "danger",
     "info",
-    "light",
+    "silver",
     "misc",
     "dawn",
-    "silver"
   ]
   # https://stackoverflow.com/questions/15268604/html5-track-captions-not-showing/15268843#15268843
   # https://www.w3schools.com/tags/tag_video.asp
@@ -214,37 +214,40 @@ defmodule <%= @module %> do
   defp caption_size(_), do: caption_size("extra_small")
 
   defp caption_bakcground("white"),
-    do: "[&::cue]:bg-[linear-gradient(#fff,#fff)] [&::cue]:text-[#1E1E1E]"
+    do: "[&::cue]:bg-[linear-gradient(#fff,#fff)] [&::cue]:text-[#282828]"
+
+  defp caption_bakcground("natural"),
+    do: "[&::cue]:bg-[linear-gradient(#4B4B4B,#4B4B4B)] [&::cue]:text-white"
 
   defp caption_bakcground("primary"),
-    do: "[&::cue]:bg-[linear-gradient(#2441de,#2441de)] [&::cue]:text-white"
+    do: "[&::cue]:bg-[linear-gradient(#007F8C,#007F8C)] [&::cue]:text-white"
 
   defp caption_bakcground("secondary"),
-    do: "[&::cue]:bg-[linear-gradient(#877C7C,#877C7C)] [&::cue]:text-white"
+    do: "[&::cue]:bg-[linear-gradient(#266EF1,#266EF1)] [&::cue]:text-white"
 
   defp caption_bakcground("success"),
-    do: "[&::cue]:bg-[linear-gradient(#6EE7B7,#6EE7B7)] [&::cue]:text-[#1E1E1E]"
+    do: "[&::cue]:bg-[linear-gradient(#0E8345,#0E8345)] [&::cue]:text-[#282828]"
 
   defp caption_bakcground("warning"),
-    do: "[&::cue]:bg-[linear-gradient(#FF8B08,#FF8B08)] [&::cue]:text-[#1E1E1E]"
+    do: "[&::cue]:bg-[linear-gradient(#CA8D01,#CA8D01)] [&::cue]:text-[#282828]"
 
   defp caption_bakcground("danger"),
-    do: "[&::cue]:bg-[linear-gradient(#E73B3B,#E73B3B)] [&::cue]:text-[#1E1E1E]"
+    do: "[&::cue]:bg-[linear-gradient(#DE1135,#DE1135)] [&::cue]:text-[#282828]"
 
   defp caption_bakcground("info"),
-    do: "[&::cue]:bg-[linear-gradient(#004FC4,#004FC4)] [&::cue]:text-[#1E1E1E]"
+    do: "[&::cue]:bg-[linear-gradient(#0B84BA,#0B84BA)] [&::cue]:text-[#282828]"
 
   defp caption_bakcground("misc"),
-    do: "[&::cue]:bg-[linear-gradient(#52059C,#52059C)] [&::cue]:text-[#1E1E1E]"
+    do: "[&::cue]:bg-[linear-gradient(#8750C5,#8750C5)] [&::cue]:text-[#282828]"
 
   defp caption_bakcground("dawn"),
-    do: "[&::cue]:bg-[linear-gradient(#4D4137,#4D4137)] [&::cue]:text-[#1E1E1E]"
+    do: "[&::cue]:bg-[linear-gradient(#A86438,#A86438)] [&::cue]:text-[#282828]"
 
-  defp caption_bakcground("light"),
-    do: "[&::cue]:bg-[linear-gradient(#707483,#707483)] [&::cue]:text-[#1E1E1E]"
+  defp caption_bakcground("silver"),
+    do: "[&::cue]:bg-[linear-gradient(#868686,#868686)] [&::cue]:text-[#282828]"
 
   defp caption_bakcground("dark"),
-    do: "[&::cue]:bg-[linear-gradient(#1E1E1E,#1E1E1E)] [&::cue]:text-white"
+    do: "[&::cue]:bg-[linear-gradient(#282828,#282828)] [&::cue]:text-white"
 
   defp caption_bakcground(params) when is_binary(params), do: params
   defp caption_bakcground(_), do: caption_bakcground("white")
