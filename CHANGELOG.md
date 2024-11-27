@@ -45,6 +45,7 @@
 - Add dark mode of Skeleton component [#152](https://github.com/mishka-group/mishka_chelekom/pull/152)
 - Add dark mode of TableOfContent component [#153](https://github.com/mishka-group/mishka_chelekom/pull/153)
 - Add dark mode of Timeline component [#154](https://github.com/mishka-group/mishka_chelekom/pull/154)
+- Add dark mode of Table component [#155](https://github.com/mishka-group/mishka_chelekom/pull/155)
 
 
 ### Bugs:
