@@ -36,6 +36,15 @@
 - Add dark mode of RadioField component [#143](https://github.com/mishka-group/mishka_chelekom/pull/143)
 - Add dark mode of CheckboxField component [#144](https://github.com/mishka-group/mishka_chelekom/pull/144)
 - Add dark mode of Sidebar component [#145](https://github.com/mishka-group/mishka_chelekom/pull/145)
+- Add dark mode of DateTimeField component [#146](https://github.com/mishka-group/mishka_chelekom/pull/146)
+- Add dark mode of Tooltip component [#147](https://github.com/mishka-group/mishka_chelekom/pull/147)
+- Add dark mode of Video component [#148](https://github.com/mishka-group/mishka_chelekom/pull/148)
+- Add dark mode of Typography component [#149](https://github.com/mishka-group/mishka_chelekom/pull/149)
+- Add dark mode of ToggleField component [#150](https://github.com/mishka-group/mishka_chelekom/pull/150)
+- Add dark mode of SpeedDial component [#151](https://github.com/mishka-group/mishka_chelekom/pull/151)
+- Add dark mode of Skeleton component [#152](https://github.com/mishka-group/mishka_chelekom/pull/152)
+- Add dark mode of TableOfContent component [#153](https://github.com/mishka-group/mishka_chelekom/pull/153)
+- Add dark mode of Timeline component [#154](https://github.com/mishka-group/mishka_chelekom/pull/154)
 
 
 ### Bugs:

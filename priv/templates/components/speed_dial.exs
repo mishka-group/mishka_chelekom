@@ -4,7 +4,7 @@
     args: [
       variant: ["default", "bordered", "shadow", "gradient"],
       color: [
-       "natural",
+        "natural",
         "primary",
         "secondary",
         "success",
