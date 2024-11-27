@@ -16,15 +16,16 @@ defmodule <%= @module %> do
 
   @variants [
     "outline",
-    "default",
+    "bordered",
     "shadow",
-    "unbordered",
+    "default",
     "transparent",
     "hoverable",
     "stripped"
   ]
 
   @colors [
+    "natural",
     "white",
     "primary",
     "secondary",
@@ -33,7 +34,6 @@ defmodule <%= @module %> do
     "warning",
     "danger",
     "info",
-    "light",
     "misc",
     "dawn",
     "silver"
@@ -100,7 +100,7 @@ defmodule <%= @module %> do
   attr :rounded, :string, default: nil, doc: "Determines the border radius"
   attr :padding, :string, default: "small", doc: "Determines padding for items"
   attr :text_size, :string, default: "small", doc: "Determines text size"
-  attr :color, :string, values: @colors, default: "white", doc: "Determines color theme"
+  attr :color, :string, values: @colors, default: "natural", doc: "Determines color theme"
   attr :border, :string, default: nil, doc: "Determines border style"
   attr :header_border, :string, default: nil, doc: "Sets the border style for the table header"
   attr :rows_border, :string, default: nil, doc: "Sets the border style for rows in the table"
@@ -138,11 +138,11 @@ defmodule <%= @module %> do
           text_position(@text_position),
           rounded_size(@rounded),
           text_size(@text_size),
-          border_class(@border),
+          border_class(@border, @variant),
           padding_size(@padding),
-          @header_border && header_border(@header_border),
-          @rows_border && rows_border(@rows_border),
-          @cols_border && cols_border(@cols_border)
+          @header_border && header_border(@header_border, @variant),
+          @rows_border && rows_border(@rows_border, @variant),
+          @cols_border && cols_border(@cols_border, @variant)
         ]}>
           <table
             class={[
@@ -336,15 +336,21 @@ defmodule <%= @module %> do
   defp text_position("end"), do: "[&_table]:text-end [&_table_thead]:text-end"
   defp text_position(_), do: text_position("start")
 
-  defp border_class("extra_small"), do: "border"
-  defp border_class("small"), do: "border-2"
-  defp border_class("medium"), do: "border-[3px]"
-  defp border_class("large"), do: "border-4"
-  defp border_class("extra_large"), do: "border-[5px]"
-  defp border_class(params) when is_binary(params), do: [params]
-  defp border_class(_), do: nil
+  defp border_class(_, variant) when variant in ["default", "shadow", "transparent", "stripped", "hoverable"],
+    do: nil
 
-  defp cols_border("extra_small") do
+  defp border_class("extra_small", _), do: "border"
+  defp border_class("small", _), do: "border-2"
+  defp border_class("medium", _), do: "border-[3px]"
+  defp border_class("large", _), do: "border-4"
+  defp border_class("extra_large", _), do: "border-[5px]"
+  defp border_class(params, _) when is_binary(params), do: [params]
+  defp border_class(_, _), do: nil
+
+  defp cols_border(_, variant) when variant in ["default", "shadow", "transparent", "stripped", "hoverable"],
+    do: nil
+
+  defp cols_border("extra_small", _) do
     [
       "[&_table_thead_th:not(:last-child)]:border-e",
       "[&_table_tbody_td:not(:last-child)]:border-e",
@@ -352,7 +358,7 @@ defmodule <%= @module %> do
     ]
   end
 
-  defp cols_border("small") do
+  defp cols_border("small", _) do
     [
       "[&_table_thead_th:not(:last-child)]:border-e-2",
       "[&_table_tbody_td:not(:last-child)]:border-e-2",
@@ -360,7 +366,7 @@ defmodule <%= @module %> do
     ]
   end
 
-  defp cols_border("medium") do
+  defp cols_border("medium", _) do
     [
       "[&_table_thead_th:not(:last-child)]:border-e-[3px]",
       "[&_table_tbody_td:not(:last-child)]:border-e-[3px]",
@@ -368,7 +374,7 @@ defmodule <%= @module %> do
     ]
   end
 
-  defp cols_border("large") do
+  defp cols_border("large", _) do
     [
       "[&_table_thead_th:not(:last-child)]:border-e-4",
       "[&_table_tbody_td:not(:last-child)]:border-e-4",
@@ -376,7 +382,7 @@ defmodule <%= @module %> do
     ]
   end
 
-  defp cols_border("extra_large") do
+  defp cols_border("extra_large", _) do
     [
       "[&_table_thead_th:not(:last-child)]:border-e-[5px]",
       "[&_table_tbody_td:not(:last-child)]:border-e-[5px]",
@@ -384,24 +390,30 @@ defmodule <%= @module %> do
     ]
   end
 
-  defp cols_border(params) when is_binary(params), do: [params]
-  defp cols_border(_), do: nil
+  defp cols_border(params, _) when is_binary(params), do: [params]
+  defp cols_border(_, _), do: nil
 
-  defp rows_border("extra_small"), do: "[&_table_tbody]:divide-y"
-  defp rows_border("small"), do: "[&_table_tbody]:divide-y-2"
-  defp rows_border("medium"), do: "[&_table_tbody]:divide-y-[3px]"
-  defp rows_border("large"), do: "[&_table_tbody]:divide-y-4"
-  defp rows_border("extra_large"), do: "[&_table_tbody]:divide-y-[5px]"
-  defp rows_border(params) when is_binary(params), do: [params]
-  defp rows_border(_), do: nil
+  defp rows_border(_, variant) when variant in ["default", "shadow", "transparent", "stripped", "hoverable"],
+    do: nil
 
-  defp header_border("extra_small"), do: "[&_table]:divide-y"
-  defp header_border("small"), do: "[&_table]:divide-y-2"
-  defp header_border("medium"), do: "[&_table]:divide-y-[3px]"
-  defp header_border("large"), do: "[&_table]:divide-y-4"
-  defp header_border("extra_large"), do: "[&_table]:divide-y-[5px]"
-  defp header_border(params) when is_binary(params), do: [params]
-  defp header_border(_), do: nil
+  defp rows_border("extra_small", _), do: "[&_table_tbody]:divide-y"
+  defp rows_border("small", _), do: "[&_table_tbody]:divide-y-2"
+  defp rows_border("medium", _), do: "[&_table_tbody]:divide-y-[3px]"
+  defp rows_border("large", _), do: "[&_table_tbody]:divide-y-4"
+  defp rows_border("extra_large", _), do: "[&_table_tbody]:divide-y-[5px]"
+  defp rows_border(params, _) when is_binary(params), do: [params]
+  defp rows_border(_, _), do: nil
+
+  defp header_border(_, variant) when variant in ["default", "shadow", "transparent", "stripped", "hoverable"],
+    do: nil
+
+  defp header_border("extra_small", _), do: "[&_table]:divide-y"
+  defp header_border("small", _), do: "[&_table]:divide-y-2"
+  defp header_border("medium", _), do: "[&_table]:divide-y-[3px]"
+  defp header_border("large", _), do: "[&_table]:divide-y-4"
+  defp header_border("extra_large", _), do: "[&_table]:divide-y-[5px]"
+  defp header_border(params, _) when is_binary(params), do: [params]
+  defp header_border(_, _), do: nil
 
   <%= if is_nil(@padding) or "extra_small" in @padding do %>
   defp padding_size("extra_small") do
@@ -448,288 +460,423 @@ defmodule <%= @module %> do
   defp padding_size(_), do: padding_size("small")
   <% end %>
 
-  <%= if is_nil(@variant) or "default" in @variant do %>
+  <%= if is_nil(@variant) or "bordered" in @variant do %>
   <%= if is_nil(@color) or "white" in @color do %>
-  defp color_variant("default", "white") do
+  defp color_variant("bordered", "white") do
     "[&_table]:bg-white text-[#3E3E3E] border-[#DADADA] [&_*]:divide-[#DADADA] [&_td]:border-[#DADADA] [&_th]:border-[#DADADA]"
   end
   <% end %>
+  <%= if is_nil(@color) or "natural" in @color do %>
+  defp color_variant("bordered", "natural") do
+    [
+      "[&_table]:bg-[#F3F3F3] dark:[&_table]:bg-[#4B4B4B] [&_table]:text-[#282828] dark:[&_table]:text-[#E8E8E8]",
+      "border-[#282828] dark:border-[#E8E8E8]",
+      "[&_*]:divide-[#282828] [&_td]:border-[#282828] [&_th]:border-[#282828]",
+      "dark:[&_*]:divide-[#E8E8E8] dark:[&_td]:border-[#E8E8E8] dark:[&_th]:border-[#E8E8E8]"
+    ]
+  end
+  <% end %>
   <%= if is_nil(@color) or "primary" in @color do %>
-  defp color_variant("default", "primary") do
-    "[&_table]:bg-[#4363EC] text-white border-[#2441de] [&_*]:divide-[#2441de] [&_td]:border-[#2441de] [&_th]:border-[#2441de]"
+  defp color_variant("bordered", "primary") do
+     [
+      "[&_table]:bg-[#E2F8FB] dark:[&_table]:bg-[#002D33] [&_table]:text-[#016974] dark:[&_table]:text-[#77D5E3]",
+      "border-[#016974] dark:border-[#77D5E3]",
+      "[&_*]:divide-[#016974] [&_td]:border-[#016974] [&_th]:border-[#016974]",
+      "dark:[&_*]:divide-[#77D5E3] dark:[&_td]:border-[#77D5E3] dark:[&_th]:border-[#77D5E3]"
+    ]
   end
   <% end %>
   <%= if is_nil(@color) or "secondary" in @color do %>
-  defp color_variant("default", "secondary") do
-    "[&_table]:bg-[#6B6E7C] text-white border-[#877C7C] [&_*]:divide-[#877C7C] [&_td]:border-[#877C7C] [&_th]:border-[#877C7C]"
+  defp color_variant("bordered", "secondary") do
+    [
+      "[&_table]:bg-[#EFF4FE] dark:[&_table]:bg-[#002661] [&_table]:text-[#175BCC] dark:[&_table]:text-[#A9C9FF]",
+      "border-[#175BCC] dark:border-[#A9C9FF]",
+      "[&_*]:divide-[#175BCC] [&_td]:border-[#175BCC] [&_th]:border-[#175BCC]",
+      "dark:[&_*]:divide-[#A9C9FF] dark:[&_td]:border-[#A9C9FF] dark:[&_th]:border-[#A9C9FF]"
+    ]
   end
   <% end %>
   <%= if is_nil(@color) or "success" in @color do %>
-  defp color_variant("default", "success") do
-    "[&_table]:bg-[#ECFEF3] text-[#047857] border-[#6EE7B7] [&_*]:divide-[#6EE7B7] [&_td]:border-[#6EE7B7] [&_th]:border-[#6EE7B7]"
+  defp color_variant("bordered", "success") do
+    [
+      "[&_table]:bg-[#EAF6ED] dark:[&_table]:bg-[#002F14] [&_table]:text-[#166C3B] dark:[&_table]:text-[#7FD99A]",
+      "border-[#166C3B] dark:border-[#7FD99A]",
+      "[&_*]:divide-[#166C3B] [&_td]:border-[#166C3B] [&_th]:border-[#166C3B]",
+      "dark:[&_*]:divide-[#7FD99A] dark:[&_td]:border-[#7FD99A] dark:[&_th]:border-[#7FD99A]"
+    ]
   end
   <% end %>
   <%= if is_nil(@color) or "warning" in @color do %>
-  defp color_variant("default", "warning") do
-    "[&_table]:bg-[#FFF8E6] text-[#FF8B08] border-[#FF8B08] [&_*]:divide-[#FF8B08] [&_td]:border-[#FF8B08] [&_th]:border-[#FF8B08]"
+  defp color_variant("bordered", "warning") do
+    [
+      "[&_table]:bg-[#FFF7E6] dark:[&_table]:bg-[#322300] [&_table]:text-[#976A01] dark:[&_table]:text-[#FDD067]",
+      "border-[#976A01] dark:border-[#FDD067]",
+      "[&_*]:divide-[#976A01] [&_td]:border-[#976A01] [&_th]:border-[#976A01]",
+      "dark:[&_*]:divide-[#FDD067] dark:[&_td]:border-[#FDD067] dark:[&_th]:border-[#FDD067]"
+    ]
   end
   <% end %>
   <%= if is_nil(@color) or "danger" in @color do %>
-  defp color_variant("default", "danger") do
-    "[&_table]:bg-[#FFE6E6] text-[#E73B3B] border-[#E73B3B] [&_*]:divide-[#E73B3B] [&_td]:border-[#E73B3B] [&_th]:border-[#E73B3B]"
+  defp color_variant("bordered", "danger") do
+    [
+      "[&_table]:bg-[#FFF0EE] dark:[&_table]:bg-[#520810] [&_table]:text-[#BB032A] dark:[&_table]:text-[#FFB2AB]",
+      "border-[#BB032A] dark:border-[#FFB2AB]",
+      "[&_*]:divide-[#BB032A] [&_td]:border-[#BB032A] [&_th]:border-[#BB032A]",
+      "dark:[&_*]:divide-[#FFB2AB] dark:[&_td]:border-[#FFB2AB] dark:[&_th]:border-[#FFB2AB]"
+    ]
   end
   <% end %>
   <%= if is_nil(@color) or "info" in @color do %>
-  defp color_variant("default", "info") do
-    "[&_table]:bg-[#E5F0FF] text-[#004FC4] border-[#004FC4] [&_*]:divide-[#004FC4] [&_td]:border-[#004FC4] [&_th]:border-[#004FC4]"
+  defp color_variant("bordered", "info") do
+    [
+      "[&_table]:bg-[#E7F6FD] dark:[&_table]:bg-[#03212F] [&_table]:text-[#0B84BA] dark:[&_table]:text-[#6EC9F2]",
+      "border-[#0B84BA] dark:border-[#6EC9F2]",
+      "[&_*]:divide-[#0B84BA] [&_td]:border-[#0B84BA] [&_th]:border-[#0B84BA]",
+      "dark:[&_*]:divide-[#6EC9F2] dark:[&_td]:border-[#6EC9F2] dark:[&_th]:border-[#6EC9F2]"
+    ]
   end
   <% end %>
   <%= if is_nil(@color) or "misc" in @color do %>
-  defp color_variant("default", "misc") do
-    "[&_table]:bg-[#FFE6FF] text-[#52059C] border-[#52059C] [&_*]:divide-[#52059C] [&_td]:border-[#52059C] [&_th]:border-[#52059C]"
+  defp color_variant("bordered", "misc") do
+    [
+      "[&_table]:bg-[#F6F0FE] dark:[&_table]:bg-[#221431] [&_table]:text-[#653C94] dark:[&_table]:text-[#CBA2FA]",
+      "border-[#653C94] dark:border-[#CBA2FA]",
+      "[&_*]:divide-[#653C94] [&_td]:border-[#653C94] [&_th]:border-[#653C94]",
+      "dark:[&_*]:divide-[#CBA2FA] dark:[&_td]:border-[#CBA2FA] dark:[&_th]:border-[#CBA2FA]"
+    ]
   end
   <% end %>
   <%= if is_nil(@color) or "dawn" in @color do %>
-  defp color_variant("default", "dawn") do
-    "[&_table]:bg-[#FFECDA] text-[#4D4137] border-[#4D4137] [&_*]:divide-[#4D4137] [&_td]:border-[#4D4137] [&_th]:border-[#4D4137]"
+  defp color_variant("bordered", "dawn") do
+    [
+      "[&_table]:bg-[#FBF2ED] dark:[&_table]:bg-[#2A190E] [&_table]:text-[#7E4B2A] dark:[&_table]:text-[#E4B190]",
+      "border-[#7E4B2A] dark:border-[#E4B190]",
+      "[&_*]:divide-[#7E4B2A] [&_td]:border-[#7E4B2A] [&_th]:border-[#7E4B2A]",
+      "dark:[&_*]:divide-[#E4B190] dark:[&_td]:border-[#E4B190] dark:[&_th]:border-[#E4B190]"
+    ]
   end
   <% end %>
-  <%= if is_nil(@color) or "light" in @color do %>
-  defp color_variant("default", "light") do
-    "[&_table]:bg-[#E3E7F1] text-[#707483] border-[#707483] [&_*]:divide-[#707483] [&_td]:border-[#707483] [&_th]:border-[#707483]"
+  <%= if is_nil(@color) or "silver" in @color do %>
+  defp color_variant("bordered", "silver") do
+    [
+      "[&_table]:bg-[#4B4B4B] dark:[&_table]:bg-[#2A190E] [&_table]:text-[#727272] dark:[&_table]:text-[#BBBBBB]",
+      "border-[#727272] dark:border-[#BBBBBB]",
+      "[&_*]:divide-[#727272] [&_td]:border-[#727272] [&_th]:border-[#727272]",
+      "dark:[&_*]:divide-[#BBBBBB] dark:[&_td]:border-[#BBBBBB] dark:[&_th]:border-[#BBBBBB]"
+    ]
   end
   <% end %>
   <%= if is_nil(@color) or "dark" in @color do %>
-  defp color_variant("default", "dark") do
-    "[&_table]:bg-[#1E1E1E] text-white border-[#050404] [&_*]:divide-[#DADADA] [&_td]:border-[#050404] [&_th]:border-[#050404]"
+  defp color_variant("bordered", "dark") do
+    "[&_table]:bg-[#282828] text-white border-[#050404] [&_*]:divide-[#050404] [&_td]:border-[#050404] [&_th]:border-[#050404]"
   end
   <% end %>
   <% end %>
   <%= if is_nil(@variant) or "outline" in @variant do %>
-  <%= if is_nil(@color) or "white" in @color do %>
-  defp color_variant("outline", "white") do
-    "text-white border-white [&_*]:divide-white [&_td]:border-white [&_th]:border-white"
+  <%= if is_nil(@color) or "natural" in @color do %>
+  defp color_variant("outline", "natural") do
+    [
+      "[&_table]:text-[#4B4B4B] border-[#4B4B4B] dark:[&_table]:text-[#DDDDDD] dark:border-[#DDDDDD]",
+      "[&_*]:divide-[#4B4B4B] [&_td]:border-[#4B4B4B] [&_th]:border-[#4B4B4B]",
+      "dark:[&_*]:divide-[#DDDDDD] dark:[&_td]:border-[#DDDDDD] dark:[&_th]:border-[#DDDDDD]"
+    ]
   end
   <% end %>
   <%= if is_nil(@color) or "primary" in @color do %>
   defp color_variant("outline", "primary") do
-    "text-[#4363EC] border-[#4363EC] [&_*]:divide-[#4363EC] [&_td]:border-[#4363EC] [&_th]:border-[#4363EC]"
+    [
+      "[&_table]:text-[#007F8C] border-[#007F8C] dark:[&_table]:text-[#01B8CA] dark:border-[#01B8CA]",
+      "[&_*]:divide-[#007F8C] [&_td]:border-[#007F8C] [&_th]:border-[#007F8C]",
+      "dark:[&_*]:divide-[#01B8CA] dark:[&_td]:border-[#01B8CA] dark:[&_th]:border-[#01B8CA]"
+    ]
   end
   <% end %>
   <%= if is_nil(@color) or "secondary" in @color do %>
   defp color_variant("outline", "secondary") do
-    "text-[#6B6E7C] border-[#6B6E7C] [&_*]:divide-[#6B6E7C] [&_td]:border-[#6B6E7C] [&_th]:border-[#6B6E7C]"
+    [
+      "[&_table]:text-[#007F8C] border-[#007F8C] dark:[&_table]:text-[#01B8CA] dark:border-[#01B8CA]",
+      "[&_*]:divide-[#007F8C] [&_td]:border-[#007F8C] [&_th]:border-[#007F8C]",
+      "dark:[&_*]:divide-[#01B8CA] dark:[&_td]:border-[#01B8CA] dark:[&_th]:border-[#01B8CA]"
+    ]
   end
   <% end %>
   <%= if is_nil(@color) or "success" in @color do %>
   defp color_variant("outline", "success") do
-    "text-[#227A52] border-[#6EE7B7] [&_*]:divide-[#6EE7B7] [&_td]:border-[#6EE7B7] [&_th]:border-[#6EE7B7]"
+    [
+      "[&_table]:text-[#0E8345] border-[#0E8345] dark:[&_table]:text-[#06C167] dark:border-[#06C167]",
+      "[&_*]:divide-[#0E8345] [&_td]:border-[#0E8345] [&_th]:border-[#0E8345]",
+      "dark:[&_*]:divide-[#06C167] dark:[&_td]:border-[#06C167] dark:[&_th]:border-[#06C167]"
+    ]
   end
   <% end %>
   <%= if is_nil(@color) or "warning" in @color do %>
   defp color_variant("outline", "warning") do
-    "text-[#FF8B08] border-[#FF8B08] [&_*]:divide-[#FF8B08] [&_td]:border-[#FF8B08] [&_th]:border-[#FF8B08]"
+    [
+      "[&_table]:text-[#CA8D01] border-[#CA8D01] dark:[&_table]:text-[#FDC034] dark:border-[#FDC034]",
+      "[&_*]:divide-[#CA8D01] [&_td]:border-[#CA8D01] [&_th]:border-[#CA8D01]",
+      "dark:[&_*]:divide-[#FDC034] dark:[&_td]:border-[#FDC034] dark:[&_th]:border-[#FDC034]"
+    ]
   end
   <% end %>
   <%= if is_nil(@color) or "danger" in @color do %>
   defp color_variant("outline", "danger") do
-    "text-[#E73B3B] border-[#E73B3B] [&_*]:divide-[#E73B3B] [&_td]:border-[#E73B3B] [&_th]:border-[#E73B3B]"
+    [
+      "[&_table]:text-[#DE1135] border-[#DE1135] dark:[&_table]:text-[#FC7F79] dark:border-[#FC7F79]",
+      "[&_*]:divide-[#DE1135] [&_td]:border-[#DE1135] [&_th]:border-[#DE1135]",
+      "dark:[&_*]:divide-[#FC7F79] dark:[&_td]:border-[#FC7F79] dark:[&_th]:border-[#FC7F79]"
+    ]
   end
   <% end %>
   <%= if is_nil(@color) or "info" in @color do %>
   defp color_variant("outline", "info") do
-    "text-[#004FC4] border-[#004FC4] [&_*]:divide-[#004FC4] [&_td]:border-[#004FC4] [&_th]:border-[#004FC4]"
+    [
+      "[&_table]:text-[#0B84BA] border-[#0B84BA] dark:[&_table]:text-[#3EB7ED] dark:border-[#3EB7ED]",
+      "[&_*]:divide-[#0B84BA] [&_td]:border-[#0B84BA] [&_th]:border-[#0B84BA]",
+      "dark:[&_*]:divide-[#3EB7ED] dark:[&_td]:border-[#3EB7ED] dark:[&_th]:border-[#3EB7ED]"
+    ]
   end
   <% end %>
   <%= if is_nil(@color) or "misc" in @color do %>
   defp color_variant("outline", "misc") do
-    "text-[#52059C] border-[#52059C] [&_*]:divide-[#52059C] [&_td]:border-[#52059C] [&_th]:border-[#52059C]"
+    [
+      "[&_table]:text-[#8750C5] border-[#8750C5] dark:[&_table]:text-[#BA83F9] dark:border-[#BA83F9]",
+      "[&_*]:divide-[#8750C5] [&_td]:border-[#8750C5] [&_th]:border-[#8750C5]",
+      "dark:[&_*]:divide-[#BA83F9] dark:[&_td]:border-[#BA83F9] dark:[&_th]:border-[#BA83F9]"
+    ]
   end
   <% end %>
   <%= if is_nil(@color) or "dawn" in @color do %>
   defp color_variant("outline", "dawn") do
-    "text-[#4D4137] border-[#4D4137] [&_*]:divide-[#4D4137] [&_td]:border-[#4D4137] [&_th]:border-[#4D4137]"
+    [
+      "[&_table]:text-[#A86438] border-[#A86438] dark:[&_table]:text-[#DB976B] dark:border-[#DB976B]",
+      "[&_*]:divide-[#A86438] [&_td]:border-[#A86438] [&_th]:border-[#A86438]",
+      "dark:[&_*]:divide-[#DB976B] dark:[&_td]:border-[#DB976B] dark:[&_th]:border-[#DB976B]"
+    ]
   end
   <% end %>
-  <%= if is_nil(@color) or "light" in @color do %>
-  defp color_variant("outline", "light") do
-    "text-[#707483] border-[#707483] [&_*]:divide-[#707483] [&_td]:border-[#707483] [&_th]:border-[#707483]"
+  <%= if is_nil(@color) or "silver" in @color do %>
+  defp color_variant("outline", "silver") do
+    [
+      "[&_table]:text-[#868686] border-[#868686] dark:[&_table]:text-[#A6A6A6] dark:border-[#A6A6A6]",
+      "[&_*]:divide-[#868686] [&_td]:border-[#868686] [&_th]:border-[#868686]",
+      "dark:[&_*]:divide-[#A6A6A6] dark:[&_td]:border-[#A6A6A6] dark:[&_th]:border-[#A6A6A6]"
+    ]
   end
   <% end %>
-  <%= if is_nil(@color) or "dark" in @color do %>
-  defp color_variant("outline", "dark") do
-    "text-[#1E1E1E] border-[#050404] [&_*]:divide-[#050404] [&_td]:border-[#050404] [&_th]:border-[#050404]"
-  end
   <% end %>
-  <% end %>
-  <%= if is_nil(@variant) or "unbordered" in @variant do %>
+  <%= if is_nil(@variant) or "default" in @variant do %>
   <%= if is_nil(@color) or "white" in @color do %>
-  defp color_variant("unbordered", "white") do
-    "[&_table]:bg-white border-transparent text-[#3E3E3E] [&_*]:divide-transparent [&_td]:border-transparent [&_th]:border-transparent"
+  defp color_variant("default", "white") do
+      "bg-white text-black"
+  end
+  <% end %>
+  <%= if is_nil(@color) or "natural" in @color do %>
+  defp color_variant("default", "natural") do
+    "[&_table]:bg-[#4B4B4B] [&_table]:text-white dark:[&_table]:bg-[#DDDDDD] dark:[&_table]:text-black"
   end
   <% end %>
   <%= if is_nil(@color) or "primary" in @color do %>
-  defp color_variant("unbordered", "primary") do
-    "[&_table]:bg-[#4363EC] border-transparent text-white [&_*]:divide-transparent [&_td]:border-transparent [&_th]:border-transparent"
+  defp color_variant("default", "primary") do
+    "[&_table]:bg-[#007F8C] [&_table]:text-white dark:[&_table]:bg-[#01B8CA] dark:[&_table]:text-black"
   end
   <% end %>
   <%= if is_nil(@color) or "secondary" in @color do %>
-  defp color_variant("unbordered", "secondary") do
-    "[&_table]:bg-[#6B6E7C] border-transparent text-white [&_*]:divide-transparent [&_td]:border-transparent [&_th]:border-transparent"
+  defp color_variant("default", "secondary") do
+    "[&_table]:bg-[#266EF1] [&_table]:text-white dark:[&_table]:bg-[#6DAAFB] dark:[&_table]:text-black"
   end
   <% end %>
   <%= if is_nil(@color) or "success" in @color do %>
-  defp color_variant("unbordered", "success") do
-    "[&_table]:bg-[#ECFEF3] border-transparent text-[#047857] [&_*]:divide-transparent [&_td]:border-transparent [&_th]:border-transparent"
+  defp color_variant("default", "success") do
+    "[&_table]:bg-[#0E8345] [&_table]:text-white dark:[&_table]:bg-[#06C167] dark:[&_table]:text-black"
   end
   <% end %>
   <%= if is_nil(@color) or "warning" in @color do %>
-  defp color_variant("unbordered", "warning") do
-    "[&_table]:bg-[#FFF8E6] border-transparent text-[#FF8B08] [&_*]:divide-transparent [&_td]:border-transparent [&_th]:border-transparent"
+  defp color_variant("default", "warning") do
+    "[&_table]:bg-[#CA8D01] [&_table]:text-white dark:[&_table]:bg-[#FDC034] dark:[&_table]:text-black"
   end
   <% end %>
   <%= if is_nil(@color) or "danger" in @color do %>
-  defp color_variant("unbordered", "danger") do
-    "[&_table]:bg-[#FFE6E6] border-transparent text-[#E73B3B] [&_*]:divide-transparent [&_td]:border-transparent [&_th]:border-transparent"
+  defp color_variant("default", "danger") do
+    "[&_table]:bg-[#DE1135] [&_table]:text-white dark:[&_table]:bg-[#FC7F79] dark:[&_table]:text-black"
   end
   <% end %>
   <%= if is_nil(@color) or "info" in @color do %>
-  defp color_variant("unbordered", "info") do
-    "[&_table]:bg-[#E5F0FF] border-transparent text-[#004FC4] [&_*]:divide-transparent [&_td]:border-transparent [&_th]:border-transparent"
+  defp color_variant("default", "info") do
+    "[&_table]:bg-[#0B84BA] [&_table]:text-white dark:[&_table]:bg-[#3EB7ED] dark:[&_table]:text-black"
   end
   <% end %>
   <%= if is_nil(@color) or "misc" in @color do %>
-  defp color_variant("unbordered", "misc") do
-    "[&_table]:bg-[#FFE6FF] border-transparent text-[#52059C] [&_*]:divide-transparent [&_td]:border-transparent [&_th]:border-transparent"
+  defp color_variant("default", "misc") do
+    "[&_table]:bg-[#8750C5] [&_table]:text-white dark:[&_table]:bg-[#BA83F9] dark:[&_table]:text-black"
   end
   <% end %>
   <%= if is_nil(@color) or "dawn" in @color do %>
-  defp color_variant("unbordered", "dawn") do
-    "[&_table]:bg-[#FFECDA] border-transparent text-[#4D4137] [&_*]:divide-transparent [&_td]:border-transparent [&_th]:border-transparent"
+  defp color_variant("default", "dawn") do
+    "[&_table]:bg-[#A86438] [&_table]:text-white dark:[&_table]:bg-[#DB976B] dark:[&_table]:text-black"
   end
   <% end %>
-  <%= if is_nil(@color) or "light" in @color do %>
-  defp color_variant("unbordered", "light") do
-    "[&_table]:bg-[#E3E7F1] border-transparent text-[#707483] [&_*]:divide-transparent [&_td]:border-transparent [&_th]:border-transparent"
+  <%= if is_nil(@color) or "silver" in @color do %>
+  defp color_variant("default", "silver") do
+    "[&_table]:bg-[#868686] [&_table]:text-white dark:[&_table]:bg-[#A6A6A6] dark:[&_table]:text-black"
   end
   <% end %>
   <%= if is_nil(@color) or "dark" in @color do %>
-  defp color_variant("unbordered", "dark") do
-    "[&_table]:bg-[#1E1E1E] border-transparent text-white [&_*]:divide-transparent [&_td]:border-transparent [&_th]:border-transparent"
+  defp color_variant("default", "dark") do
+    "[&_table]:bg-[#282828] [&_table]:text-white"
   end
   <% end %>
   <% end %>
   <%= if is_nil(@variant) or "shadow" in @variant do %>
-  <%= if is_nil(@color) or "white" in @color do %>
-  defp color_variant("shadow", "white") do
-    "[&_table]:bg-white border-[#DADADA] text-[#3E3E3E] [&_*]:divide-[#DADADA] [&_td]:border-[#DADADA] [&_th]:border-[#DADADA] shadow"
+  <%= if is_nil(@color) or "natural" in @color do %>
+  defp color_variant("shadow", "natural") do
+    [
+      "[&_table]:bg-[#4B4B4B] [&_table]:text-white dark:[&_table]:bg-[#DDDDDD] dark:[&_table]:text-black",
+      "shadow-[0px_4px_6px_-4px_rgba(134,134,134,0.5)] shadow-[0px_10px_15px_-3px_rgba(134,134,134,0.5)] dark:shadow-none"
+    ]
   end
   <% end %>
   <%= if is_nil(@color) or "primary" in @color do %>
   defp color_variant("shadow", "primary") do
-    "[&_table]:bg-[#4363EC] border-[#2441de] text-white [&_*]:divide-[#2441de] [&_td]:border-[#2441de] [&_th]:border-[#2441de] shadow"
+    [
+      "[&_table]:bg-[#007F8C] [&_table]:text-white dark:[&_table]:bg-[#01B8CA] dark:[&_table]:text-black",
+      "shadow-[0px_4px_6px_-4px_rgba(0,149,164,0.5)] shadow-[0px_10px_15px_-3px_rgba(0,149,164,0.5)] dark:shadow-none"
+    ]
   end
   <% end %>
   <%= if is_nil(@color) or "secondary" in @color do %>
   defp color_variant("shadow", "secondary") do
-    "[&_table]:bg-[#6B6E7C] border-[#877C7C] text-white [&_*]:divide-[#877C7C] [&_td]:border-[#877C7C] [&_th]:border-[#877C7C] shadow"
+    [
+      "[&_table]:bg-[#266EF1] [&_table]:text-white dark:[&_table]:bg-[#6DAAFB] dark:[&_table]:text-black",
+      "shadow-[0px_4px_6px_-4px_rgba(6,139,238,0.5)] shadow-[0px_10px_15px_-3px_rgba(6,139,238,0.5)] dark:shadow-none"
+    ]
   end
   <% end %>
   <%= if is_nil(@color) or "success" in @color do %>
   defp color_variant("shadow", "success") do
-    "[&_table]:bg-[#ECFEF3] border-[#6EE7B7] text-[#227A52] [&_*]:divide-[#6EE7B7] [&_td]:border-[#6EE7B7] [&_th]:border-[#6EE7B7] shadow"
+    [
+      "[&_table]:bg-[#0E8345] [&_table]:text-white dark:[&_table]:bg-[#06C167] dark:[&_table]:text-black",
+      "shadow-[0px_4px_6px_-4px_rgba(0,154,81,0.5)] shadow-[0px_10px_15px_-3px_rgba(0,154,81,0.5)] dark:shadow-none"
+    ]
   end
   <% end %>
   <%= if is_nil(@color) or "warning" in @color do %>
   defp color_variant("shadow", "warning") do
-    "[&_table]:bg-[#FFF8E6] border-[#FF8B08] text-[#FF8B08] [&_*]:divide-[#FF8B08] [&_td]:border-[#FF8B08] [&_th]:border-[#FF8B08] shadow"
+    [
+      "[&_table]:bg-[#CA8D01] [&_table]:text-white dark:[&_table]:bg-[#FDC034] dark:[&_table]:text-black",
+      "shadow-[0px_4px_6px_-4px_rgba(252,176,1,0.5)] shadow-[0px_10px_15px_-3px_rgba(252,176,1,0.5)] dark:shadow-none"
+    ]
   end
   <% end %>
   <%= if is_nil(@color) or "danger" in @color do %>
   defp color_variant("shadow", "danger") do
-    "[&_table]:bg-[#FFE6E6] border-[#E73B3B] text-[#E73B3B] [&_*]:divide-[#E73B3B] [&_td]:border-[#E73B3B] [&_th]:border-[#E73B3B] shadow"
+    [
+      "[&_table]:bg-[#DE1135] [&_table]:text-white dark:[&_table]:bg-[#FC7F79] dark:[&_table]:text-black",
+      "shadow-[0px_4px_6px_-4px_rgba(248,52,70,0.5)] shadow-[0px_10px_15px_-3px_rgba(248,52,70,0.5)] dark:shadow-none"
+    ]
   end
   <% end %>
   <%= if is_nil(@color) or "info" in @color do %>
   defp color_variant("shadow", "info") do
-    "[&_table]:bg-[#E5F0FF] border-[#004FC4] text-[#004FC4] [&_*]:divide-[#004FC4] [&_td]:border-[#004FC4] [&_th]:border-[#004FC4] shadow"
+    [
+      "[&_table]:bg-[#0B84BA] [&_table]:text-white dark:[&_table]:bg-[#3EB7ED] dark:[&_table]:text-black",
+      "shadow-[0px_4px_6px_-4px_rgba(14,165,233,0.5)] shadow-[0px_10px_15px_-3px_rgba(14,165,233,0.5)] dark:shadow-none"
+    ]
   end
   <% end %>
   <%= if is_nil(@color) or "misc" in @color do %>
   defp color_variant("shadow", "misc") do
-    "[&_table]:bg-[#FFE6FF] border-[#52059C] text-[#52059C] [&_*]:divide-[#52059C] [&_td]:border-[#52059C] [&_th]:border-[#52059C] shadow"
+    [
+      "[&_table]:bg-[#8750C5] [&_table]:text-white dark:[&_table]:bg-[#BA83F9] dark:[&_table]:text-black",
+      "shadow-[0px_4px_6px_-4px_rgba(169,100,247,0.5)] shadow-[0px_10px_15px_-3px_rgba(169,100,247,0.5)] dark:shadow-none"
+    ]
   end
   <% end %>
   <%= if is_nil(@color) or "dawn" in @color do %>
   defp color_variant("shadow", "dawn") do
-    "[&_table]:bg-[#FFECDA] border-[#4D4137] text-[#4D4137] [&_*]:divide-[#4D4137] [&_td]:border-[#4D4137] [&_th]:border-[#4D4137] shadow"
+    [
+      "[&_table]:bg-[#A86438] [&_table]:text-white dark:[&_table]:bg-[#DB976B] dark:[&_table]:text-black",
+      "shadow-[0px_4px_6px_-4px_rgba(210,125,70,0.5)] shadow-[0px_10px_15px_-3px_rgba(210,125,70,0.5)] dark:shadow-none"
+    ]
   end
   <% end %>
-  <%= if is_nil(@color) or "light" in @color do %>
-  defp color_variant("shadow", "light") do
-    "[&_table]:bg-[#E3E7F1] border-[#707483] text-[#707483] [&_*]:divide-[#707483] [&_td]:border-[#707483] [&_th]:border-[#707074837483] shadow"
-  end
-  <% end %>
-  <%= if is_nil(@color) or "dark" in @color do %>
-  defp color_variant("shadow", "dark") do
-    "[&_table]:bg-[#1E1E1E] border-[#050404] text-white [&_*]:divide-[#050404] [&_td]:border-[#050404] [&_th]:border-[#050404] shadow"
+  <%= if is_nil(@color) or "silver" in @color do %>
+  defp color_variant("shadow", "silver") do
+    [
+      "[&_table]:bg-[#868686] [&_table]:text-white dark:[&_table]:bg-[#A6A6A6] dark:[&_table]:text-black",
+      "shadow-[0px_4px_6px_-4px_rgba(134,134,134,0.5)] shadow-[0px_10px_15px_-3px_rgba(134,134,134,0.5)] dark:shadow-none"
+    ]
   end
   <% end %>
   <% end %>
   <%= if is_nil(@variant) or "transparent" in @variant do %>
-  <%= if is_nil(@color) or "white" in @color do %>
-  defp color_variant("transparent", "white") do
-    "text-white border-transparent [&_*]:divide-transparent [&_td]:border-transparent [&_th]:border-transparent"
+  <%= if is_nil(@color) or "natural" in @color do %>
+  defp color_variant("transparent", "natural") do
+    [
+      "[&_table]:text-[#4B4B4B] dark:[&_table]:text-[#DDDDDD]"
+    ]
   end
   <% end %>
   <%= if is_nil(@color) or "primary" in @color do %>
   defp color_variant("transparent", "primary") do
-    "text-[#4363EC] border-transparent [&_*]:divide-transparent [&_td]:border-transparent [&_th]:border-transparent"
+    [
+      "[&_table]:text-[#007F8C] dark:[&_table]:text-[#01B8CA]"
+    ]
   end
   <% end %>
   <%= if is_nil(@color) or "secondary" in @color do %>
   defp color_variant("transparent", "secondary") do
-    "text-[#6B6E7C] border-transparent [&_*]:divide-transparent [&_td]:border-transparent [&_th]:border-transparent"
+    [
+      "[&_table]:text-[#266EF1] dark:[&_table]:text-[#6DAAFB]"
+    ]
   end
   <% end %>
   <%= if is_nil(@color) or "success" in @color do %>
   defp color_variant("transparent", "success") do
-    "text-[#227A52] border-transparent [&_*]:divide-transparent [&_td]:border-transparent [&_th]:border-transparent"
+    [
+      "[&_table]:text-[#0E8345] dark:[&_table]:text-[#06C167]"
+    ]
   end
   <% end %>
   <%= if is_nil(@color) or "warning" in @color do %>
   defp color_variant("transparent", "warning") do
-    "text-[#FF8B08] border-transparent [&_*]:divide-transparent [&_td]:border-transparent [&_th]:border-transparent"
+    [
+      "[&_table]:text-[#CA8D01] dark:[&_table]:text-[#FDC034]"
+    ]
   end
   <% end %>
   <%= if is_nil(@color) or "danger" in @color do %>
   defp color_variant("transparent", "danger") do
-    "text-[#E73B3B] border-transparent [&_*]:divide-transparent [&_td]:border-transparent [&_th]:border-transparent"
+    [
+      "[&_table]:text-[#DE1135] dark:[&_table]:text-[#FC7F79]"
+    ]
   end
   <% end %>
   <%= if is_nil(@color) or "info" in @color do %>
   defp color_variant("transparent", "info") do
-    "text-[#6663FD] border-transparent [&_*]:divide-transparent [&_td]:border-transparent [&_th]:border-transparent"
+    [
+      "[&_table]:text-[#0B84BA] dark:[&_table]:text-[#3EB7ED]"
+    ]
   end
   <% end %>
   <%= if is_nil(@color) or "misc" in @color do %>
   defp color_variant("transparent", "misc") do
-    "text-[#52059C] border-transparent [&_*]:divide-transparent [&_td]:border-transparent [&_th]:border-transparent"
+    [
+      "[&_table]:text-[#8750C5] dark:[&_table]:text-[#BA83F9]"
+    ]
   end
   <% end %>
   <%= if is_nil(@color) or "dawn" in @color do %>
   defp color_variant("transparent", "dawn") do
-    "text-[#4D4137] border-transparent [&_*]:divide-transparent [&_td]:border-transparent [&_th]:border-transparent"
+    [
+      "[&_table]:text-[#A86438] dark:[&_table]:text-[#DB976B]"
+    ]
   end
   <% end %>
-  <%= if is_nil(@color) or "light" in @color do %>
-  defp color_variant("transparent", "light") do
-    "text-[#707483] border-transparent [&_*]:divide-transparent [&_td]:border-transparent [&_th]:border-transparent"
-  end
-  <% end %>
-  <%= if is_nil(@color) or "dark" in @color do %>
-  defp color_variant("transparent", "dark") do
-    "text-[#1E1E1E] border-transparent [&_*]:divide-transparent [&_td]:border-transparent [&_th]:border-transparent"
+  <%= if is_nil(@color) or "silver" in @color do %>
+  defp color_variant("transparent", "silver") do
+    [
+      "[&_table]:text-[#868686] dark:[&_table]:text-[#A6A6A6]"
+    ]
   end
   <% end %>
   <% end %>
@@ -737,96 +884,94 @@ defmodule <%= @module %> do
   <%= if is_nil(@color) or "white" in @color do %>
   defp color_variant("hoverable", "white") do
     [
-      "[&_table]:bg-white hover:[&_table_tbody_tr]:bg-[#DADADA] text-[#3E3E3E]",
-      "border-white [&_*]:divide-white [&_td]:border-white [&_th]:border-white"
+      "[&_table]:bg-white hover:[&_table_tbody_tr]:bg-[#DADADA] text-[#3E3E3E]"
     ]
   end
   <% end %>
-  <%= if is_nil(@color) or "silver" in @color do %>
-  defp color_variant("hoverable", "silver") do
+  <%= if is_nil(@color) or "natural" in @color do %>
+  defp color_variant("hoverable", "natural") do
     [
-      "[&_table]:bg-white hover:[&_table_tbody_tr]:bg-[#e3e3e3] text-[#3E3E3E]",
-      "border-[#B5b7bb] [&_*]:divide-[#B5b7bb] [&_td]:border-[#B5b7bb] [&_th]:border-[#B5b7bb]"
+      "[&_table]:bg-[#4B4B4B] [&_table]:text-white dark:[&_table]:bg-[#DDDDDD] dark:[&_table]:text-black",
+      "hover:[&_table_tbody_tr]:bg-[#282828] dark:hover:[&_table_tbody_tr]:bg-[#E8E8E8]"
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "primary" in @color do %>
   defp color_variant("hoverable", "primary") do
     [
-      "[&_table]:bg-white text-[#4363EC] hover:[&_table_tbody_tr]:bg-[#4363EC] hover:[&_table_tbody_tr]:text-white",
-      "border-[#2441de] [&_*]:divide-[#2441de] [&_td]:border-[#2441de] [&_th]:border-[#2441de]"
+      "[&_table]:bg-[#007F8C] [&_table]:text-white dark:[&_table]:bg-[#01B8CA] dark:[&_table]:text-black",
+      "hover:[&_table_tbody_tr]:bg-[#016974] dark:hover:[&_table_tbody_tr]:bg-[#77D5E3]"
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "secondary" in @color do %>
   defp color_variant("hoverable", "secondary") do
     [
-      "[&_table]:bg-white hover:[&_table_tbody_tr]:bg-[#6B6E7C] hover:[&_table_tbody_tr]:text-white border-[#877C7C]",
-      "[&_*]:divide-[#877C7C] [&_td]:border-[#877C7C] [&_th]:border-[#877C7C]"
+      "[&_table]:bg-[#266EF1] [&_table]:text-white dark:[&_table]:bg-[#6DAAFB] dark:[&_table]:text-black",
+      "hover:[&_table_tbody_tr]:bg-[#175BCC] dark:hover:[&_table_tbody_tr]:bg-[#A9C9FF]"
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "success" in @color do %>
   defp color_variant("hoverable", "success") do
     [
-      "[&_table]:bg-white hover:[&_table_tbody_tr]:bg-[#ECFEF3] text-[#047857]",
-      "border-[#6EE7B7] [&_*]:divide-[#6EE7B7] [&_td]:border-[#6EE7B7] [&_th]:border-[#6EE7B7]"
+      "[&_table]:bg-[#0E8345] [&_table]:text-white dark:[&_table]:bg-[#06C167] dark:[&_table]:text-black",
+      "hover:[&_table_tbody_tr]:bg-[#06C167] dark:hover:[&_table_tbody_tr]:bg-[#7FD99A]"
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "warning" in @color do %>
   defp color_variant("hoverable", "warning") do
     [
-      "[&_table]:bg-white hover:[&_table_tbody_tr]:bg-[#FFF8E6] text-[#FF8B08]",
-      "border-[#FF8B08] [&_*]:divide-[#FF8B08] [&_td]:border-[#FF8B08] [&_th]:border-[#FF8B08]"
+      "[&_table]:bg-[#CA8D01] [&_table]:text-white dark:[&_table]:bg-[#FDC034] dark:[&_table]:text-black",
+      "hover:[&_table_tbody_tr]:bg-[#976A01] dark:hover:[&_table_tbody_tr]:bg-[#FDD067]"
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "danger" in @color do %>
   defp color_variant("hoverable", "danger") do
     [
-      "[&_table]:bg-white hover:[&_table_tbody_tr]:bg-[#FFE6E6] text-[#E73B3B]",
-      "border-[#E73B3B] [&_*]:divide-[#E73B3B] [&_td]:border-[#E73B3B] [&_th]:border-[#E73B3B]"
+      "[&_table]:bg-[#DE1135] [&_table]:text-white dark:[&_table]:bg-[#FC7F79] dark:[&_table]:text-black",
+      "hover:[&_table_tbody_tr]:bg-[#BB032A] dark:hover:[&_table_tbody_tr]:bg-[#FFB2AB]"
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "info" in @color do %>
   defp color_variant("hoverable", "info") do
     [
-      "[&_table]:bg-white hover:[&_table_tbody_tr]:bg-[#E5F0FF] text-[#004FC4]",
-      "border-[#004FC4] [&_*]:divide-[#004FC4] [&_td]:border-[#004FC4] [&_th]:border-[#004FC4]"
+      "[&_table]:bg-[#0B84BA] [&_table]:text-white dark:[&_table]:bg-[#3EB7ED] dark:[&_table]:text-black",
+      "hover:[&_table_tbody_tr]:bg-[#08638C] dark:hover:[&_table_tbody_tr]:bg-[#6EC9F2]"
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "misc" in @color do %>
   defp color_variant("hoverable", "misc") do
     [
-      "[&_table]:bg-white hover:[&_table_tbody_tr]:bg-[#FFE6FF] text-[#52059C]",
-      "border-[#52059C] [&_*]:divide-[#52059C] [&_td]:border-[#52059C] [&_th]:border-[#52059C]"
+      "[&_table]:bg-[#8750C5] [&_table]:text-white dark:[&_table]:bg-[#BA83F9] dark:[&_table]:text-black",
+      "hover:[&_table_tbody_tr]:bg-[#653C94] dark:hover:[&_table_tbody_tr]:bg-[#CBA2FA]"
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "dawn" in @color do %>
   defp color_variant("hoverable", "dawn") do
     [
-      "[&_table]:bg-white hover:[&_table_tbody_tr]:bg-[#FFECDA] text-[#4D4137]",
-      "border-[#4D4137] [&_*]:divide-[#4D4137] [&_td]:border-[#4D4137] [&_th]:border-[#4D4137]"
+      "[&_table]:bg-[#A86438] [&_table]:text-white dark:[&_table]:bg-[#DB976B] dark:[&_table]:text-black",
+      "hover:[&_table_tbody_tr]:bg-[#7E4B2A] dark:hover:[&_table_tbody_tr]:bg-[#E4B190]"
     ]
   end
   <% end %>
-  <%= if is_nil(@color) or "light" in @color do %>
-  defp color_variant("hoverable", "light") do
+  <%= if is_nil(@color) or "silver" in @color do %>
+  defp color_variant("hoverable", "silver") do
     [
-      "[&_table]:bg-white hover:[&_table_tbody_tr]:bg-[#E3E7F1] text-[#707483]",
-      "border-[#707483] [&_*]:divide-[#707483] [&_td]:border-[#707483] [&_th]:border-[#707483]"
+      "[&_table]:bg-[#868686] [&_table]:text-white dark:[&_table]:bg-[#A6A6A6] dark:[&_table]:text-black",
+      "hover:[&_table_tbody_tr]:bg-[#727272] dark:hover:[&_table_tbody_tr]:bg-[#BBBBBB]"
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "dark" in @color do %>
   defp color_variant("hoverable", "dark") do
     [
-      "[&_table]:bg-white text-[#1E1E1E] hover:[&_table_tbody_tr]:bg-[#1E1E1E] hover:[&_table_tbody_tr]:text-white",
-      "border-[#050404] [&_*]:divide-[#DADADA] [&_td]:border-[#050404] [&_th]:border-[#050404]"
+      "[&_table]:bg-[#282828] [&_table]:text-white hover:[&_table_tbody_tr]:bg-black",
     ]
   end
   <% end %>
@@ -835,88 +980,94 @@ defmodule <%= @module %> do
   <%= if is_nil(@color) or "white" in @color do %>
   defp color_variant("stripped", "white") do
     [
-      "[&_table]:bg-white odd:[&_table_tbody_tr]:bg-[#f7f7f7] text-[#3E3E3E] border-white",
-      "[&_*]:divide-white [&_td]:border-white [&_th]:border-white"
+      "[&_table]:bg-white odd:[&_table_tbody_tr]:bg-[#DADADA] text-[#3E3E3E]"
+    ]
+  end
+  <% end %>
+  <%= if is_nil(@color) or "natural" in @color do %>
+  defp color_variant("stripped", "natural") do
+    [
+      "[&_table]:bg-[#4B4B4B] [&_table]:text-white dark:[&_table]:bg-[#DDDDDD] dark:[&_table]:text-black",
+      "odd:[&_table_tbody_tr]:bg-[#282828] dark:odd:[&_table_tbody_tr]:bg-[#E8E8E8]"
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "primary" in @color do %>
   defp color_variant("stripped", "primary") do
     [
-      "[&_table]:bg-[#4363EC] odd:[&_table_tbody_tr]:bg-[#5874ed] text-white border-[#2441de]",
-      "[&_*]:divide-[#2441de] [&_td]:border-[#2441de] [&_th]:border-[#2441de]"
+      "[&_table]:bg-[#007F8C] [&_table]:text-white dark:[&_table]:bg-[#01B8CA] dark:[&_table]:text-black",
+      "odd:[&_table_tbody_tr]:bg-[#016974] dark:odd:[&_table_tbody_tr]:bg-[#77D5E3]"
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "secondary" in @color do %>
   defp color_variant("stripped", "secondary") do
     [
-      "[&_table]:bg-[#6B6E7C] odd:[&_table_tbody_tr]:bg-[#8a8d9e] text-white border-[#877C7C]",
-      "[&_*]:divide-[#877C7C] [&_td]:border-[#877C7C] [&_th]:border-[#877C7C]"
+      "[&_table]:bg-[#266EF1] [&_table]:text-white dark:[&_table]:bg-[#6DAAFB] dark:[&_table]:text-black",
+      "odd:[&_table_tbody_tr]:bg-[#175BCC] dark:odd:[&_table_tbody_tr]:bg-[#A9C9FF]"
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "success" in @color do %>
   defp color_variant("stripped", "success") do
     [
-      "[&_table]:bg-[#ECFEF3] odd:[&_table_tbody_tr]:bg-[#cffae0] text-[#047857] border-[#6EE7B7]",
-      "[&_*]:divide-[#6EE7B7] [&_td]:border-[#6EE7B7] [&_th]:border-[#6EE7B7]"
+      "[&_table]:bg-[#0E8345] [&_table]:text-white dark:[&_table]:bg-[#06C167] dark:[&_table]:text-black",
+      "odd:[&_table_tbody_tr]:bg-[#06C167] dark:odd:[&_table_tbody_tr]:bg-[#7FD99A]"
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "warning" in @color do %>
   defp color_variant("stripped", "warning") do
     [
-      "[&_table]:bg-[#FFF8E6] odd:[&_table_tbody_tr]:bg-[#faedcd] text-[#FF8B08] border-[#FF8B08]",
-      "[&_*]:divide-[#FF8B08] [&_td]:border-[#FF8B08] [&_th]:border-[#FF8B08]"
+      "[&_table]:bg-[#CA8D01] [&_table]:text-white dark:[&_table]:bg-[#FDC034] dark:[&_table]:text-black",
+      "odd:[&_table_tbody_tr]:bg-[#976A01] dark:odd:[&_table_tbody_tr]:bg-[#FDD067]"
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "danger" in @color do %>
   defp color_variant("stripped", "danger") do
     [
-      "[&_table]:bg-[#FFE6E6] odd:[&_table_tbody_tr]:bg-[#fcd4d4] text-[#E73B3B] border-[#E73B3B]",
-      "[&_*]:divide-[#E73B3B] [&_td]:border-[#E73B3B] [&_th]:border-[#E73B3B]"
+      "[&_table]:bg-[#DE1135] [&_table]:text-white dark:[&_table]:bg-[#FC7F79] dark:[&_table]:text-black",
+      "odd:[&_table_tbody_tr]:bg-[#BB032A] dark:odd:[&_table_tbody_tr]:bg-[#FFB2AB]"
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "info" in @color do %>
   defp color_variant("stripped", "info") do
     [
-      "[&_table]:bg-[#E5F0FF] odd:[&_table_tbody_tr]:bg-[#d2e4fc] text-[#004FC4] border-[#004FC4]",
-      "[&_*]:divide-[#004FC4] [&_td]:border-[#004FC4] [&_th]:border-[#004FC4]"
+      "[&_table]:bg-[#0B84BA] [&_table]:text-white dark:[&_table]:bg-[#3EB7ED] dark:[&_table]:text-black",
+      "odd:[&_table_tbody_tr]:bg-[#08638C] dark:odd:[&_table_tbody_tr]:bg-[#6EC9F2]"
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "misc" in @color do %>
   defp color_variant("stripped", "misc") do
     [
-      "[&_table]:bg-[#FFE6FF] odd:[&_table_tbody_tr]:bg-[#ffdbff] text-[#52059C] border-[#52059C]",
-      "[&_*]:divide-[#52059C] [&_td]:border-[#52059C] [&_th]:border-[#52059C]"
+      "[&_table]:bg-[#8750C5] [&_table]:text-white dark:[&_table]:bg-[#BA83F9] dark:[&_table]:text-black",
+      "odd:[&_table_tbody_tr]:bg-[#653C94] dark:odd:[&_table_tbody_tr]:bg-[#CBA2FA]"
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "dawn" in @color do %>
   defp color_variant("stripped", "dawn") do
     [
-      "[&_table]:bg-[#FFECDA] odd:[&_table_tbody_tr]:bg-[#ffe0c2] text-[#4D4137] border-[#4D4137]",
-      "[&_*]:divide-[#4D4137] [&_td]:border-[#4D4137] [&_th]:border-[#4D4137]"
+      "[&_table]:bg-[#A86438] [&_table]:text-white dark:[&_table]:bg-[#DB976B] dark:[&_table]:text-black",
+      "odd:[&_table_tbody_tr]:bg-[#7E4B2A] dark:odd:[&_table_tbody_tr]:bg-[#E4B190]"
     ]
   end
   <% end %>
-  <%= if is_nil(@color) or "light" in @color do %>
-  defp color_variant("stripped", "light") do
+  <%= if is_nil(@color) or "silver" in @color do %>
+  defp color_variant("stripped", "silver") do
     [
-      "[&_table]:bg-[#E3E7F1] odd:[&_table_tbody_tr]:bg-[#d1d9ed] text-[#707483] border-[#707483]",
-      "[&_*]:divide-[#707483] [&_td]:border-[#707483] [&_th]:border-[#707483]"
+      "[&_table]:bg-[#868686] [&_table]:text-white dark:[&_table]:bg-[#A6A6A6] dark:[&_table]:text-black",
+      "odd:[&_table_tbody_tr]:bg-[#727272] dark:odd:[&_table_tbody_tr]:bg-[#BBBBBB]"
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "dark" in @color do %>
   defp color_variant("stripped", "dark") do
     [
-      "[&_table]:bg-[#1E1E1E] odd:[&_table_tbody_tr]:bg-[#333333] text-white border-[#050404]",
-      "[&_*]:divide-[#DADADA] [&_td]:border-[#050404] [&_th]:border-[#050404]"
+      "[&_table]:bg-[#282828] [&_table]:text-white odd:[&_table_tbody_tr]:bg-black",
     ]
   end
   <% end %>

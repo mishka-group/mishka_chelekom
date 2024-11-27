@@ -6,12 +6,13 @@
         "outline",
         "default",
         "shadow",
-        "unbordered",
+        "bordered",
         "transparent",
         "hoverable",
         "stripped"
       ],
       color: [
+        "natural",
         "white",
         "primary",
         "secondary",
@@ -20,7 +21,6 @@
         "warning",
         "danger",
         "info",
-        "light",
         "misc",
         "dawn",
         "silver"
