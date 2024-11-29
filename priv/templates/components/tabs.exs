@@ -2,17 +2,16 @@
   tabs: [
     name: "tabs",
     args: [
-      variant: ["default", "outline", "pills"],
+      variant: ["default", "pills"],
       color: [
-        "white",
+        "natural",
         "primary",
         "secondary",
-        "dark",
         "success",
         "warning",
         "danger",
         "info",
-        "light",
+        "silver",
         "misc",
         "dawn"
       ],
