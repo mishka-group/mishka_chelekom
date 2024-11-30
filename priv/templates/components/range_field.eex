@@ -290,7 +290,7 @@ defmodule <%= @module %> do
   <% end %>
   <%= if is_nil(@color) or "natural" in @color do %>
   defp color_class("default", "natural") do
-    ["natural-[#4B4B4B] dark:natural-[#DDDDDD]"]
+    ["accent-[#4B4B4B] dark:accent-[#DDDDDD]"]
   end
   <% end %>
   <%= if is_nil(@color) or "primary" in @color do %>
