@@ -310,7 +310,7 @@ defmodule <%= @module %> do
   <% end %>
   defp rounded_size(_), do: "[&_.select-field]:rounded-none"
 
-   defp border_size(_, variant)
+   defp border_class(_, variant)
        when variant in [
               "default",
               "shadow",
