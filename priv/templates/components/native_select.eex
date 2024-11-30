@@ -138,7 +138,7 @@ defmodule <%= @module %> do
     <div class={[
       @variant != "native" && color_variant(@variant, @color),
       rounded_size(@rounded),
-      border_class(@border),
+      border_class(@border, @variant),
       size_class(@size),
       space_class(@space),
       @ring && "[&_.select-field]:focus-within:ring-[0.03rem]"
@@ -310,14 +310,22 @@ defmodule <%= @module %> do
   <% end %>
   defp rounded_size(_), do: "[&_.select-field]:rounded-none"
 
-  defp border_class("none"), do: "[&_.select-field]:border-0"
-  defp border_class("extra_small"), do: "[&_.select-field]:border"
-  defp border_class("small"), do: "[&_.select-field]:border-2"
-  defp border_class("medium"), do: "[&_.select-field]:border-[3px]"
-  defp border_class("large"), do: "[&_.select-field]:border-4"
-  defp border_class("extra_large"), do: "[&_.select-field]:border-[5px]"
-  defp border_class(params) when is_binary(params), do: params
-  defp border_class(_), do: border_class("extra_small")
+   defp border_size(_, variant)
+       when variant in [
+              "default",
+              "shadow",
+              "native"
+            ],
+       do: nil
+
+  defp border_class("none", _), do: "[&_.select-field]:border-0"
+  defp border_class("extra_small", _), do: "[&_.select-field]:border"
+  defp border_class("small", _), do: "[&_.select-field]:border-2"
+  defp border_class("medium", _), do: "[&_.select-field]:border-[3px]"
+  defp border_class("large", _), do: "[&_.select-field]:border-4"
+  defp border_class("extra_large", _), do: "[&_.select-field]:border-[5px]"
+  defp border_class(params, _) when is_binary(params), do: params
+  defp border_class(_, _), do: border_class("extra_small", nil)
 
   <%= if is_nil(@space) or "small" in @space do %>
   defp space_class("extra_small"), do: "space-y-1"
