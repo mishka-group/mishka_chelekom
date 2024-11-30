@@ -2,8 +2,9 @@
   toast: [
     name: "toast",
     args: [
-      variant: ["default", "outline", "shadow", "unbordered"],
+      variant: ["default", "outline", "shadow", "bordered", "gradient"],
       color: [
+        "natural",
         "white",
         "primary",
         "secondary",
@@ -12,7 +13,7 @@
         "warning",
         "danger",
         "info",
-        "light",
+        "silver",
         "misc",
         "dawn"
       ],
