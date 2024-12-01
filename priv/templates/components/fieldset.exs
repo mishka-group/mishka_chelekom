@@ -2,8 +2,9 @@
   fieldset: [
     name: "fieldset",
     args: [
-      variant: ["default", "outline", "unbordered", "shadow", "transparent"],
+      variant: ["default", "outline", "unbordered", "shadow", "transparent", "gradient"],
       color: [
+        "natural",
         "white",
         "primary",
         "secondary",
@@ -12,10 +13,9 @@
         "warning",
         "danger",
         "info",
-        "light",
+        "silver",
         "misc",
         "dawn",
-        "silver"
       ],
       size: ["extra_small", "small", "medium", "large", "extra_large"],
       space: ["extra_small", "small", "medium", "large", "extra_large"],
