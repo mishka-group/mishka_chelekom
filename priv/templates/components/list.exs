@@ -2,8 +2,9 @@
   list: [
     name: "list",
     args: [
-      variant: ["default", "filled", "outline", "separated", "tinted_split", "transparent"],
+      variant: ["default", "bordered", "outline", "shadow", "gradient", "outline_separated", "bordered_seperated", "transparent"],
       color: [
+        "natural",
         "white",
         "primary",
         "secondary",
@@ -12,7 +13,7 @@
         "warning",
         "danger",
         "info",
-        "light",
+        "silver",
         "misc",
         "dawn"
       ],
