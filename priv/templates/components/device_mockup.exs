@@ -3,15 +3,13 @@
     name: "device_mockup",
     args: [
       color: [
-        "white",
+        "natural",
         "primary",
         "secondary",
-        "dark",
         "success",
         "warning",
         "danger",
         "info",
-        "light",
         "misc",
         "dawn",
         "silver"
