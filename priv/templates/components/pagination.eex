@@ -21,15 +21,14 @@ defmodule <%= @module %> do
 
   @sizes ["extra_small", "small", "medium", "large", "extra_large"]
   @colors [
-    "white",
+    "natural",
     "primary",
     "secondary",
-    "dark",
     "success",
     "warning",
     "danger",
     "info",
-    "light",
+    "silver",
     "misc",
     "dawn"
   ]
@@ -40,8 +39,9 @@ defmodule <%= @module %> do
     "transparent",
     "subtle",
     "shadow",
+    "gradient",
     "inverted",
-    "unbordered"
+    "bordered"
   ]
 
   @doc """
@@ -92,12 +92,14 @@ defmodule <%= @module %> do
       "Determines the overall size of the elements, including padding, font size, and other items"
 
   attr :space, :string, default: "gap-3", doc: "Space between items"
-  attr :color, :string, values: @colors, default: "white", doc: "Determines color theme"
+  attr :color, :string, values: @colors, default: "natural", doc: "Determines color theme"
 
   attr :rounded, :string,
     values: @sizes ++ ["full", "none"],
     default: "small",
     doc: "Determines the border radius"
+
+  attr :border, :string, values: @sizes, default: "extra_small", doc: "Determines the border radius"
 
   attr :variant, :string, values: @variants, default: "default", doc: "Determines the style"
 
@@ -146,8 +148,9 @@ defmodule <%= @module %> do
       id={@id}
       class={
         default_classes() ++
-          color_variant(@variant, @color) ++
           [
+            color_variant(@variant, @color),
+            border_size(@border, @variant),
             rounded_size(@rounded),
             size_class(@size),
             border_class(@color),
@@ -322,12 +325,38 @@ defmodule <%= @module %> do
   defp range(start, stop) when start > stop, do: []
   defp range(start, stop), do: Enum.to_list(start..stop)
 
+  defp border_size(_, variant)
+    when variant in [
+          "default",
+          "shadow",
+          "transparent",
+          "subtle",
+          "gradient",
+        ],
+    do: nil
+
+  defp border_size("none", _), do: "[&:not(.grouped-pagination)_.pagination-button]:border-0"
+
+  defp border_size("extra_small", _), do: "[&:not(.grouped-pagination)_.pagination-button]:border"
+
+  defp border_size("small", _), do: "[&:not(.grouped-pagination)_.pagination-button]:border-2"
+
+  defp border_size("medium", _), do: "[&:not(.grouped-pagination)_.pagination-button]:border-[3px]"
+
+  defp border_size("large", _), do: "[&:not(.grouped-pagination)_.pagination-button]:border-4"
+
+  defp border_size("extra_large", _), do: "[&:not(.grouped-pagination)_.pagination-button]:border-[5px]"
+
+  defp border_size(params, _) when is_binary(params), do: params
+
+  defp border_size(_, _), do: border_size("extra_small", nil)
+
   defp border_class("transparent") do
     ["[&.grouped-pagination]:border border-transparent"]
   end
 
-  <%= if is_nil(@color) or "white" in @color do %>
-  defp border_class("white") do
+  <%= if is_nil(@color) or "natural" in @color do %>
+  defp border_class("natural") do
     [
       "[&.grouped-pagination]:border [&.grouped-pagination_.pagination-button]:border-r",
       "border-[#DADADA] [&.grouped-pagination_.pagination-button]:border-[#DADADA]",
@@ -434,8 +463,8 @@ defmodule <%= @module %> do
     ]
   end
   <% end %>
-  <%= if is_nil(@color) or "light" in @color do %>
-  defp border_class("light") do
+  <%= if is_nil(@color) or "silver" in @color do %>
+  defp border_class("silver") do
     [
       "[&.grouped-pagination]:border [&.grouped-pagination_.pagination-button]:border-r",
       "border-[#707483] [&.grouped-pagination_.pagination-button]:border-[#707483]",
@@ -443,18 +472,6 @@ defmodule <%= @module %> do
       "[&.grouped-pagination_.pagination-control:not(:last-child)]:border-[#707483]",
       "[&.grouped-pagination_.pagination-seperator]:border-r",
       "[&.grouped-pagination_.pagination-seperator]:border-[#707483]"
-    ]
-  end
-  <% end %>
-  <%= if is_nil(@color) or "dark" in @color do %>
-  defp border_class("dark") do
-    [
-      "[&.grouped-pagination]:border [&.grouped-pagination_.pagination-button]:border-r",
-      "border-[#1E1E1E] [&.grouped-pagination_.pagination-button]:border-[#1E1E1E]",
-      "[&.grouped-pagination_.pagination-control:not(:last-child)]:border-r",
-      "[&.grouped-pagination_.pagination-control:not(:last-child)]:border-[#1E1E1E]",
-      "[&.grouped-pagination_.pagination-seperator]:border-r",
-      "[&.grouped-pagination_.pagination-seperator]:border-[#1E1E1E]"
     ]
   end
   <% end %>
@@ -562,984 +579,987 @@ defmodule <%= @module %> do
   defp size_class(params) when is_binary(params), do: params
 
   <%= if is_nil(@variant) or "default" in @variant do %>
-  <%= if is_nil(@color) or "white" in @color do %>
-  defp color_variant("default", "white") do
+  <%= if is_nil(@color) or "natural" in @color do %>
+  defp color_variant("default", "natural") do
     [
-      "[&:not(.grouped-pagination)_.pagination-button]:border",
-      "[&_.pagination-button]:bg-white [&_.pagination-button]:text-[#3E3E3E]",
-      "[&.grouped-pagination_.pagination-control]:bg-white [&.grouped-pagination_.pagination-control]:text-[#3E3E3E]",
-      "[&.grouped-pagination_.pagination-seperator]:bg-white [&.grouped-pagination_.pagination-seperator]:text-[#3E3E3E]",
-      "[&:not(.grouped-pagination)_.pagination-button]:border-[#DADADA] hover:[&_.pagination-button]:bg-[#E8E8E8]",
-      "hover:[&.grouped-pagination_.pagination-control]:bg-[#E8E8E8]",
-      "hover:[&:not(.grouped-pagination)_.pagination-button]:border-[#d9d9d9]",
-      "[&_.pagination-button.active-pagination-button]:bg-[#E8E8E8]",
-      "[&:not(.grouped-pagination)_.pagination-button.active-pagination-button]:border-[#d9d9d9]"
+      "[&_.pagination-button]:bg-[#4B4B4B] [&_.pagination-button]:text-white",
+      "hover:[&_.pagination-button]:bg-[#282828]",
+      "[&_.pagination-button.active-pagination-button]:bg-[#282828]",
+      "dark:[&_.pagination-button]:bg-[#DDDDDD] dark:[&_.pagination-button]:text-black",
+      "dark:hover:[&_.pagination-button]:bg-[#E8E8E8]",
+      "dark:[&_.pagination-button.active-pagination-button]:bg-[#E8E8E8]",
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "primary" in @color do %>
   defp color_variant("default", "primary") do
     [
-      "[&:not(.grouped-pagination)_.pagination-button]:border",
-      "[&_.pagination-button]:bg-[#4363EC] [&_.pagination-button]:text-white",
-      "[&.grouped-pagination_.pagination-control]:bg-[#4363EC] [&.grouped-pagination_.pagination-control]:text-white",
-      "[&.grouped-pagination_.pagination-seperator]:bg-[#4363EC] [&.grouped-pagination_.pagination-seperator]:text-white",
-      "[&:not(.grouped-pagination)_.pagination-button]:border-[#2441de] hover:[&_.pagination-button]:bg-[#072ed3]",
-      "hover:[&.grouped-pagination_.pagination-control]:bg-[#072ed3]",
-      "hover:[&:not(.grouped-pagination)_.pagination-button]:border-[#2441de]",
-      "[&_.pagination-button.active-pagination-button]:bg-[#072ed3]",
-      "[&:not(.grouped-pagination)_.pagination-button.active-pagination-button]:border-[#2441de]"
+      "[&_.pagination-button]:bg-[#007F8C] [&_.pagination-button]:text-white",
+      "hover:[&_.pagination-button]:bg-[#016974]",
+      "[&_.pagination-button.active-pagination-button]:bg-[#016974]",
+      "dark:[&_.pagination-button]:bg-[#01B8CA] dark:[&_.pagination-button]:text-black",
+      "dark:hover:[&_.pagination-button]:bg-[#77D5E3]",
+      "dark:[&_.pagination-button.active-pagination-button]:bg-[#77D5E3]",
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "secondary" in @color do %>
   defp color_variant("default", "secondary") do
     [
-      "[&:not(.grouped-pagination)_.pagination-button]:border",
-      "[&_.pagination-button]:bg-[#6B6E7C] [&_.pagination-button]:text-white",
-      "[&.grouped-pagination_.pagination-control]:bg-[#6B6E7C] [&.grouped-pagination_.pagination-control]:text-white",
-      "[&.grouped-pagination_.pagination-seperator]:bg-[#6B6E7C] [&.grouped-pagination_.pagination-seperator]:text-white",
-      "[&:not(.grouped-pagination)_.pagination-button]:border-[#877C7C] hover:[&_.pagination-button]:bg-[#4c4f59]",
-      "hover:[&.grouped-pagination_.pagination-control]:bg-[#4c4f59]",
-      "hover:[&:not(.grouped-pagination)_.pagination-button]:border-[#3d3f49]",
-      "[&_.pagination-button.active-pagination-button]:bg-[#4c4f59]",
-      "[&:not(.grouped-pagination)_.pagination-button.active-pagination-button]:border-[#3d3f49]"
+      "[&_.pagination-button]:bg-[#266EF1] [&_.pagination-button]:text-white",
+      "hover:[&_.pagination-button]:bg-[#175BCC]",
+      "[&_.pagination-button.active-pagination-button]:bg-[#175BCC]",
+      "dark:[&_.pagination-button]:bg-[#6DAAFB] dark:[&_.pagination-button]:text-black",
+      "dark:hover:[&_.pagination-button]:bg-[#A9C9FF]",
+      "dark:[&_.pagination-button.active-pagination-button]:bg-[#A9C9FF]",
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "success" in @color do %>
   defp color_variant("default", "success") do
     [
-      "[&:not(.grouped-pagination)_.pagination-button]:border",
-      "[&_.pagination-button]:bg-[#ECFEF3] [&_.pagination-button]:text-[#047857]",
-      "[&.grouped-pagination_.pagination-control]:bg-[#ECFEF3] [&.grouped-pagination_.pagination-control]:text-[#047857]",
-      "[&.grouped-pagination_.pagination-seperator]:bg-[#ECFEF3] [&.grouped-pagination_.pagination-seperator]:text-[#047857]",
-      "[&:not(.grouped-pagination)_.pagination-button]:border-[#6EE7B7] hover:[&_.pagination-button]:bg-[#c0fad7]",
-      "hover:[&.grouped-pagination_.pagination-control]:bg-[#c0fad7]",
-      "hover:[&:not(.grouped-pagination)_.pagination-button]:border-[#6EE7B7]",
-      "[&_.pagination-button.active-pagination-button]:bg-[#c0fad7]",
-      "[&:not(.grouped-pagination)_.pagination-button.active-pagination-button]:border-[#6EE7B7]"
+      "[&_.pagination-button]:bg-[#0E8345] [&_.pagination-button]:text-white",
+      "hover:[&_.pagination-button]:bg-[#166C3B]",
+      "[&_.pagination-button.active-pagination-button]:bg-[#166C3B]",
+      "dark:[&_.pagination-button]:bg-[#06C167] dark:[&_.pagination-button]:text-black",
+      "dark:hover:[&_.pagination-button]:bg-[#7FD99A]",
+      "dark:[&_.pagination-button.active-pagination-button]:bg-[#7FD99A]",
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "warning" in @color do %>
   defp color_variant("default", "warning") do
     [
-      "[&:not(.grouped-pagination)_.pagination-button]:border",
-      "[&_.pagination-button]:bg-[#FFF8E6] [&_.pagination-button]:text-[#FF8B08]",
-      "[&.grouped-pagination_.pagination-control]:bg-[#FFF8E6] [&.grouped-pagination_.pagination-control]:text-[#FF8B08]",
-      "[&.grouped-pagination_.pagination-seperator]:bg-[#FFF8E6] [&.grouped-pagination_.pagination-seperator]:text-[#FF8B08]",
-      "[&:not(.grouped-pagination)_.pagination-button]:border-[#FF8B08] hover:[&_.pagination-button]:bg-[#fcebc0]",
-      "hover:[&.grouped-pagination_.pagination-control]:bg-[#fcebc0]",
-      "hover:[&:not(.grouped-pagination)_.pagination-button]:border-[#FF8B08]",
-      "[&_.pagination-button.active-pagination-button]:bg-[#fcebc0]",
-      "[&:not(.grouped-pagination)_.pagination-button.active-pagination-button]:border-[#FF8B08]"
+      "[&_.pagination-button]:bg-[#CA8D01] [&_.pagination-button]:text-white",
+      "hover:[&_.pagination-button]:bg-[#976A01]",
+      "[&_.pagination-button.active-pagination-button]:bg-[#976A01]",
+      "dark:[&_.pagination-button]:bg-[#FDC034] dark:[&_.pagination-button]:text-black",
+      "dark:hover:[&_.pagination-button]:bg-[#FDD067]",
+      "dark:[&_.pagination-button.active-pagination-button]:bg-[#FDD067]",
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "danger" in @color do %>
   defp color_variant("default", "danger") do
     [
-      "[&:not(.grouped-pagination)_.pagination-button]:border",
-      "[&_.pagination-button]:bg-[#FFE6E6] [&_.pagination-button]:text-[#E73B3B]",
-      "[&.grouped-pagination_.pagination-control]:bg-[#FFE6E6] [&.grouped-pagination_.pagination-control]:text-[#E73B3B]",
-      "[&.grouped-pagination_.pagination-seperator]:bg-[#FFE6E6] [&.grouped-pagination_.pagination-seperator]:text-[#E73B3B]",
-      "[&:not(.grouped-pagination)_.pagination-button]:border-[#E73B3B] hover:[&_.pagination-button]:bg-[#fcbbbb]",
-      "hover:[&.grouped-pagination_.pagination-control]:bg-[#fcbbbb]",
-      "hover:[&:not(.grouped-pagination)_.pagination-button]:border-[#E73B3B]",
-      "[&_.pagination-button.active-pagination-button]:bg-[#fcbbbb]",
-      "[&:not(.grouped-pagination)_.pagination-button.active-pagination-button]:border-[#E73B3B]"
+      "[&_.pagination-button]:bg-[#DE1135] [&_.pagination-button]:text-white",
+      "hover:[&_.pagination-button]:bg-[#BB032A]",
+      "[&_.pagination-button.active-pagination-button]:bg-[#BB032A]",
+      "dark:[&_.pagination-button]:bg-[#FC7F79] dark:[&_.pagination-button]:text-black",
+      "dark:hover:[&_.pagination-button]:bg-[#FFB2AB]",
+      "dark:[&_.pagination-button.active-pagination-button]:bg-[#FFB2AB]",
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "info" in @color do %>
   defp color_variant("default", "info") do
     [
-      "[&:not(.grouped-pagination)_.pagination-button]:border",
-      "[&_.pagination-button]:bg-[#E5F0FF] [&_.pagination-button]:text-[#004FC4]",
-      "[&.grouped-pagination_.pagination-control]:bg-[#E5F0FF] [&.grouped-pagination_.pagination-control]:text-[#004FC4]",
-      "[&.grouped-pagination_.pagination-seperator]:bg-[#E5F0FF] [&.grouped-pagination_.pagination-seperator]:text-[#004FC4]",
-      "[&:not(.grouped-pagination)_.pagination-button]:border-[#004FC4] hover:[&_.pagination-button]:bg-[#bdd3f2]",
-      "hover:[&.grouped-pagination_.pagination-control]:bg-[#bdd3f2]",
-      "hover:[&:not(.grouped-pagination)_.pagination-button]:border-[#004FC4]",
-      "[&_.pagination-button.active-pagination-button]:bg-[#bdd3f2]",
-      "[&:not(.grouped-pagination)_.pagination-button.active-pagination-button]:border-[#004FC4]"
+      "[&_.pagination-button]:bg-[#0B84BA] [&_.pagination-button]:text-white",
+      "hover:[&_.pagination-button]:bg-[#08638C]",
+      "[&_.pagination-button.active-pagination-button]:bg-[#08638C]",
+      "dark:[&_.pagination-button]:bg-[#3EB7ED] dark:[&_.pagination-button]:text-black",
+      "dark:hover:[&_.pagination-button]:bg-[#6EC9F2]",
+      "dark:[&_.pagination-button.active-pagination-button]:bg-[#6EC9F2]",
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "misc" in @color do %>
   defp color_variant("default", "misc") do
     [
-      "[&:not(.grouped-pagination)_.pagination-button]:border",
-      "[&_.pagination-button]:bg-[#FFE6FF] [&_.pagination-button]:text-[#52059C]",
-      "[&.grouped-pagination_.pagination-control]:bg-[#FFE6FF] [&.grouped-pagination_.pagination-control]:text-[#52059C]",
-      "[&.grouped-pagination_.pagination-seperator]:bg-[#FFE6FF] [&.grouped-pagination_.pagination-seperator]:text-[#52059C]",
-      "[&:not(.grouped-pagination)_.pagination-button]:border-[#52059C] hover:[&_.pagination-button]:bg-[#edcced]",
-      "hover:[&.grouped-pagination_.pagination-control]:bg-[#edcced]",
-      "hover:[&:not(.grouped-pagination)_.pagination-button]:border-[#52059C]",
-      "[&_.pagination-button.active-pagination-button]:bg-[#edcced]",
-      "[&:not(.grouped-pagination)_.pagination-button.active-pagination-button]:border-[#52059C]"
+      "[&_.pagination-button]:bg-[#8750C5] [&_.pagination-button]:text-white",
+      "hover:[&_.pagination-button]:bg-[#653C94]",
+      "[&_.pagination-button.active-pagination-button]:bg-[#653C94]",
+      "dark:[&_.pagination-button]:bg-[#BA83F9] dark:[&_.pagination-button]:text-black",
+      "dark:hover:[&_.pagination-button]:bg-[#CBA2FA]",
+      "dark:[&_.pagination-button.active-pagination-button]:bg-[#CBA2FA]",
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "dawn" in @color do %>
   defp color_variant("default", "dawn") do
     [
-      "[&:not(.grouped-pagination)_.pagination-button]:border",
-      "[&_.pagination-button]:bg-[#FFECDA] [&_.pagination-button]:text-[#4D4137]",
-      "[&.grouped-pagination_.pagination-control]:bg-[#FFECDA] [&.grouped-pagination_.pagination-control]:text-[#4D4137]",
-      "[&.grouped-pagination_.pagination-seperator]:bg-[#FFECDA] [&.grouped-pagination_.pagination-seperator]:text-[#4D4137]",
-      "[&:not(.grouped-pagination)_.pagination-button]:border-[#4D4137] hover:[&_.pagination-button]:bg-[#ffdfc1]",
-      "hover:[&.grouped-pagination_.pagination-control]:bg-[#ffdfc1]",
-      "hover:[&:not(.grouped-pagination)_.pagination-button]:border-[#4D4137]",
-      "[&_.pagination-button.active-pagination-button]:bg-[#ffdfc1]",
-      "[&:not(.grouped-pagination)_.pagination-button.active-pagination-button]:border-[#4D4137]"
+      "[&_.pagination-button]:bg-[#A86438] [&_.pagination-button]:text-white",
+      "hover:[&_.pagination-button]:bg-[#7E4B2A]",
+      "[&_.pagination-button.active-pagination-button]:bg-[#7E4B2A]",
+      "dark:[&_.pagination-button]:bg-[#DB976B] dark:[&_.pagination-button]:text-black",
+      "dark:hover:[&_.pagination-button]:bg-[#E4B190]",
+      "dark:[&_.pagination-button.active-pagination-button]:bg-[#E4B190]",
     ]
   end
   <% end %>
-  <%= if is_nil(@color) or "light" in @color do %>
-  defp color_variant("default", "light") do
+  <%= if is_nil(@color) or "silver" in @color do %>
+  defp color_variant("default", "silver") do
     [
-      "[&:not(.grouped-pagination)_.pagination-button]:border",
-      "[&_.pagination-button]:bg-[#E3E7F1] [&_.pagination-button]:text-[#707483]",
-      "[&.grouped-pagination_.pagination-control]:bg-[#E3E7F1] [&.grouped-pagination_.pagination-control]:text-[#707483]",
-      "[&.grouped-pagination_.pagination-seperator]:bg-[#E3E7F1] [&.grouped-pagination_.pagination-seperator]:text-[#707483]",
-      "[&:not(.grouped-pagination)_.pagination-button]:border-[#707483] hover:[&_.pagination-button]:bg-[#c8cee0]",
-      "hover:[&.grouped-pagination_.pagination-control]:bg-[#c8cee0]",
-      "hover:[&:not(.grouped-pagination)_.pagination-button]:border-[#707483]",
-      "[&_.pagination-button.active-pagination-button]:bg-[#c8cee0]",
-      "[&:not(.grouped-pagination)_.pagination-button.active-pagination-button]:border-[#707483]"
-    ]
-  end
-  <% end %>
-  <%= if is_nil(@color) or "dark" in @color do %>
-  defp color_variant("default", "dark") do
-    [
-      "[&:not(.grouped-pagination)_.pagination-button]:border",
-      "[&_.pagination-button]:bg-[#1E1E1E] [&_.pagination-button]:text-white",
-      "[&.grouped-pagination_.pagination-control]:bg-[#1E1E1E] [&.grouped-pagination_.pagination-control]:text-white",
-      "[&.grouped-pagination_.pagination-seperator]:bg-[#1E1E1E] [&.grouped-pagination_.pagination-seperator]:text-white",
-      "[&:not(.grouped-pagination)_.pagination-button]:border-[#050404] hover:[&_.pagination-button]:bg-[#4e4e4e]",
-      "hover:[&.grouped-pagination_.pagination-control]:bg-[#4e4e4e]",
-      "hover:[&:not(.grouped-pagination)_.pagination-button]:border-[#050404]",
-      "[&_.pagination-button.active-pagination-button]:bg-[#4e4e4e]",
-      "[&:not(.grouped-pagination)_.pagination-button.active-pagination-button]:border-[#050404]"
+      "[&_.pagination-button]:bg-[#868686] [&_.pagination-button]:text-white",
+      "hover:[&_.pagination-button]:bg-[#727272]",
+      "[&_.pagination-button.active-pagination-button]:bg-[#727272]",
+      "dark:[&_.pagination-button]:bg-[#A6A6A6] dark:[&_.pagination-button]:text-black",
+      "dark:hover:[&_.pagination-button]:bg-[#BBBBBB]",
+      "dark:[&_.pagination-button.active-pagination-button]:bg-[#BBBBBB]",
     ]
   end
   <% end %>
   <% end %>
   <%= if is_nil(@variant) or "outline" in @variant do %>
-  <%= if is_nil(@color) or "white" in @color do %>
-  defp color_variant("outline", "white") do
+  <%= if is_nil(@color) or "natural" in @color do %>
+  defp color_variant("outline", "natural") do
     [
-      "[&:not(.grouped-pagination)_.pagination-button]:border",
-      "[&_.pagination-button]:bg-transparent text-white [&_.pagination-button]:text-white",
-      "[&.grouped-pagination_.pagination-control]:bg-transparent [&.grouped-pagination_.pagination-control]:text-white",
-      "[&:not(.grouped-pagination)_.pagination-button]:border-white hover:[&_.pagination-button]:text-[#E8E8E8]",
-      "hover:[&:not(.grouped-pagination)_.pagination-button]:border-[#E8E8E8]",
-      "[&_.pagination-button.active-pagination-button]:text-[#E8E8E8]",
-      "[&_.pagination-button.active-pagination-button]:bg-[#484747]",
-      "[&:not(.grouped-pagination)_.pagination-button.active-pagination-button]:border-[#E8E8E8]"
+      "[&_.pagination-button]:border-[#4B4B4B] [&_.pagination-button]:text-[#4B4B4B]",
+      "hover:[&_.pagination-button]:border-[#282828] hover:[&_.pagination-button]:text-[#282828]",
+      "dark:[&_.pagination-button]:border-[#DDDDDD] dark:[&_.pagination-button]:text-[#DDDDDD]",
+      "dark:hover:[&_.pagination-button]:border-[#E8E8E8] dark:hover:[&_.pagination-button]:text-[#E8E8E8]",
+      "[&_.pagination-button.active-pagination-button]:border-[#282828] [&_.pagination-button.active-pagination-button]:text-[#282828]",
+      "dark:[&_.pagination-button.active-pagination-button]:border-[#E8E8E8] dark:[&_.pagination-button.active-pagination-button]:text-[#E8E8E8]",
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "primary" in @color do %>
   defp color_variant("outline", "primary") do
     [
-      "[&:not(.grouped-pagination)_.pagination-button]:border",
-      "[&_.pagination-button]:bg-transparent text-[#4363EC] [&:not(.grouped-pagination)_.pagination-button]:border-[#4363EC]",
-      "[&.grouped-pagination_.pagination-control]:bg-transparent",
-      "hover:[&_.pagination-button]:text-[#002cff] hover:[&:not(.grouped-pagination)_.pagination-button]:border-[#002cff]",
-      "[&_.pagination-button.active-pagination-button]:text-[#002cff]",
-      "[&:not(.grouped-pagination)_.pagination-button.active-pagination-button]:border-[#002cff]"
+      "[&_.pagination-button]:border-[#007F8C] [&_.pagination-button]:text-[#007F8C]",
+      "hover:[&_.pagination-button]:border-[#016974] hover:[&_.pagination-button]:text-[#016974]",
+      "[&_.pagination-button.active-pagination-button]:border-[#016974] [&_.pagination-button.active-pagination-button]:text-[#016974]",
+      "dark:[&_.pagination-button]:border-[#01B8CA] dark:[&_.pagination-button]:text-[#01B8CA]",
+      "dark:hover:[&_.pagination-button]:border-[#77D5E3] dark:hover:[&_.pagination-button]:text-[#77D5E3]",
+      "dark:[&_.pagination-button.active-pagination-button]:border-[#77D5E3] dark:[&_.pagination-button.active-pagination-button]:text-[#77D5E3]",
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "secondary" in @color do %>
   defp color_variant("outline", "secondary") do
     [
-      "[&:not(.grouped-pagination)_.pagination-button]:border",
-      "[&_.pagination-button]:bg-transparent text-[#6B6E7C] [&:not(.grouped-pagination)_.pagination-button]:border-[#6B6E7C]",
-      "[&.grouped-pagination_.pagination-control]:bg-transparent",
-      "hover:[&_.pagination-button]:text-[#020202] hover:[&:not(.grouped-pagination)_.pagination-button]:border-[#020202]",
-      "[&_.pagination-button.active-pagination-button]:text-[#020202]",
-      "[&:not(.grouped-pagination)_.pagination-button.active-pagination-button]:border-[#020202]"
+      "[&_.pagination-button]:border-[#266EF1] [&_.pagination-button]:text-[#266EF1]",
+      "hover:[&_.pagination-button]:border-[#175BCC] hover:[&_.pagination-button]:text-[#175BCC]",
+      "[&_.pagination-button.active-pagination-button]:border-[#175BCC] [&_.pagination-button.active-pagination-button]:text-[#175BCC]",
+      "dark:[&_.pagination-button]:border-[#6DAAFB] dark:[&_.pagination-button]:text-[#6DAAFB]",
+      "dark:hover:[&_.pagination-button]:border-[#A9C9FF] dark:hover:[&_.pagination-button]:text-[#A9C9FF]",
+      "dark:[&_.pagination-button.active-pagination-button]:border-[#A9C9FF] dark:[&_.pagination-button.active-pagination-button]:text-[#A9C9FF]",
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "success" in @color do %>
   defp color_variant("outline", "success") do
     [
-      "[&:not(.grouped-pagination)_.pagination-button]:border",
-      "[&_.pagination-button]:bg-transparent text-[#227A52] [&:not(.grouped-pagination)_.pagination-button]:border-[#6EE7B7]",
-      "[&.grouped-pagination_.pagination-control]:bg-transparent",
-      "hover:text-[#126c3a] hover:[&:not(.grouped-pagination)_.pagination-button]:border-[#126c3a]",
-      "[&_.pagination-button.active-pagination-button]:text-[#126c3a]",
-      "[&:not(.grouped-pagination)_.pagination-button.active-pagination-button]:border-[#126c3a]"
+      "[&_.pagination-button]:border-[#0E8345] [&_.pagination-button]:text-[#0E8345]",
+      "hover:[&_.pagination-button]:border-[#166C3B] hover:[&_.pagination-button]:text-[#166C3B]",
+      "[&_.pagination-button.active-pagination-button]:border-[#166C3B] [&_.pagination-button.active-pagination-button]:text-[#166C3B]",
+      "dark:[&_.pagination-button]:border-[#06C167] dark:[&_.pagination-button]:text-[#06C167]",
+      "dark:hover:[&_.pagination-button]:border-[#7FD99A] dark:hover:[&_.pagination-button]:text-[#7FD99A]",
+      "dark:[&_.pagination-button.active-pagination-button]:border-[#7FD99A] dark:[&_.pagination-button.active-pagination-button]:text-[#7FD99A]",
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "warning" in @color do %>
   defp color_variant("outline", "warning") do
     [
-      "[&:not(.grouped-pagination)_.pagination-button]:border",
-      "[&_.pagination-button]:bg-transparent text-[#FF8B08] [&:not(.grouped-pagination)_.pagination-button]:border-[#FF8B08]",
-      "[&.grouped-pagination_.pagination-control]:bg-transparent",
-      "hover:text-[#9b6112] hover:[&:not(.grouped-pagination)_.pagination-button]:border-[#9b6112]",
-      "[&_.pagination-button.active-pagination-button]:text-[#9b6112]",
-      "[&:not(.grouped-pagination)_.pagination-button.active-pagination-button]:border-[#9b6112]"
+      "[&_.pagination-button]:border-[#CA8D01] [&_.pagination-button]:text-[#CA8D01]",
+      "hover:[&_.pagination-button]:border-[#976A01] hover:[&_.pagination-button]:text-[#976A01]",
+      "[&_.pagination-button.active-pagination-button]:border-[#976A01] [&_.pagination-button.active-pagination-button]:text-[#976A01]",
+      "dark:[&_.pagination-button]:border-[#FDC034] dark:[&_.pagination-button]:text-[#FDC034]",
+      "dark:hover:[&_.pagination-button]:border-[#FDD067] dark:hover:[&_.pagination-button]:text-[#FDD067]",
+      "dark:[&_.pagination-button.active-pagination-button]:border-[#FDD067] dark:[&_.pagination-button.active-pagination-button]:text-[#FDD067]",
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "danger" in @color do %>
   defp color_variant("outline", "danger") do
     [
-      "[&:not(.grouped-pagination)_.pagination-button]:border",
-      "[&_.pagination-button]:bg-transparent text-[#E73B3B] [&:not(.grouped-pagination)_.pagination-button]:border-[#E73B3B]",
-      "[&.grouped-pagination_.pagination-control]:bg-transparent",
-      "hover:text-[#a52e23] hover:[&:not(.grouped-pagination)_.pagination-button]:border-[#a52e23]",
-      "[&_.pagination-button.active-pagination-button]:text-[#a52e23]",
-      "[&:not(.grouped-pagination)_.pagination-button.active-pagination-button]:border-[#a52e23]"
+      "[&_.pagination-button]:border-[#DE1135] [&_.pagination-button]:text-[#DE1135]",
+      "hover:[&_.pagination-button]:border-[#BB032A] hover:[&_.pagination-button]:text-[#BB032A]",
+      "[&_.pagination-button.active-pagination-button]:border-[#BB032A] [&_.pagination-button.active-pagination-button]:text-[#BB032A]",
+      "dark:[&_.pagination-button]:border-[#FC7F79] dark:[&_.pagination-button]:text-[#FC7F79]",
+      "dark:hover:[&_.pagination-button]:border-[#FFB2AB] dark:hover:[&_.pagination-button]:text-[#FFB2AB]",
+      "dark:[&_.pagination-button.active-pagination-button]:border-[#FFB2AB] dark:[&_.pagination-button.active-pagination-button]:text-[#FFB2AB]",
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "info" in @color do %>
   defp color_variant("outline", "info") do
     [
-      "[&:not(.grouped-pagination)_.pagination-button]:border",
-      "[&_.pagination-button]:bg-transparent text-[#004FC4] [&:not(.grouped-pagination)_.pagination-button]:border-[#004FC4]",
-      "[&.grouped-pagination_.pagination-control]:bg-transparent",
-      "hover:text-[#132e50] hover:[&:not(.grouped-pagination)_.pagination-button]:border-[#132e50]",
-      "[&_.pagination-button.active-pagination-button]:text-[#132e50]",
-      "[&:not(.grouped-pagination)_.pagination-button.active-pagination-button]:border-[#132e50]"
+      "[&_.pagination-button]:border-[#0B84BA] [&_.pagination-button]:text-[#0B84BA]",
+      "hover:[&_.pagination-button]:border-[#BB032A] hover:[&_.pagination-button]:text-[#BB032A]",
+      "[&_.pagination-button.active-pagination-button]:border-[#BB032A] [&_.pagination-button.active-pagination-button]:text-[#BB032A]",
+      "dark:[&_.pagination-button]:border-[#FC7F79] dark:[&_.pagination-button]:text-[#FC7F79]",
+      "dark:hover:[&_.pagination-button]:border-[#FFB2AB] dark:hover:[&_.pagination-button]:text-[#FFB2AB]",
+      "dark:[&_.pagination-button.active-pagination-button]:border-[#FFB2AB] dark:[&_.pagination-button.active-pagination-button]:text-[#FFB2AB]",
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "misc" in @color do %>
   defp color_variant("outline", "misc") do
     [
-      "[&:not(.grouped-pagination)_.pagination-button]:border",
-      "[&_.pagination-button]:bg-transparent text-[#52059C] [&:not(.grouped-pagination)_.pagination-button]:border-[#52059C]",
-      "[&.grouped-pagination_.pagination-control]:bg-transparent",
-      "hover:text-[#491d6a] hover:[&:not(.grouped-pagination)_.pagination-button]:border-[#491d6a]",
-      "[&_.pagination-button.active-pagination-button]:text-[#491d6a]",
-      "[&:not(.grouped-pagination)_.pagination-button.active-pagination-button]:border-[#491d6a]"
+      "[&_.pagination-button]:border-[#8750C5] [&_.pagination-button]:text-[#8750C5]",
+      "hover:[&_.pagination-button]:border-[#653C94] hover:[&_.pagination-button]:text-[#653C94]",
+      "[&_.pagination-button.active-pagination-button]:border-[#653C94] [&_.pagination-button.active-pagination-button]:text-[#653C94]",
+      "dark:[&_.pagination-button]:border-[#BA83F9] dark:[&_.pagination-button]:text-[#BA83F9]",
+      "dark:hover:[&_.pagination-button]:border-[#CBA2FA] dark:hover:[&_.pagination-button]:text-[#CBA2FA]",
+      "dark:[&_.pagination-button.active-pagination-button]:border-[#CBA2FA] dark:[&_.pagination-button.active-pagination-button]:text-[#CBA2FA]",
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "dawn" in @color do %>
   defp color_variant("outline", "dawn") do
     [
-      "[&:not(.grouped-pagination)_.pagination-button]:border",
-      "[&_.pagination-button]:bg-transparent text-[#4D4137] [&:not(.grouped-pagination)_.pagination-button]:border-[#4D4137]",
-      "[&.grouped-pagination_.pagination-control]:bg-transparent",
-      "hover:text-[#28231d] hover:[&:not(.grouped-pagination)_.pagination-button]:border-[#28231d]",
-      "[&_.pagination-button.active-pagination-button]:text-[#28231d]",
-      "[&:not(.grouped-pagination)_.pagination-button.active-pagination-button]:border-[#28231d]"
+      "[&_.pagination-button]:border-[#A86438] [&_.pagination-button]:text-[#A86438]",
+      "hover:[&_.pagination-button]:border-[#7E4B2A] hover:[&_.pagination-button]:text-[#7E4B2A]",
+      "[&_.pagination-button.active-pagination-button]:border-[#7E4B2A] [&_.pagination-button.active-pagination-button]:text-[#7E4B2A]",
+      "dark:[&_.pagination-button]:border-[#DB976B] dark:[&_.pagination-button]:text-[#DB976B]",
+      "dark:hover:[&_.pagination-button]:border-[#E4B190] dark:hover:[&_.pagination-button]:text-[#E4B190]",
+      "dark:[&_.pagination-button.active-pagination-button]:border-[#E4B190] dark:[&_.pagination-button.active-pagination-button]:text-[#E4B190]",
     ]
   end
   <% end %>
-  <%= if is_nil(@color) or "light" in @color do %>
-  defp color_variant("outline", "light") do
+  <%= if is_nil(@color) or "silver" in @color do %>
+  defp color_variant("outline", "silver") do
     [
-      "[&:not(.grouped-pagination)_.pagination-button]:border",
-      "[&_.pagination-button]:bg-transparent text-[#707483] [&:not(.grouped-pagination)_.pagination-button]:border-[#707483]",
-      "[&.grouped-pagination_.pagination-control]:bg-transparent",
-      "hover:text-[#42485a] hover:[&:not(.grouped-pagination)_.pagination-button]:border-[#42485a]",
-      "[&_.pagination-button.active-pagination-button]:text-[#42485a]",
-      "[&:not(.grouped-pagination)_.pagination-button.active-pagination-button]:border-[#42485a]"
-    ]
-  end
-  <% end %>
-  <%= if is_nil(@color) or "dark" in @color do %>
-  defp color_variant("outline", "dark") do
-    [
-      "[&:not(.grouped-pagination)_.pagination-button]:border",
-      "[&_.pagination-button]:bg-transparent text-[#1E1E1E] [&:not(.grouped-pagination)_.pagination-button]:border-[#1E1E1E]",
-      "[&.grouped-pagination_.pagination-control]:bg-transparent",
-      "hover:text-[#787878] hover:[&:not(.grouped-pagination)_.pagination-button]:border-[#787878]",
-      "[&_.pagination-button.active-pagination-button]:text-[#787878]",
-      "[&:not(.grouped-pagination)_.pagination-button.active-pagination-button]:border-[#787878]"
+      "[&_.pagination-button]:border-[#868686] [&_.pagination-button]:text-[#868686]",
+      "hover:[&_.pagination-button]:border-[#727272] hover:[&_.pagination-button]:text-[#727272]",
+      "[&_.pagination-button.active-pagination-button]:border-[#727272] [&_.pagination-button.active-pagination-button]:text-[#727272]",
+      "dark:[&_.pagination-button]:border-[#A6A6A6] dark:[&_.pagination-button]:text-[#A6A6A6]",
+      "dark:hover:[&_.pagination-button]:border-[#BBBBBB] dark:hover:[&_.pagination-button]:text-[#BBBBBB]",
+      "dark:[&_.pagination-button.active-pagination-button]:border-[#BBBBBB] dark:[&_.pagination-button.active-pagination-button]:text-[#BBBBBB]",
     ]
   end
   <% end %>
   <% end %>
-  <%= if is_nil(@variant) or "unbordered" in @variant do %>
-  <%= if is_nil(@color) or "white" in @color do %>
-  defp color_variant("unbordered", "white") do
+  <%= if is_nil(@variant) or "bordered" in @variant do %>
+  <%= if is_nil(@color) or "natural" in @color do %>
+  defp color_variant("bordered", "natural") do
     [
-      "[&:not(.grouped-pagination)_.pagination-button]:border",
-      "[&_.pagination-button]:bg-white text-[#3E3E3E] [&:not(.grouped-pagination)_.pagination-button]:border-transparent",
-      "[&.grouped-pagination_.pagination-control]:bg-white",
-      "[&.grouped-pagination_.pagination-seperator]:bg-white",
-      "hover:[&_.pagination-button]:bg-[#E8E8E8] [&_.pagination-button.active-pagination-button]:bg-[#E8E8E8]",
-      "hover:[&.grouped-pagination_.pagination-control]:bg-[#E8E8E8]"
+      "bg-white dark:bg-[#282828] [&_.pagination-button]:border-[#4B4B4B] [&_.pagination-button]:text-[#4B4B4B]",
+      "hover:[&_.pagination-button]:border-[#282828] hover:[&_.pagination-button]:text-[#282828]",
+      "dark:[&_.pagination-button]:border-[#DDDDDD] dark:[&_.pagination-button]:text-[#DDDDDD]",
+      "dark:hover:[&_.pagination-button]:border-[#E8E8E8] dark:hover:[&_.pagination-button]:text-[#E8E8E8]",
+      "[&_.pagination-button.active-pagination-button]:border-[#282828] [&_.pagination-button.active-pagination-button]:text-[#282828]",
+      "dark:[&_.pagination-button.active-pagination-button]:border-[#E8E8E8] dark:[&_.pagination-button.active-pagination-button]:text-[#E8E8E8]",
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "primary" in @color do %>
-  defp color_variant("unbordered", "primary") do
+  defp color_variant("bordered", "primary") do
     [
-      "[&:not(.grouped-pagination)_.pagination-button]:border",
-      "[&_.pagination-button]:bg-[#4363EC] [&_.pagination-button]:text-white",
-      "[&.grouped-pagination_.pagination-control]:bg-[#4363EC]",
-      "[&.grouped-pagination_.pagination-seperator]:bg-[#4363EC] [&.grouped-pagination_.pagination-seperator]:text-white",
-      "[&:not(.grouped-pagination)_.pagination-button]:border-transparent hover:[&_.pagination-button]:bg-[#072ed3]",
-      "hover:[&.grouped-pagination_.pagination-control]:bg-[#072ed3] [&.grouped-pagination_.pagination-control]:text-white",
-      "[&_.pagination-button.active-pagination-button]:bg-[#072ed3]"
+      "bg-white dark:bg-[#282828] [&_.pagination-button]:border-[#007F8C] [&_.pagination-button]:text-[#007F8C]",
+      "hover:[&_.pagination-button]:border-[#016974] hover:[&_.pagination-button]:text-[#016974]",
+      "[&_.pagination-button.active-pagination-button]:border-[#016974] [&_.pagination-button.active-pagination-button]:text-[#016974]",
+      "dark:[&_.pagination-button]:border-[#01B8CA] dark:[&_.pagination-button]:text-[#01B8CA]",
+      "dark:hover:[&_.pagination-button]:border-[#77D5E3] dark:hover:[&_.pagination-button]:text-[#77D5E3]",
+      "dark:[&_.pagination-button.active-pagination-button]:border-[#77D5E3] dark:[&_.pagination-button.active-pagination-button]:text-[#77D5E3]",
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "secondary" in @color do %>
-  defp color_variant("unbordered", "secondary") do
+  defp color_variant("bordered", "secondary") do
     [
-      "[&:not(.grouped-pagination)_.pagination-button]:border",
-      "[&_.pagination-button]:bg-[#6B6E7C] [&_.pagination-button]:text-white",
-      "[&.grouped-pagination_.pagination-control]:bg-[#6B6E7C]",
-      "[&.grouped-pagination_.pagination-seperator]:bg-[#6B6E7C] [&.grouped-pagination_.pagination-seperator]:text-white",
-      "[&:not(.grouped-pagination)_.pagination-button]:border-transparent hover:[&_.pagination-button]:bg-[#4c4f59]",
-      "hover:[&.grouped-pagination_.pagination-control]:bg-[#4c4f59] [&.grouped-pagination_.pagination-control]:text-white",
-      "[&_.pagination-button.active-pagination-button]:bg-[#4c4f59]"
+      "bg-white dark:bg-[#282828] [&_.pagination-button]:border-[#266EF1] [&_.pagination-button]:text-[#266EF1]",
+      "hover:[&_.pagination-button]:border-[#175BCC] hover:[&_.pagination-button]:text-[#175BCC]",
+      "[&_.pagination-button.active-pagination-button]:border-[#175BCC] [&_.pagination-button.active-pagination-button]:text-[#175BCC]",
+      "dark:[&_.pagination-button]:border-[#6DAAFB] dark:[&_.pagination-button]:text-[#6DAAFB]",
+      "dark:hover:[&_.pagination-button]:border-[#A9C9FF] dark:hover:[&_.pagination-button]:text-[#A9C9FF]",
+      "dark:[&_.pagination-button.active-pagination-button]:border-[#A9C9FF] dark:[&_.pagination-button.active-pagination-button]:text-[#A9C9FF]",
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "success" in @color do %>
-  defp color_variant("unbordered", "success") do
+  defp color_variant("bordered", "success") do
     [
-      "[&:not(.grouped-pagination)_.pagination-button]:border",
-      "[&_.pagination-button]:bg-[#ECFEF3] text-[#047857] [&:not(.grouped-pagination)_.pagination-button]:border-transparent",
-      "[&.grouped-pagination_.pagination-control]:bg-[#ECFEF3]",
-      "[&.grouped-pagination_.pagination-seperator]:bg-[#ECFEF3]",
-      "hover:[&_.pagination-button]:bg-[#c0fad7] [&_.pagination-button.active-pagination-button]:bg-[#c0fad7]",
-      "hover:[&.grouped-pagination_.pagination-control]:bg-[#c0fad7]"
+      "bg-white dark:bg-[#282828] [&_.pagination-button]:border-[#0E8345] [&_.pagination-button]:text-[#0E8345]",
+      "hover:[&_.pagination-button]:border-[#166C3B] hover:[&_.pagination-button]:text-[#166C3B]",
+      "[&_.pagination-button.active-pagination-button]:border-[#166C3B] [&_.pagination-button.active-pagination-button]:text-[#166C3B]",
+      "dark:[&_.pagination-button]:border-[#06C167] dark:[&_.pagination-button]:text-[#06C167]",
+      "dark:hover:[&_.pagination-button]:border-[#7FD99A] dark:hover:[&_.pagination-button]:text-[#7FD99A]",
+      "dark:[&_.pagination-button.active-pagination-button]:border-[#7FD99A] dark:[&_.pagination-button.active-pagination-button]:text-[#7FD99A]",
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "warning" in @color do %>
-  defp color_variant("unbordered", "warning") do
+  defp color_variant("bordered", "warning") do
     [
-      "[&:not(.grouped-pagination)_.pagination-button]:border",
-      "[&_.pagination-button]:bg-[#FFF8E6] text-[#FF8B08] [&:not(.grouped-pagination)_.pagination-button]:border-transparent",
-      "[&.grouped-pagination_.pagination-control]:bg-[#FFF8E6]",
-      "[&.grouped-pagination_.pagination-seperator]:bg-[#FFF8E6]",
-      "hover:[&_.pagination-button]:bg-[#fcebc0] [&_.pagination-button.active-pagination-button]:bg-[#fcebc0]",
-      "hover:[&.grouped-pagination_.pagination-control]:bg-[#fcebc0]"
+      "bg-white dark:bg-[#282828] [&_.pagination-button]:border-[#CA8D01] [&_.pagination-button]:text-[#CA8D01]",
+      "hover:[&_.pagination-button]:border-[#976A01] hover:[&_.pagination-button]:text-[#976A01]",
+      "[&_.pagination-button.active-pagination-button]:border-[#976A01] [&_.pagination-button.active-pagination-button]:text-[#976A01]",
+      "dark:[&_.pagination-button]:border-[#FDC034] dark:[&_.pagination-button]:text-[#FDC034]",
+      "dark:hover:[&_.pagination-button]:border-[#FDD067] dark:hover:[&_.pagination-button]:text-[#FDD067]",
+      "dark:[&_.pagination-button.active-pagination-button]:border-[#FDD067] dark:[&_.pagination-button.active-pagination-button]:text-[#FDD067]",
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "danger" in @color do %>
-  defp color_variant("unbordered", "danger") do
+  defp color_variant("bordered", "danger") do
     [
-      "[&:not(.grouped-pagination)_.pagination-button]:border",
-      "[&_.pagination-button]:bg-[#FFE6E6] text-[#E73B3B] [&:not(.grouped-pagination)_.pagination-button]:border-transparent",
-      "[&.grouped-pagination_.pagination-control]:bg-[#FFE6E6]",
-      "[&.grouped-pagination_.pagination-seperator]:bg-[#FFE6E6]",
-      "hover:[&_.pagination-button]:bg-[#fcbbbb] [&_.pagination-button.active-pagination-button]:bg-[#fcbbbb]",
-      "hover:[&.grouped-pagination_.pagination-control]:bg-[#fcbbbb]"
+      "bg-white dark:bg-[#282828] [&_.pagination-button]:border-[#DE1135] [&_.pagination-button]:text-[#DE1135]",
+      "hover:[&_.pagination-button]:border-[#BB032A] hover:[&_.pagination-button]:text-[#BB032A]",
+      "[&_.pagination-button.active-pagination-button]:border-[#BB032A] [&_.pagination-button.active-pagination-button]:text-[#BB032A]",
+      "dark:[&_.pagination-button]:border-[#FC7F79] dark:[&_.pagination-button]:text-[#FC7F79]",
+      "dark:hover:[&_.pagination-button]:border-[#FFB2AB] dark:hover:[&_.pagination-button]:text-[#FFB2AB]",
+      "dark:[&_.pagination-button.active-pagination-button]:border-[#FFB2AB] dark:[&_.pagination-button.active-pagination-button]:text-[#FFB2AB]",
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "info" in @color do %>
-  defp color_variant("unbordered", "info") do
+  defp color_variant("bordered", "info") do
     [
-      "[&:not(.grouped-pagination)_.pagination-button]:border",
-      "[&_.pagination-button]:bg-[#E5F0FF] text-[#004FC4] [&:not(.grouped-pagination)_.pagination-button]:border-transparent",
-      "[&.grouped-pagination_.pagination-control]:bg-[#E5F0FF]",
-      "[&.grouped-pagination_.pagination-seperator]:bg-[#E5F0FF]",
-      "hover:[&_.pagination-button]:bg-[#bdd3f2] [&_.pagination-button.active-pagination-button]:bg-[#bdd3f2]",
-      "hover:[&.grouped-pagination_.pagination-control]:bg-[#bdd3f2]"
+      "bg-white dark:bg-[#282828] [&_.pagination-button]:border-[#0B84BA] [&_.pagination-button]:text-[#0B84BA]",
+      "hover:[&_.pagination-button]:border-[#BB032A] hover:[&_.pagination-button]:text-[#BB032A]",
+      "[&_.pagination-button.active-pagination-button]:border-[#BB032A] [&_.pagination-button.active-pagination-button]:text-[#BB032A]",
+      "dark:[&_.pagination-button]:border-[#FC7F79] dark:[&_.pagination-button]:text-[#FC7F79]",
+      "dark:hover:[&_.pagination-button]:border-[#FFB2AB] dark:hover:[&_.pagination-button]:text-[#FFB2AB]",
+      "dark:[&_.pagination-button.active-pagination-button]:border-[#FFB2AB] dark:[&_.pagination-button.active-pagination-button]:text-[#FFB2AB]",
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "misc" in @color do %>
-  defp color_variant("unbordered", "misc") do
+  defp color_variant("bordered", "misc") do
     [
-      "[&:not(.grouped-pagination)_.pagination-button]:border",
-      "[&_.pagination-button]:bg-[#FFE6FF] text-[#52059C] [&:not(.grouped-pagination)_.pagination-button]:border-transparent",
-      "[&.grouped-pagination_.pagination-control]:bg-[#FFE6FF]",
-      "[&.grouped-pagination_.pagination-seperator]:bg-[#FFE6FF]",
-      "hover:[&_.pagination-button]:bg-[#edcced] [&_.pagination-button.active-pagination-button]:bg-[#edcced]",
-      "hover:[&.grouped-pagination_.pagination-control]:bg-[#edcced]"
+      "bg-white dark:bg-[#282828] [&_.pagination-button]:border-[#8750C5] [&_.pagination-button]:text-[#8750C5]",
+      "hover:[&_.pagination-button]:border-[#653C94] hover:[&_.pagination-button]:text-[#653C94]",
+      "[&_.pagination-button.active-pagination-button]:border-[#653C94] [&_.pagination-button.active-pagination-button]:text-[#653C94]",
+      "dark:[&_.pagination-button]:border-[#BA83F9] dark:[&_.pagination-button]:text-[#BA83F9]",
+      "dark:hover:[&_.pagination-button]:border-[#CBA2FA] dark:hover:[&_.pagination-button]:text-[#CBA2FA]",
+      "dark:[&_.pagination-button.active-pagination-button]:border-[#CBA2FA] dark:[&_.pagination-button.active-pagination-button]:text-[#CBA2FA]",
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "dawn" in @color do %>
-  defp color_variant("unbordered", "dawn") do
+  defp color_variant("bordered", "dawn") do
     [
-      "[&:not(.grouped-pagination)_.pagination-button]:border",
-      "[&_.pagination-button]:bg-[#FFECDA] text-[#4D4137] [&:not(.grouped-pagination)_.pagination-button]:border-transparent",
-      "[&.grouped-pagination_.pagination-control]:bg-[#FFECDA]",
-      "[&.grouped-pagination_.pagination-seperator]:bg-[#FFECDA]",
-      "hover:[&_.pagination-button]:bg-[#ffdfc1] [&_.pagination-button.active-pagination-button]:bg-[#ffdfc1]",
-      "hover:[&.grouped-pagination_.pagination-control]:bg-[#ffdfc1]"
+      "bg-white dark:bg-[#282828] [&_.pagination-button]:border-[#A86438] [&_.pagination-button]:text-[#A86438]",
+      "hover:[&_.pagination-button]:border-[#7E4B2A] hover:[&_.pagination-button]:text-[#7E4B2A]",
+      "[&_.pagination-button.active-pagination-button]:border-[#7E4B2A] [&_.pagination-button.active-pagination-button]:text-[#7E4B2A]",
+      "dark:[&_.pagination-button]:border-[#DB976B] dark:[&_.pagination-button]:text-[#DB976B]",
+      "dark:hover:[&_.pagination-button]:border-[#E4B190] dark:hover:[&_.pagination-button]:text-[#E4B190]",
+      "dark:[&_.pagination-button.active-pagination-button]:border-[#E4B190] dark:[&_.pagination-button.active-pagination-button]:text-[#E4B190]",
     ]
   end
   <% end %>
-  <%= if is_nil(@color) or "light" in @color do %>
-  defp color_variant("unbordered", "light") do
+  <%= if is_nil(@color) or "silver" in @color do %>
+  defp color_variant("bordered", "silver") do
     [
-      "[&:not(.grouped-pagination)_.pagination-button]:border",
-      "[&_.pagination-button]:bg-[#E3E7F1] text-[#707483] [&:not(.grouped-pagination)_.pagination-button]:border-transparent",
-      "[&.grouped-pagination_.pagination-control]:bg-[#E3E7F1]",
-      "[&.grouped-pagination_.pagination-seperator]:bg-[#E3E7F1]",
-      "hover:[&_.pagination-button]:bg-[#c8cee0] [&_.pagination-button.active-pagination-button]:bg-[#c8cee0]",
-      "hover:[&.grouped-pagination_.pagination-control]:bg-[#c8cee0]"
-    ]
-  end
-  <% end %>
-  <%= if is_nil(@color) or "dark" in @color do %>
-  defp color_variant("unbordered", "dark") do
-    [
-      "[&:not(.grouped-pagination)_.pagination-button]:border",
-      "[&_.pagination-button]:bg-[#1E1E1E] [&_.pagination-button]:text-white",
-      "[&:not(.grouped-pagination)_.pagination-button]:border-transparent hover:[&_.pagination-button]:bg-[#111111]",
-      "[&.grouped-pagination_.pagination-control]:bg-[#1E1E1E] [&.grouped-pagination_.pagination-control]:text-white",
-      "[&.grouped-pagination_.pagination-seperator]:bg-[#1E1E1E] [&.grouped-pagination_.pagination-seperator]:text-white",
-      "hover:[&.grouped-pagination_.pagination-control]:bg-[#111111]",
-      "[&_.pagination-button.active-pagination-button]:bg-[#111111]"
+      "bg-white dark:bg-[#282828] [&_.pagination-button]:border-[#868686] [&_.pagination-button]:text-[#868686]",
+      "hover:[&_.pagination-button]:border-[#727272] hover:[&_.pagination-button]:text-[#727272]",
+      "[&_.pagination-button.active-pagination-button]:border-[#727272] [&_.pagination-button.active-pagination-button]:text-[#727272]",
+      "dark:[&_.pagination-button]:border-[#A6A6A6] dark:[&_.pagination-button]:text-[#A6A6A6]",
+      "dark:hover:[&_.pagination-button]:border-[#BBBBBB] dark:hover:[&_.pagination-button]:text-[#BBBBBB]",
+      "dark:[&_.pagination-button.active-pagination-button]:border-[#BBBBBB] dark:[&_.pagination-button.active-pagination-button]:text-[#BBBBBB]",
     ]
   end
   <% end %>
   <% end %>
   <%= if is_nil(@variant) or "transparent" in @variant do %>
-  <%= if is_nil(@color) or "white" in @color do %>
-  defp color_variant("transparent", "white") do
+  <%= if is_nil(@color) or "natural" in @color do %>
+  defp color_variant("transparent", "natural") do
     [
-      "[&:not(.grouped-pagination)_.pagination-button]:border",
-      "[&_.pagination-button]:bg-transparent text-white [&:not(.grouped-pagination)_.pagination-button]:border-transparent",
-      "hover:[&_.pagination-button]:text-[#E8E8E8] [&_.pagination-button.active-pagination-button]:bg-[#484747] [&_.pagination-button.active-pagination-button]:text-[#E8E8E8]"
+      "[&_.pagination-button]:text-[#4B4B4B] hover:[&_.pagination-button]:text-[#282828]",
+      "dark:[&_.pagination-button]:text-[#DDDDDD] dark:hover:[&_.pagination-button]:text-[#E8E8E8]",
+      "[&_.pagination-button.active-pagination-button]:text-[#282828]",
+      "dark:[&_.pagination-button.active-pagination-button]:text-[#E8E8E8]"
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "primary" in @color do %>
   defp color_variant("transparent", "primary") do
     [
-      "[&:not(.grouped-pagination)_.pagination-button]:border",
-      "[&_.pagination-button]:bg-transparent text-[#4363EC] [&:not(.grouped-pagination)_.pagination-button]:border-transparent",
-      "hover:[&_.pagination-button]:text-[#002cff]",
-      "[&_.pagination-button.active-pagination-button]:text-[#002cff]"
+      "[&_.pagination-button]:text-[#007F8C] hover:[&_.pagination-button]:text-[#016974]",
+      "dark:[&_.pagination-button]:text-[#01B8CA] dark:hover:[&_.pagination-button]:text-[#77D5E3]",
+      "[&_.pagination-button.active-pagination-button]:text-[#016974]",
+      "dark:[&_.pagination-button.active-pagination-button]:text-[#77D5E3]"
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "secondary" in @color do %>
   defp color_variant("transparent", "secondary") do
     [
-      "[&:not(.grouped-pagination)_.pagination-button]:border",
-      "[&_.pagination-button]:bg-transparent text-[#6B6E7C] [&:not(.grouped-pagination)_.pagination-button]:border-transparent",
-      "hover:[&_.pagination-button]:text-[#020202]",
-      "[&_.pagination-button.active-pagination-button]:text-[#020202]"
+      "[&_.pagination-button]:text-[#266EF1] hover:[&_.pagination-button]:text-[#175BCC]",
+      "dark:[&_.pagination-button]:text-[#6DAAFB] dark:hover:[&_.pagination-button]:text-[#A9C9FF]",
+      "[&_.pagination-button.active-pagination-button]:text-[#175BCC]",
+      "dark:[&_.pagination-button.active-pagination-button]:text-[#A9C9FF]"
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "success" in @color do %>
   defp color_variant("transparent", "success") do
     [
-      "[&:not(.grouped-pagination)_.pagination-button]:border",
-      "[&_.pagination-button]:bg-transparent text-[#227A52] [&:not(.grouped-pagination)_.pagination-button]:border-transparent",
-      "hover:[&_.pagination-button]:text-[#126c3a] [&_.pagination-button.active-pagination-button]:text-[#126c3a]"
+      "[&_.pagination-button]:text-[#0E8345] hover:[&_.pagination-button]:text-[#166C3B]",
+      "dark:[&_.pagination-button]:text-[#06C167] dark:hover:[&_.pagination-button]:text-[#7FD99A]",
+      "[&_.pagination-button.active-pagination-button]:text-[#175BCC]",
+      "dark:[&_.pagination-button.active-pagination-button]:text-[#A9C9FF]"
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "warning" in @color do %>
   defp color_variant("transparent", "warning") do
     [
-      "[&:not(.grouped-pagination)_.pagination-button]:border",
-      "[&_.pagination-button]:bg-transparent text-[#FF8B08] [&:not(.grouped-pagination)_.pagination-button]:border-transparent",
-      "hover:[&_.pagination-button]:text-[#9b6112]",
-      "[&_.pagination-button.active-pagination-button]:text-[#9b6112]"
+      "[&_.pagination-button]:text-[#CA8D01] hover:[&_.pagination-button]:text-[#CA8D01]",
+      "dark:[&_.pagination-button]:text-[#FDC034] dark:hover:[&_.pagination-button]:text-[#FDD067]",
+      "[&_.pagination-button.active-pagination-button]:text-[#CA8D01]",
+      "dark:[&_.pagination-button.active-pagination-button]:text-[#FDD067]"
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "danger" in @color do %>
   defp color_variant("transparent", "danger") do
     [
-      "[&:not(.grouped-pagination)_.pagination-button]:border",
-      "[&_.pagination-button]:bg-transparent text-[#E73B3B] [&:not(.grouped-pagination)_.pagination-button]:border-transparent",
-      "hover:[&_.pagination-button]:text-[#a52e23]",
-      "[&_.pagination-button.active-pagination-button]:text-[#a52e23]"
+      "[&_.pagination-button]:text-[#DE1135] hover:[&_.pagination-button]:text-[#BB032A]",
+      "dark:[&_.pagination-button]:text-[#FC7F79] dark:hover:[&_.pagination-button]:text-[#FFB2AB]",
+      "[&_.pagination-button.active-pagination-button]:text-[#BB032A]",
+      "dark:[&_.pagination-button.active-pagination-button]:text-[#FFB2AB]"
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "info" in @color do %>
   defp color_variant("transparent", "info") do
     [
-      "[&:not(.grouped-pagination)_.pagination-button]:border",
-      "[&_.pagination-button]:bg-transparent text-[#6663FD] [&:not(.grouped-pagination)_.pagination-button]:border-transparent",
-      "hover:[&_.pagination-button]:text-[#132e50]",
-      "[&_.pagination-button.active-pagination-button]:text-[#132e50]"
+      "[&_.pagination-button]:text-[#0B84BA] hover:[&_.pagination-button]:text-[#08638C]",
+      "dark:[&_.pagination-button]:text-[#3EB7ED] dark:hover:[&_.pagination-button]:text-[#6EC9F2]",
+      "[&_.pagination-button.active-pagination-button]:text-[#08638C]",
+      "dark:[&_.pagination-button.active-pagination-button]:text-[#6EC9F2]"
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "misc" in @color do %>
   defp color_variant("transparent", "misc") do
     [
-      "[&:not(.grouped-pagination)_.pagination-button]:border",
-      "[&_.pagination-button]:bg-transparent text-[#52059C] [&:not(.grouped-pagination)_.pagination-button]:border-transparent",
-      "hover:[&_.pagination-button]:text-[#491d6a]",
-      "[&_.pagination-button.active-pagination-button]:text-[#491d6a]"
+      "[&_.pagination-button]:text-[#8750C5] hover:[&_.pagination-button]:text-[#653C94]",
+      "dark:[&_.pagination-button]:text-[#BA83F9] dark:hover:[&_.pagination-button]:text-[#CBA2FA]",
+      "[&_.pagination-button.active-pagination-button]:text-[#653C94]",
+      "dark:[&_.pagination-button.active-pagination-button]:text-[#CBA2FA]"
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "dawn" in @color do %>
   defp color_variant("transparent", "dawn") do
     [
-      "[&:not(.grouped-pagination)_.pagination-button]:border",
-      "[&_.pagination-button]:bg-transparent text-[#4D4137] [&:not(.grouped-pagination)_.pagination-button]:border-transparent",
-      "hover:[&_.pagination-button]:text-[#28231d]",
-      "[&_.pagination-button.active-pagination-button]:text-[#28231d]"
+      "[&_.pagination-button]:text-[#A86438] hover:[&_.pagination-button]:text-[#7E4B2A]",
+      "dark:[&_.pagination-button]:text-[#DB976B] dark:hover:[&_.pagination-button]:text-[#E4B190]",
+      "[&_.pagination-button.active-pagination-button]:text-[#7E4B2A]",
+      "dark:[&_.pagination-button.active-pagination-button]:text-[#E4B190]"
     ]
   end
   <% end %>
-  <%= if is_nil(@color) or "light" in @color do %>
-  defp color_variant("transparent", "light") do
+  <%= if is_nil(@color) or "silver" in @color do %>
+  defp color_variant("transparent", "silver") do
     [
-      "[&:not(.grouped-pagination)_.pagination-button]:border",
-      "[&_.pagination-button]:bg-transparent text-[#707483] [&:not(.grouped-pagination)_.pagination-button]:border-transparent",
-      "hover:[&_.pagination-button]:text-[#42485a]",
-      "[&_.pagination-button.active-pagination-button]:text-[#42485a]"
-    ]
-  end
-  <% end %>
-  <%= if is_nil(@color) or "dark" in @color do %>
-  defp color_variant("transparent", "dark") do
-    [
-      "[&:not(.grouped-pagination)_.pagination-button]:border",
-      "[&_.pagination-button]:bg-transparent text-[#1E1E1E] [&:not(.grouped-pagination)_.pagination-button]:border-transparent",
-      "hover:[&_.pagination-button]:text-[#787878]",
-      "[&_.pagination-button.active-pagination-button]:text-[#787878]"
+      "[&_.pagination-button]:text-[#868686] hover:[&_.pagination-button]:text-[#727272]",
+      "dark:[&_.pagination-button]:text-[#A6A6A6] dark:hover:[&_.pagination-button]:text-[#BBBBBB]",
+      "[&_.pagination-button.active-pagination-button]:text-[#727272]",
+      "dark:[&_.pagination-button.active-pagination-button]:text-[#BBBBBB]"
     ]
   end
   <% end %>
   <% end %>
   <%= if is_nil(@variant) or "subtle" in @variant do %>
-  <%= if is_nil(@color) or "white" in @color do %>
-  defp color_variant("subtle", "white") do
+  <%= if is_nil(@color) or "natural" in @color do %>
+  defp color_variant("subtle", "natural") do
     [
-      "[&:not(.grouped-pagination)_.pagination-button]:border",
-      "[&_.pagination-button]:bg-transparent text-white [&:not(.grouped-pagination)_.pagination-button]:border-transparent",
-      "hover:[&_.pagination-button]:bg-white hover:[&_.pagination-button]:text-[#3E3E3E]",
-      "hover:[&.grouped-pagination_.pagination-control]:bg-white hover:[&.grouped-pagination_.pagination-control]::text-[#3E3E3E]",
-      "[&_.pagination-button.active-pagination-button]:bg-white",
-      "[&_.pagination-button.active-pagination-button]:text-[#3E3E3E]"
+      "[&_.pagination-button]:text-[#4B4B4B] hover:[&_.pagination-button]:text-[#282828]",
+      "dark:[&_.pagination-button]:text-[#DDDDDD] dark:hover:[&_.pagination-button]:text-[#E8E8E8]",
+      "[&_.pagination-button.active-pagination-button]:text-[#282828]",
+      "dark:[&_.pagination-button.active-pagination-button]:text-[#E8E8E8]",
+      "hover:[&_.pagination-button]:bg-[#F3F3F3] dark:hover:[&_.pagination-button]:bg-[#4B4B4B]",
+      "[&_.pagination-button.active-pagination-button]:bg-[#F3F3F3]",
+      "dark:[&_.pagination-button.active-pagination-button]:bg-[#4B4B4B]"
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "primary" in @color do %>
   defp color_variant("subtle", "primary") do
     [
-      "[&:not(.grouped-pagination)_.pagination-button]:border",
-      "[&_.pagination-button]:bg-transparent text-[#4363EC] [&:not(.grouped-pagination)_.pagination-button]:border-transparent",
-      "hover:[&_.pagination-button]:bg-[#4363EC] hover:[&_.pagination-button]:text-white",
-      "hover:[&.grouped-pagination_.pagination-control]:bg-[#4363EC] hover:[&.grouped-pagination_.pagination-control]::text-white",
-      "[&_.pagination-button.active-pagination-button]:bg-[#4363EC]",
-      "[&_.pagination-button.active-pagination-button]:text-white"
+      "[&_.pagination-button]:text-[#007F8C] hover:[&_.pagination-button]:text-[#016974]",
+      "dark:[&_.pagination-button]:text-[#01B8CA] dark:hover:[&_.pagination-button]:text-[#77D5E3]",
+      "[&_.pagination-button.active-pagination-button]:text-[#016974]",
+      "dark:[&_.pagination-button.active-pagination-button]:text-[#77D5E3]",
+      "hover:[&_.pagination-button]:bg-[#E2F8FB] dark:hover:[&_.pagination-button]:bg-[#002D33]",
+      "[&_.pagination-button.active-pagination-button]:bg-[#E2F8FB]",
+      "dark:[&_.pagination-button.active-pagination-button]:bg-[#002D33]"
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "secondary" in @color do %>
   defp color_variant("subtle", "secondary") do
     [
-      "[&:not(.grouped-pagination)_.pagination-button]:border",
-      "[&_.pagination-button]:bg-transparent text-[#6B6E7C] [&:not(.grouped-pagination)_.pagination-button]:border-transparent",
-      "hover:[&_.pagination-button]:bg-[#6B6E7C] hover:[&_.pagination-button]:text-white",
-      "hover:[&.grouped-pagination_.pagination-control]:bg-[#6B6E7C] hover:[&.grouped-pagination_.pagination-control]::text-white",
-      "[&_.pagination-button.active-pagination-button]:bg-[#6B6E7C]",
-      "[&_.pagination-button.active-pagination-button]:text-white"
+      "[&_.pagination-button]:text-[#266EF1] hover:[&_.pagination-button]:text-[#175BCC]",
+      "dark:[&_.pagination-button]:text-[#6DAAFB] dark:hover:[&_.pagination-button]:text-[#A9C9FF]",
+      "[&_.pagination-button.active-pagination-button]:text-[#175BCC]",
+      "dark:[&_.pagination-button.active-pagination-button]:text-[#A9C9FF]",
+      "hover:[&_.pagination-button]:bg-[#EFF4FE] dark:hover:[&_.pagination-button]:bg-[#002661]",
+      "[&_.pagination-button.active-pagination-button]:bg-[#EFF4FE]",
+      "dark:[&_.pagination-button.active-pagination-button]:bg-[#002661]"
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "success" in @color do %>
   defp color_variant("subtle", "success") do
     [
-      "[&:not(.grouped-pagination)_.pagination-button]:border",
-      "[&_.pagination-button]:bg-transparent text-[#227A52] [&:not(.grouped-pagination)_.pagination-button]:border-transparent",
-      "hover:[&_.pagination-button]:bg-[#AFEAD0] hover:[&_.pagination-button]:text-[#227A52]",
-      "hover:[&.grouped-pagination_.pagination-control]:bg-[#AFEAD0] hover:[&.grouped-pagination_.pagination-control]::text-[#227A52]",
-      "[&_.pagination-button.active-pagination-button]:bg-[#AFEAD0]",
-      "[&_.pagination-button.active-pagination-button]:text-[#227A52]"
+      "[&_.pagination-button]:text-[#0E8345] hover:[&_.pagination-button]:text-[#166C3B]",
+      "dark:[&_.pagination-button]:text-[#06C167] dark:hover:[&_.pagination-button]:text-[#7FD99A]",
+      "[&_.pagination-button.active-pagination-button]:text-[#175BCC]",
+      "dark:[&_.pagination-button.active-pagination-button]:text-[#A9C9FF]",
+      "hover:[&_.pagination-button]:bg-[#EAF6ED] dark:hover:[&_.pagination-button]:bg-[#002F14]",
+      "[&_.pagination-button.active-pagination-button]:bg-[#EAF6ED]",
+      "dark:[&_.pagination-button.active-pagination-button]:bg-[#002F14]"
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "warning" in @color do %>
   defp color_variant("subtle", "warning") do
     [
-      "[&:not(.grouped-pagination)_.pagination-button]:border",
-      "[&_.pagination-button]:bg-transparent text-[#FF8B08] [&:not(.grouped-pagination)_.pagination-button]:border-transparent",
-      "hover:[&_.pagination-button]:bg-[#FFF8E6] hover:[&_.pagination-button]:text-[#FFF8E6]",
-      "hover:[&.grouped-pagination_.pagination-control]:bg-[#FFF8E6] hover:[&.grouped-pagination_.pagination-control]::text-[#FFF8E6]",
-      "[&_.pagination-button.active-pagination-button]:bg-[#FFF8E6]",
-      "[&_.pagination-button.active-pagination-button]:text-[#FF8B08]"
+      "[&_.pagination-button]:text-[#CA8D01] hover:[&_.pagination-button]:text-[#CA8D01]",
+      "dark:[&_.pagination-button]:text-[#FDC034] dark:hover:[&_.pagination-button]:text-[#FDD067]",
+      "[&_.pagination-button.active-pagination-button]:text-[#CA8D01]",
+      "dark:[&_.pagination-button.active-pagination-button]:text-[#FDD067]",
+      "hover:[&_.pagination-button]:bg-[#FFF7E6] dark:hover:[&_.pagination-button]:bg-[#322300]",
+      "[&_.pagination-button.active-pagination-button]:bg-[#FFF7E6]",
+      "dark:[&_.pagination-button.active-pagination-button]:bg-[#322300]"
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "danger" in @color do %>
   defp color_variant("subtle", "danger") do
     [
-      "[&:not(.grouped-pagination)_.pagination-button]:border",
-      "[&_.pagination-button]:bg-transparent text-[#E73B3B] [&:not(.grouped-pagination)_.pagination-button]:border-transparent",
-      "hover:[&_.pagination-button]:bg-[#FFE6E6] hover:[&_.pagination-button]:text-[#E73B3B]",
-      "hover:[&.grouped-pagination_.pagination-control]:bg-[#FFE6E6] hover:[&.grouped-pagination_.pagination-control]::text-[#E73B3B]",
-      "[&_.pagination-button.active-pagination-button]:bg-[#FFE6E6]",
-      "[&_.pagination-button.active-pagination-button]:text-[#E73B3B]"
+      "[&_.pagination-button]:text-[#DE1135] hover:[&_.pagination-button]:text-[#BB032A]",
+      "dark:[&_.pagination-button]:text-[#FC7F79] dark:hover:[&_.pagination-button]:text-[#FFB2AB]",
+      "[&_.pagination-button.active-pagination-button]:text-[#BB032A]",
+      "dark:[&_.pagination-button.active-pagination-button]:text-[#FFB2AB]",
+      "hover:[&_.pagination-button]:bg-[#FFF0EE] dark:hover:[&_.pagination-button]:bg-[#520810]",
+      "[&_.pagination-button.active-pagination-button]:bg-[#FFF0EE]",
+      "dark:[&_.pagination-button.active-pagination-button]:bg-[#520810]"
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "info" in @color do %>
   defp color_variant("subtle", "info") do
     [
-      "[&:not(.grouped-pagination)_.pagination-button]:border",
-      "[&_.pagination-button]:bg-transparent text-[#6663FD] [&:not(.grouped-pagination)_.pagination-button]:border-transparent",
-      "hover:[&_.pagination-button]:bg-[#E5F0FF] hover:[&_.pagination-button]:text-[#103483]",
-      "hover:[&.grouped-pagination_.pagination-control]:bg-[#E5F0FF] hover:[&.grouped-pagination_.pagination-control]::text-[#103483]",
-      "[&_.pagination-button.active-pagination-button]:bg-[#E5F0FF]",
-      "[&_.pagination-button.active-pagination-button]:text-[#103483]"
+      "[&_.pagination-button]:text-[#0B84BA] hover:[&_.pagination-button]:text-[#08638C]",
+      "dark:[&_.pagination-button]:text-[#3EB7ED] dark:hover:[&_.pagination-button]:text-[#6EC9F2]",
+      "[&_.pagination-button.active-pagination-button]:text-[#08638C]",
+      "dark:[&_.pagination-button.active-pagination-button]:text-[#6EC9F2]",
+      "hover:[&_.pagination-button]:bg-[#E7F6FD] dark:hover:[&_.pagination-button]:bg-[#03212F]",
+      "[&_.pagination-button.active-pagination-button]:bg-[#E7F6FD]",
+      "dark:[&_.pagination-button.active-pagination-button]:bg-[#03212F]"
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "misc" in @color do %>
   defp color_variant("subtle", "misc") do
     [
-      "[&:not(.grouped-pagination)_.pagination-button]:border",
-      "[&_.pagination-button]:bg-transparent text-[#52059C] [&:not(.grouped-pagination)_.pagination-button]:border-transparent",
-      "hover:[&_.pagination-button]:bg-[#FFE6FF] hover:[&_.pagination-button]:text-[#52059C]",
-      "hover:[&.grouped-pagination_.pagination-control]:bg-[#FFE6FF] hover:[&.grouped-pagination_.pagination-control]::text-[#52059C]",
-      "[&_.pagination-button.active-pagination-button]:bg-[#FFE6FF]",
-      "[&_.pagination-button.active-pagination-button]:text-[#52059C]"
+      "[&_.pagination-button]:text-[#8750C5] hover:[&_.pagination-button]:text-[#653C94]",
+      "dark:[&_.pagination-button]:text-[#BA83F9] dark:hover:[&_.pagination-button]:text-[#CBA2FA]",
+      "[&_.pagination-button.active-pagination-button]:text-[#653C94]",
+      "dark:[&_.pagination-button.active-pagination-button]:text-[#CBA2FA]",
+      "hover:[&_.pagination-button]:bg-[#F6F0FE] dark:hover:[&_.pagination-button]:bg-[#221431]",
+      "[&_.pagination-button.active-pagination-button]:bg-[#F6F0FE]",
+      "dark:[&_.pagination-button.active-pagination-button]:bg-[#221431]"
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "dawn" in @color do %>
   defp color_variant("subtle", "dawn") do
     [
-      "[&:not(.grouped-pagination)_.pagination-button]:border",
-      "[&_.pagination-button]:bg-transparent text-[#4D4137] [&:not(.grouped-pagination)_.pagination-button]:border-transparent",
-      "hover:[&_.pagination-button]:bg-[#FFECDA] hover:[&_.pagination-button]:text-[#4D4137]",
-      "hover:[&.grouped-pagination_.pagination-control]:bg-[#FFECDA] hover:[&.grouped-pagination_.pagination-control]::text-[#4D4137]",
-      "[&_.pagination-button.active-pagination-button]:bg-[#FFECDA]",
-      "[&_.pagination-button.active-pagination-button]:text-[#4D4137]"
+      "[&_.pagination-button]:text-[#A86438] hover:[&_.pagination-button]:text-[#7E4B2A]",
+      "dark:[&_.pagination-button]:text-[#DB976B] dark:hover:[&_.pagination-button]:text-[#E4B190]",
+      "[&_.pagination-button.active-pagination-button]:text-[#7E4B2A]",
+      "dark:[&_.pagination-button.active-pagination-button]:text-[#E4B190]",
+      "hover:[&_.pagination-button]:bg-[#FBF2ED] dark:hover:[&_.pagination-button]:bg-[#2A190E]",
+      "[&_.pagination-button.active-pagination-button]:bg-[#FBF2ED]",
+      "dark:[&_.pagination-button.active-pagination-button]:bg-[#2A190E]"
     ]
   end
   <% end %>
-  <%= if is_nil(@color) or "light" in @color do %>
-  defp color_variant("subtle", "light") do
+  <%= if is_nil(@color) or "silver" in @color do %>
+  defp color_variant("subtle", "silver") do
     [
-      "[&:not(.grouped-pagination)_.pagination-button]:border",
-      "[&_.pagination-button]:bg-transparent text-[#707483] [&:not(.grouped-pagination)_.pagination-button]:border-transparent",
-      "hover:[&_.pagination-button]:bg-[#E3E7F1] hover:[&_.pagination-button]:text-[#707483]",
-      "hover:[&.grouped-pagination_.pagination-control]:bg-[#E3E7F1] hover:[&.grouped-pagination_.pagination-control]::text-[#707483]",
-      "[&_.pagination-button.active-pagination-button]:bg-[#E3E7F1]",
-      "[&_.pagination-button.active-pagination-button]:text-[#707483]"
-    ]
-  end
-  <% end %>
-  <%= if is_nil(@color) or "dark" in @color do %>
-  defp color_variant("subtle", "dark") do
-    [
-      "[&:not(.grouped-pagination)_.pagination-button]:border",
-      "[&_.pagination-button]:bg-transparent text-[#1E1E1E] [&:not(.grouped-pagination)_.pagination-button]:border-transparent",
-      "hover:[&_.pagination-button]:bg-[#111111] hover:[&_.pagination-button]:text-white",
-      "hover:[&.grouped-pagination_.pagination-control]:bg-[#111111] hover:[&.grouped-pagination_.pagination-control]::text-white",
-      "[&_.pagination-button.active-pagination-button]:bg-[#111111]",
-      "[&_.pagination-button.active-pagination-button]:text-white"
+      "[&_.pagination-button]:text-[#868686] hover:[&_.pagination-button]:text-[#727272]",
+      "dark:[&_.pagination-button]:text-[#A6A6A6] dark:hover:[&_.pagination-button]:text-[#BBBBBB]",
+      "[&_.pagination-button.active-pagination-button]:text-[#727272]",
+      "dark:[&_.pagination-button.active-pagination-button]:text-[#BBBBBB]",
+      "hover:[&_.pagination-button]:bg-[#F3F3F3] dark:hover:[&_.pagination-button]:bg-[#4B4B4B]",
+      "[&_.pagination-button.active-pagination-button]:bg-[#F3F3F3]",
+      "dark:[&_.pagination-button.active-pagination-button]:bg-[#4B4B4B]"
     ]
   end
   <% end %>
   <% end %>
   <%= if is_nil(@variant) or "shadow" in @variant do %>
-  <%= if is_nil(@color) or "white" in @color do %>
-  defp color_variant("shadow", "white") do
+  <%= if is_nil(@color) or "natural" in @color do %>
+  defp color_variant("shadow", "natural") do
     [
-      "[&:not(.grouped-pagination)_.pagination-button]:border",
-      "[&_.pagination-button]:bg-white text-[#3E3E3E] [&:not(.grouped-pagination)_.pagination-button]:border-[#DADADA]",
-      "[&_.pagination-button]:shadow hover:[&_.pagination-button]:bg-[#E8E8E8]",
-      "hover:[&.grouped-pagination_.pagination-control]:bg-[#E8E8E8]",
-      "hover:[&:not(.grouped-pagination)_.pagination-button]:border-[#d9d9d9]",
-      "[&_.pagination-button.active-pagination-button]:bg-[#E8E8E8]",
-      "[&:not(.grouped-pagination)_.pagination-button.active-pagination-button]:border-[#d9d9d9]"
+      "[&_.pagination-button]:bg-[#4B4B4B] [&_.pagination-button]:text-white",
+      "hover:[&_.pagination-button]:bg-[#282828]",
+      "[&_.pagination-button.active-pagination-button]:bg-[#282828]",
+      "dark:[&_.pagination-button]:bg-[#DDDDDD] dark:[&_.pagination-button]:text-black",
+      "dark:hover:[&_.pagination-button]:bg-[#E8E8E8]",
+      "dark:[&_.pagination-button.active-pagination-button]:bg-[#E8E8E8]",
+      "[&_.pagination-button]:shadow-[0px_4px_6px_-4px_rgba(134,134,134,0.5)] [&_.pagination-button]:shadow-[0px_10px_15px_-3px_rgba(134,134,134,0.5)]",
+      "dark:[&_.pagination-button]:shadow-none"
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "primary" in @color do %>
   defp color_variant("shadow", "primary") do
     [
-      "[&:not(.grouped-pagination)_.pagination-button]:border",
-      "[&_.pagination-button]:bg-[#4363EC] [&_.pagination-button]:text-white",
-      "[&:not(.grouped-pagination)_.pagination-button]:border-[#4363EC] [&_.pagination-button]:shadow",
-      "hover:[&_.pagination-button]:bg-[#072ed3] hover:[&:not(.grouped-pagination)_.pagination-button]:border-[#072ed3]",
-      "hover:[&.grouped-pagination_.pagination-control]:bg-[#072ed3]",
-      "[&_.pagination-button.active-pagination-button]:bg-[#072ed3]",
-      "[&:not(.grouped-pagination)_.pagination-button.active-pagination-button]:border-[#072ed3]"
+      "[&_.pagination-button]:bg-[#007F8C] [&_.pagination-button]:text-white",
+      "hover:[&_.pagination-button]:bg-[#016974]",
+      "[&_.pagination-button.active-pagination-button]:bg-[#016974]",
+      "dark:[&_.pagination-button]:bg-[#01B8CA] dark:[&_.pagination-button]:text-black",
+      "dark:hover:[&_.pagination-button]:bg-[#77D5E3]",
+      "dark:[&_.pagination-button.active-pagination-button]:bg-[#77D5E3]",
+      "[&_.pagination-button]:shadow-[0px_4px_6px_-4px_rgba(0,149,164,0.5)] [&_.pagination-button]:shadow-[0px_10px_15px_-3px_rgba(0,149,164,0.5)]",
+      "dark:[&_.pagination-button]:shadow-none"
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "secondary" in @color do %>
   defp color_variant("shadow", "secondary") do
     [
-      "[&:not(.grouped-pagination)_.pagination-button]:border",
-      "[&_.pagination-button]:bg-[#6B6E7C] [&_.pagination-button]:text-white",
-      "[&:not(.grouped-pagination)_.pagination-button]:border-[#6B6E7C] [&_.pagination-button]:shadow",
-      "hover:[&_.pagination-button]:bg-[#4c4f59] hover:[&:not(.grouped-pagination)_.pagination-button]:border-[#4c4f59]",
-      "hover:[&.grouped-pagination_.pagination-control]:bg-[#4c4f59]",
-      "[&_.pagination-button.active-pagination-button]:bg-[#4c4f59]",
-      "[&:not(.grouped-pagination)_.pagination-button.active-pagination-button]:border-[#4c4f59]"
+      "[&_.pagination-button]:bg-[#266EF1] [&_.pagination-button]:text-white",
+      "hover:[&_.pagination-button]:bg-[#175BCC]",
+      "[&_.pagination-button.active-pagination-button]:bg-[#175BCC]",
+      "dark:[&_.pagination-button]:bg-[#6DAAFB] dark:[&_.pagination-button]:text-black",
+      "dark:hover:[&_.pagination-button]:bg-[#A9C9FF]",
+      "dark:[&_.pagination-button.active-pagination-button]:bg-[#A9C9FF]",
+      "[&_.pagination-button]:shadow-[0px_4px_6px_-4px_rgba(6,139,238,0.5)] [&_.pagination-button]:shadow-[0px_10px_15px_-3px_rgba(6,139,238,0.5)]",
+      "dark:[&_.pagination-button]:shadow-none"
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "success" in @color do %>
   defp color_variant("shadow", "success") do
     [
-      "[&:not(.grouped-pagination)_.pagination-button]:border",
-      "[&_.pagination-button]:bg-[#AFEAD0] text-[#227A52] [&:not(.grouped-pagination)_.pagination-button]:border-[#AFEAD0]",
-      "[&_.pagination-button]:shadow hover:[&_.pagination-button]:bg-[#c0fad7]",
-      "hover:[&:not(.grouped-pagination)_.pagination-button]:border-[#c0fad7]",
-      "hover:[&.grouped-pagination_.pagination-control]:bg-[#c0fad7]",
-      "[&_.pagination-button.active-pagination-button]:bg-[#c0fad7]",
-      "[&:not(.grouped-pagination)_.pagination-button.active-pagination-button]:border-[#c0fad7]"
+      "[&_.pagination-button]:bg-[#0E8345] [&_.pagination-button]:text-white",
+      "hover:[&_.pagination-button]:bg-[#166C3B]",
+      "[&_.pagination-button.active-pagination-button]:bg-[#166C3B]",
+      "dark:[&_.pagination-button]:bg-[#06C167] dark:[&_.pagination-button]:text-black",
+      "dark:hover:[&_.pagination-button]:bg-[#7FD99A]",
+      "dark:[&_.pagination-button.active-pagination-button]:bg-[#7FD99A]",
+      "[&_.pagination-button]:shadow-[0px_4px_6px_-4px_rgba(0,154,81,0.5)] [&_.pagination-button]:shadow-[0px_10px_15px_-3px_rgba(0,154,81,0.5)]",
+      "dark:[&_.pagination-button]:shadow-none"
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "warning" in @color do %>
   defp color_variant("shadow", "warning") do
     [
-      "[&:not(.grouped-pagination)_.pagination-button]:border",
-      "[&_.pagination-button]:bg-[#FFF8E6] text-[#FF8B08] [&:not(.grouped-pagination)_.pagination-button]:border-[#FFF8E6]",
-      "[&_.pagination-button]:shadow hover:[&_.pagination-button]:bg-[#fcebc0]",
-      "hover:[&:not(.grouped-pagination)_.pagination-button]:border-[#fcebc0]",
-      "hover:[&.grouped-pagination_.pagination-control]:bg-[#fcebc0]",
-      "[&_.pagination-button.active-pagination-button]:bg-[#fcebc0]",
-      "[&:not(.grouped-pagination)_.pagination-button.active-pagination-button]:border-[#fcebc0]"
+      "[&_.pagination-button]:bg-[#CA8D01] [&_.pagination-button]:text-white",
+      "hover:[&_.pagination-button]:bg-[#976A01]",
+      "[&_.pagination-button.active-pagination-button]:bg-[#976A01]",
+      "dark:[&_.pagination-button]:bg-[#FDC034] dark:[&_.pagination-button]:text-black",
+      "dark:hover:[&_.pagination-button]:bg-[#FDD067]",
+      "dark:[&_.pagination-button.active-pagination-button]:bg-[#FDD067]",
+      "[&_.pagination-button]:shadow-[0px_4px_6px_-4px_rgba(252,176,1,0.5)] [&_.pagination-button]:shadow-[0px_10px_15px_-3px_rgba(252,176,1,0.5)]",
+      "dark:[&_.pagination-button]:shadow-none"
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "danger" in @color do %>
   defp color_variant("shadow", "danger") do
     [
-      "[&:not(.grouped-pagination)_.pagination-button]:border",
-      "[&_.pagination-button]:bg-[#FFE6E6] text-[#E73B3B] [&:not(.grouped-pagination)_.pagination-button]:border-[#FFE6E6]",
-      "[&_.pagination-button]:shadow hover:[&_.pagination-button]:bg-[#fcbbbb]",
-      "hover:[&:not(.grouped-pagination)_.pagination-button]:border-[#fcbbbb]",
-      "hover:[&.grouped-pagination_.pagination-control]:bg-[#fcbbbb]",
-      "[&_.pagination-button.active-pagination-button]:bg-[#fcbbbb]",
-      "[&:not(.grouped-pagination)_.pagination-button.active-pagination-button]:border-[#fcbbbb]"
+      "[&_.pagination-button]:bg-[#DE1135] [&_.pagination-button]:text-white",
+      "hover:[&_.pagination-button]:bg-[#BB032A]",
+      "[&_.pagination-button.active-pagination-button]:bg-[#BB032A]",
+      "dark:[&_.pagination-button]:bg-[#FC7F79] dark:[&_.pagination-button]:text-black",
+      "dark:hover:[&_.pagination-button]:bg-[#FFB2AB]",
+      "dark:[&_.pagination-button.active-pagination-button]:bg-[#FFB2AB]",
+      "[&_.pagination-button]:shadow-[0px_4px_6px_-4px_rgba(248,52,70,0.5)] [&_.pagination-button]:shadow-[0px_10px_15px_-3px_rgba(248,52,70,0.5)]",
+      "dark:[&_.pagination-button]:shadow-none"
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "info" in @color do %>
   defp color_variant("shadow", "info") do
     [
-      "[&:not(.grouped-pagination)_.pagination-button]:border",
-      "[&_.pagination-button]:bg-[#E5F0FF] text-[#004FC4] [&:not(.grouped-pagination)_.pagination-button]:border-[#E5F0FF]",
-      "[&_.pagination-button]:shadow hover:[&_.pagination-button]:bg-[#bdd3f2]",
-      "hover:[&.grouped-pagination_.pagination-control]:bg-[#bdd3f2]",
-      "hover:[&:not(.grouped-pagination)_.pagination-button]:border-[#bdd3f2]",
-      "[&_.pagination-button.active-pagination-button]:bg-[#bdd3f2]",
-      "[&:not(.grouped-pagination)_.pagination-button.active-pagination-button]:border-[#bdd3f2]"
+      "[&_.pagination-button]:bg-[#0B84BA] [&_.pagination-button]:text-white",
+      "hover:[&_.pagination-button]:bg-[#08638C]",
+      "[&_.pagination-button.active-pagination-button]:bg-[#08638C]",
+      "dark:[&_.pagination-button]:bg-[#3EB7ED] dark:[&_.pagination-button]:text-black",
+      "dark:hover:[&_.pagination-button]:bg-[#6EC9F2]",
+      "dark:[&_.pagination-button.active-pagination-button]:bg-[#6EC9F2]",
+      "[&_.pagination-button]:shadow-[0px_4px_6px_-4px_rgba(14,165,233,0.5)] [&_.pagination-button]:shadow-[0px_10px_15px_-3px_rgba(14,165,233,0.5)]",
+      "dark:[&_.pagination-button]:shadow-none"
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "misc" in @color do %>
   defp color_variant("shadow", "misc") do
     [
-      "[&:not(.grouped-pagination)_.pagination-button]:border",
-      "[&_.pagination-button]:bg-[#FFE6FF] text-[#52059C] [&:not(.grouped-pagination)_.pagination-button]:border-[#FFE6FF]",
-      "[&_.pagination-button]:shadow hover:[&_.pagination-button]:bg-[#edcced]",
-      "hover:[&.grouped-pagination_.pagination-control]:bg-[#edcced]",
-      "hover:[&:not(.grouped-pagination)_.pagination-button]:border-[#edcced]",
-      "[&_.pagination-button.active-pagination-button]:bg-[#edcced]",
-      "[&:not(.grouped-pagination)_.pagination-button.active-pagination-button]:border-[#edcced]"
+      "[&_.pagination-button]:bg-[#8750C5] [&_.pagination-button]:text-white",
+      "hover:[&_.pagination-button]:bg-[#653C94]",
+      "[&_.pagination-button.active-pagination-button]:bg-[#653C94]",
+      "dark:[&_.pagination-button]:bg-[#BA83F9] dark:[&_.pagination-button]:text-black",
+      "dark:hover:[&_.pagination-button]:bg-[#CBA2FA]",
+      "dark:[&_.pagination-button.active-pagination-button]:bg-[#CBA2FA]",
+      "[&_.pagination-button]:shadow-[0px_4px_6px_-4px_rgba(169,100,247,0.5)] [&_.pagination-button]:shadow-[0px_10px_15px_-3px_rgba(169,100,247,0.5)]",
+      "dark:[&_.pagination-button]:shadow-none"
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "dawn" in @color do %>
   defp color_variant("shadow", "dawn") do
     [
-      "[&:not(.grouped-pagination)_.pagination-button]:border",
-      "[&_.pagination-button]:bg-[#FFECDA] text-[#4D4137] [&:not(.grouped-pagination)_.pagination-button]:border-[#FFECDA]",
-      "[&_.pagination-button]:shadow hover:[&_.pagination-button]:bg-[#ffdfc1]",
-      "hover:[&.grouped-pagination_.pagination-control]:bg-[#ffdfc1]",
-      "hover:[&:not(.grouped-pagination)_.pagination-button]:border-[#ffdfc1]",
-      "[&_.pagination-button.active-pagination-button]:bg-[#ffdfc1]",
-      "[&:not(.grouped-pagination)_.pagination-button.active-pagination-button]:border-[#ffdfc1]"
+      "[&_.pagination-button]:bg-[#A86438] [&_.pagination-button]:text-white",
+      "hover:[&_.pagination-button]:bg-[#7E4B2A]",
+      "[&_.pagination-button.active-pagination-button]:bg-[#7E4B2A]",
+      "dark:[&_.pagination-button]:bg-[#DB976B] dark:[&_.pagination-button]:text-black",
+      "dark:hover:[&_.pagination-button]:bg-[#E4B190]",
+      "dark:[&_.pagination-button.active-pagination-button]:bg-[#E4B190]",
+      "[&_.pagination-button]:shadow-[0px_4px_6px_-4px_rgba(210,125,70,0.5)] [&_.pagination-button]:shadow-[0px_10px_15px_-3px_rgba(210,125,70,0.5)]",
+      "dark:[&_.pagination-button]:shadow-none"
     ]
   end
   <% end %>
-  <%= if is_nil(@color) or "light" in @color do %>
-  defp color_variant("shadow", "light") do
+  <%= if is_nil(@color) or "silver" in @color do %>
+  defp color_variant("shadow", "silver") do
     [
-      "[&:not(.grouped-pagination)_.pagination-button]:border",
-      "[&_.pagination-button]:bg-[#E3E7F1] text-[#707483] [&:not(.grouped-pagination)_.pagination-button]:border-[#E3E7F1]",
-      "[&_.pagination-button]:shadow hover:[&_.pagination-button]:bg-[#c8cee0]",
-      "hover:[&.grouped-pagination_.pagination-control]:bg-[#c8cee0]",
-      "hover:[&:not(.grouped-pagination)_.pagination-button]:border-[#c8cee0]",
-      "[&_.pagination-button.active-pagination-button]:bg-[#c8cee0]",
-      "[&:not(.grouped-pagination)_.pagination-button.active-pagination-button]:border-[#c8cee0]"
-    ]
-  end
-  <% end %>
-  <%= if is_nil(@color) or "dark" in @color do %>
-  defp color_variant("shadow", "dark") do
-    [
-      "[&:not(.grouped-pagination)_.pagination-button]:border",
-      "[&_.pagination-button]:bg-[#1E1E1E] [&_.pagination-button]:text-white",
-      "[&:not(.grouped-pagination)_.pagination-button]:border-[#1E1E1E] [&_.pagination-button]:shadow",
-      "hover:[&_.pagination-button]:bg-[#111111] hover:[&:not(.grouped-pagination)_.pagination-button]:border-[#050404]",
-      "hover:[&.grouped-pagination_.pagination-control]:bg-[#111111]",
-      "[&_.pagination-button.active-pagination-button]:bg-[#050404]",
-      "[&:not(.grouped-pagination)_.pagination-button.active-pagination-button]:border-[#050404]"
+      "[&_.pagination-button]:bg-[#868686] [&_.pagination-button]:text-white",
+      "hover:[&_.pagination-button]:bg-[#727272]",
+      "[&_.pagination-button.active-pagination-button]:bg-[#727272]",
+      "dark:[&_.pagination-button]:bg-[#A6A6A6] dark:[&_.pagination-button]:text-black",
+      "dark:hover:[&_.pagination-button]:bg-[#BBBBBB]",
+      "dark:[&_.pagination-button.active-pagination-button]:bg-[#BBBBBB]",
+      "[&_.pagination-button]:shadow-[0px_4px_6px_-4px_rgba(134,134,134,0.5)] [&_.pagination-button]:shadow-[0px_10px_15px_-3px_rgba(134,134,134,0.5)]",
+      "dark:[&_.pagination-button]:shadow-none"
     ]
   end
   <% end %>
   <% end %>
   <%= if is_nil(@variant) or "inverted" in @variant do %>
-  <%= if is_nil(@color) or "white" in @color do %>
-  defp color_variant("inverted", "white") do
+  <%= if is_nil(@color) or "natural" in @color do %>
+  defp color_variant("inverted", "natural") do
     [
-      "[&:not(.grouped-pagination)_.pagination-button]:border",
-      "[&_.pagination-button]:bg-transparent text-white [&:not(.grouped-pagination)_.pagination-button]:border-white",
-      "hover:[&_.pagination-button]:bg-white hover:[&_.pagination-button]:text-[#3E3E3E]",
-      "hover:[&.grouped-pagination_.pagination-control]:bg-white hover:[&.grouped-pagination_.pagination-control]:text-[#3E3E3E]",
-      "hover:[&:not(.grouped-pagination)_.pagination-button]:border-[#DADADA] [&_.pagination-button.active-pagination-button]:bg-white",
-      "[&_.pagination-button.active-pagination-button]:text-[#3E3E3E]",
-      "[&:not(.grouped-pagination)_.pagination-button.active-pagination-button]:border-[#DADADA]"
+      "[&_.pagination-button]:border-[#4B4B4B] [&_.pagination-button]:text-[#4B4B4B]",
+      "hover:[&_.pagination-button]:border-[#282828] hover:[&_.pagination-button]:text-[#282828]",
+      "dark:[&_.pagination-button]:border-[#DDDDDD] dark:[&_.pagination-button]:text-[#DDDDDD]",
+      "dark:hover:[&_.pagination-button]:border-[#E8E8E8] dark:hover:[&_.pagination-button]:text-[#E8E8E8]",
+      "[&_.pagination-button.active-pagination-button]:border-[#282828] [&_.pagination-button.active-pagination-button]:text-[#282828]",
+      "dark:[&_.pagination-button.active-pagination-button]:border-[#E8E8E8] dark:[&_.pagination-button.active-pagination-button]:text-[#E8E8E8]",
+      "hover:[&_.pagination-button]:bg-[#F3F3F3] dark:hover:[&_.pagination-button]:bg-[#4B4B4B]",
+      "[&_.pagination-button.active-pagination-button]:bg-[#F3F3F3] dark:[&_.pagination-button.active-pagination-button]:bg-[#4B4B4B]"
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "primary" in @color do %>
   defp color_variant("inverted", "primary") do
     [
-      "[&:not(.grouped-pagination)_.pagination-button]:border",
-      "[&_.pagination-button]:bg-transparent text-[#4363EC] [&:not(.grouped-pagination)_.pagination-button]:border-[#4363EC]",
-      "hover:[&_.pagination-button]:bg-[#4363EC] hover:[&_.pagination-button]:text-white",
-      "hover:[&.grouped-pagination_.pagination-control]:bg-[#4363EC] hover:[&.grouped-pagination_.pagination-control]:text-white",
-      "hover:[&:not(.grouped-pagination)_.pagination-button]:border-[#4363EC] [&_.pagination-button.active-pagination-button]:bg-[#4363EC]",
-      "[&_.pagination-button.active-pagination-button]:text-white",
-      "[&:not(.grouped-pagination)_.pagination-button.active-pagination-button]:border-[#4363EC]"
+      "[&_.pagination-button]:border-[#007F8C] [&_.pagination-button]:text-[#007F8C]",
+      "hover:[&_.pagination-button]:border-[#016974] hover:[&_.pagination-button]:text-[#016974]",
+      "[&_.pagination-button.active-pagination-button]:border-[#016974] [&_.pagination-button.active-pagination-button]:text-[#016974]",
+      "dark:[&_.pagination-button]:border-[#01B8CA] dark:[&_.pagination-button]:text-[#01B8CA]",
+      "dark:hover:[&_.pagination-button]:border-[#77D5E3] dark:hover:[&_.pagination-button]:text-[#77D5E3]",
+      "dark:[&_.pagination-button.active-pagination-button]:border-[#77D5E3] dark:[&_.pagination-button.active-pagination-button]:text-[#77D5E3]",
+      "hover:[&_.pagination-button]:bg-[#E2F8FB] dark:hover:[&_.pagination-button]:bg-[#002D33]",
+      "[&_.pagination-button.active-pagination-button]:bg-[#E2F8FB] dark:[&_.pagination-button.active-pagination-button]:bg-[#002D33]"
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "secondary" in @color do %>
   defp color_variant("inverted", "secondary") do
     [
-      "[&:not(.grouped-pagination)_.pagination-button]:border",
-      "[&_.pagination-button]:bg-transparent text-[#6B6E7C] [&:not(.grouped-pagination)_.pagination-button]:border-[#6B6E7C]",
-      "hover:[&_.pagination-button]:bg-[#6B6E7C] hover:[&_.pagination-button]:text-white",
-      "hover:[&.grouped-pagination_.pagination-control]:bg-[#6B6E7C] hover:[&.grouped-pagination_.pagination-control]:text-white",
-      "hover:[&:not(.grouped-pagination)_.pagination-button]:border-[#6B6E7C]",
-      "[&_.pagination-button.active-pagination-button]:bg-[#6B6E7C]",
-      "[&_.pagination-button.active-pagination-button]:text-white",
-      "[&:not(.grouped-pagination)_.pagination-button.active-pagination-button]:border-[#6B6E7C]"
+      "[&_.pagination-button]:border-[#266EF1] [&_.pagination-button]:text-[#266EF1]",
+      "hover:[&_.pagination-button]:border-[#175BCC] hover:[&_.pagination-button]:text-[#175BCC]",
+      "[&_.pagination-button.active-pagination-button]:border-[#175BCC] [&_.pagination-button.active-pagination-button]:text-[#175BCC]",
+      "dark:[&_.pagination-button]:border-[#6DAAFB] dark:[&_.pagination-button]:text-[#6DAAFB]",
+      "dark:hover:[&_.pagination-button]:border-[#A9C9FF] dark:hover:[&_.pagination-button]:text-[#A9C9FF]",
+      "dark:[&_.pagination-button.active-pagination-button]:border-[#A9C9FF] dark:[&_.pagination-button.active-pagination-button]:text-[#A9C9FF]",
+      "hover:[&_.pagination-button]:bg-[#EFF4FE] dark:hover:[&_.pagination-button]:bg-[#002661]",
+      "[&_.pagination-button.active-pagination-button]:bg-[#EFF4FE] dark:[&_.pagination-button.active-pagination-button]:bg-[#002661]"
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "success" in @color do %>
   defp color_variant("inverted", "success") do
     [
-      "[&:not(.grouped-pagination)_.pagination-button]:border",
-      "[&_.pagination-button]:bg-transparent text-[#227A52] [&:not(.grouped-pagination)_.pagination-button]:border-[#227A52]",
-      "hover:[&_.pagination-button]:bg-[#AFEAD0] hover:[&_.pagination-button]:text-[#227A52]",
-      "hover:[&.grouped-pagination_.pagination-control]:bg-[#AFEAD0] hover:[&.grouped-pagination_.pagination-control]:text-[#227A52]",
-      "hover:[&:not(.grouped-pagination)_.pagination-button]:border-[#AFEAD0]",
-      "[&_.pagination-button.active-pagination-button]:bg-[#AFEAD0]",
-      "[&_.pagination-button.active-pagination-button]:text-[#227A52]",
-      "[&:not(.grouped-pagination)_.pagination-button.active-pagination-button]:border-[#AFEAD0]"
+      "[&_.pagination-button]:border-[#0E8345] [&_.pagination-button]:text-[#0E8345]",
+      "hover:[&_.pagination-button]:border-[#166C3B] hover:[&_.pagination-button]:text-[#166C3B]",
+      "[&_.pagination-button.active-pagination-button]:border-[#166C3B] [&_.pagination-button.active-pagination-button]:text-[#166C3B]",
+      "dark:[&_.pagination-button]:border-[#06C167] dark:[&_.pagination-button]:text-[#06C167]",
+      "dark:hover:[&_.pagination-button]:border-[#7FD99A] dark:hover:[&_.pagination-button]:text-[#7FD99A]",
+      "dark:[&_.pagination-button.active-pagination-button]:border-[#7FD99A] dark:[&_.pagination-button.active-pagination-button]:text-[#7FD99A]",
+      "hover:[&_.pagination-button]:bg-[#EAF6ED] dark:hover:[&_.pagination-button]:bg-[#002F14]",
+      "[&_.pagination-button.active-pagination-button]:bg-[#EAF6ED] dark:[&_.pagination-button.active-pagination-button]:bg-[#002F14]"
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "warning" in @color do %>
   defp color_variant("inverted", "warning") do
     [
-      "[&:not(.grouped-pagination)_.pagination-button]:border",
-      "[&_.pagination-button]:bg-transparent text-[#FF8B08] [&:not(.grouped-pagination)_.pagination-button]:border-[#FF8B08]",
-      "hover:[&_.pagination-button]:bg-[#FFF8E6] hover:[&_.pagination-button]:text-[#FF8B08]",
-      "hover:[&.grouped-pagination_.pagination-control]:bg-[#FFF8E6] hover:[&.grouped-pagination_.pagination-control]:text-[#FF8B08]",
-      "hover:[&:not(.grouped-pagination)_.pagination-button]:border-[#FFF8E6]",
-      "[&_.pagination-button.active-pagination-button]:bg-[#FFF8E6]",
-      "[&_.pagination-button.active-pagination-button]:text-[#FF8B08]",
-      "[&:not(.grouped-pagination)_.pagination-button.active-pagination-button]:border-[#FFF8E6]"
+      "[&_.pagination-button]:border-[#CA8D01] [&_.pagination-button]:text-[#CA8D01]",
+      "hover:[&_.pagination-button]:border-[#976A01] hover:[&_.pagination-button]:text-[#976A01]",
+      "[&_.pagination-button.active-pagination-button]:border-[#976A01] [&_.pagination-button.active-pagination-button]:text-[#976A01]",
+      "dark:[&_.pagination-button]:border-[#FDC034] dark:[&_.pagination-button]:text-[#FDC034]",
+      "dark:hover:[&_.pagination-button]:border-[#FDD067] dark:hover:[&_.pagination-button]:text-[#FDD067]",
+      "dark:[&_.pagination-button.active-pagination-button]:border-[#FDD067] dark:[&_.pagination-button.active-pagination-button]:text-[#FDD067]",
+      "hover:[&_.pagination-button]:bg-[#FFF7E6] dark:hover:[&_.pagination-button]:bg-[#322300]",
+      "[&_.pagination-button.active-pagination-button]:bg-[#FFF7E6] dark:[&_.pagination-button.active-pagination-button]:bg-[#322300]"
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "danger" in @color do %>
   defp color_variant("inverted", "danger") do
     [
-      "[&:not(.grouped-pagination)_.pagination-button]:border",
-      "[&_.pagination-button]:bg-transparent text-[#E73B3B] [&:not(.grouped-pagination)_.pagination-button]:border-[#E73B3B]",
-      "hover:[&_.pagination-button]:bg-[#FFE6E6] hover:[&_.pagination-button]:text-[#E73B3B]",
-      "hover:[&.grouped-pagination_.pagination-control]:bg-[#FFE6E6] hover:[&.grouped-pagination_.pagination-control]:text-[#E73B3B]",
-      "hover:[&:not(.grouped-pagination)_.pagination-button]:border-[#FFE6E6]",
-      "[&_.pagination-button.active-pagination-button]:bg-[#FFE6E6]",
-      "[&_.pagination-button.active-pagination-button]:text-[#E73B3B]",
-      "[&:not(.grouped-pagination)_.pagination-button.active-pagination-button]:border-[#FFE6E6]"
+      "[&_.pagination-button]:border-[#DE1135] [&_.pagination-button]:text-[#DE1135]",
+      "hover:[&_.pagination-button]:border-[#BB032A] hover:[&_.pagination-button]:text-[#BB032A]",
+      "[&_.pagination-button.active-pagination-button]:border-[#BB032A] [&_.pagination-button.active-pagination-button]:text-[#BB032A]",
+      "dark:[&_.pagination-button]:border-[#FC7F79] dark:[&_.pagination-button]:text-[#FC7F79]",
+      "dark:hover:[&_.pagination-button]:border-[#FFB2AB] dark:hover:[&_.pagination-button]:text-[#FFB2AB]",
+      "dark:[&_.pagination-button.active-pagination-button]:border-[#FFB2AB] dark:[&_.pagination-button.active-pagination-button]:text-[#FFB2AB]",
+      "hover:[&_.pagination-button]:bg-[#FFF0EE] dark:hover:[&_.pagination-button]:bg-[#520810]",
+      "[&_.pagination-button.active-pagination-button]:bg-[#FFF0EE] dark:[&_.pagination-button.active-pagination-button]:bg-[#520810]"
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "info" in @color do %>
   defp color_variant("inverted", "info") do
     [
-      "[&:not(.grouped-pagination)_.pagination-button]:border",
-      "[&_.pagination-button]:bg-transparent text-[#004FC4] [&:not(.grouped-pagination)_.pagination-button]:border-[#004FC4]",
-      "hover:[&_.pagination-button]:bg-[#E5F0FF] hover:[&_.pagination-button]:text-[#103483]",
-      "hover:[&.grouped-pagination_.pagination-control]:bg-[#E5F0FF] hover:[&.grouped-pagination_.pagination-control]:text-[#103483]",
-      "hover:[&:not(.grouped-pagination)_.pagination-button]:border-[#E5F0FF]",
-      "[&_.pagination-button.active-pagination-button]:bg-[#E5F0FF]",
-      "[&_.pagination-button.active-pagination-button]:text-[#103483]",
-      "[&:not(.grouped-pagination)_.pagination-button.active-pagination-button]:border-[#E5F0FF]"
+      "[&_.pagination-button]:border-[#0B84BA] [&_.pagination-button]:text-[#0B84BA]",
+      "hover:[&_.pagination-button]:border-[#08638C] hover:[&_.pagination-button]:text-[#08638C]",
+      "[&_.pagination-button.active-pagination-button]:border-[#08638C] [&_.pagination-button.active-pagination-button]:text-[#08638C]",
+      "dark:[&_.pagination-button]:border-[#3EB7ED] dark:[&_.pagination-button]:text-[#3EB7ED]",
+      "dark:hover:[&_.pagination-button]:border-[#6EC9F2] dark:hover:[&_.pagination-button]:text-[#6EC9F2]",
+      "dark:[&_.pagination-button.active-pagination-button]:border-[#6EC9F2] dark:[&_.pagination-button.active-pagination-button]:text-[#6EC9F2]",
+      "hover:[&_.pagination-button]:bg-[#E7F6FD] dark:hover:[&_.pagination-button]:bg-[#03212F]",
+      "[&_.pagination-button.active-pagination-button]:bg-[#E7F6FD] dark:[&_.pagination-button.active-pagination-button]:bg-[#03212F]"
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "misc" in @color do %>
   defp color_variant("inverted", "misc") do
     [
-      "[&:not(.grouped-pagination)_.pagination-button]:border",
-      "[&_.pagination-button]:bg-transparent text-[#52059C] [&:not(.grouped-pagination)_.pagination-button]:border-[#52059C]",
-      "hover:[&_.pagination-button]:bg-[#FFE6FF] hover:[&_.pagination-button]:text-[#52059C]",
-      "hover:[&.grouped-pagination_.pagination-control]:bg-[#FFE6FF] hover:[&.grouped-pagination_.pagination-control]:text-[#52059C]",
-      "hover:[&:not(.grouped-pagination)_.pagination-button]:border-[#FFE6FF]",
-      "[&_.pagination-button.active-pagination-button]:bg-[#FFE6FF]",
-      "[&_.pagination-button.active-pagination-button]:text-[#52059C]",
-      "[&:not(.grouped-pagination)_.pagination-button.active-pagination-button]:border-[#FFE6FF]"
+      "[&_.pagination-button]:border-[#8750C5] [&_.pagination-button]:text-[#8750C5]",
+      "hover:[&_.pagination-button]:border-[#653C94] hover:[&_.pagination-button]:text-[#653C94]",
+      "[&_.pagination-button.active-pagination-button]:border-[#653C94] [&_.pagination-button.active-pagination-button]:text-[#653C94]",
+      "dark:[&_.pagination-button]:border-[#BA83F9] dark:[&_.pagination-button]:text-[#BA83F9]",
+      "dark:hover:[&_.pagination-button]:border-[#CBA2FA] dark:hover:[&_.pagination-button]:text-[#CBA2FA]",
+      "dark:[&_.pagination-button.active-pagination-button]:border-[#CBA2FA] dark:[&_.pagination-button.active-pagination-button]:text-[#CBA2FA]",
+      "hover:[&_.pagination-button]:bg-[#F6F0FE] dark:hover:[&_.pagination-button]:bg-[#221431]",
+      "[&_.pagination-button.active-pagination-button]:bg-[#F6F0FE] dark:[&_.pagination-button.active-pagination-button]:bg-[#221431]"
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "dawn" in @color do %>
   defp color_variant("inverted", "dawn") do
     [
-      "[&:not(.grouped-pagination)_.pagination-button]:border",
-      "[&_.pagination-button]:bg-transparent text-[#4D4137] [&:not(.grouped-pagination)_.pagination-button]:border-[#4D4137]",
-      "hover:[&_.pagination-button]:bg-[#FFECDA] hover:[&_.pagination-button]:text-[#4D4137]",
-      "hover:[&.grouped-pagination_.pagination-control]:bg-[#FFECDA] hover:[&.grouped-pagination_.pagination-control]:text-[#4D4137]",
-      "hover:[&:not(.grouped-pagination)_.pagination-button]:border-[#FFECDA]",
-      "[&_.pagination-button.active-pagination-button]:bg-[#FFECDA]",
-      "[&_.pagination-button.active-pagination-button]:text-[#4D4137]",
-      "[&:not(.grouped-pagination)_.pagination-button.active-pagination-button]:border-[#FFECDA]"
+      "[&_.pagination-button]:border-[#A86438] [&_.pagination-button]:text-[#A86438]",
+      "hover:[&_.pagination-button]:border-[#7E4B2A] hover:[&_.pagination-button]:text-[#7E4B2A]",
+      "[&_.pagination-button.active-pagination-button]:border-[#7E4B2A] [&_.pagination-button.active-pagination-button]:text-[#7E4B2A]",
+      "dark:[&_.pagination-button]:border-[#DB976B] dark:[&_.pagination-button]:text-[#DB976B]",
+      "dark:hover:[&_.pagination-button]:border-[#E4B190] dark:hover:[&_.pagination-button]:text-[#E4B190]",
+      "dark:[&_.pagination-button.active-pagination-button]:border-[#E4B190] dark:[&_.pagination-button.active-pagination-button]:text-[#E4B190]",
+      "hover:[&_.pagination-button]:bg-[#FBF2ED] dark:hover:[&_.pagination-button]:bg-[#2A190E]",
+      "[&_.pagination-button.active-pagination-button]:bg-[#FBF2ED] dark:[&_.pagination-button.active-pagination-button]:bg-[#2A190E]"
     ]
   end
   <% end %>
-  <%= if is_nil(@color) or "light" in @color do %>
-  defp color_variant("inverted", "light") do
+  <%= if is_nil(@color) or "silver" in @color do %>
+  defp color_variant("inverted", "silver") do
     [
-      "[&:not(.grouped-pagination)_.pagination-button]:border",
-      "[&_.pagination-button]:bg-transparent text-[#707483] [&:not(.grouped-pagination)_.pagination-button]:border-[#707483]",
-      "hover:[&_.pagination-button]:bg-[#E3E7F1] hover:[&_.pagination-button]:text-[#707483]",
-      "hover:[&.grouped-pagination_.pagination-control]:bg-[#E3E7F1] hover:[&.grouped-pagination_.pagination-control]:text-[#707483]",
-      "hover:[&:not(.grouped-pagination)_.pagination-button]:border-[#E3E7F1]",
-      "[&_.pagination-button.active-pagination-button]:bg-[#E3E7F1]",
-      "[&_.pagination-button.active-pagination-button]:text-[#707483]",
-      "[&:not(.grouped-pagination)_.pagination-button.active-pagination-button]:border-[#E3E7F1]"
+      "[&_.pagination-button]:border-[#868686] [&_.pagination-button]:text-[#868686]",
+      "hover:[&_.pagination-button]:border-[#727272] hover:[&_.pagination-button]:text-[#727272]",
+      "[&_.pagination-button.active-pagination-button]:border-[#727272] [&_.pagination-button.active-pagination-button]:text-[#727272]",
+      "dark:[&_.pagination-button]:border-[#A6A6A6] dark:[&_.pagination-button]:text-[#A6A6A6]",
+      "dark:hover:[&_.pagination-button]:border-[#BBBBBB] dark:hover:[&_.pagination-button]:text-[#BBBBBB]",
+      "dark:[&_.pagination-button.active-pagination-button]:border-[#BBBBBB] dark:[&_.pagination-button.active-pagination-button]:text-[#BBBBBB]",
+      "hover:[&_.pagination-button]:bg-[#F3F3F3] dark:hover:[&_.pagination-button]:bg-[#4B4B4B]",
+      "[&_.pagination-button.active-pagination-button]:bg-[#F3F3F3] dark:[&_.pagination-button.active-pagination-button]:bg-[#4B4B4B]"
     ]
   end
   <% end %>
-  <%= if is_nil(@color) or "dark" in @color do %>
-  defp color_variant("inverted", "dark") do
+  <% end %>
+  <%= if is_nil(@variant) or "gradient" in @variant do %>
+  <%= if is_nil(@color) or "natural" in @color do %>
+  defp color_variant("gradient", "natural") do
     [
-      "[&:not(.grouped-pagination)_.pagination-button]:border",
-      "[&_.pagination-button]:bg-transparent text-[#1E1E1E] [&:not(.grouped-pagination)_.pagination-button]:border-[#1E1E1E]",
-      "hover:[&_.pagination-button]:bg-[#111111] hover:[&_.pagination-button]:text-white",
-      "hover:[&.grouped-pagination_.pagination-control]:bg-[#111111] hover:[&.grouped-pagination_.pagination-control]:text-white",
-      "hover:[&:not(.grouped-pagination)_.pagination-button]:border-[#111111]",
-      "[&_.pagination-button.active-pagination-button]:bg-[#111111]",
-      "[&_.pagination-button.active-pagination-button]:text-white",
-      "[&:not(.grouped-pagination)_.pagination-button.active-pagination-button]:border-[#111111]"
+      "[&_.pagination-button]:bg-gradient-to-br hover:[&_.pagination-button]:bg-gradient-to-bl",
+      "from-[#282828] to-[#727272] [&_.pagination-button]:text-white",
+      "dark:from-[#A6A6A6] dark:to-[#FFFFFF] dark:[&_.pagination-button]:text-black",
+      "[&_.pagination-button.active-pagination-button]:bg-gradient-to-bl"
+    ]
+  end
+  <% end %>
+  <%= if is_nil(@color) or "primary" in @color do %>
+  defp color_variant("gradient", "primary") do
+    [
+      "[&_.pagination-button]:bg-gradient-to-br hover:[&_.pagination-button]:bg-gradient-to-bl",
+      "from-[#016974] to-[#01B8CA] [&_.pagination-button]:text-white",
+      "dark:from-[#01B8CA] dark:to-[#B0E7EF] dark:[&_.pagination-button]:text-black",
+      "[&_.pagination-button.active-pagination-button]:bg-gradient-to-bl"
+    ]
+  end
+  <% end %>
+  <%= if is_nil(@color) or "secondary" in @color do %>
+  defp color_variant("gradient", "secondary") do
+    [
+      "[&_.pagination-button]:bg-gradient-to-br hover:[&_.pagination-button]:bg-gradient-to-bl",
+      "from-[#175BCC] to-[#6DAAFB] [&_.pagination-button]:text-white",
+      "dark:from-[#6DAAFB] dark:to-[#CDDEFF] dark:[&_.pagination-button]:text-black",
+      "[&_.pagination-button.active-pagination-button]:bg-gradient-to-bl"
+    ]
+  end
+  <% end %>
+  <%= if is_nil(@color) or "success" in @color do %>
+  defp color_variant("gradient", "success") do
+    [
+      "[&_.pagination-button]:bg-gradient-to-br hover:[&_.pagination-button]:bg-gradient-to-bl",
+      "from-[#166C3B] to-[#06C167] [&_.pagination-button]:text-white",
+      "dark:from-[#06C167] dark:to-[#B1EAC2] dark:[&_.pagination-button]:text-black",
+      "[&_.pagination-button.active-pagination-button]:bg-gradient-to-bl"
+    ]
+  end
+  <% end %>
+  <%= if is_nil(@color) or "warning" in @color do %>
+  defp color_variant("gradient", "warning") do
+    [
+      "[&_.pagination-button]:bg-gradient-to-br hover:[&_.pagination-button]:bg-gradient-to-bl",
+      "from-[#976A01] to-[#FDC034] [&_.pagination-button]:text-white",
+      "dark:from-[#FDC034] dark:to-[#FEDF99] dark:[&_.pagination-button]:text-black",
+      "[&_.pagination-button.active-pagination-button]:bg-gradient-to-bl"
+    ]
+  end
+  <% end %>
+  <%= if is_nil(@color) or "danger" in @color do %>
+  defp color_variant("gradient", "danger") do
+    [
+      "[&_.pagination-button]:bg-gradient-to-br hover:[&_.pagination-button]:bg-gradient-to-bl",
+      "from-[#BB032A] to-[#FC7F79] [&_.pagination-button]:text-white",
+      "dark:from-[#FC7F79] dark:to-[#FFD2CD] dark:[&_.pagination-button]:text-black",
+      "[&_.pagination-button.active-pagination-button]:bg-gradient-to-bl"
+    ]
+  end
+  <% end %>
+  <%= if is_nil(@color) or "info" in @color do %>
+  defp color_variant("gradient", "info") do
+    [
+      "[&_.pagination-button]:bg-gradient-to-br hover:[&_.pagination-button]:bg-gradient-to-bl",
+      "from-[#08638C] to-[#3EB7ED] [&_.pagination-button]:text-white",
+      "dark:from-[#3EB7ED] dark:to-[#9FDBF6] dark:[&_.pagination-button]:text-black",
+      "[&_.pagination-button.active-pagination-button]:bg-gradient-to-bl"
+    ]
+  end
+  <% end %>
+  <%= if is_nil(@color) or "misc" in @color do %>
+  defp color_variant("gradient", "misc") do
+    [
+      "[&_.pagination-button]:bg-gradient-to-br hover:[&_.pagination-button]:bg-gradient-to-bl",
+      "from-[#653C94] to-[#BA83F9] [&_.pagination-button]:text-white",
+      "dark:from-[#BA83F9] dark:to-[#DDC1FC] dark:[&_.pagination-button]:text-black",
+      "[&_.pagination-button.active-pagination-button]:bg-gradient-to-bl"
+    ]
+  end
+  <% end %>
+  <%= if is_nil(@color) or "dawn" in @color do %>
+  defp color_variant("gradient", "dawn") do
+    [
+      "[&_.pagination-button]:bg-gradient-to-br hover:[&_.pagination-button]:bg-gradient-to-bl",
+      "from-[#7E4B2A] to-[#DB976B] [&_.pagination-button]:text-white",
+      "dark:from-[#DB976B] dark:to-[#EDCBB5] dark:[&_.pagination-button]:text-black",
+      "[&_.pagination-button.active-pagination-button]:bg-gradient-to-bl"
+    ]
+  end
+  <% end %>
+  <%= if is_nil(@color) or "silver" in @color do %>
+  defp color_variant("gradient", "silver") do
+    [
+      "[&_.pagination-button]:bg-gradient-to-br hover:[&_.pagination-button]:bg-gradient-to-bl",
+      "from-[#5E5E5E] to-[#A6A6A6] [&_.pagination-button]:text-white",
+      "dark:from-[#868686] dark:to-[#BBBBBB] dark:[&_.pagination-button]:text-black",
+      "[&_.pagination-button.active-pagination-button]:bg-gradient-to-bl"
     ]
   end
   <% end %>

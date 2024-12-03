@@ -2,17 +2,25 @@
   pagination: [
     name: "pagination",
     args: [
-      variant: ["default", "outline", "transparent", "subtle", "shadow", "inverted", "unbordered"],
+      variant: [
+        "default",
+        "outline",
+        "transparent",
+        "subtle",
+        "shadow",
+        "inverted",
+        "gradient",
+        "bordered"
+      ],
       color: [
-        "white",
+        "natural",
         "primary",
         "secondary",
-        "dark",
         "success",
         "warning",
         "danger",
         "info",
-        "light",
+        "silver",
         "misc",
         "dawn"
       ],
