@@ -2,7 +2,7 @@
   native_select: [
     name: "native_select",
     args: [
-      variant: ["default","shadow", "bordered", "native"],
+      variant: ["default", "shadow", "bordered", "native"],
       color: [
         "white",
         "natural",
@@ -22,6 +22,7 @@
       size: ["extra_small", "small", "medium", "large", "extra_large"],
       type: ["native_select", "select_option_group"],
       only: ["native_select", "select_option_group"],
+      helpers: [],
       module: ""
     ],
     optional: [],
