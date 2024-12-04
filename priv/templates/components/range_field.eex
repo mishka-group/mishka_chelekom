@@ -130,7 +130,7 @@ defmodule <%= @module %> do
     ]}>
       <.label for={@id}><%%= @label %></.label>
       <div class="relative mb-8">
-        <input type="range" value={@value} name={@name} id={@id} class={["w-full", class={["w-full", color_class(@appearance, @color)]} {@rest} />
+        <input type="range" value={@value} name={@name} id={@id} class={["w-full", color_class(@appearance, @color)]} {@rest} />
         <span
           :for={{range_value, index} <- Enum.with_index(@range_value, 1)}
           id={"#{@id}-value-#{index}"}
