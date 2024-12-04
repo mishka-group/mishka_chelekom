@@ -282,7 +282,6 @@ defmodule <%= @module %> do
   defp size_class(_), do: size_class("extra_small")
   <% end %>
 
-  <%= if is_nil(@appearance) or "default" in @appearance do %>
   <%= if is_nil(@color) or "white" in @color do %>
   defp color_class("default", "white") do
       ["accent-white dark:accent-white"]
@@ -343,9 +342,7 @@ defmodule <%= @module %> do
     ["accent-[#282828] dark:accent-[#282828]"]
   end
   <% end %>
-  <% end %>
 
-  <%= if is_nil(@appearance) or "custom" in @appearance do %>
   <%= if is_nil(@color) or "white" in @color do %>
   defp color_class("custom", "white") do
     [
@@ -461,7 +458,6 @@ defmodule <%= @module %> do
       "[&_.range-field::-webkit-slider-thumb]:shadow-[0_0_0_4px_rgba(40,40,40,1)]"
     ]
   end
-  <% end %>
   <% end %>
 
   defp translate_error({msg, opts}) do
