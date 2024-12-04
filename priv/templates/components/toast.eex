@@ -89,7 +89,7 @@ defmodule <%= @module %> do
 
   attr :fixed, :boolean, default: true, doc: "Determines whether the element is fixed"
   attr :variant, :string, values: @variants, default: "default", doc: "Determines the style"
-  attr :color, :string, values: @colors, default: "white", doc: "Determines color theme"
+  attr :color, :string, values: @colors, default: "natural", doc: "Determines color theme"
   attr :border, :string, default: "extra_small", doc: "Determines border style"
   attr :rounded, :string, default: "medium", doc: "Determines the border radius"
   attr :width, :string, default: "medium", doc: "Determines the element width"
