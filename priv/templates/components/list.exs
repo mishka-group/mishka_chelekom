@@ -2,7 +2,16 @@
   list: [
     name: "list",
     args: [
-      variant: ["default", "bordered", "outline", "shadow", "gradient", "outline_separated", "bordered_seperated", "transparent"],
+      variant: [
+        "default",
+        "bordered",
+        "outline",
+        "shadow",
+        "gradient",
+        "outline_separated",
+        "bordered_seperated",
+        "transparent"
+      ],
       color: [
         "natural",
         "white",
@@ -23,6 +32,7 @@
       rounded: ["extra_small", "small", "medium", "large", "extra_large", "full", "none"],
       type: ["list", "li", "ul", "ol", "list_group"],
       only: ["list", "li", "ul", "ol", "list_group"],
+      helpers: [],
       module: ""
     ],
     optional: [],
