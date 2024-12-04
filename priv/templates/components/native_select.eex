@@ -16,9 +16,10 @@ defmodule <%= @module %> do
 
   use Phoenix.Component
 
-  @variants ["default", "outline", "transparent", "shadow", "unbordered", "native"]
+  @variants ["default", "shadow", "bordered", "native"]
 
   @colors [
+    "natural",
     "white",
     "primary",
     "secondary",
@@ -27,10 +28,11 @@ defmodule <%= @module %> do
     "warning",
     "danger",
     "info",
-    "light",
+    "silver",
     "misc",
     "dawn"
   ]
+
   <%= if is_nil(@type) or "native_select" in @type do %>
   @doc """
   Renders a customizable `native_select` input component with options for single or multiple selections.
@@ -74,7 +76,7 @@ defmodule <%= @module %> do
     doc: "A unique identifier is used to manage state and interaction"
 
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
-  attr :color, :string, values: @colors, default: "light", doc: "Determines color theme"
+  attr :color, :string, values: @colors, default: "natural", doc: "Determines color theme"
   attr :border, :string, default: "extra_small", doc: "Determines border style"
   attr :rounded, :string, default: "small", doc: "Determines the border radius"
   attr :variant, :string, values: @variants, default: "native", doc: "Determines the style"
@@ -136,7 +138,7 @@ defmodule <%= @module %> do
     <div class={[
       @variant != "native" && color_variant(@variant, @color),
       rounded_size(@rounded),
-      border_class(@border),
+      border_class(@border, @variant),
       size_class(@size),
       space_class(@space),
       @ring && "[&_.select-field]:focus-within:ring-[0.03rem]"
@@ -152,7 +154,7 @@ defmodule <%= @module %> do
         id={@id}
         multiple={@multiple}
         class={[
-          "select-field block w-full",
+          "select-field appearance-none block w-full",
           @multiple && "select-multiple-option",
           @errors != [] && "select-field-error",
           @min_height,
@@ -308,14 +310,22 @@ defmodule <%= @module %> do
   <% end %>
   defp rounded_size(_), do: "[&_.select-field]:rounded-none"
 
-  defp border_class("none"), do: "[&_.select-field]:border-0"
-  defp border_class("extra_small"), do: "[&_.select-field]:border"
-  defp border_class("small"), do: "[&_.select-field]:border-2"
-  defp border_class("medium"), do: "[&_.select-field]:border-[3px]"
-  defp border_class("large"), do: "[&_.select-field]:border-4"
-  defp border_class("extra_large"), do: "[&_.select-field]:border-[5px]"
-  defp border_class(params) when is_binary(params), do: params
-  defp border_class(_), do: border_class("extra_small")
+   defp border_class(_, variant)
+       when variant in [
+              "default",
+              "shadow",
+              "native"
+            ],
+       do: nil
+
+  defp border_class("none", _), do: "[&_.select-field]:border-0"
+  defp border_class("extra_small", _), do: "[&_.select-field]:border"
+  defp border_class("small", _), do: "[&_.select-field]:border-2"
+  defp border_class("medium", _), do: "[&_.select-field]:border-[3px]"
+  defp border_class("large", _), do: "[&_.select-field]:border-4"
+  defp border_class("extra_large", _), do: "[&_.select-field]:border-[5px]"
+  defp border_class(params, _) when is_binary(params), do: params
+  defp border_class(_, _), do: border_class("extra_small", nil)
 
   <%= if is_nil(@space) or "small" in @space do %>
   defp space_class("extra_small"), do: "space-y-1"
@@ -341,431 +351,398 @@ defmodule <%= @module %> do
   <%= if is_nil(@color) or "white" in @color do %>
   defp color_variant("default", "white") do
     [
-      "[&_.select-field]:bg-white text-[#3E3E3E]",
-      "focus-within:[&_.select-field]:ring-[#DADADA] [&_.select-field]:border-[#DADADA]"
+      "[&_..select-field]:bg-white text-[#3E3E3E]",
+      "[&_.select-field.select-field-error]:border-rose-700",
+      "focus-within:[&_.select-field]:ring-[#DADADA]",
+    ]
+  end
+  <% end %>
+  <%= if is_nil(@color) or "natural" in @color do %>
+  defp color_variant("default", "natural") do
+    [
+      "text-black dark:text-white [&_.select-field:not(:has(.select-field-error))]:bg-[#4B4B4B]",
+      "dark:[&_.select-field:not(:has(.select-field-error))]:bg-[#DDDDDD]",
+      "[&_.select-field.select-field-error]:bg-rose-700",
+      "[&_.select-field]:text-white dark:[&_.select-field]:text-black",
+      "focus-within:[&_.select-field]:ring-[#4B4B4B] dark:focus-within:[&_.select-field]:ring-[#DDDDDD]",
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "primary" in @color do %>
   defp color_variant("default", "primary") do
     [
-      "[&_.select-field]:bg-[#4363EC] text-[#4363EC] [&_.select-field]:text-white",
-      "focus-within:[&_.select-field]:ring-[#2441de] [&_.select-field]:border-[#DADADA]"
+      "text-black dark:text-white [&_.select-field:not(:has(.select-field-error))]:bg-[#007F8C]",
+      "dark:[&_.select-field:not(:has(.select-field-error))]:bg-[#01B8CA]",
+      "[&_.select-field.select-field-error]:bg-rose-700",
+      "[&_.select-field]:text-white dark:[&_.select-field]:text-black",
+      "focus-within:[&_.select-field]:ring-[#007F8C] dark:focus-within:[&_.select-field]:ring-[#01B8CA]",
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "secondary" in @color do %>
   defp color_variant("default", "secondary") do
     [
-      "[&_.select-field]:bg-[#6B6E7C] [&_.select-field]:text-white text-[#6B6E7C]",
-      "focus-within:[&_.select-field]:ring-[#877C7C] [&_.select-field]:border-[#877C7C]"
+      "text-black dark:text-white [&_.select-field:not(:has(.select-field-error))]:bg-[#266EF1]",
+      "dark:[&_.select-field:not(:has(.select-field-error))]:bg-[#6DAAFB]",
+      "[&_.select-field.select-field-error]:bg-rose-700",
+      "[&_.select-field]:text-white dark:[&_.select-field]:text-black",
+      "focus-within:[&_.select-field]:ring-[#266EF1] dark:focus-within:[&_.select-field]:ring-[#6DAAFB]",
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "success" in @color do %>
   defp color_variant("default", "success") do
     [
-      "[&_.select-field]:bg-[#ECFEF3] text-[#047857]",
-      "focus-within:[&_.select-field]:ring-[#6EE7B7] [&_.select-field]:border-[#6EE7B7]"
+      "text-black dark:text-white [&_.select-field:not(:has(.select-field-error))]:bg-[#0E8345]",
+      "dark:[&_.select-field:not(:has(.select-field-error))]:bg-[#06C167]",
+      "[&_.select-field.select-field-error]:bg-rose-700",
+      "[&_.select-field]:text-white dark:[&_.select-field]:text-black",
+      "focus-within:[&_.select-field]:ring-[#0E8345] dark:focus-within:[&_.select-field]:ring-[#06C167]",
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "warning" in @color do %>
   defp color_variant("default", "warning") do
     [
-      "[&_.select-field]:bg-[#FFF8E6] text-[#FF8B08]",
-      "focus-within:[&_.select-field]:ring-[#FF8B08] [&_.select-field]:border-[#FF8B08]"
+      "text-black dark:text-white [&_.select-field:not(:has(.select-field-error))]:bg-[#CA8D01]",
+      "dark:[&_.select-field:not(:has(.select-field-error))]:bg-[#FDC034]",
+      "[&_.select-field.select-field-error]:bg-rose-700",
+      "[&_.select-field]:text-white dark:[&_.select-field]:text-black",
+      "focus-within:[&_.select-field]:ring-[#CA8D01] dark:focus-within:[&_.select-field]:ring-[#FDC034]",
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "danger" in @color do %>
   defp color_variant("default", "danger") do
     [
-      "[&_.select-field]:bg-[#FFE6E6] text-[#E73B3B]",
-      "focus-within:[&_.select-field]:ring-[#E73B3B] [&_.select-field]:border-[#E73B3B]"
+      "text-black dark:text-white [&_.select-field:not(:has(.select-field-error))]:bg-[#DE1135]",
+      "dark:[&_.select-field:not(:has(.select-field-error))]:bg-[#FC7F79]",
+      "[&_.select-field.select-field-error]:bg-rose-700",
+      "[&_.select-field]:text-white dark:[&_.select-field]:text-black",
+      "focus-within:[&_.select-field]:ring-[#DE1135] dark:focus-within:[&_.select-field]:ring-[#FC7F79]",
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "info" in @color do %>
   defp color_variant("default", "info") do
     [
-      "[&_.select-field]:bg-[#E5F0FF] text-[#004FC4]",
-      "[&_.select-field>input]:placeholder:text-[#004FC4] focus-within:[&_.select-field]:ring-[#004FC4]"
+      "text-black dark:text-white [&_.select-field:not(:has(.select-field-error))]:bg-[#0B84BA]",
+      "dark:[&_.select-field:not(:has(.select-field-error))]:bg-[#3EB7ED]",
+      "[&_.select-field.select-field-error]:bg-rose-700",
+      "[&_.select-field]:text-white dark:[&_.select-field]:text-black",
+      "focus-within:[&_.select-field]:ring-[#0B84BA] dark:focus-within:[&_.select-field]:ring-[#3EB7ED]",
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "misc" in @color do %>
   defp color_variant("default", "misc") do
     [
-      "[&_.select-field]:bg-[#FFE6FF] text-[#52059C]",
-      "focus-within:[&_.select-field]:ring-[#52059C] [&_.select-field]:border-[#52059C]"
+      "text-black dark:text-white [&_.select-field:not(:has(.select-field-error))]:bg-[#8750C5]",
+      "dark:[&_.select-field:not(:has(.select-field-error))]:bg-[#BA83F9]",
+      "[&_.select-field.select-field-error]:bg-rose-700",
+      "[&_.select-field]:text-white dark:[&_.select-field]:text-black",
+      "focus-within:[&_.select-field]:ring-[#8750C5] dark:focus-within:[&_.select-field]:ring-[#BA83F9]",
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "dawn" in @color do %>
   defp color_variant("default", "dawn") do
     [
-      "[&_.select-field]:bg-[#FFECDA] text-[#4D4137]",
-      "focus-within:[&_.select-field]:ring-[#4D4137] [&_.select-field]:border-[#4D4137]"
+      "text-black dark:text-white [&_.select-field:not(:has(.select-field-error))]:bg-[#A86438]",
+      "dark:[&_.select-field:not(:has(.select-field-error))]:bg-[#DB976B]",
+      "[&_.select-field.select-field-error]:bg-rose-700",
+      "[&_.select-field]:text-white dark:[&_.select-field]:text-black",
+      "focus-within:[&_.select-field]:ring-[#A86438] dark:focus-within:[&_.select-field]:ring-[#DB976B]",
     ]
   end
   <% end %>
-  <%= if is_nil(@color) or "light" in @color do %>
-  defp color_variant("default", "light") do
+  <%= if is_nil(@color) or "silver" in @color do %>
+  defp color_variant("default", "silver") do
     [
-      "[&_.select-field]:bg-[#1E1E1E] [&_.select-field]:text-white text-[#707483]",
-      "focus-within:[&_.select-field]:ring-[#707483] [&_.select-field]:border-[#707483]"
+      "text-black dark:text-white [&_.select-field:not(:has(.select-field-error))]:bg-[#868686]",
+      "dark:[&_.select-field:not(:has(.select-field-error))]:bg-[#A6A6A6]",
+      "[&_.select-field.select-field-error]:bg-rose-700",
+      "[&_.select-field]:text-white dark:[&_.select-field]:text-black",
+      "focus-within:[&_.select-field]:ring-[#868686] dark:focus-within:[&_.select-field]:ring-[#A6A6A6]",
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "dark" in @color do %>
   defp color_variant("default", "dark") do
     [
-      "[&_.select-field]:bg-white text-[#1E1E1E] [&_.select-field]:text-white",
-      "focus-within:[&_.select-field]:ring-[#050404] [&_.select-field]:border-[#050404]"
+      "[&_.select-field]:bg-[#282828] text-[#282828] [&_.select-field]:text-white",
+      "[&_.select-field.select-field-error]:bg-rose-700",
+      "focus-within:[&_.select-field]:ring-[#727272]",
     ]
   end
   <% end %>
   <% end %>
-  <%= if is_nil(@variant) or "outline" in @variant do %>
+  <%= if is_nil(@variant) or "bordered" in @variant do %>
   <%= if is_nil(@color) or "white" in @color do %>
-  defp color_variant("outline", "white") do
+  defp color_variant("bordered", "white") do
     [
-      "text-[#3E3E3E]",
-      "focus-within:[&_.select-field]:ring-[#DADADA] [&_.select-field]:border-[#DADADA]"
+      "[&_.select-field]:bg-white [&_.select-field]:border-transparent text-[#3E3E3E]",
+      "[&_.select-field>input]:placeholder:text-[#3E3E3E]",
+    ]
+  end
+  <% end %>
+  <%= if is_nil(@color) or "natural" in @color do %>
+  defp color_variant("bordered", "natural") do
+    [
+      "text-[#282828] dark:text-[#E8E8E8] [&_.select-field:not(:has(.select-field-error))]:border-[#282828]",
+      "[&_.select-field:not(:has(.select-field-error))]:bg-[#F3F3F3]",
+      "dark:[&_.select-field:not(:has(.select-field-error))]:bg-[#4B4B4B]",
+      "dark:[&_.select-field:not(:has(.select-field-error))]:border-[#868686]",
+      "[&_.select-field.select-field-error]:bg-rose-700 [&_.select-field.select-field-error]:border-rose-700",
+      "focus-within:[&_.select-field]:ring-[#4B4B4B] dark:focus-within:[&_.select-field]:ring-[#DDDDDD]",
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "primary" in @color do %>
-  defp color_variant("outline", "primary") do
+  defp color_variant("bordered", "primary") do
     [
-      "text-[#4363EC]",
-      "[&_.select-field]:text-white",
-      "focus-within:[&_.select-field]:ring-[#2441de] [&_.select-field]:border-[#DADADA]"
+      "text-[#016974] dark:text-[#77D5E3] [&_.select-field:not(:has(.select-field-error))]:border-[#016974]",
+      "[&_.select-field:not(:has(.select-field-error))]:bg-[#E2F8FB]",
+      "dark:[&_.select-field:not(:has(.select-field-error))]:bg-[#4B4B4B]",
+      "dark:[&_.select-field:not(:has(.select-field-error))]:border-[#77D5E3]",
+      "[&_.select-field.select-field-error]:bg-rose-700 [&_.select-field.select-field-error]:border-rose-700",
+      "focus-within:[&_.select-field]:ring-[#007F8C] dark:focus-within:[&_.select-field]:ring-[#01B8CA]",
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "secondary" in @color do %>
-  defp color_variant("outline", "secondary") do
+  defp color_variant("bordered", "secondary") do
     [
-      "text-[#6B6E7C]",
-      "[&_.select-field]:text-white",
-      "focus-within:[&_.select-field]:ring-[#877C7C] [&_.select-field]:border-[#877C7C]"
+      "text-[#175BCC] dark:text-[#A9C9FF] [&_.select-field:not(:has(.select-field-error))]:border-[#175BCC]",
+      "[&_.select-field:not(:has(.select-field-error))]:bg-[#EFF4FE]",
+      "dark:[&_.select-field:not(:has(.select-field-error))]:bg-[#002661]",
+      "dark:[&_.select-field:not(:has(.select-field-error))]:border-[#A9C9FF]",
+      "[&_.select-field.select-field-error]:bg-rose-700 [&_.select-field.select-field-error]:border-rose-700",
+      "focus-within:[&_.select-field]:ring-[#266EF1] dark:focus-within:[&_.select-field]:ring-[#6DAAFB]",
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "success" in @color do %>
-  defp color_variant("outline", "success") do
+  defp color_variant("bordered", "success") do
     [
-      "text-[#047857]",
-      "focus-within:[&_.select-field]:ring-[#6EE7B7] [&_.select-field]:border-[#6EE7B7]"
+      "text-[#166C3B] dark:text-[#7FD99A] [&_.select-field:not(:has(.select-field-error))]:border-[#166C3B]",
+      "[&_.select-field:not(:has(.select-field-error))]:bg-[#EAF6ED]",
+      "dark:[&_.select-field:not(:has(.select-field-error))]:bg-[#002F14]",
+      "dark:[&_.select-field:not(:has(.select-field-error))]:border-[#7FD99A]",
+      "[&_.select-field.select-field-error]:bg-rose-700 [&_.select-field.select-field-error]:border-rose-700",
+      "focus-within:[&_.select-field]:ring-[#0E8345] dark:focus-within:[&_.select-field]:ring-[#06C167]",
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "warning" in @color do %>
-  defp color_variant("outline", "warning") do
+  defp color_variant("bordered", "warning") do
     [
-      "text-[#FF8B08]",
-      "focus-within:[&_.select-field]:ring-[#FF8B08] [&_.select-field]:border-[#FF8B08]"
+      "text-[#976A01] dark:text-[#FDD067] [&_.select-field:not(:has(.select-field-error))]:border-[#976A01]",
+      "[&_.select-field:not(:has(.select-field-error))]:bg-[#FFF7E6]",
+      "dark:[&_.select-field:not(:has(.select-field-error))]:bg-[#322300]",
+      "dark:[&_.select-field:not(:has(.select-field-error))]:border-[#FDD067]",
+      "[&_.select-field.select-field-error]:bg-rose-700 [&_.select-field.select-field-error]:border-rose-700",
+      "focus-within:[&_.select-field]:ring-[#CA8D01] dark:focus-within:[&_.select-field]:ring-[#FDC034]",
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "danger" in @color do %>
-  defp color_variant("outline", "danger") do
+  defp color_variant("bordered", "danger") do
     [
-      "text-[#E73B3B]",
-      "focus-within:[&_.select-field]:ring-[#E73B3B] [&_.select-field]:border-[#E73B3B]"
+      "text-[#BB032A] dark:text-[#FFB2AB] [&_.select-field:not(:has(.select-field-error))]:border-[#BB032A]",
+      "[&_.select-field:not(:has(.select-field-error))]:bg-[#FFF0EE]",
+      "dark:[&_.select-field:not(:has(.select-field-error))]:bg-[#221431]",
+      "dark:[&_.select-field:not(:has(.select-field-error))]:border-[#FFB2AB]",
+      "[&_.select-field.select-field-error]:bg-rose-700 [&_.select-field.select-field-error]:border-rose-700",
+      "focus-within:[&_.select-field]:ring-[#DE1135] dark:focus-within:[&_.select-field]:ring-[#FC7F79]",
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "info" in @color do %>
-  defp color_variant("outline", "info") do
+  defp color_variant("bordered", "info") do
     [
-      "text-[#004FC4]",
-      "[&_.select-field>input]:placeholder:text-[#004FC4] focus-within:[&_.select-field]:ring-[#004FC4]"
+      "text-[#0B84BA] dark:text-[#6EC9F2] [&_.select-field:not(:has(.select-field-error))]:border-[#0B84BA]",
+      "[&_.select-field:not(:has(.select-field-error))]:bg-[#E7F6FD]",
+      "dark:[&_.select-field:not(:has(.select-field-error))]:bg-[#03212F]",
+      "dark:[&_.select-field:not(:has(.select-field-error))]:border-[#6EC9F2]",
+      "[&_.select-field.select-field-error]:bg-rose-700 [&_.select-field.select-field-error]:border-rose-700",
+      "focus-within:[&_.select-field]:ring-[#0B84BA] dark:focus-within:[&_.select-field]:ring-[#3EB7ED]",
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "misc" in @color do %>
-  defp color_variant("outline", "misc") do
+  defp color_variant("bordered", "misc") do
     [
-      "text-[#52059C]",
-      "focus-within:[&_.select-field]:ring-[#52059C] [&_.select-field]:border-[#52059C]"
+      "text-[#653C94] dark:text-[#CBA2FA] [&_.select-field:not(:has(.select-field-error))]:border-[#653C94]",
+      "[&_.select-field:not(:has(.select-field-error))]:bg-[#F6F0FE]",
+      "dark:[&_.select-field:not(:has(.select-field-error))]:bg-[#221431]",
+      "dark:[&_.select-field:not(:has(.select-field-error))]:border-[#CBA2FA]",
+      "[&_.select-field.select-field-error]:bg-rose-700 [&_.select-field.select-field-error]:border-rose-700",
+      "focus-within:[&_.select-field]:ring-[#8750C5] dark:focus-within:[&_.select-field]:ring-[#BA83F9]",
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "dawn" in @color do %>
-  defp color_variant("outline", "dawn") do
+  defp color_variant("bordered", "dawn") do
     [
-      "text-[#4D4137]",
-      "focus-within:[&_.select-field]:ring-[#4D4137] [&_.select-field]:border-[#4D4137]"
+      "text-[#7E4B2A] dark:text-[#E4B190] [&_.select-field:not(:has(.select-field-error))]:border-[#7E4B2A]",
+      "[&_.select-field:not(:has(.select-field-error))]:bg-[#FBF2ED]",
+      "dark:[&_.select-field:not(:has(.select-field-error))]:bg-[#2A190E]",
+      "dark:[&_.select-field:not(:has(.select-field-error))]:border-[#E4B190]",
+      "[&_.select-field.select-field-error]:bg-rose-700 [&_.select-field.select-field-error]:border-rose-700",
+      "focus-within:[&_.select-field]:ring-[#A86438] dark:focus-within:[&_.select-field]:ring-[#DB976B]",
     ]
   end
   <% end %>
-  <%= if is_nil(@color) or "light" in @color do %>
-  defp color_variant("outline", "light") do
+  <%= if is_nil(@color) or "silver" in @color do %>
+  defp color_variant("bordered", "silver") do
     [
-      "text-[#707483]",
-      "focus-within:[&_.select-field]:ring-[#707483] [&_.select-field]:border-[#707483]"
-    ]
-  end
-  <% end %>
-  <%= if is_nil(@color) or "dark" in @color do %>
-  defp color_variant("outline", "dark") do
-    [
-      "text-[#1E1E1E] [&_.select-field]:text-white",
-      "focus-within:[&_.select-field]:ring-[#050404] [&_.select-field]:border-[#050404]"
-    ]
-  end
-  <% end %>
-  <% end %>
-  <%= if is_nil(@variant) or "unbordered" in @variant do %>
-  <%= if is_nil(@color) or "white" in @color do %>
-  defp color_variant("unbordered", "white") do
-    [
-      "[&_.select-field]:bg-white [&_.select-field]:border-transparent text-[#3E3E3E]"
-    ]
-  end
-  <% end %>
-  <%= if is_nil(@color) or "primary" in @color do %>
-  defp color_variant("unbordered", "primary") do
-    [
-      "[&_.select-field]:bg-[#4363EC] text-[#4363EC] [&_.select-field]:border-transparent text-white",
-      "[&_.select-field>input]:placeholder:text-white"
-    ]
-  end
-  <% end %>
-  <%= if is_nil(@color) or "secondary" in @color do %>
-  defp color_variant("unbordered", "secondary") do
-    [
-      "[&_.select-field]:bg-[#6B6E7C] text-[#6B6E7C] [&_.select-field]:border-transparent text-white",
-      "[&_.select-field>input]:placeholder:text-white"
-    ]
-  end
-  <% end %>
-  <%= if is_nil(@color) or "success" in @color do %>
-  defp color_variant("unbordered", "success") do
-    [
-      "[&_.select-field]:bg-[#ECFEF3] [&_.select-field]:border-transparent text-[#047857]"
-    ]
-  end
-  <% end %>
-  <%= if is_nil(@color) or "warning" in @color do %>
-  defp color_variant("unbordered", "warning") do
-    [
-      "[&_.select-field]:bg-[#FFF8E6] [&_.select-field]:border-transparent text-[#FF8B08]"
-    ]
-  end
-  <% end %>
-  <%= if is_nil(@color) or "danger" in @color do %>
-  defp color_variant("unbordered", "danger") do
-    [
-      "[&_.select-field]:bg-[#FFE6E6] [&_.select-field]:border-transparent text-[#E73B3B]"
-    ]
-  end
-  <% end %>
-  <%= if is_nil(@color) or "info" in @color do %>
-  defp color_variant("unbordered", "info") do
-    [
-      "[&_.select-field]:bg-[#E5F0FF] [&_.select-field]:border-transparent text-[#004FC4]"
-    ]
-  end
-  <% end %>
-  <%= if is_nil(@color) or "misc" in @color do %>
-  defp color_variant("unbordered", "misc") do
-    [
-      "[&_.select-field]:bg-[#FFE6FF] [&_.select-field]:border-transparent text-[#52059C]"
-    ]
-  end
-  <% end %>
-  <%= if is_nil(@color) or "dawn" in @color do %>
-  defp color_variant("unbordered", "dawn") do
-    [
-      "[&_.select-field]:bg-[#FFECDA] [&_.select-field]:border-transparent text-[#4D4137]"
-    ]
-  end
-  <% end %>
-  <%= if is_nil(@color) or "light" in @color do %>
-  defp color_variant("unbordered", "light") do
-    [
-      "[&_.select-field]:bg-[#E3E7F1] [&_.select-field]:border-transparent text-[#707483]"
+      "text-[#727272] dark:text-[#BBBBBB] [&_.select-field:not(:has(.select-field-error))]:border-[#727272]",
+      "[&_.select-field:not(:has(.select-field-error))]:bg-[#F3F3F3]",
+      "dark:[&_.select-field:not(:has(.select-field-error))]:bg-[#4B4B4B]",
+      "dark:[&_.select-field:not(:has(.select-field-error))]:border-[#BBBBBB]",
+      "[&_.select-field.select-field-error]:bg-rose-700 [&_.select-field.select-field-error]:border-rose-700",
+      "focus-within:[&_.select-field]:ring-[#868686] dark:focus-within:[&_.select-field]:ring-[#A6A6A6]",
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "dark" in @color do %>
-  defp color_variant("unbordered", "dark") do
+  defp color_variant("bordered", "dark") do
     [
-      "[&_.select-field]:bg-[#1E1E1E] text-[#1E1E1E] [&_.select-field]:border-transparent text-white",
-      "[&_.select-field>input]:placeholder:text-white"
+      "[&_.select-field]:bg-[#282828] text-[#282828] [&_.select-field]:border-[#727272] text-white",
+      "focus-within:[&_.select-field]:ring-[#050404]",
     ]
   end
   <% end %>
   <% end %>
   <%= if is_nil(@variant) or "shadow" in @variant do %>
-  <%= if is_nil(@color) or "white" in @color do %>
-  defp color_variant("shadow", "white") do
+  <%= if is_nil(@color) or "natural" in @color do %>
+  defp color_variant("shadow", "natural") do
     [
-      "[&_.select-field]:shadow [&_.select-field]:bg-white text-[#3E3E3E] [&_.select-field]:border-[#DADADA]"
+      "text-black dark:text-white [&_.select-field:not(:has(.select-field-error))]:bg-[#4B4B4B]",
+      "dark:[&_.select-field:not(:has(.select-field-error))]:bg-[#DDDDDD]",
+      "[&_.select-field.select-field-error]:bg-rose-700",
+      "[&_.select-field]:text-white dark:[&_.select-field]:text-black",
+      "focus-within:[&_.select-field]:ring-[#4B4B4B] dark:focus-within:[&_.select-field]:ring-[#DDDDDD]",
+      "[&_.select-field]:shadow-[0px_4px_6px_-4px_rgba(134,134,134,0.5)] [&_.select-field]:shadow-[0px_10px_15px_-3px_rgba(134,134,134,0.5)]",
+      "dark:[&_.select-field]:shadow-none",
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "primary" in @color do %>
   defp color_variant("shadow", "primary") do
     [
-      "[&_.select-field]:shadow [&_.select-field]:bg-[#4363EC] text-[#4363EC] [&_.select-field]:border-[#4363EC]"
+      "text-black dark:text-white [&_.select-field:not(:has(.select-field-error))]:bg-[#007F8C]",
+      "dark:[&_.select-field:not(:has(.select-field-error))]:bg-[#01B8CA]",
+      "[&_.select-field.select-field-error]:bg-rose-700",
+      "[&_.select-field]:text-white dark:[&_.select-field]:text-black",
+      "focus-within:[&_.select-field]:ring-[#007F8C] dark:focus-within:[&_.select-field]:ring-[#01B8CA]",
+      "[&_.select-field]:shadow-[0px_4px_6px_-4px_rgba(0,149,164,0.5)] [&_.select-field]:shadow-[0px_10px_15px_-3px_rgba(0,149,164,0.5)]",
+      "dark:[&_.select-field]:shadow-none",
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "secondary" in @color do %>
   defp color_variant("shadow", "secondary") do
     [
-      "[&_.select-field]:shadow [&_.select-field]:bg-[#6B6E7C] text-[#6B6E7C] [&_.select-field]:border-[#6B6E7C]"
+      "text-black dark:text-white [&_.select-field:not(:has(.select-field-error))]:bg-[#266EF1]",
+      "dark:[&_.select-field:not(:has(.select-field-error))]:bg-[#6DAAFB]",
+      "[&_.select-field.select-field-error]:bg-rose-700",
+      "[&_.select-field]:text-white dark:[&_.select-field]:text-black",
+      "focus-within:[&_.select-field]:ring-[#266EF1] dark:focus-within:[&_.select-field]:ring-[#6DAAFB]",
+      "[&_.select-field]:shadow-[0px_4px_6px_-4px_rgba(6,139,238,0.5)] [&_.select-field]:shadow-[0px_10px_15px_-3px_rgba(6,139,238,0.5)]",
+      "dark:[&_.select-field]:shadow-none",
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "success" in @color do %>
   defp color_variant("shadow", "success") do
     [
-      "[&_.select-field]:shadow [&_.select-field]:bg-[#ECFEF3] text-[#227A52] [&_.select-field]:border-[#047857]"
+      "text-black dark:text-white [&_.select-field:not(:has(.select-field-error))]:bg-[#0E8345]",
+      "dark:[&_.select-field:not(:has(.select-field-error))]:bg-[#06C167]",
+      "[&_.select-field.select-field-error]:bg-rose-700",
+      "[&_.select-field]:text-white dark:[&_.select-field]:text-black",
+      "focus-within:[&_.select-field]:ring-[#0E8345] dark:focus-within:[&_.select-field]:ring-[#06C167]",
+      "[&_.select-field]:shadow-[0px_4px_6px_-4px_rgba(0,154,81,0.5)] [&_.select-field]:shadow-[0px_10px_15px_-3px_rgba(0,154,81,0.5)]",
+      "dark:[&_.select-field]:shadow-none",
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "warning" in @color do %>
   defp color_variant("shadow", "warning") do
     [
-      "[&_.select-field]:shadow [&_.select-field]:bg-[#FFF8E6] text-[#FF8B08] [&_.select-field]:border-[#FFF8E6]"
+      "text-black dark:text-white [&_.select-field:not(:has(.select-field-error))]:bg-[#CA8D01]",
+      "dark:[&_.select-field:not(:has(.select-field-error))]:bg-[#FDC034]",
+      "[&_.select-field.select-field-error]:bg-rose-700",
+      "[&_.select-field]:text-white dark:[&_.select-field]:text-black",
+      "focus-within:[&_.select-field]:ring-[#CA8D01] dark:focus-within:[&_.select-field]:ring-[#FDC034]",
+      "[&_.select-field]:shadow-[0px_4px_6px_-4px_rgba(252,176,1,0.5)] [&_.select-field]:shadow-[0px_10px_15px_-3px_rgba(252,176,1,0.5)]",
+      "dark:[&_.select-field]:shadow-none",
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "danger" in @color do %>
   defp color_variant("shadow", "danger") do
     [
-      "[&_.select-field]:shadow [&_.select-field]:bg-[#FFE6E6] text-[#E73B3B] [&_.select-field]:border-[#FFE6E6]"
+      "text-black dark:text-white [&_.select-field:not(:has(.select-field-error))]:bg-[#DE1135]",
+      "dark:[&_.select-field:not(:has(.select-field-error))]:bg-[#FC7F79]",
+      "[&_.select-field.select-field-error]:bg-rose-700",
+      "[&_.select-field]:text-white dark:[&_.select-field]:text-black",
+      "focus-within:[&_.select-field]:ring-[#DE1135] dark:focus-within:[&_.select-field]:ring-[#FC7F79]",
+      "[&_.select-field]:shadow-[0px_4px_6px_-4px_rgba(248,52,70,0.5)] [&_.select-field]:shadow-[0px_10px_15px_-3px_rgba(248,52,70,0.5)]",
+      "dark:[&_.select-field]:shadow-none",
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "info" in @color do %>
   defp color_variant("shadow", "info") do
     [
-      "[&_.select-field]:shadow [&_.select-field]:bg-[#E5F0FF] text-[#004FC4] [&_.select-field]:border-[#E5F0FF]"
+      "text-black dark:text-white [&_.select-field:not(:has(.select-field-error))]:bg-[#0B84BA]",
+      "dark:[&_.select-field:not(:has(.select-field-error))]:bg-[#3EB7ED]",
+      "[&_.select-field.select-field-error]:bg-rose-700",
+      "[&_.select-field]:text-white dark:[&_.select-field]:text-black",
+      "focus-within:[&_.select-field]:ring-[#0B84BA] dark:focus-within:[&_.select-field]:ring-[#3EB7ED]",
+      "[&_.select-field]:shadow-[0px_4px_6px_-4px_rgba(14,165,233,0.5)] [&_.select-field]:shadow-[0px_10px_15px_-3px_rgba(14,165,233,0.5)]",
+      "dark:[&_.select-field]:shadow-none",
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "misc" in @color do %>
   defp color_variant("shadow", "misc") do
     [
-      "[&_.select-field]:shadow [&_.select-field]:bg-[#FFE6FF] text-[#52059C] [&_.select-field]:border-[#FFE6FF]"
+      "text-black dark:text-white [&_.select-field:not(:has(.select-field-error))]:bg-[#8750C5]",
+      "dark:[&_.select-field:not(:has(.select-field-error))]:bg-[#BA83F9]",
+      "[&_.select-field.select-field-error]:bg-rose-700",
+      "[&_.select-field]:text-white dark:[&_.select-field]:text-black",
+      "focus-within:[&_.select-field]:ring-[#8750C5] dark:focus-within:[&_.select-field]:ring-[#BA83F9]",
+      "[&_.select-field]:shadow-[0px_4px_6px_-4px_rgba(169,100,247,0.5)] [&_.select-field]:shadow-[0px_10px_15px_-3px_rgba(169,100,247,0.5)]",
+      "dark:[&_.select-field]:shadow-none",
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "dawn" in @color do %>
   defp color_variant("shadow", "dawn") do
     [
-      "[&_.select-field]:shadow [&_.select-field]:bg-[#FFECDA] text-[#4D4137] [&_.select-field]:border-[#FFECDA]"
+      "text-black dark:text-white [&_.select-field:not(:has(.select-field-error))]:bg-[#A86438]",
+      "dark:[&_.select-field:not(:has(.select-field-error))]:bg-[#DB976B]",
+      "[&_.select-field.select-field-error]:bg-rose-700",
+      "[&_.select-field]:text-white dark:[&_.select-field]:text-black",
+      "focus-within:[&_.select-field]:ring-[#A86438] dark:focus-within:[&_.select-field]:ring-[#DB976B]",
+      "[&_.select-field]:shadow-[0px_4px_6px_-4px_rgba(210,125,70,0.5)] [&_.select-field]:shadow-[0px_10px_15px_-3px_rgba(210,125,70,0.5)]",
+      "dark:[&_.select-field]:shadow-none",
     ]
   end
   <% end %>
-  <%= if is_nil(@color) or "light" in @color do %>
-  defp color_variant("shadow", "light") do
+  <%= if is_nil(@color) or "silver" in @color do %>
+  defp color_variant("shadow", "silver") do
     [
-      "[&_.select-field]:shadow [&_.select-field]:bg-[#E3E7F1] text-[#707483] [&_.select-field]:border-[#E3E7F1]"
-    ]
-  end
-  <% end %>
-  <%= if is_nil(@color) or "dark" in @color do %>
-  defp color_variant("shadow", "dark") do
-    [
-      "[&_.select-field]:shadow [&_.select-field]:bg-[#1E1E1E] [&_.select-field]:text-white text-[#1E1E1E] [&_.select-field]:border-[#1E1E1E]"
-    ]
-  end
-  <% end %>
-  <% end %>
-  <%= if is_nil(@variant) or "transparent" in @variant do %>
-  <%= if is_nil(@color) or "white" in @color do %>
-  defp color_variant("transparent", "white") do
-    [
-      "text-[#3E3E3E]",
-      "focus-within:[&_.select-field]:ring-[#DADADA] [&_.select-field]:border-transparent"
-    ]
-  end
-  <% end %>
-  <%= if is_nil(@color) or "primary" in @color do %>
-  defp color_variant("transparent", "primary") do
-    [
-      "text-[#4363EC]",
-      "focus-within:[&_.select-field]:ring-[#2441de] [&_.select-field]:border-transparent"
-    ]
-  end
-  <% end %>
-  <%= if is_nil(@color) or "secondary" in @color do %>
-  defp color_variant("transparent", "secondary") do
-    [
-      "text-[#6B6E7C]",
-      "focus-within:[&_.select-field]:ring-[#877C7C] [&_.select-field]:border-transparent"
-    ]
-  end
-  <% end %>
-  <%= if is_nil(@color) or "success" in @color do %>
-  defp color_variant("transparent", "success") do
-    [
-      "text-[#047857]",
-      "focus-within:[&_.select-field]:ring-[#6EE7B7] [&_.select-field]:border-transparent"
-    ]
-  end
-  <% end %>
-  <%= if is_nil(@color) or "warning" in @color do %>
-  defp color_variant("transparent", "warning") do
-    [
-      "text-[#FF8B08]",
-      "focus-within:[&_.select-field]:ring-[#FF8B08] [&_.select-field]:border-transparent"
-    ]
-  end
-  <% end %>
-  <%= if is_nil(@color) or "danger" in @color do %>
-  defp color_variant("transparent", "danger") do
-    [
-      "text-[#E73B3B]",
-      "focus-within:[&_.select-field]:ring-[#E73B3B] [&_.select-field]:border-transparent"
-    ]
-  end
-  <% end %>
-  <%= if is_nil(@color) or "info" in @color do %>
-  defp color_variant("transparent", "info") do
-    [
-      "text-[#004FC4]",
-      "focus-within:[&_.select-field]:ring-[#004FC4] [&_.select-field]:border-transparent"
-    ]
-  end
-  <% end %>
-  <%= if is_nil(@color) or "misc" in @color do %>
-  defp color_variant("transparent", "misc") do
-    [
-      "text-[#52059C]",
-      "focus-within:[&_.select-field]:ring-[#52059C] [&_.select-field]:border-transparent"
-    ]
-  end
-  <% end %>
-  <%= if is_nil(@color) or "dawn" in @color do %>
-  defp color_variant("transparent", "dawn") do
-    [
-      "text-[#4D4137]",
-      "focus-within:[&_.select-field]:ring-[#4D4137] [&_.select-field]:border-transparent"
-    ]
-  end
-  <% end %>
-  <%= if is_nil(@color) or "light" in @color do %>
-  defp color_variant("transparent", "light") do
-    [
-      "text-[#707483]",
-      "focus-within:[&_.select-field]:ring-[#707483] [&_.select-field]:border-transparent"
-    ]
-  end
-  <% end %>
-  <%= if is_nil(@color) or "dark" in @color do %>
-  defp color_variant("transparent", "dark") do
-    [
-      "text-[#1E1E1E] [&_.select-field]:text-white",
-      "focus-within:[&_.select-field]:ring-[#050404] [&_.select-field]:border-transparent"
+      "text-black dark:text-white [&_.select-field:not(:has(.select-field-error))]:bg-[#868686]",
+      "dark:[&_.select-field:not(:has(.select-field-error))]:bg-[#A6A6A6]",
+      "[&_.select-field.select-field-error]:bg-rose-700",
+      "[&_.select-field]:text-white dark:[&_.select-field]:text-black",
+      "focus-within:[&_.select-field]:ring-[#868686] dark:focus-within:[&_.select-field]:ring-[#A6A6A6]",
+      "[&_.select-field]:shadow-[0px_4px_6px_-4px_rgba(134,134,134,0.5)] [&_.select-field]:shadow-[0px_10px_15px_-3px_rgba(134,134,134,0.5)]",
+      "dark:[&_.select-field]:shadow-none",
     ]
   end
   <% end %>
