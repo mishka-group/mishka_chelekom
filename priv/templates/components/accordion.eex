@@ -841,7 +841,7 @@ defmodule <%= @module %> do
 
   defp border_class(_, _), do: border_class(nil, "default")
 
-  < <%= if is_nil(@variant) or "transparent" in @variant do %>
+  <%= if is_nil(@variant) or "transparent" in @variant do %>
   <%= if is_nil(@color) or "natural" in @color do %>
   defp color_variant("transparent", "natural") do
     [
