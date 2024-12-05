@@ -30,6 +30,7 @@
       rounded: ["extra_small", "small", "medium", "large", "extra_large", "full", "none"],
       space: ["extra_small", "small", "medium", "large", "extra_large"],
       only: ["pagination"],
+      helpers: [],
       module: ""
     ],
     optional: [],
