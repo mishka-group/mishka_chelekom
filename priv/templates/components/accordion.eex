@@ -8,8 +8,8 @@ defmodule <%= @module %> do
 
   ### Features
 
-  - **Customizable Design**: Supports multiple variants such as `"default"`, `"contained"`,
-  `"filled"`, `"outline_separated"`, `"bordered_seperated"`, `"transparent"`, and `"menu"`.
+  - **Customizable Design**: Supports multiple variants such as `"default"`, `"outline"`,
+  `"bordered"`, `"outline_separated"`, `"bordered_separated"`, `"transparent"`, and `"menu"`.
   - **Size and Spacing**: Provides control over the size and spacing of accordion items
   using predefined values such as `"extra_small"`, `"small"`, `"medium"`,
   `"large"`, and `"extra_large"`.
@@ -35,7 +35,7 @@ defmodule <%= @module %> do
     "gradient",
     "menu",
     "outline_separated",
-    "bordered_seperated",
+    "bordered_separated",
     "transparent"
   ]
 
@@ -801,40 +801,40 @@ defmodule <%= @module %> do
     ]
   end
 
-  defp border_class("none", "bordered_seperated") do
+  defp border_class("none", "bordered_separated") do
      "[&>.accordion-item-wrapper>.accordion-summary]:border-0"
   end
-  defp border_class("extra_small", "bordered_seperated") do
+  defp border_class("extra_small", "bordered_separated") do
      "[&>.accordion-item-wrapper>.accordion-summary]:border"
   end
-  defp border_class("small", "bordered_seperated") do
+  defp border_class("small", "bordered_separated") do
      "[&>.accordion-item-wrapper>.accordion-summary]:border-2"
   end
-  defp border_class("medium", "bordered_seperated") do
+  defp border_class("medium", "bordered_separated") do
      "[&>.accordion-item-wrapper>.accordion-summary]:border-[3px]"
   end
-  defp border_class("large", "bordered_seperated") do
+  defp border_class("large", "bordered_separated") do
      "[&>.accordion-item-wrapper>.accordion-summary]:border-4"
   end
-  defp border_class("extra_large", "bordered_seperated") do
+  defp border_class("extra_large", "bordered_separated") do
      "[&>.accordion-item-wrapper>.accordion-summary]:border-[5px]"
   end
-  defp border_class("none", "outline_seperated") do
+  defp border_class("none", "outline_separated") do
      "[&>.accordion-item-wrapper>.accordion-summary]:border-0"
   end
-  defp border_class("extra_small", "outline_seperated") do
+  defp border_class("extra_small", "outline_separated") do
      "[&>.accordion-item-wrapper>.accordion-summary]:border"
   end
-  defp border_class("small", "outline_seperated") do
+  defp border_class("small", "outline_separated") do
      "[&>.accordion-item-wrapper>.accordion-summary]:border-2"
   end
-  defp border_class("medium", "outline_seperated") do
+  defp border_class("medium", "outline_separated") do
      "[&>.accordion-item-wrapper>.accordion-summary]:border-[3px]"
   end
-  defp border_class("large", "outline_seperated") do
+  defp border_class("large", "outline_separated") do
      "[&>.accordion-item-wrapper>.accordion-summary]:border-4"
   end
-  defp border_class("extra_large", "outline_seperated") do
+  defp border_class("extra_large", "outline_separated") do
      "[&>.accordion-item-wrapper>.accordion-summary]:border-[5px]"
   end
   defp border_class(params, _) when is_binary(params), do: params
@@ -1297,9 +1297,9 @@ defmodule <%= @module %> do
   end
   <% end %>
   <% end %>
-  <%= if is_nil(@variant) or "bordered_seperated" in @variant do %>
+  <%= if is_nil(@variant) or "bordered_separated" in @variant do %>
   <%= if is_nil(@color) or "natural" in @color do %>
-  defp color_variant("bordered_seperated", "natural") do
+  defp color_variant("bordered_separated", "natural") do
     [
       "text-[#282828] [&>.accordion-item-wrapper>.accordion-summary]:border-[#282828]",
       "[&>.accordion-item-wrapper]:bg-[#F3F3F3]",
@@ -1310,7 +1310,7 @@ defmodule <%= @module %> do
   end
   <% end %>
   <%= if is_nil(@color) or "primary" in @color do %>
-  defp color_variant("bordered_seperated", "primary") do
+  defp color_variant("bordered_separated", "primary") do
     [
       "text-[#016974] [&>.accordion-item-wrapper>.accordion-summary]:border-[#016974]",
       "[&>.accordion-item-wrapper]:bg-[#E2F8FB]",
@@ -1321,7 +1321,7 @@ defmodule <%= @module %> do
   end
   <% end %>
   <%= if is_nil(@color) or "secondary" in @color do %>
-  defp color_variant("bordered_seperated", "secondary") do
+  defp color_variant("bordered_separated", "secondary") do
     [
       "text-[#175BCC] [&>.accordion-item-wrapper>.accordion-summary]:border-[#175BCC]",
       "[&>.accordion-item-wrapper]:bg-[#EFF4FE]",
@@ -1332,7 +1332,7 @@ defmodule <%= @module %> do
   end
   <% end %>
   <%= if is_nil(@color) or "success" in @color do %>
-  defp color_variant("bordered_seperated", "success") do
+  defp color_variant("bordered_separated", "success") do
     [
       "text-[#166C3B] [&>.accordion-item-wrapper>.accordion-summary]:border-[#166C3B]",
       "[&>.accordion-item-wrapper]:bg-[#EAF6ED]",
@@ -1343,7 +1343,7 @@ defmodule <%= @module %> do
   end
   <% end %>
   <%= if is_nil(@color) or "warning" in @color do %>
-  defp color_variant("bordered_seperated", "warning") do
+  defp color_variant("bordered_separated", "warning") do
     [
       "text-[#976A01] [&>.accordion-item-wrapper>.accordion-summary]:border-[#976A01]",
       "[&>.accordion-item-wrapper]:bg-[#FFF7E6]",
@@ -1354,7 +1354,7 @@ defmodule <%= @module %> do
   end
   <% end %>
   <%= if is_nil(@color) or "danger" in @color do %>
-  defp color_variant("bordered_seperated", "danger") do
+  defp color_variant("bordered_separated", "danger") do
     [
       "text-[#BB032A] [&>.accordion-item-wrapper>.accordion-summary]:border-[#BB032A]",
       "[&>.accordion-item-wrapper]:bg-[#FFF0EE]",
@@ -1365,7 +1365,7 @@ defmodule <%= @module %> do
   end
   <% end %>
   <%= if is_nil(@color) or "info" in @color do %>
-  defp color_variant("bordered_seperated", "info") do
+  defp color_variant("bordered_separated", "info") do
     [
       "text-[#0B84BA] [&>.accordion-item-wrapper>.accordion-summary]:border-[#0B84BA]",
       "[&>.accordion-item-wrapper]:bg-[#E7F6FD]",
@@ -1376,7 +1376,7 @@ defmodule <%= @module %> do
   end
   <% end %>
   <%= if is_nil(@color) or "misc" in @color do %>
-  defp color_variant("bordered_seperated", "misc") do
+  defp color_variant("bordered_separated", "misc") do
     [
       "text-[#653C94] [&>.accordion-item-wrapper>.accordion-summary]:border-[#653C94]",
       "[&>.accordion-item-wrapper]:bg-[#F6F0FE]",
@@ -1387,7 +1387,7 @@ defmodule <%= @module %> do
   end
   <% end %>
   <%= if is_nil(@color) or "dawn" in @color do %>
-  defp color_variant("bordered_seperated", "dawn") do
+  defp color_variant("bordered_separated", "dawn") do
     [
       "text-[#7E4B2A] [&>.accordion-item-wrapper>.accordion-summary]:border-[#7E4B2A]",
       "[&>.accordion-item-wrapper]:bg-[#FBF2ED]",
@@ -1398,7 +1398,7 @@ defmodule <%= @module %> do
   end
   <% end %>
   <%= if is_nil(@color) or "silver" in @color do %>
-  defp color_variant("bordered_seperated", "silver") do
+  defp color_variant("bordered_separated", "silver") do
     [
       "text-[#727272] [&>.accordion-item-wrapper>.accordion-summary]:border-[#727272]",
       "[&>.accordion-item-wrapper]:bg-[#F3F3F3]",
@@ -2043,144 +2043,144 @@ defmodule <%= @module %> do
   end
   <% end %>
   <% end %>
-  <%= if is_nil(@variant) or "bordered_seperated" in @variant do %>
+  <%= if is_nil(@variant) or "bordered_separated" in @variant do %>
   <%= if is_nil(@color) or "natural" in @color do %>
-  defp item_color("bordered_seperated", "natural") do
+  defp item_color("bordered_separated", "natural") do
     [
       "group-open:bg-[#4B4B4B] group-open:text-white dark:group-open:bg-[#DDDDDD] dark:group-open:text-black",
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "primary" in @color do %>
-  defp item_color("bordered_seperated", "primary") do
+  defp item_color("bordered_separated", "primary") do
     [
       "group-open:bg-[#007F8C] group-open:text-white dark:group-open:bg-[#01B8CA] dark:group-open:text-black",
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "secondary" in @color do %>
-  defp item_color("bordered_seperated", "secondary") do
+  defp item_color("bordered_separated", "secondary") do
     [
       "group-open:bg-[#266EF1] group-open:text-white dark:group-open:bg-[#6DAAFB] dark:group-open:text-black",
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "success" in @color do %>
-  defp item_color("bordered_seperated", "success") do
+  defp item_color("bordered_separated", "success") do
     [
       "group-open:bg-[#0E8345] group-open:text-white dark:group-open:bg-[#06C167] dark:group-open:text-black",
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "warning" in @color do %>
-  defp item_color("bordered_seperated", "warning") do
+  defp item_color("bordered_separated", "warning") do
     [
       "group-open:bg-[#CA8D01] group-open:text-white dark:group-open:bg-[#FDC034] dark:group-open:text-black",
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "danger" in @color do %>
-  defp item_color("bordered_seperated", "danger") do
+  defp item_color("bordered_separated", "danger") do
     [
       "group-open:bg-[#DE1135] group-open:text-white dark:group-open:bg-[#FC7F79] dark:group-open:text-black",
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "info" in @color do %>
-  defp item_color("bordered_seperated", "info") do
+  defp item_color("bordered_separated", "info") do
     [
       "group-open:bg-[#0B84BA] group-open:text-white dark:group-open:bg-[#3EB7ED] dark:group-open:text-black",
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "misc" in @color do %>
-  defp item_color("bordered_seperated", "misc") do
+  defp item_color("bordered_separated", "misc") do
     [
       "group-open:bg-[#8750C5] group-open:text-white dark:group-open:bg-[#BA83F9] dark:group-open:text-black",
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "dawn" in @color do %>
-  defp item_color("bordered_seperated", "dawn") do
+  defp item_color("bordered_separated", "dawn") do
     [
       "group-open:bg-[#A86438] group-open:text-white dark:group-open:bg-[#DB976B] dark:group-open:text-black",
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "silver" in @color do %>
-  defp item_color("bordered_seperated", "silver") do
+  defp item_color("bordered_separated", "silver") do
     [
       "group-open:bg-[#868686] group-open:text-white dark:group-open:bg-[#A6A6A6] dark:group-open:text-black",
     ]
   end
   <% end %>
   <% end %>
-  <%= if is_nil(@variant) or "outline_seperated" in @variant do %>
+  <%= if is_nil(@variant) or "outline_separated" in @variant do %>
   <%= if is_nil(@color) or "natural" in @color do %>
-  defp item_color("outline_seperated", "natural") do
+  defp item_color("outline_separated", "natural") do
     [
       "group-open:bg-[#4B4B4B] group-open:text-white dark:group-open:bg-[#DDDDDD] dark:group-open:text-black",
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "primary" in @color do %>
-  defp item_color("outline_seperated", "primary") do
+  defp item_color("outline_separated", "primary") do
     [
       "group-open:bg-[#007F8C] group-open:text-white dark:group-open:bg-[#01B8CA] dark:group-open:text-black",
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "secondary" in @color do %>
-  defp item_color("outline_seperated", "secondary") do
+  defp item_color("outline_separated", "secondary") do
     [
       "group-open:bg-[#266EF1] group-open:text-white dark:group-open:bg-[#6DAAFB] dark:group-open:text-black",
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "success" in @color do %>
-  defp item_color("outline_seperated", "success") do
+  defp item_color("outline_separated", "success") do
     [
       "group-open:bg-[#0E8345] group-open:text-white dark:group-open:bg-[#06C167] dark:group-open:text-black",
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "warning" in @color do %>
-  defp item_color("outline_seperated", "warning") do
+  defp item_color("outline_separated", "warning") do
     [
       "group-open:bg-[#CA8D01] group-open:text-white dark:group-open:bg-[#FDC034] dark:group-open:text-black",
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "danger" in @color do %>
-  defp item_color("outline_seperated", "danger") do
+  defp item_color("outline_separated", "danger") do
     [
       "group-open:bg-[#DE1135] group-open:text-white dark:group-open:bg-[#FC7F79] dark:group-open:text-black",
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "info" in @color do %>
-  defp item_color("outline_seperated", "info") do
+  defp item_color("outline_separated", "info") do
     [
       "group-open:bg-[#0B84BA] group-open:text-white dark:group-open:bg-[#3EB7ED] dark:group-open:text-black",
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "misc" in @color do %>
-  defp item_color("outline_seperated", "misc") do
+  defp item_color("outline_separated", "misc") do
     [
       "group-open:bg-[#8750C5] group-open:text-white dark:group-open:bg-[#BA83F9] dark:group-open:text-black",
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "dawn" in @color do %>
-  defp item_color("outline_seperated", "dawn") do
+  defp item_color("outline_separated", "dawn") do
     [
       "group-open:bg-[#A86438] group-open:text-white dark:group-open:bg-[#DB976B] dark:group-open:text-black",
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "silver" in @color do %>
-  defp item_color("outline_seperated", "silver") do
+  defp item_color("outline_separated", "silver") do
     [
       "group-open:bg-[#868686] group-open:text-white dark:group-open:bg-[#A6A6A6] dark:group-open:text-black",
     ]
