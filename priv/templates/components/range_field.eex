@@ -17,7 +17,8 @@ defmodule <%= @module %> do
   """
   use Phoenix.Component
 
-  @colors [
+   @colors [
+    "natural",
     "white",
     "primary",
     "secondary",
@@ -26,7 +27,7 @@ defmodule <%= @module %> do
     "warning",
     "danger",
     "info",
-    "light",
+    "silver",
     "misc",
     "dawn"
   ]
@@ -73,7 +74,7 @@ defmodule <%= @module %> do
 
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :label_class, :string, default: nil, doc: "Custom CSS class for the label styling"
-  attr :color, :string, values: @colors, default: "primary", doc: "Determines color theme"
+  attr :color, :string, values: @colors, default: "natural", doc: "Determines color theme"
   attr :border, :string, default: "extra_small", doc: "Determines border style"
 
   attr :size, :string,
@@ -129,7 +130,7 @@ defmodule <%= @module %> do
     ]}>
       <.label for={@id}><%%= @label %></.label>
       <div class="relative mb-8">
-        <input type="range" value={@value} name={@name} id={@id} class="w-full" {@rest} />
+        <input type="range" value={@value} name={@name} id={@id} class={["w-full", color_class(@appearance, @color)]} {@rest} />
         <span
           :for={{range_value, index} <- Enum.with_index(@range_value, 1)}
           id={"#{@id}-value-#{index}"}
@@ -150,7 +151,7 @@ defmodule <%= @module %> do
   def range_field(assigns) do
     ~H"""
     <div class={[
-      color_class(@color),
+      color_class(@appearance, @color),
       size_class(@size),
       width_class(@width),
       @class
@@ -165,8 +166,10 @@ defmodule <%= @module %> do
           class={[
             "range-field bg-transparent cursor-pointer appearance-none disabled:opacity-50",
             "disabled:pointer-events-none focus:outline-none",
-            "[&::-webkit-slider-runnable-track]:w-full [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-runnable-track]:bg-[#e6e6e6]",
-            "[&::-webkit-slider-thumb]:-mt-0.5 [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:bg-white",
+            "[&::-webkit-slider-runnable-track]:w-full [&::-webkit-slider-thumb]:rounded-full",
+            "[&::-webkit-slider-runnable-track]:bg-[#DDDDDD] dark:[&::-webkit-slider-runnable-track]:bg-[#4B4B4B]",
+            "[&::-webkit-slider-thumb]:bg-[#DDDDDD] dark:[&::-webkit-slider-thumb]:bg-[#4B4B4B]",
+            "[&::-webkit-slider-thumb]:-mt-0.5 [&::-webkit-slider-thumb]:appearance-none",
             "[&::-webkit-slider-thumb]:transition-all [&::-webkit-slider-thumb]:duration-200 [&::-webkit-slider-thumb]:ease-in-out",
             "[&::-moz-range-thumb]:appearance-none [&::-moz-range-thumb]:bg-white",
             "[&::-moz-range-thumb]:border-4 [&::-moz-range-thumb]:rounded-full",
@@ -280,90 +283,179 @@ defmodule <%= @module %> do
   <% end %>
 
   <%= if is_nil(@color) or "white" in @color do %>
-  defp color_class("white") do
+  defp color_class("default", "white") do
+      ["accent-white dark:accent-white"]
+  end
+  <% end %>
+  <%= if is_nil(@color) or "natural" in @color do %>
+  defp color_class("default", "natural") do
+    ["accent-[#4B4B4B] dark:accent-[#DDDDDD]"]
+  end
+  <% end %>
+  <%= if is_nil(@color) or "primary" in @color do %>
+  defp color_class("default", "primary") do
+    ["accent-[#007F8C] dark:accent-[#01B8CA]"]
+  end
+  <% end %>
+  <%= if is_nil(@color) or "secondary" in @color do %>
+  defp color_class("default", "secondary") do
+    ["accent-[#266EF1] dark:accent-[#6DAAFB]"]
+  end
+  <% end %>
+  <%= if is_nil(@color) or "success" in @color do %>
+  defp color_class("default", "success") do
+    ["accent-[#0E8345] dark:accent-[#06C167]"]
+  end
+  <% end %>
+  <%= if is_nil(@color) or "warning" in @color do %>
+  defp color_class("default", "warning") do
+    ["accent-[#CA8D01] dark:accent-[#FDC034]"]
+  end
+  <% end %>
+  <%= if is_nil(@color) or "danger" in @color do %>
+  defp color_class("default", "danger") do
+    ["accent-[#DE1135] dark:accent-[#FC7F79]"]
+  end
+  <% end %>
+  <%= if is_nil(@color) or "info" in @color do %>
+  defp color_class("default", "info") do
+    ["accent-[#0B84BA] dark:accent-[#3EB7ED]"]
+  end
+  <% end %>
+  <%= if is_nil(@color) or "misc" in @color do %>
+  defp color_class("default", "misc") do
+    ["accent-[#8750C5] dark:accent-[#BA83F9]"]
+  end
+  <% end %>
+  <%= if is_nil(@color) or "dawn" in @color do %>
+  defp color_class("default", "dawn") do
+    ["accent-[#A86438] dark:accent-[#DB976B]"]
+  end
+  <% end %>
+  <%= if is_nil(@color) or "silver" in @color do %>
+  defp color_class("default", "silver") do
+    ["accent-[#868686] dark:accent-[#A6A6A6]"]
+  end
+  <% end %>
+  <%= if is_nil(@color) or "dark" in @color do %>
+  defp color_class("default", "dark") do
+    ["accent-[#282828] dark:accent-[#282828]"]
+  end
+  <% end %>
+
+  <%= if is_nil(@color) or "white" in @color do %>
+  defp color_class("custom", "white") do
     [
       "[&_.range-field::-moz-range-thumb]:border-white",
       "[&_.range-field::-webkit-slider-thumb]:shadow-[0_0_0_4px_rgba(255,255,255,1)]"
     ]
   end
   <% end %>
-  <%= if is_nil(@color) or "primary" in @color do %>
-  defp color_class("primary") do
+  <%= if is_nil(@color) or "natural" in @color do %>
+  defp color_class("custom", "natural") do
     [
-      "[&_.range-field::-moz-range-thumb]:border-[#2441de]",
-      "[&_.range-field::-webkit-slider-thumb]:shadow-[0_0_0_4px_rgba(36,65,222,1)]"
+      "[&_.range-field::-moz-range-thumb]:border-[#4B4B4B]",
+      "[&_.range-field::-webkit-slider-thumb]:shadow-[0_0_0_4px_rgba(75,75,75,1)]",
+      "dark:[&_.range-field::-moz-range-thumb]:border-[#DDDDDD]",
+      "dark:[&_.range-field::-webkit-slider-thumb]:shadow-[0_0_0_4px_rgba(221,221,221,1)]"
+    ]
+  end
+  <% end %>
+  <%= if is_nil(@color) or "primary" in @color do %>
+  defp color_class("custom", "primary") do
+    [
+      "[&_.range-field::-moz-range-thumb]:border-[#007f8c]",
+      "[&_.range-field::-webkit-slider-thumb]:shadow-[0_0_0_4px_rgba(0,65,127,140)]",
+      "dark:[&_.range-field::-moz-range-thumb]:border-[#01B8CA]",
+      "dark:[&_.range-field::-webkit-slider-thumb]:shadow-[0_0_0_4px_rgba(1,184,202,140)]"
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "secondary" in @color do %>
-  defp color_class("secondary") do
+  defp color_class("custom", "secondary") do
     [
-      "[&_.range-field::-moz-range-thumb]:border-[#047857]",
-      "[&_.range-field::-webkit-slider-thumb]:shadow-[0_0_0_4px_rgba(135,124,124,1)]"
+      "[&_.range-field::-moz-range-thumb]:border-[#266EF1]",
+      "[&_.range-field::-webkit-slider-thumb]:shadow-[0_0_0_4px_rgba(38,110,241,1)]",
+      "dark[&_.range-field::-moz-range-thumb]:border-[#6DAAFB]",
+      "dark[&_.range-field::-webkit-slider-thumb]:shadow-[0_0_0_4px_rgba(109,170,251,1)]"
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "success" in @color do %>
-  defp color_class("success") do
+  defp color_class("custom", "success") do
     [
-      "[&_.range-field::-moz-range-thumb]:border-[#047857]",
-      "[&_.range-field::-webkit-slider-thumb]:shadow-[0_0_0_4px_rgba(4,120,87,1)]"
+      "[&_.range-field::-moz-range-thumb]:border-[#0E8345]",
+      "[&_.range-field::-webkit-slider-thumb]:shadow-[0_0_0_4px_rgba(14,131,69,1)]",
+      "dark:[&_.range-field::-moz-range-thumb]:border-[#06C167]",
+      "dark:[&_.range-field::-webkit-slider-thumb]:shadow-[0_0_0_4px_rgba(6,193,103,1)]"
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "warning" in @color do %>
-  defp color_class("warning") do
+  defp color_class("custom", "warning") do
     [
-      "[&_.range-field::-moz-range-thumb]:border-[#FF8B08]",
-      "[&_.range-field::-webkit-slider-thumb]:shadow-[0_0_0_4px_rgba(255,139,8,1)]"
+      "[&_.range-field::-moz-range-thumb]:border-[#CA8D01]",
+      "[&_.range-field::-webkit-slider-thumb]:shadow-[0_0_0_4px_rgba(202,141,1,1)]",
+      "dark:[&_.range-field::-moz-range-thumb]:border-[#FDC034]",
+      "dark:[&_.range-field::-webkit-slider-thumb]:shadow-[0_0_0_4px_rgba(253,192,52,1)]"
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "danger" in @color do %>
-  defp color_class("danger") do
+  defp color_class("custom", "danger") do
     [
-      "[&_.range-field::-moz-range-thumb]:border-[#E73B3B]",
-      "[&_.range-field::-webkit-slider-thumb]:shadow-[0_0_0_4px_rgba(231,59,59,1)]"
+      "[&_.range-field::-moz-range-thumb]:border-[#DE1135]",
+      "[&_.range-field::-webkit-slider-thumb]:shadow-[0_0_0_4px_rgba(222,17,53,1)]",
+      "dark:[&_.range-field::-moz-range-thumb]:border-[#FC7F79]",
+      "dark:[&_.range-field::-webkit-slider-thumb]:shadow-[0_0_0_4px_rgba(252,127,121,1)]"
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "info" in @color do %>
-  defp color_class("info") do
+  defp color_class("custom", "info") do
     [
-      "[&_.range-field::-moz-range-thumb]:border-[#004FC4]",
-      "[&_.range-field::-webkit-slider-thumb]:shadow-[0_0_0_4px_rgba(0,79,196,1)]"
+      "[&_.range-field::-moz-range-thumb]:border-[#0B84BA]",
+      "[&_.range-field::-webkit-slider-thumb]:shadow-[0_0_0_4px_rgba(11,132,186,1)]",
+      "dark:[&_.range-field::-moz-range-thumb]:border-[#3EB7ED]",
+      "dark:[&_.range-field::-webkit-slider-thumb]:shadow-[0_0_0_4px_rgba(62,183,237,1)]"
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "misc" in @color do %>
-  defp color_class("misc") do
+  defp color_class("custom", "misc") do
     [
-      "[&_.range-field::-moz-range-thumb]:border-[#52059C]",
-      "[&_.range-field::-webkit-slider-thumb]:shadow-[0_0_0_4px_rgba(82,5,156,1)]"
+      "[&_.range-field::-moz-range-thumb]:border-[#8750C5]",
+      "[&_.range-field::-webkit-slider-thumb]:shadow-[0_0_0_4px_rgba(135,80,197,1)]",
+      "dark:[&_.range-field::-moz-range-thumb]:border-[#DB976B]",
+      "dark:[&_.range-field::-webkit-slider-thumb]:shadow-[0_0_0_4px_rgba(186,131,249,1)]"
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "dawn" in @color do %>
-  defp color_class("dawn") do
+  defp color_class("custom", "dawn") do
     [
-      "[&_.range-field::-moz-range-thumb]:border-[#4D4137]",
-      "[&_.range-field::-webkit-slider-thumb]:shadow-[0_0_0_4px_rgba(77,65,55,1)]"
+      "[&_.range-field::-moz-range-thumb]:border-[#A86438]",
+      "[&_.range-field::-webkit-slider-thumb]:shadow-[0_0_0_4px_rgba(168,100,56,1)]",
+      "dark:[&_.range-field::-moz-range-thumb]:border-[#DB976B]",
+      "dark:[&_.range-field::-webkit-slider-thumb]:shadow-[0_0_0_4px_rgba(219,151,107,1)]"
     ]
   end
   <% end %>
-  <%= if is_nil(@color) or "light" in @color do %>
-  defp color_class("light") do
+  <%= if is_nil(@color) or "silver" in @color do %>
+  defp color_class("custom", "silver") do
     [
-      "[&_.range-field::-moz-range-thumb]:border-[#707483]",
-      "[&_.range-field::-webkit-slider-thumb]:shadow-[0_0_0_4px_rgba(112,116,131,1)]"
+      "[&_.range-field::-moz-range-thumb]:border-[#868686]",
+      "[&_.range-field::-webkit-slider-thumb]:shadow-[0_0_0_4px_rgba(134,134,134,1)]",
+      "[&_.range-field::-moz-range-thumb]:border-[#A6A6A6]",
+      "[&_.range-field::-webkit-slider-thumb]:shadow-[0_0_0_4px_rgba(166,166,166,1)]"
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "dark" in @color do %>
-  defp color_class("dark") do
+  defp color_class("custom", "dark") do
     [
-      "[&_.range-field::-moz-range-thumb]:border-[#050404]",
-      "[&_.range-field::-webkit-slider-thumb]:shadow-[0_0_0_4px_rgba(5,4,4,1)]"
+      "[&_.range-field::-moz-range-thumb]:border-[#282828]",
+      "[&_.range-field::-webkit-slider-thumb]:shadow-[0_0_0_4px_rgba(40,40,40,1)]"
     ]
   end
   <% end %>

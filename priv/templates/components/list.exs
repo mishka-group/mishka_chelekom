@@ -2,8 +2,18 @@
   list: [
     name: "list",
     args: [
-      variant: ["default", "filled", "outline", "separated", "tinted_split", "transparent"],
+      variant: [
+        "default",
+        "bordered",
+        "outline",
+        "shadow",
+        "gradient",
+        "outline_separated",
+        "bordered_seperated",
+        "transparent"
+      ],
       color: [
+        "natural",
         "white",
         "primary",
         "secondary",
@@ -12,7 +22,7 @@
         "warning",
         "danger",
         "info",
-        "light",
+        "silver",
         "misc",
         "dawn"
       ],
@@ -22,6 +32,7 @@
       rounded: ["extra_small", "small", "medium", "large", "extra_large", "full", "none"],
       type: ["list", "li", "ul", "ol", "list_group"],
       only: ["list", "li", "ul", "ol", "list_group"],
+      helpers: [],
       module: ""
     ],
     optional: [],

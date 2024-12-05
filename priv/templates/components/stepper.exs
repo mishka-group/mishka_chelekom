@@ -3,15 +3,14 @@
     name: "stepper",
     args: [
       color: [
-        "white",
+        "natural",
         "primary",
         "secondary",
-        "dark",
         "success",
         "warning",
         "danger",
         "info",
-        "light",
+        "silver",
         "misc",
         "dawn"
       ],
@@ -19,6 +18,7 @@
       space: ["extra_small", "small", "medium", "large", "extra_large"],
       type: ["stepper", "stepper_section"],
       only: ["stepper", "stepper_section"],
+      helpers: [],
       module: ""
     ],
     optional: [],

@@ -4,14 +4,17 @@
     args: [
       variant: [
         "default",
-        "contained",
-        "filled",
-        "separated",
-        "tinted_split",
-        "transparent",
-        "menu"
+        "bordered",
+        "outline",
+        "shadow",
+        "gradient",
+        "menu",
+        "outline_separated",
+        "bordered_seperated",
+        "transparent"
       ],
       color: [
+        "natural",
         "white",
         "primary",
         "secondary",
@@ -20,7 +23,7 @@
         "warning",
         "danger",
         "info",
-        "light",
+        "silver",
         "misc",
         "dawn"
       ],
@@ -30,6 +33,7 @@
       type: ["accordion", "native_accordion"],
       rounded: ["extra_small", "small", "medium", "large", "extra_large", "full"],
       only: ["accordion", "native_accordion"],
+      helpers: [show_accordion_content: 2, hide_accordion_content: 2],
       module: ""
     ],
     optional: [],
