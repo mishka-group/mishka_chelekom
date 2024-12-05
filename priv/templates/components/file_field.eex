@@ -23,7 +23,7 @@ defmodule <%= @module %> do
   import <%= inspect(@web_module) %>.Components.Progress, only: [progress: 1]
   import <%= inspect(@web_module) %>.Components.Spinner, only: [spinner: 1]
 
-  @variants ["default", "outline", "unbordered", "shadow", "gradient", "transparent"]
+  @variants ["default", "outline", "bordered", "shadow", "gradient", "transparent"]
 
   @colors [
     "natural",
@@ -263,7 +263,7 @@ defmodule <%= @module %> do
               role="status"
               class="absolute top-1 left-1 bottom-1 right-1 bg-black/25 flex justify-center items-center"
             >
-              <.spinner color="white" />
+              <.spinner color="silver" />
             </div>
             </div>
             <%%= for err <- upload_errors(@upload_error, entry) do %>
@@ -349,7 +349,7 @@ defmodule <%= @module %> do
 
   defp border_class(_, variant) when variant in ["default", "shadow", "transparent", "gradient"],
     do: nil
-  defp border_class("none", _), do: "[&_.dropzone-wrapper]:border-0"
+  defp border_class("none", _), do: nil
   <%= if is_nil(@size) or "extra_small" in @size do %>
   defp border_class("extra_small", _), do: "[&_.dropzone-wrapper]:border"
   <% end %>
@@ -769,30 +769,30 @@ defmodule <%= @module %> do
   <%= if is_nil(@color) or "white" in @color do %>
   defp color_variant("bordered", "white") do
     [
-      "[&_.dropzone-wrapper]:bg-white text-black [&_.dropzone-wrapper]:border-[#DDDDDD]"
+      "[&_.dropzone-wrapper]:bg-white text-black [&_.dropzone-wrapper]border-[#DDDDDD]"
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "dark" in @color do %>
   defp color_variant("bordered", "dark") do
     [
-      "[&_.dropzone-wrapper]:bg-[#282828] text-white [&_.dropzone-wrapper]:border-[#727272]"
+      "[&_.dropzone-wrapper]:bg-[#282828] text-white [&_.dropzone-wrapper]border-[#727272]"
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "natural" in @color do %>
   defp color_variant("bordered", "natural") do
     [
-      "text-[#282828] [&_.dropzone-wrapper]:border-[#282828] [&_.dropzone-wrapper]:bg-[#F3F3F3]",
-      "dark:text-[#E8E8E8] dark:[&_.dropzone-wrapper]:border-[#E8E8E8] dark:[&_.dropzone-wrapper]:bg-[#4B4B4B]"
+      "text-[#282828] [&_.dropzone-wrapper]border-[#282828] [&_.dropzone-wrapper]:bg-[#F3F3F3]",
+      "dark:text-[#E8E8E8] dark:[&_.dropzone-wrapper]border-[#E8E8E8] dark:[&_.dropzone-wrapper]:bg-[#4B4B4B]"
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "primary" in @color do %>
   defp color_variant("bordered", "primary") do
     [
-      "text-[#016974] [&_.dropzone-wrapper]:border-[#016974] [&_.dropzone-wrapper]:bg-[#E2F8FB]",
-      "dark:text-[#77D5E3] dark:[&_.dropzone-wrapper]:border-[#77D5E3] dark:[&_.dropzone-wrapper]:bg-[#002D33]"
+      "text-[#016974] [&_.dropzone-wrapper]border-[#016974] [&_.dropzone-wrapper]:bg-[#E2F8FB]",
+      "dark:text-[#77D5E3] dark:[&_.dropzone-wrapper]border-[#77D5E3] dark:[&_.dropzone-wrapper]:bg-[#002D33]"
     ]
   end
   <% end %>
@@ -807,15 +807,15 @@ defmodule <%= @module %> do
   <%= if is_nil(@color) or "success" in @color do %>
   defp color_variant("bordered", "success") do
     [
-      "text-[#166C3B] [&_.dropzone-wrapper]:border-[#166C3B] [&_.dropzone-wrapper]:bg-[#EAF6ED]",
-      "dark:text-[#7FD99A] dark:[&_.dropzone-wrapper]:border-[#7FD99A] dark:[&_.dropzone-wrapper]:bg-[#002F14]"
+      "text-[#175BCC] [&_.dropzone-wrapper]border-[#175BCC] [&_.dropzone-wrapper]:bg-[#EFF4FE]",
+      "dark:text-[#A9C9FF] dark:[&_.dropzone-wrapper]:border-[#A9C9FF] dark:[&_.dropzone-wrapper]:bg-[#002661]"
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "warning" in @color do %>
   defp color_variant("bordered", "warning") do
-    [
-      "text-[#976A01] [&_.dropzone-wrapper]:border-[#976A01] [&_.dropzone-wrapper]:bg-[#FFF7E6]",
+   [
+      "text-[#976A01] [&_.dropzone-wrapper]border-[#976A01] [&_.dropzone-wrapper]:bg-[#FFF7E6]",
       "dark:text-[#FDD067] dark:[&_.dropzone-wrapper]:border-[#FDD067] dark:[&_.dropzone-wrapper]:bg-[#322300]"
     ]
   end
@@ -823,7 +823,7 @@ defmodule <%= @module %> do
   <%= if is_nil(@color) or "danger" in @color do %>
   defp color_variant("bordered", "danger") do
     [
-      "text-[#BB032A] [&_.dropzone-wrapper]:border-[#BB032A] [&_.dropzone-wrapper]:bg-[#FFF0EE]",
+      "text-[#BB032A] [&_.dropzone-wrapper]border-[#BB032A] [&_.dropzone-wrapper]:bg-[#FFF0EE]",
       "dark:text-[#FFB2AB] dark:[&_.dropzone-wrapper]:border-[#FFB2AB] dark:[&_.dropzone-wrapper]:bg-[#520810]"
     ]
   end
@@ -831,7 +831,7 @@ defmodule <%= @module %> do
   <%= if is_nil(@color) or "info" in @color do %>
   defp color_variant("bordered", "info") do
     [
-      "text-[#0B84BA] [&_.dropzone-wrapper]:border-[#0B84BA] [&_.dropzone-wrapper]:bg-[#E7F6FD]",
+      "text-[#0B84BA] [&_.dropzone-wrapper]border-[#0B84BA] [&_.dropzone-wrapper]:bg-[#E7F6FD]",
       "dark:text-[#6EC9F2] dark:[&_.dropzone-wrapper]:border-[#6EC9F2] dark:[&_.dropzone-wrapper]:bg-[#03212F]"
     ]
   end
@@ -839,7 +839,7 @@ defmodule <%= @module %> do
   <%= if is_nil(@color) or "misc" in @color do %>
   defp color_variant("bordered", "misc") do
     [
-      "text-[#653C94] [&_.dropzone-wrapper]:border-[#653C94] [&_.dropzone-wrapper]:bg-[#F6F0FE]",
+      "text-[#653C94] [&_.dropzone-wrapper]border-[#653C94] [&_.dropzone-wrapper]:bg-[#F6F0FE]",
       "dark:text-[#CBA2FA] dark:[&_.dropzone-wrapper]:border-[#CBA2FA] dark:[&_.dropzone-wrapper]:bg-[#221431]"
     ]
   end
@@ -847,7 +847,7 @@ defmodule <%= @module %> do
   <%= if is_nil(@color) or "dawn" in @color do %>
   defp color_variant("bordered", "dawn") do
     [
-      "text-[#7E4B2A] [&_.dropzone-wrapper]:border-[#7E4B2A] [&_.dropzone-wrapper]:bg-[#FBF2ED]",
+      "text-[#7E4B2A] [&_.dropzone-wrapper]border-[#7E4B2A] [&_.dropzone-wrapper]:bg-[#FBF2ED]",
       "dark:text-[#E4B190] dark:[&_.dropzone-wrapper]:border-[#E4B190] dark:[&_.dropzone-wrapper]:bg-[#2A190E]"
     ]
   end
@@ -855,7 +855,7 @@ defmodule <%= @module %> do
   <%= if is_nil(@color) or "silver" in @color do %>
   defp color_variant("bordered", "silver") do
     [
-      "text-[#727272] [&_.dropzone-wrapper]:border-[#727272] [&_.dropzone-wrapper]:bg-[#F3F3F3]",
+      "text-[#727272] [&_.dropzone-wrapper]border-[#727272] [&_.dropzone-wrapper]:bg-[#F3F3F3]",
       "dark:text-[#BBBBBB] dark:[&_.dropzone-wrapper]:border-[#BBBBBB] dark:[&_.dropzone-wrapper]:bg-[#4B4B4B]"
     ]
   end
