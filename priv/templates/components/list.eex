@@ -1,6 +1,6 @@
 defmodule <%= @module %> do
   @moduledoc """
-  The `<%= @module %>` module provides a versatile and customizable list
+  The `MishkaWeb.Components.List` module provides a versatile and customizable list
   component for building both ordered and unordered lists, as well as a list
   group component for more structured content. This module is designed to cater to
   various styles and use cases, such as navigation menus, data presentations, or simple item listings.
@@ -8,7 +8,7 @@ defmodule <%= @module %> do
   ### Features
 
   - **Styling Variants:** The component offers multiple variants like `default`,
-  `filled`, `outline`, `separated`, `tinted_split`, and `transparent` to meet diverse design requirements.
+  `bordered`, `outline`, `outline_separated`, `bordered_seperated`, and `transparent` to meet diverse design requirements.
   - **Color Customization:** Choose from a variety of colors to style the list according to
   your application's theme.
   - **Flexible Layouts:** Control the size, spacing, and appearance of list items with extensive
@@ -23,16 +23,19 @@ defmodule <%= @module %> do
   use Phoenix.Component
 
   @sizes ["extra_small", "small", "medium", "large", "extra_large"]
-  @variants [
+   @variants [
     "default",
-    "filled",
+    "bordered",
     "outline",
-    "separated",
-    "tinted_split",
+    "shadow",
+    "gradient",
+    "outline_separated",
+    "bordered_seperated",
     "transparent"
   ]
 
   @colors [
+    "natural",
     "white",
     "primary",
     "secondary",
@@ -41,7 +44,7 @@ defmodule <%= @module %> do
     "warning",
     "danger",
     "info",
-    "light",
+    "silver",
     "misc",
     "dawn"
   ]
@@ -54,7 +57,7 @@ defmodule <%= @module %> do
   ## Examples
 
   ```elixir
-  <.list font_weight="font-bold" color="light" size="small">
+  <.list font_weight="font-bold" color="silver" size="small">
     <:item padding="small" count={1}>list count small</:item>
     <:item padding="small" count={2}>list count small</:item>
     <:item padding="small" count={3}>list count small</:item>
@@ -79,8 +82,9 @@ defmodule <%= @module %> do
       "Determines the overall size of the elements, including padding, font size, and other items"
 
   attr :space, :string, values: @sizes ++ [nil], default: nil, doc: "Space between items"
-  attr :color, :string, values: @colors, default: "white", doc: "Determines color theme"
-  attr :variant, :string, values: @variants, default: "filled", doc: "Determines the style"
+  attr :border, :string, values: @sizes, default: "extra_small", doc: "Border size"
+  attr :color, :string, values: @colors, default: "natural", doc: "Determines color theme"
+  attr :variant, :string, values: @variants, default: "transparent", doc: "Determines the style"
   attr :style, :string, default: "list-none", doc: ""
   slot :item, validate_attrs: false, doc: "Specifies item slot of a list"
 
@@ -202,8 +206,8 @@ defmodule <%= @module %> do
     default: nil,
     doc: "A unique identifier is used to manage state and interaction"
 
-  attr :color, :string, values: @colors, default: "white", doc: "Determines color theme"
-  attr :variant, :string, values: @variants, default: "filled", doc: "Determines the style"
+  attr :color, :string, values: @colors, default: "natural", doc: "Determines color theme"
+  attr :variant, :string, values: @variants, default: "transparent", doc: "Determines the style"
 
   attr :size, :string,
     default: "medium",
@@ -211,6 +215,7 @@ defmodule <%= @module %> do
       "Determines the overall size of the elements, including padding, font size, and other items"
 
   attr :width, :string, default: "full", doc: "Determines the element width"
+  attr :border, :string, values: @sizes, default: "extra_small", doc: "Border size"
   attr :style, :string, default: "list-none", doc: "Determines the element style"
   attr :space, :string, values: @sizes ++ [nil], default: nil, doc: "Space between items"
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
@@ -232,6 +237,7 @@ defmodule <%= @module %> do
       class={[
         "[&.list-decimal]:ps-5 [&.list-disc]:ps-5",
         color_variant(@variant, @color),
+        border_class(@border, @variant),
         size_class(@size),
         width_class(@width),
         list_space(@space),
@@ -267,8 +273,8 @@ defmodule <%= @module %> do
     default: nil,
     doc: "A unique identifier is used to manage state and interaction"
 
-  attr :color, :string, values: @colors, default: "white", doc: "Determines color theme"
-  attr :variant, :string, values: @variants, default: "filled", doc: "Determines the style"
+  attr :color, :string, values: @colors, default: "natural", doc: "Determines color theme"
+  attr :variant, :string, values: @variants, default: "transparent", doc: "Determines the style"
 
   attr :size, :string,
     default: "medium",
@@ -276,6 +282,7 @@ defmodule <%= @module %> do
       "Determines the overall size of the elements, including padding, font size, and other items"
 
   attr :width, :string, default: "full", doc: "Determines the element width"
+  attr :border, :string, values: @sizes, default: "extra_small", doc: "Border size"
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :space, :string, values: @sizes ++ [nil], default: nil, doc: "Space between items"
 
@@ -296,6 +303,7 @@ defmodule <%= @module %> do
       class={[
         "list-decimal [&.list-decimal]:ps-5 [&.list-disc]:ps-5",
         color_variant(@variant, @color),
+        border_class(@border, @variant),
         size_class(@size),
         width_class(@width),
         list_space(@space),
@@ -318,7 +326,7 @@ defmodule <%= @module %> do
   ```elixir
   <.list_group variant="separated" rounded="extra_small" color="dawn">
     <.li position="end" icon="hero-chat-bubble-left-ellipsis">HBase</.li>
-    <.li>PSQL</.li>
+    <.li>SQL</.li>
     <.li>Sqlight</.li>
   </.list_group>
   ```
@@ -328,8 +336,8 @@ defmodule <%= @module %> do
     default: nil,
     doc: "A unique identifier is used to manage state and interaction"
 
-  attr :variant, :string, values: @variants, default: "default", doc: "Determines the style"
-  attr :color, :string, values: @colors, default: "white", doc: "Determines color theme"
+  attr :variant, :string, values: @variants, default: "transparent", doc: "Determines the style"
+  attr :color, :string, values: @colors, default: "natural", doc: "Determines color theme"
 
   attr :size, :string,
     default: "medium",
@@ -403,28 +411,6 @@ defmodule <%= @module %> do
 
   defp content_position(_), do: content_position("start")
 
-  defp border_class(_, variant) when variant in ["separated", "tinted_split"], do: "border-0"
-  <%= if is_nil(@size) or "extra_small" in @size do %>
-  defp border_class("extra_small", _), do: "border"
-  <% end %>
-  <%= if is_nil(@size) or "small" in @size do %>
-  defp border_class("small", _), do: "border-2"
-  <% end %>
-  <%= if is_nil(@size) or "medium" in @size do %>
-  defp border_class("medium", _), do: "border-[3px]"
-  <% end %>
-  <%= if is_nil(@size) or "large" in @size do %>
-  defp border_class("large", _), do: "border-4"
-  <% end %>
-  <%= if is_nil(@size) or "extra_large" in @size do %>
-  defp border_class("extra_large", _), do: "border-[5px]"
-  <% end %>
-  <%= if is_nil(@size) or "none" in @size do %>
-  defp border_class("none", _), do: "border-0"
-  <% end %>
-  defp border_class(params, _) when is_binary(params), do: params
-  defp border_class(_, _), do: nil
-
   <%= if is_nil(@rounded) or "extra_small" in @rounded do %>
   defp rounded_size("extra_small"),
     do: "[&:not(.list-items-gap)]:rounded-sm [&.list-items-gap>li]:rounded-sm"
@@ -453,7 +439,7 @@ defmodule <%= @module %> do
     do: "[&:not(.list-items-gap)]:rounded-none [&.list-items-gap>li]:rounded-none"
   <% end %>
 
-  defp variant_space(_, variant) when variant not in ["separated", "tinted_split"], do: nil
+  defp variant_space(_, variant) when variant not in ["outline_separated", "bordered_seperated"], do: nil
   <%= if is_nil(@space) or "extra_small" in @space do %>
   defp variant_space("extra_small", _), do: "list-items-gap space-y-2"
   <% end %>
@@ -542,469 +528,708 @@ defmodule <%= @module %> do
   defp padding_size(_), do: padding_size("none")
   <% end %>
 
-  <%= if is_nil(@variant) or "default" in @variant do %>
+  defp border_class(_, variant) when variant in ["default", "shadow", "transparent", "gradient"],
+  do: nil
+
+  defp border_class("none", "outline"), do: "border-0 [&>li:not(:last-child)]:border-b-0"
+
+  defp border_class("extra_small", "outline"), do: "border [&>li:not(:last-child)]:border-b"
+
+  defp border_class("small", "outline"), do: "border-2 [&>li:not(:last-child)]:border-b-2"
+
+  defp border_class("medium", "outline"), do: "border-[3px] [&>li:not(:last-child)]:border-b-[3px]"
+
+  defp border_class("large", "outline"), do: "border-4 [&>li:not(:last-child)]:border-b-4"
+
+  defp border_class("extra_large", "outline"), do: "border-[5px] [&>li:not(:last-child)]:border-b-[5px]"
+
+  defp border_class("none", "bordered"), do: "border-0 [&>li:not(:last-child)]:border-b-0"
+
+  defp border_class("extra_small", "bordered"), do: "border [&>li:not(:last-child)]:border-b"
+
+  defp border_class("small", "bordered"), do: "border-2 [&>li:not(:last-child)]:border-b-2"
+
+  defp border_class("medium", "bordered"), do: "border-[3px] [&>li:not(:last-child)]:border-b-[3px]"
+
+  defp border_class("large", "bordered"), do: "border-4 [&>li:not(:last-child)]:border-b-4"
+
+  defp border_class("extra_large", "bordered"), do: "border-[5px] [&>li:not(:last-child)]:border-b-[5px]"
+
+  defp border_class("none", "bordered_seperated"), do: "[&>li]:border-0"
+
+  defp border_class("extra_small", "bordered_seperated"), do: "[&>li]:border"
+
+  defp border_class("small", "bordered_seperated"), do: "[&>li]:border-2"
+
+  defp border_class("medium", "bordered_seperated"), do: "[&>li]:border-[3px]"
+
+  defp border_class("large", "bordered_seperated"), do: "[&>li]:border-4"
+
+  defp border_class("extra_large", "bordered_seperated"), do: "[&>li]:border-[5px]"
+
+  defp border_class("none", "outline_seperated"), do: "[&>li]:border-0"
+
+  defp border_class("extra_small", "outline_seperated"), do: "[&>li]:border"
+
+  defp border_class("small", "outline_seperated"), do: "[&>li]:border-2"
+
+  defp border_class("medium", "outline_seperated"), do: "[&>li]:border-[3px]"
+
+  defp border_class("large", "outline_seperated"), do: "[&>li]:border-4"
+
+  defp border_class("extra_large", "outline_seperated"), do: "[&>li]:border-[5px]"
+
+  defp border_class(params, _) when is_binary(params), do: params
+
+  defp border_class(_, _), do: border_class(nil, "transparent")
+
+ <%= if is_nil(@variant) or "default" in @variant do %>
   <%= if is_nil(@color) or "white" in @color do %>
   defp color_variant("default", "white") do
-    [
-      "bg-white border border-[#DADADA] text-[#3E3E3E]",
-      "[&>li:not(:last-child)]:border-b",
-      "[&>li:not(:last-child)]:border-[#DADADA]"
-    ]
-  end
-  <% end %>
-  <%= if is_nil(@color) or "primary" in @color do %>
-  defp color_variant("default", "primary") do
-    [
-      "bg-[#4363EC] text-white border border-[#2441de]",
-      "[&>li:not(:last-child)]:border-b",
-      "[&>li:not(:last-child)]:border-[#2441de]"
-    ]
-  end
-  <% end %>
-  <%= if is_nil(@color) or "secondary" in @color do %>
-  defp color_variant("default", "secondary") do
-    [
-      "bg-[#6B6E7C] text-white border border-[#877C7C]",
-      "[&>li:not(:last-child)]:border-b",
-      "[&>li:not(:last-child)]:border-[#877C7C]"
-    ]
-  end
-  <% end %>
-  <%= if is_nil(@color) or "success" in @color do %>
-  defp color_variant("default", "success") do
-    [
-      "bg-[#ECFEF3] text-[#227A52] border border-[#227A52]",
-      "[&>li:not(:last-child)]:border-b",
-      "[&>li:not(:last-child)]:border-[#227A52]"
-    ]
-  end
-  <% end %>
-  <%= if is_nil(@color) or "warning" in @color do %>
-  defp color_variant("default", "warning") do
-    [
-      "bg-[#FFF8E6] text-[#FF8B08] border border-[#FF8B08]",
-      "[&>li:not(:last-child)]:border-b",
-      "[&>li:not(:last-child)]:border-[#FF8B08]"
-    ]
-  end
-  <% end %>
-  <%= if is_nil(@color) or "danger" in @color do %>
-  defp color_variant("default", "danger") do
-    [
-      "bg-[#FFE6E6] text-[#E73B3B] border border-[#E73B3B]",
-      "[&>li:not(:last-child)]:border-b",
-      "[&>li:not(:last-child)]:border-[#E73B3B]"
-    ]
-  end
-  <% end %>
-  <%= if is_nil(@color) or "info" in @color do %>
-  defp color_variant("default", "info") do
-    [
-      "bg-[#E5F0FF] text-[#004FC4] border border-[#004FC4]",
-      "[&>li:not(:last-child)]:border-b",
-      "[&>li:not(:last-child)]:border-[#004FC4]"
-    ]
-  end
-  <% end %>
-  <%= if is_nil(@color) or "misc" in @color do %>
-  defp color_variant("default", "misc") do
-    [
-      "bg-[#FFE6FF] text-[#52059C] border border-[#52059C]",
-      "[&>li:not(:last-child)]:border-b",
-      "[&>li:not(:last-child)]:border-[#52059C]"
-    ]
-  end
-  <% end %>
-  <%= if is_nil(@color) or "dawn" in @color do %>
-  defp color_variant("default", "dawn") do
-    [
-      "bg-[#FFECDA] text-[#4D4137] border border-[#4D4137]",
-      "[&>li:not(:last-child)]:border-b",
-      "[&>li:not(:last-child)]:border-[#4D4137]"
-    ]
-  end
-  <% end %>
-  <%= if is_nil(@color) or "light" in @color do %>
-  defp color_variant("default", "light") do
-    [
-      "bg-[#E3E7F1] text-[#4D4137] border border-[#707483]",
-      "[&>li:not(:last-child)]:border-b",
-      "[&>li:not(:last-child)]:border-[#707483]"
-    ]
+    ["bg-white text-black"]
   end
   <% end %>
   <%= if is_nil(@color) or "dark" in @color do %>
   defp color_variant("default", "dark") do
-    [
-      "bg-[#1E1E1E] text-white border border-[#1E1E1E]",
-      "[&>li:not(:last-child)]:border-b",
-      "[&>li:not(:last-child)]:border-[#1E1E1E]"
-    ]
+    ["bg-[#282828] text-white"]
+  end
+  <% end %>
+  <%= if is_nil(@color) or "natural" in @color do %>
+  defp color_variant("default", "natural") do
+    ["bg-[#4B4B4B] text-white dark:bg-[#DDDDDD] dark:text-black"]
+  end
+  <% end %>
+  <%= if is_nil(@color) or "primary" in @color do %>
+  defp color_variant("default", "primary") do
+    ["bg-[#007F8C] text-white dark:bg-[#01B8CA] dark:text-black"]
+  end
+  <% end %>
+  <%= if is_nil(@color) or "secondary" in @color do %>
+  defp color_variant("default", "secondary") do
+    ["bg-[#266EF1] text-white dark:bg-[#6DAAFB] dark:text-black"]
+  end
+  <% end %>
+  <%= if is_nil(@color) or "success" in @color do %>
+  defp color_variant("default", "success") do
+    ["bg-[#0E8345] text-white dark:bg-[#06C167] dark:text-black"]
+  end
+  <% end %>
+  <%= if is_nil(@color) or "warning" in @color do %>
+  defp color_variant("default", "warning") do
+    ["bg-[#CA8D01] text-white dark:bg-[#FDC034] dark:text-black"]
+  end
+  <% end %>
+  <%= if is_nil(@color) or "danger" in @color do %>
+  defp color_variant("default", "danger") do
+    ["bg-[#DE1135] text-white dark:bg-[#FC7F79] dark:text-black"]
+  end
+  <% end %>
+  <%= if is_nil(@color) or "info" in @color do %>
+  defp color_variant("default", "info") do
+    ["bg-[#0B84BA] text-white dark:bg-[#3EB7ED] dark:text-black"]
+  end
+  <% end %>
+  <%= if is_nil(@color) or "misc" in @color do %>
+  defp color_variant("default", "misc") do
+    ["bg-[#8750C5] text-white dark:bg-[#BA83F9] dark:text-black"]
+  end
+  <% end %>
+  <%= if is_nil(@color) or "dawn" in @color do %>
+  defp color_variant("default", "dawn") do
+    ["bg-[#A86438] text-white dark:bg-[#DB976B] dark:text-black"]
+  end
+  <% end %>
+  <%= if is_nil(@color) or "silver" in @color do %>
+  defp color_variant("default", "silver") do
+    ["bg-[#868686] text-white dark:bg-[#A6A6A6] dark:text-black"]
   end
   <% end %>
   <% end %>
   <%= if is_nil(@variant) or "outline" in @variant do %>
-  <%= if is_nil(@color) or "white" in @color do %>
-  defp color_variant("outline", "white") do
+  <%= if is_nil(@color) or "natural" in @color do %>
+  defp color_variant("outline", "natural") do
     [
-      "border border-[#DADADA] text-[#3E3E3E]",
-      "[&>li:not(:last-child)]:border-b",
-      "[&>li:not(:last-child)]:border-[#DADADA]"
+      "text-[#4B4B4B] border-[#4B4B4B] dark:text-[#DDDDDD] dark:border-[#DDDDDD]",
+      "[&>li:not(:last-child)]:border-[#4B4B4B] dark:[&>li:not(:last-child)]:border-[#DDDDDD]"
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "primary" in @color do %>
   defp color_variant("outline", "primary") do
     [
-      "border border-[#2441de] text-[#2441de]",
-      "[&>li:not(:last-child)]:border-b",
-      "[&>li:not(:last-child)]:border-[#2441de]"
+      "text-[#007F8C] border-[#007F8C]  dark:text-[#01B8CA] dark:border-[#01B8CA]",
+      "[&>li:not(:last-child)]:border-[#007F8C] dark:[&>li:not(:last-child)]:border-[#01B8CA]"
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "secondary" in @color do %>
   defp color_variant("outline", "secondary") do
     [
-      "border border-[#877C7C] text-[#877C7C]",
-      "[&>li:not(:last-child)]:border-b",
-      "[&>li:not(:last-child)]:border-[#877C7C]"
+      "text-[#266EF1] border-[#266EF1] dark:text-[#6DAAFB] dark:border-[#6DAAFB]",
+      "[&>li:not(:last-child)]:border-[#266EF1] dark:[&>li:not(:last-child)]:border-[#6DAAFB]"
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "success" in @color do %>
   defp color_variant("outline", "success") do
     [
-      "border border-[#227A52] text-[#227A52]",
-      "[&>li:not(:last-child)]:border-b",
-      "[&>li:not(:last-child)]:border-[#227A52]"
+      "text-[#0E8345] border-[#0E8345] dark:text-[#06C167] dark:border-[#06C167]",
+      "[&>li:not(:last-child)]:border-[#0E8345] dark:[&>li:not(:last-child)]:border-[#06C167]"
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "warning" in @color do %>
   defp color_variant("outline", "warning") do
     [
-      "border border-[#FF8B08] text-[#FF8B08]",
-      "[&>li:not(:last-child)]:border-b",
-      "[&>li:not(:last-child)]:border-[#FF8B08]"
+      "text-[#CA8D01] border-[#CA8D01] dark:text-[#FDC034] dark:border-[#FDC034]",
+      "[&>li:not(:last-child)]:border-[#CA8D01] dark:[&>li:not(:last-child)]:border-[#FDC034]"
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "danger" in @color do %>
   defp color_variant("outline", "danger") do
     [
-      "border border-[#E73B3B] text-[#E73B3B]",
-      "[&>li:not(:last-child)]:border-b",
-      "[&>li:not(:last-child)]:border-[#E73B3B]"
+      "text-[#DE1135] border-[#DE1135] dark:text-[#FC7F79] dark:border-[#FC7F79]",
+      "[&>li:not(:last-child)]:border-[#DE1135] dark:[&>li:not(:last-child)]:border-[#FC7F79]"
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "info" in @color do %>
   defp color_variant("outline", "info") do
     [
-      "border border-[#004FC4] text-[#004FC4]",
-      "[&>li:not(:last-child)]:border-b",
-      "[&>li:not(:last-child)]:border-[#004FC4]"
+      "text-[#0B84BA] border-[#0B84BA] dark:text-[#3EB7ED] dark:border-[#3EB7ED]",
+      "[&>li:not(:last-child)]:border-[#0B84BA] dark:[&>li:not(:last-child)]:border-[#3EB7ED]"
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "misc" in @color do %>
   defp color_variant("outline", "misc") do
     [
-      "border border-[#52059C] text-[#52059C]",
-      "[&>li:not(:last-child)]:border-b",
-      "[&>li:not(:last-child)]:border-[#52059C]"
+      "text-[#8750C5] border-[#8750C5] dark:text-[#BA83F9] dark:border-[#BA83F9]",
+      "[&>li:not(:last-child)]:border-[#8750C5] dark:[&>li:not(:last-child)]:border-[#BA83F9]"
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "dawn" in @color do %>
   defp color_variant("outline", "dawn") do
     [
-      "border border-[#4D4137] text-[#4D4137]",
-      "[&>li:not(:last-child)]:border-b",
-      "[&>li:not(:last-child)]:border-[#4D4137]"
+      "text-[#A86438] border-[#A86438] dark:text-[#DB976B] dark:border-[#DB976B]",
+      "[&>li:not(:last-child)]:border-[#A86438] dark:[&>li:not(:last-child)]:border-[#DB976B]"
     ]
   end
   <% end %>
-  <%= if is_nil(@color) or "light" in @color do %>
-  defp color_variant("outline", "light") do
+  <%= if is_nil(@color) or "silver" in @color do %>
+  defp color_variant("outline", "silver") do
     [
-      "border border-[#707483] text-[#707483]",
-      "[&>li:not(:last-child)]:border-b",
-      "[&>li:not(:last-child)]:border-[#707483]"
-    ]
-  end
-  <% end %>
-  <%= if is_nil(@color) or "dark" in @color do %>
-  defp color_variant("outline", "dark") do
-    [
-      "border border-[#1E1E1E] text-[#1E1E1E]",
-      "[&>li:not(:last-child)]:border-b",
-      "[&>li:not(:last-child)]:border-[#1E1E1E]"
+      "text-[#868686] border-[#868686] dark:text-[#A6A6A6] dark:border-[#A6A6A6]",
+      "[&>li:not(:last-child)]:border-[#868686] dark:[&>li:not(:last-child)]:border-[#A6A6A6]"
     ]
   end
   <% end %>
   <% end %>
-  <%= if is_nil(@variant) or "filled" in @variant do %>
-  <%= if is_nil(@color) or "white" in @color do %>
-  defp color_variant("filled", "white") do
+   <%= if is_nil(@variant) or "shadow" in @variant do %>
+  <%= if is_nil(@color) or "natural" in @color do %>
+  defp color_variant("shadow", "natural") do
     [
-      "bg-white text-[#3E3E3E]"
+      "bg-[#4B4B4B] text-white dark:bg-[#DDDDDD] dark:text-black",
+      "shadow-[0px_4px_6px_-4px_rgba(134,134,134,0.5)] shadow-[0px_10px_15px_-3px_rgba(134,134,134,0.5)] dark:shadow-none"
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "primary" in @color do %>
-  defp color_variant("filled", "primary") do
+  defp color_variant("shadow", "primary") do
     [
-      "bg-[#4363EC] text-white"
+      "bg-[#007F8C] text-white dark:bg-[#01B8CA] dark:text-black",
+      "shadow-[0px_4px_6px_-4px_rgba(0,149,164,0.5)] shadow-[0px_10px_15px_-3px_rgba(0,149,164,0.5)] dark:shadow-none"
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "secondary" in @color do %>
-  defp color_variant("filled", "secondary") do
+  defp color_variant("shadow", "secondary") do
     [
-      "bg-[#6B6E7C] text-white"
+      "bg-[#266EF1] text-white dark:bg-[#6DAAFB] dark:text-black",
+      "shadow-[0px_4px_6px_-4px_rgba(6,139,238,0.5)] shadow-[0px_10px_15px_-3px_rgba(6,139,238,0.5)] dark:shadow-none"
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "success" in @color do %>
-  defp color_variant("filled", "success") do
+  defp color_variant("shadow", "success") do
     [
-      "bg-[#ECFEF3] text-[#047857]"
+      "bg-[#0E8345] text-white hover:bg-[#166C3B] dark:bg-[#06C167] dark:text-black",
+      "shadow-[0px_4px_6px_-4px_rgba(0,154,81,0.5)] shadow-[0px_10px_15px_-3px_rgba(0,154,81,0.5)] dark:shadow-none"
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "warning" in @color do %>
-  defp color_variant("filled", "warning") do
-    [
-      "bg-[#FFF8E6] text-[#FF8B08]"
+  defp color_variant("shadow", "warning") do
+     [
+      "bg-[#CA8D01] text-white dark:bg-[#FDC034] dark:text-black",
+      "shadow-[0px_4px_6px_-4px_rgba(252,176,1,0.5)] shadow-[0px_10px_15px_-3px_rgba(252,176,1,0.5)] dark:shadow-none"
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "danger" in @color do %>
-  defp color_variant("filled", "danger") do
+  defp color_variant("shadow", "danger") do
     [
-      "bg-[#FFE6E6] text-[#E73B3B]"
+      "bg-[#DE1135] text-white dark:bg-[#FC7F79] dark:text-black",
+      "shadow-[0px_4px_6px_-4px_rgba(248,52,70,0.5)] shadow-[0px_10px_15px_-3px_rgba(248,52,70,0.5)] dark:shadow-none"
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "info" in @color do %>
-  defp color_variant("filled", "info") do
+  defp color_variant("shadow", "info") do
     [
-      "bg-[#E5F0FF] text-[#004FC4]"
+      "bg-[#0B84BA] text-white dark:bg-[#3EB7ED] dark:text-black",
+      "shadow-[0px_4px_6px_-4px_rgba(14,165,233,0.5)] shadow-[0px_10px_15px_-3px_rgba(14,165,233,0.5)] dark:shadow-none"
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "misc" in @color do %>
-  defp color_variant("filled", "misc") do
+  defp color_variant("shadow", "misc") do
     [
-      "bg-[#FFE6FF] text-[#52059C]"
+      "bg-[#8750C5] text-white dark:bg-[#BA83F9] dark:text-black",
+      "shadow-[0px_4px_6px_-4px_rgba(169,100,247,0.5)] shadow-[0px_10px_15px_-3px_rgba(169,100,247,0.5)] dark:shadow-none"
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "dawn" in @color do %>
-  defp color_variant("filled", "dawn") do
+  defp color_variant("shadow", "dawn") do
     [
-      "bg-[#FFECDA] text-[#4D4137]"
+      "bg-[#A86438] text-white dark:bg-[#DB976B] dark:text-black",
+      "shadow-[0px_4px_6px_-4px_rgba(210,125,70,0.5)] shadow-[0px_10px_15px_-3px_rgba(210,125,70,0.5)] dark:shadow-none"
     ]
   end
   <% end %>
-  <%= if is_nil(@color) or "light" in @color do %>
-  defp color_variant("filled", "light") do
+  <%= if is_nil(@color) or "silver" in @color do %>
+  defp color_variant("shadow", "silver") do
     [
-      "bg-[#E3E7F1] text-[#707483]"
+      "bg-[#868686] text-white dark:bg-[#A6A6A6] dark:text-black",
+      "shadow-[0px_4px_6px_-4px_rgba(134,134,134,0.5)] shadow-[0px_10px_15px_-3px_rgba(134,134,134,0.5)] dark:shadow-none"
+    ]
+  end
+  <% end %>
+  <% end %>
+  <%= if is_nil(@variant) or "bordered" in @variant do %>
+  <%= if is_nil(@color) or "white" in @color do %>
+  defp color_variant("bordered", "white") do
+    [
+      "bg-white text-black border-[#DDDDDD]",
+      "[&>li:not(:last-child)]:border-[#DDDDDD]"
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "dark" in @color do %>
-  defp color_variant("filled", "dark") do
+  defp color_variant("bordered", "dark") do
     [
-      "bg-[#1E1E1E] text-white"
+      "bg-[#282828] text-white border-[#727272]",
+      "[&>li:not(:last-child)]:border-[#727272]"
     ]
   end
   <% end %>
-  <% end %>
-  <%= if is_nil(@variant) or "tinted_split" in @variant do %>
-  <%= if is_nil(@color) or "white" in @color do %>
-  defp color_variant("tinted_split", "white") do
+  <%= if is_nil(@color) or "natural" in @color do %>
+  defp color_variant("bordered", "natural") do
     [
-      "[&>li]:bg-white text-[#3E3E3E]",
-      "[&>li]:border [&>li]:border-[#2441de]"
+      "text-[#282828] border-[#282828] bg-[#F3F3F3]",
+      "dark:text-[#E8E8E8] dark:border-[#E8E8E8] dark:bg-[#4B4B4B]",
+      "[&>li:not(:last-child)]:border-[#282828] dark:[&>li:not(:last-child)]:border-[#E8E8E8]"
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "primary" in @color do %>
-  defp color_variant("tinted_split", "primary") do
+  defp color_variant("bordered", "primary") do
     [
-      "[&>li]:bg-[#4363EC] text-white",
-      "[&>li]:border [&>li]:border-[#2441de]"
+      "text-[#016974] border-[#016974] bg-[#E2F8FB]",
+      "dark:text-[#77D5E3] dark:border-[#77D5E3] dark:bg-[#002D33]",
+      "[&>li:not(:last-child)]:border-[#016974] dark:[&>li:not(:last-child)]:border-[#77D5E3]"
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "secondary" in @color do %>
-  defp color_variant("tinted_split", "secondary") do
+  defp color_variant("bordered", "secondary") do
     [
-      "[&>li]:bg-[#6B6E7C] text-white",
-      "[&>li]:border [&>li]:border-[#877C7C]"
+      "text-[#175BCC] border-[#175BCC] bg-[#EFF4FE]",
+      "dark:text-[#A9C9FF] dark:border-[#A9C9FF] dark:bg-[#002661]",
+      "[&>li:not(:last-child)]:border-[#175BCC] dark:[&>li:not(:last-child)]:border-[#A9C9FF]"
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "success" in @color do %>
-  defp color_variant("tinted_split", "success") do
+  defp color_variant("bordered", "success") do
     [
-      "[&>li]:bg-[#ECFEF3] text-[#047857]",
-      "[&>li]:border [&>li]:border-[#227A52]"
+      "text-[#166C3B] border-[#166C3B] bg-[#EAF6ED]",
+      "dark:text-[#7FD99A] dark:border-[#7FD99A] dark:bg-[#002F14]",
+      "[&>li:not(:last-child)]:border-[#166C3B] dark:[&>li:not(:last-child)]:border-[#7FD99A]"
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "warning" in @color do %>
-  defp color_variant("tinted_split", "warning") do
+  defp color_variant("bordered", "warning") do
     [
-      "[&>li]:bg-[#FFF8E6] text-[#FF8B08]",
-      "[&>li]:border [&>li]:border-[#FF8B08]"
+      "text-[#976A01] border-[#976A01] bg-[#FFF7E6]",
+      "dark:text-[#FDD067] dark:border-[#FDD067] dark:bg-[#322300]",
+      "[&>li:not(:last-child)]:border-[#976A01] dark:[&>li:not(:last-child)]:border-[#FDD067]"
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "danger" in @color do %>
-  defp color_variant("tinted_split", "danger") do
+  defp color_variant("bordered", "danger") do
     [
-      "[&>li]:bg-[#FFE6E6] text-[#E73B3B]",
-      "[&>li]:border [&>li]:border-[#E73B3B]"
+      "text-[#BB032A] border-[#BB032A] bg-[#FFF0EE]",
+      "dark:text-[#FFB2AB] dark:border-[#FFB2AB] dark:bg-[#520810]",
+      "[&>li:not(:last-child)]:border-[#BB032A] dark:[&>li:not(:last-child)]:border-[#FFB2AB]"
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "info" in @color do %>
-  defp color_variant("tinted_split", "info") do
+  defp color_variant("bordered", "info") do
     [
-      "[&>li]:bg-[#E5F0FF] text-[#004FC4]",
-      "[&>li]:border [&>li]:border-[#004FC4]"
+      "text-[#0B84BA] border-[#0B84BA] bg-[#E7F6FD]",
+      "dark:text-[#6EC9F2] dark:border-[#6EC9F2] dark:bg-[#03212F]",
+      "[&>li:not(:last-child)]:border-[#0B84BA] dark:[&>li:not(:last-child)]:border-[#6EC9F2]"
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "misc" in @color do %>
-  defp color_variant("tinted_split", "misc") do
+  defp color_variant("bordered", "misc") do
     [
-      "[&>li]:bg-[#FFE6FF] text-[#52059C]",
-      "[&>li]:border [&>li]:border-[#52059C]"
+      "text-[#653C94] border-[#653C94] bg-[#F6F0FE]",
+      "dark:text-[#CBA2FA] dark:border-[#CBA2FA] dark:bg-[#221431]",
+      "[&>li:not(:last-child)]:border-[#653C94] dark:[&>li:not(:last-child)]:border-[#CBA2FA]"
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "dawn" in @color do %>
-  defp color_variant("tinted_split", "dawn") do
+  defp color_variant("bordered", "dawn") do
     [
-      "[&>li]:bg-[#FFECDA] text-[#4D4137]",
-      "[&>li]:border [&>li]:border-[#4D4137]"
+      "text-[#7E4B2A] border-[#7E4B2A] bg-[#FBF2ED]",
+      "dark:text-[#E4B190] dark:border-[#E4B190] dark:bg-[#2A190E]",
+      "[&>li:not(:last-child)]:border-[#7E4B2A] dark:[&>li:not(:last-child)]:border-[#E4B190]"
     ]
   end
   <% end %>
-  <%= if is_nil(@color) or "light" in @color do %>
-  defp color_variant("tinted_split", "light") do
+  <%= if is_nil(@color) or "silver" in @color do %>
+  defp color_variant("bordered", "silver") do
     [
-      "[&>li]:bg-[#E3E7F1] text-[#707483]",
-      "[&>li]:border [&>li]:border-[#707483]"
-    ]
-  end
-  <% end %>
-  <%= if is_nil(@color) or "dark" in @color do %>
-  defp color_variant("tinted_split", "dark") do
-    [
-      "[&>li]:bg-[#1E1E1E] text-white",
-      "[&>li]:border [&>li]:border-[#1E1E1E]"
-    ]
-  end
-  <% end %>
-  <% end %>
-  <%= if is_nil(@variant) or "separated" in @variant do %>
-  <%= if is_nil(@color) or "white" in @color do %>
-  defp color_variant("separated", "white") do
-    [
-      "[&>li]:bg-white text-[#3E3E3E]",
-      "[&>li]:border [&>li]:border-[#DADADA]"
-    ]
-  end
-  <% end %>
-  <%= if is_nil(@color) or "primary" in @color do %>
-  defp color_variant("separated", "primary") do
-    [
-      "[&>li]:bg-white text-[#2441de]",
-      "[&>li]:border [&>li]:border-[#2441de]"
-    ]
-  end
-  <% end %>
-  <%= if is_nil(@color) or "secondary" in @color do %>
-  defp color_variant("separated", "secondary") do
-    [
-      "[&>li]:bg-white text-[#877C7C]",
-      "[&>li]:border [&>li]:border-[#877C7C]"
-    ]
-  end
-  <% end %>
-  <%= if is_nil(@color) or "success" in @color do %>
-  defp color_variant("separated", "success") do
-    [
-      "[&>li]:bg-white text-[#227A52]",
-      "[&>li]:border [&>li]:border-[#227A52]"
-    ]
-  end
-  <% end %>
-  <%= if is_nil(@color) or "warning" in @color do %>
-  defp color_variant("separated", "warning") do
-    [
-      "[&>li]:bg-white text-[#FF8B08]",
-      "[&>li]:border [&>li]:border-[#FF8B08]"
-    ]
-  end
-  <% end %>
-  <%= if is_nil(@color) or "danger" in @color do %>
-  defp color_variant("separated", "danger") do
-    [
-      "[&>li]:bg-white text-[#E73B3B]",
-      "[&>li]:border [&>li]:border-[#E73B3B]"
-    ]
-  end
-  <% end %>
-  <%= if is_nil(@color) or "info" in @color do %>
-  defp color_variant("separated", "info") do
-    [
-      "[&>li]:bg-white text-[#004FC4]",
-      "[&>li]:border [&>li]:border-[#004FC4]"
-    ]
-  end
-  <% end %>
-  <%= if is_nil(@color) or "misc" in @color do %>
-  defp color_variant("separated", "misc") do
-    [
-      "[&>li]:bg-white text-[#52059C]",
-      "[&>li]:border [&>li]:border-[#52059C]"
-    ]
-  end
-  <% end %>
-  <%= if is_nil(@color) or "dawn" in @color do %>
-  defp color_variant("separated", "dawn") do
-    [
-      "[&>li]:bg-white text-[#4D4137]",
-      "[&>li]:border [&>li]:border-[#4D4137]"
-    ]
-  end
-  <% end %>
-  <%= if is_nil(@color) or "light" in @color do %>
-  defp color_variant("separated", "light") do
-    [
-      "[&>li]:bg-white text-[#707483]",
-      "[&>li]:border [&>li]:border-[#707483]"
-    ]
-  end
-  <% end %>
-  <%= if is_nil(@color) or "dark" in @color do %>
-  defp color_variant("separated", "dark") do
-    [
-      "[&>li]:bg-white text-[#1E1E1E]",
-      "[&>li]:border [&>li]:border-[#1E1E1E]"
+      "text-[#727272] border-[#727272] bg-[#F3F3F3]",
+      "dark:text-[#BBBBBB] dark:border-[#BBBBBB] dark:bg-[#4B4B4B]",
+      "[&>li:not(:last-child)]:border-[#727272] dark:[&>li:not(:last-child)]:border-[#BBBBBB]"
     ]
   end
   <% end %>
   <% end %>
   <%= if is_nil(@variant) or "transparent" in @variant do %>
-  defp color_variant("transparent", _), do: ["bg-transplant border-transparent"]
+  <%= if is_nil(@color) or "natural" in @color do %>
+  defp color_variant("transparent", "natural") do
+    [
+      "text-[#4B4B4B] dark:text-[#DDDDDD]"
+    ]
+  end
+  <% end %>
+  <%= if is_nil(@color) or "primary" in @color do %>
+  defp color_variant("transparent", "primary") do
+    [
+      "text-[#007F8C] dark:text-[#01B8CA]"
+    ]
+  end
+  <% end %>
+  <%= if is_nil(@color) or "secondary" in @color do %>
+  defp color_variant("transparent", "secondary") do
+    [
+      "text-[#266EF1] dark:text-[#6DAAFB]"
+    ]
+  end
+  <% end %>
+  <%= if is_nil(@color) or "success" in @color do %>
+  defp color_variant("transparent", "success") do
+    [
+      "text-[#0E8345] dark:text-[#06C167]"
+    ]
+  end
+  <% end %>
+  <%= if is_nil(@color) or "warning" in @color do %>
+  defp color_variant("transparent", "warning") do
+   [
+      "text-[#CA8D01] dark:text-[#FDC034]"
+    ]
+  end
+  <% end %>
+  <%= if is_nil(@color) or "danger" in @color do %>
+  defp color_variant("transparent", "danger") do
+    [
+      "text-[#DE1135] dark:text-[#FC7F79]"
+    ]
+  end
+  <% end %>
+  <%= if is_nil(@color) or "info" in @color do %>
+  defp color_variant("transparent", "info") do
+    [
+      "text-[#0B84BA] dark:text-[#3EB7ED]"
+    ]
+  end
+  <% end %>
+  <%= if is_nil(@color) or "misc" in @color do %>
+  defp color_variant("transparent", "misc") do
+    [
+      "text-[#8750C5] dark:text-[#BA83F9]"
+    ]
+  end
+  <% end %>
+  <%= if is_nil(@color) or "dawn" in @color do %>
+  defp color_variant("transparent", "dawn") do
+    [
+      "text-[#A86438] dark:text-[#DB976B]"
+    ]
+  end
+  <% end %>
+  <%= if is_nil(@color) or "silver" in @color do %>
+  defp color_variant("transparent", "silver") do
+    [
+      "text-[#868686] dark:text-[#A6A6A6]"
+    ]
+  end
+  <% end %>
+  <% end %>
+  <%= if is_nil(@variant) or "gradient" in @variant do %>
+  <%= if is_nil(@color) or "natural" in @color do %>
+  defp color_variant("gradient", "natural") do
+    [
+      "bg-gradient-to-br from-[#282828] to-[#727272] text-white",
+      "dark:from-[#A6A6A6] dark:to-[#FFFFFF] dark:text-black"
+    ]
+  end
+  <% end %>
+  <%= if is_nil(@color) or "primary" in @color do %>
+  defp color_variant("gradient", "primary") do
+    [
+      "bg-gradient-to-br from-[#016974] to-[#01B8CA] text-white",
+      "dark:from-[#01B8CA] dark:to-[#B0E7EF] dark:text-black"
+    ]
+  end
+  <% end %>
+  <%= if is_nil(@color) or "secondary" in @color do %>
+  defp color_variant("gradient", "secondary") do
+    [
+      "bg-gradient-to-br from-[#175BCC] to-[#6DAAFB] text-white",
+      "dark:from-[#6DAAFB] dark:to-[#CDDEFF] dark:text-black"
+    ]
+  end
+  <% end %>
+  <%= if is_nil(@color) or "success" in @color do %>
+  defp color_variant("gradient", "success") do
+    [
+      "bg-gradient-to-br from-[#166C3B] to-[#06C167] text-white",
+      "dark:from-[#06C167] dark:to-[#B1EAC2] dark:text-black"
+    ]
+  end
+  <% end %>
+  <%= if is_nil(@color) or "warning" in @color do %>
+  defp color_variant("gradient", "warning") do
+    [
+      "bg-gradient-to-br from-[#976A01] to-[#FDC034] text-white",
+      "dark:from-[#FDC034] dark:to-[#FEDF99] dark:text-black"
+    ]
+  end
+  <% end %>
+  <%= if is_nil(@color) or "danger" in @color do %>
+  defp color_variant("gradient", "danger") do
+    [
+      "bg-gradient-to-br from-[#BB032A] to-[#FC7F79] text-white",
+      "dark:from-[#FC7F79] dark:to-[#FFD2CD] dark:text-black"
+    ]
+  end
+  <% end %>
+  <%= if is_nil(@color) or "info" in @color do %>
+  defp color_variant("gradient", "info") do
+    [
+      "bg-gradient-to-br from-[#08638C] to-[#3EB7ED] text-white",
+      "dark:from-[#3EB7ED] dark:to-[#9FDBF6] dark:text-black"
+    ]
+  end
+  <% end %>
+  <%= if is_nil(@color) or "misc" in @color do %>
+  defp color_variant("gradient", "misc") do
+   [
+      "bg-gradient-to-br from-[#653C94] to-[#BA83F9] text-white",
+      "dark:from-[#BA83F9] dark:to-[#DDC1FC] dark:text-black"
+    ]
+  end
+  <% end %>
+  <%= if is_nil(@color) or "dawn" in @color do %>
+  defp color_variant("gradient", "dawn") do
+    [
+      "bg-gradient-to-br from-[#7E4B2A] to-[#DB976B] text-white",
+      "dark:from-[#DB976B] dark:to-[#EDCBB5] dark:text-black"
+    ]
+  end
+  <% end %>
+  <%= if is_nil(@color) or "silver" in @color do %>
+  defp color_variant("gradient", "silver") do
+    [
+      "bg-gradient-to-br from-[#5E5E5E] to-[#A6A6A6] text-white",
+      "dark:from-[#868686] dark:to-[#BBBBBB] dark:text-black"
+    ]
+  end
+  <% end %>
+  <% end %>
+  <%= if is_nil(@variant) or "bordered_seperated" in @variant do %>
+  <%= if is_nil(@color) or "natural" in @color do %>
+  defp color_variant("bordered_seperated", "natural") do
+    [
+      "[&>li]:text-[#282828] [&>li]:border-[#282828] [&>li]:bg-[#F3F3F3]",
+      "dark:[&>li]:text-[#E8E8E8] dark:[&>li]:border-[#E8E8E8] dark:[&>li]:bg-[#4B4B4B]"
+    ]
+  end
+  <% end %>
+  <%= if is_nil(@color) or "primary" in @color do %>
+  defp color_variant("bordered_seperated", "primary") do
+    [
+      "[&>li]:text-[#016974] [&>li]:border-[#016974] [&>li]:bg-[#E2F8FB]",
+      "dark:[&>li]:text-[#77D5E3] dark:[&>li]:border-[#77D5E3] dark:[&>li]:bg-[#002D33]"
+    ]
+  end
+  <% end %>
+  <%= if is_nil(@color) or "secondary" in @color do %>
+  defp color_variant("bordered_seperated", "secondary") do
+    [
+      "[&>li]:text-[#175BCC] [&>li]:border-[#175BCC] [&>li]:bg-[#EFF4FE]",
+      "dark:[&>li]:text-[#A9C9FF] dark:[&>li]:border-[#A9C9FF] dark:[&>li]:bg-[#002661]"
+    ]
+  end
+  <% end %>
+  <%= if is_nil(@color) or "success" in @color do %>
+  defp color_variant("bordered_seperated", "success") do
+    [
+      "[&>li]:text-[#166C3B] [&>li]:border-[#166C3B] [&>li]:bg-[#EAF6ED]",
+      "dark:[&>li]:text-[#7FD99A] dark:[&>li]:border-[#7FD99A] dark:[&>li]:bg-[#002F14]"
+    ]
+  end
+  <% end %>
+  <%= if is_nil(@color) or "warning" in @color do %>
+  defp color_variant("bordered_seperated", "warning") do
+    [
+      "[&>li]:text-[#976A01] [&>li]:border-[#976A01] [&>li]:bg-[#FFF7E6]",
+      "dark:[&>li]:text-[#FDD067] dark:[&>li]:border-[#FDD067] dark:[&>li]:bg-[#322300]"
+    ]
+  end
+  <% end %>
+  <%= if is_nil(@color) or "danger" in @color do %>
+  defp color_variant("bordered_seperated", "danger") do
+    [
+      "[&>li]:text-[#BB032A] [&>li]:border-[#BB032A] [&>li]:bg-[#FFF0EE]",
+      "dark:[&>li]:text-[#FFB2AB] dark:[&>li]:border-[#FFB2AB] dark:[&>li]:bg-[#520810]"
+    ]
+  end
+  <% end %>
+  <%= if is_nil(@color) or "info" in @color do %>
+  defp color_variant("bordered_seperated", "info") do
+    [
+      "[&>li]:text-[#0B84BA] [&>li]:border-[#0B84BA] [&>li]:bg-[#E7F6FD]",
+      "dark:[&>li]:text-[#6EC9F2] dark:[&>li]:border-[#6EC9F2] dark:[&>li]:bg-[#03212F]"
+    ]
+  end
+  <% end %>
+  <%= if is_nil(@color) or "misc" in @color do %>
+  defp color_variant("bordered_seperated", "misc") do
+    [
+      "[&>li]:text-[#653C94] [&>li]:border-[#653C94] [&>li]:bg-[#F6F0FE]",
+      "dark:[&>li]:text-[#CBA2FA] dark:[&>li]:border-[#CBA2FA] dark:[&>li]:bg-[#221431]"
+    ]
+  end
+  <% end %>
+  <%= if is_nil(@color) or "dawn" in @color do %>
+  defp color_variant("bordered_seperated", "dawn") do
+    [
+      "[&>li]:text-[#7E4B2A] [&>li]:border-[#7E4B2A] [&>li]:bg-[#FBF2ED]",
+      "dark:[&>li]:text-[#E4B190] dark:[&>li]:border-[#E4B190] dark:[&>li]:bg-[#2A190E]"
+    ]
+  end
+  <% end %>
+  <%= if is_nil(@color) or "silver" in @color do %>
+  defp color_variant("bordered_seperated", "silver") do
+    [
+      "[&>li]:text-[#727272] [&>li]:border-[#727272] [&>li]:bg-[#F3F3F3]",
+      "dark:[&>li]:text-[#BBBBBB] dark:[&>li]:border-[#BBBBBB] dark:[&>li]:bg-[#4B4B4B]"
+    ]
+  end
+  <% end %>
+  <% end %>
+  <%= if is_nil(@variant) or "outline_separated" in @variant do %>
+  <%= if is_nil(@color) or "natural" in @color do %>
+  defp color_variant("outline_separated", "natural") do
+    [
+      "[&>li]:text-[#4B4B4B] [&>li]:border-[#4B4B4B] dark:[&>li]:text-[#DDDDDD] dark:[&>li]:border-[#DDDDDD]"
+    ]
+  end
+  <% end %>
+  <%= if is_nil(@color) or "primary" in @color do %>
+  defp color_variant("outline_separated", "primary") do
+    [
+       "[&>li]:text-[#007F8C] [&>li]:border-[#007F8C]  dark:[&>li]:text-[#01B8CA] dark:[&>li]:border-[#01B8CA]"
+    ]
+  end
+  <% end %>
+  <%= if is_nil(@color) or "secondary" in @color do %>
+  defp color_variant("outline_separated", "secondary") do
+    [
+      "[&>li]:text-[#266EF1] [&>li]:border-[#266EF1] dark:[&>li]:text-[#6DAAFB] dark:[&>li]:border-[#6DAAFB]"
+    ]
+  end
+  <% end %>
+  <%= if is_nil(@color) or "success" in @color do %>
+  defp color_variant("outline_separated", "success") do
+    [
+      "[&>li]:text-[#0E8345] [&>li]:border-[#0E8345] dark:[&>li]:text-[#06C167] dark:[&>li]:border-[#06C167]"
+    ]
+  end
+  <% end %>
+  <%= if is_nil(@color) or "warning" in @color do %>
+  defp color_variant("outline_separated", "warning") do
+    [
+      "[&>li]:text-[#CA8D01] [&>li]:border-[#CA8D01] dark:[&>li]:text-[#FDC034] dark:[&>li]:border-[#FDC034]"
+    ]
+  end
+  <% end %>
+  <%= if is_nil(@color) or "danger" in @color do %>
+  defp color_variant("outline_separated", "danger") do
+    [
+      "[&>li]:text-[#DE1135] [&>li]:border-[#DE1135] dark:[&>li]:text-[#FC7F79] dark:[&>li]:border-[#FC7F79]"
+    ]
+  end
+  <% end %>
+  <%= if is_nil(@color) or "info" in @color do %>
+  defp color_variant("outline_separated", "info") do
+    [
+      "[&>li]:text-[#0B84BA] [&>li]:border-[#0B84BA] dark:[&>li]:text-[#3EB7ED] dark:[&>li]:border-[#3EB7ED]"
+    ]
+  end
+  <% end %>
+  <%= if is_nil(@color) or "misc" in @color do %>
+  defp color_variant("outline_separated", "misc") do
+    [
+      "[&>li]:text-[#8750C5] [&>li]:border-[#8750C5] dark:[&>li]:text-[#BA83F9] dark:[&>li]:border-[#BA83F9]"
+    ]
+  end
+  <% end %>
+  <%= if is_nil(@color) or "dawn" in @color do %>
+  defp color_variant("outline_separated", "dawn") do
+     [
+      "[&>li]:text-[#A86438] [&>li]:border-[#A86438] dark:[&>li]:text-[#DB976B] dark:[&>li]:border-[#DB976B]"
+    ]
+  end
+  <% end %>
+  <%= if is_nil(@color) or "silver" in @color do %>
+  defp color_variant("outline_separated", "silver") do
+    [
+      "[&>li]:text-[#868686] [&>li]:border-[#868686] dark:[&>li]:text-[#A6A6A6] dark:[&>li]:border-[#A6A6A6]"
+    ]
+  end
+  <% end %>
+  <% end %>
+  defp color_variant(params,_) when is_binary(params), do: params
+  <%= if is_nil(@variant) or "transparent" in @variant do %>
+  <%= if is_nil(@color) or "natural" in @color do %>
+  defp color_variant(_,_), do: color_variant("transparent", "natural")
+  <% end %>
   <% end %>
 
   attr :name, :string, required: true, doc: "Specifies the name of the element"
