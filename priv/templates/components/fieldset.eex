@@ -186,7 +186,7 @@ defmodule <%= @module %> do
 
   defp border_class(_, variant) when variant in ["default", "shadow", "transparent", "gradient"],
     do: nil
-  defp border_class("none", _), do: "[&_.fieldset-field]:border-0"
+  defp border_class("none", _), do: nil
   <%= if is_nil(@size) or "extra_small" in @size do %>
   defp border_class("extra_small", _), do: "[&_.fieldset-field]:border"
   <% end %>
