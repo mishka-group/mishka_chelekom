@@ -30,7 +30,9 @@ defmodule <%= @module %> do
     "info",
     "silver",
     "misc",
-    "dawn"
+    "dawn",
+    "dark",
+    "white"
   ]
 
   @variants [
