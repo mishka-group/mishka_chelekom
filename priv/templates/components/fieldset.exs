@@ -15,13 +15,14 @@
         "info",
         "silver",
         "misc",
-        "dawn",
+        "dawn"
       ],
       size: ["extra_small", "small", "medium", "large", "extra_large"],
       space: ["extra_small", "small", "medium", "large", "extra_large"],
       padding: ["extra_small", "small", "medium", "large", "extra_large"],
       rounded: ["extra_small", "small", "medium", "large", "extra_large", "full"],
       only: ["fieldset"],
+      helpers: [],
       module: ""
     ],
     optional: [],
