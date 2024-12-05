@@ -709,10 +709,10 @@ defmodule <%= @module %> do
   <%= if is_nil(@color) or "dark" in @color do %>
   defp color_variant("default", "dark", floating) do
     [
-      "[&_.date-time-field-wrapper]:bg-[#1E1E1E] text-[#1E1E1E] [&_.date-time-field-wrapper]:text-white",
+      "[&_.date-time-field-wrapper]:bg-[#282828] text-[#282828] [&_.date-time-field-wrapper]:text-white",
       "[&_.date-time-field-wrapper.date-time-field-error]:border-rose-700",
-      "[&_.date-time-field-wrapper>input]:placeholder:text-white focus-within:[&_.date-time-field-wrapper]:ring-[#050404]",
-      floating == "outer" && "[&_.date-time-field-wrapper_.floating-label]:bg-[#1E1E1E]"
+      "[&_.date-time-field-wrapper>input]:placeholder:text-white focus-within:[&_.date-time-field-wrapper]:ring-[#727272]",
+      floating == "outer" && "[&_.date-time-field-wrapper_.floating-label]:bg-[#282828]"
     ]
   end
   <% end %>
@@ -879,10 +879,10 @@ defmodule <%= @module %> do
   <% end %>
   <%= if is_nil(@color) or "dark" in @color do %>
   defp color_variant("bordered", "dark", floating) do
-    [
-      "[&_.date-time-field-wrapper]:bg-[#1E1E1E] text-[#1E1E1E] [&_.date-time-field-wrapper]:border-transparent text-white",
-      "[&_.date-time-field-wrapper>input]:placeholder:text-white focus-within:[&_.date-time-field-wrapper]:ring-[#050404]",
-      floating == "outer" && "[&_.date-time-field-wrapper_.floating-label]:bg-[#1E1E1E]"
+     [
+      "[&_.date-time-field-wrapper]:bg-[#282828] text-[#282828] [&_.date-time-field-wrapper]:border-[#727272] text-white",
+      "[&_.date-time-field-wrapper>input]:placeholder:text-white focus-within:[&_.date-time-field-wrapper]:ring-[#727272]",
+      floating == "outer" && "[&_.date-time-field-wrapper_.floating-label]:bg-[#282828]"
     ]
   end
   <% end %>
