@@ -21,6 +21,7 @@
       space: ["extra_small", "small", "medium", "large", "extra_large"],
       rounded: ["extra_small", "small", "medium", "large", "extra_large"],
       only: ["file_field"],
+      helpers: [],
       module: ""
     ],
     optional: [],
