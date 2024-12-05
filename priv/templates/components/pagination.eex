@@ -475,6 +475,19 @@ defmodule <%= @module %> do
     ]
   end
   <% end %>
+  <%= if is_nil(@color) or "dark" in @color do %>
+  defp border_class("dark") do
+    [
+      "[&.grouped-pagination]:bg-[#282828] [&.grouped-pagination]:text-white",
+      "[&.grouped-pagination]:border [&.grouped-pagination_.pagination-button]:border-r",
+      "border-[#1E1E1E] [&.grouped-pagination_.pagination-button]:border-[#727272]",
+      "[&.grouped-pagination_.pagination-control:not(:last-child)]:border-r",
+      "[&.grouped-pagination_.pagination-control:not(:last-child)]:border-[#727272]",
+      "[&.grouped-pagination_.pagination-seperator]:border-r",
+      "[&.grouped-pagination_.pagination-seperator]:border-[#727272]"
+    ]
+  end
+  <% end %>
 
   <%= if is_nil(@rounded) or "extra_small" in @rounded do %>
   defp rounded_size("extra_small"),
@@ -579,6 +592,24 @@ defmodule <%= @module %> do
   defp size_class(params) when is_binary(params), do: params
 
   <%= if is_nil(@variant) or "default" in @variant do %>
+  <%= if is_nil(@color) or "white" in @color do %>
+  defp color_variant("default", "white") do
+    [
+      "[&_.pagination-button]:bg-white [&_.pagination-button]:text-[#3E3E3E]",
+      "hover:[&_.pagination-button]:bg-[#E8E8E8]",
+      "[&_.pagination-button.active-pagination-button]:bg-[#E8E8E8]",
+    ]
+  end
+  <% end %>
+  <%= if is_nil(@color) or "dark" in @color do %>
+  defp color_variant("default", "dark") do
+    [
+      "[&_.pagination-button]:bg-[#282828] [&_.pagination-button]:text-white",
+      "hover:[&_.pagination-button]:bg-[#727272]",
+      "[&_.pagination-button.active-pagination-button]:bg-[#727272]",
+    ]
+  end
+  <% end %>
   <%= if is_nil(@color) or "natural" in @color do %>
   defp color_variant("default", "natural") do
     [
