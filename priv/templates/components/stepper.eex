@@ -17,15 +17,14 @@ defmodule <%= @module %> do
   use Phoenix.Component
 
   @colors [
-    "white",
+    "natural",
     "primary",
     "secondary",
-    "dark",
     "success",
     "warning",
     "danger",
     "info",
-    "light",
+    "silver",
     "misc",
     "dawn"
   ]
@@ -57,7 +56,7 @@ defmodule <%= @module %> do
       "Determines the overall size of the elements, including padding, font size, and other items"
 
   attr :margin, :string, default: "medium", doc: "Determines the element margin"
-  attr :color, :string, values: @colors, default: "primary", doc: "Determines color theme"
+  attr :color, :string, values: @colors, default: "natural", doc: "Determines color theme"
   attr :space, :string, default: nil, doc: "Space between items"
   attr :border, :string, default: "extra_small", doc: "Determines border style"
 
@@ -476,159 +475,209 @@ defmodule <%= @module %> do
 
   # colors
   # stepper-loading-step, stepper-current-step, stepper-compeleted-step, stepper-canceled-step
-  <%= if is_nil(@color) or "white" in @color do %>
-  defp color_class("white") do
+  <%= if is_nil(@color) or "natural" in @color do %>
+  defp color_class("natural") do
     [
-      "[&_.stepper-step]:bg-[#DADADA] [&_.stepper-step]:text-[#3E3E3E]",
-      "[&_.stepper-step]:border-transparent [&_.stepper-current-step_.stepper-step]:border-white",
-      "[&_.stepper-compeleted-step_.stepper-step]:bg-white [&_.stepper-compeleted-step_.stepper-step]:border-white",
-      "[&_.stepper-canceled-step_.stepper-step]:bg-[#fa2d2d] [&_.stepper-canceled-step_.stepper-step]:border-[#fa2d2d]",
+      "[&_.stepper-step]:bg-[#F3F3F3] [&_.stepper-step]:text-[#282828]",
+      "[&_.stepper-step]:border-transparent [&_.stepper-current-step_.stepper-step]:border-[#282828]",
+      "[&_.stepper-compeleted-step_.stepper-step]:bg-[#E8E8E8] [&_.stepper-compeleted-step_.stepper-step]:border-black",
+      "dark:[&_.stepper-step]:bg-[#4B4B4B] dark:[&_.stepper-step]:text-[#E8E8E8]",
+      "dark:[&_.stepper-current-step_.stepper-step]:border-[#E8E8E8]",
+      "dark:[&_.stepper-compeleted-step_.stepper-step]:bg-[#5E5E5E] dark:[&_.stepper-compeleted-step_.stepper-step]:border-white",
+      "[&_.stepper-canceled-step_.stepper-step]:bg-[#950F22] [&_.stepper-canceled-step_.stepper-step]:border-[#950F22]",
       "[&_.stepper-canceled-step_.stepper-step]:text-white",
-      "[&_.stepper-seperator]:border-[#DADADA] [&_.stepper-compeleted-step+.stepper-seperator]:border-white",
-      "[&.vertical-stepper_.stepper-compeleted-step_.stepper-seperator]:border-white"
+      "dark:[&_.stepper-canceled-step_.stepper-step]:bg-[#FFD2CD] dark:[&_.stepper-canceled-step_.stepper-step]:border-[#FFD2CD]",
+      "dark:[&_.stepper-canceled-step_.stepper-step]:text-black",
+      "[&_.stepper-seperator]:border-[#282828] dark:[&_.stepper-seperator]:border-[#E8E8E8]",
+      "[&_.stepper-compeleted-step+.stepper-seperator]:border-black dark:[&_.stepper-compeleted-step+.stepper-seperator]:border-white",
+      "[&.vertical-stepper_.stepper-compeleted-step_.stepper-seperator]:border-black",
+      "dark:[&.vertical-stepper_.stepper-compeleted-step_.stepper-seperator]:border-white"
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "primary" in @color do %>
   defp color_class("primary") do
     [
-      "[&_.stepper-step]:bg-[#5573f2] [&_.stepper-step]:text-white",
-      "[&_.stepper-step]:border-transparent [&_.stepper-current-step_.stepper-step]:border-[#162da8]",
-      "[&_.stepper-compeleted-step_.stepper-step]:bg-[#162da8] [&_.stepper-compeleted-step_.stepper-step]:border-[#162da8]",
-      "[&_.stepper-canceled-step_.stepper-step]:bg-[#fa2d2d] [&_.stepper-canceled-step_.stepper-step]:border-[#fa2d2d]",
+      "[&_.stepper-step]:bg-[#E2F8FB] [&_.stepper-step]:text-[#016974]",
+      "[&_.stepper-step]:border-transparent [&_.stepper-current-step_.stepper-step]:border-[#016974]",
+      "[&_.stepper-compeleted-step_.stepper-step]:bg-[#CDEEF3] [&_.stepper-compeleted-step_.stepper-step]:border-[#1A535A]",
+      "dark:[&_.stepper-step]:bg-[#002D33] dark:[&_.stepper-step]:text-[#77D5E3]",
+      "dark:[&_.stepper-current-step_.stepper-step]:border-[#77D5E3]",
+      "dark:[&_.stepper-compeleted-step_.stepper-step]:bg-[#1A535A] dark:[&_.stepper-compeleted-step_.stepper-step]:border-[#B0E7EF]",
+      "[&_.stepper-canceled-step_.stepper-step]:bg-[#950F22] [&_.stepper-canceled-step_.stepper-step]:border-[#950F22]",
       "[&_.stepper-canceled-step_.stepper-step]:text-white",
-      "[&_.stepper-seperator]:border-[#5573f2] [&_.stepper-compeleted-step+.stepper-seperator]:border-[#162da8]",
-      "[&.vertical-stepper_.stepper-compeleted-step_.stepper-seperator]:border-[#162da8]"
+      "dark:[&_.stepper-canceled-step_.stepper-step]:bg-[#FFD2CD] dark:[&_.stepper-canceled-step_.stepper-step]:border-[#FFD2CD]",
+      "dark:[&_.stepper-canceled-step_.stepper-step]:text-black",
+      "[&_.stepper-seperator]:border-[#016974] dark:[&_.stepper-seperator]:border-[#77D5E3]",
+      "[&_.stepper-compeleted-step+.stepper-seperator]:border-[#1A535A] dark:[&_.stepper-compeleted-step+.stepper-seperator]:border-[#B0E7EF]",
+      "[&.vertical-stepper_.stepper-compeleted-step_.stepper-seperator]:border-[#1A535A]",
+      "dark:[&.vertical-stepper_.stepper-compeleted-step_.stepper-seperator]:border-[#B0E7EF]"
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "secondary" in @color do %>
   defp color_class("secondary") do
     [
-      "[&_.stepper-step]:bg-[#6B6E7C] [&_.stepper-step]:text-white",
-      "[&_.stepper-step]:border-transparent [&_.stepper-current-step_.stepper-step]:border-[#434652]",
-      "[&_.stepper-compeleted-step_.stepper-step]:bg-[#434652] [&_.stepper-compeleted-step_.stepper-step]:border-[#434652]",
-      "[&_.stepper-canceled-step_.stepper-step]:bg-[#fa2d2d] [&_.stepper-canceled-step_.stepper-step]:border-[#fa2d2d]",
+      "[&_.stepper-step]:bg-[#EFF4FE] [&_.stepper-step]:text-[#175BCC]",
+      "[&_.stepper-step]:border-transparent [&_.stepper-current-step_.stepper-step]:border-[#175BCC]",
+      "[&_.stepper-compeleted-step_.stepper-step]:bg-[#DEE9FE] [&_.stepper-compeleted-step_.stepper-step]:border-[#1948A3]",
+      "dark:[&_.stepper-step]:bg-[#002661] dark:[&_.stepper-step]:text-[#A9C9FF]",
+      "dark:[&_.stepper-current-step_.stepper-step]:border-[#A9C9FF]",
+      "dark:[&_.stepper-compeleted-step_.stepper-step]:bg-[#1948A3] dark:[&_.stepper-compeleted-step_.stepper-step]:border-[#CDDEFF]",
+      "[&_.stepper-canceled-step_.stepper-step]:bg-[#950F22] [&_.stepper-canceled-step_.stepper-step]:border-[#950F22]",
       "[&_.stepper-canceled-step_.stepper-step]:text-white",
-      "[&_.stepper-seperator]:border-[#6B6E7C] [&_.stepper-compeleted-step+.stepper-seperator]:border-[#434652]",
-      "[&.vertical-stepper_.stepper-compeleted-step_.stepper-seperator]:border-[#434652]"
+      "dark:[&_.stepper-canceled-step_.stepper-step]:bg-[#FFD2CD] dark:[&_.stepper-canceled-step_.stepper-step]:border-[#FFD2CD]",
+      "dark:[&_.stepper-canceled-step_.stepper-step]:text-black",
+      "[&_.stepper-seperator]:border-[#175BCC] dark:[&_.stepper-seperator]:border-[#A9C9FF]",
+      "[&_.stepper-compeleted-step+.stepper-seperator]:border-[#1948A3] dark:[&_.stepper-compeleted-step+.stepper-seperator]:border-[#CDDEFF]",
+      "[&.vertical-stepper_.stepper-compeleted-step_.stepper-seperator]:border-[#1948A3]",
+      "dark:[&.vertical-stepper_.stepper-compeleted-step_.stepper-seperator]:border-[#CDDEFF]"
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "success" in @color do %>
   defp color_class("success") do
     [
-      "[&_.stepper-step]:bg-[#ECFEF3] [&_.stepper-step]:text-[#047857]",
-      "[&_.stepper-step]:border-transparent [&_.stepper-current-step_.stepper-step]:border-[#047857]",
-      "[&_.stepper-compeleted-step_.stepper-step]:bg-[#047857] [&_.stepper-compeleted-step_.stepper-step]:border-[#047857]",
-      "[&_.stepper-compeleted-step_.stepper-step]:text-white",
-      "[&_.stepper-canceled-step_.stepper-step]:bg-[#fa2d2d] [&_.stepper-canceled-step_.stepper-step]:border-[#fa2d2d]",
+      "[&_.stepper-step]:bg-[#EAF6ED] [&_.stepper-step]:text-[#166C3B]",
+      "[&_.stepper-step]:border-transparent [&_.stepper-current-step_.stepper-step]:border-[#166C3B]",
+      "[&_.stepper-compeleted-step_.stepper-step]:bg-[#D3EFDA] [&_.stepper-compeleted-step_.stepper-step]:border-[#0D572D]",
+      "dark:[&_.stepper-step]:bg-[#002F14] dark:[&_.stepper-step]:text-[#7FD99A]",
+      "dark:[&_.stepper-current-step_.stepper-step]:border-[#7FD99A]",
+      "dark:[&_.stepper-compeleted-step_.stepper-step]:bg-[#0D572D] dark:[&_.stepper-compeleted-step_.stepper-step]:border-[#B1EAC2]",
+      "[&_.stepper-canceled-step_.stepper-step]:bg-[#950F22] [&_.stepper-canceled-step_.stepper-step]:border-[#950F22]",
       "[&_.stepper-canceled-step_.stepper-step]:text-white",
-      "[&_.stepper-seperator]:border-[#ECFEF3] [&_.stepper-compeleted-step+.stepper-seperator]:border-[#047857]",
-      "[&.vertical-stepper_.stepper-compeleted-step_.stepper-seperator]:border-[#047857]"
+      "dark:[&_.stepper-canceled-step_.stepper-step]:bg-[#FFD2CD] dark:[&_.stepper-canceled-step_.stepper-step]:border-[#FFD2CD]",
+      "dark:[&_.stepper-canceled-step_.stepper-step]:text-black",
+      "[&_.stepper-seperator]:border-[#166C3B] dark:[&_.stepper-seperator]:border-[#7FD99A]",
+      "[&_.stepper-compeleted-step+.stepper-seperator]:border-[#0D572D] dark:[&_.stepper-compeleted-step+.stepper-seperator]:border-[#B1EAC2]",
+      "[&.vertical-stepper_.stepper-compeleted-step_.stepper-seperator]:border-[#0D572D]",
+      "dark:[&.vertical-stepper_.stepper-compeleted-step_.stepper-seperator]:border-[#B1EAC2]"
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "warning" in @color do %>
   defp color_class("warning") do
     [
-      "[&_.stepper-step]:bg-[#FFF8E6] [&_.stepper-step]:text-[#FF8B08]",
-      "[&_.stepper-step]:border-transparent [&_.stepper-current-step_.stepper-step]:border-[#FF8B08]",
-      "[&_.stepper-compeleted-step_.stepper-step]:bg-[#FF8B08] [&_.stepper-compeleted-step_.stepper-step]:border-[#FF8B08]",
-      "[&_.stepper-compeleted-step_.stepper-step]:text-white",
-      "[&_.stepper-canceled-step_.stepper-step]:bg-[#fa2d2d] [&_.stepper-canceled-step_.stepper-step]:border-[#fa2d2d]",
+      "[&_.stepper-step]:bg-[#FFF7E6] [&_.stepper-step]:text-[#976A01]",
+      "[&_.stepper-step]:border-transparent [&_.stepper-current-step_.stepper-step]:border-[#976A01]",
+      "[&_.stepper-compeleted-step_.stepper-step]:bg-[#FEEFCC] [&_.stepper-compeleted-step_.stepper-step]:border-[#654600]",
+      "dark:[&_.stepper-step]:bg-[#322300] dark:[&_.stepper-step]:text-[#FDD067]",
+      "dark:[&_.stepper-current-step_.stepper-step]:border-[#FDD067]",
+      "dark:[&_.stepper-compeleted-step_.stepper-step]:bg-[#654600] dark:[&_.stepper-compeleted-step_.stepper-step]:border-[#FEDF99]",
+      "[&_.stepper-canceled-step_.stepper-step]:bg-[#950F22] [&_.stepper-canceled-step_.stepper-step]:border-[#950F22]",
       "[&_.stepper-canceled-step_.stepper-step]:text-white",
-      "[&_.stepper-seperator]:border-[#FFF8E6] [&_.stepper-compeleted-step+.stepper-seperator]:border-[#FF8B08]",
-      "[&.vertical-stepper_.stepper-compeleted-step_.stepper-seperator]:border-[#FF8B08]"
+      "dark:[&_.stepper-canceled-step_.stepper-step]:bg-[#FFD2CD] dark:[&_.stepper-canceled-step_.stepper-step]:border-[#FFD2CD]",
+      "dark:[&_.stepper-canceled-step_.stepper-step]:text-black",
+      "[&_.stepper-seperator]:border-[#976A01] dark:[&_.stepper-seperator]:border-[#FDD067]",
+      "[&_.stepper-compeleted-step+.stepper-seperator]:border-[#654600] dark:[&_.stepper-compeleted-step+.stepper-seperator]:border-[#FEDF99]",
+      "[&.vertical-stepper_.stepper-compeleted-step_.stepper-seperator]:border-[#654600]",
+      "dark:[&.vertical-stepper_.stepper-compeleted-step_.stepper-seperator]:border-[#FEDF99]"
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "danger" in @color do %>
   defp color_class("danger") do
     [
-      "[&_.stepper-step]:bg-[#FFE6E6] [&_.stepper-step]:text-[#E73B3B]",
-      "[&_.stepper-step]:border-transparent [&_.stepper-current-step_.stepper-step]:border-[#E73B3B]",
-      "[&_.stepper-compeleted-step_.stepper-step]:bg-[#E73B3B] [&_.stepper-compeleted-step_.stepper-step]:border-[#E73B3B]",
-      "[&_.stepper-compeleted-step_.stepper-step]:text-white",
-      "[&_.stepper-canceled-step_.stepper-step]:bg-[#fa2d2d] [&_.stepper-canceled-step_.stepper-step]:border-[#fa2d2d]",
+      "[&_.stepper-step]:bg-[#FFF0EE] [&_.stepper-step]:text-[#BB032A]",
+      "[&_.stepper-step]:border-transparent [&_.stepper-current-step_.stepper-step]:border-[#BB032A]",
+      "[&_.stepper-compeleted-step_.stepper-step]:bg-[#FFE1DE] [&_.stepper-compeleted-step_.stepper-step]:border-[#950F22]",
+      "dark:[&_.stepper-step]:bg-[#520810] dark:[&_.stepper-step]:text-[#FFB2AB]",
+      "dark:[&_.stepper-current-step_.stepper-step]:border-[#FFB2AB]",
+      "dark:[&_.stepper-compeleted-step_.stepper-step]:bg-[#950F22] dark:[&_.stepper-compeleted-step_.stepper-step]:border-[#FFD2CD]",
+      "[&_.stepper-canceled-step_.stepper-step]:bg-[#950F22] [&_.stepper-canceled-step_.stepper-step]:border-[#950F22]",
       "[&_.stepper-canceled-step_.stepper-step]:text-white",
-      "[&_.stepper-seperator]:border-[#FFE6E6] [&_.stepper-compeleted-step+.stepper-seperator]:border-[#E73B3B]",
-      "[&.vertical-stepper_.stepper-compeleted-step_.stepper-seperator]:border-[#E73B3B]"
+      "dark:[&_.stepper-canceled-step_.stepper-step]:bg-[#FFD2CD] dark:[&_.stepper-canceled-step_.stepper-step]:border-[#FFD2CD]",
+      "dark:[&_.stepper-canceled-step_.stepper-step]:text-black",
+      "[&_.stepper-seperator]:border-[#BB032A] dark:[&_.stepper-seperator]:border-[#FFB2AB]",
+      "[&_.stepper-compeleted-step+.stepper-seperator]:border-[#950F22] dark:[&_.stepper-compeleted-step+.stepper-seperator]:border-[#FFD2CD]",
+      "[&.vertical-stepper_.stepper-compeleted-step_.stepper-seperator]:border-[#950F22]",
+      "dark:[&.vertical-stepper_.stepper-compeleted-step_.stepper-seperator]:border-[#FFD2CD]"
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "info" in @color do %>
   defp color_class("info") do
     [
-      "[&_.stepper-step]:bg-[#E5F0FF] [&_.stepper-step]:text-[#004FC4]",
-      "[&_.stepper-step]:border-transparent [&_.stepper-current-step_.stepper-step]:border-[#004FC4]",
-      "[&_.stepper-compeleted-step_.stepper-step]:bg-[#004FC4] [&_.stepper-compeleted-step_.stepper-step]:border-[#004FC4]",
-      "[&_.stepper-compeleted-step_.stepper-step]:text-white",
-      "[&_.stepper-canceled-step_.stepper-step]:bg-[#fa2d2d] [&_.stepper-canceled-step_.stepper-step]:border-[#fa2d2d]",
+      "[&_.stepper-step]:bg-[#E7F6FD] [&_.stepper-step]:text-[#08638C]",
+      "[&_.stepper-step]:border-transparent [&_.stepper-current-step_.stepper-step]:border-[#08638C]",
+      "[&_.stepper-compeleted-step_.stepper-step]:bg-[#CFEDFB] [&_.stepper-compeleted-step_.stepper-step]:border-[#06425D]",
+      "dark:[&_.stepper-step]:bg-[#03212F] dark:[&_.stepper-step]:text-[#6EC9F2]",
+      "dark:[&_.stepper-current-step_.stepper-step]:border-[#6EC9F2]",
+      "dark:[&_.stepper-compeleted-step_.stepper-step]:bg-[#06425D] dark:[&_.stepper-compeleted-step_.stepper-step]:border-[#9FDBF6]",
+      "[&_.stepper-canceled-step_.stepper-step]:bg-[#950F22] [&_.stepper-canceled-step_.stepper-step]:border-[#950F22]",
       "[&_.stepper-canceled-step_.stepper-step]:text-white",
-      "[&_.stepper-seperator]:border-[#E5F0FF] [&_.stepper-compeleted-step+.stepper-seperator]:border-[#004FC4]",
-      "[&.vertical-stepper_.stepper-compeleted-step_.stepper-seperator]:border-[#004FC4]"
+      "dark:[&_.stepper-canceled-step_.stepper-step]:bg-[#FFD2CD] dark:[&_.stepper-canceled-step_.stepper-step]:border-[#FFD2CD]",
+      "dark:[&_.stepper-canceled-step_.stepper-step]:text-black",
+      "[&_.stepper-seperator]:border-[#08638C] dark:[&_.stepper-seperator]:border-[#6EC9F2]",
+      "[&_.stepper-compeleted-step+.stepper-seperator]:border-[#06425D] dark:[&_.stepper-compeleted-step+.stepper-seperator]:border-[#9FDBF6]",
+      "[&.vertical-stepper_.stepper-compeleted-step_.stepper-seperator]:border-[#06425D]",
+      "dark:[&.vertical-stepper_.stepper-compeleted-step_.stepper-seperator]:border-[#9FDBF6]"
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "misc" in @color do %>
   defp color_class("misc") do
     [
-      "[&_.stepper-step]:bg-[#FFE6FF] [&_.stepper-step]:text-[#52059C]",
-      "[&_.stepper-step]:border-transparent [&_.stepper-current-step_.stepper-step]:border-[#52059C]",
-      "[&_.stepper-compeleted-step_.stepper-step]:bg-[#52059C] [&_.stepper-compeleted-step_.stepper-step]:border-[#52059C]",
-      "[&_.stepper-compeleted-step_.stepper-step]:text-white",
-      "[&_.stepper-canceled-step_.stepper-step]:bg-[#fa2d2d] [&_.stepper-canceled-step_.stepper-step]:border-[#fa2d2d]",
+      "[&_.stepper-step]:bg-[#F6F0FE] [&_.stepper-step]:text-[#653C94]",
+      "[&_.stepper-step]:border-transparent [&_.stepper-current-step_.stepper-step]:border-[#653C94]",
+      "[&_.stepper-compeleted-step_.stepper-step]:bg-[#EEE0FD] [&_.stepper-compeleted-step_.stepper-step]:border-[#442863]",
+      "dark:[&_.stepper-step]:bg-[#221431] dark:[&_.stepper-step]:text-[#CBA2FA]",
+      "dark:[&_.stepper-current-step_.stepper-step]:border-[#CBA2FA]",
+      "dark:[&_.stepper-compeleted-step_.stepper-step]:bg-[#44286] dark:[&_.stepper-compeleted-step_.stepper-step]:border-[#DDC1FC]",
+      "[&_.stepper-canceled-step_.stepper-step]:bg-[#950F22] [&_.stepper-canceled-step_.stepper-step]:border-[#950F22]",
       "[&_.stepper-canceled-step_.stepper-step]:text-white",
-      "[&_.stepper-seperator]:border-[#FFE6FF] [&_.stepper-compeleted-step+.stepper-seperator]:border-[#52059C]",
-      "[&.vertical-stepper_.stepper-compeleted-step_.stepper-seperator]:border-[#52059C]"
+      "dark:[&_.stepper-canceled-step_.stepper-step]:bg-[#FFD2CD] dark:[&_.stepper-canceled-step_.stepper-step]:border-[#FFD2CD]",
+      "dark:[&_.stepper-canceled-step_.stepper-step]:text-black",
+      "[&_.stepper-seperator]:border-[#653C94] dark:[&_.stepper-seperator]:border-[#CBA2FA]",
+      "[&_.stepper-compeleted-step+.stepper-seperator]:border-[#442863] dark:[&_.stepper-compeleted-step+.stepper-seperator]:border-[#DDC1FC]",
+      "[&.vertical-stepper_.stepper-compeleted-step_.stepper-seperator]:border-[#442863]",
+      "dark:[&.vertical-stepper_.stepper-compeleted-step_.stepper-seperator]:border-[#DDC1FC]"
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "dawn" in @color do %>
   defp color_class("dawn") do
     [
-      "[&_.stepper-step]:bg-[#FFECDA] [&_.stepper-step]:text-[#4D4137]",
-      "[&_.stepper-step]:border-transparent [&_.stepper-current-step_.stepper-step]:border-[#4D4137]",
-      "[&_.stepper-compeleted-step_.stepper-step]:bg-[#4D4137] [&_.stepper-compeleted-step_.stepper-step]:border-[#4D4137]",
-      "[&_.stepper-compeleted-step_.stepper-step]:text-white",
-      "[&_.stepper-canceled-step_.stepper-step]:bg-[#fa2d2d] [&_.stepper-canceled-step_.stepper-step]:border-[#fa2d2d]",
+      "[&_.stepper-step]:bg-[#FBF2ED] [&_.stepper-step]:text-[#7E4B2A]",
+      "[&_.stepper-step]:border-transparent [&_.stepper-current-step_.stepper-step]:border-[#7E4B2A]",
+      "[&_.stepper-compeleted-step_.stepper-step]:bg-[#F6E5DA] [&_.stepper-compeleted-step_.stepper-step]:border-[#54321C]",
+      "dark:[&_.stepper-step]:bg-[#2A190E] dark:[&_.stepper-step]:text-[#E4B190]",
+      "dark:[&_.stepper-current-step_.stepper-step]:border-[#E4B190]",
+      "dark:[&_.stepper-compeleted-step_.stepper-step]:bg-[#54321C] dark:[&_.stepper-compeleted-step_.stepper-step]:border-[#EDCBB5]",
+      "[&_.stepper-canceled-step_.stepper-step]:bg-[#950F22] [&_.stepper-canceled-step_.stepper-step]:border-[#950F22]",
       "[&_.stepper-canceled-step_.stepper-step]:text-white",
-      "[&_.stepper-seperator]:border-[#FFECDA] [&_.stepper-compeleted-step+.stepper-seperator]:border-[#4D4137]",
-      "[&.vertical-stepper_.stepper-compeleted-step_.stepper-seperator]:border-[#4D4137]"
+      "dark:[&_.stepper-canceled-step_.stepper-step]:bg-[#FFD2CD] dark:[&_.stepper-canceled-step_.stepper-step]:border-[#FFD2CD]",
+      "dark:[&_.stepper-canceled-step_.stepper-step]:text-black",
+      "[&_.stepper-seperator]:border-[#7E4B2A] dark:[&_.stepper-seperator]:border-[#E4B190]",
+      "[&_.stepper-compeleted-step+.stepper-seperator]:border-[#54321C] dark:[&_.stepper-compeleted-step+.stepper-seperator]:border-[#EDCBB5]",
+      "[&.vertical-stepper_.stepper-compeleted-step_.stepper-seperator]:border-[#54321C]",
+      "dark:[&.vertical-stepper_.stepper-compeleted-step_.stepper-seperator]:border-[#EDCBB5]"
     ]
   end
   <% end %>
-  <%= if is_nil(@color) or "light" in @color do %>
-  defp color_class("light") do
+  <%= if is_nil(@color) or "silver" in @color do %>
+  defp color_class("silver") do
     [
-      "[&_.stepper-step]:bg-[#E3E7F1] [&_.stepper-step]:text-[#707483]",
-      "[&_.stepper-step]:border-transparent [&_.stepper-current-step_.stepper-step]:border-[#707483]",
-      "[&_.stepper-compeleted-step_.stepper-step]:bg-[#707483] [&_.stepper-compeleted-step_.stepper-step]:border-[#707483]",
-      "[&_.stepper-compeleted-step_.stepper-step]:text-white",
-      "[&_.stepper-canceled-step_.stepper-step]:bg-[#fa2d2d] [&_.stepper-canceled-step_.stepper-step]:border-[#fa2d2d]",
+      "[&_.stepper-step]:bg-[#F3F3F3] [&_.stepper-step]:text-[#727272]",
+      "[&_.stepper-step]:border-transparent [&_.stepper-current-step_.stepper-step]:border-[#727272]",
+      "[&_.stepper-compeleted-step_.stepper-step]:bg-[#E8E8E8] [&_.stepper-compeleted-step_.stepper-step]:border-[#5E5E5E]",
+      "dark:[&_.stepper-step]:bg-[#4B4B4B] dark:[&_.stepper-step]:text-[#BBBBBB]",
+      "dark:[&_.stepper-current-step_.stepper-step]:border-[#BBBBBB]",
+      "dark:[&_.stepper-compeleted-step_.stepper-step]:bg-[#5E5E5E] dark:[&_.stepper-compeleted-step_.stepper-step]:border-[#DDDDDD]",
+      "[&_.stepper-canceled-step_.stepper-step]:bg-[#950F22] [&_.stepper-canceled-step_.stepper-step]:border-[#950F22]",
       "[&_.stepper-canceled-step_.stepper-step]:text-white",
-      "[&_.stepper-seperator]:border-[#E3E7F1] [&_.stepper-compeleted-step+.stepper-seperator]:border-[#707483]",
-      "[&.vertical-stepper_.stepper-compeleted-step_.stepper-seperator]:border-[#707483]"
-    ]
-  end
-  <% end %>
-  <%= if is_nil(@color) or "dark" in @color do %>
-  defp color_class("dark") do
-    [
-      "[&_.stepper-step]:bg-[#1E1E1E] [&_.stepper-step]:text-white",
-      "[&_.stepper-step]:border-transparent [&_.stepper-current-step_.stepper-step]:border-[#050404]",
-      "[&_.stepper-compeleted-step_.stepper-step]:bg-[#050404] [&_.stepper-compeleted-step_.stepper-step]:border-[#050404]",
-      "[&_.stepper-canceled-step_.stepper-step]:bg-[#fa2d2d] [&_.stepper-canceled-step_.stepper-step]:border-[#fa2d2d]",
-      "[&_.stepper-canceled-step_.stepper-step]:text-white",
-      "[&_.stepper-seperator]:border-[#1E1E1E] [&_.stepper-compeleted-step+.stepper-seperator]:border-[#050404]",
-      "[&.vertical-stepper_.stepper-compeleted-step_.stepper-seperator]:border-[#050404]"
+      "dark:[&_.stepper-canceled-step_.stepper-step]:bg-[#FFD2CD] dark:[&_.stepper-canceled-step_.stepper-step]:border-[#FFD2CD]",
+      "dark:[&_.stepper-canceled-step_.stepper-step]:text-black",
+      "[&_.stepper-seperator]:border-[#727272] dark:[&_.stepper-seperator]:border-[#BBBBBB]",
+      "[&_.stepper-compeleted-step+.stepper-seperator]:border-[#5E5E5E] dark:[&_.stepper-compeleted-step+.stepper-seperator]:border-[#DDDDDD]",
+      "[&.vertical-stepper_.stepper-compeleted-step_.stepper-seperator]:border-[#5E5E5E]",
+      "dark:[&.vertical-stepper_.stepper-compeleted-step_.stepper-seperator]:border-[#DDDDDD]"
     ]
   end
   <% end %>
   defp color_class(params) when is_binary(params), do: params
-  <%= if is_nil(@color) or "primary" in @color do %>
-  defp color_class(_), do: color_class("primary")
+  <%= if is_nil(@color) or "natural" in @color do %>
+  defp color_class(_), do: color_class("natural")
   <% end %>
 
   attr :name, :string, required: true, doc: "Specifies the name of the element"

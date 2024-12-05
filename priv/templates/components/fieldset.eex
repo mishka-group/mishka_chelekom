@@ -15,9 +15,10 @@ defmodule <%= @module %> do
   """
   use Phoenix.Component
 
-  @variants ["default", "outline", "unbordered", "shadow", "transparent"]
+  @variants ["default", "outline", "bordered", "shadow", "transparent", "gradient"]
 
   @colors [
+    "natural",
     "white",
     "primary",
     "secondary",
@@ -26,7 +27,6 @@ defmodule <%= @module %> do
     "warning",
     "danger",
     "info",
-    "light",
     "misc",
     "dawn",
     "silver"
@@ -71,7 +71,7 @@ defmodule <%= @module %> do
     doc: "A unique identifier is used to manage state and interaction"
 
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
-  attr :color, :string, values: @colors, default: "light", doc: "Determines color theme"
+  attr :color, :string, values: @colors, default: "natural", doc: "Determines color theme"
   attr :border, :string, default: "extra_small", doc: "Determines border style"
   attr :rounded, :string, default: "small", doc: "Determines the border radius"
   attr :padding, :string, default: "small", doc: "Determines padding for items"
@@ -102,7 +102,7 @@ defmodule <%= @module %> do
     <div class={[
       color_variant(@variant, @color),
       rounded_size(@rounded),
-      border_class(@border),
+      border_class(@border, @variant),
       padding_class(@padding),
       size_class(@size),
       space_class(@space),
@@ -184,25 +184,27 @@ defmodule <%= @module %> do
   <% end %>
   defp rounded_size(_), do: "[&_.fieldset-field]:rounded-none"
 
-  defp border_class("none"), do: "[&_.fieldset-field]:border-0"
+  defp border_class(_, variant) when variant in ["default", "shadow", "transparent", "gradient"],
+    do: nil
+  defp border_class("none", _), do: nil
   <%= if is_nil(@size) or "extra_small" in @size do %>
-  defp border_class("extra_small"), do: "[&_.fieldset-field]:border"
+  defp border_class("extra_small", _), do: "[&_.fieldset-field]:border"
   <% end %>
   <%= if is_nil(@size) or "small" in @size do %>
-  defp border_class("small"), do: "[&_.fieldset-field]:border-2"
+  defp border_class("small", _), do: "[&_.fieldset-field]:border-2"
   <% end %>
   <%= if is_nil(@size) or "medium" in @size do %>
-  defp border_class("medium"), do: "[&_.fieldset-field]:border-[3px]"
+  defp border_class("medium", _), do: "[&_.fieldset-field]:border-[3px]"
   <% end %>
   <%= if is_nil(@size) or "large" in @size do %>
-  defp border_class("large"), do: "[&_.fieldset-field]:border-4"
+  defp border_class("large", _), do: "[&_.fieldset-field]:border-4"
   <% end %>
   <%= if is_nil(@size) or "extra_large" in @size do %>
-  defp border_class("extra_large"), do: "[&_.fieldset-field]:border-[5px]"
+  defp border_class("extra_large", _), do: "[&_.fieldset-field]:border-[5px]"
   <% end %>
-  defp border_class(params) when is_binary(params), do: params
+  defp border_class(params, _) when is_binary(params), do: params
   <%= if is_nil(@size) or "extra_small" in @size do %>
-  defp border_class(_), do: border_class("extra_small")
+  defp border_class(_, _), do: border_class("extra_small", nil)
   <% end %>
 
   <%= if is_nil(@padding) or "extra_small" in @padding do %>
@@ -245,398 +247,500 @@ defmodule <%= @module %> do
   defp space_class(_), do: space_class("medium")
   <% end %>
 
-  <%= if is_nil(@variant) or "outline" in @variant do %>
+  <%= if is_nil(@variant) or "default" in @variant do %>
   <%= if is_nil(@color) or "white" in @color do %>
-  defp color_variant("outline", "white") do
-    [
-      "text-white [&_.fieldset-field]:border-white"
-    ]
-  end
-  <% end %>
-  <%= if is_nil(@color) or "silver" in @color do %>
-  defp color_variant("outline", "silver") do
-    ["text-[#afafaf] [&_.fieldset-field]:border-[#afafaf]"]
-  end
-  <% end %>
-  <%= if is_nil(@color) or "primary" in @color do %>
-  defp color_variant("outline", "primary") do
-    ["text-[#2441de] [&_.fieldset-field]:border-[#2441de]"]
-  end
-  <% end %>
-  <%= if is_nil(@color) or "secondary" in @color do %>
-  defp color_variant("outline", "secondary") do
-    ["text-[#877C7C] [&_.fieldset-field]:border-[#877C7C]"]
-  end
-  <% end %>
-  <%= if is_nil(@color) or "success" in @color do %>
-  defp color_variant("outline", "success") do
-    ["text-[#047857] [&_.fieldset-field]:border-[#047857]"]
-  end
-  <% end %>
-  <%= if is_nil(@color) or "warning" in @color do %>
-  defp color_variant("outline", "warning") do
-    ["text-[#FF8B08] [&_.fieldset-field]:border-[#FF8B08]"]
-  end
-  <% end %>
-  <%= if is_nil(@color) or "danger" in @color do %>
-  defp color_variant("outline", "danger") do
-    ["text-[#E73B3B] [&_.fieldset-field]:border-[#E73B3B]"]
-  end
-  <% end %>
-  <%= if is_nil(@color) or "info" in @color do %>
-  defp color_variant("outline", "info") do
-    ["text-[#004FC4] [&_.fieldset-field]:border-[#004FC4]"]
-  end
-  <% end %>
-  <%= if is_nil(@color) or "misc" in @color do %>
-  defp color_variant("outline", "misc") do
-    ["text-[#52059C] [&_.fieldset-field]:border-[#52059C]"]
-  end
-  <% end %>
-  <%= if is_nil(@color) or "dawn" in @color do %>
-  defp color_variant("outline", "dawn") do
-    ["text-[#4D4137] [&_.fieldset-field]:border-[#4D4137]"]
-  end
-  <% end %>
-  <%= if is_nil(@color) or "light" in @color do %>
-  defp color_variant("outline", "light") do
-    [
-      "text-[#707483] [&_.fieldset-field]:border-[#707483]"
+  defp color_variant("default", "white") do
+     [
+      "[&_.fieldset-field]:bg-white text-black"
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "dark" in @color do %>
-  defp color_variant("outline", "dark") do
-    ["text-[#1E1E1E] [#1E1E1E] [&_.fieldset-field]:border-[#050404]"]
+  defp color_variant("default", "dark") do
+     [
+      "[&_.fieldset-field]:bg-[#282828] text-white"
+    ]
   end
   <% end %>
-  <% end %>
-  <%= if is_nil(@variant) or "default" in @variant do %>
-  <%= if is_nil(@color) or "white" in @color do %>
-  defp color_variant("default", "white") do
-    ["[&_.fieldset-field]:bg-white text-[#3E3E3E] [&_.fieldset-field]:border-[#DADADA]"]
+  <%= if is_nil(@color) or "natural" in @color do %>
+  defp color_variant("default", "natural") do
+     [
+      "[&_.fieldset-field]:bg-[#4B4B4B] text-white dark:[&_.fieldset-field]:bg-[#DDDDDD] dark:text-black"
+    ]
   end
   <% end %>
   <%= if is_nil(@color) or "primary" in @color do %>
   defp color_variant("default", "primary") do
     [
-      "[&_.fieldset-field]:bg-[#4363EC] text-[#4363EC]",
-      "[&_.fieldset-field]:text-white [&_.fieldset-field]:border-[#2441de]"
+      "[&_.fieldset-field]:bg-[#007F8C] text-white dark:[&_.fieldset-field]:bg-[#01B8CA] dark:text-black"
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "secondary" in @color do %>
   defp color_variant("default", "secondary") do
     [
-      "[&_.fieldset-field]:bg-[#6B6E7C] text-[#6B6E7C] [&_.fieldset-field]:text-white",
-      "[&_.fieldset-field]:border-[#877C7C]"
+      "[&_.fieldset-field]:bg-[#266EF1] text-white dark:[&_.fieldset-field]:bg-[#6DAAFB] dark:text-black"
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "success" in @color do %>
   defp color_variant("default", "success") do
     [
-      "[&_.fieldset-field]:bg-[#ECFEF3] text-[#047857] [&_.fieldset-field]:border-[#6EE7B7]"
+      "[&_.fieldset-field]:bg-[#0E8345] text-white dark:[&_.fieldset-field]:bg-[#06C167] dark:text-black"
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "warning" in @color do %>
   defp color_variant("default", "warning") do
     [
-      "[&_.fieldset-field]:bg-[#FFF8E6] text-[#FF8B08] [&_.fieldset-field]:border-[#FF8B08]"
+      "[&_.fieldset-field]:bg-[#CA8D01] text-white dark:[&_.fieldset-field]:bg-[#FDC034] dark:text-black"
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "danger" in @color do %>
   defp color_variant("default", "danger") do
     [
-      "[&_.fieldset-field]:bg-[#FFE6E6] text-[#E73B3B] [&_.fieldset-field]:border-[#E73B3B]"
+      "[&_.fieldset-field]:bg-[#DE1135] text-white dark:[&_.fieldset-field]:bg-[#FC7F79] dark:text-black"
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "info" in @color do %>
   defp color_variant("default", "info") do
     [
-      "[&_.fieldset-field]:bg-[#E5F0FF] text-[#004FC4] [&_.fieldset-field]:border-[#004FC4]"
+      "[&_.fieldset-field]:bg-[#0B84BA] text-white dark:[&_.fieldset-field]:bg-[#3EB7ED] dark:text-black"
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "misc" in @color do %>
   defp color_variant("default", "misc") do
     [
-      "[&_.fieldset-field]:bg-[#FFE6FF] text-[#52059C] [&_.fieldset-field]:border-[#52059C]"
+      "[&_.fieldset-field]:bg-[#8750C5] text-white dark:[&_.fieldset-field]:bg-[#BA83F9] dark:text-black"
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "dawn" in @color do %>
   defp color_variant("default", "dawn") do
     [
-      "[&_.fieldset-field]:bg-[#FFECDA] text-[#4D4137] [&_.fieldset-field]:border-[#4D4137]"
+      "[&_.fieldset-field]:bg-[#A86438] text-white dark:[&_.fieldset-field]:bg-[#DB976B] dark:text-black"
     ]
   end
   <% end %>
-  <%= if is_nil(@color) or "light" in @color do %>
-  defp color_variant("default", "light") do
-    [
-      "[&_.fieldset-field]:bg-[#E3E7F1] text-[#707483] [&_.fieldset-field]:border-[#707483]"
-    ]
-  end
-  <% end %>
-  <%= if is_nil(@color) or "dark" in @color do %>
-  defp color_variant("default", "dark") do
-    [
-      "[&_.fieldset-field]:bg-[#1E1E1E] text-[#1E1E1E] [&_.fieldset-field]:text-white",
-      "[&_.fieldset-field]:border-[#050404]"
+  <%= if is_nil(@color) or "silver" in @color do %>
+  defp color_variant("default", "silver") do
+     [
+      "[&_.fieldset-field]:bg-[#868686] text-white dark:[&_.fieldset-field]:bg-[#A6A6A6] dark:text-black"
     ]
   end
   <% end %>
   <% end %>
-  <%= if is_nil(@variant) or "unbordered" in @variant do %>
-  <%= if is_nil(@color) or "white" in @color do %>
-  defp color_variant("unbordered", "white") do
+  <%= if is_nil(@variant) or "outline" in @variant do %>
+  <%= if is_nil(@color) or "natural" in @color do %>
+  defp color_variant("outline", "natural") do
     [
-      "[&_.fieldset-field]:bg-white [&_.fieldset-field]:border-transparent text-[#3E3E3E]"
+      "text-[#4B4B4B] [&_.fieldset-field]:border-[#4B4B4B] dark:text-[#DDDDDD] dark:[&_.fieldset-field]:border-[#DDDDDD]"
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "primary" in @color do %>
-  defp color_variant("unbordered", "primary") do
+  defp color_variant("outline", "primary") do
     [
-      "[&_.fieldset-field]:bg-[#4363EC] text-[#4363EC] [&_.fieldset-field]:border-transparent text-white"
+      "text-[#007F8C] [&_.fieldset-field]:border-[#007F8C]  dark:text-[#01B8CA] dark:[&_.fieldset-field]:border-[#01B8CA]"
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "secondary" in @color do %>
-  defp color_variant("unbordered", "secondary") do
+  defp color_variant("outline", "secondary") do
     [
-      "[&_.fieldset-field]:bg-[#6B6E7C] text-[#6B6E7C] [&_.fieldset-field]:border-transparent text-white"
+      "text-[#266EF1] [&_.fieldset-field]:border-[#266EF1] dark:text-[#6DAAFB] dark:[&_.fieldset-field]:border-[#6DAAFB]"
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "success" in @color do %>
-  defp color_variant("unbordered", "success") do
+  defp color_variant("outline", "success") do
     [
-      "[&_.fieldset-field]:bg-[#ECFEF3] [&_.fieldset-field]:border-transparent text-[#047857]"
+      "text-[#0E8345] [&_.fieldset-field]:border-[#0E8345] dark:text-[#06C167] dark:[&_.fieldset-field]:border-[#06C167]"
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "warning" in @color do %>
-  defp color_variant("unbordered", "warning") do
+  defp color_variant("outline", "warning") do
     [
-      "[&_.fieldset-field]:bg-[#FFF8E6] [&_.fieldset-field]:border-transparent text-[#FF8B08]"
+      "text-[#CA8D01] [&_.fieldset-field]:border-[#CA8D01] dark:text-[#FDC034] dark:[&_.fieldset-field]:border-[#FDC034]"
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "danger" in @color do %>
-  defp color_variant("unbordered", "danger") do
+  defp color_variant("outline", "danger") do
     [
-      "[&_.fieldset-field]:bg-[#FFE6E6] [&_.fieldset-field]:border-transparent text-[#E73B3B]"
+      "text-[#DE1135] [&_.fieldset-field]:border-[#DE1135] dark:text-[#FC7F79] dark:[&_.fieldset-field]:border-[#FC7F79]"
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "info" in @color do %>
-  defp color_variant("unbordered", "info") do
+  defp color_variant("outline", "info") do
     [
-      "[&_.fieldset-field]:bg-[#E5F0FF] [&_.fieldset-field]:border-transparent text-[#004FC4]"
+      "text-[#0B84BA] [&_.fieldset-field]:border-[#0B84BA] dark:text-[#3EB7ED] dark:[&_.fieldset-field]:border-[#3EB7ED]"
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "misc" in @color do %>
-  defp color_variant("unbordered", "misc") do
+  defp color_variant("outline", "misc") do
     [
-      "[&_.fieldset-field]:bg-[#FFE6FF] [&_.fieldset-field]:border-transparent text-[#52059C]"
+      "text-[#8750C5] [&_.fieldset-field]:border-[#8750C5] dark:text-[#BA83F9] dark:[&_.fieldset-field]:border-[#BA83F9]"
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "dawn" in @color do %>
-  defp color_variant("unbordered", "dawn") do
+  defp color_variant("outline", "dawn") do
     [
-      "[&_.fieldset-field]:bg-[#FFECDA] [&_.fieldset-field]:border-transparent text-[#4D4137]"
+      "text-[#A86438] [&_.fieldset-field]:border-[#A86438] dark:text-[#DB976B] dark:[&_.fieldset-field]:border-[#DB976B]"
     ]
   end
   <% end %>
-  <%= if is_nil(@color) or "light" in @color do %>
-  defp color_variant("unbordered", "light") do
+  <%= if is_nil(@color) or "silver" in @color do %>
+  defp color_variant("outline", "silver") do
     [
-      "[&_.fieldset-field]:bg-[#E3E7F1] [&_.fieldset-field]:border-transparent text-[#707483]"
-    ]
-  end
-  <% end %>
-  <%= if is_nil(@color) or "dark" in @color do %>
-  defp color_variant("unbordered", "dark") do
-    [
-      "[&_.fieldset-field]:bg-[#1E1E1E] text-[#1E1E1E] [&_.fieldset-field]:border-transparent text-white"
+      "text-[#868686] [&_.fieldset-field]:border-[#868686] dark:text-[#A6A6A6] dark:[&_.fieldset-field]:border-[#A6A6A6]"
     ]
   end
   <% end %>
   <% end %>
   <%= if is_nil(@variant) or "shadow" in @variant do %>
-  <%= if is_nil(@color) or "white" in @color do %>
-  defp color_variant("shadow", "white") do
+  <%= if is_nil(@color) or "natural" in @color do %>
+  defp color_variant("shadow", "natural") do
     [
-      "[&_.fieldset-field]:bg-white text-[#3E3E3E]",
-      "[&_.fieldset-field]:shadow"
+      "[&_.fieldset-field]:bg-[#4B4B4B] text-white dark:[&_.fieldset-field]:bg-[#DDDDDD] dark:text-black",
+      "shadow-[0px_4px_6px_-4px_rgba(134,134,134,0.5)] shadow-[0px_10px_15px_-3px_rgba(134,134,134,0.5)] dark:shadow-none"
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "primary" in @color do %>
   defp color_variant("shadow", "primary") do
     [
-      "[&_.fieldset-field]:bg-[#4363EC] text-[#4363EC]",
-      "[&_.fieldset-field]:shadow"
+      "[&_.fieldset-field]:bg-[#007F8C] text-white dark:[&_.fieldset-field]:bg-[#01B8CA] dark:text-black",
+      "shadow-[0px_4px_6px_-4px_rgba(0,149,164,0.5)] shadow-[0px_10px_15px_-3px_rgba(0,149,164,0.5)] dark:shadow-none"
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "secondary" in @color do %>
   defp color_variant("shadow", "secondary") do
     [
-      "[&_.fieldset-field]:bg-[#6B6E7C] text-[#6B6E7C]",
-      "[&_.fieldset-field]:shadow"
+      "[&_.fieldset-field]:bg-[#266EF1] text-white dark:[&_.fieldset-field]:bg-[#6DAAFB] dark:text-black",
+      "shadow-[0px_4px_6px_-4px_rgba(6,139,238,0.5)] shadow-[0px_10px_15px_-3px_rgba(6,139,238,0.5)] dark:shadow-none"
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "success" in @color do %>
   defp color_variant("shadow", "success") do
     [
-      "[&_.fieldset-field]:bg-[#ECFEF3] text-[#227A52]",
-      "[&_.fieldset-field]:shadow"
+      "[&_.fieldset-field]:bg-[#0E8345] text-white hover:[&_.fieldset-field]:bg-[#166C3B] dark:[&_.fieldset-field]:bg-[#06C167] dark:text-black",
+      "shadow-[0px_4px_6px_-4px_rgba(0,154,81,0.5)] shadow-[0px_10px_15px_-3px_rgba(0,154,81,0.5)] dark:shadow-none"
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "warning" in @color do %>
   defp color_variant("shadow", "warning") do
-    [
-      "[&_.fieldset-field]:bg-[#FFF8E6] text-[#FF8B08]",
-      "[&_.fieldset-field]:shadow"
+     [
+      "[&_.fieldset-field]:bg-[#CA8D01] text-white dark:[&_.fieldset-field]:bg-[#FDC034] dark:text-black",
+      "shadow-[0px_4px_6px_-4px_rgba(252,176,1,0.5)] shadow-[0px_10px_15px_-3px_rgba(252,176,1,0.5)] dark:shadow-none"
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "danger" in @color do %>
   defp color_variant("shadow", "danger") do
     [
-      "[&_.fieldset-field]:bg-[#FFE6E6] text-[#E73B3B]",
-      "[&_.fieldset-field]:shadow"
+      "[&_.fieldset-field]:bg-[#DE1135] text-white dark:[&_.fieldset-field]:bg-[#FC7F79] dark:text-black",
+      "shadow-[0px_4px_6px_-4px_rgba(248,52,70,0.5)] shadow-[0px_10px_15px_-3px_rgba(248,52,70,0.5)] dark:shadow-none"
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "info" in @color do %>
   defp color_variant("shadow", "info") do
     [
-      "[&_.fieldset-field]:bg-[#E5F0FF] text-[#004FC4]",
-      "[&_.fieldset-field]:shadow"
+      "[&_.fieldset-field]:bg-[#0B84BA] text-white dark:[&_.fieldset-field]:bg-[#3EB7ED] dark:text-black",
+      "shadow-[0px_4px_6px_-4px_rgba(14,165,233,0.5)] shadow-[0px_10px_15px_-3px_rgba(14,165,233,0.5)] dark:shadow-none"
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "misc" in @color do %>
   defp color_variant("shadow", "misc") do
     [
-      "[&_.fieldset-field]:bg-[#FFE6FF] text-[#52059C]",
-      "[&_.fieldset-field]:shadow"
+      "[&_.fieldset-field]:bg-[#8750C5] text-white dark:[&_.fieldset-field]:bg-[#BA83F9] dark:text-black",
+      "shadow-[0px_4px_6px_-4px_rgba(169,100,247,0.5)] shadow-[0px_10px_15px_-3px_rgba(169,100,247,0.5)] dark:shadow-none"
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "dawn" in @color do %>
   defp color_variant("shadow", "dawn") do
     [
-      "[&_.fieldset-field]:bg-[#FFECDA] text-[#4D4137]",
-      "[&_.fieldset-field]:shadow"
+      "[&_.fieldset-field]:bg-[#A86438] text-white dark:[&_.fieldset-field]:bg-[#DB976B] dark:text-black",
+      "shadow-[0px_4px_6px_-4px_rgba(210,125,70,0.5)] shadow-[0px_10px_15px_-3px_rgba(210,125,70,0.5)] dark:shadow-none"
     ]
   end
   <% end %>
-  <%= if is_nil(@color) or "light" in @color do %>
-  defp color_variant("shadow", "light") do
+  <%= if is_nil(@color) or "silver" in @color do %>
+  defp color_variant("shadow", "silver") do
     [
-      "[&_.fieldset-field]:bg-[#E3E7F1] text-[#707483]",
-      "[&_.fieldset-field]:shadow"
+      "[&_.fieldset-field]:bg-[#868686] text-white dark:[&_.fieldset-field]:bg-[#A6A6A6] dark:text-black",
+      "shadow-[0px_4px_6px_-4px_rgba(134,134,134,0.5)] shadow-[0px_10px_15px_-3px_rgba(134,134,134,0.5)] dark:shadow-none"
+    ]
+  end
+  <% end %>
+  <% end %>
+  <%= if is_nil(@variant) or "bordered" in @variant do %>
+  <%= if is_nil(@color) or "white" in @color do %>
+  defp color_variant("bordered", "white") do
+    [
+      "[&_.fieldset-field]:bg-white text-black [&_.fieldset-field]:border-[#DDDDDD]"
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "dark" in @color do %>
-  defp color_variant("shadow", "dark") do
+  defp color_variant("bordered", "dark") do
     [
-      "[&_.fieldset-field]:bg-[#1E1E1E] text-[#1E1E1E]",
-      "[&_.fieldset-field]:shadow"
+      "[&_.fieldset-field]:bg-[#282828] text-white [&_.fieldset-field]:border-[#727272]"
+    ]
+  end
+  <% end %>
+  <%= if is_nil(@color) or "natural" in @color do %>
+  defp color_variant("bordered", "natural") do
+    [
+      "text-[#282828] [&_.fieldset-field]:border-[#282828] [&_.fieldset-field]:bg-[#F3F3F3]",
+      "dark:text-[#E8E8E8] dark:[&_.fieldset-field]:border-[#E8E8E8] dark:[&_.fieldset-field]:bg-[#4B4B4B]"
+    ]
+  end
+  <% end %>
+  <%= if is_nil(@color) or "primary" in @color do %>
+  defp color_variant("bordered", "primary") do
+    [
+      "text-[#016974] [&_.fieldset-field]:border-[#016974] [&_.fieldset-field]:bg-[#E2F8FB]",
+      "dark:text-[#77D5E3] dark:[&_.fieldset-field]:border-[#77D5E3] dark:[&_.fieldset-field]:bg-[#002D33]"
+    ]
+  end
+  <% end %>
+  <%= if is_nil(@color) or "secondary" in @color do %>
+  defp color_variant("bordered", "secondary") do
+    [
+      "text-[#175BCC] [&_.fieldset-field]:border-[#175BCC] [&_.fieldset-field]:bg-[#EFF4FE]",
+      "dark:text-[#A9C9FF] dark:[&_.fieldset-field]:border-[#A9C9FF] dark:[&_.fieldset-field]:bg-[#002661]"
+    ]
+  end
+  <% end %>
+  <%= if is_nil(@color) or "success" in @color do %>
+  defp color_variant("bordered", "success") do
+    [
+      "text-[#166C3B] [&_.fieldset-field]:border-[#166C3B] [&_.fieldset-field]:bg-[#EAF6ED]",
+      "dark:text-[#7FD99A] dark:[&_.fieldset-field]:border-[#7FD99A] dark:[&_.fieldset-field]:bg-[#002F14]"
+    ]
+  end
+  <% end %>
+  <%= if is_nil(@color) or "warning" in @color do %>
+  defp color_variant("bordered", "warning") do
+    [
+      "text-[#976A01] [&_.fieldset-field]:border-[#976A01] [&_.fieldset-field]:bg-[#FFF7E6]",
+      "dark:text-[#FDD067] dark:[&_.fieldset-field]:border-[#FDD067] dark:[&_.fieldset-field]:bg-[#322300]"
+    ]
+  end
+  <% end %>
+  <%= if is_nil(@color) or "danger" in @color do %>
+  defp color_variant("bordered", "danger") do
+    [
+      "text-[#BB032A] [&_.fieldset-field]:border-[#BB032A] [&_.fieldset-field]:bg-[#FFF0EE]",
+      "dark:text-[#FFB2AB] dark:[&_.fieldset-field]:border-[#FFB2AB] dark:[&_.fieldset-field]:bg-[#520810]"
+    ]
+  end
+  <% end %>
+  <%= if is_nil(@color) or "info" in @color do %>
+  defp color_variant("bordered", "info") do
+    [
+      "text-[#0B84BA] [&_.fieldset-field]:border-[#0B84BA] [&_.fieldset-field]:bg-[#E7F6FD]",
+      "dark:text-[#6EC9F2] dark:[&_.fieldset-field]:border-[#6EC9F2] dark:[&_.fieldset-field]:bg-[#03212F]"
+    ]
+  end
+  <% end %>
+  <%= if is_nil(@color) or "misc" in @color do %>
+  defp color_variant("bordered", "misc") do
+    [
+      "text-[#653C94] [&_.fieldset-field]:border-[#653C94] [&_.fieldset-field]:bg-[#F6F0FE]",
+      "dark:text-[#CBA2FA] dark:[&_.fieldset-field]:border-[#CBA2FA] dark:[&_.fieldset-field]:bg-[#221431]"
+    ]
+  end
+  <% end %>
+  <%= if is_nil(@color) or "dawn" in @color do %>
+  defp color_variant("bordered", "dawn") do
+    [
+      "text-[#7E4B2A] [&_.fieldset-field]:border-[#7E4B2A] [&_.fieldset-field]:bg-[#FBF2ED]",
+      "dark:text-[#E4B190] dark:[&_.fieldset-field]:border-[#E4B190] dark:[&_.fieldset-field]:bg-[#2A190E]"
+    ]
+  end
+  <% end %>
+  <%= if is_nil(@color) or "silver" in @color do %>
+  defp color_variant("bordered", "silver") do
+    [
+      "text-[#727272] [&_.fieldset-field]:border-[#727272] [&_.fieldset-field]:bg-[#F3F3F3]",
+      "dark:text-[#BBBBBB] dark:[&_.fieldset-field]:border-[#BBBBBB] dark:[&_.fieldset-field]:bg-[#4B4B4B]"
     ]
   end
   <% end %>
   <% end %>
   <%= if is_nil(@variant) or "transparent" in @variant do %>
-  <%= if is_nil(@color) or "white" in @color do %>
-  defp color_variant("transparent", "white") do
+  <%= if is_nil(@color) or "natural" in @color do %>
+  defp color_variant("transparent", "natural") do
     [
-      "[&_.fieldset-field]:bg-transparent text-[#DADADA] [&_.fieldset-field]:border-transparent"
+      "text-[#4B4B4B] dark:text-[#DDDDDD]"
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "primary" in @color do %>
   defp color_variant("transparent", "primary") do
     [
-      "[&_.fieldset-field]:bg-transparent text-[#4363EC] [&_.fieldset-field]:border-transparent"
+      "text-[#007F8C] dark:text-[#01B8CA]"
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "secondary" in @color do %>
   defp color_variant("transparent", "secondary") do
     [
-      "[&_.fieldset-field]:bg-transparent text-[#6B6E7C] [&_.fieldset-field]:border-transparent"
+      "text-[#266EF1] dark:text-[#6DAAFB]"
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "success" in @color do %>
   defp color_variant("transparent", "success") do
     [
-      "[&_.fieldset-field]:bg-transparent text-[#047857] [&_.fieldset-field]:border-transparent"
+      "text-[#0E8345] dark:text-[#06C167]"
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "warning" in @color do %>
   defp color_variant("transparent", "warning") do
-    [
-      "[&_.fieldset-field]:bg-transparent text-[#FF8B08] [&_.fieldset-field]:border-transparent"
+   [
+      "text-[#CA8D01] dark:text-[#FDC034]"
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "danger" in @color do %>
   defp color_variant("transparent", "danger") do
     [
-      "[&_.fieldset-field]:bg-transparent text-[#E73B3B] [&_.fieldset-field]:border-transparent"
+      "text-[#DE1135] dark:text-[#FC7F79]"
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "info" in @color do %>
   defp color_variant("transparent", "info") do
     [
-      "[&_.fieldset-field]:bg-transparent text-[#004FC4] [&_.fieldset-field]:border-transparent"
+      "text-[#0B84BA] dark:text-[#3EB7ED]"
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "misc" in @color do %>
   defp color_variant("transparent", "misc") do
     [
-      "[&_.fieldset-field]:bg-transparent text-[#52059C] [&_.fieldset-field]:border-transparent"
+      "text-[#8750C5] dark:text-[#BA83F9]"
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "dawn" in @color do %>
   defp color_variant("transparent", "dawn") do
     [
-      "[&_.fieldset-field]:bg-transparent text-[#4D4137] [&_.fieldset-field]:border-transparent"
+      "text-[#A86438] dark:text-[#DB976B]"
     ]
   end
   <% end %>
-  <%= if is_nil(@color) or "light" in @color do %>
-  defp color_variant("transparent", "light") do
+  <%= if is_nil(@color) or "silver" in @color do %>
+  defp color_variant("transparent", "silver") do
     [
-      "[&_.fieldset-field]:bg-transparent text-[#707483] [&_.fieldset-field]:border-transparent"
+      "text-[#868686] dark:text-[#A6A6A6]"
     ]
   end
   <% end %>
-  <%= if is_nil(@color) or "dark" in @color do %>
-  defp color_variant("transparent", "dark") do
+  <% end %>
+  <%= if is_nil(@variant) or "gradient" in @variant do %>
+  <%= if is_nil(@color) or "natural" in @color do %>
+  defp color_variant("gradient", "natural") do
     [
-      "[&_.fieldset-field]:bg-transparent text-[#1E1E1E] [&_.fieldset-field]:border-transparent"
+      "[&_.fieldset-field]:bg-gradient-to-br from-[#282828] to-[#727272] text-white",
+      "dark:from-[#A6A6A6] dark:to-[#FFFFFF] dark:text-black"
     ]
   end
+  <% end %>
+  <%= if is_nil(@color) or "primary" in @color do %>
+  defp color_variant("gradient", "primary") do
+    [
+      "[&_.fieldset-field]:bg-gradient-to-br from-[#016974] to-[#01B8CA] text-white",
+      "dark:from-[#01B8CA] dark:to-[#B0E7EF] dark:text-black"
+    ]
+  end
+  <% end %>
+  <%= if is_nil(@color) or "secondary" in @color do %>
+  defp color_variant("gradient", "secondary") do
+    [
+      "[&_.fieldset-field]:bg-gradient-to-br from-[#175BCC] to-[#6DAAFB] text-white",
+      "dark:from-[#6DAAFB] dark:to-[#CDDEFF] dark:text-black"
+    ]
+  end
+  <% end %>
+  <%= if is_nil(@color) or "success" in @color do %>
+  defp color_variant("gradient", "success") do
+    [
+      "[&_.fieldset-field]:bg-gradient-to-br from-[#166C3B] to-[#06C167] text-white",
+      "dark:from-[#06C167] dark:to-[#B1EAC2] dark:text-black"
+    ]
+  end
+  <% end %>
+  <%= if is_nil(@color) or "warning" in @color do %>
+  defp color_variant("gradient", "warning") do
+    [
+      "[&_.fieldset-field]:bg-gradient-to-br from-[#976A01] to-[#FDC034] text-white",
+      "dark:from-[#FDC034] dark:to-[#FEDF99] dark:text-black"
+    ]
+  end
+  <% end %>
+  <%= if is_nil(@color) or "danger" in @color do %>
+  defp color_variant("gradient", "danger") do
+    [
+      "[&_.fieldset-field]:bg-gradient-to-br from-[#BB032A] to-[#FC7F79] text-white",
+      "dark:from-[#FC7F79] dark:to-[#FFD2CD] dark:text-black"
+    ]
+  end
+  <% end %>
+  <%= if is_nil(@color) or "info" in @color do %>
+  defp color_variant("gradient", "info") do
+    [
+      "[&_.fieldset-field]:bg-gradient-to-br from-[#08638C] to-[#3EB7ED] text-white",
+      "dark:from-[#3EB7ED] dark:to-[#9FDBF6] dark:text-black"
+    ]
+  end
+  <% end %>
+  <%= if is_nil(@color) or "misc" in @color do %>
+  defp color_variant("gradient", "misc") do
+   [
+      "[&_.fieldset-field]:bg-gradient-to-br from-[#653C94] to-[#BA83F9] text-white",
+      "dark:from-[#BA83F9] dark:to-[#DDC1FC] dark:text-black"
+    ]
+  end
+  <% end %>
+  <%= if is_nil(@color) or "dawn" in @color do %>
+  defp color_variant("gradient", "dawn") do
+    [
+      "[&_.fieldset-field]:bg-gradient-to-br from-[#7E4B2A] to-[#DB976B] text-white",
+      "dark:from-[#DB976B] dark:to-[#EDCBB5] dark:text-black"
+    ]
+  end
+  <% end %>
+  <%= if is_nil(@color) or "silver" in @color do %>
+  defp color_variant("gradient", "silver") do
+    [
+      "[&_.fieldset-field]:bg-gradient-to-br from-[#5E5E5E] to-[#A6A6A6] text-white",
+      "dark:from-[#868686] dark:to-[#BBBBBB] dark:text-black"
+    ]
+  end
+  <% end %>
+  <% end %>
+  defp color_variant(params,_) when is_binary(params), do: params
+  <%= if is_nil(@variant) or "default" in @variant do %>
+  <%= if is_nil(@color) or "natural" in @color do %>
+  defp color_variant(_,_), do: color_variant("default", "natural")
   <% end %>
   <% end %>
 
