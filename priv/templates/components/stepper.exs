@@ -18,6 +18,7 @@
       space: ["extra_small", "small", "medium", "large", "extra_large"],
       type: ["stepper", "stepper_section"],
       only: ["stepper", "stepper_section"],
+      helpers: [],
       module: ""
     ],
     optional: [],

@@ -17,7 +17,7 @@ defmodule <%= @module %> do
   use Phoenix.Component
 
   @colors [
-    "naturla",
+    "natural",
     "primary",
     "secondary",
     "success",
