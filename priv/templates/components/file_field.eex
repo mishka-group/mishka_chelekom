@@ -807,14 +807,14 @@ defmodule <%= @module %> do
   <%= if is_nil(@color) or "success" in @color do %>
   defp color_variant("bordered", "success") do
     [
-      "text-[#175BCC] [&_.dropzone-wrapper]:border-[#175BCC] [&_.dropzone-wrapper]:bg-[#EFF4FE]",
-      "dark:text-[#A9C9FF] dark:[&_.dropzone-wrapper]:border-[#A9C9FF] dark:[&_.dropzone-wrapper]:bg-[#002661]"
+      "text-[#166C3B] [&_.dropzone-wrapper]:border-[#166C3B] [&_.dropzone-wrapper]:bg-[#EAF6ED]",
+      "dark:text-[#7FD99A] dark:[&_.dropzone-wrapper]:border-[#7FD99A] dark:[&_.dropzone-wrapper]:bg-[#002F14]"
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "warning" in @color do %>
   defp color_variant("bordered", "warning") do
-   [
+    [
       "text-[#976A01] [&_.dropzone-wrapper]:border-[#976A01] [&_.dropzone-wrapper]:bg-[#FFF7E6]",
       "dark:text-[#FDD067] dark:[&_.dropzone-wrapper]:border-[#FDD067] dark:[&_.dropzone-wrapper]:bg-[#322300]"
     ]
