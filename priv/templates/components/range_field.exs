@@ -3,6 +3,7 @@
     name: "range_field",
     args: [
       color: [
+        "natural",
         "white",
         "primary",
         "secondary",
@@ -11,12 +12,13 @@
         "warning",
         "danger",
         "info",
-        "light",
+        "silver",
         "misc",
         "dawn"
       ],
       size: ["extra_small", "small", "medium", "large", "extra_large"],
       only: ["range_field"],
+      helpers: [],
       module: ""
     ],
     optional: [],

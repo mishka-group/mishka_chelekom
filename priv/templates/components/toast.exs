@@ -2,8 +2,9 @@
   toast: [
     name: "toast",
     args: [
-      variant: ["default", "outline", "shadow", "unbordered"],
+      variant: ["default", "outline", "shadow", "bordered", "gradient"],
       color: [
+        "natural",
         "white",
         "primary",
         "secondary",
@@ -12,7 +13,7 @@
         "warning",
         "danger",
         "info",
-        "light",
+        "silver",
         "misc",
         "dawn"
       ],
@@ -21,6 +22,7 @@
       rounded: ["extra_small", "small", "medium", "large", "extra_large", "none"],
       type: ["toast", "toast_group"],
       only: ["toast", "toast_group"],
+      helpers: [show_toast: 2, hide_toast: 2],
       module: ""
     ],
     optional: [],
