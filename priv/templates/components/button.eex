@@ -196,7 +196,7 @@ defmodule <%= @module %> do
     default: "font-normal",
     doc: "Determines custom class for the font weight"
 
-  attr :full_width , :boolean, default: false, doc: "Change width of button to full"
+  attr :full_width , :boolean, default: false, doc: "Make button full width"
 
   attr :indicator_class, :string,
     default: nil,
@@ -289,7 +289,7 @@ defmodule <%= @module %> do
     default: "font-normal",
     doc: "Determines custom class for the font weight"
 
-  attr :full_width , :boolean, default: false, doc: "Change width of button to full"
+  attr :full_width , :boolean, default: false, doc: "Make button full width"
 
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
 
@@ -375,7 +375,7 @@ defmodule <%= @module %> do
     default: "font-normal",
     doc: "Determines custom class for the font weight"
 
-  attr :full_width , :boolean, default: false, doc: "Change width of button to full"
+  attr :full_width , :boolean, default: false, doc: "Make button full width"
 
   attr :indicator_class, :string,
     default: nil,
