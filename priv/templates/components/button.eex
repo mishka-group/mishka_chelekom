@@ -196,6 +196,8 @@ defmodule <%= @module %> do
     default: "font-normal",
     doc: "Determines custom class for the font weight"
 
+  attr :full_width , :boolean, default: false, doc: "Change width of button to full"
+
   attr :indicator_class, :string,
     default: nil,
     doc: "Custom CSS class for styling the indicator element"
@@ -218,12 +220,13 @@ defmodule <%= @module %> do
       id={@id}
       class={
         default_classes(@rest[:pinging]) ++
-          size_class(@size, @rest[:circle]) ++
           [
+            size_class(@size, @rest[:circle]),
             color_variant(@variant, @color),
             content_position(@content_position),
             rounded_size(@rounded),
             border_size(@border, @variant),
+            @full_width && "w-full",
             @font_weight,
             @display,
             @class
@@ -286,6 +289,8 @@ defmodule <%= @module %> do
     default: "font-normal",
     doc: "Determines custom class for the font weight"
 
+  attr :full_width , :boolean, default: false, doc: "Change width of button to full"
+
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
 
   attr :rest, :global,
@@ -300,12 +305,13 @@ defmodule <%= @module %> do
       value={@value}
       class={
         default_classes(@rest[:pinging]) ++
-          size_class(@size, @rest[:circle]) ++
           [
+            size_class(@size, @rest[:circle]),
             color_variant(@variant, @color),
             content_position(@content_position),
             rounded_size(@rounded),
             border_size(@border, @variant),
+            @full_width && "w-full",
             @font_weight,
             @display,
             @class
@@ -369,6 +375,8 @@ defmodule <%= @module %> do
     default: "font-normal",
     doc: "Determines custom class for the font weight"
 
+  attr :full_width , :boolean, default: false, doc: "Change width of button to full"
+
   attr :indicator_class, :string,
     default: nil,
     doc: "Custom CSS class for styling the indicator element"
@@ -391,11 +399,12 @@ defmodule <%= @module %> do
       id={@id}
       class={
         default_classes(@rest[:pinging]) ++
-          size_class(@size, @rest[:circle]) ++
           [
+            size_class(@size, @rest[:circle]),
             color_variant(@variant, @color),
             rounded_size(@rounded),
             border_size(@border, @variant),
+            @full_width && "w-full",
             @font_weight,
             @display,
             @class
@@ -419,11 +428,12 @@ defmodule <%= @module %> do
       id={@id}
       class={
         default_classes(@rest[:pinging]) ++
-          size_class(@size, @rest[:circle]) ++
           [
+            size_class(@size, @rest[:circle]),
             color_variant(@variant, @color),
             rounded_size(@rounded),
             border_size(@border, @variant),
+            @full_width && "w-full",
             @font_weight,
             @class
           ]
@@ -446,11 +456,12 @@ defmodule <%= @module %> do
       id={@id}
       class={
         default_classes(@rest[:pinging]) ++
-          size_class(@size, @rest[:circle]) ++
           [
+            size_class(@size, @rest[:circle]),
             color_variant(@variant, @color),
             rounded_size(@rounded),
             border_size(@border, @variant),
+            @full_width && "w-full",
             @font_weight,
             @class
           ]
