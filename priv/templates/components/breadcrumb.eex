@@ -133,7 +133,7 @@ defmodule <%= @module %> do
 
   defp separator(%{name: "hero-" <> _icon_name} = assigns) do
     ~H"""
-    <.icon name={@name} class={@class || "separator-icon"} />
+    <.icon name={@name} class={@class || "separator-icon rtl:rotate-180"} />
     """
   end
 
