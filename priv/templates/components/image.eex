@@ -9,6 +9,9 @@ defmodule <%= @module %> do
 
   use Phoenix.Component
 
+  @sizes ["extra_small", "small", "medium", "large", "extra_large", nil]
+  @filters ["blur", "brightness", "hue", "contrast", "saturation", "grayscale", "invert", "sepia", nil]
+
   @doc """
   Renders an `image` component with various customization options such as border `radius`, `shadow`,
   and `loading` behavior.
@@ -56,14 +59,8 @@ defmodule <%= @module %> do
 
   attr :ismap, :string, default: nil, doc: "Make the image act as a server-side image map"
 
-  attr :blur, :string, default: nil, doc: "Utilities for applying blur filters to an element"
-  attr :brightness, :string, default: nil, doc: "Utilities for applying brightness  filters to an element"
-  attr :contrast, :string, default: nil, doc: "Utilities for applying contrast filters to an element"
-  attr :hue_rotate, :string, default: nil, doc: "Utilities for Hue rotate contrast filters to an element"
-  attr :saturation, :string, default: nil, doc: "Utilities for saturation contrast filters to an element"
-  attr :grayscale, :boolean, default: false, doc: "Utilities for applying contrast filters to an element"
-  attr :invert, :boolean, default: false, doc: "Utilities for applying invert filters to an element"
-  attr :sepia, :boolean, default: false, doc: "Utilities for applying sepia filters to an element"
+  attr :filter, :string, values: @filters, default: nil, doc: "Utilities for applying filters"
+  attr :filter_size, :string, values: @sizes, default: nil, doc: "Utilities for applying filters sizes"
 
   attr :decoding, :string,
     default: nil,
@@ -97,14 +94,7 @@ defmodule <%= @module %> do
         "max-w-full",
         rounded_size(@rounded),
         shadow_size(@shadow),
-        blur(@blur),
-        brightness(@brightness),
-        contrast(@contrast),
-        hue_rotate(@hue_rotate),
-        saturation(@saturation),
-        @grayscale && "grayscale",
-        @invert && "invert",
-        @sepia && "sepia",
+        filter_class(@filter, @filter_size),
         @class
       ]}
       {@rest}
@@ -141,43 +131,40 @@ defmodule <%= @module %> do
   defp shadow_size(params) when is_binary(params), do: params
   defp shadow_size(_), do: nil
 
-  defp blur("extra_small"), do: "blur-sm"
-  defp blur("small"), do: "blur"
-  defp blur("medium"), do: "blur-md"
-  defp blur("large"), do: "blur-lg"
-  defp blur("extra_large"), do: "blur-xl"
-  defp blur(params) when is_binary(params), do: params
-  defp blur(_), do: nil
+   defp filter_class("blur", "extra_small"), do: "blur-sm"
+  defp filter_class("blur", "small"), do: "blur"
+  defp filter_class("blur", "medium"), do: "blur-md"
+  defp filter_class("blur", "large"), do: "blur-lg"
+  defp filter_class("blur", "extra_large"), do: "blur-xl"
 
-  defp brightness("extra_small"), do: "brightness-50"
-  defp brightness("small"), do: "brightness-75"
-  defp brightness("medium"), do: "brightness-90"
-  defp brightness("large"), do: "brightness-95"
-  defp brightness("extra_large"), do: "brightness-100"
-  defp brightness(params) when is_binary(params), do: params
-  defp brightness(_), do: nil
+  defp filter_class("brightness", "extra_small"), do: "brightness-50"
+  defp filter_class("brightness", "small"), do: "brightness-75"
+  defp filter_class("brightness", "medium"), do: "brightness-90"
+  defp filter_class("brightness", "large"), do: "brightness-95"
+  defp filter_class("brightness", "extra_large"), do: "brightness-100"
 
-  defp contrast("extra_small"), do: "contrast-50"
-  defp contrast("small"), do: "contrast-75"
-  defp contrast("medium"), do: "contrast-100"
-  defp contrast("large"), do: "contrast-125"
-  defp contrast("extra_large"), do: "contrast-150"
-  defp contrast(params) when is_binary(params), do: params
-  defp contrast(_), do: nil
+  defp filter_class("contrast", "extra_small"), do: "contrast-50"
+  defp filter_class("contrast", "small"), do: "contrast-75"
+  defp filter_class("contrast", "medium"), do: "contrast-100"
+  defp filter_class("contrast", "large"), do: "contrast-125"
+  defp filter_class("contrast", "extra_large"), do: "contrast-150"
 
-  defp hue_rotate("extra_small"), do: "hue-rotate-15"
-  defp hue_rotate("small"), do: "hue-rotate-30"
-  defp hue_rotate("medium"), do: "hue-rotate-60"
-  defp hue_rotate("large"), do: "hue-rotate-90"
-  defp hue_rotate("extra_large"), do: "hue-rotate-180"
-  defp hue_rotate(params) when is_binary(params), do: params
-  defp hue_rotate(_), do: nil
+  defp filter_class("hue", "extra_small"), do: "hue-rotate-15"
+  defp filter_class("hue", "small"), do: "hue-rotate-30"
+  defp filter_class("hue", "medium"), do: "hue-rotate-60"
+  defp filter_class("hue", "large"), do: "hue-rotate-90"
+  defp filter_class("hue", "extra_large"), do: "hue-rotate-180"
 
-  defp saturation("extra_small"), do: "saturate-50"
-  defp saturation("small"), do: "saturate-[0.75]"
-  defp saturation("medium"), do: "saturate-100"
-  defp saturation("large"), do: "saturate-150"
-  defp saturation("extra_large"), do: "saturate-200"
-  defp saturation(params) when is_binary(params), do: params
-  defp saturation(_), do: nil
+  defp filter_class("saturation", "extra_small"), do: "saturate-50"
+  defp filter_class("saturation", "small"), do: "saturate-[0.75]"
+  defp filter_class("saturation", "medium"), do: "saturate-100"
+  defp filter_class("saturation", "large"), do: "saturate-150"
+  defp filter_class("saturation", "extra_large"), do: "saturate-200"
+
+  defp filter_class("grayscale", _), do: "grayscale"
+  defp filter_class("invert", _), do: "invert"
+  defp filter_class("sepia", _), do: "sepia"
+
+  defp filter_class(params, _) when is_binary(params), do: params
+  defp filter_class(_, _), do: nil
 end
