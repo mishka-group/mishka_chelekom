@@ -131,7 +131,7 @@ defmodule <%= @module %> do
   defp shadow_size(params) when is_binary(params), do: params
   defp shadow_size(_), do: nil
 
-   defp filter_class("blur", "extra_small"), do: "blur-sm"
+  defp filter_class("blur", "extra_small"), do: "blur-sm"
   defp filter_class("blur", "small"), do: "blur"
   defp filter_class("blur", "medium"), do: "blur-md"
   defp filter_class("blur", "large"), do: "blur-lg"
