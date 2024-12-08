@@ -10,7 +10,17 @@ defmodule <%= @module %> do
   use Phoenix.Component
 
   @sizes ["extra_small", "small", "medium", "large", "extra_large", nil]
-  @filters ["blur", "brightness", "hue", "contrast", "saturation", "grayscale", "invert", "sepia", nil]
+  @filters [
+    "blur",
+    "brightness",
+    "hue",
+    "contrast",
+    "saturation",
+    "grayscale",
+    "invert",
+    "sepia",
+    nil
+  ]
 
   @doc """
   Renders an `image` component with various customization options such as border `radius`, `shadow`,
