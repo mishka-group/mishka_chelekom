@@ -329,23 +329,32 @@ defmodule <%= @module %> do
   end
   <% end %>
 
-  defp line_style("solid", horizontal?), do: horizontal? && "border-solid" || "after:border-solid"
-  defp line_style("dashed", horizontal?), do: horizontal? && "border-dashed" || "after:border-dashed"
-  defp line_style("dotted", horizontal?), do: horizontal? && "border-dotted" || "after:border-dotted"
+  defp line_style("solid", horizontal?),
+    do: (horizontal? && "border-solid") || "after:border-solid"
+
+  defp line_style("dashed", horizontal?),
+    do: (horizontal? && "border-dashed") || "after:border-dashed"
+
+  defp line_style("dotted", horizontal?),
+    do: (horizontal? && "border-dotted") || "after:border-dotted"
+
   defp line_style(params, _) when is_binary(params), do: params
   defp line_style(_, _), do: line_style("solid", false)
 
-  defp line_size("extra_small", false), do: "after:border-s-[0.031rem]"
-  defp line_size("small", false), do: "after:border-s-[0.063rem]"
-  defp line_size("medium", false), do: "after:border-s-[0.094rem]"
-  defp line_size("large", false), do: "after:border-s-[0.156rem]"
-  defp line_size("extra_large", false), do: "after:border-s-[0.188rem]"
+  defp line_size("extra_small", horizontal?),
+    do: (horizontal? && "border-t-[0.031rem]") || "after:border-s-[0.031rem]"
 
-  defp line_size("extra_small", true), do: "border-t-[0.031rem]"
-  defp line_size("small", true), do: "border-t-[0.063rem]"
-  defp line_size("medium", true), do: "border-t-[0.094rem]"
-  defp line_size("large", true), do: "border-t-[0.156rem]"
-  defp line_size("extra_large", true), do: "border-t-[0.188rem]"
+  defp line_size("small", horizontal?),
+    do: (horizontal? && "border-t-[0.063rem]") || "after:border-s-[0.063rem]"
+
+  defp line_size("medium", horizontal?),
+    do: (horizontal? && "border-t-[0.094rem]") || "after:border-s-[0.094rem]"
+
+  defp line_size("large", horizontal?),
+    do: (horizontal? && "border-t-[0.156rem]") || "after:border-s-[0.156rem]"
+
+  defp line_size("extra_large", horizontal?),
+    do: (horizontal? && "border-t-[0.188rem]") || "after:border-s-[0.188rem]"
 
   defp line_size(params, _) when is_binary(params), do: params
   defp line_size(_, _), do: line_size("extra_small", false)
