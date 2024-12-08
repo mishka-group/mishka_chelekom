@@ -329,14 +329,9 @@ defmodule <%= @module %> do
   end
   <% end %>
 
-  defp line_style("solid", false), do: "after:border-solid"
-  defp line_style("dashed", false), do: "after:border-dashed"
-  defp line_style("dotted", false), do: "after:border-dotted"
-
-  defp line_style("solid", true), do: "border-solid"
-  defp line_style("dashed", true), do: "border-dashed"
-  defp line_style("dotted", true), do: "border-dotted"
-
+  defp line_style("solid", horizontal?), do: horizontal? && "border-solid" || "after:border-solid"
+  defp line_style("dashed", horizontal?), do: horizontal? && "border-dashed" || "after:border-dashed"
+  defp line_style("dotted", horizontal?), do: horizontal? && "border-dotted" || "after:border-dotted"
   defp line_style(params, _) when is_binary(params), do: params
   defp line_style(_, _), do: line_style("solid", false)
 
