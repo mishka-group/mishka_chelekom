@@ -93,7 +93,7 @@ defmodule <%= @module %> do
     doc:
       "Determines the overall size of the elements, including padding, font size, and other items"
 
-  attr :space, :string, default: "gap-3", doc: "Space between items"
+  attr :space, :string, default: "small", doc: "Space between items"
   attr :color, :string, values: @colors, default: "natural", doc: "Determines color theme"
 
   attr :rounded, :string,
@@ -156,7 +156,7 @@ defmodule <%= @module %> do
             rounded_size(@rounded),
             size_class(@size),
             border_class(@color),
-            if(is_nil(@rest[:grouped]), do: @space, else: "gap-0 grouped-pagination"),
+            (!is_nil(@rest[:grouped]) && "gap-0 grouped-pagination") || space_class(@space),
             @class
           ]
       }
@@ -326,6 +326,14 @@ defmodule <%= @module %> do
 
   defp range(start, stop) when start > stop, do: []
   defp range(start, stop), do: Enum.to_list(start..stop)
+
+  defp space_class("extra_small"), do: "gap-2"
+  defp space_class("small"), do: "gap-3"
+  defp space_class("medium"), do: "gap-4"
+  defp space_class("large"), do: "gap-5"
+  defp space_class("extra_large"), do: "gap-6"
+  defp space_class(params) when is_binary(params), do: params
+  defp space_class(_), do: space_class("small")
 
   defp border_size(_, variant)
     when variant in [
