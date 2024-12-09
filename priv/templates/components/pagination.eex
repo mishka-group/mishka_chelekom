@@ -93,7 +93,7 @@ defmodule <%= @module %> do
     doc:
       "Determines the overall size of the elements, including padding, font size, and other items"
 
-  attr :space, :string, values: @sizes, default: "small", doc: "Space between items"
+  attr :space, :string, default: "small", doc: "Space between items"
   attr :color, :string, values: @colors, default: "natural", doc: "Determines color theme"
 
   attr :rounded, :string,
