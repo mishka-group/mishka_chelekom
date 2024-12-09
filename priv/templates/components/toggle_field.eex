@@ -13,15 +13,6 @@ defmodule <%= @module %> do
   use Phoenix.Component
   alias Phoenix.HTML.Form
 
-  @sizes [
-    "extra_small",
-    "small",
-    "medium",
-    "large",
-    "extra_large",
-    "full"
-  ]
-
   @colors [
    "white",
     "natural",
@@ -60,7 +51,7 @@ defmodule <%= @module %> do
 
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :color, :string, values: @colors, default: "natural", doc: "Determines color theme"
-  attr :rounded, :string, values: @sizes, default: "full", doc: "Determines border radius"
+  attr :rounded, :string, default: "full", doc: "Determines border radius"
   attr :description, :string, default: nil, doc: "Determines a short description"
   attr :border, :string, default: "extra_small", doc: "Determines border style"
   attr :labe_class, :string, default: nil, doc: "Determines the labe class"
