@@ -241,9 +241,9 @@ defmodule <%= @module %> do
       {drop_rest(@rest)}
     >
       <!-- loading at the start -->
-      <%%= for loader <- @loading, loader[:position] == "start" do %>
-        <%%= render_slot(loader) %>
-      <%% end %>
+      <span :for={loading <- @loading} :if={loading[:position] == "start"}>
+        {render_slot(loading)}
+      </span>
 
       <.button_indicator position="left" size={@indicator_size} class={@indicator_class} {@rest} />
       <.icon :if={icon_position(@icon, @rest) == "left"} name={@icon} class={@icon_class} />
@@ -252,9 +252,9 @@ defmodule <%= @module %> do
       <.button_indicator size={@indicator_size} class={@indicator_class} {@rest} />
 
       <!-- loading at the end -->
-      <%%= for loader <- @loading, loader[:position] == "end" do %>
-        <%%= render_slot(loader) %>
-      <%% end %>
+      <span :for={loading <- @loading} :if={loading[:position] == "end"}>
+        {render_slot(loading)}
+      </span>
     </button>
     """
   end
@@ -434,10 +434,10 @@ defmodule <%= @module %> do
       }
       {drop_rest(@rest)}
     >
-    <!-- loading at the start -->
-      <%%= for loader <- @loading, loader[:position] == "start" do %>
-        <%%= render_slot(loader) %>
-      <%% end %>
+      <!-- loading at the start -->
+      <span :for={loading <- @loading} :if={loading[:position] == "start"}>
+        {render_slot(loading)}
+      </span>
 
       <.button_indicator position="left" size={@indicator_size} class={@indicator_class} {@rest} />
       <.icon :if={icon_position(@icon, @rest) == "left"} name={@icon} class={@icon_class} />
@@ -446,9 +446,9 @@ defmodule <%= @module %> do
       <.button_indicator size={@indicator_size} class={@indicator_class} {@rest} />
 
       <!-- loading at the end -->
-      <%%= for loader <- @loading, loader[:position] == "end" do %>
-        <%%= render_slot(loader) %>
-      <%% end %>
+      <span :for={loading <- @loading} :if={loading[:position] == "end"}>
+        {render_slot(loading)}
+      </span>
     </.link>
     """
   end
@@ -472,10 +472,10 @@ defmodule <%= @module %> do
       }
       {drop_rest(@rest)}
     >
-    <!-- loading at the start -->
-      <%%= for loader <- @loading, loader[:position] == "start" do %>
-        <%%= render_slot(loader) %>
-      <%% end %>
+      <!-- loading at the start -->
+      <span :for={loading <- @loading} :if={loading[:position] == "start"}>
+        {render_slot(loading)}
+      </span>
 
       <.button_indicator position="left" size={@indicator_size} class={@indicator_class} {@rest} />
       <.icon :if={icon_position(@icon, @rest) == "left"} name={@icon} />
@@ -484,9 +484,9 @@ defmodule <%= @module %> do
       <.button_indicator size={@indicator_size} class={@indicator_class} {@rest} />
 
       <!-- loading at the end -->
-      <%%= for loader <- @loading, loader[:position] == "end" do %>
-        <%%= render_slot(loader) %>
-      <%% end %>
+      <span :for={loading <- @loading} :if={loading[:position] == "end"}>
+        {render_slot(loading)}
+      </span>
     </.link>
     """
   end
@@ -510,10 +510,10 @@ defmodule <%= @module %> do
       }
       {drop_rest(@rest)}
     >
-    <!-- loading at the start -->
-      <%%= for loader <- @loading, loader[:position] == "start" do %>
-        <%%= render_slot(loader) %>
-      <%% end %>
+      <!-- loading at the start -->
+      <span :for={loading <- @loading} :if={loading[:position] == "start"}>
+        {render_slot(loading)}
+      </span>
 
       <.button_indicator position="left" size={@indicator_size} class={@indicator_class} {@rest} />
       <.icon :if={icon_position(@icon, @rest) == "left"} name={@icon} />
@@ -522,9 +522,9 @@ defmodule <%= @module %> do
       <.button_indicator size={@indicator_size} class={@indicator_class} {@rest} />
 
       <!-- loading at the end -->
-      <%%= for loader <- @loading, loader[:position] == "end" do %>
-        <%%= render_slot(loader) %>
-      <%% end %>
+      <span :for={loading <- @loading} :if={loading[:position] == "end"}>
+        {render_slot(loading)}
+      </span>
     </.link>
     """
   end
