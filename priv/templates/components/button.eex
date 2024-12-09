@@ -241,7 +241,10 @@ defmodule <%= @module %> do
       {drop_rest(@rest)}
     >
       <!-- loading at the start -->
-      <span :for={loading <- @loading} :if={loading[:position] == "start"}>
+      <span
+        :for={loading <- @loading}
+        :if={is_nil(loading[:position]) || loading[:position] == "start"}
+      >
         {render_slot(loading)}
       </span>
 
@@ -435,7 +438,10 @@ defmodule <%= @module %> do
       {drop_rest(@rest)}
     >
       <!-- loading at the start -->
-      <span :for={loading <- @loading} :if={loading[:position] == "start"}>
+      <span
+        :for={loading <- @loading}
+        :if={is_nil(loading[:position]) || loading[:position] == "start"}
+      >
         {render_slot(loading)}
       </span>
 
@@ -473,7 +479,10 @@ defmodule <%= @module %> do
       {drop_rest(@rest)}
     >
       <!-- loading at the start -->
-      <span :for={loading <- @loading} :if={loading[:position] == "start"}>
+      <span
+        :for={loading <- @loading}
+        :if={is_nil(loading[:position]) || loading[:position] == "start"}
+      >
         {render_slot(loading)}
       </span>
 
@@ -511,7 +520,10 @@ defmodule <%= @module %> do
       {drop_rest(@rest)}
     >
       <!-- loading at the start -->
-      <span :for={loading <- @loading} :if={loading[:position] == "start"}>
+      <span
+        :for={loading <- @loading}
+        :if={is_nil(loading[:position]) || loading[:position] == "start"}
+      >
         {render_slot(loading)}
       </span>
 
