@@ -213,6 +213,12 @@ defmodule <%= @module %> do
 
   slot :inner_block, required: false, doc: "Inner block that renders HEEx content"
 
+  slot :loading, required: false do
+    attr :position, :string,
+      values: ["start", "end"],
+      doc: "Determines the element position"
+  end
+
   def button(assigns) do
     ~H"""
     <button
@@ -234,11 +240,24 @@ defmodule <%= @module %> do
       }
       {drop_rest(@rest)}
     >
+      <!-- loading at the start -->
+      <span
+        :for={loading <- @loading}
+        :if={is_nil(loading[:position]) || loading[:position] == "start"}
+      >
+        {render_slot(loading)}
+      </span>
+
       <.button_indicator position="left" size={@indicator_size} class={@indicator_class} {@rest} />
       <.icon :if={icon_position(@icon, @rest) == "left"} name={@icon} class={@icon_class} />
       <span :if={@inner_block && render_slot(@inner_block)} class="block">{render_slot(@inner_block)}</span>
       <.icon :if={icon_position(@icon, @rest) == "right"} name={@icon} class={@icon_class} />
       <.button_indicator size={@indicator_size} class={@indicator_class} {@rest} />
+
+      <!-- loading at the end -->
+      <span :for={loading <- @loading} :if={loading[:position] == "end"}>
+        {render_slot(loading)}
+      </span>
     </button>
     """
   end
@@ -392,6 +411,12 @@ defmodule <%= @module %> do
 
   slot :inner_block, required: false, doc: "Inner block that renders HEEx content"
 
+  slot :loading, required: false do
+    attr :position, :string,
+      values: ["start", "end"],
+      doc: "Determines the element position"
+  end
+
   def button_link(%{navigate: _navigate} = assigns) do
     ~H"""
     <.link
@@ -412,11 +437,24 @@ defmodule <%= @module %> do
       }
       {drop_rest(@rest)}
     >
+      <!-- loading at the start -->
+      <span
+        :for={loading <- @loading}
+        :if={is_nil(loading[:position]) || loading[:position] == "start"}
+      >
+        {render_slot(loading)}
+      </span>
+
       <.button_indicator position="left" size={@indicator_size} class={@indicator_class} {@rest} />
       <.icon :if={icon_position(@icon, @rest) == "left"} name={@icon} class={@icon_class} />
       <span :if={(@inner_block && render_slot(@inner_block)) || @title} class="block">{render_slot(@inner_block) || @title}</span>
       <.icon :if={icon_position(@icon, @rest) == "right"} name={@icon} class={@icon_class} />
       <.button_indicator size={@indicator_size} class={@indicator_class} {@rest} />
+
+      <!-- loading at the end -->
+      <span :for={loading <- @loading} :if={loading[:position] == "end"}>
+        {render_slot(loading)}
+      </span>
     </.link>
     """
   end
@@ -440,11 +478,24 @@ defmodule <%= @module %> do
       }
       {drop_rest(@rest)}
     >
+      <!-- loading at the start -->
+      <span
+        :for={loading <- @loading}
+        :if={is_nil(loading[:position]) || loading[:position] == "start"}
+      >
+        {render_slot(loading)}
+      </span>
+
       <.button_indicator position="left" size={@indicator_size} class={@indicator_class} {@rest} />
       <.icon :if={icon_position(@icon, @rest) == "left"} name={@icon} />
       <span :if={(@inner_block && render_slot(@inner_block)) || @title} class="block">{render_slot(@inner_block) || @title}</span>
       <.icon :if={icon_position(@icon, @rest) == "right"} name={@icon} />
       <.button_indicator size={@indicator_size} class={@indicator_class} {@rest} />
+
+      <!-- loading at the end -->
+      <span :for={loading <- @loading} :if={loading[:position] == "end"}>
+        {render_slot(loading)}
+      </span>
     </.link>
     """
   end
@@ -468,11 +519,24 @@ defmodule <%= @module %> do
       }
       {drop_rest(@rest)}
     >
+      <!-- loading at the start -->
+      <span
+        :for={loading <- @loading}
+        :if={is_nil(loading[:position]) || loading[:position] == "start"}
+      >
+        {render_slot(loading)}
+      </span>
+
       <.button_indicator position="left" size={@indicator_size} class={@indicator_class} {@rest} />
       <.icon :if={icon_position(@icon, @rest) == "left"} name={@icon} />
       <span :if={(@inner_block && render_slot(@inner_block)) || @title} class="block">{render_slot(@inner_block) || @title}</span>
       <.icon :if={icon_position(@icon, @rest) == "right"} name={@icon} />
       <.button_indicator size={@indicator_size} class={@indicator_class} {@rest} />
+
+      <!-- loading at the end -->
+      <span :for={loading <- @loading} :if={loading[:position] == "end"}>
+        {render_slot(loading)}
+      </span>
     </.link>
     """
   end
