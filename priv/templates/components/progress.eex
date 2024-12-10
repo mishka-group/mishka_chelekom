@@ -12,14 +12,13 @@ defmodule <%= @module %> do
   to indicating progress in forms and surveys.
 
   The module's flexibility is further enhanced by its use of `slots`, enabling developers
-  to include custom content within the progress bar, making it a versatile choice for building
+  to include custom label within the progress bar, making it a versatile choice for building
   interactive and dynamic UIs.
   """
   use Phoenix.Component
   alias Phoenix.LiveView.JS
   import Phoenix.LiveView.Utils, only: [random_id: 0]
 
-  @sizes ["extra_small", "small", "medium", "large", "extra_large"]
   @colors [
     "natural",
     "white",
@@ -89,7 +88,6 @@ defmodule <%= @module %> do
   attr :variant, :string, values: @variants, default: "default", doc: "Determines the style"
 
   attr :size, :string,
-    values: @sizes,
     default: "small",
     doc:
       "Determines the overall size of the elements, including padding, font size, and other items"
@@ -101,13 +99,13 @@ defmodule <%= @module %> do
     doc:
       "Global attributes can define defaults which are merged with attributes provided by the caller"
 
-  slot :inner_block, doc: "Inner block that renders HEEx content"
+  slot :inner_block, doc: "Inner block that renders HEEx label"
 
   def progress(assigns) do
     ~H"""
     <div
       class={[
-        "bg-[#e9ecef] rounded-full overflow-hidden",
+        "bg-[#F3F3F3] dark:bg-[#868686] rounded-full overflow-hidden",
         @variation == "vertical" && "flex items-end",
         size_class(@size, @variation)
       ]}
@@ -166,6 +164,10 @@ defmodule <%= @module %> do
     doc:
       "Global attributes can define defaults which are merged with attributes provided by the caller"
 
+  slot :label, required: false do
+    attr :class, :string, doc: "Custom CSS class for additional styling"
+  end
+
   def progress_section(assigns) do
     assigns =
       assigns
@@ -195,11 +197,15 @@ defmodule <%= @module %> do
       class={[
         "rounded-full w-full",
         if(@variation == "vertical", do: "progress-vertical"),
+        if(@variation == "horizontal" && !is_nil(@label), do: "flex justify-center items-center [&_span]:text-[11px]"),
         color_variant(@variant, @color),
         rounded_size(@rounded),
         @class
       ]}
-    />
+      <span :for={label <- @label} class={label[:class]}>
+        {render_slot(label)}
+      </span>
+    </div>
     """
   end
   <% end %>
@@ -231,13 +237,22 @@ defmodule <%= @module %> do
   defp size_class("small", "horizontal"), do: "text-sm h-2 [&>*]:h-2"
   <% end %>
   <%= if is_nil(@size) or "medium" in @size do %>
-  defp size_class("medium", "horizontal"), do: "text-base h-2.5 [&>*]:h-2.5"
+  defp size_class("medium", "horizontal"), do: "text-base h-3 [&>*]:h-3"
   <% end %>
   <%= if is_nil(@size) or "large" in @size do %>
-  defp size_class("large", "horizontal"), do: "text-lg h-3 [&>*]:h-3"
+  defp size_class("large", "horizontal"), do: "text-lg h-4 [&>*]:h-4"
   <% end %>
   <%= if is_nil(@size) or "extra_large" in @size do %>
-  defp size_class("extra_large", "horizontal"), do: "text-xl h-4 [&>*]:h-4"
+  defp size_class("extra_large", "horizontal"), do: "text-xl h-5 [&>*]:h-5"
+  <% end %>
+  <%= if is_nil(@size) or "double_large" in @size do %>
+  defp size_class("double_large", "horizontal"), do: "text-xl h-6 [&>*]:h-6"
+  <% end %>
+  <%= if is_nil(@size) or "triple_large" in @size do %>
+  defp size_class("triple_large", "horizontal"), do: "text-xl h-7 [&>*]:h-7"
+  <% end %>
+  <%= if is_nil(@size) or "quadruple_large" in @size do %>
+  defp size_class("quadruple_large", "horizontal"), do:"text-xl h-8 [&>*]:h-8"
   <% end %>
   <%= if is_nil(@size) or "extra_small" in @size do %>
   defp size_class("extra_small", "vertical"), do: "text-xs w-1 h-[5rem]"
@@ -253,6 +268,15 @@ defmodule <%= @module %> do
   <% end %>
   <%= if is_nil(@size) or "extra_large" in @size do %>
   defp size_class("extra_large", "vertical"), do: "text-xl w-5 h-[9rem]"
+  <% end %>
+  <%= if is_nil(@size) or "double_large" in @size do %>
+  defp size_class("double_large", "vertical"), do: "text-xl w-6 h-[10rem]"
+  <% end %>
+  <%= if is_nil(@size) or "triple_large" in @size do %>
+  defp size_class("triple_large", "vertical"), do: "text-xl w-7 h-[11rem]"
+  <% end %>
+  <%= if is_nil(@size) or "quadruple_large" in @size do %>
+  defp size_class("quadruple_large", "vertical"), do: "text-xl w-8  h-[12rem]"
   <% end %>
 
   defp size_class(params, _) when is_binary(params), do: params
