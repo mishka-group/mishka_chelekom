@@ -51,6 +51,7 @@ defmodule <%= @module %> do
 
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :color, :string, values: @colors, default: "natural", doc: "Determines color theme"
+  attr :rounded, :string, default: "full", doc: "Determines border radius"
   attr :description, :string, default: nil, doc: "Determines a short description"
   attr :border, :string, default: "extra_small", doc: "Determines border style"
   attr :labe_class, :string, default: nil, doc: "Determines the labe class"
@@ -103,6 +104,7 @@ defmodule <%= @module %> do
     ~H"""
     <div class={[
       size_class(@size),
+      rounded_size(@rounded),
       @class
     ]}>
       <div>
@@ -125,11 +127,11 @@ defmodule <%= @module %> do
           />
           <div class={[
             "toggle-field-circle absolute transition-all ease-in-out duration-500 bg-white",
-            "rounded-full top-1 peer-checked:translate-x-full left-1"
+            "top-1 peer-checked:translate-x-full left-1"
           ]}>
           </div>
           <div class={[
-            "rounded-full bg-[#e6e6e6] transition-all ease-in-out duration-500 toggle-field-base",
+            "bg-[#e6e6e6] transition-all ease-in-out duration-500 toggle-field-base",
             color_class(@color)
           ]}>
           </div>
@@ -174,6 +176,21 @@ defmodule <%= @module %> do
     </p>
     """
   end
+
+  defp rounded_size("extra_small"), do: "[&_.toggle-field-base]:rounded-sm [&_.toggle-field-circle]:rounded-sm"
+
+  defp rounded_size("small"), do: "[&_.toggle-field-base]:rounded [&_.toggle-field-circle]:rounded"
+
+  defp rounded_size("medium"), do: "[&_.toggle-field-base]:rounded-md [&_.toggle-field-circle]:rounded-md"
+
+  defp rounded_size("large"), do: "[&_.toggle-field-base]:rounded-lg [&_.toggle-field-circle]:rounded-lg"
+
+  defp rounded_size("extra_large"), do: "[&_.toggle-field-base]:rounded-xl [&_.toggle-field-circle]:rounded-xl"
+
+  defp rounded_size("full"), do: "[&_.toggle-field-base]:rounded-full [&_.toggle-field-circle]:rounded-full"
+
+  defp rounded_size(params) when is_binary(params), do: params
+  defp rounded_size(_), do: rounded_size("full")
 
   <%= if is_nil(@size) or "extra_small" in @size do %>
   defp size_class("extra_small") do
