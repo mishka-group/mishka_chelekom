@@ -252,7 +252,7 @@ defmodule <%= @module %> do
   defp size_class("triple_large", "horizontal"), do: "text-xl h-7 [&>*]:h-7"
   <% end %>
   <%= if is_nil(@size) or "quadruple_large" in @size do %>
-  defp size_class("quadruple_large", "horizontal"), do:"text-xl h-8 [&>*]:h-8"
+  defp size_class("quadruple_large", "horizontal"), do: "text-xl h-8 [&>*]:h-8"
   <% end %>
   <%= if is_nil(@size) or "extra_small" in @size do %>
   defp size_class("extra_small", "vertical"), do: "text-xs w-1 h-[5rem]"
