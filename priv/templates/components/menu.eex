@@ -403,6 +403,9 @@ defmodule <%= @module %> do
   <%= if is_nil(@padding) or "extra_small" in @padding do %>
   defp padding_size(_), do: padding_size("extra_small")
   <% end %>
+  <%= if is_nil(@space) or "none" in @space do %>
+  defp space_class("none"), do: nil
+  <% end %>
   <%= if is_nil(@space) or "extra_small" in @space do %>
   defp space_class("extra_small"), do: "space-y-2"
   <% end %>
@@ -419,5 +422,5 @@ defmodule <%= @module %> do
   defp space_class("extra_large"), do: "space-y-6"
   <% end %>
   defp space_class(params) when is_binary(params), do: params
-  defp space_class(_), do: "space-y-0"
+  defp space_class(_), do: space_class("small")
 end
