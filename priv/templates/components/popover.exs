@@ -21,8 +21,8 @@
       padding: ["extra_small", "small", "medium", "large", "extra_large", "none"],
       rounded: ["extra_small", "small", "medium", "large", "extra_large", "none"],
       space: ["extra_small", "small", "medium", "large", "extra_large"],
-      type: ["popover"],
-      only: ["popover"],
+      type: ["popover", "popover_trigger", "popover_content"],
+      only: ["popover", "popover_trigger", "popover_content"],
       helpers: [],
       module: ""
     ],
