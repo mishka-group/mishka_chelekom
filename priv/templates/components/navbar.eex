@@ -47,24 +47,24 @@ defmodule <%= @module %> do
 
     <:list>
       <.dropdown relative="md:relative" width="w-full" clickable>
-        <.dropdown_trigger width="full" trigger_id="test-31">
+        <:trigger width="full" trigger_id="test-31">
           <button class="text-start w-full block">Dropdown</button>
-        </.dropdown_trigger>
+        </:trigger>
 
-        <.dropdown_content space="small" id="test-31" rounded="large" width="large" padding="extra_small">
+        <:content space="small" id="test-31" rounded="large" width="large" padding="extra_small">
           <ul class="space-y-5">
             <li>
               <.dropdown width="w-full" position="right" clickable>
-                <.dropdown_trigger trigger_id="test-19">
+                <:trigger trigger_id="test-19">
                   <button class={[
                     "py-1 px-2 text-start w-full flex items-center justify-between hover:bg-gray-200"
                   ]}
                   >
                     Nested Dropdown <.icon name="hero-chevron-right" />
                   </button>
-                </.dropdown_trigger>
+                </:trigger>
 
-                <.dropdown_content id="test-19" rounded="large" width="large" padding="extra_small">
+                <:content id="test-19" rounded="large" width="large" padding="extra_small">
                   <ul class="space-y-5">
                     <li>
                       <.link class="py-1 px-2 block hover:bg-gray-200" navigate="/examples/list">
@@ -84,7 +84,7 @@ defmodule <%= @module %> do
                       </.link>
                     </li>
                   </ul>
-                </.dropdown_content>
+                </:content>
               </.dropdown>
             </li>
 
@@ -100,7 +100,7 @@ defmodule <%= @module %> do
               </.link>
             </li>
           </ul>
-        </.dropdown_content>
+        </:content>
       </.dropdown>
     </:list>
 
