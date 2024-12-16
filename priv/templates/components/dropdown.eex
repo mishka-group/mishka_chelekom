@@ -48,14 +48,14 @@ defmodule <%= @module %> do
       </.button>
     </:trigger>
 
-    <:contents space="small" rounded="large" width="full" padding="extra_small">
+    <:content space="small" rounded="large" width="full" padding="extra_small">
       <.list size="small">
         <:item padding="extra_small" icon="hero-envelope">Dashboard</:item>
         <:item padding="extra_small" icon="hero-camera">Settings</:item>
         <:item padding="extra_small" icon="hero-camera">Earning</:item>
         <:item padding="extra_small" icon="hero-calendar">Sign out</:item>
       </.list>
-    </:contents>
+    </:content>
   </.dropdown>
 
   <.dropdown relative="relative" clickable>
@@ -65,14 +65,14 @@ defmodule <%= @module %> do
       </.button>
     </:trigger>
 
-    <:contents id="test-1" space="small" rounded="large" width="full" padding="extra_small">
+    <:content id="test-1" space="small" rounded="large" width="full" padding="extra_small">
       <.list size="small">
         <:item padding="extra_small" icon="hero-envelope">Dashboard</:item>
         <:item padding="extra_small" icon="hero-camera">Settings</:item>
         <:item padding="extra_small" icon="hero-camera">Earning</:item>
         <:item padding="extra_small" icon="hero-calendar">Sign out</:item>
       </.list>
-    </:contents>
+    </:content>
   </.dropdown>
   ```
   """
@@ -123,7 +123,7 @@ defmodule <%= @module %> do
     attr :class, :string, doc: "Custom CSS class for additional styling"
   end
 
-  slot :contents, required: false do
+  slot :content, required: false do
     attr :class, :string, doc: "Custom CSS class for additional styling"
   end
 
@@ -160,7 +160,7 @@ defmodule <%= @module %> do
       </div>
 
       <div
-        :for={content <- @contents}
+        :for={content <- @content}
         id={"#{@id}-dropdown-content"}
         phx-click-away={
           @id &&

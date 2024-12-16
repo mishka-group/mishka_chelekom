@@ -132,7 +132,7 @@ defmodule <%= @module %> do
 
   slot :inner_block, required: false, doc: "Inner block that renders HEEx content"
 
-  slot :contents, required: false do
+  slot :content, required: false do
     attr :class, :string, doc: "Custom CSS class for additional styling"
   end
 
@@ -165,7 +165,7 @@ defmodule <%= @module %> do
       </span>
 
        <span
-        :for={content <- @contents}
+        :for={content <- @content}
         id={"#{@id}-popover-content"}
         role="dialog"
         class={[
@@ -218,7 +218,7 @@ defmodule <%= @module %> do
       </div>
 
       <div
-        :for={content <- @contents}
+        :for={content <- @content}
         role="dialog"
         id={"#{@id}-popover-content"}
         class={[
