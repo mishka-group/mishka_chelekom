@@ -94,7 +94,7 @@ defmodule <%= @module %> do
   """
   @doc type: :component
   attr :id, :string,
-    default: nil,
+    required: true,
     doc: "A unique identifier is used to manage state and interaction"
 
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
