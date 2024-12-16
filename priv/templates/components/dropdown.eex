@@ -97,7 +97,7 @@ defmodule <%= @module %> do
   attr :variant, :string, values: @variants, default: "default", doc: "Determines the style"
   attr :color, :string, values: @colors, default: "natural", doc: "Determines color theme"
   attr :rounded, :string, default: nil, doc: "Determines the border radius"
-  attr :contents_width, :string, default: "extra_large", doc: "Determines the element width"
+  attr :content_width, :string, default: "extra_large", doc: "Determines the element width"
 
   attr :size, :string,
     default: nil,
@@ -123,7 +123,7 @@ defmodule <%= @module %> do
     attr :class, :string, doc: "Custom CSS class for additional styling"
   end
 
-  slot :contentss, required: false do
+  slot :contents, required: false do
     attr :class, :string, doc: "Custom CSS class for additional styling"
   end
 
