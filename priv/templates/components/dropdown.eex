@@ -42,43 +42,43 @@ defmodule <%= @module %> do
 
   ```elixir
   <.dropdown relative="relative" position="right">
-    <.dropdown_trigger>
+    <:trigger>
       <.button color="primary" icon="hero-chevron-down" right_icon>
         Dropdown Right
       </.button>
-    </.dropdown_trigger>
+    </:trigger>
 
-    <.dropdown_content space="small" rounded="large" width="full" padding="extra_small">
+    <:contents space="small" rounded="large" width="full" padding="extra_small">
       <.list size="small">
         <:item padding="extra_small" icon="hero-envelope">Dashboard</:item>
         <:item padding="extra_small" icon="hero-camera">Settings</:item>
         <:item padding="extra_small" icon="hero-camera">Earning</:item>
         <:item padding="extra_small" icon="hero-calendar">Sign out</:item>
       </.list>
-    </.dropdown_content>
+    </:contents>
   </.dropdown>
 
   <.dropdown relative="relative" clickable>
-    <.dropdown_trigger trigger_id="test-1">
+    <:trigger trigger_id="test-1">
       <.button color="primary" icon="hero-chevron-down" right_icon>
         Dropdown Button
       </.button>
-    </.dropdown_trigger>
+    </:trigger>
 
-    <.dropdown_content id="test-1" space="small" rounded="large" width="full" padding="extra_small">
+    <:contents id="test-1" space="small" rounded="large" width="full" padding="extra_small">
       <.list size="small">
         <:item padding="extra_small" icon="hero-envelope">Dashboard</:item>
         <:item padding="extra_small" icon="hero-camera">Settings</:item>
         <:item padding="extra_small" icon="hero-camera">Earning</:item>
         <:item padding="extra_small" icon="hero-calendar">Sign out</:item>
       </.list>
-    </.dropdown_content>
+    </:contents>
   </.dropdown>
   ```
   """
   @doc type: :component
   attr :id, :string,
-    default: nil,
+    required: true,
     doc: "A unique identifier is used to manage state and interaction"
 
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
@@ -90,10 +90,14 @@ defmodule <%= @module %> do
     default: false,
     doc: "Determines if the element can be activated on click"
 
- attr :variant, :string, values: @variants, default: "default", doc: "Determines the style"
+  attr :nomobile, :boolean,
+    default: false,
+    doc: "Controls whether the dropdown is disabled on mobile devices"
+
+  attr :variant, :string, values: @variants, default: "default", doc: "Determines the style"
   attr :color, :string, values: @colors, default: "natural", doc: "Determines color theme"
   attr :rounded, :string, default: nil, doc: "Determines the border radius"
-  attr :content_width, :string, default: "extra_large", doc: "Determines the element width"
+  attr :contents_width, :string, default: "extra_large", doc: "Determines the element width"
 
   attr :size, :string,
     default: nil,
@@ -119,7 +123,7 @@ defmodule <%= @module %> do
     attr :class, :string, doc: "Custom CSS class for additional styling"
   end
 
-  slot :contents, required: false do
+  slot :contentss, required: false do
     attr :class, :string, doc: "Custom CSS class for additional styling"
   end
 

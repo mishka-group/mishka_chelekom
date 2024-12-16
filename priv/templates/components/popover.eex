@@ -104,7 +104,6 @@ defmodule <%= @module %> do
     default: false,
     doc: "Determines if the element can be activated on click"
 
-
   attr :position, :string, default: "top", doc: "Determines the element position"
   attr :variant, :string, values: @variants, default: "shadow", doc: "Determines the style"
   attr :color, :string, values: @colors, default: "natural", doc: "Determines color theme"
