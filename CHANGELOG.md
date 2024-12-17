@@ -68,6 +68,7 @@
 - Add separated variant to table [#178](https://github.com/mishka-group/mishka_chelekom/pull/178)
 - Refactor: Fix issue of zooming inputs [#185](https://github.com/mishka-group/mishka_chelekom/pull/185)
 - Modify structure of popover and dropdown components [#189](https://github.com/mishka-group/mishka_chelekom/pull/189)
+- Add animations to gallery [#190](https://github.com/mishka-group/mishka_chelekom/pull/190)
 
 ### Bugs:
 - Fix un-CSP progress mounted [#72](https://github.com/mishka-group/mishka_chelekom/pull/72)
