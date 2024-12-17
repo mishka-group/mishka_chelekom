@@ -52,6 +52,13 @@ defmodule <%= @module %> do
   attr :cols, :string, default: nil, doc: "Determines cols of elements"
   attr :gap, :string, default: nil, doc: "Determines gap between elements"
 
+  attr :animation, :string,
+    values: ["scale-up", "scale-down", "blur", "backdrop", nil],
+    default: nil,
+    doc: "Determines gap between elements"
+
+  attr :animation_size, :string, default: nil, doc: "Determines gap between elements"
+
   attr :rest, :global,
     doc:
       "Global attributes can define defaults which are merged with attributes provided by the caller"
@@ -67,6 +74,7 @@ defmodule <%= @module %> do
         grid_gap(@gap),
         @type == "masonry" && column_class(@cols),
         grid_cols(@cols) != "masonry" && grid_cols(@cols),
+        animation(@animation, @animation_size),
         @class
       ]}
       {@rest}
@@ -108,10 +116,10 @@ defmodule <%= @module %> do
 
   def gallery_media(assigns) do
     ~H"""
-    <div id={@id}>
+    <div id={@id} class={["relative gallery-media overflow-hidden transition-all duration-300"]}>
       <img
         class={[
-          "gallery-media h-auto max-w-full",
+          "gallery-media-img h-auto max-w-full transition-all duration-300",
           rounded_size(@rounded),
           shadow_class(@shadow),
           @class
@@ -155,6 +163,62 @@ defmodule <%= @module %> do
   defp shadow_class("none"), do: "shadow-none"
   defp shadow_class(params) when is_binary(params), do: params
   defp shadow_class(_), do: shadow_class("none")
+
+  defp animation("scale-down", "extra_small"), do: "hover:[&_.gallery-media-img]:scale-[0.99]"
+  defp animation("scale-down", "small"), do: "hover:[&_.gallery-media-img]:scale-[0.97]"
+  defp animation("scale-down", "medium"), do: "hover:[&_.gallery-media-img]:scale-[0.95]"
+  defp animation("scale-down", "large"), do: "hover:[&_.gallery-media-img]:scale-[0.93]"
+  defp animation("scale-down", "extra_large"), do: "hover:[&_.gallery-media-img]:scale-[0.91]"
+
+  defp animation("scale-up", "extra_small"), do: "hover:[&_.gallery-media-img]:scale-[1.02]"
+  defp animation("scale-up", "small"), do: "hover:[&_.gallery-media-img]:scale-[1.04]"
+  defp animation("scale-up", "medium"), do: "hover:[&_.gallery-media-img]:scale-[1.06]"
+  defp animation("scale-up", "large"), do: "hover:[&_.gallery-media-img]:scale-[1.08]"
+  defp animation("scale-up", "extra_large"), do: "hover:[&_.gallery-media-img]:scale-[1.1]"
+
+  defp animation("blur", "extra_small"), do: "hover:[&_.gallery-media-img]:blur-[0.05rem]"
+  defp animation("blur", "small"), do: "hover:[&_.gallery-media-img]:blur-[0.07rem]"
+  defp animation("blur", "medium"), do: "hover:[&_.gallery-media-img]:blur-[0.09rem]"
+  defp animation("blur", "large"), do: "hover:[&_.gallery-media-img]:blur-[0.1rem]"
+  defp animation("blur", "extra_large"), do: "hover:[&_.gallery-media-img]:blur-[0.12rem]"
+
+  defp animation("backdrop", "extra_small") do
+    [
+      "hover:[&_.gallery-media]:after:bg-[#4B4B4B]/30 dark:hover:[&_.gallery-media]:after:bg-[#DDDDDD]/30",
+      "[&_.gallery-media]:after:absolute [&_.gallery-media]:after:inset-0 hover:[&_.gallery-media]:after:backdrop-blur-[0.02rem]"
+    ]
+  end
+
+  defp animation("backdrop", "small") do
+    [
+      "hover:[&_.gallery-media]:after:bg-[#4B4B4B]/30 dark:hover:[&_.gallery-media]:after:bg-[#DDDDDD]/30",
+      "[&_.gallery-media]:after:absolute [&_.gallery-media]:after:inset-0 hover:[&_.gallery-media]:after:backdrop-blur-[0.04rem]"
+    ]
+  end
+
+  defp animation("backdrop", "medium") do
+    [
+      "hover:[&_.gallery-media]:after:bg-[#4B4B4B]/30 dark:hover:[&_.gallery-media]:after:bg-[#DDDDDD]/30",
+      "[&_.gallery-media]:after:absolute [&_.gallery-media]:after:inset-0 hover:[&_.gallery-media]:after:backdrop-blur-[0.06rem]"
+    ]
+  end
+
+  defp animation("backdrop", "large") do
+    [
+      "hover:[&_.gallery-media]:after:bg-[#4B4B4B]/30 dark:hover:[&_.gallery-media]:after:bg-[#DDDDDD]/30",
+      "[&_.gallery-media]:after:absolute [&_.gallery-media]:after:inset-0 hover:[&_.gallery-media]:after:backdrop-blur-[0.08rem]"
+    ]
+  end
+
+  defp animation("backdrop", "extra_large") do
+    [
+      "hover:[&_.gallery-media]:after:bg-[#4B4B4B]/30 dark:hover:[&_.gallery-media]:after:bg-[#DDDDDD]/30",
+      "[&_.gallery-media]:after:absolute [&_.gallery-media]:after:inset-0 hover:[&_.gallery-media]:after:backdrop-blur-[0.1rem]"
+    ]
+  end
+
+  defp animation(params, _) when is_binary(params), do: params
+  defp animation(_, _), do: nil
 
   defp grid_cols("one"), do: "grid-cols-1"
   defp grid_cols("two"), do: "grid-cols-2"
