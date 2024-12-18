@@ -98,6 +98,7 @@ defmodule <%= @module %> do
 
   attr :icon, :string, default: nil, doc: "Icon displayed alongside of an item"
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
+  attr :badge_position, :string, default: nil, doc: "Custom CSS class for additional styling"
 
   attr :indicator_class, :string,
     default: nil,
@@ -128,6 +129,8 @@ defmodule <%= @module %> do
             color_variant(@variant, @color),
             border_size(@border, @variant),
             rounded_size(@rounded),
+            badge_position(@badge_position),
+            @badge_position && "absolute",
             @font_weight,
             @class
           ]
@@ -285,6 +288,18 @@ defmodule <%= @module %> do
     ~H"""
     """
   end
+
+  defp badge_position("top-left"), do: "-translate-y-1/2 -translate-x-1/2 right-auto top-0 left-0"
+
+  defp badge_position("top-right"), do: "-translate-y-1/2 translate-x-1/2 left-auto top-0 right-0"
+
+  defp badge_position("bottom-left"), do: "translate-y-1/2 -translate-x-1/2 right-auto bottom-0 left-0"
+
+  defp badge_position("bottom-right"), do: "translate-y-1/2 translate-x-1/2 left-auto bottom-0 right-0"
+
+  defp badge_position(params) when is_binary(params), do: params
+  defp badge_position(_), do: nil
+
   <%= if is_nil(@variant) or "default" in @variant do %>
   <%= if is_nil(@color) or "white" in @color do %>
   defp color_variant("default", "white") do

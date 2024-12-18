@@ -154,7 +154,7 @@ defmodule <%= @module %> do
         id={@id}
         multiple={@multiple}
         class={[
-          "select-field appearance-none block w-full",
+          "select-field appearance-none block w-full text-[16px] sm:font-inherit",
           @multiple && "select-multiple-option",
           @errors != [] && "select-field-error",
           @min_height,
