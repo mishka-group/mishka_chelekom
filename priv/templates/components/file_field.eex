@@ -260,10 +260,11 @@ defmodule <%= @module %> do
 
 
             <div
+              :if={!entry.done?}
               role="status"
               class="absolute top-1 left-1 bottom-1 right-1 bg-black/25 flex justify-center items-center"
             >
-              <.spinner :if={!entry.done?} color="silver" />
+              <.spinner color="silver" />
             </div>
             </div>
             <%%= for err <- upload_errors(@upload_error, entry) do %>
