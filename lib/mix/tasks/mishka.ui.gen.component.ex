@@ -165,7 +165,7 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Component do
     |> File.dir?()
     |> case do
       false ->
-        re_dir(template, custom_module)
+        re_dir(template, custom_module, web_module)
 
       true ->
         component =
@@ -247,7 +247,7 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Component do
   end
 
   # TODO: for another version
-  defp re_dir(template, _custom_module) do
+  defp re_dir(template, _custom_module, web_module) do
     # if Igniter.Util.IO.yes?("Do you want to continue?") do
     #   # TODO: create the directory
     #   converted_components_path(template, custom_module)
@@ -255,8 +255,16 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Component do
     #   {:error, :no_dir, "error_msg", template.igniter}
     # end
     msg = """
+    Note:
     You should have the path to the components folder in your Phoenix Framework web directory.
     Otherwise, the operation will stop.
+
+    Note:
+    If you believe your project path is correct or you are certain that the path belongs to a
+    project created with Phoenix, check the following path. It is possible that your naming convention does
+    not align with Elixir's naming style.
+
+    Is your web path (#{inspect(web_module)})!? but we found this (#{inspect(Igniter.Project.Application.app_name(template.igniter)) <> "_web"})!!
     """
 
     {:error, :no_dir, msg, template.igniter}
