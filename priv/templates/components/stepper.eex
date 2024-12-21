@@ -357,31 +357,31 @@ defmodule <%= @module %> do
 
   defp content_space("extra_small", reverse?) do
     [
-      (reverse? && "group-[:not(.col-step)_.stepper-content]:[&>span]:me-1") || "group-[:not(.col-step)_.stepper-content]:ms-1"
+      (reverse? && "group-[:not(.col-step)_.stepper-content]:me-1") || "group-[:not(.col-step)_.stepper-content]:ms-1"
     ]
   end
 
   defp content_space("small", reverse?) do
     [
-      (reverse? && "group-[:not(.col-step)_.stepper-content]:[&>span]:me-2") || "group-[:not(.col-step)_.stepper-content]:ms-2"
+      (reverse? && "group-[:not(.col-step)_.stepper-content]:me-2") || "group-[:not(.col-step)_.stepper-content]:ms-2"
     ]
   end
 
   defp content_space("medium", reverse?) do
     [
-      (reverse? && "group-[:not(.col-step)_.stepper-content]:[&>span]:me-3") || "group-[:not(.col-step)_.stepper-content]:ms-3"
+      (reverse? && "group-[:not(.col-step)_.stepper-content]:me-3") || "group-[:not(.col-step)_.stepper-content]:ms-3"
     ]
   end
 
   defp content_space("large", reverse?) do
     [
-      (reverse? && "group-[:not(.col-step)_.stepper-content]:[&>span]:me-4") || "group-[:not(.col-step)_.stepper-content]:ms-4"
+      (reverse? && "group-[:not(.col-step)_.stepper-content]:me-4") || "group-[:not(.col-step)_.stepper-content]:ms-4"
     ]
   end
 
   defp content_space("extra_large", reverse?) do
     [
-      (reverse? && "group-[:not(.col-step)_.stepper-content]:[&>span]:me-5") || "group-[:not(.col-step)_.stepper-content]:ms-5"
+      (reverse? && "group-[:not(.col-step)_.stepper-content]:me-5") || "group-[:not(.col-step)_.stepper-content]:ms-5"
     ]
   end
 
