@@ -2,6 +2,7 @@
   stepper: [
     name: "stepper",
     args: [
+      variant: ["default", "gradient"],
       color: [
         "natural",
         "primary",
