@@ -284,7 +284,7 @@ defmodule <%= @module %> do
 
   <%= if is_nil(@color) or "white" in @color do %>
   defp color_class("default", "white") do
-      ["accent-white dark:accent-white"]
+      ["accent-white"]
   end
   <% end %>
   <%= if is_nil(@color) or "natural" in @color do %>
@@ -309,7 +309,7 @@ defmodule <%= @module %> do
   <% end %>
   <%= if is_nil(@color) or "warning" in @color do %>
   defp color_class("default", "warning") do
-    ["accent-[#CA8D01] dark:accent-[#FDC034]"]
+    ["accent-[#976A01] dark:accent-[#FDC034]"]
   end
   <% end %>
   <%= if is_nil(@color) or "danger" in @color do %>
@@ -339,7 +339,7 @@ defmodule <%= @module %> do
   <% end %>
   <%= if is_nil(@color) or "dark" in @color do %>
   defp color_class("default", "dark") do
-    ["accent-[#282828] dark:accent-[#282828]"]
+    ["accent-[#282828]"]
   end
   <% end %>
 
