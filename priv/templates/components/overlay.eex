@@ -3,10 +3,10 @@ defmodule <%= @module %> do
   The `<%= @module %>` module provides a versatile overlay component for
   Phoenix LiveView applications, allowing developers to create layered content effects.
   It supports various customization options, including color themes, opacity levels,
-  and blur effects, which enable the creation of visually engaging overlays.
+  and backdrop effects, which enable the creation of visually engaging overlays.
 
   This component is designed to be highly adaptable, offering predefined color themes,
-  opacity variations, and blur sizes to match the needs of different interface designs.
+  opacity variations, and backdrop sizes to match the needs of different interface designs.
   The `<%= @module %>` is perfect for creating modal backgrounds, loading screens,
   and other interactive elements that require content layering.
   """
@@ -42,7 +42,7 @@ defmodule <%= @module %> do
   ]
 
   @doc """
-  Renders an `overlay` element with customizable color, opacity, and blur options.
+  Renders an `overlay` element with customizable color, opacity, and backdrop options.
 
   The overlay can be used to create various visual effects such as loading screens or background dimming.
 
@@ -66,7 +66,7 @@ defmodule <%= @module %> do
 
   attr :color, :string, values: @colors, default: "natural", doc: "Determines color theme"
   attr :opacity, :string, values: @opacities ++ [nil], default: nil, doc: ""
-  attr :blur, :string, values: @sizes ++ ["none", nil], default: nil, doc: ""
+  attr :backdrop, :string, values: @sizes ++ ["none", nil], default: nil, doc: ""
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
 
   attr :rest, :global,
@@ -81,10 +81,10 @@ defmodule <%= @module %> do
     <div
       id={@id}
       class={[
-        "absolute inset-0 z-50",
+        "overlay absolute inset-0 z-50",
         color_class(@color),
         opacity_class(@opacity),
-        blur_class(@blur),
+        backdrop_class(@backdrop),
         @class
       ]}
       {@rest}
@@ -201,31 +201,31 @@ defmodule <%= @module %> do
   defp opacity_class(_), do: nil
 
   <%= if is_nil(@size) or "extra_small" in @size do %>
-  defp blur_class("extra_small") do
-    "backdrop-blur-[1px]"
+  defp backdrop_class("extra_small") do
+    "backdrop-backdrop-[1px]"
   end
   <% end %>
   <%= if is_nil(@size) or "small" in @size do %>
-  defp blur_class("small") do
-    "backdrop-blur-[2px]"
+  defp backdrop_class("small") do
+    "backdrop-backdrop-[2px]"
   end
   <% end %>
   <%= if is_nil(@size) or "medium" in @size do %>
-  defp blur_class("medium") do
-    "backdrop-blur-[3px]"
+  defp backdrop_class("medium") do
+    "backdrop-backdrop-[3px]"
   end
   <% end %>
   <%= if is_nil(@size) or "large" in @size do %>
-  defp blur_class("large") do
-    "backdrop-blur-[4px]"
+  defp backdrop_class("large") do
+    "backdrop-backdrop-[4px]"
   end
   <% end %>
   <%= if is_nil(@size) or "extra_large" in @size do %>
-  defp blur_class("extra_large") do
-    "backdrop-blur-[5px]"
+  defp backdrop_class("extra_large") do
+    "backdrop-backdrop-[5px]"
   end
   <% end %>
 
-  defp blur_class(params) when is_binary(params), do: params
-  defp blur_class(_), do: nil
+  defp backdrop_class(params) when is_binary(params), do: params
+  defp backdrop_class(_), do: nil
 end
