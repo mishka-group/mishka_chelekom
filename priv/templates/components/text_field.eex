@@ -173,7 +173,7 @@ defmodule <%= @module %> do
             value={@value}
             class={[
               "disabled:opacity-80 block w-full z-[2] focus:ring-0 placeholder:text-transparent pb-1 pt-2.5 px-2",
-              "focus:text-[16px] sm:focus:font-inherit appearance-none bg-transparent border-0 focus:outline-none peer"
+              "text-[16px] sm:font-inherit appearance-none bg-transparent border-0 focus:outline-none peer"
             ]}
             placeholder=" "
             {@rest}
