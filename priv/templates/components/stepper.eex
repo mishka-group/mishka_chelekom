@@ -986,10 +986,10 @@ defmodule <%= @module %> do
   end
   <% end %>
   <% end %>
-  defp color_variant(params) when is_binary(params), do: params
+  defp color_variant(params, _) when is_binary(params), do: params
   <%= if is_nil(@variant) or "default" in @variant do %>
   <%= if is_nil(@color) or "natural" in @color do %>
-  defp color_variant(_), do: color_variant("natural", "default")
+  defp color_variant(_, _), do: color_variant("natural", "default")
   <% end %>
   <% end %>
 
