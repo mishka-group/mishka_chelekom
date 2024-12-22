@@ -285,7 +285,7 @@ defmodule <%= @module %> do
 
   <%= if is_nil(@type) or "pinging" in @type do %>
   <%= if is_nil(@size) or "extra_small" in @size do %>
-  defp size_class("pinging", "extra_small"), do: "[&>svgsize:w-6"
+  defp size_class("pinging", "extra_small"), do: "[&>svg]:size-6"
   <% end %>
   <%= if is_nil(@size) or "small" in @size do %>
   defp size_class("pinging", "small"), do: "[&>svg]:size-7"
