@@ -144,7 +144,7 @@ defmodule <%= @module %> do
     <div
       id={@id}
       class={[
-        "overflow-hidden [&:has(.overlay)]:relative [&:has(.overlay)]:overlayed-card",
+        "overflow-hidden [&:has(.overlay)]:relative",
         space_class(@space),
         border_class(@border, @variant),
         color_variant(@variant, @color),
@@ -267,7 +267,7 @@ defmodule <%= @module %> do
 
   def card_media(assigns) do
     ~H"""
-    <div id={@id}>
+    <div id={@id} class="card-media">
       <img
         src={@src}
         alt={@alt}

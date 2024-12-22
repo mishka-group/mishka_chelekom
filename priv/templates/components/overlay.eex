@@ -81,7 +81,7 @@ defmodule <%= @module %> do
     <div
       id={@id}
       class={[
-        "absolute inset-0 z-50",
+        "overlay absolute inset-0 z-50",
         color_class(@color),
         opacity_class(@opacity),
         backdrop_class(@backdrop),
