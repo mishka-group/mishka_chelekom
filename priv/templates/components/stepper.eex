@@ -571,7 +571,7 @@ defmodule <%= @module %> do
   defp seperator_size(_), do: seperator_size("extra_small")
 
   # colors
-  # stepper-loading-step, stepper-current-step, stepper-compeleted-step, stepper-canceled-step
+  # stepper-loading-step, stepper-current-step, stepper-completed-step, stepper-canceled-step
   <%= if is_nil(@variant) or "default" in @variant do %>
   <%= if is_nil(@color) or "natural" in @color do %>
   defp color_variant("natural", "default") do
