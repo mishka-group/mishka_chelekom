@@ -146,9 +146,13 @@ defmodule <%= @module %> do
     doc:
       "Global attributes can define defaults which are merged with attributes provided by the caller"
 
-  slot :start_content, required: false, doc: ""
+  slot :start_content,
+    required: false,
+    doc: "Content to be rendered at the start (start side based on rtl or ltr) of the navbar."
   slot :inner_block, required: false, doc: "Inner block that renders HEEx content"
-  slot :end_content, required: false, doc: ""
+  slot :end_content,
+    required: false,
+    doc: "Content to be rendered at the end (end side based on rtl or ltr) of the navbar."
 
   slot :list, required: false do
     attr :class, :string, doc: "Custom CSS class for additional styling"
