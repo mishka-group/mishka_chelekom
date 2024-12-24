@@ -159,7 +159,8 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Component do
   defp converted_components_path({:error, _, _, _igniter} = error, _), do: error
 
   defp converted_components_path(template, custom_module) do
-    web_module = Macro.underscore(Igniter.Libs.Phoenix.web_module(template.igniter))
+    # Reset the assigns to prevent creating .igniter.exs config file to add all the paths
+    web_module = "#{Igniter.Project.Application.app_name(template.igniter)}" <> "_web"
 
     Path.join("lib", web_module <> "/components")
     |> File.dir?()
@@ -173,26 +174,23 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Component do
             custom_module || web_module <> ".components.#{component_to_atom(template.component)}"
           )
 
-        proper_location =
-          if is_nil(custom_module) do
-            Module.concat([component])
-          else
-            Module.concat([
-              Igniter.Libs.Phoenix.web_module(template.igniter),
-              "components",
-              atom_to_module(custom_module, :last)
-            ])
-          end
-          |> then(&Igniter.Project.Module.proper_location(template.igniter, &1))
+        # Reset the assigns to prevent creating .igniter.exs config file to add all the paths
+        proper_location = "lib/#{web_module}/components/#{template.component}.ex"
 
         new_igniter =
-          if !is_nil(custom_module) do
-            template.igniter
-            |> Igniter.Project.IgniterConfig.dont_move_file_pattern(~r/#{proper_location}/)
-            |> Igniter.compose_task("igniter.add_extension", ["phoenix"])
-          else
-            template.igniter
-          end
+          template.igniter
+          |> Map.update!(:assigns, fn assigns ->
+            assigns
+            |> Map.put_new(:igniter_exs, [])
+            |> Map.update!(:igniter_exs, fn igniter_exs ->
+              Keyword.update(
+                igniter_exs,
+                :dont_move_files,
+                [proper_location],
+                &[proper_location | &1]
+              )
+            end)
+          end)
 
         {new_igniter, proper_location, [module: component], template.path, template.config}
     end
