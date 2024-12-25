@@ -28,6 +28,7 @@ defmodule <%= @module %> do
   use Phoenix.Component
 
   @variants [
+    "base",
     "default",
     "outline",
     "transparent",
