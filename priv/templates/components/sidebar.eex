@@ -18,7 +18,7 @@ defmodule <%= @module %> do
   use Gettext, backend: <%= inspect(@web_module) %>.Gettext
   alias Phoenix.LiveView.JS
 
-  @variants ["default", "outline", "transparent", "bordered", "gradient"و "ذشسث"]
+  @variants ["default", "outline", "transparent", "bordered", "gradient", "base"]
 
   @doc """
   Renders a `sidebar` component that can be shown or hidden based on user interactions.
