@@ -27,6 +27,15 @@ defmodule <%= @module %> do
 
   use Phoenix.Component
 
+  @variants [
+    "default",
+    "outline",
+    "transparent",
+    "shadow",
+    "bordered",
+    "gradient"
+  ]
+
   @sizes [
     "extra_small",
     "small",
@@ -97,7 +106,7 @@ defmodule <%= @module %> do
     default: nil,
     doc: "A unique identifier is used to manage state and interaction"
 
-  attr :variant, :string, default: "base", doc: "Determines the style"
+  attr :variant, :string, values: @variants, default: "base", doc: "Determines the style"
   attr :color, :string, default: "base", doc: "Determines color theme"
   attr :border, :string, default: "extra_small", doc: "Determines border style"
   attr :rounded, :string, default: nil, doc: "Determines the border radius"
