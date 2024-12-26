@@ -22,20 +22,7 @@ defmodule <%= @module %> do
   use Phoenix.Component
 
   @sizes ["extra_small", "small", "medium", "large", "extra_large"]
-  @colors [
-    "natural",
-    "white",
-    "dark",
-    "primary",
-    "secondary",
-    "success",
-    "warning",
-    "danger",
-    "info",
-    "silver",
-    "misc",
-    "dawn"
-  ]
+
   <%= if is_nil(@type) or "avatar" in @type do %>
   @doc """
   The `avatar` component is used to display user avatars with various customization options,
@@ -68,10 +55,7 @@ defmodule <%= @module %> do
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :src, :string, default: nil, doc: "Media link"
 
-  attr :color, :string,
-    values: @colors ++ ["transparent"],
-    default: "transparent",
-    doc: "Determines color theme"
+  attr :color, :string, default: "transparent", doc: "Determines color theme"
 
   attr :size, :string,
     default: "small",
@@ -252,6 +236,11 @@ defmodule <%= @module %> do
     nil
   end
   <% end %>
+  <%= if is_nil(@color) or "base" in @color do %>
+  defp image_color("base") do
+    "border-[#e4e4e7] dark:border-[#27272a]"
+  end
+  <% end %>
   <%= if is_nil(@color) or "white" in @color do %>
   defp image_color("white") do
     "border-white"
@@ -313,6 +302,14 @@ defmodule <%= @module %> do
   end
   <% end %>
   defp image_color(params), do: params
+  <%= if is_nil(@color) or "base" in @color do %>
+  defp color_class("base") do
+    [
+      "bg-white text-[#09090b] border-[#e4e4e7]",
+      "dark:bg-[#18181B] dark:text-[#FAFAFA] dark:border-[#27272a]"
+    ]
+  end
+  <% end %>
   <%= if is_nil(@color) or "white" in @color do %>
   defp color_class("white") do
     ["bg-white text-black border-[#DDDDDD]"]

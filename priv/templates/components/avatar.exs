@@ -3,6 +3,7 @@
     name: "avatar",
     args: [
       color: [
+        "base",
         "natural",
         "white",
         "dark",
