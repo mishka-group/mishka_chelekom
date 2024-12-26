@@ -2,8 +2,9 @@
   sidebar: [
     name: "sidebar",
     args: [
-      variant: ["default", "outline", "transparent", "bordered", "gradient"],
+      variant: ["default", "outline", "transparent", "bordered", "gradient", "base"],
       color: [
+        "base",
         "natural",
         "white",
         "dark",

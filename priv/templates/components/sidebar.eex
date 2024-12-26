@@ -18,22 +18,7 @@ defmodule <%= @module %> do
   use Gettext, backend: <%= inspect(@web_module) %>.Gettext
   alias Phoenix.LiveView.JS
 
-  @colors [
-    "natural",
-    "white",
-    "dark",
-    "primary",
-    "secondary",
-    "success",
-    "warning",
-    "danger",
-    "info",
-    "silver",
-    "misc",
-    "dawn"
-  ]
-
-  @variants ["default", "outline", "transparent", "bordered", "gradient"]
+  @variants ["default", "outline", "transparent", "bordered", "gradient", "base"]
 
   @doc """
   Renders a `sidebar` component that can be shown or hidden based on user interactions.
@@ -56,8 +41,8 @@ defmodule <%= @module %> do
     required: true,
     doc: "A unique identifier is used to manage state and interaction"
 
-  attr :variant, :string, values: @variants, default: "default", doc: "Determines the style"
-  attr :color, :string, values: @colors, default: "natural", doc: "Determines color theme"
+  attr :variant, :string, values: @variants, default: "base", doc: "Determines the style"
+  attr :color, :string, default: "base", doc: "Determines color theme"
 
   attr :size, :string,
     default: "large",
@@ -215,8 +200,18 @@ defmodule <%= @module %> do
   <%= if is_nil(@size) or "large" in @size do %>
   defp size_class(_), do: size_class("large")
   <% end %>
-<%= if is_nil(@variant) or "default" in @variant do %>
-   <%= if is_nil(@color) or "white" in @color do %>
+  <%= if is_nil(@variant) or "based" in @variant do %>
+    <%= if is_nil(@color) or "base" in @color do %>
+    defp color_variant("base", "base") do
+      [
+        "bg-white text-[#09090b] border-[#e4e4e7]",
+        "dark:bg-[#18181B] dark:text-[#FAFAFA] dark:border-[#27272a]"
+      ]
+    end
+    <% end %>
+  <% end %>
+  <%= if is_nil(@variant) or "default" in @variant do %>
+  <%= if is_nil(@color) or "white" in @color do %>
   defp color_variant("default", "white") do
      [
       "bg-white text-black"
