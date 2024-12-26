@@ -9,28 +9,14 @@ defmodule <%= @module %> do
   """
   use Phoenix.Component
 
-  @colors [
-    "white",
-    "natural",
-    "primary",
-    "secondary",
-    "dark",
-    "success",
-    "warning",
-    "danger",
-    "info",
-    "silver",
-    "misc",
-    "dawn"
-  ]
-
   @variants [
     "default",
     "outline",
     "transparent",
     "shadow",
     "gradient",
-    "bordered"
+    "bordered",
+    "base"
   ]
   <%= if is_nil(@type) or "chat" in @type do %>
   @doc """
@@ -86,8 +72,8 @@ defmodule <%= @module %> do
     doc: "A unique identifier is used to manage state and interaction"
 
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
-  attr :variant, :string, values: @variants, default: "default", doc: "Determines the style"
-  attr :color, :string, values: @colors, default: "natural", doc: "Determines color theme"
+  attr :variant, :string, values: @variants, default: "base", doc: "Determines the style"
+  attr :color, :string, default: "base", doc: "Determines color theme"
   attr :border, :string, default: "extra_small", doc: "Determines border style"
   attr :rounded, :string, default: "extra_large", doc: "Determines the border radius"
 
@@ -363,6 +349,18 @@ defmodule <%= @module %> do
   <% end %>
 
 
+  <%= if is_nil(@variant) or "base" in @variant do %>
+  <%= if is_nil(@color) or "base" in @color do %>
+  defp color_variant("base", "base") do
+    [
+      "[&>.chat-section-bubble]:bg-white [&>.chat-section-bubble]:text-[#09090b]",
+      "[&>.chat-section-bubble]:border-[#e4e4e7] [&>.chat-section-bubble]:shadow-sm",
+      "dark:[&>.chat-section-bubble]:bg-[#18181B] dark:[&>.chat-section-bubble]:text-[#FAFAFA]",
+      "dark:[&>.chat-section-bubble]:border-[#27272a]"
+    ]
+  end
+  <% end %>
+  <% end %>
   <%= if is_nil(@variant) or "default" in @variant do %>
   <%= if is_nil(@color) or "white" in @color do %>
   defp color_variant("default", "white") do

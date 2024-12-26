@@ -2,8 +2,9 @@
   chat: [
     name: "chat",
     args: [
-      variant: ["default", "outline", "transparent", "shadow", "gradient", "bordered"],
+      variant: ["default", "outline", "transparent", "shadow", "gradient", "bordered", "base"],
       color: [
+        "base",
         "white",
         "natural",
         "primary",
