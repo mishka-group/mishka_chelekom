@@ -400,7 +400,7 @@ defmodule <%= @module %> do
     ]
   end
   <% end %>
-  defp color_class(_), do: color_class("natural")
+  defp color_class(_), do: color_class("base")
 
   defp border_class("extra_small"), do: "border-avatar border"
   defp border_class("small"), do: "border-avatar border-2"
