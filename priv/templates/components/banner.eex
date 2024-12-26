@@ -863,7 +863,7 @@ defmodule <%= @module %> do
   <% end %>
   <% end %>
   defp color_variant(params,_) when is_binary(params), do: params
-  <%= if is_nil(@variant) or "bse" in @variant do %>
+  <%= if is_nil(@variant) or "base" in @variant do %>
   <%= if is_nil(@color) or "base" in @color do %>
   defp color_variant(_,_), do: color_variant("bse", "base")
   <% end %>
