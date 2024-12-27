@@ -3,6 +3,7 @@
     name: "device_mockup",
     args: [
       color: [
+        "base",
         "natural",
         "primary",
         "secondary",
