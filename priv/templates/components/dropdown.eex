@@ -11,27 +11,13 @@ defmodule <%= @module %> do
   use Phoenix.Component
   alias Phoenix.LiveView.JS
 
-  @colors [
-    "natural",
-    "white",
-    "dark",
-    "primary",
-    "secondary",
-    "success",
-    "warning",
-    "danger",
-    "info",
-    "silver",
-    "misc",
-    "dawn"
-  ]
-
   @variants [
     "default",
     "outline",
     "bordered",
     "shadow",
-    "gradient"
+    "gradient",
+    "base"
   ]
   <%= if is_nil(@type) or "dropdown" in @type do %>
   @doc """
@@ -94,8 +80,8 @@ defmodule <%= @module %> do
     default: false,
     doc: "Controls whether the dropdown is disabled on mobile devices"
 
-  attr :variant, :string, values: @variants, default: "default", doc: "Determines the style"
-  attr :color, :string, values: @colors, default: "natural", doc: "Determines color theme"
+  attr :variant, :string, values: @variants, default: "base", doc: "Determines the style"
+  attr :color, :string, default: "base", doc: "Determines color theme"
   attr :rounded, :string, default: nil, doc: "Determines the border radius"
   attr :content_width, :string, default: "extra_large", doc: "Determines the element width"
 
@@ -257,8 +243,8 @@ defmodule <%= @module %> do
     default: nil,
     doc: "A unique identifier is used to manage state and interaction"
 
-  attr :variant, :string, values: @variants, default: "default", doc: "Determines the style"
-  attr :color, :string, values: @colors, default: "natural", doc: "Determines color theme"
+  attr :variant, :string, values: @variants, default: "baes", doc: "Determines the style"
+  attr :color, :string, default: "base", doc: "Determines color theme"
   attr :rounded, :string, default: nil, doc: "Determines the border radius"
 
   attr :size, :string,
@@ -507,6 +493,16 @@ defmodule <%= @module %> do
   defp space_class(params) when is_binary(params), do: params
   defp space_class(_), do: nil
 
+  <%= if is_nil(@variant) or "base" in @variant do %>
+  <%= if is_nil(@color) or "base" in @color do %>
+  defp color_variant("base", "base") do
+    [
+      "bg-white text-[#09090b] border-[#e4e4e7] shadow-sm",
+      "dark:bg-[#18181B] dark:text-[#FAFAFA] dark:border-[#27272a]"
+    ]
+  end
+  <% end %>
+  <% end %>
   <%= if is_nil(@variant) or "default" in @variant do %>
   <%= if is_nil(@color) or "white" in @color do %>
   defp color_variant("default", "white") do
@@ -926,9 +922,9 @@ defmodule <%= @module %> do
   <% end %>
   <% end %>
   defp color_variant(params,_) when is_binary(params), do: params
-  <%= if is_nil(@variant) or "default" in @variant do %>
-  <%= if is_nil(@color) or "natural" in @color do %>
-  defp color_variant(_,_), do: color_variant("default", "natural")
+  <%= if is_nil(@variant) or "base" in @variant do %>
+  <%= if is_nil(@color) or "base" in @color do %>
+  defp color_variant(_,_), do: color_variant("base", "base")
   <% end %>
   <% end %>
 end
