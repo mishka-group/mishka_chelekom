@@ -3,6 +3,7 @@
     name: "breadcrumb",
     args: [
       color: [
+        "base",
         "natural",
         "dark",
         "white",
