@@ -3,6 +3,7 @@
     name: "button",
     args: [
       variant: [
+        "base",
         "default",
         "outline",
         "transparent",
@@ -15,6 +16,7 @@
         "inverted_gradient"
       ],
       color: [
+        "base",
         "natural",
         "white",
         "dark",
