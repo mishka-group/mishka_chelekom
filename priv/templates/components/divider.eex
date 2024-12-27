@@ -15,20 +15,6 @@ defmodule <%= @module %> do
   """
   use Phoenix.Component
 
-  @colors [
-    "natural",
-    "white",
-    "dark",
-    "primary",
-    "secondary",
-    "success",
-    "warning",
-    "danger",
-    "info",
-    "misc",
-    "dawn",
-    "silver"
-  ]
   <%= if is_nil(@type) or "divider" in @type do %>
   @doc """
   The `divider` component is used to visually separate content with either a horizontal or
@@ -60,7 +46,7 @@ defmodule <%= @module %> do
     default: "solid",
     doc: "Determines type of element"
 
-  attr :color, :string, values: @colors, default: "silver", doc: "Determines color theme"
+  attr :color, :string, default: "base", doc: "Determines color theme"
 
   attr :size, :string,
     default: "extra_small",
@@ -478,6 +464,17 @@ defmodule <%= @module %> do
   defp margin_class("none", :vertical) do
     ["mx-0"]
   end
+  <%= if is_nil(@color) or "base" in @color do %>
+  defp color_class("base") do
+    [
+      "text-[#09090b] border-[#e4e4e7] dark:text-[#27272a] dark:border-[#27272a]",
+      "has-[.divider-content.devider-middle]:before:border-[#e4e4e7] has-[.divider-content.devider-middle]:after:border-[#e4e4e7]",
+      "has-[.divider-content.devider-right]:before:border-[#e4e4e7] has-[.divider-content.devider-left]:after:border-[#e4e4e7]",
+      "dark:has-[.divider-content.devider-middle]:before:border-[#27272a] dark:has-[.divider-content.devider-middle]:after:border-[#27272a]",
+      "dark:has-[.divider-content.devider-right]:before:border-[#27272a] dark:has-[.divider-content.devider-left]:after:border-[#27272a]"
+    ]
+  end
+  <% end %>
   <%= if is_nil(@color) or "white" in @color do %>
   defp color_class("white") do
     [

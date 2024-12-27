@@ -3,6 +3,7 @@
     name: "divider",
     args: [
       color: [
+        "base",
         "natural",
         "white",
         "dark",
