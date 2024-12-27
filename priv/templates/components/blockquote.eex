@@ -25,20 +25,6 @@ defmodule <%= @module %> do
   use Phoenix.Component
 
   @sizes ["extra_small", "small", "medium", "large", "extra_large"]
-  @colors [
-    "natural",
-    "white",
-    "dark",
-    "primary",
-    "secondary",
-    "success",
-    "warning",
-    "danger",
-    "info",
-    "silver",
-    "misc",
-    "dawn"
-  ]
 
   @variants [
     "default",
@@ -46,7 +32,8 @@ defmodule <%= @module %> do
     "transparent",
     "shadow",
     "bordered",
-    "gradient"
+    "gradient",
+    "base"
   ]
 
   @doc """
@@ -109,8 +96,8 @@ defmodule <%= @module %> do
     default: nil,
     doc: "A unique identifier is used to manage state and interaction"
 
-  attr :variant, :string, values: @variants, default: "default", doc: "Determines the style"
-  attr :color, :string, values: @colors, default: "natural", doc: "Determines color theme"
+  attr :variant, :string, values: @variants, default: "base", doc: "Determines the style"
+  attr :color, :string, default: "base", doc: "Determines color theme"
 
   attr :border, :string,
     values: @sizes ++ [nil],
@@ -160,7 +147,7 @@ defmodule <%= @module %> do
 
   def blockquote(assigns) do
     ~H"""
-    <figure class={[
+    <div class={[
       space_class(@space),
       border_class(@border, border_position(@rest), @variant),
       color_variant(@variant, @color),
@@ -178,7 +165,7 @@ defmodule <%= @module %> do
       <blockquote class="p-2 italic">
         {render_slot(@inner_block)}
       </blockquote>
-      <figcaption
+      <div
         :for={caption <- @caption}
         class={[
           "flex items-center space-x-3 rtl:space-x-reverse",
@@ -193,8 +180,8 @@ defmodule <%= @module %> do
         <div class="flex items-center divide-x-2 rtl:divide-x-reverse">
           {render_slot(caption)}
         </div>
-      </figcaption>
-    </figure>
+      </div>
+    </div>
     """
   end
 
@@ -360,8 +347,18 @@ defmodule <%= @module %> do
   <%= if is_nil(@size) or "medium" in @size do %>
   defp size_class(_), do: size_class("medium")
   <% end %>
+<%= if is_nil(@variant) or "base" in @variant do %>
+  <%= if is_nil(@color) or "base" in @color do %>
+  defp color_variant("base", "base") do
+    [
+      "bg-white text-[#09090b] border-[#e4e4e7] shadow-sm",
+      "dark:bg-[#18181B] dark:text-[#FAFAFA] dark:border-[#27272a]"
+    ]
+  end
+  <% end %>
+<% end %>
 <%= if is_nil(@variant) or "default" in @variant do %>
-   <%= if is_nil(@color) or "white" in @color do %>
+  <%= if is_nil(@color) or "white" in @color do %>
   defp color_variant("default", "white") do
     ["bg-white text-black"]
   end
@@ -843,9 +840,9 @@ defmodule <%= @module %> do
   <% end %>
   <% end %>
   defp color_variant(params,_) when is_binary(params), do: params
-  <%= if is_nil(@variant) or "default" in @variant do %>
-  <%= if is_nil(@color) or "natural" in @color do %>
-  defp color_variant(_,_), do: color_variant("default", "natural")
+  <%= if is_nil(@variant) or "base" in @variant do %>
+  <%= if is_nil(@color) or "base" in @color do %>
+  defp color_variant(_,_), do: color_variant("base", "base")
   <% end %>
   <% end %>
   defp border_position(%{hide_border: true}), do: "none"
