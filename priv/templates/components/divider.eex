@@ -204,7 +204,7 @@ defmodule <%= @module %> do
     default: "solid",
     doc: "Specifies the type of the element"
 
-  attr :color, :string, values: @colors, default: "silver", doc: "Determines color theme"
+  attr :color, :string, default: "base", doc: "Determines color theme"
 
   attr :size, :string,
     default: "extra_small",
