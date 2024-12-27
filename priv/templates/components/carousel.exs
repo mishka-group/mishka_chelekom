@@ -3,7 +3,6 @@
     name: "carousel",
     args: [
       color: [
-        "base",
         "natural",
         "white",
         "primary",
