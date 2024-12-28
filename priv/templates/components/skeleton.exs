@@ -3,6 +3,7 @@
     name: "skeleton",
     args: [
       color: [
+        "base",
         "natural",
         "white",
         "primary",
