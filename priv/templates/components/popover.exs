@@ -2,8 +2,9 @@
   popover: [
     name: "popover",
     args: [
-      variant: ["default", "shadow", "bordered", "gradient"],
+      variant: ["default", "shadow", "bordered", "gradient", "base"],
       color: [
+        "base",
         "natural",
         "white",
         "primary",
