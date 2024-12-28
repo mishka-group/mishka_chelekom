@@ -2,8 +2,9 @@
   modal: [
     name: "modal",
     args: [
-      variant: ["default", "shadow", "bordered", "gradient"],
+      variant: ["default", "shadow", "bordered", "gradient", "base"],
       color: [
+        "base",
         "white",
         "natural",
         "primary",
