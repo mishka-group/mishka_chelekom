@@ -3,6 +3,7 @@
     name: "spinner",
     args: [
       color: [
+        "base",
         "natural",
         "white",
         "dark",
