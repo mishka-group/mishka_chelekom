@@ -19,21 +19,6 @@ defmodule <%= @module %> do
 
   @sizes ["extra_small", "small", "medium", "large", "extra_large"]
 
-  @colors [
-    "natural",
-    "white",
-    "primary",
-    "secondary",
-    "dark",
-    "success",
-    "warning",
-    "danger",
-    "info",
-    "silver",
-    "misc",
-    "dawn"
-  ]
-
   @indicator_positions [
     "top_left",
     "top_center",
@@ -71,7 +56,7 @@ defmodule <%= @module %> do
       "Determines the overall size of the elements, including padding, font size, and other items"
 
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
-  attr :color, :string, values: @colors, default: "primary", doc: "Determines color theme"
+  attr :color, :string, default: "base", doc: "Determines color theme"
 
   attr :rest, :global,
     include: ["pinging"] ++ @indicator_positions,
@@ -240,6 +225,9 @@ defmodule <%= @module %> do
   defp indicator_size(params) when is_binary(params), do: params
   defp indicator_size(nil), do: nil
 
+  <%= if is_nil(@color) or "base" in @color do %>
+  defp color_class("base"), do: "bg-[#e4e4e7] dark:bg-[#27272a]"
+  <% end %>
   <%= if is_nil(@color) or "white" in @color do %>
   defp color_class("white"), do: "bg-white"
   <% end %>
@@ -275,6 +263,10 @@ defmodule <%= @module %> do
   <% end %>
   <%= if is_nil(@color) or "dark" in @color do %>
   defp color_class("dark"), do: "bg-[#282828]"
+  <% end %>
+  defp color_class(params) when is_binary(params), do: params
+  <%= if is_nil(@size) or "base" in @size do %>
+  defp color_class(_), do: color_class("base")
   <% end %>
 
   defp drop_rest(rest) do
