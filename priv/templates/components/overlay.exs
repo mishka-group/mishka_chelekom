@@ -3,6 +3,7 @@
     name: "overlay",
     args: [
       color: [
+        "base",
         "natural",
         "white",
         "dark",
