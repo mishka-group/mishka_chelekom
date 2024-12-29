@@ -509,7 +509,8 @@ defmodule <%= @module %> do
     |> JS.remove_class("active-accordion-button", to: "##{id}-role-button")
   end
   <% end %>
-  defp space_class(_, variant) when variant not in ["outline_separated", "bordered_separated"], do: nil
+  defp space_class(_, variant) when variant not in ["outline_separated", "bordered_separated", "base_separated"],
+    do: nil
   <%= if is_nil(@space) or "extra_small" in @space do %>
   defp space_class("extra_small", _), do: "accordion-item-gap space-y-2"
   <% end %>
@@ -837,10 +838,109 @@ defmodule <%= @module %> do
   defp border_class("extra_large", "outline_separated") do
      "[&>.accordion-item-wrapper>.accordion-summary]:border-[5px]"
   end
+  defp border_class("none", "base") do
+    [
+      "border-0",
+      "[&>.accordion-item-wrapper:not(:last-child)>.accordion-summary]:border-b-0",
+      "[&>.accordion-item-wrapper:not(:last-child)>.accordion-content-wrapper.active]:border-b-0"
+    ]
+  end
+
+  defp border_class("extra_small", "base") do
+    [
+      "border",
+      "[&>.accordion-item-wrapper:not(:last-child)>.accordion-summary]:border-b",
+      "[&>.accordion-item-wrapper:not(:last-child)>.accordion-content-wrapper.active]:border-b"
+    ]
+  end
+
+  defp border_class("small", "base") do
+    [
+      "border-2",
+      "[&>.accordion-item-wrapper:not(:last-child)>.accordion-summary]:border-b-2",
+      "[&>.accordion-item-wrapper:not(:last-child)>.accordion-content-wrapper.active]:border-b-2"
+    ]
+  end
+
+  defp border_class("medium", "base") do
+    [
+      "border-[3px]",
+      "[&>.accordion-item-wrapper:not(:last-child)>.accordion-summary]:border-b-[3px]",
+      "[&>.accordion-item-wrapper:not(:last-child)>.accordion-content-wrapper.active]:border-b-[3px]"
+    ]
+  end
+
+  defp border_class("large", "base") do
+    [
+      "border-4",
+      "[&>.accordion-item-wrapper:not(:last-child)>.accordion-summary]:border-b-4",
+      "[&>.accordion-item-wrapper:not(:last-child)>.accordion-content-wrapper.active]:border-b-4"
+    ]
+  end
+
+  defp border_class("extra_large", "base") do
+    [
+      "border-[5px]",
+      "[&>.accordion-item-wrapper:not(:last-child)>.accordion-summary]:border-b-[5px]",
+      "[&>.accordion-item-wrapper:not(:last-child)>.accordion-content-wrapper.active]:border-b-[5px]"
+    ]
+  end
+
+  defp border_class("none", "base_separated") do
+    "[&>.accordion-item-wrapper>.accordion-summary]:border-0"
+  end
+
+  defp border_class("extra_small", "base_separated") do
+    "[&>.accordion-item-wrapper>.accordion-summary]:border"
+  end
+
+  defp border_class("small", "base_separated") do
+    "[&>.accordion-item-wrapper>.accordion-summary]:border-2"
+  end
+
+  defp border_class("medium", "base_separated") do
+    "[&>.accordion-item-wrapper>.accordion-summary]:border-[3px]"
+  end
+
+  defp border_class("large", "base_separated") do
+    "[&>.accordion-item-wrapper>.accordion-summary]:border-4"
+  end
+
+  defp border_class("extra_large", "base_separated") do
+    "[&>.accordion-item-wrapper>.accordion-summary]:border-[5px]"
+  end
   defp border_class(params, _) when is_binary(params), do: params
 
-  defp border_class(_, _), do: border_class(nil, "default")
+  defp border_class(_, _), do: border_class("none", "base")
 
+  <%= if is_nil(@variant) or "base" in @variant do %>
+  <%= if is_nil(@color) or "base" in @color do %>
+  defp color_variant("base", "base") do
+    [
+      "text-[#09090b] border-[#e4e4e7] bg-white",
+      "dark:text-[#FAFAFA] dark:border-[#27272a] dark:bg-[#18181B]",
+      "hover:[&>.accordion-item-wrapper>.accordion-summary]:bg-[#F8F9FA] dark:hover:[&>.accordion-item-wrapper>.accordion-summary]:bg-[#242424]",
+      "[&>.accordion-item-wrapper:not(:last-child)>.accordion-summary]:border-[#e4e4e7]",
+      "[&>.accordion-item-wrapper:not(:last-child)>.accordion-content-wrapper.active]:border-[#e4e4e7]",
+      "dark:[&>.accordion-item-wrapper:not(:last-child)>.accordion-summary]:border-[#27272a]",
+      "dark:[&>.accordion-item-wrapper:not(:last-child)>.accordion-content-wrapper.active]:border-[#27272a]"
+    ]
+  end
+  <% end %>
+  <% end %>
+  <%= if is_nil(@variant) or "base_separated" in @variant do %>
+  <%= if is_nil(@color) or "base" in @color do %>
+  defp color_variant("base_separated", "base") do
+    [
+      "text-[#09090b] [&>.accordion-item-wrapper>.accordion-summary]:border-[#e4e4e7]",
+      "[&>.accordion-item-wrapper]:bg-red-500",
+      "dark:text-[#FAFAFA] dark:[&>.accordion-item-wrapper>.accordion-summary]:border-[#27272a]",
+      "dark:[&>.accordion-item-wrapper]:bg-[#18181B]",
+      "hover:[&>.accordion-item-wrapper>.accordion-summary]:bg-[#F8F9FA] dark:hover:[&>.accordion-item-wrapper>.accordion-summary]:bg-[#242424]"
+    ]
+  end
+  <% end %>
+  <% end %>
   <%= if is_nil(@variant) or "transparent" in @variant do %>
   <%= if is_nil(@color) or "natural" in @color do %>
   defp color_variant("transparent", "natural") do

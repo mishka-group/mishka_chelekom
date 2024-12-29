@@ -11,9 +11,12 @@
         "menu",
         "outline_separated",
         "bordered_seperated",
-        "transparent"
+        "transparent",
+        "base",
+        "base_separated",
       ],
       color: [
+        "base",
         "natural",
         "white",
         "primary",
