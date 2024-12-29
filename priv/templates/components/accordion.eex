@@ -2287,6 +2287,12 @@ defmodule <%= @module %> do
   end
   <% end %>
   <% end %>
+  defp color_variant(params, _) when is_binary(params), do: params
+  <%= if is_nil(@variant) or "base" in @variant do %>
+  <%= if is_nil(@color) or "base" in @color do %>
+  defp color_variant(_, _), do: color_variant("base", "base")
+  <% end %>
+  <% end %>
   defp chevron_position(%{left_chevron: true}), do: "left"
   defp chevron_position(%{right_chevron: true}), do: "right"
   defp chevron_position(%{chevron: true}), do: "right"
