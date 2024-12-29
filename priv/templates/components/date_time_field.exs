@@ -2,8 +2,9 @@
   date_time_field: [
     name: "date_time_field",
     args: [
-      variant: ["outline", "default", "bordered", "shadow", "transparent"],
+      variant: ["outline", "default", "bordered", "shadow", "transparent", "base"],
       color: [
+        "base",
         "natural",
         "white",
         "primary",

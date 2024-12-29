@@ -2,8 +2,9 @@
   url_field: [
     name: "url_field",
     args: [
-      variant: ["outline", "default", "shadow", "bordered", "transparent"],
+      variant: ["outline", "default", "shadow", "bordered", "transparent", "base"],
       color: [
+        "base",
         "natural",
         "white",
         "primary",
