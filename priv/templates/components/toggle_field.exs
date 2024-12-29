@@ -3,6 +3,7 @@
     name: "toggle_field",
     args: [
       color: [
+        "base",
         "white",
         "natural",
         "primary",
