@@ -2,8 +2,9 @@
   file_field: [
     name: "file_field",
     args: [
-      variant: ["default", "outline", "bordered", "shadow", "gradient", "transparent"],
+      variant: ["default", "outline", "bordered", "shadow", "gradient", "transparent", "base"],
       color: [
+        "base",
         "natural",
         "white",
         "primary",
