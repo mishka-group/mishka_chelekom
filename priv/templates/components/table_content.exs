@@ -2,8 +2,9 @@
   table_content: [
     name: "table_content",
     args: [
-      variant: ["outline", "default", "bordered", "transparent", "gradient"],
+      variant: ["outline", "default", "bordered", "transparent", "gradient", "base"],
       color: [
+        "base",
         "natural",
         "white",
         "primary",
