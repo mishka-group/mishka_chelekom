@@ -3,6 +3,7 @@
     name: "checkbox_field",
     args: [
       color: [
+        "base",
         "natural",
         "white",
         "primary",
