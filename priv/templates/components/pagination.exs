@@ -10,9 +10,11 @@
         "shadow",
         "inverted",
         "gradient",
-        "bordered"
+        "bordered",
+        "base"
       ],
       color: [
+        "base",
         "natural",
         "primary",
         "secondary",
