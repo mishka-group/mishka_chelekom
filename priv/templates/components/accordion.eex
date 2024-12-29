@@ -1881,6 +1881,30 @@ defmodule <%= @module %> do
   end
   <% end %>
   <% end %>
+  defp color_variant(params, _) when is_binary(params), do: params
+  <%= if is_nil(@variant) or "base" in @variant do %>
+  <%= if is_nil(@color) or "base" in @color do %>
+  defp color_variant(_, _), do: color_variant("base", "base")
+  <% end %>
+  <% end %>
+  <%= if is_nil(@variant) or "base" in @variant do %>
+  <%= if is_nil(@color) or "base" in @color do %>
+  defp item_color("base", "base") do
+    [
+      "group-open:bg-white group-open:text-[#09090b] dark:group-open:bg-[#18181B] dark:group-open:text-[#FAFAFA]"
+    ]
+  end
+  <% end %>
+  <% end %>
+  <%= if is_nil(@variant) or "base_separated" in @variant do %>
+  <%= if is_nil(@color) or "base" in @color do %>
+  defp item_color("base_separated", "base") do
+    [
+      "group-open:bg-white group-open:text-[#09090b] dark:group-open:bg-[#18181B] dark:group-open:text-[#FAFAFA]"
+    ]
+  end
+  <% end %>
+  <% end %>
   <%= if is_nil(@variant) or "default" in @variant do %>
   <%= if is_nil(@color) or "white" in @color do %>
   defp item_color("default", "white") do
@@ -2287,10 +2311,10 @@ defmodule <%= @module %> do
   end
   <% end %>
   <% end %>
-  defp color_variant(params, _) when is_binary(params), do: params
+  defp item_color(params, _) when is_binary(params), do: params
   <%= if is_nil(@variant) or "base" in @variant do %>
   <%= if is_nil(@color) or "base" in @color do %>
-  defp color_variant(_, _), do: color_variant("base", "base")
+  defp item_color(_, _), do: item_color("base", "base")
   <% end %>
   <% end %>
   defp chevron_position(%{left_chevron: true}), do: "left"
