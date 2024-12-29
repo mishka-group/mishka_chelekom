@@ -2,8 +2,9 @@
   native_select: [
     name: "native_select",
     args: [
-      variant: ["default", "shadow", "bordered", "native"],
+      variant: ["default", "shadow", "bordered", "native", "base"],
       color: [
+        "base",
         "white",
         "natural",
         "primary",
