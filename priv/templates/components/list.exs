@@ -9,10 +9,13 @@
         "shadow",
         "gradient",
         "outline_separated",
-        "bordered_seperated",
-        "transparent"
+        "bordered_separated",
+        "transparent",
+        "base",
+        "base_separated"
       ],
       color: [
+        "base",
         "natural",
         "white",
         "primary",
