@@ -3,6 +3,7 @@
     name: "range_field",
     args: [
       color: [
+        "base",
         "natural",
         "white",
         "primary",
