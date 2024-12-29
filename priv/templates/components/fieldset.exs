@@ -2,8 +2,9 @@
   fieldset: [
     name: "fieldset",
     args: [
-      variant: ["default", "outline", "unbordered", "shadow", "transparent", "gradient"],
+      variant: ["default", "outline", "unbordered", "shadow", "transparent", "gradient", "base"],
       color: [
+        "base",
         "natural",
         "white",
         "primary",
