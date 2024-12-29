@@ -3,6 +3,7 @@
     name: "color_field",
     args: [
       color: [
+        "base",
         "white",
         "primary",
         "secondary",
@@ -11,7 +12,7 @@
         "warning",
         "danger",
         "info",
-        "light",
+        "silver",
         "misc",
         "dawn"
       ],
