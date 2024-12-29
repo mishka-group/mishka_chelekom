@@ -3,6 +3,7 @@
     name: "radio_field",
     args: [
       color: [
+        "base",
         "natural",
         "white",
         "primary",
