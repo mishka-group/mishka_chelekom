@@ -2,8 +2,9 @@
   form_wrapper: [
     name: "form_wrapper",
     args: [
-      variant: ["default", "outline", "transparent", "shadow", "unbordered"],
+      variant: ["default", "outline", "transparent", "shadow", "unbordered", "base"],
       color: [
+        "base",
         "white",
         "primary",
         "secondary",
