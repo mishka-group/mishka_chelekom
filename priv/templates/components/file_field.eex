@@ -423,7 +423,7 @@ defmodule <%= @module %> do
   <%= if is_nil(@color) or "base" in @color do %>
   defp color_class("base") do
     [
-      "[&_.file-field]:bg-white file:[&_.file-field]:text-[#09090b] [&_.file-field]:text-[#09090b] file:[&_.file-field]:bg-[#e4e4e7] shadow-sm",
+      "[&_.file-field]:bg-white file:[&_.file-field]:text-[#09090b] [&_.file-field]:text-[#09090b] file:[&_.file-field]:bg-[#e4e4e7]",
       "dark:[&_.file-field]:bg-[#27272a] dark:file:[&_.file-field]:bg-[#18181B]",
       "dark:file:[&_.file-field]:text-[#FAFAFA] dark:[&_.file-field]:text-[#FAFAFA]"
     ]
