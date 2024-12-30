@@ -17,7 +17,7 @@ defmodule <%= @module %> do
   use Phoenix.Component
 
   @variants ["default", "gradient", "base"]
-
+  
   <%= if is_nil(@type) or "stepper" in @type do %>
   @doc """
   Renders a customizable `stepper` component that visually represents a multi-step process.
