@@ -225,12 +225,12 @@ defmodule <%= @module %> do
     "[&_.nav-wrapper]:justify-around"
   end
 
-  defp content_position(_), do: content_position("between")
+  defp content_position(params) when is_binary(params), do: params
 
   defp text_position("left"), do: "text-left"
   defp text_position("right"), do: "text-right"
   defp text_position("center"), do: "text-center"
-  defp text_position(_), do: nil
+  defp text_position(params) when is_binary(params), do: params
 
   <%= if is_nil(@space) or "extra_small" in @space do %>
   defp space_class("extra_small"), do: "space-y-2"
@@ -248,7 +248,6 @@ defmodule <%= @module %> do
   defp space_class("extra_large"), do: "space-y-6"
   <% end %>
   defp space_class(params) when is_binary(params), do: params
-  defp space_class(_), do: nil
 
   defp maximum_width("extra_small"), do: "[&_.nav-wrapper]:max-w-3xl	[&_.nav-wrapper]:mx-auto"
   defp maximum_width("small"), do: "[&_.nav-wrapper]:max-w-4xl [&_.nav-wrapper]:mx-auto"
@@ -256,7 +255,6 @@ defmodule <%= @module %> do
   defp maximum_width("large"), do: "[&_.nav-wrapper]:max-w-6xl [&_.nav-wrapper]:mx-auto"
   defp maximum_width("extra_large"), do: "[&_.nav-wrapper]:max-w-7xl [&_.nav-wrapper]:mx-auto"
   defp maximum_width(params) when is_binary(params), do: params
-  defp maximum_width(_), do: nil
 
   <%= if is_nil(@padding) or "extra_small" in @padding do %>
   defp padding_size("extra_small"), do: "p-1"
@@ -277,11 +275,8 @@ defmodule <%= @module %> do
   defp padding_size("none"), do: "p-0"
   <% end %>
   defp padding_size(params) when is_binary(params), do: params
-  <%= if is_nil(@padding) or "none" in @padding do %>
-  defp padding_size(_), do: padding_size("none")
-  <% end %>
 
-   defp border_class(_, variant) when variant in ["default", "shadow", "gradient"],
+  defp border_class(_, variant) when variant in ["default", "shadow", "gradient"],
     do: nil
 
   defp border_class("none", _), do: "border-b-0"
@@ -291,7 +286,6 @@ defmodule <%= @module %> do
   defp border_class("large", _), do: "border-b-4"
   defp border_class("extra_large", _), do: "border-b-[5px]"
   defp border_class(params, _) when is_binary(params), do: params
-  defp border_class(_, _), do: border_class("extra_small", nil)
 
   <%= if is_nil(@rounded) or "extra_small" in @rounded do %>
   defp rounded_size("extra_small"), do: "rounded-b-sm"
@@ -309,7 +303,6 @@ defmodule <%= @module %> do
   defp rounded_size("extra_large"), do: "rounded-b-xl"
   <% end %>
   defp rounded_size(params) when is_binary(params), do: params
-  defp rounded_size(_), do: nil
 
   <%= if is_nil(@variant) or "base" in @variant do %>
   <%= if is_nil(@color) or "base" in @color do %>
@@ -668,11 +661,6 @@ defmodule <%= @module %> do
   <% end %>
   <% end %>
   defp color_variant(params,_) when is_binary(params), do: params
-  <%= if is_nil(@variant) or "base" in @variant do %>
-  <%= if is_nil(@color) or "base" in @color do %>
-  defp color_variant(_,_), do: color_variant("base", "base")
-  <% end %>
-  <% end %>
 
   attr :name, :string, required: true, doc: "Specifies the name of the element"
   attr :class, :any, default: nil, doc: "Custom CSS class for additional styling"
