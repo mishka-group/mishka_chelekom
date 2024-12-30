@@ -97,7 +97,6 @@ defmodule <%= @module %> do
   defp gap_class("large"), do: "gap-2.5"
   defp gap_class("extra_large"), do: "gap-3"
   defp gap_class(params) when is_binary(params), do: params
-  defp gap_class(_), do: gap_class("small")
 
   <%= if is_nil(@size) or "extra_small" in @size do %>
   defp size_class("extra_small"), do: "[&_.rating-icon]:size-4"
@@ -124,9 +123,6 @@ defmodule <%= @module %> do
   defp size_class("quadruple_large"), do: "[&_.rating-icon]:size-11"
   <% end %>
   defp size_class(params) when is_binary(params), do: params
-  <%= if is_nil(@size) or "small" in @size do %>
-  defp size_class(_), do: size_class("small")
-  <% end %>
 
   <%= if is_nil(@color) or "base" in @color do %>
   defp color_class("base") do
@@ -245,9 +241,6 @@ defmodule <%= @module %> do
   <% end %>
 
   defp color_class(params) when is_binary(params), do: params
-  <%= if is_nil(@color) or "base" in @color do %>
-  defp color_class(_), do: color_class("base")
-  <% end %>
 
   attr :name, :string, required: true, doc: "Specifies the name of the element"
   attr :class, :any, default: nil, doc: "Custom CSS class for additional styling"
