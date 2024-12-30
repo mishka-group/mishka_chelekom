@@ -1240,7 +1240,7 @@ defmodule <%= @module %> do
   <%= if is_nil(@color) or "inherit" in @color do %>
   defp color("inherit"), do: "text-inherit"
   <% end %>
-  defp color(params), do: params
+  defp color(params) when is_binary(params), do: params
   <%= if is_nil(@color) or "inherit" in @color do %>
   defp color(_), do: color("inherit")
   <% end %>
