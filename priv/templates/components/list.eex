@@ -71,7 +71,7 @@ defmodule <%= @module %> do
 
   attr :space, :string, values: @sizes ++ [nil], default: nil, doc: "Space between items"
   attr :border, :string, values: @sizes, default: "extra_small", doc: "Border size"
-  attr :color, :string, values: @colors, default: "natural", doc: "Determines color theme"
+  attr :color, :string, default: "natural", doc: "Determines color theme"
   attr :variant, :string, values: @variants, default: "transparent", doc: "Determines the style"
   attr :hoverable, :boolean, default: false, doc: "active hover style"
   attr :style, :string, default: "list-none", doc: ""
@@ -195,7 +195,7 @@ defmodule <%= @module %> do
     default: nil,
     doc: "A unique identifier is used to manage state and interaction"
 
-  attr :color, :string, values: @colors, default: "natural", doc: "Determines color theme"
+  attr :color, :string, default: "natural", doc: "Determines color theme"
   attr :variant, :string, values: @variants, default: "transparent", doc: "Determines the style"
 
   attr :size, :string,
@@ -263,7 +263,7 @@ defmodule <%= @module %> do
     default: nil,
     doc: "A unique identifier is used to manage state and interaction"
 
-  attr :color, :string, values: @colors, default: "natural", doc: "Determines color theme"
+  attr :color, :string, default: "natural", doc: "Determines color theme"
   attr :variant, :string, values: @variants, default: "transparent", doc: "Determines the style"
 
   attr :size, :string,
@@ -328,7 +328,7 @@ defmodule <%= @module %> do
     doc: "A unique identifier is used to manage state and interaction"
 
   attr :variant, :string, values: @variants, default: "transparent", doc: "Determines the style"
-  attr :color, :string, values: @colors, default: "natural", doc: "Determines color theme"
+  attr :color, :string, default: "natural", doc: "Determines color theme"
 
   attr :size, :string,
     default: "medium",
@@ -585,17 +585,17 @@ defmodule <%= @module %> do
   defp border_class("extra_large", "base"),
     do: "border-[5px] [&>li:not(:last-child)]:border-b-[5px]"
 
-    defp border_class("none", "base_separated"), do: "[&>li]:border-0"
+  defp border_class("none", "base_separated"), do: "[&>li]:border-0"
 
-    defp border_class("extra_small", "base_separated"), do: "[&>li]:border"
+  defp border_class("extra_small", "base_separated"), do: "[&>li]:border"
 
-    defp border_class("small", "base_separated"), do: "[&>li]:border-2"
+  defp border_class("small", "base_separated"), do: "[&>li]:border-2"
 
-    defp border_class("medium", "base_separated"), do: "[&>li]:border-[3px]"
+  defp border_class("medium", "base_separated"), do: "[&>li]:border-[3px]"
 
-    defp border_class("large", "base_separated"), do: "[&>li]:border-4"
+  defp border_class("large", "base_separated"), do: "[&>li]:border-4"
 
-    defp border_class("extra_large", "base_separated"), do: "[&>li]:border-[5px]"
+  defp border_class("extra_large", "base_separated"), do: "[&>li]:border-[5px]"
 
   defp border_class(params, _) when is_binary(params), do: params
 
