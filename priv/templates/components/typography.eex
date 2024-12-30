@@ -1241,9 +1241,6 @@ defmodule <%= @module %> do
   defp color("inherit"), do: "text-inherit"
   <% end %>
   defp color(params) when is_binary(params), do: params
-  <%= if is_nil(@color) or "inherit" in @color do %>
-  defp color(_), do: color("inherit")
-  <% end %>
 
   <%= if is_nil(@size) or "extra_small" in @size do %>
   defp size_class("extra_small"), do: "text-xs"
@@ -1270,7 +1267,4 @@ defmodule <%= @module %> do
   defp size_class("quadruple_large"), do: "text-4xl"
   <% end %>
   defp size_class(params) when is_binary(params), do: params
-  <%= if is_nil(@size) or "medium" in @size do %>
-  defp size_class(_), do: size_class("medium")
-  <% end %>
 end
