@@ -353,7 +353,7 @@ defmodule <%= @module %> do
   defp width_class("extra_large"), do: "w-96"
   defp width_class("full"), do: "w-full"
   defp width_class(params) when is_binary(params), do: params
-  defp width_class(_), do: width_class("full")
+
   <%= if is_nil(@size) or "extra_small" in @size do %>
   defp content_size("extra_small"), do: "text-[12px] [&_.aler-icon]:size-3.5"
   <% end %>
@@ -370,16 +370,13 @@ defmodule <%= @module %> do
   defp content_size("extra_large"), do: "text-[16px] [&_.aler-icon]:size-7"
   <% end %>
   defp content_size(params) when is_binary(params), do: params
-  <%= if is_nil(@size) or "medium" in @size do %>
-  defp content_size(_), do: content_size("medium")
-  <% end %>
 
   defp position_class("top_left"), do: "fixed top-2 left-0 ml-2"
   defp position_class("top_right"), do: "fixed top-2 right-0 mr-2"
   defp position_class("bottom_left"), do: "fixed bottom-2 left-0 ml-2"
   defp position_class("bottom_right"), do: "fixed bottom-2 right-0 mr-2"
   defp position_class(params) when is_binary(params), do: params
-  defp position_class(nil), do: nil
+
 
   defp border_class(_, variant)
       when variant in [
@@ -396,7 +393,7 @@ defmodule <%= @module %> do
   defp border_class("large", _), do: "border-4"
   defp border_class("extra_large", _), do: "border-[5px]"
   defp border_class(params, _) when is_binary(params), do: params
-  defp border_class(_, _), do: border_class("extra_small", nil)
+
   <%= if is_nil(@variant) or "base" in @variant do %>
   <%= if is_nil(@color) or "base" in @color do %>
   defp color_variant("base", :base) do
@@ -808,11 +805,7 @@ defmodule <%= @module %> do
   <% end %>
   <% end %>
   defp color_variant(params,_) when is_binary(params), do: params
-  <%= if is_nil(@variant) or "base" in @variant do %>
-  <%= if is_nil(@color) or "base" in @color do %>
-  defp color_variant(_,_), do: color_variant("base", "base")
-  <% end %>
-  <% end %>
+
   ## JS Commands
 
   @doc """
