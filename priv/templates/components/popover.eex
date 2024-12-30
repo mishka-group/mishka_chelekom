@@ -450,8 +450,6 @@ defmodule <%= @module %> do
 
   defp border_class(params) when is_binary(params), do: params
 
-  defp border_class(_), do: border_class("extra_small")
-
   <%= if is_nil(@rounded) or "extra_small" in @rounded do %>
   defp rounded_size("extra_small"), do: "rounded-sm"
   <% end %>
@@ -471,9 +469,6 @@ defmodule <%= @module %> do
   defp rounded_size("none"), do: "rounded-none"
   <% end %>
   defp rounded_size(params) when is_binary(params), do: params
-  <%= if is_nil(@rounded) or "small" in @rounded do %>
-  defp rounded_size(_), do: rounded_size("small")
-  <% end %>
 
   defp position_class("top") do
     [
@@ -519,9 +514,6 @@ defmodule <%= @module %> do
   defp size_class("extra_large"), do: "text-xl max-w-96 [&_.popover-title-icon]:size-6"
   <% end %>
   defp size_class(params) when is_binary(params), do: params
-  <%= if is_nil(@size) or "medium" in @size do %>
-  defp size_class(_), do: size_class("medium")
-  <% end %>
 
   defp text_position("left"), do: "text-left"
   defp text_position("right"), do: "text-right"
@@ -529,7 +521,7 @@ defmodule <%= @module %> do
   defp text_position("justify"), do: "text-justify"
   defp text_position("start"), do: "text-start"
   defp text_position("end"), do: "text-end"
-  defp text_position(_), do: text_position("start")
+  defp text_position(params) when is_binary(params), do: params
 
   defp width_class("extra_small"), do: "min-w-48"
   defp width_class("small"), do: "min-w-52"
@@ -540,7 +532,6 @@ defmodule <%= @module %> do
   defp width_class("triple_large"), do: "min-w-80"
   defp width_class("quadruple_large"), do: "min-w-96"
   defp width_class(params) when is_binary(params), do: params
-  defp width_class(_), do: width_class("extra_large")
 
   <%= if is_nil(@padding) or "extra_small" in @padding do %>
   defp wrapper_padding("extra_small") do
@@ -571,9 +562,6 @@ defmodule <%= @module %> do
   defp wrapper_padding("none"), do: nil
   <% end %>
   defp wrapper_padding(params) when is_binary(params), do: params
-  <%= if is_nil(@padding) or "none" in @padding do %>
-  defp wrapper_padding(_), do: wrapper_padding("none")
-  <% end %>
 
   <%= if is_nil(@space) or "extra_small" in @space do %>
   defp space_class("extra_small"), do: "space-y-2"
@@ -591,7 +579,6 @@ defmodule <%= @module %> do
   defp space_class("extra_large"), do: "space-y-6"
   <% end %>
   defp space_class(params) when is_binary(params), do: params
-  defp space_class(_), do: nil
 
   <%= if is_nil(@variant) or "base" in @variant do %>
   <%= if is_nil(@color) or "base" in @color do %>
@@ -946,9 +933,4 @@ defmodule <%= @module %> do
   <% end %>
   <% end %>
   defp color_variant(params,_) when is_binary(params), do: params
-  <%= if is_nil(@variant) or "base" in @variant do %>
-  <%= if is_nil(@color) or "base" in @color do %>
-  defp color_variant(_,_), do: color_variant("base", "base")
-  <% end %>
-  <% end %>
 end
