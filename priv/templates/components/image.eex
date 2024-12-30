@@ -131,7 +131,6 @@ defmodule <%= @module %> do
   defp rounded_size("full"), do: "rounded-full"
   <% end %>
   defp rounded_size(params) when is_binary(params), do: params
-  defp rounded_size(_), do: nil
 
   defp shadow_size("extra_small"), do: "shadow-sm"
   defp shadow_size("small"), do: "shadow"
@@ -139,7 +138,6 @@ defmodule <%= @module %> do
   defp shadow_size("large"), do: "shadow-lg"
   defp shadow_size("extra_large"), do: "shadow-xl"
   defp shadow_size(params) when is_binary(params), do: params
-  defp shadow_size(_), do: nil
 
   defp filter_class("blur", "extra_small"), do: "blur-sm"
   defp filter_class("blur", "small"), do: "blur"
@@ -176,5 +174,4 @@ defmodule <%= @module %> do
   defp filter_class("sepia", _), do: "sepia"
 
   defp filter_class(params, _) when is_binary(params), do: params
-  defp filter_class(_, _), do: nil
 end
