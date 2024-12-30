@@ -170,7 +170,6 @@ defmodule <%= @module %> do
   defp border_size("large", _), do: "border-4"
   defp border_size("extra_large", _), do: "border-[5px]"
   defp border_size(params, _) when is_binary(params), do: params
-  defp border_size(_, _), do: border_size("extra_small", nil)
 
 
   <%= if is_nil(@rounded) or "extra_small" in @rounded do %>
@@ -209,9 +208,6 @@ defmodule <%= @module %> do
   defp padding_size("none"), do: "p-0"
   <% end %>
   defp padding_size(params) when is_binary(params), do: params
-  <%= if is_nil(@padding) or "small" in @padding do %>
-  defp padding_size(_), do: padding_size("small")
-  <% end %>
 
   <%= if is_nil(@size) or "extra_small" in @size do %>
   defp size_class("extra_small"), do: "mx-auto max-w-xs"
@@ -241,9 +237,6 @@ defmodule <%= @module %> do
   defp size_class("screen"), do: "w-full h-screen overflow-y-scroll"
   <% end %>
   defp size_class(params) when is_binary(params), do: params
-  <%= if is_nil(@size) or "extra_large" in @size do %>
-  defp size_class(_), do: size_class("extra_large")
-  <% end %>
 
   <%= if is_nil(@variant) or "base" in @variant do %>
   <%= if is_nil(@color) or "base" in @color do %>
@@ -602,11 +595,6 @@ defmodule <%= @module %> do
   <% end %>
   <% end %>
   defp color_variant(params,_) when is_binary(params), do: params
-  <%= if is_nil(@variant) or "base" in @variant do %>
-  <%= if is_nil(@color) or "base" in @color do %>
-  defp color_variant(_,_), do: color_variant("base", "base")
-  <% end %>
-  <% end %>
 
   attr :name, :string, required: true, doc: "Specifies the name of the element"
   attr :class, :any, default: nil, doc: "Custom CSS class for additional styling"
