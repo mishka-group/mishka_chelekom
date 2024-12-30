@@ -223,7 +223,6 @@ defmodule <%= @module %> do
   defp indicator_size("extra_large"), do: "!size-4"
   <% end %>
   defp indicator_size(params) when is_binary(params), do: params
-  defp indicator_size(nil), do: nil
 
   <%= if is_nil(@color) or "base" in @color do %>
   defp color_class("base"), do: "bg-[#e4e4e7] dark:bg-[#27272a]"
@@ -265,9 +264,6 @@ defmodule <%= @module %> do
   defp color_class("dark"), do: "bg-[#282828]"
   <% end %>
   defp color_class(params) when is_binary(params), do: params
-  <%= if is_nil(@size) or "base" in @size do %>
-  defp color_class(_), do: color_class("base")
-  <% end %>
 
   defp drop_rest(rest) do
     all_rest =
