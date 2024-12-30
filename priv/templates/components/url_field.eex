@@ -353,7 +353,7 @@ defmodule <%= @module %> do
 
 <%= if is_nil(@variant) or "base" in @variant do %>
   <%= if is_nil(@color) or "base" in @color do %>
-   defp color_variant("base", "base", floating) do
+  defp color_variant("base", "base", floating) do
     [
       "[&_.url-field-wrapper:not(:has(.url-field-error))]:bg-white",
       "dark:[&_.url-field-wrapper:not(:has(.url-field-error))]:bg-[#18181B]",
@@ -361,9 +361,9 @@ defmodule <%= @module %> do
       "dark:[&_.url-field-wrapper:not(:has(.url-field-error))]:border-[#27272a]",
       "[&_.url-field-wrapper.url-field-error]:border-rose-700",
       "[&_.url-field-wrapper>input]:placeholder:text-[#09090b] dark:[&_.url-field-wrapper>input]:placeholder:text-[#FAFAFA]",
-      "focus-within:[&_.url-field-wrapper]:ring-[#09090b] dark:focus-within:[&_.url-field-wrapper]:ring-[#FAFAFA]",
+      "focus-within:[&_.url-field-wrapper]:ring-[#e4e4e7] dark:focus-within:[&_.url-field-wrapper]:ring-[#e4e4e7]",
       floating == "outer" &&
-        "[&_.url-field-wrapper_.floating-label]:bg-white dark:[&_.url-field-wrapper_.floating-label]:bg-[#282828]"
+        "[&_.url-field-wrapper_.floating-label]:bg-white dark:[&_.url-field-wrapper_.floating-label]:bg-[#27272a]"
     ]
   end
   <% end %>

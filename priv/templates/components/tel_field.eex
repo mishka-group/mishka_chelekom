@@ -285,27 +285,27 @@ defmodule <%= @module %> do
 
   <%= if is_nil(@size) or "extra_small" in @size do %>
   defp size_class("extra_small") do
-    "[&_.tel-field-wrapper_input]:h-7 [&_.tel-field-wrapper_.password-field-icon]:size-3"
+    "[&_.tel-field-wrapper_input]:h-7 [&_.tel-field-wrapper_.tel-field-icon]:size-3"
   end
   <% end %>
   <%= if is_nil(@size) or "small" in @size do %>
   defp size_class("small") do
-    "[&_.tel-field-wrapper_input]:h-8 [&_.tel-field-wrapper_.password-field-icon]:size-3.5"
+    "[&_.tel-field-wrapper_input]:h-8 [&_.tel-field-wrapper_.tel-field-icon]:size-3.5"
   end
   <% end %>
   <%= if is_nil(@size) or "medium" in @size do %>
   defp size_class("medium") do
-    "[&_.tel-field-wrapper_input]:h-9 [&_.tel-field-wrapper_.password-field-icon]:size-4"
+    "[&_.tel-field-wrapper_input]:h-9 [&_.tel-field-wrapper_.tel-field-icon]:size-4"
   end
   <% end %>
   <%= if is_nil(@size) or "large" in @size do %>
   defp size_class("large") do
-    "[&_.tel-field-wrapper_input]:h-10 [&_.tel-field-wrapper_.password-field-icon]:size-5"
+    "[&_.tel-field-wrapper_input]:h-10 [&_.tel-field-wrapper_.tel-field-icon]:size-5"
   end
   <% end %>
   <%= if is_nil(@size) or "extra_large" in @size do %>
   defp size_class("extra_large") do
-    "[&_.tel-field-wrapper_input]:h-11 [&_.tel-field-wrapper_.password-field-icon]:size-6"
+    "[&_.tel-field-wrapper_input]:h-11 [&_.tel-field-wrapper_.tel-field-icon]:size-6"
   end
   <% end %>
   <%= if is_nil(@size) or "medium" in @size do %>
@@ -366,7 +366,7 @@ defmodule <%= @module %> do
 
   <%= if is_nil(@variant) or "base" in @variant do %>
   <%= if is_nil(@color) or "base" in @color do %>
-    defp color_variant("base", "base", floating) do
+  defp color_variant("base", "base", floating) do
     [
       "[&_.tel-field-wrapper:not(:has(.tel-field-error))]:bg-white",
       "dark:[&_.tel-field-wrapper:not(:has(.tel-field-error))]:bg-[#18181B]",
@@ -374,9 +374,9 @@ defmodule <%= @module %> do
       "dark:[&_.tel-field-wrapper:not(:has(.tel-field-error))]:border-[#27272a]",
       "[&_.tel-field-wrapper.tel-field-error]:border-rose-700",
       "[&_.tel-field-wrapper>input]:placeholder:text-[#09090b] dark:[&_.tel-field-wrapper>input]:placeholder:text-[#FAFAFA]",
-      "focus-within:[&_.tel-field-wrapper]:ring-[#09090b] dark:focus-within:[&_.tel-field-wrapper]:ring-[#FAFAFA]",
+      "focus-within:[&_.tel-field-wrapper]:ring-[#e4e4e7] dark:focus-within:[&_.tel-field-wrapper]:ring-[#e4e4e7]",
       floating == "outer" &&
-        "[&_.tel-field-wrapper_.floating-label]:bg-white dark:[&_.tel-field-wrapper_.floating-label]:bg-[#282828]"
+        "[&_.tel-field-wrapper_.floating-label]:bg-white dark:[&_.tel-field-wrapper_.floating-label]:bg-[#27272a]"
     ]
   end
   <% end %>

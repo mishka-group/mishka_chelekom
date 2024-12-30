@@ -327,7 +327,7 @@ defmodule <%= @module %> do
 
   <%= if is_nil(@variant) or "base" in @variant do %>
   <%= if is_nil(@color) or "base" in @color do %>
-    defp color_variant("base", "base", floating) do
+  defp color_variant("base", "base", floating) do
     [
       "[&_.textarea-field-wrapper:not(:has(.textarea-field-error))]:bg-white",
       "dark:[&_.textarea-field-wrapper:not(:has(.textarea-field-error))]:bg-[#18181B]",
@@ -335,9 +335,9 @@ defmodule <%= @module %> do
       "dark:[&_.textarea-field-wrapper:not(:has(.textarea-field-error))]:border-[#27272a]",
       "[&_.textarea-field-wrapper.textarea-field-error]:border-rose-700",
       "[&_.textarea-field-wrapper>input]:placeholder:text-[#09090b] dark:[&_.textarea-field-wrapper>input]:placeholder:text-[#FAFAFA]",
-      "focus-within:[&_.textarea-field-wrapper]:ring-[#09090b] dark:focus-within:[&_.textarea-field-wrapper]:ring-[#FAFAFA]",
+      "focus-within:[&_.textarea-field-wrapper]:ring-[#e4e4e7] dark:focus-within:[&_.textarea-field-wrapper]:ring-[#e4e4e7]",
       floating == "outer" &&
-        "[&_.textarea-field-wrapper_.floating-label]:bg-white dark:[&_.textarea-field-wrapper_.floating-label]:bg-[#282828]"
+        "[&_.textarea-field-wrapper_.floating-label]:bg-white dark:[&_.textarea-field-wrapper_.floating-label]:bg-[#27272a]"
     ]
   end
   <% end %>

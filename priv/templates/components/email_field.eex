@@ -368,9 +368,9 @@ defmodule <%= @module %>  do
       "dark:[&_.email-field-wrapper:not(:has(.email-field-error))]:border-[#27272a]",
       "[&_.email-field-wrapper.email-field-error]:border-rose-700",
       "[&_.email-field-wrapper>input]:placeholder:text-[#09090b] dark:[&_.email-field-wrapper>input]:placeholder:text-[#FAFAFA]",
-      "focus-within:[&_.email-field-wrapper]:ring-[#09090b] dark:focus-within:[&_.email-field-wrapper]:ring-[#FAFAFA]",
+      "focus-within:[&_.email-field-wrapper]:ring-[#e4e4e7] dark:focus-within:[&_.email-field-wrapper]:ring-[#e4e4e7]",
       floating == "outer" &&
-        "[&_.email-field-wrapper_.floating-label]:bg-white dark:[&_.email-field-wrapper_.floating-label]:bg-[#282828]"
+        "[&_.email-field-wrapper_.floating-label]:bg-white dark:[&_.email-field-wrapper_.floating-label]:bg-[#27272a]"
     ]
   end
   <% end %>

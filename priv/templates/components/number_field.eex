@@ -372,9 +372,9 @@ defmodule <%= @module %> do
       "dark:[&_.number-field-wrapper:not(:has(.number-field-error))]:border-[#27272a]",
       "[&_.number-field-wrapper.number-field-error]:border-rose-700",
       "[&_.number-field-wrapper>input]:placeholder:text-[#09090b] dark:[&_.number-field-wrapper>input]:placeholder:text-[#FAFAFA]",
-      "focus-within:[&_.number-field-wrapper]:ring-[#09090b] dark:focus-within:[&_.number-field-wrapper]:ring-[#FAFAFA]",
+      "focus-within:[&_.number-field-wrapper]:ring-[#e4e4e7] dark:focus-within:[&_.number-field-wrapper]:ring-[#e4e4e7]",
       floating == "outer" &&
-        "[&_.number-field-wrapper_.floating-label]:bg-white dark:[&_.number-field-wrapper_.floating-label]:bg-[#282828]"
+        "[&_.number-field-wrapper_.floating-label]:bg-white dark:[&_.number-field-wrapper_.floating-label]:bg-[#27272a]"
     ]
   end
   <% end %>
