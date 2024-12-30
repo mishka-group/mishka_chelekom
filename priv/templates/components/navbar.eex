@@ -15,7 +15,7 @@ defmodule <%= @module %> do
   """
   use Phoenix.Component
 
-  @variants ["default", "shadow", "bordered", "gradient"]
+  @variants ["default", "shadow", "bordered", "gradient", "base"]
 
   @doc """
   Renders a customizable navigation bar (`navbar` component) that can include links,
@@ -668,9 +668,9 @@ defmodule <%= @module %> do
   <% end %>
   <% end %>
   defp color_variant(params,_) when is_binary(params), do: params
-  <%= if is_nil(@variant) or "default" in @variant do %>
-  <%= if is_nil(@color) or "natural" in @color do %>
-  defp color_variant(_,_), do: color_variant("default", "natural")
+  <%= if is_nil(@variant) or "base" in @variant do %>
+  <%= if is_nil(@color) or "base" in @color do %>
+  defp color_variant(_,_), do: color_variant("base", "base")
   <% end %>
   <% end %>
 
