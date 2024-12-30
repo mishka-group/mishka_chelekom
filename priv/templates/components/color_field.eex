@@ -201,9 +201,7 @@ defmodule <%= @module %> do
   <% end %>
 
   defp size_class(params) when is_binary(params), do: params
-  <%= if is_nil(@size) or "medium" in @size do %>
-  defp size_class(_), do: size_class("medium")
-  <% end %>
+
   <%= if is_nil(@rounded) or "extra_small" in @rounded do %>
   defp rounded_size("extra_small"), do: "[&_.color-field-wrapper_.color-input]:rounded-sm"
   <% end %>
@@ -238,9 +236,7 @@ defmodule <%= @module %> do
   defp border_class("extra_large"), do: "[&_.color-field-wrapper_.color-input]:border-[5px]"
   <% end %>
   defp border_class(params) when is_binary(params), do: params
-  <%= if is_nil(@size) or "extra_small" in @size do %>
-  defp border_class(_), do: border_class("extra_small")
-  <% end %>
+
   <%= if is_nil(@color) or "base" in @color do %>
    defp color_class("base") do
     [
@@ -344,9 +340,6 @@ defmodule <%= @module %> do
   end
   <% end %>
   defp color_class(params) when is_binary(params), do: params
-  <%= if is_nil(@color) or "dark" in @color do %>
-  defp color_class(_), do: color_class("natural")
-  <% end %>
 
   defp translate_error({msg, opts}) do
     # When using gettext, we typically pass the strings we want
