@@ -243,6 +243,7 @@ defmodule <%= @module %> do
     ]
   end
   <% end %>
+
   defp color_class(params) when is_binary(params), do: params
   <%= if is_nil(@color) or "base" in @color do %>
   defp color_class(_), do: color_class("base")
