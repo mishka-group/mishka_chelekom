@@ -21,7 +21,7 @@ defmodule <%= @module %> do
   use Phoenix.Component
   alias Phoenix.LiveView.JS
 
-  @variants ["default", "outline","shadow", "bordered"]
+  @variants ["default", "outline","shadow", "bordered", "gradient", "base"]
 
   @doc """
   Renders a customizable `mega_menu` component that can display various sections of content.
@@ -345,19 +345,19 @@ defmodule <%= @module %> do
 
   <%= if is_nil(@variant) or "base" in @variant do %>
   <%= if is_nil(@color) or "base" in @color do %>
-  defp color_variant("default", "white") do
-     [
-      "[&>.mega-menu-content]:bg-white text-black"
+  defp color_variant("base", "base") do
+    [
+      "[&>.mega-menu-content]:bg-white text-[#09090b] [&>.mega-menu-content]:border-[#e4e4e7] [&>.mega-menu-content]:shadow-sm",
+      "dark:[&>.mega-menu-content]:bg-[#18181B] dark:text-[#FAFAFA] dark:[&>.mega-menu-content]:border-[#27272a]"
     ]
   end
   <% end %>
   <% end %>
   <%= if is_nil(@variant) or "default" in @variant do %>
   <%= if is_nil(@color) or "white" in @color do %>
-  defp color_variant("base", "base") do
+  defp color_variant("default", "white") do
     [
-      "[&>.mega-menu-content]:bg-white text-[#09090b] [&>.mega-menu-content]:border-[#e4e4e7] [&>.mega-menu-content]:shadow-sm",
-      "dark:[&>.mega-menu-content]:bg-[#18181B] dark:text-[#FAFAFA] dark:[&>.mega-menu-content]:border-[#27272a]"
+      "[&>.mega-menu-content]:bg-white text-black"
     ]
   end
   <% end %>
