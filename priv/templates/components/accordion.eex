@@ -36,22 +36,9 @@ defmodule <%= @module %> do
     "menu",
     "outline_separated",
     "bordered_separated",
-    "transparent"
-  ]
-
-  @colors [
-    "natural",
-    "white",
-    "primary",
-    "secondary",
-    "dark",
-    "success",
-    "warning",
-    "danger",
-    "info",
-    "silver",
-    "misc",
-    "dawn"
+    "transparent",
+    "base",
+    "base_separated"
   ]
 
   <%= if is_nil(@type) or "accordion" in @type do %>
@@ -90,9 +77,9 @@ defmodule <%= @module %> do
     doc: "A unique identifier is used to manage state and interaction"
 
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
-  attr :variant, :string, values: @variants, default: "default", doc: "Determines the style"
+  attr :variant, :string, values: @variants, default: "base", doc: "Determines the style"
   attr :space, :string, values: @sizes, default: "small", doc: "Space between items"
-  attr :color, :string, values: @colors, default: "natural", doc: "Determines color theme"
+  attr :color, :string, default: "base", doc: "Determines color theme"
   attr :border, :string, default: "extra_small", doc: "Determines border style"
   attr :padding, :string, default: "small", doc: "Determines padding for items"
   attr :rounded, :string, default: "none", doc: "Determines the border radius"
@@ -253,9 +240,9 @@ defmodule <%= @module %> do
 
   attr :name, :string, default: nil, doc: "Specifies the name of the element"
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
-  attr :variant, :string, values: @variants, default: "default", doc: "Determines the style"
+  attr :variant, :string, values: @variants, default: "base", doc: "Determines the style"
   attr :space, :string, values: @sizes, default: "small", doc: "Space between items"
-  attr :color, :string, default: "natural", doc: "Determines color theme"
+  attr :color, :string, default: "base", doc: "Determines color theme"
   attr :border, :string, default: "extra_small", doc: "Determines border style"
 
   attr :padding, :string,
