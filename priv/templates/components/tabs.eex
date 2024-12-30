@@ -457,7 +457,7 @@ defmodule <%= @module %> do
 
   <%= if is_nil(@variant) or "base" in @variant do %>
   <%= if is_nil(@color) or "base" in @color do %>
-  defp color_variant("default", "natural") do
+  defp color_variant("base", "base") do
     [
       "[&_.tab-trigger.active-tab]:bg-[#F8F9FA] [&_.tab-trigger.active-tab]:text-[#09090b]",
       "[&_.tab-trigger.active-tab]:border-[#F8F9FA]",
