@@ -264,7 +264,7 @@ defmodule <%= @module %> do
     ]
   end
 
-  defp rounded_size(_, _), do: rounded_size("extra_large", "normal")
+  defp rounded_size(params, _) when is_binary(params), do: params
   <% end %>
   <%= if is_nil(@space) or "extra_small" in @space do %>
   defp space_class("extra_small"), do: "[&>.chat-section-bubble]:space-y-2"
@@ -299,9 +299,6 @@ defmodule <%= @module %> do
   defp padding_size("extra_large"), do: "[&>.chat-section-bubble]:p-5"
   <% end %>
   defp padding_size(params) when is_binary(params), do: params
-  <%= if is_nil(@padding) or "small" in @padding do %>
-  defp padding_size(_), do: padding_size("small")
-  <% end %>
 
   defp border_class(_, variant) when variant in ["default", "shadow", "transparent", "gradient"],
     do: nil
@@ -325,9 +322,6 @@ defmodule <%= @module %> do
   defp border_class("none", _), do: "[&>.chat-section-bubble]:border-0"
   <% end %>
   defp border_class(params, _) when is_binary(params), do: params
-  <%= if is_nil(@size) or "extra_small" in @size do %>
-  defp border_class(_, _), do: border_class("extra_small", nil)
-  <% end %>
 
   <%= if is_nil(@size) or "extra_small" in @size do %>
   defp size_class("extra_small"), do: "text-xs [&>.chat-section-bubble]:max-w-[12rem]"
@@ -344,9 +338,7 @@ defmodule <%= @module %> do
   <%= if is_nil(@size) or "extra_large" in @size do %>
   defp size_class("extra_large"), do: "text-xl [&>.chat-section-bubble]:max-w-[20rem]"
   <% end %>
-  <%= if is_nil(@size) or "medium" in @size do %>
-  defp size_class(_), do: size_class("medium")
-  <% end %>
+  defp size_class(params) when is_binary(params), do: params
 
 
   <%= if is_nil(@variant) or "base" in @variant do %>
@@ -892,9 +884,4 @@ defmodule <%= @module %> do
   <% end %>
   <% end %>
   defp color_variant(params,_) when is_binary(params), do: params
-  <%= if is_nil(@variant) or "base" in @variant do %>
-  <%= if is_nil(@color) or "base" in @color do %>
-  defp color_variant(_,_), do: color_variant("base", "base")
-  <% end %>
-  <% end %>
 end
