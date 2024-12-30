@@ -394,9 +394,6 @@ defmodule <%= @module %> do
   defp border_class("extra_large", _), do: "border-[5px]"
   <% end %>
   defp border_class(params, _) when is_binary(params), do: params
-  <%= if is_nil(@size) or "extra_small" in @size do %>
-  defp border_class(_, _), do: border_class("extra_small", nil)
-  <% end %>
 
   <%= if is_nil(@rounded) or "extra_small" in @rounded do %>
   defp rounded_size("extra_small"), do: "rounded-sm"
@@ -417,9 +414,6 @@ defmodule <%= @module %> do
   defp rounded_size("none"), do: "rounded-none"
   <% end %>
   defp rounded_size(params) when is_binary(params), do: params
-  <%= if is_nil(@rounded) or "small" in @rounded do %>
-  defp rounded_size(_), do: rounded_size("small")
-  <% end %>
 
   <%= if is_nil(@size) or "extra_small" in @size do %>
   defp size_class("extra_small"), do: "text-[12px]"
@@ -437,9 +431,6 @@ defmodule <%= @module %> do
   defp size_class("extra_large"), do: "text-[16px]"
   <% end %>
   defp size_class(params) when is_binary(params), do: params
-  <%= if is_nil(@size) or "medium" in @size do %>
-  defp size_class(_), do: size_class("medium")
-  <% end %>
 
   <%= if is_nil(@padding) or "extra_small" in @padding do %>
   defp padding_size("extra_small"), do: "p-2"
@@ -460,9 +451,6 @@ defmodule <%= @module %> do
   defp padding_size("none"), do: nil
   <% end %>
   defp padding_size(params) when is_binary(params), do: params
-  <%= if is_nil(@padding) or "extra_small" in @padding do %>
-  defp padding_size(_), do: padding_size("extra_small")
-  <% end %>
 
   defp width_class("extra_small"), do: "min-w-48"
   defp width_class("small"), do: "min-w-52"
@@ -474,7 +462,7 @@ defmodule <%= @module %> do
   defp width_class("quadruple_large"), do: "min-w-96"
   defp width_class("full"), do: "w-full"
   defp width_class(params) when is_binary(params), do: params
-  defp width_class(_), do: width_class("extra_large")
+
   <%= if is_nil(@space) or "extra_small" in @space do %>
   defp space_class("extra_small"), do: "space-y-2"
   <% end %>
@@ -491,7 +479,6 @@ defmodule <%= @module %> do
   defp space_class("extra_large"), do: "space-y-6"
   <% end %>
   defp space_class(params) when is_binary(params), do: params
-  defp space_class(_), do: nil
 
   <%= if is_nil(@variant) or "base" in @variant do %>
   <%= if is_nil(@color) or "base" in @color do %>
@@ -922,9 +909,4 @@ defmodule <%= @module %> do
   <% end %>
   <% end %>
   defp color_variant(params,_) when is_binary(params), do: params
-  <%= if is_nil(@variant) or "base" in @variant do %>
-  <%= if is_nil(@color) or "base" in @color do %>
-  defp color_variant(_,_), do: color_variant("base", "base")
-  <% end %>
-  <% end %>
 end
