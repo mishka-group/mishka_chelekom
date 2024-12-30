@@ -44,8 +44,8 @@ defmodule <%= @module %> do
 
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :label_class, :string, default: nil, doc: "Custom CSS class for the label styling"
-  attr :color, :string, values: @colors, default: "natural", doc: "Determines color theme"
-  attr :variant, :string, values: @variants, default: "default", doc: "Determines the style"
+  attr :color, :string, default: "base", doc: "Determines color theme"
+  attr :variant, :string, values: @variants, default: "base", doc: "Determines the style"
   attr :border, :string, default: "extra_small", doc: "Determines border style"
   attr :rounded, :string, default: "small", doc: "Determines the border radius"
   attr :live, :boolean, default: false, doc: "Specifies whether this upload is live or input file"
