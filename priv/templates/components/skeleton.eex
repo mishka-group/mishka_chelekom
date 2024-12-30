@@ -165,7 +165,7 @@ defmodule <%= @module %> do
   defp color_class("dark"), do: "bg-[#282828]"
   <% end %>
   defp color_class(params) when is_binary(params), do: params
-  <%= if is_nil(@size) or "base" in @size do %>
+  <%= if is_nil(@color) or "base" in @color do %>
   defp color_class(_), do: color_class("base")
   <% end %>
 end
