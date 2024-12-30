@@ -22,7 +22,8 @@ defmodule <%= @module %> do
     "default",
     "shadow",
     "bordered",
-    "gradient"
+    "gradient",
+    "base"
   ]
   <%= if is_nil(@type) or "popover" in @type do %>
   @doc """
