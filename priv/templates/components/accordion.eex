@@ -514,7 +514,7 @@ defmodule <%= @module %> do
   defp space_class("extra_large", _), do: "accordion-item-gap space-y-6"
   <% end %>
   defp space_class(params, _) when is_binary(params), do: params
-  defp space_class(_, _), do: nil
+
   <%= if is_nil(@rounded) or "extra_small" in @rounded do %>
   defp menu_rounded("extra_small"), do: "[&_.accordion-summary]:rounded-sm"
   <% end %>
@@ -534,7 +534,7 @@ defmodule <%= @module %> do
   defp menu_rounded("full"), do: "[&_.accordion-summary]:rounded-full"
   <% end %>
   defp menu_rounded(params) when is_binary(params), do: params
-  defp menu_rounded(_), do: nil
+
   <%= if is_nil(@size) or "extra_small" in @size do %>
   defp media_size("extra_small"), do: "[&>.accordion-item-wrapper_.accordion-title-media]:size-12"
   <% end %>
@@ -551,7 +551,7 @@ defmodule <%= @module %> do
   defp media_size("extra_large"), do: "[&>.accordion-item-wrapper_.accordion-title-media]:size-24"
   <% end %>
   defp media_size(params) when is_binary(params), do: params
-  defp media_size(_), do: media_size("small")
+
   <%= if is_nil(@size) or "extra_small" in @size do %>
   defp size_class("extra_small") do
     [
@@ -588,7 +588,7 @@ defmodule <%= @module %> do
   end
   <% end %>
   defp size_class(params) when is_binary(params), do: params
-  defp size_class(_), do: nil
+
   <%= if is_nil(@rounded) or "extra_small" in @rounded do %>
   defp rounded_size("extra_small") do
     [
@@ -687,8 +687,6 @@ defmodule <%= @module %> do
   <% end %>
   defp padding_size("zero"), do: "[&>.accordion-item-wrapper>.accordion-summary]:p-0"
   defp padding_size(params) when is_binary(params), do: params
-  defp padding_size(_), do: padding_size("small")
-
 
   defp border_class(_, variant) when variant in ["default", "shadow", "transparent", "gradient"],
     do: nil
@@ -897,8 +895,6 @@ defmodule <%= @module %> do
     "[&>.accordion-item-wrapper>.accordion-summary]:border-[5px]"
   end
   defp border_class(params, _) when is_binary(params), do: params
-
-  defp border_class(_, _), do: border_class("none", "base")
 
   <%= if is_nil(@variant) or "base" in @variant do %>
   <%= if is_nil(@color) or "base" in @color do %>
@@ -1869,11 +1865,7 @@ defmodule <%= @module %> do
   <% end %>
   <% end %>
   defp color_variant(params, _) when is_binary(params), do: params
-  <%= if is_nil(@variant) or "base" in @variant do %>
-  <%= if is_nil(@color) or "base" in @color do %>
-  defp color_variant(_, _), do: color_variant("base", "base")
-  <% end %>
-  <% end %>
+
   <%= if is_nil(@variant) or "base" in @variant do %>
   <%= if is_nil(@color) or "base" in @color do %>
   defp item_color("base", "base") do
@@ -2299,11 +2291,7 @@ defmodule <%= @module %> do
   <% end %>
   <% end %>
   defp item_color(params, _) when is_binary(params), do: params
-  <%= if is_nil(@variant) or "base" in @variant do %>
-  <%= if is_nil(@color) or "base" in @color do %>
-  defp item_color(_, _), do: item_color("base", "base")
-  <% end %>
-  <% end %>
+
   defp chevron_position(%{left_chevron: true}), do: "left"
   defp chevron_position(%{right_chevron: true}), do: "right"
   defp chevron_position(%{chevron: true}), do: "right"
