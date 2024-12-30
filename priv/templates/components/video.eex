@@ -82,7 +82,6 @@ defmodule <%= @module %> do
   attr :caption_size, :string, default: "extra_small", doc: "Determines the video caption size"
 
   attr :caption_bakcground, :string,
-    values: @colors,
     default: "dark",
     doc: "Determines the video caption bakcground"
 
