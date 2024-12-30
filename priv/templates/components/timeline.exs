@@ -3,6 +3,7 @@
     name: "timeline",
     args: [
       color: [
+        "base",
         "white",
         "primary",
         "secondary",

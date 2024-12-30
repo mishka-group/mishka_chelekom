@@ -3,6 +3,7 @@
     name: "table",
     args: [
       variant: [
+        "base",
         "outline",
         "default",
         "shadow",
@@ -13,6 +14,7 @@
         "separated"
       ],
       color: [
+        "base",
         "natural",
         "white",
         "primary",

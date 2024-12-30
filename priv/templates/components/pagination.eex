@@ -20,20 +20,6 @@ defmodule <%= @module %> do
   alias Phoenix.LiveView.JS
 
   @sizes ["extra_small", "small", "medium", "large", "extra_large"]
-  @colors [
-    "natural",
-    "primary",
-    "secondary",
-    "success",
-    "warning",
-    "danger",
-    "info",
-    "silver",
-    "misc",
-    "dawn",
-    "dark",
-    "white"
-  ]
 
   @variants [
     "default",
@@ -43,7 +29,8 @@ defmodule <%= @module %> do
     "shadow",
     "gradient",
     "inverted",
-    "bordered"
+    "bordered",
+    "base"
   ]
 
   @doc """
@@ -94,7 +81,7 @@ defmodule <%= @module %> do
       "Determines the overall size of the elements, including padding, font size, and other items"
 
   attr :space, :string, default: "small", doc: "Space between items"
-  attr :color, :string, values: @colors, default: "natural", doc: "Determines color theme"
+  attr :color, :string, default: "base", doc: "Determines color theme"
 
   attr :rounded, :string,
     values: @sizes ++ ["full", "none"],
@@ -103,7 +90,7 @@ defmodule <%= @module %> do
 
   attr :border, :string, values: @sizes, default: "extra_small", doc: "Determines the border radius"
 
-  attr :variant, :string, values: @variants, default: "default", doc: "Determines the style"
+  attr :variant, :string, values: @variants, default: "base", doc: "Determines the style"
 
   attr :separator, :string,
     default: "hero-ellipsis-horizontal",
@@ -365,6 +352,21 @@ defmodule <%= @module %> do
     ["[&.grouped-pagination]:border border-transparent"]
   end
 
+  <%= if is_nil(@color) or "base" in @color do %>
+  defp border_class("base") do
+    [
+      "[&.grouped-pagination]:border [&.grouped-pagination_.pagination-button]:border-r",
+      "[&.grouped-pagination_.pagination-control:not(:last-child)]:border-r",
+      "[&.grouped-pagination_.pagination-seperator]:border-r",
+      "border-[#e4e4e7] [&.grouped-pagination_.pagination-button]:border-[#e4e4e7]",
+      "[&.grouped-pagination_.pagination-control:not(:last-child)]:border-[#e4e4e7]",
+      "[&.grouped-pagination_.pagination-seperator]:border-[#e4e4e7]",
+      "dark:border-[#27272a] dark:[&.grouped-pagination_.pagination-button]:border-[#27272a]",
+      "dark:[&.grouped-pagination_.pagination-control:not(:last-child)]:border-[#27272a]",
+      "dark:[&.grouped-pagination_.pagination-seperator]:border-[#27272a]"
+    ]
+  end
+  <% end %>
   <%= if is_nil(@color) or "natural" in @color do %>
   defp border_class("natural") do
     [
@@ -498,6 +500,10 @@ defmodule <%= @module %> do
     ]
   end
   <% end %>
+  defp border_class(params) when is_binary(params), do: params
+  <%= if is_nil(@color) or "base" in @color do %>
+  defp border_class(_), do: border_class("base")
+  <% end %>
 
   <%= if is_nil(@rounded) or "extra_small" in @rounded do %>
   defp rounded_size("extra_small"),
@@ -601,6 +607,18 @@ defmodule <%= @module %> do
   <% end %>
   defp size_class(params) when is_binary(params), do: params
 
+  <%= if is_nil(@variant) or "base" in @variant do %>
+  <%= if is_nil(@color) or "base" in @color do %>
+  defp color_variant("base", "base") do
+    [
+      "bg-white dark:bg-[#18181B] [&_.pagination-button]:border-[#e4e4e7] [&_.pagination-button]:text-[#09090b]",
+      "dark:[&_.pagination-button]:border-[#27272a] dark:[&_.pagination-button]:text-[#FAFAFA]",
+      "hover:[&_.pagination-button]:bg-[#F8F9FA] dark:hover:[&_.pagination-button]:bg-[#242424]",
+      "[&_.pagination-button.active-pagination-button]:bg-[#F8F9FA] dark:[&_.pagination-button.active-pagination-button]:bg-[#242424]"
+    ]
+  end
+  <% end %>
+  <% end %>
   <%= if is_nil(@variant) or "default" in @variant do %>
   <%= if is_nil(@color) or "white" in @color do %>
   defp color_variant("default", "white") do
@@ -1603,6 +1621,12 @@ defmodule <%= @module %> do
       "[&_.pagination-button.active-pagination-button]:bg-gradient-to-bl"
     ]
   end
+  <% end %>
+  <% end %>
+  defp color_variant(params, _) when is_binary(params), do: params
+  <%= if is_nil(@variant) or "base" in @variant do %>
+  <%= if is_nil(@color) or "base" in @color do %>
+  defp color_variant(_, _), do: color_variant("base", "base")
   <% end %>
   <% end %>
 

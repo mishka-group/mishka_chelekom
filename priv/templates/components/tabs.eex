@@ -27,21 +27,9 @@ defmodule <%= @module %> do
   use Phoenix.Component
   alias Phoenix.LiveView.JS
 
-  @colors [
-    "natural",
-    "primary",
-    "secondary",
-    "success",
-    "warning",
-    "danger",
-    "info",
-    "silver",
-    "misc",
-    "dawn"
-  ]
-
   @variants [
     "default",
+    "base",
     "pills"
   ]
 
@@ -82,8 +70,8 @@ defmodule <%= @module %> do
     required: true,
     doc: "A unique identifier is used to manage state and interaction"
 
-  attr :variant, :string, values: @variants, default: "default", doc: "Determines the style"
-  attr :color, :string, values: @colors, default: "natural", doc: "Determines color theme"
+  attr :variant, :string, values: @variants, default: "base", doc: "Determines the style"
+  attr :color, :string, default: "base", doc: "Determines color theme"
   attr :border, :string, default: "none", doc: "Determines border style"
   attr :tab_border, :string, default: "small", doc: "Determines border style for tab"
 
@@ -125,7 +113,7 @@ defmodule <%= @module %> do
     attr :class, :string, doc: "Custom CSS class for additional styling"
   end
 
-  def tabs(%{vertical: true} = assigns) do
+    def tabs(%{vertical: true} = assigns) do
     assigns =
       assign_new(assigns, :mounted_active_tab, fn ->
         Enum.find(assigns.tab, &Map.get(&1, :active))
@@ -139,7 +127,7 @@ defmodule <%= @module %> do
         "vertical-tab flex",
         @placement == "end" && "flex-row-reverse",
         content_position(@triggers_position),
-        @variant == "default" && tab_border(@tab_border, @vertical),
+        @variant == "default" || @variant == "base" && tab_border(@tab_border, @vertical),
         color_variant(@variant, @color),
         rounded_size(@rounded, @variant),
         padding_size(@padding),
@@ -156,7 +144,10 @@ defmodule <%= @module %> do
         tabindex="0"
         class={[
           "tab-trigger-list flex flex-col shrink-0 text-[#4B4B4B] dark:text-[#DDDDDD]",
-          @variant == "default" && "border-[#e8e8e8] dark:border-[#5e5e5e] [&:not(.active-tab)_.tab-trigger]:border-[#e8e8e8] dark:[&:not(.active-tab)_.tab-trigger]:border-[#5e5e5e]",
+          @variant == "default" &&
+            "border-[#e8e8e8] dark:border-[#5e5e5e] [&:not(.active-tab)_.tab-trigger]:border-[#e8e8e8] dark:[&:not(.active-tab)_.tab-trigger]:border-[#5e5e5e]",
+          @variant == "base" &&
+            "border-[#e4e4e7] dark:border-[#27272a] [&:not(.active-tab)_.tab-trigger]:border-[#e4e4e7] dark:[&:not(.active-tab)_.tab-trigger]:border-[#27272a]"
         ]}
       >
         <button
@@ -211,7 +202,7 @@ defmodule <%= @module %> do
       class={[
         "horizontal-tab w-full",
         content_position(@triggers_position),
-        @variant == "default" && tab_border(@tab_border, @vertical),
+        @variant == "default" || @variant == "base" && tab_border(@tab_border, @vertical),
         color_variant(@variant, @color),
         rounded_size(@rounded, @variant),
         padding_size(@padding),
@@ -464,6 +455,21 @@ defmodule <%= @module %> do
   defp rounded_size(_, _), do: rounded_size(nil, "default")
   <% end %>
 
+  <%= if is_nil(@variant) or "base" in @variant do %>
+  <%= if is_nil(@color) or "base" in @color do %>
+  defp color_variant("base", "base") do
+    [
+      "[&_.tab-trigger.active-tab]:bg-[#F8F9FA] [&_.tab-trigger.active-tab]:text-[#09090b]",
+      "[&_.tab-trigger.active-tab]:border-[#F8F9FA]",
+      "hover:[&_.tab-trigger]:text-[#09090b] hover:[&_.tab-trigger]:border-[#F8F9FA]",
+      "dark:[&_.tab-trigger.active-tab]:bg-[#242424] dark:[&_.tab-trigger.active-tab]:text-[#FAFAFA]",
+      "dark:[&_.tab-trigger.active-tab]:border-[#242424] ",
+      "dark:hover:[&_.tab-trigger]:text-[#FAFAFA] dark:hover:[&_.tab-trigger]:border-[#242424]",
+      "hover:[&_.tab-trigger]:bg-[#F8F9FA] dark:hover:[&_.tab-trigger]:bg-[#242424]",
+    ]
+  end
+  <% end %>
+  <% end %>
   <%= if is_nil(@variant) or "default" in @variant do %>
   <%= if is_nil(@color) or "natural" in @color do %>
   defp color_variant("default", "natural") do
@@ -666,6 +672,12 @@ defmodule <%= @module %> do
       "dark:[&_.tab-trigger.active-tab]:text-black dark:[&_.tab-trigger.active-tab]:bg-[#A6A6A6]"
     ]
   end
+  <% end %>
+  <% end %>
+  defp color_variant(params,_) when is_binary(params), do: params
+  <%= if is_nil(@variant) or "base" in @variant do %>
+  <%= if is_nil(@color) or "base" in @color do %>
+  defp color_variant(_,_), do: color_variant("base", "base")
   <% end %>
   <% end %>
 

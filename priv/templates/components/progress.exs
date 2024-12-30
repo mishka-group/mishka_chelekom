@@ -2,8 +2,9 @@
   progress: [
     name: "progress",
     args: [
-      variant: ["default", "gradient"],
+      variant: ["default", "gradient", "base"],
       color: [
+        "base",
         "natural",
         "white",
         "primary",

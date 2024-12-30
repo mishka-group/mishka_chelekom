@@ -2,8 +2,9 @@
   stepper: [
     name: "stepper",
     args: [
-      variant: ["default", "gradient"],
+      variant: ["default", "gradient", "base"],
       color: [
+        "base",
         "natural",
         "primary",
         "secondary",

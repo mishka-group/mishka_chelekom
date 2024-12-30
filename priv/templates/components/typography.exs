@@ -3,6 +3,7 @@
     name: "typography",
     args: [
       color: [
+        "base",
         "primary",
         "white",
         "natural",

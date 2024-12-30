@@ -13,22 +13,6 @@ defmodule <%= @module %> do
   """
   use Phoenix.Component
 
-  @colors [
-    "primary",
-    "white",
-    "natural",
-    "secondary",
-    "dark",
-    "success",
-    "warning",
-    "danger",
-    "info",
-    "silver",
-    "misc",
-    "dawn",
-    "inherit"
-  ]
-
   <%= if is_nil(@type) or "h1" in @type do %>
   @doc """
   The `h1` component renders a large header text with customizable size, color, and other styling options.
@@ -47,7 +31,7 @@ defmodule <%= @module %> do
     default: nil,
     doc: "A unique identifier is used to manage state and interaction"
 
-  attr :color, :string, values: @colors, default: "inherit", doc: "Determines color theme"
+  attr :color, :string, default: "inherit", doc: "Determines color theme"
 
   attr :size, :string,
     default: "quadruple_large",
@@ -102,7 +86,7 @@ defmodule <%= @module %> do
     default: nil,
     doc: "A unique identifier is used to manage state and interaction"
 
-  attr :color, :string, values: @colors, default: "inherit", doc: "Determines color theme"
+  attr :color, :string, default: "inherit", doc: "Determines color theme"
 
   attr :size, :string,
     default: "triple_large",
@@ -157,7 +141,7 @@ defmodule <%= @module %> do
     default: nil,
     doc: "A unique identifier is used to manage state and interaction"
 
-  attr :color, :string, values: @colors, default: "inherit", doc: "Determines color theme"
+  attr :color, :string, default: "inherit", doc: "Determines color theme"
 
   attr :size, :string,
     default: "double_large",
@@ -211,7 +195,7 @@ defmodule <%= @module %> do
     default: nil,
     doc: "A unique identifier is used to manage state and interaction"
 
-  attr :color, :string, values: @colors, default: "inherit", doc: "Determines color theme"
+  attr :color, :string, default: "inherit", doc: "Determines color theme"
 
   attr :size, :string,
     default: "extra_large",
@@ -266,7 +250,7 @@ defmodule <%= @module %> do
     default: nil,
     doc: "A unique identifier is used to manage state and interaction"
 
-  attr :color, :string, values: @colors, default: "inherit", doc: "Determines color theme"
+  attr :color, :string, default: "inherit", doc: "Determines color theme"
 
   attr :size, :string,
     default: "large",
@@ -320,7 +304,7 @@ defmodule <%= @module %> do
     default: nil,
     doc: "A unique identifier is used to manage state and interaction"
 
-  attr :color, :string, values: @colors, default: "inherit", doc: "Determines color theme"
+  attr :color, :string, default: "inherit", doc: "Determines color theme"
 
   attr :size, :string,
     default: "medium",
@@ -376,7 +360,7 @@ defmodule <%= @module %> do
     default: nil,
     doc: "A unique identifier is used to manage state and interaction"
 
-  attr :color, :string, values: @colors, default: "inherit", doc: "Determines color theme"
+  attr :color, :string, default: "inherit", doc: "Determines color theme"
 
   attr :size, :string,
     default: "medium",
@@ -433,7 +417,7 @@ defmodule <%= @module %> do
     default: nil,
     doc: "A unique identifier is used to manage state and interaction"
 
-  attr :color, :string, values: @colors, default: "inherit", doc: "Determines color theme"
+  attr :color, :string, default: "inherit", doc: "Determines color theme"
 
   attr :size, :string,
     default: "medium",
@@ -494,7 +478,7 @@ defmodule <%= @module %> do
     default: nil,
     doc: "A unique identifier is used to manage state and interaction"
 
-  attr :color, :string, values: @colors, default: "inherit", doc: "Determines color theme"
+  attr :color, :string, default: "inherit", doc: "Determines color theme"
 
   attr :size, :string,
     default: "medium",
@@ -551,7 +535,7 @@ defmodule <%= @module %> do
     default: nil,
     doc: "A unique identifier is used to manage state and interaction"
 
-  attr :color, :string, values: @colors, default: "inherit", doc: "Determines color theme"
+  attr :color, :string, default: "inherit", doc: "Determines color theme"
 
   attr :size, :string,
     default: "medium",
@@ -606,7 +590,7 @@ defmodule <%= @module %> do
     default: nil,
     doc: "A unique identifier is used to manage state and interaction"
 
-  attr :color, :string, values: @colors, default: "inherit", doc: "Determines color theme"
+  attr :color, :string, default: "inherit", doc: "Determines color theme"
 
   attr :size, :string,
     default: "medium",
@@ -665,7 +649,7 @@ defmodule <%= @module %> do
     default: nil,
     doc: "A unique identifier is used to manage state and interaction"
 
-  attr :color, :string, values: @colors, default: "inherit", doc: "Determines color theme"
+  attr :color, :string, default: "inherit", doc: "Determines color theme"
 
   attr :size, :string,
     default: "medium",
@@ -733,7 +717,7 @@ defmodule <%= @module %> do
     default: nil,
     doc: "A unique identifier is used to manage state and interaction"
 
-  attr :color, :string, values: @colors, default: "inherit", doc: "Determines color theme"
+  attr :color, :string, default: "inherit", doc: "Determines color theme"
 
   attr :size, :string,
     default: "medium",
@@ -796,7 +780,7 @@ defmodule <%= @module %> do
     default: nil,
     doc: "A unique identifier is used to manage state and interaction"
 
-  attr :color, :string, values: @colors, default: "inherit", doc: "Determines color theme"
+  attr :color, :string, default: "inherit", doc: "Determines color theme"
 
   attr :size, :string,
     default: "medium",
@@ -853,7 +837,7 @@ defmodule <%= @module %> do
     default: nil,
     doc: "A unique identifier is used to manage state and interaction"
 
-  attr :color, :string, values: @colors, default: "inherit", doc: "Determines color theme"
+  attr :color, :string, default: "inherit", doc: "Determines color theme"
 
   attr :size, :string,
     default: "medium",
@@ -907,7 +891,7 @@ defmodule <%= @module %> do
     default: nil,
     doc: "A unique identifier is used to manage state and interaction"
 
-  attr :color, :string, values: @colors, default: "inherit", doc: "Determines color theme"
+  attr :color, :string, default: "inherit", doc: "Determines color theme"
 
   attr :size, :string,
     default: "medium",
@@ -963,7 +947,7 @@ defmodule <%= @module %> do
     default: nil,
     doc: "A unique identifier is used to manage state and interaction"
 
-  attr :color, :string, values: @colors, default: "inherit", doc: "Determines color theme"
+  attr :color, :string, default: "inherit", doc: "Determines color theme"
 
   attr :size, :string,
     default: "medium",
@@ -1015,7 +999,7 @@ defmodule <%= @module %> do
     default: nil,
     doc: "A unique identifier is used to manage state and interaction"
 
-  attr :color, :string, values: @colors, default: "inherit", doc: "Determines color theme"
+  attr :color, :string, default: "inherit", doc: "Determines color theme"
 
   attr :size, :string,
     default: "medium",
@@ -1068,7 +1052,7 @@ defmodule <%= @module %> do
     default: nil,
     doc: "A unique identifier is used to manage state and interaction"
 
-  attr :color, :string, values: @colors, default: "inherit", doc: "Determines color theme"
+  attr :color, :string, default: "inherit", doc: "Determines color theme"
 
   attr :size, :string,
     default: "medium",
@@ -1124,7 +1108,7 @@ defmodule <%= @module %> do
     default: nil,
     doc: "A unique identifier is used to manage state and interaction"
 
-  attr :color, :string, values: @colors, default: "inherit", doc: "Determines color theme"
+  attr :color, :string, default: "inherit", doc: "Determines color theme"
 
   attr :size, :string,
     default: "medium",
@@ -1177,7 +1161,7 @@ defmodule <%= @module %> do
     default: nil,
     doc: "A unique identifier is used to manage state and interaction"
 
-  attr :color, :string, values: @colors, default: "inherit", doc: "Determines color theme"
+  attr :color, :string, default: "inherit", doc: "Determines color theme"
 
   attr :size, :string,
     default: "medium",
@@ -1214,6 +1198,9 @@ defmodule <%= @module %> do
   end
   <% end %>
 
+  <%= if is_nil(@color) or "base" in @color do %>
+  defp color("base"), do: "text-[#09090b] dark:text-[#FAFAFA]"
+  <% end %>
   <%= if is_nil(@color) or "white" in @color do %>
   defp color("white"), do: "text-white"
   <% end %>
@@ -1253,7 +1240,10 @@ defmodule <%= @module %> do
   <%= if is_nil(@color) or "inherit" in @color do %>
   defp color("inherit"), do: "text-inherit"
   <% end %>
-  defp color(params), do: params
+  defp color(params) when is_binary(params), do: params
+  <%= if is_nil(@color) or "inherit" in @color do %>
+  defp color(_), do: color("inherit")
+  <% end %>
 
   <%= if is_nil(@size) or "extra_small" in @size do %>
   defp size_class("extra_small"), do: "text-xs"

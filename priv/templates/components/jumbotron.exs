@@ -2,8 +2,10 @@
   jumbotron: [
     name: "jumbotron",
     args: [
-      variant: ["default", "outline", "transparent", "shadow", "bordered", "gradient"],
+      variant: ["default", "outline", "transparent", "shadow", "bordered", "gradient", "base"],
       color: [
+        "base",
+        "natural",
         "white",
         "primary",
         "secondary",

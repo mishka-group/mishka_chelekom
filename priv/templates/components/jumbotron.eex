@@ -20,28 +20,14 @@ defmodule <%= @module %> do
   """
   use Phoenix.Component
 
- @colors [
-    "natural",
-    "white",
-    "primary",
-    "secondary",
-    "dark",
-    "success",
-    "warning",
-    "danger",
-    "info",
-    "silver",
-    "misc",
-    "dawn"
-  ]
-
   @variants [
     "default",
     "outline",
     "transparent",
     "shadow",
     "bordered",
-    "gradient"
+    "gradient",
+    "base"
   ]
 
   @doc """
@@ -106,9 +92,9 @@ defmodule <%= @module %> do
     default: nil,
     doc: "A unique identifier is used to manage state and interaction"
 
-  attr :variant, :string, values: @variants, default: "default", doc: "Determines the style"
-  attr :color, :string, values: @colors, default: "natural", doc: "Determines color theme"
-  attr :border_size, :string, default: "none", doc: ""
+  attr :variant, :string, values: @variants, default: "base", doc: "Determines the style"
+  attr :color, :string, default: "base", doc: "Determines color theme"
+  attr :border_size, :string, default: "extra_small", doc: ""
   attr :border_position, :string, default: "bottom", doc: ""
   attr :space, :string, default: nil, doc: "Space between items"
 
@@ -149,56 +135,27 @@ defmodule <%= @module %> do
 
   defp border_class("none", _, _), do: nil
 
-  <%= if is_nil(@size) or "extra_small" in @size do %>
+
   defp border_class("extra_small", "top", _), do: "border-t"
-  <% end %>
-  <%= if is_nil(@size) or "small" in @size do %>
   defp border_class("small", "top", _), do: "border-t-2"
-  <% end %>
-  <%= if is_nil(@size) or "medium" in @size do %>
   defp border_class("medium", "top", _), do: "border-t-[3px]"
-  <% end %>
-  <%= if is_nil(@size) or "large" in @size do %>
   defp border_class("large", "top", _), do: "border-t-4"
-  <% end %>
-  <%= if is_nil(@size) or "extra_large" in @size do %>
   defp border_class("extra_large", "top", _), do: "border-t-[5px]"
-  <% end %>
 
-  <%= if is_nil(@size) or "extra_small" in @size do %>
   defp border_class("extra_small", "bottom", _), do: "border-b"
-  <% end %>
-  <%= if is_nil(@size) or "small" in @size do %>
   defp border_class("small", "bottom", _), do: "border-b-2"
-  <% end %>
-  <%= if is_nil(@size) or "medium" in @size do %>
   defp border_class("medium", "bottom", _), do: "border-b-[3px]"
-  <% end %>
-  <%= if is_nil(@size) or "large" in @size do %>
   defp border_class("large", "bottom", _), do: "border-b-4"
-  <% end %>
-  <%= if is_nil(@size) or "extra_large" in @size do %>
   defp border_class("extra_large", "bottom", _), do: "border-b-[5px]"
-  <% end %>
 
-  <%= if is_nil(@size) or "extra_small" in @size do %>
   defp border_class("extra_small", "vertical", _), do: "border-y"
-  <% end %>
-  <%= if is_nil(@size) or "small" in @size do %>
   defp border_class("small", "vertical", _), do: "border-y-2"
-  <% end %>
-  <%= if is_nil(@size) or "medium" in @size do %>
   defp border_class("medium", "vertical", _), do: "border-y-[3px]"
-  <% end %>
-  <%= if is_nil(@size) or "large" in @size do %>
   defp border_class("large", "vertical", _), do: "border-y-4"
-  <% end %>
-  <%= if is_nil(@size) or "extra_large" in @size do %>
   defp border_class("extra_large", "vertical", _), do: "border-y-[5px]"
-  <% end %>
 
   defp border_class(params, _, _) when is_binary(params), do: params
-  defp border_class(_, _, _), do: border_class("none", nil, nil)
+  defp border_class(_, _, _), do: border_class("extra_small", "bottom", nil)
 
   <%= if is_nil(@padding) or "extra_small" in @padding do %>
   defp padding_size("extra_small"), do: "p-1"
@@ -250,6 +207,16 @@ defmodule <%= @module %> do
   defp space_class(params) when is_binary(params), do: params
   defp space_class(_), do: nil
 
+  <%= if is_nil(@variant) or "base" in @variant do %>
+  <%= if is_nil(@color) or "base" in @color do %>
+  defp color_variant("base", "base") do
+    [
+      "bg-white text-[#09090b] border-[#e4e4e7] shadow-sm",
+      "dark:bg-[#18181B] dark:text-[#FAFAFA] dark:border-[#27272a]"
+    ]
+  end
+  <% end %>
+  <% end %>
   <%= if is_nil(@variant) or "default" in @variant do %>
   <%= if is_nil(@color) or "white" in @color do %>
   defp color_variant("default", "white") do
@@ -741,9 +708,9 @@ defmodule <%= @module %> do
   <% end %>
   <% end %>
   defp color_variant(params,_) when is_binary(params), do: params
-  <%= if is_nil(@variant) or "default" in @variant do %>
-  <%= if is_nil(@color) or "natural" in @color do %>
-  defp color_variant(_,_), do: color_variant("default", "natural")
+  <%= if is_nil(@variant) or "base" in @variant do %>
+  <%= if is_nil(@color) or "base" in @color do %>
+  defp color_variant(_,_), do: color_variant("base", "base")
   <% end %>
   <% end %>
 end

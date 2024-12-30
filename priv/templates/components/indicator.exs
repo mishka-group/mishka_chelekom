@@ -3,6 +3,7 @@
     name: "indicator",
     args: [
       color: [
+        "base",
         "natural",
         "white",
         "primary",

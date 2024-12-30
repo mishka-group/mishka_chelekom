@@ -66,7 +66,7 @@ defmodule <%= @module %> do
     <div
       id={@id}
       class={[
-        "flex flex-nowrap text-[#DDDDDD] dark:text-[#4B4B4B]",
+        "flex flex-nowrap text-[#F4F4F4] dark:text-[#4B4B4B]",
         gap_class(@gap),
         size_class(@size),
         color_class(@color)
@@ -128,6 +128,15 @@ defmodule <%= @module %> do
   defp size_class(_), do: size_class("small")
   <% end %>
 
+  <%= if is_nil(@color) or "base" in @color do %>
+  defp color_class("base") do
+    [
+      "[&_.rated]:text-[#e4e4e7] dark:[&_.rated]:text-[#27272a]",
+      "hover:[&_.rating-button]:text-[#e4e4e7] [&_.rating-button:has(~.rating-button:hover)]:text-[#e4e4e7]",
+      "dark:hover:[&_.rating-button]:text-[#27272a] dark:[&_.rating-button:has(~.rating-button:hover)]:text-[#27272a]"
+    ]
+  end
+  <% end %>
   <%= if is_nil(@color) or "white" in @color do %>
   defp color_class("white") do
     [
@@ -233,6 +242,11 @@ defmodule <%= @module %> do
       "hover:[&_.rating-button]:text-[#282828] [&_.rating-button:has(~.rating-button:hover)]:text-[#282828]"
     ]
   end
+  <% end %>
+
+  defp color_class(params) when is_binary(params), do: params
+  <%= if is_nil(@color) or "base" in @color do %>
+  defp color_class(_), do: color_class("base")
   <% end %>
 
   attr :name, :string, required: true, doc: "Specifies the name of the element"

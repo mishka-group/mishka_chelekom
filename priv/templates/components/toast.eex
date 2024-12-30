@@ -20,27 +20,13 @@ defmodule <%= @module %> do
   alias Phoenix.LiveView.JS
   use Gettext, backend: <%= inspect(@web_module) %>.Gettext
 
-   @colors [
-    "natural",
-    "white",
-    "primary",
-    "secondary",
-    "dark",
-    "success",
-    "warning",
-    "danger",
-    "info",
-    "silver",
-    "misc",
-    "dawn"
-  ]
-
   @variants [
     "default",
     "outline",
     "shadow",
     "bordered",
-    "gradient"
+    "gradient",
+    "base"
   ]
 
   <%= if is_nil(@type) or "toast" in @type do %>
@@ -88,8 +74,8 @@ defmodule <%= @module %> do
     doc: "A unique identifier is used to manage state and interaction"
 
   attr :fixed, :boolean, default: true, doc: "Determines whether the element is fixed"
-  attr :variant, :string, values: @variants, default: "default", doc: "Determines the style"
-  attr :color, :string, values: @colors, default: "natural", doc: "Determines color theme"
+  attr :variant, :string, values: @variants, default: "base", doc: "Determines the style"
+  attr :color, :string, default: "base", doc: "Determines color theme"
   attr :border, :string, default: "extra_small", doc: "Determines border style"
   attr :rounded, :string, default: "medium", doc: "Determines the border radius"
   attr :width, :string, default: "medium", doc: "Determines the element width"
@@ -442,6 +428,17 @@ defmodule <%= @module %> do
   defp border_class(params, _) when is_binary(params), do: params
   defp border_class(_, _), do: border_class("extra_small", nil)
 
+  <%= if is_nil(@variant) or "base" in @variant do %>
+  <%= if is_nil(@color) or "base" in @color do %>
+  defp color_variant("base", "base") do
+    [
+      "bg-white text-[#09090b] dark:bg-[#18181B] dark:text-[#FAFAFA]",
+      "[&>.toast-content-wrapper]:before:bg-[#09090b] dark:[&>.toast-content-wrapper]:before:bg-[#FAFAFA]",
+      "border-[#e4e4e7] dark:border-[#27272a]"
+    ]
+  end
+  <% end %>
+  <% end %>
   <%= if is_nil(@variant) or "default" in @variant do %>
   <%= if is_nil(@color) or "white" in @color do %>
   defp color_variant("default", "white") do
@@ -919,9 +916,9 @@ defmodule <%= @module %> do
   <% end %>
   <% end %>
   defp color_variant(params,_) when is_binary(params), do: params
-  <%= if is_nil(@variant) or "default" in @variant do %>
-  <%= if is_nil(@color) or "natural" in @color do %>
-  defp color_variant(_,_), do: color_variant("default", "natural")
+  <%= if is_nil(@variant) or "base" in @variant do %>
+  <%= if is_nil(@color) or "base" in @color do %>
+  defp color_variant(_,_), do: color_variant("base", "base")
   <% end %>
   <% end %>
   ## JS Commands

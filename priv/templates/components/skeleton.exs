@@ -3,6 +3,7 @@
     name: "skeleton",
     args: [
       color: [
+        "base",
         "natural",
         "white",
         "primary",
@@ -15,7 +16,6 @@
         "misc",
         "dawn",
         "silver",
-        "none"
       ],
       rounded: ["extra_small", "small", "medium", "large", "extra_large", "full", "none"],
       only: ["skeleton"],

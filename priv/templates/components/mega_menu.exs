@@ -2,8 +2,9 @@
   mega_menu: [
     name: "mega_menu",
     args: [
-      variant: ["default", "outline", "bordered", "shadow", "gradeint"],
+      variant: ["default", "outline", "bordered", "shadow", "gradeint", "base"],
       color: [
+        "base",
         "natural",
         "white",
         "primary",

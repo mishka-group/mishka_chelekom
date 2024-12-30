@@ -2,8 +2,9 @@
   tabs: [
     name: "tabs",
     args: [
-      variant: ["default", "pills"],
+      variant: ["default", "pills", "base"],
       color: [
+        "base",
         "natural",
         "primary",
         "secondary",

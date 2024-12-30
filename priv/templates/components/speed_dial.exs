@@ -2,8 +2,9 @@
   speed_dial: [
     name: "speed_dial",
     args: [
-      variant: ["default", "bordered", "shadow", "gradient"],
+      variant: ["default", "bordered", "shadow", "gradient", "base"],
       color: [
+        "base",
         "natural",
         "primary",
         "secondary",

@@ -3,6 +3,8 @@
     name: "rating",
     args: [
       color: [
+        "base",
+        "natural",
         "white",
         "primary",
         "secondary",
@@ -11,7 +13,7 @@
         "warning",
         "danger",
         "info",
-        "light",
+        "silver",
         "misc",
         "dawn"
       ],
