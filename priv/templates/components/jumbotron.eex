@@ -135,66 +135,27 @@ defmodule <%= @module %> do
 
   defp border_class("none", _, _), do: nil
 
-  <%= if is_nil(@border_position) or "top" in @border_position do %>
-  <%= if is_nil(@size) or "extra_small" in @size do %>
+
   defp border_class("extra_small", "top", _), do: "border-t"
-  <% end %>
-  <%= if is_nil(@size) or "small" in @size do %>
   defp border_class("small", "top", _), do: "border-t-2"
-  <% end %>
-  <%= if is_nil(@size) or "medium" in @size do %>
   defp border_class("medium", "top", _), do: "border-t-[3px]"
-  <% end %>
-  <%= if is_nil(@size) or "large" in @size do %>
   defp border_class("large", "top", _), do: "border-t-4"
-  <% end %>
-  <%= if is_nil(@size) or "extra_large" in @size do %>
   defp border_class("extra_large", "top", _), do: "border-t-[5px]"
-  <% end %>
-  <% end %>
 
-  <%= if is_nil(@border_position) or "bottom" in @border_position do %>
-  <%= if is_nil(@size) or "extra_small" in @size do %>
   defp border_class("extra_small", "bottom", _), do: "border-b"
-  <% end %>
-  <%= if is_nil(@size) or "small" in @size do %>
   defp border_class("small", "bottom", _), do: "border-b-2"
-  <% end %>
-  <%= if is_nil(@size) or "medium" in @size do %>
   defp border_class("medium", "bottom", _), do: "border-b-[3px]"
-  <% end %>
-  <%= if is_nil(@size) or "large" in @size do %>
   defp border_class("large", "bottom", _), do: "border-b-4"
-  <% end %>
-  <%= if is_nil(@size) or "extra_large" in @size do %>
   defp border_class("extra_large", "bottom", _), do: "border-b-[5px]"
-  <% end %>
-  <% end %>
 
-  <%= if is_nil(@border_position) or "vertical" in @border_position do %>
-  <%= if is_nil(@size) or "extra_small" in @size do %>
   defp border_class("extra_small", "vertical", _), do: "border-y"
-  <% end %>
-  <%= if is_nil(@size) or "small" in @size do %>
   defp border_class("small", "vertical", _), do: "border-y-2"
-  <% end %>
-  <%= if is_nil(@size) or "medium" in @size do %>
   defp border_class("medium", "vertical", _), do: "border-y-[3px]"
-  <% end %>
-  <%= if is_nil(@size) or "large" in @size do %>
   defp border_class("large", "vertical", _), do: "border-y-4"
-  <% end %>
-  <%= if is_nil(@size) or "extra_large" in @size do %>
   defp border_class("extra_large", "vertical", _), do: "border-y-[5px]"
-  <% end %>
-  <% end %>
 
   defp border_class(params, _, _) when is_binary(params), do: params
-  <%= if is_nil(@border_position) or "bottom" in @border_position do %>
-  <%= if is_nil(@size) or "extra_small" in @size do %>
   defp border_class(_, _, _), do: border_class("extra_small", "bottom", nil)
-  <% end %>
-  <% end %>
 
   <%= if is_nil(@padding) or "extra_small" in @padding do %>
   defp padding_size("extra_small"), do: "p-1"
