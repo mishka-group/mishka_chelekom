@@ -224,7 +224,8 @@ defmodule <%= @module %> do
     "justify-center"
   end
 
-  defp caption_position(_), do: caption_position("right")
+  defp caption_position(params) when is_binary(params), do: params
+
   <%= if is_nil(@space) or "extra_small" in @space do %>
   defp space_class("extra_small"), do: "space-y-2"
   <% end %>
@@ -286,7 +287,7 @@ defmodule <%= @module %> do
   end
 
   defp border_class(params, _, _) when is_binary(params), do: [params]
-  defp border_class(nil, _, _), do: nil
+
   <%= if is_nil(@rounded) or "extra_small" in @rounded do %>
   defp rounded_size("extra_small"), do: "rounded-sm"
   <% end %>
@@ -325,9 +326,7 @@ defmodule <%= @module %> do
   defp padding_size("none"), do: "p-0"
   <% end %>
   defp padding_size(params) when is_binary(params), do: params
-  <%= if is_nil(@padding) or "small" in @padding do %>
-  defp padding_size(_), do: padding_size("small")
-  <% end %>
+
   <%= if is_nil(@size) or "extra_small" in @size do %>
   defp size_class("extra_small"), do: "text-[12px] [&>.quote-icon]:size-7"
   <% end %>
@@ -344,9 +343,7 @@ defmodule <%= @module %> do
   defp size_class("extra_large"), do: "text-[16px] [&>.quote-icon]:size-12"
   <% end %>
   defp size_class(params) when is_binary(params), do: params
-  <%= if is_nil(@size) or "medium" in @size do %>
-  defp size_class(_), do: size_class("medium")
-  <% end %>
+
 <%= if is_nil(@variant) or "base" in @variant do %>
   <%= if is_nil(@color) or "base" in @color do %>
   defp color_variant("base", "base") do
@@ -840,11 +837,7 @@ defmodule <%= @module %> do
   <% end %>
   <% end %>
   defp color_variant(params,_) when is_binary(params), do: params
-  <%= if is_nil(@variant) or "base" in @variant do %>
-  <%= if is_nil(@color) or "base" in @color do %>
-  defp color_variant(_,_), do: color_variant("base", "base")
-  <% end %>
-  <% end %>
+
   defp border_position(%{hide_border: true}), do: "none"
   defp border_position(%{left_border: true}), do: "left"
   defp border_position(%{right_border: true}), do: "right"
