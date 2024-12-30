@@ -391,9 +391,7 @@ defmodule <%= @module %> do
   defp border_class("extra_large", _), do: "border-[5px]"
   <% end %>
   defp border_class(params, _) when is_binary(params), do: params
-  <%= if is_nil(@size) or "extra_small" in @size do %>
-  defp border_class(_, _), do: border_class("extra_small", nil)
-  <% end %>
+
   <%= if is_nil(@rounded) or "extra_small" in @rounded do %>
   defp rounded_size("extra_small"), do: "rounded-sm"
   <% end %>
@@ -427,9 +425,6 @@ defmodule <%= @module %> do
   defp size_class("extra_large"), do: "text-xl [&_.card-title-icon]:size-6"
   <% end %>
   defp size_class(params) when is_binary(params), do: params
-  <%= if is_nil(@size) or "large" in @size do %>
-  defp size_class(_), do: size_class("large")
-  <% end %>
 
   defp content_position("start") do
     "justify-start"
@@ -451,7 +446,8 @@ defmodule <%= @module %> do
     "justify-around"
   end
 
-  defp content_position(_), do: content_position("start")
+  defp content_position(params) when is_binary(params), do: params
+
   <%= if is_nil(@padding) or "extra_small" in @padding do %>
   defp wrapper_padding("extra_small"),
     do: "[&:has(.card-section)>.card-section]:p-1 [&:not(:has(.card-section))]:p-1"
@@ -476,9 +472,7 @@ defmodule <%= @module %> do
   defp wrapper_padding("none"), do: nil
   <% end %>
   defp wrapper_padding(params) when is_binary(params), do: params
-  <%= if is_nil(@padding) or "none" in @padding do %>
-  defp wrapper_padding(_), do: wrapper_padding("none")
-  <% end %>
+
   <%= if is_nil(@padding) or "extra_small" in @padding do %>
   defp padding_size("extra_small"), do: "p-1"
   <% end %>
@@ -495,7 +489,7 @@ defmodule <%= @module %> do
   defp padding_size("extra_large"), do: "p-5"
   <% end %>
   defp padding_size(params) when is_binary(params), do: params
-  defp padding_size(_), do: nil
+
   <%= if is_nil(@space) or "extra_small" in @space do %>
   defp space_class("extra_small"), do: "space-y-2"
   <% end %>
@@ -512,7 +506,6 @@ defmodule <%= @module %> do
   defp space_class("extra_large"), do: "space-y-6"
   <% end %>
   defp space_class(params) when is_binary(params), do: params
-  defp space_class(_), do: nil
 
   <%= if is_nil(@variant) or "base" in @variant do %>
   <%= if is_nil(@color) or "base" in @color do %>
@@ -1015,11 +1008,6 @@ defmodule <%= @module %> do
   <% end %>
   <% end %>
   defp color_variant(params,_) when is_binary(params), do: params
-  <%= if is_nil(@variant) or "base" in @variant do %>
-  <%= if is_nil(@color) or "base" in @color do %>
-  defp color_variant(_,_), do: color_variant("base", "base")
-  <% end %>
-  <% end %>
 
   attr :name, :string, required: true, doc: "Specifies the name of the element"
   attr :class, :any, default: nil, doc: "Custom CSS class for additional styling"
