@@ -301,9 +301,6 @@ defmodule <%= @module %>  do
     do: "[&_.email-field-wrapper_input]:h-12 [&_.email-field-wrapper_.password-field-icon]:size-6"
   <% end %>
   defp size_class(params) when is_binary(params), do: params
-  <%= if is_nil(@size) or "medium" in @size do %>
-  defp size_class(_), do: size_class("medium")
-  <% end %>
 
   <%= if is_nil(@rounded) or "extra_small" in @rounded do %>
   defp rounded_size("extra_small"), do: "[&_.email-field-wrapper]:rounded-sm"
@@ -336,7 +333,6 @@ defmodule <%= @module %>  do
   defp border_class("large", _), do: "[&_.email-field-wrapper]:border-4"
   defp border_class("extra_large", _), do: "[&_.email-field-wrapper]:border-[5px]"
   defp border_class(params, _) when is_binary(params), do: params
-  defp border_class(_, _), do: border_class("extra_small", nil)
 
   <%= if is_nil(@space) or "extra_small" in @space do %>
   defp space_class("extra_small"), do: "space-y-1"
@@ -354,9 +350,6 @@ defmodule <%= @module %>  do
   defp space_class("extra_large"), do: "space-y-3"
   <% end %>
   defp space_class(params) when is_binary(params), do: params
-  <%= if is_nil(@space) or "medium" in @space do %>
-  defp space_class(_), do: space_class("medium")
-  <% end %>
 
 <%= if is_nil(@variant) or "base" in @variant do %>
   <%= if is_nil(@color) or "base" in @color do %>
@@ -1104,11 +1097,6 @@ defmodule <%= @module %>  do
   <% end %>
   <% end %>
   defp color_variant(params,_,_) when is_binary(params), do: params
-  <%= if is_nil(@variant) or "base" in @variant do %>
-  <%= if is_nil(@color) or "base" in @color do %>
-  defp color_variant(_,_,_), do: color_variant("base", "base","none")
-  <% end %>
-  <% end %>
 
   defp translate_error({msg, opts}) do
     # When using gettext, we typically pass the strings we want
