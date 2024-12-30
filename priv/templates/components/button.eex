@@ -649,7 +649,6 @@ defmodule <%= @module %> do
   defp border_size("large",_), do: "border-4"
   defp border_size("extra_large",_), do: "border-[5px]"
   defp border_size(params,_) when is_binary(params), do: params
-  defp border_size(_,_), do: border_size("extra_small", nil)
 
   <%= if is_nil(@variant) or "base" in @variant do %>
   <%= if is_nil(@color) or "base" in @color do %>
@@ -1895,11 +1894,6 @@ defmodule <%= @module %> do
   <% end %>
   <% end %>
   defp color_variant(params, _) when is_binary(params), do: params
-  <%= if is_nil(@variant) or "base" in @variant do %>
-  <%= if is_nil(@color) or "base" in @color do %>
-  defp color_variant(_, _), do: color_variant("base", "base")
-  <% end %>
-  <% end %>
 
   <%= if is_nil(@color) or "base" in @color do %>
   defp border_class("base") do
@@ -1962,9 +1956,7 @@ defmodule <%= @module %> do
   end
   <% end %>
   defp border_class(params) when is_binary(params), do: params
-  <%= if is_nil(@color) or "natural" in @color do %>
-  defp border_class(_), do: border_class("base")
-  <% end %>
+
   <%= if is_nil(@rounded) or "extra_small" in @rounded do %>
   defp rounded_size("extra_small"), do: "rounded-sm [&.gradient-button:before]:rounded-[1px]"
   <% end %>
@@ -2033,9 +2025,6 @@ defmodule <%= @module %> do
   <% end %>
 
   defp size_class(params, _circle) when is_binary(params), do: [params]
-  <%= if is_nil(@size) or "large" in @size do %>
-  defp size_class(_, _circle), do: size_class("large", nil)
-  <% end %>
 
   defp icon_position(nil, _), do: false
   defp icon_position(_icon, %{left_icon: true}), do: "left"
@@ -2056,7 +2045,6 @@ defmodule <%= @module %> do
   defp indicator_size("large"), do: "!size-3.5"
   defp indicator_size("extra_large"), do: "!size-4"
   defp indicator_size(params) when is_binary(params), do: params
-  defp indicator_size(nil), do: nil
 
   defp content_position("start") do
     "justify-start"
@@ -2078,7 +2066,7 @@ defmodule <%= @module %> do
     "justify-around"
   end
 
-  defp content_position(_), do: content_position("start")
+  defp content_position(params) when is_binary(params), do: params
 
   defp default_classes(:grouped) do
     [
