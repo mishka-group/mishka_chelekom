@@ -303,9 +303,6 @@ defmodule <%= @module %> do
   defp size_class("extra_large"), do: "[&_.radio-field-wrapper_input]:size-5"
   <% end %>
   defp size_class(params) when is_binary(params), do: params
-  <%= if is_nil(@size) or "medium" in @size do %>
-  defp size_class(_), do: size_class("medium")
-  <% end %>
 
   defp border_class("none"), do: "[&_.radio-field-wrapper_.radio-input]:border-0"
   defp border_class("extra_small"), do: "[&_.radio-field-wrapper_.radio-input]:border"
@@ -314,7 +311,6 @@ defmodule <%= @module %> do
   defp border_class("large"), do: "[&_.radio-field-wrapper_.radio-input]:border-4"
   defp border_class("extra_large"), do: "[&_.radio-field-wrapper_.radio-input]:border-[5px]"
   defp border_class(params) when is_binary(params), do: params
-  defp border_class(_), do: border_class("extra_small")
 
   <%= if is_nil(@space) or "extra_small" in @space do %>
   defp space_class("extra_small"), do: "[&_.radio-field-wrapper]:gap-1"
@@ -332,9 +328,6 @@ defmodule <%= @module %> do
   defp space_class("extra_large"), do: "[&_.radio-field-wrapper]:gap-3"
   <% end %>
   defp space_class(params) when is_binary(params), do: params
-  <%= if is_nil(@space) or "medium" in @space do %>
-  defp space_class(_), do: space_class("medium")
-  <% end %>
 
   defp variation_gap("extra_small"), do: "gap-1"
   defp variation_gap("small"), do: "gap-2"
@@ -343,7 +336,6 @@ defmodule <%= @module %> do
   defp variation_gap("extra_large"), do: "gap-5"
 
   defp variation_gap(params) when is_binary(params), do: params
-  defp variation_gap(_), do: variation_gap("medium")
 
   <%= if is_nil(@color) or "base" in @color do %>
   defp color_class("base") do
@@ -496,9 +488,6 @@ defmodule <%= @module %> do
   end
   <% end %>
   defp color_class(params) when is_binary(params), do: params
-  <%= if is_nil(@color) or "primary" in @color do %>
-  defp color_class(_), do: color_class("primary")
-  <% end %>
 
   defp translate_error({msg, opts}) do
     # When using gettext, we typically pass the strings we want
