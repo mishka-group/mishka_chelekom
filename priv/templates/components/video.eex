@@ -196,7 +196,6 @@ defmodule <%= @module %> do
   defp caption_size("triple_large"), do: "[&::cue]:text-3xl"
   defp caption_size("quadruple_large"), do: "[&::cue]:text-4xl"
   defp caption_size(params) when is_binary(params), do: params
-  defp caption_size(_), do: caption_size("extra_small")
 
   defp caption_bakcground("base"),
     do: "[&::cue]:bg-[linear-gradient(#fff,#fff)] [&::cue]:text-[#09090b]"
@@ -238,7 +237,6 @@ defmodule <%= @module %> do
     do: "[&::cue]:bg-[linear-gradient(#282828,#282828)] [&::cue]:text-white"
 
   defp caption_bakcground(params) when is_binary(params), do: params
-  defp caption_bakcground(_), do: caption_bakcground("white")
 
   defp caption_opacity("transparent") do
     "[&::cue]:bg-opacity-10"
@@ -281,5 +279,4 @@ defmodule <%= @module %> do
   end
 
   defp caption_opacity(params) when is_binary(params), do: params
-  defp caption_opacity(_), do: caption_opacity("solid")
 end
