@@ -175,7 +175,6 @@ defmodule <%= @module %> do
   defp rounded_size("full"), do: "[&_.toggle-field-base]:rounded-full [&_.toggle-field-circle]:rounded-full"
 
   defp rounded_size(params) when is_binary(params), do: params
-  defp rounded_size(_), do: rounded_size("full")
 
   <%= if is_nil(@size) or "extra_small" in @size do %>
   defp size_class("extra_small") do
@@ -214,9 +213,6 @@ defmodule <%= @module %> do
   <% end %>
 
   defp size_class(params) when is_binary(params), do: params
-  <%= if is_nil(@size) or "medium" in @size do %>
-  defp size_class(_), do: size_class("medium")
-  <% end %>
 
   <%= if is_nil(@color) or "base" in @color do %>
   defp color_class("base") do
@@ -310,9 +306,6 @@ defmodule <%= @module %> do
   end
   <% end %>
   defp color_class(params) when is_binary(params), do: params
-  <%= if is_nil(@color) or "primary" in @color do %>
-  defp color_class(_), do: color_class("primary")
-  <% end %>
 
   defp translate_error({msg, opts}) do
     # When using gettext, we typically pass the strings we want
