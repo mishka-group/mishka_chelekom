@@ -266,9 +266,6 @@ defmodule <%= @module %> do
   <% end %>
 
   defp size_class(params, _) when is_binary(params), do: params
-  <%= if is_nil(@size) or "small" in @size do %>
-  defp size_class(_, _), do: size_class("small", "horizontal")
-  <% end %>
 
 
   <%= if is_nil(@variant) or "base" in @variant do %>
@@ -479,9 +476,4 @@ defmodule <%= @module %> do
   <% end %>
   <% end %>
   defp color_variant(params,_) when is_binary(params), do: params
-  <%= if is_nil(@variant) or "base" in @variant do %>
-  <%= if is_nil(@color) or "base" in @color do %>
-  defp color_variant(_,_), do: color_variant("base", "base")
-  <% end %>
-  <% end %>
 end
