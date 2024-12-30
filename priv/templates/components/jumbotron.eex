@@ -155,7 +155,6 @@ defmodule <%= @module %> do
   defp border_class("extra_large", "vertical", _), do: "border-y-[5px]"
 
   defp border_class(params, _, _) when is_binary(params), do: params
-  defp border_class(_, _, _), do: border_class("extra_small", "bottom", nil)
 
   <%= if is_nil(@padding) or "extra_small" in @padding do %>
   defp padding_size("extra_small"), do: "p-1"
@@ -185,9 +184,6 @@ defmodule <%= @module %> do
   defp padding_size("none"), do: "p-0"
   <% end %>
   defp padding_size(params) when is_binary(params), do: params
-  <%= if is_nil(@padding) or "none" in @padding do %>
-  defp padding_size(_), do: padding_size("none")
-  <% end %>
 
   <%= if is_nil(@space) or "extra_small" in @space do %>
   defp space_class("extra_small"), do: "space-y-2"
@@ -205,7 +201,6 @@ defmodule <%= @module %> do
   defp space_class("extra_large"), do: "space-y-6"
   <% end %>
   defp space_class(params) when is_binary(params), do: params
-  defp space_class(_), do: nil
 
   <%= if is_nil(@variant) or "base" in @variant do %>
   <%= if is_nil(@color) or "base" in @color do %>
@@ -708,9 +703,4 @@ defmodule <%= @module %> do
   <% end %>
   <% end %>
   defp color_variant(params,_) when is_binary(params), do: params
-  <%= if is_nil(@variant) or "base" in @variant do %>
-  <%= if is_nil(@color) or "base" in @color do %>
-  defp color_variant(_,_), do: color_variant("base", "base")
-  <% end %>
-  <% end %>
 end
