@@ -126,13 +126,13 @@ defmodule <%= @module %> do
   defp translate_position("right"), do: "translate-x-full"
   defp translate_position("bottom"), do: "translate-y-full"
   defp translate_position("top"), do: "-translate-y-full"
+  defp translate_position(params) when is_binary(params), do: params
 
   defp position_class("left"), do: "top-0 left-0 h-screen"
   defp position_class("right"), do: "top-0 right-0 h-screen"
   defp position_class("top"), do: "top-0 inset-x-0 w-full"
   defp position_class("bottom"), do: "bottom-0 inset-x-0 w-full"
   defp position_class(params) when is_binary(params), do: params
-  defp position_class(_), do: position_class("left")
 
  defp border_class(_, _, variant)
       when variant in [
@@ -207,9 +207,6 @@ defmodule <%= @module %> do
   <% end %>
 
   defp border_class(params, _, _) when is_binary(params), do: params
-  <%= if is_nil(@size) or "extra_small" in @size do %>
-  defp border_class(_, _, _), do: border_class("extra_small", "left", nil)
-  <% end %>
 
   <%= if is_nil(@size) or "extra_small" in @size do %>
   defp size_class("extra_small", "left"), do: "w-60"
@@ -274,6 +271,8 @@ defmodule <%= @module %> do
   <%= if is_nil(@size) or "extra_large" in @size do %>
   defp size_class("extra_large", "bottom"), do: "min-h-48"
   <% end %>
+  defp size_class(params, _) when is_binary(params), do: params
+
   <%= if is_nil(@variant) or "base" in @variant do %>
    <%= if is_nil(@color) or "base" in @color do %>
   defp color_variant("base", "base") do
@@ -723,11 +722,6 @@ defmodule <%= @module %> do
   <% end %>
   <% end %>
   defp color_variant(params,_) when is_binary(params), do: params
-  <%= if is_nil(@variant) or "base" in @variant do %>
-  <%= if is_nil(@color) or "base" in @color do %>
-  defp color_variant(_,_), do: color_variant("base", "base")
-  <% end %>
-  <% end %>
 
   @doc """
   Shows the drawer component by modifying its CSS classes to transition it into view.
