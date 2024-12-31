@@ -29,13 +29,6 @@ defmodule <%= @module %> do
   use Gettext, backend: <%= inspect(@web_module) %>.Gettext
   alias Phoenix.LiveView.JS
 
-   @positions [
-    "top_left",
-    "top_right",
-    "bottom_left",
-    "bottom_right"
-  ]
-
   <%= if is_nil(@type) or "flash" in @type do %>
   @doc type: :component
   @doc """
@@ -68,15 +61,9 @@ defmodule <%= @module %> do
       "Global attributes can define defaults which are merged with attributes provided by the caller"
 
   attr :variant, :string, default: "base", doc: "Determines the style"
-
-  attr :position, :string,
-    values: @positions ++ [nil],
-    default: nil,
-    doc: "Determines the element position"
-
+  attr :position, :string, default: "", doc: "Determines the element position"
   attr :width, :string, default: "full", doc: "Determines the element width"
-
-    attr :border, :string, default: "extra_small", doc: "Determines the element border width"
+  attr :border, :string, default: "extra_small", doc: "Determines the element border width"
 
   attr :size, :string,
     default: "medium",
@@ -217,14 +204,8 @@ defmodule <%= @module %> do
   attr :title, :string, default: "", doc: "Specifies the title of the element"
   attr :kind, :atom, default: :base, doc: "used for styling and flash lookup"
   attr :variant, :string, default: "default", doc: "Determines the style"
-
-  attr :position, :string,
-    values: @positions ++ [nil],
-    default: nil,
-    doc: "Determines the element position"
-
+  attr :position, :string, default: "", doc: "Determines the element position"
   attr :width, :string, default: "full", doc: "Determines the element width"
-
   attr :border, :string, default: "extra_small", doc: "Determines the element border width"
 
   attr :size, :string,
@@ -334,7 +315,6 @@ defmodule <%= @module %> do
   defp position_class("bottom_left"), do: "fixed bottom-2 left-0 ml-2"
   defp position_class("bottom_right"), do: "fixed bottom-2 right-0 mr-2"
   defp position_class(params) when is_binary(params), do: params
-
 
   defp border_class(_, variant)
       when variant in [

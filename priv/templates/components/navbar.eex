@@ -103,7 +103,7 @@ defmodule <%= @module %> do
   attr :variant, :string, default: "base", doc: "Determines the style"
   attr :color, :string, default: "base", doc: "Determines color theme"
   attr :border, :string, default: "extra_small", doc: "Determines border style"
-  attr :text_position, :string, default: nil, doc: "Determines the element' text position"
+  attr :text_position, :string, default: "", doc: "Determines the element' text position"
   attr :rounded, :string, default: "", doc: "Determines the border radius"
   attr :max_width, :string, default: "", doc: "Determines the style of element max width"
 
