@@ -11,14 +11,6 @@ defmodule <%= @module %> do
   use Phoenix.Component
   alias Phoenix.LiveView.JS
 
-  @variants [
-    "default",
-    "outline",
-    "bordered",
-    "shadow",
-    "gradient",
-    "base"
-  ]
   <%= if is_nil(@type) or "dropdown" in @type do %>
   @doc """
   A `dropdown` component that displays a list of options or content when triggered.
@@ -80,17 +72,17 @@ defmodule <%= @module %> do
     default: false,
     doc: "Controls whether the dropdown is disabled on mobile devices"
 
-  attr :variant, :string, values: @variants, default: "base", doc: "Determines the style"
+  attr :variant, :string, default: "base", doc: "Determines the style"
   attr :color, :string, default: "base", doc: "Determines color theme"
-  attr :rounded, :string, default: nil, doc: "Determines the border radius"
+  attr :rounded, :string, default: "", doc: "Determines the border radius"
   attr :content_width, :string, default: "extra_large", doc: "Determines the element width"
 
   attr :size, :string,
-    default: nil,
+    default: "",
     doc:
       "Determines the overall size of the elements, including padding, font size, and other items"
 
-  attr :space, :string, default: nil, doc: "Space between items"
+  attr :space, :string, default: "", doc: "Space between items"
 
   attr :font_weight, :string,
     default: "font-normal",
@@ -243,16 +235,16 @@ defmodule <%= @module %> do
     default: nil,
     doc: "A unique identifier is used to manage state and interaction"
 
-  attr :variant, :string, values: @variants, default: "base", doc: "Determines the style"
+  attr :variant, :string, default: "base", doc: "Determines the style"
   attr :color, :string, default: "base", doc: "Determines color theme"
-  attr :rounded, :string, default: nil, doc: "Determines the border radius"
+  attr :rounded, :string, default: "", doc: "Determines the border radius"
 
   attr :size, :string,
-    default: nil,
+    default: "",
     doc:
       "Determines the overall size of the elements, including padding, font size, and other items"
 
-  attr :space, :string, default: nil, doc: "Space between items"
+  attr :space, :string, default: "", doc: "Space between items"
   attr :width, :string, default: "extra_large", doc: "Determines the element width"
 
   attr :font_weight, :string,
@@ -377,7 +369,9 @@ defmodule <%= @module %> do
 
   defp border_class(_, variant) when variant in ["default", "shadow"], do: nil
 
+  <%= if is_nil(@size) or "none" in @size do %>
   defp border_class("none", _), do: nil
+  <% end %>
   <%= if is_nil(@size) or "extra_small" in @size do %>
   defp border_class("extra_small", _), do: "border"
   <% end %>
@@ -411,7 +405,7 @@ defmodule <%= @module %> do
   defp rounded_size("extra_large"), do: "rounded-xl"
   <% end %>
   <%= if is_nil(@rounded) or "none" in @rounded do %>
-  defp rounded_size("none"), do: "rounded-none"
+  defp rounded_size("none"), do: nil
   <% end %>
   defp rounded_size(params) when is_binary(params), do: params
 
