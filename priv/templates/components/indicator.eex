@@ -17,8 +17,6 @@ defmodule <%= @module %> do
 
   use Phoenix.Component
 
-  @sizes ["extra_small", "small", "medium", "large", "extra_large"]
-
   @indicator_positions [
     "top_left",
     "top_center",
@@ -50,7 +48,6 @@ defmodule <%= @module %> do
     doc: "A unique identifier is used to manage state and interaction"
 
   attr :size, :string,
-    values: @sizes,
     default: "small",
     doc:
       "Determines the overall size of the elements, including padding, font size, and other items"
