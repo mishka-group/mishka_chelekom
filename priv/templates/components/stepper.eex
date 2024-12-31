@@ -16,8 +16,6 @@ defmodule <%= @module %> do
 
   use Phoenix.Component
 
-  @variants ["default", "gradient", "base"]
-
   <%= if is_nil(@type) or "stepper" in @type do %>
   @doc """
   Renders a customizable `stepper` component that visually represents a multi-step process.
@@ -46,16 +44,16 @@ defmodule <%= @module %> do
 
   attr :margin, :string, default: "medium", doc: "Determines the element margin"
   attr :color, :string, default: "base", doc: "Determines color theme"
-  attr :space, :string, default: nil, doc: "Space between items"
+  attr :space, :string, default: "", doc: "Space between items"
   attr :border, :string, default: "extra_small", doc: "Determines border style"
 
   attr :font_weight, :string,
     default: "font-normal",
     doc: "Determines custom class for the font weight"
 
-  attr :max_width, :string, default: nil, doc: "Determines the style of element max width"
+  attr :max_width, :string, default: "", doc: "Determines the style of element max width"
   attr :seperator_size, :string, default: "extra_small", doc: "Determines the seperator size"
-  attr :variant, :string, values: @variants, default: "base", doc: "Determines the style"
+  attr :variant, :string, default: "base", doc: "Determines the style"
   attr :vertical, :boolean, default: false, doc: "Determines whether element is vertical"
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :col_step, :boolean, default: false, doc: "Custom CSS class for additional styling"
@@ -159,7 +157,7 @@ defmodule <%= @module %> do
 
   attr :reverse, :boolean, default: false, doc: "Switches the order of the element and label"
   attr :space, :string, default: "small", doc: "Switches the order of the element and label"
-  attr :border, :string, default: "none", doc: "Determines border style"
+  attr :border, :string, default: "", doc: "Determines border style"
 
   slot :inner_block, required: false, doc: "Inner block that renders HEEx content"
 
