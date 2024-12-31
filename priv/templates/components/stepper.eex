@@ -990,7 +990,7 @@ defmodule <%= @module %> do
   end
   <% end %>
   <% end %>
-  defp color_variant(params, _) when is_binary(params), do: params
+  defp color_variant(_, params) when is_binary(params), do: params
 
   attr :name, :string, required: true, doc: "Specifies the name of the element"
   attr :class, :any, default: nil, doc: "Custom CSS class for additional styling"

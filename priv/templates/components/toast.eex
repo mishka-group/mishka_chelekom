@@ -20,15 +20,6 @@ defmodule <%= @module %> do
   alias Phoenix.LiveView.JS
   use Gettext, backend: <%= inspect(@web_module) %>.Gettext
 
-  @variants [
-    "default",
-    "outline",
-    "shadow",
-    "bordered",
-    "gradient",
-    "base"
-  ]
-
   <%= if is_nil(@type) or "toast" in @type do %>
   @doc """
   The `toast` component displays temporary notifications or messages, usually at the top
@@ -74,7 +65,7 @@ defmodule <%= @module %> do
     doc: "A unique identifier is used to manage state and interaction"
 
   attr :fixed, :boolean, default: true, doc: "Determines whether the element is fixed"
-  attr :variant, :string, values: @variants, default: "base", doc: "Determines the style"
+  attr :variant, :string, default: "base", doc: "Determines the style"
   attr :color, :string, default: "base", doc: "Determines color theme"
   attr :border, :string, default: "extra_small", doc: "Determines border style"
   attr :rounded, :string, default: "medium", doc: "Determines the border radius"
