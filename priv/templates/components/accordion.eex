@@ -485,6 +485,9 @@ defmodule <%= @module %> do
   <%= if is_nil(@space) or "extra_large" in @space do %>
   defp space_class("extra_large", _), do: "accordion-item-gap space-y-6"
   <% end %>
+  <%= if is_nil(@space) or "none" in @space do %>
+  defp space_class("none", _), do: nil
+  <% end %>
   defp space_class(params, _) when is_binary(params), do: params
 
   <%= if is_nil(@rounded) or "extra_small" in @rounded do %>

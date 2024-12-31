@@ -471,6 +471,9 @@ defmodule <%= @module %> do
   <%= if is_nil(@space) or "extra_large" in @space do %>
   defp space_class("extra_large"), do: "space-y-6"
   <% end %>
+  <%= if is_nil(@space) or "none" in @space do %>
+  defp space_class("none"), do: nil
+  <% end %>
   defp space_class(params) when is_binary(params), do: params
 
   <%= if is_nil(@variant) or "base" in @variant do %>
