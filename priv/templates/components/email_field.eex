@@ -17,7 +17,6 @@ defmodule <%= @module %>  do
 
   use Phoenix.Component
 
-  @variants ["outline", "default", "shadow", "bordered", "transparent", "base"]
   @doc """
   Renders a customizable `email_field` with options for styling, floating labels, and additional
   start or end sections.
@@ -67,7 +66,7 @@ defmodule <%= @module %>  do
   attr :color, :string, default: "base", doc: "Determines color theme"
   attr :border, :string, default: "extra_small", doc: "Determines border style"
   attr :rounded, :string, default: "small", doc: "Determines the border radius"
-  attr :variant, :string, values: @variants, default: "base", doc: "Determines the style"
+  attr :variant, :string, default: "base", doc: "Determines the style"
   attr :description, :string, default: nil, doc: "Determines a short description"
   attr :space, :string, default: "medium", doc: "Space between items"
 
@@ -320,8 +319,10 @@ defmodule <%= @module %>  do
   <%= if is_nil(@rounded) or "full" in @rounded do %>
   defp rounded_size("full"), do: "[&_.email-field-wrapper]:rounded-full"
   <% end %>
+  <%= if is_nil(@rounded) or "none" in @rounded do %>
+  defp rounded_size("none"), do: nil
+  <% end %>
   defp rounded_size(params) when is_binary(params), do: params
-  defp rounded_size(_), do: "[&_.email-field-wrapper]:rounded-none"
 
   defp border_class(_, variant) when variant in ["default", "shadow", "transparent"],
     do: nil
@@ -334,6 +335,9 @@ defmodule <%= @module %>  do
   defp border_class("extra_large", _), do: "[&_.email-field-wrapper]:border-[5px]"
   defp border_class(params, _) when is_binary(params), do: params
 
+  <%= if is_nil(@space) or "none" in @space do %>
+  defp space_class("none"), do: nil
+  <% end %>
   <%= if is_nil(@space) or "extra_small" in @space do %>
   defp space_class("extra_small"), do: "space-y-1"
   <% end %>
