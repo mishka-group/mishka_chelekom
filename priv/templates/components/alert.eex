@@ -299,7 +299,10 @@ defmodule <%= @module %> do
   <%= if is_nil(@rounded) or "full" in @rounded do %>
   defp rounded_size("full"), do: "rounded-full"
   <% end %>
-  defp rounded_size("none"), do: "rounded-none"
+  <%= if is_nil(@rounded) or "full" in @rounded do %>
+  defp rounded_size("none"), do: nil
+  <% end %>
+  defp rounded_size(params) when is_binary(params), do: params
 
   defp width_class("extra_small"), do: "w-60"
   defp width_class("small"), do: "w-64"

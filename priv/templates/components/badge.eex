@@ -84,7 +84,7 @@ defmodule <%= @module %> do
     default: nil,
     doc: "CSS class for additional styling of the badge indicator"
 
-  attr :indicator_size, :string, default: nil, doc: "Specifies the size of the badge indicator"
+  attr :indicator_size, :string, default: "", doc: "Specifies the size of the badge indicator"
 
   attr :params, :map,
     default: %{kind: "badge"},
@@ -874,6 +874,7 @@ defmodule <%= @module %> do
   <%= if is_nil(@rounded) or "none" in @rounded do %>
   defp rounded_size("none"), do: nil
   <% end %>
+  defp rounded_size(params) when is_binary(params), do: params
 
   defp border_size(_, variant) when variant in ["default", "shadow", "transparent", "gradient"], do: nil
   defp border_size("none",_), do: nil

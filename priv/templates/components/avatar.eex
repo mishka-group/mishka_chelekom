@@ -399,7 +399,7 @@ defmodule <%= @module %> do
   defp border_class("medium"), do: "border-avatar border-[3px]"
   defp border_class("large"), do: "border-avatar border-4"
   defp border_class("extra_large"), do: "border-avatar border-[5px]"
-  defp border_class("none"), do: "border-0"
+  defp border_class("none"), do: nil
   defp border_class(params) when is_binary(params), do: params
 
   <%= if is_nil(@rounded) or "extra_small" in @rounded do %>
@@ -421,7 +421,7 @@ defmodule <%= @module %> do
   defp rounded_size("full"), do: "rounded-full"
   <% end %>
   <%= if is_nil(@rounded) or "none" in @rounded do %>
-  defp rounded_size("none"), do: "rounded-none"
+  defp rounded_size("none"), do: nil
   <% end %>
   defp rounded_size(params) when is_binary(params), do: params
 
