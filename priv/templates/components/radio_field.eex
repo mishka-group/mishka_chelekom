@@ -327,6 +327,9 @@ defmodule <%= @module %> do
   <%= if is_nil(@space) or "extra_large" in @space do %>
   defp space_class("extra_large"), do: "[&_.radio-field-wrapper]:gap-3"
   <% end %>
+  <%= if is_nil(@space) or "none" in @space do %>
+  defp space_class("none"), do: nil
+  <% end %>
   defp space_class(params) when is_binary(params), do: params
 
   defp variation_gap("extra_small"), do: "gap-1"
