@@ -93,7 +93,7 @@ defmodule <%= @module %> do
   attr :color, :string, default: "base", doc: "Determines color theme"
   attr :border, :string, default: "extra_small", doc: "Determines border style"
   attr :rounded, :string, default: "", doc: "Determines the border radius"
-  attr :space, :string, default: nil, doc: "Space between items"
+  attr :space, :string, default: "", doc: "Space between items"
 
   attr :font_weight, :string,
     default: "font-normal",
@@ -267,7 +267,7 @@ defmodule <%= @module %> do
     default: nil,
     doc: "A unique identifier is used to manage state and interaction"
 
-  attr :space, :string, default: nil, doc: "Space between items"
+  attr :space, :string, default: "", doc: "Space between items"
   attr :padding, :string, default: "", doc: "Determines padding for items"
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
 

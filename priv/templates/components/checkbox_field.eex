@@ -229,7 +229,7 @@ defmodule <%= @module %> do
           rounded_size(@rounded),
           border_class(@border),
           size_class(@size),
-          space_class(checkbox[:space]),
+          !is_nil(checkbox[:space]) && space_class(checkbox[:space]),
           @ring && "[&_.checkbox-field-wrapper_input]:focus-within:ring-1",
           @reverse && "[&_.checkbox-field-wrapper]:flex-row-reverse"
         ]}
