@@ -27,24 +27,6 @@ defmodule <%= @module %> do
 
   use Phoenix.Component
 
-  @variants [
-    "base",
-    "default",
-    "outline",
-    "transparent",
-    "shadow",
-    "bordered",
-    "gradient"
-  ]
-
-  @sizes [
-    "extra_small",
-    "small",
-    "medium",
-    "large",
-    "extra_large"
-  ]
-
   @positions [
     "start",
     "center",
@@ -107,17 +89,17 @@ defmodule <%= @module %> do
     default: nil,
     doc: "A unique identifier is used to manage state and interaction"
 
-  attr :variant, :string, values: @variants, default: "base", doc: "Determines the style"
+  attr :variant, :string, default: "base", doc: "Determines the style"
   attr :color, :string, default: "base", doc: "Determines color theme"
   attr :border, :string, default: "extra_small", doc: "Determines border style"
-  attr :rounded, :string, default: nil, doc: "Determines the border radius"
+  attr :rounded, :string, default: "", doc: "Determines the border radius"
   attr :space, :string, default: nil, doc: "Space between items"
 
   attr :font_weight, :string,
     default: "font-normal",
     doc: "Determines custom class for the font weight"
 
-  attr :padding, :string, default: nil, doc: "Determines padding for items"
+  attr :padding, :string, default: "", doc: "Determines padding for items"
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
 
   attr :rest, :global,
@@ -182,12 +164,11 @@ defmodule <%= @module %> do
     doc: "Determines custom class for the font weight"
 
   attr :size, :string,
-    values: @sizes,
     default: "large",
     doc:
       "Determines the overall size of the elements, including padding, font size, and other items"
 
-  attr :padding, :string, default: "none", doc: "Determines padding for items"
+  attr :padding, :string, default: "", doc: "Determines padding for items"
 
   attr :rest, :global,
     doc:
@@ -238,12 +219,7 @@ defmodule <%= @module %> do
 
   attr :alt, :string, doc: "Media link description"
   attr :src, :string, required: true, doc: "Media link"
-
-  attr :rounded, :string,
-    values: @sizes ++ [nil],
-    default: nil,
-    doc: "Determines the border radius"
-
+  attr :rounded, :string, default: "", doc: "Determines the border radius"
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
 
   attr :rest, :global,
@@ -292,12 +268,7 @@ defmodule <%= @module %> do
     doc: "A unique identifier is used to manage state and interaction"
 
   attr :space, :string, default: nil, doc: "Space between items"
-
-  attr :padding, :string,
-    values: @sizes ++ ["none"],
-    default: "none",
-    doc: "Determines padding for items"
-
+  attr :padding, :string, default: "", doc: "Determines padding for items"
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
 
   attr :rest, :global,
@@ -344,11 +315,7 @@ defmodule <%= @module %> do
     doc: "A unique identifier is used to manage state and interaction"
 
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
-
-  attr :padding, :string,
-    values: @sizes ++ ["none"],
-    default: "none",
-    doc: "Determines padding for items"
+  attr :padding, :string, default: "",doc: "Determines padding for items"
 
   attr :rest, :global,
     doc:
@@ -375,21 +342,11 @@ defmodule <%= @module %> do
   defp border_class(_, variant) when variant in ["default", "shadow", "transparent", "gradient"], do: nil
 
   defp border_class("none", _), do: nil
-  <%= if is_nil(@size) or "extra_small" in @size do %>
   defp border_class("extra_small", _), do: "border"
-  <% end %>
-  <%= if is_nil(@size) or "small" in @size do %>
   defp border_class("small", _), do: "border-2"
-  <% end %>
-  <%= if is_nil(@size) or "medium" in @size do %>
   defp border_class("medium", _), do: "border-[3px]"
-  <% end %>
-  <%= if is_nil(@size) or "large" in @size do %>
   defp border_class("large", _), do: "border-4"
-  <% end %>
-  <%= if is_nil(@size) or "extra_large" in @size do %>
   defp border_class("extra_large", _), do: "border-[5px]"
-  <% end %>
   defp border_class(params, _) when is_binary(params), do: params
 
   <%= if is_nil(@rounded) or "extra_small" in @rounded do %>
@@ -407,8 +364,10 @@ defmodule <%= @module %> do
   <%= if is_nil(@rounded) or "extra_large" in @rounded do %>
   defp rounded_size("extra_large"), do: "rounded-xl"
   <% end %>
+  <%= if is_nil(@rounded) or "none" in @rounded do %>
+  defp rounded_size("none"), do: nil
+  <% end %>
   defp rounded_size(params) when is_binary(params), do: params
-  defp rounded_size(_), do: "rounded-none"
   <%= if is_nil(@size) or "extra_small" in @size do %>
   defp size_class("extra_small"), do: "text-xs [&_.card-title-icon]:size-3"
   <% end %>
@@ -468,9 +427,6 @@ defmodule <%= @module %> do
   defp wrapper_padding("extra_large"),
     do: "[&:has(.card-section)>.card-section]:p-5 [&:not(:has(.card-section))]:p-5"
   <% end %>
-  <%= if is_nil(@padding) or "none" in @padding do %>
-  defp wrapper_padding("none"), do: nil
-  <% end %>
   defp wrapper_padding(params) when is_binary(params), do: params
 
   <%= if is_nil(@padding) or "extra_small" in @padding do %>
@@ -504,6 +460,9 @@ defmodule <%= @module %> do
   <% end %>
   <%= if is_nil(@space) or "extra_large" in @space do %>
   defp space_class("extra_large"), do: "space-y-6"
+  <% end %>
+  <%= if is_nil(@space) or "none" in @space do %>
+  defp space_class("none"), do: nil
   <% end %>
   defp space_class(params) when is_binary(params), do: params
 

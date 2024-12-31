@@ -23,8 +23,6 @@ defmodule <%= @module %> do
   import <%= inspect(@web_module) %>.Components.Progress, only: [progress: 1]
   import <%= inspect(@web_module) %>.Components.Spinner, only: [spinner: 1]
 
-  @variants ["default", "outline", "bordered", "shadow", "gradient", "transparent", "base"]
-
   @doc """
   Renders a `file_input` field with customizable styles, labels, and live upload capabilities.
 
@@ -45,7 +43,7 @@ defmodule <%= @module %> do
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :label_class, :string, default: nil, doc: "Custom CSS class for the label styling"
   attr :color, :string, default: "base", doc: "Determines color theme"
-  attr :variant, :string, values: @variants, default: "base", doc: "Determines the style"
+  attr :variant, :string, default: "base", doc: "Determines the style"
   attr :border, :string, default: "extra_small", doc: "Determines border style"
   attr :rounded, :string, default: "small", doc: "Determines the border radius"
   attr :live, :boolean, default: false, doc: "Specifies whether this upload is live or input file"
@@ -335,22 +333,13 @@ defmodule <%= @module %> do
 
   defp border_class(_, variant) when variant in ["default", "shadow", "transparent", "gradient"],
     do: nil
+    
   defp border_class("none", _), do: nil
-  <%= if is_nil(@size) or "extra_small" in @size do %>
   defp border_class("extra_small", _), do: "[&_.dropzone-wrapper]:border"
-  <% end %>
-  <%= if is_nil(@size) or "small" in @size do %>
   defp border_class("small", _), do: "[&_.dropzone-wrapper]:border-2"
-  <% end %>
-  <%= if is_nil(@size) or "medium" in @size do %>
   defp border_class("medium", _), do: "[&_.dropzone-wrapper]:border-[3px]"
-  <% end %>
-  <%= if is_nil(@size) or "large" in @size do %>
   defp border_class("large", _), do: "[&_.dropzone-wrapper]:border-4"
-  <% end %>
-  <%= if is_nil(@size) or "extra_large" in @size do %>
   defp border_class("extra_large", _), do: "[&_.dropzone-wrapper]:border-[5px]"
-  <% end %>
   defp border_class(params, _) when is_binary(params), do: params
 
   <%= if is_nil(@size) or "extra_small" in @size do %>
@@ -370,6 +359,9 @@ defmodule <%= @module %> do
   <% end %>
   defp size_class(params) when is_binary(params), do: params
 
+  <%= if is_nil(@rounded) or "none" in @rounded do %>
+  defp rounded_size("none"), do: nil
+  <% end %>
   <%= if is_nil(@rounded) or "extra_small" in @rounded do %>
   defp rounded_size("extra_small"),
     do: "[&_.file-field]:rounded-sm [&_.dropzone-wrapper]:rounded-sm"
@@ -391,6 +383,9 @@ defmodule <%= @module %> do
 
   defp rounded_size(params) when is_binary(params), do: params
 
+  <%= if is_nil(@space) or "none" in @space do %>
+  defp space_class("none"), do: nil
+  <% end %>
   <%= if is_nil(@space) or "extra_small" in @space do %>
   defp space_class("extra_small"), do: "space-y-1"
   <% end %>

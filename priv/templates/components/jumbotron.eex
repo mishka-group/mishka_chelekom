@@ -20,16 +20,6 @@ defmodule <%= @module %> do
   """
   use Phoenix.Component
 
-  @variants [
-    "default",
-    "outline",
-    "transparent",
-    "shadow",
-    "bordered",
-    "gradient",
-    "base"
-  ]
-
   @doc """
   Renders a `jumbotron` component, a large content area designed to showcase key information with a
   prominent background. It supports customizable styles, borders, and spacing.
@@ -92,17 +82,17 @@ defmodule <%= @module %> do
     default: nil,
     doc: "A unique identifier is used to manage state and interaction"
 
-  attr :variant, :string, values: @variants, default: "base", doc: "Determines the style"
+  attr :variant, :string, default: "base", doc: "Determines the style"
   attr :color, :string, default: "base", doc: "Determines color theme"
   attr :border_size, :string, default: "extra_small", doc: ""
   attr :border_position, :string, default: "bottom", doc: ""
-  attr :space, :string, default: nil, doc: "Space between items"
+  attr :space, :string, default: "", doc: "Space between items"
 
   attr :font_weight, :string,
     default: "font-normal",
     doc: "Determines custom class for the font weight"
 
-  attr :padding, :string, default: "none", doc: "Determines padding for items"
+  attr :padding, :string, default: "", doc: "Determines padding for items"
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
 
   attr :rest, :global,
@@ -179,9 +169,6 @@ defmodule <%= @module %> do
   <% end %>
   <%= if is_nil(@padding) or "quadruple_large" in @padding do %>
   defp padding_size("quadruple_large"), do: "p-8"
-  <% end %>
-  <%= if is_nil(@padding) or "none" in @padding do %>
-  defp padding_size("none"), do: "p-0"
   <% end %>
   defp padding_size(params) when is_binary(params), do: params
 

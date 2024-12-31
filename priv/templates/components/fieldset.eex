@@ -15,8 +15,6 @@ defmodule <%= @module %> do
   """
   use Phoenix.Component
 
-  @variants ["default", "outline", "bordered", "shadow", "transparent", "gradient", "base"]
-
   @doc """
   Renders a `fieldset` component that groups related form elements visually and semantically.
 
@@ -60,7 +58,7 @@ defmodule <%= @module %> do
   attr :border, :string, default: "extra_small", doc: "Determines border style"
   attr :rounded, :string, default: "small", doc: "Determines the border radius"
   attr :padding, :string, default: "small", doc: "Determines padding for items"
-  attr :variant, :string, values: @variants, default: "base", doc: "Determines the style"
+  attr :variant, :string, default: "base", doc: "Determines the style"
   attr :space, :string, default: "medium", doc: "Space between items"
 
   attr :size, :string,
@@ -147,6 +145,9 @@ defmodule <%= @module %> do
   <% end %>
   defp size_class(params) when is_binary(params), do: params
 
+  <%= if is_nil(@rounded) or "none" in @rounded do %>
+  defp rounded_size("none"), do: nil
+  <% end %>
   <%= if is_nil(@rounded) or "extra_small" in @rounded do %>
   defp rounded_size("extra_small"), do: "[&_.fieldset-field]:rounded-sm"
   <% end %>
@@ -165,26 +166,17 @@ defmodule <%= @module %> do
   <%= if is_nil(@rounded) or "full" in @rounded do %>
   defp rounded_size("full"), do: "[&_.fieldset-field]:rounded-full"
   <% end %>
-  defp rounded_size(_), do: "[&_.fieldset-field]:rounded-none"
+  defp rounded_size(params) when is_binary(params), do: params
 
   defp border_class(_, variant) when variant in ["default", "shadow", "transparent", "gradient"],
     do: nil
+    
   defp border_class("none", _), do: nil
-  <%= if is_nil(@size) or "extra_small" in @size do %>
   defp border_class("extra_small", _), do: "[&_.fieldset-field]:border"
-  <% end %>
-  <%= if is_nil(@size) or "small" in @size do %>
   defp border_class("small", _), do: "[&_.fieldset-field]:border-2"
-  <% end %>
-  <%= if is_nil(@size) or "medium" in @size do %>
   defp border_class("medium", _), do: "[&_.fieldset-field]:border-[3px]"
-  <% end %>
-  <%= if is_nil(@size) or "large" in @size do %>
   defp border_class("large", _), do: "[&_.fieldset-field]:border-4"
-  <% end %>
-  <%= if is_nil(@size) or "extra_large" in @size do %>
   defp border_class("extra_large", _), do: "[&_.fieldset-field]:border-[5px]"
-  <% end %>
   defp border_class(params, _) when is_binary(params), do: params
 
   <%= if is_nil(@padding) or "extra_small" in @padding do %>
@@ -204,6 +196,9 @@ defmodule <%= @module %> do
   <% end %>
   defp padding_class(params) when is_binary(params), do: params
 
+  <%= if is_nil(@space) or "none" in @space do %>
+  defp space_class("none"), do: nil
+  <% end %>
   <%= if is_nil(@space) or "extra_small" in @space do %>
   defp space_class("extra_small"), do: "space-y-1"
   <% end %>

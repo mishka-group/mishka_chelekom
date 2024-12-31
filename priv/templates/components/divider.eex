@@ -388,10 +388,7 @@ defmodule <%= @module %> do
   <%= if is_nil(@size) or "extra_large" in @size do %>
   defp size_class("extra_large", :icon), do: "[&>*]:size-9"
   <% end %>
-
-  defp size_class(params, :icon) when is_binary(params), do: params
-
-  defp size_class(params, _) when is_binary(params), do: [params]
+  defp size_class(params, _) when is_binary(params), do: params
 
   defp width_class("full"), do: "w-full"
 
@@ -454,6 +451,8 @@ defmodule <%= @module %> do
   defp margin_class("none", :vertical) do
     ["mx-0"]
   end
+
+  defp margin_class(params, _) when is_binary(params), do: params
   <%= if is_nil(@color) or "base" in @color do %>
   defp color_class("base") do
     [

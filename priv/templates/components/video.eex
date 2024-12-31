@@ -77,7 +77,7 @@ defmodule <%= @module %> do
 
   attr :thumbnail, :string, default: nil, doc: "Determines thumbnail for video"
   attr :width, :string, default: "full", doc: "Determines the element width"
-  attr :rounded, :string, default: "none", doc: "Determines the border radius"
+  attr :rounded, :string, default: "", doc: "Determines the border radius"
   attr :height, :string, default: "auto", doc: "Determines the element width"
   attr :caption_size, :string, default: "extra_small", doc: "Determines the video caption size"
 
@@ -182,10 +182,7 @@ defmodule <%= @module %> do
   <%= if is_nil(@rounded) or "extra_large" in @rounded do %>
   defp rounded_size("extra_large"), do: "rounded-xl"
   <% end %>
-  <%= if is_nil(@rounded) or "none" in @rounded do %>
-  defp rounded_size("none"), do: "rounded-none"
-  defp rounded_size(_), do: rounded_size("none")
-  <% end %>
+  defp rounded_size(params) when is_binary(params), do: params
 
   defp caption_size("extra_small"), do: "[&::cue]:text-xs"
   defp caption_size("small"), do: "[&::cue]:text-sm"

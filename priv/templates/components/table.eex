@@ -14,18 +14,6 @@ defmodule <%= @module %> do
 
   use Phoenix.Component
 
-  @variants [
-    "outline",
-    "bordered",
-    "shadow",
-    "default",
-    "transparent",
-    "hoverable",
-    "stripped",
-    "separated",
-    "base"
-  ]
-
   <%= if is_nil(@type) or "table" in @type do %>
   @doc """
   Renders a customizable `table` component that supports custom styling for rows, columns,
@@ -83,15 +71,15 @@ defmodule <%= @module %> do
     doc: "A unique identifier is used to manage state and interaction"
 
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
-  attr :variant, :string, values: @variants, default: "base", doc: "Determines the style"
-  attr :rounded, :string, default: nil, doc: "Determines the border radius"
+  attr :variant, :string, default: "base", doc: "Determines the style"
+  attr :rounded, :string, default: "", doc: "Determines the border radius"
   attr :padding, :string, default: "small", doc: "Determines padding for items"
   attr :text_size, :string, default: "small", doc: "Determines text size"
   attr :color, :string, default: "base", doc: "Determines color theme"
-  attr :border, :string, default: nil, doc: "Determines border style"
-  attr :header_border, :string, default: nil, doc: "Sets the border style for the table header"
-  attr :rows_border, :string, default: nil, doc: "Sets the border style for rows in the table"
-  attr :cols_border, :string, default: nil, doc: "Sets the border style for columns in the table"
+  attr :border, :string, default: "", doc: "Determines border style"
+  attr :header_border, :string, default: "", doc: "Sets the border style for the table header"
+  attr :rows_border, :string, default: "", doc: "Sets the border style for rows in the table"
+  attr :cols_border, :string, default: "", doc: "Sets the border style for columns in the table"
   attr :thead_class, :string, default: nil, doc: "Adds custom CSS classes to the table header"
   attr :footer_class, :string, default: nil, doc: "Adds custom CSS classes to the table footer"
   attr :table_fixed, :boolean, default: false, doc: "Enables or disables the table's fixed layout"

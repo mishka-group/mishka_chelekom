@@ -16,8 +16,6 @@ defmodule <%= @module %> do
 
   use Phoenix.Component
 
-  @variants ["default", "shadow", "bordered", "native", "base"]
-
   <%= if is_nil(@type) or "native_select" in @type do %>
   @doc """
   Renders a customizable `native_select` input component with options for single or multiple selections.
@@ -64,7 +62,7 @@ defmodule <%= @module %> do
   attr :color, :string, default: "base", doc: "Determines color theme"
   attr :border, :string, default: "extra_small", doc: "Determines border style"
   attr :rounded, :string, default: "small", doc: "Determines the border radius"
-  attr :variant, :string, values: @variants, default: "base", doc: "Determines the style"
+  attr :variant, :string, default: "base", doc: "Determines the style"
   attr :description, :string, default: nil, doc: "Determines a short description"
   attr :space, :string, default: "medium", doc: "Space between items"
   attr :min_height, :string, default: nil, doc: "Determines min height style"
@@ -291,7 +289,11 @@ defmodule <%= @module %> do
   <%= if is_nil(@rounded) or "full" in @rounded do %>
   defp rounded_size("full"), do: "[&_.select-field]:rounded-full"
   <% end %>
-  defp rounded_size(_), do: "[&_.select-field]:rounded-none"
+  <%= if is_nil(@rounded) or "none" in @rounded do %>
+  defp rounded_size("none"), do: nil
+  <% end %>
+  defp rounded_size(params) when is_binary(params), do: params
+
 
    defp border_class(_, variant)
        when variant in [
@@ -309,6 +311,9 @@ defmodule <%= @module %> do
   defp border_class("extra_large", _), do: "[&_.select-field]:border-[5px]"
   defp border_class(params, _) when is_binary(params), do: params
 
+  <%= if is_nil(@space) or "none" in @space do %>
+  defp space_class("none"), do: nil
+  <% end %>
   <%= if is_nil(@space) or "small" in @space do %>
   defp space_class("extra_small"), do: "space-y-1"
   <% end %>

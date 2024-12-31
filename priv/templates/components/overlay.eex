@@ -13,20 +13,6 @@ defmodule <%= @module %> do
 
   use Phoenix.Component
 
-  @sizes ["extra_small", "small", "medium", "large", "extra_large"]
-
-  @opacities [
-    "transparent",
-    "translucent",
-    "semi_transparent",
-    "lightly_tinted",
-    "tinted",
-    "semi_opaque",
-    "opaque",
-    "heavily_tinted",
-    "almost_solid"
-  ]
-
   @doc """
   Renders an `overlay` element with customizable color, opacity, and backdrop options.
 
@@ -51,8 +37,8 @@ defmodule <%= @module %> do
     doc: "A unique identifier is used to manage state and interaction"
 
   attr :color, :string, default: "base", doc: "Determines color theme"
-  attr :opacity, :string, values: @opacities ++ [nil], default: nil, doc: ""
-  attr :backdrop, :string, values: @sizes ++ ["none", nil], default: nil, doc: ""
+  attr :opacity, :string, default: "", doc: ""
+  attr :backdrop, :string, default: "", doc: ""
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
 
   attr :rest, :global,

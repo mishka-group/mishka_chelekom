@@ -49,15 +49,10 @@ defmodule <%= @module %> do
 
   attr :type, :string, values: ["default", "masonry", "featured"], default: "default", doc: ""
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
-  attr :cols, :string, default: nil, doc: "Determines cols of elements"
-  attr :gap, :string, default: nil, doc: "Determines gap between elements"
-
-  attr :animation, :string,
-    values: ["scale-up", "scale-down", "blur", "backdrop", nil],
-    default: nil,
-    doc: "Determines gap between elements"
-
-  attr :animation_size, :string, default: nil, doc: "Determines gap between elements"
+  attr :cols, :string, default: "", doc: "Determines cols of elements"
+  attr :gap, :string, default: "", doc: "Determines gap between elements"
+  attr :animation, :string, default: "", doc: "Determines gap between elements"
+  attr :animation_size, :string, default: "extra_small", doc: "Determines gap between elements"
 
   attr :rest, :global,
     doc:

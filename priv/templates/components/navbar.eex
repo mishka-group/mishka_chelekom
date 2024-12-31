@@ -15,8 +15,6 @@ defmodule <%= @module %> do
   """
   use Phoenix.Component
 
-  @variants ["default", "shadow", "bordered", "gradient", "base"]
-
   @doc """
   Renders a customizable navigation bar (`navbar` component) that can include links,
   dropdowns, and other components.
@@ -102,12 +100,12 @@ defmodule <%= @module %> do
     required: true,
     doc: "A unique identifier is used to manage state and interaction"
 
-  attr :variant, :string, values: @variants, default: "base", doc: "Determines the style"
+  attr :variant, :string, default: "base", doc: "Determines the style"
   attr :color, :string, default: "base", doc: "Determines color theme"
   attr :border, :string, default: "extra_small", doc: "Determines border style"
-  attr :text_position, :string, default: nil, doc: "Determines the element' text position"
-  attr :rounded, :string, default: nil, doc: "Determines the border radius"
-  attr :max_width, :string, default: nil, doc: "Determines the style of element max width"
+  attr :text_position, :string, default: "", doc: "Determines the element' text position"
+  attr :rounded, :string, default: "", doc: "Determines the border radius"
+  attr :max_width, :string, default: "", doc: "Determines the style of element max width"
 
   attr :content_position, :string,
     default: "between",
@@ -118,7 +116,7 @@ defmodule <%= @module %> do
   attr :name, :string, default: nil, doc: "Specifies the name of the element"
   attr :relative, :boolean, default: false, doc: ""
   attr :link, :string, default: nil, doc: ""
-  attr :space, :string, default: nil, doc: "Space between items"
+  attr :space, :string, default: "", doc: "Space between items"
 
   attr :font_weight, :string,
     default: "font-normal",
