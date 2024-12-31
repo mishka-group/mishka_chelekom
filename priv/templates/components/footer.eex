@@ -16,15 +16,6 @@ defmodule <%= @module %> do
 
   use Phoenix.Component
 
-  @variants [
-    "default",
-    "outline",
-    "transparent",
-    "shadow",
-    "bordered",
-    "gradient",
-    "base"
-  ]
   <%= if is_nil(@type) or "footer" in @type do %>
   @doc """
   Renders a customizable `footer` component with different sections and styling options, allowing
@@ -66,19 +57,19 @@ defmodule <%= @module %> do
     default: nil,
     doc: "A unique identifier is used to manage state and interaction"
 
-  attr :variant, :string, values: @variants, default: "base", doc: "Determines the style"
+  attr :variant, :string, default: "base", doc: "Determines the style"
   attr :color, :string, default: "base", doc: "Determines color theme"
   attr :border, :string, default: "extra_small", doc: "Determines border style"
-  attr :text_position, :string, default: nil, doc: "Determines the element' text position"
-  attr :rounded, :string, default: nil, doc: "Determines the border radius"
-  attr :max_width, :string, default: nil, doc: "Determines the style of element max width"
-  attr :space, :string, default: nil, doc: "Space between items"
+  attr :text_position, :string, default: "", doc: "Determines the element' text position"
+  attr :rounded, :string, default: "", doc: "Determines the border radius"
+  attr :max_width, :string, default: "", doc: "Determines the style of element max width"
+  attr :space, :string, default: "", doc: "Space between items"
 
   attr :font_weight, :string,
     default: "font-normal",
     doc: "Determines custom class for the font weight"
 
-  attr :padding, :string, default: "none", doc: "Determines padding for items"
+  attr :padding, :string, default: "", doc: "Determines padding for items"
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
 
   attr :rest, :global,
@@ -128,9 +119,9 @@ defmodule <%= @module %> do
     default: "font-normal",
     doc: "Determines custom class for the font weight"
 
-  attr :text_position, :string, default: nil, doc: "Determines the element' text position"
-  attr :space, :string, default: nil, doc: "Space between items"
-  attr :padding, :string, default: "none", doc: "Determines padding for items"
+  attr :text_position, :string, default: "", doc: "Determines the element' text position"
+  attr :space, :string, default: "", doc: "Space between items"
+  attr :padding, :string, default: "", doc: "Determines padding for items"
   slot :inner_block, required: false, doc: "Inner block that renders HEEx content"
 
   def footer_section(assigns) do
@@ -190,9 +181,6 @@ defmodule <%= @module %> do
   <% end %>
   <%= if is_nil(@padding) or "extra_large" in @padding do %>
   defp padding_size("extra_large"), do: "p-5"
-  <% end %>
-  <%= if is_nil(@padding) or "none" in @padding do %>
-  defp padding_size("none"), do: "p-0"
   <% end %>
   defp padding_size(params) when is_binary(params), do: params
 
