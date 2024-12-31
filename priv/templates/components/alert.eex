@@ -29,6 +29,13 @@ defmodule <%= @module %> do
   use Gettext, backend: <%= inspect(@web_module) %>.Gettext
   alias Phoenix.LiveView.JS
 
+   @positions [
+    "top_left",
+    "top_right",
+    "bottom_left",
+    "bottom_right"
+  ]
+
   <%= if is_nil(@type) or "flash" in @type do %>
   @doc type: :component
   @doc """
@@ -62,7 +69,10 @@ defmodule <%= @module %> do
 
   attr :variant, :string, default: "base", doc: "Determines the style"
 
-  attr :position, :string, default: "", doc: "Determines the element position"
+  attr :position, :string,
+    values: @positions ++ [nil],
+    default: nil,
+    doc: "Determines the element position"
 
   attr :width, :string, default: "full", doc: "Determines the element width"
 
@@ -208,7 +218,10 @@ defmodule <%= @module %> do
   attr :kind, :atom, default: :base, doc: "used for styling and flash lookup"
   attr :variant, :string, default: "default", doc: "Determines the style"
 
-  attr :position, :string, default: "", doc: "Determines the element position"
+  attr :position, :string,
+    values: @positions ++ [nil],
+    default: nil,
+    doc: "Determines the element position"
 
   attr :width, :string, default: "full", doc: "Determines the element width"
 
