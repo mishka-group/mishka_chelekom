@@ -31,14 +31,6 @@ defmodule <%= @module %> do
   use Gettext, backend: <%= inspect(@web_module) %>.Gettext
   alias Phoenix.LiveView.JS
 
-  @variants [
-    "default",
-    "shadow",
-    "bordered",
-    "gradient",
-    "base"
-  ]
-
   @doc """
   Renders a customizable `speed_dial` component that provides quick access to multiple actions.
   The speed dial can be configured with various styles, sizes, and colors.
@@ -73,7 +65,7 @@ defmodule <%= @module %> do
       "Determines the overall size of the elements, including padding, font size, and other items"
 
   attr :color, :string, default: "base", doc: "Determines color theme"
-  attr :variant, :string, values: @variants, default: "base", doc: "Determines the style"
+  attr :variant, :string, default: "base", doc: "Determines the style"
   attr :space, :string, default: "extra_small", doc: "Space between items"
   attr :width, :string, default: "fit", doc: "Determines the element width"
   attr :border, :string, default: "extra_small", doc: "Determines border style"
@@ -350,8 +342,7 @@ defmodule <%= @module %> do
   <%= if is_nil(@space) or "extra_large" in @space do %>
   defp space_class("extra_large", "right"), do: "[&_.speed-dial-content]:space-x-6"
   <% end %>
-
-  defp space_class(_, params) when is_binary(params), do: params
+  defp space_class(params, _) when is_binary(params), do: params
 
   <%= if is_nil(@padding) or "none" in @padding do %>
   defp padding_class("none"), do: "[&_.speed-dial-content]:p-0"
@@ -373,6 +364,9 @@ defmodule <%= @module %> do
   <% end %>
   defp padding_class(params) when is_binary(params), do: params
 
+  <%= if is_nil(@rounded) or "none" in @rounded do %>
+  defp rounded_size("none"), do: nil
+  <% end %>
   <%= if is_nil(@rounded) or "extra_small" in @rounded do %>
   defp rounded_size("extra_small"), do: "[&_.speed-dial-base]:rounded-sm"
   <% end %>
