@@ -25,8 +25,6 @@ defmodule <%= @module %> do
 
   use Phoenix.Component
 
-  @sizes ["extra_small", "small", "medium", "large", "extra_large"]
-
   @doc """
   Renders a `skeleton` loader component to indicate loading state in your application.
   The skeleton component provides customizable options such as size, color, and rounded corners.
@@ -54,11 +52,7 @@ defmodule <%= @module %> do
   attr :color, :string, default: "base", doc: "Determines color theme"
   attr :height, :string, default: "extra_small", doc: "Determines the element width"
   attr :width, :string, default: "full", doc: "Determines the element width"
-
-  attr :rounded, :string,
-    values: @sizes ++ ["full", "none"],
-    default: "small",
-    doc: "Determines the border radius"
+  attr :rounded, :string, default: "small", doc: "Determines the border radius"
 
   attr :visible, :boolean, default: true, doc: ""
 
