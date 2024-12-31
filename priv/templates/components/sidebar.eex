@@ -18,8 +18,6 @@ defmodule <%= @module %> do
   use Gettext, backend: <%= inspect(@web_module) %>.Gettext
   alias Phoenix.LiveView.JS
 
-  @variants ["default", "outline", "transparent", "bordered", "gradient", "base"]
-
   @doc """
   Renders a `sidebar` component that can be shown or hidden based on user interactions.
 
@@ -41,7 +39,7 @@ defmodule <%= @module %> do
     required: true,
     doc: "A unique identifier is used to manage state and interaction"
 
-  attr :variant, :string, values: @variants, default: "base", doc: "Determines the style"
+  attr :variant, :string, default: "base", doc: "Determines the style"
   attr :color, :string, default: "base", doc: "Determines color theme"
 
   attr :size, :string,
