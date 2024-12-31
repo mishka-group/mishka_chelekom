@@ -21,8 +21,6 @@ defmodule <%= @module %> do
 
   use Phoenix.Component
 
-  @sizes ["extra_small", "small", "medium", "large", "extra_large"]
-
   <%= if is_nil(@type) or "avatar" in @type do %>
   @doc """
   The `avatar` component is used to display user avatars with various customization options,
@@ -62,19 +60,13 @@ defmodule <%= @module %> do
     doc:
       "Determines the overall size of the elements, including padding, font size, and other items"
 
-  attr :shadow, :string,
-    values: @sizes ++ ["none"],
-    default: "none",
-    doc: "Determines shadow style"
+  attr :shadow, :string, default: "none", doc: "Determines shadow style"
 
   attr :font_weight, :string,
     default: "font-normal",
     doc: "Determines custom class for the font weight"
 
-  attr :rounded, :string,
-    values: @sizes ++ ["full", "none"],
-    default: "medium",
-    doc: "Determines the border radius"
+  attr :rounded, :string, default: "medium", doc: "Determines the border radius"
 
   attr :border, :string, default: "none", doc: "Determines border style"
 
@@ -207,7 +199,7 @@ defmodule <%= @module %> do
     doc: "A unique identifier is used to manage state and interaction"
 
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
-  attr :space, :string, values: @sizes ++ ["none"], default: "medium", doc: "Space between items"
+  attr :space, :string, default: "medium", doc: "Space between items"
 
   attr :rest, :global,
     doc:
