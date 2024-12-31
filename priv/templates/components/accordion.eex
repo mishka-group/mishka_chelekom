@@ -60,7 +60,7 @@ defmodule <%= @module %> do
     required: true,
     doc: "A unique identifier is used to manage state and interaction"
 
-  attr :class, :string, default: "", doc: "Custom CSS class for additional styling"
+  attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :variant, :string, default: "base", doc: "Determines the style"
   attr :space, :string, default: "small", doc: "Space between items"
   attr :color, :string, default: "base", doc: "Determines color theme"
@@ -220,7 +220,7 @@ defmodule <%= @module %> do
     doc: "A unique identifier is used to manage state and interaction"
 
   attr :name, :string, default: "", doc: "Specifies the name of the element"
-  attr :class, :string, default: "", doc: "Custom CSS class for additional styling"
+  attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :variant, :string, default: "base", doc: "Determines the style"
   attr :space, :string, default: "small", doc: "Space between items"
   attr :color, :string, default: "base", doc: "Determines color theme"
@@ -309,7 +309,7 @@ defmodule <%= @module %> do
     default: "",
     doc: "A unique identifier is used to manage state and interaction"
 
-  attr :class, :string, default: "", doc: "Custom CSS class for additional styling"
+  attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :item, :map, doc: "Determines each item"
   attr :position, :string, values: ["left", "right"], doc: "Determines the element position"
   attr :chevron_icon, :string, doc: "Determines the icon for the chevron"
@@ -2278,7 +2278,7 @@ defmodule <%= @module %> do
   end
 
   attr :name, :string, required: true, doc: "Specifies the name of the element"
-  attr :class, :any, default: "", doc: "Custom CSS class for additional styling"
+  attr :class, :any, default: nil, doc: "Custom CSS class for additional styling"
 
   defp icon(%{name: "hero-" <> _, class: class} = assigns) when is_list(class) do
     ~H"""
