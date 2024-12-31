@@ -39,15 +39,15 @@ defmodule <%= @module %> do
     doc: "A unique identifier is used to manage state and interaction"
 
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
-  attr :color, :string, default: nil, doc: "Determines color theme"
-  attr :variant, :string, default: nil, doc: "Determines the style"
-  attr :border, :string, default: nil, doc: "Determines border style"
-  attr :rounded, :string, default: nil, doc: "Determines the border radius"
-  attr :padding, :string, default: nil, doc: "Determines padding for items"
-  attr :space, :string, default: nil, doc: "Space between items"
+  attr :color, :string, default: "", doc: "Determines color theme"
+  attr :variant, :string, default: "", doc: "Determines the style"
+  attr :border, :string, default: "", doc: "Determines border style"
+  attr :rounded, :string, default: "", doc: "Determines the border radius"
+  attr :padding, :string, default: "", doc: "Determines padding for items"
+  attr :space, :string, default: "", doc: "Space between items"
 
   attr :size, :string,
-    default: nil,
+    default: "",
     doc:
       "Determines the overall size of the elements, including padding, font size, and other items"
 
@@ -104,9 +104,6 @@ defmodule <%= @module %> do
   <% end %>
   defp size_class(params) when is_binary(params), do: params
 
-  <%= if is_nil(@rounded) or "none" in @rounded do %>
-  defp rounded_size("none"), do: "rounded-none"
-  <% end %>
   <%= if is_nil(@rounded) or "extra_small" in @rounded do %>
   defp rounded_size("extra_small"), do: "rounded-sm"
   <% end %>
@@ -125,12 +122,11 @@ defmodule <%= @module %> do
   <%= if is_nil(@rounded) or "full" in @rounded do %>
   defp rounded_size("full"), do: "rounded-full"
   <% end %>
-  defp rounded_size(_), do: nil
+  defp rounded_size(params) when is_binary(params), do: params
 
-   defp border_class(_, variant) when variant in ["default", "shadow", "transparent"],
+  defp border_class(_, variant) when variant in ["default", "shadow", "transparent"],
     do: nil
 
-  defp border_class("none", _), do: "border-0"
   <%= if is_nil(@size) or "extra_small" in @size do %>
   defp border_class("extra_small", _), do: "border"
   <% end %>
