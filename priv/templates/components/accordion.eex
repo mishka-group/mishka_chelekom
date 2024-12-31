@@ -107,6 +107,7 @@ defmodule <%= @module %> do
   def accordion(assigns) do
     ~H"""
     <div
+      id={@id}
       class={[
         "overflow-hidden w-full h-fit",
         @variant == "menu" && menu_rounded(@rounded),
@@ -216,10 +217,10 @@ defmodule <%= @module %> do
   """
   @doc type: :component
   attr :id, :string,
-    default: "",
+    default: nil,
     doc: "A unique identifier is used to manage state and interaction"
 
-  attr :name, :string, default: "", doc: "Specifies the name of the element"
+  attr :name, :string, default: nil, doc: "Specifies the name of the element"
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :variant, :string, default: "base", doc: "Determines the style"
   attr :space, :string, default: "small", doc: "Space between items"
@@ -306,7 +307,7 @@ defmodule <%= @module %> do
   end
   <% end %>
   attr :id, :string,
-    default: "",
+    default: nil,
     doc: "A unique identifier is used to manage state and interaction"
 
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
@@ -1229,7 +1230,7 @@ defmodule <%= @module %> do
     [
       "text-[#282828] border-[#282828] bg-[#F3F3F3]",
       "dark:text-[#E8E8E8] dark:border-[#E8E8E8] dark:bg-[#4B4B4B]",
-      "hover:[&>.accordion-item-wrapper>.accordion-summary]:bg-[#E8E8E8] dark:hover:[&>.accordion-item-wrapper>.accordion-summary]:bg-[#5E5E5]",
+      "hover:[&>.accordion-item-wrapper>.accordion-summary]:bg-[#E8E8E8] dark:hover:[&>.accordion-item-wrapper>.accordion-summary]:bg-[#5E5E5E]",
       "[&>.accordion-item-wrapper:not(:last-child)>.accordion-summary]:border-[#282828]",
       "[&>.accordion-item-wrapper:not(:last-child)>.accordion-content-wrapper.active]:border-[#282828]",
       "dark:[&>.accordion-item-wrapper:not(:last-child)>.accordion-summary]:border-[#E8E8E8]",

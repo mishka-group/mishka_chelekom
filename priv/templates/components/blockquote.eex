@@ -146,7 +146,7 @@ defmodule <%= @module %> do
         :for={caption <- @caption}
         class={[
           "flex items-center space-x-3 rtl:space-x-reverse",
-          caption_position(caption[:position])
+          !is_nil(caption[:position]) && caption_position(caption[:position])
         ]}
       >
         <img
