@@ -96,6 +96,7 @@ defmodule <%= @module %> do
   defp gap_class("medium"), do: "gap-2"
   defp gap_class("large"), do: "gap-2.5"
   defp gap_class("extra_large"), do: "gap-3"
+  defp gap_class("none"), do: nil
   defp gap_class(params) when is_binary(params), do: params
 
   <%= if is_nil(@size) or "extra_small" in @size do %>
