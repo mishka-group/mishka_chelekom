@@ -341,24 +341,12 @@ defmodule <%= @module %> do
   <% end %>
   defp rounded_size(params) when is_binary(params), do: params
 
-  <%= if is_nil(@size) or "none" in @size do %>
   defp border_class("none"), do: "[&_.checkbox-field-wrapper_.checkbox-input]:border-0"
-  <% end %>
-  <%= if is_nil(@size) or "extra_small" in @size do %>
   defp border_class("extra_small"), do: "[&_.checkbox-field-wrapper_.checkbox-input]:border"
-  <% end %>
-  <%= if is_nil(@size) or "small" in @size do %>
   defp border_class("small"), do: "[&_.checkbox-field-wrapper_.checkbox-input]:border-2"
-  <% end %>
-  <%= if is_nil(@size) or "medium" in @size do %>
   defp border_class("medium"), do: "[&_.checkbox-field-wrapper_.checkbox-input]:border-[3px]"
-  <% end %>
-  <%= if is_nil(@size) or "large" in @size do %>
   defp border_class("large"), do: "[&_.checkbox-field-wrapper_.checkbox-input]:border-4"
-  <% end %>
-  <%= if is_nil(@size) or "extra_large" in @size do %>
   defp border_class("extra_large"), do: "[&_.checkbox-field-wrapper_.checkbox-input]:border-[5px]"
-  <% end %>
   defp border_class(params) when is_binary(params), do: params
 
   <%= if is_nil(@space) or "none" in @space do %>

@@ -369,24 +369,12 @@ defmodule <%= @module %> do
 
   defp border_class(_, variant) when variant in ["default", "shadow"], do: nil
 
-  <%= if is_nil(@size) or "none" in @size do %>
   defp border_class("none", _), do: nil
-  <% end %>
-  <%= if is_nil(@size) or "extra_small" in @size do %>
   defp border_class("extra_small", _), do: "border"
-  <% end %>
-  <%= if is_nil(@size) or "small" in @size do %>
   defp border_class("small", _), do: "border-2"
-  <% end %>
-  <%= if is_nil(@size) or "medium" in @size do %>
   defp border_class("medium", _), do: "border-[3px]"
-  <% end %>
-  <%= if is_nil(@size) or "large" in @size do %>
   defp border_class("large", _), do: "border-4"
-  <% end %>
-  <%= if is_nil(@size) or "extra_large" in @size do %>
   defp border_class("extra_large", _), do: "border-[5px]"
-  <% end %>
   defp border_class(params, _) when is_binary(params), do: params
 
   <%= if is_nil(@rounded) or "extra_small" in @rounded do %>

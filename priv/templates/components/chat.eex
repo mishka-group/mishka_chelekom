@@ -299,24 +299,12 @@ defmodule <%= @module %> do
   defp border_class(_, variant) when variant in ["default", "shadow", "transparent", "gradient"],
     do: nil
 
-  <%= if is_nil(@size) or "extra_small" in @size do %>
   defp border_class("extra_small", _), do: "[&>.chat-section-bubble]:border"
-  <% end %>
-  <%= if is_nil(@size) or "small" in @size do %>
   defp border_class("small", _), do: "[&>.chat-section-bubble]:border-2"
-  <% end %>
-  <%= if is_nil(@size) or "medium" in @size do %>
   defp border_class("medium", _), do: "[&>.chat-section-bubble]:border-[3px]"
-  <% end %>
-  <%= if is_nil(@size) or "large" in @size do %>
   defp border_class("large", _), do: "[&>.chat-section-bubble]:border-4"
-  <% end %>
-  <%= if is_nil(@size) or "extra_large" in @size do %>
   defp border_class("extra_large", _), do: "[&>.chat-section-bubble]:border-[5px]"
-  <% end %>
-  <%= if is_nil(@size) or "none" in @size do %>
   defp border_class("none", _), do: "[&>.chat-section-bubble]:border-0"
-  <% end %>
   defp border_class(params, _) when is_binary(params), do: params
 
   <%= if is_nil(@size) or "extra_small" in @size do %>

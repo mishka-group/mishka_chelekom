@@ -221,22 +221,13 @@ defmodule <%= @module %> do
   defp rounded_size("none"), do: nil
   <% end %>
   defp rounded_size(params) when is_binary(params), do: params
+
   defp border_class("none"), do: "[&_.color-field-wrapper_.color-input]:border-0"
-  <%= if is_nil(@size) or "extra_small" in @size do %>
   defp border_class("extra_small"), do: "[&_.color-field-wrapper_.color-input]:border"
-  <% end %>
-  <%= if is_nil(@size) or "small" in @size do %>
   defp border_class("small"), do: "[&_.color-field-wrapper_.color-input]:border-2"
-  <% end %>
-  <%= if is_nil(@size) or "medium" in @size do %>
   defp border_class("medium"), do: "[&_.color-field-wrapper_.color-input]:border-[3px]"
-  <% end %>
-  <%= if is_nil(@size) or "large" in @size do %>
   defp border_class("large"), do: "[&_.color-field-wrapper_.color-input]:border-4"
-  <% end %>
-  <%= if is_nil(@size) or "extra_large" in @size do %>
   defp border_class("extra_large"), do: "[&_.color-field-wrapper_.color-input]:border-[5px]"
-  <% end %>
   defp border_class(params) when is_binary(params), do: params
 
   <%= if is_nil(@color) or "base" in @color do %>
