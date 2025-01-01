@@ -219,7 +219,7 @@ defmodule <%= @module %> do
           color_class(@color),
           border_class(@border),
           size_class(@size),
-          !is_nil(radio[:space]) && space_class(radio[:space]),
+          space_class(radio[:space] || "small"),
           @ring && "[&_.radio-field-wrapper_input]:focus-within:ring-1",
           @reverse && "[&_.radio-field-wrapper]:flex-row-reverse"
         ]}

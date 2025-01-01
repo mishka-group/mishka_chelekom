@@ -245,9 +245,9 @@ defmodule <%= @module %> do
             <div
               :if={!entry.done?}
               role="status"
-              class="absolute top-1 left-1 bottom-1 right-1 bg-black/25 flex justify-center items-center"
+              class="absolute inset-0 bg-black/25 flex justify-center items-center"
             >
-              <.spinner color="silver" />
+              <.spinner color="base" />
             </div>
             </div>
             <%%= for err <- upload_errors(@upload_error, entry) do %>
@@ -333,7 +333,7 @@ defmodule <%= @module %> do
 
   defp border_class(_, variant) when variant in ["default", "shadow", "transparent", "gradient"],
     do: nil
-    
+
   defp border_class("none", _), do: nil
   defp border_class("extra_small", _), do: "[&_.dropzone-wrapper]:border"
   defp border_class("small", _), do: "[&_.dropzone-wrapper]:border-2"
