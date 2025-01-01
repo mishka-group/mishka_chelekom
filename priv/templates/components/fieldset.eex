@@ -149,19 +149,29 @@ defmodule <%= @module %> do
   defp rounded_size("none"), do: nil
   <% end %>
   <%= if is_nil(@rounded) or "extra_small" in @rounded do %>
-  defp rounded_size("extra_small"), do: "[&_.fieldset-field]:rounded-sm [&_.fieldset-legend]:rounded-t-sm"
+  defp rounded_size("extra_small") do
+   "[&_.fieldset-field]:rounded-sm [&_.fieldset-legend]:rounded-t-sm"
+  end
   <% end %>
   <%= if is_nil(@rounded) or "small" in @rounded do %>
-  defp rounded_size("small"), do: "[&_.fieldset-field]:rounded [&_.fieldset-legend]:rounded-t"
+  defp rounded_size("small") do
+    "[&_.fieldset-field]:rounded [&_.fieldset-legend]:rounded-t"
+  end
   <% end %>
   <%= if is_nil(@rounded) or "medium" in @rounded do %>
-  defp rounded_size("medium"), do: "[&_.fieldset-field]:rounded-md [&_.fieldset-legend]:rounded-t-md"
+  defp rounded_size("medium") do
+    "[&_.fieldset-field]:rounded-md [&_.fieldset-legend]:rounded-t-md"
+  end
   <% end %>
   <%= if is_nil(@rounded) or "large" in @rounded do %>
-  defp rounded_size("large"), do: "[&_.fieldset-field]:rounded-lg [&_.fieldset-legend]:rounded-t-lg"
+  defp rounded_size("large") do
+    "[&_.fieldset-field]:rounded-lg [&_.fieldset-legend]:rounded-t-lg"
+  end
   <% end %>
   <%= if is_nil(@rounded) or "extra_large" in @rounded do %>
-  defp rounded_size("extra_large"), do: "[&_.fieldset-field]:rounded-xl [&_.fieldset-legend]:rounded-t-xl"
+  defp rounded_size("extra_large") do
+    "[&_.fieldset-field]:rounded-xl [&_.fieldset-legend]:rounded-t-xl"
+  end
   <% end %>
   <%= if is_nil(@rounded) or "full" in @rounded do %>
   defp rounded_size("full"), do: "[&_.fieldset-field]:rounded-full"
@@ -232,7 +242,6 @@ defmodule <%= @module %> do
     [
       "[&_.fieldset-field]:bg-white text-black",
       "[&_.fieldset-legend]:bg-white"
-
     ]
   end
   <% end %>
@@ -273,7 +282,6 @@ defmodule <%= @module %> do
     [
       "[&_.fieldset-field]:bg-[#0E8345] text-white dark:[&_.fieldset-field]:bg-[#06C167] dark:text-black",
       "[&_.fieldset-legend]:bg-[#0E8345] dark:[&_.fieldset-legend]:bg-[#06C167]"
-
     ]
   end
   <% end %>
@@ -282,7 +290,6 @@ defmodule <%= @module %> do
     [
       "[&_.fieldset-field]:bg-[#CA8D01] text-white dark:[&_.fieldset-field]:bg-[#FDC034] dark:text-black",
       "[&_.fieldset-legend]:bg-[#CA8D01] dark:[&_.fieldset-legend]:bg-[#FDC034]"
-
     ]
   end
   <% end %>
@@ -291,7 +298,6 @@ defmodule <%= @module %> do
     [
       "[&_.fieldset-field]:bg-[#DE1135] text-white dark:[&_.fieldset-field]:bg-[#FC7F79] dark:text-black",
       "[&_.fieldset-legend]:bg-[#DE1135] dark:[&_.fieldset-legend]:bg-[#FC7F79]"
-
     ]
   end
   <% end %>
