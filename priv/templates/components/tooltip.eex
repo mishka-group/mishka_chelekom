@@ -71,6 +71,7 @@ defmodule <%= @module %> do
     doc: "Determines custom class for the font weight"
 
   attr :width, :string, default: "fit", doc: "Determines the element width"
+  attr :wrapper_width, :string, default: "w-fit", doc: "Determines the parent element width"
   attr :padding, :string, default: "small", doc: "Determines padding for items"
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :text_position, :string, default: "center", doc: "Determines the element' text position"
@@ -84,7 +85,7 @@ defmodule <%= @module %> do
 
   def tooltip(assigns) do
     ~H"""
-    <span class="relative w-fit group">
+    <span class={["relative group", @wrapper_width]}>
       {render_slot(@inner_block)}
       <span
         role="tooltip"
