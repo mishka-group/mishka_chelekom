@@ -109,7 +109,8 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Component do
     |> get_component_template(component)
     |> converted_components_path(Keyword.get(options, :module))
     |> update_eex_assign(options)
-    |> create_update_component()
+    |> create_or_update_component()
+    |> create_or_update_scripts()
   end
 
   def supports_umbrella?(), do: false
@@ -268,9 +269,9 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Component do
     {:error, :no_dir, msg, template.igniter}
   end
 
-  defp create_update_component({:error, _, msg, igniter}), do: Igniter.add_issue(igniter, msg)
+  defp create_or_update_component({:error, _, msg, igniter}), do: Igniter.add_issue(igniter, msg)
 
-  defp create_update_component(
+  defp create_or_update_component(
          {igniter, template_path, template_config, proper_location, assign, options}
        ) do
     igniter =
@@ -282,7 +283,7 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Component do
       |> optional_components(template_config)
       |> necessary_components(template_path, template_config, proper_location, options, assign)
     else
-      igniter
+      {igniter, template_config}
     end
   end
 
@@ -312,101 +313,116 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Component do
          options,
          assign
        ) do
-    if Keyword.get(template_config, :necessary, []) != [] and Igniter.changed?(igniter) do
-      if template_config[:necessary] != [] and !options[:sub] and !options[:yes] and
-           !options[:no_sub_config] do
-        IO.puts("#{IO.ANSI.bright() <> "Note:\n" <> IO.ANSI.reset()}")
+    igniter =
+      if Keyword.get(template_config, :necessary, []) != [] and Igniter.changed?(igniter) do
+        if template_config[:necessary] != [] and !options[:sub] and !options[:yes] and
+             !options[:no_sub_config] do
+          IO.puts("#{IO.ANSI.bright() <> "Note:\n" <> IO.ANSI.reset()}")
 
-        msg = """
-        This component is dependent on other components, so it is necessary to build other
-        items along with this component.
+          msg = """
+          This component is dependent on other components, so it is necessary to build other
+          items along with this component.
 
-        Note: If you have used custom names for your dependent modules, this script will not be able to find them,
-        so it will think that they have not been created.
+          Note: If you have used custom names for your dependent modules, this script will not be able to find them,
+          so it will think that they have not been created.
 
-        Components: #{Enum.join(template_config[:necessary], " - ")}
-        """
+          Components: #{Enum.join(template_config[:necessary], " - ")}
+          """
 
-        Mix.Shell.IO.info(IO.ANSI.cyan() <> String.trim_trailing(msg) <> IO.ANSI.reset())
+          Mix.Shell.IO.info(IO.ANSI.cyan() <> String.trim_trailing(msg) <> IO.ANSI.reset())
 
-        msg =
-          "\nNote: \nIf approved, dependent components will be created without restrictions and you can change them manually."
+          msg =
+            "\nNote: \nIf approved, dependent components will be created without restrictions and you can change them manually."
 
-        IO.puts("#{IO.ANSI.blue() <> msg <> IO.ANSI.reset()}")
+          IO.puts("#{IO.ANSI.blue() <> msg <> IO.ANSI.reset()}")
 
-        IO.puts(
-          "#{IO.ANSI.cyan() <> "\nYou can run before generating this component:" <> IO.ANSI.reset()}"
-        )
-      end
-
-      if template_config[:necessary] != [] and !options[:yes] and !options[:no_sub_config] do
-        IO.puts(
-          "#{IO.ANSI.yellow() <> "#{Enum.map(template_config[:necessary], &"\n   * mix mishka.ui.gen.component #{&1}\n")}" <> IO.ANSI.reset()}"
-        )
-      end
-
-      if template_config[:necessary] != [] and !options[:sub] and !options[:yes] and
-           !options[:no_sub_config] do
-        Mix.Shell.IO.error("""
-
-        In this section you can set your custom args for each dependent component.
-        If you press the enter key, you have selected the default settings
-        """)
-      end
-
-      Enum.reduce(template_config[:necessary], {[], igniter}, fn item, {module_coms, acc} ->
-        commands =
-          if !options[:yes] and !options[:no_sub_config] do
-            Mix.Shell.IO.prompt("* Component #{String.capitalize(item)}: Enter your args:")
-            |> String.trim()
-            |> String.split(" ", trim: true)
-          else
-            []
-          end
-
-        args =
-          cond do
-            !is_nil(options[:yes]) ->
-              [item, "--sub", "--no-sub-config", "--yes"]
-
-            !is_nil(options[:no_sub_config]) ->
-              [item, "--sub", "--no-sub-config"]
-
-            commands == [] ->
-              [item, "--sub"]
-
-            true ->
-              [item, "--sub"] ++ commands
-          end
-
-        templ_options = options!(args)
-
-        component_acc =
-          if !is_nil(templ_options[:module]) do
-            [{item, atom_to_module(templ_options[:module])}]
-          else
-            []
-          end
-
-        {module_coms ++ component_acc, Igniter.compose_task(acc, "mishka.ui.gen.component", args)}
-      end)
-      |> case do
-        {[], igniter} ->
-          igniter
-
-        {custom_modules, igniter} ->
-          new_assign =
-            Enum.map(custom_modules, fn {k, v} -> {String.to_atom(k), v} end)
-            |> then(&Keyword.merge(assign, &1))
-
-          igniter
-          |> Igniter.copy_template(template_path, proper_location, new_assign,
-            on_exists: :overwrite
+          IO.puts(
+            "#{IO.ANSI.cyan() <> "\nYou can run before generating this component:" <> IO.ANSI.reset()}"
           )
+        end
+
+        if template_config[:necessary] != [] and !options[:yes] and !options[:no_sub_config] do
+          IO.puts(
+            "#{IO.ANSI.yellow() <> "#{Enum.map(template_config[:necessary], &"\n   * mix mishka.ui.gen.component #{&1}\n")}" <> IO.ANSI.reset()}"
+          )
+        end
+
+        if template_config[:necessary] != [] and !options[:sub] and !options[:yes] and
+             !options[:no_sub_config] do
+          Mix.Shell.IO.error("""
+
+          In this section you can set your custom args for each dependent component.
+          If you press the enter key, you have selected the default settings
+          """)
+        end
+
+        Enum.reduce(template_config[:necessary], {[], igniter}, fn item, {module_coms, acc} ->
+          commands =
+            if !options[:yes] and !options[:no_sub_config] do
+              Mix.Shell.IO.prompt("* Component #{String.capitalize(item)}: Enter your args:")
+              |> String.trim()
+              |> String.split(" ", trim: true)
+            else
+              []
+            end
+
+          args =
+            cond do
+              !is_nil(options[:yes]) ->
+                [item, "--sub", "--no-sub-config", "--yes"]
+
+              !is_nil(options[:no_sub_config]) ->
+                [item, "--sub", "--no-sub-config"]
+
+              commands == [] ->
+                [item, "--sub"]
+
+              true ->
+                [item, "--sub"] ++ commands
+            end
+
+          templ_options = options!(args)
+
+          component_acc =
+            if !is_nil(templ_options[:module]) do
+              [{item, atom_to_module(templ_options[:module])}]
+            else
+              []
+            end
+
+          {module_coms ++ component_acc,
+           Igniter.compose_task(acc, "mishka.ui.gen.component", args)}
+        end)
+        |> case do
+          {[], igniter} ->
+            igniter
+
+          {custom_modules, igniter} ->
+            new_assign =
+              Enum.map(custom_modules, fn {k, v} -> {String.to_atom(k), v} end)
+              |> then(&Keyword.merge(assign, &1))
+
+            igniter
+            |> Igniter.copy_template(template_path, proper_location, new_assign,
+              on_exists: :overwrite
+            )
+        end
+      else
+        igniter
       end
-    else
-      igniter
-    end
+
+    {igniter, template_config}
+  end
+
+  def create_or_update_scripts({igniter, _template_config}) do
+    # TODO: check is there any script type which is file in exs file
+    # TODO: create or update the js files in vendor directory
+    # TODO: check the mishka_components exists and the js files and their modules imported or not
+    # TODO: if this file does not exist, so create an import the file modules
+    # TODO: if mishka_components file exist but the module does not exist so add the module to the file
+    # TODO: check the mishka_components exists inside app.js or not
+    # TODO: check the mishka_components module extended inside the hooks object or not
+    igniter
   end
 
   @doc false
