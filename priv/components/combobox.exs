@@ -25,7 +25,12 @@
     optional: [],
     necessary: [],
     scripts: [
-      %{type: "file", file: "combobox.js", imports: "Combobox"}
+      %{
+        type: "file",
+        file: "combobox.js",
+        module: "Combobox",
+        imports: "import Combobox from \"./combobox.js\";"
+      }
     ]
   ]
 ]

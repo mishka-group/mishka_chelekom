@@ -1,6 +1,7 @@
 defmodule Mix.Tasks.Mishka.Ui.Gen.Component do
   use Igniter.Mix.Task
   alias Igniter.Project.Application, as: IAPP
+  alias IgniterJs.Parsers.Javascript.Parser
 
   @example "mix mishka.ui.gen.component component --example arg"
   @shortdoc "A Mix Task for generating and configuring Phoenix components"
@@ -469,18 +470,76 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Component do
             |> Path.join("#{item.file}")
             |> File.read!()
 
+          caller_js =
+            case File.read("assets/vendor/mishka_components.js") do
+              {:ok, content} ->
+                content
+
+              _ ->
+                Application.app_dir(:mishka_chelekom, ["priv", "assets", "js"])
+                |> Path.join("mishka_components.js")
+                |> File.read!()
+            end
+
           acc
           |> Igniter.create_or_update_file("assets/vendor/#{item.file}", content, fn source ->
             Rewrite.Source.update(source, :content, content)
           end)
+          |> Igniter.create_or_update_file(
+            "assets/vendor/mishka_components.js",
+            caller_js,
+            fn source ->
+              with original_content <- Rewrite.Source.get(source, :content),
+                   {:ok, _, imported} <-
+                     Parser.insert_imports(original_content, "#{item.imports}") do
+                # TODO: we need a function to find a var and add uniqe module
+                Rewrite.Source.update(source, :content, imported)
+              else
+                {:error, _, error} ->
+                  msg = """
+                  Note:
+                  When you see this error, it means there is a syntax issue in the part you are trying to import.
+                  Please review the relevant file again.
+
+                  Full Erros: "#{inspect(error)}"
+                  """
+
+                  Rewrite.Source.add_issue(source, msg)
+              end
+            end
+          )
         end)
 
-      # TODO: check the mishka_components exists and the js files and their modules imported or not
-      # TODO: if this file does not exist, so create an import the file modules
-      # TODO: if mishka_components file exist but the module does not exist so add the module to the file
-      # TODO: check the mishka_components exists inside app.js or not
-      # TODO: check the mishka_components module extended inside the hooks object or not
-      igniter
+      app_js = "assets/js/app.js"
+
+      case File.read(app_js) do
+        {:ok, content} ->
+          igniter
+          |> Igniter.create_or_update_file(app_js, content, fn source ->
+            imports = """
+            import MishkaComponents from "../vendor/mishka_components.js";
+            """
+
+            # TODO: igniter_js deletes comment, should be fixed
+            # TODO: it should not add duplicated hook extend
+            with original_content <- Rewrite.Source.get(source, :content),
+                 {:ok, _, imported} <- Parser.insert_imports(original_content, imports),
+                 {:ok, _, output} <- Parser.extend_hook_object(imported, "MishkaComponents") do
+              Rewrite.Source.update(source, :content, output)
+            else
+              {:error, _, error} ->
+                Igniter.add_issue(igniter, "#{inspect(error)}")
+            end
+          end)
+
+        _ ->
+          msg = """
+          Note:
+          Unfortunately, we couldn't find the assets/js/app.js file in your project path.
+          """
+
+          Igniter.add_issue(igniter, msg)
+      end
     else
       igniter
     end
