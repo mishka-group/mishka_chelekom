@@ -169,6 +169,7 @@ defmodule <%= @module %> do
 
   attr :indicator_size, :string, default: "extra_small", doc: "Defines the size of the indicator element"
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
+  attr :content_class, :string, default: "block", doc: "Custom CSS class for additional styling"
 
   attr :rest, :global,
     include:
@@ -215,7 +216,9 @@ defmodule <%= @module %> do
 
       <.button_indicator position="left" size={@indicator_size} class={@indicator_class} {@rest} />
       <.icon :if={icon_position(@icon, @rest) == "left"} name={@icon} class={@icon_class} />
-      <span :if={@inner_block && render_slot(@inner_block)} class="block">{render_slot(@inner_block)}</span>
+      <span :if={@inner_block && render_slot(@inner_block)} class={[@content_class]}>
+        {render_slot(@inner_block)}
+      </span>
       <.icon :if={icon_position(@icon, @rest) == "right"} name={@icon} class={@icon_class} />
       <.button_indicator size={@indicator_size} class={@indicator_class} {@rest} />
 
@@ -347,6 +350,7 @@ defmodule <%= @module %> do
       "Determines the overall size of the elements, including padding, font size, and other items"
 
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
+  attr :content_class, :string, default: "block", doc: "Custom CSS class for additional styling"
 
   attr :display, :string,
     default: "inline-flex",
@@ -412,7 +416,9 @@ defmodule <%= @module %> do
 
       <.button_indicator position="left" size={@indicator_size} class={@indicator_class} {@rest} />
       <.icon :if={icon_position(@icon, @rest) == "left"} name={@icon} class={@icon_class} />
-      <span :if={(@inner_block && render_slot(@inner_block)) || @title} class="block">{render_slot(@inner_block) || @title}</span>
+      <span :if={(@inner_block && render_slot(@inner_block)) || @title} class={[@content_class]}>
+        {render_slot(@inner_block) || @title}
+      </span>
       <.icon :if={icon_position(@icon, @rest) == "right"} name={@icon} class={@icon_class} />
       <.button_indicator size={@indicator_size} class={@indicator_class} {@rest} />
 
@@ -453,7 +459,9 @@ defmodule <%= @module %> do
 
       <.button_indicator position="left" size={@indicator_size} class={@indicator_class} {@rest} />
       <.icon :if={icon_position(@icon, @rest) == "left"} name={@icon} />
-      <span :if={(@inner_block && render_slot(@inner_block)) || @title} class="block">{render_slot(@inner_block) || @title}</span>
+      <span :if={(@inner_block && render_slot(@inner_block)) || @title} class={[@content_class]}>
+        {render_slot(@inner_block) || @title}
+      </span>
       <.icon :if={icon_position(@icon, @rest) == "right"} name={@icon} />
       <.button_indicator size={@indicator_size} class={@indicator_class} {@rest} />
 
@@ -494,7 +502,9 @@ defmodule <%= @module %> do
 
       <.button_indicator position="left" size={@indicator_size} class={@indicator_class} {@rest} />
       <.icon :if={icon_position(@icon, @rest) == "left"} name={@icon} />
-      <span :if={(@inner_block && render_slot(@inner_block)) || @title} class="block">{render_slot(@inner_block) || @title}</span>
+      <span :if={(@inner_block && render_slot(@inner_block)) || @title} class={[@content_class]}>
+        {render_slot(@inner_block) || @title}
+      </span>
       <.icon :if={icon_position(@icon, @rest) == "right"} name={@icon} />
       <.button_indicator size={@indicator_size} class={@indicator_class} {@rest} />
 
