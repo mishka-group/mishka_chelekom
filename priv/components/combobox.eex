@@ -1,0 +1,10 @@
+defmodule <%= @module %> do
+
+  use Phoenix.Component
+
+  def combobox(assigns) do
+    ~H"""
+    <div>combobox</div>
+    """
+  end
+end

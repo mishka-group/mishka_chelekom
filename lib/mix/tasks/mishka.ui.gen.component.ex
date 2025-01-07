@@ -131,7 +131,7 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Component do
           Path.join(IAPP.priv_dir(igniter, ["mishka_chelekom", "templates"]), "#{component}.eex")
 
         true ->
-          Application.app_dir(:mishka_chelekom, ["priv", "templates", "components"])
+          Application.app_dir(:mishka_chelekom, ["priv", "components"])
           |> Path.join("#{component}.eex")
       end
 
@@ -161,7 +161,7 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Component do
 
   defp converted_components_path(template, custom_module) do
     # Reset the assigns to prevent creating .igniter.exs config file to add all the paths
-    web_module = "#{Igniter.Project.Application.app_name(template.igniter)}" <> "_web"
+    web_module = "#{IAPP.app_name(template.igniter)}" <> "_web"
 
     Path.join("lib", web_module <> "/components")
     |> File.dir?()
@@ -263,7 +263,7 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Component do
     project created with Phoenix, check the following path. It is possible that your naming convention does
     not align with Elixir's naming style.
 
-    Is your web path (#{inspect(web_module)})!? but we found this (#{inspect(Igniter.Project.Application.app_name(template.igniter)) <> "_web"})!!
+    Is your web path (#{inspect(web_module)})!? but we found this (#{inspect(IAPP.app_name(template.igniter)) <> "_web"})!!
     """
 
     {:error, :no_dir, msg, template.igniter}
@@ -414,16 +414,17 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Component do
     {igniter, template_config}
   end
 
-  def create_or_update_scripts({igniter, _template_config}) do
-    # TODO: check is there any script type which is file in exs file
-    # TODO: create or update the js files in vendor directory
-    # TODO: check the mishka_components exists and the js files and their modules imported or not
-    # TODO: if this file does not exist, so create an import the file modules
-    # TODO: if mishka_components file exist but the module does not exist so add the module to the file
-    # TODO: check the mishka_components exists inside app.js or not
-    # TODO: check the mishka_components module extended inside the hooks object or not
-    igniter
+  def create_or_update_scripts({igniter, template_config}) do
+    if Keyword.get(template_config, :scripts, []) != [] do
+      igniter
+      |> check_and_update_package_json(template_config)
+      |> check_and_update_js_files(template_config)
+    else
+      igniter
+    end
   end
+
+  def create_or_update_scripts(%Igniter{} = igniter), do: igniter
 
   @doc false
   def atom_to_module(field) do
@@ -449,5 +450,39 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Component do
     |> String.replace_prefix("preset_", "")
     |> String.replace_prefix("template_", "")
     |> String.to_atom()
+  end
+
+  defp check_and_update_package_json(igniter, _) do
+    # TODO: for now we have no plan for it, it needs some way to handle npm, bun or etc and create init files like
+    # TODO: package.json. why we need this? for example, add DOMPurify to sanitizer client side input or adding js project
+    igniter
+  end
+
+  defp check_and_update_js_files(igniter, template_config) do
+    files = Keyword.get(template_config, :scripts) |> Enum.filter(&(&1.type == "file"))
+
+    if files != [] do
+      igniter =
+        Enum.reduce(files, igniter, fn item, acc ->
+          content =
+            Application.app_dir(:mishka_chelekom, ["priv", "assets", "js"])
+            |> Path.join("#{item.file}")
+            |> File.read!()
+
+          acc
+          |> Igniter.create_or_update_file("assets/vendor/#{item.file}", content, fn source ->
+            Rewrite.Source.update(source, :content, content)
+          end)
+        end)
+
+      # TODO: check the mishka_components exists and the js files and their modules imported or not
+      # TODO: if this file does not exist, so create an import the file modules
+      # TODO: if mishka_components file exist but the module does not exist so add the module to the file
+      # TODO: check the mishka_components exists inside app.js or not
+      # TODO: check the mishka_components module extended inside the hooks object or not
+      igniter
+    else
+      igniter
+    end
   end
 end
