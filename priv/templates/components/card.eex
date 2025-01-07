@@ -230,14 +230,12 @@ defmodule <%= @module %> do
 
   def card_media(assigns) do
     ~H"""
-    <div id={@id} class="card-media">
+     <div id={@id} class={["card-media w-full overflow-hidden", rounded_size(@rounded), @class]}>
       <img
         src={@src}
         alt={@alt}
         class={[
           "max-w-full",
-          rounded_size(@rounded),
-          @class
         ]}
       />
     </div>
@@ -266,7 +264,7 @@ defmodule <%= @module %> do
   attr :id, :string,
     default: nil,
     doc: "A unique identifier is used to manage state and interaction"
-    
+
   attr :space, :string, default: "", doc: "Space between items"
   attr :padding, :string, default: "", doc: "Determines padding for items"
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
