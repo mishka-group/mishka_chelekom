@@ -491,9 +491,14 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Component do
             fn source ->
               with original_content <- Rewrite.Source.get(source, :content),
                    {:ok, _, imported} <-
-                     Parser.insert_imports(original_content, "#{item.imports}") do
-                # TODO: we need a function to find a var and add uniqe module
-                Rewrite.Source.update(source, :content, imported)
+                     Parser.insert_imports(original_content, "#{item.imports}"),
+                   {:ok, _, extended} <-
+                     Parser.extend_var_object_by_object_names(
+                       imported,
+                       "Components",
+                       "#{item.module}"
+                     ) do
+                Rewrite.Source.update(source, :content, extended)
               else
                 {:error, _, error} ->
                   msg = """
@@ -521,7 +526,6 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Component do
             """
 
             # TODO: igniter_js deletes comment, should be fixed
-            # TODO: it should not add duplicated hook extend
             with original_content <- Rewrite.Source.get(source, :content),
                  {:ok, _, imported} <- Parser.insert_imports(original_content, imports),
                  {:ok, _, output} <- Parser.extend_hook_object(imported, "MishkaComponents") do

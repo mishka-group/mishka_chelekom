@@ -1,4 +1,5 @@
 defmodule Mix.Tasks.Mishka.Ui.Add do
+  # TODO: Handle JS side for external repo and add it to user project
   use Igniter.Mix.Task
   use GuardedStruct
   alias GuardedStruct.Derive.ValidationDerive
