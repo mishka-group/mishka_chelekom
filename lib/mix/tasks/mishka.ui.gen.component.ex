@@ -489,6 +489,14 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Component do
             "assets/vendor/mishka_components.js",
             caller_js,
             fn source ->
+              original_content = Rewrite.Source.get(source, :content)
+              Rewrite.Source.update(source, :content, original_content)
+            end
+          )
+          |> Igniter.create_or_update_file(
+            "assets/vendor/mishka_components.js",
+            caller_js,
+            fn source ->
               with original_content <- Rewrite.Source.get(source, :content),
                    {:ok, _, imported} <-
                      Parser.insert_imports(original_content, "#{item.imports}"),
