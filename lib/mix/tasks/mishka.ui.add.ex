@@ -51,7 +51,8 @@ defmodule Mix.Tasks.Mishka.Ui.Add do
     )
 
     field(:type, String.t(),
-      derive: "sanitize(tag=strip_tags) validate(enum=String[component::preset::template])",
+      derive:
+        "sanitize(tag=strip_tags) validate(enum=String[component::preset::template::javascript])",
       enforce: true
     )
 
@@ -212,26 +213,14 @@ defmodule Mix.Tasks.Mishka.Ui.Add do
                     |> Enum.sort(),
                   else: []
 
+              file_name =
+                if item.type == "javascript",
+                  do: "/#{item.name}",
+                  else: "/#{item.type}_#{item.name}"
+
               direct_path =
                 File.cwd!()
-                |> Path.join([
-                  "priv",
-                  "/mishka_chelekom",
-                  "/#{item.type}s",
-                  "/#{item.type}_#{item.name}"
-                ])
-
-              config =
-                [
-                  {String.to_atom(item.name),
-                   [
-                     name: item.name,
-                     args: args,
-                     optional: item.necessary,
-                     necessary: item.optional
-                   ]}
-                ]
-                |> Enum.into([])
+                |> Path.join(["priv", "/mishka_chelekom", "/#{item.type}s", file_name])
 
               decode! =
                 case Base.decode64(item.content) do
@@ -239,11 +228,28 @@ defmodule Mix.Tasks.Mishka.Ui.Add do
                   {:ok, content} -> content
                 end
 
-              acc
-              |> Igniter.create_new_file(direct_path <> ".eex", decode!, on_exists: :overwrite)
-              |> Igniter.create_new_file(direct_path <> ".exs", "#{inspect(config)}",
-                on_exists: :overwrite
-              )
+              if item.type == "javascript" do
+                acc
+                |> Igniter.create_new_file(direct_path <> ".js", decode!, on_exists: :overwrite)
+              else
+                config =
+                  [
+                    {String.to_atom(item.name),
+                     [
+                       name: item.name,
+                       args: args,
+                       optional: item.necessary,
+                       necessary: item.optional
+                     ]}
+                  ]
+                  |> Enum.into([])
+
+                acc
+                |> Igniter.create_new_file(direct_path <> ".eex", decode!, on_exists: :overwrite)
+                |> Igniter.create_new_file(direct_path <> ".exs", "#{inspect(config)}",
+                  on_exists: :overwrite
+                )
+              end
             end)
           else
             %Req.Response{status: 404} ->
