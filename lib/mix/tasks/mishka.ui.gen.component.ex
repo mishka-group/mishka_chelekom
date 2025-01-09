@@ -465,62 +465,77 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Component do
     if files != [] do
       igniter =
         Enum.reduce(files, igniter, fn item, acc ->
-          content =
+          core_path =
             Application.app_dir(:mishka_chelekom, ["priv", "assets", "js"])
             |> Path.join("#{item.file}")
-            |> File.read!()
 
-          caller_js =
-            case File.read("assets/vendor/mishka_components.js") do
-              {:ok, content} ->
-                content
+          mishka_user_priv_path =
+            Path.join(IAPP.priv_dir(igniter, ["mishka_chelekom", "assets", "js"]), "#{item.file}")
 
-              _ ->
-                Application.app_dir(:mishka_chelekom, ["priv", "assets", "js"])
-                |> Path.join("mishka_components.js")
-                |> File.read!()
+          # Priority is given to Core assets.
+          content =
+            cond do
+              File.exists?(core_path) -> File.read!(core_path)
+              File.exists?(mishka_user_priv_path) -> File.read!(mishka_user_priv_path)
+              true -> nil
             end
 
-          acc
-          |> Igniter.create_or_update_file("assets/vendor/#{item.file}", content, fn source ->
-            Rewrite.Source.update(source, :content, content)
-          end)
-          |> Igniter.create_or_update_file(
-            "assets/vendor/mishka_components.js",
-            caller_js,
-            fn source ->
-              original_content = Rewrite.Source.get(source, :content)
-              Rewrite.Source.update(source, :content, original_content)
-            end
-          )
-          |> Igniter.create_or_update_file(
-            "assets/vendor/mishka_components.js",
-            caller_js,
-            fn source ->
-              with original_content <- Rewrite.Source.get(source, :content),
-                   {:ok, _, imported} <-
-                     Parser.insert_imports(original_content, "#{item.imports}"),
-                   {:ok, _, extended} <-
-                     Parser.extend_var_object_by_object_names(
-                       imported,
-                       "Components",
-                       "#{item.module}"
-                     ) do
-                Rewrite.Source.update(source, :content, extended)
-              else
-                {:error, _, error} ->
-                  msg = """
-                  Note:
-                  When you see this error, it means there is a syntax issue in the part you are trying to import.
-                  Please review the relevant file again.
+          if !is_nil(content) do
+            caller_js =
+              case File.read("assets/vendor/mishka_components.js") do
+                {:ok, content} ->
+                  content
 
-                  Full Erros: "#{inspect(error)}"
-                  """
-
-                  Rewrite.Source.add_issue(source, msg)
+                _ ->
+                  Application.app_dir(:mishka_chelekom, ["priv", "assets", "js"])
+                  |> Path.join("mishka_components.js")
+                  |> File.read!()
               end
-            end
-          )
+
+            acc
+            |> Igniter.create_or_update_file("assets/vendor/#{item.file}", content, fn source ->
+              Rewrite.Source.update(source, :content, content)
+            end)
+            |> Igniter.create_or_update_file(
+              "assets/vendor/mishka_components.js",
+              caller_js,
+              fn source ->
+                original_content = Rewrite.Source.get(source, :content)
+                Rewrite.Source.update(source, :content, original_content)
+              end
+            )
+            |> Igniter.create_or_update_file(
+              "assets/vendor/mishka_components.js",
+              caller_js,
+              fn source ->
+                with original_content <- Rewrite.Source.get(source, :content),
+                     {:ok, _, imported} <-
+                       Parser.insert_imports(original_content, "#{item.imports}"),
+                     {:ok, _, extended} <-
+                       Parser.extend_var_object_by_object_names(
+                         imported,
+                         "Components",
+                         "#{item.module}"
+                       ) do
+                  Rewrite.Source.update(source, :content, extended)
+                else
+                  {:error, _, error} ->
+                    msg = """
+                    Note:
+                    When you see this error, it means there is a syntax issue in the part you are trying to import.
+                    Please review the relevant file again.
+
+                    Full Erros: "#{inspect(error)}"
+                    """
+
+                    Rewrite.Source.add_issue(source, msg)
+                end
+              end
+            )
+          else
+            acc
+            |> Igniter.add_issue("The requested JavaScript file does not exist.")
+          end
         end)
 
       app_js = "assets/js/app.js"
