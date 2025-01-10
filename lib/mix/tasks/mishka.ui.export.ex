@@ -90,6 +90,34 @@ defmodule Mix.Tasks.Mishka.Ui.Export do
     }
   end
 
+  @default_json_template """
+  {
+    "name": "something-new",
+    "type": "preset",
+    "files": [
+      {
+        "type": "component",
+        "content": "",
+        "name": "last_message",
+        "from": "https://mishka.tools/example/template.json",
+        "args": {
+          "variant": [],
+          "color": [],
+          "size": [],
+          "padding": [],
+          "space": [],
+          "type": [],
+          "rounded": [],
+          "only": [],
+          "module": ""
+        },
+        "optional": [],
+        "necessary": []
+      }
+    ]
+  }
+  """
+
   @impl Igniter.Mix.Task
   def igniter(igniter, argv) do
     # extract positional arguments according to `positional` above
@@ -108,6 +136,8 @@ defmodule Mix.Tasks.Mishka.Ui.Export do
 
     IO.puts(IO.ANSI.yellow() <> String.trim_trailing(msg) <> IO.ANSI.reset())
 
+    name = Keyword.get(options, :name, "template")
+
     igniter =
       if !File.dir?(dir),
         do: Igniter.add_issue(igniter, "The entered directory does not exist."),
@@ -115,38 +145,9 @@ defmodule Mix.Tasks.Mishka.Ui.Export do
 
     # If user selects --template, it just creates a default JSON template
     if Keyword.get(options, :template, false) do
-      name = Keyword.get(options, :name, "template")
-
-      json = """
-      {
-        "name": "something-new",
-        "type": "preset",
-        "files": [
-          {
-            "type": "component",
-            "content": "",
-            "name": "last_message",
-            "from": "https://mishka.tools/example/template.json",
-            "args": {
-              "variant": [],
-              "color": [],
-              "size": [],
-              "padding": [],
-              "space": [],
-              "type": [],
-              "rounded": [],
-              "only": [],
-              "module": ""
-            },
-            "optional": [],
-            "necessary": []
-          }
-        ]
-      }
-      """
-
-      igniter
-      |> Igniter.create_new_file(dir <> "/#{name}.json", json, on_exists: :overwrite)
+      Igniter.create_new_file(igniter, dir <> "/#{name}.json", @default_json_template,
+        on_exists: :overwrite
+      )
     else
       igniter
       |> Igniter.add_warning("mix mishka.ui.export is not yet implemented")
