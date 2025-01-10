@@ -22,6 +22,30 @@ defmodule Mix.Tasks.Mishka.Ui.Export do
   > Use `--base64` option to convert the file content to Base64 if you're using special Erlang
   characters that do not retain their original form when converted back to the original file.
 
+  **Note**:
+
+  It is important to note that to place each file in its designated section and specify its type,
+  you must use the following naming convention:
+
+  For example, if your file is a `component`, you need to have two files:
+
+  - `component_something.exs`
+  - `component_something.eex`
+
+  Similarly, for other file types like `preset` and `template`, you should follow the same
+  naming pattern as above. For instance:
+
+  - `template_something.exs`
+  - `template_something.eex`
+
+  All files within the directory do not need to have the same name. However,
+  they must start with the section name where they are intended to be placed, such as
+  `component`, `preset`, or `template`. Additionally, each file must have both the
+  `exs` and `eex` formats.
+
+  > **Note**: Since JavaScript files do not require configuration, you only need to
+  place the file in the directory. For example: `something.js`
+
 
   ## Example
 
