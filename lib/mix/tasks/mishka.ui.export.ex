@@ -143,6 +143,7 @@ defmodule Mix.Tasks.Mishka.Ui.Export do
         do: Igniter.add_issue(igniter, "The entered directory does not exist."),
         else: igniter
 
+    base64 = Keyword.get(options, :base64, false)
     # If user selects --template, it just creates a default JSON template
     if Keyword.get(options, :template, false) do
       Igniter.create_new_file(igniter, dir <> "/#{name}.json", @default_json_template,
@@ -152,8 +153,8 @@ defmodule Mix.Tasks.Mishka.Ui.Export do
       igniter
       |> Igniter.assign(%{cli_args: options, cli_dir: dir})
       |> check_dir_files()
-      |> create_elixir_files_config()
-      |> create_asset_files_config()
+      |> create_elixir_files_config(base64)
+      |> create_asset_files_config(base64)
       |> create_json_file(name)
     end
   end
@@ -163,7 +164,7 @@ defmodule Mix.Tasks.Mishka.Ui.Export do
          files_list <- Enum.map(files, &Path.join(igniter.assigns.cli_dir, &1)),
          components <- Enum.filter(files_list, &(Path.extname(&1) in [".exs", ".eex"])),
          {:validate_files, {:ok, _}} <- {:validate_files, validate_files(components)},
-         js_files <- Enum.filter(files_list, &(Path.extname(&1) == "js")) do
+         js_files <- Enum.filter(files_list, &(Path.extname(&1) == ".js")) do
       # We could put the data instead of file path, but they were not clear to read
       igniter
       |> Igniter.assign(%{cli_files: components ++ js_files})
@@ -183,7 +184,7 @@ defmodule Mix.Tasks.Mishka.Ui.Export do
     end
   end
 
-  defp create_elixir_files_config(igniter) do
+  defp create_elixir_files_config(igniter, base64) do
     # Check the `:cli_files` exist or not, it helps to skip File.read!
     cli_files = Map.get(igniter.assigns, :cli_files, false)
 
@@ -191,8 +192,8 @@ defmodule Mix.Tasks.Mishka.Ui.Export do
       configs =
         Enum.filter(cli_files, &(Path.extname(&1) in [".eex"]))
         |> Enum.reduce([], fn item, acc ->
-          content = File.read!(item) |> Base.encode64()
-
+          content = File.read!(item)
+          content = if base64, do: content |> Base.encode64(), else: content
           file_name = item |> Path.basename() |> Path.rootname()
           file_name_type = List.first(String.split(file_name, "_"))
 
@@ -210,11 +211,11 @@ defmodule Mix.Tasks.Mishka.Ui.Export do
             name: config[:name],
             content: content,
             args:
-              Enum.into(config[:args], %{})
+              Enum.into(config[:args] || [], %{})
               |> Map.merge(%{helpers: Enum.into(config[:args][:helpers], %{})}),
-            optional: config[:optional],
-            necessary: config[:necessary],
-            scripts: config[:scripts]
+            optional: config[:optional] || [],
+            necessary: config[:necessary] || [],
+            scripts: config[:scripts] || []
           }
 
           [converted | acc]
@@ -233,7 +234,7 @@ defmodule Mix.Tasks.Mishka.Ui.Export do
       Igniter.add_issue(igniter, msg)
   end
 
-  defp create_asset_files_config(igniter) do
+  defp create_asset_files_config(igniter, base64) do
     cli_files = Map.get(igniter.assigns, :cli_files, false)
     cli_configs = Map.get(igniter.assigns, :cli_configs, [])
 
@@ -241,7 +242,8 @@ defmodule Mix.Tasks.Mishka.Ui.Export do
       configs =
         Enum.filter(cli_files, &(Path.extname(&1) in [".js"]))
         |> Enum.reduce([], fn item, acc ->
-          content = File.read!(item) |> Base.encode64()
+          content = File.read!(item)
+          content = if base64, do: content |> Base.encode64(), else: content
           file_name = item |> Path.basename() |> Path.rootname()
           [[%{type: "javascript", name: file_name, content: content}] | acc]
         end)
