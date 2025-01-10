@@ -159,13 +159,14 @@ defmodule Mix.Tasks.Mishka.Ui.Export do
   end
 
   defp check_dir_files(igniter) do
-    with {:ls, {:ok, files_list}} <- {:ls, File.ls(igniter.assigns.cli_dir)},
+    with {:ls, {:ok, files}} <- {:ls, File.ls(igniter.assigns.cli_dir)},
+         files_list <- Enum.map(files, &Path.join(igniter.assigns.cli_dir, &1)),
          components <- Enum.filter(files_list, &(Path.extname(&1) in [".exs", ".eex"])),
          {:validate_files, {:ok, _}} <- {:validate_files, validate_files(components)},
          js_files <- Enum.filter(files_list, &(Path.extname(&1) == "js")) do
       # We could put the data instead of file path, but they were not clear to read
       igniter
-      |> Igniter.assign(%{cli_files: [components | js_files]})
+      |> Igniter.assign(%{cli_files: components ++ js_files})
     else
       {:ls, {:error, errors}} ->
         igniter
@@ -208,13 +209,15 @@ defmodule Mix.Tasks.Mishka.Ui.Export do
             type: file_name_type,
             name: config[:name],
             content: content,
-            args: Enum.into(config[:args], %{}),
+            args:
+              Enum.into(config[:args], %{})
+              |> Map.merge(%{helpers: Enum.into(config[:args][:helpers], %{})}),
             optional: config[:optional],
             necessary: config[:necessary],
             scripts: config[:scripts]
           }
 
-          [[converted] | acc]
+          [converted | acc]
         end)
 
       igniter
@@ -232,6 +235,7 @@ defmodule Mix.Tasks.Mishka.Ui.Export do
 
   defp create_asset_files_config(igniter) do
     cli_files = Map.get(igniter.assigns, :cli_files, false)
+    cli_configs = Map.get(igniter.assigns, :cli_configs, [])
 
     if cli_files do
       configs =
@@ -243,7 +247,7 @@ defmodule Mix.Tasks.Mishka.Ui.Export do
         end)
 
       igniter
-      |> Igniter.assign(%{cli_configs: cli_files ++ configs})
+      |> Igniter.assign(%{cli_configs: cli_configs ++ configs})
     else
       igniter
     end
@@ -258,10 +262,16 @@ defmodule Mix.Tasks.Mishka.Ui.Export do
   defp create_json_file(igniter, name) do
     dir = igniter.assigns.cli_dir
 
-    igniter
-    |> Igniter.create_new_file(dir <> "/#{name}.json", @default_json_template,
-      on_exists: :overwrite
-    )
+    case Map.get(igniter.assigns, :cli_configs, []) do
+      [] ->
+        Igniter.add_issue(igniter, "There is no file to output from.")
+
+      data ->
+        igniter
+        |> Igniter.create_new_file(dir <> "/#{name}.json", JSON.encode!(data),
+          on_exists: :overwrite
+        )
+    end
   end
 
   def validate_files([]), do: {:error, :validate_files, "Empty directory"}
