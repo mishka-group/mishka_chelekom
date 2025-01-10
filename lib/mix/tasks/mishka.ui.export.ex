@@ -239,18 +239,7 @@ defmodule Mix.Tasks.Mishka.Ui.Export do
         |> Enum.reduce([], fn item, acc ->
           content = File.read!(item) |> Base.encode64()
           file_name = item |> Path.basename() |> Path.rootname()
-
-          converted = %{
-            type: "javascript",
-            name: file_name,
-            content: content,
-            args: %{},
-            optional: [],
-            necessary: [],
-            scripts: []
-          }
-
-          [[converted] | acc]
+          [[%{type: "javascript", name: file_name, content: content}] | acc]
         end)
 
       igniter
