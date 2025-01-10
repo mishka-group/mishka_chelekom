@@ -73,7 +73,8 @@ defmodule Mix.Tasks.Mishka.Ui.Add do
       default: []
     ) do
       field(:type, String.t(),
-        derive: "sanitize(tag=strip_tags) validate(enum=String[component::preset::template])",
+        derive:
+          "sanitize(tag=strip_tags) validate(enum=String[component::preset::template::javascript])",
         enforce: true
       )
 

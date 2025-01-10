@@ -56,6 +56,7 @@ defmodule Mix.Tasks.Mishka.Ui.Export do
   ## Options
 
   * `--base64` or `-b` - Converts component content to Base64
+  * `--name` or `-n` - Defines a name for JSON file, if it is not set default is template.json
   * `--template` or `-t` - Creates a default JSON file for manual processing steps.
   """
 
@@ -79,20 +80,76 @@ defmodule Mix.Tasks.Mishka.Ui.Export do
       # This ensures your option schema includes options from nested tasks
       composes: [],
       # `OptionParser` schema
-      schema: [base64: :boolean, template: :boolean],
+      schema: [base64: :boolean, template: :boolean, name: :string],
       # Default values for the options in the `schema`
       defaults: [],
       # CLI aliases
-      aliases: [b: :base64, t: :template],
+      aliases: [b: :base64, t: :template, n: :name],
       # A list of options in the schema that are required
       required: []
     }
   end
 
   @impl Igniter.Mix.Task
-  def igniter(igniter) do
-    # Do your work here and return an updated igniter
-    igniter
-    |> Igniter.add_warning("mix mishka.ui.export is not yet implemented")
+  def igniter(igniter, argv) do
+    # extract positional arguments according to `positional` above
+    {%{dir: dir}, argv} = positional_args!(argv)
+
+    options = options!(argv)
+
+    msg =
+      """
+            .-.
+           /'v'\\
+          (/   \\)
+          =="="==
+        Mishka.tools
+      """
+
+    IO.puts(IO.ANSI.yellow() <> String.trim_trailing(msg) <> IO.ANSI.reset())
+
+    igniter =
+      if !File.dir?(dir),
+        do: Igniter.add_issue(igniter, "The entered directory does not exist."),
+        else: igniter
+
+    # If user selects --template, it just creates a default JSON template
+    if Keyword.get(options, :template, false) do
+      name = Keyword.get(options, :name, "template")
+
+      json = """
+      {
+        "name": "something-new",
+        "type": "preset",
+        "files": [
+          {
+            "type": "component",
+            "content": "",
+            "name": "last_message",
+            "from": "https://mishka.tools/example/template.json",
+            "args": {
+              "variant": [],
+              "color": [],
+              "size": [],
+              "padding": [],
+              "space": [],
+              "type": [],
+              "rounded": [],
+              "only": [],
+              "module": ""
+            },
+            "optional": [],
+            "necessary": []
+          }
+        ]
+      }
+      """
+
+      igniter
+      |> Igniter.create_new_file(dir <> "/#{name}.json", json, on_exists: :overwrite)
+    else
+      igniter
+      |> Igniter.add_warning("mix mishka.ui.export is not yet implemented")
+    end
   end
 end
