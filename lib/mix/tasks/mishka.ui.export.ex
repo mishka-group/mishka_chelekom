@@ -150,7 +150,160 @@ defmodule Mix.Tasks.Mishka.Ui.Export do
       )
     else
       igniter
-      |> Igniter.add_warning("mix mishka.ui.export is not yet implemented")
+      |> Igniter.assign(%{cli_args: options, cli_dir: dir})
+      |> check_dir_files()
+      |> create_elixir_files_config()
+      |> create_asset_files_config()
+      |> create_json_file(name)
     end
+  end
+
+  defp check_dir_files(igniter) do
+    with {:ls, {:ok, files_list}} <- {:ls, File.ls(igniter.assigns.cli_dir)},
+         components <- Enum.filter(files_list, &(Path.extname(&1) in [".exs", ".eex"])),
+         {:validate_files, {:ok, _}} <- {:validate_files, validate_files(components)},
+         js_files <- Enum.filter(files_list, &(Path.extname(&1) == "js")) do
+      # We could put the data instead of file path, but they were not clear to read
+      igniter
+      |> Igniter.assign(%{cli_files: [components | js_files]})
+    else
+      {:ls, {:error, errors}} ->
+        igniter
+        |> Igniter.add_issue("There is a problem with the directory. Errors: #{inspect(errors)}")
+
+      {:validate_files, {:error, errors}} ->
+        msg = """
+        There are one or more problems with the file list.
+
+        #{Enum.map(errors, fn {msg, value} -> "* #{"#{msg}"}: #{value}\n" end)}
+        """
+
+        Igniter.add_issue(igniter, msg)
+    end
+  end
+
+  defp create_elixir_files_config(igniter) do
+    # Check the `:cli_files` exist or not, it helps to skip File.read!
+    cli_files = Map.get(igniter.assigns, :cli_files, false)
+
+    if cli_files do
+      configs =
+        Enum.filter(cli_files, &(Path.extname(&1) in [".eex"]))
+        |> Enum.reduce([], fn item, acc ->
+          content = File.read!(item) |> Base.encode64()
+
+          file_name = item |> Path.basename() |> Path.rootname()
+          file_name_type = List.first(String.split(file_name, "_"))
+
+          file_name_type =
+            if file_name_type in ["component", "preset", "template"],
+              do: file_name_type,
+              else: "component"
+
+          {_name, config} =
+            Config.Reader.read!("#{String.replace_suffix(item, ".eex", ".exs")}")
+            |> List.first()
+
+          converted = %{
+            type: file_name_type,
+            name: config[:name],
+            content: content,
+            args: Enum.into(config[:args], %{}),
+            optional: config[:optional],
+            necessary: config[:necessary],
+            scripts: config[:scripts]
+          }
+
+          [[converted] | acc]
+        end)
+
+      igniter
+      |> Igniter.assign(%{cli_configs: configs})
+    else
+      igniter
+    end
+  rescue
+    _ ->
+      msg =
+        "This error occurs when there is a problem with your .exs file configuration or the files cannot be accessed."
+
+      Igniter.add_issue(igniter, msg)
+  end
+
+  defp create_asset_files_config(igniter) do
+    cli_files = Map.get(igniter.assigns, :cli_files, false)
+
+    if cli_files do
+      configs =
+        Enum.filter(cli_files, &(Path.extname(&1) in [".js"]))
+        |> Enum.reduce([], fn item, acc ->
+          content = File.read!(item) |> Base.encode64()
+          file_name = item |> Path.basename() |> Path.rootname()
+
+          converted = %{
+            type: "javascript",
+            name: file_name,
+            content: content,
+            args: %{},
+            optional: [],
+            necessary: [],
+            scripts: []
+          }
+
+          [[converted] | acc]
+        end)
+
+      igniter
+      |> Igniter.assign(%{cli_configs: cli_files ++ configs})
+    else
+      igniter
+    end
+  rescue
+    _ ->
+      msg =
+        "This error occurs when there is a problem with your asset file or the files cannot be accessed."
+
+      Igniter.add_issue(igniter, msg)
+  end
+
+  defp create_json_file(igniter, name) do
+    dir = igniter.assigns.cli_dir
+
+    igniter
+    |> Igniter.create_new_file(dir <> "/#{name}.json", @default_json_template,
+      on_exists: :overwrite
+    )
+  end
+
+  def validate_files([]), do: {:error, :validate_files, "Empty directory"}
+
+  def validate_files(components) do
+    Enum.reduce(components, {:ok, []}, fn file, {status, errors} ->
+      ext = Path.extname(file)
+
+      cond do
+        ext not in [".exs", ".eex"] ->
+          {:error, [{"Invalid extension", file} | errors]}
+
+        # The next two patterns are very easy to read. Refactor them when the goal is
+        # not just to reduce code but also to make it simple.
+        ext == ".exs" ->
+          eex_file = Path.rootname(file) <> ".eex"
+
+          if eex_file in components,
+            do: {status, errors},
+            else: {:error, [{".eex missing", eex_file} | errors]}
+
+        ext == ".eex" ->
+          exs_file = Path.rootname(file) <> ".exs"
+
+          if exs_file in components,
+            do: {status, errors},
+            else: {:error, [{".exs missing", exs_file} | errors]}
+
+        true ->
+          {status, errors}
+      end
+    end)
   end
 end
