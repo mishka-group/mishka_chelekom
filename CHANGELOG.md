@@ -1,3 +1,11 @@
+# Changelog for MishkaChelekom 0.0.3
+
+### Features:
+- Support JS community cli version (beta) [#254](https://github.com/mishka-group/mishka_chelekom/pull/254)
+- Support Export community cli version (beta) [#256](https://github.com/mishka-group/mishka_chelekom/pull/256)
+
+---
+
 # Changelog for MishkaChelekom 0.0.2
 
 ### Features:
