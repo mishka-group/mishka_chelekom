@@ -57,6 +57,7 @@ defmodule Mix.Tasks.Mishka.Ui.Export do
 
   * `--base64` or `-b` - Converts component content to Base64
   * `--name` or `-n` - Defines a name for JSON file, if it is not set default is template.json
+  * `--org` or `-o` - It is only for structuring the file and has no effect on your export.
   * `--template` or `-t` - Creates a default JSON file for manual processing steps.
   """
 
@@ -80,11 +81,11 @@ defmodule Mix.Tasks.Mishka.Ui.Export do
       # This ensures your option schema includes options from nested tasks
       composes: [],
       # `OptionParser` schema
-      schema: [base64: :boolean, template: :boolean, name: :string],
+      schema: [base64: :boolean, template: :boolean, name: :string, org: :string],
       # Default values for the options in the `schema`
       defaults: [],
       # CLI aliases
-      aliases: [b: :base64, t: :template, n: :name],
+      aliases: [b: :base64, t: :template, n: :name, o: :org],
       # A list of options in the schema that are required
       required: []
     }
@@ -137,6 +138,10 @@ defmodule Mix.Tasks.Mishka.Ui.Export do
     IO.puts(IO.ANSI.yellow() <> String.trim_trailing(msg) <> IO.ANSI.reset())
 
     name = Keyword.get(options, :name, "template")
+    org = Keyword.get(options, :org, "component")
+
+    org =
+      if org not in ["component", "preset", "template", "javascript"], do: "component", else: org
 
     igniter =
       if !File.dir?(dir),
@@ -155,7 +160,7 @@ defmodule Mix.Tasks.Mishka.Ui.Export do
       |> check_dir_files()
       |> create_elixir_files_config(base64)
       |> create_asset_files_config(base64)
-      |> create_json_file(name)
+      |> create_json_file(name, org)
     end
   end
 
@@ -245,7 +250,7 @@ defmodule Mix.Tasks.Mishka.Ui.Export do
           content = File.read!(item)
           content = if base64, do: content |> Base.encode64(), else: content
           file_name = item |> Path.basename() |> Path.rootname()
-          [[%{type: "javascript", name: file_name, content: content}] | acc]
+          [%{type: "javascript", name: file_name, content: content} | acc]
         end)
 
       igniter
@@ -261,7 +266,7 @@ defmodule Mix.Tasks.Mishka.Ui.Export do
       Igniter.add_issue(igniter, msg)
   end
 
-  defp create_json_file(igniter, name) do
+  defp create_json_file(igniter, name, org) do
     dir = igniter.assigns.cli_dir
 
     case Map.get(igniter.assigns, :cli_configs, []) do
@@ -269,10 +274,11 @@ defmodule Mix.Tasks.Mishka.Ui.Export do
         Igniter.add_issue(igniter, "There is no file to output from.")
 
       data ->
+        # Hard coded skipped org type
+        new_data = %{name: name, type: org, files: data} |> JSON.encode!()
+
         igniter
-        |> Igniter.create_new_file(dir <> "/#{name}.json", JSON.encode!(data),
-          on_exists: :overwrite
-        )
+        |> Igniter.create_new_file(dir <> "/#{name}.json", new_data, on_exists: :overwrite)
     end
   end
 

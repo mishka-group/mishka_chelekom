@@ -118,7 +118,7 @@ defmodule Mix.Tasks.Mishka.Ui.Add do
         field(:type, list(String.t()), derive: "validate(list)", default: [])
         field(:rounded, list(String.t()), derive: "validate(list)", default: [])
         field(:only, list(String.t()), derive: "validate(list)", default: [])
-        field(:helpers, list(String.t()), derive: "validate(list)", default: [])
+        field(:helpers, list(String.t()), derive: "validate(map)", default: %{})
 
         field(:module, String.t(), derive: "validate(string)", default: "")
       end
@@ -199,59 +199,7 @@ defmodule Mix.Tasks.Mishka.Ui.Add do
                {:ok, igniter, decoded_body} <-
                  convert_request_body(body, repo_action, igniter),
                {:ok, params} <- __MODULE__.builder(decoded_body) do
-            params = Map.merge(params, %{from: String.trim(repo)})
-
-            Enum.reduce(params.files, igniter, fn item, acc ->
-              args =
-                if is_struct(item.args),
-                  do:
-                    item.args
-                    |> Map.from_struct()
-                    |> Map.to_list()
-                    |> Enum.reject(
-                      &(match?({_, []}, &1) and elem(&1, 0) not in [:only, :helpers])
-                    )
-                    |> Enum.sort(),
-                  else: []
-
-              file_name =
-                if item.type == "javascript",
-                  do: "/#{item.name}",
-                  else: "/#{item.type}_#{item.name}"
-
-              direct_path =
-                File.cwd!()
-                |> Path.join(["priv", "/mishka_chelekom", "/#{item.type}s", file_name])
-
-              decode! =
-                case Base.decode64(item.content) do
-                  :error -> item.content
-                  {:ok, content} -> content
-                end
-
-              if item.type == "javascript" do
-                acc
-                |> Igniter.create_new_file(direct_path <> ".js", decode!, on_exists: :overwrite)
-              else
-                config =
-                  [
-                    {String.to_atom(item.name),
-                     [
-                       name: item.name,
-                       args: args,
-                       optional: item.necessary,
-                       necessary: item.optional
-                     ]}
-                  ]
-                  |> Enum.into([])
-
-                acc
-                |> Igniter.create_new_file(direct_path <> ".eex", decode!, on_exists: :overwrite)
-                |> Igniter.create_new_file(direct_path <> ".exs", "#{inspect(config)}",
-                  on_exists: :overwrite
-                )
-              end
-            end)
+            create_requested_files(igniter, params, repo)
           else
             %Req.Response{status: 404} ->
               msg = "The link or repo name entered is wrong."
@@ -267,7 +215,22 @@ defmodule Mix.Tasks.Mishka.Ui.Add do
 
         igniter
       else
-        igniter
+        with {:file, {:ok, file}} <- {:file, File.read(String.trim(repo))},
+             {:json, {:ok, decoded_body}} <- {:json, Jason.decode(file)},
+             {:builder, {:ok, params}} <- {:builder, __MODULE__.builder(decoded_body)} do
+          create_requested_files(igniter, params, repo)
+        else
+          {:file, {:error, _result}} ->
+            msg = "Unfortunately, the file cannot be accessed."
+            show_errors(igniter, %{fields: :path, message: msg, action: :get_repo})
+
+          {:json, {:error, _result}} ->
+            msg = "There was a problem reading the JSON file. Please ensure the file is correct."
+            show_errors(igniter, %{fields: :path, message: msg, action: :get_repo})
+
+          {:builder, {:error, errors}} ->
+            show_errors(igniter, errors)
+        end
       end
 
     if Map.get(final_igniter, :issues, []) == [],
@@ -275,9 +238,9 @@ defmodule Mix.Tasks.Mishka.Ui.Add do
       else: Owl.Spinner.stop(id: :my_spinner, resolution: :error, label: "Error")
 
     final_igniter
-  rescue
-    errors ->
-      show_errors(igniter, errors)
+    # rescue
+    #   errors ->
+    #     show_errors(igniter, errors)
   end
 
   def supports_umbrella?(), do: false
@@ -393,8 +356,12 @@ defmodule Mix.Tasks.Mishka.Ui.Add do
     ValidationDerive.validate(:url, repo, :repo)
     |> case do
       {:error, :repo, :url, msg} ->
-        {"none_url_error", :url,
-         show_errors(igniter, %{fields: :repo, message: msg, action: :get_repo})}
+        if File.exists?(repo) do
+          {"none_url_error", :url, igniter}
+        else
+          {"none_url_error", :url,
+           show_errors(igniter, %{fields: :repo, message: msg, action: :get_repo})}
+        end
 
       url when is_binary(url) ->
         type = external_url_type(url)
@@ -471,6 +438,62 @@ defmodule Mix.Tasks.Mishka.Ui.Add do
     |> Enum.map(fn item ->
       [key, value] = String.split(item, ": ")
       {String.trim(key), String.trim(value)}
+    end)
+  end
+
+  defp create_requested_files(igniter, params, repo) do
+    params = Map.merge(params, %{from: String.trim(repo)})
+
+    Enum.reduce(params.files, igniter, fn item, acc ->
+      args =
+        if is_struct(item.args) do
+          item.args
+          |> Map.from_struct()
+          |> Map.merge(%{helpers: Map.to_list(item.args.helpers)})
+          |> Map.to_list()
+          |> Enum.reject(&(match?({_, []}, &1) and elem(&1, 0) not in [:only, :helpers]))
+          |> Enum.sort()
+        else
+          []
+        end
+
+      file_name =
+        if item.type == "javascript",
+          do: "/#{item.name}",
+          else: "/#{item.type}_#{item.name}"
+
+      direct_path =
+        File.cwd!()
+        |> Path.join(["priv", "/mishka_chelekom", "/#{item.type}s", file_name])
+
+      decode! =
+        case Base.decode64(item.content) do
+          :error -> item.content
+          {:ok, content} -> content
+        end
+
+      if item.type == "javascript" do
+        acc
+        |> Igniter.create_new_file(direct_path <> ".js", decode!, on_exists: :overwrite)
+      else
+        config =
+          [
+            {String.to_atom(item.name),
+             [
+               name: item.name,
+               args: args,
+               optional: item.necessary,
+               necessary: item.optional
+             ]}
+          ]
+          |> Enum.into([])
+
+        acc
+        |> Igniter.create_new_file(direct_path <> ".eex", decode!, on_exists: :overwrite)
+        |> Igniter.create_new_file(direct_path <> ".exs", "#{inspect(config)}",
+          on_exists: :overwrite
+        )
+      end
     end)
   end
 end
