@@ -106,6 +106,14 @@ defmodule Mix.Tasks.Mishka.Ui.Add do
         )
       end
 
+      conditional_field(:scripts, list(String.t()),
+        structs: true,
+        derive: "validate(list)",
+        default: []
+      ) do
+        field(:scripts, map(), derive: "validate(map)")
+      end
+
       sub_field(:args, map(), default: %{}) do
         field(:variant, list(String.t()), derive: "validate(list)", default: [])
         field(:color, list(String.t()), derive: "validate(list)", default: [])
@@ -116,7 +124,6 @@ defmodule Mix.Tasks.Mishka.Ui.Add do
         field(:rounded, list(String.t()), derive: "validate(list)", default: [])
         field(:only, list(String.t()), derive: "validate(list)", default: [])
         field(:helpers, list(String.t()), derive: "validate(map)", default: %{})
-
         field(:module, String.t(), derive: "validate(string)", default: "")
       end
     end
@@ -459,8 +466,9 @@ defmodule Mix.Tasks.Mishka.Ui.Add do
              [
                name: item.name,
                args: args,
-               optional: item.necessary,
-               necessary: item.optional
+               optional: item.optional,
+               necessary: item.necessary,
+               scripts: item.scripts
              ]}
           ]
           |> Enum.into([])
