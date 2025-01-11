@@ -33,6 +33,13 @@ defmodule Mix.Tasks.Mishka.Ui.Add do
   **Official Community Version Repository**:
   - https://github.com/mishka-group/mishka_chelekom_community
 
+  **Important Notice:**:
+  > Several sections in the documentation on Mishka.tools, as well as individual tasks,
+  > address security concerns. Since you are integrating an external component,
+  > it is crucial to verify the source from which the file is being imported.
+  > Please note that all responsibility for this integration lies with you.
+
+
   ## Example
 
   ```bash

@@ -46,6 +46,23 @@ defmodule Mix.Tasks.Mishka.Ui.Export do
   > **Note**: Since JavaScript files do not require configuration, you only need to
   place the file in the directory. For example: `something.js`
 
+  ### What Should the Configuration of Each Component Look Like?
+  If you take a look at the example configuration below, you'll notice that the component
+  file name matches the key name in the list, which also matches the configuration name.
+  This ensures consistency and makes it easier to work with the component configuration.
+
+  **File name**: `component_accordion.eex` and `component_accordion.exs`
+  ```elixir
+  [
+    component_accordion: [
+      name: "component_accordion",
+      args: [...]
+      ...
+    ]
+  ]
+  ```
+
+  **Note:** you can name this like `preset_accordion` or `template_accordion` too.
 
   ## Example
 
