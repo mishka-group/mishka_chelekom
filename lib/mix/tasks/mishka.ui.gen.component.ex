@@ -447,9 +447,6 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Component do
 
   def component_to_atom(component_str) do
     component_str
-    |> String.replace_prefix("component_", "")
-    |> String.replace_prefix("preset_", "")
-    |> String.replace_prefix("template_", "")
     |> String.to_atom()
   end
 
@@ -470,8 +467,12 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Component do
             |> Path.join("#{item.file}")
 
           mishka_user_priv_path =
-            Path.join(IAPP.priv_dir(igniter, ["mishka_chelekom", "assets", "js"]), "#{item.file}")
+            Path.join(
+              IAPP.priv_dir(igniter, ["mishka_chelekom", "javascripts"]),
+              "#{item.file}"
+            )
 
+          IO.inspect(mishka_user_priv_path)
           # Priority is given to Core assets.
           content =
             cond do

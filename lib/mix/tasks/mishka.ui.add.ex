@@ -62,8 +62,7 @@ defmodule Mix.Tasks.Mishka.Ui.Add do
       default: []
     ) do
       field(:components, String.t(),
-        derive: "sanitize(tag=strip_tags) validate(not_empty_string, max_len=25, min_len=3)",
-        validator: {Mix.Tasks.Mishka.Ui.Add, :is_component?}
+        derive: "sanitize(tag=strip_tags) validate(not_empty_string, max_len=25, min_len=3)"
       )
     end
 
@@ -93,8 +92,7 @@ defmodule Mix.Tasks.Mishka.Ui.Add do
         default: []
       ) do
         field(:optional, String.t(),
-          derive: "sanitize(tag=strip_tags) validate(not_empty_string, max_len=25, min_len=3)",
-          validator: {Mix.Tasks.Mishka.Ui.Add, :is_component?}
+          derive: "sanitize(tag=strip_tags) validate(not_empty_string, max_len=25, min_len=3)"
         )
       end
 
@@ -104,8 +102,7 @@ defmodule Mix.Tasks.Mishka.Ui.Add do
         default: []
       ) do
         field(:necessary, String.t(),
-          derive: "sanitize(tag=strip_tags) validate(not_empty_string, max_len=25, min_len=3)",
-          validator: {Mix.Tasks.Mishka.Ui.Add, :is_component?}
+          derive: "sanitize(tag=strip_tags) validate(not_empty_string, max_len=25, min_len=3)"
         )
       end
 
@@ -238,20 +235,12 @@ defmodule Mix.Tasks.Mishka.Ui.Add do
       else: Owl.Spinner.stop(id: :my_spinner, resolution: :error, label: "Error")
 
     final_igniter
-    # rescue
-    #   errors ->
-    #     show_errors(igniter, errors)
+  rescue
+    errors ->
+      show_errors(igniter, errors)
   end
 
   def supports_umbrella?(), do: false
-
-  # Validator functions
-  def is_component?(name, value) do
-    if Enum.member?(components(), value),
-      do: {:ok, name, value},
-      else:
-        {:error, name, "One of the components entered as a dependency is missing from the list!"}
-  end
 
   def uniq_components?(name, value) do
     names = Enum.map(value, & &1[:name]) |> Enum.uniq() |> length()
@@ -264,13 +253,6 @@ defmodule Mix.Tasks.Mishka.Ui.Add do
 
       {:error, [%{message: msg, field: :files, action: :validator}]}
     end
-  end
-
-  defp components() do
-    Application.app_dir(:mishka_chelekom, ["priv", "templates", "components"])
-    |> File.ls!()
-    |> Enum.filter(&(Path.extname(&1) == ".eex"))
-    |> Enum.map(&Path.rootname(&1, ".eex"))
   end
 
   # Errors functions
@@ -457,14 +439,9 @@ defmodule Mix.Tasks.Mishka.Ui.Add do
           []
         end
 
-      file_name =
-        if item.type == "javascript",
-          do: "/#{item.name}",
-          else: "/#{item.type}_#{item.name}"
-
       direct_path =
         File.cwd!()
-        |> Path.join(["priv", "/mishka_chelekom", "/#{item.type}s", file_name])
+        |> Path.join(["priv", "/mishka_chelekom", "/#{item.type}s", "/#{item.name}"])
 
       decode! =
         case Base.decode64(item.content) do
