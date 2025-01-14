@@ -58,9 +58,21 @@ defmodule <%= @module %> do
   attr :border, :string, default: "extra_small", doc: "Border size"
   attr :color, :string, default: "natural", doc: "Determines color theme"
   attr :variant, :string, default: "transparent", doc: "Determines the style"
+  attr :rounded, :string, default: "small", doc: "Determines the border radius"
   attr :hoverable, :boolean, default: false, doc: "active hover style"
   attr :style, :string, default: "list-none", doc: ""
-  slot :item, validate_attrs: false, doc: "Specifies item slot of a list"
+
+  slot :item, validate_attrs: false do
+    attr :id, :string, doc: "A unique identifier is used to manage state and interaction"
+    attr :class, :string, doc: "Custom CSS class for additional styling"
+    attr :count, :integer, doc: "Li counter"
+    attr :count_separator, :string, doc: "Li counter separator"
+    attr :icon, :string, doc: "Icon displayed alongside of an item"
+    attr :icon_class, :string, doc: "Determines custom class for the icon"
+    attr :content_class, :string, doc: "Determines custom class for the content"
+    attr :padding, :string, doc: "Determines padding for items"
+    attr :position, :string, doc: "Determines the element position"
+  end
 
   attr :rest, :global,
     include: ~w(ordered unordered),
@@ -110,7 +122,7 @@ defmodule <%= @module %> do
     default: nil,
     doc: "A unique identifier is used to manage state and interaction"
 
-  attr :class, :list, default: nil, doc: "Custom CSS class for additional styling"
+  attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :count, :integer, default: nil, doc: "Li counter"
   attr :count_separator, :string, default: ". ", doc: "Li counter separator"
   attr :icon, :string, default: nil, doc: "Icon displayed alongside of an item"
@@ -150,7 +162,7 @@ defmodule <%= @module %> do
       ]}>
         <.icon :if={!is_nil(@icon)} name={@icon} class={@icon_class} />
         <span :if={is_integer(@count)}>{@count}{@count_separator}</span>
-        <div class="w-full">
+        <div class={["w-full", @content_class]}>
           {render_slot(@inner_block)}
         </div>
       </div>
@@ -191,9 +203,11 @@ defmodule <%= @module %> do
   attr :width, :string, default: "full", doc: "Determines the element width"
   attr :border, :string, default: "extra_small", doc: "Border size"
   attr :style, :string, default: "list-none", doc: "Determines the element style"
-  attr :space, :string, default: "", doc: "Space between items"
+  attr :rounded, :string, default: "small", doc: "Determines the border radius"
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :hoverable, :boolean, default: false, doc: "active hover style"
+
+  attr :space, :string, default: "", doc: "Space between items"
 
   attr :font_weight, :string,
     default: "font-normal",
@@ -213,9 +227,10 @@ defmodule <%= @module %> do
         "[&.list-decimal]:ps-5 [&.list-disc]:ps-5",
         color_variant(@variant, @color, @hoverable),
         border_class(@border, @variant),
+        rounded_size(@rounded),
         size_class(@size),
         width_class(@width),
-        list_space(@space),
+        variant_space(@space, @variant),
         @style,
         @font_weight,
         @class
@@ -258,6 +273,7 @@ defmodule <%= @module %> do
 
   attr :width, :string, default: "full", doc: "Determines the element width"
   attr :border, :string, default: "extra_small", doc: "Border size"
+  attr :rounded, :string, default: "small", doc: "Determines the border radius"
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :space, :string, default: "", doc: "Space between items"
   attr :hoverable, :boolean, default: false, doc: "active hover style"
@@ -281,8 +297,9 @@ defmodule <%= @module %> do
         color_variant(@variant, @color, @hoverable),
         border_class(@border, @variant),
         size_class(@size),
+        rounded_size(@rounded),
         width_class(@width),
-        list_space(@space),
+        variant_space(@space, @variant),
         @font_weight,
         @class
       ]}
@@ -323,7 +340,7 @@ defmodule <%= @module %> do
   attr :width, :string, default: "full", doc: "Determines the element width"
   attr :space, :string, default: "small", doc: "Space between items"
   attr :hoverable, :boolean, default: false, doc: "active hover style"
-  attr :rounded, :string, default: "small",doc: "Determines the border radius"
+  attr :rounded, :string, default: "small", doc: "Determines the border radius"
   attr :border, :string, default: "extra_small", doc: "Determines border style"
 
   attr :font_weight, :string,
@@ -405,7 +422,9 @@ defmodule <%= @module %> do
     do: "[&:not(.list-items-gap)]:rounded-none [&.list-items-gap>li]:rounded-none"
   <% end %>
 
-  defp variant_space(_, variant) when variant not in ["outline_separated", "bordered_separated"], do: nil
+  defp variant_space(_, variant)
+       when variant not in ["outline_separated", "bordered_separated", "base_separated"],
+       do: nil
   <%= if is_nil(@space) or "extra_small" in @space do %>
   defp variant_space("extra_small", _), do: "list-items-gap space-y-2"
   <% end %>
@@ -422,23 +441,6 @@ defmodule <%= @module %> do
   defp variant_space("extra_large", _), do: "list-items-gap space-y-6"
   <% end %>
   defp variant_space(params, _) when is_binary(params), do: params
-
-  <%= if is_nil(@space) or "extra_small" in @space do %>
-  defp list_space("extra_small"), do: "space-y-2"
-  <% end %>
-  <%= if is_nil(@space) or "small" in @space do %>
-  defp list_space("small"), do: "space-y-3"
-  <% end %>
-  <%= if is_nil(@space) or "medium" in @space do %>
-  defp list_space("medium"), do: "space-y-4"
-  <% end %>
-  <%= if is_nil(@space) or "large" in @space do %>
-  defp list_space("large"), do: "space-y-5"
-  <% end %>
-  <%= if is_nil(@space) or "extra_large" in @space do %>
-  defp list_space("extra_large"), do: "space-y-6"
-  <% end %>
-  defp list_space(params) when is_binary(params), do: params
 
   defp width_class("extra_small"), do: "w-60"
   defp width_class("small"), do: "w-64"
@@ -568,7 +570,7 @@ defmodule <%= @module %> do
       "bg-white text-[#09090b] border-[#e4e4e7] shadow-sm",
       "dark:bg-[#18181B] dark:text-[#FAFAFA] dark:border-[#27272a]",
       "[&>li:not(:last-child)]:border-[#e4e4e7] dark:[&>li:not(:last-child)]:border-[#27272a]",
-      hoverable && "hover:[&_li]:bg-[#F8F9FA] hover:[&_li]:bg-[#242424]"
+      hoverable && "hover:[&_li]:bg-[#F8F9FA] dark:hover:[&_li]:bg-[#242424]"
     ]
   end
   <% end %>
@@ -579,7 +581,7 @@ defmodule <%= @module %> do
     [
       "[&>li]:text-[#09090b] [&>li]:border-[#e4e4e7] [&>li]:bg-white",
       "dark:[&>li]:text-[#FAFAFA] dark:[&>li]:border-[#27272a] dark:[&>li]:bg-[#18181B]",
-      hoverable && "hover:[&_li]:bg-[#F8F9FA] hover:[&_li]:bg-[#242424]"
+      hoverable && "hover:[&_li]:bg-[#F8F9FA] dark:hover:[&_li]:bg-[#242424]"
     ]
   end
   <% end %>
