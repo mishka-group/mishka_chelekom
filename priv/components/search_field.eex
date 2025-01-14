@@ -135,7 +135,7 @@ defmodule <%= @module %> do
         <div
           :if={@start_section}
           class={[
-            "flex items-center justify-center shrink-0 ps-2 h-[inherit]",
+            "flex items-center justify-center shrink-0 ps-2",
             @start_section[:class]
           ]}
         >
@@ -168,15 +168,15 @@ defmodule <%= @module %> do
 
         <div
           :if={@end_section}
-          class={["flex items-center justify-center shrink-0 pe-2 h-[inherit]", @end_section[:class]]}
+          class={["flex items-center justify-center shrink-0 pe-2", @end_section[:class]]}
         >
           {render_slot(@end_section)}
         </div>
         <div
           :if={@search_button}
-          class={["flex items-center justify-center shrink-0 pe-2 h-[inherit]"]}
+          class={["flex items-center justify-center shrink-0 pe-2"]}
         >
-          <button class="flex items-center justify-center">
+          <button class="flex items-center justify-center leading-5">
             <.icon name="hero-magnifying-glass" class="search-field-icon" />
           </button>
         </div>
@@ -206,13 +206,13 @@ defmodule <%= @module %> do
       </div>
 
       <div class={[
-        "search-field-wrapper overflow-hidden transition-all ease-in-out duration-200 flex flex-nowrap",
+        "search-field-wrapper overflow-hidden transition-all ease-in-out duration-200 flex items-center flex-nowrap",
         @errors != [] && "text-field-error"
       ]}>
         <div
           :if={@start_section}
           class={[
-            "flex items-center justify-center shrink-0 ps-2 h-[inherit]",
+            "flex items-center justify-center shrink-0 ps-2",
             @start_section[:class]
           ]}
         >
@@ -233,15 +233,15 @@ defmodule <%= @module %> do
 
         <div
           :if={@end_section}
-          class={["flex items-center justify-center shrink-0 pe-2 h-[inherit]", @end_section[:class]]}
+          class={["flex items-center justify-center shrink-0 pe-2", @end_section[:class]]}
         >
           {render_slot(@end_section)}
         </div>
         <div
           :if={@search_button}
-          class={["flex items-center justify-center shrink-0 pe-2 h-[inherit]"]}
+          class={["flex items-center justify-center shrink-0 pe-2"]}
         >
-          <button class="flex items-center justify-center">
+          <button class="flex items-center justify-center leading-5">
             <.icon name="hero-magnifying-glass" class="search-field-icon" />
           </button>
         </div>
@@ -385,6 +385,7 @@ defmodule <%= @module %> do
       "[&_.search-field-wrapper.search-field-error]:border-rose-700",
       "[&_.search-field-wrapper>input]:placeholder:text-[#09090b] dark:[&_.search-field-wrapper>input]:placeholder:text-[#FAFAFA]",
       "focus-within:[&_.search-field-wrapper]:ring-[#e4e4e7] dark:focus-within:[&_.search-field-wrapper]:ring-[#e4e4e7]",
+      "[&_.search-field-wrapper]:shadow-sm",
       floating == "outer" &&
         "[&_.search-field-wrapper_.floating-label]:bg-white dark:[&_.search-field-wrapper_.floating-label]:bg-[#27272a]"
     ]
