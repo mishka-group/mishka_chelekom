@@ -166,7 +166,7 @@ defmodule <%= @module %> do
         <div
           :if={@start_section}
           class={[
-            "flex items-center justify-center shrink-0 ps-2 h-[inherit]",
+            "flex items-center justify-center shrink-0 ps-2",
             @start_section[:class]
           ]}
         >
@@ -199,7 +199,7 @@ defmodule <%= @module %> do
 
         <div
           :if={@end_section}
-          class={["flex items-center justify-center shrink-0 pe-2 h-[inherit]", @end_section[:class]]}
+          class={["flex items-center justify-center shrink-0 pe-2", @end_section[:class]]}
         >
           {render_slot(@end_section)}
         </div>
@@ -229,13 +229,13 @@ defmodule <%= @module %> do
       </div>
 
       <div class={[
-        "date-time-field-wrapper overflow-hidden transition-all ease-in-out duration-200 flex flex-nowrap",
+        "date-time-field-wrapper overflow-hidden transition-all ease-in-out duration-200 flex items-center flex-nowrap",
         @errors != [] && "date-time-field-error"
       ]}>
         <div
           :if={@start_section}
           class={[
-            "flex items-center justify-center shrink-0 ps-2 h-[inherit]",
+            "flex items-center justify-center shrink-0 ps-2",
             @start_section[:class]
           ]}
         >
@@ -256,7 +256,7 @@ defmodule <%= @module %> do
 
         <div
           :if={@end_section}
-          class={["flex items-center justify-center shrink-0 pe-2 h-[inherit]", @end_section[:class]]}
+          class={["flex items-center justify-center shrink-0 pe-2", @end_section[:class]]}
         >
           {render_slot(@end_section)}
         </div>
@@ -409,6 +409,7 @@ defmodule <%= @module %> do
       "[&_.date-time-field-wrapper.date-time-field-error]:border-rose-700",
       "[&_.date-time-field-wrapper>input]:placeholder:text-[#09090b] dark:[&_.date-time-field-wrapper>input]:placeholder:text-[#FAFAFA]",
       "focus-within:[&_.date-time-field-wrapper]:ring-[#e4e4e7] dark:focus-within:[&_.date-time-field-wrapper]:ring-[#e4e4e7]",
+      "[&_.date-time-field-wrapper]:shadow-sm",
       floating == "outer" &&
         "[&_.date-time-field-wrapper_.floating-label]:bg-white dark:[&_.date-time-field-wrapper_.floating-label]:bg-[#27272a]"
     ]
