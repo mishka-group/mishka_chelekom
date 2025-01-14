@@ -98,7 +98,7 @@ defmodule <%= @module %> do
           rounded_size(@rounded),
           size_class(@size),
           padding_size(@padding),
-          @variant == "bordered" && border_class(@border),
+          @variant == "bordered" || (@variant == "base" && border_class(@border)),
           position_class(@position),
           text_position(@text_position),
           width_class(@width),
@@ -107,12 +107,12 @@ defmodule <%= @module %> do
         ]}
         {@rest}
       >
-        {@text}
         <span
           :if={@show_arrow && @variant != "bordered" && @variant != "base"}
-          class="block absolute size-[8px] bg-inherit rotate-45 tooltip-arrow"
+          class="block absolute size-[8px] bg-inherit rotate-45 -z-[1] tooltip-arrow"
         >
         </span>
+        {@text}
       </span>
     </span>
     """
