@@ -161,12 +161,12 @@ defmodule <%= @module %> do
 
     ~H"""
     <style :if={@csp_nonce} nonce={@csp_nonce}>
-      #<%= @id %> {
-        <%= if @variation == "horizontal" do %>
-          width: <%= @value %>%;
-        <% else %>
-          height: <%= @value %>%;
-        <% end %>
+      #<%%= @id %> {
+        <%%= if @variation == "horizontal" do %>
+          width: <%%= @value %>%;
+        <%% else %>
+          height: <%%= @value %>%;
+        <%% end %>
       }
     </style>
 
