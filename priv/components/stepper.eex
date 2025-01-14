@@ -213,12 +213,12 @@ defmodule <%= @module %> do
         </span>
       </span>
 
-      <span class="block text-nowrap">
-        <span :if={@title} class="block font-bold">
+      <span class="block">
+        <span :if={@title} class="block font-bold text-wrap">
           {@title}
         </span>
 
-        <span :if={@description} class="block text-xs">
+        <span :if={@description} class="block text-xs text-wrap">
           {@description}
         </span>
         {render_slot(@inner_block)}
@@ -281,13 +281,13 @@ defmodule <%= @module %> do
       </span>
 
       <span class={[
-        "stepper-content block text-nowrap",
+        "stepper-content block",
       ]}>
-        <span :if={@title} class="block font-bold">
+        <span :if={@title} class="block font-bold text-wrap">
           {@title}
         </span>
 
-        <span :if={@description} class="block text-xs">
+        <span :if={@description} class="block text-xs text-wrap">
           {@description}
         </span>
         {render_slot(@inner_block)}
