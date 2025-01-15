@@ -122,8 +122,8 @@ defmodule <%= @module %> do
    def popover(assigns) do
     ~H"""
     <span
-      id={@id}
       :if={@inline}
+      id={@id}
       class={[
         "inline-block relative w-fit",
         "[&_.popover-content]:invisible [&_.popover-content]:opacity-0",
@@ -143,7 +143,7 @@ defmodule <%= @module %> do
         {render_slot(trigger)}
       </span>
 
-       <span
+      <span
         :for={content <- @content}
         id={"#{@id}-popover-content"}
         role="dialog"
@@ -156,7 +156,7 @@ defmodule <%= @module %> do
           size_class(@size),
           position_class(@position),
           text_position(@text_position),
-          @variant == "bordered" && border_class(@border),
+          @variant == "bordered" || (@variant == "base" && border_class(@border)),
           width_class(@width),
           wrapper_padding(@padding),
           @font_weight,
@@ -167,7 +167,7 @@ defmodule <%= @module %> do
         {render_slot(content)}
         <span
           :if={@show_arrow && @variant != "bordered" && @variant != "base"}
-          class={["block absolute size-[8px] bg-inherit rotate-45 popover-arrow"]}
+          class={["block absolute size-[8px] bg-inherit rotate-45 -z-[1] popover-arrow"]}
         >
         </span>
       </span>
@@ -209,7 +209,7 @@ defmodule <%= @module %> do
           size_class(@size),
           position_class(@position),
           text_position(@text_position),
-          @variant == "bordered" && border_class(@border),
+          @variant == "bordered" || (@variant == "base" && border_class(@border)),
           width_class(@width),
           wrapper_padding(@padding),
           @font_weight,
@@ -220,7 +220,7 @@ defmodule <%= @module %> do
         {render_slot(content)}
         <span
           :if={@show_arrow && @variant != "bordered" && @variant != "base"}
-          class={["block absolute size-[8px] bg-inherit rotate-45 popover-arrow"]}
+          class={["block absolute size-[8px] bg-inherit rotate-45 -z-[1] popover-arrow"]}
         >
         </span>
       </div>
@@ -392,8 +392,12 @@ defmodule <%= @module %> do
       ]}
       {@rest}
     >
+      <span
+        :if={@show_arrow && @variant != "bordered" && @variant != "base"}
+        class={["block absolute size-[8px] bg-inherit rotate-45 -z-[1] popover-arrow"]}
+      >
+      </span>
       {render_slot(@inner_block)}
-      <span :if={@show_arrow && @variant != "bordered" && @variant != "base"} class={["block absolute size-[8px] bg-inherit rotate-45 popover-arrow"]}></span>
     </span>
     """
   end
@@ -420,8 +424,12 @@ defmodule <%= @module %> do
       ]}
       {@rest}
     >
+      <span
+        :if={@show_arrow && @variant != "bordered" && @variant != "base"}
+        class={["block absolute size-[8px] bg-inherit rotate-45 -z-[1] popover-arrow"]}
+      >
+      </span>
       {render_slot(@inner_block)}
-      <span :if={@show_arrow && @variant != "bordered" && @variant != "base"} class={["block absolute size-[8px] bg-inherit rotate-45 popover-arrow"]}></span>
     </div>
     """
   end

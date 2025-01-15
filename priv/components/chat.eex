@@ -164,7 +164,7 @@ defmodule <%= @module %> do
     <div
       id={@id}
       class={[
-        "chat-section-bubble leading-1.5",
+        "chat-section-bubble leading-1.5 overflow-hidden",
         @font_weight,
         @class
       ]}

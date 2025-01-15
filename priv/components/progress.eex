@@ -69,6 +69,7 @@ defmodule <%= @module %> do
     doc: "Defines the layout orientation of the component"
 
   attr :color, :string, default: "base", doc: "Determines color theme"
+  attr :rounded, :string, default: "full", doc: "Determines the border radius"
   attr :variant, :string, default: "base", doc: "Determines the style"
 
   attr :size, :string,
@@ -89,9 +90,10 @@ defmodule <%= @module %> do
     ~H"""
     <div
       class={[
-        "bg-[#F4F4F4] dark:bg-[#868686] rounded-full overflow-hidden",
-        @variation == "vertical" && "flex items-end",
-        size_class(@size, @variation)
+        "bg-[#F4F4F4] dark:bg-[#B6B6B6] overflow-hidden",
+        @variation == "vertical" && "flex items-end vertical-progress",
+        size_class(@size, @variation),
+        rounded_size(@rounded)
       ]}
       {@rest}
     >
@@ -140,7 +142,6 @@ defmodule <%= @module %> do
     doc: "Defines the layout orientation of the component"
 
   attr :color, :string, default: "base", doc: "Determines color theme"
-  attr :rounded, :string, default: "", doc: "Determines the border radius"
   attr :variant, :string, default: "base", doc: "Determines the style"
   attr :csp_nonce, :string, default: nil, doc: "csp nonce"
 
@@ -173,17 +174,17 @@ defmodule <%= @module %> do
       phx-mounted={
         is_nil(@csp_nonce) &&
           JS.set_attribute(
-            {"style",
-             (@variation == "horizontal" && "width: #{@value}%;") || "height: #{@value}%;"}
+            {"style", (@variation == "horizontal" && "width: #{@value}%;") || "height: #{@value}%;"}
           )
       }
       id={@id}
       class={[
-        "rounded-full w-full",
+        "w-full progress-section",
         if(@variation == "vertical", do: "progress-vertical"),
-        if(@variation == "horizontal" && !is_nil(@label), do: "flex justify-center items-center [&_span]:text-[11px]"),
+        if(@variation == "horizontal" && !is_nil(@label),
+          do: "flex justify-center items-center [&_span]:text-[11px]"
+        ),
         color_variant(@variant, @color),
-        rounded_size(@rounded),
         @class
       ]}
     >
@@ -196,22 +197,34 @@ defmodule <%= @module %> do
   <% end %>
 
   <%= if is_nil(@rounded) or "extra_small" in @rounded do %>
-  defp rounded_size("extra_small"), do: "rounded-sm"
+  defp rounded_size("extra_small") do
+   "rounded-sm [&:not(.vertical-progress)_.progress-section:last-of-type]:rounded-e-sm"
+  end
   <% end %>
   <%= if is_nil(@rounded) or "small" in @rounded do %>
-  defp rounded_size("small"), do: "rounded"
+  defp rounded_size("small") do
+    "rounded [&:not(.vertical-progress)_.progress-section:last-of-type]:rounded-e"
+  end
   <% end %>
   <%= if is_nil(@rounded) or "medium" in @rounded do %>
-  defp rounded_size("medium"), do: "rounded-md"
+  defp rounded_size("medium") do
+    "rounded-md [&:not(.vertical-progress)_.progress-section:last-of-type]:rounded-e-md"
+  end
   <% end %>
   <%= if is_nil(@rounded) or "large" in @rounded do %>
-  defp rounded_size("large"), do: "rounded-lg"
+  defp rounded_size("large") do
+    "rounded-lg [&:not(.vertical-progress)_.progress-section:last-of-type]:rounded-e-lg"
+  end
   <% end %>
   <%= if is_nil(@rounded) or "extra_large" in @rounded do %>
-  defp rounded_size("extra_large"), do: "rounded-xl"
+  defp rounded_size("extra_large") do
+    "rounded-xl [&:not(.vertical-progress)_.progress-section:last-of-type]:rounded-e-xl"
+  end
   <% end %>
   <%= if is_nil(@rounded) or "full" in @rounded do %>
-  defp rounded_size("full"), do: "rounded-full"
+  defp rounded_size("full") do
+    "rounded-full [&:not(.vertical-progress)_.progress-section:last-of-type]:rounded-e-full"
+  end
   <% end %>
   defp rounded_size(params) when is_binary(params), do: params
 
