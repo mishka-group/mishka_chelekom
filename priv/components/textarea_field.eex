@@ -333,6 +333,7 @@ defmodule <%= @module %> do
       "[&_.textarea-field-wrapper.textarea-field-error]:border-rose-700",
       "[&_.textarea-field-wrapper>input]:placeholder:text-[#09090b] dark:[&_.textarea-field-wrapper>input]:placeholder:text-[#FAFAFA]",
       "focus-within:[&_.textarea-field-wrapper]:ring-[#e4e4e7] dark:focus-within:[&_.textarea-field-wrapper]:ring-[#e4e4e7]",
+      "[&_.textarea-field-wrapper]:shadow-sm",
       floating == "outer" &&
         "[&_.textarea-field-wrapper_.floating-label]:bg-white dark:[&_.textarea-field-wrapper_.floating-label]:bg-[#27272a]"
     ]

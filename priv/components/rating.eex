@@ -75,7 +75,7 @@ defmodule <%= @module %> do
       <%%= for item <- 1..@count do %>
         <%%= if @interactive do %>
           <button
-            class={["rating-button"]}
+            class={["rating-button leading-5"]}
             phx-click={
               @on_action
               |> JS.push("rating", value: Map.merge(%{action: "select", number: item}, @params))

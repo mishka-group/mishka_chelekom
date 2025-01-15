@@ -335,7 +335,7 @@ defmodule <%= @module %> do
   <%= if is_nil(@color) or "base" in @color do %>
   defp color_variant("base", "base") do
     [
-      "text-[#09090b] dark:text-[#FAFAFA] [&_.select-field:not(:has(.select-field-error))]:border-[#e4e4e7] shadow-sm",
+      "text-[#09090b] dark:text-[#FAFAFA] [&_.select-field:not(:has(.select-field-error))]:border-[#e4e4e7] [&_.select-field]:shadow-sm",
       "[&_.select-field:not(:has(.select-field-error))]:bg-white",
       "dark:[&_.select-field:not(:has(.select-field-error))]:bg-[#18181B]",
       "dark:[&_.select-field:not(:has(.select-field-error))]:border-[#27272a]",
