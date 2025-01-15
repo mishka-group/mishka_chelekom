@@ -139,7 +139,7 @@ defmodule <%= @module %> do
         <div
           :if={@start_section}
           class={[
-            "flex items-center justify-center shrink-0 ps-2 h-[inherit]",
+            "flex items-center justify-center shrink-0 ps-2",
             @start_section[:class]
           ]}
         >
@@ -172,7 +172,7 @@ defmodule <%= @module %> do
 
         <div
           :if={@end_section}
-          class={["flex items-center justify-center shrink-0 pe-2 h-[inherit]", @end_section[:class]]}
+          class={["flex items-center justify-center shrink-0 pe-2", @end_section[:class]]}
         >
           {render_slot(@end_section)}
         </div>
@@ -202,13 +202,13 @@ defmodule <%= @module %> do
       </div>
 
       <div class={[
-        "tel-field-wrapper overflow-hidden transition-all ease-in-out duration-200 flex flex-nowrap",
+        "tel-field-wrapper overflow-hidden transition-all ease-in-out duration-200 flex items-center flex-nowrap",
         @errors != [] && "tel-field-error"
       ]}>
         <div
           :if={@start_section}
           class={[
-            "flex items-center justify-center shrink-0 ps-2 h-[inherit]",
+            "flex items-center justify-center shrink-0 ps-2",
             @start_section[:class]
           ]}
         >
@@ -229,7 +229,7 @@ defmodule <%= @module %> do
 
         <div
           :if={@end_section}
-          class={["flex items-center justify-center shrink-0 pe-2 h-[inherit]", @end_section[:class]]}
+          class={["flex items-center justify-center shrink-0 pe-2", @end_section[:class]]}
         >
           {render_slot(@end_section)}
         </div>
@@ -373,6 +373,7 @@ defmodule <%= @module %> do
       "[&_.tel-field-wrapper.tel-field-error]:border-rose-700",
       "[&_.tel-field-wrapper>input]:placeholder:text-[#09090b] dark:[&_.tel-field-wrapper>input]:placeholder:text-[#FAFAFA]",
       "focus-within:[&_.tel-field-wrapper]:ring-[#e4e4e7] dark:focus-within:[&_.tel-field-wrapper]:ring-[#e4e4e7]",
+      "[&_.tel-field-wrapper]:shadow-sm",
       floating == "outer" &&
         "[&_.tel-field-wrapper_.floating-label]:bg-white dark:[&_.tel-field-wrapper_.floating-label]:bg-[#27272a]"
     ]
