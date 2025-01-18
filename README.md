@@ -1,8 +1,52 @@
 # MishkaChelekom
 
-<a href="https://www.buymeacoffee.com/mishkagroup" target="_blank">
-  <img src="https://img.buymeacoffee.com/button-api/?text=Buy us coffee&emoji=☕&slug=mishkagroup&button_colour=FFDD00&font_colour=000000&font_family=Cookie&outline_colour=000000&coffee_colour=ffffff" alt="Buy Me A Coffee" height="50" width="210">
-</a>
+<p align="center">
+
+![Screenshot 2024-10-05 at 01 53 03](https://github.com/user-attachments/assets/16860771-e9e8-43f5-8441-d16ad8793ae6)
+
+</p>
+
+<p align="center">
+  <a href="https://github.com/mishka-group/mishka_chelekom/blob/master/LICENSE">
+    <img alt="License" src="https://img.shields.io/github/license/mishka-group/mishka_chelekom">
+  </a>
+
+  <a href="https://hex.pm/packages/mishka_chelekom">
+      <img alt="Releases" src="https://img.shields.io/hexpm/v/mishka_chelekom.svg">
+  </a>
+
+  <a href="https://hex.pm/packages/mishka_chelekom">
+      <img alt="Hex.pm Downloads" src="https://img.shields.io/hexpm/dt/mishka_chelekom">
+  </a>
+
+  <a href="https://github.com/mishka-group/mishka_chelekom/releases">
+    <img alt="GitHub release (with filter)" src="https://img.shields.io/github/v/release/mishka-group/mishka_chelekom">
+  </a>
+
+  <a href="#">
+    <img alt="Code Size in Bytes" src="https://img.shields.io/github/languages/code-size/mishka-group/mishka_chelekom">
+  </a>
+
+  <a href="https://github.com/mishka-group/mishka_chelekom/issues">
+    <img alt="Issues" src="https://img.shields.io/github/issues/mishka-group/mishka_chelekom">
+  </a>
+</p>
+
+<h2 align="center">Phoenix & Phoenix LiveView components and UI kit library </h2>
+
+<div align="center">
+  <pre style="display: inline-block; text-align: left;">
+    💖 Hey there! If you like my work, please <b><a href="https://github.com/sponsors/mishka-group">support me financially!</a></b> 💖
+</pre>
+</div>
+
+<br />
+
+<p align="center">
+  <a href="https://www.buymeacoffee.com/mishkagroup">
+    <img src="https://img.buymeacoffee.com/button-api/?text=Donate with Buy Me a Coffee&emoji=☕&slug=mishkagroup&button_colour=FFDD00&font_colour=000000&font_family=Bree&outline_colour=000000&coffee_colour=ffffff" />
+  </a>
+<p>
 
 Mishka Chelekom is a library offering various templates for components in **Phoenix** and **Phoenix LiveView** - [Phoenix UI kit and components](https://mishka.tools/chelekom).
 
@@ -10,7 +54,6 @@ This means you can generate any component listed in this project using a `CLI` c
 
 > For example, you can create a component with an `info` color and a "shadow" variant without having any unnecessary code clutter.
 
-![Screenshot 2024-10-05 at 01 53 03](https://github.com/user-attachments/assets/16860771-e9e8-43f5-8441-d16ad8793ae6)
 
 If you want to add another variant in the future, the project is powered by the [**Igniter**](https://github.com/ash-project/igniter) library, which makes it easy to update the previous code seamlessly.
 
@@ -21,7 +64,7 @@ You will only use this library in your `development` environment, and it will no
 ```elixir
 def deps do
   [
-    {:mishka_chelekom, "~> 0.0.1", only: :dev}
+    {:mishka_chelekom, "~> 0.0.2", only: :dev}
   ]
 end
 ```
