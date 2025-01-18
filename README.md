@@ -135,6 +135,8 @@ mix mishka.ui.gen.components alert,accordion,chat --import --helpers --yes
 
 </details>
 
+---
+
 ### Optimized for Minimal Dependencies
 
 This project ensures optimal performance by minimizing dependencies and leveraging the advanced features of **Tailwind CSS**.
@@ -179,6 +181,15 @@ This project ensures optimal performance by minimizing dependencies and leveragi
 * Are these components not developed after offering the paid version?
 
 > Our paid services are not about components at all, but more facilities, including exclusive support, as well as complete templates, etc., and as long as the Mishka team exists, this project will be developed and maintained for free and open source.
+
+* What does the project name mean?
+
+> One of the frequently asked questions on social media after the release of the first version of Mishka Chelekom was about the meaning behind the library itself. Here's the explanation:
+>
+> Mishka means "sparrow."
+>
+> Chelekom refers to "tree logs that are cut and neatly arranged side by side."
+
 
 ---
 
