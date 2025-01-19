@@ -105,7 +105,7 @@ defmodule <%= @module %> do
 
   slot :inner_block, required: true, doc: "Inner block that renders HEEx content"
 
-  @spec h2(any()) :: Phoenix.LiveView.Rendered.t()
+  @spec h2(map()) :: Phoenix.LiveView.Rendered.t()
   def h2(assigns) do
     ~H"""
     <h2
