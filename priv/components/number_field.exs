@@ -19,9 +19,9 @@
         "silver"
       ],
       size: ["extra_small", "small", "medium", "large", "extra_large"],
-      padding: ["extra_small", "small", "medium", "large", "extra_large", "none"],
-      rounded: ["extra_small", "small", "medium", "large", "extra_large", "full"],
-      space: ["extra_small", "small", "medium", "large", "extra_large"],
+      padding: ["extra_small", "small", "medium", "large", "extra_large"],
+      rounded: ["extra_small", "small", "medium", "large", "extra_large", "full", "none"],
+      space: ["extra_small", "small", "medium", "large", "extra_large", "none"],
       only: ["number_field"],
       helpers: [],
       module: ""

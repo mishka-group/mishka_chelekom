@@ -32,7 +32,7 @@
       ],
       size: ["extra_small", "small", "medium", "large", "extra_large"],
       padding: ["extra_small", "small", "medium", "large", "extra_large"],
-      space: ["extra_small", "small", "medium", "large", "extra_large"],
+      space: ["extra_small", "small", "medium", "large", "extra_large", "none"],
       type: ["accordion", "native_accordion"],
       rounded: ["extra_small", "small", "medium", "large", "extra_large", "full"],
       only: ["accordion", "native_accordion"],

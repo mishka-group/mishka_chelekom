@@ -33,7 +33,8 @@
         "extra_large",
         "double_large",
         "triple_large",
-        "quadruple_large"
+        "quadruple_large",
+        "none"
       ],
       padding: [
         "extra_small",
@@ -46,7 +47,7 @@
         "quadruple_large",
         "none"
       ],
-      rounded: ["extra_small", "small", "medium", "large", "extra_large"],
+      rounded: ["extra_small", "small", "medium", "large", "extra_large", "none"],
       type: ["card", "card_title", "card_media", "card_content", "card_footer"],
       only: ["card", "card_title", "card_media", "card_content", "card_footer"],
       helpers: [],

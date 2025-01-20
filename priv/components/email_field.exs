@@ -19,8 +19,8 @@
         "silver"
       ],
       size: ["extra_small", "small", "medium", "large", "extra_large"],
-      space: ["extra_small", "small", "medium", "large", "extra_large"],
-      rounded: ["extra_small", "small", "medium", "large", "extra_large", "full"],
+      space: ["extra_small", "small", "medium", "large", "extra_large", "none"],
+      rounded: ["extra_small", "small", "medium", "large", "extra_large", "full", "none"],
       only: ["email_field"],
       helpers: [],
       module: ""

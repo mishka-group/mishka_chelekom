@@ -19,8 +19,8 @@
         "silver"
       ],
       size: ["extra_small", "small", "medium", "large", "extra_large"],
-      space: ["extra_small", "small", "medium", "large", "extra_large"],
-      rounded: ["extra_small", "small", "medium", "large", "extra_large"],
+      space: ["extra_small", "small", "medium", "large", "extra_large", "none"],
+      rounded: ["extra_small", "small", "medium", "large", "extra_large", "none"],
       only: ["file_field"],
       helpers: [],
       module: ""
