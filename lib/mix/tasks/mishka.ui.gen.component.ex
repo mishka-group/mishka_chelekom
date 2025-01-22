@@ -238,11 +238,10 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Component do
       updated_new_assign =
         Keyword.keys(template_config[:args])
         |> Enum.reduce(new_assign, fn key, acc ->
-          if Keyword.has_key?(acc, key),
-            do: acc,
-            else: Keyword.put(acc, key, nil) |> convert_options()
+          value = Keyword.put(acc, key, nil)
+          if Keyword.has_key?(acc, key), do: acc, else: if(value == [], do: nil, else: value)
         end)
-        |> IO.inspect(label: "=--==--=-=-=>")
+        |> IO.inspect(label: "=--==--=-=-=")
         |> Keyword.merge(web_module: Igniter.Libs.Phoenix.web_module(igniter))
 
       {igniter, template_path, template_config, proper_location, updated_new_assign, options}
@@ -577,8 +576,6 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Component do
   end
 
   def convert_options(nil), do: nil
-
-  def convert_options([]), do: nil
 
   def convert_options(value) when is_binary(value),
     do: String.trim(value) |> String.split(",") |> Enum.map(&String.trim/1)
