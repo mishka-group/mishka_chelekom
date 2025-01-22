@@ -61,14 +61,14 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Component do
       composes: [],
       # `OptionParser` schema
       schema: [
-        variant: :string,
-        color: :string,
-        size: :string,
-        module: :string,
-        padding: :string,
-        space: :string,
-        type: :string,
-        rounded: :string,
+        variant: :csv,
+        color: :csv,
+        size: :csv,
+        module: :csv,
+        padding: :csv,
+        space: :csv,
+        type: :csv,
+        rounded: :csv,
         sub: :boolean,
         no_deps: :boolean,
         no_sub_config: :boolean
