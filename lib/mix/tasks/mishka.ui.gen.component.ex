@@ -211,7 +211,7 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Component do
       |> Enum.reduce({[], []}, fn {key, value}, {bad_acc, data_acc} ->
         case template_config[:args][key] do
           args when is_list(args) ->
-            splited_args = String.split(value, ",", trim: true)
+            splited_args = convert_options(value)
 
             if !Enum.all?(splited_args, &(&1 in args)) do
               {[{key, args} | bad_acc], data_acc}
@@ -572,4 +572,11 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Component do
       igniter
     end
   end
+
+  def convert_options(nil), do: nil
+
+  def convert_options(value) when is_binary(value),
+    do: String.trim(value) |> String.split(",") |> Enum.map(&String.trim/1)
+
+  def convert_options(value), do: Enum.map(value, &String.trim/1)
 end
