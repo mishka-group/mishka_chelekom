@@ -578,6 +578,8 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Component do
 
   def convert_options(nil), do: nil
 
+  def convert_options([]), do: nil
+
   def convert_options(value) when is_binary(value),
     do: String.trim(value) |> String.split(",") |> Enum.map(&String.trim/1)
 
