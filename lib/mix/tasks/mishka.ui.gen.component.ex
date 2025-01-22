@@ -223,6 +223,7 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Component do
             {bad_acc, [{key, value} | data_acc]}
         end
       end)
+      |> IO.inspect(label: "=-=--=-=-=-==->")
 
     if length(user_bad_args) > 0 do
       msg = """
@@ -574,8 +575,6 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Component do
   end
 
   def convert_options(nil), do: nil
-
-  def convert_options([]), do: nil
 
   def convert_options(value) when is_binary(value),
     do: String.trim(value) |> String.split(",") |> Enum.map(&String.trim/1)
