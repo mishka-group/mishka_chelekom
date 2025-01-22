@@ -242,6 +242,7 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Component do
             do: if(acc != [], do: acc, else: nil),
             else: Keyword.put(acc, key, nil)
         end)
+        |> IO.inspect(label: "=-=--==-=->")
         |> Keyword.merge(web_module: Igniter.Libs.Phoenix.web_module(igniter))
 
       {igniter, template_path, template_config, proper_location, updated_new_assign, options}
