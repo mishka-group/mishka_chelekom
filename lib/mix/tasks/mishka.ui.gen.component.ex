@@ -238,10 +238,12 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Component do
       updated_new_assign =
         Keyword.keys(template_config[:args])
         |> Enum.reduce(new_assign, fn key, acc ->
-          value = Keyword.put(acc, key, nil)
-          if Keyword.has_key?(acc, key), do: acc, else: if(value == [], do: nil, else: value)
+          if Keyword.has_key?(acc, key), do: acc, else: Keyword.put(acc, key, nil)
         end)
-        |> IO.inspect(label: "=--==--=-=-=")
+        |> Enum.map(fn
+          {key, value} when value == [] -> {key, nil}
+          {key, value} -> {key, value}
+        end)
         |> Keyword.merge(web_module: Igniter.Libs.Phoenix.web_module(igniter))
 
       {igniter, template_path, template_config, proper_location, updated_new_assign, options}
@@ -474,7 +476,6 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Component do
               "#{item.file}"
             )
 
-          IO.inspect(mishka_user_priv_path)
           # Priority is given to Core assets.
           content =
             cond do
