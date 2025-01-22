@@ -223,7 +223,6 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Component do
             {bad_acc, [{key, value} | data_acc]}
         end
       end)
-      |> IO.inspect(label: "=-=--=-=-=-==->")
 
     if length(user_bad_args) > 0 do
       msg = """
@@ -239,7 +238,9 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Component do
       updated_new_assign =
         Keyword.keys(template_config[:args])
         |> Enum.reduce(new_assign, fn key, acc ->
-          if Keyword.has_key?(acc, key), do: acc, else: Keyword.put(acc, key, nil)
+          if Keyword.has_key?(acc, key),
+            do: if(acc != [], do: acc, else: nil),
+            else: Keyword.put(acc, key, nil)
         end)
         |> Keyword.merge(web_module: Igniter.Libs.Phoenix.web_module(igniter))
 
