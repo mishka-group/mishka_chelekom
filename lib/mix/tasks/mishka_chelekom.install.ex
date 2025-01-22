@@ -7,7 +7,6 @@ defmodule Mix.Tasks.MishkaChelekom.Install.Docs do
 
   def example do
     """
-    mix mishka_chelekom.install
     mix igniter.new my_app --with phx.new --install mishka_chelekom
     """
   end
