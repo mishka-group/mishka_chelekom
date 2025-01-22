@@ -64,7 +64,7 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Component do
         variant: :csv,
         color: :csv,
         size: :csv,
-        module: :csv,
+        module: :string,
         padding: :csv,
         space: :csv,
         type: :csv,
