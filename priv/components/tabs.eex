@@ -164,12 +164,19 @@ defmodule <%= @module %> do
           class={[
             "tab-trigger flex flex-row flex-nowrap items-center gap-1.5 leading-5",
             "transition-all duration-400 delay-100 disabled:opacity-80",
-            tab[:icon_position] == "end" && "flex-row-reverse",
+            tab[:icon_position] == "end" && tab[:badge_position] == "end" && "flex-row-reverse",
             tab[:class]
           ]}
         >
           <.icon :if={tab[:icon]} name={tab[:icon]} class="tab-icon" />
-          <.badge :if={tab[:badge]} variant={tab[:badge_variant] || "default"} color={tab[:badge_color] || "natural"} size={tab[:badge_size] || "extra_small"} rounded="full" circle>
+          <.badge
+            :if={tab[:badge]}
+            variant={tab[:badge_variant] || "default"}
+            color={tab[:badge_color] || "natural"}
+            size={tab[:badge_size] || "extra_small"}
+            rounded="full"
+            circle
+          >
             {tab[:badge]}
           </.badge>
           <span class="block tab-button_contnet">
@@ -242,12 +249,19 @@ defmodule <%= @module %> do
           class={[
             "tab-trigger flex flex-row flex-nowrap justify-center items-center gap-1.5 leading-5",
             "transition-all duration-400 delay-100 disabled:opacity-80",
-            tab[:icon_position] == "end" && "flex-row-reverse",
+            tab[:icon_position] == "end" && tab[:badge_position] == "end" && "flex-row-reverse",
             tab[:class]
           ]}
         >
           <.icon :if={tab[:icon]} name={tab[:icon]} class="tab-icon" />
-          <.badge :if={tab[:badge]} variant={tab[:badge_variant] || "default"} color={tab[:badge_color] || "natural"} size={tab[:badge_size] || "extra_small"} rounded="full" circle>
+          <.badge
+            :if={tab[:badge]}
+            variant={tab[:badge_variant] || "default"}
+            color={tab[:badge_color] || "natural"}
+            size={tab[:badge_size] || "extra_small"}
+            rounded="full"
+            circle
+          >
             {tab[:badge]}
           </.badge>
           <span class="block tab-button_contnet">
