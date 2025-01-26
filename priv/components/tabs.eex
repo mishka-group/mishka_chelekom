@@ -26,7 +26,7 @@ defmodule <%= @module %> do
 
   use Phoenix.Component
   alias Phoenix.LiveView.JS
-  import MishkaWeb.Components.Badge
+  import MishkaWeb.Components.Badge, only: [badge: 1]
 
   @doc """
   The `tabs` component provides a set of clickable tabs for organizing content.
