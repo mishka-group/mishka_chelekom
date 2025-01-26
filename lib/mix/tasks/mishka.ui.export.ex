@@ -228,17 +228,18 @@ defmodule Mix.Tasks.Mishka.Ui.Export do
             Config.Reader.read!("#{String.replace_suffix(item, ".eex", ".exs")}")
             |> List.first()
 
-          converted = %{
-            type: file_name_type,
-            name: config[:name],
-            content: content,
-            args:
-              Enum.into(config[:args] || [], %{})
-              |> Map.merge(%{helpers: Enum.into(config[:args][:helpers], %{})}),
-            optional: config[:optional] || [],
-            necessary: config[:necessary] || [],
-            scripts: config[:scripts] || []
-          }
+          converted =
+            %{
+              type: file_name_type,
+              name: config[:name],
+              content: content,
+              args:
+                Enum.into(config[:args] || [], %{})
+                |> Map.merge(%{helpers: Enum.into(config[:args][:helpers] || [], %{})}),
+              optional: config[:optional] || [],
+              necessary: config[:necessary] || [],
+              scripts: config[:scripts] || []
+            }
 
           [converted | acc]
         end)
