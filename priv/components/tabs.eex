@@ -26,6 +26,7 @@ defmodule <%= @module %> do
 
   use Phoenix.Component
   alias Phoenix.LiveView.JS
+  import MishkaWeb.Components.Badge
 
   @doc """
   The `tabs` component provides a set of clickable tabs for organizing content.
@@ -104,6 +105,10 @@ defmodule <%= @module %> do
     attr :icon_class, :string, doc: "Determines custom class for the icon"
     attr :icon_position, :string, doc: "Determines icon position"
     attr :active, :boolean, doc: "Indicates whether the element is currently active and visible"
+    attr :badge, :string, doc: "Indicates whether the element is currently active and visible"
+    attr :badge_color, :string, doc: "Indicates whether the element is currently active and visible"
+    attr :badge_position, :string, doc: "Indicates whether the element is currently active and visible"
+    attr :badge_size, :string, doc: "Indicates whether the element is currently active and visible"
   end
 
   slot :panel, required: false do
@@ -163,7 +168,10 @@ defmodule <%= @module %> do
           ]}
         >
           <.icon :if={tab[:icon]} name={tab[:icon]} class="tab-icon" />
-          <span class="block">
+          <.badge :if={tab[:badge]} variant="default" color={tab[:badge_color] || "natural"} size={tab[:badge_size] || "small"} rounded="full" circle>
+            {tab[:badge]}
+          </.badge>
+          <span class="block tab-button_contnet">
             {render_slot(tab)}
           </span>
         </button>
@@ -238,7 +246,10 @@ defmodule <%= @module %> do
           ]}
         >
           <.icon :if={tab[:icon]} name={tab[:icon]} class="tab-icon" />
-          <span class="block">
+          <.badge :if={tab[:badge]} variant="default" color={tab[:badge_color] || "natural"} size={tab[:badge_size] || "small"} rounded="full" circle>
+            {tab[:badge]}
+          </.badge>
+          <span class="block tab-button_contnet">
             {render_slot(tab)}
           </span>
         </button>
