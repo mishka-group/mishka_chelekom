@@ -1,6 +1,6 @@
 defmodule <%= @module %> do
   @moduledoc """
-  The `MishkaWeb.Components.List` module provides a versatile and customizable list
+  The `<%= inspect(@web_module) %>.Components.List` module provides a versatile and customizable list
   component for building both ordered and unordered lists, as well as a list
   group component for more structured content. This module is designed to cater to
   various styles and use cases, such as navigation menus, data presentations, or simple item listings.

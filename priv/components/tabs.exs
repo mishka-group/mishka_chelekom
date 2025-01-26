@@ -23,6 +23,6 @@
       module: ""
     ],
     optional: [],
-    necessary: []
+    necessary: ["badge"]
   ]
 ]
