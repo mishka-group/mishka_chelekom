@@ -388,6 +388,7 @@ defmodule <%= @module %> do
   defp gap_size("medium"), do: "[&_.tab-trigger-list]:gap-3"
   defp gap_size("large"), do: "[&_.tab-trigger-list]:gap-4"
   defp gap_size("extra_large"), do: "[&_.tab-trigger-list]:gap-5"
+  defp gap_size("none"), do: nil
   defp gap_size(params) when is_binary(params), do: params
 
   defp border_class("none"), do: nil
