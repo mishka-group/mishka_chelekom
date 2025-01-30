@@ -158,6 +158,9 @@ defmodule <%= @module %> do
   attr :reverse, :boolean, default: false, doc: "Switches the order of the element and label"
   attr :space, :string, default: "small", doc: "Switches the order of the element and label"
   attr :border, :string, default: "", doc: "Determines border style"
+  attr :rest, :global,
+    doc:
+      "Global attributes can define defaults which are merged with attributes provided by the caller"
 
   slot :inner_block, required: false, doc: "Inner block that renders HEEx content"
 
@@ -171,6 +174,7 @@ defmodule <%= @module %> do
         @class
       ]}
       disabled={!@clickable}
+      {@rest}
     >
       <span class="block relative">
         <span class="stepper-seperator block h-screen absolute start-1/2"></span>
@@ -241,6 +245,7 @@ defmodule <%= @module %> do
         @class
       ]}
       disabled={!@clickable}
+      {@rest}
     >
       <span
         :if={@icon}
