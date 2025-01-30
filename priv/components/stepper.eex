@@ -78,7 +78,9 @@ defmodule <%= @module %> do
       color_variant(@color, @variant),
       @font_weight,
       @class
-    ]}>
+    ]}
+      {@rest}
+    >
       {render_slot(@inner_block)}
     </div>
     """
