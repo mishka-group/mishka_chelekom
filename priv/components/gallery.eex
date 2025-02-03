@@ -123,6 +123,7 @@ defmodule <%= @module %> do
         alt={@alt}
         {@rest}
       />
+      {render_slot(@inner_block)}
     </div>
     """
   end
