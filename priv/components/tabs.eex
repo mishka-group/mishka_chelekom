@@ -305,7 +305,7 @@ defmodule <%= @module %> do
   defp content_position("start") do
     [
       "[&_.horizontal-tab_.tab-trigger-list]:justify-start",
-      "[&_.vetrical-tab_.tab-trigger-list]:justify-start"
+      "[&_.vertical-tab_.tab-trigger-list]:justify-start"
     ]
   end
 
