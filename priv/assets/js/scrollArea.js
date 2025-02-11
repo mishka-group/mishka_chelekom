@@ -12,7 +12,6 @@
 const ScrollArea = {
   mounted() {
     const { el } = this;
-
     // Main elements
     this.viewport = el.querySelector(".scroll-viewport");
     this.content = el.querySelector(".scroll-content");
