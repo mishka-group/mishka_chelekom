@@ -8,6 +8,14 @@
       module: ""
     ],
     optional: [],
-    necessary: []
+    necessary: [],
+    scripts: [
+      %{
+        type: "file",
+        file: "scrollArea.js",
+        module: "ScrollArea",
+        imports: "import ScrollArea from \"./scrollArea.js\";"
+      }
+    ]
   ]
 ]
