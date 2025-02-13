@@ -15,7 +15,6 @@ defmodule <%= @module %> do
   """
 
   use Phoenix.Component
-  use Gettext, backend: <%= inspect(@web_module) %>.Gettext
 
   @doc """
   Renders a `form_wrapper` component that supports custom styles and input fields.
@@ -93,6 +92,9 @@ defmodule <%= @module %> do
   end
 
   @doc type: :component
+  attr :id, :string,
+    default: nil,
+    doc: "A unique identifier is used to manage state and interaction"
   attr :for, :any, required: true, doc: "the data structure for the form"
   attr :as, :any, default: nil, doc: "the server side parameter to collect all input under"
 
