@@ -22,7 +22,7 @@
       space: ["extra_small", "small", "medium", "large", "extra_large"],
       rounded: ["extra_small", "small", "medium", "large", "extra_large", "none"],
       padding: ["extra_small", "small", "medium", "large", "extra_large"],
-      only: ["form_wrapper"],
+      only: ["form_wrapper", "simple_form"],
       helpers: [],
       module: ""
     ],
