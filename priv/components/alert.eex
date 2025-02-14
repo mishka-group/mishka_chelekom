@@ -225,7 +225,7 @@ defmodule <%= @module %> do
   attr :title, :string, default: nil, doc: "Specifies the title of the element"
   attr :kind, :atom, default: :base, doc: "used for styling and flash lookup"
   attr :variant, :string, default: "default", doc: "Determines the style"
-  attr :position, :string, default: "top_right", doc: "Determines the element position"
+  attr :position, :string, default: "", doc: "Determines the element position"
   attr :width, :string, default: "full", doc: "Determines the element width"
   attr :border, :string, default: "extra_small", doc: "Determines the element border width"
   attr :padding, :string, default: "small", doc: "Determines the element padding size"

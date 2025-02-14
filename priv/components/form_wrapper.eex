@@ -15,6 +15,7 @@ defmodule <%= @module %> do
   """
 
   use Phoenix.Component
+  use Gettext, backend: MishkaWeb.Gettext
 
   @doc """
   Renders a `form_wrapper` component that supports custom styles and input fields.
