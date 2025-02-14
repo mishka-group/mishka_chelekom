@@ -555,7 +555,7 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Component do
             # TODO: igniter_js deletes comment, should be fixed
             with original_content <- Rewrite.Source.get(source, :content),
                  {:ok, _, imported} <- Parser.insert_imports(original_content, imports),
-                 {:ok, _, output} <- Parser.extend_hook_object(imported, "MishkaComponents") do
+                 {:ok, _, output} <- Parser.extend_hook_object(imported, "...MishkaComponents") do
               Rewrite.Source.update(source, :content, output)
             else
               {:error, _, error} ->
