@@ -93,27 +93,23 @@ defmodule <%= @module %> do
     """
   end
 
-  def list(%{rest: %{unordered: true}}= assigns) do
+  def list(assigns) do
     ~H"""
     <.ul {assigns}>
-      <.li :for={item <- @item} {item}>
+      <.li
+        :for={item <- @item}
+        class={
+          Enum.join(["[&_.list-content]:flex [&_.list-content]:items-center", item[:class]], " ")
+        }
+        {item}
+      >
+        <div :if={!is_nil(Map.get(item, :title))} class="font-semibold me-2">
+          {item.title}
+        </div>
         {render_slot(item)}
       </.li>
       {render_slot(@inner_block)}
     </.ul>
-    """
-  end
-
-  def list(assigns) do
-    ~H"""
-    <div class="mt-14">
-      <dl class="-my-4 divide-y divide-zinc-100">
-        <div :for={item <- @item} class="flex gap-4 py-4 text-sm leading-6 sm:gap-8">
-          <dt class="w-1/4 flex-none text-zinc-500">{item.title}</dt>
-          <dd class="text-zinc-700">{render_slot(item)}</dd>
-        </div>
-      </dl>
-    </div>
     """
   end
   <% end %>
@@ -176,7 +172,7 @@ defmodule <%= @module %> do
       ]}>
         <.icon :if={!is_nil(@icon)} name={@icon} class={@icon_class} />
         <span :if={is_integer(@count)}>{@count}{@count_separator}</span>
-        <div class={["w-full", @content_class]}>
+        <div class={["w-full list-content", @content_class]}>
           {render_slot(@inner_block)}
         </div>
       </div>
