@@ -107,7 +107,7 @@ defmodule <%= @module %> do
       phx-click={JS.push("lv:clear-flash", value: %{key: @kind}) |> hide_alert("##{@id}")}
       role="alert"
       class={[
-        "z-50",
+        "z-50 flash-alert",
         border_class(@border,@variant),
         color_variant(@variant, @kind),
         position_class(@position),
@@ -159,7 +159,7 @@ defmodule <%= @module %> do
     ~H"""
     <div
       id={@id}
-      class={["space-y-3 z-50", position_class(@position)]}
+      class={["[&_.flash-alert:not(:first-child)]:mt-3 z-50", position_class(@position)]}
     >
       <.flash
         kind={:info}
@@ -183,7 +183,6 @@ defmodule <%= @module %> do
         phx-disconnected={show_alert(".phx-client-error #client-error")}
         phx-connected={hide_alert("#client-error")}
         width="medium"
-        class="mt-3"
         hidden
       >
         {gettext("Attempting to reconnect")}
@@ -198,7 +197,6 @@ defmodule <%= @module %> do
         phx-disconnected={show_alert(".phx-server-error #server-error")}
         phx-connected={hide_alert("#server-error")}
         width="medium"
-        class="mt-3"
         hidden
       >
         {gettext("Hang in there while we get back on track")}
