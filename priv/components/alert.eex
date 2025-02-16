@@ -161,7 +161,7 @@ defmodule <%= @module %> do
       id={@id}
       class={["space-y-3 z-50", position_class(@position)]}
     >
-    <.flash
+      <.flash
         kind={:info}
         title={gettext("Success!")}
         flash={@flash}
@@ -183,6 +183,7 @@ defmodule <%= @module %> do
         phx-disconnected={show_alert(".phx-client-error #client-error")}
         phx-connected={hide_alert("#client-error")}
         width="medium"
+        class="mt-3"
         hidden
       >
         {gettext("Attempting to reconnect")}
@@ -197,6 +198,7 @@ defmodule <%= @module %> do
         phx-disconnected={show_alert(".phx-server-error #server-error")}
         phx-connected={hide_alert("#server-error")}
         width="medium"
+        class="mt-3"
         hidden
       >
         {gettext("Hang in there while we get back on track")}
