@@ -152,13 +152,17 @@ defmodule <%= @module %> do
     doc: "A unique identifier is used to manage state and interaction"
 
   attr :variant, :string, default: "bordered", doc: "Determines the style"
+  attr :position, :string, default: "top_right", doc: "Position of flashes"
   attr :flash, :map, required: true, doc: "the map of flash messages"
 
   def flash_group(assigns) do
     ~H"""
-    <div id={@id} class="space-y-3">
-      <.flash kind={:info} title={gettext("Success!")} flash={@flash} variant={@variant} position="top_right" width="medium" />
-      <.flash kind={:error} title={gettext("Error!")} flash={@flash} variant={@variant} position="top_right" width="medium" />
+    <div
+      id={@id}
+      class={["space-y-3 z-50", position_class(@position)]}
+    >
+      <.flash kind={:info} title={gettext("Success!")} flash={@flash} variant={@variant} width="medium" />
+      <.flash kind={:error} title={gettext("Error!")} flash={@flash} variant={@variant} width="medium" />
       <.flash
         id="client-error"
         kind={:error}
@@ -167,7 +171,6 @@ defmodule <%= @module %> do
         phx-disconnected={show_alert(".phx-client-error #client-error")}
         phx-connected={hide_alert("#client-error")}
         width="medium"
-        position="top_right"
         hidden
       >
         {gettext("Attempting to reconnect")}
@@ -182,7 +185,6 @@ defmodule <%= @module %> do
         phx-disconnected={show_alert(".phx-server-error #server-error")}
         phx-connected={hide_alert("#server-error")}
         width="medium"
-        position="top_right"
         hidden
       >
         {gettext("Hang in there while we get back on track")}
