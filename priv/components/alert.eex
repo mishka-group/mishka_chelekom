@@ -161,8 +161,20 @@ defmodule <%= @module %> do
       id={@id}
       class={["space-y-3 z-50", position_class(@position)]}
     >
-      <.flash kind={:info} title={gettext("Success!")} flash={@flash} variant={@variant} width="medium" />
-      <.flash kind={:error} title={gettext("Error!")} flash={@flash} variant={@variant} width="medium" />
+    <.flash
+        kind={:info}
+        title={gettext("Success!")}
+        flash={@flash}
+        variant={@variant}
+        width="medium"
+      />
+      <.flash
+        kind={:error}
+        title={gettext("Error!")}
+        flash={@flash}
+        variant={@variant}
+        width="medium"
+      />
       <.flash
         id="client-error"
         kind={:error}
@@ -174,7 +186,7 @@ defmodule <%= @module %> do
         hidden
       >
         {gettext("Attempting to reconnect")}
-        <.icon name="hero-arrow-path" class="ml-1 h-3 w-3 animate-spin" />
+        <.icon name="hero-arrow-path" class="ms-1 h-3 w-3 animate-spin" />
       </.flash>
 
       <.flash
@@ -188,7 +200,7 @@ defmodule <%= @module %> do
         hidden
       >
         {gettext("Hang in there while we get back on track")}
-        <.icon name="hero-arrow-path" class="ml-1 h-3 w-3 animate-spin" />
+        <.icon name="hero-arrow-path" class="ms-1 h-3 w-3 animate-spin" />
       </.flash>
     </div>
     """
