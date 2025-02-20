@@ -2,7 +2,7 @@
 
 ### Features:
 - Add on_select attribute on tab slot
-- Add scroll area component [#296](https://github.com/mishka-group/mishka_chelekom/pull/296)
+- Add scroll area component [#296](https://github.com/mishka-group/mishka_chelekom/pull/296) [#300](https://github.com/mishka-group/mishka_chelekom/pull/300)
 - Add missing features of Phoenix core components [#296](https://github.com/mishka-group/mishka_chelekom/pull/296)
 
 ### Bugs:
