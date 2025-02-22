@@ -62,7 +62,7 @@ defmodule <%= @module %> do
         "absolute right-0 top-0 w-2 h-full bg-black/5 rounded-lg scrollbar-y transition-all duration-400",
         (@vertical &&
           %{
-            "hover" => "invisible group-hover:visible",
+            "hover" => "invisible group-hover:visible delay-200",
             "auto" => "visible",
             "never" => "invisible"
           }[@type]) || "invisible"
@@ -74,7 +74,7 @@ defmodule <%= @module %> do
         "absolute left-0 bottom-0 h-2 w-full bg-black/5 rounded-lg scrollbar-x",
         (@horizontal &&
           %{
-            "hover" => "invisible group-hover:visible",
+            "hover" => "invisible group-hover:visible delay-200",
             "auto" => "visible",
             "never" => "invisible"
           }[@type]) || "invisible"
