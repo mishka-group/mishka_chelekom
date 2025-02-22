@@ -60,24 +60,14 @@ defmodule <%= @module %> do
     <!-- Custom Scrollbars -->
       <div class={[
         "absolute right-0 top-0 w-2 h-full bg-black/5 rounded-lg scrollbar-y transition-all duration-400",
-        (@vertical &&
-          %{
-            "hover" => "invisible group-hover:visible delay-200",
-            "auto" => "visible",
-            "never" => "invisible"
-          }[@type]) || "invisible"
+        @vertical && custom_scrollbars_visibility(@type)
       ]}>
         <div class="absolute w-full bg-black/40 h-[20%] rounded-lg thumb-y"></div>
       </div>
 
       <div class={[
         "absolute left-0 bottom-0 h-2 w-full bg-black/5 rounded-lg scrollbar-x",
-        (@horizontal &&
-          %{
-            "hover" => "invisible group-hover:visible delay-200",
-            "auto" => "visible",
-            "never" => "invisible"
-          }[@type]) || "invisible"
+        @horizontal && custom_scrollbars_visibility(@type)
       ]}>
         <div class="absolute h-full bg-black/40 w-[20%] rounded-lg thumb-x"></div>
       </div>
@@ -104,4 +94,9 @@ defmodule <%= @module %> do
   defp padding_size("none"), do: nil
   <% end %>
   defp padding_size(params) when is_binary(params), do: params
+
+  defp custom_scrollbars_visibility("hover"), do: "invisible group-hover:visible delay-200"
+  defp custom_scrollbars_visibility("auto"), do: "visible"
+  defp custom_scrollbars_visibility("never"), do: "invisible"
+  defp custom_scrollbars_visibility(_), do: "invisible"
 end

@@ -36,11 +36,17 @@ let ScrollArea = {
 
     if (this.thumbY) {
       this.onThumbYPointerDownBound = (e) => this.onThumbYPointerDown(e);
-      this.thumbY.addEventListener("pointerdown", this.onThumbYPointerDownBound);
+      this.thumbY.addEventListener(
+        "pointerdown",
+        this.onThumbYPointerDownBound,
+      );
     }
     if (this.thumbX) {
       this.onThumbXPointerDownBound = (e) => this.onThumbXPointerDown(e);
-      this.thumbX.addEventListener("pointerdown", this.onThumbXPointerDownBound);
+      this.thumbX.addEventListener(
+        "pointerdown",
+        this.onThumbXPointerDownBound,
+      );
     }
 
     // Ensure layout is settled before the initial update
@@ -59,7 +65,9 @@ let ScrollArea = {
     if (scrollbar) scrollbar.style.display = "block";
     if (thumb) {
       const thumbSize =
-        axis === "vertical" ? thumb.offsetHeight || 20 : thumb.offsetWidth || 20;
+        axis === "vertical"
+          ? thumb.offsetHeight || 20
+          : thumb.offsetWidth || 20;
       const maxScroll = contentSize - clientSize;
       const maxThumb = clientSize - thumbSize;
       const pos = (scrollPos / maxScroll) * maxThumb;
@@ -122,7 +130,7 @@ let ScrollArea = {
     const maxThumb = clientHeight - thumbHeight;
     const newScrollTop = Math.max(
       0,
-      Math.min(this.startScrollTop + dy * (maxScroll / maxThumb), maxScroll)
+      Math.min(this.startScrollTop + dy * (maxScroll / maxThumb), maxScroll),
     );
     this.viewport.scrollTop = newScrollTop;
   },
@@ -161,7 +169,7 @@ let ScrollArea = {
     const maxThumb = clientWidth - thumbWidth;
     const newScrollLeft = Math.max(
       0,
-      Math.min(this.startScrollLeft + dx * (maxScroll / maxThumb), maxScroll)
+      Math.min(this.startScrollLeft + dx * (maxScroll / maxThumb), maxScroll),
     );
     this.viewport.scrollLeft = newScrollLeft;
   },
@@ -179,8 +187,14 @@ let ScrollArea = {
   destroyed() {
     this.viewport?.removeEventListener("scroll", this.updateThumbBound);
     window.removeEventListener("resize", this.handleResizeBound);
-    this.thumbY?.removeEventListener("pointerdown", this.onThumbYPointerDownBound);
-    this.thumbX?.removeEventListener("pointerdown", this.onThumbXPointerDownBound);
+    this.thumbY?.removeEventListener(
+      "pointerdown",
+      this.onThumbYPointerDownBound,
+    );
+    this.thumbX?.removeEventListener(
+      "pointerdown",
+      this.onThumbXPointerDownBound,
+    );
   },
 };
 
