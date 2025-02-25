@@ -24,6 +24,7 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Components do
 
   * `--import` - Generates import file
   * `--helpers` - Specifies helper functions of each component in import file
+  * `--global` - Makes components accessible throughout the project without explicit imports
   * `--yes` - Makes directly without questions
   """
 
@@ -46,9 +47,9 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Components do
       # This ensures your option schema includes options from nested tasks
       composes: ["mishka.ui.gen.component"],
       # `OptionParser` schema
-      schema: [import: :boolean, helpers: :boolean],
+      schema: [import: :boolean, helpers: :boolean, global: :boolean],
       # CLI aliases
-      aliases: [i: :import, h: :helpers]
+      aliases: [i: :import, h: :helpers, g: :global]
     }
   end
 
@@ -85,7 +86,7 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Components do
         acc
         |> Igniter.compose_task("mishka.ui.gen.component", [item, "--no-deps", "--sub", "--yes"])
       end)
-      |> create_import_macro(list, options[:import] || false, options[:helpers])
+      |> create_import_macro(list, options[:import] || false, options[:helpers], options[:global])
 
     if Map.get(igniter, :issues, []) == [],
       do: Owl.Spinner.stop(id: :my_spinner, resolution: :ok, label: "Done"),
@@ -94,7 +95,7 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Components do
     igniter
   end
 
-  defp create_import_macro(igniter, list, import_status, helpers_status) do
+  defp create_import_macro(igniter, list, import_status, helpers_status, global) do
     igniter =
       if import_status and Map.get(igniter, :issues, []) == [] do
         web_module = Igniter.Libs.Phoenix.web_module(igniter)
@@ -122,11 +123,92 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Components do
           """,
           on_exists: :overwrite
         )
+        |> globalize_components(module_name, global)
       else
         igniter
       end
 
     igniter
+  end
+
+  defp globalize_components(igniter, import_module, true) do
+    web_module_name = Igniter.Libs.Phoenix.web_module(igniter)
+
+    core_components_module =
+      (Module.split(web_module_name) |> Enum.map(&String.to_atom/1)) ++ [:CoreComponents]
+
+    igniter
+    |> Igniter.Project.Module.find_and_update_module!(web_module_name, fn zipper ->
+      case Igniter.Code.Function.move_to_defp(zipper, :html_helpers, 0) do
+        {:ok, zipper} ->
+          if !has_use?(zipper, import_module) do
+            new_node =
+              case zipper.node do
+                {:quote, _, [[{_, {:__block__, _, _args}}]]} = zip ->
+                  Macro.prewalk(zip, fn
+                    {:import, meta,
+                     [
+                       {:__aliases__, alias_meta, ^core_components_module}
+                     ]} ->
+                      {:use, meta, [{:__aliases__, alias_meta, [import_module]}]}
+
+                    other ->
+                      other
+                  end)
+
+                zip ->
+                  zip
+              end
+
+            new_zipper = Igniter.Code.Common.replace_code(zipper, new_node)
+
+            if has_use?(new_zipper, import_module) do
+              {:ok, new_zipper}
+            else
+              new_node =
+                case zipper.node do
+                  {:quote, meta, [[{block_meta, {:__block__, block_inner_meta, args}}]]} ->
+                    {:quote, meta,
+                     [
+                       [
+                         {block_meta,
+                          {:__block__, block_inner_meta,
+                           args ++ [{:use, [], [{:__aliases__, [], [import_module]}]}]}}
+                       ]
+                     ]}
+
+                  zip ->
+                    zip
+                end
+
+              {:ok, Igniter.Code.Common.replace_code(zipper, new_node)}
+            end
+          else
+            {:ok, zipper}
+          end
+
+        :error ->
+          {:ok, zipper}
+      end
+    end)
+  end
+
+  defp globalize_components(igniter, _import_module, _global) do
+    igniter
+  end
+
+  defp has_use?(new_zipper, import_module) do
+    with {:ok, zipper} <- Igniter.Code.Common.move_to_do_block(new_zipper),
+         {:ok, zipper} <-
+           Igniter.Code.Function.move_to_function_call_in_current_scope(
+             zipper,
+             :use,
+             1
+           ) do
+      Igniter.Code.Function.argument_equals?(zipper, 0, Module.concat([import_module]))
+    else
+      _ -> false
+    end
   end
 
   defp create_import_string(list, web_module, igniter, helpers?) do

@@ -1,7 +1,7 @@
 defmodule Mix.Tasks.Mishka.Ui.Gen.Component do
   use Igniter.Mix.Task
   alias Igniter.Project.Application, as: IAPP
-  alias IgniterJs.Parsers.Javascript.Parser
+  alias IgniterJs.Parsers.Javascript.{Parser, Formatter}
 
   @example "mix mishka.ui.gen.component component --example arg"
   @shortdoc "A Mix Task for generating and configuring Phoenix components"
@@ -520,8 +520,9 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Component do
                          imported,
                          "Components",
                          "#{item.module}"
-                       ) do
-                  Rewrite.Source.update(source, :content, extended)
+                       ),
+                     {:ok, _, formatted} <- Formatter.format(extended) do
+                  Rewrite.Source.update(source, :content, formatted)
                 else
                   {:error, _, error} ->
                     msg = """
@@ -555,8 +556,9 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Component do
             # TODO: igniter_js deletes comment, should be fixed
             with original_content <- Rewrite.Source.get(source, :content),
                  {:ok, _, imported} <- Parser.insert_imports(original_content, imports),
-                 {:ok, _, output} <- Parser.extend_hook_object(imported, "...MishkaComponents") do
-              Rewrite.Source.update(source, :content, output)
+                 {:ok, _, output} <- Parser.extend_hook_object(imported, "...MishkaComponents"),
+                 {:ok, _, formatted} <- Formatter.format(output) do
+              Rewrite.Source.update(source, :content, formatted)
             else
               {:error, _, error} ->
                 Igniter.add_issue(igniter, "#{inspect(error)}")

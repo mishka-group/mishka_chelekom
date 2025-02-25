@@ -65,7 +65,7 @@ if Code.ensure_loaded?(Igniter) do
     @impl Igniter.Mix.Task
     def igniter(igniter) do
       igniter
-      |> Igniter.compose_task("mishka.ui.gen.components", ["--import", "--helpers"])
+      |> Igniter.compose_task("mishka.ui.gen.components", ["--import", "--helpers", "--global"])
     end
   end
 else
