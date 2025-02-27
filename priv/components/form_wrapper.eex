@@ -186,19 +186,19 @@ defmodule <%= @module %> do
   defp padding_class(params) when is_binary(params), do: params
 
   <%= if is_nil(@space) or "extra_small" in @space do %>
-  defp space_class("extra_small"), do: "space-y-1"
+  defp space_class("extra_small"), do: "[&_.wrapper-form]:space-y-2"
   <% end %>
   <%= if is_nil(@space) or "small" in @space do %>
-  defp space_class("small"), do: "space-y-1.5"
+  defp space_class("small"), do: "[&_.wrapper-form]:space-y-3"
   <% end %>
   <%= if is_nil(@space) or "medium" in @space do %>
-  defp space_class("medium"), do: "space-y-2"
+  defp space_class("medium"), do: "[&_.wrapper-form]:space-y-4"
   <% end %>
   <%= if is_nil(@space) or "large" in @space do %>
-  defp space_class("large"), do: "space-y-2.5"
+  defp space_class("large"), do: "[&_.wrapper-form]:space-y-5"
   <% end %>
   <%= if is_nil(@space) or "extra_large" in @space do %>
-  defp space_class("extra_large"), do: "space-y-3"
+  defp space_class("extra_large"), do: "[&_.wrapper-form]:space-y-6"
   <% end %>
   defp space_class(params) when is_binary(params), do: params
 
