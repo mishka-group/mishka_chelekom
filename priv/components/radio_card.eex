@@ -123,11 +123,10 @@ defmodule <%= @module %> do
             value={radio[:value]}
             checked={radio[:checked]}
             class={[
-              "radio-card-input shrink-0 rounded-full appearance-none",
+              "radio-card-input shrink-0 focus:ring-0 focus:ring-offset-0",
               "disabled:opacity-50",
               !@show_radio && "hidden"
             ]}
-            {@rest}
           />
           <div data-part="label" class="radio-card-content-wrapper flex-1">
             <div
@@ -345,7 +344,8 @@ defmodule <%= @module %> do
       "checked:[&_.radio-card-input]:text-[#bfbfbf]",
       "dark:checked:[&_.radio-card-input]:text-[#5e5c5c]",
       "[&_.radio-card-input]:border-[#e4e4e7] dark:[&_.radio-card-input]:border-[#27272a]",
-      "has-[:checked]:bg-[#e6eaed] dark:has-[:checked]:bg-[#242424] [&_.radio-card-input]:bg-white dark:[&_.radio-card-input]:bg-[#333]"
+      "has-[:checked]:bg-[#e6eaed] dark:has-[:checked]:bg-[#242424]",
+      "[&_.radio-card-input:not(:checked)]:bg-white dark:[&_.radio-card-input:not(:checked)]:bg-[#333]"
     ]
   end
   <% end %>
