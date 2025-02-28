@@ -6,6 +6,7 @@
 - Add missing features of Phoenix core components [#296](https://github.com/mishka-group/mishka_chelekom/pull/296)
 - Add global components installing support and JS formatter [#304](https://github.com/mishka-group/mishka_chelekom/pull/304)
 - Add radio card component [#305](https://github.com/mishka-group/mishka_chelekom/pull/305)
+- Add checkbox card component [#306](https://github.com/mishka-group/mishka_chelekom/pull/306)
 
 ### Bugs:
 - Add missing slot to gallery component [#294](https://github.com/mishka-group/mishka_chelekom/pull/294)
