@@ -15,7 +15,7 @@ defmodule <%= @module %> do
 
   ## Example Usage
   ```heex
-   <.checkbox_card name="plan" class="w-full" icon="hero-home">
+  <.checkbox_card name="plan" class="w-full" icon="hero-home">
     <:checkbox value="basic" title="Basic Plan" description="For small teams">
     </:checkbox>
     <:checkbox value="pro" title="Pro Plan" description="For growing businesses">
