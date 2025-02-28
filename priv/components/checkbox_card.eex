@@ -1,7 +1,7 @@
 defmodule <%= @module %> do
   @moduledoc """
-  The `<%= @module %>` module provides a customizable radio card component for Phoenix LiveView
-  applications. This component extends beyond basic radio buttons by offering a card-based interface
+  The `<%= @module %>` module provides a customizable checkbox card component for Phoenix LiveView
+  applications. This component extends beyond basic checkbox buttons by offering a card-based interface
   with rich styling options.
 
   ## Key Features
@@ -15,15 +15,15 @@ defmodule <%= @module %> do
 
   ## Example Usage
   ```heex
-  <.radio_card name="plan" class="w-full" icon="hero-home">
-    <:radio value="basic" title="Basic Plan" description="For small teams">
-    </:radio>
-    <:radio value="pro" title="Pro Plan" description="For growing businesses">
-    </:radio>
-    <:radio value="pro">
+   <.checkbox_card name="plan" class="w-full" icon="hero-home">
+    <:checkbox value="basic" title="Basic Plan" description="For small teams">
+    </:checkbox>
+    <:checkbox value="pro" title="Pro Plan" description="For growing businesses">
+    </:checkbox>
+    <:checkbox value="pro">
       <p>$25/month</p>
-    </:radio>
-  </.radio_card>
+    </:checkbox>
+  </.checkbox_card>
   ```
 
   The component handles form integration automatically when used with Phoenix.HTML.Form fields
@@ -48,7 +48,7 @@ defmodule <%= @module %> do
   attr :cols_gap, :string, default: "small", doc: "Determines gap between elements"
   attr :label_class, :string, default: nil, doc: "Custom CSS class for the label styling"
   attr :reverse, :boolean, default: false, doc: "Switches the order of the element and label"
-  attr :show_radio, :boolean, default: false, doc: "Boolean to show and hide radio"
+  attr :show_checkbox, :boolean, default: false, doc: "Boolean to show and hide checkbox"
 
   attr :size, :string,
     default: "small",
@@ -68,10 +68,10 @@ defmodule <%= @module %> do
 
   attr :field, Phoenix.HTML.FormField, doc: "a form field struct retrieved from the form"
 
-  slot :radio, required: true do
+  slot :checkbox, required: true do
     attr :value, :string, required: true
     attr :checked, :boolean, required: false
-    attr :icon, :string, doc: "Icon displayed alongside of a radio"
+    attr :icon, :string, doc: "Icon displayed alongside of a checkbox"
     attr :icon_class, :string, doc: "Determines custom class for the icon"
     attr :content_class, :string, doc: "Determines custom class for the content"
     attr :title, :string, required: false
@@ -80,28 +80,30 @@ defmodule <%= @module %> do
 
   slot :inner_block
 
-  @spec radio_card(map()) :: Phoenix.LiveView.Rendered.t()
-  def radio_card(%{field: %Phoenix.HTML.FormField{} = field} = assigns) do
+  @spec checkbox_card(map()) :: Phoenix.LiveView.Rendered.t()
+  def checkbox_card(%{field: %Phoenix.HTML.FormField{} = field} = assigns) do
     errors = if Phoenix.Component.used_input?(field), do: field.errors, else: []
 
     assigns
-    |> assign(field: nil, id: assigns.id || field.id)
+    |> assign(field: nil)
+    |> assign(id: assigns.id || field.id)
     |> assign(:errors, Enum.map(errors, &translate_error(&1)))
-    |> assign_new(:name, fn -> field.name end)
+    |> assign_new(:name, fn -> field.name <> "[]" end)
     |> assign_new(:value, fn -> field.value end)
-    |> radio_card()
+    |> assign(:multiple, true)
+    |> checkbox_card()
   end
 
-  def radio_card(assigns) do
+  def checkbox_card(assigns) do
     ~H"""
     <div>
       <input type="hidden" name={@name} value="" disabled={@rest[:disabled]} />
       <div class={["grid", grid_cols(@cols), grid_gap(@cols_gap), @class]}>
         <.label
-          :for={{radio, index} <- Enum.with_index(@radio, 1)}
+          :for={{checkbox, index} <- Enum.with_index(@checkbox, 1)}
           for={"#{@id}-#{index}"}
           class={[
-            "radio-card-wrapper flex items-start cursor-pointer",
+            "checkbox-card-wrapper flex items-start cursor-pointer",
             "has-[:disabled]:pointer-events-none has-[:disabled]:opacity-50",
             "has-[:focus-visible]:outline has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-blue-400",
             "has-[:focus-visible]:outline-offset-[-2px] transition-all",
@@ -117,37 +119,37 @@ defmodule <%= @module %> do
           {@rest}
         >
           <input
-            type="radio"
+            type="checkbox"
             name={@name}
             id={"#{@id}-#{index}"}
-            value={radio[:value]}
-            checked={radio[:checked]}
+            value={checkbox[:value]}
+            checked={checkbox[:checked]}
             class={[
-              "radio-card-input shrink-0 focus:ring-0 focus:ring-offset-0 appearance-none",
-              "disabled:opacity-50",
-              !@show_radio && "opacity-0 absolute"
+              "checkbox-card-input shrink-0 focus:ring-0 focus:ring-offset-0 appearance-none rounded-sm",
+              "cursor-pointer disabled:opacity-50",
+              !@show_checkbox && "opacity-0 absolute"
             ]}
           />
-          <div data-part="label" class="radio-card-content-wrapper flex-1">
+          <div data-part="label" class="checkbox-card-content-wrapper flex-1">
             <div
-              :if={!is_nil(radio[:icon]) || radio[:title] || radio[:description]}
-              class="radio-slot-content flex flex-col"
+              :if={!is_nil(checkbox[:icon]) || checkbox[:title] || checkbox[:description]}
+              class="checkbox-slot-content flex flex-col"
             >
               <.icon
-                :if={!is_nil(radio[:icon])}
-                name={radio[:icon]}
-                class={["block mx-auto", radio[:icon_class]]}
+                :if={!is_nil(checkbox[:icon])}
+                name={checkbox[:icon]}
+                class={["block mx-auto", checkbox[:icon_class]]}
               />
-              <div :if={radio[:title]} class="block radio-card-title leading-[16px] font-semibold">
-                {radio[:title]}
+              <div :if={checkbox[:title]} class="block checkbox-card-title leading-[16px] font-semibold">
+                {checkbox[:title]}
               </div>
 
-              <p :if={radio[:description]} class="radio-card-description">
-                {radio[:description]}
+              <p :if={checkbox[:description]} class="checkbox-card-description">
+                {checkbox[:description]}
               </p>
             </div>
-            <div class="radio-card-content leading-[17px]">
-              {render_slot(radio)}
+            <div class="checkbox-card-content leading-[17px]">
+              {render_slot(checkbox)}
             </div>
           </div>
         </.label>
@@ -158,18 +160,18 @@ defmodule <%= @module %> do
     """
   end
 
-  def radio_check(:list, {field, value}, %{params: params, data: data} = _form) do
+  def checkbox_check(:list, {field, value}, %{params: params, data: data} = _form) do
     if params[Atom.to_string(field)] do
       new_value = if is_atom(value), do: Atom.to_string(value), else: value
-      new_value == params[Atom.to_string(field)]
+      new_value in params[Atom.to_string(field)]
     else
       Map.get(data, field) == value
     end
   end
 
-  def radio_check(:boolean, field, %{params: params, data: data} = _form) do
+  def checkbox_check(:boolean, field, %{params: params, data: data} = _form) do
     if params[Atom.to_string(field)] do
-      Form.normalize_value("radio", params[Atom.to_string(field)])
+      Form.normalize_value("checkbox", params[Atom.to_string(field)])
     else
       Map.get(data, field, false)
     end
@@ -273,8 +275,8 @@ defmodule <%= @module %> do
   defp size_class("extra_small") do
     [
       "text-[13px]",
-      "[&_.radio-card-icon]:size-5",
-      "[&_.radio-card-description]:text-[11px]"
+      "[&_.checkbox-card-icon]:size-5",
+      "[&_.checkbox-card-description]:text-[11px]"
     ]
   end
   <% end %>
@@ -282,8 +284,8 @@ defmodule <%= @module %> do
   defp size_class("small") do
     [
       "text-[14px]",
-      "[&_.radio-card-icon]:size-6",
-      "[&_.radio-card-description]:text-[12px]"
+      "[&_.checkbox-card-icon]:size-6",
+      "[&_.checkbox-card-description]:text-[12px]"
     ]
   end
   <% end %>
@@ -291,8 +293,8 @@ defmodule <%= @module %> do
   defp size_class("medium") do
     [
       "text-[15px]",
-      "[&_.radio-card-icon]:size-7",
-      "[&_.radio-card-description]:text-[13px]"
+      "[&_.checkbox-card-icon]:size-7",
+      "[&_.checkbox-card-description]:text-[13px]"
     ]
   end
   <% end %>
@@ -300,8 +302,8 @@ defmodule <%= @module %> do
   defp size_class("large") do
     [
       "text-[16px]",
-      "[&_.radio-card-icon]:size-8",
-      "[&_.radio-card-description]:text-[14px]"
+      "[&_.checkbox-card-icon]:size-8",
+      "[&_.checkbox-card-description]:text-[14px]"
     ]
   end
   <% end %>
@@ -309,27 +311,27 @@ defmodule <%= @module %> do
   defp size_class("extra_large") do
     [
       "text-[17px]",
-      "[&_.radio-card-icon]:size-9",
-      "[&_.radio-card-description]:text-[15px]"
+      "[&_.checkbox-card-icon]:size-9",
+      "[&_.checkbox-card-description]:text-[15px]"
     ]
   end
   <% end %>
   defp size_class(params) when is_binary(params), do: params
 
   <%= if is_nil(@space) or "extra_small" in @space do %>
-  defp space_class("extra_small"), do: "gap-1 [&_.radio-slot-content]:gap-1"
+  defp space_class("extra_small"), do: "gap-1 [&_.checkbox-slot-content]:gap-1"
   <% end %>
   <%= if is_nil(@space) or "small" in @space do %>
-  defp space_class("small"), do: "gap-2 [&_.radio-slot-content]:gap-2"
+  defp space_class("small"), do: "gap-2 [&_.checkbox-slot-content]:gap-2"
   <% end %>
   <%= if is_nil(@space) or "medium" in @space do %>
-  defp space_class("medium"), do: "gap-3 [&_.radio-slot-content]:gap-3"
+  defp space_class("medium"), do: "gap-3 [&_.checkbox-slot-content]:gap-3"
   <% end %>
   <%= if is_nil(@space) or "large" in @space do %>
-  defp space_class("large"), do: "gap-4 [&_.radio-slot-content]:gap-4"
+  defp space_class("large"), do: "gap-4 [&_.checkbox-slot-content]:gap-4"
   <% end %>
   <%= if is_nil(@space) or "extra_large" in @space do %>
-  defp space_class("extra_large"), do: "gap-5 [&_.radio-slot-content]:gap-5"
+  defp space_class("extra_large"), do: "gap-5 [&_.checkbox-slot-content]:gap-5"
   <% end %>
   <%= if is_nil(@space) or "none" in @space do %>
   defp space_class("none"), do: nil
@@ -341,13 +343,13 @@ defmodule <%= @module %> do
     [
       "bg-white text-[#09090b] border-[#e4e4e7] shadow-sm",
       "dark:bg-[#18181B] dark:text-[#FAFAFA] dark:border-[#27272a]",
-      "checked:[&_.radio-card-input]:text-[#09090b]",
-      "dark:checked:[&_.radio-card-input]:text-[#757373]",
-      "[&_.radio-card-input]:border-[#e4e4e7] dark:[&_.radio-card-input]:border-[#27272a]",
-      "[&_.radio-card-input:checked]:border-[#09090b] dark:[&_.radio-card-input:checked]:border-[#27272a]",
+      "checked:[&_.checkbox-card-input]:text-[#09090b]",
+      "dark:checked:[&_.checkbox-card-input]:text-[#757373]",
+      "[&_.checkbox-card-input]:border-[#e4e4e7] dark:[&_.checkbox-card-input]:border-[#27272a]",
+      "[&_.checkbox-card-input:checked]:border-[#09090b] dark:[&_.checkbox-card-input:checked]:border-[#27272a]",
       "has-[:checked]:bg-[#F8F9FA] dark:has-[:checked]:bg-[#242424]",
       "has-[:checked]:border-[#09090b] dark:has-[:checked]:border-[#757373]",
-      "[&_.radio-card-input:not(:checked)]:bg-white dark:[&_.radio-card-input:not(:checked)]:bg-[#333]"
+      "[&_.checkbox-card-input:not(:checked)]:bg-white dark:[&_.checkbox-card-input:not(:checked)]:bg-[#333]"
     ]
   end
   <% end %>
@@ -356,8 +358,8 @@ defmodule <%= @module %> do
   defp color_variant("default", "white") do
     [
       "bg-white text-black",
-      "checked:[&_.radio-card-input]:text-black",
-      "[&_.radio-card-input]:border-black",
+      "checked:[&_.checkbox-card-input]:text-black",
+      "[&_.checkbox-card-input]:border-black",
       "has-[:checked]:bg-[#ede8e8]"
     ]
   end
@@ -366,8 +368,8 @@ defmodule <%= @module %> do
   defp color_variant("default", "dark") do
     [
       "bg-[#282828] text-white",
-      "checked:[&_.radio-card-input]:text-white",
-      "[&_.radio-card-input]:border-white",
+      "checked:[&_.checkbox-card-input]:text-white",
+      "[&_.checkbox-card-input]:border-white",
       "has-[:checked]:bg-[#616060]"
     ]
   end
@@ -376,9 +378,9 @@ defmodule <%= @module %> do
   defp color_variant("default", "natural") do
     [
       "bg-[#4B4B4B] text-white dark:bg-[#DDDDDD] dark:text-black",
-      "checked:[&_.radio-card-input]:text-[#5E5E5E]",
-      "dark:checked:[&_.radio-card-input]:text-[#BBBBBB]",
-      "[&_.radio-card-input]:border-[#e4e4e7] dark:[&_.radio-card-input]:border-[#27272a]",
+      "checked:[&_.checkbox-card-input]:text-[#5E5E5E]",
+      "dark:checked:[&_.checkbox-card-input]:text-[#BBBBBB]",
+      "[&_.checkbox-card-input]:border-[#e4e4e7] dark:[&_.checkbox-card-input]:border-[#27272a]",
       "has-[:checked]:bg-[#282828] dark:has-[:checked]:bg-[#E8E8E8]"
     ]
   end
@@ -387,8 +389,8 @@ defmodule <%= @module %> do
   defp color_variant("default", "primary") do
     [
       "bg-[#007F8C] text-white dark:bg-[#01B8CA] dark:text-black",
-      "checked:[&_.radio-card-input]:text-[#0095A4]",
-      "[&_.radio-card-input]:border-[#0095A4]",
+      "checked:[&_.checkbox-card-input]:text-[#0095A4]",
+      "[&_.checkbox-card-input]:border-[#0095A4]",
       "has-[:checked]:bg-[#77D5E3] dark:has-[:checked]:bg-[#016974]"
     ]
   end
@@ -397,8 +399,8 @@ defmodule <%= @module %> do
   defp color_variant("default", "secondary") do
     [
       "bg-[#266EF1] text-white dark:bg-[#6DAAFB] dark:text-black",
-      "checked:[&_.radio-card-input]:text-[#068BEE]",
-      "[&_.radio-card-input]:border-[#068BEE]",
+      "checked:[&_.checkbox-card-input]:text-[#068BEE]",
+      "[&_.checkbox-card-input]:border-[#068BEE]",
       "has-[:checked]:bg-[#175BCC] dark:has-[:checked]:bg-[#016974]"
     ]
   end
@@ -407,8 +409,8 @@ defmodule <%= @module %> do
   defp color_variant("default", "success") do
     [
       "bg-[#0E8345] text-white dark:bg-[#06C167] dark:text-black",
-      "checked:[&_.radio-card-input]:text-[#009A51]",
-      "[&_.radio-card-input]:border-[#009A51]",
+      "checked:[&_.checkbox-card-input]:text-[#009A51]",
+      "[&_.checkbox-card-input]:border-[#009A51]",
       "has-[:checked]:bg-[#166C3B] dark:has-[:checked]:bg-[#7FD99A]"
     ]
   end
@@ -417,8 +419,8 @@ defmodule <%= @module %> do
   defp color_variant("default", "warning") do
     [
       "bg-[#CA8D01] text-white dark:bg-[#FDC034] dark:text-black",
-      "checked:[&_.radio-card-input]:text-[#FCB001]",
-      "[&_.radio-card-input]:border-[#FCB001]",
+      "checked:[&_.checkbox-card-input]:text-[#FCB001]",
+      "[&_.checkbox-card-input]:border-[#FCB001]",
       "has-[:checked]:bg-[#976A01] dark:has-[:checked]:bg-[#FDD067]"
     ]
   end
@@ -427,8 +429,8 @@ defmodule <%= @module %> do
   defp color_variant("default", "danger") do
     [
       "bg-[#DE1135] text-white dark:bg-[#FC7F79] dark:text-black",
-      "checked:[&_.radio-card-input]:text-[#F83446]",
-      "[&_.radio-card-input]:border-[#F83446]",
+      "checked:[&_.checkbox-card-input]:text-[#F83446]",
+      "[&_.checkbox-card-input]:border-[#F83446]",
       "has-[:checked]:bg-[#BB032A] dark:has-[:checked]:bg-[#FFB2AB]"
     ]
   end
@@ -437,8 +439,8 @@ defmodule <%= @module %> do
   defp color_variant("default", "info") do
     [
       "bg-[#0B84BA] text-white dark:bg-[#3EB7ED] dark:text-black",
-      "checked:[&_.radio-card-input]:text-[#0EA5E9]",
-      "[&_.radio-card-input]:border-[#0EA5E9]",
+      "checked:[&_.checkbox-card-input]:text-[#0EA5E9]",
+      "[&_.checkbox-card-input]:border-[#0EA5E9]",
       "has-[:checked]:bg-[#08638C] dark:has-[:checked]:bg-[#6EC9F2]"
     ]
   end
@@ -447,8 +449,8 @@ defmodule <%= @module %> do
   defp color_variant("default", "misc") do
     [
       "bg-[#8750C5] text-white dark:bg-[#BA83F9] dark:text-black",
-      "checked:[&_.radio-card-input]:text-[#A964F7]",
-      "[&_.radio-card-input]:border-[#A964F7]",
+      "checked:[&_.checkbox-card-input]:text-[#A964F7]",
+      "[&_.checkbox-card-input]:border-[#A964F7]",
       "has-[:checked]:bg-[#653C94] dark:has-[:checked]:bg-[#CBA2FA]"
     ]
   end
@@ -457,8 +459,8 @@ defmodule <%= @module %> do
   defp color_variant("default", "dawn") do
     [
       "bg-[#A86438] text-white dark:bg-[#DB976B] dark:text-black",
-      "checked:[&_.radio-card-input]:text-[#D27D46]",
-      "[&_.radio-card-input]:border-[#D27D46]",
+      "checked:[&_.checkbox-card-input]:text-[#D27D46]",
+      "[&_.checkbox-card-input]:border-[#D27D46]",
       "has-[:checked]:bg-[#7E4B2A] dark:has-[:checked]:bg-[#E4B190]"
     ]
   end
@@ -467,8 +469,8 @@ defmodule <%= @module %> do
   defp color_variant("default", "silver") do
     [
       "bg-[#868686] text-white dark:bg-[#A6A6A6] dark:text-black",
-      "checked:[&_.radio-card-input]:text-[#A6A6A6]",
-      "[&_.radio-card-input]:border-[#A6A6A6]",
+      "checked:[&_.checkbox-card-input]:text-[#A6A6A6]",
+      "[&_.checkbox-card-input]:border-[#A6A6A6]",
       "has-[:checked]:bg-[#727272] dark:has-[:checked]:bg-[#BBBBBB]"
     ]
   end
@@ -602,9 +604,9 @@ defmodule <%= @module %> do
     [
       "bg-[#4B4B4B] text-white dark:bg-[#DDDDDD] dark:text-black",
       "shadow-[0px_4px_6px_-4px_rgba(134,134,134,0.5)] shadow-[0px_10px_15px_-3px_rgba(134,134,134,0.5)] dark:shadow-none",
-      "checked:[&_.radio-card-input]:text-[#5E5E5E]",
-      "dark:checked:[&_.radio-card-input]:text-[#BBBBBB]",
-      "[&_.radio-card-input]:border-[#e4e4e7] dark:[&_.radio-card-input]:border-[#27272a]",
+      "checked:[&_.checkbox-card-input]:text-[#5E5E5E]",
+      "dark:checked:[&_.checkbox-card-input]:text-[#BBBBBB]",
+      "[&_.checkbox-card-input]:border-[#e4e4e7] dark:[&_.checkbox-card-input]:border-[#27272a]",
       "has-[:checked]:bg-[#282828] dark:has-[:checked]:bg-[#E8E8E8]"
     ]
   end
@@ -614,8 +616,8 @@ defmodule <%= @module %> do
     [
       "bg-[#007F8C] text-white dark:bg-[#01B8CA] dark:text-black",
       "shadow-[0px_4px_6px_-4px_rgba(0,149,164,0.5)] shadow-[0px_10px_15px_-3px_rgba(0,149,164,0.5)] dark:shadow-none",
-      "checked:[&_.radio-card-input]:text-[#0095A4]",
-      "[&_.radio-card-input]:border-[#0095A4]",
+      "checked:[&_.checkbox-card-input]:text-[#0095A4]",
+      "[&_.checkbox-card-input]:border-[#0095A4]",
       "has-[:checked]:bg-[#77D5E3] dark:has-[:checked]:bg-[#016974]"
     ]
   end
@@ -625,8 +627,8 @@ defmodule <%= @module %> do
     [
       "bg-[#266EF1] text-white dark:bg-[#6DAAFB] dark:text-black",
       "shadow-[0px_4px_6px_-4px_rgba(6,139,238,0.5)] shadow-[0px_10px_15px_-3px_rgba(6,139,238,0.5)] dark:shadow-none",
-      "checked:[&_.radio-card-input]:text-[#068BEE]",
-      "[&_.radio-card-input]:border-[#068BEE]",
+      "checked:[&_.checkbox-card-input]:text-[#068BEE]",
+      "[&_.checkbox-card-input]:border-[#068BEE]",
       "has-[:checked]:bg-[#175BCC] dark:has-[:checked]:bg-[#016974]"
     ]
   end
@@ -636,8 +638,8 @@ defmodule <%= @module %> do
     [
       "bg-[#0E8345] text-white hover:bg-[#166C3B] dark:bg-[#06C167] dark:text-black",
       "shadow-[0px_4px_6px_-4px_rgba(0,154,81,0.5)] shadow-[0px_10px_15px_-3px_rgba(0,154,81,0.5)] dark:shadow-none",
-      "checked:[&_.radio-card-input]:text-[#009A51]",
-      "[&_.radio-card-input]:border-[#009A51]",
+      "checked:[&_.checkbox-card-input]:text-[#009A51]",
+      "[&_.checkbox-card-input]:border-[#009A51]",
       "has-[:checked]:bg-[#166C3B] dark:has-[:checked]:bg-[#7FD99A]"
     ]
   end
@@ -647,8 +649,8 @@ defmodule <%= @module %> do
     [
       "bg-[#CA8D01] text-white dark:bg-[#FDC034] dark:text-black",
       "shadow-[0px_4px_6px_-4px_rgba(252,176,1,0.5)] shadow-[0px_10px_15px_-3px_rgba(252,176,1,0.5)] dark:shadow-none",
-      "checked:[&_.radio-card-input]:text-[#FCB001]",
-      "[&_.radio-card-input]:border-[#FCB001]",
+      "checked:[&_.checkbox-card-input]:text-[#FCB001]",
+      "[&_.checkbox-card-input]:border-[#FCB001]",
       "has-[:checked]:bg-[#976A01] dark:has-[:checked]:bg-[#FDD067]"
     ]
   end
@@ -658,8 +660,8 @@ defmodule <%= @module %> do
     [
       "bg-[#DE1135] text-white dark:bg-[#FC7F79] dark:text-black",
       "shadow-[0px_4px_6px_-4px_rgba(248,52,70,0.5)] shadow-[0px_10px_15px_-3px_rgba(248,52,70,0.5)] dark:shadow-none",
-      "checked:[&_.radio-card-input]:text-[#F83446]",
-      "[&_.radio-card-input]:border-[#F83446]",
+      "checked:[&_.checkbox-card-input]:text-[#F83446]",
+      "[&_.checkbox-card-input]:border-[#F83446]",
       "has-[:checked]:bg-[#BB032A] dark:has-[:checked]:bg-[#FFB2AB]"
     ]
   end
@@ -669,8 +671,8 @@ defmodule <%= @module %> do
     [
       "bg-[#0B84BA] text-white dark:bg-[#3EB7ED] dark:text-black",
       "shadow-[0px_4px_6px_-4px_rgba(14,165,233,0.5)] shadow-[0px_10px_15px_-3px_rgba(14,165,233,0.5)] dark:shadow-none",
-      "checked:[&_.radio-card-input]:text-[#0EA5E9]",
-      "[&_.radio-card-input]:border-[#0EA5E9]",
+      "checked:[&_.checkbox-card-input]:text-[#0EA5E9]",
+      "[&_.checkbox-card-input]:border-[#0EA5E9]",
       "has-[:checked]:bg-[#08638C] dark:has-[:checked]:bg-[#6EC9F2]"
     ]
   end
@@ -680,8 +682,8 @@ defmodule <%= @module %> do
     [
       "bg-[#BA83F9] text-white dark:bg-[#BA83F9] dark:text-black",
       "shadow-[0px_4px_6px_-4px_rgba(169,100,247,0.5)] shadow-[0px_10px_15px_-3px_rgba(169,100,247,0.5)] dark:shadow-none",
-      "checked:[&_.radio-card-input]:text-[#A964F7]",
-      "[&_.radio-card-input]:border-[#A964F7]",
+      "checked:[&_.checkbox-card-input]:text-[#A964F7]",
+      "[&_.checkbox-card-input]:border-[#A964F7]",
       "has-[:checked]:bg-[#653C94] dark:has-[:checked]:bg-[#CBA2FA]"
     ]
   end
@@ -691,8 +693,8 @@ defmodule <%= @module %> do
     [
       "bg-[#A86438] text-white dark:bg-[#DB976B] dark:text-black",
       "shadow-[0px_4px_6px_-4px_rgba(210,125,70,0.5)] shadow-[0px_10px_15px_-3px_rgba(210,125,70,0.5)] dark:shadow-none",
-      "checked:[&_.radio-card-input]:text-[#D27D46]",
-      "[&_.radio-card-input]:border-[#D27D46]",
+      "checked:[&_.checkbox-card-input]:text-[#D27D46]",
+      "[&_.checkbox-card-input]:border-[#D27D46]",
       "has-[:checked]:bg-[#7E4B2A] dark:has-[:checked]:bg-[#E4B190]"
     ]
   end
@@ -702,8 +704,8 @@ defmodule <%= @module %> do
     [
       "bg-[#868686] text-white dark:bg-[#A6A6A6] dark:text-black",
       "shadow-[0px_4px_6px_-4px_rgba(134,134,134,0.5)] shadow-[0px_10px_15px_-3px_rgba(134,134,134,0.5)] dark:shadow-none",
-      "checked:[&_.radio-card-input]:text-[#A6A6A6]",
-      "[&_.radio-card-input]:border-[#A6A6A6]",
+      "checked:[&_.checkbox-card-input]:text-[#A6A6A6]",
+      "[&_.checkbox-card-input]:border-[#A6A6A6]",
       "has-[:checked]:bg-[#727272] dark:has-[:checked]:bg-[#BBBBBB]"
     ]
   end
@@ -714,8 +716,8 @@ defmodule <%= @module %> do
   defp color_variant("bordered", "white") do
     [
       "bg-white text-black border-[#DDDDDD]",
-      "checked:[&_.radio-card-input]:text-black",
-      "[&_.radio-card-input]:border-black",
+      "checked:[&_.checkbox-card-input]:text-black",
+      "[&_.checkbox-card-input]:border-black",
       "has-[:checked]:bg-[#ede8e8]"
     ]
   end
@@ -724,8 +726,8 @@ defmodule <%= @module %> do
   defp color_variant("bordered", "dark") do
     [
       "bg-[#282828] text-white border-[#727272]",
-      "checked:[&_.radio-card-input]:text-white",
-      "[&_.radio-card-input]:border-white",
+      "checked:[&_.checkbox-card-input]:text-white",
+      "[&_.checkbox-card-input]:border-white",
       "has-[:checked]:bg-[#616060]"
     ]
   end
@@ -886,13 +888,13 @@ defmodule <%= @module %> do
 
   defp icon(%{name: "hero-" <> _, class: class} = assigns) when is_list(class) do
     ~H"""
-    <span class={["radio-card-icon", @name, @class]} />
+    <span class={["checkbox-card-icon", @name, @class]} />
     """
   end
 
   defp icon(%{name: "hero-" <> _} = assigns) do
     ~H"""
-    <span class={["radio-card-icon", @name, @class]} />
+    <span class={["checkbox-card-icon", @name, @class]} />
     """
   end
 end
