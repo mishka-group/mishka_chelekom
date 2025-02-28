@@ -160,7 +160,7 @@ defmodule <%= @module %> do
     """
   end
 
-  def checkbox_check(:list, {field, value}, %{params: params, data: data} = _form) do
+  def checkbox_card_check(:list, {field, value}, %{params: params, data: data} = _form) do
     if params[Atom.to_string(field)] do
       new_value = if is_atom(value), do: Atom.to_string(value), else: value
       new_value in params[Atom.to_string(field)]
@@ -169,7 +169,7 @@ defmodule <%= @module %> do
     end
   end
 
-  def checkbox_check(:boolean, field, %{params: params, data: data} = _form) do
+  def checkbox_card_check(:boolean, field, %{params: params, data: data} = _form) do
     if params[Atom.to_string(field)] do
       Form.normalize_value("checkbox", params[Atom.to_string(field)])
     else

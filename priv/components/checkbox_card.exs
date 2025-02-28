@@ -23,7 +23,7 @@
       padding: ["extra_small", "small", "medium", "large", "extra_large"],
       rounded: ["extra_small", "small", "medium", "large", "extra_large"],
       only: ["checkbox_card"],
-      helpers: [checkbox_check: 3],
+      helpers: [checkbox_card_check: 3],
       module: ""
     ],
     optional: [],
