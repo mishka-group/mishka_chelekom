@@ -101,10 +101,10 @@ defmodule <%= @module %> do
           :for={{radio, index} <- Enum.with_index(@radio, 1)}
           for={"#{@id}-#{index}"}
           class={[
-            "radio-card-wrapper flex cursor-pointer",
+            "radio-card-wrapper flex items-start cursor-pointer",
             "has-[:disabled]:pointer-events-none has-[:disabled]:opacity-50",
             "has-[:focus-visible]:outline has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-blue-400",
-            "has-[:focus-visible]:outline-offset-[-2px] transition-all duration-200",
+            "has-[:focus-visible]:outline-offset-[-2px] transition-all",
             @reverse && "flex-row-reverse",
             border_class(@border, @variant),
             color_variant(@variant, @color),
