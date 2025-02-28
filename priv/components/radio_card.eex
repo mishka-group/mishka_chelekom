@@ -123,9 +123,9 @@ defmodule <%= @module %> do
             value={radio[:value]}
             checked={radio[:checked]}
             class={[
-              "radio-card-input shrink-0 focus:ring-0 focus:ring-offset-0",
+              "radio-card-input shrink-0 focus:ring-0 focus:ring-offset-0 appearance-none",
               "disabled:opacity-50",
-              !@show_radio && "hidden"
+              !@show_radio && "opacity-0 absolute"
             ]}
           />
           <div data-part="label" class="radio-card-content-wrapper flex-1">
@@ -341,10 +341,12 @@ defmodule <%= @module %> do
     [
       "bg-white text-[#09090b] border-[#e4e4e7] shadow-sm",
       "dark:bg-[#18181B] dark:text-[#FAFAFA] dark:border-[#27272a]",
-      "checked:[&_.radio-card-input]:text-[#bfbfbf]",
-      "dark:checked:[&_.radio-card-input]:text-[#5e5c5c]",
+      "checked:[&_.radio-card-input]:text-[#09090b]",
+      "dark:checked:[&_.radio-card-input]:text-[#757373]",
       "[&_.radio-card-input]:border-[#e4e4e7] dark:[&_.radio-card-input]:border-[#27272a]",
-      "has-[:checked]:bg-[#e6eaed] dark:has-[:checked]:bg-[#242424]",
+      "[&_.radio-card-input:checked]:border-[#09090b] dark:[&_.radio-card-input:checked]:border-[#27272a]",
+      "has-[:checked]:bg-[#F8F9FA] dark:has-[:checked]:bg-[#242424]",
+      "has-[:checked]:border-[#09090b] dark:has-[:checked]:border-[#757373]",
       "[&_.radio-card-input:not(:checked)]:bg-white dark:[&_.radio-card-input:not(:checked)]:bg-[#333]"
     ]
   end
