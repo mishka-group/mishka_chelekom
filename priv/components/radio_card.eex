@@ -479,10 +479,10 @@ defmodule <%= @module %> do
   defp color_variant("outline", "natural") do
     [
       "text-[#4B4B4B] border-[#4B4B4B] dark:text-[#DDDDDD] dark:border-[#DDDDDD]",
-      "checked:[&_.checkbox-card-input]:text-[#DDDDDD]",
-      "[&_.checkbox-card-input]:border-[#DDDDDD]",
-      "dark:checked:[&_.checkbox-card-input]:text-[#4B4B4B]",
-      "dark:[&_.checkbox-card-input]:border-[#4B4B4B]",
+      "checked:[&_.radio-card-input]:text-[#DDDDDD]",
+      "[&_.radio-card-input]:border-[#DDDDDD]",
+      "dark:checked:[&_.radio-card-input]:text-[#4B4B4B]",
+      "dark:[&_.radio-card-input]:border-[#4B4B4B]",
       "has-[:checked]:border-black dark:has-[:checked]:border-white"
     ]
   end
@@ -491,10 +491,10 @@ defmodule <%= @module %> do
   defp color_variant("outline", "primary") do
     [
       "text-[#007F8C] border-[#007F8C]  dark:text-[#01B8CA] dark:border-[#01B8CA]",
-      "checked:[&_.checkbox-card-input]:text-[#007F8C]",
-      "[&_.checkbox-card-input]:border-[#007F8C]",
-      "dark:checked:[&_.checkbox-card-input]:text-[#01B8CA]",
-      "dark:[&_.checkbox-card-input]:border-[#01B8CA]",
+      "checked:[&_.radio-card-input]:text-[#007F8C]",
+      "[&_.radio-card-input]:border-[#007F8C]",
+      "dark:checked:[&_.radio-card-input]:text-[#01B8CA]",
+      "dark:[&_.radio-card-input]:border-[#01B8CA]",
       "has-[:checked]:border-[#1A535A] dark:has-[:checked]:border-[#B0E7EF]"
     ]
   end
@@ -503,10 +503,10 @@ defmodule <%= @module %> do
   defp color_variant("outline", "secondary") do
     [
       "text-[#266EF1] border-[#266EF1] dark:text-[#6DAAFB] dark:border-[#6DAAFB]",
-      "checked:[&_.checkbox-card-input]:text-[#266EF1]",
-      "[&_.checkbox-card-input]:border-[#266EF1]",
-      "dark:checked:[&_.checkbox-card-input]:text-[#6DAAFB]",
-      "dark:[&_.checkbox-card-input]:border-[#6DAAFB]",
+      "checked:[&_.radio-card-input]:text-[#266EF1]",
+      "[&_.radio-card-input]:border-[#266EF1]",
+      "dark:checked:[&_.radio-card-input]:text-[#6DAAFB]",
+      "dark:[&_.radio-card-input]:border-[#6DAAFB]",
       "has-[:checked]:border-[#1948A3] dark:has-[:checked]:border-[#CDDEFF]"
     ]
   end
@@ -515,10 +515,10 @@ defmodule <%= @module %> do
   defp color_variant("outline", "success") do
     [
       "text-[#0E8345] border-[#0E8345] dark:text-[#06C167] dark:border-[#06C167]",
-      "checked:[&_.checkbox-card-input]:text-[#0E8345]",
-      "[&_.checkbox-card-input]:border-[#0E8345]",
-      "dark:checked:[&_.checkbox-card-input]:text-[#06C167]",
-      "dark:[&_.checkbox-card-input]:border-[#06C167]",
+      "checked:[&_.radio-card-input]:text-[#0E8345]",
+      "[&_.radio-card-input]:border-[#0E8345]",
+      "dark:checked:[&_.radio-card-input]:text-[#06C167]",
+      "dark:[&_.radio-card-input]:border-[#06C167]",
       "has-[:checked]:border-[#0D572D] dark:has-[:checked]:border-[#B1EAC2]"
     ]
   end
@@ -527,10 +527,10 @@ defmodule <%= @module %> do
   defp color_variant("outline", "warning") do
     [
       "text-[#CA8D01] border-[#CA8D01] dark:text-[#FDC034] dark:border-[#FDC034]",
-      "checked:[&_.checkbox-card-input]:text-[#CA8D01]",
-      "[&_.checkbox-card-input]:border-[#CA8D01]",
-      "dark:checked:[&_.checkbox-card-input]:text-[#FDC034]",
-      "dark:[&_.checkbox-card-input]:border-[#FDC034]",
+      "checked:[&_.radio-card-input]:text-[#CA8D01]",
+      "[&_.radio-card-input]:border-[#CA8D01]",
+      "dark:checked:[&_.radio-card-input]:text-[#FDC034]",
+      "dark:[&_.radio-card-input]:border-[#FDC034]",
       "has-[:checked]:border-[#654600] dark:has-[:checked]:border-[#FEDF99]"
     ]
   end
@@ -539,10 +539,10 @@ defmodule <%= @module %> do
   defp color_variant("outline", "danger") do
     [
       "text-[#DE1135] border-[#DE1135] dark:text-[#FC7F79] dark:border-[#FC7F79]",
-      "checked:[&_.checkbox-card-input]:text-[#DE1135]",
-      "[&_.checkbox-card-input]:border-[#DE1135]",
-      "dark:checked:[&_.checkbox-card-input]:text-[#FC7F79]",
-      "dark:[&_.checkbox-card-input]:border-[#FC7F79]",
+      "checked:[&_.radio-card-input]:text-[#DE1135]",
+      "[&_.radio-card-input]:border-[#DE1135]",
+      "dark:checked:[&_.radio-card-input]:text-[#FC7F79]",
+      "dark:[&_.radio-card-input]:border-[#FC7F79]",
       "has-[:checked]:border-[#950F22] dark:has-[:checked]:border-[#FFD2CD]"
     ]
   end
@@ -551,10 +551,10 @@ defmodule <%= @module %> do
   defp color_variant("outline", "info") do
     [
       "text-[#0B84BA] border-[#0B84BA] dark:text-[#3EB7ED] dark:border-[#3EB7ED]",
-      "checked:[&_.checkbox-card-input]:text-[#0B84BA]",
-      "[&_.checkbox-card-input]:border-[#0B84BA]",
-      "dark:checked:[&_.checkbox-card-input]:text-[#3EB7ED]",
-      "dark:[&_.checkbox-card-input]:border-[#3EB7ED]",
+      "checked:[&_.radio-card-input]:text-[#0B84BA]",
+      "[&_.radio-card-input]:border-[#0B84BA]",
+      "dark:checked:[&_.radio-card-input]:text-[#3EB7ED]",
+      "dark:[&_.radio-card-input]:border-[#3EB7ED]",
       "has-[:checked]:border-[#06425D] dark:has-[:checked]:border-[#9FDBF6]"
     ]
   end
@@ -563,10 +563,10 @@ defmodule <%= @module %> do
   defp color_variant("outline", "misc") do
     [
       "text-[#8750C5] border-[#8750C5] dark:text-[#BA83F9] dark:border-[#BA83F9]",
-      "checked:[&_.checkbox-card-input]:text-[#8750C5]",
-      "[&_.checkbox-card-input]:border-[#8750C5]",
-      "dark:checked:[&_.checkbox-card-input]:text-[#BA83F9]",
-      "dark:[&_.checkbox-card-input]:border-[#BA83F9]",
+      "checked:[&_.radio-card-input]:text-[#8750C5]",
+      "[&_.radio-card-input]:border-[#8750C5]",
+      "dark:checked:[&_.radio-card-input]:text-[#BA83F9]",
+      "dark:[&_.radio-card-input]:border-[#BA83F9]",
       "has-[:checked]:border-[#442863] dark:has-[:checked]:border-[#DDC1FC]"
     ]
   end
@@ -575,10 +575,10 @@ defmodule <%= @module %> do
   defp color_variant("outline", "dawn") do
     [
       "text-[#A86438] border-[#A86438] dark:text-[#DB976B] dark:border-[#DB976B]",
-      "checked:[&_.checkbox-card-input]:text-[#8750C5]",
-      "[&_.checkbox-card-input]:border-[#A86438]",
-      "dark:checked:[&_.checkbox-card-input]:text-[#BA83F9]",
-      "dark:[&_.checkbox-card-input]:border-[#BA83F9]",
+      "checked:[&_.radio-card-input]:text-[#A86438]",
+      "[&_.radio-card-input]:border-[#A86438]",
+      "dark:checked:[&_.radio-card-input]:text-[#BA83F9]",
+      "dark:[&_.radio-card-input]:border-[#BA83F9]",
       "has-[:checked]:border-[#54321C] dark:has-[:checked]:border-[#EDCBB5]"
     ]
   end
@@ -587,10 +587,10 @@ defmodule <%= @module %> do
   defp color_variant("outline", "silver") do
     [
       "text-[#868686] border-[#868686] dark:text-[#A6A6A6] dark:border-[#A6A6A6]",
-      "checked:[&_.checkbox-card-input]:text-[#868686]",
-      "[&_.checkbox-card-input]:border-[#868686]",
-      "dark:checked:[&_.checkbox-card-input]:text-[#A6A6A6]",
-      "dark:[&_.checkbox-card-input]:border-[#A6A6A6]",
+      "checked:[&_.radio-card-input]:text-[#868686]",
+      "[&_.radio-card-input]:border-[#868686]",
+      "dark:checked:[&_.radio-card-input]:text-[#A6A6A6]",
+      "dark:[&_.radio-card-input]:border-[#A6A6A6]",
       "has-[:checked]:border-[#5E5E5E] dark:has-[:checked]:border-[#DDDDDD]"
     ]
   end
@@ -735,9 +735,9 @@ defmodule <%= @module %> do
     [
       "text-[#282828] border-[#282828] bg-[#F3F3F3]",
       "dark:text-[#E8E8E8] dark:border-[#E8E8E8] dark:bg-[#4B4B4B]",
-      "checked:[&_.checkbox-card-input]:text-black",
-      "dark:checked:[&_.checkbox-card-input]:text-white",
-      "[&_.checkbox-card-input]:border-[#282828] dark:[&_.checkbox-card-input]:border-[#E8E8E8]",
+      "checked:[&_.radio-card-input]:text-black",
+      "dark:checked:[&_.radio-card-input]:text-white",
+      "[&_.radio-card-input]:border-[#282828] dark:[&_.radio-card-input]:border-[#E8E8E8]",
       "has-[:checked]:border-black dark:has-[:checked]:border-white",
       "has-[:checked]:bg-[#E8E8E8] dark:has-[:checked]:bg-[#5E5E5E]"
     ]
@@ -748,9 +748,9 @@ defmodule <%= @module %> do
     [
       "text-[#016974] border-[#016974] bg-[#E2F8FB]",
       "dark:text-[#77D5E3] dark:border-[#77D5E3] dark:bg-[#002D33]",
-      "checked:[&_.checkbox-card-input]:text-[#016974]",
-      "dark:checked:[&_.checkbox-card-input]:text-[#77D5E3]",
-      "[&_.checkbox-card-input]:border-[#016974] dark:[&_.checkbox-card-input]:border-[#77D5E3]",
+      "checked:[&_.radio-card-input]:text-[#016974]",
+      "dark:checked:[&_.radio-card-input]:text-[#77D5E3]",
+      "[&_.radio-card-input]:border-[#016974] dark:[&_.radio-card-input]:border-[#77D5E3]",
       "has-[:checked]:border-[#1A535A] dark:has-[:checked]:border-[#B0E7EF]",
       "has-[:checked]:bg-[#CDEEF3] dark:has-[:checked]:bg-[#1A535A]"
     ]
@@ -761,9 +761,9 @@ defmodule <%= @module %> do
     [
       "text-[#175BCC] border-[#175BCC] bg-[#EFF4FE]",
       "dark:text-[#A9C9FF] dark:border-[#A9C9FF] dark:bg-[#002661]",
-      "checked:[&_.checkbox-card-input]:text-[#175BCC]",
-      "dark:checked:[&_.checkbox-card-input]:text-[#A9C9FF]",
-      "[&_.checkbox-card-input]:border-[#175BCC] dark:[&_.checkbox-card-input]:border-[#A9C9FF]",
+      "checked:[&_.radio-card-input]:text-[#175BCC]",
+      "dark:checked:[&_.radio-card-input]:text-[#A9C9FF]",
+      "[&_.radio-card-input]:border-[#175BCC] dark:[&_.radio-card-input]:border-[#A9C9FF]",
       "has-[:checked]:border-[#1948A3] dark:has-[:checked]:border-[#CDDEFF]",
       "has-[:checked]:bg-[#DEE9FE] dark:has-[:checked]:bg-[#1948A3]"
     ]
@@ -774,9 +774,9 @@ defmodule <%= @module %> do
     [
       "text-[#166C3B] border-[#166C3B] bg-[#EAF6ED]",
       "dark:text-[#7FD99A] dark:border-[#7FD99A] dark:bg-[#002F14]",
-      "checked:[&_.checkbox-card-input]:text-[#166C3B]",
-      "dark:checked:[&_.checkbox-card-input]:text-[#7FD99A]",
-      "[&_.checkbox-card-input]:border-[#166C3B] dark:[&_.checkbox-card-input]:border-[#7FD99A]",
+      "checked:[&_.radio-card-input]:text-[#166C3B]",
+      "dark:checked:[&_.radio-card-input]:text-[#7FD99A]",
+      "[&_.radio-card-input]:border-[#166C3B] dark:[&_.radio-card-input]:border-[#7FD99A]",
       "has-[:checked]:border-[#0D572D] dark:has-[:checked]:border-[#B1EAC2]",
       "has-[:checked]:bg-[#D3EFDA] dark:has-[:checked]:bg-[#0D572D]"
     ]
@@ -787,9 +787,9 @@ defmodule <%= @module %> do
     [
       "text-[#976A01] border-[#976A01] bg-[#FFF7E6]",
       "dark:text-[#FDD067] dark:border-[#FDD067] dark:bg-[#322300]",
-      "checked:[&_.checkbox-card-input]:text-[#976A01]",
-      "dark:checked:[&_.checkbox-card-input]:text-[#FDD067]",
-      "[&_.checkbox-card-input]:border-[#976A01] dark:[&_.checkbox-card-input]:border-[#FDD067]",
+      "checked:[&_.radio-card-input]:text-[#976A01]",
+      "dark:checked:[&_.radio-card-input]:text-[#FDD067]",
+      "[&_.radio-card-input]:border-[#976A01] dark:[&_.radio-card-input]:border-[#FDD067]",
       "has-[:checked]:border-[#654600] dark:has-[:checked]:border-[#FEDF99]",
       "has-[:checked]:bg-[#FEEFCC] dark:has-[:checked]:bg-[#654600]"
     ]
@@ -800,9 +800,9 @@ defmodule <%= @module %> do
     [
       "text-[#BB032A] border-[#BB032A] bg-[#FFF0EE]",
       "dark:text-[#FFB2AB] dark:border-[#FFB2AB] dark:bg-[#520810]",
-      "checked:[&_.checkbox-card-input]:text-[#BB032A]",
-      "dark:checked:[&_.checkbox-card-input]:text-[#FFB2AB]",
-      "[&_.checkbox-card-input]:border-[#BB032A] dark:[&_.checkbox-card-input]:border-[#FFB2AB]",
+      "checked:[&_.radio-card-input]:text-[#BB032A]",
+      "dark:checked:[&_.radio-card-input]:text-[#FFB2AB]",
+      "[&_.radio-card-input]:border-[#BB032A] dark:[&_.radio-card-input]:border-[#FFB2AB]",
       "has-[:checked]:border-[#950F22] dark:has-[:checked]:border-[#FFD2CD]",
       "has-[:checked]:bg-[#FFE1DE] dark:has-[:checked]:bg-[#950F22]"
     ]
@@ -813,9 +813,9 @@ defmodule <%= @module %> do
     [
       "text-[#0B84BA] border-[#0B84BA] bg-[#E7F6FD]",
       "dark:text-[#6EC9F2] dark:border-[#6EC9F2] dark:bg-[#03212F]",
-      "checked:[&_.checkbox-card-input]:text-[#0B84BA]",
-      "dark:checked:[&_.checkbox-card-input]:text-[#6EC9F2]",
-      "[&_.checkbox-card-input]:border-[#0B84BA] dark:[&_.checkbox-card-input]:border-[#6EC9F2]",
+      "checked:[&_.radio-card-input]:text-[#0B84BA]",
+      "dark:checked:[&_.radio-card-input]:text-[#6EC9F2]",
+      "[&_.radio-card-input]:border-[#0B84BA] dark:[&_.radio-card-input]:border-[#6EC9F2]",
       "has-[:checked]:border-[#06425D] dark:has-[:checked]:border-[#9FDBF6]",
       "has-[:checked]:bg-[#CFEDFB] dark:has-[:checked]:bg-[#06425D]"
     ]
@@ -826,9 +826,9 @@ defmodule <%= @module %> do
     [
       "text-[#653C94] border-[#653C94] bg-[#F6F0FE]",
       "dark:text-[#CBA2FA] dark:border-[#CBA2FA] dark:bg-[#221431]",
-      "checked:[&_.checkbox-card-input]:text-[#653C94]",
-      "dark:checked:[&_.checkbox-card-input]:text-[#CBA2FA]",
-      "[&_.checkbox-card-input]:border-[#653C94] dark:[&_.checkbox-card-input]:border-[#CBA2FA]",
+      "checked:[&_.radio-card-input]:text-[#653C94]",
+      "dark:checked:[&_.radio-card-input]:text-[#CBA2FA]",
+      "[&_.radio-card-input]:border-[#653C94] dark:[&_.radio-card-input]:border-[#CBA2FA]",
       "has-[:checked]:border-[#442863] dark:has-[:checked]:border-[#DDC1FC]",
       "has-[:checked]:bg-[#EEE0FD] dark:has-[:checked]:bg-[#442863]"
     ]
@@ -839,9 +839,9 @@ defmodule <%= @module %> do
     [
       "text-[#7E4B2A] border-[#7E4B2A] bg-[#FBF2ED]",
       "dark:text-[#E4B190] dark:border-[#E4B190] dark:bg-[#2A190E]",
-      "checked:[&_.checkbox-card-input]:text-[#7E4B2A]",
-      "dark:checked:[&_.checkbox-card-input]:text-[#E4B190]",
-      "[&_.checkbox-card-input]:border-[#7E4B2A] dark:[&_.checkbox-card-input]:border-[#E4B190]",
+      "checked:[&_.radio-card-input]:text-[#7E4B2A]",
+      "dark:checked:[&_.radio-card-input]:text-[#E4B190]",
+      "[&_.radio-card-input]:border-[#7E4B2A] dark:[&_.radio-card-input]:border-[#E4B190]",
       "has-[:checked]:border-[#54321C] dark:has-[:checked]:border-[#EDCBB5]",
       "has-[:checked]:bg-[#F6E5DA] dark:has-[:checked]:bg-[#54321C]"
     ]
@@ -852,9 +852,9 @@ defmodule <%= @module %> do
     [
       "text-[#727272] border-[#727272] bg-[#F3F3F3]",
       "dark:text-[#BBBBBB] dark:border-[#BBBBBB] dark:bg-[#4B4B4B]",
-      "checked:[&_.checkbox-card-input]:text-[#727272]",
-      "dark:checked:[&_.checkbox-card-input]:text-[#BBBBBB]",
-      "[&_.checkbox-card-input]:border-[#727272] dark:[&_.checkbox-card-input]:border-[#BBBBBB]",
+      "checked:[&_.radio-card-input]:text-[#727272]",
+      "dark:checked:[&_.radio-card-input]:text-[#BBBBBB]",
+      "[&_.radio-card-input]:border-[#727272] dark:[&_.radio-card-input]:border-[#BBBBBB]",
       "has-[:checked]:border-[#5E5E5E] dark:has-[:checked]:border-[#DDDDDD]",
       "has-[:checked]:bg-[#E8E8E8] dark:has-[:checked]:bg-[#5E5E5E]"
     ]

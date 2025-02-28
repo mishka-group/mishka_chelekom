@@ -577,7 +577,7 @@ defmodule <%= @module %> do
   defp color_variant("outline", "dawn") do
     [
       "text-[#A86438] border-[#A86438] dark:text-[#DB976B] dark:border-[#DB976B]",
-      "checked:[&_.checkbox-card-input]:text-[#8750C5]",
+      "checked:[&_.checkbox-card-input]:text-[#A86438]",
       "[&_.checkbox-card-input]:border-[#A86438]",
       "dark:checked:[&_.checkbox-card-input]:text-[#BA83F9]",
       "dark:[&_.checkbox-card-input]:border-[#BA83F9]",
