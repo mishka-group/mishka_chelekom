@@ -49,6 +49,8 @@ defmodule <%= @module %> do
   attr :label_class, :string, default: nil, doc: "Custom CSS class for the label styling"
   attr :reverse, :boolean, default: false, doc: "Switches the order of the element and label"
   attr :show_radio, :boolean, default: false, doc: "Boolean to show and hide radio"
+  attr :label, :string, default: nil, doc: "Specifies text for the label"
+  attr :description, :string, default: nil, doc: "Determines a short description"
 
   attr :size, :string,
     default: "small",
@@ -94,10 +96,18 @@ defmodule <%= @module %> do
 
   def radio_card(assigns) do
     ~H"""
-    <div>
+    <div class={["leading-5", space_class(@space)]}>
       <input type="hidden" name={@name} value="" disabled={@rest[:disabled]} />
+
+      <div :if={@label || @description} class="radio-card-label-wrapper">
+        <.label :if={@label} for={@id}>{@label}</.label>
+        <div :if={@description} class="text-[12px] mt-2">
+          {@description}
+        </div>
+      </div>
+
       <div class={["grid", grid_cols(@cols), grid_gap(@cols_gap), @class]}>
-        <.label
+        <label
           :for={{radio, index} <- Enum.with_index(@radio, 1)}
           for={"#{@id}-#{index}"}
           class={[
@@ -150,7 +160,7 @@ defmodule <%= @module %> do
               {render_slot(radio)}
             </div>
           </div>
-        </.label>
+        </label>
       </div>
     </div>
 
@@ -316,23 +326,55 @@ defmodule <%= @module %> do
   <% end %>
   defp size_class(params) when is_binary(params), do: params
 
-  <%= if is_nil(@space) or "extra_small" in @space do %>
-  defp space_class("extra_small"), do: "gap-1 [&_.radio-slot-content]:gap-1"
+   <%= if is_nil(@space) or "extra_small" in @space do %>
+  defp space_class("extra_small") do
+    [
+      "[&_.radio-card-label-wrapper]:space-y-1",
+      "[&_.radio-card-label-wrapper]:mb-1",
+      "[&_.radio-card-wrapper]:gap-1 [&_.radio-slot-content]:gap-1"
+    ]
+  end
   <% end %>
   <%= if is_nil(@space) or "small" in @space do %>
-  defp space_class("small"), do: "gap-2 [&_.radio-slot-content]:gap-2"
+  defp space_class("small") do
+    [
+      "[&_.radio-card-label-wrapper]:space-y-1.5",
+      "[&_.radio-card-label-wrapper]:mb-2",
+      "[&_.radio-card-wrapper]:gap-2 [&_.radio-slot-content]:gap-2"
+    ]
+  end
   <% end %>
   <%= if is_nil(@space) or "medium" in @space do %>
-  defp space_class("medium"), do: "gap-3 [&_.radio-slot-content]:gap-3"
+  defp space_class("medium") do
+    [
+      "[&_.radio-card-label-wrapper]:space-y-2",
+      "[&_.radio-card-label-wrapper]:mb-3",
+      "[&_.radio-card-wrapper]:gap-3 [&_.radio-slot-content]:gap-3"
+    ]
+  end
   <% end %>
   <%= if is_nil(@space) or "large" in @space do %>
-  defp space_class("large"), do: "gap-4 [&_.radio-slot-content]:gap-4"
+  defp space_class("large") do
+    [
+      "[&_.radio-card-label-wrapper]:space-y-2.5",
+      "[&_.radio-card-label-wrapper]:mb-4",
+      "[&_.radio-card-wrapper]:gap-4 [&_.radio-slot-content]:gap-4"
+    ]
+  end
   <% end %>
   <%= if is_nil(@space) or "extra_large" in @space do %>
-  defp space_class("extra_large"), do: "gap-5 [&_.radio-slot-content]:gap-5"
+  defp space_class("extra_large") do
+    [
+      "[&_.radio-card-label-wrapper]:space-y-3",
+      "[&_.radio-card-label-wrapper]:mb-5",
+      "[&_.radio-card-wrapper]:gap-5 [&_.radio-slot-content]:gap-5"
+    ]
+  end
   <% end %>
   <%= if is_nil(@space) or "none" in @space do %>
-  defp space_class("none"), do: nil
+  defp space_class("none") do
+    nil
+  end
   <% end %>
   defp space_class(params) when is_binary(params), do: params
 
