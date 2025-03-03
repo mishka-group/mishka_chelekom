@@ -103,7 +103,7 @@ defmodule <%= @module %> do
 
       <div :if={@label || @description} class="checkbox-card-label-wrapper">
         <.label :if={@label} for={@id}>{@label}</.label>
-        <div :if={@description} class="text-[12px] mt-2">
+        <div :if={@description} class="text-[12px]">
           {@description}
         </div>
       </div>
@@ -122,7 +122,6 @@ defmodule <%= @module %> do
             color_variant(@variant, @color),
             rounded_size(@rounded),
             padding_size(@padding),
-            space_class(@space),
             size_class(@size),
             @label_class
           ]}
@@ -194,7 +193,7 @@ defmodule <%= @module %> do
 
   defp label(assigns) do
     ~H"""
-    <label for={@for} class={["leading-4", @class]}>
+    <label for={@for} class={["leading-4 font-semibold", @class]}>
       {render_slot(@inner_block)}
     </label>
     """
