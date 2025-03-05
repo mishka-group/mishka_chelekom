@@ -64,7 +64,7 @@ defmodule <%= @module %> do
 
     <!-- Custom Scrollbars -->
       <div class={[
-        "absolute right-0 top-0 w-2 h-full bg-black/5 rounded-lg scrollbar-y transition-all duration-400",
+        "absolute right-0 top-0 h-full bg-black/5 rounded-lg scrollbar-y transition-all duration-400",
         custom_scrollbars_visibility(@type, @vertical),
         @scrollbar_width
       ]}>
@@ -72,7 +72,7 @@ defmodule <%= @module %> do
       </div>
 
       <div class={[
-        "absolute left-0 bottom-0 h-2 w-full bg-black/5 rounded-lg scrollbar-x",
+        "absolute left-0 bottom-0 w-full bg-black/5 rounded-lg scrollbar-x",
         custom_scrollbars_visibility(@type, @horizontal),
         @scrollbar_height
       ]}>
