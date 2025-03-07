@@ -49,16 +49,15 @@ let ScrollArea = {
       );
     }
 
-    // Ensure layout is settled before the initial update
-    requestAnimationFrame(() => {
-      requestAnimationFrame(() => {
-        this.updateThumb();
-      });
+    this.resizeObserver = new ResizeObserver(() => {
+      this.updateThumb();
     });
+
+    this.resizeObserver.observe(this.viewport);
   },
 
   updateAxis({ contentSize, clientSize, scrollPos, thumb, scrollbar, axis }) {
-    if (contentSize === clientSize) {
+    if (contentSize <= clientSize) {
       if (scrollbar) scrollbar.style.display = "none";
       return;
     }

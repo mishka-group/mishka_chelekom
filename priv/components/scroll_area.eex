@@ -48,15 +48,13 @@ defmodule <%= @module %> do
       id={@id}
       phx-hook="ScrollArea"
       phx-update="replace"
-      class={["relative overflow-hidden group p-0", @height, @width, @class]}
+      class={["relative overflow-hidden group", @height, @width, @class]}
       {@rest}
     >
-      <div
-        class={[
-          "w-full h-full overflow-auto relative scroll-viewport foucus:outline-none",
-          "[scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
-        ]}
-      >
+      <div class={[
+        "w-full h-full overflow-auto relative scroll-viewport foucus:outline-none",
+        "[scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+      ]}>
         <div class={["scroll-content", padding_size(@padding), @content_class]}>
           {render_slot(@inner_block)}
         </div>
@@ -72,7 +70,7 @@ defmodule <%= @module %> do
       </div>
 
       <div class={[
-        "absolute left-0 bottom-0 w-full bg-black/5 rounded-lg scrollbar-x",
+        "absolute left-0 bottom-0 w-full bg-black/5 rounded-lg transition-all duration-400 scrollbar-x",
         custom_scrollbars_visibility(@type, @horizontal),
         @scrollbar_height
       ]}>
@@ -102,8 +100,8 @@ defmodule <%= @module %> do
   <% end %>
   defp padding_size(params) when is_binary(params), do: params
 
-  defp custom_scrollbars_visibility("hover", true), do: "invisible group-hover:visible delay-200"
-  defp custom_scrollbars_visibility("auto", true), do: "visible"
-  defp custom_scrollbars_visibility("never", true), do: "invisible"
-  defp custom_scrollbars_visibility(_, false), do: "invisible"
+  defp custom_scrollbars_visibility("hover", true), do: "opacity-0 group-hover:opacity-100 group-focus-within:opacity-100"
+  defp custom_scrollbars_visibility("auto", true), do: "opacity-100"
+  defp custom_scrollbars_visibility("never", true), do: "opacity-0 pointer-events-none"
+  defp custom_scrollbars_visibility(_, false), do: "opacity-0 pointer-events-none"
 end
