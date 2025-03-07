@@ -11,9 +11,10 @@
 ### Bugs:
 - Add missing slot to gallery component [#294](https://github.com/mishka-group/mishka_chelekom/pull/294)
 - fix typo in tab, checkbox field, radio field components [#295](https://github.com/mishka-group/mishka_chelekom/pull/295)
+- Fix missing ids in table and Flash assign_new to create new id from pattern [#313](https://github.com/mishka-group/mishka_chelekom/pull/313)
 
 ### Refactors:
-- Fix some Phoenix CoreComponent backward compatibility issues for Ash [#312](https://github.com/mishka-group/mishka_chelekom/pull/312)
+- Refactor some Phoenix CoreComponent backward compatibility issues for Ash [#312](https://github.com/mishka-group/mishka_chelekom/pull/312)
 
 ---
 
