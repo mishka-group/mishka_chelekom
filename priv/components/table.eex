@@ -267,7 +267,7 @@ defmodule <%= @module %> do
 
   def th(assigns) do
     ~H"""
-    <th scope={@scope} class={["table-header", @class]} {@rest}>
+    <th id={@id} scope={@scope} class={["table-header", @class]} {@rest}>
       {render_slot(@inner_block)}
     </th>
     """
@@ -302,7 +302,7 @@ defmodule <%= @module %> do
 
   def tr(assigns) do
     ~H"""
-    <tr class={["table-row", @class]} {@rest}>
+    <tr id={@id} class={["table-row", @class]} {@rest}>
       {render_slot(@inner_block)}
     </tr>
     """
@@ -333,7 +333,7 @@ defmodule <%= @module %> do
 
   def td(assigns) do
     ~H"""
-    <td class={["table-data-cell", @class]} {@rest}>
+    <td id={@id} class={["table-data-cell", @class]} {@rest}>
       {render_slot(@inner_block)}
     </td>
     """
