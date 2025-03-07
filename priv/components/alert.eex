@@ -49,9 +49,7 @@ defmodule <%= @module %> do
   <.flash kind={:info} phx-mounted={show("#flash")}>Welcome Back!</.flash>
   ```
   """
-  attr :id, :string,
-    default: nil,
-    doc: "A unique identifier is used to manage state and interaction"
+  attr :id, :string, doc: "A unique identifier is used to manage state and interaction"
   attr :flash, :map, default: %{}, doc: "the map of flash messages to display"
   attr :title, :string, default: nil, doc: "Specifies the title of the element"
   attr :kind, :atom, default: :base, doc: "used for styling and flash lookup"
