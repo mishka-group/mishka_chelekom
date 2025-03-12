@@ -132,8 +132,7 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Component do
           Path.join(IAPP.priv_dir(igniter, ["mishka_chelekom", "templates"]), "#{component}.eex")
 
         true ->
-          Application.app_dir(:mishka_chelekom, ["priv", "components"])
-          |> Path.join("#{component}.eex")
+          "deps/mishka_chelekom/priv/components/#{component}.eex"
       end
 
     template_config_path = Path.rootname(template_path) <> ".exs"
@@ -467,8 +466,7 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Component do
       igniter =
         Enum.reduce(files, igniter, fn item, acc ->
           core_path =
-            Application.app_dir(:mishka_chelekom, ["priv", "assets", "js"])
-            |> Path.join("#{item.file}")
+            "deps/mishka_chelekom/priv/assets/js/#{item.file}"
 
           mishka_user_priv_path =
             Path.join(
@@ -491,9 +489,7 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Component do
                   content
 
                 _ ->
-                  Application.app_dir(:mishka_chelekom, ["priv", "assets", "js"])
-                  |> Path.join("mishka_components.js")
-                  |> File.read!()
+                  File.read!("deps/mishka_chelekom/priv/assets/js/mishka_components.js")
               end
 
             acc

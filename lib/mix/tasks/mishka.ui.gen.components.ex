@@ -240,7 +240,7 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Components do
 
   defp get_all_components_names(igniter) do
     [
-      Application.app_dir(:mishka_chelekom, ["priv", "components"]),
+      "deps/mishka_chelekom/priv/components",
       IAPP.priv_dir(igniter, ["mishka_chelekom", "components"]),
       IAPP.priv_dir(igniter, ["mishka_chelekom", "templates"]),
       IAPP.priv_dir(igniter, ["mishka_chelekom", "presets"])
