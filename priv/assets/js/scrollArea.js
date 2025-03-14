@@ -3,8 +3,8 @@
  *
  * This hook provides custom scroll area functionality for Phoenix LiveView components.
  * It updates only the thumb positions based on the viewport dimensions and scroll position.
- * The thumb sizes remain fixed. The scrollbar container is hidden only when the content size
- * exactly matches the viewport size.
+ * The thumb sizes remain fixed. When the content overflows the scroll-area-wrapper,
+ * the corresponding scrollbar is shown; if not, it remains hidden.
  *
  * @module ScrollArea
  */
@@ -12,57 +12,71 @@
 let ScrollArea = {
   mounted() {
     const { el } = this;
+    // el is the scroll-area-wrapper
     this.viewport = el.querySelector(".scroll-viewport");
     this.thumbY = el.querySelector(".thumb-y");
     this.thumbX = el.querySelector(".thumb-x");
     this.scrollbarY = el.querySelector(".scrollbar-y");
     this.scrollbarX = el.querySelector(".scrollbar-x");
 
-    // If viewport is not present, hide scrollbars and exit early
     if (!this.viewport) {
+      // If viewport is missing, hide scrollbars and exit
       if (this.scrollbarY) this.scrollbarY.style.display = "none";
       if (this.scrollbarX) this.scrollbarX.style.display = "none";
       return;
     }
 
-    // Cache arrow functions for performance and cleanup
+    // Functions to update thumb positions on scroll/resize
     this.updateThumbBound = () => this.updateThumb();
     this.handleResizeBound = () => this.updateThumb();
 
-    if (this.viewport) {
-      this.viewport.addEventListener("scroll", this.updateThumbBound);
-    }
+    this.viewport.addEventListener("scroll", this.updateThumbBound);
     window.addEventListener("resize", this.handleResizeBound);
 
+    // Pointer down for vertical thumb
     if (this.thumbY) {
       this.onThumbYPointerDownBound = (e) => this.onThumbYPointerDown(e);
-      this.thumbY.addEventListener(
-        "pointerdown",
-        this.onThumbYPointerDownBound,
-      );
+      this.thumbY.addEventListener("pointerdown", this.onThumbYPointerDownBound);
     }
+    // Pointer down for horizontal thumb
     if (this.thumbX) {
       this.onThumbXPointerDownBound = (e) => this.onThumbXPointerDown(e);
-      this.thumbX.addEventListener(
-        "pointerdown",
-        this.onThumbXPointerDownBound,
-      );
+      this.thumbX.addEventListener("pointerdown", this.onThumbXPointerDownBound);
     }
 
+    // Use ResizeObserver to recalc thumbs if content changes
     this.resizeObserver = new ResizeObserver(() => {
       this.updateThumb();
     });
-
     this.resizeObserver.observe(this.viewport);
+
+    // Initial update
+    this.updateThumb();
   },
 
+  /**
+   * Update scrollbar and thumb for a given axis.
+   * If the content size is less than or equal to the scroll-area-wrapper size, hide the scrollbar.
+   */
   updateAxis({ contentSize, clientSize, scrollPos, thumb, scrollbar, axis }) {
     if (contentSize <= clientSize) {
-      if (scrollbar) scrollbar.style.display = "none";
+      if (scrollbar) {
+        scrollbar.style.display = "none";
+      }
+      if (thumb) {
+        thumb.style.transform =
+          axis === "vertical" ? "translateY(0px)" : "translateX(0px)";
+        thumb.style.opacity = "0";
+      }
       return;
     }
-    if (scrollbar) scrollbar.style.display = "block";
+
+    // When overflow exists, show scrollbar and update thumb position.
+    if (scrollbar) {
+      scrollbar.style.display = "block";
+    }
     if (thumb) {
+      thumb.style.opacity = "1"; // ensure visible
       const thumbSize =
         axis === "vertical"
           ? thumb.offsetHeight || 20
@@ -75,29 +89,41 @@ let ScrollArea = {
     }
   },
 
+  /**
+   * Update thumb positions by comparing the inner content size
+   * (from .scroll-content) against the scroll-area-wrapper dimensions.
+   */
   updateThumb() {
     if (!this.viewport) return;
-    const {
-      scrollTop,
-      scrollHeight,
-      clientHeight,
-      scrollLeft,
-      scrollWidth,
-      clientWidth,
-    } = this.viewport;
+    // Query the scroll-content inside the viewport.
+    const scrollContent = this.viewport.querySelector(".scroll-content");
 
+    // For vertical axis:
+    // contentHeight is taken from the scroll-content element, if available.
+    const contentHeight = scrollContent
+      ? scrollContent.scrollHeight
+      : this.viewport.scrollHeight;
+    // Use the height of the scroll-area-wrapper (this.el)
+    const wrapperHeight = this.el.clientHeight;
+    const scrollTop = this.viewport.scrollTop;
     this.updateAxis({
-      contentSize: scrollHeight,
-      clientSize: clientHeight,
+      contentSize: contentHeight,
+      clientSize: wrapperHeight,
       scrollPos: scrollTop,
       thumb: this.thumbY,
       scrollbar: this.scrollbarY,
       axis: "vertical",
     });
 
+    // For horizontal axis:
+    const contentWidth = scrollContent
+      ? scrollContent.scrollWidth
+      : this.viewport.scrollWidth;
+    const wrapperWidth = this.el.clientWidth;
+    const scrollLeft = this.viewport.scrollLeft;
     this.updateAxis({
-      contentSize: scrollWidth,
-      clientSize: clientWidth,
+      contentSize: contentWidth,
+      clientSize: wrapperWidth,
       scrollPos: scrollLeft,
       thumb: this.thumbX,
       scrollbar: this.scrollbarX,
@@ -105,9 +131,9 @@ let ScrollArea = {
     });
   },
 
+  // Drag logic for vertical thumb
   onThumbYPointerDown(e) {
     e.preventDefault();
-    // Set dragging state to true for vertical thumb
     this.isDraggingY = true;
     if (this.scrollbarY) {
       this.scrollbarY.style.visibility = "visible";
@@ -123,19 +149,20 @@ let ScrollArea = {
   onThumbYPointerMove(e) {
     e.preventDefault();
     const dy = e.clientY - this.startY;
-    const { scrollHeight, clientHeight } = this.viewport;
+    const { scrollHeight } = this.viewport;
+    // Use the wrapper height for calculations
+    const wrapperHeight = this.el.clientHeight;
     const thumbHeight = (this.thumbY && this.thumbY.offsetHeight) || 20;
-    const maxScroll = scrollHeight - clientHeight;
-    const maxThumb = clientHeight - thumbHeight;
+    const maxScroll = (scrollHeight > wrapperHeight) ? scrollHeight - wrapperHeight : 0;
+    const maxThumb = wrapperHeight - thumbHeight;
     const newScrollTop = Math.max(
       0,
-      Math.min(this.startScrollTop + dy * (maxScroll / maxThumb), maxScroll),
+      Math.min(this.startScrollTop + dy * (maxScroll / maxThumb), maxScroll)
     );
     this.viewport.scrollTop = newScrollTop;
   },
 
   onThumbYPointerUp() {
-    // Reset dragging state for vertical thumb
     this.isDraggingY = false;
     if (this.scrollbarY) {
       this.scrollbarY.style.visibility = "";
@@ -144,9 +171,9 @@ let ScrollArea = {
     document.removeEventListener("pointerup", this.boundThumbYPointerUp);
   },
 
+  // Drag logic for horizontal thumb
   onThumbXPointerDown(e) {
     e.preventDefault();
-    // Set dragging state to true for horizontal thumb
     this.isDraggingX = true;
     if (this.scrollbarX) {
       this.scrollbarX.style.visibility = "visible";
@@ -162,19 +189,19 @@ let ScrollArea = {
   onThumbXPointerMove(e) {
     e.preventDefault();
     const dx = e.clientX - this.startX;
-    const { scrollWidth, clientWidth } = this.viewport;
+    const { scrollWidth } = this.viewport;
+    const wrapperWidth = this.el.clientWidth;
     const thumbWidth = (this.thumbX && this.thumbX.offsetWidth) || 20;
-    const maxScroll = scrollWidth - clientWidth;
-    const maxThumb = clientWidth - thumbWidth;
+    const maxScroll = (scrollWidth > wrapperWidth) ? scrollWidth - wrapperWidth : 0;
+    const maxThumb = wrapperWidth - thumbWidth;
     const newScrollLeft = Math.max(
       0,
-      Math.min(this.startScrollLeft + dx * (maxScroll / maxThumb), maxScroll),
+      Math.min(this.startScrollLeft + dx * (maxScroll / maxThumb), maxScroll)
     );
     this.viewport.scrollLeft = newScrollLeft;
   },
 
   onThumbXPointerUp() {
-    // Reset dragging state for horizontal thumb
     this.isDraggingX = false;
     if (this.scrollbarX) {
       this.scrollbarX.style.visibility = "";
@@ -186,14 +213,11 @@ let ScrollArea = {
   destroyed() {
     this.viewport?.removeEventListener("scroll", this.updateThumbBound);
     window.removeEventListener("resize", this.handleResizeBound);
-    this.thumbY?.removeEventListener(
-      "pointerdown",
-      this.onThumbYPointerDownBound,
-    );
-    this.thumbX?.removeEventListener(
-      "pointerdown",
-      this.onThumbXPointerDownBound,
-    );
+    this.thumbY?.removeEventListener("pointerdown", this.onThumbYPointerDownBound);
+    this.thumbX?.removeEventListener("pointerdown", this.onThumbXPointerDownBound);
+    if (this.resizeObserver) {
+      this.resizeObserver.disconnect();
+    }
   },
 };
 

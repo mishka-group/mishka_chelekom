@@ -48,7 +48,7 @@ defmodule <%= @module %> do
       id={@id}
       phx-hook="ScrollArea"
       phx-update="replace"
-      class={["relative overflow-hidden group", @height, @width, @class]}
+      class={["scroll-area-wrapper relative overflow-hidden group", @height, @width, @class]}
       {@rest}
     >
       <div class={[
