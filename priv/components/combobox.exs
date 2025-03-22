@@ -1,8 +1,8 @@
 [
-  scroll_area: [
+  combobox: [
     name: "combobox",
     args: [
-      variant: ["default", "outline", "shadow", "bordered", "base"],
+      variant: ["default", "bordered", "base"],
       color: [
         "base",
         "natural",
@@ -14,8 +14,6 @@
         "info",
         "silver",
         "misc",
-        "dark",
-        "white",
         "dawn"
       ],
       size: ["extra_small", "small", "medium", "large", "extra_large"],

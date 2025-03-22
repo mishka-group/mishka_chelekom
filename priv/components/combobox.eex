@@ -1,33 +1,87 @@
 defmodule <%= @module %> do
   @moduledoc """
-  The `<%= @module %>` module provides an adaptive scrolling container component for Phoenix LiveView
-    applications. It allows seamless content scrolling with full control over the scrolling behavior
-    and visual presentation.
+  The `<%= @module %>`is a Phoenix LiveView component module for creating customizable combobox elements.
 
-    **Key Features**:
-    - Viewport size customization
-    - Scrollbar styling options
-    - Touch-friendly scrolling
-    - Smooth scrolling behavior
-    - Responsive design integration
-    - Cross-browser support
+  This module provides components to display combobox/select inputs with various styles, colors,
+  sizes, and configurations. The main component, `combobox/1`, acts as a container for select options,
+  and allows users to search, filter and select items from a dropdown list.
 
-    **Ideal Use Cases**:
-    - Content overflow management
-    - Dynamic content containers
-    - Fixed-height content areas
-    - Mobile-responsive layouts
-    - Custom scrolling experiences
-
-    The component automatically handles scroll events and provides a consistent
-    scrolling experience across different browsers and devices while maintaining
-    high performance and accessibility standards.
-    """
+  The combobox component supports features like:
+  - Search filtering of options
+  - Single and multiple selection modes
+  - Custom option rendering
+  - Keyboard navigation
+  - Accessibility support
+  """
 
   use Phoenix.Component
   alias Phoenix.HTML.Form
+  use Gettext, backend: <%= inspect(@web_module) %>.Gettext
   import <%= inspect(@web_module) %>.Components.ScrollArea, only: [scroll_area: 1]
   import Phoenix.LiveView.Utils, only: [random_id: 0]
+
+  @doc """
+  The `combobox` component is a customizable select/dropdown element with advanced features
+  such as searchable options, multiple selection, and grouped items.
+
+  It supports various customization options including:
+  - Searchable options with filter functionality
+  - Single or multiple selection modes
+  - Option grouping with labels
+  - Custom styling with color themes and variants
+  - Accessibility features with ARIA attributes
+  - Responsive dropdown with scrollable area
+  - Form field integration
+  - Custom placeholders and descriptions
+  - Start section slots for icons or additional content
+
+
+   ## Example usage:
+    <.combobox
+      options={@options}
+      selected={@selected}
+      placeholder="Select an option"
+      on_change="handle_selection"
+    />
+    # Single selection with options
+    <.combobox selected="Item 1" placeholder="Select an item">
+      <:option value="Item 1">First Item</:option>
+      <:option value="Item 2">Second Item</:option>
+      <:option value="Item 3">Third Item</:option>
+    </.combobox>
+
+    # With grouped options
+    <.combobox placeholder="Select a fruit">
+      <:option group="Citrus" value="orange">Orange</:option>
+      <:option group="Citrus" value="lemon">Lemon</:option>
+      <:option group="Berries" value="strawberry">Strawberry</:option>
+      <:option group="Berries" value="blueberry">Blueberry</:option>
+    </.combobox>
+
+    # With disabled options
+    <.combobox placeholder="Select an option">
+      <:option value="available">Available Option</:option>
+      <:option value="disabled" disabled>Disabled Option</:option>
+      <:option value="another">Another Option</:option>
+    </.combobox>
+
+    # Multiple selection with custom rendering
+    <.combobox multiple searchable placeholder="Select fruits">
+      <:option value="apple">
+        <div class="flex items-center gap-2">
+          <span>🍎</span>
+          <span>Apple</span>
+        </div>
+      </:option>
+      <:option value="banana">
+        <div class="flex items-center gap-2">
+          <span>🍌</span>
+          <span>Banana</span>
+        </div>
+      </:option>
+    </.combobox>
+  ```
+  """
 
   @doc type: :component
   attr :id, :any, default: nil, doc: "A unique identifier is used to manage state and interaction"
@@ -174,7 +228,6 @@ defmodule <%= @module %> do
                   "[&_.combobox-pill]:px-1 [&_.combobox-pill]:leading-4"
                 ]}
               >
-                <!-- selected value will appear here -->
               </div>
             </div>
 
@@ -268,7 +321,7 @@ defmodule <%= @module %> do
                 </.option>
 
                 <div :if={@searchable} class="no-results text-center hidden">
-                  Nothing found!
+                  {gettext("Nothing found!")}
                 </div>
               </div>
             </.scroll_area>
@@ -357,7 +410,6 @@ defmodule <%= @module %> do
               </div>
 
               <div data-part="select-toggle-label" class="selected-value">
-                <!-- selected value will appear here -->
               </div>
             </div>
 
@@ -451,7 +503,7 @@ defmodule <%= @module %> do
                 </.option>
 
                 <div :if={@searchable} class="no-results text-center hidden">
-                  Nothing found!
+                  {gettext("Nothing found!")}
                 </div>
               </div>
             </.scroll_area>
