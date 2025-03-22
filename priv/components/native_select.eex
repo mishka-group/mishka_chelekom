@@ -9,7 +9,7 @@ defmodule <%= @module %> do
   color variants, and rounded corners. It also provides a convenient way to render select
   options through slots, enabling dynamic rendering of form elements based on the passed data.
 
-  With built-in error handling and custom error messages, `MishkaChelekom.NativeSelect`
+  With built-in error handling and custom error messages, `<%= @module %>`
   enhances the user experience by providing clear feedback and interaction states,
   ensuring a polished and user-friendly interface for form-based applications.
   """

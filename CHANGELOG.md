@@ -7,6 +7,7 @@
 - Add global components installing support and JS formatter [#304](https://github.com/mishka-group/mishka_chelekom/pull/304)
 - Add radio card component [#305](https://github.com/mishka-group/mishka_chelekom/pull/305)
 - Add checkbox card component [#306](https://github.com/mishka-group/mishka_chelekom/pull/306)
+- Add combobox component [#321](https://github.com/mishka-group/mishka_chelekom/pull/321)
 
 ### Bugs:
 - Add missing slot to gallery component [#294](https://github.com/mishka-group/mishka_chelekom/pull/294)
@@ -16,6 +17,7 @@
 ### Refactors:
 - Refactor some Phoenix CoreComponent backward compatibility issues for Ash [#312](https://github.com/mishka-group/mishka_chelekom/pull/312)
 - Refactor and Use more generous dependency on igniter [#317](https://github.com/mishka-group/mishka_chelekom/pull/317)
+- Reset line height of alert [#320](https://github.com/mishka-group/mishka_chelekom/pull/320)
 
 ---
 

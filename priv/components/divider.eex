@@ -179,7 +179,7 @@ defmodule <%= @module %> do
   <% end %>
   <%= if is_nil(@type) or "hr" in @type do %>
   @doc """
-  `MishkaChelekom.Divider.hr` is used to create a horizontal divider with customizable style, color,
+  `<%= @module %>.hr` is used to create a horizontal divider with customizable style, color,
   and size options.
 
   It can also include text or icons to enhance visual separation between content sections.

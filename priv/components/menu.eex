@@ -7,7 +7,7 @@ defmodule <%= @module %> do
   This module supports dynamic configuration of menu items through a list of maps,
   allowing for a wide range of customization options. Menu items can be rendered as
   standalone buttons or as expandable accordions containing nested sub-menus.
-  The `MishkaChelekom.Menu` is ideal for creating multi-level navigation menus in
+  The `<%= @module %>` is ideal for creating multi-level navigation menus in
   applications with complex information architectures.
 
   The component integrates smoothly with other components from the `MishkaChelekom`
