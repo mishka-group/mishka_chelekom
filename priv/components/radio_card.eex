@@ -914,9 +914,9 @@ defmodule <%= @module %> do
     # with our gettext backend as first argument. Translations are
     # available in the errors.po file (as we use the "errors" domain).
     if count = opts[:count] do
-      Gettext.dngettext(MishkaWeb.Gettext, "errors", msg, msg, count, opts)
+      Gettext.dngettext(<%= inspect(@web_module) %>.Gettext, "errors", msg, msg, count, opts)
     else
-      Gettext.dgettext(MishkaWeb.Gettext, "errors", msg, opts)
+      Gettext.dgettext(<%= inspect(@web_module) %>.Gettext, "errors", msg, opts)
     end
   end
 
