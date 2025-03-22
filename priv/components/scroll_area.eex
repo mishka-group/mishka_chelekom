@@ -48,19 +48,19 @@ defmodule <%= @module %> do
       id={@id}
       phx-hook="ScrollArea"
       phx-update="replace"
-      class={["relative overflow-hidden group", @height, @width, @class]}
+      class={["scroll-area-wrapper relative overflow-hidden group h-fit", @width, @class]}
       {@rest}
     >
       <div class={[
-        "w-full h-full overflow-auto relative scroll-viewport foucus:outline-none",
-        "[scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+        "w-full overflow-auto relative scroll-viewport foucus:outline-none",
+        "[scrollbar-width:none] [&::-webkit-scrollbar]:hidden",
+        @height
       ]}>
         <div class={["scroll-content", padding_size(@padding), @content_class]}>
           {render_slot(@inner_block)}
         </div>
       </div>
 
-    <!-- Custom Scrollbars -->
       <div class={[
         "absolute right-0 top-0 h-full bg-black/5 rounded-lg scrollbar-y transition-all duration-400",
         custom_scrollbars_visibility(@type, @vertical),

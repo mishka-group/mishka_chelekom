@@ -1,6 +1,6 @@
 defmodule <%= @module %> do
   @moduledoc """
-  The `<%= @module %>`is a Phoenix LiveView component module for creating customizable combobox elements.
+  The `<%= @module %>` is a Phoenix LiveView component module for creating customizable combobox elements.
 
   This module provides components to display combobox/select inputs with various styles, colors,
   sizes, and configurations. The main component, `combobox/1`, acts as a container for select options,
