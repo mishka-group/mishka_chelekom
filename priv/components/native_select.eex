@@ -128,10 +128,12 @@ defmodule <%= @module %> do
     ]}>
       <div>
         <.label for={@id}>{@label}</.label>
+
         <div :if={!is_nil(@description)} class="text-xs">
           {@description}
         </div>
       </div>
+
       <select
         name={@name}
         id={@id}
@@ -145,7 +147,6 @@ defmodule <%= @module %> do
         ]}
         {@rest}
       >
-        {render_slot(@inner_block)}
         <option
           :for={{option, index} <- Enum.with_index(@option, 1)}
           id={"#{@id}-option-#{index}"}
@@ -156,6 +157,7 @@ defmodule <%= @module %> do
           {render_slot(option)}
         </option>
       </select>
+
       <.error :for={msg <- @errors} icon={@error_icon}>{msg}</.error>
     </div>
     """

@@ -125,7 +125,7 @@ defmodule <%= @module %> do
           class={["bg-white checkbox-input"]}
           {@rest}
         />
-        <span class="block">{@label}</span>
+        <span :if={@label} class="block">{@label}</span>
       </.label>
 
       <.error :for={msg <- @errors} icon={@error_icon}>{msg}</.error>
