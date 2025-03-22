@@ -1,0 +1,40 @@
+[
+  scroll_area: [
+    name: "combobox",
+    args: [
+      variant: ["default", "outline", "shadow", "bordered", "base"],
+      color: [
+        "base",
+        "natural",
+        "primary",
+        "secondary",
+        "success",
+        "warning",
+        "danger",
+        "info",
+        "silver",
+        "misc",
+        "dark",
+        "white",
+        "dawn"
+      ],
+      size: ["extra_small", "small", "medium", "large", "extra_large"],
+      space: ["extra_small", "small", "medium", "large", "extra_large", "none"],
+      padding: ["extra_small", "small", "medium", "large", "extra_large"],
+      rounded: ["extra_small", "small", "medium", "large", "extra_large"],
+      only: ["combobox"],
+      helpers: [combobox_check: 3],
+      module: ""
+    ],
+    optional: [],
+    necessary: [],
+    scripts: [
+      %{
+        type: "file",
+        file: "combobox.js",
+        module: "Combobox",
+        imports: "import Combobox from \"./combobox.js\";"
+      }
+    ]
+  ]
+]
