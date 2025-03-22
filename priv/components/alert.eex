@@ -105,7 +105,7 @@ defmodule <%= @module %> do
       phx-click={JS.push("lv:clear-flash", value: %{key: @kind}) |> hide_alert("##{@id}")}
       role="alert"
       class={[
-        "z-50 flash-alert",
+        "z-50 flash-alert leading-5",
         border_class(@border,@variant),
         color_variant(@variant, @kind),
         position_class(@position),
@@ -273,7 +273,7 @@ defmodule <%= @module %> do
     ~H"""
     <div
       id={@id}
-      role="alert"
+      role="alert leading-5"
       class={[
         border_class(@border, @variant),
         color_variant(@variant, @kind),
