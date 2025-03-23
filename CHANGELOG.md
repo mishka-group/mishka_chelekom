@@ -18,6 +18,7 @@
 - Refactor some Phoenix CoreComponent backward compatibility issues for Ash [#312](https://github.com/mishka-group/mishka_chelekom/pull/312)
 - Refactor and Use more generous dependency on igniter [#317](https://github.com/mishka-group/mishka_chelekom/pull/317)
 - Reset line height of alert [#320](https://github.com/mishka-group/mishka_chelekom/pull/320)
+- Skipping Color in the Base Variant [#322](https://github.com/mishka-group/mishka_chelekom/pull/322)
 
 ---
 
