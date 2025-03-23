@@ -56,7 +56,7 @@ With our rich collection of ready-to-use components, comprehensive documentation
 
 <div align="center">
   <pre style="display: inline-block; text-align: left;">
-      <strong>💼 All components are completely free and open-source.</strong>
+      <strong>💼 All components are completely free and open-source.🥂</strong>
       For <strong>Pro support</strong> and <strong>enterprise services</strong>, <a href="https://mishka.tools/chelekom/custom-service">click here!</a> to get in touch with us.
   </pre>
 </div>
