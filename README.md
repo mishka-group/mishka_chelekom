@@ -54,6 +54,12 @@
 
 With our rich collection of ready-to-use components, comprehensive documentation, and numerous examples, you can easily tailor every element to fit your needs. All components are generated locally (by Our `mix` generator), giving you full control over the source code without being locked into any external library.
 
+<div align="center">
+  <pre style="display: inline-block; text-align: left;">
+      **💼 All components are completely free and open-source.** For **Pro support** and **enterprise services**, [click here](https://mishka.tools/contact) to get in touch with us.
+  </pre>
+</div>
+
 > **Mishka Chelekom** is a library offering various templates for components in **Phoenix** and **Phoenix LiveView** - [Phoenix UI kit and components](https://mishka.tools/chelekom).
 >
 > This means you can generate any component listed in this project using a `CLI` command with customizable options.
