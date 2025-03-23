@@ -80,7 +80,7 @@ defmodule <%= @module %> do
     default: "horizontal",
     doc: "Defines the layout orientation of the component"
 
-  attr :color, :string, default: "natural", doc: "Determines color theme"
+  attr :color, :string, default: "base", doc: "Determines color theme"
   attr :rounded, :string, default: "small", doc: "Determines the border radius"
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
 
@@ -137,7 +137,7 @@ defmodule <%= @module %> do
     default: nil,
     doc: "Specifies the type of the element"
 
-  attr :color, :string, default: "natural", doc: "Determines color theme"
+  attr :color, :string, default: "base", doc: "Determines color theme"
   attr :rounded, :string, default: "large", doc: "Determines the border radius"
   attr :border, :string, default: "extra_small", doc: "Determines border style"
 
@@ -254,7 +254,7 @@ defmodule <%= @module %> do
     doc: "A unique identifier is used to manage state and interaction"
 
   attr :variant, :string, default: "base", doc: "Determines the style"
-  attr :color, :string, default: "natural", doc: "Determines color theme"
+  attr :color, :string, default: "base", doc: "Determines color theme"
   attr :rounded, :string, default: "large", doc: "Determines the border radius"
   attr :value, :string, default: "", doc: "Value of input"
   attr :border, :string, default: "extra_small", doc: "Determines border style"
@@ -344,7 +344,7 @@ defmodule <%= @module %> do
   attr :patch, :string, doc: "Specifies the path for navigation using a LiveView patch"
   attr :href, :string, doc: "Sets the URL for an external link"
   attr :variant, :string, default: "base", doc: "Determines the style"
-  attr :color, :string, default: "natural", doc: "Determines color theme"
+  attr :color, :string, default: "base", doc: "Determines color theme"
   attr :rounded, :string, default: "large", doc: ""
   attr :border, :string, default: "extra_small", doc: "Determines border style"
 

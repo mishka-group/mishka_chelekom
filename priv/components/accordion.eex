@@ -63,7 +63,7 @@ defmodule <%= @module %> do
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :variant, :string, default: "base", doc: "Determines the style"
   attr :space, :string, default: "small", doc: "Space between items"
-  attr :color, :string, default: "base", doc: "Determines color theme"
+  attr :color, :string, default: "natural", doc: "Determines color theme"
   attr :border, :string, default: "extra_small", doc: "Determines border style"
   attr :padding, :string, default: "small", doc: "Determines padding for items"
   attr :rounded, :string, default: "none", doc: "Determines the border radius"
@@ -938,8 +938,7 @@ defmodule <%= @module %> do
   defp border_class(params, _) when is_binary(params), do: params
 
   <%= if is_nil(@variant) or "base" in @variant do %>
-  <%= if is_nil(@color) or "base" in @color do %>
-  defp color_variant("base", "base") do
+  defp color_variant("base", _) do
     [
       "text-[#09090b] border-[#e4e4e7] bg-white",
       "dark:text-[#FAFAFA] dark:border-[#27272a] dark:bg-[#18181B]",
@@ -951,10 +950,8 @@ defmodule <%= @module %> do
     ]
   end
   <% end %>
-  <% end %>
   <%= if is_nil(@variant) or "base_separated" in @variant do %>
-  <%= if is_nil(@color) or "base" in @color do %>
-  defp color_variant("base_separated", "base") do
+  defp color_variant("base_separated", _) do
     [
       "text-[#09090b] [&>.accordion-item-wrapper>.accordion-summary]:border-[#e4e4e7]",
       "[&>.accordion-item-wrapper]:bg-white",
@@ -963,7 +960,6 @@ defmodule <%= @module %> do
       "hover:[&>.accordion-item-wrapper>.accordion-summary]:bg-[#F8F9FA] dark:hover:[&>.accordion-item-wrapper>.accordion-summary]:bg-[#242424]"
     ]
   end
-  <% end %>
   <% end %>
   <%= if is_nil(@variant) or "transparent" in @variant do %>
   <%= if is_nil(@color) or "natural" in @color do %>
