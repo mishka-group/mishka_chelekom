@@ -505,14 +505,12 @@ defmodule <%= @module %> do
   defp color_class(params) when is_binary(params), do: params
 
   <%= if is_nil(@variant) or "base" in @variant do %>
-  <%= if is_nil(@color) or "base" in @color do %>
-  defp color_variant("base", "base") do
+  defp color_variant("base", _) do
     [
       "text-[#09090b] [&_.dropzone-wrapper]:border-[#e4e4e7] [&_.dropzone-wrapper]:bg-white shadow-sm",
       "dark:text-[#FAFAFA] dark:[&_.dropzone-wrapper]:border-[#27272a] dark:[&_.dropzone-wrapper]:bg-[#18181B]"
     ]
   end
-  <% end %>
   <% end %>
   <%= if is_nil(@variant) or "default" in @variant do %>
   <%= if is_nil(@color) or "white" in @color do %>

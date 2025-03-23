@@ -52,7 +52,7 @@ defmodule <%= @module %> do
   attr :id, :string, doc: "A unique identifier is used to manage state and interaction"
   attr :flash, :map, default: %{}, doc: "the map of flash messages to display"
   attr :title, :string, default: nil, doc: "Specifies the title of the element"
-  attr :kind, :atom, default: :base, doc: "used for styling and flash lookup"
+  attr :kind, :atom, default: :natural, doc: "used for styling and flash lookup"
 
   attr :rest, :global,
     doc:
@@ -235,7 +235,7 @@ defmodule <%= @module %> do
     doc: "A unique identifier is used to manage state and interaction"
 
   attr :title, :string, default: nil, doc: "Specifies the title of the element"
-  attr :kind, :atom, default: :base, doc: "used for styling and flash lookup"
+  attr :kind, :atom, default: :natural, doc: "used for styling and flash lookup"
   attr :variant, :string, default: "default", doc: "Determines the style"
   attr :position, :string, default: "", doc: "Determines the element position"
   attr :width, :string, default: "full", doc: "Determines the element width"
@@ -389,14 +389,12 @@ defmodule <%= @module %> do
   defp border_class(params, _) when is_binary(params), do: params
 
   <%= if is_nil(@variant) or "base" in @variant do %>
-  <%= if is_nil(@color) or "base" in @color do %>
-  defp color_variant("base", :base) do
+  defp color_variant("base", _) do
     [
       "bg-white text-[#09090b] border-[#e4e4e7] shadow-sm",
       "dark:bg-[#18181B] dark:text-[#FAFAFA] dark:border-[#27272a]"
     ]
   end
-  <% end %>
   <% end %>
   <%= if is_nil(@variant) or "default" in @variant do %>
   <%= if is_nil(@color) or "white" in @color do %>

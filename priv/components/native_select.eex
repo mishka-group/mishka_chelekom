@@ -59,7 +59,7 @@ defmodule <%= @module %> do
     doc: "A unique identifier is used to manage state and interaction"
 
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
-  attr :color, :string, default: "base", doc: "Determines color theme"
+  attr :color, :string, default: "natural", doc: "Determines color theme"
   attr :border, :string, default: "extra_small", doc: "Determines border style"
   attr :rounded, :string, default: "small", doc: "Determines the border radius"
   attr :variant, :string, default: "base", doc: "Determines the style"
@@ -334,8 +334,7 @@ defmodule <%= @module %> do
   defp space_class(params) when is_binary(params), do: params
 
   <%= if is_nil(@variant) or "base" in @variant do %>
-  <%= if is_nil(@color) or "base" in @color do %>
-  defp color_variant("base", "base") do
+  defp color_variant("base", _) do
     [
       "text-[#09090b] dark:text-[#FAFAFA] [&_.select-field:not(:has(.select-field-error))]:border-[#e4e4e7] [&_.select-field]:shadow-sm",
       "[&_.select-field:not(:has(.select-field-error))]:bg-white",
@@ -345,7 +344,6 @@ defmodule <%= @module %> do
       "focus-within:[&_.select-field]:ring-[#F8F9FA] dark:focus-within:[&_.select-field]:ring-[#242424]"
     ]
   end
-  <% end %>
   <% end %>
   <%= if is_nil(@variant) or "default" in @variant do %>
   <%= if is_nil(@color) or "white" in @color do %>

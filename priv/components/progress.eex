@@ -68,7 +68,7 @@ defmodule <%= @module %> do
     default: "horizontal",
     doc: "Defines the layout orientation of the component"
 
-  attr :color, :string, default: "base", doc: "Determines color theme"
+  attr :color, :string, default: "natural", doc: "Determines color theme"
   attr :rounded, :string, default: "full", doc: "Determines the border radius"
   attr :variant, :string, default: "base", doc: "Determines the style"
 
@@ -141,7 +141,7 @@ defmodule <%= @module %> do
     default: "horizontal",
     doc: "Defines the layout orientation of the component"
 
-  attr :color, :string, default: "base", doc: "Determines color theme"
+  attr :color, :string, default: "natural", doc: "Determines color theme"
   attr :variant, :string, default: "base", doc: "Determines the style"
   attr :csp_nonce, :string, default: nil, doc: "csp nonce"
 
@@ -281,13 +281,11 @@ defmodule <%= @module %> do
 
 
   <%= if is_nil(@variant) or "base" in @variant do %>
-  <%= if is_nil(@color) or "base" in @color do %>
-  defp color_variant("base", "base") do
+  defp color_variant("base", _) do
     [
       "text-[#09090b] bg-[#e4e4e7] dark:text-[#FAFAFA] dark:bg-[#27272a]"
     ]
   end
-  <% end %>
   <% end %>
   <%= if is_nil(@variant) or "default" in @variant do %>
   <%= if is_nil(@color) or "white" in @color do %>

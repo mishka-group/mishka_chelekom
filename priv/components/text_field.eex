@@ -66,7 +66,7 @@ defmodule <%= @module %> do
     doc: "A unique identifier is used to manage state and interaction"
 
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
-  attr :color, :string, default: "base", doc: "Determines color theme"
+  attr :color, :string, default: "natural", doc: "Determines color theme"
   attr :border, :string, default: "extra_small", doc: "Determines border style"
   attr :rounded, :string, default: "small", doc: "Determines the border radius"
   attr :variant, :string, default: "base", doc: "Determines the style"
@@ -366,8 +366,7 @@ defmodule <%= @module %> do
   defp space_class(params) when is_binary(params), do: params
 
   <%= if is_nil(@variant) or "base" in @variant do %>
-  <%= if is_nil(@color) or "base" in @color do %>
-  defp color_variant("base", "base", floating) do
+  defp color_variant("base", _, floating) do
     [
       "[&_.text-field-wrapper:not(:has(.text-field-error))]:bg-white",
       "dark:[&_.text-field-wrapper:not(:has(.text-field-error))]:bg-[#18181B]",
@@ -381,7 +380,6 @@ defmodule <%= @module %> do
         "[&_.text-field-wrapper_.floating-label]:bg-white dark:[&_.text-field-wrapper_.floating-label]:bg-[#27272a]"
     ]
   end
-  <% end %>
   <% end %>
   <%= if is_nil(@variant) or "outline" in @variant do %>
   <%= if is_nil(@color) or "natural" in @color do %>

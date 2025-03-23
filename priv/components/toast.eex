@@ -66,7 +66,7 @@ defmodule <%= @module %> do
 
   attr :fixed, :boolean, default: true, doc: "Determines whether the element is fixed"
   attr :variant, :string, default: "base", doc: "Determines the style"
-  attr :color, :string, default: "base", doc: "Determines color theme"
+  attr :color, :string, default: "natural", doc: "Determines color theme"
   attr :border, :string, default: "extra_small", doc: "Determines border style"
   attr :rounded, :string, default: "medium", doc: "Determines the border radius"
   attr :width, :string, default: "medium", doc: "Determines the element width"
@@ -409,15 +409,13 @@ defmodule <%= @module %> do
   defp border_class(params, _) when is_binary(params), do: params
 
   <%= if is_nil(@variant) or "base" in @variant do %>
-  <%= if is_nil(@color) or "base" in @color do %>
-  defp color_variant("base", "base") do
+  defp color_variant("base", _) do
     [
       "bg-white text-[#09090b] dark:bg-[#18181B] dark:text-[#FAFAFA]",
       "[&>.toast-content-wrapper]:before:bg-[#09090b] dark:[&>.toast-content-wrapper]:before:bg-[#FAFAFA]",
       "border-[#e4e4e7] dark:border-[#27272a]"
     ]
   end
-  <% end %>
   <% end %>
   <%= if is_nil(@variant) or "default" in @variant do %>
   <%= if is_nil(@color) or "white" in @color do %>

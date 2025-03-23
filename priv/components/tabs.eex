@@ -524,8 +524,7 @@ defmodule <%= @module %> do
   defp rounded_size(params, _) when is_binary(params), do: [params]
 
   <%= if is_nil(@variant) or "base" in @variant do %>
-  <%= if is_nil(@color) or "base" in @color do %>
-  defp color_variant("base", "base") do
+  defp color_variant("base", _) do
     [
       "[&_.tab-trigger.active-tab]:bg-[#e4e4e7] [&_.tab-trigger.active-tab]:text-[#09090b]",
       "[&_.tab-trigger.active-tab]:border-[#e4e4e7]",
@@ -538,7 +537,6 @@ defmodule <%= @module %> do
       "dark:[&_.tab-trigger-list]:border-[#27272A] [&_.tab-trigger-list]:border-[#e4e4e7]"
     ]
   end
-  <% end %>
   <% end %>
   <%= if is_nil(@variant) or "default" in @variant do %>
   <%= if is_nil(@color) or "natural" in @color do %>

@@ -60,7 +60,7 @@ defmodule <%= @module %> do
 
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :title, :string, default: nil, doc: "Specifies the title of the element"
-  attr :color, :string, default: "base", doc: "Determines color theme"
+  attr :color, :string, default: "natural", doc: "Determines color theme"
   attr :variant, :string, default: "base", doc: "Determines the style"
   attr :space, :string, default: "", doc: "Space between items"
   attr :animated, :boolean, default: false, doc: "Determines whether element's icon has animation"
@@ -375,14 +375,12 @@ defmodule <%= @module %> do
   defp rounded_size(params) when is_binary(params), do: params
 
 <%= if is_nil(@variant) or "base" in @variant do %>
-   <%= if is_nil(@color) or "base" in @color do %>
-  defp color_variant("base", "base") do
+  defp color_variant("base", _) do
     [
       "bg-white text-[#09090b] border-[#e4e4e7]",
       "dark:bg-[#18181B] dark:text-[#FAFAFA] dark:border-[#27272a]"
     ]
   end
-  <% end %>
   <% end %>
 <%= if is_nil(@variant) or "default" in @variant do %>
    <%= if is_nil(@color) or "white" in @color do %>

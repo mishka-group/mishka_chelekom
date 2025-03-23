@@ -229,7 +229,7 @@ defmodule <%= @module %> do
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :variant, :string, default: "base", doc: "Determines the style"
   attr :space, :string, default: "small", doc: "Space between items"
-  attr :color, :string, default: "base", doc: "Determines color theme"
+  attr :color, :string, default: "natural", doc: "Determines color theme"
   attr :border, :string, default: "extra_small", doc: "Determines border style"
 
   attr :padding, :string, default: "small", doc: "Determines padding for items"
@@ -1908,22 +1908,18 @@ defmodule <%= @module %> do
   defp color_variant(params, _) when is_binary(params), do: params
 
   <%= if is_nil(@variant) or "base" in @variant do %>
-  <%= if is_nil(@color) or "base" in @color do %>
-  defp item_color("base", "base") do
+  defp item_color("base", _) do
     [
       "group-open:bg-white group-open:text-[#09090b] dark:group-open:bg-[#18181B] dark:group-open:text-[#FAFAFA]"
     ]
   end
-  <% end %>
   <% end %>
   <%= if is_nil(@variant) or "base_separated" in @variant do %>
-  <%= if is_nil(@color) or "base" in @color do %>
-  defp item_color("base_separated", "base") do
+  defp item_color("base_separated", _) do
     [
       "group-open:bg-white group-open:text-[#09090b] dark:group-open:bg-[#18181B] dark:group-open:text-[#FAFAFA]"
     ]
   end
-  <% end %>
   <% end %>
   <%= if is_nil(@variant) or "default" in @variant do %>
   <%= if is_nil(@color) or "white" in @color do %>

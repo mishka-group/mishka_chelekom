@@ -69,7 +69,7 @@ defmodule <%= @module %> do
 
   attr :rounded, :string, default: "small", doc: "Determines the border radius"
 
-  attr :color, :string, default: "base", doc: "Determines color theme"
+  attr :color, :string, default: "natural", doc: "Determines color theme"
   attr :border, :string, default: "extra_small", doc: "Determines border style"
 
   attr :font_weight, :string,
@@ -282,14 +282,12 @@ defmodule <%= @module %> do
   defp badge_position(params) when is_binary(params), do: params
 
   <%= if is_nil(@variant) or "base" in @variant do %>
-  <%= if is_nil(@color) or "base" in @color do %>
-  defp color_variant("base", "base") do
+  defp color_variant("base", _) do
     [
       "bg-white text-[#09090b] border-[#e4e4e7] shadow-sm [&>.indicator]:bg-[#e4e4e7]",
       "dark:bg-[#18181B] dark:text-[#FAFAFA] dark:border-[#27272a] dark:[&>.indicator]:bg-[#27272a]"
     ]
   end
-  <% end %>
   <% end %>
   <%= if is_nil(@variant) or "default" in @variant do %>
   <%= if is_nil(@color) or "white" in @color do %>

@@ -54,7 +54,7 @@ defmodule <%= @module %> do
     doc: "A unique identifier is used to manage state and interaction"
 
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
-  attr :color, :string, default: "base", doc: "Determines color theme"
+  attr :color, :string, default: "natural", doc: "Determines color theme"
   attr :border, :string, default: "extra_small", doc: "Determines border style"
   attr :rounded, :string, default: "small", doc: "Determines the border radius"
   attr :padding, :string, default: "small", doc: "Determines padding for items"
@@ -227,14 +227,12 @@ defmodule <%= @module %> do
   defp space_class(params) when is_binary(params), do: params
 
   <%= if is_nil(@variant) or "base" in @variant do %>
-  <%= if is_nil(@color) or "base" in @color do %>
-  defp color_variant("base", "base") do
+  defp color_variant("base", _) do
     [
       "text-[#09090b] [&_.fieldset-field]:border-[#e4e4e7] [&_.fieldset-field]:bg-white [&_.fieldset-field]:shadow-sm",
       "dark:text-[#FAFAFA] dark:[&_.fieldset-field]:border-[#27272a] dark:[&_.fieldset-field]:bg-[#18181B]"
     ]
   end
-  <% end %>
   <% end %>
   <%= if is_nil(@variant) or "default" in @variant do %>
   <%= if is_nil(@color) or "white" in @color do %>

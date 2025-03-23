@@ -82,7 +82,7 @@ defmodule <%= @module %> do
   attr :rounded, :string, default: "", doc: "Determines the border radius"
   attr :padding, :string, default: "small", doc: "Determines padding for items"
   attr :text_size, :string, default: "small", doc: "Determines text size"
-  attr :color, :string, default: "base", doc: "Determines color theme"
+  attr :color, :string, default: "natural", doc: "Determines color theme"
   attr :border, :string, default: "extra_small", doc: "Determines border style"
   attr :header_border, :string, default: "", doc: "Sets the border style for the table header"
   attr :rows_border, :string, default: "", doc: "Sets the border style for rows in the table"
@@ -660,7 +660,6 @@ defmodule <%= @module %> do
   defp padding_size(params) when is_binary(params), do: params
 
   <%= if is_nil(@variant) or "base" in @variant do %>
-  <%= if is_nil(@color) or "base" in @color do %>
   defp color_variant("base", _) do
     [
       "[&_table]:bg-white dark:[&_table]:bg-[#18181B] [&_table]:text-[#09090b] dark:[&_table]:text-[#FAFAFA]",
@@ -671,9 +670,7 @@ defmodule <%= @module %> do
     ]
   end
   <% end %>
-  <% end %>
   <%= if is_nil(@variant) or "base_separated" in @variant do %>
-  <%= if is_nil(@color) or "base" in @color do %>
   defp color_variant("base_separated", _) do
     [
       "[&_table_tr]:bg-white [&_table]:text-[#09090b] dark:[&_table_tr]:bg-[#18181B] dark:[&_table]:text-[#FAFAFA]",
@@ -682,9 +679,7 @@ defmodule <%= @module %> do
     ]
   end
   <% end %>
-  <% end %>
   <%= if is_nil(@variant) or "base_hoverable" in @variant do %>
-  <%= if is_nil(@color) or "base" in @color do %>
   defp color_variant("base_hoverable", _) do
     [
       "[&_table]:bg-white [&_table]:text-[#09090b] dark:[&_table]:bg-[#18181B] dark:[&_table]:text-[#FAFAFA]",
@@ -695,9 +690,7 @@ defmodule <%= @module %> do
     ]
   end
   <% end %>
-  <% end %>
   <%= if is_nil(@variant) or "base_stripped" in @variant do %>
-  <%= if is_nil(@color) or "base" in @color do %>
   defp color_variant("base_stripped", _) do
     [
       "[&_table]:bg-white [&_table]:text-[#09090b] dark:[&_table]:bg-[#18181B] dark:[&_table]:text-[#FAFAFA]",
@@ -707,7 +700,6 @@ defmodule <%= @module %> do
       "dark:[&_*]:divide-[#27272a] dark:[&_td]:border-[#27272a] dark:[&_th]:border-[#27272a]"
     ]
   end
-  <% end %>
   <% end %>
   <%= if is_nil(@variant) or "bordered" in @variant do %>
   <%= if is_nil(@color) or "white" in @color do %>
