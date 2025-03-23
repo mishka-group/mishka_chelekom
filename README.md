@@ -52,7 +52,7 @@
 
 **Mishka Chelekom** is a powerful library designed to simplify the process of building UI components in **Phoenix** and **Phoenix LiveView** projects. Unlike other solutions, it generates fully customizable components directly into your project—no hidden dependencies, no complex configurations.
 
-With our rich collection of ready-to-use components, comprehensive documentation, and numerous examples, you can easily tailor every element to fit your needs. All components are generated locally (by Our `mix` generator powered by [Igniter](https://github.com/ash-project/igniter)), giving you full control over the source code without being locked into any external library.
+With our rich collection of ready-to-use components, comprehensive documentation, and numerous examples, you can easily tailor every element to fit your needs. All components are generated locally (by Our `mix` generator), giving you full control over the source code without being locked into any external library.
 
 **Mishka Chelekom** is a library offering various templates for components in **Phoenix** and **Phoenix LiveView** - [Phoenix UI kit and components](https://mishka.tools/chelekom).
 
@@ -70,7 +70,7 @@ You will only use this library in your `development` environment, and it will no
 ```elixir
 def deps do
   [
-    {:mishka_chelekom, "~> 0.0.3", only: :dev}
+    {:mishka_chelekom, "~> 0.0.4", only: :dev}
   ]
 end
 ```
