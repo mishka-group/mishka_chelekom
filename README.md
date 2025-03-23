@@ -56,7 +56,8 @@ With our rich collection of ready-to-use components, comprehensive documentation
 
 <div align="center">
   <pre style="display: inline-block; text-align: left;">
-      **💼 All components are completely free and open-source.** For **Pro support** and **enterprise services**, [click here](https://mishka.tools/contact) to get in touch with us.
+      **💼 All components are completely free and open-source.
+      ** For **Pro support** and **enterprise services**, [click here](https://mishka.tools/contact) to get in touch with us.
   </pre>
 </div>
 
