@@ -54,14 +54,15 @@
 
 With our rich collection of ready-to-use components, comprehensive documentation, and numerous examples, you can easily tailor every element to fit your needs. All components are generated locally (by Our `mix` generator), giving you full control over the source code without being locked into any external library.
 
-**Mishka Chelekom** is a library offering various templates for components in **Phoenix** and **Phoenix LiveView** - [Phoenix UI kit and components](https://mishka.tools/chelekom).
-
-This means you can generate any component listed in this project using a `CLI` command with customizable options.
-
+> **Mishka Chelekom** is a library offering various templates for components in **Phoenix** and **Phoenix LiveView** - [Phoenix UI kit and components](https://mishka.tools/chelekom).
+>
+> This means you can generate any component listed in this project using a `CLI` command with customizable options.
+>
 > For example, you can create a component with an `info` color and a "shadow" variant without having any unnecessary code clutter.
 
 
 If you want to add another variant in the future, the project is powered by the [**Igniter**](https://github.com/ash-project/igniter) library, which makes it easy to update the previous code seamlessly.
+
 
 You will only use this library in your `development` environment, and it will not have any presence in production.
 
