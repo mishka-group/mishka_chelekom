@@ -124,7 +124,6 @@ defmodule <%= @module %> do
   slot :option, required: false do
     attr :value, :string, required: true, doc: "Value of the select option"
     attr :group, :string, required: false, doc: "Group name for the option"
-    attr :selected, :boolean, required: false, doc: "Specifies if this option is selected"
     attr :disabled, :boolean, required: false, doc: "Specifies if this option is disabled"
   end
 
