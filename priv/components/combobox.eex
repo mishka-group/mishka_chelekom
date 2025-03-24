@@ -39,12 +39,11 @@ defmodule <%= @module %> do
    ## Example usage:
     <.combobox
       options={@options}
-      selected={@selected}
       placeholder="Select an option"
       on_change="handle_selection"
     />
     # Single selection with options
-    <.combobox selected="Item 1" placeholder="Select an item">
+    <.combobox placeholder="Select an item">
       <:option value="Item 1">First Item</:option>
       <:option value="Item 2">Second Item</:option>
       <:option value="Item 3">Third Item</:option>
@@ -296,7 +295,6 @@ defmodule <%= @module %> do
                     <.option
                       :for={option <- grouped_options}
                       value={option[:value]}
-                      selected={option[:selected]}
                       disabled={option[:disabled]}
                     >
                       {render_slot(option)}
@@ -307,7 +305,6 @@ defmodule <%= @module %> do
                 <.option
                   :for={option <- Enum.filter(@option, &is_nil(&1[:group]))}
                   value={option[:value]}
-                  selected={option[:selected]}
                   disabled={option[:disabled]}
                 >
                   {render_slot(option)}
@@ -471,7 +468,6 @@ defmodule <%= @module %> do
                     <.option
                       :for={option <- grouped_options}
                       value={option[:value]}
-                      selected={option[:selected]}
                       disabled={option[:disabled]}
                     >
                       {render_slot(option)}
@@ -482,7 +478,6 @@ defmodule <%= @module %> do
                 <.option
                   :for={option <- Enum.filter(@option, &is_nil(&1[:group]))}
                   value={option[:value]}
-                  selected={option[:selected]}
                   disabled={option[:disabled]}
                 >
                   {render_slot(option)}
@@ -504,7 +499,6 @@ defmodule <%= @module %> do
 
   @doc type: :component
   attr :value, :string, required: true, doc: "Specifies the form which is associated with"
-  attr :selected, :boolean, default: false, doc: "Custom CSS class for additional styling"
   attr :disabled, :boolean, default: false, doc: "Inner block that renders HEEx content"
   slot :inner_block, required: false, doc: "Inner block that renders HEEx content"
 
