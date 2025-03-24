@@ -319,7 +319,15 @@ let Combobox = {
         "gap-2",
         "combobox-pill",
       );
-      pill.textContent = option.textContent;
+      
+      const renderedOption = this.el.querySelector(
+        `.combobox-option[data-combobox-value="${option.value}"]`
+      );
+      if (renderedOption) {
+        pill.innerHTML = renderedOption.innerHTML;
+      } else {
+        pill.textContent = option.textContent;
+      }
 
       const closeBtn = document.createElement("span");
       closeBtn.innerHTML =
