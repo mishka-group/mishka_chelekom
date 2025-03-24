@@ -15,7 +15,6 @@ defmodule <%= @module %> do
   """
 
   use Phoenix.Component
-  alias Phoenix.HTML.Form
   use Gettext, backend: <%= inspect(@web_module) %>.Gettext
   import <%= inspect(@web_module) %>.Components.ScrollArea, only: [scroll_area: 1]
   import Phoenix.LiveView.Utils, only: [random_id: 0]
