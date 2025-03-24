@@ -21,7 +21,7 @@
       padding: ["extra_small", "small", "medium", "large", "extra_large"],
       rounded: ["extra_small", "small", "medium", "large", "extra_large"],
       only: ["combobox"],
-      helpers: [combobox_check: 3],
+      helpers: [],
       module: ""
     ],
     optional: [],

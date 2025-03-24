@@ -151,6 +151,7 @@ defmodule <%= @module %> do
       |> assign_new(:id, fn -> "combo-#{random_id()}" end)
       |> assign_new(:options, fn -> [] end)
       |> assign_new(:option, fn -> [] end)
+      |> assign_new(:value, fn -> Map.get(assigns, :value, []) end)
 
     ~H"""
     <div class={[
@@ -183,24 +184,17 @@ defmodule <%= @module %> do
               :if={!is_nil(group_label)}
               label={group_label}
             >
-              <option
-                :for={option <- grouped_options}
-                value={option[:value]}
-                selected={option[:selected]}
-                disabled={option[:disabled]}
-              >
-                {option[:value]}
-              </option>
+              {Phoenix.HTML.Form.options_for_select(
+                Enum.map(grouped_options, fn option -> {option[:value], option[:value]} end),
+                @value
+              )}
             </optgroup>
 
-            <option
-              :for={option <- Enum.filter(@option, &is_nil(&1[:group]))}
-              value={option[:value]}
-              selected={option[:selected]}
-              disabled={option[:disabled]}
-            >
-              {option[:value]}
-            </option>
+            {!Enum.any?(@option, &Map.has_key?(&1, :group)) &&
+              Phoenix.HTML.Form.options_for_select(
+                Enum.map(@option, fn %{value: v} -> {v, v} end),
+                @value
+              )}
           <%% end %>
         </select>
 
@@ -340,6 +334,7 @@ defmodule <%= @module %> do
       |> assign_new(:id, fn -> "combo-#{random_id()}" end)
       |> assign_new(:options, fn -> [] end)
       |> assign_new(:option, fn -> [] end)
+      |> assign_new(:value, fn -> Map.get(assigns, :value) end)
 
     ~H"""
     <div class={[
@@ -371,24 +366,17 @@ defmodule <%= @module %> do
               :if={!is_nil(group_label)}
               label={group_label}
             >
-              <option
-                :for={option <- grouped_options}
-                value={option[:value]}
-                selected={option[:selected]}
-                disabled={option[:disabled]}
-              >
-                {option[:value]}
-              </option>
+              {Phoenix.HTML.Form.options_for_select(
+                Enum.map(grouped_options, fn option -> {option[:value], option[:value]} end),
+                @value
+              )}
             </optgroup>
 
-            <option
-              :for={option <- Enum.filter(@option, &is_nil(&1[:group]))}
-              value={option[:value]}
-              selected={option[:selected]}
-              disabled={option[:disabled]}
-            >
-              {option[:value]}
-            </option>
+            {!Enum.any?(@option, &Map.has_key?(&1, :group)) &&
+              Phoenix.HTML.Form.options_for_select(
+                Enum.map(@option, fn %{value: v} -> {v, v} end),
+                @value
+              )}
           <%% end %>
         </select>
 
@@ -409,8 +397,7 @@ defmodule <%= @module %> do
                 {@placeholder}
               </div>
 
-              <div data-part="select-toggle-label" class="selected-value">
-              </div>
+              <div data-part="select-toggle-label" class="selected-value"></div>
             </div>
 
             <div class="flex items-center gap-1">
@@ -574,32 +561,6 @@ defmodule <%= @module %> do
       <.icon :if={!is_nil(@icon)} name={@icon} class="shrink-0" /> {render_slot(@inner_block)}
     </p>
     """
-  end
-
-  def combobox_check(:list, {field, value}, %{params: params, data: data} = _form) do
-    if params[Atom.to_string(field)] do
-      new_value = if is_atom(value), do: Atom.to_string(value), else: value
-      new_value == params[Atom.to_string(field)]
-    else
-      Map.get(data, field) == value
-    end
-  end
-
-  def combobox_check(:multiple_list, {field, value}, %{params: params, data: data} = _form) do
-    if params[Atom.to_string(field)] do
-      new_value = if is_atom(value), do: Atom.to_string(value), else: value
-      new_value in params[Atom.to_string(field)]
-    else
-      Map.get(data, field) == value
-    end
-  end
-
-  def combobox_check(:boolean, field, %{params: params, data: data} = _form) do
-    if params[Atom.to_string(field)] do
-      Form.normalize_value("combo", params[Atom.to_string(field)])
-    else
-      Map.get(data, field, false)
-    end
   end
 
   defp size_class("extra_small") do
