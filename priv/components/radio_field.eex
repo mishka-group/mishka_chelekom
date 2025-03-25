@@ -344,10 +344,10 @@ defmodule <%= @module %> do
   defp color_class("base") do
     [
       "text-[#09090b] dark:text-[#FAFAFA]",
-      "checked:[&_.radio-field-wrapper_.radio-input]:text-[#e4e4e7]",
-      "dark:checked:[&_.radio-field-wrapper_.radio-input]:text-[#27272a]",
-      "[&_.radio-field-wrapper_.radio-input]:border-[#F8F9FA]",
-      "dark:[&_.radio-field-wrapper_.radio-input]:border-[#242424]",
+      "checked:[&_.radio-field-wrapper_.radio-input]:text-[#8B8B8D]",
+      "dark:checked:[&_.radio-field-wrapper_.radio-input]:text-[#818182]",
+      "[&_.radio-field-wrapper_.radio-input]:border-[#8B8B8D]",
+      "dark:[&_.radio-field-wrapper_.radio-input]:border-[#818182]",
       "focus-within:[&_.radio-field-wrapper_.radio-input]:ring-[#F8F9FA] dark:focus-within:[&_.radio-field-wrapper_.radio-input]:ring-[#242424]"
     ]
   end
