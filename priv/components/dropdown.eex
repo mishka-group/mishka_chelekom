@@ -380,14 +380,14 @@ defmodule <%= @module %> do
   <% end %>
   defp padding_size(params) when is_binary(params), do: params
 
-  defp width_class("extra_small"), do: "min-w-48"
-  defp width_class("small"), do: "min-w-52"
-  defp width_class("medium"), do: "min-w-56"
-  defp width_class("large"), do: "min-w-60"
-  defp width_class("extra_large"), do: "min-w-64"
-  defp width_class("double_large"), do: "min-w-72"
-  defp width_class("triple_large"), do: "min-w-80"
-  defp width_class("quadruple_large"), do: "min-w-96"
+  defp width_class("extra_small"), do: "lg:min-w-48"
+  defp width_class("small"), do: "lg:min-w-52"
+  defp width_class("medium"), do: "lg:min-w-56"
+  defp width_class("large"), do: "lg:min-w-60"
+  defp width_class("extra_large"), do: "lg:min-w-64"
+  defp width_class("double_large"), do: "lg:min-w-72"
+  defp width_class("triple_large"), do: "lg:min-w-80"
+  defp width_class("quadruple_large"), do: "lg:min-w-96"
   defp width_class("full"), do: "w-full"
   defp width_class(params) when is_binary(params), do: params
 
