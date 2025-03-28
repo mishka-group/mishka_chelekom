@@ -9,7 +9,6 @@ defmodule <%= @module %> do
   """
 
   use Phoenix.Component
-  alias Phoenix.LiveView.JS
 
   <%= if is_nil(@type) or "dropdown" in @type do %>
   @doc """
