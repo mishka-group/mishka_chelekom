@@ -28,6 +28,14 @@
       module: ""
     ],
     optional: [],
-    necessary: []
+    necessary: [],
+    scripts: [
+      %{
+        type: "file",
+        file: "floating.js",
+        module: "Floating",
+        imports: "import Floating from \"./floating.js\";"
+      }
+    ]
   ]
 ]
