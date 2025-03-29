@@ -202,7 +202,7 @@ defmodule <%= @module %> do
           [
             default_classes(@rest[:pinging], @indicator),
             size_class(@size, @rest[:circle]),
-            color_variant(@variant, @color),
+            color_variant(@variant, @color, @indicator),
             content_position(@content_position),
             rounded_size(@rounded),
             border_size(@border, @variant),
@@ -304,7 +304,7 @@ defmodule <%= @module %> do
           [
             default_classes(@rest[:pinging], false),
             size_class(@size, @rest[:circle]),
-            color_variant(@variant, @color),
+            color_variant(@variant, @color, @indicator),
             content_position(@content_position),
             rounded_size(@rounded),
             border_size(@border, @variant),
@@ -414,7 +414,7 @@ defmodule <%= @module %> do
           [
             default_classes(@rest[:pinging], @indicator),
             size_class(@size, @rest[:circle]),
-            color_variant(@variant, @color),
+            color_variant(@variant, @color, @indicator),
             rounded_size(@rounded),
             border_size(@border, @variant),
             @full_width && "w-full",
@@ -466,7 +466,7 @@ defmodule <%= @module %> do
           [
             default_classes(@rest[:pinging], @indicator),
             size_class(@size, @rest[:circle]),
-            color_variant(@variant, @color),
+            color_variant(@variant, @color, @indicator),
             rounded_size(@rounded),
             border_size(@border, @variant),
             @full_width && "w-full",
@@ -517,7 +517,7 @@ defmodule <%= @module %> do
           [
             default_classes(@rest[:pinging], @indicator),
             size_class(@size, @rest[:circle]),
-            color_variant(@variant, @color),
+            color_variant(@variant, @color, @indicator),
             rounded_size(@rounded),
             border_size(@border, @variant),
             @full_width && "w-full",
