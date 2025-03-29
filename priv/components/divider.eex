@@ -24,8 +24,8 @@ defmodule <%= @module %> do
   ### Examples
 
   ```elixir
-  <.divider type="dashed" size="small" color="primary">
-    <:text position="right">Or</:text>
+  <.divider type="dashed" position="right" size="small" color="primary">
+    <:text>Or</:text>
   </.divider>
 
   <.divider type="dotted" size="extra_large">
