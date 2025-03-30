@@ -215,7 +215,6 @@ defmodule <%= @module %> do
       }
       {drop_rest(@rest)}
     >
-      <!-- loading at the start -->
       <span
         :for={loading <- @loading}
         :if={is_nil(loading[:position]) || loading[:position] == "start"}
@@ -426,7 +425,6 @@ defmodule <%= @module %> do
       }
       {drop_rest(@rest)}
     >
-      <!-- loading at the start -->
       <span
         :for={loading <- @loading}
         :if={is_nil(loading[:position]) || loading[:position] == "start"}
@@ -477,7 +475,6 @@ defmodule <%= @module %> do
       }
       {drop_rest(@rest)}
     >
-      <!-- loading at the start -->
       <span
         :for={loading <- @loading}
         :if={is_nil(loading[:position]) || loading[:position] == "start"}
@@ -528,7 +525,6 @@ defmodule <%= @module %> do
       }
       {drop_rest(@rest)}
     >
-      <!-- loading at the start -->
       <span
         :for={loading <- @loading}
         :if={is_nil(loading[:position]) || loading[:position] == "start"}
@@ -2140,8 +2136,6 @@ defmodule <%= @module %> do
   end
 
   defp default_classes(pinging, indicator) do
-    IO.inspect(indicator)
-
     [
       "phx-submit-loading:opacity-75 relative gap-2 items-center",
       "transition-all ease-in-ou duration-100 group",
