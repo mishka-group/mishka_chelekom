@@ -297,7 +297,7 @@ defmodule <%= @module %> do
           [
             default_classes(@rest[:pinging], false),
             size_class(@size, @rest[:circle]),
-            color_variant(@variant, @color, @indicator),
+            color_variant(@variant, @color, false),
             content_position(@content_position),
             rounded_size(@rounded),
             border_size(@border, @variant),
