@@ -1948,7 +1948,7 @@ defmodule <%= @module %> do
   end
   <% end %>
   <% end %>
-  defp color_variant(params, _) when is_binary(params), do: params
+  defp color_variant(params,_,_) when is_binary(params), do: params
 
   <%= if is_nil(@color) or "base" in @color do %>
   defp border_class("base") do

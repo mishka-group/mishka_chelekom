@@ -349,21 +349,21 @@ defmodule <%= @module %> do
   defp size_class("extra_large", :vertical, _), do: "[&:not(:has(.divider-content))]:border-l-[5px] text-[17px]"
   <% end %>
   <%= if is_nil(@size) or "extra_small" in @size do %>
-  defp size_class("extra_small", :icon), do: "[&>*]:size-5"
+  defp size_class("extra_small", :icon, _), do: "[&>*]:size-5"
   <% end %>
   <%= if is_nil(@size) or "small" in @size do %>
-  defp size_class("small", :icon), do: "[&>*]:size-6"
+  defp size_class("small", :icon, _), do: "[&>*]:size-6"
   <% end %>
   <%= if is_nil(@size) or "medium" in @size do %>
-  defp size_class("medium", :icon), do: "[&>*]:size-7"
+  defp size_class("medium", :icon, _), do: "[&>*]:size-7"
   <% end %>
   <%= if is_nil(@size) or "large" in @size do %>
-  defp size_class("large", :icon), do: "[&>*]:size-8"
+  defp size_class("large", :icon, _), do: "[&>*]:size-8"
   <% end %>
   <%= if is_nil(@size) or "extra_large" in @size do %>
-  defp size_class("extra_large", :icon), do: "[&>*]:size-9"
+  defp size_class("extra_large", :icon, _), do: "[&>*]:size-9"
   <% end %>
-  defp size_class(params, _) when is_binary(params), do: params
+  defp size_class(params,_,_) when is_binary(params), do: params
 
   defp width_class("full"), do: "w-full"
 
