@@ -1,5 +1,5 @@
 [
-  keyboard: [
+  layout: [
     name: "layout",
     args: [
       type: ["flex", "grid"],
