@@ -363,7 +363,7 @@ defmodule <%= @module %> do
   <%= if is_nil(@size) or "extra_large" in @size do %>
   defp size_class("extra_large", :icon, _), do: "[&>*]:size-9"
   <% end %>
-  defp size_class(params,_,_) when is_binary(params), do: params
+  defp size_class(params, _, _) when is_binary(params), do: params
 
   defp width_class("full"), do: "w-full"
 
