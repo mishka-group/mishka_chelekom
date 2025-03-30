@@ -187,12 +187,7 @@ defmodule <%= @module %> do
   end
 
   def button(assigns) do
-    indicator =
-      Enum.any?(@indicator_positions, fn pos ->
-        Map.get(assigns[:rest], String.to_atom(pos))
-      end)
-
-    assigns = assign(assigns, :indicator, indicator)
+    assigns = assign_new(assigns, :indicator, fn -> is_indicators?(assigns[:rest]) end)
 
     ~H"""
     <button
@@ -397,12 +392,7 @@ defmodule <%= @module %> do
   end
 
   def button_link(%{navigate: _navigate} = assigns) do
-    indicator =
-      Enum.any?(@indicator_positions, fn pos ->
-        Map.get(assigns[:rest], String.to_atom(pos))
-      end)
-
-    assigns = assign(assigns, :indicator, indicator)
+    assigns = assign_new(assigns, :indicator, fn -> is_indicators?(assigns[:rest]) end)
 
     ~H"""
     <.link
@@ -447,12 +437,7 @@ defmodule <%= @module %> do
   end
 
   def button_link(%{patch: _patch} = assigns) do
-    indicator =
-      Enum.any?(@indicator_positions, fn pos ->
-        Map.get(assigns[:rest], String.to_atom(pos))
-      end)
-
-    assigns = assign(assigns, :indicator, indicator)
+    assigns = assign_new(assigns, :indicator, fn -> is_indicators?(assigns[:rest]) end)
 
     ~H"""
     <.link
@@ -496,12 +481,7 @@ defmodule <%= @module %> do
   end
 
   def button_link(%{href: _href} = assigns) do
-    indicator =
-      Enum.any?(@indicator_positions, fn pos ->
-        Map.get(assigns[:rest], String.to_atom(pos))
-      end)
-
-    assigns = assign(assigns, :indicator, indicator)
+    assigns = assign_new(assigns, :indicator, fn -> is_indicators?(assigns[:rest]) end)
 
     ~H"""
     <.link
@@ -2164,5 +2144,9 @@ defmodule <%= @module %> do
     ~H"""
     <span class={[@name, @class]} />
     """
+  end
+
+  defp is_indicators?(rest) do
+    Enum.any?(@indicator_positions, &Map.get(rest, String.to_atom(&1)))
   end
 end
