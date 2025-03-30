@@ -1,3 +1,15 @@
+# Changelog for MishkaChelekom 0.0.5
+
+### Features:
+- Add layouts flex and grid components [#330](https://github.com/mishka-group/mishka_chelekom/pull/330)
+
+### Refactors:
+- Fix Dropdown Bugs and Enhance Dynamic Behavior [#328](https://github.com/mishka-group/mishka_chelekom/pull/328)
+- Add conditional styling to divider and buttons [#329](https://github.com/mishka-group/mishka_chelekom/pull/329)
+
+---
+
+
 # Changelog for MishkaChelekom 0.0.4
 
 ### Features:
