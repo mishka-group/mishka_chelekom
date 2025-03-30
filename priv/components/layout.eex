@@ -21,7 +21,7 @@ defmodule <%= @module %> do
   """
 
   use Phoenix.Component
-
+  <%= if is_nil(@type) or "flex" in @type do %>
   @doc """
   Renders a `flex` container component that wraps Tailwind’s Flexbox utilities
   with a clean and consistent interface.
@@ -41,7 +41,6 @@ defmodule <%= @module %> do
     <div class="bg-pink-300 p-2 rounded">Centered</div>
   </.flex>
   """
-  <%= if is_nil(@type) or "flex" in @type do %>
   @doc type: :component
 
   attr :id, :string,
@@ -125,6 +124,29 @@ defmodule <%= @module %> do
   end
   <% end %>
   <%= if is_nil(@type) or "grid" in @type do %>
+  @doc """
+  Renders a `grid` container component that wraps Tailwind's Grid utilities
+  with a clean and consistent interface.
+
+  You can control columns, rows, gaps, and other grid-related behaviors
+  through simple props.
+
+  ## Examples
+
+  ```elixir
+  <.grid cols="three" gap="medium">
+    <div>Item 1</div>
+    <div>Item 2</div>
+    <div>Item 3</div>
+  </.grid>
+
+  <.grid cols="two" rows="two" class="h-32 bg-gray-100">
+    <div class="bg-pink-300 p-2 rounded">Grid Item</div>
+    <div class="bg-blue-300 p-2 rounded">Grid Item</div>
+    <div class="bg-green-300 p-2 rounded">Grid Item</div>
+    <div class="bg-yellow-300 p-2 rounded">Grid Item</div>
+  </.grid>
+  """
 
   @doc type: :component
   attr :id, :string,
