@@ -326,12 +326,6 @@ defmodule <%= @module %> do
   defp auto_flow_class("col-dense"), do: "grid-flow-col-dense"
   defp auto_flow_class(param) when is_binary(param), do: param
 
-  defp justify_items_class("start"), do: "justify-items-start"
-  defp justify_items_class("end"), do: "justify-items-end"
-  defp justify_items_class("center"), do: "justify-items-center"
-  defp justify_items_class("stretch"), do: "justify-items-stretch"
-  defp justify_items_class(param) when is_binary(param), do: param
-
   defp justify_self_class("auto"), do: "justify-self-auto"
   defp justify_self_class("start"), do: "justify-self-start"
   defp justify_self_class("end"), do: "justify-self-end"
