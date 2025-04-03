@@ -311,6 +311,7 @@ defmodule <%= @module %> do
   defp grid_cols("twelve"), do: "grid-cols-2 md:grid-cols-12"
   defp grid_cols(params) when is_binary(params), do: params
 
+  <%= if is_nil(@type) or "gallery" in @type do %>
   defp column_class("one"), do: "columns-1"
   defp column_class("two"), do: "columns-2"
   defp column_class("three"), do: "columns-2 md:columns-3"
@@ -324,6 +325,7 @@ defmodule <%= @module %> do
   defp column_class("eleven"), do: "columns-2 md:columns-11"
   defp column_class("twelve"), do: "columns-2 md:columns-12"
   defp column_class(params) when is_binary(params), do: params
+  <% end %>
 
   defp grid_gap("extra_small"), do: "gap-1 [&.gallery-masonry_.gallery-media]:mb-1"
   defp grid_gap("small"), do: "gap-2 [&.gallery-masonry_.gallery-media]:mb-2"
