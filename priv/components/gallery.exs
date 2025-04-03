@@ -9,6 +9,14 @@
       module: ""
     ],
     optional: [],
-    necessary: []
+    necessary: [],
+    scripts: [
+      %{
+        type: "file",
+        file: "galleryFilter.js",
+        module: "GalleryFilter",
+        imports: "import GalleryFilter from \"./galleryFilter.js\";"
+      }
+    ]
   ]
 ]
