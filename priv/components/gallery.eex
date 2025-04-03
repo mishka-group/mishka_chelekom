@@ -18,6 +18,9 @@ defmodule <%= @module %> do
   """
 
   use Phoenix.Component
+  <%= if is_nil(@type) or "filterable_gallery" in @type do %>
+  import Phoenix.LiveView.Utils, only: [random_id: 0]
+  <% end %>
 
   <%= if is_nil(@type) or "gallery" in @type do %>
   @doc """
@@ -128,7 +131,6 @@ defmodule <%= @module %> do
     """
   end
   <%= if is_nil(@type) or "filterable_gallery" in @type do %>
-
   @doc """
   Renders a filterable gallery.
 
@@ -149,13 +151,15 @@ defmodule <%= @module %> do
   attr :class, :string, default: nil, doc: "Add custom classe"
   attr :default_filter, :string, default: "All", doc: "Default Button to show all images"
   slot :filter, required: false, doc: "Slot for rendering each filter button with let={filter}"
+  attr :animation, :string, default: "", doc: "Determines gap between elements"
+  attr :animation_size, :string, default: "extra_small", doc: "Determines gap between elements"
 
   slot :media_block,
     required: false,
     doc: "Optional slot for rendering each media item with let={media}"
 
   def filterable_gallery(assigns) do
-    assigns = assign_new(assigns, :id, fn -> Phoenix.LiveView.Utils.random_id() end)
+    assigns = assign_new(assigns, :id, fn -> random_id() end)
 
     ~H"""
     <div
@@ -166,17 +170,17 @@ defmodule <%= @module %> do
       class={["filterable-gallery", animation(@animation, @animation_size), @class]}
     >
       <div class="filter-buttons mb-4 flex flex-wrap gap-2">
-      <div :if={not Enum.member?(@filters, @default_filter)}>
+        <div :if={not Enum.member?(@filters, @default_filter)}>
           <div :if={@filter != []}>
-          <%%= render_slot(@filter, @default_filter) %>
+            {render_slot(@filter, @default_filter)}
           </div>
           <button
-          :if={@filter == []}
-          data-gallery-filter
-          data-category={@default_filter}
-          class="filter-btn bg-white border rounded py-1.5 px-3 leading-5 text-[#09090b] border-[#e4e4e7] hover:bg-[#F8F9FA] dark:bg-[#18181B] dark:text-[#FAFAFA] dark:border-[#27272a] dark:hover:bg-[#242424] disabled:bg-[#f1f3f5] disabled:text-[#adb5bd] dark:disabled:bg-[#2e2e2e] dark:disabled:text-[#696969] disabled:border-[#dee2e6] dark:disabled:border-[#424242] shadow-sm"
+            :if={@filter == []}
+            data-gallery-filter
+            data-category={@default_filter}
+            class="filter-btn bg-white border rounded py-1.5 px-3 leading-5 text-[#09090b] border-[#e4e4e7] hover:bg-[#F8F9FA] dark:bg-[#18181B] dark:text-[#FAFAFA] dark:border-[#27272a] dark:hover:bg-[#242424] disabled:bg-[#f1f3f5] disabled:text-[#adb5bd] dark:disabled:bg-[#2e2e2e] dark:disabled:text-[#696969] disabled:border-[#dee2e6] dark:disabled:border-[#424242] shadow-sm"
           >
-          {@default_filter}
+            {@default_filter}
           </button>
         </div>
 
@@ -199,12 +203,15 @@ defmodule <%= @module %> do
         <div
           :for={media <- @media}
           data-gallery-item
-          data-category={media.category}
+          data-category={
+            if is_list(media.category), do: Enum.join(media.category, ","), else: media.category
+          }
           class="transition-all duration-300 ease-in-out transform opacity-100 scale-100"
         >
-          <%= if @media_block != [] do %>
+          <div :if={@media_block != []}>
             {render_slot(@media_block, media)}
-          <% end %>
+          </div>
+
           <.gallery_media :if={@media_block == []} src={media.src} alt={media.alt} />
         </div>
       </div>
