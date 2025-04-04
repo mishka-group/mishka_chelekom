@@ -2,6 +2,7 @@
 
 ### Features:
 - Add layouts flex and grid components [#330](https://github.com/mishka-group/mishka_chelekom/pull/330)
+- Add filterable gallery to the Gallery component [#332](https://github.com/mishka-group/mishka_chelekom/pull/332)
 
 ### Refactors:
 - Fix Dropdown Bugs and Enhance Dynamic Behavior [#328](https://github.com/mishka-group/mishka_chelekom/pull/328)
