@@ -111,6 +111,200 @@ defmodule <%= @module %> do
     """
   end
   <% end %>
+  <%= if is_nil(@type) or "semi_circle_progress" in @type do %>
+  @doc """
+  Displays a semicircular progress indicator.
+
+  ## Attributes
+    - value: The progress value (0 to 100)
+    - size: The SVG size (width), default is 100
+    - thickness: The stroke width of the circle, default is 10
+    - color: Determines the color theme; default is "natural"
+  """
+  attr :id, :string, default: nil, doc: "HTML ID for the container"
+  attr :value, :integer, required: true, doc: "Progress value (0 to 100)"
+  attr :size, :integer, default: 200, doc: "Diameter of the circle in px"
+  attr :thickness, :integer, default: 12, doc: "Stroke width"
+  attr :orientation, :string, default: "up", doc: "'up' or 'down'"
+  attr :fill_direction, :string, default: "left-to-right", doc: "Direction of fill"
+  attr :transition_duration, :integer, default: 300, doc: "Transition duration in ms"
+  attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
+  attr :linecap, :string, default: nil, doc: "add radius to progress"
+  attr :color, :string, default: "natural", doc: "Determines color theme"
+
+  attr :label, :string, default: nil, doc: "Optional label"
+
+  def semi_circle_progress(assigns) do
+    coordinate = assigns.size / 2
+    radius = (assigns.size - 2 * assigns.thickness) / 2
+    circumference = :math.pi() * radius
+    progress = clamp(assigns.value, 0, 100) * (circumference / 100)
+
+    assigns =
+      assigns
+      |> assign(:coordinate, coordinate)
+      |> assign(:radius, radius)
+      |> assign(:circumference, circumference)
+      |> assign(:progress, progress)
+
+    ~H"""
+    <div
+      id={@id}
+      class={[
+        "relative overflow-hidden w-fit",
+        color_variant(nil, @color),
+        @class
+      ]}
+    >
+      <svg
+        width={@size}
+        height={@size / 2}
+        viewBox={"0 0 #{@size} #{@size / 2}"}
+        class={["block", progress_rotation_class(@orientation, @fill_direction)]}
+      >
+        <circle
+          cx={@coordinate}
+          cy={@coordinate}
+          r={@radius}
+          fill="none"
+          class="semi-circle-progress-base stroke-[#f4f4f4] dark:stroke-[#b6b6b6]"
+          stroke-width={@thickness}
+          stroke-dasharray={@circumference}
+          stroke-dashoffset={@circumference}
+        />
+
+        <circle
+          cx={@coordinate}
+          cy={@coordinate}
+          r={@radius}
+          fill="none"
+          stroke-linecap={@linecap}
+          stroke-width={@thickness}
+          stroke-dasharray={@circumference}
+          stroke-dashoffset={@progress}
+          class={[
+            "semi-circle-progress-bar transition-all ease-in-out",
+            "duration-[#{@transition_duration}ms]",
+            @color
+          ]}
+        />
+      </svg>
+
+      <div
+        :if={@label || @value}
+        class={[
+          "z-10 absolute left-1/2 transform -translate-x-1/2 font-medium",
+          @orientation == "up" && "top-1/2",
+          @orientation == "down" && "top-0  translate-y-1/2"
+        ]}
+      >
+        {@label || "#{@value}%"}
+      </div>
+    </div>
+    """
+  end
+  <% end %>
+
+  <%= if is_nil(@type) or "ring_progress" in @type do %>
+  @doc """
+  A function component that displays a ring progress bar.
+
+  Usage:
+      <.ring_progress id="example" value={50} />
+
+  Attributes:
+    - id: unique identifier (required)
+    - value: current progress value (required)
+    - max: maximum progress value (default is 100)
+    - size: size of the SVG (width and height, default is 120)
+    - thickness: width of the circle stroke (default is 10)
+    - progress_color: stroke color for the progress circle (default is "#00aaff")
+  """
+  @doc type: :component
+  attr :id, :string,
+    required: true,
+    doc: "A unique identifier used to manage state and interaction."
+
+  attr :color, :string, default: "natural", doc: "Determines color theme"
+
+  attr :value, :integer,
+    required: true,
+    doc: "The current value representing the progress completion (e.g., between 0 and max)."
+
+  attr :max, :integer,
+    default: 100,
+    doc: "The maximum value the progress can reach. Default is 100."
+
+  attr :size, :integer,
+    default: 120,
+    doc: "The overall size of the progress element, typically in pixels. Default is 120."
+
+  attr :thickness, :integer,
+    default: 10,
+    doc: "The thickness of the progress stroke in pixels. Default is 10."
+
+  attr :label, :string,
+    default: nil,
+    doc: "Optional label to be displayed along with the progress element."
+
+  attr :class, :string,
+    default: nil,
+    doc: "Custom CSS class for additional styling."
+
+  attr :linecap, :string,
+    default: nil,
+    doc: "Controls the shape of the stroke ends. Use 'round' for rounded corners."
+
+  def ring_progress(assigns) do
+    radius = (assigns.size - assigns.thickness) / 2
+    circumference = 2 * :math.pi() * radius
+    progress_fraction = (assigns.max > 0 && assigns.value / assigns.max) || 0
+    dash_offset = circumference * (1 - progress_fraction)
+
+    assigns =
+      assigns
+      |> assign(:radius, radius)
+      |> assign(:circumference, circumference)
+      |> assign(:dash_offset, dash_offset)
+
+    ~H"""
+    <div id={@id} class={["circular-progress", color_variant(nil, @color), @class]}>
+      <svg width={@size} height={@size} viewBox={"0 0 #{@size} #{@size}"}>
+        <circle
+          cx={@size / 2}
+          cy={@size / 2}
+          r={@radius}
+          class="semi-circle-progress-base stroke-[#F4F4F4] dark:stroke-[#B6B6B6]"
+          stroke-width={@thickness}
+          fill="none"
+        />
+        <circle
+          cx={@size / 2}
+          cy={@size / 2}
+          r={@radius}
+          stroke-width={@thickness}
+          class="semi-circle-progress-bar"
+          fill="none"
+          stroke-linecap={@linecap}
+          stroke-dasharray={@circumference}
+          stroke-dashoffset={@dash_offset}
+          transform={"rotate(-90, #{@size / 2}, #{@size / 2})"}
+        />
+        <text
+          x="50%"
+          y="50%"
+          dominant-baseline="central"
+          text-anchor="middle"
+          class="ring-progress-text font-semibold fill-current"
+        >
+          {@label || "#{@value}%"}
+        </text>
+      </svg>
+    </div>
+    """
+  end
+  <% end %>
+
   <%= if is_nil(@type) or "progress_section" in @type do %>
   @doc """
   Renders a section of a progress bar component (`progress_section`).
@@ -485,5 +679,88 @@ defmodule <%= @module %> do
   end
   <% end %>
   <% end %>
+
+  <%= if is_nil(@variant) in @variant do %>
+  <%= if is_nil(@color) or "natural" in @color do %>
+  defp color_variant(_, "natural") do
+     [
+      "[&_.semi-circle-progress-bar]:stroke-[#4B4B4B] dark:[&_.semi-circle-progress-bar]:stroke-[#DDDDDD]"
+    ]
+  end
+  <% end %>
+  <%= if is_nil(@color) or "primary" in @color do %>
+  defp color_variant(_, "primary") do
+    [
+      "[&_.semi-circle-progress-bar]:stroke-[#007F8C] dark:[&_.semi-circle-progress-bar]:stroke-[#01B8CA]"
+    ]
+  end
+  <% end %>
+  <%= if is_nil(@color) or "secondary" in @color do %>
+  defp color_variant(_, "secondary") do
+    [
+      "[&_.semi-circle-progress-bar]:stroke-[#266EF1] dark:[&_.semi-circle-progress-bar]:stroke-[#6DAAFB]"
+    ]
+  end
+  <% end %>
+  <%= if is_nil(@color) or "success" in @color do %>
+  defp color_variant(_, "success") do
+    [
+      "[&_.semi-circle-progress-bar]:stroke-[#0E8345] dark:[&_.semi-circle-progress-bar]:stroke-[#06C167]"
+    ]
+  end
+  <% end %>
+  <%= if is_nil(@color) or "warning" in @color do %>
+  defp color_variant(_, "warning") do
+    [
+      "[&_.semi-circle-progress-bar]:stroke-[#CA8D01] dark:[&_.semi-circle-progress-bar]:stroke-[#FDC034]"
+    ]
+  end
+  <% end %>
+  <%= if is_nil(@color) or "danger" in @color do %>
+  defp color_variant(_, "danger") do
+    [
+      "[&_.semi-circle-progress-bar]:stroke-[#DE1135] dark:[&_.semi-circle-progress-bar]:stroke-[#FC7F79]"
+    ]
+  end
+  <% end %>
+  <%= if is_nil(@color) or "info" in @color do %>
+  defp color_variant(_, "info") do
+    [
+      "[&_.semi-circle-progress-bar]:stroke-[#0B84BA] dark:[&_.semi-circle-progress-bar]:stroke-[#3EB7ED]"
+    ]
+  end
+  <% end %>
+  <%= if is_nil(@color) or "misc" in @color do %>
+  defp color_variant(_, "misc") do
+    [
+      "[&_.semi-circle-progress-bar]:stroke-[#8750C5] dark:[&_.semi-circle-progress-bar]:stroke-[#BA83F9]"
+    ]
+  end
+  <% end %>
+  <%= if is_nil(@color) or "dawn" in @color do %>
+  defp color_variant(_, "dawn") do
+    [
+      "[&_.semi-circle-progress-bar]:stroke-[#A86438] dark:[&_.semi-circle-progress-bar]:stroke-[#DB976B]"
+    ]
+  end
+  <% end %>
+  <%= if is_nil(@color) or "silver" in @color do %>
+  defp color_variant(_, "silver") do
+     [
+      "[&_.semi-circle-progress-bar]:stroke-[#868686] dark:[&_.semi-circle-progress-bar]:stroke-[#A6A6A6]"
+    ]
+  end
+  <% end %>
+  <% end %>
   defp color_variant(params,_) when is_binary(params), do: params
+
+  <%= if is_nil(@type) or "semi_circle_progress" in @type do %>
+  defp progress_rotation_class("down", "right-to-left"), do: "rotate-180 scale-x-[-1]"
+  defp progress_rotation_class("down", _), do: "rotate-180"
+  defp progress_rotation_class("up", "left-to-right"), do: "scale-x-[-1]"
+  defp progress_rotation_class(_, _), do: ""
+
+  defp clamp(val, min, max), do: max(min, min(val, max))
+  <% end %>
+
 end

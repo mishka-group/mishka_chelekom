@@ -29,8 +29,8 @@
         "quadruple_large"
       ],
       rounded: ["extra_small", "small", "medium", "large", "extra_large", "full"],
-      type: ["progress", "progress_section"],
-      only: ["progress", "progress_section"],
+      type: ["progress", "progress_section", "semi_circle_progress", "ring_progress"],
+      only: ["progress", "progress_section", "semi_circle_progress", "ring_progress"],
       helpers: [],
       module: ""
     ],
