@@ -1,19 +1,22 @@
 # Changelog for MishkaChelekom 0.0.5
 
 ### Features:
+
 - Add layouts flex and grid components [#330](https://github.com/mishka-group/mishka_chelekom/pull/330)
 - Add filterable gallery to the Gallery component [#332](https://github.com/mishka-group/mishka_chelekom/pull/332)
+- Add Circular and Semicircle Progress bar to progress component [#333](https://github.com/mishka-group/mishka_chelekom/pull/333)
 
 ### Refactors:
+
 - Fix Dropdown Bugs and Enhance Dynamic Behavior [#328](https://github.com/mishka-group/mishka_chelekom/pull/328)
 - Add conditional styling to divider and buttons [#329](https://github.com/mishka-group/mishka_chelekom/pull/329)
 
 ---
 
-
 # Changelog for MishkaChelekom 0.0.4
 
 ### Features:
+
 - Add on_select attribute on tab slot
 - Add scroll area component [#296](https://github.com/mishka-group/mishka_chelekom/pull/296) [#300](https://github.com/mishka-group/mishka_chelekom/pull/300)
 - Add missing features of Phoenix core components [#296](https://github.com/mishka-group/mishka_chelekom/pull/296)
@@ -23,11 +26,13 @@
 - Add combobox component [#321](https://github.com/mishka-group/mishka_chelekom/pull/321)
 
 ### Bugs:
+
 - Add missing slot to gallery component [#294](https://github.com/mishka-group/mishka_chelekom/pull/294)
 - fix typo in tab, checkbox field, radio field components [#295](https://github.com/mishka-group/mishka_chelekom/pull/295)
 - Fix missing ids in table and Flash assign_new to create new id from pattern [#313](https://github.com/mishka-group/mishka_chelekom/pull/313)
 
 ### Refactors:
+
 - Refactor some Phoenix CoreComponent backward compatibility issues for Ash [#312](https://github.com/mishka-group/mishka_chelekom/pull/312)
 - Refactor and Use more generous dependency on igniter [#317](https://github.com/mishka-group/mishka_chelekom/pull/317)
 - Reset line height of alert [#320](https://github.com/mishka-group/mishka_chelekom/pull/320)
@@ -36,31 +41,33 @@
 
 ---
 
-
 # Changelog for MishkaChelekom 0.0.3
 
 ### Features:
+
 - Support JS community cli version (beta) [#254](https://github.com/mishka-group/mishka_chelekom/pull/254)
 - Support Export community cli version (beta) [#256](https://github.com/mishka-group/mishka_chelekom/pull/256)
-- Add paddings and width fit to alert  [#287](https://github.com/mishka-group/mishka_chelekom/pull/287)
+- Add paddings and width fit to alert [#287](https://github.com/mishka-group/mishka_chelekom/pull/287)
 - Add badge to tab component [#290](https://github.com/mishka-group/mishka_chelekom/pull/290)
 - Add Igniter installer mix task
 
 ### Bugs:
+
 - Fix alert title type [#288](https://github.com/mishka-group/mishka_chelekom/pull/288)
 - Fix some issues about windows PowerShell
-
 
 ---
 
 # Changelog for MishkaChelekom 0.0.2
 
 ### Features:
+
 - Support community cli version (beta) [#92](https://github.com/mishka-group/mishka_chelekom/pull/92)
 - Supports cli helpers import [#93](https://github.com/mishka-group/mishka_chelekom/pull/93)
 - Update all templates for new syntax `{}` (Phoenix LiveView 1.0.0)
 
 ### Refactors:
+
 - Fix Adjust spacing for checkbox and radio fields [#73](https://github.com/mishka-group/mishka_chelekom/pull/73)
 - Add dark mode and fix issues of gradient variants of Button component [#91](https://github.com/mishka-group/mishka_chelekom/pull/91)
 - Add dark mode and fix issues of gradient variants of Badge component [#94](https://github.com/mishka-group/mishka_chelekom/pull/94)
@@ -150,6 +157,7 @@
 - Add new prop to card media [#258](https://github.com/mishka-group/mishka_chelekom/pull/258)
 
 ### Bugs:
+
 - Fix un-CSP progress mounted [#72](https://github.com/mishka-group/mishka_chelekom/pull/72)
 - Fix modal title `default: nil` value [#76](https://github.com/mishka-group/mishka_chelekom/pull/76)
 - Correct typo separated across the project [#81](https://github.com/mishka-group/mishka_chelekom/pull/81)
@@ -165,7 +173,6 @@
 
 ---
 
-
 # Changelog for MishkaChelekom 0.0.1
 
 > We are delighted to introduce our new version of MishkaChelekom fully featured components and UI kit library for Phoenix & Phoenix LiveView.
@@ -174,6 +181,7 @@
 **For more information please see**: https://mishka.tools/chelekom
 
 ### Features:
+
 - Add generator mix CLI task for creating component
 - Add generator mix CLI task for creating components
 - Add basic components (light mode version)
@@ -182,69 +190,69 @@
 
     <summary>Components list</summary>
 
-    - [x] accordion
-    - [x] alert
-    - [x] avatar
-    - [x] badge
-    - [x] banner
-    - [x] blockquote
-    - [x] breadcrumb
-    - [x] button
-    - [x] card
-    - [x] carousel
-    - [x] chat
-    - [x] chekbox_field
-    - [x] color_field
-    - [x] date_time_field
-    - [x] device_mockup
-    - [x] divider
-    - [x] drawer
-    - [x] dropdown
-    - [x] email_field
-    - [x] fieldset
-    - [x] file_field
-    - [x] footer
-    - [x] form_wrapper
-    - [x] gallery
-    - [x] image
-    - [x] indicator
-    - [x] input_field
-    - [x] jumbotron
-    - [x] keyboard
-    - [x] list
-    - [x] mega_menu
-    - [x] menu
-    - [x] modal
-    - [x] native_select
-    - [x] navbar
-    - [x] number_field
-    - [x] overlay
-    - [x] pagination
-    - [x] password_field
-    - [x] popover
-    - [x] progress
-    - [x] radio_field
-    - [x] range_field
-    - [x] rating
-    - [x] search_field
-    - [x] sidebar
-    - [x] skeleton
-    - [x] speed_dial
-    - [x] spinner
-    - [x] stepper
-    - [x] table
-    - [x] table_content
-    - [x] tabs
-    - [x] tel_field
-    - [x] text_field
-    - [x] textarea_field
-    - [x] timeline
-    - [x] toast
-    - [x] toggle_field
-    - [x] tooltip
-    - [x] typography
-    - [x] url_field
-    - [x] video
+  - [x] accordion
+  - [x] alert
+  - [x] avatar
+  - [x] badge
+  - [x] banner
+  - [x] blockquote
+  - [x] breadcrumb
+  - [x] button
+  - [x] card
+  - [x] carousel
+  - [x] chat
+  - [x] chekbox_field
+  - [x] color_field
+  - [x] date_time_field
+  - [x] device_mockup
+  - [x] divider
+  - [x] drawer
+  - [x] dropdown
+  - [x] email_field
+  - [x] fieldset
+  - [x] file_field
+  - [x] footer
+  - [x] form_wrapper
+  - [x] gallery
+  - [x] image
+  - [x] indicator
+  - [x] input_field
+  - [x] jumbotron
+  - [x] keyboard
+  - [x] list
+  - [x] mega_menu
+  - [x] menu
+  - [x] modal
+  - [x] native_select
+  - [x] navbar
+  - [x] number_field
+  - [x] overlay
+  - [x] pagination
+  - [x] password_field
+  - [x] popover
+  - [x] progress
+  - [x] radio_field
+  - [x] range_field
+  - [x] rating
+  - [x] search_field
+  - [x] sidebar
+  - [x] skeleton
+  - [x] speed_dial
+  - [x] spinner
+  - [x] stepper
+  - [x] table
+  - [x] table_content
+  - [x] tabs
+  - [x] tel_field
+  - [x] text_field
+  - [x] textarea_field
+  - [x] timeline
+  - [x] toast
+  - [x] toggle_field
+  - [x] tooltip
+  - [x] typography
+  - [x] url_field
+  - [x] video
 
   </details>
 
@@ -254,5 +262,6 @@
 - Add common positions
 
 ### Docs
+
 - Add generator docs
 - Add basic components docs
