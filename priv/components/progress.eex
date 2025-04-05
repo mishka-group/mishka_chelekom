@@ -681,70 +681,70 @@ defmodule <%= @module %> do
   <% end %>
 
   <%= if is_nil(@color) or "natural" in @color do %>
-  defp color_variant(_, "natural") do
+  defp color_variant(nil, "natural") do
      [
       "[&_.semi-circle-progress-bar]:stroke-[#4B4B4B] dark:[&_.semi-circle-progress-bar]:stroke-[#DDDDDD]"
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "primary" in @color do %>
-  defp color_variant(_, "primary") do
+  defp color_variant(nil, "primary") do
     [
       "[&_.semi-circle-progress-bar]:stroke-[#007F8C] dark:[&_.semi-circle-progress-bar]:stroke-[#01B8CA]"
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "secondary" in @color do %>
-  defp color_variant(_, "secondary") do
+  defp color_variant(nil, "secondary") do
     [
       "[&_.semi-circle-progress-bar]:stroke-[#266EF1] dark:[&_.semi-circle-progress-bar]:stroke-[#6DAAFB]"
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "success" in @color do %>
-  defp color_variant(_, "success") do
+  defp color_variant(nil, "success") do
     [
       "[&_.semi-circle-progress-bar]:stroke-[#0E8345] dark:[&_.semi-circle-progress-bar]:stroke-[#06C167]"
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "warning" in @color do %>
-  defp color_variant(_, "warning") do
+  defp color_variant(nil, "warning") do
     [
       "[&_.semi-circle-progress-bar]:stroke-[#CA8D01] dark:[&_.semi-circle-progress-bar]:stroke-[#FDC034]"
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "danger" in @color do %>
-  defp color_variant(_, "danger") do
+  defp color_variant(nil, "danger") do
     [
       "[&_.semi-circle-progress-bar]:stroke-[#DE1135] dark:[&_.semi-circle-progress-bar]:stroke-[#FC7F79]"
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "info" in @color do %>
-  defp color_variant(_, "info") do
+  defp color_variant(nil, "info") do
     [
       "[&_.semi-circle-progress-bar]:stroke-[#0B84BA] dark:[&_.semi-circle-progress-bar]:stroke-[#3EB7ED]"
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "misc" in @color do %>
-  defp color_variant(_, "misc") do
+  defp color_variant(nil, "misc") do
     [
       "[&_.semi-circle-progress-bar]:stroke-[#8750C5] dark:[&_.semi-circle-progress-bar]:stroke-[#BA83F9]"
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "dawn" in @color do %>
-  defp color_variant(_, "dawn") do
+  defp color_variant(nil, "dawn") do
     [
       "[&_.semi-circle-progress-bar]:stroke-[#A86438] dark:[&_.semi-circle-progress-bar]:stroke-[#DB976B]"
     ]
   end
   <% end %>
   <%= if is_nil(@color) or "silver" in @color do %>
-  defp color_variant(_, "silver") do
+  defp color_variant(nil, "silver") do
      [
       "[&_.semi-circle-progress-bar]:stroke-[#868686] dark:[&_.semi-circle-progress-bar]:stroke-[#A6A6A6]"
     ]
