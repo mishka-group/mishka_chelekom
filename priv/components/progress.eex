@@ -680,7 +680,6 @@ defmodule <%= @module %> do
   <% end %>
   <% end %>
 
-  <%= if is_nil(@variant) in @variant do %>
   <%= if is_nil(@color) or "natural" in @color do %>
   defp color_variant(_, "natural") do
      [
@@ -750,7 +749,6 @@ defmodule <%= @module %> do
       "[&_.semi-circle-progress-bar]:stroke-[#868686] dark:[&_.semi-circle-progress-bar]:stroke-[#A6A6A6]"
     ]
   end
-  <% end %>
   <% end %>
   defp color_variant(params,_) when is_binary(params), do: params
 
