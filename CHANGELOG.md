@@ -5,6 +5,7 @@
 - Add layouts flex and grid components [#330](https://github.com/mishka-group/mishka_chelekom/pull/330)
 - Add filterable gallery to the Gallery component [#332](https://github.com/mishka-group/mishka_chelekom/pull/332)
 - Add Circular and Semicircle Progress bar to progress component [#333](https://github.com/mishka-group/mishka_chelekom/pull/333)
+- Add support for fractional values to the rating component [#334](https://github.com/mishka-group/mishka_chelekom/pull/334)
 
 ### Refactors:
 
