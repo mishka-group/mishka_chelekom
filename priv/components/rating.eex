@@ -45,7 +45,7 @@ defmodule <%= @module %> do
 
   attr :color, :string, default: "warning", doc: "Determines color theme"
   attr :count, :integer, default: 5, doc: "Number of stars to display"
-  attr :select, :integer, default: 0, doc: ""
+  attr :select, :any, default: 0, doc: "Integer or float value for selected stars"
 
   attr :params, :map,
     default: %{},
