@@ -65,6 +65,8 @@ defmodule <%= @module %> do
     ~H"""
     <div
       id={@id}
+      role="radiogroup"
+      aria-label="Star Rating"
       class={[
         "flex flex-nowrap text-[#F4F4F4] dark:text-[#4B4B4B]",
         gap_class(@gap),
@@ -73,22 +75,115 @@ defmodule <%= @module %> do
       ]}
     >
       <%%= for item <- 1..@count do %>
+        <%% fill_percentage = calculate_fill_percentage(item, @select) %>
         <%%= if @interactive do %>
           <button
-            class={["rating-button leading-5"]}
+            role="radio"
+            aria-checked={if item <= @select, do: "true", else: "false"}
+            aria-label={"#{item} star#{if item > 1, do: "s", else: ""}"}
+            class={[
+              "rating-button",
+              "leading-5",
+              "group",
+              "[&:has(~.rating-button:hover)_.fraction-path]:opacity-0 [&:has(~.rating-button:hover)_.full-path]:opacity-100"
+            ]}
             phx-click={
               @on_action
               |> JS.push("rating", value: Map.merge(%{action: "select", number: item}, @params))
             }
           >
-            <.icon name="hero-star-solid" class={["rating-icon", item <= @select && "rated"]} />
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              class={["rating-icon transition-all delay-100", fill_percentage > 0 && "rated"]}
+            >
+              <%%= if fill_percentage > 0 and fill_percentage < 100 do %>
+                <defs>
+                  <linearGradient id={"star-fill-#{@id}-#{item}"} x1="0%" y1="0%" x2="100%" y2="0%">
+                    <stop offset="0%" stop-color="currentColor"></stop>
+                    <stop offset={"#{fill_percentage}%"} stop-color="currentColor"></stop>
+                    <stop offset={"#{fill_percentage}%"} stop-color="currentColor" stop-opacity="0.2">
+                    </stop>
+                    <stop offset="100%" stop-color="currentColor" stop-opacity="0.2"></stop>
+                  </linearGradient>
+                </defs>
+                <path
+                  class="opacity-100 transition-all delay-100 group-hover:opacity-0 fraction-path"
+                  fill={"url(#star-fill-#{@id}-#{item})"}
+                  d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.006 5.404.434c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.434 2.082-5.005Z"
+                />
+                <path
+                  class="opacity-0 transition-all delay-100 group-hover:opacity-100 full-path"
+                  fill="currentColor"
+                  d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.006 5.404.434c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.434 2.082-5.005Z"
+                />
+              <%% else %>
+                <path
+                  fill="currentColor"
+                  class={[
+                    fill_percentage >= 100 && "fill-opacity-100",
+                    fill_percentage < 100 && "fill-opacity-20"
+                  ]}
+                  d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.006 5.404.434c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.434 2.082-5.005Z"
+                />
+              <%% end %>
+            </svg>
+            <span class="sr-only">Select {item} star rating</span>
           </button>
         <%% else %>
-          <.icon name="hero-star-solid" class={["rating-icon", item <= @select && "rated"]} />
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            class={["rating-icon transition-all delay-100", fill_percentage > 0 && "rated"]}
+          >
+            <%%= if fill_percentage > 0 and fill_percentage < 100 do %>
+              <defs>
+                <linearGradient id={"star-fill-#{@id}-#{item}"} x1="0%" y1="0%" x2="100%" y2="0%">
+                  <stop offset="0%" stop-color="currentColor"></stop>
+                  <stop offset={"#{fill_percentage}%"} stop-color="currentColor"></stop>
+                  <stop offset={"#{fill_percentage}%"} stop-color="currentColor" stop-opacity="0.2">
+                  </stop>
+                  <stop offset="100%" stop-color="currentColor" stop-opacity="0.2"></stop>
+                </linearGradient>
+              </defs>
+              <path
+                fill={"url(#star-fill-#{@id}-#{item})"}
+                d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.006 5.404.434c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.434 2.082-5.005Z"
+              />
+            <%% else %>
+              <path
+                fill="currentColor"
+                class={[
+                  fill_percentage >= 100 && "fill-opacity-100",
+                  fill_percentage < 100 && "fill-opacity-20"
+                ]}
+                d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.006 5.404.434c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.434 2.082-5.005Z"
+              />
+            <%% end %>
+          </svg>
         <%% end %>
       <%% end %>
     </div>
     """
+  end
+
+  # Helper function to calculate the fill percentage for a star
+  defp calculate_fill_percentage(star_position, select) do
+    cond do
+      # For integer values or when select is not a number, use the original behavior
+      not is_float(select) or abs(select - trunc(select)) < 0.001 ->
+        if star_position <= select, do: 100, else: 0
+
+      # For decimal values (3.1 to 3.9 would render as 3.5)
+      star_position <= floor(select) ->
+        100
+
+      star_position == ceil(select) and select - floor(select) >= 0.1 ->
+        50
+
+      true ->
+        0
+    end
   end
 
   defp gap_class("extra_small"), do: "gap-1"
