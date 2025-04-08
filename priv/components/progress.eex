@@ -404,7 +404,6 @@ defmodule <%= @module %> do
         data-clickable={to_string(tooltip[:clickable])}
         class={[
           "w-full h-full",
-          @variation == "horizontal" && "h-full",
           tooltip[:class]
         ]}
       >
