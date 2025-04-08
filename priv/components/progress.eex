@@ -91,7 +91,7 @@ defmodule <%= @module %> do
     <div
       class={[
         "bg-[#F4F4F4] dark:bg-[#B6B6B6] overflow-hidden",
-        @variation == "vertical" && "flex items-end vertical-progress",
+        @variation == "vertical" && "flex items-end vertical-progress overflow-y-hidden",
         size_class(@size, @variation),
         rounded_size(@rounded)
       ]}
@@ -102,7 +102,7 @@ defmodule <%= @module %> do
         :if={msg = render_slot(@inner_block)}
         class={[
           "flex",
-          (@variation == "horizontal" && "flex-row") || "flex-col"
+          (@variation == "horizontal" && "flex-row") || "flex-col flex-col-reverse w-full h-full"
         ]}
       >
         {msg}
@@ -305,7 +305,7 @@ defmodule <%= @module %> do
   end
   <% end %>
 
-  <%= if is_nil(@type) or "progress_section" in @type do %>
+  <%= if is_nil(@type) or "progress" in @type do %>
   @doc """
   Renders a section of a progress bar component (`progress_section`).
 
@@ -347,12 +347,28 @@ defmodule <%= @module %> do
     attr :class, :string, doc: "Custom CSS class for additional styling"
   end
 
+
+  slot :tooltip, required: false do
+    attr :label, :string, doc: "Determines element's text"
+    attr :position, :string, doc: "Determines element's position"
+    attr :clickable, :boolean, doc: "Determines element's click"
+    attr :class, :string, doc: "Custom CSS class for additional styling"
+  end
+
   def progress_section(assigns) do
     assigns =
       assigns
+      |> assign_new(:tooltip, fn -> [] end)
       |> assign(:value, (is_integer(assigns.value) && assigns.value) || 0)
       |> assign_new(:id, fn -> random_id() end)
 
+    ~H"""
+    <.progress_section_with_tooltip :if={is_list(@tooltip) and @tooltip != []} {assigns} />
+    <.progress_section_simple :if={@tooltip == [] or @tooltip == nil} {assigns} />
+    """
+  end
+
+  defp progress_section_with_tooltip(assigns) do
     ~H"""
     <style :if={@csp_nonce} nonce={@csp_nonce}>
       #<%%= @id %> {
@@ -367,9 +383,80 @@ defmodule <%= @module %> do
     <div
       phx-mounted={
         is_nil(@csp_nonce) &&
-          JS.set_attribute(
-            {"style", (@variation == "horizontal" && "width: #{@value}%;") || "height: #{@value}%;"}
-          )
+          JS.set_attribute({"style", dimension_style(@variation, @value)})
+      }
+      id={@id}
+      class={[
+        "progress-section cursor-pointer",
+        @variation == "vertical" && "progress-vertical",
+        @variation == "horizontal" && "flex justify-center items-center",
+        color_variant(@variant, @color),
+        @class
+      ]}
+      {@rest}
+    >
+      <div
+        :for={tooltip <- @tooltip}
+        id={"tooltip-wrapper-#{@id}"}
+        phx-hook="Floating"
+        data-position={Map.get(tooltip, :position, "top")}
+        data-smart-position="false"
+        data-clickable={to_string(tooltip[:clickable])}
+        class={[
+          "w-full",
+          @variation == "horizontal" && "h-full",
+          tooltip[:class]
+        ]}
+      >
+        <div
+          data-floating-trigger="true"
+          class={[
+            "w-full h-full flex items-center justify-center",
+            @variation == "vertical" && "w-full"
+          ]}
+        >
+          {tooltip[:label]}
+        </div>
+
+        <div
+          role="tooltip"
+          data-floating-content="true"
+          hidden
+          id={"#{@id}-tooltip"}
+          class={[
+            "absolute z-50 transition-all ease-in-out delay-100 duration-200 w-fit max-w-52",
+            "progress-tooltip p-1 text-center bg-[#4B4B4B] text-white dark:bg-[#DDDDDD] dark:text-black rounded",
+            tooltip[:class]
+          ]}
+        >
+          <span class={[
+            "block absolute size-[8px] bg-inherit rotate-45 -z-[1] tooltip-arrow",
+            position_class(tooltip[:position])
+          ]}>
+          </span>
+          {render_slot(tooltip)}
+        </div>
+      </div>
+    </div>
+    """
+  end
+
+  defp progress_section_simple(assigns) do
+    ~H"""
+    <style :if={@csp_nonce} nonce={@csp_nonce}>
+      #<%%= @id %> {
+        <%%= if @variation == "horizontal" do %>
+          width: <%%= @value %>%;
+        <%% else %>
+          height: <%%= @value %>%;
+        <%% end %>
+      }
+    </style>
+
+    <div
+      phx-mounted={
+        is_nil(@csp_nonce) &&
+          JS.set_attribute({"style", dimension_style(@variation, @value)})
       }
       id={@id}
       class={[
@@ -381,6 +468,7 @@ defmodule <%= @module %> do
         color_variant(@variant, @color),
         @class
       ]}
+      {@rest}
     >
       <span :for={label <- @label} class={label[:class]}>
         {render_slot(label)}
@@ -388,7 +476,38 @@ defmodule <%= @module %> do
     </div>
     """
   end
+
   <% end %>
+
+  defp dimension_style("horizontal", value), do: "width: #{value}%;"
+  defp dimension_style("vertical", value), do: "height: #{value}%;"
+
+
+  defp position_class("top") do
+    [
+      "-bottom-[3px] -translate-x-1/2 left-1/2"
+    ]
+  end
+
+  defp position_class("bottom") do
+    [
+      "-top-[3px] -translate-x-1/2 left-1/2"
+    ]
+  end
+
+  defp position_class("left") do
+    [
+      "-right-[3px] -translate-y-1/2 top-1/2"
+    ]
+  end
+
+  defp position_class("right") do
+    [
+      "-left-[3px] -translate-y-1/2 top-1/2"
+    ]
+  end
+
+  defp position_class(_), do: position_class("top")
 
   <%= if is_nil(@rounded) or "extra_small" in @rounded do %>
   defp rounded_size("extra_small") do
