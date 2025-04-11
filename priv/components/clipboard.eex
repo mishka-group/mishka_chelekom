@@ -15,7 +15,7 @@ defmodule <%= @module %> do
   use Gettext, backend: <%= inspect(@web_module) %>.Gettext
   import Phoenix.LiveView.Utils, only: [random_id: 0]
 
-    @doc """
+  @doc """
   The `clipboard` component provides interactive, accessible copy-to-clipboard functionality with dynamic feedback and customization options.
 
   This component allows users to copy provided text or text content from a targeted DOM element, with visual and ARIA-enhanced feedback for success or error states. It supports flexible usage patterns with slots for custom triggers and content.
