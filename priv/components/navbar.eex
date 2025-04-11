@@ -204,7 +204,7 @@ defmodule <%= @module %> do
   end
 
 
-   @doc """
+  @doc """
   Renders a header with title.
   """
   @doc type: :component

@@ -24,7 +24,7 @@ defmodule <%= @module %> do
   import <%= inspect(@web_module) %>.Components.Image, only: [image: 1]
   import Phoenix.LiveView.Utils, only: [random_id: 0]
 
-   @doc """
+  @doc """
   The `carousel` component is used to create interactive image carousels with customizable attributes
   such as `size`, `padding`, and `overlay`. It supports adding multiple slides with different content,
   and includes options for navigation controls and indicators.
