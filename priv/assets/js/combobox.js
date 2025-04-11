@@ -319,9 +319,9 @@ let Combobox = {
         "gap-2",
         "combobox-pill",
       );
-      
+
       const renderedOption = this.el.querySelector(
-        `.combobox-option[data-combobox-value="${option.value}"]`
+        `.combobox-option[data-combobox-value="${option.value}"]`,
       );
       if (renderedOption) {
         pill.innerHTML = renderedOption.innerHTML;
