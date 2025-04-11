@@ -223,11 +223,13 @@ defmodule <%= @module %> do
        when is_binary(nav) or is_binary(pat) or is_binary(hrf) do
     ~H"""
     <.link navigate={@navigate} patch={@patch} href={@href}>
-      <.image
-        class={["max-w-full", @image_class]}
-        src={@image}
-        id={"#{@id}-carousel-slide-image-#{@index}"}
-      />
+      <div class="relative">
+        <.image
+          class={["max-w-full", @image_class]}
+          src={@image}
+          id={"#{@id}-carousel-slide-image-#{@index}"}
+        />
+      </div>
       {render_slot(@inner_block)}
     </.link>
     """
@@ -235,11 +237,13 @@ defmodule <%= @module %> do
 
   defp slide_image(assigns) do
     ~H"""
-    <.image
-      class={["max-w-full", @image_class]}
-      src={@image}
-      id={"#{@id}-carousel-slide-image-#{@index}"}
-    />
+    <div class="relative">
+      <.image
+        class={["max-w-full", @image_class]}
+        src={@image}
+        id={"#{@id}-carousel-slide-image-#{@index}"}
+      />
+    </div>
     {render_slot(@inner_block)}
     """
   end
