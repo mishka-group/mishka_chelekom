@@ -13,7 +13,7 @@ defmodule <%= @module %> do
   - **Indicators**: Optional indicators show the current slide and allow direct navigation to any slide.
   - **Overlay Options**: Customize the appearance of the overlay for a more distinct visual style.
   - **Responsive Design**: Supports various sizes and padding options to adapt to different screen sizes.
-  ```
+  - **Image Loading**: Shows loading state while images are being loaded.
 
   This module offers an easy-to-use interface for building carousels with consistent
   styling and behavior across your application, while providing the flexibility to
@@ -24,7 +24,7 @@ defmodule <%= @module %> do
   import <%= inspect(@web_module) %>.Components.Image, only: [image: 1]
   import Phoenix.LiveView.Utils, only: [random_id: 0]
 
-  @doc """
+   @doc """
   The `carousel` component is used to create interactive image carousels with customizable attributes
   such as `size`, `padding`, and `overlay`. It supports adding multiple slides with different content,
   and includes options for navigation controls and indicators.
@@ -50,31 +50,8 @@ defmodule <%= @module %> do
       title="This is a dummy title 3"
       image="https://example.com/slides/3.webp"
     />
-    <:slide title="This is a dummy title 4" image="https://example.com/slides/3.webp"/>
-    <:slide title="This is a dummy title 5" image="https://example.com/slides/4.webp"/>
-    <:slide
-      title="This is a dummy title 6"
-      image="https://example.com/slides/5.webp"
-    />
-    <:slide
-      title="This is a dummy title 7"
-      image="https://example.com/slides/6.webp"
-      content_position="end"
-      navigate="/examples/popover"
-    />
-    <:slide
-      image="https://example.com/slides/8.webp"
-      content_position="end"
-      title="This is a dummy title 8"
-      description="This is a description for our carousel and this is a dummy text"
-      navigate="/examples/list"
-    />
   </.carousel>
   ```
-
-  > If you want to reduce the volume of this component when sending from the server to the client,
-  > it is better not to activate the indicator option. In the next versions, javascript will be used
-  > to solve this problem
   """
   @doc type: :component
   attr :id, :string, doc: "A unique identifier is used to manage state and interaction"
@@ -326,7 +303,6 @@ defmodule <%= @module %> do
         :for={indicator_item <- 1..@count}
         id={"#{@id}-carousel-indicator-#{indicator_item}"}
         data-indicator-index={"#{indicator_item}"}
-        phx-click={JS.exec("phx-select", to: "##{@id}-carousel-slide-#{indicator_item}")}
         class="carousel-indicator"
         aria-label={"Slide #{indicator_item}"}
       />
