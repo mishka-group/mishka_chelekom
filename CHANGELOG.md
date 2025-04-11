@@ -12,6 +12,7 @@
 
 - Fix Dropdown Bugs and Enhance Dynamic Behavior [#328](https://github.com/mishka-group/mishka_chelekom/pull/328)
 - Add conditional styling to divider and buttons [#329](https://github.com/mishka-group/mishka_chelekom/pull/329)
+- Add Custom Hook, Loading State, and Bug Fixes of Carousel Component [#336](https://github.com/mishka-group/mishka_chelekom/pull/336)
 
 ---
 
