@@ -18,6 +18,7 @@ defmodule <%= @module %> do
 
   use Phoenix.Component
   alias Phoenix.LiveView.JS
+  import <%= inspect(@web_module) %>.Components.Icon, only: [icon: 1]
 
   @doc """
   Renders a `pagination` component that allows users to navigate through pages.
