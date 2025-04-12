@@ -96,7 +96,7 @@ defmodule <%= @module %> do
         "[&_.stepper-seperator:last-child]:hidden",
         step_visibility(),
         size_class(@size),
-        color_variant(@color, @variant),
+        color_variant(@variant, @color),
         border_class(@border),
         wrapper_width(@max_width),
         seperator_margin(@margin),
@@ -331,9 +331,6 @@ defmodule <%= @module %> do
 
  defp step_visibility() do
     [
-      "[&_.stepper-icon]:hidden",
-      "[&_.stepper-icon]:invisible",
-      "[&_.stepper-icon]:opacity-0",
       "[&_.stepper-loading-icon]:block",
       "[&_.stepper-loading-icon]:visible",
       "[&_.stepper-loading-icon]:opacity-100",
