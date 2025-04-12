@@ -192,7 +192,7 @@ defmodule <%= @module %> do
                 list[:class]
               ]}
             >
-              <.icon :if={list[:icon]} name={list[:icon]} class={Enum.join(["list-icon", list[:icon_class]])} />
+              <.icon :if={list[:icon]} name={list[:icon]} class={["list-icon", list[:icon_class]]} />
               {render_slot(list)}
             </li>
           </ul>

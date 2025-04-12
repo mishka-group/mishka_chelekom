@@ -339,11 +339,11 @@ defmodule <%= @module %> do
         <.icon
           :if={!@hide_chevron}
           name={@chevron_icon}
-          class={Enum.join([
+          class={[
             "accordion-chevron transition-transform duration-300",
             "ease-in-out group-open:rotate-90 rotate-180 rtl:rotate-0 shrink-0",
             @chevron_class
-          ])}
+          ]}
         />
 
         <div class="flex items-center gap-2">
@@ -418,11 +418,11 @@ defmodule <%= @module %> do
         <.icon
           :if={!@hide_chevron}
           name={@chevron_icon}
-          class={Enum.join([
+          class={[
             "accordion-chevron transition-transform duration-300",
             "ease-in-out group-open:rotate-90 rtl:rotate-180 shrink-0",
             @chevron_class
-          ])}
+          ]}
         />
       </div>
     </div>

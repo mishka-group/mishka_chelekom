@@ -148,7 +148,7 @@ defmodule <%= @module %> do
               <.icon
                 :if={!is_nil(checkbox[:icon])}
                 name={checkbox[:icon]}
-                class={Enum.join(["block mx-auto", checkbox[:icon_class]])}
+                class={["block mx-auto", checkbox[:icon_class]]}
               />
               <div :if={checkbox[:title]} class="block checkbox-card-title leading-[16px] font-semibold">
                 {checkbox[:title]}

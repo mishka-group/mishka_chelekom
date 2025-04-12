@@ -267,11 +267,11 @@ defmodule <%= @module %> do
     >
       <.icon
         name="hero-x-mark-solid"
-        class={Enum.join([
+        class={[
           "toast-icon opacity-80 group-hover:opacity-70",
           dismiss_size(@size),
           @class
-        ])}
+        ]}
       />
     </button>
     """

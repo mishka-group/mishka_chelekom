@@ -122,7 +122,7 @@ defmodule <%= @module %> do
           <.icon
             :if={!is_nil(item[:icon])}
             name={item[:icon]}
-            class={Enum.join(["content-icon me-2 inline-block", item[:icon_class]])}
+            class={["content-icon me-2 inline-block", item[:icon_class]]}
           />
           <.link :if={item[:link_title] && item[:link]} patch={item[:link]}>{item[:link_title]}</.link>
           <div>
@@ -254,7 +254,7 @@ defmodule <%= @module %> do
         <.icon
           :if={!is_nil(@icon)}
           name={@icon}
-          class={Enum.join(["content-icon me-2 inline-block", @icon_class])}
+          class={["content-icon me-2 inline-block", @icon_class]}
         />
         <.link :if={@link_title && @link} patch={@link}>{@link_title}</.link>
         <div>

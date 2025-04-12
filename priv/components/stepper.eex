@@ -193,10 +193,10 @@ defmodule <%= @module %> do
           <.icon
             :if={@step== "completed"}
             name="hero-check-solid"
-            class={Enum.join([
+            class={[
               "stepper-icon stepper-completed-icon",
               "transition-all ease-in-out duration-400 delay-100"
-            ])}
+            ]}
           />
         </span>
 
@@ -212,10 +212,10 @@ defmodule <%= @module %> do
           <.icon
             :if={@step== "completed"}
             name="hero-check-solid"
-            class={Enum.join([
+            class={[
               "stepper-icon stepper-completed-icon",
               "transition-all ease-in-out duration-400 delay-100"
-            ])}
+            ]}
           />
         </span>
       </span>
@@ -262,10 +262,10 @@ defmodule <%= @module %> do
         <.icon
           name="hero-check-solid"
           :if={@step== "completed"}
-          class={Enum.join([
+          class={[
             "stepper-icon stepper-completed-icon",
             "transition-all ease-in-out duration-400 delay-100"
-          ])}
+          ]}
         />
       </span>
 
@@ -281,10 +281,10 @@ defmodule <%= @module %> do
         <.icon
           name="hero-check-solid"
           :if={@step== "completed"}
-          class={Enum.join([
+          class={[
             "stepper-icon stepper-completed-icon",
             "transition-all ease-in-out duration-400 delay-100"
-          ])}
+          ]}
         />
       </span>
 

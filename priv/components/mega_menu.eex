@@ -188,7 +188,7 @@ defmodule <%= @module %> do
         phx-click={@id && JS.exec("phx-open-mega", to: "##{@id}")}
         class={["flex items-center", @title_class]}
       >
-        <.icon :if={!is_nil(@icon)} name={@icon} class={Enum.join(["aler-icon", @icon_class])} />
+        <.icon :if={!is_nil(@icon)} name={@icon} class={["aler-icon", @icon_class]} />
         <span>{@title}</span>
       </button>
 

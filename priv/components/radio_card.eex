@@ -146,7 +146,7 @@ defmodule <%= @module %> do
               <.icon
                 :if={!is_nil(radio[:icon])}
                 name={radio[:icon]}
-                class={Enum.join(["block mx-auto", radio[:icon_class]])}
+                class={["block mx-auto", radio[:icon_class]]}
               />
               <div :if={radio[:title]} class="block radio-card-title leading-[16px] font-semibold">
                 {radio[:title]}

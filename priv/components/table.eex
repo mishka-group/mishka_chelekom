@@ -170,7 +170,7 @@ defmodule <%= @module %> do
                   <.icon
                     :if={header[:icon]}
                     name={header[:icon]}
-                    class={Enum.join(["table-header-icon block me-2", header[:icon_class]])}
+                    class={["table-header-icon block me-2", header[:icon_class]]}
                   />
                   {render_slot(header)}
                 </.th>
@@ -227,7 +227,7 @@ defmodule <%= @module %> do
                     <.icon
                       :if={footer[:icon]}
                       name={footer[:icon]}
-                      class={Enum.join(["table-footer-icon block me-2", footer[:icon_class]])}
+                      class={["table-footer-icon block me-2", footer[:icon_class]]}
                     />
                     {render_slot(footer)}
                   </div>
