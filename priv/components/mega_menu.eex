@@ -20,6 +20,7 @@ defmodule <%= @module %> do
 
   use Phoenix.Component
   alias Phoenix.LiveView.JS
+  import <%= inspect(@web_module) %>.Components.Icon, only: [icon: 1]
 
   @doc """
   Renders a customizable `mega_menu` component that can display various sections of content.
@@ -187,7 +188,7 @@ defmodule <%= @module %> do
         phx-click={@id && JS.exec("phx-open-mega", to: "##{@id}")}
         class={["flex items-center", @title_class]}
       >
-        <.icon :if={!is_nil(@icon)} name={@icon} class={["aler-icon", @icon_class]} />
+        <.icon :if={!is_nil(@icon)} name={@icon} class={Enum.join(["aler-icon", @icon_class])} />
         <span>{@title}</span>
       </button>
 
@@ -746,19 +747,4 @@ defmodule <%= @module %> do
   <% end %>
   <% end %>
   defp color_variant(params,_) when is_binary(params), do: params
-
-  attr :name, :string, required: true, doc: "Specifies the name of the element"
-  attr :class, :any, default: nil, doc: "Custom CSS class for additional styling"
-
-  defp icon(%{name: "hero-" <> _, class: class} = assigns) when is_list(class) do
-    ~H"""
-    <span class={[@name] ++ @class} />
-    """
-  end
-
-  defp icon(%{name: "hero-" <> _} = assigns) do
-    ~H"""
-    <span class={[@name, @class]} />
-    """
-  end
 end

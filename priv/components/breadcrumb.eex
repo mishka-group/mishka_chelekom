@@ -14,6 +14,7 @@ defmodule <%= @module %> do
   behavior and appearance.
   """
   use Phoenix.Component
+  import <%= inspect(@web_module) %>.Components.Icon, only: [icon: 1]
 
   @doc """
   The `breadcrumb` component is used to display a navigational path with customizable
@@ -261,20 +262,5 @@ defmodule <%= @module %> do
     [
       "flex items-center transition-all ease-in-ou duration-100 group"
     ]
-  end
-
-  attr :name, :string, required: true, doc: "Specifies the name of the element"
-  attr :class, :any, default: nil, doc: "Custom CSS class for additional styling"
-
-  defp icon(%{name: "hero-" <> _, class: class} = assigns) when is_list(class) do
-    ~H"""
-    <span class={[@name] ++ @class} />
-    """
-  end
-
-  defp icon(%{name: "hero-" <> _} = assigns) do
-    ~H"""
-    <span class={[@name, @class]} />
-    """
   end
 end

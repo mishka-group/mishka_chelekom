@@ -16,6 +16,7 @@ defmodule <%= @module %> do
 
   use Phoenix.Component
   alias Phoenix.LiveView.JS
+  import <%= inspect(@web_module) %>.Components.Icon, only: [icon: 1]
 
   @icon_positions [
     "right_icon",
@@ -121,9 +122,9 @@ defmodule <%= @module %> do
     >
       <.badge_dismiss :if={dismiss_position(@rest) == "left"} id={@id} params={@params} />
       <.badge_indicator position="left" size={@indicator_size} class={@indicator_class} {@rest} />
-      <.icon :if={icon_position(@icon, @rest) == "left"} name={@icon} class={["badge-icon", @icon_class]} />
+      <.icon :if={icon_position(@icon, @rest) == "left"} name={@icon} class={Enum.join(["badge-icon", @icon_class])} />
       <div class={["leading-5", @content_class]}>{render_slot(@inner_block)}</div>
-      <.icon :if={icon_position(@icon, @rest) == "right"} name={@icon} class={["badge-icon", @icon_class]} />
+      <.icon :if={icon_position(@icon, @rest) == "right"} name={@icon} class={Enum.join(["badge-icon", @icon_class])} />
       <.badge_indicator size={@indicator_size} class={@indicator_class} {@rest} />
       <.badge_dismiss :if={dismiss_position(@rest) == "right"} id={@id} params={@params} />
     </div>
@@ -1044,20 +1045,5 @@ defmodule <%= @module %> do
          "opacity-100 translate-y-0 sm:scale-100",
          "opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"}
     )
-  end
-
-  attr :name, :string, required: true, doc: "Specifies the name of the element"
-  attr :class, :any, default: nil, doc: "Custom CSS class for additional styling"
-
-  defp icon(%{name: "hero-" <> _, class: class} = assigns) when is_list(class) do
-    ~H"""
-    <span class={[@name] ++ @class} />
-    """
-  end
-
-  defp icon(%{name: "hero-" <> _} = assigns) do
-    ~H"""
-    <span class={[@name, @class]} />
-    """
   end
 end

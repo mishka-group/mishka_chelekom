@@ -24,7 +24,7 @@
       module: ""
     ],
     optional: [],
-    necessary: ["image"],
+    necessary: ["image", "icon"],
     scripts: [
       %{
         type: "file",

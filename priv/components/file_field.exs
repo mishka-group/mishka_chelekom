@@ -26,6 +26,6 @@
       module: ""
     ],
     optional: [],
-    necessary: ["spinner", "progress"]
+    necessary: ["spinner", "progress", "icon"]
   ]
 ]

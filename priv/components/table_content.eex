@@ -15,6 +15,7 @@ defmodule <%= @module %> do
 
   use Phoenix.Component
   alias Phoenix.LiveView.JS
+  import <%= inspect(@web_module) %>.Components.Icon, only: [icon: 1]
 
   <%= if is_nil(@type) or "table_content" in @type do %>
   @doc """
@@ -121,7 +122,7 @@ defmodule <%= @module %> do
           <.icon
             :if={!is_nil(item[:icon])}
             name={item[:icon]}
-            class={["content-icon me-2 inline-block", item[:icon_class]]}
+            class={Enum.join(["content-icon me-2 inline-block", item[:icon_class]])}
           />
           <.link :if={item[:link_title] && item[:link]} patch={item[:link]}>{item[:link_title]}</.link>
           <div>
@@ -253,7 +254,7 @@ defmodule <%= @module %> do
         <.icon
           :if={!is_nil(@icon)}
           name={@icon}
-          class={["content-icon me-2 inline-block", @icon_class]}
+          class={Enum.join(["content-icon me-2 inline-block", @icon_class])}
         />
         <.link :if={@link_title && @link} patch={@link}>{@link_title}</.link>
         <div>
@@ -821,19 +822,4 @@ defmodule <%= @module %> do
   <% end %>
   <% end %>
   defp color_variant(params,_) when is_binary(params), do: params
-
-  attr :name, :string, required: true, doc: "Specifies the name of the element"
-  attr :class, :any, default: nil, doc: "Custom CSS class for additional styling"
-
-  defp icon(%{name: "hero-" <> _, class: class} = assigns) when is_list(class) do
-    ~H"""
-    <span class={[@name] ++ @class} />
-    """
-  end
-
-  defp icon(%{name: "hero-" <> _} = assigns) do
-    ~H"""
-    <span class={[@name, @class]} />
-    """
-  end
 end

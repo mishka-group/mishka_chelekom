@@ -22,6 +22,7 @@ defmodule <%= @module %> do
   use Phoenix.Component
   import <%= inspect(@web_module) %>.Components.Progress, only: [progress: 1]
   import <%= inspect(@web_module) %>.Components.Spinner, only: [spinner: 1]
+  import <%= inspect(@web_module) %>.Components.Icon, only: [icon: 1]
 
   @doc """
   Renders a `file_input` field with customizable styles, labels, and live upload capabilities.
@@ -1030,20 +1031,5 @@ defmodule <%= @module %> do
     else
       Gettext.dgettext(<%= inspect(@web_module) %>.Gettext, "errors", msg, opts)
     end
-  end
-
-  attr :name, :string, required: true, doc: "Specifies the name of the element"
-  attr :class, :any, default: nil, doc: "Custom CSS class for additional styling"
-
-  defp icon(%{name: "hero-" <> _, class: class} = assigns) when is_list(class) do
-    ~H"""
-    <span class={[@name] ++ @class} />
-    """
-  end
-
-  defp icon(%{name: "hero-" <> _} = assigns) do
-    ~H"""
-    <span class={[@name, @class]} />
-    """
   end
 end

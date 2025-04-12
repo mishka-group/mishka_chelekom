@@ -30,6 +30,7 @@ defmodule <%= @module %> do
   use Phoenix.Component
   use Gettext, backend: <%= inspect(@web_module) %>.Gettext
   alias Phoenix.LiveView.JS
+  import <%= inspect(@web_module) %>.Components.Icon, only: [icon: 1]
 
   @doc """
   Renders a customizable `speed_dial` component that provides quick access to multiple actions.
@@ -173,10 +174,10 @@ defmodule <%= @module %> do
         <.icon
           :if={!is_nil(@icon)}
           name={@icon}
-          class={[
+          class={Enum.join([
             "speed-dial-icon-base",
             @icon_animated && "transition-transform group-hover:rotate-45"
-          ]}
+          ])}
         />
         <span :if={is_nil(@icon)} class={@trigger_content[:class]}>{@trigger_content}</span>
         <span class="sr-only">{gettext("Open actions menu")}</span>
@@ -218,7 +219,7 @@ defmodule <%= @module %> do
       patch={@patch}
       href={@href}
     >
-      <.icon :if={@icon} name={@icon} class={["speed-dial-icon-base", @icon_class]} />
+      <.icon :if={@icon} name={@icon} class={Enum.join(["speed-dial-icon-base", @icon_class])} />
       <span :if={is_nil(@icon)} class={["block text-xs text-center", @content_class]}>
         {render_slot(@inner_block)}
       </span>
@@ -232,7 +233,7 @@ defmodule <%= @module %> do
       id={"#{@id}-speed-dial-item-#{@index}"}
       class={["speed-dial-base flex flex-col", color_variant(@variant, @color)]}
     >
-      <.icon :if={@icon} name={@icon} class={["speed-dial-icon-base", @icon_class]} />
+      <.icon :if={@icon} name={@icon} class={Enum.join(["speed-dial-icon-base", @icon_class])} />
       <span :if={is_nil(@icon)} class={["block text-xs text-center", @content_class]}>
         {render_slot(@inner_block)}
       </span>
@@ -837,19 +838,4 @@ defmodule <%= @module %> do
   <% end %>
   <% end %>
   defp color_variant(params,_) when is_binary(params), do: params
-
-  attr :name, :string, required: true, doc: "Specifies the name of the element"
-  attr :class, :any, default: nil, doc: "Custom CSS class for additional styling"
-
-  defp icon(%{name: "hero-" <> _, class: class} = assigns) when is_list(class) do
-    ~H"""
-    <span class={[@name] ++ @class} />
-    """
-  end
-
-  defp icon(%{name: "hero-" <> _} = assigns) do
-    ~H"""
-    <span class={[@name, @class]} />
-    """
-  end
 end

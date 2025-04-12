@@ -31,6 +31,7 @@ defmodule <%= @module %> do
   """
   use Phoenix.Component
   alias Phoenix.HTML.Form
+  import <%= inspect(@web_module) %>.Components.Icon, only: [icon: 1]
 
   @doc type: :component
   attr :id, :string,
@@ -147,7 +148,7 @@ defmodule <%= @module %> do
               <.icon
                 :if={!is_nil(checkbox[:icon])}
                 name={checkbox[:icon]}
-                class={["block mx-auto", checkbox[:icon_class]]}
+                class={Enum.join(["block mx-auto", checkbox[:icon_class]])}
               />
               <div :if={checkbox[:title]} class="block checkbox-card-title leading-[16px] font-semibold">
                 {checkbox[:title]}
@@ -920,20 +921,5 @@ defmodule <%= @module %> do
     else
       Gettext.dgettext(<%= inspect(@web_module) %>.Gettext, "errors", msg, opts)
     end
-  end
-
-  attr :name, :string, required: true, doc: "Specifies the name of the element"
-  attr :class, :any, default: nil, doc: "Custom CSS class for additional styling"
-
-  defp icon(%{name: "hero-" <> _, class: class} = assigns) when is_list(class) do
-    ~H"""
-    <span class={["checkbox-card-icon", @name, @class]} />
-    """
-  end
-
-  defp icon(%{name: "hero-" <> _} = assigns) do
-    ~H"""
-    <span class={["checkbox-card-icon", @name, @class]} />
-    """
   end
 end

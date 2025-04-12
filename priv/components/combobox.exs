@@ -25,7 +25,7 @@
       module: ""
     ],
     optional: [],
-    necessary: ["scroll_area"],
+    necessary: ["scroll_area", "icon"],
     scripts: [
       %{
         type: "file",

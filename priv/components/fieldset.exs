@@ -27,6 +27,6 @@
       module: ""
     ],
     optional: [],
-    necessary: []
+    necessary: ["icon"]
   ]
 ]

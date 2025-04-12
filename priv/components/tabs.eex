@@ -27,6 +27,7 @@ defmodule <%= @module %> do
   use Phoenix.Component
   alias Phoenix.LiveView.JS
   import <%= inspect(@web_module) %>.Components.Badge, only: [badge: 1]
+  import <%= inspect(@web_module) %>.Components.Icon, only: [icon: 1]
 
   @doc """
   The `tabs` component provides a set of clickable tabs for organizing content.
@@ -906,20 +907,5 @@ defmodule <%= @module %> do
       |> JS.remove_class("active-tab", to: "##{id}-tab-header-#{item}")
       |> JS.remove_class("active-tab-panel", to: "##{id}-tab-panel-#{item}")
     end)
-  end
-
-  attr :name, :string, required: true, doc: "Specifies the name of the element"
-  attr :class, :any, default: nil, doc: "Custom CSS class for additional styling"
-
-  defp icon(%{name: "hero-" <> _, class: class} = assigns) when is_list(class) do
-    ~H"""
-    <span class={[@name] ++ @class} />
-    """
-  end
-
-  defp icon(%{name: "hero-" <> _} = assigns) do
-    ~H"""
-    <span class={[@name, @class]} />
-    """
   end
 end

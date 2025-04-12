@@ -18,6 +18,7 @@ defmodule <%= @module %> do
   use Gettext, backend: <%= inspect(@web_module) %>.Gettext
   import <%= inspect(@web_module) %>.Components.ScrollArea, only: [scroll_area: 1]
   import Phoenix.LiveView.Utils, only: [random_id: 0]
+  import <%= inspect(@web_module) %>.Components.Icon, only: [icon: 1]
 
   @doc """
   The `combobox` component is a customizable select/dropdown element with advanced features
@@ -1002,20 +1003,5 @@ defmodule <%= @module %> do
     else
       Gettext.dgettext(<%= inspect(@web_module) %>.Gettext, "errors", msg, opts)
     end
-  end
-
-  attr :name, :string, required: true, doc: "Specifies the name of the element"
-  attr :class, :any, default: nil, doc: "Custom CSS class for additional styling"
-
-  defp icon(%{name: "hero-" <> _, class: class} = assigns) when is_list(class) do
-    ~H"""
-    <span class={["radio-card-icon", @name, @class]} />
-    """
-  end
-
-  defp icon(%{name: "hero-" <> _} = assigns) do
-    ~H"""
-    <span class={["radio-card-icon", @name, @class]} />
-    """
   end
 end

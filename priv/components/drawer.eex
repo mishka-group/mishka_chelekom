@@ -19,6 +19,7 @@ defmodule <%= @module %> do
   use Phoenix.Component
   alias Phoenix.LiveView.JS
   use Gettext, backend: <%= inspect(@web_module) %>.Gettext
+  import <%= inspect(@web_module) %>.Components.Icon, only: [icon: 1]
 
   @doc """
   A `drawer` component for displaying content in a sliding panel. It can be positioned on the left or
@@ -730,20 +731,5 @@ defmodule <%= @module %> do
     |> JS.remove_class("drawer-showed", to: "##{id}")
     |> JS.remove_class("transform-none", to: "##{id}")
     |> JS.add_class(translate_position(position), to: "##{id}")
-  end
-
-  attr :name, :string, required: true, doc: "Specifies the name of the element"
-  attr :class, :any, default: nil, doc: "Custom CSS class for additional styling"
-
-  defp icon(%{name: "hero-" <> _, class: class} = assigns) when is_list(class) do
-    ~H"""
-    <span class={[@name] ++ @class} />
-    """
-  end
-
-  defp icon(%{name: "hero-" <> _} = assigns) do
-    ~H"""
-    <span class={[@name, @class]} />
-    """
   end
 end

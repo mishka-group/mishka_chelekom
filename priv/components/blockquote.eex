@@ -23,6 +23,7 @@ defmodule <%= @module %> do
   """
 
   use Phoenix.Component
+  import <%= inspect(@web_module) %>.Components.Icon, only: [icon: 1]
 
   @doc """
   The `blockquote` component is used to display stylized quotations with customizable attributes
@@ -824,19 +825,4 @@ defmodule <%= @module %> do
   defp border_position(%{right_border: true}), do: "right"
   defp border_position(%{full_border: true}), do: "full"
   defp border_position(_), do: "left"
-
-  attr :name, :string, required: true, doc: "Specifies the name of the element"
-  attr :class, :any, default: nil, doc: "Custom CSS class for additional styling"
-
-  defp icon(%{name: "hero-" <> _, class: class} = assigns) when is_list(class) do
-    ~H"""
-    <span class={[@name] ++ @class} />
-    """
-  end
-
-  defp icon(%{name: "hero-" <> _} = assigns) do
-    ~H"""
-    <span class={[@name, @class]} />
-    """
-  end
 end

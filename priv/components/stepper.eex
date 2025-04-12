@@ -15,6 +15,7 @@ defmodule <%= @module %> do
   """
 
   use Phoenix.Component
+  import <%= inspect(@web_module) %>.Components.Icon, only: [icon: 1]
 
   <%= if is_nil(@type) or "stepper" in @type do %>
   @doc """
@@ -192,10 +193,10 @@ defmodule <%= @module %> do
           <.icon
             :if={@step== "completed"}
             name="hero-check-solid"
-            class={[
+            class={Enum.join([
               "stepper-icon stepper-completed-icon",
               "transition-all ease-in-out duration-400 delay-100"
-            ]}
+            ])}
           />
         </span>
 
@@ -211,10 +212,10 @@ defmodule <%= @module %> do
           <.icon
             :if={@step== "completed"}
             name="hero-check-solid"
-            class={[
+            class={Enum.join([
               "stepper-icon stepper-completed-icon",
               "transition-all ease-in-out duration-400 delay-100"
-            ]}
+            ])}
           />
         </span>
       </span>
@@ -261,10 +262,10 @@ defmodule <%= @module %> do
         <.icon
           name="hero-check-solid"
           :if={@step== "completed"}
-          class={[
+          class={Enum.join([
             "stepper-icon stepper-completed-icon",
             "transition-all ease-in-out duration-400 delay-100"
-          ]}
+          ])}
         />
       </span>
 
@@ -280,10 +281,10 @@ defmodule <%= @module %> do
         <.icon
           name="hero-check-solid"
           :if={@step== "completed"}
-          class={[
+          class={Enum.join([
             "stepper-icon stepper-completed-icon",
             "transition-all ease-in-out duration-400 delay-100"
-          ]}
+          ])}
         />
       </span>
 
@@ -996,19 +997,4 @@ defmodule <%= @module %> do
   <% end %>
   <% end %>
   defp color_variant(_, params) when is_binary(params), do: params
-
-  attr :name, :string, required: true, doc: "Specifies the name of the element"
-  attr :class, :any, default: nil, doc: "Custom CSS class for additional styling"
-
-  defp icon(%{name: "hero-" <> _, class: class} = assigns) when is_list(class) do
-    ~H"""
-    <span class={[@name] ++ @class} />
-    """
-  end
-
-  defp icon(%{name: "hero-" <> _} = assigns) do
-    ~H"""
-    <span class={[@name, @class]} />
-    """
-  end
 end

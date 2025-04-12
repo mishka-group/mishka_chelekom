@@ -14,6 +14,7 @@ defmodule <%= @module %> do
   visually appealing and interactive navigation bars that enhance the user experience.
   """
   use Phoenix.Component
+  import <%= inspect(@web_module) %>.Components.Icon, only: [icon: 1]
 
   @doc """
   Renders a customizable navigation bar (`navbar` component) that can include links,
@@ -191,7 +192,7 @@ defmodule <%= @module %> do
                 list[:class]
               ]}
             >
-              <.icon :if={list[:icon]} name={list[:icon]} class={["list-icon", list[:icon_class]]} />
+              <.icon :if={list[:icon]} name={list[:icon]} class={Enum.join(["list-icon", list[:icon_class]])} />
               {render_slot(list)}
             </li>
           </ul>
@@ -684,19 +685,4 @@ defmodule <%= @module %> do
   <% end %>
   <% end %>
   defp color_variant(params,_) when is_binary(params), do: params
-
-  attr :name, :string, required: true, doc: "Specifies the name of the element"
-  attr :class, :any, default: nil, doc: "Custom CSS class for additional styling"
-
-  defp icon(%{name: "hero-" <> _, class: class} = assigns) when is_list(class) do
-    ~H"""
-    <span class={[@name] ++ @class} />
-    """
-  end
-
-  defp icon(%{name: "hero-" <> _} = assigns) do
-    ~H"""
-    <span class={[@name, @class]} />
-    """
-  end
 end

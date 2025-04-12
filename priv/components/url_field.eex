@@ -14,6 +14,7 @@ defmodule <%= @module %> do
   to enhance usability and accessibility.
   """
   use Phoenix.Component
+  import <%= inspect(@web_module) %>.Components.Icon, only: [icon: 1]
 
   @doc """
   The `url_field` component is used to create an input field for URLs.
@@ -1111,20 +1112,5 @@ defmodule <%= @module %> do
     else
       Gettext.dgettext(<%= inspect(@web_module) %>.Gettext, "errors", msg, opts)
     end
-  end
-
-  attr :name, :string, required: true, doc: "Specifies the name of the element"
-  attr :class, :any, default: nil, doc: "Custom CSS class for additional styling"
-
-  defp icon(%{name: "hero-" <> _, class: class} = assigns) when is_list(class) do
-    ~H"""
-    <span class={[@name] ++ @class} />
-    """
-  end
-
-  defp icon(%{name: "hero-" <> _} = assigns) do
-    ~H"""
-    <span class={[@name, @class]} />
-    """
   end
 end
