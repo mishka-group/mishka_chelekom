@@ -19,6 +19,7 @@ defmodule <%= @module %> do
   use Phoenix.Component
   use Gettext, backend: <%= inspect(@web_module) %>.Gettext
   alias Phoenix.LiveView.JS
+  import MishkaWeb.Components.Icon, only: [icon: 1]
 
   @doc """
   Renders a customizable `modal` component that displays overlay content with optional title and inner content.
