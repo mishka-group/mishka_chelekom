@@ -136,7 +136,7 @@ defmodule <%= @module %> do
         on_action={{"first", @on_next}}
         page={{nil, @active}}
         params={@params}
-        icon={@first_label}
+        label={@first_label}
         disabled={@active <= 1}
       />
 
@@ -145,7 +145,7 @@ defmodule <%= @module %> do
         on_action={{"previous", @on_previous}}
         page={{nil, @active}}
         params={@params}
-        icon={@previous_label}
+        label={@previous_label}
         disabled={@active <= 1}
       />
 
@@ -165,7 +165,7 @@ defmodule <%= @module %> do
         on_action={{"next", @on_next}}
         page={{nil, @active}}
         params={@params}
-        icon={@next_label}
+        label={@next_label}
         disabled={@active >= @total}
       />
 
@@ -174,7 +174,7 @@ defmodule <%= @module %> do
         on_action={{"last", @on_last}}
         page={{nil, @active}}
         params={@params}
-        icon={@last_label}
+        label={@last_label}
         disabled={@active >= @total}
       />
 
@@ -1597,19 +1597,4 @@ defmodule <%= @module %> do
   defp show_pagination?(true, total) when total <= 1, do: false
   defp show_pagination?(_, total) when total > 1, do: true
   defp show_pagination?(_, _), do: false
-
-  attr :name, :string, required: true, doc: "Specifies the name of the element"
-  attr :class, :any, default: nil, doc: "Custom CSS class for additional styling"
-
-  defp icon(%{name: "hero-" <> _, class: class} = assigns) when is_list(class) do
-    ~H"""
-    <span class={[@name] ++ @class} />
-    """
-  end
-
-  defp icon(%{name: "hero-" <> _} = assigns) do
-    ~H"""
-    <span class={[@name, @class]} />
-    """
-  end
 end
