@@ -24,6 +24,14 @@
       module: ""
     ],
     optional: [],
-    necessary: ["icon"]
+    necessary: ["icon"],
+    scripts: [
+      %{
+        type: "file",
+        file: "sidebar.js",
+        module: "Sidebar",
+        imports: "import Sidebar from \"./sidebar.js\";"
+      }
+    ]
   ]
 ]

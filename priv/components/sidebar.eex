@@ -18,6 +18,7 @@ defmodule <%= @module %> do
   use Gettext, backend: <%= inspect(@web_module) %>.Gettext
   alias Phoenix.LiveView.JS
   import <%= inspect(@web_module) %>.Components.Icon, only: [icon: 1]
+  import Phoenix.LiveView.Utils, only: [random_id: 0]
 
   @doc """
   Renders a `sidebar` component that can be shown or hidden based on user interactions.
@@ -49,6 +50,11 @@ defmodule <%= @module %> do
       "Determines the overall size of the elements, including padding, font size, and other items"
 
   attr :border, :string, default: "extra_small", doc: "Determines border style"
+
+  attr :minimize, :boolean,
+    default: false,
+    doc: "Determines Minimize button show or hide"
+
   attr :position, :string, default: "start", doc: "Determines the element position"
 
   attr :hide_position, :string,
@@ -64,17 +70,30 @@ defmodule <%= @module %> do
     doc:
       "Global attributes can define defaults which are merged with attributes provided by the caller"
 
+  slot :item, doc: "Menu item slot for sidebar navigation items" do
+    attr :icon, :string, doc: "Icon name to display"
+    attr :icon_class, :string, doc: "CSS class for the icon"
+    attr :label, :string, doc: "Text label for the menu item"
+    attr :label_class, :string, doc: "CSS class for the label text"
+    attr :link, :string, doc: "URL for the item link"
+    attr :class, :string, doc: "CSS class for the entire item"
+  end
+
   slot :inner_block, required: false, doc: "Inner block that renders HEEx content"
 
   @spec sidebar(map()) :: Phoenix.LiveView.Rendered.t()
   def sidebar(assigns) do
+    assigns =
+      assigns
+      |> assign_new(:id, fn -> "sidebar-#{random_id()}" end)
+
     ~H"""
     <aside
       id={@id}
       phx-click-away={hide_sidebar(@on_hide_away, @id, @hide_position)}
       phx-remove={hide_sidebar(@id, @hide_position)}
       class={[
-        "fixed h-screen transition-transform z-10",
+        "fixed h-screen transition-transform z-10 overflow-x-hidden",
         border_class(@border, @position, @variant),
         hide_position(@hide_position),
         color_variant(@variant, @color),
@@ -85,13 +104,40 @@ defmodule <%= @module %> do
       aria-label="Sidebar"
       {@rest}
     >
-      <div class="h-full overflow-y-auto">
+      <div class="h-full overflow-y-auto overflow-x-hidden">
+        <div :if={@minimize} class="flex mb-0.5 justify-end">
+          <button
+            type="button"
+            phx-hook="Sidebar"
+            data-original-width={size_class(@size)}
+            id={"toggle-button-#{@id}"}
+            data-sidebar-selector={"##{@id}"}
+            class="size-8 flex items-center justify-center leading-5 rounded focus:outline-none bg-gray-500/10 border dark:border-gray-700 m-2 text-gray-500"
+          >
+            <.icon name="hero-chevron-right" class="minimize-icon size-5" />
+          </button>
+        </div>
         <div class="flex justify-end pt-2 px-2 mb-1 md:hidden dismiss-sidebar-wrapper">
-          <button type="button" class="dismiss-sidebar-button" phx-click={JS.exec(@on_hide, "phx-remove", to: "##{@id}")}>
+          <button
+            type="button"
+            class="dismiss-sidebar-button focus:outline-none"
+            phx-click={JS.exec(@on_hide, "phx-remove", to: "##{@id}")}
+          >
             <.icon name="hero-x-mark" />
             <span class="sr-only">{gettext("Close menu")}</span>
           </button>
         </div>
+
+        <ul :if={@item != []} class="p-2">
+          <li :for={item <- @item} class={item[:class]}>
+            <.link href={item[:link]} class={["sidebar-item-link flex items-center leading-5"]}>
+              <.icon :if={item[:icon]} name={item[:icon]} class={["shrink-0", item[:icon_class]]} />
+              <span class={["sidebar-text block ms-1", item[:label_class]]} data-item-label>
+                {item[:label] || render_slot(item)}
+              </span>
+            </.link>
+          </li>
+        </ul>
         {render_slot(@inner_block)}
       </div>
     </aside>
