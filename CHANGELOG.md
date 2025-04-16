@@ -8,6 +8,7 @@
 - Add support for fractional values to the rating component [#334](https://github.com/mishka-group/mishka_chelekom/pull/334)
 - Add tooltip to progress section [#335](https://github.com/mishka-group/mishka_chelekom/pull/335)
 - Add Clipboard component and hook integration [#337](https://github.com/mishka-group/mishka_chelekom/pull/337)
+- Add ability to to Minimize and Maximize Sidebar [#339](https://github.com/mishka-group/mishka_chelekom/pull/339)
 
 ### Refactors:
 
