@@ -29,6 +29,7 @@ defmodule <%= @module %> do
   use Gettext, backend: <%= inspect(@web_module) %>.Gettext
   alias Phoenix.LiveView.JS
   import <%= inspect(@web_module) %>.Components.Icon, only: [icon: 1]
+  import Phoenix.LiveView.Utils, only: [random_id: 0]
 
   <%= if is_nil(@type) or "flash" in @type do %>
   @doc type: :component
