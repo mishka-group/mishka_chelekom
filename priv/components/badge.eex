@@ -130,7 +130,7 @@ defmodule <%= @module %> do
         name={@icon}
         class={["badge-icon", @icon_class]}
       />
-      <div id={"badge-label-#{@id}"} class={["leading-5", @content_class]}>
+      <div class={["leading-5", @content_class]}>
         {render_slot(@inner_block)}
       </div>
       <.icon
