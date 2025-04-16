@@ -277,9 +277,7 @@ defmodule <%= @module %> do
       "Global attributes can define defaults which are merged with attributes provided by the caller"
 
   def alert(assigns) do
-    assigns =
-      assigns
-      |> assign_new(:id, fn -> "alert-#{random_id()}" end)
+    assigns = assigns |> assign_new(:id, fn -> "alert-#{random_id()}" end)
 
     ~H"""
     <div
