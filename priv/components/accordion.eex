@@ -133,6 +133,9 @@ defmodule <%= @module %> do
         <div
           id={"#{@id}-#{index}-role-button"}
           role="button"
+          tabindex="0"
+          aria-expanded="false"
+          aria-controls={"#{@id}-#{index}"}
           class={[
             "accordion-summary block w-full",
             "transition-all duration-100 ease-in-out [&.active-accordion-button_.accordion-chevron]:rotate-90",
@@ -170,6 +173,8 @@ defmodule <%= @module %> do
         </div>
         <.focus_wrap
           id={"#{@id}-#{index}"}
+          role="region"
+          aria-labelledby={"#{@id}-#{index}-role-button"}
           class="accordion-content-wrapper relative hidden transition [&:not(.active)_.accordion-content]:grid-rows-[0fr] [&.active_.accordion-content]:grid-rows-[1fr]"
         >
           <div
@@ -459,6 +464,7 @@ defmodule <%= @module %> do
     |> JS.show(to: "##{id}")
     |> JS.add_class("active", to: "##{id}")
     |> JS.add_class("active-accordion-button", to: "##{id}-role-button")
+    |> JS.set_attribute({"aria-expanded", "true"}, to: "##{id}-role-button")
   end
 
   @doc """
@@ -488,6 +494,7 @@ defmodule <%= @module %> do
     js
     |> JS.remove_class("active", to: "##{id}")
     |> JS.remove_class("active-accordion-button", to: "##{id}-role-button")
+    |> JS.set_attribute({"aria-expanded", "false"}, to: "##{id}-role-button")
   end
   <% end %>
   defp space_class(_, variant) when variant not in ["outline_separated", "bordered_separated", "base_separated"],
