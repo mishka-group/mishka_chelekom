@@ -121,7 +121,12 @@ defmodule <%= @module %> do
 
   attr :padding, :string, default: "extra_small", doc: "Determines padding for items"
 
-  attr :class, :string, default: "", doc: "Custom CSS class for additional styling"
+  attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
+  attr :dismiss_class, :string, default: nil, doc: "Custom CSS class for additional styling"
+
+  attr :content_wrapper_class, :string,
+    default: nil,
+    doc: "Custom CSS class for additional styling"
 
   attr :params, :map,
     default: %{kind: "banner"},
@@ -138,6 +143,9 @@ defmodule <%= @module %> do
     ~H"""
     <div
       id={@id}
+      role="status"
+      aria-live="polite"
+      aria-atomic="true"
       class={[
         "overflow-hidden fixed z-50",
         vertical_position(@vertical_size, @vertical_position),
@@ -152,11 +160,9 @@ defmodule <%= @module %> do
       ]}
       {@rest}
     >
-      <div class="flex gap-2 items-center justify-between">
-        <div>
-          {render_slot(@inner_block)}
-        </div>
-        <.banner_dismiss :if={!@hide_dismiss} id={@id} dismiss_size={@dismiss_size} params={@params} />
+      <div class={["flex gap-2 items-center justify-between", @content_wrapper_class]}>
+        {render_slot(@inner_block)}
+        <.banner_dismiss :if={!@hide_dismiss} id={@id} dismiss_size={@dismiss_size} class={@dismiss_class} params={@params} />
       </div>
     </div>
     """
