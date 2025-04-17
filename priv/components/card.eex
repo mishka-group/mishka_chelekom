@@ -113,6 +113,7 @@ defmodule <%= @module %> do
     ~H"""
     <div
       id={@id}
+      role={@rest[:role] || "region"}
       class={[
         "overflow-hidden [&:has(.overlay)]:relative",
         space_class(@space),
@@ -191,7 +192,7 @@ defmodule <%= @module %> do
       ]}
       {@rest}
     >
-      <div :if={@title || @icon} class="flex gap-2 items-center">
+      <div :if={@title || @icon} class="flex gap-2 items-center" aria-labelledby={if @title && @id, do: "#{@id}-title"}>
         <.icon :if={@icon} name={@icon} class="card-title-icon" />
         <h3 :if={@title}>{@title}</h3>
       </div>
@@ -218,7 +219,7 @@ defmodule <%= @module %> do
     default: nil,
     doc: "A unique identifier is used to manage state and interaction"
 
-  attr :alt, :string, doc: "Media link description"
+  attr :alt, :string, default: nil, doc: "Media link description"
   attr :src, :string, required: true, doc: "Media link"
   attr :width, :string, default: "w-full", doc: "Media width"
   attr :rounded, :string, default: "", doc: "Determines the border radius"
@@ -236,6 +237,7 @@ defmodule <%= @module %> do
       <img
         src={@src}
         alt={@alt}
+        role={if !is_nil(@alt) && @alt == "", do: "presentation"}
         class={[
           "max-w-full"
         ]}
