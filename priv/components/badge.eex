@@ -164,7 +164,7 @@ defmodule <%= @module %> do
     ~H"""
     <button
       class={["dismmiss-button inline-flex justify-center items-center w-fit shrink-0", @class]}
-       aria-label="Dismiss badge"
+      aria-label={gettext("close")}
       phx-click={JS.push("dismiss", value: Map.merge(%{id: @id}, @params)) |> hide_badge("##{@id}")}
     >
       <.icon name="hero-x-mark" class={"#{@icon_class}"} />
