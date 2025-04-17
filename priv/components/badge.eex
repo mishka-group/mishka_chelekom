@@ -17,6 +17,7 @@ defmodule <%= @module %> do
   use Phoenix.Component
   alias Phoenix.LiveView.JS
   import <%= inspect(@web_module) %>.Components.Icon, only: [icon: 1]
+  use Gettext, backend: <%= inspect(@web_module) %>.Gettext
 
   @icon_positions [
     "right_icon",
@@ -107,7 +108,7 @@ defmodule <%= @module %> do
     <div
       id={@id}
       role="status"
-      aria-label={@rest[:aria_label] || "Badge"}
+      aria-label={@rest[:aria_label] || gettext("badge")}
       class={
         default_classes(@rest[:pinging]) ++
           size_class(@size, @rest[:circle]) ++
