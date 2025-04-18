@@ -471,10 +471,12 @@ const Carousel = {
       slide.classList.add(...this.classes.activeSlide.split(" "));
       slide.classList.remove(...this.classes.hiddenSlide.split(" "));
       slide.setAttribute("aria-hidden", "false");
+      slide.setAttribute("tabindex", "0");
     } else {
       slide.classList.remove(...this.classes.activeSlide.split(" "));
       slide.classList.add(...this.classes.hiddenSlide.split(" "));
       slide.setAttribute("aria-hidden", "true");
+      slide.setAttribute("tabindex", "-1");
     }
   },
 
