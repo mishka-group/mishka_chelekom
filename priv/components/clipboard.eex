@@ -132,7 +132,7 @@ defmodule <%= @module %> do
     default: "block mb-2",
     doc: "CSS class for styling the status message shown after a copy operation."
 
-  attr :content_class, :string,
+  attr :trigger_class, :string,
     default: nil,
     doc: "CSS class for styling the trigger wrapper."
 
@@ -155,6 +155,10 @@ defmodule <%= @module %> do
   slot :inner_block,
     doc:
       "Slot for additional content or inner components that should be rendered inside the clipboard container."
+
+  attr :rest, :global,
+    doc:
+      "Global attributes can define defaults which are merged with attributes provided by the caller"
 
   def clipboard(assigns) do
     assigns =
