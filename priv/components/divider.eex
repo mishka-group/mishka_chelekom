@@ -96,20 +96,21 @@ defmodule <%= @module %> do
     ~H"""
     <div
       id={@id}
-      class={
-        [
-          color_class(@color, @position),
-          height_class(@height),
-          border_type_class(@type,:vertical, ""),
-          size_class(@size, :vertical, @position),
-          margin_class(@margin, :vertical),
-          @class
-        ]
-      }
+      role="separator"
+      aria-orientation="vertical"
+      class={[
+        color_class(@color, @position),
+        height_class(@height),
+        border_type_class(@type, :vertical, ""),
+        size_class(@size, :vertical, @position),
+        margin_class(@margin, :vertical),
+        @class
+      ]}
       {@rest}
     >
       <div
         :for={text <- @text}
+        aria-hidden="true"
         class={[
           "divider-content whitespace-nowrap",
           text[:color],
@@ -128,21 +129,22 @@ defmodule <%= @module %> do
     ~H"""
     <div
       id={@id}
-      class={
-        [
-          default_classes(@position),
-          color_class(@color, @position),
-          width_class(@width),
-          border_type_class(@type, :horizontal, @position),
-          size_class(@size, :horizontal, @position),
-          margin_class(@margin, :horizontal),
-          @class
-        ]
-      }
+      role="separator"
+      aria-orientation="horizontal"
+      class={[
+        default_classes(@position),
+        color_class(@color, @position),
+        width_class(@width),
+        border_type_class(@type, :horizontal, @position),
+        size_class(@size, :horizontal, @position),
+        margin_class(@margin, :horizontal),
+        @class
+      ]}
       {@rest}
     >
       <div
         :for={icon <- @icon}
+        aria-hidden="true"
         class={[
           "divider-content whitespace-nowrap",
           icon[:size],
@@ -156,6 +158,7 @@ defmodule <%= @module %> do
 
       <div
         :for={text <- @text}
+        aria-hidden="true"
         class={[
           "divider-content whitespace-nowrap",
           text[:color],
@@ -239,6 +242,8 @@ defmodule <%= @module %> do
     ~H"""
     <div class="relative">
       <hr
+        role="separator"
+        aria-orientation="horizontal"
         id={@id}
         class={
           [
