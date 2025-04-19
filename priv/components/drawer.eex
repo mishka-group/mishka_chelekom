@@ -80,7 +80,8 @@ defmodule <%= @module %> do
         "fixed z-50 transition-transform",
         "[&:not(.drawer-showed)_.drawer-overlay]:opacity-0 [&.drawer-showed_.drawer-overlay]:opacity-100",
         translate_position(@position),
-        position_class(@position)
+        position_class(@position),
+        @class
       ]}
       tabindex="-1"
       role="dialog"
@@ -90,7 +91,7 @@ defmodule <%= @module %> do
       {@rest}
     >
       <div
-        class="fixed bg-black/60 inset-0 -z-10 transition-all duration-[0.4s] delay-[0.1s] ease-in-out drawer-overlay"
+        class={["fixed bg-black/60 inset-0 -z-10 transition-all duration-[0.4s] delay-[0.1s] ease-in-out drawer-overlay", @overlay_class]}
         role="presentation"
         aria-hidden="true"
       ></div>
@@ -105,7 +106,7 @@ defmodule <%= @module %> do
           size_class(@size, @position),
           border_class(@border, @position, @variant),
           color_variant(@variant, @color),
-          @class
+          @wrapper_class
         ]}
         tabindex="0"
         role="document"
@@ -115,6 +116,7 @@ defmodule <%= @module %> do
             type="button"
             phx-click={JS.exec(@on_hide, "phx-remove", to: "##{@id}")}
             aria-label={gettext("Close menu")}
+            class={@close_class}
           >
             <.icon name="hero-x-mark" />
             <span class="sr-only">{gettext("Close menu")}</span>
@@ -133,7 +135,7 @@ defmodule <%= @module %> do
           {gettext("Drawer content")}
         </div>
 
-        <div>
+        <div class={@content_class}>
           {render_slot(@inner_block)}
         </div>
       </div>
