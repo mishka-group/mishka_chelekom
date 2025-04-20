@@ -15,7 +15,6 @@ defmodule <%= @module %> do
   """
 
   use Phoenix.Component
-  use Gettext, backend: <%= inspect(@web_module) %>.Gettext
 
   <%= if is_nil(@type) or "footer" in @type do %>
   @doc """
@@ -87,7 +86,6 @@ defmodule <%= @module %> do
     ~H"""
     <footer
       id={@id}
-      aria-label={@rest[:aria_label] || gettext("Footer")}
       class={[
         border_class(@border, @variant),
         color_variant(@variant, @color),
