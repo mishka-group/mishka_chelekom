@@ -21,6 +21,7 @@ defmodule <%= @module %> do
   <%= if is_nil(@type) or "filterable_gallery" in @type do %>
   import Phoenix.LiveView.Utils, only: [random_id: 0]
   <% end %>
+  use Gettext, backend: <%= inspect(@web_module) %>.Gettext
 
   <%= if is_nil(@type) or "gallery" in @type do %>
   @doc """
@@ -67,6 +68,7 @@ defmodule <%= @module %> do
     ~H"""
     <div
       id={@id}
+      role="region"
       class={[
         (@type == "masonry" && "gallery-masonry") || "grid",
         grid_gap(@gap),
@@ -153,6 +155,11 @@ defmodule <%= @module %> do
   slot :filter, required: false, doc: "Slot for rendering each filter button with let={filter}"
   attr :animation, :string, default: "", doc: "Determines gap between elements"
   attr :animation_size, :string, default: "extra_small", doc: "Determines gap between elements"
+  attr :content_class, :string, default: nil, doc: "Add custom classe to content wrapper"
+
+  attr :filters_wrapper_class, :string,
+  default: nil,
+  doc: "Add custom classe to filter button wrapper"
 
   slot :media_block,
     required: false,
@@ -166,10 +173,11 @@ defmodule <%= @module %> do
       id={@id}
       phx-hook="GalleryFilter"
       phx-update="ignore"
+      role="region"
       data-default-filter={@default_filter}
       class={["filterable-gallery", animation(@animation, @animation_size), @class]}
     >
-      <div class="filter-buttons mb-4 flex flex-wrap gap-2">
+      <div class={["filter-buttons mb-4 flex flex-wrap gap-2", @filters_wrapper_class]} role="group" aria-label={gettext("Filter options")}>
         <div :if={not Enum.member?(@filters, @default_filter)}>
           <div :if={@filter != []}>
             {render_slot(@filter, @default_filter)}
@@ -199,7 +207,7 @@ defmodule <%= @module %> do
           </button>
         </div>
       </div>
-      <div class={["grid", grid_gap(@gap), grid_cols(@cols)]}>
+      <div class={["grid", grid_gap(@gap), grid_cols(@cols), @content_class]}>
         <div
           :for={media <- @media}
           data-gallery-item
