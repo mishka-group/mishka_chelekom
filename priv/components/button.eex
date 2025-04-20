@@ -24,6 +24,7 @@ defmodule <%= @module %> do
 
   use Phoenix.Component
   import <%= inspect(@web_module) %>.Components.Icon, only: [icon: 1]
+  use Gettext, backend: <%= inspect(@web_module) %>.Gettext
 
   @indicator_positions [
     "indicator",
@@ -95,15 +96,15 @@ defmodule <%= @module %> do
     ~H"""
     <div
       id={@id}
-      class={
-          [
-            default_classes(:grouped, false),
-            variation(@variation),
-            rounded_size(@rounded),
-            border_class(@color),
-            @class
-          ]
-      }
+      role="group"
+      aria-label={@rest[:aria_label] || gettext("Button group")}
+      class={[
+        default_classes(:grouped, false),
+        variation(@variation),
+        rounded_size(@rounded),
+        border_class(@color),
+        @class
+      ]}
       {@rest}
     >
       {render_slot(@inner_block)}
@@ -194,21 +195,20 @@ defmodule <%= @module %> do
     <button
       type={@type}
       id={@id}
-      class={
-          [
-            default_classes(@rest[:pinging], @indicator),
-            size_class(@size, @rest[:circle]),
-            color_variant(@variant, @color, @indicator),
-            content_position(@content_position),
-            rounded_size(@rounded),
-            border_size(@border, @variant),
-            @full_width && "w-full",
-            @line_height,
-            @font_weight,
-            @display,
-            @class
-          ]
-      }
+      aria-label={@rest[:aria_label] || gettext("Button")}
+      class={[
+        default_classes(@rest[:pinging], @indicator),
+        size_class(@size, @rest[:circle]),
+        color_variant(@variant, @color, @indicator),
+        content_position(@content_position),
+        rounded_size(@rounded),
+        border_size(@border, @variant),
+        @full_width && "w-full",
+        @line_height,
+        @font_weight,
+        @display,
+        @class
+      ]}
       {drop_rest(@rest)}
     >
       <span
@@ -294,21 +294,20 @@ defmodule <%= @module %> do
       type={@type}
       id={@id}
       value={@value}
-      class={
-          [
-            default_classes(@rest[:pinging], false),
-            size_class(@size, @rest[:circle]),
-            color_variant(@variant, @color, false),
-            content_position(@content_position),
-            rounded_size(@rounded),
-            border_size(@border, @variant),
-            @full_width && "w-full",
-            @font_weight,
-            @line_height,
-            @display,
-            @class
-          ]
-      }
+      aria-label={@rest[:aria_label] || @value || gettext("Button")}
+      class={[
+        default_classes(@rest[:pinging], false),
+        size_class(@size, @rest[:circle]),
+        color_variant(@variant, @color, false),
+        content_position(@content_position),
+        rounded_size(@rounded),
+        border_size(@border, @variant),
+        @full_width && "w-full",
+        @font_weight,
+        @line_height,
+        @display,
+        @class
+      ]}
       {@rest}
     />
     """
@@ -398,21 +397,20 @@ defmodule <%= @module %> do
     ~H"""
     <.link
       navigate={@navigate}
+      aria-label={@rest[:aria_label] || @title || gettext("Link")}
       id={@id}
-      class={
-          [
-            default_classes(@rest[:pinging], @indicator),
-            size_class(@size, @rest[:circle]),
-            color_variant(@variant, @color, @indicator),
-            rounded_size(@rounded),
-            border_size(@border, @variant),
-            @full_width && "w-full",
-            @font_weight,
-            @line_height,
-            @display,
-            @class
-          ]
-      }
+      class={[
+        default_classes(@rest[:pinging], @indicator),
+        size_class(@size, @rest[:circle]),
+        color_variant(@variant, @color, @indicator),
+        rounded_size(@rounded),
+        border_size(@border, @variant),
+        @full_width && "w-full",
+        @font_weight,
+        @line_height,
+        @display,
+        @class
+      ]}
       {drop_rest(@rest)}
     >
       <span
@@ -443,20 +441,19 @@ defmodule <%= @module %> do
     ~H"""
     <.link
       patch={@patch}
+      aria-label={@rest[:aria_label] || @title || gettext("Link")}
       id={@id}
-      class={
-          [
-            default_classes(@rest[:pinging], @indicator),
-            size_class(@size, @rest[:circle]),
-            color_variant(@variant, @color, @indicator),
-            rounded_size(@rounded),
-            border_size(@border, @variant),
-            @full_width && "w-full",
-            @font_weight,
-            @line_height,
-            @class
-          ]
-      }
+      class={[
+        default_classes(@rest[:pinging], @indicator),
+        size_class(@size, @rest[:circle]),
+        color_variant(@variant, @color, @indicator),
+        rounded_size(@rounded),
+        border_size(@border, @variant),
+        @full_width && "w-full",
+        @font_weight,
+        @line_height,
+        @class
+      ]}
       {drop_rest(@rest)}
     >
       <span
@@ -487,20 +484,19 @@ defmodule <%= @module %> do
     ~H"""
     <.link
       href={@href}
+      aria-label={@rest[:aria_label] || @title || gettext("Link")}
       id={@id}
-      class={
-          [
-            default_classes(@rest[:pinging], @indicator),
-            size_class(@size, @rest[:circle]),
-            color_variant(@variant, @color, @indicator),
-            rounded_size(@rounded),
-            border_size(@border, @variant),
-            @full_width && "w-full",
-            @font_weight,
-            @line_height,
-            @class
-          ]
-      }
+      class={[
+        default_classes(@rest[:pinging], @indicator),
+        size_class(@size, @rest[:circle]),
+        color_variant(@variant, @color, @indicator),
+        rounded_size(@rounded),
+        border_size(@border, @variant),
+        @full_width && "w-full",
+        @font_weight,
+        @line_height,
+        @class
+      ]}
       {drop_rest(@rest)}
     >
       <span
@@ -567,99 +563,123 @@ defmodule <%= @module %> do
 
   defp button_indicator(%{position: "left", rest: %{left_indicator: true}} = assigns) do
     ~H"""
-    <span class={["indicator", indicator_size(@size), @class]} />
+    <span aria-hidden="true" class={["indicator", indicator_size(@size), @class]} />
     """
   end
 
   defp button_indicator(%{position: "left", rest: %{indicator: true}} = assigns) do
     ~H"""
-    <span class={["indicator", indicator_size(@size), @class]} />
+    <span aria-hidden="true" class={["indicator", indicator_size(@size), @class]} />
     """
   end
 
   defp button_indicator(%{position: "none", rest: %{right_indicator: true}} = assigns) do
     ~H"""
-    <span class={["indicator", indicator_size(@size), @class]} />
+    <span aria-hidden="true" class={["indicator", indicator_size(@size), @class]} />
     """
   end
 
   defp button_indicator(%{position: "none", rest: %{top_left_indicator: true}} = assigns) do
     ~H"""
-    <span class={[
-      "indicator",
-      indicator_size(@size),
-      @class || "absolute -translate-y-1/2 -translate-x-1/2 right-auto top-0 left-0"
-    ]} />
+    <span
+      aria-hidden="true"
+      class={[
+        "indicator",
+        indicator_size(@size),
+        @class || "absolute -translate-y-1/2 -translate-x-1/2 right-auto top-0 left-0"
+      ]}
+    />
     """
   end
 
   defp button_indicator(%{position: "none", rest: %{top_center_indicator: true}} = assigns) do
     ~H"""
-    <span class={[
-      "indicator",
-      indicator_size(@size),
-      @class || "absolute top-0 -translate-y-1/2 translate-x-1/2 right-1/2"
-    ]} />
+    <span
+      aria-hidden="true"
+      class={[
+        "indicator",
+        indicator_size(@size),
+        @class || "absolute top-0 -translate-y-1/2 translate-x-1/2 right-1/2"
+      ]}
+    />
     """
   end
 
   defp button_indicator(%{position: "none", rest: %{top_right_indicator: true}} = assigns) do
     ~H"""
-    <span class={[
-      "indicator",
-      indicator_size(@size),
-      @class || "absolute -translate-y-1/2 translate-x-1/2 left-auto top-0 right-0"
-    ]} />
+    <span
+      aria-hidden="true"
+      class={[
+        "indicator",
+        indicator_size(@size),
+        @class || "absolute -translate-y-1/2 translate-x-1/2 left-auto top-0 right-0"
+      ]}
+    />
     """
   end
 
   defp button_indicator(%{position: "none", rest: %{middle_left_indicator: true}} = assigns) do
     ~H"""
-    <span class={[
-      "indicator",
-      indicator_size(@size),
-      @class || "absolute -translate-y-1/2 -translate-x-1/2 right-auto left-0 top-2/4"
-    ]} />
+    <span
+      aria-hidden="true"
+      class={[
+        "indicator",
+        indicator_size(@size),
+        @class || "absolute -translate-y-1/2 -translate-x-1/2 right-auto left-0 top-2/4"
+      ]}
+    />
     """
   end
 
   defp button_indicator(%{position: "none", rest: %{middle_right_indicator: true}} = assigns) do
     ~H"""
-    <span class={[
-      "indicator",
-      indicator_size(@size),
-      @class || "absolute -translate-y-1/2 translate-x-1/2 left-auto right-0 top-2/4"
-    ]} />
+    <span
+      aria-hidden="true"
+      class={[
+        "indicator",
+        indicator_size(@size),
+        @class || "absolute -translate-y-1/2 translate-x-1/2 left-auto right-0 top-2/4"
+      ]}
+    />
     """
   end
 
   defp button_indicator(%{position: "none", rest: %{bottom_left_indicator: true}} = assigns) do
     ~H"""
-    <span class={[
-      "indicator",
-      indicator_size(@size),
-      @class || "absolute translate-y-1/2 -translate-x-1/2 right-auto bottom-0 left-0"
-    ]} />
+    <span
+      aria-hidden="true"
+      class={[
+        "indicator",
+        indicator_size(@size),
+        @class || "absolute translate-y-1/2 -translate-x-1/2 right-auto bottom-0 left-0"
+      ]}
+    />
     """
   end
 
   defp button_indicator(%{position: "none", rest: %{bottom_center_indicator: true}} = assigns) do
     ~H"""
-    <span class={[
-      "indicator",
-      indicator_size(@size),
-      @class || "absolute translate-y-1/2 translate-x-1/2 bottom-0 right-1/2"
-    ]} />
+    <span
+      aria-hidden="true"
+      class={[
+        "indicator",
+        indicator_size(@size),
+        @class || "absolute translate-y-1/2 translate-x-1/2 bottom-0 right-1/2"
+      ]}
+    />
     """
   end
 
   defp button_indicator(%{position: "none", rest: %{bottom_right_indicator: true}} = assigns) do
     ~H"""
-    <span class={[
-      "indicator",
-      indicator_size(@size),
-      @class || "absolute translate-y-1/2 translate-x-1/2 left-auto bottom-0 right-0"
-    ]} />
+    <span
+      aria-hidden="true"
+      class={[
+        "indicator",
+        indicator_size(@size),
+        @class || "absolute translate-y-1/2 translate-x-1/2 left-auto bottom-0 right-0"
+      ]}
+    />
     """
   end
 
