@@ -183,6 +183,7 @@ defmodule <%= @module %> do
   slot :inner_block, required: false, doc: "Inner block that renders HEEx content"
 
   slot :loading, required: false do
+    attr :class, :string, doc: "Custom CSS class for additional styling"
     attr :position, :string,
       values: ["start", "end"],
       doc: "Determines the element position"
@@ -214,6 +215,7 @@ defmodule <%= @module %> do
       <span
         :for={loading <- @loading}
         :if={is_nil(loading[:position]) || loading[:position] == "start"}
+        class={loading[:class]}
       >
         {render_slot(loading)}
       </span>
@@ -226,7 +228,7 @@ defmodule <%= @module %> do
       <.icon :if={icon_position(@icon, @rest) == "right"} name={@icon} class={@icon_class} />
       <.button_indicator size={@indicator_size} class={@indicator_class} {@rest} />
 
-      <span :for={loading <- @loading} :if={loading[:position] == "end"}>
+      <span :for={loading <- @loading} :if={loading[:position] == "end"} class={loading[:class]}>
         {render_slot(loading)}
       </span>
     </button>
@@ -386,6 +388,7 @@ defmodule <%= @module %> do
   slot :inner_block, required: false, doc: "Inner block that renders HEEx content"
 
   slot :loading, required: false do
+    attr :class, :string, doc: "Custom CSS class for additional styling"
     attr :position, :string,
       values: ["start", "end"],
       doc: "Determines the element position"
@@ -416,6 +419,7 @@ defmodule <%= @module %> do
       <span
         :for={loading <- @loading}
         :if={is_nil(loading[:position]) || loading[:position] == "start"}
+        class={loading[:class]}
       >
         {render_slot(loading)}
       </span>
@@ -428,7 +432,7 @@ defmodule <%= @module %> do
       <.icon :if={icon_position(@icon, @rest) == "right"} name={@icon} class={@icon_class} />
       <.button_indicator size={@indicator_size} class={@indicator_class} {@rest} />
 
-      <span :for={loading <- @loading} :if={loading[:position] == "end"}>
+      <span :for={loading <- @loading} :if={loading[:position] == "end"} class={loading[:class]}>
         {render_slot(loading)}
       </span>
     </.link>
@@ -459,6 +463,7 @@ defmodule <%= @module %> do
       <span
         :for={loading <- @loading}
         :if={is_nil(loading[:position]) || loading[:position] == "start"}
+        class={loading[:class]}
       >
         {render_slot(loading)}
       </span>
@@ -471,7 +476,7 @@ defmodule <%= @module %> do
       <.icon :if={icon_position(@icon, @rest) == "right"} name={@icon} />
       <.button_indicator size={@indicator_size} class={@indicator_class} {@rest} />
 
-      <span :for={loading <- @loading} :if={loading[:position] == "end"}>
+      <span :for={loading <- @loading} :if={loading[:position] == "end"} class={loading[:class]}>
         {render_slot(loading)}
       </span>
     </.link>
@@ -502,6 +507,7 @@ defmodule <%= @module %> do
       <span
         :for={loading <- @loading}
         :if={is_nil(loading[:position]) || loading[:position] == "start"}
+        class={loading[:class]}
       >
         {render_slot(loading)}
       </span>
@@ -514,7 +520,7 @@ defmodule <%= @module %> do
       <.icon :if={icon_position(@icon, @rest) == "right"} name={@icon} />
       <.button_indicator size={@indicator_size} class={@indicator_class} {@rest} />
 
-      <span :for={loading <- @loading} :if={loading[:position] == "end"}>
+      <span :for={loading <- @loading} :if={loading[:position] == "end"} class={loading[:class]}>
         {render_slot(loading)}
       </span>
     </.link>
