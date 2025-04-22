@@ -464,41 +464,6 @@ defmodule <%= @module %> do
   end
   <% end %>
 
-  @doc """
-  Shows a popover element by adding the 'show-popover' class and setting aria-expanded to true.
-
-  ## Parameters
-
-    * js - The JavaScript commands to chain (defaults to empty JS struct)
-    * id - The string ID of the popover element
-
-  ## Returns
-
-  Returns the modified JavaScript commands.
-
-  ## Examples
-
-      show_popover("my-popover")
-      show_popover(%JS{}, "my-popover")
-  """
-
-  @doc """
-  Hides a popover element by removing the 'show-popover' class and setting aria-expanded to false.
-
-  ## Parameters
-
-    * js - The JavaScript commands to chain (defaults to empty JS struct)
-    * id - The string ID of the popover element
-
-  ## Returns
-
-  Returns the modified JavaScript commands.
-
-  ## Examples
-
-      hide_popover("my-popover")
-      hide_popover(%JS{}, "my-popover")
-  """
   defp show_popover(js \\ %JS{}, id) when is_binary(id) do
     js
     |> JS.add_class("show-popover", to: "##{id}-popover-content")
