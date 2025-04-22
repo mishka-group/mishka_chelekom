@@ -127,6 +127,7 @@ defmodule <%= @module %> do
 
   slot :col, required: false do
     attr :label, :string
+    attr :label_class, :string
   end
 
   slot :action, doc: "the slot for showing user actions in the last table column"
