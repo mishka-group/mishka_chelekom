@@ -83,17 +83,17 @@ defmodule <%= @module %> do
   slot :radio, required: true do
     attr :value, :string, required: true
     attr :checked, :boolean, required: false
-    attr :radio_input_class, :string, doc: "Custom CSS class for styling the radio input"
     attr :icon, :string, doc: "Icon displayed alongside of a radio"
+    attr :title, :string, required: false
     attr :icon_class, :string, doc: "Determines custom class for the icon"
     attr :radio_wrapper_class, :string, doc: "Custom CSS class for the wrapper of radio"
-    attr :title_class, :string, doc: "Determines custom class for the title"
     attr :description_class, :string, doc: "Determines custom class for the description"
+    attr :title_class, :string, doc: "Determines custom class for the title"
+    attr :description, :string, required: false
     attr :card_label_class, :string, doc: "Custom CSS class for the wrapper of card label"
     attr :content_class, :string, doc: "Determines custom class for the content"
     attr :content_wrapper_class, :string, doc: "Determines custom class for the content wrapper"
-    attr :title, :string, required: false
-    attr :description, :string, required: false
+    attr :radio_input_class, :string, doc: "Custom CSS class for styling the radio input"
   end
 
   slot :inner_block
