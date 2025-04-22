@@ -136,6 +136,7 @@ defmodule <%= @module %> do
           (@wrapper_position == "top" || @wrapper_position == "bottom") && "flex-col"
         ]}
         id={@id && "#{@id}-speed-dial-content"}
+        role="menu"
         phx-click-away={
           @id &&
             JS.remove_class("show-speed-dial",
@@ -162,6 +163,8 @@ defmodule <%= @module %> do
 
       <button
         type="button"
+        aria-haspopup="menu"
+        aria-controls={"#{@id}-speed-dial-content"}
         class={["speed-dial-base", color_variant(@variant, @color)]}
         phx-click={
           @id &&
@@ -214,6 +217,8 @@ defmodule <%= @module %> do
     ~H"""
     <.link
       id={"#{@id}-speed-dial-item-#{@index}"}
+      role="menuitem"
+      tabindex="0"
       class={["block speed-dial-base flex flex-col", color_variant(@variant, @color)]}
       navigate={@navigate}
       patch={@patch}
