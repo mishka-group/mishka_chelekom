@@ -102,6 +102,7 @@ defmodule <%= @module %> do
     doc: "A unique identifier is used to manage state and interaction"
 
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
+  attr :wrapper_class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :src, :string, default: nil, doc: "Media link"
   attr :alt, :string, default: nil, doc: "Media link description"
   attr :rounded, :string, default: "none", doc: "Determines the border radius"
@@ -115,7 +116,7 @@ defmodule <%= @module %> do
 
   def gallery_media(assigns) do
     ~H"""
-    <div id={@id} class={["relative gallery-media overflow-hidden transition-all duration-300"]}>
+    <div id={@id} class={["relative gallery-media overflow-hidden transition-all duration-300", @wrapper_class]} {@rest}>
       <img
         :if={@src}
         class={[
@@ -165,6 +166,10 @@ defmodule <%= @module %> do
     required: false,
     doc: "Optional slot for rendering each media item with let={media}"
 
+  attr :rest, :global,
+    doc:
+      "Global attributes can define defaults which are merged with attributes provided by the caller"
+      
   def filterable_gallery(assigns) do
     assigns = assign_new(assigns, :id, fn -> random_id() end)
 
@@ -176,6 +181,7 @@ defmodule <%= @module %> do
       role="region"
       data-default-filter={@default_filter}
       class={["filterable-gallery", animation(@animation, @animation_size), @class]}
+      {@rest}
     >
       <div class={["filter-buttons mb-4 flex flex-wrap gap-2", @filters_wrapper_class]} role="group" aria-label={gettext("Filter options")}>
         <div :if={not Enum.member?(@filters, @default_filter)}>
