@@ -80,7 +80,7 @@ defmodule <%= @module %> do
   attr :list_wrapper_class, :string,
     default: nil,
     doc: "Custom CSS class for additional to list wrapper"
-    
+
   attr :on_hide, JS, default: %JS{}, doc: "Custom JS module for on_hide action"
   attr :on_show, JS, default: %JS{}, doc: "Custom JS module for on_show action"
   attr :on_hide_away, JS, default: %JS{}, doc: "Custom JS module for on_hide_away action"
@@ -122,7 +122,6 @@ defmodule <%= @module %> do
         size_class(@size),
         @class
       ]}
-      aria-label={gettext("Sidebar")}
       {@rest}
     >
       <div class={["h-full overflow-y-auto overflow-x-hidden", @content_class]}>
