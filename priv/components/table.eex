@@ -264,7 +264,7 @@ defmodule <%= @module %> do
     default: nil,
     doc: "A unique identifier is used to manage state and interaction"
 
-  attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
+  attr :class, :any, default: nil, doc: "Custom CSS class for additional styling"
   attr :scope, :string, default: nil, doc: "Specifies the scope of the table header cell"
 
   attr :rest, :global,
