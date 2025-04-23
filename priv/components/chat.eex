@@ -171,7 +171,6 @@ defmodule <%= @module %> do
       id={@id}
       role="group"
       tabindex="0"
-      aria-label={gettext("Chat message")}
       class={[
         "chat-section-bubble leading-1.5 overflow-hidden",
         @font_weight,
