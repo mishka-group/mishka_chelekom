@@ -67,7 +67,6 @@ defmodule <%= @module %> do
     <div
       id={@id}
       role="radiogroup"
-      aria-label="Star Rating"
       class={[
         "flex flex-nowrap text-[#F4F4F4] dark:text-[#4B4B4B]",
         gap_class(@gap),
