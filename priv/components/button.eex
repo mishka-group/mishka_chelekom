@@ -97,7 +97,6 @@ defmodule <%= @module %> do
     <div
       id={@id}
       role="group"
-      aria-label={@rest[:aria_label] || gettext("Button group")}
       class={[
         default_classes(:grouped, false),
         variation(@variation),
@@ -196,7 +195,6 @@ defmodule <%= @module %> do
     <button
       type={@type}
       id={@id}
-      aria-label={@rest[:aria_label] || gettext("Button")}
       class={[
         default_classes(@rest[:pinging], @indicator),
         size_class(@size, @rest[:circle]),
@@ -296,7 +294,6 @@ defmodule <%= @module %> do
       type={@type}
       id={@id}
       value={@value}
-      aria-label={@rest[:aria_label] || @value || gettext("Button")}
       class={[
         default_classes(@rest[:pinging], false),
         size_class(@size, @rest[:circle]),
@@ -400,7 +397,6 @@ defmodule <%= @module %> do
     ~H"""
     <.link
       navigate={@navigate}
-      aria-label={@rest[:aria_label] || @title || gettext("Link")}
       id={@id}
       class={[
         default_classes(@rest[:pinging], @indicator),
@@ -445,7 +441,6 @@ defmodule <%= @module %> do
     ~H"""
     <.link
       patch={@patch}
-      aria-label={@rest[:aria_label] || @title || gettext("Link")}
       id={@id}
       class={[
         default_classes(@rest[:pinging], @indicator),
@@ -489,7 +484,6 @@ defmodule <%= @module %> do
     ~H"""
     <.link
       href={@href}
-      aria-label={@rest[:aria_label] || @title || gettext("Link")}
       id={@id}
       class={[
         default_classes(@rest[:pinging], @indicator),
