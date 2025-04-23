@@ -113,17 +113,18 @@ defmodule <%= @module %> do
 
   def avatar(%{src: src, rounded: "full"} = assigns) when is_nil(src) do
     ~H"""
-    <div class={
-        [
-          "relative overflow-hidden select-none",
-          color_class(@color),
-          rounded_size(@rounded),
-          border_class(@border),
-          shadow_class(@shadow),
-          @font_weight,
-          @class
-        ]
-    }>
+    <div
+      class={[
+        "relative overflow-hidden select-none",
+        color_class(@color),
+        rounded_size(@rounded),
+        border_class(@border),
+        shadow_class(@shadow),
+        @font_weight,
+        @class
+      ]}
+      {@rest}
+    >
       <div class={["flex items-center justify-center", size_class(@size)]}>
         <div :for={icon <- @icon} class={[icon[:size], icon[:color], icon[:class]]}>
           <.icon name={icon[:name]} class={icon[:icon_class] || size_class(@size, :icon)} />
@@ -157,17 +158,18 @@ defmodule <%= @module %> do
 
   def avatar(assigns) do
     ~H"""
-    <div class={
-        [
-          "relative overflow-hidden select-none",
-          color_class(@color),
-          rounded_size(@rounded),
-          border_class(@border),
-          shadow_class(@shadow),
-          @font_weight,
-          @class
-        ]
-    }>
+    <div
+      class={[
+        "relative overflow-hidden select-none",
+        color_class(@color),
+        rounded_size(@rounded),
+        border_class(@border),
+        shadow_class(@shadow),
+        @font_weight,
+        @class
+      ]}
+      {@rest}
+    >
       <div class={["flex items-center justify-center", size_class(@size)]}>
         <div :for={icon <- @icon} class={[icon[:size], icon[:color], icon[:class]]}>
           <.icon name={icon[:name]} class={icon[:icon_class] || size_class(@size, :icon)} />
