@@ -24,7 +24,6 @@ defmodule <%= @module %> do
 
   use Phoenix.Component
   import <%= inspect(@web_module) %>.Components.Icon, only: [icon: 1]
-  use Gettext, backend: <%= inspect(@web_module) %>.Gettext
 
   @indicator_positions [
     "indicator",
