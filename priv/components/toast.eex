@@ -100,10 +100,6 @@ defmodule <%= @module %> do
     default: "",
     doc: "Additional CSS classes to be added to the toast contents."
 
-  attr :content_wrapper_class, :string,
-    default: "",
-    doc: "Additional CSS classes to be added to the toast contents."
-
   attr :dismiss_class, :string,
     default: "",
     doc: "Additional CSS classes to be added to the toast contents."
