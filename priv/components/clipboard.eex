@@ -206,7 +206,6 @@ defmodule <%= @module %> do
         class={["clipboard-trigger", @trigger_class]}
         role="button"
         tabindex="0"
-        aria-label={@rest[:aria_label] || @copy_button_label}
         aria-describedby={@status_id}
         aria-pressed="false"
       >
