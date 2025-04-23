@@ -91,7 +91,7 @@ defmodule <%= @module %> do
   def avatar(%{src: src, rounded: "full"} = assigns) when not is_nil(src) do
     ~H"""
     <div class={[
-      "relative w-fit",
+      "relative w-fit select-none",
       size_class(@size, :image)
     ]}>
       <img
@@ -114,28 +114,29 @@ defmodule <%= @module %> do
   def avatar(%{src: src, rounded: "full"} = assigns) when is_nil(src) do
     ~H"""
     <div class={
-      default_classes() ++
         [
+          "relative overflow-hidden select-none",
           color_class(@color),
           rounded_size(@rounded),
-          size_class(@size, :text),
           border_class(@border),
           shadow_class(@shadow),
           @font_weight,
           @class
         ]
     }>
-      <div :for={icon <- @icon} class={[icon[:size], icon[:color], icon[:class]]}>
-        <.icon name={icon[:name]} class={icon[:icon_class] || size_class(@size, :icon)} />
+      <div class={["flex items-center justify-center", size_class(@size)]}>
+        <div :for={icon <- @icon} class={[icon[:size], icon[:color], icon[:class]]}>
+          <.icon name={icon[:name]} class={icon[:icon_class] || size_class(@size, :icon)} />
+        </div>
+        {render_slot(@inner_block)}
       </div>
-      {render_slot(@inner_block)}
     </div>
     """
   end
 
   def avatar(%{src: src} = assigns) when not is_nil(src) do
     ~H"""
-    <div class="relative">
+    <div class="relative w-fit select-none">
       <img
         id={@id}
         src={@src}
@@ -157,21 +158,22 @@ defmodule <%= @module %> do
   def avatar(assigns) do
     ~H"""
     <div class={
-      default_classes() ++
         [
+          "relative overflow-hidden select-none",
           color_class(@color),
           rounded_size(@rounded),
-          size_class(@size),
           border_class(@border),
           shadow_class(@shadow),
           @font_weight,
           @class
         ]
     }>
-      <div :for={icon <- @icon} class={[icon[:size], icon[:color], icon[:class]]}>
-        <.icon name={icon[:name]} class={icon[:icon_class] || size_class(@size, :icon)} />
+      <div class={["flex items-center justify-center", size_class(@size)]}>
+        <div :for={icon <- @icon} class={[icon[:size], icon[:color], icon[:class]]}>
+          <.icon name={icon[:name]} class={icon[:icon_class] || size_class(@size, :icon)} />
+        </div>
+        {render_slot(@inner_block)}
       </div>
-      {render_slot(@inner_block)}
     </div>
     """
   end
@@ -632,10 +634,4 @@ defmodule <%= @module %> do
   defp space_class("none"), do: nil
   <% end %>
   defp space_class(params) when is_binary(params), do: params
-
-  defp default_classes() do
-    [
-      "relative inline-flex items-center justify-center p-0.5 [&.border-avatar:has(.indicator)]:box-content"
-    ]
-  end
 end
