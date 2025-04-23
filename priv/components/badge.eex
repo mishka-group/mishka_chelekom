@@ -108,7 +108,6 @@ defmodule <%= @module %> do
     <div
       id={@id}
       role="status"
-      aria-label={@rest[:aria_label] || gettext("badge")}
       class={
         default_classes(@rest[:pinging]) ++
           size_class(@size, @rest[:circle]) ++
