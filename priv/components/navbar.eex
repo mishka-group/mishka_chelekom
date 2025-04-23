@@ -158,7 +158,6 @@ defmodule <%= @module %> do
     <nav
       id={@id}
       role="navigation"
-      aria-label={@rest[:aria_label] || gettext("Main navigation")}
       class={[
         "relative",
         "[&.show-nav-menu_.nav-menu]:block [&.show-nav-menu_.nav-menu]:opacity-100",
