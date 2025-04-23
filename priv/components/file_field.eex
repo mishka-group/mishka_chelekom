@@ -116,8 +116,8 @@ defmodule <%= @module %> do
           "dropzone-wrapper group flex flex-col items-center justify-center w-full cursor-pointer"
         ]}
         phx-drop-target={@upload.ref}
-        aria-label={@rest[:aria_label] || @dropzone_title || gettext("Upload files")}
         for={@id}
+        {@rest}
       >
         <div class="flex flex-col gap-3 items-center justify-center pt-5 pb-6">
           <.icon name={@dropzone_icon} class="size-14" />
@@ -206,8 +206,8 @@ defmodule <%= @module %> do
           "dropzone-wrapper group flex flex-col items-center justify-center w-full cursor-pointer"
         ]}
         phx-drop-target={@upload.ref}
-        aria-label={@rest[:aria_label] || @dropzone_title || gettext("Upload files")}
         for={@id}
+        {@rest}
       >
         <div class="flex flex-col gap-3 items-center justify-center pt-5 pb-6">
           <.icon name={@dropzone_icon} class="size-14" />
