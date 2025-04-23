@@ -96,7 +96,7 @@ defmodule <%= @module %> do
 
   def breadcrumb(assigns) do
     ~H"""
-    <nav aria-label="Breadcrumb" class={@class} id={@id} {@rest}>
+    <nav class={@class} id={@id} {@rest}>
       <ol class={[ default_classes(), color_class(@color), size_class(@size), @items_wrapper_class]}>
         <li
           :for={{item, _} <- Enum.with_index(@item, 1)}
