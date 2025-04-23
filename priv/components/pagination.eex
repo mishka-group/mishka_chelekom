@@ -147,7 +147,7 @@ defmodule <%= @module %> do
     assigns = assign(assigns, %{siblings: build_pagination(total, active, siblings, boundaries)})
 
     ~H"""
-    <div
+    <nav
       :if={show_pagination?(@rest[:hide_one_page], @total)}
       id={@id}
       class={[
@@ -160,6 +160,7 @@ defmodule <%= @module %> do
               (!is_nil(@rest[:grouped]) && "gap-0 grouped-pagination") || space_class(@space),
               @class
           ]}
+      {@rest}
     >
       {render_slot(@start_items)}
 
@@ -225,7 +226,7 @@ defmodule <%= @module %> do
       />
 
       {render_slot(@end_items)}
-    </div>
+    </nav>
     """
   end
 
