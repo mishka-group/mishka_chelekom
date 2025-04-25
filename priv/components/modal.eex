@@ -65,6 +65,39 @@ defmodule <%= @module %> do
       "Determines the overall size of the elements, including padding, font size, and other items"
 
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
+  
+  attr :title_class, :string,
+    default: "text-base md:text-lg xl:text-2xl",
+    doc: "Custom CSS class for additional styling to title"
+
+  attr :icon_class, :string,
+    default: "size-5",
+    doc: "Custom CSS class for additional styling to icons close button"
+
+  attr :content_class, :string,
+    default: nil,
+    doc: "Custom CSS class for additional styling to content"
+
+  attr :close_class, :string,
+    default: nil,
+    doc: "Custom CSS class for additional styling to content"
+
+  attr :focus_wrap_class, :string,
+    default: nil,
+    doc: "Custom CSS class for additional styling to focus wrapper"
+
+  attr :inner_wrapper_class, :string,
+    default: nil,
+    doc: "Custom CSS class for additional styling to inner wrap"
+
+  attr :wrapper_class, :string,
+    default: nil,
+    doc: "Custom CSS class for additional styling to wrapper"
+
+  attr :overlay_class, :string,
+    default: nil,
+    doc: "Custom CSS class for additional styling to overlay"
+
   attr :show, :boolean, default: false, doc: "Show element"
   attr :on_cancel, JS, default: %JS{}, doc: "Custom JS module for on_cancel action"
   slot :inner_block, required: true, doc: "Inner block that renders HEEx content"
@@ -76,22 +109,22 @@ defmodule <%= @module %> do
       phx-mounted={@show && show_modal(@id)}
       phx-remove={hide_modal(@id)}
       data-cancel={JS.exec(@on_cancel, "phx-remove")}
-      class="relative z-50 hidden"
+      class={["relative z-50 hidden", @class]}
     >
       <div
         id={"#{@id}-bg"}
-        class="bg-zinc-50/90 dark:bg-zinc-600/90 fixed inset-0 transition-opacity"
+        class={["bg-zinc-50/90 dark:bg-zinc-600/90 fixed inset-0 transition-opacity", @overlay_class]}
         aria-hidden="true"
       />
       <div
-        class="fixed inset-0 overflow-y-auto"
-        aria-labelledby={"#{@id}-title"}
+        class={["fixed inset-0 overflow-y-auto", @wrapper_class]}
+        aria-labelledby={@title && "#{@id}-title"}
         aria-describedby={"#{@id}-description"}
         role="dialog"
         aria-modal="true"
         tabindex="0"
       >
-        <div class="flex min-h-full items-center justify-center">
+        <div class={["flex min-h-full items-center justify-center", @inner_wrapper_class]}>
           <div class="w-full">
             <.focus_wrap
               id={"#{@id}-container"}
@@ -104,24 +137,25 @@ defmodule <%= @module %> do
                 border_size(@border, @variant),
                 rounded_size(@rounded),
                 padding_size(@padding),
-                size_class(@size)
+                size_class(@size),
+                @focus_wrap_class
               ]}
             >
               <div class="flex items-center justify-between mb-4">
-                <div :if={@title} class="font-semibold text-base md:text-lg xl:text-2xl">
+                <div :if={@title} id={"#{@id}-title"} class={["font-semibold", @title_class]}>
                   {@title}
                 </div>
                 <button
                   phx-click={JS.exec("data-cancel", to: "##{@id}")}
                   type="button"
-                  class="p-2 hover:opacity-60"
+                  class={["p-2 hover:opacity-60", @close_class]}
                   aria-label={gettext("close")}
                 >
-                  <.icon name="hero-x-mark-solid" class="size-5" />
+                  <.icon name="hero-x-mark-solid" class={@icon_class} />
                 </button>
               </div>
 
-              <div id={"#{@id}-content"}>
+              <div id={"#{@id}-description"} class={@content_class}>
                 {render_slot(@inner_block)}
               </div>
             </.focus_wrap>
