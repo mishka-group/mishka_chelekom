@@ -297,7 +297,7 @@ defmodule <%= @module %> do
     default: nil,
     doc: "A unique identifier is used to manage state and interaction"
 
-  attr :trigger_id, :string, default: nil, doc: "Identifies what is the triggered element id"
+  attr :trigger_id, :string, required: true, doc: "Identifies what is the triggered element id"
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :inline, :boolean, default: false, doc: "Determines whether this element is inline"
   slot :inner_block, required: false, doc: "Inner block that renders HEEx content"
@@ -361,10 +361,7 @@ defmodule <%= @module %> do
   ```
   """
   @doc type: :component
-  attr :id, :string,
-    default: nil,
-    doc: "A unique identifier is used to manage state and interaction"
-
+  attr :trigger_id, :string, required: true, doc: "Identifies what is the triggered element id"
   attr :inline, :boolean, default: false, doc: "Determines whether this element is inline"
   attr :position, :string, default: "top", doc: "Determines the element position"
   attr :variant, :string, default: "base", doc: "Determines the style"
