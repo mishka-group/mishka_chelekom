@@ -320,6 +320,9 @@ const Clipboard = {
     if (trigger) {
       this.updateTriggerClasses(trigger, success);
 
+      trigger.setAttribute("aria-disabled", "true");
+      trigger.setAttribute("tabindex", "-1");
+
       // Update label if configured
       if (this.dynamicLabel) {
         this.updateLabel(success);
@@ -428,6 +431,9 @@ const Clipboard = {
 
     // Remove all status classes
     if (trigger) {
+      trigger.removeAttribute("aria-disabled");
+      trigger.setAttribute("tabindex", "0");
+
       const allClasses = [
         ...this.successClass.split(" "),
         ...this.errorClass.split(" "),
