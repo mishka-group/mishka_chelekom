@@ -154,7 +154,10 @@ defmodule <%= @module %> do
 
                 <.progress value={entry.progress} color={@color} size="extra_small" />
                 <span class="sr-only">
-                  <%= gettext("Uploading %{file}: %{progress} percent", file: entry.client_name, progress: entry.progress) %>
+                  {gettext("Uploading %{file}: %{progress} percent",
+                    file: entry.client_name,
+                    progress: entry.progress
+                  )}
                 </span>
               </div>
             </div>
@@ -259,7 +262,7 @@ defmodule <%= @module %> do
                 class="absolute inset-0 bg-black/25 flex justify-center items-center"
               >
                 <.spinner color="base" />
-                <span class="sr-only"><%= gettext("Uploading %{file}", file: entry.client_name) %></span>
+                <span class="sr-only">{gettext("Uploading %{file}", file: entry.client_name)}</span>
               </div>
             </div>
             <%%= for err <- upload_errors(@upload_error, entry) do %>
