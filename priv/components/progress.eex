@@ -281,7 +281,13 @@ defmodule <%= @module %> do
       |> assign(:dash_offset, dash_offset)
 
     ~H"""
-    <div role="progressbar" aria-valuenow={@value} class={["circular-progress", color_variant(nil, @color), @class]} {@rest}>
+    <div
+      id={@id}
+      role="progressbar"
+      aria-valuenow={@value}
+      class={["circular-progress", color_variant(nil, @color), @class]}
+      {@rest}
+    >
       <svg width={@size} height={@size} viewBox={"0 0 #{@size} #{@size}"}>
         <circle
           cx={@size / 2}
@@ -439,11 +445,12 @@ defmodule <%= @module %> do
           id={"#{@id}-tooltip"}
           role="tooltip"
           data-floating-content="true"
-          hidden
           aria-hidden="false"
           role="tooltip"
           tabindex="0"
           aria-live="polite"
+          hidden
+          id={"#{@id}-tooltip"}
           class={[
             "absolute z-50 transition-all ease-in-out delay-100 duration-200 w-fit max-w-52",
             "progress-tooltip p-1 text-center bg-[#4B4B4B] text-white dark:bg-[#DDDDDD] dark:text-black rounded",
