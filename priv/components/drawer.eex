@@ -57,7 +57,27 @@ defmodule <%= @module %> do
 
   attr :border, :string, default: "extra_small", doc: "Determines border style"
   attr :position, :string, default: "left", doc: "Determines the element position"
-  attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
+
+  attr :class, :string,
+    default: nil,
+    doc: "Custom CSS class for additional styling to drawer wrapper"
+
+  attr :close_class, :string,
+    default: nil,
+    doc: "Custom CSS class for additional styling to close button"
+
+  attr :content_class, :string,
+    default: nil,
+    doc: "Custom CSS class for additional styling to content"
+
+  attr :wrapper_class, :string,
+    default: nil,
+    doc: "Custom CSS class for additional styling to wrapper"
+
+  attr :overlay_class, :string,
+    default: nil,
+    doc: "Custom CSS class for additional styling to overlay"
+    
   attr :on_hide, JS, default: %JS{}, doc: "Custom JS module for on_hide action"
   attr :on_show, JS, default: %JS{}, doc: "Custom JS module for on_show action"
   attr :on_hide_away, JS, default: %JS{}, doc: "Custom JS module for on_hide_away action"
@@ -80,29 +100,48 @@ defmodule <%= @module %> do
         "fixed z-50 transition-transform",
         "[&:not(.drawer-showed)_.drawer-overlay]:opacity-0 [&.drawer-showed_.drawer-overlay]:opacity-100",
         translate_position(@position),
-        position_class(@position)
+        position_class(@position),
+        @class
       ]}
       tabindex="-1"
-      aria-labelledby={"#{@id}-#{@position}-label"}
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby={"#{@id}-#{@position}-title"}
+      aria-describedby={"#{@id}-#{@position}-desc"}
       {@rest}
     >
-    <div class="fixed bg-black/60 inset-0 -z-10 transition-all duration-[0.4s] delay-[0.1s] ease-in-out drawer-overlay"></div>
+      <div
+        class={["fixed bg-black/60 inset-0 -z-10 transition-all duration-[0.4s] delay-[0.1s] ease-in-out drawer-overlay", @overlay_class]}
+        role="presentation"
+        aria-hidden="true"
+      ></div>
+
       <div
         phx-click-away={hide_drawer(@on_hide_away, @id, @position)}
+        phx-window-keydown={hide_drawer(@on_hide, @id, @position)}
+        phx-key="escape"
         class={[
           "p-2 overflow-y-auto",
-          (@position == "left" || "right") && "h-full",
+          (@position in ["left", "right"]) && "h-full",
           size_class(@size, @position),
           border_class(@border, @position, @variant),
           color_variant(@variant, @color),
-          @class
+          @wrapper_class
         ]}
+        tabindex="0"
+        role="document"
       >
         <div class="flex flex-row-reverse justify-between items-center gap-5 mb-2">
-          <button type="button" phx-click={JS.exec(@on_hide, "phx-remove", to: "##{@id}")}>
+          <button
+            type="button"
+            phx-click={JS.exec(@on_hide, "phx-remove", to: "##{@id}")}
+            aria-label={gettext("Close menu")}
+            class={@close_class}
+          >
             <.icon name="hero-x-mark" />
             <span class="sr-only">{gettext("Close menu")}</span>
           </button>
+
           <h5
             :if={title = @title || render_slot(@header)}
             id={"#{@id}-#{@position}-title"}
@@ -112,7 +151,11 @@ defmodule <%= @module %> do
           </h5>
         </div>
 
-        <div>
+        <div id={"#{@id}-#{@position}-desc"} class="sr-only">
+          {gettext("Drawer content")}
+        </div>
+
+        <div class={@content_class}>
           {render_slot(@inner_block)}
         </div>
       </div>

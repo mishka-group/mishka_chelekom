@@ -142,6 +142,7 @@ defmodule <%= @module %> do
   attr :icon_class, :string, default: nil, doc: "Determines custom class for the icon"
   attr :title, :string, default: nil, doc: "Specifies the title of the element"
   attr :title_class, :string, default: nil, doc: "Determines custom class for the title"
+  attr :content_class, :string, default: nil, doc: "Determines custom class for the content"
   attr :border, :string, default: "extra_small", doc: "Determines border style"
   attr :top_gap, :string, default: "extra_small", doc: "Determines top gap of the element"
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
@@ -181,10 +182,13 @@ defmodule <%= @module %> do
         @font_weight,
         @class
       ]}
+      role="navigation"
       {@rest}
     >
       <button
         :if={!is_nil(@title)}
+        role="button"
+        aria-haspopup="true"
         phx-click={@id && JS.exec("phx-open-mega", to: "##{@id}")}
         class={["flex items-center", @title_class]}
       >
@@ -211,8 +215,10 @@ defmodule <%= @module %> do
         }
         class={[
           "mega-menu-content inset-x-0 top-full absolute z-20 transition-all ease-in-out delay-100 duratio-500 w-full",
-          "invisible opacity-0"
+          "invisible opacity-0",
+          @content_class
         ]}
+        role="menu"
       >
         {render_slot(@inner_block)}
       </div>

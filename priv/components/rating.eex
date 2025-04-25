@@ -15,6 +15,7 @@ defmodule <%= @module %> do
   """
   use Phoenix.Component
   alias Phoenix.LiveView.JS
+  use Gettext, backend: <%= inspect(@web_module) %>.Gettext
 
   @doc """
   Renders a `rating` component using stars to represent a score or rating value.
@@ -66,13 +67,14 @@ defmodule <%= @module %> do
     <div
       id={@id}
       role="radiogroup"
-      aria-label="Star Rating"
       class={[
         "flex flex-nowrap text-[#F4F4F4] dark:text-[#4B4B4B]",
         gap_class(@gap),
         size_class(@size),
-        color_class(@color)
+        color_class(@color),
+        @class
       ]}
+      {@rest}
     >
       <%%= for item <- 1..@count do %>
         <%% fill_percentage = calculate_fill_percentage(item, @select) %>
@@ -80,6 +82,7 @@ defmodule <%= @module %> do
           <button
             role="radio"
             aria-checked={if item <= @select, do: "true", else: "false"}
+            tabindex={if item == @select, do: "0", else: "-1"}
             aria-label={"#{item} star#{if item > 1, do: "s", else: ""}"}
             class={[
               "rating-button",
@@ -128,7 +131,7 @@ defmodule <%= @module %> do
                 />
               <%% end %>
             </svg>
-            <span class="sr-only">Select {item} star rating</span>
+            <span class="sr-only">{gettext("Rate %{count} star", count: item)}</span>
           </button>
         <%% else %>
           <svg
