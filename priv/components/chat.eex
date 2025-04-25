@@ -8,6 +8,7 @@ defmodule <%= @module %> do
   metadata and status information.
   """
   use Phoenix.Component
+  use Gettext, backend: <%= inspect(@web_module) %>.Gettext
 
   <%= if is_nil(@type) or "chat" in @type do %>
   @doc """
@@ -92,6 +93,9 @@ defmodule <%= @module %> do
     ~H"""
     <div
       id={@id}
+      role="log"
+      aria-live="polite"
+      aria-atomic="false"
       class={[
         "flex items-start gap-3",
         position_class(@position),
@@ -151,6 +155,8 @@ defmodule <%= @module %> do
   slot :status, required: false, doc: "Defines a slot for displaying status information" do
     attr :time, :string, doc: "Displays the time"
     attr :deliver, :string, doc: "Indicates the delivery status"
+    attr :time_class, :string, doc: "Custom classes for time"
+    attr :deliver_class, :string, doc: "Custom classes for delivery status"
   end
 
   slot :meta,
@@ -163,6 +169,8 @@ defmodule <%= @module %> do
     ~H"""
     <div
       id={@id}
+      role="group"
+      tabindex="0"
       class={[
         "chat-section-bubble leading-1.5 overflow-hidden",
         @font_weight,
@@ -172,11 +180,17 @@ defmodule <%= @module %> do
     >
       {render_slot(@inner_block)}
       <div :for={status <- @status} class="flex items-center justify-between gap-2 text-xs">
-        <div :if={status[:time]}>{status[:time]}</div>
-        <div :if={status[:deliver]} class="font-semibold">{status[:deliver]}</div>
+        <div :if={status[:time]} class={status[:time_class]}>
+          <span class="sr-only">{gettext("Time:")}</span>
+          {status[:time]}
+        </div>
+        <div :if={status[:deliver]} class={["font-semibold", status[:deliver_class]]}>
+          <span class="sr-only">{gettext("Status:")}</span>
+          {status[:deliver]}
+        </div>
       </div>
 
-      <div :for={meta <- @meta}>{render_slot(meta)}</div>
+      <div :for={meta <- @meta} aria-hidden="true">{render_slot(meta)}</div>
     </div>
     """
   end
