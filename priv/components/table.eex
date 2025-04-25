@@ -79,6 +79,10 @@ defmodule <%= @module %> do
     doc: "A unique identifier is used to manage state and interaction"
 
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
+  attr :main_wrapper_class, :string, default: nil, doc: "Custom CSS class"
+  attr :inner_wrapper_class, :string, default: nil, doc: "Custom CSS class"
+  attr :table_wrapper_class, :string, default: nil, doc: "Custom CSS class"
+  attr :table_body_class, :string, default: nil, doc: "Custom CSS class"
   attr :variant, :string, default: "base", doc: "Determines the style"
   attr :rounded, :string, default: "", doc: "Determines the border radius"
   attr :padding, :string, default: "small", doc: "Determines padding for items"
@@ -123,6 +127,7 @@ defmodule <%= @module %> do
 
   slot :col, required: false do
     attr :label, :string
+    attr :label_class, :string
   end
 
   slot :action, doc: "the slot for showing user actions in the last table column"
@@ -134,8 +139,8 @@ defmodule <%= @module %> do
       end
 
     ~H"""
-    <div class="-m-1.5 overflow-x-auto">
-      <div class="p-1.5 min-w-full inline-block align-middle">
+    <div class={["-m-1.5 overflow-x-auto", @main_wrapper_class]}>
+      <div class={["p-1.5 min-w-full inline-block align-middle", @inner_wrapper_class]}>
         <div class={[
           "overflow-hidden",
           color_variant(@variant, @color),
@@ -147,7 +152,8 @@ defmodule <%= @module %> do
           rows_space(@space, @variant),
           @header_border && header_border(@header_border, @variant),
           @rows_border != "" && rows_border(@rows_border, @variant),
-          @cols_border && cols_border(@cols_border, @variant)
+          @cols_border && cols_border(@cols_border, @variant),
+          @table_wrapper_class
         ]}>
           <table
             class={[
@@ -177,7 +183,7 @@ defmodule <%= @module %> do
               </.tr>
 
               <.tr :if={@col}>
-                <.th :for={col <- @col} class="font-normal">{col[:label]}</.th>
+                <.th :for={col <- @col} class={["font-normal", col[:label_class]]}>{col[:label]}</.th>
                 <.th :if={@action != []} class="relative">
                   <span class="sr-only">{gettext("Actions")}</span>
                 </.th>
@@ -187,7 +193,8 @@ defmodule <%= @module %> do
             <tbody
               id={@id}
               phx-update={match?(%Phoenix.LiveView.LiveStream{}, @rows) && "stream"}
-              class={@rows != [] && "divide-y"}
+              class={[@rows != [] && "divide-y", @table_body_class]}
+              aria-live="polite"
             >
               {render_slot(@inner_block)}
 
@@ -257,7 +264,7 @@ defmodule <%= @module %> do
     default: nil,
     doc: "A unique identifier is used to manage state and interaction"
 
-  attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
+  attr :class, :any, default: nil, doc: "Custom CSS class for additional styling"
   attr :scope, :string, default: nil, doc: "Specifies the scope of the table header cell"
 
   attr :rest, :global,

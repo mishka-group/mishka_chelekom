@@ -334,6 +334,13 @@ defmodule <%= @module %> do
     doc: "A unique identifier is used to manage state and interaction"
 
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
+  attr :link_class, :string, default: nil, doc: "Custom CSS class for additional styling for link"
+  attr :item_class, :string, default: nil, doc: "Custom CSS class for additional styling for li"
+
+  attr :accordion_class, :string,
+    default: nil,
+    doc: "Custom CSS class for additional styling for accordion"
+    
   attr :menu_items, :list, default: [], doc: "Determines menu items as a list of maps"
   attr :space, :string, default: "small", doc: "Space between items"
   attr :padding, :string, default: "small", doc: "Determines padding for items"
@@ -357,16 +364,18 @@ defmodule <%= @module %> do
       ]}
       {@rest}
     >
-      <li :for={menu_item <- @menu_items}>
+      <li :for={menu_item <- @menu_items} class={@item_class}>
         <.button_link
           :if={Map.get(menu_item, :sub_items, []) == []}
           font_weight={menu_item[:active] && "font-bold"}
+          class={@link_class}
           {menu_item}
         />
         <.accordion
           :if={Map.get(menu_item, :sub_items, []) != []}
           padding="none"
           {Map.drop(menu_item, [:sub_items, :padding])}
+          class={@accordion_class}
         >
           <:item title={menu_item[:title]} icon_class={menu_item[:icon_class]} icon={menu_item[:icon]}>
             <.menu

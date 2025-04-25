@@ -88,6 +88,26 @@ defmodule <%= @module %> do
 
   attr :class, :string, default: "", doc: "Additional CSS classes to be added to the toast."
 
+  attr :wrapper_class, :string,
+    default: "",
+    doc: "Additional CSS classes to be added to the toast contents."
+
+  attr :content_wrapper_class, :string,
+    default: "",
+    doc: "Additional CSS classes to be added to the toast contents."
+
+  attr :content_class, :string,
+    default: "",
+    doc: "Additional CSS classes to be added to the toast contents."
+
+  attr :dismiss_class, :string,
+    default: "",
+    doc: "Additional CSS classes to be added to the toast contents."
+
+  attr :dismiss_icon_class, :string,
+    default: "",
+    doc: "Additional CSS classes to be added to the toast contents."
+
   attr :params, :map,
     default: %{kind: "toast"},
     doc: "A map of additional parameters used for element configuration"
@@ -107,8 +127,10 @@ defmodule <%= @module %> do
     ~H"""
     <div
       id={@id}
+      aria-atomic="true"
+      tabindex="0"
       class={[
-        "overflow-hidden z-50",
+        "overflow-hidden z-50 leading-5",
         @fixed && "fixed",
         width_class(@width),
         rounded_size(@rounded),
@@ -125,21 +147,19 @@ defmodule <%= @module %> do
         "toast-content-wrapper relative",
         "before:block before:absolute before:inset-y-0 before:rounded-full before:my-1",
         content_border(@content_border),
-        @content_border != "none" && boder_position(@border_position)
+        @content_border != "none" && boder_position(@border_position),
+        @wrapper_class
       ]}>
         <div class={[
           "flex gap-2 items-center justify-between",
           row_direction(@row_direction),
-          padding_size(@padding)
+          padding_size(@padding),
+          @content_wrapper_class
         ]}>
-          <div
-            class={[
-                space_class(@space),
-            ]}
-          >
+          <div class={[space_class(@space), @content_class]}>
             {render_slot(@inner_block)}
           </div>
-          <.toast_dismiss id={@id} params={@params} />
+          <.toast_dismiss id={@id} params={@params} class={@dismiss_class} icon_class={@dismiss_icon_class} />
         </div>
       </div>
     </div>
@@ -222,6 +242,7 @@ defmodule <%= @module %> do
     ~H"""
     <div
       id={@id}
+      role="region"
       class={[
         "fixed z-50",
         space_class(@space),
@@ -247,6 +268,7 @@ defmodule <%= @module %> do
     doc: "Determines if the toast should include a dismiss button"
 
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
+  attr :icon_class, :string, default: nil, doc: "Custom CSS class for additional styling"
 
   attr :size, :string,
     default: "small",
@@ -259,9 +281,9 @@ defmodule <%= @module %> do
 
   defp toast_dismiss(assigns) do
     ~H"""
-    <button
+   <button
       type="button"
-      class="group shrink-0"
+      class={["group shrink-0 leading-5", @class]}
       aria-label={gettext("close")}
       phx-click={JS.push("dismiss", value: Map.merge(%{id: @id}, @params)) |> hide_toast("##{@id}")}
     >
@@ -270,7 +292,7 @@ defmodule <%= @module %> do
         class={[
           "toast-icon opacity-80 group-hover:opacity-70",
           dismiss_size(@size),
-          @class
+          @icon_class
         ]}
       />
     </button>
