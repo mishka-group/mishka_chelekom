@@ -112,6 +112,7 @@ defmodule <%= @module %> do
     <div
       id={@id}
       data-position={@position || "bottom"}
+      data-floating-type="dropdown"
       data-clickable={to_string(@clickable)}
       data-smart-position={to_string(@smart_position)}
       phx-hook="Floating"
