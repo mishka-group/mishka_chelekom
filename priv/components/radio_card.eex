@@ -52,6 +52,15 @@ defmodule <%= @module %> do
   attr :show_radio, :boolean, default: false, doc: "Boolean to show and hide radio"
   attr :label, :string, default: nil, doc: "Specifies text for the label"
   attr :description, :string, default: nil, doc: "Determines a short description"
+  attr :wrapper_class, :string, default: nil, doc: "Custom CSS class for the wrapper"
+
+  attr :field_label_wrapper, :string,
+    default: nil,
+    doc: "Custom CSS class for the field label wrapper"
+
+  attr :description_class, :string,
+    default: "text-[12px]",
+    doc: "Custom CSS class for the description"
 
   attr :size, :string,
     default: "small",
@@ -75,10 +84,16 @@ defmodule <%= @module %> do
     attr :value, :string, required: true
     attr :checked, :boolean, required: false
     attr :icon, :string, doc: "Icon displayed alongside of a radio"
-    attr :icon_class, :string, doc: "Determines custom class for the icon"
-    attr :content_class, :string, doc: "Determines custom class for the content"
     attr :title, :string, required: false
+    attr :icon_class, :string, doc: "Determines custom class for the icon"
+    attr :radio_wrapper_class, :string, doc: "Custom CSS class for the wrapper of radio"
+    attr :description_class, :string, doc: "Determines custom class for the description"
+    attr :title_class, :string, doc: "Determines custom class for the title"
     attr :description, :string, required: false
+    attr :card_label_class, :string, doc: "Custom CSS class for the wrapper of card label"
+    attr :content_class, :string, doc: "Determines custom class for the content"
+    attr :content_wrapper_class, :string, doc: "Determines custom class for the content wrapper"
+    attr :radio_input_class, :string, doc: "Custom CSS class for styling the radio input"
   end
 
   slot :inner_block
@@ -97,17 +112,17 @@ defmodule <%= @module %> do
 
   def radio_card(assigns) do
     ~H"""
-    <div class={["leading-5", space_class(@space)]}>
+    <div class={["leading-5", space_class(@space), @class]} {@rest}>
       <input type="hidden" name={@name} value="" disabled={@rest[:disabled]} />
 
-      <div :if={@label || @description} class="radio-card-label-wrapper">
-        <.label :if={@label} for={@id}>{@label}</.label>
-        <div :if={@description} class="text-[12px]">
+      <div :if={@label || @description} class={["radio-card-label-wrapper", @field_label_wrapper]}>
+        <.label :if={@label} for={@id} class={@label_class}>{@label}</.label>
+        <div :if={@description} class={@description_class}>
           {@description}
         </div>
       </div>
 
-      <div class={["grid", grid_cols(@cols), grid_gap(@cols_gap), @class]}>
+      <div class={["grid", grid_cols(@cols), grid_gap(@cols_gap), @wrapper_class]} role="radiogroup" aria-labelledby={@id && "#{@id}-label"} aria-describedby={@id && "#{@id}-desc"}>
         <label
           :for={{radio, index} <- Enum.with_index(@radio, 1)}
           for={"#{@id}-#{index}"}
@@ -122,12 +137,15 @@ defmodule <%= @module %> do
             rounded_size(@rounded),
             padding_size(@padding),
             size_class(@size),
-            @label_class
+            radio[:radio_wrapper_class]
           ]}
           {@rest}
         >
           <input
             type="radio"
+            aria-checked={radio[:checked]}
+            aria-labelledby={"#{@id}-#{index}-title"}
+            aria-describedby={"#{@id}-#{index}-desc"}
             name={@name}
             id={"#{@id}-#{index}"}
             value={radio[:value]}
@@ -135,28 +153,29 @@ defmodule <%= @module %> do
             class={[
               "radio-card-input shrink-0 focus:ring-0 focus:ring-offset-0 appearance-none",
               "disabled:opacity-50",
-              !@show_radio && "opacity-0 absolute"
+              !@show_radio && "opacity-0 absolute",
+              radio[:radio_input_class]
             ]}
           />
-          <div data-part="label" class="radio-card-content-wrapper flex-1">
+          <div data-part="label" class={["radio-card-content-wrapper flex-1", radio[:card_label_class]]}>
             <div
               :if={!is_nil(radio[:icon]) || radio[:title] || radio[:description]}
-              class="radio-slot-content flex flex-col"
+              class={["radio-slot-content", radio[:content_wrapper_class]]}
             >
               <.icon
                 :if={!is_nil(radio[:icon])}
                 name={radio[:icon]}
                 class={["block mx-auto", radio[:icon_class]]}
               />
-              <div :if={radio[:title]} class="block radio-card-title leading-[16px] font-semibold">
+              <div :if={radio[:title]} class={["block radio-card-title leading-[16px] font-semibold", radio[:title_class]]}>
                 {radio[:title]}
               </div>
 
-              <p :if={radio[:description]} class="radio-card-description">
+              <p :if={radio[:description]} class={["radio-card-description", radio[:description_class]]}>
                 {radio[:description]}
               </p>
             </div>
-            <div class="radio-card-content leading-[17px]">
+            <div class={["radio-card-content leading-[17px]", radio[:content_class]]}>
               {render_slot(radio)}
             </div>
           </div>
@@ -185,20 +204,19 @@ defmodule <%= @module %> do
     end
   end
 
-  @doc type: :component
+  attr :id, :string, default: nil, doc: "Unique identifire"
   attr :for, :string, default: nil, doc: "Specifies the form which is associated with"
   attr :class, :any, default: nil, doc: "Custom CSS class for additional styling"
   slot :inner_block, required: true, doc: "Inner block that renders HEEx content"
 
   defp label(assigns) do
     ~H"""
-    <label for={@for} class={["leading-4 font-semibold", @class]}>
+    <label for={@for} class={["leading-4 font-semibold", @class]} id={@id}>
       {render_slot(@inner_block)}
     </label>
     """
   end
 
-  @doc type: :component
   attr :icon, :string, default: nil, doc: "Icon displayed alongside of an item"
   slot :inner_block, required: true, doc: "Inner block that renders HEEx content"
 
