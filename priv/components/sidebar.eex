@@ -136,7 +136,7 @@ defmodule <%= @module %> do
             class={["size-8 flex items-center justify-center leading-5","rounded focus:outline-none bg-gray-500/10 border","dark:border-gray-700 m-2 text-gray-500", @hide_button_class]}
           >
             <.icon name="hero-chevron-right" class={["minimize-icon size-5", @minimize_icon_class]}/>
-            <span class="sr-only"><%= gettext("Minimize sidebar") %></span>
+            <span class="sr-only">{gettext("Minimize sidebar")}</span>
           </button>
         </div>
         <div class={["flex justify-end pt-2 px-2 mb-1 md:hidden dismiss-sidebar-wrapper", @close_wrapper_class]}>
