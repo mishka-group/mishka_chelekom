@@ -18,6 +18,7 @@ defmodule <%= @module %> do
   """
 
   use Phoenix.Component
+  use Gettext, backend: <%= inspect(@web_module) %>.Gettext
   <%= if is_nil(@type) or "filterable_gallery" in @type do %>
   import Phoenix.LiveView.Utils, only: [random_id: 0]
   <% end %>
@@ -67,6 +68,7 @@ defmodule <%= @module %> do
     ~H"""
     <div
       id={@id}
+      role="region"
       class={[
         (@type == "masonry" && "gallery-masonry") || "grid",
         grid_gap(@gap),
@@ -100,6 +102,7 @@ defmodule <%= @module %> do
     doc: "A unique identifier is used to manage state and interaction"
 
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
+  attr :wrapper_class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :src, :string, default: nil, doc: "Media link"
   attr :alt, :string, default: nil, doc: "Media link description"
   attr :rounded, :string, default: "none", doc: "Determines the border radius"
@@ -113,7 +116,7 @@ defmodule <%= @module %> do
 
   def gallery_media(assigns) do
     ~H"""
-    <div id={@id} class={["relative gallery-media overflow-hidden transition-all duration-300"]}>
+    <div id={@id} class={["relative gallery-media overflow-hidden transition-all duration-300", @wrapper_class]} {@rest}>
       <img
         :if={@src}
         class={[
@@ -153,10 +156,19 @@ defmodule <%= @module %> do
   slot :filter, required: false, doc: "Slot for rendering each filter button with let={filter}"
   attr :animation, :string, default: "", doc: "Determines gap between elements"
   attr :animation_size, :string, default: "extra_small", doc: "Determines gap between elements"
+  attr :content_class, :string, default: nil, doc: "Add custom classe to content wrapper"
+
+  attr :filters_wrapper_class, :string,
+  default: nil,
+  doc: "Add custom classe to filter button wrapper"
 
   slot :media_block,
     required: false,
     doc: "Optional slot for rendering each media item with let={media}"
+
+  attr :rest, :global,
+    doc:
+      "Global attributes can define defaults which are merged with attributes provided by the caller"
 
   def filterable_gallery(assigns) do
     assigns = assign_new(assigns, :id, fn -> random_id() end)
@@ -166,10 +178,12 @@ defmodule <%= @module %> do
       id={@id}
       phx-hook="GalleryFilter"
       phx-update="ignore"
+      role="region"
       data-default-filter={@default_filter}
       class={["filterable-gallery", animation(@animation, @animation_size), @class]}
+      {@rest}
     >
-      <div class="filter-buttons mb-4 flex flex-wrap gap-2">
+      <div class={["filter-buttons mb-4 flex flex-wrap gap-2", @filters_wrapper_class]} role="group" aria-label={gettext("Filter options")}>
         <div :if={not Enum.member?(@filters, @default_filter)}>
           <div :if={@filter != []}>
             {render_slot(@filter, @default_filter)}
@@ -199,7 +213,7 @@ defmodule <%= @module %> do
           </button>
         </div>
       </div>
-      <div class={["grid", grid_gap(@gap), grid_cols(@cols)]}>
+      <div class={["grid", grid_gap(@gap), grid_cols(@cols), @content_class]}>
         <div
           :for={media <- @media}
           data-gallery-item

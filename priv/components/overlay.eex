@@ -41,6 +41,11 @@ defmodule <%= @module %> do
   attr :backdrop, :string, default: "", doc: ""
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
 
+  attr :z_index, :string,
+    default: "z-50",
+    doc:
+      "Utility class for controlling the z-index stacking order of the overlay (e.g., 'z-10', 'z-50')."
+
   attr :rest, :global,
     doc:
       "Global attributes can define defaults which are merged with attributes provided by the caller"
@@ -52,11 +57,15 @@ defmodule <%= @module %> do
     ~H"""
     <div
       id={@id}
+      aria-hidden="true"
+      role="presentation"
+      tabindex="-1"
       class={[
-        "overlay absolute inset-0 z-50",
+        "overlay absolute inset-0",
         color_class(@color),
         opacity_class(@opacity),
         backdrop_class(@backdrop),
+        @z_index,
         @class
       ]}
       {@rest}
