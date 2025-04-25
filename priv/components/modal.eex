@@ -65,14 +65,39 @@ defmodule <%= @module %> do
       "Determines the overall size of the elements, including padding, font size, and other items"
 
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
-  attr :title_class, :string, default: "text-base md:text-lg xl:text-2xl", doc: "Custom CSS class for additional styling to title"
-  attr :icon_class, :string, default: "size-5", doc: "Custom CSS class for additional styling to icons close button"
-  attr :content_class, :string, default: nil, doc: "Custom CSS class for additional styling to content"
-  attr :close_class, :string, default: nil, doc: "Custom CSS class for additional styling to content"
-  attr :focus_wrap_class, :string, default: nil, doc: "Custom CSS class for additional styling to focus wrapper"
-  attr :inner_wrapper_class, :string, default: nil, doc: "Custom CSS class for additional styling to inner wrap"
-  attr :wrapper_class, :string, default: nil, doc: "Custom CSS class for additional styling to wrapper"
-  attr :overlay_class, :string, default: nil, doc: "Custom CSS class for additional styling to overlay"
+  
+  attr :title_class, :string,
+    default: "text-base md:text-lg xl:text-2xl",
+    doc: "Custom CSS class for additional styling to title"
+
+  attr :icon_class, :string,
+    default: "size-5",
+    doc: "Custom CSS class for additional styling to icons close button"
+
+  attr :content_class, :string,
+    default: nil,
+    doc: "Custom CSS class for additional styling to content"
+
+  attr :close_class, :string,
+    default: nil,
+    doc: "Custom CSS class for additional styling to content"
+
+  attr :focus_wrap_class, :string,
+    default: nil,
+    doc: "Custom CSS class for additional styling to focus wrapper"
+
+  attr :inner_wrapper_class, :string,
+    default: nil,
+    doc: "Custom CSS class for additional styling to inner wrap"
+
+  attr :wrapper_class, :string,
+    default: nil,
+    doc: "Custom CSS class for additional styling to wrapper"
+
+  attr :overlay_class, :string,
+    default: nil,
+    doc: "Custom CSS class for additional styling to overlay"
+
   attr :show, :boolean, default: false, doc: "Show element"
   attr :on_cancel, JS, default: %JS{}, doc: "Custom JS module for on_cancel action"
   slot :inner_block, required: true, doc: "Inner block that renders HEEx content"
@@ -126,7 +151,7 @@ defmodule <%= @module %> do
                   class={["p-2 hover:opacity-60", @close_class]}
                   aria-label={gettext("close")}
                 >
-                  <.icon name="hero-x-mark-solid" class={["size-5", @icon_class]} />
+                  <.icon name="hero-x-mark-solid" class={@icon_class} />
                 </button>
               </div>
 
