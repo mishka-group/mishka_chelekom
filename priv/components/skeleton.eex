@@ -24,6 +24,7 @@ defmodule <%= @module %> do
   """
 
   use Phoenix.Component
+  use Gettext, backend: <%= inspect(@web_module) %>.Gettext
 
   @doc """
   Renders a `skeleton` loader component to indicate loading state in your application.
@@ -66,6 +67,8 @@ defmodule <%= @module %> do
     <div
       :if={@visible}
       role="status"
+      aria-live="polite"
+      aria-busy="true"
       id={@id}
       class={[
         rounded_size(@rounded),
@@ -75,7 +78,9 @@ defmodule <%= @module %> do
         @rest[:animated] && "animate-pulse",
         @class
       ]}
+      {@rest}
     >
+      <span class="sr-only">{gettext("Loading...")}</span>
     </div>
     """
   end
