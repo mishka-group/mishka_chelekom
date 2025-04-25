@@ -19,6 +19,7 @@ defmodule <%= @module %> do
   use Phoenix.Component
   alias Phoenix.LiveView.JS
   import <%= inspect(@web_module) %>.Components.Icon, only: [icon: 1]
+  use Gettext, backend: <%= inspect(@web_module) %>.Gettext
 
   @doc """
   Renders a `pagination` component that allows users to navigate through pages.
@@ -96,6 +97,38 @@ defmodule <%= @module %> do
 
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
 
+  attr :first_label_class, :string,
+    default: nil,
+    doc: "Custom CSS class for additional styling to first button"
+
+  attr :next_label_class, :string,
+    default: nil,
+    doc: "Custom CSS class for additional styling to next button"
+
+  attr :last_label_class, :string,
+    default: nil,
+    doc: "Custom CSS class for additional styling to last button"
+
+  attr :prev_label_class, :string,
+    default: nil,
+    doc: "Custom CSS class for additional styling to prveious button"
+
+  attr :pages_label_class, :string,
+    default: nil,
+    doc: "Custom CSS class for additional styling to pages buttons"
+
+  attr :seperator_class, :string,
+    default: nil,
+    doc: "Custom CSS class for additional styling to pages buttons"
+
+  attr :separator_icon_class, :string,
+    default: nil,
+    doc: "Custom CSS class for additional styling to icon of seperator"
+
+  attr :separator_text_class, :string,
+    default: nil,
+    doc: "Custom CSS class for additional styling to text of seperator"
+
   attr :params, :map,
     default: %{},
     doc: "A map of additional parameters used for element configuration"
@@ -114,21 +147,20 @@ defmodule <%= @module %> do
     assigns = assign(assigns, %{siblings: build_pagination(total, active, siblings, boundaries)})
 
     ~H"""
-    <div
+    <nav
       :if={show_pagination?(@rest[:hide_one_page], @total)}
       id={@id}
-      class={
-        default_classes() ++
-          [
-            color_variant(@variant, @color),
-            border_size(@border, @variant),
-            rounded_size(@rounded),
-            size_class(@size),
-            border_class(@color),
-            (!is_nil(@rest[:grouped]) && "gap-0 grouped-pagination") || space_class(@space),
-            @class
-          ]
-      }
+      class={[
+              default_classes(),
+              color_variant(@variant, @color),
+              border_size(@border, @variant),
+              rounded_size(@rounded),
+              size_class(@size),
+              border_class(@color),
+              (!is_nil(@rest[:grouped]) && "gap-0 grouped-pagination") || space_class(@space),
+              @class
+          ]}
+      {@rest}
     >
       {render_slot(@start_items)}
 
@@ -138,6 +170,8 @@ defmodule <%= @module %> do
         page={{nil, @active}}
         params={@params}
         label={@first_label}
+        class={@first_label_class}
+        aria_label={gettext("First page")}
         disabled={@active <= 1}
       />
 
@@ -147,16 +181,24 @@ defmodule <%= @module %> do
         page={{nil, @active}}
         params={@params}
         label={@previous_label}
+        class={@prev_label_class}
+        aria_label={gettext("Previous page")}
         disabled={@active <= 1}
       />
 
       <div :for={range <- @siblings.range}>
         <%%= if is_integer(range) do %>
-          <.item_button on_action={{"select", @on_select}} page={{range, @active}} params={@params} />
+          <.item_button on_action={{"select", @on_select}} page={{range, @active}} params={@params} class={@pages_label_class} />
         <%% else %>
-          <div class="pagination-seperator flex justify-center items-center">
-            <.icon :if={Map.get(@separator, :type) == :icon} name={@separator.value} class="pagination-icon" />
-            <span :if={Map.get(@separator, :type) != :icon} class="pagination-text">{@separator.value}</span>
+          <div class={["pagination-seperator flex justify-center items-center", @seperator_class]} aria-hidden="true">
+            <.icon
+                :if={Map.get(@separator, :type) == :icon}
+                name={@separator.value}
+                class={["pagination-icon", @separator_icon_class]}
+              />
+            <span :if={Map.get(@separator, :type) != :icon} class={["pagination-text", @separator_text_class]}>
+              {@separator.value}
+            </span>
           </div>
         <%% end %>
       </div>
@@ -167,6 +209,8 @@ defmodule <%= @module %> do
         page={{nil, @active}}
         params={@params}
         label={@next_label}
+        class={@next_label_class}
+        aria_label={gettext("Next page")}
         disabled={@active >= @total}
       />
 
@@ -176,11 +220,13 @@ defmodule <%= @module %> do
         page={{nil, @active}}
         params={@params}
         label={@last_label}
+        class={@last_label_class}
+        aria_label={gettext("Last page")}
         disabled={@active >= @total}
       />
 
       {render_slot(@end_items)}
-    </div>
+    </nav>
     """
   end
 
@@ -193,13 +239,25 @@ defmodule <%= @module %> do
   attr :on_action, JS, default: %JS{}, doc: "Custom JS module for on_action action"
   attr :label, :string, required: false, doc: "Icon displayed alongside of an item"
   attr :disabled, :boolean, required: false, doc: "Specifies whether the element is disabled"
+  attr :aria_label, :string, default: nil, doc: "Accessible label for screen readers"
+  attr :class, :string, default: nil, doc: "Custom class for addition styling"
 
   defp item_button(%{on_action: {"select", _on_action}} = assigns) do
     ~H"""
     <button
+      aria-current={elem(@page, 1) == elem(@page, 0) && "page"}
+      aria-label={
+        if elem(@page, 1) == elem(@page, 0) do
+          gettext("Page %{page}, current page", page: elem(@page, 0))
+        else
+          gettext("Go to page %{page}", page: elem(@page, 0))
+        end
+      }
+      aria-disabled={elem(@page, 0) == elem(@page, 1)}
       class={[
         "pagination-button",
-        elem(@page, 1) == elem(@page, 0) && "active-pagination-button"
+        elem(@page, 1) == elem(@page, 0) && "active-pagination-button",
+        @class
       ]}
       phx-click={
         elem(@on_action, 1)
@@ -215,7 +273,9 @@ defmodule <%= @module %> do
   defp item_button(assigns) do
     ~H"""
     <button
-      class="pagination-control flex items-center justify-center"
+      class={["pagination-control flex items-center justify-center", @class]}
+      aria-disabled={@disabled}
+      aria-label={@aria_label}
       phx-click={
         elem(@on_action, 1)
         |> JS.push("pagination", value: Map.merge(%{action: elem(@on_action, 0)}, @params))
