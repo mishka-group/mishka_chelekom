@@ -18,10 +18,10 @@ defmodule <%= @module %> do
   """
 
   use Phoenix.Component
+  use Gettext, backend: <%= inspect(@web_module) %>.Gettext
   <%= if is_nil(@type) or "filterable_gallery" in @type do %>
   import Phoenix.LiveView.Utils, only: [random_id: 0]
   <% end %>
-  use Gettext, backend: <%= inspect(@web_module) %>.Gettext
 
   <%= if is_nil(@type) or "gallery" in @type do %>
   @doc """
@@ -169,7 +169,7 @@ defmodule <%= @module %> do
   attr :rest, :global,
     doc:
       "Global attributes can define defaults which are merged with attributes provided by the caller"
-      
+
   def filterable_gallery(assigns) do
     assigns = assign_new(assigns, :id, fn -> random_id() end)
 
