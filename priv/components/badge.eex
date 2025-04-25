@@ -82,7 +82,11 @@ defmodule <%= @module %> do
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :icon_class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :content_class, :string, default: nil, doc: "Custom CSS class for additional styling"
-  attr :dismiss_class, :string, default: nil, doc: "Custom CSS class for additional styling"
+  
+  attr :dismiss_class, :string,
+    default: nil,
+    doc: "Custom CSS class for additional styling of dismiss button"
+
   attr :badge_position, :string, default: "", doc: "poistion of badge"
 
   attr :indicator_class, :string,
