@@ -73,7 +73,7 @@ defmodule <%= @module %> do
   attr :width, :string, default: "fit", doc: "Determines the element width"
   attr :wrapper_width, :string, default: "w-fit", doc: "Determines the parent element width"
   attr :wrapper_class, :string, default: "w-fit", doc: "Determines the parent element class"
-  attr :arrow_class, :string, default: "w-fit", doc: "Determines the parent element class"
+  attr :arrow_class, :string, default: nil, doc: "Determines arrow class"
   attr :padding, :string, default: "small", doc: "Determines padding for items"
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :text_position, :string, default: "center", doc: "Determines the element' text position"
