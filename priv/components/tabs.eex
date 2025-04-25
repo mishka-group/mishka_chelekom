@@ -295,8 +295,8 @@ defmodule <%= @module %> do
         <div
           :for={{panel, index} <- Enum.with_index(@panel, 1)}
           id={"#{@id}-tab-panel-#{index}"}
-          role="tabpanel"
           aria-labelledby={"#{@id}-tab-header-#{index}"}
+          role="tabpanel"
           class={[
             "tab-content w-full",
             "[&:not(.active-tab-panel)]:hidden [&:not(.active-tab-panel)]:opacity-0 [&:not(.active-tab-panel)]:invisible",
