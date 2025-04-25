@@ -125,7 +125,7 @@ defmodule <%= @module %> do
       ]}
       {@rest}
     >
-      <div class={["flex items-center justify-center", size_class(@size)]}>
+      <div class={["flex items-center justify-center", size_class(@size, :text)]}>
         <div :for={icon <- @icon} class={[icon[:size], icon[:color], icon[:class]]}>
           <.icon name={icon[:name]} class={icon[:icon_class] || size_class(@size, :icon)} />
         </div>
@@ -170,7 +170,7 @@ defmodule <%= @module %> do
       ]}
       {@rest}
     >
-      <div class={["flex items-center justify-center", size_class(@size)]}>
+      <div class={["flex items-center justify-center", size_class(@size, :text)]}>
         <div :for={icon <- @icon} class={[icon[:size], icon[:color], icon[:class]]}>
           <.icon name={icon[:name]} class={icon[:icon_class] || size_class(@size, :icon)} />
         </div>
