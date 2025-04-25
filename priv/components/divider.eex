@@ -242,9 +242,9 @@ defmodule <%= @module %> do
     ~H"""
     <div class="relative">
       <hr
+        id={@id}
         role="separator"
         aria-orientation="horizontal"
-        id={@id}
         class={
           [
             "mx-auto",
@@ -437,7 +437,7 @@ defmodule <%= @module %> do
   <%= if is_nil(@color) or "base" in @color do %>
   defp color_class("base", position) do
     [
-      "text-[#09090b] border-[#e4e4e7] dark:text-[#27272a] dark:border-[#27272a]",
+      "text-[#09090b] border-[#e4e4e7] dark:text-[#FAFAFA] dark:border-[#27272a]",
       position == "right" && "has-[.divider-content.devider-right]:before:border-[#e4e4e7] dark:has-[.divider-content.devider-right]:before:border-[#27272a]",
       position == "left" && "has-[.divider-content.devider-left]:after:border-[#e4e4e7] dark:has-[.divider-content.devider-left]:after:border-[#27272a]",
       position == "middle" && "has-[.divider-content.devider-middle]:before:border-[#e4e4e7] has-[.divider-content.devider-middle]:after:border-[#e4e4e7] dark:has-[.divider-content.devider-middle]:before:border-[#27272a] dark:has-[.divider-content.devider-middle]:after:border-[#27272a]"
