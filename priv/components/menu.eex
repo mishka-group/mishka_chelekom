@@ -336,7 +336,11 @@ defmodule <%= @module %> do
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :link_class, :string, default: nil, doc: "Custom CSS class for additional styling for link"
   attr :item_class, :string, default: nil, doc: "Custom CSS class for additional styling for li"
-  attr :accordion_class, :string, default: nil, doc: "Custom CSS class for additional styling for accordion"
+
+  attr :accordion_class, :string,
+    default: nil,
+    doc: "Custom CSS class for additional styling for accordion"
+    
   attr :menu_items, :list, default: [], doc: "Determines menu items as a list of maps"
   attr :space, :string, default: "small", doc: "Space between items"
   attr :padding, :string, default: "small", doc: "Determines padding for items"
