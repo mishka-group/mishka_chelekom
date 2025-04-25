@@ -29,6 +29,7 @@ defmodule <%= @module %> do
   use Gettext, backend: <%= inspect(@web_module) %>.Gettext
   alias Phoenix.LiveView.JS
   import <%= inspect(@web_module) %>.Components.Icon, only: [icon: 1]
+  import Phoenix.LiveView.Utils, only: [random_id: 0]
 
   <%= if is_nil(@type) or "flash" in @type do %>
   @doc type: :component
@@ -105,9 +106,11 @@ defmodule <%= @module %> do
       id={@id}
       phx-click={JS.push("lv:clear-flash", value: %{key: @kind}) |> hide_alert("##{@id}")}
       role="alert"
+      aria-live="assertive"
+      aria-labelledby={@title && @id && "#{@id}-title"}
       class={[
         "z-50 flash-alert leading-5",
-        border_class(@border,@variant),
+        border_class(@border, @variant),
         color_variant(@variant, @kind),
         position_class(@position),
         rounded_size(@rounded),
@@ -121,8 +124,8 @@ defmodule <%= @module %> do
     >
       <div class="flex items-center justify-between gap-2">
         <div>
-          <div :if={@title} class={@title_class}>
-            <.icon :if={!is_nil(@icon)} name={@icon} class="aler-icon" /> {@title}
+          <div :if={@title} class={@title_class} id={@id && "#{@id}-title"}>
+            <.icon :if={!is_nil(@icon)} name={@icon} class="aler-icon" aria-hidden="true" /> {@title}
           </div>
 
           <div class={@content_class}>{msg}</div>
@@ -264,6 +267,9 @@ defmodule <%= @module %> do
     default: "flex items-center gap-1.5 leading-6 font-semibold mb-1",
     doc: "Custom CSS class for additional styling to tile"
 
+  attr :icon_class, :string,
+    default: nil,
+    doc: "Custom CSS class for additional styling to icon"
   slot :inner_block, doc: "Inner block that renders HEEx content"
 
   attr :rest, :global,
@@ -271,10 +277,14 @@ defmodule <%= @module %> do
       "Global attributes can define defaults which are merged with attributes provided by the caller"
 
   def alert(assigns) do
+    assigns = assigns |> assign_new(:id, fn -> "alert-#{random_id()}" end)
+
     ~H"""
     <div
       id={@id}
-      role="alert leading-5"
+      role="alert"
+      aria-live="assertive"
+      aria-labelledby={@title && @id && "#{@id}-title"}
       class={[
         border_class(@border, @variant),
         color_variant(@variant, @kind),
@@ -288,8 +298,13 @@ defmodule <%= @module %> do
       ]}
       {@rest}
     >
-      <div :if={@title} class={@title_class}>
-        <.icon :if={!is_nil(@icon)} name={@icon} class="aler-icon" /> {@title}
+      <div :if={@title} class={@title_class} id={@id && "#{@id}-title"}>
+        <.icon
+          :if={!is_nil(@icon)}
+          name={@icon}
+          class={["aler-icon", @icon_class]}
+          aria-hidden="true"
+        /> {@title}
       </div>
 
       {render_slot(@inner_block)}
