@@ -199,7 +199,12 @@ defmodule <%= @module %> do
   attr :horizontal, :boolean, default: false, doc: "Determines whether element is horizontal"
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :icon_class, :string, default: nil, doc: "Custom CSS class for additional styling icon"
+  attr :line_class, :string, default: nil, doc: "Custom CSS class for additional styling lines"
 
+  attr :bullte_wrapper_class,
+    :string, default: nil,
+    doc: "Custom CSS class for additional styling icon"
+    
   attr :bullet_class, :string,
     default: nil,
     doc: "Custom CSS class for additional styling bullets"
