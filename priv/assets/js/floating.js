@@ -1,4 +1,4 @@
-let Floating = {
+const Floating = {
   mounted() {
     this.initElements();
 
