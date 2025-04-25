@@ -119,10 +119,6 @@ defmodule <%= @module %> do
     default: nil,
     doc: "Label for the button used to trigger the copy operation."
 
-  attr :copy_button_aria_label, :string,
-    default: nil,
-    doc: "ARIA label for accessibility purposes on the copy button."
-
   attr :text_description, :string,
     default: nil,
     doc:
@@ -135,6 +131,10 @@ defmodule <%= @module %> do
   attr :content_class, :string,
     default: "block mb-2",
     doc: "CSS class for styling the status message shown after a copy operation."
+
+  attr :trigger_class, :string,
+    default: nil,
+    doc: "CSS class for styling the trigger wrapper."
 
   attr :show_status_text, :boolean,
     default: true,
@@ -155,6 +155,10 @@ defmodule <%= @module %> do
   slot :inner_block,
     doc:
       "Slot for additional content or inner components that should be rendered inside the clipboard container."
+
+  attr :rest, :global,
+    doc:
+      "Global attributes can define defaults which are merged with attributes provided by the caller"
 
   def clipboard(assigns) do
     assigns =
@@ -199,10 +203,9 @@ defmodule <%= @module %> do
       </span>
 
       <span
-        class="clipboard-trigger"
+        class={["clipboard-trigger", @trigger_class]}
         role="button"
         tabindex="0"
-        aria-label={@copy_button_aria_label || @copy_button_label}
         aria-describedby={@status_id}
         aria-pressed="false"
       >
@@ -215,6 +218,7 @@ defmodule <%= @module %> do
         class={["clipboard-status", @status_class]}
         aria-live="polite"
         aria-hidden="true"
+        aria-atomic="true"
       >
       </span>
 
