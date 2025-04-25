@@ -228,9 +228,9 @@ defmodule <%= @module %> do
     ~H"""
     <.link
       id={"#{@id}-speed-dial-item-#{@index}"}
+      class={["block speed-dial-base flex flex-col", color_variant(@variant, @color)]}
       role="menuitem"
       tabindex="0"
-      class={["block speed-dial-base flex flex-col", color_variant(@variant, @color)]}
       navigate={@navigate}
       patch={@patch}
       href={@href}
