@@ -95,15 +95,14 @@ defmodule <%= @module %> do
     ~H"""
     <div
       id={@id}
-      class={
-          [
-            default_classes(:grouped, false),
-            variation(@variation),
-            rounded_size(@rounded),
-            border_class(@color),
-            @class
-          ]
-      }
+      role="group"
+      class={[
+        default_classes(:grouped, false),
+        variation(@variation),
+        rounded_size(@rounded),
+        border_class(@color),
+        @class
+      ]}
       {@rest}
     >
       {render_slot(@inner_block)}
@@ -182,6 +181,7 @@ defmodule <%= @module %> do
   slot :inner_block, required: false, doc: "Inner block that renders HEEx content"
 
   slot :loading, required: false do
+    attr :class, :string, doc: "Custom CSS class for additional styling"
     attr :position, :string,
       values: ["start", "end"],
       doc: "Determines the element position"
@@ -194,26 +194,25 @@ defmodule <%= @module %> do
     <button
       type={@type}
       id={@id}
-      class={
-          [
-            default_classes(@rest[:pinging], @indicator),
-            size_class(@size, @rest[:circle]),
-            color_variant(@variant, @color, @indicator),
-            content_position(@content_position),
-            rounded_size(@rounded),
-            border_size(@border, @variant),
-            @full_width && "w-full",
-            @line_height,
-            @font_weight,
-            @display,
-            @class
-          ]
-      }
+      class={[
+        default_classes(@rest[:pinging], @indicator),
+        size_class(@size, @rest[:circle]),
+        color_variant(@variant, @color, @indicator),
+        content_position(@content_position),
+        rounded_size(@rounded),
+        border_size(@border, @variant),
+        @full_width && "w-full",
+        @line_height,
+        @font_weight,
+        @display,
+        @class
+      ]}
       {drop_rest(@rest)}
     >
       <span
         :for={loading <- @loading}
         :if={is_nil(loading[:position]) || loading[:position] == "start"}
+        class={loading[:class]}
       >
         {render_slot(loading)}
       </span>
@@ -226,7 +225,7 @@ defmodule <%= @module %> do
       <.icon :if={icon_position(@icon, @rest) == "right"} name={@icon} class={@icon_class} />
       <.button_indicator size={@indicator_size} class={@indicator_class} {@rest} />
 
-      <span :for={loading <- @loading} :if={loading[:position] == "end"}>
+      <span :for={loading <- @loading} :if={loading[:position] == "end"} class={loading[:class]}>
         {render_slot(loading)}
       </span>
     </button>
@@ -294,21 +293,19 @@ defmodule <%= @module %> do
       type={@type}
       id={@id}
       value={@value}
-      class={
-          [
-            default_classes(@rest[:pinging], false),
-            size_class(@size, @rest[:circle]),
-            color_variant(@variant, @color, false),
-            content_position(@content_position),
-            rounded_size(@rounded),
-            border_size(@border, @variant),
-            @full_width && "w-full",
-            @font_weight,
-            @line_height,
-            @display,
-            @class
-          ]
-      }
+      class={[
+        default_classes(@rest[:pinging], false),
+        size_class(@size, @rest[:circle]),
+        color_variant(@variant, @color, false),
+        content_position(@content_position),
+        rounded_size(@rounded),
+        border_size(@border, @variant),
+        @full_width && "w-full",
+        @font_weight,
+        @line_height,
+        @display,
+        @class
+      ]}
       {@rest}
     />
     """
@@ -387,6 +384,7 @@ defmodule <%= @module %> do
   slot :inner_block, required: false, doc: "Inner block that renders HEEx content"
 
   slot :loading, required: false do
+    attr :class, :string, doc: "Custom CSS class for additional styling"
     attr :position, :string,
       values: ["start", "end"],
       doc: "Determines the element position"
@@ -399,25 +397,24 @@ defmodule <%= @module %> do
     <.link
       navigate={@navigate}
       id={@id}
-      class={
-          [
-            default_classes(@rest[:pinging], @indicator),
-            size_class(@size, @rest[:circle]),
-            color_variant(@variant, @color, @indicator),
-            rounded_size(@rounded),
-            border_size(@border, @variant),
-            @full_width && "w-full",
-            @font_weight,
-            @line_height,
-            @display,
-            @class
-          ]
-      }
+      class={[
+        default_classes(@rest[:pinging], @indicator),
+        size_class(@size, @rest[:circle]),
+        color_variant(@variant, @color, @indicator),
+        rounded_size(@rounded),
+        border_size(@border, @variant),
+        @full_width && "w-full",
+        @font_weight,
+        @line_height,
+        @display,
+        @class
+      ]}
       {drop_rest(@rest)}
     >
       <span
         :for={loading <- @loading}
         :if={is_nil(loading[:position]) || loading[:position] == "start"}
+        class={loading[:class]}
       >
         {render_slot(loading)}
       </span>
@@ -430,7 +427,7 @@ defmodule <%= @module %> do
       <.icon :if={icon_position(@icon, @rest) == "right"} name={@icon} class={@icon_class} />
       <.button_indicator size={@indicator_size} class={@indicator_class} {@rest} />
 
-      <span :for={loading <- @loading} :if={loading[:position] == "end"}>
+      <span :for={loading <- @loading} :if={loading[:position] == "end"} class={loading[:class]}>
         {render_slot(loading)}
       </span>
     </.link>
@@ -444,24 +441,23 @@ defmodule <%= @module %> do
     <.link
       patch={@patch}
       id={@id}
-      class={
-          [
-            default_classes(@rest[:pinging], @indicator),
-            size_class(@size, @rest[:circle]),
-            color_variant(@variant, @color, @indicator),
-            rounded_size(@rounded),
-            border_size(@border, @variant),
-            @full_width && "w-full",
-            @font_weight,
-            @line_height,
-            @class
-          ]
-      }
+      class={[
+        default_classes(@rest[:pinging], @indicator),
+        size_class(@size, @rest[:circle]),
+        color_variant(@variant, @color, @indicator),
+        rounded_size(@rounded),
+        border_size(@border, @variant),
+        @full_width && "w-full",
+        @font_weight,
+        @line_height,
+        @class
+      ]}
       {drop_rest(@rest)}
     >
       <span
         :for={loading <- @loading}
         :if={is_nil(loading[:position]) || loading[:position] == "start"}
+        class={loading[:class]}
       >
         {render_slot(loading)}
       </span>
@@ -474,7 +470,7 @@ defmodule <%= @module %> do
       <.icon :if={icon_position(@icon, @rest) == "right"} name={@icon} />
       <.button_indicator size={@indicator_size} class={@indicator_class} {@rest} />
 
-      <span :for={loading <- @loading} :if={loading[:position] == "end"}>
+      <span :for={loading <- @loading} :if={loading[:position] == "end"} class={loading[:class]}>
         {render_slot(loading)}
       </span>
     </.link>
@@ -488,24 +484,23 @@ defmodule <%= @module %> do
     <.link
       href={@href}
       id={@id}
-      class={
-          [
-            default_classes(@rest[:pinging], @indicator),
-            size_class(@size, @rest[:circle]),
-            color_variant(@variant, @color, @indicator),
-            rounded_size(@rounded),
-            border_size(@border, @variant),
-            @full_width && "w-full",
-            @font_weight,
-            @line_height,
-            @class
-          ]
-      }
+      class={[
+        default_classes(@rest[:pinging], @indicator),
+        size_class(@size, @rest[:circle]),
+        color_variant(@variant, @color, @indicator),
+        rounded_size(@rounded),
+        border_size(@border, @variant),
+        @full_width && "w-full",
+        @font_weight,
+        @line_height,
+        @class
+      ]}
       {drop_rest(@rest)}
     >
       <span
         :for={loading <- @loading}
         :if={is_nil(loading[:position]) || loading[:position] == "start"}
+        class={loading[:class]}
       >
         {render_slot(loading)}
       </span>
@@ -518,7 +513,7 @@ defmodule <%= @module %> do
       <.icon :if={icon_position(@icon, @rest) == "right"} name={@icon} />
       <.button_indicator size={@indicator_size} class={@indicator_class} {@rest} />
 
-      <span :for={loading <- @loading} :if={loading[:position] == "end"}>
+      <span :for={loading <- @loading} :if={loading[:position] == "end"} class={loading[:class]}>
         {render_slot(loading)}
       </span>
     </.link>
@@ -567,99 +562,123 @@ defmodule <%= @module %> do
 
   defp button_indicator(%{position: "left", rest: %{left_indicator: true}} = assigns) do
     ~H"""
-    <span class={["indicator", indicator_size(@size), @class]} />
+    <span aria-hidden="true" class={["indicator", indicator_size(@size), @class]} />
     """
   end
 
   defp button_indicator(%{position: "left", rest: %{indicator: true}} = assigns) do
     ~H"""
-    <span class={["indicator", indicator_size(@size), @class]} />
+    <span aria-hidden="true" class={["indicator", indicator_size(@size), @class]} />
     """
   end
 
   defp button_indicator(%{position: "none", rest: %{right_indicator: true}} = assigns) do
     ~H"""
-    <span class={["indicator", indicator_size(@size), @class]} />
+    <span aria-hidden="true" class={["indicator", indicator_size(@size), @class]} />
     """
   end
 
   defp button_indicator(%{position: "none", rest: %{top_left_indicator: true}} = assigns) do
     ~H"""
-    <span class={[
-      "indicator",
-      indicator_size(@size),
-      @class || "absolute -translate-y-1/2 -translate-x-1/2 right-auto top-0 left-0"
-    ]} />
+    <span
+      aria-hidden="true"
+      class={[
+        "indicator",
+        indicator_size(@size),
+        @class || "absolute -translate-y-1/2 -translate-x-1/2 right-auto top-0 left-0"
+      ]}
+    />
     """
   end
 
   defp button_indicator(%{position: "none", rest: %{top_center_indicator: true}} = assigns) do
     ~H"""
-    <span class={[
-      "indicator",
-      indicator_size(@size),
-      @class || "absolute top-0 -translate-y-1/2 translate-x-1/2 right-1/2"
-    ]} />
+    <span
+      aria-hidden="true"
+      class={[
+        "indicator",
+        indicator_size(@size),
+        @class || "absolute top-0 -translate-y-1/2 translate-x-1/2 right-1/2"
+      ]}
+    />
     """
   end
 
   defp button_indicator(%{position: "none", rest: %{top_right_indicator: true}} = assigns) do
     ~H"""
-    <span class={[
-      "indicator",
-      indicator_size(@size),
-      @class || "absolute -translate-y-1/2 translate-x-1/2 left-auto top-0 right-0"
-    ]} />
+    <span
+      aria-hidden="true"
+      class={[
+        "indicator",
+        indicator_size(@size),
+        @class || "absolute -translate-y-1/2 translate-x-1/2 left-auto top-0 right-0"
+      ]}
+    />
     """
   end
 
   defp button_indicator(%{position: "none", rest: %{middle_left_indicator: true}} = assigns) do
     ~H"""
-    <span class={[
-      "indicator",
-      indicator_size(@size),
-      @class || "absolute -translate-y-1/2 -translate-x-1/2 right-auto left-0 top-2/4"
-    ]} />
+    <span
+      aria-hidden="true"
+      class={[
+        "indicator",
+        indicator_size(@size),
+        @class || "absolute -translate-y-1/2 -translate-x-1/2 right-auto left-0 top-2/4"
+      ]}
+    />
     """
   end
 
   defp button_indicator(%{position: "none", rest: %{middle_right_indicator: true}} = assigns) do
     ~H"""
-    <span class={[
-      "indicator",
-      indicator_size(@size),
-      @class || "absolute -translate-y-1/2 translate-x-1/2 left-auto right-0 top-2/4"
-    ]} />
+    <span
+      aria-hidden="true"
+      class={[
+        "indicator",
+        indicator_size(@size),
+        @class || "absolute -translate-y-1/2 translate-x-1/2 left-auto right-0 top-2/4"
+      ]}
+    />
     """
   end
 
   defp button_indicator(%{position: "none", rest: %{bottom_left_indicator: true}} = assigns) do
     ~H"""
-    <span class={[
-      "indicator",
-      indicator_size(@size),
-      @class || "absolute translate-y-1/2 -translate-x-1/2 right-auto bottom-0 left-0"
-    ]} />
+    <span
+      aria-hidden="true"
+      class={[
+        "indicator",
+        indicator_size(@size),
+        @class || "absolute translate-y-1/2 -translate-x-1/2 right-auto bottom-0 left-0"
+      ]}
+    />
     """
   end
 
   defp button_indicator(%{position: "none", rest: %{bottom_center_indicator: true}} = assigns) do
     ~H"""
-    <span class={[
-      "indicator",
-      indicator_size(@size),
-      @class || "absolute translate-y-1/2 translate-x-1/2 bottom-0 right-1/2"
-    ]} />
+    <span
+      aria-hidden="true"
+      class={[
+        "indicator",
+        indicator_size(@size),
+        @class || "absolute translate-y-1/2 translate-x-1/2 bottom-0 right-1/2"
+      ]}
+    />
     """
   end
 
   defp button_indicator(%{position: "none", rest: %{bottom_right_indicator: true}} = assigns) do
     ~H"""
-    <span class={[
-      "indicator",
-      indicator_size(@size),
-      @class || "absolute translate-y-1/2 translate-x-1/2 left-auto bottom-0 right-0"
-    ]} />
+    <span
+      aria-hidden="true"
+      class={[
+        "indicator",
+        indicator_size(@size),
+        @class || "absolute translate-y-1/2 translate-x-1/2 left-auto bottom-0 right-0"
+      ]}
+    />
     """
   end
 
