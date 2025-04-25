@@ -24,6 +24,7 @@ defmodule <%= @module %> do
   import <%= inspect(@web_module) %>.Components.Image, only: [image: 1]
   import Phoenix.LiveView.Utils, only: [random_id: 0]
   import <%= inspect(@web_module) %>.Components.Icon, only: [icon: 1]
+  use Gettext, backend: <%= inspect(@web_module) %>.Gettext
 
   @doc """
   The `carousel` component is used to create interactive image carousels with customizable attributes
@@ -165,6 +166,7 @@ defmodule <%= @module %> do
         :for={{slide, index} <- Enum.with_index(@slide, 1)}
         id={"#{@id}-carousel-slide-#{index}"}
         class={["slide h-full", slide[:class]]}
+        aria-hidden={@actived_carousel + 1 != index}
       >
         <div class="relative w-full h-full">
           <.slide_image id={@id} index={index} {slide}>
@@ -305,7 +307,7 @@ defmodule <%= @module %> do
         id={"#{@id}-carousel-indicator-#{indicator_item}"}
         data-indicator-index={"#{indicator_item}"}
         class="carousel-indicator"
-        aria-label={"Slide #{indicator_item}"}
+        aria-label={gettext("Go to slide %{index}", index: indicator_item)}
       />
     </div>
     """
