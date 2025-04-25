@@ -211,7 +211,7 @@ defmodule <%= @module %> do
 
   defp label(assigns) do
     ~H"""
-    <label for={@for} class={["leading-4 font-semibold", @class]}>
+    <label for={@for} class={["leading-4 font-semibold", @class]} id={@id}>
       {render_slot(@inner_block)}
     </label>
     """
