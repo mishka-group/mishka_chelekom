@@ -24,6 +24,7 @@ defmodule <%= @module %> do
 
   use Phoenix.Component
   import <%= inspect(@web_module) %>.Components.Icon, only: [icon: 1]
+  use Gettext, backend: <%= inspect(@web_module) %>.Gettext
 
   @doc """
   The `blockquote` component is used to display stylized quotations with customizable attributes
@@ -160,6 +161,7 @@ defmodule <%= @module %> do
           :if={!is_nil(caption[:image])}
           class={["w-6 h-6 rounded-full", caption[:image_class]]}
           src={caption[:image]}
+          alt={caption[:alt] || gettext("Author image")}
         />
         <div class={["flex items-center divide-x-2 rtl:divide-x-reverse", caption[:content_class]]}>
           {render_slot(caption)}
