@@ -162,7 +162,7 @@ defmodule <%= @module %> do
       space_class(@space)
     ]}>
       <div :if={@label || @description} class="combobox-label-wrapper">
-        <.label :if={@label} for={@id}>{@label}</.label>
+        <.label :if={@label} for={@id} id={"#{@id}-label"}>{@label}</.label>
 
         <div :if={@description} class="text-[12px]">
           {@description}
@@ -197,7 +197,7 @@ defmodule <%= @module %> do
         </select>
 
         <div phx-update="ignore" id={"#{@id}-combo-wrapper"} class="relative">
-          <button class="combobox-trigger w-full text-start py-1 flex items-center justify-between focus:outline-none border">
+          <button class="combobox-trigger w-full text-start py-1 flex items-center justify-between focus:outline-none border" role="combobox" aria-haspopup="listbox" aria-expanded="false" aria-controls={"#{@id}-listbox"} aria-labelledby={"#{@id}-label #{@id}-button"} type="button">
             <div class="flex-1 flex items-center gap-2">
               <div
                 :if={@start_section != []}
@@ -259,16 +259,22 @@ defmodule <%= @module %> do
           </button>
 
           <div
+            id={"#{@id}-listbox"}
             role="listbox"
             data-part="listbox"
+            aria-multiselectable={@multiple}
             class="combobox-dropdown z-50 absolute w-full px-[3px] py-2 transition-all ease-out duration-[250ms] top-full mt-2"
             hidden
           >
             <div :if={@searchable} class="mt-1 mb-2 mx-1.5">
               <input
                 type="text"
+                role="searchbox"
+                aria-controls={"#{@id}-listbox"}
+                aria-autocomplete="list"
+                aria-activedescendant=""
+                aria-label={@search_placeholder}
                 class="combobox-search-input appearance-none bg-transparent px-2 py-1 w-full focus:outline-none"
-                data-part="search"
                 placeholder={@search_placeholder}
               />
             </div>
@@ -343,7 +349,7 @@ defmodule <%= @module %> do
       space_class(@space)
     ]}>
       <div :if={@label || @description} class="combobox-label-wrapper">
-        <.label :if={@label} for={@id}>{@label}</.label>
+        <.label :if={@label} for={@id} id={"#{@id}-label"}>{@label}</.label>
 
         <div :if={@description} class="text-[12px]">
           {@description}
@@ -377,7 +383,7 @@ defmodule <%= @module %> do
         </select>
 
         <div id={"#{@id}-combo-wrapper"} class="relative" phx-update="ignore">
-          <button class="combobox-trigger w-full text-start py-1 flex items-center justify-between focus:outline-none border">
+          <button class="combobox-trigger w-full text-start py-1 flex items-center justify-between focus:outline-none border" role="combobox" aria-haspopup="listbox" aria-expanded="false" aria-controls={"#{@id}-listbox"} aria-labelledby={"#{@id}-label #{@id}-button"} type="button">
             <div id={"#{@id}-select-toggle-label"} class="flex-1 flex items-center gap-2">
               <div
                 :if={@start_section != []}
@@ -432,6 +438,7 @@ defmodule <%= @module %> do
           </button>
 
           <div
+            id={"#{@id}-listbox"}
             role="listbox"
             data-part="listbox"
             class="combobox-dropdown z-50 absolute w-full px-[3px] py-2 transition-all ease-out duration-[250ms] top-full mt-2"
@@ -440,6 +447,11 @@ defmodule <%= @module %> do
             <div :if={@searchable} class="mt-1 mb-2 mx-1.5">
               <input
                 type="text"
+                role="searchbox"
+                aria-controls={"#{@id}-listbox"}
+                aria-autocomplete="list"
+                aria-activedescendant=""
+                aria-label={@search_placeholder}
                 class="combobox-search-input appearance-none bg-transparent px-2 py-1 w-full focus:outline-none"
                 data-part="search"
                 placeholder={@search_placeholder}
@@ -531,20 +543,19 @@ defmodule <%= @module %> do
     """
   end
 
-  @doc type: :component
+  attr :id, :string, default: nil, doc: "Unique identifire"
   attr :for, :string, default: nil, doc: "Specifies the form which is associated with"
   attr :class, :any, default: nil, doc: "Custom CSS class for additional styling"
   slot :inner_block, required: true, doc: "Inner block that renders HEEx content"
 
   defp label(assigns) do
     ~H"""
-    <label for={@for} class={["leading-5 font-semibold", @class]}>
+    <label for={@for} class={["leading-5 font-semibold", @class]} id={@id}>
       {render_slot(@inner_block)}
     </label>
     """
   end
 
-  @doc type: :component
   attr :icon, :string, default: nil, doc: "Icon displayed alongside of an item"
   slot :inner_block, required: true, doc: "Inner block that renders HEEx content"
 
