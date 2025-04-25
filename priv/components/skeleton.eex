@@ -80,7 +80,7 @@ defmodule <%= @module %> do
       ]}
       {@rest}
     >
-      <span class="sr-only"><%= gettext("Loading...") %></span>
+      <span class="sr-only">{gettext("Loading...")}</span>
     </div>
     """
   end
