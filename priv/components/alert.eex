@@ -283,8 +283,8 @@ defmodule <%= @module %> do
     <div
       id={@id}
       role="alert"
-      aria-labelledby={@title && @id && "#{@id}-title"}
       aria-live="assertive"
+      aria-labelledby={@title && @id && "#{@id}-title"}
       class={[
         border_class(@border, @variant),
         color_variant(@variant, @kind),
@@ -299,7 +299,12 @@ defmodule <%= @module %> do
       {@rest}
     >
       <div :if={@title} class={@title_class} id={@id && "#{@id}-title"}>
-        <.icon :if={!is_nil(@icon)} name={@icon} class={["aler-icon", @icon_class]} aria-hidden="true" /> {@title}
+        <.icon
+          :if={!is_nil(@icon)}
+          name={@icon}
+          class={["aler-icon", @icon_class]}
+          aria-hidden="true"
+        /> {@title}
       </div>
 
       {render_slot(@inner_block)}
