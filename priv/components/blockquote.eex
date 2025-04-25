@@ -106,6 +106,7 @@ defmodule <%= @module %> do
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :icon, :string, default: "hero-quote", doc: "Icon displayed alongside of an item"
   attr :icon_class, :string, default: nil, doc: "Determines custom class for the icon"
+  attr :blockquote_class, :string, default: nil, doc: "Determines custom class for the blockquote"
 
   slot :caption, required: false do
     attr :image, :string, doc: "Image displayed alongside of an item"
