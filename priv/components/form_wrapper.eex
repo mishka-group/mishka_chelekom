@@ -45,6 +45,8 @@ defmodule <%= @module %> do
   attr :rounded, :string, default: "", doc: "Determines the border radius"
   attr :padding, :string, default: "", doc: "Determines padding for items"
   attr :space, :string, default: "", doc: "Space between items"
+  attr :form_wrapper_class, :string, default: "", doc: "Custom classes form wrapper"
+  attr :action_wrapper_class, :string, default: "", doc: "Custom classes action wrapper"
 
   attr :size, :string,
     default: "",
@@ -69,7 +71,6 @@ defmodule <%= @module %> do
       for={@for}
       as={@as}
       id={@id}
-      {@rest}
       class={[
         color_variant(@variant, @color),
         padding_class(@padding),
@@ -81,9 +82,9 @@ defmodule <%= @module %> do
       ]}
       {@rest}
     >
-      <div class="wrapper-form">
+      <div class={["wrapper-form", @form_wrapper_class]}>
         {render_slot(@inner_block, f)}
-        <div :for={action <- @actions} class="wrapper-form-actions">
+        <div :for={action <- @actions} class={["wrapper-form-actions", @action_wrapper_class]}>
           {render_slot(action, f)}
         </div>
       </div>

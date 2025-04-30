@@ -775,7 +775,7 @@ defmodule <%= @module %>  do
     [
       "text-[#BB032A] dark:text-[#FFB2AB] [&_.email-field-wrapper:not(:has(.email-field-error))]:border-[#BB032A]",
       "[&_.email-field-wrapper:not(:has(.email-field-error))]:bg-[#FFF0EE]",
-      "dark:[&_.email-field-wrapper:not(:has(.email-field-error))]:bg-[#221431]",
+      "dark:[&_.email-field-wrapper:not(:has(.email-field-error))]:bg-[#520810]",
       "dark:[&_.email-field-wrapper:not(:has(.email-field-error))]:border-[#FFB2AB]",
       "[&_.email-field-wrapper.email-field-error]:bg-rose-700",
       "[&_.email-field-wrapper>input]:placeholder:text-[#BB032A] dark:[&_.email-field-wrapper>input]:placeholder:text-[#FFB2AB]",

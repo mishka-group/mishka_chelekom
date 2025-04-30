@@ -816,7 +816,7 @@ defmodule <%= @module %> do
     [
       "text-[#BB032A] dark:text-[#FFB2AB] [&_.date-time-field-wrapper:not(:has(.date-time-field-error))]:border-[#BB032A]",
       "[&_.date-time-field-wrapper:not(:has(.date-time-field-error))]:bg-[#FFF0EE]",
-      "dark:[&_.date-time-field-wrapper:not(:has(.date-time-field-error))]:bg-[#221431]",
+      "dark:[&_.date-time-field-wrapper:not(:has(.date-time-field-error))]:bg-[#520810]",
       "dark:[&_.date-time-field-wrapper:not(:has(.date-time-field-error))]:border-[#FFB2AB]",
       "[&_.date-time-field-wrapper.date-time-field-error]:bg-rose-700",
       "[&_.date-time-field-wrapper>input]:placeholder:text-[#BB032A] dark:[&_.date-time-field-wrapper>input]:placeholder:text-[#FFB2AB]",
