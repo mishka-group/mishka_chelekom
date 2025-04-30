@@ -197,7 +197,7 @@ defmodule <%= @module %> do
               "text-[16px] sm:font-inherit appearance-none bg-transparent border-0 focus:outline-none peer",
               @input_class
             ]}
-            placeholder={@placeholder}
+            placeholder=" "
             {@rest}
           />
 
