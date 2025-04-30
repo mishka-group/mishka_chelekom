@@ -96,6 +96,7 @@ defmodule <%= @module %> do
   attr :variant, :string, default: "base", doc: "Determines the style"
   attr :description, :string, default: nil, doc: "Determines a short description"
   attr :space, :string, default: "medium", doc: "Space between items"
+  attr :placeholder, :string, default: nil, doc: "Specifies text for placeholder"
   attr :description_class, :string, default: "text-[12px]", doc: "Custom classes for description"
   attr :label_class, :string, default: nil, doc: "Custom CSS class for the label styling"
   attr :field_wrapper_class, :string, default: nil, doc: "Custom CSS class field wrapper"
@@ -266,6 +267,7 @@ defmodule <%= @module %> do
           name={@name}
           id={@id}
           value={@value}
+          placeholder={@placeholder}
           class={[
             "flex-1 py-1 px-2 text-sm disabled:opacity-80 block w-full appearance-none",
             "bg-transparent border-0 focus:outline-none focus:ring-0",
