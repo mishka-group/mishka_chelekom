@@ -1,7 +1,7 @@
 const Floating = {
   mounted() {
     this.initElements();
-    
+
     // Flag to track if we moved the content to body
     this.movedToBody = false;
 
@@ -23,12 +23,14 @@ const Floating = {
     if (this.floatingContent) {
       // Store original parent for restoration on destroy
       this.originalParent = this.floatingContent.parentElement;
-      this.originalIndex = Array.from(this.originalParent.children).indexOf(this.floatingContent);
-      
+      this.originalIndex = Array.from(this.originalParent.children).indexOf(
+        this.floatingContent,
+      );
+
       // Move to body
       document.body.appendChild(this.floatingContent);
       this.movedToBody = true;
-      
+
       this.setupAria();
       if (this.enableAria && this.floatingContent.hasAttribute("aria-hidden")) {
         this.floatingContent.setAttribute("aria-hidden", "true");
@@ -150,8 +152,11 @@ const Floating = {
   },
 
   handleOutsideClick(e) {
-    if (this.trigger && !this.trigger.contains(e.target) && 
-        (!this.floatingContent || !this.floatingContent.contains(e.target))) {
+    if (
+      this.trigger &&
+      !this.trigger.contains(e.target) &&
+      (!this.floatingContent || !this.floatingContent.contains(e.target))
+    ) {
       this.hide();
     }
   },
@@ -183,7 +188,11 @@ const Floating = {
       e.preventDefault();
       const prev = items[(currentIndex - 1 + items.length) % items.length];
       prev?.focus();
-    } else if (e.key === "Tab" && !e.shiftKey && currentIndex === items.length - 1) {
+    } else if (
+      e.key === "Tab" &&
+      !e.shiftKey &&
+      currentIndex === items.length - 1
+    ) {
       e.preventDefault();
       this.hide();
     } else if (e.key === "Tab" && e.shiftKey && currentIndex === 0) {
@@ -234,13 +243,15 @@ const Floating = {
       left = (rect.left + rect.right) / 2 + window.scrollX;
       content.style.transform = "translateX(-50%)";
     } else if (pos === "left") {
-      top = rect.top + window.scrollY + (rect.height - content.offsetHeight) / 2;
+      top =
+        rect.top + window.scrollY + (rect.height - content.offsetHeight) / 2;
       left = isRTL
         ? rect.right + window.scrollX + gap
         : rect.left + window.scrollX - content.offsetWidth - gap;
       content.style.transform = "none";
     } else if (pos === "right") {
-      top = rect.top + window.scrollY + (rect.height - content.offsetHeight) / 2;
+      top =
+        rect.top + window.scrollY + (rect.height - content.offsetHeight) / 2;
       left = isRTL
         ? rect.left + window.scrollX - content.offsetWidth - gap
         : rect.right + window.scrollX + gap;
@@ -344,7 +355,7 @@ const Floating = {
         this.boundHandleMouseLeave,
       );
     }
-    
+
     if (!this.clickable && this.floatingContent) {
       this.floatingContent.removeEventListener(
         "mouseenter",
@@ -355,28 +366,35 @@ const Floating = {
         this.boundHandleMouseLeave,
       );
     }
-    
+
     // Clean up ARIA attributes
     this.cleanupAria();
-    
+
     // Only restore floating content if it was moved to body
-    if (this.floatingContent && this.movedToBody && document.body.contains(this.floatingContent)) {
+    if (
+      this.floatingContent &&
+      this.movedToBody &&
+      document.body.contains(this.floatingContent)
+    ) {
       // Remove from body
       document.body.removeChild(this.floatingContent);
-      
+
       // Restore to original parent if available
       if (this.originalParent) {
-        if (this.originalIndex >= 0 && this.originalIndex < this.originalParent.children.length) {
+        if (
+          this.originalIndex >= 0 &&
+          this.originalIndex < this.originalParent.children.length
+        ) {
           this.originalParent.insertBefore(
-            this.floatingContent, 
-            this.originalParent.children[this.originalIndex]
+            this.floatingContent,
+            this.originalParent.children[this.originalIndex],
           );
         } else {
           this.originalParent.appendChild(this.floatingContent);
         }
       }
     }
-    
+
     // Clear references
     this.floatingContent = null;
     this.trigger = null;
