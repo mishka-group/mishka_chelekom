@@ -61,6 +61,9 @@ defmodule <%= @module %> do
   attr :padding, :string, default: "small", doc: "Determines padding for items"
   attr :variant, :string, default: "base", doc: "Determines the style"
   attr :space, :string, default: "medium", doc: "Space between items"
+  attr :fieldset_class, :string, default: nil, doc: "Custom class for fieldset"
+  attr :legend_class, :string, default: nil, doc: "Custom class for legend"
+  attr :fieldset_wrapper_class, :string, default: nil, doc: "Custom class for wrapper"
 
   attr :size, :string,
     default: "extra_large",
@@ -92,12 +95,14 @@ defmodule <%= @module %> do
       space_class(@space),
       @class
     ]}>
-      <fieldset class="fieldset-field">
-        <legend :if={@legend} class="fieldset-legend py-0.5 px-1 leading-7" for={@id}>{@legend}</legend>
+      <fieldset class={["fieldset-field", @fieldset_class]}>
+        <legend :if={@legend} class={["fieldset-legend py-0.5 px-1 leading-7", @legend_class]} for={@id}>
+          {@legend}
+        </legend>
 
-        <div :for={{control, index} <- Enum.with_index(@control, 1)} id={"#{@id}-control-#{index}"}>
+        <div :for={{control, index} <- Enum.with_index(@control, 1)} id={"#{@id}-control-#{index}"} class={@fieldset_wrapper_class}>
           {render_slot(control)}
-        </div>
+    </div>
       </fieldset>
 
       <.error :for={msg <- @errors} icon={@error_icon}>{msg}</.error>
