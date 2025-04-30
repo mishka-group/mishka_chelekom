@@ -9,6 +9,7 @@
 - Add tooltip to progress section [#335](https://github.com/mishka-group/mishka_chelekom/pull/335)
 - Add Clipboard component and hook integration [#337](https://github.com/mishka-group/mishka_chelekom/pull/337)
 - Add ability to to Minimize and Maximize Sidebar [#339](https://github.com/mishka-group/mishka_chelekom/pull/339)
+- Adding basic accessibility support to all components
 
 ### Refactors:
 
@@ -16,6 +17,13 @@
 - Add conditional styling to divider and buttons [#329](https://github.com/mishka-group/mishka_chelekom/pull/329)
 - Add Custom Hook, Loading State, and Bug Fixes of Carousel Component [#336](https://github.com/mishka-group/mishka_chelekom/pull/336)
 - Replace custom icon functions with shared icon component [#338](https://github.com/mishka-group/mishka_chelekom/pull/338)
+- Implement Toast and Alert components to support z-index prop [#399](https://github.com/mishka-group/mishka_chelekom/pull/399)
+- Update Igniter to last version
+
+
+---
+
+# Changelog for MishkaChelekom 0.0.4
 
 ### Bugs:
 

@@ -36,7 +36,12 @@
       type: ["accordion", "native_accordion"],
       rounded: ["extra_small", "small", "medium", "large", "extra_large", "full"],
       only: ["accordion", "native_accordion"],
-      helpers: [show_accordion_content: 2, hide_accordion_content: 2],
+      helpers: [
+        show_accordion_content: 1,
+        show_accordion_content: 2,
+        hide_accordion_content: 1,
+        hide_accordion_content: 2
+      ],
       module: ""
     ],
     optional: [],

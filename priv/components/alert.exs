@@ -24,7 +24,7 @@
       padding: ["extra_small", "small", "medium", "large", "extra_large", "none"],
       type: ["flash", "flash_group", "alert"],
       only: ["flash", "flash_group", "alert"],
-      helpers: [show_alert: 2, hide_alert: 2],
+      helpers: [show_alert: 1, show_alert: 2, hide_alert: 1, hide_alert: 2],
       module: ""
     ],
     optional: [],

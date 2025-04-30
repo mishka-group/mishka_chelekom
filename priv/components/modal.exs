@@ -32,7 +32,16 @@
         "screen"
       ],
       only: ["modal"],
-      helpers: [show_modal: 2, hide_modal: 2, show: 2, hide: 2],
+      helpers: [
+        show_modal: 1,
+        show_modal: 2,
+        hide_modal: 1,
+        hide_modal: 2,
+        show: 1,
+        show: 2,
+        hide: 1,
+        hide: 2
+      ],
       module: ""
     ],
     optional: [],
