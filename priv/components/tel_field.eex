@@ -269,7 +269,7 @@ defmodule <%= @module %> do
 
   defp label(assigns) do
     ~H"""
-    <label for={@for} class={["block text-sm font-semibold leading-6", @class]}>
+    <label for={@for} class={["leading-5 font-semibold", @class]}>
       {render_slot(@inner_block)}
     </label>
     """
@@ -319,7 +319,7 @@ defmodule <%= @module %> do
   <% end %>
   <%= if is_nil(@size) or "large" in @size do %>
   defp size_class("large") do
-    "[&_.tel-field-wrapper_input]:h-101[&_.tel-field-wrapper_.tel-field-icon]:size-5"
+    "[&_.tel-field-wrapper_input]:h-11 [&_.tel-field-wrapper_.tel-field-icon]:size-5"
   end
   <% end %>
   <%= if is_nil(@size) or "extra_large" in @size do %>

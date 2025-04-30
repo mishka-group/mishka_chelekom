@@ -112,7 +112,7 @@ defmodule <%= @module %> do
       @reverse && "[&_.radio-field-wrapper]:flex-row-reverse",
       @class
     ]}>
-      <.label class={["checkbox-field-wrapper flex items-center w-fit", @wrapper_class]} for={@id}>
+      <.label class={["radio-field-wrapper flex items-center w-fit", @wrapper_class]} for={@id}>
         <input
           type="radio"
           name={@name}
