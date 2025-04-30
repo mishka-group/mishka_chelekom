@@ -60,6 +60,8 @@ defmodule <%= @module %> do
   attr :color, :string, default: "primary", doc: "Determines color theme"
   attr :border, :string, default: "extra_small", doc: "Determines border style"
   attr :space, :string, default: "medium", doc: "Space between items"
+  attr :wrapper_class, :string, default: nil, doc: "Custom CSS class for the wrapper"
+  attr :radio_class, :string, default: nil, doc: "Custom CSS class for the radio input"
 
   attr :size, :string,
     default: "extra_large",
@@ -110,7 +112,7 @@ defmodule <%= @module %> do
       @reverse && "[&_.radio-field-wrapper]:flex-row-reverse",
       @class
     ]}>
-      <.label class={["radio-field-wrapper flex items-center w-fit", @label_class]} for={@id}>
+      <.label class={["checkbox-field-wrapper flex items-center w-fit", @wrapper_class]} for={@id}>
         <input
           type="radio"
           name={@name}
@@ -118,11 +120,12 @@ defmodule <%= @module %> do
           value={@value}
           checked={@checked}
           class={[
-            "bg-white radio-input rounded-full"
+            "bg-white dark:bg-[#18181B] radio-input rounded-full",
+            @radio_class
           ]}
           {@rest}
         />
-        <span :if={@label} class="block">{@label}</span>
+        <span :if={@label} class={@label_class}>{@label}</span>
       </.label>
 
       <.error :for={msg <- @errors} icon={@error_icon}>{msg}</.error>
@@ -160,6 +163,9 @@ defmodule <%= @module %> do
     doc: "Defines the layout orientation of the component"
 
   attr :label_class, :string, default: nil, doc: "Custom CSS class for the label styling"
+  attr :wrapper_class, :string, default: nil, doc: "Custom CSS class for the wrapper"
+  attr :radio_class, :string, default: nil, doc: "Custom CSS class for the wrapper"
+  attr :radio_wrapper_class, :string, default: nil, doc: "Custom CSS class for the wrapper"
 
   attr :size, :string,
     default: "extra_large",
@@ -222,11 +228,12 @@ defmodule <%= @module %> do
           size_class(@size),
           space_class(radio[:space] || "small"),
           @ring && "[&_.radio-field-wrapper_input]:focus-within:ring-1",
-          @reverse && "[&_.radio-field-wrapper]:flex-row-reverse"
+          @reverse && "[&_.radio-field-wrapper]:flex-row-reverse",
+          @wrapper_class
         ]}
       >
         <.label
-          class={["radio-field-wrapper flex items-center w-fit", @label_class]}
+          class={["radio-field-wrapper flex items-center w-fit", @radio_wrapper_class]}
           for={"#{@id}-#{index}"}
         >
           <input
@@ -235,10 +242,10 @@ defmodule <%= @module %> do
             id={"#{@id}-#{index}"}
             value={radio[:value]}
             checked={radio[:checked]}
-            class={["bg-white radio-input rounded-full"]}
+            class={["bg-white dark:bg-[#18181B] radio-input rounded-full", @radio_class]}
             {@rest}
           />
-          <span class="block">{render_slot(radio)}</span>
+          <span class={@label_class}>{render_slot(radio)}</span>
         </.label>
       </div>
     </div>
