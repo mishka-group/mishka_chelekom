@@ -72,6 +72,10 @@ defmodule <%= @module %> do
   attr :field_wrapper_class, :string, default: nil, doc: "Custom CSS class field wrapper"
   attr :select_class, :string, default: nil, doc: "Custom CSS class for additional styling"
 
+  attr :description_wrapper_class, :string,
+    default: nil,
+    doc: "Custom classes for description wrapper"
+
   attr :size, :string,
     default: "extra_large",
     doc:
@@ -245,35 +249,35 @@ defmodule <%= @module %> do
   <%= if is_nil(@size) or "extra_small" in @size do %>
   defp size_class("extra_small") do
     [
-      "text-xs [&_.select-field]:text-xs [&_.select-field:not(.select-multiple-option)]:h-9"
+      "text-xs [&_.select-field]:text-xs [&_.select-field:not(.select-multiple-option)]:h-7"
     ]
   end
   <% end %>
   <%= if is_nil(@size) or "small" in @size do %>
   defp size_class("small") do
     [
-      "text-sm [&_.select-field]:text-sm [&_.select-field:not(.select-multiple-option)]:h-10"
+      "text-sm [&_.select-field]:text-sm [&_.select-field:not(.select-multiple-option)]:h-8"
     ]
   end
   <% end %>
   <%= if is_nil(@size) or "medium" in @size do %>
   defp size_class("medium") do
     [
-      "text-base [&_.select-field]:text-base [&_.select-field:not(.select-multiple-option)]:h-11"
+      "text-base [&_.select-field]:text-base [&_.select-field:not(.select-multiple-option)]:h-9"
     ]
   end
   <% end %>
   <%= if is_nil(@size) or "large" in @size do %>
   defp size_class("large") do
     [
-      "text-lg [&_.select-field]:text-lg [&_.select-field:not(.select-multiple-option)]:h-12"
+      "text-lg [&_.select-field]:text-lg [&_.select-field:not(.select-multiple-option)]:h-10"
     ]
   end
   <% end %>
   <%= if is_nil(@size) or "extra_large" in @size do %>
   defp size_class("extra_large") do
     [
-      "text-xl [&_.select-field]:text-xl [&_.select-field:not(.select-multiple-option)]:h-14"
+      "text-xl [&_.select-field]:text-xl [&_.select-field:not(.select-multiple-option)]:h-12"
     ]
   end
   <% end %>
