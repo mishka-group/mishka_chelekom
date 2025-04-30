@@ -74,6 +74,7 @@ defmodule <%= @module %> do
   attr :space, :string, default: "extra_small", doc: "Space between items"
   attr :vertical, :string, values: ["top", "bottom"], default: "top", doc: "Type of vertical"
   attr :vertical_space, :string, default: "extra_small", doc: "Space between vertical items"
+  attr :z_index, :string, default: "z-50", doc: "custom z-index"
 
   attr :horizontal, :string,
     values: ["left", "right", "center"],
@@ -130,7 +131,7 @@ defmodule <%= @module %> do
       aria-atomic="true"
       tabindex="0"
       class={[
-        "overflow-hidden z-50 leading-5",
+        "overflow-hidden leading-5",
         @fixed && "fixed",
         width_class(@width),
         rounded_size(@rounded),
@@ -139,6 +140,7 @@ defmodule <%= @module %> do
         position_class(@horizontal_space, @horizontal),
         vertical_position(@vertical_space, @vertical),
         @font_weight,
+        @z_index,
         @class
       ]}
       {@rest}
@@ -223,6 +225,7 @@ defmodule <%= @module %> do
   attr :space, :string, default: "small", doc: "Space between items"
   attr :vertical, :string, values: ["top", "bottom"], default: "bottom", doc: "Type of vertical"
   attr :vertical_space, :string, default: "extra_small", doc: "Space between vertical items"
+  attr :z_index, :string, default: "z-50", doc: "custom z-index"
 
   attr :horizontal, :string,
     values: ["left", "right", "center"],
@@ -244,10 +247,11 @@ defmodule <%= @module %> do
       id={@id}
       role="region"
       class={[
-        "fixed z-50",
+        "fixed",
         space_class(@space),
         position_class(@horizontal_space, @horizontal),
         vertical_position(@vertical_space, @vertical),
+        @z_index,
         @class
       ]}
       {@rest}
@@ -283,7 +287,7 @@ defmodule <%= @module %> do
     ~H"""
    <button
       type="button"
-      class={["group shrink-0 leading-5", @class]}
+      class={["shrink-0 leading-5", @class]}
       aria-label={gettext("close")}
       phx-click={JS.push("dismiss", value: Map.merge(%{id: @id}, @params)) |> hide_toast("##{@id}")}
     >

@@ -64,6 +64,7 @@ defmodule <%= @module %> do
   attr :position, :string, default: "", doc: "Determines the element position"
   attr :width, :string, default: "full", doc: "Determines the element width"
   attr :border, :string, default: "extra_small", doc: "Determines the element border width"
+  attr :z_index, :string, default: "z-50", doc: "custom z-index"
   attr :padding, :string, default: "small", doc: "Determines the element padding size"
 
   attr :size, :string,
@@ -109,7 +110,7 @@ defmodule <%= @module %> do
       aria-live="assertive"
       aria-labelledby={@title && @id && "#{@id}-title"}
       class={[
-        "z-50 flash-alert leading-5",
+        "flash-alert leading-5",
         border_class(@border, @variant),
         color_variant(@variant, @kind),
         position_class(@position),
@@ -118,6 +119,7 @@ defmodule <%= @module %> do
         padding_size(@padding),
         content_size(@size),
         @font_weight,
+        @z_index,
         @class
       ]}
       {@rest}
@@ -155,13 +157,20 @@ defmodule <%= @module %> do
 
   attr :variant, :string, default: "bordered", doc: "Determines the style"
   attr :position, :string, default: "top_right", doc: "Position of flashes"
+  attr :class, :string, default: nil, doc: "Custom classes"
+  attr :z_index, :string, default: "z-50", doc: "custom z-index"
   attr :flash, :map, required: true, doc: "the map of flash messages"
+
+  attr :rest, :global,
+    doc:
+      "Global attributes can define defaults which are merged with attributes provided by the caller"
 
   def flash_group(assigns) do
     ~H"""
-    <div
+     <div
       id={@id}
-      class={["[&_.flash-alert:not(:first-child)]:mt-3 z-50", position_class(@position)]}
+      class={["[&_.flash-alert:not(:first-child)]:mt-3", position_class(@position), @z_index, @class]}
+      {@rest}
     >
       <.flash
         kind={:info}
@@ -245,6 +254,7 @@ defmodule <%= @module %> do
   attr :width, :string, default: "full", doc: "Determines the element width"
   attr :border, :string, default: "extra_small", doc: "Determines the element border width"
   attr :padding, :string, default: "small", doc: "Determines the element padding size"
+  attr :z_index, :string, default: "z-50", doc: "custom z-index"
 
   attr :size, :string,
     default: "medium",
@@ -294,6 +304,7 @@ defmodule <%= @module %> do
         padding_size(@padding),
         content_size(@size),
         @font_weight,
+        @z_index,
         @class
       ]}
       {@rest}
