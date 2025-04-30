@@ -141,7 +141,7 @@ defmodule <%= @module %>  do
       @ring && "[&_.email-field-wrapper]:focus-within:ring-[0.03rem]",
       @class
     ]}>
-      <div :if={!is_nil(@description)} class="text-xs pb-2">
+      <div :if={@description} class={@description_class}>
         {@description}
       </div>
       <div class={[
@@ -300,20 +300,20 @@ defmodule <%= @module %>  do
   end
   <%= if is_nil(@size) or "extra_small" in @size do %>
   defp size_class("extra_small"),
-    do: "[&_.email-field-wrapper_input]:h-7 [&_.email-field-wrapper_.password-field-icon]:size-3"
+    do: "[&_.email-field-wrapper_input]:h-8 [&_.email-field-wrapper_.password-field-icon]:size-3"
   <% end %>
   <%= if is_nil(@size) or "small" in @size do %>
   defp size_class("small"),
     do:
-      "[&_.email-field-wrapper_input]:h-8 [&_.email-field-wrapper_.password-field-icon]:size-3.5"
+      "[&_.email-field-wrapper_input]:h-9 [&_.email-field-wrapper_.password-field-icon]:size-3.5"
   <% end %>
   <%= if is_nil(@size) or "medium" in @size do %>
   defp size_class("medium"),
-    do: "[&_.email-field-wrapper_input]:h-9 [&_.email-field-wrapper_.password-field-icon]:size-4"
+    do: "[&_.email-field-wrapper_input]:h-10 [&_.email-field-wrapper_.password-field-icon]:size-4"
   <% end %>
   <%= if is_nil(@size) or "large" in @size do %>
   defp size_class("large"),
-    do: "[&_.email-field-wrapper_input]:h-10 [&_.email-field-wrapper_.password-field-icon]:size-5"
+    do: "[&_.email-field-wrapper_input]:h-11 [&_.email-field-wrapper_.password-field-icon]:size-5"
   <% end %>
   <%= if is_nil(@size) or "extra_large" in @size do %>
   defp size_class("extra_large"),

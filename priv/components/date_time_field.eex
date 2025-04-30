@@ -328,28 +328,28 @@ defmodule <%= @module %> do
   <%= if is_nil(@size) or "extra_small" in @size do %>
   defp size_class("extra_small") do
     [
-      "[&_.date-time-field-wrapper_input]:h-7 [&_.date-time-field-wrapper>.date-time-field-icon]:size-3.5"
+      "[&_.date-time-field-wrapper_input]:h-8 [&_.date-time-field-wrapper>.date-time-field-icon]:size-3.5"
     ]
   end
   <% end %>
   <%= if is_nil(@size) or "small" in @size do %>
   defp size_class("small") do
     [
-      "[&_.date-time-field-wrapper_input]:h-8 [&_.date-time-field-wrapper>.date-time-field-icon]:size-4"
+      "[&_.date-time-field-wrapper_input]:h-9 [&_.date-time-field-wrapper>.date-time-field-icon]:size-4"
     ]
   end
   <% end %>
   <%= if is_nil(@size) or "medium" in @size do %>
   defp size_class("medium") do
     [
-      "[&_.date-time-field-wrapper_input]:h-9 [&_.date-time-field-wrapper>.date-time-field-icon]:size-5"
+      "[&_.date-time-field-wrapper_input]:h-10 [&_.date-time-field-wrapper>.date-time-field-icon]:size-5"
     ]
   end
   <% end %>
   <%= if is_nil(@size) or "large" in @size do %>
   defp size_class("large") do
     [
-      "[&_.date-time-field-wrapper_input]:h-10 [&_.date-time-field-wrapper>.date-time-field-icon]:size-6"
+      "[&_.date-time-field-wrapper_input]:h-11 [&_.date-time-field-wrapper>.date-time-field-icon]:size-6"
     ]
   end
   <% end %>

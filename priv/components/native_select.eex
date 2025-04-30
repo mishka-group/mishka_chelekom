@@ -138,7 +138,7 @@ defmodule <%= @module %> do
     ]}>
       <div
         :if={@label || @description}
-        class={["date-time-label-wrapper", @description_wrapper_class]}
+        class={["select-label-wrapper", @description_wrapper_class]}
       >
         <.label :if={@label} for={@id} class={@label_class}>{@label}</.label>
         <div :if={@description} class={@description_class}>
@@ -249,28 +249,28 @@ defmodule <%= @module %> do
   <%= if is_nil(@size) or "extra_small" in @size do %>
   defp size_class("extra_small") do
     [
-      "text-xs [&_.select-field]:text-xs [&_.select-field:not(.select-multiple-option)]:h-7"
+      "text-xs [&_.select-field]:text-xs [&_.select-field:not(.select-multiple-option)]:h-8"
     ]
   end
   <% end %>
   <%= if is_nil(@size) or "small" in @size do %>
   defp size_class("small") do
     [
-      "text-sm [&_.select-field]:text-sm [&_.select-field:not(.select-multiple-option)]:h-8"
+      "text-sm [&_.select-field]:text-sm [&_.select-field:not(.select-multiple-option)]:h-9"
     ]
   end
   <% end %>
   <%= if is_nil(@size) or "medium" in @size do %>
   defp size_class("medium") do
     [
-      "text-base [&_.select-field]:text-base [&_.select-field:not(.select-multiple-option)]:h-9"
+      "text-base [&_.select-field]:text-base [&_.select-field:not(.select-multiple-option)]:h-10"
     ]
   end
   <% end %>
   <%= if is_nil(@size) or "large" in @size do %>
   defp size_class("large") do
     [
-      "text-lg [&_.select-field]:text-lg [&_.select-field:not(.select-multiple-option)]:h-10"
+      "text-lg [&_.select-field]:text-lg [&_.select-field:not(.select-multiple-option)]:h-11"
     ]
   end
   <% end %>
@@ -559,7 +559,7 @@ defmodule <%= @module %> do
     [
       "text-[#BB032A] dark:text-[#FFB2AB] [&_.select-field:not(:has(.select-field-error))]:border-[#BB032A]",
       "[&_.select-field:not(:has(.select-field-error))]:bg-[#FFF0EE]",
-      "dark:[&_.select-field:not(:has(.select-field-error))]:bg-[#221431]",
+      "dark:[&_.select-field:not(:has(.select-field-error))]:bg-[#520810]",
       "dark:[&_.select-field:not(:has(.select-field-error))]:border-[#FFB2AB]",
       "[&_.select-field.select-field-error]:bg-rose-700 [&_.select-field.select-field-error]:border-rose-700",
       "focus-within:[&_.select-field]:ring-[#DE1135] dark:focus-within:[&_.select-field]:ring-[#FC7F79]",
