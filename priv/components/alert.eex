@@ -161,6 +161,10 @@ defmodule <%= @module %> do
   attr :z_index, :string, default: "z-50", doc: "custom z-index"
   attr :flash, :map, required: true, doc: "the map of flash messages"
 
+  attr :rest, :global,
+    doc:
+      "Global attributes can define defaults which are merged with attributes provided by the caller"
+
   def flash_group(assigns) do
     ~H"""
      <div
@@ -250,6 +254,7 @@ defmodule <%= @module %> do
   attr :width, :string, default: "full", doc: "Determines the element width"
   attr :border, :string, default: "extra_small", doc: "Determines the element border width"
   attr :padding, :string, default: "small", doc: "Determines the element padding size"
+  attr :z_index, :string, default: "z-50", doc: "custom z-index"
 
   attr :size, :string,
     default: "medium",
@@ -299,6 +304,7 @@ defmodule <%= @module %> do
         padding_size(@padding),
         content_size(@size),
         @font_weight,
+        @z_index,
         @class
       ]}
       {@rest}
