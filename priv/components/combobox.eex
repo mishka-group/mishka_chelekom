@@ -94,6 +94,10 @@ defmodule <%= @module %> do
 
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :placeholder, :string, default: nil, doc: "Custom CSS class for additional styling"
+  attr :description_class, :string, default: "text-[12px]", doc: "Custom classes for description"
+  attr :label_class, :string, default: nil, doc: "Custom CSS class for the label styling"
+  attr :field_wrapper_class, :string, default: nil, doc: "Custom CSS class field wrapper"
+  attr :option_group_class, :string, default: nil, doc: "Custom CSS class option group"
 
   attr :search_placeholder, :string,
     default: "Search..",
@@ -122,6 +126,7 @@ defmodule <%= @module %> do
 
   slot :option, required: false do
     attr :value, :string, required: true, doc: "Value of the select option"
+    attr :class, :string, doc: "Value of the select option"
     attr :group, :string, required: false, doc: "Group name for the option"
     attr :disabled, :boolean, required: false, doc: "Specifies if this option is disabled"
   end
@@ -161,10 +166,12 @@ defmodule <%= @module %> do
       size_class(@size),
       space_class(@space)
     ]}>
-      <div :if={@label || @description} class="combobox-label-wrapper">
-        <.label :if={@label} for={@id} id={"#{@id}-label"}>{@label}</.label>
-
-        <div :if={@description} class="text-[12px]">
+      <div
+        :if={@label || @description}
+        class={["combobox-label-wrapper", @description_wrapper_class]}
+      >
+        <.label :if={@label} for={@id} class={@label_class}>{@label}</.label>
+        <div :if={@description} class={@description_class}>
           {@description}
         </div>
       </div>
@@ -293,7 +300,7 @@ defmodule <%= @module %> do
                 <div
                   :for={{group_label, grouped_options} <- Enum.group_by(@option, & &1[:group])}
                   :if={!is_nil(group_label)}
-                  class="option-group"
+                  class={["option-group", @option_group_class]}
                 >
                   <div class="group-label font-semibold my-2">{group_label}</div>
 
@@ -302,6 +309,7 @@ defmodule <%= @module %> do
                       :for={option <- grouped_options}
                       value={option[:value]}
                       disabled={option[:disabled]}
+                      class={option[:class]}
                     >
                       {render_slot(option)}
                     </.option>
@@ -312,6 +320,7 @@ defmodule <%= @module %> do
                   :for={option <- Enum.filter(@option, &is_nil(&1[:group]))}
                   value={option[:value]}
                   disabled={option[:disabled]}
+                  class={option[:class]}
                 >
                   {render_slot(option)}
                 </.option>
@@ -348,10 +357,12 @@ defmodule <%= @module %> do
       size_class(@size),
       space_class(@space)
     ]}>
-      <div :if={@label || @description} class="combobox-label-wrapper">
-        <.label :if={@label} for={@id} id={"#{@id}-label"}>{@label}</.label>
-
-        <div :if={@description} class="text-[12px]">
+      <div
+        :if={@label || @description}
+        class={["combobox-label-wrapper", @description_wrapper_class]}
+      >
+        <.label :if={@label} for={@id} class={@label_class}>{@label}</.label>
+        <div :if={@description} class={@description_class}>
           {@description}
         </div>
       </div>
@@ -472,7 +483,7 @@ defmodule <%= @module %> do
                 <div
                   :for={{group_label, grouped_options} <- Enum.group_by(@option, & &1[:group])}
                   :if={!is_nil(group_label)}
-                  class="option-group"
+                  class={["option-group", @option_group_class]}
                 >
                   <div class="group-label font-semibold my-2">{group_label}</div>
 
@@ -481,6 +492,7 @@ defmodule <%= @module %> do
                       :for={option <- grouped_options}
                       value={option[:value]}
                       disabled={option[:disabled]}
+                      class={option[:class]}
                     >
                       {render_slot(option)}
                     </.option>
@@ -491,6 +503,7 @@ defmodule <%= @module %> do
                   :for={option <- Enum.filter(@option, &is_nil(&1[:group]))}
                   value={option[:value]}
                   disabled={option[:disabled]}
+                  class={option[:class]}
                 >
                   {render_slot(option)}
                 </.option>
@@ -512,6 +525,7 @@ defmodule <%= @module %> do
   @doc type: :component
   attr :value, :string, required: true, doc: "Specifies the form which is associated with"
   attr :disabled, :boolean, default: false, doc: "Inner block that renders HEEx content"
+  attr :class, :string, default: nil, doc: "Custom class"
   slot :inner_block, required: false, doc: "Inner block that renders HEEx content"
 
   defp option(assigns) do
@@ -520,7 +534,8 @@ defmodule <%= @module %> do
       role="option"
       class={[
         "combobox-option cursor-pointer rounded flex justify-between items-center",
-        "[&[data-combobox-navigate]]:bg-blue-500 [&[data-combobox-navigate]]:text-white"
+        "[&[data-combobox-navigate]]:bg-blue-500 [&[data-combobox-navigate]]:text-white",
+        @class
       ]}
       data-combobox-value={@value}
     >
