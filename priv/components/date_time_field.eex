@@ -167,14 +167,8 @@ defmodule <%= @module %> do
       @ring && "[&_.date-time-field-wrapper]:focus-within:ring-[0.03rem]",
       @class
     ]}>
-      <div
-        :if={@label || @description}
-        class={["checkbox-card-label-wrapper", @description_wrapper_class]}
-      >
-        <.label :if={@label} for={@id} class={@label_class}>{@label}</.label>
-        <div :if={@description} class={@description_class}>
-          {@description}
-        </div>
+      <div :if={@description} class={@description_class}>
+        {@description}
       </div>
 
       <div class={[
@@ -202,7 +196,7 @@ defmodule <%= @module %> do
               "text-[16px] sm:font-inherit appearance-none bg-transparent border-0 focus:outline-none peer",
               @input_class
             ]}
-            placeholder="select a date "
+            placeholder={@placeholder}
             {@rest}
           />
 
@@ -217,6 +211,68 @@ defmodule <%= @module %> do
             {@label}
           </label>
         </div>
+
+        <div
+          :if={@end_section}
+          class={["flex items-center justify-center shrink-0 pe-2", @end_section[:class]]}
+        >
+          {render_slot(@end_section)}
+        </div>
+      </div>
+
+      <.error :for={msg <- @errors} icon={@error_icon}>{msg}</.error>
+    </div>
+    """
+  end
+
+  def date_time_field(assigns) do
+    ~H"""
+    <div class={[
+      color_variant(@variant, @color, @floating),
+      rounded_size(@rounded),
+      border_class(@border, @variant),
+      size_class(@size),
+      space_class(@space),
+      @ring && "[&_.date-time-field-wrapper]:focus-within:ring-[0.03rem]",
+      @class
+    ]}>
+      <div
+        :if={@label || @description}
+        class={["date-time-label-wrapper", @description_wrapper_class]}
+      >
+        <.label :if={@label} for={@id} class={@label_class}>{@label}</.label>
+        <div :if={@description} class={@description_class}>
+          {@description}
+        </div>
+      </div>
+
+      <div class={[
+        "date-time-field-wrapper overflow-hidden transition-all ease-in-out duration-200 flex items-center flex-nowrap",
+        @errors != [] && "date-time-field-error",
+        @field_wrapper_class
+      ]}>
+        <div
+          :if={@start_section}
+          class={[
+            "flex items-center justify-center shrink-0 ps-2",
+            @start_section[:class]
+          ]}
+        >
+          {render_slot(@start_section)}
+        </div>
+
+        <input
+          type={@type}
+          name={@name}
+          id={@id}
+          value={@value}
+          class={[
+            "flex-1 py-1 px-2 text-sm disabled:opacity-80 block w-full appearance-none",
+            "bg-transparent border-0 focus:outline-none focus:ring-0",
+            @input_class
+          ]}
+          {@rest}
+        />
 
         <div
           :if={@end_section}
