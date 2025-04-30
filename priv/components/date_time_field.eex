@@ -96,11 +96,14 @@ defmodule <%= @module %> do
   attr :variant, :string, default: "base", doc: "Determines the style"
   attr :description, :string, default: nil, doc: "Determines a short description"
   attr :space, :string, default: "medium", doc: "Space between items"
-  attr :description_class, :string, default: nil, doc: "Custom classes for description"
+  attr :description_class, :string, default: "text-[12px]", doc: "Custom classes for description"
   attr :label_class, :string, default: nil, doc: "Custom CSS class for the label styling"
   attr :field_wrapper_class, :string, default: nil, doc: "Custom CSS class field wrapper"
   attr :input_class, :string, default: nil, doc: "Custom CSS class for the input"
-  attr :flaoting_label_class, :string, default: nil, doc: "Custom CSS class for the flaoting label"
+
+  attr :flaoting_label_class, :string,
+    default: nil,
+    doc: "Custom CSS class for the flaoting label"
 
   attr :description_wrapper_class, :string,
     default: nil,
@@ -169,7 +172,7 @@ defmodule <%= @module %> do
         class={["checkbox-card-label-wrapper", @description_wrapper_class]}
       >
         <.label :if={@label} for={@id} class={@label_class}>{@label}</.label>
-        <div :if={@description} class={["text-[12px]", @description_class]}>
+        <div :if={@description} class={@description_class}>
           {@description}
         </div>
       </div>
