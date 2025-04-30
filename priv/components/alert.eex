@@ -163,14 +163,9 @@ defmodule <%= @module %> do
 
   def flash_group(assigns) do
     ~H"""
-    <div
+     <div
       id={@id}
-      class={[
-        "[&_.flash-alert:not(:first-child)]:mt-3 z-50",
-        position_class(@position),
-        @z_index,
-        @class
-      ]}
+      class={["[&_.flash-alert:not(:first-child)]:mt-3", position_class(@position), @z_index, @class]}
       {@rest}
     >
       <.flash
@@ -255,7 +250,6 @@ defmodule <%= @module %> do
   attr :width, :string, default: "full", doc: "Determines the element width"
   attr :border, :string, default: "extra_small", doc: "Determines the element border width"
   attr :padding, :string, default: "small", doc: "Determines the element padding size"
-  attr :z_index, :string, default: "z-50", doc: "custom z-index"
 
   attr :size, :string,
     default: "medium",
@@ -305,7 +299,6 @@ defmodule <%= @module %> do
         padding_size(@padding),
         content_size(@size),
         @font_weight,
-        @z_index,
         @class
       ]}
       {@rest}
