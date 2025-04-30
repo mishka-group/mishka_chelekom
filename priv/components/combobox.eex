@@ -99,6 +99,10 @@ defmodule <%= @module %> do
   attr :field_wrapper_class, :string, default: nil, doc: "Custom CSS class field wrapper"
   attr :option_group_class, :string, default: nil, doc: "Custom CSS class option group"
 
+  attr :description_wrapper_class, :string,
+    default: nil,
+    doc: "Custom classes for description wrapper"
+
   attr :search_placeholder, :string,
     default: "Search..",
     doc: "Custom CSS class for additional styling"
