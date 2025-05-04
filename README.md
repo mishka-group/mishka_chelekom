@@ -172,7 +172,7 @@ This project ensures optimal performance by minimizing dependencies and leveragi
 
 - Project Page: https://mishka.tools/chelekom
 - Project Documentation: https://mishka.tools/chelekom/docs
-- Created components list: [Heex file and configs](https://github.com/mishka-group/mishka_chelekom/tree/master/priv/templates/components)
+- Created components list: [Heex file and configs](https://github.com/mishka-group/mishka_chelekom/tree/master/priv/components)
 - Hex.pm: https://hex.pm/packages/mishka_chelekom
 
 ---
