@@ -31,6 +31,30 @@ defmodule Mix.Tasks.Mishka.Assets.Deps.Docs do
   end
 end
 
+defmodule Mix.Tasks.Mishka.Assets.Install do
+  @shortdoc "Runs package manager install in assets directory"
+  @moduledoc false
+
+  use Mix.Task
+
+  @impl Mix.Task
+  def run([package_manager]) do
+    File.cd!("assets", fn ->
+      IO.puts("\n#{IO.ANSI.cyan()}Running #{package_manager} install...#{IO.ANSI.reset()}")
+
+      case System.cmd(package_manager, ["install"], into: IO.stream(:stdio, :line)) do
+        {_, 0} ->
+          IO.puts("#{IO.ANSI.green()}✓ Dependencies installed successfully!#{IO.ANSI.reset()}")
+
+        {_, exit_code} ->
+          IO.puts(
+            "#{IO.ANSI.red()}✗ Failed to install dependencies (exit code: #{exit_code})#{IO.ANSI.reset()}"
+          )
+      end
+    end)
+  end
+end
+
 if Code.ensure_loaded?(Igniter) do
   defmodule Mix.Tasks.Mishka.Assets.Deps do
     @shortdoc "#{__MODULE__.Docs.short_doc()}"
@@ -78,19 +102,24 @@ if Code.ensure_loaded?(Igniter) do
       |> check_package_manager(package_manager)
       |> ensure_package_json_exists()
       |> update_package_json_deps(String.split(deps, ","), options)
+      |> run_install()
     end
 
     def check_package_manager(igniter, manager) when manager in @pkgs do
-      case System.find_executable(Atom.to_string(manager)) do
-        nil ->
-          {:error,
-           "#{manager} not found. Please install it or let us to use binary bun that does not need"}
+      new_igniter =
+        case System.find_executable(Atom.to_string(manager)) do
+          nil ->
+            igniter
+            |> Igniter.add_issue(
+              "#{manager} not found. Please install it or let us to use binary bun that does not need"
+            )
 
-        path ->
-          {:ok, path}
-      end
+          _path ->
+            igniter
+            |> Igniter.assign(:package_manager, manager)
+        end
 
-      igniter
+      new_igniter
     end
 
     def check_package_manager(igniter, nil) do
@@ -156,6 +185,18 @@ if Code.ensure_loaded?(Igniter) do
         end)
 
       new_igniter
+    end
+
+    def run_install(igniter) do
+      if Igniter.has_changes?(igniter) do
+        package_manager = Map.get(igniter.assigns, :package_manager, :npm)
+
+        igniter
+        |> Igniter.add_notice("Running #{package_manager} install in assets directory...")
+        |> Igniter.add_task("mishka.assets.install", [Atom.to_string(package_manager)])
+      else
+        igniter
+      end
     end
 
     defp parse_deps(deps) when is_list(deps) do
