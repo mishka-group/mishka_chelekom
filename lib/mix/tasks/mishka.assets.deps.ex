@@ -147,8 +147,10 @@ if Code.ensure_loaded?(Igniter) do
               Rewrite.Source.update(source, :content, formatted)
 
             {:error, _} ->
-              igniter
-              |> Igniter.add_issue("Failed to parse package.json. Ensure it contains valid JSON.")
+              source
+              |> Rewrite.Source.add_issue(
+                "Failed to parse package.json. Ensure it contains valid JSON."
+              )
           end
         end)
 
