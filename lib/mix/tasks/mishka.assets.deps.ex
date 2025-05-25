@@ -143,6 +143,7 @@ if Code.ensure_loaded?(Igniter) do
                 end)
                 |> then(&Map.put(json, deps_key, &1))
                 |> Jason.encode!(pretty: true)
+                |> Kernel.<>("\n")
 
               Rewrite.Source.update(source, :content, formatted)
 
