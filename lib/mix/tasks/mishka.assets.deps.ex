@@ -148,9 +148,7 @@ if Code.ensure_loaded?(Igniter) do
 
             {:error, _} ->
               igniter
-              |> Igniter.add_warning(
-                "Failed to parse package.json. Ensure it contains valid JSON."
-              )
+              |> Igniter.add_issue("Failed to parse package.json. Ensure it contains valid JSON.")
           end
         end)
 
