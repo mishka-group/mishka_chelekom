@@ -79,6 +79,20 @@ if Code.ensure_loaded?(Igniter) do
       |> ensure_package_json_exists()
       |> update_package_json_deps(String.split(deps, ","), options)
       |> run_install()
+      |> Igniter.add_notice(
+        IO.ANSI.yellow() <>
+          """
+          Note:
+          Unfortunately, JavaScript has developed a problematic ecosystem over several years.
+          For this reason, even if we check many things, errors still occur during the download
+          and installation of packages, which are very difficult to manage in scripts.
+
+          Therefore, in case of errors, you need to manage them manually.
+          However, in the past year, we've had a very good experience with Bun and highly recommend it.
+          It's worth mentioning that if you're using Docker, you need to specify during build time
+          that you have JS packages that need to be built.
+          """ <> IO.ANSI.reset()
+      )
     end
 
     def check_package_manager(igniter, manager) when manager in @pkgs do
@@ -168,7 +182,6 @@ if Code.ensure_loaded?(Igniter) do
         package_manager = Map.get(igniter.assigns, :package_manager, :npm)
 
         igniter
-        |> Igniter.add_notice("Running #{package_manager} install in assets directory...")
         |> Igniter.add_task("mishka.assets.install", [Atom.to_string(package_manager)])
       else
         igniter
