@@ -78,7 +78,7 @@ if Code.ensure_loaded?(Igniter) do
           options[:npm] -> :npm
           options[:yarn] -> :yarn
           options[:mix_bun] -> nil
-          true -> Enum.find(@pkgs, &(Keyword.get(options, &1) == true))
+          true -> Enum.find(@pkgs, &(!is_nil(System.find_executable(Atom.to_string(&1)))))
         end
 
       if !options[:sub] do
