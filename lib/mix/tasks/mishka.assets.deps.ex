@@ -113,12 +113,21 @@ if Code.ensure_loaded?(Igniter) do
             [runtime: Mix.env() == :dev]
           end
 
-        igniter
-        |> Igniter.add_warning("""
-        No package manager found. We can install bun as a mix dependency.
-        This will add {:bun, "~> 1.0"} to your mix.exs and make bun available.
-        """)
-        |> Igniter.Project.Deps.add_dep({:bun, "~> 1.0", dep_ast})
+        igniter =
+          igniter
+          |> Igniter.add_warning("""
+          No package manager found. We can install bun as a mix dependency.
+          This will add {:bun, "~> 1.0"} to your mix.exs and make bun available.
+          """)
+
+        case Igniter.Project.Deps.get_dep(igniter, :bun) do
+          {:ok, dep} when not is_nil(dep) ->
+            igniter
+
+          _ ->
+            igniter
+            |> Igniter.Project.Deps.add_dep({:bun, "~> 1.0", dep_ast})
+        end
         |> Igniter.Project.Config.configure_new("config.exs", :bun, [:version], "1.2.14")
         |> Igniter.Project.Config.configure_new(
           "config.exs",
