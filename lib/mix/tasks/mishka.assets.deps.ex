@@ -75,9 +75,9 @@ if Code.ensure_loaded?(Igniter) do
       end
 
       igniter
-      |> check_package_manager(package_manager)
       |> ensure_package_json_exists()
       |> update_package_json_deps(String.split(deps, ","), options)
+      |> check_package_manager(nil)
       |> run_install()
     end
 
@@ -99,8 +99,26 @@ if Code.ensure_loaded?(Igniter) do
     end
 
     def check_package_manager(igniter, nil) do
-      {:error, "No package manager specified"}
-      igniter
+      if Igniter.has_changes?(igniter) do
+        igniter
+        |> Igniter.add_notice("""
+        No package manager found. We can install bun as a mix dependency.
+        This will add {:bun, "~> 1.0"} to your mix.exs and make bun available.
+        """)
+        |> Igniter.Project.Deps.add_dep({:bun, "~> 1.0", runtime: Mix.env() == :dev})
+        |> Igniter.Project.Config.configure("config.exs", :bun, [:version], "1.2.14")
+        |> Igniter.Project.Config.configure(
+          "config.exs",
+          :bun,
+          [:install],
+          args: ~w(install),
+          cd: "assets"
+        )
+        |> Igniter.assign(:package_manager, :bun)
+        |> Igniter.assign(:package_manager_type, "mix")
+      else
+        igniter
+      end
     end
 
     def ensure_package_json_exists(igniter) do
@@ -166,9 +184,10 @@ if Code.ensure_loaded?(Igniter) do
     def run_install(igniter) do
       if Igniter.has_changes?(igniter) do
         package_manager = Map.get(igniter.assigns, :package_manager, :npm)
+        pkg_type = Map.get(igniter.assigns, :package_manager_type, "pkg")
 
         igniter
-        |> Igniter.add_task("mishka.assets.install", [Atom.to_string(package_manager)])
+        |> Igniter.add_task("mishka.assets.install", [Atom.to_string(package_manager), pkg_type])
         |> Igniter.add_notice(
           IO.ANSI.yellow() <>
             """

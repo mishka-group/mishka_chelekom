@@ -30,3 +30,4 @@ mishka_chelekom-*.tar
 /.zed/
 .iex.exs
 /assets
+/config
