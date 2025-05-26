@@ -29,6 +29,7 @@ defmodule Mix.Tasks.Mishka.Assets.Deps.Docs do
     * `--npm` - Specifies npm as package manager to install dependencies
     * `--yarn` - Specifies yarn as package manager to install dependencies
     * `--dev` - Specifies the dependencies you want to install in devDependencies
+    * `--remove` - Removes the specified dependencies instead of installing them
     * `--yes` - Makes directly without questions
     """
   end
@@ -57,7 +58,8 @@ if Code.ensure_loaded?(Igniter) do
           yarn: :boolean,
           mix_bun: :boolean,
           sub: :boolean,
-          dev: :boolean
+          dev: :boolean,
+          remove: :boolean
         ],
         defaults: [],
         aliases: [],
@@ -69,7 +71,6 @@ if Code.ensure_loaded?(Igniter) do
     def igniter(igniter) do
       %Igniter.Mix.Task.Args{positional: %{deps: deps}, argv: argv} = igniter.args
       options = options!(argv)
-      IO.inspect(options)
 
       package_manager =
         cond do
@@ -95,9 +96,17 @@ if Code.ensure_loaded?(Igniter) do
 
       igniter
       |> ensure_package_json_exists()
-      |> update_package_json_deps(String.split(deps, ","), options)
+      |> handle_deps(String.split(deps, ","), options)
       |> check_package_manager(package_manager)
-      |> run_install()
+      |> run_command(options)
+    end
+
+    defp handle_deps(igniter, deps, options) do
+      if options[:remove] do
+        remove_package_json_deps(igniter, deps, options)
+      else
+        update_package_json_deps(igniter, deps, options)
+      end
     end
 
     def check_package_manager(igniter, manager) when manager in @pkgs do
@@ -126,9 +135,14 @@ if Code.ensure_loaded?(Igniter) do
 
     def check_package_manager(igniter, nil) do
       if Igniter.has_changes?(igniter) do
-        config_ast =
+        install_config_ast =
           quote do
             [args: ["install"], cd: Path.expand("../assets", __DIR__)]
+          end
+
+        uninstall_config_ast =
+          quote do
+            [args: ["remove"], cd: Path.expand("../assets", __DIR__)]
           end
 
         dep_ast =
@@ -156,7 +170,13 @@ if Code.ensure_loaded?(Igniter) do
           "config.exs",
           :bun,
           [:install],
-          {:code, config_ast}
+          {:code, install_config_ast}
+        )
+        |> Igniter.Project.Config.configure_new(
+          "config.exs",
+          :bun,
+          [:uninstall],
+          {:code, uninstall_config_ast}
         )
         |> Igniter.assign(:package_manager, :bun)
         |> Igniter.assign(:package_manager_type, "mix")
@@ -225,13 +245,75 @@ if Code.ensure_loaded?(Igniter) do
       new_igniter
     end
 
-    def run_install(igniter) do
+    def remove_package_json_deps(igniter, deps, options \\ []) do
+      package_json_path = "assets/package.json"
+      deps_to_remove = parse_deps(deps) |> Enum.map(&elem(&1, 0))
+      deps_key = if options[:dev], do: "devDependencies", else: "dependencies"
+
+      new_igniter =
+        igniter
+        |> Igniter.assign(:deps_to_remove, deps_to_remove)
+        |> Igniter.update_file(package_json_path, fn source ->
+          original_content = Rewrite.Source.get(source, :content)
+
+          case Jason.decode(original_content) do
+            {:ok, json} ->
+              {_removed, remaining} = Map.get(json, deps_key, %{}) |> Map.split(deps_to_remove)
+
+              formatted =
+                json
+                |> Map.put(deps_key, remaining)
+                |> Jason.encode!(pretty: true)
+                |> Kernel.<>("\n")
+
+              Rewrite.Source.update(source, :content, formatted)
+
+            {:error, _} ->
+              source
+              |> Rewrite.Source.add_issue(
+                "Failed to parse package.json. Ensure it contains valid JSON."
+              )
+          end
+        end)
+
+      new_igniter
+    end
+
+    def run_command(igniter, options) do
       if Igniter.has_changes?(igniter) do
         package_manager = Map.get(igniter.assigns, :package_manager, :npm)
         pkg_type = Map.get(igniter.assigns, :package_manager_type, "pkg")
 
+        command = if options[:remove], do: "remove", else: "install"
+
+        task_args =
+          if options[:remove] do
+            deps_to_remove = Map.get(igniter.assigns, :deps_to_remove, [])
+            [Atom.to_string(package_manager), pkg_type, command | deps_to_remove]
+          else
+            [Atom.to_string(package_manager), pkg_type, command]
+          end
+
         igniter
-        |> Igniter.add_task("mishka.assets.install", [Atom.to_string(package_manager), pkg_type])
+        |> Igniter.add_task("mishka.assets.install", task_args)
+        |> add_final_notice(options)
+      else
+        igniter
+      end
+    end
+
+    defp add_final_notice(igniter, options) do
+      if options[:remove] do
+        igniter
+        |> Igniter.add_notice(
+          IO.ANSI.green() <>
+            """
+            Dependencies have been removed from package.json.
+            The package manager will update the lockfile and node_modules accordingly.
+            """ <> IO.ANSI.reset()
+        )
+      else
+        igniter
         |> Igniter.add_notice(
           IO.ANSI.yellow() <>
             """
@@ -246,8 +328,6 @@ if Code.ensure_loaded?(Igniter) do
             that you have JS packages that need to be built.
             """ <> IO.ANSI.reset()
         )
-      else
-        igniter
       end
     end
 
