@@ -25,6 +25,7 @@ defmodule Mix.Tasks.Mishka.Assets.Deps.Docs do
     ## Options
 
     * `--bun` - Specifies Bun as package manager to install dependencies
+    * `--mix-bun` - Specifies Bun hex package/binary as package manager to install dependencies
     * `--npm` - Specifies npm as package manager to install dependencies
     * `--yarn` - Specifies yarn as package manager to install dependencies
     * `--dev` - Specifies the dependencies you want to install in devDependencies
