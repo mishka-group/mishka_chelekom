@@ -3,20 +3,18 @@ defmodule Mix.Tasks.Mishka.Assets.Deps.Docs do
 
   @spec short_doc() :: String.t()
   def short_doc do
-    "A short description of your task"
+    "A Mix Task for installing and configuring JS dependencies for Phoenix"
   end
 
   @spec example() :: String.t()
   def example do
-    "mix mishka.assets.deps --example arg"
+    "mix mishka.assets.deps deps --example"
   end
 
   @spec long_doc() :: String.t()
   def long_doc do
     """
     #{short_doc()}
-
-    Longer explanation of your task
 
     ## Example
 
@@ -26,7 +24,11 @@ defmodule Mix.Tasks.Mishka.Assets.Deps.Docs do
 
     ## Options
 
-    * `--example-option` or `-e` - Docs for your option
+    * `--bun` - Specifies Bun as package manager to install dependencies
+    * `--npm` - Specifies npm as package manager to install dependencies
+    * `--yarn` - Specifies yarn as package manager to install dependencies
+    * `--dev` - Specifies the dependencies you want to install in devDependencies
+    * `--yes` - Makes directly without questions
     """
   end
 end
