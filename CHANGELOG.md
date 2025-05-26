@@ -1,3 +1,12 @@
+# Changelog for MishkaChelekom 0.0.6
+
+### Features:
+
+- Add install version of `mishka.assets.deps` mix command [#413](https://github.com/mishka-group/mishka_chelekom/pull/413)
+
+
+---
+
 # Changelog for MishkaChelekom 0.0.5
 
 ### Features:
