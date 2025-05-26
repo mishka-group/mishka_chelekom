@@ -103,19 +103,28 @@ if Code.ensure_loaded?(Igniter) do
 
     def check_package_manager(igniter, nil) do
       if Igniter.has_changes?(igniter) do
+        config_ast =
+          quote do
+            [args: ["install"], cd: Path.expand("../assets", __DIR__)]
+          end
+
+        dep_ast =
+          quote do
+            [runtime: Mix.env() == :dev]
+          end
+
         igniter
         |> Igniter.add_warning("""
         No package manager found. We can install bun as a mix dependency.
         This will add {:bun, "~> 1.0"} to your mix.exs and make bun available.
         """)
-        |> Igniter.Project.Deps.add_dep({:bun, "~> 1.0", runtime: Mix.env() == :dev})
-        |> Igniter.Project.Config.configure("config.exs", :bun, [:version], "1.2.14")
-        |> Igniter.Project.Config.configure(
+        |> Igniter.Project.Deps.add_dep({:bun, "~> 1.0", dep_ast})
+        |> Igniter.Project.Config.configure_new("config.exs", :bun, [:version], "1.2.14")
+        |> Igniter.Project.Config.configure_new(
           "config.exs",
           :bun,
           [:install],
-          args: ~w(install),
-          cd: "assets"
+          {:code, config_ast}
         )
         |> Igniter.assign(:package_manager, :bun)
         |> Igniter.assign(:package_manager_type, "mix")
