@@ -3,6 +3,7 @@
 ### Features:
 
 - Add install version of `mishka.assets.deps` mix command [#413](https://github.com/mishka-group/mishka_chelekom/pull/413)
+- Add remove JS package for `mix mishka.assets.deps` cli [#414](https://github.com/mishka-group/mishka_chelekom/pull/414)
 
 
 ---
