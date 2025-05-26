@@ -50,7 +50,14 @@ if Code.ensure_loaded?(Igniter) do
         only: nil,
         positional: [:deps],
         composes: [],
-        schema: [bun: :boolean, npm: :boolean, yarn: :boolean, sub: :boolean, dev: :boolean],
+        schema: [
+          bun: :boolean,
+          npm: :boolean,
+          yarn: :boolean,
+          mix_bun: :boolean,
+          sub: :boolean,
+          dev: :boolean
+        ],
         defaults: [],
         aliases: [],
         required: []
@@ -61,7 +68,16 @@ if Code.ensure_loaded?(Igniter) do
     def igniter(igniter) do
       %Igniter.Mix.Task.Args{positional: %{deps: deps}, argv: argv} = igniter.args
       options = options!(argv)
-      package_manager = Enum.find(@pkgs, &(Keyword.get(options, &1) == true))
+      IO.inspect(options)
+
+      package_manager =
+        cond do
+          options[:bun] -> :bun
+          options[:npm] -> :npm
+          options[:yarn] -> :yarn
+          options[:mix_bun] -> nil
+          true -> Enum.find(@pkgs, &(Keyword.get(options, &1) == true))
+        end
 
       if !options[:sub] do
         msg =
@@ -84,23 +100,27 @@ if Code.ensure_loaded?(Igniter) do
     end
 
     def check_package_manager(igniter, manager) when manager in @pkgs do
-      new_igniter =
-        case System.find_executable(Atom.to_string(manager)) do
-          nil ->
-            igniter
-            |> Igniter.add_warning("""
-            Note:
-            #{manager} not found.
-            Please install it or let us to use binary Bun that does not need to be installed.
-            """)
-            |> check_package_manager(nil)
+      if Igniter.has_changes?(igniter) do
+        new_igniter =
+          case System.find_executable(Atom.to_string(manager)) do
+            nil ->
+              igniter
+              |> Igniter.add_warning("""
+              Note:
+              #{manager} not found.
+              Please install it or let us to use binary Bun that does not need to be installed.
+              """)
+              |> check_package_manager(nil)
 
-          _path ->
-            igniter
-            |> Igniter.assign(:package_manager, manager)
-        end
+            _path ->
+              igniter
+              |> Igniter.assign(:package_manager, manager)
+          end
 
-      new_igniter
+        new_igniter
+      else
+        igniter
+      end
     end
 
     def check_package_manager(igniter, nil) do
