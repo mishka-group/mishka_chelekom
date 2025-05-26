@@ -77,7 +77,7 @@ if Code.ensure_loaded?(Igniter) do
       igniter
       |> ensure_package_json_exists()
       |> update_package_json_deps(String.split(deps, ","), options)
-      |> check_package_manager(nil)
+      |> check_package_manager(package_manager)
       |> run_install()
     end
 
@@ -86,9 +86,12 @@ if Code.ensure_loaded?(Igniter) do
         case System.find_executable(Atom.to_string(manager)) do
           nil ->
             igniter
-            |> Igniter.add_issue(
-              "#{manager} not found. Please install it or let us to use binary bun that does not need"
-            )
+            |> Igniter.add_warning("""
+            Note:
+            #{manager} not found.
+            Please install it or let us to use binary Bun that does not need to be installed.
+            """)
+            |> check_package_manager(nil)
 
           _path ->
             igniter
@@ -101,7 +104,7 @@ if Code.ensure_loaded?(Igniter) do
     def check_package_manager(igniter, nil) do
       if Igniter.has_changes?(igniter) do
         igniter
-        |> Igniter.add_notice("""
+        |> Igniter.add_warning("""
         No package manager found. We can install bun as a mix dependency.
         This will add {:bun, "~> 1.0"} to your mix.exs and make bun available.
         """)
