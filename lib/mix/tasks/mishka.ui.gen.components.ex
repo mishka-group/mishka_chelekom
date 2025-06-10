@@ -87,7 +87,6 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Components do
         |> Igniter.compose_task("mishka.ui.gen.component", [item, "--no-deps", "--sub", "--yes"])
       end)
       |> create_import_macro(list, options[:import] || false, options[:helpers], options[:global])
-      |> update_for_new_version_phoenix(options[:global])
 
     if Map.get(igniter, :issues, []) == [],
       do: Owl.Spinner.stop(id: :my_spinner, resolution: :ok, label: "Done"),
@@ -130,41 +129,6 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Components do
       end
 
     igniter
-  end
-
-  defp update_for_new_version_phoenix(igniter, global) do
-    if global do
-      web_module = Igniter.Libs.Phoenix.web_module(igniter)
-      module_name = Module.concat(web_module, "Layouts")
-
-      igniter
-      |> Igniter.Project.Module.find_and_update_module(module_name, fn zipper ->
-        case Sourceror.Zipper.find(zipper, fn node ->
-               match?({:def, _, [{:flash_group, _, [_]}, _]}, node)
-             end) do
-          nil ->
-            {:ok, zipper}
-
-          function_zipper ->
-            updated_zipper =
-              Sourceror.Zipper.update(function_zipper, fn
-                {:def, meta, [{:flash_group, func_meta, args}, body]} ->
-                  {:def, meta, [{:layout_flash_group, func_meta, args}, body]}
-
-                node ->
-                  node
-              end)
-
-            {:ok, updated_zipper}
-        end
-      end)
-      |> case do
-        {:ok, updated_igniter} -> updated_igniter
-        _ -> igniter
-      end
-    else
-      igniter
-    end
   end
 
   defp globalize_components(igniter, import_module, true) do
@@ -281,7 +245,9 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Components do
       IAPP.priv_dir(igniter, ["mishka_chelekom", "templates"]),
       IAPP.priv_dir(igniter, ["mishka_chelekom", "presets"])
     ]
+    |> IO.inspect()
     |> Enum.flat_map(&Path.wildcard(Path.join(&1, "*.eex")))
+    |> IO.inspect()
     |> Enum.map(&Path.basename(&1, ".eex"))
     |> Enum.uniq()
   end

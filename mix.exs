@@ -1,7 +1,7 @@
 defmodule MishkaChelekom.MixProject do
   use Mix.Project
 
-  @version "0.0.6"
+  @version "0.0.7"
   @source_url "https://github.com/mishka-group/mishka_chelekom"
 
   def project do
