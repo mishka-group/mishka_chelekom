@@ -242,7 +242,7 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Components do
           Keyword.get(config, :only, [])
           |> List.flatten()
 
-        if(component == "alert" and !new_phoenix?,
+        if(component == "alert" and new_phoenix?,
           do: Enum.reject(get_only, &(&1 == "flash_group")),
           else: get_only
         )
