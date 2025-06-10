@@ -1,6 +1,8 @@
 # Changelog for MishkaChelekom 0.0.7
 
-### Features:
+### Refactors:
+
+- Flash group restriction for Phoenix version 1.8 [#424](https://github.com/mishka-group/mishka_chelekom/pull/424)
 
 
 ---
