@@ -95,6 +95,26 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Components do
     igniter
   end
 
+  defp new_phoenix(igniter, true) do
+    web_module = Igniter.Libs.Phoenix.web_module(igniter)
+    module_name = Module.concat(web_module, "Layouts")
+
+    case Igniter.Project.Module.find_module(igniter, module_name) do
+      {:ok, {_igniter, _source, zipper}} ->
+        case Sourceror.Zipper.find(zipper, fn node ->
+               match?({:def, _, [{:flash_group, _, [_]}, _]}, node)
+             end) do
+          nil -> {igniter, false}
+          _function_zipper -> {igniter, true}
+        end
+
+      {:error, _igniter} ->
+        {igniter, false}
+    end
+  end
+
+  defp new_phoenix(igniter, _), do: {igniter, false}
+
   defp create_import_macro(igniter, list, import_status, helpers_status, global) do
     igniter =
       if import_status and Map.get(igniter, :issues, []) == [] do
@@ -116,7 +136,7 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Components do
           defmodule #{module_name} do
             defmacro __using__(_) do
               quote do
-                #{Enum.map(create_import_string(list, web_module, igniter, helpers_status), fn item -> "#{item}\n" end)}
+                #{Enum.map(create_import_string(list, web_module, igniter, helpers_status, global), fn item -> "#{item}\n" end)}
               end
             end
           end
@@ -211,13 +231,21 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Components do
     end
   end
 
-  defp create_import_string(list, web_module, igniter, helpers?) do
+  defp create_import_string(list, web_module, igniter, helpers?, global) do
+    {igniter, new_phoenix?} = new_phoenix(igniter, global)
+
     if Map.get(igniter, :issues, []) == [] do
       children = fn component ->
         config = Component.get_component_template(igniter, component).config[:args]
 
-        Keyword.get(config, :only, [])
-        |> List.flatten()
+        get_only =
+          Keyword.get(config, :only, [])
+          |> List.flatten()
+
+        if(component == "alert" and !new_phoenix?,
+          do: Enum.reject(get_only, &(&1 == "flash_group")),
+          else: get_only
+        )
         |> Enum.map(&{String.to_atom(&1), 1})
         |> Keyword.merge(if helpers?, do: Keyword.get(config, :helpers, []), else: [])
         |> Enum.map_join(", ", fn {key, value} -> "#{key}: #{value}" end)
