@@ -74,7 +74,7 @@ defmodule <%= @module %> do
 
   attr :floating_label_class, :string,
     default: nil,
-    doc: "Custom CSS class for the flaoting label"
+    doc: "Custom CSS class for the floating label"
 
   attr :description_wrapper_class, :string,
     default: nil,
@@ -311,7 +311,7 @@ defmodule <%= @module %> do
 
   <%= if is_nil(@size) or "extra_small" in @size do %>
   defp size_class("extra_small") do
-    "[&_.search-field-wrapper_inpendut]:h-8 [&_.search-field-wrapper_.search-field-icon]:size-3.5"
+    "[&_.search-field-wrapper_input]:h-8 [&_.search-field-wrapper_.search-field-icon]:size-3.5"
   end
   <% end %>
   <%= if is_nil(@size) or "small" in @size do %>
