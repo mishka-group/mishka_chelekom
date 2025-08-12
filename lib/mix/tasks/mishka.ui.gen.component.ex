@@ -549,7 +549,7 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Component do
             import MishkaComponents from "../vendor/mishka_components.js";
             """
 
-            # TODO: igniter_js deletes comment, should be fixed
+
             with original_content <- Rewrite.Source.get(source, :content),
                  {:ok, _, imported} <- Parser.insert_imports(original_content, imports),
                  {:ok, _, output} <- Parser.extend_hook_object(imported, "...MishkaComponents"),
