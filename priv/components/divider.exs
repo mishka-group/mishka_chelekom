@@ -21,7 +21,8 @@
       type: ["divider", "hr"],
       only: ["divider", "hr"],
       helpers: [],
-      module: ""
+      module: "",
+      function_prefix: nil
     ],
     optional: [],
     necessary: ["icon"]

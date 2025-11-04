@@ -47,7 +47,7 @@ defmodule <%= @module %> do
 
   slot :inner_block, required: true, doc: "Inner block that renders HEEx content"
 
-  def scroll_area(assigns) do
+  def <%= @function_prefix %>scroll_area(assigns) do
     ~H"""
     <div
       id={@id}

@@ -74,7 +74,7 @@ defmodule <%= @module %> do
     doc:
       "Global attributes can define defaults which are merged with attributes provided by the caller"
 
-  def image(assigns) do
+  def <%= @function_prefix %>image(assigns) do
     ~H"""
     <img
       id={@id}

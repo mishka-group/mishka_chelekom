@@ -24,7 +24,8 @@
       rounded: ["extra_small", "small", "medium", "large", "extra_large"],
       only: ["mega_menu"],
       helpers: [],
-      module: ""
+      module: "",
+      function_prefix: nil
     ],
     optional: [],
     necessary: ["icon"]

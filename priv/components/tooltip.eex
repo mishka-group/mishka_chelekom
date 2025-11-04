@@ -107,7 +107,7 @@ import Phoenix.LiveView.Utils, only: [random_id: 0]
 
   slot :inner_block, required: false, doc: "Default trigger content (when not using trigger slot)"
 
-  def tooltip(assigns) do
+  def <%= @function_prefix %>tooltip(assigns) do
     assigns =
       assigns
       |> assign_new(:id, fn -> "tooltip-#{random_id()}" end)

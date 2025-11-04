@@ -148,7 +148,7 @@ defmodule <%= @module %> do
       "Global attributes can define defaults which are merged with attributes provided by the caller"
 
   @spec date_time_field(map()) :: Phoenix.LiveView.Rendered.t()
-  def date_time_field(%{field: %Phoenix.HTML.FormField{} = field} = assigns) do
+  def <%= @function_prefix %>date_time_field(%{field: %Phoenix.HTML.FormField{} = field} = assigns) do
     errors = if Phoenix.Component.used_input?(field), do: field.errors, else: []
 
     assigns
@@ -159,7 +159,7 @@ defmodule <%= @module %> do
     |> date_time_field()
   end
 
-  def date_time_field(%{floating: floating} = assigns) when floating in ["inner", "outer"] do
+  def <%= @function_prefix %>date_time_field(%{floating: floating} = assigns) when floating in ["inner", "outer"] do
     ~H"""
     <div class={[
       color_variant(@variant, @color, @floating),
@@ -234,7 +234,7 @@ defmodule <%= @module %> do
     """
   end
 
-  def date_time_field(assigns) do
+  def <%= @function_prefix %>date_time_field(assigns) do
     ~H"""
     <div class={[
       color_variant(@variant, @color, @floating),

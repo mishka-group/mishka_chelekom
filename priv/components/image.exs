@@ -5,7 +5,8 @@
       rounded: ["extra_small", "small", "medium", "large", "extra_large", "full"],
       only: ["image"],
       helpers: [],
-      module: ""
+      module: "",
+      function_prefix: nil
     ],
     optional: [],
     necessary: []

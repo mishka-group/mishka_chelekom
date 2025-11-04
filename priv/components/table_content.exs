@@ -34,7 +34,8 @@
       type: ["table_content", "content_wrapper", "content_item"],
       only: ["table_content", "content_wrapper", "content_item"],
       helpers: [],
-      module: ""
+      module: "",
+      function_prefix: nil
     ],
     optional: [],
     necessary: ["icon"]

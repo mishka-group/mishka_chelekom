@@ -4,7 +4,8 @@
     args: [
       only: ["clipboard"],
       helpers: [],
-      module: ""
+      module: "",
+      function_prefix: nil
     ],
     optional: [],
     necessary: [],

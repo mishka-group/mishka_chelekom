@@ -134,7 +134,7 @@ defmodule <%= @module %> do
 
   slot :action, doc: "the slot for showing user actions in the last table column"
 
-  def table(assigns) do
+  def <%= @function_prefix %>table(assigns) do
     assigns =
       with %{rows: %Phoenix.LiveView.LiveStream{}} <- assigns do
         assign(assigns, row_id: assigns.row_id || fn {id, _item} -> id end)
@@ -275,7 +275,7 @@ defmodule <%= @module %> do
 
   slot :inner_block, required: false, doc: "Inner block that renders HEEx content"
 
-  def th(assigns) do
+  def <%= @function_prefix %>th(assigns) do
     ~H"""
     <th id={@id} scope={@scope} class={["table-header", @class]} {@rest}>
       {render_slot(@inner_block)}
@@ -310,7 +310,7 @@ defmodule <%= @module %> do
 
   slot :inner_block, required: false, doc: "Inner block that renders HEEx content"
 
-  def tr(assigns) do
+  def <%= @function_prefix %>tr(assigns) do
     ~H"""
     <tr id={@id} class={["table-row", @class]} {@rest}>
       {render_slot(@inner_block)}
@@ -341,7 +341,7 @@ defmodule <%= @module %> do
 
   slot :inner_block, required: false, doc: "Inner block that renders HEEx content"
 
-  def td(assigns) do
+  def <%= @function_prefix %>td(assigns) do
     ~H"""
     <td id={@id} class={["table-data-cell", @class]} {@rest}>
       {render_slot(@inner_block)}

@@ -104,7 +104,7 @@ defmodule <%= @module %> do
   slot :inner_block, required: false, doc: "Inner block that renders HEEx content"
 
   @spec sidebar(map()) :: Phoenix.LiveView.Rendered.t()
-  def sidebar(assigns) do
+  def <%= @function_prefix %>sidebar(assigns) do
     assigns =
       assigns
       |> assign_new(:id, fn -> "sidebar-#{random_id()}" end)
@@ -190,7 +190,7 @@ defmodule <%= @module %> do
   This will show the sidebar with the ID "sidebar-id" by sliding it onto the screen from the right.
   """
 
-  def show_sidebar(js \\ %JS{}, id, position) when is_binary(id) do
+  def <%= @function_prefix %>show_sidebar(js \\ %JS{}, id, position) when is_binary(id) do
     JS.remove_class(js, hide_position(position), to: "##{id}")
     |> JS.add_class("transform-none", to: "##{id}")
   end
@@ -217,7 +217,7 @@ defmodule <%= @module %> do
   This will hide the sidebar with the ID "sidebar-id" by sliding it off-screen to the left.
   """
 
-  def hide_sidebar(js \\ %JS{}, id, position) do
+  def <%= @function_prefix %>hide_sidebar(js \\ %JS{}, id, position) do
     JS.remove_class(js, "transform-none", to: "##{id}")
     |> JS.add_class(hide_position(position), to: "##{id}")
   end

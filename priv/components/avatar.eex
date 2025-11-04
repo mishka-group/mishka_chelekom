@@ -90,7 +90,7 @@ defmodule <%= @module %> do
 
   slot :inner_block, required: false, doc: "Inner block that renders HEEx content"
 
-  def avatar(%{src: src, rounded: "full"} = assigns) when not is_nil(src) do
+  def <%= @function_prefix %>avatar(%{src: src, rounded: "full"} = assigns) when not is_nil(src) do
     ~H"""
     <div class={[
       "relative w-fit select-none",
@@ -113,7 +113,7 @@ defmodule <%= @module %> do
     """
   end
 
-  def avatar(%{src: src, rounded: "full"} = assigns) when is_nil(src) do
+  def <%= @function_prefix %>avatar(%{src: src, rounded: "full"} = assigns) when is_nil(src) do
     ~H"""
     <div
       class={[
@@ -137,7 +137,7 @@ defmodule <%= @module %> do
     """
   end
 
-  def avatar(%{src: src} = assigns) when not is_nil(src) do
+  def <%= @function_prefix %>avatar(%{src: src} = assigns) when not is_nil(src) do
     ~H"""
     <div class="relative w-fit select-none">
       <img
@@ -158,7 +158,7 @@ defmodule <%= @module %> do
     """
   end
 
-  def avatar(assigns) do
+  def <%= @function_prefix %>avatar(assigns) do
     ~H"""
     <div
       class={[
@@ -214,7 +214,7 @@ defmodule <%= @module %> do
 
   slot :inner_block, required: false, doc: "Inner block that renders HEEx content"
 
-  def avatar_group(assigns) do
+  def <%= @function_prefix %>avatar_group(assigns) do
     ~H"""
     <div
       id={@id}

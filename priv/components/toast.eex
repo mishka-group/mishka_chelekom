@@ -126,7 +126,7 @@ defmodule <%= @module %> do
   attr :padding, :string, default: "extra_small", doc: "Determines padding for items"
   slot :inner_block, required: false, doc: "Inner block that renders HEEx content"
 
-  def toast(assigns) do
+  def <%= @function_prefix %>toast(assigns) do
     ~H"""
     <div
       id={@id}
@@ -243,7 +243,7 @@ defmodule <%= @module %> do
 
   slot :inner_block, required: false, doc: "Inner block that renders HEEx content"
 
-  def toast_group(assigns) do
+  def <%= @function_prefix %>toast_group(assigns) do
     ~H"""
     <div
       id={@id}
@@ -996,7 +996,7 @@ defmodule <%= @module %> do
   This documentation provides a clear explanation of what the function does,
   its parameters, and an example usage.
   """
-  def show_toast(js \\ %JS{}, selector) do
+  def <%= @function_prefix %>show_toast(js \\ %JS{}, selector) do
     JS.show(js,
       to: selector,
       time: 300,
@@ -1028,7 +1028,7 @@ defmodule <%= @module %> do
   This documentation clearly outlines the purpose of the function, its parameters,
   and an example of how to use it.
   """
-  def hide_toast(js \\ %JS{}, selector) do
+  def <%= @function_prefix %>hide_toast(js \\ %JS{}, selector) do
     JS.hide(js,
       to: selector,
       time: 200,

@@ -111,7 +111,7 @@ defmodule <%= @module %> do
 
   attr :type, :string, default: "button", doc: "Determines the type of the badge"
 
-  def badge(assigns) do
+  def <%= @function_prefix %>badge(assigns) do
     ~H"""
     <div
       id={@id}
@@ -1034,7 +1034,7 @@ defmodule <%= @module %> do
 
   This example will show the badge element with the ID badge-element using the defined transition effect.
   """
-  def show_badge(js \\ %JS{}, selector) do
+  def <%= @function_prefix %>show_badge(js \\ %JS{}, selector) do
     JS.show(js,
       to: selector,
       time: 300,
@@ -1074,7 +1074,7 @@ defmodule <%= @module %> do
   This example will hide the badge element with the ID badge-element using the defined transition effect.
   """
 
-  def hide_badge(js \\ %JS{}, selector) do
+  def <%= @function_prefix %>hide_badge(js \\ %JS{}, selector) do
     JS.hide(js,
       to: selector,
       time: 200,

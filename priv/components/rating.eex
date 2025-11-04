@@ -64,7 +64,7 @@ defmodule <%= @module %> do
     doc:
       "Global attributes can define defaults which are merged with attributes provided by the caller"
 
-  def rating(assigns) do
+  def <%= @function_prefix %>rating(assigns) do
     ~H"""
     <div
       id={@id}

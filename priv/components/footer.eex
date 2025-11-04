@@ -84,7 +84,7 @@ defmodule <%= @module %> do
 
   slot :inner_block, required: false, doc: "Inner block that renders HEEx content"
 
-  def footer(assigns) do
+  def <%= @function_prefix %>footer(assigns) do
     ~H"""
     <footer
       id={@id}
@@ -130,7 +130,7 @@ defmodule <%= @module %> do
   attr :padding, :string, default: "", doc: "Determines padding for items"
   slot :inner_block, required: false, doc: "Inner block that renders HEEx content"
 
-  def footer_section(assigns) do
+  def <%= @function_prefix %>footer_section(assigns) do
     ~H"""
     <div class={[
       padding_size(@padding),

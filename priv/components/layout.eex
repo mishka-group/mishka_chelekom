@@ -100,7 +100,7 @@ defmodule <%= @module %> do
     required: false,
     doc: "The inner content to render inside the component"
 
-    def flex(assigns) do
+    def <%= @function_prefix %>flex(assigns) do
       ~H"""
     <div
       id={@id}
@@ -218,7 +218,7 @@ defmodule <%= @module %> do
     required: false,
     doc: "The inner content to render inside the component"
 
-  def grid(assigns) do
+  def <%= @function_prefix %>grid(assigns) do
     ~H"""
     <div
       id={@id}

@@ -86,7 +86,7 @@ defmodule <%= @module %> do
 
   slot :control, required: false, doc: "Defines a collection of elements inside the fieldset"
 
-  def fieldset(assigns) do
+  def <%= @function_prefix %>fieldset(assigns) do
     ~H"""
     <div class={[
       color_variant(@variant, @color),

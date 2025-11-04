@@ -94,7 +94,7 @@ defmodule <%= @module %> do
     doc:
       "Global attributes can define defaults which are merged with attributes provided by the caller"
 
-  def divider(%{variation: "vertical"} = assigns) do
+  def <%= @function_prefix %>divider(%{variation: "vertical"} = assigns) do
     ~H"""
     <div
       id={@id}
@@ -127,7 +127,7 @@ defmodule <%= @module %> do
     """
   end
 
-  def divider(assigns) do
+  def <%= @function_prefix %>divider(assigns) do
     ~H"""
     <div
       id={@id}
@@ -240,7 +240,7 @@ defmodule <%= @module %> do
     doc:
       "Global attributes can define defaults which are merged with attributes provided by the caller"
 
-  def hr(assigns) do
+  def <%= @function_prefix %>hr(assigns) do
     ~H"""
     <div class="relative">
       <hr

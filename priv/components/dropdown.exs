@@ -25,7 +25,8 @@
       type: ["dropdown", "dropdown_trigger", "dropdown_content"],
       only: ["dropdown", "dropdown_trigger", "dropdown_content"],
       helpers: [],
-      module: ""
+      module: "",
+      function_prefix: nil
     ],
     optional: [],
     necessary: [],

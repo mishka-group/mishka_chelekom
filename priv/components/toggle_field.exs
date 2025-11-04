@@ -20,7 +20,8 @@
       size: ["extra_small", "small", "medium", "large", "extra_large"],
       only: ["toggle_field"],
       helpers: [toggle_check: 2],
-      module: ""
+      module: "",
+      function_prefix: nil
     ],
     optional: [],
     necessary: ["icon"]

@@ -72,6 +72,7 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Component do
         space: :csv,
         type: :csv,
         rounded: :csv,
+        function_prefix: :string,
         sub: :boolean,
         no_deps: :boolean,
         no_sub_config: :boolean
@@ -257,12 +258,14 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Component do
     {File.exists?(template_path), File.exists?(template_config_path)}
     |> case do
       {true, true} ->
-        %{
+         %{
           igniter: igniter,
           component: component,
           path: template_path,
           config: Config.Reader.read!(template_config_path)[component_to_atom(component)]
         }
+
+
 
       _ ->
         msg = """
@@ -320,6 +323,7 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Component do
          {igniter, proper_location, assign, template_path, template_config},
          options
        ) do
+    IO.inspect(template_config, label: "template_config[:args]")
     # Get color filtering from config if not specified in CLI
     options = maybe_apply_color_filter(igniter, options, template_config)
 
@@ -713,7 +717,8 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Component do
       {:component_sizes, :size},
       {:component_rounded, :rounded},
       {:component_padding, :padding},
-      {:component_space, :space}
+      {:component_space, :space},
+      {:function_prefix, :function_prefix}
     ]
 
     Enum.reduce(filter_mappings, options, fn {config_key, option_key}, acc_options ->
@@ -844,6 +849,7 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Component do
       - component_rounded: Limit which rounded options are generated
       - component_padding: Limit which padding options are generated
       - component_space: Limit which space options are generated
+      - function_prefix: Prefix public functions
 
       CSS Customization:
       - css_overrides: Override specific CSS variables

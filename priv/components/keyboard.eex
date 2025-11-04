@@ -65,7 +65,7 @@ defmodule <%= @module %> do
 
   slot :inner_block, required: false, doc: "Inner block that renders HEEx content"
 
-  def keyboard(assigns) do
+  def <%= @function_prefix %>keyboard(assigns) do
     ~H"""
     <kbd
       id={@id}

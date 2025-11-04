@@ -21,7 +21,8 @@
       size: ["extra_small", "small", "medium", "large", "extra_large"],
       only: ["drawer"],
       helpers: [hide_drawer: 2, hide_drawer: 3, show_drawer: 2, show_drawer: 3],
-      module: ""
+      module: "",
+      function_prefix: nil
     ],
     optional: [],
     necessary: ["icon"]

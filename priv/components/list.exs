@@ -36,7 +36,8 @@
       type: ["list", "li", "ul", "ol", "list_group"],
       only: ["list", "li", "ul", "ol", "list_group"],
       helpers: [],
-      module: ""
+      module: "",
+      function_prefix: nil
     ],
     optional: [],
     necessary: ["icon"]

@@ -25,7 +25,8 @@
       type: ["chat", "chat_section"],
       only: ["chat", "chat_section"],
       helpers: [],
-      module: ""
+      module: "",
+      function_prefix: nil
     ],
     optional: [],
     necessary: []

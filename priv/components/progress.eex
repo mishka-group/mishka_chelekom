@@ -88,7 +88,7 @@ defmodule <%= @module %> do
 
   slot :inner_block, doc: "Inner block that renders HEEx label"
 
-  def progress(assigns) do
+  def <%= @function_prefix %>progress(assigns) do
     ~H"""
     <div
       role="progressbar"
@@ -142,7 +142,7 @@ defmodule <%= @module %> do
     doc:
       "Global attributes can define defaults which are merged with attributes provided by the caller"
 
-  def semi_circle_progress(assigns) do
+  def <%= @function_prefix %>semi_circle_progress(assigns) do
     coordinate = assigns.size / 2
     radius = (assigns.size - 2 * assigns.thickness) / 2
     circumference = :math.pi() * radius
@@ -270,7 +270,7 @@ defmodule <%= @module %> do
     doc:
       "Global attributes can define defaults which are merged with attributes provided by the caller"
 
-  def ring_progress(assigns) do
+  def <%= @function_prefix %>ring_progress(assigns) do
     radius = (assigns.size - assigns.thickness) / 2
     circumference = 2 * :math.pi() * radius
     progress_fraction = (assigns.max > 0 && assigns.value / assigns.max) || 0
@@ -376,7 +376,7 @@ defmodule <%= @module %> do
     attr :class, :string, doc: "Custom CSS class for additional styling"
   end
 
-  def progress_section(assigns) do
+  def <%= @function_prefix %>progress_section(assigns) do
     assigns =
       assigns
       |> assign_new(:tooltip, fn -> [] end)
