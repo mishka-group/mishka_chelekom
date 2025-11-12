@@ -119,9 +119,9 @@ defmodule <%= @module %> do
 
   def <%= @component_prefix %>simple_form(assigns) do
     ~H"""
-    <.form_wrapper :let={f} class={@extra_classes} {assigns}>
+    <.<%= @component_prefix %>form_wrapper :let={f} class={@extra_classes} {assigns}>
       {render_slot(@inner_block, f)}
-    </.form_wrapper>
+    </.<%= @component_prefix %>form_wrapper>
     """
   end
   <%= if is_nil(@size) or "extra_small" in @size do %>
