@@ -15,7 +15,7 @@ defmodule <%= @module %> do
   **Documentation:** https://mishka.tools/chelekom/docs/forms/search-field
   """
   use Phoenix.Component
-  import <%= inspect(@web_module) %>.Components.Icon, only: [icon: 1]
+  import <%= inspect(@web_module) %>.Components.Icon, only: [<%= @component_prefix %>icon: 1]
 
   @doc """
   Renders a `search_field` component that allows users to input search queries.
@@ -47,10 +47,10 @@ defmodule <%= @module %> do
     floating="outer"
   >
     <:start_section>
-      <.icon name="hero-search" class="size-4" />
+      <.<%= @component_prefix %>icon name="hero-search" class="size-4" />
     </:start_section>
     <:end_section>
-      <.icon name="hero-search" class="size-4" />
+      <.<%= @component_prefix %>icon name="hero-search" class="size-4" />
     </:end_section>
   </.search_field>
   ```
@@ -194,7 +194,7 @@ defmodule <%= @module %> do
         </div>
         <div :if={@search_button} class={["flex items-center justify-center shrink-0 pe-2", @search_button_class]}>
           <button class="flex items-center justify-center leading-5 focus:outline-none">
-            <.icon name="hero-magnifying-glass" class="search-field-icon" />
+            <.<%= @component_prefix %>icon name="hero-magnifying-glass" class="search-field-icon" />
           </button>
         </div>
       </div>
@@ -262,7 +262,7 @@ defmodule <%= @module %> do
         </div>
         <div :if={@search_button} class={["flex items-center justify-center shrink-0 pe-2", @search_button_class]}>
           <button class="flex items-center justify-center leading-5 focus:outline-none">
-            <.icon name="hero-magnifying-glass" class="search-field-icon" />
+            <.<%= @component_prefix %>icon name="hero-magnifying-glass" class="search-field-icon" />
           </button>
         </div>
       </div>
@@ -290,7 +290,7 @@ defmodule <%= @module %> do
   defp error(assigns) do
     ~H"""
     <p class="mt-3 flex items-center gap-3 text-sm text-rose-700">
-      <.icon :if={!is_nil(@icon)} name={@icon} class="shrink-0" />
+      <.<%= @component_prefix %>icon :if={!is_nil(@icon)} name={@icon} class="shrink-0" />
       {render_slot(@inner_block)}
     </p>
     """

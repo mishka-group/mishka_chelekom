@@ -27,7 +27,7 @@ defmodule <%= @module %> do
 
   <.overlay color="dawn" opacity="semi_opaque">
     <div class="flex justify-center items-center gap-2 h-full">
-      <.spinner color="natural" size="large" />
+      <.<%= @component_prefix %>spinner color="natural" size="large" />
       <div class="text-white">Loading...</div>
     </div>
   </.overlay>

@@ -16,7 +16,7 @@ defmodule <%= @module %> do
 
   use Phoenix.Component
   use Gettext, backend: <%= inspect(@web_module) %>.Gettext
-  import <%= inspect(@web_module) %>.Components.Icon, only: [icon: 1]
+  import <%= inspect(@web_module) %>.Components.Icon, only: [<%= @component_prefix %>icon: 1]
 
   <%= if is_nil(@type) or "table" in @type do %>
   @doc """
@@ -175,7 +175,7 @@ defmodule <%= @module %> do
                   scope="col"
                   class={header[:class]}
                 >
-                  <.icon
+                  <.<%= @component_prefix %>icon
                     :if={header[:icon]}
                     name={header[:icon]}
                     class={["table-header-icon block me-2", header[:icon_class]]}
@@ -233,7 +233,7 @@ defmodule <%= @module %> do
                   class={footer[:class]}
                 >
                   <div class="flex items-center">
-                    <.icon
+                    <.<%= @component_prefix %>icon
                       :if={footer[:icon]}
                       name={footer[:icon]}
                       class={["table-footer-icon block me-2", footer[:icon_class]]}

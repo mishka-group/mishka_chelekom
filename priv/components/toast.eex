@@ -21,7 +21,7 @@ defmodule <%= @module %> do
   use Phoenix.Component
   alias Phoenix.LiveView.JS
   use Gettext, backend: <%= inspect(@web_module) %>.Gettext
-  import <%= inspect(@web_module) %>.Components.Icon, only: [icon: 1]
+  import <%= inspect(@web_module) %>.Components.Icon, only: [<%= @component_prefix %>icon: 1]
 
   <%= if is_nil(@type) or "toast" in @type do %>
   @doc """
@@ -293,7 +293,7 @@ defmodule <%= @module %> do
       aria-label={gettext("close")}
       phx-click={JS.push("dismiss", value: Map.merge(%{id: @id}, @params)) |> hide_toast("##{@id}")}
     >
-      <.icon
+      <.<%= @component_prefix %>icon
         name="hero-x-mark-solid"
         class={[
           "toast-icon opacity-80 group-hover:opacity-70",

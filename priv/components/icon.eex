@@ -14,9 +14,9 @@ defmodule <%= @module %> do
 
   ## Examples:
 
-      <.icon name="hero-home" class="w-6 h-6" />
-      <.icon name="fa-github" variant="brands" size="lg" />
-      <.icon name="material-settings" color="primary" animate="spin" />
+      <.<%= @component_prefix %>icon name="hero-home" class="w-6 h-6" />
+      <.<%= @component_prefix %>icon name="fa-github" variant="brands" size="lg" />
+      <.<%= @component_prefix %>icon name="material-settings" color="primary" animate="spin" />
 
   ## Properties:
   - `name` - Required. The identifier of the icon to display
@@ -45,8 +45,8 @@ defmodule <%= @module %> do
 
   ## Examples
 
-      <.icon name="hero-x-mark-solid" />
-      <.icon name="hero-arrow-path" class="ml-1 w-3 h-3 animate-spin" />
+      <.<%= @component_prefix %>icon name="hero-x-mark-solid" />
+      <.<%= @component_prefix %>icon name="hero-arrow-path" class="ml-1 w-3 h-3 animate-spin" />
   """
   @doc type: :component
   attr :name, :string, required: true

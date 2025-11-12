@@ -28,8 +28,8 @@ defmodule <%= @module %> do
 
   use Phoenix.Component
   alias Phoenix.LiveView.JS
-  import <%= inspect(@web_module) %>.Components.Badge, only: [badge: 1]
-  import <%= inspect(@web_module) %>.Components.Icon, only: [icon: 1]
+  import <%= inspect(@web_module) %>.Components.Badge, only: [<%= @component_prefix %>badge: 1]
+  import <%= inspect(@web_module) %>.Components.Icon, only: [<%= @component_prefix %>icon: 1]
 
   @doc """
   The `tabs` component provides a set of clickable tabs for organizing content.
@@ -180,8 +180,8 @@ defmodule <%= @module %> do
             tab[:class]
           ]}
         >
-          <.icon :if={tab[:icon]} name={tab[:icon]} class="tab-icon" />
-          <.badge
+          <.<%= @component_prefix %>icon :if={tab[:icon]} name={tab[:icon]} class="tab-icon" />
+          <.<%= @component_prefix %>badge
             :if={tab[:badge]}
             variant={tab[:badge_variant] || "default"}
             color={tab[:badge_color] || "natural"}
@@ -275,8 +275,8 @@ defmodule <%= @module %> do
             tab[:class]
           ]}
         >
-          <.icon :if={tab[:icon]} name={tab[:icon]} class="tab-icon" />
-          <.badge
+          <.<%= @component_prefix %>icon :if={tab[:icon]} name={tab[:icon]} class="tab-icon" />
+          <.<%= @component_prefix %>badge
             :if={tab[:badge]}
             variant={tab[:badge_variant] || "default"}
             color={tab[:badge_color] || "natural"}

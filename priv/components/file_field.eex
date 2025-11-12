@@ -22,9 +22,9 @@ defmodule <%= @module %> do
   """
 
   use Phoenix.Component
-  import <%= inspect(@web_module) %>.Components.Progress, only: [progress: 1]
-  import <%= inspect(@web_module) %>.Components.Spinner, only: [spinner: 1]
-  import <%= inspect(@web_module) %>.Components.Icon, only: [icon: 1]
+  import <%= inspect(@web_module) %>.Components.Progress, only: [<%= @component_prefix %>progress: 1]
+  import <%= inspect(@web_module) %>.Components.Spinner, only: [<%= @component_prefix %>spinner: 1]
+  import <%= inspect(@web_module) %>.Components.Icon, only: [<%= @component_prefix %>icon: 1]
   use Gettext, backend: <%= inspect(@web_module) %>.Gettext
 
   @doc """
@@ -122,7 +122,7 @@ defmodule <%= @module %> do
         {@rest}
       >
         <div class="flex flex-col gap-3 items-center justify-center pt-5 pb-6">
-          <.icon name={@dropzone_icon} class="size-14" />
+          <.<%= @component_prefix %>icon name={@dropzone_icon} class="size-14" />
           <div class="mb-2 font-semibold">
             {@dropzone_title}
           </div>
@@ -144,7 +144,7 @@ defmodule <%= @module %> do
             aria-label={gettext("Uploading %{file}", file: entry.client_name)}
           >
             <div class="flex justify-around gap-3">
-              <.icon name="hero-document-arrow-up" class="size-8" />
+              <.<%= @component_prefix %>icon name="hero-document-arrow-up" class="size-8" />
               <div class="w-full space-y-3">
                 <div class="text-ellipsis overflow-hidden w-44 whitespace-nowrap">
                   {entry.client_name}
@@ -154,7 +154,7 @@ defmodule <%= @module %> do
                   {convert_to_mb(entry.client_size)} <span>MB</span>
                 </div>
 
-                <.progress value={entry.progress} color={@color} size="extra_small" />
+                <.<%= @component_prefix %>progress value={entry.progress} color={@color} size="extra_small" />
                 <span class="sr-only">
                   {gettext("Uploading %{file}: %{progress} percent",
                     file: entry.client_name,
@@ -171,7 +171,7 @@ defmodule <%= @module %> do
               aria-label={gettext("Cancel upload for %{file}", file: entry.client_name)}
               class="absolute top-2 right-2 text-custom-black-100/60 hover:text-custome-black-100"
             >
-              <.icon name="hero-x-mark" class="size-4" />
+              <.<%= @component_prefix %>icon name="hero-x-mark" class="size-4" />
             </button>
 
             <%%= for err <- upload_errors(@upload_error, entry) do %>
@@ -215,7 +215,7 @@ defmodule <%= @module %> do
         {@rest}
       >
         <div class="flex flex-col gap-3 items-center justify-center pt-5 pb-6">
-          <.icon name={@dropzone_icon} class="size-14" />
+          <.<%= @component_prefix %>icon name={@dropzone_icon} class="size-14" />
           <div class="mb-2 font-semibold">
             {@dropzone_title}
           </div>
@@ -254,7 +254,7 @@ defmodule <%= @module %> do
                 aria-label={gettext("Cancel upload for %{file}", file: entry.client_name)}
                 class="bg-black/30 rounded p-px text-white flex justify-center items-center absolute top-2 right-2 z-10"
               >
-                <.icon name="hero-x-mark" class="size-4" />
+                <.<%= @component_prefix %>icon name="hero-x-mark" class="size-4" />
               </button>
 
 
@@ -263,7 +263,7 @@ defmodule <%= @module %> do
                 role="status"
                 class="absolute inset-0 bg-black/25 flex justify-center items-center"
               >
-                <.spinner color="base" />
+                <.<%= @component_prefix %>spinner color="base" />
                 <span class="sr-only">{gettext("Uploading %{file}", file: entry.client_name)}</span>
               </div>
             </div>
@@ -335,7 +335,7 @@ defmodule <%= @module %> do
   defp error(assigns) do
     ~H"""
     <p class="mt-3 flex items-center gap-3 text-sm leading-6 text-rose-700">
-      <.icon :if={!is_nil(@icon)} name={@icon} class="shrink-0" /> {render_slot(@inner_block)}
+      <.<%= @component_prefix %>icon :if={!is_nil(@icon)} name={@icon} class="shrink-0" /> {render_slot(@inner_block)}
     </p>
     """
   end

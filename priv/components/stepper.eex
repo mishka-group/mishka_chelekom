@@ -17,7 +17,7 @@ defmodule <%= @module %> do
   """
 
   use Phoenix.Component
-  import <%= inspect(@web_module) %>.Components.Icon, only: [icon: 1]
+  import <%= inspect(@web_module) %>.Components.Icon, only: [<%= @component_prefix %>icon: 1]
   use Gettext, backend: <%= inspect(@web_module) %>.Gettext
 
   <%= if is_nil(@type) or "stepper" in @type do %>
@@ -224,9 +224,9 @@ defmodule <%= @module %> do
             @icon_wrapper_class
           ]}
         >
-          <.icon name={@icon} class="step-symbol stepper-icon" />
+          <.<%= @component_prefix %>icon name={@icon} class="step-symbol stepper-icon" />
           <.loader :if={@step == "loading"} />
-          <.icon
+          <.<%= @component_prefix %>icon
             :if={@step == "completed"}
             name="hero-check-solid"
             class={[
@@ -246,7 +246,7 @@ defmodule <%= @module %> do
         >
           <span class="step-symbol">{@step_number}</span>
           <.loader :if={@step == "loading"} />
-          <.icon
+          <.<%= @component_prefix %>icon
             :if={@step == "completed"}
             name="hero-check-solid"
             class={[
@@ -299,9 +299,9 @@ defmodule <%= @module %> do
           @icon_wrapper_class
         ]}
       >
-        <.icon name={@icon} class="step-symbol stepper-icon" />
+        <.<%= @component_prefix %>icon name={@icon} class="step-symbol stepper-icon" />
         <.loader :if={@step == "loading"} />
-        <.icon
+        <.<%= @component_prefix %>icon
           :if={@step == "completed"}
           name="hero-check-solid"
           class={[
@@ -321,7 +321,7 @@ defmodule <%= @module %> do
       >
         <span class="step-symbol">{@step_number}</span>
         <.loader :if={@step == "loading"} />
-        <.icon
+        <.<%= @component_prefix %>icon
           :if={@step == "completed"}
           name="hero-check-solid"
           class={[

@@ -33,11 +33,11 @@ defmodule <%= @module %> do
   ## Examples
 
   ```elixir
-  <.spinner color="danger" size="extra_small" type="pinging" />
-  <.spinner color="misc" type="pinging" />
-  <.spinner color="warning" size="medium" type="pinging" />
-  <.spinner color="success" size="large" type="pinging" />
-  <.spinner color="primary" size="extra_large" type="pinging" />
+  <.<%= @component_prefix %>spinner color="danger" size="extra_small" type="pinging" />
+  <.<%= @component_prefix %>spinner color="misc" type="pinging" />
+  <.<%= @component_prefix %>spinner color="warning" size="medium" type="pinging" />
+  <.<%= @component_prefix %>spinner color="success" size="large" type="pinging" />
+  <.<%= @component_prefix %>spinner color="primary" size="extra_large" type="pinging" />
   ```
   """
   @doc type: :component

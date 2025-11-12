@@ -18,7 +18,7 @@ defmodule <%= @module %> do
 
   use Phoenix.Component
   alias Phoenix.LiveView.JS
-  import <%= inspect(@web_module) %>.Components.Icon, only: [icon: 1]
+  import <%= inspect(@web_module) %>.Components.Icon, only: [<%= @component_prefix %>icon: 1]
   use Gettext, backend: <%= inspect(@web_module) %>.Gettext
 
   @icon_positions [
@@ -51,10 +51,10 @@ defmodule <%= @module %> do
   ## Examples
 
   ```elixir
-  <.badge icon="hero-arrow-down-tray" color="warning" dismiss indicator>Default warning</.badge>
-  <.badge variant="shadow" rounded="large" indicator>Active</.badge>
+  <.<%= @component_prefix %>badge icon="hero-arrow-down-tray" color="warning" dismiss indicator>Default warning</.badge>
+  <.<%= @component_prefix %>badge variant="shadow" rounded="large" indicator>Active</.badge>
 
-  <.badge icon="hero-square-2-stack" color="danger" size="medium" bottom_center_indicator pinging>
+  <.<%= @component_prefix %>badge icon="hero-square-2-stack" color="danger" size="medium" bottom_center_indicator pinging>
     Duplicate
   </.badge>
   ```
@@ -139,7 +139,7 @@ defmodule <%= @module %> do
         params={@params}
       />
       <.badge_indicator position="left" size={@indicator_size} class={@indicator_class} {@rest} />
-      <.icon
+      <.<%= @component_prefix %>icon
         :if={icon_position(@icon, @rest) == "left"}
         name={@icon}
         class={["badge-icon", @icon_class]}
@@ -147,7 +147,7 @@ defmodule <%= @module %> do
       <div class={["leading-5", @content_class]}>
         {render_slot(@inner_block)}
       </div>
-      <.icon
+      <.<%= @component_prefix %>icon
         :if={icon_position(@icon, @rest) == "right"}
         name={@icon}
         class={["badge-icon", @icon_class]}
@@ -190,7 +190,7 @@ defmodule <%= @module %> do
       aria-label={gettext("close")}
       phx-click={JS.push("dismiss", value: Map.merge(%{id: @id}, @params)) |> hide_badge("##{@id}")}
     >
-      <.icon name="hero-x-mark" class={"#{@icon_class}"} />
+      <.<%= @component_prefix %>icon name="hero-x-mark" class={"#{@icon_class}"} />
     </button>
     """
   end

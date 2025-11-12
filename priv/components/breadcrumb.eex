@@ -16,7 +16,7 @@ defmodule <%= @module %> do
   **Documentation:** https://mishka.tools/chelekom/docs/breadcrumb
   """
   use Phoenix.Component
-  import <%= inspect(@web_module) %>.Components.Icon, only: [icon: 1]
+  import <%= inspect(@web_module) %>.Components.Icon, only: [<%= @component_prefix %>icon: 1]
 
   @doc """
   The `breadcrumb` component is used to display a navigational path with customizable
@@ -104,12 +104,12 @@ defmodule <%= @module %> do
           :for={{item, index} <- Enum.with_index(@item, 1)}
           class={["flex items-center", item[:class]]}
         >
-          <.icon :if={!is_nil(item[:icon])} name={item[:icon]} class={["breadcrumb-icon", item[:icon_class]]} />
+          <.<%= @component_prefix %>icon :if={!is_nil(item[:icon])} name={item[:icon]} class={["breadcrumb-icon", item[:icon_class]]} />
           <.link :if={!is_nil(item[:link])} navigate={item[:link]} title={item[:title]} class={item[:link_class]}>{render_slot(item)}</.link>
 
           <div :if={is_nil(item[:link])}>{render_slot(item)}</div>
 
-          <.icon
+          <.<%= @component_prefix %>icon
             :if={@separator_icon && index < Enum.count(@item)}
             name={@separator_icon}
             class={["separator-icon", @separator_icon_class]}

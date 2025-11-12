@@ -10,6 +10,7 @@ defmodule <%= @module %> do
   **Documentation:** https://mishka.tools/chelekom/docs/chat
   """
   use Phoenix.Component
+  import <%= inspect(@web_module) %>.Components.Icon, only: [<%= @component_prefix %>icon: 1]
   use Gettext, backend: <%= inspect(@web_module) %>.Gettext
 
   <%= if is_nil(@type) or "chat" in @type do %>
@@ -41,7 +42,7 @@ defmodule <%= @module %> do
       <:status time="22:10" deliver="Delivered" />
       <:meta><div class="">Bonnie Green</div></:meta>
     </.chat_section>
-    <div><.icon name="hero-ellipsis-vertical" class="size-4" /></div>
+    <div><.<%= @component_prefix %>icon name="hero-ellipsis-vertical" class="size-4" /></div>
   </.chat>
 
   <.chat position="flipped">
@@ -56,7 +57,7 @@ defmodule <%= @module %> do
       </p>
       <:status time="22:10" deliver="Delivered" />
     </.chat_section>
-    <div><.icon name="hero-ellipsis-vertical" class="size-4" /></div>
+    <div><.<%= @component_prefix %>icon name="hero-ellipsis-vertical" class="size-4" /></div>
   </.chat>
   ```
   """

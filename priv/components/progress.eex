@@ -30,12 +30,12 @@ defmodule <%= @module %> do
   ## Examples
 
   ```elixir
-  <.progress value={10} />
-  <.progress color="primary" value={20} />
-  <.progress color="secondary" value={30} />
-  <.progress variation="vertical" color="primary" value={20} />
+  <.<%= @component_prefix %>progress value={10} />
+  <.<%= @component_prefix %>progress color="primary" value={20} />
+  <.<%= @component_prefix %>progress color="secondary" value={30} />
+  <.<%= @component_prefix %>progress variation="vertical" color="primary" value={20} />
 
-  <.progress>
+  <.<%= @component_prefix %>progress>
     <.progress_section color="primary" value={10} />
     <.progress_section color="secondary" value={15} />
     <.progress_section color="misc" value={10} />
@@ -45,13 +45,13 @@ defmodule <%= @module %> do
     <.progress_section color="info" value={5} />
   </.progress>
 
-  <.progress variation="horizontal" size="large" value={70}>
+  <.<%= @component_prefix %>progress variation="horizontal" size="large" value={70}>
     <div class="absolute inset-y-0 left-0 flex items-center pl-3 text-white">
       70%
     </div>
   </.progress>
 
-  <.progress variation="vertical" size="extra_large" value={80}>
+  <.<%= @component_prefix %>progress variation="vertical" size="extra_large" value={80}>
     <div class="absolute bottom-0 left-0 flex items-center text-white">
       80%
     </div>
@@ -336,7 +336,7 @@ defmodule <%= @module %> do
   ## Examples
 
   ```elixir
-  <.progress>
+  <.<%= @component_prefix %>progress>
     <.progress_section color="primary" value={10} />
     <.progress_section color="secondary" value={15} />
     <.progress_section color="misc" value={10} />

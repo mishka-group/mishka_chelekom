@@ -16,7 +16,7 @@ defmodule <%= @module %> do
   **Documentation:** https://mishka.tools/chelekom/docs/device-mockup
   """
   use Phoenix.Component
-  import <%= inspect(@web_module) %>.Components.Image, only: [image: 1]
+  import <%= inspect(@web_module) %>.Components.Image, only: [<%= @component_prefix %>image: 1]
 
   @doc """
   The `device_mockup` component renders a responsive device mockup for various devices like
@@ -133,7 +133,7 @@ defmodule <%= @module %> do
         <div class="mock-base h-[41px] w-[6px] absolute -end-[16px] top-[40px] rounded-e-lg"></div>
         <div class="mock-base h-[32px] w-[6px] absolute -end-[16px] top-[88px] rounded-e-lg"></div>
         <div class="bg-white dark:bg-default-device-dark rounded-[2rem] overflow-hidden h-[193px] w-[188px]">
-          <.image
+          <.<%= @component_prefix %>image
             :if={!is_nil(@image)}
             class={@image_class || "h-[193px] w-[188px]"}
             src={@image}
@@ -159,7 +159,7 @@ defmodule <%= @module %> do
         <div class="mock-base h-[46px] w-[3px] absolute -start-[17px] top-[178px] rounded-s-lg"></div>
         <div class="mock-base h-[64px] w-[3px] absolute -end-[17px] top-[142px] rounded-e-lg"></div>
         <div class="rounded overflow-hidden w-[272px] h-[572px] bg-white dark:bg-default-device-dark">
-          <.image
+          <.<%= @component_prefix %>image
             :if={!is_nil(@image)}
             class={@image_class || "w-[272px] h-[572px]"}
             src={@image}
@@ -178,7 +178,7 @@ defmodule <%= @module %> do
     <div class={["max-w-fit md:max-w-[512px]", color_class(@color), @class]}>
       <div class="mock-base relative mx-auto border-[8px] rounded-t-xl h-[172px] max-w-[301px] md:h-[294px] md:max-w-[512px]">
         <div class="rounded overflow-hidden h-[156px] md:h-[278px] bg-white dark:bg-default-device-dark">
-          <.image
+          <.<%= @component_prefix %>image
             :if={!is_nil(@image)}
             class={@image_class || "h-[140px] md:h-[262px] w-full"}
             src={@image}
@@ -205,7 +205,7 @@ defmodule <%= @module %> do
         <div class="mock-base h-[46px] w-[3px] absolute -start-[17px] top-[178px] rounded-s-lg"></div>
         <div class="mock-base h-[64px] w-[3px] absolute -end-[17px] top-[142px] rounded-e-lg"></div>
         <div class="dark:bg-default-device-dark bg-white rounded-3xl overflow-hidden h-[426px] md:h-[654px]">
-          <.image
+          <.<%= @component_prefix %>image
             :if={!is_nil(@image)}
             class={@image_class || "h-[426px] md:h-[654px]"}
             src={@image}
@@ -224,7 +224,7 @@ defmodule <%= @module %> do
     <div class={["max-w-fit md:max-w-[512px]", color_class(@color), @class]}>
       <div class="mock-base relative mx-auto border-[16px] rounded-t-xl h-[172px] max-w-[301px] md:h-[294px] md:max-w-[512px]">
         <div class="overflow-hidden h-[140px] md:h-[262px] bg-white dark:bg-default-device-dark">
-          <.image
+          <.<%= @component_prefix %>image
             :if={!is_nil(@image)}
             class={@image_class || "h-[140px] md:h-[262px] w-full"}
             src={@image}
@@ -251,7 +251,7 @@ defmodule <%= @module %> do
         <div class="mock-base h-[46px] w-[3px] absolute -start-[17px] top-[178px] rounded-s-lg"></div>
         <div class="mock-base h-[64px] w-[3px] absolute -end-[17px] top-[142px] rounded-e-lg"></div>
         <div class="bg-white dark:bg-default-device-dark rounded-3xl overflow-hidden w-[272px] h-[572px]">
-          <.image
+          <.<%= @component_prefix %>image
             :if={!is_nil(@image)}
             class={@image_class || "w-[272px] h-[572px]"}
             src={@image}

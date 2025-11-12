@@ -23,9 +23,9 @@ defmodule <%= @module %> do
   """
 
   use Phoenix.Component
-  import <%= inspect(@web_module) %>.Components.Image, only: [image: 1]
+  import <%= inspect(@web_module) %>.Components.Image, only: [<%= @component_prefix %>image: 1]
   import Phoenix.LiveView.Utils, only: [random_id: 0]
-  import <%= inspect(@web_module) %>.Components.Icon, only: [icon: 1]
+  import <%= inspect(@web_module) %>.Components.Icon, only: [<%= @component_prefix %>icon: 1]
   use Gettext, backend: <%= inspect(@web_module) %>.Gettext
 
   @doc """
@@ -153,7 +153,7 @@ defmodule <%= @module %> do
         id={"#{@id}-carousel-prev"}
         class="absolute left-0 inset-y-0 z-20 p-4 bg-black/10 hover:bg-black/30 transition focus:outline-none"
       >
-        <.icon name="hero-chevron-left" class="size-7 text-white" />
+        <.<%= @component_prefix %>icon name="hero-chevron-left" class="size-7 text-white" />
       </button>
 
       <button
@@ -161,7 +161,7 @@ defmodule <%= @module %> do
         id={"#{@id}-carousel-next"}
         class="absolute right-0 inset-y-0 z-20 p-4 bg-black/10 hover:bg-black/30 transition focus:outline-none"
       >
-        <.icon name="hero-chevron-right" class="size-7 text-white" />
+        <.<%= @component_prefix %>icon name="hero-chevron-right" class="size-7 text-white" />
       </button>
 
       <div
@@ -206,7 +206,7 @@ defmodule <%= @module %> do
     ~H"""
     <.link navigate={@navigate} patch={@patch} href={@href}>
       <div class="relative">
-        <.image
+        <.<%= @component_prefix %>image
           class={["max-w-full", @image_class]}
           src={@image}
           id={"#{@id}-carousel-slide-image-#{@index}"}
@@ -220,7 +220,7 @@ defmodule <%= @module %> do
   defp slide_image(assigns) do
     ~H"""
     <div class="relative">
-      <.image
+      <.<%= @component_prefix %>image
         class={["max-w-full", @image_class]}
         src={@image}
         id={"#{@id}-carousel-slide-image-#{@index}"}

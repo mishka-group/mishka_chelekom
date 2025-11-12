@@ -17,7 +17,7 @@ defmodule <%= @module %> do
   """
 
   use Phoenix.Component
-  import <%= inspect(@web_module) %>.Components.Icon, only: [icon: 1]
+  import <%= inspect(@web_module) %>.Components.Icon, only: [<%= @component_prefix %>icon: 1]
 
   @doc """
   The `date_time_field` component is used to create a customizable date, time, or datetime input field with various options such as `type`, `color`, and `size`. It supports floating labels, descriptions, and error messages, making it suitable for form validation and enhanced UX.
@@ -225,7 +225,7 @@ defmodule <%= @module %> do
         <div
           class={["flex items-center justify-center shrink-0 pe-2"]}
         >
-          <.icon name="hero-calendar" class="size-[18px]" />
+          <.<%= @component_prefix %>icon name="hero-calendar" class="size-[18px]" />
         </div>
       </div>
 
@@ -294,7 +294,7 @@ defmodule <%= @module %> do
         <div
           class={["flex items-center justify-center shrink-0 pe-2"]}
         >
-          <.icon name="hero-calendar" class="size-[18px]" />
+          <.<%= @component_prefix %>icon name="hero-calendar" class="size-[18px]" />
         </div>
       </div>
 
@@ -321,7 +321,7 @@ defmodule <%= @module %> do
   defp error(assigns) do
     ~H"""
     <p class="mt-3 flex items-center gap-3 text-sm text-rose-700">
-      <.icon :if={!is_nil(@icon)} name={@icon} class="shrink-0" />
+      <.<%= @component_prefix %>icon :if={!is_nil(@icon)} name={@icon} class="shrink-0" />
       {render_slot(@inner_block)}
     </p>
     """

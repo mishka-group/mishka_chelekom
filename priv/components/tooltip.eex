@@ -48,7 +48,7 @@ import Phoenix.LiveView.Utils, only: [random_id: 0]
   <.tooltip color="light" position="left">
     <:trigger>
       <button class="p-2 bg-red-500 text-white">
-        <.icon name="hero-trash" />
+        <.<%= @component_prefix %>icon name="hero-trash" />
       </button>
     </:trigger>
     <:content>Delete</:content>

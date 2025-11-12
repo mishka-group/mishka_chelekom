@@ -22,7 +22,7 @@ defmodule <%= @module %> do
   """
 
   use Phoenix.Component
-  import <%= inspect(@web_module) %>.Components.Icon, only: [icon: 1]
+  import <%= inspect(@web_module) %>.Components.Icon, only: [<%= @component_prefix %>icon: 1]
 
   <%= if is_nil(@type) or "avatar" in @type do %>
   @doc """
@@ -129,7 +129,7 @@ defmodule <%= @module %> do
     >
       <div class={["flex items-center justify-center", size_class(@size, :text)]}>
         <div :for={icon <- @icon} class={[icon[:size], icon[:color], icon[:class]]}>
-          <.icon name={icon[:name]} class={icon[:icon_class] || size_class(@size, :icon)} />
+          <.<%= @component_prefix %>icon name={icon[:name]} class={icon[:icon_class] || size_class(@size, :icon)} />
         </div>
         {render_slot(@inner_block)}
       </div>
@@ -174,7 +174,7 @@ defmodule <%= @module %> do
     >
       <div class={["flex items-center justify-center", size_class(@size, :text)]}>
         <div :for={icon <- @icon} class={[icon[:size], icon[:color], icon[:class]]}>
-          <.icon name={icon[:name]} class={icon[:icon_class] || size_class(@size, :icon)} />
+          <.<%= @component_prefix %>icon name={icon[:name]} class={icon[:icon_class] || size_class(@size, :icon)} />
         </div>
         {render_slot(@inner_block)}
       </div>

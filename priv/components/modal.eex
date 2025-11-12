@@ -21,7 +21,7 @@ defmodule <%= @module %> do
   use Phoenix.Component
   use Gettext, backend: <%= inspect(@web_module) %>.Gettext
   alias Phoenix.LiveView.JS
-  import <%= inspect(@web_module) %>.Components.Icon, only: [icon: 1]
+  import <%= inspect(@web_module) %>.Components.Icon, only: [<%= @component_prefix %>icon: 1]
 
   @doc """
   Renders a customizable `modal` component that displays overlay content with optional title and inner content.
@@ -153,7 +153,7 @@ defmodule <%= @module %> do
                   class={["p-2 hover:opacity-60", @close_class]}
                   aria-label={gettext("close")}
                 >
-                  <.icon name="hero-x-mark-solid" class={@icon_class} />
+                  <.<%= @component_prefix %>icon name="hero-x-mark-solid" class={@icon_class} />
                 </button>
               </div>
 

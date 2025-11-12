@@ -16,7 +16,7 @@ defmodule <%= @module %> do
   **Documentation:** https://mishka.tools/chelekom/docs/navbar
   """
   use Phoenix.Component
-  import <%= inspect(@web_module) %>.Components.Icon, only: [icon: 1]
+  import <%= inspect(@web_module) %>.Components.Icon, only: [<%= @component_prefix %>icon: 1]
   use Gettext, backend: <%= inspect(@web_module) %>.Gettext
 
   @doc """
@@ -47,7 +47,7 @@ defmodule <%= @module %> do
                     "py-1 px-2 text-start w-full flex items-center justify-between hover:bg-gray-200"
                   ]}
                   >
-                    Nested Dropdown <.icon name="hero-chevron-right" />
+                    Nested Dropdown <.<%= @component_prefix %>icon name="hero-chevron-right" />
                   </button>
                 </:trigger>
 
@@ -202,7 +202,7 @@ defmodule <%= @module %> do
                 list[:class]
               ]}
             >
-              <.icon :if={list[:icon]} name={list[:icon]} class={["list-icon", list[:icon_class]]} />
+              <.<%= @component_prefix %>icon :if={list[:icon]} name={list[:icon]} class={["list-icon", list[:icon_class]]} />
               {render_slot(list)}
             </li>
           </ul>

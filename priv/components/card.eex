@@ -28,7 +28,7 @@ defmodule <%= @module %> do
   """
 
   use Phoenix.Component
-  import <%= inspect(@web_module) %>.Components.Icon, only: [icon: 1]
+  import <%= inspect(@web_module) %>.Components.Icon, only: [<%= @component_prefix %>icon: 1]
 
   @positions [
     "start",
@@ -145,7 +145,7 @@ defmodule <%= @module %> do
   ```elixir
   <.card_title class="border-b" padding="small" position="between">
     <div>Title</div>
-    <div><.icon name="hero-ellipsis-horizontal" /></div>
+    <div><.<%= @component_prefix %>icon name="hero-ellipsis-horizontal" /></div>
   </.card_title>
   ```
   """
@@ -195,7 +195,7 @@ defmodule <%= @module %> do
       {@rest}
     >
       <div :if={@title || @icon} class="flex gap-2 items-center" aria-labelledby={if @title && @id, do: "#{@id}-title"}>
-        <.icon :if={@icon} name={@icon} class="card-title-icon" />
+        <.<%= @component_prefix %>icon :if={@icon} name={@icon} class="card-title-icon" />
         <h3 :if={@title}>{@title}</h3>
       </div>
       {render_slot(@inner_block)}

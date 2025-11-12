@@ -28,7 +28,7 @@ defmodule <%= @module %> do
   """
 
   use Phoenix.Component
-  import <%= inspect(@web_module) %>.Components.Icon, only: [icon: 1]
+  import <%= inspect(@web_module) %>.Components.Icon, only: [<%= @component_prefix %>icon: 1]
 
   <%= if is_nil(@type) or "timeline" in @type do %>
   @doc """
@@ -247,7 +247,7 @@ defmodule <%= @module %> do
           bullet_size(@size),
           @bullet_class
         ]}>
-          <.icon :if={@bullet_icon} name={@bullet_icon} class={["bullet-icon", @icon_class]} aria-hidden="true" />
+          <.<%= @component_prefix %>icon :if={@bullet_icon} name={@bullet_icon} class={["bullet-icon", @icon_class]} aria-hidden="true" />
         </div>
         <div class={[
           "timeline-horizontal-line hidden sm:flex w-full",
@@ -313,7 +313,7 @@ defmodule <%= @module %> do
             bullet_size(@size),
             @bullet_class
           ]}>
-            <.icon :if={@bullet_icon} name={@bullet_icon} class={["bullet-icon", @icon_class]} aria-hidden="true" />
+            <.<%= @component_prefix %>icon :if={@bullet_icon} name={@bullet_icon} class={["bullet-icon", @icon_class]} aria-hidden="true" />
           </div>
         </div>
       </div>

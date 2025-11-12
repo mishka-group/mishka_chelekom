@@ -20,7 +20,7 @@ defmodule <%= @module %> do
 
   use Phoenix.Component
   alias Phoenix.LiveView.JS
-  import <%= inspect(@web_module) %>.Components.Icon, only: [icon: 1]
+  import <%= inspect(@web_module) %>.Components.Icon, only: [<%= @component_prefix %>icon: 1]
   use Gettext, backend: <%= inspect(@web_module) %>.Gettext
 
   @doc """
@@ -193,7 +193,7 @@ defmodule <%= @module %> do
           <.item_button on_action={{"select", @on_select}} page={{range, @active}} params={@params} class={@pages_label_class} />
         <%% else %>
           <div class={["pagination-separator flex justify-center items-center", @separator_class]} aria-hidden="true">
-            <.icon
+            <.<%= @component_prefix %>icon
                 :if={Map.get(@separator, :type) == :icon}
                 name={@separator.value}
                 class={["pagination-icon", @separator_icon_class]}
@@ -284,7 +284,7 @@ defmodule <%= @module %> do
       }
       disabled={@disabled}
     >
-      <.icon :if={Map.get(@label, :type) == :icon} name={@label.value} class="pagination-icon" />
+      <.<%= @component_prefix %>icon :if={Map.get(@label, :type) == :icon} name={@label.value} class="pagination-icon" />
       <span :if={Map.get(@label, :type) != :icon} class="pagination-text">{@label.value}</span>
     </button>
     """

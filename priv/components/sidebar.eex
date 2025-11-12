@@ -19,7 +19,7 @@ defmodule <%= @module %> do
   use Phoenix.Component
   use Gettext, backend: <%= inspect(@web_module) %>.Gettext
   alias Phoenix.LiveView.JS
-  import <%= inspect(@web_module) %>.Components.Icon, only: [icon: 1]
+  import <%= inspect(@web_module) %>.Components.Icon, only: [<%= @component_prefix %>icon: 1]
   import Phoenix.LiveView.Utils, only: [random_id: 0]
 
   @doc """
@@ -137,7 +137,7 @@ defmodule <%= @module %> do
             aria-label={gettext("Minimize sidebar")}
             class={["size-8 flex items-center justify-center leading-5","rounded focus:outline-none bg-gray-500/10 border","dark:border-gray-700 m-2 text-gray-500", @hide_button_class]}
           >
-            <.icon name="hero-chevron-right" class={["minimize-icon size-5", @minimize_icon_class]}/>
+            <.<%= @component_prefix %>icon name="hero-chevron-right" class={["minimize-icon size-5", @minimize_icon_class]}/>
             <span class="sr-only">{gettext("Minimize sidebar")}</span>
           </button>
         </div>
@@ -148,7 +148,7 @@ defmodule <%= @module %> do
             aria-label={gettext("Close sidebar")}
             phx-click={JS.exec(@on_hide, "phx-remove", to: "##{@id}")}
           >
-            <.icon name="hero-x-mark" class={@close_icon_class} />
+            <.<%= @component_prefix %>icon name="hero-x-mark" class={@close_icon_class} />
             <span class="sr-only">{gettext("Close menu")}</span>
           </button>
         </div>
@@ -156,7 +156,7 @@ defmodule <%= @module %> do
         <ul :if={@item != []} class={@list_wrapper_class} role="list">
           <li :for={item <- @item} class={item[:class]}>
             <.link href={item[:link]} class={["sidebar-item-link flex items-center leading-5", item[:link_class]]}>
-              <.icon :if={item[:icon]} name={item[:icon]} class={["shrink-0", item[:icon_class]]} />
+              <.<%= @component_prefix %>icon :if={item[:icon]} name={item[:icon]} class={["shrink-0", item[:icon_class]]} />
               <span class={["sidebar-text block ms-1", item[:label_class]]} data-item-label>
                 {item[:label] || render_slot(item)}
               </span>
