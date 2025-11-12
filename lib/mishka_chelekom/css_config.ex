@@ -211,31 +211,31 @@ defmodule MishkaChelekom.CSSConfig do
 
       # The prefix for components to avoid namespace clashing
       # Example: "myprefix_"
-      function_prefix: nil
+      function_prefix: nil,
 
       # Component attribute filters - limit which values are generated (reduces code size)
       # If empty or not specified, all values will be included
-      
+
       # List of colors to include in component generation
       # Example: ["base", "primary", "danger", "success"]
       component_colors: [],
-      
-      # List of variants to include in component generation  
+
+      # List of variants to include in component generation
       # Example: ["default", "outline", "bordered"]
       component_variants: [],
-      
+
       # List of sizes to include in component generation
-      # Example: ["small", "medium", "large"]  
+      # Example: ["small", "medium", "large"]
       component_sizes: [],
-      
+
       # List of rounded options to include in component generation
       # Example: ["small", "medium", "full"]
       component_rounded: [],
-      
+
       # List of padding options to include in component generation
       # Example: ["small", "medium", "large"]
       component_padding: [],
-      
+
       # List of space options to include in component generation
       # Example: ["small", "medium", "large", "none"]
       component_space: [],
