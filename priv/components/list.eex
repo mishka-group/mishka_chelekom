@@ -33,12 +33,12 @@ defmodule <%= @module %> do
   ## Examples
 
   ```elixir
-  <.list font_weight="font-bold" color="silver" size="small">
+  <.<%= @component_prefix %>list font_weight="font-bold" color="silver" size="small">
     <:item padding="small" count={1}>list count small</:item>
     <:item padding="small" count={2}>list count small</:item>
     <:item padding="small" count={3}>list count small</:item>
     <:item padding="small" count={23658}>list count small</:item>
-  </.list>
+  </.<%= @component_prefix %>list>
   ```
   """
   @doc type: :component
@@ -87,19 +87,19 @@ defmodule <%= @module %> do
 
   def <%= @component_prefix %>list(%{rest: %{ordered: true}} = assigns) do
     ~H"""
-    <.ol {assigns}>
-      <.li :for={item <- @item} {item}>
+    <.<%= @component_prefix %>ol {assigns}>
+      <.<%= @component_prefix %>li :for={item <- @item} {item}>
         {render_slot(item)}
-      </.li>
+      </.<%= @component_prefix %>li>
       {render_slot(@inner_block)}
-    </.ol>
+    </.<%= @component_prefix %>ol>
     """
   end
 
   def <%= @component_prefix %>list(assigns) do
     ~H"""
-    <.ul {assigns}>
-      <.li
+    <.<%= @component_prefix %>ul {assigns}>
+      <.<%= @component_prefix %>li
         :for={item <- @item}
         class={
           Enum.join(["[&_.list-content]:flex [&_.list-content]:items-center", item[:class]], " ")
@@ -110,9 +110,9 @@ defmodule <%= @module %> do
           {item.title}
         </div>
         {render_slot(item)}
-      </.li>
+      </.<%= @component_prefix %>li>
       {render_slot(@inner_block)}
-    </.ul>
+    </.<%= @component_prefix %>ul>
     """
   end
   <% end %>
@@ -264,11 +264,11 @@ defmodule <%= @module %> do
   ## Examples
 
   ```elixir
-  <.ol style="list-decimal">
+  <.<%= @component_prefix %>ol style="list-decimal">
     <li>Ordered list item 1</li>
     <li>Ordered list item 2</li>
     <li>Ordered list item 3</li>
-  </.ol>
+  </.<%= @component_prefix %>ol>
   ```
   """
   @doc type: :component
@@ -330,11 +330,11 @@ defmodule <%= @module %> do
   ## Examples
 
   ```elixir
-  <.list_group variant="separated" rounded="extra_small" color="dawn">
-    <.li position="end" icon="hero-chat-bubble-left-ellipsis">HBase</.li>
-    <.li>SQL</.li>
-    <.li>Sqlight</.li>
-  </.list_group>
+  <.<%= @component_prefix %>list_group variant="separated" rounded="extra_small" color="dawn">
+    <.<%= @component_prefix %>li position="end" icon="hero-chat-bubble-left-ellipsis">HBase</.li>
+    <.<%= @component_prefix %>li>SQL</.li>
+    <.<%= @component_prefix %>li>Sqlight</.li>
+  </.<%= @component_prefix %>list_group>
   ```
   """
   @doc type: :component
