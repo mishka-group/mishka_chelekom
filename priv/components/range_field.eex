@@ -27,7 +27,7 @@ defmodule <%= @module %> do
   ## Examples
 
   ```elixir
-  <.range_field
+  <.<%= @component_prefix %>range_field
     appearance="custom"
     value="40"
     color="warning"
@@ -41,9 +41,9 @@ defmodule <%= @module %> do
     <:range_value position="start">Min ($100)</:range_value>
     <:range_value position="middle">$700</:range_value>
     <:range_value position="end">Max ($1500)</:range_value>
-  </.range_field>
+  </.<%= @component_prefix %>range_field>
 
-  <.range_field
+  <.<%= @component_prefix %>range_field
     value="60"
     size="medium"
     color="primary"
@@ -52,7 +52,7 @@ defmodule <%= @module %> do
     label="Primary Range"
   >
     <:range_value position="end">60%</:range_value>
-  </.range_field>
+  </.<%= @component_prefix %>range_field>
   ```
   """
   @doc type: :component
@@ -98,7 +98,7 @@ defmodule <%= @module %> do
     attr :position, :any, required: false, doc: "Determines the element position"
   end
 
-  @spec range_field(map()) :: Phoenix.LiveView.Rendered.t()
+  @spec <%= @component_prefix %>range_field(map()) :: Phoenix.LiveView.Rendered.t()
   def <%= @component_prefix %>range_field(%{field: %Phoenix.HTML.FormField{} = field} = assigns) do
     errors = if Phoenix.Component.used_input?(field), do: field.errors, else: []
 
@@ -107,7 +107,7 @@ defmodule <%= @module %> do
     |> assign(:errors, Enum.map(errors, &translate_error(&1)))
     |> assign_new(:name, fn -> field.name end)
     |> assign_new(:value, fn -> field.value end)
-    |> range_field()
+    |> <%= @component_prefix %>range_field()
   end
 
   def <%= @component_prefix %>range_field(%{appearance: "default"} = assigns) do
