@@ -1031,10 +1031,9 @@ defmodule <%= @module %> do
   ```elixir
   show_badge(%JS{}, "#badge-element")
   ```
-
   This example will show the badge element with the ID badge-element using the defined transition effect.
   """
-  def <%= @component_prefix %>show_badge(js \\ %JS{}, selector) do
+  def show_badge(js \\ %JS{}, selector) do
     JS.show(js,
       to: selector,
       time: 300,
@@ -1073,8 +1072,7 @@ defmodule <%= @module %> do
 
   This example will hide the badge element with the ID badge-element using the defined transition effect.
   """
-
-  def <%= @component_prefix %>hide_badge(js \\ %JS{}, selector) do
+  def hide_badge(js \\ %JS{}, selector) do
     JS.hide(js,
       to: selector,
       time: 200,
