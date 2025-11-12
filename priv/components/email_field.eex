@@ -122,7 +122,7 @@ defmodule <%= @module %>  do
     doc:
       "Global attributes can define defaults which are merged with attributes provided by the caller"
 
-  @spec email_field(map()) :: Phoenix.LiveView.Rendered.t()
+  @spec <%= @component_prefix %>email_field(map()) :: Phoenix.LiveView.Rendered.t()
   def <%= @component_prefix %>email_field(%{field: %Phoenix.HTML.FormField{} = field} = assigns) do
     errors = if Phoenix.Component.used_input?(field), do: field.errors, else: []
 
@@ -130,7 +130,7 @@ defmodule <%= @module %>  do
     |> assign(field: nil, id: assigns.id || field.id)
     |> assign(:errors, Enum.map(errors, &translate_error(&1)))
     |> assign_new(:value, fn -> field.value end)
-    |> email_field()
+    |> <%= @component_prefix %>email_field()
   end
 
   def <%= @component_prefix %>email_field(%{floating: floating} = assigns) when floating in ["inner", "outer"] do
