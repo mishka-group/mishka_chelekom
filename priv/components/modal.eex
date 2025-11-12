@@ -30,23 +30,23 @@ defmodule <%= @module %> do
   ## Examples
 
   ```elixir
-  <.modal id="modal-1" title="default">
+  <.<%= @component_prefix %>modal id="modal-1" title="default">
     <div>
       Lorem ipsum dolor sit amet consectetur adipisicing elit.
       Commodi ea atque soluta praesentium quidem dicta sapiente accusamus nihil.
     </div>
-  </.modal>
+  </.<%= @component_prefix %>modal>
 
-  <.modal id="modal-2" title="Info Modal" show>
+  <.<%= @component_prefix %>modal id="modal-2" title="Info Modal" show>
     <div>
       Lorem ipsum dolor sit amet consectetur adipisicing elit.
       Commodi ea atque soluta praesentium quidem dicta sapiente accusamus nihil.
     </div>
-  </.modal>
+  </.<%= @component_prefix %>modal>
 
-  <.modal id="modal-3" color="primary" rounded="large" title="Custom Modal">
+  <.<%= @component_prefix %>modal id="modal-3" color="primary" rounded="large" title="Custom Modal">
     <p>Customize the modal appearance by changing attributes like `color` and `rounded`.</p>
-  </.modal>
+  </.<%= @component_prefix %>modal>
   ```
   """
   @doc type: :component
@@ -652,7 +652,7 @@ defmodule <%= @module %> do
 
   ## JS Commands
 
-  def <%= @component_prefix %>show_modal(js \\ %JS{}, id) when is_binary(id) do
+  def show_modal(js \\ %JS{}, id) when is_binary(id) do
     js
     |> JS.show(to: "##{id}")
     |> JS.show(
@@ -665,7 +665,7 @@ defmodule <%= @module %> do
     |> JS.focus_first(to: "##{id}-content")
   end
 
-  def <%= @component_prefix %>hide_modal(js \\ %JS{}, id) do
+  def hide_modal(js \\ %JS{}, id) do
     js
     |> JS.hide(
       to: "##{id}-bg",
@@ -701,7 +701,7 @@ defmodule <%= @module %> do
 
   ## We do not use these functions, just for Phoenix CoreComponent backward compatibility
 
-  def <%= @component_prefix %>show(js \\ %JS{}, selector) do
+  def show(js \\ %JS{}, selector) do
     JS.show(js,
       to: selector,
       time: 300,
@@ -712,7 +712,7 @@ defmodule <%= @module %> do
     )
   end
 
-  def <%= @component_prefix %>hide(js \\ %JS{}, selector) do
+  def hide(js \\ %JS{}, selector) do
     JS.hide(js,
       to: selector,
       time: 200,
