@@ -912,8 +912,7 @@ defmodule <%= @module %> do
   ```
   This will activate the second tab and its corresponding panel in the tab group with the ID `example-tabs`.
   """
-
-  def <%= @component_prefix %>show_tab(js \\ %JS{}, id, count) when is_binary(id) do
+  def show_tab(js \\ %JS{}, id, count) when is_binary(id) do
     js
     |> JS.add_class("active-tab", to: "##{id}-tab-header-#{count}")
     |> JS.add_class("active-tab-panel", to: "##{id}-tab-panel-#{count}")
@@ -941,7 +940,7 @@ defmodule <%= @module %> do
   This will deactivate all three tabs and their corresponding panels in the tab group
   with the ID `example-tabs`.
   """
-  def <%= @component_prefix %>hide_tab(js \\ %JS{}, id, count) do
+  def hide_tab(js \\ %JS{}, id, count) do
     Enum.reduce(1..count, js, fn item, acc ->
       acc
       |> JS.remove_class("active-tab", to: "##{id}-tab-header-#{item}")
