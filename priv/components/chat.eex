@@ -10,7 +10,6 @@ defmodule <%= @module %> do
   **Documentation:** https://mishka.tools/chelekom/docs/chat
   """
   use Phoenix.Component
-  import <%= inspect(@web_module) %>.Components.Icon, only: [<%= @component_prefix %>icon: 1]
   use Gettext, backend: <%= inspect(@web_module) %>.Gettext
 
   <%= if is_nil(@type) or "chat" in @type do %>
