@@ -311,7 +311,7 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Components do
               else: list
           end)
           |> Enum.map(fn name ->
-            if component_prefix && component_prefix != "",
+            if component_prefix && component_prefix != "" && name != "error",
               do: "#{component_prefix}#{name}",
               else: name
           end)
