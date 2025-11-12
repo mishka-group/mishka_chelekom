@@ -34,11 +34,11 @@ defmodule <%= @module %> do
   ## Examples
 
   ```elixir
-  <.toast id="toast-1">
+  <.<%= @component_prefix %>toast id="toast-1">
     <div>Lorem ipsum dolor sit amet consectetur adipisicing elit.</div>
-  </.toast>
+  </.<%= @component_prefix %>toast>
 
-  <.toast
+  <.<%= @component_prefix %>toast
     id="toast-2"
     color="success"
     content_border="small"
@@ -47,9 +47,9 @@ defmodule <%= @module %> do
     vertical_space="large"
   >
     <div>Lorem ipsum dolor sit amet consectetur adipisicing elit.</div>
-  </.toast>
+  </.<%= @component_prefix %>toast>
 
-  <.toast
+  <.<%= @component_prefix %>toast
     id="toast-3"
     color="misc"
     horizontal="left"
@@ -59,7 +59,7 @@ defmodule <%= @module %> do
     width="extra_large"
   >
     <div>Lorem ipsum dolor sit amet consectetur adipisicing elit.</div>
-  </.toast>
+  </.<%= @component_prefix %>toast>
   ```
   """
   @doc type: :component
@@ -996,7 +996,7 @@ defmodule <%= @module %> do
   This documentation provides a clear explanation of what the function does,
   its parameters, and an example usage.
   """
-  def <%= @component_prefix %>show_toast(js \\ %JS{}, selector) do
+  def show_toast(js \\ %JS{}, selector) do
     JS.show(js,
       to: selector,
       time: 300,
@@ -1028,7 +1028,7 @@ defmodule <%= @module %> do
   This documentation clearly outlines the purpose of the function, its parameters,
   and an example of how to use it.
   """
-  def <%= @component_prefix %>hide_toast(js \\ %JS{}, selector) do
+  def hide_toast(js \\ %JS{}, selector) do
     JS.hide(js,
       to: selector,
       time: 200,
