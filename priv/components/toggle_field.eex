@@ -145,7 +145,7 @@ defmodule <%= @module %> do
     """
   end
 
-  def <%= @component_prefix %>toggle_check(field, %{params: params, data: data} = _form) do
+  def toggle_check(field, %{params: params, data: data} = _form) do
     if params[Atom.to_string(field)] do
       Form.normalize_value("checkbox", params[Atom.to_string(field)])
     else
