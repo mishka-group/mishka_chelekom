@@ -29,7 +29,7 @@ defmodule <%= @module %> do
   ```elixir
   <.radio_field name="option" value="Option 1" space="small" label="Option 1 Label"/>
 
-  <.radio_field
+  <.<%= @component_prefix %>radio_field
     name="option"
     value="Option 2"
     space="medium"
@@ -38,9 +38,9 @@ defmodule <%= @module %> do
     checked
   />
 
-  <.radio_field name="option" value="Option 3" color="dawn" label="Option 3 Label" reverse/>
+  <.<%= @component_prefix %>radio_field name="option" value="Option 3" color="dawn" label="Option 3 Label" reverse/>
 
-  <.radio_field
+  <.<%= @component_prefix %>radio_field
     name="option"
     value="Option 4"
     space="medium"
@@ -49,7 +49,7 @@ defmodule <%= @module %> do
     errors={["Error message for Option 4"]}
   />
 
-  <.radio_field name="option" value="Option 5" space="small" color="info" label="Option 5 Label"/>
+  <.<%= @component_prefix %>radio_field name="option" value="Option 5" space="small" color="info" label="Option 5 Label"/>
   ```
   """
   @doc type: :component
@@ -91,7 +91,7 @@ defmodule <%= @module %> do
     doc:
       "Global attributes can define defaults which are merged with attributes provided by the caller"
 
-  @spec radio_field(map()) :: Phoenix.LiveView.Rendered.t()
+  @spec <%= @component_prefix %>radio_field(map()) :: Phoenix.LiveView.Rendered.t()
   def <%= @component_prefix %>radio_field(%{field: %Phoenix.HTML.FormField{} = field} = assigns) do
     errors = if Phoenix.Component.used_input?(field), do: field.errors, else: []
 
@@ -100,7 +100,7 @@ defmodule <%= @module %> do
     |> assign(:errors, Enum.map(errors, &translate_error(&1)))
     |> assign_new(:name, fn -> field.name end)
     |> assign_new(:value, fn -> field.value end)
-    |> radio_field()
+    |> <%= @component_prefix %>radio_field()
   end
 
   def <%= @component_prefix %>radio_field(assigns) do
@@ -142,12 +142,12 @@ defmodule <%= @module %> do
   ## Examples
 
   ```elixir
-  <.group_radio name="items_group_1" space="small">
+  <.<%= @component_prefix %>group_radio name="items_group_1" space="small">
     <:radio value="option1">Option 1</:radio>
     <:radio value="option2">Option 2</:radio>
     <:radio value="option3">Option 3</:radio>
     <:radio value="option4" checked>Option 4</:radio>
-  </.group_radio>
+  </.<%= @component_prefix %>group_radio>
   ```
   """
   @doc type: :component
@@ -201,7 +201,7 @@ defmodule <%= @module %> do
 
   slot :inner_block
 
-  @spec group_radio(map()) :: Phoenix.LiveView.Rendered.t()
+  @spec <%= @component_prefix %>group_radio(map()) :: Phoenix.LiveView.Rendered.t()
   def <%= @component_prefix %>group_radio(%{field: %Phoenix.HTML.FormField{} = field} = assigns) do
     errors = if Phoenix.Component.used_input?(field), do: field.errors, else: []
     assigns
@@ -209,7 +209,7 @@ defmodule <%= @module %> do
     |> assign(:errors, Enum.map(errors, &translate_error(&1)))
     |> assign_new(:name, fn -> field.name end)
     |> assign_new(:value, fn -> field.value end)
-    |> group_radio()
+    |> <%= @component_prefix %>group_radio()
   end
 
   def <%= @component_prefix %>group_radio(assigns) do
