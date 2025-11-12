@@ -25,7 +25,7 @@ defmodule <%= @module %> do
   ## Examples
 
   ```elixir
-  <.search_field
+  <.<%= @component_prefix %>search_field
     name="search_query"
     space="small"
     color="primary"
@@ -37,7 +37,7 @@ defmodule <%= @module %> do
     search_button
   />
 
-  <.search_field
+  <.<%= @component_prefix %>search_field
     name="search_query"
     space="small"
     color="success"
@@ -52,7 +52,7 @@ defmodule <%= @module %> do
     <:end_section>
       <.<%= @component_prefix %>icon name="hero-search" class="size-4" />
     </:end_section>
-  </.search_field>
+  </.<%= @component_prefix %>search_field>
   ```
   """
   @doc type: :component
@@ -119,7 +119,7 @@ defmodule <%= @module %> do
     doc:
       "Global attributes can define defaults which are merged with attributes provided by the caller"
 
-  @spec search_field(map()) :: Phoenix.LiveView.Rendered.t()
+  @spec <%= @component_prefix %>search_field(map()) :: Phoenix.LiveView.Rendered.t()
   def <%= @component_prefix %>search_field(%{field: %Phoenix.HTML.FormField{} = field} = assigns) do
     errors = if Phoenix.Component.used_input?(field), do: field.errors, else: []
 
@@ -128,7 +128,7 @@ defmodule <%= @module %> do
     |> assign(:errors, Enum.map(errors, &translate_error(&1)))
     |> assign_new(:name, fn -> field.name end)
     |> assign_new(:value, fn -> field.value end)
-    |> search_field()
+    |> <%= @component_prefix %>search_field()
   end
 
   def <%= @component_prefix %>search_field(%{floating: floating} = assigns) when floating in ["inner", "outer"] do
