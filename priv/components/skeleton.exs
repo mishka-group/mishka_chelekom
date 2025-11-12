@@ -20,7 +20,8 @@
       rounded: ["extra_small", "small", "medium", "large", "extra_large", "full", "none"],
       only: ["skeleton"],
       helpers: [],
-      module: ""
+      module: "",
+      function_prefix: nil
     ],
     optional: [],
     necessary: []

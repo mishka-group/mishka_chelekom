@@ -32,7 +32,8 @@
       type: ["table", "th", "tr", "td"],
       only: ["table", "th", "tr", "td"],
       helpers: [],
-      module: ""
+      module: "",
+      function_prefix: nil
     ],
     optional: [],
     necessary: ["icon"]

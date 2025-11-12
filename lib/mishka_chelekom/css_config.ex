@@ -15,7 +15,8 @@ defmodule MishkaChelekom.CSSConfig do
     {:component_sizes, []},
     {:component_rounded, []},
     {:component_padding, []},
-    {:component_space, []}
+    {:component_space, []},
+    {:function_prefix, nil}
   ]
 
   @doc """
@@ -207,6 +208,10 @@ defmodule MishkaChelekom.CSSConfig do
       # List of components to exclude from generation when using mix mishka.ui.gen.components
       # Example: ["alert", "badge", "button"]
       exclude_components: [],
+
+      # The prefix for components to avoid namespace clashing
+      # Example: "myprefix_"
+      function_prefix: nil
 
       # Component attribute filters - limit which values are generated (reduces code size)
       # If empty or not specified, all values will be included

@@ -143,7 +143,7 @@ defmodule <%= @module %> do
     doc:
       "Global attributes can define defaults which are merged with attributes provided by the caller"
 
-  def pagination(
+  def <%= @function_prefix %>pagination(
         %{siblings: siblings, boundaries: boundaries, total: total, active: active} = assigns
       ) do
     assigns = assign(assigns, %{siblings: build_pagination(total, active, siblings, boundaries)})

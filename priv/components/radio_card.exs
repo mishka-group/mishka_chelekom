@@ -24,7 +24,8 @@
       rounded: ["extra_small", "small", "medium", "large", "extra_large"],
       only: ["radio_card"],
       helpers: [radio_card_check: 3],
-      module: ""
+      module: "",
+      function_prefix: nil
     ],
     optional: [],
     necessary: ["icon"]

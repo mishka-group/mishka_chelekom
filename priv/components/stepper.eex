@@ -70,7 +70,7 @@ defmodule <%= @module %> do
   slot :inner_block, required: false, doc: "Inner block that renders HEEx content"
 
   @spec stepper(map()) :: Phoenix.LiveView.Rendered.t()
-  def stepper(%{vertical: true} = assigns) do
+  def <%= @function_prefix %>stepper(%{vertical: true} = assigns) do
     ~H"""
     <div
       role="list"
@@ -92,7 +92,7 @@ defmodule <%= @module %> do
     """
   end
 
-  def stepper(assigns) do
+  def <%= @function_prefix %>stepper(assigns) do
     ~H"""
     <div
       role="list"
@@ -197,7 +197,7 @@ defmodule <%= @module %> do
 
   slot :inner_block, required: false, doc: "Inner block that renders HEEx content"
 
-  def stepper_section(%{vertical: true} = assigns) do
+  def <%= @function_prefix %>stepper_section(%{vertical: true} = assigns) do
     ~H"""
     <div
       id={@id}
@@ -272,7 +272,7 @@ defmodule <%= @module %> do
     """
   end
 
-  def stepper_section(assigns) do
+  def <%= @function_prefix %>stepper_section(assigns) do
     ~H"""
     <div
       id={@id}

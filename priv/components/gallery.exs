@@ -6,7 +6,8 @@
       type: ["gallery", "filterable_gallery"],
       only: ["gallery", "gallery_media", "filterable_gallery"],
       helpers: [],
-      module: ""
+      module: "",
+      function_prefix: nil
     ],
     optional: [],
     necessary: [],

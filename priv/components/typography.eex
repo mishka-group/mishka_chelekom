@@ -53,7 +53,7 @@ defmodule <%= @module %> do
   slot :inner_block, required: true, doc: "Inner block that renders HEEx content"
 
   @spec h1(map()) :: Phoenix.LiveView.Rendered.t()
-  def h1(assigns) do
+  def <%= @function_prefix %>h1(assigns) do
     ~H"""
     <h1
       id={@id}
@@ -108,7 +108,7 @@ defmodule <%= @module %> do
   slot :inner_block, required: true, doc: "Inner block that renders HEEx content"
 
   @spec h2(map()) :: Phoenix.LiveView.Rendered.t()
-  def h2(assigns) do
+  def <%= @function_prefix %>h2(assigns) do
     ~H"""
     <h2
       id={@id}
@@ -163,7 +163,7 @@ defmodule <%= @module %> do
   slot :inner_block, required: true, doc: "Inner block that renders HEEx content"
 
   @doc type: :component
-  def h3(assigns) do
+  def <%= @function_prefix %>h3(assigns) do
     ~H"""
     <h3
       id={@id}
@@ -217,7 +217,7 @@ defmodule <%= @module %> do
   slot :inner_block, required: true, doc: "Inner block that renders HEEx content"
 
   @doc type: :component
-  def h4(assigns) do
+  def <%= @function_prefix %>h4(assigns) do
     ~H"""
     <h4
       id={@id}
@@ -271,7 +271,7 @@ defmodule <%= @module %> do
 
   slot :inner_block, required: true, doc: "Inner block that renders HEEx content"
 
-  def h5(assigns) do
+  def <%= @function_prefix %>h5(assigns) do
     ~H"""
     <h5
       id={@id}
@@ -325,7 +325,7 @@ defmodule <%= @module %> do
 
   slot :inner_block, required: true, doc: "Inner block that renders HEEx content"
 
-  def h6(assigns) do
+  def <%= @function_prefix %>h6(assigns) do
     ~H"""
     <h6
       id={@id}
@@ -381,7 +381,7 @@ defmodule <%= @module %> do
 
   slot :inner_block, required: true, doc: "Inner block that renders HEEx content"
 
-  def p(assigns) do
+  def <%= @function_prefix %>p(assigns) do
     ~H"""
     <p
       id={@id}
@@ -438,7 +438,7 @@ defmodule <%= @module %> do
 
   slot :inner_block, required: true, doc: "Inner block that renders HEEx content"
 
-  def strong(assigns) do
+  def <%= @function_prefix %>strong(assigns) do
     ~H"""
     <strong
       id={@id}
@@ -499,7 +499,7 @@ defmodule <%= @module %> do
 
   slot :inner_block, required: true, doc: "Inner block that renders HEEx content"
 
-  def em(assigns) do
+  def <%= @function_prefix %>em(assigns) do
     ~H"""
     <em
       id={@id}
@@ -556,7 +556,7 @@ defmodule <%= @module %> do
 
   slot :inner_block, required: true, doc: "Inner block that renders HEEx content"
 
-  def dl(assigns) do
+  def <%= @function_prefix %>dl(assigns) do
     ~H"""
     <dl
       id={@id}
@@ -611,7 +611,7 @@ defmodule <%= @module %> do
 
   slot :inner_block, required: true, doc: "Inner block that renders HEEx content"
 
-  def dt(assigns) do
+  def <%= @function_prefix %>dt(assigns) do
     ~H"""
     <dt
       id={@id}
@@ -670,7 +670,7 @@ defmodule <%= @module %> do
 
   slot :inner_block, required: true, doc: "Inner block that renders HEEx content"
 
-  def dd(assigns) do
+  def <%= @function_prefix %>dd(assigns) do
     ~H"""
     <dd
       id={@id}
@@ -738,7 +738,7 @@ defmodule <%= @module %> do
 
   slot :inner_block, required: true, doc: "Inner block that renders HEEx content"
 
-  def figure(assigns) do
+  def <%= @function_prefix %>figure(assigns) do
     ~H"""
     <figure
       id={@id}
@@ -801,7 +801,7 @@ defmodule <%= @module %> do
 
   slot :inner_block, required: true, doc: "Inner block that renders HEEx content"
 
-  def figcaption(assigns) do
+  def <%= @function_prefix %>figcaption(assigns) do
     ~H"""
     <figcaption
       id={@id}
@@ -858,7 +858,7 @@ defmodule <%= @module %> do
 
   slot :inner_block, required: true, doc: "Inner block that renders HEEx content"
 
-  def abbr(assigns) do
+  def <%= @function_prefix %>abbr(assigns) do
     ~H"""
     <abbr
       id={@id}
@@ -914,7 +914,7 @@ defmodule <%= @module %> do
 
   slot :inner_block, required: true, doc: "Inner block that renders HEEx content"
 
-  def mark(assigns) do
+  def <%= @function_prefix %>mark(assigns) do
     ~H"""
     <mark
       id={@id}
@@ -968,7 +968,7 @@ defmodule <%= @module %> do
 
   slot :inner_block, required: true, doc: "Inner block that renders HEEx content"
 
-  def small(assigns) do
+  def <%= @function_prefix %>small(assigns) do
     ~H"""
     <small
       id={@id}
@@ -1020,7 +1020,7 @@ defmodule <%= @module %> do
 
   slot :inner_block, required: true, doc: "Inner block that renders HEEx content"
 
-  def s(assigns) do
+  def <%= @function_prefix %>s(assigns) do
     ~H"""
     <s
       id={@id}
@@ -1073,7 +1073,7 @@ defmodule <%= @module %> do
 
   slot :inner_block, required: true, doc: "Inner block that renders HEEx content"
 
-  def u(assigns) do
+  def <%= @function_prefix %>u(assigns) do
     ~H"""
     <u
       id={@id}
@@ -1129,7 +1129,7 @@ defmodule <%= @module %> do
 
   slot :inner_block, required: true, doc: "Inner block that renders HEEx content"
 
-  def cite(assigns) do
+  def <%= @function_prefix %>cite(assigns) do
     ~H"""
     <cite
       id={@id}
@@ -1182,7 +1182,7 @@ defmodule <%= @module %> do
 
   slot :inner_block, required: true, doc: "Inner block that renders HEEx content"
 
-  def del(assigns) do
+  def <%= @function_prefix %>del(assigns) do
     ~H"""
     <del
       id={@id}

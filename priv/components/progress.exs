@@ -32,7 +32,8 @@
       type: ["progress", "progress_section", "semi_circle_progress", "ring_progress"],
       only: ["progress", "progress_section", "semi_circle_progress", "ring_progress"],
       helpers: [],
-      module: ""
+      module: "",
+      function_prefix: nil
     ],
     optional: [],
     necessary: [],

@@ -155,7 +155,7 @@ defmodule <%= @module %> do
     attr :icon_position, :string, doc: "Determines icon position"
   end
 
-  def navbar(assigns) do
+  def <%= @function_prefix %>navbar(assigns) do
     ~H"""
     <nav
       id={@id}
@@ -225,7 +225,7 @@ defmodule <%= @module %> do
   slot :subtitle
   slot :actions
 
-  def header(assigns) do
+  def <%= @function_prefix %>header(assigns) do
     ~H"""
     <header class={[@actions != [] && "flex items-center justify-between gap-6", @class]}>
       <div>

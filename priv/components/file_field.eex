@@ -82,7 +82,7 @@ defmodule <%= @module %> do
       "Global attributes can define defaults which are merged with attributes provided by the caller"
 
   @spec file_field(map()) :: Phoenix.LiveView.Rendered.t()
-  def file_field(%{field: %Phoenix.HTML.FormField{} = field} = assigns) do
+  def <%= @function_prefix %>file_field(%{field: %Phoenix.HTML.FormField{} = field} = assigns) do
     errors = if Phoenix.Component.used_input?(field), do: field.errors, else: []
 
     assigns
@@ -95,7 +95,7 @@ defmodule <%= @module %> do
     |> file_field()
   end
 
-  def file_field(%{dropzone: true, dropzone_type: "file"} = assigns) do
+  def <%= @function_prefix %>file_field(%{dropzone: true, dropzone_type: "file"} = assigns) do
     targeted_upload = assigns.uploads[assigns.target]
 
     assigns =
@@ -188,7 +188,7 @@ defmodule <%= @module %> do
     """
   end
 
-  def file_field(%{dropzone: true, dropzone_type: "image"} = assigns) do
+  def <%= @function_prefix %>file_field(%{dropzone: true, dropzone_type: "image"} = assigns) do
     targeted_upload = assigns.uploads[assigns.target]
 
     assigns =
@@ -277,7 +277,7 @@ defmodule <%= @module %> do
     """
   end
 
-  def file_field(assigns) do
+  def <%= @function_prefix %>file_field(assigns) do
     ~H"""
     <div class={[
       rounded_size(@rounded),
@@ -340,7 +340,7 @@ defmodule <%= @module %> do
     """
   end
 
-  def convert_to_mb(size_in_bytes) when is_integer(size_in_bytes) do
+  def <%= @function_prefix %>convert_to_mb(size_in_bytes) when is_integer(size_in_bytes) do
     Float.round(size_in_bytes / (1024 * 1024), 2)
   end
 

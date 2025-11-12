@@ -143,7 +143,7 @@ defmodule <%= @module %> do
     doc:
       "Global attributes can define defaults which are merged with attributes provided by the caller"
 
-  def combobox(%{field: %Phoenix.HTML.FormField{} = field} = assigns) do
+  def <%= @function_prefix %>combobox(%{field: %Phoenix.HTML.FormField{} = field} = assigns) do
     errors = if Phoenix.Component.used_input?(field), do: field.errors, else: []
 
     assigns
@@ -154,7 +154,7 @@ defmodule <%= @module %> do
     |> combobox()
   end
 
-  def combobox(%{multiple: true} = assigns) do
+  def <%= @function_prefix %>combobox(%{multiple: true} = assigns) do
     assigns =
       assigns
       |> assign_new(:id, fn -> "combo-#{random_id()}" end)
@@ -357,7 +357,7 @@ defmodule <%= @module %> do
     """
   end
 
-  def combobox(assigns) do
+  def <%= @function_prefix %>combobox(assigns) do
     assigns =
       assigns
       |> assign_new(:id, fn -> "combo-#{random_id()}" end)

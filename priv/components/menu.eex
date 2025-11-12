@@ -355,7 +355,7 @@ defmodule <%= @module %> do
     doc:
       "Global attributes can define defaults which are merged with attributes provided by the caller"
 
-  def menu(assigns) do
+  def <%= @function_prefix %>menu(assigns) do
     ~H"""
     <ul
       id={@id}

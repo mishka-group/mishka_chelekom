@@ -23,7 +23,8 @@
       space: ["extra_small", "small", "medium", "large", "extra_large"],
       only: ["navbar", "header"],
       helpers: [],
-      module: ""
+      module: "",
+      function_prefix: nil
     ],
     optional: [],
     necessary: ["icon"]

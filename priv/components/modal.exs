@@ -42,7 +42,8 @@
         hide: 1,
         hide: 2
       ],
-      module: ""
+      module: "",
+      function_prefix: nil
     ],
     optional: [],
     necessary: ["icon"]

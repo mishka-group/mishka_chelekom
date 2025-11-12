@@ -5,7 +5,8 @@
       type: ["flex", "grid"],
       only: ["flex", "grid"],
       helpers: [],
-      module: ""
+      module: "",
+      function_prefix: nil
     ],
     optional: [],
     necessary: []

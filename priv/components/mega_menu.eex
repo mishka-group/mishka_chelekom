@@ -159,7 +159,7 @@ defmodule <%= @module %> do
     attr :class, :string, doc: "Custom CSS class for additional styling"
   end
 
-  def mega_menu(assigns) do
+  def <%= @function_prefix %>mega_menu(assigns) do
     ~H"""
     <div
       id={@id}

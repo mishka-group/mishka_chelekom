@@ -20,7 +20,8 @@
       padding: ["extra_small", "small", "medium", "large", "none"],
       only: ["tabs"],
       helpers: [show_tab: 2, show_tab: 3, hide_tab: 2, hide_tab: 3],
-      module: ""
+      module: "",
+      function_prefix: nil
     ],
     optional: [],
     necessary: ["badge", "icon"]

@@ -22,7 +22,8 @@
       rounded: ["extra_small", "small", "medium", "large", "extra_large", "full", "none"],
       only: ["badge"],
       helpers: [hide_badge: 1, hide_badge: 2, show_badge: 1, show_badge: 2],
-      module: ""
+      module: "",
+      function_prefix: nil
     ],
     optional: [],
     necessary: ["icon"]

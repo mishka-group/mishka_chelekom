@@ -84,7 +84,7 @@ defmodule <%= @module %> do
       "Global attributes can define defaults which are merged with attributes provided by the caller"
 
   @spec checkbox_field(map()) :: Phoenix.LiveView.Rendered.t()
-  def checkbox_field(%{field: %Phoenix.HTML.FormField{} = field} = assigns) do
+  def <%= @function_prefix %>checkbox_field(%{field: %Phoenix.HTML.FormField{} = field} = assigns) do
     new_id = assigns.id || field.id
     errors = if Phoenix.Component.used_input?(field), do: field.errors, else: []
 
@@ -102,7 +102,7 @@ defmodule <%= @module %> do
     |> checkbox_field()
   end
 
-  def checkbox_field(assigns) do
+  def <%= @function_prefix %>checkbox_field(assigns) do
     ~H"""
     <div class={[
       color_class(@color),
@@ -207,7 +207,7 @@ defmodule <%= @module %> do
   slot :inner_block
 
   @spec group_checkbox(map()) :: Phoenix.LiveView.Rendered.t()
-  def group_checkbox(%{field: %Phoenix.HTML.FormField{} = field} = assigns) do
+  def <%= @function_prefix %>group_checkbox(%{field: %Phoenix.HTML.FormField{} = field} = assigns) do
     errors = if Phoenix.Component.used_input?(field), do: field.errors, else: []
     assigns
     |> assign(field: nil)
@@ -219,7 +219,7 @@ defmodule <%= @module %> do
     |> group_checkbox()
   end
 
-  def group_checkbox(assigns) do
+  def <%= @function_prefix %>group_checkbox(assigns) do
     ~H"""
     <div class={[
       @variation == "horizontal" && "flex flex-wrap items-center",
@@ -263,7 +263,7 @@ defmodule <%= @module %> do
     """
   end
   <% end %>
-  def checkbox_check(:list, {field, value}, %{params: params, data: data} = _form) do
+  def <%= @function_prefix %>checkbox_check(:list, {field, value}, %{params: params, data: data} = _form) do
     if params[Atom.to_string(field)] do
       new_value = if is_atom(value), do: Atom.to_string(value), else: value
       new_value in params[Atom.to_string(field)]
@@ -272,7 +272,7 @@ defmodule <%= @module %> do
     end
   end
 
-  def checkbox_check(:boolean, field, %{params: params, data: data} = _form) do
+  def <%= @function_prefix %>checkbox_check(:boolean, field, %{params: params, data: data} = _form) do
     if params[Atom.to_string(field)] do
       Form.normalize_value("checkbox", params[Atom.to_string(field)])
     else

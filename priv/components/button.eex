@@ -93,7 +93,7 @@ defmodule <%= @module %> do
 
   slot :inner_block, required: false, doc: "Inner block that renders HEEx content"
 
-  def button_group(assigns) do
+  def <%= @function_prefix %>button_group(assigns) do
     ~H"""
     <div
       id={@id}
@@ -189,7 +189,7 @@ defmodule <%= @module %> do
       doc: "Determines the element position"
   end
 
-  def button(assigns) do
+  def <%= @function_prefix %>button(assigns) do
     assigns = assign_new(assigns, :indicator, fn -> is_indicators?(assigns[:rest]) end)
 
     ~H"""
@@ -289,7 +289,7 @@ defmodule <%= @module %> do
     doc:
       "Global attributes can define defaults which are merged with attributes provided by the caller"
 
-  def input_button(assigns) do
+  def <%= @function_prefix %>input_button(assigns) do
     ~H"""
     <input
       type={@type}
@@ -392,7 +392,7 @@ defmodule <%= @module %> do
       doc: "Determines the element position"
   end
 
-  def button_link(%{navigate: _navigate} = assigns) do
+  def <%= @function_prefix %>button_link(%{navigate: _navigate} = assigns) do
     assigns = assign_new(assigns, :indicator, fn -> is_indicators?(assigns[:rest]) end)
 
     ~H"""
@@ -436,7 +436,7 @@ defmodule <%= @module %> do
     """
   end
 
-  def button_link(%{patch: _patch} = assigns) do
+  def <%= @function_prefix %>button_link(%{patch: _patch} = assigns) do
     assigns = assign_new(assigns, :indicator, fn -> is_indicators?(assigns[:rest]) end)
 
     ~H"""
@@ -479,7 +479,7 @@ defmodule <%= @module %> do
     """
   end
 
-  def button_link(%{href: _href} = assigns) do
+  def <%= @function_prefix %>button_link(%{href: _href} = assigns) do
     assigns = assign_new(assigns, :indicator, fn -> is_indicators?(assigns[:rest]) end)
 
     ~H"""
@@ -535,7 +535,7 @@ defmodule <%= @module %> do
   attr :navigate, :any, required: true
   slot :inner_block, required: true
 
-  def back(assigns) do
+  def <%= @function_prefix %>back(assigns) do
     ~H"""
     <div class="mt-16">
       <.link

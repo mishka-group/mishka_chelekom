@@ -24,7 +24,8 @@
       type: ["native_select", "select_option_group"],
       only: ["native_select", "select_option_group"],
       helpers: [],
-      module: ""
+      module: "",
+      function_prefix: nil
     ],
     optional: [],
     necessary: ["icon"]

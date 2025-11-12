@@ -4,7 +4,8 @@
     args: [
       only: ["input", "error"],
       helpers: [],
-      module: ""
+      module: "",
+      function_prefix: nil
     ],
     optional: [],
     necessary: ["icon"]

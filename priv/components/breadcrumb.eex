@@ -96,7 +96,7 @@ defmodule <%= @module %> do
 
   slot :inner_block, required: false, doc: "Inner block that renders HEEx content"
 
-  def breadcrumb(assigns) do
+  def <%= @function_prefix %>breadcrumb(assigns) do
     ~H"""
     <nav class={@class} id={@id} {@rest}>
       <ol class={[ default_classes(), color_class(@color), size_class(@size), @items_wrapper_class]}>

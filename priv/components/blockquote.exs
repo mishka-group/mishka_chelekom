@@ -24,7 +24,8 @@
       padding: ["extra_small", "small", "medium", "large", "extra_large", "none"],
       only: ["blockquote"],
       helpers: [],
-      module: ""
+      module: "",
+      function_prefix: nil
     ],
     optional: [],
     necessary: ["icon"]

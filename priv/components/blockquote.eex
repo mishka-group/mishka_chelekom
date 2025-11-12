@@ -130,7 +130,7 @@ defmodule <%= @module %> do
     doc:
       "Global attributes can define defaults which are merged with attributes provided by the caller"
 
-  def blockquote(assigns) do
+  def <%= @function_prefix %>blockquote(assigns) do
     ~H"""
     <div class={[
       space_class(@space),

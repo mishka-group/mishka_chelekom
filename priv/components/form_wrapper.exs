@@ -24,7 +24,8 @@
       padding: ["extra_small", "small", "medium", "large", "extra_large"],
       only: ["form_wrapper", "simple_form"],
       helpers: [],
-      module: ""
+      module: "",
+      function_prefix: nil
     ],
     optional: [],
     necessary: []
