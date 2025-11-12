@@ -30,16 +30,16 @@ defmodule <%= @module %> do
   ## Examples
 
   ```elixir
-  <.drawer id="acc-left" show={true}>
+  <.<%= @component_prefix %>drawer id="acc-left" show={true}>
     Lorem ipsum dolor sit amet consectetur adipisicing elit. Commodi ea atque soluta
     praesentium quidem dicta sapiente accusamus nihil.
-  </.drawer>
+  </.<%= @component_prefix %>drawer>
 
-  <.drawer id="acc-right" title_class="text-2xl font-light" position="right">
+  <.<%= @component_prefix %>drawer id="acc-right" title_class="text-2xl font-light" position="right">
     <:header><p>Right Drawer</p></:header>
     Lorem ipsum dolor sit amet consectetur adipisicing elit. Commodi ea atque soluta praesentium
     quidem dicta sapiente accusamus nihil.
-  </.drawer>
+  </.<%= @component_prefix %>drawer>
   ```
   """
   @doc type: :component
@@ -795,7 +795,7 @@ defmodule <%= @module %> do
 
   This will show the drawer with ID `drawer-id` positioned on the left side of the screen.
   """
-  def <%= @component_prefix %>show_drawer(js \\ %JS{}, id, position) when is_binary(id) do
+  def show_drawer(js \\ %JS{}, id, position) when is_binary(id) do
     JS.remove_class(js, translate_position(position), to: "##{id}")
     |> JS.add_class("transform-none", to: "##{id}")
     |> JS.add_class("drawer-showed", to: "##{id}")
@@ -820,7 +820,7 @@ defmodule <%= @module %> do
 
   This will hide the drawer with ID "drawer-id" positioned on the left side of the screen.
   """
-  def <%= @component_prefix %>hide_drawer(js \\ %JS{}, id, position) do
+  def hide_drawer(js \\ %JS{}, id, position) do
     js
     |> JS.remove_class("drawer-showed", to: "##{id}")
     |> JS.remove_class("transform-none", to: "##{id}")
