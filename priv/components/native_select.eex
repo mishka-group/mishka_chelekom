@@ -27,12 +27,12 @@ defmodule <%= @module %> do
   ## Examples
 
   ```elixir
-  <.native_select name="name" description="This is description" label="This is outline label">
+  <.<%= @component_prefix %>native_select name="name" description="This is description" label="This is outline label">
     <:option value="usa">USA</:option>
     <:option value="uae" selected>UAE</:option>
-  </.native_select>
+  </.<%= @component_prefix %>native_select>
 
-  <.native_select
+  <.<%= @component_prefix %>native_select
     name="name"
     space="small"
     color="danger"
@@ -43,17 +43,17 @@ defmodule <%= @module %> do
     description="This is multiple option group"
     label="This is outline label"
   >
-    <.select_option_group label="group 1">
+    <.<%= @component_prefix %>select_option_group label="group 1">
       <:option value="usa">USA</:option>
       <:option value="uae" selected>UAE</:option>
-    </.select_option_group>
+    </.<%= @component_prefix %>select_option_group>
 
-    <.select_option_group label="group 2">
+    <.<%= @component_prefix %>select_option_group label="group 2">
       <:option value="usa">USA</:option>
       <:option value="uae">UAE</:option>
       <:option value="br" selected>Great Britain</:option>
-    </.select_option_group>
-  </.native_select>
+    </.<%= @component_prefix %>select_option_group>
+  </.<%= @component_prefix %>native_select>
   ```
   """
   @doc type: :component
@@ -113,7 +113,7 @@ defmodule <%= @module %> do
     doc:
       "Global attributes can define defaults which are merged with attributes provided by the caller"
 
-  @spec native_select(map()) :: Phoenix.LiveView.Rendered.t()
+  @spec <%= @component_prefix %>native_select(map()) :: Phoenix.LiveView.Rendered.t()
   def <%= @component_prefix %>native_select(%{field: %Phoenix.HTML.FormField{} = field} = assigns) do
     errors = if Phoenix.Component.used_input?(field), do: field.errors, else: []
 
@@ -124,7 +124,7 @@ defmodule <%= @module %> do
       if assigns.rest[:multiple], do: field.name <> "[]", else: field.name
     end)
     |> assign_new(:value, fn -> field.value end)
-    |> native_select()
+    |> <%= @component_prefix %>native_select()
   end
 
   def <%= @component_prefix %>native_select(assigns) do
@@ -185,11 +185,11 @@ defmodule <%= @module %> do
   ## Examples
 
   ```elixir
-  <.select_option_group label="group 2">
+  <.<%= @component_prefix %>select_option_group label="group 2">
     <:option value="usa">USA</:option>
     <:option value="uae">UAE</:option>
     <:option value="br" selected>Great Britain</:option>
-  </.select_option_group>
+  </.<%= @component_prefix %>select_option_group>
   ```
   """
   @doc type: :component
