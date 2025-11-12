@@ -575,23 +575,16 @@ defmodule MishkaChelekom.CSSConfig do
   end
 
   defp update_prefix_in_content(content, prefix) do
-    # Replace the component_prefix line
-    # Match patterns like:
-    # - component_prefix: nil
-    # - component_prefix: "old_value"
-    # - component_prefix: nil,
     regex = ~r/component_prefix:\s*(?:nil|"[^"]*")/
 
     if Regex.match?(regex, content) do
       Regex.replace(regex, content, ~s(component_prefix: "#{prefix}"))
     else
-      # If component_prefix line doesn't exist, add it after the config :mishka_chelekom line
       add_prefix_to_config(content, prefix)
     end
   end
 
   defp add_prefix_to_config(content, prefix) do
-    # Find the config :mishka_chelekom block and add component_prefix at the beginning
     case Regex.run(~r/(config :mishka_chelekom,)\s*\n/, content) do
       [_, config_line] ->
         String.replace(
@@ -601,8 +594,6 @@ defmodule MishkaChelekom.CSSConfig do
         )
 
       nil ->
-        # If no config block exists, just return the original content
-        # This shouldn't happen in practice
         content
     end
   end
