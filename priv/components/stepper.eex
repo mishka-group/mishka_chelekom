@@ -29,11 +29,11 @@ defmodule <%= @module %> do
   ## Examples
 
   ```elixir
-  <.stepper color="info" size="extra_large">
-    <.stepper_section step="current" title="First step" description="Create an account" />
-    <.stepper_section title="Second Step" description="Verify email" />
-    <.stepper_section title="Third Step" description="Get full access" />
-  </.stepper>
+  <.<%= @component_prefix %>stepper color="info" size="extra_large">
+    <.<%= @component_prefix %>stepper_section step="current" title="First step" description="Create an account" />
+    <.<%= @component_prefix %>stepper_section title="Second Step" description="Verify email" />
+    <.<%= @component_prefix %>stepper_section title="Third Step" description="Get full access" />
+  </.<%= @component_prefix %>stepper>
   ```
   """
   @doc type: :component
@@ -69,7 +69,7 @@ defmodule <%= @module %> do
 
   slot :inner_block, required: false, doc: "Inner block that renders HEEx content"
 
-  @spec stepper(map()) :: Phoenix.LiveView.Rendered.t()
+  @spec <%= @component_prefix %>stepper(map()) :: Phoenix.LiveView.Rendered.t()
   def <%= @component_prefix %>stepper(%{vertical: true} = assigns) do
     ~H"""
     <div

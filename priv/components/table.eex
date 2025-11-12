@@ -168,8 +168,8 @@ defmodule <%= @module %> do
             {@rest}
           >
             <thead class={@thead_class}>
-              <.tr>
-                <.th
+              <.<%= @component_prefix %>tr>
+                <.<%= @component_prefix %>th
                   :for={{header, index} <- Enum.with_index(@header, 1)}
                   id={"#{@id}-table-header-#{index}"}
                   scope="col"
@@ -181,15 +181,15 @@ defmodule <%= @module %> do
                     class={["table-header-icon block me-2", header[:icon_class]]}
                   />
                   {render_slot(header)}
-                </.th>
-              </.tr>
+                </<%= @component_prefix %>.th>
+              </.<%= @component_prefix %>tr>
 
-              <.tr :if={@col}>
-                <.th :for={col <- @col} class={["font-normal", col[:label_class]]}>{col[:label]}</.th>
-                <.th :if={@action != []} class="relative">
+              <.<%= @component_prefix %>tr :if={@col}>
+                <.<%= @component_prefix %>th :for={col <- @col} class={["font-normal", col[:label_class]]}>{col[:label]}</.<%= @component_prefix %>th>
+                <.<%= @component_prefix %>th :if={@action != []} class="relative">
                   <span class="sr-only">{gettext("Actions")}</span>
-                </.th>
-              </.tr>
+                </.<%= @component_prefix %>th>
+              </.<%= @component_prefix %>tr>
             </thead>
 
             <tbody
@@ -200,8 +200,8 @@ defmodule <%= @module %> do
             >
               {render_slot(@inner_block)}
 
-              <.tr :for={row <- @rows} :if={@rows != []} id={@row_id && @row_id.(row)}>
-                <.td
+              <.<%= @component_prefix %>tr :for={row <- @rows} :if={@rows != []} id={@row_id && @row_id.(row)}>
+                <.<%= @component_prefix %>td
                   :for={{col, i} <- Enum.with_index(@col)}
                   phx-click={@row_click && @row_click.(row)}
                   class={@row_click && "hover:cursor-pointer"}
@@ -212,22 +212,22 @@ defmodule <%= @module %> do
                       {render_slot(col, @row_item.(row))}
                     </span>
                   </div>
-                </.td>
+                </.<%= @component_prefix %>td>
 
-                <.td :if={@action} class="relative w-14 p-0">
+                <.<%= @component_prefix %>td :if={@action} class="relative w-14 p-0">
                   <div class="relative whitespace-nowrap py-4 text-right text-sm font-medium">
                     <span class="absolute -inset-y-px -right-4 left-0" />
                     <span :for={action <- @action} class="relative ml-4 font-semibold leading-6">
                       {render_slot(action, @row_item.(row))}
                     </span>
                   </div>
-                </.td>
-              </.tr>
+                </.<%= @component_prefix %>td>
+              </.<%= @component_prefix %>tr>
             </tbody>
 
             <tfoot :if={length(@footer) > 0} class={@footer_class}>
-              <.tr>
-                <.td
+              <.<%= @component_prefix %>tr>
+                <.<%= @component_prefix %>td
                   :for={{footer, index} <- Enum.with_index(@footer, 1)}
                   id={"#{@id}-table-footer-#{index}"}
                   class={footer[:class]}
@@ -240,8 +240,8 @@ defmodule <%= @module %> do
                     />
                     {render_slot(footer)}
                   </div>
-                </.td>
-              </.tr>
+                </.<%= @component_prefix %>td>
+              </.<%= @component_prefix %>tr>
             </tfoot>
           </table>
         </div>

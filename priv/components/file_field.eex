@@ -35,8 +35,8 @@ defmodule <%= @module %> do
   ## Examples
 
   ```elixir
-  <.file_field color="danger" />
-  <.file_field target={:avatar} uploads={@uploads} dropzone/>
+  <.<%= @component_prefix %>file_field color="danger" />
+  <.<%= @component_prefix %>file_field target={:avatar} uploads={@uploads} dropzone/>
   ```
   """
   @doc type: :component
@@ -81,7 +81,7 @@ defmodule <%= @module %> do
     doc:
       "Global attributes can define defaults which are merged with attributes provided by the caller"
 
-  @spec file_field(map()) :: Phoenix.LiveView.Rendered.t()
+  @spec <%= @component_prefix %>file_field(map()) :: Phoenix.LiveView.Rendered.t()
   def <%= @component_prefix %>file_field(%{field: %Phoenix.HTML.FormField{} = field} = assigns) do
     errors = if Phoenix.Component.used_input?(field), do: field.errors, else: []
 
@@ -92,7 +92,7 @@ defmodule <%= @module %> do
       if assigns.rest[:multiple], do: field.name <> "[]", else: field.name
     end)
     |> assign_new(:value, fn -> field.value end)
-    |> file_field()
+    |> <%= @component_prefix %>file_field()
   end
 
   def <%= @component_prefix %>file_field(%{dropzone: true, dropzone_type: "file"} = assigns) do
@@ -340,7 +340,7 @@ defmodule <%= @module %> do
     """
   end
 
-  def <%= @component_prefix %>convert_to_mb(size_in_bytes) when is_integer(size_in_bytes) do
+  def convert_to_mb(size_in_bytes) when is_integer(size_in_bytes) do
     Float.round(size_in_bytes / (1024 * 1024), 2)
   end
 
