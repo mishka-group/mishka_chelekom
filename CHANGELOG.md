@@ -1,3 +1,12 @@
+# Changelog for MishkaChelekom 0.0.9
+
+### Features:
+
+- Add Components prefix name in CLI and config file [#454](https://github.com/mishka-group/mishka_chelekom/pull/454)
+
+---
+
+
 # Changelog for MishkaChelekom 0.0.8
 
 ### Refactors:
