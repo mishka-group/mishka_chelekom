@@ -140,7 +140,13 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Components do
           |> Igniter.compose_task("mishka.ui.gen.component", [item] ++ component_args)
         end)
       end)
-      |> create_import_macro(list, options[:import] || false, options[:helpers], options[:global])
+      |> create_import_macro(
+        list,
+        options[:import] || false,
+        options[:helpers],
+        options[:global],
+        options[:component_prefix]
+      )
       |> Component.setup_css_files([])
       |> maybe_update_config_prefix(options[:component_prefix])
 
@@ -171,7 +177,7 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Components do
 
   defp new_phoenix(igniter, _), do: {igniter, false}
 
-  defp create_import_macro(igniter, list, import_status, helpers_status, global) do
+  defp create_import_macro(igniter, list, import_status, helpers_status, global, component_prefix) do
     igniter =
       if import_status and Map.get(igniter, :issues, []) == [] do
         web_module = Igniter.Libs.Phoenix.web_module(igniter)
@@ -192,7 +198,7 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Components do
           defmodule #{module_name} do
             defmacro __using__(_) do
               quote do
-                #{Enum.map(create_import_string(list, web_module, igniter, helpers_status, global), fn item -> "#{item}\n" end)}
+                #{Enum.map(create_import_string(list, web_module, igniter, helpers_status, global, component_prefix), fn item -> "#{item}\n" end)}
               end
             end
           end
@@ -287,10 +293,10 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Components do
     end
   end
 
-  defp create_import_string(list, web_module, igniter, helpers?, global) do
+  defp create_import_string(list, web_module, igniter, helpers?, global, cli_component_prefix) do
     {igniter, new_phoenix?} = new_phoenix(igniter, global)
     user_config = igniter.assigns[:mishka_user_config] || CSSConfig.load_user_config(igniter)
-    component_prefix = user_config[:component_prefix]
+    component_prefix = cli_component_prefix || user_config[:component_prefix]
 
     if Map.get(igniter, :issues, []) == [] do
       children = fn component ->
