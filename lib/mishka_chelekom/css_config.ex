@@ -205,6 +205,35 @@ defmodule MishkaChelekom.CSSConfig do
     import Config
 
     config :mishka_chelekom,
+      # List of components to exclude from generation when using mix mishka.ui.gen.components
+      # Example: ["alert", "badge", "button"]
+      exclude_components: [],
+      # Component attribute filters - limit which values are generated (reduces code size)
+      # If empty or not specified, all values will be included
+
+      # List of colors to include in component generation
+      # Example: ["base", "primary", "danger", "success"]
+      component_colors: [],
+
+      # List of variants to include in component generation
+      # Example: ["default", "outline", "bordered"]
+      component_variants: [],
+
+      # List of sizes to include in component generation
+      # Example: ["small", "medium", "large"]
+      component_sizes: [],
+
+      # List of rounded options to include in component generation
+      # Example: ["small", "medium", "full"]
+      component_rounded: [],
+
+      # List of padding options to include in component generation
+      # Example: ["small", "medium", "large"]
+      component_padding: [],
+
+      # List of space options to include in component generation
+      # Example: ["small", "medium", "large", "none"]
+      component_space: [],
       component_prefix: nil,
 
       # Override specific CSS variables (uncomment and modify as needed)
