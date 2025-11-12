@@ -33,7 +33,7 @@
       only: ["table", "th", "tr", "td"],
       helpers: [],
       module: "",
-      function_prefix: nil
+      component_prefix: nil
     ],
     optional: [],
     necessary: ["icon"]

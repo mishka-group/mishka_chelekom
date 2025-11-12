@@ -119,7 +119,7 @@ defmodule <%= @module %> do
 
   slot :inner_block, required: false, doc: "Inner block that renders HEEx content"
 
-  def <%= @function_prefix %>speed_dial(assigns) do
+  def <%= @component_prefix %>speed_dial(assigns) do
     ~H"""
     <div
       id={@id}

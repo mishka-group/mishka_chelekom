@@ -23,7 +23,7 @@
       only: ["badge"],
       helpers: [hide_badge: 1, hide_badge: 2, show_badge: 1, show_badge: 2],
       module: "",
-      function_prefix: nil
+      component_prefix: nil
     ],
     optional: [],
     necessary: ["icon"]

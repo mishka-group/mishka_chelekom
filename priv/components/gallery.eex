@@ -66,7 +66,7 @@ defmodule <%= @module %> do
 
   slot :inner_block, required: false, doc: "Inner block that renders HEEx content"
 
-  def <%= @function_prefix %>gallery(assigns) do
+  def <%= @component_prefix %>gallery(assigns) do
     ~H"""
     <div
       id={@id}
@@ -116,7 +116,7 @@ defmodule <%= @module %> do
 
   slot :inner_block, required: false, doc: "Inner block that renders HEEx content"
 
-  def <%= @function_prefix %>gallery_media(assigns) do
+  def <%= @component_prefix %>gallery_media(assigns) do
     ~H"""
     <div id={@id} class={["relative gallery-media overflow-hidden transition-all duration-300", @wrapper_class]} {@rest}>
       <img
@@ -172,7 +172,7 @@ defmodule <%= @module %> do
     doc:
       "Global attributes can define defaults which are merged with attributes provided by the caller"
 
-  def <%= @function_prefix %>filterable_gallery(assigns) do
+  def <%= @component_prefix %>filterable_gallery(assigns) do
     assigns = assign_new(assigns, :id, fn -> random_id() end)
 
     ~H"""

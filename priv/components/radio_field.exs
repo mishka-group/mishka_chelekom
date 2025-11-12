@@ -22,7 +22,7 @@
       only: ["radio_field", "group_radio"],
       helpers: [radio_check: 3],
       module: "",
-      function_prefix: nil
+      component_prefix: nil
     ],
     optional: [],
     necessary: ["icon"]

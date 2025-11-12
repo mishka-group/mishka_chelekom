@@ -66,7 +66,7 @@ defmodule <%= @module %> do
   slot :inner_block, required: true, doc: "Inner block that renders HEEx content"
   slot :actions, required: false, doc: "the slot for form actions, such as a submit button"
 
-  def <%= @function_prefix %>form_wrapper(assigns) do
+  def <%= @component_prefix %>form_wrapper(assigns) do
     ~H"""
     <.form
       :let={f}
@@ -117,7 +117,7 @@ defmodule <%= @module %> do
   slot :inner_block, required: true
   slot :actions, doc: "the slot for form actions, such as a submit button"
 
-  def <%= @function_prefix %>simple_form(assigns) do
+  def <%= @component_prefix %>simple_form(assigns) do
     ~H"""
     <.form_wrapper :let={f} class={@extra_classes} {assigns}>
       {render_slot(@inner_block, f)}

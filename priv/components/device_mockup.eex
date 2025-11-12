@@ -125,7 +125,7 @@ defmodule <%= @module %> do
 
   slot :inner_block, doc: "Inner block that renders HEEx content"
   <%= if is_nil(@type) or "watch" in @type do %>
-  def <%= @function_prefix %>device_mockup(%{type: "watch"} = assigns) do
+  def <%= @component_prefix %>device_mockup(%{type: "watch"} = assigns) do
     ~H"""
     <div class={["w-fit", color_class(@color), @class]}>
       <div class="mock-base relative mx-auto rounded-t-[2.5rem] h-[63px] max-w-[133px]"></div>
@@ -148,7 +148,7 @@ defmodule <%= @module %> do
   end
   <% end %>
   <%= if is_nil(@type) or "android" in @type do %>
-  def <%= @function_prefix %>device_mockup(%{type: "android"} = assigns) do
+  def <%= @component_prefix %>device_mockup(%{type: "android"} = assigns) do
     ~H"""
     <div class={["w-fit", color_class(@color), @class]}>
       <div class="mock-base relative mx-auto border-[14px] rounded-xl h-[600px] w-[300px] shadow-xl">
@@ -173,7 +173,7 @@ defmodule <%= @module %> do
   end
   <% end %>
   <%= if is_nil(@type) or "laptop" in @type do %>
-  def <%= @function_prefix %>device_mockup(%{type: "laptop"} = assigns) do
+  def <%= @component_prefix %>device_mockup(%{type: "laptop"} = assigns) do
     ~H"""
     <div class={["max-w-fit md:max-w-[512px]", color_class(@color), @class]}>
       <div class="mock-base relative mx-auto border-[8px] rounded-t-xl h-[172px] max-w-[301px] md:h-[294px] md:max-w-[512px]">
@@ -196,7 +196,7 @@ defmodule <%= @module %> do
   end
   <% end %>
   <%= if is_nil(@type) or "ipad" in @type do %>
-  def <%= @function_prefix %>device_mockup(%{type: "ipad"} = assigns) do
+  def <%= @component_prefix %>device_mockup(%{type: "ipad"} = assigns) do
     ~H"""
     <div class={["max-w-fit md:max-w-[512px]", color_class(@color), @class]}>
       <div class="mock-base relative mx-auto border-[14px] rounded-[2.5rem] h-[454px] max-w-[341px] md:h-[682px] md:max-w-[512px]">
@@ -219,7 +219,7 @@ defmodule <%= @module %> do
   end
   <% end %>
   <%= if is_nil(@type) or "imac" in @type do %>
-  def <%= @function_prefix %>device_mockup(%{type: "imac"} = assigns) do
+  def <%= @component_prefix %>device_mockup(%{type: "imac"} = assigns) do
     ~H"""
     <div class={["max-w-fit md:max-w-[512px]", color_class(@color), @class]}>
       <div class="mock-base relative mx-auto border-[16px] rounded-t-xl h-[172px] max-w-[301px] md:h-[294px] md:max-w-[512px]">
@@ -241,7 +241,7 @@ defmodule <%= @module %> do
     """
   end
   <% end %>
-  def <%= @function_prefix %>device_mockup(assigns) do
+  def <%= @component_prefix %>device_mockup(assigns) do
     ~H"""
     <div class={["w-fit", color_class(@color), @class]}>
       <div class="mock-base relative mx-auto border-[14px] rounded-[2.5rem] h-[600px] w-[300px] shadow-xl">

@@ -85,7 +85,7 @@ defmodule <%= @module %> do
 
   slot :inner_block, doc: "Inner block that renders HEEx content"
 
-  def <%= @function_prefix %>list(%{rest: %{ordered: true}} = assigns) do
+  def <%= @component_prefix %>list(%{rest: %{ordered: true}} = assigns) do
     ~H"""
     <.ol {assigns}>
       <.li :for={item <- @item} {item}>
@@ -96,7 +96,7 @@ defmodule <%= @module %> do
     """
   end
 
-  def <%= @function_prefix %>list(assigns) do
+  def <%= @component_prefix %>list(assigns) do
     ~H"""
     <.ul {assigns}>
       <.li
@@ -159,7 +159,7 @@ defmodule <%= @module %> do
   slot :inner_block, required: true, doc: "Inner block that renders HEEx content"
 
   @spec li(map()) :: Phoenix.LiveView.Rendered.t()
-  def <%= @function_prefix %>li(assigns) do
+  def <%= @component_prefix %>li(assigns) do
     ~H"""
     <li
       id={@id}
@@ -232,7 +232,7 @@ defmodule <%= @module %> do
 
   slot :inner_block, required: true, doc: "Inner block that renders HEEx content"
 
-  def <%= @function_prefix %>ul(assigns) do
+  def <%= @component_prefix %>ul(assigns) do
     ~H"""
     <ul
       id={@id}
@@ -301,7 +301,7 @@ defmodule <%= @module %> do
 
   slot :inner_block, required: true, doc: "Inner block that renders HEEx content"
 
-  def <%= @function_prefix %>ol(assigns) do
+  def <%= @component_prefix %>ol(assigns) do
     ~H"""
     <ol
       id={@id}
@@ -370,7 +370,7 @@ defmodule <%= @module %> do
 
   slot :inner_block, required: true, doc: "Inner block that renders HEEx content"
 
-  def <%= @function_prefix %>list_group(assigns) do
+  def <%= @component_prefix %>list_group(assigns) do
     ~H"""
     <ul
       id={@id}

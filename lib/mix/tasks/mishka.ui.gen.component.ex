@@ -72,7 +72,7 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Component do
         space: :csv,
         type: :csv,
         rounded: :csv,
-        function_prefix: :string,
+        component_prefix: :string,
         sub: :boolean,
         no_deps: :boolean,
         no_sub_config: :boolean
@@ -718,7 +718,7 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Component do
       {:component_rounded, :rounded},
       {:component_padding, :padding},
       {:component_space, :space},
-      {:function_prefix, :function_prefix}
+      {:component_prefix, :component_prefix}
     ]
 
     Enum.reduce(filter_mappings, options, fn {config_key, option_key}, acc_options ->
@@ -845,11 +845,11 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Component do
       - exclude_components: Exclude specific components from generation
       - component_colors: Limit which color variants are generated
       - component_variants: Limit which variant options are generated
-      - component_sizes: Limit which size options are generated  
+      - component_sizes: Limit which size options are generated
       - component_rounded: Limit which rounded options are generated
       - component_padding: Limit which padding options are generated
       - component_space: Limit which space options are generated
-      - function_prefix: Prefix public functions
+      - component_prefix: Prefix public functions
 
       CSS Customization:
       - css_overrides: Override specific CSS variables

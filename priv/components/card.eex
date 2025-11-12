@@ -111,7 +111,7 @@ defmodule <%= @module %> do
 
   slot :inner_block, required: false, doc: "Inner block that renders HEEx content"
 
-  def <%= @function_prefix %>card(assigns) do
+  def <%= @component_prefix %>card(assigns) do
     ~H"""
     <div
       id={@id}
@@ -180,7 +180,7 @@ defmodule <%= @module %> do
 
   slot :inner_block, required: false, doc: "Inner block that renders HEEx content"
 
-  def <%= @function_prefix %>card_title(assigns) do
+  def <%= @component_prefix %>card_title(assigns) do
     ~H"""
     <div
       id={@id}
@@ -233,7 +233,7 @@ defmodule <%= @module %> do
 
   slot :inner_block, required: false, doc: "Inner block that renders HEEx content"
 
-  def <%= @function_prefix %>card_media(assigns) do
+  def <%= @component_prefix %>card_media(assigns) do
     ~H"""
      <div id={@id} class={["card-media overflow-hidden", rounded_size(@rounded), @width, @class]}>
       <img
@@ -281,7 +281,7 @@ defmodule <%= @module %> do
 
   slot :inner_block, required: false, doc: "Inner block that renders HEEx content"
 
-  def <%= @function_prefix %>card_content(assigns) do
+  def <%= @component_prefix %>card_content(assigns) do
     ~H"""
     <div
       id={@id}
@@ -327,7 +327,7 @@ defmodule <%= @module %> do
 
   slot :inner_block, required: false, doc: "Inner block that renders HEEx content"
 
-  def <%= @function_prefix %>card_footer(assigns) do
+  def <%= @component_prefix %>card_footer(assigns) do
     ~H"""
     <div
       id={@id}

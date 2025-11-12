@@ -94,7 +94,7 @@ defmodule <%= @module %> do
       "Global attributes can define defaults which are merged with attributes provided by the caller"
 
   @spec color_field(map()) :: Phoenix.LiveView.Rendered.t()
-  def <%= @function_prefix %>color_field(%{field: %Phoenix.HTML.FormField{} = field} = assigns) do
+  def <%= @component_prefix %>color_field(%{field: %Phoenix.HTML.FormField{} = field} = assigns) do
     errors = if Phoenix.Component.used_input?(field), do: field.errors, else: []
 
     assigns
@@ -105,7 +105,7 @@ defmodule <%= @module %> do
     |> color_field()
   end
 
-  def <%= @function_prefix %>color_field(assigns) do
+  def <%= @component_prefix %>color_field(assigns) do
     ~H"""
     <div class={[
       "w-fit",

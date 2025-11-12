@@ -16,7 +16,7 @@ defmodule MishkaChelekom.CSSConfig do
     {:component_rounded, []},
     {:component_padding, []},
     {:component_space, []},
-    {:function_prefix, nil}
+    {:component_prefix, nil}
   ]
 
   @doc """
@@ -211,7 +211,7 @@ defmodule MishkaChelekom.CSSConfig do
 
       # The prefix for components to avoid namespace clashing
       # Example: "myprefix_"
-      function_prefix: nil,
+      component_prefix: nil,
 
       # Component attribute filters - limit which values are generated (reduces code size)
       # If empty or not specified, all values will be included

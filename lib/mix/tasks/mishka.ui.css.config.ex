@@ -248,7 +248,7 @@ defmodule Mix.Tasks.Mishka.Ui.Css.Config do
       {:component_rounded, "Component rounded"},
       {:component_padding, "Component padding"},
       {:component_space, "Component space"},
-      {:function_prefix, "Function prefix"}
+      {:component_prefix, "Function prefix"}
     ]
 
     Enum.reduce(component_fields, issues, fn {field, label}, acc ->
@@ -298,7 +298,7 @@ defmodule Mix.Tasks.Mishka.Ui.Css.Config do
       {"Component rounded", config.component_rounded},
       {"Component padding", config.component_padding},
       {"Component space", config.component_space},
-      {"Function prefix", config.function_prefix}
+      {"Function prefix", config.component_prefix}
     ]
 
     filters_display =

@@ -24,7 +24,7 @@
       only: ["date_time_field"],
       helpers: [],
       module: "",
-      function_prefix: nil
+      component_prefix: nil
     ],
     optional: [],
     necessary: ["icon"]

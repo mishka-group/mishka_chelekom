@@ -109,7 +109,7 @@ defmodule <%= @module %> do
     attr :default, :boolean, doc: "Determines whether this subtitle is default"
   end
 
-  def <%= @function_prefix %>video(assigns) do
+  def <%= @component_prefix %>video(assigns) do
     ~H"""
     <video
       id={@id}

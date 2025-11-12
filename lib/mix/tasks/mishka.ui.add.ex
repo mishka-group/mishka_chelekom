@@ -131,7 +131,7 @@ defmodule Mix.Tasks.Mishka.Ui.Add do
         field(:only, list(String.t()), derive: "validate(list)", default: [])
         field(:helpers, list(String.t()), derive: "validate(map)", default: %{})
         field(:module, String.t(), derive: "validate(string)", default: "")
-        field(:function_prefix, String.t(), derive: "validate(string)", default: nil)
+        field(:component_prefix, String.t(), derive: "validate(string)", default: nil)
       end
     end
   end

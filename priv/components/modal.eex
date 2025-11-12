@@ -104,7 +104,7 @@ defmodule <%= @module %> do
   attr :on_cancel, JS, default: %JS{}, doc: "Custom JS module for on_cancel action"
   slot :inner_block, required: true, doc: "Inner block that renders HEEx content"
 
-  def <%= @function_prefix %>modal(assigns) do
+  def <%= @component_prefix %>modal(assigns) do
     ~H"""
     <div
       id={@id}
@@ -652,7 +652,7 @@ defmodule <%= @module %> do
 
   ## JS Commands
 
-  def <%= @function_prefix %>show_modal(js \\ %JS{}, id) when is_binary(id) do
+  def <%= @component_prefix %>show_modal(js \\ %JS{}, id) when is_binary(id) do
     js
     |> JS.show(to: "##{id}")
     |> JS.show(
@@ -665,7 +665,7 @@ defmodule <%= @module %> do
     |> JS.focus_first(to: "##{id}-content")
   end
 
-  def <%= @function_prefix %>hide_modal(js \\ %JS{}, id) do
+  def <%= @component_prefix %>hide_modal(js \\ %JS{}, id) do
     js
     |> JS.hide(
       to: "##{id}-bg",
@@ -701,7 +701,7 @@ defmodule <%= @module %> do
 
   ## We do not use these functions, just for Phoenix CoreComponent backward compatibility
 
-  def <%= @function_prefix %>show(js \\ %JS{}, selector) do
+  def <%= @component_prefix %>show(js \\ %JS{}, selector) do
     JS.show(js,
       to: selector,
       time: 300,
@@ -712,7 +712,7 @@ defmodule <%= @module %> do
     )
   end
 
-  def <%= @function_prefix %>hide(js \\ %JS{}, selector) do
+  def <%= @component_prefix %>hide(js \\ %JS{}, selector) do
     JS.hide(js,
       to: selector,
       time: 200,

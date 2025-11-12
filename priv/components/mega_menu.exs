@@ -25,7 +25,7 @@
       only: ["mega_menu"],
       helpers: [],
       module: "",
-      function_prefix: nil
+      component_prefix: nil
     ],
     optional: [],
     necessary: ["icon"]

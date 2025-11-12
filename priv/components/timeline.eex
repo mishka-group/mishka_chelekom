@@ -109,7 +109,7 @@ defmodule <%= @module %> do
 
   slot :inner_block, required: false, doc: "Inner block that renders HEEx content"
 
-  def <%= @function_prefix %>timeline(%{horizontal: true} = assigns) do
+  def <%= @component_prefix %>timeline(%{horizontal: true} = assigns) do
     ~H"""
     <div
       role="list"
@@ -125,7 +125,7 @@ defmodule <%= @module %> do
     """
   end
 
-  def <%= @function_prefix %>timeline(assigns) do
+  def <%= @component_prefix %>timeline(assigns) do
     ~H"""
     <div
       role="list"
@@ -230,7 +230,7 @@ defmodule <%= @module %> do
 
   slot :inner_block, required: false, doc: "Inner block that renders HEEx content"
 
-  def <%= @function_prefix %>timeline_section(%{horizontal: true} = assigns) do
+  def <%= @component_prefix %>timeline_section(%{horizontal: true} = assigns) do
     ~H"""
     <div
       id={@id}
@@ -286,7 +286,7 @@ defmodule <%= @module %> do
     """
   end
 
-  def <%= @function_prefix %>timeline_section(assigns) do
+  def <%= @component_prefix %>timeline_section(assigns) do
     ~H"""
     <div
       id={@id}

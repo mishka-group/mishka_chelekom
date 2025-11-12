@@ -109,7 +109,7 @@ defmodule <%= @module %> do
     attr :class, :string, doc: "Custom CSS class for additional styling"
   end
 
-  def <%= @function_prefix %>dropdown(assigns) do
+  def <%= @component_prefix %>dropdown(assigns) do
     ~H"""
     <div
       id={@id}
@@ -199,7 +199,7 @@ defmodule <%= @module %> do
     doc:
       "Global attributes can define defaults which are merged with attributes provided by the caller"
 
-  def <%= @function_prefix %>dropdown_trigger(assigns) do
+  def <%= @component_prefix %>dropdown_trigger(assigns) do
     ~H"""
     <div
       id={@id}
@@ -266,7 +266,7 @@ defmodule <%= @module %> do
 
   slot :inner_block, required: false, doc: "Inner block that renders HEEx content"
 
-  def <%= @function_prefix %>dropdown_content(assigns) do
+  def <%= @component_prefix %>dropdown_content(assigns) do
     ~H"""
     <div
       id={@id && "#{@id}-dropdown-content"}

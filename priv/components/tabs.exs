@@ -21,7 +21,7 @@
       only: ["tabs"],
       helpers: [show_tab: 2, show_tab: 3, hide_tab: 2, hide_tab: 3],
       module: "",
-      function_prefix: nil
+      component_prefix: nil
     ],
     optional: [],
     necessary: ["badge", "icon"]

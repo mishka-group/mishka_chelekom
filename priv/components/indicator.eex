@@ -62,7 +62,7 @@ defmodule <%= @module %> do
     doc:
       "Global attributes can define defaults which are merged with attributes provided by the caller"
 
-  def <%= @function_prefix %>indicator(%{rest: %{top_left: true}} = assigns) do
+  def <%= @component_prefix %>indicator(%{rest: %{top_left: true}} = assigns) do
     ~H"""
     <span
       id={@id}
@@ -78,7 +78,7 @@ defmodule <%= @module %> do
     """
   end
 
-  def <%= @function_prefix %>indicator(%{rest: %{top_center: true}} = assigns) do
+  def <%= @component_prefix %>indicator(%{rest: %{top_center: true}} = assigns) do
     ~H"""
     <span
       id={@id}
@@ -94,7 +94,7 @@ defmodule <%= @module %> do
     """
   end
 
-  def <%= @function_prefix %>indicator(%{rest: %{top_right: true}} = assigns) do
+  def <%= @component_prefix %>indicator(%{rest: %{top_right: true}} = assigns) do
     ~H"""
     <span
       id={@id}
@@ -110,7 +110,7 @@ defmodule <%= @module %> do
     """
   end
 
-  def <%= @function_prefix %>indicator(%{rest: %{middle_left: true}} = assigns) do
+  def <%= @component_prefix %>indicator(%{rest: %{middle_left: true}} = assigns) do
     ~H"""
     <span
       id={@id}
@@ -126,7 +126,7 @@ defmodule <%= @module %> do
     """
   end
 
-  def <%= @function_prefix %>indicator(%{rest: %{middle_right: true}} = assigns) do
+  def <%= @component_prefix %>indicator(%{rest: %{middle_right: true}} = assigns) do
     ~H"""
     <span
       id={@id}
@@ -142,7 +142,7 @@ defmodule <%= @module %> do
     """
   end
 
-  def <%= @function_prefix %>indicator(%{rest: %{bottom_left: true}} = assigns) do
+  def <%= @component_prefix %>indicator(%{rest: %{bottom_left: true}} = assigns) do
     ~H"""
     <span
       id={@id}
@@ -158,7 +158,7 @@ defmodule <%= @module %> do
     """
   end
 
-  def <%= @function_prefix %>indicator(%{rest: %{bottom_center: true}} = assigns) do
+  def <%= @component_prefix %>indicator(%{rest: %{bottom_center: true}} = assigns) do
     ~H"""
     <span
       id={@id}
@@ -174,7 +174,7 @@ defmodule <%= @module %> do
     """
   end
 
-  def <%= @function_prefix %>indicator(%{rest: %{bottom_right: true}} = assigns) do
+  def <%= @component_prefix %>indicator(%{rest: %{bottom_right: true}} = assigns) do
     ~H"""
     <span
       id={@id}
@@ -190,7 +190,7 @@ defmodule <%= @module %> do
     """
   end
 
-  def <%= @function_prefix %>indicator(assigns) do
+  def <%= @component_prefix %>indicator(assigns) do
     ~H"""
     <span
       id={@id}

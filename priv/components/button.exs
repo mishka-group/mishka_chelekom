@@ -37,7 +37,7 @@
       only: ["button_group", "button", "input_button", "button_link", "back"],
       helpers: [],
       module: "",
-      function_prefix: nil
+      component_prefix: nil
     ],
     optional: [],
     necessary: ["icon"]

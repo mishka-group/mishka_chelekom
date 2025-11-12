@@ -25,7 +25,7 @@
       only: ["banner"],
       helpers: [show_banner: 1, show_banner: 2, hide_banner: 1, hide_banner: 2],
       module: "",
-      function_prefix: nil
+      component_prefix: nil
     ],
     optional: [],
     necessary: ["icon"]

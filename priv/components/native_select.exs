@@ -25,7 +25,7 @@
       only: ["native_select", "select_option_group"],
       helpers: [],
       module: "",
-      function_prefix: nil
+      component_prefix: nil
     ],
     optional: [],
     necessary: ["icon"]

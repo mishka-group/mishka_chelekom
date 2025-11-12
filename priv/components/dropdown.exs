@@ -26,7 +26,7 @@
       only: ["dropdown", "dropdown_trigger", "dropdown_content"],
       helpers: [],
       module: "",
-      function_prefix: nil
+      component_prefix: nil
     ],
     optional: [],
     necessary: [],

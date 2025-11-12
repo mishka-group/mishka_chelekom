@@ -105,7 +105,7 @@ defmodule <%= @module %> do
     attr :content_class, :string, doc: "Custom CSS class for additional styling to content"
   end
 
-  def <%= @function_prefix %>table_content(assigns) do
+  def <%= @component_prefix %>table_content(assigns) do
     ~H"""
     <div
       id={@id}
@@ -197,7 +197,7 @@ defmodule <%= @module %> do
 
   slot :inner_block, required: false, doc: "Inner block that renders HEEx content"
 
-  def <%= @function_prefix %>content_wrapper(assigns) do
+  def <%= @component_prefix %>content_wrapper(assigns) do
     ~H"""
     <div
       id={@id}
@@ -269,7 +269,7 @@ defmodule <%= @module %> do
 
   slot :inner_block, required: false, doc: "Inner block that renders HEEx content"
 
-  def <%= @function_prefix %>content_item(assigns) do
+  def <%= @component_prefix %>content_item(assigns) do
     ~H"""
     <div
       id={@id}

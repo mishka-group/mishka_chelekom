@@ -52,7 +52,7 @@
       only: ["card", "card_title", "card_media", "card_content", "card_footer"],
       helpers: [],
       module: "",
-      function_prefix: nil
+      component_prefix: nil
     ],
     optional: [],
     necessary: ["icon"]

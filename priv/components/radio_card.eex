@@ -101,7 +101,7 @@ defmodule <%= @module %> do
   slot :inner_block
 
   @spec radio_card(map()) :: Phoenix.LiveView.Rendered.t()
-  def <%= @function_prefix %>radio_card(%{field: %Phoenix.HTML.FormField{} = field} = assigns) do
+  def <%= @component_prefix %>radio_card(%{field: %Phoenix.HTML.FormField{} = field} = assigns) do
     errors = if Phoenix.Component.used_input?(field), do: field.errors, else: []
 
     assigns
@@ -112,7 +112,7 @@ defmodule <%= @module %> do
     |> radio_card()
   end
 
-  def <%= @function_prefix %>radio_card(assigns) do
+  def <%= @component_prefix %>radio_card(assigns) do
     ~H"""
     <div class={["leading-5", space_class(@space), @class]} {@rest}>
       <input type="hidden" name={@name} value="" disabled={@rest[:disabled]} />
@@ -189,7 +189,7 @@ defmodule <%= @module %> do
     """
   end
 
-  def <%= @function_prefix %>radio_card_check(:list, {field, value}, %{params: params, data: data} = _form) do
+  def <%= @component_prefix %>radio_card_check(:list, {field, value}, %{params: params, data: data} = _form) do
     if params[Atom.to_string(field)] do
       new_value = if is_atom(value), do: Atom.to_string(value), else: value
       new_value == params[Atom.to_string(field)]
@@ -198,7 +198,7 @@ defmodule <%= @module %> do
     end
   end
 
-  def <%= @function_prefix %>radio_card_check(:boolean, field, %{params: params, data: data} = _form) do
+  def <%= @component_prefix %>radio_card_check(:boolean, field, %{params: params, data: data} = _form) do
     if params[Atom.to_string(field)] do
       Form.normalize_value("radio", params[Atom.to_string(field)])
     else

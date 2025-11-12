@@ -117,7 +117,7 @@ defmodule <%= @module %> do
     attr :class, :string, doc: "Custom CSS class for additional styling"
   end
 
-  def <%= @function_prefix %>popover(assigns) do
+  def <%= @component_prefix %>popover(assigns) do
     assigns =
       assigns
       |> assign_new(:id, fn -> "popover-#{random_id()}" end)

@@ -24,7 +24,7 @@
       only: ["checkbox_field", "group_checkbox"],
       helpers: [checkbox_check: 3],
       module: "",
-      function_prefix: nil
+      component_prefix: nil
     ],
     optional: [],
     necessary: ["icon"]

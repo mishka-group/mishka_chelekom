@@ -76,7 +76,7 @@ defmodule <%= @module %> do
   slot :trigger, required: true, doc: "The clickable trigger element"
   slot :inner_block, required: true, doc: "The collapsible content"
 
-  def <%= @function_prefix %>collapse(assigns) do
+  def <%= @component_prefix %>collapse(assigns) do
     assigns = assigns |> assign(:item_id, "#{assigns.id}-item")
 
     ~H"""

@@ -7,7 +7,7 @@
       only: ["gallery", "gallery_media", "filterable_gallery"],
       helpers: [],
       module: "",
-      function_prefix: nil
+      component_prefix: nil
     ],
     optional: [],
     necessary: [],

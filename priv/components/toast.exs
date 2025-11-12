@@ -25,7 +25,7 @@
       only: ["toast", "toast_group"],
       helpers: [show_toast: 1, show_toast: 2, hide_toast: 1, hide_toast: 2],
       module: "",
-      function_prefix: nil
+      component_prefix: nil
     ],
     optional: [],
     necessary: ["icon"]

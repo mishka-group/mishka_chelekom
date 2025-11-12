@@ -119,7 +119,7 @@ defmodule <%= @module %> do
     attr :class, :string, doc: "Custom CSS class for additional styling"
   end
 
-  def <%= @function_prefix %>tabs(%{vertical: true} = assigns) do
+  def <%= @component_prefix %>tabs(%{vertical: true} = assigns) do
     active_index =
       Enum.find_index(assigns.tab, &Map.get(&1, :active)) || 0
 
@@ -217,7 +217,7 @@ defmodule <%= @module %> do
     """
   end
 
-  def <%= @function_prefix %>tabs(assigns) do
+  def <%= @component_prefix %>tabs(assigns) do
     active_index =
       Enum.find_index(assigns.tab, &Map.get(&1, :active)) || 0
 
@@ -913,7 +913,7 @@ defmodule <%= @module %> do
   This will activate the second tab and its corresponding panel in the tab group with the ID `example-tabs`.
   """
 
-  def <%= @function_prefix %>show_tab(js \\ %JS{}, id, count) when is_binary(id) do
+  def <%= @component_prefix %>show_tab(js \\ %JS{}, id, count) when is_binary(id) do
     js
     |> JS.add_class("active-tab", to: "##{id}-tab-header-#{count}")
     |> JS.add_class("active-tab-panel", to: "##{id}-tab-panel-#{count}")
@@ -941,7 +941,7 @@ defmodule <%= @module %> do
   This will deactivate all three tabs and their corresponding panels in the tab group
   with the ID `example-tabs`.
   """
-  def <%= @function_prefix %>hide_tab(js \\ %JS{}, id, count) do
+  def <%= @component_prefix %>hide_tab(js \\ %JS{}, id, count) do
     Enum.reduce(1..count, js, fn item, acc ->
       acc
       |> JS.remove_class("active-tab", to: "##{id}-tab-header-#{item}")

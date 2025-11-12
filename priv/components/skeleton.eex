@@ -64,7 +64,7 @@ defmodule <%= @module %> do
     doc:
       "Global attributes can define defaults which are merged with attributes provided by the caller"
 
-  def <%= @function_prefix %>skeleton(assigns) do
+  def <%= @component_prefix %>skeleton(assigns) do
     ~H"""
     <div
       :if={@visible}

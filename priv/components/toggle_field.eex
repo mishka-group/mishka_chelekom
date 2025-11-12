@@ -82,7 +82,7 @@ defmodule <%= @module %> do
       "Global attributes can define defaults which are merged with attributes provided by the caller"
 
   @spec toggle_field(map()) :: Phoenix.LiveView.Rendered.t()
-  def <%= @function_prefix %>toggle_field(%{field: %Phoenix.HTML.FormField{} = field} = assigns) do
+  def <%= @component_prefix %>toggle_field(%{field: %Phoenix.HTML.FormField{} = field} = assigns) do
     errors = if Phoenix.Component.used_input?(field), do: field.errors, else: []
 
     assigns
@@ -93,7 +93,7 @@ defmodule <%= @module %> do
     |> toggle_field()
   end
 
-  def <%= @function_prefix %>toggle_field(assigns) do
+  def <%= @component_prefix %>toggle_field(assigns) do
     assigns =
       assign_new(assigns, :checked, fn ->
         Phoenix.HTML.Form.normalize_value("checkbox", assigns[:value])
@@ -145,7 +145,7 @@ defmodule <%= @module %> do
     """
   end
 
-  def <%= @function_prefix %>toggle_check(field, %{params: params, data: data} = _form) do
+  def <%= @component_prefix %>toggle_check(field, %{params: params, data: data} = _form) do
     if params[Atom.to_string(field)] do
       Form.normalize_value("checkbox", params[Atom.to_string(field)])
     else

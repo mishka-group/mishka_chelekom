@@ -92,7 +92,7 @@ defmodule <%= @module %> do
       "Global attributes can define defaults which are merged with attributes provided by the caller"
 
   @spec radio_field(map()) :: Phoenix.LiveView.Rendered.t()
-  def <%= @function_prefix %>radio_field(%{field: %Phoenix.HTML.FormField{} = field} = assigns) do
+  def <%= @component_prefix %>radio_field(%{field: %Phoenix.HTML.FormField{} = field} = assigns) do
     errors = if Phoenix.Component.used_input?(field), do: field.errors, else: []
 
     assigns
@@ -103,7 +103,7 @@ defmodule <%= @module %> do
     |> radio_field()
   end
 
-  def <%= @function_prefix %>radio_field(assigns) do
+  def <%= @component_prefix %>radio_field(assigns) do
     ~H"""
     <div class={[
       color_class(@color),
@@ -202,7 +202,7 @@ defmodule <%= @module %> do
   slot :inner_block
 
   @spec group_radio(map()) :: Phoenix.LiveView.Rendered.t()
-  def <%= @function_prefix %>group_radio(%{field: %Phoenix.HTML.FormField{} = field} = assigns) do
+  def <%= @component_prefix %>group_radio(%{field: %Phoenix.HTML.FormField{} = field} = assigns) do
     errors = if Phoenix.Component.used_input?(field), do: field.errors, else: []
     assigns
     |> assign(field: nil, id: assigns.id || field.id)
@@ -212,7 +212,7 @@ defmodule <%= @module %> do
     |> group_radio()
   end
 
-  def <%= @function_prefix %>group_radio(assigns) do
+  def <%= @component_prefix %>group_radio(assigns) do
     ~H"""
     <div class={[
       @variation == "horizontal" && "flex flex-wrap items-center",
@@ -255,7 +255,7 @@ defmodule <%= @module %> do
     """
   end
 
-  def <%= @function_prefix %>radio_check(:list, {field, value}, %{params: params, data: data} = _form) do
+  def <%= @component_prefix %>radio_check(:list, {field, value}, %{params: params, data: data} = _form) do
     if params[Atom.to_string(field)] do
       new_value = if is_atom(value), do: Atom.to_string(value), else: value
       new_value == params[Atom.to_string(field)]
@@ -263,7 +263,7 @@ defmodule <%= @module %> do
       Map.get(data, field) == value
     end
   end
-  def <%= @function_prefix %>radio_check(:boolean, field, %{params: params, data: data} = _form) do
+  def <%= @component_prefix %>radio_check(:boolean, field, %{params: params, data: data} = _form) do
     if params[Atom.to_string(field)] do
       Form.normalize_value("radio", params[Atom.to_string(field)])
     else

@@ -117,7 +117,7 @@ defmodule <%= @module %> do
     attr :active, :boolean, doc: "Indicates whether the element is currently active and visible"
   end
 
-  def <%= @function_prefix %>carousel(assigns) do
+  def <%= @component_prefix %>carousel(assigns) do
     assigns =
       assigns
       |> assign_new(:id, fn -> "carousel-#{random_id()}" end)

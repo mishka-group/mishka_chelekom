@@ -56,7 +56,7 @@ defmodule <%= @module %> do
   doc:
     "Global attributes can define defaults which are merged with attributes provided by the caller"
 
-  def <%= @function_prefix %>icon(%{name: "hero-" <> _} = assigns) do
+  def <%= @component_prefix %>icon(%{name: "hero-" <> _} = assigns) do
     ~H"""
     <span class={[@name, @class]} {@rest} />
     """

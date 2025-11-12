@@ -59,7 +59,7 @@ defmodule <%= @module %> do
     attr :open, :boolean, doc: "Whether this item should be initially open"
   end
 
-  def <%= @function_prefix %>accordion(assigns) do
+  def <%= @component_prefix %>accordion(assigns) do
     assigns = assigns |> assign_new(:id, fn -> "accordion-#{random_id()}" end)
 
     ~H"""

@@ -91,7 +91,7 @@ defmodule <%= @module %> do
 
   slot :inner_block, required: false, doc: "Inner block that renders HEEx content"
 
-  def <%= @function_prefix %>chat(assigns) do
+  def <%= @component_prefix %>chat(assigns) do
     ~H"""
     <div
       id={@id}
@@ -167,7 +167,7 @@ defmodule <%= @module %> do
 
   slot :inner_block, required: false, doc: "Inner block that renders HEEx content"
 
-  def <%= @function_prefix %>chat_section(assigns) do
+  def <%= @component_prefix %>chat_section(assigns) do
     ~H"""
     <div
       id={@id}

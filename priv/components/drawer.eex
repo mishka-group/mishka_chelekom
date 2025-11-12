@@ -92,7 +92,7 @@ defmodule <%= @module %> do
   slot :header, required: false, doc: "Specifies element's header that accepts heex"
   slot :inner_block, required: false, doc: "Inner block that renders HEEx content"
 
-  def <%= @function_prefix %>drawer(assigns) do
+  def <%= @component_prefix %>drawer(assigns) do
     ~H"""
     <div
       id={@id}
@@ -795,7 +795,7 @@ defmodule <%= @module %> do
 
   This will show the drawer with ID `drawer-id` positioned on the left side of the screen.
   """
-  def <%= @function_prefix %>show_drawer(js \\ %JS{}, id, position) when is_binary(id) do
+  def <%= @component_prefix %>show_drawer(js \\ %JS{}, id, position) when is_binary(id) do
     JS.remove_class(js, translate_position(position), to: "##{id}")
     |> JS.add_class("transform-none", to: "##{id}")
     |> JS.add_class("drawer-showed", to: "##{id}")
@@ -820,7 +820,7 @@ defmodule <%= @module %> do
 
   This will hide the drawer with ID "drawer-id" positioned on the left side of the screen.
   """
-  def <%= @function_prefix %>hide_drawer(js \\ %JS{}, id, position) do
+  def <%= @component_prefix %>hide_drawer(js \\ %JS{}, id, position) do
     js
     |> JS.remove_class("drawer-showed", to: "##{id}")
     |> JS.remove_class("transform-none", to: "##{id}")

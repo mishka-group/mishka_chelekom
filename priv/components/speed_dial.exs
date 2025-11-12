@@ -34,7 +34,7 @@
       only: ["speed_dial"],
       helpers: [],
       module: "",
-      function_prefix: nil
+      component_prefix: nil
     ],
     optional: [],
     necessary: ["icon"]

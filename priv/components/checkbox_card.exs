@@ -25,7 +25,7 @@
       only: ["checkbox_card"],
       helpers: [checkbox_card_check: 3],
       module: "",
-      function_prefix: nil
+      component_prefix: nil
     ],
     optional: [],
     necessary: ["icon"]

@@ -100,7 +100,7 @@ defmodule <%= @module %> do
 
   slot :inner_block, doc: "Inner block that renders HEEx content"
 
-  def <%= @function_prefix %>flash(assigns) do
+  def <%= @component_prefix %>flash(assigns) do
     assigns = assign_new(assigns, :id, fn -> "flash-#{assigns.variant}-#{assigns.kind}" end)
 
     ~H"""
@@ -167,7 +167,7 @@ defmodule <%= @module %> do
     doc:
       "Global attributes can define defaults which are merged with attributes provided by the caller"
 
-  def <%= @function_prefix %>flash_group(assigns) do
+  def <%= @component_prefix %>flash_group(assigns) do
     ~H"""
      <div
       id={@id}
@@ -288,7 +288,7 @@ defmodule <%= @module %> do
     doc:
       "Global attributes can define defaults which are merged with attributes provided by the caller"
 
-  def <%= @function_prefix %>alert(assigns) do
+  def <%= @component_prefix %>alert(assigns) do
     assigns = assigns |> assign_new(:id, fn -> "alert-#{random_id()}" end)
 
     ~H"""
@@ -858,7 +858,7 @@ defmodule <%= @module %> do
   This example will show the alert element with the ID `alert-box` using the defined transition effect.
   """
 
-  def <%= @function_prefix %>show_alert(js \\ %JS{}, selector) do
+  def <%= @component_prefix %>show_alert(js \\ %JS{}, selector) do
     JS.show(js,
       to: selector,
       time: 300,
@@ -898,7 +898,7 @@ defmodule <%= @module %> do
   This example will hide the alert element with the ID `alert-box` using the defined transition effect.
   """
 
-  def <%= @function_prefix %>hide_alert(js \\ %JS{}, selector) do
+  def <%= @component_prefix %>hide_alert(js \\ %JS{}, selector) do
     JS.hide(js,
       to: selector,
       time: 200,
