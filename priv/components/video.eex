@@ -46,7 +46,7 @@ defmodule <%= @module %> do
 
   ```elixir
   <div class="space-y-5 max-w-xl mx-auto py-10">
-    <.video
+    <.<%= @component_prefix %>video
       ratio="video"
       caption_background="danger"
       caption_size="quadruple_large"
@@ -68,7 +68,7 @@ defmodule <%= @module %> do
         src="data:text/vtt;base64,V0VCVlRUCgowMDowMDowMC4wMDAgLS0+IDAwOjAwOjAwLjk5OSAgbGluZTo4MCUKSGlsZHkhCgowMDowMDowMS4wMDAgLS0+IDAwOjAwOjAxLjQ5OSBsaW5lOjgwJQpIb3cgYXJlIHlvdT8KCjAwOjAwOjAxLjUwMCAtLT4gMDA6MDA6MDIuOTk5IGxpbmU6ODAlClRlbGwgbWUsIGlzIHRoZSA8dT5sb3JkIG9mIHRoZSB1bml2ZXJzZTwvdT4gaW4/CgowMDowMDowMy4wMDAgLS0+IDAwOjAwOjA0LjI5OSBsaW5lOjgwJQpZZXMsIGhlJ3MgaW4gLSBpbiBhIGJhZCBodW1vcgoKMDA6MDA6MDQuMzAwIC0tPiAwMDowMDowNi4wMDAgbGluZTo4MCUKU29tZWJ5IG11c3QndmUgc3RvbGVuIHRoZSBjcm93biBqZXdlbHMK"
         default
       />
-    </.video>
+    </<%= @component_prefix %>.video>
   </div>
   ```
   """
@@ -109,7 +109,7 @@ defmodule <%= @module %> do
     attr :default, :boolean, doc: "Determines whether this subtitle is default"
   end
 
-  def video(assigns) do
+  def <%= @component_prefix %>video(assigns) do
     ~H"""
     <video
       id={@id}

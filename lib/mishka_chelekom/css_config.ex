@@ -15,7 +15,8 @@ defmodule MishkaChelekom.CSSConfig do
     {:component_sizes, []},
     {:component_rounded, []},
     {:component_padding, []},
-    {:component_space, []}
+    {:component_space, []},
+    {:component_prefix, nil}
   ]
 
   @doc """
@@ -204,33 +205,34 @@ defmodule MishkaChelekom.CSSConfig do
     import Config
 
     config :mishka_chelekom,
+      component_prefix: nil,
       # List of components to exclude from generation when using mix mishka.ui.gen.components
       # Example: ["alert", "badge", "button"]
       exclude_components: [],
 
       # Component attribute filters - limit which values are generated (reduces code size)
       # If empty or not specified, all values will be included
-      
+
       # List of colors to include in component generation
       # Example: ["base", "primary", "danger", "success"]
       component_colors: [],
-      
-      # List of variants to include in component generation  
+
+      # List of variants to include in component generation
       # Example: ["default", "outline", "bordered"]
       component_variants: [],
-      
+
       # List of sizes to include in component generation
-      # Example: ["small", "medium", "large"]  
+      # Example: ["small", "medium", "large"]
       component_sizes: [],
-      
+
       # List of rounded options to include in component generation
       # Example: ["small", "medium", "full"]
       component_rounded: [],
-      
+
       # List of padding options to include in component generation
       # Example: ["small", "medium", "large"]
       component_padding: [],
-      
+
       # List of space options to include in component generation
       # Example: ["small", "medium", "large", "none"]
       component_space: [],
@@ -525,16 +527,74 @@ defmodule MishkaChelekom.CSSConfig do
         # stepper_separator_completed_border_dark: "#099268"
       },
 
-    # Strategy for handling CSS
-    # :merge - Merge overrides with defaults (recommended)
-    # :replace - Completely replace with custom CSS file
-    css_merge_strategy: :merge,
+      # Strategy for handling CSS
+      # :merge - Merge overrides with defaults (recommended)
+      # :replace - Completely replace with custom CSS file
+      css_merge_strategy: :merge,
 
-    # Path to custom CSS file (only used when css_merge_strategy is :replace)
-    # custom_css_path: "priv/static/css/custom_mishka.css"
-    custom_css_path: nil
+      # Path to custom CSS file (only used when css_merge_strategy is :replace)
+      # custom_css_path: "priv/static/css/custom_mishka.css"
+      custom_css_path: nil
     """
 
     {igniter, config_path, sample_content}
+  end
+
+  @doc """
+  Updates the component_prefix value in the user's config file.
+  Creates the config file with sample content if it doesn't exist.
+  """
+  def update_component_prefix(igniter, prefix) when is_binary(prefix) do
+    config_path = user_config_path(igniter)
+
+    # Get existing content or create sample config
+    existing_content =
+      case Rewrite.source(igniter.rewrite, config_path) do
+        {:ok, source} ->
+          Rewrite.Source.get(source, :content)
+
+        {:error, _} ->
+          # Config doesn't exist, check file system
+          if File.exists?(config_path) do
+            File.read!(config_path)
+          else
+            # Create sample config content
+            {_igniter, _path, sample_content} = create_sample_config(igniter)
+            sample_content
+          end
+      end
+
+    # Update the component_prefix line
+    updated_content = update_prefix_in_content(existing_content, prefix)
+
+    # Write the updated content
+    igniter
+    |> Igniter.create_or_update_file(config_path, updated_content, fn source ->
+      Rewrite.Source.update(source, :content, updated_content)
+    end)
+  end
+
+  defp update_prefix_in_content(content, prefix) do
+    regex = ~r/component_prefix:\s*(?:nil|"[^"]*")/
+
+    if Regex.match?(regex, content) do
+      Regex.replace(regex, content, ~s(component_prefix: "#{prefix}"))
+    else
+      add_prefix_to_config(content, prefix)
+    end
+  end
+
+  defp add_prefix_to_config(content, prefix) do
+    case Regex.run(~r/(config :mishka_chelekom,)\s*\n/, content) do
+      [_, config_line] ->
+        String.replace(
+          content,
+          config_line,
+          "#{config_line}\n    component_prefix: \"#{prefix}\",\n"
+        )
+
+      nil ->
+        content
+    end
   end
 end

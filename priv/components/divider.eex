@@ -16,7 +16,7 @@ defmodule <%= @module %> do
   **Documentation:** https://mishka.tools/chelekom/docs/divider
   """
   use Phoenix.Component
-  import <%= inspect(@web_module) %>.Components.Icon, only: [icon: 1]
+  import <%= inspect(@web_module) %>.Components.Icon, only: [<%= @component_prefix %>icon: 1]
 
   <%= if is_nil(@type) or "divider" in @type do %>
   @doc """
@@ -94,7 +94,7 @@ defmodule <%= @module %> do
     doc:
       "Global attributes can define defaults which are merged with attributes provided by the caller"
 
-  def divider(%{variation: "vertical"} = assigns) do
+  def <%= @component_prefix %>divider(%{variation: "vertical"} = assigns) do
     ~H"""
     <div
       id={@id}
@@ -127,7 +127,7 @@ defmodule <%= @module %> do
     """
   end
 
-  def divider(assigns) do
+  def <%= @component_prefix %>divider(assigns) do
     ~H"""
     <div
       id={@id}
@@ -155,7 +155,7 @@ defmodule <%= @module %> do
           text_position(:divider, @position)
         ]}
       >
-        <.icon name={icon[:name]} class={icon[:icon_class] || size_class(@size, :icon, "")} />
+        <.<%= @component_prefix %>icon name={icon[:name]} class={icon[:icon_class] || size_class(@size, :icon, "")} />
       </div>
 
       <div
@@ -240,7 +240,7 @@ defmodule <%= @module %> do
     doc:
       "Global attributes can define defaults which are merged with attributes provided by the caller"
 
-  def hr(assigns) do
+  def <%= @component_prefix %>hr(assigns) do
     ~H"""
     <div class="relative">
       <hr
@@ -271,7 +271,7 @@ defmodule <%= @module %> do
           icon[:class] || "bg-white"
         ]}
       >
-        <.icon name={icon[:name]} class={icon[:icon_class] || ""} />
+        <.<%= @component_prefix %>icon name={icon[:name]} class={icon[:icon_class] || ""} />
       </div>
 
       <div

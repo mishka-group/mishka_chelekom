@@ -23,14 +23,14 @@ defmodule <%= @module %> do
   ## Examples
 
   ```elixir
-  <.overlay color="misc" opacity="semi_opaque" />
+  <.<%= @component_prefix %>overlay color="misc" opacity="semi_opaque" />
 
-  <.overlay color="dawn" opacity="semi_opaque">
+  <.<%= @component_prefix %>overlay color="dawn" opacity="semi_opaque">
     <div class="flex justify-center items-center gap-2 h-full">
-      <.spinner color="natural" size="large" />
+      <.<%= @component_prefix %>spinner color="natural" size="large" />
       <div class="text-white">Loading...</div>
     </div>
-  </.overlay>
+  </.<%= @component_prefix %>overlay>
   ```
   """
   @doc type: :component
@@ -54,8 +54,8 @@ defmodule <%= @module %> do
 
   slot :inner_block, required: false, doc: "Inner block that renders HEEx content"
 
-  @spec overlay(map()) :: Phoenix.LiveView.Rendered.t()
-  def overlay(assigns) do
+  @spec <%= @component_prefix %>overlay(map()) :: Phoenix.LiveView.Rendered.t()
+  def <%= @component_prefix %>overlay(assigns) do
     ~H"""
     <div
       id={@id}

@@ -17,7 +17,7 @@ defmodule <%= @module %> do
     ### Examples
     Basic usage:
 
-        <.collapse id="my-collapse">
+        <.<%= @component_prefix %>collapse id="my-collapse">
           <:trigger>
             <button class="px-4 py-2 bg-gray-100 hover:bg-gray-200 rounded-lg">
               Toggle Content
@@ -30,11 +30,11 @@ defmodule <%= @module %> do
 
     With initial open state and custom duration:
 
-        <.collapse id="settings" open={true} duration={300}>
+        <.<%= @component_prefix %>collapse id="settings" open={true} duration={300}>
           <:trigger>
             <div class="flex items-center justify-between w-full">
               <span>Settings</span>
-              <.icon name="hero-chevron-down" class="w-5 h-5" />
+              <.<%= @component_prefix %>icon name="hero-chevron-down" class="w-5 h-5" />
             </div>
           </:trigger>
           <div class="space-y-4 p-4">
@@ -45,7 +45,7 @@ defmodule <%= @module %> do
 
     With server events:
 
-        <.collapse
+        <.<%= @component_prefix %>collapse
           id="notifications"
           server_events={true}
           event_handler="notifications-component"
@@ -76,7 +76,7 @@ defmodule <%= @module %> do
   slot :trigger, required: true, doc: "The clickable trigger element"
   slot :inner_block, required: true, doc: "The collapsible content"
 
-  def collapse(assigns) do
+  def <%= @component_prefix %>collapse(assigns) do
     assigns = assigns |> assign(:item_id, "#{assigns.id}-item")
 
     ~H"""

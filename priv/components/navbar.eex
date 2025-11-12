@@ -16,7 +16,7 @@ defmodule <%= @module %> do
   **Documentation:** https://mishka.tools/chelekom/docs/navbar
   """
   use Phoenix.Component
-  import <%= inspect(@web_module) %>.Components.Icon, only: [icon: 1]
+  import <%= inspect(@web_module) %>.Components.Icon, only: [<%= @component_prefix %>icon: 1]
   use Gettext, backend: <%= inspect(@web_module) %>.Gettext
 
   @doc """
@@ -28,12 +28,12 @@ defmodule <%= @module %> do
   ## Examples
 
   ```elixir
-  <.navbar id="nav-11" color="success" variant="shadow">
+  <.<%= @component_prefix %>navbar id="nav-11" color="success" variant="shadow">
     <:list><.link navigate="/">Home</.link></:list>
     <:list><.link navigate="/examples/sidebar">List</.link></:list>
 
     <:list>
-      <.dropdown relative="md:relative" width="w-full" clickable>
+      <.<%= @component_prefix %>dropdown relative="md:relative" width="w-full" clickable>
         <:trigger width="full" trigger_id="test-31">
           <button class="text-start w-full block">Dropdown</button>
         </:trigger>
@@ -41,13 +41,13 @@ defmodule <%= @module %> do
         <:content space="small" id="test-31" rounded="large" width="large" padding="extra_small">
           <ul class="space-y-5">
             <li>
-              <.dropdown width="w-full" position="right" clickable>
+              <.<%= @component_prefix %>dropdown width="w-full" position="right" clickable>
                 <:trigger trigger_id="test-19">
                   <button class={[
                     "py-1 px-2 text-start w-full flex items-center justify-between hover:bg-gray-200"
                   ]}
                   >
-                    Nested Dropdown <.icon name="hero-chevron-right" />
+                    Nested Dropdown <.<%= @component_prefix %>icon name="hero-chevron-right" />
                   </button>
                 </:trigger>
 
@@ -72,7 +72,7 @@ defmodule <%= @module %> do
                     </li>
                   </ul>
                 </:content>
-              </.dropdown>
+              </.<%= @component_prefix %>dropdown>
             </li>
 
             <li>
@@ -88,7 +88,7 @@ defmodule <%= @module %> do
             </li>
           </ul>
         </:content>
-      </.dropdown>
+      </.<%= @component_prefix %>dropdown>
     </:list>
 
     <:list><.link navigate="/examples/rating">Blog</.link></:list>
@@ -96,7 +96,7 @@ defmodule <%= @module %> do
     <:list><.link navigate="/examples/rating">Booking</.link></:list>
     <:list><.link navigate="/examples/sidebar">Partners</.link></:list>
     <:list><.link navigate="/examples/rating">About</.link></:list>
-  </.navbar>
+  </.<%= @component_prefix %>navbar>
   ```
   """
   @doc type: :component
@@ -155,7 +155,7 @@ defmodule <%= @module %> do
     attr :icon_position, :string, doc: "Determines icon position"
   end
 
-  def navbar(assigns) do
+  def <%= @component_prefix %>navbar(assigns) do
     ~H"""
     <nav
       id={@id}
@@ -202,7 +202,7 @@ defmodule <%= @module %> do
                 list[:class]
               ]}
             >
-              <.icon :if={list[:icon]} name={list[:icon]} class={["list-icon", list[:icon_class]]} />
+              <.<%= @component_prefix %>icon :if={list[:icon]} name={list[:icon]} class={["list-icon", list[:icon_class]]} />
               {render_slot(list)}
             </li>
           </ul>
@@ -225,7 +225,7 @@ defmodule <%= @module %> do
   slot :subtitle
   slot :actions
 
-  def header(assigns) do
+  def <%= @component_prefix %>header(assigns) do
     ~H"""
     <header class={[@actions != [] && "flex items-center justify-between gap-6", @class]}>
       <div>

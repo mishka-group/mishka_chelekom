@@ -30,12 +30,12 @@ defmodule <%= @module %> do
   ## Examples
 
   ```elixir
-  <.progress value={10} />
-  <.progress color="primary" value={20} />
-  <.progress color="secondary" value={30} />
-  <.progress variation="vertical" color="primary" value={20} />
+  <.<%= @component_prefix %>progress value={10} />
+  <.<%= @component_prefix %>progress color="primary" value={20} />
+  <.<%= @component_prefix %>progress color="secondary" value={30} />
+  <.<%= @component_prefix %>progress variation="vertical" color="primary" value={20} />
 
-  <.progress>
+  <.<%= @component_prefix %>progress>
     <.progress_section color="primary" value={10} />
     <.progress_section color="secondary" value={15} />
     <.progress_section color="misc" value={10} />
@@ -45,13 +45,13 @@ defmodule <%= @module %> do
     <.progress_section color="info" value={5} />
   </.progress>
 
-  <.progress variation="horizontal" size="large" value={70}>
+  <.<%= @component_prefix %>progress variation="horizontal" size="large" value={70}>
     <div class="absolute inset-y-0 left-0 flex items-center pl-3 text-white">
       70%
     </div>
   </.progress>
 
-  <.progress variation="vertical" size="extra_large" value={80}>
+  <.<%= @component_prefix %>progress variation="vertical" size="extra_large" value={80}>
     <div class="absolute bottom-0 left-0 flex items-center text-white">
       80%
     </div>
@@ -88,7 +88,7 @@ defmodule <%= @module %> do
 
   slot :inner_block, doc: "Inner block that renders HEEx label"
 
-  def progress(assigns) do
+  def <%= @component_prefix %>progress(assigns) do
     ~H"""
     <div
       role="progressbar"
@@ -101,7 +101,7 @@ defmodule <%= @module %> do
       ]}
       {@rest}
     >
-      <.progress_section :if={@value} {assigns} />
+      <.<%= @component_prefix %>progress_section :if={@value} {assigns} />
       <div
         :if={msg = render_slot(@inner_block)}
         class={[
@@ -142,7 +142,7 @@ defmodule <%= @module %> do
     doc:
       "Global attributes can define defaults which are merged with attributes provided by the caller"
 
-  def semi_circle_progress(assigns) do
+  def <%= @component_prefix %>semi_circle_progress(assigns) do
     coordinate = assigns.size / 2
     radius = (assigns.size - 2 * assigns.thickness) / 2
     circumference = :math.pi() * radius
@@ -270,7 +270,7 @@ defmodule <%= @module %> do
     doc:
       "Global attributes can define defaults which are merged with attributes provided by the caller"
 
-  def ring_progress(assigns) do
+  def <%= @component_prefix %>ring_progress(assigns) do
     radius = (assigns.size - assigns.thickness) / 2
     circumference = 2 * :math.pi() * radius
     progress_fraction = (assigns.max > 0 && assigns.value / assigns.max) || 0
@@ -336,7 +336,7 @@ defmodule <%= @module %> do
   ## Examples
 
   ```elixir
-  <.progress>
+  <.<%= @component_prefix %>progress>
     <.progress_section color="primary" value={10} />
     <.progress_section color="secondary" value={15} />
     <.progress_section color="misc" value={10} />
@@ -376,7 +376,7 @@ defmodule <%= @module %> do
     attr :class, :string, doc: "Custom CSS class for additional styling"
   end
 
-  def progress_section(assigns) do
+  def <%= @component_prefix %>progress_section(assigns) do
     assigns =
       assigns
       |> assign_new(:tooltip, fn -> [] end)

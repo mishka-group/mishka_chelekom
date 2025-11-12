@@ -16,7 +16,7 @@ defmodule <%= @module %> do
   **Documentation:** https://mishka.tools/chelekom/docs/forms/url-field
   """
   use Phoenix.Component
-  import <%= inspect(@web_module) %>.Components.Icon, only: [icon: 1]
+  import <%= inspect(@web_module) %>.Components.Icon, only: [<%= @component_prefix %>icon: 1]
 
   @doc """
   The `url_field` component is used to create an input field for URLs.
@@ -25,7 +25,7 @@ defmodule <%= @module %> do
   ## Examples
 
   ```elixir
-  <.url_field
+  <.<%= @component_prefix %>url_field
     name="website"
     value="https://example.com"
     label="Website URL"
@@ -33,7 +33,7 @@ defmodule <%= @module %> do
     floating="outer"
   />
 
-  <.url_field
+  <.<%= @component_prefix %>url_field
     name="social_media"
     value="https://linkedin.com/in/username"
     label="LinkedIn Profile"
@@ -42,9 +42,9 @@ defmodule <%= @module %> do
     floating="inner"
   >
     <:start_section>
-      <.icon name="hero-link" class="size-4" />
+      <.<%= @component_prefix %>icon name="hero-link" class="size-4" />
     </:start_section>
-  </.url_field>
+  </.<%= @component_prefix %>url_field>
   ```
   """
   @doc type: :component
@@ -109,8 +109,8 @@ defmodule <%= @module %> do
     doc:
       "Global attributes can define defaults which are merged with attributes provided by the caller"
 
-  @spec url_field(map()) :: Phoenix.LiveView.Rendered.t()
-  def url_field(%{field: %Phoenix.HTML.FormField{} = field} = assigns) do
+  @spec <%= @component_prefix %>url_field(map()) :: Phoenix.LiveView.Rendered.t()
+  def <%= @component_prefix %>url_field(%{field: %Phoenix.HTML.FormField{} = field} = assigns) do
     errors = if Phoenix.Component.used_input?(field), do: field.errors, else: []
 
     assigns
@@ -118,10 +118,10 @@ defmodule <%= @module %> do
     |> assign(:errors, Enum.map(errors, &translate_error(&1)))
     |> assign_new(:name, fn -> field.name end)
     |> assign_new(:value, fn -> field.value end)
-    |> url_field()
+    |> <%= @component_prefix %>url_field()
   end
 
-  def url_field(%{floating: floating} = assigns) when floating in ["inner", "outer"] do
+  def <%= @component_prefix %>url_field(%{floating: floating} = assigns) when floating in ["inner", "outer"] do
     ~H"""
     <div class={[
       color_variant(@variant, @color, @floating),
@@ -189,7 +189,7 @@ defmodule <%= @module %> do
     """
   end
 
-  def url_field(assigns) do
+  def <%= @component_prefix %>url_field(assigns) do
     ~H"""
     <div class={[
       color_variant(@variant, @color, @floating),
@@ -270,7 +270,7 @@ defmodule <%= @module %> do
   defp error(assigns) do
     ~H"""
     <p class="mt-3 flex items-center gap-3 text-sm text-rose-700">
-      <.icon :if={!is_nil(@icon)} name={@icon} class="shrink-0" />
+      <.<%= @component_prefix %>icon :if={!is_nil(@icon)} name={@icon} class="shrink-0" />
       {render_slot(@inner_block)}
     </p>
     """

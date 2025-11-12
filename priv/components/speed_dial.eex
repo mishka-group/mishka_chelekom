@@ -32,7 +32,7 @@ defmodule <%= @module %> do
   use Phoenix.Component
   use Gettext, backend: <%= inspect(@web_module) %>.Gettext
   alias Phoenix.LiveView.JS
-  import <%= inspect(@web_module) %>.Components.Icon, only: [icon: 1]
+  import <%= inspect(@web_module) %>.Components.Icon, only: [<%= @component_prefix %>icon: 1]
 
   @doc """
   Renders a customizable `speed_dial` component that provides quick access to multiple actions.
@@ -119,7 +119,7 @@ defmodule <%= @module %> do
 
   slot :inner_block, required: false, doc: "Inner block that renders HEEx content"
 
-  def speed_dial(assigns) do
+  def <%= @component_prefix %>speed_dial(assigns) do
     ~H"""
     <div
       id={@id}
@@ -187,7 +187,7 @@ defmodule <%= @module %> do
             )
         }
       >
-        <.icon
+        <.<%= @component_prefix %>icon
           :if={!is_nil(@icon)}
           name={@icon}
           class={[
@@ -237,7 +237,7 @@ defmodule <%= @module %> do
       patch={@patch}
       href={@href}
     >
-      <.icon :if={@icon} name={@icon} class={["speed-dial-icon-base", @icon_class]} />
+      <.<%= @component_prefix %>icon :if={@icon} name={@icon} class={["speed-dial-icon-base", @icon_class]} />
       <span :if={is_nil(@icon)} class={["block text-xs text-center", @content_class]}>
         {render_slot(@inner_block)}
       </span>
@@ -251,7 +251,7 @@ defmodule <%= @module %> do
       id={"#{@id}-speed-dial-item-#{@index}"}
       class={["speed-dial-base flex flex-col", color_variant(@variant, @color)]}
     >
-      <.icon :if={@icon} name={@icon} class={["speed-dial-icon-base", @icon_class]} />
+      <.<%= @component_prefix %>icon :if={@icon} name={@icon} class={["speed-dial-icon-base", @icon_class]} />
       <span :if={is_nil(@icon)} class={["block text-xs text-center", @content_class]}>
         {render_slot(@inner_block)}
       </span>

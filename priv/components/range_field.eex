@@ -18,7 +18,7 @@ defmodule <%= @module %> do
   **Documentation:** https://mishka.tools/chelekom/docs/forms/range-field
   """
   use Phoenix.Component
-  import <%= inspect(@web_module) %>.Components.Icon, only: [icon: 1]
+  import <%= inspect(@web_module) %>.Components.Icon, only: [<%= @component_prefix %>icon: 1]
 
   @doc """
   Renders a customizable `range_field`, which allows users to select a numeric value from a defined range.
@@ -27,7 +27,7 @@ defmodule <%= @module %> do
   ## Examples
 
   ```elixir
-  <.range_field
+  <.<%= @component_prefix %>range_field
     appearance="custom"
     value="40"
     color="warning"
@@ -41,9 +41,9 @@ defmodule <%= @module %> do
     <:range_value position="start">Min ($100)</:range_value>
     <:range_value position="middle">$700</:range_value>
     <:range_value position="end">Max ($1500)</:range_value>
-  </.range_field>
+  </.<%= @component_prefix %>range_field>
 
-  <.range_field
+  <.<%= @component_prefix %>range_field
     value="60"
     size="medium"
     color="primary"
@@ -52,7 +52,7 @@ defmodule <%= @module %> do
     label="Primary Range"
   >
     <:range_value position="end">60%</:range_value>
-  </.range_field>
+  </.<%= @component_prefix %>range_field>
   ```
   """
   @doc type: :component
@@ -98,8 +98,8 @@ defmodule <%= @module %> do
     attr :position, :any, required: false, doc: "Determines the element position"
   end
 
-  @spec range_field(map()) :: Phoenix.LiveView.Rendered.t()
-  def range_field(%{field: %Phoenix.HTML.FormField{} = field} = assigns) do
+  @spec <%= @component_prefix %>range_field(map()) :: Phoenix.LiveView.Rendered.t()
+  def <%= @component_prefix %>range_field(%{field: %Phoenix.HTML.FormField{} = field} = assigns) do
     errors = if Phoenix.Component.used_input?(field), do: field.errors, else: []
 
     assigns
@@ -107,10 +107,10 @@ defmodule <%= @module %> do
     |> assign(:errors, Enum.map(errors, &translate_error(&1)))
     |> assign_new(:name, fn -> field.name end)
     |> assign_new(:value, fn -> field.value end)
-    |> range_field()
+    |> <%= @component_prefix %>range_field()
   end
 
-  def range_field(%{appearance: "default"} = assigns) do
+  def <%= @component_prefix %>range_field(%{appearance: "default"} = assigns) do
     ~H"""
     <div class={[
       width_class(@width),
@@ -136,7 +136,7 @@ defmodule <%= @module %> do
     """
   end
 
-  def range_field(assigns) do
+  def <%= @component_prefix %>range_field(assigns) do
     ~H"""
     <div class={[
       color_class(@appearance, @color),
@@ -204,7 +204,7 @@ defmodule <%= @module %> do
   defp error(assigns) do
     ~H"""
     <p class="mt-3 flex items-center gap-3 text-sm leading-6 text-rose-700">
-      <.icon :if={!is_nil(@icon)} name={@icon} class="shrink-0" />
+      <.<%= @component_prefix %>icon :if={!is_nil(@icon)} name={@icon} class="shrink-0" />
       {render_slot(@inner_block)}
     </p>
     """

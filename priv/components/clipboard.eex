@@ -162,7 +162,7 @@ defmodule <%= @module %> do
     doc:
       "Global attributes can define defaults which are merged with attributes provided by the caller"
 
-  def clipboard(assigns) do
+  def <%= @component_prefix %>clipboard(assigns) do
     assigns =
       assigns
       |> assign_new(:id, fn -> "clipboard-#{random_id()}" end)

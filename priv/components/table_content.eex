@@ -17,7 +17,7 @@ defmodule <%= @module %> do
 
   use Phoenix.Component
   alias Phoenix.LiveView.JS
-  import <%= inspect(@web_module) %>.Components.Icon, only: [icon: 1]
+  import <%= inspect(@web_module) %>.Components.Icon, only: [<%= @component_prefix %>icon: 1]
 
   <%= if is_nil(@type) or "table_content" in @type do %>
   @doc """
@@ -105,7 +105,7 @@ defmodule <%= @module %> do
     attr :content_class, :string, doc: "Custom CSS class for additional styling to content"
   end
 
-  def table_content(assigns) do
+  def <%= @component_prefix %>table_content(assigns) do
     ~H"""
     <div
       id={@id}
@@ -135,7 +135,7 @@ defmodule <%= @module %> do
     >
       <div :if={!is_nil(item[:title])} class={item[:title_class]}>{item[:title]}</div>
       <div class={["flex items-center transition-all hover:font-bold hover:opacity-90", item[:wrapper_class]]}>
-        <.icon
+        <.<%= @component_prefix %>icon
           :if={!is_nil(item[:icon])}
           name={item[:icon]}
           class={["content-icon me-2 inline-block", item[:icon_class]]}
@@ -197,7 +197,7 @@ defmodule <%= @module %> do
 
   slot :inner_block, required: false, doc: "Inner block that renders HEEx content"
 
-  def content_wrapper(assigns) do
+  def <%= @component_prefix %>content_wrapper(assigns) do
     ~H"""
     <div
       id={@id}
@@ -269,7 +269,7 @@ defmodule <%= @module %> do
 
   slot :inner_block, required: false, doc: "Inner block that renders HEEx content"
 
-  def content_item(assigns) do
+  def <%= @component_prefix %>content_item(assigns) do
     ~H"""
     <div
       id={@id}
@@ -285,7 +285,7 @@ defmodule <%= @module %> do
     >
       <div :if={!is_nil(@title)} class={@title_class}>{@title}</div>
       <div class={["flex items-center transition-all hover:font-bold hover:opacity-90", @wrapper_content_class]}>
-        <.icon
+        <.<%= @component_prefix %>icon
           :if={!is_nil(@icon)}
           name={@icon}
           class={["content-icon me-2 inline-block", @icon_class]}

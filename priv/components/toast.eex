@@ -21,7 +21,7 @@ defmodule <%= @module %> do
   use Phoenix.Component
   alias Phoenix.LiveView.JS
   use Gettext, backend: <%= inspect(@web_module) %>.Gettext
-  import <%= inspect(@web_module) %>.Components.Icon, only: [icon: 1]
+  import <%= inspect(@web_module) %>.Components.Icon, only: [<%= @component_prefix %>icon: 1]
 
   <%= if is_nil(@type) or "toast" in @type do %>
   @doc """
@@ -34,11 +34,11 @@ defmodule <%= @module %> do
   ## Examples
 
   ```elixir
-  <.toast id="toast-1">
+  <.<%= @component_prefix %>toast id="toast-1">
     <div>Lorem ipsum dolor sit amet consectetur adipisicing elit.</div>
-  </.toast>
+  </.<%= @component_prefix %>toast>
 
-  <.toast
+  <.<%= @component_prefix %>toast
     id="toast-2"
     color="success"
     content_border="small"
@@ -47,9 +47,9 @@ defmodule <%= @module %> do
     vertical_space="large"
   >
     <div>Lorem ipsum dolor sit amet consectetur adipisicing elit.</div>
-  </.toast>
+  </.<%= @component_prefix %>toast>
 
-  <.toast
+  <.<%= @component_prefix %>toast
     id="toast-3"
     color="misc"
     horizontal="left"
@@ -59,7 +59,7 @@ defmodule <%= @module %> do
     width="extra_large"
   >
     <div>Lorem ipsum dolor sit amet consectetur adipisicing elit.</div>
-  </.toast>
+  </.<%= @component_prefix %>toast>
   ```
   """
   @doc type: :component
@@ -126,7 +126,7 @@ defmodule <%= @module %> do
   attr :padding, :string, default: "extra_small", doc: "Determines padding for items"
   slot :inner_block, required: false, doc: "Inner block that renders HEEx content"
 
-  def toast(assigns) do
+  def <%= @component_prefix %>toast(assigns) do
     ~H"""
     <div
       id={@id}
@@ -243,7 +243,7 @@ defmodule <%= @module %> do
 
   slot :inner_block, required: false, doc: "Inner block that renders HEEx content"
 
-  def toast_group(assigns) do
+  def <%= @component_prefix %>toast_group(assigns) do
     ~H"""
     <div
       id={@id}
@@ -293,7 +293,7 @@ defmodule <%= @module %> do
       aria-label={gettext("close")}
       phx-click={JS.push("dismiss", value: Map.merge(%{id: @id}, @params)) |> hide_toast("##{@id}")}
     >
-      <.icon
+      <.<%= @component_prefix %>icon
         name="hero-x-mark-solid"
         class={[
           "toast-icon opacity-80 group-hover:opacity-70",

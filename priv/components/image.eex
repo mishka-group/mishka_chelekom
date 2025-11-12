@@ -20,11 +20,11 @@ defmodule <%= @module %> do
   ## Examples
 
   ```elixir
-  <.image src="https://example.com/1.jpg" />
-  <.image src="https://example.com/1.jpg" loading="lazy"/>
-  <.image shadow="large" src="https://example.com/1.jpg" width={100} height={100}/>
-  <.image rounded="full" src="https://example.com/1.jpg" width={100} height={100}/>
-  <.image fetchpriority="low" rounded="rounded-3xl" shadow="extra_large" src="https://example.com/1.jpg"/>
+  <.<%= @component_prefix %>image src="https://example.com/1.jpg" />
+  <.<%= @component_prefix %>image src="https://example.com/1.jpg" loading="lazy"/>
+  <.<%= @component_prefix %>image shadow="large" src="https://example.com/1.jpg" width={100} height={100}/>
+  <.<%= @component_prefix %>image rounded="full" src="https://example.com/1.jpg" width={100} height={100}/>
+  <.<%= @component_prefix %>image fetchpriority="low" rounded="rounded-3xl" shadow="extra_large" src="https://example.com/1.jpg"/>
   ```
   """
   @doc type: :component
@@ -74,7 +74,7 @@ defmodule <%= @module %> do
     doc:
       "Global attributes can define defaults which are merged with attributes provided by the caller"
 
-  def image(assigns) do
+  def <%= @component_prefix %>image(assigns) do
     ~H"""
     <img
       id={@id}

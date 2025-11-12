@@ -25,7 +25,7 @@ defmodule <%= @module %> do
   """
 
   use Phoenix.Component
-  import <%= inspect(@web_module) %>.Components.Icon, only: [icon: 1]
+  import <%= inspect(@web_module) %>.Components.Icon, only: [<%= @component_prefix %>icon: 1]
   use Gettext, backend: <%= inspect(@web_module) %>.Gettext
 
   @doc """
@@ -130,7 +130,7 @@ defmodule <%= @module %> do
     doc:
       "Global attributes can define defaults which are merged with attributes provided by the caller"
 
-  def blockquote(assigns) do
+  def <%= @component_prefix %>blockquote(assigns) do
     ~H"""
     <div class={[
       space_class(@space),
@@ -193,7 +193,7 @@ defmodule <%= @module %> do
 
   defp blockquote_icon(assigns) do
     ~H"""
-    <.icon
+    <.<%= @component_prefix %>icon
       :if={!is_nil(@name)}
       name={@name}
       class={Enum.reject(@class, &is_nil(&1)) |> Enum.join(" ")}

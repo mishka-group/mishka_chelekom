@@ -35,17 +35,17 @@ defmodule <%= @module %> do
   ## Examples
 
   ```elixir
-  <.gallery type="masonry" cols="four" gap="large">
-    <.gallery_media src="https://example.com/gallery/masonry/image.jpg" />
-    <.gallery_media src="https://example.com/gallery/masonry/image-2.jpg" />
-    <.gallery_media src="https://example.com/gallery/masonry/image-3.jpg" />
-    <.gallery_media src="https://example.com/gallery/masonry/image-4.jpg" />
-    <.gallery_media src="https://example.com/gallery/masonry/image-5.jpg" />
-    <.gallery_media src="https://example.com/gallery/masonry/image-6.jpg" />
-    <.gallery_media src="https://example.com/gallery/masonry/image-7.jpg" />
-    <.gallery_media src="https://example.com/gallery/masonry/image-8.jpg" />
-    <.gallery_media src="https://example.com/gallery/masonry/image-1.jpg" />
-  </.gallery>
+  <.<%= @component_prefix %>gallery type="masonry" cols="four" gap="large">
+    <.<%= @component_prefix %>gallery_media src="https://example.com/gallery/masonry/image.jpg" />
+    <.<%= @component_prefix %>gallery_media src="https://example.com/gallery/masonry/image-2.jpg" />
+    <.<%= @component_prefix %>gallery_media src="https://example.com/gallery/masonry/image-3.jpg" />
+    <.<%= @component_prefix %>gallery_media src="https://example.com/gallery/masonry/image-4.jpg" />
+    <.<%= @component_prefix %>gallery_media src="https://example.com/gallery/masonry/image-5.jpg" />
+    <.<%= @component_prefix %>gallery_media src="https://example.com/gallery/masonry/image-6.jpg" />
+    <.<%= @component_prefix %>gallery_media src="https://example.com/gallery/masonry/image-7.jpg" />
+    <.<%= @component_prefix %>gallery_media src="https://example.com/gallery/masonry/image-8.jpg" />
+    <.<%= @component_prefix %>gallery_media src="https://example.com/gallery/masonry/image-1.jpg" />
+  </.<%= @component_prefix %>gallery>
   ```
   """
   @doc type: :component
@@ -66,7 +66,7 @@ defmodule <%= @module %> do
 
   slot :inner_block, required: false, doc: "Inner block that renders HEEx content"
 
-  def gallery(assigns) do
+  def <%= @component_prefix %>gallery(assigns) do
     ~H"""
     <div
       id={@id}
@@ -94,8 +94,8 @@ defmodule <%= @module %> do
   ## Examples
 
   ```elixir
-  <.gallery_media src="https://example.com/gallery/masonry/image.jpg" />
-  <.gallery_media src="https://example.com/gallery/masonry/image-2.jpg" rounded="large" shadow="shadow-lg" />
+  <.<%= @component_prefix %>gallery_media src="https://example.com/gallery/masonry/image.jpg" />
+  <.<%= @component_prefix %>gallery_media src="https://example.com/gallery/masonry/image-2.jpg" rounded="large" shadow="shadow-lg" />
   ```
   """
   @doc type: :component
@@ -116,7 +116,7 @@ defmodule <%= @module %> do
 
   slot :inner_block, required: false, doc: "Inner block that renders HEEx content"
 
-  def gallery_media(assigns) do
+  def <%= @component_prefix %>gallery_media(assigns) do
     ~H"""
     <div id={@id} class={["relative gallery-media overflow-hidden transition-all duration-300", @wrapper_class]} {@rest}>
       <img
@@ -172,7 +172,7 @@ defmodule <%= @module %> do
     doc:
       "Global attributes can define defaults which are merged with attributes provided by the caller"
 
-  def filterable_gallery(assigns) do
+  def <%= @component_prefix %>filterable_gallery(assigns) do
     assigns = assign_new(assigns, :id, fn -> random_id() end)
 
     ~H"""
@@ -228,7 +228,7 @@ defmodule <%= @module %> do
             {render_slot(@media_block, media)}
           </div>
 
-          <.gallery_media :if={@media_block == []} src={media.src} alt={media.alt} />
+          <.<%= @component_prefix %>gallery_media :if={@media_block == []} src={media.src} alt={media.alt} />
         </div>
       </div>
     </div>

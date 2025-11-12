@@ -14,7 +14,7 @@ defmodule <%= @module %> do
   """
 
   use Phoenix.Component
-  import <%= inspect(@web_module) %>.Components.Icon, only: [icon: 1]
+  import <%= inspect(@web_module) %>.Components.Icon, only: [<%= @component_prefix %>icon: 1]
 
   @doc """
   Renders a customizable `number_input` field with various options such as labels, descriptions,
@@ -24,7 +24,7 @@ defmodule <%= @module %> do
   ## Examples
 
   ```elixir
-  <.number_field
+  <.<%= @component_prefix %>number_field
     name="name"
     value=""
     space="small"
@@ -36,7 +36,7 @@ defmodule <%= @module %> do
     floating="outer"
   />
 
-  <.number_field
+  <.<%= @component_prefix %>number_field
     name="name"
     value="The value of input"
     space="small"
@@ -45,9 +45,9 @@ defmodule <%= @module %> do
     errors={["Enter name"]}
   >
     <:end_section>
-      <button><.icon name="hero-clipboard-document" class="size-6" /></button>
+      <button><.<%= @component_prefix %>icon name="hero-clipboard-document" class="size-6" /></button>
     </:end_section>
-  </.number_field>
+  </.<%= @component_prefix %>number_field>
   ```
   """
   @doc type: :component
@@ -113,8 +113,8 @@ defmodule <%= @module %> do
     doc:
       "Global attributes can define defaults which are merged with attributes provided by the caller"
 
-  @spec number_field(map()) :: Phoenix.LiveView.Rendered.t()
-  def number_field(%{field: %Phoenix.HTML.FormField{} = field} = assigns) do
+  @spec <%= @component_prefix %>number_field(map()) :: Phoenix.LiveView.Rendered.t()
+  def <%= @component_prefix %>number_field(%{field: %Phoenix.HTML.FormField{} = field} = assigns) do
     errors = if Phoenix.Component.used_input?(field), do: field.errors, else: []
 
     assigns
@@ -122,10 +122,10 @@ defmodule <%= @module %> do
     |> assign(:errors, Enum.map(errors, &translate_error(&1)))
     |> assign_new(:name, fn -> field.name end)
     |> assign_new(:value, fn -> field.value end)
-    |> number_field()
+    |> <%= @component_prefix %>number_field()
   end
 
-  def number_field(%{floating: floating} = assigns) when floating in ["inner", "outer"] do
+  def <%= @component_prefix %>number_field(%{floating: floating} = assigns) when floating in ["inner", "outer"] do
     ~H"""
     <div class={[
       color_variant(@variant, @color, @floating),
@@ -197,7 +197,7 @@ defmodule <%= @module %> do
     """
   end
 
-  def number_field(assigns) do
+  def <%= @component_prefix %>number_field(assigns) do
     ~H"""
     <div class={[
       color_variant(@variant, @color, @floating),
@@ -282,7 +282,7 @@ defmodule <%= @module %> do
   defp error(assigns) do
     ~H"""
     <p class="mt-3 flex items-center gap-3 text-sm text-rose-700">
-      <.icon :if={!is_nil(@icon)} name={@icon} class="shrink-0" />
+      <.<%= @component_prefix %>icon :if={!is_nil(@icon)} name={@icon} class="shrink-0" />
       {render_slot(@inner_block)}
     </p>
     """

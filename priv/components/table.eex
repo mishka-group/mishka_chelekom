@@ -16,7 +16,7 @@ defmodule <%= @module %> do
 
   use Phoenix.Component
   use Gettext, backend: <%= inspect(@web_module) %>.Gettext
-  import <%= inspect(@web_module) %>.Components.Icon, only: [icon: 1]
+  import <%= inspect(@web_module) %>.Components.Icon, only: [<%= @component_prefix %>icon: 1]
 
   <%= if is_nil(@type) or "table" in @type do %>
   @doc """
@@ -29,7 +29,7 @@ defmodule <%= @module %> do
   ## Examples
 
   ```elixir
-  <.table>
+  <.<%= @component_prefix %>table>
     <:header>Name</:header>
     <:header>Age</:header>
     <:header>Address</:header>
@@ -37,42 +37,42 @@ defmodule <%= @module %> do
     <:header>Job</:header>
     <:header>Action</:header>
 
-    <.tr>
-      <.td>Jim Emerald</.td>
-      <.td>27</.td>
-      <.td>London No. 1 Lake Park</.td>
-      <.td>test@mail.com</.td>
-      <.td>Frontend Developer</.td>
-      <.td><.rating select={3} count={5} /></.td>
-    </.tr>
+    <.<%= @component_prefix %>tr>
+      <.<%= @component_prefix %>td>Jim Emerald</.<%= @component_prefix %>td>
+      <.<%= @component_prefix %>td>27</.<%= @component_prefix %>td>
+      <.<%= @component_prefix %>td>London No. 1 Lake Park</.<%= @component_prefix %>td>
+      <.<%= @component_prefix %>td>test@mail.com</.<%= @component_prefix %>td>
+      <.<%= @component_prefix %>td>Frontend Developer</.<%= @component_prefix %>td>
+      <.<%= @component_prefix %>td><.<%= @component_prefix %>rating select={3} count={5} /></.<%= @component_prefix %>td>
+    </.<%= @component_prefix %>tr>
 
-    <.tr>
-      <.td>Alex Brown</.td>
-      <.td>32</.td>
-      <.td>New York No. 2 River Park</.td>
-      <.td>alex@mail.com</.td>
-      <.td>Backend Developer</.td>
-      <.td><.rating select={4} count={5} /></.td>
-    </.tr>
+    <.<%= @component_prefix %>tr>
+      <.<%= @component_prefix %>td>Alex Brown</.<%= @component_prefix %>td>
+      <.<%= @component_prefix %>td>32</.<%= @component_prefix %>td>
+      <.<%= @component_prefix %>td>New York No. 2 River Park</.<%= @component_prefix %>td>
+      <.<%= @component_prefix %>td>alex@mail.com</.<%= @component_prefix %>td>
+      <.<%= @component_prefix %>td>Backend Developer</.<%= @component_prefix %>td>
+      <.<%= @component_prefix %>td><.<%= @component_prefix %>rating select={4} count={5} /></.<%= @component_prefix %>td>
+    </.<%= @component_prefix %>tr>
 
-    <.tr>
-      <.td>John Doe</.td>
-      <.td>28</.td>
-      <.td>Los Angeles No. 3 Sunset Boulevard</.td>
-      <.td>john@mail.com</.td>
-      <.td>UI/UX Designer</.td>
-      <.td><.rating select={5} count={5} /></.td>
-    </.tr>
+    <.<%= @component_prefix %>tr>
+      <.<%= @component_prefix %>td>John Doe</.<%= @component_prefix %>td>
+      <.<%= @component_prefix %>td>28</.<%= @component_prefix %>td>
+      <.<%= @component_prefix %>td>Los Angeles No. 3 Sunset Boulevard</.<%= @component_prefix %>td>
+      <.<%= @component_prefix %>td>john@mail.com</.<%= @component_prefix %>td>
+      <.<%= @component_prefix %>td>UI/UX Designer</.<%= @component_prefix %>td>
+      <.<%= @component_prefix %>td><.<%= @component_prefix %>rating select={5} count={5} /></.<%= @component_prefix %>td>
+    </.<%= @component_prefix %>tr>
 
     <:footer>Total</:footer>
     <:footer>3 Employees</:footer>
-  </.table>
+  </.<%= @component_prefix %>table>
 
 
-  <.table id="users" rows={@users}>
+  <.<%= @component_prefix %>table id="users" rows={@users}>
     <:col :let={user} label="id">{user.id}</:col>
     <:col :let={user} label="username">{user.username}</:col>
-  </.table>
+  </.<%= @component_prefix %>table>
   ```
   """
   @doc type: :component
@@ -134,7 +134,7 @@ defmodule <%= @module %> do
 
   slot :action, doc: "the slot for showing user actions in the last table column"
 
-  def table(assigns) do
+  def <%= @component_prefix %>table(assigns) do
     assigns =
       with %{rows: %Phoenix.LiveView.LiveStream{}} <- assigns do
         assign(assigns, row_id: assigns.row_id || fn {id, _item} -> id end)
@@ -168,28 +168,28 @@ defmodule <%= @module %> do
             {@rest}
           >
             <thead class={@thead_class}>
-              <.tr>
-                <.th
+              <.<%= @component_prefix %>tr>
+                <.<%= @component_prefix %>th
                   :for={{header, index} <- Enum.with_index(@header, 1)}
                   id={"#{@id}-table-header-#{index}"}
                   scope="col"
                   class={header[:class]}
                 >
-                  <.icon
+                  <.<%= @component_prefix %>icon
                     :if={header[:icon]}
                     name={header[:icon]}
                     class={["table-header-icon block me-2", header[:icon_class]]}
                   />
                   {render_slot(header)}
-                </.th>
-              </.tr>
+                </<%= @component_prefix %>.th>
+              </.<%= @component_prefix %>tr>
 
-              <.tr :if={@col}>
-                <.th :for={col <- @col} class={["font-normal", col[:label_class]]}>{col[:label]}</.th>
-                <.th :if={@action != []} class="relative">
+              <.<%= @component_prefix %>tr :if={@col}>
+                <.<%= @component_prefix %>th :for={col <- @col} class={["font-normal", col[:label_class]]}>{col[:label]}</.<%= @component_prefix %>th>
+                <.<%= @component_prefix %>th :if={@action != []} class="relative">
                   <span class="sr-only">{gettext("Actions")}</span>
-                </.th>
-              </.tr>
+                </.<%= @component_prefix %>th>
+              </.<%= @component_prefix %>tr>
             </thead>
 
             <tbody
@@ -200,8 +200,8 @@ defmodule <%= @module %> do
             >
               {render_slot(@inner_block)}
 
-              <.tr :for={row <- @rows} :if={@rows != []} id={@row_id && @row_id.(row)}>
-                <.td
+              <.<%= @component_prefix %>tr :for={row <- @rows} :if={@rows != []} id={@row_id && @row_id.(row)}>
+                <.<%= @component_prefix %>td
                   :for={{col, i} <- Enum.with_index(@col)}
                   phx-click={@row_click && @row_click.(row)}
                   class={@row_click && "hover:cursor-pointer"}
@@ -212,36 +212,36 @@ defmodule <%= @module %> do
                       {render_slot(col, @row_item.(row))}
                     </span>
                   </div>
-                </.td>
+                </.<%= @component_prefix %>td>
 
-                <.td :if={@action} class="relative w-14 p-0">
+                <.<%= @component_prefix %>td :if={@action} class="relative w-14 p-0">
                   <div class="relative whitespace-nowrap py-4 text-right text-sm font-medium">
                     <span class="absolute -inset-y-px -right-4 left-0" />
                     <span :for={action <- @action} class="relative ml-4 font-semibold leading-6">
                       {render_slot(action, @row_item.(row))}
                     </span>
                   </div>
-                </.td>
-              </.tr>
+                </.<%= @component_prefix %>td>
+              </.<%= @component_prefix %>tr>
             </tbody>
 
             <tfoot :if={length(@footer) > 0} class={@footer_class}>
-              <.tr>
-                <.td
+              <.<%= @component_prefix %>tr>
+                <.<%= @component_prefix %>td
                   :for={{footer, index} <- Enum.with_index(@footer, 1)}
                   id={"#{@id}-table-footer-#{index}"}
                   class={footer[:class]}
                 >
                   <div class="flex items-center">
-                    <.icon
+                    <.<%= @component_prefix %>icon
                       :if={footer[:icon]}
                       name={footer[:icon]}
                       class={["table-footer-icon block me-2", footer[:icon_class]]}
                     />
                     {render_slot(footer)}
                   </div>
-                </.td>
-              </.tr>
+                </.<%= @component_prefix %>td>
+              </.<%= @component_prefix %>tr>
             </tfoot>
           </table>
         </div>
@@ -258,7 +258,7 @@ defmodule <%= @module %> do
   ## Examples
 
   ```elixir
-  <.th>Column Title</.th>
+  <.<%= @component_prefix %>th>Column Title</.<%= @component_prefix %>th>
   ```
   """
   @doc type: :component
@@ -275,7 +275,7 @@ defmodule <%= @module %> do
 
   slot :inner_block, required: false, doc: "Inner block that renders HEEx content"
 
-  def th(assigns) do
+  def <%= @component_prefix %>th(assigns) do
     ~H"""
     <th id={@id} scope={@scope} class={["table-header", @class]} {@rest}>
       {render_slot(@inner_block)}
@@ -291,10 +291,10 @@ defmodule <%= @module %> do
   ## Examples
 
   ```elixir
-  <.tr>
-    <.td>Data 1</.td>
-    <.td>Data 2</.td>
-  </.tr>
+  <.<%= @component_prefix %>tr>
+    <.<%= @component_prefix %>td>Data 1</.<%= @component_prefix %>td>
+    <.<%= @component_prefix %>td>Data 2</.<%= @component_prefix %>td>
+  </.<%= @component_prefix %>tr>
   ```
   """
   @doc type: :component
@@ -310,7 +310,7 @@ defmodule <%= @module %> do
 
   slot :inner_block, required: false, doc: "Inner block that renders HEEx content"
 
-  def tr(assigns) do
+  def <%= @component_prefix %>tr(assigns) do
     ~H"""
     <tr id={@id} class={["table-row", @class]} {@rest}>
       {render_slot(@inner_block)}
@@ -325,7 +325,7 @@ defmodule <%= @module %> do
 
   ## Examples
   ```elixir
-  <.td>Data</.td>
+  <.<%= @component_prefix %>td>Data</.<%= @component_prefix %>td>
   ```
   """
   @doc type: :component
@@ -341,7 +341,7 @@ defmodule <%= @module %> do
 
   slot :inner_block, required: false, doc: "Inner block that renders HEEx content"
 
-  def td(assigns) do
+  def <%= @component_prefix %>td(assigns) do
     ~H"""
     <td id={@id} class={["table-data-cell", @class]} {@rest}>
       {render_slot(@inner_block)}

@@ -23,7 +23,7 @@ defmodule <%= @module %> do
   """
 
   use Phoenix.Component
-  import <%= inspect(@web_module) %>.Components.Icon, only: [icon: 1]
+  import <%= inspect(@web_module) %>.Components.Icon, only: [<%= @component_prefix %>icon: 1]
 
   <%= if is_nil(@type) or "list" in @type do %>
   @doc """
@@ -33,12 +33,12 @@ defmodule <%= @module %> do
   ## Examples
 
   ```elixir
-  <.list font_weight="font-bold" color="silver" size="small">
+  <.<%= @component_prefix %>list font_weight="font-bold" color="silver" size="small">
     <:item padding="small" count={1}>list count small</:item>
     <:item padding="small" count={2}>list count small</:item>
     <:item padding="small" count={3}>list count small</:item>
     <:item padding="small" count={23658}>list count small</:item>
-  </.list>
+  </.<%= @component_prefix %>list>
   ```
   """
   @doc type: :component
@@ -85,21 +85,21 @@ defmodule <%= @module %> do
 
   slot :inner_block, doc: "Inner block that renders HEEx content"
 
-  def list(%{rest: %{ordered: true}} = assigns) do
+  def <%= @component_prefix %>list(%{rest: %{ordered: true}} = assigns) do
     ~H"""
-    <.ol {assigns}>
-      <.li :for={item <- @item} {item}>
+    <.<%= @component_prefix %>ol {assigns}>
+      <.<%= @component_prefix %>li :for={item <- @item} {item}>
         {render_slot(item)}
-      </.li>
+      </.<%= @component_prefix %>li>
       {render_slot(@inner_block)}
-    </.ol>
+    </.<%= @component_prefix %>ol>
     """
   end
 
-  def list(assigns) do
+  def <%= @component_prefix %>list(assigns) do
     ~H"""
-    <.ul {assigns}>
-      <.li
+    <.<%= @component_prefix %>ul {assigns}>
+      <.<%= @component_prefix %>li
         :for={item <- @item}
         class={
           Enum.join(["[&_.list-content]:flex [&_.list-content]:items-center", item[:class]], " ")
@@ -110,9 +110,9 @@ defmodule <%= @module %> do
           {item.title}
         </div>
         {render_slot(item)}
-      </.li>
+      </.<%= @component_prefix %>li>
       {render_slot(@inner_block)}
-    </.ul>
+    </.<%= @component_prefix %>ul>
     """
   end
   <% end %>
@@ -158,8 +158,8 @@ defmodule <%= @module %> do
 
   slot :inner_block, required: true, doc: "Inner block that renders HEEx content"
 
-  @spec li(map()) :: Phoenix.LiveView.Rendered.t()
-  def li(assigns) do
+  @spec <%= @component_prefix %>li(map()) :: Phoenix.LiveView.Rendered.t()
+  def <%= @component_prefix %>li(assigns) do
     ~H"""
     <li
       id={@id}
@@ -173,7 +173,7 @@ defmodule <%= @module %> do
         "flex items-center gap-2 w-full",
         content_position(@position)
       ]}>
-        <.icon :if={!is_nil(@icon)} name={@icon} class={@icon_class} />
+        <.<%= @component_prefix %>icon :if={!is_nil(@icon)} name={@icon} class={@icon_class} />
         <span :if={is_integer(@count)}>{@count}{@count_separator}</span>
         <div class={["w-full list-content", @content_class]}>
           {render_slot(@inner_block)}
@@ -232,7 +232,7 @@ defmodule <%= @module %> do
 
   slot :inner_block, required: true, doc: "Inner block that renders HEEx content"
 
-  def ul(assigns) do
+  def <%= @component_prefix %>ul(assigns) do
     ~H"""
     <ul
       id={@id}
@@ -264,11 +264,11 @@ defmodule <%= @module %> do
   ## Examples
 
   ```elixir
-  <.ol style="list-decimal">
+  <.<%= @component_prefix %>ol style="list-decimal">
     <li>Ordered list item 1</li>
     <li>Ordered list item 2</li>
     <li>Ordered list item 3</li>
-  </.ol>
+  </.<%= @component_prefix %>ol>
   ```
   """
   @doc type: :component
@@ -301,7 +301,7 @@ defmodule <%= @module %> do
 
   slot :inner_block, required: true, doc: "Inner block that renders HEEx content"
 
-  def ol(assigns) do
+  def <%= @component_prefix %>ol(assigns) do
     ~H"""
     <ol
       id={@id}
@@ -330,11 +330,11 @@ defmodule <%= @module %> do
   ## Examples
 
   ```elixir
-  <.list_group variant="separated" rounded="extra_small" color="dawn">
-    <.li position="end" icon="hero-chat-bubble-left-ellipsis">HBase</.li>
-    <.li>SQL</.li>
-    <.li>Sqlight</.li>
-  </.list_group>
+  <.<%= @component_prefix %>list_group variant="separated" rounded="extra_small" color="dawn">
+    <.<%= @component_prefix %>li position="end" icon="hero-chat-bubble-left-ellipsis">HBase</.li>
+    <.<%= @component_prefix %>li>SQL</.li>
+    <.<%= @component_prefix %>li>Sqlight</.li>
+  </.<%= @component_prefix %>list_group>
   ```
   """
   @doc type: :component
@@ -370,7 +370,7 @@ defmodule <%= @module %> do
 
   slot :inner_block, required: true, doc: "Inner block that renders HEEx content"
 
-  def list_group(assigns) do
+  def <%= @component_prefix %>list_group(assigns) do
     ~H"""
     <ul
       id={@id}

@@ -23,15 +23,15 @@ defmodule <%= @module %> do
   ## Examples
 
   ```elixir
-  <.chat>
-    <.avatar
+  <.<%= @component_prefix %>chat>
+    <.<%= @component_prefix %>avatar
       src="example.com/images/1.jpg"
       size="extra_large"
       rounded="full"
       border="small"
     />
 
-    <.chat_section>
+    <.<%= @component_prefix %>chat_section>
       <div class="flex items-center space-x-2 rtl:space-x-reverse">
         <div class="">Bonnie Green</div>
       </div>
@@ -40,14 +40,14 @@ defmodule <%= @module %> do
       </p>
       <:status time="22:10" deliver="Delivered" />
       <:meta><div class="">Bonnie Green</div></:meta>
-    </.chat_section>
-    <div><.icon name="hero-ellipsis-vertical" class="size-4" /></div>
-  </.chat>
+    </.<%= @component_prefix %>chat_section>
+    <div><.<%= @component_prefix %>icon name="hero-ellipsis-vertical" class="size-4" /></div>
+  </.<%= @component_prefix %>chat>
 
-  <.chat position="flipped">
-    <.avatar src="https://example.com/picture.jpg" size="extra_large" rounded="full" border="small"/>
+  <.<%= @component_prefix %>chat position="flipped">
+    <.<%= @component_prefix %>avatar src="https://example.com/picture.jpg" size="extra_large" rounded="full" border="small"/>
 
-    <.chat_section>
+    <.<%= @component_prefix %>chat_section>
       <div class="flex items-center space-x-2 rtl:space-x-reverse">
         <div class="">Bonnie Green</div>
       </div>
@@ -55,9 +55,9 @@ defmodule <%= @module %> do
         That's awesome. I think our users will really appreciate the improvements.
       </p>
       <:status time="22:10" deliver="Delivered" />
-    </.chat_section>
-    <div><.icon name="hero-ellipsis-vertical" class="size-4" /></div>
-  </.chat>
+    </.<%= @component_prefix %>chat_section>
+    <div><.<%= @component_prefix %>icon name="hero-ellipsis-vertical" class="size-4" /></div>
+  </.<%= @component_prefix %>chat>
   ```
   """
   @doc type: :component
@@ -91,7 +91,7 @@ defmodule <%= @module %> do
 
   slot :inner_block, required: false, doc: "Inner block that renders HEEx content"
 
-  def chat(assigns) do
+  def <%= @component_prefix %>chat(assigns) do
     ~H"""
     <div
       id={@id}
@@ -127,7 +127,7 @@ defmodule <%= @module %> do
   ## Examples
 
   ```elixir
-  <.chat_section>
+  <.<%= @component_prefix %>chat_section>
     <div class="flex items-center space-x-2 rtl:space-x-reverse">
       <div class="">Bonnie Green</div>
     </div>
@@ -136,7 +136,7 @@ defmodule <%= @module %> do
     </p>
     <:status time="22:10" deliver="Delivered" />
     <:meta><div class="">Bonnie Green</div></:meta>
-  </.chat_section>
+  </.<%= @component_prefix %>chat_section>
   ```
   """
   @doc type: :component
@@ -167,7 +167,7 @@ defmodule <%= @module %> do
 
   slot :inner_block, required: false, doc: "Inner block that renders HEEx content"
 
-  def chat_section(assigns) do
+  def <%= @component_prefix %>chat_section(assigns) do
     ~H"""
     <div
       id={@id}

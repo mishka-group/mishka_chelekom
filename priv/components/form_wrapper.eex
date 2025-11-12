@@ -27,12 +27,12 @@ defmodule <%= @module %> do
   ## Examples
 
   ```elixir
-  <.form_wrapper class="space-y-10">
+  <.<%= @component_prefix %>form_wrapper class="space-y-10">
     <div class="grid lg:grid-cols-2 gap-2">
-      <.text_field name="name1" space="small" color="light"/>
+      <.<%= @component_prefix %>text_field name="name1" space="small" color="light"/>
       ...
     </div>
-  </.form_wrapper>
+  </.<%= @component_prefix %>form_wrapper>
   ```
   """
   @doc type: :component
@@ -66,7 +66,7 @@ defmodule <%= @module %> do
   slot :inner_block, required: true, doc: "Inner block that renders HEEx content"
   slot :actions, required: false, doc: "the slot for form actions, such as a submit button"
 
-  def form_wrapper(assigns) do
+  def <%= @component_prefix %>form_wrapper(assigns) do
     ~H"""
     <.form
       :let={f}
@@ -117,11 +117,11 @@ defmodule <%= @module %> do
   slot :inner_block, required: true
   slot :actions, doc: "the slot for form actions, such as a submit button"
 
-  def simple_form(assigns) do
+  def <%= @component_prefix %>simple_form(assigns) do
     ~H"""
-    <.form_wrapper :let={f} class={@extra_classes} {assigns}>
+    <.<%= @component_prefix %>form_wrapper :let={f} class={@extra_classes} {assigns}>
       {render_slot(@inner_block, f)}
-    </.form_wrapper>
+    </.<%= @component_prefix %>form_wrapper>
     """
   end
   <%= if is_nil(@size) or "extra_small" in @size do %>

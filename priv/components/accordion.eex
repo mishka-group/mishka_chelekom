@@ -10,7 +10,7 @@ defmodule <%= @module %> do
   """
   use Phoenix.Component
   import Phoenix.LiveView.Utils, only: [random_id: 0]
-  import <%= inspect(@web_module) %>.Components.Icon, only: [icon: 1]
+  import <%= inspect(@web_module) %>.Components.Icon, only: [<%= @component_prefix %>icon: 1]
 
   @doc type: :component
   attr :id, :string,
@@ -59,7 +59,7 @@ defmodule <%= @module %> do
     attr :open, :boolean, doc: "Whether this item should be initially open"
   end
 
-  def accordion(assigns) do
+  def <%= @component_prefix %>accordion(assigns) do
     assigns = assigns |> assign_new(:id, fn -> "accordion-#{random_id()}" end)
 
     ~H"""
@@ -97,14 +97,14 @@ defmodule <%= @module %> do
             item[:trigger_class]
           ]}
         >
-          <.icon
+          <.<%= @component_prefix %>icon
             :if={chevron_visible?(assigns) && chevron_position(assigns) == "left"}
             name={@chevron_icon}
             class={chevron_classes(assigns)}
           />
           <div class="flex items-center space-x-3">
             <div :if={item[:icon]} class={["shrink-0", item[:icon_wrapper_class]]}>
-              <.icon name={item[:icon]} class={item[:icon_class] || "accordion-icon"} />
+              <.<%= @component_prefix %>icon name={item[:icon]} class={item[:icon_class] || "accordion-icon"} />
             </div>
 
             <img
@@ -121,7 +121,7 @@ defmodule <%= @module %> do
             </div>
           </div>
 
-          <.icon
+          <.<%= @component_prefix %>icon
             :if={chevron_visible?(assigns) && chevron_position(assigns) == "right"}
             name={@chevron_icon}
             class={chevron_classes(assigns)}

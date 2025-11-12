@@ -16,7 +16,7 @@ defmodule MishkaChelekom.CSSConfigSmokeTest do
       assert content =~ "# Mishka Chelekom CSS Configuration"
       assert content =~ "import Config"
       assert content =~ "config :mishka_chelekom,"
-      assert content =~ "css_overrides: %{"
+      assert content =~ "css_overrides:"
 
       # Verify it has all major sections
       assert content =~ "# === Base Colors ==="

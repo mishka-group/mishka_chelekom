@@ -28,7 +28,7 @@ defmodule <%= @module %> do
   """
 
   use Phoenix.Component
-  import <%= inspect(@web_module) %>.Components.Icon, only: [icon: 1]
+  import <%= inspect(@web_module) %>.Components.Icon, only: [<%= @component_prefix %>icon: 1]
 
   @positions [
     "start",
@@ -44,47 +44,47 @@ defmodule <%= @module %> do
   ## Examples
 
   ```elixir
-  <.card>
-    <.card_title title="This is a title in inner content" icon="hero-home" size="extra_large" />
-    <.card_content>
+  <.<%= @component_prefix %>card>
+    <.<%= @component_prefix %>card_title title="This is a title in inner content" icon="hero-home" size="extra_large" />
+    <.<%= @component_prefix %>card_content>
       Lorem ipsum dolor sit amet consectetur adipisicing elit. Commodi ea atque soluta praesentium
       quidem dicta sapiente accusamus nihil.
-    </.card_content>
-  </.card>
+    </.<%= @component_prefix %>card_content>
+  </.<%= @component_prefix %>card>
 
-  <.card>
-    <.card_media src="https://example.com/bg.png" alt="test"/>
-    <.card_content padding="large">
+  <.<%= @component_prefix %>card>
+    <.<%= @component_prefix %>card_media src="https://example.com/bg.png" alt="test"/>
+    <.<%= @component_prefix %>card_content padding="large">
       <p>
         Lorem ipsum dolor sit amet consectetur adipisicing elit. Commodi ea atque soluta praesentium
         quidem dicta sapiente accusamus nihil.
       </p>
-    </.card_content>
-    <.card_footer padding="large">
-      <.button size="full">See more</.button>
-    </.card_footer>
-  </.card>
+    </.<%= @component_prefix %>card_content>
+    <.<%= @component_prefix %>card_footer padding="large">
+      <.<%= @component_prefix %>button size="full">See more</.<%= @component_prefix %>button>
+    </.<%= @component_prefix %>card_footer>
+  </.<%= @component_prefix %>card>
 
-  <.card padding="small">
-    <.card_title class="flex items-center gap-2 justify-between">
+  <.<%= @component_prefix %>card padding="small">
+    <.<%= @component_prefix %>card_title class="flex items-center gap-2 justify-between">
       <div>Title</div>
       <div>Link</div>
-    </.card_title>
-    <.hr />
-    <.card_content space="large">
-      <.card_media rounded="large" src="https://example.com/bg.png" alt="test"/>
+    </.<%= @component_prefix %>card_title>
+    <.<%= @component_prefix %>hr />
+    <.<%= @component_prefix %>card_content space="large">
+      <.<%= @component_prefix %>card_media rounded="large" src="https://example.com/bg.png" alt="test"/>
       <p>
         Lorem ipsum dolor sit amet consectetur adipisicing elit. Commodi ea atque soluta
         praesentium quidem dicta sapiente accusamus nihil.
       </p>
-    </.card_content>
-    <.hr />
-    <.card_footer class="flex items-center gap-2">
-      <.card_media src="https://example.com/bg.png" alt="test"/>
-      <.card_media src="https://example.com/bg.png" alt="test"/>
-      <.card_media src="https://example.com/bg.png" alt="test"/>
-    </.card_footer>
-  </.card>
+    </.<%= @component_prefix %>card_content>
+    <.<%= @component_prefix %>hr />
+    <.<%= @component_prefix %>card_footer class="flex items-center gap-2">
+      <.<%= @component_prefix %>card_media src="https://example.com/bg.png" alt="test"/>
+      <.<%= @component_prefix %>card_media src="https://example.com/bg.png" alt="test"/>
+      <.<%= @component_prefix %>card_media src="https://example.com/bg.png" alt="test"/>
+    </.<%= @component_prefix %>card_footer>
+  </.<%= @component_prefix %>card>
   ```
   """
   @doc type: :component
@@ -111,7 +111,7 @@ defmodule <%= @module %> do
 
   slot :inner_block, required: false, doc: "Inner block that renders HEEx content"
 
-  def card(assigns) do
+  def <%= @component_prefix %>card(assigns) do
     ~H"""
     <div
       id={@id}
@@ -145,7 +145,7 @@ defmodule <%= @module %> do
   ```elixir
   <.card_title class="border-b" padding="small" position="between">
     <div>Title</div>
-    <div><.icon name="hero-ellipsis-horizontal" /></div>
+    <div><.<%= @component_prefix %>icon name="hero-ellipsis-horizontal" /></div>
   </.card_title>
   ```
   """
@@ -180,7 +180,7 @@ defmodule <%= @module %> do
 
   slot :inner_block, required: false, doc: "Inner block that renders HEEx content"
 
-  def card_title(assigns) do
+  def <%= @component_prefix %>card_title(assigns) do
     ~H"""
     <div
       id={@id}
@@ -195,7 +195,7 @@ defmodule <%= @module %> do
       {@rest}
     >
       <div :if={@title || @icon} class="flex gap-2 items-center" aria-labelledby={if @title && @id, do: "#{@id}-title"}>
-        <.icon :if={@icon} name={@icon} class="card-title-icon" />
+        <.<%= @component_prefix %>icon :if={@icon} name={@icon} class="card-title-icon" />
         <h3 :if={@title}>{@title}</h3>
       </div>
       {render_slot(@inner_block)}
@@ -233,7 +233,7 @@ defmodule <%= @module %> do
 
   slot :inner_block, required: false, doc: "Inner block that renders HEEx content"
 
-  def card_media(assigns) do
+  def <%= @component_prefix %>card_media(assigns) do
     ~H"""
      <div id={@id} class={["card-media overflow-hidden", rounded_size(@rounded), @width, @class]}>
       <img
@@ -281,7 +281,7 @@ defmodule <%= @module %> do
 
   slot :inner_block, required: false, doc: "Inner block that renders HEEx content"
 
-  def card_content(assigns) do
+  def <%= @component_prefix %>card_content(assigns) do
     ~H"""
     <div
       id={@id}
@@ -308,9 +308,9 @@ defmodule <%= @module %> do
   ## Examples
 
   ```elixir
-  <.card_footer padding="large">
-    <.button size="full">See more</.button>
-  </.card_footer>
+  <.<%= @component_prefix %>card_footer padding="large">
+    <.<%= @component_prefix %>button size="full">See more</.<%= @component_prefix %>button>
+  </.<%= @component_prefix %>card_footer>
   ```
   """
   @doc type: :component
@@ -327,7 +327,7 @@ defmodule <%= @module %> do
 
   slot :inner_block, required: false, doc: "Inner block that renders HEEx content"
 
-  def card_footer(assigns) do
+  def <%= @component_prefix %>card_footer(assigns) do
     ~H"""
     <div
       id={@id}

@@ -18,7 +18,7 @@ defmodule <%= @module %>  do
   """
 
   use Phoenix.Component
-  import <%= inspect(@web_module) %>.Components.Icon, only: [icon: 1]
+  import <%= inspect(@web_module) %>.Components.Icon, only: [<%= @component_prefix %>icon: 1]
 
   @doc """
   Renders a customizable `email_field` with options for styling, floating labels, and additional
@@ -32,7 +32,7 @@ defmodule <%= @module %>  do
   ```elixir
   <.email_field name="name" color="danger" placeholder="This is placeholder" floating="outer"/>
 
-  <.email_field
+  <.<%= @component_prefix %>email_field
     name="name"
     space="small"
     color="danger"
@@ -42,14 +42,14 @@ defmodule <%= @module %>  do
     floating="outer"
   >
     <:start_section>
-      <.icon name="hero-home" class="size-4" />
+      <.<%= @component_prefix %>icon name="hero-home" class="size-4" />
     </:start_section>
     <:end_section>
-      <.icon name="hero-home" class="size-4" />
+      <.<%= @component_prefix %>icon name="hero-home" class="size-4" />
     </:end_section>
-  </.email_field>
+  </.<%= @component_prefix %>email_field>
 
-  <.email_field
+  <.<%= @component_prefix %>email_field
     name="name"
     space="small"
     color="silver"
@@ -122,18 +122,18 @@ defmodule <%= @module %>  do
     doc:
       "Global attributes can define defaults which are merged with attributes provided by the caller"
 
-  @spec email_field(map()) :: Phoenix.LiveView.Rendered.t()
-  def email_field(%{field: %Phoenix.HTML.FormField{} = field} = assigns) do
+  @spec <%= @component_prefix %>email_field(map()) :: Phoenix.LiveView.Rendered.t()
+  def <%= @component_prefix %>email_field(%{field: %Phoenix.HTML.FormField{} = field} = assigns) do
     errors = if Phoenix.Component.used_input?(field), do: field.errors, else: []
 
     assigns
     |> assign(field: nil, id: assigns.id || field.id)
     |> assign(:errors, Enum.map(errors, &translate_error(&1)))
     |> assign_new(:value, fn -> field.value end)
-    |> email_field()
+    |> <%= @component_prefix %>email_field()
   end
 
-  def email_field(%{floating: floating} = assigns) when floating in ["inner", "outer"] do
+  def <%= @component_prefix %>email_field(%{floating: floating} = assigns) when floating in ["inner", "outer"] do
     ~H"""
     <div class={[
       color_variant(@variant, @color, @floating),
@@ -201,7 +201,7 @@ defmodule <%= @module %>  do
     """
   end
 
-  def email_field(assigns) do
+  def <%= @component_prefix %>email_field(assigns) do
     ~H"""
     <div class={[
       color_variant(@variant, @color, @floating),
@@ -282,7 +282,7 @@ defmodule <%= @module %>  do
   defp error(assigns) do
     ~H"""
     <p class="mt-3 flex items-center gap-3 text-sm text-rose-700">
-      <.icon :if={!is_nil(@icon)} name={@icon} class="shrink-0" />
+      <.<%= @component_prefix %>icon :if={!is_nil(@icon)} name={@icon} class="shrink-0" />
       {render_slot(@inner_block)}
     </p>
     """

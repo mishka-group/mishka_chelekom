@@ -25,7 +25,7 @@ defmodule <%= @module %> do
   """
 
   use Phoenix.Component
-  import <%= inspect(@web_module) %>.Components.Icon, only: [icon: 1]
+  import <%= inspect(@web_module) %>.Components.Icon, only: [<%= @component_prefix %>icon: 1]
 
   @indicator_positions [
     "indicator",
@@ -93,7 +93,7 @@ defmodule <%= @module %> do
 
   slot :inner_block, required: false, doc: "Inner block that renders HEEx content"
 
-  def button_group(assigns) do
+  def <%= @component_prefix %>button_group(assigns) do
     ~H"""
     <div
       id={@id}
@@ -189,7 +189,7 @@ defmodule <%= @module %> do
       doc: "Determines the element position"
   end
 
-  def button(assigns) do
+  def <%= @component_prefix %>button(assigns) do
     assigns = assign_new(assigns, :indicator, fn -> is_indicators?(assigns[:rest]) end)
 
     ~H"""
@@ -220,11 +220,11 @@ defmodule <%= @module %> do
       </span>
 
       <.button_indicator position="left" size={@indicator_size} class={@indicator_class} {@rest} />
-      <.icon :if={icon_position(@icon, @rest) == "left"} name={@icon} class={@icon_class} />
+      <.<%= @component_prefix %>icon :if={icon_position(@icon, @rest) == "left"} name={@icon} class={@icon_class} />
       <span :if={@inner_block && render_slot(@inner_block)} class={[@content_class]}>
         {render_slot(@inner_block)}
       </span>
-      <.icon :if={icon_position(@icon, @rest) == "right"} name={@icon} class={@icon_class} />
+      <.<%= @component_prefix %>icon :if={icon_position(@icon, @rest) == "right"} name={@icon} class={@icon_class} />
       <.button_indicator size={@indicator_size} class={@indicator_class} {@rest} />
 
       <span :for={loading <- @loading} :if={loading[:position] == "end"} class={loading[:class]}>
@@ -289,7 +289,7 @@ defmodule <%= @module %> do
     doc:
       "Global attributes can define defaults which are merged with attributes provided by the caller"
 
-  def input_button(assigns) do
+  def <%= @component_prefix %>input_button(assigns) do
     ~H"""
     <input
       type={@type}
@@ -323,10 +323,10 @@ defmodule <%= @module %> do
   ## Examples
 
   ```elixir
-  <.button_link navigate="/admin" icon="hero-adjustments-vertical" />
-  <.button_link navigate="/admin">Button 3</.button_link>
+  <.<%= @component_prefix %>button_link navigate="/admin" icon="hero-adjustments-vertical" />
+  <.<%= @component_prefix %>button_link navigate="/admin">Button 3</.button_link>
 
-  <.button_link navigate="/admin" icon="hero-adjustments-vertical">
+  <.<%= @component_prefix %>button_link navigate="/admin" icon="hero-adjustments-vertical">
     Button 1
   </.button_link>
   ```
@@ -392,7 +392,7 @@ defmodule <%= @module %> do
       doc: "Determines the element position"
   end
 
-  def button_link(%{navigate: _navigate} = assigns) do
+  def <%= @component_prefix %>button_link(%{navigate: _navigate} = assigns) do
     assigns = assign_new(assigns, :indicator, fn -> is_indicators?(assigns[:rest]) end)
 
     ~H"""
@@ -422,11 +422,11 @@ defmodule <%= @module %> do
       </span>
 
       <.button_indicator position="left" size={@indicator_size} class={@indicator_class} {@rest} />
-      <.icon :if={icon_position(@icon, @rest) == "left"} name={@icon} class={@icon_class} />
+      <.<%= @component_prefix %>icon :if={icon_position(@icon, @rest) == "left"} name={@icon} class={@icon_class} />
       <span :if={(@inner_block && render_slot(@inner_block)) || @title} class={[@content_class]}>
         {render_slot(@inner_block) || @title}
       </span>
-      <.icon :if={icon_position(@icon, @rest) == "right"} name={@icon} class={@icon_class} />
+      <.<%= @component_prefix %>icon :if={icon_position(@icon, @rest) == "right"} name={@icon} class={@icon_class} />
       <.button_indicator size={@indicator_size} class={@indicator_class} {@rest} />
 
       <span :for={loading <- @loading} :if={loading[:position] == "end"} class={loading[:class]}>
@@ -436,7 +436,7 @@ defmodule <%= @module %> do
     """
   end
 
-  def button_link(%{patch: _patch} = assigns) do
+  def <%= @component_prefix %>button_link(%{patch: _patch} = assigns) do
     assigns = assign_new(assigns, :indicator, fn -> is_indicators?(assigns[:rest]) end)
 
     ~H"""
@@ -465,11 +465,11 @@ defmodule <%= @module %> do
       </span>
 
       <.button_indicator position="left" size={@indicator_size} class={@indicator_class} {@rest} />
-      <.icon :if={icon_position(@icon, @rest) == "left"} name={@icon} />
+      <.<%= @component_prefix %>icon :if={icon_position(@icon, @rest) == "left"} name={@icon} />
       <span :if={(@inner_block && render_slot(@inner_block)) || @title} class={[@content_class]}>
         {render_slot(@inner_block) || @title}
       </span>
-      <.icon :if={icon_position(@icon, @rest) == "right"} name={@icon} />
+      <.<%= @component_prefix %>icon :if={icon_position(@icon, @rest) == "right"} name={@icon} />
       <.button_indicator size={@indicator_size} class={@indicator_class} {@rest} />
 
       <span :for={loading <- @loading} :if={loading[:position] == "end"} class={loading[:class]}>
@@ -479,7 +479,7 @@ defmodule <%= @module %> do
     """
   end
 
-  def button_link(%{href: _href} = assigns) do
+  def <%= @component_prefix %>button_link(%{href: _href} = assigns) do
     assigns = assign_new(assigns, :indicator, fn -> is_indicators?(assigns[:rest]) end)
 
     ~H"""
@@ -508,11 +508,11 @@ defmodule <%= @module %> do
       </span>
 
       <.button_indicator position="left" size={@indicator_size} class={@indicator_class} {@rest} />
-      <.icon :if={icon_position(@icon, @rest) == "left"} name={@icon} />
+      <.<%= @component_prefix %>icon :if={icon_position(@icon, @rest) == "left"} name={@icon} />
       <span :if={(@inner_block && render_slot(@inner_block)) || @title} class={[@content_class]}>
         {render_slot(@inner_block) || @title}
       </span>
-      <.icon :if={icon_position(@icon, @rest) == "right"} name={@icon} />
+      <.<%= @component_prefix %>icon :if={icon_position(@icon, @rest) == "right"} name={@icon} />
       <.button_indicator size={@indicator_size} class={@indicator_class} {@rest} />
 
       <span :for={loading <- @loading} :if={loading[:position] == "end"} class={loading[:class]}>
@@ -535,14 +535,14 @@ defmodule <%= @module %> do
   attr :navigate, :any, required: true
   slot :inner_block, required: true
 
-  def back(assigns) do
+  def <%= @component_prefix %>back(assigns) do
     ~H"""
     <div class="mt-16">
       <.link
         navigate={@navigate}
         class="text-sm font-semibold leading-6 text-zinc-900 hover:text-zinc-700"
       >
-        <.icon name="hero-arrow-left-solid" class="h-3 w-3" />
+        <.<%= @component_prefix %>icon name="hero-arrow-left-solid" class="h-3 w-3" />
         {render_slot(@inner_block)}
       </.link>
     </div>

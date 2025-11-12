@@ -31,7 +31,7 @@ defmodule <%= @module %> do
   use Phoenix.Component
   alias Phoenix.LiveView.JS
   use Gettext, backend: <%= inspect(@web_module) %>.Gettext
-  import <%= inspect(@web_module) %>.Components.Icon, only: [icon: 1]
+  import <%= inspect(@web_module) %>.Components.Icon, only: [<%= @component_prefix %>icon: 1]
 
   @positions ["top_left", "top_right", "bottom_left", "bottom_right", "center", "full"]
 
@@ -43,14 +43,14 @@ defmodule <%= @module %> do
   ## Examples
 
   ```elixir
-  <.banner id="banner">
+  <.<%= @component_prefix %>banner id="banner">
     <div>
       Lorem ipsum dolor sit amet consectetur adipisicing elit. Commodi ea
       atque soluta praesentium quidem dicta sapiente accusamus nihil.
     </div>
-  </.banner>
+  </.<%= @component_prefix %>banner>
 
-  <.banner id="banner" color="primary" space="large" vertical_position="bottom">
+  <.<%= @component_prefix %>banner id="banner" color="primary" space="large" vertical_position="bottom">
     <div>
       Lorem ipsum dolor sit amet consectetur adipisicing elit. Commodi ea atque soluta
       praesentium quidem dicta sapiente accusamus nihil.
@@ -59,16 +59,16 @@ defmodule <%= @module %> do
       Lorem ipsum dolor sit amet consectetur adipisicing elit. Commodi ea atque
       soluta praesentium quidem dicta sapiente accusamus nihil.
     </div>
-  </.banner>
+  </.<%= @component_prefix %>banner>
 
-  <.banner id="banner" color="secondary" space="large" vertical_position="top" vertical_size="top-24">
+  <.<%= @component_prefix %>banner id="banner" color="secondary" space="large" vertical_position="top" vertical_size="top-24">
     <div>
       Lorem ipsum dolor sit amet consectetur adipisicing elit. Commodi ea atque soluta praesentium quidem dicta sapiente accusamus nihil.
     </div>
     <div>
       Lorem ipsum dolor sit amet consectetur adipisicing elit. Commodi ea atque soluta praesentium quidem dicta sapiente accusamus nihil.
     </div>
-  </.banner>
+  </.<%= @component_prefix %>banner>
   ```
   """
   @doc type: :component
@@ -141,7 +141,7 @@ defmodule <%= @module %> do
 
   slot :inner_block, required: false, doc: "Inner block that renders HEEx content"
 
-  def banner(assigns) do
+  def <%= @component_prefix %>banner(assigns) do
     ~H"""
     <div
       id={@id}
@@ -191,7 +191,7 @@ defmodule <%= @module %> do
       aria-label={gettext("close")}
       phx-click={JS.push("dismiss", value: Map.merge(%{id: @id}, @params)) |> hide_banner("##{@id}")}
     >
-      <.icon
+      <.<%= @component_prefix %>icon
         name="hero-x-mark-solid"
         class={[
           "banner-icon opacity-80 group-hover:opacity-70",

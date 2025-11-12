@@ -22,7 +22,7 @@ defmodule <%= @module %> do
 
   use Phoenix.Component
   alias Phoenix.LiveView.JS
-  import <%= inspect(@web_module) %>.Components.Icon, only: [icon: 1]
+  import <%= inspect(@web_module) %>.Components.Icon, only: [<%= @component_prefix %>icon: 1]
 
   @doc """
   Renders a customizable `mega_menu` component that can display various sections of content.
@@ -159,7 +159,7 @@ defmodule <%= @module %> do
     attr :class, :string, doc: "Custom CSS class for additional styling"
   end
 
-  def mega_menu(assigns) do
+  def <%= @component_prefix %>mega_menu(assigns) do
     ~H"""
     <div
       id={@id}
@@ -194,7 +194,7 @@ defmodule <%= @module %> do
         phx-click={@id && JS.exec("phx-open-mega", to: "##{@id}")}
         class={["flex items-center", @title_class]}
       >
-        <.icon :if={!is_nil(@icon)} name={@icon} class={["mega-menu-icon", @icon_class]} />
+        <.<%= @component_prefix %>icon :if={!is_nil(@icon)} name={@icon} class={["mega-menu-icon", @icon_class]} />
         <span>{@title}</span>
       </button>
 

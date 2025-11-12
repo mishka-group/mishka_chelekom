@@ -18,8 +18,8 @@ defmodule <%= @module %> do
   **Documentation:** https://mishka.tools/chelekom/docs/menu
   """
   use Phoenix.Component
-  import <%= inspect(@web_module) %>.Components.Button, only: [button_link: 1]
-  import <%= inspect(@web_module) %>.Components.Collapse, only: [collapse: 1]
+  import <%= inspect(@web_module) %>.Components.Button, only: [<%= @component_prefix %>button_link: 1]
+  import <%= inspect(@web_module) %>.Components.Collapse, only: [<%= @component_prefix %>collapse: 1]
 
   @doc """
   Renders a customizable `menu` component that can include menu items as a list of maps or use
@@ -30,9 +30,9 @@ defmodule <%= @module %> do
   ## Examples
 
   ```elixir
-  <.menu>
+  <.<%= @component_prefix %>menu>
     <li>
-      <.button_link
+      <.<%= @component_prefix %>button_link
         navigate="/"
         size="extra_small"
         color="misc"
@@ -45,11 +45,11 @@ defmodule <%= @module %> do
         font_weight="font-bold"
       >
         Dashboard
-      </.button_link>
+      </.<%= @component_prefix %>button_link>
     </li>
 
     <li>
-      <.button_link
+      <.<%= @component_prefix %>button_link
         size="extra_small"
         color="misc"
         variant="unbordered"
@@ -61,11 +61,11 @@ defmodule <%= @module %> do
         icon="hero-server"
       >
         Footer
-      </.button_link>
+      </.<%= @component_prefix %>button_link>
     </li>
 
     <li>
-      <.accordion
+      <.<%= @component_prefix %>accordion
         padding="none"
         id="accordion1"
         size="extra_small"
@@ -75,7 +75,7 @@ defmodule <%= @module %> do
       >
         <:item title="Menu item" icon_class="size-5" icon="hero-bookmark">
           <ul class="pl-5 space-y-3 mt-3">
-            <.button_link
+            <.<%= @component_prefix %>button_link
               navigate="/examples/indicator"
               size="extra_small"
               color="misc"
@@ -87,9 +87,9 @@ defmodule <%= @module %> do
               icon="hero-scissors"
             >
               Indicator
-            </.button_link>
+            </.<%= @component_prefix %>button_link>
 
-            <.button_link
+            <.<%= @component_prefix %>button_link
               navigate="/examples/image"
               size="extra_small"
               color="misc"
@@ -101,9 +101,9 @@ defmodule <%= @module %> do
               icon="hero-scale"
             >
               Image
-            </.button_link>
+            </.<%= @component_prefix %>button_link>
 
-            <.button_link
+            <.<%= @component_prefix %>button_link
               navigate="/examples/rating"
               size="extra_small"
               color="misc"
@@ -115,9 +115,9 @@ defmodule <%= @module %> do
               icon="hero-building-storefront"
             >
               Rating
-            </.button_link>
+            </.<%= @component_prefix %>button_link>
 
-            <.accordion
+            <.<%= @component_prefix %>accordion
               variant="menu"
               padding="none"
               size="extra_small"
@@ -127,7 +127,7 @@ defmodule <%= @module %> do
             >
               <:item title="Invoice" icon_class="size-5" icon="hero-building-storefront">
                 <ul class="pl-5 space-y-3 mt-3">
-                  <.button_link
+                  <.<%= @component_prefix %>button_link
                     navigate="/examples/popover"
                     size="extra_small"
                     color="misc"
@@ -139,9 +139,9 @@ defmodule <%= @module %> do
                     icon="hero-bolt"
                   >
                     Popover
-                  </.button_link>
+                  </.<%= @component_prefix %>button_link>
 
-                  <.button_link
+                  <.<%= @component_prefix %>button_link
                     navigate="/examples/overlay"
                     size="extra_small"
                     color="misc"
@@ -153,17 +153,17 @@ defmodule <%= @module %> do
                     icon="hero-shopping-bag"
                   >
                     Overlay
-                  </.button_link>
+                  </.<%= @component_prefix %>button_link>
                 </ul>
               </:item>
-            </.accordion>
+            </.<%= @component_prefix %>accordion>
           </ul>
         </:item>
-      </.accordion>
+      </.<%= @component_prefix %>accordion>
     </li>
 
     <li>
-      <.button_link
+      <.<%= @component_prefix %>button_link
         navigate="/examples/modal"
         size="extra_small"
         color="misc"
@@ -175,11 +175,11 @@ defmodule <%= @module %> do
         icon="hero-bell"
       >
         Modal
-      </.button_link>
+      </.<%= @component_prefix %>button_link>
     </li>
 
     <li>
-      <.button_link
+      <.<%= @component_prefix %>button_link
         navigate="/examples/list"
         size="extra_small"
         color="misc"
@@ -191,9 +191,9 @@ defmodule <%= @module %> do
         icon="hero-cake"
       >
         List
-      </.button_link>
+      </.<%= @component_prefix %>button_link>
     </li>
-  </.menu>
+  </.<%= @component_prefix %>menu>
   ```
 
   ### It can be used as list of map
@@ -327,7 +327,7 @@ defmodule <%= @module %> do
     }
   ]
 
-  <.menu menu_items={@list_menus} />
+  <.<%= @component_prefix %>menu menu_items={@list_menus} />
   ```
   """
   @doc type: :component
@@ -355,7 +355,7 @@ defmodule <%= @module %> do
     doc:
       "Global attributes can define defaults which are merged with attributes provided by the caller"
 
-  def menu(assigns) do
+  def <%= @component_prefix %>menu(assigns) do
     ~H"""
     <ul
       id={@id}
@@ -367,25 +367,25 @@ defmodule <%= @module %> do
       {@rest}
     >
       <li :for={menu_item <- @menu_items} class={@item_class}>
-        <.button_link
+        <.<%= @component_prefix %>button_link
           :if={Map.get(menu_item, :sub_items, []) == []}
           font_weight={menu_item[:active] && "font-bold"}
           class={@link_class}
           {menu_item}
         />
-         <.collapse
+         <.<%= @component_prefix %>collapse
           :if={Map.get(menu_item, :sub_items, []) != []}
           id={menu_item[:id] || "menu-item-#{System.unique_integer([:positive])}"}
           class={@accordion_class}
         >
           <:trigger>
-            <.button_link
+            <.<%= @component_prefix %>button_link
               font_weight={menu_item[:active] && "font-bold"}
               class={@link_class}
               {Map.drop(menu_item, [:sub_items, :padding])}
             />
           </:trigger>
-          <.menu
+          <.<%= @component_prefix %>menu
             id={menu_item[:id]}
             class={menu_item[:padding]}
             menu_items={Map.get(menu_item, :sub_items, [])}

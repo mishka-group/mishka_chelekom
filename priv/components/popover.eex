@@ -49,7 +49,7 @@ defmodule <%= @module %> do
             and it is also considered part of Western Europe. It is a unitary parliamentary
             republic with Rome as its capital and largest city.
           </span>
-          <a href="/" class="block text-blue-400">Read more <.icon name="hero-link" /></a>
+          <a href="/" class="block text-blue-400">Read more <.<%= @component_prefix %>icon name="hero-link" /></a>
         </span>
         <img
           src="https://example.com/italy.png"
@@ -117,7 +117,7 @@ defmodule <%= @module %> do
     attr :class, :string, doc: "Custom CSS class for additional styling"
   end
 
-  def popover(assigns) do
+  def <%= @component_prefix %>popover(assigns) do
     assigns =
       assigns
       |> assign_new(:id, fn -> "popover-#{random_id()}" end)

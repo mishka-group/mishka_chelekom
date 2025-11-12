@@ -22,7 +22,7 @@ defmodule <%= @module %> do
   """
 
   use Phoenix.Component
-  import <%= inspect(@web_module) %>.Components.Icon, only: [icon: 1]
+  import <%= inspect(@web_module) %>.Components.Icon, only: [<%= @component_prefix %>icon: 1]
 
   <%= if is_nil(@type) or "avatar" in @type do %>
   @doc """
@@ -34,18 +34,18 @@ defmodule <%= @module %> do
   ## Examples
 
   ```elixir
-  <.avatar size="medium" rounded="full" color="silver">
+  <.<%= @component_prefix %>avatar size="medium" rounded="full" color="silver">
     <:icon name="hero-user" />
-    <.indicator size="small" bottom_right />
-  </.avatar>
+    <.<%= @component_prefix %>indicator size="small" bottom_right />
+  </.<%= @component_prefix %>avatar>
 
-  <.avatar src="https://example.com/profile.jpg" size="extra_small" rounded="full">
-    <.indicator size="extra_small" bottom_left />
-  </.avatar>
+  <.<%= @component_prefix %>avatar src="https://example.com/profile.jpg" size="extra_small" rounded="full">
+    <.<%= @component_prefix %>indicator size="extra_small" bottom_left />
+  </.<%= @component_prefix %>avatar>
 
-  <.avatar src="https://example.com/profile.jpg" size="extra_large" rounded="full">
-    <.indicator size="extra_small" color="success" top_left />
-  </.avatar>
+  <.<%= @component_prefix %>avatar src="https://example.com/profile.jpg" size="extra_large" rounded="full">
+    <.<%= @component_prefix %>indicator size="extra_small" color="success" top_left />
+  </.<%= @component_prefix %>avatar>
   ```
   """
   @doc type: :component
@@ -90,7 +90,7 @@ defmodule <%= @module %> do
 
   slot :inner_block, required: false, doc: "Inner block that renders HEEx content"
 
-  def avatar(%{src: src, rounded: "full"} = assigns) when not is_nil(src) do
+  def <%= @component_prefix %>avatar(%{src: src, rounded: "full"} = assigns) when not is_nil(src) do
     ~H"""
     <div class={[
       "relative w-fit select-none",
@@ -113,7 +113,7 @@ defmodule <%= @module %> do
     """
   end
 
-  def avatar(%{src: src, rounded: "full"} = assigns) when is_nil(src) do
+  def <%= @component_prefix %>avatar(%{src: src, rounded: "full"} = assigns) when is_nil(src) do
     ~H"""
     <div
       class={[
@@ -129,7 +129,7 @@ defmodule <%= @module %> do
     >
       <div class={["flex items-center justify-center", size_class(@size, :text)]}>
         <div :for={icon <- @icon} class={[icon[:size], icon[:color], icon[:class]]}>
-          <.icon name={icon[:name]} class={icon[:icon_class] || size_class(@size, :icon)} />
+          <.<%= @component_prefix %>icon name={icon[:name]} class={icon[:icon_class] || size_class(@size, :icon)} />
         </div>
         {render_slot(@inner_block)}
       </div>
@@ -137,7 +137,7 @@ defmodule <%= @module %> do
     """
   end
 
-  def avatar(%{src: src} = assigns) when not is_nil(src) do
+  def <%= @component_prefix %>avatar(%{src: src} = assigns) when not is_nil(src) do
     ~H"""
     <div class="relative w-fit select-none">
       <img
@@ -158,7 +158,7 @@ defmodule <%= @module %> do
     """
   end
 
-  def avatar(assigns) do
+  def <%= @component_prefix %>avatar(assigns) do
     ~H"""
     <div
       class={[
@@ -174,7 +174,7 @@ defmodule <%= @module %> do
     >
       <div class={["flex items-center justify-center", size_class(@size, :text)]}>
         <div :for={icon <- @icon} class={[icon[:size], icon[:color], icon[:class]]}>
-          <.icon name={icon[:name]} class={icon[:icon_class] || size_class(@size, :icon)} />
+          <.<%= @component_prefix %>icon name={icon[:name]} class={icon[:icon_class] || size_class(@size, :icon)} />
         </div>
         {render_slot(@inner_block)}
       </div>
@@ -214,7 +214,7 @@ defmodule <%= @module %> do
 
   slot :inner_block, required: false, doc: "Inner block that renders HEEx content"
 
-  def avatar_group(assigns) do
+  def <%= @component_prefix %>avatar_group(assigns) do
     ~H"""
     <div
       id={@id}
