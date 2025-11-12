@@ -385,7 +385,7 @@ defmodule <%= @module %> do
               {Map.drop(menu_item, [:sub_items, :padding])}
             />
           </:trigger>
-          <.menu
+          <.<%= @component_prefix %>menu
             id={menu_item[:id]}
             class={menu_item[:padding]}
             menu_items={Map.get(menu_item, :sub_items, [])}
