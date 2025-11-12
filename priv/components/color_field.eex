@@ -93,7 +93,7 @@ defmodule <%= @module %> do
     doc:
       "Global attributes can define defaults which are merged with attributes provided by the caller"
 
-  @spec color_field(map()) :: Phoenix.LiveView.Rendered.t()
+  @spec <%= @component_prefix %>color_field(map()) :: Phoenix.LiveView.Rendered.t()
   def <%= @component_prefix %>color_field(%{field: %Phoenix.HTML.FormField{} = field} = assigns) do
     errors = if Phoenix.Component.used_input?(field), do: field.errors, else: []
 
@@ -102,7 +102,7 @@ defmodule <%= @module %> do
     |> assign(:errors, Enum.map(errors, &translate_error(&1)))
     |> assign_new(:name, fn -> field.name end)
     |> assign_new(:value, fn -> field.value end)
-    |> color_field()
+    |> <%= @component_prefix %>color_field()
   end
 
   def <%= @component_prefix %>color_field(assigns) do
