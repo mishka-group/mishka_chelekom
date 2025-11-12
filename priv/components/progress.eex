@@ -101,7 +101,7 @@ defmodule <%= @module %> do
       ]}
       {@rest}
     >
-      <.progress_section :if={@value} {assigns} />
+      <.<%= @component_prefix %>progress_section :if={@value} {assigns} />
       <div
         :if={msg = render_slot(@inner_block)}
         class={[
