@@ -270,6 +270,8 @@ defmodule MishkaChelekom.CSSConfig do
           # natural_dark: "#dddddd",
           # natural_hover_light: "#282828",
           # natural_hover_dark: "#e8e8e8",
+          # natural_bordered_hover_light: "#E8E8E8",
+          # natural_bordered_hover_dark: "#5E5E5E",
           # natural_bg_light: "#f3f3f3",
           # natural_bg_dark: "#4b4b4b",
           # natural_border_light: "#282828",
@@ -412,6 +414,8 @@ defmodule MishkaChelekom.CSSConfig do
           # silver_dark: "#a6a6a6",
           # silver_hover_light: "#727272",
           # silver_hover_dark: "#bbbbbb",
+          # silver_hover_bordered_light: "#E8E8E8",
+          # silver_hover_bordered_dark: "#5E5E5E",
           # silver_bordered_text_light: "#727272",
           # silver_bordered_text_dark: "#bbbbbb",
           # silver_bordered_bg_light: "#f3f3f3",
@@ -503,7 +507,24 @@ defmodule MishkaChelekom.CSSConfig do
           # checkbox_info_checked: "#0ea5e9",
           # checkbox_misc_checked: "#a964f7",
           # checkbox_dawn_checked: "#d27d46",
-          # checkbox_silver_checked: "#a6a6a6"
+          # checkbox_silver_checked: "#a6a6a6",
+
+          # === Stepper Colors ===
+          # stepper_loading_icon_fill: "#2563eb",
+          # stepper_current_step_text_light: "#2563eb",
+          # stepper_current_step_text_dark: "#1971c2",
+          # stepper_current_step_border_light: "#2563eb",
+          # stepper_current_step_border_dark: "#1971c2",
+          # stepper_completed_step_bg_light: "#14b8a6",
+          # stepper_completed_step_bg_dark: "#099268",
+          # stepper_completed_step_border_light: "#14b8a6",
+          # stepper_completed_step_border_dark: "#099268",
+          # stepper_canceled_step_bg_light: "#fa5252",
+          # stepper_canceled_step_bg_dark: "#e03131",
+          # stepper_canceled_step_border_light: "#fa5252",
+          # stepper_canceled_step_border_dark: "#e03131",
+          # stepper_separator_completed_border_light: "#14b8a6",
+          # stepper_separator_completed_border_dark: "#099268"
         },
 
       # Strategy for handling CSS
