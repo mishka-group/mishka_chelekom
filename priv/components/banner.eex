@@ -43,14 +43,14 @@ defmodule <%= @module %> do
   ## Examples
 
   ```elixir
-  <.banner id="banner">
+  <.<%= @component_prefix %>banner id="banner">
     <div>
       Lorem ipsum dolor sit amet consectetur adipisicing elit. Commodi ea
       atque soluta praesentium quidem dicta sapiente accusamus nihil.
     </div>
-  </.banner>
+  </.<%= @component_prefix %>banner>
 
-  <.banner id="banner" color="primary" space="large" vertical_position="bottom">
+  <.<%= @component_prefix %>banner id="banner" color="primary" space="large" vertical_position="bottom">
     <div>
       Lorem ipsum dolor sit amet consectetur adipisicing elit. Commodi ea atque soluta
       praesentium quidem dicta sapiente accusamus nihil.
@@ -59,16 +59,16 @@ defmodule <%= @module %> do
       Lorem ipsum dolor sit amet consectetur adipisicing elit. Commodi ea atque
       soluta praesentium quidem dicta sapiente accusamus nihil.
     </div>
-  </.banner>
+  </.<%= @component_prefix %>banner>
 
-  <.banner id="banner" color="secondary" space="large" vertical_position="top" vertical_size="top-24">
+  <.<%= @component_prefix %>banner id="banner" color="secondary" space="large" vertical_position="top" vertical_size="top-24">
     <div>
       Lorem ipsum dolor sit amet consectetur adipisicing elit. Commodi ea atque soluta praesentium quidem dicta sapiente accusamus nihil.
     </div>
     <div>
       Lorem ipsum dolor sit amet consectetur adipisicing elit. Commodi ea atque soluta praesentium quidem dicta sapiente accusamus nihil.
     </div>
-  </.banner>
+  </.<%= @component_prefix %>banner>
   ```
   """
   @doc type: :component
@@ -876,7 +876,7 @@ defmodule <%= @module %> do
 
     This example will show the banner element with the ID banner-element using the defined transition effect.
   """
-  def <%= @component_prefix %>show_banner(js \\ %JS{}, selector) do
+  def show_banner(js \\ %JS{}, selector) do
     JS.show(js,
       to: selector,
       time: 300,
@@ -915,7 +915,7 @@ defmodule <%= @module %> do
 
   This example will hide the banner element with the ID banner-element using the defined transition effect.
   """
-  def <%= @component_prefix %>hide_banner(js \\ %JS{}, selector) do
+  def hide_banner(js \\ %JS{}, selector) do
     JS.hide(js,
       to: selector,
       time: 200,
