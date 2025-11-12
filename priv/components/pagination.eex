@@ -35,7 +35,7 @@ defmodule <%= @module %> do
   ## Examples
 
   ```elixir
-  <.pagination
+  <.<%= @component_prefix %>pagination
     total={200}
     active={@posts.active}
     siblings={3}
@@ -47,7 +47,7 @@ defmodule <%= @module %> do
     last_label="last"
   />
 
-  <.pagination total={@posts.total} active={@posts.active} siblings={3} variant="outline" show_edges grouped/>
+  <.<%= @component_prefix %>pagination total={@posts.total} active={@posts.active} siblings={3} variant="outline" show_edges grouped/>
   ```
   """
   @doc type: :component

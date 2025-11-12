@@ -20,39 +20,39 @@ defmodule <%= @module %> do
   ## Examples
 
   ```elixir
-  <.dropdown relative="relative" position="right">
+  <.<%= @component_prefix %>dropdown relative="relative" position="right">
     <:trigger>
-      <.button color="primary" icon="hero-chevron-down" right_icon>
+      <.<%= @component_prefix %>button color="primary" icon="hero-chevron-down" right_icon>
         Dropdown Right
-      </.button>
+      </.<%= @component_prefix %>button>
     </:trigger>
 
     <:content space="small" rounded="large" width="full" padding="extra_small">
-      <.list size="small">
+      <.<%= @component_prefix %>list size="small">
         <:item padding="extra_small" icon="hero-envelope">Dashboard</:item>
         <:item padding="extra_small" icon="hero-camera">Settings</:item>
         <:item padding="extra_small" icon="hero-camera">Earning</:item>
         <:item padding="extra_small" icon="hero-calendar">Sign out</:item>
-      </.list>
+      </.<%= @component_prefix %>list>
     </:content>
-  </.dropdown>
+  </.<%= @component_prefix %>dropdown>
 
-  <.dropdown relative="relative" clickable>
+  <.<%= @component_prefix %>dropdown relative="relative" clickable>
     <:trigger trigger_id="test-1">
-      <.button color="primary" icon="hero-chevron-down" right_icon>
+      <.<%= @component_prefix %>button color="primary" icon="hero-chevron-down" right_icon>
         Dropdown Button
-      </.button>
+      </.<%= @component_prefix %>button>
     </:trigger>
 
     <:content id="test-1" space="small" rounded="large" width="full" padding="extra_small">
-      <.list size="small">
+      <.<%= @component_prefix %>list size="small">
         <:item padding="extra_small" icon="hero-envelope">Dashboard</:item>
         <:item padding="extra_small" icon="hero-camera">Settings</:item>
         <:item padding="extra_small" icon="hero-camera">Earning</:item>
         <:item padding="extra_small" icon="hero-calendar">Sign out</:item>
-      </.list>
+      </.<%= @component_prefix %>list>
     </:content>
-  </.dropdown>
+  </.<%= @component_prefix %>dropdown>
   ```
   """
   @doc type: :component
@@ -181,9 +181,9 @@ defmodule <%= @module %> do
   ## Examples
 
   ```elixir
-  <.dropdown_trigger>
-    <.button color="primary" icon="hero-chevron-down" right_icon>Dropdown Right</.button>
-  </.dropdown_trigger>
+  <.<%= @component_prefix %>dropdown_trigger>
+    <.<%= @component_prefix %>button color="primary" icon="hero-chevron-down" right_icon>Dropdown Right</.<%= @component_prefix %>button>
+  </.<%= @component_prefix %>dropdown_trigger>
   ```
   """
   @doc type: :component
@@ -225,14 +225,14 @@ defmodule <%= @module %> do
   ## Examples
 
   ```elixir
-  <.dropdown_content space="small" rounded="large" width="full" padding="extra_small">
-    <.list size="small">
+  <.<%= @component_prefix %>dropdown_content space="small" rounded="large" width="full" padding="extra_small">
+    <.<%= @component_prefix %>list size="small">
       <:item padding="extra_small" icon="hero-envelope">Dashboard</:item>
       <:item padding="extra_small" icon="hero-camera">Settings</:item>
       <:item padding="extra_small" icon="hero-camera">Earning</:item>
       <:item padding="extra_small" icon="hero-calendar">Sign out</:item>
-    </.list>
-  </.dropdown_content>
+    </.<%= @component_prefix %>list>
+  </.<%= @component_prefix %>dropdown_content>
   ```
   """
   @doc type: :component

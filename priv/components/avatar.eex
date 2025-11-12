@@ -34,18 +34,18 @@ defmodule <%= @module %> do
   ## Examples
 
   ```elixir
-  <.avatar size="medium" rounded="full" color="silver">
+  <.<%= @component_prefix %>avatar size="medium" rounded="full" color="silver">
     <:icon name="hero-user" />
-    <.indicator size="small" bottom_right />
-  </.avatar>
+    <.<%= @component_prefix %>indicator size="small" bottom_right />
+  </.<%= @component_prefix %>avatar>
 
-  <.avatar src="https://example.com/profile.jpg" size="extra_small" rounded="full">
-    <.indicator size="extra_small" bottom_left />
-  </.avatar>
+  <.<%= @component_prefix %>avatar src="https://example.com/profile.jpg" size="extra_small" rounded="full">
+    <.<%= @component_prefix %>indicator size="extra_small" bottom_left />
+  </.<%= @component_prefix %>avatar>
 
-  <.avatar src="https://example.com/profile.jpg" size="extra_large" rounded="full">
-    <.indicator size="extra_small" color="success" top_left />
-  </.avatar>
+  <.<%= @component_prefix %>avatar src="https://example.com/profile.jpg" size="extra_large" rounded="full">
+    <.<%= @component_prefix %>indicator size="extra_small" color="success" top_left />
+  </.<%= @component_prefix %>avatar>
   ```
   """
   @doc type: :component

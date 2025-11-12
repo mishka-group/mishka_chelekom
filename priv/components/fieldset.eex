@@ -24,13 +24,13 @@ defmodule <%= @module %> do
   ## Examples
 
   ```elixir
-  <.fieldset space="small" color="success" variant="outline">
+  <.<%= @component_prefix %>fieldset space="small" color="success" variant="outline">
     <:control>
-      <.radio_field name="home" value="Home" space="small" color="success" label="This is label"/>
+      <.<%= @component_prefix %>radio_field name="home" value="Home" space="small" color="success" label="This is label"/>
     </:control>
 
     <:control>
-      <.radio_field
+      <.<%= @component_prefix %>radio_field
         name="home"
         value="Home"
         space="small"
@@ -40,7 +40,7 @@ defmodule <%= @module %> do
     </:control>
 
     <:control>
-      <.radio_field
+      <.<%= @component_prefix %>radio_field
         name="home"
         value="Home"
         space="small"
@@ -48,7 +48,7 @@ defmodule <%= @module %> do
         label="This is label of radio"
       />
     </:control>
-  </.fieldset>
+  </.<%= @component_prefix %>fieldset>
   ```
   """
   @doc type: :component

@@ -41,12 +41,12 @@ defmodule <%= @module %> do
   ## Examples
 
   ```elixir
-  <.timeline>
-    <.timeline_section
+  <.<%= @component_prefix %>timeline>
+    <.<%= @component_prefix %>timeline_section
       size="double_large"
       image="https://example.com/profile.jpg"
     >
-      <.card padding="large" rounded="large">
+      <.<%= @component_prefix %>card padding="large" rounded="large">
         <div class="items-center justify-between">
           <time class="mb-1 text-xs font-normal text-gray-400 sm:order-last sm:mb-0">
             just now
@@ -65,13 +65,13 @@ defmodule <%= @module %> do
             </span>
           </div>
         </div>
-      </.card>
-    </.timeline_section>
-    <.timeline_section
+      </.<%= @component_prefix %>card>
+    </.<%= @component_prefix %>timeline_section>
+    <.<%= @component_prefix %>timeline_section
       size="double_large"
       image="https://example.com/profile.jpg"
     >
-      <.card padding="large" rounded="large">
+      <.<%= @component_prefix %>card padding="large" rounded="large">
         <div class="items-center justify-between mb-3 sm:flex">
           <time class="mb-1 text-xs font-normal text-gray-400 sm:order-last sm:mb-0">
             2 hours ago
@@ -86,9 +86,9 @@ defmodule <%= @module %> do
           best measure your design system! This is the second session of our new webinar
           series on #DesignSystems discussions where we'll be speaking about Measurement.
         </div>
-      </.card>
-    </.timeline_section>
-  </.timeline>
+      </.<%= @component_prefix %>card>
+    </.<%= @component_prefix %>timeline_section>
+  </.<%= @component_prefix %>timeline>
   ```
   """
   @doc type: :component
@@ -153,11 +153,11 @@ defmodule <%= @module %> do
   ## Examples
 
   ```elixir
-  <.timeline_section
+  <.<%= @component_prefix %>timeline_section
     size="double_large"
     image="https://example.com/profile.jpg"
   >
-    <.card padding="large" rounded="large">
+    <.<%= @component_prefix %>card padding="large" rounded="large">
       <div class="items-center justify-between mb-3 sm:flex">
         <time class="mb-1 text-xs font-normal text-gray-400 sm:order-last sm:mb-0">
           2 hours ago
@@ -172,8 +172,8 @@ defmodule <%= @module %> do
         best measure your design system! This is the second session of our new webinar
         series on #DesignSystems discussions where we'll be speaking about Measurement.
       </div>
-    </.card>
-  </.timeline_section>
+    </.<%= @component_prefix %>card>
+  </.<%= @component_prefix %>timeline_section>
   ```
   """
   @doc type: :component

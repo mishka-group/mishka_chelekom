@@ -30,7 +30,7 @@ defmodule <%= @module %> do
   ## Examples
 
   ```elixir
-  <.menu>
+  <.<%= @component_prefix %>menu>
     <li>
       <.<%= @component_prefix %>button_link
         navigate="/"
@@ -45,7 +45,7 @@ defmodule <%= @module %> do
         font_weight="font-bold"
       >
         Dashboard
-      </.button_link>
+      </.<%= @component_prefix %>button_link>
     </li>
 
     <li>
@@ -61,11 +61,11 @@ defmodule <%= @module %> do
         icon="hero-server"
       >
         Footer
-      </.button_link>
+      </.<%= @component_prefix %>button_link>
     </li>
 
     <li>
-      <.accordion
+      <.<%= @component_prefix %>accordion
         padding="none"
         id="accordion1"
         size="extra_small"
@@ -87,7 +87,7 @@ defmodule <%= @module %> do
               icon="hero-scissors"
             >
               Indicator
-            </.button_link>
+            </.<%= @component_prefix %>button_link>
 
             <.<%= @component_prefix %>button_link
               navigate="/examples/image"
@@ -101,7 +101,7 @@ defmodule <%= @module %> do
               icon="hero-scale"
             >
               Image
-            </.button_link>
+            </.<%= @component_prefix %>button_link>
 
             <.<%= @component_prefix %>button_link
               navigate="/examples/rating"
@@ -115,9 +115,9 @@ defmodule <%= @module %> do
               icon="hero-building-storefront"
             >
               Rating
-            </.button_link>
+            </.<%= @component_prefix %>button_link>
 
-            <.accordion
+            <.<%= @component_prefix %>accordion
               variant="menu"
               padding="none"
               size="extra_small"
@@ -139,7 +139,7 @@ defmodule <%= @module %> do
                     icon="hero-bolt"
                   >
                     Popover
-                  </.button_link>
+                  </.<%= @component_prefix %>button_link>
 
                   <.<%= @component_prefix %>button_link
                     navigate="/examples/overlay"
@@ -153,13 +153,13 @@ defmodule <%= @module %> do
                     icon="hero-shopping-bag"
                   >
                     Overlay
-                  </.button_link>
+                  </.<%= @component_prefix %>button_link>
                 </ul>
               </:item>
-            </.accordion>
+            </.<%= @component_prefix %>accordion>
           </ul>
         </:item>
-      </.accordion>
+      </.<%= @component_prefix %>accordion>
     </li>
 
     <li>
@@ -175,7 +175,7 @@ defmodule <%= @module %> do
         icon="hero-bell"
       >
         Modal
-      </.button_link>
+      </.<%= @component_prefix %>button_link>
     </li>
 
     <li>
@@ -191,9 +191,9 @@ defmodule <%= @module %> do
         icon="hero-cake"
       >
         List
-      </.button_link>
+      </.<%= @component_prefix %>button_link>
     </li>
-  </.menu>
+  </.<%= @component_prefix %>menu>
   ```
 
   ### It can be used as list of map
@@ -327,7 +327,7 @@ defmodule <%= @module %> do
     }
   ]
 
-  <.menu menu_items={@list_menus} />
+  <.<%= @component_prefix %>menu menu_items={@list_menus} />
   ```
   """
   @doc type: :component

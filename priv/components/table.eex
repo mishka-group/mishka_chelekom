@@ -29,7 +29,7 @@ defmodule <%= @module %> do
   ## Examples
 
   ```elixir
-  <.table>
+  <.<%= @component_prefix %>table>
     <:header>Name</:header>
     <:header>Age</:header>
     <:header>Address</:header>
@@ -37,42 +37,42 @@ defmodule <%= @module %> do
     <:header>Job</:header>
     <:header>Action</:header>
 
-    <.tr>
-      <.td>Jim Emerald</.td>
-      <.td>27</.td>
-      <.td>London No. 1 Lake Park</.td>
-      <.td>test@mail.com</.td>
-      <.td>Frontend Developer</.td>
-      <.td><.rating select={3} count={5} /></.td>
-    </.tr>
+    <.<%= @component_prefix %>tr>
+      <.<%= @component_prefix %>td>Jim Emerald</.<%= @component_prefix %>td>
+      <.<%= @component_prefix %>td>27</.<%= @component_prefix %>td>
+      <.<%= @component_prefix %>td>London No. 1 Lake Park</.<%= @component_prefix %>td>
+      <.<%= @component_prefix %>td>test@mail.com</.<%= @component_prefix %>td>
+      <.<%= @component_prefix %>td>Frontend Developer</.<%= @component_prefix %>td>
+      <.<%= @component_prefix %>td><.<%= @component_prefix %>rating select={3} count={5} /></.<%= @component_prefix %>td>
+    </.<%= @component_prefix %>tr>
 
-    <.tr>
-      <.td>Alex Brown</.td>
-      <.td>32</.td>
-      <.td>New York No. 2 River Park</.td>
-      <.td>alex@mail.com</.td>
-      <.td>Backend Developer</.td>
-      <.td><.rating select={4} count={5} /></.td>
-    </.tr>
+    <.<%= @component_prefix %>tr>
+      <.<%= @component_prefix %>td>Alex Brown</.<%= @component_prefix %>td>
+      <.<%= @component_prefix %>td>32</.<%= @component_prefix %>td>
+      <.<%= @component_prefix %>td>New York No. 2 River Park</.<%= @component_prefix %>td>
+      <.<%= @component_prefix %>td>alex@mail.com</.<%= @component_prefix %>td>
+      <.<%= @component_prefix %>td>Backend Developer</.<%= @component_prefix %>td>
+      <.<%= @component_prefix %>td><.<%= @component_prefix %>rating select={4} count={5} /></.<%= @component_prefix %>td>
+    </.<%= @component_prefix %>tr>
 
-    <.tr>
-      <.td>John Doe</.td>
-      <.td>28</.td>
-      <.td>Los Angeles No. 3 Sunset Boulevard</.td>
-      <.td>john@mail.com</.td>
-      <.td>UI/UX Designer</.td>
-      <.td><.rating select={5} count={5} /></.td>
-    </.tr>
+    <.<%= @component_prefix %>tr>
+      <.<%= @component_prefix %>td>John Doe</.<%= @component_prefix %>td>
+      <.<%= @component_prefix %>td>28</.<%= @component_prefix %>td>
+      <.<%= @component_prefix %>td>Los Angeles No. 3 Sunset Boulevard</.<%= @component_prefix %>td>
+      <.<%= @component_prefix %>td>john@mail.com</.<%= @component_prefix %>td>
+      <.<%= @component_prefix %>td>UI/UX Designer</.<%= @component_prefix %>td>
+      <.<%= @component_prefix %>td><.<%= @component_prefix %>rating select={5} count={5} /></.<%= @component_prefix %>td>
+    </.<%= @component_prefix %>tr>
 
     <:footer>Total</:footer>
     <:footer>3 Employees</:footer>
-  </.table>
+  </.<%= @component_prefix %>table>
 
 
-  <.table id="users" rows={@users}>
+  <.<%= @component_prefix %>table id="users" rows={@users}>
     <:col :let={user} label="id">{user.id}</:col>
     <:col :let={user} label="username">{user.username}</:col>
-  </.table>
+  </.<%= @component_prefix %>table>
   ```
   """
   @doc type: :component
@@ -258,7 +258,7 @@ defmodule <%= @module %> do
   ## Examples
 
   ```elixir
-  <.th>Column Title</.th>
+  <.<%= @component_prefix %>th>Column Title</.<%= @component_prefix %>th>
   ```
   """
   @doc type: :component
@@ -291,10 +291,10 @@ defmodule <%= @module %> do
   ## Examples
 
   ```elixir
-  <.tr>
-    <.td>Data 1</.td>
-    <.td>Data 2</.td>
-  </.tr>
+  <.<%= @component_prefix %>tr>
+    <.<%= @component_prefix %>td>Data 1</.<%= @component_prefix %>td>
+    <.<%= @component_prefix %>td>Data 2</.<%= @component_prefix %>td>
+  </.<%= @component_prefix %>tr>
   ```
   """
   @doc type: :component
@@ -325,7 +325,7 @@ defmodule <%= @module %> do
 
   ## Examples
   ```elixir
-  <.td>Data</.td>
+  <.<%= @component_prefix %>td>Data</.<%= @component_prefix %>td>
   ```
   """
   @doc type: :component
