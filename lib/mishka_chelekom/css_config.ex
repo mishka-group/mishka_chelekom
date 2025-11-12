@@ -542,4 +542,71 @@ defmodule MishkaChelekom.CSSConfig do
 
     {igniter, config_path, sample_content}
   end
+
+  @doc """
+  Updates the component_prefix value in the user's config file.
+  Creates the config file with sample content if it doesn't exist.
+  """
+  def update_component_prefix(igniter, prefix) when is_binary(prefix) do
+    config_path = user_config_path(igniter)
+
+    # Get existing content or create sample config
+    existing_content =
+      case Rewrite.source(igniter.rewrite, config_path) do
+        {:ok, source} ->
+          Rewrite.Source.get(source, :content)
+
+        {:error, _} ->
+          # Config doesn't exist, check file system
+          if File.exists?(config_path) do
+            File.read!(config_path)
+          else
+            # Create sample config content
+            {_igniter, _path, sample_content} = create_sample_config(igniter)
+            sample_content
+          end
+      end
+
+    # Update the component_prefix line
+    updated_content = update_prefix_in_content(existing_content, prefix)
+
+    # Write the updated content
+    igniter
+    |> Igniter.create_or_update_file(config_path, updated_content, fn source ->
+      Rewrite.Source.update(source, :content, updated_content)
+    end)
+  end
+
+  defp update_prefix_in_content(content, prefix) do
+    # Replace the component_prefix line
+    # Match patterns like:
+    # - component_prefix: nil
+    # - component_prefix: "old_value"
+    # - component_prefix: nil,
+    regex = ~r/component_prefix:\s*(?:nil|"[^"]*")/
+
+    if Regex.match?(regex, content) do
+      Regex.replace(regex, content, ~s(component_prefix: "#{prefix}"))
+    else
+      # If component_prefix line doesn't exist, add it after the config :mishka_chelekom line
+      add_prefix_to_config(content, prefix)
+    end
+  end
+
+  defp add_prefix_to_config(content, prefix) do
+    # Find the config :mishka_chelekom block and add component_prefix at the beginning
+    case Regex.run(~r/(config :mishka_chelekom,)\s*\n/, content) do
+      [_, config_line] ->
+        String.replace(
+          content,
+          config_line,
+          "#{config_line}\n    component_prefix: \"#{prefix}\",\n"
+        )
+
+      nil ->
+        # If no config block exists, just return the original content
+        # This shouldn't happen in practice
+        content
+    end
+  end
 end

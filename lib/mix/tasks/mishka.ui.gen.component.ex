@@ -121,6 +121,7 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Component do
     |> create_or_update_component()
     |> create_or_update_scripts()
     |> setup_css_files(options)
+    |> maybe_update_config_prefix(options)
   end
 
   def supports_umbrella?(), do: false
@@ -321,7 +322,6 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Component do
          {igniter, proper_location, assign, template_path, template_config},
          options
        ) do
-    IO.inspect(template_config, label: "template_config[:args]")
     # Get color filtering from config if not specified in CLI
     options = maybe_apply_color_filter(igniter, options, template_config)
 
@@ -365,7 +365,10 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Component do
           {key, value} when value == [] -> {key, nil}
           {key, value} -> {key, value}
         end)
-        |> Keyword.merge(web_module: Igniter.Libs.Phoenix.web_module(igniter))
+        |> Keyword.merge(
+          web_module: Igniter.Libs.Phoenix.web_module(igniter),
+          component_prefix: Keyword.get(options, :component_prefix)
+        )
 
       {igniter, template_path, template_config, proper_location, updated_new_assign, options}
     end
@@ -715,13 +718,32 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Component do
       {:component_sizes, :size},
       {:component_rounded, :rounded},
       {:component_padding, :padding},
-      {:component_space, :space},
-      {:component_prefix, :component_prefix}
+      {:component_space, :space}
     ]
 
-    Enum.reduce(filter_mappings, options, fn {config_key, option_key}, acc_options ->
-      apply_single_filter(config, acc_options, template_config, config_key, option_key)
-    end)
+    options =
+      Enum.reduce(filter_mappings, options, fn {config_key, option_key}, acc_options ->
+        apply_single_filter(config, acc_options, template_config, config_key, option_key)
+      end)
+
+    # Handle component_prefix separately - it's a string, not a filterable list
+    apply_component_prefix(config, options)
+  end
+
+  defp apply_component_prefix(config, options) do
+    case Keyword.get(options, :component_prefix) do
+      nil ->
+        case config[:component_prefix] do
+          prefix when is_binary(prefix) and prefix != "" ->
+            Keyword.put(options, :component_prefix, prefix)
+
+          _ ->
+            Keyword.put(options, :component_prefix, nil)
+        end
+
+      _cli_value ->
+        options
+    end
   end
 
   defp apply_single_filter(config, options, template_config, config_key, option_key) do
@@ -858,6 +880,14 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Component do
       """)
     else
       igniter
+    end
+  end
+
+  defp maybe_update_config_prefix(igniter, options) do
+    case {Keyword.get(options, :component_prefix), Keyword.get(options, :sub)} do
+      {nil, _} -> igniter
+      {_prefix, true} -> igniter
+      {prefix, _} -> CSSConfig.update_component_prefix(igniter, prefix)
     end
   end
 end

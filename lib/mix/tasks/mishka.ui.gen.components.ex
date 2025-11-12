@@ -28,6 +28,7 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Components do
   * `--global` - Makes components accessible throughout the project without explicit imports
   * `--yes` - Makes directly without questions
   * `--exclude` - Comma-separated list of components to exclude (e.g., `--exclude alert,badge`)
+  * `--component-prefix` - Prefix for all component function names (e.g., `--component-prefix mishka_`)
   """
 
   def info(_argv, _composing_task) do
@@ -49,7 +50,13 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Components do
       # This ensures your option schema includes options from nested tasks
       composes: ["mishka.ui.gen.component"],
       # `OptionParser` schema
-      schema: [import: :boolean, helpers: :boolean, global: :boolean, exclude: :csv],
+      schema: [
+        import: :boolean,
+        helpers: :boolean,
+        global: :boolean,
+        exclude: :csv,
+        component_prefix: :string
+      ],
       # CLI aliases
       aliases: [i: :import, h: :helpers, g: :global, e: :exclude]
     }
@@ -120,13 +127,22 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Components do
       igniter
       |> Igniter.assign(%{mishka_user_config: user_config})
       |> then(fn ig ->
+        # Build component args with optional prefix
+        component_args =
+          ["--no-deps", "--sub", "--yes"] ++
+            if(options[:component_prefix],
+              do: ["--component-prefix", options[:component_prefix]],
+              else: []
+            )
+
         Enum.reduce(list, ig, fn item, acc ->
           acc
-          |> Igniter.compose_task("mishka.ui.gen.component", [item, "--no-deps", "--sub", "--yes"])
+          |> Igniter.compose_task("mishka.ui.gen.component", [item] ++ component_args)
         end)
       end)
       |> create_import_macro(list, options[:import] || false, options[:helpers], options[:global])
       |> Component.setup_css_files([])
+      |> maybe_update_config_prefix(options[:component_prefix])
 
     if Map.get(igniter, :issues, []) == [],
       do: Owl.Spinner.stop(id: :my_spinner, resolution: :ok, label: "Done"),
@@ -273,21 +289,32 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Components do
 
   defp create_import_string(list, web_module, igniter, helpers?, global) do
     {igniter, new_phoenix?} = new_phoenix(igniter, global)
+    user_config = igniter.assigns[:mishka_user_config] || CSSConfig.load_user_config(igniter)
+    component_prefix = user_config[:component_prefix]
 
     if Map.get(igniter, :issues, []) == [] do
       children = fn component ->
         config = Component.get_component_template(igniter, component).config[:args]
 
-        get_only =
+        component_functions =
           Keyword.get(config, :only, [])
           |> List.flatten()
+          |> then(fn list ->
+            if component == "alert" and new_phoenix?,
+              do: Enum.reject(list, &(&1 == "flash_group")),
+              else: list
+          end)
+          |> Enum.map(fn name ->
+            if component_prefix && component_prefix != "",
+              do: "#{component_prefix}#{name}",
+              else: name
+          end)
+          |> Enum.map(&{String.to_atom(&1), 1})
 
-        if(component == "alert" and new_phoenix?,
-          do: Enum.reject(get_only, &(&1 == "flash_group")),
-          else: get_only
-        )
-        |> Enum.map(&{String.to_atom(&1), 1})
-        |> Keyword.merge(if helpers?, do: Keyword.get(config, :helpers, []), else: [])
+        helper_functions = if helpers?, do: Keyword.get(config, :helpers, []), else: []
+
+        component_functions
+        |> Keyword.merge(helper_functions)
         |> Enum.map_join(", ", fn {key, value} -> "#{key}: #{value}" end)
       end
 
@@ -337,5 +364,11 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Components do
     else
       components
     end
+  end
+
+  defp maybe_update_config_prefix(igniter, nil), do: igniter
+
+  defp maybe_update_config_prefix(igniter, component_prefix) do
+    CSSConfig.update_component_prefix(igniter, component_prefix)
   end
 end

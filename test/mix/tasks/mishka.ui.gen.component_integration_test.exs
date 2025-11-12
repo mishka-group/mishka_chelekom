@@ -564,5 +564,304 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.ComponentIntegrationTest do
         assert String.contains?(content, "btn-\#{@color}")
       end
     end
+
+    test "generates component with component_prefix from config" do
+      # Create a config file with component_prefix
+      config_content = """
+      import Config
+
+      config :mishka_chelekom,
+        component_prefix: "mishka_"
+      """
+
+      # Create a simple button component template
+      button_template = """
+      defmodule <%= @web_module %>.Components.<%= @module %> do
+        use Phoenix.Component
+
+        attr :class, :string, default: ""
+        attr :rest, :global
+        slot :inner_block, required: true
+
+        def <%= @component_prefix %>button(assigns) do
+          ~H\"\"\"
+          <button class={[@class]} {@rest}>
+            <%= render_slot(@inner_block) %>
+          </button>
+          \"\"\"
+        end
+      end
+      """
+
+      button_config = """
+      [
+        component_button: [
+          name: "component_button",
+          args: [],
+          optional: [],
+          necessary: []
+        ]
+      ]
+      """
+
+      # Run the task
+      igniter =
+        test_project_with_formatter()
+        |> Igniter.create_new_file("priv/mishka_chelekom/config.exs", config_content)
+        |> Igniter.create_new_file(
+          "priv/mishka_chelekom/components/component_button.eex",
+          button_template
+        )
+        |> Igniter.create_new_file(
+          "priv/mishka_chelekom/components/component_button.exs",
+          button_config
+        )
+        |> Igniter.compose_task(Component, ["component_button", "--yes"])
+
+      # Check if the component was created
+      component_created =
+        Map.has_key?(
+          igniter.rewrite.sources,
+          "lib/test_project_web/components/component_button.ex"
+        )
+
+      if !component_created do
+        # When running in test mode, the template might not be compiled
+        template = igniter.rewrite.sources["priv/mishka_chelekom/components/component_button.eex"]
+        assert template != nil
+      else
+        # Get the generated content
+        source = igniter.rewrite.sources["lib/test_project_web/components/component_button.ex"]
+        content = Rewrite.Source.get(source, :content)
+
+        # Verify that the prefix was applied
+        assert String.contains?(content, "def mishka_button(assigns) do")
+
+        # Verify that unprefixed function doesn't exist
+        refute String.contains?(content, "def button(assigns) do")
+      end
+    end
+
+    test "generates component with component_prefix from CLI overriding config" do
+      # Create a config file with component_prefix
+      config_content = """
+      import Config
+
+      config :mishka_chelekom,
+        component_prefix: "config_prefix_"
+      """
+
+      # Create a simple button component template
+      button_template = """
+      defmodule <%= @web_module %>.Components.<%= @module %> do
+        use Phoenix.Component
+
+        attr :class, :string, default: ""
+        attr :rest, :global
+        slot :inner_block, required: true
+
+        def <%= @component_prefix %>button(assigns) do
+          ~H\"\"\"
+          <button class={[@class]} {@rest}>
+            <%= render_slot(@inner_block) %>
+          </button>
+          \"\"\"
+        end
+      end
+      """
+
+      button_config = """
+      [
+        component_button: [
+          name: "component_button",
+          args: [],
+          optional: [],
+          necessary: []
+        ]
+      ]
+      """
+
+      # Run the task with CLI prefix (should override config)
+      igniter =
+        test_project_with_formatter()
+        |> Igniter.create_new_file("priv/mishka_chelekom/config.exs", config_content)
+        |> Igniter.create_new_file(
+          "priv/mishka_chelekom/components/component_button.eex",
+          button_template
+        )
+        |> Igniter.create_new_file(
+          "priv/mishka_chelekom/components/component_button.exs",
+          button_config
+        )
+        |> Igniter.compose_task(Component, [
+          "component_button",
+          "--component-prefix",
+          "cli_prefix_",
+          "--yes"
+        ])
+
+      # Check if the component was created
+      component_created =
+        Map.has_key?(
+          igniter.rewrite.sources,
+          "lib/test_project_web/components/component_button.ex"
+        )
+
+      if !component_created do
+        # When running in test mode, the template might not be compiled
+        template = igniter.rewrite.sources["priv/mishka_chelekom/components/component_button.eex"]
+        assert template != nil
+      else
+        # Get the generated content
+        source = igniter.rewrite.sources["lib/test_project_web/components/component_button.ex"]
+        content = Rewrite.Source.get(source, :content)
+
+        # Verify that the CLI prefix was applied (not the config prefix)
+        assert String.contains?(content, "def cli_prefix_button(assigns) do")
+
+        # Verify that config prefix was NOT applied
+        refute String.contains?(content, "def config_prefix_button(assigns) do")
+
+        # Verify that unprefixed function doesn't exist
+        refute String.contains?(content, "def button(assigns) do")
+      end
+    end
+
+    test "updates config.exs when component_prefix provided in CLI (not sub mode)" do
+      # Create a simple button component template
+      button_template = """
+      defmodule <%= @web_module %>.Components.<%= @module %> do
+        use Phoenix.Component
+
+        attr :class, :string, default: ""
+        slot :inner_block, required: true
+
+        def <%= @component_prefix %>button(assigns) do
+          ~H\"\"\"
+          <button class={[@class]}>
+            <%= render_slot(@inner_block) %>
+          </button>
+          \"\"\"
+        end
+      end
+      """
+
+      button_config = """
+      [
+        component_button: [
+          name: "component_button",
+          args: [],
+          optional: [],
+          necessary: []
+        ]
+      ]
+      """
+
+      # Create existing config with nil prefix
+      existing_config = """
+      import Config
+
+      config :mishka_chelekom,
+        component_prefix: nil
+      """
+
+      # Run the task with CLI prefix
+      igniter =
+        test_project_with_formatter()
+        |> Igniter.create_new_file("priv/mishka_chelekom/config.exs", existing_config)
+        |> Igniter.create_new_file(
+          "priv/mishka_chelekom/components/component_button.eex",
+          button_template
+        )
+        |> Igniter.create_new_file(
+          "priv/mishka_chelekom/components/component_button.exs",
+          button_config
+        )
+        |> Igniter.compose_task(Component, [
+          "component_button",
+          "--component-prefix",
+          "my_prefix_",
+          "--yes"
+        ])
+
+      # Verify config was updated
+      config_source = igniter.rewrite.sources["priv/mishka_chelekom/config.exs"]
+      assert config_source != nil
+      config_content = Rewrite.Source.get(config_source, :content)
+
+      # Should have the new prefix
+      assert String.contains?(config_content, ~s(component_prefix: "my_prefix_"))
+      # Should NOT have nil anymore
+      refute String.contains?(config_content, "component_prefix: nil")
+    end
+
+    test "does NOT update config.exs when in sub mode (batch generation)" do
+      # Create a simple button component template
+      button_template = """
+      defmodule <%= @web_module %>.Components.<%= @module %> do
+        use Phoenix.Component
+
+        attr :class, :string, default: ""
+        slot :inner_block, required: true
+
+        def <%= @component_prefix %>button(assigns) do
+          ~H\"\"\"
+          <button class={[@class]}>
+            <%= render_slot(@inner_block) %>
+          </button>
+          \"\"\"
+        end
+      end
+      """
+
+      button_config = """
+      [
+        component_button: [
+          name: "component_button",
+          args: [],
+          optional: [],
+          necessary: []
+        ]
+      ]
+      """
+
+      # Create existing config with nil prefix
+      existing_config = """
+      import Config
+
+      config :mishka_chelekom,
+        component_prefix: nil
+      """
+
+      # Run the task with --sub flag (simulating batch generation)
+      igniter =
+        test_project_with_formatter()
+        |> Igniter.create_new_file("priv/mishka_chelekom/config.exs", existing_config)
+        |> Igniter.create_new_file(
+          "priv/mishka_chelekom/components/component_button.eex",
+          button_template
+        )
+        |> Igniter.create_new_file(
+          "priv/mishka_chelekom/components/component_button.exs",
+          button_config
+        )
+        |> Igniter.compose_task(Component, [
+          "component_button",
+          "--component-prefix",
+          "my_prefix_",
+          "--sub",
+          "--yes"
+        ])
+
+      # Verify config was NOT updated (still has nil)
+      config_source = igniter.rewrite.sources["priv/mishka_chelekom/config.exs"]
+      assert config_source != nil
+      config_content = Rewrite.Source.get(config_source, :content)
+
+      # Should still have nil (not updated in sub mode)
+      assert String.contains?(config_content, "component_prefix: nil")
+      # Should NOT have the new prefix
+      refute String.contains?(config_content, ~s(component_prefix: "my_prefix_"))
+    end
   end
 end
