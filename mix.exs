@@ -37,11 +37,11 @@ defmodule MishkaChelekom.MixProject do
 
   defp deps do
     [
-      {:igniter, "~> 0.5 and >= 0.6.30"},
+      {:igniter, "~> 0.5 and >= 0.7.0"},
       {:guarded_struct, "~> 0.0.4"},
       {:igniter_js, "~> 0.4.11"},
       {:owl, "~> 0.13"},
-      {:ex_doc, "~> 0.38.4", only: :dev, runtime: false},
+      {:ex_doc, "~> 0.39.1", only: :dev, runtime: false},
       {:plug, "~> 1.18", only: :test}
     ]
   end
