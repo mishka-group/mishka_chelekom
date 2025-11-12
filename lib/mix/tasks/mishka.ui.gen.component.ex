@@ -258,14 +258,12 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Component do
     {File.exists?(template_path), File.exists?(template_config_path)}
     |> case do
       {true, true} ->
-         %{
+        %{
           igniter: igniter,
           component: component,
           path: template_path,
           config: Config.Reader.read!(template_config_path)[component_to_atom(component)]
         }
-
-
 
       _ ->
         msg = """
