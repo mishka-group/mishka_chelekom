@@ -20,8 +20,7 @@
       size: ["extra_small", "small", "medium", "large", "extra_large"],
       only: ["overlay"],
       helpers: [],
-      module: "",
-      component_prefix: nil
+      module: ""
     ],
     optional: [],
     necessary: []

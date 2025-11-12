@@ -33,8 +33,7 @@
       rounded: ["extra_small", "small", "medium", "large", "extra_large", "full", "none"],
       only: ["speed_dial"],
       helpers: [],
-      module: "",
-      component_prefix: nil
+      module: ""
     ],
     optional: [],
     necessary: ["icon"]

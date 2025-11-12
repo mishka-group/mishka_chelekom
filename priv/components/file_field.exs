@@ -23,8 +23,7 @@
       rounded: ["extra_small", "small", "medium", "large", "extra_large", "none"],
       only: ["file_field"],
       helpers: [],
-      module: "",
-      component_prefix: nil
+      module: ""
     ],
     optional: [],
     necessary: ["spinner", "progress", "icon"]

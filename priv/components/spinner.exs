@@ -30,8 +30,7 @@
       type: ["default", "pinging", "dots", "bars"],
       only: ["spinner"],
       helper: [],
-      module: "",
-      component_prefix: nil
+      module: ""
     ],
     optional: [],
     necessary: []

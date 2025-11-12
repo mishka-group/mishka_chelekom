@@ -25,8 +25,7 @@
       type: ["popover"],
       only: ["popover"],
       helpers: [],
-      module: "",
-      component_prefix: nil
+      module: ""
     ],
     optional: [],
     necessary: []

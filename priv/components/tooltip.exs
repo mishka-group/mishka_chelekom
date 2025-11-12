@@ -23,8 +23,7 @@
       rounded: ["extra_small", "small", "medium", "large", "extra_large"],
       only: ["tooltip"],
       helpers: [],
-      module: "",
-      component_prefix: nil
+      module: ""
     ],
     optional: [],
     necessary: []

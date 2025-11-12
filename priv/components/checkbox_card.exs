@@ -24,8 +24,7 @@
       rounded: ["extra_small", "small", "medium", "large", "extra_large"],
       only: ["checkbox_card"],
       helpers: [checkbox_card_check: 3],
-      module: "",
-      component_prefix: nil
+      module: ""
     ],
     optional: [],
     necessary: ["icon"]

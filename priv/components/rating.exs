@@ -29,8 +29,7 @@
       ],
       only: ["rating"],
       helpers: [],
-      module: "",
-      component_prefix: nil
+      module: ""
     ],
     optional: [],
     necessary: ["icon"]

@@ -5,8 +5,7 @@
       padding: ["extra_small", "small", "medium", "large", "extra_large", "none"],
       only: ["scroll_area"],
       helpers: [],
-      module: "",
-      component_prefix: nil
+      module: ""
     ],
     optional: [],
     necessary: [],

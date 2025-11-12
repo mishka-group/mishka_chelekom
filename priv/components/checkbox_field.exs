@@ -23,8 +23,7 @@
       type: ["checkbox_field", "group_checkbox"],
       only: ["checkbox_field", "group_checkbox"],
       helpers: [checkbox_check: 3],
-      module: "",
-      component_prefix: nil
+      module: ""
     ],
     optional: [],
     necessary: ["icon"]

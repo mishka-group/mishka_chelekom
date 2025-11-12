@@ -24,8 +24,7 @@
       type: ["avatar", "avatar_group"],
       only: ["avatar", "avatar_group"],
       helpers: [],
-      module: "",
-      component_prefix: nil
+      module: ""
     ],
     optional: [],
     necessary: ["icon"]

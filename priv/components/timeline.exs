@@ -30,8 +30,7 @@
       type: ["timeline", "timeline_section"],
       only: ["timeline", "timeline_section"],
       helpers: [],
-      module: "",
-      component_prefix: nil
+      module: ""
     ],
     optional: [],
     necessary: ["icon"]

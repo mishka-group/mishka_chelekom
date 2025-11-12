@@ -36,8 +36,7 @@
       type: ["button_group", "button", "input_button", "button_link", "back"],
       only: ["button_group", "button", "input_button", "button_link", "back"],
       helpers: [],
-      module: "",
-      component_prefix: nil
+      module: ""
     ],
     optional: [],
     necessary: ["icon"]

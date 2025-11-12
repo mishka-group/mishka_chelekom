@@ -20,8 +20,7 @@
       rounded: ["extra_small", "small", "medium", "large", "extra_large"],
       only: ["color_field"],
       helpers: [],
-      module: "",
-      component_prefix: nil
+      module: ""
     ],
     optional: [],
     necessary: ["icon"]

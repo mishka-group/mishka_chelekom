@@ -4,8 +4,7 @@
     args: [
       only: ["collapse"],
       helpers: [],
-      module: "",
-      component_prefix: nil
+      module: ""
     ],
     optional: [],
     necessary: [],

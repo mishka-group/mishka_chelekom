@@ -21,8 +21,7 @@
       space: ["extra_small", "small", "medium", "large", "extra_large", "none"],
       only: ["radio_field", "group_radio"],
       helpers: [radio_check: 3],
-      module: "",
-      component_prefix: nil
+      module: ""
     ],
     optional: [],
     necessary: ["icon"]

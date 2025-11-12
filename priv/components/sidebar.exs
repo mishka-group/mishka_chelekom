@@ -21,8 +21,7 @@
       size: ["extra_small", "small", "medium", "large", "extra_large"],
       only: ["sidebar"],
       helpers: [],
-      module: "",
-      component_prefix: nil
+      module: ""
     ],
     optional: [],
     necessary: ["icon"],

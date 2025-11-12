@@ -24,8 +24,7 @@
       space: ["extra_small", "small", "medium", "large", "extra_large", "none"],
       only: ["number_field"],
       helpers: [],
-      module: "",
-      component_prefix: nil
+      module: ""
     ],
     optional: [],
     necessary: ["icon"]

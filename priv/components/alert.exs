@@ -25,8 +25,7 @@
       type: ["flash", "flash_group", "alert"],
       only: ["flash", "flash_group", "alert"],
       helpers: [show_alert: 1, show_alert: 2, hide_alert: 1, hide_alert: 2],
-      module: "",
-      component_prefix: nil
+      module: ""
     ],
     optional: [],
     necessary: ["icon"]

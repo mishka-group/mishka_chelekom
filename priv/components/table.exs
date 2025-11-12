@@ -32,8 +32,7 @@
       type: ["table", "th", "tr", "td"],
       only: ["table", "th", "tr", "td"],
       helpers: [],
-      module: "",
-      component_prefix: nil
+      module: ""
     ],
     optional: [],
     necessary: ["icon"]

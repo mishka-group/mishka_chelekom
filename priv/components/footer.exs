@@ -25,8 +25,7 @@
       type: ["footer", "footer_section"],
       only: ["footer", "footer_section"],
       helpers: [],
-      module: "",
-      component_prefix: nil
+      module: ""
     ],
     optional: [],
     necessary: []

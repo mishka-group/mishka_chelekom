@@ -42,8 +42,7 @@
         hide: 1,
         hide: 2
       ],
-      module: "",
-      component_prefix: nil
+      module: ""
     ],
     optional: [],
     necessary: ["icon"]

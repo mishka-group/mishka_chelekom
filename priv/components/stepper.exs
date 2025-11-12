@@ -21,8 +21,7 @@
       type: ["stepper", "stepper_section"],
       only: ["stepper", "stepper_section"],
       helpers: [],
-      module: "",
-      component_prefix: nil
+      module: ""
     ],
     optional: [],
     necessary: ["icon"]

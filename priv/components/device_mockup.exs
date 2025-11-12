@@ -18,8 +18,7 @@
       type: ["watch", "android", "laptop", "ipad", "imac"],
       only: ["device_mockup"],
       helpers: [],
-      module: "",
-      component_prefix: nil
+      module: ""
     ],
     optional: [],
     necessary: ["image"]

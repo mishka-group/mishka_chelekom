@@ -6,8 +6,7 @@
       padding: ["extra_small", "small", "medium", "large", "extra_large", "none"],
       only: ["menu"],
       helpers: [],
-      module: "",
-      component_prefix: nil
+      module: ""
     ],
     optional: [],
     necessary: ["collapse", "button"]

@@ -51,8 +51,7 @@
       type: ["card", "card_title", "card_media", "card_content", "card_footer"],
       only: ["card", "card_title", "card_media", "card_content", "card_footer"],
       helpers: [],
-      module: "",
-      component_prefix: nil
+      module: ""
     ],
     optional: [],
     necessary: ["icon"]
