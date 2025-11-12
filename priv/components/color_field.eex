@@ -27,7 +27,7 @@ defmodule <%= @module %> do
 
   ```elixir
   <div class="p-10">
-    <.color_field
+    <.<%= @component_prefix %>color_field
       name="name1"
       value="#ff5733"
       border="none"
@@ -37,7 +37,7 @@ defmodule <%= @module %> do
       label="This is label"
     />
 
-    <.color_field
+    <.<%= @component_prefix %>color_field
       name="name1"
       color="dark"
       description="This is description"
@@ -45,7 +45,7 @@ defmodule <%= @module %> do
       size="extra_large"
     />
 
-    <.color_field name="name1" color="dark" size="full" label="This is label"/>
+    <.<%= @component_prefix %>color_field name="name1" color="dark" size="full" label="This is label"/>
   </div>
   ```
   """
