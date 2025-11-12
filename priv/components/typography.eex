@@ -23,9 +23,9 @@ defmodule <%= @module %> do
   ## Examples
 
   ```elixir
-  <.h1>Heading 1</.h1>
-  <.h1 color="primary" size="large">Primary Heading 1</.h1>
-  <.h1 class="custom-class" font_weight="font-bold">Bold Heading 1</.h1>
+  <.<%= @component_prefix %>h1>Heading 1</.<%= @component_prefix %>h1>
+  <.<%= @component_prefix %>h1 color="primary" size="large">Primary Heading 1</.<%= @component_prefix %>h1>
+  <.<%= @component_prefix %>h1 class="custom-class" font_weight="font-bold">Bold Heading 1</.<%= @component_prefix %>h1>
   ```
   """
   @doc type: :component
@@ -52,7 +52,7 @@ defmodule <%= @module %> do
 
   slot :inner_block, required: true, doc: "Inner block that renders HEEx content"
 
-  @spec h1(map()) :: Phoenix.LiveView.Rendered.t()
+  @spec <%= @component_prefix %>h1(map()) :: Phoenix.LiveView.Rendered.t()
   def <%= @component_prefix %>h1(assigns) do
     ~H"""
     <h1
@@ -78,9 +78,9 @@ defmodule <%= @module %> do
   ## Examples
 
   ```elixir
-  <.h2>Heading 2</.h2>
-  <.h2 color="primary" size="large">Primary Heading 2</.h2>
-  <.h2 class="custom-class" font_weight="font-bold">Bold Heading 2</.h2>
+  <.<%= @component_prefix %>h2>Heading 2</.<%= @component_prefix %>h2>
+  <.<%= @component_prefix %>h2 color="primary" size="large">Primary Heading 2</.<%= @component_prefix %>h2>
+  <.<%= @component_prefix %>h2 class="custom-class" font_weight="font-bold">Bold Heading 2</.<%= @component_prefix %>h2>
   ```
   """
   @doc type: :component
@@ -107,7 +107,7 @@ defmodule <%= @module %> do
 
   slot :inner_block, required: true, doc: "Inner block that renders HEEx content"
 
-  @spec h2(map()) :: Phoenix.LiveView.Rendered.t()
+  @spec <%= @component_prefix %>h2(map()) :: Phoenix.LiveView.Rendered.t()
   def <%= @component_prefix %>h2(assigns) do
     ~H"""
     <h2
@@ -133,9 +133,9 @@ defmodule <%= @module %> do
   ## Examples
 
   ```elixir
-  <.h3>Heading 3</.h3>
-  <.h3 color="primary" size="large">Primary Heading 3</.h3>
-  <.h3 class="custom-class" font_weight="font-bold">Bold Heading 3</.h3>
+  <.<%= @component_prefix %>h3>Heading 3</.<%= @component_prefix %>h3>
+  <.<%= @component_prefix %>h3 color="primary" size="large">Primary Heading 3</.<%= @component_prefix %>h3>
+  <.<%= @component_prefix %>h3 class="custom-class" font_weight="font-bold">Bold Heading 3</.<%= @component_prefix %>h3>
   ```
   """
   @doc type: :component
@@ -188,9 +188,9 @@ defmodule <%= @module %> do
   ## Examples
 
   ```elixir
-  <.h4>Heading 4</.h4>
-  <.h4 color="primary" size="large">Primary Heading 4</.h4>
-  <.h4 class="custom-class" font_weight="font-bold">Bold Heading 4</.h4>
+  <.<%= @component_prefix %>h4>Heading 4</.<%= @component_prefix %>h4>
+  <.<%= @component_prefix %>h4 color="primary" size="large">Primary Heading 4</.<%= @component_prefix %>h4>
+  <.<%= @component_prefix %>h4 class="custom-class" font_weight="font-bold">Bold Heading 4</.<%= @component_prefix %>h4>
   ```
   """
   attr :id, :string,
@@ -242,9 +242,9 @@ defmodule <%= @module %> do
   ## Examples
 
   ```elixir
-  <.h5>Heading 5</.h5>
-  <.h5 color="primary" size="large">Primary Heading 5</.h5>
-  <.h5 class="custom-class" font_weight="font-bold">Bold Heading 5</.h5>
+  <.<%= @component_prefix %>h5>Heading 5</.<%= @component_prefix %>h5>
+  <.<%= @component_prefix %>h5 color="primary" size="large">Primary Heading 5</.<%= @component_prefix %>h5>
+  <.<%= @component_prefix %>h5 class="custom-class" font_weight="font-bold">Bold Heading 5</.<%= @component_prefix %>h5>
   ```
   """
   @doc type: :component
@@ -296,9 +296,9 @@ defmodule <%= @module %> do
   ## Examples
 
   ```elixir
-  <.h6>Heading 6</.h6>
-  <.h6 color="primary" size="large">Primary Heading 6</.h6>
-  <.h6 class="custom-class" font_weight="font-bold">Bold Heading 6</.h6>
+  <.<%= @component_prefix %>h6>Heading 6</.<%= @component_prefix %>h6>
+  <.<%= @component_prefix %>h6 color="primary" size="large">Primary Heading 6</.<%= @component_prefix %>h6>
+  <.<%= @component_prefix %>h6 class="custom-class" font_weight="font-bold">Bold Heading 6</.<%= @component_prefix %>h6>
   ```
   """
   @doc type: :component
@@ -352,9 +352,9 @@ defmodule <%= @module %> do
   ## Examples
 
   ```elixir
-  <.p>Here is the paragraph.</.p>
-  <.p color="primary" size="large">This is a primary colored paragraph with a larger size.</.p>
-  <.p><.strong>This is Strong</.strong></.p>
+  <.<%= @component_prefix %>p>Here is the paragraph.</.<%= @component_prefix %>p>
+  <.<%= @component_prefix %>p color="primary" size="large">This is a primary colored paragraph with a larger size.</.<%= @component_prefix %>p>
+  <.<%= @component_prefix %>p><.strong>This is Strong</.strong></.<%= @component_prefix %>p>
   ```
   """
   @doc type: :component
@@ -407,11 +407,11 @@ defmodule <%= @module %> do
   ## Examples
 
   ```elixir
-  <.strong>This is Strong</.strong>
-  <.strong color="primary" size="large">
+  <.<%= @component_prefix %>strong>This is Strong</.<%= @component_prefix %>strong>
+  <.<%= @component_prefix %>strong color="primary" size="large">
     This is a primary colored strong text with a larger size.
-  </.strong>
-  <.strong class="custom-class">This is strong text with custom styling.</.strong>
+  </.<%= @component_prefix %>strong>
+  <.<%= @component_prefix %>strong class="custom-class">This is strong text with custom styling.</.<%= @component_prefix %>strong>
   ```
   """
   @doc type: :component
@@ -464,15 +464,15 @@ defmodule <%= @module %> do
   ## Examples
 
   ```elixir
-  <.p><.em>This is Em</.em></.p>
+  <.<%= @component_prefix %>p><.<%= @component_prefix %>em>This is Em</.<%= @component_prefix %>em></<%= @component_prefix %>.p>
 
-  <.em color="primary" size="large">
+  <.<%= @component_prefix %>em color="primary" size="large">
     This is emphasized text with a primary color and larger size.
-  </.em>
+  </.<%= @component_prefix %>em>
 
-  <.em class="custom-class">
+  <.<%= @component_prefix %>em class="custom-class">
     This is emphasized text with custom styling.
-  </.em>
+  </.<%= @component_prefix %>em>
   ```
   """
   @doc type: :component
@@ -525,10 +525,10 @@ defmodule <%= @module %> do
 
   ```elixir
   <.dl>
-    <.dt>Coffee</.dt>
-    <.dd>Black hot drink</.dd>
-    <.dt>Milk</.dt>
-    <.dd>White cold drink</.dd>
+    <.<%= @component_prefix %>dt>Coffee</.<%= @component_prefix %>dt>
+    <.<%= @component_prefix %>dd>Black hot drink</.<%= @component_prefix %>dd>
+    <.<%= @component_prefix %>dt>Milk</.<%= @component_prefix %>dt>
+    <.<%= @component_prefix %>dd>White cold drink</.<%= @component_prefix %>dd>
   </.dl>
   ```
   """
@@ -581,10 +581,10 @@ defmodule <%= @module %> do
   ## Examples
 
   ```elixir
-  <.dt>Coffee</.dt>
-  <.dd>Black hot drink</.dd>
-  <.dt>Milk</.dt>
-  <.dd>White cold drink</.dd>
+  <.<%= @component_prefix %>dt>Coffee</.<%= @component_prefix %>dt>
+  <.<%= @component_prefix %>dd>Black hot drink</.<%= @component_prefix %>dd>
+  <.<%= @component_prefix %>dt>Milk</.<%= @component_prefix %>dt>
+  <.<%= @component_prefix %>dd>White cold drink</.<%= @component_prefix %>dd>
   ```
   """
   @doc type: :component
@@ -639,10 +639,10 @@ defmodule <%= @module %> do
 
   ```elixir
   <.dl>
-    <.dt>Coffee</.dt>
-    <.dd>Black hot drink</.dd>
-    <.dt>Milk</.dt>
-    <.dd>White cold drink</.dd>
+    <.<%= @component_prefix %>dt>Coffee</.<%= @component_prefix %>dt>
+    <.<%= @component_prefix %>dd>Black hot drink</.<%= @component_prefix %>dd>
+    <.<%= @component_prefix %>dt>Milk</.<%= @component_prefix %>dt>
+    <.<%= @component_prefix %>dd>White cold drink</.<%= @component_prefix %>dd>
   </.dl>
   ```
   """
@@ -698,20 +698,20 @@ defmodule <%= @module %> do
   ## Examples
 
   ```elixir
-  <.figure>
-    <.p>Content of Figure</.p>
+  <.<%= @component_prefix %>figure>
+    <.<%= @component_prefix %>p>Content of Figure</.<%= @component_prefix %>p>
 
-    <.figcaption>
+    <.<%= @component_prefix %>figcaption>
       Someone famous in <cite title="Source Title">Source Title</cite>
-    </.figcaption>
-  </.figure>
+    </.<%= @component_prefix %>figcaption>
+  </.<%= @component_prefix %>figure>
 
-  <.figure size="large" color="secondary">
+  <.<%= @component_prefix %>figure size="large" color="secondary">
     <img src="https://example.com/image.jpg" alt="Example image" />
-    <.figcaption>
+    <.<%= @component_prefix %>figcaption>
       A beautiful scenery captured during summer.
-    </.figcaption>
-  </.figure>
+    </.<%= @component_prefix %>figcaption>
+  </.<%= @component_prefix %>figure>
   ```
   """
   @doc type: :component
@@ -765,16 +765,16 @@ defmodule <%= @module %> do
   ## Examples
 
   ```elixir
-  <.figcaption>
+  <.<%= @component_prefix %>figcaption>
     Someone famous in <cite title="Source Title">Source Title</cite>
-  </.figcaption>
+  </.<%= @component_prefix %>figcaption>
 
-  <.figure>
+  <.<%= @component_prefix %>figure>
     <img src="https://example.com/image.jpg" alt="Example image" />
-    <.figcaption>
+    <.<%= @component_prefix %>figcaption>
       A beautiful scenery captured during summer.
-    </.figcaption>
-  </.figure>
+    </.<%= @component_prefix %>figcaption>
+  </.<%= @component_prefix %>figure>
   ```
   """
   @doc type: :component
@@ -828,10 +828,10 @@ defmodule <%= @module %> do
   ```elixir
   <.abbr title="HyperText Markup Language">HTML</.abbr>
 
-  <.p>
+  <.<%= @component_prefix %>p>
     The standard language for creating web pages is
-    <.abbr title="HyperText Markup Language">HTML</.abbr>.
-  </.p>
+    <.<%= @component_prefix %>abbr title="HyperText Markup Language">HTML</.<%= @component_prefix %>abbr>.
+  </.<%= @component_prefix %>p>
   ```
   """
   @doc type: :component
@@ -883,9 +883,9 @@ defmodule <%= @module %> do
   ## Examples
 
   ```elixir
-  <.p><.mark>This is highlighted text</.mark> inside a paragraph.</.p>
+  <.<%= @component_prefix %>p><.<%= @component_prefix %>mark>This is highlighted text</.<%= @component_prefix %>mark> inside a paragraph.</.<%= @component_prefix %>p>
 
-  <.mark>Highlighted text with default styles.</.mark>
+  <.<%= @component_prefix %>mark>Highlighted text with default styles.</.<%= @component_prefix %>mark>
   ```
   """
   @doc type: :component
@@ -939,9 +939,9 @@ defmodule <%= @module %> do
   ## Examples
 
   ```elixir
-  <.small>This is small text</.small>
+  <.<%= @component_prefix %>small>This is small text</.<%= @component_prefix %>small>
 
-  <.small color="primary" font_weight="font-bold">This is bold primary small text</.small>
+  <.<%= @component_prefix %>small color="primary" font_weight="font-bold">This is bold primary small text</.<%= @component_prefix %>small>
   ```
   """
   @doc type: :component
@@ -993,7 +993,7 @@ defmodule <%= @module %> do
   ## Examples
 
   ```elixir
-  <.p><.s>This is strikethrough text</.s></.p>
+  <.<%= @component_prefix %>p><.<%= @component_prefix %>s>This is strikethrough text</.<%= @component_prefix %>s></.<%= @component_prefix %>p>
   ```
   """
   @doc type: :component
@@ -1046,7 +1046,7 @@ defmodule <%= @module %> do
   ## Examples
 
   ```elixir
-  <.p><.u>This is u</.u></.p>
+  <.<%= @component_prefix %>p><.<%= @component_prefix %>u>This is u</.<%= @component_prefix %>u></.<%= @component_prefix %>p>
   ```
   """
   @doc type: :component
@@ -1098,11 +1098,11 @@ defmodule <%= @module %> do
   ## Examples
 
   ```elixir
-  <.p>
-    <.cite>
+  <.<%= @component_prefix %>p>
+    <.<%= @component_prefix %>cite>
       Source Title
-    </.cite>
-  </.p>
+    </.<%= @component_prefix %>cite>
+  </.<%= @component_prefix %>p>
   ```
   """
   @doc type: :component
@@ -1155,7 +1155,7 @@ defmodule <%= @module %> do
   ## Examples
 
   ```elixir
-  <.del>This text is marked for deletion.</.del>
+  <.<%= @component_prefix %>del>This text is marked for deletion.</.<%= @component_prefix %>del>
   ```
   """
   @doc type: :component
