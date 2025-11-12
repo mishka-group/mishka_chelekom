@@ -32,7 +32,7 @@ defmodule <%= @module %>  do
   ```elixir
   <.email_field name="name" color="danger" placeholder="This is placeholder" floating="outer"/>
 
-  <.email_field
+  <.<%= @component_prefix %>email_field
     name="name"
     space="small"
     color="danger"
@@ -47,9 +47,9 @@ defmodule <%= @module %>  do
     <:end_section>
       <.<%= @component_prefix %>icon name="hero-home" class="size-4" />
     </:end_section>
-  </.email_field>
+  </.<%= @component_prefix %>email_field>
 
-  <.email_field
+  <.<%= @component_prefix %>email_field
     name="name"
     space="small"
     color="silver"
