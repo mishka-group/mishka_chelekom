@@ -248,7 +248,6 @@ const Floating = {
   },
 
   handleClick(e) {
-    e.stopPropagation();
     const allContents = document.querySelectorAll(
       ".dropdown-content.show-dropdown",
     );
