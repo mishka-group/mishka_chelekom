@@ -13,9 +13,7 @@ defmodule <%= @module %> do
   import <%= inspect(@web_module) %>.Components.Icon, only: [<%= @component_prefix %>icon: 1]
 
   @doc type: :component
-  attr :id, :string,
-    required: true,
-    doc: "A unique identifier for the accordion"
+  attr :id, :string, doc: "A unique identifier for the accordion"
 
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
   attr :multiple, :boolean, default: false, doc: "Allow multiple panels open simultaneously"
@@ -56,11 +54,22 @@ defmodule <%= @module %> do
     attr :image_class, :string, doc: "Additional CSS classes for the image"
     attr :trigger_class, :string, doc: "Additional CSS classes for the trigger"
     attr :content_class, :string, doc: "Additional CSS classes for the content"
-    attr :open, :boolean, doc: "Whether this item should be initially open"
+
+    attr :open, :boolean,
+      doc: "Whether this item should be initially open especially when you do not set id manually"
   end
 
   def <%= @component_prefix %>accordion(assigns) do
     assigns = assigns |> assign_new(:id, fn -> "accordion-#{random_id()}" end)
+
+    items_with_ids =
+      assigns.item
+      |> Enum.with_index(1)
+      |> Enum.map(fn {item, index} ->
+        if(item[:id], do: item, else: Map.put(item, :id, "#{assigns.id}-item-#{index}"))
+      end)
+
+    assigns = assign(assigns, :item, items_with_ids)
 
     ~H"""
     <div
@@ -90,7 +99,7 @@ defmodule <%= @module %> do
         class={["accordion-item overflow-hidden"]}
       >
         <button
-          data-collapsible-trigger={item[:id] || "#{@id}-item-#{index + 1}"}
+          data-collapsible-trigger={item.id}
           class={[
             "accordion-trigger cursor-pointer w-full text-left flex items-center justify-between",
             "transition-colors duration-200 focus:outline-none overflow-hidden",
@@ -128,7 +137,7 @@ defmodule <%= @module %> do
           />
         </button>
 
-        <div data-collapsible-panel={item[:id] || "#{@id}-item-#{index + 1}"} class="overflow-hidden">
+        <div data-collapsible-panel={item.id} class="overflow-hidden">
           <div
             data-collapsible-content
             class={["transition-[max-height] max-h-0", "duration-#{@duration}"]}
@@ -147,7 +156,7 @@ defmodule <%= @module %> do
     slot_open_items =
       items
       |> Enum.filter(&(&1[:open] == true))
-      |> Enum.map(& &1.id)
+      |> Enum.map(& &1[:id])
 
     cond do
       length(initial_open) > 0 -> Enum.join(initial_open, ",")
