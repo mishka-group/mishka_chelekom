@@ -8,6 +8,10 @@
 
 - Refactor accordion to auto-generate item IDs (Explicit and open dynamic identifiers) [Commit](https://github.com/mishka-group/mishka_chelekom/commit/41a9f87d896c3524ce60826d5436ee14efacfb83) and [Issue with help](https://github.com/mishka-group/mishka_chelekom/issues/443#issuecomment-3529762821)
 
+### Bugs:
+
+- Remove stopPropagation from Floating hook to allow phx-click event bubbling [Commit](https://github.com/mishka-group/mishka_chelekom/commit/4a62be5142767c3b2977619614a5fa40e835b1bb) and [Issue with help](https://github.com/mishka-group/mishka_chelekom/issues/448#issuecomment-3529933709)
+
 ---
 
 
