@@ -4,6 +4,10 @@
 
 - Add Components prefix name in CLI and config file [#454](https://github.com/mishka-group/mishka_chelekom/pull/454)
 
+### Refactors:
+
+- Refactor accordion to auto-generate item IDs (Explicit and open dynamic identifiers) [Commit](https://github.com/mishka-group/mishka_chelekom/commit/41a9f87d896c3524ce60826d5436ee14efacfb83) and [Issue with help](https://github.com/mishka-group/mishka_chelekom/issues/443#issuecomment-3529762821)
+
 ---
 
 
