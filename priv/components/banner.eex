@@ -123,7 +123,7 @@ defmodule <%= @module %> do
 
   attr :padding, :string, default: "extra_small", doc: "Determines padding for items"
 
-  attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
+  attr :class, :any, default: nil, doc: "Custom CSS class for additional styling"
   attr :dismiss_class, :string, default: nil, doc: "Custom CSS class for additional styling"
 
   attr :content_wrapper_class, :string,
@@ -175,7 +175,7 @@ defmodule <%= @module %> do
     required: true,
     doc: "A unique identifier is used to manage state and interaction"
 
-  attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
+  attr :class, :any, default: nil, doc: "Custom CSS class for additional styling"
 
   attr :dismiss_size, :string, default: "small", doc: "Add custom classes to control dismiss sizes"
 

@@ -94,7 +94,7 @@ defmodule <%= @module %> do
   attr :options, :list, doc: "the options to pass to Phoenix.HTML.Form.options_for_select/2"
   attr :errors, :list, default: [], doc: "List of error messages to be displayed"
 
-  attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
+  attr :class, :any, default: nil, doc: "Custom CSS class for additional styling"
   attr :placeholder, :string, default: nil, doc: "Placeholder of field"
   attr :description_class, :string, default: "text-[12px]", doc: "Custom classes for description"
   attr :label_class, :string, default: nil, doc: "Custom CSS class for the label styling"
@@ -121,7 +121,7 @@ defmodule <%= @module %> do
   attr :multiple, :boolean, default: false, doc: "Multiple selections in the combobox"
 
   slot :start_section, required: false, doc: "Renders heex content in start of an element" do
-    attr :class, :string, doc: "Custom CSS class for additional styling"
+    attr :class, :any, doc: "Custom CSS class for additional styling"
     attr :icon, :string, doc: "Icon displayed alongside of an item"
   end
 
@@ -132,7 +132,7 @@ defmodule <%= @module %> do
 
   slot :option, required: false do
     attr :value, :string, required: true, doc: "Value of the select option"
-    attr :class, :string, doc: "Value of the select option"
+    attr :class, :any, doc: "Value of the select option"
     attr :group, :string, required: false, doc: "Group name for the option"
     attr :disabled, :boolean, required: false, doc: "Specifies if this option is disabled"
   end
@@ -554,7 +554,7 @@ defmodule <%= @module %> do
   @doc type: :component
   attr :value, :string, required: true, doc: "Specifies the form which is associated with"
   attr :disabled, :boolean, default: false, doc: "Inner block that renders HEEx content"
-  attr :class, :string, default: nil, doc: "Custom class"
+  attr :class, :any, default: nil, doc: "Custom class"
   slot :inner_block, required: false, doc: "Inner block that renders HEEx content"
 
   defp option(assigns) do

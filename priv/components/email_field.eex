@@ -65,7 +65,7 @@ defmodule <%= @module %>  do
     default: nil,
     doc: "A unique identifier is used to manage state and interaction"
 
-  attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
+  attr :class, :any, default: nil, doc: "Custom CSS class for additional styling"
   attr :color, :string, default: "natural", doc: "Determines color theme"
   attr :border, :string, default: "extra_small", doc: "Determines border style"
   attr :rounded, :string, default: "small", doc: "Determines the border radius"
@@ -101,12 +101,12 @@ defmodule <%= @module %>  do
   attr :label, :string, default: nil, doc: "Specifies text for the label"
 
   slot :start_section, required: false, doc: "Renders heex content in start of an element" do
-    attr :class, :string, doc: "Custom CSS class for additional styling"
+    attr :class, :any, doc: "Custom CSS class for additional styling"
     attr :icon, :string, doc: "Icon displayed alongside of an item"
   end
 
   slot :end_section, required: false, doc: "Renders heex content in end of an element" do
-    attr :class, :string, doc: "Custom CSS class for additional styling"
+    attr :class, :any, doc: "Custom CSS class for additional styling"
     attr :icon, :string, doc: "Icon displayed alongside of an item"
   end
 
@@ -265,7 +265,7 @@ defmodule <%= @module %>  do
   end
 
   attr :for, :string, default: nil, doc: "Specifies the form which is associated with"
-  attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
+  attr :class, :any, default: nil, doc: "Custom CSS class for additional styling"
   slot :inner_block, required: true, doc: "Inner block that renders HEEx content"
 
   defp label(assigns) do

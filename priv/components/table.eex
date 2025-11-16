@@ -80,7 +80,7 @@ defmodule <%= @module %> do
     default: nil,
     doc: "A unique identifier is used to manage state and interaction"
 
-  attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
+  attr :class, :any, default: nil, doc: "Custom CSS class for additional styling"
   attr :main_wrapper_class, :string, default: nil, doc: "Custom CSS class"
   attr :inner_wrapper_class, :string, default: nil, doc: "Custom CSS class"
   attr :table_wrapper_class, :string, default: nil, doc: "Custom CSS class"
@@ -302,7 +302,7 @@ defmodule <%= @module %> do
     default: nil,
     doc: "A unique identifier is used to manage state and interaction"
 
-  attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
+  attr :class, :any, default: nil, doc: "Custom CSS class for additional styling"
 
   attr :rest, :global,
     doc:
@@ -333,7 +333,7 @@ defmodule <%= @module %> do
     default: nil,
     doc: "A unique identifier is used to manage state and interaction"
 
-  attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
+  attr :class, :any, default: nil, doc: "Custom CSS class for additional styling"
 
   attr :rest, :global,
     doc:

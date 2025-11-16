@@ -51,7 +51,7 @@ defmodule <%= @module %> do
   ```
   """
   @doc type: :component
-  attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
+  attr :class, :any, default: nil, doc: "Custom CSS class for additional styling"
   attr :items_wrapper_class, :string, default: nil, doc: "Custom CSS class for additional styling"
 
   attr :id, :string,
@@ -85,7 +85,7 @@ defmodule <%= @module %> do
     attr :icon, :string, doc: "Icon displayed alongside of an item"
     attr :link, :string, doc: "Renders a navigation, patch link or normal link"
     attr :title, :string, doc: "Renders a navigation, patch link or normal link"
-    attr :class, :string, doc: "Custom CSS class for additional styling"
+    attr :class, :any, doc: "Custom CSS class for additional styling"
     attr :icon_class, :string, doc: "Custom CSS class for additional styling"
     attr :link_class, :string, doc: "Custom CSS class for additional styling"
   end

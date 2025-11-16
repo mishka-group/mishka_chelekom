@@ -99,7 +99,7 @@ defmodule <%= @module %> do
   attr :color, :string, default: "base", doc: "Determines color theme"
   attr :hide_last_line, :boolean, default: false, doc: "Hides the line for the last timeline section"
   attr :gapped_sections, :boolean, default: false, doc: "Adds gaps between timeline sections"
-  attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
+  attr :class, :any, default: nil, doc: "Custom CSS class for additional styling"
 
   attr :rest, :global,
     doc:
@@ -199,7 +199,7 @@ defmodule <%= @module %> do
   attr :time, :string, default: nil, doc: "Specifies the time"
   attr :description, :string, default: nil, doc: "Determines a short description"
   attr :horizontal, :boolean, default: false, doc: "Determines whether element is horizontal"
-  attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
+  attr :class, :any, default: nil, doc: "Custom CSS class for additional styling"
   attr :icon_class, :string, default: nil, doc: "Custom CSS class for additional styling icon"
   attr :line_class, :string, default: nil, doc: "Custom CSS class for additional styling lines"
 

@@ -61,7 +61,7 @@ defmodule <%= @module %> do
     default: nil,
     doc: "A unique identifier is used to manage state and interaction"
 
-  attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
+  attr :class, :any, default: nil, doc: "Custom CSS class for additional styling"
 
   attr :title_class, :string,
     default: nil,
@@ -88,7 +88,7 @@ defmodule <%= @module %> do
   slot :inner_block, required: false, doc: "Inner block that renders HEEx content"
 
   slot :item, required: false do
-    attr :class, :string, doc: "Custom CSS class for additional styling"
+    attr :class, :any, doc: "Custom CSS class for additional styling"
     attr :title, :string, doc: "Specifies the title of the element"
     attr :icon, :string, doc: "Icon displayed alongside of an item"
     attr :icon_class, :string, doc: "Determines custom class for the icon"
@@ -183,7 +183,7 @@ defmodule <%= @module %> do
     default: nil,
     doc: "A unique identifier is used to manage state and interaction"
 
-  attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
+  attr :class, :any, default: nil, doc: "Custom CSS class for additional styling"
   attr :title, :string, default: nil, doc: "Specifies the title of the element"
   attr :icon, :string, default: nil, doc: "Icon displayed alongside of an item"
 
@@ -234,7 +234,7 @@ defmodule <%= @module %> do
     default: nil,
     doc: "A unique identifier is used to manage state and interaction"
 
-  attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
+  attr :class, :any, default: nil, doc: "Custom CSS class for additional styling"
 
   attr :title_class, :string,
     default: nil,

@@ -60,7 +60,7 @@ defmodule <%= @module %> do
   attr :border, :string, default: "extra_small", doc: "Determines border style"
   attr :position, :string, default: "left", doc: "Determines the element position"
 
-  attr :class, :string,
+  attr :class, :any,
     default: nil,
     doc: "Custom CSS class for additional styling to drawer wrapper"
 

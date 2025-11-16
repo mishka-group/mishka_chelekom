@@ -46,7 +46,7 @@ defmodule <%= @module %> do
     default: nil,
     doc: "A unique identifier is used to manage state and interaction"
 
-  attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
+  attr :class, :any, default: nil, doc: "Custom CSS class for additional styling"
 
   attr :font_weight, :string,
     default: "font-normal",
@@ -67,7 +67,7 @@ defmodule <%= @module %> do
 
   slot :item, validate_attrs: false do
     attr :id, :string, doc: "A unique identifier is used to manage state and interaction"
-    attr :class, :string, doc: "Custom CSS class for additional styling"
+    attr :class, :any, doc: "Custom CSS class for additional styling"
     attr :count, :integer, doc: "Li counter"
     attr :count_separator, :string, doc: "Li counter separator"
     attr :icon, :string, doc: "Icon displayed alongside of an item"
@@ -135,7 +135,7 @@ defmodule <%= @module %> do
     default: nil,
     doc: "A unique identifier is used to manage state and interaction"
 
-  attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
+  attr :class, :any, default: nil, doc: "Custom CSS class for additional styling"
   attr :count, :integer, default: nil, doc: "Li counter"
   attr :count_separator, :string, default: ". ", doc: "Li counter separator"
   attr :icon, :string, default: nil, doc: "Icon displayed alongside of an item"
@@ -217,7 +217,7 @@ defmodule <%= @module %> do
   attr :border, :string, default: "extra_small", doc: "Border size"
   attr :style, :string, default: "list-none", doc: "Determines the element style"
   attr :rounded, :string, default: "small", doc: "Determines the border radius"
-  attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
+  attr :class, :any, default: nil, doc: "Custom CSS class for additional styling"
   attr :hoverable, :boolean, default: false, doc: "active hover style"
 
   attr :space, :string, default: "", doc: "Space between items"
@@ -287,7 +287,7 @@ defmodule <%= @module %> do
   attr :width, :string, default: "full", doc: "Determines the element width"
   attr :border, :string, default: "extra_small", doc: "Border size"
   attr :rounded, :string, default: "small", doc: "Determines the border radius"
-  attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
+  attr :class, :any, default: nil, doc: "Custom CSS class for additional styling"
   attr :space, :string, default: "", doc: "Space between items"
   attr :hoverable, :boolean, default: false, doc: "active hover style"
 
@@ -362,7 +362,7 @@ defmodule <%= @module %> do
 
   attr :padding, :string, default: "", doc: "Determines padding for items"
 
-  attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
+  attr :class, :any, default: nil, doc: "Custom CSS class for additional styling"
 
   attr :rest, :global,
     doc:

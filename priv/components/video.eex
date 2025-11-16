@@ -89,7 +89,7 @@ defmodule <%= @module %> do
 
   attr :caption_opacity, :string, default: "solid", doc: "Determines the video caption opacity"
   attr :ratio, :string, default: "auto", doc: "Determines the video ratio"
-  attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
+  attr :class, :any, default: nil, doc: "Custom CSS class for additional styling"
 
   attr :rest, :global,
     include: ~w(controls autoplay loop muted preload),

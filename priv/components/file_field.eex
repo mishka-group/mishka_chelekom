@@ -44,7 +44,7 @@ defmodule <%= @module %> do
     default: nil,
     doc: "A unique identifier is used to manage state and interaction"
 
-  attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
+  attr :class, :any, default: nil, doc: "Custom CSS class for additional styling"
   attr :label_class, :string, default: nil, doc: "Custom CSS class for the label styling"
   attr :color, :string, default: "base", doc: "Determines color theme"
   attr :variant, :string, default: "base", doc: "Determines the style"
@@ -317,7 +317,7 @@ defmodule <%= @module %> do
 
   @doc type: :component
   attr :for, :string, default: nil, doc: "Specifies the form which is associated with"
-  attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
+  attr :class, :any, default: nil, doc: "Custom CSS class for additional styling"
   slot :inner_block, required: true, doc: "Inner block that renders HEEx content"
 
   defp label(assigns) do

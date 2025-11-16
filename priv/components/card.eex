@@ -103,7 +103,7 @@ defmodule <%= @module %> do
     doc: "Determines custom class for the font weight"
 
   attr :padding, :string, default: "", doc: "Determines padding for items"
-  attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
+  attr :class, :any, default: nil, doc: "Custom CSS class for additional styling"
 
   attr :rest, :global,
     doc:
@@ -154,7 +154,7 @@ defmodule <%= @module %> do
     default: nil,
     doc: "A unique identifier is used to manage state and interaction"
 
-  attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
+  attr :class, :any, default: nil, doc: "Custom CSS class for additional styling"
   attr :title, :string, default: nil, doc: "Specifies the title of the element"
   attr :icon, :string, default: nil, doc: "Icon displayed alongside of an item"
 
@@ -225,7 +225,7 @@ defmodule <%= @module %> do
   attr :src, :string, required: true, doc: "Media link"
   attr :width, :string, default: "w-full", doc: "Media width"
   attr :rounded, :string, default: "", doc: "Determines the border radius"
-  attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
+  attr :class, :any, default: nil, doc: "Custom CSS class for additional styling"
 
   attr :rest, :global,
     doc:
@@ -273,7 +273,7 @@ defmodule <%= @module %> do
 
   attr :space, :string, default: "", doc: "Space between items"
   attr :padding, :string, default: "", doc: "Determines padding for items"
-  attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
+  attr :class, :any, default: nil, doc: "Custom CSS class for additional styling"
 
   attr :rest, :global,
     doc:
@@ -318,7 +318,7 @@ defmodule <%= @module %> do
     default: nil,
     doc: "A unique identifier is used to manage state and interaction"
 
-  attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
+  attr :class, :any, default: nil, doc: "Custom CSS class for additional styling"
   attr :padding, :string, default: "",doc: "Determines padding for items"
 
   attr :rest, :global,

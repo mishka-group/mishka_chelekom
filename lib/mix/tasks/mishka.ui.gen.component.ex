@@ -374,14 +374,7 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Component do
     end
   end
 
-  # TODO: for another version
   defp re_dir(template, _custom_module, web_module) do
-    # if Igniter.Util.IO.yes?("Do you want to continue?") do
-    #   # TODO: create the directory
-    #   converted_components_path(template, custom_module)
-    # else
-    #   {:error, :no_dir, "error_msg", template.igniter}
-    # end
     msg = """
     Note:
     You should have the path to the components folder in your Phoenix Framework web directory.
@@ -584,8 +577,10 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Component do
   end
 
   defp check_and_update_package_json(igniter, _) do
-    # TODO: for now we have no plan for it, it needs some way to handle npm, bun or etc and create init files like
-    # TODO: package.json. why we need this? for example, add DOMPurify to sanitizer client side input or adding js project
+    # TODO: for now we have no plan for it, it needs some way to handle npm, \
+    # bun or etc and create init files like
+    # TODO: package.json. why we need this? for example, add DOMPurify \
+    # to sanitizer client side input or adding js project
     igniter
   end
 

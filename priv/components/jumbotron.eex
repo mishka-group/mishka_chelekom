@@ -95,7 +95,7 @@ defmodule <%= @module %> do
     doc: "Determines custom class for the font weight"
 
   attr :padding, :string, default: "", doc: "Determines padding for items"
-  attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
+  attr :class, :any, default: nil, doc: "Custom CSS class for additional styling"
 
   attr :rest, :global,
     doc:

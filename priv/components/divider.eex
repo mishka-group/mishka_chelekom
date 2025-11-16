@@ -67,7 +67,7 @@ defmodule <%= @module %> do
     doc: "Defines the layout orientation of the component"
 
   slot :text, required: false do
-    attr :class, :string, doc: "Custom CSS class for additional styling"
+    attr :class, :any, doc: "Custom CSS class for additional styling"
     attr :color, :string, doc: "Determines color theme"
 
     attr :size, :string,
@@ -78,7 +78,7 @@ defmodule <%= @module %> do
 
   slot :icon, required: false do
     attr :name, :string, required: true, doc: "Specifies the name of the element"
-    attr :class, :string, doc: "Custom CSS class for additional styling"
+    attr :class, :any, doc: "Custom CSS class for additional styling"
     attr :icon_class, :string, doc: "Determines custom class for the icon"
     attr :color, :string, doc: "Determines color theme"
 
@@ -88,7 +88,7 @@ defmodule <%= @module %> do
 
   end
 
-  attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
+  attr :class, :any, default: nil, doc: "Custom CSS class for additional styling"
 
   attr :rest, :global,
     doc:
@@ -214,7 +214,7 @@ defmodule <%= @module %> do
   attr :position, :string, default: "middle", doc: "Determines the text and icons position"
 
   slot :text, required: false do
-    attr :class, :string, doc: "Custom CSS class for additional styling"
+    attr :class, :any, doc: "Custom CSS class for additional styling"
     attr :color, :string, doc: "Determines color theme"
 
     attr :size, :string,
@@ -225,7 +225,7 @@ defmodule <%= @module %> do
 
   slot :icon, required: false do
     attr :name, :string, required: true, doc: "Specifies the name of the element"
-    attr :class, :string, doc: "Custom CSS class for additional styling"
+    attr :class, :any, doc: "Custom CSS class for additional styling"
     attr :icon_class, :string, doc: "Determines custom class for the icon"
     attr :color, :string, doc: "Determines color theme"
 
@@ -234,7 +234,7 @@ defmodule <%= @module %> do
         "Determines the overall size of the elements, including padding, font size, and other items"
   end
 
-  attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
+  attr :class, :any, default: nil, doc: "Custom CSS class for additional styling"
 
   attr :rest, :global,
     doc:

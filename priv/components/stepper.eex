@@ -59,7 +59,7 @@ defmodule <%= @module %> do
   attr :separator_size, :string, default: "extra_small", doc: "Determines the separator size"
   attr :variant, :string, default: "base", doc: "Determines the style"
   attr :vertical, :boolean, default: false, doc: "Determines whether element is vertical"
-  attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
+  attr :class, :any, default: nil, doc: "Custom CSS class for additional styling"
   attr :col_step, :boolean, default: false, doc: "Enables column layout for stepper steps"
   attr :col_step_position, :string, default: "start", doc: "Determines column step position alignment (start, end, center)"
 
@@ -143,7 +143,7 @@ defmodule <%= @module %> do
     default: nil,
     doc: "A unique identifier is used to manage state and interaction"
 
-  attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
+  attr :class, :any, default: nil, doc: "Custom CSS class for additional styling"
 
   attr :separator_class, :string,
     default: nil,

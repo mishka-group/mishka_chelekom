@@ -106,7 +106,7 @@ defmodule <%= @module %> do
 
   attr :padding, :string,default: "small", doc: "Determines padding for items"
 
-  attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
+  attr :class, :any, default: nil, doc: "Custom CSS class for additional styling"
   attr :icon, :string, default: "hero-quote", doc: "Icon displayed alongside of an item"
   attr :icon_class, :string, default: nil, doc: "Determines custom class for the icon"
   attr :blockquote_class, :string, default: nil, doc: "Determines custom class for the blockquote"
@@ -115,7 +115,7 @@ defmodule <%= @module %> do
     attr :image, :string, doc: "Image displayed alongside of an item"
     attr :image_class, :string, doc: "Determines custom class for the image"
     attr :alt, :string, doc: "Determines alt of image"
-    attr :class, :string, doc: "Determines custom class for caption wrapper"
+    attr :class, :any, doc: "Determines custom class for caption wrapper"
     attr :content_class, :string, doc: "Determines custom class for caption content"
 
     attr :position, :string,

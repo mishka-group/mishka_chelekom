@@ -60,7 +60,7 @@ defmodule <%= @module %> do
     default: nil,
     doc: "A unique identifier is used to manage state and interaction"
 
-  attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
+  attr :class, :any, default: nil, doc: "Custom CSS class for additional styling"
   attr :label_class, :string, default: nil, doc: "Custom CSS class for the label styling"
   attr :color, :string, default: "primary", doc: "Determines color theme"
   attr :border, :string, default: "extra_small", doc: "Determines border style"
@@ -94,7 +94,7 @@ defmodule <%= @module %> do
       "Global attributes can define defaults which are merged with attributes provided by the caller"
 
   slot :range_value, required: false do
-    attr :class, :string, doc: "Custom CSS class for additional styling"
+    attr :class, :any, doc: "Custom CSS class for additional styling"
     attr :position, :any, required: false, doc: "Determines the element position"
   end
 
@@ -186,7 +186,7 @@ defmodule <%= @module %> do
 
   @doc type: :component
   attr :for, :string, default: nil, doc: "Specifies the form which is associated with"
-  attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
+  attr :class, :any, default: nil, doc: "Custom CSS class for additional styling"
   slot :inner_block, required: true, doc: "Inner block that renders HEEx content"
 
   defp label(assigns) do

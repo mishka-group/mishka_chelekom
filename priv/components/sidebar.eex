@@ -63,7 +63,7 @@ defmodule <%= @module %> do
     values: ["left", "right"],
     doc: "Determines what position should be hidden"
 
-  attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
+  attr :class, :any, default: nil, doc: "Custom CSS class for additional styling"
   attr :hide_button_class, :string, default: nil, doc: "Custom CSS class for additional styling"
 
   attr :minimize_wrapper_class, :string,
@@ -97,7 +97,7 @@ defmodule <%= @module %> do
     attr :label, :string, doc: "Text label for the menu item"
     attr :label_class, :string, doc: "CSS class for the label text"
     attr :link, :string, doc: "URL for the item link"
-    attr :class, :string, doc: "CSS class for the entire item"
+    attr :class, :any, doc: "CSS class for the entire item"
     attr :link_class, :string, doc: "CSS class for the link"
   end
 

@@ -85,7 +85,7 @@ defmodule <%= @module %> do
 
   attr :color, :string, default: "base", doc: "Determines color theme"
   attr :rounded, :string, default: "small", doc: "Determines the border radius"
-  attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
+  attr :class, :any, default: nil, doc: "Custom CSS class for additional styling"
 
   attr :rest, :global,
     doc:
@@ -171,7 +171,7 @@ defmodule <%= @module %> do
     doc: "Custom CSS class for styling the indicator element"
 
   attr :indicator_size, :string, default: "extra_small", doc: "Defines the size of the indicator element"
-  attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
+  attr :class, :any, default: nil, doc: "Custom CSS class for additional styling"
   attr :content_class, :string, default: "block", doc: "Custom CSS class for additional styling"
 
   attr :rest, :global,
@@ -183,7 +183,7 @@ defmodule <%= @module %> do
   slot :inner_block, required: false, doc: "Inner block that renders HEEx content"
 
   slot :loading, required: false do
-    attr :class, :string, doc: "Custom CSS class for additional styling"
+    attr :class, :any, doc: "Custom CSS class for additional styling"
     attr :position, :string,
       values: ["start", "end"],
       doc: "Determines the element position"
@@ -283,7 +283,7 @@ defmodule <%= @module %> do
 
   attr :full_width , :boolean, default: false, doc: "Make button full width"
 
-  attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
+  attr :class, :any, default: nil, doc: "Custom CSS class for additional styling"
 
   attr :rest, :global,
     doc:
@@ -353,7 +353,7 @@ defmodule <%= @module %> do
     doc:
       "Determines the overall size of the elements, including padding, font size, and other items"
 
-  attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
+  attr :class, :any, default: nil, doc: "Custom CSS class for additional styling"
   attr :content_class, :string, default: "block", doc: "Custom CSS class for additional styling"
 
   attr :display, :string,
@@ -386,7 +386,7 @@ defmodule <%= @module %> do
   slot :inner_block, required: false, doc: "Inner block that renders HEEx content"
 
   slot :loading, required: false do
-    attr :class, :string, doc: "Custom CSS class for additional styling"
+    attr :class, :any, doc: "Custom CSS class for additional styling"
     attr :position, :string,
       values: ["start", "end"],
       doc: "Determines the element position"
@@ -552,7 +552,7 @@ defmodule <%= @module %> do
 
   @doc type: :component
   attr :position, :string, default: "none", doc: "Determines the element position"
-  attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
+  attr :class, :any, default: nil, doc: "Custom CSS class for additional styling"
 
   attr :size, :string,
     doc:

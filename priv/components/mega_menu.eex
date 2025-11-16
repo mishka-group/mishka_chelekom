@@ -147,7 +147,7 @@ defmodule <%= @module %> do
   attr :content_class, :string, default: nil, doc: "Determines custom class for the content"
   attr :border, :string, default: "extra_small", doc: "Determines border style"
   attr :top_gap, :string, default: "extra_small", doc: "Determines top gap of the element"
-  attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
+  attr :class, :any, default: nil, doc: "Custom CSS class for additional styling"
 
   attr :rest, :global,
     doc:
@@ -156,7 +156,7 @@ defmodule <%= @module %> do
   slot :inner_block, required: false, doc: "Inner block that renders HEEx content"
 
   slot :trigger, required: false do
-    attr :class, :string, doc: "Custom CSS class for additional styling"
+    attr :class, :any, doc: "Custom CSS class for additional styling"
   end
 
   def <%= @component_prefix %>mega_menu(assigns) do

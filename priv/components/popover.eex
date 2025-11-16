@@ -77,7 +77,7 @@ defmodule <%= @module %> do
     required: true,
     doc: "A unique identifier is used to manage state and interaction"
 
-  attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
+  attr :class, :any, default: nil, doc: "Custom CSS class for additional styling"
   attr :inline, :boolean, default: false, doc: "Determines whether this element is inline"
 
   attr :clickable, :boolean,
@@ -110,11 +110,11 @@ defmodule <%= @module %> do
   slot :inner_block, required: false, doc: "Inner block that renders HEEx content"
 
   slot :content, required: false do
-    attr :class, :string, doc: "Custom CSS class for additional styling"
+    attr :class, :any, doc: "Custom CSS class for additional styling"
   end
 
   slot :trigger, required: false do
-    attr :class, :string, doc: "Custom CSS class for additional styling"
+    attr :class, :any, doc: "Custom CSS class for additional styling"
   end
 
   def <%= @component_prefix %>popover(assigns) do

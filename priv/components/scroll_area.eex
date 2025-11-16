@@ -33,7 +33,7 @@ defmodule <%= @module %> do
   attr :height, :string, default: "h-96", doc: "Determines height of wrapper"
   attr :width, :string, default: "w-full", doc: "Determines width of wrapper"
   attr :padding, :string, default: "extra_small", doc: "Add paddings to content"
-  attr :class, :string, default: nil, doc: "Custom CSS class for the scroll area wrapper"
+  attr :class, :any, default: nil, doc: "Custom CSS class for the scroll area wrapper"
   attr :content_class, :string, default: nil, doc: "Custom CSS class for the inner content area"
   attr :scrollbar_width, :string, default: "w-2", doc: "Custom CSS class for vertical scrollbar width"
 

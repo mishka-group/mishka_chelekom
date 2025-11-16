@@ -89,7 +89,7 @@ defmodule <%= @module %> do
     default: "",
     doc: "Controls the visual order of an item within a flex or grid container"
 
-  attr :class, :string,
+  attr :class, :any,
     default: "",
     doc: "Additional CSS classes to apply to the container"
 
@@ -207,7 +207,7 @@ defmodule <%= @module %> do
     default: "",
     doc: "Shorthand to align a single item along both axes"
 
-  attr :class, :string,
+  attr :class, :any,
     default: "",
     doc: "Additional CSS classes to apply to the container"
 

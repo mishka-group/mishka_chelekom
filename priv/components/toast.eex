@@ -89,7 +89,7 @@ defmodule <%= @module %> do
     default: "font-normal",
     doc: "Determines custom class for the font weight"
 
-  attr :class, :string, default: "", doc: "Additional CSS classes to be added to the toast."
+  attr :class, :any, default: "", doc: "Additional CSS classes to be added to the toast."
 
   attr :wrapper_class, :string,
     default: "",
@@ -235,7 +235,7 @@ defmodule <%= @module %> do
     doc: "Type of horizontal"
 
   attr :horizontal_space, :string, default: "extra_small", doc: "Space between horizontal items"
-  attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
+  attr :class, :any, default: nil, doc: "Custom CSS class for additional styling"
 
   attr :rest, :global,
     doc:
@@ -273,7 +273,7 @@ defmodule <%= @module %> do
     default: false,
     doc: "Determines if the toast should include a dismiss button"
 
-  attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
+  attr :class, :any, default: nil, doc: "Custom CSS class for additional styling"
   attr :icon_class, :string, default: nil, doc: "Custom CSS class for additional styling"
 
   attr :size, :string,

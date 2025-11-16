@@ -66,7 +66,7 @@ defmodule <%= @module %> do
 
   @doc type: :component
   attr :id, :string, required: true, doc: "A unique identifier for the collapse"
-  attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
+  attr :class, :any, default: nil, doc: "Custom CSS class for additional styling"
   attr :duration, :integer, default: 200, doc: "Animation duration in milliseconds"
   attr :keep_mounted, :boolean, default: false, doc: "Keep content mounted after first open"
   attr :server_events, :boolean, default: false, doc: "Send open/close events to LiveView"

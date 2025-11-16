@@ -40,7 +40,7 @@ defmodule <%= @module %> do
     doc:
       "Determines the overall size of the elements, including padding, font size, and other items"
 
-  attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
+  attr :class, :any, default: nil, doc: "Custom CSS class for additional styling"
 
   attr :font_weight, :string,
     default: "font-normal",
@@ -95,7 +95,7 @@ defmodule <%= @module %> do
     doc:
       "Determines the overall size of the elements, including padding, font size, and other items"
 
-  attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
+  attr :class, :any, default: nil, doc: "Custom CSS class for additional styling"
 
   attr :font_weight, :string,
     default: "font-normal",
@@ -150,7 +150,7 @@ defmodule <%= @module %> do
     doc:
       "Determines the overall size of the elements, including padding, font size, and other items"
 
-  attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
+  attr :class, :any, default: nil, doc: "Custom CSS class for additional styling"
 
   attr :font_weight, :string,
     default: "font-normal",
@@ -204,7 +204,7 @@ defmodule <%= @module %> do
     doc:
       "Determines the overall size of the elements, including padding, font size, and other items"
 
-  attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
+  attr :class, :any, default: nil, doc: "Custom CSS class for additional styling"
 
   attr :font_weight, :string,
     default: "font-normal",
@@ -259,7 +259,7 @@ defmodule <%= @module %> do
     doc:
       "Determines the overall size of the elements, including padding, font size, and other items"
 
-  attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
+  attr :class, :any, default: nil, doc: "Custom CSS class for additional styling"
 
   attr :font_weight, :string,
     default: "font-normal",
@@ -313,7 +313,7 @@ defmodule <%= @module %> do
     doc:
       "Determines the overall size of the elements, including padding, font size, and other items"
 
-  attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
+  attr :class, :any, default: nil, doc: "Custom CSS class for additional styling"
 
   attr :font_weight, :string,
     default: "font-normal",
@@ -369,7 +369,7 @@ defmodule <%= @module %> do
     doc:
       "Determines the overall size of the elements, including padding, font size, and other items"
 
-  attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
+  attr :class, :any, default: nil, doc: "Custom CSS class for additional styling"
 
   attr :font_weight, :string,
     default: "font-normal",
@@ -426,7 +426,7 @@ defmodule <%= @module %> do
     doc:
       "Determines the overall size of the elements, including padding, font size, and other items"
 
-  attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
+  attr :class, :any, default: nil, doc: "Custom CSS class for additional styling"
 
   attr :font_weight, :string,
     default: "font-bold",
@@ -487,7 +487,7 @@ defmodule <%= @module %> do
     doc:
       "Determines the overall size of the elements, including padding, font size, and other items"
 
-  attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
+  attr :class, :any, default: nil, doc: "Custom CSS class for additional styling"
 
   attr :font_weight, :string,
     default: "font-normal",
@@ -544,7 +544,7 @@ defmodule <%= @module %> do
     doc:
       "Determines the overall size of the elements, including padding, font size, and other items"
 
-  attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
+  attr :class, :any, default: nil, doc: "Custom CSS class for additional styling"
 
   attr :font_weight, :string,
     default: "font-normal",
@@ -599,7 +599,7 @@ defmodule <%= @module %> do
     doc:
       "Determines the overall size of the elements, including padding, font size, and other items"
 
-  attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
+  attr :class, :any, default: nil, doc: "Custom CSS class for additional styling"
 
   attr :font_weight, :string,
     default: "font-bold",
@@ -658,7 +658,7 @@ defmodule <%= @module %> do
     doc:
       "Determines the overall size of the elements, including padding, font size, and other items"
 
-  attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
+  attr :class, :any, default: nil, doc: "Custom CSS class for additional styling"
 
   attr :font_weight, :string,
     default: "font-normal",
@@ -726,7 +726,7 @@ defmodule <%= @module %> do
     doc:
       "Determines the overall size of the elements, including padding, font size, and other items"
 
-  attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
+  attr :class, :any, default: nil, doc: "Custom CSS class for additional styling"
 
   attr :font_weight, :string,
     default: "font-normal",
@@ -789,7 +789,7 @@ defmodule <%= @module %> do
     doc:
       "Determines the overall size of the elements, including padding, font size, and other items"
 
-  attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
+  attr :class, :any, default: nil, doc: "Custom CSS class for additional styling"
 
   attr :font_weight, :string,
     default: "font-normal",
@@ -846,7 +846,7 @@ defmodule <%= @module %> do
     doc:
       "Determines the overall size of the elements, including padding, font size, and other items"
 
-  attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
+  attr :class, :any, default: nil, doc: "Custom CSS class for additional styling"
 
   attr :font_weight, :string,
     default: "font-normal",
@@ -900,7 +900,7 @@ defmodule <%= @module %> do
     doc:
       "Determines the overall size of the elements, including padding, font size, and other items"
 
-  attr :class, :string,
+  attr :class, :any,
     default: "p-0.5 bg-rose-200",
     doc: "Custom CSS class for additional styling"
 
@@ -956,7 +956,7 @@ defmodule <%= @module %> do
     doc:
       "Determines the overall size of the elements, including padding, font size, and other items"
 
-  attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
+  attr :class, :any, default: nil, doc: "Custom CSS class for additional styling"
 
   attr :font_weight, :string,
     default: "font-normal",
@@ -1008,7 +1008,7 @@ defmodule <%= @module %> do
     doc:
       "Determines the overall size of the elements, including padding, font size, and other items"
 
-  attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
+  attr :class, :any, default: nil, doc: "Custom CSS class for additional styling"
 
   attr :font_weight, :string,
     default: "font-normal",
@@ -1061,7 +1061,7 @@ defmodule <%= @module %> do
     doc:
       "Determines the overall size of the elements, including padding, font size, and other items"
 
-  attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
+  attr :class, :any, default: nil, doc: "Custom CSS class for additional styling"
 
   attr :font_weight, :string,
     default: "font-normal",
@@ -1117,7 +1117,7 @@ defmodule <%= @module %> do
     doc:
       "Determines the overall size of the elements, including padding, font size, and other items"
 
-  attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
+  attr :class, :any, default: nil, doc: "Custom CSS class for additional styling"
 
   attr :font_weight, :string,
     default: "font-normal",
@@ -1170,7 +1170,7 @@ defmodule <%= @module %> do
     doc:
       "Determines the overall size of the elements, including padding, font size, and other items"
 
-  attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
+  attr :class, :any, default: nil, doc: "Custom CSS class for additional styling"
 
   attr :font_weight, :string,
     default: "font-normal",

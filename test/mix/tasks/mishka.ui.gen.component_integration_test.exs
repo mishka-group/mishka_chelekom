@@ -30,7 +30,7 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.ComponentIntegrationTest do
         attr :variant, :string, default: "default", values: <%= inspect(@variant || ["default"]) %>
         attr :color, :string, default: "primary", values: <%= inspect(@color || ["primary"]) %>
         attr :size, :string, default: "md", values: <%= inspect(@size || ["md"]) %>
-        attr :class, :string, default: ""
+        attr :class, :any, default: ""
         attr :rest, :global, include: ~w(disabled form type)
         slot :inner_block, required: true
 
@@ -153,7 +153,7 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.ComponentIntegrationTest do
         attr :id, :string, required: true
         attr :variant, :string, default: "info", values: <%= inspect(@variant || ["info"]) %>
         attr :dismissible, :boolean, default: false
-        attr :class, :string, default: ""
+        attr :class, :any, default: ""
         slot :inner_block, required: true
 
         def alert(assigns) do
@@ -491,7 +491,7 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.ComponentIntegrationTest do
         use Phoenix.Component
 
         attr :color, :string, default: "base", values: <%= inspect(@color || ["base", "primary", "secondary", "danger", "warning", "success"]) %>
-        attr :class, :string, default: ""
+        attr :class, :any, default: ""
         attr :rest, :global
         slot :inner_block, required: true
 
@@ -579,7 +579,7 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.ComponentIntegrationTest do
       defmodule <%= @web_module %>.Components.<%= @module %> do
         use Phoenix.Component
 
-        attr :class, :string, default: ""
+        attr :class, :any, default: ""
         attr :rest, :global
         slot :inner_block, required: true
 
@@ -656,7 +656,7 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.ComponentIntegrationTest do
       defmodule <%= @web_module %>.Components.<%= @module %> do
         use Phoenix.Component
 
-        attr :class, :string, default: ""
+        attr :class, :any, default: ""
         attr :rest, :global
         slot :inner_block, required: true
 
@@ -733,7 +733,7 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.ComponentIntegrationTest do
       defmodule <%= @web_module %>.Components.<%= @module %> do
         use Phoenix.Component
 
-        attr :class, :string, default: ""
+        attr :class, :any, default: ""
         slot :inner_block, required: true
 
         def <%= @component_prefix %>button(assigns) do
@@ -801,7 +801,7 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.ComponentIntegrationTest do
       defmodule <%= @web_module %>.Components.<%= @module %> do
         use Phoenix.Component
 
-        attr :class, :string, default: ""
+        attr :class, :any, default: ""
         slot :inner_block, required: true
 
         def <%= @component_prefix %>button(assigns) do

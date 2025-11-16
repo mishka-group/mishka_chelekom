@@ -60,7 +60,7 @@ defmodule <%= @module %> do
   @doc type: :component
   attr :id, :string, doc: "A unique identifier is used to manage state and interaction"
 
-  attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
+  attr :class, :any, default: nil, doc: "Custom CSS class for additional styling"
   attr :overlay, :string, default: "base", doc: "Determines an overlay"
 
   attr :size, :string,
@@ -113,7 +113,7 @@ defmodule <%= @module %> do
     attr :description_class, :string, doc: "Determines custom class for the description"
     attr :wrapper_class, :string, doc: "Determines custom class for the wrapper"
     attr :content_position, :string, doc: "Determines the alignment of the element's content"
-    attr :class, :string, doc: "Custom CSS class for additional styling"
+    attr :class, :any, doc: "Custom CSS class for additional styling"
     attr :active, :boolean, doc: "Indicates whether the element is currently active and visible"
   end
 

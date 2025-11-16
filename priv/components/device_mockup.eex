@@ -111,7 +111,7 @@ defmodule <%= @module %> do
     default: nil,
     doc: "A unique identifier is used to manage state and interaction"
 
-  attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
+  attr :class, :any, default: nil, doc: "Custom CSS class for additional styling"
   attr :color, :string, default: "base", doc: "Determines color theme"
   attr :alt, :string, default: nil, doc: "Media link description"
   attr :type, :string, default: "iphone", doc: "android watch laptop iphone ipad imac"

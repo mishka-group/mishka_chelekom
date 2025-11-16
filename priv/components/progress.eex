@@ -79,7 +79,7 @@ defmodule <%= @module %> do
     doc:
       "Determines the overall size of the elements, including padding, font size, and other items"
 
-  attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
+  attr :class, :any, default: nil, doc: "Custom CSS class for additional styling"
   attr :csp_nonce, :string, default: nil, doc: "csp nonce"
 
   attr :rest, :global,
@@ -132,7 +132,7 @@ defmodule <%= @module %> do
   attr :orientation, :string, default: "up", doc: "'up' or 'down'"
   attr :fill_direction, :string, default: "left-to-right", doc: "Direction of fill"
   attr :transition_duration, :integer, default: 300, doc: "Transition duration in ms"
-  attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
+  attr :class, :any, default: nil, doc: "Custom CSS class for additional styling"
   attr :linecap, :string, default: nil, doc: "add radius to progress"
   attr :color, :string, default: "natural", doc: "Determines color theme"
 
@@ -258,7 +258,7 @@ defmodule <%= @module %> do
     default: nil,
     doc: "Optional label to be displayed along with the progress element."
 
-  attr :class, :string,
+  attr :class, :any,
     default: nil,
     doc: "Custom CSS class for additional styling."
 
@@ -349,7 +349,7 @@ defmodule <%= @module %> do
   """
   @doc type: :component
   attr :value, :integer, default: 0, doc: "Progress value (0 to 100)"
-  attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
+  attr :class, :any, default: nil, doc: "Custom CSS class for additional styling"
 
   attr :variation, :string,
     values: ["horizontal", "vertical"],
@@ -365,7 +365,7 @@ defmodule <%= @module %> do
       "Global attributes can define defaults which are merged with attributes provided by the caller"
 
   slot :label, required: false do
-    attr :class, :string, doc: "Custom CSS class for additional styling"
+    attr :class, :any, doc: "Custom CSS class for additional styling"
   end
 
 
@@ -373,7 +373,7 @@ defmodule <%= @module %> do
     attr :label, :string, doc: "Determines element's text"
     attr :position, :string, doc: "Determines element's position"
     attr :clickable, :boolean, doc: "Determines element's click"
-    attr :class, :string, doc: "Custom CSS class for additional styling"
+    attr :class, :any, doc: "Custom CSS class for additional styling"
   end
 
   def <%= @component_prefix %>progress_section(assigns) do

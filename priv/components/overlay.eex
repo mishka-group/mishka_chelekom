@@ -41,7 +41,7 @@ defmodule <%= @module %> do
   attr :color, :string, default: "base", doc: "Determines color theme"
   attr :opacity, :string, default: "", doc: "Determines the opacity level of the overlay"
   attr :backdrop, :string, default: "", doc: "Determines backdrop effects for the overlay"
-  attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
+  attr :class, :any, default: nil, doc: "Custom CSS class for additional styling"
 
   attr :z_index, :string,
     default: "z-50",

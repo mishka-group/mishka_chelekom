@@ -85,7 +85,7 @@ defmodule <%= @module %> do
   @doc type: :component
   attr :id, :string, doc: "The unique identifier for the clipboard component element."
 
-  attr :class, :string,
+  attr :class, :any,
     default: nil,
     doc: "CSS classes to apply to the clipboard component container."
 

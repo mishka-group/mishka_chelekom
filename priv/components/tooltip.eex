@@ -93,7 +93,7 @@ import Phoenix.LiveView.Utils, only: [random_id: 0]
   attr :text_position, :string, default: "center", doc: "Text alignment"
   attr :show_arrow, :boolean, default: true, doc: "Show tooltip arrow"
 
-  attr :class, :string, default: "", doc: "Additional CSS classes for wrapper"
+  attr :class, :any, default: "", doc: "Additional CSS classes for wrapper"
   attr :content_class, :string, default: "", doc: "Additional CSS classes for tooltip content"
   attr :trigger_class, :string, default: "", doc: "Additional CSS classes for tooltip content"
   attr :arrow_class, :string, default: "", doc: "Additional CSS classes for arrow"
@@ -102,7 +102,7 @@ import Phoenix.LiveView.Utils, only: [random_id: 0]
   slot :trigger, required: false, doc: "Custom trigger element (alternative to inner_block)"
 
   slot :content, required: false, doc: "Custom tooltip content (alternative to text attr)" do
-    attr :class, :string, doc: "Additional CSS classes for this content"
+    attr :class, :any, doc: "Additional CSS classes for this content"
   end
 
   slot :inner_block, required: false, doc: "Default trigger content (when not using trigger slot)"

@@ -15,7 +15,7 @@ defmodule <%= @module %> do
   @doc type: :component
   attr :id, :string, doc: "A unique identifier for the accordion"
 
-  attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
+  attr :class, :any, default: nil, doc: "Custom CSS class for additional styling"
   attr :multiple, :boolean, default: false, doc: "Allow multiple panels open simultaneously"
   attr :collapsible, :boolean, default: true, doc: "Allow all panels to be closed"
   attr :duration, :integer, default: 200, doc: "Animation duration in milliseconds"

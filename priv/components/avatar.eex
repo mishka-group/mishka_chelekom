@@ -53,7 +53,7 @@ defmodule <%= @module %> do
     default: nil,
     doc: "A unique identifier is used to manage state and interaction"
 
-  attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
+  attr :class, :any, default: nil, doc: "Custom CSS class for additional styling"
   attr :src, :string, default: nil, doc: "Media link"
 
   attr :color, :string, default: "transparent", doc: "Determines color theme"
@@ -75,7 +75,7 @@ defmodule <%= @module %> do
 
   slot :icon, required: false do
     attr :name, :string, required: true, doc: "Specifies the name of the element"
-    attr :class, :string, doc: "Custom CSS class for additional styling"
+    attr :class, :any, doc: "Custom CSS class for additional styling"
     attr :icon_class, :string, doc: "Determines custom class for the icon"
     attr :color, :string, doc: "Determines color theme"
 
@@ -205,7 +205,7 @@ defmodule <%= @module %> do
     default: nil,
     doc: "A unique identifier is used to manage state and interaction"
 
-  attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
+  attr :class, :any, default: nil, doc: "Custom CSS class for additional styling"
   attr :space, :string, default: "medium", doc: "Space between items"
 
   attr :rest, :global,

@@ -54,7 +54,7 @@ defmodule <%= @module %> do
     doc:
       "Determines the overall size of the elements, including padding, font size, and other items"
 
-  attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
+  attr :class, :any, default: nil, doc: "Custom CSS class for additional styling"
   attr :color, :string, default: "base", doc: "Determines color theme"
 
   attr :rest, :global,
