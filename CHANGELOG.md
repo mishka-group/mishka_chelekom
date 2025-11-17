@@ -7,6 +7,7 @@
 ### Refactors:
 
 - Refactor accordion to auto-generate item IDs (Explicit and open dynamic identifiers) [Commit](https://github.com/mishka-group/mishka_chelekom/commit/41a9f87d896c3524ce60826d5436ee14efacfb83) and [Issue with help](https://github.com/mishka-group/mishka_chelekom/issues/443#issuecomment-3529762821)
+- Change `:class` attr type from `:string` to `:any` in components [Commit](https://github.com/mishka-group/mishka_chelekom/commit/dc4d66b52ad7703524a4057346b574fbf72992f0)
 
 ### Bugs:
 
