@@ -30,6 +30,7 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Components do
   * `--exclude` - Comma-separated list of components to exclude (e.g., `--exclude alert,badge`)
   * `--component-prefix` - Prefix for all component function names (e.g., `--component-prefix mishka_`)
   * `--module-prefix` - Prefix for module names (e.g., `--module-prefix mishka_` makes Chat become MishkaChat)
+  * `--no-save` - Use prefixes without saving them to config file
   """
 
   def info(_argv, _composing_task) do
@@ -57,7 +58,8 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Components do
         global: :boolean,
         exclude: :csv,
         component_prefix: :string,
-        module_prefix: :string
+        module_prefix: :string,
+        no_save: :boolean
       ],
       # CLI aliases
       aliases: [i: :import, h: :helpers, g: :global, e: :exclude]
@@ -406,9 +408,13 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Components do
   end
 
   defp maybe_update_config_prefixes(igniter, options) do
-    igniter
-    |> maybe_update_component_prefix(options[:component_prefix])
-    |> maybe_update_module_prefix(options[:module_prefix])
+    if options[:no_save] do
+      igniter
+    else
+      igniter
+      |> maybe_update_component_prefix(options[:component_prefix])
+      |> maybe_update_module_prefix(options[:module_prefix])
+    end
   end
 
   defp maybe_update_component_prefix(igniter, nil), do: igniter

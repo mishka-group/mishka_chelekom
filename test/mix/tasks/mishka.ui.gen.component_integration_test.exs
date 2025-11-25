@@ -1511,5 +1511,154 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.ComponentIntegrationTest do
         refute String.contains?(content, "MishkaIcon")
       end
     end
+
+    test "does NOT save prefix to config when --no-save is used" do
+      # Create a simple chat component template
+      chat_template = """
+      defmodule <%= @module %> do
+        use Phoenix.Component
+
+        attr :class, :any, default: ""
+        slot :inner_block, required: true
+
+        def chat(assigns) do
+          ~H\"\"\"
+          <div class={["chat", @class]}>
+            <%= render_slot(@inner_block) %>
+          </div>
+          \"\"\"
+        end
+      end
+      """
+
+      chat_config = """
+      [
+        component_chat: [
+          name: "component_chat",
+          args: [],
+          optional: [],
+          necessary: []
+        ]
+      ]
+      """
+
+      # Create existing config with nil prefixes
+      existing_config = """
+      import Config
+
+      config :mishka_chelekom,
+        component_prefix: nil,
+        module_prefix: nil
+      """
+
+      # Run the task with --no-save flag
+      igniter =
+        test_project_with_formatter()
+        |> Igniter.create_new_file("priv/mishka_chelekom/config.exs", existing_config)
+        |> Igniter.create_new_file(
+          "priv/mishka_chelekom/components/component_chat.eex",
+          chat_template
+        )
+        |> Igniter.create_new_file(
+          "priv/mishka_chelekom/components/component_chat.exs",
+          chat_config
+        )
+        |> Igniter.compose_task(Component, [
+          "component_chat",
+          "--module-prefix",
+          "mishka_",
+          "--component-prefix",
+          "mc_",
+          "--no-save",
+          "--yes"
+        ])
+
+      # Verify config was NOT updated (still has nil)
+      config_source = igniter.rewrite.sources["priv/mishka_chelekom/config.exs"]
+      assert config_source != nil
+      config_content = Rewrite.Source.get(config_source, :content)
+
+      # Should still have nil (not updated due to --no-save)
+      assert String.contains?(config_content, "component_prefix: nil")
+      assert String.contains?(config_content, "module_prefix: nil")
+
+      # Should NOT have the new prefixes saved
+      refute String.contains?(config_content, ~s(component_prefix: "mc_"))
+      refute String.contains?(config_content, ~s(module_prefix: "mishka_"))
+    end
+
+    test "saves prefix to config when --no-save is NOT used" do
+      # Create a simple chat component template
+      chat_template = """
+      defmodule <%= @module %> do
+        use Phoenix.Component
+
+        attr :class, :any, default: ""
+        slot :inner_block, required: true
+
+        def chat(assigns) do
+          ~H\"\"\"
+          <div class={["chat", @class]}>
+            <%= render_slot(@inner_block) %>
+          </div>
+          \"\"\"
+        end
+      end
+      """
+
+      chat_config = """
+      [
+        component_chat: [
+          name: "component_chat",
+          args: [],
+          optional: [],
+          necessary: []
+        ]
+      ]
+      """
+
+      # Create existing config with nil prefixes
+      existing_config = """
+      import Config
+
+      config :mishka_chelekom,
+        component_prefix: nil,
+        module_prefix: nil
+      """
+
+      # Run the task WITHOUT --no-save flag
+      igniter =
+        test_project_with_formatter()
+        |> Igniter.create_new_file("priv/mishka_chelekom/config.exs", existing_config)
+        |> Igniter.create_new_file(
+          "priv/mishka_chelekom/components/component_chat.eex",
+          chat_template
+        )
+        |> Igniter.create_new_file(
+          "priv/mishka_chelekom/components/component_chat.exs",
+          chat_config
+        )
+        |> Igniter.compose_task(Component, [
+          "component_chat",
+          "--module-prefix",
+          "mishka_",
+          "--component-prefix",
+          "mc_",
+          "--yes"
+        ])
+
+      # Verify config WAS updated
+      config_source = igniter.rewrite.sources["priv/mishka_chelekom/config.exs"]
+      assert config_source != nil
+      config_content = Rewrite.Source.get(config_source, :content)
+
+      # Should have the new prefixes saved
+      assert String.contains?(config_content, ~s(component_prefix: "mc_"))
+      assert String.contains?(config_content, ~s(module_prefix: "mishka_"))
+
+      # Should NOT have nil anymore
+      refute String.contains?(config_content, "component_prefix: nil")
+      refute String.contains?(config_content, "module_prefix: nil")
+    end
   end
 end

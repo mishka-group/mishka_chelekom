@@ -43,6 +43,7 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Component do
   * `--no-deps` - Specifies this task is created without sub task
   * `--yes` - Makes directly without questions
   * `--module-prefix` - Prefix for module names (e.g., `mishka_` makes Chat become MishkaChat)
+  * `--no-save` - Use prefixes without saving them to config file
   """
 
   def info(_argv, _composing_task) do
@@ -77,7 +78,8 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Component do
         module_prefix: :string,
         sub: :boolean,
         no_deps: :boolean,
-        no_sub_config: :boolean
+        no_sub_config: :boolean,
+        no_save: :boolean
       ],
       # CLI aliases
       aliases: [
@@ -914,18 +916,22 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Component do
   end
 
   defp maybe_update_component_prefix(igniter, options) do
-    case {Keyword.get(options, :component_prefix), Keyword.get(options, :sub)} do
-      {nil, _} -> igniter
-      {_prefix, true} -> igniter
-      {prefix, _} -> Config.update_component_prefix(igniter, prefix)
+    case {Keyword.get(options, :component_prefix), Keyword.get(options, :sub),
+          Keyword.get(options, :no_save)} do
+      {nil, _, _} -> igniter
+      {_prefix, true, _} -> igniter
+      {_prefix, _, true} -> igniter
+      {prefix, _, _} -> Config.update_component_prefix(igniter, prefix)
     end
   end
 
   defp maybe_update_module_prefix(igniter, options) do
-    case {Keyword.get(options, :module_prefix), Keyword.get(options, :sub)} do
-      {nil, _} -> igniter
-      {_prefix, true} -> igniter
-      {prefix, _} -> Config.update_module_prefix(igniter, prefix)
+    case {Keyword.get(options, :module_prefix), Keyword.get(options, :sub),
+          Keyword.get(options, :no_save)} do
+      {nil, _, _} -> igniter
+      {_prefix, true, _} -> igniter
+      {_prefix, _, true} -> igniter
+      {prefix, _, _} -> Config.update_module_prefix(igniter, prefix)
     end
   end
 end
