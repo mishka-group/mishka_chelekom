@@ -16,7 +16,7 @@ defmodule <%= @module %> do
   **Documentation:** https://mishka.tools/chelekom/docs/device-mockup
   """
   use Phoenix.Component
-  import <%= inspect(@web_module) %>.Components.Image, only: [<%= @component_prefix %>image: 1]
+  import <%= inspect(@web_module) %>.Components.<%= @module_prefix_camel %>Image, only: [<%= @component_prefix %>image: 1]
 
   @doc """
   The `device_mockup` component renders a responsive device mockup for various devices like

@@ -372,6 +372,18 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Component do
       {:error, :bad_args, msg, igniter}
     else
       # we put nil assigns keys to prevent the does not exist warning
+      # Get module_prefix from CLI or user config
+      user_config = igniter.assigns[:mishka_user_config] || %{}
+      module_prefix = Keyword.get(options, :module_prefix) || user_config[:module_prefix]
+
+      # Compute camelized module prefix for use in import statements
+      module_prefix_camel =
+        if module_prefix && module_prefix != "" do
+          module_prefix |> String.trim_trailing("_") |> Macro.camelize()
+        else
+          ""
+        end
+
       updated_new_assign =
         Keyword.keys(template_config[:args])
         |> Enum.reduce(new_assign, fn key, acc ->
@@ -383,7 +395,8 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Component do
         end)
         |> Keyword.merge(
           web_module: Igniter.Libs.Phoenix.web_module(igniter),
-          component_prefix: Keyword.get(options, :component_prefix)
+          component_prefix: Keyword.get(options, :component_prefix),
+          module_prefix_camel: module_prefix_camel
         )
 
       {igniter, template_path, template_config, proper_location, updated_new_assign, options}

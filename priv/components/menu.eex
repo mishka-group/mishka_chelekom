@@ -18,8 +18,8 @@ defmodule <%= @module %> do
   **Documentation:** https://mishka.tools/chelekom/docs/menu
   """
   use Phoenix.Component
-  import <%= inspect(@web_module) %>.Components.Button, only: [<%= @component_prefix %>button_link: 1]
-  import <%= inspect(@web_module) %>.Components.Collapse, only: [<%= @component_prefix %>collapse: 1]
+  import <%= inspect(@web_module) %>.Components.<%= @module_prefix_camel %>Button, only: [<%= @component_prefix %>button_link: 1]
+  import <%= inspect(@web_module) %>.Components.<%= @module_prefix_camel %>Collapse, only: [<%= @component_prefix %>collapse: 1]
 
   @doc """
   Renders a customizable `menu` component that can include menu items as a list of maps or use

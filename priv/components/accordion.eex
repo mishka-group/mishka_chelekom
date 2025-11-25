@@ -10,7 +10,7 @@ defmodule <%= @module %> do
   """
   use Phoenix.Component
   import Phoenix.LiveView.Utils, only: [random_id: 0]
-  import <%= inspect(@web_module) %>.Components.Icon, only: [<%= @component_prefix %>icon: 1]
+  import <%= inspect(@web_module) %>.Components.<%= @module_prefix_camel %>Icon, only: [<%= @component_prefix %>icon: 1]
 
   @doc type: :component
   attr :id, :string, doc: "A unique identifier for the accordion"

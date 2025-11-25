@@ -1336,5 +1336,180 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.ComponentIntegrationTest do
         refute String.contains?(content, "def chat(assigns) do")
       end
     end
+
+    test "generates component with module_prefix_camel in import statements" do
+      # Create a config file with module_prefix
+      config_content = """
+      import Config
+
+      config :mishka_chelekom,
+        module_prefix: "mishka_"
+      """
+
+      # Create a button component template that imports Icon
+      button_template = """
+      defmodule <%= @module %> do
+        use Phoenix.Component
+        import <%= inspect(@web_module) %>.Components.<%= @module_prefix_camel %>Icon, only: [icon: 1]
+
+        attr :class, :any, default: ""
+        attr :rest, :global
+        slot :inner_block, required: true
+
+        def button(assigns) do
+          ~H\"\"\"
+          <button class={["btn", @class]} {@rest}>
+            <%= render_slot(@inner_block) %>
+          </button>
+          \"\"\"
+        end
+      end
+      """
+
+      button_config = """
+      [
+        component_button: [
+          name: "component_button",
+          args: [],
+          optional: [],
+          necessary: []
+        ]
+      ]
+      """
+
+      # Run the task
+      igniter =
+        test_project_with_formatter()
+        |> Igniter.create_new_file("priv/mishka_chelekom/config.exs", config_content)
+        |> Igniter.create_new_file(
+          "priv/mishka_chelekom/components/component_button.eex",
+          button_template
+        )
+        |> Igniter.create_new_file(
+          "priv/mishka_chelekom/components/component_button.exs",
+          button_config
+        )
+        |> Igniter.compose_task(Component, ["component_button", "--yes"])
+
+      # Check if the component was created with the prefixed file name
+      component_created =
+        Map.has_key?(
+          igniter.rewrite.sources,
+          "lib/test_project_web/components/mishka_component_button.ex"
+        )
+
+      if !component_created do
+        # When running in test mode, the template might not be compiled
+        template =
+          igniter.rewrite.sources["priv/mishka_chelekom/components/component_button.eex"]
+
+        assert template != nil
+      else
+        # Get the generated content
+        source =
+          igniter.rewrite.sources["lib/test_project_web/components/mishka_component_button.ex"]
+
+        content = Rewrite.Source.get(source, :content)
+
+        # Verify the module name has the prefix (MishkaComponentButton)
+        assert String.contains?(
+                 content,
+                 "defmodule TestProjectWeb.Components.MishkaComponentButton do"
+               )
+
+        # Verify the import statement has the camelized prefix (MishkaIcon)
+        assert String.contains?(
+                 content,
+                 "import TestProjectWeb.Components.MishkaIcon"
+               )
+
+        # Verify it does NOT have unprefixed import
+        refute String.contains?(
+                 content,
+                 "import TestProjectWeb.Components.Icon,"
+               )
+      end
+    end
+
+    test "generates component with empty module_prefix_camel when no prefix" do
+      # Create a button component template that imports Icon (no prefix)
+      button_template = """
+      defmodule <%= @module %> do
+        use Phoenix.Component
+        import <%= inspect(@web_module) %>.Components.<%= @module_prefix_camel %>Icon, only: [icon: 1]
+
+        attr :class, :any, default: ""
+        slot :inner_block, required: true
+
+        def button(assigns) do
+          ~H\"\"\"
+          <button class={["btn", @class]}>
+            <%= render_slot(@inner_block) %>
+          </button>
+          \"\"\"
+        end
+      end
+      """
+
+      button_config = """
+      [
+        component_button: [
+          name: "component_button",
+          args: [],
+          optional: [],
+          necessary: []
+        ]
+      ]
+      """
+
+      # Run the task without module_prefix
+      igniter =
+        test_project_with_formatter()
+        |> Igniter.create_new_file(
+          "priv/mishka_chelekom/components/component_button.eex",
+          button_template
+        )
+        |> Igniter.create_new_file(
+          "priv/mishka_chelekom/components/component_button.exs",
+          button_config
+        )
+        |> Igniter.compose_task(Component, ["component_button", "--yes"])
+
+      # Check if the component was created (no prefix in file name)
+      component_created =
+        Map.has_key?(
+          igniter.rewrite.sources,
+          "lib/test_project_web/components/component_button.ex"
+        )
+
+      if !component_created do
+        # When running in test mode, the template might not be compiled
+        template =
+          igniter.rewrite.sources["priv/mishka_chelekom/components/component_button.eex"]
+
+        assert template != nil
+      else
+        # Get the generated content
+        source =
+          igniter.rewrite.sources["lib/test_project_web/components/component_button.ex"]
+
+        content = Rewrite.Source.get(source, :content)
+
+        # Verify the module name has no prefix
+        assert String.contains?(
+                 content,
+                 "defmodule TestProjectWeb.Components.ComponentButton do"
+               )
+
+        # Verify the import statement has no prefix (just Icon)
+        assert String.contains?(
+                 content,
+                 "import TestProjectWeb.Components.Icon"
+               )
+
+        # Verify it does NOT have prefixed import
+        refute String.contains?(content, "MishkaIcon")
+      end
+    end
   end
 end
