@@ -1,6 +1,6 @@
 defmodule Mix.Tasks.Mishka.Ui.Css.Config do
   use Igniter.Mix.Task
-  alias MishkaChelekom.CSSConfig
+  alias MishkaChelekom.Config
 
   @example "mix mishka.ui.css.config --init"
   @shortdoc "Manages CSS configuration for Mishka Chelekom components"
@@ -100,7 +100,7 @@ defmodule Mix.Tasks.Mishka.Ui.Css.Config do
   end
 
   defp init_config(igniter) do
-    {igniter, config_path, content} = CSSConfig.create_sample_config(igniter)
+    {igniter, config_path, content} = Config.create_sample_config(igniter)
     options = igniter.args.options
     force = Keyword.get(options, :force, false)
 
@@ -152,7 +152,7 @@ defmodule Mix.Tasks.Mishka.Ui.Css.Config do
     vendor_css_path = "assets/vendor/mishka_chelekom.css"
 
     # Generate CSS with user configuration
-    css_content = CSSConfig.generate_css_content(igniter)
+    css_content = Config.generate_css_content(igniter)
 
     igniter
     |> Igniter.create_or_update_file(vendor_css_path, css_content, fn source ->
@@ -169,7 +169,7 @@ defmodule Mix.Tasks.Mishka.Ui.Css.Config do
   end
 
   defp validate_config(igniter) do
-    config = CSSConfig.load_user_config(igniter)
+    config = Config.load_user_config(igniter)
     config_path = Path.join(["priv", "mishka_chelekom", "config.exs"])
 
     issues = validate_configuration(config)
@@ -277,7 +277,7 @@ defmodule Mix.Tasks.Mishka.Ui.Css.Config do
   end
 
   defp show_config(igniter) do
-    config = CSSConfig.load_user_config(igniter)
+    config = Config.load_user_config(igniter)
     config_path = Path.join(["priv", "mishka_chelekom", "config.exs"])
 
     overrides_display =

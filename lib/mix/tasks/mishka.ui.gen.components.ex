@@ -2,7 +2,7 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Components do
   alias Mix.Tasks.Mishka.Ui.Gen.Component
   use Igniter.Mix.Task
   alias Igniter.Project.Application, as: IAPP
-  alias MishkaChelekom.CSSConfig
+  alias MishkaChelekom.Config
 
   @example "mix mishka.ui.gen.components component1,component2"
   @shortdoc "A Mix Task for generating and configuring multi components of Phoenix"
@@ -85,7 +85,7 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Components do
 
     components = String.split(components || "", ",", trim: true)
 
-    user_config = CSSConfig.load_user_config(igniter)
+    user_config = Config.load_user_config(igniter)
 
     # Display exclusions and color filtering info before starting spinner
     config_excluded = user_config[:exclude_components] || []
@@ -318,7 +318,7 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Components do
          cli_module_prefix
        ) do
     {igniter, new_phoenix?} = new_phoenix(igniter, global)
-    user_config = igniter.assigns[:mishka_user_config] || CSSConfig.load_user_config(igniter)
+    user_config = igniter.assigns[:mishka_user_config] || Config.load_user_config(igniter)
     component_prefix = cli_component_prefix || user_config[:component_prefix]
     module_prefix = cli_module_prefix || user_config[:module_prefix]
 
@@ -414,12 +414,12 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Components do
   defp maybe_update_component_prefix(igniter, nil), do: igniter
 
   defp maybe_update_component_prefix(igniter, component_prefix) do
-    CSSConfig.update_component_prefix(igniter, component_prefix)
+    Config.update_component_prefix(igniter, component_prefix)
   end
 
   defp maybe_update_module_prefix(igniter, nil), do: igniter
 
   defp maybe_update_module_prefix(igniter, module_prefix) do
-    CSSConfig.update_module_prefix(igniter, module_prefix)
+    Config.update_module_prefix(igniter, module_prefix)
   end
 end

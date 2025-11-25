@@ -4,7 +4,7 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Component do
   alias IgniterJs.Parsers.Javascript.Parser, as: JsParser
   alias IgniterJs.Parsers.Javascript.Formatter, as: JsFormatter
   alias MishkaChelekom.SimpleCSSUtilities
-  alias MishkaChelekom.CSSConfig
+  alias MishkaChelekom.Config
 
   @example "mix mishka.ui.gen.component component --example arg"
   @shortdoc "A Mix Task for generating and configuring Phoenix components"
@@ -112,7 +112,7 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Component do
       IO.puts(IO.ANSI.green() <> String.trim_trailing(msg) <> IO.ANSI.reset())
     end
 
-    user_config = CSSConfig.load_user_config(igniter)
+    user_config = Config.load_user_config(igniter)
 
     igniter
     |> Igniter.assign(%{mishka_user_config: user_config})
@@ -180,7 +180,7 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Component do
           igniter
           |> Igniter.Project.Application.config_path()
           |> then(&Path.join(Path.dirname(&1), "config.exs"))
-          |> then(&Config.Reader.read!(&1, env: :dev)[:tailwind])
+          |> then(&Elixir.Config.Reader.read!(&1, env: :dev)[:tailwind])
           |> Keyword.get(:version)
 
         if version && !valid_tailwind_version?(version) do
@@ -265,7 +265,7 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Component do
           igniter: igniter,
           component: component,
           path: template_path,
-          config: Config.Reader.read!(template_config_path)[component_to_atom(component)]
+          config: Elixir.Config.Reader.read!(template_config_path)[component_to_atom(component)]
         }
 
       _ ->
@@ -827,7 +827,7 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Component do
   @doc false
   def create_mishka_css(igniter, vendor_css_path) do
     # Generate CSS content with user overrides if they exist
-    mishka_css_content = CSSConfig.generate_css_content(igniter)
+    mishka_css_content = Config.generate_css_content(igniter)
 
     igniter
     |> Igniter.create_or_update_file(vendor_css_path, mishka_css_content, fn source ->
@@ -874,7 +874,7 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Component do
     config_path = Path.join(["priv", "mishka_chelekom", "config.exs"])
 
     if !File.exists?(config_path) do
-      {igniter, path, content} = CSSConfig.create_sample_config(igniter)
+      {igniter, path, content} = Config.create_sample_config(igniter)
 
       igniter
       |> Igniter.create_or_update_file(path, content, fn source ->
@@ -917,7 +917,7 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Component do
     case {Keyword.get(options, :component_prefix), Keyword.get(options, :sub)} do
       {nil, _} -> igniter
       {_prefix, true} -> igniter
-      {prefix, _} -> CSSConfig.update_component_prefix(igniter, prefix)
+      {prefix, _} -> Config.update_component_prefix(igniter, prefix)
     end
   end
 
@@ -925,7 +925,7 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Component do
     case {Keyword.get(options, :module_prefix), Keyword.get(options, :sub)} do
       {nil, _} -> igniter
       {_prefix, true} -> igniter
-      {prefix, _} -> CSSConfig.update_module_prefix(igniter, prefix)
+      {prefix, _} -> Config.update_module_prefix(igniter, prefix)
     end
   end
 end

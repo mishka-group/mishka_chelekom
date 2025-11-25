@@ -1,7 +1,7 @@
-defmodule MishkaChelekom.CSSConfig do
+defmodule MishkaChelekom.Config do
   @moduledoc """
-  Handles CSS configuration and merging for Mishka Chelekom components.
-  Allows users to override specific CSS variables or provide custom CSS files.
+  Handles configuration for Mishka Chelekom components.
+  Manages user settings including prefixes, CSS variables, and component generation options.
   """
 
   # Configuration keys and their default values
@@ -49,7 +49,7 @@ defmodule MishkaChelekom.CSSConfig do
   # Load config from a file path
   defp load_config_from_file(config_path) do
     try do
-      config = Config.Reader.read!(config_path)
+      config = Elixir.Config.Reader.read!(config_path)
       extract_mishka_config(config)
     rescue
       _ -> default_config()
@@ -58,12 +58,12 @@ defmodule MishkaChelekom.CSSConfig do
 
   # Parse config content from string (for test environments)
   defp load_config_from_string(content) do
-    # Write to a temporary file and use Config.Reader
+    # Write to a temporary file and use Elixir.Config.Reader
     temp_path = Path.join(System.tmp_dir!(), "mishka_config_#{:rand.uniform(999_999)}.exs")
 
     try do
       File.write!(temp_path, content)
-      config = Config.Reader.read!(temp_path)
+      config = Elixir.Config.Reader.read!(temp_path)
       extract_mishka_config(config)
     rescue
       _ -> default_config()
