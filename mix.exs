@@ -33,6 +33,7 @@ defmodule MishkaChelekom.MixProject do
     ]
   end
 
+  defp elixirc_paths(:test), do: ["lib", "priv", "test/support"]
   defp elixirc_paths(_mode), do: ["lib", "priv"]
 
   defp deps do

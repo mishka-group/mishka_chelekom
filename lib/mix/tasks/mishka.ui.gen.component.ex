@@ -42,6 +42,7 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Component do
   * `--sub` - Specifies this task is a sub task
   * `--no-deps` - Specifies this task is created without sub task
   * `--yes` - Makes directly without questions
+  * `--module-prefix` - Prefix for module names (e.g., `mishka_` makes Chat become MishkaChat)
   """
 
   def info(_argv, _composing_task) do
@@ -73,6 +74,7 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Component do
         type: :csv,
         rounded: :csv,
         component_prefix: :string,
+        module_prefix: :string,
         sub: :boolean,
         no_deps: :boolean,
         no_sub_config: :boolean
@@ -116,7 +118,7 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Component do
     |> Igniter.assign(%{mishka_user_config: user_config})
     |> check_dependencies_versions()
     |> get_component_template(component)
-    |> converted_components_path(Keyword.get(options, :module))
+    |> converted_components_path(Keyword.get(options, :module), options)
     |> update_eex_assign(options)
     |> create_or_update_component()
     |> create_or_update_scripts()
@@ -276,9 +278,9 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Component do
     end
   end
 
-  defp converted_components_path({:error, _, _, _igniter} = error, _), do: error
+  defp converted_components_path({:error, _, _, _igniter} = error, _, _), do: error
 
-  defp converted_components_path(template, custom_module) do
+  defp converted_components_path(template, custom_module, options) do
     # Reset the assigns to prevent creating .igniter.exs config file to add all the paths
     web_module = "#{IAPP.app_name(template.igniter)}" <> "_web"
 
@@ -289,13 +291,27 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Component do
         re_dir(template, custom_module, web_module)
 
       true ->
+        # Get module_prefix from CLI options or user config
+        user_config = template.igniter.assigns[:mishka_user_config] || %{}
+        module_prefix = Keyword.get(options, :module_prefix) || user_config[:module_prefix]
+
+        # Apply module prefix to component name for file and module
+        {prefixed_component, prefixed_module_part} =
+          if module_prefix && module_prefix != "" do
+            prefixed = "#{module_prefix}#{template.component}"
+            {prefixed, prefixed}
+          else
+            {template.component, template.component}
+          end
+
         component =
           atom_to_module(
-            custom_module || web_module <> ".components.#{component_to_atom(template.component)}"
+            custom_module ||
+              web_module <> ".components.#{component_to_atom(prefixed_module_part)}"
           )
 
         # Reset the assigns to prevent creating .igniter.exs config file to add all the paths
-        proper_location = "lib/#{web_module}/components/#{template.component}.ex"
+        proper_location = "lib/#{web_module}/components/#{prefixed_component}.ex"
 
         new_igniter =
           template.igniter
@@ -879,10 +895,24 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Component do
   end
 
   defp maybe_update_config_prefix(igniter, options) do
+    igniter
+    |> maybe_update_component_prefix(options)
+    |> maybe_update_module_prefix(options)
+  end
+
+  defp maybe_update_component_prefix(igniter, options) do
     case {Keyword.get(options, :component_prefix), Keyword.get(options, :sub)} do
       {nil, _} -> igniter
       {_prefix, true} -> igniter
       {prefix, _} -> CSSConfig.update_component_prefix(igniter, prefix)
+    end
+  end
+
+  defp maybe_update_module_prefix(igniter, options) do
+    case {Keyword.get(options, :module_prefix), Keyword.get(options, :sub)} do
+      {nil, _} -> igniter
+      {_prefix, true} -> igniter
+      {prefix, _} -> CSSConfig.update_module_prefix(igniter, prefix)
     end
   end
 end
