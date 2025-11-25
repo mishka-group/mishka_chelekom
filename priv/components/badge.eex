@@ -18,7 +18,7 @@ defmodule <%= @module %> do
 
   use Phoenix.Component
   alias Phoenix.LiveView.JS
-  import <%= inspect(@web_module) %>.Components.Icon, only: [<%= @component_prefix %>icon: 1]
+  import <%= inspect(@web_module) %>.Components.<%= @module_prefix_camel %>Icon, only: [<%= @component_prefix %>icon: 1]
   use Gettext, backend: <%= inspect(@web_module) %>.Gettext
 
   @icon_positions [

@@ -22,9 +22,9 @@ defmodule <%= @module %> do
   """
 
   use Phoenix.Component
-  import <%= inspect(@web_module) %>.Components.Progress, only: [<%= @component_prefix %>progress: 1]
-  import <%= inspect(@web_module) %>.Components.Spinner, only: [<%= @component_prefix %>spinner: 1]
-  import <%= inspect(@web_module) %>.Components.Icon, only: [<%= @component_prefix %>icon: 1]
+  import <%= inspect(@web_module) %>.Components.<%= @module_prefix_camel %>Progress, only: [<%= @component_prefix %>progress: 1]
+  import <%= inspect(@web_module) %>.Components.<%= @module_prefix_camel %>Spinner, only: [<%= @component_prefix %>spinner: 1]
+  import <%= inspect(@web_module) %>.Components.<%= @module_prefix_camel %>Icon, only: [<%= @component_prefix %>icon: 1]
   use Gettext, backend: <%= inspect(@web_module) %>.Gettext
 
   @doc """

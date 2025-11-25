@@ -1,7 +1,7 @@
-defmodule MishkaChelekom.CSSConfig do
+defmodule MishkaChelekom.Config do
   @moduledoc """
-  Handles CSS configuration and merging for Mishka Chelekom components.
-  Allows users to override specific CSS variables or provide custom CSS files.
+  Handles configuration for Mishka Chelekom components.
+  Manages user settings including prefixes, CSS variables, and component generation options.
   """
 
   # Configuration keys and their default values
@@ -16,7 +16,8 @@ defmodule MishkaChelekom.CSSConfig do
     {:component_rounded, []},
     {:component_padding, []},
     {:component_space, []},
-    {:component_prefix, nil}
+    {:component_prefix, nil},
+    {:module_prefix, nil}
   ]
 
   @doc """
@@ -48,7 +49,7 @@ defmodule MishkaChelekom.CSSConfig do
   # Load config from a file path
   defp load_config_from_file(config_path) do
     try do
-      config = Config.Reader.read!(config_path)
+      config = Elixir.Config.Reader.read!(config_path)
       extract_mishka_config(config)
     rescue
       _ -> default_config()
@@ -57,12 +58,12 @@ defmodule MishkaChelekom.CSSConfig do
 
   # Parse config content from string (for test environments)
   defp load_config_from_string(content) do
-    # Write to a temporary file and use Config.Reader
+    # Write to a temporary file and use Elixir.Config.Reader
     temp_path = Path.join(System.tmp_dir!(), "mishka_config_#{:rand.uniform(999_999)}.exs")
 
     try do
       File.write!(temp_path, content)
-      config = Config.Reader.read!(temp_path)
+      config = Elixir.Config.Reader.read!(temp_path)
       extract_mishka_config(config)
     rescue
       _ -> default_config()
@@ -205,7 +206,12 @@ defmodule MishkaChelekom.CSSConfig do
     import Config
 
     config :mishka_chelekom,
+      # Prefix for component function names (e.g., "mishka_" makes <.chat> become <.mishka_chat>)
       component_prefix: nil,
+
+      # Prefix for module names (e.g., "mishka_" makes Chat become MishkaChat and chat.ex become mishka_chat.ex)
+      module_prefix: nil,
+
       # List of components to exclude from generation when using mix mishka.ui.gen.components
       # Example: ["alert", "badge", "button"]
       exclude_components: [],
@@ -591,6 +597,64 @@ defmodule MishkaChelekom.CSSConfig do
           content,
           config_line,
           "#{config_line}\n    component_prefix: \"#{prefix}\",\n"
+        )
+
+      nil ->
+        content
+    end
+  end
+
+  @doc """
+  Updates the module_prefix value in the user's config file.
+  Creates the config file with sample content if it doesn't exist.
+  """
+  def update_module_prefix(igniter, prefix) when is_binary(prefix) do
+    config_path = user_config_path(igniter)
+
+    # Get existing content or create sample config
+    existing_content =
+      case Rewrite.source(igniter.rewrite, config_path) do
+        {:ok, source} ->
+          Rewrite.Source.get(source, :content)
+
+        {:error, _} ->
+          # Config doesn't exist, check file system
+          if File.exists?(config_path) do
+            File.read!(config_path)
+          else
+            # Create sample config content
+            {_igniter, _path, sample_content} = create_sample_config(igniter)
+            sample_content
+          end
+      end
+
+    # Update the module_prefix line
+    updated_content = update_module_prefix_in_content(existing_content, prefix)
+
+    # Write the updated content
+    igniter
+    |> Igniter.create_or_update_file(config_path, updated_content, fn source ->
+      Rewrite.Source.update(source, :content, updated_content)
+    end)
+  end
+
+  defp update_module_prefix_in_content(content, prefix) do
+    regex = ~r/module_prefix:\s*(?:nil|"[^"]*")/
+
+    if Regex.match?(regex, content) do
+      Regex.replace(regex, content, ~s(module_prefix: "#{prefix}"))
+    else
+      add_module_prefix_to_config(content, prefix)
+    end
+  end
+
+  defp add_module_prefix_to_config(content, prefix) do
+    case Regex.run(~r/(config :mishka_chelekom,)\s*\n/, content) do
+      [_, config_line] ->
+        String.replace(
+          content,
+          config_line,
+          "#{config_line}\n    module_prefix: \"#{prefix}\",\n"
         )
 
       nil ->

@@ -3,6 +3,8 @@
 ### Features:
 
 - Add Components prefix name in CLI and config file [#454](https://github.com/mishka-group/mishka_chelekom/pull/454)
+- Add Module prefix name in CLI and config file [#459](https://github.com/mishka-group/mishka_chelekom/pull/459)
+- Add `--no-save` flag to control prefix config saving [#459](https://github.com/mishka-group/mishka_chelekom/pull/459)
 
 ### Refactors:
 

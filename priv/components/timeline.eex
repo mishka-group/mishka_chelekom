@@ -28,7 +28,7 @@ defmodule <%= @module %> do
   """
 
   use Phoenix.Component
-  import <%= inspect(@web_module) %>.Components.Icon, only: [<%= @component_prefix %>icon: 1]
+  import <%= inspect(@web_module) %>.Components.<%= @module_prefix_camel %>Icon, only: [<%= @component_prefix %>icon: 1]
 
   <%= if is_nil(@type) or "timeline" in @type do %>
   @doc """

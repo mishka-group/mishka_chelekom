@@ -15,7 +15,7 @@ defmodule <%= @module %> do
   **Documentation:** https://mishka.tools/chelekom/docs/forms/search-field
   """
   use Phoenix.Component
-  import <%= inspect(@web_module) %>.Components.Icon, only: [<%= @component_prefix %>icon: 1]
+  import <%= inspect(@web_module) %>.Components.<%= @module_prefix_camel %>Icon, only: [<%= @component_prefix %>icon: 1]
 
   @doc """
   Renders a `search_field` component that allows users to input search queries.

@@ -2,7 +2,7 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Components do
   alias Mix.Tasks.Mishka.Ui.Gen.Component
   use Igniter.Mix.Task
   alias Igniter.Project.Application, as: IAPP
-  alias MishkaChelekom.CSSConfig
+  alias MishkaChelekom.Config
 
   @example "mix mishka.ui.gen.components component1,component2"
   @shortdoc "A Mix Task for generating and configuring multi components of Phoenix"
@@ -29,6 +29,8 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Components do
   * `--yes` - Makes directly without questions
   * `--exclude` - Comma-separated list of components to exclude (e.g., `--exclude alert,badge`)
   * `--component-prefix` - Prefix for all component function names (e.g., `--component-prefix mishka_`)
+  * `--module-prefix` - Prefix for module names (e.g., `--module-prefix mishka_` makes Chat become MishkaChat)
+  * `--no-save` - Use prefixes without saving them to config file
   """
 
   def info(_argv, _composing_task) do
@@ -55,7 +57,9 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Components do
         helpers: :boolean,
         global: :boolean,
         exclude: :csv,
-        component_prefix: :string
+        component_prefix: :string,
+        module_prefix: :string,
+        no_save: :boolean
       ],
       # CLI aliases
       aliases: [i: :import, h: :helpers, g: :global, e: :exclude]
@@ -83,7 +87,7 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Components do
 
     components = String.split(components || "", ",", trim: true)
 
-    user_config = CSSConfig.load_user_config(igniter)
+    user_config = Config.load_user_config(igniter)
 
     # Display exclusions and color filtering info before starting spinner
     config_excluded = user_config[:exclude_components] || []
@@ -127,11 +131,15 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Components do
       igniter
       |> Igniter.assign(%{mishka_user_config: user_config})
       |> then(fn ig ->
-        # Build component args with optional prefix
+        # Build component args with optional prefixes
         component_args =
           ["--no-deps", "--sub", "--yes"] ++
             if(options[:component_prefix],
               do: ["--component-prefix", options[:component_prefix]],
+              else: []
+            ) ++
+            if(options[:module_prefix],
+              do: ["--module-prefix", options[:module_prefix]],
               else: []
             )
 
@@ -145,10 +153,11 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Components do
         options[:import] || false,
         options[:helpers],
         options[:global],
-        options[:component_prefix]
+        options[:component_prefix],
+        options[:module_prefix]
       )
       |> Component.setup_css_files([])
-      |> maybe_update_config_prefix(options[:component_prefix])
+      |> maybe_update_config_prefixes(options)
 
     if Map.get(igniter, :issues, []) == [],
       do: Owl.Spinner.stop(id: :my_spinner, resolution: :ok, label: "Done"),
@@ -177,7 +186,15 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Components do
 
   defp new_phoenix(igniter, _), do: {igniter, false}
 
-  defp create_import_macro(igniter, list, import_status, helpers_status, global, component_prefix) do
+  defp create_import_macro(
+         igniter,
+         list,
+         import_status,
+         helpers_status,
+         global,
+         component_prefix,
+         module_prefix
+       ) do
     igniter =
       if import_status and Map.get(igniter, :issues, []) == [] do
         web_module = Igniter.Libs.Phoenix.web_module(igniter)
@@ -198,7 +215,7 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Components do
           defmodule #{module_name} do
             defmacro __using__(_) do
               quote do
-                #{Enum.map(create_import_string(list, web_module, igniter, helpers_status, global, component_prefix), fn item -> "#{item}\n" end)}
+                #{Enum.map(create_import_string(list, web_module, igniter, helpers_status, global, component_prefix, module_prefix), fn item -> "#{item}\n" end)}
               end
             end
           end
@@ -293,10 +310,19 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Components do
     end
   end
 
-  defp create_import_string(list, web_module, igniter, helpers?, global, cli_component_prefix) do
+  defp create_import_string(
+         list,
+         web_module,
+         igniter,
+         helpers?,
+         global,
+         cli_component_prefix,
+         cli_module_prefix
+       ) do
     {igniter, new_phoenix?} = new_phoenix(igniter, global)
-    user_config = igniter.assigns[:mishka_user_config] || CSSConfig.load_user_config(igniter)
+    user_config = igniter.assigns[:mishka_user_config] || Config.load_user_config(igniter)
     component_prefix = cli_component_prefix || user_config[:component_prefix]
+    module_prefix = cli_module_prefix || user_config[:module_prefix]
 
     if Map.get(igniter, :issues, []) == [] do
       children = fn component ->
@@ -326,12 +352,21 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Components do
 
       Enum.map(list, fn item ->
         child_imports = children.(item)
-        item = Component.component_to_atom(item)
+
+        # Apply module prefix to the module name
+        prefixed_item =
+          if module_prefix && module_prefix != "" do
+            "#{module_prefix}#{item}"
+          else
+            item
+          end
+
+        prefixed_item = Component.component_to_atom(prefixed_item)
 
         if child_imports != "" do
-          "import #{inspect(web_module)}.Components.#{Component.atom_to_module("#{item}")}, only: [#{child_imports}]"
+          "import #{inspect(web_module)}.Components.#{Component.atom_to_module("#{prefixed_item}")}, only: [#{child_imports}]"
         else
-          "import #{inspect(web_module)}.Components.#{Component.atom_to_module("#{item}")}"
+          "import #{inspect(web_module)}.Components.#{Component.atom_to_module("#{prefixed_item}")}"
         end
       end)
     else
@@ -372,9 +407,25 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Components do
     end
   end
 
-  defp maybe_update_config_prefix(igniter, nil), do: igniter
+  defp maybe_update_config_prefixes(igniter, options) do
+    if options[:no_save] do
+      igniter
+    else
+      igniter
+      |> maybe_update_component_prefix(options[:component_prefix])
+      |> maybe_update_module_prefix(options[:module_prefix])
+    end
+  end
 
-  defp maybe_update_config_prefix(igniter, component_prefix) do
-    CSSConfig.update_component_prefix(igniter, component_prefix)
+  defp maybe_update_component_prefix(igniter, nil), do: igniter
+
+  defp maybe_update_component_prefix(igniter, component_prefix) do
+    Config.update_component_prefix(igniter, component_prefix)
+  end
+
+  defp maybe_update_module_prefix(igniter, nil), do: igniter
+
+  defp maybe_update_module_prefix(igniter, module_prefix) do
+    Config.update_module_prefix(igniter, module_prefix)
   end
 end

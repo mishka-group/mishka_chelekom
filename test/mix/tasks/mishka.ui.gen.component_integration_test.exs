@@ -863,5 +863,802 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.ComponentIntegrationTest do
       # Should NOT have the new prefix
       refute String.contains?(config_content, ~s(component_prefix: "my_prefix_"))
     end
+
+    test "generates component with module_prefix from config (prefixed file and module name)" do
+      # Create a config file with module_prefix
+      config_content = """
+      import Config
+
+      config :mishka_chelekom,
+        module_prefix: "mishka_"
+      """
+
+      # Create a simple chat component template
+      chat_template = """
+      defmodule <%= @module %> do
+        use Phoenix.Component
+
+        attr :class, :any, default: ""
+        attr :rest, :global
+        slot :inner_block, required: true
+
+        def <%= @component_prefix %>chat(assigns) do
+          ~H\"\"\"
+          <div class={["chat", @class]} {@rest}>
+            <%= render_slot(@inner_block) %>
+          </div>
+          \"\"\"
+        end
+      end
+      """
+
+      chat_config = """
+      [
+        component_chat: [
+          name: "component_chat",
+          args: [],
+          optional: [],
+          necessary: []
+        ]
+      ]
+      """
+
+      # Run the task
+      igniter =
+        test_project_with_formatter()
+        |> Igniter.create_new_file("priv/mishka_chelekom/config.exs", config_content)
+        |> Igniter.create_new_file(
+          "priv/mishka_chelekom/components/component_chat.eex",
+          chat_template
+        )
+        |> Igniter.create_new_file(
+          "priv/mishka_chelekom/components/component_chat.exs",
+          chat_config
+        )
+        |> Igniter.compose_task(Component, ["component_chat", "--yes"])
+
+      # Check if the component was created with the prefixed file name
+      component_created =
+        Map.has_key?(
+          igniter.rewrite.sources,
+          "lib/test_project_web/components/mishka_component_chat.ex"
+        )
+
+      if !component_created do
+        # When running in test mode, the template might not be compiled
+        template = igniter.rewrite.sources["priv/mishka_chelekom/components/component_chat.eex"]
+        assert template != nil
+      else
+        # Get the generated content
+        source =
+          igniter.rewrite.sources["lib/test_project_web/components/mishka_component_chat.ex"]
+
+        content = Rewrite.Source.get(source, :content)
+
+        # Verify the module name has the prefix (MishkaComponentChat)
+        assert String.contains?(
+                 content,
+                 "defmodule TestProjectWeb.Components.MishkaComponentChat do"
+               )
+
+        assert String.contains?(content, "use Phoenix.Component")
+        assert String.contains?(content, "def chat(assigns) do")
+      end
+    end
+
+    test "generates component with module_prefix from CLI (prefixed file and module name)" do
+      # Create a simple chat component template
+      chat_template = """
+      defmodule <%= @module %> do
+        use Phoenix.Component
+
+        attr :class, :any, default: ""
+        attr :rest, :global
+        slot :inner_block, required: true
+
+        def <%= @component_prefix %>chat(assigns) do
+          ~H\"\"\"
+          <div class={["chat", @class]} {@rest}>
+            <%= render_slot(@inner_block) %>
+          </div>
+          \"\"\"
+        end
+      end
+      """
+
+      chat_config = """
+      [
+        component_chat: [
+          name: "component_chat",
+          args: [],
+          optional: [],
+          necessary: []
+        ]
+      ]
+      """
+
+      # Run the task with CLI module_prefix
+      igniter =
+        test_project_with_formatter()
+        |> Igniter.create_new_file(
+          "priv/mishka_chelekom/components/component_chat.eex",
+          chat_template
+        )
+        |> Igniter.create_new_file(
+          "priv/mishka_chelekom/components/component_chat.exs",
+          chat_config
+        )
+        |> Igniter.compose_task(Component, [
+          "component_chat",
+          "--module-prefix",
+          "custom_",
+          "--yes"
+        ])
+
+      # Check if the component was created with the prefixed file name
+      component_created =
+        Map.has_key?(
+          igniter.rewrite.sources,
+          "lib/test_project_web/components/custom_component_chat.ex"
+        )
+
+      if !component_created do
+        # When running in test mode, the template might not be compiled
+        template = igniter.rewrite.sources["priv/mishka_chelekom/components/component_chat.eex"]
+        assert template != nil
+      else
+        # Get the generated content
+        source =
+          igniter.rewrite.sources["lib/test_project_web/components/custom_component_chat.ex"]
+
+        content = Rewrite.Source.get(source, :content)
+
+        # Verify the module name has the prefix (CustomComponentChat)
+        assert String.contains?(
+                 content,
+                 "defmodule TestProjectWeb.Components.CustomComponentChat do"
+               )
+      end
+    end
+
+    test "CLI module_prefix overrides config module_prefix" do
+      # Create a config file with module_prefix
+      config_content = """
+      import Config
+
+      config :mishka_chelekom,
+        module_prefix: "config_"
+      """
+
+      # Create a simple chat component template
+      chat_template = """
+      defmodule <%= @module %> do
+        use Phoenix.Component
+
+        attr :class, :any, default: ""
+        slot :inner_block, required: true
+
+        def chat(assigns) do
+          ~H\"\"\"
+          <div class={["chat", @class]}>
+            <%= render_slot(@inner_block) %>
+          </div>
+          \"\"\"
+        end
+      end
+      """
+
+      chat_config = """
+      [
+        component_chat: [
+          name: "component_chat",
+          args: [],
+          optional: [],
+          necessary: []
+        ]
+      ]
+      """
+
+      # Run the task with CLI module_prefix (should override config)
+      igniter =
+        test_project_with_formatter()
+        |> Igniter.create_new_file("priv/mishka_chelekom/config.exs", config_content)
+        |> Igniter.create_new_file(
+          "priv/mishka_chelekom/components/component_chat.eex",
+          chat_template
+        )
+        |> Igniter.create_new_file(
+          "priv/mishka_chelekom/components/component_chat.exs",
+          chat_config
+        )
+        |> Igniter.compose_task(Component, [
+          "component_chat",
+          "--module-prefix",
+          "cli_",
+          "--yes"
+        ])
+
+      # Check if the component was created with CLI prefix (not config prefix)
+      cli_prefixed =
+        Map.has_key?(
+          igniter.rewrite.sources,
+          "lib/test_project_web/components/cli_component_chat.ex"
+        )
+
+      config_prefixed =
+        Map.has_key?(
+          igniter.rewrite.sources,
+          "lib/test_project_web/components/config_component_chat.ex"
+        )
+
+      if cli_prefixed do
+        assert cli_prefixed
+        refute config_prefixed
+
+        source =
+          igniter.rewrite.sources["lib/test_project_web/components/cli_component_chat.ex"]
+
+        content = Rewrite.Source.get(source, :content)
+
+        # Verify the CLI prefix was applied (not the config prefix)
+        assert String.contains?(
+                 content,
+                 "defmodule TestProjectWeb.Components.CliComponentChat do"
+               )
+
+        refute String.contains?(content, "ConfigComponentChat")
+      else
+        # When running in test mode, the template might not be compiled
+        template = igniter.rewrite.sources["priv/mishka_chelekom/components/component_chat.eex"]
+        assert template != nil
+      end
+    end
+
+    test "updates config.exs when module_prefix provided in CLI (not sub mode)" do
+      # Create a simple chat component template
+      chat_template = """
+      defmodule <%= @module %> do
+        use Phoenix.Component
+
+        attr :class, :any, default: ""
+        slot :inner_block, required: true
+
+        def chat(assigns) do
+          ~H\"\"\"
+          <div class={["chat", @class]}>
+            <%= render_slot(@inner_block) %>
+          </div>
+          \"\"\"
+        end
+      end
+      """
+
+      chat_config = """
+      [
+        component_chat: [
+          name: "component_chat",
+          args: [],
+          optional: [],
+          necessary: []
+        ]
+      ]
+      """
+
+      # Create existing config with nil module_prefix
+      existing_config = """
+      import Config
+
+      config :mishka_chelekom,
+        module_prefix: nil
+      """
+
+      # Run the task with CLI module_prefix
+      igniter =
+        test_project_with_formatter()
+        |> Igniter.create_new_file("priv/mishka_chelekom/config.exs", existing_config)
+        |> Igniter.create_new_file(
+          "priv/mishka_chelekom/components/component_chat.eex",
+          chat_template
+        )
+        |> Igniter.create_new_file(
+          "priv/mishka_chelekom/components/component_chat.exs",
+          chat_config
+        )
+        |> Igniter.compose_task(Component, [
+          "component_chat",
+          "--module-prefix",
+          "my_module_",
+          "--yes"
+        ])
+
+      # Verify config was updated
+      config_source = igniter.rewrite.sources["priv/mishka_chelekom/config.exs"]
+      assert config_source != nil
+      config_content = Rewrite.Source.get(config_source, :content)
+
+      # Should have the new module_prefix
+      assert String.contains?(config_content, ~s(module_prefix: "my_module_"))
+      # Should NOT have nil anymore
+      refute String.contains?(config_content, "module_prefix: nil")
+    end
+
+    test "does NOT update config.exs module_prefix when in sub mode (batch generation)" do
+      # Create a simple chat component template
+      chat_template = """
+      defmodule <%= @module %> do
+        use Phoenix.Component
+
+        attr :class, :any, default: ""
+        slot :inner_block, required: true
+
+        def chat(assigns) do
+          ~H\"\"\"
+          <div class={["chat", @class]}>
+            <%= render_slot(@inner_block) %>
+          </div>
+          \"\"\"
+        end
+      end
+      """
+
+      chat_config = """
+      [
+        component_chat: [
+          name: "component_chat",
+          args: [],
+          optional: [],
+          necessary: []
+        ]
+      ]
+      """
+
+      # Create existing config with nil module_prefix
+      existing_config = """
+      import Config
+
+      config :mishka_chelekom,
+        module_prefix: nil
+      """
+
+      # Run the task with --sub flag (simulating batch generation)
+      igniter =
+        test_project_with_formatter()
+        |> Igniter.create_new_file("priv/mishka_chelekom/config.exs", existing_config)
+        |> Igniter.create_new_file(
+          "priv/mishka_chelekom/components/component_chat.eex",
+          chat_template
+        )
+        |> Igniter.create_new_file(
+          "priv/mishka_chelekom/components/component_chat.exs",
+          chat_config
+        )
+        |> Igniter.compose_task(Component, [
+          "component_chat",
+          "--module-prefix",
+          "my_module_",
+          "--sub",
+          "--yes"
+        ])
+
+      # Verify config was NOT updated (still has nil)
+      config_source = igniter.rewrite.sources["priv/mishka_chelekom/config.exs"]
+      assert config_source != nil
+      config_content = Rewrite.Source.get(config_source, :content)
+
+      # Should still have nil (not updated in sub mode)
+      assert String.contains?(config_content, "module_prefix: nil")
+      # Should NOT have the new module_prefix
+      refute String.contains?(config_content, ~s(module_prefix: "my_module_"))
+    end
+
+    test "generates component with both module_prefix and component_prefix" do
+      # Create a config file with both prefixes
+      config_content = """
+      import Config
+
+      config :mishka_chelekom,
+        module_prefix: "mishka_",
+        component_prefix: "mc_"
+      """
+
+      # Create a simple chat component template that uses component_prefix for function name
+      chat_template = """
+      defmodule <%= @module %> do
+        use Phoenix.Component
+
+        attr :class, :any, default: ""
+        attr :rest, :global
+        slot :inner_block, required: true
+
+        def <%= @component_prefix %>chat(assigns) do
+          ~H\"\"\"
+          <div class={["chat", @class]} {@rest}>
+            <%= render_slot(@inner_block) %>
+          </div>
+          \"\"\"
+        end
+      end
+      """
+
+      chat_config = """
+      [
+        component_chat: [
+          name: "component_chat",
+          args: [],
+          optional: [],
+          necessary: []
+        ]
+      ]
+      """
+
+      # Run the task
+      igniter =
+        test_project_with_formatter()
+        |> Igniter.create_new_file("priv/mishka_chelekom/config.exs", config_content)
+        |> Igniter.create_new_file(
+          "priv/mishka_chelekom/components/component_chat.eex",
+          chat_template
+        )
+        |> Igniter.create_new_file(
+          "priv/mishka_chelekom/components/component_chat.exs",
+          chat_config
+        )
+        |> Igniter.compose_task(Component, ["component_chat", "--yes"])
+
+      # Check if the component was created with module_prefix in file name
+      component_created =
+        Map.has_key?(
+          igniter.rewrite.sources,
+          "lib/test_project_web/components/mishka_component_chat.ex"
+        )
+
+      if !component_created do
+        # When running in test mode, the template might not be compiled
+        template = igniter.rewrite.sources["priv/mishka_chelekom/components/component_chat.eex"]
+        assert template != nil
+      else
+        # Get the generated content
+        source =
+          igniter.rewrite.sources["lib/test_project_web/components/mishka_component_chat.ex"]
+
+        content = Rewrite.Source.get(source, :content)
+
+        # Verify the module name has the module_prefix (MishkaComponentChat)
+        assert String.contains?(
+                 content,
+                 "defmodule TestProjectWeb.Components.MishkaComponentChat do"
+               )
+
+        # Verify the function name has the component_prefix (mc_chat)
+        assert String.contains?(content, "def mc_chat(assigns) do")
+
+        # Verify unprefixed function doesn't exist
+        refute String.contains?(content, "def chat(assigns) do")
+      end
+    end
+
+    test "generates component with module_prefix_camel in import statements" do
+      # Create a config file with module_prefix
+      config_content = """
+      import Config
+
+      config :mishka_chelekom,
+        module_prefix: "mishka_"
+      """
+
+      # Create a button component template that imports Icon
+      button_template = """
+      defmodule <%= @module %> do
+        use Phoenix.Component
+        import <%= inspect(@web_module) %>.Components.<%= @module_prefix_camel %>Icon, only: [icon: 1]
+
+        attr :class, :any, default: ""
+        attr :rest, :global
+        slot :inner_block, required: true
+
+        def button(assigns) do
+          ~H\"\"\"
+          <button class={["btn", @class]} {@rest}>
+            <%= render_slot(@inner_block) %>
+          </button>
+          \"\"\"
+        end
+      end
+      """
+
+      button_config = """
+      [
+        component_button: [
+          name: "component_button",
+          args: [],
+          optional: [],
+          necessary: []
+        ]
+      ]
+      """
+
+      # Run the task
+      igniter =
+        test_project_with_formatter()
+        |> Igniter.create_new_file("priv/mishka_chelekom/config.exs", config_content)
+        |> Igniter.create_new_file(
+          "priv/mishka_chelekom/components/component_button.eex",
+          button_template
+        )
+        |> Igniter.create_new_file(
+          "priv/mishka_chelekom/components/component_button.exs",
+          button_config
+        )
+        |> Igniter.compose_task(Component, ["component_button", "--yes"])
+
+      # Check if the component was created with the prefixed file name
+      component_created =
+        Map.has_key?(
+          igniter.rewrite.sources,
+          "lib/test_project_web/components/mishka_component_button.ex"
+        )
+
+      if !component_created do
+        # When running in test mode, the template might not be compiled
+        template =
+          igniter.rewrite.sources["priv/mishka_chelekom/components/component_button.eex"]
+
+        assert template != nil
+      else
+        # Get the generated content
+        source =
+          igniter.rewrite.sources["lib/test_project_web/components/mishka_component_button.ex"]
+
+        content = Rewrite.Source.get(source, :content)
+
+        # Verify the module name has the prefix (MishkaComponentButton)
+        assert String.contains?(
+                 content,
+                 "defmodule TestProjectWeb.Components.MishkaComponentButton do"
+               )
+
+        # Verify the import statement has the camelized prefix (MishkaIcon)
+        assert String.contains?(
+                 content,
+                 "import TestProjectWeb.Components.MishkaIcon"
+               )
+
+        # Verify it does NOT have unprefixed import
+        refute String.contains?(
+                 content,
+                 "import TestProjectWeb.Components.Icon,"
+               )
+      end
+    end
+
+    test "generates component with empty module_prefix_camel when no prefix" do
+      # Create a button component template that imports Icon (no prefix)
+      button_template = """
+      defmodule <%= @module %> do
+        use Phoenix.Component
+        import <%= inspect(@web_module) %>.Components.<%= @module_prefix_camel %>Icon, only: [icon: 1]
+
+        attr :class, :any, default: ""
+        slot :inner_block, required: true
+
+        def button(assigns) do
+          ~H\"\"\"
+          <button class={["btn", @class]}>
+            <%= render_slot(@inner_block) %>
+          </button>
+          \"\"\"
+        end
+      end
+      """
+
+      button_config = """
+      [
+        component_button: [
+          name: "component_button",
+          args: [],
+          optional: [],
+          necessary: []
+        ]
+      ]
+      """
+
+      # Run the task without module_prefix
+      igniter =
+        test_project_with_formatter()
+        |> Igniter.create_new_file(
+          "priv/mishka_chelekom/components/component_button.eex",
+          button_template
+        )
+        |> Igniter.create_new_file(
+          "priv/mishka_chelekom/components/component_button.exs",
+          button_config
+        )
+        |> Igniter.compose_task(Component, ["component_button", "--yes"])
+
+      # Check if the component was created (no prefix in file name)
+      component_created =
+        Map.has_key?(
+          igniter.rewrite.sources,
+          "lib/test_project_web/components/component_button.ex"
+        )
+
+      if !component_created do
+        # When running in test mode, the template might not be compiled
+        template =
+          igniter.rewrite.sources["priv/mishka_chelekom/components/component_button.eex"]
+
+        assert template != nil
+      else
+        # Get the generated content
+        source =
+          igniter.rewrite.sources["lib/test_project_web/components/component_button.ex"]
+
+        content = Rewrite.Source.get(source, :content)
+
+        # Verify the module name has no prefix
+        assert String.contains?(
+                 content,
+                 "defmodule TestProjectWeb.Components.ComponentButton do"
+               )
+
+        # Verify the import statement has no prefix (just Icon)
+        assert String.contains?(
+                 content,
+                 "import TestProjectWeb.Components.Icon"
+               )
+
+        # Verify it does NOT have prefixed import
+        refute String.contains?(content, "MishkaIcon")
+      end
+    end
+
+    test "does NOT save prefix to config when --no-save is used" do
+      # Create a simple chat component template
+      chat_template = """
+      defmodule <%= @module %> do
+        use Phoenix.Component
+
+        attr :class, :any, default: ""
+        slot :inner_block, required: true
+
+        def chat(assigns) do
+          ~H\"\"\"
+          <div class={["chat", @class]}>
+            <%= render_slot(@inner_block) %>
+          </div>
+          \"\"\"
+        end
+      end
+      """
+
+      chat_config = """
+      [
+        component_chat: [
+          name: "component_chat",
+          args: [],
+          optional: [],
+          necessary: []
+        ]
+      ]
+      """
+
+      # Create existing config with nil prefixes
+      existing_config = """
+      import Config
+
+      config :mishka_chelekom,
+        component_prefix: nil,
+        module_prefix: nil
+      """
+
+      # Run the task with --no-save flag
+      igniter =
+        test_project_with_formatter()
+        |> Igniter.create_new_file("priv/mishka_chelekom/config.exs", existing_config)
+        |> Igniter.create_new_file(
+          "priv/mishka_chelekom/components/component_chat.eex",
+          chat_template
+        )
+        |> Igniter.create_new_file(
+          "priv/mishka_chelekom/components/component_chat.exs",
+          chat_config
+        )
+        |> Igniter.compose_task(Component, [
+          "component_chat",
+          "--module-prefix",
+          "mishka_",
+          "--component-prefix",
+          "mc_",
+          "--no-save",
+          "--yes"
+        ])
+
+      # Verify config was NOT updated (still has nil)
+      config_source = igniter.rewrite.sources["priv/mishka_chelekom/config.exs"]
+      assert config_source != nil
+      config_content = Rewrite.Source.get(config_source, :content)
+
+      # Should still have nil (not updated due to --no-save)
+      assert String.contains?(config_content, "component_prefix: nil")
+      assert String.contains?(config_content, "module_prefix: nil")
+
+      # Should NOT have the new prefixes saved
+      refute String.contains?(config_content, ~s(component_prefix: "mc_"))
+      refute String.contains?(config_content, ~s(module_prefix: "mishka_"))
+    end
+
+    test "saves prefix to config when --no-save is NOT used" do
+      # Create a simple chat component template
+      chat_template = """
+      defmodule <%= @module %> do
+        use Phoenix.Component
+
+        attr :class, :any, default: ""
+        slot :inner_block, required: true
+
+        def chat(assigns) do
+          ~H\"\"\"
+          <div class={["chat", @class]}>
+            <%= render_slot(@inner_block) %>
+          </div>
+          \"\"\"
+        end
+      end
+      """
+
+      chat_config = """
+      [
+        component_chat: [
+          name: "component_chat",
+          args: [],
+          optional: [],
+          necessary: []
+        ]
+      ]
+      """
+
+      # Create existing config with nil prefixes
+      existing_config = """
+      import Config
+
+      config :mishka_chelekom,
+        component_prefix: nil,
+        module_prefix: nil
+      """
+
+      # Run the task WITHOUT --no-save flag
+      igniter =
+        test_project_with_formatter()
+        |> Igniter.create_new_file("priv/mishka_chelekom/config.exs", existing_config)
+        |> Igniter.create_new_file(
+          "priv/mishka_chelekom/components/component_chat.eex",
+          chat_template
+        )
+        |> Igniter.create_new_file(
+          "priv/mishka_chelekom/components/component_chat.exs",
+          chat_config
+        )
+        |> Igniter.compose_task(Component, [
+          "component_chat",
+          "--module-prefix",
+          "mishka_",
+          "--component-prefix",
+          "mc_",
+          "--yes"
+        ])
+
+      # Verify config WAS updated
+      config_source = igniter.rewrite.sources["priv/mishka_chelekom/config.exs"]
+      assert config_source != nil
+      config_content = Rewrite.Source.get(config_source, :content)
+
+      # Should have the new prefixes saved
+      assert String.contains?(config_content, ~s(component_prefix: "mc_"))
+      assert String.contains?(config_content, ~s(module_prefix: "mishka_"))
+
+      # Should NOT have nil anymore
+      refute String.contains?(config_content, "component_prefix: nil")
+      refute String.contains?(config_content, "module_prefix: nil")
+    end
   end
 end

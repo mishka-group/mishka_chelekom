@@ -21,7 +21,7 @@ defmodule <%= @module %> do
   use Phoenix.Component
   alias Phoenix.LiveView.JS
   use Gettext, backend: <%= inspect(@web_module) %>.Gettext
-  import <%= inspect(@web_module) %>.Components.Icon, only: [<%= @component_prefix %>icon: 1]
+  import <%= inspect(@web_module) %>.Components.<%= @module_prefix_camel %>Icon, only: [<%= @component_prefix %>icon: 1]
 
   @doc """
   A `drawer` component for displaying content in a sliding panel. It can be positioned on the left or

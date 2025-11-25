@@ -32,7 +32,7 @@ defmodule <%= @module %> do
   use Phoenix.Component
   use Gettext, backend: <%= inspect(@web_module) %>.Gettext
   alias Phoenix.LiveView.JS
-  import <%= inspect(@web_module) %>.Components.Icon, only: [<%= @component_prefix %>icon: 1]
+  import <%= inspect(@web_module) %>.Components.<%= @module_prefix_camel %>Icon, only: [<%= @component_prefix %>icon: 1]
 
   @doc """
   Renders a customizable `speed_dial` component that provides quick access to multiple actions.

@@ -1,7 +1,7 @@
 defmodule MishkaChelekom.MixProject do
   use Mix.Project
 
-  @version "0.0.9-alpha.3"
+  @version "0.0.9-alpha.4"
   @source_url "https://github.com/mishka-group/mishka_chelekom"
 
   def project do
@@ -33,6 +33,7 @@ defmodule MishkaChelekom.MixProject do
     ]
   end
 
+  defp elixirc_paths(:test), do: ["lib", "priv", "test/support"]
   defp elixirc_paths(_mode), do: ["lib", "priv"]
 
   defp deps do

@@ -18,9 +18,9 @@ defmodule <%= @module %> do
 
   use Phoenix.Component
   use Gettext, backend: <%= inspect(@web_module) %>.Gettext
-  import <%= inspect(@web_module) %>.Components.ScrollArea, only: [<%= @component_prefix %>scroll_area: 1]
+  import <%= inspect(@web_module) %>.Components.<%= @module_prefix_camel %>ScrollArea, only: [<%= @component_prefix %>scroll_area: 1]
   import Phoenix.LiveView.Utils, only: [random_id: 0]
-  import <%= inspect(@web_module) %>.Components.Icon, only: [<%= @component_prefix %>icon: 1]
+  import <%= inspect(@web_module) %>.Components.<%= @module_prefix_camel %>Icon, only: [<%= @component_prefix %>icon: 1]
 
   @doc """
   The `combobox` component is a customizable select/dropdown element with advanced features

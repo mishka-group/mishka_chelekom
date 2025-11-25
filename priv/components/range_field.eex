@@ -18,7 +18,7 @@ defmodule <%= @module %> do
   **Documentation:** https://mishka.tools/chelekom/docs/forms/range-field
   """
   use Phoenix.Component
-  import <%= inspect(@web_module) %>.Components.Icon, only: [<%= @component_prefix %>icon: 1]
+  import <%= inspect(@web_module) %>.Components.<%= @module_prefix_camel %>Icon, only: [<%= @component_prefix %>icon: 1]
 
   @doc """
   Renders a customizable `range_field`, which allows users to select a numeric value from a defined range.
