@@ -1,0 +1,23 @@
+name: Semgrep CE scan
+
+on:
+  pull_request: {}
+  workflow_dispatch: {}
+  push:
+    branches: ["js-check"]
+  schedule:
+    - cron: "20 17 * * *"
+
+permissions:
+  contents: read
+
+jobs:
+  semgrep:
+    name: semgrep-oss/scan
+    runs-on: ubuntu-latest
+    container:
+      image: semgrep/semgrep
+    if: (github.actor != 'dependabot[bot]')
+    steps:
+      - uses: actions/checkout@v4
+      - run: semgrep scan --config auto priv/assets/js
