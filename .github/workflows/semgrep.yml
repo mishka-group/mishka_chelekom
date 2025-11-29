@@ -4,7 +4,7 @@ on:
   pull_request: {}
   workflow_dispatch: {}
   push:
-    branches: ["js-check"]
+    branches: ["master"]
   schedule:
     - cron: "20 17 * * *"
 

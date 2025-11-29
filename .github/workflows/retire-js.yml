@@ -3,7 +3,7 @@ name: Retire.js Security Scan
 on:
   pull_request:
   push:
-    branches: ["js-check"]
+    branches: ["master"]
 
 permissions:
   contents: read
