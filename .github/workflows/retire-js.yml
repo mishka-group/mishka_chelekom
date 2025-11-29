@@ -1,0 +1,25 @@
+name: Retire.js Security Scan
+
+on:
+  pull_request:
+  push:
+    branches: ["master"]
+
+permissions:
+  contents: read
+
+jobs:
+  retire-js:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+
+      - name: Install Retire.js
+        run: npm install -g retire
+
+      - name: Run Retire.js scan
+        run: retire --path priv/assets/js --severity medium
