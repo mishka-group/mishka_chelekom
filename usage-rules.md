@@ -105,6 +105,7 @@ This package includes detailed rules for specific topics:
 
 - **[Mix Tasks](usage-rules/mix-tasks.md)**: Complete guide for all mix tasks
 - **[Components](usage-rules/components/)**: Detailed rules for each component
+- **[JavaScript Hooks](usage-rules/js/)**: Documentation for JavaScript hooks (Carousel, Clipboard, Collapsible, Combobox, Floating, GalleryFilter, ScrollArea, Sidebar)
 
 For comprehensive documentation, visit: https://mishka.tools/chelekom/docs
 
@@ -208,21 +209,22 @@ For comprehensive documentation, visit: https://mishka.tools/chelekom/docs
 #### Specialized Components (2)
 `button`, `chat`
 
-## JavaScript Files (9 total)
+## JavaScript Hooks (8 total)
 
 Components that require JavaScript hooks use these files in `priv/assets/js/`:
 
-| File | Used By | Purpose |
-|------|---------|---------|
-| `carousel.js` | carousel | Slide navigation and autoplay |
-| `clipboard.js` | clipboard | Copy to clipboard functionality |
-| `collapsible.js` | accordion, collapse | Expand/collapse animations |
-| `combobox.js` | combobox | Autocomplete and filtering |
-| `floating.js` | dropdown, popover, tooltip | Positioning and floating UI |
-| `galleryFilter.js` | gallery | Image filtering |
-| `mishka_components.js` | All JS components | Main entry point for hooks |
-| `scrollArea.js` | scroll_area | Custom scrollbar |
-| `sidebar.js` | sidebar | Mobile sidebar toggle |
+| Hook | Used By | Purpose | Documentation |
+|------|---------|---------|---------------|
+| `Carousel` | carousel | Slide navigation and autoplay | [Docs](usage-rules/js/carousel.md) |
+| `Clipboard` | clipboard | Copy to clipboard functionality | [Docs](usage-rules/js/clipboard.md) |
+| `Collapsible` | accordion, collapse | Expand/collapse animations | [Docs](usage-rules/js/collapsible.md) |
+| `Combobox` | combobox | Autocomplete and filtering | [Docs](usage-rules/js/combobox.md) |
+| `Floating` | dropdown, popover, tooltip | Positioning and floating UI | [Docs](usage-rules/js/floating.md) |
+| `GalleryFilter` | gallery | Image filtering | [Docs](usage-rules/js/gallery_filter.md) |
+| `ScrollArea` | scroll_area | Custom scrollbar | [Docs](usage-rules/js/scroll_area.md) |
+| `Sidebar` | sidebar | Sidebar minimize/expand | [Docs](usage-rules/js/sidebar.md) |
+
+**Note**: `mishka_components.js` is the main entry point that exports all hooks.
 
 ## Component Customization Options
 
