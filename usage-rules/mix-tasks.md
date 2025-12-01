@@ -4,6 +4,8 @@ Mishka Chelekom provides several Mix tasks for generating, configuring, and mana
 
 **Full CLI Documentation**: https://mishka.tools/chelekom/docs/cli
 
+> **For LLM Agents**: If you need more details about CLI options or task behavior not covered here, fetch the full documentation from the URL above.
+
 ## Prerequisites
 
 Before using any Mishka Chelekom mix task:

@@ -4,6 +4,8 @@ Collapsible sections component for organizing content into expandable panels wit
 
 **Documentation**: https://mishka.tools/chelekom/docs/accordion
 
+> **For LLM Agents**: If you need more details, examples, or edge cases not covered here, fetch the full documentation from the URL above.
+
 ## Generate
 
 ```bash
