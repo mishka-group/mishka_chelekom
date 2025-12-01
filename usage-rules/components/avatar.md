@@ -245,34 +245,28 @@ Both components accept `inner_block` for custom content (text, initials, indicat
 
 ```heex
 <.avatar_group space="small">
-  <%= for member <- @team_members do %>
-    <.avatar
-      src={member.avatar}
-      size="small"
-      rounded="full"
-      border="small"
-      color="white"
-      alt={member.name}
-    />
-  <% end %>
-  <%= if @remaining_count > 0 do %>
-    <.avatar size="small" rounded="full" color="natural" border="small">
-      +{@remaining_count}
-    </.avatar>
-  <% end %>
+  <.avatar
+    :for={member <- @team_members}
+    src={member.avatar}
+    size="small"
+    rounded="full"
+    border="small"
+    color="white"
+    alt={member.name}
+  />
+  <.avatar :if={@remaining_count > 0} size="small" rounded="full" color="natural" border="small">
+    +{@remaining_count}
+  </.avatar>
 </.avatar_group>
 ```
 
 ### Fallback Pattern
 
 ```heex
-<%= if @user.avatar do %>
-  <.avatar src={@user.avatar} size="medium" rounded="full" />
-<% else %>
-  <.avatar size="medium" rounded="full" color="primary">
-    {String.first(@user.first_name)}{String.first(@user.last_name)}
-  </.avatar>
-<% end %>
+<.avatar :if={@user.avatar} src={@user.avatar} size="medium" rounded="full" />
+<.avatar :if={!@user.avatar} size="medium" rounded="full" color="primary">
+  {String.first(@user.first_name)}{String.first(@user.last_name)}
+</.avatar>
 ```
 
 ## Notes
