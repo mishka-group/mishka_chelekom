@@ -53,6 +53,7 @@ defmodule MishkaChelekom.UsageRulesSyncTest do
 
       # Create lib directory (required for mix)
       File.mkdir_p!(Path.join(tmp_dir, "lib"))
+
       File.write!(Path.join(tmp_dir, "lib/test_project.ex"), """
       defmodule TestProject do
       end
@@ -60,6 +61,7 @@ defmodule MishkaChelekom.UsageRulesSyncTest do
 
       # Create config directory
       File.mkdir_p!(Path.join(tmp_dir, "config"))
+
       File.write!(Path.join(tmp_dir, "config/config.exs"), """
       import Config
       """)
@@ -79,11 +81,13 @@ defmodule MishkaChelekom.UsageRulesSyncTest do
 
       # Get dependencies first
       IO.puts("\n>>> Running: mix deps.get")
-      {output, exit_code} = System.cmd("mix", ["deps.get"],
-        cd: tmp_dir,
-        stderr_to_stdout: true,
-        env: [{"MIX_ENV", "dev"}]
-      )
+
+      {output, exit_code} =
+        System.cmd("mix", ["deps.get"],
+          cd: tmp_dir,
+          stderr_to_stdout: true,
+          env: [{"MIX_ENV", "dev"}]
+        )
 
       if exit_code != 0 do
         IO.puts("deps.get failed: #{output}")
@@ -94,15 +98,19 @@ defmodule MishkaChelekom.UsageRulesSyncTest do
 
       # Run the sync command
       IO.puts("\n>>> Running: mix usage_rules.sync CLAUDE.md mishka_chelekom")
-      {sync_output, sync_exit_code} = System.cmd("mix", [
-        "usage_rules.sync",
-        "CLAUDE.md",
-        "mishka_chelekom"
-      ],
-        cd: tmp_dir,
-        stderr_to_stdout: true,
-        env: [{"MIX_ENV", "dev"}]
-      )
+
+      {sync_output, sync_exit_code} =
+        System.cmd(
+          "mix",
+          [
+            "usage_rules.sync",
+            "CLAUDE.md",
+            "mishka_chelekom"
+          ],
+          cd: tmp_dir,
+          stderr_to_stdout: true,
+          env: [{"MIX_ENV", "dev"}]
+        )
 
       IO.puts("\n--- Command Output ---")
       IO.puts(sync_output)
@@ -149,13 +157,30 @@ defmodule MishkaChelekom.UsageRulesSyncTest do
              "CLAUDE.md should be substantial (>5KB), got #{content_size} bytes"
 
       # Verify components are listed
-      components = ["accordion", "alert", "avatar", "badge", "button", "card",
-                    "carousel", "checkbox_field", "combobox", "dropdown", "modal",
-                    "navbar", "pagination", "sidebar", "table", "tabs", "toast"]
+      components = [
+        "accordion",
+        "alert",
+        "avatar",
+        "badge",
+        "button",
+        "card",
+        "carousel",
+        "checkbox_field",
+        "combobox",
+        "dropdown",
+        "modal",
+        "navbar",
+        "pagination",
+        "sidebar",
+        "table",
+        "tabs",
+        "toast"
+      ]
 
-      missing_components = Enum.filter(components, fn c ->
-        not (content =~ c)
-      end)
+      missing_components =
+        Enum.filter(components, fn c ->
+          not (content =~ c)
+        end)
 
       IO.puts("\n>>> Checking components in generated CLAUDE.md...")
       IO.puts(">>> Missing components: #{inspect(missing_components)}")
@@ -177,25 +202,30 @@ defmodule MishkaChelekom.UsageRulesSyncTest do
       IO.puts(String.duplicate("=", 60))
 
       # Get dependencies
-      {_output, exit_code} = System.cmd("mix", ["deps.get"],
-        cd: tmp_dir,
-        stderr_to_stdout: true,
-        env: [{"MIX_ENV", "dev"}]
-      )
+      {_output, exit_code} =
+        System.cmd("mix", ["deps.get"],
+          cd: tmp_dir,
+          stderr_to_stdout: true,
+          env: [{"MIX_ENV", "dev"}]
+        )
 
       assert exit_code == 0
 
       # Run sync with :all to get sub-rules
       IO.puts("\n>>> Running: mix usage_rules.sync FULL_RULES.md mishka_chelekom:all")
-      {sync_output, sync_exit_code} = System.cmd("mix", [
-        "usage_rules.sync",
-        "FULL_RULES.md",
-        "mishka_chelekom:all"
-      ],
-        cd: tmp_dir,
-        stderr_to_stdout: true,
-        env: [{"MIX_ENV", "dev"}]
-      )
+
+      {sync_output, sync_exit_code} =
+        System.cmd(
+          "mix",
+          [
+            "usage_rules.sync",
+            "FULL_RULES.md",
+            "mishka_chelekom:all"
+          ],
+          cd: tmp_dir,
+          stderr_to_stdout: true,
+          env: [{"MIX_ENV", "dev"}]
+        )
 
       IO.puts("\n--- Command Output ---")
       IO.puts(sync_output)
@@ -229,21 +259,25 @@ defmodule MishkaChelekom.UsageRulesSyncTest do
       IO.puts(String.duplicate("=", 60))
 
       # Get dependencies and run sync
-      {_output, _exit_code} = System.cmd("mix", ["deps.get"],
-        cd: tmp_dir,
-        stderr_to_stdout: true,
-        env: [{"MIX_ENV", "dev"}]
-      )
+      {_output, _exit_code} =
+        System.cmd("mix", ["deps.get"],
+          cd: tmp_dir,
+          stderr_to_stdout: true,
+          env: [{"MIX_ENV", "dev"}]
+        )
 
-      {_sync_output, sync_exit_code} = System.cmd("mix", [
-        "usage_rules.sync",
-        "CLAUDE.md",
-        "mishka_chelekom"
-      ],
-        cd: tmp_dir,
-        stderr_to_stdout: true,
-        env: [{"MIX_ENV", "dev"}]
-      )
+      {_sync_output, sync_exit_code} =
+        System.cmd(
+          "mix",
+          [
+            "usage_rules.sync",
+            "CLAUDE.md",
+            "mishka_chelekom"
+          ],
+          cd: tmp_dir,
+          stderr_to_stdout: true,
+          env: [{"MIX_ENV", "dev"}]
+        )
 
       assert sync_exit_code == 0
 
@@ -256,25 +290,84 @@ defmodule MishkaChelekom.UsageRulesSyncTest do
 
       # Count how many components are mentioned
       all_components = [
-        "accordion", "alert", "avatar", "badge", "banner", "blockquote",
-        "breadcrumb", "button", "card", "carousel", "chat", "checkbox_card",
-        "checkbox_field", "clipboard", "collapse", "color_field", "combobox",
-        "date_time_field", "device_mockup", "divider", "drawer", "dropdown",
-        "email_field", "fieldset", "file_field", "footer", "form_wrapper",
-        "gallery", "image", "indicator", "input_field", "jumbotron",
-        "keyboard", "layout", "list", "mega_menu", "menu", "modal",
-        "native_select", "navbar", "number_field", "overlay", "pagination",
-        "password_field", "popover", "progress", "radio_card", "radio_field",
-        "range_field", "rating", "scroll_area", "search_field", "sidebar",
-        "skeleton", "speed_dial", "spinner", "stepper", "table", "table_content",
-        "tabs", "tel_field", "text_field", "textarea_field", "timeline",
-        "toast", "toggle_field", "tooltip", "typography", "url_field", "video"
+        "accordion",
+        "alert",
+        "avatar",
+        "badge",
+        "banner",
+        "blockquote",
+        "breadcrumb",
+        "button",
+        "card",
+        "carousel",
+        "chat",
+        "checkbox_card",
+        "checkbox_field",
+        "clipboard",
+        "collapse",
+        "color_field",
+        "combobox",
+        "date_time_field",
+        "device_mockup",
+        "divider",
+        "drawer",
+        "dropdown",
+        "email_field",
+        "fieldset",
+        "file_field",
+        "footer",
+        "form_wrapper",
+        "gallery",
+        "image",
+        "indicator",
+        "input_field",
+        "jumbotron",
+        "keyboard",
+        "layout",
+        "list",
+        "mega_menu",
+        "menu",
+        "modal",
+        "native_select",
+        "navbar",
+        "number_field",
+        "overlay",
+        "pagination",
+        "password_field",
+        "popover",
+        "progress",
+        "radio_card",
+        "radio_field",
+        "range_field",
+        "rating",
+        "scroll_area",
+        "search_field",
+        "sidebar",
+        "skeleton",
+        "speed_dial",
+        "spinner",
+        "stepper",
+        "table",
+        "table_content",
+        "tabs",
+        "tel_field",
+        "text_field",
+        "textarea_field",
+        "timeline",
+        "toast",
+        "toggle_field",
+        "tooltip",
+        "typography",
+        "url_field",
+        "video"
       ]
 
       found_components = Enum.filter(all_components, fn c -> content =~ c end)
       missing_components = all_components -- found_components
 
-      IO.puts(">>> Components found in CLAUDE.md: #{length(found_components)}/#{length(all_components)}")
+      IO.puts(
+        ">>> Components found in CLAUDE.md: #{length(found_components)}/#{length(all_components)}"
+      )
 
       if length(missing_components) > 0 do
         IO.puts(">>> Missing: #{inspect(Enum.take(missing_components, 10))}...")
@@ -285,10 +378,20 @@ defmodule MishkaChelekom.UsageRulesSyncTest do
              "CLAUDE.md should reference at least 50 components, found #{length(found_components)}"
 
       # Verify JS hooks are mentioned
-      js_hooks = ["Carousel", "Clipboard", "Collapsible", "Combobox", "Floating", "ScrollArea", "Sidebar"]
+      js_hooks = [
+        "Carousel",
+        "Clipboard",
+        "Collapsible",
+        "Combobox",
+        "Floating",
+        "ScrollArea",
+        "Sidebar"
+      ]
+
       found_hooks = Enum.filter(js_hooks, fn h -> content =~ h end)
 
       IO.puts(">>> JS Hooks found: #{length(found_hooks)}/#{length(js_hooks)}")
+
       assert length(found_hooks) >= 5,
              "CLAUDE.md should mention JS hooks"
 
