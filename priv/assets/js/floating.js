@@ -48,7 +48,7 @@ const Floating = {
         ) {
           try {
             document.body.removeChild(duplicate);
-          } catch (e) {}
+          } catch (e) { }
         }
       });
     }
@@ -378,6 +378,7 @@ const Floating = {
     const gap = 5;
     let pos = this.position;
 
+    let snap = null; // viewport edge snap: 'left' | 'right'
     if (this.smartPositioning && content.offsetHeight) {
       const { top, bottom, left, right } = rect;
       const { innerHeight, innerWidth } = window;
@@ -398,34 +399,88 @@ const Floating = {
       } else if (pos === "right" && spaceRight < width && spaceLeft >= width) {
         pos = "left";
       }
+
+      // When using vertical positions (top/bottom), auto-align horizontally to keep content in viewport
+      const baseForAlign = (typeof pos === "string" && pos.includes("-")) ? pos.split("-")[0] : pos;
+      if ((baseForAlign === "bottom" || baseForAlign === "top") && width) {
+        const center = (rect.left + rect.right) / 2;
+        const leftEdge = center - width / 2;
+        const rightEdge = center + width / 2;
+
+        if (rightEdge > window.innerWidth) {
+          pos = `${baseForAlign}-left`;
+          snap = "right";
+        } else if (leftEdge < 0) {
+          pos = `${baseForAlign}-right`;
+          snap = "left";
+        }
+      }
+    }
+
+    // Support compound positions like "bottom-left"
+    let base = pos;
+    let align = null;
+    if (typeof pos === "string" && pos.includes("-")) {
+      const parts = pos.split("-");
+      base = parts[0];
+      align = parts[1];
     }
 
     let top, left;
-    if (pos === "top") {
-      top = rect.top + window.scrollY - content.offsetHeight - gap;
-      left = (rect.left + rect.right) / 2 + window.scrollX;
-      content.style.transform = "translateX(-50%)";
-    } else if (pos === "bottom") {
-      top = rect.bottom + window.scrollY + gap;
-      left = (rect.left + rect.right) / 2 + window.scrollX;
-      content.style.transform = "translateX(-50%)";
-    } else if (pos === "left") {
+    const useFixed = true; // keep menu anchored to viewport (stable during scroll)
+    if (base === "top") {
+      top = rect.top - content.offsetHeight - gap;
+      if (align === "left") {
+        // Align content's right edge to trigger's left edge (open leftwards)
+        left = rect.left;
+        content.style.transform = "translateX(-100%)";
+      } else if (align === "right") {
+        // Align content's left edge to trigger's right edge (open rightwards)
+        left = rect.right;
+        content.style.transform = "none";
+      } else {
+        left = (rect.left + rect.right) / 2;
+        content.style.transform = "translateX(-50%)";
+      }
+    } else if (base === "bottom") {
+      top = rect.bottom + gap;
+      if (align === "left") {
+        // e.g., position="bottom-left": open leftwards
+        left = rect.left;
+        content.style.transform = "translateX(-100%)";
+      } else if (align === "right") {
+        left = rect.right;
+        content.style.transform = "none";
+      } else {
+        left = (rect.left + rect.right) / 2;
+        content.style.transform = "translateX(-50%)";
+      }
+    } else if (base === "left") {
       top =
-        rect.top + window.scrollY + (rect.height - content.offsetHeight) / 2;
+        rect.top + (rect.height - content.offsetHeight) / 2;
       left = this.isRTL
-        ? rect.right + window.scrollX + gap
-        : rect.left + window.scrollX - content.offsetWidth - gap;
+        ? rect.right + gap
+        : rect.left - content.offsetWidth - gap;
       content.style.transform = "none";
-    } else if (pos === "right") {
+    } else if (base === "right") {
       top =
-        rect.top + window.scrollY + (rect.height - content.offsetHeight) / 2;
+        rect.top + (rect.height - content.offsetHeight) / 2;
       left = this.isRTL
-        ? rect.left + window.scrollX - content.offsetWidth - gap
-        : rect.right + window.scrollX + gap;
+        ? rect.left - content.offsetWidth - gap
+        : rect.right + gap;
       content.style.transform = "none";
     }
 
-    content.style.position = "absolute";
+    // Viewport edge snapping (align menu to viewport edges when overflowing)
+    if (snap === "right") {
+      left = window.innerWidth - content.offsetWidth - gap;
+      content.style.transform = "none";
+    } else if (snap === "left") {
+      left = gap;
+      content.style.transform = "none";
+    }
+
+    content.style.position = useFixed ? "fixed" : "absolute";
     content.style.top = `${top}px`;
     content.style.left = `${left}px`;
 
