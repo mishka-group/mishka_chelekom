@@ -75,7 +75,7 @@ defmodule <%= @module %> do
     <div
       id={@id}
       phx-hook="Collapsible"
-      data-multiple={@multiple}
+      data-multiple={to_string(@multiple)}
       data-collapsible={to_string(@collapsible)}
       data-duration={@duration}
       data-keep-mounted={to_string(@keep_mounted)}
