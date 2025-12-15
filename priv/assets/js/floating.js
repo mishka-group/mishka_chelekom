@@ -48,7 +48,7 @@ const Floating = {
         ) {
           try {
             document.body.removeChild(duplicate);
-          } catch (e) { }
+          } catch (e) {}
         }
       });
     }
@@ -401,7 +401,8 @@ const Floating = {
       }
 
       // When using vertical positions (top/bottom), auto-align horizontally to keep content in viewport
-      const baseForAlign = (typeof pos === "string" && pos.includes("-")) ? pos.split("-")[0] : pos;
+      const baseForAlign =
+        typeof pos === "string" && pos.includes("-") ? pos.split("-")[0] : pos;
       if ((baseForAlign === "bottom" || baseForAlign === "top") && width) {
         const center = (rect.left + rect.right) / 2;
         const leftEdge = center - width / 2;
@@ -456,15 +457,13 @@ const Floating = {
         content.style.transform = "translateX(-50%)";
       }
     } else if (base === "left") {
-      top =
-        rect.top + (rect.height - content.offsetHeight) / 2;
+      top = rect.top + (rect.height - content.offsetHeight) / 2;
       left = this.isRTL
         ? rect.right + gap
         : rect.left - content.offsetWidth - gap;
       content.style.transform = "none";
     } else if (base === "right") {
-      top =
-        rect.top + (rect.height - content.offsetHeight) / 2;
+      top = rect.top + (rect.height - content.offsetHeight) / 2;
       left = this.isRTL
         ? rect.left - content.offsetWidth - gap
         : rect.right + gap;
