@@ -536,7 +536,29 @@ defmodule Mix.Tasks.Mishka.Ui.Uninstall do
 
     if Igniter.exists?(igniter, path) do
       verbose_log(igniter, "  Cleaning up: #{path}")
-      update_js_file(igniter, path, &remove_modules_from_js(&1, ["MishkaComponents"]))
+
+      Igniter.update_file(igniter, path, fn source ->
+        content = Rewrite.Source.get(source, :content)
+
+        import_statement = ~s(import MishkaComponents from "../vendor/mishka_components.js")
+
+        content =
+          case JsParser.remove_imports(content, import_statement, :content) do
+            {:ok, _, updated} -> updated
+            _ -> content
+          end
+
+        content =
+          case JsParser.remove_objects_from_hooks(content, "...MishkaComponents", :content) do
+            {:ok, _, updated} -> updated
+            _ -> content
+          end
+
+        case JsFormatter.format(content) do
+          {:ok, _, formatted} -> Rewrite.Source.update(source, :content, formatted)
+          _ -> Rewrite.Source.update(source, :content, content)
+        end
+      end)
     else
       igniter
     end

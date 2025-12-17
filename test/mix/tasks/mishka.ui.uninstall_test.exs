@@ -862,4 +862,76 @@ defmodule Mix.Tasks.Mishka.Ui.UninstallTest do
       assert content =~ "use TestWeb.Components.MishkaComponents"
     end
   end
+
+  describe "app.js cleanup" do
+    test "removes MishkaComponents import and hook from app.js when all components removed" do
+      igniter =
+        test_project_with_formatter()
+        |> Igniter.create_new_file("lib/test_web/components/button.ex", """
+        defmodule TestWeb.Components.Button do
+          use Phoenix.Component
+          def button(assigns), do: ~H"<button>Button</button>"
+        end
+        """)
+        |> Igniter.create_new_file("assets/js/app.js", """
+        import { Socket } from "phoenix";
+        import { LiveSocket } from "phoenix_live_view";
+        import MishkaComponents from "../vendor/mishka_components.js";
+
+        let liveSocket = new LiveSocket("/live", Socket, {
+          hooks: { ...MishkaComponents }
+        });
+        """)
+        |> Igniter.compose_task(Uninstall, ["button", "--yes"])
+
+      # Component should be removed
+      assert "lib/test_web/components/button.ex" in igniter.rms
+
+      # app.js should have MishkaComponents import and hook removed
+      {_, source} = Rewrite.source(igniter.rewrite, "assets/js/app.js")
+      content = Rewrite.Source.get(source, :content)
+
+      refute content =~ "import MishkaComponents"
+      refute content =~ "...MishkaComponents"
+      # Other imports should remain
+      assert content =~ "import { Socket }"
+      assert content =~ "import { LiveSocket }"
+    end
+
+    test "keeps app.js unchanged when other components remain" do
+      igniter =
+        test_project_with_formatter()
+        |> Igniter.create_new_file("lib/test_web/components/button.ex", """
+        defmodule TestWeb.Components.Button do
+          use Phoenix.Component
+          def button(assigns), do: ~H"<button>Button</button>"
+        end
+        """)
+        |> Igniter.create_new_file("lib/test_web/components/alert.ex", """
+        defmodule TestWeb.Components.Alert do
+          use Phoenix.Component
+          def alert(assigns), do: ~H"<div>Alert</div>"
+        end
+        """)
+        |> Igniter.create_new_file("assets/js/app.js", """
+        import { Socket } from "phoenix";
+        import MishkaComponents from "../vendor/mishka_components.js";
+
+        let liveSocket = new LiveSocket("/live", Socket, {
+          hooks: { ...MishkaComponents }
+        });
+        """)
+        |> Igniter.compose_task(Uninstall, ["button", "--yes"])
+
+      # Only button should be removed
+      assert "lib/test_web/components/button.ex" in igniter.rms
+
+      # app.js should remain unchanged because alert still exists
+      {_, source} = Rewrite.source(igniter.rewrite, "assets/js/app.js")
+      content = Rewrite.Source.get(source, :content)
+
+      assert content =~ "import MishkaComponents"
+      assert content =~ "...MishkaComponents"
+    end
+  end
 end
