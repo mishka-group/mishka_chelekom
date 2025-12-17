@@ -529,35 +529,19 @@ defmodule Mix.Tasks.Mishka.Ui.Uninstall do
   end
 
   defp remove_js_modules(content, modules) do
-    Enum.reduce(modules, content, fn {module, _, _}, acc ->
-      acc
-      |> remove_js_import(module)
-      |> remove_js_hook(module)
-      |> clean_js_syntax(module)
-    end)
+    modules
+    |> Enum.map(fn {module, _, _} -> module end)
+    |> Enum.reduce(content, &remove_module_from_js/2)
   end
 
-  defp remove_js_import(content, module) do
-    case JsParser.remove_imports(content, module, :content) do
-      {:ok, _, updated} -> updated
-      _ -> content
-    end
-  end
-
-  defp remove_js_hook(content, module) do
-    case JsParser.remove_objects_from_hooks(content, [module], :content) do
-      {:ok, _, updated} -> updated
-      _ -> content
-    end
-  end
-
-  defp clean_js_syntax(content, module) do
+  defp remove_module_from_js(module, content) do
     content
-    |> String.replace(~r/\s*\.\.\.#{module}\s*,?/, "")
-    |> String.replace(~r/,(\s*})/, "\\1")
-    |> String.replace(~r/{\s*,/, "{")
-    |> String.replace(~r/\n{3,}/, "\n\n")
+    |> then(&with_js_result(JsParser.remove_imports(&1, module, :content), &1))
+    |> then(&with_js_result(JsParser.remove_objects_from_hooks(&1, [module], :content), &1))
   end
+
+  defp with_js_result({:ok, _, updated}, _fallback), do: updated
+  defp with_js_result(_, fallback), do: fallback
 
   defp update_app_js(igniter, %{remaining_components: remaining}, _opts) when remaining != [],
     do: igniter
@@ -569,13 +553,7 @@ defmodule Mix.Tasks.Mishka.Ui.Uninstall do
 
     if Igniter.exists?(igniter, path) do
       verbose_log(opts, "  Cleaning up: #{path}")
-
-      update_js_file(igniter, path, fn content ->
-        content
-        |> remove_js_import("MishkaComponents")
-        |> remove_js_hook("MishkaComponents")
-        |> clean_js_syntax("MishkaComponents")
-      end)
+      update_js_file(igniter, path, &remove_module_from_js("MishkaComponents", &1))
     else
       igniter
     end
