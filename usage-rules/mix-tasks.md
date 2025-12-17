@@ -201,10 +201,30 @@ mix mishka.ui.uninstall accordion --yes
 | `--all` | `-a` | Remove all installed Mishka components |
 | `--dry-run` | `-d` | Preview removal without making changes |
 | `--yes` | `-y` | Skip confirmation prompts |
+| `--force` | `-f` | Force removal even when other components depend on them |
 | `--keep-js` | - | Keep JavaScript files even if unused |
 | `--include-css` | - | Also remove CSS files (only with --all) |
 | `--include-config` | - | Also remove config file (only with --all) |
 | `--verbose` | `-V` | Show detailed output |
+
+### Component Dependencies
+
+Some components depend on other components (e.g., button uses icon). The uninstaller handles this:
+
+```bash
+# Interactive mode: asks if you want to also remove dependent components
+mix mishka.ui.uninstall icon
+# Shows: "The following components depend on 'icon': button, badge"
+# Offers: cascade removal or cancel
+
+# With --yes but no --force: blocks removal if dependencies exist
+mix mishka.ui.uninstall icon --yes
+# Error: Cannot remove components that other components depend on
+
+# Force removal regardless of dependencies
+mix mishka.ui.uninstall icon --yes --force
+# Removes icon, warns that button and badge may have issues
+```
 
 ### JavaScript Hook Management
 

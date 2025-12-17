@@ -474,9 +474,8 @@ defmodule Mix.Tasks.Mishka.Ui.UninstallTest do
   end
 
   describe "dependency warnings" do
-    test "completes uninstall even when component has dependencies" do
-      # When we remove a component that other components depend on,
-      # the task should still complete but may show warnings
+    test "blocks removal with --yes when dependencies exist (requires --force)" do
+      # When using --yes without --force, removal is blocked if dependencies exist
       igniter =
         test_project_with_formatter()
         |> Igniter.create_new_file("lib/test_web/components/icon.ex", """
@@ -499,7 +498,36 @@ defmodule Mix.Tasks.Mishka.Ui.UninstallTest do
         """)
         |> Igniter.compose_task(Uninstall, ["icon", "--yes"])
 
-      # Icon should be removed even though modal depends on it
+      # Should be blocked - icon not removed because modal depends on it
+      assert igniter.issues != []
+      assert Enum.any?(igniter.issues, &String.contains?(&1, "Cannot remove components"))
+    end
+
+    test "completes removal with --force even when dependencies exist" do
+      # When using --force, removal proceeds with warnings
+      igniter =
+        test_project_with_formatter()
+        |> Igniter.create_new_file("lib/test_web/components/icon.ex", """
+        defmodule TestWeb.Components.Icon do
+          use Phoenix.Component
+          def icon(assigns), do: ~H"<svg>Icon</svg>"
+        end
+        """)
+        |> Igniter.create_new_file("lib/test_web/components/modal.ex", """
+        defmodule TestWeb.Components.Modal do
+          use Phoenix.Component
+          def modal(assigns), do: ~H"<div>Modal</div>"
+        end
+        """)
+        |> Igniter.create_new_file("deps/mishka_chelekom/priv/components/icon.exs", """
+        [icon: [args: [], necessary: [], optional: [], scripts: []]]
+        """)
+        |> Igniter.create_new_file("deps/mishka_chelekom/priv/components/modal.exs", """
+        [modal: [args: [], necessary: ["icon"], optional: [], scripts: []]]
+        """)
+        |> Igniter.compose_task(Uninstall, ["icon", "--yes", "--force"])
+
+      # Icon should be removed with --force
       assert "lib/test_web/components/icon.ex" in igniter.rms
       # Modal should NOT be removed
       refute "lib/test_web/components/modal.ex" in igniter.rms

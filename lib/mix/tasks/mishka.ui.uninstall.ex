@@ -29,6 +29,7 @@ defmodule Mix.Tasks.Mishka.Ui.Uninstall do
   * `--all` or `-a` - Remove all installed Mishka components
   * `--dry-run` or `-d` - Preview what would be removed without making changes
   * `--yes` - Skip confirmation prompts
+  * `--force` or `-f` - Force removal even if other components depend on it
   * `--include-css` - Also remove CSS files (only with --all)
   * `--include-config` - Also remove the config file (only with --all)
   * `--keep-js` - Keep JavaScript files even if no components use them
@@ -47,12 +48,13 @@ defmodule Mix.Tasks.Mishka.Ui.Uninstall do
       schema: [
         all: :boolean,
         dry_run: :boolean,
+        force: :boolean,
         include_css: :boolean,
         include_config: :boolean,
         keep_js: :boolean,
         verbose: :boolean
       ],
-      aliases: [a: :all, d: :dry_run, V: :verbose]
+      aliases: [a: :all, d: :dry_run, f: :force, V: :verbose]
     }
   end
 
@@ -72,6 +74,7 @@ defmodule Mix.Tasks.Mishka.Ui.Uninstall do
       verbose: options[:verbose] == true,
       dry_run: options[:dry_run] == true,
       yes: options[:yes] == true,
+      force: options[:force] == true,
       all: options[:all] == true,
       keep_js: options[:keep_js] == true,
       include_css: options[:include_css] == true,
@@ -200,9 +203,93 @@ defmodule Mix.Tasks.Mishka.Ui.Uninstall do
   defp process_uninstall(igniter) do
     igniter
     |> build_removal_plan()
+    |> handle_dependencies()
     |> maybe_show_plan()
     |> execute_or_cancel()
   end
+
+  defp handle_dependencies(%{issues: issues} = igniter) when issues != [], do: igniter
+
+  defp handle_dependencies(igniter) do
+    %{opts: opts, plan: plan} = igniter.assigns
+    dependent_components = Enum.map(plan.warnings, fn {comp, _} -> comp end)
+
+    cond do
+      dependent_components == [] ->
+        igniter
+
+      opts.force ->
+        igniter
+
+      opts.dry_run ->
+        igniter
+
+      opts.yes ->
+        Igniter.add_issue(igniter, """
+        Cannot remove components: other components depend on them.
+
+        The following components would break:
+        #{format_dependency_list(plan.warnings)}
+
+        Options:
+          - Use --force to remove anyway
+          - Also remove the dependent components: #{Enum.join(dependent_components, ",")}
+        """)
+
+      Mix.env() != :test ->
+        ask_cascade_removal(igniter, dependent_components)
+
+      true ->
+        igniter
+    end
+  end
+
+  defp ask_cascade_removal(igniter, dependent_components) do
+    IO.puts("\n#{IO.ANSI.yellow()}#{IO.ANSI.bright()}⚠ Dependency Warning#{IO.ANSI.reset()}")
+    IO.puts("The following components depend on what you're removing:")
+
+    Enum.each(igniter.assigns.plan.warnings, fn {comp, deps} ->
+      IO.puts(
+        "  #{IO.ANSI.yellow()}• #{comp}#{IO.ANSI.reset()} depends on: #{Enum.join(deps, ", ")}"
+      )
+    end)
+
+    IO.puts(
+      "\n#{IO.ANSI.cyan()}Would you like to also remove these components?#{IO.ANSI.reset()}"
+    )
+
+    IO.puts("  Components to add: #{Enum.join(dependent_components, ", ")}")
+
+    response =
+      "Include dependent components? [y/n/cancel]: "
+      |> IO.gets()
+      |> String.trim()
+      |> String.downcase()
+
+    case response do
+      r when r in ["y", "yes"] ->
+        new_components = Enum.uniq(igniter.assigns.components ++ dependent_components)
+
+        igniter
+        |> Igniter.assign(:components, new_components)
+        |> build_removal_plan()
+        |> handle_dependencies()
+
+      r when r in ["n", "no"] ->
+        igniter
+
+      _ ->
+        Igniter.add_issue(igniter, "Operation cancelled by user.")
+    end
+  end
+
+  defp format_dependency_list(warnings) do
+    Enum.map_join(warnings, "\n", fn {comp, deps} ->
+      "  • #{comp} depends on: #{Enum.join(deps, ", ")}"
+    end)
+  end
+
+  defp maybe_show_plan(%{issues: issues} = igniter) when issues != [], do: igniter
 
   defp maybe_show_plan(igniter) do
     %{opts: opts, plan: plan} = igniter.assigns
@@ -218,6 +305,8 @@ defmodule Mix.Tasks.Mishka.Ui.Uninstall do
   defp should_show_plan?(%{verbose: true}), do: Mix.env() != :test
   defp should_show_plan?(%{yes: false}), do: Mix.env() != :test
   defp should_show_plan?(_), do: false
+
+  defp execute_or_cancel(%{issues: issues} = igniter) when issues != [], do: igniter
 
   defp execute_or_cancel(igniter) do
     if should_proceed?(igniter.assigns.opts) do
