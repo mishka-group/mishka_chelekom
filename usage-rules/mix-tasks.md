@@ -259,10 +259,10 @@ mix mishka.ui.uninstall accordion --yes
 
 ### Full Cleanup
 
-To completely remove all Mishka Chelekom files:
+Using `--all` completely removes all Mishka Chelekom files:
 
 ```bash
-mix mishka.ui.uninstall --all --include-css --include-config --yes
+mix mishka.ui.uninstall --all --yes
 ```
 
 This removes:
@@ -270,6 +270,7 @@ This removes:
 - `assets/vendor/mishka_components.js`
 - `assets/vendor/mishka_chelekom.css`
 - `priv/mishka_chelekom/config.exs`
+- Import from `mishka_components.ex`
 
 ### Common Patterns
 
@@ -281,7 +282,7 @@ mix mishka.ui.uninstall --all --dry-run
 mix mishka.ui.uninstall modal,drawer --yes --keep-js
 
 # Complete removal
-mix mishka.ui.uninstall --all --include-css --include-config --yes
+mix mishka.ui.uninstall --all --yes
 ```
 
 ---

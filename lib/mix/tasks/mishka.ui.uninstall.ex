@@ -372,8 +372,8 @@ defmodule Mix.Tasks.Mishka.Ui.Uninstall do
   end
 
   defp get_components_dir(igniter, web_module) do
-    web_module
-    |> Module.concat("Components")
+    [web_module, "Components", "Placeholder"]
+    |> Module.concat()
     |> then(&Igniter.Project.Module.proper_location(igniter, &1))
     |> Path.dirname()
   end
@@ -698,9 +698,8 @@ defmodule Mix.Tasks.Mishka.Ui.Uninstall do
 
   defp filter_mishka_use(other), do: other
 
-  defp maybe_remove_css(%{assigns: %{opts: %{all: false}}} = igniter), do: igniter
-  defp maybe_remove_css(%{assigns: %{opts: %{include_css: false}}} = igniter), do: igniter
   defp maybe_remove_css(%{assigns: %{plan: %{remaining: r}}} = igniter) when r != [], do: igniter
+  defp maybe_remove_css(%{assigns: %{opts: %{all: false, include_css: false}}} = igniter), do: igniter
 
   defp maybe_remove_css(igniter) do
     path = "assets/vendor/mishka_chelekom.css"
@@ -730,8 +729,8 @@ defmodule Mix.Tasks.Mishka.Ui.Uninstall do
     end
   end
 
-  defp maybe_remove_config(%{assigns: %{opts: %{all: false}}} = igniter), do: igniter
-  defp maybe_remove_config(%{assigns: %{opts: %{include_config: false}}} = igniter), do: igniter
+  defp maybe_remove_config(%{assigns: %{plan: %{remaining: r}}} = igniter) when r != [], do: igniter
+  defp maybe_remove_config(%{assigns: %{opts: %{all: false, include_config: false}}} = igniter), do: igniter
 
   defp maybe_remove_config(igniter) do
     path = "priv/mishka_chelekom/config.exs"
@@ -757,14 +756,15 @@ defmodule Mix.Tasks.Mishka.Ui.Uninstall do
 
   defp add_completion_notice(igniter) do
     %{plan: plan, opts: opts} = igniter.assigns
+    all_removed = plan.remaining == []
 
     stats = %{
       removed: length(plan.component_files),
       js_removed: length(plan.js_to_remove),
       preserved: if(plan.js_preserved != [], do: "\nJS preserved: #{length(plan.js_preserved)}"),
-      css: if(opts.all && opts.include_css && plan.remaining == [], do: "\nCSS removed"),
-      config: if(opts.all && opts.include_config, do: "\nConfig removed"),
-      remaining: if(plan.remaining != [], do: "\nRemaining: #{length(plan.remaining)}")
+      css: if(all_removed && (opts.all || opts.include_css), do: "\nCSS removed"),
+      config: if(all_removed && (opts.all || opts.include_config), do: "\nConfig removed"),
+      remaining: if(!all_removed, do: "\nRemaining: #{length(plan.remaining)}")
     }
 
     Igniter.add_notice(igniter, """
@@ -773,7 +773,7 @@ defmodule Mix.Tasks.Mishka.Ui.Uninstall do
     Components removed: #{stats.removed}
     JS files removed: #{stats.js_removed}#{stats.preserved}#{stats.css}#{stats.config}#{stats.remaining}
 
-    #{if plan.remaining == [], do: "All Mishka components removed.", else: "Run --all to remove everything."}
+    #{if all_removed, do: "All Mishka components removed.", else: "Run --all to remove everything."}
     """)
   end
 
