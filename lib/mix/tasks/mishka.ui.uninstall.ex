@@ -161,8 +161,6 @@ defmodule Mix.Tasks.Mishka.Ui.Uninstall do
     |> then(&IO.puts(IO.ANSI.magenta() <> &1 <> IO.ANSI.reset()))
   end
 
-  # ── Component Discovery ──
-
   defp find_all_installed_components(igniter, user_config) do
     web_module = Igniter.Libs.Phoenix.web_module(igniter)
     web_parts = Module.split(web_module)
@@ -242,8 +240,6 @@ defmodule Mix.Tasks.Mishka.Ui.Uninstall do
     String.ends_with?(path, ".exs") and Enum.any?(paths, &String.starts_with?(path, &1))
   end
 
-  # ── Uninstall Processing ──
-
   defp process_uninstall(igniter, components, user_config, opts) do
     {igniter, plan} = build_removal_plan(igniter, components, user_config)
 
@@ -284,8 +280,6 @@ defmodule Mix.Tasks.Mishka.Ui.Uninstall do
   end
 
   defp add_cancel_notice(igniter, _), do: Igniter.add_notice(igniter, "Uninstall cancelled.")
-
-  # ── Removal Plan ──
 
   defp build_removal_plan(igniter, components, user_config) do
     web_module = Igniter.Libs.Phoenix.web_module(igniter)
@@ -416,8 +410,6 @@ defmodule Mix.Tasks.Mishka.Ui.Uninstall do
     _ -> nil
   end
 
-  # ── UI Output ──
-
   defp show_removal_plan(plan, dry_run) do
     header = if dry_run, do: "=== DRY RUN - Removal Plan ===", else: "=== Removal Plan ==="
     color = if dry_run, do: IO.ANSI.cyan(), else: IO.ANSI.yellow()
@@ -491,8 +483,6 @@ defmodule Mix.Tasks.Mishka.Ui.Uninstall do
     |> then(&(&1 in ["yes", "y"]))
   end
 
-  # ── File Removal ──
-
   defp remove_component_files(igniter, plan, opts) do
     Enum.reduce(plan.component_files, igniter, fn file_info, acc ->
       do_remove_component(acc, file_info, opts)
@@ -523,8 +513,6 @@ defmodule Mix.Tasks.Mishka.Ui.Uninstall do
       end
     end)
   end
-
-  # ── JavaScript Updates ──
 
   defp update_mishka_components_js(igniter, _plan, %{keep_js: true}), do: igniter
   defp update_mishka_components_js(igniter, %{js_modules_to_remove: []}, _opts), do: igniter
@@ -621,8 +609,6 @@ defmodule Mix.Tasks.Mishka.Ui.Uninstall do
     end)
   end
 
-  # ── Import Macro Updates ──
-
   defp update_import_macro(igniter, plan, user_config, opts) do
     web_module = Igniter.Libs.Phoenix.web_module(igniter)
     path = get_mishka_components_path(igniter, web_module)
@@ -707,8 +693,6 @@ defmodule Mix.Tasks.Mishka.Ui.Uninstall do
 
   defp filter_mishka_use(other), do: other
 
-  # ── CSS & Config Cleanup ──
-
   defp maybe_remove_css(igniter, _, %{all: false}), do: igniter
   defp maybe_remove_css(igniter, _, %{include_css: false}), do: igniter
   defp maybe_remove_css(igniter, %{remaining_components: r}, _) when r != [], do: igniter
@@ -758,15 +742,12 @@ defmodule Mix.Tasks.Mishka.Ui.Uninstall do
   defp remove_empty_priv_dir(igniter) do
     dir = "priv/mishka_chelekom"
 
-    with true <- File.dir?(dir),
-         {:ok, []} <- File.ls(dir) do
+    with true <- File.dir?(dir), {:ok, []} <- File.ls(dir) do
       File.rmdir(dir)
     end
 
     igniter
   end
-
-  # ── Completion Notice ──
 
   defp add_completion_notice(igniter, plan, opts) do
     stats = build_stats(plan, opts)
@@ -809,8 +790,6 @@ defmodule Mix.Tasks.Mishka.Ui.Uninstall do
   defp completion_text(_),
     do:
       "Some components remain installed. Run 'mix mishka.ui.uninstall --all' to remove everything."
-
-  # ── Helpers ──
 
   defp verbose_log(%{verbose: true}, msg), do: if(Mix.env() != :test, do: IO.puts(msg))
   defp verbose_log(_, _), do: :ok
