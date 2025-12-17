@@ -682,11 +682,20 @@ defmodule Mix.Tasks.Mishka.Ui.Uninstall do
     end
   end
 
+  # Check if the last part of the module path is MishkaComponents
+  # e.g., ChelePrefixWeb.Components.MishkaComponents ->
+  # [:ChelePrefixWeb, :Components, :MishkaComponents]
   defp filter_mishka_use({:quote, meta, [[{block_meta, {:__block__, inner_meta, args}}]]}) do
     filtered =
       Enum.reject(args, fn
-        {:use, _, [{:__aliases__, _, [name]}]} when is_atom(name) ->
-          name |> Atom.to_string() |> String.contains?("MishkaComponents")
+        {:use, _, [{:__aliases__, _, module_parts}]} when is_list(module_parts) ->
+          case List.last(module_parts) do
+            name when is_atom(name) ->
+              Atom.to_string(name) |> String.contains?("MishkaComponents")
+
+            _ ->
+              false
+          end
 
         _ ->
           false

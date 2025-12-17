@@ -790,4 +790,76 @@ defmodule Mix.Tasks.Mishka.Ui.UninstallTest do
       assert "button" in result.assigns.components
     end
   end
+
+  describe "global import cleanup" do
+    test "removes use MishkaComponents from html_helpers when all components removed" do
+      igniter =
+        test_project_with_formatter()
+        |> Igniter.create_new_file("lib/test_web.ex", """
+        defmodule TestWeb do
+          defp html_helpers do
+            quote do
+              import Phoenix.HTML
+              use TestWeb.Components.MishkaComponents
+            end
+          end
+        end
+        """)
+        |> Igniter.create_new_file("lib/test_web/components/button.ex", """
+        defmodule TestWeb.Components.Button do
+          use Phoenix.Component
+          def button(assigns), do: ~H"<button>Button</button>"
+        end
+        """)
+        |> Igniter.compose_task(Uninstall, ["button", "--yes"])
+
+      # Component should be removed
+      assert "lib/test_web/components/button.ex" in igniter.rms
+
+      # use MishkaComponents should be removed from html_helpers
+      {_, source} = Rewrite.source(igniter.rewrite, "lib/test_web.ex")
+      content = Rewrite.Source.get(source, :content)
+
+      refute content =~ "use TestWeb.Components.MishkaComponents"
+      assert content =~ "import Phoenix.HTML"
+    end
+
+    test "keeps use MishkaComponents when other components remain" do
+      igniter =
+        test_project_with_formatter()
+        |> Igniter.create_new_file("lib/test_web.ex", """
+        defmodule TestWeb do
+          defp html_helpers do
+            quote do
+              import Phoenix.HTML
+              use TestWeb.Components.MishkaComponents
+            end
+          end
+        end
+        """)
+        |> Igniter.create_new_file("lib/test_web/components/button.ex", """
+        defmodule TestWeb.Components.Button do
+          use Phoenix.Component
+          def button(assigns), do: ~H"<button>Button</button>"
+        end
+        """)
+        |> Igniter.create_new_file("lib/test_web/components/alert.ex", """
+        defmodule TestWeb.Components.Alert do
+          use Phoenix.Component
+          def alert(assigns), do: ~H"<div>Alert</div>"
+        end
+        """)
+        |> Igniter.compose_task(Uninstall, ["button", "--yes"])
+
+      # Only button should be removed
+      assert "lib/test_web/components/button.ex" in igniter.rms
+      refute "lib/test_web/components/alert.ex" in igniter.rms
+
+      # use MishkaComponents should remain because alert still exists
+      {_, source} = Rewrite.source(igniter.rewrite, "lib/test_web.ex")
+      content = Rewrite.Source.get(source, :content)
+
+      assert content =~ "use TestWeb.Components.MishkaComponents"
+    end
+  end
 end
