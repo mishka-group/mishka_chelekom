@@ -122,43 +122,34 @@ defmodule Mix.Tasks.Mishka.Ui.Uninstall do
   end
 
   defp find_all_installed_components(igniter) do
+    Igniter.assign(igniter, :components, list_installed_components(igniter))
+  end
+
+  defp list_installed_components(igniter) do
     web_module = Igniter.Libs.Phoenix.web_module(igniter)
-    web_parts = Module.split(web_module)
-    user_config = igniter.assigns.user_config
-    module_prefix = user_config[:module_prefix]
+    module_prefix = igniter.assigns.user_config[:module_prefix]
     known = get_known_component_names(igniter)
+    components_dir = get_components_dir(igniter, web_module)
 
-    {igniter, modules} =
-      Igniter.Project.Module.find_all_matching_modules(igniter, fn module, _zipper ->
-        mishka_component?(module, web_parts, module_prefix, known)
-      end)
+    real_files =
+      components_dir
+      |> Path.join("*.ex")
+      |> Path.wildcard()
 
-    components =
-      modules
-      |> Enum.map(&extract_component_name(&1, web_parts, module_prefix))
-      |> Enum.reject(&is_nil/1)
-      |> Enum.uniq()
+    virtual_files =
+      igniter.rewrite
+      |> Rewrite.sources()
+      |> Enum.map(&Rewrite.Source.get(&1, :path))
+      |> Enum.filter(&String.starts_with?(&1, components_dir))
+      |> Enum.filter(&String.ends_with?(&1, ".ex"))
 
-    Igniter.assign(igniter, :components, components)
-  end
-
-  defp mishka_component?(module, web_parts, module_prefix, known) do
-    parts = Module.split(module)
-
-    with true <- length(parts) > length(web_parts),
-         true <- List.starts_with?(parts, web_parts),
-         ["Components", name | _] <- Enum.drop(parts, length(web_parts)) do
-      name |> Macro.underscore() |> strip_prefix(module_prefix) |> then(&(&1 in known))
-    else
-      _ -> false
-    end
-  end
-
-  defp extract_component_name(module, web_parts, module_prefix) do
-    case module |> Module.split() |> Enum.drop(length(web_parts)) do
-      ["Components", name | _] -> name |> Macro.underscore() |> strip_prefix(module_prefix)
-      _ -> nil
-    end
+    (real_files ++ virtual_files)
+    |> Enum.uniq()
+    |> Enum.map(&Path.basename(&1, ".ex"))
+    |> Enum.map(&Macro.underscore/1)
+    |> Enum.map(&strip_prefix(&1, module_prefix))
+    |> Enum.filter(&(&1 in known))
+    |> Enum.uniq()
   end
 
   defp strip_prefix(name, prefix) when is_binary(prefix) and prefix != "",
@@ -245,29 +236,31 @@ defmodule Mix.Tasks.Mishka.Ui.Uninstall do
   end
 
   defp ask_cascade_removal(igniter, dependent_components) do
+    Application.ensure_all_started(:owl)
+
     IO.puts("\n#{IO.ANSI.yellow()}#{IO.ANSI.bright()}⚠ Dependency Warning#{IO.ANSI.reset()}")
-    IO.puts("The following components depend on what you're removing:")
+    IO.puts("These components depend on what you're removing:\n")
 
     Enum.each(igniter.assigns.plan.warnings, fn {comp, deps} ->
-      IO.puts(
-        "  #{IO.ANSI.yellow()}• #{comp}#{IO.ANSI.reset()} depends on: #{Enum.join(deps, ", ")}"
-      )
+      IO.puts("  #{IO.ANSI.yellow()}• #{comp}#{IO.ANSI.reset()} uses: #{Enum.join(deps, ", ")}")
     end)
 
-    IO.puts(
-      "\n#{IO.ANSI.cyan()}Would you like to also remove these components?#{IO.ANSI.reset()}"
-    )
+    IO.puts("")
 
-    IO.puts("  Components to add: #{Enum.join(dependent_components, ", ")}")
+    choice =
+      Owl.IO.select(
+        [
+          {"Also remove dependent components (#{Enum.join(dependent_components, ", ")})",
+           :cascade},
+          {"Continue anyway (may cause errors)", :continue},
+          {"Cancel", :cancel}
+        ],
+        label: "What would you like to do?",
+        render_as: fn {label, _} -> label end
+      )
 
-    response =
-      "Include dependent components? [y/n/cancel]: "
-      |> IO.gets()
-      |> String.trim()
-      |> String.downcase()
-
-    case response do
-      r when r in ["y", "yes"] ->
+    case choice do
+      :cascade ->
         new_components = Enum.uniq(igniter.assigns.components ++ dependent_components)
 
         igniter
@@ -275,10 +268,10 @@ defmodule Mix.Tasks.Mishka.Ui.Uninstall do
         |> build_removal_plan()
         |> handle_dependencies()
 
-      r when r in ["n", "no"] ->
+      :continue ->
         igniter
 
-      _ ->
+      :cancel ->
         Igniter.add_issue(igniter, "Operation cancelled by user.")
     end
   end
@@ -327,8 +320,7 @@ defmodule Mix.Tasks.Mishka.Ui.Uninstall do
   end
 
   defp should_proceed?(%{dry_run: true}), do: false
-  defp should_proceed?(%{yes: true}), do: true
-  defp should_proceed?(_), do: Mix.env() == :test or confirm_removal()
+  defp should_proceed?(_), do: true
 
   defp add_cancel_notice(%{assigns: %{opts: %{dry_run: true}}} = igniter) do
     Igniter.add_notice(igniter, """
@@ -376,24 +368,14 @@ defmodule Mix.Tasks.Mishka.Ui.Uninstall do
   end
 
   defp get_all_installed(igniter) do
-    web_module = Igniter.Libs.Phoenix.web_module(igniter)
-    web_parts = Module.split(web_module)
-    user_config = igniter.assigns.user_config
-    module_prefix = user_config[:module_prefix]
-    known = get_known_component_names(igniter)
+    {igniter, list_installed_components(igniter)}
+  end
 
-    {igniter, modules} =
-      Igniter.Project.Module.find_all_matching_modules(igniter, fn module, _zipper ->
-        mishka_component?(module, web_parts, module_prefix, known)
-      end)
-
-    components =
-      modules
-      |> Enum.map(&extract_component_name(&1, web_parts, module_prefix))
-      |> Enum.reject(&is_nil/1)
-      |> Enum.uniq()
-
-    {igniter, components}
+  defp get_components_dir(igniter, web_module) do
+    web_module
+    |> Module.concat("Components")
+    |> then(&Igniter.Project.Module.proper_location(igniter, &1))
+    |> Path.dirname()
   end
 
   defp extract_js_files(configs) do
@@ -492,25 +474,22 @@ defmodule Mix.Tasks.Mishka.Ui.Uninstall do
   end
 
   defp show_removal_plan(plan, dry_run) do
-    header = if dry_run, do: "=== DRY RUN - Removal Plan ===", else: "=== Removal Plan ==="
-    color = if dry_run, do: IO.ANSI.cyan(), else: IO.ANSI.yellow()
+    if dry_run do
+      IO.puts("\n#{IO.ANSI.cyan()}[DRY RUN]#{IO.ANSI.reset()}")
+    end
 
-    IO.puts("\n#{color}#{header}#{IO.ANSI.reset()}\n")
-    IO.puts("#{IO.ANSI.bright()}Components to remove:#{IO.ANSI.reset()}")
-
+    IO.puts("\n#{IO.ANSI.bright()}Components to remove:#{IO.ANSI.reset()}")
     Enum.each(plan.component_files, &print_component_status/1)
+
     print_js_section("JavaScript files to remove:", plan.js_to_remove, IO.ANSI.red())
     print_js_section("JavaScript files preserved:", plan.js_preserved, IO.ANSI.green())
     print_warnings(plan.warnings)
-    print_remaining(plan.remaining)
-
     IO.puts("")
   end
 
-  defp print_component_status({component, path, exists?, module}) do
+  defp print_component_status({component, path, exists?, _module}) do
     status = if exists?, do: IO.ANSI.green() <> "✓", else: IO.ANSI.red() <> "✗ (not found)"
     IO.puts("  #{status} #{component}#{IO.ANSI.reset()} - #{path || "unknown"}")
-    IO.puts("    Module: #{inspect(module)}")
   end
 
   defp print_js_section(_, [], _), do: :ok
@@ -524,31 +503,14 @@ defmodule Mix.Tasks.Mishka.Ui.Uninstall do
 
   defp print_warnings(warnings) do
     IO.puts(
-      "\n#{IO.ANSI.yellow()}#{IO.ANSI.bright()}⚠ Warning: Components depend on removed items:#{IO.ANSI.reset()}"
+      "\n#{IO.ANSI.yellow()}#{IO.ANSI.bright()}⚠ Warning: These components depend on what you're removing:#{IO.ANSI.reset()}"
     )
 
     Enum.each(warnings, fn {component, deps} ->
-      IO.puts("  #{IO.ANSI.yellow()}• #{component} → #{Enum.join(deps, ", ")}#{IO.ANSI.reset()}")
+      IO.puts(
+        "  #{IO.ANSI.yellow()}• #{component}#{IO.ANSI.reset()} uses: #{Enum.join(deps, ", ")}"
+      )
     end)
-  end
-
-  defp print_remaining([]), do: :ok
-
-  defp print_remaining(components) do
-    IO.puts("\n#{IO.ANSI.bright()}Remaining components:#{IO.ANSI.reset()}")
-    IO.puts("  #{IO.ANSI.cyan()}#{Enum.join(components, ", ")}#{IO.ANSI.reset()}")
-  end
-
-  defp confirm_removal do
-    IO.puts(
-      "#{IO.ANSI.yellow()}Are you sure you want to proceed with the uninstall?#{IO.ANSI.reset()}"
-    )
-
-    "Type 'yes' to confirm: "
-    |> IO.gets()
-    |> String.trim()
-    |> String.downcase()
-    |> then(&(&1 in ["yes", "y"]))
   end
 
   defp remove_component_files(igniter) do
