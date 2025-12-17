@@ -171,6 +171,101 @@ mix mishka.ui.gen.components --exclude carousel,gallery,sidebar --yes
 mix mishka.ui.gen.components --module-prefix ui_ --component-prefix ui_ --yes
 ```
 
+## mix mishka.ui.uninstall
+
+Removes installed Mishka Chelekom components from your project.
+
+### Basic Usage
+
+```bash
+# Remove a single component
+mix mishka.ui.uninstall accordion
+
+# Remove multiple components
+mix mishka.ui.uninstall accordion,button,alert
+
+# Remove all installed components
+mix mishka.ui.uninstall --all
+
+# Preview what will be removed (no changes made)
+mix mishka.ui.uninstall accordion --dry-run
+
+# Skip confirmation prompts
+mix mishka.ui.uninstall accordion --yes
+```
+
+### Available Options
+
+| Option | Alias | Description |
+|--------|-------|-------------|
+| `--all` | `-a` | Remove all installed Mishka components |
+| `--dry-run` | `-d` | Preview removal without making changes |
+| `--yes` | `-y` | Skip confirmation prompts |
+| `--keep-js` | - | Keep JavaScript files even if unused |
+| `--include-css` | - | Also remove CSS files (only with --all) |
+| `--include-config` | - | Also remove config file (only with --all) |
+| `--verbose` | `-V` | Show detailed output |
+
+### JavaScript Hook Management
+
+The uninstaller intelligently handles shared JavaScript hooks:
+
+```bash
+# If accordion and collapse both use collapsible.js:
+mix mishka.ui.uninstall accordion --yes
+# Result: accordion.ex removed, collapsible.js KEPT (collapse still uses it)
+
+mix mishka.ui.uninstall collapse --yes
+# Result: collapse.ex removed, collapsible.js REMOVED (no component uses it)
+```
+
+Use `--keep-js` to preserve all JS files regardless:
+
+```bash
+mix mishka.ui.uninstall accordion --yes --keep-js
+```
+
+### Module Prefix Support
+
+If you used `module_prefix` when generating components, the uninstaller finds them automatically:
+
+```bash
+# Config has: module_prefix: "mishka_"
+# File is: lib/app_web/components/mishka_accordion.ex
+
+mix mishka.ui.uninstall accordion --yes
+# Correctly finds and removes mishka_accordion.ex
+```
+
+### Full Cleanup
+
+To completely remove all Mishka Chelekom files:
+
+```bash
+mix mishka.ui.uninstall --all --include-css --include-config --yes
+```
+
+This removes:
+- All component files
+- `assets/vendor/mishka_components.js`
+- `assets/vendor/mishka_chelekom.css`
+- `priv/mishka_chelekom/config.exs`
+
+### Common Patterns
+
+```bash
+# Preview full uninstall
+mix mishka.ui.uninstall --all --dry-run
+
+# Remove specific components, keep JS
+mix mishka.ui.uninstall modal,drawer --yes --keep-js
+
+# Complete removal
+mix mishka.ui.uninstall --all --include-css --include-config --yes
+```
+
+---
+
 ## mix mishka.ui.add
 
 Imports components from external sources (community components, custom repos).
