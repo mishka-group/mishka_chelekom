@@ -1,41 +1,4 @@
 defmodule Mix.Tasks.Mishka.Ui.Uninstall do
-  @moduledoc """
-  A Mix Task for uninstalling Mishka Chelekom components from a Phoenix project.
-
-  This task safely removes components while handling shared dependencies like JavaScript hooks.
-  When multiple components share the same JS hook, it will only be removed when the last
-  component using it is uninstalled.
-
-  ## Features
-
-  - Remove single component or all components at once
-  - Smart JS hook management (preserves shared hooks)
-  - Respects module_prefix configuration
-  - Cleans up import macro file (MishkaComponents)
-  - Optional CSS cleanup
-  - Dry-run mode for safe preview
-  - Interactive confirmation or force mode
-
-  ## Examples
-
-      mix mishka.ui.uninstall accordion
-      mix mishka.ui.uninstall accordion,button,alert
-      mix mishka.ui.uninstall --all
-      mix mishka.ui.uninstall accordion --dry-run
-      mix mishka.ui.uninstall accordion --yes
-      mix mishka.ui.uninstall --all --include-css --include-config --yes
-
-  ## Options
-
-  * `--all` or `-a` - Remove all installed Mishka components
-  * `--dry-run` or `-d` - Preview what would be removed without making changes
-  * `--yes` or `-y` - Skip confirmation prompts
-  * `--include-css` - Also remove CSS files (only with --all)
-  * `--include-config` - Also remove the config file (only with --all)
-  * `--keep-js` - Keep JavaScript files even if no components use them
-  * `--verbose` or `-V` - Show detailed output of all operations
-  """
-
   use Igniter.Mix.Task
   alias Igniter.Project.Application, as: IAPP
   alias IgniterJs.Parsers.Javascript.Parser, as: JsParser
@@ -44,7 +7,33 @@ defmodule Mix.Tasks.Mishka.Ui.Uninstall do
   alias MishkaChelekom.Config
 
   @example "mix mishka.ui.uninstall accordion"
-  @shortdoc "Uninstall Mishka Chelekom components from your Phoenix project"
+  @shortdoc "A Mix Task for uninstalling Mishka Chelekom components"
+  @moduledoc """
+  #{@shortdoc}
+
+  This task safely removes components while handling shared dependencies like JavaScript hooks.
+  When multiple components share the same JS hook, it will only be removed when the last
+  component using it is uninstalled.
+
+  > This task respects module_prefix configuration and cleans up import macro files,
+  > CSS files, and config files when using the appropriate flags.
+
+  ## Example
+
+  ```bash
+  #{@example}
+  ```
+
+  ## Options
+
+  * `--all` or `-a` - Remove all installed Mishka components
+  * `--dry-run` or `-d` - Preview what would be removed without making changes
+  * `--yes` - Skip confirmation prompts
+  * `--include-css` - Also remove CSS files (only with --all)
+  * `--include-config` - Also remove the config file (only with --all)
+  * `--keep-js` - Keep JavaScript files even if no components use them
+  * `--verbose` or `-V` - Show detailed output of all operations
+  """
 
   def info(_argv, _composing_task) do
     %Igniter.Mix.Task.Info{
