@@ -505,5 +505,4 @@ defmodule Mix.Tasks.Mishka.Ui.UninstallTest do
       refute "lib/test_web/components/modal.ex" in igniter.rms
     end
   end
-
 end
