@@ -704,4 +704,90 @@ defmodule Mix.Tasks.Mishka.Ui.UninstallTest do
       assert "lib/test_web/components/card.ex" in igniter.rms
     end
   end
+
+  describe "apply_cascade_choice/3" do
+    test "continue choice returns igniter unchanged" do
+      igniter =
+        test_project_with_formatter()
+        |> Igniter.assign(:opts, %{
+          verbose: false,
+          dry_run: false,
+          yes: true,
+          force: false,
+          all: false,
+          keep_js: false,
+          include_css: false,
+          include_config: false
+        })
+        |> Igniter.assign(:user_config, [])
+        |> Igniter.assign(:components, ["icon"])
+
+      result = Uninstall.apply_cascade_choice(igniter, :continue, ["button"])
+
+      assert result == igniter
+    end
+
+    test "cancel choice adds issue to igniter" do
+      igniter =
+        test_project_with_formatter()
+        |> Igniter.assign(:opts, %{
+          verbose: false,
+          dry_run: false,
+          yes: true,
+          force: false,
+          all: false,
+          keep_js: false,
+          include_css: false,
+          include_config: false
+        })
+        |> Igniter.assign(:user_config, [])
+        |> Igniter.assign(:components, ["icon"])
+
+      result = Uninstall.apply_cascade_choice(igniter, :cancel, ["button"])
+
+      assert result.issues != []
+      assert Enum.any?(result.issues, &String.contains?(&1, "cancelled"))
+    end
+
+    test "cascade choice adds dependent components to removal list" do
+      igniter =
+        test_project_with_formatter()
+        |> Igniter.create_new_file("lib/test_web/components/icon.ex", """
+        defmodule TestWeb.Components.Icon do
+          use Phoenix.Component
+          def icon(assigns), do: ~H"<svg>Icon</svg>"
+        end
+        """)
+        |> Igniter.create_new_file("lib/test_web/components/button.ex", """
+        defmodule TestWeb.Components.Button do
+          use Phoenix.Component
+          def button(assigns), do: ~H"<button>Button</button>"
+        end
+        """)
+        |> Igniter.create_new_file("deps/mishka_chelekom/priv/components/icon.exs", """
+        [icon: [args: [], necessary: [], optional: [], scripts: []]]
+        """)
+        |> Igniter.create_new_file("deps/mishka_chelekom/priv/components/button.exs", """
+        [button: [args: [], necessary: ["icon"], optional: [], scripts: []]]
+        """)
+        |> Igniter.assign(:opts, %{
+          verbose: false,
+          dry_run: false,
+          yes: true,
+          force: false,
+          all: false,
+          keep_js: false,
+          include_css: false,
+          include_config: false
+        })
+        |> Igniter.assign(:user_config, [])
+        |> Igniter.assign(:components, ["icon"])
+
+      result = Uninstall.apply_cascade_choice(igniter, :cascade, ["button"])
+
+      # Both icon and button should be in removal list
+      assert "icon" in result.assigns.components
+      assert "button" in result.assigns.components
+    end
+  end
 end

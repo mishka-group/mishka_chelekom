@@ -219,11 +219,10 @@ defmodule Mix.Tasks.Mishka.Ui.Uninstall do
 
     IO.puts("")
 
-    choice =
+    {_, choice} =
       Owl.IO.select(
         [
-          {"Also remove dependent components (#{Enum.join(dependent_components, ", ")})",
-           :cascade},
+          {"Also remove the #{length(dependent_components)} components listed above", :cascade},
           {"Continue anyway (may cause errors)", :continue},
           {"Cancel", :cancel}
         ],
@@ -231,21 +230,22 @@ defmodule Mix.Tasks.Mishka.Ui.Uninstall do
         render_as: fn {label, _} -> label end
       )
 
-    case choice do
-      :cascade ->
-        new_components = Enum.uniq(igniter.assigns.components ++ dependent_components)
+    apply_cascade_choice(igniter, choice, dependent_components)
+  end
 
-        igniter
-        |> Igniter.assign(:components, new_components)
-        |> build_removal_plan()
-        |> handle_dependencies()
+  def apply_cascade_choice(igniter, :cascade, dependent_components) do
+    new_components = Enum.uniq(igniter.assigns.components ++ dependent_components)
 
-      :continue ->
-        igniter
+    igniter
+    |> Igniter.assign(:components, new_components)
+    |> build_removal_plan()
+    |> handle_dependencies()
+  end
 
-      :cancel ->
-        Igniter.add_issue(igniter, "Operation cancelled by user.")
-    end
+  def apply_cascade_choice(igniter, :continue, _dependent_components), do: igniter
+
+  def apply_cascade_choice(igniter, :cancel, _dependent_components) do
+    Igniter.add_issue(igniter, "Operation cancelled by user.")
   end
 
   defp format_dependency_list(warnings) do
