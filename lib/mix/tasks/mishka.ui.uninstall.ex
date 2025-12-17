@@ -1,6 +1,5 @@
 defmodule Mix.Tasks.Mishka.Ui.Uninstall do
   use Igniter.Mix.Task
-  alias Igniter.Project.Application, as: IAPP
   alias IgniterJs.Parsers.Javascript.Parser, as: JsParser
   alias IgniterJs.Parsers.Javascript.Formatter, as: JsFormatter
   alias Mix.Tasks.Mishka.Ui.Gen.Component, as: GenComponent
@@ -128,7 +127,7 @@ defmodule Mix.Tasks.Mishka.Ui.Uninstall do
   defp list_installed_components(igniter) do
     web_module = Igniter.Libs.Phoenix.web_module(igniter)
     module_prefix = igniter.assigns.user_config[:module_prefix]
-    known = get_known_component_names(igniter)
+    known = get_known_component_names()
     components_dir = get_components_dir(igniter, web_module)
 
     real_files =
@@ -157,38 +156,11 @@ defmodule Mix.Tasks.Mishka.Ui.Uninstall do
 
   defp strip_prefix(name, _), do: name
 
-  defp get_known_component_names(igniter) do
-    paths = component_search_paths(igniter)
-
-    real =
-      paths
-      |> Enum.flat_map(&list_component_files/1)
-      |> Enum.map(&Path.basename(&1, ".exs"))
-
-    virtual =
-      igniter.rewrite
-      |> Rewrite.sources()
-      |> Enum.filter(&component_source?(&1, paths))
-      |> Enum.map(&(&1 |> Rewrite.Source.get(:path) |> Path.basename(".exs")))
-
-    Enum.uniq(real ++ virtual)
-  end
-
-  defp component_search_paths(igniter) do
-    [
-      "deps/mishka_chelekom/priv/components",
-      IAPP.priv_dir(igniter, ["mishka_chelekom", "components"]),
-      IAPP.priv_dir(igniter, ["mishka_chelekom", "templates"]),
-      IAPP.priv_dir(igniter, ["mishka_chelekom", "presets"])
-    ]
-  end
-
-  defp list_component_files(path),
-    do: if(File.dir?(path), do: Path.wildcard(Path.join(path, "*.exs")), else: [])
-
-  defp component_source?(source, paths) do
-    path = Rewrite.Source.get(source, :path)
-    String.ends_with?(path, ".exs") and Enum.any?(paths, &String.starts_with?(path, &1))
+  defp get_known_component_names do
+    config_paths()
+    |> Enum.flat_map(&Path.wildcard(Path.join(&1, "*.exs")))
+    |> Enum.map(&Path.basename(&1, ".exs"))
+    |> Enum.uniq()
   end
 
   defp process_uninstall(igniter) do
@@ -337,15 +309,15 @@ defmodule Mix.Tasks.Mishka.Ui.Uninstall do
     web_module = Igniter.Libs.Phoenix.web_module(igniter)
     module_prefix = user_config[:module_prefix]
 
-    configs = Map.new(components, &{&1, get_component_config(igniter, &1)})
-    {igniter, all_installed} = get_all_installed(igniter)
+    all_configs = load_all_configs()
+    all_installed = list_installed_components(igniter)
     remaining = all_installed -- components
 
-    js_to_consider = extract_js_files(configs)
+    configs_to_remove = Map.new(components, &{&1, Map.get(all_configs, &1)})
+    configs_remaining = Map.new(remaining, &{&1, Map.get(all_configs, &1)})
 
-    js_still_needed =
-      remaining |> Map.new(&{&1, get_component_config(igniter, &1)}) |> extract_js_files()
-
+    js_to_consider = extract_js_files(configs_to_remove)
+    js_still_needed = extract_js_files(configs_remaining)
     js_to_remove = js_to_consider -- js_still_needed
 
     {igniter, component_files} =
@@ -354,12 +326,12 @@ defmodule Mix.Tasks.Mishka.Ui.Uninstall do
     plan = %{
       components: components,
       component_files: component_files,
-      configs: configs,
+      configs: configs_to_remove,
       js_to_remove: js_to_remove,
       js_preserved: js_to_consider -- js_to_remove,
-      js_modules_to_remove: extract_js_modules(configs, js_to_remove),
+      js_modules_to_remove: extract_js_modules(configs_to_remove, js_to_remove),
       remaining: remaining,
-      warnings: find_dependency_warnings(igniter, remaining, components),
+      warnings: find_dependency_warnings(configs_remaining, components),
       web_module: web_module,
       module_prefix: module_prefix
     }
@@ -367,8 +339,29 @@ defmodule Mix.Tasks.Mishka.Ui.Uninstall do
     Igniter.assign(igniter, :plan, plan)
   end
 
-  defp get_all_installed(igniter) do
-    {igniter, list_installed_components(igniter)}
+  defp load_all_configs do
+    config_paths()
+    |> Enum.flat_map(&Path.wildcard(Path.join(&1, "*.exs")))
+    |> Enum.reduce(%{}, fn path, acc ->
+      component = Path.basename(path, ".exs")
+
+      case read_config_file(path, component) do
+        nil -> acc
+        config -> Map.put(acc, component, config)
+      end
+    end)
+  end
+
+  defp config_paths do
+    ["deps/mishka_chelekom/priv/components", "priv/components"]
+    |> Enum.filter(&File.dir?/1)
+  end
+
+  defp read_config_file(path, component) do
+    config = Elixir.Config.Reader.read!(path)
+    Keyword.get(config, String.to_atom(component))
+  rescue
+    _ -> nil
   end
 
   defp get_components_dir(igniter, web_module) do
@@ -420,9 +413,9 @@ defmodule Mix.Tasks.Mishka.Ui.Uninstall do
     |> then(fn {ig, files} -> {ig, Enum.reverse(files)} end)
   end
 
-  defp find_dependency_warnings(igniter, remaining, removing) do
-    Enum.flat_map(remaining, fn component ->
-      case get_component_config(igniter, component) do
+  defp find_dependency_warnings(configs_remaining, removing) do
+    Enum.flat_map(configs_remaining, fn {component, config} ->
+      case config do
         nil ->
           []
 
@@ -436,41 +429,6 @@ defmodule Mix.Tasks.Mishka.Ui.Uninstall do
   defp build_module_name(web_module, component, prefix) do
     name = if prefix && prefix != "", do: "#{prefix}#{component}", else: component
     Module.concat([web_module, "Components", GenComponent.atom_to_module(name)])
-  end
-
-  defp get_component_config(igniter, component) do
-    component_search_paths(igniter)
-    |> Enum.map(&Path.join(&1, "#{component}.exs"))
-    |> Enum.find_value(&read_config(igniter, &1, component))
-  end
-
-  defp read_config(igniter, path, component) do
-    cond do
-      Igniter.exists?(igniter, path) -> read_virtual_config(igniter, path, component)
-      File.exists?(path) -> read_file_config(path, component)
-      true -> nil
-    end
-  end
-
-  defp read_virtual_config(igniter, path, component) do
-    case Rewrite.source(igniter.rewrite, path) do
-      {:ok, source} ->
-        content = Rewrite.Source.get(source, :content)
-        {config, _} = Code.eval_string(content)
-        Keyword.get(config, String.to_atom(component))
-
-      _ ->
-        nil
-    end
-  rescue
-    _ -> nil
-  end
-
-  defp read_file_config(path, component) do
-    config = Elixir.Config.Reader.read!(path)
-    Keyword.get(config, String.to_atom(component))
-  rescue
-    _ -> nil
   end
 
   defp show_removal_plan(plan, dry_run) do
@@ -699,7 +657,9 @@ defmodule Mix.Tasks.Mishka.Ui.Uninstall do
   defp filter_mishka_use(other), do: other
 
   defp maybe_remove_css(%{assigns: %{plan: %{remaining: r}}} = igniter) when r != [], do: igniter
-  defp maybe_remove_css(%{assigns: %{opts: %{all: false, include_css: false}}} = igniter), do: igniter
+
+  defp maybe_remove_css(%{assigns: %{opts: %{all: false, include_css: false}}} = igniter),
+    do: igniter
 
   defp maybe_remove_css(igniter) do
     path = "assets/vendor/mishka_chelekom.css"
@@ -729,8 +689,11 @@ defmodule Mix.Tasks.Mishka.Ui.Uninstall do
     end
   end
 
-  defp maybe_remove_config(%{assigns: %{plan: %{remaining: r}}} = igniter) when r != [], do: igniter
-  defp maybe_remove_config(%{assigns: %{opts: %{all: false, include_config: false}}} = igniter), do: igniter
+  defp maybe_remove_config(%{assigns: %{plan: %{remaining: r}}} = igniter) when r != [],
+    do: igniter
+
+  defp maybe_remove_config(%{assigns: %{opts: %{all: false, include_config: false}}} = igniter),
+    do: igniter
 
   defp maybe_remove_config(igniter) do
     path = "priv/mishka_chelekom/config.exs"

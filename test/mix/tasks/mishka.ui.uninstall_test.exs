@@ -532,5 +532,176 @@ defmodule Mix.Tasks.Mishka.Ui.UninstallTest do
       # Modal should NOT be removed
       refute "lib/test_web/components/modal.ex" in igniter.rms
     end
+
+    test "detects multiple components depending on the same component" do
+      # When icon is removed, button, modal, and alert all depend on it
+      igniter =
+        test_project_with_formatter()
+        |> Igniter.create_new_file("lib/test_web/components/icon.ex", """
+        defmodule TestWeb.Components.Icon do
+          use Phoenix.Component
+          def icon(assigns), do: ~H"<svg>Icon</svg>"
+        end
+        """)
+        |> Igniter.create_new_file("lib/test_web/components/button.ex", """
+        defmodule TestWeb.Components.Button do
+          use Phoenix.Component
+          def button(assigns), do: ~H"<button>Button</button>"
+        end
+        """)
+        |> Igniter.create_new_file("lib/test_web/components/modal.ex", """
+        defmodule TestWeb.Components.Modal do
+          use Phoenix.Component
+          def modal(assigns), do: ~H"<div>Modal</div>"
+        end
+        """)
+        |> Igniter.create_new_file("lib/test_web/components/alert.ex", """
+        defmodule TestWeb.Components.Alert do
+          use Phoenix.Component
+          def alert(assigns), do: ~H"<div>Alert</div>"
+        end
+        """)
+        |> Igniter.create_new_file("deps/mishka_chelekom/priv/components/icon.exs", """
+        [icon: [args: [], necessary: [], optional: [], scripts: []]]
+        """)
+        |> Igniter.create_new_file("deps/mishka_chelekom/priv/components/button.exs", """
+        [button: [args: [], necessary: ["icon"], optional: [], scripts: []]]
+        """)
+        |> Igniter.create_new_file("deps/mishka_chelekom/priv/components/modal.exs", """
+        [modal: [args: [], necessary: ["icon"], optional: [], scripts: []]]
+        """)
+        |> Igniter.create_new_file("deps/mishka_chelekom/priv/components/alert.exs", """
+        [alert: [args: [], necessary: ["icon"], optional: [], scripts: []]]
+        """)
+        |> Igniter.compose_task(Uninstall, ["icon", "--yes"])
+
+      # Should be blocked - multiple components depend on icon
+      assert igniter.issues != []
+      assert Enum.any?(igniter.issues, &String.contains?(&1, "Cannot remove components"))
+      # The error should mention button, modal, and alert
+      error_msg = Enum.join(igniter.issues, " ")
+
+      assert String.contains?(error_msg, "button") or String.contains?(error_msg, "modal") or
+               String.contains?(error_msg, "alert")
+    end
+
+    test "cascade removes dependent components when specified" do
+      # Removing icon,button,modal,alert together should work
+      igniter =
+        test_project_with_formatter()
+        |> Igniter.create_new_file("lib/test_web/components/icon.ex", """
+        defmodule TestWeb.Components.Icon do
+          use Phoenix.Component
+          def icon(assigns), do: ~H"<svg>Icon</svg>"
+        end
+        """)
+        |> Igniter.create_new_file("lib/test_web/components/button.ex", """
+        defmodule TestWeb.Components.Button do
+          use Phoenix.Component
+          def button(assigns), do: ~H"<button>Button</button>"
+        end
+        """)
+        |> Igniter.create_new_file("lib/test_web/components/modal.ex", """
+        defmodule TestWeb.Components.Modal do
+          use Phoenix.Component
+          def modal(assigns), do: ~H"<div>Modal</div>"
+        end
+        """)
+        |> Igniter.create_new_file("deps/mishka_chelekom/priv/components/icon.exs", """
+        [icon: [args: [], necessary: [], optional: [], scripts: []]]
+        """)
+        |> Igniter.create_new_file("deps/mishka_chelekom/priv/components/button.exs", """
+        [button: [args: [], necessary: ["icon"], optional: [], scripts: []]]
+        """)
+        |> Igniter.create_new_file("deps/mishka_chelekom/priv/components/modal.exs", """
+        [modal: [args: [], necessary: ["icon"], optional: [], scripts: []]]
+        """)
+        # Remove all together - no dependency issues
+        |> Igniter.compose_task(Uninstall, ["icon,button,modal", "--yes"])
+
+      # All should be removed
+      assert "lib/test_web/components/icon.ex" in igniter.rms
+      assert "lib/test_web/components/button.ex" in igniter.rms
+      assert "lib/test_web/components/modal.ex" in igniter.rms
+    end
+
+    test "detects nested dependencies (card -> alert -> icon)" do
+      # card depends on alert, alert depends on icon
+      # Removing icon should warn about alert (direct) and card will be warned when alert is cascade-removed
+      igniter =
+        test_project_with_formatter()
+        |> Igniter.create_new_file("lib/test_web/components/icon.ex", """
+        defmodule TestWeb.Components.Icon do
+          use Phoenix.Component
+          def icon(assigns), do: ~H"<svg>Icon</svg>"
+        end
+        """)
+        |> Igniter.create_new_file("lib/test_web/components/alert.ex", """
+        defmodule TestWeb.Components.Alert do
+          use Phoenix.Component
+          def alert(assigns), do: ~H"<div>Alert</div>"
+        end
+        """)
+        |> Igniter.create_new_file("lib/test_web/components/card.ex", """
+        defmodule TestWeb.Components.Card do
+          use Phoenix.Component
+          def card(assigns), do: ~H"<div>Card</div>"
+        end
+        """)
+        |> Igniter.create_new_file("deps/mishka_chelekom/priv/components/icon.exs", """
+        [icon: [args: [], necessary: [], optional: [], scripts: []]]
+        """)
+        |> Igniter.create_new_file("deps/mishka_chelekom/priv/components/alert.exs", """
+        [alert: [args: [], necessary: ["icon"], optional: [], scripts: []]]
+        """)
+        |> Igniter.create_new_file("deps/mishka_chelekom/priv/components/card.exs", """
+        [card: [args: [], necessary: ["alert"], optional: [], scripts: []]]
+        """)
+        |> Igniter.compose_task(Uninstall, ["icon", "--yes"])
+
+      # Should be blocked - alert depends on icon
+      assert igniter.issues != []
+      error_msg = Enum.join(igniter.issues, " ")
+      assert String.contains?(error_msg, "alert")
+    end
+
+    test "removes entire dependency chain when all specified" do
+      # card -> alert -> icon, removing all should work
+      igniter =
+        test_project_with_formatter()
+        |> Igniter.create_new_file("lib/test_web/components/icon.ex", """
+        defmodule TestWeb.Components.Icon do
+          use Phoenix.Component
+          def icon(assigns), do: ~H"<svg>Icon</svg>"
+        end
+        """)
+        |> Igniter.create_new_file("lib/test_web/components/alert.ex", """
+        defmodule TestWeb.Components.Alert do
+          use Phoenix.Component
+          def alert(assigns), do: ~H"<div>Alert</div>"
+        end
+        """)
+        |> Igniter.create_new_file("lib/test_web/components/card.ex", """
+        defmodule TestWeb.Components.Card do
+          use Phoenix.Component
+          def card(assigns), do: ~H"<div>Card</div>"
+        end
+        """)
+        |> Igniter.create_new_file("deps/mishka_chelekom/priv/components/icon.exs", """
+        [icon: [args: [], necessary: [], optional: [], scripts: []]]
+        """)
+        |> Igniter.create_new_file("deps/mishka_chelekom/priv/components/alert.exs", """
+        [alert: [args: [], necessary: ["icon"], optional: [], scripts: []]]
+        """)
+        |> Igniter.create_new_file("deps/mishka_chelekom/priv/components/card.exs", """
+        [card: [args: [], necessary: ["alert"], optional: [], scripts: []]]
+        """)
+        |> Igniter.compose_task(Uninstall, ["icon,alert,card", "--yes"])
+
+      # All should be removed
+      assert "lib/test_web/components/icon.ex" in igniter.rms
+      assert "lib/test_web/components/alert.ex" in igniter.rms
+      assert "lib/test_web/components/card.ex" in igniter.rms
+    end
   end
 end
