@@ -171,6 +171,122 @@ mix mishka.ui.gen.components --exclude carousel,gallery,sidebar --yes
 mix mishka.ui.gen.components --module-prefix ui_ --component-prefix ui_ --yes
 ```
 
+## mix mishka.ui.uninstall
+
+Removes installed Mishka Chelekom components from your project.
+
+### Basic Usage
+
+```bash
+# Remove a single component
+mix mishka.ui.uninstall accordion
+
+# Remove multiple components
+mix mishka.ui.uninstall accordion,button,alert
+
+# Remove all installed components
+mix mishka.ui.uninstall --all
+
+# Preview what will be removed (no changes made)
+mix mishka.ui.uninstall accordion --dry-run
+
+# Skip confirmation prompts
+mix mishka.ui.uninstall accordion --yes
+```
+
+### Available Options
+
+| Option | Alias | Description |
+|--------|-------|-------------|
+| `--all` | `-a` | Remove all installed Mishka components |
+| `--dry-run` | `-d` | Preview removal without making changes |
+| `--yes` | `-y` | Skip confirmation prompts |
+| `--force` | `-f` | Force removal even when other components depend on them |
+| `--keep-js` | - | Keep JavaScript files even if unused |
+| `--include-css` | - | Also remove CSS files (only with --all) |
+| `--include-config` | - | Also remove config file (only with --all) |
+| `--verbose` | `-V` | Show detailed output |
+
+### Component Dependencies
+
+Some components depend on other components (e.g., button uses icon). The uninstaller handles this:
+
+```bash
+# Interactive mode: asks if you want to also remove dependent components
+mix mishka.ui.uninstall icon
+# Shows: "The following components depend on 'icon': button, badge"
+# Offers: cascade removal or cancel
+
+# With --yes but no --force: blocks removal if dependencies exist
+mix mishka.ui.uninstall icon --yes
+# Error: Cannot remove components that other components depend on
+
+# Force removal regardless of dependencies
+mix mishka.ui.uninstall icon --yes --force
+# Removes icon, warns that button and badge may have issues
+```
+
+### JavaScript Hook Management
+
+The uninstaller intelligently handles shared JavaScript hooks:
+
+```bash
+# If accordion and collapse both use collapsible.js:
+mix mishka.ui.uninstall accordion --yes
+# Result: accordion.ex removed, collapsible.js KEPT (collapse still uses it)
+
+mix mishka.ui.uninstall collapse --yes
+# Result: collapse.ex removed, collapsible.js REMOVED (no component uses it)
+```
+
+Use `--keep-js` to preserve all JS files regardless:
+
+```bash
+mix mishka.ui.uninstall accordion --yes --keep-js
+```
+
+### Module Prefix Support
+
+If you used `module_prefix` when generating components, the uninstaller finds them automatically:
+
+```bash
+# Config has: module_prefix: "mishka_"
+# File is: lib/app_web/components/mishka_accordion.ex
+
+mix mishka.ui.uninstall accordion --yes
+# Correctly finds and removes mishka_accordion.ex
+```
+
+### Full Cleanup
+
+Using `--all` completely removes all Mishka Chelekom files:
+
+```bash
+mix mishka.ui.uninstall --all --yes
+```
+
+This removes:
+- All component files
+- `assets/vendor/mishka_components.js`
+- `assets/vendor/mishka_chelekom.css`
+- `priv/mishka_chelekom/config.exs`
+- Import from `mishka_components.ex`
+
+### Common Patterns
+
+```bash
+# Preview full uninstall
+mix mishka.ui.uninstall --all --dry-run
+
+# Remove specific components, keep JS
+mix mishka.ui.uninstall modal,drawer --yes --keep-js
+
+# Complete removal
+mix mishka.ui.uninstall --all --yes
+```
+
+---
+
 ## mix mishka.ui.add
 
 Imports components from external sources (community components, custom repos).

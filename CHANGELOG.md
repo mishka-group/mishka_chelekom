@@ -5,7 +5,8 @@
 - Add Components prefix name in CLI and config file [#454](https://github.com/mishka-group/mishka_chelekom/pull/454)
 - Add Module prefix name in CLI and config file [#459](https://github.com/mishka-group/mishka_chelekom/pull/459)
 - Add `--no-save` flag to control prefix config saving [#459](https://github.com/mishka-group/mishka_chelekom/pull/459)
-- Add Usage rules for all components and JS Hooks[#461](https://github.com/mishka-group/mishka_chelekom/pull/461)
+- Add Usage rules for all components and JS Hooks [#461](https://github.com/mishka-group/mishka_chelekom/pull/461)
+- Add uninstall Mix task and its tests [#464](https://github.com/mishka-group/mishka_chelekom/pull/464)
 
 ### Refactors:
 
