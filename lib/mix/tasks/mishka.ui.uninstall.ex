@@ -105,16 +105,13 @@ defmodule Mix.Tasks.Mishka.Ui.Uninstall do
     options = igniter.args.options
     %Igniter.Mix.Task.Args{positional: %{components: components_arg}} = igniter.args
 
-    # Print banner (skip in test environment)
     if !options[:dry_run] and Mix.env() != :test do
       print_banner()
     end
 
-    # Load user configuration
     user_config = Config.load_user_config(igniter)
     igniter = Igniter.assign(igniter, %{mishka_user_config: user_config})
 
-    # Determine which components to remove
     {igniter, components_to_remove} =
       cond do
         options[:all] ->
@@ -166,35 +163,27 @@ defmodule Mix.Tasks.Mishka.Ui.Uninstall do
     web_module = Igniter.Libs.Phoenix.web_module(igniter)
     module_prefix = user_config[:module_prefix]
 
-    # Get all known component names from the library
     known_components = get_all_known_component_names(igniter)
 
-    # Use Igniter to find all matching component modules
-    # This searches by module name pattern, not file path
     {igniter, matching_modules} =
       Igniter.Project.Module.find_all_matching_modules(igniter, fn module_name, _zipper ->
         module_parts = Module.split(module_name)
 
-        # Check if module is under WebModule.Components namespace
         web_parts = Module.split(web_module)
 
         case module_parts do
           parts when length(parts) > length(web_parts) ->
-            # Check if it starts with WebModule and has "Components" in the path
             prefix_matches = List.starts_with?(parts, web_parts)
 
             if prefix_matches do
-              # Get the part after web module
               remaining = Enum.drop(parts, length(web_parts))
 
-              # Check if it's a component (e.g., Components.Accordion or Components.MishkaAccordion)
               case remaining do
                 ["Components", component_module_name | _] ->
                   # Convert module name to component name
                   # e.g., "Accordion" -> "accordion", "MishkaAccordion" -> "mishka_accordion"
                   component_file_name = Macro.underscore(component_module_name)
 
-                  # Remove prefix if exists to get base component name
                   base_name =
                     if module_prefix && module_prefix != "" do
                       String.trim_leading(component_file_name, module_prefix)
@@ -202,7 +191,6 @@ defmodule Mix.Tasks.Mishka.Ui.Uninstall do
                       component_file_name
                     end
 
-                  # Check if this is a known Mishka component
                   base_name in known_components
 
                 _ ->
@@ -221,7 +209,6 @@ defmodule Mix.Tasks.Mishka.Ui.Uninstall do
     installed_components =
       matching_modules
       |> Enum.map(fn module_name ->
-        # Extract component name from module
         module_parts = Module.split(module_name)
         web_parts = Module.split(web_module)
         remaining = Enum.drop(module_parts, length(web_parts))
@@ -230,7 +217,6 @@ defmodule Mix.Tasks.Mishka.Ui.Uninstall do
           ["Components", component_module_name | _] ->
             component_file_name = Macro.underscore(component_module_name)
 
-            # Remove prefix to get base component name
             if module_prefix && module_prefix != "" do
               String.trim_leading(component_file_name, module_prefix)
             else
@@ -244,7 +230,6 @@ defmodule Mix.Tasks.Mishka.Ui.Uninstall do
       |> Enum.reject(&is_nil/1)
       |> Enum.uniq()
 
-    # Store the module mapping for later use (module -> file path)
     igniter = Igniter.assign(igniter, :mishka_component_modules, matching_modules)
 
     {igniter, installed_components}
@@ -295,7 +280,6 @@ defmodule Mix.Tasks.Mishka.Ui.Uninstall do
 
   # Main uninstall processing
   defp process_uninstall(igniter, components_to_remove, user_config, options) do
-    # Normalize options to proper booleans
     opts = %{
       verbose: options[:verbose] == true,
       dry_run: options[:dry_run] == true,
@@ -306,10 +290,8 @@ defmodule Mix.Tasks.Mishka.Ui.Uninstall do
       include_config: options[:include_config] == true
     }
 
-    # Build removal plan
     {igniter, removal_plan} = build_removal_plan(igniter, components_to_remove, user_config)
 
-    # Show removal plan (skip in test environment)
     if (opts.dry_run or opts.verbose or not opts.yes) and Mix.env() != :test do
       show_removal_plan(removal_plan, opts.dry_run)
     end
@@ -473,6 +455,8 @@ defmodule Mix.Tasks.Mishka.Ui.Uninstall do
   # Build the full module name for a component
   # e.g., TestWeb.Components.Accordion or TestWeb.Components.MishkaAccordion
   defp build_component_module_name(web_module, component, module_prefix) do
+    alias Mix.Tasks.Mishka.Ui.Gen.Component, as: GenComponent
+
     prefixed_name =
       if module_prefix && module_prefix != "" do
         "#{module_prefix}#{component}"
@@ -480,12 +464,8 @@ defmodule Mix.Tasks.Mishka.Ui.Uninstall do
         component
       end
 
-    # Convert snake_case to CamelCase for module name
-    module_suffix =
-      prefixed_name
-      |> String.split("_")
-      |> Enum.map(&String.capitalize/1)
-      |> Enum.join()
+    # Use existing function from GenComponent to convert to CamelCase
+    module_suffix = GenComponent.atom_to_module(prefixed_name)
 
     Module.concat([web_module, "Components", module_suffix])
   end
