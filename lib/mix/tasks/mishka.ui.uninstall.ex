@@ -18,35 +18,12 @@ defmodule Mix.Tasks.Mishka.Ui.Uninstall do
 
   ## Examples
 
-  Remove a single component:
-  ```bash
-  mix mishka.ui.uninstall accordion
-  ```
-
-  Remove multiple components:
-  ```bash
-  mix mishka.ui.uninstall accordion,button,alert
-  ```
-
-  Remove all installed components:
-  ```bash
-  mix mishka.ui.uninstall --all
-  ```
-
-  Preview what would be removed (dry-run):
-  ```bash
-  mix mishka.ui.uninstall accordion --dry-run
-  ```
-
-  Force removal without confirmation:
-  ```bash
-  mix mishka.ui.uninstall accordion --yes
-  ```
-
-  Remove component and its CSS (only when removing all):
-  ```bash
-  mix mishka.ui.uninstall --all --include-css
-  ```
+      mix mishka.ui.uninstall accordion
+      mix mishka.ui.uninstall accordion,button,alert
+      mix mishka.ui.uninstall --all
+      mix mishka.ui.uninstall accordion --dry-run
+      mix mishka.ui.uninstall accordion --yes
+      mix mishka.ui.uninstall --all --include-css --include-config --yes
 
   ## Options
 
@@ -57,12 +34,6 @@ defmodule Mix.Tasks.Mishka.Ui.Uninstall do
   * `--include-config` - Also remove the config file (only with --all)
   * `--keep-js` - Keep JavaScript files even if no components use them
   * `--verbose` or `-V` - Show detailed output of all operations
-
-  ## Notes
-
-  - JavaScript hooks are only removed when no other installed component uses them
-  - The import macro file (MishkaComponents) is updated to remove deleted component imports
-  - Component dependencies are NOT automatically removed (e.g., removing accordion won't remove icon)
   """
 
   use Igniter.Mix.Task
@@ -98,16 +69,13 @@ defmodule Mix.Tasks.Mishka.Ui.Uninstall do
 
   def igniter(igniter) do
     %{options: options, positional: %{components: components_arg}} = igniter.args
-    opts = build_opts(options)
-
-    if !opts.dry_run && Mix.env() != :test, do: print_banner()
-
-    user_config = Config.load_user_config(igniter)
-    igniter = Igniter.assign(igniter, %{mishka_user_config: user_config})
 
     igniter
-    |> parse_components(components_arg, opts, user_config)
-    |> handle_uninstall(user_config, opts)
+    |> Igniter.assign(:opts, build_opts(options))
+    |> Igniter.assign(:user_config, Config.load_user_config(igniter))
+    |> tap(fn _ -> if !options[:dry_run] && Mix.env() != :test, do: print_banner() end)
+    |> parse_components(components_arg)
+    |> handle_uninstall()
   end
 
   defp build_opts(options) do
@@ -122,30 +90,31 @@ defmodule Mix.Tasks.Mishka.Ui.Uninstall do
     }
   end
 
-  defp parse_components(igniter, _arg, %{all: true}, user_config),
-    do: find_all_installed_components(igniter, user_config)
+  defp parse_components(%{assigns: %{opts: %{all: true}}} = igniter, _arg),
+    do: find_all_installed_components(igniter)
 
-  defp parse_components(igniter, arg, _opts, _config) when is_binary(arg) and arg != "",
-    do: {igniter, String.split(arg, ",", trim: true)}
+  defp parse_components(igniter, arg) when is_binary(arg) and arg != "",
+    do: Igniter.assign(igniter, :components, String.split(arg, ",", trim: true))
 
-  defp parse_components(igniter, _arg, _opts, _config) do
-    {Igniter.add_issue(igniter, """
-     Please specify components to uninstall or use --all flag.
+  defp parse_components(igniter, _arg) do
+    Igniter.add_issue(igniter, """
+    Please specify components to uninstall or use --all flag.
 
-     Examples:
-       mix mishka.ui.uninstall accordion
-       mix mishka.ui.uninstall accordion,button,alert
-       mix mishka.ui.uninstall --all
-     """), []}
+    Examples:
+      mix mishka.ui.uninstall accordion
+      mix mishka.ui.uninstall accordion,button,alert
+      mix mishka.ui.uninstall --all
+    """)
   end
 
-  defp handle_uninstall({%{issues: issues} = igniter, _}, _, _) when issues != [], do: igniter
+  defp handle_uninstall(%{issues: issues} = igniter) when issues != [], do: igniter
 
-  defp handle_uninstall({igniter, []}, _, _),
+  defp handle_uninstall(%{assigns: %{components: []}} = igniter),
     do: Igniter.add_notice(igniter, "No Mishka components found to uninstall.")
 
-  defp handle_uninstall({igniter, components}, user_config, opts),
-    do: process_uninstall(igniter, components, user_config, opts)
+  defp handle_uninstall(%{assigns: %{components: nil}} = igniter), do: igniter
+
+  defp handle_uninstall(igniter), do: process_uninstall(igniter)
 
   defp print_banner do
     """
@@ -160,11 +129,12 @@ defmodule Mix.Tasks.Mishka.Ui.Uninstall do
     |> then(&IO.puts(IO.ANSI.magenta() <> &1 <> IO.ANSI.reset()))
   end
 
-  defp find_all_installed_components(igniter, user_config) do
+  defp find_all_installed_components(igniter) do
     web_module = Igniter.Libs.Phoenix.web_module(igniter)
     web_parts = Module.split(web_module)
+    user_config = igniter.assigns.user_config
     module_prefix = user_config[:module_prefix]
-    known = get_all_known_component_names(igniter)
+    known = get_known_component_names(igniter)
 
     {igniter, modules} =
       Igniter.Project.Module.find_all_matching_modules(igniter, fn module, _zipper ->
@@ -177,7 +147,7 @@ defmodule Mix.Tasks.Mishka.Ui.Uninstall do
       |> Enum.reject(&is_nil/1)
       |> Enum.uniq()
 
-    {Igniter.assign(igniter, :mishka_component_modules, modules), components}
+    Igniter.assign(igniter, :components, components)
   end
 
   defp mishka_component?(module, web_parts, module_prefix, known) do
@@ -204,7 +174,7 @@ defmodule Mix.Tasks.Mishka.Ui.Uninstall do
 
   defp strip_prefix(name, _), do: name
 
-  defp get_all_known_component_names(igniter) do
+  defp get_known_component_names(igniter) do
     paths = component_search_paths(igniter)
 
     real =
@@ -230,35 +200,29 @@ defmodule Mix.Tasks.Mishka.Ui.Uninstall do
     ]
   end
 
-  defp list_component_files(path) do
-    if File.dir?(path), do: Path.wildcard(Path.join(path, "*.exs")), else: []
-  end
+  defp list_component_files(path),
+    do: if(File.dir?(path), do: Path.wildcard(Path.join(path, "*.exs")), else: [])
 
   defp component_source?(source, paths) do
     path = Rewrite.Source.get(source, :path)
     String.ends_with?(path, ".exs") and Enum.any?(paths, &String.starts_with?(path, &1))
   end
 
-  defp process_uninstall(igniter, components, user_config, opts) do
-    {igniter, plan} = build_removal_plan(igniter, components, user_config)
+  defp process_uninstall(igniter) do
+    igniter
+    |> build_removal_plan()
+    |> maybe_show_plan()
+    |> execute_or_cancel()
+  end
 
-    if should_show_plan?(opts), do: show_removal_plan(plan, opts.dry_run)
+  defp maybe_show_plan(igniter) do
+    %{opts: opts, plan: plan} = igniter.assigns
 
-    if should_proceed?(opts) do
-      igniter
-      |> remove_component_files(plan, opts)
-      |> remove_js_files(plan, opts)
-      |> update_mishka_components_js(plan, opts)
-      |> maybe_remove_mishka_components_js(plan, opts)
-      |> update_app_js(plan, opts)
-      |> update_import_macro(plan, user_config, opts)
-      |> maybe_cleanup_global_import(plan)
-      |> maybe_remove_css(plan, opts)
-      |> maybe_remove_config(opts)
-      |> add_completion_notice(plan, opts)
-    else
-      add_cancel_notice(igniter, opts)
+    if should_show_plan?(opts) do
+      show_removal_plan(plan, opts.dry_run)
     end
+
+    igniter
   end
 
   defp should_show_plan?(%{dry_run: true}), do: Mix.env() != :test
@@ -266,11 +230,29 @@ defmodule Mix.Tasks.Mishka.Ui.Uninstall do
   defp should_show_plan?(%{yes: false}), do: Mix.env() != :test
   defp should_show_plan?(_), do: false
 
+  defp execute_or_cancel(igniter) do
+    if should_proceed?(igniter.assigns.opts) do
+      igniter
+      |> remove_component_files()
+      |> remove_js_files()
+      |> update_mishka_components_js()
+      |> maybe_remove_mishka_components_js()
+      |> update_app_js()
+      |> update_import_macro()
+      |> maybe_cleanup_global_import()
+      |> maybe_remove_css()
+      |> maybe_remove_config()
+      |> add_completion_notice()
+    else
+      add_cancel_notice(igniter)
+    end
+  end
+
   defp should_proceed?(%{dry_run: true}), do: false
   defp should_proceed?(%{yes: true}), do: true
   defp should_proceed?(_), do: Mix.env() == :test or confirm_removal()
 
-  defp add_cancel_notice(igniter, %{dry_run: true}) do
+  defp add_cancel_notice(%{assigns: %{opts: %{dry_run: true}}} = igniter) do
     Igniter.add_notice(igniter, """
 
     Dry-run complete. No files were modified.
@@ -278,14 +260,15 @@ defmodule Mix.Tasks.Mishka.Ui.Uninstall do
     """)
   end
 
-  defp add_cancel_notice(igniter, _), do: Igniter.add_notice(igniter, "Uninstall cancelled.")
+  defp add_cancel_notice(igniter), do: Igniter.add_notice(igniter, "Uninstall cancelled.")
 
-  defp build_removal_plan(igniter, components, user_config) do
+  defp build_removal_plan(igniter) do
+    %{components: components, user_config: user_config} = igniter.assigns
     web_module = Igniter.Libs.Phoenix.web_module(igniter)
     module_prefix = user_config[:module_prefix]
 
     configs = Map.new(components, &{&1, get_component_config(igniter, &1)})
-    {igniter, all_installed} = find_all_installed_components(igniter, user_config)
+    {igniter, all_installed} = get_all_installed(igniter)
     remaining = all_installed -- components
 
     js_to_consider = extract_js_files(configs)
@@ -301,17 +284,38 @@ defmodule Mix.Tasks.Mishka.Ui.Uninstall do
     plan = %{
       components: components,
       component_files: component_files,
-      component_configs: configs,
-      js_files_to_remove: js_to_remove,
-      js_files_preserved: js_to_consider -- js_to_remove,
+      configs: configs,
+      js_to_remove: js_to_remove,
+      js_preserved: js_to_consider -- js_to_remove,
       js_modules_to_remove: extract_js_modules(configs, js_to_remove),
-      remaining_components: remaining,
-      dependency_warnings: find_dependency_warnings(igniter, remaining, components),
+      remaining: remaining,
+      warnings: find_dependency_warnings(igniter, remaining, components),
       web_module: web_module,
       module_prefix: module_prefix
     }
 
-    {igniter, plan}
+    Igniter.assign(igniter, :plan, plan)
+  end
+
+  defp get_all_installed(igniter) do
+    web_module = Igniter.Libs.Phoenix.web_module(igniter)
+    web_parts = Module.split(web_module)
+    user_config = igniter.assigns.user_config
+    module_prefix = user_config[:module_prefix]
+    known = get_known_component_names(igniter)
+
+    {igniter, modules} =
+      Igniter.Project.Module.find_all_matching_modules(igniter, fn module, _zipper ->
+        mishka_component?(module, web_parts, module_prefix, known)
+      end)
+
+    components =
+      modules
+      |> Enum.map(&extract_component_name(&1, web_parts, module_prefix))
+      |> Enum.reject(&is_nil/1)
+      |> Enum.uniq()
+
+    {igniter, components}
   end
 
   defp extract_js_files(configs) do
@@ -417,24 +421,17 @@ defmodule Mix.Tasks.Mishka.Ui.Uninstall do
     IO.puts("#{IO.ANSI.bright()}Components to remove:#{IO.ANSI.reset()}")
 
     Enum.each(plan.component_files, &print_component_status/1)
-
-    print_js_section("JavaScript files to remove:", plan.js_files_to_remove, IO.ANSI.red())
-
-    print_js_section(
-      "JavaScript files preserved (used by other components):",
-      plan.js_files_preserved,
-      IO.ANSI.green()
-    )
-
-    print_warnings(plan.dependency_warnings)
-    print_remaining(plan.remaining_components)
+    print_js_section("JavaScript files to remove:", plan.js_to_remove, IO.ANSI.red())
+    print_js_section("JavaScript files preserved:", plan.js_preserved, IO.ANSI.green())
+    print_warnings(plan.warnings)
+    print_remaining(plan.remaining)
 
     IO.puts("")
   end
 
   defp print_component_status({component, path, exists?, module}) do
     status = if exists?, do: IO.ANSI.green() <> "✓", else: IO.ANSI.red() <> "✗ (not found)"
-    IO.puts("  #{status} #{component}#{IO.ANSI.reset()} - #{path || "unknown location"}")
+    IO.puts("  #{status} #{component}#{IO.ANSI.reset()} - #{path || "unknown"}")
     IO.puts("    Module: #{inspect(module)}")
   end
 
@@ -449,24 +446,18 @@ defmodule Mix.Tasks.Mishka.Ui.Uninstall do
 
   defp print_warnings(warnings) do
     IO.puts(
-      "\n#{IO.ANSI.yellow()}#{IO.ANSI.bright()}⚠ Warning: The following components depend on components being removed:#{IO.ANSI.reset()}"
+      "\n#{IO.ANSI.yellow()}#{IO.ANSI.bright()}⚠ Warning: Components depend on removed items:#{IO.ANSI.reset()}"
     )
 
     Enum.each(warnings, fn {component, deps} ->
-      IO.puts(
-        "  #{IO.ANSI.yellow()}• #{component} depends on: #{Enum.join(deps, ", ")}#{IO.ANSI.reset()}"
-      )
+      IO.puts("  #{IO.ANSI.yellow()}• #{component} → #{Enum.join(deps, ", ")}#{IO.ANSI.reset()}")
     end)
-
-    IO.puts(
-      "  #{IO.ANSI.yellow()}These components may not work correctly after removal.#{IO.ANSI.reset()}"
-    )
   end
 
   defp print_remaining([]), do: :ok
 
   defp print_remaining(components) do
-    IO.puts("\n#{IO.ANSI.bright()}Components that will remain installed:#{IO.ANSI.reset()}")
+    IO.puts("\n#{IO.ANSI.bright()}Remaining components:#{IO.ANSI.reset()}")
     IO.puts("  #{IO.ANSI.cyan()}#{Enum.join(components, ", ")}#{IO.ANSI.reset()}")
   end
 
@@ -482,30 +473,28 @@ defmodule Mix.Tasks.Mishka.Ui.Uninstall do
     |> then(&(&1 in ["yes", "y"]))
   end
 
-  defp remove_component_files(igniter, plan, opts) do
-    Enum.reduce(plan.component_files, igniter, fn file_info, acc ->
-      do_remove_component(acc, file_info, opts)
-    end)
+  defp remove_component_files(igniter) do
+    Enum.reduce(igniter.assigns.plan.component_files, igniter, &do_remove_component/2)
   end
 
-  defp do_remove_component(igniter, {_, path, true, module}, opts) when not is_nil(path) do
-    verbose_log(opts, "  Removing: #{path} (#{inspect(module)})")
+  defp do_remove_component({_, path, true, module}, igniter) when not is_nil(path) do
+    verbose_log(igniter, "  Removing: #{path} (#{inspect(module)})")
     Igniter.rm(igniter, path)
   end
 
-  defp do_remove_component(igniter, {_, path, false, module}, opts) do
-    verbose_log(opts, "  Skipping (not found): #{path || "unknown"} (#{inspect(module)})")
+  defp do_remove_component({_, path, false, module}, igniter) do
+    verbose_log(igniter, "  Skipping (not found): #{path || "unknown"} (#{inspect(module)})")
     igniter
   end
 
-  defp remove_js_files(igniter, _plan, %{keep_js: true}), do: igniter
+  defp remove_js_files(%{assigns: %{opts: %{keep_js: true}}} = igniter), do: igniter
 
-  defp remove_js_files(igniter, plan, opts) do
-    Enum.reduce(plan.js_files_to_remove, igniter, fn file, acc ->
+  defp remove_js_files(igniter) do
+    Enum.reduce(igniter.assigns.plan.js_to_remove, igniter, fn file, acc ->
       path = "assets/vendor/#{file}"
 
       if Igniter.exists?(acc, path) do
-        verbose_log(opts, "  Removing JS: #{path}")
+        verbose_log(acc, "  Removing JS: #{path}")
         Igniter.rm(acc, path)
       else
         acc
@@ -513,62 +502,60 @@ defmodule Mix.Tasks.Mishka.Ui.Uninstall do
     end)
   end
 
-  defp update_mishka_components_js(igniter, _plan, %{keep_js: true}), do: igniter
-  defp update_mishka_components_js(igniter, %{js_modules_to_remove: []}, _opts), do: igniter
+  defp update_mishka_components_js(%{assigns: %{opts: %{keep_js: true}}} = igniter), do: igniter
 
-  defp update_mishka_components_js(igniter, plan, opts) do
+  defp update_mishka_components_js(%{assigns: %{plan: %{js_modules_to_remove: []}}} = igniter),
+    do: igniter
+
+  defp update_mishka_components_js(igniter) do
     path = "assets/vendor/mishka_components.js"
 
     if Igniter.exists?(igniter, path) do
-      verbose_log(opts, "  Updating: #{path}")
-      update_js_file(igniter, path, &remove_js_modules(&1, plan.js_modules_to_remove))
+      verbose_log(igniter, "  Updating: #{path}")
+      modules = Enum.map(igniter.assigns.plan.js_modules_to_remove, fn {m, _, _} -> m end)
+      update_js_file(igniter, path, &remove_modules_from_js(&1, modules))
     else
       igniter
     end
   end
 
-  defp remove_js_modules(content, modules) do
-    modules
-    |> Enum.map(fn {module, _, _} -> module end)
-    |> Enum.reduce(content, &remove_module_from_js/2)
+  defp remove_modules_from_js(content, modules) do
+    Enum.reduce(modules, content, fn module, acc ->
+      acc
+      |> then(&with_js_result(JsParser.remove_imports(&1, module, :content), &1))
+      |> then(&with_js_result(JsParser.remove_objects_from_hooks(&1, [module], :content), &1))
+    end)
   end
 
-  defp remove_module_from_js(module, content) do
-    content
-    |> then(&with_js_result(JsParser.remove_imports(&1, module, :content), &1))
-    |> then(&with_js_result(JsParser.remove_objects_from_hooks(&1, [module], :content), &1))
-  end
-
-  defp with_js_result({:ok, _, updated}, _fallback), do: updated
+  defp with_js_result({:ok, _, updated}, _), do: updated
   defp with_js_result(_, fallback), do: fallback
 
-  defp update_app_js(igniter, %{remaining_components: remaining}, _opts) when remaining != [],
-    do: igniter
+  defp update_app_js(%{assigns: %{plan: %{remaining: r}}} = igniter) when r != [], do: igniter
+  defp update_app_js(%{assigns: %{opts: %{keep_js: true}}} = igniter), do: igniter
 
-  defp update_app_js(igniter, _plan, %{keep_js: true}), do: igniter
-
-  defp update_app_js(igniter, _plan, opts) do
+  defp update_app_js(igniter) do
     path = "assets/js/app.js"
 
     if Igniter.exists?(igniter, path) do
-      verbose_log(opts, "  Cleaning up: #{path}")
-      update_js_file(igniter, path, &remove_module_from_js("MishkaComponents", &1))
+      verbose_log(igniter, "  Cleaning up: #{path}")
+      update_js_file(igniter, path, &remove_modules_from_js(&1, ["MishkaComponents"]))
     else
       igniter
     end
   end
 
-  defp maybe_remove_mishka_components_js(igniter, %{remaining_components: remaining}, _)
-       when remaining != [],
+  defp maybe_remove_mishka_components_js(%{assigns: %{plan: %{remaining: r}}} = igniter)
+       when r != [],
        do: igniter
 
-  defp maybe_remove_mishka_components_js(igniter, _plan, %{keep_js: true}), do: igniter
+  defp maybe_remove_mishka_components_js(%{assigns: %{opts: %{keep_js: true}}} = igniter),
+    do: igniter
 
-  defp maybe_remove_mishka_components_js(igniter, _plan, opts) do
+  defp maybe_remove_mishka_components_js(igniter) do
     path = "assets/vendor/mishka_components.js"
 
     if Igniter.exists?(igniter, path) do
-      verbose_log(opts, "  Removing: #{path}")
+      verbose_log(igniter, "  Removing: #{path}")
       Igniter.rm(igniter, path)
     else
       igniter
@@ -586,12 +573,13 @@ defmodule Mix.Tasks.Mishka.Ui.Uninstall do
     end)
   end
 
-  defp update_import_macro(igniter, plan, user_config, opts) do
+  defp update_import_macro(igniter) do
+    %{plan: plan, user_config: user_config} = igniter.assigns
     web_module = Igniter.Libs.Phoenix.web_module(igniter)
     path = get_mishka_components_path(igniter, web_module)
 
     if Igniter.exists?(igniter, path) do
-      verbose_log(opts, "  Updating import macro: #{path}")
+      verbose_log(igniter, "  Updating import macro: #{path}")
       do_update_import_macro(igniter, path, plan, user_config[:module_prefix], web_module)
     else
       igniter
@@ -603,7 +591,7 @@ defmodule Mix.Tasks.Mishka.Ui.Uninstall do
     |> then(&Igniter.Project.Module.proper_location(igniter, &1))
   end
 
-  defp do_update_import_macro(igniter, path, %{remaining_components: []}, _, _),
+  defp do_update_import_macro(igniter, path, %{remaining: []}, _, _),
     do: Igniter.rm(igniter, path)
 
   defp do_update_import_macro(igniter, path, plan, module_prefix, web_module) do
@@ -631,11 +619,11 @@ defmodule Mix.Tasks.Mishka.Ui.Uninstall do
     |> String.replace(~r/\n{3,}/, "\n\n")
   end
 
-  defp maybe_cleanup_global_import(igniter, %{remaining_components: remaining})
-       when remaining != [],
+  defp maybe_cleanup_global_import(%{assigns: %{plan: %{remaining: r}}} = igniter)
+       when r != [],
        do: igniter
 
-  defp maybe_cleanup_global_import(igniter, _plan) do
+  defp maybe_cleanup_global_import(igniter) do
     web_module = Igniter.Libs.Phoenix.web_module(igniter)
 
     case Igniter.Project.Module.find_and_update_module(
@@ -670,15 +658,15 @@ defmodule Mix.Tasks.Mishka.Ui.Uninstall do
 
   defp filter_mishka_use(other), do: other
 
-  defp maybe_remove_css(igniter, _, %{all: false}), do: igniter
-  defp maybe_remove_css(igniter, _, %{include_css: false}), do: igniter
-  defp maybe_remove_css(igniter, %{remaining_components: r}, _) when r != [], do: igniter
+  defp maybe_remove_css(%{assigns: %{opts: %{all: false}}} = igniter), do: igniter
+  defp maybe_remove_css(%{assigns: %{opts: %{include_css: false}}} = igniter), do: igniter
+  defp maybe_remove_css(%{assigns: %{plan: %{remaining: r}}} = igniter) when r != [], do: igniter
 
-  defp maybe_remove_css(igniter, _plan, opts) do
+  defp maybe_remove_css(igniter) do
     path = "assets/vendor/mishka_chelekom.css"
 
     if Igniter.exists?(igniter, path) do
-      verbose_log(opts, "  Removing CSS: #{path}")
+      verbose_log(igniter, "  Removing CSS: #{path}")
       igniter |> Igniter.rm(path) |> clean_app_css()
     else
       igniter
@@ -702,14 +690,14 @@ defmodule Mix.Tasks.Mishka.Ui.Uninstall do
     end
   end
 
-  defp maybe_remove_config(igniter, %{all: false}), do: igniter
-  defp maybe_remove_config(igniter, %{include_config: false}), do: igniter
+  defp maybe_remove_config(%{assigns: %{opts: %{all: false}}} = igniter), do: igniter
+  defp maybe_remove_config(%{assigns: %{opts: %{include_config: false}}} = igniter), do: igniter
 
-  defp maybe_remove_config(igniter, opts) do
+  defp maybe_remove_config(igniter) do
     path = "priv/mishka_chelekom/config.exs"
 
     if Igniter.exists?(igniter, path) do
-      verbose_log(opts, "  Removing config: #{path}")
+      verbose_log(igniter, "  Removing config: #{path}")
       igniter |> Igniter.rm(path) |> remove_empty_priv_dir()
     else
       igniter
@@ -719,56 +707,40 @@ defmodule Mix.Tasks.Mishka.Ui.Uninstall do
   defp remove_empty_priv_dir(igniter) do
     dir = "priv/mishka_chelekom"
 
-    with true <- File.dir?(dir), {:ok, []} <- File.ls(dir) do
+    with true <- File.dir?(dir),
+         {:ok, []} <- File.ls(dir) do
       File.rmdir(dir)
     end
 
     igniter
   end
 
-  defp add_completion_notice(igniter, plan, opts) do
-    stats = build_stats(plan, opts)
+  defp add_completion_notice(igniter) do
+    %{plan: plan, opts: opts} = igniter.assigns
+
+    stats = %{
+      removed: length(plan.component_files),
+      js_removed: length(plan.js_to_remove),
+      preserved: if(plan.js_preserved != [], do: "\nJS preserved: #{length(plan.js_preserved)}"),
+      css: if(opts.all && opts.include_css && plan.remaining == [], do: "\nCSS removed"),
+      config: if(opts.all && opts.include_config, do: "\nConfig removed"),
+      remaining: if(plan.remaining != [], do: "\nRemaining: #{length(plan.remaining)}")
+    }
 
     Igniter.add_notice(igniter, """
     Uninstall complete!
 
     Components removed: #{stats.removed}
-    JavaScript files removed: #{stats.js_removed}#{stats.preserved}#{stats.css}#{stats.config}#{stats.remaining}
+    JS files removed: #{stats.js_removed}#{stats.preserved}#{stats.css}#{stats.config}#{stats.remaining}
 
-    #{stats.completion}
+    #{if plan.remaining == [], do: "All Mishka components removed.", else: "Run --all to remove everything."}
     """)
   end
 
-  defp build_stats(plan, opts) do
-    %{
-      removed: length(plan.component_files),
-      js_removed: length(plan.js_files_to_remove),
-      preserved: stat_line(plan.js_files_preserved, "JavaScript files preserved (still in use)"),
-      css:
-        stat_flag(
-          opts.all and opts.include_css and plan.remaining_components == [],
-          "CSS files removed"
-        ),
-      config: stat_flag(opts.all and opts.include_config, "Configuration file removed"),
-      remaining: stat_line(plan.remaining_components, "Remaining installed components"),
-      completion: completion_text(plan.remaining_components)
-    }
+  defp verbose_log(%{assigns: %{opts: %{verbose: true}}}, msg) do
+    if Mix.env() != :test, do: IO.puts(msg)
   end
 
-  defp stat_line([], _), do: ""
-  defp stat_line(list, label), do: "\n#{label}: #{length(list)}"
-
-  defp stat_flag(true, label), do: "\n#{label}"
-  defp stat_flag(false, _), do: ""
-
-  defp completion_text([]),
-    do: "All Mishka components have been removed from your project."
-
-  defp completion_text(_),
-    do:
-      "Some components remain installed. Run 'mix mishka.ui.uninstall --all' to remove everything."
-
-  defp verbose_log(%{verbose: true}, msg), do: if(Mix.env() != :test, do: IO.puts(msg))
   defp verbose_log(_, _), do: :ok
 
   def supports_umbrella?(), do: false
