@@ -87,13 +87,12 @@ defmodule Mix.Tasks.Mishka.Ui.Uninstall do
       schema: [
         all: :boolean,
         dry_run: :boolean,
-        yes: :boolean,
         include_css: :boolean,
         include_config: :boolean,
         keep_js: :boolean,
         verbose: :boolean
       ],
-      aliases: [a: :all, d: :dry_run, y: :yes, V: :verbose]
+      aliases: [a: :all, d: :dry_run, V: :verbose]
     }
   end
 
