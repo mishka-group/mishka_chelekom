@@ -589,32 +589,73 @@ defmodule Mix.Tasks.Mishka.Ui.Uninstall do
     |> then(&Igniter.Project.Module.proper_location(igniter, &1))
   end
 
-  defp do_update_import_macro(igniter, path, %{remaining: []}, _, _),
-    do: Igniter.rm(igniter, path)
-
-  defp do_update_import_macro(igniter, path, plan, module_prefix, web_module) do
-    Igniter.update_file(igniter, path, fn source ->
-      content =
-        Enum.reduce(plan.components, Rewrite.Source.get(source, :content), fn component, acc ->
-          remove_component_import(acc, component, module_prefix, web_module)
-        end)
-
-      Rewrite.Source.update(source, :content, content)
-    end)
+  defp do_update_import_macro(igniter, path, %{remaining: []}, _, _) do
+    Igniter.rm(igniter, path)
   end
 
-  defp remove_component_import(content, component, prefix, web_module) do
-    name = if prefix && prefix != "", do: "#{prefix}#{component}", else: component
+  defp do_update_import_macro(igniter, _path, plan, module_prefix, web_module) do
+    modules_to_remove =
+      Enum.map(plan.components, fn component ->
+        build_module_name(web_module, component, module_prefix)
+      end)
 
-    module =
-      name
-      |> String.split("_")
-      |> Enum.map(&String.capitalize/1)
-      |> Enum.join()
+    Igniter.Project.Module.find_and_update_module!(
+      igniter,
+      Module.concat([web_module, "Components", "MishkaComponents"]),
+      fn zipper ->
+        remove_imports_from_using(zipper, modules_to_remove)
+      end
+    )
+  end
 
-    content
-    |> String.replace(~r/\s*import\s+#{inspect(web_module)}\.Components\.#{module}[^\n]*\n/, "\n")
-    |> String.replace(~r/\n{3,}/, "\n\n")
+  defp remove_imports_from_using(zipper, modules_to_remove) do
+    # Find the quote block inside __using__ macro
+    case find_quote_block(zipper) do
+      {:ok, quote_zipper} ->
+        new_zipper = remove_import_nodes(quote_zipper, modules_to_remove)
+        {:ok, new_zipper}
+
+      :error ->
+        {:ok, zipper}
+    end
+  end
+
+  defp find_quote_block(zipper) do
+    # Search for the quote block in the AST
+    case Sourceror.Zipper.find(zipper, fn node ->
+           match?({:quote, _, [[{_, {:__block__, _, _}}]]}, node)
+         end) do
+      nil -> :error
+      found -> {:ok, found}
+    end
+  end
+
+  defp remove_import_nodes(zipper, modules_to_remove) do
+    # Filter out import statements that match our modules
+    case zipper.node do
+      {:quote, quote_meta, [[{block_key, {:__block__, block_meta, statements}}]]} ->
+        filtered_statements =
+          Enum.reject(statements, fn
+            {:import, _, [{:__aliases__, _, module_parts} | _]} ->
+              module = Module.concat(module_parts)
+              module in modules_to_remove
+
+            {:import, _, [{:__MODULE__, _, _}, {:__aliases__, _, module_parts} | _]} ->
+              module = Module.concat(module_parts)
+              module in modules_to_remove
+
+            _ ->
+              false
+          end)
+
+        new_node =
+          {:quote, quote_meta, [[{block_key, {:__block__, block_meta, filtered_statements}}]]}
+
+        Igniter.Code.Common.replace_code(zipper, new_node)
+
+      _ ->
+        zipper
+    end
   end
 
   defp maybe_cleanup_global_import(%{assigns: %{plan: %{remaining: r}}} = igniter)
