@@ -752,7 +752,14 @@ defmodule Mix.Tasks.Mishka.Ui.Uninstall do
         content =
           source
           |> Rewrite.Source.get(:content)
+          # Remove @import for mishka_chelekom.css
           |> String.replace(~r/@import\s+["']\.\.\/vendor\/mishka_chelekom\.css["'];?\n?/, "")
+          # Remove @theme block added by Mishka (matches @theme { ... } including multiline)
+          |> String.replace(~r/\n*@theme\s*\{[^}]*\}\n*/s, "\n")
+          # Clean up multiple blank lines
+          |> String.replace(~r/\n{3,}/, "\n\n")
+          |> String.trim()
+          |> Kernel.<>("\n")
 
         Rewrite.Source.update(source, :content, content)
       end)

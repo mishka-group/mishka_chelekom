@@ -421,6 +421,89 @@ defmodule Mix.Tasks.Mishka.Ui.UninstallTest do
       # CSS should NOT be removed without --include-css
       refute "assets/vendor/mishka_chelekom.css" in igniter.rms
     end
+
+    test "removes @import and @theme block from app.css when CSS is removed" do
+      igniter =
+        test_project_with_formatter()
+        |> Igniter.create_new_file("lib/test_web/components/button.ex", """
+        defmodule TestWeb.Components.Button do
+          use Phoenix.Component
+          def button(assigns), do: ~H"<button>Button</button>"
+        end
+        """)
+        |> Igniter.create_new_file("assets/vendor/mishka_chelekom.css", """
+        /* Mishka Chelekom styles */
+        """)
+        |> Igniter.create_new_file("assets/css/app.css", """
+        @import "tailwindcss";
+        @import "../vendor/mishka_chelekom.css";
+
+        @theme {
+          --color-primary: blue;
+          --color-secondary: green;
+        }
+
+        .my-custom-class {
+          color: red;
+        }
+        """)
+        |> Igniter.compose_task(Uninstall, ["button", "--yes", "--all"])
+
+      # CSS file should be removed
+      assert "assets/vendor/mishka_chelekom.css" in igniter.rms
+
+      # app.css should have @import and @theme removed but keep other content
+      {_, source} = Rewrite.source(igniter.rewrite, "assets/css/app.css")
+      content = Rewrite.Source.get(source, :content)
+
+      refute content =~ "@import \"../vendor/mishka_chelekom.css\""
+      refute content =~ "@theme"
+      refute content =~ "--color-primary"
+      # Should keep other content
+      assert content =~ "@import \"tailwindcss\""
+      assert content =~ ".my-custom-class"
+    end
+
+    test "removes multiline @theme block from app.css" do
+      igniter =
+        test_project_with_formatter()
+        |> Igniter.create_new_file("lib/test_web/components/button.ex", """
+        defmodule TestWeb.Components.Button do
+          use Phoenix.Component
+          def button(assigns), do: ~H"<button>Button</button>"
+        end
+        """)
+        |> Igniter.create_new_file("assets/vendor/mishka_chelekom.css", "")
+        |> Igniter.create_new_file("assets/css/app.css", """
+        @import "tailwindcss";
+        @import "../vendor/mishka_chelekom.css";
+
+        @theme {
+          --color-primary: oklch(0.6 0.118 184);
+          --color-secondary: oklch(0.7 0.1 200);
+          --spacing-sm: 0.5rem;
+          --spacing-md: 1rem;
+          --spacing-lg: 2rem;
+        }
+
+        body {
+          font-family: sans-serif;
+        }
+        """)
+        |> Igniter.compose_task(Uninstall, ["button", "--yes", "--all"])
+
+      {_, source} = Rewrite.source(igniter.rewrite, "assets/css/app.css")
+      content = Rewrite.Source.get(source, :content)
+
+      # @theme block should be completely removed
+      refute content =~ "@theme"
+      refute content =~ "--color-primary"
+      refute content =~ "--spacing-sm"
+      # Other content preserved
+      assert content =~ "@import \"tailwindcss\""
+      assert content =~ "body"
+      assert content =~ "font-family"
+    end
   end
 
   describe "--include-config option" do
