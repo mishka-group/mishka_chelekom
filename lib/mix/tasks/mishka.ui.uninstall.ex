@@ -60,12 +60,26 @@ defmodule Mix.Tasks.Mishka.Ui.Uninstall do
   def igniter(igniter) do
     %{options: options, positional: %{components: components_arg}} = igniter.args
 
-    igniter
-    |> Igniter.assign(:opts, build_opts(options))
-    |> Igniter.assign(:user_config, Config.load_user_config(igniter))
-    |> tap(fn _ -> if !options[:dry_run] && Mix.env() != :test, do: print_banner() end)
-    |> parse_components(components_arg)
-    |> handle_uninstall()
+    if !options[:dry_run] && Mix.env() != :test do
+      Application.ensure_all_started(:owl)
+      print_banner()
+      Owl.Spinner.start(id: :uninstall_spinner, labels: [processing: "Processing uninstall..."])
+    end
+
+    result =
+      igniter
+      |> Igniter.assign(:opts, build_opts(options))
+      |> Igniter.assign(:user_config, Config.load_user_config(igniter))
+      |> parse_components(components_arg)
+      |> handle_uninstall()
+
+    if !options[:dry_run] && Mix.env() != :test do
+      if Map.get(result, :issues, []) == [],
+        do: Owl.Spinner.stop(id: :uninstall_spinner, resolution: :ok, label: "Done"),
+        else: Owl.Spinner.stop(id: :uninstall_spinner, resolution: :error, label: "Error")
+    end
+
+    result
   end
 
   defp build_opts(options) do
