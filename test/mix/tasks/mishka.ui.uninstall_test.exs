@@ -944,6 +944,116 @@ defmodule Mix.Tasks.Mishka.Ui.UninstallTest do
 
       assert content =~ "use TestWeb.Components.MishkaComponents"
     end
+
+    test "restores import CoreComponents when use MishkaComponents is removed" do
+      # This simulates what happens when --global was used during installation
+      # CoreComponents import was replaced with use MishkaComponents
+      igniter =
+        test_project_with_formatter()
+        |> Igniter.create_new_file("lib/test_web.ex", """
+        defmodule TestWeb do
+          defp html_helpers do
+            quote do
+              import Phoenix.HTML
+              use TestWeb.Components.MishkaComponents
+            end
+          end
+        end
+        """)
+        |> Igniter.create_new_file("lib/test_web/components/button.ex", """
+        defmodule TestWeb.Components.Button do
+          use Phoenix.Component
+          def button(assigns), do: ~H"<button>Button</button>"
+        end
+        """)
+        |> Igniter.compose_task(Uninstall, ["button", "--yes"])
+
+      # Component should be removed
+      assert "lib/test_web/components/button.ex" in igniter.rms
+
+      # use MishkaComponents should be replaced with import CoreComponents
+      {_, source} = Rewrite.source(igniter.rewrite, "lib/test_web.ex")
+      content = Rewrite.Source.get(source, :content)
+
+      refute content =~ "use TestWeb.Components.MishkaComponents"
+      assert content =~ "import TestWeb.CoreComponents"
+      assert content =~ "import Phoenix.HTML"
+    end
+
+    test "does not duplicate CoreComponents import if already present" do
+      # This scenario: both CoreComponents import and MishkaComponents use exist
+      # Should only remove MishkaComponents, not add duplicate CoreComponents
+      igniter =
+        test_project_with_formatter()
+        |> Igniter.create_new_file("lib/test_web.ex", """
+        defmodule TestWeb do
+          defp html_helpers do
+            quote do
+              import Phoenix.HTML
+              import TestWeb.CoreComponents
+              use TestWeb.Components.MishkaComponents
+            end
+          end
+        end
+        """)
+        |> Igniter.create_new_file("lib/test_web/components/button.ex", """
+        defmodule TestWeb.Components.Button do
+          use Phoenix.Component
+          def button(assigns), do: ~H"<button>Button</button>"
+        end
+        """)
+        |> Igniter.compose_task(Uninstall, ["button", "--yes"])
+
+      # Component should be removed
+      assert "lib/test_web/components/button.ex" in igniter.rms
+
+      {_, source} = Rewrite.source(igniter.rewrite, "lib/test_web.ex")
+      content = Rewrite.Source.get(source, :content)
+
+      # MishkaComponents should be removed
+      refute content =~ "use TestWeb.Components.MishkaComponents"
+      # CoreComponents should exist only once (not duplicated)
+      assert content =~ "import TestWeb.CoreComponents"
+      # Count occurrences of CoreComponents - should be exactly 1
+      matches = Regex.scan(~r/import TestWeb\.CoreComponents/, content)
+      assert length(matches) == 1
+    end
+
+    test "restores CoreComponents import with proper positioning after other imports" do
+      # When CoreComponents is restored, it should be placed logically with other imports
+      igniter =
+        test_project_with_formatter()
+        |> Igniter.create_new_file("lib/test_web.ex", """
+        defmodule TestWeb do
+          defp html_helpers do
+            quote do
+              import Phoenix.HTML
+              import Phoenix.LiveView.Helpers
+              use TestWeb.Components.MishkaComponents
+              alias TestWeb.Router.Helpers, as: Routes
+            end
+          end
+        end
+        """)
+        |> Igniter.create_new_file("lib/test_web/components/button.ex", """
+        defmodule TestWeb.Components.Button do
+          use Phoenix.Component
+          def button(assigns), do: ~H"<button>Button</button>"
+        end
+        """)
+        |> Igniter.compose_task(Uninstall, ["button", "--yes"])
+
+      {_, source} = Rewrite.source(igniter.rewrite, "lib/test_web.ex")
+      content = Rewrite.Source.get(source, :content)
+
+      # MishkaComponents should be removed and replaced with CoreComponents
+      refute content =~ "use TestWeb.Components.MishkaComponents"
+      assert content =~ "import TestWeb.CoreComponents"
+      # Other imports and aliases should remain
+      assert content =~ "import Phoenix.HTML"
+      assert content =~ "import Phoenix.LiveView.Helpers"
+      assert content =~ "alias TestWeb.Router.Helpers"
+    end
   end
 
   describe "app.js cleanup" do

@@ -631,7 +631,6 @@ defmodule Mix.Tasks.Mishka.Ui.Uninstall do
   end
 
   defp remove_imports_from_using(zipper, modules_to_remove) do
-    # Find the quote block inside __using__ macro
     case find_quote_block(zipper) do
       {:ok, quote_zipper} ->
         new_zipper = remove_import_nodes(quote_zipper, modules_to_remove)
@@ -643,7 +642,6 @@ defmodule Mix.Tasks.Mishka.Ui.Uninstall do
   end
 
   defp find_quote_block(zipper) do
-    # Search for the quote block in the AST
     case Sourceror.Zipper.find(zipper, fn node ->
            match?({:quote, _, [[{_, {:__block__, _, _}}]]}, node)
          end) do
@@ -653,7 +651,6 @@ defmodule Mix.Tasks.Mishka.Ui.Uninstall do
   end
 
   defp remove_import_nodes(zipper, modules_to_remove) do
-    # Filter out import statements that match our modules
     case zipper.node do
       {:quote, quote_meta, [[{block_key, {:__block__, block_meta, statements}}]]} ->
         filtered_statements =
@@ -687,46 +684,84 @@ defmodule Mix.Tasks.Mishka.Ui.Uninstall do
   defp maybe_cleanup_global_import(igniter) do
     web_module = Igniter.Libs.Phoenix.web_module(igniter)
 
+    core_components_module =
+      (Module.split(web_module) |> Enum.map(&String.to_atom/1)) ++ [:CoreComponents]
+
     case Igniter.Project.Module.find_and_update_module(
            igniter,
            web_module,
-           &cleanup_html_helpers/1
+           fn zipper ->
+             cleanup_html_helpers(zipper, core_components_module)
+           end
          ) do
       {:ok, ig} -> ig
       {:error, ig} -> ig
     end
   end
 
-  defp cleanup_html_helpers(zipper) do
+  defp cleanup_html_helpers(zipper, core_components_module) do
     case Igniter.Code.Function.move_to_defp(zipper, :html_helpers, 0) do
-      {:ok, z} -> {:ok, Igniter.Code.Common.replace_code(z, filter_mishka_use(z.node))}
-      :error -> {:ok, zipper}
+      {:ok, zipper} ->
+        has_core_import? = has_core_components_import?(zipper, core_components_module)
+
+        new_node =
+          case zipper.node do
+            {:quote, _, [[{_, {:__block__, _, _}}]]} = node ->
+              Macro.prewalk(node, fn
+                {:use, meta, [{:__aliases__, alias_meta, module_parts}]}
+                when is_list(module_parts) ->
+                  case List.last(module_parts) do
+                    name when is_atom(name) ->
+                      if Atom.to_string(name) |> String.contains?("MishkaComponents") do
+                        if has_core_import? do
+                          {:__mishka_remove__, [], []}
+                        else
+                          {:import, meta, [{:__aliases__, alias_meta, core_components_module}]}
+                        end
+                      else
+                        {:use, meta, [{:__aliases__, alias_meta, module_parts}]}
+                      end
+
+                    _ ->
+                      {:use, meta, [{:__aliases__, alias_meta, module_parts}]}
+                  end
+
+                other ->
+                  other
+              end)
+              |> remove_marker_nodes()
+
+            other ->
+              other
+          end
+
+        {:ok, Igniter.Code.Common.replace_code(zipper, new_node)}
+
+      :error ->
+        {:ok, zipper}
     end
   end
 
-  # Check if the last part of the module path is MishkaComponents
-  # e.g., ChelePrefixWeb.Components.MishkaComponents ->
-  # [:ChelePrefixWeb, :Components, :MishkaComponents]
-  defp filter_mishka_use({:quote, meta, [[{block_meta, {:__block__, inner_meta, args}}]]}) do
-    filtered =
-      Enum.reject(args, fn
-        {:use, _, [{:__aliases__, _, module_parts}]} when is_list(module_parts) ->
-          case List.last(module_parts) do
-            name when is_atom(name) ->
-              Atom.to_string(name) |> String.contains?("MishkaComponents")
+  defp has_core_components_import?(zipper, core_components_module) do
+    case zipper.node do
+      {:quote, _, [[{_, {:__block__, _, args}}]]} ->
+        Enum.any?(args, fn
+          {:import, _, [{:__aliases__, _, ^core_components_module}]} -> true
+          {:import, _, [{:__aliases__, _, ^core_components_module}, _opts]} -> true
+          _ -> false
+        end)
 
-            _ ->
-              false
-          end
+      _ ->
+        false
+    end
+  end
 
-        _ ->
-          false
-      end)
-
+  defp remove_marker_nodes({:quote, meta, [[{block_meta, {:__block__, inner_meta, args}}]]}) do
+    filtered = Enum.reject(args, &match?({:__mishka_remove__, _, _}, &1))
     {:quote, meta, [[{block_meta, {:__block__, inner_meta, filtered}}]]}
   end
 
-  defp filter_mishka_use(other), do: other
+  defp remove_marker_nodes(other), do: other
 
   defp maybe_remove_css(%{assigns: %{plan: %{remaining: r}}} = igniter) when r != [], do: igniter
 
