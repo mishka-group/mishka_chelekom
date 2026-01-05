@@ -1,6 +1,8 @@
 [
   overlay: [
     name: "overlay",
+    category: "overlays",
+    doc_url: "https://mishka.tools/chelekom/docs/overlay",
     args: [
       color: [
         "base",

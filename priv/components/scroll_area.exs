@@ -1,6 +1,8 @@
 [
   scroll_area: [
     name: "scroll_area",
+    category: "navigations",
+    doc_url: "https://mishka.tools/chelekom/docs/scroll-area",
     args: [
       padding: ["extra_small", "small", "medium", "large", "extra_large", "none"],
       only: ["scroll_area"],

@@ -1,6 +1,8 @@
 [
   accordion: [
     name: "accordion",
+    category: "general",
+    doc_url: "https://mishka.tools/chelekom/docs/accordion",
     args: [
       variant: [
         "default",

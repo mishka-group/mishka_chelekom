@@ -1,6 +1,8 @@
 [
   indicator: [
     name: "indicator",
+    category: "general",
+    doc_url: "https://mishka.tools/chelekom/docs/indicator",
     args: [
       color: [
         "base",

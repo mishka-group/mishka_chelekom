@@ -1,6 +1,8 @@
 [
   checkbox_field: [
     name: "checkbox_field",
+    category: "forms",
+    doc_url: "https://mishka.tools/chelekom/docs/forms/checkbox-field",
     args: [
       color: [
         "base",

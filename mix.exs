@@ -43,8 +43,11 @@ defmodule MishkaChelekom.MixProject do
       {:igniter_js, "~> 0.4.11"},
       {:owl, "~> 0.13"},
       {:ex_doc, "~> 0.39.1", only: :dev, runtime: false},
-      {:plug, "~> 1.18", only: :test},
-      {:usage_rules, "~> 0.1.26", only: :test}
+      {:plug, "~> 1.18"},
+      {:usage_rules, "~> 0.1.26", only: :test},
+      {:anubis_mcp, "~> 0.17.0"},
+      {:plug_cowboy, "~> 2.7"},
+      {:jason, "~> 1.4"}
     ]
   end
 

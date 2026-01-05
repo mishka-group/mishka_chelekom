@@ -1,6 +1,8 @@
 [
   list: [
     name: "list",
+    category: "general",
+    doc_url: "https://mishka.tools/chelekom/docs/list",
     args: [
       variant: [
         "default",

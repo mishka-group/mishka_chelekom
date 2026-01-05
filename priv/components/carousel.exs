@@ -1,6 +1,8 @@
 [
   carousel: [
     name: "carousel",
+    category: "media",
+    doc_url: "https://mishka.tools/chelekom/docs/carousel",
     args: [
       color: [
         "base",

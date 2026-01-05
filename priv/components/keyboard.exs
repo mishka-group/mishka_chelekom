@@ -1,6 +1,8 @@
 [
   keyboard: [
     name: "keyboard",
+    category: "general",
+    doc_url: "https://mishka.tools/chelekom/docs/keyboard",
     args: [
       variant: ["default", "outline", "transparent", "shadow", "bordered", "gradient", "base"],
       color: [

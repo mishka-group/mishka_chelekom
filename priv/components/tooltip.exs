@@ -1,6 +1,8 @@
 [
   tooltip: [
     name: "tooltip",
+    category: "overlays",
+    doc_url: "https://mishka.tools/chelekom/docs/tooltip",
     args: [
       variant: ["default", "shadow", "bordered", "gradient", "base"],
       color: [

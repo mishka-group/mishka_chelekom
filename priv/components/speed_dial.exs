@@ -1,6 +1,8 @@
 [
   speed_dial: [
     name: "speed_dial",
+    category: "general",
+    doc_url: "https://mishka.tools/chelekom/docs/speed-dial",
     args: [
       variant: ["default", "bordered", "shadow", "gradient", "base"],
       color: [

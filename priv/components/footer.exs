@@ -1,6 +1,8 @@
 [
   footer: [
     name: "footer",
+    category: "navigations",
+    doc_url: "https://mishka.tools/chelekom/docs/footer",
     args: [
       variant: ["default", "outline", "transparent", "shadow", "bordered", "gradient", "base"],
       color: [

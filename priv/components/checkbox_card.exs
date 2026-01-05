@@ -1,6 +1,8 @@
 [
   checkbox_card: [
     name: "checkbox_card",
+    category: "forms",
+    doc_url: "https://mishka.tools/chelekom/docs/forms/checkbox-card",
     args: [
       variant: ["default", "outline", "shadow", "bordered", "base"],
       color: [

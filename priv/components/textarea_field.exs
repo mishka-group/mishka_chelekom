@@ -1,6 +1,8 @@
 [
   textarea_field: [
     name: "textarea_field",
+    category: "forms",
+    doc_url: "https://mishka.tools/chelekom/docs/forms/textarea-field",
     args: [
       variant: ["outline", "default", "shadow", "bordered", "transparent", "base"],
       color: [

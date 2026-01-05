@@ -1,6 +1,8 @@
 [
   file_field: [
     name: "file_field",
+    category: "forms",
+    doc_url: "https://mishka.tools/chelekom/docs/forms/file-field",
     args: [
       variant: ["default", "outline", "bordered", "shadow", "gradient", "transparent", "base"],
       color: [

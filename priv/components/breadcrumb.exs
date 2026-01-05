@@ -1,6 +1,8 @@
 [
   breadcrumb: [
     name: "breadcrumb",
+    category: "navigations",
+    doc_url: "https://mishka.tools/chelekom/docs/breadcrumb",
     args: [
       color: [
         "base",

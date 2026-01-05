@@ -1,6 +1,8 @@
 [
   color_field: [
     name: "color_field",
+    category: "forms",
+    doc_url: "https://mishka.tools/chelekom/docs/forms/color-field",
     args: [
       color: [
         "base",

@@ -1,6 +1,8 @@
 [
   date_time_field: [
     name: "date_time_field",
+    category: "forms",
+    doc_url: "https://mishka.tools/chelekom/docs/forms/date-time-field",
     args: [
       variant: ["outline", "default", "bordered", "shadow", "transparent", "base"],
       color: [

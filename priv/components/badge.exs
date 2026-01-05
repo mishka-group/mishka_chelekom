@@ -1,6 +1,8 @@
 [
   badge: [
     name: "badge",
+    category: "general",
+    doc_url: "https://mishka.tools/chelekom/docs/badge",
     args: [
       variant: ["default", "outline", "transparent", "shadow", "bordered", "gradient", "base"],
       color: [

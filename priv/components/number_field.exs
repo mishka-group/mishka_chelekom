@@ -1,6 +1,8 @@
 [
   number_field: [
     name: "number_field",
+    category: "forms",
+    doc_url: "https://mishka.tools/chelekom/docs/forms/number-field",
     args: [
       variant: ["outline", "default", "shadow", "bordered", "transparent", "base"],
       color: [

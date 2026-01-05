@@ -1,6 +1,8 @@
 [
   native_select: [
     name: "native_select",
+    category: "forms",
+    doc_url: "https://mishka.tools/chelekom/docs/forms/native-select",
     args: [
       variant: ["default", "shadow", "bordered", "native", "base"],
       color: [

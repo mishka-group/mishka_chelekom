@@ -1,6 +1,8 @@
 [
   popover: [
     name: "popover",
+    category: "overlays",
+    doc_url: "https://mishka.tools/chelekom/docs/popover",
     args: [
       variant: ["default", "shadow", "bordered", "gradient", "base"],
       color: [

@@ -1,6 +1,8 @@
 [
   spinner: [
     name: "spinner",
+    category: "general",
+    doc_url: "https://mishka.tools/chelekom/docs/spinner",
     args: [
       color: [
         "base",

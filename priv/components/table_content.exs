@@ -1,6 +1,8 @@
 [
   table_content: [
     name: "table_content",
+    category: "general",
+    doc_url: "https://mishka.tools/chelekom/docs/table-content",
     args: [
       variant: ["outline", "default", "bordered", "transparent", "gradient", "base"],
       color: [

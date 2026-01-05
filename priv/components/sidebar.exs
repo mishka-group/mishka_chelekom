@@ -1,6 +1,8 @@
 [
   sidebar: [
     name: "sidebar",
+    category: "navigations",
+    doc_url: "https://mishka.tools/chelekom/docs/sidebar",
     args: [
       variant: ["default", "outline", "transparent", "bordered", "gradient", "base"],
       color: [

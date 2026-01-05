@@ -1,6 +1,8 @@
 [
   radio_card: [
     name: "radio_card",
+    category: "forms",
+    doc_url: "https://mishka.tools/chelekom/docs/forms/radio-card",
     args: [
       variant: ["default", "outline", "shadow", "bordered", "base"],
       color: [

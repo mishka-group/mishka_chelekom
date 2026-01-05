@@ -1,6 +1,8 @@
 [
   mega_menu: [
     name: "mega_menu",
+    category: "navigations",
+    doc_url: "https://mishka.tools/chelekom/docs/mega-menu",
     args: [
       variant: ["default", "outline", "bordered", "shadow", "gradeint", "base"],
       color: [

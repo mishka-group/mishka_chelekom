@@ -1,6 +1,8 @@
 [
   progress: [
     name: "progress",
+    category: "general",
+    doc_url: "https://mishka.tools/chelekom/docs/progress",
     args: [
       variant: ["default", "gradient", "base"],
       color: [

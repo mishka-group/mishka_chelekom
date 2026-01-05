@@ -1,6 +1,8 @@
 [
   search_field: [
     name: "search_field",
+    category: "forms",
+    doc_url: "https://mishka.tools/chelekom/docs/forms/search-field",
     args: [
       variant: ["outline", "default", "shadow", "bordered", "transparent", "base"],
       color: [

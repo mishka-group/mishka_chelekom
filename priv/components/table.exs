@@ -1,6 +1,8 @@
 [
   table: [
     name: "table",
+    category: "general",
+    doc_url: "https://mishka.tools/chelekom/docs/table",
     args: [
       variant: [
         "base",
