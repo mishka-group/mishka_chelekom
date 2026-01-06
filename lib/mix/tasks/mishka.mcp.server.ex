@@ -101,10 +101,12 @@ defmodule Mix.Tasks.Mishka.Mcp.Server do
 
     """)
 
-    # Start the application dependencies
-    Application.ensure_all_started(:plug_cowboy)
+    # Start all required applications
+    Application.ensure_all_started(:telemetry)
+    Application.ensure_all_started(:bandit)
+    Application.ensure_all_started(:mishka_chelekom)
 
-    # Start the MCP supervisor
+    # Start the MCP supervisor (only starts Bandit HTTP server)
     {:ok, _pid} = MishkaChelekom.MCP.Supervisor.start_link(port: port)
 
     Mix.shell().info("MCP Server started successfully on port #{port}")
