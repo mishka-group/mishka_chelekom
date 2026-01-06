@@ -22,17 +22,18 @@ defmodule MishkaChelekom.MCP.PathHelper do
       # Development mode - working in the library source
       File.cwd!()
     else
-      # Installed as dependency - find package in deps
-      case :code.priv_dir(:mishka_chelekom) do
-        {:error, :bad_name} ->
-          # Fallback to deps path
-          Path.join([File.cwd!(), "deps", "mishka_chelekom"])
+      # Installed as dependency - usage-rules/ is in deps/, not _build/
+      # priv/ gets copied to _build/ but usage-rules/ stays in deps/
+      deps_path = Path.join([File.cwd!(), "deps", "mishka_chelekom"])
 
-        path when is_list(path) ->
-          # priv_dir returns priv/, go up one level to get package root
-          path
-          |> List.to_string()
-          |> Path.dirname()
+      if File.dir?(Path.join(deps_path, "usage-rules")) do
+        deps_path
+      else
+        # Fallback to build directory (for priv files)
+        case :code.priv_dir(:mishka_chelekom) do
+          {:error, :bad_name} -> deps_path
+          path when is_list(path) -> path |> List.to_string() |> Path.dirname()
+        end
       end
     end
   end
