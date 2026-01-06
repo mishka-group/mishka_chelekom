@@ -1,6 +1,8 @@
 [
   avatar: [
     name: "avatar",
+    category: "general",
+    doc_url: "https://mishka.tools/chelekom/docs/avatar",
     args: [
       color: [
         "base",

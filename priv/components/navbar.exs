@@ -1,6 +1,8 @@
 [
   navbar: [
     name: "navbar",
+    category: "navigations",
+    doc_url: "https://mishka.tools/chelekom/docs/navbar",
     args: [
       variant: ["default", "shadow", "bordered", "gradient", "base"],
       color: [

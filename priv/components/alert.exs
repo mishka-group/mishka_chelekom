@@ -1,6 +1,8 @@
 [
   alert: [
     name: "alert",
+    category: "feedback",
+    doc_url: "https://mishka.tools/chelekom/docs/alert",
     args: [
       variant: ["default", "outline", "shadow", "bordered", "gradient", "base"],
       color: [

@@ -1,6 +1,8 @@
 [
   range_field: [
     name: "range_field",
+    category: "forms",
+    doc_url: "https://mishka.tools/chelekom/docs/forms/range-field",
     args: [
       color: [
         "base",

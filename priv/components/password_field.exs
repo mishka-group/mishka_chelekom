@@ -1,6 +1,8 @@
 [
   password_field: [
     name: "password_field",
+    category: "forms",
+    doc_url: "https://mishka.tools/chelekom/docs/forms/password-field",
     args: [
       variant: ["outline", "default", "shadow", "bordered", "transparent", "base"],
       color: [

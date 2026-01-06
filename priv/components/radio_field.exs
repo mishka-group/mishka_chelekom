@@ -1,6 +1,8 @@
 [
   radio_field: [
     name: "radio_field",
+    category: "forms",
+    doc_url: "https://mishka.tools/chelekom/docs/forms/radio-field",
     args: [
       color: [
         "base",

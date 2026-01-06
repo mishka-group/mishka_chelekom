@@ -1,6 +1,8 @@
 [
   blockquote: [
     name: "blockquote",
+    category: "general",
+    doc_url: "https://mishka.tools/chelekom/docs/blockquote",
     args: [
       variant: ["default", "outline", "transparent", "shadow", "bordered", "gradient", "base"],
       color: [

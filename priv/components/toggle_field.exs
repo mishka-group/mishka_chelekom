@@ -1,6 +1,8 @@
 [
   toggle_field: [
     name: "toggle_field",
+    category: "forms",
+    doc_url: "https://mishka.tools/chelekom/docs/forms/toggle",
     args: [
       color: [
         "base",

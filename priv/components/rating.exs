@@ -1,6 +1,8 @@
 [
   rating: [
     name: "rating",
+    category: "general",
+    doc_url: "https://mishka.tools/chelekom/docs/rating",
     args: [
       color: [
         "base",

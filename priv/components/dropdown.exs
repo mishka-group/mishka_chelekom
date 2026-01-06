@@ -1,6 +1,8 @@
 [
   dropdown: [
     name: "dropdown",
+    category: "navigations",
+    doc_url: "https://mishka.tools/chelekom/docs/dropdown",
     args: [
       variant: ["default", "outline", "bordered", "shadow", "gradient", "base"],
       color: [

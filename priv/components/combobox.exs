@@ -1,6 +1,8 @@
 [
   combobox: [
     name: "combobox",
+    category: "forms",
+    doc_url: "https://mishka.tools/chelekom/docs/forms/combobox",
     args: [
       variant: ["default", "bordered", "base"],
       color: [

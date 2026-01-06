@@ -1,6 +1,8 @@
 [
   toast: [
     name: "toast",
+    category: "feedback",
+    doc_url: "https://mishka.tools/chelekom/docs/toast",
     args: [
       variant: ["default", "outline", "shadow", "bordered", "gradient", "base"],
       color: [

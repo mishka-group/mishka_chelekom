@@ -1,7 +1,7 @@
 defmodule MishkaChelekom.MixProject do
   use Mix.Project
 
-  @version "0.0.9-alpha.7"
+  @version "0.0.9-alpha.8"
   @source_url "https://github.com/mishka-group/mishka_chelekom"
 
   def project do
@@ -13,6 +13,7 @@ defmodule MishkaChelekom.MixProject do
       elixirc_paths: elixirc_paths(Mix.env()),
       start_permanent: Mix.env() == :prod,
       deps: deps(),
+      aliases: aliases(),
       description: description(),
       package: package(),
       homepage_url: "https://github.com/mishka-group",
@@ -20,7 +21,7 @@ defmodule MishkaChelekom.MixProject do
       docs: [
         main: "readme",
         source_ref: "v#{@version}",
-        extras: ["README.md", "CHANGELOG.md"],
+        extras: ["README.md", "MCP.md", "CHANGELOG.md"],
         source_url: @source_url
       ]
     ]
@@ -36,6 +37,13 @@ defmodule MishkaChelekom.MixProject do
   defp elixirc_paths(:test), do: ["lib", "priv", "test/support"]
   defp elixirc_paths(_mode), do: ["lib", "priv"]
 
+  defp aliases do
+    [
+      "mcp.server": ["mishka.mcp.server"],
+      "mcp.setup": ["mishka.mcp.setup"]
+    ]
+  end
+
   defp deps do
     [
       {:igniter, "~> 0.5 and >= 0.7.0"},
@@ -43,8 +51,11 @@ defmodule MishkaChelekom.MixProject do
       {:igniter_js, "~> 0.4.11"},
       {:owl, "~> 0.13"},
       {:ex_doc, "~> 0.39.1", only: :dev, runtime: false},
-      {:plug, "~> 1.18", only: :test},
-      {:usage_rules, "~> 0.1.26", only: :test}
+      {:plug, "~> 1.18"},
+      {:usage_rules, "~> 0.1.26", only: :test},
+      {:anubis_mcp, "~> 0.17.0"},
+      {:bandit, "~> 1.0", optional: true},
+      {:jason, "~> 1.4"}
     ]
   end
 
@@ -55,7 +66,8 @@ defmodule MishkaChelekom.MixProject do
   defp package() do
     [
       extra: %{igniter_only: ["dev"]},
-      files: ~w(lib priv .formatter.exs mix.exs LICENSE README* usage-rules.md usage-rules),
+      files:
+        ~w(lib priv .formatter.exs mix.exs LICENSE README* MCP.md usage-rules.md usage-rules),
       licenses: ["Apache-2.0"],
       maintainers: ["Shahryar Tavakkoli", "Mona Aghili", "Arian Alijani"],
       links: %{

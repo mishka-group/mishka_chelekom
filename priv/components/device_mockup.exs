@@ -1,6 +1,8 @@
 [
   device_mockup: [
     name: "device_mockup",
+    category: "general",
+    doc_url: "https://mishka.tools/chelekom/docs/device-mockup",
     args: [
       color: [
         "base",

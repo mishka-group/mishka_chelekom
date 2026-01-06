@@ -1,6 +1,8 @@
 [
   skeleton: [
     name: "skeleton",
+    category: "general",
+    doc_url: "https://mishka.tools/chelekom/docs/skeleton",
     args: [
       color: [
         "base",

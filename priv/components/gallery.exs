@@ -1,6 +1,8 @@
 [
   gallery: [
     name: "gallery",
+    category: "media",
+    doc_url: "https://mishka.tools/chelekom/docs/gallery",
     args: [
       rounded: ["extra_small", "small", "medium", "large", "extra_large", "none"],
       type: ["gallery", "filterable_gallery"],

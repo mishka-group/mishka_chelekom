@@ -1,6 +1,8 @@
 [
   drawer: [
     name: "drawer",
+    category: "overlays",
+    doc_url: "https://mishka.tools/chelekom/docs/drawer",
     args: [
       variant: ["default", "outline", "transparent", "bordered", "gradient", "base"],
       color: [

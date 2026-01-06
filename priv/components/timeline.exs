@@ -1,6 +1,8 @@
 [
   timeline: [
     name: "timeline",
+    category: "general",
+    doc_url: "https://mishka.tools/chelekom/docs/timeline",
     args: [
       color: [
         "base",

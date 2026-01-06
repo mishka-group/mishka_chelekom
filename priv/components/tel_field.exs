@@ -1,6 +1,8 @@
 [
   tel_field: [
     name: "tel_field",
+    category: "forms",
+    doc_url: "https://mishka.tools/chelekom/docs/forms/tel-field",
     args: [
       variant: ["outline", "default", "shadow", "bordered", "transparent", "base"],
       color: [

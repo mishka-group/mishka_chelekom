@@ -1,6 +1,8 @@
 [
   divider: [
     name: "divider",
+    category: "general",
+    doc_url: "https://mishka.tools/chelekom/docs/divider",
     args: [
       color: [
         "base",

@@ -1,6 +1,8 @@
 [
   modal: [
     name: "modal",
+    category: "overlays",
+    doc_url: "https://mishka.tools/chelekom/docs/modal",
     args: [
       variant: ["default", "shadow", "bordered", "gradient", "base"],
       color: [

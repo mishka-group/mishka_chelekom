@@ -1,6 +1,8 @@
 [
   chat: [
     name: "chat",
+    category: "general",
+    doc_url: "https://mishka.tools/chelekom/docs/chat",
     args: [
       variant: ["default", "outline", "transparent", "shadow", "gradient", "bordered", "base"],
       color: [

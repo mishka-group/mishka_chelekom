@@ -1,6 +1,8 @@
 [
   typography: [
     name: "typography",
+    category: "general",
+    doc_url: "https://mishka.tools/chelekom/docs/typography",
     args: [
       color: [
         "base",

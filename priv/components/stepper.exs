@@ -1,6 +1,8 @@
 [
   stepper: [
     name: "stepper",
+    category: "general",
+    doc_url: "https://mishka.tools/chelekom/docs/stepper",
     args: [
       variant: ["default", "gradient", "base"],
       color: [

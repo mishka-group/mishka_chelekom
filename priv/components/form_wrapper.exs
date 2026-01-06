@@ -1,6 +1,8 @@
 [
   form_wrapper: [
     name: "form_wrapper",
+    category: "forms",
+    doc_url: "https://mishka.tools/chelekom/docs/forms",
     args: [
       variant: ["default", "outline", "transparent", "shadow", "unbordered", "base"],
       color: [

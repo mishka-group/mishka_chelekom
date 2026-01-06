@@ -1,6 +1,8 @@
 [
   url_field: [
     name: "url_field",
+    category: "forms",
+    doc_url: "https://mishka.tools/chelekom/docs/forms/url-field",
     args: [
       variant: ["outline", "default", "shadow", "bordered", "transparent", "base"],
       color: [

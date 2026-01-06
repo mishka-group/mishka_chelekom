@@ -1,6 +1,8 @@
 [
   fieldset: [
     name: "fieldset",
+    category: "forms",
+    doc_url: "https://mishka.tools/chelekom/docs/forms/fieldset",
     args: [
       variant: ["default", "outline", "unbordered", "shadow", "transparent", "gradient", "base"],
       color: [

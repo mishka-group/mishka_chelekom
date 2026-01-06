@@ -1,6 +1,8 @@
 [
   banner: [
     name: "banner",
+    category: "feedback",
+    doc_url: "https://mishka.tools/chelekom/docs/banner",
     args: [
       variant: ["default", "outline", "transparent", "shadow", "bordered", "gradient", "base"],
       color: [

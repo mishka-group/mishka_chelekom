@@ -1,6 +1,8 @@
 [
   button: [
     name: "button",
+    category: "general",
+    doc_url: "https://mishka.tools/chelekom/docs/button",
     args: [
       variant: [
         "base",

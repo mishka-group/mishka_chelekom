@@ -1,6 +1,8 @@
 [
   pagination: [
     name: "pagination",
+    category: "navigations",
+    doc_url: "https://mishka.tools/chelekom/docs/pagination",
     args: [
       variant: [
         "default",
