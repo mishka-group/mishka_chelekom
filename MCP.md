@@ -40,7 +40,7 @@ Add the MCP endpoint directly to your Phoenix router:
 mix mishka.mcp.setup
 ```
 
-> 📍 Adds endpoint at `/mcp` (development only by default)
+> 📍 Adds endpoint at `/mcp` on your **Phoenix port** (default `http://localhost:4000/mcp`)
 
 **Options:**
 
@@ -67,10 +67,18 @@ mix mishka.mcp.setup --yes
 
 ## 🔌 Connect Your AI Tools
 
+> **Important:** Use the correct URL based on your setup:
+> - **Standalone server:** `http://localhost:4003/mcp`
+> - **Phoenix integration:** `http://localhost:4000/mcp` (your Phoenix port)
+
 ### Claude Code
 
 ```bash
+# For standalone server
 claude mcp add --transport http mishka-chelekom http://localhost:4003/mcp
+
+# For Phoenix integration
+claude mcp add --transport http mishka-chelekom http://localhost:4000/mcp
 ```
 
 ### Cursor / VS Code
@@ -87,6 +95,8 @@ Create `.mcp.json` in your project root:
   }
 }
 ```
+
+> For Phoenix integration, change port to `4000` (or your Phoenix port).
 
 ### Cursor / VS Code (via MCP Proxy)
 
@@ -119,6 +129,8 @@ Add to your Claude Desktop configuration:
   }
 }
 ```
+
+> For Phoenix integration, change port to `4000` (or your Phoenix port).
 
 ---
 

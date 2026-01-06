@@ -81,11 +81,8 @@ defmodule Mix.Tasks.Mishka.Mcp.Setup do
     web_module = Igniter.Libs.Phoenix.web_module(igniter)
     router_module = Module.concat(web_module, Router)
 
-    # Create the MCP server module
-    igniter = create_mcp_server_module(igniter, web_module)
-
-    # Add the route to the router
-    igniter = add_mcp_route(igniter, router_module, web_module, mcp_path, dev_only, app_name)
+    # Add the route to the router (uses MishkaChelekom.MCP.Server directly)
+    igniter = add_mcp_route(igniter, router_module, mcp_path, dev_only, app_name)
 
     igniter
     |> Igniter.add_notice("""
@@ -94,9 +91,8 @@ defmodule Mix.Tasks.Mishka.Mcp.Setup do
 
     ## Next Steps
 
-    1. Run `mix deps.get` to install dependencies
-    2. Start your Phoenix server: `mix phx.server`
-    3. Connect your AI tools:
+    1. Start your Phoenix server: `mix phx.server`
+    2. Connect your AI tools (uses Phoenix port, not 4003):
 
        Claude Code:
          claude mcp add --transport http mishka-chelekom http://localhost:4000#{mcp_path}
@@ -111,6 +107,9 @@ defmodule Mix.Tasks.Mishka.Mcp.Setup do
            }
          }
 
+    Note: The MCP endpoint runs on your Phoenix port (default 4000),
+    not on port 4003 like the standalone server.
+
     ## Available MCP Tools
 
     - list_components - List all available components
@@ -121,63 +120,21 @@ defmodule Mix.Tasks.Mishka.Mcp.Setup do
     """)
   end
 
-  defp create_mcp_server_module(igniter, web_module) do
-    mcp_server_module = Module.concat(web_module, MCPServer)
-
-    proper_location =
-      Igniter.Project.Module.proper_location(igniter, mcp_server_module)
-
-    content = """
-    defmodule #{inspect(mcp_server_module)} do
-      @moduledoc \"\"\"
-      MCP Server for Mishka Chelekom components.
-
-      This module re-exports the MishkaChelekom.MCP.Server for use in your Phoenix application.
-      It allows AI tools to interact with the component library.
-
-      ## Usage
-
-      The server is automatically mounted at `/mcp` in development mode.
-      Connect your AI tools using HTTP transport.
-      \"\"\"
-
-      use Anubis.Server,
-        name: "mishka-chelekom",
-        version: "0.1.0",
-        capabilities: [:tools, :resources]
-
-      # Re-export all components from MishkaChelekom.MCP.Server
-      def __components__() do
-        MishkaChelekom.MCP.Server.__components__()
-      end
-
-      def __components__(type) do
-        MishkaChelekom.MCP.Server.__components__(type)
-      end
-    end
-    """
-
-    igniter
-    |> Igniter.create_new_file(proper_location, content, on_exists: :skip)
-  end
-
-  defp add_mcp_route(igniter, router_module, web_module, mcp_path, dev_only, app_name) do
-    mcp_server_module = Module.concat(web_module, MCPServer)
-
+  defp add_mcp_route(igniter, router_module, mcp_path, dev_only, app_name) do
     route_code =
       if dev_only do
         """
         # MCP Server for AI tools (development only)
         if Application.compile_env(#{inspect(app_name)}, :dev_routes) do
           forward "#{mcp_path}", Anubis.Server.Transport.StreamableHTTP.Plug,
-            server: #{inspect(mcp_server_module)}
+            server: MishkaChelekom.MCP.Server
         end
         """
       else
         """
         # MCP Server for AI tools
         forward "#{mcp_path}", Anubis.Server.Transport.StreamableHTTP.Plug,
-          server: #{inspect(mcp_server_module)}
+          server: MishkaChelekom.MCP.Server
         """
       end
 

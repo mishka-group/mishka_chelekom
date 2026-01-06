@@ -43,7 +43,7 @@ defmodule Mix.Tasks.Mishka.Mcp.SetupTest do
   end
 
   describe "igniter/1" do
-    test "creates MCPServer module" do
+    test "adds MCP route to router" do
       igniter =
         test_project_with_formatter(
           app_name: :test_app,
@@ -75,20 +75,20 @@ defmodule Mix.Tasks.Mishka.Mcp.SetupTest do
         )
         |> Igniter.compose_task(Setup, ["--yes"])
 
-      # Check that MCPServer module would be created
+      # Check that router has MCP route with MishkaChelekom.MCP.Server directly
       sources = igniter.rewrite.sources
 
-      mcp_server_path =
+      router_path =
         Enum.find(Map.keys(sources), fn path ->
-          String.contains?(path, "mcp_server.ex")
+          String.contains?(path, "router.ex")
         end)
 
-      if mcp_server_path do
-        source = Map.get(sources, mcp_server_path)
+      if router_path do
+        source = Map.get(sources, router_path)
         content = Rewrite.Source.get(source, :content)
 
-        assert content =~ "defmodule TestAppWeb.MCPServer"
-        assert content =~ "use Anubis.Server"
+        assert content =~ "forward"
+        assert content =~ "/mcp"
         assert content =~ "MishkaChelekom.MCP.Server"
       end
     end
