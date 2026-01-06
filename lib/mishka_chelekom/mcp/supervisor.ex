@@ -43,7 +43,9 @@ defmodule MishkaChelekom.MCP.Supervisor do
       Anubis.Server.Registry,
 
       # MCP Server with Streamable HTTP transport
-      {MishkaChelekom.MCP.Server, transport: :streamable_http},
+      # Note: `start: true` is required to force start in Phoenix projects
+      # where :phoenix, :serve_endpoints may be false
+      {MishkaChelekom.MCP.Server, transport: {:streamable_http, start: true}},
 
       # HTTP Server
       {Plug.Cowboy, scheme: :http, plug: MishkaChelekom.MCP.Router, options: [port: port]}
