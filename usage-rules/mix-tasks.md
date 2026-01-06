@@ -539,6 +539,129 @@ mix mishka.assets.deps lodash --mix-bun
 
 If no package manager is found, the task will offer to install `{:bun, "~> 1.0"}` as a Mix dependency.
 
+---
+
+## mix mishka.mcp.server
+
+Starts the Mishka Chelekom MCP Server as a standalone service for AI tools integration.
+
+### Basic Usage
+
+```bash
+# Start with default port (4003)
+mix mishka.mcp.server
+
+# Start with custom port
+mix mishka.mcp.server --port 5000
+```
+
+### Available Options
+
+| Option | Alias | Description |
+|--------|-------|-------------|
+| `--port` | `-p` | HTTP port to listen on (default: 4003) |
+
+### Connecting AI Tools
+
+After starting the server, connect your AI tools:
+
+**Claude Code:**
+```bash
+claude mcp add --transport http mishka-chelekom http://localhost:4003/mcp
+```
+
+**Cursor/VS Code (.mcp.json):**
+```json
+{
+  "mcpServers": {
+    "mishka-chelekom": {
+      "type": "http",
+      "url": "http://localhost:4003/mcp"
+    }
+  }
+}
+```
+
+### Available MCP Tools
+
+- `generate_component` - Generate mix command for a single component
+- `generate_components` - Generate mix command for multiple components
+- `get_component_info` - Get component configuration options
+- `get_example` - Get HEEx code examples with usage patterns
+- `get_js_hook_info` - Get JavaScript hook documentation
+- `get_mix_task_info` - Get mix task documentation
+- `search_components` - Search components by name or functionality
+- `uninstall_component` - Generate uninstall command
+- `update_config` - Update project configuration settings
+- `validate_config` - Validate configuration file for errors
+- `get_docs` - Fetch documentation from mishka.tools
+
+### Available MCP Resources
+
+- `list_components` - List all available components with categories
+- `list_colors` - List color variants with CSS variables
+- `list_variants` - List style variants
+- `list_sizes` - List size options
+- `list_spaces` - List spacing options
+- `list_scripts` - List JavaScript hooks
+- `list_dependencies` - List component dependencies
+- `list_css_variables` - List all CSS custom properties
+- `get_config` - Get current project configuration
+
+---
+
+## mix mishka.mcp.setup
+
+Integrates the MCP Server directly into your Phoenix router.
+
+### Basic Usage
+
+```bash
+# Add MCP endpoint to router with defaults
+mix mishka.mcp.setup
+
+# Custom endpoint path
+mix mishka.mcp.setup --path /api/mcp
+
+# Enable in all environments (not just dev)
+mix mishka.mcp.setup --dev-only=false
+
+# Skip confirmation prompts
+mix mishka.mcp.setup --yes
+```
+
+### Available Options
+
+| Option | Alias | Description |
+|--------|-------|-------------|
+| `--path` | `-p` | Custom MCP endpoint path (default: "/mcp") |
+| `--dev-only` | | Only enable in development (default: true) |
+| `--yes` | | Skip confirmation prompts |
+
+### What This Task Does
+
+1. Adds the MCP route to your Phoenix router
+2. Configures the route to use `Anubis.Server.Transport.StreamableHTTP.Plug`
+3. Wraps it in a dev_routes condition (unless `--dev-only=false`)
+
+### After Setup
+
+The MCP endpoint runs on your **Phoenix port** (default 4000), not 4003:
+
+```bash
+claude mcp add --transport http mishka-chelekom http://localhost:4000/mcp
+```
+
+### Standalone vs Phoenix Integration
+
+| Feature | `mix mishka.mcp.server` | `mix mishka.mcp.setup` |
+|---------|-------------------------|------------------------|
+| Port | Separate (4003) | Phoenix port (4000) |
+| Usage | Any Elixir project | Phoenix projects |
+| Control | Manual start/stop | Runs with Phoenix |
+
+---
+
 ## Generated File Locations
 
 | File Type | Location |

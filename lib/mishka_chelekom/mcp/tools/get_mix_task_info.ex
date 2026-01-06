@@ -20,6 +20,8 @@ defmodule MishkaChelekom.MCP.Tools.GetMixTaskInfo do
   - `mix mishka.ui.css.config` - Manage CSS configuration
   - `mix mishka.assets.install` - Run package manager commands
   - `mix mishka.assets.deps` - Manage JS dependencies
+  - `mix mishka.mcp.server` - Start standalone MCP server for AI tools
+  - `mix mishka.mcp.setup` - Integrate MCP server into Phoenix router
   """
 
   use Anubis.Server.Component, type: :tool
@@ -97,7 +99,12 @@ defmodule MishkaChelekom.MCP.Tools.GetMixTaskInfo do
       "css_config" => "mishka.ui.css.config",
       "assets_install" => "mishka.assets.install",
       "assets_deps" => "mishka.assets.deps",
-      "deps" => "mishka.assets.deps"
+      "deps" => "mishka.assets.deps",
+      "mcp_server" => "mishka.mcp.server",
+      "mcp_setup" => "mishka.mcp.setup",
+      "mcp" => "mishka.mcp.server",
+      "server" => "mishka.mcp.server",
+      "setup" => "mishka.mcp.setup"
     }
 
     full_task =
@@ -163,6 +170,8 @@ defmodule MishkaChelekom.MCP.Tools.GetMixTaskInfo do
     | `mix mishka.ui.css.config` | Manage CSS configuration |
     | `mix mishka.assets.install` | Run package manager commands |
     | `mix mishka.assets.deps` | Manage JS dependencies |
+    | `mix mishka.mcp.server` | Start standalone MCP server for AI tools |
+    | `mix mishka.mcp.setup` | Integrate MCP server into Phoenix router |
 
     ## Quick Examples
 
@@ -178,6 +187,12 @@ defmodule MishkaChelekom.MCP.Tools.GetMixTaskInfo do
 
     # Initialize CSS config
     mix mishka.ui.css.config --init
+
+    # Start MCP server for AI tools
+    mix mishka.mcp.server --port 4003
+
+    # Add MCP to Phoenix router
+    mix mishka.mcp.setup
     ```
 
     ---
@@ -203,6 +218,8 @@ defmodule MishkaChelekom.MCP.Tools.GetMixTaskInfo do
     | `mix mishka.ui.css.config` | Manage CSS configuration |
     | `mix mishka.assets.install` | Run package manager commands |
     | `mix mishka.assets.deps` | Manage JS dependencies |
+    | `mix mishka.mcp.server` | Start standalone MCP server for AI tools |
+    | `mix mishka.mcp.setup` | Integrate MCP server into Phoenix router |
 
     ---
     📖 Full CLI docs: https://mishka.tools/chelekom/docs/cli
