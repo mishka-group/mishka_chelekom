@@ -110,13 +110,31 @@ defmodule Mix.Tasks.Mishka.Mcp.Setup do
     Note: The MCP endpoint runs on your Phoenix port (default 4000),
     not on port 4003 like the standalone server.
 
-    ## Available MCP Tools
+    ## Available MCP Tools (11)
 
-    - list_components - List all available components
-    - get_component_info - Get component configuration options
-    - get_example - Get HEEx code examples
-    - search_components - Search by name or functionality
-    - get_docs - Fetch documentation
+    - generate_component - Generate mix command for a single component
+    - generate_components - Generate mix command for multiple components
+    - get_component_info - Get component configuration options (variants, colors, sizes)
+    - get_example - Get HEEx code examples with usage patterns
+    - get_js_hook_info - Get JavaScript hook documentation
+    - get_mix_task_info - Get mix task documentation
+    - search_components - Search components by name or functionality
+    - uninstall_component - Generate uninstall command
+    - update_config - Update project configuration settings
+    - validate_config - Validate configuration file for errors
+    - get_docs - Fetch documentation from mishka.tools
+
+    ## Available MCP Resources (9)
+
+    - list_components - List all available components with categories
+    - list_colors - List color variants with CSS variables
+    - list_variants - List style variants (default, outline, shadow, etc.)
+    - list_sizes - List size options (small, medium, large, etc.)
+    - list_spaces - List spacing options
+    - list_scripts - List JavaScript hooks (Carousel, Clipboard, etc.)
+    - list_dependencies - List component dependencies
+    - list_css_variables - List all CSS custom properties
+    - get_config - Get current project configuration
     """)
   end
 

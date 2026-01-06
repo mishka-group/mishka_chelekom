@@ -35,21 +35,31 @@ defmodule Mix.Tasks.Mishka.Mcp.Server do
         }
       }
 
-  ## Available Tools
+  ## Available Tools (11)
 
-  The MCP server provides these tools:
-
-  - `generate_component` - Generate mix commands for creating components
-  - `get_component_info` - Get detailed component configuration options
-  - `get_example` - Get HEEx code examples for components
+  - `generate_component` - Generate mix command for a single component
+  - `generate_components` - Generate mix command for multiple components
+  - `get_component_info` - Get component configuration options (variants, colors, sizes)
+  - `get_example` - Get HEEx code examples with usage patterns
+  - `get_js_hook_info` - Get JavaScript hook documentation
+  - `get_mix_task_info` - Get mix task documentation
   - `search_components` - Search components by name or functionality
+  - `uninstall_component` - Generate uninstall command
+  - `update_config` - Update project configuration settings
+  - `validate_config` - Validate configuration file for errors
+  - `get_docs` - Fetch documentation from mishka.tools
 
-  ## Available Resources
+  ## Available Resources (9)
 
   - `list_components` - List all available components with categories
-  - `list_colors` - List available color variants
-  - `list_variants` - List available style variants
-  - `list_sizes` - List available size options
+  - `list_colors` - List color variants with CSS variables
+  - `list_variants` - List style variants (default, outline, shadow, etc.)
+  - `list_sizes` - List size options (small, medium, large, etc.)
+  - `list_spaces` - List spacing options
+  - `list_scripts` - List JavaScript hooks (Carousel, Clipboard, etc.)
+  - `list_dependencies` - List component dependencies
+  - `list_css_variables` - List all CSS custom properties
+  - `get_config` - Get current project configuration
   """
 
   use Mix.Task

@@ -54,7 +54,7 @@ defmodule MishkaChelekom.MixProject do
       {:plug, "~> 1.18"},
       {:usage_rules, "~> 0.1.26", only: :test},
       {:anubis_mcp, "~> 0.17.0"},
-      {:plug_cowboy, "~> 2.7"},
+      {:bandit, "~> 1.0", optional: true},
       {:jason, "~> 1.4"}
     ]
   end
