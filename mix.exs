@@ -13,6 +13,7 @@ defmodule MishkaChelekom.MixProject do
       elixirc_paths: elixirc_paths(Mix.env()),
       start_permanent: Mix.env() == :prod,
       deps: deps(),
+      aliases: aliases(),
       description: description(),
       package: package(),
       homepage_url: "https://github.com/mishka-group",
@@ -35,6 +36,13 @@ defmodule MishkaChelekom.MixProject do
 
   defp elixirc_paths(:test), do: ["lib", "priv", "test/support"]
   defp elixirc_paths(_mode), do: ["lib", "priv"]
+
+  defp aliases do
+    [
+      "mcp.server": ["mishka.mcp.server"],
+      "mcp.setup": ["mishka.mcp.setup"]
+    ]
+  end
 
   defp deps do
     [
