@@ -38,13 +38,9 @@ defmodule MishkaChelekom.MCP.Supervisor do
   def init(opts) do
     port = Keyword.get(opts, :port, @default_port)
 
+    # MCP Server and Registry are already started by MishkaChelekom.Application
+    # We only need to start the HTTP server for standalone mode
     children = [
-      # MCP Server with Streamable HTTP transport
-      # Note: `start: true` is required to force start in Phoenix projects
-      # where :phoenix, :serve_endpoints may be false
-      # Note: Anubis.Server.Registry is started by MishkaChelekom.Application
-      {MishkaChelekom.MCP.Server, transport: {:streamable_http, start: true}},
-      # HTTP Server - use Bandit if available (Phoenix default), fallback to Cowboy
       http_server_child(port)
     ]
 

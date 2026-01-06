@@ -7,6 +7,7 @@
 - Add `--no-save` flag to control prefix config saving [#459](https://github.com/mishka-group/mishka_chelekom/pull/459)
 - Add Usage rules for all components and JS Hooks [#461](https://github.com/mishka-group/mishka_chelekom/pull/461)
 - Add uninstall Mix task and its tests [#464](https://github.com/mishka-group/mishka_chelekom/pull/464)
+- Add Entry-level MCP for Mishka Chelekom components, docs and CLIs [#466](https://github.com/mishka-group/mishka_chelekom/pull/466)
 
 ### Refactors:
 
