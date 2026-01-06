@@ -66,7 +66,8 @@ defmodule MishkaChelekom.MixProject do
   defp package() do
     [
       extra: %{igniter_only: ["dev"]},
-      files: ~w(lib priv .formatter.exs mix.exs LICENSE README* MCP.md usage-rules.md usage-rules),
+      files:
+        ~w(lib priv .formatter.exs mix.exs LICENSE README* MCP.md usage-rules.md usage-rules),
       licenses: ["Apache-2.0"],
       maintainers: ["Shahryar Tavakkoli", "Mona Aghili", "Arian Alijani"],
       links: %{
