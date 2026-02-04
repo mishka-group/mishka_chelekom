@@ -11,6 +11,6 @@
       module: ""
     ],
     optional: [],
-    necessary: ["collapse", "button"]
+    necessary: ["collapse", "button", "icon"]
   ]
 ]

@@ -18,8 +18,10 @@ defmodule <%= @module %> do
   **Documentation:** https://mishka.tools/chelekom/docs/menu
   """
   use Phoenix.Component
-  import <%= inspect(@web_module) %>.Components.<%= @module_prefix_camel %>Button, only: [<%= @component_prefix %>button_link: 1]
+  import <%= inspect(@web_module) %>.Components.<%= @module_prefix_camel %>Button, only: [<%= @component_prefix %>button_link: 1, <%= @component_prefix %>button: 1]
   import <%= inspect(@web_module) %>.Components.<%= @module_prefix_camel %>Collapse, only: [<%= @component_prefix %>collapse: 1]
+  import <%= inspect(@web_module) %>.Components.<%= @module_prefix_camel %>Icon, only: [<%= @component_prefix %>icon: 1]
+  import Phoenix.LiveView.Utils, only: [random_id: 0]
 
   @doc """
   Renders a customizable `menu` component that can include menu items as a list of maps or use
@@ -356,6 +358,15 @@ defmodule <%= @module %> do
       "Global attributes can define defaults which are merged with attributes provided by the caller"
 
   def <%= @component_prefix %>menu(assigns) do
+    assigns =
+      assign(
+        assigns,
+        :menu_items,
+        Enum.map(assigns.menu_items, fn item ->
+          Map.put_new_lazy(item, :id, &random_id/0)
+        end)
+      )
+
     ~H"""
     <ul
       id={@id}
@@ -373,24 +384,32 @@ defmodule <%= @module %> do
           class={@link_class}
           {menu_item}
         />
-         <.<%= @component_prefix %>collapse
+        <.<%= @component_prefix %>collapse
           :if={Map.get(menu_item, :sub_items, []) != []}
-          id={menu_item[:id] || "menu-item-#{System.unique_integer([:positive])}"}
+          id={"#{menu_item[:id]}-collapse"}
           class={@accordion_class}
         >
           <:trigger>
-            <.<%= @component_prefix %>button_link
+            <.<%= @component_prefix %>button
+              id={menu_item[:id]}
               font_weight={menu_item[:active] && "font-bold"}
               class={@link_class}
-              {Map.drop(menu_item, [:sub_items, :padding])}
-            />
+              content_position={menu_item[:content_position] || "start"}
+              content_class={menu_item[:content_class] || "flex justify-between items-center gap-2 w-full"}
+              display={menu_item[:display] || "flex"}
+              full_width={Map.get(menu_item, :full_width, true)}
+              {Map.take(menu_item, [:variant, :color, :size, :rounded, :border, :icon, :icon_class, :line_height])}
+            >
+              {menu_item[:title]}
+              <.<%= @component_prefix %>icon name="hero-chevron-down" class="size-3 transition-transform" />
+            </.<%= @component_prefix %>button>
           </:trigger>
           <.<%= @component_prefix %>menu
-            id={menu_item[:id]}
+            id={"#{menu_item[:id]}-submenu"}
             class={menu_item[:padding]}
             menu_items={Map.get(menu_item, :sub_items, [])}
           />
-        </.collapse>
+        </.<%= @component_prefix %>collapse>
       </li>
       {render_slot(@inner_block)}
     </ul>
