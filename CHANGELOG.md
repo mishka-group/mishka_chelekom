@@ -8,6 +8,8 @@
 - Add Usage rules for all components and JS Hooks [#461](https://github.com/mishka-group/mishka_chelekom/pull/461)
 - Add uninstall Mix task and its tests [#464](https://github.com/mishka-group/mishka_chelekom/pull/464)
 - Add Entry-level MCP for Mishka Chelekom components, docs and CLIs [#466](https://github.com/mishka-group/mishka_chelekom/pull/466)
+- Add server push event for `Combobox` component [Issue with help](https://github.com/mishka-group/mishka_chelekom/issues/440)
+
 
 ### Refactors:
 
@@ -17,6 +19,7 @@
 ### Bugs:
 
 - Remove stopPropagation from Floating hook to allow phx-click event bubbling [Commit](https://github.com/mishka-group/mishka_chelekom/commit/4a62be5142767c3b2977619614a5fa40e835b1bb) and [Issue with help](https://github.com/mishka-group/mishka_chelekom/issues/448#issuecomment-3529933709)
+- Fix menu `sub_items` and sidebar `hide_position` crashes [Issue with help](https://github.com/mishka-group/mishka_chelekom/issues/467)
 
 ---
 
