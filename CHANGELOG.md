@@ -20,6 +20,7 @@
 
 - Remove stopPropagation from Floating hook to allow phx-click event bubbling [Commit](https://github.com/mishka-group/mishka_chelekom/commit/4a62be5142767c3b2977619614a5fa40e835b1bb) and [Issue with help](https://github.com/mishka-group/mishka_chelekom/issues/448#issuecomment-3529933709)
 - Fix menu `sub_items` and sidebar `hide_position` crashes [Issue with help](https://github.com/mishka-group/mishka_chelekom/issues/467)
+- Use native browser date picker icons and remove custom calendar icon [Issue with help](https://github.com/mishka-group/mishka_chelekom/issues/442)
 
 ---
 
