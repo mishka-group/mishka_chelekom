@@ -86,7 +86,7 @@ defmodule <%= @module %> do
 
   @doc type: :component
   attr :id, :any, default: nil, doc: "A unique identifier is used to manage state and interaction"
-  attr :name, :any, doc: "Name of input"
+  attr :name, :any, default: nil, doc: "Name of input"
   attr :label, :string, default: nil
   attr :value, :any, doc: "Value of input"
   attr :field, Phoenix.HTML.FormField, doc: "a form field struct retrieved from the form"
@@ -119,6 +119,12 @@ defmodule <%= @module %> do
   attr :description, :string, default: nil, doc: "Determines a short description"
   attr :searchable, :boolean, default: false, doc: "Enables search functionality in the combobox"
   attr :multiple, :boolean, default: false, doc: "Multiple selections in the combobox"
+  attr :creatable, :boolean, default: false, doc: "Enables creating new options from search input"
+  attr :create_label, :string, default: "Create", doc: "Label prefix for the create option button"
+
+  attr :on_create, :string,
+    default: nil,
+    doc: "Event name pushed to the server when a new option is created"
 
   slot :start_section, required: false, doc: "Renders heex content in start of an element" do
     attr :class, :any, doc: "Custom CSS class for additional styling"
@@ -161,6 +167,7 @@ defmodule <%= @module %> do
       |> assign_new(:options, fn -> [] end)
       |> assign_new(:option, fn -> [] end)
       |> assign_new(:value, fn -> Map.get(assigns, :value, []) end)
+      |> then(fn a -> if a.creatable, do: assign(a, :searchable, true), else: a end)
 
     ~H"""
     <div class={[
@@ -183,7 +190,14 @@ defmodule <%= @module %> do
         </div>
       </div>
 
-      <div phx-hook="Combobox" data-multiple={@multiple} id={"#{@id}-combo"}>
+      <div
+        phx-hook="Combobox"
+        data-multiple={@multiple}
+        data-creatable={@creatable || nil}
+        data-create-label={@create_label}
+        data-on-create={@on_create}
+        id={"#{@id}-combo"}
+      >
         <input type="hidden" name={@name} />
         <select id={@id} name={@name} multiple class="combo-select hidden" {@rest}>
           <option value=""></option>
@@ -346,6 +360,17 @@ defmodule <%= @module %> do
                 <div :if={@searchable} class="no-results text-center hidden">
                   {gettext("Nothing found!")}
                 </div>
+
+                <div
+                  :if={@creatable}
+                  class="combobox-create-option combobox-option cursor-pointer rounded flex items-center gap-2"
+                  data-part="create-option"
+                  role="option"
+                  hidden
+                >
+                  <<%= @component_prefix %>icon name="hero-plus" class="size-4 shrink-0 combobox-icon" />
+                  <span class="combobox-create-label"></span>
+                </div>
               </div>
             </.scroll_area>
           </div>
@@ -364,6 +389,7 @@ defmodule <%= @module %> do
       |> assign_new(:options, fn -> [] end)
       |> assign_new(:option, fn -> [] end)
       |> assign_new(:value, fn -> Map.get(assigns, :value) end)
+      |> then(fn a -> if a.creatable, do: assign(a, :searchable, true), else: a end)
 
     ~H"""
     <div class={[
@@ -385,7 +411,13 @@ defmodule <%= @module %> do
         </div>
       </div>
 
-      <div phx-hook="Combobox" id={"#{@id}-combo"}>
+      <div
+        phx-hook="Combobox"
+        data-creatable={@creatable || nil}
+        data-create-label={@create_label}
+        data-on-create={@on_create}
+        id={"#{@id}-combo"}
+      >
         <select id={@id} name={@name} class="combo-select hidden" {@rest}>
           <option value=""></option>
 
@@ -539,6 +571,17 @@ defmodule <%= @module %> do
 
                 <div :if={@searchable} class="no-results text-center hidden">
                   {gettext("Nothing found!")}
+                </div>
+
+                <div
+                  :if={@creatable}
+                  class="combobox-create-option combobox-option cursor-pointer rounded flex items-center gap-2"
+                  data-part="create-option"
+                  role="option"
+                  hidden
+                >
+                  <<%= @component_prefix %>icon name="hero-plus" class="size-4 shrink-0 combobox-icon" />
+                  <span class="combobox-create-label"></span>
                 </div>
               </div>
             </.scroll_area>

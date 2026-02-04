@@ -13,6 +13,10 @@ let Combobox = {
     this.originalParent = null;
     this.isPortalActive = false;
 
+    this.creatable = this.el.hasAttribute("data-creatable");
+    this.createLabel = this.el.getAttribute("data-create-label") || "Create";
+    this.onCreateEvent = this.el.getAttribute("data-on-create");
+
     if (!this.openButton.id) {
       this.openButton.id = `combobox-trigger-${Math.random()
         .toString(36)
@@ -33,6 +37,11 @@ let Combobox = {
 
     if (this.clearButton) {
       this.clearButton.addEventListener("click", this.boundClearButtonClick);
+    }
+
+    if (this.creatable && this.createOption) {
+      this.boundCreateOptionClick = this.handleCreateOptionClick.bind(this);
+      this.createOption.addEventListener("click", this.boundCreateOptionClick);
     }
 
     document.addEventListener("click", this.boundHandleDocumentClick, true);
@@ -58,14 +67,19 @@ let Combobox = {
     this.clearButton = this.el.querySelector(
       '[data-part="clear-combobox-button"]',
     );
+    this.createOption = this.el.querySelector('[data-part="create-option"]');
     this.dropdownOptions = this.getDropdownOptions();
   },
 
   getDropdownOptions() {
     if (this.isPortalActive && this.portalContainer) {
-      return this.portalContainer.querySelectorAll(".combobox-option");
+      return this.portalContainer.querySelectorAll(
+        ".combobox-option:not(.combobox-create-option)",
+      );
     }
-    return this.el.querySelectorAll(".combobox-option");
+    return this.el.querySelectorAll(
+      ".combobox-option:not(.combobox-create-option)",
+    );
   },
 
   setupOptionListeners() {
@@ -205,6 +219,9 @@ let Combobox = {
       Array.from(this.dropdownOptions).forEach((opt) =>
         opt.removeAttribute("data-combobox-navigate"),
       );
+      if (this.createOption) {
+        this.createOption.removeAttribute("data-combobox-navigate");
+      }
 
       if (navigateTarget) {
         this.navigateToOption(navigateTarget);
@@ -232,7 +249,7 @@ let Combobox = {
     this.openButton.removeAttribute("aria-activedescendant");
     window.removeEventListener("scroll", this.boundHandleScroll);
     document.removeEventListener("keydown", this.boundHandleKeyDown);
-
+    this.clearCreateError();
     this.moveDropdownBack();
   },
 
@@ -242,10 +259,16 @@ let Combobox = {
     Array.from(this.getDropdownOptions()).forEach((opt) => {
       opt.removeAttribute("data-combobox-navigate");
     });
+    if (this.createOption) {
+      this.createOption.removeAttribute("data-combobox-navigate");
+    }
 
     option.setAttribute("data-combobox-navigate", "");
     option.scrollIntoView({ block: "nearest" });
-    this.lastNavigatedValue = option.dataset.comboboxValue;
+
+    if (option.dataset && option.dataset.comboboxValue) {
+      this.lastNavigatedValue = option.dataset.comboboxValue;
+    }
 
     if (option.id) {
       this.openButton.setAttribute("aria-activedescendant", option.id);
@@ -261,6 +284,12 @@ let Combobox = {
 
     if (visibleOptions.length > 0) {
       this.navigateToOption(visibleOptions[0]);
+    } else if (
+      this.creatable &&
+      this.createOption &&
+      !this.createOption.hidden
+    ) {
+      this.navigateToOption(this.createOption);
     }
   },
 
@@ -295,7 +324,13 @@ let Combobox = {
     }
   },
 
+  clearCreateError() {
+    const err = this.dropdown.querySelector(".combobox-create-error");
+    if (err) err.remove();
+  },
+
   handleSearch(e) {
+    this.clearCreateError();
     const query = e.target.value.toLowerCase();
     this.dropdownOptions = this.getDropdownOptions();
 
@@ -321,10 +356,40 @@ let Combobox = {
     const optionGroups = this.dropdown.querySelectorAll(".option-group");
     optionGroups.forEach((group) => {
       const visibleInGroup = group.querySelectorAll(
-        '.combobox-option:not([style*="display: none"])',
+        '.combobox-option:not(.combobox-create-option):not([style*="display: none"])',
       );
       group.style.display = visibleInGroup.length === 0 ? "none" : "";
     });
+
+    if (this.creatable && this.createOption) {
+      const trimmedQuery = e.target.value.trim();
+      if (trimmedQuery.length > 0) {
+        const exactMatch = Array.from(this.dropdownOptions).some((option) => {
+          const valueAttr = option
+            .getAttribute("data-combobox-value")
+            .toLowerCase();
+          const displayText = option.textContent.trim().toLowerCase();
+          return (
+            valueAttr === trimmedQuery.toLowerCase() ||
+            displayText === trimmedQuery.toLowerCase()
+          );
+        });
+
+        if (!exactMatch) {
+          this.createOption.hidden = false;
+          const label = this.createOption.querySelector(
+            ".combobox-create-label",
+          );
+          if (label)
+            label.textContent = `${this.createLabel} '${trimmedQuery}'`;
+          if (noResults) noResults.classList.add("hidden");
+        } else {
+          this.createOption.hidden = true;
+        }
+      } else {
+        this.createOption.hidden = true;
+      }
+    }
 
     this.resetNavigateToFirstOption();
   },
@@ -534,6 +599,10 @@ let Combobox = {
       (opt) => opt.style.display !== "none",
     );
 
+    if (this.creatable && this.createOption && !this.createOption.hidden) {
+      visibleOptions.push(this.createOption);
+    }
+
     if (visibleOptions.length === 0) return;
 
     let currentIndex = visibleOptions.findIndex((opt) =>
@@ -561,6 +630,12 @@ let Combobox = {
       e.stopPropagation();
       if (currentIndex >= 0) {
         const targetOption = visibleOptions[currentIndex];
+
+        if (this.creatable && targetOption === this.createOption) {
+          this.createNewOption(this.searchInput ? this.searchInput.value : "");
+          return;
+        }
+
         const value = targetOption.dataset.comboboxValue;
         this.lastNavigatedValue = value;
 
@@ -610,6 +685,176 @@ let Combobox = {
     currentIndex = (currentIndex + 1) % matchingOptions.length;
 
     this.navigateToOption(matchingOptions[currentIndex]);
+  },
+
+  handleCreateOptionClick(e) {
+    e.preventDefault();
+    e.stopPropagation();
+    if (this.searchInput) {
+      this.createNewOption(this.searchInput.value);
+    }
+  },
+
+  buildOptionElement(value, label) {
+    const el = document.createElement("div");
+    el.setAttribute("role", "option");
+    el.classList.add(
+      "combobox-option",
+      "cursor-pointer",
+      "rounded",
+      "flex",
+      "justify-between",
+      "items-center",
+    );
+    el.setAttribute("data-combobox-value", value);
+
+    const span = document.createElement("span");
+    span.textContent = label || value;
+    el.appendChild(span);
+
+    const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+    svg.setAttribute(
+      "class",
+      "hidden [[data-combobox-selected]_&]:block shrink-0 w-3.5 h-3.5 combobox-icon",
+    );
+    svg.setAttribute("fill", "none");
+    svg.setAttribute("viewBox", "0 0 24 24");
+    const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+    Object.entries({
+      stroke: "currentColor",
+      "stroke-linecap": "round",
+      "stroke-linejoin": "round",
+      "stroke-width": "2",
+      d: "M20 6 9 17l-5-5",
+    }).forEach(([k, v]) => path.setAttribute(k, v));
+    svg.appendChild(path);
+    el.appendChild(svg);
+
+    return el;
+  },
+
+  selectCreatedOption(selectOpt, optionEl) {
+    if (this.select.multiple) {
+      selectOpt.selected = true;
+      selectOpt.setAttribute("selected", "");
+      optionEl.setAttribute("data-combobox-selected", "");
+      optionEl.setAttribute("aria-selected", "true");
+      this.updateMultipleSelectedDisplay();
+    } else {
+      Array.from(this.select.options).forEach((o) => (o.selected = false));
+      Array.from(this.getDropdownOptions()).forEach((o) => {
+        o.removeAttribute("data-combobox-selected");
+        o.setAttribute("aria-selected", "false");
+      });
+      selectOpt.selected = true;
+      optionEl.setAttribute("data-combobox-selected", "");
+      optionEl.setAttribute("aria-selected", "true");
+      this.updateSingleSelectedDisplay();
+      this.closeDropdown();
+      this.openButton.focus();
+    }
+  },
+
+  removeCreatedOption(selectOpt, optionEl, errorMsg) {
+    selectOpt.remove();
+    optionEl.remove();
+    this.setupOptionListeners();
+    if (this.select.multiple) {
+      this.updateMultipleSelectedDisplay();
+    } else {
+      this.updateSingleSelectedDisplay();
+    }
+    this.dispatchChangeEvent();
+
+    if (errorMsg) {
+      const errEl = document.createElement("div");
+      errEl.textContent = errorMsg;
+      errEl.classList.add(
+        "combobox-create-error",
+        "text-center",
+        "text-red-500",
+        "py-2",
+        "text-sm",
+      );
+      errEl.addEventListener("click", (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+      });
+
+      const searchWrapper = this.dropdown
+        .querySelector(".combobox-search-input")
+        ?.closest("div");
+      if (searchWrapper) {
+        searchWrapper.after(errEl);
+      } else {
+        this.dropdown.prepend(errEl);
+      }
+
+      this.openDropdown();
+    }
+  },
+
+  clearSearchState() {
+    if (this.searchInput) {
+      this.searchInput.value = "";
+      Array.from(this.getDropdownOptions()).forEach(
+        (o) => (o.style.display = ""),
+      );
+    }
+    if (this.createOption) this.createOption.hidden = true;
+    const noResults = this.dropdown.querySelector(".no-results");
+    if (noResults) noResults.classList.add("hidden");
+  },
+
+  createNewOption(value) {
+    const trimmed = (value || "").trim();
+    if (!trimmed) return;
+
+    const isDuplicate = Array.from(this.select.options).some(
+      (opt) => opt.value.toLowerCase() === trimmed.toLowerCase(),
+    );
+    if (isDuplicate) return;
+
+    const selectOpt = document.createElement("option");
+    selectOpt.value = trimmed;
+    selectOpt.textContent = trimmed;
+    this.select.appendChild(selectOpt);
+
+    const optionEl = this.buildOptionElement(trimmed);
+    const anchor =
+      this.createOption || this.dropdown.querySelector(".no-results");
+    if (anchor?.parentNode) anchor.parentNode.insertBefore(optionEl, anchor);
+
+    this.setupOptionListeners();
+    this.selectCreatedOption(selectOpt, optionEl);
+    this.clearSearchState();
+    this.dispatchChangeEvent();
+    this.lastNavigatedValue = trimmed;
+
+    if (this.onCreateEvent) {
+      this.pushEvent(
+        this.onCreateEvent,
+        { id: this.el.id.replace(/-combo$/, ""), value: trimmed },
+        (reply) => {
+          if (reply.error) {
+            this.removeCreatedOption(selectOpt, optionEl, reply.error);
+            return;
+          }
+          if (reply.value && reply.value !== trimmed) {
+            selectOpt.value = reply.value;
+            selectOpt.textContent = reply.label || reply.value;
+            optionEl.setAttribute("data-combobox-value", reply.value);
+            optionEl.querySelector("span").textContent =
+              reply.label || reply.value;
+            if (this.select.multiple) {
+              this.updateMultipleSelectedDisplay();
+            } else {
+              this.updateSingleSelectedDisplay();
+            }
+          }
+        },
+      );
+    }
   },
 
   syncDisplayFromSelect() {
@@ -678,11 +923,13 @@ let Combobox = {
     if (this.observer) {
       this.observer.disconnect();
     }
+
     document.removeEventListener("click", this.boundHandleDocumentClick, true);
     if (this.openButton && this.boundOpenButtonClick) {
       this.openButton.removeEventListener("click", this.boundOpenButtonClick);
       this.openButton.removeEventListener("keydown", this.boundHandleKeyDown);
     }
+
     if (
       this.boundOptionClickHandlers &&
       this.boundOptionClickHandlers.length > 0
@@ -691,6 +938,7 @@ let Combobox = {
         btn.removeEventListener("click", handler);
       });
     }
+
     if (this.searchInput && this.boundSearchInputHandler) {
       this.searchInput.removeEventListener(
         "input",
@@ -698,8 +946,16 @@ let Combobox = {
       );
       this.searchInput.removeEventListener("keydown", this.boundHandleKeyDown);
     }
+
     if (this.clearButton && this.boundClearButtonClick) {
       this.clearButton.removeEventListener("click", this.boundClearButtonClick);
+    }
+
+    if (this.createOption && this.boundCreateOptionClick) {
+      this.createOption.removeEventListener(
+        "click",
+        this.boundCreateOptionClick,
+      );
     }
   },
 };
