@@ -371,7 +371,7 @@ defmodule <%= @module %> do
   defp border_class("large", "top", _), do: "border-b-4"
   defp border_class("extra_large", "top", _), do: "border-b-[5px]"
 
-  defp border_class("extra_small", "bottom", _), do: "border"
+  defp border_class("extra_small", "bottom", _), do: "border-b"
   defp border_class("small", "bottom", _), do: "border-b-2"
   defp border_class("medium", "bottom", _), do: "border-b-[3px]"
   defp border_class("large", "bottom", _), do: "border-b-4"
