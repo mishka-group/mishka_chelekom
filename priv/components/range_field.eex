@@ -116,7 +116,7 @@ defmodule <%= @module %> do
       width_class(@width),
       @class
     ]}>
-      <.label for={@id}>{@label}</.label>
+      <.label :if={@label} for={@id}>{@label}</.label>
       <div class="relative mb-8">
         <input type="range" value={@value} name={@name} id={@id} class={["w-full", color_class(@appearance, @color)]} {@rest} />
         <span
@@ -144,7 +144,7 @@ defmodule <%= @module %> do
       width_class(@width),
       @class
     ]}>
-      <.label for={@id}>{@label}</.label>
+      <.label :if={@label} for={@id}>{@label}</.label>
       <div class="relative mb-8">
         <input
           type="range"
