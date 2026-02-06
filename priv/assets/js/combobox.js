@@ -330,6 +330,7 @@ let Combobox = {
   },
 
   handleSearch(e) {
+    e.stopPropagation();
     this.clearCreateError();
     const query = e.target.value.toLowerCase();
     this.dropdownOptions = this.getDropdownOptions();
@@ -755,15 +756,40 @@ let Combobox = {
     }
   },
 
-  removeCreatedOption(selectOpt, optionEl, errorMsg) {
-    selectOpt.remove();
-    optionEl.remove();
-    this.setupOptionListeners();
+  refreshSelectedDisplay() {
     if (this.select.multiple) {
       this.updateMultipleSelectedDisplay();
     } else {
       this.updateSingleSelectedDisplay();
     }
+  },
+
+  handleCreateReply(reply, selectOpt, optionEl) {
+    if (reply.error) {
+      this.removeCreatedOption(selectOpt, optionEl, reply.error);
+      return;
+    }
+
+    if (reply.value) {
+      selectOpt.value = reply.value;
+      optionEl.setAttribute("data-combobox-value", reply.value);
+    }
+
+    if (reply.label) {
+      selectOpt.textContent = reply.label;
+      optionEl.querySelector("span").textContent = reply.label;
+    }
+
+    if (reply.value || reply.label) {
+      this.refreshSelectedDisplay();
+    }
+  },
+
+  removeCreatedOption(selectOpt, optionEl, errorMsg) {
+    selectOpt.remove();
+    optionEl.remove();
+    this.setupOptionListeners();
+    this.refreshSelectedDisplay();
     this.dispatchChangeEvent();
 
     if (errorMsg) {
@@ -835,24 +861,7 @@ let Combobox = {
       this.pushEvent(
         this.onCreateEvent,
         { id: this.el.id.replace(/-combo$/, ""), value: trimmed },
-        (reply) => {
-          if (reply.error) {
-            this.removeCreatedOption(selectOpt, optionEl, reply.error);
-            return;
-          }
-          if (reply.value && reply.value !== trimmed) {
-            selectOpt.value = reply.value;
-            selectOpt.textContent = reply.label || reply.value;
-            optionEl.setAttribute("data-combobox-value", reply.value);
-            optionEl.querySelector("span").textContent =
-              reply.label || reply.value;
-            if (this.select.multiple) {
-              this.updateMultipleSelectedDisplay();
-            } else {
-              this.updateSingleSelectedDisplay();
-            }
-          }
-        },
+        (reply) => this.handleCreateReply(reply, selectOpt, optionEl),
       );
     }
   },

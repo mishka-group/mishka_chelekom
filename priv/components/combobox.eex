@@ -86,7 +86,7 @@ defmodule <%= @module %> do
 
   @doc type: :component
   attr :id, :any, default: nil, doc: "A unique identifier is used to manage state and interaction"
-  attr :name, :any, default: nil, doc: "Name of input"
+  attr :name, :any, doc: "Name of input"
   attr :label, :string, default: nil
   attr :value, :any, doc: "Value of input"
   attr :field, Phoenix.HTML.FormField, doc: "a form field struct retrieved from the form"
@@ -164,6 +164,7 @@ defmodule <%= @module %> do
     assigns =
       assigns
       |> assign_new(:id, fn -> "combo-#{random_id()}" end)
+      |> assign_new(:name, fn -> nil end)
       |> assign_new(:options, fn -> [] end)
       |> assign_new(:option, fn -> [] end)
       |> assign_new(:value, fn -> Map.get(assigns, :value, []) end)
@@ -386,6 +387,7 @@ defmodule <%= @module %> do
     assigns =
       assigns
       |> assign_new(:id, fn -> "combo-#{random_id()}" end)
+      |> assign_new(:name, fn -> nil end)
       |> assign_new(:options, fn -> [] end)
       |> assign_new(:option, fn -> [] end)
       |> assign_new(:value, fn -> Map.get(assigns, :value) end)
