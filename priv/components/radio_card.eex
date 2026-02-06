@@ -874,7 +874,7 @@ defmodule <%= @module %> do
       "text-info-bordered-text-light border-info-bordered-text-light bg-info-bordered-bg-light",
       "dark:text-info-hover-dark dark:border-info-hover-dark dark:bg-info-bordered-bg-dark",
       "[&_.radio-card-input]:checked:accent-info-bordered-text-light",
-      "dark:[&_.radio-card-input]:checked:accent-info--bordered-text-dark",
+      "dark:[&_.radio-card-input]:checked:accent-info-bordered-text-dark",
       "[&_.radio-card-input]:border-info-bordered-text-light dark:[&_.radio-card-input]:border-info-bordered-text-dark",
       "has-[:checked]:border-info-indicator-alt-light dark:has-[:checked]:border-info-indicator-dark",
       "has-[:checked]:bg-[var(--color-info-gradient-indicator-dark)] dark:has-[:checked]:bg-info-indicator-alt-light"
