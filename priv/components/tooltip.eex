@@ -547,7 +547,7 @@ import Phoenix.LiveView.Utils, only: [random_id: 0]
   defp color_variant("bordered", "natural") do
     [
       "text-natural-bordered-text-light border-natural-bordered-text-light bg-natural-bordered-bg-light",
-      "dark:text-natural-bordered-text-dark dark:border-natural--bordered-text-dark dark:bg-natural-bordered-bg-dark"
+      "dark:text-natural-bordered-text-dark dark:border-natural-bordered-text-dark dark:bg-natural-bordered-bg-dark"
     ]
   end
   <% end %>

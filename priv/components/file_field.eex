@@ -285,7 +285,7 @@ defmodule <%= @module %> do
       space_class(@space),
       @class
     ]}>
-      <.label for={@id}>{@label}</.label>
+      <.label :if={@label} for={@id}>{@label}</.label>
 
       <%%= if @live do %>
         <.live_file_input

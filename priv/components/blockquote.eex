@@ -249,7 +249,7 @@ defmodule <%= @module %> do
   defp border_class("small", position, _) do
     [
       position == "left" && "border-s-2",
-      position == "right" && "border-s-2",
+      position == "right" && "border-e-2",
       position == "full" && "border-2"
     ]
   end
