@@ -31,7 +31,12 @@ let Combobox = {
 
     if (this.searchInput) {
       this.boundSearchInputHandler = this.handleSearch.bind(this);
+      this.boundSearchChangeHandler = (e) => e.stopPropagation();
       this.searchInput.addEventListener("input", this.boundSearchInputHandler);
+      this.searchInput.addEventListener(
+        "change",
+        this.boundSearchChangeHandler,
+      );
       this.searchInput.addEventListener("keydown", this.boundHandleKeyDown);
     }
 
@@ -952,6 +957,10 @@ let Combobox = {
       this.searchInput.removeEventListener(
         "input",
         this.boundSearchInputHandler,
+      );
+      this.searchInput.removeEventListener(
+        "change",
+        this.boundSearchChangeHandler,
       );
       this.searchInput.removeEventListener("keydown", this.boundHandleKeyDown);
     }
