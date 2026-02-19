@@ -24,6 +24,7 @@
 - Fix Misplaced dropdown when content has min-width [Issue with help](https://github.com/mishka-group/mishka_chelekom/issues/447)
 - Fix some missing lables conditions [#469](https://github.com/mishka-group/mishka_chelekom/pull/469)
 - Fix CSS typos, wrong border classes, swapped docs, and Gettext template bug [#468](https://github.com/mishka-group/mishka_chelekom/pull/468)
+- Delete dead label code from fieldset component
 
 ---
 
