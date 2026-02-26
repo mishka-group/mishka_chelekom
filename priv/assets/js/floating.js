@@ -107,6 +107,21 @@ const Floating = {
       }
 
       document.body.removeChild(this.floatingContent);
+
+      if (this.originalParent) {
+        if (
+          this.originalIndex >= 0 &&
+          this.originalIndex < this.originalParent.children.length
+        ) {
+          this.originalParent.insertBefore(
+            this.floatingContent,
+            this.originalParent.children[this.originalIndex],
+          );
+        } else {
+          this.originalParent.appendChild(this.floatingContent);
+        }
+      }
+
       this.movedToBody = false;
       this.floatingContent = null;
     }
