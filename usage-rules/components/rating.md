@@ -1,6 +1,6 @@
 # Rating Component
 
-Star-based rating display with interactive selection support.
+Star-based rating display with interactive selection, half-star precision, form integration, disabled state, and keyboard navigation.
 
 **Documentation**: https://mishka.tools/chelekom/docs/rating
 
@@ -18,19 +18,30 @@ mix mishka.ui.gen.component rating
 |------|------------|
 | **Necessary** | None |
 | **Optional** | None |
-| **JavaScript** | None |
+| **JavaScript** | None (uses Phoenix LiveView JS module only) |
 
 ## Attributes
 
 | Attribute | Type | Default | Description |
 |-----------|------|---------|-------------|
-| `color` | `:string` | `"warning"` | Star color |
+| `id` | `:string` | `nil` | Unique identifier for managing state and interaction |
+| `class` | `:string` | `nil` | Custom CSS class for additional styling |
+| `color` | `:string` | `"warning"` | Star color theme |
 | `size` | `:string` | `"small"` | Star size |
 | `gap` | `:string` | `"small"` | Space between stars |
 | `count` | `:integer` | `5` | Number of stars |
-| `select` | `:integer` | `0` | Selected stars |
-| `interactive` | `:boolean` | `false` | Allow selection |
-| `on_select` | `:string` | `nil` | Selection event |
+| `select` | `:any` | `0` | Selected rating value (integer or float) |
+| `interactive` | `:boolean` | `false` | Allow user selection via click |
+| `disabled` | `:boolean` | `false` | Disable all interaction (reduced opacity, no click/keyboard) |
+| `precision` | `:float` | `1.0` | Rating granularity — `1.0` for full stars, `0.5` for half-star selection |
+| `field` | `Phoenix.HTML.FormField` | `nil` | Form field struct for native Phoenix form integration |
+| `label` | `:string` | `nil` | Label text displayed above the rating |
+| `name` | `:any` | `nil` | Input name (auto-extracted when using `field`) |
+| `errors` | `:list` | `[]` | Error messages (auto-populated when using `field`) |
+| `error_icon` | `:string` | `nil` | Icon displayed alongside error messages |
+| `params` | `:map` | `%{}` | Additional parameters merged into the event payload |
+| `on_action` | `JS` | `%JS{}` | Custom JS command chained before the click action |
+| `rest` | `:global` | — | Global attributes merged with caller-provided attributes |
 
 ## Available Options
 
@@ -40,18 +51,124 @@ mix mishka.ui.gen.component rating
 ### Sizes
 `extra_small`, `small`, `medium`, `large`, `extra_large`, `double_large`, `triple_large`, `quadruple_large`
 
+### Gaps
+`extra_small`, `small`, `medium`, `large`, `extra_large`, `none`
+
+### Precision
+`1.0` (full star), `0.5` (half star)
+
+## Helper Functions
+
+### `rating_select/2`
+Extracts the current rating value from form params or data. Useful for keeping the selected state in sync.
+
+```elixir
+rating_select(:rating, @form)
+```
+
+### `rating_keyboard/4`
+Computes the new rating value for keyboard navigation events. Use in your `handle_event/3`.
+
+Supported keys: `ArrowRight`/`ArrowUp` (increment), `ArrowLeft`/`ArrowDown` (decrement), `Home` (first step), `End` (max value).
+
+```elixir
+Rating.rating_keyboard(key, current, count, precision)
+```
+
 ## Usage Examples
 
 ### Basic Rating (Display)
 
 ```heex
 <.rating select={4} />
+<.rating select={3.5} />
 ```
 
-### Interactive Rating
+### Interactive Rating (Event Mode)
 
 ```heex
-<.rating interactive on_select="rate_item" />
+<.rating id="my-rating" select={@star} interactive />
+```
+
+Handle the event in your LiveView:
+
+```elixir
+def handle_event("rating", %{"action" => "select", "number" => number}, socket)
+    when is_number(number) do
+  {:noreply, assign(socket, star: number)}
+end
+```
+
+### Form Integration (Field Mode)
+
+When you pass the `field` prop, the component auto-enables interactive mode, renders a hidden input for form submission, and displays changeset validation errors.
+
+```heex
+<.form for={@form} phx-change="validate" phx-submit="save">
+  <.rating field={@form[:rating]} size="large" color="warning" />
+</.form>
+```
+
+### Half-Star Precision
+
+Set `precision={0.5}` to allow half-star selection. Each star becomes two click targets (left half, right half).
+
+```heex
+<.rating
+  id="rating-precision"
+  select={2.5}
+  size="large"
+  color="warning"
+  precision={0.5}
+  interactive
+/>
+```
+
+### Half-Star Precision with Form
+
+```heex
+<.rating field={@form[:rating]} size="large" color="warning" precision={0.5} />
+```
+
+Note: use a `:float` field type in your Ecto schema when using precision 0.5.
+
+### Disabled Rating
+
+Renders with reduced opacity and blocks all interaction. Works in both static and interactive modes.
+
+```heex
+<.rating select={3} size="large" disabled />
+<.rating select={2} size="large" interactive disabled />
+```
+
+When using `field` with `disabled`, interactivity is automatically turned off:
+
+```heex
+<.rating field={@form[:rating]} disabled />
+```
+
+### Keyboard Navigation
+
+Interactive ratings are focusable and support arrow key navigation. The component sends a `"keyboard"` action event.
+
+```heex
+<.rating
+  id="rating-keyboard"
+  select={@star}
+  size="large"
+  color="info"
+  interactive
+/>
+```
+
+Handle in your LiveView:
+
+```elixir
+def handle_event("rating", %{"action" => "keyboard", "key" => key,
+    "current" => current, "count" => count, "precision" => precision}, socket) do
+  new_val = Rating.rating_keyboard(key, current, count, precision)
+  {:noreply, assign(socket, star: new_val)}
+end
 ```
 
 ### Different Colors
@@ -84,11 +201,26 @@ mix mishka.ui.gen.component rating
 <.rating select={4} gap="extra_large" />
 ```
 
-### Pre-selected Interactive
+### With Label
 
 ```heex
-<.rating select={3} interactive color="primary" />
+<.rating field={@form[:rating]} label="Your Rating" size="large" />
 ```
+
+### With Custom Params
+
+Pass extra data in the event payload using `params`:
+
+```heex
+<.rating
+  id="rating-product"
+  select={@rating}
+  interactive
+  params={%{product_id: @product.id}}
+/>
+```
+
+The params map is merged into the event payload alongside `action` and `number`.
 
 ## Common Patterns
 
@@ -101,22 +233,22 @@ mix mishka.ui.gen.component rating
 </div>
 ```
 
-### User Review Form
+### Review Form with Half-Star Precision
 
 ```heex
-<div class="space-y-2">
-  <label class="font-medium">Your Rating</label>
-  <.rating
-    interactive
-    select={@user_rating}
-    on_select="set_rating"
-    size="large"
-    color="warning"
-  />
-</div>
+<.form_wrapper for={@form} id="review-form" phx-change="validate" phx-submit="save" space="medium">
+  <.text_field size="medium" field={@form[:fullname]} label="Full Name" />
+  <.rating field={@form[:rating]} label="Your Rating" size="large" color="warning" precision={0.5} />
+  <.textarea_field size="medium" field={@form[:comment]} label="Comment (optional)" />
+  <:actions>
+    <.button variant="outline" color="info" size="small" phx-disable-with="Submitting...">
+      Submit Review
+    </.button>
+  </:actions>
+</.form_wrapper>
 ```
 
-### Rating with Value
+### Rating with Value Display
 
 ```heex
 <div class="flex items-center gap-3">
@@ -125,26 +257,31 @@ mix mishka.ui.gen.component rating
 </div>
 ```
 
-### Compact Rating
+### Read-Only Rating in a Form
 
 ```heex
-<div class="flex items-center gap-1">
-  <.rating select={1} count={1} size="small" />
-  <span class="text-sm">{@rating}</span>
-</div>
+<.rating field={@form[:rating]} size="large" disabled />
 ```
 
-### Rating Summary
+## Event Payloads
 
-```heex
-<div class="space-y-1">
-  <div :for={i <- 5..1} class="flex items-center gap-2">
-    <span class="w-4 text-sm">{i}</span>
-    <.rating select={i} count={5} size="extra_small" />
-    <div class="flex-1 bg-gray-200 rounded-full h-2">
-      <div class={"bg-warning-500 h-2 rounded-full"} style={"width: #{@ratings[i]}%"} />
-    </div>
-    <span class="w-8 text-sm text-gray-600">{@ratings[i]}%</span>
-  </div>
-</div>
+### Click Select Event
+
+```elixir
+%{"action" => "select", "number" => 3}
+# With params:
+%{"action" => "select", "number" => 2.5, "product_id" => "abc123"}
+```
+
+### Keyboard Event
+
+```elixir
+%{
+  "action" => "keyboard",
+  "key" => "ArrowRight",
+  "current" => 3,
+  "count" => 5,
+  "precision" => 1.0,
+  "name" => nil
+}
 ```
