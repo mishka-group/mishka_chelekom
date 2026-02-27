@@ -68,6 +68,30 @@ const Floating = {
     }
   },
 
+  returnToOriginalParent() {
+    if (
+      this.floatingContent &&
+      this.movedToBody &&
+      document.body.contains(this.floatingContent)
+    ) {
+      document.body.removeChild(this.floatingContent);
+
+      if (this.originalParent) {
+        if (
+          this.originalIndex >= 0 &&
+          this.originalIndex < this.originalParent.children.length
+        ) {
+          this.originalParent.insertBefore(
+            this.floatingContent,
+            this.originalParent.children[this.originalIndex],
+          );
+        } else {
+          this.originalParent.appendChild(this.floatingContent);
+        }
+      }
+    }
+  },
+
   debounce(func, wait) {
     let timeout;
     return function executedFunction(...args) {
@@ -90,11 +114,7 @@ const Floating = {
       this.hideTimeout = null;
     }
 
-    if (
-      this.floatingContent &&
-      this.movedToBody &&
-      document.body.contains(this.floatingContent)
-    ) {
+    if (this.floatingContent && this.movedToBody) {
       if (!this.clickable) {
         this.floatingContent.removeEventListener(
           "mouseenter",
@@ -106,22 +126,7 @@ const Floating = {
         );
       }
 
-      document.body.removeChild(this.floatingContent);
-
-      if (this.originalParent) {
-        if (
-          this.originalIndex >= 0 &&
-          this.originalIndex < this.originalParent.children.length
-        ) {
-          this.originalParent.insertBefore(
-            this.floatingContent,
-            this.originalParent.children[this.originalIndex],
-          );
-        } else {
-          this.originalParent.appendChild(this.floatingContent);
-        }
-      }
-
+      this.returnToOriginalParent();
       this.movedToBody = false;
       this.floatingContent = null;
     }
@@ -621,27 +626,7 @@ const Floating = {
 
     this.cleanupAria();
 
-    if (
-      this.floatingContent &&
-      this.movedToBody &&
-      document.body.contains(this.floatingContent)
-    ) {
-      document.body.removeChild(this.floatingContent);
-
-      if (this.originalParent) {
-        if (
-          this.originalIndex >= 0 &&
-          this.originalIndex < this.originalParent.children.length
-        ) {
-          this.originalParent.insertBefore(
-            this.floatingContent,
-            this.originalParent.children[this.originalIndex],
-          );
-        } else {
-          this.originalParent.appendChild(this.floatingContent);
-        }
-      }
-    }
+    this.returnToOriginalParent();
 
     this.floatingContent = null;
     this.trigger = null;
