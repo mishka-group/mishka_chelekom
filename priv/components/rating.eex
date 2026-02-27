@@ -64,6 +64,14 @@ defmodule <%= @module %> do
     default: false,
     doc: "If true, stars are wrapped in a button for selecting a rating"
 
+  attr :disabled, :boolean,
+    default: false,
+    doc: "If true, the rating component is disabled and cannot be interacted with"
+
+  attr :precision, :float,
+    default: 1.0,
+    doc: "Rating precision - 1.0 for full stars, 0.5 for half-star selection"
+
   attr :field, Phoenix.HTML.FormField,
     default: nil,
     doc: "A form field struct retrieved from the form, for example: @form[:rating]"
@@ -83,8 +91,16 @@ defmodule <%= @module %> do
     select =
       case field.value do
         val when is_integer(val) -> val
-        val when is_binary(val) and val != "" -> String.to_integer(val)
-        _ -> 0
+        val when is_float(val) -> val
+
+        val when is_binary(val) and val != "" ->
+          case Float.parse(val) do
+            {f, ""} -> if f == trunc(f), do: trunc(f), else: f
+            _ -> 0
+          end
+
+        _ ->
+          0
       end
 
     assigns
@@ -92,7 +108,7 @@ defmodule <%= @module %> do
     |> assign(:errors, Enum.map(errors, &translate_error(&1)))
     |> assign(:name, field.name)
     |> assign(:select, select)
-    |> assign(:interactive, true)
+    |> assign(:interactive, if(assigns.disabled, do: false, else: true))
     |> <%= @component_prefix %>rating()
   end
 
@@ -103,11 +119,27 @@ defmodule <%= @module %> do
       <div
         id={@id}
         role="radiogroup"
+        tabindex={if @interactive and not @disabled, do: "0"}
+        aria-disabled={if @disabled, do: "true"}
+        phx-keydown={
+          if @interactive and not @disabled do
+            JS.push("rating",
+              value: %{
+                action: "keyboard",
+                current: @select,
+                count: @count,
+                precision: @precision,
+                name: @name
+              }
+            )
+          end
+        }
         class={[
           "flex flex-nowrap text-default-light-gray dark:text-natural-light",
           gap_class(@gap),
           size_class(@size),
           color_class(@color),
+          @disabled && "opacity-50 pointer-events-none",
           @class
         ]}
         {@rest}
@@ -122,6 +154,27 @@ defmodule <%= @module %> do
         <%%= for item <- 1..@count do %>
           <%% fill_percentage = calculate_fill_percentage(item, @select) %>
           <%%= cond do %>
+            <%% @interactive and @name != nil and @precision == 0.5 -> %>
+              <div class={[
+                "relative inline-flex rating-button [&>svg]:pointer-events-none",
+                "[&:has(~.rating-button:hover)_.fraction-path]:opacity-0 [&:has(~.rating-button:hover)_.full-path]:opacity-100",
+                "[&:has(.rating-half-right:hover)_.fraction-path]:opacity-0 [&:has(.rating-half-right:hover)_.full-path]:opacity-100",
+                "[&:has(.rating-half-left:hover)_.full-path]:opacity-0 [&:has(.rating-half-left:hover)_.fraction-path]:opacity-100"
+              ]}>
+                <.precision_star_svg id={@id} item={item} fill_percentage={fill_percentage} />
+                <span
+                  class="rating-half-left absolute inset-y-0 left-0 w-1/2 z-10 cursor-pointer"
+                  phx-click={form_click_js(@id, item - 0.5, @select)}
+                >
+                  <span class="sr-only">{gettext("Rate %{count} stars", count: item - 0.5)}</span>
+                </span>
+                <span
+                  class="rating-half-right absolute inset-y-0 right-0 w-1/2 z-10 cursor-pointer"
+                  phx-click={form_click_js(@id, item, @select)}
+                >
+                  <span class="sr-only">{gettext("Rate %{count} star", count: item)}</span>
+                </span>
+              </div>
             <%% @interactive and @name != nil -> %>
               <label
                 role="radio"
@@ -134,17 +187,32 @@ defmodule <%= @module %> do
                   "group",
                   "[&:has(~.rating-button:hover)_.fraction-path]:opacity-0 [&:has(~.rating-button:hover)_.full-path]:opacity-100"
                 ]}
-                phx-click={
-                  JS.set_attribute(
-                    {"value", if(item == @select, do: "0", else: to_string(item))},
-                    to: "##{@id}-hidden"
-                  )
-                  |> JS.dispatch("change", to: "##{@id}-hidden")
-                }
+                phx-click={form_click_js(@id, item, @select)}
               >
                 <.star_svg id={@id} item={item} fill_percentage={fill_percentage} />
                 <span class="sr-only">{gettext("Rate %{count} star", count: item)}</span>
               </label>
+            <%% @interactive and @precision == 0.5 -> %>
+              <div class={[
+                "relative inline-flex rating-button [&>svg]:pointer-events-none",
+                "[&:has(~.rating-button:hover)_.fraction-path]:opacity-0 [&:has(~.rating-button:hover)_.full-path]:opacity-100",
+                "[&:has(.rating-half-right:hover)_.fraction-path]:opacity-0 [&:has(.rating-half-right:hover)_.full-path]:opacity-100",
+                "[&:has(.rating-half-left:hover)_.full-path]:opacity-0 [&:has(.rating-half-left:hover)_.fraction-path]:opacity-100"
+              ]}>
+                <.precision_star_svg id={@id} item={item} fill_percentage={fill_percentage} />
+                <span
+                  class="rating-half-left absolute inset-y-0 left-0 w-1/2 z-10 cursor-pointer"
+                  phx-click={event_click_js(@on_action, item - 0.5, @params)}
+                >
+                  <span class="sr-only">{gettext("Rate %{count} stars", count: item - 0.5)}</span>
+                </span>
+                <span
+                  class="rating-half-right absolute inset-y-0 right-0 w-1/2 z-10 cursor-pointer"
+                  phx-click={event_click_js(@on_action, item, @params)}
+                >
+                  <span class="sr-only">{gettext("Rate %{count} star", count: item)}</span>
+                </span>
+              </div>
             <%% @interactive -> %>
               <button
                 role="radio"
@@ -157,12 +225,7 @@ defmodule <%= @module %> do
                   "group",
                   "[&:has(~.rating-button:hover)_.fraction-path]:opacity-0 [&:has(~.rating-button:hover)_.full-path]:opacity-100"
                 ]}
-                phx-click={
-                  @on_action
-                  |> JS.push("rating",
-                    value: Map.merge(%{action: "select", number: item}, @params)
-                  )
-                }
+                phx-click={event_click_js(@on_action, item, @params)}
               >
                 <.star_svg id={@id} item={item} fill_percentage={fill_percentage} />
                 <span class="sr-only">{gettext("Rate %{count} star", count: item)}</span>
@@ -226,6 +289,50 @@ defmodule <%= @module %> do
     """
   end
 
+  attr :id, :string, default: nil
+  attr :item, :integer, required: true
+  attr :fill_percentage, :any, required: true
+
+  defp precision_star_svg(assigns) do
+    ~H"""
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 24 24"
+      class={["rating-icon transition-all delay-100", @fill_percentage > 0 && "rated"]}
+    >
+      <defs>
+        <linearGradient id={"star-fill-#{@id}-#{@item}"} x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%" stop-color="currentColor"></stop>
+          <stop offset="50%" stop-color="currentColor"></stop>
+          <stop offset="50%" stop-color="currentColor" stop-opacity="0.2"></stop>
+          <stop offset="100%" stop-color="currentColor" stop-opacity="0.2"></stop>
+        </linearGradient>
+      </defs>
+      <path
+        fill="currentColor"
+        fill-opacity="0.2"
+        d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.006 5.404.434c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.434 2.082-5.005Z"
+      />
+      <path
+        class={[
+          "fraction-path transition-all delay-100",
+          if(@fill_percentage > 0 and @fill_percentage < 100, do: "opacity-100", else: "opacity-0")
+        ]}
+        fill={"url(#star-fill-#{@id}-#{@item})"}
+        d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.006 5.404.434c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.434 2.082-5.005Z"
+      />
+      <path
+        class={[
+          "full-path transition-all delay-100",
+          if(@fill_percentage >= 100, do: "opacity-100", else: "opacity-0")
+        ]}
+        fill="currentColor"
+        d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.006 5.404.434c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.434 2.082-5.005Z"
+      />
+    </svg>
+    """
+  end
+
   @doc """
   Determines the current rating value from form params or data, useful for keeping the
   selected state in sync when using the `field` prop with forms.
@@ -241,9 +348,48 @@ defmodule <%= @module %> do
 
     case val do
       v when is_integer(v) -> v
-      v when is_binary(v) and v != "" -> String.to_integer(v)
-      _ -> 0
+      v when is_float(v) -> v
+
+      v when is_binary(v) and v != "" ->
+        case Float.parse(v) do
+          {f, ""} -> if f == trunc(f), do: trunc(f), else: f
+          _ -> 0
+        end
+
+      _ ->
+        0
     end
+  end
+
+  @doc """
+  Computes the new rating value for keyboard navigation events.
+  Use this in your `handle_event/3` to process keyboard actions from the rating component.
+
+  Supports `ArrowRight`/`ArrowUp` (increment), `ArrowLeft`/`ArrowDown` (decrement),
+  `Home` (first step), and `End` (max value).
+
+  ## Examples
+
+  ```elixir
+  def handle_event("rating", %{"action" => "keyboard", "key" => key, "current" => current, "count" => count, "precision" => precision}, socket) do
+    new_val = Rating.rating_keyboard(key, current, count, precision)
+    {:noreply, assign(socket, star: new_val)}
+  end
+  ```
+  """
+  def rating_keyboard(key, current, count, precision \\ 1.0) do
+    step = precision
+
+    result =
+      case key do
+        k when k in ["ArrowRight", "ArrowUp"] -> min(current + step, count)
+        k when k in ["ArrowLeft", "ArrowDown"] -> max(current - step, 0)
+        "Home" -> step
+        "End" -> count
+        _ -> current
+      end
+
+    if is_float(result) and result == trunc(result), do: trunc(result), else: result
   end
 
   @doc type: :component
@@ -276,6 +422,20 @@ defmodule <%= @module %> do
     ~H"""
     <span class={[@name, @class]} />
     """
+  end
+
+  defp form_click_js(id, value, current_select) do
+    new_value = if value == current_select, do: 0, else: value
+
+    JS.set_attribute({"value", to_string(new_value)}, to: "##{id}-hidden")
+    |> JS.dispatch("change", to: "##{id}-hidden")
+  end
+
+  defp event_click_js(on_action, value, params) do
+    on_action
+    |> JS.push("rating",
+      value: Map.merge(%{action: "select", number: value}, params)
+    )
   end
 
   # Helper function to calculate the fill percentage for a star
