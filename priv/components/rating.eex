@@ -4,10 +4,13 @@ defmodule <%= @module %> do
   applications. This component is designed to display a configurable number of rating stars with
   customizable colors, sizes, and interactive capabilities.
 
-  The `Rating` component supports both static and interactive modes. In static mode,
-  the stars represent a pre-defined rating value, while in interactive mode, users can select a
-  rating by clicking on the stars. It offers a range of customization options such as gap size,
-  star color, and size, making it suitable for various user interfaces where feedback or ratings are required.
+  The `Rating` component supports three modes:
+
+  - **Static mode**: Stars represent a pre-defined rating value for display only.
+  - **Interactive mode**: Users can select a rating by clicking stars, which fires a `phx-click`
+    event to the server.
+  - **Form field mode**: When a `field` attribute is provided, the component integrates with
+    Phoenix forms using hidden radio inputs, supporting changesets, validation, and error display.
 
   This component is ideal for implementing user reviews, feedback forms, and any other scenario where
   a visual rating system is needed. Its flexibility and ease of integration make it a powerful
@@ -21,8 +24,8 @@ defmodule <%= @module %> do
 
   @doc """
   Renders a `rating` component using stars to represent a score or rating value.
-  The component supports interactive and non-interactive modes, making it suitable
-  for both display and user input scenarios.
+  The component supports interactive, non-interactive, and form field modes, making it suitable
+  for display, user input via events, and native Phoenix form integration.
 
   ## Examples
 
@@ -31,6 +34,7 @@ defmodule <%= @module %> do
   <.rating color="primary" gap="large" interactive />
   <.rating color="danger" gap="extra_large" select={5} interactive />
   <.rating color="success" gap="extra_large" select={3} interactive />
+  <.rating field={@form[:rating]} color="warning" />
   ```
   """
   @doc type: :component
@@ -60,115 +64,217 @@ defmodule <%= @module %> do
     default: false,
     doc: "If true, stars are wrapped in a button for selecting a rating"
 
+  attr :field, Phoenix.HTML.FormField,
+    default: nil,
+    doc: "A form field struct retrieved from the form, for example: @form[:rating]"
+
+  attr :label, :string, default: nil, doc: "Specifies text for the label"
+  attr :error_icon, :string, default: nil, doc: "Icon to be displayed alongside error messages"
+  attr :errors, :list, default: [], doc: "List of error messages to be displayed"
+  attr :name, :any, default: nil, doc: "Name of input"
+
   attr :rest, :global,
     doc:
       "Global attributes can define defaults which are merged with attributes provided by the caller"
 
+  def <%= @component_prefix %>rating(%{field: %Phoenix.HTML.FormField{} = field} = assigns) do
+    errors = if Phoenix.Component.used_input?(field), do: field.errors, else: []
+
+    select =
+      case field.value do
+        val when is_integer(val) -> val
+        val when is_binary(val) and val != "" -> String.to_integer(val)
+        _ -> 0
+      end
+
+    assigns
+    |> assign(field: nil, id: assigns.id || field.id)
+    |> assign(:errors, Enum.map(errors, &translate_error(&1)))
+    |> assign(:name, field.name)
+    |> assign(:select, select)
+    |> assign(:interactive, true)
+    |> <%= @component_prefix %>rating()
+  end
+
   def <%= @component_prefix %>rating(assigns) do
     ~H"""
-    <div
-      id={@id}
-      role="radiogroup"
-      class={[
-        "flex flex-nowrap text-default-light-gray dark:text-natural-light",
-        gap_class(@gap),
-        size_class(@size),
-        color_class(@color),
-        @class
-      ]}
-      {@rest}
-    >
-      <%%= for item <- 1..@count do %>
-        <%% fill_percentage = calculate_fill_percentage(item, @select) %>
-        <%%= if @interactive do %>
-          <button
-            role="radio"
-            aria-checked={if item <= @select, do: "true", else: "false"}
-            tabindex={if item == @select, do: "0", else: "-1"}
-            aria-label={"#{item} star#{if item > 1, do: "s", else: ""}"}
-            class={[
-              "rating-button cursor-pointer",
-              "leading-5",
-              "group",
-              "[&:has(~.rating-button:hover)_.fraction-path]:opacity-0 [&:has(~.rating-button:hover)_.full-path]:opacity-100"
-            ]}
-            phx-click={
-              @on_action
-              |> JS.push("rating", value: Map.merge(%{action: "select", number: item}, @params))
-            }
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 24 24"
-              class={["rating-icon transition-all delay-100", fill_percentage > 0 && "rated"]}
-            >
-              <%%= if fill_percentage > 0 and fill_percentage < 100 do %>
-                <defs>
-                  <linearGradient id={"star-fill-#{@id}-#{item}"} x1="0%" y1="0%" x2="100%" y2="0%">
-                    <stop offset="0%" stop-color="currentColor"></stop>
-                    <stop offset={"#{fill_percentage}%"} stop-color="currentColor"></stop>
-                    <stop offset={"#{fill_percentage}%"} stop-color="currentColor" stop-opacity="0.2">
-                    </stop>
-                    <stop offset="100%" stop-color="currentColor" stop-opacity="0.2"></stop>
-                  </linearGradient>
-                </defs>
-                <path
-                  class="opacity-100 transition-all delay-100 group-hover:opacity-0 fraction-path"
-                  fill={"url(#star-fill-#{@id}-#{item})"}
-                  d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.006 5.404.434c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.434 2.082-5.005Z"
-                />
-                <path
-                  class="opacity-0 transition-all delay-100 group-hover:opacity-100 full-path"
-                  fill="currentColor"
-                  d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.006 5.404.434c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.434 2.082-5.005Z"
-                />
-              <%% else %>
-                <path
-                  fill="currentColor"
-                  class={[
-                    fill_percentage >= 100 && "fill-opacity-100",
-                    fill_percentage < 100 && "fill-opacity-20"
-                  ]}
-                  d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.006 5.404.434c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.434 2.082-5.005Z"
-                />
-              <%% end %>
-            </svg>
-            <span class="sr-only">{gettext("Rate %{count} star", count: item)}</span>
-          </button>
-        <%% else %>
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 24 24"
-            class={["rating-icon transition-all delay-100", fill_percentage > 0 && "rated"]}
-          >
-            <%%= if fill_percentage > 0 and fill_percentage < 100 do %>
-              <defs>
-                <linearGradient id={"star-fill-#{@id}-#{item}"} x1="0%" y1="0%" x2="100%" y2="0%">
-                  <stop offset="0%" stop-color="currentColor"></stop>
-                  <stop offset={"#{fill_percentage}%"} stop-color="currentColor"></stop>
-                  <stop offset={"#{fill_percentage}%"} stop-color="currentColor" stop-opacity="0.2">
-                  </stop>
-                  <stop offset="100%" stop-color="currentColor" stop-opacity="0.2"></stop>
-                </linearGradient>
-              </defs>
-              <path
-                fill={"url(#star-fill-#{@id}-#{item})"}
-                d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.006 5.404.434c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.434 2.082-5.005Z"
-              />
-            <%% else %>
-              <path
-                fill="currentColor"
+    <div>
+      <.label :if={@label}>{@label}</.label>
+      <div
+        id={@id}
+        role="radiogroup"
+        class={[
+          "flex flex-nowrap text-default-light-gray dark:text-natural-light",
+          gap_class(@gap),
+          size_class(@size),
+          color_class(@color),
+          @class
+        ]}
+        {@rest}
+      >
+        <input
+          :if={@interactive and @name != nil}
+          type="hidden"
+          name={@name}
+          value={@select}
+          id={"#{@id}-hidden"}
+        />
+        <%%= for item <- 1..@count do %>
+          <%% fill_percentage = calculate_fill_percentage(item, @select) %>
+          <%%= cond do %>
+            <%% @interactive and @name != nil -> %>
+              <label
+                role="radio"
+                aria-checked={if item <= @select, do: "true", else: "false"}
+                tabindex={if item == @select, do: "0", else: "-1"}
+                aria-label={"#{item} star#{if item > 1, do: "s", else: ""}"}
                 class={[
-                  fill_percentage >= 100 && "fill-opacity-100",
-                  fill_percentage < 100 && "fill-opacity-20"
+                  "rating-button cursor-pointer",
+                  "leading-5",
+                  "group",
+                  "[&:has(~.rating-button:hover)_.fraction-path]:opacity-0 [&:has(~.rating-button:hover)_.full-path]:opacity-100"
                 ]}
-                d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.006 5.404.434c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.434 2.082-5.005Z"
-              />
-            <%% end %>
-          </svg>
+                phx-click={
+                  JS.set_attribute(
+                    {"value", if(item == @select, do: "0", else: to_string(item))},
+                    to: "##{@id}-hidden"
+                  )
+                  |> JS.dispatch("change", to: "##{@id}-hidden")
+                }
+              >
+                <.star_svg id={@id} item={item} fill_percentage={fill_percentage} />
+                <span class="sr-only">{gettext("Rate %{count} star", count: item)}</span>
+              </label>
+            <%% @interactive -> %>
+              <button
+                role="radio"
+                aria-checked={if item <= @select, do: "true", else: "false"}
+                tabindex={if item == @select, do: "0", else: "-1"}
+                aria-label={"#{item} star#{if item > 1, do: "s", else: ""}"}
+                class={[
+                  "rating-button cursor-pointer",
+                  "leading-5",
+                  "group",
+                  "[&:has(~.rating-button:hover)_.fraction-path]:opacity-0 [&:has(~.rating-button:hover)_.full-path]:opacity-100"
+                ]}
+                phx-click={
+                  @on_action
+                  |> JS.push("rating",
+                    value: Map.merge(%{action: "select", number: item}, @params)
+                  )
+                }
+              >
+                <.star_svg id={@id} item={item} fill_percentage={fill_percentage} />
+                <span class="sr-only">{gettext("Rate %{count} star", count: item)}</span>
+              </button>
+            <%% true -> %>
+              <.star_svg id={@id} item={item} fill_percentage={fill_percentage} />
+          <%% end %>
         <%% end %>
-      <%% end %>
+      </div>
+      <.error :for={msg <- @errors} icon={@error_icon}>{msg}</.error>
     </div>
+    """
+  end
+
+  attr :id, :string, default: nil
+  attr :item, :integer, required: true
+  attr :fill_percentage, :any, required: true
+
+  defp star_svg(assigns) do
+    ~H"""
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 24 24"
+      class={["rating-icon transition-all delay-100", @fill_percentage > 0 && "rated"]}
+    >
+      <%%= if @fill_percentage > 0 and @fill_percentage < 100 do %>
+        <defs>
+          <linearGradient id={"star-fill-#{@id}-#{@item}"} x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stop-color="currentColor"></stop>
+            <stop offset={"#{@fill_percentage}%"} stop-color="currentColor"></stop>
+            <stop
+              offset={"#{@fill_percentage}%"}
+              stop-color="currentColor"
+              stop-opacity="0.2"
+            >
+            </stop>
+            <stop offset="100%" stop-color="currentColor" stop-opacity="0.2"></stop>
+          </linearGradient>
+        </defs>
+        <path
+          class="opacity-100 transition-all delay-100 group-hover:opacity-0 fraction-path"
+          fill={"url(#star-fill-#{@id}-#{@item})"}
+          d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.006 5.404.434c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.434 2.082-5.005Z"
+        />
+        <path
+          class="opacity-0 transition-all delay-100 group-hover:opacity-100 full-path"
+          fill="currentColor"
+          d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.006 5.404.434c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.434 2.082-5.005Z"
+        />
+      <%% else %>
+        <path
+          fill="currentColor"
+          class={[
+            @fill_percentage >= 100 && "fill-opacity-100",
+            @fill_percentage < 100 && "fill-opacity-20"
+          ]}
+          d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.006 5.404.434c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.434 2.082-5.005Z"
+        />
+      <%% end %>
+    </svg>
+    """
+  end
+
+  @doc """
+  Determines the current rating value from form params or data, useful for keeping the
+  selected state in sync when using the `field` prop with forms.
+
+  ## Examples
+
+  ```elixir
+  <.rating field={@form[:rating]} select={rating_select(:rating, @form)} />
+  ```
+  """
+  def rating_select(field, %{params: params, data: data} = _form) do
+    val = params[Atom.to_string(field)] || Map.get(data, field)
+
+    case val do
+      v when is_integer(v) -> v
+      v when is_binary(v) and v != "" -> String.to_integer(v)
+      _ -> 0
+    end
+  end
+
+  @doc type: :component
+  attr :for, :string, default: nil, doc: "Specifies the form which is associated with"
+  attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
+  slot :inner_block, required: true, doc: "Inner block that renders HEEx content"
+
+  defp label(assigns) do
+    ~H"""
+    <label for={@for} class={["block text-sm font-semibold leading-6 mb-1", @class]}>
+      {render_slot(@inner_block)}
+    </label>
+    """
+  end
+
+  @doc type: :component
+  attr :icon, :string, default: nil, doc: "Icon to be displayed alongside error messages"
+  slot :inner_block, required: true, doc: "Inner block that renders HEEx content"
+
+  defp error(assigns) do
+    ~H"""
+    <p class="mt-3 flex items-center gap-3 text-sm leading-6 text-rose-700">
+      <.icon :if={!is_nil(@icon)} name={@icon} class="shrink-0" />
+      {render_slot(@inner_block)}
+    </p>
+    """
+  end
+
+  defp icon(assigns) do
+    ~H"""
+    <span class={[@name, @class]} />
     """
   end
 
@@ -354,4 +460,12 @@ defmodule <%= @module %> do
   <% end %>
 
   defp color_class(params) when is_binary(params), do: params
+
+  defp translate_error({msg, opts}) do
+    if count = opts[:count] do
+      Gettext.dngettext(<%= inspect(@web_module) %>.Gettext, "errors", msg, msg, count, opts)
+    else
+      Gettext.dgettext(<%= inspect(@web_module) %>.Gettext, "errors", msg, opts)
+    end
+  end
 end
