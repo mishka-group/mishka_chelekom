@@ -25,6 +25,7 @@
 - Fix some missing lables conditions [#469](https://github.com/mishka-group/mishka_chelekom/pull/469)
 - Fix CSS typos, wrong border classes, swapped docs, and Gettext template bug [#468](https://github.com/mishka-group/mishka_chelekom/pull/468)
 - Delete dead label code from fieldset component
+- Fix readd floating content back to original parent before update[#475](https://github.com/mishka-group/mishka_chelekom/pull/475)
 
 ---
 
