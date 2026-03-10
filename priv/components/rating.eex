@@ -35,6 +35,9 @@ defmodule <%= @module %> do
   <.rating color="danger" gap="extra_large" select={5} interactive />
   <.rating color="success" gap="extra_large" select={3} interactive />
   <.rating field={@form[:rating]} color="warning" />
+  <.rating select={3} size="large" disabled />
+  <.rating id="half" select={2.5} precision={0.5} interactive />
+  <.rating field={@form[:rating]} precision={0.5} color="warning" />
   ```
   """
   @doc type: :component
@@ -114,26 +117,12 @@ defmodule <%= @module %> do
 
   def <%= @component_prefix %>rating(assigns) do
     ~H"""
-    <div>
+    <div id={@id && "#{@id}-wrapper"}>
       <.label :if={@label}>{@label}</.label>
       <div
         id={@id}
-        role="radiogroup"
-        tabindex={if @interactive and not @disabled, do: "0"}
+        role={if @name != nil and @interactive, do: "radiogroup", else: "group"}
         aria-disabled={if @disabled, do: "true"}
-        phx-keydown={
-          if @interactive and not @disabled do
-            JS.push("rating",
-              value: %{
-                action: "keyboard",
-                current: @select,
-                count: @count,
-                precision: @precision,
-                name: @name
-              }
-            )
-          end
-        }
         class={[
           "flex flex-nowrap text-default-light-gray dark:text-natural-light",
           gap_class(@gap),
@@ -148,7 +137,7 @@ defmodule <%= @module %> do
           :if={@interactive and @name != nil}
           type="hidden"
           name={@name}
-          value={@select}
+          value="0"
           id={"#{@id}-hidden"}
         />
         <%%= for item <- 1..@count do %>
@@ -162,35 +151,43 @@ defmodule <%= @module %> do
                 "[&:has(.rating-half-left:hover)_.full-path]:opacity-0 [&:has(.rating-half-left:hover)_.fraction-path]:opacity-100"
               ]}>
                 <.precision_star_svg id={@id} item={item} fill_percentage={fill_percentage} />
-                <span
-                  class="rating-half-left absolute inset-y-0 left-0 w-1/2 z-10 cursor-pointer"
-                  phx-click={form_click_js(@id, item - 0.5, @select)}
-                >
-                  <span class="sr-only">{gettext("Rate %{count} stars", count: item - 0.5)}</span>
-                </span>
-                <span
-                  class="rating-half-right absolute inset-y-0 right-0 w-1/2 z-10 cursor-pointer"
-                  phx-click={form_click_js(@id, item, @select)}
-                >
-                  <span class="sr-only">{gettext("Rate %{count} star", count: item)}</span>
-                </span>
+                <label class="rating-half-left absolute inset-y-0 left-0 w-1/2 z-10 cursor-pointer">
+                  <input
+                    type="radio"
+                    name={@name}
+                    value={to_string(item - 0.5)}
+                    checked={@select == item - 0.5}
+                    class="sr-only"
+                    aria-label={gettext("Rate %{count} stars", count: item - 0.5)}
+                  />
+                </label>
+                <label class="rating-half-right absolute inset-y-0 right-0 w-1/2 z-10 cursor-pointer">
+                  <input
+                    type="radio"
+                    name={@name}
+                    value={to_string(item)}
+                    checked={@select == item}
+                    class="sr-only"
+                    aria-label={gettext("Rate %{count} star", count: item)}
+                  />
+                </label>
               </div>
             <%% @interactive and @name != nil -> %>
-              <label
-                role="radio"
-                aria-checked={if item <= @select, do: "true", else: "false"}
-                tabindex={if item == @select, do: "0", else: "-1"}
-                aria-label={"#{item} star#{if item > 1, do: "s", else: ""}"}
-                class={[
-                  "rating-button cursor-pointer",
-                  "leading-5",
-                  "group",
-                  "[&:has(~.rating-button:hover)_.fraction-path]:opacity-0 [&:has(~.rating-button:hover)_.full-path]:opacity-100"
-                ]}
-                phx-click={form_click_js(@id, item, @select)}
-              >
+              <label class={[
+                "rating-button cursor-pointer",
+                "leading-5",
+                "group",
+                "[&:has(~.rating-button:hover)_.fraction-path]:opacity-0 [&:has(~.rating-button:hover)_.full-path]:opacity-100"
+              ]}>
+                <input
+                  type="radio"
+                  name={@name}
+                  value={to_string(item)}
+                  checked={item == @select}
+                  class="sr-only"
+                  aria-label={"#{item} star#{if item > 1, do: "s", else: ""}"}
+                />
                 <.star_svg id={@id} item={item} fill_percentage={fill_percentage} />
-                <span class="sr-only">{gettext("Rate %{count} star", count: item)}</span>
               </label>
             <%% @interactive and @precision == 0.5 -> %>
               <div class={[
@@ -309,8 +306,8 @@ defmodule <%= @module %> do
         </linearGradient>
       </defs>
       <path
+        class="text-default-light-gray dark:text-natural-light"
         fill="currentColor"
-        fill-opacity="0.2"
         d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.006 5.404.434c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.434 2.082-5.005Z"
       />
       <path
@@ -361,37 +358,6 @@ defmodule <%= @module %> do
     end
   end
 
-  @doc """
-  Computes the new rating value for keyboard navigation events.
-  Use this in your `handle_event/3` to process keyboard actions from the rating component.
-
-  Supports `ArrowRight`/`ArrowUp` (increment), `ArrowLeft`/`ArrowDown` (decrement),
-  `Home` (first step), and `End` (max value).
-
-  ## Examples
-
-  ```elixir
-  def handle_event("rating", %{"action" => "keyboard", "key" => key, "current" => current, "count" => count, "precision" => precision}, socket) do
-    new_val = Rating.rating_keyboard(key, current, count, precision)
-    {:noreply, assign(socket, star: new_val)}
-  end
-  ```
-  """
-  def rating_keyboard(key, current, count, precision \\ 1.0) do
-    step = precision
-
-    result =
-      case key do
-        k when k in ["ArrowRight", "ArrowUp"] -> min(current + step, count)
-        k when k in ["ArrowLeft", "ArrowDown"] -> max(current - step, 0)
-        "Home" -> step
-        "End" -> count
-        _ -> current
-      end
-
-    if is_float(result) and result == trunc(result), do: trunc(result), else: result
-  end
-
   @doc type: :component
   attr :for, :string, default: nil, doc: "Specifies the form which is associated with"
   attr :class, :string, default: nil, doc: "Custom CSS class for additional styling"
@@ -422,13 +388,6 @@ defmodule <%= @module %> do
     ~H"""
     <span class={[@name, @class]} />
     """
-  end
-
-  defp form_click_js(id, value, current_select) do
-    new_value = if value == current_select, do: 0, else: value
-
-    JS.set_attribute({"value", to_string(new_value)}, to: "##{id}-hidden")
-    |> JS.dispatch("change", to: "##{id}-hidden")
   end
 
   defp event_click_js(on_action, value, params) do

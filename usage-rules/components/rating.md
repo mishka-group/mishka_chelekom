@@ -1,6 +1,6 @@
 # Rating Component
 
-Star-based rating display with interactive selection, half-star precision, form integration, disabled state, and keyboard navigation.
+Star-based rating display with interactive selection, half-star precision, form integration, and disabled state.
 
 **Documentation**: https://mishka.tools/chelekom/docs/rating
 
@@ -32,7 +32,7 @@ mix mishka.ui.gen.component rating
 | `count` | `:integer` | `5` | Number of stars |
 | `select` | `:any` | `0` | Selected rating value (integer or float) |
 | `interactive` | `:boolean` | `false` | Allow user selection via click |
-| `disabled` | `:boolean` | `false` | Disable all interaction (reduced opacity, no click/keyboard) |
+| `disabled` | `:boolean` | `false` | Disable all interaction (reduced opacity, no click) |
 | `precision` | `:float` | `1.0` | Rating granularity — `1.0` for full stars, `0.5` for half-star selection |
 | `field` | `Phoenix.HTML.FormField` | `nil` | Form field struct for native Phoenix form integration |
 | `label` | `:string` | `nil` | Label text displayed above the rating |
@@ -64,15 +64,6 @@ Extracts the current rating value from form params or data. Useful for keeping t
 
 ```elixir
 rating_select(:rating, @form)
-```
-
-### `rating_keyboard/4`
-Computes the new rating value for keyboard navigation events. Use in your `handle_event/3`.
-
-Supported keys: `ArrowRight`/`ArrowUp` (increment), `ArrowLeft`/`ArrowDown` (decrement), `Home` (first step), `End` (max value).
-
-```elixir
-Rating.rating_keyboard(key, current, count, precision)
 ```
 
 ## Usage Examples
@@ -145,30 +136,6 @@ When using `field` with `disabled`, interactivity is automatically turned off:
 
 ```heex
 <.rating field={@form[:rating]} disabled />
-```
-
-### Keyboard Navigation
-
-Interactive ratings are focusable and support arrow key navigation. The component sends a `"keyboard"` action event.
-
-```heex
-<.rating
-  id="rating-keyboard"
-  select={@star}
-  size="large"
-  color="info"
-  interactive
-/>
-```
-
-Handle in your LiveView:
-
-```elixir
-def handle_event("rating", %{"action" => "keyboard", "key" => key,
-    "current" => current, "count" => count, "precision" => precision}, socket) do
-  new_val = Rating.rating_keyboard(key, current, count, precision)
-  {:noreply, assign(socket, star: new_val)}
-end
 ```
 
 ### Different Colors
@@ -273,15 +240,3 @@ The params map is merged into the event payload alongside `action` and `number`.
 %{"action" => "select", "number" => 2.5, "product_id" => "abc123"}
 ```
 
-### Keyboard Event
-
-```elixir
-%{
-  "action" => "keyboard",
-  "key" => "ArrowRight",
-  "current" => 3,
-  "count" => 5,
-  "precision" => 1.0,
-  "name" => nil
-}
-```
