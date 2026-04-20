@@ -7,24 +7,27 @@ defmodule Mix.Tasks.Mishka.Mcp.ServerTest do
 
   describe "MCP Server" do
     setup do
-      # Start required applications
       Application.ensure_all_started(:inets)
       Application.ensure_all_started(:plug_cowboy)
 
-      # Use a random port to avoid conflicts
-      port = Enum.random(5000..5999)
+      stop_supervisor = fn ->
+        case Process.whereis(MCPSupervisor) do
+          nil ->
+            :ok
 
-      on_exit(fn ->
-        # Stop the supervisor if it's running
-        try do
-          case Process.whereis(MCPSupervisor) do
-            nil -> :ok
-            pid -> Supervisor.stop(pid, :normal, 1000)
-          end
-        catch
-          :exit, _ -> :ok
+          pid ->
+            try do
+              Supervisor.stop(pid, :normal, 2000)
+            catch
+              :exit, _ -> :ok
+            end
         end
-      end)
+      end
+
+      stop_supervisor.()
+
+      port = Enum.random(5000..5999)
+      on_exit(stop_supervisor)
 
       {:ok, port: port}
     end
@@ -89,13 +92,13 @@ defmodule Mix.Tasks.Mishka.Mcp.ServerTest do
         ~c"http://localhost:#{port}/mcp",
         [
           {~c"content-type", ~c"application/json"},
-          {~c"accept", ~c"application/json, text/event-stream"}
+          {~c"accept", ~c"application/json"}
         ],
         ~c"application/json",
         body
       }
 
-      {:ok, response} = :httpc.request(:post, request, [], [])
+      {:ok, response} = :httpc.request(:post, request, [{:timeout, 5000}], [])
       {{_, status_code, _}, _headers, _response_body} = response
 
       # MCP endpoint should respond with 200, 202, or 406 depending on protocol version

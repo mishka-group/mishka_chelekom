@@ -1,3 +1,20 @@
+defmodule MishkaChelekom.MCP.TransportPlug do
+  @moduledoc false
+  # Defers Anubis.Server.Transport.StreamableHTTP.Plug.init/1 to runtime.
+  # Plug.Router calls init/1 at compile time, but the Anubis plug reads a
+  # persistent term that is only written when the supervisor starts at runtime.
+  @behaviour Plug
+
+  @impl Plug
+  def init(opts), do: opts
+
+  @impl Plug
+  def call(conn, opts) do
+    real_opts = Anubis.Server.Transport.StreamableHTTP.Plug.init(opts)
+    Anubis.Server.Transport.StreamableHTTP.Plug.call(conn, real_opts)
+  end
+end
+
 defmodule MishkaChelekom.MCP.Router do
   @moduledoc """
   HTTP Router for the Mishka Chelekom MCP Server.
@@ -13,7 +30,7 @@ defmodule MishkaChelekom.MCP.Router do
   plug(:dispatch)
 
   forward("/mcp",
-    to: Anubis.Server.Transport.StreamableHTTP.Plug,
+    to: MishkaChelekom.MCP.TransportPlug,
     init_opts: [server: MishkaChelekom.MCP.Server]
   )
 
