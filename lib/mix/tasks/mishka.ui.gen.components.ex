@@ -118,7 +118,8 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Components do
       end)
     end
 
-    Owl.Spinner.start(id: :my_spinner, labels: [processing: "Please wait..."])
+    tty? = IO.ANSI.enabled?()
+    if tty?, do: Owl.Spinner.start(id: :my_spinner, labels: [processing: "Please wait..."])
 
     list =
       if components == [] or Enum.member?(components, "all"),
@@ -159,9 +160,11 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Components do
       |> Component.setup_css_files([])
       |> maybe_update_config_prefixes(options)
 
-    if Map.get(igniter, :issues, []) == [],
-      do: Owl.Spinner.stop(id: :my_spinner, resolution: :ok, label: "Done"),
-      else: Owl.Spinner.stop(id: :my_spinner, resolution: :error, label: "Error")
+    if tty? do
+      if Map.get(igniter, :issues, []) == [],
+        do: Owl.Spinner.stop(id: :my_spinner, resolution: :ok, label: "Done"),
+        else: Owl.Spinner.stop(id: :my_spinner, resolution: :error, label: "Error")
+    end
 
     igniter
   end

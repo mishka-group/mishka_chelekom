@@ -27,6 +27,9 @@
 - Fix CSS typos, wrong border classes, swapped docs, and Gettext template bug [#468](https://github.com/mishka-group/mishka_chelekom/pull/468)
 - Delete dead label code from fieldset component
 - Fix readd floating content back to original parent before update[#475](https://github.com/mishka-group/mishka_chelekom/pull/475)
+- Fix MCP runtime error [Commit](https://github.com/mishka-group/mishka_chelekom/commit/c30039e753a6581a5d910120040bf9cc95837d0b)
+- Update and fix version conflict with other Mishka Project [Commit](https://github.com/mishka-group/mishka_chelekom/commit/c30039e753a6581a5d910120040bf9cc95837d0b)
+- Fix Only use `Owl.Spinner` when TTY available [#477](https://github.com/mishka-group/mishka_chelekom/issues/477)
 
 ---
 
