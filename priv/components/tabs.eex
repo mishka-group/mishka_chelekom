@@ -128,7 +128,6 @@ defmodule <%= @module %> do
     ~H"""
     <div
       id={@id}
-      phx-mounted={hide_tab(@id, length(@tab)) |> show_tab(@id, @active_index)}
       class={[
         "vertical-tab flex dark:text-gray-200",
         @placement == "end" && "flex-row-reverse",
@@ -165,10 +164,9 @@ defmodule <%= @module %> do
             if is_nil(tab[:on_select]) do
               JS.exec("phx-show-tab", to: "##{@id}-tab-header-#{index}")
             else
-              JS.exec(tab[:on_select] || %JS{}, "phx-show-tab", to: "##{@id}-tab-header-#{index}")
+              tab[:on_select]
             end
           }
-          phx-mounted={tab[:active] && JS.exec("phx-show-tab", to: "##{@id}-tab-header-#{index}")}
           role="tab"
           aria-selected={@active_index == index}
           aria-controls={"#{@id}-tab-panel-#{index}"}
@@ -176,6 +174,7 @@ defmodule <%= @module %> do
           class={[
             "tab-trigger flex flex-row flex-nowrap items-center gap-1.5 leading-5",
             "transition-all duration-400 delay-100 disabled:opacity-80",
+            @active_index == index && "active-tab",
             tab[:icon_position] == "end" && tab[:badge_position] == "end" && "flex-row-reverse",
             tab[:class]
           ]}
@@ -205,6 +204,7 @@ defmodule <%= @module %> do
           aria-labelledby={"#{@id}-tab-header-#{index}"}
           class={[
             "tab-content",
+            @active_index == index && "active-tab-panel",
             "[&:not(.active-tab-panel)]:hidden [&:not(.active-tab-panel)]:opacity-0 [&:not(.active-tab-panel)]:invisible",
             "[&.active-tab-panel]:block [&.active-tab-panel]:opacity-100 [&.active-tab-panel]:visible",
             panel[:class]
@@ -226,7 +226,6 @@ defmodule <%= @module %> do
     ~H"""
     <div
       id={@id}
-      phx-mounted={hide_tab(@id, length(@tab)) |> show_tab(@id, @active_index)}
       class={[
         "horizontal-tab dark:text-gray-200",
         content_position(@triggers_position),
@@ -261,7 +260,7 @@ defmodule <%= @module %> do
             if is_nil(tab[:on_select]) do
               hide_tab(@id, length(@tab)) |> show_tab(@id, index)
             else
-              tab[:on_select] |> hide_tab(@id, length(@tab)) |> show_tab(@id, index)
+              tab[:on_select]
             end
           }
           role="tab"
@@ -271,6 +270,7 @@ defmodule <%= @module %> do
           class={[
             "tab-trigger flex flex-row flex-nowrap justify-center items-center gap-1.5 leading-5",
             "transition-all duration-400 delay-100 disabled:opacity-80",
+            @active_index == index && "active-tab",
             tab[:icon_position] == "end" && tab[:badge_position] == "end" && "flex-row-reverse",
             tab[:class]
           ]}
@@ -300,6 +300,7 @@ defmodule <%= @module %> do
           role="tabpanel"
           class={[
             "tab-content w-full",
+            @active_index == index && "active-tab-panel",
             "[&:not(.active-tab-panel)]:hidden [&:not(.active-tab-panel)]:opacity-0 [&:not(.active-tab-panel)]:invisible",
             "[&.active-tab-panel]:block [&.active-tab-panel]:opacity-100 [&.active-tab-panel]:visible",
             panel[:class]
