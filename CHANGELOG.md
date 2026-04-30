@@ -10,7 +10,9 @@
 - Add Entry-level MCP for Mishka Chelekom components, docs and CLIs [#466](https://github.com/mishka-group/mishka_chelekom/pull/466)
 - Add server push event for `Combobox` component [Issue with help](https://github.com/mishka-group/mishka_chelekom/issues/440)
 - Add `Disabled State`, `Half-Star Precision`, `Form integration` into rating component [Issue with help](https://github.com/mishka-group/mishka_chelekom/issues/474)
-- Add support scrollable trigger list in Vertical&Horizontal orientation [Issue with help](https://github.com/mishka-group/mishka_chelekom/issues/471 )
+- Add dock (bottom-navigation) component [Issue with help](https://github.com/mishka-group/mishka_chelekom/issues/470 )
+- Add Shape component
+- Add Stat component
 
 
 ### Refactors:
