@@ -97,7 +97,7 @@ defmodule <%= @module %> do
   attr :scrollable, :boolean,
     default: false,
     doc:
-      "When true, wraps the tab trigger row in a horizontal scroll area (useful on mobile when many tabs exceed the container width). Only applies to horizontal tabs. Requires the `scroll_area` component to also be generated."
+      "When true, wraps the tab trigger list in a scroll area (horizontal scroll for horizontal tabs, vertical scroll for vertical tabs). Useful on mobile or when tabs exceed the container size. Requires the `scroll_area` component to also be generated."
   attr :class, :any, default: nil, doc: "Custom CSS class for additional styling"
 
   attr :rest, :global,
@@ -151,7 +151,70 @@ defmodule <%= @module %> do
       ]}
       {@rest}
     >
+      <.<%= @component_prefix %>scroll_area
+        :if={@scrollable}
+        id={"#{@id}-trigger-scroll"}
+        type="never"
+        height="h-full"
+        width="w-fit"
+        padding="none"
+        class="!h-full"
+      >
+        <div
+          role="tablist"
+          tabindex="0"
+          class={[
+            "tab-trigger-list flex flex-col shrink-0 text-natural-light dark:text-natural-dark",
+            @variant == "default" &&
+              "border-natural-hover-dark dark:border-silver-indicator-alt-light [&:not(.active-tab)_.tab-trigger]:border-natural-hover-dark dark:[&:not(.active-tab)_.tab-trigger]:border-silver-indicator-alt-light",
+            @variant == "base" &&
+              "border-base-border-light dark:border-base-border-dark [&:not(.active-tab)_.tab-trigger]:border-base-border-light dark:[&:not(.active-tab)_.tab-trigger]:border-base-border-dark"
+          ]}
+        >
+          <button
+            :for={{tab, index} <- Enum.with_index(@tab, 1)}
+            id={"#{@id}-tab-header-#{index}"}
+            phx-show-tab={hide_tab(@id, length(@tab)) |> show_tab(@id, index)}
+            phx-click={
+              if is_nil(tab[:on_select]) do
+                JS.exec("phx-show-tab", to: "##{@id}-tab-header-#{index}")
+              else
+                tab[:on_select]
+              end
+            }
+            role="tab"
+            aria-selected={@active_index == index}
+            aria-controls={"#{@id}-tab-panel-#{index}"}
+            tabindex={@active_index == index && "0" || "-1"}
+            class={[
+              "tab-trigger flex flex-row flex-nowrap items-center gap-1.5 leading-5",
+              "transition-all duration-400 delay-100 disabled:opacity-80",
+              "shrink-0",
+              @active_index == index && "active-tab",
+              tab[:icon_position] == "end" && tab[:badge_position] == "end" && "flex-row-reverse",
+              tab[:class]
+            ]}
+          >
+            <.<%= @component_prefix %>icon :if={tab[:icon]} name={tab[:icon]} class="tab-icon" />
+            <.<%= @component_prefix %>badge
+              :if={tab[:badge]}
+              variant={tab[:badge_variant] || "default"}
+              color={tab[:badge_color] || "natural"}
+              size={tab[:badge_size] || "extra_small"}
+              rounded="full"
+              circle
+            >
+              {tab[:badge]}
+            </.badge>
+            <span class="block tab-button_content">
+              {render_slot(tab)}
+            </span>
+          </button>
+        </div>
+      </.<%= @component_prefix %>scroll_area>
+
       <div
+        :if={!@scrollable}
         role="tablist"
         tabindex="0"
         class={[

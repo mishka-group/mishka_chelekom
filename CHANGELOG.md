@@ -10,12 +10,14 @@
 - Add Entry-level MCP for Mishka Chelekom components, docs and CLIs [#466](https://github.com/mishka-group/mishka_chelekom/pull/466)
 - Add server push event for `Combobox` component [Issue with help](https://github.com/mishka-group/mishka_chelekom/issues/440)
 - Add `Disabled State`, `Half-Star Precision`, `Form integration` into rating component [Issue with help](https://github.com/mishka-group/mishka_chelekom/issues/474)
+- Add support scrollable trigger list in Vertical&Horizontal orientation [Issue with help](https://github.com/mishka-group/mishka_chelekom/issues/471 )
 
 
 ### Refactors:
 
 - Refactor accordion to auto-generate item IDs (Explicit and open dynamic identifiers) [Commit](https://github.com/mishka-group/mishka_chelekom/commit/41a9f87d896c3524ce60826d5436ee14efacfb83) and [Issue with help](https://github.com/mishka-group/mishka_chelekom/issues/443#issuecomment-3529762821)
 - Change `:class` attr type from `:string` to `:any` in components [Commit](https://github.com/mishka-group/mishka_chelekom/commit/dc4d66b52ad7703524a4057346b574fbf72992f0)
+- Refactor server-render active state so it works on static mount and reacts to assign changes [Issue with help](https://github.com/mishka-group/mishka_chelekom/issues/476) - [Issue with help](https://github.com/mishka-group/mishka_chelekom/issues/472)
 
 ### Bugs:
 
