@@ -1,0 +1,824 @@
+defmodule <%= @module %> do
+  @moduledoc """
+  The `<%= @module %>` module provides a flexible dock (bottom navigation) component for
+  Phoenix LiveView applications. The dock is a navigation bar designed to stick to the
+  edge of the screen and offer fast access to the most important destinations or actions
+  in your application — much like a mobile bottom navigation bar or a desktop application
+  dock.
+
+  ## Features
+
+  - **Customizable Appearance:** Supports `default`, `shadow`, `bordered`, `gradient`, and
+  `base` variants combined with the full Mishka color palette. Padding, rounded corners,
+  spacing, and item size can all be tuned independently.
+  - **Item Configuration:** Items can render with an icon, a label, a badge, an optional
+  active indicator and any of `navigate`, `patch`, `href` link helpers, plus arbitrary
+  click handlers via `phx-*` attributes.
+  - **Flexible Positioning:** Choose between `static`, `sticky_bottom`, `sticky_top`,
+  `fixed_bottom`, `fixed_top`, `fixed_bottom_center`, or `fixed_top_center` — covers
+  inline use, edge-to-edge mobile docks, and centered floating pills.
+  - **Active State:** Each item can be marked `active` to highlight the current section.
+
+  This component pairs nicely with the navbar (top) and sidebar (side) components to
+  build complete navigation systems.
+
+  **Documentation:** https://mishka.tools/chelekom/docs/dock
+  """
+
+  use Phoenix.Component
+  use Gettext, backend: <%= inspect(@web_module) %>.Gettext
+  import <%= inspect(@web_module) %>.Components.<%= @module_prefix_camel %>Icon, only: [<%= @component_prefix %>icon: 1]
+
+  @doc """
+  Renders a customizable `dock` component — a bottom navigation bar that holds a list of
+  items, each with an icon, optional label, optional badge, and optional active state.
+
+  ## Examples
+
+  ```elixir
+  <.<%= @component_prefix %>dock id="main-dock" color="primary" variant="shadow" position="fixed_bottom">
+    <:item icon="hero-home" label="Home" navigate="/" />
+    <:item icon="hero-inbox" label="Inbox" navigate="/inbox" badge="3" active />
+    <:item icon="hero-cog-6-tooth" label="Settings" navigate="/settings" />
+  </.<%= @component_prefix %>dock>
+  ```
+
+  Centered floating pill at the bottom (mobile dock):
+
+  ```elixir
+  <.<%= @component_prefix %>dock id="mini" position="fixed_bottom_center" rounded="full" size="large" show_labels={false}>
+    <:item icon="hero-home" navigate="/" />
+    <:item icon="hero-magnifying-glass" navigate="/search" active />
+    <:item icon="hero-user" navigate="/profile" />
+  </.<%= @component_prefix %>dock>
+  ```
+  """
+  @doc type: :component
+  attr :id, :string,
+    required: true,
+    doc: "A unique identifier is used to manage state and interaction"
+
+  attr :class, :any, default: nil, doc: "Custom CSS class for additional styling"
+  attr :item_class, :any, default: nil, doc: "Custom CSS class applied to every item"
+  attr :icon_class, :any, default: nil, doc: "Custom CSS class applied to every item icon"
+  attr :label_class, :any, default: nil, doc: "Custom CSS class applied to every item label"
+  attr :active_class, :any, default: nil, doc: "Extra class applied to active items"
+  attr :inner_wrapper_class, :string, default: nil, doc: "Custom CSS class for the inner wrapper"
+
+  attr :variant, :string, default: "base", doc: "Determines the style"
+  attr :color, :string, default: "natural", doc: "Determines color theme"
+  attr :border, :string, default: "extra_small", doc: "Determines border style"
+  attr :rounded, :string, default: "none", doc: "Determines the border radius"
+  attr :padding, :string, default: "small", doc: "Determines padding for the dock container"
+  attr :space, :string, default: "extra_small", doc: "Space between items"
+  attr :size, :string, default: "medium", doc: "Determines size (icon + label scale)"
+  attr :max_width, :string, default: "full", doc: "Determines the inner wrapper max width"
+
+  attr :position, :string,
+    default: "static",
+    doc:
+      "Position: static, sticky_bottom, sticky_top, fixed_bottom, fixed_top, fixed_bottom_center, fixed_top_center"
+
+  attr :show_labels, :boolean,
+    default: true,
+    doc: "Whether labels render under the icons"
+
+  attr :font_weight, :string,
+    default: "font-medium",
+    doc: "Determines custom class for the font weight"
+
+  attr :rest, :global,
+    doc:
+      "Global attributes can define defaults which are merged with attributes provided by the caller"
+
+  slot :item, required: true, doc: "Specifies an item entry of the dock" do
+    attr :icon, :string, doc: "Icon displayed in the item"
+    attr :label, :string, doc: "Label rendered under the icon"
+    attr :badge, :string, doc: "Optional badge text or count rendered above the icon"
+    attr :active, :boolean, doc: "Marks the item as active"
+
+    attr :navigate, :string,
+      doc: "Defines the path for navigation within the application using a `navigate` attribute."
+
+    attr :patch, :string, doc: "Specifies the path for navigation using a LiveView patch."
+    attr :href, :string, doc: "Sets the URL for an external link."
+    attr :class, :any, doc: "Custom CSS class for additional styling"
+    attr :icon_class, :any, doc: "Custom CSS class for the icon"
+    attr :label_class, :any, doc: "Custom CSS class for the label"
+    attr :badge_class, :any, doc: "Custom CSS class for the badge"
+    attr :color, :string, doc: "Per-item color override"
+  end
+
+  slot :inner_block, required: false, doc: "Optional content rendered after the items"
+
+  def <%= @component_prefix %>dock(assigns) do
+    ~H"""
+    <nav
+      id={@id}
+      role="navigation"
+      aria-label={gettext("Dock navigation")}
+      class={[
+        "dock-base group/dock w-full",
+        "[&_.dock-item]:flex [&_.dock-item]:flex-col [&_.dock-item]:items-center [&_.dock-item]:justify-center",
+        "[&_.dock-item]:gap-1 [&_.dock-item]:relative [&_.dock-item]:transition-all [&_.dock-item]:duration-150",
+        "[&_.dock-item]:cursor-pointer [&_.dock-item]:select-none",
+        "[&_.dock-item]:opacity-70 [&_.dock-item:hover]:opacity-100",
+        "[&_.dock-item.dock-active]:opacity-100",
+        "[&_.dock-icon]:transition-transform [&_.dock-item:hover_.dock-icon]:scale-110",
+        "[&_.dock-item.dock-active_.dock-icon]:scale-110",
+        "[&_.dock-label]:leading-none [&_.dock-label]:whitespace-nowrap",
+        "[&_.dock-badge]:absolute [&_.dock-badge]:rounded-full [&_.dock-badge]:flex [&_.dock-badge]:items-center [&_.dock-badge]:justify-center",
+        position_class(@position),
+        color_variant(@variant, @color),
+        border_class(@border, @variant),
+        rounded_size(@rounded),
+        padding_size(@padding),
+        size_class(@size),
+        @font_weight,
+        @class
+      ]}
+      {@rest}
+    >
+      <ul
+        role="menubar"
+        class={[
+          "dock-inner flex items-stretch justify-around w-full mx-auto",
+          space_class(@space),
+          max_width_class(@max_width),
+          @inner_wrapper_class
+        ]}
+      >
+        <li
+          :for={{item, index} <- Enum.with_index(@item, 1)}
+          role="none"
+          class="flex-1 min-w-0"
+        >
+          <.dock_item_link
+            id={"#{@id}-item-#{index}"}
+            item={item}
+            show_labels={@show_labels}
+            item_class={@item_class}
+            icon_class={@icon_class}
+            label_class={@label_class}
+            active_class={@active_class}
+            color={@color}
+            variant={@variant}
+          />
+        </li>
+      </ul>
+      {render_slot(@inner_block)}
+    </nav>
+    """
+  end
+
+  attr :id, :string, required: true
+  attr :item, :map, required: true
+  attr :show_labels, :boolean, required: true
+  attr :item_class, :any, default: nil
+  attr :icon_class, :any, default: nil
+  attr :label_class, :any, default: nil
+  attr :active_class, :any, default: nil
+  attr :color, :string, required: true
+  attr :variant, :string, required: true
+
+  defp dock_item_link(%{item: %{navigate: nav}} = assigns) when is_binary(nav) do
+    ~H"""
+    <.link
+      id={@id}
+      navigate={@item.navigate}
+      class={dock_item_class(@item, @item_class, @active_class, @color, @variant)}
+      role="menuitem"
+      aria-current={if @item[:active], do: "page"}
+    >
+      <.dock_item_inner item={@item} show_labels={@show_labels} icon_class={@icon_class} label_class={@label_class} />
+    </.link>
+    """
+  end
+
+  defp dock_item_link(%{item: %{patch: pat}} = assigns) when is_binary(pat) do
+    ~H"""
+    <.link
+      id={@id}
+      patch={@item.patch}
+      class={dock_item_class(@item, @item_class, @active_class, @color, @variant)}
+      role="menuitem"
+      aria-current={if @item[:active], do: "page"}
+    >
+      <.dock_item_inner item={@item} show_labels={@show_labels} icon_class={@icon_class} label_class={@label_class} />
+    </.link>
+    """
+  end
+
+  defp dock_item_link(%{item: %{href: hrf}} = assigns) when is_binary(hrf) do
+    ~H"""
+    <.link
+      id={@id}
+      href={@item.href}
+      class={dock_item_class(@item, @item_class, @active_class, @color, @variant)}
+      role="menuitem"
+      aria-current={if @item[:active], do: "page"}
+    >
+      <.dock_item_inner item={@item} show_labels={@show_labels} icon_class={@icon_class} label_class={@label_class} />
+    </.link>
+    """
+  end
+
+  defp dock_item_link(assigns) do
+    ~H"""
+    <button
+      id={@id}
+      type="button"
+      class={dock_item_class(@item, @item_class, @active_class, @color, @variant)}
+      role="menuitem"
+      aria-current={if @item[:active], do: "page"}
+    >
+      <.dock_item_inner item={@item} show_labels={@show_labels} icon_class={@icon_class} label_class={@label_class} />
+    </button>
+    """
+  end
+
+  attr :item, :map, required: true
+  attr :show_labels, :boolean, required: true
+  attr :icon_class, :any, default: nil
+  attr :label_class, :any, default: nil
+
+  defp dock_item_inner(assigns) do
+    ~H"""
+    <span :if={@item[:icon]} class="dock-icon-wrap relative inline-flex">
+      <.<%= @component_prefix %>icon
+        name={@item[:icon]}
+        class={["dock-icon shrink-0", @icon_class, @item[:icon_class]]}
+      />
+      <span :if={@item[:badge]} class={["dock-badge", dock_badge_class(@item[:badge_class])]}>
+        {@item[:badge]}
+      </span>
+    </span>
+    <span
+      :if={@show_labels and @item[:label]}
+      class={["dock-label", @label_class, @item[:label_class]]}
+    >
+      {@item[:label]}
+    </span>
+    <span :if={@item[:active]} class="dock-active-indicator sr-only">
+      {gettext("current page")}
+    </span>
+    """
+  end
+
+  defp dock_item_class(item, base_item_class, active_class, color, variant) do
+    [
+      "dock-item w-full h-full px-2 py-1.5 rounded",
+      item_color_class(variant, item[:color] || color, item[:active]),
+      base_item_class,
+      item[:class],
+      item[:active] && "dock-active",
+      item[:active] && active_class
+    ]
+  end
+
+  defp dock_badge_class(custom) do
+    [
+      "-top-2.5 -right-2 px-1 min-w-[16px] h-[16px] text-[10px] leading-none",
+      "bg-danger-light text-white dark:bg-danger-dark dark:text-black",
+      custom
+    ]
+  end
+
+  defp item_color_class(variant, _color, _active) when variant in ["base", "default", "shadow", "gradient"], do: nil
+
+  defp item_color_class("bordered", _color, true),
+    do: "bg-black/5 dark:bg-white/10"
+
+  defp item_color_class("bordered", _color, _), do: nil
+
+  defp position_class("static"), do: "relative"
+
+  defp position_class("sticky_bottom"),
+    do: "sticky bottom-0 left-0 right-0 z-40"
+
+  defp position_class("sticky_top"),
+    do: "sticky top-0 left-0 right-0 z-40"
+
+  defp position_class("fixed_bottom"),
+    do: "fixed bottom-0 left-0 right-0 z-40"
+
+  defp position_class("fixed_top"),
+    do: "fixed top-0 left-0 right-0 z-40"
+
+  defp position_class("fixed_bottom_center"),
+    do: "fixed bottom-4 left-1/2 -translate-x-1/2 !w-fit z-40"
+
+  defp position_class("fixed_top_center"),
+    do: "fixed top-4 left-1/2 -translate-x-1/2 !w-fit z-40"
+
+  defp position_class(params) when is_binary(params), do: params
+
+  <%= if is_nil(@max_width) or "extra_small" in @max_width do %>
+  defp max_width_class("extra_small"), do: "max-w-md"
+  <% end %>
+  <%= if is_nil(@max_width) or "small" in @max_width do %>
+  defp max_width_class("small"), do: "max-w-lg"
+  <% end %>
+  <%= if is_nil(@max_width) or "medium" in @max_width do %>
+  defp max_width_class("medium"), do: "max-w-2xl"
+  <% end %>
+  <%= if is_nil(@max_width) or "large" in @max_width do %>
+  defp max_width_class("large"), do: "max-w-4xl"
+  <% end %>
+  <%= if is_nil(@max_width) or "extra_large" in @max_width do %>
+  defp max_width_class("extra_large"), do: "max-w-6xl"
+  <% end %>
+  <%= if is_nil(@max_width) or "full" in @max_width do %>
+  defp max_width_class("full"), do: "max-w-full"
+  <% end %>
+  defp max_width_class(params) when is_binary(params), do: params
+
+  <%= if is_nil(@space) or "extra_small" in @space do %>
+  defp space_class("extra_small"), do: "gap-1"
+  <% end %>
+  <%= if is_nil(@space) or "small" in @space do %>
+  defp space_class("small"), do: "gap-2"
+  <% end %>
+  <%= if is_nil(@space) or "medium" in @space do %>
+  defp space_class("medium"), do: "gap-3"
+  <% end %>
+  <%= if is_nil(@space) or "large" in @space do %>
+  defp space_class("large"), do: "gap-4"
+  <% end %>
+  <%= if is_nil(@space) or "extra_large" in @space do %>
+  defp space_class("extra_large"), do: "gap-5"
+  <% end %>
+  defp space_class(params) when is_binary(params), do: params
+
+  <%= if is_nil(@padding) or "none" in @padding do %>
+  defp padding_size("none"), do: "p-0"
+  <% end %>
+  <%= if is_nil(@padding) or "extra_small" in @padding do %>
+  defp padding_size("extra_small"), do: "p-1"
+  <% end %>
+  <%= if is_nil(@padding) or "small" in @padding do %>
+  defp padding_size("small"), do: "p-2"
+  <% end %>
+  <%= if is_nil(@padding) or "medium" in @padding do %>
+  defp padding_size("medium"), do: "p-3"
+  <% end %>
+  <%= if is_nil(@padding) or "large" in @padding do %>
+  defp padding_size("large"), do: "p-4"
+  <% end %>
+  <%= if is_nil(@padding) or "extra_large" in @padding do %>
+  defp padding_size("extra_large"), do: "p-5"
+  <% end %>
+  defp padding_size(params) when is_binary(params), do: params
+
+  <%= if is_nil(@size) or "extra_small" in @size do %>
+  defp size_class("extra_small") do
+    [
+      "[&_.dock-icon]:size-3.5 [&_.dock-label]:text-[10px] [&_.dock-item]:min-h-10",
+      "[&_.dock-badge]:min-w-3 [&_.dock-badge]:h-3 [&_.dock-badge]:text-[8px]"
+    ]
+  end
+  <% end %>
+  <%= if is_nil(@size) or "small" in @size do %>
+  defp size_class("small") do
+    [
+      "[&_.dock-icon]:size-4 [&_.dock-label]:text-[11px] [&_.dock-item]:min-h-12"
+    ]
+  end
+  <% end %>
+  <%= if is_nil(@size) or "medium" in @size do %>
+  defp size_class("medium") do
+    [
+      "[&_.dock-icon]:size-5 [&_.dock-label]:text-xs [&_.dock-item]:min-h-14"
+    ]
+  end
+  <% end %>
+  <%= if is_nil(@size) or "large" in @size do %>
+  defp size_class("large") do
+    [
+      "[&_.dock-icon]:size-6 [&_.dock-label]:text-sm [&_.dock-item]:min-h-16"
+    ]
+  end
+  <% end %>
+  <%= if is_nil(@size) or "extra_large" in @size do %>
+  defp size_class("extra_large") do
+    [
+      "[&_.dock-icon]:size-7 [&_.dock-label]:text-base [&_.dock-item]:min-h-20"
+    ]
+  end
+  <% end %>
+  defp size_class(params) when is_binary(params), do: params
+
+  defp border_class(_, variant) when variant in ["default", "shadow", "gradient"],
+    do: nil
+
+  defp border_class("none", _), do: "border-0"
+  defp border_class("extra_small", _), do: "border"
+  defp border_class("small", _), do: "border-2"
+  defp border_class("medium", _), do: "border-[3px]"
+  defp border_class("large", _), do: "border-4"
+  defp border_class("extra_large", _), do: "border-[5px]"
+  defp border_class(params, _) when is_binary(params), do: params
+
+  <%= if is_nil(@rounded) or "none" in @rounded do %>
+  defp rounded_size("none"), do: "rounded-none"
+  <% end %>
+  <%= if is_nil(@rounded) or "extra_small" in @rounded do %>
+  defp rounded_size("extra_small"), do: "rounded-sm"
+  <% end %>
+  <%= if is_nil(@rounded) or "small" in @rounded do %>
+  defp rounded_size("small"), do: "rounded"
+  <% end %>
+  <%= if is_nil(@rounded) or "medium" in @rounded do %>
+  defp rounded_size("medium"), do: "rounded-md"
+  <% end %>
+  <%= if is_nil(@rounded) or "large" in @rounded do %>
+  defp rounded_size("large"), do: "rounded-lg"
+  <% end %>
+  <%= if is_nil(@rounded) or "extra_large" in @rounded do %>
+  defp rounded_size("extra_large"), do: "rounded-xl"
+  <% end %>
+  <%= if is_nil(@rounded) or "full" in @rounded do %>
+  defp rounded_size("full"), do: "rounded-full"
+  <% end %>
+  defp rounded_size(params) when is_binary(params), do: params
+
+  <%= if is_nil(@variant) or "base" in @variant do %>
+  defp color_variant("base", _) do
+    [
+      "bg-white text-base-text-light border-base-border-light shadow-sm",
+      "dark:bg-base-bg-dark dark:text-base-text-dark dark:border-base-border-dark"
+    ]
+  end
+  <% end %>
+  <%= if is_nil(@variant) or "default" in @variant do %>
+  <%= if is_nil(@color) or "white" in @color do %>
+  defp color_variant("default", "white") do
+    ["bg-white text-black"]
+  end
+  <% end %>
+
+  <%= if is_nil(@color) or "dark" in @color do %>
+  defp color_variant("default", "dark") do
+    ["bg-default-dark-bg text-white"]
+  end
+  <% end %>
+
+  <%= if is_nil(@color) or "natural" in @color do %>
+  defp color_variant("default", "natural") do
+    ["bg-natural-light text-white dark:bg-natural-dark dark:text-black"]
+  end
+  <% end %>
+
+  <%= if is_nil(@color) or "primary" in @color do %>
+  defp color_variant("default", "primary") do
+    ["bg-primary-light text-white dark:bg-primary-dark dark:text-black"]
+  end
+  <% end %>
+
+  <%= if is_nil(@color) or "secondary" in @color do %>
+  defp color_variant("default", "secondary") do
+    ["bg-secondary-light text-white dark:bg-secondary-dark dark:text-black"]
+  end
+  <% end %>
+
+  <%= if is_nil(@color) or "success" in @color do %>
+  defp color_variant("default", "success") do
+    ["bg-success-light text-white dark:bg-success-dark dark:text-black"]
+  end
+  <% end %>
+
+  <%= if is_nil(@color) or "warning" in @color do %>
+  defp color_variant("default", "warning") do
+    ["bg-warning-light text-white dark:bg-warning-dark dark:text-black"]
+  end
+  <% end %>
+
+  <%= if is_nil(@color) or "danger" in @color do %>
+  defp color_variant("default", "danger") do
+    ["bg-danger-light text-white dark:bg-danger-dark dark:text-black"]
+  end
+  <% end %>
+
+  <%= if is_nil(@color) or "info" in @color do %>
+  defp color_variant("default", "info") do
+    ["bg-info-light text-white dark:bg-info-dark dark:text-black"]
+  end
+  <% end %>
+
+  <%= if is_nil(@color) or "misc" in @color do %>
+  defp color_variant("default", "misc") do
+    ["bg-misc-light text-white dark:bg-misc-dark dark:text-black"]
+  end
+  <% end %>
+
+  <%= if is_nil(@color) or "dawn" in @color do %>
+  defp color_variant("default", "dawn") do
+    ["bg-dawn-light text-white dark:bg-dawn-dark dark:text-black"]
+  end
+  <% end %>
+
+  <%= if is_nil(@color) or "silver" in @color do %>
+  defp color_variant("default", "silver") do
+    ["bg-silver-light text-white dark:bg-silver-dark dark:text-black"]
+  end
+  <% end %>
+  <% end %>
+  <%= if is_nil(@variant) or "shadow" in @variant do %>
+  <%= if is_nil(@color) or "natural" in @color do %>
+  defp color_variant("shadow", "natural") do
+    [
+      "bg-natural-light text-white dark:bg-natural-dark dark:text-black",
+      "shadow-[0px_4px_6px_-4px_var(--color-shadow-natural)] shadow-[0px_10px_15px_-3px_var(--color-shadow-natural)] dark:shadow-none"
+    ]
+  end
+  <% end %>
+
+  <%= if is_nil(@color) or "primary" in @color do %>
+  defp color_variant("shadow", "primary") do
+    [
+      "bg-primary-light text-white dark:bg-primary-dark dark:text-black",
+      "shadow-[0px_4px_6px_-4px_var(--color-shadow-primary)] shadow-[0px_10px_15px_-3px_var(--color-shadow-primary)] dark:shadow-none"
+    ]
+  end
+  <% end %>
+
+  <%= if is_nil(@color) or "secondary" in @color do %>
+  defp color_variant("shadow", "secondary") do
+    [
+      "bg-secondary-light text-white dark:bg-secondary-dark dark:text-black",
+      "shadow-[0px_4px_6px_-4px_var(--color-shadow-secondary)] shadow-[0px_10px_15px_-3px_var(--color-shadow-secondary)] dark:shadow-none"
+    ]
+  end
+  <% end %>
+
+  <%= if is_nil(@color) or "success" in @color do %>
+  defp color_variant("shadow", "success") do
+    [
+      "bg-success-light text-white dark:bg-success-dark dark:text-black",
+      "shadow-[0px_4px_6px_-4px_var(--color-shadow-success)] shadow-[0px_10px_15px_-3px_var(--color-shadow-success)] dark:shadow-none"
+    ]
+  end
+  <% end %>
+
+  <%= if is_nil(@color) or "warning" in @color do %>
+  defp color_variant("shadow", "warning") do
+    [
+      "bg-warning-light text-white dark:bg-warning-dark dark:text-black",
+      "shadow-[0px_4px_6px_-4px_var(--color-shadow-warning)] shadow-[0px_10px_15px_-3px_var(--color-shadow-warning)] dark:shadow-none"
+    ]
+  end
+  <% end %>
+
+  <%= if is_nil(@color) or "danger" in @color do %>
+  defp color_variant("shadow", "danger") do
+    [
+      "bg-danger-light text-white dark:bg-danger-dark dark:text-black",
+      "shadow-[0px_4px_6px_-4px_var(--color-shadow-danger)] shadow-[0px_10px_15px_-3px_var(--color-shadow-danger)] dark:shadow-none"
+    ]
+  end
+  <% end %>
+
+  <%= if is_nil(@color) or "info" in @color do %>
+  defp color_variant("shadow", "info") do
+    [
+      "bg-info-light text-white dark:bg-info-dark dark:text-black",
+      "shadow-[0px_4px_6px_-4px_var(--color-shadow-info)] shadow-[0px_10px_15px_-3px_var(--color-shadow-info)] dark:shadow-none"
+    ]
+  end
+  <% end %>
+
+  <%= if is_nil(@color) or "misc" in @color do %>
+  defp color_variant("shadow", "misc") do
+    [
+      "bg-misc-light text-white dark:bg-misc-dark dark:text-black",
+      "shadow-[0px_4px_6px_-4px_var(--color-shadow-misc)] shadow-[0px_10px_15px_-3px_var(--color-shadow-misc)] dark:shadow-none"
+    ]
+  end
+  <% end %>
+
+  <%= if is_nil(@color) or "dawn" in @color do %>
+  defp color_variant("shadow", "dawn") do
+    [
+      "bg-dawn-light text-white dark:bg-dawn-dark dark:text-black",
+      "shadow-[0px_4px_6px_-4px_var(--color-shadow-dawn)] shadow-[0px_10px_15px_-3px_var(--color-shadow-dawn)] dark:shadow-none"
+    ]
+  end
+  <% end %>
+
+  <%= if is_nil(@color) or "silver" in @color do %>
+  defp color_variant("shadow", "silver") do
+    [
+      "bg-silver-light text-white dark:bg-silver-dark dark:text-black",
+      "shadow-[0px_4px_6px_-4px_var(--color-shadow-silver)] shadow-[0px_10px_15px_-3px_var(--color-shadow-silver)] dark:shadow-none"
+    ]
+  end
+  <% end %>
+
+  <%= if is_nil(@color) or "dark" in @color do %>
+  defp color_variant("shadow", "dark") do
+    ["bg-default-dark-bg text-white shadow-xl dark:shadow-none"]
+  end
+  <% end %>
+
+  <%= if is_nil(@color) or "white" in @color do %>
+  defp color_variant("shadow", "white") do
+    ["bg-white text-black shadow-xl"]
+  end
+  <% end %>
+  <% end %>
+  <%= if is_nil(@variant) or "bordered" in @variant do %>
+  <%= if is_nil(@color) or "white" in @color do %>
+  defp color_variant("bordered", "white") do
+    ["bg-white text-black border-bordered-white-border"]
+  end
+  <% end %>
+
+  <%= if is_nil(@color) or "dark" in @color do %>
+  defp color_variant("bordered", "dark") do
+    ["bg-bordered-dark-bg text-white border-bordered-dark-border"]
+  end
+  <% end %>
+
+  <%= if is_nil(@color) or "natural" in @color do %>
+  defp color_variant("bordered", "natural") do
+    [
+      "text-natural-bordered-text-light border-natural-bordered-text-light bg-natural-bordered-bg-light",
+      "dark:text-natural-bordered-text-dark dark:border-natural-bordered-text-dark dark:bg-natural-bordered-bg-dark"
+    ]
+  end
+  <% end %>
+
+  <%= if is_nil(@color) or "primary" in @color do %>
+  defp color_variant("bordered", "primary") do
+    [
+      "text-primary-bordered-text-light border-primary-bordered-text-light bg-primary-bordered-bg-light",
+      "dark:text-primary-bordered-text-dark dark:border-primary-bordered-text-dark dark:bg-primary-bordered-bg-dark"
+    ]
+  end
+  <% end %>
+
+  <%= if is_nil(@color) or "secondary" in @color do %>
+  defp color_variant("bordered", "secondary") do
+    [
+      "text-secondary-bordered-text-light border-secondary-bordered-text-light bg-secondary-bordered-bg-light",
+      "dark:text-secondary-bordered-text-dark dark:border-secondary-bordered-text-dark dark:bg-secondary-bordered-bg-dark"
+    ]
+  end
+  <% end %>
+
+  <%= if is_nil(@color) or "success" in @color do %>
+  defp color_variant("bordered", "success") do
+    [
+      "text-success-bordered-text-light border-success-bordered-text-light bg-success-bordered-bg-light",
+      "dark:text-success-bordered-text-dark dark:border-success-bordered-text-dark dark:bg-success-bordered-bg-dark"
+    ]
+  end
+  <% end %>
+
+  <%= if is_nil(@color) or "warning" in @color do %>
+  defp color_variant("bordered", "warning") do
+    [
+      "text-warning-bordered-text-light border-warning-bordered-text-light bg-warning-bordered-bg-light",
+      "dark:text-warning-bordered-text-dark dark:border-warning-bordered-text-dark dark:bg-warning-bordered-bg-dark"
+    ]
+  end
+  <% end %>
+
+  <%= if is_nil(@color) or "danger" in @color do %>
+  defp color_variant("bordered", "danger") do
+    [
+      "text-danger-bordered-text-light border-danger-bordered-text-light bg-danger-bordered-bg-light",
+      "dark:text-danger-bordered-text-dark dark:border-danger-bordered-text-dark dark:bg-danger-bordered-bg-dark"
+    ]
+  end
+  <% end %>
+
+  <%= if is_nil(@color) or "info" in @color do %>
+  defp color_variant("bordered", "info") do
+    [
+      "text-info-bordered-text-light border-info-bordered-text-light bg-info-bordered-bg-light",
+      "dark:text-info-bordered-text-dark dark:border-info-bordered-text-dark dark:bg-info-bordered-bg-dark"
+    ]
+  end
+  <% end %>
+
+  <%= if is_nil(@color) or "misc" in @color do %>
+  defp color_variant("bordered", "misc") do
+    [
+      "text-misc-bordered-text-light border-misc-bordered-text-light bg-misc-bordered-bg-light",
+      "dark:text-misc-bordered-text-dark dark:border-misc-bordered-text-dark dark:bg-misc-bordered-bg-dark"
+    ]
+  end
+  <% end %>
+
+  <%= if is_nil(@color) or "dawn" in @color do %>
+  defp color_variant("bordered", "dawn") do
+    [
+      "text-dawn-bordered-text-light border-dawn-bordered-text-light bg-dawn-bordered-bg-light",
+      "dark:text-dawn-bordered-text-dark dark:border-dawn-bordered-text-dark dark:bg-dawn-bordered-bg-dark"
+    ]
+  end
+  <% end %>
+
+  <%= if is_nil(@color) or "silver" in @color do %>
+  defp color_variant("bordered", "silver") do
+    [
+      "text-silver-bordered-text-light border-silver-bordered-text-light bg-silver-bordered-bg-light",
+      "dark:text-silver-bordered-text-dark dark:border-silver-bordered-text-dark dark:bg-silver-bordered-bg-dark"
+    ]
+  end
+  <% end %>
+  <% end %>
+  <%= if is_nil(@variant) or "gradient" in @variant do %>
+  <%= if is_nil(@color) or "natural" in @color do %>
+  defp color_variant("gradient", "natural") do
+    [
+      "bg-gradient-to-br from-gradient-natural-from-light to-gradient-natural-to-light text-white",
+      "dark:from-gradient-natural-from-dark dark:to-white dark:text-black"
+    ]
+  end
+  <% end %>
+
+  <%= if is_nil(@color) or "primary" in @color do %>
+  defp color_variant("gradient", "primary") do
+    [
+      "bg-gradient-to-br from-gradient-primary-from-light to-gradient-primary-to-light text-white",
+      "dark:from-gradient-primary-from-dark dark:to-gradient-primary-to-dark dark:text-black"
+    ]
+  end
+  <% end %>
+
+  <%= if is_nil(@color) or "secondary" in @color do %>
+  defp color_variant("gradient", "secondary") do
+    [
+      "bg-gradient-to-br from-gradient-secondary-from-light to-gradient-secondary-to-light text-white",
+      "dark:from-gradient-secondary-from-dark dark:to-gradient-secondary-to-dark dark:text-black"
+    ]
+  end
+  <% end %>
+
+  <%= if is_nil(@color) or "success" in @color do %>
+  defp color_variant("gradient", "success") do
+    [
+      "bg-gradient-to-br from-gradient-success-from-light to-gradient-success-to-light text-white",
+      "dark:from-gradient-success-from-dark dark:to-gradient-success-to-dark dark:text-black"
+    ]
+  end
+  <% end %>
+
+  <%= if is_nil(@color) or "warning" in @color do %>
+  defp color_variant("gradient", "warning") do
+    [
+      "bg-gradient-to-br from-gradient-warning-from-light to-gradient-warning-to-light text-white",
+      "dark:from-gradient-warning-from-dark dark:to-gradient-warning-to-dark dark:text-black"
+    ]
+  end
+  <% end %>
+
+  <%= if is_nil(@color) or "danger" in @color do %>
+  defp color_variant("gradient", "danger") do
+    [
+      "bg-gradient-to-br from-gradient-danger-from-light to-gradient-danger-to-light text-white",
+      "dark:from-gradient-danger-from-dark dark:to-gradient-danger-to-dark dark:text-black"
+    ]
+  end
+  <% end %>
+
+  <%= if is_nil(@color) or "info" in @color do %>
+  defp color_variant("gradient", "info") do
+    [
+      "bg-gradient-to-br from-gradient-info-from-light to-gradient-info-to-light text-white",
+      "dark:from-gradient-info-from-dark dark:to-gradient-info-to-dark dark:text-black"
+    ]
+  end
+  <% end %>
+
+  <%= if is_nil(@color) or "misc" in @color do %>
+  defp color_variant("gradient", "misc") do
+    [
+      "bg-gradient-to-br from-gradient-misc-from-light to-gradient-misc-to-light text-white",
+      "dark:from-gradient-misc-from-dark dark:to-gradient-misc-to-dark dark:text-black"
+    ]
+  end
+  <% end %>
+
+  <%= if is_nil(@color) or "dawn" in @color do %>
+  defp color_variant("gradient", "dawn") do
+    [
+      "bg-gradient-to-br from-gradient-dawn-from-light to-gradient-dawn-to-light text-white",
+      "dark:from-gradient-dawn-from-dark dark:to-gradient-dawn-to-dark dark:text-black"
+    ]
+  end
+  <% end %>
+
+  <%= if is_nil(@color) or "silver" in @color do %>
+  defp color_variant("gradient", "silver") do
+    [
+      "bg-gradient-to-br from-gradient-silver-from-light to-gradient-silver-to-light text-white",
+      "dark:from-gradient-silver-from-dark dark:to-gradient-silver-to-dark dark:text-black"
+    ]
+  end
+  <% end %>
+  <% end %>
+  defp color_variant(params, _) when is_binary(params), do: params
+end
