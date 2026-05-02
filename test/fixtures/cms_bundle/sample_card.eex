@@ -1,0 +1,46 @@
+defmodule <%= @module %> do
+  @moduledoc "Sample card — multiple public functions, slot variations, sibling cross-call."
+
+  use Phoenix.Component
+
+  @doc type: :component
+  attr :id, :string, default: nil
+  attr :rounded, :string, default: "small"
+  attr :class, :any, default: nil
+  attr :rest, :global
+
+  slot :inner_block, required: true
+
+  def <%= @component_prefix %>sample_card(assigns) do
+    ~H"""
+    <div id={@id} class={["card", rounded_class(@rounded), @class]} {@rest}>
+      <.sample_card_title :if={@id} title={@id}/>
+      {render_slot(@inner_block)}
+    </div>
+    """
+  end
+
+  @doc type: :component
+  attr :id, :string, default: nil
+  attr :title, :string, required: true
+  attr :class, :any, default: nil
+
+  slot :inner_block, required: false
+
+  def <%= @component_prefix %>sample_card_title(assigns) do
+    ~H"""
+    <h3 id={@id} class={["card-title", @class]}>
+      {@title}
+      {render_slot(@inner_block)}
+    </h3>
+    """
+  end
+
+  <%= if is_nil(@rounded) or "small" in @rounded do %>
+  defp rounded_class("small"), do: "rounded"
+  <% end %>
+  <%= if is_nil(@rounded) or "large" in @rounded do %>
+  defp rounded_class("large"), do: "rounded-lg"
+  <% end %>
+  defp rounded_class(_), do: ""
+end

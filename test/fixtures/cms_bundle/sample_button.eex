@@ -1,0 +1,69 @@
+defmodule <%= @module %> do
+  @moduledoc "Sample button — multi-public-fn + sibling cross-call + module attr + JS alias."
+
+  use Phoenix.Component
+  alias Phoenix.LiveView.JS
+
+  @indicator_positions ["left", "right"]
+
+  @doc type: :component
+  attr :id, :string, default: nil, doc: "DOM id"
+  attr :variant, :string, default: "default"
+  attr :color, :string, default: "primary"
+  attr :on_click, JS, default: %JS{}
+  attr :class, :any, default: nil
+  attr :rest, :global
+
+  slot :inner_block, required: false
+
+  def <%= @component_prefix %>sample_button(assigns) do
+    ~H"""
+    <button id={@id} class={["btn", color_variant(@variant, @color), @class]} {@rest}>
+      <.sample_button_indicator position="left" class={@class}/>
+      {render_slot(@inner_block)}
+    </button>
+    """
+  end
+
+  @doc type: :component
+  attr :href, :string, required: true
+  attr :variant, :string, default: "default"
+  attr :color, :string, default: "primary"
+  attr :class, :any, default: nil
+  attr :rest, :global
+
+  slot :inner_block, required: true
+
+  def <%= @component_prefix %>sample_button_link(assigns) do
+    ~H"""
+    <a href={@href} class={["btn", color_variant(@variant, @color), @class]} {@rest}>
+      {render_slot(@inner_block)}
+    </a>
+    """
+  end
+
+  attr :position, :string, default: "left", values: @indicator_positions
+  attr :class, :any, default: nil
+
+  defp sample_button_indicator(assigns) do
+    ~H"""
+    <span class={["indicator", @position, @class]} aria-hidden="true"/>
+    """
+  end
+
+  <%= if is_nil(@variant) or "default" in @variant do %>
+    <%= if is_nil(@color) or "primary" in @color do %>
+  defp color_variant("default", "primary"), do: "bg-blue-600 text-white"
+    <% end %>
+    <%= if is_nil(@color) or "danger" in @color do %>
+  defp color_variant("default", "danger"), do: "bg-red-600 text-white"
+    <% end %>
+  <% end %>
+  <%= if is_nil(@variant) or "outline" in @variant do %>
+    <%= if is_nil(@color) or "primary" in @color do %>
+  defp color_variant("outline", "primary"), do: "border border-blue-600 text-blue-600"
+    <% end %>
+  <% end %>
+  defp color_variant(%{a: 1} = _multi_line_pattern_match), do: "complex"
+  defp color_variant(_, _), do: ""
+end

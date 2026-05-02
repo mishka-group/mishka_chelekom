@@ -98,7 +98,16 @@ defmodule Mix.Tasks.Mishka.Ui.Export do
       # This ensures your option schema includes options from nested tasks
       composes: [],
       # `OptionParser` schema
-      schema: [base64: :boolean, template: :boolean, name: :string, org: :string, test: :boolean],
+      schema: [
+        base64: :boolean,
+        template: :boolean,
+        name: :string,
+        org: :string,
+        test: :boolean,
+        cms: :boolean,
+        bundle_name: :string,
+        bundle_version: :string
+      ],
       # Default values for the options in the `schema`
       defaults: [],
       # CLI aliases
@@ -169,18 +178,356 @@ defmodule Mix.Tasks.Mishka.Ui.Export do
 
     base64 = Keyword.get(options, :base64, false)
     # If user selects --template, it just creates a default JSON template
-    if Keyword.get(options, :template, false) do
-      Igniter.create_new_file(igniter, dir <> "/#{name}.json", @default_json_template,
-        on_exists: :overwrite
-      )
+    cond do
+      Keyword.get(options, :template, false) ->
+        Igniter.create_new_file(igniter, dir <> "/#{name}.json", @default_json_template,
+          on_exists: :overwrite
+        )
+
+      Keyword.get(options, :cms, false) ->
+        igniter
+        |> Igniter.assign(%{cli_args: options, cli_dir: dir})
+        |> check_dir_files()
+        |> create_cms_bundle(name, options, base64)
+
+      true ->
+        igniter
+        |> Igniter.assign(%{cli_args: options, cli_dir: dir})
+        |> check_dir_files()
+        |> create_elixir_files_config(base64)
+        |> create_asset_files_config(base64)
+        |> create_json_file(name, org)
+    end
+  end
+
+  # ──────────────────────────────────────────────────────────────────────
+  # --cms output (mishka.ui_kit.bundle.v3)
+  #
+  # The exporter does ALL the work. Each entry in `components` is the
+  # exact shape `Ash.create!(MishkaCmsCore.Runtime.Component, params)`
+  # accepts on the MishkaCMS side. The installer there is a trivial
+  # decode + bulk_create.
+  # ──────────────────────────────────────────────────────────────────────
+
+  defp create_cms_bundle(igniter, name, options, base64) do
+    cli_files = Map.get(igniter.assigns, :cli_files, false)
+
+    if cli_files do
+      bundle_name = Keyword.get(options, :bundle_name, name)
+      bundle_version = Keyword.get(options, :bundle_version, "0.0.1")
+
+      pairs =
+        cli_files
+        |> Enum.filter(&(Path.extname(&1) == ".eex"))
+        |> Enum.map(fn eex_path ->
+          exs_path = String.replace_suffix(eex_path, ".eex", ".exs")
+          {exs_path, eex_path}
+        end)
+
+      try do
+        # First pass: harvest every public-function name across the whole
+        # directory so cross-file sibling refs (e.g. `tabs.eex` calling
+        # `<.scroll_area/>` from `scroll_area.eex`) get rewritten in
+        # pass 2.
+        kit_wide_siblings =
+          pairs
+          |> Enum.flat_map(fn {exs_path, eex_path} ->
+            case MishkaChelekom.CmsBundleExporter.list_public_defs(
+                   File.read!(exs_path),
+                   File.read!(eex_path)
+                 ) do
+              {:ok, names} -> names
+              _ -> []
+            end
+          end)
+          |> MapSet.new()
+
+        {component_results, skipped} =
+          pairs
+          |> Enum.map(fn {exs_path, eex_path} ->
+            exs_source = File.read!(exs_path)
+            eex_source = File.read!(eex_path)
+
+            case MishkaChelekom.CmsBundleExporter.convert(
+                   exs_source,
+                   eex_source,
+                   bundle_name,
+                   bundle_version,
+                   base64: base64,
+                   extra_siblings: kit_wide_siblings
+                 ) do
+              {:ok, %{components: cs, scripts: ss}} ->
+                {:ok, {cs, ss, exs_path}}
+
+              {:error, reason} ->
+                {:skip, {Path.basename(exs_path, ".exs"), inspect(reason)}}
+            end
+          end)
+          |> Enum.split_with(&match?({:ok, _}, &1))
+
+        component_results = Enum.map(component_results, fn {:ok, t} -> t end)
+
+        components =
+          Enum.flat_map(component_results, fn {cs, _ss, _path} -> cs end)
+
+        js_hooks =
+          component_results
+          |> Enum.flat_map(fn {_cs, ss, exs_path} ->
+            Enum.map(ss, fn s -> {s, Path.dirname(exs_path)} end)
+          end)
+          |> aggregate_js_hooks_v3(bundle_name, bundle_version, base64)
+
+        # Rewrite `phx-hook="<HookModule>"` → `phx-hook="Global<HookModule>"`
+        # in every emitted component, using the PascalCase module names
+        # preserved in `extra.module` of each js_hook entry. The bundle
+        # is shipped global; MishkaCMS keys global hooks under that
+        # exact prefix at runtime.
+        hook_modules =
+          js_hooks
+          |> Enum.map(fn h -> get_in(h, ["extra", "module"]) end)
+          |> Enum.reject(&is_nil/1)
+          |> Enum.uniq()
+
+        components = prefix_phx_hooks(components, hook_modules)
+
+        # Theme + base CSS files ship from `priv/assets/css/`. Combine
+        # them into one global `:theme` Stylesheet entry — the runtime
+        # CMS inlines this into shared_base CSS BEFORE Tailwind runs, so
+        # custom color tokens like `bg-primary-light` resolve.
+        stylesheets =
+          aggregate_stylesheets_v3(igniter.assigns.cli_dir, bundle_name, bundle_version)
+
+        skipped_names = Enum.map(skipped, fn {:skip, {n, _}} -> n end)
+
+        bundle = %{
+          "$schema" => "mishka.ui_kit.bundle.v3",
+          "name" => bundle_name,
+          "version" => bundle_version,
+          "components" => components,
+          "js_hooks" => js_hooks,
+          "stylesheets" => stylesheets
+        }
+
+        json = Jason.encode!(bundle, pretty: true)
+
+        igniter =
+          Igniter.create_new_file(
+            igniter,
+            igniter.assigns.cli_dir <> "/#{name}.json",
+            json,
+            on_exists: :overwrite
+          )
+
+        if skipped_names == [] do
+          igniter
+        else
+          Igniter.add_notice(
+            igniter,
+            "Skipped #{length(skipped_names)} component(s) due to parse failure: " <>
+              Enum.join(skipped_names, ", ")
+          )
+        end
+      rescue
+        e ->
+          Igniter.add_issue(igniter, "CMS bundle export failed: #{Exception.message(e)}")
+      end
     else
       igniter
-      |> Igniter.assign(%{cli_args: options, cli_dir: dir})
-      |> check_dir_files()
-      |> create_elixir_files_config(base64)
-      |> create_asset_files_config(base64)
-      |> create_json_file(name, org)
     end
+  end
+
+  # Aggregate `.exs` `scripts:` entries (plus their colocated `.js`
+  # files) into bundle-level `js_hooks`. Each emitted entry is in v3
+  # final shape — direct create-params for `Runtime.JsHook`.
+  defp aggregate_js_hooks_v3(script_dir_pairs, kit_name, kit_version, base64?) do
+    script_dir_pairs
+    |> Enum.uniq_by(fn {s, _dir} -> s[:module] || s["module"] end)
+    |> Enum.map(fn {s, dir} ->
+      pascal_name = stringify_script_field(s, :module)
+      # MishkaCMS stores hook rows in DB by lowercase kebab name and
+      # rebuilds the live hook key at boot via
+      # `JavaScriptCompiler.format_hook_name/2`:
+      #
+      #   "gallery-filter" -> split("-") |> capitalize |> join -> "GalleryFilter"
+      #   global rows     -> "Global" <> base
+      #   site rows       -> "<PascalSiteName>" <> base
+      #
+      # Chelekom's source uses the bare `phx-hook="GalleryFilter"`. To
+      # round-trip cleanly through that pipeline we ship the kebab form
+      # in `name` and rewrite component templates to the install-target
+      # prefix in `prefix_phx_hooks/2` (mix-task-level pass).
+      hook_name = pascal_to_kebab(pascal_name)
+      file_name = stringify_script_field(s, :file)
+      raw_content = find_js_content(dir, file_name) || ""
+
+      content =
+        if base64? and raw_content != "",
+          do: "base64:" <> Base.encode64(raw_content),
+          else: raw_content
+
+      %{
+        "name" => hook_name,
+        "site_id" => nil,
+        "format" => "js",
+        "priority" => 50,
+        "active" => true,
+        "permissions" => [],
+        "content" => content,
+        "extra" => %{
+          "ui_kit" => kit_name,
+          "ui_kit_version" => kit_version,
+          "module" => pascal_name
+        }
+      }
+    end)
+  end
+
+  defp stringify_script_field(s, key) do
+    s |> Map.get(key, Map.get(s, to_string(key), "")) |> to_string()
+  end
+
+  # Convert PascalCase identifier (e.g. "GalleryFilter") to kebab-case
+  # ("gallery-filter"). Single-word names ("Carousel") become bare
+  # lowercase ("carousel"). Splits on capital-letter boundaries.
+  defp pascal_to_kebab(""), do: ""
+
+  defp pascal_to_kebab(name) when is_binary(name) do
+    name
+    |> String.replace(~r/([a-z0-9])([A-Z])/, "\\1-\\2")
+    |> String.replace(~r/([A-Z]+)([A-Z][a-z])/, "\\1-\\2")
+    |> String.downcase()
+  end
+
+  # Rewrite every `phx-hook="<HookModule>"` reference in component
+  # templates/bodies/helpers/clauses to `phx-hook="Global<HookModule>"`.
+  # The bundle ships globally (site_id: null on every js_hook row), and
+  # MishkaCMS's runtime JS bundler keys global hooks under
+  # `Global<PascalCase>`. Doing this rewrite at the converter is the
+  # last step needed to keep the bundle install-and-go.
+  #
+  # `hook_modules` is the set of PascalCase hook module names from the
+  # bundle's js_hooks (e.g. ~w[Carousel Clipboard GalleryFilter]). We
+  # only rewrite refs that match one of these — host-app or third-party
+  # phx-hook attributes are left alone.
+  defp prefix_phx_hooks(components, hook_modules) when hook_modules == [] or hook_modules == nil,
+    do: components
+
+  defp prefix_phx_hooks(components, hook_modules) do
+    Enum.map(components, fn c ->
+      c
+      |> update_in(["template"], &rewrite_phx_hooks(&1, hook_modules))
+      |> update_in(["body"], &rewrite_phx_hooks(&1, hook_modules))
+      |> update_in(["helpers"], fn helpers ->
+        Enum.map(helpers || [], fn h ->
+          Map.update(h, "code", h["code"], &rewrite_phx_hooks(&1, hook_modules))
+        end)
+      end)
+      |> update_in(["extra", "clauses"], fn clauses ->
+        case clauses do
+          nil ->
+            nil
+
+          list when is_list(list) ->
+            Enum.map(list, fn cl ->
+              cl
+              |> Map.update("template", cl["template"], &rewrite_phx_hooks(&1, hook_modules))
+              |> Map.update("body", cl["body"], &rewrite_phx_hooks(&1, hook_modules))
+            end)
+        end
+      end)
+    end)
+  end
+
+  defp rewrite_phx_hooks(nil, _), do: nil
+  defp rewrite_phx_hooks("", _), do: ""
+
+  defp rewrite_phx_hooks(text, hook_modules) when is_binary(text) do
+    Enum.reduce(hook_modules, text, fn module_name, acc ->
+      String.replace(
+        acc,
+        ~s(phx-hook="#{module_name}"),
+        ~s(phx-hook="Global#{module_name}")
+      )
+    end)
+  end
+
+  defp rewrite_phx_hooks(other, _), do: other
+
+  # Read Chelekom's two-file theme (CSS variables on :root + the @theme
+  # block mapping --color-* to those variables) and emit ONE Stylesheet
+  # entry of kind=:theme. The MishkaCMS installer drops this row into
+  # the DB; TailwindCompiler inlines it into shared_base CSS BEFORE the
+  # `@import "tailwindcss"` directive, which is the order Tailwind v4
+  # requires for `@theme` declarations.
+  #
+  # Files come from `priv/assets/css/` relative to the component dir
+  # (`priv/components/`). Both files are joined with a clear comment
+  # boundary so the output is debuggable in the compiled CSS.
+  defp aggregate_stylesheets_v3(component_dir, kit_name, kit_version) do
+    css_dir = Path.join([Path.dirname(component_dir), "assets", "css"])
+    chelekom_path = Path.join(css_dir, "mishka_chelekom.css")
+    theme_path = Path.join(css_dir, "theme.css")
+
+    parts =
+      [
+        {"mishka_chelekom.css", File.read(chelekom_path)},
+        {"theme.css", File.read(theme_path)}
+      ]
+      |> Enum.flat_map(fn
+        {name, {:ok, content}} -> [{name, content}]
+        _ -> []
+      end)
+
+    case parts do
+      [] ->
+        []
+
+      _ ->
+        content =
+          parts
+          |> Enum.map_join("\n\n", fn {name, body} ->
+            "/* === #{name} === */\n#{body}"
+          end)
+
+        [
+          %{
+            "name" => "#{kit_name}-theme",
+            "site_id" => nil,
+            "format" => "css",
+            "kind" => "theme",
+            "priority" => 50,
+            "active" => true,
+            "permissions" => [],
+            "content" => content,
+            "description" => "#{kit_name} theme — CSS variables and @theme color tokens",
+            "extra" => %{
+              "ui_kit" => kit_name,
+              "ui_kit_version" => kit_version
+            }
+          }
+        ]
+    end
+  end
+
+  # Try a few candidate locations for the JS file referenced by a
+  # `.exs` `scripts:` entry. Chelekom puts hooks under
+  # `priv/assets/js/` (not next to the components), but other UI kits
+  # may colocate or use different conventions. Returns the file content
+  # or `nil` if no candidate is found.
+  defp find_js_content(component_dir, file_name) do
+    candidates = [
+      Path.join(component_dir, file_name),
+      Path.join([component_dir, "..", "assets", "js", file_name]),
+      Path.join([component_dir, "..", "..", "priv", "assets", "js", file_name]),
+      Path.join([Path.dirname(component_dir), "assets", "js", file_name])
+    ]
+
+    Enum.find_value(candidates, fn path ->
+      case File.read(path) do
+        {:ok, raw} -> raw
+        _ -> nil
+      end
+    end)
   end
 
   defp check_dir_files(igniter) do
