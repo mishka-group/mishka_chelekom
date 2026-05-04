@@ -1,0 +1,272 @@
+<Layouts.app flash={@flash}>
+  <div class="lg:grid lg:grid-cols-12 mt-5 max-w-5xl mx-auto">
+    <.custom_nav active="chelekom-docs-spinner" />
+    <div class="lg:col-span-10">
+      <.custom_info
+        title="Spinner"
+        description="Flexible spinner component for Phoenix and LiveView applications, offering visual cues for loading states with adjustable size, color, and style."
+        mix="mix mishka.ui.gen.component spinner"
+        github="https://github.com/mishka-group/mishka_chelekom/blob/master/priv/components/spinner.eex"
+        tags={["Component", "Stateless"]}
+      />
+      <.custom_tab id="chelekom-spinner-tab">
+        <:documentation_panel>
+          <.heading2 class="mb-5" id="overview">
+            <.link patch={~p"/chelekom/docs/spinner/#overview"}>
+              Overview of the Phoenix and LiveView spinner Component
+            </.link>
+          </.heading2>
+          <.cp>
+            The
+            <strong>
+              Mishka Chelekom spinner
+            </strong>
+            component is a <strong>Phoenix LiveView</strong>
+            component that allows developers to create dynamic and flexible <strong>loading spinners</strong>, perfect for visually indicating loading states within applications.
+          </.cp>
+
+          <.custom_code_wrapper elements_class="flex flex-wrap gap-10 items-center">
+            <.spinner color="danger" size="extra_small" />
+            <.spinner color="misc" size="extra_small" type="bars" />
+            <.spinner color="silver" size="extra_small" type="dots" />
+            <.spinner color="warning" size="large" />
+            <.spinner color="success" size="large" type="dots" />
+            <.spinner color="danger" size="large" type="pinging" />
+          </.custom_code_wrapper>
+
+          <.cp margin="mt-5">
+            This
+            <strong>
+              <.link
+                title="Phoenix LiveView component"
+                class="transition-colors hover:text-[#448D96]"
+                navigate={~p"/chelekom"}
+              >
+                Phoenix LiveView component
+              </.link>
+            </strong>
+            also supports multiple spinner types such as dots, bars, and more, making it ideal for enhancing both the visual feedback and user interaction. With its responsive design and ease of use, this spinner component ensures a seamless loading experience in any application.
+          </.cp>
+
+          <.custom_block position="left" color="success" class="my-8" border="medium">
+            <.cp>
+              By using the class prop, you can apply custom classes or Tailwind CSS classes to customize the components design.
+            </.cp>
+          </.custom_block>
+
+          <.heading2 margin="my-5" id="spinner-type-prop">
+            <.link patch={~p"/chelekom/docs/spinner/#spinner-type-prop"}>
+              Type prop in Phoenix LiveView spinner component
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <.custom_inline_code>type</.custom_inline_code>
+            prop for the
+            <.custom_inline_code>spinner</.custom_inline_code>
+            component allows you to select from several styles for representing loading states. By default, the
+            <.custom_inline_code>type</.custom_inline_code>
+            is set to <.custom_inline_code>default</.custom_inline_code>, which provides a classic circle spinner. Other available options include <.custom_inline_code>dots</.custom_inline_code>, <.custom_inline_code>bars</.custom_inline_code>, and <.custom_inline_code>pinging</.custom_inline_code>, each offering a different animation style to fit various design needs. This flexibility helps tailor the loading indicator to match the aesthetic and functionality of your application.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-sm" code={@code_1}>
+            <div class="flex gap-10 items-center">
+              <.spinner id="spinner-example-1" color="danger" size="extra_small" />
+              <.spinner id="spinner-example-2" color="misc" size="extra_small" type="bars" />
+              <.spinner id="spinner-example-3" size="extra_small" type="dots" />
+              <.spinner id="spinner-example-4" color="success" size="large" type="pinging" />
+            </div>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="spinner-color-prop">
+            <.link patch={~p"/chelekom/docs/spinner/#spinner-color-prop"}>
+              Color prop in Phoenix LiveView spinner component
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <.custom_inline_code>color</.custom_inline_code>
+            prop for the
+            <.custom_inline_code>spinner</.custom_inline_code>
+            component offers a wide range of predefined color options to customize the spinner’s appearance. You can choose from a variety of colors, including <.custom_inline_code>base</.custom_inline_code>, <.custom_inline_code>natural</.custom_inline_code>, <.custom_inline_code>white</.custom_inline_code>, <.custom_inline_code>dark</.custom_inline_code>, <.custom_inline_code>primary</.custom_inline_code>, <.custom_inline_code>secondary</.custom_inline_code>, <.custom_inline_code>success</.custom_inline_code>, <.custom_inline_code>warning</.custom_inline_code>, <.custom_inline_code>danger</.custom_inline_code>, <.custom_inline_code>info</.custom_inline_code>, <.custom_inline_code>silver</.custom_inline_code>, <.custom_inline_code>misc</.custom_inline_code>, and <.custom_inline_code>dawn</.custom_inline_code>. These color options help you seamlessly match the spinner with the overall design theme of your application, providing a cohesive and polished look for your loading animations.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-sm" code={@code_2}>
+            <div class="flex gap-10 items-center">
+              <.spinner id="spinner-example-5" color="danger" size="extra_small" />
+              <.spinner id="spinner-example-6" color="misc" size="extra_small" type="bars" />
+              <.spinner id="spinner-example-7" color="silver" size="extra_small" type="dots" />
+              <.spinner id="spinner-example-8" color="warning" size="large" />
+              <.spinner id="spinner-example-9" color="success" size="large" type="dots" />
+              <.spinner id="spinner-example-10" color="danger" size="large" type="pinging" />
+            </div>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="spinner-size-prop">
+            <.link patch={~p"/chelekom/docs/spinner/#spinner-size-prop"}>
+              Size prop in Phoenix LiveView spinner component
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <.custom_inline_code>size</.custom_inline_code>
+            prop for the
+            <.custom_inline_code>spinner</.custom_inline_code>
+            component provides several options to control the spinner's dimensions. You can choose from sizes like <.custom_inline_code>extra_small</.custom_inline_code>, <.custom_inline_code>small</.custom_inline_code>, <.custom_inline_code>medium</.custom_inline_code>, <.custom_inline_code>large</.custom_inline_code>, <.custom_inline_code>extra_large</.custom_inline_code>, <.custom_inline_code>double_large</.custom_inline_code>, <.custom_inline_code>triple_large</.custom_inline_code>, and <.custom_inline_code>quadruple_large</.custom_inline_code>. This flexibility allows you to adjust the spinner's size to suit different use cases, whether you need a small, subtle loader or a large, prominent visual for ongoing processes.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-sm" code={@code_3}>
+            <div class="flex gap-5 items-center">
+              <.spinner id="spinner-example-11" color="primary" size="extra_small" />
+              <.spinner id="spinner-example-12" color="primary" size="small" />
+              <.spinner id="spinner-example-13" color="primary" size="medium" />
+              <.spinner id="spinner-example-14" color="primary" size="large" />
+              <.spinner id="spinner-example-15" color="primary" size="extra_large" />
+              <.spinner id="spinner-example-16" color="primary" size="double_large" />
+              <.spinner id="spinner-example-17" color="primary" size="triple_large" />
+              <.spinner id="spinner-example-18" color="primary" size="quadruple_large" />
+            </div>
+
+            <div class="flex gap-5 mt-10 items-center">
+              <.spinner id="spinner-example-19" color="success" size="extra_small" type="dots" />
+              <.spinner id="spinner-example-20" color="success" size="small" type="dots" />
+              <.spinner id="spinner-example-21" color="success" size="medium" type="dots" />
+              <.spinner id="spinner-example-22" color="success" size="large" type="dots" />
+              <.spinner id="spinner-example-23" color="success" size="extra_large" type="dots" />
+              <.spinner id="spinner-example-24" color="success" size="double_large" type="dots" />
+              <.spinner id="spinner-example-25" color="success" size="triple_large" type="dots" />
+              <.spinner
+                id="spinner-example-26"
+                color="success"
+                size="quadruple_large"
+                type="dots"
+              />
+            </div>
+
+            <div class="flex gap-5 mt-10 items-center">
+              <.spinner id="spinner-example-27" color="misc" size="extra_small" type="bars" />
+              <.spinner id="spinner-example-28" color="misc" size="small" type="bars" />
+              <.spinner id="spinner-example-29" color="misc" size="medium" type="bars" />
+              <.spinner id="spinner-example-30" color="misc" size="large" type="bars" />
+              <.spinner id="spinner-example-31" color="misc" size="extra_large" type="bars" />
+              <.spinner id="spinner-example-32" color="misc" size="double_large" type="bars" />
+              <.spinner id="spinner-example-33" color="misc" size="triple_large" type="bars" />
+              <.spinner id="spinner-example-34" color="misc" size="quadruple_large" type="bars" />
+            </div>
+
+            <div class="flex gap-5 mt-10 items-center">
+              <.spinner id="spinner-example-35" color="info" size="extra_small" type="pinging" />
+              <.spinner id="spinner-example-36" color="info" size="small" type="pinging" />
+              <.spinner id="spinner-example-37" color="info" size="medium" type="pinging" />
+              <.spinner id="spinner-example-38" color="info" size="large" type="pinging" />
+              <.spinner id="spinner-example-39" color="info" size="extra_large" type="pinging" />
+              <.spinner id="spinner-example-40" color="info" size="double_large" type="pinging" />
+              <.spinner id="spinner-example-41" color="info" size="triple_large" type="pinging" />
+              <.spinner
+                id="spinner-example-42"
+                color="info"
+                size="quadruple_large"
+                type="pinging"
+              />
+            </div>
+          </.custom_code_wrapper>
+        </:documentation_panel>
+
+        <:props_panel>
+          <.custom_search class="mb-16" />
+          <div class="space-y-8">
+            <h2 class="text-lg lg:text-2xl font-bold">Spinner Component Props</h2>
+
+            <.custom_table id="spinner-component-table">
+              <:header>
+                <.table_th>Name</.table_th>
+
+                <.table_th>Type</.table_th>
+
+                <.table_th>Required</.table_th>
+
+                <.table_th>Description</.table_th>
+              </:header>
+
+              <:row>
+                <.table_td>id</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  A unique identifier used to manage state and interaction. Default is <strong>nil</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>type</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines the spinner type. Values: <strong>default</strong>, <strong>dots</strong>, <strong>bars</strong>, <strong>pinging</strong>. Default is <strong>default</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>class</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Custom CSS class for additional styling. Default is <strong>nil</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>color</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines the color theme. Values: <strong>natural</strong>, <strong>primary</strong>, <strong>secondary</strong>, <strong>success</strong>, <strong>warning</strong>, <strong>danger</strong>, <strong>info</strong>, <strong>silver</strong>, <strong>misc</strong>, <strong>dawn</strong>, <strong>white</strong>, and <strong>dark</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>size</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines the overall size of the elements. Values: <strong>extra_small</strong>, <strong>small</strong>, <strong>medium</strong>, <strong>large</strong>, <strong>extra_large</strong>, <strong>double_large</strong>, <strong>triple_large</strong>, <strong>quadruple_large</strong>. Default is <strong>small</strong>.
+                </.table_td>
+              </:row>
+            </.custom_table>
+          </div>
+        </:props_panel>
+
+        <:cli_panel>
+          <.custom_cli_props config={component_config()} />
+        </:cli_panel>
+        <.custom_table_content>
+          <:content
+            link={~p"/chelekom/docs/spinner/#overview"}
+            title="Overview of the spinner component"
+          />
+          <:content link={~p"/chelekom/docs/spinner/#spinner-type-prop"} title="Type prop" />
+          <:content link={~p"/chelekom/docs/spinner/#spinner-color-prop"} title="Color prop" />
+          <:content link={~p"/chelekom/docs/spinner/#spinner-size-prop"} title="Size prop" />
+        </.custom_table_content>
+      </.custom_tab>
+    </div>
+  </div>
+</Layouts.app>

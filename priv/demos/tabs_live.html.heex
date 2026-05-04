@@ -1,0 +1,2177 @@
+<Layouts.app flash={@flash}>
+  <div class="lg:grid lg:grid-cols-12 mt-5 max-w-5xl mx-auto">
+    <.custom_nav active="chelekom-docs-tabs" />
+    <div class="lg:col-span-10">
+      <.custom_info
+        title="Tabs"
+        description="Interactive tab component supporting both horizontal and vertical orientations, designed for Phoenix and Phoenix LiveView, enabling seamless content switching for enhanced user navigation."
+        mix="mix mishka.ui.gen.component tabs"
+        github="https://github.com/mishka-group/mishka_chelekom/blob/master/priv/components/tabs.eex"
+        tags={["Component", "Stateless", "JS-module"]}
+      />
+      <.custom_tab id="chelekom-tabs-tab">
+        <:documentation_panel>
+          <.heading2 class="mb-5" id="overview">
+            <.link patch={~p"/chelekom/docs/tabs/#overview"}>
+              Overview of the Phoenix LiveView Tabs Component
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <strong>
+              Mishka Chelekom Tabs
+            </strong>
+            component is a highly customizable <strong>Phoenix LiveView</strong>
+            tool for organizing content in an intuitive tab-based interface. It is ideal for managing multiple sections of information or forms within a single page. This component supports both horizontal and vertical tab layouts, offering a wide range of styling options for colors, sizes, and border styles to match your app's design seamlessly.
+          </.cp>
+
+          <.custom_code_wrapper elements_class="grid md:grid-cols-2 gap-5">
+            <.tabs
+              id="sample-1"
+              padding="small"
+              content_padding="none"
+              size="small"
+              variant="nav_pills"
+              border="extra_small"
+              rounded="large"
+              color="base"
+              gap="small"
+              hide_list_border
+              full_width_tab
+              class="bg-white shadow-lg dark:bg-[#323238] py-5 px-3 rounded-lg border-[#E5E7EB] dark:border-[#454549]"
+            >
+              <:tab on_select={JS.push("something", value: %{name: "mishka.tools"})}>
+                Login
+              </:tab>
+              <:tab>Sigup</:tab>
+              <:panel>
+                <div class="space-y-5 mt-5">
+                  <div class="bg-[#F4F4F5] text-gray-500 dark:text-gray-400 dark:bg-[#27272A] space-y-2 py-1.5 px-2 rounded-lg">
+                    <label class="block">Email <span class="text-rose-500">*</span></label>
+                    <input
+                      type="email"
+                      class="block w-full p-0 h-6 bg-transparent border-0 appearance-none outline-none focus:outline-none"
+                      placeholder="Enter Email"
+                      name="email"
+                      disabled
+                    />
+                  </div>
+                  <div class="bg-[#F4F4F5] text-gray-500 dark:text-gray-400 dark:bg-[#27272A] space-y-2 py-1.5 px-2 rounded-lg">
+                    <label class="block">Password <span class="text-rose-500">*</span></label>
+                    <input
+                      type="password"
+                      class="block w-full p-0 h-6 bg-transparent border-0 appearance-none outline-none focus:outline-none"
+                      placeholder="Enter Password"
+                      name="email"
+                      disabled
+                    />
+                  </div>
+                  <div class="text-center">
+                    Need to create an account?
+                    <span class="text-sky-700 dark:text-sky-400">Sign up</span>
+                  </div>
+                  <.button
+                    full_width
+                    size="leading-5 py-2 px-4"
+                    variant="text-white bg-violet-600 hover:bg-violet-700"
+                    border="none"
+                  >
+                    Send
+                  </.button>
+                </div>
+              </:panel>
+              <:panel>
+                <div class="space-y-5 mt-5">
+                  <div class="bg-[#F4F4F5] text-gray-500 dark:text-gray-400 dark:bg-[#27272A] space-y-2 py-1.5 px-2 rounded-lg">
+                    <label class="block">Name <span class="text-rose-500">*</span></label>
+                    <input
+                      type="text"
+                      class="block w-full p-0 h-6 bg-transparent border-0 appearance-none outline-none focus:outline-none"
+                      placeholder="Enter Name"
+                      name="email"
+                      disabled
+                    />
+                  </div>
+                  <div class="bg-[#F4F4F5] text-gray-500 dark:text-gray-400 dark:bg-[#27272A] space-y-2 py-1.5 px-2 rounded-lg">
+                    <label class="block">Email <span class="text-rose-500">*</span></label>
+                    <input
+                      type="email"
+                      class="block w-full p-0 h-6 bg-transparent border-0 appearance-none outline-none focus:outline-none"
+                      placeholder="Enter Email"
+                      name="email"
+                      disabled
+                    />
+                  </div>
+                  <div class="bg-[#F4F4F5] text-gray-500 dark:text-gray-400 dark:bg-[#27272A] space-y-2 py-1.5 px-2 rounded-lg">
+                    <label class="block">Password <span class="text-rose-500">*</span></label>
+                    <input
+                      type="password"
+                      class="block w-full p-0 h-6 bg-transparent border-0 appearance-none outline-none focus:outline-none"
+                      placeholder="Enter Password"
+                      name="email"
+                      disabled
+                    />
+                  </div>
+                  <div class="text-center">
+                    Already have an account?
+                    <span class="text-sky-700 dark:text-sky-400">Login</span>
+                  </div>
+                  <.button
+                    full_width
+                    size="leading-5 py-2 px-4"
+                    variant="text-white bg-violet-600 hover:bg-violet-700"
+                    border="none"
+                  >
+                    Send
+                  </.button>
+                </div>
+              </:panel>
+            </.tabs>
+            <div class="space-y-3">
+              <.tabs
+                id="sample-2"
+                padding="extra_small"
+                size="extra_small"
+                variant="nav_pills"
+                color="danger"
+                rounded="full"
+                gap="extra_small"
+              >
+                <:tab>Home</:tab>
+                <:tab active>About</:tab>
+                <:tab>Contact</:tab>
+              </.tabs>
+              <.tabs
+                id="sample-3"
+                padding="extra_small"
+                size="extra_small"
+                variant="nav_pills"
+                color="primary"
+                rounded="small"
+                gap="extra_small"
+              >
+                <:tab>Products</:tab>
+                <:tab>Services</:tab>
+                <:tab>Support</:tab>
+                <:tab>Blog</:tab>
+              </.tabs>
+              <.tabs
+                id="sample-4"
+                padding="extra_small"
+                size="extra_small"
+                variant="nav_pills"
+                color="misc"
+                rounded="medium"
+                gap="extra_small"
+              >
+                <:tab>Profile</:tab>
+                <:tab>Settings</:tab>
+              </.tabs>
+              <.tabs
+                id="sample-5"
+                padding="extra_small"
+                size="extra_small"
+                variant="nav_pills"
+                color="dawn"
+                rounded="large"
+                gap="extra_small"
+              >
+                <:tab>News</:tab>
+                <:tab>Events</:tab>
+                <:tab>Timeline</:tab>
+              </.tabs>
+              <.tabs
+                id="sample-6"
+                padding="extra_small"
+                size="extra_small"
+                variant="nav_pills"
+                color="base"
+                rounded="extra_large"
+                gap="extra_small"
+              >
+                <:tab>Features</:tab>
+                <:tab>Documentation</:tab>
+                <:tab>Resources</:tab>
+              </.tabs>
+              <.tabs
+                id="sample-7"
+                padding="extra_small"
+                size="extra_small"
+                variant="nav_pills"
+                color="secondary"
+                rounded="full"
+                gap="extra_small"
+              >
+                <:tab>Login</:tab>
+                <:tab>Register</:tab>
+                <:tab active>Reset</:tab>
+                <:tab>Help</:tab>
+                <:tab>Contact</:tab>
+              </.tabs>
+            </div>
+          </.custom_code_wrapper>
+
+          <.cp margin="mt-5">
+            This
+            <strong>
+              <.link
+                title="Phoenix LiveView component"
+                class="transition-colors hover:text-[#448D96]"
+                navigate={~p"/chelekom"}
+              >
+                Phoenix LiveView component
+              </.link>
+            </strong>
+            also offers multiple tab styles, including active, inactive, or disabled states, making it easy to organize and navigate complex content. The flexibility in vertical and horizontal tab layouts ensures a responsive and visually appealing user experience, tailored to different use cases.
+          </.cp>
+
+          <.custom_block position="left" color="success" class="my-8" border="medium">
+            <.cp>
+              By using the class prop, you can apply custom classes or Tailwind CSS classes to customize the appearance and behavior of the components, allowing for flexible design changes.
+            </.cp>
+          </.custom_block>
+          <.custom_block position="left" color="danger" class="my-8" border="medium">
+            <strong>NOTICE:</strong> each tab component needs a unique ID
+          </.custom_block>
+
+          <.custom_block position="left" color="primary" class="my-8" border="medium">
+            <.cp>
+              <strong>Server-driven active tab:</strong>
+              the
+              <.custom_inline_code>active</.custom_inline_code>
+              attribute is reactive — it is rendered server-side and updates on every re-render. Bind it to an assign (e.g. <.custom_inline_code>{~s|active={@current_tab == "settings"}|}</.custom_inline_code>) and switch tabs by <.custom_inline_code>push_patch</.custom_inline_code>/<.custom_inline_code>JS.patch</.custom_inline_code> from anywhere on the page; the active tab and panel will follow. The active state is also present in the static HTML on first mount, so it works before LiveView connects (useful for tests, SEO, and JS-disabled clients).
+            </.cp>
+          </.custom_block>
+
+          <.heading2 margin="my-5" id="base-tabs">
+            <.link patch={~p"/chelekom/docs/tabs/#base-tabs"}>
+              Base Variant
+            </.link>
+          </.heading2>
+
+          <.custom_code_wrapper code_class="text-sm" elements_class="space-y-5" code={@code_14}>
+            <.tabs id="tab-example-13432" padding="large">
+              <:tab icon="hero-user-circle">Profile</:tab>
+              <:tab badge="8" badge_size="size-[19px]">Tickets</:tab>
+              <:tab icon="hero-cog-6-tooth">Settings</:tab>
+
+              <:panel>
+                <.cp>
+                  The Profile tab allows you to view and edit your personal details. Keep your information up to date to ensure a seamless experience across the platform.
+                </.cp>
+              </:panel>
+              <:panel>
+                <.cp>
+                  In the Tickets tab, you can manage all your active and past tickets. Whether you need assistance or just want to check your ticket history, this tab has all the relevant details.
+                </.cp>
+              </:panel>
+              <:panel>
+                <.cp>
+                  The Settings tab gives you access to customizable options for your account. Here, you can adjust notifications, privacy settings, and other preferences to personalize your experience.
+                </.cp>
+              </:panel>
+            </.tabs>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="default-variant-tabs">
+            <.link patch={~p"/chelekom/docs/tabs/#default-variant-tabs"}>
+              Default Variant
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The <.link navigate={~p"/chelekom/docs/tabs"}>Mishka Chelekom tabs</.link>
+            of the Mishka Chelekom Tabs component provides a simple and clean style where only the active tab’s color and border color are changed.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-sm" elements_class="space-y-5" code={@code_1}>
+            <.tabs id="tab-example-1" padding="large" variant="default" color="natural">
+              <:tab icon="hero-user-circle">Profile</:tab>
+              <:tab icon="hero-ticket">Tickets</:tab>
+              <:tab icon="hero-cog-6-tooth">Settings</:tab>
+
+              <:panel>
+                <.cp>
+                  The Profile tab allows you to view and edit your personal details. Keep your information up to date to ensure a seamless experience across the platform.
+                </.cp>
+              </:panel>
+              <:panel>
+                <.cp>
+                  In the Tickets tab, you can manage all your active and past tickets. Whether you need assistance or just want to check your ticket history, this tab has all the relevant details.
+                </.cp>
+              </:panel>
+              <:panel>
+                <.cp>
+                  The Settings tab gives you access to customizable options for your account. Here, you can adjust notifications, privacy settings, and other preferences to personalize your experience.
+                </.cp>
+              </:panel>
+            </.tabs>
+
+            <.tabs id="tab-example-2" padding="large" variant="default" color="primary">
+              <:tab icon="hero-user-circle">Profile</:tab>
+              <:tab icon="hero-ticket">Tickets</:tab>
+              <:tab icon="hero-cog-6-tooth">Settings</:tab>
+
+              <:panel>
+                <.cp>
+                  The Profile tab allows you to view and edit your personal details. Keep your information up to date to ensure a seamless experience across the platform.
+                </.cp>
+              </:panel>
+              <:panel>
+                <.cp>
+                  In the Tickets tab, you can manage all your active and past tickets. Whether you need assistance or just want to check your ticket history, this tab has all the relevant details.
+                </.cp>
+              </:panel>
+              <:panel>
+                <.cp>
+                  The Settings tab gives you access to customizable options for your account. Here, you can adjust notifications, privacy settings, and other preferences to personalize your experience.
+                </.cp>
+              </:panel>
+            </.tabs>
+
+            <.tabs id="tab-example-3" padding="large" variant="default" color="secondary">
+              <:tab icon="hero-user-circle">Profile</:tab>
+              <:tab icon="hero-ticket">Tickets</:tab>
+              <:tab icon="hero-cog-6-tooth">Settings</:tab>
+
+              <:panel>
+                <.cp>
+                  The Profile tab allows you to view and edit your personal details. Keep your information up to date to ensure a seamless experience across the platform.
+                </.cp>
+              </:panel>
+              <:panel>
+                <.cp>
+                  In the Tickets tab, you can manage all your active and past tickets. Whether you need assistance or just want to check your ticket history, this tab has all the relevant details.
+                </.cp>
+              </:panel>
+              <:panel>
+                <.cp>
+                  The Settings tab gives you access to customizable options for your account. Here, you can adjust notifications, privacy settings, and other preferences to personalize your experience.
+                </.cp>
+              </:panel>
+            </.tabs>
+
+            <.tabs id="tab-example-5" padding="large" variant="default" color="success">
+              <:tab icon="hero-user-circle">Profile</:tab>
+              <:tab icon="hero-ticket">Tickets</:tab>
+              <:tab icon="hero-cog-6-tooth">Settings</:tab>
+
+              <:panel>
+                <.cp>
+                  The Profile tab allows you to view and edit your personal details. Keep your information up to date to ensure a seamless experience across the platform.
+                </.cp>
+              </:panel>
+              <:panel>
+                <.cp>
+                  In the Tickets tab, you can manage all your active and past tickets. Whether you need assistance or just want to check your ticket history, this tab has all the relevant details.
+                </.cp>
+              </:panel>
+              <:panel>
+                <.cp>
+                  The Settings tab gives you access to customizable options for your account. Here, you can adjust notifications, privacy settings, and other preferences to personalize your experience.
+                </.cp>
+              </:panel>
+            </.tabs>
+
+            <.tabs id="tab-example-6" padding="large" variant="default" color="warning">
+              <:tab icon="hero-user-circle">Profile</:tab>
+              <:tab icon="hero-ticket">Tickets</:tab>
+              <:tab icon="hero-cog-6-tooth">Settings</:tab>
+
+              <:panel>
+                <.cp>
+                  The Profile tab allows you to view and edit your personal details. Keep your information up to date to ensure a seamless experience across the platform.
+                </.cp>
+              </:panel>
+              <:panel>
+                <.cp>
+                  In the Tickets tab, you can manage all your active and past tickets. Whether you need assistance or just want to check your ticket history, this tab has all the relevant details.
+                </.cp>
+              </:panel>
+              <:panel>
+                <.cp>
+                  The Settings tab gives you access to customizable options for your account. Here, you can adjust notifications, privacy settings, and other preferences to personalize your experience.
+                </.cp>
+              </:panel>
+            </.tabs>
+
+            <.tabs id="tab-example-7" padding="large" variant="default" color="danger">
+              <:tab icon="hero-user-circle">Profile</:tab>
+              <:tab icon="hero-ticket">Tickets</:tab>
+              <:tab icon="hero-cog-6-tooth">Settings</:tab>
+
+              <:panel>
+                <.cp>
+                  The Profile tab allows you to view and edit your personal details. Keep your information up to date to ensure a seamless experience across the platform.
+                </.cp>
+              </:panel>
+              <:panel>
+                <.cp>
+                  In the Tickets tab, you can manage all your active and past tickets. Whether you need assistance or just want to check your ticket history, this tab has all the relevant details.
+                </.cp>
+              </:panel>
+              <:panel>
+                <.cp>
+                  The Settings tab gives you access to customizable options for your account. Here, you can adjust notifications, privacy settings, and other preferences to personalize your experience.
+                </.cp>
+              </:panel>
+            </.tabs>
+
+            <.tabs id="tab-example-8" padding="large" variant="default" color="info">
+              <:tab icon="hero-user-circle">Profile</:tab>
+              <:tab icon="hero-ticket">Tickets</:tab>
+              <:tab icon="hero-cog-6-tooth">Settings</:tab>
+
+              <:panel>
+                <.cp>
+                  The Profile tab allows you to view and edit your personal details. Keep your information up to date to ensure a seamless experience across the platform.
+                </.cp>
+              </:panel>
+              <:panel>
+                <.cp>
+                  In the Tickets tab, you can manage all your active and past tickets. Whether you need assistance or just want to check your ticket history, this tab has all the relevant details.
+                </.cp>
+              </:panel>
+              <:panel>
+                <.cp>
+                  The Settings tab gives you access to customizable options for your account. Here, you can adjust notifications, privacy settings, and other preferences to personalize your experience.
+                </.cp>
+              </:panel>
+            </.tabs>
+
+            <.tabs id="tab-example-9" padding="large" variant="default" color="silver">
+              <:tab icon="hero-user-circle">Profile</:tab>
+              <:tab icon="hero-ticket">Tickets</:tab>
+              <:tab icon="hero-cog-6-tooth">Settings</:tab>
+
+              <:panel>
+                <.cp>
+                  The Profile tab allows you to view and edit your personal details. Keep your information up to date to ensure a seamless experience across the platform.
+                </.cp>
+              </:panel>
+              <:panel>
+                <.cp>
+                  In the Tickets tab, you can manage all your active and past tickets. Whether you need assistance or just want to check your ticket history, this tab has all the relevant details.
+                </.cp>
+              </:panel>
+              <:panel>
+                <.cp>
+                  The Settings tab gives you access to customizable options for your account. Here, you can adjust notifications, privacy settings, and other preferences to personalize your experience.
+                </.cp>
+              </:panel>
+            </.tabs>
+
+            <.tabs id="tab-example-10" padding="large" variant="default" color="misc">
+              <:tab icon="hero-user-circle">Profile</:tab>
+              <:tab icon="hero-ticket">Tickets</:tab>
+              <:tab icon="hero-cog-6-tooth">Settings</:tab>
+
+              <:panel>
+                <.cp>
+                  The Profile tab allows you to view and edit your personal details. Keep your information up to date to ensure a seamless experience across the platform.
+                </.cp>
+              </:panel>
+              <:panel>
+                <.cp>
+                  In the Tickets tab, you can manage all your active and past tickets. Whether you need assistance or just want to check your ticket history, this tab has all the relevant details.
+                </.cp>
+              </:panel>
+              <:panel>
+                <.cp>
+                  The Settings tab gives you access to customizable options for your account. Here, you can adjust notifications, privacy settings, and other preferences to personalize your experience.
+                </.cp>
+              </:panel>
+            </.tabs>
+
+            <.tabs id="tab-example-11" padding="large" variant="default" color="dawn">
+              <:tab icon="hero-user-circle">Profile</:tab>
+              <:tab icon="hero-ticket">Tickets</:tab>
+              <:tab icon="hero-cog-6-tooth">Settings</:tab>
+
+              <:panel>
+                <.cp>
+                  The Profile tab allows you to view and edit your personal details. Keep your information up to date to ensure a seamless experience across the platform.
+                </.cp>
+              </:panel>
+              <:panel>
+                <.cp>
+                  In the Tickets tab, you can manage all your active and past tickets. Whether you need assistance or just want to check your ticket history, this tab has all the relevant details.
+                </.cp>
+              </:panel>
+              <:panel>
+                <.cp>
+                  The Settings tab gives you access to customizable options for your account. Here, you can adjust notifications, privacy settings, and other preferences to personalize your experience.
+                </.cp>
+              </:panel>
+            </.tabs>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="pills-variant-tabs">
+            <.link patch={~p"/chelekom/docs/tabs/#pills-variant-tabs"}>
+              Pills Variant
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The Pills Variant of the Mishka Chelekom Tabs component features an active tab with distinct background and text color changes, creating a sleek, pill-like shape. This variant offers customizable border radius options, giving it a modern, clean look that seamlessly fits into different design styles while clearly indicating the active tab.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-sm" elements_class="space-y-5" code={@code_2}>
+            <.tabs id="tab-example-12" padding="large" color="natural" variant="pills">
+              <:tab icon="hero-user-circle">Profile</:tab>
+              <:tab icon="hero-ticket">Tickets</:tab>
+              <:tab icon="hero-cog-6-tooth">Settings</:tab>
+
+              <:panel>
+                <.cp>
+                  The Profile tab allows you to view and edit your personal details. Keep your information up to date to ensure a seamless experience across the platform.
+                </.cp>
+              </:panel>
+              <:panel>
+                <.cp>
+                  In the Tickets tab, you can manage all your active and past tickets. Whether you need assistance or just want to check your ticket history, this tab has all the relevant details.
+                </.cp>
+              </:panel>
+              <:panel>
+                <.cp>
+                  The Settings tab gives you access to customizable options for your account. Here, you can adjust notifications, privacy settings, and other preferences to personalize your experience.
+                </.cp>
+              </:panel>
+            </.tabs>
+
+            <.tabs id="tab-example-13" padding="large" color="primary" variant="pills">
+              <:tab icon="hero-user-circle">Profile</:tab>
+              <:tab icon="hero-ticket">Tickets</:tab>
+              <:tab icon="hero-cog-6-tooth">Settings</:tab>
+
+              <:panel>
+                <.cp>
+                  The Profile tab allows you to view and edit your personal details. Keep your information up to date to ensure a seamless experience across the platform.
+                </.cp>
+              </:panel>
+              <:panel>
+                <.cp>
+                  In the Tickets tab, you can manage all your active and past tickets. Whether you need assistance or just want to check your ticket history, this tab has all the relevant details.
+                </.cp>
+              </:panel>
+              <:panel>
+                <.cp>
+                  The Settings tab gives you access to customizable options for your account. Here, you can adjust notifications, privacy settings, and other preferences to personalize your experience.
+                </.cp>
+              </:panel>
+            </.tabs>
+
+            <.tabs id="tab-example-14" padding="large" color="secondary" variant="pills">
+              <:tab icon="hero-user-circle">Profile</:tab>
+              <:tab icon="hero-ticket">Tickets</:tab>
+              <:tab icon="hero-cog-6-tooth">Settings</:tab>
+
+              <:panel>
+                <.cp>
+                  The Profile tab allows you to view and edit your personal details. Keep your information up to date to ensure a seamless experience across the platform.
+                </.cp>
+              </:panel>
+              <:panel>
+                <.cp>
+                  In the Tickets tab, you can manage all your active and past tickets. Whether you need assistance or just want to check your ticket history, this tab has all the relevant details.
+                </.cp>
+              </:panel>
+              <:panel>
+                <.cp>
+                  The Settings tab gives you access to customizable options for your account. Here, you can adjust notifications, privacy settings, and other preferences to personalize your experience.
+                </.cp>
+              </:panel>
+            </.tabs>
+
+            <.tabs id="tab-example-16" padding="large" color="success" variant="pills">
+              <:tab icon="hero-user-circle">Profile</:tab>
+              <:tab icon="hero-ticket">Tickets</:tab>
+              <:tab icon="hero-cog-6-tooth">Settings</:tab>
+
+              <:panel>
+                <.cp>
+                  The Profile tab allows you to view and edit your personal details. Keep your information up to date to ensure a seamless experience across the platform.
+                </.cp>
+              </:panel>
+              <:panel>
+                <.cp>
+                  In the Tickets tab, you can manage all your active and past tickets. Whether you need assistance or just want to check your ticket history, this tab has all the relevant details.
+                </.cp>
+              </:panel>
+              <:panel>
+                <.cp>
+                  The Settings tab gives you access to customizable options for your account. Here, you can adjust notifications, privacy settings, and other preferences to personalize your experience.
+                </.cp>
+              </:panel>
+            </.tabs>
+
+            <.tabs id="tab-example-17" padding="large" color="warning" variant="pills">
+              <:tab icon="hero-user-circle">Profile</:tab>
+              <:tab icon="hero-ticket">Tickets</:tab>
+              <:tab icon="hero-cog-6-tooth">Settings</:tab>
+
+              <:panel>
+                <.cp>
+                  The Profile tab allows you to view and edit your personal details. Keep your information up to date to ensure a seamless experience across the platform.
+                </.cp>
+              </:panel>
+              <:panel>
+                <.cp>
+                  In the Tickets tab, you can manage all your active and past tickets. Whether you need assistance or just want to check your ticket history, this tab has all the relevant details.
+                </.cp>
+              </:panel>
+              <:panel>
+                <.cp>
+                  The Settings tab gives you access to customizable options for your account. Here, you can adjust notifications, privacy settings, and other preferences to personalize your experience.
+                </.cp>
+              </:panel>
+            </.tabs>
+
+            <.tabs id="tab-example-18" padding="large" color="danger" variant="pills">
+              <:tab icon="hero-user-circle">Profile</:tab>
+              <:tab icon="hero-ticket">Tickets</:tab>
+              <:tab icon="hero-cog-6-tooth">Settings</:tab>
+
+              <:panel>
+                <.cp>
+                  The Profile tab allows you to view and edit your personal details. Keep your information up to date to ensure a seamless experience across the platform.
+                </.cp>
+              </:panel>
+              <:panel>
+                <.cp>
+                  In the Tickets tab, you can manage all your active and past tickets. Whether you need assistance or just want to check your ticket history, this tab has all the relevant details.
+                </.cp>
+              </:panel>
+              <:panel>
+                <.cp>
+                  The Settings tab gives you access to customizable options for your account. Here, you can adjust notifications, privacy settings, and other preferences to personalize your experience.
+                </.cp>
+              </:panel>
+            </.tabs>
+
+            <.tabs id="tab-example-19" padding="large" color="info" variant="pills">
+              <:tab icon="hero-user-circle">Profile</:tab>
+              <:tab icon="hero-ticket">Tickets</:tab>
+              <:tab icon="hero-cog-6-tooth">Settings</:tab>
+
+              <:panel>
+                <.cp>
+                  The Profile tab allows you to view and edit your personal details. Keep your information up to date to ensure a seamless experience across the platform.
+                </.cp>
+              </:panel>
+              <:panel>
+                <.cp>
+                  In the Tickets tab, you can manage all your active and past tickets. Whether you need assistance or just want to check your ticket history, this tab has all the relevant details.
+                </.cp>
+              </:panel>
+              <:panel>
+                <.cp>
+                  The Settings tab gives you access to customizable options for your account. Here, you can adjust notifications, privacy settings, and other preferences to personalize your experience.
+                </.cp>
+              </:panel>
+            </.tabs>
+
+            <.tabs id="tab-example-20" padding="large" color="silver" variant="pills">
+              <:tab icon="hero-user-circle">Profile</:tab>
+              <:tab icon="hero-ticket">Tickets</:tab>
+              <:tab icon="hero-cog-6-tooth">Settings</:tab>
+
+              <:panel>
+                <.cp>
+                  The Profile tab allows you to view and edit your personal details. Keep your information up to date to ensure a seamless experience across the platform.
+                </.cp>
+              </:panel>
+              <:panel>
+                <.cp>
+                  In the Tickets tab, you can manage all your active and past tickets. Whether you need assistance or just want to check your ticket history, this tab has all the relevant details.
+                </.cp>
+              </:panel>
+              <:panel>
+                <.cp>
+                  The Settings tab gives you access to customizable options for your account. Here, you can adjust notifications, privacy settings, and other preferences to personalize your experience.
+                </.cp>
+              </:panel>
+            </.tabs>
+
+            <.tabs id="tab-example-21" padding="large" color="misc" variant="pills">
+              <:tab icon="hero-user-circle">Profile</:tab>
+              <:tab icon="hero-ticket">Tickets</:tab>
+              <:tab icon="hero-cog-6-tooth">Settings</:tab>
+
+              <:panel>
+                <.cp>
+                  The Profile tab allows you to view and edit your personal details. Keep your information up to date to ensure a seamless experience across the platform.
+                </.cp>
+              </:panel>
+              <:panel>
+                <.cp>
+                  In the Tickets tab, you can manage all your active and past tickets. Whether you need assistance or just want to check your ticket history, this tab has all the relevant details.
+                </.cp>
+              </:panel>
+              <:panel>
+                <.cp>
+                  The Settings tab gives you access to customizable options for your account. Here, you can adjust notifications, privacy settings, and other preferences to personalize your experience.
+                </.cp>
+              </:panel>
+            </.tabs>
+
+            <.tabs id="tab-example-22" padding="large" color="dawn" variant="pills">
+              <:tab icon="hero-user-circle">Profile</:tab>
+              <:tab icon="hero-ticket">Tickets</:tab>
+              <:tab icon="hero-cog-6-tooth">Settings</:tab>
+
+              <:panel>
+                <.cp>
+                  The Profile tab allows you to view and edit your personal details. Keep your information up to date to ensure a seamless experience across the platform.
+                </.cp>
+              </:panel>
+              <:panel>
+                <.cp>
+                  In the Tickets tab, you can manage all your active and past tickets. Whether you need assistance or just want to check your ticket history, this tab has all the relevant details.
+                </.cp>
+              </:panel>
+              <:panel>
+                <.cp>
+                  The Settings tab gives you access to customizable options for your account. Here, you can adjust notifications, privacy settings, and other preferences to personalize your experience.
+                </.cp>
+              </:panel>
+            </.tabs>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="tabs-size-prop">
+            <.link patch={~p"/chelekom/docs/tabs/#tabs-size-prop"}>
+              Size prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The size attribute in the Mishka Chelekom tabs component offers the following options: <.custom_inline_code>extra_small</.custom_inline_code>, <.custom_inline_code>small</.custom_inline_code>, <.custom_inline_code>medium</.custom_inline_code>, <.custom_inline_code>large</.custom_inline_code>, and <.custom_inline_code>extra_large</.custom_inline_code>.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-sm" elements_class="space-y-5" code={@code_3}>
+            <.tabs
+              id="tab-example-23"
+              padding="large"
+              variant="default"
+              color="danger"
+              size="extra_small"
+            >
+              <:tab icon="hero-user-circle">Profile</:tab>
+              <:tab icon="hero-ticket">Tickets</:tab>
+              <:tab icon="hero-cog-6-tooth">Settings</:tab>
+
+              <:panel>
+                <.cp>
+                  The Profile tab allows you to view and edit your personal details. Keep your information up to date to ensure a seamless experience across the platform.
+                </.cp>
+              </:panel>
+              <:panel>
+                <.cp>
+                  In the Tickets tab, you can manage all your active and past tickets. Whether you need assistance or just want to check your ticket history, this tab has all the relevant details.
+                </.cp>
+              </:panel>
+              <:panel>
+                <.cp>
+                  The Settings tab gives you access to customizable options for your account. Here, you can adjust notifications, privacy settings, and other preferences to personalize your experience.
+                </.cp>
+              </:panel>
+            </.tabs>
+
+            <.tabs
+              id="tab-example-24"
+              padding="large"
+              variant="default"
+              color="primary"
+              size="small"
+            >
+              <:tab icon="hero-user-circle">Profile</:tab>
+              <:tab icon="hero-ticket">Tickets</:tab>
+              <:tab icon="hero-cog-6-tooth">Settings</:tab>
+
+              <:panel>
+                <.cp>
+                  The Profile tab allows you to view and edit your personal details. Keep your information up to date to ensure a seamless experience across the platform.
+                </.cp>
+              </:panel>
+              <:panel>
+                <.cp>
+                  In the Tickets tab, you can manage all your active and past tickets. Whether you need assistance or just want to check your ticket history, this tab has all the relevant details.
+                </.cp>
+              </:panel>
+              <:panel>
+                <.cp>
+                  The Settings tab gives you access to customizable options for your account. Here, you can adjust notifications, privacy settings, and other preferences to personalize your experience.
+                </.cp>
+              </:panel>
+            </.tabs>
+
+            <.tabs
+              id="tab-example-25"
+              padding="large"
+              color="secondary"
+              variant="pills"
+              size="medium"
+            >
+              <:tab icon="hero-user-circle">Profile</:tab>
+              <:tab icon="hero-ticket">Tickets</:tab>
+              <:tab icon="hero-cog-6-tooth">Settings</:tab>
+
+              <:panel>
+                <.cp>
+                  The Profile tab allows you to view and edit your personal details. Keep your information up to date to ensure a seamless experience across the platform.
+                </.cp>
+              </:panel>
+              <:panel>
+                <.cp>
+                  In the Tickets tab, you can manage all your active and past tickets. Whether you need assistance or just want to check your ticket history, this tab has all the relevant details.
+                </.cp>
+              </:panel>
+              <:panel>
+                <.cp>
+                  The Settings tab gives you access to customizable options for your account. Here, you can adjust notifications, privacy settings, and other preferences to personalize your experience.
+                </.cp>
+              </:panel>
+            </.tabs>
+
+            <.tabs id="tab-example-26" padding="large" color="misc" variant="pills" size="large">
+              <:tab icon="hero-user-circle">Profile</:tab>
+              <:tab icon="hero-ticket">Tickets</:tab>
+              <:tab icon="hero-cog-6-tooth">Settings</:tab>
+
+              <:panel>
+                <.cp>
+                  The Profile tab allows you to view and edit your personal details. Keep your information up to date to ensure a seamless experience across the platform.
+                </.cp>
+              </:panel>
+              <:panel>
+                <.cp>
+                  In the Tickets tab, you can manage all your active and past tickets. Whether you need assistance or just want to check your ticket history, this tab has all the relevant details.
+                </.cp>
+              </:panel>
+              <:panel>
+                <.cp>
+                  The Settings tab gives you access to customizable options for your account. Here, you can adjust notifications, privacy settings, and other preferences to personalize your experience.
+                </.cp>
+              </:panel>
+            </.tabs>
+
+            <.tabs
+              id="tab-example-27"
+              padding="large"
+              color="success"
+              variant="pills"
+              size="extra_large"
+            >
+              <:tab icon="hero-user-circle">Profile</:tab>
+              <:tab icon="hero-ticket">Tickets</:tab>
+              <:tab icon="hero-cog-6-tooth">Settings</:tab>
+
+              <:panel>
+                <.cp>
+                  The Profile tab allows you to view and edit your personal details. Keep your information up to date to ensure a seamless experience across the platform.
+                </.cp>
+              </:panel>
+              <:panel>
+                <.cp>
+                  In the Tickets tab, you can manage all your active and past tickets. Whether you need assistance or just want to check your ticket history, this tab has all the relevant details.
+                </.cp>
+              </:panel>
+              <:panel>
+                <.cp>
+                  The Settings tab gives you access to customizable options for your account. Here, you can adjust notifications, privacy settings, and other preferences to personalize your experience.
+                </.cp>
+              </:panel>
+            </.tabs>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="tabs-border-prop">
+            <.link patch={~p"/chelekom/docs/tabs/#tabs-border-prop"}>
+              Border prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The border attribute in the Mishka Chelekom tabs component offers various size options, including <.custom_inline_code>extra_small</.custom_inline_code>, <.custom_inline_code>small</.custom_inline_code>, <.custom_inline_code>medium</.custom_inline_code>, <.custom_inline_code>large</.custom_inline_code>, and <.custom_inline_code>extra_large</.custom_inline_code>.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-sm" elements_class="space-y-5" code={@code_4}>
+            <.tabs
+              id="tab-example-28"
+              padding="large"
+              color="danger"
+              variant="pills"
+              border="extra_small"
+            >
+              <:tab icon="hero-user-circle">Profile</:tab>
+              <:tab icon="hero-ticket">Tickets</:tab>
+              <:tab icon="hero-cog-6-tooth">Settings</:tab>
+
+              <:panel>
+                <.cp>
+                  The Profile tab allows you to view and edit your personal details. Keep your information up to date to ensure a seamless experience across the platform.
+                </.cp>
+              </:panel>
+              <:panel>
+                <.cp>
+                  In the Tickets tab, you can manage all your active and past tickets. Whether you need assistance or just want to check your ticket history, this tab has all the relevant details.
+                </.cp>
+              </:panel>
+              <:panel>
+                <.cp>
+                  The Settings tab gives you access to customizable options for your account. Here, you can adjust notifications, privacy settings, and other preferences to personalize your experience.
+                </.cp>
+              </:panel>
+            </.tabs>
+
+            <.tabs
+              id="tab-example-29"
+              padding="large"
+              color="primary"
+              variant="pills"
+              border="small"
+            >
+              <:tab icon="hero-user-circle">Profile</:tab>
+              <:tab icon="hero-ticket">Tickets</:tab>
+              <:tab icon="hero-cog-6-tooth">Settings</:tab>
+
+              <:panel>
+                <.cp>
+                  The Profile tab allows you to view and edit your personal details. Keep your information up to date to ensure a seamless experience across the platform.
+                </.cp>
+              </:panel>
+              <:panel>
+                <.cp>
+                  In the Tickets tab, you can manage all your active and past tickets. Whether you need assistance or just want to check your ticket history, this tab has all the relevant details.
+                </.cp>
+              </:panel>
+              <:panel>
+                <.cp>
+                  The Settings tab gives you access to customizable options for your account. Here, you can adjust notifications, privacy settings, and other preferences to personalize your experience.
+                </.cp>
+              </:panel>
+            </.tabs>
+
+            <.tabs
+              id="tab-example-30"
+              padding="large"
+              color="secondary"
+              variant="pills"
+              border="medium"
+            >
+              <:tab icon="hero-user-circle">Profile</:tab>
+              <:tab icon="hero-ticket">Tickets</:tab>
+              <:tab icon="hero-cog-6-tooth">Settings</:tab>
+
+              <:panel>
+                <.cp>
+                  The Profile tab allows you to view and edit your personal details. Keep your information up to date to ensure a seamless experience across the platform.
+                </.cp>
+              </:panel>
+              <:panel>
+                <.cp>
+                  In the Tickets tab, you can manage all your active and past tickets. Whether you need assistance or just want to check your ticket history, this tab has all the relevant details.
+                </.cp>
+              </:panel>
+              <:panel>
+                <.cp>
+                  The Settings tab gives you access to customizable options for your account. Here, you can adjust notifications, privacy settings, and other preferences to personalize your experience.
+                </.cp>
+              </:panel>
+            </.tabs>
+
+            <.tabs
+              id="tab-example-31"
+              padding="large"
+              variant="default"
+              color="misc"
+              border="large"
+            >
+              <:tab icon="hero-user-circle">Profile</:tab>
+              <:tab icon="hero-ticket">Tickets</:tab>
+              <:tab icon="hero-cog-6-tooth">Settings</:tab>
+
+              <:panel>
+                <.cp>
+                  The Profile tab allows you to view and edit your personal details. Keep your information up to date to ensure a seamless experience across the platform.
+                </.cp>
+              </:panel>
+              <:panel>
+                <.cp>
+                  In the Tickets tab, you can manage all your active and past tickets. Whether you need assistance or just want to check your ticket history, this tab has all the relevant details.
+                </.cp>
+              </:panel>
+              <:panel>
+                <.cp>
+                  The Settings tab gives you access to customizable options for your account. Here, you can adjust notifications, privacy settings, and other preferences to personalize your experience.
+                </.cp>
+              </:panel>
+            </.tabs>
+
+            <.tabs
+              id="tab-example-32"
+              padding="large"
+              variant="default"
+              color="success"
+              border="extra_large"
+            >
+              <:tab icon="hero-user-circle">Profile</:tab>
+              <:tab icon="hero-ticket">Tickets</:tab>
+              <:tab icon="hero-cog-6-tooth">Settings</:tab>
+
+              <:panel>
+                <.cp>
+                  The Profile tab allows you to view and edit your personal details. Keep your information up to date to ensure a seamless experience across the platform.
+                </.cp>
+              </:panel>
+              <:panel>
+                <.cp>
+                  In the Tickets tab, you can manage all your active and past tickets. Whether you need assistance or just want to check your ticket history, this tab has all the relevant details.
+                </.cp>
+              </:panel>
+              <:panel>
+                <.cp>
+                  The Settings tab gives you access to customizable options for your account. Here, you can adjust notifications, privacy settings, and other preferences to personalize your experience.
+                </.cp>
+              </:panel>
+            </.tabs>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="tabs-rounded">
+            <.link patch={~p"/chelekom/docs/tabs/#tabs-rounded"}>
+              Rounded prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The rounded prop offers values like <.custom_inline_code>extra_small</.custom_inline_code>, <.custom_inline_code>small</.custom_inline_code>, <.custom_inline_code>medium</.custom_inline_code>, <.custom_inline_code>large</.custom_inline_code>, and <.custom_inline_code>extra_large</.custom_inline_code>. It only applys on
+            <.custom_inline_code>pills</.custom_inline_code>
+            variant.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-sm" elements_class="space-y-5" code={@code_5}>
+            <.tabs
+              id="tab-example-33"
+              padding="large"
+              color="danger"
+              variant="pills"
+              rounded="extra_small"
+            >
+              <:tab icon="hero-user-circle">Profile</:tab>
+              <:tab icon="hero-ticket">Tickets</:tab>
+              <:tab icon="hero-cog-6-tooth">Settings</:tab>
+
+              <:panel>
+                <.cp>
+                  The Profile tab allows you to view and edit your personal details. Keep your information up to date to ensure a seamless experience across the platform.
+                </.cp>
+              </:panel>
+              <:panel>
+                <.cp>
+                  In the Tickets tab, you can manage all your active and past tickets. Whether you need assistance or just want to check your ticket history, this tab has all the relevant details.
+                </.cp>
+              </:panel>
+              <:panel>
+                <.cp>
+                  The Settings tab gives you access to customizable options for your account. Here, you can adjust notifications, privacy settings, and other preferences to personalize your experience.
+                </.cp>
+              </:panel>
+            </.tabs>
+
+            <.tabs
+              id="tab-example-34"
+              padding="large"
+              color="primary"
+              variant="pills"
+              rounded="small"
+            >
+              <:tab icon="hero-user-circle">Profile</:tab>
+              <:tab icon="hero-ticket">Tickets</:tab>
+              <:tab icon="hero-cog-6-tooth">Settings</:tab>
+
+              <:panel>
+                <.cp>
+                  The Profile tab allows you to view and edit your personal details. Keep your information up to date to ensure a seamless experience across the platform.
+                </.cp>
+              </:panel>
+              <:panel>
+                <.cp>
+                  In the Tickets tab, you can manage all your active and past tickets. Whether you need assistance or just want to check your ticket history, this tab has all the relevant details.
+                </.cp>
+              </:panel>
+              <:panel>
+                <.cp>
+                  The Settings tab gives you access to customizable options for your account. Here, you can adjust notifications, privacy settings, and other preferences to personalize your experience.
+                </.cp>
+              </:panel>
+            </.tabs>
+
+            <.tabs
+              id="tab-example-35"
+              padding="large"
+              color="secondary"
+              variant="pills"
+              rounded="medium"
+            >
+              <:tab icon="hero-user-circle">Profile</:tab>
+              <:tab icon="hero-ticket">Tickets</:tab>
+              <:tab icon="hero-cog-6-tooth">Settings</:tab>
+
+              <:panel>
+                <.cp>
+                  The Profile tab allows you to view and edit your personal details. Keep your information up to date to ensure a seamless experience across the platform.
+                </.cp>
+              </:panel>
+              <:panel>
+                <.cp>
+                  In the Tickets tab, you can manage all your active and past tickets. Whether you need assistance or just want to check your ticket history, this tab has all the relevant details.
+                </.cp>
+              </:panel>
+              <:panel>
+                <.cp>
+                  The Settings tab gives you access to customizable options for your account. Here, you can adjust notifications, privacy settings, and other preferences to personalize your experience.
+                </.cp>
+              </:panel>
+            </.tabs>
+
+            <.tabs
+              id="tab-example-36"
+              padding="large"
+              color="misc"
+              variant="pills"
+              rounded="large"
+            >
+              <:tab icon="hero-user-circle">Profile</:tab>
+              <:tab icon="hero-ticket">Tickets</:tab>
+              <:tab icon="hero-cog-6-tooth">Settings</:tab>
+
+              <:panel>
+                <.cp>
+                  The Profile tab allows you to view and edit your personal details. Keep your information up to date to ensure a seamless experience across the platform.
+                </.cp>
+              </:panel>
+              <:panel>
+                <.cp>
+                  In the Tickets tab, you can manage all your active and past tickets. Whether you need assistance or just want to check your ticket history, this tab has all the relevant details.
+                </.cp>
+              </:panel>
+              <:panel>
+                <.cp>
+                  The Settings tab gives you access to customizable options for your account. Here, you can adjust notifications, privacy settings, and other preferences to personalize your experience.
+                </.cp>
+              </:panel>
+            </.tabs>
+
+            <.tabs
+              id="tab-example-37"
+              padding="large"
+              color="success"
+              variant="pills"
+              rounded="extra_large"
+            >
+              <:tab icon="hero-user-circle">Profile</:tab>
+              <:tab icon="hero-ticket">Tickets</:tab>
+              <:tab icon="hero-cog-6-tooth">Settings</:tab>
+
+              <:panel>
+                <.cp>
+                  The Profile tab allows you to view and edit your personal details. Keep your information up to date to ensure a seamless experience across the platform.
+                </.cp>
+              </:panel>
+              <:panel>
+                <.cp>
+                  In the Tickets tab, you can manage all your active and past tickets. Whether you need assistance or just want to check your ticket history, this tab has all the relevant details.
+                </.cp>
+              </:panel>
+              <:panel>
+                <.cp>
+                  The Settings tab gives you access to customizable options for your account. Here, you can adjust notifications, privacy settings, and other preferences to personalize your experience.
+                </.cp>
+              </:panel>
+            </.tabs>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="tabs-padding">
+            <.link patch={~p"/chelekom/docs/tabs/#tabs-padding"}>
+              Padding prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The padding prop offers values such as <.custom_inline_code>extra_small</.custom_inline_code>, <.custom_inline_code>small</.custom_inline_code>, <.custom_inline_code>medium</.custom_inline_code>, <.custom_inline_code>large</.custom_inline_code>, and <.custom_inline_code>extra_large</.custom_inline_code>. You can Change padding within tabs panels.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-sm" elements_class="space-y-5" code={@code_6}>
+            <.tabs id="tab-example-38" color="misc" variant="default" padding="extra_small">
+              <:tab icon="hero-user-circle">Profile</:tab>
+              <:tab icon="hero-ticket">Tickets</:tab>
+              <:tab icon="hero-cog-6-tooth">Settings</:tab>
+
+              <:panel>
+                <.cp>
+                  The Profile tab allows you to view and edit your personal details. Keep your information up to date to ensure a seamless experience across the platform.
+                </.cp>
+              </:panel>
+              <:panel>
+                <.cp>
+                  In the Tickets tab, you can manage all your active and past tickets. Whether you need assistance or just want to check your ticket history, this tab has all the relevant details.
+                </.cp>
+              </:panel>
+              <:panel>
+                <.cp>
+                  The Settings tab gives you access to customizable options for your account. Here, you can adjust notifications, privacy settings, and other preferences to personalize your experience.
+                </.cp>
+              </:panel>
+            </.tabs>
+
+            <.tabs id="tab-example-39" color="dawn" variant="default" padding="small">
+              <:tab icon="hero-user-circle">Profile</:tab>
+              <:tab icon="hero-ticket">Tickets</:tab>
+              <:tab icon="hero-cog-6-tooth">Settings</:tab>
+
+              <:panel>
+                <.cp>
+                  The Profile tab allows you to view and edit your personal details. Keep your information up to date to ensure a seamless experience across the platform.
+                </.cp>
+              </:panel>
+              <:panel>
+                <.cp>
+                  In the Tickets tab, you can manage all your active and past tickets. Whether you need assistance or just want to check your ticket history, this tab has all the relevant details.
+                </.cp>
+              </:panel>
+              <:panel>
+                <.cp>
+                  The Settings tab gives you access to customizable options for your account. Here, you can adjust notifications, privacy settings, and other preferences to personalize your experience.
+                </.cp>
+              </:panel>
+            </.tabs>
+
+            <.tabs id="tab-example-40" color="secondary" variant="default" padding="medium">
+              <:tab icon="hero-user-circle">Profile</:tab>
+              <:tab icon="hero-ticket">Tickets</:tab>
+              <:tab icon="hero-cog-6-tooth">Settings</:tab>
+
+              <:panel>
+                <.cp>
+                  The Profile tab allows you to view and edit your personal details. Keep your information up to date to ensure a seamless experience across the platform.
+                </.cp>
+              </:panel>
+              <:panel>
+                <.cp>
+                  In the Tickets tab, you can manage all your active and past tickets. Whether you need assistance or just want to check your ticket history, this tab has all the relevant details.
+                </.cp>
+              </:panel>
+              <:panel>
+                <.cp>
+                  The Settings tab gives you access to customizable options for your account. Here, you can adjust notifications, privacy settings, and other preferences to personalize your experience.
+                </.cp>
+              </:panel>
+            </.tabs>
+
+            <.tabs id="tab-example-41" color="misc" variant="default" padding="large">
+              <:tab icon="hero-user-circle">Profile</:tab>
+              <:tab icon="hero-ticket">Tickets</:tab>
+              <:tab icon="hero-cog-6-tooth">Settings</:tab>
+
+              <:panel>
+                <.cp>
+                  The Profile tab allows you to view and edit your personal details. Keep your information up to date to ensure a seamless experience across the platform.
+                </.cp>
+              </:panel>
+              <:panel>
+                <.cp>
+                  In the Tickets tab, you can manage all your active and past tickets. Whether you need assistance or just want to check your ticket history, this tab has all the relevant details.
+                </.cp>
+              </:panel>
+              <:panel>
+                <.cp>
+                  The Settings tab gives you access to customizable options for your account. Here, you can adjust notifications, privacy settings, and other preferences to personalize your experience.
+                </.cp>
+              </:panel>
+            </.tabs>
+
+            <.tabs id="tab-example-42" color="success" variant="default" padding="extra_large">
+              <:tab icon="hero-user-circle">Profile</:tab>
+              <:tab icon="hero-ticket">Tickets</:tab>
+              <:tab icon="hero-cog-6-tooth">Settings</:tab>
+
+              <:panel>
+                <.cp>
+                  The Profile tab allows you to view and edit your personal details. Keep your information up to date to ensure a seamless experience across the platform.
+                </.cp>
+              </:panel>
+              <:panel>
+                <.cp>
+                  In the Tickets tab, you can manage all your active and past tickets. Whether you need assistance or just want to check your ticket history, this tab has all the relevant details.
+                </.cp>
+              </:panel>
+              <:panel>
+                <.cp>
+                  The Settings tab gives you access to customizable options for your account. Here, you can adjust notifications, privacy settings, and other preferences to personalize your experience.
+                </.cp>
+              </:panel>
+            </.tabs>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="tabs-font-weight-prop">
+            <.link patch={~p"/chelekom/docs/tabs/#tabs-font-weight-prop"}>
+              Font Weight prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <.custom_inline_code>font_weight</.custom_inline_code>
+            prop allows developers to customize the font weight of the text inside the tabs by using Tailwind CSS's built-in font weight classes. For instance, users can apply classes like <.custom_inline_code>font-normal</.custom_inline_code>, <.custom_inline_code>font-bold</.custom_inline_code>, or <.custom_inline_code>font-extrabold</.custom_inline_code>, among others, to adjust the thickness and emphasis of the text. This flexibility enables developers to ensure that the tabs’s text aligns with the overall typography and design of their application.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-sm" elements_class="space-y-5" code={@code_7}>
+            <.tabs
+              id="tab-example-43"
+              padding="large"
+              color="info"
+              variant="default"
+              font_weight="font-bold"
+            >
+              <:tab icon="hero-user-circle">Profile</:tab>
+              <:tab icon="hero-ticket">Tickets</:tab>
+              <:tab icon="hero-cog-6-tooth">Settings</:tab>
+
+              <:panel>
+                <.cp>
+                  The Profile tab allows you to view and edit your personal details. Keep your information up to date to ensure a seamless experience across the platform.
+                </.cp>
+              </:panel>
+              <:panel>
+                <.cp>
+                  In the Tickets tab, you can manage all your active and past tickets. Whether you need assistance or just want to check your ticket history, this tab has all the relevant details.
+                </.cp>
+              </:panel>
+              <:panel>
+                <.cp>
+                  The Settings tab gives you access to customizable options for your account. Here, you can adjust notifications, privacy settings, and other preferences to personalize your experience.
+                </.cp>
+              </:panel>
+            </.tabs>
+
+            <.tabs
+              id="tab-example-44"
+              padding="large"
+              color="silver"
+              variant="default"
+              font_weight="font-silver"
+            >
+              <:tab icon="hero-user-circle">Profile</:tab>
+              <:tab icon="hero-ticket">Tickets</:tab>
+              <:tab icon="hero-cog-6-tooth">Settings</:tab>
+
+              <:panel>
+                <.cp>
+                  The Profile tab allows you to view and edit your personal details. Keep your information up to date to ensure a seamless experience across the platform.
+                </.cp>
+              </:panel>
+              <:panel>
+                <.cp>
+                  In the Tickets tab, you can manage all your active and past tickets. Whether you need assistance or just want to check your ticket history, this tab has all the relevant details.
+                </.cp>
+              </:panel>
+              <:panel>
+                <.cp>
+                  The Settings tab gives you access to customizable options for your account. Here, you can adjust notifications, privacy settings, and other preferences to personalize your experience.
+                </.cp>
+              </:panel>
+            </.tabs>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="tabs-gap-prop">
+            <.link patch={~p"/chelekom/docs/tabs/#tabs-gap-prop"}>
+              Tab gap prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The gap prop in the Mishka Chelekom Tabs component allows you to control the spacing between individual tabs.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-sm" elements_class="space-y-5" code={@code_8}>
+            <.tabs
+              id="tab-example-45"
+              padding="large"
+              variant="pills"
+              color="misc"
+              gap="extra_small"
+            >
+              <:tab icon="hero-user-circle">Profile</:tab>
+              <:tab icon="hero-ticket">Tickets</:tab>
+              <:tab icon="hero-cog-6-tooth">Settings</:tab>
+
+              <:panel>
+                <.cp>
+                  The Profile tab allows you to view and edit your personal details. Keep your information up to date to ensure a seamless experience across the platform.
+                </.cp>
+              </:panel>
+              <:panel>
+                <.cp>
+                  In the Tickets tab, you can manage all your active and past tickets. Whether you need assistance or just want to check your ticket history, this tab has all the relevant details.
+                </.cp>
+              </:panel>
+              <:panel>
+                <.cp>
+                  The Settings tab gives you access to customizable options for your account. Here, you can adjust notifications, privacy settings, and other preferences to personalize your experience.
+                </.cp>
+              </:panel>
+            </.tabs>
+
+            <.tabs id="tab-example-46" padding="large" variant="pills" color="dawn" gap="small">
+              <:tab icon="hero-user-circle">Profile</:tab>
+              <:tab icon="hero-ticket">Tickets</:tab>
+              <:tab icon="hero-cog-6-tooth">Settings</:tab>
+
+              <:panel>
+                <.cp>
+                  The Profile tab allows you to view and edit your personal details. Keep your information up to date to ensure a seamless experience across the platform.
+                </.cp>
+              </:panel>
+              <:panel>
+                <.cp>
+                  In the Tickets tab, you can manage all your active and past tickets. Whether you need assistance or just want to check your ticket history, this tab has all the relevant details.
+                </.cp>
+              </:panel>
+              <:panel>
+                <.cp>
+                  The Settings tab gives you access to customizable options for your account. Here, you can adjust notifications, privacy settings, and other preferences to personalize your experience.
+                </.cp>
+              </:panel>
+            </.tabs>
+
+            <.tabs
+              id="tab-example-47"
+              padding="large"
+              variant="pills"
+              color="secondary"
+              gap="medium"
+            >
+              <:tab icon="hero-user-circle">Profile</:tab>
+              <:tab icon="hero-ticket">Tickets</:tab>
+              <:tab icon="hero-cog-6-tooth">Settings</:tab>
+
+              <:panel>
+                <.cp>
+                  The Profile tab allows you to view and edit your personal details. Keep your information up to date to ensure a seamless experience across the platform.
+                </.cp>
+              </:panel>
+              <:panel>
+                <.cp>
+                  In the Tickets tab, you can manage all your active and past tickets. Whether you need assistance or just want to check your ticket history, this tab has all the relevant details.
+                </.cp>
+              </:panel>
+              <:panel>
+                <.cp>
+                  The Settings tab gives you access to customizable options for your account. Here, you can adjust notifications, privacy settings, and other preferences to personalize your experience.
+                </.cp>
+              </:panel>
+            </.tabs>
+
+            <.tabs id="tab-example-48" padding="large" variant="pills" color="misc" gap="large">
+              <:tab icon="hero-user-circle">Profile</:tab>
+              <:tab icon="hero-ticket">Tickets</:tab>
+              <:tab icon="hero-cog-6-tooth">Settings</:tab>
+
+              <:panel>
+                <.cp>
+                  The Profile tab allows you to view and edit your personal details. Keep your information up to date to ensure a seamless experience across the platform.
+                </.cp>
+              </:panel>
+              <:panel>
+                <.cp>
+                  In the Tickets tab, you can manage all your active and past tickets. Whether you need assistance or just want to check your ticket history, this tab has all the relevant details.
+                </.cp>
+              </:panel>
+              <:panel>
+                <.cp>
+                  The Settings tab gives you access to customizable options for your account. Here, you can adjust notifications, privacy settings, and other preferences to personalize your experience.
+                </.cp>
+              </:panel>
+            </.tabs>
+
+            <.tabs
+              id="tab-example-49"
+              padding="large"
+              variant="pills"
+              color="success"
+              gap="extra_large"
+            >
+              <:tab icon="hero-user-circle">Profile</:tab>
+              <:tab icon="hero-ticket">Tickets</:tab>
+              <:tab icon="hero-cog-6-tooth">Settings</:tab>
+
+              <:panel>
+                <.cp>
+                  The Profile tab allows you to view and edit your personal details. Keep your information up to date to ensure a seamless experience across the platform.
+                </.cp>
+              </:panel>
+              <:panel>
+                <.cp>
+                  In the Tickets tab, you can manage all your active and past tickets. Whether you need assistance or just want to check your ticket history, this tab has all the relevant details.
+                </.cp>
+              </:panel>
+              <:panel>
+                <.cp>
+                  The Settings tab gives you access to customizable options for your account. Here, you can adjust notifications, privacy settings, and other preferences to personalize your experience.
+                </.cp>
+              </:panel>
+            </.tabs>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="tabs-vertical-prop">
+            <.link patch={~p"/chelekom/docs/tabs/#tabs-vertical-prop"}>
+              Tab vertical prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The vertical prop in the Mishka Chelekom Tabs component is a boolean attribute that controls the orientation of the tabs. When set to true, the tabs are displayed vertically, stacking one on top of the other. If set to false or left out, the tabs maintain their default horizontal layout. This simple boolean toggle allows you to easily adjust the tab orientation to suit your design needs, making it versatile for different layouts, such as sidebars or narrow spaces, without requiring significant changes to the overall structure.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-sm" elements_class="space-y-5" code={@code_9}>
+            <.tabs id="tab-example-50" padding="large" vertical variant="pills" color="misc">
+              <:tab icon="hero-user-circle">Profile</:tab>
+              <:tab icon="hero-ticket">Tickets</:tab>
+              <:tab icon="hero-cog-6-tooth">Settings</:tab>
+
+              <:panel>
+                <.cp>
+                  The Profile tab allows you to view and edit your personal details. Keep your information up to date to ensure a seamless experience across the platform.
+                </.cp>
+              </:panel>
+              <:panel>
+                <.cp>
+                  In the Tickets tab, you can manage all your active and past tickets. Whether you need assistance or just want to check your ticket history, this tab has all the relevant details.
+                </.cp>
+              </:panel>
+              <:panel>
+                <.cp>
+                  The Settings tab gives you access to customizable options for your account. Here, you can adjust notifications, privacy settings, and other preferences to personalize your experience.
+                </.cp>
+              </:panel>
+            </.tabs>
+
+            <.tabs id="tab-example-51" padding="large" vertical variant="pills" color="dawn">
+              <:tab icon="hero-user-circle">Profile</:tab>
+              <:tab icon="hero-ticket">Tickets</:tab>
+              <:tab icon="hero-cog-6-tooth">Settings</:tab>
+
+              <:panel>
+                <.cp>
+                  The Profile tab allows you to view and edit your personal details. Keep your information up to date to ensure a seamless experience across the platform.
+                </.cp>
+              </:panel>
+              <:panel>
+                <.cp>
+                  In the Tickets tab, you can manage all your active and past tickets. Whether you need assistance or just want to check your ticket history, this tab has all the relevant details.
+                </.cp>
+              </:panel>
+              <:panel>
+                <.cp>
+                  The Settings tab gives you access to customizable options for your account. Here, you can adjust notifications, privacy settings, and other preferences to personalize your experience.
+                </.cp>
+              </:panel>
+            </.tabs>
+
+            <.tabs
+              id="tab-example-52"
+              padding="large"
+              vertical
+              variant="default"
+              color="secondary"
+            >
+              <:tab icon="hero-user-circle">Profile</:tab>
+              <:tab icon="hero-ticket">Tickets</:tab>
+              <:tab icon="hero-cog-6-tooth">Settings</:tab>
+
+              <:panel>
+                <.cp>
+                  The Profile tab allows you to view and edit your personal details. Keep your information up to date to ensure a seamless experience across the platform.
+                </.cp>
+              </:panel>
+              <:panel>
+                <.cp>
+                  In the Tickets tab, you can manage all your active and past tickets. Whether you need assistance or just want to check your ticket history, this tab has all the relevant details.
+                </.cp>
+              </:panel>
+              <:panel>
+                <.cp>
+                  The Settings tab gives you access to customizable options for your account. Here, you can adjust notifications, privacy settings, and other preferences to personalize your experience.
+                </.cp>
+              </:panel>
+            </.tabs>
+
+            <.tabs
+              id="tab-example-53"
+              padding="large"
+              vertical
+              variant="default"
+              color="misc"
+              gap="large"
+            >
+              <:tab icon="hero-user-circle">Profile</:tab>
+              <:tab icon="hero-ticket">Tickets</:tab>
+              <:tab icon="hero-cog-6-tooth">Settings</:tab>
+
+              <:panel>
+                <.cp>
+                  The Profile tab allows you to view and edit your personal details. Keep your information up to date to ensure a seamless experience across the platform.
+                </.cp>
+              </:panel>
+              <:panel>
+                <.cp>
+                  In the Tickets tab, you can manage all your active and past tickets. Whether you need assistance or just want to check your ticket history, this tab has all the relevant details.
+                </.cp>
+              </:panel>
+              <:panel>
+                <.cp>
+                  The Settings tab gives you access to customizable options for your account. Here, you can adjust notifications, privacy settings, and other preferences to personalize your experience.
+                </.cp>
+              </:panel>
+            </.tabs>
+
+            <.tabs id="tab-example-54" padding="large" vertical variant="default" color="success">
+              <:tab icon="hero-user-circle">Profile</:tab>
+              <:tab icon="hero-ticket">Tickets</:tab>
+              <:tab icon="hero-cog-6-tooth">Settings</:tab>
+
+              <:panel>
+                <.cp>
+                  The Profile tab allows you to view and edit your personal details. Keep your information up to date to ensure a seamless experience across the platform.
+                </.cp>
+              </:panel>
+              <:panel>
+                <.cp>
+                  In the Tickets tab, you can manage all your active and past tickets. Whether you need assistance or just want to check your ticket history, this tab has all the relevant details.
+                </.cp>
+              </:panel>
+              <:panel>
+                <.cp>
+                  The Settings tab gives you access to customizable options for your account. Here, you can adjust notifications, privacy settings, and other preferences to personalize your experience.
+                </.cp>
+              </:panel>
+            </.tabs>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="tabs-placement-prop">
+            <.link patch={~p"/chelekom/docs/tabs/#tabs-placement-prop"}>
+              Tab placement prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <.custom_inline_code>placement</.custom_inline_code>
+            attribute in the Mishka Chelekom Tabs component, when used in vertical orientation, allows you to align the tabs to different positions within the container. By default, it's set to <.custom_inline_code>start</.custom_inline_code>, aligning the tabs at the top. You can modify it to
+            <.custom_inline_code>center</.custom_inline_code>
+            to center the tabs or
+            <.custom_inline_code>end</.custom_inline_code>
+            to place them at the bottom. This gives you flexibility in organizing the vertical layout, making it easy to adapt the component to various design requirements.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-sm" elements_class="space-y-5" code={@code_10}>
+            <.tabs
+              id="tab-example-55"
+              padding="large"
+              vertical
+              variant="pills"
+              placement="end"
+              gap="large"
+              color="misc"
+            >
+              <:tab icon="hero-user-circle">Profile</:tab>
+              <:tab icon="hero-ticket">Tickets</:tab>
+              <:tab icon="hero-cog-6-tooth">Settings</:tab>
+
+              <:panel>
+                <.cp>
+                  The Profile tab allows you to view and edit your personal details. Keep your information up to date to ensure a seamless experience across the platform.
+                </.cp>
+              </:panel>
+              <:panel>
+                <.cp>
+                  In the Tickets tab, you can manage all your active and past tickets. Whether you need assistance or just want to check your ticket history, this tab has all the relevant details.
+                </.cp>
+              </:panel>
+              <:panel>
+                <.cp>
+                  The Settings tab gives you access to customizable options for your account. Here, you can adjust notifications, privacy settings, and other preferences to personalize your experience.
+                </.cp>
+              </:panel>
+            </.tabs>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="tabs-tab-slot">
+            <.link patch={~p"/chelekom/docs/tabs/#tabs-tab-slot"}>
+              Tab slot
+            </.link>
+          </.heading2>
+
+          <.cp>
+            You can easily add tab buttons using the
+            <.custom_inline_code>tab</.custom_inline_code>
+            slot in the Mishka Chelekom Tabs component, without needing to create new elements.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-sm" elements_class="space-y-5" code={@code_11}>
+            <.tabs id="tab-example-56" padding="large" color="warning" variant="default">
+              <:tab icon="hero-user-circle">Profile</:tab>
+              <:tab icon="hero-ticket">Tickets</:tab>
+              <:tab icon="hero-cog-6-tooth">Settings</:tab>
+
+              <:panel>
+                <.cp>
+                  The Profile tab allows you to view and edit your personal details. Keep your information up to date to ensure a seamless experience across the platform.
+                </.cp>
+              </:panel>
+              <:panel>
+                <.cp>
+                  In the Tickets tab, you can manage all your active and past tickets. Whether you need assistance or just want to check your ticket history, this tab has all the relevant details.
+                </.cp>
+              </:panel>
+              <:panel>
+                <.cp>
+                  The Settings tab gives you access to customizable options for your account. Here, you can adjust notifications, privacy settings, and other preferences to personalize your experience.
+                </.cp>
+              </:panel>
+            </.tabs>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="tabs-scrollable-prop">
+            <.link patch={~p"/chelekom/docs/tabs/#tabs-scrollable-prop"}>
+              Scrollable prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            <strong>Scrollable trigger list:</strong>
+            pass
+            <.custom_inline_code>scrollable</.custom_inline_code>
+            to keep the trigger list on a single line/column and let it scroll instead of wrapping. For horizontal tabs the trigger row scrolls horizontally; for
+            <.custom_inline_code>vertical</.custom_inline_code>
+            tabs the trigger column scrolls vertically. Useful on mobile or when there are many tabs in a narrow / short container. The scrollbar itself is hidden — users scroll via touch / trackpad / wheel.
+          </.cp>
+          <.cp>
+            <strong>Note — needs a bounded size:</strong>
+            the scroll only engages when the tab list overflows its container, so the developer must constrain that size. For horizontal, give the parent a
+            <.custom_inline_code>max-width</.custom_inline_code>
+            (or use a narrow column); for vertical, set a fixed height on the
+            <.custom_inline_code>&lt;.tabs&gt;</.custom_inline_code>
+            element via
+            <.custom_inline_code>class</.custom_inline_code>
+            (e.g. <.custom_inline_code>class="h-56"</.custom_inline_code>) — without a height there is nothing to overflow against and the tabs render at their natural size.
+          </.cp>
+          <.cp>
+            This wraps the trigger list in the
+            <.custom_inline_code>scroll_area</.custom_inline_code>
+            component, so make sure
+            <.custom_inline_code>scroll_area</.custom_inline_code>
+            is generated alongside
+            <.custom_inline_code>tabs</.custom_inline_code>
+            (it is listed as a required dependency).
+          </.cp>
+
+          <.heading2 margin="my-5" id="tabs-tab-slot-icons">
+            <.link patch={~p"/chelekom/docs/tabs/#tabs-tab-slot-icons"}>
+              Tab slot icons props
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The <.custom_inline_code>icon</.custom_inline_code>, <.custom_inline_code>icon_class</.custom_inline_code>, and
+            <.custom_inline_code>icon_position</.custom_inline_code>
+            are key props of the
+            <.custom_inline_code>tab</.custom_inline_code>
+            slot in the Mishka Chelekom Tabs component, designed to enhance the visual appeal and functionality of each tab. The
+            <.custom_inline_code>icon</.custom_inline_code>
+            prop allows you to display an icon alongside the tab label, improving user recognition. With the
+            <.custom_inline_code>icon_class</.custom_inline_code>
+            prop, you can apply custom CSS classes to style the icon, giving you control over its appearance. Additionally, the
+            <.custom_inline_code>icon_position</.custom_inline_code>
+            prop lets you decide whether the icon appears on the left or right of the tab label, offering flexibility in layout design.
+          </.cp>
+
+          <.heading2 margin="my-5" id="tabs-tab-slot-badge">
+            <.link patch={~p"/chelekom/docs/tabs/#tabs-tab-slot-badge"}>
+              Tab slot badge props
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <.custom_inline_code>badge</.custom_inline_code>
+            property for the
+            <.custom_inline_code>tab</.custom_inline_code>
+            slot is a versatile feature that enhances the visual representation of tabs by adding badges. This property is accompanied by several supporting attributes to customize the appearance and functionality of the badge. The
+            <.custom_inline_code>badge_color</.custom_inline_code>
+            attribute allows you to specify the color of the badge to match your design theme. The
+            <.custom_inline_code>badge_position</.custom_inline_code>
+            attribute controls where the badge is placed relative to the tab, ensuring flexibility in design layout. The
+            <.custom_inline_code>badge_size</.custom_inline_code>
+            attribute determines the size of the badge, allowing for variations such as small, medium, or large badges based on your requirements. Finally, the
+            <.custom_inline_code>badge_variant</.custom_inline_code>
+            attribute provides an option to define the variant of the badge, such as solid, outlined, or subtle styles, adding further customization options to suit different use cases.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-sm" elements_class="space-y-5" code={@code_15}>
+            <.tabs id="tab-example-1000" padding="large" color="danger" variant="pills">
+              <:tab>Profile</:tab>
+              <:tab badge="8">Tickets</:tab>
+              <:tab>Settings</:tab>
+            </.tabs>
+            <.tabs id="tab-example-1001" padding="large" color="misc" variant="pills">
+              <:tab
+                badge_color="danger"
+                badge="9+"
+                badge_variant="bordered"
+                badge_size="size-6 text-[11px]"
+              >
+                Notification
+              </:tab>
+              <:tab>Messages</:tab>
+              <:tab>Account</:tab>
+            </.tabs>
+          </.custom_code_wrapper>
+
+          <.custom_block color="warning" position="left" class="my-8" border="medium">
+            Use class prop to add your custom classes to each item slot
+          </.custom_block>
+
+          <.custom_code_wrapper code_class="text-sm" elements_class="space-y-5" code={@code_12}>
+            <.tabs id="tab-example-57" padding="large" color="warning" variant="default">
+              <:tab icon="hero-user-circle">Profile</:tab>
+              <:tab icon="hero-ticket" icon_position="end">Tickets</:tab>
+              <:tab icon="hero-cog-6-tooth" icon_position="end">Settings</:tab>
+
+              <:panel>
+                <.cp>
+                  The Profile tab allows you to view and edit your personal details. Keep your information up to date to ensure a seamless experience across the platform.
+                </.cp>
+              </:panel>
+              <:panel>
+                <.cp>
+                  In the Tickets tab, you can manage all your active and past tickets. Whether you need assistance or just want to check your ticket history, this tab has all the relevant details.
+                </.cp>
+              </:panel>
+              <:panel>
+                <.cp>
+                  The Settings tab gives you access to customizable options for your account. Here, you can adjust notifications, privacy settings, and other preferences to personalize your experience.
+                </.cp>
+              </:panel>
+            </.tabs>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="tabs-tab-slot-active">
+            <.link patch={~p"/chelekom/docs/tabs/#tabs-tab-slot-active"}>
+              Tab slot active props
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <.custom_inline_code>active</.custom_inline_code>
+            prop in the Mishka Chelekom Tabs component determines which tab is currently active. By default, the first tab is set to be active unless otherwise specified. When the
+            <.custom_inline_code>active</.custom_inline_code>
+            prop is set to true for a specific tab, that tab becomes highsilvered, and its corresponding content is displayed, ensuring users know which tab is currently in focus. This prop helps manage the visibility and navigation between different tab contents effectively.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-sm" elements_class="space-y-5" code={@code_13}>
+            <.tabs id="tab-example-58" padding="large" color="misc" variant="pills">
+              <:tab icon="hero-user-circle">Profile</:tab>
+              <:tab icon="hero-ticket" active>Tickets</:tab>
+              <:tab icon="hero-cog-6-tooth">Settings</:tab>
+
+              <:panel>
+                <.cp>
+                  The Profile tab allows you to view and edit your personal details. Keep your information up to date to ensure a seamless experience across the platform.
+                </.cp>
+              </:panel>
+              <:panel>
+                <.cp>
+                  In the Tickets tab, you can manage all your active and past tickets. Whether you need assistance or just want to check your ticket history, this tab has all the relevant details.
+                </.cp>
+              </:panel>
+              <:panel>
+                <.cp>
+                  The Settings tab gives you access to customizable options for your account. Here, you can adjust notifications, privacy settings, and other preferences to personalize your experience.
+                </.cp>
+              </:panel>
+            </.tabs>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="tabs-panel-slot">
+            <.link patch={~p"/chelekom/docs/tabs/#tabs-panel-slot"}>
+              Tab panel slot
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <.custom_inline_code>panel</.custom_inline_code>
+            slot in the Mishka Chelekom Tabs component is required and serves as the container for the content associated with each tab. This slot displays the content that corresponds to the active tab, ensuring that users see the relevant information when they interact with different tabs.
+          </.cp>
+
+          <.custom_block color="warning" position="left" class="my-8" border="medium">
+            Use class prop to add your custom classes to each panel slot
+          </.custom_block>
+          <.custom_code_wrapper code_class="text-sm" elements_class="space-y-5" code={@code_14}>
+            <.tabs id="tab-example-59" padding="large" color="success" variant="default">
+              <:tab icon="hero-user-circle">Profile</:tab>
+              <:tab icon="hero-ticket" active>Tickets</:tab>
+              <:tab icon="hero-cog-6-tooth">Settings</:tab>
+
+              <:panel>
+                <.cp>
+                  The Profile tab allows you to view and edit your personal details. Keep your information up to date to ensure a seamless experience across the platform.
+                </.cp>
+              </:panel>
+              <:panel>
+                <.cp>
+                  In the Tickets tab, you can manage all your active and past tickets. Whether you need assistance or just want to check your ticket history, this tab has all the relevant details.
+                </.cp>
+              </:panel>
+              <:panel>
+                <.cp>
+                  The Settings tab gives you access to customizable options for your account. Here, you can adjust notifications, privacy settings, and other preferences to personalize your experience.
+                </.cp>
+              </:panel>
+            </.tabs>
+          </.custom_code_wrapper>
+        </:documentation_panel>
+
+        <:props_panel>
+          <.custom_search class="mb-16" />
+          <div class="space-y-8">
+            <h2 class="text-lg lg:text-2xl font-bold">Tabs Component Props</h2>
+
+            <.custom_table id="tabs-component-props">
+              <:header>
+                <.table_th>Name</.table_th>
+                <.table_th>Type</.table_th>
+                <.table_th>Required</.table_th>
+                <.table_th>Description</.table_th>
+              </:header>
+
+              <:row>
+                <.table_td>id</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>Yes</.table_td>
+                <.table_td>A unique identifier used to manage state and interaction.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>variant</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>
+                  Determines the style of the tabs. Values: <strong>default</strong>, <strong>base</strong>, <strong>pills</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>color</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>
+                  Determines the color theme of the tabs. Values: <strong>base</strong>, <strong>natural</strong>, <strong>primary</strong>, <strong>secondary</strong>, <strong>success</strong>, etc.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>border</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>
+                  Determines the border style. Default is <strong>none</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>hide_list_border</.table_td>
+                <.table_td>boolean</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>
+                  To remove tab list border. Default is <strong>false</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>full_width_tab</.table_td>
+                <.table_td>boolean</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>
+                  To make border tabs buttons full width. Default is <strong>false</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>content_padding</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>
+                  Control panels padding size. Default is <strong>extra_small</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>tab_border_size</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>
+                  Sets the border style for the tab. Default is <strong>small</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>size</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>
+                  Determines the overall size of the elements. Default is <strong>small</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>gap</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>Determines the gap between tabs.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>rounded</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>
+                  Determines the border radius. Default is <strong>none</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>font_weight</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>
+                  Determines custom class for the font weight. Default is <strong>font-normal</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>padding</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>
+                  Determines padding for items. Default is <strong>extra_small</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>triggers_position</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>
+                  Determines the position of triggers. Default is <strong>extra_small</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>vertical</.table_td>
+                <.table_td>boolean</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>
+                  Determines whether the tabs are displayed vertically. Default is <strong>false</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>placement</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>
+                  Specifies the placement of the tabs. Default is <strong>start</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>class</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>
+                  Custom CSS class for additional styling. Default is <strong>nil</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>tab</.table_td>
+                <.table_td>slot</.table_td>
+                <.table_td>Yes</.table_td>
+                <.table_td>
+                  <strong>icon</strong>: Icon displayed alongside an item <strong>class</strong>: Custom CSS class for additional styling <strong>padding</strong>: Determines padding for items <strong>icon_class</strong>: Custom class for the icon <strong>icon_position</strong>: Determines icon position <strong>active</strong>: Indicates whether the element is currently active and visible <strong>badge</strong>: Add badge to tab <strong>badge_color</strong>: Badge color <strong>badge_position</strong>: Badge position <strong>badge_size</strong>: Badge size <strong>badge_variant</strong>: Badge color variant
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>panel</.table_td>
+                <.table_td>slot</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>
+                  <strong>class</strong>: Custom CSS class for additional styling
+                </.table_td>
+              </:row>
+            </.custom_table>
+          </div>
+        </:props_panel>
+
+        <:cli_panel>
+          <.custom_cli_props config={component_config()} />
+        </:cli_panel>
+        <.custom_table_content>
+          <:content
+            link={~p"/chelekom/docs/tabs/#overview"}
+            title="Overview of the Phoenix LiveView Tabs Component"
+          />
+          <:content link={~p"/chelekom/docs/tabs/#base-tabs"} title="Base Variant" />
+          <:content link={~p"/chelekom/docs/tabs/#default-variant-tabs"} title="Default Variant" />
+          <:content link={~p"/chelekom/docs/tabs/#pills-variant-tabs"} title="Pills Variant" />
+          <:content link={~p"/chelekom/docs/tabs/#tabs-size-prop"} title="Size prop" />
+          <:content link={~p"/chelekom/docs/tabs/#tabs-border-prop"} title="Border prop" />
+          <:content link={~p"/chelekom/docs/tabs/#tabs-rounded"} title="Rounded prop" />
+          <:content link={~p"/chelekom/docs/tabs/#tabs-padding"} title="Padding prop" />
+          <:content
+            link={~p"/chelekom/docs/tabs/#tabs-font-weight-prop"}
+            title="Font Weight prop"
+          />
+          <:content link={~p"/chelekom/docs/tabs/#tabs-gap-prop"} title="Tab gap prop" />
+          <:content link={~p"/chelekom/docs/tabs/#tabs-vertical-prop"} title="Tab vertical prop" />
+          <:content
+            link={~p"/chelekom/docs/tabs/#tabs-placement-prop"}
+            title="Tab placement prop"
+          />
+          <:content link={~p"/chelekom/docs/tabs/#tabs-tab-slot"} title="Tab slot" />
+          <:content
+            link={~p"/chelekom/docs/tabs/#tabs-scrollable-prop"}
+            title="Scrollable prop"
+          />
+          <:content
+            link={~p"/chelekom/docs/tabs/#tabs-tab-slot-icons"}
+            title="Tab slot icons props"
+          />
+          <:content
+            link={~p"/chelekom/docs/tabs/#tabs-tab-slot-badge"}
+            title="Tab slot badge props"
+          />
+          <:content
+            link={~p"/chelekom/docs/tabs/#tabs-tab-slot-active"}
+            title="Tab slot active props"
+          />
+          <:content link={~p"/chelekom/docs/tabs/#tabs-panel-slot"} title="Tab panel slot" />
+        </.custom_table_content>
+      </.custom_tab>
+    </div>
+  </div>
+</Layouts.app>

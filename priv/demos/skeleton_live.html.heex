@@ -1,0 +1,393 @@
+<Layouts.app flash={@flash}>
+  <div class="lg:grid lg:grid-cols-12 mt-5 max-w-5xl mx-auto">
+    <.custom_nav active="chelekom-docs-skeleton" />
+    <div class="lg:col-span-10">
+      <.custom_info
+        title="Skeleton"
+        description="Skeleton component for Phoenix LiveView, offering visual placeholders to indicate loading content with options for size, color, and animations."
+        mix="mix mishka.ui.gen.component skeleton"
+        github="https://github.com/mishka-group/mishka_chelekom/blob/master/priv/components/skeleton.eex"
+        tags={["Component", "Stateless"]}
+      />
+      <.custom_tab id="chelekom-skeleton-tab">
+        <:documentation_panel>
+          <.heading2 class="mb-5" id="overview">
+            <.link patch={~p"/chelekom/docs/skeleton/#overview"}>
+              Overview of the Phoenix and LiveView Skeleton Component
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <strong>
+              Mishka Chelekom skeleton
+            </strong>
+            component is a <strong>Phoenix LiveView</strong>
+            component that allows developers to display <strong>skeleton loaders</strong>
+            as placeholders for content that is being loaded or processed.
+          </.cp>
+
+          <.custom_code_wrapper elements_class="grid sm:grid-cols-2 gap-5">
+            <.card rounded="large" padding="medium" space="small" class="!shadow-xs">
+              <.skeleton width="full" rounded="large" height="h-20" animated />
+              <.skeleton width="w-3/4" height="h-2" animated />
+              <.skeleton width="w-2/3" height="h-2" animated />
+              <.skeleton width="w-1/2" height="h-2" animated />
+              <.skeleton width="w-1/2" height="h-2" animated />
+            </.card>
+            <.card rounded="large" padding="medium" space="small" class="!shadow-xs">
+              <.skeleton width="w-16" height="h-16" class="mx-auto" rounded="full" />
+              <.skeleton width="w-1/3" height="h-3" class="mx-auto" />
+              <.skeleton width="w-full" height="h-3" />
+              <.skeleton width="w-full" height="h-3" />
+            </.card>
+            <.card
+              rounded="large"
+              padding="small"
+              class="flex items-center gap-4 !shadow-xs"
+            >
+              <.skeleton width="w-16" height="h-16" rounded="full" animated class="shrink-0" />
+              <div class="flex-1 space-y-2">
+                <.skeleton width="w-full" height="h-2" animated />
+                <.skeleton width="w-full" height="h-2" animated />
+                <.skeleton width="w-1/2" height="h-2" animated />
+              </div>
+            </.card>
+            <.card
+              rounded="large"
+              padding="small"
+              class="flex items-center gap-4 !shadow-xs"
+            >
+              <div class="flex-1 space-y-2">
+                <.skeleton width="w-full" height="h-2" rounded="extra_small" />
+                <.skeleton width="w-full" height="h-2" rounded="extra_small" />
+                <.skeleton width="w-1/2" height="h-2" rounded="extra_small" />
+                <.skeleton width="w-1/3" height="h-2" rounded="extra_small" />
+              </div>
+              <.skeleton width="w-16" height="h-16" rounded="medium" class="shrink-0" />
+            </.card>
+          </.custom_code_wrapper>
+
+          <.cp margin="mt-5">
+            This
+            <strong>
+              <.link
+                title="Phoenix LiveView component"
+                class="transition-colors hover:text-[#448D96]"
+                navigate={~p"/chelekom"}
+              >
+                Phoenix LiveView component
+              </.link>
+            </strong>
+            enables developers to easily tailor the skeleton loader's appearance using props for size, border radius, and color. With options like animated pulse effects and fully responsive design, the
+            <strong>skeleton component</strong>
+            enhances the perceived performance of your application, making it more engaging and user-friendly during asynchronous operations.
+          </.cp>
+
+          <.custom_block position="left" color="success" class="my-8" border="medium">
+            <.cp>
+              By using the class prop, you can apply custom classes or Tailwind CSS classes to customize the components design.
+            </.cp>
+          </.custom_block>
+
+          <.heading2 class="mb-5" id="skeleton-color-prop">
+            <.link patch={~p"/chelekom/docs/skeleton/#skeleton-color-prop"}>
+              Color prop in Phoenix LiveView skeleton component
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            color
+            prop for the
+            <.custom_inline_code>skeleton</.custom_inline_code>
+            component provides several predefined color options to help you customize the visual appearance of the skeleton loader. You can choose from colors such as <.custom_inline_code>base</.custom_inline_code>, <.custom_inline_code>white</.custom_inline_code>, <.custom_inline_code>primary</.custom_inline_code>, <.custom_inline_code>secondary</.custom_inline_code>, <.custom_inline_code>dark</.custom_inline_code>, <.custom_inline_code>success</.custom_inline_code>, <.custom_inline_code>natural</.custom_inline_code>, <.custom_inline_code>warning</.custom_inline_code>, <.custom_inline_code>danger</.custom_inline_code>, <.custom_inline_code>info</.custom_inline_code>, <.custom_inline_code>silver</.custom_inline_code>, <.custom_inline_code>misc</.custom_inline_code>, and <.custom_inline_code>dawn</.custom_inline_code>.
+            These options allow you to seamlessly integrate the
+            <.link navigate={~p"/chelekom/docs/skeleton"}>Phoenix skeleton component</.link>
+            with the overall design of your application, ensuring a consistent and polished user interface during loading states.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" elements_class="space-y-4" code={@code_1}>
+            <.skeleton id="skeleton-example-1343" />
+            <.skeleton id="skeleton-example-1" color="natural" />
+            <.skeleton id="skeleton-example-1-1" color="white" />
+            <.skeleton id="skeleton-example-2" color="primary" />
+            <.skeleton id="skeleton-example-3" color="silver" />
+            <.skeleton id="skeleton-example-31" color="secondary" />
+            <.skeleton id="skeleton-example-4" color="dark" />
+            <.skeleton id="skeleton-example-5" color="success" />
+            <.skeleton id="skeleton-example-6" color="warning" />
+            <.skeleton id="skeleton-example-7" color="danger" />
+            <.skeleton id="skeleton-example-9" color="misc" />
+            <.skeleton id="skeleton-example-10" color="info" />
+            <.skeleton id="skeleton-example-11" color="dawn" />
+          </.custom_code_wrapper>
+
+          <br />
+          <.heading2 class="mb-5" id="skeleton-animated-prop">
+            <.link patch={~p"/chelekom/docs/skeleton/#skeleton-animated-prop"}>
+              Animated prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The animated prop in the skeleton component adds a pulsating animation effect by applying the animate-pulse class from Tailwind CSS. This feature enhances the skeleton loader's visual feedback by making it more dynamic, simulating a loading state with smooth, repetitive animations. When animated is set to true, it gives users a clear indication that content is still being loaded, improving the overall user experience during data fetching or processing tasks. This small detail adds a polished, engaging look to your application's UI while waiting for content to load.
+          </.cp>
+
+          <br />
+          <.custom_code_wrapper code_class="text-xs" elements_class="space-y-4" code={@code_2}>
+            <.skeleton id="skeleton-example-12" color="danger" animated />
+            <.skeleton id="skeleton-example-13" color="silver" animated />
+          </.custom_code_wrapper>
+
+          <.heading2 class="mb-5 mt-5" id="skeleton-visible-prop">
+            <.link patch={~p"/chelekom/docs/skeleton/#skeleton-visible-prop"}>
+              Visible prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <.custom_inline_code>visible</.custom_inline_code>
+            attribute is a boolean prop that determines whether the skeleton component is displayed or hidden. By default, this attribute is set to true, meaning the skeleton will be visible. Setting it to false will hide the skeleton, allowing you to control the visibility of the component dynamically based on your application's state. This is particularly useful for conditionally showing loading indicators only when data is being fetched or processed.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" code={@code_3} />
+
+          <.heading2 class="mb-5 mt-5" id="skeleton-height-prop">
+            <.link patch={~p"/chelekom/docs/skeleton/#skeleton-height-prop"}>
+              Height prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <.custom_inline_code>height</.custom_inline_code>
+            prop in the skeleton component controls the vertical size of the skeleton element. It offers predefined values like <.custom_inline_code>extra_small</.custom_inline_code>, <.custom_inline_code>small</.custom_inline_code>, <.custom_inline_code>medium</.custom_inline_code>, <.custom_inline_code>large</.custom_inline_code>, and <.custom_inline_code>extra_large</.custom_inline_code>, which map to specific height classes in Tailwind CSS. These sizes allow you to adjust the skeleton's height to fit various content placeholders, making it flexible for different sections or components where a loading indicator is needed. Additionally, you can provide any custom Tailwind CSS class for height, such as <.custom_inline_code>h-[7px]</.custom_inline_code>, giving you full control over the skeleton's size to meet specific design requirements. This flexibility ensures that the skeleton component can adapt to various layout needs across your application.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" elements_class="space-y-4" code={@code_4}>
+            <.skeleton id="skeleton-example-14" color="info" height="extra_small" />
+            <.skeleton id="skeleton-example-15" color="dawn" height="small" />
+            <.skeleton id="skeleton-example-16" color="misc" height="medium" />
+            <.skeleton id="skeleton-example-17" color="danger" height="large" />
+            <.skeleton id="skeleton-example-18" color="silver" height="extra_large" />
+          </.custom_code_wrapper>
+
+          <.heading2 class="mb-5 mt-5" id="skeleton-width-prop">
+            <.link patch={~p"/chelekom/docs/skeleton/#skeleton-width-prop"}>
+              Width prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <.custom_inline_code>width</.custom_inline_code>
+            prop in the skeleton component controls the horizontal size of the skeleton element. It provides predefined values such as <.custom_inline_code>extra_small</.custom_inline_code>, <.custom_inline_code>small</.custom_inline_code>, <.custom_inline_code>medium</.custom_inline_code>, <.custom_inline_code>large</.custom_inline_code>, <.custom_inline_code>extra_large</.custom_inline_code>, and <.custom_inline_code>full</.custom_inline_code>, which correspond to Tailwind CSS width classes. These predefined sizes allow for easy adjustments to the width of the skeleton, making it suitable for different content sections, like text blocks or full-width elements. You can also specify any custom Tailwind class, such as <.custom_inline_code>w-[150px]</.custom_inline_code>, allowing you to define specific widths to match your application's design. This level of customization ensures that the skeleton component can adapt seamlessly to a wide range of layout needs.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" elements_class="space-y-4" code={@code_5}>
+            <.skeleton id="skeleton-example-19" color="info" width="extra_small" />
+            <.skeleton id="skeleton-example-20" color="dawn" width="small" />
+            <.skeleton id="skeleton-example-21" color="misc" width="medium" />
+            <.skeleton id="skeleton-example-22" color="danger" width="large" />
+            <.skeleton id="skeleton-example-23" color="silver" width="extra_large" />
+            <.skeleton id="skeleton-example-24" color="silver" width="full" />
+          </.custom_code_wrapper>
+
+          <.heading2 class="mb-5 mt-5" id="skeleton-rounded-prop">
+            <.link patch={~p"/chelekom/docs/skeleton/#skeleton-rounded-prop"}>
+              Rounded prop
+            </.link>
+          </.heading2>
+
+          <.cp></.cp>
+
+          <.custom_code_wrapper code_class="text-xs" elements_class="space-y-4" code={@code_6}>
+            <.skeleton id="skeleton-example-32" height="large" color="info" rounded="extra_small" />
+            <.skeleton id="skeleton-example-25" height="large" color="dawn" rounded="small" />
+            <.skeleton id="skeleton-example-26" height="large" color="misc" rounded="medium" />
+            <.skeleton id="skeleton-example-27" height="large" color="warning" rounded="large" />
+            <.skeleton id="skeleton-example-28" height="large" color="dawn" rounded="extra_large" />
+            <.skeleton id="skeleton-example-29" height="large" color="misc" rounded="full" />
+            <.skeleton id="skeleton-example-30" height="large" color="danger" rounded="none" />
+          </.custom_code_wrapper>
+
+          <.heading2 class="mb-5 mt-5" id="skeleton-how-use">
+            <.link patch={~p"/chelekom/docs/skeleton/#skeleton-how-use"}>
+              How use skeleton component
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The rounded prop in the skeleton component determines the border radius, or how rounded the edges of the skeleton loader appear. It offers a range of options including extra_small, small, medium, large, and extra_large to create varying levels of roundness. Additionally, the full option gives the skeleton completely rounded corners, often used for circular shapes, while the none option leaves the skeleton with sharp, square edges. This feature allows developers to customize the skeleton’s appearance to fit the design requirements of the application.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-[11px]" elements_class="space-y-4" code={@code_7}>
+            <div class="flex items-center gap-3 p-3 rounded-lg bg-indigo-800">
+              <.skeleton
+                id="skeleton-example-33"
+                width="w-14"
+                height="h-14"
+                class="shrink-0"
+                rounded="full"
+                color="silver"
+                animated
+              />
+              <div class="space-y-2 flex-1">
+                <.skeleton id="skeleton-example-34" height="small" color="silver" animated />
+                <.skeleton
+                  id="skeleton-example-35"
+                  height="small"
+                  width="w-32 md:w-96"
+                  color="silver"
+                  animated
+                />
+                <.skeleton
+                  id="skeleton-example-36"
+                  height="small"
+                  width="w-28 md:w-80"
+                  color="silver"
+                  animated
+                />
+                <.skeleton
+                  id="skeleton-example-37"
+                  height="small"
+                  width="w-24 md:w-72"
+                  color="silver"
+                  animated
+                />
+              </div>
+            </div>
+          </.custom_code_wrapper>
+        </:documentation_panel>
+
+        <:props_panel>
+          <.custom_search class="mb-16" />
+          <div class="space-y-8">
+            <h2 class="text-lg lg:text-2xl font-bold">Skeleton Component Props</h2>
+
+            <.custom_table id="skeleton-component-table">
+              <:header>
+                <.table_th>Name</.table_th>
+
+                <.table_th>Type</.table_th>
+
+                <.table_th>Required</.table_th>
+
+                <.table_th>Description</.table_th>
+              </:header>
+
+              <:row>
+                <.table_td>id</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>A unique identifier used to manage state and interaction.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>class</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Custom CSS class for additional styling. Default is <strong>nil</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>color</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines color theme. Values: <strong>base</strong>, <strong>white</strong>, <strong>primary</strong>, <strong>secondary</strong>, <strong>dark</strong>, <strong>success</strong>, <strong>warning</strong>, <strong>danger</strong>, <strong>info</strong>, <strong>silver</strong>, <strong>misc</strong>, <strong>dawn</strong>, <strong>silver</strong>. Default is <strong>silver</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>height</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines the element height. Default is <strong>extra_small</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>width</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines the element width. Default is <strong>full</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>rounded</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines the border radius. Values: <strong>small</strong>, <strong>full</strong>, <strong>none</strong>, and sizes like <strong>extra_small</strong>, <strong>small</strong>, <strong>medium</strong>, <strong>large</strong>, <strong>extra_large</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>visible</.table_td>
+
+                <.table_td>boolean</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Controls the visibility of the skeleton loader. Default is <strong>true</strong>.
+                </.table_td>
+              </:row>
+            </.custom_table>
+          </div>
+        </:props_panel>
+
+        <:cli_panel>
+          <.custom_cli_props config={component_config()} />
+        </:cli_panel>
+        <.custom_table_content>
+          <:content
+            link={~p"/chelekom/docs/skeleton/#overview"}
+            title="Overview of the skeleton component"
+          />
+          <:content link={~p"/chelekom/docs/skeleton/#skeleton-color-prop"} title="Color prop" />
+          <:content
+            link={~p"/chelekom/docs/skeleton/#skeleton-animated-prop"}
+            title="Animated prop"
+          />
+          <:content
+            link={~p"/chelekom/docs/skeleton/#skeleton-visible-prop"}
+            title="Visible prop"
+          />
+          <:content link={~p"/chelekom/docs/skeleton/#skeleton-height-prop"} title="Height prop" />
+          <:content link={~p"/chelekom/docs/skeleton/#skeleton-width-prop"} title="Width prop" />
+          <:content
+            link={~p"/chelekom/docs/skeleton/#skeleton-rounded-prop"}
+            title="Rounded prop"
+          />
+        </.custom_table_content>
+      </.custom_tab>
+    </div>
+  </div>
+</Layouts.app>

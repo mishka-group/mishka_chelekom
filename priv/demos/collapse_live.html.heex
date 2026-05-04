@@ -1,0 +1,282 @@
+<Layouts.app flash={@flash}>
+  <div class="lg:grid lg:grid-cols-12 mt-5 max-w-5xl mx-auto">
+    <.custom_nav active="chelekom-docs-collapse" />
+    <div class="lg:col-span-10">
+      <.custom_info
+        title="Collapse"
+        description="Phoenix LiveView collapse component with smooth animations, lazy loading, server events, and customizable triggers for showing/hiding content."
+        mix="mix mishka.ui.gen.component collapse"
+        github="https://github.com/mishka-group/mishka_chelekom/blob/master/priv/components/collapse.eex"
+        tags={["Component", "Stateless", "JS"]}
+      />
+      <.custom_tab id="chelekom-collapse-tab">
+        <:documentation_panel>
+          <.heading2 class="mb-5" id="overview">
+            <.link patch={~p"/chelekom/docs/collapse/#overview"}>
+              Overview of the Phoenix and LiveView Collapse Component
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The Collapse component provides a simple way to show and hide content with smooth animations.
+            It's unstyled by default, allowing you to apply your own styling while providing the core
+            collapsible functionality.
+          </.cp>
+
+          <.custom_block position="left" color="warning" class="my-8" border="medium">
+            <.cp margin="mt-5">
+              <strong>Note:</strong>
+              The Collapse component is designed to be unstyled. You have complete control
+              over the appearance of both the trigger and content elements. This makes it flexible for use in
+              any design system while providing the core collapsible functionality.
+            </.cp>
+          </.custom_block>
+
+          <.heading2 margin="my-5" id="basic-usage">
+            <.link patch={~p"/chelekom/docs/collapse/#basic-usage"}>Basic Usage</.link>
+          </.heading2>
+
+          <.cp>The simplest way to use the collapse component is with a trigger and content.</.cp>
+
+          <.custom_code_wrapper code_class="text-xs" elements_class="py-20" code={@code_1}>
+            <.collapse id="basic-collapse">
+              <:trigger>
+                <button class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">
+                  Toggle Content
+                </button>
+              </:trigger>
+
+              <div class="p-4 bg-gray-100 mt-2 rounded">
+                This content will be hidden/shown when clicking the trigger button.
+              </div>
+            </.collapse>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="initially-open">
+            <.link patch={~p"/chelekom/docs/collapse/#initially-open"}>Initially Open</.link>
+          </.heading2>
+
+          <.cp>
+            You can set the collapse to be initially open by setting the
+            <.custom_inline_code>open</.custom_inline_code>
+            prop to true.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" elements_class="py-20" code={@code_2}>
+            <.collapse id="open-collapse" open={true}>
+              <:trigger>
+                <button class="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600">
+                  Toggle (Initially Open)
+                </button>
+              </:trigger>
+
+              <div class="p-4 bg-green-100 mt-2 rounded">
+                This content is initially visible when the page loads.
+              </div>
+            </.collapse>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="custom-duration">
+            <.link patch={~p"/chelekom/docs/collapse/#custom-duration"}>
+              Custom Animation Duration
+            </.link>
+          </.heading2>
+
+          <.cp>
+            Control the animation speed with the
+            <.custom_inline_code>duration</.custom_inline_code>
+            prop (in milliseconds).
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" elements_class="py-20" code={@code_3}>
+            <.collapse id="slow-collapse" duration={500}>
+              <:trigger>
+                <button class="px-4 py-2 bg-purple-500 text-white rounded hover:bg-purple-600">
+                  Slow Animation (500ms)
+                </button>
+              </:trigger>
+
+              <div class="p-4 bg-purple-100 mt-2 rounded">
+                This collapse animation takes 500ms instead of the default 200ms.
+              </div>
+            </.collapse>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="server-events">
+            <.link patch={~p"/chelekom/docs/collapse/#server-events"}>Server Events</.link>
+          </.heading2>
+
+          <.cp>
+            Enable server events to receive notifications when the collapse opens or closes.
+          </.cp>
+
+          <.custom_block position="left" color="danger" class="my-8" border="medium">
+            <.cp margin="mt-5">
+              <strong>Note:</strong>
+              If the
+              <.custom_inline_code>event_handler</.custom_inline_code>
+              is specified as a prop, the client will send data under that event name. Otherwise, data will automatically be sent to two events:
+              <.custom_inline_code>collapsible_close</.custom_inline_code>
+              and <.custom_inline_code>collapsible_open</.custom_inline_code>.
+            </.cp>
+          </.custom_block>
+
+          <.custom_code_wrapper code_class="text-xs" elements_class="py-20" code={@code_5}>
+            <.collapse id="server-collapse" server_events={true}>
+              <:trigger>
+                <button class="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600">
+                  Server Events Enabled
+                </button>
+              </:trigger>
+
+              <div class="p-4 bg-red-100 mt-2 rounded">
+                This collapse sends open/close events to the LiveView server.
+                Check your browser's network tab to see the events.
+              </div>
+            </.collapse>
+          </.custom_code_wrapper>
+        </:documentation_panel>
+
+        <:props_panel>
+          <.custom_search class="mb-16" />
+          <div class="space-y-8">
+            <h2 class="text-lg lg:text-2xl font-bold">Collapse component props</h2>
+
+            <.custom_table id="collapse-props-table">
+              <:header>
+                <.table_th>Name</.table_th>
+
+                <.table_th>Type</.table_th>
+
+                <.table_th>Required</.table_th>
+
+                <.table_th>Description</.table_th>
+              </:header>
+
+              <:row>
+                <.table_td>id</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>Yes</.table_td>
+
+                <.table_td>A unique identifier for the collapse component</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>class</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Custom CSS class for additional styling</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>duration</.table_td>
+
+                <.table_td>integer</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Animation duration in milliseconds (default: 200)</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>keep_mounted</.table_td>
+
+                <.table_td>boolean</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Keep lazy content mounted after first open (default: false)</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>server_events</.table_td>
+
+                <.table_td>boolean</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Send open/close events to LiveView (default: false)</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>event_handler</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Specify event handler for collapse events</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>open</.table_td>
+
+                <.table_td>boolean</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Whether the collapse is initially open (default: false)</.table_td>
+              </:row>
+            </.custom_table>
+          </div>
+
+          <div class="space-y-8 mt-8">
+            <h2 class="text-lg lg:text-2xl font-bold">Collapse Slots</h2>
+
+            <.custom_table id="collapse-slots-table">
+              <:header>
+                <.table_th>Slot</.table_th>
+
+                <.table_th>Required</.table_th>
+
+                <.table_th>Description</.table_th>
+              </:header>
+
+              <:row>
+                <.table_td>trigger</.table_td>
+
+                <.table_td>Yes</.table_td>
+
+                <.table_td>The clickable element that toggles the collapse</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>inner_block</.table_td>
+
+                <.table_td>Yes</.table_td>
+
+                <.table_td>The content that will be shown/hidden</.table_td>
+              </:row>
+            </.custom_table>
+          </div>
+        </:props_panel>
+
+        <:cli_panel><.custom_cli_props config={component_config()} /></:cli_panel>
+
+        <.custom_table_content>
+          <:content
+            link={~p"/chelekom/docs/collapse/#overview"}
+            title="Overview of the collapse component"
+          /> <:content link={~p"/chelekom/docs/collapse/#basic-usage"} title="Basic Usage" />
+          <:content
+            link={~p"/chelekom/docs/collapse/#initially-open"}
+            title="Initially Open"
+          />
+          <:content
+            link={~p"/chelekom/docs/collapse/#custom-duration"}
+            title="Custom Animation Duration"
+          />
+          <:content
+            link={~p"/chelekom/docs/collapse/#server-events"}
+            title="Server Events"
+          />
+        </.custom_table_content>
+      </.custom_tab>
+    </div>
+  </div>
+</Layouts.app>

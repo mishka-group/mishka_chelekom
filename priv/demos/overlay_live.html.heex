@@ -1,0 +1,291 @@
+<Layouts.app flash={@flash}>
+  <div class="lg:grid lg:grid-cols-12 mt-5 max-w-5xl mx-auto">
+    <.custom_nav active="chelekom-docs-overlay" />
+    <div class="lg:col-span-10">
+      <.custom_info
+        title="Overlay"
+        description="Customizable overlay component for Phoenix LiveView, offering flexible options for color themes, opacity, backdrop effects, and even loading states or HTML content within"
+        mix="mix mishka.ui.gen.component overlay"
+        github="https://github.com/mishka-group/mishka_chelekom/blob/master/priv/components/overlay.eex"
+        tags={["Component", "Stateless"]}
+      />
+      <.custom_tab id="chelekom-overlay-tab">
+        <:documentation_panel>
+          <.heading2 id="overview">
+            <.link patch={~p"/chelekom/docs/overlay/#overview"}>
+              Overview of the Phoenix and LiveView Overlay Component
+            </.link>
+          </.heading2>
+          <.cp>
+            The
+            <strong>
+              Mishka Chelekom overlay
+            </strong>
+            component is a <strong>Phoenix LiveView</strong>
+            component that allows developers to create dynamic and customizable <strong>overlays</strong>, perfect for adding interactive layers or background effects to applications. It offers flexibility in layout, allowing for easy adjustment of color, opacity, and backdrop effects, ensuring a polished and visually engaging look.
+          </.cp>
+
+          <.cp margin="mt-5">
+            This
+            <strong>
+              <.link
+                title="Phoenix LiveView component"
+                class="transition-colors hover:text-[#448D96]"
+                navigate={~p"/chelekom"}
+              >
+                Phoenix LiveView component
+              </.link>
+            </strong>
+            also supports layering HTML content, adding loading indicators, or other interactive elements within the overlay. With its responsive design and ease of use, this overlay component enhances visual appeal and user experience in a variety of applications.
+          </.cp>
+
+          <.custom_block position="left" color="success" class="my-8" border="medium">
+            <.cp>
+              By using the class prop, you can apply custom classes or Tailwind CSS classes to customize the components design.
+            </.cp>
+          </.custom_block>
+
+          <.heading2 margin="my-5" id="overlay-color-prop">
+            <.link patch={~p"/chelekom/docs/overlay/#overlay-color-prop"}>
+              Color prop in Phoenix LiveView overlay component
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <.custom_inline_code>color</.custom_inline_code>
+            attribute in the
+            <.link navigate={~p"/chelekom/docs/overlay"}>Mishka Chelekom Overlay</.link>
+            component allows developers to customize the background color of the overlay using predefined themes. The available colors include options like <.custom_inline_code>base</.custom_inline_code>, <.custom_inline_code>natural</.custom_inline_code>, <.custom_inline_code>white</.custom_inline_code>, <.custom_inline_code>dark</.custom_inline_code>, <.custom_inline_code>primary</.custom_inline_code>, <.custom_inline_code>secondary</.custom_inline_code>, <.custom_inline_code>success</.custom_inline_code>, <.custom_inline_code>warning</.custom_inline_code>, <.custom_inline_code>danger</.custom_inline_code>, <.custom_inline_code>info</.custom_inline_code>, <.custom_inline_code>silver</.custom_inline_code>, <.custom_inline_code>misc</.custom_inline_code>, and <.custom_inline_code>dawn</.custom_inline_code>. Each of these colors applies a unique shade, such as
+            <.custom_inline_code>primary</.custom_inline_code>
+            offering a dark blue,
+            <.custom_inline_code>success</.custom_inline_code>
+            providing a green tone, or
+            <.custom_inline_code>danger</.custom_inline_code>
+            showcasing a bold red. These options ensure that the overlay complements a wide range of designs while maintaining a consistent and visually appealing interface.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-sm" code={@code_1}>
+            <div class="relative h-96">
+              <.overlay id="overlay-example-1" color="dawn" opacity="almost_solid">
+                <div class="flex justify-center items-center h-full">
+                  <div class="text-white">Dawn color...</div>
+                </div>
+              </.overlay>
+            </div>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="overlay-opacity-prop">
+            <.link patch={~p"/chelekom/docs/overlay/#overlay-opacity-prop"}>
+              Opacity prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <.custom_inline_code>opacity</.custom_inline_code>
+            attribute in the Mishka Chelekom Overlay component allows developers to control the transparency of the overlay. It provides several predefined levels of opacity, such as
+            <.custom_inline_code>transparent</.custom_inline_code>
+            for a light effect with 10% opacity,
+            <.custom_inline_code>semi_transparent</.custom_inline_code>
+            for 30% opacity, and
+            <.custom_inline_code>opaque</.custom_inline_code>
+            for a more solid 70% coverage. Options like
+            <.custom_inline_code>heavily_tinted</.custom_inline_code>
+            at 80% and
+            <.custom_inline_code>almost_solid</.custom_inline_code>
+            at 90% give designers control over how much of the background content remains visible, making it easy to adjust the visual balance of overlays based on specific needs.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-sm" code={@code_2}>
+            <div class="relative h-96">
+              <.overlay id="overlay-example-2" color="silver" opacity="lightly_tinted">
+                <div class="flex justify-center items-center h-full">
+                  <div class="text-white">Light color with Lightly Tinted opacity...</div>
+                </div>
+              </.overlay>
+            </div>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="overlay-backdrop-prop">
+            <.link patch={~p"/chelekom/docs/overlay/#overlay-backdrop-prop"}>
+              backdrop prop in Phoenix LiveView overlay component
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <.custom_inline_code>backdrop</.custom_inline_code>
+            prop in the Mishka Chelekom Overlay component adds a backdrop effect to the background, creating a soft-focus layer behind the main content. It provides options such as <.custom_inline_code>extra_small</.custom_inline_code>, <.custom_inline_code>small</.custom_inline_code>, <.custom_inline_code>medium</.custom_inline_code>, <.custom_inline_code>large</.custom_inline_code>, and <.custom_inline_code>extra_large</.custom_inline_code>, allowing developers to control the intensity of the backdrop effect. This can help highlight key content while subtly backdropring the background, enhancing visual hierarchy within the application.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-sm" code={@code_3}>
+            <div class="relative h-96">
+              <.overlay id="overlay-example-3" color="primary" opacity="tinted" backdrop="small">
+                <div class="flex justify-center items-center h-full">
+                  <div class="text-white">Primary color with small value of backdrop...</div>
+                </div>
+              </.overlay>
+            </div>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="overlay-display-content">
+            <.link patch={~p"/chelekom/docs/overlay/#overlay-display-content"}>
+              How display content whithin ovelays
+            </.link>
+          </.heading2>
+
+          <.cp>
+            Place any content, including HTML elements or other components, inside the
+            <.custom_inline_code>overlay</.custom_inline_code>
+            component, allowing for flexible and dynamic layering. This makes it easy to add modals, loading indicators, or other interactive elements on top of existing content, while maintaining full control over the layout and appearance.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-sm" code={@code_4}>
+            <div class="relative h-96">
+              <.overlay
+                id="overlay-example-4"
+                color="silver"
+                opacity="transparent"
+                backdrop="small"
+              >
+                <div class="flex justify-center items-center gap-4 h-full">
+                  <.spinner size="large" />
+                  <div>Misc color with small value of backdrop...</div>
+                </div>
+              </.overlay>
+            </div>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="overlay-z-index-prop">
+            <.link patch={~p"/chelekom/docs/overlay/#overlay-z-index-prop"}>
+              Z-index prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <.custom_inline_code>z_index</.custom_inline_code>
+            attribute in the Mishka Chelekom Overlay component controls the stacking order of the overlay relative to other elements. By default, it uses
+            <.custom_inline_code>z-50</.custom_inline_code>
+            but can be customized with other utility classes like
+            <.custom_inline_code>z-10</.custom_inline_code>
+            or any other z-index value to ensure proper layering in complex layouts.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-sm" code={@code_5}></.custom_code_wrapper>
+        </:documentation_panel>
+
+        <:props_panel>
+          <.custom_search class="mb-16" />
+          <div class="space-y-8">
+            <h2 class="text-lg lg:text-2xl font-bold">Overlay Component Props</h2>
+
+            <.custom_table id="overlay-component-table">
+              <:header>
+                <.table_th>Name</.table_th>
+
+                <.table_th>Type</.table_th>
+
+                <.table_th>Required</.table_th>
+
+                <.table_th>Description</.table_th>
+              </:header>
+
+              <:row>
+                <.table_td>id</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  A unique identifier is used to manage state and interaction.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>color</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines the color theme of the overlay. Values: <strong>base</strong>, <strong>natural</strong>, <strong>primary</strong>, <strong>secondary</strong>, <strong>success</strong>, <strong>warning</strong>, <strong>danger</strong>, <strong>info</strong>, <strong>white</strong>, <strong>dark</strong>, <strong>misc</strong>, <strong>dawn</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>opacity</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines the opacity of the overlay. Values: <strong>transparent</strong>, <strong>translucent</strong>, <strong>semi_transparent</strong>, <strong>lightly_tinted</strong>, <strong>tinted</strong>, <strong>semi_opaque</strong>, <strong>opaque</strong>, <strong>heavily_tinted</strong>, <strong>almost_solid</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>backdrop</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines the backdrop effect applied to the overlay. Accepts values from predefined sizes like <strong>extra_small</strong>, <strong>small</strong>, <strong>medium</strong>, <strong>large</strong>, <strong>extra_large</strong>, or <strong>none</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>class</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Custom CSS class for additional styling of the overlay.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>z_index</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Utility class for controlling the z-index stacking order of the overlay (e.g., 'z-10', 'z-50').
+                </.table_td>
+              </:row>
+            </.custom_table>
+          </div>
+        </:props_panel>
+
+        <:cli_panel>
+          <.custom_cli_props config={component_config()} />
+        </:cli_panel>
+        <.custom_table_content>
+          <:content
+            link={~p"/chelekom/docs/overlay/#overview"}
+            title="Overview of the overlay component"
+          />
+          <:content link={~p"/chelekom/docs/overlay/#overlay-color-prop"} title="Color prop" />
+          <:content link={~p"/chelekom/docs/overlay/#overlay-opacity-prop"} title="Opacity prop" />
+          <:content
+            link={~p"/chelekom/docs/overlay/#overlay-backdrop-prop"}
+            title="backdrop prop"
+          />
+          <:content
+            link={~p"/chelekom/docs/overlay/#overlay-display-content"}
+            title="How display content whithin ovelays"
+          />
+          <:content link={~p"/chelekom/docs/overlay/#overlay-z-index-prop"} title="Z-index prop" />
+        </.custom_table_content>
+      </.custom_tab>
+    </div>
+  </div>
+</Layouts.app>

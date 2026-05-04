@@ -1,0 +1,1129 @@
+<Layouts.app flash={@flash}>
+  <div class="lg:grid lg:grid-cols-12 mt-5 max-w-5xl mx-auto">
+    <.custom_nav active="chelekom-docs-stepper" />
+    <div class="lg:col-span-10">
+      <.custom_info
+        title="Stepper"
+        description="Interactive stepper component for Phoenix LiveView, perfect for displaying multi-step workflows with customizable layouts and styles."
+        mix="mix mishka.ui.gen.component stepper"
+        github="https://github.com/mishka-group/mishka_chelekom/blob/master/priv/components/stepper.eex"
+        tags={["Component", "Stateless"]}
+      />
+      <.custom_tab id="chelekom-stepper-tab">
+        <:documentation_panel>
+          <.heading2 class="mb-5" id="overview">
+            <.link patch={~p"/chelekom/docs/stepper/#overview"}>
+              Overview of the Phoenix LiveView Stepper Component
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <strong>
+              Mishka Chelekom Stepper
+            </strong>
+            component is a highly customizable <strong>Phoenix LiveView</strong>
+            tool for creating intuitive, step-based workflows. Ideal for multi-step processes like forms or onboarding, it supports both horizontal and vertical layouts, with flexible customization options for colors, sizes, and border styles to match your app's design.
+          </.cp>
+
+          <.custom_code_wrapper elements_class="grid lg:grid-cols-7 gap-3">
+            <div class="lg:col-span-2">
+              <.stepper vertical size="medium" class="text-[12px]">
+                <.stepper_section
+                  step_number={1}
+                  step="completed"
+                  title="Create account"
+                  description="Setting up your foundation"
+                  vertical
+                />
+                <.stepper_section
+                  step_number={2}
+                  step="loading"
+                  title="Company"
+                  description="Tell us about your business"
+                  vertical
+                />
+                <.stepper_section
+                  step_number={3}
+                  step="current"
+                  title="Address"
+                  description="Select your official location"
+                  vertical
+                />
+                <.stepper_section
+                  step_number={4}
+                  title="Payment"
+                  description="Finalize your registration"
+                  vertical
+                />
+              </.stepper>
+            </div>
+            <div class="lg:col-span-5 space-y-10 lg:space-y-14 lg:pt-10">
+              <.stepper size="extra_small" variant="default" color="info">
+                <.stepper_section step_number={1} step="completed" title="Create account" />
+                <.stepper_section step_number={2} step="loading" title="Verify Email" />
+                <.stepper_section step_number={3} step="current" title="Payment" />
+              </.stepper>
+
+              <.stepper
+                variant="default"
+                color="natural"
+                size="extra_small"
+                font_weight="font-thin"
+                space="extra_small"
+              >
+                <.stepper_section step_number={1} title="Step one" description="Select campaign" />
+                <.stepper_section step_number={2} title="Step two" description="Create group" />
+                <.stepper_section step_number={3} title="Step three" description="Create AD" />
+              </.stepper>
+            </div>
+          </.custom_code_wrapper>
+
+          <.cp margin="mt-5">
+            This
+            <strong>
+              <.link
+                title="Phoenix LiveView component"
+                class="transition-colors hover:text-[#448D96]"
+                navigate={~p"/chelekom"}
+              >
+                Phoenix LiveView component
+              </.link>
+            </strong>
+            also features different step states like current, completed, or canceled, making it easy for users to track their progress visually. The component's flexibility ensures a seamless user experience for any multi-step journey.
+          </.cp>
+
+          <.custom_block position="left" color="success" class="my-8" border="medium">
+            <.cp>
+              By using the class prop, you can apply custom classes or Tailwind CSS classes to customize the appearance and behavior of the components, allowing for flexible design changes.
+            </.cp>
+          </.custom_block>
+
+          <.heading2 margin="my-5" id="stepper-base">
+            <.link patch={~p"/chelekom/docs/stepper/#stepper-base"}>
+              Base variant
+            </.link>
+          </.heading2>
+
+          <.custom_code_wrapper code_class="text-xs" elements_class="space-y-10" code={@code_18}>
+            <.stepper id="stepper-example-132" size="extra_small">
+              <.stepper_section step="completed" title="Compelet" />
+              <.stepper_section step="canceled" title="Cancled" />
+              <.stepper_section step="loading" title="Loading" />
+              <.stepper_section step="current" title="Current" />
+              <.stepper_section title="Last step" />
+            </.stepper>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="stepper-default">
+            <.link patch={~p"/chelekom/docs/stepper/#stepper-colors"}>
+              Default variant
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The <.link patch={~p"/chelekom/docs/stepper"}>Mishka Chelekom Stepper</.link>
+            component offers a range of color options to customize its appearance. Colors like <.custom_inline_code>natural</.custom_inline_code>, <.custom_inline_code>primary</.custom_inline_code>, <.custom_inline_code>secondary</.custom_inline_code>, and
+            provide foundational themes, while functional choices such as <.custom_inline_code>success</.custom_inline_code>, <.custom_inline_code>warning</.custom_inline_code>, and
+            <.custom_inline_code>danger</.custom_inline_code>
+            help convey progress or errors visually. Additionally, the component supports flexible options like <.custom_inline_code>info</.custom_inline_code>, <.custom_inline_code>silver</.custom_inline_code>, <.custom_inline_code>misc</.custom_inline_code>, and <.custom_inline_code>dawn</.custom_inline_code>, ensuring adaptability to various design needs.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" elements_class="space-y-10" code={@code_1}>
+            <.stepper id="stepper-example-1" variant="default" color="silver">
+              <.stepper_section step="loading" title="Loading step" description="Register" />
+              <.stepper_section step="canceled" title="Current step" description="Verify Email" />
+              <.stepper_section step="current" title="Step three" description="Login" />
+              <.stepper_section title="Step four" description="Login" />
+            </.stepper>
+            <.stepper id="stepper-example-1+1" variant="default" color="danger">
+              <.stepper_section step="completed" title="Completed step" description="Register" />
+              <.stepper_section step="current" title="Current step" description="Verify Email" />
+              <.stepper_section title="Step three" description="Login" />
+            </.stepper>
+
+            <.stepper id="stepper-example-2" variant="default" color="success">
+              <.stepper_section step="completed" title="Step one" description="Register" />
+              <.stepper_section step="current" title="Step two" description="Verify Email" />
+              <.stepper_section title="Step three" description="Login" />
+            </.stepper>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="stepper-gradient">
+            <.link patch={~p"/chelekom/docs/stepper/#stepper-gradient"}>
+              Gradient variant
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The <.link patch={~p"/chelekom/docs/stepper"}>Mishka Chelekom Stepper</.link>
+            component offers a range of color options to customize its appearance. Colors like <.custom_inline_code>natural</.custom_inline_code>, <.custom_inline_code>primary</.custom_inline_code>, <.custom_inline_code>secondary</.custom_inline_code>, and
+            provide foundational themes, while functional choices such as <.custom_inline_code>success</.custom_inline_code>, <.custom_inline_code>warning</.custom_inline_code>, and
+            <.custom_inline_code>danger</.custom_inline_code>
+            help convey progress or errors visually. Additionally, the component supports flexible options like <.custom_inline_code>info</.custom_inline_code>, <.custom_inline_code>silver</.custom_inline_code>, <.custom_inline_code>misc</.custom_inline_code>, and <.custom_inline_code>dawn</.custom_inline_code>, ensuring adaptability to various design needs.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" elements_class="space-y-10" code={@code_16}>
+            <.stepper id="stepper-exampledf" variant="gradient" color="dawn">
+              <.stepper_section step="completed" title="Completed step" description="Register" />
+              <.stepper_section step="canceled" title="Current step" description="Verify Email" />
+              <.stepper_section step="current" title="Step three" description="Login" />
+              <.stepper_section title="Step three" description="Login" />
+            </.stepper>
+            <.stepper id="stepper-exampledf+1" variant="gradient" color="misc">
+              <.stepper_section step="completed" title="Completed step" description="Register" />
+              <.stepper_section step="current" title="Current step" description="Verify Email" />
+              <.stepper_section title="Step three" description="Login" />
+            </.stepper>
+
+            <.stepper id="stepper-example-233" variant="gradient" color="warning">
+              <.stepper_section step="completed" title="Step one" description="Register" />
+              <.stepper_section step="current" title="Step two" description="Verify Email" />
+              <.stepper_section title="Step three" description="Login" />
+            </.stepper>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="stepper-col-steps">
+            <.link patch={~p"/chelekom/docs/stepper/#stepper-col-steps"}>
+              Col Step and col step position props
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <.custom_inline_code>col_step</.custom_inline_code>
+            and
+            <.custom_inline_code>col_step_position</.custom_inline_code>
+            attributes are used for changing the structure of the steps' shape. These attributes allow you to customize the layout and positioning of each step within the stepper component, providing greater flexibility in designing the stepper's appearance.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" elements_class="space-y-10" code={@code_17}>
+            <.stepper id="stepper-exampldsfddedf" col_step variant="default" color="dawn">
+              <.stepper_section step="completed" title="Completed step" description="Register" />
+              <.stepper_section step="canceled" title="Current step" description="Verify Email" />
+              <.stepper_section step="current" title="Step three" description="Login" />
+              <.stepper_section title="Step three" description="Login" />
+            </.stepper>
+            <.stepper
+              id="stepper-exadsfmpledf+1"
+              col_step
+              col_step_position="center"
+              variant="default"
+              color="misc"
+            >
+              <.stepper_section step="completed" title="Completed step" description="Register" />
+              <.stepper_section step="current" title="Current step" description="Verify Email" />
+              <.stepper_section title="Step three" description="Login" />
+            </.stepper>
+
+            <.stepper
+              id="stepper-examdsple-233"
+              col_step
+              col_step_position="end"
+              variant="default"
+              color="warning"
+            >
+              <.stepper_section step="completed" title="Step one" description="Register" />
+              <.stepper_section step="current" title="Step two" description="Verify Email" />
+              <.stepper_section title="Step three" description="Login" />
+            </.stepper>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="stepper-size-prop">
+            <.link patch={~p"/chelekom/docs/stepper/#stepper-size-prop"}>
+              Size prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The size attribute in the Mishka Chelekom Stepper component offers the following options: <.custom_inline_code>extra_small</.custom_inline_code>, <.custom_inline_code>small</.custom_inline_code>, <.custom_inline_code>medium</.custom_inline_code>, <.custom_inline_code>large</.custom_inline_code>, and <.custom_inline_code>extra_large</.custom_inline_code>. Each adjusts the font size, step size, and icon size accordingly.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" elements_class="space-y-10" code={@code_2}>
+            <.stepper id="stepper-example-3" variant="default" color="warning" size="extra_small">
+              <.stepper_section step="completed" title="Completed step" description="Register" />
+              <.stepper_section step="current" title="Current step" description="Verify Email" />
+              <.stepper_section title="Step three" description="Login" />
+            </.stepper>
+
+            <.stepper id="stepper-example-4" variant="default" color="misc" size="extra_large">
+              <.stepper_section step="completed" title="Step one" description="Register" />
+              <.stepper_section step="current" title="Step two" description="Verify Email" />
+              <.stepper_section title="Step three" description="Login" />
+            </.stepper>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="stepper-border-prop">
+            <.link patch={~p"/chelekom/docs/stepper/#stepper-border-prop"}>
+              Border prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The border attribute in the Mishka Chelekom Stepper component offers various size options, including <.custom_inline_code>extra_small</.custom_inline_code>, <.custom_inline_code>small</.custom_inline_code>, <.custom_inline_code>medium</.custom_inline_code>, <.custom_inline_code>large</.custom_inline_code>, and <.custom_inline_code>extra_large</.custom_inline_code>. Each option controls the thickness of the borders between each step in the stepper.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" elements_class="space-y-10" code={@code_3}>
+            <.stepper
+              id="stepper-example-5"
+              variant="default"
+              color="warning"
+              size="extra_large"
+              border="extra_small"
+            >
+              <.stepper_section step="current" title="Step one" description="Register" />
+              <.stepper_section title="Step two" description="Verify Email" />
+            </.stepper>
+
+            <.stepper
+              id="stepper-example-6"
+              variant="default"
+              color="misc"
+              size="extra_large"
+              border="extra_large"
+            >
+              <.stepper_section step="completed" title="Step one" description="Register" />
+              <.stepper_section step="current" title="Step two" description="Verify Email" />
+            </.stepper>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="stepper-vertical-prop">
+            <.link patch={~p"/chelekom/docs/stepper/#stepper-vertical-prop"}>
+              Stepper vertical and horizontal
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The vertical attribute is a boolean that controls the orientation of the stepper. By default, the stepper is displayed in a horizontal layout. If you want to switch to a vertical stepper, simply set the
+            <.custom_inline_code>vertical</.custom_inline_code>
+            prop to true. Additionally, when using the vertical orientation, ensure that you also apply the
+            <.custom_inline_code>vertical</.custom_inline_code>
+            prop to all the sections inside the stepper, so the entire component maintains a consistent layout and properly displays each step in the vertical format.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" elements_class="space-y-10" code={@code_4}>
+            <.stepper id="stepper-example-7" vertical variant="default" color="natural">
+              <.stepper_section title="Step one" vertical />
+              <.stepper_section title="Step two" vertical />
+              <.stepper_section title="Step three" vertical />
+            </.stepper>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="stepper-margin-prop">
+            <.link patch={~p"/chelekom/docs/stepper/#stepper-margin-prop"}>
+              Horizontal stepper margin
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The margin attribute controls the spacing between steps when the stepper is in horizontal mode. It can be customized with the following size options: <.custom_inline_code>none</.custom_inline_code>, <.custom_inline_code>extra_small</.custom_inline_code>, <.custom_inline_code>small</.custom_inline_code>, <.custom_inline_code>medium</.custom_inline_code>, <.custom_inline_code>large</.custom_inline_code>, and <.custom_inline_code>extra_large</.custom_inline_code>.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" elements_class="space-y-10" code={@code_5}>
+            <.stepper
+              id="stepper-example-8"
+              variant="default"
+              color="natural"
+              margin="extra_small"
+            >
+              <.stepper_section title="Step one" />
+              <.stepper_section title="Step two" />
+              <.stepper_section title="Step three" />
+            </.stepper>
+            <.stepper
+              id="stepper-example-9"
+              variant="default"
+              color="natural"
+              margin="extra_large"
+            >
+              <.stepper_section title="Step one" />
+              <.stepper_section title="Step two" />
+              <.stepper_section title="Step three" />
+            </.stepper>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="stepper-space-prop">
+            <.link patch={~p"/chelekom/docs/stepper/#stepper-space-prop"}>
+              Vertical stepper space
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The space attribute controls the spacing between steps when the stepper is in vertical mode. It can be customized with the following size options: <.custom_inline_code>none</.custom_inline_code>, <.custom_inline_code>extra_small</.custom_inline_code>, <.custom_inline_code>small</.custom_inline_code>, <.custom_inline_code>medium</.custom_inline_code>, <.custom_inline_code>large</.custom_inline_code>, and <.custom_inline_code>extra_large</.custom_inline_code>. By default it's nil so there is no space betweeen steps.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" elements_class="space-y-10" code={@code_6}>
+            <.stepper
+              id="stepper-example-10"
+              vertical
+              variant="default"
+              color="natural"
+              space="extra_small"
+            >
+              <.stepper_section title="Step one" vertical />
+              <.stepper_section title="Step two" vertical />
+              <.stepper_section title="Step three" vertical />
+            </.stepper>
+
+            <.stepper
+              id="stepper-example-11"
+              vertical
+              variant="default"
+              color="natural"
+              space="extra_large"
+            >
+              <.stepper_section title="Step one" vertical />
+              <.stepper_section title="Step two" vertical />
+              <.stepper_section title="Step three" vertical />
+            </.stepper>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="stepper-font-weight">
+            <.link patch={~p"/chelekom/docs/stepper/#stepper-font-weight"}>
+              Font weight
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <.custom_inline_code>font_weight</.custom_inline_code>
+            allows you to control the font weight of the text within the stepper. You can use any Tailwind CSS font weight class, such as <.custom_inline_code>font-normal</.custom_inline_code>, <.custom_inline_code>font-bold</.custom_inline_code>, or <.custom_inline_code>font-extrabold</.custom_inline_code>, to customize the appearance of the text. This flexibility ensures that the stepper’s text aligns with the overall typography of your application.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" elements_class="space-y-10" code={@code_7}>
+            <.stepper
+              id="stepper-example-12"
+              variant="default"
+              color="natural"
+              font_weight="font-bold"
+            >
+              <.stepper_section title="Step one" description="The description of step" />
+              <.stepper_section title="Step two" description="The description of step" />
+              <.stepper_section title="Step three" description="The description of step" />
+            </.stepper>
+
+            <.stepper
+              id="stepper-example-13"
+              variant="default"
+              color="natural"
+              font_weight="font-thin"
+            >
+              <.stepper_section title="Step one" description="The description of step" />
+              <.stepper_section title="Step two" description="The description of step" />
+              <.stepper_section title="Step three" description="The description of step" />
+            </.stepper>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="stepper-stepper-section">
+            <.link patch={~p"/chelekom/docs/stepper/#stepper-stepper-section"}>
+              Stepper section component
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <.custom_inline_code>stepper_section</.custom_inline_code>
+            component in the Mishka Chelekom Stepper is used to represent individual steps within the stepper. Each section can include details such as a title, description, and icon. If you're using the stepper in vertical mode, as mentioned earlier, you should add the
+            <.custom_inline_code>vertical</.custom_inline_code>
+            prop to each
+            <.custom_inline_code>stepper_section</.custom_inline_code>
+            to ensure the layout is properly aligned with the vertical orientation of the stepper.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" elements_class="space-y-10" code={@code_8}>
+            <.stepper id="stepper-example-14" variant="default" color="natural">
+              <.stepper_section title="Section one" />
+              <.stepper_section title="Section two" />
+              <.stepper_section title="Section three" />
+            </.stepper>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="stepper-stepper-section-icon-prop">
+            <.link patch={~p"/chelekom/docs/stepper/#stepper-stepper-section-icon-prop"}>
+              Stepper section icon prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The icon prop in the stepper_section component allows you to display an icon alongside each step, providing visual cues to enhance the user experience. You can use any Heroicons by simply specifying the icon name in the
+            <.custom_inline_code>icon</.custom_inline_code>
+            prop, such as
+            <.custom_inline_code>hero-check-solid</.custom_inline_code>
+            or <.custom_inline_code>hero-exclamation</.custom_inline_code>. This flexibility helps to visually differentiate steps and make the process more intuitive for users.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" code={@code_9}>
+            <.stepper id="stepper-example-15" variant="default" color="natural">
+              <.stepper_section icon="hero-bell-alert" title="Section one" />
+              <.stepper_section icon="hero-building-library" title="Section two" />
+              <.stepper_section icon="hero-clock" title="Section three" />
+            </.stepper>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="stepper-stepper-section-title-prop">
+            <.link patch={~p"/chelekom/docs/stepper/#stepper-stepper-section-title-prop"}>
+              Stepper section title prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <.custom_inline_code>title</.custom_inline_code>
+            prop in the
+            <.custom_inline_code>stepper_section</.custom_inline_code>
+            component allows you to set a title for each individual step, providing a clear and concise label that describes the step's purpose or action.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" code={@code_10}>
+            <.stepper id="stepper-example-16" variant="default" color="natural">
+              <.stepper_section title="Section one" />
+              <.stepper_section title="Section two" />
+              <.stepper_section title="Section three" />
+            </.stepper>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="stepper-stepper-section-description-prop">
+            <.link patch={~p"/chelekom/docs/stepper/#stepper-stepper-section-description-prop"}>
+              Stepper section description prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <.custom_inline_code>description</.custom_inline_code>
+            prop in the
+            <.custom_inline_code>stepper_section</.custom_inline_code>
+            component allows you to provide a brief description or additional information for each step. This helps to further clarify the purpose of the step or provide context for the user. The
+            <.custom_inline_code>description</.custom_inline_code>
+            is displayed below the title, offering a more detailed explanation.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" code={@code_10}>
+            <.stepper id="stepper-example-17" variant="default" color="natural">
+              <.stepper_section title="Section one" description="Step one's description" />
+              <.stepper_section title="Section two" description="Step two's description" />
+              <.stepper_section title="Section three" description="Step three's description" />
+            </.stepper>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="stepper-stepper-section-step-prop">
+            <.link patch={~p"/chelekom/docs/stepper/#stepper-stepper-section-step-prop"}>
+              Stepper section step prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <.custom_inline_code>step</.custom_inline_code>
+            attribute in the
+            <.custom_inline_code>stepper_section</.custom_inline_code>
+            component indicates the current state of each step. The available values include <.custom_inline_code>none</.custom_inline_code>, <.custom_inline_code>current</.custom_inline_code>, <.custom_inline_code>completed</.custom_inline_code>, and <.custom_inline_code>canceled</.custom_inline_code>, with the default set to <.custom_inline_code>none</.custom_inline_code>. Based on the selected state, different styles are applied to visually represent the step's progress or status, helping users easily identify where they are in the workflow.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" elements_class="space-y-10" code={@code_11}>
+            <.stepper id="stepper-example-18" size="extra_small" variant="default" color="misc">
+              <.stepper_section title="one" step="completed" />
+              <.stepper_section title="two" step="canceled" />
+              <.stepper_section title="three" step="current" />
+              <.stepper_section title="four" step="loading" />
+            </.stepper>
+
+            <.stepper id="stepper-example-19" size="extra_small" variant="default" color="success">
+              <.stepper_section step="completed" title="one" />
+              <.stepper_section title="two" step="canceled" />
+              <.stepper_section title="three" step="current" />
+              <.stepper_section title="four" step="none" />
+            </.stepper>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="stepper-stepper-section-step-number-prop">
+            <.link patch={~p"/chelekom/docs/stepper/#stepper-stepper-section-step-number-prop"}>
+              Stepper section step number prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <.custom_inline_code>step_number</.custom_inline_code>
+            attribute in the
+            <.custom_inline_code>stepper_section</.custom_inline_code>
+            component allows you to pass an integer that represents the number or position of the step in the sequence. By default, the
+            <.custom_inline_code>step_number</.custom_inline_code>
+            is set to <.custom_inline_code>1</.custom_inline_code>, but you can customize it by passing any integer to display the appropriate step number. This prop helps visually indicate the order of steps in workflows or processes, enhancing clarity for the user.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" elements_class="space-y-10" code={@code_13}>
+            <.stepper id="stepper-example-20" size="small" variant="default" color="primary">
+              <.stepper_section title="one" step_number={1} />
+              <.stepper_section title="two" step_number={2} />
+              <.stepper_section title="three" step_number={3} />
+              <.stepper_section title="four" step_number={4} />
+            </.stepper>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="stepper-stepper-section-clickable-prop">
+            <.link patch={~p"/chelekom/docs/stepper/#stepper-stepper-section-clickable-prop"}>
+              Stepper section clickable prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <.custom_inline_code>clickable</.custom_inline_code>
+            attribute in the
+            <.custom_inline_code>stepper_section</.custom_inline_code>
+            component determines whether the step can be interacted with by the user. By default, the
+            <.custom_inline_code>clickable</.custom_inline_code>
+            attribute is set to <.custom_inline_code>true</.custom_inline_code>, making all steps clickable, meaning the cursor will change and the user can interact with the step. However, when
+            <.custom_inline_code>clickable</.custom_inline_code>
+            is set to <.custom_inline_code>false</.custom_inline_code>, the step behaves like a normal item, and the cursor does not change, indicating it is not interactive. This is useful for steps that are informational rather than actionable.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" code={@code_14}>
+            <.stepper id="stepper-example-21" variant="default" color="natural" size="small">
+              <.stepper_section title="one" clickable={false} />
+              <.stepper_section title="two" clickable={false} />
+              <.stepper_section title="three" clickable={false} />
+              <.stepper_section title="four" />
+            </.stepper>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="stepper-stepper-section-reverse-prop">
+            <.link patch={~p"/chelekom/docs/stepper/#stepper-stepper-section-reverse-prop"}>
+              Stepper section reverse prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <.custom_inline_code>reverse</.custom_inline_code>
+            attribute in the
+            <.custom_inline_code>stepper_section</.custom_inline_code>
+            component controls the order in which the icon and label are displayed. By default, the
+            <.custom_inline_code>reverse</.custom_inline_code>
+            attribute is set to <.custom_inline_code>false</.custom_inline_code>, meaning the icon appears before the label. When set to <.custom_inline_code>true</.custom_inline_code>, it switches the order, placing the label before the icon. This feature allows for greater layout flexibility, making it easy to adjust the visual flow based on design preferences.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" code={@code_15}>
+            <.stepper id="stepper-example-22" variant="default" color="natural" size="small">
+              <.stepper_section title="one" reverse />
+              <.stepper_section title="two" reverse />
+              <.stepper_section title="three" reverse />
+              <.stepper_section title="four" reverse />
+            </.stepper>
+          </.custom_code_wrapper>
+        </:documentation_panel>
+
+        <:props_panel>
+          <.custom_search class="mb-16" />
+          <div class="space-y-8">
+            <h2 class="text-lg lg:text-2xl font-bold">Stepper Component Props</h2>
+
+            <.custom_table id="stepper-component-table">
+              <:header>
+                <.table_th>Name</.table_th>
+
+                <.table_th>Type</.table_th>
+
+                <.table_th>Required</.table_th>
+
+                <.table_th>Description</.table_th>
+              </:header>
+
+              <:row>
+                <.table_td>id</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  A unique identifier used to manage state and interaction. Default is <strong>nil</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>size</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines the overall size of the elements, including padding and font size. Default is <strong>small</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>margin</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines the element margin. Default is <strong>medium</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>color</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines the color theme. Values: <strong>base</strong>, <strong>natural</strong>, <strong>primary</strong>, <strong>secondary</strong>, <strong>success</strong>, <strong>warning</strong>, <strong>danger</strong>, <strong>info</strong>, <strong>silver</strong>, <strong>misc</strong>, <strong>dawn</strong>. Default is <strong>primary</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>variant</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines the color theme. Values: <strong>base</strong>, <strong>default</strong>, <strong>gradient</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>space</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Space between items. Default is <strong>nil</strong>.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>border</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines border style. Default is <strong>extra_small</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>font_weight</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines custom class for the font weight. Default is <strong>font-normal</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>max_width</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines the style of element max width. Default is <strong>nil</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>separator_size</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines the separator size. Default is <strong>extra_small</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>vertical</.table_td>
+
+                <.table_td>boolean</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines whether the element is vertical. Default is <strong>false</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>class</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Custom CSS class for additional styling. Default is <strong>nil</strong>.
+                </.table_td>
+              </:row>
+            </.custom_table>
+          </div>
+
+          <div class="space-y-8 mt-8">
+            <h2 class="text-lg lg:text-2xl font-bold">Stepper Section Component Props</h2>
+
+            <.custom_table id="stepper-section-component-table">
+              <:header>
+                <.table_th>Name</.table_th>
+
+                <.table_th>Type</.table_th>
+
+                <.table_th>Required</.table_th>
+
+                <.table_th>Description</.table_th>
+              </:header>
+
+              <:row>
+                <.table_td>id</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  A unique identifier used to manage state and interaction. Default is <strong>nil</strong>.
+                </.table_td>
+              </:row>
+              <:row>
+                <.table_td>variant</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines the visual style variation of the stepper. Values: 'default' or 'gradient'. Default is 'default'.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>col_step</.table_td>
+
+                <.table_td>boolean</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  A boolean to change style of steps
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>col_step_position</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  has values like <strong>start</strong>, <strong>end</strong>, and
+                  <strong>center</strong>
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>class</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Custom CSS class for additional styling. Default is <strong>nil</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>size</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines the overall size of the elements, including padding and font size. Default is <strong>small</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>separator_class</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Custom CSS class for additional styling to separator. Default is <strong>nil</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>icon_wrapper_class</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Custom CSS class for additional styling to icon wrapper. Default is <strong>nil</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>number_wrapper_class</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Custom CSS class for additional styling to number wrapper. Default is <strong>nil</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>content_class</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Custom CSS class for additional styling to content. Default is <strong>nil</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>description_class</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Custom CSS class for additional styling to description. Default is <strong>nil</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>title_class</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Custom CSS class for additional styling to title. Default is <strong>nil</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>step</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Defines the state of the step. Values: <strong>none</strong>, <strong>current</strong>, <strong>loading</strong>, <strong>completed</strong>, <strong>canceled</strong>. Default is <strong>none</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>icon</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Icon displayed alongside the item. Default is <strong>nil</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>color</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines the color theme. Default is <strong>natural</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>title</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Specifies the title of the element. Default is <strong>nil</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>description</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines a short description. Default is <strong>nil</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>step_number</.table_td>
+
+                <.table_td>integer</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Defines the step number. Default is <strong>1</strong>.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>vertical</.table_td>
+
+                <.table_td>boolean</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines whether the element is vertical. Default is <strong>false</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>clickable</.table_td>
+
+                <.table_td>boolean</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines if the element can be activated on click. Default is <strong>true</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>reverse</.table_td>
+
+                <.table_td>boolean</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Switches the order of the element and label. Default is <strong>false</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>border</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Determines border style. Default is <strong>none</strong>.</.table_td>
+              </:row>
+            </.custom_table>
+          </div>
+        </:props_panel>
+
+        <:cli_panel>
+          <.custom_cli_props config={component_config()} />
+        </:cli_panel>
+        <.custom_table_content>
+          <:content
+            link={~p"/chelekom/docs/stepper/#overview"}
+            title="Overview of Stepper Component"
+          />
+          <:content link={~p"/chelekom/docs/stepper/#stepper-base"} title="Stepper base" />
+          <:content link={~p"/chelekom/docs/stepper/#stepper-default"} title="Stepper default" />
+          <:content link={~p"/chelekom/docs/stepper/#stepper-gradient"} title="Stepper gradient" />
+          <:content
+            link={~p"/chelekom/docs/stepper/#stepper-col-steps"}
+            title="Stepper col step and col step position"
+          />
+          <:content
+            link={~p"/chelekom/docs/stepper/#stepper-size-prop"}
+            title="Stepper Size Prop"
+          />
+          <:content
+            link={~p"/chelekom/docs/stepper/#stepper-border-prop"}
+            title="Stepper Border Prop"
+          />
+          <:content
+            link={~p"/chelekom/docs/stepper/#stepper-vertical-prop"}
+            title="Stepper Vertical and Horizontal"
+          />
+          <:content
+            link={~p"/chelekom/docs/stepper/#stepper-margin-prop"}
+            title="Horizontal Stepper Margin"
+          />
+          <:content
+            link={~p"/chelekom/docs/stepper/#stepper-space-prop"}
+            title="Vertical Stepper Space"
+          />
+          <:content
+            link={~p"/chelekom/docs/stepper/#stepper-font-weight"}
+            title="Stepper Font Weight"
+          />
+          <:content
+            link={~p"/chelekom/docs/stepper/#stepper-stepper-section"}
+            title="Stepper Section Component"
+          />
+          <:content
+            link={~p"/chelekom/docs/stepper/#stepper-stepper-section-icon-prop"}
+            title="Stepper Section Icon Prop"
+          />
+          <:content
+            link={~p"/chelekom/docs/stepper/#stepper-stepper-section-title-prop"}
+            title="Stepper Section Title Prop"
+          />
+          <:content
+            link={~p"/chelekom/docs/stepper/#stepper-stepper-section-description-prop"}
+            title="Stepper Section Description Prop"
+          />
+          <:content
+            link={~p"/chelekom/docs/stepper/#stepper-stepper-section-step-prop"}
+            title="Stepper Section Step Prop"
+          />
+          <:content
+            link={~p"/chelekom/docs/stepper/#stepper-stepper-section-step-number-prop"}
+            title="Stepper Section Step Number Prop"
+          />
+          <:content
+            link={~p"/chelekom/docs/stepper/#stepper-stepper-section-clickable-prop"}
+            title="Stepper Section Clickable Prop"
+          />
+          <:content
+            link={~p"/chelekom/docs/stepper/#stepper-stepper-section-reverse-prop"}
+            title="Stepper Section Reverse Prop"
+          />
+        </.custom_table_content>
+      </.custom_tab>
+    </div>
+  </div>
+</Layouts.app>

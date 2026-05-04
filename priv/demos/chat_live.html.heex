@@ -1,0 +1,931 @@
+<Layouts.app flash={@flash}>
+  <div class="lg:grid lg:grid-cols-12 mt-5 max-w-5xl mx-auto">
+    <.custom_nav active="chelekom-docs-chat" />
+    <div class="lg:col-span-10">
+      <.custom_info
+        title="Chat"
+        description="Interactive chat bubbles and chat containers for Phoenix LiveView applications, with customizable styles, colors."
+        mix="mix mishka.ui.gen.component chat"
+        github="https://github.com/mishka-group/mishka_chelekom/blob/master/priv/components/chat.eex"
+        tags={["Component", "Stateless"]}
+      />
+      <.custom_tab id="chelekom-chat-tab">
+        <:documentation_panel>
+          <.heading2 class="mb-5" id="overview">
+            <.link patch={~p"/chelekom/docs/chat/#overview"}>
+              Overview of the Phoenix and LiveView chat bubble Component
+            </.link>
+          </.heading2>
+          <.cp>
+            The
+            <strong>
+              Mishka Chelekom chat
+            </strong>
+            component is a <strong>Phoenix LiveView</strong>
+            component that enables developers to create interactive and customizable <strong>chat bubbles</strong>, perfect for real-time messaging and communication within applications. It offers flexibility in layout, allowing for easy adjustment of size, colors, and message alignment, ensuring a polished and user-friendly look.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs">
+            <div class="space-y-10 p-5">
+              <div class="space-y-2">
+                <.chat size="small" border="extra_small">
+                  <.avatar src={~p"/images/mona-aghili.jpg"} size="medium" rounded="full" />
+
+                  <.chat_section>
+                    <div>
+                      Hey, check out this photo I just took on my hike!
+                    </div>
+                    <:status time="22:10" deliver="Delivered" />
+                  </.chat_section>
+                </.chat>
+
+                <.chat
+                  size="small"
+                  class="ms-[52px]"
+                  padding="none"
+                  rounded="[&>.chat-section-bubble]:rounded-lg"
+                >
+                  <.chat_section>
+                    <img src={~p"/images/card-1.jpg"} />
+                  </.chat_section>
+                </.chat>
+              </div>
+
+              <.chat position="flipped" border="extra_small" size="small">
+                <.avatar src={~p"/images/shahryar-tavakkoli.jpg"} size="medium" rounded="full" />
+
+                <.chat_section>
+                  <div>
+                    Wow! That looks absolutely stunning. Where is this?
+                  </div>
+                  <:status time="22:13" deliver="Delivered" />
+                </.chat_section>
+              </.chat>
+
+              <.chat position="flipped" border="extra_small" size="small">
+                <.avatar src={~p"/images/arian-alijani.jpg"} size="medium" rounded="full" />
+
+                <.chat_section>
+                  <div>
+                    Whoa, no way! That looks like something straight out of a postcard. Did you hike all the way up there, or is there a secret drive up spot you're not telling us about?
+                  </div>
+                  <:status time="22:14" deliver="Delivered" />
+                </.chat_section>
+              </.chat>
+            </div>
+          </.custom_code_wrapper>
+
+          <.cp margin="mt-5">
+            This
+            <strong>
+              <.link
+                title="Phoenix LiveView component"
+                class="transition-colors hover:text-[#448D96]"
+                navigate={~p"/chelekom"}
+              >
+                Phoenix LiveView component
+              </.link>
+            </strong>
+            also supports adding
+            <.link
+              title="Phoenix LiveView component"
+              class="transition-colors hover:text-[#448D96]"
+              navigate={~p"/chelekom/docs/avatar"}
+            >
+              avatars
+            </.link>
+            , message status, and metadata, making it ideal for improving both the visual appeal and clarity of chat interfaces. With its responsive design and ease of use, this
+            <strong>chat bubble component</strong>
+            enhances user engagement and communication.
+          </.cp>
+
+          <.custom_block position="left" color="success" class="my-8" border="medium">
+            <.cp>
+              By using the class prop, you can apply custom classes or Tailwind CSS classes to customize the components design.
+            </.cp>
+          </.custom_block>
+
+          <.heading2 margin="my-5" id="chat-base">
+            <.link patch={~p"/chelekom/docs/chat/#chat-base"}>
+              Base color and variantis
+            </.link>
+          </.heading2>
+
+          <.custom_code_wrapper code_class="text-xs" code={@code_18}>
+            <.chat>
+              <.chat_section>
+                <h2>Mona Aghili</h2>
+                <.cp>
+                  Base is the default color and variant of chat component, providing a clean and professional appearance for your chat interface.
+                </.cp>
+                <:status time="12:10" deliver="Delivered" />
+              </.chat_section>
+            </.chat>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="chat-chat-section-overview">
+            <.link patch={~p"/chelekom/docs/chat/#chat-chat-section-overview"}>
+              Chat section component in Phenix LiveView chat component
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <.custom_inline_code>chat_section</.custom_inline_code>
+            component is used inside the
+            <.custom_inline_code>chat</.custom_inline_code>
+            component to create individual chat bubbles. It provides a structured layout for displaying messages, ensuring each chat bubble is distinct and customizable. The
+            <.custom_inline_code>chat_section</.custom_inline_code>
+            is essential for building clean and user-friendly chat interfaces, improving the readability and flow of conversations within the application.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" code={@code_1}>
+            <.chat variant="default" color="natural">
+              <.chat_section>
+                <div>Shahryar Tavakkoli</div>
+                <.cp>
+                  Mishka Chelekom is easy to install and use for fast integration with your Phoenix LiveView projects.
+                </.cp>
+                <:status time="22:10" deliver="Delivered" />
+              </.chat_section>
+            </.chat>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="chat-chat-section-status">
+            <.link patch={~p"/chelekom/docs/chat/#chat-chat-section-status"}>
+              Chat section status slot
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <.custom_inline_code>status</.custom_inline_code>
+            slot in the
+            <.custom_inline_code>chat_section</.custom_inline_code>
+            component allows developers to display important metadata related to each chat message, such as the time a message was sent and its delivery status. By including attributes like
+            <.custom_inline_code>time</.custom_inline_code>
+            to show when the message was delivered and
+            <.custom_inline_code>deliver</.custom_inline_code>
+            to indicate its status, the
+            <.custom_inline_code>status</.custom_inline_code>
+            slot provides a clear, user-friendly way to inform users about the state of their messages, enhancing the overall chat experience.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" code={@code_2}>
+            <.chat variant="default" color="info">
+              <.chat_section>
+                <div>Shahryar Tavakkoli</div>
+                <.cp>
+                  Mishka Chelekom is easy to install and use for fast integration with your Phoenix LiveView projects.
+                </.cp>
+                <:status time="22:10" deliver="Delivered" />
+              </.chat_section>
+            </.chat>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="chat-chat-section-meta">
+            <.link patch={~p"/chelekom/docs/chat/#chat-chat-section-meta"}>
+              Chat meta slot
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <.custom_inline_code>meta</.custom_inline_code>
+            slot in the
+            <.custom_inline_code>chat_section</.custom_inline_code>
+            component offers flexibility to include any custom metadata or additional information related to the chat message. Since it accepts HTML, you can display various elements like icons, SVGs, or even custom components to represent delivery status, user information, or other message-related details. This slot gives you the freedom to go beyond basic text or status indicators, allowing for a more enriched and visually dynamic presentation of chat metadata.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" code={@code_3}>
+            <.chat variant="default" color="info">
+              <.chat_section>
+                <div>Shahryar Tavakkoli</div>
+                <.cp>
+                  Mishka Chelekom is easy to install and use for fast integration with your Phoenix LiveView projects.
+                </.cp>
+
+                <:meta>
+                  <div class="flex items-center justify-between gap-2">
+                    <div>20:40</div>
+                    <div class="">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke-width="1.5"
+                        stroke="currentColor"
+                        class="size-3.5"
+                      >
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          d="m4.5 12.75 6 6 9-13.5"
+                        />
+                      </svg>
+                    </div>
+                  </div>
+                </:meta>
+              </.chat_section>
+            </.chat>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="chat-chat-section-font-weight">
+            <.link patch={~p"/chelekom/docs/chat/#chat-chat-section-font-weight"}>
+              Chat section font weight prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <.custom_inline_code>font_weight</.custom_inline_code>
+            prop in the
+            <.custom_inline_code>chat_section</.custom_inline_code>
+            component allows you to control the thickness of the text displayed within the chat bubble. By using Tailwind CSS classes like <.custom_inline_code>font-light</.custom_inline_code>, <.custom_inline_code>font-normal</.custom_inline_code>, or <.custom_inline_code>font-bold</.custom_inline_code>, you can easily customize the text's appearance based on your design needs. This provides flexibility in making the chat message text stand out or appear more subtle, depending on the context of the message.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" code={@code_4}>
+            <.chat variant="default" color="natural">
+              <.chat_section font_weight="font-bold">
+                <div>Shahryar Tavakkoli</div>
+                <.cp>
+                  Mishka Chelekom is easy to install and use for fast integration with your Phoenix LiveView projects.
+                </.cp>
+                <:status time="22:10" deliver="Delivered" />
+              </.chat_section>
+            </.chat>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="default-variant-chat">
+            <.link patch={~p"/chelekom/docs/chat/#default-variant-chat"}>
+              Default variant of Phoenix and LiveView chat component
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The default variant of the
+            <.link navigate={~p"/chelekom/docs/chat"}>Mishka Chelekom chat</.link>
+            automatically applies a solid background and border, ideal for primary actions. With just a single prop, you can choose from a variety of colors.
+          </.cp>
+          <.custom_code_wrapper code_class="text-xs" code={@code_5}>
+            <.chat variant="default" color="danger">
+              <.chat_section>
+                <div>Shahryar Tavakkoli</div>
+                <.cp>
+                  Mishka Chelekom is easy to install and use for fast integration with your Phoenix LiveView projects.
+                </.cp>
+                <:status time="22:10" deliver="Delivered" />
+              </.chat_section>
+            </.chat>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="outline-variant-chat">
+            <.link patch={~p"/chelekom/docs/chat/#outline-variant-chat"}>
+              Outline variant of chat component
+            </.link>
+          </.heading2>
+
+          <.cp>
+            With the
+            <.custom_inline_code>variant="outline"</.custom_inline_code>
+            prop, the chat has a transparent background and a border available in various colors.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" code={@code_6}>
+            <.chat variant="outline" color="warning">
+              <.chat_section>
+                <div>Shahryar Tavakkoli</div>
+                <.cp>
+                  Mishka Chelekom is easy to install and use for fast integration with your Phoenix LiveView projects.
+                </.cp>
+                <:status time="22:10" deliver="Delivered" />
+              </.chat_section>
+            </.chat>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="shadow-variant-chat">
+            <.link patch={~p"/chelekom/docs/chat/#shadow-variant-chat"}>
+              Shadow variant of chat component
+            </.link>
+          </.heading2>
+
+          <.cp>
+            With the
+            <.custom_inline_code>variant="shadow"</.custom_inline_code>
+            prop, the chat resembles the default style but includes a shadow effect, adding depth.
+          </.cp>
+          <.custom_code_wrapper code_class="text-xs" code={@code_7}>
+            <.chat variant="shadow" color="misc">
+              <.chat_section>
+                <div>Shahryar Tvakkoli</div>
+                <.cp>
+                  Mishka Chelekom is easy to install and use for fast integration with your Phoenix LiveView projects.
+                </.cp>
+                <:status time="22:10" deliver="Delivered" />
+                <:meta>Shahryar Tvakkoli</:meta>
+              </.chat_section>
+            </.chat>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="bordered-variant-chat">
+            <.link patch={~p"/chelekom/docs/chat/#bordered-variant-chat"}>
+              Bordered variant of chat component
+            </.link>
+          </.heading2>
+
+          <.cp>
+            With the
+            <.custom_inline_code>variant="bordered"</.custom_inline_code>
+            prop, the chat has a lighter background in compare of default variant and a border.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" code={@code_8}>
+            <.chat variant="bordered" color="natural">
+              <.chat_section>
+                <div>Shahryar Tvakkoli</div>
+                <.cp>
+                  That's awesome. I think our users will really appreciate the improvements.
+                </.cp>
+                <:status time="22:10" deliver="Delivered" />
+              </.chat_section>
+            </.chat>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="gradient-variant-chat">
+            <.link patch={~p"/chelekom/docs/chat/#gradient-variant-chat"}>
+              Gradient variant of chat component
+            </.link>
+          </.heading2>
+
+          <.cp>
+            With the
+            <.custom_inline_code>variant="gradient"</.custom_inline_code>
+            prop, the chat features a gradient background.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" code={@code_9}>
+            <.chat variant="gradient" border="none" color="dawn">
+              <.chat_section>
+                <div>Shahryar Tvakkoli</div>
+                <.cp>
+                  That's awesome. I think our users will really appreciate the improvements.
+                </.cp>
+                <:status time="22:10" deliver="Delivered" />
+              </.chat_section>
+            </.chat>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="transparent-variant-chat">
+            <.link patch={~p"/chelekom/docs/chat/#transparent-variant-chat"}>
+              Transparent variant of chat component
+            </.link>
+          </.heading2>
+
+          <.cp>
+            With the
+            <.custom_inline_code>variant="transparent"</.custom_inline_code>
+            prop, the chat has a transparent background and border, providing a minimal look.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" code={@code_10}>
+            <.chat variant="transparent" color="success">
+              <.chat_section>
+                <div>Shahryar Tvakkoli</div>
+                <.cp>
+                  That's awesome. I think our users will really appreciate the improvements.
+                </.cp>
+                <:status time="22:10" deliver="Delivered" />
+              </.chat_section>
+            </.chat>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="chat-border">
+            <.link patch={~p"/chelekom/docs/chat/#chat-border"}>
+              Border prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The border prop offers values like <.custom_inline_code>extra_small</.custom_inline_code>, <.custom_inline_code>small</.custom_inline_code>, <.custom_inline_code>medium</.custom_inline_code>, <.custom_inline_code>large</.custom_inline_code>, <.custom_inline_code>extra_large</.custom_inline_code>, and <.custom_inline_code>none</.custom_inline_code>. These values control the border size of the chat bubble, allowing you to adjust the thickness to suit your design.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" code={@code_11}>
+            <.chat border="extra_large" variant="default" color="natural">
+              <.chat_section>
+                <div>Shahryar Tvakkoli</div>
+                <.cp>
+                  That's awesome. I think our users will really appreciate the improvements.
+                </.cp>
+                <:status time="22:10" deliver="Delivered" />
+              </.chat_section>
+            </.chat>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="chat-rounded">
+            <.link patch={~p"/chelekom/docs/chat/#chat-rounded"}>
+              Rounded prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The rounded prop offers values like <.custom_inline_code>extra_small</.custom_inline_code>, <.custom_inline_code>small</.custom_inline_code>, <.custom_inline_code>medium</.custom_inline_code>, <.custom_inline_code>large</.custom_inline_code>, <.custom_inline_code>extra_large</.custom_inline_code>, and <.custom_inline_code>none</.custom_inline_code>. These values control the radius size of the chat bubble.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" code={@code_12}>
+            <.chat rounded="extra_large" variant="default" color="natural">
+              <.chat_section>
+                <div>Mona</div>
+                <.cp>
+                  That's awesome. I think our users will really appreciate the improvements.
+                </.cp>
+                <:status time="22:10" deliver="Delivered" />
+              </.chat_section>
+            </.chat>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="chat-padding">
+            <.link patch={~p"/chelekom/docs/chat/#chat-padding"}>
+              Padding prop in Phoenix LiveView chat component
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The padding prop offers values like <.custom_inline_code>extra_small</.custom_inline_code>, <.custom_inline_code>small</.custom_inline_code>, <.custom_inline_code>medium</.custom_inline_code>, <.custom_inline_code>large</.custom_inline_code>, <.custom_inline_code>extra_large</.custom_inline_code>, and <.custom_inline_code>none</.custom_inline_code>. These values control the padding size of the chat bubble.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" code={@code_13}>
+            <.chat padding="extra_large" variant="default" color="natural">
+              <.chat_section>
+                <div>Shahryar Tvakkoli</div>
+                <.cp>
+                  That's awesome. I think our users will really appreciate the improvements.
+                </.cp>
+                <:status time="22:10" deliver="Delivered" />
+              </.chat_section>
+            </.chat>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="chat-size">
+            <.link patch={~p"/chelekom/docs/chat/#chat-padding"}>
+              Size prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The size prop offers values like <.custom_inline_code>extra_small</.custom_inline_code>, <.custom_inline_code>small</.custom_inline_code>, <.custom_inline_code>medium</.custom_inline_code>, <.custom_inline_code>large</.custom_inline_code>, <.custom_inline_code>extra_large</.custom_inline_code>, and <.custom_inline_code>none</.custom_inline_code>. These values control the text and chat bubble max width size.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" code={@code_14}>
+            <.chat size="extra_large" variant="default" color="natural">
+              <.chat_section>
+                <div>Shahryar Tvakkoli</div>
+                <.cp>
+                  That's awesome. I think our users will really appreciate the improvements.
+                </.cp>
+                <:status time="22:10" deliver="Delivered" />
+              </.chat_section>
+            </.chat>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="chat-space">
+            <.link patch={~p"/chelekom/docs/chat/#chat-space"}>
+              Space prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The space prop offers values like <.custom_inline_code>extra_small</.custom_inline_code>, <.custom_inline_code>small</.custom_inline_code>, <.custom_inline_code>medium</.custom_inline_code>, <.custom_inline_code>large</.custom_inline_code>, <.custom_inline_code>extra_large</.custom_inline_code>, and <.custom_inline_code>none</.custom_inline_code>. These values control the vertical space size whithin the chat bubble.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" code={@code_15}>
+            <.chat space="extra_large" variant="default" color="natural">
+              <.chat_section>
+                <div>Shahryar Tvakkoli</div>
+                <.cp>
+                  That's awesome. I think our users will really appreciate the improvements.
+                </.cp>
+                <:status time="22:10" deliver="Delivered" />
+              </.chat_section>
+            </.chat>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="chat-position">
+            <.link patch={~p"/chelekom/docs/chat/#chat-position"}>
+              Position prop in Phoenix LiveView chat component
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <.custom_inline_code>position</.custom_inline_code>
+            attribute in the
+            <.custom_inline_code>chat_section</.custom_inline_code>
+            component controls the alignment of the chat bubble. By default, it's set to
+            <.custom_inline_code>normal</.custom_inline_code>
+            for left-aligned bubbles. You can change it to
+            <.custom_inline_code>flipped</.custom_inline_code>
+            for right-aligned bubbles, which is useful for distinguishing between senders. The
+            <.custom_inline_code>rounded_size</.custom_inline_code>
+            function ensures the bubble has the appropriate border radius based on its position and size.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" code={@code_16}>
+            <.chat position="flipped" variant="default" color="natural">
+              <.chat_section>
+                <div>Shahryar Tvakkoli</div>
+                <.cp>
+                  That's awesome. I think our users will really appreciate the improvements.
+                </.cp>
+                <:status time="22:10" deliver="Delivered" />
+              </.chat_section>
+            </.chat>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="chat-flow">
+            <.link patch={~p"/chelekom/docs/chat/#chat-flow"}>
+              A chat flow
+            </.link>
+          </.heading2>
+
+          <.cp>
+            To demonstrate how to use the<.custom_inline_code>chat</.custom_inline_code> and<.custom_inline_code>chat_section</.custom_inline_code> components together, we can create a conversation between two users. Each user’s message is displayed within a chat bubble using the<.custom_inline_code>
+            chat_section
+          </.custom_inline_code>, and their avatar is represented with the<.custom_inline_code>
+            avatar
+          </.custom_inline_code> component. The chat bubbles can include metadata like the time of the message and delivery status using the
+            <.custom_inline_code>:status</.custom_inline_code>
+            slot. By alternating the position of the chat bubbles with the position prop (set to "flipped" or "normal"), you can visually represent messages from different users. This combination creates a dynamic and realistic chat interface where avatars, messages, and statuses work together to simulate a conversation between two users.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" code={@code_17}>
+            <div class="space-y-14 p-5">
+              <.chat variant="gradient" color="misc">
+                <.avatar
+                  src={~p"/images/mona-aghili.jpg"}
+                  size="medium"
+                  rounded="full"
+                  border="small"
+                  color="silver"
+                />
+
+                <.chat_section>
+                  <div>
+                    Hey, have you checked out the new Mishka Chelekom UI Kit?
+                  </div>
+                  <:status time="22:10" deliver="Delivered" />
+                </.chat_section>
+              </.chat>
+
+              <.chat position="flipped" variant="gradient" color="misc">
+                <.avatar size="medium" rounded="full" border="small" color="silver">ST</.avatar>
+
+                <.chat_section>
+                  <div>
+                    Yeah, I did! The components are so easy to integrate with Phoenix LiveView.
+                  </div>
+                  <:status time="22:11" deliver="Delivered" />
+                </.chat_section>
+              </.chat>
+
+              <.chat variant="gradient" color="misc">
+                <.avatar
+                  src={~p"/images/mona-aghili.jpg"}
+                  size="medium"
+                  rounded="full"
+                  border="small"
+                  color="silver"
+                />
+
+                <.chat_section>
+                  <div>
+                    I agree. I used the button component in my project, and it works perfectly with the design!
+                  </div>
+                  <:status time="22:10" deliver="Delivered" />
+                </.chat_section>
+              </.chat>
+
+              <.chat position="flipped" variant="gradient" color="misc">
+                <.avatar size="medium" rounded="full" border="small" color="silver">ST</.avatar>
+
+                <.chat_section>
+                  <div>
+                    Exactly. The fact that you can adjust the size and even add icons made my layout so much cleaner!
+                  </div>
+                  <:status time="22:11" deliver="Delivered" />
+                </.chat_section>
+              </.chat>
+            </div>
+          </.custom_code_wrapper>
+        </:documentation_panel>
+
+        <:props_panel>
+          <.custom_search class="mb-16" />
+          <div class="space-y-8">
+            <h2 class="text-lg lg:text-2xl font-bold">Chat component props</h2>
+
+            <.custom_table id="chat-component-table">
+              <:header>
+                <.table_th>Name</.table_th>
+
+                <.table_th>Type</.table_th>
+
+                <.table_th>Required</.table_th>
+
+                <.table_th>Description</.table_th>
+              </:header>
+
+              <:row>
+                <.table_td>id</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  A unique identifier is used to manage state and interaction.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>class</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Custom CSS class for additional styling.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>variant</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines the style of the chat. Supported values: <strong>default</strong>, <strong>outline</strong>, <strong>transparent</strong>, <strong>shadow</strong>, <strong>gradient</strong>, <strong>bordered</strong>. Default: <strong>default</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>color</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines the color theme. Supported values: <strong>natural</strong>, <strong>primary</strong>, <strong>secondary</strong>, <strong>dark</strong>, <strong>success</strong>, <strong>warning</strong>, <strong>danger</strong>, <strong>info</strong>, <strong>silver</strong>, <strong>misc</strong>, <strong>dawn</strong>. Default: <strong>natural</strong>. The
+                  <strong>default</strong>
+                  and <strong>bordered</strong>
+                  variants have extra color options: <strong>dark</strong>
+                  and <strong>white</strong>, which in both light mode and dark mode, these colors are always the same.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>border</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines border style. Default: <strong>extra_small</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>rounded</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines the border radius. Default: <strong>extra_large</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>size</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines the overall size of the chat elements, including padding and font size. Default: <strong>medium</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>space</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Space between items in the chat. Default: <strong>extra_small</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>position</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines the chat message position. Supported values: <strong>normal</strong>, <strong>flipped</strong>. Default: <strong>normal</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>padding</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines the padding for chat items. Default: <strong>small</strong>.
+                </.table_td>
+              </:row>
+            </.custom_table>
+          </div>
+          <div class="space-y-8 mt-8">
+            <h2 class="text-lg lg:text-2xl font-bold">Chat Section component props</h2>
+
+            <.custom_table id="chat-section-component-table">
+              <:header>
+                <.table_th>Name</.table_th>
+
+                <.table_th>Type</.table_th>
+
+                <.table_th>Required</.table_th>
+
+                <.table_th>Description</.table_th>
+              </:header>
+
+              <:row>
+                <.table_td>id</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  A unique identifier is used to manage state and interaction.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>font_weight</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines custom class for the font weight. Default: <strong>font-normal</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>class</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Custom CSS class for additional styling.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>status.time</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Displays the time of the chat message.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>status.deliver</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Indicates the delivery status of the message.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>status.time_class</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Custom classes for time</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>status.deliver_class</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Custom classes for delivery status of the message.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>meta</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Defines a slot for adding custom metadata or additional information.
+                </.table_td>
+              </:row>
+            </.custom_table>
+          </div>
+        </:props_panel>
+
+        <:cli_panel>
+          <.custom_cli_props config={component_config()} />
+        </:cli_panel>
+        <.custom_table_content>
+          <:content
+            link={~p"/chelekom/docs/chat/#overview"}
+            title="Overview of the chat component"
+          />
+          <:content link={~p"/chelekom/docs/chat/#chat-base"} title="Base color & variant" />
+
+          <:content
+            link={~p"/chelekom/docs/chat/#chat-chat-section-overview"}
+            title="Chat section component overview"
+          />
+
+          <:content
+            link={~p"/chelekom/docs/chat/#chat-chat-section-status"}
+            title="Chat section status slot"
+          />
+
+          <:content
+            link={~p"/chelekom/docs/chat/#chat-chat-section-meta"}
+            title="Chat section meta slot"
+          />
+
+          <:content
+            link={~p"/chelekom/docs/chat/#chat-chat-section-font-weight"}
+            title="Chat section font weight"
+          />
+
+          <:content link={~p"/chelekom/docs/chat/#default-variant-chat"} title="Default variant" />
+
+          <:content link={~p"/chelekom/docs/chat/#outline-variant-chat"} title="Otline variant" />
+
+          <:content link={~p"/chelekom/docs/chat/#shadow-variant-chat"} title="Shadow variant" />
+
+          <:content
+            link={~p"/chelekom/docs/chat/#bordered-variant-chat"}
+            title="bordered variant"
+          />
+
+          <:content
+            link={~p"/chelekom/docs/chat/#gradient-variant-chat"}
+            title="Gradient variant"
+          />
+
+          <:content
+            link={~p"/chelekom/docs/chat/#transparent-variant-chat"}
+            title="Transparent variant"
+          />
+
+          <:content link={~p"/chelekom/docs/chat/#chat-border"} title="Border prop" />
+
+          <:content link={~p"/chelekom/docs/chat/#chat-rounded"} title="Rounded prop" />
+
+          <:content link={~p"/chelekom/docs/chat/#chat-padding"} title="Padding prop" />
+
+          <:content link={~p"/chelekom/docs/chat/#chat-size"} title="Size prop" />
+
+          <:content link={~p"/chelekom/docs/chat/#chat-space"} title="Space prop" />
+
+          <:content link={~p"/chelekom/docs/chat/#chat-position"} title="Position prop" />
+
+          <:content link={~p"/chelekom/docs/chat/#chat-flow"} title="A chat flow" />
+        </.custom_table_content>
+      </.custom_tab>
+    </div>
+  </div>
+</Layouts.app>

@@ -1,0 +1,696 @@
+<Layouts.app flash={@flash}>
+  <div class="lg:grid lg:grid-cols-12 mt-5 max-w-5xl mx-auto">
+    <.custom_nav active="chelekom-docs-jumbotron" />
+    <div class="lg:col-span-10">
+      <.custom_info
+        title="Jumbotron"
+        description="customizable Phoenix LiveView jumbotron component for highlighting key marketing messages or announcements, with various style options."
+        mix="mix mishka.ui.gen.component jumbotron"
+        github="https://github.com/mishka-group/mishka_chelekom/blob/master/priv/components/jumbotron.eex"
+        tags={["Component", "Stateless"]}
+      />
+      <.custom_tab id="chelekom-jumbotron-tab">
+        <:documentation_panel>
+          <.heading2 class="mb-5" id="overview">
+            <.link patch={~p"/chelekom/docs/jumbotron/#overview"}>
+              Overview of the Phoenix and LiveView Jumbotron Component
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <strong>
+              Mishka Chelekom Jumbotron
+            </strong>
+            component is a <strong>Phoenix LiveView</strong>
+            component designed to create large, prominent sections within your application for showcasing key marketing messages or announcements. It offers a flexible layout that can optionally extend across the entire viewport, making it ideal for attracting attention to important content.
+          </.cp>
+
+          <.custom_code_wrapper>
+            <.jumbotron
+              padding="large"
+              variant="border border-[#E5E7EB] dark:border-[#27272a]"
+              class="rounded-lg"
+            >
+              <.badge
+                size="px-2.5 py-0.5 text-[13px]"
+                variant="!border-[#E5E7EB] dark:border-gray-700 text-gray-600 dark:text-gray-300 !shadow-xs"
+                rounded="small"
+                icon="hero-bolt"
+                class="[&_.badge-icon]:size-[15px]"
+              >
+                Information
+              </.badge>
+              <h1 class="text-2xl font-bold">
+                Experience Enterprise-Grade Phoenix Components
+              </h1>
+              <.cp class="text-sm text-gray-900 dark:text-gray-300 mt-2">
+                Your all-in-one solution for Phoenix LiveView components, delivering enterprise-grade quality and reliability. Discover a comprehensive suite of pre-built components designed to accelerate your development workflow and maintain consistency across your applications
+              </.cp>
+              <div class="flex justify-center items-center mt-5">
+                <.button
+                  size="text-lg px-11 py-2"
+                  variant="bg-[#4c4a4a] hover:bg-[#3d3636] text-white"
+                  class="leading-6"
+                  border="none"
+                >
+                  Get Started
+                </.button>
+              </div>
+            </.jumbotron>
+          </.custom_code_wrapper>
+
+          <.cp margin="mt-5">
+            This
+            <strong>
+              <.link
+                title="Phoenix LiveView component"
+                class="transition-colors hover:text-[#448D96]"
+                navigate={~p"/chelekom"}
+              >
+                Phoenix LiveView component
+              </.link>
+            </strong>
+            allows developers to easily customize the appearance and styling of the Jumbotron by using props for background colors, borders, spacing, and more. With options for different variants, you can create visually appealing, tailored sections for your application without needing to write extensive CSS.
+          </.cp>
+
+          <.custom_block position="left" color="success" class="my-8" border="medium">
+            <.cp>
+              By using the class prop, you can apply custom classes or Tailwind CSS classes to customize the appearance and behavior of the components, allowing for flexible design changes.
+            </.cp>
+          </.custom_block>
+
+          <.heading2 margin="my-5" id="base-jumbotron">
+            <.link patch={~p"/chelekom/docs/jumbotron/#base-jumbotron"}>
+              Base color & Variant
+            </.link>
+          </.heading2>
+
+          <.custom_code_wrapper code_class="text-xs" code={@code_12}>
+            <.jumbotron class="text-center" padding="small" id="jumbotron-example-1342">
+              <h1 class="text-lg font-bold">Welcome to Mishka Chelekom</h1>
+              <.cp class="text-sm mt-2">
+                Your all-in-one solution for Phoenix LiveView components, tailored to your needs.
+              </.cp>
+              <div class="flex justify-center items-center my-8">
+                <.button_link
+                  variant="default"
+                  color="silver"
+                  size="small"
+                  navigate={~p"/chelekom/docs"}
+                >
+                  Get Started
+                </.button_link>
+              </div>
+            </.jumbotron>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="default-variant-jumbotron">
+            <.link patch={~p"/chelekom/docs/jumbotron/#default-variant-jumbotron"}>
+              Default Variant
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The default style of the
+            <.link navigate={~p"/chelekom/docs/jumbotron"}>Mishka Chelekom jumbotron</.link>
+            applies a solid background and border that change based on user interaction, making it perfect for delivering important notifications. With just a single setting, you can select from a range of color options, ensuring easy customization to match various design styles.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" code={@code_1}>
+            <.jumbotron
+              class="text-center"
+              padding="small"
+              id="jumbotron-example-1"
+              variant="default"
+              color="dawn"
+            >
+              <h1 class="text-lg font-bold">Welcome to Mishka Chelekom</h1>
+              <.cp class="text-sm mt-2">
+                Your all-in-one solution for Phoenix LiveView components, tailored to your needs.
+              </.cp>
+              <div class="flex justify-center items-center my-8">
+                <.button_link
+                  size="small"
+                  variant="default"
+                  color="danger"
+                  navigate={~p"/chelekom/docs"}
+                >
+                  Get Started
+                </.button_link>
+              </div>
+            </.jumbotron>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="outline-variant-jumbotron">
+            <.link patch={~p"/chelekom/docs/jumbotron/#outline-variant-jumbotron"}>
+              Outline Variant
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The outline style of the Mishka Chelekom jumbotron features a border. Using a single setting, you can choose from various color variants to suit your design needs.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" code={@code_2}>
+            <.jumbotron
+              class="text-center"
+              padding="small"
+              id="jumbotron-example-2"
+              variant="default"
+              color="silver"
+            >
+              <h1 class="text-lg font-bold">Welcome to Mishka Chelekom</h1>
+              <.cp class="text-sm mt-2">
+                Your all-in-one solution for Phoenix LiveView components, tailored to your needs.
+              </.cp>
+              <div class="flex justify-center items-center my-8">
+                <.button_link
+                  size="small"
+                  variant="default"
+                  color="primary"
+                  navigate={~p"/chelekom/docs"}
+                >
+                  Get Started
+                </.button_link>
+              </div>
+            </.jumbotron>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="shadow-variant-jumbotron">
+            <.link patch={~p"/chelekom/docs/jumbotron/#shadow-variant-jumbotron"}>
+              Shadow Variant
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The shadow variant of the Mishka Chelekom jumbotron is similar to the default variant, but it also includes a subtle shadow along with a border and white background in light mode.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" code={@code_3}>
+            <.jumbotron
+              class="text-center"
+              padding="small"
+              id="jumbotron-example-3"
+              variant="shadow"
+              color="misc"
+            >
+              <h1 class="text-lg font-bold">Welcome to Mishka Chelekom</h1>
+              <.cp class="text-sm mt-2">
+                Your all-in-one solution for Phoenix LiveView components, tailored to your needs.
+              </.cp>
+              <div class="flex justify-center items-center my-8">
+                <.button_link
+                  variant="default"
+                  size="small"
+                  color="primary"
+                  navigate={~p"/chelekom/docs"}
+                >
+                  Get Started
+                </.button_link>
+              </div>
+            </.jumbotron>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="bordered-variant-jumbotron">
+            <.link patch={~p"/chelekom/docs/jumbotron/#bordered-variant-jumbotron"}>
+              bordered Variant
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The Bordered variant of the Mishka Chelekom jumbotron has lighter background and a border. Bordered variant have also white and dark colors which are the same colors in the dark and light mode.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" code={@code_4}>
+            <.jumbotron
+              class="text-center"
+              padding="small"
+              id="jumbotron-example-4"
+              variant="bordered"
+              border_position="vertical"
+              border_size="medium"
+              color="danger"
+            >
+              <h1 class="text-lg font-bold">Welcome to Mishka Chelekom</h1>
+              <.cp class="text-sm mt-2">
+                Your all-in-one solution for Phoenix LiveView components, tailored to your needs.
+              </.cp>
+              <div class="flex justify-center items-center my-8">
+                <.button_link
+                  variant="default"
+                  size="small"
+                  color="primary"
+                  navigate={~p"/chelekom/docs"}
+                >
+                  Get Started
+                </.button_link>
+              </div>
+            </.jumbotron>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="transparent-variant-jumbotron">
+            <.link patch={~p"/chelekom/docs/jumbotron/#transparent-variant-jumbotron"}>
+              Transparent Variant
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The transparent variant of the Mishka Chelekom jumbotron is similar to the default variant, but without border and background color.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" code={@code_5}>
+            <.jumbotron
+              class="text-center"
+              padding="small"
+              id="jumbotron-example-5"
+              variant="transparent"
+              color="info"
+            >
+              <h1 class="text-lg font-bold">Welcome to Mishka Chelekom</h1>
+              <.cp class="text-sm mt-2">
+                Your all-in-one solution for Phoenix LiveView components, tailored to your needs.
+              </.cp>
+              <div class="flex justify-center items-center my-8">
+                <.button_link
+                  variant="default"
+                  size="small"
+                  color="danger"
+                  navigate={~p"/chelekom/docs"}
+                >
+                  Get Started
+                </.button_link>
+              </div>
+            </.jumbotron>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="gradient-variant-jumbotron">
+            <.link patch={~p"/chelekom/docs/jumbotron/#gradient-variant-jumbotron"}>
+              Gradient Variant
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The gradient variant of the Mishka Chelekom jumbotron has gradients in various colors.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" code={@code_5}>
+            <.jumbotron
+              class="text-center"
+              padding="small"
+              id="jumbotron-example-15"
+              variant="gradient"
+              color="dawn"
+            >
+              <h1 class="text-lg font-bold">Welcome to Mishka Chelekom</h1>
+              <.cp class="text-sm mt-2">
+                Your all-in-one solution for Phoenix LiveView components, tailored to your needs.
+              </.cp>
+              <div class="flex justify-center items-center my-8">
+                <.button_link
+                  variant="default"
+                  size="small"
+                  color="primary"
+                  navigate={~p"/chelekom/docs"}
+                >
+                  Get Started
+                </.button_link>
+              </div>
+            </.jumbotron>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="jumbotron-space">
+            <.link patch={~p"/chelekom/docs/jumbotron/#jumbotron-space"}>
+              Space prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The space prop offers values such as <.custom_inline_code>extra_small</.custom_inline_code>, <.custom_inline_code>small</.custom_inline_code>, <.custom_inline_code>medium</.custom_inline_code>, <.custom_inline_code>large</.custom_inline_code>, and <.custom_inline_code>extra_large</.custom_inline_code>. These values control the vertical spacing between elements within the jumbotrons.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" code={@code_6}>
+            <.jumbotron
+              class="text-center"
+              padding="large"
+              space="extra_large"
+              id="jumbotron-example-6"
+              color="warning"
+              variant="default"
+            >
+              <h1 class="text-lg font-bold">Welcome to Mishka Chelekom</h1>
+              <.cp class="text-sm mt-2">
+                Your all-in-one solution for Phoenix LiveView components, tailored to your needs.
+              </.cp>
+              <div class="flex justify-center items-center my-8">
+                <.button_link
+                  variant="default"
+                  size="small"
+                  color="danger"
+                  navigate={~p"/chelekom/docs"}
+                >
+                  Get Started
+                </.button_link>
+              </div>
+            </.jumbotron>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="jumbotron-padding">
+            <.link patch={~p"/chelekom/docs/jumbotron/#jumbotron-padding"}>
+              Padding prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The padding prop offers values such as <.custom_inline_code>extra_small</.custom_inline_code>, <.custom_inline_code>small</.custom_inline_code>, <.custom_inline_code>medium</.custom_inline_code>, <.custom_inline_code>large</.custom_inline_code>, and <.custom_inline_code>extra_large</.custom_inline_code>. These values control the padding around the content inside the jumbotrons.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" code={@code_7}>
+            <.jumbotron
+              class="text-center"
+              padding="extra_large"
+              id="jumbotron-example-7"
+              color="success"
+              variant="default"
+            >
+              <h1 class="text-lg font-bold">Welcome to Mishka Chelekom</h1>
+              <.cp class="text-sm mt-2">
+                Your all-in-one solution for Phoenix LiveView components, tailored to your needs.
+              </.cp>
+              <div class="flex justify-center items-center my-8">
+                <.button_link
+                  variant="default"
+                  size="small"
+                  color="silver"
+                  navigate={~p"/chelekom/docs"}
+                >
+                  Get Started
+                </.button_link>
+              </div>
+            </.jumbotron>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="jumbotron-font-weight">
+            <.link patch={~p"/chelekom/docs/jumbotron/#jumbotron-font-weight"}>
+              Font weight prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <.custom_inline_code>font_weight</.custom_inline_code>
+            prop in the Mishka Chelekom Jumbotron component allows developers to adjust the thickness of text displayed within the jumbotron. By offering options such as <.custom_inline_code>font-light</.custom_inline_code>, <.custom_inline_code>font-medium</.custom_inline_code>, <.custom_inline_code>font-semibold</.custom_inline_code>, and <.custom_inline_code>font-bold</.custom_inline_code>, the component ensures flexibility in achieving the desired emphasis on key content. This customization is essential for tailoring the visual impact of headings, subheadings, or body text, giving developers control over how prominently the text stands out on the page. Whether you want a subtle or bold appearance, the
+            <.custom_inline_code>font_weight</.custom_inline_code>
+            prop easily adapts to the specific needs of your design.
+          </.cp>
+          <.custom_code_wrapper code_class="text-xs" code={@code_8}>
+            <.jumbotron
+              class="text-center"
+              padding="extra_large"
+              id="jumbotron-example-8"
+              font_weight="font-bold"
+              color="secondary"
+              variant="default"
+            >
+              <h1 class="text-lg font-bold">Welcome to Mishka Chelekom</h1>
+              <.cp class="text-sm mt-2">
+                Your all-in-one solution for Phoenix LiveView components, tailored to your needs.
+              </.cp>
+              <div class="flex justify-center items-center my-8">
+                <.button_link
+                  variant="default"
+                  size="small"
+                  color="misc"
+                  navigate={~p"/chelekom/docs"}
+                >
+                  Get Started
+                </.button_link>
+              </div>
+            </.jumbotron>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="jumbotron-border-size">
+            <.link patch={~p"/chelekom/docs/jumbotron/#jumbotron-border-size"}>
+              Border size prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <.custom_inline_code>border_size</.custom_inline_code>
+            attribute in the Mishka Chelekom Jumbotron component allows developers to customize the thickness of the borders applied to the top, bottom, or vertical sides of the jumbotron. Options such as <.custom_inline_code>extra_small</.custom_inline_code>, <.custom_inline_code>small</.custom_inline_code>, <.custom_inline_code>medium</.custom_inline_code>, <.custom_inline_code>large</.custom_inline_code>, and
+            <.custom_inline_code>extra_large</.custom_inline_code>
+            give flexibility in controlling the border thickness. For instance, choosing
+            <.custom_inline_code>extra_small</.custom_inline_code>
+            adds a minimal border, while
+            <.custom_inline_code>extra_large</.custom_inline_code>
+            adds a more prominent one. This prop provides control over the visual separation between sections of content, making it easier to create a clean and well-structured layout.
+          </.cp>
+          <.custom_code_wrapper code_class="text-xs" code={@code_9}>
+            <.jumbotron
+              class="text-center"
+              padding="extra_large"
+              id="jumbotron-example-9"
+              border_size="small"
+              color="dawn"
+              variant="default"
+            >
+              <h1 class="text-lg font-bold">Welcome to Mishka Chelekom</h1>
+              <.cp class="text-sm mt-2">
+                Your all-in-one solution for Phoenix LiveView components, tailored to your needs.
+              </.cp>
+              <div class="flex justify-center items-center my-8">
+                <.button_link
+                  variant="default"
+                  size="small"
+                  color="success"
+                  navigate={~p"/chelekom/docs"}
+                >
+                  Get Started
+                </.button_link>
+              </div>
+            </.jumbotron>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="jumbotron-border-position">
+            <.link patch={~p"/chelekom/docs/jumbotron/#jumbotron-border-position"}>
+              Border position prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <.custom_inline_code>border_position</.custom_inline_code>
+            attribute in the Mishka Chelekom Jumbotron component allows developers to specify where the border should be applied. Options include <.custom_inline_code>top</.custom_inline_code>, <.custom_inline_code>bottom</.custom_inline_code>, and <.custom_inline_code>vertical</.custom_inline_code>, providing flexibility in design. For example, setting the position to
+            <.custom_inline_code>top</.custom_inline_code>
+            will only display a border at the top of the jumbotron, while
+            <.custom_inline_code>vertical</.custom_inline_code>
+            applies the border to both the top and bottom. This customization helps enhance the visual hierarchy of the content and improves the structure by clearly defining sections or boundaries within the jumbotron.
+          </.cp>
+          <.custom_code_wrapper code_class="text-xs" code={@code_10}>
+            <.jumbotron
+              class="text-center"
+              padding="extra_large"
+              id="jumbotron-example-10"
+              border_size="large"
+              border_position="vertical"
+              color="danger"
+              variant="default"
+            >
+              <h1 class="text-lg font-bold">Welcome to Mishka Chelekom</h1>
+              <.cp class="text-sm mt-2">
+                Your all-in-one solution for Phoenix LiveView components, tailored to your needs.
+              </.cp>
+              <div class="flex justify-center items-center my-8">
+                <.button_link
+                  variant="default"
+                  size="small"
+                  color="misc"
+                  navigate={~p"/chelekom/docs"}
+                >
+                  Get Started
+                </.button_link>
+              </div>
+            </.jumbotron>
+          </.custom_code_wrapper>
+        </:documentation_panel>
+
+        <:props_panel>
+          <.custom_search class="mb-16" />
+          <div class="space-y-8">
+            <h2 class="text-lg lg:text-2xl font-bold">Jumbotron component props</h2>
+
+            <.custom_table id="jumbotron-component-table">
+              <:header>
+                <.table_th>Name</.table_th>
+
+                <.table_th>Type</.table_th>
+
+                <.table_th>Required</.table_th>
+
+                <.table_th>Description</.table_th>
+              </:header>
+
+              <:row>
+                <.table_td>id</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  A unique identifier is used to manage state and interaction.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>variant</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines the style of the jumbotron. Values: <strong>default</strong>, <strong>outline</strong>, <strong>transparent</strong>, <strong>gradient</strong>, <strong>shadow</strong>, <strong>bordered</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>color</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines the color theme of the jumbotron. Values: <strong>natural</strong>, <strong>primary</strong>, <strong>secondary</strong>, <strong>success</strong>, <strong>warning</strong>, <strong>danger</strong>, <strong>info</strong>, <strong>silver</strong>, <strong>misc</strong>, <strong>dawn</strong>. The
+                  <strong>default</strong>
+                  and <strong>bordered</strong>
+                  variants have extra color options: <strong>dark</strong>
+                  and <strong>white</strong>, which in both light mode and dark mode, these colors are always the same.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>border_size</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines the border size of the jumbotron. Default is <strong>none</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>border_position</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Specifies the position of the border. Default is <strong>bottom</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>space</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Space between items inside the jumbotron.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>font_weight</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines the font weight. Default is <strong>font-normal</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>padding</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines the padding for items. Default is <strong>none</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>class</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Custom CSS class for additional styling.</.table_td>
+              </:row>
+            </.custom_table>
+          </div>
+        </:props_panel>
+
+        <:cli_panel>
+          <.custom_cli_props config={component_config()} />
+        </:cli_panel>
+        <.custom_table_content>
+          <:content
+            link={~p"/chelekom/docs/jumbotron/#overview"}
+            title="Overview of the jumbotron component"
+          />
+          <:content
+            link={~p"/chelekom/docs/jumbotron/#default-variant-jumbotron"}
+            title="Default variant"
+          />
+          <:content
+            link={~p"/chelekom/docs/jumbotron/#outline-variant-jumbotron"}
+            title="Otline variant"
+          />
+          <:content
+            link={~p"/chelekom/docs/jumbotron/#shadow-variant-jumbotron"}
+            title="Shadow variant"
+          />
+          <:content
+            link={~p"/chelekom/docs/jumbotron/#bordered-variant-jumbotron"}
+            title="bordered variant"
+          />
+          <:content
+            link={~p"/chelekom/docs/jumbotron/#transparent-variant-jumbotron"}
+            title="Transparent variant"
+          />
+          <:content
+            link={~p"/chelekom/docs/jumbotron/#gradient-variant-jumbotron"}
+            title="Gradient variant"
+          />
+          <:content link={~p"/chelekom/docs/jumbotron/#jumbotron-space"} title="Space prop" />
+          <:content link={~p"/chelekom/docs/jumbotron/#jumbotron-padding"} title="Padding prop" />
+
+          <:content
+            link={~p"/chelekom/docs/jumbotron/#jumbotron-font-weight"}
+            title="Font weight prop"
+          />
+          <:content
+            link={~p"/chelekom/docs/jumbotron/#jumbotron-border-size"}
+            title="Border size prop"
+          />
+          <:content
+            link={~p"/chelekom/docs/jumbotron/#jumbotron-border-position"}
+            title="Border position prop"
+          />
+        </.custom_table_content>
+      </.custom_tab>
+    </div>
+  </div>
+</Layouts.app>

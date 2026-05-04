@@ -1,0 +1,567 @@
+<Layouts.app flash={@flash}>
+  <div class="lg:grid lg:grid-cols-12 mt-5 max-w-5xl mx-auto">
+    <.custom_nav active="chelekom-docs-cli" />
+    <div class="lg:col-span-10">
+      <div class="lg:grid lg:grid-cols-12 mt-2">
+        <article class="lg:col-span-9 px-2 lg:px-0 pb-10 leading-10 text-[#444444] dark:text-[#cacfd2] text-justify">
+          <div class="flex items-center justify-between mb-8">
+            <.heading1 id="cli" class="w-full text-3xl font-bold">
+              CLI
+            </.heading1>
+            <div class="flex">
+              <.badge
+                variant="outline"
+                size="small"
+                color="silver"
+                class="whitespace-nowrap"
+                left_indicator
+                pinging
+              >
+                New version v0.0.8 🚀
+              </.badge>
+              <.nav_mobile_button position="end" class="px-2" />
+            </div>
+          </div>
+
+          <.cp>
+            The <strong>Chelekom</strong>
+            library is fully powered by the
+            <.link
+              class="text-blue-300"
+              href="https://github.com/ash-project/igniter"
+              target="_blank"
+            >
+              <strong>Igniter</strong>
+            </.link>
+            project, providing a zero-configuration experience.
+            With its helper tools for <strong>Elixir mix tasks</strong>, it enables
+            developers to easily create a suitable generator for building components in
+            minimal time.
+          </.cp>
+
+          <.cp>
+            Providing a seamless developer environment, removing dependencies, and
+            reducing configuration to zero are among the strengths of the
+            <strong>Chelekom</strong>
+            project, which was our primary goal from the start.
+            Many of us know that backend developers often prefer not to get involved in
+            frontend work. Therefore, the <strong>Mishka</strong>
+            team aimed to create a
+            structure that meets developer needs in the shortest possible time.
+          </.cp>
+
+          <.heading2 id="unified-naming" color="color2" class="text-xl my-5 font-bold">
+            Unified Naming and Customizable Properties
+          </.heading2>
+          <.cp>
+            At the beginning of the project, we aimed to unify the naming conventions and
+            properties of all components within a consistent design system, enabling
+            developers to customize parts of each component during creation.
+          </.cp>
+
+          <.heading3
+            id="customizing-components"
+            class="text-xl pb-5 my-5 border-b border-[#E5E7EB] dark:border-b-[#4f4f4f] font-bold"
+          >
+            Customizing Components
+          </.heading3>
+          <.cp>You can customize each component with the following options:</.cp>
+
+          <.cp>
+            *
+            <.custom_inline_code>--variant</.custom_inline_code>
+            or
+            <.custom_inline_code>-v</.custom_inline_code>
+            - Specifies component variant
+          </.cp>
+          <.cp>
+            *
+            <.custom_inline_code>--color</.custom_inline_code>
+            or
+            <.custom_inline_code>-c</.custom_inline_code>
+            - Specifies component color
+          </.cp>
+          <.cp>
+            *
+            <.custom_inline_code>--size</.custom_inline_code>
+            or
+            <.custom_inline_code>-s</.custom_inline_code>
+            - Specifies component size
+          </.cp>
+          <.cp>
+            *
+            <.custom_inline_code>--padding</.custom_inline_code>
+            or
+            <.custom_inline_code>-p</.custom_inline_code>
+            - Specifies component padding
+          </.cp>
+          <.cp>
+            *
+            <.custom_inline_code>--space</.custom_inline_code>
+            or
+            <.custom_inline_code>-sp</.custom_inline_code>
+            - Specifies component space
+          </.cp>
+          <.cp>
+            *
+            <.custom_inline_code>--type</.custom_inline_code>
+            or
+            <.custom_inline_code>-t</.custom_inline_code>
+            - Specifies component type
+          </.cp>
+          <.cp>
+            *
+            <.custom_inline_code>--rounded</.custom_inline_code>
+            or
+            <.custom_inline_code>-r</.custom_inline_code>
+            - Specifies component type
+          </.cp>
+          <.cp>
+            *
+            <.custom_inline_code>--no-sub-config</.custom_inline_code>
+            - Creates dependent components with default settings
+          </.cp>
+          <.cp>
+            *
+            <.custom_inline_code>--module</.custom_inline_code>
+            or
+            <.custom_inline_code>-m</.custom_inline_code>
+            - Specifies a custom name for the component module
+          </.cp>
+          <.cp>
+            *
+            <.custom_inline_code>--sub</.custom_inline_code>
+            - Specifies this task is a sub task
+          </.cp>
+          <.cp>
+            *
+            <.custom_inline_code>--no-deps</.custom_inline_code>
+            - Specifies this task is created without sub task
+          </.cp>
+          <.cp>
+            *
+            <.custom_inline_code>--global</.custom_inline_code>
+            - Makes components accessible throughout the project without explicit imports
+          </.cp>
+          <.cp>
+            *
+            <.custom_inline_code>--yes</.custom_inline_code>
+            - Makes directly without questions
+          </.cp>
+          <.cp>
+            *
+            <.custom_inline_code>--exclude</.custom_inline_code>
+            - Comma-separated list of components to exclude
+          </.cp>
+
+          <.hr class="my-5" />
+
+          <.cp>
+            For example, the <strong>alert component</strong>
+            can be generated with a
+            specific type and color, ensuring no extra code is added to your project. This
+            helps reduce the volume of <strong>Tailwind CSS</strong>
+            classes, which is
+            especially beneficial when building complex components. Consider a simple
+            example: a poorly optimized loop in a <strong>carousel component</strong>
+            could result in an 800KB payload being
+            sent from the server for a single component. Imagine a dashboard with multiple
+            options, including 4 paginations and several forms on the same page. Based on
+            Mishka's experience, you could be sending several megabytes of payload to the
+            client, so controlling the component creation layer with a top-down approach
+            helps ensure efficient project structure.
+          </.cp>
+
+          <.custom_code_wrapper elements_class="[&>*]:mb-2" code={@code_1} type="elixir" />
+
+          <.heading2 id="batch-components" color="color2" class="text-xl my-5 font-bold">
+            Batch Creation of Components
+          </.heading2>
+          <.cp>
+            The <strong>Mishka</strong>
+            library effectively replaces Phoenix's core
+            components. You can generate all components at once with the
+            <.custom_inline_code>--import</.custom_inline_code>
+            option, creating a file that imports all components,
+            which can then be used throughout your project, particularly in the
+            <code>YourProjectWeb</code>
+            file, making the components accessible across your
+            entire application.
+          </.cp>
+
+          <.custom_code_wrapper elements_class="[&>*]:mb-2" code={@code_2} type="elixir" />
+
+          <.heading3 class="text-xl pb-5 my-5 border-b border-[#E5E7EB] dark:border-b-[#4f4f4f] font-bold">
+            Future Plans for Mix Task Enhancements
+          </.heading3>
+          <.cp>
+            The good news is that we have special plans for enhancing the mix task
+            structure of this project, which will be implemented in future versions.
+          </.cp>
+
+          <.heading2 id="custom-options" color="color2" class="text-xl my-5 font-bold">
+            Note on Custom Options for Components
+          </.heading2>
+          <.cp>
+            Each component comes with customizable options, allowing you to execute more
+            dynamic commands based on your needs.
+          </.cp>
+
+          <.heading2
+            id="cli-performance"
+            color="color2"
+            class="text-xl my-5 font-bold text-[#7b9b83]"
+          >
+            Using Chelekom for Improved Performance
+          </.heading2>
+          <.cp>
+            The <strong>Chelekom</strong>
+            library, with its roots in the <strong>Igniter</strong>
+            project, was designed to create components with a
+            minimal configuration environment. By providing helper functions for Elixir's <code>mix task</code>, Chelekom allows developers to easily generate highly
+            optimized components in a short time frame.
+          </.cp>
+
+          <.cp>
+            Our goal from the start has been to streamline the development environment,
+            eliminate unnecessary dependencies, and reduce configuration overhead to zero.
+            Backend developers, who typically prefer not to get involved with frontend
+            tasks, will find this particularly useful. The <strong>Mishka</strong> team
+            has focused on providing a solution that meets the developer's needs with
+            minimal effort.
+          </.cp>
+
+          <.hr class="my-10" />
+
+          <.heading2 id="assets-install" color="color2" class="text-xl my-5 font-bold">
+            Installing npm Dependencies
+          </.heading2>
+          <.cp>
+            The
+            <.custom_inline_code>mix mishka.assets.install</.custom_inline_code>
+            task simplifies
+            dependency management across different package managers in your Phoenix project's assets directory.
+            This task supports <strong>npm</strong>, <strong>yarn</strong>, and
+            <strong>bun</strong>
+            package managers.
+          </.cp>
+
+          <.heading3 class="text-xl pb-5 my-5 border-b border-[#E5E7EB] dark:border-b-[#4f4f4f] font-bold">
+            Usage Examples
+          </.heading3>
+          <.cp>
+            Install dependencies using npm:
+          </.cp>
+          <.custom_code_wrapper
+            elements_class="[&>*]:mb-2"
+            code="mix mishka.assets.install npm install tailwindcss"
+            type="elixir"
+          />
+
+          <.cp>
+            Remove dependencies using yarn:
+          </.cp>
+          <.custom_code_wrapper
+            elements_class="[&>*]:mb-2"
+            code="mix mishka.assets.install yarn remove some-package"
+            type="elixir"
+          />
+
+          <.cp>
+            The task automatically handles the differences between package managers, normalizing commands
+            (e.g., converting "install" to "add" for yarn) and provides colorful console feedback for
+            success and failure states.
+          </.cp>
+
+          <.cp class="text-yellow-600 dark:text-yellow-400">
+            🦺 <strong>Important:</strong>
+            If you have no package manager installed, it installs **Bun** binary and adds it to your <.custom_inline_code>mix.exs</.custom_inline_code>.
+          </.cp>
+
+          <.hr class="my-10" />
+
+          <.heading2 id="ui-add" color="color2" class="text-xl my-5 font-bold">
+            Adding Components from Repositories
+          </.heading2>
+          <.cp>
+            The
+            <.custom_inline_code>mix mishka.ui.add</.custom_inline_code>
+            task enables you to download
+            and integrate Phoenix components, templates, and presets from external repositories. This powerful
+            feature allows teams to share custom components and quickly add community-contributed components
+            to your project.
+          </.cp>
+
+          <.heading3 class="text-xl pb-5 my-5 border-b border-[#E5E7EB] dark:border-b-[#4f4f4f] font-bold">
+            Security Warning
+          </.heading3>
+          <.cp class="text-yellow-600 dark:text-yellow-400">
+            <strong>⚠️ Important:</strong>
+            Always verify external component sources before integration.
+            Only use components from trusted repositories to ensure the security of your application.
+          </.cp>
+
+          <.heading3 class="text-xl pb-5 my-5 border-b border-[#E5E7EB] dark:border-b-[#4f4f4f] font-bold">
+            Available Options
+          </.heading3>
+          <.cp>
+            *
+            <.custom_inline_code>--no-github</.custom_inline_code>
+            - Use a URL without GitHub replacing
+          </.cp>
+          <.cp>
+            *
+            <.custom_inline_code>--headers</.custom_inline_code>
+            - Specify custom request headers for the repository URL
+          </.cp>
+
+          <.heading3 class="text-xl pb-5 my-5 border-b border-[#E5E7EB] dark:border-b-[#4f4f4f] font-bold">
+            Repository References
+          </.heading3>
+          <.cp>
+            * <strong>Official Library:</strong>
+            <.link
+              class="text-blue-300"
+              href="https://github.com/mishka-group/mishka_chelekom"
+              target="_blank"
+            >
+              mishka_chelekom
+            </.link>
+          </.cp>
+          <.cp>
+            * <strong>Community Components:</strong>
+            <.link
+              class="text-blue-300"
+              href="https://github.com/mishka-group/mishka_chelekom_community"
+              target="_blank"
+            >
+              mishka_chelekom_community
+            </.link>
+          </.cp>
+
+          <.custom_code_wrapper
+            elements_class="[&>*]:mb-2"
+            code="mix mishka.ui.add https://github.com/user/repo/component.json"
+            type="elixir"
+          />
+
+          <.hr class="my-10" />
+
+          <.heading2 id="ui-export" color="color2" class="text-xl my-5 font-bold">
+            Exporting Components to JSON
+          </.heading2>
+          <.cp>
+            The
+            <.custom_inline_code>mix mishka.ui.export</.custom_inline_code>
+            task generates a JSON file
+            from your component directory, making it easy to share and reuse UI components across different
+            projects or with team members.
+          </.cp>
+
+          <.heading3 class="text-xl pb-5 my-5 border-b border-[#E5E7EB] dark:border-b-[#4f4f4f] font-bold">
+            Naming Convention Requirements
+          </.heading3>
+          <.cp>
+            Components must follow these naming conventions:
+          </.cp>
+          <.cp>
+            * Each component requires both
+            <.custom_inline_code>.eex</.custom_inline_code>
+            and
+            <.custom_inline_code>.exs</.custom_inline_code>
+            files
+          </.cp>
+          <.cp>
+            * File names should start with the section type: <.custom_inline_code>component_</.custom_inline_code>, <.custom_inline_code>preset_</.custom_inline_code>, or
+            <.custom_inline_code>template_</.custom_inline_code>
+          </.cp>
+
+          <.heading3 class="text-xl pb-5 my-5 border-b border-[#E5E7EB] dark:border-b-[#4f4f4f] font-bold">
+            Available Options
+          </.heading3>
+          <.cp>
+            *
+            <.custom_inline_code>--base64</.custom_inline_code>
+            or
+            <.custom_inline_code>-b</.custom_inline_code>
+            -
+            Convert component content to Base64 encoding
+          </.cp>
+          <.cp>
+            *
+            <.custom_inline_code>--name</.custom_inline_code>
+            or
+            <.custom_inline_code>-n</.custom_inline_code>
+            -
+            Define the JSON file name (default: template.json)
+          </.cp>
+          <.cp>
+            *
+            <.custom_inline_code>--org</.custom_inline_code>
+            or
+            <.custom_inline_code>-o</.custom_inline_code>
+            -
+            Organize the file structure
+          </.cp>
+          <.cp>
+            *
+            <.custom_inline_code>--template</.custom_inline_code>
+            or
+            <.custom_inline_code>-t</.custom_inline_code>
+            -
+            Create a default JSON template
+          </.cp>
+
+          <.custom_code_wrapper
+            elements_class="[&>*]:mb-2"
+            code="mix mishka.ui.export --name my-components.json --base64"
+            type="elixir"
+          />
+
+          <.hr class="my-10" />
+
+          <.heading2 id="css-config" color="color2" class="text-xl my-5 font-bold">
+            Managing CSS Configuration
+          </.heading2>
+          <.cp>
+            The
+            <.custom_inline_code>mix mishka.ui.css.config</.custom_inline_code>
+            task provides comprehensive
+            CSS configuration management for Mishka components. Thanks to Tailwind 4's new features, you can now
+            override any color or CSS setting, including changing all colors to match your organization's brand colors.
+          </.cp>
+
+          <.heading3 class="text-xl pb-5 my-5 border-b border-[#E5E7EB] dark:border-b-[#4f4f4f] font-bold">
+            Configuration Features
+          </.heading3>
+          <.cp>
+            The configuration system stores all settings in Elixir format in a
+            <.custom_inline_code>config.exs</.custom_inline_code>
+            file within your project's
+            <.custom_inline_code>priv</.custom_inline_code>
+            directory. This configuration
+            is designed for the development environment and provides an easy way to customize your component styles.
+          </.cp>
+
+          <.heading3 class="text-xl pb-5 my-5 border-b border-[#E5E7EB] dark:border-b-[#4f4f4f] font-bold">
+            Available Options
+          </.heading3>
+          <.cp>
+            *
+            <.custom_inline_code>--init</.custom_inline_code>
+            - Create a sample configuration file
+          </.cp>
+          <.cp>
+            *
+            <.custom_inline_code>--force</.custom_inline_code>
+            - Overwrite existing configuration
+          </.cp>
+          <.cp>
+            *
+            <.custom_inline_code>--regenerate</.custom_inline_code>
+            - Regenerate CSS files with your custom configuration
+          </.cp>
+          <.cp>
+            *
+            <.custom_inline_code>--validate</.custom_inline_code>
+            - Validate your current configuration
+          </.cp>
+          <.cp>
+            *
+            <.custom_inline_code>--show</.custom_inline_code>
+            - Display the current configuration
+          </.cp>
+
+          <.heading3 class="text-xl pb-5 my-5 border-b border-[#E5E7EB] dark:border-b-[#4f4f4f] font-bold">
+            Example Commands
+          </.heading3>
+          <.cp>
+            Initialize configuration:
+          </.cp>
+          <.custom_code_wrapper
+            elements_class="[&>*]:mb-2"
+            code="mix mishka.ui.css.config --init"
+            type="elixir"
+          />
+
+          <.cp>
+            Regenerate CSS with custom configuration:
+          </.cp>
+          <.custom_code_wrapper
+            elements_class="[&>*]:mb-2"
+            code="mix mishka.ui.css.config --regenerate"
+            type="elixir"
+          />
+
+          <.cp>
+            Validate configuration:
+          </.cp>
+          <.custom_code_wrapper
+            elements_class="[&>*]:mb-2"
+            code="mix mishka.ui.css.config --validate"
+            type="elixir"
+          />
+
+          <.cp>
+            This powerful feature addresses one of the most requested capabilities since version 0.0.1,
+            allowing developers to easily import their own color palettes and customize the appearance
+            of all components without modifying the component code directly.
+          </.cp>
+
+          <.hr class="my-10" />
+
+          <.heading2 id="what-next" color="color2" class="text-xl my-5 font-bold">
+            What's Next for Chelekom?
+          </.heading2>
+          <.cp>
+            We are excited to share that there are special plans for improving the mix
+            task structure of Chelekom in upcoming versions. These future enhancements
+            will make it even easier to work with the library and build robust, efficient
+            applications.
+          </.cp>
+        </article>
+
+        <.custom_table_content>
+          <:content link={~p"/chelekom/docs/cli/#cli"} title="CLI" />
+          <:content
+            link={~p"/chelekom/docs/cli/#unified-naming"}
+            title="Unified Naming and Customizable Properties"
+          />
+          <:content
+            link={~p"/chelekom/docs/cli/#customizing-components"}
+            title="Customizing Components commands"
+          />
+          <:content
+            link={~p"/chelekom/docs/cli/#batch-components"}
+            title="Batch Creation of Components"
+          />
+          <:content
+            link={~p"/chelekom/docs/cli/#custom-options"}
+            title="Note on Custom Options for Components"
+          />
+          <:content
+            link={~p"/chelekom/docs/cli/#cli-performance"}
+            title="Using Chelekom for Improved Performance"
+          />
+          <:content
+            link={~p"/chelekom/docs/cli/#assets-install"}
+            title="Installing npm Dependencies"
+          />
+          <:content
+            link={~p"/chelekom/docs/cli/#ui-add"}
+            title="Adding Components from Repositories"
+          />
+          <:content
+            link={~p"/chelekom/docs/cli/#ui-export"}
+            title="Exporting Components to JSON"
+          />
+          <:content
+            link={~p"/chelekom/docs/cli/#css-config"}
+            title="Managing CSS Configuration"
+          />
+          <:content link={~p"/chelekom/docs/cli/#what-next"} title="What's Next for Chelekom?" />
+        </.custom_table_content>
+      </div>
+    </div>
+  </div>
+</Layouts.app>

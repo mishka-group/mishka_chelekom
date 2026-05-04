@@ -1,0 +1,237 @@
+<Layouts.app flash={@flash}>
+  <div class="lg:grid lg:grid-cols-12 mt-5 max-w-5xl mx-auto">
+    <.custom_nav active="chelekom-docs-shape" />
+    <div class="lg:col-span-10">
+      <.custom_info
+        title="Shape"
+        description="Clip content (images, gradients, anything) to one of 15 geometric shapes using CSS clip-path and SVG masks. Inspired by daisyUI's mask, renamed to avoid Tailwind v4's mask-* utilities."
+        mix="mix mishka.ui.gen.component shape"
+        github="https://github.com/mishka-group/mishka_chelekom/blob/master/priv/components/shape.eex"
+        tags={["Component", "Stateless"]}
+      />
+
+      <.custom_tab id="chelekom-shape-tab">
+        <:documentation_panel>
+          <.heading2 class="mb-5" id="overview">
+            <.link patch={~p"/chelekom/docs/shape/#overview"}>
+              Overview of the Shape Component
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The <strong>Shape</strong>
+            component clips its content to a chosen geometric outline. Available shapes: <.custom_inline_code>squircle</.custom_inline_code>, <.custom_inline_code>circle</.custom_inline_code>, <.custom_inline_code>square</.custom_inline_code>, <.custom_inline_code>heart</.custom_inline_code>, <.custom_inline_code>star</.custom_inline_code>, <.custom_inline_code>star_alt</.custom_inline_code>, <.custom_inline_code>diamond</.custom_inline_code>, <.custom_inline_code>pentagon</.custom_inline_code>, <.custom_inline_code>hexagon</.custom_inline_code>, <.custom_inline_code>hexagon_alt</.custom_inline_code>, <.custom_inline_code>decagon</.custom_inline_code>, <.custom_inline_code>triangle</.custom_inline_code>, <.custom_inline_code>triangle_down</.custom_inline_code>, <.custom_inline_code>triangle_left</.custom_inline_code>, <.custom_inline_code>triangle_right</.custom_inline_code>.
+          </.cp>
+
+          <.heading2 margin="my-5" id="shape-basic">
+            <.link patch={~p"/chelekom/docs/shape/#shape-basic"}>Basic usage with image</.link>
+          </.heading2>
+
+          <.custom_code_wrapper code_class="text-xs" code={@code_basic}>
+            <div class="flex flex-wrap gap-3 items-end dark:hidden">
+              <div
+                :for={s <- ~w(squircle circle hexagon heart star diamond)}
+                class="flex flex-col items-center gap-2"
+              >
+                <.shape variant={s} size="medium" class="bg-natural-bordered-bg-light">
+                  <img
+                    src={~p"/images/mishka-logo.svg"}
+                    alt="Mishka logo"
+                    class="w-full h-full object-contain p-2"
+                  />
+                </.shape>
+                <span class="text-[11px] font-mono opacity-70">{s}</span>
+              </div>
+            </div>
+            <div class="flex-wrap gap-3 items-end hidden dark:flex">
+              <div
+                :for={s <- ~w(squircle circle hexagon heart star diamond)}
+                class="flex flex-col items-center gap-2"
+              >
+                <.shape variant={s} size="medium" class="bg-natural-bordered-bg-dark">
+                  <img
+                    src={~p"/images/mishka-logo-white.svg"}
+                    alt="Mishka logo"
+                    class="w-full h-full object-contain p-2"
+                  />
+                </.shape>
+                <span class="text-[11px] font-mono opacity-70">{s}</span>
+              </div>
+            </div>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="shape-all">
+            <.link patch={~p"/chelekom/docs/shape/#shape-all"}>All 15 shapes</.link>
+          </.heading2>
+
+          <.custom_code_wrapper code_class="text-xs" code={@code_all_shapes}>
+            <div class="flex flex-wrap gap-3 items-end">
+              <div :for={shape <- @shapes} class="flex flex-col items-center gap-2">
+                <.shape
+                  variant={shape}
+                  size="medium"
+                  class="bg-gradient-to-br from-primary-light to-misc-light dark:from-primary-dark dark:to-misc-dark"
+                />
+                <span class="text-[11px] font-mono opacity-70">{shape}</span>
+              </div>
+            </div>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="shape-sizes">
+            <.link patch={~p"/chelekom/docs/shape/#shape-sizes"}>Sizes</.link>
+          </.heading2>
+
+          <.custom_code_wrapper code_class="text-xs" code={@code_sizes}>
+            <div class="flex flex-wrap gap-3 items-end">
+              <.shape
+                :for={s <- ~w(extra_small small medium large extra_large)}
+                variant="hexagon"
+                size={s}
+                class="bg-gradient-to-br from-primary-light to-info-light dark:from-primary-dark dark:to-info-dark"
+              />
+            </div>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="shape-half">
+            <.link patch={~p"/chelekom/docs/shape/#shape-half"}>Half mode</.link>
+          </.heading2>
+
+          <.cp>
+            Use
+            <.custom_inline_code>half="first"</.custom_inline_code>
+            or
+            <.custom_inline_code>half="second"</.custom_inline_code>
+            to render only half of the shape — useful for split / hover reveals.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" code={@code_half}>
+            <div class="flex flex-wrap gap-3">
+              <.shape
+                variant="hexagon"
+                size="large"
+                half="first"
+                class="bg-success-light dark:bg-success-dark"
+              />
+              <.shape
+                variant="hexagon"
+                size="large"
+                half="second"
+                class="bg-danger-light dark:bg-danger-dark"
+              />
+            </div>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="shape-content">
+            <.link patch={~p"/chelekom/docs/shape/#shape-content"}>Custom content (slot)</.link>
+          </.heading2>
+
+          <.cp>
+            Skip
+            <.custom_inline_code>src</.custom_inline_code>
+            and pass a slot to clip any HEEx content (gradients, video, avatar initials, etc.) to the shape.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" code={@code_content}>
+            <div class="flex flex-wrap gap-3">
+              <.shape variant="hexagon" size="large">
+                <div class="bg-gradient-to-br from-primary-light to-primary-dark size-full flex items-center justify-center text-white font-bold">
+                  AB
+                </div>
+              </.shape>
+              <.shape variant="star" size="large">
+                <div class="bg-gradient-to-br from-warning-light to-danger-light size-full" />
+              </.shape>
+              <.shape variant="heart" size="large">
+                <div class="bg-gradient-to-br from-danger-light to-misc-light size-full" />
+              </.shape>
+            </div>
+          </.custom_code_wrapper>
+        </:documentation_panel>
+
+        <:props_panel>
+          <.custom_search class="mb-16" />
+          <div class="space-y-8">
+            <h2 class="text-lg lg:text-2xl font-bold">Shape Component Props</h2>
+            <.custom_table id="shape-table">
+              <:header>
+                <.table_th>Name</.table_th>
+                <.table_th>Type</.table_th>
+                <.table_th>Required</.table_th>
+                <.table_th>Description</.table_th>
+              </:header>
+              <:row>
+                <.table_td>variant</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>
+                  Shape: <strong>squircle</strong>
+                  (default), <strong>circle</strong>, <strong>square</strong>, <strong>heart</strong>, <strong>star</strong>, <strong>star_alt</strong>, <strong>diamond</strong>, <strong>pentagon</strong>, <strong>hexagon</strong>, <strong>hexagon_alt</strong>, <strong>decagon</strong>, <strong>triangle</strong>, <strong>triangle_down</strong>, <strong>triangle_left</strong>, <strong>triangle_right</strong>.
+                </.table_td>
+              </:row>
+              <:row>
+                <.table_td>size</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>
+                  <strong>extra_small</strong>
+                  → <strong>extra_large</strong>. Default <strong>medium</strong>.
+                </.table_td>
+              </:row>
+              <:row>
+                <.table_td>half</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>
+                  <strong>first</strong> (left half) or <strong>second</strong> (right half).
+                </.table_td>
+              </:row>
+              <:row>
+                <.table_td>src</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>
+                  If set, renders an <strong>&lt;img&gt;</strong> with that source.
+                </.table_td>
+              </:row>
+              <:row>
+                <.table_td>alt</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>Alt text for the image.</.table_td>
+              </:row>
+              <:row>
+                <.table_td>:inner_block</.table_td>
+                <.table_td>slot</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>
+                  Custom content to clip (instead of using <strong>src</strong>).
+                </.table_td>
+              </:row>
+              <:row>
+                <.table_td>class</.table_td>
+                <.table_td>any</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>
+                  Custom CSS class. Pass background colors with chelekom tokens (e.g., <strong>bg-primary-light</strong>).
+                </.table_td>
+              </:row>
+            </.custom_table>
+          </div>
+        </:props_panel>
+
+        <:cli_panel>
+          <.custom_cli_props config={component_config()} />
+        </:cli_panel>
+
+        <.custom_table_content>
+          <:content link={~p"/chelekom/docs/shape/#overview"} title="Overview" />
+          <:content link={~p"/chelekom/docs/shape/#shape-basic"} title="Basic usage" />
+          <:content link={~p"/chelekom/docs/shape/#shape-all"} title="All 15 shapes" />
+          <:content link={~p"/chelekom/docs/shape/#shape-sizes"} title="Sizes" />
+          <:content link={~p"/chelekom/docs/shape/#shape-half"} title="Half mode" />
+          <:content link={~p"/chelekom/docs/shape/#shape-content"} title="Custom content" />
+        </.custom_table_content>
+      </.custom_tab>
+    </div>
+  </div>
+</Layouts.app>

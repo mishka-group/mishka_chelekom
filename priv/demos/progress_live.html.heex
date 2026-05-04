@@ -1,0 +1,1928 @@
+<Layouts.app flash={@flash}>
+  <div class="lg:grid lg:grid-cols-12 mt-5 max-w-5xl mx-auto">
+    <.custom_nav active="chelekom-docs-progress" />
+    <div class="lg:col-span-10">
+      <.custom_info
+        title="Progress"
+        description="Interactive progress bars for Phoenix LiveView with horizontal and vertical options, colors, sizes, gradients, and chunked or segmented progress sections."
+        mix="mix mishka.ui.gen.component progress"
+        github="https://github.com/mishka-group/mishka_chelekom/blob/master/priv/components/progress.eex"
+        tags={["Component", "Stateless", "JS"]}
+      />
+      <.custom_tab id="chelekom-progress-tab">
+        <:documentation_panel>
+          <.heading2 class="mb-5" id="overview">
+            <.link patch={~p"/chelekom/docs/progress/#overview"}>
+              Overview of the Phoenix LiveView progress Component
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <strong>
+              Phoenix LiveView Progress component
+            </strong>
+            is a highly customizable and versatile
+            component designed for creating visually dynamic progress bars including <strong>horizontal</strong>, <strong>vertical</strong>, <strong>ring</strong>, and
+            <strong>semi-circle</strong>
+            progress indicators.
+          </.cp>
+
+          <.custom_code_wrapper elements_class="grid md:grid-cols-2 gap-5">
+            <.semi_circle_progress color="danger" value={88} class="mx-auto" />
+            <.ring_progress id="4234" color="misc" value={53} class="mx-auto" />
+
+            <div class="space-y-3">
+              <.progress id="progress-example-362" size="double_large">
+                <.progress_section
+                  csp_nonce={@csp_nonce}
+                  variant="bg-[#F3A885] text-white"
+                  value={50}
+                >
+                  <:tooltip label="Other" position="top" class="text-xs">
+                    50% of files
+                  </:tooltip>
+                </.progress_section>
+
+                <.progress_section
+                  csp_nonce={@csp_nonce}
+                  variant="bg-[#D0767B] text-white"
+                  value={35}
+                >
+                  <:tooltip label="Images" position="bottom" class="text-xs">
+                    35% of files are images
+                  </:tooltip>
+                </.progress_section>
+              </.progress>
+              <.progress id="progress-example-362" size="double_large">
+                <.progress_section
+                  csp_nonce={@csp_nonce}
+                  variant="bg-[#4FCE76] text-white"
+                  value={23}
+                >
+                  <:label class="font-bold">23%</:label>
+                </.progress_section>
+              </.progress>
+              <.progress id="progress-example-362" size="large">
+                <.progress_section csp_nonce={@csp_nonce} variant="bg-[#2B6392]" value={43} />
+              </.progress>
+              <.progress
+                csp_nonce={@csp_nonce}
+                variant="default"
+                color="primary"
+                value={10}
+                size="medium"
+              />
+              <.progress csp_nonce={@csp_nonce} variant="gradient" color="secondary" value={30} />
+              <.progress
+                csp_nonce={@csp_nonce}
+                variant="gradient"
+                color="misc"
+                value={50}
+                size="extra_small"
+              />
+            </div>
+            <div class="flex justify-around gap-5">
+              <.progress
+                csp_nonce={@csp_nonce}
+                variation="vertical"
+                color="danger"
+                variant="default"
+                value={50}
+                size="extra_small"
+              />
+              <.progress
+                csp_nonce={@csp_nonce}
+                variation="vertical"
+                variant="gradient"
+                color="dawn"
+                value={56}
+              />
+              <.progress
+                csp_nonce={@csp_nonce}
+                variation="vertical"
+                variant="bg-[#FDBB4A]"
+                value={38}
+                size="medium"
+              />
+              <.progress
+                csp_nonce={@csp_nonce}
+                variation="vertical"
+                variant="bg-[#48B571]"
+                value={78}
+                size="large"
+              />
+              <.progress
+                csp_nonce={@csp_nonce}
+                variation="vertical"
+                variant="gradient"
+                color="misc"
+                value={88}
+                size="extra_large"
+              />
+              <.progress
+                csp_nonce={@csp_nonce}
+                variant="bg-[#79C6B3]"
+                variation="vertical"
+                value={58}
+                size="double_large"
+              />
+              <.progress variation="vertical" size="w-8 h-[180px]">
+                <.progress_section
+                  value={40}
+                  csp_nonce={@csp_nonce}
+                  variant="bg-[#F3A885] text-white"
+                  variation="vertical"
+                  class="text-[11px]"
+                >
+                  <:tooltip label="40%" position="left">40% Completed - Success</:tooltip>
+                </.progress_section>
+                <.progress_section
+                  value={27}
+                  csp_nonce={@csp_nonce}
+                  variant="bg-[#D0767B] text-white"
+                  variation="vertical"
+                  class="text-[11px]"
+                >
+                  <:tooltip label="27%" position="right">27% Failed - Danger</:tooltip>
+                </.progress_section>
+              </.progress>
+            </div>
+          </.custom_code_wrapper>
+
+          <.cp margin="mt-5">
+            This
+            <strong>
+              <.link
+                title="Phoenix LiveView component"
+                class="transition-colors hover:text-[#448D96]"
+                navigate={~p"/chelekom"}
+              >
+                Phoenix LiveView component
+              </.link>
+            </strong>
+            also supports advanced features like chunked progress bars, allowing you to visually represent multiple stages of progress within a single bar. Additionally, the gradient variant adds dynamic styling, enabling smooth color transitions that enhance the visual appeal of your progress indicators.
+          </.cp>
+
+          <.custom_block position="left" color="success" class="my-8" border="medium">
+            <.cp>
+              By using the class prop, you can apply custom classes or Tailwind CSS classes to customize the appearance and behavior of the components, allowing for flexible design changes.
+            </.cp>
+          </.custom_block>
+
+          <.heading2 margin="my-5" id="progress-base">
+            <.link patch={~p"/chelekom/docs/progress/#progress-base"}>
+              Base variant
+            </.link>
+          </.heading2>
+
+          <.custom_code_wrapper elements_class="space-y-3" code_class="text-xs" code={@code_9}>
+            <.progress csp_nonce={@csp_nonce} id="progress-example-143" value={77} />
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="progress-default-variant">
+            <.link patch={~p"/chelekom/docs/progress/#progress-default-variant"}>
+              Default variant
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The default variant of the progress component offers a wide range of color options to suit different design needs. You can customize the progress bar's appearance by choosing from the following colors: <.custom_inline_code>white</.custom_inline_code>, <.custom_inline_code>primary</.custom_inline_code>, <.custom_inline_code>secondary</.custom_inline_code>, <.custom_inline_code>dark</.custom_inline_code>, <.custom_inline_code>success</.custom_inline_code>, <.custom_inline_code>warning</.custom_inline_code>, <.custom_inline_code>danger</.custom_inline_code>, <.custom_inline_code>info</.custom_inline_code>, <.custom_inline_code>silver</.custom_inline_code>, <.custom_inline_code>misc</.custom_inline_code>, and <.custom_inline_code>dawn</.custom_inline_code>. These options ensure that your progress bar can seamlessly integrate with your application's overall color scheme.
+          </.cp>
+
+          <.custom_code_wrapper elements_class="space-y-3" code_class="text-xs" code={@code_1}>
+            <.progress
+              csp_nonce={@csp_nonce}
+              id="progress-example-1"
+              variant="default"
+              color="primary"
+              value={10}
+            />
+            <.progress
+              csp_nonce={@csp_nonce}
+              id="progress-example-100"
+              variant="default"
+              color="white"
+              value={10}
+            />
+            <.progress
+              csp_nonce={@csp_nonce}
+              id="progress-example-101"
+              variant="default"
+              color="dark"
+              value={10}
+            />
+            <.progress
+              csp_nonce={@csp_nonce}
+              id="progress-example-2"
+              variant="default"
+              color="secondary"
+              value={30}
+            />
+            <.progress
+              csp_nonce={@csp_nonce}
+              id="progress-example-3"
+              variant="default"
+              color="dawn"
+              value={40}
+            />
+            <.progress
+              csp_nonce={@csp_nonce}
+              id="progress-example-3"
+              variant="default"
+              color="misc"
+              value={50}
+            />
+            <.progress
+              csp_nonce={@csp_nonce}
+              id="progress-example-33242"
+              variant="default"
+              color="natural"
+              value={20}
+            />
+            <.progress
+              csp_nonce={@csp_nonce}
+              id="progress-example-4"
+              variant="default"
+              color="info"
+              value={60}
+            />
+            <.progress
+              csp_nonce={@csp_nonce}
+              id="progress-example-5"
+              variant="default"
+              color="silver"
+              value={70}
+            />
+            <.progress
+              csp_nonce={@csp_nonce}
+              id="progress-example-6"
+              variant="default"
+              color="success"
+              value={80}
+            />
+            <.progress
+              csp_nonce={@csp_nonce}
+              id="progress-example-7"
+              variant="default"
+              color="danger"
+              value={90}
+            />
+            <.progress
+              csp_nonce={@csp_nonce}
+              id="progress-example-8"
+              variant="default"
+              color="warning"
+              value={100}
+            />
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="progress-gradient-variant">
+            <.link patch={~p"/chelekom/docs/progress/#progress-gradient-variant"}>
+              Gradient variant
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The gradient variant of the progress component introduces a visually appealing gradient effect, allowing you to apply smooth transitions between colors. You can use any of the following color options for the gradient effect: <.custom_inline_code>natural</.custom_inline_code>, <.custom_inline_code>primary</.custom_inline_code>, <.custom_inline_code>secondary</.custom_inline_code>, <.custom_inline_code>success</.custom_inline_code>, <.custom_inline_code>warning</.custom_inline_code>, <.custom_inline_code>danger</.custom_inline_code>, <.custom_inline_code>info</.custom_inline_code>, <.custom_inline_code>silver</.custom_inline_code>, <.custom_inline_code>misc</.custom_inline_code>, and <.custom_inline_code>dawn</.custom_inline_code>.
+          </.cp>
+
+          <.custom_code_wrapper elements_class="space-y-3" code_class="text-xs" code={@code_2}>
+            <.progress
+              csp_nonce={@csp_nonce}
+              id="progress-example-80"
+              variant="gradient"
+              color="natural"
+              value={90}
+            />
+            <.progress
+              csp_nonce={@csp_nonce}
+              id="progress-example-8"
+              variant="gradient"
+              color="primary"
+              value={10}
+            />
+            <.progress
+              csp_nonce={@csp_nonce}
+              id="progress-example-9"
+              variant="gradient"
+              color="secondary"
+              value={30}
+            />
+            <.progress
+              csp_nonce={@csp_nonce}
+              id="progress-example-10"
+              variant="gradient"
+              color="dawn"
+              value={40}
+            />
+            <.progress
+              csp_nonce={@csp_nonce}
+              id="progress-example-11"
+              variant="gradient"
+              color="misc"
+              value={50}
+            />
+            <.progress
+              csp_nonce={@csp_nonce}
+              id="progress-example-12"
+              variant="gradient"
+              color="info"
+              value={60}
+            />
+            <.progress
+              csp_nonce={@csp_nonce}
+              id="progress-example-13"
+              variant="gradient"
+              color="silver"
+              value={70}
+            />
+            <.progress
+              csp_nonce={@csp_nonce}
+              id="progress-example-14"
+              variant="gradient"
+              color="success"
+              value={80}
+            />
+            <.progress
+              csp_nonce={@csp_nonce}
+              id="progress-example-15"
+              variant="gradient"
+              color="danger"
+              value={90}
+            />
+            <.progress
+              csp_nonce={@csp_nonce}
+              id="progress-example-16"
+              variant="gradient"
+              color="warning"
+              value={100}
+            />
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="progress-value-prop">
+            <.link patch={~p"/chelekom/docs/progress/#progress-value-prop"}>
+              Value prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <.custom_inline_code>value</.custom_inline_code>
+            prop shows the percentage of progress completed, ranging from 0 to 100. For example, setting the
+            <.custom_inline_code>value</.custom_inline_code>
+            to 50 will indicate that 50% of the task or process is complete, visually reflecting the progress on the bar.
+          </.cp>
+
+          <.custom_code_wrapper elements_class="space-y-3" code_class="text-xs" code={@code_3}>
+            <.progress csp_nonce={@csp_nonce} variant="default" color="danger" value={50} />
+            <.progress csp_nonce={@csp_nonce} variant="default" color="warning" value={50} />
+            <.progress csp_nonce={@csp_nonce} variant="default" color="misc" value={100} />
+            <.progress csp_nonce={@csp_nonce} variant="default" color="info" value={100} />
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="progress-variation-prop">
+            <.link patch={~p"/chelekom/docs/progress/#progress-variation-prop"}>
+              Variation prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <.custom_inline_code>variation</.custom_inline_code>
+            prop allows you to define the orientation of the progress bar, with options for either
+            <.custom_inline_code>horizontal</.custom_inline_code>
+            or <.custom_inline_code>vertical</.custom_inline_code>. By default, the progress bar is set to <.custom_inline_code>horizontal</.custom_inline_code>, making it ideal for typical linear progress indicators. However, when
+            <.custom_inline_code>vertical</.custom_inline_code>
+            is selected, the progress bar is displayed in an upright format, offering a different visual representation of progress.
+          </.cp>
+
+          <.custom_code_wrapper elements_class="space-y-3" code_class="text-xs" code={@code_4}>
+            <div class="flex gap-5 items-center">
+              <.progress
+                csp_nonce={@csp_nonce}
+                id="progress-example-17"
+                variation="vertical"
+                color="danger"
+                variant="default"
+                value={50}
+              />
+              <.progress
+                csp_nonce={@csp_nonce}
+                id="progress-example-18"
+                variation="vertical"
+                variant="gradient"
+                color="warning"
+                value={40}
+              />
+              <.progress
+                csp_nonce={@csp_nonce}
+                id="progress-example-19"
+                variation="vertical"
+                variant="gradient"
+                color="dawn"
+                value={78}
+              />
+              <.progress
+                csp_nonce={@csp_nonce}
+                id="progress-example-20"
+                variation="vertical"
+                variant="gradient"
+                color="misc"
+                value={58}
+              />
+            </div>
+            <.progress
+              csp_nonce={@csp_nonce}
+              id="progress-example-21"
+              variant="default"
+              color="misc"
+              value={17}
+            />
+            <.progress
+              csp_nonce={@csp_nonce}
+              id="progress-example-22"
+              variant="default"
+              color="info"
+              value={6}
+            />
+            <.progress
+              csp_nonce={@csp_nonce}
+              id="progress-example-23"
+              variant="gradient"
+              color="misc"
+              value={20}
+            />
+            <.progress
+              csp_nonce={@csp_nonce}
+              id="progress-example-24"
+              variant="gradient"
+              color="success"
+              value={94}
+            />
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="progress-size-prop">
+            <.link patch={~p"/chelekom/docs/progress/#progress-size-prop"}>
+              Size prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <.custom_inline_code>size</.custom_inline_code>
+            prop adjusts the visual dimensions of the progress bar for both horizontal and vertical orientations. It offers predefined options such as <.custom_inline_code>extra_small</.custom_inline_code>, <.custom_inline_code>small</.custom_inline_code>, <.custom_inline_code>medium</.custom_inline_code>, <.custom_inline_code>large</.custom_inline_code>, <.custom_inline_code>extra_large</.custom_inline_code>, <.custom_inline_code>double_large</.custom_inline_code>, <.custom_inline_code>triple_large</.custom_inline_code>, and <.custom_inline_code>quadruple_large</.custom_inline_code>. In horizontal mode, this prop changes the height of the progress bar, while in vertical mode, it adjusts the width and overall height.
+          </.cp>
+
+          <.custom_code_wrapper elements_class="space-y-3" code_class="text-xs" code={@code_5}>
+            <.progress
+              csp_nonce={@csp_nonce}
+              id="progress-example-25"
+              color="misc"
+              variant="default"
+              size="extra_small"
+              value={17}
+            />
+            <.progress
+              csp_nonce={@csp_nonce}
+              id="progress-example-26"
+              color="info"
+              variant="default"
+              size="small"
+              value={6}
+            />
+            <.progress
+              csp_nonce={@csp_nonce}
+              id="progress-example-27"
+              color="danger"
+              variant="default"
+              size="medium"
+              value={57}
+            />
+            <.progress
+              csp_nonce={@csp_nonce}
+              id="progress-example-28"
+              color="warning"
+              variant="default"
+              size="large"
+              value={34}
+            />
+            <.progress
+              csp_nonce={@csp_nonce}
+              id="progress-example-29"
+              color="success"
+              variant="default"
+              size="extra_large"
+              value={87}
+            />
+
+            <div class="flex gap-5 items-center">
+              <.progress
+                csp_nonce={@csp_nonce}
+                id="progress-example-30"
+                variation="vertical"
+                size="extra_small"
+                color="danger"
+                variant="default"
+                value={87}
+              />
+              <.progress
+                csp_nonce={@csp_nonce}
+                id="progress-example-31"
+                variation="vertical"
+                size="small"
+                color="warning"
+                variant="default"
+                value={69}
+              />
+              <.progress
+                csp_nonce={@csp_nonce}
+                id="progress-example-32"
+                variation="vertical"
+                size="medium"
+                color="dawn"
+                variant="default"
+                value={17}
+              />
+              <.progress
+                csp_nonce={@csp_nonce}
+                id="progress-example-33"
+                variation="vertical"
+                size="large"
+                color="misc"
+                variant="default"
+                value={55}
+              />
+              <.progress
+                csp_nonce={@csp_nonce}
+                id="progress-example-34"
+                variation="vertical"
+                size="extra_large"
+                color="info"
+                variant="default"
+                value={32}
+              />
+            </div>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="progress-progress-section">
+            <.link patch={~p"/chelekom/docs/progress/#progress-progress-section"}>
+              Progress section component
+            </.link>
+          </.heading2>
+
+          <.cp>
+            All the previously mentioned props, can also be applied to each section when using the
+            <.custom_inline_code>progress_section</.custom_inline_code>
+            within the
+            <.custom_inline_code>progress</.custom_inline_code>
+            component.
+          </.cp>
+
+          <.custom_code_wrapper elements_class="space-y-3" code_class="text-xs" code={@code_6}>
+            <.progress id="progress-example-35">
+              <.progress_section
+                csp_nonce={@csp_nonce}
+                variant="default"
+                color="primary"
+                value={80}
+              />
+            </.progress>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="progress-chunked-progress">
+            <.link patch={~p"/chelekom/docs/progress/#progress-chunked-progress"}>
+              Chunked or segmented progress in Phoenix LiveView
+            </.link>
+          </.heading2>
+
+          <.cp>
+            By utilizing <.custom_inline_code>progress_section</.custom_inline_code>, you can easily create chunked(or segmented) progress bars within the
+            <.custom_inline_code>progress</.custom_inline_code>
+            component. By defining multiple sections, each with its own value, color, and variant, you can visually segment the progress bar into distinct parts. This feature allows for more granular representation of progress, such as showing different stages of a process or multiple tasks within the same progress bar.
+          </.cp>
+
+          <.custom_code_wrapper elements_class="space-y-3" code_class="text-xs" code={@code_7}>
+            <.progress id="progress-example-36">
+              <.progress_section
+                csp_nonce={@csp_nonce}
+                variant="default"
+                color="primary"
+                value={10}
+              />
+              <.progress_section
+                csp_nonce={@csp_nonce}
+                variant="default"
+                color="secondary"
+                value={15}
+              />
+              <.progress_section csp_nonce={@csp_nonce} variant="default" color="misc" value={10} />
+              <.progress_section
+                csp_nonce={@csp_nonce}
+                variant="default"
+                color="danger"
+                value={5}
+              />
+              <.progress_section
+                csp_nonce={@csp_nonce}
+                variant="default"
+                color="warning"
+                value={10}
+              />
+              <.progress_section
+                csp_nonce={@csp_nonce}
+                variant="default"
+                color="success"
+                value={10}
+              />
+              <.progress_section csp_nonce={@csp_nonce} variant="default" color="info" value={5} />
+            </.progress>
+
+            <.progress variation="vertical" size="large">
+              <.progress_section
+                value={40}
+                csp_nonce={@csp_nonce}
+                color="dawn"
+                variant="default"
+                variation="vertical"
+              >
+              </.progress_section>
+              <.progress_section
+                value={30}
+                csp_nonce={@csp_nonce}
+                color="misc"
+                variant="default"
+                variation="vertical"
+              >
+              </.progress_section>
+              <.progress_section
+                value={10}
+                csp_nonce={@csp_nonce}
+                color="danger"
+                variant="default"
+                variation="vertical"
+              >
+              </.progress_section>
+            </.progress>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="progress-label-slot">
+            <.link patch={~p"/chelekom/docs/progress/#progress-label-slot"}>
+              label slot
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <.custom_inline_code>label</.custom_inline_code>
+            slot in the Progress module provides a flexible mechanism for embedding custom values or text within each chunk of a progress bar or the overall progress itself. This slot allows developers to include dynamic label, such as progress percentages, texts, or detailed information, directly inside the progress component.
+          </.cp>
+
+          <.custom_block position="left" color="success" class="my-8" border="medium">
+            <.cp>
+              If you want to include labels within each chunk, it's better to use larger progress sizes, such as
+              <.custom_inline_code>extra_large</.custom_inline_code>
+              or bigger.
+            </.cp>
+          </.custom_block>
+
+          <.custom_code_wrapper elements_class="space-y-3" code_class="text-xs" code={@code_8}>
+            <.progress id="progress-example-362" size="double_large">
+              <.progress_section
+                csp_nonce={@csp_nonce}
+                variant="default"
+                color="primary"
+                value={50}
+              >
+                <:label class="font-bold">Images</:label>
+              </.progress_section>
+              <.progress_section
+                csp_nonce={@csp_nonce}
+                variant="default"
+                color="warning"
+                value={25}
+              >
+                <:label>15</:label>
+              </.progress_section>
+            </.progress>
+
+            <.progress id="progress-example-364" size="extra_large">
+              <.progress_section csp_nonce={@csp_nonce} variant="default" color="misc" value={80}>
+                <:label class="font-bold">Other</:label>
+              </.progress_section>
+            </.progress>
+          </.custom_code_wrapper>
+
+          <.heading2 class="my-5" id="csp">
+            <.link patch={~p"/chelekom/docs/progress/#csp"}>
+              CSP
+            </.link>
+          </.heading2>
+
+          <.cp>
+            If you have enabled the CSP header on your website, you must pass the
+            <.custom_inline_code>csp_nonce</.custom_inline_code>
+            parameter when using the
+            <.custom_inline_code>progress</.custom_inline_code>
+            and
+            <.custom_inline_code>progress_section</.custom_inline_code>
+            components.
+            The reason for this is that part of these components is written inline to avoid the need for state.
+          </.cp>
+
+          <.heading2 margin="my-5" id="ring-progress">
+            <.link patch={~p"/chelekom/docs/progress/#ring-progress"}>
+              Ring progress component
+            </.link>
+          </.heading2>
+          <.custom_block position="left" color="warning" class="my-8" border="medium">
+            <.cp>
+              The Ring Progress component is a solid circle progress indicator and does not support sectional divisions like the horizontal or vertical progress bars right now. Each Ring Progress instance represents a single, continuous circular progress value.
+            </.cp>
+          </.custom_block>
+
+          <.custom_code_wrapper
+            elements_class="grid lg:grid-cols-2 gap-4"
+            code_class="text-xs"
+            code={@code_15}
+          >
+            <.ring_progress id="progress-example-3000" value={77} />
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="ring-progress-value-prop">
+            <.link patch={~p"/chelekom/docs/progress/#ring-progress-value-prop"}>
+              Ring progress Value prop
+            </.link>
+          </.heading2>
+
+          <.cp class="my-6">
+            The
+            <.custom_inline_code>value</.custom_inline_code>
+            prop in the Ring Progress component represents the current progress percentage, accepting values from 0 to 100, where 0 indicates no progress and 100 indicates completion of the task or process.
+          </.cp>
+
+          <.custom_code_wrapper
+            elements_class="grid lg:grid-cols-2 gap-4"
+            code_class="text-xs"
+            code={@code_3}
+          >
+            <.ring_progress id="ring-progress-example-1" color="misc" value={35} />
+            <.ring_progress id="ring-progress-example-2" color="danger" value={85} />
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="ring-progress-max-prop">
+            <.link patch={~p"/chelekom/docs/progress/#ring-progress-max-prop"}>
+              Ring progress Max prop
+            </.link>
+          </.heading2>
+
+          <.cp class="my-6">
+            The
+            <.custom_inline_code>max</.custom_inline_code>
+            prop in the Ring Progress component allows you to customize the maximum value of the progress scale, defaulting to 100 if not specified, enabling you to work with different progress scales while maintaining proportional visual representation.
+          </.cp>
+
+          <.custom_code_wrapper
+            elements_class="grid lg:grid-cols-2 gap-4"
+            code_class="text-xs"
+            code={@code_10}
+          >
+            <.ring_progress id="ring-progress-example-3" value={30} color="danger" max={60} />
+            <.ring_progress id="ring-progress-example-4" value={30} color="warning" max={100} />
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="ring-progress-size-prop">
+            <.link patch={~p"/chelekom/docs/progress/#ring-progress-size-prop"}>
+              Ring progress Size prop
+            </.link>
+          </.heading2>
+
+          <.cp class="my-6">
+            The
+            <.custom_inline_code>max</.custom_inline_code>
+            prop in the Ring Progress component allows you to customize the maximum value of the progress scale, defaulting to 100 if not specified, enabling you to work with different progress scales while maintaining proportional visual representation.
+          </.cp>
+
+          <.custom_code_wrapper
+            elements_class="grid lg:grid-cols-2 gap-4"
+            code_class="text-xs"
+            code={@code_11}
+          >
+            <.ring_progress id="ring-progress-example-5" value={65} color="info" size={80} />
+            <.ring_progress id="ring-progress-example-6" value={65} color="dawn" size={150} />
+            <.ring_progress id="ring-progress-example-7" value={65} size={220} />
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="ring-progress-thickness-prop">
+            <.link patch={~p"/chelekom/docs/progress/#ring-progress-thickness-prop"}>
+              Ring progress thickness prop
+            </.link>
+          </.heading2>
+
+          <.cp class="my-6">
+            The
+            <.custom_inline_code>thickness</.custom_inline_code>
+            prop adjusts the width of the progress ring's stroke, allowing you to create thinner or thicker progress indicators. The default value is 10 pixels, and you can customize it based on your design needs.
+          </.cp>
+
+          <.custom_code_wrapper
+            elements_class="grid lg:grid-cols-2 gap-4"
+            code_class="text-xs"
+            code={@code_12}
+          >
+            <.ring_progress
+              id="ring-progress-example-8"
+              value={70}
+              color="secondary"
+              thickness={6}
+            />
+            <.ring_progress
+              id="ring-progress-example-9"
+              value={70}
+              color="success"
+              thickness={14}
+            />
+            <.ring_progress id="ring-progress-example-10" value={70} thickness={20} />
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="ring-progress-color-prop">
+            <.link patch={~p"/chelekom/docs/progress/#ring-progress-color-prop"}>
+              Ring progress Color prop
+            </.link>
+          </.heading2>
+
+          <.cp class="my-6">
+            The
+            <.custom_inline_code>color</.custom_inline_code>
+            prop in the Ring Progress component allows you to customize the color theme of the progress indicator. Available color options include: <.custom_inline_code>natural</.custom_inline_code>, <.custom_inline_code>primary</.custom_inline_code>, <.custom_inline_code>secondary</.custom_inline_code>, <.custom_inline_code>success</.custom_inline_code>, <.custom_inline_code>warning</.custom_inline_code>, <.custom_inline_code>danger</.custom_inline_code>, <.custom_inline_code>info</.custom_inline_code>, <.custom_inline_code>silver</.custom_inline_code>, <.custom_inline_code>misc</.custom_inline_code>, and <.custom_inline_code>dawn</.custom_inline_code>. The default value is <.custom_inline_code>natural</.custom_inline_code>.
+          </.cp>
+
+          <.custom_code_wrapper
+            elements_class="grid lg:grid-cols-2 gap-4"
+            code_class="text-xs"
+            code={@code_13}
+          >
+            <.ring_progress id="ring-progress-example-11" value={60} color="primary" />
+            <.ring_progress id="ring-progress-example-12" value={60} color="success" />
+            <.ring_progress id="ring-progress-example-13" value={60} color="danger" />
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="progress-label-prop">
+            <.link patch={~p"/chelekom/docs/progress/#progress-label-prop"}>
+              Ring progress Label prop
+            </.link>
+          </.heading2>
+
+          <.cp class="my-6">
+            The
+            <.custom_inline_code>label</.custom_inline_code>
+            prop allows you to add descriptive text inside the ring progress indicator. The label appears centered within the ring, making it useful for displaying progress percentages, status messages, or other relevant information about the task being tracked.
+          </.cp>
+
+          <.custom_code_wrapper
+            elements_class="grid lg:grid-cols-2 gap-4"
+            code_class="text-xs"
+            code={@code_14}
+          >
+            <.ring_progress
+              id="ring-progress-example-14"
+              value={45}
+              color="dawn"
+              label="Uploading"
+            />
+            <.ring_progress id="ring-progress-example-15" value={92} color="misc" label="Done" />
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="progress-linecap-prop">
+            <.link patch={~p"/chelekom/docs/progress/#progress-linecap-prop"}>
+              Ring progress Linecap prop
+            </.link>
+          </.heading2>
+
+          <.cp class="my-6">
+            The
+            <.custom_inline_code>linecap</.custom_inline_code>
+            prop defines how the ends of the progress bar's stroke are drawn. It accepts three values:
+            <strong>butt</strong>
+            (flat ends), <strong>round</strong>
+            (rounded ends), or <strong>square</strong>
+            (square ends that extend beyond the path). This property can significantly affect the visual appearance of your progress indicator's endpoints.
+          </.cp>
+
+          <.custom_code_wrapper
+            elements_class="grid lg:grid-cols-2 gap-4"
+            code_class="text-xs"
+            code={@code_17}
+          >
+            <.ring_progress
+              id="ring-progress-example-18"
+              value={80}
+              color="danger"
+              linecap="butt"
+            />
+            <.ring_progress
+              id="ring-progress-example-19"
+              value={80}
+              color="primary"
+              linecap="round"
+            />
+            <.ring_progress
+              id="ring-progress-example-20"
+              value={80}
+              color="info"
+              linecap="square"
+            />
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="semi-circle-progress">
+            <.link patch={~p"/chelekom/docs/progress/#semi-circle-progress"}>
+              Semi circle progress component
+            </.link>
+          </.heading2>
+
+          <.cp class="my-6">
+            The Semi Circle Progress component creates a visually appealing half-circle shape to display progress, with customizable features like size, thickness, orientation, colors, and labels.
+          </.cp>
+
+          <.custom_code_wrapper
+            code_class="text-xs"
+            elements_class="grid lg:grid-cols-2 gap-4"
+            code={@code_16}
+          >
+            <.semi_circle_progress id="progress-example-3001" color="silver" value={77} />
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="semi-progress-value-prop">
+            <.link patch={~p"/chelekom/docs/progress/#semi-progress-value-prop"}>
+              Semi circle Value prop
+            </.link>
+          </.heading2>
+
+          <.cp class="my-6">
+            The
+            <.custom_inline_code>value</.custom_inline_code>
+            prop in the Semi Circle Progress component represents the current progress percentage, accepting values from 0 to 100. For example, setting
+            <.custom_inline_code>value=&#123;50&#125;</.custom_inline_code>
+            indicates that 50% of the task or process is complete. The progress arc will draw accordingly from 0% to the specified value, providing a clear visual representation of the completion status.
+          </.cp>
+
+          <.custom_code_wrapper
+            elements_class="grid lg:grid-cols-2 gap-4"
+            code_class="text-xs"
+            code={@code_18}
+          >
+            <.semi_circle_progress id="semi-progress-example-1" color="secondary" value={20} />
+            <.semi_circle_progress id="semi-progress-example-2" value={80} />
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="semi-progress-size-prop">
+            <.link patch={~p"/chelekom/docs/progress/#semi-progress-size-prop"}>
+              Semi circle Size prop
+            </.link>
+          </.heading2>
+
+          <.cp class="my-6">
+            The
+            <.custom_inline_code>size</.custom_inline_code>
+            prop in the Semi Circle Progress component controls the overall diameter of the progress indicator in pixels. The default size is
+            <strong>200</strong>
+            pixels, but you can customize this value to create smaller or larger progress indicators based on your design needs.
+          </.cp>
+
+          <.custom_code_wrapper
+            elements_class="grid lg:grid-cols-2 gap-4"
+            code_class="text-xs"
+            code={@code_19}
+          >
+            <.semi_circle_progress
+              id="semi-progress-example-3"
+              value={65}
+              color="info"
+              size={120}
+            />
+            <.semi_circle_progress
+              id="semi-progress-example-4"
+              value={65}
+              color="success"
+              size={200}
+            />
+            <.semi_circle_progress
+              id="semi-progress-example-5"
+              value={65}
+              color="danger"
+              size={280}
+            />
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="semi-progress-thickness-prop">
+            <.link patch={~p"/chelekom/docs/progress/#semi-progress-thickness-prop"}>
+              Semi circle Thickness prop
+            </.link>
+          </.heading2>
+
+          <.cp class="my-6">
+            The
+            <.custom_inline_code>thickness</.custom_inline_code>
+            prop in the Semi Circle Progress component controls the width of the progress arc. The default value is 12 pixels, and you can adjust it to create thinner or thicker progress indicators based on your design requirements. For example, setting
+            <.custom_inline_code>thickness=&#123;6&#125;</.custom_inline_code>
+            creates a thinner line, while
+            <.custom_inline_code>thickness=&#123;14&#125;</.custom_inline_code>
+            creates a thicker one.
+          </.cp>
+
+          <.custom_code_wrapper
+            elements_class="grid lg:grid-cols-2 gap-4"
+            code_class="text-xs"
+            code={@code_20}
+          >
+            <.semi_circle_progress
+              id="semi-progress-example-6"
+              value={70}
+              color="dawn"
+              thickness={6}
+            />
+            <.semi_circle_progress
+              id="semi-progress-example-7"
+              value={20}
+              color="info"
+              thickness={14}
+            />
+            <.semi_circle_progress
+              id="semi-progress-example-8"
+              value={19}
+              color="misc"
+              thickness={10}
+            />
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="semi-progress-orientation-prop">
+            <.link patch={~p"/chelekom/docs/progress/#semi-progress-orientation-prop"}>
+              Semi circle Orientation prop
+            </.link>
+          </.heading2>
+
+          <.cp class="my-6">
+            The
+            <.custom_inline_code>orientation</.custom_inline_code>
+            prop in the Semi Circle Progress component determines the direction the semi-circle faces. It accepts two values:
+            <strong>up</strong>
+            (default) where the arc points upward, or <strong>down</strong>
+            where the arc points downward. This allows you to create versatile progress indicators that can be oriented according to your design needs.
+          </.cp>
+
+          <.custom_code_wrapper
+            elements_class="grid lg:grid-cols-2 gap-4"
+            code_class="text-xs"
+            code={@code_21}
+          >
+            <.semi_circle_progress
+              id="semi-progress-example-9"
+              value={55}
+              color="danger"
+              orientation="up"
+            />
+            <.semi_circle_progress
+              id="semi-progress-example-10"
+              color="misc"
+              value={95}
+              orientation="down"
+            />
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="semi-progress-fill-direction-prop">
+            <.link patch={~p"/chelekom/docs/progress/#semi-progress-fill-direction-prop"}>
+              Semi circle Fill direction prop
+            </.link>
+          </.heading2>
+
+          <.cp class="my-6">
+            The
+            <.custom_inline_code>fill_direction</.custom_inline_code>
+            prop in the Semi Circle Progress component determines the direction in which the progress arc is drawn. It accepts two values:
+            <strong>left-to-right</strong>
+            (default) or <strong>right-to-left</strong>. This allows you to customize the animation direction of the progress indicator to match your design preferences or to create visual variety in your interface.
+          </.cp>
+
+          <.custom_code_wrapper
+            elements_class="grid lg:grid-cols-2 gap-4"
+            code_class="text-xs"
+            code={@code_22}
+          >
+            <.semi_circle_progress
+              id="semi-progress-example-11"
+              value={30}
+              fill_direction="left-to-right"
+            />
+            <.semi_circle_progress
+              id="semi-progress-example-12"
+              color="dawn"
+              value={60}
+              fill_direction="right-to-left"
+            />
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="semi-progress-transition-duration-prop">
+            <.link patch={~p"/chelekom/docs/progress/#semi-progress-transition-duration-prop"}>
+              Semi circle Transition duration prop
+            </.link>
+          </.heading2>
+
+          <.cp class="my-6">
+            The
+            <.custom_inline_code>transition_duration</.custom_inline_code>
+            prop in the Semi Circle Progress component controls the animation speed when the progress value changes. It accepts a value in milliseconds, where a higher number results in a slower, smoother transition and a lower number creates a faster transition. The default value is 300 milliseconds, which provides a balanced animation speed suitable for most use cases.
+          </.cp>
+
+          <.custom_code_wrapper
+            elements_class="grid lg:grid-cols-2 gap-4"
+            code_class="text-xs"
+            code={@code_23}
+          >
+            <.semi_circle_progress
+              id="semi-progress-example-13"
+              value={33}
+              color="primary"
+              transition_duration={150}
+            />
+            <.semi_circle_progress
+              id="semi-progress-example-14"
+              value={75}
+              color="secondary"
+              transition_duration={1000}
+            />
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="semi-progress-linecap-prop">
+            <.link patch={~p"/chelekom/docs/progress/#semi-progress-linecap-prop"}>
+              Semi circle Linecap prop
+            </.link>
+          </.heading2>
+
+          <.cp class="my-6">
+            The
+            <.custom_inline_code>linecap</.custom_inline_code>
+            prop in the Semi Circle Progress component determines how the ends of the progress arc are rendered. It accepts three values:
+            <strong>butt</strong>
+            (flat ends), <strong>round</strong>
+            (rounded ends), or <strong>square</strong>
+            (square ends that extend beyond the path). This styling option can significantly impact the visual appearance of your progress indicator's endpoints, allowing you to choose between sharp or smooth transitions.
+          </.cp>
+
+          <.custom_code_wrapper
+            elements_class="grid lg:grid-cols-2 gap-4"
+            code_class="text-xs"
+            code={@code_24}
+          >
+            <.semi_circle_progress id="semi-progress-example-17" value={68} linecap="butt" />
+            <.semi_circle_progress
+              id="semi-progress-example-18"
+              value={68}
+              color="dawn"
+              linecap="round"
+            />
+            <.semi_circle_progress
+              id="semi-progress-example-19"
+              value={68}
+              color="misc"
+              linecap="square"
+            />
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="semi-progress-color-prop">
+            <.link patch={~p"/chelekom/docs/progress/#semi-progress-color-prop"}>
+              Semi circle Color prop
+            </.link>
+          </.heading2>
+
+          <.cp class="my-6">
+            The
+            <.custom_inline_code>color</.custom_inline_code>
+            prop in the Semi Circle Progress component allows you to customize the color theme. Available color options include: <.custom_inline_code>natural</.custom_inline_code>, <.custom_inline_code>primary</.custom_inline_code>, <.custom_inline_code>secondary</.custom_inline_code>, <.custom_inline_code>success</.custom_inline_code>, <.custom_inline_code>warning</.custom_inline_code>, <.custom_inline_code>danger</.custom_inline_code>, <.custom_inline_code>info</.custom_inline_code>, <.custom_inline_code>silver</.custom_inline_code>, <.custom_inline_code>misc</.custom_inline_code>, and <.custom_inline_code>dawn</.custom_inline_code>. If not specified, it defaults to <.custom_inline_code>natural</.custom_inline_code>.
+          </.cp>
+
+          <.custom_code_wrapper
+            elements_class="grid lg:grid-cols-2 gap-4"
+            code_class="text-xs"
+            code={@code_25}
+          >
+            <.semi_circle_progress id="semi-progress-example-20" value={50} color="misc" />
+            <.semi_circle_progress id="semi-progress-example-21" value={50} color="silver" />
+            <.semi_circle_progress id="semi-progress-example-22" value={50} color="info" />
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="semi-progress-label-prop">
+            <.link patch={~p"/chelekom/docs/progress/#semi-progress-label-prop"}>
+              Semi circle Label prop
+            </.link>
+          </.heading2>
+
+          <.cp class="my-6">
+            The
+            <.custom_inline_code>label</.custom_inline_code>
+            prop enables you to add descriptive text to display alongside the progress indicator, providing context or status information about the progress being shown.
+          </.cp>
+
+          <.custom_code_wrapper
+            elements_class="grid lg:grid-cols-2 gap-4"
+            code_class="text-xs"
+            code={@code_26}
+          >
+            <.semi_circle_progress id="semi-progress-example-23" value={10} label="Uploading" />
+            <.semi_circle_progress id="semi-progress-example-24" value={100} label="Completed" />
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="progress-tooltip-slot">
+            <.link patch={~p"/chelekom/docs/progress/#progress-tooltip-slot"}>
+              Tooltip slot
+            </.link>
+          </.heading2>
+
+          <.cp class="my-6">
+            The
+            <.custom_inline_code>:tooltip</.custom_inline_code>
+            slot allows you to show contextual information when hovering or clicking on a
+            progress section. You can define a
+            <.custom_inline_code>label</.custom_inline_code>
+            as the trigger, and customize position, style, and interaction behavior.
+
+            This is especially useful when multiple progress sections are used and you want to provide additional information for each segment.
+          </.cp>
+
+          <.cp class="my-3">
+            Available attributes for the
+            <.custom_inline_code>:tooltip</.custom_inline_code>
+            slot:
+          </.cp>
+
+          <ul class="list-disc list-inside text-sm space-y-4 mb-4 leading-8">
+            <li>
+              <.custom_inline_code>label</.custom_inline_code>
+              – Required. Text or UI element that acts as the tooltip trigger.
+            </li>
+            <li>
+              <.custom_inline_code>position</.custom_inline_code>
+              – Optional. Defines where the tooltip appears relative to the trigger.
+              Supported values: <.custom_inline_code>"top"</.custom_inline_code>, <.custom_inline_code>"bottom"</.custom_inline_code>, <.custom_inline_code>"left"</.custom_inline_code>, <.custom_inline_code>"right"</.custom_inline_code>. Default: <.custom_inline_code>"top"</.custom_inline_code>. use
+              <.custom_inline_code>"left"</.custom_inline_code>
+              and
+              <.custom_inline_code>"right"</.custom_inline_code>
+              for vertical variation
+            </li>
+            <li>
+              <.custom_inline_code>clickable</.custom_inline_code>
+              – Optional. If set to <.custom_inline_code>true</.custom_inline_code>, tooltip shows on click instead of hover.
+            </li>
+            <li>
+              <.custom_inline_code>class</.custom_inline_code>
+              – Optional. Additional custom classes for tooltip content styling.
+            </li>
+          </ul>
+
+          <.custom_code_wrapper elements_class="space-y-3" code_class="text-xs" code={@code_27}>
+            <.progress id="progress-example-362" size="double_large" csp_nonce={@csp_nonce}>
+              <.progress_section
+                csp_nonce={@csp_nonce}
+                variant="default"
+                color="primary"
+                value={50}
+              >
+                <:tooltip label="Images" class="text-[11px] font-bold">
+                  Tooltip content for images
+                </:tooltip>
+              </.progress_section>
+
+              <.progress_section
+                csp_nonce={@csp_nonce}
+                variant="default"
+                color="warning"
+                value={25}
+              >
+                <:tooltip label="15%" position="bottom">15% of content is other data</:tooltip>
+              </.progress_section>
+            </.progress>
+
+            <.progress id="progress-example-364" size="extra_large">
+              <.progress_section csp_nonce={@csp_nonce} variant="default" color="misc" value={80}>
+                <:tooltip label="Other" class="text-[11px]" position="top" clickable={true}>
+                  Tooltip shown on click!
+                </:tooltip>
+              </.progress_section>
+            </.progress>
+
+            <.progress variation="vertical" size="w-8 height-[500px]">
+              <.progress_section
+                class="text-[10px]"
+                value={40}
+                csp_nonce={@csp_nonce}
+                color="info"
+                variant="default"
+                variation="vertical"
+              >
+                <:tooltip label="one" position="right">Tooltip 1</:tooltip>
+              </.progress_section>
+              <.progress_section
+                class="text-[10px]"
+                value={30}
+                csp_nonce={@csp_nonce}
+                color="warning"
+                variant="default"
+                variation="vertical"
+              >
+                <:tooltip label="two" position="right">Tooltip 2</:tooltip>
+              </.progress_section>
+              <.progress_section
+                class="text-[10px]"
+                value={30}
+                csp_nonce={@csp_nonce}
+                color="danger"
+                variant="default"
+                variation="vertical"
+              >
+                <:tooltip label="three" position="right">Tooltip 3</:tooltip>
+              </.progress_section>
+            </.progress>
+          </.custom_code_wrapper>
+        </:documentation_panel>
+
+        <:props_panel>
+          <.custom_search class="mb-16" />
+          <div class="space-y-8">
+            <h2 class="text-lg lg:text-2xl font-bold">Progress Component Props</h2>
+
+            <.custom_table id="progress-component-table">
+              <:header>
+                <.table_th>Name</.table_th>
+
+                <.table_th>Type</.table_th>
+
+                <.table_th>Required</.table_th>
+
+                <.table_th>Description</.table_th>
+              </:header>
+
+              <:row>
+                <.table_td>id</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>A unique identifier used to manage state and interaction.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>value</.table_td>
+
+                <.table_td>integer</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>The current value representing the progress completion.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>variation</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Defines the layout orientation of the component. Values: <strong>horizontal</strong>, <strong>vertical</strong>. Default is <strong>horizontal</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>color</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines the color theme of the progress bar. Default is <strong>base</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>variant</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines the style of the progress bar. Default is <strong>base</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>size</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines the overall size of the elements, including padding and font size. Values: <strong>extra_small</strong>, <strong>small</strong>, <strong>medium</strong>, <strong>large</strong>, <strong>extra_large</strong>, <strong>double_large</strong>, <strong>triple_large</strong>, <strong>quadruple_large</strong>. Default is <strong>small</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>content</.table_td>
+
+                <.table_td>slot</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Slot to display any content within each chunk of progress. Slot attributes include:
+                  <strong>class</strong>
+                  (optional, custom CSS class for styling)
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>class</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Custom CSS class for additional styling. Default is <strong>nil</strong>.
+                </.table_td>
+              </:row>
+              <:row>
+                <.table_td>csp_nonce</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  You use it when you have activated the CSP header and set the value as well.
+                </.table_td>
+              </:row>
+            </.custom_table>
+          </div>
+
+          <div class="space-y-8 mt-8">
+            <h2 class="text-lg lg:text-2xl font-bold">Progress Section Component Props</h2>
+
+            <.custom_table id="progress-section-component-table">
+              <:header>
+                <.table_th>Name</.table_th>
+
+                <.table_th>Type</.table_th>
+
+                <.table_th>Required</.table_th>
+
+                <.table_th>Description</.table_th>
+              </:header>
+
+              <:row>
+                <.table_td>value</.table_td>
+
+                <.table_td>integer</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  The value of this progress section. Default is <strong>0</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>class</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Custom CSS class for additional styling. Default is <strong>nil</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>label</.table_td>
+
+                <.table_td>slot</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Slot to add text content or percentage values within each section of the progress bar. Slot attributes include:
+                  <strong>class</strong>
+                  (optional, custom CSS class for styling)
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>tooltip</.table_td>
+
+                <.table_td>slot</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Slot to display a tooltip on hover or click for each progress section.
+                  Attributes: <strong>label</strong>
+                  (trigger text), <strong>position</strong>
+                  (top, bottom, left, right), <strong>clickable</strong>
+                  (optional, show on click), <strong>class</strong>
+                  (optional, custom styling).
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>variation</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Defines the layout orientation of the component. Values: <strong>horizontal</strong>, <strong>vertical</strong>. Default is <strong>horizontal</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>color</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines the color theme of the progress section. Default is <strong>white</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>rounded</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines the border radius. Default is <strong>none</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>variant</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines the style of the card. Supported values: <strong>default</strong>, <strong>gradient</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>color</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines the color theme of the card. Supported values: <strong>natural</strong>, <strong>primary</strong>, <strong>secondary</strong>, <strong>success</strong>, <strong>warning</strong>, <strong>danger</strong>, <strong>info</strong>, <strong>silver</strong>, <strong>misc</strong>, <strong>dawn</strong>. Default is <strong>natural</strong>.The
+                  <strong>default</strong>
+                  variant have extra color options: <strong>dark</strong>
+                  and <strong>white</strong>, which in both light mode and dark mode, these colors are always the same.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>csp_nonce</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  You use it when you have activated the CSP header.
+                </.table_td>
+              </:row>
+            </.custom_table>
+          </div>
+          <div class="space-y-8 mt-8">
+            <h2 class="text-lg lg:text-2xl font-bold">Ring Progress Component Props</h2>
+
+            <.custom_table id="ring-progress-component-table">
+              <:header>
+                <.table_th>Name</.table_th>
+                <.table_th>Type</.table_th>
+                <.table_th>Required</.table_th>
+                <.table_th>Description</.table_th>
+              </:header>
+
+              <:row>
+                <.table_td>id</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>Yes</.table_td>
+                <.table_td>A unique identifier used to manage state and interaction.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>value</.table_td>
+                <.table_td>integer</.table_td>
+                <.table_td>Yes</.table_td>
+                <.table_td>The current value representing the progress completion.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>max</.table_td>
+                <.table_td>integer</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>
+                  The maximum value the progress can reach. Default is <strong>100</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>size</.table_td>
+                <.table_td>integer</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>
+                  The size of the progress component (typically diameter in pixels). Default is <strong>120</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>thickness</.table_td>
+                <.table_td>integer</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>
+                  The thickness of the progress stroke. Default is <strong>10</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>color</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>
+                  Determines color theme. Default is <strong>natural</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>label</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>
+                  Optional label to be displayed with the progress component. Default is <strong>nil</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>class</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>
+                  Custom CSS class for additional styling. Default is <strong>nil</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>linecap</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>
+                  Defines the shape of the progress stroke's end. For example,
+                  <strong>round</strong>
+                  for rounded edges. Default is <strong>nil</strong>.
+                </.table_td>
+              </:row>
+            </.custom_table>
+          </div>
+
+          <div class="space-y-8 mt-8">
+            <h2 class="text-lg lg:text-2xl font-bold">Semi circle Progress Component Props</h2>
+
+            <.custom_table id="progress-circle-component-table">
+              <:header>
+                <.table_th>Name</.table_th>
+                <.table_th>Type</.table_th>
+                <.table_th>Required</.table_th>
+                <.table_th>Description</.table_th>
+              </:header>
+
+              <:row>
+                <.table_td>id</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>HTML ID for the container. Default is <strong>nil</strong>.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>value</.table_td>
+                <.table_td>integer</.table_td>
+                <.table_td>Yes</.table_td>
+                <.table_td>Progress value (0 to 100).</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>size</.table_td>
+                <.table_td>integer</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>
+                  Diameter of the circle in pixels. Default is <strong>200</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>thickness</.table_td>
+                <.table_td>integer</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>Stroke width. Default is <strong>12</strong>.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>orientation</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>
+                  Orientation of the circle. Values: <strong>up</strong>, <strong>down</strong>. Default is <strong>up</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>fill_direction</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>
+                  Direction of fill. Example: <strong>left-to-right</strong>. Default is <strong>left-to-right</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>transition_duration</.table_td>
+                <.table_td>integer</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>
+                  Transition duration in milliseconds. Default is <strong>300</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>class</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>
+                  Custom CSS class for additional styling. Default is <strong>nil</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>linecap</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>
+                  Add radius to the stroke ends of the progress (e.g., <strong>round</strong>). Default is <strong>nil</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>color</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>
+                  Tailwind-compatible stroke color (e.g., <strong>stroke-red-500</strong>). Default is <strong>natural</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>label</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>Optional label to display. Default is <strong>nil</strong>.</.table_td>
+              </:row>
+            </.custom_table>
+          </div>
+        </:props_panel>
+
+        <:cli_panel>
+          <.custom_cli_props config={component_config()} />
+        </:cli_panel>
+        <.custom_table_content>
+          <:content
+            link={~p"/chelekom/docs/progress/#overview"}
+            title="Overview of the Progress Component"
+          />
+
+          <:content link={~p"/chelekom/docs/progress/#progress-base"} title="Base Variant" />
+          <:content
+            link={~p"/chelekom/docs/progress/#progress-default-variant"}
+            title="Default Variant"
+          />
+          <:content
+            link={~p"/chelekom/docs/progress/#progress-gradient-variant"}
+            title="Gradient Variant"
+          />
+          <:content link={~p"/chelekom/docs/progress/#progress-value-prop"} title="Value Prop" />
+          <:content
+            link={~p"/chelekom/docs/progress/#progress-variation-prop"}
+            title="Variation Prop"
+          />
+          <:content link={~p"/chelekom/docs/progress/#progress-size-prop"} title="Size Prop" />
+          <:content
+            link={~p"/chelekom/docs/progress/#progress-progress-section"}
+            title="Progress Section Component"
+          />
+          <:content
+            link={~p"/chelekom/docs/progress/#progress-chunked-progress"}
+            title="Chunked or segmented progress"
+          />
+          <:content link={~p"/chelekom/docs/progress/#progress-label-slot"} title="Label slot" />
+
+          <:content link={~p"/chelekom/docs/progress/#csp"} title="CSP" />
+
+          <:content
+            link={~p"/chelekom/docs/progress/#ring-progress"}
+            title="Ring progress component"
+          />
+          <:content
+            link={~p"/chelekom/docs/progress/#ring-progress-value-prop"}
+            title="Ring progress Value prop"
+          />
+          <:content
+            link={~p"/chelekom/docs/progress/#ring-progress-max-prop"}
+            title="Ring progress Max prop"
+          />
+          <:content
+            link={~p"/chelekom/docs/progress/#ring-progress-size-prop"}
+            title="Ring progress Size prop"
+          />
+          <:content
+            link={~p"/chelekom/docs/progress/#ring-progress-thickness-prop"}
+            title="Ring progress thickness prop"
+          />
+          <:content
+            link={~p"/chelekom/docs/progress/#ring-progress-color-prop"}
+            title="Ring progress Color prop"
+          />
+          <:content
+            link={~p"/chelekom/docs/progress/#progress-label-prop"}
+            title="Ring progress Label prop"
+          />
+          <:content
+            link={~p"/chelekom/docs/progress/#progress-linecap-prop"}
+            title="Ring progress Linecap prop"
+          />
+          <:content
+            link={~p"/chelekom/docs/progress/#semi-circle-progress"}
+            title="Semi circle progress component"
+          />
+          <:content
+            link={~p"/chelekom/docs/progress/#semi-progress-value-prop"}
+            title="Semi circle Value prop"
+          />
+          <:content
+            link={~p"/chelekom/docs/progress/#semi-progress-size-prop"}
+            title="Semi circle Size prop"
+          />
+          <:content
+            link={~p"/chelekom/docs/progress/#semi-progress-thickness-prop"}
+            title="Semi circle Thickness prop"
+          />
+          <:content
+            link={~p"/chelekom/docs/progress/#semi-progress-orientation-prop"}
+            title="Semi circle Orientation prop"
+          />
+          <:content
+            link={~p"/chelekom/docs/progress/#semi-progress-fill-direction-prop"}
+            title="Semi circle Fill direction prop"
+          />
+          <:content
+            link={~p"/chelekom/docs/progress/#semi-progress-transition-duration-prop"}
+            title="Semi circle Transition duration prop"
+          />
+          <:content
+            link={~p"/chelekom/docs/progress/#semi-progress-linecap-prop"}
+            title="Semi circle Linecap prop"
+          />
+          <:content
+            link={~p"/chelekom/docs/progress/#semi-progress-color-prop"}
+            title="Semi circle Color prop"
+          />
+          <:content
+            link={~p"/chelekom/docs/progress/#semi-progress-label-prop"}
+            title="Semi circle Label prop"
+          />
+          <:content
+            link={~p"/chelekom/docs/progress/#progress-tooltip-slot"}
+            title="Tooltip slot"
+          />
+        </.custom_table_content>
+      </.custom_tab>
+    </div>
+  </div>
+</Layouts.app>

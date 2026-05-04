@@ -1,0 +1,1205 @@
+<Layouts.app flash={@flash}>
+  <div class="lg:grid lg:grid-cols-12 mt-5 max-w-5xl mx-auto">
+    <.custom_nav active="chelekom-docs-typography" />
+    <div class="lg:col-span-10">
+      <.custom_info
+        title="Typography"
+        description="Typography component for Phoenix LiveView, offering customizable text elements and styles to enhance readability and user engagement."
+        mix="mix mishka.ui.gen.component typography"
+        github="https://github.com/mishka-group/mishka_chelekom/blob/master/priv/components/typography.eex"
+        tags={["Component", "Stateless"]}
+      />
+      <.custom_tab id="chelekom-typography-tab">
+        <:documentation_panel>
+          <.heading2 class="mb-5" id="overview">
+            <.link patch={~p"/chelekom/docs/typography/#overview"}>
+              Overview of the Phoenix LiveView Typography Component
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The <strong>Mishka Chelekom Typography component</strong>
+            is a versatile and customizable <strong>Phoenix LiveView component</strong>
+            designed to enhance text presentation. It supports a wide range of typographic elements, including headings, paragraphs, and emphasis tags, all while allowing full control over font size, weight, and color. With its flexible options, this component seamlessly integrates into your application's design, improving readability and user experience.
+          </.cp>
+
+          <.cp margin="mt-5">
+            This
+            <strong>
+              <.link
+                title="Phoenix LiveView component"
+                class="transition-colors hover:text-[#448D96]"
+                navigate={~p"/chelekom"}
+              >
+                Phoenix LiveView component
+              </.link>
+            </strong>
+            offers dynamic styling options such as font weight, size, and color schemes, making it easy to create visually appealing and accessible content. Whether you're working with headers or body text, this tool provides everything needed for clean and effective typography.
+          </.cp>
+
+          <.custom_block position="left" color="success" class="my-8" border="medium">
+            <.cp>
+              By using the class prop, you can apply custom classes or Tailwind CSS classes to customize the appearance and behavior of the components, allowing for flexible design changes.
+            </.cp>
+          </.custom_block>
+
+          <.heading2 margin="my-5" id="typography-components">
+            <.link patch={~p"/chelekom/docs/typography/#typography-components"}>
+              Typography components
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The typography system comprises various components designed to enhance text presentation and semantics in your application. These include headings like
+            <.custom_inline_code>h1</.custom_inline_code>
+            through <.custom_inline_code>h6</.custom_inline_code>, which help structure content hierarchically. The
+            <.custom_inline_code>p</.custom_inline_code>
+            component is used for standard paragraphs, while
+            <.custom_inline_code>strong</.custom_inline_code>
+            and
+            <.custom_inline_code>em</.custom_inline_code>
+            emphasize text. The <.custom_inline_code>dl</.custom_inline_code>, <.custom_inline_code>dt</.custom_inline_code>, and
+            <.custom_inline_code>dd</.custom_inline_code>
+            components create descriptive lists. Additional elements like
+            <.custom_inline_code>abbr</.custom_inline_code>
+            for abbreviations,
+            <.custom_inline_code>figure</.custom_inline_code>
+            and
+            <.custom_inline_code>figcaption</.custom_inline_code>
+            for images and captions, as well as <.custom_inline_code>mark</.custom_inline_code>, <.custom_inline_code>small</.custom_inline_code>, <.custom_inline_code>s</.custom_inline_code>, <.custom_inline_code>u</.custom_inline_code>, <.custom_inline_code>cite</.custom_inline_code>, and
+            <.custom_inline_code>del</.custom_inline_code>
+            for various text styles and annotations, contribute to a comprehensive typography framework that enhances readability and user experience.
+          </.cp>
+
+          <.custom_code_wrapper
+            code_class="text-xs"
+            elements_class="space-y-5 [&>*]:block [&>*]:w-fit"
+            code={@code_1}
+          >
+            <.h1 id="typography-example-1">Heading Level 1</.h1>
+            <.h2 id="typography-example-2">Heading Level 2</.h2>
+            <.h3 id="typography-example-3">Heading Level 3</.h3>
+            <.h4 id="typography-example-4">Heading Level 4</.h4>
+            <.h5 id="typography-example-5">Heading Level 5</.h5>
+            <.h6 id="typography-example-6">Heading Level 6</.h6>
+            <.p id="typography-example-7">Paragraph</.p>
+            <.strong id="typography-example-8">Strong text</.strong>
+            <.em id="typography-example-9">Emphasized text</.em>
+            <.dl id="typography-example-10">Description list</.dl>
+            <.dt id="typography-example-11">Definition term</.dt>
+            <.dd id="typography-example-12">Definition description</.dd>
+            <.abbr id="typography-example-13">Abbreviation</.abbr>
+            <.figure id="typography-example-14">Figure</.figure>
+            <.figcaption id="typography-example-15">Figure caption</.figcaption>
+            <.mark id="typography-example-16">Highlighted text</.mark>
+            <.small id="typography-example-17">Small text</.small>
+            <.s id="typography-example-19">Strikethrough text</.s>
+            <.u id="typography-example-20">Underlined text</.u>
+            <.cite id="typography-example-21">Citation</.cite>
+            <.del id="typography-example-22">Deleted text</.del>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="typography-colors">
+            <.link patch={~p"/chelekom/docs/typography/#typography-colors"}>
+              Color prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <.custom_inline_code>color</.custom_inline_code>
+            attribute in the typography component defines the theme and appearance of the typography by offering a wide range of color options. You can choose from predefined color values such as <.custom_inline_code>base</.custom_inline_code>, <.custom_inline_code>white</.custom_inline_code>, <.custom_inline_code>natural</.custom_inline_code>, <.custom_inline_code>primary</.custom_inline_code>, <.custom_inline_code>secondary</.custom_inline_code>, <.custom_inline_code>dark</.custom_inline_code>, <.custom_inline_code>success</.custom_inline_code>, <.custom_inline_code>warning</.custom_inline_code>, <.custom_inline_code>danger</.custom_inline_code>, <.custom_inline_code>info</.custom_inline_code>, <.custom_inline_code>silver</.custom_inline_code>, <.custom_inline_code>misc</.custom_inline_code>, <.custom_inline_code>dawn</.custom_inline_code>, and <.custom_inline_code>inherit</.custom_inline_code>.
+          </.cp>
+
+          <.custom_code_wrapper
+            code_class="text-xs"
+            elements_class="space-y-5 [&>*]:block [&>*]:w-fit"
+            code={@code_2}
+          >
+            <.p id="typography-example-23" color="primary">Paragraph 1</.p>
+            <.p id="typography-example-24" color="secondary">Paragraph 2</.p>
+            <.p id="typography-example-25" color="dark">Paragraph 3</.p>
+            <.p id="typography-example-26" color="success">Paragraph 4</.p>
+            <.p id="typography-example-27" color="natural">Paragraph 4</.p>
+            <.p id="typography-example-28" color="warning">Paragraph 5</.p>
+            <.p id="typography-example-29" color="danger">Paragraph 6</.p>
+            <.p id="typography-example-29-1" color="info">Paragraph</.p>
+            <.strong id="typography-example-30" color="silver">Strong text</.strong>
+            <.em id="typography-example-31" color="misc">Emphasized text</.em>
+            <.dl id="typography-example-32" color="dawn">Description list</.dl>
+            <.dt id="typography-example-33" color="inherit">Definition term</.dt>
+            <.dd id="typography-example-34" color="primary">Definition description</.dd>
+            <.abbr id="typography-example-35" color="secondary">Abbreviation</.abbr>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="typography-size-prop">
+            <.link patch={~p"/chelekom/docs/typography/#typography-size-prop"}>
+              Size prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The size attribute in the typography component offers a range of predefined sizes, including <.custom_inline_code>extra_small</.custom_inline_code>, <.custom_inline_code>small</.custom_inline_code>, <.custom_inline_code>medium</.custom_inline_code>, <.custom_inline_code>large</.custom_inline_code>, and <.custom_inline_code>extra_large</.custom_inline_code>. These options allow you to control the text size of the components.
+          </.cp>
+
+          <.custom_code_wrapper
+            code_class="text-xs"
+            elements_class="space-y-5 [&>*]:block [&>*]:w-fit"
+            code={@code_3}
+          >
+            <.p id="typography-example-36" size="extra_small" color="silver">
+              Extra Small Paragraph
+            </.p>
+            <.p id="typography-example-37" size="small" color="silver">Small Paragraph</.p>
+            <.p id="typography-example-38" size="medium" color="silver">Medium Paragraph</.p>
+            <.p id="typography-example-39" size="large" color="silver">Large Paragraph</.p>
+            <.p id="typography-example-40" size="extra_large" color="silver">
+              Extra Large Paragraph
+            </.p>
+            <.p id="typography-example-41" size="double_large" color="silver">
+              Double Large Paragraph
+            </.p>
+            <.p id="typography-example-42" size="triple_large" color="silver">
+              Triple Large Paragraph
+            </.p>
+            <.p id="typography-example-43" size="quadruple_large" color="silver">
+              Quadruple Large Paragraph
+            </.p>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="typography-font-weight">
+            <.link patch={~p"/chelekom/docs/typography/#typography-font-weight"}>
+              Font weight prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <.custom_inline_code>font_weight</.custom_inline_code>
+            attribute in the typography components allows you to specify Tailwind CSS font weight classes, giving you flexibility in styling text. You can use classes like <.custom_inline_code>font-normal</.custom_inline_code>, <.custom_inline_code>font-bold</.custom_inline_code>, <.custom_inline_code>font-semibold</.custom_inline_code>, or any other Tailwind font weight utility.
+          </.cp>
+
+          <.custom_code_wrapper
+            code_class="text-xs"
+            elements_class="space-y-5 [&>*]:block [&>*]:w-fit"
+            code={@code_4}
+          >
+            <.p
+              id="typography-example-44"
+              font_weight="font-black"
+              size="extra_small"
+              color="warning"
+            >
+              Extra Small Paragraph
+            </.p>
+            <.p id="typography-example-45" font_weight="font-thin" size="small" color="warning">
+              Small Paragraph
+            </.p>
+            <.p id="typography-example-46" font_weight="font-bold" size="medium" color="warning">
+              Medium Paragraph
+            </.p>
+          </.custom_code_wrapper>
+        </:documentation_panel>
+
+        <:props_panel>
+          <.custom_search class="mb-16" />
+          <div class="space-y-8 mt-8">
+            <h2 class="text-lg lg:text-2xl font-bold">h1 Component Props</h2>
+
+            <.custom_table id="typography-h1-component-props">
+              <:header>
+                <.table_th>Name</.table_th>
+
+                <.table_th>Type</.table_th>
+
+                <.table_th>Required</.table_th>
+
+                <.table_th>Description</.table_th>
+              </:header>
+
+              <:row>
+                <.table_td>id</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>A unique identifier used to manage state and interaction.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>color</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines the color theme. Default is <strong>inherit</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>size</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines the overall size of the element, including padding and font size. Default is <strong>quadruple_large</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>class</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Custom CSS class for additional styling.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>font_weight</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines the font weight of the text. Default is <strong>font-normal</strong>.
+                </.table_td>
+              </:row>
+            </.custom_table>
+          </div>
+          <div class="space-y-8 mt-8">
+            <h2 class="text-lg lg:text-2xl font-bold">h2 Component Props</h2>
+
+            <.custom_table id="typography-h2-component-props">
+              <:header>
+                <.table_th>Name</.table_th>
+                <.table_th>Type</.table_th>
+                <.table_th>Required</.table_th>
+                <.table_th>Description</.table_th>
+              </:header>
+
+              <:row>
+                <.table_td>id</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>A unique identifier used to manage state and interaction.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>color</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>
+                  Determines the color theme. Default is <strong>inherit</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>size</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>
+                  Determines the overall size of the element, including padding and font size. Default is <strong>triple_large</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>class</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>Custom CSS class for additional styling.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>font_weight</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>
+                  Determines the font weight of the text. Default is <strong>font-normal</strong>.
+                </.table_td>
+              </:row>
+            </.custom_table>
+          </div>
+          <div class="space-y-8 mt-8">
+            <h2 class="text-lg lg:text-2xl font-bold">h4 Component Props</h2>
+
+            <.custom_table id="typography-h4-component-props">
+              <:header>
+                <.table_th>Name</.table_th>
+                <.table_th>Type</.table_th>
+                <.table_th>Required</.table_th>
+                <.table_th>Description</.table_th>
+              </:header>
+
+              <:row>
+                <.table_td>id</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>A unique identifier used to manage state and interaction.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>color</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>
+                  Determines the color theme. Default is <strong>inherit</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>size</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>
+                  Determines the overall size of the element, including padding and font size. Default is <strong>extra_large</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>class</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>Custom CSS class for additional styling.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>font_weight</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>
+                  Determines the font weight of the text. Default is <strong>font-normal</strong>.
+                </.table_td>
+              </:row>
+            </.custom_table>
+          </div>
+          <div class="space-y-8 mt-8">
+            <h2 class="text-lg lg:text-2xl font-bold">h5 Component Props</h2>
+
+            <.custom_table id="typography-h5-component-props">
+              <:header>
+                <.table_th>Name</.table_th>
+                <.table_th>Type</.table_th>
+                <.table_th>Required</.table_th>
+                <.table_th>Description</.table_th>
+              </:header>
+
+              <:row>
+                <.table_td>id</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>A unique identifier used to manage state and interaction.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>color</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>
+                  Determines the color theme. Default is <strong>inherit</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>size</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>
+                  Determines the overall size of the element, including padding and font size. Default is <strong>large</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>class</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>Custom CSS class for additional styling.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>font_weight</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>
+                  Determines the font weight of the text. Default is <strong>font-normal</strong>.
+                </.table_td>
+              </:row>
+            </.custom_table>
+          </div>
+
+          <div class="space-y-8 mt-8">
+            <h2 class="text-lg lg:text-2xl font-bold">h6 Component Props</h2>
+
+            <.custom_table id="typography-h6-component-props">
+              <:header>
+                <.table_th>Name</.table_th>
+                <.table_th>Type</.table_th>
+                <.table_th>Required</.table_th>
+                <.table_th>Description</.table_th>
+              </:header>
+
+              <:row>
+                <.table_td>id</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>A unique identifier used to manage state and interaction.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>color</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>
+                  Determines the color theme. Default is <strong>inherit</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>size</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>
+                  Determines the overall size of the element, including padding and font size. Default is <strong>medium</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>class</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>Custom CSS class for additional styling.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>font_weight</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>
+                  Determines the font weight of the text. Default is <strong>font-normal</strong>.
+                </.table_td>
+              </:row>
+            </.custom_table>
+          </div>
+          <div class="space-y-8 mt-8">
+            <h2 class="text-lg lg:text-2xl font-bold">p Component Props</h2>
+
+            <.custom_table id="typography-p-component-props">
+              <:header>
+                <.table_th>Name</.table_th>
+                <.table_th>Type</.table_th>
+                <.table_th>Required</.table_th>
+                <.table_th>Description</.table_th>
+              </:header>
+
+              <:row>
+                <.table_td>id</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>A unique identifier used to manage state and interaction.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>color</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>
+                  Determines the color theme. Default is <strong>inherit</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>size</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>
+                  Determines the overall size of the element, including padding and font size. Default is <strong>medium</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>class</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>Custom CSS class for additional styling.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>font_weight</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>
+                  Determines the font weight of the text. Default is <strong>font-normal</strong>.
+                </.table_td>
+              </:row>
+            </.custom_table>
+          </div>
+          <div class="space-y-8 mt-8">
+            <h2 class="text-lg lg:text-2xl font-bold">strong Component Props</h2>
+
+            <.custom_table id="typography-strong-component-props">
+              <:header>
+                <.table_th>Name</.table_th>
+                <.table_th>Type</.table_th>
+                <.table_th>Required</.table_th>
+                <.table_th>Description</.table_th>
+              </:header>
+
+              <:row>
+                <.table_td>id</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>A unique identifier used to manage state and interaction.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>color</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>
+                  Determines the color theme. Default is <strong>inherit</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>size</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>
+                  Determines the overall size of the element, including padding and font size. Default is <strong>medium</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>class</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>Custom CSS class for additional styling.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>font_weight</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>
+                  Determines the font weight of the text. Default is <strong>font-bold</strong>.
+                </.table_td>
+              </:row>
+            </.custom_table>
+          </div>
+          <div class="space-y-8 mt-8">
+            <h2 class="text-lg lg:text-2xl font-bold">dl Component Props</h2>
+
+            <.custom_table id="typography-dl-component-props">
+              <:header>
+                <.table_th>Name</.table_th>
+                <.table_th>Type</.table_th>
+                <.table_th>Required</.table_th>
+                <.table_th>Description</.table_th>
+              </:header>
+
+              <:row>
+                <.table_td>id</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>A unique identifier used to manage state and interaction.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>color</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>
+                  Determines the color theme. Default is <strong>inherit</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>size</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>
+                  Determines the overall size of the element, including padding and font size. Default is <strong>medium</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>class</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>Custom CSS class for additional styling.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>font_weight</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>
+                  Determines the font weight of the text. Default is <strong>font-normal</strong>.
+                </.table_td>
+              </:row>
+            </.custom_table>
+          </div>
+          <div class="space-y-8 mt-8">
+            <h2 class="text-lg lg:text-2xl font-bold">dt Component Props</h2>
+
+            <.custom_table id="typography-dt-component-props">
+              <:header>
+                <.table_th>Name</.table_th>
+                <.table_th>Type</.table_th>
+                <.table_th>Required</.table_th>
+                <.table_th>Description</.table_th>
+              </:header>
+
+              <:row>
+                <.table_td>id</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>A unique identifier used to manage state and interaction.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>color</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>
+                  Determines the color theme. Default is <strong>inherit</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>size</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>
+                  Determines the overall size of the element, including padding and font size. Default is <strong>medium</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>class</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>Custom CSS class for additional styling.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>font_weight</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>
+                  Determines the font weight of the text. Default is <strong>font-bold</strong>.
+                </.table_td>
+              </:row>
+            </.custom_table>
+          </div>
+          <div class="space-y-8 mt-8">
+            <h2 class="text-lg lg:text-2xl font-bold">dd Component Props</h2>
+
+            <.custom_table id="typography-dd-component-props">
+              <:header>
+                <.table_th>Name</.table_th>
+                <.table_th>Type</.table_th>
+                <.table_th>Required</.table_th>
+                <.table_th>Description</.table_th>
+              </:header>
+
+              <:row>
+                <.table_td>id</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>A unique identifier used to manage state and interaction.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>color</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>
+                  Determines the color theme. Default is <strong>inherit</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>size</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>
+                  Determines the overall size of the element, including padding and font size. Default is <strong>medium</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>class</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>Custom CSS class for additional styling.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>font_weight</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>
+                  Determines the font weight of the text. Default is <strong>font-normal</strong>.
+                </.table_td>
+              </:row>
+            </.custom_table>
+          </div>
+          <div class="space-y-8 mt-8">
+            <h2 class="text-lg lg:text-2xl font-bold">figure Component Props</h2>
+
+            <.custom_table id="typography-figure-component-props">
+              <:header>
+                <.table_th>Name</.table_th>
+                <.table_th>Type</.table_th>
+                <.table_th>Required</.table_th>
+                <.table_th>Description</.table_th>
+              </:header>
+
+              <:row>
+                <.table_td>id</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>A unique identifier used to manage state and interaction.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>color</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>
+                  Determines the color theme. Default is <strong>inherit</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>size</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>
+                  Determines the overall size of the element, including padding and font size. Default is <strong>medium</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>class</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>Custom CSS class for additional styling.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>font_weight</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>
+                  Determines the font weight of the text. Default is <strong>font-normal</strong>.
+                </.table_td>
+              </:row>
+            </.custom_table>
+          </div>
+          <div class="space-y-8 mt-8">
+            <h2 class="text-lg lg:text-2xl font-bold">figcaption Component Props</h2>
+
+            <.custom_table id="typography-figcaption-component-props">
+              <:header>
+                <.table_th>Name</.table_th>
+                <.table_th>Type</.table_th>
+                <.table_th>Required</.table_th>
+                <.table_th>Description</.table_th>
+              </:header>
+
+              <:row>
+                <.table_td>id</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>A unique identifier used to manage state and interaction.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>color</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>
+                  Determines the color theme. Default is <strong>inherit</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>size</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>
+                  Determines the overall size of the element, including padding and font size. Default is <strong>medium</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>class</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>Custom CSS class for additional styling.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>font_weight</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>
+                  Determines the font weight of the text. Default is <strong>font-normal</strong>.
+                </.table_td>
+              </:row>
+            </.custom_table>
+          </div>
+          <div class="space-y-8 mt-8">
+            <h2 class="text-lg lg:text-2xl font-bold">abbr Component Props</h2>
+
+            <.custom_table id="typography-abbr-component-props">
+              <:header>
+                <.table_th>Name</.table_th>
+                <.table_th>Type</.table_th>
+                <.table_th>Required</.table_th>
+                <.table_th>Description</.table_th>
+              </:header>
+
+              <:row>
+                <.table_td>id</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>A unique identifier used to manage state and interaction.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>color</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>
+                  Determines the color theme. Default is <strong>inherit</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>size</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>
+                  Determines the overall size of the element, including padding and font size. Default is <strong>medium</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>class</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>Custom CSS class for additional styling.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>font_weight</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>
+                  Determines the font weight of the text. Default is <strong>font-normal</strong>.
+                </.table_td>
+              </:row>
+            </.custom_table>
+          </div>
+          <div class="space-y-8 mt-8">
+            <h2 class="text-lg lg:text-2xl font-bold">mark Component Props</h2>
+
+            <.custom_table id="typography-mark-component-props">
+              <:header>
+                <.table_th>Name</.table_th>
+                <.table_th>Type</.table_th>
+                <.table_th>Required</.table_th>
+                <.table_th>Description</.table_th>
+              </:header>
+
+              <:row>
+                <.table_td>id</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>A unique identifier used to manage state and interaction.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>color</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>
+                  Determines the color theme. Default is <strong>inherit</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>size</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>
+                  Determines the overall size of the element, including padding and font size. Default is <strong>medium</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>class</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>
+                  Custom CSS class for additional styling. Default is <strong>p-0.5 bg-rose-200</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>font_weight</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>
+                  Determines the font weight of the text. Default is <strong>font-normal</strong>.
+                </.table_td>
+              </:row>
+            </.custom_table>
+          </div>
+          <div class="space-y-8 mt-8">
+            <h2 class="text-lg lg:text-2xl font-bold">small Component Props</h2>
+
+            <.custom_table id="typography-small-component-props">
+              <:header>
+                <.table_th>Name</.table_th>
+                <.table_th>Type</.table_th>
+                <.table_th>Required</.table_th>
+                <.table_th>Description</.table_th>
+              </:header>
+
+              <:row>
+                <.table_td>id</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>A unique identifier used to manage state and interaction.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>color</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>
+                  Determines the color theme. Default is <strong>inherit</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>size</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>
+                  Determines the overall size of the element, including padding and font size. Default is <strong>medium</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>class</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>Custom CSS class for additional styling.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>font_weight</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>
+                  Determines the font weight of the text. Default is <strong>font-normal</strong>.
+                </.table_td>
+              </:row>
+            </.custom_table>
+          </div>
+          <div class="space-y-8 mt-8">
+            <h2 class="text-lg lg:text-2xl font-bold">s Component Props</h2>
+
+            <.custom_table id="typography-s-component-props">
+              <:header>
+                <.table_th>Name</.table_th>
+                <.table_th>Type</.table_th>
+                <.table_th>Required</.table_th>
+                <.table_th>Description</.table_th>
+              </:header>
+
+              <:row>
+                <.table_td>id</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>A unique identifier used to manage state and interaction.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>color</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>
+                  Determines the color theme. Default is <strong>inherit</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>size</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>
+                  Determines the overall size of the element, including padding and font size. Default is <strong>medium</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>class</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>Custom CSS class for additional styling.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>font_weight</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>
+                  Determines the font weight of the text. Default is <strong>font-normal</strong>.
+                </.table_td>
+              </:row>
+            </.custom_table>
+          </div>
+          <div class="space-y-8 mt-8">
+            <h2 class="text-lg lg:text-2xl font-bold">cite Component Props</h2>
+
+            <.custom_table id="typography-cite-component-props">
+              <:header>
+                <.table_th>Name</.table_th>
+                <.table_th>Type</.table_th>
+                <.table_th>Required</.table_th>
+                <.table_th>Description</.table_th>
+              </:header>
+
+              <:row>
+                <.table_td>id</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>A unique identifier used to manage state and interaction.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>color</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>
+                  Determines the color theme. Default is <strong>inherit</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>size</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>
+                  Determines the overall size of the element, including padding and font size. Default is <strong>medium</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>class</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>Custom CSS class for additional styling.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>font_weight</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>
+                  Determines the font weight of the text. Default is <strong>font-normal</strong>.
+                </.table_td>
+              </:row>
+            </.custom_table>
+          </div>
+          <div class="space-y-8 mt-8">
+            <h2 class="text-lg lg:text-2xl font-bold">del Component Props</h2>
+
+            <.custom_table id="typography-del-component-props">
+              <:header>
+                <.table_th>Name</.table_th>
+                <.table_th>Type</.table_th>
+                <.table_th>Required</.table_th>
+                <.table_th>Description</.table_th>
+              </:header>
+
+              <:row>
+                <.table_td>id</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>A unique identifier used to manage state and interaction.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>color</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>
+                  Determines the color theme. Default is <strong>inherit</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>size</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>
+                  Determines the overall size of the element, including padding and font size. Default is <strong>medium</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>class</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>Custom CSS class for additional styling.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>font_weight</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>
+                  Determines the font weight of the text. Default is <strong>font-normal</strong>.
+                </.table_td>
+              </:row>
+            </.custom_table>
+          </div>
+        </:props_panel>
+
+        <:cli_panel>
+          <.custom_cli_props config={component_config()} />
+        </:cli_panel>
+        <.custom_table_content>
+          <:content
+            link={~p"/chelekom/docs/typography/#overview"}
+            title="Overview of the Typography Component"
+          />
+          <:content
+            link={~p"/chelekom/docs/typography/#typography-components"}
+            title="Typography components"
+          />
+          <:content link={~p"/chelekom/docs/typography/#typography-colors"} title="Color prop" />
+          <:content link={~p"/chelekom/docs/typography/#typography-size-prop"} title="Size prop" />
+          <:content
+            link={~p"/chelekom/docs/typography/#typography-font-weight"}
+            title="Font weight prop"
+          />
+        </.custom_table_content>
+      </.custom_tab>
+    </div>
+  </div>
+</Layouts.app>

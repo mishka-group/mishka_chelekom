@@ -1,0 +1,847 @@
+<Layouts.app flash={@flash}>
+  <div class="lg:grid lg:grid-cols-12 mt-5 max-w-5xl mx-auto">
+    <.custom_nav active="chelekom-docs-dock" />
+    <div class="lg:col-span-10">
+      <.custom_info
+        title="Dock"
+        description="A flexible bottom navigation bar (also called Bottom Bar). Combine variants, colors, sizes and positions to ship anything from an inline action bar to an Android-style floating pill."
+        mix="mix mishka.ui.gen.component dock"
+        github="https://github.com/mishka-group/mishka_chelekom/blob/master/priv/components/dock.eex"
+        tags={["Component", "Stateless"]}
+      />
+      <.custom_tab id="chelekom-dock-tab">
+        <:documentation_panel>
+          <.heading2 class="mb-5" id="overview">
+            <.link patch={~p"/chelekom/docs/dock/#overview"}>
+              Overview of the Phoenix LiveView Dock Component
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The <strong>Mishka Chelekom Dock</strong>
+            component is a versatile <strong>Phoenix LiveView</strong>
+            navigation element designed for the bottom (or top) of the viewport. It works as a static section, a sticky bar, an edge-to-edge fixed bottom navigation, or a centered floating pill — everything you need for mobile-style navigation patterns.
+          </.cp>
+
+          <.cp margin="mt-5">
+            Items support icons, labels, badges, an active state, and any of the <strong>navigate</strong>/<strong>patch</strong>/<strong>href</strong> link helpers (or render as a plain button when none are given). All colors and shadows resolve to the Chelekom CSS-variable tokens, so the dock automatically follows your
+            <.custom_inline_code>priv/mishka_chelekom/config.exs</.custom_inline_code>
+            overrides.
+          </.cp>
+
+          <.custom_block position="left" color="success" class="my-8" border="medium">
+            <.cp>
+              For <strong>fixed</strong>
+              and <strong>sticky</strong>
+              examples below, click the toggle button to activate / deactivate the example so it doesn't permanently overlap the docs page.
+            </.cp>
+          </.custom_block>
+
+          <.heading2 margin="my-5" id="dock-base">
+            <.link patch={~p"/chelekom/docs/dock/#dock-base"}>
+              Base Color & Variant
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The default
+            <.custom_inline_code>base</.custom_inline_code>
+            variant is a clean, neutral dock that works in both light and dark themes.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" code={@code_base}>
+            <.dock id="dock-example-base">
+              <:item icon="hero-home" label="Home" navigate="/" active />
+              <:item icon="hero-inbox" label="Inbox" navigate="/" />
+              <:item icon="hero-cog-6-tooth" label="Settings" navigate="/" />
+            </.dock>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="dock-default-variant">
+            <.link patch={~p"/chelekom/docs/dock/#dock-default-variant"}>
+              Default variant
+            </.link>
+          </.heading2>
+
+          <.cp>
+            Solid background using any chelekom color: <.custom_inline_code>natural</.custom_inline_code>, <.custom_inline_code>white</.custom_inline_code>, <.custom_inline_code>primary</.custom_inline_code>, <.custom_inline_code>secondary</.custom_inline_code>, <.custom_inline_code>dark</.custom_inline_code>, <.custom_inline_code>success</.custom_inline_code>, <.custom_inline_code>warning</.custom_inline_code>, <.custom_inline_code>danger</.custom_inline_code>, <.custom_inline_code>info</.custom_inline_code>, <.custom_inline_code>silver</.custom_inline_code>, <.custom_inline_code>misc</.custom_inline_code>, <.custom_inline_code>dawn</.custom_inline_code>.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" code={@code_default}>
+            <div class="space-y-3">
+              <.dock id="dock-example-default-primary" variant="default" color="primary">
+                <:item icon="hero-home" label="Home" navigate="/" />
+                <:item icon="hero-inbox" label="Inbox" navigate="/" active />
+                <:item icon="hero-cog-6-tooth" label="Settings" navigate="/" />
+              </.dock>
+              <.dock id="dock-example-default-natural" variant="default" color="natural">
+                <:item icon="hero-home" label="Home" navigate="/" active />
+                <:item icon="hero-inbox" label="Inbox" navigate="/" />
+                <:item icon="hero-cog-6-tooth" label="Settings" navigate="/" />
+              </.dock>
+              <.dock id="dock-example-default-success" variant="default" color="success">
+                <:item icon="hero-home" label="Home" navigate="/" />
+                <:item icon="hero-inbox" label="Inbox" navigate="/" />
+                <:item icon="hero-cog-6-tooth" label="Settings" navigate="/" active />
+              </.dock>
+              <.dock id="dock-example-default-danger" variant="default" color="danger">
+                <:item icon="hero-home" label="Home" navigate="/" active />
+                <:item icon="hero-inbox" label="Inbox" navigate="/" />
+                <:item icon="hero-cog-6-tooth" label="Settings" navigate="/" />
+              </.dock>
+            </div>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="dock-shadow-variant">
+            <.link patch={~p"/chelekom/docs/dock/#dock-shadow-variant"}>
+              Shadow variant
+            </.link>
+          </.heading2>
+
+          <.cp>
+            Same color palette as default but with a chelekom-tokened drop shadow for depth.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" code={@code_shadow}>
+            <div class="space-y-3">
+              <.dock id="dock-example-shadow-primary" variant="shadow" color="primary">
+                <:item icon="hero-home" label="Home" navigate="/" active />
+                <:item icon="hero-inbox" label="Inbox" navigate="/" />
+                <:item icon="hero-cog-6-tooth" label="Settings" navigate="/" />
+              </.dock>
+              <.dock id="dock-example-shadow-misc" variant="shadow" color="misc">
+                <:item icon="hero-home" label="Home" navigate="/" />
+                <:item icon="hero-inbox" label="Inbox" navigate="/" active />
+                <:item icon="hero-cog-6-tooth" label="Settings" navigate="/" />
+              </.dock>
+            </div>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="dock-bordered-variant">
+            <.link patch={~p"/chelekom/docs/dock/#dock-bordered-variant"}>
+              Bordered variant
+            </.link>
+          </.heading2>
+
+          <.cp>
+            Soft tinted background with a same-color border. The active item gets an additional subtle background to highlight selection.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" code={@code_bordered}>
+            <div class="space-y-3">
+              <.dock id="dock-example-bordered-success" variant="bordered" color="success">
+                <:item icon="hero-home" label="Home" navigate="/" active />
+                <:item icon="hero-inbox" label="Inbox" navigate="/" />
+                <:item icon="hero-cog-6-tooth" label="Settings" navigate="/" />
+              </.dock>
+              <.dock
+                id="dock-example-bordered-info"
+                variant="bordered"
+                color="info"
+                rounded="full"
+              >
+                <:item icon="hero-home" label="Home" navigate="/" />
+                <:item icon="hero-inbox" label="Inbox" navigate="/" active />
+                <:item icon="hero-cog-6-tooth" label="Settings" navigate="/" />
+              </.dock>
+            </div>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="dock-gradient-variant">
+            <.link patch={~p"/chelekom/docs/dock/#dock-gradient-variant"}>
+              Gradient variant
+            </.link>
+          </.heading2>
+
+          <.cp>
+            Uses the chelekom gradient tokens for a vibrant background.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" code={@code_gradient}>
+            <div class="space-y-3">
+              <.dock id="dock-example-gradient-misc" variant="gradient" color="misc">
+                <:item icon="hero-home" label="Home" navigate="/" />
+                <:item icon="hero-inbox" label="Inbox" navigate="/" active />
+                <:item icon="hero-cog-6-tooth" label="Settings" navigate="/" />
+              </.dock>
+              <.dock id="dock-example-gradient-primary" variant="gradient" color="primary">
+                <:item icon="hero-home" label="Home" navigate="/" active />
+                <:item icon="hero-inbox" label="Inbox" navigate="/" />
+                <:item icon="hero-cog-6-tooth" label="Settings" navigate="/" />
+              </.dock>
+            </div>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="dock-size-prop">
+            <.link patch={~p"/chelekom/docs/dock/#dock-size-prop"}>
+              Size prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            Controls icon size, label size, and minimum item height. Five steps: <.custom_inline_code>extra_small</.custom_inline_code>, <.custom_inline_code>small</.custom_inline_code>, <.custom_inline_code>medium</.custom_inline_code>, <.custom_inline_code>large</.custom_inline_code>, <.custom_inline_code>extra_large</.custom_inline_code>.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" code={@code_size}>
+            <div class="space-y-3">
+              <.dock
+                :for={s <- ~w(extra_small small medium large extra_large)}
+                id={"dock-size-#{s}"}
+                size={s}
+              >
+                <:item icon="hero-home" label="Home" navigate="/" active />
+                <:item icon="hero-inbox" label="Inbox" navigate="/" />
+                <:item icon="hero-cog-6-tooth" label="Settings" navigate="/" />
+              </.dock>
+            </div>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="dock-rounded-prop">
+            <.link patch={~p"/chelekom/docs/dock/#dock-rounded-prop"}>
+              Rounded prop
+            </.link>
+          </.heading2>
+
+          <.custom_code_wrapper code_class="text-xs" code={@code_rounded}>
+            <div class="space-y-3">
+              <.dock
+                :for={r <- ~w(none extra_small small medium large extra_large full)}
+                id={"dock-rounded-#{r}"}
+                rounded={r}
+              >
+                <:item icon="hero-home" label="Home" navigate="/" active />
+                <:item icon="hero-inbox" label="Inbox" navigate="/" />
+                <:item icon="hero-cog-6-tooth" label="Settings" navigate="/" />
+              </.dock>
+            </div>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="dock-padding-prop">
+            <.link patch={~p"/chelekom/docs/dock/#dock-padding-prop"}>
+              Padding prop
+            </.link>
+          </.heading2>
+
+          <.custom_code_wrapper code_class="text-xs" code={@code_padding}>
+            <div class="space-y-3">
+              <.dock
+                :for={p <- ~w(none extra_small small medium large extra_large)}
+                id={"dock-padding-#{p}"}
+                padding={p}
+              >
+                <:item icon="hero-home" label="Home" navigate="/" active />
+                <:item icon="hero-inbox" label="Inbox" navigate="/" />
+                <:item icon="hero-cog-6-tooth" label="Settings" navigate="/" />
+              </.dock>
+            </div>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="dock-space-prop">
+            <.link patch={~p"/chelekom/docs/dock/#dock-space-prop"}>
+              Space prop
+            </.link>
+          </.heading2>
+
+          <.cp>Gap between items inside the dock.</.cp>
+
+          <.custom_code_wrapper code_class="text-xs" code={@code_space}>
+            <div class="space-y-3">
+              <.dock
+                :for={s <- ~w(extra_small small medium large extra_large)}
+                id={"dock-space-#{s}"}
+                space={s}
+              >
+                <:item icon="hero-home" label="Home" navigate="/" active />
+                <:item icon="hero-inbox" label="Inbox" navigate="/" />
+                <:item icon="hero-cog-6-tooth" label="Settings" navigate="/" />
+              </.dock>
+            </div>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="dock-border-prop">
+            <.link patch={~p"/chelekom/docs/dock/#dock-border-prop"}>
+              Border prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            Border thickness — only applies when the variant has a visible border (<.custom_inline_code>base</.custom_inline_code>, <.custom_inline_code>bordered</.custom_inline_code>).
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" code={@code_border}>
+            <div class="space-y-3">
+              <.dock
+                :for={b <- ~w(none extra_small small medium large extra_large)}
+                id={"dock-border-#{b}"}
+                border={b}
+                variant="base"
+              >
+                <:item icon="hero-home" label="Home" navigate="/" active />
+                <:item icon="hero-inbox" label="Inbox" navigate="/" />
+                <:item icon="hero-cog-6-tooth" label="Settings" navigate="/" />
+              </.dock>
+            </div>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="dock-max-width-prop">
+            <.link patch={~p"/chelekom/docs/dock/#dock-max-width-prop"}>
+              Max width prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            Constrains the inner item row width. Useful when the dock container itself is full-width (e.g., fixed positions) but you want the items grouped in the center.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" code={@code_max_width}>
+            <div class="space-y-3">
+              <.dock
+                :for={mw <- ~w(extra_small medium large full)}
+                id={"dock-mw-#{mw}"}
+                max_width={mw}
+              >
+                <:item icon="hero-home" label="Home" navigate="/" active />
+                <:item icon="hero-inbox" label="Inbox" navigate="/" />
+                <:item icon="hero-cog-6-tooth" label="Settings" navigate="/" />
+              </.dock>
+            </div>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="dock-position-prop">
+            <.link patch={~p"/chelekom/docs/dock/#dock-position-prop"}>
+              Position prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            Choose how the dock attaches to the viewport. The toggleable demos below activate the dock so you can see it in real position — click again to hide.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" code={@code_position}>
+            <div class="space-y-3">
+              <div class="flex flex-wrap gap-2">
+                <.button
+                  :for={
+                    {label, id} <- [
+                      {"fixed_bottom", "dock-example-fixed-bottom"},
+                      {"fixed_top", "dock-example-fixed-top"},
+                      {"sticky_bottom", "dock-example-sticky-bottom"},
+                      {"sticky_top", "dock-example-sticky-top"},
+                      {"fixed_bottom_center", "dock-example-fixed-bottom-center"},
+                      {"fixed_top_center", "dock-example-fixed-top-center"}
+                    ]
+                  }
+                  size="small"
+                  variant="outline"
+                  color={if @active_dock == id, do: "danger", else: "primary"}
+                  phx-click="toggle_dock"
+                  phx-value-id={id}
+                >
+                  {if @active_dock == id, do: "Hide", else: "Show"}
+                  <span class="ml-1 font-mono">{label}</span>
+                </.button>
+              </div>
+
+              <.cp>Static (default — sits inline in the page flow):</.cp>
+
+              <.dock id="dock-position-static" position="static">
+                <:item icon="hero-home" label="Home" navigate="/" active />
+                <:item icon="hero-inbox" label="Inbox" navigate="/" />
+                <:item icon="hero-cog-6-tooth" label="Settings" navigate="/" />
+              </.dock>
+            </div>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="dock-show-labels-prop">
+            <.link patch={~p"/chelekom/docs/dock/#dock-show-labels-prop"}>
+              Show labels prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            Set
+            <.custom_inline_code>show_labels={false}</.custom_inline_code>
+            for an icons-only dock. Pairs nicely with <.custom_inline_code>rounded="full"</.custom_inline_code>.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" code={@code_show_labels}>
+            <.dock id="dock-no-labels" show_labels={false} rounded="full" size="large">
+              <:item icon="hero-home" navigate="/" active />
+              <:item icon="hero-magnifying-glass" navigate="/search" />
+              <:item icon="hero-user" navigate="/profile" />
+            </.dock>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="dock-active-item">
+            <.link patch={~p"/chelekom/docs/dock/#dock-active-item"}>
+              Active item
+            </.link>
+          </.heading2>
+
+          <.cp>
+            Mark a single item as
+            <.custom_inline_code>active</.custom_inline_code>
+            to highlight it. The active item gets full opacity, a slightly larger icon, and an
+            <.custom_inline_code>aria-current="page"</.custom_inline_code>
+            attribute for accessibility.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" code={@code_active}>
+            <.dock id="dock-active-state">
+              <:item icon="hero-home" label="Home" navigate="/" />
+              <:item icon="hero-inbox" label="Inbox" navigate="/" active />
+              <:item icon="hero-cog-6-tooth" label="Settings" navigate="/" />
+            </.dock>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="dock-item-badge">
+            <.link patch={~p"/chelekom/docs/dock/#dock-item-badge"}>
+              Item badge
+            </.link>
+          </.heading2>
+
+          <.cp>
+            Each item accepts a
+            <.custom_inline_code>badge</.custom_inline_code>
+            string (e.g., <strong>"3"</strong>, <strong>"9+"</strong>, or a dot). The badge anchors at the top-right of the icon.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" code={@code_badge}>
+            <.dock id="dock-with-badge">
+              <:item icon="hero-home" label="Home" navigate="/" />
+              <:item icon="hero-inbox" label="Inbox" navigate="/" badge="3" active />
+              <:item icon="hero-bell" label="Alerts" navigate="/" badge="9+" />
+            </.dock>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="dock-item-color">
+            <.link patch={~p"/chelekom/docs/dock/#dock-item-color"}>
+              Item color override
+            </.link>
+          </.heading2>
+
+          <.cp>
+            Pass
+            <.custom_inline_code>color</.custom_inline_code>
+            on an individual item to override the dock's color for that single entry. Useful for the bordered variant.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" code={@code_item_color}>
+            <.dock id="dock-item-color-demo" variant="bordered" rounded="large">
+              <:item icon="hero-home" label="Home" navigate="/" color="primary" />
+              <:item icon="hero-heart" label="Saved" navigate="/" color="danger" />
+              <:item icon="hero-bolt" label="Quick" navigate="/" color="warning" />
+            </.dock>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="dock-item-links">
+            <.link patch={~p"/chelekom/docs/dock/#dock-item-links"}>
+              Item link helpers
+            </.link>
+          </.heading2>
+
+          <.cp>
+            Items render as a Phoenix link when you pass <.custom_inline_code>navigate</.custom_inline_code>, <.custom_inline_code>patch</.custom_inline_code>, or <.custom_inline_code>href</.custom_inline_code>. With none of those, the item renders as a plain
+            <strong>button</strong>
+            so you can wire it to <.custom_inline_code>phx-click</.custom_inline_code>.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" code={@code_item_links}>
+            <.dock id="dock-item-links-demo">
+              <:item icon="hero-home" label="Navigate" navigate="/" />
+              <:item icon="hero-arrow-path" label="Patch" patch="/chelekom/docs/dock" />
+              <:item icon="hero-link" label="External" href="https://mishka.tools" />
+              <:item icon="hero-cursor-arrow-rays" label="Action" />
+            </.dock>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="dock-class-hooks">
+            <.link patch={~p"/chelekom/docs/dock/#dock-class-hooks"}>
+              Class customization hooks
+            </.link>
+          </.heading2>
+
+          <.cp>
+            Every layer has a class hook for full Tailwind escape: <.custom_inline_code>class</.custom_inline_code>, <.custom_inline_code>item_class</.custom_inline_code>, <.custom_inline_code>icon_class</.custom_inline_code>, <.custom_inline_code>label_class</.custom_inline_code>, <.custom_inline_code>active_class</.custom_inline_code>, <.custom_inline_code>inner_wrapper_class</.custom_inline_code>. Item-level versions also exist (<.custom_inline_code>icon_class</.custom_inline_code>, <.custom_inline_code>label_class</.custom_inline_code>, <.custom_inline_code>badge_class</.custom_inline_code>).
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" code={@code_item_classes}>
+            <.dock
+              id="dock-classes-demo"
+              class="bg-natural-bordered-bg-light dark:bg-natural-bordered-bg-dark"
+              item_class="hover:bg-base-hover-light dark:hover:bg-base-hover-dark"
+              icon_class="text-primary-light dark:text-primary-dark"
+              label_class="font-semibold"
+              active_class="text-primary-light dark:text-primary-dark"
+              rounded="large"
+            >
+              <:item icon="hero-home" label="Home" navigate="/" active />
+              <:item icon="hero-inbox" label="Inbox" navigate="/" />
+              <:item icon="hero-cog-6-tooth" label="Settings" navigate="/" />
+            </.dock>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="dock-glass-recipe">
+            <.link patch={~p"/chelekom/docs/dock/#dock-glass-recipe"}>
+              Frosted-glass / Android dock recipe
+            </.link>
+          </.heading2>
+
+          <.cp>
+            Use the
+            <.custom_inline_code>fixed_bottom_center</.custom_inline_code>
+            position with backdrop-blur and translucent base tokens to get the modern Android / iOS dock look. Click the button to toggle.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" code={@code_glass}>
+            <.button
+              size="small"
+              variant="outline"
+              color={
+                if @active_dock == "dock-example-android-glass", do: "danger", else: "primary"
+              }
+              phx-click="toggle_dock"
+              phx-value-id="dock-example-android-glass"
+            >
+              {if @active_dock == "dock-example-android-glass", do: "Hide", else: "Show"} android glass dock
+            </.button>
+          </.custom_code_wrapper>
+
+          <.dock
+            :if={@active_dock == "dock-example-fixed-bottom"}
+            id="dock-example-fixed-bottom"
+            position="fixed_bottom"
+            variant="default"
+            color="dark"
+          >
+            <:item icon="hero-home" label="Home" navigate="/" active />
+            <:item icon="hero-inbox" label="Inbox" navigate="/" />
+            <:item icon="hero-cog-6-tooth" label="Settings" navigate="/" />
+          </.dock>
+
+          <.dock
+            :if={@active_dock == "dock-example-fixed-top"}
+            id="dock-example-fixed-top"
+            position="fixed_top"
+            variant="default"
+            color="primary"
+          >
+            <:item icon="hero-home" label="Home" navigate="/" active />
+            <:item icon="hero-inbox" label="Inbox" navigate="/" />
+            <:item icon="hero-cog-6-tooth" label="Settings" navigate="/" />
+          </.dock>
+
+          <.dock
+            :if={@active_dock == "dock-example-sticky-bottom"}
+            id="dock-example-sticky-bottom"
+            position="sticky_bottom"
+            variant="shadow"
+            color="primary"
+          >
+            <:item icon="hero-home" label="Home" navigate="/" active />
+            <:item icon="hero-inbox" label="Inbox" navigate="/" />
+            <:item icon="hero-cog-6-tooth" label="Settings" navigate="/" />
+          </.dock>
+
+          <.dock
+            :if={@active_dock == "dock-example-sticky-top"}
+            id="dock-example-sticky-top"
+            position="sticky_top"
+            variant="shadow"
+            color="success"
+          >
+            <:item icon="hero-home" label="Home" navigate="/" active />
+            <:item icon="hero-inbox" label="Inbox" navigate="/" />
+            <:item icon="hero-cog-6-tooth" label="Settings" navigate="/" />
+          </.dock>
+
+          <.dock
+            :if={@active_dock == "dock-example-fixed-bottom-center"}
+            id="dock-example-fixed-bottom-center"
+            position="fixed_bottom_center"
+            variant="shadow"
+            color="primary"
+            rounded="full"
+          >
+            <:item icon="hero-home" label="Home" navigate="/" active />
+            <:item icon="hero-inbox" label="Inbox" navigate="/" />
+            <:item icon="hero-cog-6-tooth" label="Settings" navigate="/" />
+          </.dock>
+
+          <.dock
+            :if={@active_dock == "dock-example-fixed-top-center"}
+            id="dock-example-fixed-top-center"
+            position="fixed_top_center"
+            variant="shadow"
+            color="dark"
+            rounded="full"
+          >
+            <:item icon="hero-home" label="Home" navigate="/" active />
+            <:item icon="hero-inbox" label="Inbox" navigate="/" />
+            <:item icon="hero-cog-6-tooth" label="Settings" navigate="/" />
+          </.dock>
+
+          <.dock
+            :if={@active_dock == "dock-example-android-glass"}
+            id="dock-example-android-glass"
+            position="fixed_bottom_center"
+            variant="base"
+            rounded="full"
+            padding="small"
+            space="medium"
+            border="none"
+            show_labels={false}
+            class={[
+              "!bottom-8 px-3",
+              "!bg-white/60 dark:!bg-base-bg-dark/60 backdrop-blur-xl backdrop-saturate-150",
+              "!border !border-base-border-light/40 dark:!border-base-border-dark/40",
+              "!shadow-xl",
+              "!text-base-text-light dark:!text-base-text-dark"
+            ]}
+            item_class="px-3"
+          >
+            <:item icon="hero-home" navigate="/" active />
+            <:item icon="hero-newspaper" navigate="/" />
+            <:item icon="hero-squares-2x2" navigate="/" />
+            <:item icon="hero-bell" navigate="/" badge="3" />
+            <:item icon="hero-user" navigate="/" />
+          </.dock>
+        </:documentation_panel>
+
+        <:props_panel>
+          <.custom_search class="mb-16" />
+          <div class="space-y-8">
+            <h2 class="text-lg lg:text-2xl font-bold">Dock Component Props</h2>
+
+            <.custom_table id="dock-component-table">
+              <:header>
+                <.table_th>Name</.table_th>
+                <.table_th>Type</.table_th>
+                <.table_th>Required</.table_th>
+                <.table_th>Description</.table_th>
+              </:header>
+
+              <:row>
+                <.table_td>id</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>Yes</.table_td>
+                <.table_td>A unique identifier used to manage state and interaction.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>variant</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>
+                  Determines the style. Values: <strong>base</strong>, <strong>default</strong>, <strong>shadow</strong>, <strong>bordered</strong>, <strong>gradient</strong>. Default is <strong>base</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>color</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>
+                  Color theme. Values: <strong>base</strong>, <strong>natural</strong>, <strong>white</strong>, <strong>primary</strong>, <strong>secondary</strong>, <strong>dark</strong>, <strong>success</strong>, <strong>warning</strong>, <strong>danger</strong>, <strong>info</strong>, <strong>silver</strong>, <strong>misc</strong>, <strong>dawn</strong>. Default is <strong>natural</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>size</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>
+                  Icon and label scale. Values: <strong>extra_small</strong>, <strong>small</strong>, <strong>medium</strong>, <strong>large</strong>, <strong>extra_large</strong>. Default is <strong>medium</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>rounded</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>
+                  Border radius. Values: <strong>none</strong>, <strong>extra_small</strong>, <strong>small</strong>, <strong>medium</strong>, <strong>large</strong>, <strong>extra_large</strong>, <strong>full</strong>. Default is <strong>none</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>padding</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>
+                  Padding for the dock container. Values: <strong>none</strong>, <strong>extra_small</strong>, <strong>small</strong>, <strong>medium</strong>, <strong>large</strong>, <strong>extra_large</strong>. Default is <strong>small</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>space</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>
+                  Space between items. Values: <strong>extra_small</strong>, <strong>small</strong>, <strong>medium</strong>, <strong>large</strong>, <strong>extra_large</strong>. Default is <strong>extra_small</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>border</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>
+                  Border thickness. Values: <strong>none</strong>, <strong>extra_small</strong>, <strong>small</strong>, <strong>medium</strong>, <strong>large</strong>, <strong>extra_large</strong>. Default is <strong>extra_small</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>max_width</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>
+                  Constrains the inner items wrapper width. Values: <strong>extra_small</strong>, <strong>small</strong>, <strong>medium</strong>, <strong>large</strong>, <strong>extra_large</strong>, <strong>full</strong>. Default is <strong>full</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>position</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>
+                  Viewport attachment. Values: <strong>static</strong>, <strong>sticky_bottom</strong>, <strong>sticky_top</strong>, <strong>fixed_bottom</strong>, <strong>fixed_top</strong>, <strong>fixed_bottom_center</strong>, <strong>fixed_top_center</strong>. Default is <strong>static</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>show_labels</.table_td>
+                <.table_td>boolean</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>
+                  Whether labels render under icons. Default is <strong>true</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>font_weight</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>
+                  Tailwind font-weight class. Default is <strong>font-medium</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>class</.table_td>
+                <.table_td>any</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>
+                  Custom CSS class for the outer nav. Default is <strong>nil</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>item_class</.table_td>
+                <.table_td>any</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>
+                  Class applied to every item. Default is <strong>nil</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>icon_class</.table_td>
+                <.table_td>any</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>
+                  Class applied to every item icon. Default is <strong>nil</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>label_class</.table_td>
+                <.table_td>any</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>
+                  Class applied to every item label. Default is <strong>nil</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>active_class</.table_td>
+                <.table_td>any</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>
+                  Extra class merged onto active items. Default is <strong>nil</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>inner_wrapper_class</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>
+                  Class for the items <strong>ul</strong>
+                  wrapper. Default is <strong>nil</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>item</.table_td>
+                <.table_td>slot</.table_td>
+                <.table_td>Yes</.table_td>
+                <.table_td>
+                  Defines each entry. Item attributes: <strong>icon</strong>, <strong>label</strong>, <strong>badge</strong>, <strong>active</strong>,
+                  <strong>navigate</strong>
+                  / <strong>patch</strong>
+                  / <strong>href</strong>, <strong>color</strong>, <strong>class</strong>, <strong>icon_class</strong>, <strong>label_class</strong>, <strong>badge_class</strong>.
+                </.table_td>
+              </:row>
+            </.custom_table>
+          </div>
+        </:props_panel>
+
+        <:cli_panel>
+          <.custom_cli_props config={component_config()} />
+        </:cli_panel>
+
+        <.custom_table_content>
+          <:content
+            link={~p"/chelekom/docs/dock/#overview"}
+            title="Overview of the dock component"
+          />
+          <:content link={~p"/chelekom/docs/dock/#dock-base"} title="Base Color & Variant" />
+          <:content link={~p"/chelekom/docs/dock/#dock-default-variant"} title="Default variant" />
+          <:content link={~p"/chelekom/docs/dock/#dock-shadow-variant"} title="Shadow variant" />
+          <:content
+            link={~p"/chelekom/docs/dock/#dock-bordered-variant"}
+            title="Bordered variant"
+          />
+          <:content
+            link={~p"/chelekom/docs/dock/#dock-gradient-variant"}
+            title="Gradient variant"
+          />
+          <:content link={~p"/chelekom/docs/dock/#dock-size-prop"} title="Size prop" />
+          <:content link={~p"/chelekom/docs/dock/#dock-rounded-prop"} title="Rounded prop" />
+          <:content link={~p"/chelekom/docs/dock/#dock-padding-prop"} title="Padding prop" />
+          <:content link={~p"/chelekom/docs/dock/#dock-space-prop"} title="Space prop" />
+          <:content link={~p"/chelekom/docs/dock/#dock-border-prop"} title="Border prop" />
+          <:content link={~p"/chelekom/docs/dock/#dock-max-width-prop"} title="Max width prop" />
+          <:content link={~p"/chelekom/docs/dock/#dock-position-prop"} title="Position prop" />
+          <:content
+            link={~p"/chelekom/docs/dock/#dock-show-labels-prop"}
+            title="Show labels prop"
+          />
+          <:content link={~p"/chelekom/docs/dock/#dock-active-item"} title="Active item" />
+          <:content link={~p"/chelekom/docs/dock/#dock-item-badge"} title="Item badge" />
+          <:content link={~p"/chelekom/docs/dock/#dock-item-color"} title="Item color override" />
+          <:content link={~p"/chelekom/docs/dock/#dock-item-links"} title="Item link helpers" />
+          <:content
+            link={~p"/chelekom/docs/dock/#dock-class-hooks"}
+            title="Class customization hooks"
+          />
+          <:content
+            link={~p"/chelekom/docs/dock/#dock-glass-recipe"}
+            title="Frosted-glass / Android dock"
+          />
+        </.custom_table_content>
+      </.custom_tab>
+    </div>
+  </div>
+</Layouts.app>

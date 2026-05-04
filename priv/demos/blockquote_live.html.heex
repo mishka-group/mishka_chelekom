@@ -1,0 +1,1045 @@
+<Layouts.app flash={@flash}>
+  <div class="lg:grid lg:grid-cols-12 mt-5 max-w-5xl mx-auto">
+    <.custom_nav active="chelekom-docs-blockquote" />
+    <div class="lg:col-span-10">
+      <.custom_info
+        title="Blockquote"
+        description="Blockquote component for Phoenix and Phoenix LiveView, ideal for highlighting quotes or key content."
+        mix="mix mishka.ui.gen.component blockquote"
+        github="https://github.com/mishka-group/mishka_chelekom/blob/master/priv/components/blockquote.eex"
+        tags={["Component", "Stateless"]}
+      />
+      <.custom_tab id="chelekom-blockquote-tab">
+        <:documentation_panel>
+          <.heading2 class="mb-5" id="overview">
+            <.link patch={~p"/chelekom/docs/blockquote/#overview"}>
+              Overview of the Phoenix and LiveView Image Component
+            </.link>
+          </.heading2>
+          <.cp>
+            The
+            <strong>
+              Mishka Chelekom blockquote
+            </strong>
+            component is a <strong>Phoenix LiveView</strong>
+            component  that allows developers to create dynamic and customizable <strong>blockquotes</strong>, perfect for highlighting key content or quotes within applications. It offers flexibility in layout, allowing for easy adjustment of size, padding, and positioning, ensuring a polished and professional look.
+          </.cp>
+
+          <.custom_code_wrapper class="mt-10">
+            <.blockquote class="border !shadow-xs" border="large" rounded="large">
+              <p class="text-[16px] leading-7">
+                Mishka Chelekom is a modern UI component library, offering a comprehensive collection of reusable components for Phoenix LiveView applications. Built with Tailwind CSS and zero dependencies, it provides an elegant, responsive, and customizable design system that simplifies web development while maintaining high performance
+              </p>
+              <:caption image="/images/mona-aghili.jpg" position="right">
+                Mona Aghili
+              </:caption>
+            </.blockquote>
+          </.custom_code_wrapper>
+
+          <.cp margin="mt-5">
+            This
+            <strong>
+              <.link
+                title="Phoenix LiveView component"
+                class="transition-colors hover:text-[#448D96]"
+                navigate={~p"/chelekom"}
+              >
+                Phoenix LiveView component
+              </.link>
+            </strong>
+            also supports adding captions and icons, making it ideal for enhancing both the visual appeal and the clarity of important information. With its responsive design and ease of use, this blockquote component improves content readability and presentation.
+          </.cp>
+
+          <.custom_block position="left" color="success" class="my-8" border="medium">
+            <.cp>
+              By using the class prop, you can apply custom classes or Tailwind CSS classes to customize the appearance and behavior of the components, allowing for flexible design changes.
+            </.cp>
+          </.custom_block>
+
+          <.heading2 margin="my-5" id="blockquote-caption-slot">
+            <.link patch={~p"/chelekom/docs/blockquote/#blockquote-caption-slot"}>
+              How to use Caption slot
+            </.link>
+          </.heading2>
+          <.cp>
+            The caption slot in the
+            <.link navigate={~p"/chelekom/docs/blockquote"}>
+              Mishka Chelekom blockquote component
+            </.link>
+            offers an intuitive way to enhance your blockquotes with additional context, such as displaying an image and descriptive text. By using the
+            <.custom_inline_code>image</.custom_inline_code>
+            attribute, you can include a profile picture or any relevant visual beside the caption, making it visually engaging. The
+            <.custom_inline_code>position</.custom_inline_code>
+            attribute allows you to control the alignment of the caption, offering options like <.custom_inline_code>right</.custom_inline_code>, <.custom_inline_code>left</.custom_inline_code>, or
+            <.custom_inline_code>center</.custom_inline_code>
+            for flexible layout customization. This feature is perfect for adding author names, roles, or attributions alongside a quote, further improving the clarity and aesthetics of your content.
+          </.cp>
+
+          <.custom_code_wrapper elements_class="[&>*]:mb-2" code={@code_1}>
+            <.blockquote variant="default" color="info">
+              <.cp>
+                <strong>Mishka Chelekom UI Kit</strong>
+                is a versatile, <strong>zero-dependency library</strong>
+                built for Phoenix LiveView
+                and powered by Tailwind CSS, offering over 80 essential UI components that can be installed with a simple one-command setup.
+              </.cp>
+              <:caption image={~p"/images/mona-aghili.jpg"}>
+                Mishka Chelekom
+              </:caption>
+            </.blockquote>
+            <.blockquote variant="default" color="danger">
+              <.cp>
+                <strong>Mishka Developer Tools</strong>
+                offers a set of macros and modules designed to simplify and accelerate the creation of Elixir applications.
+                <strong>Mishka Installer</strong>
+                is a powerful system plugin manager and runtime installer for Elixir.
+              </.cp>
+              <:caption position="center">
+                Mishka Chelekom
+              </:caption>
+            </.blockquote>
+            <.blockquote variant="default" color="success">
+              <.cp>
+                The Blockquote component of Mishka Chelekom supports multiple styles and colors, providing customizable options to suit different design preferences. It helps emphasize important content and improves readability in your application.
+              </.cp>
+              <:caption position="right">
+                Mishka Chelekom
+              </:caption>
+            </.blockquote>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="base-blockquote">
+            <.link patch={~p"/chelekom/docs/blockquote/#base-blockquote"}>
+              Base color & Variant
+            </.link>
+          </.heading2>
+
+          <.custom_block position="left" color="success" class="my-8" border="medium">
+            <.cp>
+              By default, blockquotes have a start border, but you can add
+              <.custom_inline_code>class="border"</.custom_inline_code>
+              to apply a border around the entire blockquote while maintaining the default start border's thickness and style.
+            </.cp>
+          </.custom_block>
+
+          <.custom_code_wrapper code_class="text-sm" code={@code_14}>
+            <.blockquote class="border">
+              <p class="text-sm">
+                The Phoenix Framework empowers developers to build rich, interactive web applications with the reliability and scalability of Elixir. Its real-time features and productive development experience make it an excellent choice for modern web development.
+              </p>
+            </.blockquote>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="default-variant-blockquote">
+            <.link patch={~p"/chelekom/docs/blockquote/#default-variant-blockquote"}>
+              Default Variant
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The default style of the Mishka Chelekom blockquote applies a solid background and border that change based on user interaction, making it perfect for delivering important notifications. With just a single setting, you can select from a range of color options, ensuring easy customization to match various design styles. Default variant have also white and dark colors which are the same colors in the dark and light mode.
+          </.cp>
+
+          <.custom_code_wrapper elements_class="[&>*]:mb-2" code_class="text-sm" code={@code_2}>
+            <.blockquote id="blockquote_natural_doc_1" variant="default" color="natural">
+              Default Natural
+            </.blockquote>
+
+            <.blockquote id="blockquote_info_doc_3" variant="default" color="white">
+              Default White
+            </.blockquote>
+
+            <.blockquote id="blockquote_info_doc_3" variant="default" color="dark">
+              Default Dark
+            </.blockquote>
+
+            <.blockquote id="blockquote_info_doc_3" variant="default" color="info">
+              Default Info
+            </.blockquote>
+
+            <.blockquote id="blockquote_success_doc_4" variant="default" color="success">
+              Default Success
+            </.blockquote>
+
+            <.blockquote id="blockquote_warning_doc_5" variant="default" color="warning">
+              Default Warning
+            </.blockquote>
+
+            <.blockquote id="blockquote_danger_doc_6" variant="default" color="danger">
+              Default Danger
+            </.blockquote>
+
+            <.blockquote id="blockquote_silver_doc_7" variant="default" color="silver">
+              Default Silver
+            </.blockquote>
+
+            <.blockquote id="blockquote_misc_doc_8" variant="default" color="misc">
+              Default Misc
+            </.blockquote>
+
+            <.blockquote id="blockquote_dawn_doc_9" variant="default" color="dawn">
+              Default Dawn
+            </.blockquote>
+
+            <.blockquote id="blockquote_primary_doc_10" variant="default" color="primary">
+              Default Primary
+            </.blockquote>
+
+            <.blockquote id="blockquote_secondary_doc_11" variant="default" color="secondary">
+              Default Secondary
+            </.blockquote>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="outline-variant-blockquote">
+            <.link patch={~p"/chelekom/docs/blockquote/#outline-variant-blockquote"}>
+              Outline Variant
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The outline style of the Mishka Chelekom blockquote features a border. Using a single setting, you can choose from various color variants to suit your design needs.
+          </.cp>
+
+          <.custom_code_wrapper elements_class="[&>*]:mb-2" code_class="text-sm" code={@code_3}>
+            <.blockquote id="blockquote_natural_doc_12" variant="outline" color="natural">
+              Outline Natural
+            </.blockquote>
+
+            <.blockquote id="blockquote_info_doc_14" variant="outline" color="info">
+              Outline Info
+            </.blockquote>
+
+            <.blockquote id="blockquote_success_doc_15" variant="outline" color="success">
+              Outline Success
+            </.blockquote>
+
+            <.blockquote id="blockquote_warning_doc_16" variant="outline" color="warning">
+              Outline Warning
+            </.blockquote>
+
+            <.blockquote id="blockquote_danger_doc_17" variant="outline" color="danger">
+              Outline Danger
+            </.blockquote>
+
+            <.blockquote id="blockquote_silver_doc_18" variant="outline" color="silver">
+              Outline Silver
+            </.blockquote>
+
+            <.blockquote id="blockquote_misc_doc_19" variant="outline" color="misc">
+              Outline Misc
+            </.blockquote>
+
+            <.blockquote id="blockquote_dawn_doc_20" variant="outline" color="dawn">
+              Outline Dawn
+            </.blockquote>
+
+            <.blockquote id="blockquote_primary_doc_21" variant="outline" color="primary">
+              Outline Primary
+            </.blockquote>
+
+            <.blockquote id="blockquote_secondary_doc_22" variant="outline" color="secondary">
+              Outline
+              Secondary
+            </.blockquote>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="shadow-variant-blockquote">
+            <.link patch={~p"/chelekom/docs/blockquote/#shadow-variant-blockquote"}>
+              Shadow Variant
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The shadow variant of the Mishka Chelekom blockquote is similar to the default variant, but it also includes a subtle shadow along with a border and Natural background in Silver mode.
+          </.cp>
+
+          <.custom_code_wrapper elements_class="[&>*]:mb-2" code_class="text-sm" code={@code_4}>
+            <.blockquote id="blockquote_natural_doc_23" variant="shadow" color="natural">
+              Shadow Natural
+            </.blockquote>
+
+            <.blockquote id="blockquote_info_doc_25" variant="shadow" color="info">
+              Shadow Info
+            </.blockquote>
+
+            <.blockquote id="blockquote_success_doc_26" variant="shadow" color="success">
+              Shadow Success
+            </.blockquote>
+
+            <.blockquote id="blockquote_warning_doc_27" variant="shadow" color="warning">
+              Shadow Warning
+            </.blockquote>
+
+            <.blockquote id="blockquote_danger_doc_28" variant="shadow" color="danger">
+              Shadow Danger
+            </.blockquote>
+
+            <.blockquote id="blockquote_silver_doc_29" variant="shadow" color="silver">
+              Shadow Silver
+            </.blockquote>
+
+            <.blockquote id="blockquote_misc_doc_30" variant="shadow" color="misc">
+              Shadow Misc
+            </.blockquote>
+
+            <.blockquote id="blockquote_dawn_doc_31" variant="shadow" color="dawn">
+              Shadow Dawn
+            </.blockquote>
+
+            <.blockquote id="blockquote_primary_doc_32" variant="shadow" color="primary">
+              Shadow Primary
+            </.blockquote>
+
+            <.blockquote id="blockquote_secondary_doc_33" variant="shadow" color="secondary">
+              Shadow
+              Secondary
+            </.blockquote>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="bordered-variant-blockquote">
+            <.link patch={~p"/chelekom/docs/blockquote/#bordered-variant-blockquote"}>
+              Bordered Variant
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The Bordered variant of the Mishka Chelekom blockquote is similar to the default variant, but without border. Bordered variant have also white and dark colors which are the same colors in the dark and light mode.
+          </.cp>
+
+          <.custom_code_wrapper elements_class="[&>*]:mb-2" code_class="text-sm" code={@code_5}>
+            <.blockquote id="blockquote_natural_doc_35" variant="bordered" color="natural">
+              Bordered Natural
+            </.blockquote>
+
+            <.blockquote id="blockquote_info_doc_37" variant="bordered" color="white">
+              Bordered White
+            </.blockquote>
+
+            <.blockquote id="blockquote_info_doc_37" variant="bordered" color="dark">
+              Bordered Dark
+            </.blockquote>
+
+            <.blockquote id="blockquote_info_doc_37" variant="bordered" color="info">
+              Bordered Info
+            </.blockquote>
+
+            <.blockquote id="blockquote_success_doc_38" variant="bordered" color="success">
+              Bordered Success
+            </.blockquote>
+
+            <.blockquote id="blockquote_warning_doc_39" variant="bordered" color="warning">
+              Bordered Warning
+            </.blockquote>
+
+            <.blockquote id="blockquote_danger_doc_40" variant="bordered" color="danger">
+              Bordered Danger
+            </.blockquote>
+
+            <.blockquote id="blockquote_silver_doc_41" variant="bordered" color="silver">
+              Bordered Silver
+            </.blockquote>
+
+            <.blockquote id="blockquote_misc_doc_42" variant="bordered" color="misc">
+              Bordered Misc
+            </.blockquote>
+
+            <.blockquote id="blockquote_dawn_doc_43" variant="bordered" color="dawn">
+              Bordered Dawn
+            </.blockquote>
+
+            <.blockquote id="blockquote_primary_doc_44" variant="bordered" color="primary">
+              Bordered Primary
+            </.blockquote>
+
+            <.blockquote id="blockquote_secondary_doc_45" variant="bordered" color="secondary">
+              Bordered Secondary
+            </.blockquote>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="gradient-variant-blockquote">
+            <.link patch={~p"/chelekom/docs/blockquote/#gradient-variant-blockquote"}>
+              Gradient Variant
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The gradient variant of the Mishka Chelekom blockquote has gradients in various colors.
+          </.cp>
+
+          <.custom_code_wrapper elements_class="[&>*]:mb-2" code_class="text-sm" code={@code_13}>
+            <.blockquote id="blockquote_natural_doc_89" variant="gradient" color="natural">
+              Gradient Natural
+            </.blockquote>
+
+            <.blockquote id="blockquote_info_doc_90" variant="gradient" color="info">
+              Gradient Info
+            </.blockquote>
+
+            <.blockquote id="blockquote_success_doc_91" variant="gradient" color="success">
+              Gradient Success
+            </.blockquote>
+
+            <.blockquote id="blockquote_warning_doc_92" variant="gradient" color="warning">
+              Gradient Warning
+            </.blockquote>
+
+            <.blockquote id="blockquote_danger_doc_93" variant="gradient" color="danger">
+              Gradient Danger
+            </.blockquote>
+
+            <.blockquote id="blockquote_silver_doc_94" variant="gradient" color="silver">
+              Gradient Silver
+            </.blockquote>
+
+            <.blockquote id="blockquote_misc_doc_95" variant="gradient" color="misc">
+              Gradient Misc
+            </.blockquote>
+
+            <.blockquote id="blockquote_dawn_doc_43" variant="gradient" color="dawn">
+              Gradient Dawn
+            </.blockquote>
+
+            <.blockquote id="blockquote_primary_doc_44" variant="gradient" color="primary">
+              Gradient Primary
+            </.blockquote>
+
+            <.blockquote id="blockquote_secondary_doc_45" variant="gradient" color="secondary">
+              Gradient Secondary
+            </.blockquote>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="transparent-variant-blockquote">
+            <.link patch={~p"/chelekom/docs/blockquote/#transparent-variant-blockquote"}>
+              Transparent Variant
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The transparent variant of the Mishka Chelekom blockquote is similar to the default variant, but without border and background color.
+          </.cp>
+
+          <.custom_code_wrapper elements_class="[&>*]:mb-2" code_class="text-sm" code={@code_6}>
+            <.blockquote id="blockquote_natural_doc_46" variant="transparent" color="natural">
+              Transparent Natural
+            </.blockquote>
+
+            <.blockquote id="blockquote_info_doc_48" variant="transparent" color="info">
+              Transparent Info
+            </.blockquote>
+
+            <.blockquote id="blockquote_success_doc_49" variant="transparent" color="success">
+              Transparent Success
+            </.blockquote>
+
+            <.blockquote id="blockquote_warning_doc_50" variant="transparent" color="warning">
+              Transparent Warning
+            </.blockquote>
+
+            <.blockquote id="blockquote_danger_doc_51" variant="transparent" color="danger">
+              Transparent Danger
+            </.blockquote>
+
+            <.blockquote id="blockquote_silver_doc_52" variant="transparent" color="silver">
+              Transparent Silver
+            </.blockquote>
+
+            <.blockquote id="blockquote_misc_doc_53" variant="transparent" color="misc">
+              Transparent Misc
+            </.blockquote>
+
+            <.blockquote id="blockquote_dawn_doc_54" variant="transparent" color="dawn">
+              Transparent Dawn
+            </.blockquote>
+
+            <.blockquote id="blockquote_primary_doc_55" variant="transparent" color="primary">
+              Primary
+            </.blockquote>
+
+            <.blockquote id="blockquote_secondary_doc_56" variant="transparent" color="secondary">
+              Secondary
+            </.blockquote>
+          </.custom_code_wrapper>
+          <.heading2 margin="my-5" id="blockquote-rounded">
+            <.link patch={~p"/chelekom/docs/blockquote/#blockquote-rounded"}>
+              Rounded prop in Phoenix LiveView Blockquote Component
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The rounded prop offers values like <.custom_inline_code>extra_small</.custom_inline_code>, <.custom_inline_code>small</.custom_inline_code>, <.custom_inline_code>medium</.custom_inline_code>, <.custom_inline_code>large</.custom_inline_code>, and <.custom_inline_code>extra_large</.custom_inline_code>. These values control the border radius of the blcokquotes, allowing for different levels of rounding from subtle to more pronounced corners, depending on the design needs.
+          </.cp>
+
+          <.custom_code_wrapper elements_class="[&>*]:mb-2" code={@code_7}>
+            <.blockquote
+              id="blockquote_rounded_doc_57"
+              hide_icon
+              rounded="extra_small"
+              variant="default"
+              color="misc"
+            >
+              Rounded extra small
+            </.blockquote>
+            <.blockquote
+              id="blockquote_rounded_doc_58"
+              hide_icon
+              rounded="small"
+              variant="default"
+              color="dawn"
+            >
+              Rounded small
+            </.blockquote>
+            <.blockquote
+              id="blockquote_rounded_doc_59"
+              hide_icon
+              rounded="medium"
+              variant="default"
+              color="warning"
+            >
+              Rounded medium
+            </.blockquote>
+            <.blockquote id="blockquote_rounded_doc_60" hide_icon rounded="large">
+              Rounded large
+            </.blockquote>
+            <.blockquote
+              id="blockquote_rounded_doc_61"
+              hide_icon
+              rounded="extra_large"
+              variant="default"
+              color="info"
+            >
+              Rounded extra large
+            </.blockquote>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="blockquote-border">
+            <.link patch={~p"/chelekom/docs/blockquote/#blockquote-border"}>
+              Border prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The border prop offers values like <.custom_inline_code>extra_small</.custom_inline_code>, <.custom_inline_code>small</.custom_inline_code>, <.custom_inline_code>medium</.custom_inline_code>, <.custom_inline_code>large</.custom_inline_code>, and <.custom_inline_code>extra_large</.custom_inline_code>. These values control the border size of the blockquotes, allowing you to adjust the thickness to suit your design. Additionally, you can use boolean props such as <.custom_inline_code>left_border</.custom_inline_code>, <.custom_inline_code>right_border</.custom_inline_code>, <.custom_inline_code>hide_border</.custom_inline_code>, and
+            <.custom_inline_code>full_border</.custom_inline_code>
+            to change the border position, add, or remove borders as needed for greater customization. For
+            <.custom_inline_code>outline</.custom_inline_code>
+            and
+            <.custom_inline_code>bordered</.custom_inline_code>
+            variant you can change the size of border
+          </.cp>
+
+          <.custom_code_wrapper elements_class="[&>*]:mb-2" code={@code_8}>
+            <.blockquote
+              id="blockquote_border_doc_62"
+              hide_icon
+              variant="bordered"
+              border="extra_small"
+              color="danger"
+            >
+              Extra small border
+            </.blockquote>
+            <.blockquote
+              id="blockquote_border_doc_63"
+              hide_icon
+              variant="bordered"
+              border="small"
+              color="success"
+            >
+              Small border
+            </.blockquote>
+            <.blockquote
+              id="blockquote_border_doc_64"
+              hide_icon
+              variant="bordered"
+              border="medium"
+              color="warning"
+            >
+              Medium border
+            </.blockquote>
+            <.blockquote
+              id="blockquote_border_doc_65"
+              hide_icon
+              variant="bordered"
+              border="large"
+              color="secondary"
+            >
+              Large border
+            </.blockquote>
+            <.blockquote
+              id="blockquote_border_doc_66"
+              hide_icon
+              variant="bordered"
+              border="extra_large"
+              color="info"
+            >
+              Extra large border
+            </.blockquote>
+            <.blockquote
+              id="blockquote_border_doc_91"
+              hide_icon
+              variant="bordered"
+              right_border
+              color="dawn"
+            >
+              Right border
+            </.blockquote>
+            <.blockquote
+              id="blockquote_border_doc_92"
+              hide_icon
+              variant="bordered"
+              hide_border
+              color="misc"
+            >
+              Without border
+            </.blockquote>
+            <.blockquote
+              id="blockquote_border_doc_93"
+              hide_icon
+              variant="bordered"
+              full_border
+              color="primary"
+            >
+              Full Border
+            </.blockquote>
+          </.custom_code_wrapper>
+          <.heading2 margin="my-5" id="blockquote-size">
+            <.link patch={~p"/chelekom/docs/blockquote/#blockquote-size"}>
+              Size prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The size prop offers values such as <.custom_inline_code>extra_small</.custom_inline_code>, <.custom_inline_code>small</.custom_inline_code>, <.custom_inline_code>medium</.custom_inline_code>, <.custom_inline_code>large</.custom_inline_code>, and <.custom_inline_code>extra_large</.custom_inline_code>. These values control both the icon size and text size within the blockquotes.
+          </.cp>
+
+          <.custom_code_wrapper elements_class="[&>*]:mb-2" code={@code_9}>
+            <.blockquote id="blockquote_size_doc_67" size="extra_small">
+              Size extra small of blockquote
+            </.blockquote>
+            <.blockquote id="blockquote_size_doc_68" size="small" variant="default" color="dawn">
+              Size small of blockquote
+            </.blockquote>
+            <.blockquote id="blockquote_size_doc_69" size="medium" variant="default" color="misc">
+              Size Medium of blockquote
+            </.blockquote>
+            <.blockquote
+              id="blockquote_size_doc_70"
+              size="large"
+              variant="default"
+              color="primary"
+            >
+              Size large of blockquote
+            </.blockquote>
+            <.blockquote
+              id="blockquote_size_doc_71"
+              size="extra_large"
+              variant="default"
+              color="secondary"
+            >
+              Size extra large of blockquote
+            </.blockquote>
+          </.custom_code_wrapper>
+          <.heading2 margin="my-5" id="blockquote-space">
+            <.link patch={~p"/chelekom/docs/blockquote/#blockquote-space"}>
+              Space prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The space prop offers values such as <.custom_inline_code>extra_small</.custom_inline_code>, <.custom_inline_code>small</.custom_inline_code>, <.custom_inline_code>medium</.custom_inline_code>, <.custom_inline_code>large</.custom_inline_code>, and <.custom_inline_code>extra_large</.custom_inline_code>. These values control the vertical spacing between elements within the blockquotes.
+          </.cp>
+
+          <.custom_code_wrapper elements_class="[&>*]:mb-2" code={@code_10}>
+            <.blockquote id="blockquote_space_doc_72" space="extra_small">
+              Space extra small of blockquote
+            </.blockquote>
+            <.blockquote
+              id="blockquote_space_doc_73"
+              space="small"
+              variant="default"
+              color="primary"
+            >
+              Space small of blockquote
+            </.blockquote>
+            <.blockquote id="blockquote_space_doc_74" space="medium">
+              Space Medium of blockquote
+            </.blockquote>
+            <.blockquote
+              id="blockquote_space_doc_75"
+              space="large"
+              variant="default"
+              color="success"
+            >
+              Space large of blockquote
+            </.blockquote>
+            <.blockquote
+              id="blockquote_space_doc_80"
+              space="extra_large"
+              variant="default"
+              color="warning"
+            >
+              Space extra large of blockquote
+            </.blockquote>
+          </.custom_code_wrapper>
+          <.heading2 margin="my-5" id="blockquote-padding">
+            <.link patch={~p"/chelekom/docs/blockquote/#blockquote-padding"}>
+              Padding prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The padding prop offers values such as <.custom_inline_code>extra_small</.custom_inline_code>, <.custom_inline_code>small</.custom_inline_code>, <.custom_inline_code>medium</.custom_inline_code>, <.custom_inline_code>large</.custom_inline_code>, and <.custom_inline_code>extra_large</.custom_inline_code>. These values control the padding around the content inside the blockquotes.
+          </.cp>
+
+          <.custom_code_wrapper elements_class="[&>*]:mb-2" code={@code_11}>
+            <.blockquote
+              id="blockquote_padding_doc_81"
+              padding="extra_small"
+              variant="default"
+              color="warning"
+            >
+              Padding extra small of blockquote
+            </.blockquote>
+            <.blockquote
+              id="blockquote_padding_doc_82"
+              padding="small"
+              variant="default"
+              color="warning"
+            >
+              Padding small of blockquote
+            </.blockquote>
+            <.blockquote
+              id="blockquote_padding_doc_83"
+              padding="medium"
+              variant="default"
+              color="dawn"
+            >
+              Padding medium of blockquote
+            </.blockquote>
+            <.blockquote id="blockquote_padding_doc_84" padding="large">
+              Padding large of blockquote
+            </.blockquote>
+            <.blockquote
+              id="blockquote_padding_doc_85"
+              padding="extra_large"
+              variant="default"
+              color="danger"
+            >
+              Padding extra large of blockquote
+            </.blockquote>
+          </.custom_code_wrapper>
+          <.heading2 margin="my-5" id="blockquote-icon">
+            <.link patch={~p"/chelekom/docs/blockquote/#blockquote-icon"}>
+              Icon in Phoenix LiveView blcokquote component
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The icon prop in the Mishka Chelekom blockquote component allows you to add any Hero icon to your blockquote. By using the
+            <.custom_inline_code>icon_class</.custom_inline_code>
+            prop, you can customize the style of the icon to fit your design needs. If you want to hide the icon, the
+            <.custom_inline_code>hide_icon</.custom_inline_code>
+            prop, which is a boolean, allows you to do so. By default, the blockquote component displays the
+            <.custom_inline_code>hero-quote</.custom_inline_code>
+            icon unless the
+            <.custom_inline_code>hide_icon</.custom_inline_code>
+            prop is set to true.
+          </.cp>
+
+          <.custom_code_wrapper elements_class="[&>*]:mb-2" code={@code_12}>
+            <.blockquote id="blockquote_icon_doc_86" hide_icon variant="default" color="silver">
+              Icon prop of blockquote
+            </.blockquote>
+            <.blockquote id="blockquote_icon_doc_87" icon_class="text-blue-400">
+              Icon prop of blockquote
+            </.blockquote>
+            <.blockquote
+              id="blockquote_icon_doc_88"
+              icon="hero-star"
+              variant="default"
+              color="dawn"
+            >
+              Icon prop of blockquote
+            </.blockquote>
+          </.custom_code_wrapper>
+        </:documentation_panel>
+
+        <:props_panel>
+          <.custom_search class="mb-16" />
+          <div class="space-y-8">
+            <h2 class="text-lg lg:text-2xl font-bold">Blockquote component props</h2>
+
+            <.custom_table id="blockquote-component-table">
+              <:header>
+                <.table_th>Name</.table_th>
+
+                <.table_th>Type</.table_th>
+
+                <.table_th>Required</.table_th>
+
+                <.table_th>Description</.table_th>
+              </:header>
+
+              <:row>
+                <.table_td>id</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  A unique identifier is used to manage state and interaction.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>variant</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines the style of the blockquote. Supported values: <strong>base</strong>, <strong>default</strong>, <strong>outline</strong>, <strong>transparent</strong>, <strong>shadow</strong>, <strong>bordered</strong>, <strong>gradient</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>color</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines the color theme of the blockquote. Supported values: <strong>base</strong>, <strong>natural</strong>, <strong>primary</strong>, <strong>secondary</strong>, <strong>success</strong>, <strong>warning</strong>, <strong>danger</strong>, <strong>info</strong>, <strong>silver</strong>, <strong>misc</strong>, <strong>dawn</strong>. The
+                  <strong>default</strong>
+                  and <strong>bordered</strong>
+                  variants have extra color options: <strong>dark</strong>
+                  and <strong>white</strong>, which in both light mode and dark mode, these colors are always the same.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>border</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines the border style. Supported values: <strong>extra_small</strong>, <strong>small</strong>, <strong>medium</strong>, <strong>large</strong>, <strong>extra_large</strong>, <strong>none</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>rounded</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines the border radius. Supported values: <strong>extra_small</strong>, <strong>small</strong>, <strong>medium</strong>, <strong>large</strong>, <strong>extra_large</strong>, <strong>full</strong>, <strong>none</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>size</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines the overall size of the elements, including padding, font size, and other items. Default: <strong>medium</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>space</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Space between items. Supported values: <strong>extra_small</strong>, <strong>small</strong>, <strong>medium</strong>, <strong>large</strong>, <strong>extra_large</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>font_weight</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines custom class for the font weight. Default: <strong>font-normal</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>padding</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines padding for items. Supported values: <strong>extra_small</strong>, <strong>small</strong>, <strong>medium</strong>, <strong>large</strong>, <strong>extra_large</strong>, <strong>none</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>class</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Custom CSS class for additional styling.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>icon</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Icon displayed alongside the blockquote. Default: <strong>hero-quote</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>icon_class</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Determines custom class for the icon.</.table_td>
+              </:row>
+              <!-- Slot: Caption -->
+              <:row>
+                <.table_td>caption</.table_td>
+
+                <.table_td>slot</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Slot for displaying captions within the blockquote. Slot attributes include:
+                  <strong>image</strong>
+                  (displays an image), <strong>image_class</strong>
+                  (custom class for image), <strong>position</strong>
+                  (position of the caption; supported values: <strong>right</strong>, <strong>left</strong>, <strong>center</strong>).
+                </.table_td>
+              </:row>
+              <!-- Global Attributes in Rest -->
+              <:row>
+                <.table_td>left_border</.table_td>
+
+                <.table_td>boolean</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Specifies if the blockquote has a left border.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>right_border</.table_td>
+
+                <.table_td>boolean</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Specifies if the blockquote has a right border.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>hide_border</.table_td>
+
+                <.table_td>boolean</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Hides the border of the blockquote.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>full_border</.table_td>
+
+                <.table_td>boolean</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Applies a full border around the blockquote.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>hide_icon</.table_td>
+
+                <.table_td>boolean</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Hides the icon in the blockquote.</.table_td>
+              </:row>
+            </.custom_table>
+          </div>
+        </:props_panel>
+
+        <:cli_panel>
+          <.custom_cli_props config={component_config()} />
+        </:cli_panel>
+        <.custom_table_content>
+          <:content
+            link={~p"/chelekom/docs/blockquote/#overview"}
+            title="Overview of the image component"
+          />
+          <:content
+            link={~p"/chelekom/docs/blockquote/#blockquote-caption-slot"}
+            title="Caption slot"
+          />
+          <:content
+            link={~p"/chelekom/docs/blockquote/#base-blockquote"}
+            title="Base color & variant"
+          />
+          <:content
+            link={~p"/chelekom/docs/blockquote/#default-variant-blockquote"}
+            title="Default variant"
+          />
+          <:content
+            link={~p"/chelekom/docs/blockquote/#outline-variant-blockquote"}
+            title="Outline variant"
+          />
+          <:content
+            link={~p"/chelekom/docs/blockquote/#shadow-variant-blockquote"}
+            title="Shadow variant"
+          />
+          <:content
+            link={~p"/chelekom/docs/blockquote/#bordered-variant-blockquote"}
+            title="Bordered variant"
+          />
+          <:content
+            link={~p"/chelekom/docs/blockquote/#gradient-variant-blockquote"}
+            title="Gradient variant"
+          />
+          <:content
+            link={~p"/chelekom/docs/blockquote/#transparent-variant-blockquote"}
+            title="Transparent variant"
+          />
+          <:content link={~p"/chelekom/docs/blockquote/#blockquote-rounded"} title="Rounded prop" />
+          <:content link={~p"/chelekom/docs/blockquote/#blockquote-border"} title="Border prop" />
+          <:content link={~p"/chelekom/docs/blockquote/#blockquote-size"} title="Size prop" />
+          <:content link={~p"/chelekom/docs/blockquote/#blockquote-space"} title="Space prop" />
+          <:content link={~p"/chelekom/docs/blockquote/#blockquote-padding"} title="Padding prop" />
+          <:content link={~p"/chelekom/docs/blockquote/#blockquote-icon"} title="Icon prop" />
+        </.custom_table_content>
+      </.custom_tab>
+    </div>
+  </div>
+</Layouts.app>

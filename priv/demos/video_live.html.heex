@@ -1,0 +1,500 @@
+<Layouts.app flash={@flash}>
+  <div class="lg:grid lg:grid-cols-12 mt-5 max-w-5xl mx-auto">
+    <.custom_nav active="chelekom-docs-video" />
+    <div class="lg:col-span-10">
+      <.custom_info
+        title="Video"
+        description="Interactive video playback for Phoenix and Phoenix LiveView, supporting multiple sources, subtitles, and thumbnails."
+        mix="mix mishka.ui.gen.component video"
+        github="https://github.com/mishka-group/mishka_chelekom/blob/master/priv/components/video.eex"
+        tags={["Component", "Stateless"]}
+      />
+      <.custom_tab id="chelekom-video-tab">
+        <:documentation_panel>
+          <.heading2 class="mb-5" id="overview">
+            <.link patch={~p"/chelekom/docs/video/#overview"}>
+              Overview of the Phoenix and LiveView Video Component
+            </.link>
+          </.heading2>
+          <.cp>
+            The
+            <strong>
+              Mishka Chelekom video
+            </strong>
+            is a highly customizable and responsive video component for
+            <strong>Phoenix LiveView</strong>
+            applications, designed to streamline the integration of HTML5 video elements.
+            It supports various advanced features such as multiple media sources, <strong>subtitles</strong>, customizable caption styles, and thumbnails. Developers can easily embed videos with controls for playback, aspect ratio.
+          </.cp>
+
+          <.cp margin="mt-5">
+            Built to enhance user experience, The <.link navigate={~p"/chelekom/docs/video"}>Mishak Chelekom video component</.link>, a
+            <strong>
+              <.link
+                title="Phoenix LiveView component"
+                class="transition-colors hover:text-[#448D96]"
+                navigate={~p"/chelekom"}
+              >
+                Phoenix LiveView component
+              </.link>
+            </strong>
+            offers flexible design options, including support for multiple caption backgrounds, opacity levels, and customizable sizes for responsive playback across different devices. By using this component, developers can effortlessly integrate video functionality into their
+            <strong>Phoenix</strong>
+            applications while maintaining control over design and accessibility features.
+          </.cp>
+
+          <.custom_block position="left" color="success" class="my-8" border="medium">
+            <.cp>
+              By using the class prop, you can apply custom classes or Tailwind CSS classes to customize the appearance and behavior of the components, allowing for flexible design changes.
+            </.cp>
+          </.custom_block>
+
+          <.heading2 margin="my-5" id="how-use-video">
+            <.link patch={~p"/chelekom/docs/video/#how-use-video"}>
+              How to use Phoenix and LiveView video component
+            </.link>
+          </.heading2>
+
+          <.cp>
+            By using the
+            <.custom_inline_code>:source</.custom_inline_code>
+            slot in the Mishka Chelekom Video Component, you can add videos in different formats. This allows the browser to automatically choose the best-supported format.
+            <heading5 margin="my-2">Supported Formats:</heading5>
+            <ul class="list-disc px-10">
+              <li><strong>MP4 (video/mp4)</strong>: The most widely supported format.</li>
+
+              <li>
+                <strong>WebM (video/webm)</strong>: High-quality compression, ideal for modern browsers.
+              </li>
+
+              <li>
+                <strong>OGG (video/ogg)</strong>: Open-source alternative, supported by Firefox and Opera.
+              </li>
+            </ul>
+          </.cp>
+
+          <.custom_code_wrapper elements_class="[&>*]:mb-2 text-sm" code={@code_1}>
+            <.video id="chelekomvideo1" controls>
+              <:source src={~p"/images/flower.mp4"} type="video/mp4" />
+              <:source src={~p"/images/flower.mp4"} type="video/mp4" />
+            </.video>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="add-subtitle-video">
+            <.link patch={~p"/chelekom/docs/video/#add-subtitle-video"}>
+              Add subtitle to Phoenix Liveview video component
+            </.link>
+          </.heading2>
+
+          <.cp>
+            By using the
+            <.custom_inline_code>
+              :tarack
+            </.custom_inline_code>
+            slot, you can easily add subtitles to your videos in the Mishka Chelekom Video Component. This slot allows you to define subtitles in different languages, making your video content accessible to a wider audience.
+            <heading5 margin="my-2">Supported Formats:</heading5>
+            <ul class="list-disc px-10">
+              <li><strong>Label</strong>: Describes the language or type of the subtitle.</li>
+
+              <li>
+                <strong>Kind</strong>: Specifies whether the track is subtitles, captions, or descriptions.
+              </li>
+
+              <li>
+                <strong>Language</strong>: Defines the language code (e.g., "en" for English).
+              </li>
+
+              <li><strong>Default</strong>: Marks the track as the default subtitle.</li>
+            </ul>
+            By utilizing the
+            <.custom_inline_code>:tarack</.custom_inline_code>
+            slot, you ensure that your videos are more inclusive and user-friendly with customizable subtitles.
+          </.cp>
+
+          <.custom_code_wrapper elements_class="[&>*]:mb-2 text-sm" code={@code_2}>
+            <.video id="chelekomvideo2" controls>
+              <:source src={~p"/images/flower.mp4"} type="video/mp4" />
+              <:track
+                label="English"
+                kind="captions"
+                srclang="en"
+                src="data:text/vtt;base64,V0VCVlRUCgowMDowMDowMC4wMDAgLS0+IDAwOjAwOjAwLjk5OSAgbGluZTo4MCUKSGlsZHkhCgowMDowMDowMS4wMDAgLS0+IDAwOjAwOjAxLjQ5OSBsaW5lOjgwJQpIb3cgYXJlIHlvdT8KCjAwOjAwOjAxLjUwMCAtLT4gMDA6MDA6MDIuOTk5IGxpbmU6ODAlClRlbGwgbWUsIGlzIHRoZSA8dT5sb3JkIG9mIHRoZSB1bml2ZXJzZTwvdT4gaW4/CgowMDowMDowMy4wMDAgLS0+IDAwOjAwOjA0LjI5OSBsaW5lOjgwJQpZZXMsIGhlJ3MgaW4gLSBpbiBhIGJhZCBodW1vcgoKMDA6MDA6MDQuMzAwIC0tPiAwMDowMDowNi4wMDAgbGluZTo4MCUKU29tZWJvZHkgbXVzdCd2ZSBzdG9sZW4gdGhlIGNyb3duIGpld2Vscwo="
+                default
+              />
+            </.video>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="video-thumbnail-prop">
+            <.link patch={~p"/chelekom/docs/video/#video-thumbnail-prop"}>
+              Thumbnail prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The thumbnail prop in Video Component allows you to specify a preview image for your video. This is useful for displaying a static image before the video starts playing, providing users with a visual cue of the video's content. default value is
+            <.custom_inline_code>nil</.custom_inline_code>
+            By setting a thumbnail, you enhance user engagement by giving them a preview of the video, which can encourage them to click and watch. This feature is particularly useful for promoting video content visually.
+          </.cp>
+
+          <.custom_code_wrapper elements_class="[&>*]:mb-2 text-sm" code={@code_3}>
+            <.video id="chelekomvideo3" controls thumbnail={~p"/images/title_anouncement.jpg"}>
+              <:source src={~p"/images/flower.mp4"} type="video/mp4" />
+            </.video>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="video-width-prop">
+            <.link patch={~p"/chelekom/docs/video/#video-width-prop"}>
+              Width prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The width attribute in the Mishka Chelekom Video Component allows you to set the width using predefined options like <.custom_inline_code>extra_small</.custom_inline_code>, <.custom_inline_code>small</.custom_inline_code>, <.custom_inline_code>medium</.custom_inline_code>, <.custom_inline_code>large</.custom_inline_code>, and <.custom_inline_code>extra_large</.custom_inline_code>. You can also add any custom width by using Tailwind CSS classes or other custom values, providing flexibility to match your design.
+          </.cp>
+
+          <.custom_code_wrapper elements_class="[&>*]:mb-2 text-sm" code={@code_4}>
+            <.video controls id="chelekomvideo4" width="extra_large">
+              <:source src={~p"/images/flower.mp4"} type="video/mp4" />
+            </.video>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="video-height-prop">
+            <.link patch={~p"/chelekom/docs/video/#video-height-prop"}>
+              Height prop in Phoenix Liveview video component
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The height attribute in the Mishka Chelekom Video Component allows you to set the height using predefined options like <.custom_inline_code>extra_small</.custom_inline_code>, <.custom_inline_code>small</.custom_inline_code>, <.custom_inline_code>medium</.custom_inline_code>, <.custom_inline_code>large</.custom_inline_code>, and <.custom_inline_code>extra_large</.custom_inline_code>. You can also add any custom height by using Tailwind CSS classes or other custom values, providing flexibility to match your design.
+          </.cp>
+
+          <.custom_code_wrapper elements_class="[&>*]:mb-2 text-sm" code={@code_5}>
+            <.video id="chelekomvideo5" controls height="medium">
+              <:source src={~p"/images/flower.mp4"} type="video/mp4" />
+            </.video>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="video-rounded-prop">
+            <.link patch={~p"/chelekom/docs/video/#video-rounded-prop"}>
+              Rounded prop in Phoenix Liveview video component
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The rounded attribute in the Mishka Chelekom Video Component allows you to set the radius using predefined options like <.custom_inline_code>extra_small</.custom_inline_code>, <.custom_inline_code>small</.custom_inline_code>, <.custom_inline_code>medium</.custom_inline_code>, <.custom_inline_code>large</.custom_inline_code>, and <.custom_inline_code>extra_large</.custom_inline_code>. You can also add any custom radius by using Tailwind CSS classes or other custom values, providing flexibility to match your design.
+          </.cp>
+
+          <.custom_code_wrapper elements_class="[&>*]:mb-2 text-sm" code={@code_6}>
+            <.video id="chelekomvideo6" controls rounded="medium">
+              <:source src={~p"/images/flower.mp4"} type="video/mp4" />
+            </.video>
+          </.custom_code_wrapper>
+          <.heading2 margin="my-5" id="video-caption-size-prop">
+            <.link patch={~p"/chelekom/docs/video/#video-caption-size-prop"}>
+              Caption Size prop in Phoenix Liveview video component
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <.custom_inline_code>caption_size</.custom_inline_code>
+            prop in the Mishka Chelekom Video Component allows you to change text size of subtitle using predefined options like <.custom_inline_code>extra_small</.custom_inline_code>, <.custom_inline_code>small</.custom_inline_code>, <.custom_inline_code>medium</.custom_inline_code>, <.custom_inline_code>large</.custom_inline_code>, <.custom_inline_code>extra_large</.custom_inline_code>, <.custom_inline_code>double_large</.custom_inline_code>, <.custom_inline_code>triple_large</.custom_inline_code>, and <.custom_inline_code>quadruple_large</.custom_inline_code>. You can also add any custom radius by using Tailwind CSS classes or other custom values, providing flexibility to match your design.
+          </.cp>
+
+          <.custom_code_wrapper elements_class="[&>*]:mb-2 text-sm" code={@code_7}>
+            <.video id="chelekomvideo7" controls caption_size="large">
+              <:source src={~p"/images/flower.mp4"} type="video/mp4" />
+              <:track
+                label="English"
+                kind="captions"
+                srclang="en"
+                src="data:text/vtt;base64,V0VCVlRUCgowMDowMDowMC4wMDAgLS0+IDAwOjAwOjAwLjk5OSAgbGluZTo4MCUKSGlsZHkhCgowMDowMDowMS4wMDAgLS0+IDAwOjAwOjAxLjQ5OSBsaW5lOjgwJQpIb3cgYXJlIHlvdT8KCjAwOjAwOjAxLjUwMCAtLT4gMDA6MDA6MDIuOTk5IGxpbmU6ODAlClRlbGwgbWUsIGlzIHRoZSA8dT5sb3JkIG9mIHRoZSB1bml2ZXJzZTwvdT4gaW4/CgowMDowMDowMy4wMDAgLS0+IDAwOjAwOjA0LjI5OSBsaW5lOjgwJQpZZXMsIGhlJ3MgaW4gLSBpbiBhIGJhZCBodW1vcgoKMDA6MDA6MDQuMzAwIC0tPiAwMDowMDowNi4wMDAgbGluZTo4MCUKU29tZWJvZHkgbXVzdCd2ZSBzdG9sZW4gdGhlIGNyb3duIGpld2Vscwo="
+                default
+              />
+            </.video>
+          </.custom_code_wrapper>
+          <.heading2 margin="my-5" id="video-caption-background-prop">
+            <.link patch={~p"/chelekom/docs/video/#video-caption-background-prop"}>
+              Caption background prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <.custom_inline_code>caption_background</.custom_inline_code>
+            attribute in the Mishka Chelekom Video Component allows you to customize the background color of video captions, enhancing readability and matching the design of your application. You can select from a variety of predefined color options such as <.custom_inline_code>white</.custom_inline_code>, <.custom_inline_code>primary</.custom_inline_code>, <.custom_inline_code>secondary</.custom_inline_code>,
+            <.custom_inline_code>dark</.custom_inline_code>
+            (default), <.custom_inline_code>success</.custom_inline_code>, <.custom_inline_code>warning</.custom_inline_code>, <.custom_inline_code>danger</.custom_inline_code>, <.custom_inline_code>info</.custom_inline_code>, <.custom_inline_code>light</.custom_inline_code>, <.custom_inline_code>misc</.custom_inline_code>, <.custom_inline_code>dawn</.custom_inline_code>, and <.custom_inline_code>silver</.custom_inline_code>. This flexibility allows you to adjust the caption background to match your app's aesthetic and ensure the captions are clear and easy to read for users.
+          </.cp>
+
+          <.custom_code_wrapper elements_class="[&>*]:mb-2 text-sm" code={@code_8}>
+            <.video controls id="chelekomvideo8" caption_background="danger">
+              <:source src={~p"/images/flower.mp4"} type="video/mp4" />
+              <:track
+                label="English"
+                kind="captions"
+                srclang="en"
+                src="data:text/vtt;base64,V0VCVlRUCgowMDowMDowMC4wMDAgLS0+IDAwOjAwOjAwLjk5OSAgbGluZTo4MCUKSGlsZHkhCgowMDowMDowMS4wMDAgLS0+IDAwOjAwOjAxLjQ5OSBsaW5lOjgwJQpIb3cgYXJlIHlvdT8KCjAwOjAwOjAxLjUwMCAtLT4gMDA6MDA6MDIuOTk5IGxpbmU6ODAlClRlbGwgbWUsIGlzIHRoZSA8dT5sb3JkIG9mIHRoZSB1bml2ZXJzZTwvdT4gaW4/CgowMDowMDowMy4wMDAgLS0+IDAwOjAwOjA0LjI5OSBsaW5lOjgwJQpZZXMsIGhlJ3MgaW4gLSBpbiBhIGJhZCBodW1vcgoKMDA6MDA6MDQuMzAwIC0tPiAwMDowMDowNi4wMDAgbGluZTo4MCUKU29tZWJvZHkgbXVzdCd2ZSBzdG9sZW4gdGhlIGNyb3duIGpld2Vscwo="
+                default
+              />
+            </.video>
+          </.custom_code_wrapper>
+          <.heading2 margin="my-5" id="video-caption-opacity-prop">
+            <.link patch={~p"/chelekom/docs/video/#video-caption-opacity-prop"}>
+              Caption opacity prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <.custom_inline_code>caption_opacity</.custom_inline_code>
+            prop in the Mishka Chelekom Video Component allows you to change opacity of subtitle using predefined options like <.custom_inline_code>transparent</.custom_inline_code>, <.custom_inline_code>translucent</.custom_inline_code>, <.custom_inline_code>semi_transparent</.custom_inline_code>, <.custom_inline_code>lightly_tinted</.custom_inline_code>, <.custom_inline_code>tinted</.custom_inline_code>, <.custom_inline_code>semi_opaque</.custom_inline_code>, <.custom_inline_code>opaque</.custom_inline_code>, <.custom_inline_code>heavily_tinted</.custom_inline_code>, <.custom_inline_code>almost_solid</.custom_inline_code>, and <.custom_inline_code>solid</.custom_inline_code>. You can also add any custom opacity by using Tailwind CSS classes or other custom values, providing flexibility to match your design.
+          </.cp>
+
+          <.custom_code_wrapper elements_class="[&>*]:mb-2 text-sm" code={@code_9}>
+            <.video
+              controls
+              id="chelekomvideo9"
+              caption_background="info"
+              caption_opacity="semi_opaque"
+            >
+              <:source src={~p"/images/flower.mp4"} type="video/mp4" />
+              <:track
+                label="English"
+                kind="captions"
+                srclang="en"
+                src="data:text/vtt;base64,V0VCVlRUCgowMDowMDowMC4wMDAgLS0+IDAwOjAwOjAwLjk5OSAgbGluZTo4MCUKSGlsZHkhCgowMDowMDowMS4wMDAgLS0+IDAwOjAwOjAxLjQ5OSBsaW5lOjgwJQpIb3cgYXJlIHlvdT8KCjAwOjAwOjAxLjUwMCAtLT4gMDA6MDA6MDIuOTk5IGxpbmU6ODAlClRlbGwgbWUsIGlzIHRoZSA8dT5sb3JkIG9mIHRoZSB1bml2ZXJzZTwvdT4gaW4/CgowMDowMDowMy4wMDAgLS0+IDAwOjAwOjA0LjI5OSBsaW5lOjgwJQpZZXMsIGhlJ3MgaW4gLSBpbiBhIGJhZCBodW1vcgoKMDA6MDA6MDQuMzAwIC0tPiAwMDowMDowNi4wMDAgbGluZTo4MCUKU29tZWJvZHkgbXVzdCd2ZSBzdG9sZW4gdGhlIGNyb3duIGpld2Vscwo="
+                default
+              />
+            </.video>
+          </.custom_code_wrapper>
+          <.heading2 margin="my-5" id="video-ratio-prop">
+            <.link patch={~p"/chelekom/docs/video/#video-ratio-prop"}>
+              Ratio prop in Phoenix Liveview video component
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The ratio attribute in the Mishka Chelekom Video Component allows you to set the aspect ratio of the video. This attribute ensures that the video maintains its intended proportions during playback, enhancing the visual presentation. You can choose from predefined aspect ratios such as <.custom_inline_code>auto</.custom_inline_code>, <.custom_inline_code>square</.custom_inline_code>, <.custom_inline_code>video</.custom_inline_code>, <.custom_inline_code>4:3</.custom_inline_code>, <.custom_inline_code>3:2</.custom_inline_code>, and <.custom_inline_code>21:9</.custom_inline_code>. By setting the aspect ratio, you can ensure your video displays correctly across various devices and screen sizes.
+          </.cp>
+
+          <.custom_code_wrapper elements_class="[&>*]:mb-2 text-sm" code={@code_10}>
+            <.video id="chelekomvideo10" controls ratio="square">
+              <:source src={~p"/images/flower.mp4"} type="video/mp4" />
+              <:track
+                label="English"
+                kind="captions"
+                srclang="en"
+                src="data:text/vtt;base64,V0VCVlRUCgowMDowMDowMC4wMDAgLS0+IDAwOjAwOjAwLjk5OSAgbGluZTo4MCUKSGlsZHkhCgowMDowMDowMS4wMDAgLS0+IDAwOjAwOjAxLjQ5OSBsaW5lOjgwJQpIb3cgYXJlIHlvdT8KCjAwOjAwOjAxLjUwMCAtLT4gMDA6MDA6MDIuOTk5IGxpbmU6ODAlClRlbGwgbWUsIGlzIHRoZSA8dT5sb3JkIG9mIHRoZSB1bml2ZXJzZTwvdT4gaW4/CgowMDowMDowMy4wMDAgLS0+IDAwOjAwOjA0LjI5OSBsaW5lOjgwJQpZZXMsIGhlJ3MgaW4gLSBpbiBhIGJhZCBodW1vcgoKMDA6MDA6MDQuMzAwIC0tPiAwMDowMDowNi4wMDAgbGluZTo4MCUKU29tZWJvZHkgbXVzdCd2ZSBzdG9sZW4gdGhlIGNyb3duIGpld2Vscwo="
+                default
+              />
+            </.video>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="extra-info-video">
+            <.link patch={~p"/chelekom/docs/video/#extra-info-video"}>
+              Extra Information
+            </.link>
+          </.heading2>
+
+          <.cp>
+            <ul class="list-decimal px-10">
+              <li>
+                Ensure your video and
+                <.custom_inline_code>.vtt</.custom_inline_code>
+                files are served from the same web server. Browsers may block captions if accessed from the local file system or different servers. Use a local web server for testing to avoid these issues.
+              </li>
+              <li>
+                When you access an HTML file directly from your file system <.custom_inline_code>(file:/// protocol)</.custom_inline_code>, browsers often have restrictions that prevent the proper functioning of certain features, including the
+                <code>&lt;track&gt;</code>
+                tag. The captions might not display properly in such cases.
+              </li>
+              <li>
+                The video source and
+                <.custom_inline_code>.vtt</.custom_inline_code>
+                file should generally be hosted on the same server to avoid cross-origin issues <.custom_inline_code>(CORS)</.custom_inline_code>. If they are on different servers, you may need to ensure proper
+                <.custom_inline_code>CORS</.custom_inline_code>
+                headers are set up to allow the browser to access the caption file.
+              </li>
+              <li>
+                Adding a
+                <.custom_inline_code>Base64-encoded</.custom_inline_code>
+                subtitle directly to a video won't cause a CORS issue, so you can use it in your components even if the subtitle is not from the same origin.
+              </li>
+            </ul>
+          </.cp>
+        </:documentation_panel>
+
+        <:props_panel>
+          <.custom_search class="mb-16" />
+          <div class="space-y-8 mt-8">
+            <h2 class="text-lg lg:text-2xl font-bold">Video Component Props</h2>
+
+            <.custom_table id="video-component-props">
+              <:header>
+                <.table_th>Name</.table_th>
+
+                <.table_th>Type</.table_th>
+
+                <.table_th>Required</.table_th>
+
+                <.table_th>Description</.table_th>
+              </:header>
+
+              <:row>
+                <.table_td>id</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>A unique identifier used to manage state and interaction.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>thumbnail</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Determines the thumbnail for the video.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>width</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines the element width. Default is <strong>full</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>rounded</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines the border radius. Default is <strong>none</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>height</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines the element height. Default is <strong>auto</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>caption_size</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines the video caption size. Default is <strong>extra_small</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>caption_background</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines the video caption background color. Default is <strong>dark</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>caption_opacity</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines the video caption opacity. Default is <strong>solid</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>ratio</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines the video ratio. Default is <strong>auto</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>class</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Custom CSS class for additional styling.</.table_td>
+              </:row>
+            </.custom_table>
+          </div>
+        </:props_panel>
+
+        <:cli_panel>
+          <.custom_cli_props config={component_config()} />
+        </:cli_panel>
+
+        <.custom_table_content>
+          <:content
+            link={~p"/chelekom/docs/video/#overview"}
+            title="Overview of the video component"
+          />
+          <:content
+            link={~p"/chelekom/docs/video/#how-use-video"}
+            title="How to use video component"
+          />
+          <:content
+            link={~p"/chelekom/docs/video/#add-subtitle-video"}
+            title="Add subtitle to video"
+          />
+          <:content link={~p"/chelekom/docs/video/#video-thumbnail-prop"} title="Thumbnail prop" />
+          <:content link={~p"/chelekom/docs/video/#video-width-prop"} title="Width prop" />
+          <:content link={~p"/chelekom/docs/video/#video-height-prop"} title="Height prop" />
+          <:content link={~p"/chelekom/docs/video/#video-rounded-prop"} title="Rounded prop" />
+          <:content
+            link={~p"/chelekom/docs/video/#video-caption-size-prop"}
+            title="Caption Size prop"
+          />
+          <:content
+            link={~p"/chelekom/docs/video/#video-caption-background-prop"}
+            title="Caption Bakcground prop"
+          />
+          <:content
+            link={~p"/chelekom/docs/video/#video-caption-opacity-prop"}
+            title="Caption opacity prop"
+          />
+          <:content link={~p"/chelekom/docs/video/#video-ratio-prop"} title="Ratio prop" />
+          <:content link={~p"/chelekom/docs/video/#extra-info-video"} title="Extra Infromation" />
+        </.custom_table_content>
+      </.custom_tab>
+    </div>
+  </div>
+</Layouts.app>

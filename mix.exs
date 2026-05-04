@@ -35,8 +35,13 @@ defmodule MishkaChelekom.MixProject do
     ]
   end
 
-  defp elixirc_paths(:test), do: ["lib", "priv", "test/support"]
-  defp elixirc_paths(_mode), do: ["lib", "priv"]
+  # `priv/demos/` holds vendored `<comp>_live.{ex,html.heex}` showcase
+  # files used by `mix mishka.ui.export --cms` and `mix mishka.ui.verify`.
+  # The companion `_live.ex` files reference host-app modules
+  # (MishkaWeb, etc.) that aren't loaded in chelekom — read them as
+  # source text, never auto-compile.
+  defp elixirc_paths(:test), do: ["lib", "priv/components", "test/support"]
+  defp elixirc_paths(_mode), do: ["lib", "priv/components"]
 
   defp aliases do
     [
@@ -56,7 +61,14 @@ defmodule MishkaChelekom.MixProject do
       {:usage_rules, "~> 1.2", only: :test},
       {:anubis_mcp, "~> 1.1"},
       {:bandit, "~> 1.10", optional: true},
-      {:jason, "~> 1.4"}
+      {:jason, "~> 1.4"},
+      # Dev/test only: enables `mix mishka.ui.verify --cms` to render
+      # demo invocations through real Phoenix.Component functions and
+      # surface render-time bugs at author-time (before the bundle ships).
+      # Production-installed users of mishka_chelekom are unaffected —
+      # they bring their own phoenix_live_view via their host app.
+      # sourceror is already available transitively via :rewrite (igniter dep)
+      {:phoenix_live_view, "~> 1.0", only: [:dev, :test]}
     ]
   end
 

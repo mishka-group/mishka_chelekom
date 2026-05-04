@@ -1,0 +1,446 @@
+<Layouts.app flash={@flash}>
+  <div class="lg:grid lg:grid-cols-12 mt-5 max-w-5xl mx-auto">
+    <.custom_nav active="chelekom-docs-breadcrumb" />
+    <div class="lg:col-span-10">
+      <.custom_info
+        title="Breadcrumb"
+        description="Breadcrumb component in Phoenix and LiveView improves website navigation by offering a clickable trail of links, enhancing user experience and engagement."
+        mix="mix mishka.ui.gen.component breadcrumb"
+        github="https://github.com/mishka-group/mishka_chelekom/blob/master/priv/components/breadcrumb.eex"
+        tags={["Component", "Stateless"]}
+      />
+      <.custom_tab id="breadcrumb-tab">
+        <:documentation_panel>
+          <.heading2 class="mb-5" id="overview">
+            <.link patch={~p"/chelekom/docs/breadcrumb/#overview"}>
+              Overview of the Phoenix and LiveView Breadcrumb Component
+            </.link>
+          </.heading2>
+          <.cp>
+            The
+            <strong>
+              Mishka Chelekom breadcrumb
+            </strong>
+            component is a <strong>Phoenix LiveView</strong>
+            component that allows developers to create dynamic and customizable <strong>breadcrumbs</strong>, perfect for enhancing navigation within applications. It offers flexibility in layout, allowing for easy adjustment of size, color, and positioning, ensuring a polished and professional look.
+          </.cp>
+
+          <.custom_code_wrapper class="mt-10" elements_class="grid grid-cols-2 gap-x-5 gap-y-10">
+            <.breadcrumb id="breadcrumb-example-8998" color="base">
+              <:item icon="hero-home" link={~p"/chelekom/docs"}>Home</:item>
+              <:item icon="hero-inbox">Inbox</:item>
+              <:item icon="hero-envelope">Mails</:item>
+            </.breadcrumb>
+
+            <.breadcrumb id="breadcrumb-example-88" color="danger">
+              <:item>Chelekom</:item>
+              <:item>Docs</:item>
+              <:item>Cli</:item>
+            </.breadcrumb>
+
+            <.breadcrumb id="breadcrumb-example-099" color="misc" separator_text="/">
+              <:item>Home</:item>
+              <:item>Profile</:item>
+              <:item>Settings</:item>
+            </.breadcrumb>
+
+            <.breadcrumb id="breadcrumb-example-6756" color="info">
+              <:item icon="hero-home"></:item>
+              <:item icon="hero-inbox"></:item>
+              <:item>Drafts</:item>
+            </.breadcrumb>
+          </.custom_code_wrapper>
+
+          <.cp margin="mt-5">
+            This
+            <strong>
+              <.link
+                title="Phoenix LiveView component"
+                class="transition-colors hover:text-[#448D96]"
+                navigate={~p"/chelekom"}
+              >
+                Phoenix LiveView component
+              </.link>
+            </strong>
+            also supports adding icons and separators, making it ideal for enhancing both the visual appeal and clarity of navigation. With its responsive design and ease of use, this breadcrumb component improves navigation and user experience.
+          </.cp>
+
+          <.heading2 margin="my-5" id="breadcrumb-item-slot">
+            <.link patch={~p"/chelekom/docs/breadcrumb/#breadcrumb-item-slot"}>
+              How to use item slot
+            </.link>
+          </.heading2>
+          <.cp>
+            The item slot in the breadcrumb component enables you to create individual breadcrumb items with customizable attributes like <.custom_inline_code>icon</.custom_inline_code>, <.custom_inline_code>link</.custom_inline_code>, <.custom_inline_code>title</.custom_inline_code>, <.custom_inline_code>separator</.custom_inline_code>, and <.custom_inline_code>class</.custom_inline_code>. The
+            <.custom_inline_code>link</.custom_inline_code>
+            attribute allows navigation within a Phoenix application, using LiveView routing. The
+            <.custom_inline_code>title</.custom_inline_code>
+            attribute can be added to provide a standard HTML tooltip that appears when hovering over the item. Additionally, each item can include an optional icon, customize the separator between items, and apply specific CSS classes for additional styling. This flexibility allows for the creation of responsive and well-structured breadcrumb navigation.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-sm" code={@code_1}>
+            <.breadcrumb id="breadcrumb-example-1">
+              <:item link="/chelekom">Mishka Chelekom</:item>
+              <:item link={~p"/chelekom/docs/accordion"}>Accordion</:item>
+              <:item link={~p"/chelekom/docs/alert"}>Alert</:item>
+            </.breadcrumb>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="breadcrumb-item-link">
+            <.link patch={~p"/chelekom/docs/breadcrumb/#breadcrumb-item-link"}>
+              Link Prop of Item Slot
+            </.link>
+          </.heading2>
+          <.cp>
+            The
+            <.custom_inline_code>link</.custom_inline_code>
+            prop in the
+            <.custom_inline_code>item</.custom_inline_code>
+            slot of the breadcrumb component allows you to define a path for the breadcrumb item. When set, it converts the breadcrumb item into a clickable link that navigates to the specified path. If the
+            <.custom_inline_code>link</.custom_inline_code>
+            prop is omitted, the item will be displayed as plain text. Additionally, by using the
+            <.custom_inline_code>title</.custom_inline_code>
+            attribute, you can add a title to the link for improved <strong>accessibility</strong>, providing context or additional information when users hover over the link.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-sm" code={@code_2}>
+            <.breadcrumb id="breadcrumb-example-2" color="warning">
+              <:item title="Mishka chelekom link prop of item1" link="/chelekom">Link1</:item>
+              <:item title="Mishka chelekom link prop of item2" link="/chelekom">Link2</:item>
+              <:item>No link</:item>
+            </.breadcrumb>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="breadcrumb-item-icon">
+            <.link patch={~p"/chelekom/docs/breadcrumb/#breadcrumb-item-icon"}>
+              Add icon to each item slot
+            </.link>
+          </.heading2>
+          <.cp>
+            The
+            <.custom_inline_code>icon</.custom_inline_code>
+            attribute in the
+            <.custom_inline_code>item</.custom_inline_code>
+            slot is optional and, by default, it is set to <.custom_inline_code>nil</.custom_inline_code>. This means no icon will appear unless you explicitly define one. However, when provided, the icon is displayed before the breadcrumb text, improving visual navigation. Additionally, you can add custom HTML content inside the
+            <.custom_inline_code>item</.custom_inline_code>
+            slot, offering flexibility to include any icon or visual element that suits your design.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-sm" code={@code_3}>
+            <.breadcrumb id="breadcrumb-example-3" color="warning">
+              <:item icon="hero-cloud" link={~p"/chelekom"}>Mishka Chelekom</:item>
+              <:item icon="hero-circle-stack" link={~p"/chelekom/docs/accordion"}>
+                Accordion
+              </:item>
+              <:item icon="hero-envelope" link={~p"/chelekom/docs/alert"}>Alert</:item>
+            </.breadcrumb>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="breadcrumb-colors">
+            <.link patch={~p"/chelekom/docs/breadcrumb/#breadcrumb-colors"}>
+              Color prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <.custom_inline_code>color</.custom_inline_code>
+            prop for the
+            <.custom_inline_code>breadcrumb</.custom_inline_code>
+            component offers a wide range of predefined color options to customize the breadcrumb’s appearance. You can choose from a variety of colors, including <.custom_inline_code>base</.custom_inline_code>, <.custom_inline_code>natural</.custom_inline_code>, <.custom_inline_code>primary</.custom_inline_code>, <.custom_inline_code>secondary</.custom_inline_code>, <.custom_inline_code>success</.custom_inline_code>, <.custom_inline_code>warning</.custom_inline_code>, <.custom_inline_code>danger</.custom_inline_code>, <.custom_inline_code>dark</.custom_inline_code>, <.custom_inline_code>white</.custom_inline_code>, <.custom_inline_code>info</.custom_inline_code>, <.custom_inline_code>silver</.custom_inline_code>, <.custom_inline_code>misc</.custom_inline_code>, and <.custom_inline_code>dawn</.custom_inline_code>.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-sm" code={@code_5}>
+            <.breadcrumb id="breadcrumb-example-60">
+              <:item>Mishka Chelekom</:item>
+              <:item>Accordion</:item>
+              <:item>Alert</:item>
+            </.breadcrumb>
+            <.breadcrumb id="breadcrumb-example-62" color="misc">
+              <:item>Mishka Chelekom</:item>
+              <:item>Accordion</:item>
+              <:item>Alert</:item>
+            </.breadcrumb>
+            <.breadcrumb id="breadcrumb-example-361" color="natural">
+              <:item>Mishka Chelekom</:item>
+              <:item>Accordion</:item>
+              <:item>Alert</:item>
+            </.breadcrumb>
+            <.breadcrumb id="breadcrumb-example-63" color="dawn">
+              <:item>Mishka Chelekom</:item>
+              <:item>Accordion</:item>
+              <:item>Alert</:item>
+            </.breadcrumb>
+            <.breadcrumb id="breadcrumb-example-61" color="silver">
+              <:item>Mishka Chelekom</:item>
+              <:item>Accordion</:item>
+              <:item>Alert</:item>
+            </.breadcrumb>
+            <.breadcrumb id="breadcrumb-example-64" color="info">
+              <:item>Mishka Chelekom</:item>
+              <:item>Accordion</:item>
+              <:item>Alert</:item>
+            </.breadcrumb>
+            <.breadcrumb id="breadcrumb-example-65" color="warning">
+              <:item>Mishka Chelekom</:item>
+              <:item>Accordion</:item>
+              <:item>Alert</:item>
+            </.breadcrumb>
+            <.breadcrumb id="breadcrumb-example-66" color="primary">
+              <:item>Mishka Chelekom</:item>
+              <:item>Accordion</:item>
+              <:item>Alert</:item>
+            </.breadcrumb>
+            <.breadcrumb id="breadcrumb-example-67" color="success">
+              <:item>Mishka Chelekom</:item>
+              <:item>Accordion</:item>
+              <:item>Alert</:item>
+            </.breadcrumb>
+            <.breadcrumb id="breadcrumb-example-68" color="secondary">
+              <:item>Mishka Chelekom</:item>
+              <:item>Accordion</:item>
+              <:item>Alert</:item>
+            </.breadcrumb>
+            <.breadcrumb id="breadcrumb-example-69" color="danger">
+              <:item>Mishka Chelekom</:item>
+              <:item>Accordion</:item>
+              <:item>Alert</:item>
+            </.breadcrumb>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="breadcrumb-size-prop">
+            <.link patch={~p"/chelekom/docs/breadcrumb/#breadcrumb-size-prop"}>
+              Size Prop
+            </.link>
+          </.heading2>
+          <.cp>
+            The
+            <.custom_inline_code>size</.custom_inline_code>
+            prop in the breadcrumb component offers several size options: <.custom_inline_code>extra_small</.custom_inline_code>, <.custom_inline_code>small</.custom_inline_code>, <.custom_inline_code>medium</.custom_inline_code>, <.custom_inline_code>large</.custom_inline_code>, and <.custom_inline_code>extra_large</.custom_inline_code>. These values control the font size, spacing between breadcrumb items, and the size of icons, providing flexibility in designing breadcrumbs to match your layout preferences.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-sm" code={@code_16}>
+            <.breadcrumb color="silver" id="breadcrumb-example-16" size="large">
+              <:item>Mishka Chelekom</:item>
+              <:item>Image</:item>
+              <:item>Gallery</:item>
+            </.breadcrumb>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="breadcrumb-separator-icon-prop">
+            <.link patch={~p"/chelekom/docs/breadcrumb/#breadcrumb-separator-icon-prop"}>
+              Separator icon Prop
+            </.link>
+          </.heading2>
+          <.cp>
+            The
+            <.custom_inline_code>separator_icon</.custom_inline_code>
+            prop in the breadcrumb component allows you to define a uniform separator, such as a <.custom_inline_code>hero icon</.custom_inline_code>, which will be applied between all breadcrumb items. You can also use the
+            <.custom_inline_code>separator_icon_class</.custom_inline_code>
+            prop to add custom CSS classes to the separator icon, allowing for further styling customization.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-sm" code={@code_17}>
+            <.breadcrumb color="silver" id="breadcrumb-example-17" separator_icon="hero-star">
+              <:item>Mishka Chelekom</:item>
+              <:item>Image</:item>
+              <:item>Gallery</:item>
+            </.breadcrumb>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="breadcrumb-separator-text-prop">
+            <.link patch={~p"/chelekom/docs/breadcrumb/#breadcrumb-separator-text-prop"}>
+              Separator text Prop
+            </.link>
+          </.heading2>
+          <.cp>
+            The
+            <.custom_inline_code>separator_text</.custom_inline_code>
+            prop in the breadcrumb component allows you to define a uniform separator, any text or even spaces which will be applied between all breadcrumb items. You can also use the
+            <.custom_inline_code>separator_text_class</.custom_inline_code>
+            prop to add custom CSS classes to the separator text, allowing for further styling customization.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-sm" code={@code_4}>
+            <.breadcrumb color="silver" id="breadcrumb-example-17888" separator_text="_">
+              <:item>Mishka Chelekom</:item>
+              <:item>Image</:item>
+              <:item>Gallery</:item>
+            </.breadcrumb>
+          </.custom_code_wrapper>
+        </:documentation_panel>
+
+        <:props_panel>
+          <.custom_search class="mb-16" />
+          <div class="space-y-8">
+            <h2 class="text-lg lg:text-2xl font-bold">Breadcrumb component props</h2>
+
+            <.custom_table id="breadcrumb-component-table">
+              <:header>
+                <.table_th>Name</.table_th>
+
+                <.table_th>Type</.table_th>
+
+                <.table_th>Required</.table_th>
+
+                <.table_th>Description</.table_th>
+              </:header>
+
+              <:row>
+                <.table_td>class</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Custom CSS class for additional styling.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>id</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  A unique identifier is used to manage state and interaction.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>separator_icon</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines the separator icon for breadcrumb items. Default: <strong>hero-chevron-right</strong>.
+                </.table_td>
+              </:row>
+              <:row>
+                <.table_td>separator_icon_class</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines the separator icon class for breadcrumb items.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>separator_text</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines the separator texts for breadcrumb items.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>separator_text_class</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines the separator texts classes for breadcrumb items.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>items_wrapper_class</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines the custom classes for wrapper of items.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>color</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines the color theme of the breadcrumb. Supported values: <strong>base</strong>, <strong>natural</strong>, <strong>primary</strong>, <strong>secondary</strong>, <strong>success</strong>, <strong>warning</strong>, <strong>danger</strong>, <strong>info</strong>, <strong>silver</strong>, <strong>dark</strong>, <strong>white</strong>, <strong>misc</strong>, <strong>dawn</strong>=.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>size</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines the overall size of the breadcrumb items, including padding, font size, and other attributes. Supported sizes: <strong>extra_small</strong>, <strong>small</strong>, <strong>medium</strong>, <strong>large</strong>, <strong>extra_large</strong>. Default: <strong>small</strong>.
+                </.table_td>
+              </:row>
+              <:row>
+                <.table_td>item</.table_td>
+
+                <.table_td>slot</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Slot to define individual breadcrumb items. Slot attributes include:
+                  <strong>icon</strong>
+                  (optional, displays an icon), <strong>link</strong>
+                  (optional, custom separator between items), <strong>class</strong>
+                  (optional, custom CSS class for styling).
+                </.table_td>
+              </:row>
+            </.custom_table>
+          </div>
+        </:props_panel>
+
+        <:cli_panel>
+          <.custom_cli_props config={component_config()} />
+        </:cli_panel>
+        <.custom_table_content>
+          <:content
+            link={~p"/chelekom/docs/breadcrumb/#overview"}
+            title="Overview of the breadcrumb component"
+          />
+          <:content
+            link={~p"/chelekom/docs/breadcrumb/#breadcrumb-item-slot"}
+            title="How to use item slot"
+          />
+          <:content
+            link={~p"/chelekom/docs/breadcrumb/#breadcrumb-item-link"}
+            title="Link prop of item slot"
+          />
+          <:content
+            link={~p"/chelekom/docs/breadcrumb/#breadcrumb-item-icon"}
+            title="Add icon to item slot"
+          />
+          <:content link={~p"/chelekom/docs/breadcrumb/#breadcrumb-colors"} title="Color prop" />
+          <:content link={~p"/chelekom/docs/breadcrumb/#breadcrumb-size-prop"} title="Size prop" />
+          <:content
+            link={~p"/chelekom/docs/breadcrumb/#breadcrumb-separator-icon-prop"}
+            title="Seperator prop"
+          />
+          <:content
+            link={~p"/chelekom/docs/breadcrumb/#breadcrumb-separator-text-prop"}
+            title="Seperator prop"
+          />
+        </.custom_table_content>
+      </.custom_tab>
+    </div>
+  </div>
+</Layouts.app>

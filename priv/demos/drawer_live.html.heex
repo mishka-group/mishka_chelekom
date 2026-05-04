@@ -1,0 +1,1270 @@
+<Layouts.app flash={@flash}>
+  <div class="lg:grid lg:grid-cols-12 mt-5 max-w-5xl mx-auto">
+    <.custom_nav active="chelekom-docs-drawer" />
+    <div class="lg:col-span-10">
+      <.custom_info
+        title="Drawer"
+        description="Flexible sliding drawers for Phoenix and LiveView with customizable positioning, styling, and interactive show and hide functionality."
+        mix="mix mishka.ui.gen.component drawer"
+        github="https://github.com/mishka-group/mishka_chelekom/blob/master/priv/components/drawer.eex"
+        tags={["Component", "Stateless", "JS-module"]}
+      />
+      <.custom_tab id="chelekom-drawer-tab">
+        <:documentation_panel>
+          <.heading2 class="mb-5" id="overview">
+            <.link patch={~p"/chelekom/docs/drawer/#overview"}>
+              Overview of the Phoenix and LiveView Drawer Component
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <strong>
+              Mishka Chelekom Drawer
+            </strong>
+            component allows you to create flexible and customizable sliding panels for displaying hidden content, such as navigation, sidebars, or additional information. It's a versatile component that can be positioned on the left, right, top, or bottom of the viewport, providing an intuitive and accessible way to display or hide content as needed. The drawer can be easily integrated with
+            <strong>Phoenix</strong>
+            and <strong>Phoenix LiveView</strong>, making it an ideal solution for enhancing user interactivity.
+          </.cp>
+
+          <.cp class="mt-5">
+            This
+            <strong>
+              <.link
+                title="Phoenix LiveView component"
+                class="transition-colors hover:text-[#448D96]"
+                navigate={~p"/chelekom"}
+              >
+                Phoenix LiveView component
+              </.link>
+            </strong>
+            is perfect for enhancing user experience by providing dynamic and interactive sliding panels that can be triggered by various actions, offering both visual appeal and functional utility.
+          </.cp>
+
+          <.custom_block position="left" color="success" class="my-8" border="medium">
+            <.cp>
+              By using the class prop, you can apply custom classes or Tailwind CSS classes to customize the appearance and behavior of the components, allowing for flexible design changes.
+            </.cp>
+            <strong>Note:</strong>
+            id prop is required and each drawer should have unique id.
+          </.custom_block>
+
+          <.heading2 margin="my-5" id="drawer-js-modules">
+            <.link patch={~p"/chelekom/docs/drawer/#drawer-js-modules"}>
+              About LiveView JS module commands
+            </.link>
+          </.heading2>
+
+          <.cp class="my-8">
+            In the drawer component, there are three attributes that allow users to execute custom LiveView JS commands when certain actions like showing or hiding occur. These attributes are:
+            <ul>
+              <li>
+                <strong>on_hide:</strong>
+                This attribute lets the user execute an additional JavaScript command when the drawer is hidden, alongside the default toggle action. For instance, a user might want to push some data to the server or trigger another function when the drawer hides.
+              </li>
+              <li>
+                <strong>on_show:</strong>
+                This attribute allows you to run a custom JavaScript command when the drawer is shown. Users can, for example, send data, log an event, or perform any other action when the drawer is displayed.
+              </li>
+              <li>
+                <strong>on_hide_away:</strong>
+                This attribute allows for the execution of a JavaScript command when the drawer is hidden by clicking outside of it. This could be useful for logging interactions or sending specific data back to the server.
+              </li>
+            </ul>
+            These attributes give developers more control over the interactions with the drawer, allowing for complex actions to be performed using custom JavaScript beyond just the default show/hide behavior.
+          </.cp>
+
+          <.heading2 margin="my-5" id="base-drawer">
+            <.link patch={~p"/chelekom/docs/drawer/#base-drawer"}>
+              Base Variant
+            </.link>
+          </.heading2>
+
+          <.custom_code_wrapper
+            elements_class="flex gap-5 items-center justify-center"
+            code_class="text-sm"
+            code={@code_15}
+          >
+            <.button size="small" phx-click={Drawer.show_drawer("drawer-example-900", "bottom")}>
+              Open Base
+            </.button>
+
+            <.drawer id="drawer-example-900" position="bottom" size="small">
+              <.cp class="p-3">
+                The Mishka Chelekom Drawer component is a highly customizable and flexible sliding panel for Phoenix LiveView applications. It allows developers to add content in a side or top/bottom drawer, which can be toggled to show or hide based on user interactions. With built-in support for different positions like left, right, top, and bottom, the drawer can fit into a variety of layouts and use cases. It also provides several customization options, including size, color, and styling variants, making it adaptable to different design needs. The drawer integrates seamlessly with Phoenix LiveView, offering interactive functionality through JavaScript actions for showing, hiding, and reacting to events such as clicking outside the drawer. This makes the Mishka Chelekom Drawer component a practical and essential tool for creating smooth, user-friendly navigation and interactive elements in web applications.
+              </.cp>
+            </.drawer>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="default-variant-drawer">
+            <.link patch={~p"/chelekom/docs/drawer/#default-variant-drawer"}>
+              Default Variant
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The default style of the
+            <.link navigate={~p"/chelekom/docs/drawer"}>Mishka Chelekom drawer</.link>
+            applies a solid background and border that change based on user interaction, making it perfect for delivering important notifications. With just a single setting, you can select from a range of color options, ensuring easy customization to match various design styles. Default variant have also white and dark colors which are the same colors in the dark and light mode.
+          </.cp>
+
+          <.custom_code_wrapper
+            elements_class="flex gap-5 items-center justify-center"
+            code_class="text-sm"
+            code={@code_2}
+          >
+            <.button
+              size="small"
+              variant="outline"
+              color="natural"
+              phx-click={Drawer.show_drawer("drawer-example-1", "bottom")}
+            >
+              Open Natural
+            </.button>
+            <.button
+              size="small"
+              color="info"
+              variant="outline"
+              phx-click={Drawer.show_drawer("drawer-example-2", "top")}
+            >
+              Open info
+            </.button>
+            <.button
+              size="small"
+              color="dawn"
+              variant="outline"
+              phx-click={Drawer.show_drawer("drawer-example-3", "left")}
+            >
+              Open Dawn
+            </.button>
+            <.button
+              size="small"
+              color="misc"
+              variant="outline"
+              phx-click={Drawer.show_drawer("drawer-example-4", "right")}
+            >
+              Open misc
+            </.button>
+
+            <.drawer
+              id="drawer-example-1"
+              variant="default"
+              color="natural"
+              position="bottom"
+              size="small"
+            >
+              <.cp class="p-3">
+                The Mishka Chelekom Drawer component is a highly customizable and flexible sliding panel for Phoenix LiveView applications. It allows developers to add content in a side or top/bottom drawer, which can be toggled to show or hide based on user interactions. With built-in support for different positions like left, right, top, and bottom, the drawer can fit into a variety of layouts and use cases. It also provides several customization options, including size, color, and styling variants, making it adaptable to different design needs. The drawer integrates seamlessly with Phoenix LiveView, offering interactive functionality through JavaScript actions for showing, hiding, and reacting to events such as clicking outside the drawer. This makes the Mishka Chelekom Drawer component a practical and essential tool for creating smooth, user-friendly navigation and interactive elements in web applications.
+              </.cp>
+            </.drawer>
+            <.drawer
+              id="drawer-example-2"
+              position="top"
+              variant="default"
+              color="info"
+              size="small"
+            >
+              <.cp class="p-3">
+                The Mishka Chelekom Drawer component is a highly customizable and flexible sliding panel for Phoenix LiveView applications. It allows developers to add content in a side or top/bottom drawer, which can be toggled to show or hide based on user interactions. With built-in support for different positions like left, right, top, and bottom, the drawer can fit into a variety of layouts and use cases. It also provides several customization options, including size, color, and styling variants, making it adaptable to different design needs. The drawer integrates seamlessly with Phoenix LiveView, offering interactive functionality through JavaScript actions for showing, hiding, and reacting to events such as clicking outside the drawer. This makes the Mishka Chelekom Drawer component a practical and essential tool for creating smooth, user-friendly navigation and interactive elements in web applications.
+              </.cp>
+            </.drawer>
+            <.drawer id="drawer-example-3" variant="default" color="dawn">
+              <ul>
+                <li class="py-2 px-3 hover:bg-stone-400 cursor-pointer">Home</li>
+                <li class="py-2 px-3 hover:bg-stone-400 cursor-pointer">Inbox</li>
+                <li class="py-2 px-3 hover:bg-stone-400 cursor-pointer">Favorits</li>
+                <li class="py-2 px-3 hover:bg-stone-400 cursor-pointer">TeamSpaces</li>
+                <li class="py-2 px-3 hover:bg-stone-400 cursor-pointer">Projects</li>
+                <li class="py-2 px-3 hover:bg-stone-400 cursor-pointer">Calendar</li>
+                <li class="py-2 px-3 hover:bg-stone-400 cursor-pointer">Settings</li>
+                <li class="py-2 px-3 hover:bg-stone-400 cursor-pointer">Profile</li>
+              </ul>
+            </.drawer>
+            <.drawer id="drawer-example-4" variant="default" color="misc" position="right">
+              <ul>
+                <li class="py-2 px-3 hover:bg-purple-400 cursor-pointer">Home</li>
+                <li class="py-2 px-3 hover:bg-purple-400 cursor-pointer">Inbox</li>
+                <li class="py-2 px-3 hover:bg-purple-400 cursor-pointer">Favorits</li>
+                <li class="py-2 px-3 hover:bg-purple-400 cursor-pointer">TeamSpaces</li>
+                <li class="py-2 px-3 hover:bg-purple-400 cursor-pointer">Projects</li>
+                <li class="py-2 px-3 hover:bg-purple-400 cursor-pointer">Calendar</li>
+                <li class="py-2 px-3 hover:bg-purple-400 cursor-pointer">Settings</li>
+                <li class="py-2 px-3 hover:bg-purple-400 cursor-pointer">Profile</li>
+              </ul>
+            </.drawer>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="outline-variant-drawer">
+            <.link patch={~p"/chelekom/docs/drawer/#outline-variant-drawer"}>
+              Outline Variant
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The outline style of the Mishka Chelekom drawer features a border. Using a single setting, you can choose from various color variants to suit your design needs.
+          </.cp>
+
+          <.custom_code_wrapper
+            elements_class="flex gap-5 items-center justify-center"
+            code_class="text-sm"
+            code={@code_3}
+          >
+            <.button
+              size="small"
+              color="primary"
+              variant="outline"
+              phx-click={Drawer.show_drawer("drawer-example-5", "bottom")}
+            >
+              Open Primary
+            </.button>
+            <.button
+              size="small"
+              color="info"
+              variant="outline"
+              phx-click={Drawer.show_drawer("drawer-example-6", "top")}
+            >
+              Open Info
+            </.button>
+            <.button
+              size="small"
+              color="misc"
+              variant="outline"
+              phx-click={Drawer.show_drawer("drawer-example-7", "left")}
+            >
+              Open Base
+            </.button>
+            <.button
+              size="small"
+              color="dawn"
+              variant="outline"
+              phx-click={Drawer.show_drawer("drawer-example-8", "right")}
+            >
+              Open Dawn
+            </.button>
+
+            <.drawer
+              variant="outline"
+              id="drawer-example-5"
+              position="bottom"
+              size="small"
+              color="primary"
+            >
+              <.cp class="p-3">
+                The Mishka Chelekom Drawer component is a highly customizable and flexible sliding panel for Phoenix LiveView applications. It allows developers to add content in a side or top/bottom drawer, which can be toggled to show or hide based on user interactions. With built-in support for different positions like left, right, top, and bottom, the drawer can fit into a variety of layouts and use cases. It also provides several customization options, including size, color, and styling variants, making it adaptable to different design needs. The drawer integrates seamlessly with Phoenix LiveView, offering interactive functionality through JavaScript actions for showing, hiding, and reacting to events such as clicking outside the drawer. This makes the Mishka Chelekom Drawer component a practical and essential tool for creating smooth, user-friendly navigation and interactive elements in web applications.
+              </.cp>
+            </.drawer>
+
+            <.drawer
+              variant="outline"
+              id="drawer-example-6"
+              position="top"
+              color="info"
+              size="small"
+            >
+              <.cp class="p-3">
+                The Mishka Chelekom Drawer component is a highly customizable and flexible sliding panel for Phoenix LiveView applications. It allows developers to add content in a side or top/bottom drawer, which can be toggled to show or hide based on user interactions. With built-in support for different positions like left, right, top, and bottom, the drawer can fit into a variety of layouts and use cases. It also provides several customization options, including size, color, and styling variants, making it adaptable to different design needs. The drawer integrates seamlessly with Phoenix LiveView, offering interactive functionality through JavaScript actions for showing, hiding, and reacting to events such as clicking outside the drawer. This makes the Mishka Chelekom Drawer component a practical and essential tool for creating smooth, user-friendly navigation and interactive elements in web applications.
+              </.cp>
+            </.drawer>
+
+            <.drawer variant="outline" color="natural" id="drawer-example-7">
+              <ul>
+                <li class="py-2 px-3 hover:bg-stone-400 cursor-pointer">Home</li>
+                <li class="py-2 px-3 hover:bg-stone-400 cursor-pointer">Inbox</li>
+                <li class="py-2 px-3 hover:bg-stone-400 cursor-pointer">Favorites</li>
+                <li class="py-2 px-3 hover:bg-stone-400 cursor-pointer">TeamSpaces</li>
+                <li class="py-2 px-3 hover:bg-stone-400 cursor-pointer">Projects</li>
+                <li class="py-2 px-3 hover:bg-stone-400 cursor-pointer">Calendar</li>
+                <li class="py-2 px-3 hover:bg-stone-400 cursor-pointer">Settings</li>
+                <li class="py-2 px-3 hover:bg-stone-400 cursor-pointer">Profile</li>
+              </ul>
+            </.drawer>
+
+            <.drawer variant="outline" id="drawer-example-8" color="dawn" position="right">
+              <ul>
+                <li class="py-2 px-3 hover:bg-purple-400 cursor-pointer">Home</li>
+                <li class="py-2 px-3 hover:bg-purple-400 cursor-pointer">Inbox</li>
+                <li class="py-2 px-3 hover:bg-purple-400 cursor-pointer">Favorites</li>
+                <li class="py-2 px-3 hover:bg-purple-400 cursor-pointer">TeamSpaces</li>
+                <li class="py-2 px-3 hover:bg-purple-400 cursor-pointer">Projects</li>
+                <li class="py-2 px-3 hover:bg-purple-400 cursor-pointer">Calendar</li>
+                <li class="py-2 px-3 hover:bg-purple-400 cursor-pointer">Settings</li>
+                <li class="py-2 px-3 hover:bg-purple-400 cursor-pointer">Profile</li>
+              </ul>
+            </.drawer>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="transparent-variant-drawer">
+            <.link patch={~p"/chelekom/docs/drawer/#transparent-variant-drawer"}>
+              Transparent Variant
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The transparent variant of the Mishka Chelekom drawer is similar to the default variant, but without border and background color.
+          </.cp>
+
+          <.custom_code_wrapper
+            elements_class="flex gap-5 items-center justify-center"
+            code_class="text-sm"
+            code={@code_6}
+          >
+            <.button
+              size="small"
+              color="primary"
+              variant="outline"
+              phx-click={Drawer.show_drawer("drawer-example-17", "bottom")}
+            >
+              Open Primary
+            </.button>
+            <.button
+              size="small"
+              color="warning"
+              variant="outline"
+              phx-click={Drawer.show_drawer("drawer-example-18", "top")}
+            >
+              Open Info
+            </.button>
+            <.button
+              size="small"
+              color="danger"
+              variant="outline"
+              phx-click={Drawer.show_drawer("drawer-example-19", "left")}
+            >
+              Open Secondary
+            </.button>
+            <.button
+              size="small"
+              color="dawn"
+              variant="outline"
+              phx-click={Drawer.show_drawer("drawer-example-20", "right")}
+            >
+              Open Dawn
+            </.button>
+
+            <.drawer
+              id="drawer-example-17"
+              position="bottom"
+              size="small"
+              color="primary"
+              variant="transparent"
+            >
+              <.cp class="p-3">
+                The Mishka Chelekom Drawer component is a highly customizable and flexible sliding panel for Phoenix LiveView applications. It allows developers to add content in a side or top/bottom drawer, which can be toggled to show or hide based on user interactions. With built-in support for different positions like left, right, top, and bottom, the drawer can fit into a variety of layouts and use cases. It also provides several customization options, including size, color, and styling variants, making it adaptable to different design needs. The drawer integrates seamlessly with Phoenix LiveView, offering interactive functionality through JavaScript actions for showing, hiding, and reacting to events such as clicking outside the drawer. This makes the Mishka Chelekom Drawer component a practical and essential tool for creating smooth, user-friendly navigation and interactive elements in web applications.
+              </.cp>
+            </.drawer>
+
+            <.drawer
+              id="drawer-example-18"
+              position="top"
+              color="info"
+              size="small"
+              variant="transparent"
+            >
+              <.cp class="p-3">
+                The Mishka Chelekom Drawer component is a highly customizable and flexible sliding panel for Phoenix LiveView applications. It allows developers to add content in a side or top/bottom drawer, which can be toggled to show or hide based on user interactions. With built-in support for different positions like left, right, top, and bottom, the drawer can fit into a variety of layouts and use cases. It also provides several customization options, including size, color, and styling variants, making it adaptable to different design needs. The drawer integrates seamlessly with Phoenix LiveView, offering interactive functionality through JavaScript actions for showing, hiding, and reacting to events such as clicking outside the drawer. This makes the Mishka Chelekom Drawer component a practical and essential tool for creating smooth, user-friendly navigation and interactive elements in web applications.
+              </.cp>
+            </.drawer>
+
+            <.drawer id="drawer-example-19" color="secondary" variant="transparent">
+              <ul>
+                <li class="py-2 px-3 hover:bg-stone-400 cursor-pointer">Home</li>
+                <li class="py-2 px-3 hover:bg-stone-400 cursor-pointer">Inbox</li>
+                <li class="py-2 px-3 hover:bg-stone-400 cursor-pointer">Favorites</li>
+                <li class="py-2 px-3 hover:bg-stone-400 cursor-pointer">TeamSpaces</li>
+                <li class="py-2 px-3 hover:bg-stone-400 cursor-pointer">Projects</li>
+                <li class="py-2 px-3 hover:bg-stone-400 cursor-pointer">Calendar</li>
+                <li class="py-2 px-3 hover:bg-stone-400 cursor-pointer">Settings</li>
+                <li class="py-2 px-3 hover:bg-stone-400 cursor-pointer">Profile</li>
+              </ul>
+            </.drawer>
+
+            <.drawer id="drawer-example-20" color="dawn" position="right" variant="transparent">
+              <ul>
+                <li class="py-2 px-3 hover:bg-purple-400 cursor-pointer">Home</li>
+                <li class="py-2 px-3 hover:bg-purple-400 cursor-pointer">Inbox</li>
+                <li class="py-2 px-3 hover:bg-purple-400 cursor-pointer">Favorites</li>
+                <li class="py-2 px-3 hover:bg-purple-400 cursor-pointer">TeamSpaces</li>
+                <li class="py-2 px-3 hover:bg-purple-400 cursor-pointer">Projects</li>
+                <li class="py-2 px-3 hover:bg-purple-400 cursor-pointer">Calendar</li>
+                <li class="py-2 px-3 hover:bg-purple-400 cursor-pointer">Settings</li>
+                <li class="py-2 px-3 hover:bg-purple-400 cursor-pointer">Profile</li>
+              </ul>
+            </.drawer>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="bordered-variant-drawer">
+            <.link patch={~p"/chelekom/docs/drawer/#bordered-variant-drawer"}>
+              Bordered Variant
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The Bordered variant of the Mishka Chelekom drawer has lighter background and a border. Bordered variant have also white and dark colors which are the same colors in the dark and light mode.
+          </.cp>
+
+          <.custom_code_wrapper
+            elements_class="flex gap-5 items-center justify-center"
+            code_class="text-sm"
+            code={@code_13}
+          >
+            <.button
+              size="small"
+              color="dawn"
+              variant="outline"
+              phx-click={Drawer.show_drawer("drawer-example-37", "bottom")}
+            >
+              Open Primary
+            </.button>
+            <.button
+              size="small"
+              color="danger"
+              variant="outline"
+              phx-click={Drawer.show_drawer("drawer-example-38", "top")}
+            >
+              Open Info
+            </.button>
+            <.button
+              size="small"
+              color="secondary"
+              variant="outline"
+              phx-click={Drawer.show_drawer("drawer-example-39", "left")}
+            >
+              Open Secondary
+            </.button>
+            <.button
+              size="small"
+              color="misc"
+              variant="outline"
+              phx-click={Drawer.show_drawer("drawer-example-40", "right")}
+            >
+              Open Dawn
+            </.button>
+
+            <.drawer
+              id="drawer-example-37"
+              position="bottom"
+              size="small"
+              color="primary"
+              variant="bordered"
+            >
+              <.cp class="p-3">
+                The Mishka Chelekom Drawer component is a highly customizable and flexible sliding panel for Phoenix LiveView applications. It allows developers to add content in a side or top/bottom drawer, which can be toggled to show or hide based on user interactions. With built-in support for different positions like left, right, top, and bottom, the drawer can fit into a variety of layouts and use cases. It also provides several customization options, including size, color, and styling variants, making it adaptable to different design needs. The drawer integrates seamlessly with Phoenix LiveView, offering interactive functionality through JavaScript actions for showing, hiding, and reacting to events such as clicking outside the drawer. This makes the Mishka Chelekom Drawer component a practical and essential tool for creating smooth, user-friendly navigation and interactive elements in web applications.
+              </.cp>
+            </.drawer>
+
+            <.drawer
+              id="drawer-example-38"
+              position="top"
+              color="info"
+              size="small"
+              variant="bordered"
+            >
+              <.cp class="p-3">
+                The Mishka Chelekom Drawer component is a highly customizable and flexible sliding panel for Phoenix LiveView applications. It allows developers to add content in a side or top/bottom drawer, which can be toggled to show or hide based on user interactions. With built-in support for different positions like left, right, top, and bottom, the drawer can fit into a variety of layouts and use cases. It also provides several customization options, including size, color, and styling variants, making it adaptable to different design needs. The drawer integrates seamlessly with Phoenix LiveView, offering interactive functionality through JavaScript actions for showing, hiding, and reacting to events such as clicking outside the drawer. This makes the Mishka Chelekom Drawer component a practical and essential tool for creating smooth, user-friendly navigation and interactive elements in web applications.
+              </.cp>
+            </.drawer>
+
+            <.drawer id="drawer-example-39" color="secondary" variant="bordered">
+              <ul>
+                <li class="py-2 px-3 hover:bg-stone-400 cursor-pointer">Home</li>
+                <li class="py-2 px-3 hover:bg-stone-400 cursor-pointer">Inbox</li>
+                <li class="py-2 px-3 hover:bg-stone-400 cursor-pointer">Favorites</li>
+                <li class="py-2 px-3 hover:bg-stone-400 cursor-pointer">TeamSpaces</li>
+                <li class="py-2 px-3 hover:bg-stone-400 cursor-pointer">Projects</li>
+                <li class="py-2 px-3 hover:bg-stone-400 cursor-pointer">Calendar</li>
+                <li class="py-2 px-3 hover:bg-stone-400 cursor-pointer">Settings</li>
+                <li class="py-2 px-3 hover:bg-stone-400 cursor-pointer">Profile</li>
+              </ul>
+            </.drawer>
+
+            <.drawer id="drawer-example-40" color="dawn" position="right" variant="bordered">
+              <ul>
+                <li class="py-2 px-3 hover:bg-purple-400 cursor-pointer">Home</li>
+                <li class="py-2 px-3 hover:bg-purple-400 cursor-pointer">Inbox</li>
+                <li class="py-2 px-3 hover:bg-purple-400 cursor-pointer">Favorites</li>
+                <li class="py-2 px-3 hover:bg-purple-400 cursor-pointer">TeamSpaces</li>
+                <li class="py-2 px-3 hover:bg-purple-400 cursor-pointer">Projects</li>
+                <li class="py-2 px-3 hover:bg-purple-400 cursor-pointer">Calendar</li>
+                <li class="py-2 px-3 hover:bg-purple-400 cursor-pointer">Settings</li>
+                <li class="py-2 px-3 hover:bg-purple-400 cursor-pointer">Profile</li>
+              </ul>
+            </.drawer>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="gradient-variant-drawer">
+            <.link patch={~p"/chelekom/docs/drawer/#gradient-variant-drawer"}>
+              Gradient Variant
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The gradient variant of the Mishka Chelekom drawer has gradients in various colors.
+          </.cp>
+
+          <.custom_code_wrapper
+            elements_class="flex gap-5 items-center justify-center"
+            code_class="text-sm"
+            code={@code_14}
+          >
+            <.button
+              size="small"
+              color="primary"
+              variant="outline"
+              phx-click={Drawer.show_drawer("drawer-example-41", "bottom")}
+            >
+              Open Primary
+            </.button>
+            <.button
+              size="small"
+              color="info"
+              variant="outline"
+              phx-click={Drawer.show_drawer("drawer-example-42", "top")}
+            >
+              Open Info
+            </.button>
+            <.button
+              size="small"
+              color="secondary"
+              variant="outline"
+              phx-click={Drawer.show_drawer("drawer-example-43", "left")}
+            >
+              Open Secondary
+            </.button>
+            <.button
+              size="small"
+              color="dawn"
+              variant="outline"
+              phx-click={Drawer.show_drawer("drawer-example-44", "right")}
+            >
+              Open Dawn
+            </.button>
+
+            <.drawer
+              id="drawer-example-41"
+              position="bottom"
+              size="small"
+              color="primary"
+              variant="gradient"
+            >
+              <.cp class="p-3">
+                The Mishka Chelekom Drawer component is a highly customizable and flexible sliding panel for Phoenix LiveView applications. It allows developers to add content in a side or top/bottom drawer, which can be toggled to show or hide based on user interactions. With built-in support for different positions like left, right, top, and bottom, the drawer can fit into a variety of layouts and use cases. It also provides several customization options, including size, color, and styling variants, making it adaptable to different design needs. The drawer integrates seamlessly with Phoenix LiveView, offering interactive functionality through JavaScript actions for showing, hiding, and reacting to events such as clicking outside the drawer. This makes the Mishka Chelekom Drawer component a practical and essential tool for creating smooth, user-friendly navigation and interactive elements in web applications.
+              </.cp>
+            </.drawer>
+
+            <.drawer
+              id="drawer-example-42"
+              position="top"
+              color="info"
+              size="small"
+              variant="gradient"
+            >
+              <.cp class="p-3">
+                The Mishka Chelekom Drawer component is a highly customizable and flexible sliding panel for Phoenix LiveView applications. It allows developers to add content in a side or top/bottom drawer, which can be toggled to show or hide based on user interactions. With built-in support for different positions like left, right, top, and bottom, the drawer can fit into a variety of layouts and use cases. It also provides several customization options, including size, color, and styling variants, making it adaptable to different design needs. The drawer integrates seamlessly with Phoenix LiveView, offering interactive functionality through JavaScript actions for showing, hiding, and reacting to events such as clicking outside the drawer. This makes the Mishka Chelekom Drawer component a practical and essential tool for creating smooth, user-friendly navigation and interactive elements in web applications.
+              </.cp>
+            </.drawer>
+
+            <.drawer id="drawer-example-43" color="secondary" variant="gradient">
+              <ul>
+                <li class="py-2 px-3 hover:bg-stone-400 cursor-pointer">Home</li>
+                <li class="py-2 px-3 hover:bg-stone-400 cursor-pointer">Inbox</li>
+                <li class="py-2 px-3 hover:bg-stone-400 cursor-pointer">Favorites</li>
+                <li class="py-2 px-3 hover:bg-stone-400 cursor-pointer">TeamSpaces</li>
+                <li class="py-2 px-3 hover:bg-stone-400 cursor-pointer">Projects</li>
+                <li class="py-2 px-3 hover:bg-stone-400 cursor-pointer">Calendar</li>
+                <li class="py-2 px-3 hover:bg-stone-400 cursor-pointer">Settings</li>
+                <li class="py-2 px-3 hover:bg-stone-400 cursor-pointer">Profile</li>
+              </ul>
+            </.drawer>
+
+            <.drawer id="drawer-example-44" color="dawn" position="right" variant="gradient">
+              <ul>
+                <li class="py-2 px-3 hover:bg-purple-400 cursor-pointer">Home</li>
+                <li class="py-2 px-3 hover:bg-purple-400 cursor-pointer">Inbox</li>
+                <li class="py-2 px-3 hover:bg-purple-400 cursor-pointer">Favorites</li>
+                <li class="py-2 px-3 hover:bg-purple-400 cursor-pointer">TeamSpaces</li>
+                <li class="py-2 px-3 hover:bg-purple-400 cursor-pointer">Projects</li>
+                <li class="py-2 px-3 hover:bg-purple-400 cursor-pointer">Calendar</li>
+                <li class="py-2 px-3 hover:bg-purple-400 cursor-pointer">Settings</li>
+                <li class="py-2 px-3 hover:bg-purple-400 cursor-pointer">Profile</li>
+              </ul>
+            </.drawer>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="drawer-border">
+            <.link patch={~p"/chelekom/docs/drawer/#drawer-border"}>
+              Border prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The border prop offers values like <.custom_inline_code>"extra_small"</.custom_inline_code>, <.custom_inline_code>"small"</.custom_inline_code>, <.custom_inline_code>"medium"</.custom_inline_code>, <.custom_inline_code>"large"</.custom_inline_code>, and <.custom_inline_code>"extra_large"</.custom_inline_code>.
+          </.cp>
+
+          <.custom_code_wrapper
+            elements_class="flex gap-5 items-center justify-center"
+            code={@code_7}
+          >
+            <.button
+              size="small"
+              color="silver"
+              variant="outline"
+              phx-click={Drawer.show_drawer("drawer-example-21", "left")}
+            >
+              Open left
+            </.button>
+            <.button
+              size="small"
+              color="warning"
+              variant="outline"
+              phx-click={Drawer.show_drawer("drawer-example-22", "right")}
+            >
+              Open right
+            </.button>
+
+            <.drawer
+              id="drawer-example-21"
+              color="primary"
+              variant="bordered"
+              border="extra_large"
+            >
+              <ul>
+                <li class="py-2 px-3 hover:bg-blue-400 cursor-pointer">Home</li>
+                <li class="py-2 px-3 hover:bg-blue-400 cursor-pointer">Inbox</li>
+                <li class="py-2 px-3 hover:bg-blue-400 cursor-pointer">Favorites</li>
+                <li class="py-2 px-3 hover:bg-blue-400 cursor-pointer">TeamSpaces</li>
+                <li class="py-2 px-3 hover:bg-blue-400 cursor-pointer">Projects</li>
+                <li class="py-2 px-3 hover:bg-blue-400 cursor-pointer">Calendar</li>
+                <li class="py-2 px-3 hover:bg-blue-400 cursor-pointer">Settings</li>
+                <li class="py-2 px-3 hover:bg-blue-400 cursor-pointer">Profile</li>
+              </ul>
+            </.drawer>
+
+            <.drawer
+              id="drawer-example-22"
+              color="warning"
+              variant="bordered"
+              position="right"
+              border="small"
+            >
+              <ul>
+                <li class="py-2 px-3 hover:bg-amber-400 cursor-pointer">Home</li>
+                <li class="py-2 px-3 hover:bg-amber-400 cursor-pointer">Inbox</li>
+                <li class="py-2 px-3 hover:bg-amber-400 cursor-pointer">Favorites</li>
+                <li class="py-2 px-3 hover:bg-amber-400 cursor-pointer">TeamSpaces</li>
+                <li class="py-2 px-3 hover:bg-amber-400 cursor-pointer">Projects</li>
+                <li class="py-2 px-3 hover:bg-amber-400 cursor-pointer">Calendar</li>
+                <li class="py-2 px-3 hover:bg-amber-400 cursor-pointer">Settings</li>
+                <li class="py-2 px-3 hover:bg-amber-400 cursor-pointer">Profile</li>
+              </ul>
+            </.drawer>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="drawer-size">
+            <.link patch={~p"/chelekom/docs/drawer/#drawer-size"}>
+              Size prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <.custom_inline_code>size</.custom_inline_code>
+            prop allows developers to control the overall size of the drawer component. It offers predefined values such as <.custom_inline_code>extra_small</.custom_inline_code>, <.custom_inline_code>small</.custom_inline_code>, <.custom_inline_code>medium</.custom_inline_code>, <.custom_inline_code>large</.custom_inline_code>, and <.custom_inline_code>extra_large</.custom_inline_code>, which adjust the width or height of the drawer depending on its position. For drawers positioned on the left or right of the screen, the prop adjusts the width, while for drawers positioned at the top or bottom, it controls the height. This flexibility ensures the drawer can fit various design requirements, making it adaptable for different content and use cases.
+          </.cp>
+
+          <.custom_code_wrapper
+            elements_class="flex gap-5 items-center justify-center"
+            code={@code_8}
+          >
+            <.button
+              size="small"
+              phx-click={Drawer.show_drawer("drawer-example-23", "bottom")}
+              variant="outline"
+              color="silver"
+            >
+              Open bottom
+            </.button>
+            <.button
+              size="small"
+              color="info"
+              variant="outline"
+              phx-click={Drawer.show_drawer("drawer-example-24", "top")}
+            >
+              Open top
+            </.button>
+            <.button
+              size="small"
+              color="danger"
+              variant="outline"
+              phx-click={Drawer.show_drawer("drawer-example-25", "left")}
+            >
+              Open left
+            </.button>
+            <.button
+              size="small"
+              phx-click={Drawer.show_drawer("drawer-example-26", "right")}
+              variant="outline"
+              color="natural"
+            >
+              Open right
+            </.button>
+
+            <.drawer id="drawer-example-23" position="bottom" size="small">
+              <.cp class="p-3">
+                The Mishka Chelekom Drawer component is a highly customizable and flexible sliding panel for Phoenix LiveView applications. It allows developers to add content in a side or top/bottom drawer, which can be toggled to show or hide based on user interactions. With built-in support for different positions like left, right, top, and bottom, the drawer can fit into a variety of layouts and use cases. It also provides several customization options, including size, color, and styling variants, making it adaptable to different design needs. The drawer integrates seamlessly with Phoenix LiveView, offering interactive functionality through JavaScript actions for showing, hiding, and reacting to events such as clicking outside the drawer. This makes the Mishka Chelekom Drawer component a practical and essential tool for creating smooth, user-friendly navigation and interactive elements in web applications.
+              </.cp>
+            </.drawer>
+
+            <.drawer id="drawer-example-24" position="top" size="large">
+              <.cp class="p-3">
+                The Mishka Chelekom Drawer component is a highly customizable and flexible sliding panel for Phoenix LiveView applications. It allows developers to add content in a side or top/bottom drawer, which can be toggled to show or hide based on user interactions. With built-in support for different positions like left, right, top, and bottom, the drawer can fit into a variety of layouts and use cases. It also provides several customization options, including size, color, and styling variants, making it adaptable to different design needs. The drawer integrates seamlessly with Phoenix LiveView, offering interactive functionality through JavaScript actions for showing, hiding, and reacting to events such as clicking outside the drawer. This makes the Mishka Chelekom Drawer component a practical and essential tool for creating smooth, user-friendly navigation and interactive elements in web applications.
+              </.cp>
+            </.drawer>
+
+            <.drawer id="drawer-example-25" size="small">
+              <ul>
+                <li class="py-2 px-3 hover:bg-stone-400 cursor-pointer">Home</li>
+                <li class="py-2 px-3 hover:bg-stone-400 cursor-pointer">Inbox</li>
+                <li class="py-2 px-3 hover:bg-stone-400 cursor-pointer">Favorites</li>
+                <li class="py-2 px-3 hover:bg-stone-400 cursor-pointer">TeamSpaces</li>
+                <li class="py-2 px-3 hover:bg-stone-400 cursor-pointer">Projects</li>
+                <li class="py-2 px-3 hover:bg-stone-400 cursor-pointer">Calendar</li>
+                <li class="py-2 px-3 hover:bg-stone-400 cursor-pointer">Settings</li>
+                <li class="py-2 px-3 hover:bg-stone-400 cursor-pointer">Profile</li>
+              </ul>
+            </.drawer>
+
+            <.drawer id="drawer-example-26" size="medium">
+              <ul>
+                <li class="py-2 px-3 hover:bg-purple-400 cursor-pointer">Home</li>
+                <li class="py-2 px-3 hover:bg-purple-400 cursor-pointer">Inbox</li>
+                <li class="py-2 px-3 hover:bg-purple-400 cursor-pointer">Favorites</li>
+                <li class="py-2 px-3 hover:bg-purple-400 cursor-pointer">TeamSpaces</li>
+                <li class="py-2 px-3 hover:bg-purple-400 cursor-pointer">Projects</li>
+                <li class="py-2 px-3 hover:bg-purple-400 cursor-pointer">Calendar</li>
+                <li class="py-2 px-3 hover:bg-purple-400 cursor-pointer">Settings</li>
+                <li class="py-2 px-3 hover:bg-purple-400 cursor-pointer">Profile</li>
+              </ul>
+            </.drawer>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="drawer-title-prop">
+            <.link patch={~p"/chelekom/docs/drawer/#drawer-title-prop"}>
+              Title and title class prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <.custom_inline_code>title</.custom_inline_code>
+            attribute allows you to set a custom title for the drawer component, providing a clear and descriptive heading for its content. The
+            <.custom_inline_code>title_class</.custom_inline_code>
+            attribute enables you to apply a custom class to the title, allowing for flexible styling and integration with your design system. If no specific class is provided, a default appearance is used, but the option to customize the title ensures consistency with the rest of your design.
+          </.cp>
+
+          <.custom_code_wrapper
+            elements_class="flex gap-5 items-center justify-center"
+            code={@code_9}
+          >
+            <.button
+              variant="outline"
+              color="misc"
+              size="small"
+              phx-click={Drawer.show_drawer("drawer-example-27", "bottom")}
+            >
+              Open bottom
+            </.button>
+            <.button
+              variant="outline"
+              color="primary"
+              size="small"
+              phx-click={Drawer.show_drawer("drawer-example-28", "top")}
+            >
+              Open top
+            </.button>
+            <.button
+              variant="outline"
+              color="dawn"
+              size="small"
+              phx-click={Drawer.show_drawer("drawer-example-29", "left")}
+            >
+              Open left
+            </.button>
+            <.button
+              variant="outline"
+              color="warning"
+              size="small"
+              phx-click={Drawer.show_drawer("drawer-example-30", "right")}
+            >
+              Open right
+            </.button>
+
+            <.drawer
+              id="drawer-example-27"
+              position="bottom"
+              title="Drawer component"
+              size="small"
+            >
+              <.cp class="p-3">
+                The Mishka Chelekom Drawer component is a highly customizable and flexible sliding panel for Phoenix LiveView applications. It allows developers to add content in a side or top/bottom drawer, which can be toggled to show or hide based on user interactions. With built-in support for different positions like left, right, top, and bottom, the drawer can fit into a variety of layouts and use cases. It also provides several customization options, including size, color, and styling variants, making it adaptable to different design needs. The drawer integrates seamlessly with Phoenix LiveView, offering interactive functionality through JavaScript actions for showing, hiding, and reacting to events such as clicking outside the drawer. This makes the Mishka Chelekom Drawer component a practical and essential tool for creating smooth, user-friendly navigation and interactive elements in web applications.
+              </.cp>
+            </.drawer>
+
+            <.drawer id="drawer-example-28" position="top" title="Drawer component" size="small">
+              <.cp class="p-3">
+                The Mishka Chelekom Drawer component is a highly customizable and flexible sliding panel for Phoenix LiveView applications. It allows developers to add content in a side or top/bottom drawer, which can be toggled to show or hide based on user interactions. With built-in support for different positions like left, right, top, and bottom, the drawer can fit into a variety of layouts and use cases. It also provides several customization options, including size, color, and styling variants, making it adaptable to different design needs. The drawer integrates seamlessly with Phoenix LiveView, offering interactive functionality through JavaScript actions for showing, hiding, and reacting to events such as clicking outside the drawer. This makes the Mishka Chelekom Drawer component a practical and essential tool for creating smooth, user-friendly navigation and interactive elements in web applications.
+              </.cp>
+            </.drawer>
+
+            <.drawer id="drawer-example-29" title="Drawer component">
+              <ul>
+                <li class="py-2 px-3 hover:bg-stone-400 cursor-pointer">Home</li>
+                <li class="py-2 px-3 hover:bg-stone-400 cursor-pointer">Inbox</li>
+                <li class="py-2 px-3 hover:bg-stone-400 cursor-pointer">Favorites</li>
+                <li class="py-2 px-3 hover:bg-stone-400 cursor-pointer">TeamSpaces</li>
+                <li class="py-2 px-3 hover:bg-stone-400 cursor-pointer">Projects</li>
+                <li class="py-2 px-3 hover:bg-stone-400 cursor-pointer">Calendar</li>
+                <li class="py-2 px-3 hover:bg-stone-400 cursor-pointer">Settings</li>
+                <li class="py-2 px-3 hover:bg-stone-400 cursor-pointer">Profile</li>
+              </ul>
+            </.drawer>
+
+            <.drawer id="drawer-example-30" title="Drawer component" position="right">
+              <ul>
+                <li class="py-2 px-3 hover:bg-purple-400 cursor-pointer">Home</li>
+                <li class="py-2 px-3 hover:bg-purple-400 cursor-pointer">Inbox</li>
+                <li class="py-2 px-3 hover:bg-purple-400 cursor-pointer">Favorites</li>
+                <li class="py-2 px-3 hover:bg-purple-400 cursor-pointer">TeamSpaces</li>
+                <li class="py-2 px-3 hover:bg-purple-400 cursor-pointer">Projects</li>
+                <li class="py-2 px-3 hover:bg-purple-400 cursor-pointer">Calendar</li>
+                <li class="py-2 px-3 hover:bg-purple-400 cursor-pointer">Settings</li>
+                <li class="py-2 px-3 hover:bg-purple-400 cursor-pointer">Profile</li>
+              </ul>
+            </.drawer>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="drawer-position-prop">
+            <.link patch={~p"/chelekom/docs/drawer/#drawer-position-prop"}>
+              Position prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <.custom_inline_code>position</.custom_inline_code>
+            prop controls where the drawer will be displayed on the screen. By default, it is set to <.custom_inline_code>left</.custom_inline_code>, which positions the drawer on the left side of the viewport. The other available values are<.custom_inline_code>
+            right
+          </.custom_inline_code>,<.custom_inline_code>top</.custom_inline_code>, and<.custom_inline_code>
+            bottom
+          </.custom_inline_code>, which place the drawer on the corresponding sides of the screen. Each of these positions adjusts the drawer's layout and ensures that it takes the appropriate space and orientation based on the selected position. This flexibility allows developers to choose the best placement for the drawer depending on the design and user interaction requirements.
+          </.cp>
+
+          <.custom_code_wrapper
+            elements_class="flex gap-5 items-center justify-center"
+            code={@code_10}
+          >
+            <.button
+              variant="outline"
+              color="danger"
+              size="small"
+              phx-click={Drawer.show_drawer("drawer-example-31", "bottom")}
+            >
+              Open bottom
+            </.button>
+            <.button
+              variant="outline"
+              color="success"
+              size="small"
+              phx-click={Drawer.show_drawer("drawer-example-32", "top")}
+            >
+              Open top
+            </.button>
+            <.button
+              variant="outline"
+              color="warning"
+              size="small"
+              phx-click={Drawer.show_drawer("drawer-example-33", "left")}
+            >
+              Open left
+            </.button>
+            <.button
+              variant="outline"
+              color="secondary"
+              size="small"
+              phx-click={Drawer.show_drawer("drawer-example-34", "right")}
+            >
+              Open right
+            </.button>
+
+            <.drawer id="drawer-example-31" position="bottom" size="small">
+              <.cp class="p-3">
+                The Mishka Chelekom Drawer component is a highly customizable and flexible sliding panel for Phoenix LiveView applications. It allows developers to add content in a side or top/bottom drawer, which can be toggled to show or hide based on user interactions. With built-in support for different positions like left, right, top, and bottom, the drawer can fit into a variety of layouts and use cases. It also provides several customization options, including size, color, and styling variants, making it adaptable to different design needs. The drawer integrates seamlessly with Phoenix LiveView, offering interactive functionality through JavaScript actions for showing, hiding, and reacting to events such as clicking outside the drawer. This makes the Mishka Chelekom Drawer component a practical and essential tool for creating smooth, user-friendly navigation and interactive elements in web applications.
+              </.cp>
+            </.drawer>
+
+            <.drawer id="drawer-example-32" position="top" size="small">
+              <.cp class="p-3">
+                The Mishka Chelekom Drawer component is a highly customizable and flexible sliding panel for Phoenix LiveView applications. It allows developers to add content in a side or top/bottom drawer, which can be toggled to show or hide based on user interactions. With built-in support for different positions like left, right, top, and bottom, the drawer can fit into a variety of layouts and use cases. It also provides several customization options, including size, color, and styling variants, making it adaptable to different design needs. The drawer integrates seamlessly with Phoenix LiveView, offering interactive functionality through JavaScript actions for showing, hiding, and reacting to events such as clicking outside the drawer. This makes the Mishka Chelekom Drawer component a practical and essential tool for creating smooth, user-friendly navigation and interactive elements in web applications.
+              </.cp>
+            </.drawer>
+
+            <.drawer id="drawer-example-33">
+              <ul>
+                <li class="py-2 px-3 hover:bg-stone-400 cursor-pointer">Home</li>
+                <li class="py-2 px-3 hover:bg-stone-400 cursor-pointer">Inbox</li>
+                <li class="py-2 px-3 hover:bg-stone-400 cursor-pointer">Favorites</li>
+                <li class="py-2 px-3 hover:bg-stone-400 cursor-pointer">TeamSpaces</li>
+                <li class="py-2 px-3 hover:bg-stone-400 cursor-pointer">Projects</li>
+                <li class="py-2 px-3 hover:bg-stone-400 cursor-pointer">Calendar</li>
+                <li class="py-2 px-3 hover:bg-stone-400 cursor-pointer">Settings</li>
+                <li class="py-2 px-3 hover:bg-stone-400 cursor-pointer">Profile</li>
+              </ul>
+            </.drawer>
+
+            <.drawer id="drawer-example-34" position="right">
+              <ul>
+                <li class="py-2 px-3 hover:bg-purple-400 cursor-pointer">Home</li>
+                <li class="py-2 px-3 hover:bg-purple-400 cursor-pointer">Inbox</li>
+                <li class="py-2 px-3 hover:bg-purple-400 cursor-pointer">Favorites</li>
+                <li class="py-2 px-3 hover:bg-purple-400 cursor-pointer">TeamSpaces</li>
+                <li class="py-2 px-3 hover:bg-purple-400 cursor-pointer">Projects</li>
+                <li class="py-2 px-3 hover:bg-purple-400 cursor-pointer">Calendar</li>
+                <li class="py-2 px-3 hover:bg-purple-400 cursor-pointer">Settings</li>
+                <li class="py-2 px-3 hover:bg-purple-400 cursor-pointer">Profile</li>
+              </ul>
+            </.drawer>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="drawer-show-prop">
+            <.link patch={~p"/chelekom/docs/drawer/#drawer-show-prop"}>
+              Show prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The show attribute in the drawer component determines whether the drawer is visible as soon as the page mounts. If this attribute is set to true, the drawer will automatically open when the page loads, making the content immediately accessible without requiring user interaction. By default, this attribute is set to false, keeping the drawer hidden until it is explicitly triggered.
+          </.cp>
+
+          <.custom_code_wrapper
+            elements_class="flex gap-5 items-center justify-center"
+            code={@code_11}
+          />
+
+          <.heading2 margin="my-5" id="drawer-header-slot">
+            <.link patch={~p"/chelekom/docs/drawer/#drawer-header-slot"}>
+              Header slot
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <.custom_inline_code>header</.custom_inline_code>
+            slot allows you to define a customizable header for the drawer component. This slot is optional, and when used, it accepts HEEx content, giving you the flexibility to include any markup or dynamic content within the header. The
+            <.custom_inline_code>header</.custom_inline_code>
+            slot can be populated with titles, icons, buttons, or any other elements relevant to the drawer's context. This feature ensures that the header of the drawer can be fully tailored to fit your design and functionality needs, enhancing the drawer's usability and visual presentation.
+          </.cp>
+
+          <.custom_code_wrapper
+            elements_class="flex gap-5 items-center justify-center"
+            code={@code_12}
+          >
+            <.button
+              size="small"
+              variant="outline"
+              color="dawn"
+              phx-click={Drawer.show_drawer("drawer-example-36", "left")}
+            >
+              Open left
+            </.button>
+
+            <.drawer id="drawer-example-36">
+              <:header>
+                <.cp class="text-rose-400">Content inside header slot</.cp>
+              </:header>
+
+              <ul>
+                <li class="py-2 px-3 hover:bg-stone-400 cursor-pointer">Home</li>
+                <li class="py-2 px-3 hover:bg-stone-400 cursor-pointer">Inbox</li>
+                <li class="py-2 px-3 hover:bg-stone-400 cursor-pointer">Favorites</li>
+                <li class="py-2 px-3 hover:bg-stone-400 cursor-pointer">TeamSpaces</li>
+                <li class="py-2 px-3 hover:bg-stone-400 cursor-pointer">Projects</li>
+                <li class="py-2 px-3 hover:bg-stone-400 cursor-pointer">Calendar</li>
+                <li class="py-2 px-3 hover:bg-stone-400 cursor-pointer">Settings</li>
+                <li class="py-2 px-3 hover:bg-stone-400 cursor-pointer">Profile</li>
+              </ul>
+            </.drawer>
+          </.custom_code_wrapper>
+        </:documentation_panel>
+
+        <:props_panel>
+          <.custom_search class="mb-16" />
+          <div class="space-y-8">
+            <h2 class="text-lg lg:text-2xl font-bold">Drawer component props</h2>
+
+            <.custom_table id="drawer-component-table">
+              <:header>
+                <.table_th>Name</.table_th>
+
+                <.table_th>Type</.table_th>
+
+                <.table_th>Required</.table_th>
+
+                <.table_th>Description</.table_th>
+              </:header>
+
+              <:row>
+                <.table_td>id</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>Yes</.table_td>
+
+                <.table_td>
+                  A unique identifier is used to manage state and interaction.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>title</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Specifies the title of the element.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>title_class</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Determines custom class for the title.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>variant</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines the style of the drawer. Supported values: <strong>base</strong>, <strong>default</strong>, <strong>outline</strong>, <strong>transparent</strong>, <strong>bordered</strong>, <strong>gradient</strong>. Default: <strong>default</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>color</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines the color theme of the drawer. Supported values include: <strong>base</strong>, <strong>natural</strong>, <strong>primary</strong>, <strong>secondary</strong>, <strong>success</strong>, <strong>warning</strong>, <strong>danger</strong>, <strong>info</strong>, <strong>misc</strong>, <strong>dawn</strong>. Default: <strong>natural</strong>. The
+                  <strong>default</strong>
+                  and <strong>bordered</strong>
+                  variants have extra color options: <strong>dark</strong>
+                  and <strong>white</strong>, which in both light mode and dark mode, these colors are always the same.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>size</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines the overall size of the element, including padding, font size, and other items. Default: <strong>large</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>border</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines the border style. Default: <strong>extra_small</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>rounded</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Determines the border radius.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>position</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines the element position. Default: <strong>left</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>class</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Custom CSS class for additional styling.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>on_hide</.table_td>
+
+                <.table_td>JS</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Custom JS module for the on_hide action.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>on_show</.table_td>
+
+                <.table_td>JS</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Custom JS module for the on_show action.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>close_class</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Custom CSS class for additional styling to close button.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>content_class</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Custom CSS class for additional styling to content.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>wrapper_class</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Custom CSS class for additional styling to wrapper.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>overlay_class</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Custom CSS class for additional styling to overlay.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>on_hide_away</.table_td>
+
+                <.table_td>JS</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Custom JS module for the on_hide_away action.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>show</.table_td>
+
+                <.table_td>boolean</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Specifies whether to show the element. Default: <strong>false</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>header</.table_td>
+
+                <.table_td>slot</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Defines a slot for the drawer's header. Accepts HEEx content.
+                </.table_td>
+              </:row>
+            </.custom_table>
+          </div>
+        </:props_panel>
+
+        <:cli_panel>
+          <.custom_cli_props config={component_config()} />
+        </:cli_panel>
+        <.custom_table_content>
+          <:content
+            link={~p"/chelekom/docs/drawer/#overview"}
+            title="Overview of the drawer component"
+          />
+          <:content link={~p"/chelekom/docs/drawer/#drawer-js-modules"} title="About js modules" />
+          <:content link={~p"/chelekom/docs/drawer/#base-drawer"} title="Base variant" />
+          <:content
+            link={~p"/chelekom/docs/drawer/#default-variant-drawer"}
+            title="Default Variant"
+          />
+          <:content
+            link={~p"/chelekom/docs/drawer/#outline-variant-drawer"}
+            title="Outline Variant"
+          />
+          <:content
+            link={~p"/chelekom/docs/drawer/#transparent-variant-drawer"}
+            title="Transparent Variant"
+          />
+          <:content
+            link={~p"/chelekom/docs/drawer/#bordered-variant-drawer"}
+            title="Bordered Variant"
+          />
+          <:content
+            link={~p"/chelekom/docs/drawer/#gradient-variant-drawer"}
+            title="Gradient Variant"
+          />
+          <:content link={~p"/chelekom/docs/drawer/#drawer-border"} title="Border prop" />
+          <:content link={~p"/chelekom/docs/drawer/#drawer-size"} title="Size prop" />
+          <:content
+            link={~p"/chelekom/docs/drawer/#drawer-title-prop"}
+            title="Title and title class prop"
+          />
+          <:content link={~p"/chelekom/docs/drawer/#drawer-position-prop"} title="Position prop" />
+          <:content link={~p"/chelekom/docs/drawer/#drawer-show-prop"} title="Show prop" />
+          <:content link={~p"/chelekom/docs/drawer/#drawer-header-slot"} title="Header slot" />
+        </.custom_table_content>
+      </.custom_tab>
+    </div>
+  </div>
+</Layouts.app>

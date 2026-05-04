@@ -1,0 +1,1482 @@
+<Layouts.app flash={@flash}>
+  <div class="lg:grid lg:grid-cols-12 mt-5 max-w-5xl mx-auto">
+    <.custom_nav active="chelekom-docs-table-content" />
+    <div class="lg:col-span-10">
+      <.custom_info
+        title="Table of Content"
+        description="Phoenix LiveView table content component with links for smooth scrolling to specific items using anchor tags."
+        mix="mix mishka.ui.gen.component table_content"
+        github="https://github.com/mishka-group/mishka_chelekom/blob/master/priv/components/table_content.eex"
+        tags={["Component", "Stateless", "JS-module"]}
+      />
+      <.custom_tab id="chelekom-table-content-tab">
+        <:documentation_panel>
+          <.heading2 class="mb-5" id="overview">
+            <.link patch={~p"/chelekom/docs/table-content/#overview"}>
+              Overview of Table of Contents Phoenix LiveView component
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The <strong>Mishka Chelekom Table of Contents</strong>
+            component is a flexible and customizable <strong>Phoenix LiveView</strong>
+            solution for organizing and displaying a navigable list of sections within a page.
+          </.cp>
+
+          <.custom_code_wrapper elements_class="grid md:grid-cols-2 gap-5">
+            <.table_content padding="extra_small" rounded="medium">
+              <.content_item title="Table content main props">
+                <.content_wrapper>
+                  <.content_item icon="hero-chevron-right">
+                    <.link patch={~p"/chelekom/docs/table-content/#table-content-space"}>
+                      Space
+                    </.link>
+                  </.content_item>
+
+                  <.content_item icon="hero-chevron-right">
+                    <.link patch={~p"/chelekom/docs/table-content/#table-content-padding"}>
+                      Padding
+                    </.link>
+                  </.content_item>
+
+                  <.content_item icon="hero-chevron-right">
+                    <.link patch={~p"/chelekom/docs/table-content/#table-content-rounded"}>
+                      Rounded
+                    </.link>
+                  </.content_item>
+
+                  <.content_item icon="hero-chevron-right">
+                    <.link patch={~p"/chelekom/docs/table-content/#table-content-size"}>
+                      Size
+                    </.link>
+                  </.content_item>
+                </.content_wrapper>
+              </.content_item>
+
+              <.content_item title="Table content item props">
+                <.content_wrapper>
+                  <.content_item icon="hero-chevron-right">
+                    <.link patch={~p"/chelekom/docs/table-content/#table-content-content-item"}>
+                      Content item component
+                    </.link>
+                  </.content_item>
+
+                  <.content_item icon="hero-chevron-right">
+                    <.link patch={
+                      ~p"/chelekom/docs/table-content/#table-content-content-item-title"
+                    }>
+                      Content item title prop
+                    </.link>
+                  </.content_item>
+
+                  <.content_item icon="hero-chevron-right">
+                    <.link patch={
+                      ~p"/chelekom/docs/table-content/#table-content-content-item-active"
+                    }>
+                      Content item active prop
+                    </.link>
+                  </.content_item>
+                </.content_wrapper>
+              </.content_item>
+            </.table_content>
+
+            <.table_content space="medium" padding="extra_small">
+              <.content_item icon="hero-link" icon_class="!size-[18px]" active>
+                <.link patch={~p"/chelekom/docs/table-content/#overview"}>Overview</.link>
+              </.content_item>
+
+              <.content_item icon="hero-link" icon_class="!size-[18px]">
+                <.link patch={~p"/chelekom/docs/table-content/#table-content-variants-colors"}>
+                  Color and Variants
+                </.link>
+              </.content_item>
+
+              <.content_item icon="hero-link" icon_class="!size-[18px]">
+                <.link patch={~p"/chelekom/docs/table-content/#table-content-space"}>Space</.link>
+              </.content_item>
+
+              <.content_item icon="hero-link" icon_class="!size-[18px]">
+                <.link patch={~p"/chelekom/docs/table-content/#table-content-padding"}>
+                  Padding
+                </.link>
+              </.content_item>
+
+              <.content_item icon="hero-link" icon_class="!size-[18px]">
+                <.link patch={~p"/chelekom/docs/table-content/#table-content-rounded"}>
+                  Rounded
+                </.link>
+              </.content_item>
+
+              <.content_item icon="hero-link" icon_class="!size-[18px]">
+                <.link patch={~p"/chelekom/docs/table-content/#table-content-size"}>Size</.link>
+              </.content_item>
+            </.table_content>
+          </.custom_code_wrapper>
+
+          <.cp margin="mt-5">
+            This
+            <strong>
+              <.link
+                title="Phoenix LiveView component"
+                class="transition-colors hover:text-[#448D96]"
+                navigate={~p"/chelekom"}
+              >
+                Phoenix LiveView component
+              </.link>
+            </strong>
+            supports responsive design, customizable styles, and smooth scrolling to ensure a seamless navigation experience. Perfect for enhancing the readability and usability of your content-heavy pages.
+          </.cp>
+
+          <.custom_block position="left" color="success" class="my-8" border="medium">
+            <.cp>
+              By using the class prop, you can apply custom classes or Tailwind CSS classes to customize the appearance and behavior of the components, allowing for flexible design changes.
+            </.cp>
+          </.custom_block>
+
+          <.heading2 margin="my-5" id="table-content-variants-colors">
+            <.link patch={~p"/chelekom/docs/table-content/#table-content-variants-colors"}>
+              Table contetn Variants and Colors
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The table content component
+            supports multiple style variants, including <.custom_inline_code>default</.custom_inline_code>, <.custom_inline_code>base</.custom_inline_code>, <.custom_inline_code>gradient</.custom_inline_code>, <.custom_inline_code>outline</.custom_inline_code>, and <.custom_inline_code>bordered</.custom_inline_code>.
+            It also offers a variety of colors such as <.custom_inline_code>natural</.custom_inline_code>, <.custom_inline_code>base</.custom_inline_code>, <.custom_inline_code>white</.custom_inline_code>, <.custom_inline_code>primary</.custom_inline_code>, <.custom_inline_code>secondary</.custom_inline_code>, <.custom_inline_code>primary</.custom_inline_code>, <.custom_inline_code>success</.custom_inline_code>, <.custom_inline_code>warning</.custom_inline_code>, <.custom_inline_code>danger</.custom_inline_code>, <.custom_inline_code>info</.custom_inline_code>, <.custom_inline_code>silver</.custom_inline_code>, <.custom_inline_code>dark</.custom_inline_code>, <.custom_inline_code>misc</.custom_inline_code>, <.custom_inline_code>dawn</.custom_inline_code>,
+            and <.custom_inline_code>silver</.custom_inline_code>, providing extensive flexibility to match any design need.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" code={@code_1}>
+            <.table_content id="table-content-example-1">
+              <:item
+                icon="hero-chevron-right"
+                link_title="Content item component"
+                link={~p"/chelekom/docs/table-content/#table-content-content-item"}
+              >
+              </:item>
+
+              <.content_item
+                icon="hero-hashtag"
+                link_title="Overview"
+                link={~p"/chelekom/docs/table-content/#overview"}
+              />
+
+              <.content_item icon="hero-hashtag" active>
+                <.link patch={~p"/chelekom/docs/table-content/#table-content-variants-colors"}>
+                  Color and Variants
+                </.link>
+              </.content_item>
+
+              <.content_item icon="hero-hashtag">
+                <.link patch={~p"/chelekom/docs/table-content/#table-content-space"}>Space</.link>
+              </.content_item>
+
+              <.content_item icon="hero-hashtag">
+                <.link patch={~p"/chelekom/docs/table-content/#table-content-padding"}>
+                  Padding
+                </.link>
+              </.content_item>
+
+              <.content_item icon="hero-hashtag">
+                <.link patch={~p"/chelekom/docs/table-content/#table-content-rounded"}>
+                  Rounded
+                </.link>
+              </.content_item>
+
+              <.content_item icon="hero-hashtag">
+                <.link patch={~p"/chelekom/docs/table-content/#table-content-size"}>Size</.link>
+              </.content_item>
+            </.table_content>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="table-content-rounded">
+            <.link patch={~p"/chelekom/docs/table-content/#table-content-rounded"}>
+              Rounded prop in Phoenix LiveView table content Component
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The rounded prop offers values like <.custom_inline_code>extra_small</.custom_inline_code>, <.custom_inline_code>small</.custom_inline_code>, <.custom_inline_code>medium</.custom_inline_code>, <.custom_inline_code>large</.custom_inline_code>, and <.custom_inline_code>extra_large</.custom_inline_code>.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" code={@code_2}>
+            <.table_content
+              id="table-content-example-2"
+              color="info"
+              variant="bordered"
+              rounded="extra_large"
+            >
+              <.content_item icon="hero-hashtag">
+                <.link patch={~p"/chelekom/docs/table-content/#overview"}>Overview</.link>
+              </.content_item>
+
+              <.content_item icon="hero-hashtag">
+                <.link patch={~p"/chelekom/docs/table-content/#table-content-variants-colors"}>
+                  Color and Variants
+                </.link>
+              </.content_item>
+
+              <.content_item icon="hero-hashtag">
+                <.link patch={~p"/chelekom/docs/table-content/#table-content-space"}>Space</.link>
+              </.content_item>
+
+              <.content_item icon="hero-hashtag">
+                <.link patch={~p"/chelekom/docs/table-content/#table-content-padding"}>
+                  Padding
+                </.link>
+              </.content_item>
+
+              <.content_item icon="hero-hashtag" active>
+                <.link patch={~p"/chelekom/docs/table-content/#table-content-rounded"}>
+                  Rounded
+                </.link>
+              </.content_item>
+
+              <.content_item icon="hero-hashtag">
+                <.link patch={~p"/chelekom/docs/table-content/#table-content-size"}>Size</.link>
+              </.content_item>
+            </.table_content>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="table-content-border">
+            <.link patch={~p"/chelekom/docs/table-content/#table-content-border"}>
+              Border prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The border prop offers values like <.custom_inline_code>extra_small</.custom_inline_code>, <.custom_inline_code>small</.custom_inline_code>, <.custom_inline_code>medium</.custom_inline_code>, <.custom_inline_code>large</.custom_inline_code>, and <.custom_inline_code>extra_large</.custom_inline_code>.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" code={@code_3}>
+            <.table_content
+              id="table-content-example-3"
+              variant="default"
+              color="info"
+              rounded="extra_large"
+            >
+              <.content_item icon="hero-hashtag">
+                <.link patch={~p"/chelekom/docs/table-content/#overview"}>Overview</.link>
+              </.content_item>
+
+              <.content_item icon="hero-hashtag">
+                <.link patch={~p"/chelekom/docs/table-content/#table-content-variants-colors"}>
+                  Color and Variants
+                </.link>
+              </.content_item>
+
+              <.content_item icon="hero-hashtag">
+                <.link patch={~p"/chelekom/docs/table-content/#table-content-space"}>Space</.link>
+              </.content_item>
+
+              <.content_item icon="hero-hashtag">
+                <.link patch={~p"/chelekom/docs/table-content/#table-content-padding"}>
+                  Padding
+                </.link>
+              </.content_item>
+
+              <.content_item icon="hero-hashtag" active>
+                <.link patch={~p"/chelekom/docs/table-content/#table-content-rounded"}>
+                  Rounded
+                </.link>
+              </.content_item>
+
+              <.content_item icon="hero-hashtag">
+                <.link patch={~p"/chelekom/docs/table-content/#table-content-size"}>Size</.link>
+              </.content_item>
+            </.table_content>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="table-content-size">
+            <.link patch={~p"/chelekom/docs/table-content/#table-content-size"}>
+              Size prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The size prop offers values such as <.custom_inline_code>extra_small</.custom_inline_code>, <.custom_inline_code>small</.custom_inline_code>, <.custom_inline_code>medium</.custom_inline_code>, <.custom_inline_code>large</.custom_inline_code>, and <.custom_inline_code>extra_large</.custom_inline_code>.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" code={@code_4}>
+            <.table_content
+              id="table-content-example-4"
+              color="info"
+              variant="bordered"
+              size="extra_large"
+            >
+              <.content_item icon="hero-hashtag">
+                <.link patch={~p"/chelekom/docs/table-content/#overview"}>Overview</.link>
+              </.content_item>
+
+              <.content_item icon="hero-hashtag">
+                <.link patch={~p"/chelekom/docs/table-content/#table-content-variants-colors"}>
+                  Color and Variants
+                </.link>
+              </.content_item>
+
+              <.content_item icon="hero-hashtag">
+                <.link patch={~p"/chelekom/docs/table-content/#table-content-space"}>Space</.link>
+              </.content_item>
+
+              <.content_item icon="hero-hashtag">
+                <.link patch={~p"/chelekom/docs/table-content/#table-content-padding"}>
+                  Padding
+                </.link>
+              </.content_item>
+
+              <.content_item icon="hero-hashtag">
+                <.link patch={~p"/chelekom/docs/table-content/#table-content-rounded"}>
+                  Rounded
+                </.link>
+              </.content_item>
+
+              <.content_item icon="hero-hashtag" active>
+                <.link patch={~p"/chelekom/docs/table-content/#table-content-size"}>Size</.link>
+              </.content_item>
+            </.table_content>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="table-content-space">
+            <.link patch={~p"/chelekom/docs/table-content/#table-content-space"}>
+              Space prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The space prop offers values such as <.custom_inline_code>extra_small</.custom_inline_code>, <.custom_inline_code>small</.custom_inline_code>, <.custom_inline_code>medium</.custom_inline_code>, <.custom_inline_code>large</.custom_inline_code>, and <.custom_inline_code>extra_large</.custom_inline_code>.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" code={@code_5}>
+            <.table_content
+              id="table-content-example-5"
+              color="info"
+              variant="bordered"
+              space="extra_large"
+            >
+              <.content_item icon="hero-hashtag">
+                <.link patch={~p"/chelekom/docs/table-content/#overview"}>Overview</.link>
+              </.content_item>
+
+              <.content_item icon="hero-hashtag">
+                <.link patch={~p"/chelekom/docs/table-content/#table-content-variants-colors"}>
+                  Color and Variants
+                </.link>
+              </.content_item>
+
+              <.content_item icon="hero-hashtag" active>
+                <.link patch={~p"/chelekom/docs/table-content/#table-content-space"}>Space</.link>
+              </.content_item>
+
+              <.content_item icon="hero-hashtag">
+                <.link patch={~p"/chelekom/docs/table-content/#table-content-padding"}>
+                  Padding
+                </.link>
+              </.content_item>
+
+              <.content_item icon="hero-hashtag">
+                <.link patch={~p"/chelekom/docs/table-content/#table-content-rounded"}>
+                  Rounded
+                </.link>
+              </.content_item>
+
+              <.content_item icon="hero-hashtag">
+                <.link patch={~p"/chelekom/docs/table-content/#table-content-size"}>Size</.link>
+              </.content_item>
+            </.table_content>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="table-content-padding">
+            <.link patch={~p"/chelekom/docs/table-content/#table-content-padding"}>
+              Padding prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The padding prop offers values such as <.custom_inline_code>extra_small</.custom_inline_code>, <.custom_inline_code>small</.custom_inline_code>, <.custom_inline_code>medium</.custom_inline_code>, <.custom_inline_code>large</.custom_inline_code>, and <.custom_inline_code>extra_large</.custom_inline_code>.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" code={@code_6}>
+            <.table_content
+              id="table-content-example-6"
+              color="info"
+              variant="bordered"
+              padding="quadruple_large"
+            >
+              <.content_item icon="hero-hashtag">
+                <.link patch={~p"/chelekom/docs/table-content/#overview"}>Overview</.link>
+              </.content_item>
+
+              <.content_item icon="hero-hashtag">
+                <.link patch={~p"/chelekom/docs/table-content/#table-content-variants-colors"}>
+                  Color and Variants
+                </.link>
+              </.content_item>
+
+              <.content_item icon="hero-hashtag">
+                <.link patch={~p"/chelekom/docs/table-content/#table-content-space"}>Space</.link>
+              </.content_item>
+
+              <.content_item icon="hero-hashtag" active>
+                <.link patch={~p"/chelekom/docs/table-content/#table-content-padding"}>
+                  Padding
+                </.link>
+              </.content_item>
+
+              <.content_item icon="hero-hashtag">
+                <.link patch={~p"/chelekom/docs/table-content/#table-content-rounded"}>
+                  Rounded
+                </.link>
+              </.content_item>
+
+              <.content_item icon="hero-hashtag">
+                <.link patch={~p"/chelekom/docs/table-content/#table-content-size"}>Size</.link>
+              </.content_item>
+            </.table_content>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="table-content-title">
+            <.link patch={~p"/chelekom/docs/table-content/#table-content-title"}>
+              Title prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            You can add a title to your
+            <.link navigate={~p"/chelekom/docs/table-content"}>Table of Contents component</.link>
+            by using the
+            <.custom_inline_code>title</.custom_inline_code>
+            attribute in the
+            <.custom_inline_code>table_content</.custom_inline_code>
+            component. This adds a clear heading, helping users understand the content. If omitted, the content is displayed without a header, giving you flexibility in design.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" code={@code_7}>
+            <.table_content
+              id="table-content-example-7"
+              color="danger"
+              variant="bordered"
+              padding="extra_small"
+              title="Sample table of contents"
+            >
+              <.content_item icon="hero-hashtag">
+                <.link patch={~p"/chelekom/docs/table-content/#overview"}>Overview</.link>
+              </.content_item>
+
+              <.content_item icon="hero-hashtag">
+                <.link patch={~p"/chelekom/docs/table-content/#table-content-variants-colors"}>
+                  Color and Variants
+                </.link>
+              </.content_item>
+
+              <.content_item icon="hero-hashtag">
+                <.link patch={~p"/chelekom/docs/table-content/#table-content-space"}>Space</.link>
+              </.content_item>
+
+              <.content_item icon="hero-hashtag" active>
+                <.link patch={~p"/chelekom/docs/table-content/#table-content-padding"}>
+                  Padding
+                </.link>
+              </.content_item>
+
+              <.content_item icon="hero-hashtag">
+                <.link patch={~p"/chelekom/docs/table-content/#table-content-rounded"}>
+                  Rounded
+                </.link>
+              </.content_item>
+
+              <.content_item icon="hero-hashtag">
+                <.link patch={~p"/chelekom/docs/table-content/#table-content-size"}>Size</.link>
+              </.content_item>
+            </.table_content>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="table-content-animated">
+            <.link patch={~p"/chelekom/docs/table-content/#table-content-animated"}>
+              Animated prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <.custom_inline_code>animated</.custom_inline_code>
+            attribute is a boolean and defaults to <.custom_inline_code>false</.custom_inline_code>. When set to <.custom_inline_code>true</.custom_inline_code>, it adds the Tailwind
+            <.custom_inline_code>scroll-smooth</.custom_inline_code>
+            class to the HTML tag, enabling smooth scrolling, even if the class isn’t added manually to your application.
+          </.cp>
+
+          <.custom_block position="left" color="danger" class="my-8" border="medium">
+            <.cp>
+              Notice: If you've already added smooth scrolling via CSS files or directly to the HTML tag of your project, you don't need to use the
+              <.custom_inline_code>animated</.custom_inline_code>
+              prop.
+            </.cp>
+          </.custom_block>
+
+          <.custom_code_wrapper code_class="text-xs" code={@code_8}>
+            <.table_content
+              id="table-content-example-8"
+              color="silver"
+              variant="bordered"
+              padding="extra_small"
+            >
+              <.content_item icon="hero-hashtag">
+                <.link patch={~p"/chelekom/docs/table-content/#overview"}>Overview</.link>
+              </.content_item>
+
+              <.content_item icon="hero-hashtag">
+                <.link patch={~p"/chelekom/docs/table-content/#table-content-variants-colors"}>
+                  Color and Variants
+                </.link>
+              </.content_item>
+
+              <.content_item icon="hero-hashtag">
+                <.link patch={~p"/chelekom/docs/table-content/#table-content-space"}>Space</.link>
+              </.content_item>
+
+              <.content_item icon="hero-hashtag" active>
+                <.link patch={~p"/chelekom/docs/table-content/#table-content-padding"}>
+                  Padding
+                </.link>
+              </.content_item>
+
+              <.content_item icon="hero-hashtag">
+                <.link patch={~p"/chelekom/docs/table-content/#table-content-rounded"}>
+                  Rounded
+                </.link>
+              </.content_item>
+
+              <.content_item icon="hero-hashtag">
+                <.link patch={~p"/chelekom/docs/table-content/#table-content-size"}>Size</.link>
+              </.content_item>
+            </.table_content>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="table-content-content-item">
+            <.link patch={~p"/chelekom/docs/table-content/#table-content-content-item"}>
+              Content item component
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <.custom_inline_code>content_item</.custom_inline_code>
+            component represents a single content item with optional custom styling. It supports
+            <.custom_inline_code>@active</.custom_inline_code>
+            for bolding, <.custom_inline_code>@font_weight</.custom_inline_code>, and additional
+            <.custom_inline_code>@class</.custom_inline_code>
+            for custom styles. If an icon is provided via <.custom_inline_code>@icon</.custom_inline_code>.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" code={@code_9}>
+            <.table_content
+              id="table-content-example-9"
+              color="warning"
+              variant="bordered"
+              padding="extra_small"
+            >
+              <.content_item icon="hero-hashtag">
+                <.link patch={~p"/chelekom/docs/table-content/#overview"}>Overview</.link>
+              </.content_item>
+
+              <.content_item icon="hero-hashtag">
+                <.link patch={~p"/chelekom/docs/table-content/#table-content-variants-colors"}>
+                  Color and Variants
+                </.link>
+              </.content_item>
+
+              <.content_item icon="hero-hashtag">
+                <.link patch={~p"/chelekom/docs/table-content/#table-content-space"}>Space</.link>
+              </.content_item>
+
+              <.content_item icon="hero-hashtag">
+                <.link patch={~p"/chelekom/docs/table-content/#table-content-padding"}>
+                  Padding
+                </.link>
+              </.content_item>
+
+              <.content_item icon="hero-hashtag">
+                <.link patch={~p"/chelekom/docs/table-content/#table-content-rounded"}>
+                  Rounded
+                </.link>
+              </.content_item>
+
+              <.content_item icon="hero-hashtag">
+                <.link patch={~p"/chelekom/docs/table-content/#table-content-size"}>Size</.link>
+              </.content_item>
+            </.table_content>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="table-content-content-item-title">
+            <.link patch={~p"/chelekom/docs/table-content/#table-content-content-item-title"}>
+              Content item title prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <.custom_inline_code>title</.custom_inline_code>
+            prop in the
+            <.custom_inline_code>content_item</.custom_inline_code>
+            component allows you to add a title to a group of items when using
+            <.custom_inline_code>content_wrapper</.custom_inline_code>
+            inside <.custom_inline_code>content_item</.custom_inline_code>. By setting the <.custom_inline_code>title</.custom_inline_code>, you can label each group, making it easier to organize and structure multiple content items under a specific heading. This helps improve readability and user navigation, especially when dealing with nested or grouped content.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" code={@code_10}>
+            <.table_content
+              id="table-content-example-10"
+              color="dark"
+              variant="bordered"
+              padding="extra_small"
+            >
+              <.content_item icon="hero-hashtag" title="List of props">
+                <.link patch={~p"/chelekom/docs/table-content/#overview"}>Overview</.link>
+              </.content_item>
+
+              <.content_item icon="hero-hashtag" title="List of props">
+                <.link patch={~p"/chelekom/docs/table-content/#table-content-variants-colors"}>
+                  Color and Variants
+                </.link>
+              </.content_item>
+
+              <.content_item icon="hero-hashtag" title="List of props">
+                <.link patch={~p"/chelekom/docs/table-content/#table-content-space"}>Space</.link>
+              </.content_item>
+
+              <.content_item icon="hero-hashtag" title="List of props">
+                <.link patch={~p"/chelekom/docs/table-content/#table-content-padding"}>
+                  Padding
+                </.link>
+              </.content_item>
+
+              <.content_item icon="hero-hashtag" title="List of props">
+                <.link patch={~p"/chelekom/docs/table-content/#table-content-rounded"}>
+                  Rounded
+                </.link>
+              </.content_item>
+
+              <.content_item icon="hero-hashtag" title="List of props">
+                <.link patch={~p"/chelekom/docs/table-content/#table-content-size"}>Size</.link>
+              </.content_item>
+            </.table_content>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="table-content-content-item-icons">
+            <.link patch={~p"/chelekom/docs/table-content/#table-content-content-item-icons"}>
+              Content item icon and icon class props
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <.custom_inline_code>icon</.custom_inline_code>
+            prop displays an icon alongside the content, supporting Heroicons. You can customize the icon's appearance using the
+            <.custom_inline_code>icon_class</.custom_inline_code>
+            prop to apply specific CSS classes for size, color, and styling.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" code={@code_11}>
+            <.table_content id="table-content-example-11" variant="bordered" padding="extra_small">
+              <.content_item icon="hero-tag" icon_class="!size-8 text-rose-300">
+                <.link patch={~p"/chelekom/docs/table-content/#overview"}>Overview</.link>
+              </.content_item>
+
+              <.content_item icon="hero-tag" icon_class="!size-8 text-rose-300">
+                <.link patch={~p"/chelekom/docs/table-content/#table-content-variants-colors"}>
+                  Color and Variants
+                </.link>
+              </.content_item>
+
+              <.content_item icon="hero-tag" icon_class="!size-8 text-rose-300">
+                <.link patch={~p"/chelekom/docs/table-content/#table-content-space"}>Space</.link>
+              </.content_item>
+
+              <.content_item icon="hero-tag" icon_class="!size-8 text-rose-300">
+                <.link patch={~p"/chelekom/docs/table-content/#table-content-padding"}>
+                  Padding
+                </.link>
+              </.content_item>
+
+              <.content_item icon="hero-tag" icon_class="!size-8 text-rose-300">
+                <.link patch={~p"/chelekom/docs/table-content/#table-content-rounded"}>
+                  Rounded
+                </.link>
+              </.content_item>
+
+              <.content_item icon="hero-tag" icon_class="!size-8 text-rose-300">
+                <.link patch={~p"/chelekom/docs/table-content/#table-content-size"}>Size</.link>
+              </.content_item>
+            </.table_content>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="table-content-content-item-active">
+            <.link patch={~p"/chelekom/docs/table-content/#table-content-content-item-active"}>
+              Content item active prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <.custom_inline_code>active</.custom_inline_code>
+            attribute is a boolean used to indicate whether the current item is selected or active. When set to <.custom_inline_code>true</.custom_inline_code>, it applies specific styles (like bold text) to visually highlight the item as active or currently selected. By default, it's set to <.custom_inline_code>false</.custom_inline_code>.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" code={@code_12}>
+            <.table_content
+              id="table-content-example-12"
+              color="dawn"
+              variant="bordered"
+              padding="extra_small"
+            >
+              <.content_item active>
+                <.link patch={~p"/chelekom/docs/table-content/#overview"}>Overview</.link>
+              </.content_item>
+
+              <.content_item>
+                <.link patch={~p"/chelekom/docs/table-content/#table-content-variants-colors"}>
+                  Color and Variants
+                </.link>
+              </.content_item>
+
+              <.content_item>
+                <.link patch={~p"/chelekom/docs/table-content/#table-content-space"}>Space</.link>
+              </.content_item>
+
+              <.content_item>
+                <.link patch={~p"/chelekom/docs/table-content/#table-content-padding"}>
+                  Padding
+                </.link>
+              </.content_item>
+
+              <.content_item>
+                <.link patch={~p"/chelekom/docs/table-content/#table-content-rounded"}>
+                  Rounded
+                </.link>
+              </.content_item>
+
+              <.content_item>
+                <.link patch={~p"/chelekom/docs/table-content/#table-content-size"}>Size</.link>
+              </.content_item>
+            </.table_content>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="table-content-content-item-font-weight">
+            <.link patch={
+              ~p"/chelekom/docs/table-content/#table-content-content-item-font-weight"
+            }>
+              Content item font weight prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <.custom_inline_code>font_weight</.custom_inline_code>
+            attribute allows you to apply custom font weight to a content item by using any Tailwind CSS font weight classes. You can set values like <.custom_inline_code>font-light</.custom_inline_code>, <.custom_inline_code>font-normal</.custom_inline_code>, or
+            <.custom_inline_code>font-bold</.custom_inline_code>
+            to control the thickness of the text, giving you flexibility in how the content is displayed.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" code={@code_13}>
+            <.table_content
+              id="table-content-example-13"
+              color="primary"
+              variant="bordered"
+              padding="extra_small"
+            >
+              <.content_item font_weight="font-bold" active>
+                <.link patch={~p"/chelekom/docs/table-content/#overview"}>Overview</.link>
+              </.content_item>
+
+              <.content_item font_weight="font-thin">
+                <.link patch={~p"/chelekom/docs/table-content/#table-content-variants-colors"}>
+                  Color and Variants
+                </.link>
+              </.content_item>
+
+              <.content_item font_weight="font-semibold">
+                <.link patch={~p"/chelekom/docs/table-content/#table-content-space"}>Space</.link>
+              </.content_item>
+
+              <.content_item font_weight="font-light">
+                <.link patch={~p"/chelekom/docs/table-content/#table-content-padding"}>
+                  Padding
+                </.link>
+              </.content_item>
+
+              <.content_item font_weight="font-black">
+                <.link patch={~p"/chelekom/docs/table-content/#table-content-rounded"}>
+                  Rounded
+                </.link>
+              </.content_item>
+
+              <.content_item font_weight="font-bold">
+                <.link patch={~p"/chelekom/docs/table-content/#table-content-size"}>Size</.link>
+              </.content_item>
+            </.table_content>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="item-slot">
+            <.link patch={~p"/chelekom/docs/table-content/#item-slot"}>
+              Item slot
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <.custom_inline_code>item</.custom_inline_code>
+            slot is designed for adding custom content and links within a component. It simplifies the process of integrating dynamic content into the component without needing to rely on the more complex
+            <.custom_inline_code>content_item</.custom_inline_code>
+            slot. By using the
+            <.custom_inline_code>item</.custom_inline_code>
+            slot, you can easily define and display items such as titles, icons, or links, making the component more flexible and user-friendly. This approach is especially useful when you want to customize individual elements with attributes like class, title, or active state, giving you more control over the presentation and behavior of your content.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" code={@code_15}>
+            <.table_content
+              id="table-content-example-13+1"
+              color="primary"
+              variant="bordered"
+              padding="extra_small"
+            >
+              <:item active>
+                <.link patch={~p"/chelekom/docs/table-content/#overview"}>Overview</.link>
+              </:item>
+
+              <:item>
+                <.link patch={~p"/chelekom/docs/table-content/#table-content-variants-colors"}>
+                  Color and Variants
+                </.link>
+              </:item>
+
+              <:item>
+                <.link patch={~p"/chelekom/docs/table-content/#table-content-space"}>Space</.link>
+              </:item>
+
+              <:item>
+                <.link patch={~p"/chelekom/docs/table-content/#table-content-padding"}>
+                  Padding
+                </.link>
+              </:item>
+
+              <:item>
+                <.link patch={~p"/chelekom/docs/table-content/#table-content-rounded"}>
+                  Rounded
+                </.link>
+              </:item>
+
+              <:item>
+                <.link patch={~p"/chelekom/docs/table-content/#table-content-size"}>Size</.link>
+              </:item>
+            </.table_content>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="table-content-nested">
+            <.link patch={~p"/chelekom/docs/table-content/#table-content-nested"}>
+              Nested content
+            </.link>
+          </.heading2>
+
+          <.custom_code_wrapper code_class="text-xs" code={@code_14}>
+            <.table_content
+              id="table-content-example-14"
+              color="info"
+              variant="bordered"
+              padding="extra_small"
+            >
+              <.content_item title="Table content props">
+                <.content_wrapper>
+                  <.content_item icon="hero-chevron-right">
+                    <.link patch={~p"/chelekom/docs/table-content/#overview"}>Overview</.link>
+                  </.content_item>
+                  <.content_item icon="hero-chevron-right">
+                    <.link patch={~p"/chelekom/docs/table-content/#table-content-variants-colors"}>
+                      Color and Variants
+                    </.link>
+                  </.content_item>
+
+                  <.content_item icon="hero-chevron-right">
+                    <.link patch={~p"/chelekom/docs/table-content/#table-content-space"}>
+                      Space
+                    </.link>
+                  </.content_item>
+
+                  <.content_item icon="hero-chevron-right">
+                    <.link patch={~p"/chelekom/docs/table-content/#table-content-padding"}>
+                      Padding
+                    </.link>
+                  </.content_item>
+
+                  <.content_item icon="hero-chevron-right">
+                    <.link patch={~p"/chelekom/docs/table-content/#table-content-rounded"}>
+                      Rounded
+                    </.link>
+                  </.content_item>
+
+                  <.content_item icon="hero-chevron-right">
+                    <.link patch={~p"/chelekom/docs/table-content/#table-content-size"}>
+                      Size
+                    </.link>
+                  </.content_item>
+                </.content_wrapper>
+              </.content_item>
+
+              <.content_item title="Table content item props">
+                <.content_wrapper>
+                  <.content_item icon="hero-chevron-right">
+                    <.link patch={~p"/chelekom/docs/table-content/#table-content-content-item"}>
+                      Content item component
+                    </.link>
+                  </.content_item>
+
+                  <.content_item icon="hero-chevron-right">
+                    <.link patch={
+                      ~p"/chelekom/docs/table-content/#table-content-content-item-title"
+                    }>
+                      Content item title prop
+                    </.link>
+                  </.content_item>
+
+                  <.content_item icon="hero-chevron-right">
+                    <.link patch={
+                      ~p"/chelekom/docs/table-content/#table-content-content-item-icons"
+                    }>
+                      Content item icon and icon class props
+                    </.link>
+                  </.content_item>
+
+                  <.content_item icon="hero-chevron-right">
+                    <.link patch={
+                      ~p"/chelekom/docs/table-content/#table-content-content-item-active"
+                    }>
+                      Content item active prop
+                    </.link>
+                  </.content_item>
+
+                  <.content_item icon="hero-chevron-right">
+                    <.link patch={
+                      ~p"/chelekom/docs/table-content/#table-content-content-item-font-weigh "
+                    }>
+                      Content item font-weight prop
+                    </.link>
+                  </.content_item>
+                </.content_wrapper>
+              </.content_item>
+            </.table_content>
+          </.custom_code_wrapper>
+        </:documentation_panel>
+
+        <:props_panel>
+          <.custom_search class="mb-16" />
+          <div class="space-y-8">
+            <h2 class="text-lg lg:text-2xl font-bold">Table Content Component Props</h2>
+
+            <.custom_table id="table-content-component-table">
+              <:header>
+                <.table_th>Name</.table_th>
+
+                <.table_th>Type</.table_th>
+
+                <.table_th>Required</.table_th>
+
+                <.table_th>Description</.table_th>
+              </:header>
+
+              <:row>
+                <.table_td>id</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  A unique identifier used to manage state and interaction. Default is <strong>nil</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>class</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Custom CSS class for additional styling. Default is <strong>nil</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>title</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Specifies the title of the element. Default is <strong>nil</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>variant</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines the style of the table of content. Supported values: <strong>default</strong>, <strong>outline</strong>, <strong>transparent</strong>, <strong>shadow</strong>, <strong>bordered</strong>, <strong>gradient</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>color</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines the color theme of the table of content. Supported values: <strong>natural</strong>, <strong>primary</strong>, <strong>secondary</strong>, <strong>success</strong>, <strong>warning</strong>, <strong>danger</strong>, <strong>info</strong>, <strong>silver</strong>, <strong>misc</strong>, <strong>dawn</strong>. Default is <strong>natural</strong>.The
+                  <strong>default</strong>
+                  and <strong>bordered</strong>
+                  variants have extra color options: <strong>dark</strong>
+                  and <strong>white</strong>, which in both light mode and dark mode, these colors are always the same.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>space</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Space between items. Default is <strong>nil</strong>.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>animated</.table_td>
+
+                <.table_td>boolean</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  This adds a class to the HTML body for smooth scrolling. Default is <strong>false</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>padding</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines padding for items. Default is <strong>nil</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>item</.table_td>
+
+                <.table_td>Slot</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  The slot name is used to specify a named placeholder in the component. It allows the component to accept custom content for rendering. The available props for this slot are: <strong>class</strong>: Custom CSS class for additional styling, <strong>title</strong>: Specifies the title of the element, <strong>title_class</strong>: Custom CSS class for additional styling to title, <strong>wrapper_class</strong>: Custom CSS class for additional styling to content wrapper, <strong>content_class</strong>: Custom CSS class for additional styling to content, <strong>link_class</strong>: Custom CSS class for additional styling to link, <strong>icon</strong>: Icon displayed alongside the item, <strong>icon_class</strong>: Custom class for the icon, <strong>font_weight</strong>: Custom class for the font weight, <strong>link_title</strong>: Determines the title of the link, <strong>link</strong>: Determines the link URL, <strong>active</strong>: Indicates whether the element is currently active and visible.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>rounded</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines the border radius. Default is <strong>nil</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>border</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines border style. Default is <strong>extra_small</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>size</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines the overall size of the elements, including padding and font size. Default is <strong>small</strong>.
+                </.table_td>
+              </:row>
+            </.custom_table>
+          </div>
+
+          <div class="space-y-8 mt-8">
+            <h2 class="text-lg lg:text-2xl font-bold">Content Wrapper Component Props</h2>
+
+            <.custom_table id="content-wrapper-component-table">
+              <:header>
+                <.table_th>Name</.table_th>
+
+                <.table_th>Type</.table_th>
+
+                <.table_th>Required</.table_th>
+
+                <.table_th>Description</.table_th>
+              </:header>
+
+              <:row>
+                <.table_td>id</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  A unique identifier is used to manage state and interaction. Default is <strong>nil</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>class</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Custom CSS class for additional styling. Default is <strong>nil</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>title</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Specifies the title of the element. Default is <strong>nil</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>icon</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Icon displayed alongside of an item. Default is <strong>nil</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>font_weight</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines custom class for the font weight. Default is <strong>font-normal</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>rest</.table_td>
+
+                <.table_td>global</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Global attributes that define defaults merged with attributes provided by the caller.
+                </.table_td>
+              </:row>
+            </.custom_table>
+          </div>
+          <div class="space-y-8 mt-8">
+            <h2 class="text-lg lg:text-2xl font-bold">Content item Component Props</h2>
+
+            <.custom_table id="content-wrapper-component-table+11">
+              <:header>
+                <.table_th>Name</.table_th>
+
+                <.table_th>Type</.table_th>
+
+                <.table_th>Required</.table_th>
+
+                <.table_th>Description</.table_th>
+              </:header>
+
+              <:row>
+                <.table_td>id</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  A unique identifier is used to manage state and interaction. Default is <strong>nil</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>class</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Custom CSS class for additional styling. Default is <strong>nil</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>title</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Specifies the title of the element. Default is <strong>nil</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>title_class</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Custom CSS class for additional styling to title. Default is <strong>nil</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>wrapper_content_class</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Custom CSS class for additional styling content wrapper. Default is <strong>nil</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>content_class</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Custom CSS class for additional styling to content. Default is <strong>nil</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>link_class</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Custom CSS class for additional styling to link. Default is <strong>nil</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>icon</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Icon displayed alongside of an item. Default is <strong>nil</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>font_weight</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines custom class for the font weight. Default is <strong>font-normal</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>icon</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Icon displayed alongside of an item
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>icon_class</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines custom class for the icon
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>link</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines path of link
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>link_title</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines link name
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>active</.table_td>
+
+                <.table_td>boolean</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Indicates whether the element is currently active and visible
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>rest</.table_td>
+
+                <.table_td>global</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Global attributes that define defaults merged with attributes provided by the caller.
+                </.table_td>
+              </:row>
+            </.custom_table>
+          </div>
+        </:props_panel>
+
+        <:cli_panel>
+          <.custom_cli_props config={component_config()} />
+        </:cli_panel>
+        <.custom_table_content>
+          <:content
+            link={~p"/chelekom/docs/table-content/#overview"}
+            title="Overview of Table of Contents"
+          />
+          <:content
+            link={~p"/chelekom/docs/table-content/#table-content-variants-colors"}
+            title="Table content Variants and Colors"
+          />
+          <:content
+            link={~p"/chelekom/docs/table-content/#table-content-rounded"}
+            title="Rounded prop"
+          />
+          <:content
+            link={~p"/chelekom/docs/table-content/#table-content-border"}
+            title="Border prop"
+          />
+          <:content link={~p"/chelekom/docs/table-content/#table-content-size"} title="Size prop" />
+          <:content
+            link={~p"/chelekom/docs/table-content/#table-content-space"}
+            title="Space prop"
+          />
+          <:content
+            link={~p"/chelekom/docs/table-content/#table-content-padding"}
+            title="Padding prop"
+          />
+          <:content
+            link={~p"/chelekom/docs/table-content/#table-content-title"}
+            title="Title prop"
+          />
+          <:content
+            link={~p"/chelekom/docs/table-content/#table-content-animated"}
+            title="Animated prop"
+          />
+          <:content
+            link={~p"/chelekom/docs/table-content/#table-content-content-item"}
+            title="Content item component"
+          />
+          <:content
+            link={~p"/chelekom/docs/table-content/#table-content-content-item-title"}
+            title="Content item title prop"
+          />
+          <:content
+            link={~p"/chelekom/docs/table-content/#table-content-content-item-icons"}
+            title="Content item icon and icon class props"
+          />
+          <:content
+            link={~p"/chelekom/docs/table-content/#table-content-content-item-active"}
+            title="Content item active prop"
+          />
+          <:content
+            link={~p"/chelekom/docs/table-content/#table-content-content-item-font-weight"}
+            title="Content item fon weight prop"
+          />
+          <:content link={~p"/chelekom/docs/table-content/#item-slot"} title="Item slot" />
+          <:content
+            link={~p"/chelekom/docs/table-content/#table-content-nested"}
+            title="Nested content"
+          />
+        </.custom_table_content>
+      </.custom_tab>
+    </div>
+  </div>
+</Layouts.app>

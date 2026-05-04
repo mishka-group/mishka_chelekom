@@ -1,0 +1,471 @@
+<Layouts.app flash={@flash}>
+  <div class="lg:grid lg:grid-cols-12 mt-5 max-w-5xl mx-auto">
+    <.custom_nav active="chelekom-docs-image" />
+    <div class="lg:col-span-10">
+      <.custom_info
+        title="Image"
+        description="Image component for Phoenix and Phoenix LiveView, designed with enhanced visual presentation and responsiveness."
+        mix="mix mishka.ui.gen.component image"
+        github="https://github.com/mishka-group/mishka_chelekom/blob/master/priv/components/image.eex"
+        tags={["Component", "Stateless"]}
+      />
+      <.custom_tab id="chelekom-image-tab">
+        <:documentation_panel>
+          <.heading2 class="mb-5" id="overview">
+            <.link patch={~p"/chelekom/docs/image/#overview"}>
+              Overview of the Phoenix and LiveView Image Component
+            </.link>
+          </.heading2>
+          <.cp>
+            The
+            <strong>
+              Mishka Chelekom Image
+            </strong>
+            Component is a <strong>Phoenix LiveView</strong>
+            component that is essentially an HTML
+            <.custom_inline_code>img</.custom_inline_code>
+            tag that allows you to display images with various attributes for customization.
+            It supports properties like
+            <.custom_inline_code>src</.custom_inline_code>
+            for the image source, alt for descriptive text,
+            and width and height for sizing. You can also use srcset for responsive images and loading for
+            lazy loading.
+          </.cp>
+
+          <.custom_code_wrapper elements_class="flex flex-wrap gap-5 text-sm">
+            <.image
+              src={~p"/images/avatar1.png"}
+              width={80}
+              height={80}
+              filter="blur"
+              filter_size="extra_small"
+            />
+            <.image
+              src={~p"/images/avatar2.jpg"}
+              width={80}
+              height={80}
+              filter="brightness"
+              filter_size="extra_small"
+            />
+            <.image
+              src={~p"/images/avatar3.jpg"}
+              width={80}
+              height={80}
+              filter="contrast"
+              filter_size="extra_small"
+            />
+            <.image
+              src={~p"/images/avatar4.jpg"}
+              width={80}
+              height={80}
+              filter="hue"
+              filter_size="extra_small"
+            />
+            <.image
+              src={~p"/images/avatar5.jpg"}
+              width={80}
+              height={80}
+              filter="saturation"
+              filter_size="extra_small"
+            />
+            <.image src={~p"/images/avatar6.jpg"} width={80} height={80} filter="grayscale" />
+            <.image src={~p"/images/avatar1.png"} width={80} height={80} filter="invert" />
+            <.image src={~p"/images/avatar2.jpg"} width={80} height={80} filter="sepia" />
+          </.custom_code_wrapper>
+
+          <.cp margin="mt-5">
+            This
+            <strong>
+              <.link
+                title="Phoenix LiveView component"
+                class="transition-colors hover:text-[#448D96]"
+                navigate={~p"/chelekom"}
+              >
+                Phoenix LiveView component
+              </.link>
+            </strong>
+            makes it easy to add styles to your images in <strong>Phoenix</strong>
+            applications using <strong>Tailwind CSS</strong>. By allowing props for attributes like border radius and shadow, developers can quickly customize the appearance of images without writing extensive CSS. With Tailwind's utility classes, you can achieve the desired look for your images with just a few simple props, making it straightforward to create a polished and visually appealing user interface.
+          </.cp>
+
+          <.custom_block position="left" color="success" class="my-8" border="medium">
+            <.cp>
+              By using the class prop, you can apply custom classes or Tailwind CSS classes to customize the appearance and behavior of the components, allowing for flexible design changes.
+            </.cp>
+          </.custom_block>
+
+          <.heading2 margin="my-5" id="default-image-props">
+            <.link patch={~p"/chelekom/docs/image/#default-image-props"}>
+              Default img attribues
+            </.link>
+          </.heading2>
+          <.cp>
+            <ul class="list-disc px-10">
+              <li>
+                <strong>src</strong>: This required attribute specifies the media link for the image, which is the source URL from which the image will be loaded.
+              </li>
+              <li>
+                <strong>alt</strong>: This optional attribute provides a description of the image, important for accessibility. It serves as alternative text for screen readers and displays if the image fails to load.
+              </li>
+              <li>
+                <strong>srcset</strong>: This optional attribute allows you to specify a list of different images for responsive design, optimizing loading times by displaying the appropriate image size based on the user's device.
+              </li>
+              <li>
+                <strong>loading</strong>: This attribute defines the loading behavior of the image. You can choose between "eager" (the default) or "lazy" loading, where lazy loading defers the loading of off-screen images until they are close to the viewport, improving performance.
+              </li>
+              <li>
+                <strong>referrerpolicy</strong>: This optional attribute controls the referrer information sent when the image is fetched, enhancing privacy and security.
+              </li>
+              <li>
+                <strong>fetchpriority</strong>: This attribute allows you to set the priority of fetching the image,
+                with values like <.custom_inline_code>high</.custom_inline_code>, <.custom_inline_code>low</.custom_inline_code>, or <.custom_inline_code>auto</.custom_inline_code>, which is the default.
+              </li>
+              <li>
+                <strong>width</strong>: This optional integer attribute determines the width of the image in pixels.
+              </li>
+              <li>
+                <strong>height</strong>: This optional integer attribute determines the height of the image in pixels.
+              </li>
+              <li>
+                <strong>sizes</strong>: This optional attribute specifies the intended display size of the image for different viewport conditions, helping browsers choose the right image to load.
+              </li>
+              <li>
+                <strong>ismap</strong>: This optional attribute makes the image act as a server-side image map, allowing for clickable areas within the image.
+              </li>
+              <li>
+                <strong>decoding</strong>: This optional attribute refers to the process of converting encoded or encrypted data back into its original format, with default behavior as specified by the browser.
+              </li>
+            </ul>
+          </.cp>
+
+          <.custom_code_wrapper elements_class="[&>*]:mb-2 text-sm" code={@code_1}>
+            <.image src={~p"/images/avatar1.png"} width={100} height={100} />
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="image-shadow-prop">
+            <.link patch={~p"/chelekom/docs/image/#image-shadow-prop"}>
+              Shadow prop in Phoenix liveView Image component
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The shadow prop in the
+            <.link navigate={~p"/chelekom/docs/image"}>Mishka Chelekom Image Component</.link>
+            allows us to add shadow effects to images, enhancing their visual appeal and depth. By using values like <.custom_inline_code>extra_small</.custom_inline_code>, <.custom_inline_code>small</.custom_inline_code>, <.custom_inline_code>medium</.custom_inline_code>, <.custom_inline_code>large</.custom_inline_code>, and <.custom_inline_code>extra_large</.custom_inline_code>, developers can easily apply different shadow styles, from subtle to bold, to their images. This functionality ensures that images can be customized to fit the overall design aesthetic of the application while maintaining a consistent and polished look. Additionally, you can use this function to add your own custom or Tailwind CSS shadow classes, providing even greater flexibility in styling your images. By default, it is <.custom_inline_code>nil</.custom_inline_code>, so no shadow will be added to the image.
+          </.cp>
+
+          <.custom_code_wrapper elements_class="[&>*]:mb-2 flex gap-2 text-sm" code={@code_2}>
+            <.image src={~p"/images/avatar6.jpg"} width={50} height={50} shadow="extra_small" />
+            <.image src={~p"/images/avatar5.jpg"} width={50} height={50} shadow="small" />
+            <.image src={~p"/images/avatar4.jpg"} width={50} height={50} shadow="medium" />
+            <.image src={~p"/images/avatar3.jpg"} width={50} height={50} shadow="large" />
+            <.image src={~p"/images/avatar2.jpg"} width={50} height={50} shadow="extra_large" />
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="image-rounded-prop">
+            <.link patch={~p"/chelekom/docs/image/#image-rounded-prop"}>
+              Rounded prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The rounded function in the Mishka Chelekom Image Component allows us to apply border-radius
+            effects to images, giving them smooth, rounded corners. By using values like <.custom_inline_code>extra_small</.custom_inline_code>, <.custom_inline_code>small</.custom_inline_code>, <.custom_inline_code>medium</.custom_inline_code>, <.custom_inline_code>large</.custom_inline_code>, and <.custom_inline_code>extra_large</.custom_inline_code>, developers can easily apply different levels
+            of corner rounding, from slightly rounded edges to fully circular shapes. This feature ensures that images can be
+            customized to fit the overall design aesthetic of the application while maintaining a consistent
+            and polished look. Additionally, you can use this function to add your own custom or Tailwind CSS
+            border-radius classes, offering even greater flexibility in styling your images.
+            By default, it is nil, so no border-radius will be applied to the image.
+          </.cp>
+
+          <.custom_code_wrapper elements_class="flex flex-wrap gap-2 text-sm" code={@code_3}>
+            <.image src={~p"/images/avatar1.png"} width={80} height={80} rounded="extra_small" />
+            <.image src={~p"/images/avatar2.jpg"} width={80} height={80} rounded="small" />
+            <.image src={~p"/images/avatar3.jpg"} width={80} height={80} rounded="medium" />
+            <.image src={~p"/images/avatar4.jpg"} width={80} height={80} rounded="large" />
+            <.image src={~p"/images/avatar5.jpg"} width={80} height={80} rounded="extra_large" />
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="image-filter-prop">
+            <.link patch={~p"/chelekom/docs/image/#image-filter-prop"}>
+              filter and filter size props
+            </.link>
+          </.heading2>
+
+          <.cp>
+            We offer a wide range of filters such as <.custom_inline_code>blur</.custom_inline_code>, <.custom_inline_code>brightness</.custom_inline_code>, <.custom_inline_code>hue</.custom_inline_code>, <.custom_inline_code>contrast</.custom_inline_code>, and <.custom_inline_code>saturation</.custom_inline_code>, each of which supports varying sizes, including <.custom_inline_code>extra_small</.custom_inline_code>, <.custom_inline_code>small</.custom_inline_code>, <.custom_inline_code>medium</.custom_inline_code>, <.custom_inline_code>large</.custom_inline_code>, and <.custom_inline_code>extra_large</.custom_inline_code>. Additionally, we have filters like <.custom_inline_code>grayscale</.custom_inline_code>, <.custom_inline_code>invert</.custom_inline_code>, and
+            <.custom_inline_code>sepia</.custom_inline_code>
+            that apply uniform effects without size variations.
+          </.cp>
+
+          <.custom_code_wrapper elements_class="flex flex-wrap gap-5 text-sm" code={@code_4}>
+            <.image
+              src={~p"/images/avatar1.png"}
+              width={80}
+              height={80}
+              filter="blur"
+              filter_size="extra_small"
+            />
+            <.image
+              src={~p"/images/avatar2.jpg"}
+              width={80}
+              height={80}
+              filter="brightness"
+              filter_size="extra_small"
+            />
+            <.image
+              src={~p"/images/avatar3.jpg"}
+              width={80}
+              height={80}
+              filter="contrast"
+              filter_size="extra_small"
+            />
+            <.image
+              src={~p"/images/avatar4.jpg"}
+              width={80}
+              height={80}
+              filter="hue"
+              filter_size="extra_small"
+            />
+            <.image
+              src={~p"/images/avatar5.jpg"}
+              width={80}
+              height={80}
+              filter="saturation"
+              filter_size="extra_small"
+            />
+            <.image src={~p"/images/avatar6.jpg"} width={80} height={80} filter="grayscale" />
+            <.image src={~p"/images/avatar1.png"} width={80} height={80} filter="invert" />
+            <.image src={~p"/images/avatar2.jpg"} width={80} height={80} filter="sepia" />
+          </.custom_code_wrapper>
+        </:documentation_panel>
+
+        <:props_panel>
+          <.custom_search class="mb-16" />
+          <div class="space-y-8">
+            <h2 class="text-lg lg:text-2xl font-bold">Image component props</h2>
+
+            <.custom_table id="image-component-table">
+              <:header>
+                <.table_th>Name</.table_th>
+
+                <.table_th>Type</.table_th>
+
+                <.table_th>Required</.table_th>
+
+                <.table_th>Description</.table_th>
+              </:header>
+
+              <:row>
+                <.table_td>id</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  A unique identifier is used to manage state and interaction.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>src</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>Yes</.table_td>
+
+                <.table_td>
+                  The media link, typically an image, required for rendering the component.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>filter</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Utilities for applying filters
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>filter_size</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Utilities for applying filters sizes
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>alt</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Description of the media for accessibility purposes.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>srcset</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Allows specifying a list of different images for responsive loading.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>loading</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Determines loading behavior: eager (default) or lazy.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>referrerpolicy</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Specifies referrer information when fetching the image.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>fetchpriority</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Sets the image loading priority: high, low, or auto (default).
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>width</.table_td>
+
+                <.table_td>integer</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Specifies the image width.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>height</.table_td>
+
+                <.table_td>integer</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Specifies the image height.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>sizes</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Specifies the intended display size of the image for different viewport conditions.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>ismap</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Makes the image act as a server-side image map.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>decoding</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Controls how the browser decodes the image: async, sync, or auto.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>rounded</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Specifies the border radius of the image.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>shadow</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Specifies the shadow style for the image.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>class</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Custom CSS class for additional styling.</.table_td>
+              </:row>
+            </.custom_table>
+          </div>
+        </:props_panel>
+
+        <:cli_panel>
+          <.custom_cli_props config={component_config()} />
+        </:cli_panel>
+
+        <.custom_table_content>
+          <:content
+            link={~p"/chelekom/docs/image/#overview"}
+            title="Overview of the image component"
+          />
+          <:content
+            link={~p"/chelekom/docs/image/#default-image-props"}
+            title="Default img attribues"
+          />
+          <:content link={~p"/chelekom/docs/image/#image-shadow-prop"} title="Shadow prop" />
+          <:content link={~p"/chelekom/docs/image/#image-rounded-prop"} title="Rounded prop" />
+          <:content
+            link={~p"/chelekom/docs/image/#image-filter-prop"}
+            title="Filter and filter size props"
+          />
+        </.custom_table_content>
+      </.custom_tab>
+    </div>
+  </div>
+</Layouts.app>

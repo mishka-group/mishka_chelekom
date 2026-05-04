@@ -1,0 +1,2524 @@
+<Layouts.app flash={@flash}>
+  <div class="lg:grid lg:grid-cols-12 mt-5 max-w-5xl mx-auto">
+    <.custom_nav active="chelekom-docs-table" />
+    <div class="lg:col-span-10">
+      <.custom_info
+        title="Table"
+        description="Table component for Phoenix LiveView with support for styling, borders, text alignment, padding, and dynamic headers, footers, and cells."
+        mix="mix mishka.ui.gen.component table"
+        github="https://github.com/mishka-group/mishka_chelekom/blob/master/priv/components/table.eex"
+        tags={["Component", "Stateless"]}
+      />
+      <.custom_tab id="chelekom-table-tab">
+        <:documentation_panel>
+          <.heading2 class="mb-5" id="overview">
+            <.link patch={~p"/chelekom/docs/table/#overview"}>
+              Overview of the Phoenix LiveView table Component
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The <strong>Mishka Chelekom table</strong>
+            component is a versatile and customizable <strong>Phoenix LiveView</strong>
+            tool for displaying data in a structured table format.
+          </.cp>
+
+          <.custom_code_wrapper elements_class="space-y-5">
+            <.table
+              header_border="extra_small"
+              rows_border="extra_small"
+              cols_border="extra_small"
+              rounded="large"
+              variant="base_hoverable"
+              id="example-1"
+            >
+              <:header>Name</:header>
+
+              <:header>Role</:header>
+
+              <:header>Status</:header>
+
+              <:header>Actions</:header>
+
+              <.tr>
+                <.td>
+                  <div class="flex items-center gap-3">
+                    <div class="shrink-0">
+                      <.avatar size="medium" rounded="full" src={~p"/images/mona-aghili.jpg"} />
+                    </div>
+                    <div>
+                      <div class="mb-1.5 text-[13px] font-semiblod">Mona Aghili</div>
+                      <div class="text-[12px] text-gray-500 dark:text-gray-400">
+                        mona@mishka.life
+                      </div>
+                    </div>
+                  </div>
+                </.td>
+
+                <.td>
+                  Front-end developer
+                </.td>
+
+                <.td>
+                  <.badge variant="bordered" rounded="full" color="danger">Offline</.badge>
+                </.td>
+
+                <.td>
+                  <div class="flex items-center gap-2 justify-between">
+                    <button class="leading-5 text-gray-500 dark:text-gray-700">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="24"
+                        height="24"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        class="size-[17px]"
+                      >
+                        <path d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0" /><circle
+                          cx="12"
+                          cy="12"
+                          r="3"
+                        />
+                      </svg>
+                    </button>
+                    <button class="leading-5 text-gray-500 dark:text-gray-700">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="24"
+                        height="24"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        class="size-[17px]"
+                      >
+                        <path d="m10 10-6.157 6.162a2 2 0 0 0-.5.833l-1.322 4.36a.5.5 0 0 0 .622.624l4.358-1.323a2 2 0 0 0 .83-.5L14 13.982" /><path d="m12.829 7.172 4.359-4.346a1 1 0 1 1 3.986 3.986l-4.353 4.353" /><path d="m15 5 4 4" /><path d="m2 2 20 20" />
+                      </svg>
+                    </button>
+                    <button class="leading-5 text-rose-300 dark:text-rose-600">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="24"
+                        height="24"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        class="size-[17px]"
+                      >
+                        <path d="M3 6h18" /><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6" /><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2" /><line
+                          x1="10"
+                          x2="10"
+                          y1="11"
+                          y2="17"
+                        /><line x1="14" x2="14" y1="11" y2="17" />
+                      </svg>
+                    </button>
+                  </div>
+                </.td>
+              </.tr>
+
+              <.tr>
+                <.td>
+                  <div class="flex items-center gap-3">
+                    <div class="shrink-0">
+                      <.avatar size="medium" rounded="full" src={~p"/images/arian-alijani.jpg"} />
+                    </div>
+                    <div>
+                      <div class="mb-1.5 text-[13px] font-semiblod">Arian Alijani</div>
+                      <div class="text-[12px] text-gray-500 dark:text-gray-400">
+                        arian@mishka.tools
+                      </div>
+                    </div>
+                  </div>
+                </.td>
+
+                <.td>QA Engineer</.td>
+
+                <.td>
+                  <.badge variant="bordered" rounded="full" color="warning">Vacation</.badge>
+                </.td>
+
+                <.td>
+                  <div class="flex items-center gap-2 justify-between">
+                    <button class="leading-5 text-gray-500 dark:text-gray-700">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="24"
+                        height="24"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        class="size-[17px]"
+                      >
+                        <path d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0" /><circle
+                          cx="12"
+                          cy="12"
+                          r="3"
+                        />
+                      </svg>
+                    </button>
+                    <button class="leading-5 text-gray-500 dark:text-gray-700">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="24"
+                        height="24"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        class="size-[17px]"
+                      >
+                        <path d="m10 10-6.157 6.162a2 2 0 0 0-.5.833l-1.322 4.36a.5.5 0 0 0 .622.624l4.358-1.323a2 2 0 0 0 .83-.5L14 13.982" /><path d="m12.829 7.172 4.359-4.346a1 1 0 1 1 3.986 3.986l-4.353 4.353" /><path d="m15 5 4 4" /><path d="m2 2 20 20" />
+                      </svg>
+                    </button>
+                    <button class="leading-5 text-rose-300 dark:text-rose-600">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="24"
+                        height="24"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        class="size-[17px]"
+                      >
+                        <path d="M3 6h18" /><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6" /><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2" /><line
+                          x1="10"
+                          x2="10"
+                          y1="11"
+                          y2="17"
+                        /><line x1="14" x2="14" y1="11" y2="17" />
+                      </svg>
+                    </button>
+                  </div>
+                </.td>
+              </.tr>
+
+              <.tr>
+                <.td>
+                  <div class="flex items-center gap-3">
+                    <div class="shrink-0">
+                      <.avatar
+                        size="medium"
+                        rounded="full"
+                        src={~p"/images/shahryar-tavakkoli.jpg"}
+                      />
+                    </div>
+                    <div>
+                      <div class="mb-1.5 text-[13px] font-semiblod">Shahryar Tavakkoli</div>
+                      <div class="text-[12px] text-gray-500 dark:text-gray-400">
+                        shahryar@mishka.tools
+                      </div>
+                    </div>
+                  </div>
+                </.td>
+
+                <.td>Fullstack developer</.td>
+
+                <.td>
+                  <.badge variant="bordered" rounded="full" color="success">Active</.badge>
+                </.td>
+
+                <.td>
+                  <div class="flex items-center gap-2 justify-between">
+                    <button class="leading-5 text-gray-500 dark:text-gray-700">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="24"
+                        height="24"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        class="size-[17px]"
+                      >
+                        <path d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0" /><circle
+                          cx="12"
+                          cy="12"
+                          r="3"
+                        />
+                      </svg>
+                    </button>
+                    <button class="leading-5 text-gray-500 dark:text-gray-700">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="24"
+                        height="24"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        class="size-[17px]"
+                      >
+                        <path d="m10 10-6.157 6.162a2 2 0 0 0-.5.833l-1.322 4.36a.5.5 0 0 0 .622.624l4.358-1.323a2 2 0 0 0 .83-.5L14 13.982" /><path d="m12.829 7.172 4.359-4.346a1 1 0 1 1 3.986 3.986l-4.353 4.353" /><path d="m15 5 4 4" /><path d="m2 2 20 20" />
+                      </svg>
+                    </button>
+                    <button class="leading-5 text-rose-300 dark:text-rose-600">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="24"
+                        height="24"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        class="size-[17px]"
+                      >
+                        <path d="M3 6h18" /><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6" /><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2" /><line
+                          x1="10"
+                          x2="10"
+                          y1="11"
+                          y2="17"
+                        /><line x1="14" x2="14" y1="11" y2="17" />
+                      </svg>
+                    </button>
+                  </div>
+                </.td>
+              </.tr>
+            </.table>
+
+            <.table color="base" variant="base_hoverable" rounded="small" id="example-2">
+              <:header>
+                <.checkbox_field
+                  name="table-checkbox-1"
+                  value=""
+                  size="medium"
+                  id="table-checkbox-1"
+                  color="misc"
+                />
+              </:header>
+
+              <:header>Name</:header>
+
+              <:header>Age</:header>
+
+              <:header>Address</:header>
+
+              <:header>Action</:header>
+
+              <.tr>
+                <.td>
+                  <.checkbox_field
+                    name="table-checkbox-2"
+                    value=""
+                    size="medium"
+                    id="table-checkbox-2"
+                    color="misc"
+                  />
+                </.td>
+
+                <.td>
+                  Alice Johnson
+                </.td>
+
+                <.td>34</.td>
+
+                <.td>
+                  New York, No. 5 Broadway
+                </.td>
+
+                <.td>
+                  <button>Edit</button>
+                </.td>
+              </.tr>
+
+              <.tr>
+                <.td>
+                  <.checkbox_field
+                    name="table-checkbox-3"
+                    value=""
+                    size="medium"
+                    id="table-checkbox-3"
+                    color="misc"
+                    checked
+                  />
+                </.td>
+                <.td>
+                  Michael Scott
+                </.td>
+
+                <.td>45</.td>
+
+                <.td>
+                  Scranton, No. 2 Paper Road
+                </.td>
+
+                <.td>
+                  <button>Edit</button>
+                </.td>
+              </.tr>
+
+              <.tr>
+                <.td>
+                  <.checkbox_field
+                    name="table-checkbox-4"
+                    value=""
+                    size="medium"
+                    id="table-checkbox-4"
+                    color="misc"
+                  />
+                </.td>
+                <.td>
+                  Emily Carter
+                </.td>
+
+                <.td>29</.td>
+
+                <.td>
+                  San Francisco, No. 10 Bay Street
+                </.td>
+
+                <.td>
+                  <button>Edit</button>
+                </.td>
+              </.tr>
+            </.table>
+          </.custom_code_wrapper>
+
+          <.cp margin="mt-5">
+            This
+            <strong>
+              <.link
+                title="Phoenix LiveView component"
+                class="transition-colors hover:text-[#448D96]"
+                navigate={~p"/chelekom"}
+              >
+                Phoenix LiveView component
+              </.link>
+            </strong>
+            also offers thematic colors, icon support, and responsive design, ensuring a seamless user experience for both desktop and mobile users. It is perfect for any project that requires an organized, visually appealing table to display and manage data effectively.
+          </.cp>
+
+          <.custom_block position="left" color="success" class="my-8" border="medium">
+            <.cp>
+              By using the class prop, you can apply custom classes or Tailwind CSS classes to customize the appearance and behavior of the components, allowing for flexible design changes.
+            </.cp>
+          </.custom_block>
+
+          <.heading2 margin="my-5" id="table-variant-colors">
+            <.link patch={~p"/chelekom/docs/table/#table-variant-colors"}>
+              Table variant and color props
+            </.link>
+          </.heading2>
+
+          <.cp class="my-8">
+            The <.link navigate={~p"/chelekom/docs/table"}>table component</.link>
+            supports seven distinct variants: <.custom_inline_code>base</.custom_inline_code>, <.custom_inline_code>default</.custom_inline_code>, <.custom_inline_code>outline</.custom_inline_code>, <.custom_inline_code>shadow</.custom_inline_code>, <.custom_inline_code>bordered</.custom_inline_code>, <.custom_inline_code>transparent</.custom_inline_code>, <.custom_inline_code>separated</.custom_inline_code>, <.custom_inline_code>hoverable</.custom_inline_code>, and <.custom_inline_code>stripped</.custom_inline_code>. Each variant can be styled with a variety of colors, including <.custom_inline_code>base</.custom_inline_code>, <.custom_inline_code>white</.custom_inline_code>, <.custom_inline_code>primary</.custom_inline_code>, <.custom_inline_code>secondary</.custom_inline_code>, <.custom_inline_code>dark</.custom_inline_code>, <.custom_inline_code>success</.custom_inline_code>, <.custom_inline_code>warning</.custom_inline_code>, <.custom_inline_code>danger</.custom_inline_code>, <.custom_inline_code>info</.custom_inline_code>, <.custom_inline_code>silver</.custom_inline_code>, <.custom_inline_code>misc</.custom_inline_code>, <.custom_inline_code>dawn</.custom_inline_code>, and <.custom_inline_code>silver</.custom_inline_code>.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" code={@code_1}>
+            <.table rows_border="extra_small" id="Example-3">
+              <:header>Name</:header>
+
+              <:header>Age</:header>
+
+              <:header>Address</:header>
+
+              <:header>Action</:header>
+
+              <.tr>
+                <.td>
+                  Alice Johnson
+                </.td>
+
+                <.td>34</.td>
+
+                <.td>
+                  New York, No. 5 Broadway
+                </.td>
+
+                <.td>
+                  <button>Edit</button>
+                </.td>
+              </.tr>
+
+              <.tr>
+                <.td>
+                  Michael Scott
+                </.td>
+
+                <.td>45</.td>
+
+                <.td>
+                  Scranton, No. 2 Paper Road
+                </.td>
+
+                <.td>
+                  <button>Edit</button>
+                </.td>
+              </.tr>
+
+              <.tr>
+                <.td>
+                  Emily Carter
+                </.td>
+
+                <.td>29</.td>
+
+                <.td>
+                  San Francisco, No. 10 Bay Street
+                </.td>
+
+                <.td>
+                  <button>Edit</button>
+                </.td>
+              </.tr>
+            </.table>
+
+            <.table
+              header_border="extra_small"
+              rows_border="extra_small"
+              variant="stripped"
+              color="danger"
+              id="example-4"
+            >
+              <:header>Name</:header>
+
+              <:header>Age</:header>
+
+              <:header>Address</:header>
+
+              <:header>Action</:header>
+
+              <.tr>
+                <.td>
+                  Alice Johnson
+                </.td>
+
+                <.td>34</.td>
+
+                <.td>
+                  New York, No. 5 Broadway
+                </.td>
+
+                <.td>
+                  <button>Edit</button>
+                </.td>
+              </.tr>
+
+              <.tr>
+                <.td>
+                  Michael Scott
+                </.td>
+
+                <.td>45</.td>
+
+                <.td>
+                  Scranton, No. 2 Paper Road
+                </.td>
+
+                <.td>
+                  <button>Edit</button>
+                </.td>
+              </.tr>
+
+              <.tr>
+                <.td>
+                  Emily Carter
+                </.td>
+
+                <.td>29</.td>
+
+                <.td>
+                  San Francisco, No. 10 Bay Street
+                </.td>
+
+                <.td>
+                  <button>Edit</button>
+                </.td>
+              </.tr>
+            </.table>
+
+            <.table
+              header_border="extra_small"
+              rows_border="extra_small"
+              variant="hoverable"
+              color="primary"
+              id="example-5"
+            >
+              <:header>Name</:header>
+
+              <:header>Age</:header>
+
+              <:header>Address</:header>
+
+              <:header>Action</:header>
+
+              <.tr>
+                <.td>
+                  Alice Johnson
+                </.td>
+
+                <.td>34</.td>
+
+                <.td>
+                  New York, No. 5 Broadway
+                </.td>
+
+                <.td>
+                  <button>Edit</button>
+                </.td>
+              </.tr>
+
+              <.tr>
+                <.td>
+                  Michael Scott
+                </.td>
+
+                <.td>45</.td>
+
+                <.td>
+                  Scranton, No. 2 Paper Road
+                </.td>
+
+                <.td>
+                  <button>Edit</button>
+                </.td>
+              </.tr>
+
+              <.tr>
+                <.td>
+                  Emily Carter
+                </.td>
+
+                <.td>29</.td>
+
+                <.td>
+                  San Francisco, No. 10 Bay Street
+                </.td>
+
+                <.td>
+                  <button>Edit</button>
+                </.td>
+              </.tr>
+            </.table>
+
+            <.table
+              id="table_example-3"
+              header_border="extra_small"
+              rows_border="extra_small"
+              variant="separated"
+              space="large"
+              color="dawn"
+              rounded="small"
+            >
+              <:header>Name</:header>
+
+              <:header>Age</:header>
+
+              <:header>Address</:header>
+
+              <:header>Action</:header>
+
+              <.tr>
+                <.td>
+                  Alice Johnson
+                </.td>
+
+                <.td>34</.td>
+
+                <.td>
+                  New York, No. 5 Broadway
+                </.td>
+
+                <.td>
+                  <button>Edit</button>
+                </.td>
+              </.tr>
+
+              <.tr>
+                <.td>
+                  Michael Scott
+                </.td>
+
+                <.td>45</.td>
+
+                <.td>
+                  Scranton, No. 2 Paper Road
+                </.td>
+
+                <.td>
+                  <button>Edit</button>
+                </.td>
+              </.tr>
+
+              <.tr>
+                <.td>
+                  Emily Carter
+                </.td>
+
+                <.td>29</.td>
+
+                <.td>
+                  San Francisco, No. 10 Bay Street
+                </.td>
+
+                <.td>
+                  <button>Edit</button>
+                </.td>
+              </.tr>
+            </.table>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="table-rounded">
+            <.link patch={~p"/chelekom/docs/table/#table-rounded"}>
+              Rounded prop in Phoenix LiveView table content Component
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The rounded prop offers values like <.custom_inline_code>extra_small</.custom_inline_code>, <.custom_inline_code>small</.custom_inline_code>, <.custom_inline_code>medium</.custom_inline_code>, <.custom_inline_code>large</.custom_inline_code>, and <.custom_inline_code>extra_large</.custom_inline_code>.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" code={@code_2}>
+            <.table
+              header_border="extra_small"
+              rows_border="extra_small"
+              color="info"
+              rounded="extra_large"
+              variant="default"
+              id="example-6"
+            >
+              <:header>Name</:header>
+
+              <:header>Age</:header>
+
+              <:header>Address</:header>
+
+              <:header>Action</:header>
+
+              <.tr>
+                <.td>
+                  Alice Johnson
+                </.td>
+
+                <.td>34</.td>
+
+                <.td>
+                  New York, No. 5 Broadway
+                </.td>
+
+                <.td>
+                  <button>Edit</button>
+                </.td>
+              </.tr>
+
+              <.tr>
+                <.td>
+                  Michael Scott
+                </.td>
+
+                <.td>45</.td>
+
+                <.td>
+                  Scranton, No. 2 Paper Road
+                </.td>
+
+                <.td>
+                  <button>Edit</button>
+                </.td>
+              </.tr>
+
+              <.tr>
+                <.td>
+                  Emily Carter
+                </.td>
+
+                <.td>29</.td>
+
+                <.td>
+                  San Francisco, No. 10 Bay Street
+                </.td>
+
+                <.td>
+                  <button>Edit</button>
+                </.td>
+              </.tr>
+            </.table>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="table-space">
+            <.link patch={~p"/chelekom/docs/table/#table-space"}>
+              Space prop in Phoenix LiveView table content Component
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The space prop only is applicable on
+            <.custom_inline_code>separated</.custom_inline_code>
+            variant.
+            The space prop offers values like <.custom_inline_code>extra_small</.custom_inline_code>, <.custom_inline_code>small</.custom_inline_code>, <.custom_inline_code>medium</.custom_inline_code>, <.custom_inline_code>large</.custom_inline_code>, and <.custom_inline_code>extra_large</.custom_inline_code>.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" code={@code_16}>
+            <.table color="info" space="small" variant="separated" id="example-7">
+              <:header>Name</:header>
+
+              <:header>Age</:header>
+
+              <:header>Address</:header>
+
+              <:header>Action</:header>
+
+              <.tr>
+                <.td>
+                  Alice Johnson
+                </.td>
+
+                <.td>34</.td>
+
+                <.td>
+                  New York, No. 5 Broadway
+                </.td>
+
+                <.td>
+                  <button>Edit</button>
+                </.td>
+              </.tr>
+
+              <.tr>
+                <.td>
+                  Michael Scott
+                </.td>
+
+                <.td>45</.td>
+
+                <.td>
+                  Scranton, No. 2 Paper Road
+                </.td>
+
+                <.td>
+                  <button>Edit</button>
+                </.td>
+              </.tr>
+
+              <.tr>
+                <.td>
+                  Emily Carter
+                </.td>
+
+                <.td>29</.td>
+
+                <.td>
+                  San Francisco, No. 10 Bay Street
+                </.td>
+
+                <.td>
+                  <button>Edit</button>
+                </.td>
+              </.tr>
+            </.table>
+
+            <.table color="misc" space="large" variant="separated" rounded="small" id="example-8">
+              <:header>Name</:header>
+
+              <:header>Age</:header>
+
+              <:header>Address</:header>
+
+              <:header>Action</:header>
+
+              <.tr>
+                <.td>
+                  Alice Johnson
+                </.td>
+
+                <.td>34</.td>
+
+                <.td>
+                  New York, No. 5 Broadway
+                </.td>
+
+                <.td>
+                  <button>Edit</button>
+                </.td>
+              </.tr>
+
+              <.tr>
+                <.td>
+                  Michael Scott
+                </.td>
+
+                <.td>45</.td>
+
+                <.td>
+                  Scranton, No. 2 Paper Road
+                </.td>
+
+                <.td>
+                  <button>Edit</button>
+                </.td>
+              </.tr>
+
+              <.tr>
+                <.td>
+                  Emily Carter
+                </.td>
+
+                <.td>29</.td>
+
+                <.td>
+                  San Francisco, No. 10 Bay Street
+                </.td>
+
+                <.td>
+                  <button>Edit</button>
+                </.td>
+              </.tr>
+            </.table>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="table-border">
+            <.link patch={~p"/chelekom/docs/table/#table-border"}>
+              Border prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The border prop offers values like <.custom_inline_code>extra_small</.custom_inline_code>, <.custom_inline_code>small</.custom_inline_code>, <.custom_inline_code>medium</.custom_inline_code>, <.custom_inline_code>large</.custom_inline_code>, and <.custom_inline_code>extra_large</.custom_inline_code>.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" code={@code_3}>
+            <.table
+              header_border="extra_small"
+              rows_border="extra_small"
+              color="info"
+              border="extra_large"
+              id="Example-9"
+              variant="bordered"
+            >
+              <:header>Name</:header>
+
+              <:header>Age</:header>
+
+              <:header>Address</:header>
+
+              <:header>Action</:header>
+
+              <.tr>
+                <.td>
+                  Alice Johnson
+                </.td>
+
+                <.td>34</.td>
+
+                <.td>
+                  New York, No. 5 Broadway
+                </.td>
+
+                <.td>
+                  <button>Edit</button>
+                </.td>
+              </.tr>
+
+              <.tr>
+                <.td>
+                  Michael Scott
+                </.td>
+
+                <.td>45</.td>
+
+                <.td>
+                  Scranton, No. 2 Paper Road
+                </.td>
+
+                <.td>
+                  <button>Edit</button>
+                </.td>
+              </.tr>
+
+              <.tr>
+                <.td>
+                  Emily Carter
+                </.td>
+
+                <.td>29</.td>
+
+                <.td>
+                  San Francisco, No. 10 Bay Street
+                </.td>
+
+                <.td>
+                  <button>Edit</button>
+                </.td>
+              </.tr>
+            </.table>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="table-padding">
+            <.link patch={~p"/chelekom/docs/table/#table-padding"}>
+              Padding prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The padding prop offers values such as <.custom_inline_code>extra_small</.custom_inline_code>, <.custom_inline_code>small</.custom_inline_code>, <.custom_inline_code>medium</.custom_inline_code>, <.custom_inline_code>large</.custom_inline_code>, and <.custom_inline_code>extra_large</.custom_inline_code>.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" code={@code_4}>
+            <.table
+              header_border="extra_small"
+              rows_border="extra_small"
+              color="info"
+              padding="extra_large"
+              variant="default"
+              id="example-10"
+            >
+              <:header>Name</:header>
+
+              <:header>Age</:header>
+
+              <:header>Address</:header>
+
+              <:header>Action</:header>
+
+              <.tr>
+                <.td>
+                  Alice Johnson
+                </.td>
+
+                <.td>34</.td>
+
+                <.td>
+                  New York, No. 5 Broadway
+                </.td>
+
+                <.td>
+                  <button>Edit</button>
+                </.td>
+              </.tr>
+
+              <.tr>
+                <.td>
+                  Michael Scott
+                </.td>
+
+                <.td>45</.td>
+
+                <.td>
+                  Scranton, No. 2 Paper Road
+                </.td>
+
+                <.td>
+                  <button>Edit</button>
+                </.td>
+              </.tr>
+
+              <.tr>
+                <.td>
+                  Emily Carter
+                </.td>
+
+                <.td>29</.td>
+
+                <.td>
+                  San Francisco, No. 10 Bay Street
+                </.td>
+
+                <.td>
+                  <button>Edit</button>
+                </.td>
+              </.tr>
+            </.table>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="table-text-size">
+            <.link patch={~p"/chelekom/docs/table/#table-text-size"}>
+              Text size prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The padding prop offers values such as <.custom_inline_code>extra_small</.custom_inline_code>, <.custom_inline_code>small</.custom_inline_code>, <.custom_inline_code>medium</.custom_inline_code>, <.custom_inline_code>large</.custom_inline_code>, and <.custom_inline_code>extra_large</.custom_inline_code>.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" code={@code_5}>
+            <.table
+              header_border="extra_small"
+              rows_border="extra_small"
+              color="info"
+              text_size="large"
+              variant="default"
+              id="example-11"
+            >
+              <:header>Name</:header>
+
+              <:header>Age</:header>
+
+              <:header>Address</:header>
+
+              <:header>Action</:header>
+
+              <.tr>
+                <.td>
+                  Alice Johnson
+                </.td>
+
+                <.td>34</.td>
+
+                <.td>
+                  New York, No. 5 Broadway
+                </.td>
+
+                <.td>
+                  <button>Edit</button>
+                </.td>
+              </.tr>
+
+              <.tr>
+                <.td>
+                  Michael Scott
+                </.td>
+
+                <.td>45</.td>
+
+                <.td>
+                  Scranton, No. 2 Paper Road
+                </.td>
+
+                <.td>
+                  <button>Edit</button>
+                </.td>
+              </.tr>
+
+              <.tr>
+                <.td>
+                  Emily Carter
+                </.td>
+
+                <.td>29</.td>
+
+                <.td>
+                  San Francisco, No. 10 Bay Street
+                </.td>
+
+                <.td>
+                  <button>Edit</button>
+                </.td>
+              </.tr>
+            </.table>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="table-text-position">
+            <.link patch={~p"/chelekom/docs/table/#table-text-position"}>
+              Text position prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <.custom_inline_code>text_position</.custom_inline_code>
+            function allows you to customize the alignment of text within the table component, supporting several alignment options. You can set the position using values like
+            <.custom_inline_code>left</.custom_inline_code>
+            to align text to the left,
+            <.custom_inline_code>right</.custom_inline_code>
+            to align text to the right, and
+            <.custom_inline_code>center</.custom_inline_code>
+            to center the text. For a justified text layout, use <.custom_inline_code>justify</.custom_inline_code>. Additionally, you can control text alignment based on content flow direction by using
+            <.custom_inline_code>start</.custom_inline_code>
+            or <.custom_inline_code>end</.custom_inline_code>. By default, the text is aligned to the left if no value is provided.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" code={@code_6}>
+            <.table
+              header_border="extra_small"
+              rows_border="extra_small"
+              color="info"
+              text_position="center"
+              variant="default"
+              id="example-12"
+            >
+              <:header>Name</:header>
+
+              <:header>Age</:header>
+
+              <:header>Address</:header>
+
+              <:header>Action</:header>
+
+              <.tr>
+                <.td>
+                  Alice Johnson
+                </.td>
+
+                <.td>34</.td>
+
+                <.td>
+                  New York, No. 5 Broadway
+                </.td>
+
+                <.td>
+                  <button>Edit</button>
+                </.td>
+              </.tr>
+
+              <.tr>
+                <.td>
+                  Michael Scott
+                </.td>
+
+                <.td>45</.td>
+
+                <.td>
+                  Scranton, No. 2 Paper Road
+                </.td>
+
+                <.td>
+                  <button>Edit</button>
+                </.td>
+              </.tr>
+
+              <.tr>
+                <.td>
+                  Emily Carter
+                </.td>
+
+                <.td>29</.td>
+
+                <.td>
+                  San Francisco, No. 10 Bay Street
+                </.td>
+
+                <.td>
+                  <button>Edit</button>
+                </.td>
+              </.tr>
+            </.table>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="table-header-border">
+            <.link patch={~p"/chelekom/docs/table/#table-header-border"}>
+              Header border prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <.custom_inline_code>header_border</.custom_inline_code>
+            function allows customization of the table header's border thickness. You can choose from predefined options like <.custom_inline_code>extra_small</.custom_inline_code>, <.custom_inline_code>small</.custom_inline_code>, <.custom_inline_code>medium</.custom_inline_code>, <.custom_inline_code>large</.custom_inline_code>, and <.custom_inline_code>extra_large</.custom_inline_code>.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" code={@code_7}>
+            <.table header_border="extra_small" variant="bordered" id="example-13">
+              <:header>Name</:header>
+
+              <:header>Age</:header>
+
+              <:header>Address</:header>
+
+              <:header>Action</:header>
+
+              <.tr>
+                <.td>
+                  Alice Johnson
+                </.td>
+
+                <.td>34</.td>
+
+                <.td>
+                  New York, No. 5 Broadway
+                </.td>
+
+                <.td>
+                  <button>Edit</button>
+                </.td>
+              </.tr>
+
+              <.tr>
+                <.td>
+                  Michael Scott
+                </.td>
+
+                <.td>45</.td>
+
+                <.td>
+                  Scranton, No. 2 Paper Road
+                </.td>
+
+                <.td>
+                  <button>Edit</button>
+                </.td>
+              </.tr>
+
+              <.tr>
+                <.td>
+                  Emily Carter
+                </.td>
+
+                <.td>29</.td>
+
+                <.td>
+                  San Francisco, No. 10 Bay Street
+                </.td>
+
+                <.td>
+                  <button>Edit</button>
+                </.td>
+              </.tr>
+            </.table>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="table-rows-border">
+            <.link patch={~p"/chelekom/docs/table/#table-rows-border"}>
+              Rows border prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <.custom_inline_code>rows_border</.custom_inline_code>
+            function allows customization of the table rows's border thickness. You can choose from predefined options like <.custom_inline_code>extra_small</.custom_inline_code>, <.custom_inline_code>small</.custom_inline_code>, <.custom_inline_code>medium</.custom_inline_code>, <.custom_inline_code>large</.custom_inline_code>, and <.custom_inline_code>extra_large</.custom_inline_code>.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" code={@code_8}>
+            <.table rows_border="extra_small" variant="bordered" id="example-14">
+              <:header>Name</:header>
+
+              <:header>Age</:header>
+
+              <:header>Address</:header>
+
+              <:header>Action</:header>
+
+              <.tr>
+                <.td>
+                  Alice Johnson
+                </.td>
+
+                <.td>34</.td>
+
+                <.td>
+                  New York, No. 5 Broadway
+                </.td>
+
+                <.td>
+                  <button>Edit</button>
+                </.td>
+              </.tr>
+
+              <.tr>
+                <.td>
+                  Michael Scott
+                </.td>
+
+                <.td>45</.td>
+
+                <.td>
+                  Scranton, No. 2 Paper Road
+                </.td>
+
+                <.td>
+                  <button>Edit</button>
+                </.td>
+              </.tr>
+
+              <.tr>
+                <.td>
+                  Emily Carter
+                </.td>
+
+                <.td>29</.td>
+
+                <.td>
+                  San Francisco, No. 10 Bay Street
+                </.td>
+
+                <.td>
+                  <button>Edit</button>
+                </.td>
+              </.tr>
+            </.table>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="table-cols-border">
+            <.link patch={~p"/chelekom/docs/table/#table-cols-border"}>
+              Cols border prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <.custom_inline_code>cols_border</.custom_inline_code>
+            attribute sets the border style for columns in the table. You can customize the column borders by assigning specific styles like <.custom_inline_code>extra_small</.custom_inline_code>, <.custom_inline_code>small</.custom_inline_code>, or
+            <.custom_inline_code>medium</.custom_inline_code>
+            to adjust the thickness. If no value is provided, the default is <.custom_inline_code>nil</.custom_inline_code>, which results in no column borders being applied. This flexibility allows for more refined control over the table’s layout and presentation.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" code={@code_9}>
+            <.table cols_border="extra_small" variant="bordered" id="example-15">
+              <:header>Name</:header>
+
+              <:header>Age</:header>
+
+              <:header>Address</:header>
+
+              <:header>Action</:header>
+
+              <.tr>
+                <.td>
+                  Alice Johnson
+                </.td>
+
+                <.td>34</.td>
+
+                <.td>
+                  New York, No. 5 Broadway
+                </.td>
+
+                <.td>
+                  <button>Edit</button>
+                </.td>
+              </.tr>
+
+              <.tr>
+                <.td>
+                  Michael Scott
+                </.td>
+
+                <.td>45</.td>
+
+                <.td>
+                  Scranton, No. 2 Paper Road
+                </.td>
+
+                <.td>
+                  <button>Edit</button>
+                </.td>
+              </.tr>
+
+              <.tr>
+                <.td>
+                  Emily Carter
+                </.td>
+
+                <.td>29</.td>
+
+                <.td>
+                  San Francisco, No. 10 Bay Street
+                </.td>
+
+                <.td>
+                  <button>Edit</button>
+                </.td>
+              </.tr>
+            </.table>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="table-fixed">
+            <.link patch={~p"/chelekom/docs/table/#table-fixed"}>
+              Table fixed prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <.custom_inline_code>table_fixed</.custom_inline_code>
+            prop adds the
+            <.custom_inline_code>table-fixed</.custom_inline_code>
+            Tailwind CSS class to the table. This class ensures that the table adheres to fixed column widths, where the width of the first row dictates the widths of all columns throughout the table. This setup is particularly useful for maintaining a consistent layout, as you can manually assign widths to specific columns while the remaining width is distributed evenly among columns without explicit widths.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" code={@code_17}>
+            <.table variant="default" table_fixed id="example-16">
+              <:header>Name</:header>
+              <:header>Age</:header>
+              <:header>Address</:header>
+              <:header>Phone Number</:header>
+
+              <.tr>
+                <.td>
+                  Alice Maria Johnson
+                </.td>
+                <.td>34</.td>
+                <.td>
+                  Maryland, Greenbelt, 2203 Flanigan Oaks Drive
+                </.td>
+                <.td>
+                  (123) 456-7890
+                </.td>
+              </.tr>
+
+              <.tr>
+                <.td>
+                  Michael Jr Scott
+                </.td>
+                <.td>45</.td>
+                <.td>
+                  Scranton, No. 2 Paper Road
+                </.td>
+                <.td>
+                  (987) 654-3210
+                </.td>
+              </.tr>
+
+              <.tr>
+                <.td>
+                  Emily Carter
+                </.td>
+                <.td>29</.td>
+                <.td>
+                  San Francisco, No. 10 Bay Street
+                </.td>
+                <.td>
+                  (555) 123-4567
+                </.td>
+              </.tr>
+            </.table>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="table-header-slot">
+            <.link patch={~p"/chelekom/docs/table/#table-header-slot"}>
+              Table header slot
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <.custom_inline_code>header</.custom_inline_code>
+            slot is used to create the heading of each column in the table. This slot has
+            <.custom_inline_code>class</.custom_inline_code>
+            prop so you can add custom classes to the headings.
+          </.cp>
+
+          <.custom_block position="left" color="warning" class="my-8" border="medium">
+            <.cp>
+              By using the class prop, you can apply custom classes or Tailwind CSS classes to customize the appearance and behavior of the slot.
+            </.cp>
+          </.custom_block>
+
+          <.custom_code_wrapper code_class="text-xs" code={@code_10}>
+            <.table
+              header_border="extra_small"
+              rows_border="extra_small"
+              cols_border="extra_small"
+              id="example-17"
+            >
+              <:header>Name</:header>
+
+              <:header>Age</:header>
+
+              <:header>Address</:header>
+
+              <:header>Action</:header>
+
+              <.tr>
+                <.td>
+                  Alice Johnson
+                </.td>
+
+                <.td>34</.td>
+
+                <.td>
+                  No. 5 Broadway, New York, NY 10004, United States
+                </.td>
+
+                <.td>
+                  <button>Edit</button>
+                </.td>
+              </.tr>
+
+              <.tr>
+                <.td>
+                  Michael Scott
+                </.td>
+
+                <.td>45</.td>
+
+                <.td>
+                  Scranton, No. 2 Paper Road
+                </.td>
+
+                <.td>
+                  <button>Edit</button>
+                </.td>
+              </.tr>
+
+              <.tr>
+                <.td>
+                  Emily Carter
+                </.td>
+
+                <.td>29</.td>
+
+                <.td>
+                  San Francisco, No. 10 Bay Street
+                </.td>
+
+                <.td>
+                  <button>Edit</button>
+                </.td>
+              </.tr>
+            </.table>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="table-header-slot-icon">
+            <.link patch={~p"/chelekom/docs/table/#table-header-slot-icon"}>
+              Table header icon and icon class
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <.custom_inline_code>icon</.custom_inline_code>
+            attribute allows you to display an icon within table header slot. The
+            <.custom_inline_code>icon_class</.custom_inline_code>
+            attribute provides the option to apply custom styling to the icon by specifying a CSS class.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" code={@code_11}>
+            <.table
+              header_border="extra_small"
+              rows_border="extra_small"
+              cols_border="extra_small"
+              id="example-18"
+            >
+              <:header>Name</:header>
+
+              <:header>Age</:header>
+
+              <:header>Address</:header>
+
+              <:header icon="hero-pencil-square" icon_class="block mx-auto size-5"></:header>
+
+              <.tr>
+                <.td>
+                  Alice Johnson
+                </.td>
+
+                <.td>34</.td>
+
+                <.td>
+                  No. 5 Broadway, New York, NY 10004, United States
+                </.td>
+
+                <.td>
+                  <button>Edit</button>
+                </.td>
+              </.tr>
+
+              <.tr>
+                <.td>
+                  Michael Scott
+                </.td>
+
+                <.td>45</.td>
+
+                <.td>
+                  Scranton, No. 2 Paper Road
+                </.td>
+
+                <.td>
+                  <button>Edit</button>
+                </.td>
+              </.tr>
+
+              <.tr>
+                <.td>
+                  Emily Carter
+                </.td>
+
+                <.td>29</.td>
+
+                <.td>
+                  San Francisco, No. 10 Bay Street
+                </.td>
+
+                <.td>
+                  <button>Edit</button>
+                </.td>
+              </.tr>
+            </.table>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="table-footer-slot">
+            <.link patch={~p"/chelekom/docs/table/#table-footer-slot"}>
+              Table footer slot
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <.custom_inline_code>footer</.custom_inline_code>
+            slot is used to create the footer of each column in the table. This slot has
+            <.custom_inline_code>class</.custom_inline_code>
+            prop so you can add custom classes to the headings.
+          </.cp>
+
+          <.custom_block position="left" color="warning" class="my-8" border="medium">
+            <.cp>
+              By using the class prop, you can apply custom classes or Tailwind CSS classes to customize the appearance and behavior of the slot.
+            </.cp>
+          </.custom_block>
+
+          <.custom_code_wrapper code_class="text-xs" code={@code_12}>
+            <.table
+              header_border="extra_small"
+              rows_border="extra_small"
+              cols_border="extra_small"
+              id="example-19"
+            >
+              <:header>Name</:header>
+
+              <:header>Age</:header>
+
+              <:header>Address</:header>
+
+              <:header>Action</:header>
+
+              <.tr>
+                <.td>
+                  Alice Johnson
+                </.td>
+
+                <.td>34</.td>
+
+                <.td>
+                  No. 5 Broadway, New York, NY 10004, United States
+                </.td>
+
+                <.td>
+                  <button>Edit</button>
+                </.td>
+              </.tr>
+
+              <.tr>
+                <.td>
+                  Michael Scott
+                </.td>
+
+                <.td>45</.td>
+
+                <.td>
+                  Scranton, No. 2 Paper Road
+                </.td>
+
+                <.td>
+                  <button>Edit</button>
+                </.td>
+              </.tr>
+
+              <.tr>
+                <.td>
+                  Emily Carter
+                </.td>
+
+                <.td>29</.td>
+
+                <.td>
+                  San Francisco, No. 10 Bay Street
+                </.td>
+
+                <.td>
+                  <button>Edit</button>
+                </.td>
+              </.tr>
+
+              <:footer class="font-bold">Footer slot</:footer>
+            </.table>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="table-footer-slot-icon">
+            <.link patch={~p"/chelekom/docs/table/#table-footer-slot-icon"}>
+              Table footer icon and icon class
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <.custom_inline_code>icon</.custom_inline_code>
+            attribute allows you to display an icon within table footer slot. The
+            <.custom_inline_code>icon_class</.custom_inline_code>
+            attribute provides the option to apply custom styling to the icon by specifying a CSS class.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" code={@code_13}>
+            <.table
+              header_border="extra_small"
+              rows_border="extra_small"
+              cols_border="extra_small"
+              id="example-20"
+            >
+              <:header>Name</:header>
+
+              <:header>Age</:header>
+
+              <:header>Address</:header>
+
+              <:header icon="hero-pencil-square" icon_class="block mx-auto size-5"></:header>
+
+              <.tr>
+                <.td>
+                  Alice Johnson
+                </.td>
+
+                <.td>34</.td>
+
+                <.td>
+                  No. 5 Broadway, New York, NY 10004, United States
+                </.td>
+
+                <.td>
+                  <button>Edit</button>
+                </.td>
+              </.tr>
+
+              <.tr>
+                <.td>
+                  Michael Scott
+                </.td>
+
+                <.td>45</.td>
+
+                <.td>
+                  Scranton, No. 2 Paper Road
+                </.td>
+
+                <.td>
+                  <button>Edit</button>
+                </.td>
+              </.tr>
+
+              <.tr>
+                <.td>
+                  Emily Carter
+                </.td>
+
+                <.td>29</.td>
+
+                <.td>
+                  San Francisco, No. 10 Bay Street
+                </.td>
+
+                <.td>
+                  <button>Edit</button>
+                </.td>
+              </.tr>
+              <:footer icon="hero-user-group"></:footer>
+            </.table>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="table-components">
+            <.link patch={~p"/chelekom/docs/table/#table-components"}>
+              Table th, td, tr components
+            </.link>
+          </.heading2>
+
+          <.cp>
+            You can use the <.custom_inline_code>tr</.custom_inline_code>, <.custom_inline_code>th</.custom_inline_code>, and
+            <.custom_inline_code>td</.custom_inline_code>
+            components to create table rows, table headers, and table data cells respectively. These components allow for customizable class attributes and styling, helping you structure your table efficiently within Phoenix LiveView.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" code={@code_14}>
+            <.table
+              header_border="extra_small"
+              rows_border="extra_small"
+              cols_border="extra_small"
+              id="example-21"
+            >
+              <:header>Name</:header>
+
+              <:header>Age</:header>
+
+              <:header>Address</:header>
+
+              <:header icon="hero-pencil-square" icon_class="block mx-auto size-5"></:header>
+
+              <.tr>
+                <.td>
+                  Alice Johnson
+                </.td>
+
+                <.td>34</.td>
+
+                <.td>
+                  No. 5 Broadway, New York, NY 10004, United States
+                </.td>
+
+                <.td>
+                  <button>Edit</button>
+                </.td>
+              </.tr>
+
+              <.tr>
+                <.td>
+                  Michael Scott
+                </.td>
+
+                <.td>45</.td>
+
+                <.td>
+                  Scranton, No. 2 Paper Road
+                </.td>
+
+                <.td>
+                  <button>Edit</button>
+                </.td>
+              </.tr>
+
+              <.tr>
+                <.td>
+                  Emily Carter
+                </.td>
+
+                <.td>29</.td>
+
+                <.td>
+                  San Francisco, No. 10 Bay Street
+                </.td>
+
+                <.td>
+                  <button>Edit</button>
+                </.td>
+              </.tr>
+            </.table>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="table-pagination">
+            <.link patch={~p"/chelekom/docs/table/#table-pagination"}>
+              Use Mishka Chelekom pagination with tables
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <.custom_inline_code>pagination</.custom_inline_code>
+            component can be used with the
+            <.custom_inline_code>table</.custom_inline_code>
+            component for efficient pagination of table data, allowing users to navigate through large datasets easily.
+          </.cp>
+
+          <.custom_block position="left" color="success" class="my-8" border="medium">
+            <.cp>
+              You can use the
+              <.link
+                class="text-emerald-700 font-semibold"
+                patch={~p"/chelekom/docs/pagination"}
+                title="Mishka Chelekom pagination component"
+              >
+                Mishka Chelekom pagination component
+              </.link>
+              with the table component to efficiently navigate through large datasets.
+            </.cp>
+          </.custom_block>
+
+          <.custom_code_wrapper code_class="text-xs" elements_class="space-y-5">
+            <.table
+              header_border="extra_small"
+              rows_border="extra_small"
+              cols_border="extra_small"
+              id="example-22"
+            >
+              <:header>Name</:header>
+
+              <:header>Age</:header>
+
+              <:header>Address</:header>
+
+              <:header></:header>
+
+              <.tr>
+                <.td>
+                  Alice Johnson
+                </.td>
+
+                <.td>34</.td>
+
+                <.td>
+                  No. 5 Broadway, New York, NY 10004, United States
+                </.td>
+
+                <.td>
+                  <button>Edit</button>
+                </.td>
+              </.tr>
+
+              <.tr>
+                <.td>
+                  Michael Scott
+                </.td>
+
+                <.td>45</.td>
+
+                <.td>
+                  Scranton, No. 2 Paper Road
+                </.td>
+
+                <.td>
+                  <button>Edit</button>
+                </.td>
+              </.tr>
+
+              <.tr>
+                <.td>
+                  Emily Carter
+                </.td>
+
+                <.td>29</.td>
+
+                <.td>
+                  San Francisco, No. 10 Bay Street
+                </.td>
+
+                <.td>
+                  <button>Edit</button>
+                </.td>
+              </.tr>
+            </.table>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="table-examples">
+            <.link patch={~p"/chelekom/docs/table/#table-examples"}>
+              Integrating Other Mishka Chelekom Components Within the Table
+            </.link>
+          </.heading2>
+
+          <.custom_code_wrapper code_class="text-xs" elements_class="space-y-5">
+            <.table
+              header_border="extra_small"
+              rows_border="extra_small"
+              cols_border="extra_small"
+              id="example-23"
+            >
+              <:header>Name</:header>
+
+              <:header>Age</:header>
+
+              <:header>Address</:header>
+
+              <:header></:header>
+
+              <.tr>
+                <.td>
+                  Alice Johnson
+                </.td>
+
+                <.td>34</.td>
+
+                <.td>
+                  No. 5 Broadway, New York, NY 10004, United States
+                </.td>
+
+                <.td>
+                  <.rating select={2} count={5} />
+                </.td>
+              </.tr>
+
+              <.tr>
+                <.td>
+                  Michael Scott
+                </.td>
+
+                <.td>45</.td>
+
+                <.td>
+                  Scranton, No. 2 Paper Road
+                </.td>
+
+                <.td>
+                  <.rating select={1} count={5} />
+                </.td>
+              </.tr>
+
+              <.tr>
+                <.td>
+                  Emily Carter
+                </.td>
+
+                <.td>29</.td>
+
+                <.td>
+                  San Francisco, No. 10 Bay Street
+                </.td>
+
+                <.td>
+                  <.rating select={4} count={5} />
+                </.td>
+              </.tr>
+            </.table>
+
+            <.table
+              header_border="extra_small"
+              rows_border="extra_small"
+              cols_border="extra_small"
+              id="example-24"
+            >
+              <:header>Trend</:header>
+
+              <:header>Data Points</:header>
+
+              <:header>Location</:header>
+
+              <:header>Status</:header>
+
+              <.tr>
+                <.td>
+                  Global Market Trends
+                </.td>
+
+                <.td>1,245</.td>
+
+                <.td>
+                  Worldwide
+                </.td>
+
+                <.td>
+                  <.badge color="info" variant="outline" size="extra_small" indicator pinging>
+                    Live trends
+                  </.badge>
+                </.td>
+              </.tr>
+
+              <.tr>
+                <.td>
+                  Tech Industry Growth
+                </.td>
+
+                <.td>987</.td>
+
+                <.td>
+                  Silicon Valley
+                </.td>
+
+                <.td>
+                  <.badge
+                    icon="hero-arrow-trending-up"
+                    color="success"
+                    variant="outline"
+                    size="extra_small"
+                  >
+                    Trending
+                  </.badge>
+                </.td>
+              </.tr>
+
+              <.tr>
+                <.td>
+                  Real Estate Market
+                </.td>
+
+                <.td>753</.td>
+
+                <.td>
+                  San Francisco
+                </.td>
+
+                <.td>
+                  <.badge
+                    icon="hero-arrow-trending-down"
+                    color="danger"
+                    variant="outline"
+                    size="extra_small"
+                  >
+                    Trending
+                  </.badge>
+                </.td>
+              </.tr>
+            </.table>
+          </.custom_code_wrapper>
+        </:documentation_panel>
+
+        <:props_panel>
+          <.custom_search class="mb-16" />
+          <div class="space-y-8">
+            <h2 class="text-lg lg:text-2xl font-bold">Table Component Props</h2>
+
+            <.custom_table id="table-component-table">
+              <:header>
+                <.table_th>Name</.table_th>
+
+                <.table_th>Type</.table_th>
+
+                <.table_th>Required</.table_th>
+
+                <.table_th>Description</.table_th>
+              </:header>
+
+              <:row>
+                <.table_td>id</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  A unique identifier used to manage state and interaction. Default is <strong>nil</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>class</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Custom CSS class for additional styling. Default is <strong>nil</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>variant</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines the style of the table. Values include <strong>outline</strong>, <strong>default</strong>, <strong>shadow</strong>, <strong>bordered</strong>, <strong>transparent</strong>, <strong>hoverable</strong>, <strong>stripped</strong>, <strong>separated</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>rounded</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines the border radius. Default is <strong>nil</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>padding</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines padding for items. Default is <strong>small</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>main_wrapper_class</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Custom CSS class for the main wrapper. Default is <strong>nil</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>inner_wrapper_class</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Custom CSS class for the inner wrapper. Default is <strong>nil</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>table_wrapper_class</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Custom CSS class for the table wrapper. Default is <strong>nil</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>table_body_class</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Custom CSS class for the table body. Default is <strong>nil</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>text_size</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Determines text size. Default is <strong>small</strong>.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>color</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines the color theme of the table. Supported values: <strong>natural</strong>, <strong>primary</strong>, <strong>secondary</strong>, <strong>success</strong>, <strong>warning</strong>, <strong>danger</strong>, <strong>info</strong>, <strong>silver</strong>, <strong>misc</strong>, <strong>dawn</strong>. Default is <strong>natural</strong>.The <strong>default</strong>, <strong>stripped</strong>,
+                  <strong>hoverable</strong>
+                  and <strong>bordered</strong>
+                  variants have extra color options: <strong>dark</strong>
+                  and <strong>white</strong>, which in both light mode and dark mode, these colors are always the same.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>border</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Determines border style. Default is <strong>nil</strong>.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>header_border</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Sets the border style for the table header. Default is <strong>nil</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>rows_border</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Sets the border style for rows in the table. Default is <strong>nil</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>cols_border</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Sets the border style for columns in the table. Default is <strong>nil</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>thead_class</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Adds custom CSS classes to the table header. Default is <strong>nil</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>footer_class</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Adds custom CSS classes to the table footer. Default is <strong>nil</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>table_fixed</.table_td>
+
+                <.table_td>boolean</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Enables or disables the table's fixed layout. Default is <strong>false</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>text_position</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines the text position. Default is <strong>left</strong>.
+                </.table_td>
+              </:row>
+            </.custom_table>
+          </div>
+
+          <div class="space-y-8 mt-8">
+            <h2 class="text-lg lg:text-2xl font-bold">Table Row (tr) Component Props</h2>
+
+            <.custom_table id="table-row-props">
+              <:header>
+                <.table_th>Name</.table_th>
+
+                <.table_th>Type</.table_th>
+
+                <.table_th>Required</.table_th>
+
+                <.table_th>Description</.table_th>
+              </:header>
+
+              <:row>
+                <.table_td>id</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  A unique identifier used to manage state and interaction. Default is <strong>nil</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>class</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Custom CSS class for additional styling. Default is <strong>nil</strong>.
+                </.table_td>
+              </:row>
+            </.custom_table>
+          </div>
+
+          <div class="space-y-8 mt-8">
+            <h2 class="text-lg lg:text-2xl font-bold">Table Data Cell (td) Component Props</h2>
+
+            <.custom_table id="table-data-cell-props">
+              <:header>
+                <.table_th>Name</.table_th>
+
+                <.table_th>Type</.table_th>
+
+                <.table_th>Required</.table_th>
+
+                <.table_th>Description</.table_th>
+              </:header>
+
+              <:row>
+                <.table_td>id</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  A unique identifier used to manage state and interaction. Default is <strong>nil</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>class</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Custom CSS class for additional styling. Default is <strong>nil</strong>.
+                </.table_td>
+              </:row>
+            </.custom_table>
+          </div>
+        </:props_panel>
+
+        <:cli_panel>
+          <.custom_cli_props config={component_config()} />
+        </:cli_panel>
+        <.custom_table_content>
+          <:content link={~p"/chelekom/docs/table/#overview"} title="Overview of table Component" />
+          <:content
+            link={~p"/chelekom/docs/table/#table-variant-colors"}
+            title="Table variant and color props"
+          />
+          <:content
+            link={~p"/chelekom/docs/table/#table-rounded"}
+            title="Rounded prop in Phoenix LiveView table content Component"
+          />
+          <:content link={~p"/chelekom/docs/table/#table-space"} title="Space prop" />
+          <:content link={~p"/chelekom/docs/table/#table-border"} title="Border prop" />
+          <:content link={~p"/chelekom/docs/table/#table-padding"} title="Padding prop" />
+          <:content link={~p"/chelekom/docs/table/#table-text-size"} title="Text size prop" />
+          <:content
+            link={~p"/chelekom/docs/table/#table-text-position"}
+            title="Text position prop"
+          />
+          <:content
+            link={~p"/chelekom/docs/table/#table-header-border"}
+            title="Header border prop"
+          />
+          <:content link={~p"/chelekom/docs/table/#table-rows-border"} title="Rows border prop" />
+          <:content link={~p"/chelekom/docs/table/#table-cols-border"} title="Cols border prop" />
+          <:content link={~p"/chelekom/docs/table/#table-fixed"} title="Fixed layout table" />
+          <:content link={~p"/chelekom/docs/table/#table-header-slot"} title="Table header slot" />
+          <:content
+            link={~p"/chelekom/docs/table/#table-header-slot-icon"}
+            title="Table header icon and icon class"
+          />
+          <:content link={~p"/chelekom/docs/table/#table-footer-slot"} title="Table footer slot" />
+          <:content
+            link={~p"/chelekom/docs/table/#table-footer-slot-icon"}
+            title="Table footer icon and icon class"
+          />
+          <:content
+            link={~p"/chelekom/docs/table/#table-components"}
+            title="Table th, td, tr components"
+          />
+          <:content
+            link={~p"/chelekom/docs/table/#table-pagination"}
+            title="Use pagination with tables"
+          />
+          <:content
+            link={~p"/chelekom/docs/table/#table-examples"}
+            title="Integrating Components Within the Table"
+          />
+        </.custom_table_content>
+      </.custom_tab>
+    </div>
+  </div>
+</Layouts.app>

@@ -1,0 +1,206 @@
+<Layouts.app flash={@flash}>
+  <div class="lg:grid lg:grid-cols-12 mt-5 max-w-5xl mx-auto">
+    <.custom_nav active="chelekom-docs" />
+
+    <div class="lg:col-span-10">
+      <div class="lg:grid lg:grid-cols-12 mt-2">
+        <article class="lg:col-span-9 px-2 lg:px-0 pb-10 leading-10 text-[#444444] dark:text-[#cacfd2]">
+          <div class="flex items-center justify-between mb-8">
+            <.heading1 id="get-started" class="w-full text-3xl font-bold">
+              Get Started
+            </.heading1>
+            <div class="flex items-center justify-end flex-wrap md:flex-nowrap gap-3">
+              <.badge
+                variant="outline"
+                size="small"
+                color="silver"
+                class="whitespace-nowrap"
+                left_indicator
+                pinging
+              >
+                New version v0.0.8 🚀
+              </.badge>
+              <.nav_mobile_button position="end" />
+            </div>
+          </div>
+
+          <.heading2 color="color2" class="text-xl my-5 font-bold">
+            Chelekom Library: Zero-Configuration Components for Phoenix
+          </.heading2>
+
+          <.cp>
+            The <strong>Chelekom</strong> library is fully zero-configuration, meaning you
+            don't need to install anything other than the library itself, which is used
+            only in the development environment. This project consists of various
+            templates, which allow developers to add any required component to their
+            Phoenix project using a <strong>mix task</strong>.
+          </.cp>
+
+          <.cp>
+            It is worth noting that these components can be configured with the necessary
+            options provided by the user, allowing for a more lightweight project. For
+            example, you can limit a component to only use a specific color.
+          </.cp>
+
+          <.cp>
+            You only add what you need to the project, and in the production environment,
+            there will be no trace of the Chelekom library. Instead, all components will
+            be placed in your Phoenix project's components path.
+          </.cp>
+
+          <.custom_block color="success" position="left" class="my-8" border="medium">
+            <.cp>
+              One of the frequently asked questions on social media after the release of the first version of
+              <strong>Mishka Chelekom</strong>
+              was about
+              the meaning behind the library itself. Here's the explanation:
+            </.cp>
+
+            <.cp>
+              <strong>Mishka</strong> means "sparrow."
+            </.cp>
+
+            <.cp>
+              <strong>Chelekom</strong>
+              refers to "tree logs that are cut and neatly arranged side by side."
+            </.cp>
+          </.custom_block>
+
+          <.heading2 id="installing" color="color2" class="text-2xl pb-5 my-5 font-bold">
+            ::: Installing the Chelekom Library :::
+          </.heading2>
+
+          <.heading3
+            id="add-dependency"
+            class="text-xl pb-5 my-5 border-b border-[#E5E7EB] dark:border-b-[#4f4f4f] font-bold"
+          >
+            Step 1: Add Dependency to mix.exs
+          </.heading3>
+
+          <.cp>
+            Open your Phoenix project's <code>mix.exs</code> file and add the following
+            dependency to <code>deps</code>:
+          </.cp>
+
+          <.custom_code_wrapper elements_class="[&>*]:mb-2" code={@code_1} type="elixir" />
+
+          <.custom_block color="danger" position="left" class="my-8 text-justify" border="medium">
+            You can install
+            <.link navigate={~p"/chelekom"}><strong>Mishka Chelekom</strong></.link>
+            in two ways:
+            make a few quick changes in Phoenix, or install everything at once with a single command.
+            To use the one-command method, skip the steps below and click <.link
+              class="text-blue-400"
+              patch={~p"/chelekom/docs/#one-command-to-install"}
+            >
+          One Command to install
+          </.link>.
+          </.custom_block>
+
+          <.heading3
+            id="mix-task-generator"
+            class="text-xl pb-5 my-5 border-b border-[#E5E7EB] dark:border-b-[#4f4f4f] font-bold"
+          >
+            Step 2: Using the Generator to Create Components
+          </.heading3>
+
+          <.cp>
+            You can use the following command to generate a specific component, such as an
+            alert, within your project directory:
+          </.cp>
+
+          <.custom_code_wrapper elements_class="[&>*]:mb-2" code={@code_2} type="elixir" />
+
+          <.cp>
+            If you want to add all components at once to your components folder, use the
+            following command:
+          </.cp>
+
+          <.custom_code_wrapper elements_class="[&>*]:mb-2" code={@code_3} type="elixir" />
+
+          <.cp>
+            If you need to generate all components along with an import file, you can do
+            so as follows:
+          </.cp>
+
+          <.custom_code_wrapper elements_class="[&>*]:mb-2" code={@code_4} type="elixir" />
+
+          <.cp>
+            Note that at this point, you no longer need the <strong>core component</strong>
+            file of Phoenix.
+          </.cp>
+
+          <.cp>
+            You can simply replace it
+            with the import file generated by the mix task in the
+            <code>lib/myproject_web.ex</code>
+            file.
+          </.cp>
+
+          <.cp><i>For example, you can do it like this:</i></.cp>
+
+          <.custom_code_wrapper elements_class="[&>*]:mb-2" code={@code_5} type="elixir" />
+
+          <.heading2
+            id="one-command-to-install"
+            class="text-2xl pb-5 mb-5 mt-10 border-b border-[#E5E7EB] dark:border-b-[#4f4f4f] text-red-600"
+          >
+            One Command to install 🎉 🚀 🧨
+          </.heading2>
+
+          <.cp>
+            After installing <strong>Mishka Chelekom</strong>
+            in developer mode, you can simply run the following command. This command will generate all the components, add them to your project, and automatically import them — <strong>no manual work is needed</strong>.
+          </.cp>
+
+          <.custom_code_wrapper elements_class="[&>*]:mb-2" code={@code_5} type="elixir" />
+
+          <.heading2
+            id="prerequisites"
+            color="color2"
+            class="text-2xl pb-5 my-5 border-b border-[#E5E7EB] dark:border-b-[#4f4f4f]"
+          >
+            Prerequisites
+          </.heading2>
+
+          <.cp>
+            Soon as they are released, so you can update your projects with ease and avoid potential issues.
+          </.cp>
+          <.cp>
+            This includes comprehensive testing with <strong>Elixir 1.17</strong>, <strong>Erlang</strong>/OTP 27,
+            Tailwind<strong> 4+, <strong>Phoenix</strong> 1.8+, and <strong>Phoenix LiveView</strong> 1.1+, guaranteeing that the library works seamlessly with the most recent versions of these essential tools.</strong>
+          </.cp>
+
+          <.heading2
+            id="dynamic-commands"
+            color="color2"
+            class="text-2xl pb-5 my-5 border-b border-[#E5E7EB] dark:border-b-[#4f4f4f] font-bold"
+          >
+            Note on Custom Options for Components
+          </.heading2>
+
+          <.custom_block color="warning" position="left" class="my-8" border="medium">
+            <.cp>
+              <i>Each component comes with customizable options, allowing you to execute more
+                dynamic commands based on your needs.</i>
+            </.cp>
+          </.custom_block>
+        </article>
+        <.custom_table_content>
+          <:content link={~p"/chelekom/docs/#get-started"} title="Get Started" />
+          <:content link={~p"/chelekom/docs/#installing"} title="Installing the Chelekom Library" />
+          <:content
+            link={~p"/chelekom/docs/#mix-task-generator"}
+            title="Using the Generator to Create Components"
+          />
+          <:content
+            link={~p"/chelekom/docs/#one-command-to-install"}
+            title="One Command to install"
+            class="text-red-500"
+          />
+          <:content link={~p"/chelekom/docs/#prerequisites"} title="Prerequisites" />
+        </.custom_table_content>
+      </div>
+    </div>
+  </div>
+</Layouts.app>

@@ -1,0 +1,1123 @@
+<Layouts.app flash={@flash}>
+  <div class="lg:grid lg:grid-cols-12 mt-5 max-w-5xl mx-auto">
+    <.custom_nav active="chelekom-docs-alert" />
+    <div class="lg:col-span-10">
+      <.custom_info
+        title="Alert"
+        description="The Alert and Flash Message component in Phoenix LiveView displays static alerts and dynamic flash messages, including flash groups, for clear and effective user communication."
+        mix="mix mishka.ui.gen.component alert"
+        github="https://github.com/mishka-group/mishka_chelekom/blob/master/priv/components/alert.eex"
+        tags={["Component", "Stateless", "JS-module"]}
+      />
+      <.custom_tab id="chelekom-alert-tab">
+        <:documentation_panel>
+          <.heading2 class="mb-5" id="overview">
+            <.link patch={~p"/chelekom/docs/alert/#overview"}>
+              Overview of the Phoenix and LiveView Alert Component
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <strong>
+              Mishka Chelekom Alert
+            </strong>
+            module offers a wide variety of styles and colors. It helps you manage important messages by offering a clean and functional way to display real-time feedback. Support components like <strong>
+            Flash
+          </strong>,
+            <strong>
+              Flash Group
+            </strong>
+            which allows you to group multiple flash messages together, making it easy to manage different types of notifications in one place.
+          </.cp>
+
+          <.custom_code_wrapper elements_class="[&>*]:mb-2 text-sm" class="mt-10">
+            <.alert id="flash_natural_doc_178u" variant="base">
+              Here is a gentle confirmation that your action was successful.
+            </.alert>
+            <.alert id="flash_natural_doc_143242" variant="bordered" kind={:danger} icon={nil}>
+              Danger alert! Change a few things up and try submitting again.
+            </.alert>
+            <.alert id="flash_natural_doc_fgdf9094" variant="bordered" kind={:success} icon={nil}>
+              <div class="flex items-center gap-2">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  class="size-5"
+                >
+                  <path d="M18 6 7 17l-5-5" /><path d="m22 10-7.5 7.5L13 16" />
+                </svg>
+                Success! Your action has been completed successfully
+              </div>
+            </.alert>
+            <.alert
+              id="flash_natural_doc_150bmkdf"
+              variant="bordered"
+              kind={:warning}
+              icon="hero-shield-exclamation"
+            >
+              Warning alert! Change a few things up and try submitting again.
+            </.alert>
+          </.custom_code_wrapper>
+
+          <.cp margin="mt-5">
+            The Mishka Chelekom <strong>Alert component</strong>
+            integrates seamlessly with <strong>Phoenix</strong>
+            LiveView applications, offering real-time notifications and enhanced interactivity. With this <strong><.link
+                title="Phoenix LiveView component"
+                class="transition-colors hover:text-[#448D96]"
+                navigate={~p"/chelekom"}
+              >
+          Phoenix LiveView component
+          </.link></strong>,
+            users can receive alerts instantly, whether it’s for success, error, or informational messages. The module’s flexibility in styles and colors ensures it blends perfectly with any design.
+
+            The Flash and Flash Group components provide efficient ways to display temporary messages and group multiple notifications in an organized, collapsible format, ensuring a cleaner and more streamlined user interface.
+          </.cp>
+
+          <.custom_block color="warning" position="left" class="my-8" border="medium">
+            In this component, there is no color prop. Instead, we use the kind prop, which is of atom type, to choose the colors of different variants. It's a required prop, so you must specify which color you want to use.
+          </.custom_block>
+
+          <.heading2 margin="my-5" id="base-variant-alert">
+            <.link patch={~p"/chelekom/docs/alert/#base-variant-alert"}>
+              Base Variant
+            </.link>
+          </.heading2>
+
+          <.custom_code_wrapper elements_class="text-sm" code={@code_14}>
+            <.alert id="flash_base_doc_133" variant="base">
+              Base color and variant alert
+            </.alert>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="default-variant-alert">
+            <.link patch={~p"/chelekom/docs/alert/#default-variant-alert"}>
+              Default Variant
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The default style of the
+            <.link navigate={~p"/chelekom/docs/alert"}>Mishka Chelekom alert</.link>
+            applies a solid background and border that change based on user interaction, making it perfect for delivering important notifications. With just a single setting, you can select from a range of color options, ensuring easy customization to match various design styles.
+          </.cp>
+
+          <.custom_code_wrapper elements_class="[&>*]:mb-2 text-sm" code={@code_1}>
+            <.alert id="flash_natural_doc_1" variant="default" kind={:natural}>Natural</.alert>
+
+            <.alert id="flash_natural_doc_100" variant="default" kind={:white}>White</.alert>
+
+            <.alert id="flash_natural_doc_101" variant="default" kind={:dark}>Dark</.alert>
+
+            <.alert id="flash_info_doc_3" variant="default" kind={:info}>Info</.alert>
+
+            <.alert id="flash_success_doc_4" variant="default" kind={:success}>Success</.alert>
+
+            <.alert id="flash_warning_doc_5" variant="default" kind={:warning}>Warning</.alert>
+
+            <.alert id="flash_danger_doc_6" variant="default" kind={:danger}>Danger</.alert>
+
+            <.alert id="flash_silver_doc_7" variant="default" kind={:silver}>Silver</.alert>
+
+            <.alert id="flash_misc_doc_8" variant="default" kind={:misc}>Misc</.alert>
+
+            <.alert id="flash_dawn_doc_9" variant="default" kind={:dawn}>Dawn</.alert>
+
+            <.alert id="flash_primary_doc_10" variant="default" kind={:primary}>Primary</.alert>
+
+            <.alert id="flash_secondary_doc_11" variant="default" kind={:secondary}>
+              Secondary
+            </.alert>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="outline-variant-alert">
+            <.link patch={~p"/chelekom/docs/alert/#outline-variant-alert"}>
+              Outline Variant
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The outline style of the Mishka Chelekom alert features a border. Using a single setting, you can choose from various color variants to suit your design needs.
+          </.cp>
+
+          <.custom_code_wrapper elements_class="[&>*]:mb-2 text-sm" code={@code_2}>
+            <.alert id="flash_natural_doc_12" variant="outline" kind={:natural}>Natural</.alert>
+
+            <.alert id="flash_info_doc_14" variant="outline" kind={:info}>Info</.alert>
+
+            <.alert id="flash_success_doc_15" variant="outline" kind={:success}>Success</.alert>
+
+            <.alert id="flash_warning_doc_16" variant="outline" kind={:warning}>Warning</.alert>
+
+            <.alert id="flash_danger_doc_17" variant="outline" kind={:danger}>Danger</.alert>
+
+            <.alert id="flash_silver_doc_18" variant="outline" kind={:silver}>Silver</.alert>
+
+            <.alert id="flash_misc_doc_19" variant="outline" kind={:misc}>Misc</.alert>
+
+            <.alert id="flash_dawn_doc_20" variant="outline" kind={:dawn}>Dawn</.alert>
+
+            <.alert id="flash_primary_doc_21" variant="outline" kind={:primary}>Primary</.alert>
+
+            <.alert id="flash_secondary_doc_22" variant="outline" kind={:secondary}>
+              Secondary
+            </.alert>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="shadow-variant-alert">
+            <.link patch={~p"/chelekom/docs/alert/#shadow-variant-alert"}>
+              Shadow Variant
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The shadow variant of the Mishka Chelekom alert is similar to the default variant, but it also includes a subtle shadow along with a border and natural background in silver mode.
+          </.cp>
+
+          <.custom_code_wrapper elements_class="[&>*]:mb-2 text-sm" code={@code_3}>
+            <.alert id="flash_natural_doc_23" variant="shadow" kind={:natural}>Natural</.alert>
+
+            <.alert id="flash_info_doc_25" variant="shadow" kind={:info}>Info</.alert>
+
+            <.alert id="flash_success_doc_26" variant="shadow" kind={:success}>Success</.alert>
+
+            <.alert id="flash_warning_doc_27" variant="shadow" kind={:warning}>Warning</.alert>
+
+            <.alert id="flash_danger_doc_28" variant="shadow" kind={:danger}>Danger</.alert>
+
+            <.alert id="flash_silver_doc_29" variant="shadow" kind={:silver}>Silver</.alert>
+
+            <.alert id="flash_misc_doc_30" variant="shadow" kind={:misc}>Misc</.alert>
+
+            <.alert id="flash_dawn_doc_31" variant="shadow" kind={:dawn}>Dawn</.alert>
+
+            <.alert id="flash_primary_doc_32" variant="shadow" kind={:primary}>Primary</.alert>
+
+            <.alert id="flash_secondary_doc_33" variant="shadow" kind={:secondary}>
+              Secondary
+            </.alert>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="bordered-variant-alert">
+            <.link patch={~p"/chelekom/docs/alert/#bordered-variant-alert"}>
+              Bordered Variant
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The Bordered variant of the Mishka Chelekom alert has lighter background and a border. Bordered variant have also white and dark colors which are the same colors in the dark and light mode.
+          </.cp>
+
+          <.custom_code_wrapper elements_class="[&>*]:mb-2 text-sm" code={@code_12}>
+            <.alert id="flash_natural_doc_60" variant="bordered" kind={:natural}>Natural</.alert>
+
+            <.alert id="flash_natural_doc_61" variant="bordered" kind={:white}>Natural</.alert>
+
+            <.alert id="flash_natural_doc_62" variant="bordered" kind={:dark}>Dark</.alert>
+
+            <.alert id="flash_info_doc_63" variant="bordered" kind={:info}>Info</.alert>
+
+            <.alert id="flash_success_doc_64" variant="bordered" kind={:success}>Success</.alert>
+
+            <.alert id="flash_warning_doc_65" variant="bordered" kind={:warning}>Warning</.alert>
+
+            <.alert id="flash_danger_doc_66" variant="bordered" kind={:danger}>Danger</.alert>
+
+            <.alert id="flash_silver_doc_67" variant="bordered" kind={:silver}>Silver</.alert>
+
+            <.alert id="flash_misc_doc_68" variant="bordered" kind={:misc}>Misc</.alert>
+
+            <.alert id="flash_dawn_doc_69" variant="bordered" kind={:dawn}>Dawn</.alert>
+
+            <.alert id="flash_primary_doc_70" variant="bordered" kind={:primary}>Primary</.alert>
+
+            <.alert id="flash_secondary_doc_71" variant="bordered" kind={:secondary}>
+              Secondary
+            </.alert>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="gradient-variant-alert">
+            <.link patch={~p"/chelekom/docs/alert/#gradient-variant-alert"}>
+              Gradient Variant
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The gradient variant of the Mishka Chelekom badge has gradients in various colors.
+          </.cp>
+
+          <.custom_code_wrapper elements_class="[&>*]:mb-2 text-sm" code={@code_13}>
+            <.alert id="flash_natural_doc_72" variant="gradient" kind={:natural}>Natural</.alert>
+
+            <.alert id="flash_info_doc_73" variant="gradient" kind={:info}>Info</.alert>
+
+            <.alert id="flash_success_doc_74" variant="gradient" kind={:success}>Success</.alert>
+
+            <.alert id="flash_warning_doc_75" variant="gradient" kind={:warning}>Warning</.alert>
+
+            <.alert id="flash_danger_doc_76" variant="gradient" kind={:danger}>Danger</.alert>
+
+            <.alert id="flash_silver_doc_77" variant="gradient" kind={:silver}>Silver</.alert>
+
+            <.alert id="flash_misc_doc_78" variant="gradient" kind={:misc}>Misc</.alert>
+
+            <.alert id="flash_dawn_doc_79" variant="gradient" kind={:dawn}>Dawn</.alert>
+
+            <.alert id="flash_primary_doc_80" variant="gradient" kind={:primary}>Primary</.alert>
+
+            <.alert id="flash_secondary_doc_81" variant="gradient" kind={:secondary}>
+              Secondary
+            </.alert>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="alert-title-class">
+            <.link patch={~p"/chelekom/docs/alert/#alert-title-class"}>
+              Alert title class
+            </.link>
+          </.heading2>
+
+          <.cp>
+            Customize alert's title appearance by adding custom classes using
+            <.custom_inline_code>title_class</.custom_inline_code>
+          </.cp>
+
+          <.custom_code_wrapper code={@code_15} />
+
+          <.heading2 margin="my-5" id="flash-component">
+            <.link patch={~p"/chelekom/docs/alert/#flash-component"}>
+              Flash component in Phoenix Liveview
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The Phoenix flash component in the Mishka Chelekom library allows you to display real-time flash messages, such as success, error, or warning notifications, within your application. It supports customizable variants, sizes, positions, and icons, making it adaptable to various design needs. With built-in Phoenix LiveView integration, the component provides interactive features like dismissing alerts and dynamic content updates, enhancing the user experience.
+          </.cp>
+
+          <.custom_code_wrapper elements_class="[&>*]:mb-2 text-sm" code={@code_5}>
+            <.flash id="flash_warning_doc_57" kind={:danger} variant="default">
+              Mishka Chelekom flash component
+            </.flash>
+
+            <.flash id="flash_warning_doc_58" kind={:misc} variant="default">
+              Mishka Chelekom flash component
+            </.flash>
+
+            <.flash id="flash_warning_doc_59" kind={:warning} variant="default">
+              Mishka Chelekom flash component
+            </.flash>
+
+            <.flash id="flash_warning_doc_60" kind={:silver} variant="default">
+              Mishka Chelekom flash component
+            </.flash>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="flash-elements-classes">
+            <.link patch={~p"/chelekom/docs/alert/#flash-elements-classes"}>
+              Flash elemnts classes
+            </.link>
+          </.heading2>
+
+          <.cp>
+            Customize flash elements' appearance by adding custom classes using
+            <.custom_inline_code>content_class</.custom_inline_code>
+            <.custom_inline_code>title_class</.custom_inline_code>
+            <.custom_inline_code>button_class</.custom_inline_code>
+          </.cp>
+
+          <.custom_code_wrapper code={@code_15} />
+
+          <.heading2 margin="my-5" id="flash-group-component">
+            <.link patch={~p"/chelekom/docs/alert/#flash-group-component"}>
+              Flash group component in Phoenix Liveview
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The Phoenix Flash Group component in the Mishka Chelekom library allows you to manage multiple flash messages using a map of flash messages. This component supports flash types like info and error, but in the code, the
+            kind is transformed into a danger variant for better clarity. Integrated with Phoenix LiveView, it provides real-time feedback by dynamically showing and hiding alerts based on user interaction, ensuring a responsive and seamless user experience.
+          </.cp>
+
+          <.custom_code_wrapper code={@code_6} />
+
+          <.heading2 margin="my-5" id="position-of-alert">
+            <.link patch={~p"/chelekom/docs/alert/#position-of-alert"}>
+              Positions prop of Alert component in Phoenix Liveview
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The position attribute in the Mishka Chelekom alert component allows you to control where the alert appears on the screen. You can choose to display the alert in different corners of the viewport, such as <.custom_inline_code>top_left</.custom_inline_code>, <.custom_inline_code>top_right</.custom_inline_code>, <.custom_inline_code>bottom_left</.custom_inline_code>, and <.custom_inline_code>bottom_right</.custom_inline_code>. If no value is provided, the alert will be rendered in the DOM without a fixed position, allowing for more flexible placement within your layout. This ensures the alert adapts smoothly to various design requirements.
+          </.cp>
+
+          <.custom_code_wrapper elements_class="text-sm" code={@code_7}>
+            <div class="mb-10 flex items-center justify-between gap-2 flex-wrap">
+              <.button
+                phx-click="flash_position"
+                phx-value-pos="top_left"
+                color="danger"
+                variant="outline"
+                size="small"
+              >
+                Show Top Left
+              </.button>
+              <.button
+                phx-click="flash_position"
+                phx-value-pos="top_right"
+                color="misc"
+                variant="outline"
+                size="small"
+              >
+                Show Top Right
+              </.button>
+              <.button
+                phx-click="flash_position"
+                phx-value-pos="bottom_right"
+                color="warning"
+                variant="outline"
+                size="small"
+              >
+                Show Bottom Right
+              </.button>
+              <.button
+                phx-click="flash_position"
+                phx-value-pos="bottom_left"
+                color="silver"
+                variant="outline"
+                size="small"
+              >
+                Show Bottom Left
+              </.button>
+            </div>
+
+            <.flash id="flash_danger_doc_nil_62" kind={:danger} variant="default">
+              Default position(nil)
+            </.flash>
+
+            <.flash
+              :if={@flash_pos == "top_left"}
+              id="top_left_flash_doc"
+              kind={:danger}
+              width="small"
+              variant="default"
+              size="extra_small"
+              position="top_left"
+              title="Top Left"
+            >
+              Mishka Chelekom flash component
+            </.flash>
+
+            <.flash
+              :if={@flash_pos == "top_right"}
+              id="top_right_flash_doc"
+              kind={:misc}
+              width="small"
+              size="extra_small"
+              variant="default"
+              position="top_right"
+              title="Top Right"
+            >
+              Mishka Chelekom flash component
+            </.flash>
+
+            <.flash
+              :if={@flash_pos == "bottom_right"}
+              id="bottom_right_flash_doc"
+              kind={:warning}
+              width="small"
+              size="extra_small"
+              variant="default"
+              position="bottom_right"
+              title="Bottom Right"
+            >
+              Mishka Chelekom flash component
+            </.flash>
+
+            <.flash
+              :if={@flash_pos == "bottom_left"}
+              id="bottom_left_flash_doc"
+              kind={:silver}
+              variant="default"
+              width="small"
+              size="extra_small"
+              position="bottom_left"
+              title="Bottom Left"
+            >
+              Mishka Chelekom flash component
+            </.flash>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="width-of-alert">
+            <.link patch={~p"/chelekom/docs/alert/#width-of-alert"}>
+              Width prop of Alert component in Phoenix Liveview
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The width attribute in the Mishka Chelekom alert component allows you to control the width of the alert, ensuring it fits seamlessly within your design. You can choose from a range of predefined sizes, such as <.custom_inline_code>extra_small</.custom_inline_code>, <.custom_inline_code>small</.custom_inline_code>, <.custom_inline_code>medium</.custom_inline_code>, <.custom_inline_code>large</.custom_inline_code>, and <.custom_inline_code>extra_large</.custom_inline_code>. This flexibility enables you to tailor the alert's dimensions to suit different layouts and content needs, providing a responsive and visually consistent experience.
+          </.cp>
+
+          <.custom_code_wrapper elements_class="[&>*]:mb-2 text-sm" code={@code_8}>
+            <.alert id="flash_warning_doc_46" kind={:secondary} variant="default">
+              Default position(nil)
+            </.alert>
+
+            <.alert
+              id="flash_warning_doc_47"
+              kind={:primary}
+              width="extra_small"
+              variant="default"
+            >
+              Extra small
+            </.alert>
+
+            <.alert id="flash_warning_doc_48" kind={:warning} width="small" variant="default">
+              small
+            </.alert>
+
+            <.alert id="flash_warning_doc_49" kind={:success} width="medium" variant="default">
+              Medium
+            </.alert>
+
+            <.alert id="flash_warning_doc_50" kind={:natural} width="large" variant="default">
+              Large
+            </.alert>
+
+            <.alert id="flash_warning_doc_51" kind={:misc} width="extra_large" variant="default">
+              Extra large
+            </.alert>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="border-of-alert">
+            <.link patch={~p"/chelekom/docs/alert/#border-of-alert"}>
+              Border prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The border attribute in the Mishka Chelekom alert component allows you to control the border width of the alert. You can choose from a range of predefined sizes, such as <.custom_inline_code>extra_small</.custom_inline_code>, <.custom_inline_code>small</.custom_inline_code>, <.custom_inline_code>medium</.custom_inline_code>, <.custom_inline_code>large</.custom_inline_code>, and <.custom_inline_code>extra_large</.custom_inline_code>. By default only outline variant has a
+            <.custom_inline_code>extra_small</.custom_inline_code>
+            border.
+          </.cp>
+
+          <.custom_code_wrapper elements_class="[&>*]:mb-2 text-sm" code={@code_4}>
+            <.alert
+              id="flash_warning_doc_150"
+              kind={:success}
+              variant="outline"
+              border="extra_small"
+            >
+              Extra small
+            </.alert>
+
+            <.alert id="flash_warning_doc_151" kind={:danger} variant="bordered" border="small">
+              small
+            </.alert>
+
+            <.alert id="flash_warning_doc_152" kind={:warning} variant="bordered" border="medium">
+              Medium
+            </.alert>
+
+            <.alert id="flash_warning_doc_153" kind={:misc} variant="bordered" border="large">
+              Large
+            </.alert>
+
+            <.alert
+              id="flash_warning_doc_154"
+              kind={:dawn}
+              variant="bordered"
+              border="extra_large"
+            >
+              Extra large
+            </.alert>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="rounded-alert">
+            <.link patch={~p"/chelekom/docs/alert/#rounded-alert"}>
+              Rounded prop of Alert component in Phoenix Liveview
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The rounded attribute in the Mishka Chelekom alert component allows you to control the radius of the alerts. You can choose from a range of predefined sizes, such as <.custom_inline_code>extra_small</.custom_inline_code>, <.custom_inline_code>small</.custom_inline_code>, <.custom_inline_code>medium</.custom_inline_code>, <.custom_inline_code>large</.custom_inline_code>, and <.custom_inline_code>extra_large</.custom_inline_code>.
+          </.cp>
+
+          <.custom_code_wrapper elements_class="[&>*]:mb-2 text-sm" code={@code_9}>
+            <.alert id="flash_warning_doc_52" kind={:natural} rounded="extra_small">
+              Extra small
+            </.alert>
+
+            <.alert id="flash_warning_doc_53" kind={:danger} variant="default" rounded="small">
+              small
+            </.alert>
+
+            <.alert id="flash_warning_doc_54" kind={:silver} variant="default" rounded="medium">
+              Medium
+            </.alert>
+
+            <.alert id="flash_warning_doc_55" kind={:dawn} variant="default" rounded="large">
+              Large
+            </.alert>
+
+            <.alert id="flash_warning_doc_56" kind={:misc} variant="default" rounded="extra_large">
+              Extra large
+            </.alert>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="padding-alert">
+            <.link patch={~p"/chelekom/docs/alert/#padding-alert"}>
+              Padding prop of Alert component in Phoenix Liveview
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The padding attribute in the Mishka Chelekom alert component allows you to control the padding of the alerts. You can choose from a range of predefined sizes, such as <.custom_inline_code>extra_small</.custom_inline_code>, <.custom_inline_code>small</.custom_inline_code>, <.custom_inline_code>medium</.custom_inline_code>, <.custom_inline_code>large</.custom_inline_code>, and <.custom_inline_code>extra_large</.custom_inline_code>.
+          </.cp>
+
+          <.custom_code_wrapper elements_class="[&>*]:mb-2 text-sm" code={@code_17}>
+            <.alert id="flash_warning_doc_1000" kind={:natural} padding="extra_small">
+              Extra small
+            </.alert>
+
+            <.alert id="flash_warning_doc_1001" kind={:danger} variant="default" padding="small">
+              small
+            </.alert>
+
+            <.alert id="flash_warning_doc_1002" kind={:silver} variant="default" padding="medium">
+              Medium
+            </.alert>
+
+            <.alert id="flash_warning_doc_1003" kind={:dawn} variant="default" padding="large">
+              Large
+            </.alert>
+
+            <.alert
+              id="flash_warning_doc_1004"
+              kind={:misc}
+              variant="default"
+              padding="extra_large"
+            >
+              Extra large
+            </.alert>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="icon-alert">
+            <.link patch={~p"/chelekom/docs/alert/#icon-alert"}>
+              Icon prop of Alert component in Phoenix Liveview
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The icon prop in the Mishka Chelekom alert component places an icon beside the title when the title prop is used. By default, the icon is set to <.custom_inline_code>hero-chat-bubble-bottom-center-text</.custom_inline_code>, but you can easily customize it with any Hero icon of your choice to match your design preferences.
+          </.cp>
+
+          <.custom_code_wrapper elements_class="[&>*]:mb-2 text-sm" code={@code_10}>
+            <.alert
+              id="flash_misc_doc"
+              kind={:misc}
+              title="This is alert prop of alert component"
+              icon="hero-home"
+              variant="default"
+            />
+            <.flash
+              id="flash_danger_doc"
+              kind={:danger}
+              variant="default"
+              title="This is alert prop of flash component"
+            />
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="font-weight-alert">
+            <.link patch={~p"/chelekom/docs/alert/#font-weight-alert"}>
+              Font weight of Alert component in Phoenix Liveview
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <.custom_inline_code>font_weight</.custom_inline_code>
+            prop in the Mishka Chelekom alert component allows you to control the text weight by applying Tailwind CSS classes. This makes it easy to adjust the appearance of your alert's text, from silver to bold, ensuring that the typography fits seamlessly into your design.
+          </.cp>
+
+          <.custom_code_wrapper elements_class="[&>*]:mb-2 text-sm" code={@code_11}>
+            <.alert id="flash_dawn_doc" kind={:dawn} font_weight="font-bold" variant="default">
+              Font Weight props of Alert
+            </.alert>
+          </.custom_code_wrapper>
+        </:documentation_panel>
+
+        <:props_panel>
+          <.custom_search class="mb-16" />
+          <div class="space-y-8 mt-8">
+            <h2 class="text-lg lg:text-2xl font-bold">Alert component props</h2>
+
+            <.custom_table id="alert-component-table">
+              <:header>
+                <.table_th>Name</.table_th>
+
+                <.table_th>Type</.table_th>
+
+                <.table_th>Required</.table_th>
+
+                <.table_th>Description</.table_th>
+              </:header>
+
+              <:row>
+                <.table_td>id</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  A unique identifier is used to manage state and interaction.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>title</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Specifies the title of the element.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>kind</.table_td>
+
+                <.table_td>atom</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Used for styling and flash lookup. Supported kinds: <strong>info</strong>, <strong>danger</strong>, <strong>success</strong>, <strong>natural</strong>, <strong>primary</strong>, <strong>secondary</strong>, <strong>misc</strong>, <strong>warning</strong>, <strong>dark</strong>, <strong>Silver</strong>, <strong>dawn</strong>, <strong>error</strong>. The
+                  <strong>default</strong>
+                  and <strong>bordered</strong>
+                  variants have extra color options: <strong>dark</strong>
+                  and <strong>white</strong>, which in both light mode and dark mode, these colors are always the same.
+                  <strong>base</strong>
+                  color and variant has only <strong>base color</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>variant</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines the style. Supported variants: <strong>base</strong>, <strong>default</strong>, <strong>outline</strong>, <strong>shadow</strong>, <strong>bordered</strong>, <strong>gradient</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>position</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines the element position. Supported positions: <strong>top_left</strong>, <strong>top_right</strong>, <strong>bottom_left</strong>, <strong>bottom_right</strong>, <strong>nil</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>width</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines the element width. Supported widths: <strong>extra_small</strong>, <strong>small</strong>, <strong>medium</strong>, <strong>large</strong>, <strong>extra_large</strong>, <strong>full</strong>, <strong>fit</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>title_class</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Allows adding custom or Tailwind CSS classes to style the title element of the alert.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>size</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines the overall size of the elements, including padding, font size, and other items. Supported sizes: <strong>extra_small</strong>, <strong>small</strong>, <strong>medium</strong>, <strong>large</strong>, <strong>extra_large</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>rounded</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines the border radius. Supported values: <strong>extra_small</strong>, <strong>small</strong>, <strong>medium</strong>, <strong>large</strong>, <strong>extra_large</strong>, <strong>full</strong>, <strong>none</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>padding</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines the padding size. Supported values: <strong>extra_small</strong>, <strong>small</strong>, <strong>medium</strong>, <strong>large</strong>, <strong>extra_large</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>font_weight</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Determines custom class for the font weight.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>border</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td center>No</.table_td>
+
+                <.table_td>Determines border style.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>icon</.table_td>
+
+                <.table_td>any</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Icon displayed alongside an item.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>class</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Custom CSS class for additional styling.</.table_td>
+              </:row>
+            </.custom_table>
+          </div>
+
+          <div class="space-y-8 mt-8">
+            <h2 class="text-lg lg:text-2xl font-bold">
+              Flash component props
+            </h2>
+
+            <.custom_table id="flash-component-table">
+              <:header>
+                <.table_th>Name</.table_th>
+
+                <.table_th>Type</.table_th>
+
+                <.table_th>Required</.table_th>
+
+                <.table_th>Description</.table_th>
+              </:header>
+
+              <:row>
+                <.table_td>id</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  A unique identifier is used to manage state and interaction.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>flash</.table_td>
+
+                <.table_td>map</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>The map of flash messages to display.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>title</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Specifies the title of the element.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>title_class</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Allows adding custom or Tailwind CSS classes to style the title element of the alert.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>content_class</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Allows adding custom or Tailwind CSS classes to style the title element of the alert.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>button_class</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Allows adding custom or Tailwind CSS classes to style the title element of the alert.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>kind</.table_td>
+
+                <.table_td>atom</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Used for styling and flash lookup. Supported kinds: <strong>info</strong>, <strong>danger</strong>, <strong>success</strong>, <strong>natural</strong>, <strong>primary</strong>, <strong>secondary</strong>, <strong>misc</strong>, <strong>warning</strong>, <strong>dark</strong>, <strong>Silver</strong>, <strong>dawn</strong>, <strong>error</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>variant</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines the style. Supported variants: <strong>default</strong>, <strong>outline</strong>, <strong>shadow</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>position</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines the element position. Supported positions: <strong>top_left</strong>, <strong>top_right</strong>, <strong>bottom_left</strong>, <strong>bottom_right</strong>, <strong>nil</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>width</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines the element width. Supported widths: <strong>extra_small</strong>, <strong>small</strong>, <strong>medium</strong>, <strong>large</strong>, <strong>extra_large</strong>, <strong>full</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>size</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines the overall size of the elements, including padding, font size, and other items. Supported sizes: <strong>extra_small</strong>, <strong>small</strong>, <strong>medium</strong>, <strong>large</strong>, <strong>extra_large</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>rounded</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines the border radius. Supported values: <strong>extra_small</strong>, <strong>small</strong>, <strong>medium</strong>, <strong>large</strong>, <strong>extra_large</strong>, <strong>full</strong>, <strong>none</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>font_weight</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Determines custom class for the font weight.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>icon</.table_td>
+
+                <.table_td>any</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Icon displayed alongside an item.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>class</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Custom CSS class for additional styling.</.table_td>
+              </:row>
+            </.custom_table>
+          </div>
+
+          <div class="space-y-8 mt-8">
+            <h2 class="text-lg lg:text-2xl font-bold">Flash Group component props</h2>
+
+            <.custom_table id="flash-group-component-table">
+              <:header>
+                <.table_th>Name</.table_th>
+
+                <.table_th>Type</.table_th>
+
+                <.table_th>Required</.table_th>
+
+                <.table_th>Description</.table_th>
+              </:header>
+
+              <:row>
+                <.table_td>id</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  A unique identifier is used to manage state and interaction. Default is <strong>flash-group</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>flash</.table_td>
+
+                <.table_td>map</.table_td>
+
+                <.table_td>Yes</.table_td>
+
+                <.table_td>The map of flash messages to display.</.table_td>
+              </:row>
+            </.custom_table>
+          </div>
+        </:props_panel>
+
+        <:cli_panel>
+          <.custom_cli_props config={component_config()} />
+        </:cli_panel>
+
+        <.custom_table_content>
+          <:content
+            link={~p"/chelekom/docs/alert/#overview"}
+            title="Overview of the Alert component"
+          />
+          <:content
+            link={~p"/chelekom/docs/alert/#base-variant-alert"}
+            title="Base color and variant"
+          />
+          <:content
+            link={~p"/chelekom/docs/alert/#default-variant-alert"}
+            title="Default variant"
+          />
+          <:content
+            link={~p"/chelekom/docs/alert/#outline-variant-alert"}
+            title="Outline variant"
+          />
+          <:content link={~p"/chelekom/docs/alert/#shadow-variant-alert"} title="Shadow variant" />
+          <:content
+            link={~p"/chelekom/docs/alert/#bordered-variant-alert"}
+            title="Bordered variant"
+          />
+          <:content
+            link={~p"/chelekom/docs/alert/#gradient-variant-alert"}
+            title="Gradient variant"
+          />
+          <:content link={~p"/chelekom/docs/alert/#alert-title-class"} title="Alert title class" />
+          <:content link={~p"/chelekom/docs/alert/#flash-component"} title="Flash component" />
+          <:content
+            link={~p"/chelekom/docs/alert/#flash-elements-classes"}
+            title="Flash Elements classes"
+          />
+          <:content
+            link={~p"/chelekom/docs/alert/#flash-group-component"}
+            title="Flash group component"
+          />
+          <:content
+            link={~p"/chelekom/docs/alert/#position-of-alert"}
+            title="Position of alerts in DOM"
+          />
+          <:content link={~p"/chelekom/docs/alert/#width-of-alert"} title="Width Prop" />
+          <:content link={~p"/chelekom/docs/alert/#border-of-alert"} title="border Prop" />
+          <:content link={~p"/chelekom/docs/alert/#rounded-alert"} title="Rounded Prop" />
+          <:content link={~p"/chelekom/docs/alert/#padding-alert"} title="Padding Prop" />
+          <:content link={~p"/chelekom/docs/alert/#icon-alert"} title="Icon Prop" />
+          <:content link={~p"/chelekom/docs/alert/#font-weight-alert"} title="Font weight Prop" />
+        </.custom_table_content>
+      </.custom_tab>
+    </div>
+  </div>
+</Layouts.app>

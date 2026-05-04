@@ -1,0 +1,799 @@
+<Layouts.app flash={@flash}>
+  <div class="lg:grid lg:grid-cols-12 mt-5 max-w-5xl mx-auto">
+    <.custom_nav active="chelekom-docs-clipboard" />
+    <div class="lg:col-span-10">
+      <.custom_info
+        title="Clipboard"
+        description="Phoenix LiveView copy-to-clipboard component with customizable timeout, dynamic labels, accessibility features, status messages, and copy feedback."
+        mix="mix mishka.ui.gen.component clipboard"
+        github="https://github.com/mishka-group/mishka_chelekom/blob/master/priv/components/clipboard.eex"
+        tags={["Component", "Stateless", "JS"]}
+      />
+      <.custom_tab id="chelekom-Clipboard-tab">
+        <:documentation_panel>
+          <.heading2 class="mb-5" id="overview">
+            <.link patch={~p"/chelekom/docs/clipboard/#overview"}>
+              Overview of the Phoenix and LiveView Clipboard Component
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The <strong>Phoenix LiveView Clipboard component</strong>
+            provides an elegant and customizable interface for copying text content to the user's clipboard.
+            It's designed for various use-cases like copying static text, dynamic values, or text from external inputs and code blocksو all with visual feedback and support for
+            success and error states..
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" elements_class="space-y-5">
+            <div class="space-y-5">
+              <p class="text-sm">
+                This is your private API key. Click the button to copy it and keep it secure.
+              </p>
+              <div class="border border-gray-500 px-2 rounded flex gap-5 items-end py-1">
+                <input
+                  id="copy-input"
+                  value="mishka_XYZ_987654321"
+                  disabled
+                  readonly
+                  class="flex-1 input w-full bg-transparent appearance-none"
+                />
+                <.clipboard
+                  id="custom-copy-clipboard"
+                  target_selector="#copy-input"
+                  show_status_text={false}
+                  dynamic_label={true}
+                  copy_success_text="✅ Copied!"
+                >
+                  <:trigger>
+                    <.button variant="subtle" color="misc" size="medium">Copy Token</.button>
+                  </:trigger>
+                </.clipboard>
+              </div>
+            </div>
+
+            <div class="relative group bg-[#272822] text-sm font-mono max-h-[165px] overflow-hidden">
+              <pre class="text-sm leading-relaxed p-4 m-0" id="my-code-snippet">
+<code>
+<span class="text-[#D0D0D0]">1</span> <span class="text-[#F92672]">defmodule</span> <span class="text-[#8C577F]">MyApp</span> <span class="text-[#F92672]">do</span>
+<span class="text-[#D0D0D0]">2</span>   <span class="text-[#F92672]">def</span> <span class="text-[#FD8820]">hello</span>  <span class="text-[#F92672]">do</span>
+<span class="text-[#D0D0D0]">3</span>     <span class="text-[#E6D34F]">"world"</span>
+<span class="text-[#D0D0D0]">4</span>   <span class="text-[#F92672]">end</span>
+<span class="text-[#D0D0D0]">5</span> <span class="text-[#F92672]">end</span>
+</code>
+  </pre>
+
+              <.clipboard
+                target_selector="#my-code-snippet"
+                class="absolute top-2 right-2"
+                show_status_text={false}
+                dynamic_label={true}
+                copy_success_text="✅ Copied!"
+                copy_error_text="❌ Failed"
+              >
+                <:trigger>
+                  <.button size="extra_small">
+                    📋 Copy
+                  </.button>
+                </:trigger>
+              </.clipboard>
+            </div>
+
+            <p class="text-[14px] leading-8 border dark:border-gray-700 p-2 rounded-lg">
+              Experience the innovative capabilities of the Clipboard component and hook from Mishka Chelekom, seamlessly integrated into Phoenix LiveView to empower your web applications with dynamic copy functionality. This feature ensures that essential information from documentation links to code snippets can be effortlessly copied, enhancing both accessibility and user engagement. To instantly copy the complete guide URL for further insights, simply
+              <.clipboard
+                class="inline-block mx-2"
+                text="https://mishka.tools/chelekom/docs/clipboard/#overview"
+                show_status_text={false}
+                success_class="text-emerald-500 dark:text-emerald-800"
+              >
+                <:trigger>
+                  <button class="px-2 py-1 inline-flex items-center leading-5 bg-slate-200 dark:bg-slate-600 transition-all duration-150 rounded hover:bg-slate-100 dark:hover:bg-slate-500">
+                    <span class="mr-1">copy</span>
+                    <.icon name="hero-clipboard-document-list" class="size-4" />
+                  </button>
+                </:trigger>
+              </.clipboard>
+              and explore our comprehensive resources.
+            </p>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="clipboard-text">
+            <.link patch={~p"/chelekom/docs/clipboard/#clipboard-text"}>
+              Text prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <.custom_inline_code>text</.custom_inline_code>
+            prop allows you to define a static string that will be copied to the user's clipboard when the trigger is activated. When this prop is set, it takes priority over both
+            <.custom_inline_code>target_selector</.custom_inline_code>
+            and the slot content.
+          </.cp>
+
+          <.cp>
+            This is ideal for simple copy actions like copying an email, token, or URL where the content is known ahead of time and doesn’t rely on the DOM.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" code={@code_1}>
+            <.clipboard text="hello@mishka.tools">
+              <:trigger>
+                <button>Copy Email</button>
+              </:trigger>
+            </.clipboard>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="clipboard-target-selector">
+            <.link patch={~p"/chelekom/docs/clipboard/#clipboard-target-selector"}>
+              Target selector prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <.custom_inline_code>target_selector</.custom_inline_code>
+            prop accepts a valid CSS selector pointing to another DOM element. When the copy trigger is activated, the content of the targeted element will be copied to the clipboard.
+          </.cp>
+
+          <.cp>
+            This is useful when the content to be copied exists elsewhere on the page and you do not want to duplicate it. If both
+            <.custom_inline_code>text</.custom_inline_code>
+            and
+            <.custom_inline_code>target_selector</.custom_inline_code>
+            are provided,
+            <.custom_inline_code>text</.custom_inline_code>
+            takes precedence.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" code={@code_2}>
+            <div id="copy-me">https://mishka.tools/chelekom/docs</div>
+
+            <.clipboard target_selector="#copy-me">
+              <:trigger>
+                <button>Copy Link</button>
+              </:trigger>
+            </.clipboard>
+          </.custom_code_wrapper>
+          <.heading2 margin="my-5" id="clipboard-timeout">
+            <.link patch={~p"/chelekom/docs/clipboard/#clipboard-timeout"}>
+              Timeout prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <.custom_inline_code>timeout</.custom_inline_code>
+            prop sets how long (in milliseconds) the visual feedback (success or error state) should remain visible after a copy attempt. The default value is <.custom_inline_code>2000</.custom_inline_code>, which means the status message and any temporary styling will reset after 2 seconds.
+          </.cp>
+
+          <.cp>
+            You can customize this duration to better fit your UX. For example, a shorter timeout might be preferred in fast-paced interfaces, while a longer one gives users more time to notice the feedback.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" code={@code_3}>
+            <.clipboard text="https://mishka.tools" timeout={4000}>
+              <:trigger>
+                <button>Copy URL</button>
+              </:trigger>
+            </.clipboard>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="clipboard-success-class">
+            <.link patch={~p"/chelekom/docs/clipboard/#clipboard-success-class"}>
+              Success class prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <.custom_inline_code>success_class</.custom_inline_code>
+            prop defines the CSS class that will be temporarily added to the copy trigger element when the copy operation is successful. By default, it uses <.custom_inline_code>"clipboard-success"</.custom_inline_code>.
+          </.cp>
+
+          <.cp>
+            This allows you to apply custom styles such as background changes, icons, or animations to indicate that the copy worked. The class is automatically removed after the duration defined by the
+            <.custom_inline_code>timeout</.custom_inline_code>
+            prop.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" code={@code_4}>
+            <.clipboard text="Invite Code: CHELEKOM123" success_class="bg-green-500 text-white">
+              <:trigger>
+                <button class="px-3 py-1 border rounded">Copy Code</button>
+              </:trigger>
+            </.clipboard>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="clipboard-error-class">
+            <.link patch={~p"/chelekom/docs/clipboard/#clipboard-error-class"}>
+              Error class prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <.custom_inline_code>error_class</.custom_inline_code>
+            prop defines the CSS class that will be temporarily added to the trigger element when the copy action fails. The default value is <.custom_inline_code>"clipboard-error"</.custom_inline_code>.
+          </.cp>
+
+          <.cp>
+            You can use this to provide immediate visual feedback, such as a red background or shake animation, when something goes wrong (e.g. clipboard permissions denied). The class is automatically removed after the duration specified by the
+            <.custom_inline_code>timeout</.custom_inline_code>
+            prop.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" code={@code_5}>
+            <.clipboard
+              target_selector="#not-found"
+              error_class="bg-red-500 text-white"
+              copy_error_text="Target selector not found"
+            >
+              <:trigger>
+                <button class="px-3 py-1 border rounded">Copy Text</button>
+              </:trigger>
+            </.clipboard>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="clipboard-copy-success-text">
+            <.link patch={~p"/chelekom/docs/clipboard/#clipboard-copy-success-text"}>
+              Copy success text prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <.custom_inline_code>copy_success_text</.custom_inline_code>
+            prop defines the message that appears in the status element when the copy operation is successful. This text is visible to screen readers and any live UI feedback components.
+          </.cp>
+
+          <.cp>
+            By default, it uses a localized value from
+            <.custom_inline_code>Gettext</.custom_inline_code>
+            — <.custom_inline_code>"Copied!"</.custom_inline_code>. You can override it with a custom string or use translated strings to support localization in your app.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" code={@code_6}>
+            <.clipboard text="https://mishka.tools" copy_success_text="Link copied successfully!">
+              <:trigger>
+                <button>Copy Link</button>
+              </:trigger>
+            </.clipboard>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="clipboard-copy-error-text">
+            <.link patch={~p"/chelekom/docs/clipboard/#clipboard-copy-error-text"}>
+              Copy error text prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <.custom_inline_code>copy_error_text</.custom_inline_code>
+            prop defines the message shown in the status element when the copy operation fails. This message is announced to assistive technologies and can also be styled or animated as part of your feedback system.
+          </.cp>
+
+          <.cp>
+            By default, the message is pulled from your
+            <.custom_inline_code>Gettext</.custom_inline_code>
+            module and displays <.custom_inline_code>"Copy failed"</.custom_inline_code>. You can customize this message with a static string or localized translation to match your tone or brand voice.
+          </.cp>
+          <.custom_code_wrapper code_class="text-xs" code={@code_7}>
+            <.clipboard
+              target_selector="#element-that-does-not-exist"
+              copy_error_text="Desired content does not exist"
+            >
+              <:trigger>
+                <button>Try Copy</button>
+              </:trigger>
+            </.clipboard>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="clipboard-copy-button-label">
+            <.link patch={~p"/chelekom/docs/clipboard/#clipboard-copy-button-label"}>
+              Copy button label prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <.custom_inline_code>copy_button_label</.custom_inline_code>
+            prop provides an accessible label for the clipboard trigger, intended for screen readers. This helps users who rely on assistive technology understand the purpose of the copy button.
+          </.cp>
+
+          <.cp>
+            If not provided, it defaults to the localized string <.custom_inline_code>"Copy to clipboard"</.custom_inline_code>. You can override it with custom text or a translated value based on your accessibility and localization needs.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" code={@code_8}>
+            <.clipboard
+              text="shahryar@mishka.tools"
+              copy_button_label="Copy email address to clipboard"
+            >
+              <:trigger>
+                <button aria-hidden="true">📋</button>
+              </:trigger>
+            </.clipboard>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="clipboard-text-description">
+            <.link patch={~p"/chelekom/docs/clipboard/#clipboard-text-description"}>
+              Text description prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <.custom_inline_code>text_description</.custom_inline_code>
+            prop provides an optional description of the content being copied. This text is visually hidden using a
+            <.custom_inline_code>sr-only</.custom_inline_code>
+            class but announced by screen readers when the user focuses on the trigger.
+          </.cp>
+
+          <.cp>
+            It’s helpful for improving accessibility when the content being copied is not clearly explained by visible UI elements, like when using just an icon or symbol as the trigger.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" code={@code_11}>
+            <.clipboard
+              text="https://mishka.tools/chelekom/docs"
+              text_description="This button copies the documentation link to your clipboard"
+            >
+              <:trigger>
+                <button aria-hidden="true">🔗</button>
+              </:trigger>
+            </.clipboard>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="clipboard-content-slot">
+            <.link patch={~p"/chelekom/docs/clipboard/#clipboard-content-slot"}>
+              Content slot
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <.custom_inline_code>:content</.custom_inline_code>
+            slot allows you to provide fallback content to be copied if neither
+            <.custom_inline_code>text</.custom_inline_code>
+            nor
+            <.custom_inline_code>target_selector</.custom_inline_code>
+            are defined.
+          </.cp>
+
+          <.cp>
+            This is useful for inline or dynamic content that exists within the component itself. The rendered content inside this slot will automatically be used as the copy source.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" code={@code_12}>
+            <.clipboard>
+              <:content>
+                Invite code: <span class="font-mono">CHELEKOM2025</span>
+              </:content>
+              <:trigger>
+                <button>Copy Code</button>
+              </:trigger>
+            </.clipboard>
+          </.custom_code_wrapper>
+          <.heading2 margin="my-5" id="clipboard-trigger-slot">
+            <.link patch={~p"/chelekom/docs/clipboard/#clipboard-trigger-slot"}>
+              Trigger slot
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <.custom_inline_code>:trigger</.custom_inline_code>
+            slot defines the element that activates the copy action when clicked (or focused + "Enter" key pressed). This slot is
+            <strong>required</strong>
+            and must wrap a clickable element like a button, icon, or link.
+          </.cp>
+
+          <.cp>
+            The trigger is automatically enhanced with accessibility attributes and copy behavior through a JavaScript hook. You can style or structure it however you'd like — the slot gives you full control over the UI.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" code={@code_13}>
+            <.clipboard text="https://chelekom.dev">
+              <:trigger>
+                <button class="bg-blue-500 text-white px-3 py-1 rounded">Copy Link</button>
+              </:trigger>
+            </.clipboard>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="clipboard-status-class">
+            <.link patch={~p"/chelekom/docs/clipboard/#clipboard-status-class"}>
+              Status class prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <.custom_inline_code>status_class</.custom_inline_code>
+            prop allows you to apply custom CSS classes to the status message element that appears after a copy action (either success or failure).
+          </.cp>
+
+          <.cp>
+            By default, the component adds a
+            <.custom_inline_code>clipboard-status</.custom_inline_code>
+            class for base styling. You can extend or override the styles by providing additional classes using <.custom_inline_code>status_class</.custom_inline_code>, allowing full control over appearance (e.g. color, size, animation).
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" code={@code_14}>
+            <.clipboard
+              text="chelekom.dev"
+              copy_success_text="Copied successfully!"
+              status_class="text-green-600 font-semibold text-sm mt-1"
+            >
+              <:trigger>
+                <button class="px-3 py-1 border rounded">Copy</button>
+              </:trigger>
+            </.clipboard>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="clipboard-show-status-text">
+            <.link patch={~p"/chelekom/docs/clipboard/#clipboard-show-status-text"}>
+              Show status text prop in Phoenix LiveView clipboard component
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <.custom_inline_code>show_status_text</.custom_inline_code>
+            prop determines whether the visual feedback message (such as <em>“Copied!”</em>
+            or <em>“Copy failed”</em>) should be displayed in the DOM.
+          </.cp>
+
+          <.cp>
+            By default, it is set to <.custom_inline_code>true</.custom_inline_code>, which means the component will render a
+            <.custom_inline_code>&lt;span&gt;</.custom_inline_code>
+            element containing the status message. If you set it to <.custom_inline_code>false</.custom_inline_code>, the message will not appear visibly, but accessibility support (via <.custom_inline_code>aria-live</.custom_inline_code>) and visual feedback (like success/error classes) still work.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" code={@code_15}>
+            <.clipboard
+              text="my-secret-token"
+              show_status_text={false}
+              success_class="bg-green-500 text-white"
+              copy_success_text="Copied!"
+            >
+              <:trigger>
+                <button class="btn btn-primary py-1 px-4">Copy</button>
+              </:trigger>
+            </.clipboard>
+          </.custom_code_wrapper>
+          <.heading2 margin="my-5" id="clipboard-dynamic-label">
+            <.link patch={~p"/chelekom/docs/clipboard/#clipboard-dynamic-label"}>
+              Dynamic Label Prop in Phoenix LiveView Clipboard Component
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <.custom_inline_code>dynamic_label</.custom_inline_code>
+            prop determines whether the text inside the clipboard label should change based on copy success or failure.
+          </.cp>
+
+          <.cp>
+            By default, it is set to <.custom_inline_code>false</.custom_inline_code>, which means the clipboard label text remains static. If you set it to <.custom_inline_code>true</.custom_inline_code>, the text inside the label will dynamically update when the clipboard operation succeeds or fails, providing real-time feedback to the user.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" code={@code_16}>
+            <.clipboard
+              text="my-secret-token"
+              dynamic_label={true}
+              success_class="bg-green-500 text-white rounde"
+              copy_success_text="Copied Successfully"
+              show_status_text={false}
+              copy_error_text="Copy failed"
+            >
+              <:trigger>
+                <button class="btn btn-primary py-1 px-4">Copy</button>
+              </:trigger>
+            </.clipboard>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="clipboard-content-class">
+            <.link patch={~p"/chelekom/docs/clipboard/#clipboard-content-class"}>
+              Content class Prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <.custom_inline_code>content_class</.custom_inline_code>
+            prop defines the CSS class applied to the container of the status message shown after a copy operation.
+          </.cp>
+
+          <.cp>
+            This allows you to control the visual styling of the feedback area where messages like
+            <.custom_inline_code>copy_success_text</.custom_inline_code>
+            or
+            <.custom_inline_code>copy_error_text</.custom_inline_code>
+            are rendered.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" code={@code_17}>
+            <.clipboard
+              content_class="font-bold mb-4 block"
+              copy_success_text="Copied!"
+              copy_error_text="Copy failed"
+            >
+              <:content>
+                Invite code: <span class="font-mono">CHELEKOM2025</span>
+              </:content>
+              <:trigger>
+                <button class="bg-blue-400 text-white rounded py-1 px-8">Copy</button>
+              </:trigger>
+            </.clipboard>
+          </.custom_code_wrapper>
+        </:documentation_panel>
+
+        <:props_panel>
+          <.custom_search class="mb-16" />
+          <div class="space-y-8">
+            <h2 class="text-lg lg:text-2xl font-bold">Clipboard component props</h2>
+
+            <.custom_table id="clipboard-component-table">
+              <:header>
+                <.table_th>Name</.table_th>
+                <.table_th>Type</.table_th>
+                <.table_th>Required</.table_th>
+                <.table_th>Description</.table_th>
+              </:header>
+
+              <:row>
+                <.table_td>id</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>
+                  Unique ID for the clipboard container. If not set, a random one will be generated.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>class</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>Optional custom classes for styling the clipboard wrapper.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>text</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>
+                  Static text to copy. Overrides content or <code>target_selector</code>
+                  if present.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>target_selector</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>
+                  CSS selector for another element whose content should be copied.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>timeout</.table_td>
+                <.table_td>integer</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>
+                  Duration in milliseconds before the success/error UI resets. Default: <strong>2000</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>success_class</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>
+                  CSS class added to the trigger element when copy is successful. Default: <code>"clipboard-success"</code>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>error_class</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>
+                  CSS class added to the trigger element when copy fails. Default: <code>"clipboard-error"</code>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>copy_success_text</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>
+                  Text displayed in the status element on successful copy. Supports localization.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>copy_error_text</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>
+                  Text displayed in the status element on failed copy. Supports localization.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>copy_button_label</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>
+                  Accessible label for the copy button for screen readers. Defaults to <code>"Copy to clipboard"</code>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>trigger_class</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>
+                  CSS class for styling the trigger wrapper.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>text_description</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>
+                  Optional description of what's being copied, for better accessibility. Hidden from view but announced by screen readers.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>status_class</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>
+                  Optional CSS classes applied to the clipboard status message element.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>:content</.table_td>
+                <.table_td>slot</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>
+                  Optional slot used as fallback content to be copied if <code>text</code>
+                  or <code>target_selector</code>
+                  are not provided.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>:trigger</.table_td>
+                <.table_td>slot</.table_td>
+                <.table_td><strong>Yes</strong></.table_td>
+                <.table_td>
+                  The clickable element that triggers the copy action (e.g. button, icon).
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>:inner_block</.table_td>
+                <.table_td>slot</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>
+                  Additional content rendered inside the clipboard component wrapper.
+                </.table_td>
+              </:row>
+              <:row>
+                <.table_td>:trigger</.table_td>
+                <.table_td>slot</.table_td>
+                <.table_td><strong>Yes</strong></.table_td>
+                <.table_td>
+                  The clickable element that triggers the copy action (e.g. a button or an icon).
+                  You can visually style this element freely, and it will receive the
+                  <.custom_inline_code>success_class</.custom_inline_code>
+                  or
+                  <.custom_inline_code>error_class</.custom_inline_code>
+                  based on the result.
+                  To suppress the default feedback text but keep visual state, set <.custom_inline_code>show_status_text={false}</.custom_inline_code>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>show_status_text</.table_td>
+                <.table_td>boolean</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>
+                  If set to <strong>false</strong>, hides the visual clipboard status text while still announcing it to screen readers. Default: <strong>true</strong>.
+                </.table_td>
+              </:row>
+              <:row>
+                <.table_td>dynamic_label</.table_td>
+                <.table_td>boolean</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>
+                  If set to <strong>true</strong>, the text inside the clipboard label will dynamically change based on the success or failure of the clipboard operation. Default: <strong>false</strong>.
+                </.table_td>
+              </:row>
+              <:row>
+                <.table_td>content_class</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td><code>block  mb-2</code></.table_td>
+                <.table_td>
+                  CSS class applied to the container that displays the status message (e.g.,
+                  <code>Copied!</code>
+                  or <code>Copy failed</code>) after a clipboard operation.
+                </.table_td>
+              </:row>
+            </.custom_table>
+          </div>
+        </:props_panel>
+
+        <:cli_panel>
+          <.custom_cli_props config={component_config()} />
+        </:cli_panel>
+        <.custom_table_content>
+          <:content
+            link={~p"/chelekom/docs/clipboard/#overview"}
+            title="Overview of the clipboard component"
+          />
+          <:content link={~p"/chelekom/docs/clipboard/#clipboard-text"} title="Text prop" />
+          <:content
+            link={~p"/chelekom/docs/clipboard/#clipboard-target-selector"}
+            title="Target selector prop"
+          />
+          <:content link={~p"/chelekom/docs/clipboard/#clipboard-timeout"} title="Timeout prop" />
+          <:content
+            link={~p"/chelekom/docs/clipboard/#clipboard-success-class"}
+            title="Success class prop"
+          />
+          <:content
+            link={~p"/chelekom/docs/clipboard/#clipboard-error-class"}
+            title="Error class prop"
+          />
+          <:content
+            link={~p"/chelekom/docs/clipboard/#clipboard-copy-success-text"}
+            title="Copy success text prop"
+          />
+          <:content
+            link={~p"/chelekom/docs/clipboard/#clipboard-copy-error-text"}
+            title="Copy error text prop"
+          />
+          <:content
+            link={~p"/chelekom/docs/clipboard/#clipboard-copy-button-label"}
+            title="Copy button label prop"
+          />
+          <:content
+            link={~p"/chelekom/docs/clipboard/#clipboard-text-description"}
+            title="Text description prop"
+          />
+          <:content
+            link={~p"/chelekom/docs/clipboard/#clipboard-content-slot"}
+            title="Content slot"
+          />
+          <:content
+            link={~p"/chelekom/docs/clipboard/#clipboard-trigger-slot"}
+            title="Trigger slot"
+          />
+          <:content
+            link={~p"/chelekom/docs/clipboard/#clipboard-status-class"}
+            title="Status class prop"
+          />
+          <:content
+            link={~p"/chelekom/docs/clipboard/#clipboard-show-status-text"}
+            title="Show status text prop"
+          />
+          <:content
+            link={~p"/chelekom/docs/clipboard/#clipboard-dynamic-label"}
+            title="Dynamic label prop"
+          />
+          <:content
+            link={~p"/chelekom/docs/clipboard/#clipboard-content-class"}
+            title="Content class prop"
+          />
+        </.custom_table_content>
+      </.custom_tab>
+    </div>
+  </div>
+</Layouts.app>

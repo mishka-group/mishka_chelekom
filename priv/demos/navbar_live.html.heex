@@ -1,0 +1,2169 @@
+<Layouts.app flash={@flash}>
+  <div class="lg:grid lg:grid-cols-12 mt-5 max-w-5xl mx-auto">
+    <.custom_nav active="chelekom-docs-navbar" />
+    <div class="lg:col-span-10">
+      <.custom_info
+        title="Navbar"
+        description="Navbar components for Phoenix and Phoenix LiveView, featuring responsive navigation bars with customizable styles, logos, menus, and interactive buttons."
+        mix="mix mishka.ui.gen.component navbar"
+        github="https://github.com/mishka-group/mishka_chelekom/blob/master/priv/components/navbar.eex"
+        tags={["Component", "Stateless"]}
+      />
+      <.custom_tab id="chelekom-navbar-tab">
+        <:documentation_panel>
+          <.heading2 class="mb-5" id="overview">
+            <.link patch={~p"/chelekom/docs/navbar/#overview"}>
+              Overview of the Phoenix LiveView Navbar Component
+            </.link>
+          </.heading2>
+          <.cp>
+            The
+            <strong>
+              Mishka Navbar
+            </strong>
+            component is a <strong>Phoenix LiveView</strong>
+            component that enables developers to create fully customizable and responsive navigation bars, perfect for enhancing user engagement. It offers flexible design options, allowing for adjustments in color, layout, and alignment, ensuring a seamless and professional appearance.
+          </.cp>
+
+          <.custom_code_wrapper>
+            <.navbar id="sample-1" max_width="extra_large" border="border" rounded="rounded-lg">
+              <div class="flex items-center gap-3 justify-between w-full">
+                <div class="flex-1 md:flex items-center gap-4">
+                  <div class="font-bold text-lg">Mishka</div>
+                  <ul class="hidden md:flex gap-2">
+                    <li class="hover:text-gray-700 dark:hover:text-gray-200 cursor-pointer">
+                      Home
+                    </li>
+                    <li class="hover:text-gray-700 dark:hover:text-gray-200 cursor-pointer">
+                      Docs
+                    </li>
+                    <li class="hover:text-gray-700 dark:hover:text-gray-200 cursor-pointer">
+                      Security
+                    </li>
+                    <li class="hover:text-gray-700 dark:hover:text-gray-200 cursor-pointer">
+                      Donate
+                    </li>
+                  </ul>
+                </div>
+                <div class="flex-1 hidden sm:flex gap-3 items-center justify-end">
+                  <div class="flex items-center flex-nowrap gap-1 w-fit py-0.5 px-2 rounded-md bg-gray-100 dark:bg-[#202022] border border-[#E5E7EB] dark:border-gray-800">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="24"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      class="size-4"
+                    >
+                      <circle cx="11" cy="11" r="8" /><path d="m21 21-4.3-4.3" />
+                    </svg>
+                    <input
+                      disabled
+                      class="text-xs appearance-none w-32 bg-transparent border-0 focus:outline-none h-6"
+                    />
+                  </div>
+                  <.avatar size="medium" rounded="full" src={~p"/images/mona-aghili.jpg"} />
+                </div>
+              </div>
+            </.navbar>
+          </.custom_code_wrapper>
+
+          <.cp margin="mt-5">
+            This
+            <strong>
+              <.link
+                title="Phoenix LiveView component"
+                class="transition-colors hover:text-[#448D96]"
+                navigate={~p"/chelekom"}
+              >
+                Phoenix LiveView component
+              </.link>
+            </strong>
+            supports multiple design variants such as default, shadow, and bordered, making it ideal for improving both the aesthetic and functionality of your application's navigation. With its responsive design and ease of customization, this navbar component enhances the usability and accessibility of your website's interface.
+          </.cp>
+
+          <.custom_block position="left" color="success" class="my-8" border="medium">
+            <.cp>
+              By using the class prop, you can apply custom classes or
+              <strong>Tailwind CSS</strong>
+              classes to customize the appearance and behavior of the gallery, allowing for flexible design changes.
+            </.cp>
+          </.custom_block>
+
+          <.heading2 margin="my-5" id="base-navbar">
+            <.link patch={~p"/chelekom/docs/navbar/#base-navbar"}>
+              Base Color & Variant
+            </.link>
+          </.heading2>
+
+          <.custom_code_wrapper code_class="text-xs" elements_class="space-y-5" code={@code_18}>
+            <.navbar id="navbar-example-13333" max_width="extra_large">
+              <:start_content>
+                <.link
+                  navigate={~p"/"}
+                  class="flex items-center space-x-3 rtl:space-x-reverse mb-5 md:mb-0"
+                >
+                  <img src={~p"/images/mishka-logo-white.svg"} class="hidden dark:block size-10" />
+                  <img src={~p"/images/mishka-logo.svg"} class="dark:hidden size-10" />
+                  <h1 class="text-xl font-semibold">
+                    Mishka
+                  </h1>
+                </.link>
+              </:start_content>
+              <:list><.link title="Mishak" navigate="/">Mishka</.link></:list>
+
+              <:list><.link title="Mishak chelekom" navigate="/chelekom">Chelekom</.link></:list>
+
+              <:list><.link title="Mishak blog" navigate="/blog">Blog</.link></:list>
+
+              <:list><.link navigate="/chelekom/docs">Docs</.link></:list>
+            </.navbar>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="default-variant-navbar">
+            <.link patch={~p"/chelekom/docs/navbar/#default-variant-navbar"}>
+              Default Variant
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The default style of the
+            <.link navigate={~p"/chelekom/docs/navbar"}>Mishka Chelekom navbar</.link>
+            applies a solid background and border that change based on user interaction, making it perfect for delivering important notifications. With just a single setting, you can select from a range of color options, ensuring easy customization to match various design styles. Default variant have also white and dark colors which are the same colors in the dark and light mode.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" elements_class="space-y-5" code={@code_1}>
+            <.navbar
+              id="navbar-example-1"
+              max_width="extra_large"
+              variant="default"
+              color="natural"
+            >
+              <:start_content>
+                <.link
+                  navigate={~p"/"}
+                  class="flex items-center space-x-3 rtl:space-x-reverse mb-5 md:mb-0"
+                >
+                  <img src={~p"/images/mishka-logo-white.svg"} class="dark:hidden size-10" />
+                  <img src={~p"/images/mishka-logo.svg"} class="hidden dark:block size-10" />
+                  <h1 class="text-xl font-semibold">
+                    Mishka
+                  </h1>
+                </.link>
+              </:start_content>
+              <:list><.link title="Mishak" navigate="/">Mishka</.link></:list>
+
+              <:list><.link title="Mishak chelekom" navigate="/chelekom">Chelekom</.link></:list>
+
+              <:list><.link title="Mishak blog" navigate="/blog">Blog</.link></:list>
+
+              <:list><.link navigate="/chelekom/docs">Docs</.link></:list>
+            </.navbar>
+            <.navbar
+              id="navbar-example-2"
+              max_width="extra_large"
+              image_class="size-10"
+              name="Mishka"
+              color="primary"
+              variant="default"
+              image={~p"/images/mishka-logo.svg"}
+              link="/"
+            >
+              <:list><.link title="Mishka" navigate="/">Mishka</.link></:list>
+              <:list><.link title="Chelekom" navigate="/chelekom">Chelekom</.link></:list>
+              <:list><.link title="Blog" navigate="/blog">Blog</.link></:list>
+              <:list><.link navigate="/chelekom/docs">Docs</.link></:list>
+            </.navbar>
+
+            <.navbar
+              id="navbar-example-3"
+              max_width="extra_large"
+              image_class="size-10"
+              name="Mishka"
+              color="secondary"
+              variant="default"
+              image={~p"/images/mishka-logo.svg"}
+              link="/"
+            >
+              <:list><.link title="Mishka" navigate="/">Mishka</.link></:list>
+              <:list><.link title="Chelekom" navigate="/chelekom">Chelekom</.link></:list>
+              <:list><.link title="Blog" navigate="/blog">Blog</.link></:list>
+              <:list><.link navigate="/chelekom/docs">Docs</.link></:list>
+            </.navbar>
+
+            <.navbar
+              id="navbar-example-4"
+              max_width="extra_large"
+              image_class="size-10"
+              name="Mishka"
+              color="dark"
+              variant="default"
+              image={~p"/images/mishka-logo-white.svg"}
+              link="/"
+            >
+              <:list><.link title="Mishka" navigate="/">Mishka</.link></:list>
+              <:list><.link title="Chelekom" navigate="/chelekom">Chelekom</.link></:list>
+              <:list><.link title="Blog" navigate="/blog">Blog</.link></:list>
+              <:list><.link navigate="/chelekom/docs">Docs</.link></:list>
+            </.navbar>
+
+            <.navbar
+              id="navbar-example-5"
+              max_width="extra_large"
+              image_class="size-10"
+              name="Mishka"
+              color="success"
+              variant="default"
+              image={~p"/images/mishka-logo.svg"}
+              link="/"
+            >
+              <:list><.link title="Mishka" navigate="/">Mishka</.link></:list>
+              <:list><.link title="Chelekom" navigate="/chelekom">Chelekom</.link></:list>
+              <:list><.link title="Blog" navigate="/blog">Blog</.link></:list>
+              <:list><.link navigate="/chelekom/docs">Docs</.link></:list>
+            </.navbar>
+
+            <.navbar
+              id="navbar-example-6"
+              max_width="extra_large"
+              image_class="size-10"
+              name="Mishka"
+              color="warning"
+              variant="default"
+              image={~p"/images/mishka-logo.svg"}
+              link="/"
+            >
+              <:list><.link title="Mishka" navigate="/">Mishka</.link></:list>
+              <:list><.link title="Chelekom" navigate="/chelekom">Chelekom</.link></:list>
+              <:list><.link title="Blog" navigate="/blog">Blog</.link></:list>
+              <:list><.link navigate="/chelekom/docs">Docs</.link></:list>
+            </.navbar>
+
+            <.navbar
+              id="navbar-example-7"
+              max_width="extra_large"
+              image_class="size-10"
+              name="Mishka"
+              color="danger"
+              variant="default"
+              image={~p"/images/mishka-logo.svg"}
+              link="/"
+            >
+              <:list><.link title="Mishka" navigate="/">Mishka</.link></:list>
+              <:list><.link title="Chelekom" navigate="/chelekom">Chelekom</.link></:list>
+              <:list><.link title="Blog" navigate="/blog">Blog</.link></:list>
+              <:list><.link navigate="/chelekom/docs">Docs</.link></:list>
+            </.navbar>
+
+            <.navbar
+              id="navbar-example-8"
+              max_width="extra_large"
+              image_class="size-10"
+              name="Mishka"
+              color="info"
+              variant="default"
+              image={~p"/images/mishka-logo.svg"}
+              link="/"
+            >
+              <:list><.link title="Mishka" navigate="/">Mishka</.link></:list>
+              <:list><.link title="Chelekom" navigate="/chelekom">Chelekom</.link></:list>
+              <:list><.link title="Blog" navigate="/blog">Blog</.link></:list>
+              <:list><.link navigate="/chelekom/docs">Docs</.link></:list>
+            </.navbar>
+
+            <.navbar
+              id="navbar-example-9"
+              max_width="extra_large"
+              image_class="size-10"
+              name="Mishka"
+              color="silver"
+              variant="default"
+              image={~p"/images/mishka-logo.svg"}
+              link="/"
+            >
+              <:list><.link title="Mishka" navigate="/">Mishka</.link></:list>
+              <:list><.link title="Chelekom" navigate="/chelekom">Chelekom</.link></:list>
+              <:list><.link title="Blog" navigate="/blog">Blog</.link></:list>
+              <:list><.link navigate="/chelekom/docs">Docs</.link></:list>
+            </.navbar>
+
+            <.navbar
+              id="navbar-example-10"
+              max_width="extra_large"
+              image_class="size-10"
+              name="Mishka"
+              color="misc"
+              variant="default"
+              image={~p"/images/mishka-logo.svg"}
+              link="/"
+            >
+              <:list><.link title="Mishka" navigate="/">Mishka</.link></:list>
+              <:list><.link title="Chelekom" navigate="/chelekom">Chelekom</.link></:list>
+              <:list><.link title="Blog" navigate="/blog">Blog</.link></:list>
+              <:list><.link navigate="/chelekom/docs">Docs</.link></:list>
+            </.navbar>
+
+            <.navbar
+              id="navbar-example-11"
+              max_width="extra_large"
+              image_class="size-10"
+              name="Mishka"
+              color="dawn"
+              variant="default"
+              image={~p"/images/mishka-logo.svg"}
+              link="/"
+            >
+              <:list><.link title="Mishka" navigate="/">Mishka</.link></:list>
+              <:list><.link title="Chelekom" navigate="/chelekom">Chelekom</.link></:list>
+              <:list><.link title="Blog" navigate="/blog">Blog</.link></:list>
+              <:list><.link navigate="/chelekom/docs">Docs</.link></:list>
+            </.navbar>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="shadow-variant-navbar">
+            <.link patch={~p"/chelekom/docs/navbar/#shadow-variant-navbar"}>
+              Shadow Variant
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The shadow variant of the Mishka Chelekom navbar is similar to the default variant, but it also includes a subtle shadow along with a border and white background in light mode.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" elements_class="space-y-5" code={@code_2}>
+            <.navbar
+              id="navbar-example-12"
+              max_width="extra_large"
+              variant="shadow"
+              color="natural"
+            >
+              <:start_content>
+                <.link
+                  navigate={~p"/"}
+                  class="flex items-center space-x-3 rtl:space-x-reverse mb-5 md:mb-0"
+                >
+                  <img src={~p"/images/mishka-logo-white.svg"} class="dark:hidden size-10" />
+                  <img src={~p"/images/mishka-logo.svg"} class="hidden dark:block size-10" />
+                  <h1 class="text-xl font-semibold">
+                    Mishka
+                  </h1>
+                </.link>
+              </:start_content>
+              <:list><.link title="Mishka" navigate="/">Mishka</.link></:list>
+              <:list><.link title="Chelekom" navigate="/chelekom">Chelekom</.link></:list>
+              <:list><.link title="Blog" navigate="/blog">Blog</.link></:list>
+              <:list><.link navigate="/chelekom/docs">Docs</.link></:list>
+            </.navbar>
+
+            <.navbar
+              id="navbar-example-13"
+              max_width="extra_large"
+              image_class="size-10"
+              name="Mishka"
+              color="primary"
+              image={~p"/images/mishka-logo.svg"}
+              link="/"
+              variant="shadow"
+            >
+              <:list><.link title="Mishka" navigate="/">Mishka</.link></:list>
+              <:list><.link title="Chelekom" navigate="/chelekom">Chelekom</.link></:list>
+              <:list><.link title="Blog" navigate="/blog">Blog</.link></:list>
+              <:list><.link navigate="/chelekom/docs">Docs</.link></:list>
+            </.navbar>
+
+            <.navbar
+              id="navbar-example-14"
+              max_width="extra_large"
+              image_class="size-10"
+              name="Mishka"
+              color="secondary"
+              image={~p"/images/mishka-logo.svg"}
+              link="/"
+              variant="shadow"
+            >
+              <:list><.link title="Mishka" navigate="/">Mishka</.link></:list>
+              <:list><.link title="Chelekom" navigate="/chelekom">Chelekom</.link></:list>
+              <:list><.link title="Blog" navigate="/blog">Blog</.link></:list>
+              <:list><.link navigate="/chelekom/docs">Docs</.link></:list>
+            </.navbar>
+
+            <.navbar
+              id="navbar-example-16"
+              max_width="extra_large"
+              image_class="size-10"
+              name="Mishka"
+              color="success"
+              image={~p"/images/mishka-logo.svg"}
+              link="/"
+              variant="shadow"
+            >
+              <:list><.link title="Mishka" navigate="/">Mishka</.link></:list>
+              <:list><.link title="Chelekom" navigate="/chelekom">Chelekom</.link></:list>
+              <:list><.link title="Blog" navigate="/blog">Blog</.link></:list>
+              <:list><.link navigate="/chelekom/docs">Docs</.link></:list>
+            </.navbar>
+
+            <.navbar
+              id="navbar-example-17"
+              max_width="extra_large"
+              image_class="size-10"
+              name="Mishka"
+              color="warning"
+              image={~p"/images/mishka-logo.svg"}
+              link="/"
+              variant="shadow"
+            >
+              <:list><.link title="Mishka" navigate="/">Mishka</.link></:list>
+              <:list><.link title="Chelekom" navigate="/chelekom">Chelekom</.link></:list>
+              <:list><.link title="Blog" navigate="/blog">Blog</.link></:list>
+              <:list><.link navigate="/chelekom/docs">Docs</.link></:list>
+            </.navbar>
+
+            <.navbar
+              id="navbar-example-18"
+              max_width="extra_large"
+              image_class="size-10"
+              name="Mishka"
+              color="danger"
+              image={~p"/images/mishka-logo.svg"}
+              link="/"
+              variant="shadow"
+            >
+              <:list><.link title="Mishka" navigate="/">Mishka</.link></:list>
+              <:list><.link title="Chelekom" navigate="/chelekom">Chelekom</.link></:list>
+              <:list><.link title="Blog" navigate="/blog">Blog</.link></:list>
+              <:list><.link navigate="/chelekom/docs">Docs</.link></:list>
+            </.navbar>
+
+            <.navbar
+              id="navbar-example-19"
+              max_width="extra_large"
+              image_class="size-10"
+              name="Mishka"
+              color="info"
+              image={~p"/images/mishka-logo.svg"}
+              link="/"
+              variant="shadow"
+            >
+              <:list><.link title="Mishka" navigate="/">Mishka</.link></:list>
+              <:list><.link title="Chelekom" navigate="/chelekom">Chelekom</.link></:list>
+              <:list><.link title="Blog" navigate="/blog">Blog</.link></:list>
+              <:list><.link navigate="/chelekom/docs">Docs</.link></:list>
+            </.navbar>
+
+            <.navbar
+              id="navbar-example-20"
+              max_width="extra_large"
+              image_class="size-10"
+              name="Mishka"
+              color="silver"
+              image={~p"/images/mishka-logo.svg"}
+              link="/"
+              variant="shadow"
+            >
+              <:list><.link title="Mishka" navigate="/">Mishka</.link></:list>
+              <:list><.link title="Chelekom" navigate="/chelekom">Chelekom</.link></:list>
+              <:list><.link title="Blog" navigate="/blog">Blog</.link></:list>
+              <:list><.link navigate="/chelekom/docs">Docs</.link></:list>
+            </.navbar>
+
+            <.navbar
+              id="navbar-example-21"
+              max_width="extra_large"
+              image_class="size-10"
+              name="Mishka"
+              color="misc"
+              image={~p"/images/mishka-logo.svg"}
+              link="/"
+              variant="shadow"
+            >
+              <:list><.link title="Mishka" navigate="/">Mishka</.link></:list>
+              <:list><.link title="Chelekom" navigate="/chelekom">Chelekom</.link></:list>
+              <:list><.link title="Blog" navigate="/blog">Blog</.link></:list>
+              <:list><.link navigate="/chelekom/docs">Docs</.link></:list>
+            </.navbar>
+
+            <.navbar
+              id="navbar-example-22"
+              max_width="extra_large"
+              image_class="size-10"
+              name="Mishka"
+              color="dawn"
+              image={~p"/images/mishka-logo.svg"}
+              link="/"
+              variant="shadow"
+            >
+              <:list><.link title="Mishka" navigate="/">Mishka</.link></:list>
+              <:list><.link title="Chelekom" navigate="/chelekom">Chelekom</.link></:list>
+              <:list><.link title="Blog" navigate="/blog">Blog</.link></:list>
+              <:list><.link navigate="/chelekom/docs">Docs</.link></:list>
+            </.navbar>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="bordered-variant-navbar">
+            <.link patch={~p"/chelekom/docs/navbar/#bordered-variant-navbar"}>
+              bordered Variant
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The Bordered variant of the Mishka Chelekom navbar has lighter background and a border. Bordered variant have also white and dark colors which are the same colors in the dark and light mode.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" elements_class="space-y-5" code={@code_3}>
+            <.navbar
+              id="navbar-example-23"
+              max_width="extra_large"
+              variant="bordered"
+              color="natural"
+            >
+              <:start_content>
+                <.link
+                  navigate={~p"/"}
+                  class="flex items-center space-x-3 rtl:space-x-reverse mb-5 md:mb-0"
+                >
+                  <img src={~p"/images/mishka-logo-white.svg"} class="hidden dark:block size-10" />
+                  <img src={~p"/images/mishka-logo.svg"} class="dark:hidden size-10" />
+                  <h1 class="text-xl font-semibold">
+                    Mishka
+                  </h1>
+                </.link>
+              </:start_content>
+              <:list><.link title="Mishka" navigate="/">Mishka</.link></:list>
+              <:list><.link title="Chelekom" navigate="/chelekom">Chelekom</.link></:list>
+              <:list><.link title="Blog" navigate="/blog">Blog</.link></:list>
+              <:list><.link navigate="/chelekom/docs">Docs</.link></:list>
+            </.navbar>
+
+            <.navbar
+              id="navbar-example-244"
+              max_width="extra_large"
+              color="primary"
+              variant="bordered"
+            >
+              <:start_content>
+                <.link
+                  navigate={~p"/"}
+                  class="flex items-center space-x-3 rtl:space-x-reverse mb-5 md:mb-0"
+                >
+                  <img src={~p"/images/mishka-logo-white.svg"} class="hidden dark:block size-10" />
+                  <img src={~p"/images/mishka-logo.svg"} class="dark:hidden size-10" />
+                  <h1 class="text-xl font-semibold">
+                    Mishka
+                  </h1>
+                </.link>
+              </:start_content>
+              <:list><.link title="Mishka" navigate="/">Mishka</.link></:list>
+              <:list><.link title="Chelekom" navigate="/chelekom">Chelekom</.link></:list>
+              <:list><.link title="Blog" navigate="/blog">Blog</.link></:list>
+              <:list><.link navigate="/chelekom/docs">Docs</.link></:list>
+            </.navbar>
+
+            <.navbar
+              id="navbar-example-255"
+              max_width="extra_large"
+              color="secondary"
+              variant="bordered"
+            >
+              <:start_content>
+                <.link
+                  navigate={~p"/"}
+                  class="flex items-center space-x-3 rtl:space-x-reverse mb-5 md:mb-0"
+                >
+                  <img src={~p"/images/mishka-logo-white.svg"} class="hidden dark:block size-10" />
+                  <img src={~p"/images/mishka-logo.svg"} class="dark:hidden size-10" />
+                  <h1 class="text-xl font-semibold">
+                    Mishka
+                  </h1>
+                </.link>
+              </:start_content>
+              <:list><.link title="Mishka" navigate="/">Mishka</.link></:list>
+              <:list><.link title="Chelekom" navigate="/chelekom">Chelekom</.link></:list>
+              <:list><.link title="Blog" navigate="/blog">Blog</.link></:list>
+              <:list><.link navigate="/chelekom/docs">Docs</.link></:list>
+            </.navbar>
+
+            <.navbar
+              id="navbar-example-266"
+              max_width="extra_large"
+              image_class="size-10"
+              name="Mishka"
+              color="dark"
+              image={~p"/images/mishka-logo-white.svg"}
+              link="/"
+              variant="bordered"
+            >
+              <:list><.link title="Mishka" navigate="/">Mishka</.link></:list>
+              <:list><.link title="Chelekom" navigate="/chelekom">Chelekom</.link></:list>
+              <:list><.link title="Blog" navigate="/blog">Blog</.link></:list>
+              <:list><.link navigate="/chelekom/docs">Docs</.link></:list>
+            </.navbar>
+
+            <.navbar
+              id="navbar-example-277"
+              max_width="extra_large"
+              color="success"
+              variant="bordered"
+            >
+              <:start_content>
+                <.link
+                  navigate={~p"/"}
+                  class="flex items-center space-x-3 rtl:space-x-reverse mb-5 md:mb-0"
+                >
+                  <img src={~p"/images/mishka-logo-white.svg"} class="hidden dark:block size-10" />
+                  <img src={~p"/images/mishka-logo.svg"} class="dark:hidden size-10" />
+                  <h1 class="text-xl font-semibold">
+                    Mishka
+                  </h1>
+                </.link>
+              </:start_content>
+              <:list><.link title="Mishka" navigate="/">Mishka</.link></:list>
+              <:list><.link title="Chelekom" navigate="/chelekom">Chelekom</.link></:list>
+              <:list><.link title="Blog" navigate="/blog">Blog</.link></:list>
+              <:list><.link navigate="/chelekom/docs">Docs</.link></:list>
+            </.navbar>
+
+            <.navbar
+              id="navbar-example-288"
+              max_width="extra_large"
+              color="warning"
+              variant="bordered"
+            >
+              <:start_content>
+                <.link
+                  navigate={~p"/"}
+                  class="flex items-center space-x-3 rtl:space-x-reverse mb-5 md:mb-0"
+                >
+                  <img src={~p"/images/mishka-logo-white.svg"} class="hidden dark:block size-10" />
+                  <img src={~p"/images/mishka-logo.svg"} class="dark:hidden size-10" />
+                  <h1 class="text-xl font-semibold">
+                    Mishka
+                  </h1>
+                </.link>
+              </:start_content>
+              <:list><.link title="Mishka" navigate="/">Mishka</.link></:list>
+              <:list><.link title="Chelekom" navigate="/chelekom">Chelekom</.link></:list>
+              <:list><.link title="Blog" navigate="/blog">Blog</.link></:list>
+              <:list><.link navigate="/chelekom/docs">Docs</.link></:list>
+            </.navbar>
+
+            <.navbar
+              id="navbar-example-299"
+              max_width="extra_large"
+              color="danger"
+              variant="bordered"
+            >
+              <:start_content>
+                <.link
+                  navigate={~p"/"}
+                  class="flex items-center space-x-3 rtl:space-x-reverse mb-5 md:mb-0"
+                >
+                  <img src={~p"/images/mishka-logo-white.svg"} class="hidden dark:block size-10" />
+                  <img src={~p"/images/mishka-logo.svg"} class="dark:hidden size-10" />
+                  <h1 class="text-xl font-semibold">
+                    Mishka
+                  </h1>
+                </.link>
+              </:start_content>
+              <:list><.link title="Mishka" navigate="/">Mishka</.link></:list>
+              <:list><.link title="Chelekom" navigate="/chelekom">Chelekom</.link></:list>
+              <:list><.link title="Blog" navigate="/blog">Blog</.link></:list>
+              <:list><.link navigate="/chelekom/docs">Docs</.link></:list>
+            </.navbar>
+
+            <.navbar
+              id="navbar-example-030"
+              max_width="extra_large"
+              color="info"
+              variant="bordered"
+            >
+              <:start_content>
+                <.link
+                  navigate={~p"/"}
+                  class="flex items-center space-x-3 rtl:space-x-reverse mb-5 md:mb-0"
+                >
+                  <img src={~p"/images/mishka-logo-white.svg"} class="hidden dark:block size-10" />
+                  <img src={~p"/images/mishka-logo.svg"} class="dark:hidden size-10" />
+                  <h1 class="text-xl font-semibold">
+                    Mishka
+                  </h1>
+                </.link>
+              </:start_content>
+              <:list><.link title="Mishka" navigate="/">Mishka</.link></:list>
+              <:list><.link title="Chelekom" navigate="/chelekom">Chelekom</.link></:list>
+              <:list><.link title="Blog" navigate="/blog">Blog</.link></:list>
+              <:list><.link navigate="/chelekom/docs">Docs</.link></:list>
+            </.navbar>
+
+            <.navbar
+              id="navbar-example-310"
+              max_width="extra_large"
+              color="silver"
+              variant="bordered"
+            >
+              <:start_content>
+                <.link
+                  navigate={~p"/"}
+                  class="flex items-center space-x-3 rtl:space-x-reverse mb-5 md:mb-0"
+                >
+                  <img src={~p"/images/mishka-logo-white.svg"} class="hidden dark:block size-10" />
+                  <img src={~p"/images/mishka-logo.svg"} class="dark:hidden size-10" />
+                  <h1 class="text-xl font-semibold">
+                    Mishka
+                  </h1>
+                </.link>
+              </:start_content>
+              <:list><.link title="Mishka" navigate="/">Mishka</.link></:list>
+              <:list><.link title="Chelekom" navigate="/chelekom">Chelekom</.link></:list>
+              <:list><.link title="Blog" navigate="/blog">Blog</.link></:list>
+              <:list><.link navigate="/chelekom/docs">Docs</.link></:list>
+            </.navbar>
+
+            <.navbar
+              id="navbar-example-321"
+              max_width="extra_large"
+              color="misc"
+              variant="bordered"
+            >
+              <:start_content>
+                <.link
+                  navigate={~p"/"}
+                  class="flex items-center space-x-3 rtl:space-x-reverse mb-5 md:mb-0"
+                >
+                  <img src={~p"/images/mishka-logo-white.svg"} class="hidden dark:block size-10" />
+                  <img src={~p"/images/mishka-logo.svg"} class="dark:hidden size-10" />
+                  <h1 class="text-xl font-semibold">
+                    Mishka
+                  </h1>
+                </.link>
+              </:start_content>
+              <:list><.link title="Mishka" navigate="/">Mishka</.link></:list>
+              <:list><.link title="Chelekom" navigate="/chelekom">Chelekom</.link></:list>
+              <:list><.link title="Blog" navigate="/blog">Blog</.link></:list>
+              <:list><.link navigate="/chelekom/docs">Docs</.link></:list>
+            </.navbar>
+
+            <.navbar
+              id="navbar-example-332"
+              max_width="extra_large"
+              variant="bordered"
+              color="dawn"
+            >
+              <:start_content>
+                <.link
+                  navigate={~p"/"}
+                  class="flex items-center space-x-3 rtl:space-x-reverse mb-5 md:mb-0"
+                >
+                  <img src={~p"/images/mishka-logo-white.svg"} class="hidden dark:block size-10" />
+                  <img src={~p"/images/mishka-logo.svg"} class="dark:hidden size-10" />
+                  <h1 class="text-xl font-semibold">
+                    Mishka
+                  </h1>
+                </.link>
+              </:start_content>
+              <:list><.link title="Mishka" navigate="/">Mishka</.link></:list>
+              <:list><.link title="Chelekom" navigate="/chelekom">Chelekom</.link></:list>
+              <:list><.link title="Blog" navigate="/blog">Blog</.link></:list>
+              <:list><.link navigate="/chelekom/docs">Docs</.link></:list>
+            </.navbar>
+          </.custom_code_wrapper>
+          <.heading2 margin="my-5" id="gradient-variant-navbar">
+            <.link patch={~p"/chelekom/docs/navbar/#gradient-variant-navbar"}>
+              gradient Variant
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The gradient variant of the Mishka Chelekom navbar has gradients in various colors.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" elements_class="space-y-5" code={@code_3}>
+            <.navbar
+              id="navbar-example-233"
+              max_width="extra_large"
+              variant="gradient"
+              color="natural"
+            >
+              <:start_content>
+                <.link
+                  navigate={~p"/"}
+                  class="flex items-center space-x-3 rtl:space-x-reverse mb-5 md:mb-0"
+                >
+                  <img src={~p"/images/mishka-logo-white.svg"} class="dark:hidden size-10" />
+                  <img src={~p"/images/mishka-logo.svg"} class="hidden dark:block size-10" />
+                  <h1 class="text-xl font-semibold">
+                    Mishka
+                  </h1>
+                </.link>
+              </:start_content>
+              <:list><.link title="Mishka" navigate="/">Mishka</.link></:list>
+              <:list><.link title="Chelekom" navigate="/chelekom">Chelekom</.link></:list>
+              <:list><.link title="Blog" navigate="/blog">Blog</.link></:list>
+              <:list><.link navigate="/chelekom/docs">Docs</.link></:list>
+            </.navbar>
+
+            <.navbar
+              id="navbar-example-24"
+              max_width="extra_large"
+              name="Mishka"
+              color="primary"
+              image_class="size-10"
+              image={~p"/images/mishka-logo.svg"}
+              link="/"
+              variant="gradient"
+            >
+              <:list><.link title="Mishka" navigate="/">Mishka</.link></:list>
+              <:list><.link title="Chelekom" navigate="/chelekom">Chelekom</.link></:list>
+              <:list><.link title="Blog" navigate="/blog">Blog</.link></:list>
+              <:list><.link navigate="/chelekom/docs">Docs</.link></:list>
+            </.navbar>
+
+            <.navbar
+              id="navbar-example-25"
+              max_width="extra_large"
+              image_class="size-10"
+              name="Mishka"
+              color="secondary"
+              image={~p"/images/mishka-logo.svg"}
+              link="/"
+              variant="gradient"
+            >
+              <:list><.link title="Mishka" navigate="/">Mishka</.link></:list>
+              <:list><.link title="Chelekom" navigate="/chelekom">Chelekom</.link></:list>
+              <:list><.link title="Blog" navigate="/blog">Blog</.link></:list>
+              <:list><.link navigate="/chelekom/docs">Docs</.link></:list>
+            </.navbar>
+
+            <.navbar
+              id="navbar-example-27"
+              max_width="extra_large"
+              image_class="size-10"
+              name="Mishka"
+              color="success"
+              image={~p"/images/mishka-logo.svg"}
+              link="/"
+              variant="gradient"
+            >
+              <:list><.link title="Mishka" navigate="/">Mishka</.link></:list>
+              <:list><.link title="Chelekom" navigate="/chelekom">Chelekom</.link></:list>
+              <:list><.link title="Blog" navigate="/blog">Blog</.link></:list>
+              <:list><.link navigate="/chelekom/docs">Docs</.link></:list>
+            </.navbar>
+
+            <.navbar
+              id="navbar-example-28"
+              max_width="extra_large"
+              image_class="size-10"
+              name="Mishka"
+              color="warning"
+              image={~p"/images/mishka-logo.svg"}
+              link="/"
+              variant="gradient"
+            >
+              <:list><.link title="Mishka" navigate="/">Mishka</.link></:list>
+              <:list><.link title="Chelekom" navigate="/chelekom">Chelekom</.link></:list>
+              <:list><.link title="Blog" navigate="/blog">Blog</.link></:list>
+              <:list><.link navigate="/chelekom/docs">Docs</.link></:list>
+            </.navbar>
+
+            <.navbar
+              id="navbar-example-29"
+              max_width="extra_large"
+              image_class="size-10"
+              name="Mishka"
+              color="danger"
+              image={~p"/images/mishka-logo.svg"}
+              link="/"
+              variant="gradient"
+            >
+              <:list><.link title="Mishka" navigate="/">Mishka</.link></:list>
+              <:list><.link title="Chelekom" navigate="/chelekom">Chelekom</.link></:list>
+              <:list><.link title="Blog" navigate="/blog">Blog</.link></:list>
+              <:list><.link navigate="/chelekom/docs">Docs</.link></:list>
+            </.navbar>
+
+            <.navbar
+              id="navbar-example-30"
+              max_width="extra_large"
+              image_class="size-10"
+              name="Mishka"
+              color="info"
+              image={~p"/images/mishka-logo.svg"}
+              link="/"
+              variant="gradient"
+            >
+              <:list><.link title="Mishka" navigate="/">Mishka</.link></:list>
+              <:list><.link title="Chelekom" navigate="/chelekom">Chelekom</.link></:list>
+              <:list><.link title="Blog" navigate="/blog">Blog</.link></:list>
+              <:list><.link navigate="/chelekom/docs">Docs</.link></:list>
+            </.navbar>
+
+            <.navbar
+              id="navbar-example-31"
+              max_width="extra_large"
+              image_class="size-10"
+              name="Mishka"
+              color="silver"
+              image={~p"/images/mishka-logo.svg"}
+              link="/"
+              variant="gradient"
+            >
+              <:list><.link title="Mishka" navigate="/">Mishka</.link></:list>
+              <:list><.link title="Chelekom" navigate="/chelekom">Chelekom</.link></:list>
+              <:list><.link title="Blog" navigate="/blog">Blog</.link></:list>
+              <:list><.link navigate="/chelekom/docs">Docs</.link></:list>
+            </.navbar>
+
+            <.navbar
+              id="navbar-example-32"
+              max_width="extra_large"
+              image_class="size-10"
+              name="Mishka"
+              color="misc"
+              image={~p"/images/mishka-logo.svg"}
+              link="/"
+              variant="gradient"
+            >
+              <:list><.link title="Mishka" navigate="/">Mishka</.link></:list>
+              <:list><.link title="Chelekom" navigate="/chelekom">Chelekom</.link></:list>
+              <:list><.link title="Blog" navigate="/blog">Blog</.link></:list>
+              <:list><.link navigate="/chelekom/docs">Docs</.link></:list>
+            </.navbar>
+
+            <.navbar
+              id="navbar-example-433"
+              max_width="extra_large"
+              image_class="size-10"
+              name="Mishka"
+              color="dawn"
+              image={~p"/images/mishka-logo.svg"}
+              link="/"
+              variant="gradient"
+            >
+              <:list><.link title="Mishka" navigate="/">Mishka</.link></:list>
+              <:list><.link title="Chelekom" navigate="/chelekom">Chelekom</.link></:list>
+              <:list><.link title="Blog" navigate="/blog">Blog</.link></:list>
+              <:list><.link navigate="/chelekom/docs">Docs</.link></:list>
+            </.navbar>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="navbar-rounded">
+            <.link patch={~p"/chelekom/docs/navbar/#navbar-rounded"}>
+              Rounded prop of Phoenix LiveView navbar Component
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The rounded prop offers values like <.custom_inline_code>extra_small</.custom_inline_code>, <.custom_inline_code>small</.custom_inline_code>, <.custom_inline_code>medium</.custom_inline_code>, <.custom_inline_code>large</.custom_inline_code>, and <.custom_inline_code>extra_large</.custom_inline_code>. These values control the border radius of the navbar, allowing for different levels of rounding from subtle to more pronounced corners, depending on the design needs.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" elements_class="space-y-5" code={@code_4}>
+            <.navbar
+              id="navbar-example-34"
+              max_width="extra_large"
+              image_class="size-10"
+              name="Mishka"
+              image={~p"/images/mishka-logo.svg"}
+              link="/"
+              variant="default"
+              color="danger"
+              rounded="extra_small"
+            >
+              <:list><.link title="Mishka" navigate="/">Mishka</.link></:list>
+              <:list><.link title="Chelekom" navigate="/chelekom">Chelekom</.link></:list>
+              <:list><.link title="Blog" navigate="/blog">Blog</.link></:list>
+              <:list><.link navigate="/chelekom/docs">Docs</.link></:list>
+            </.navbar>
+
+            <.navbar
+              id="navbar-example-35"
+              max_width="extra_large"
+              image_class="size-10"
+              name="Mishka"
+              color="primary"
+              variant="default"
+              image={~p"/images/mishka-logo.svg"}
+              link="/"
+              rounded="small"
+            >
+              <:list><.link title="Mishka" navigate="/">Mishka</.link></:list>
+              <:list><.link title="Chelekom" navigate="/chelekom">Chelekom</.link></:list>
+              <:list><.link title="Blog" navigate="/blog">Blog</.link></:list>
+              <:list><.link navigate="/chelekom/docs">Docs</.link></:list>
+            </.navbar>
+
+            <.navbar
+              id="navbar-example-36"
+              max_width="extra_large"
+              image_class="size-10"
+              name="Mishka"
+              color="secondary"
+              variant="default"
+              image={~p"/images/mishka-logo.svg"}
+              link="/"
+              rounded="medium"
+            >
+              <:list><.link title="Mishka" navigate="/">Mishka</.link></:list>
+              <:list><.link title="Chelekom" navigate="/chelekom">Chelekom</.link></:list>
+              <:list><.link title="Blog" navigate="/blog">Blog</.link></:list>
+              <:list><.link navigate="/chelekom/docs">Docs</.link></:list>
+            </.navbar>
+
+            <.navbar
+              id="navbar-example-37"
+              max_width="extra_large"
+              rounded="large"
+              variant="default"
+              color="misc"
+            >
+              <:start_content>
+                <.link
+                  navigate={~p"/"}
+                  class="flex items-center space-x-3 rtl:space-x-reverse mb-5 md:mb-0"
+                >
+                  <img src={~p"/images/mishka-logo-white.svg"} class="dark:hidden size-10" />
+                  <img src={~p"/images/mishka-logo.svg"} class="hidden dark:block size-10" />
+                  <h1 class="text-xl font-semibold">
+                    Mishka
+                  </h1>
+                </.link>
+              </:start_content>
+              <:list><.link title="Mishka" navigate="/">Mishka</.link></:list>
+              <:list><.link title="Chelekom" navigate="/chelekom">Chelekom</.link></:list>
+              <:list><.link title="Blog" navigate="/blog">Blog</.link></:list>
+              <:list><.link navigate="/chelekom/docs">Docs</.link></:list>
+            </.navbar>
+
+            <.navbar
+              id="navbar-example-38"
+              max_width="extra_large"
+              image_class="size-10"
+              name="Mishka"
+              color="success"
+              variant="default"
+              image={~p"/images/mishka-logo.svg"}
+              link="/"
+              rounded="extra_large"
+            >
+              <:list><.link title="Mishka" navigate="/">Mishka</.link></:list>
+              <:list><.link title="Chelekom" navigate="/chelekom">Chelekom</.link></:list>
+              <:list><.link title="Blog" navigate="/blog">Blog</.link></:list>
+              <:list><.link navigate="/chelekom/docs">Docs</.link></:list>
+            </.navbar>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="navbar-border">
+            <.link patch={~p"/chelekom/docs/navbar/#navbar-border"}>
+              Border prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The border prop offers values like <.custom_inline_code>extra_small</.custom_inline_code>, <.custom_inline_code>small</.custom_inline_code>, <.custom_inline_code>medium</.custom_inline_code>, <.custom_inline_code>large</.custom_inline_code>, and <.custom_inline_code>extra_large</.custom_inline_code>. These values control the border size of the navbars, allowing you to adjust the thickness to suit your design.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" elements_class="space-y-5" code={@code_5}>
+            <.navbar
+              id="navbar-example-39"
+              max_width="extra_large"
+              image_class="size-10"
+              name="Mishka"
+              variant="default"
+              color="misc"
+              image={~p"/images/mishka-logo.svg"}
+              link="/"
+              border="extra_small"
+            >
+              <:list><.link title="Mishka" navigate="/">Mishka</.link></:list>
+              <:list><.link title="Chelekom" navigate="/chelekom">Chelekom</.link></:list>
+              <:list><.link title="Blog" navigate="/blog">Blog</.link></:list>
+              <:list><.link navigate="/chelekom/docs">Docs</.link></:list>
+            </.navbar>
+
+            <.navbar
+              id="navbar-example-40"
+              max_width="extra_large"
+              image_class="size-10"
+              name="Mishka"
+              color="primary"
+              variant="default"
+              image={~p"/images/mishka-logo.svg"}
+              link="/"
+              border="small"
+            >
+              <:list><.link title="Mishka" navigate="/">Mishka</.link></:list>
+              <:list><.link title="Chelekom" navigate="/chelekom">Chelekom</.link></:list>
+              <:list><.link title="Blog" navigate="/blog">Blog</.link></:list>
+              <:list><.link navigate="/chelekom/docs">Docs</.link></:list>
+            </.navbar>
+
+            <.navbar
+              id="navbar-example-41"
+              max_width="extra_large"
+              image_class="size-10"
+              name="Mishka"
+              color="danger"
+              variant="default"
+              image={~p"/images/mishka-logo.svg"}
+              link="/"
+              border="medium"
+            >
+              <:list><.link title="Mishka" navigate="/">Mishka</.link></:list>
+              <:list><.link title="Chelekom" navigate="/chelekom">Chelekom</.link></:list>
+              <:list><.link title="Blog" navigate="/blog">Blog</.link></:list>
+              <:list><.link navigate="/chelekom/docs">Docs</.link></:list>
+            </.navbar>
+
+            <.navbar
+              id="navbar-example-42"
+              max_width="extra_large"
+              image_class="size-10"
+              name="Mishka"
+              color="warning"
+              variant="default"
+              image={~p"/images/mishka-logo.svg"}
+              link="/"
+              border="large"
+            >
+              <:list><.link title="Mishka" navigate="/">Mishka</.link></:list>
+              <:list><.link title="Chelekom" navigate="/chelekom">Chelekom</.link></:list>
+              <:list><.link title="Blog" navigate="/blog">Blog</.link></:list>
+              <:list><.link navigate="/chelekom/docs">Docs</.link></:list>
+            </.navbar>
+
+            <.navbar
+              id="navbar-example-43"
+              max_width="extra_large"
+              image_class="size-10"
+              name="Mishka"
+              color="success"
+              variant="default"
+              image={~p"/images/mishka-logo.svg"}
+              link="/"
+              border="extra_large"
+            >
+              <:list><.link title="Mishka" navigate="/">Mishka</.link></:list>
+              <:list><.link title="Chelekom" navigate="/chelekom">Chelekom</.link></:list>
+              <:list><.link title="Blog" navigate="/blog">Blog</.link></:list>
+              <:list><.link navigate="/chelekom/docs">Docs</.link></:list>
+            </.navbar>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="navbar-padding">
+            <.link patch={~p"/chelekom/docs/navbar/#navbar-padding"}>
+              Padding prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The padding prop offers values such as <.custom_inline_code>extra_small</.custom_inline_code>, <.custom_inline_code>small</.custom_inline_code>, <.custom_inline_code>medium</.custom_inline_code>, <.custom_inline_code>large</.custom_inline_code>, and <.custom_inline_code>extra_large</.custom_inline_code>. These values control the padding around the content inside the navbars.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" elements_class="space-y-5" code={@code_6}>
+            <.navbar
+              id="navbar-example-44"
+              max_width="extra_large"
+              padding="extra_small"
+              color="primary"
+              variant="default"
+            >
+              <:list><.link title="Mishka" navigate="/">Mishka</.link></:list>
+              <:list><.link title="Chelekom" navigate="/chelekom">Chelekom</.link></:list>
+              <:list><.link title="Blog" navigate="/blog">Blog</.link></:list>
+              <:list><.link navigate="/chelekom/docs">Docs</.link></:list>
+            </.navbar>
+
+            <.navbar
+              id="navbar-example-45"
+              max_width="extra_large"
+              padding="small"
+              variant="default"
+              color="warning"
+            >
+              <:list><.link title="Mishka" navigate="/">Mishka</.link></:list>
+              <:list><.link title="Chelekom" navigate="/chelekom">Chelekom</.link></:list>
+              <:list><.link title="Blog" navigate="/blog">Blog</.link></:list>
+              <:list><.link navigate="/chelekom/docs">Docs</.link></:list>
+            </.navbar>
+
+            <.navbar
+              id="navbar-example-46"
+              max_width="extra_large"
+              padding="medium"
+              variant="default"
+              color="misc"
+            >
+              <:list><.link title="Mishka" navigate="/">Mishka</.link></:list>
+              <:list><.link title="Chelekom" navigate="/chelekom">Chelekom</.link></:list>
+              <:list><.link title="Blog" navigate="/blog">Blog</.link></:list>
+              <:list><.link navigate="/chelekom/docs">Docs</.link></:list>
+            </.navbar>
+
+            <.navbar
+              id="navbar-example-47"
+              max_width="extra_large"
+              padding="large"
+              variant="default"
+              color="danger"
+            >
+              <:list><.link title="Mishka" navigate="/">Mishka</.link></:list>
+              <:list><.link title="Chelekom" navigate="/chelekom">Chelekom</.link></:list>
+              <:list><.link title="Blog" navigate="/blog">Blog</.link></:list>
+              <:list><.link navigate="/chelekom/docs">Docs</.link></:list>
+            </.navbar>
+
+            <.navbar
+              id="navbar-example-48"
+              max_width="extra_large"
+              padding="extra_large"
+              color="dawn"
+              variant="default"
+            >
+              <:list><.link title="Mishka" navigate="/">Mishka</.link></:list>
+              <:list><.link title="Chelekom" navigate="/chelekom">Chelekom</.link></:list>
+              <:list><.link title="Blog" navigate="/blog">Blog</.link></:list>
+              <:list><.link navigate="/chelekom/docs">Docs</.link></:list>
+            </.navbar>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="navbar-max-width">
+            <.link patch={~p"/chelekom/docs/navbar/#navbar-max-width"}>
+              Max width prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <.custom_inline_code>max_width</.custom_inline_code>
+            attribute controls the maximum width of the navbar component, ensuring that the content stays within a defined boundary, which is especially useful for creating consistent layouts. By setting the
+            <.custom_inline_code>max_width</.custom_inline_code>
+            value, you can easily limit how wide the navbar can extend, maintaining a structured appearance across different screen sizes. This attribute allows the navbar to remain centered and visually balanced, enhancing the overall presentation of the component in any layout.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" elements_class="space-y-5" code={@code_7}>
+            <.navbar
+              id="navbar-example-49"
+              max_width="extra_large"
+              color="secondary"
+              variant="default"
+            >
+              <:list><.link title="Mishka" navigate="/">Mishka</.link></:list>
+              <:list><.link title="Chelekom" navigate="/chelekom">Chelekom</.link></:list>
+              <:list><.link title="Blog" navigate="/blog">Blog</.link></:list>
+              <:list><.link navigate="/chelekom/docs">Docs</.link></:list>
+            </.navbar>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="navbar-text-position">
+            <.link patch={~p"/chelekom/docs/navbar/#navbar-text-position"}>
+              Text position prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <.custom_inline_code>text_position</.custom_inline_code>
+            attribute controls the alignment of text within a component, ensuring that content is properly positioned based on the design needs. With options like <.custom_inline_code>left</.custom_inline_code>, <.custom_inline_code>right</.custom_inline_code>, and <.custom_inline_code>center</.custom_inline_code>, you can align text to the left, right, or center of the component, respectively. This flexibility allows developers to manage how textual content is presented, enhancing readability and improving the visual structure of the component. If no specific value is provided, a default alignment is applied, typically aligning the text to the left.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" elements_class="space-y-5" code={@code_8}>
+            <.navbar
+              id="navbar-example-50"
+              max_width="extra_large"
+              color="silver"
+              variant="default"
+              text_position="right"
+            >
+              <div class="w-full">
+                Navbar right text position
+              </div>
+            </.navbar>
+            <.navbar
+              id="navbar-example-51"
+              max_width="extra_large"
+              color="silver"
+              variant="default"
+              text_position="center"
+            >
+              <div class="w-full">
+                Navbar center text position
+              </div>
+            </.navbar>
+            <.navbar
+              id="navbar-example-52"
+              max_width="extra_large"
+              color="silver"
+              variant="default"
+              text_position="left"
+            >
+              <div class="w-full">
+                Navbar left text position
+              </div>
+            </.navbar>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="navbar-font-weight-prop">
+            <.link patch={~p"/chelekom/docs/navbar/#navbar-font-weight-prop"}>
+              Navbar font weight prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <.custom_inline_code>font_weight</.custom_inline_code>
+            prop controls the font weight of the text. By setting this prop, you can determine how bold or light the text appears within the title section. The default value is <.custom_inline_code>font-normal</.custom_inline_code>. You can customize this value to apply different font weights, such as making the text lighter or bolder, depending on the visual style and emphasis you want to create for the navbar. This provides flexibility in ensuring the title stands out appropriately within the overall navbar layout.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" elements_class="space-y-5" code={@code_9}>
+            <.navbar
+              id="navbar-example-53"
+              max_width="extra_large"
+              color="success"
+              variant="default"
+              text_position="center"
+              font_weight="font-bold"
+            >
+              <div class="w-full">
+                Navbar bold font weight
+              </div>
+            </.navbar>
+            <.navbar
+              id="navbar-example-54"
+              max_width="extra_large"
+              color="dawn"
+              variant="default"
+              text_position="center"
+              font_weight="font-light"
+            >
+              <div class="w-full">
+                Navbar light font weight
+              </div>
+            </.navbar>
+            <.navbar
+              id="navbar-example-55"
+              max_width="extra_large"
+              color="info"
+              variant="default"
+              text_position="center"
+              font_weight="font-black"
+            >
+              <div class="w-full">
+                Navbar black font weight
+              </div>
+            </.navbar>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="navbar-link-prop">
+            <.link patch={~p"/chelekom/docs/navbar/#navbar-link-prop"}>
+              Navbar link prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <.custom_inline_code>:link</.custom_inline_code>
+            prop allows you to specify the destination URL that the navbar should navigate to when the logo is clicked.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" elements_class="space-y-5" code={@code_10}>
+            <.navbar
+              id="navbar-example-56"
+              max_width="extra_large"
+              color="misc"
+              variant="default"
+              image_class="size-10"
+              image={~p"/images/mishka-logo.svg"}
+              link="/"
+            >
+              <:list><.link title="Mishka" navigate="/">Mishka</.link></:list>
+              <:list><.link title="Chelekom" navigate="/chelekom">Chelekom</.link></:list>
+              <:list><.link title="Blog" navigate="/blog">Blog</.link></:list>
+              <:list><.link navigate="/chelekom/docs">Docs</.link></:list>
+            </.navbar>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="navbar-image-props">
+            <.link patch={~p"/chelekom/docs/navbar/#navbar-image-props"}>
+              Logo in navbar component of Phoenix LiveView
+            </.link>
+          </.heading2>
+
+          <.cp>
+            By using the
+            <.custom_inline_code>image</.custom_inline_code>
+            prop, you can add your logo at the start position of the navbar, ensuring it grabs users' attention right away. With the
+            <.custom_inline_code>image_class</.custom_inline_code>
+            prop, you can apply custom styles to your logo, tailoring its appearance to fit your brand. Additionally, including a
+            <.custom_inline_code>link</.custom_inline_code>
+            is essential to make the logo interactive, allowing users to navigate back to the homepage or another specified page when they click on it.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" elements_class="space-y-5" code={@code_11}>
+            <.navbar
+              id="navbar-example-57"
+              max_width="extra_large"
+              color="misc"
+              variant="default"
+              image_class="size-10"
+              image={~p"/images/mishka-logo.svg"}
+              link="/"
+            >
+              <:list><.link title="Mishka" navigate="/">Mishka</.link></:list>
+              <:list><.link title="Chelekom" navigate="/chelekom">Chelekom</.link></:list>
+              <:list><.link title="Blog" navigate="/blog">Blog</.link></:list>
+              <:list><.link navigate="/chelekom/docs">Docs</.link></:list>
+            </.navbar>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="navbar-name-prop">
+            <.link patch={~p"/chelekom/docs/navbar/#navbar-name-prop"}>
+              Navbar name prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <.custom_inline_code>name</.custom_inline_code>
+            prop specifies the text that represents your brand in the navbar, making it easily identifiable to users. To ensure that the brand name is not only displayed but also functional, the
+            <.custom_inline_code>link</.custom_inline_code>
+            prop must be included.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" elements_class="space-y-5" code={@code_12}>
+            <.navbar
+              id="navbar-example-58"
+              max_width="extra_large"
+              name="Chelekom"
+              link="/chelekom"
+            >
+              <:list><.link title="Mishka" navigate="/">Mishka</.link></:list>
+              <:list><.link title="Chelekom" navigate="/chelekom">Chelekom</.link></:list>
+              <:list><.link title="Blog" navigate="/blog">Blog</.link></:list>
+              <:list><.link navigate="/chelekom/docs">Docs</.link></:list>
+            </.navbar>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="navbar-relative-prop">
+            <.link patch={~p"/chelekom/docs/navbar/#navbar-relative-prop"}>
+              Navbar relative prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <.custom_inline_code>relative</.custom_inline_code>
+            prop is a boolean attribute that, when set to true, adds a
+            <.custom_inline_code>relative</.custom_inline_code>
+            positioning to the navbar. This positioning is particularly useful for implementing dropdown menus, as it ensures that dropdown elements are positioned correctly in relation to the navbar. By enabling this prop, you can create a more dynamic and interactive user experience, allowing dropdowns to appear seamlessly beneath the corresponding navbar items.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" elements_class="space-y-5" code={@code_13}>
+            <.navbar id="navbar-example-59" max_width="extra_large" relative>
+              <:list><.link title="Mishka" navigate="/">Mishka</.link></:list>
+              <:list>
+                <.dropdown
+                  id="nav-dropdown-1020"
+                  width="w-full"
+                  relative="md:relative"
+                  clickable
+                  space="small"
+                  rounded="large"
+                  padding="extra_small"
+                >
+                  <:trigger>
+                    <button class="text-start w-full block">Dropdown</button>
+                  </:trigger>
+
+                  <:content>
+                    <ul class="space-y-5">
+                      <li>
+                        <.dropdown
+                          id="nav-dropdown-1200"
+                          width="w-full"
+                          position="right"
+                          nomobile
+                          clickable
+                        >
+                          <:trigger>
+                            <button class="py-1 px-2 text-start w-full hover:bg-gray-200">
+                              Nav dropdown nested
+                            </button>
+                          </:trigger>
+
+                          <:content>
+                            <ul class="space-y-5">
+                              <li class="py-1 px-2 text-start w-full hover:bg-gray-200 cursor-pointer">
+                                Docs
+                              </li>
+
+                              <li class="py-1 px-2 text-start w-full hover:bg-gray-200 cursor-pointer">
+                                Footer
+                              </li>
+                            </ul>
+                          </:content>
+                        </.dropdown>
+                      </li>
+
+                      <li class="py-1 px-2 text-start w-full hover:bg-gray-200 cursor-pointer">
+                        Memory
+                      </li>
+
+                      <li class="py-1 px-2 text-start w-full hover:bg-gray-200 cursor-pointer">
+                        Design
+                      </li>
+                      <li>
+                        <.dropdown
+                          id="nav-dropdown-100"
+                          width="w-full"
+                          position="right"
+                          clickable
+                          space="small"
+                          rounded="large"
+                          padding="extra_small"
+                        >
+                          <:trigger>
+                            <button class="py-1 px-2 text-start w-full hover:bg-gray-200">
+                              Dropdown
+                            </button>
+                          </:trigger>
+
+                          <:content>
+                            <ul class="space-y-5">
+                              <li class="py-1 px-2 text-start w-full hover:bg-gray-200 cursor-pointer">
+                                Security
+                              </li>
+
+                              <li class="py-1 px-2 text-start w-full hover:bg-gray-200 cursor-pointer">
+                                Roadmap
+                              </li>
+                            </ul>
+                          </:content>
+                        </.dropdown>
+                      </li>
+                      <li class="py-1 px-2 text-start w-full hover:bg-gray-200 cursor-pointer">
+                        Tabs
+                      </li>
+                      <li class="py-1 px-2 text-start w-full hover:bg-gray-200 cursor-pointer">
+                        Lists
+                      </li>
+                    </ul>
+                  </:content>
+                </.dropdown>
+              </:list>
+              <:list><.link title="Chelekom" navigate="/chelekom">Chelekom</.link></:list>
+              <:list><.link title="Blog" navigate="/blog">Blog</.link></:list>
+              <:list><.link navigate="/chelekom/docs">Docs</.link></:list>
+            </.navbar>
+
+            <.navbar
+              id="navbar-example-62"
+              max_width="extra_large"
+              relative
+              variant="default"
+              color="dawn"
+            >
+              <:list><.link navigate="/">Home</.link></:list>
+
+              <:list><.link navigate={~p"/chelekom/docs/sidebar"}>List</.link></:list>
+
+              <:list><.link navigate={~p"/chelekom/docs/rating"}>Blog</.link></:list>
+
+              <:list><.link navigate={~p"/chelekom/docs/sidebar"}>Calendar</.link></:list>
+              <:list>
+                <.mega_menu
+                  clickable
+                  id="mega-test-one"
+                  space="small"
+                  rounded="large"
+                  padding="extra_small"
+                  top_gap="large"
+                  color="dawn"
+                >
+                  <:trigger>
+                    <button class="text-start w-full block">Mega Menu</button>
+                  </:trigger>
+
+                  <div class="grid md:grid-cols-2 lg:grid-cols-3">
+                    <ul class="space-y-4 sm:mb-4 md:mb-0">
+                      <li class="hover:underline hover:text-blue-700 cursor-pointer">
+                        Product Categories
+                      </li>
+                      <li class="hover:underline hover:text-blue-700 cursor-pointer">
+                        Customer Support
+                      </li>
+                      <li class="hover:underline hover:text-blue-700 cursor-pointer">
+                        About Us
+                      </li>
+                      <li class="hover:underline hover:text-blue-700 cursor-pointer">
+                        Contact
+                      </li>
+                    </ul>
+                    <ul class="hidden mb-4 space-y-4 md:mb-0 sm:block">
+                      <li class="hover:underline hover:text-blue-700 cursor-pointer">
+                        Blog
+                      </li>
+                      <li class="hover:underline hover:text-blue-700 cursor-pointer">
+                        Privacy Policy
+                      </li>
+                      <li class="hover:underline hover:text-blue-700 cursor-pointer">
+                        Terms of Service
+                      </li>
+                      <li class="hover:underline hover:text-blue-700 cursor-pointer">
+                        Documentation
+                      </li>
+                    </ul>
+                    <div class="mt-4 md:mt-0">
+                      <h2 class="mb-2 font-semibold text-gray-900">Mishka Chelekom</h2>
+                      <.cp class="mb-2 text-gray-100">
+                        We provide a wide range of components tailored to meet various customer needs and preferences.
+                      </.cp>
+                    </div>
+                  </div>
+                </.mega_menu>
+              </:list>
+
+              <:list><.link navigate={~p"/chelekom/docs/rating"}>Booking</.link></:list>
+
+              <:list><.link navigate={~p"/chelekom/docs/sidebar"}>Partners</.link></:list>
+
+              <:list><.link navigate={~p"/chelekom/docs/rating"}>About</.link></:list>
+            </.navbar>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="navbar-list-slot">
+            <.link patch={~p"/chelekom/docs/navbar/#navbar-list-slot"}>
+              Navbar list slot
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <.custom_inline_code>list</.custom_inline_code>
+            slot in the navbar allows you to create a customizable list of links, enhancing navigation. You can include multiple
+            <.custom_inline_code>link</.custom_inline_code>
+            components, and with attributes for icons and styling, you can tailor their appearance and functionality to suit your needs.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" elements_class="space-y-5" code={@code_14}>
+            <.navbar id="navbar-example-60" max_width="extra_large" relative>
+              <:list><.link title="Mishka" navigate="/">Mishka</.link></:list>
+              <:list><.link title="Chelekom" navigate="/chelekom">Chelekom</.link></:list>
+              <:list><.link title="Blog" navigate="/blog">Blog</.link></:list>
+              <:list><.link navigate="/chelekom/docs">Docs</.link></:list>
+            </.navbar>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="navbar-start-end-slot">
+            <.link patch={~p"/chelekom/docs/navbar/#navbar-start-end-slot"}>
+              Navbar start and end content slots
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <.custom_inline_code>start_content</.custom_inline_code>
+            slot in the navbar allows you to insert content at the very beginning of the navbar layout. This is useful for including elements such as logos, icons, or any additional introductory items before the main
+            <.custom_inline_code>inner_block</.custom_inline_code>
+            and
+            <.custom_inline_code>list</.custom_inline_code>
+            slots.
+
+            Similarly, the
+            <.custom_inline_code>end_content</.custom_inline_code>
+            slot allows you to append content at the very end of the navbar. This is ideal for elements like profile menus, buttons, or additional controls that should appear after the main
+            <.custom_inline_code>inner_block</.custom_inline_code>
+            and
+            <.custom_inline_code>list</.custom_inline_code>
+            slots.
+          </.cp>
+          <.cp>
+            By leveraging both
+            <.custom_inline_code>start_content</.custom_inline_code>
+            and
+            <.custom_inline_code>end_content</.custom_inline_code>
+            slots, you can achieve greater customization and flexibility in your navbar's structure, ensuring your navigation bar is tailored to your application's requirements.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" elements_class="space-y-5" code={@code_17}>
+            <.navbar
+              id="navbar-example-1w3423"
+              max_width="extra_large"
+              variant="default"
+              color="dawn"
+            >
+              <:start_content>
+                <.link
+                  navigate={~p"/"}
+                  class="flex items-center space-x-3 rtl:space-x-reverse mb-5 md:mb-0"
+                >
+                  <img src={~p"/images/mishka-logo-white.svg"} class="dark:hidden size-10" />
+                  <img src={~p"/images/mishka-logo.svg"} class="hidden dark:block size-10" />
+                  <h1 class="text-xl font-semibold">
+                    Mishka
+                  </h1>
+                </.link>
+              </:start_content>
+              <:list><.link title="Mishak" navigate="/">Mishka</.link></:list>
+
+              <:list><.link title="Mishak chelekom" navigate="/chelekom">Chelekom</.link></:list>
+
+              <:list><.link title="Mishak blog" navigate="/blog">Blog</.link></:list>
+
+              <:list><.link navigate="/chelekom/docs">Docs</.link></:list>
+            </.navbar>
+
+            <.navbar
+              id="navbar-example-881"
+              max_width="extra_large"
+              variant="default"
+              color="silver"
+            >
+              <:list><.link title="Mishak" navigate="/">Mishka</.link></:list>
+
+              <:list><.link title="Mishak chelekom" navigate="/chelekom">Chelekom</.link></:list>
+
+              <:list><.link title="Mishak blog" navigate="/blog">Blog</.link></:list>
+
+              <:list><.link navigate="/chelekom/docs">Docs</.link></:list>
+              <:end_content>
+                <.link
+                  navigate={~p"/"}
+                  class="flex items-center space-x-3 rtl:space-x-reverse mb-5 md:mb-0"
+                >
+                  <img src={~p"/images/mishka-logo-white.svg"} class="dark:hidden size-10" />
+                  <img src={~p"/images/mishka-logo.svg"} class="hidden dark:block size-10" />
+                  <h1 class="text-xl font-semibold">
+                    Mishka
+                  </h1>
+                </.link>
+              </:end_content>
+            </.navbar>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="navbar-list-icon-props">
+            <.link patch={~p"/chelekom/docs/navbar/#navbar-list-icon-props"}>
+              Navbar list slot icon props
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <.custom_inline_code>icon</.custom_inline_code>
+            attribute allows you to display an icon next to an item, enhancing its visual appeal. You can use the
+            <.custom_inline_code>icon_class</.custom_inline_code>
+            attribute to apply custom styles to the icon. Additionally, the
+            <.custom_inline_code>icon_position</.custom_inline_code>
+            attribute determines whether the icon appears at the start or end of the item.
+          </.cp>
+
+          <.custom_block
+            position="left"
+            variant="default"
+            color="danger"
+            class="my-8"
+            border="medium"
+          >
+            <.cp>
+              By using the class prop, you can apply custom classes or
+              <strong>Tailwind CSS</strong>
+              classes to customize the appearance and behavior of the gallery, allowing for flexible design changes.
+            </.cp>
+          </.custom_block>
+
+          <.custom_code_wrapper code_class="text-xs" elements_class="space-y-5" code={@code_15}>
+            <.navbar id="navbar-example-61" max_width="extra_large" relative>
+              <:list icon="hero-home" icon_class="size-4 block me-2">
+                <.link title="Mishka" navigate="/">Mishka</.link>
+              </:list>
+              <:list icon="hero-wrench-screwdriver" icon_class="size-4 block me-2">
+                <.link title="Chelekom" navigate="/chelekom">Chelekom</.link>
+              </:list>
+              <:list icon="hero-book-open" icon_class="size-4 block me-2">
+                <.link title="Blog" navigate="/blog">Blog</.link>
+              </:list>
+              <:list icon="hero-document" icon_class="size-4 block ms-2" icon_position="end">
+                <.link navigate="/chelekom/docs">Docs</.link>
+              </:list>
+            </.navbar>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="navbar-content-position">
+            <.link patch={~p"/chelekom/docs/navbar/#navbar-content-position"}>
+              Content position prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <.custom_inline_code>content_position</.custom_inline_code>
+            prop controls the horizontal alignment of content within the navbar by applying different justify-content classes to the wrapper. It accepts values like <.custom_inline_code>start</.custom_inline_code>, <.custom_inline_code>end</.custom_inline_code>, <.custom_inline_code>center</.custom_inline_code>, <.custom_inline_code>between</.custom_inline_code>, and
+            <.custom_inline_code>around</.custom_inline_code>
+            to distribute the content accordingly. The default value is <.custom_inline_code>between</.custom_inline_code>, which creates equal spacing between elements.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" elements_class="space-y-5" code={@code_19}>
+            <.navbar
+              id="navbar-example-77"
+              max_width="extra_large"
+              content_position="center"
+              class="border dark:border-gray-700"
+            >
+              Mishka Chelekom Library
+            </.navbar>
+          </.custom_code_wrapper>
+        </:documentation_panel>
+
+        <:props_panel>
+          <.custom_search class="mb-16" />
+          <div class="space-y-8">
+            <h2 class="text-lg lg:text-2xl font-bold">Navbar Component Props</h2>
+
+            <.custom_table id="navbar-component-table">
+              <:header>
+                <.table_th>Name</.table_th>
+
+                <.table_th>Type</.table_th>
+
+                <.table_th>Required</.table_th>
+
+                <.table_th>Description</.table_th>
+              </:header>
+
+              <:row>
+                <.table_td>id</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>Yes</.table_td>
+
+                <.table_td>
+                  A unique identifier is used to manage state and interaction.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>variant</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines the style of the navbar. Supported values: <strong>base</strong>, <strong>default</strong>, <strong>shadow</strong>, <strong>bordered</strong>, <strong>gradient</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>color</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines the color theme of the navbar. Supported values: <strong>base</strong>, <strong>natural</strong>, <strong>primary</strong>, <strong>secondary</strong>, <strong>success</strong>, <strong>warning</strong>, <strong>danger</strong>, <strong>info</strong>, <strong>silver</strong>, <strong>misc</strong>, <strong>dawn</strong>. Default is <strong>natural</strong>.The
+                  <strong>default</strong>
+                  and <strong>bordered</strong>
+                  variants have extra color options: <strong>dark</strong>
+                  and <strong>white</strong>, which in both light mode and dark mode, these colors are always the same.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>list</.table_td>
+
+                <.table_td>slot</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines the navbar links list has props like <strong>class</strong>, <strong>padding</strong>, <strong>icon</strong>, <strong>icon_class</strong>, <strong>icon_position</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>end_content</.table_td>
+
+                <.table_td>slot</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Slot for content placement at the end of the navbar. This provides a way to include additional elements or components at the end of the navigation bar.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>start_content</.table_td>
+
+                <.table_td>slot</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Slot for content placement at the start of the navbar. This provides a way to include additional elements or components at the end of the navigation bar.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>border</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines the border style of the navbar. Default is <strong>extra_small</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>text_position</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Determines the text positioning within the navbar.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>rounded</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines the border radius of the navbar. Accepts values from predefined sizes.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>max_width</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Determines the maximum width of the navbar.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>content_position</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines the alignment of the navbar's content. Default is <strong>between</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>image</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Image displayed alongside of an item.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>image_class</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Custom class for the image displayed.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>name</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Specifies the name of the navbar component.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>relative</.table_td>
+
+                <.table_td>boolean</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Determines if the navbar is positioned relatively.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>link</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Specifies a link associated with the navbar.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>space</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Space between items in the navbar.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>font_weight</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines the font weight of the navbar items. Default is <strong>font-normal</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>padding</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines padding for items in the navbar. Default is <strong>small</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>class</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Custom CSS class for additional styling of the navbar.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>nav_wrapper_class</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Custom CSS class for nav wrapper.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>link_class</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Custom CSS class for link.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>list_wrapper_class</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Custom CSS class for list main wrapper.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>list_class</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Custom CSS class for list ul.</.table_td>
+              </:row>
+            </.custom_table>
+          </div>
+        </:props_panel>
+
+        <:cli_panel>
+          <.custom_cli_props config={component_config()} />
+        </:cli_panel>
+        <.custom_table_content>
+          <:content
+            link={~p"/chelekom/docs/navbar/#overview"}
+            title="Overview of the Navbar Component"
+          />
+          <:content
+            link={~p"/chelekom/docs/navbar/#default-variant-navbar"}
+            title="Default Variant"
+          />
+          <:content
+            link={~p"/chelekom/docs/navbar/#shadow-variant-navbar"}
+            title="Shadow Variant"
+          />
+          <:content
+            link={~p"/chelekom/docs/navbar/#bordered-variant-navbar"}
+            title="Bordered Variant"
+          />
+          <:content
+            link={~p"/chelekom/docs/navbar/#gradient-variant-navbar"}
+            title="Gradient Variant"
+          />
+          <:content
+            link={~p"/chelekom/docs/navbar/#navbar-rounded"}
+            title="Rounded prop of navbar Component"
+          />
+          <:content link={~p"/chelekom/docs/navbar/#navbar-border"} title="Border prop" />
+          <:content link={~p"/chelekom/docs/navbar/#navbar-padding"} title="Padding prop" />
+          <:content link={~p"/chelekom/docs/navbar/#navbar-max-width"} title="Max width prop" />
+          <:content
+            link={~p"/chelekom/docs/navbar/#navbar-text-position"}
+            title="Text position prop"
+          />
+          <:content
+            link={~p"/chelekom/docs/navbar/#navbar-font-weight-prop"}
+            title="Navbar font weight prop"
+          />
+          <:content link={~p"/chelekom/docs/navbar/#navbar-link-prop"} title="Navbar link prop" />
+          <:content link={~p"/chelekom/docs/navbar/#navbar-image-props"} title="Logo of navbar" />
+          <:content link={~p"/chelekom/docs/navbar/#navbar-name-prop"} title="Navbar name prop" />
+          <:content
+            link={~p"/chelekom/docs/navbar/#navbar-relative-prop"}
+            title="Navbar relative prop"
+          />
+          <:content link={~p"/chelekom/docs/navbar/#navbar-list-slot"} title="Navbar list slot" />
+          <:content
+            link={~p"/chelekom/docs/navbar/#navbar-start-end-slot"}
+            title="Navbar start and end content slots"
+          />
+          <:content
+            link={~p"/chelekom/docs/navbar/#navbar-list-icon-props"}
+            title="Navbar list slot icon props"
+          />
+
+          <:content
+            link={~p"/chelekom/docs/navbar/#navbar-content-position"}
+            title="Content position props"
+          />
+        </.custom_table_content>
+      </.custom_tab>
+    </div>
+  </div>
+</Layouts.app>

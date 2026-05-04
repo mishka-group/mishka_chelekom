@@ -1,0 +1,944 @@
+<Layouts.app flash={@flash}>
+  <div class="lg:grid lg:grid-cols-12 mt-5 max-w-5xl mx-auto">
+    <.custom_nav active="chelekom-docs-avatar" />
+    <div class="lg:col-span-10">
+      <.custom_info
+        title="Avatar"
+        description="Interactive avatars and avatar groups for Phoenix and Phoenix LiveView, displaying profile images, initials, or fallback icons, with options to group avatars for a cohesive display."
+        mix="mix mishka.ui.gen.component avatar"
+        github="https://github.com/mishka-group/mishka_chelekom/blob/master/priv/components/avatar.eex"
+        tags={["Component", "Stateless"]}
+      />
+      <.custom_tab id="chelekom-avatar-tab">
+        <:documentation_panel>
+          <.heading2 class="mb-5" id="overview">
+            <.link patch={~p"/chelekom/docs/avatar/#overview"}>
+              Overview of the Phoenix and LiveView Avatar Component
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <strong>
+              Mishka Chelekom Avatar
+            </strong>
+            component allows you to display user profile images, initials, or a fallback icon when no image is available. It's a versatile component that adapts to various user data inputs, ensuring that each profile is represented visually in a consistent and elegant manner. For group displays, the
+            <strong>Avatar Group</strong>
+            component arranges multiple avatars in a compact, visually appealing layout, making it perfect for team views or social interactions within your application. This module integrates seamlessly with
+            <strong>Phoenix</strong>
+            and <strong>Phoenix LiveView</strong>.
+          </.cp>
+          <.custom_code_wrapper elements_class="flex gap-3 items-center text-sm">
+            <.avatar id="avatar3" color="danger" rounded="full">
+              SB
+            </.avatar>
+            <.avatar
+              id="avatar2"
+              border="extra_small"
+              class="border-[#E5E7EB]"
+              src={~p"/images/avatar2.jpg"}
+            />
+            <.avatar color="dawn" id="avatar1">
+              <:icon name="hero-star" />
+            </.avatar>
+
+            <.avatar_group id="ex-1" space="extra_small">
+              <.avatar id="avatar70090" src={~p"/images/avatar1.png"} size="small" rounded="full" />
+              <.avatar id="avatar70091" src={~p"/images/avatar2.jpg"} size="small" rounded="full" />
+              <.avatar id="avatar70092" src={~p"/images/avatar4.jpg"} size="small" rounded="full" />
+              <.avatar
+                id="avatar70093"
+                size="small"
+                color="misc"
+                class="shadow-sm"
+                rounded="full"
+                border="extra_small"
+              >
+                +20
+              </.avatar>
+            </.avatar_group>
+            <.badge
+              size="small"
+              variant="bordered"
+              color="silver"
+              rounded="full"
+              content_class="flex flex-nowrap items-center gap-2 flex-1"
+            >
+              <.avatar_group id="ex-421" space="small">
+                <.avatar
+                  id="avatar70234"
+                  src={~p"/images/avatar1.png"}
+                  size="extra_small"
+                  rounded="full"
+                />
+                <.avatar
+                  id="avatar70ddas"
+                  src={~p"/images/avatar2.jpg"}
+                  size="extra_small"
+                  rounded="full"
+                />
+                <.avatar
+                  id="avatar7fgp"
+                  src={~p"/images/avatar3.jpg"}
+                  size="extra_small"
+                  rounded="full"
+                />
+              </.avatar_group>
+              <span class="text-[15px] font-semibold">
+                25 people Signed up
+              </span>
+            </.badge>
+          </.custom_code_wrapper>
+
+          <.cp>
+            This
+            <strong>
+              <.link
+                title="Phoenix LiveView component"
+                class="transition-colors hover:text-[#448D96]"
+                navigate={~p"/chelekom"}
+              >
+                Phoenix LiveView component
+              </.link>
+            </strong>
+            offers a variety of options to customize your user avatars. You can stack avatars on top of each other as a group, add borders for emphasis, include status indicators, and much more. These features make the avatar component highly flexible, allowing it to fit seamlessly into any design while enhancing the visual representation of user profiles.
+          </.cp>
+
+          <.custom_block position="left" color="success" class="my-8" border="medium">
+            <.cp>
+              By using the class prop, you can apply custom classes or Tailwind CSS classes to customize the appearance and behavior of the components, allowing for flexible design changes.
+            </.cp>
+          </.custom_block>
+
+          <.heading2 margin="my-5" id="avatar-colors">
+            <.link patch={~p"/chelekom/docs/avatar/#avatar-colors"}>
+              Avatar colors
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <.custom_inline_code>color</.custom_inline_code>
+            attribute in the avatar component defines the theme and appearance of the divider by offering a wide range of color options. You can choose from predefined color values such as <.custom_inline_code>base</.custom_inline_code>, <.custom_inline_code>natural</.custom_inline_code>, <.custom_inline_code>white</.custom_inline_code>, <.custom_inline_code>dark</.custom_inline_code>, <.custom_inline_code>primary</.custom_inline_code>, <.custom_inline_code>secondary</.custom_inline_code>, <.custom_inline_code>success</.custom_inline_code>, <.custom_inline_code>warning</.custom_inline_code>, <.custom_inline_code>danger</.custom_inline_code>, <.custom_inline_code>info</.custom_inline_code>, <.custom_inline_code>misc</.custom_inline_code>, <.custom_inline_code>dawn</.custom_inline_code>, and <.custom_inline_code>silver</.custom_inline_code>. The default color is set to <.custom_inline_code>silver</.custom_inline_code>, but you can easily customize the color theme to match the design and style of your application.
+          </.cp>
+
+          <.custom_code_wrapper elements_class="[&>*]:mb-2 text-sm" code={@code_1}>
+            <div class="flex gap-2">
+              <.avatar color="base" id="avatar13234">
+                <:icon name="hero-star" />
+              </.avatar>
+
+              <.avatar color="natural" id="avatar1">
+                <:icon name="hero-star" />
+              </.avatar>
+
+              <.avatar
+                id="avatar24234"
+                border="extra_small"
+                color="dawn"
+                src={~p"/images/avatar2.jpg"}
+              />
+              <.avatar id="avatar3">
+                SB
+              </.avatar>
+              <.avatar id="avatar20" border="extra_small" color="dawn">
+                MD
+              </.avatar>
+              <.avatar id="avatar21" color="misc">
+                Fh
+              </.avatar>
+              <.avatar id="avatar22" color="primary">
+                GT
+              </.avatar>
+              <.avatar id="avatar50" border="extra_small" color="white">
+                Wh
+              </.avatar>
+              <.avatar id="avatar51" color="dark">
+                DA
+              </.avatar>
+              <.avatar id="avatar22" color="info">
+                GT
+              </.avatar>
+              <.avatar id="avatar23" border="extra_small" color="secondary">
+                SE
+              </.avatar>
+              <.avatar id="avatar24">
+                DB
+              </.avatar>
+              <.avatar id="avatar25" border="extra_small" color="warning">
+                MD
+              </.avatar>
+              <.avatar id="avatar26" color="danger">
+                LG
+              </.avatar>
+              <.avatar id="avatar27" color="success">
+                JL
+              </.avatar>
+            </div>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="how-display-images">
+            <.link patch={~p"/chelekom/docs/avatar/#how-display-images"}>
+              How to display images
+            </.link>
+          </.heading2>
+
+          <.cp>
+            By using the src prop and specifying the path to your image, you can easily display
+            any desired image within the <.link navigate={~p"/chelekom/docs/avatar"}>Mishka Chelekom Avatar component</.link>.
+          </.cp>
+
+          <.custom_code_wrapper elements_class="[&>*]:mb-2 text-sm" code={@code_12}>
+            <div class="flex gap-2">
+              <.avatar
+                id="avatar34"
+                alt="Mishka Chelekom avatar component"
+                src={~p"/images/avatar2.jpg"}
+              />
+              <.avatar
+                id="avatar35"
+                alt="Mishka Chelekom avatar component"
+                src={~p"/images/avatar3.jpg"}
+              />
+              <.avatar
+                id="avatar36"
+                alt="Mishka Chelekom avatar component"
+                src={~p"/images/avatar4.jpg"}
+              />
+            </div>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="how-display-icons">
+            <.link patch={~p"/chelekom/docs/avatar/#how-display-icons"}>
+              How to display icons
+            </.link>
+          </.heading2>
+
+          <.cp>
+            By using the icon prop and selecting any Hero icon, you can display icons within the Mishka Chelekom Avatar component, providing a customizable alternative to images.
+          </.cp>
+
+          <.custom_code_wrapper elements_class="[&>*]:mb-2 text-sm" code={@code_13}>
+            <div class="flex gap-2">
+              <.avatar id="avatar37">
+                <:icon name="hero-users" />
+              </.avatar>
+              <.avatar id="avatar38">
+                <:icon name="hero-users" />
+              </.avatar>
+              <.avatar id="avatar39">
+                <:icon name="hero-user" />
+              </.avatar>
+            </div>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="how-display-text">
+            <.link patch={~p"/chelekom/docs/avatar/#how-display-text"}>
+              How to display text
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The Mishka Chelekom Avatar component supports displaying user initials when no image is provided. This ensures a consistent and personalized representation for each user, offering a fallback option that maintains the visual structure of the interface.
+          </.cp>
+
+          <.custom_code_wrapper elements_class="[&>*]:mb-2 text-sm" code={@code_14}>
+            <div class="flex gap-2">
+              <.avatar id="avatar40">
+                TG
+              </.avatar>
+              <.avatar id="avatar41">
+                MD
+              </.avatar>
+              <.avatar id="avatar42">
+                SB
+              </.avatar>
+            </div>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="size-prop">
+            <.link patch={~p"/chelekom/docs/avatar/#size-prop"}>
+              Size prop in Phoenix Liveview component
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The size prop in the Mishka Chelekom Avatar component allows you to control the avatar’s dimensions. You can choose from predefined sizes, such as <.custom_inline_code>extra_small</.custom_inline_code>, <.custom_inline_code>small</.custom_inline_code>, <.custom_inline_code>medium</.custom_inline_code>, <.custom_inline_code>large</.custom_inline_code>, and <.custom_inline_code>extra_large</.custom_inline_code>, ensuring that the avatar fits seamlessly into your design. , you can also apply your own custom class or Tailwind CSS class to add custom sizes to the avatar.
+          </.cp>
+
+          <.custom_code_wrapper elements_class="[&>*]:mb-2 text-sm" code={@code_15}>
+            <div class="flex gap-2">
+              <.avatar id="avatar43" size="extra_small" color="silver">
+                TG
+              </.avatar>
+              <.avatar
+                id="avatar44"
+                size="small"
+                alt="Mishka Chelekom avatar component"
+                src={~p"/images/avatar4.jpg"}
+              />
+              <.avatar
+                id="avatar45"
+                size="medium"
+                alt="Mishka Chelekom avatar component"
+                src={~p"/images/avatar1.png"}
+                rounded="full"
+              />
+
+              <.avatar id="avatar46" size="large">
+                <:icon name="hero-users" color="dawn" />
+              </.avatar>
+              <.avatar id="avatar47" size="extra_large">
+                <:icon name="hero-star" color="misc" />
+              </.avatar>
+            </div>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="border-prop">
+            <.link patch={~p"/chelekom/docs/avatar/#border-prop"}>
+              Border prop in Phoenix Liveview component
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The border prop in the Mishka Chelekom Avatar component allows you to control the avatar’s border size. You can choose from predefined values, such as <.custom_inline_code>extra_small</.custom_inline_code>, <.custom_inline_code>small</.custom_inline_code>, <.custom_inline_code>medium</.custom_inline_code>, <.custom_inline_code>large</.custom_inline_code>, and
+            <.custom_inline_code>extra_large</.custom_inline_code>
+            , you can also apply your own custom class or Tailwind CSS class to add custom border effects to the avatar.
+          </.cp>
+
+          <.custom_code_wrapper elements_class="[&>*]:mb-2 text-sm" code={@code_16}>
+            <div class="flex gap-2">
+              <.avatar id="avatar48" size="extra_large" border="extra_small" color="primary">
+                TG
+              </.avatar>
+              <.avatar
+                id="avatar49"
+                size="extra_large"
+                border="small"
+                color="warning"
+                alt="Mishka Chelekom avatar component"
+                src={~p"/images/avatar5.jpg"}
+              />
+              <.avatar id="avatar" size="extra_large" border="medium" color="secondary">
+                JJ
+              </.avatar>
+              <.avatar id="avatar50" size="extra_large" border="large" color="success">
+                <:icon name="hero-photo" />
+              </.avatar>
+              <.avatar id="avatar51" size="extra_large" border="extra_large" color="danger">
+                <:icon name="hero-heart" />
+              </.avatar>
+            </div>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="rounded-prop">
+            <.link patch={~p"/chelekom/docs/avatar/#rounded-prop"}>
+              Rounded prop in Phoenix Liveview component
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The Rounded prop in the Mishka Chelekom Avatar component allows you to control the avatar’s Rounded size. You can choose from predefined values, such as <.custom_inline_code>extra_small</.custom_inline_code>, <.custom_inline_code>small</.custom_inline_code>, <.custom_inline_code>medium</.custom_inline_code>, <.custom_inline_code>large</.custom_inline_code>, <.custom_inline_code>extra_large</.custom_inline_code>, <.custom_inline_code>full</.custom_inline_code>, and <.custom_inline_code>none</.custom_inline_code>. , you can also apply your own custom class or Tailwind CSS class to add custom border radius effects to the avatar.
+          </.cp>
+
+          <.custom_code_wrapper elements_class="[&>*]:mb-2 text-sm" code={@code_17}>
+            <div class="flex gap-2">
+              <.avatar id="avatar52" size="extra_large" rounded="extra_small">
+                TG
+              </.avatar>
+              <.avatar
+                id="avatar53"
+                size="extra_large"
+                rounded="small"
+                color="warning"
+                alt="Mishka Chelekom avatar component"
+                src={~p"/images/avatar5.jpg"}
+              />
+              <.avatar id="avatar54" size="extra_large" rounded="medium" color="secondary">
+                JJ
+              </.avatar>
+              <.avatar id="avatar55" size="extra_large" rounded="large" color="success">
+                <:icon name="hero-photo" />
+              </.avatar>
+              <.avatar id="avatar56" size="extra_large" rounded="extra_large" color="warning">
+                <:icon name="hero-heart" />
+              </.avatar>
+              <.avatar id="avatar57" size="extra_large" rounded="none" color="danger">
+                <:icon name="hero-heart" />
+              </.avatar>
+              <.avatar id="avatar58" size="extra_large" rounded="full" color="misc">
+                <:icon name="hero-bell-alert" />
+              </.avatar>
+            </div>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="shadow-prop">
+            <.link patch={~p"/chelekom/docs/avatar/#shadow-prop"}>
+              Shadow prop in Phoenix Liveview component
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The shadow prop in the Mishka Chelekom Avatar component allows you to control the avatar’s shadow size. You can choose from predefined values, such as <.custom_inline_code>extra_small</.custom_inline_code>, <.custom_inline_code>small</.custom_inline_code>, <.custom_inline_code>medium</.custom_inline_code>, <.custom_inline_code>large</.custom_inline_code>, <.custom_inline_code>extra_large</.custom_inline_code>, and <.custom_inline_code>none</.custom_inline_code>. By using the shadow prop, you can also apply your own custom class or Tailwind CSS class to add custom shadow effects to the avatar.
+          </.cp>
+
+          <.custom_code_wrapper elements_class="[&>*]:mb-2 text-sm" code={@code_18}>
+            <div class="flex gap-2">
+              <.avatar id="avatar59" size="extra_large" shadow="extra_small">
+                TG
+              </.avatar>
+              <.avatar
+                id="avatar60"
+                size="extra_large"
+                shadow="small"
+                color="warning"
+                alt="Mishka Chelekom avatar component"
+                src={~p"/images/avatar5.jpg"}
+              />
+              <.avatar id="avatar" size="extra_large" shadow="medium" color="secondary">
+                JJ
+              </.avatar>
+              <.avatar id="avatar61" size="extra_large" shadow="large" color="success">
+                <:icon name="hero-photo" />
+              </.avatar>
+              <.avatar id="avatar62" size="extra_large" shadow="extra_large" color="warning">
+                <:icon name="hero-heart" />
+              </.avatar>
+              <.avatar id="avatar63" size="extra_large" shadow="none" color="danger">
+                <:icon name="hero-heart" />
+              </.avatar>
+            </div>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="display-indicator">
+            <.link patch={~p"/chelekom/docs/avatar/#display-indicator"}>
+              Display indicator on avatars
+            </.link>
+          </.heading2>
+
+          <.cp>
+            You can easily using
+            <.link
+              title="Mishka Chelekom indicator component"
+              class="transition-colors hover:text-[#448D96]"
+              navigate={~p"/chelekom/docs/indicator"}
+            >
+              indicator component
+            </.link>
+            to the Mishka Chelekom Avatar component to visually represent status or notifications. By including the
+            <.custom_inline_code>indicator</.custom_inline_code>
+            tag within the avatar, you can customize the size, color, and position of the indicator. For example, using the top_left attribute places the indicator in the top-left corner of the avatar. This feature allows for a more dynamic user experience, such as showing online statuses, notifications, or alerts alongside profile images or icons. By using the pinging prop on the <.custom_inline_code>indicator</.custom_inline_code>, you can add a pinging animation to the avatar, making it more dynamic and visually engaging.
+          </.cp>
+
+          <.custom_code_wrapper elements_class="[&>*]:mb-2 text-sm" code={@code_19}>
+            <div class="flex gap-2 px-2">
+              <.avatar id="avatar64" size="large" color="primary" border="small">
+                <:icon name="hero-users" />
+                <.indicator size="small" color="danger" top_left />
+              </.avatar>
+
+              <.avatar id="avatar65" size="large" color="silver" border="small">
+                TG <.indicator size="small" color="misc" bottom_left />
+              </.avatar>
+
+              <.avatar
+                id="avatar66"
+                size="extra_large"
+                alt="Mishka Chelekom avatar component"
+                src={~p"/images/avatar5.jpg"}
+              >
+                <:icon name="hero-heart" />
+                <.indicator size="small" color="success" top_right pinging />
+              </.avatar>
+            </div>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="avatar-group">
+            <.link patch={~p"/chelekom/docs/avatar/#avatar-group"}>
+              Avatar group
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <.custom_inline_code>avatar_group</.custom_inline_code>
+            component in the Mishka Chelekom library allows you to display multiple avatars together in a compact, visually cohesive layout. This feature is ideal for representing teams, group members, or social interactions. Additionally, you can add a placeholder, like +20, using the
+            <.custom_inline_code>avatar</.custom_inline_code>
+            tag to represent additional members in the group when space is limited.
+          </.cp>
+
+          <.custom_code_wrapper elements_class="[&>*]:mb-2 text-sm" code={@code_20}>
+            <.avatar_group id="avatargroup1">
+              <.avatar
+                id="avatar67"
+                src={~p"/images/avatar1.png"}
+                size="large"
+                border="extra_small"
+                color="dawn"
+                rounded="full"
+              />
+              <.avatar
+                id="avatar68"
+                src={~p"/images/avatar2.jpg"}
+                size="large"
+                border="extra_small"
+                color="info"
+                rounded="full"
+              />
+              <.avatar
+                id="avatar69"
+                src={~p"/images/avatar3.jpg"}
+                size="large"
+                border="extra_small"
+                color="base"
+                rounded="full"
+              />
+              <.avatar
+                id="avatar70"
+                src={~p"/images/avatar4.jpg"}
+                size="large"
+                border="extra_small"
+                color="misc"
+                rounded="full"
+              />
+              <.avatar id="avatar71" size="large" color="secondary" rounded="full" border="small">
+                +20
+              </.avatar>
+            </.avatar_group>
+          </.custom_code_wrapper>
+          <.heading2 margin="my-5" id="space-prop-avatar-group">
+            <.link patch={~p"/chelekom/docs/avatar/#space-prop-avatar-group"}>
+              Space prop Avatar group
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The space attribute in the Mishka Chelekom Avatar Group component has the following size options: <.custom_inline_code>extra_small</.custom_inline_code>, <.custom_inline_code>small</.custom_inline_code>, <.custom_inline_code>medium</.custom_inline_code>, <.custom_inline_code>large</.custom_inline_code>, <.custom_inline_code>extra_large</.custom_inline_code>, and <.custom_inline_code>none</.custom_inline_code>.
+          </.cp>
+
+          <.custom_code_wrapper elements_class="[&>*]:mb-5 text-sm" code={@code_21}>
+            <.avatar_group space="extra_small" id="avatargroup2">
+              <.avatar
+                id="avatar72"
+                src={~p"/images/avatar1.png"}
+                size="large"
+                border="extra_small"
+                color="misc"
+                rounded="full"
+              />
+              <.avatar
+                id="avatar73"
+                src={~p"/images/avatar2.jpg"}
+                size="large"
+                border="extra_small"
+                color="dawn"
+                rounded="full"
+              />
+              <.avatar
+                id="avatar74"
+                src={~p"/images/avatar3.jpg"}
+                size="large"
+                border="extra_small"
+                color="primary"
+                rounded="full"
+              />
+              <.avatar
+                id="avatar75"
+                src={~p"/images/avatar4.jpg"}
+                size="large"
+                border="extra_small"
+                color="secondary"
+                rounded="full"
+              />
+              <.avatar id="avatar76" size="large" color="base" rounded="full" border="extra_small">
+                +20
+              </.avatar>
+            </.avatar_group>
+            <.avatar_group id="avatargroup3" space="small">
+              <.avatar
+                id="avatar77"
+                src={~p"/images/avatar1.png"}
+                size="large"
+                border="extra_small"
+                color="misc"
+                rounded="full"
+              />
+              <.avatar
+                id="avatar78"
+                src={~p"/images/avatar2.jpg"}
+                size="large"
+                border="extra_small"
+                color="misc"
+                rounded="full"
+              />
+              <.avatar
+                id="avatar79"
+                src={~p"/images/avatar3.jpg"}
+                size="large"
+                border="extra_small"
+                color="misc"
+                rounded="full"
+              />
+              <.avatar
+                id="avatar80"
+                src={~p"/images/avatar4.jpg"}
+                size="large"
+                border="extra_small"
+                color="misc"
+                rounded="full"
+              />
+              <.avatar id="avatar81" size="large" color="dawn" rounded="full" border="extra_small">
+                +20
+              </.avatar>
+            </.avatar_group>
+            <.avatar_group id="avatargroup5" space="extra_small">
+              <.avatar
+                id="avatar82"
+                src={~p"/images/avatar1.png"}
+                size="large"
+                border="extra_small"
+                color="misc"
+                rounded="full"
+              />
+              <.avatar
+                id="avatar83"
+                src={~p"/images/avatar2.jpg"}
+                size="large"
+                border="extra_small"
+                color="misc"
+                rounded="full"
+              />
+              <.avatar
+                id="avatar84"
+                src={~p"/images/avatar3.jpg"}
+                size="large"
+                border="extra_small"
+                color="misc"
+                rounded="full"
+              />
+              <.avatar
+                id="avatar85"
+                src={~p"/images/avatar4.jpg"}
+                size="large"
+                border="extra_small"
+                color="misc"
+                rounded="full"
+              />
+              <.avatar id="avatar86" size="large" color="misc" rounded="full" border="extra_small">
+                +20
+              </.avatar>
+            </.avatar_group>
+            <.avatar_group id="avatargroup6" space="large">
+              <.avatar
+                id="avatar86"
+                src={~p"/images/avatar1.png"}
+                size="large"
+                border="extra_small"
+                color="misc"
+                rounded="full"
+              />
+              <.avatar
+                id="avatar87"
+                src={~p"/images/avatar2.jpg"}
+                size="large"
+                border="extra_small"
+                color="misc"
+                rounded="full"
+              />
+              <.avatar
+                id="avatar88"
+                src={~p"/images/avatar3.jpg"}
+                size="large"
+                border="extra_small"
+                color="misc"
+                rounded="full"
+              />
+              <.avatar
+                id="avatar89"
+                src={~p"/images/avatar4.jpg"}
+                size="large"
+                border="extra_small"
+                color="misc"
+                rounded="full"
+              />
+              <.avatar id="avatar90" size="large" color="info" rounded="full" border="extra_small">
+                +20
+              </.avatar>
+            </.avatar_group>
+            <.avatar_group id="avatargroup7" space="extra_large">
+              <.avatar
+                id="avatar91"
+                src={~p"/images/avatar1.png"}
+                size="large"
+                border="extra_small"
+                color="misc"
+                rounded="full"
+              />
+              <.avatar
+                id="avatar92"
+                src={~p"/images/avatar2.jpg"}
+                size="large"
+                border="extra_small"
+                color="misc"
+                rounded="full"
+              />
+              <.avatar
+                id="avatar93"
+                src={~p"/images/avatar3.jpg"}
+                size="large"
+                border="extra_small"
+                color="misc"
+                rounded="full"
+              />
+              <.avatar
+                id="avatar94"
+                src={~p"/images/avatar4.jpg"}
+                size="large"
+                border="extra_small"
+                color="misc"
+                rounded="full"
+              />
+              <.avatar
+                id="avatar95"
+                size="large"
+                color="primary"
+                rounded="full"
+                border="extra_small"
+              >
+                +20
+              </.avatar>
+            </.avatar_group>
+          </.custom_code_wrapper>
+        </:documentation_panel>
+
+        <:props_panel>
+          <.custom_search class="mb-16" />
+          <div class="space-y-8">
+            <h2 class="text-lg lg:text-2xl font-bold">Avatar component props</h2>
+
+            <.custom_table id="avatar-component-table">
+              <:header>
+                <.table_th>Name</.table_th>
+
+                <.table_th>Type</.table_th>
+
+                <.table_th>Required</.table_th>
+
+                <.table_th>Description</.table_th>
+              </:header>
+
+              <:row>
+                <.table_td>id</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  A unique identifier is used to manage state and interaction.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>class</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Custom CSS class for additional styling.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>src</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Media link for the avatar image.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>color</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines the color theme. Supported colors: <strong>natural</strong>, <strong>white</strong>, <strong>dark</strong>, <strong>primary</strong>, <strong>secondary</strong>, <strong>success</strong>, <strong>warning</strong>, <strong>danger</strong>, <strong>info</strong>, <strong>silver</strong>, <strong>misc</strong>, <strong>dawn</strong>, <strong>transparent</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>size</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines the overall size of the elements, including padding, font size, and other items. Supported sizes: <strong>extra_small</strong>, <strong>small</strong>, <strong>medium</strong>, <strong>large</strong>, <strong>extra_large</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>shadow</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines shadow style. Supported values: <strong>extra_small</strong>, <strong>small</strong>, <strong>medium</strong>, <strong>large</strong>, <strong>extra_large</strong>, <strong>none</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>font_weight</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines custom class for the font weight. Default is <strong>font-normal</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>rounded</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines the border radius. Supported values: <strong>extra_small</strong>, <strong>small</strong>, <strong>medium</strong>, <strong>large</strong>, <strong>extra_large</strong>, <strong>full</strong>, <strong>none</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>border</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Determines border style. Default is <strong>none</strong>.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>icon</.table_td>
+
+                <.table_td>slot</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Slot to display an icon. Slot attributes include: <strong>name</strong>
+                  (required, specifies the icon name), <strong>class</strong>
+                  (optional, custom CSS class for styling), <strong>icon_class</strong>
+                  (optional, custom class for the icon), <strong>color</strong>
+                  (optional, determines the icon's color), and <strong>size</strong>
+                  (optional, determines the size of the icon, including padding and font size).
+                </.table_td>
+              </:row>
+            </.custom_table>
+          </div>
+
+          <div class="space-y-8 mt-8">
+            <h2 class="text-lg lg:text-2xl font-bold">Avatar Group component props</h2>
+
+            <.custom_table id="avatar-group-component-table">
+              <:header>
+                <.table_th>Name</.table_th>
+
+                <.table_th>Type</.table_th>
+
+                <.table_th>Required</.table_th>
+
+                <.table_th>Description</.table_th>
+              </:header>
+
+              <:row>
+                <.table_td>id</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  A unique identifier is used to manage state and interaction.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>type</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Specifies the type of avatar group to be rendered. Supported types: <strong>default</strong>, <strong>placeholder</strong>, <strong>placeholder_icon</strong>, <strong>nil</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>class</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Custom CSS class for additional styling.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>space</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Space between items in the avatar group. Supported values: <strong>extra_small</strong>, <strong>small</strong>, <strong>medium</strong>, <strong>large</strong>, <strong>extra_large</strong>, <strong>none</strong>.
+                </.table_td>
+              </:row>
+            </.custom_table>
+          </div>
+        </:props_panel>
+
+        <:cli_panel>
+          <.custom_cli_props config={component_config()} />
+        </:cli_panel>
+
+        <.custom_table_content>
+          <:content
+            link={~p"/chelekom/docs/avatar/#overview"}
+            title="Overview of the Avatar component"
+          />
+          <:content link={~p"/chelekom/docs/avatar/#avatar-colors"} title="Colors" />
+          <:content
+            link={~p"/chelekom/docs/avatar/#how-display-images"}
+            title="How Display images"
+          />
+          <:content link={~p"/chelekom/docs/avatar/#how-display-icons"} title="How Display icons" />
+          <:content link={~p"/chelekom/docs/avatar/#how-display-text"} title="How Display text" />
+          <:content link={~p"/chelekom/docs/avatar/#size-prop"} title="Size prop" />
+          <:content link={~p"/chelekom/docs/avatar/#border-prop"} title="Border prop" />
+          <:content link={~p"/chelekom/docs/avatar/#rounded-prop"} title="Rounded prop" />
+          <:content link={~p"/chelekom/docs/avatar/#shadow-prop"} title="Shadow prop" />
+          <:content link={~p"/chelekom/docs/avatar/#display-indicator"} title="Display indicator" />
+          <:content link={~p"/chelekom/docs/avatar/#avatar-group"} title="Avatar group" />
+          <:content
+            link={~p"/chelekom/docs/avatar/#space-prop-avatar-group"}
+            title="Avatar group space prop"
+          />
+        </.custom_table_content>
+      </.custom_tab>
+    </div>
+  </div>
+</Layouts.app>

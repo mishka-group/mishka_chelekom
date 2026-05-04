@@ -1,0 +1,285 @@
+<Layouts.app flash={@flash}>
+  <div class="lg:grid lg:grid-cols-12 mt-5 max-w-5xl mx-auto">
+    <.custom_nav active="chelekom-docs-security" />
+    <div class="lg:col-span-10">
+      <div class="lg:grid lg:grid-cols-12 mt-2">
+        <article class="lg:col-span-9 px-2 lg:px-0 pb-10 leading-10 text-[#444444] dark:text-[#cacfd2]">
+          <div class="flex items-center justify-between mb-8">
+            <.heading1 id="security" class="w-full text-3xl text-[#448d96] font-bold">
+              Security
+            </.heading1>
+            <div class="flex items-center justify-end flex-wrap md:flex-nowrap gap-3">
+              <.badge
+                variant="outline"
+                size="small"
+                color="silver"
+                class="whitespace-nowrap"
+                left_indicator
+                pinging
+              >
+                New version v0.0.8 🚀
+              </.badge>
+              <.nav_mobile_button position="end" />
+            </div>
+          </div>
+          <.heading2 id="phoenix-component-security" class="mb-8 font-bold">
+            Comprehensive Guide to Phoenix Component Security
+          </.heading2>
+
+          <.cp>
+            Security is like a fortress; it has multiple layers. These layers work
+            together to not only prevent attacks but also minimize damage if an attack
+            occurs. Therefore, the better you isolate and control the components of your
+            system, the more effective your monitoring and protection can be. This article
+            discusses security in <strong>Chelekom</strong>
+            and <strong>Phoenix</strong>
+            components.
+          </.cp>
+
+          <.heading2
+            id="what-phoenix-component-security"
+            class="text-2xl pb-5 my-5 border-b border-[#E5E7EB] dark:border-b-[#4f4f4f] font-bold"
+          >
+            What is Security in Phoenix Components?
+          </.heading2>
+
+          <.cp>
+            The Phoenix framework leverages decades of <strong>Erlang</strong>
+            and <strong>Ruby</strong>
+            experience and provides a secure and robust architecture from the ground up.
+            However, this does not mean that developers should ignore security.
+            Leaving all security concerns to Phoenix is a big mistake, and security should
+            be taken seriously at every level of the software.
+          </.cp>
+
+          <.heading2
+            id="inputs-important"
+            class="text-2xl pb-5 my-5 border-b border-[#E5E7EB] dark:border-b-[#4f4f4f] font-bold"
+          >
+            Are Other Inputs Not Important?
+          </.heading2>
+
+          <.cp>
+            A common misconception among developers is that if there is no direct input,
+            there is no attack risk. This is incorrect because attacks can be carried out
+            simultaneously through multiple paths, creating a chain of vulnerabilities.
+            Individually, these issues might not seem significant, but together they can
+            lead to a severe security flaw.
+          </.cp>
+
+          <.heading2
+            id="phoenix-complete-security"
+            class="text-2xl pb-5 my-5 border-b border-[#E5E7EB] dark:border-b-[#4f4f4f] font-bold"
+          >
+            Does Phoenix Ensure Complete Security?
+          </.heading2>
+
+          <.cp>
+            If we assume that Phoenix is always completely secure, does that mean we no
+            longer need to check for security? This assumption is false. For instance,
+            vulnerabilities like <strong>SSTI</strong> (Server-Side Template Injection)
+            still exist, and despite all efforts, template engines can still have security
+            issues. Moreover, browsers can play a significant role in facilitating attacks
+            because they try to correct user errors and, with new features, can
+            inadvertently introduce vulnerabilities.
+          </.cp>
+
+          <.heading2
+            id="sanitize-validate"
+            class="text-2xl pb-5 my-5 border-b border-[#E5E7EB] dark:border-b-[#4f4f4f] font-bold"
+          >
+            Why Should We Sanitize and Validate Input Data?
+          </.heading2>
+
+          <.cp>
+            It is recommended that, as a developer, you take at least the minimum
+            necessary steps: input data received from users, especially data that is
+            reflected as <strong>HTML</strong>, should always be validated and sanitized
+            before use. This step helps prevent many attacks. This becomes particularly
+            important when you are using editors to receive and display complete HTML
+            content.
+          </.cp>
+
+          <.heading2
+            id="security-chelekom-components"
+            class="text-2xl pb-5 my-5 border-b border-[#E5E7EB] dark:border-b-[#4f4f4f] font-bold"
+          >
+            Security Status of Chelekom Components
+          </.heading2>
+
+          <.cp>
+            <strong>Chelekom</strong> components are similar to others in terms of
+            security. All input and output should be carefully controlled, and limiting
+            the display scope reduces risk. Additionally, if your component includes <strong>JavaScript</strong>, the JavaScript parts must also be secured, using
+            safe libraries.
+          </.cp>
+
+          <.heading2
+            id="generators-security"
+            class="text-2xl pb-5 my-5 border-b border-[#E5E7EB] dark:border-b-[#4f4f4f] font-bold"
+          >
+            Using Task Generators for Better Security
+          </.heading2>
+
+          <.cp>
+            Often, low-level development teams aim to create general infrastructure
+            products that can't impose the specific constraints needed by each business.
+            This is where task generators come in handy. By placing each component
+            separately in your project, they provide better opportunities for securing
+            your code.
+          </.cp>
+
+          <.heading2
+            id="static-analyzers-phoenix-security"
+            class="text-2xl pb-5 my-5 border-b border-[#E5E7EB] dark:border-b-[#4f4f4f] font-bold"
+          >
+            The Role of Static Analyzers in Phoenix Security
+          </.heading2>
+
+          <.cp>
+            Using Phoenix static analyzers adds an extra layer in the development
+            environment that helps enhance security. It is recommended to use static
+            analysis tools and resources like the
+            <.link
+              class="text-blue-300"
+              href="https://erlef.github.io/security-wg/"
+              target="_blank"
+            >
+              <strong>EEF Security WG</strong>
+            </.link>
+            and
+            <.link
+              class="text-blue-300"
+              href="https://hexdocs.pm/phoenix_live_view/security-model.html"
+              target="_blank"
+            >
+              <strong>Phoenix LiveView Security considerations</strong>
+            </.link>
+            to
+            improve the security of your projects.
+          </.cp>
+
+          <.heading2
+            id="which-components-vulnerable"
+            class="text-2xl pb-5 my-5 border-b border-[#E5E7EB] dark:border-b-[#4f4f4f] font-bold"
+          >
+            Which Parts of Components Can Be Vulnerable?
+          </.heading2>
+
+          <.cp>
+            Requests from the <strong>client</strong>
+            to the <strong>server</strong>
+            and
+            vice versa in <strong>Phoenix LiveView</strong>
+            are sent using protocols like <strong>WebSocket</strong>. Therefore, it is essential to know that both the
+            client and server sides can be subject to attacks. It doesn't matter if your
+            component is <strong>stateless</strong>
+            or <strong>stateful</strong>, or
+            whether it uses <strong>LiveView JS modules</strong>
+            or <strong>phx-hook</strong>; in all cases, minimum security practices must be
+            followed.
+          </.cp>
+
+          <.heading2
+            id="phoenix-rate-limiting"
+            class="text-2xl pb-5 my-5 border-b border-[#E5E7EB] dark:border-b-[#4f4f4f] font-bold"
+          >
+            Implementing Rate Limiting in Phoenix Components for Request Control
+          </.heading2>
+
+          <.cp>
+            In Phoenix, rate limiting and request control are responsibilities of the developer.
+            You can define rules to limit how often users can make requests, such as controlling the
+            number of page requests or limiting actions like "liking" a post.
+          </.cp>
+          <.cp>
+            For example, when implementing pagination, you may allow users to navigate pages but
+            enforce a rate limit to avoid excessive database hits within a short time frame.
+            Similarly, you could limit the number of likes a user can send per second to
+            prevent abuse and maintain server performance.
+          </.cp>
+
+          <.cp>
+            Example:
+            If you want to allow users to navigate pages quickly but not overload the server,
+            you can use a rate limiter to permit a maximum of, say, 5 page changes per second.
+          </.cp>
+
+          <.heading2
+            id="csp"
+            class="text-2xl pb-5 my-5 border-b border-[#E5E7EB] dark:border-b-[#4f4f4f] font-bold"
+          >
+            CSP Policy and other security headers
+          </.heading2>
+
+          <.cp>
+            We have tried to test the components in various scenarios and thoroughly cover the areas that each
+            component needs to handle.
+            One of these topics is the compatibility of components with the CSP header, which has been well
+            implemented in our tests. It is worth mentioning that if a component has requirements in
+            this regard, it will be addressed in its own section of the documentation.
+          </.cp>
+
+          <.heading2
+            id="find-a-security-problem"
+            class="text-2xl pb-5 my-5 border-b border-[#E5E7EB] dark:border-b-[#4f4f4f] font-bold"
+          >
+            What should you do if you find a security problem?
+          </.heading2>
+
+          <.cp>
+            If you find a security problem, please contact <.custom_inline_code>info@mishka.tools</.custom_inline_code>.
+          </.cp>
+        </article>
+        <.custom_table_content>
+          <:content link={~p"/chelekom/docs/security/#security"} title="Security" />
+          <:content
+            link={~p"/chelekom/docs/security/#phoenix-component-security"}
+            title="Comprehensive Guide to Phoenix Component Security"
+          />
+          <:content
+            link={~p"/chelekom/docs/security/#what-phoenix-component-security"}
+            title="What is Security in Phoenix Components?"
+          />
+          <:content
+            link={~p"/chelekom/docs/security/#inputs-important"}
+            title="Are Other Inputs Not Important?"
+          />
+          <:content
+            link={~p"/chelekom/docs/security/#phoenix-complete-security"}
+            title="Does Phoenix Ensure Complete Security?"
+          />
+          <:content
+            link={~p"/chelekom/docs/security/#sanitize-validate"}
+            title="Why Should We Sanitize and Validate Input Data?"
+          />
+          <:content
+            link={~p"/chelekom/docs/security/#security-chelekom-components"}
+            title="Security Status of Chelekom Components"
+          />
+          <:content
+            link={~p"/chelekom/docs/security/#generators-security"}
+            title="Using Task Generators for Better Security"
+          />
+          <:content
+            link={~p"/chelekom/docs/security/#static-analyzers-phoenix-security"}
+            title="The Role of Static Analyzers in Phoenix Security"
+          />
+          <:content
+            link={~p"/chelekom/docs/security/#which-components-vulnerable"}
+            title="Which Parts of Components Can Be Vulnerable?"
+          />
+          <:content
+            link={~p"/chelekom/docs/security/#phoenix-rate-limiting"}
+            title="Implementing Rate Limiting in Phoenix Components for Request Control"
+          />
+          <:content link={~p"/chelekom/docs/security/#csp"} title="CSP" />
+          <:content
+            link={~p"/chelekom/docs/security/#find-a-security-problem"}
+            title="What should you do if you find a security problem?"
+          />
+        </.custom_table_content>
+      </div>
+    </div>
+  </div>
+</Layouts.app>

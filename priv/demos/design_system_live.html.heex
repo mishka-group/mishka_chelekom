@@ -1,0 +1,167 @@
+<Layouts.app flash={@flash}>
+  <div class="lg:grid lg:grid-cols-12 mt-5 max-w-5xl mx-auto">
+    <.custom_nav active="chelekom-docs-design-system" />
+
+    <div class="lg:col-span-10">
+      <div class="lg:grid lg:grid-cols-12 mt-2">
+        <article class="lg:col-span-9 px-2 lg:px-0 pb-10 leading-10 text-[#444444] dark:text-[#cacfd2]">
+          <div class="flex items-center justify-between mb-8">
+            <.heading1 id="design-system" class="w-full text-3xl font-bold">
+              Design system
+            </.heading1>
+            <div class="flex items-center justify-end flex-wrap md:flex-nowrap gap-3">
+              <.badge
+                variant="outline"
+                size="small"
+                color="silver"
+                class="whitespace-nowrap"
+                left_indicator
+                pinging
+              >
+                New version v0.0.8 🚀
+              </.badge>
+              <.nav_mobile_button position="end" />
+            </div>
+          </div>
+
+          <.heading2 color="color2" class="text-xl my-10 font-bold">
+            Mishka Chelekom Design System
+          </.heading2>
+
+          <.cp class="my-5">
+            Welcome to our design system documentation! A design system is a comprehensive collection of reusable components, patterns, and guidelines that ensure consistency and efficiency across your applications. It serves as a single source of truth for developers and designers, providing standardized elements like typography, colors, spacing, and components. Our system emphasizes maintainability, scalability, and a cohesive user experience while reducing development time and technical debt.
+          </.cp>
+
+          <.heading2 color="color2" class="text-xl my-10 font-bold">
+            Typography of Mishka Chelekom Library
+          </.heading2>
+
+          <.cp class="my-5">
+            Typography of mishka chelekom library design system offers a comprehensive set of carefully designed text styles, ensuring consistency and readability across your application. From headings to body text, each typography element has been crafted with attention to font size, weight, and spacing. Values are <.custom_inline_code>extra_small</.custom_inline_code>, <.custom_inline_code>small</.custom_inline_code>, <.custom_inline_code>medium</.custom_inline_code>, <.custom_inline_code>large</.custom_inline_code>, <.custom_inline_code>extra_large</.custom_inline_code>, <.custom_inline_code>double_large</.custom_inline_code>, <.custom_inline_code>triple_large</.custom_inline_code>, and
+            <.custom_inline_code>quadruple_large</.custom_inline_code>
+          </.cp>
+
+          <div class="space-y-5">
+            <.h1>Heading 1</.h1>
+            <.h2>Heading 2</.h2>
+            <.h3>Heading 3</.h3>
+            <.h4>Heading 4</.h4>
+            <.h5>Heading 5</.h5>
+            <.h6>Heading 6</.h6>
+          </div>
+
+          <.heading2 color="color2" class="text-xl my-10 font-bold">
+            Size values of Mishka Chelekom Library
+          </.heading2>
+
+          <.cp class="my-5">
+            Mishka Chelekom offers predefined size options: <.custom_inline_code>extra_small</.custom_inline_code>, <.custom_inline_code>small</.custom_inline_code>, <.custom_inline_code>medium</.custom_inline_code>, <.custom_inline_code>large</.custom_inline_code>,
+            <.custom_inline_code>extra_large</.custom_inline_code>
+            which can be easily applied to components. In some components, we also offer larger sizes, such as <.custom_inline_code>double_large</.custom_inline_code>, <.custom_inline_code>triple_large</.custom_inline_code>, and <.custom_inline_code>quadruple_large</.custom_inline_code>.
+          </.cp>
+
+          <.cp class="my-8">
+            These predefined values cover <strong>borders</strong>, <strong>text sizes</strong>, <strong>border radius</strong>, and other properties. For each element, you can refer to the documentation of the desired component to find the correct sizes for each property.
+          </.cp>
+
+          <div class="flex items-start gap-5 flex-wrap">
+            <.button size="extra_small" variant="outline" color="primary">Extra small</.button>
+            <.button size="small" variant="outline" color="primary">Small</.button>
+            <.button size="medium" variant="outline" color="primary">Medium</.button>
+            <.button size="large" variant="outline" color="primary">Large</.button>
+            <.button size="extra_large" variant="outline" color="primary">Extra large</.button>
+          </div>
+
+          <.heading2 color="color2" class="text-xl my-10 font-bold">
+            Shadow values of Mishka Chelekom Library
+          </.heading2>
+
+          <.cp class="my-10">
+            Mishka Chelekom offers predefined size options: <.custom_inline_code>extra_small</.custom_inline_code>, <.custom_inline_code>small</.custom_inline_code>, <.custom_inline_code>medium</.custom_inline_code>, <.custom_inline_code>large</.custom_inline_code>,
+            <.custom_inline_code>extra_large</.custom_inline_code>
+            which can be easily applied to components. In some components, we also offer larger sizes, such as <.custom_inline_code>double_large</.custom_inline_code>, <.custom_inline_code>triple_large</.custom_inline_code>, and <.custom_inline_code>quadruple_large</.custom_inline_code>.
+          </.cp>
+
+          <div class="grid grid-cols-5 gap-3">
+            <div class="flex justify-center items-center dark:bg-gray-800 bg-white h-20 text-sm shadow-sm">
+              Extra small
+            </div>
+            <div class="flex justify-center items-center dark:bg-gray-800 bg-white h-20 text-sm shadow">
+              Small
+            </div>
+            <div class="flex justify-center items-center dark:bg-gray-800 bg-white h-20 text-sm shadow-md">
+              Medium
+            </div>
+            <div class="flex justify-center items-center dark:bg-gray-800 bg-white h-20 text-sm shadow-lg">
+              Large
+            </div>
+            <div class="flex justify-center items-center dark:bg-gray-800 bg-white h-20 text-sm shadow-xl">
+              Extra large
+            </div>
+          </div>
+
+          <.heading2 color="color2" class="text-xl my-10 font-bold">
+            Font weights of Mishka Chelekom Library
+          </.heading2>
+
+          <.cp class="my-5">
+            Font weight control in Mishka Chelekom is straightforward - simply add any Tailwind font weight class to your components by using
+            <.custom_inline_code>font_weight</.custom_inline_code>
+            prop to adjust text thickness. Available classes include <strong>font-text-thin</strong>, <strong>font-light</strong>, <strong>font-normal</strong>, <strong>font-medium</strong>, <strong>font-semibold</strong>, font-bold, and <strong>font-extrabold</strong>.
+          </.cp>
+
+          <div class="grid md:grid-cols-3 gap-5">
+            <div>
+              <div class="mb-5 text-xl font-bold">Thin</div>
+              <div class="space-y-6">
+                <.h1 font_weight="font-thin">Heading 1</.h1>
+                <.h2 font_weight="font-thin">Heading 2</.h2>
+                <.h3 font_weight="font-thin">Heading 3</.h3>
+                <.h4 font_weight="font-thin">Heading 4</.h4>
+                <.h5 font_weight="font-thin">Heading 5</.h5>
+                <.h6 font_weight="font-thin">Heading 6</.h6>
+              </div>
+            </div>
+            <div>
+              <div class="mb-5 text-xl font-bold">Semibold</div>
+              <div class="space-y-6">
+                <.h1 font_weight="font-semibold">Heading 1</.h1>
+                <.h2 font_weight="font-semibold">Heading 2</.h2>
+                <.h3 font_weight="font-semibold">Heading 3</.h3>
+                <.h4 font_weight="font-semibold">Heading 4</.h4>
+                <.h5 font_weight="font-semibold">Heading 5</.h5>
+                <.h6 font_weight="font-semibold">Heading 6</.h6>
+              </div>
+            </div>
+            <div>
+              <div class="mb-5 text-xl font-bold">Bold</div>
+              <div class="space-y-6">
+                <.h1 font_weight="font-bold">Heading 1</.h1>
+                <.h2 font_weight="font-bold">Heading 2</.h2>
+                <.h3 font_weight="font-bold">Heading 3</.h3>
+                <.h4 font_weight="font-bold">Heading 4</.h4>
+                <.h5 font_weight="font-bold">Heading 5</.h5>
+                <.h6 font_weight="font-bold">Heading 6</.h6>
+              </div>
+            </div>
+          </div>
+
+          <.heading2 color="color2" class="text-xl my-10 font-bold">
+            All colors of Mishka Chelekom
+          </.heading2>
+
+          <.custom_colors />
+        </article>
+        <.custom_table_content>
+          <:content link={~p"/chelekom/docs/#get-started"} title="Get Started" />
+          <:content link={~p"/chelekom/docs/#installing"} title="Installing the Chelekom Library" />
+          <:content
+            link={~p"/chelekom/docs/#mix-task-generator"}
+            title="Using the Generator to Create Components"
+          />
+          <:content link={~p"/chelekom/docs/#prerequisites"} title="Prerequisites" />
+        </.custom_table_content>
+      </div>
+    </div>
+  </div>
+</Layouts.app>

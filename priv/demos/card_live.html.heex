@@ -1,0 +1,2057 @@
+<Layouts.app flash={@flash}>
+  <div class="lg:grid lg:grid-cols-12 mt-5 max-w-5xl mx-auto">
+    <.custom_nav active="chelekom-docs-card" />
+    <div class="lg:col-span-10">
+      <.custom_info
+        title="Card"
+        description="Customizable card components for Phoenix and Phoenix LiveView, offering flexible layouts with titles, media, content, and footers."
+        mix="mix mishka.ui.gen.component card"
+        github="https://github.com/mishka-group/mishka_chelekom/blob/master/priv/components/card.eex"
+        tags={["Component", "Stateless"]}
+      />
+      <.custom_tab id="chelekom-card-tab">
+        <:documentation_panel>
+          <.heading2 class="mb-5" id="overview">
+            <.link patch={~p"/chelekom/docs/card/#overview"}>
+              Overview of the Phoenix and LiveView Card Component
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <strong>
+              Mishka Chelekom Card
+            </strong>
+            component allows you to create flexible and customizable card layouts for displaying content such as images, text, and actions. It's a versatile component that can be tailored to match different design needs, providing an organized and visually appealing structure. For enhanced functionality, the
+            <strong>Card Footer</strong>
+            and <strong>Card Title</strong>
+            components offer additional sections for displaying actionable elements and highlighting important information, making this module ideal for content presentation in various contexts. The Card component integrates seamlessly with
+            <strong>Phoenix</strong>
+            and <strong>Phoenix LiveView</strong>.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs">
+            <div class="grid sm:grid-cols-2 gap-5">
+              <.card
+                rounded="large"
+                class="relative h-[450px] lg:h-[350] col-span-2 sm:col-span-1 !shadow-xs"
+              >
+                <.card_media
+                  src={~p"/images/card-1.jpg"}
+                  alt="Mishka chelekom cards"
+                  class="w-full h-full relative [&>img]:size-full [&>img]:absolute [&>img]:top-0 [&>img]:start-0 [&>img]:object-cover"
+                />
+                <.card_content
+                  padding="extra_large"
+                  class="absolute bottom-2 inset-x-2 text-white bg-black/50 backdrop-blur-sm rounded-lg pt-2 px-3"
+                >
+                  <div class="text-xl font-bold">Aesthetic Photography</div>
+                  <div class="text-xs mt-2 leading-6 text-gray-200">
+                    Light, composition, and creativity unite to craft unforgettable images.
+                  </div>
+                </.card_content>
+              </.card>
+              <.card
+                rounded="large"
+                padding="medium"
+                class="relative col-span-2 sm:col-span-1 !shadow-xs"
+              >
+                <.card_media
+                  src={~p"/images/card-2.jpg"}
+                  alt="Mishka chelekom card example"
+                  rounded="large"
+                  class="shadow-md [&>img]:!w-full"
+                />
+                <.card_content class="">
+                  <div class="text-xl font-bold">Nature Photography</div>
+                  <.badge rounded="extra_large">Nature</.badge>
+                  <p>
+                    Discover Earth's untamed beauty through our lens: pristine landscapes, vibrant wildlife, and captivating moments frozen in time.
+                  </p>
+                </.card_content>
+              </.card>
+
+              <.card rounded="large" class="!shadow-xs col-span-2 flex flex-nowrap">
+                <.card_media
+                  src={~p"/images/card-3.jpg"}
+                  alt="Mishka chelekom card example"
+                  width="w-2/5 md:w-1/3"
+                  class="shrink-0 relative [&>img]:size-full [&>img]:absolute [&>img]:top-0 [&>img]:start-0 [&>img]:object-cover"
+                />
+                <.card_content padding="medium" class="flex-1">
+                  <h2 class="text-[20px] leading-6 mb-2 font-semibold">
+                    Nature Photography Made Simple
+                  </h2>
+                  <.cp class="text-[13px]">
+                    Capture the magic of nature by shooting during golden hours, using a tripod for crisp shots, and framing with the rule of thirds. Let your creativity and the beauty around you shine through every click.
+                  </.cp>
+                  <div class="flex w-full justify-end">
+                    <.button variant="transparent" color="danger" size="medium" class="w-fit">
+                      Read Article
+                    </.button>
+                  </div>
+                </.card_content>
+              </.card>
+            </div>
+          </.custom_code_wrapper>
+
+          <.cp>
+            This
+            <strong>
+              <.link
+                title="Phoenix LiveView component"
+                class="transition-colors hover:text-[#448D96]"
+                navigate={~p"/chelekom"}
+              >
+                Phoenix LiveView component
+              </.link>
+            </strong>
+            offers a wide range of customization options, including support for different sizes, colors, and variants. You can add media, text, and buttons, adjust the padding and spacing, and even combine multiple cards for a more detailed layout. These features make the Card component a highly adaptable tool that can easily fit into any design system while boosting the visual presentation of content.
+          </.cp>
+
+          <.custom_block position="left" color="success" class="my-8" border="medium">
+            <.cp>
+              By using the class prop, you can apply custom classes or Tailwind CSS classes to customize the appearance and behavior of the components, allowing for flexible design changes.
+            </.cp>
+          </.custom_block>
+
+          <.heading2 margin="my-5" id="base-color-variant-card">
+            <.link patch={~p"/chelekom/docs/card/#base-color-variant-card"}>
+              Base color and variant
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The base variant and color offers a solid white background in light mode and a dark gray background in dark mode. These colors remain consistent across modes when using the default variant. The component also includes a border that matches the default variant and color styling.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" code={@code_31}>
+            <.card space="small" rounded="large">
+              <.card_title
+                class="border-b border-[#E5E7EB] dark:border-[#27272a]"
+                padding="small"
+                position="between"
+              >
+                <div>Base Color Variant</div>
+                <.button
+                  size="extra_small"
+                  variant="transparent"
+                  color="silver"
+                  icon="hero-ellipsis-horizontal"
+                />
+              </.card_title>
+
+              <.card_content space="large">
+                <.cp class="p-2 text-sm">
+                  <.link
+                    navigate={~p"/chelekom/docs/card"}
+                    title="mishka chelekom"
+                    class="text-blue-400"
+                  >
+                    The Mishka card component
+                  </.link>
+                  is ideal for displaying content in a clean, organized layout. Whether for portfolios, product listings, or user profiles, it offers customizable options for size, color, and design. Perfect for enhancing your web projects with ease and flexibility.
+                </.cp>
+              </.card_content>
+
+              <.card_footer padding="small">
+                <.button full_width size="small">See more</.button>
+              </.card_footer>
+            </.card>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="default-variant-card">
+            <.link patch={~p"/chelekom/docs/card/#default-variant-card"}>
+              Default Variant
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The default style of the
+            <.link navigate={~p"/chelekom/docs/card"}>Mishka Chelekom card</.link>
+            applies a solid background and border that change based on user interaction, making it perfect for delivering important notifications. With just a single setting, you can select from a range of color options, ensuring easy customization to match various design styles. Default variant have also white and dark colors which are the same colors in the dark and light mode.
+          </.cp>
+
+          <.custom_code_wrapper
+            code_class="text-xs"
+            elements_class="grid grid-cols-2 gap-2"
+            code={@code_1}
+          >
+            <.card id="card-example-1" color="natural" variant="default" padding="small">
+              <.card_content>
+                Mishka Chelekom is a comprehensive UI kit designed specifically for Phoenix and Phoenix LiveView applications.
+              </.card_content>
+            </.card>
+            <.card id="card-example-2" color="warning" variant="default" padding="small">
+              <.card_content>
+                Mishka Chelekom ensures that all components are lightweight, responsive, and accessible.
+              </.card_content>
+            </.card>
+            <.card id="card-example-2335" color="white" variant="default" padding="small">
+              <.card_content>
+                Mishka Chelekom ensures that all components are lightweight, responsive, and accessible.
+              </.card_content>
+            </.card>
+            <.card id="card-example-2423" color="dark" variant="default" padding="small">
+              <.card_content>
+                Mishka Chelekom ensures that all components are lightweight, responsive, and accessible.
+              </.card_content>
+            </.card>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="outline-variant-card">
+            <.link patch={~p"/chelekom/docs/card/#outline-variant-card"}>
+              Outline Variant
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The outline style of the Mishka Chelekom card features a border. Using a single setting, you can choose from various color variants to suit your design needs.
+          </.cp>
+
+          <.custom_code_wrapper
+            code_class="text-xs"
+            elements_class="flex [&>*]:flex-1 flex-wrap gap-2"
+            code={@code_2}
+          >
+            <.card id="card-example-3" padding="small" variant="outline" color="silver">
+              <.card_content>
+                Mishka Chelekom is a comprehensive UI kit designed specifically for Phoenix and Phoenix LiveView applications.
+              </.card_content>
+            </.card>
+            <.card id="card-example-4" variant="outline" color="warning" padding="small">
+              <.card_content>
+                Mishka Chelekom ensures that all components are lightweight, responsive, and accessible.
+              </.card_content>
+            </.card>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="shadow-variant-card">
+            <.link patch={~p"/chelekom/docs/card/#shadow-variant-card"}>
+              Shadow Variant
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The shadow variant of the Mishka Chelekom card is similar to the default variant, but it also includes a subtle shadow along with a border and white background in light mode.
+          </.cp>
+
+          <.custom_code_wrapper
+            code_class="text-xs"
+            elements_class="flex [&>*]:flex-1 flex-wrap gap-2"
+            code={@code_3}
+          >
+            <.card id="card-example-5" padding="small" variant="shadow" color="misc">
+              <.card_content>
+                Mishka Chelekom is a comprehensive UI kit designed specifically for Phoenix and Phoenix LiveView applications.
+              </.card_content>
+            </.card>
+            <.card id="card-example-6" variant="shadow" color="secondary" padding="small">
+              <.card_content>
+                Mishka Chelekom ensures that all components are lightweight, responsive, and accessible.
+              </.card_content>
+            </.card>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="bordered-variant-card">
+            <.link patch={~p"/chelekom/docs/card/#bordered-variant-card"}>
+              Bordered Variant
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The Bordered variant of the Mishka Chelekom card has lighter background and a border. Bordered variant have also white and dark colors which are the same colors in the dark and light mode.
+          </.cp>
+
+          <.custom_code_wrapper
+            code_class="text-xs"
+            elements_class="grid grid-cols-2 gap-2"
+            code={@code_4}
+          >
+            <.card id="card-example-7" padding="small" variant="bordered" color="misc">
+              <.card_content>
+                Mishka Chelekom is a comprehensive UI kit designed specifically for Phoenix and Phoenix LiveView applications.
+              </.card_content>
+            </.card>
+            <.card id="card-example-8" variant="bordered" color="info" padding="small">
+              <.card_content>
+                Mishka Chelekom ensures that all components are lightweight, responsive, and accessible.
+              </.card_content>
+            </.card>
+            <.card id="card-example-83423" variant="bordered" color="white" padding="small">
+              <.card_content>
+                Mishka Chelekom ensures that all components are lightweight, responsive, and accessible.
+              </.card_content>
+            </.card>
+            <.card id="card-example-8765" variant="bordered" color="dark" padding="small">
+              <.card_content>
+                Mishka Chelekom ensures that all components are lightweight, responsive, and accessible.
+              </.card_content>
+            </.card>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="transparent-variant-card">
+            <.link patch={~p"/chelekom/docs/card/#transparent-variant-card"}>
+              Transparent Variant
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The transparent variant of the Mishka Chelekom card is similar to the default variant, but without border and background color.
+          </.cp>
+
+          <.custom_code_wrapper
+            code_class="text-xs"
+            elements_class="flex [&>*]:flex-1 flex-wrap gap-2"
+            code={@code_5}
+          >
+            <.card id="card-example-9" padding="small" variant="transparent" color="danger">
+              <.card_content>
+                Mishka Chelekom is a comprehensive UI kit designed specifically for Phoenix and Phoenix LiveView applications.
+              </.card_content>
+            </.card>
+            <.card id="card-example-1023232" variant="transparent" color="success" padding="small">
+              <.card_content>
+                Mishka Chelekom ensures that all components are lightweight, responsive, and accessible.
+              </.card_content>
+            </.card>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="gradient-variant-card">
+            <.link patch={~p"/chelekom/docs/card/#gradient-variant-card"}>
+              Gradient Variant
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The gradient variant of the Mishka Chelekom card has gradients in various colors.
+          </.cp>
+
+          <.custom_code_wrapper
+            code_class="text-xs"
+            elements_class="grid grid-cols-2 gap-2"
+            code={@code_28}
+          >
+            <.card id="card-example-9555" padding="small" variant="gradient" color="natural">
+              <.card_content>
+                Mishka Chelekom is a comprehensive UI kit designed specifically for Phoenix and Phoenix LiveView applications.
+              </.card_content>
+            </.card>
+            <.card id="card-example-10" variant="gradient" color="silver" padding="small">
+              <.card_content>
+                Mishka Chelekom ensures that all components are lightweight, responsive, and accessible.
+              </.card_content>
+            </.card>
+            <.card id="card-example-10423" variant="gradient" color="warning" padding="small">
+              <.card_content>
+                Mishka Chelekom ensures that all components are lightweight, responsive, and accessible.
+              </.card_content>
+            </.card>
+            <.card id="card-example-10544" variant="gradient" color="danger" padding="small">
+              <.card_content>
+                Mishka Chelekom ensures that all components are lightweight, responsive, and accessible.
+              </.card_content>
+            </.card>
+            <.card id="card-example-1067" variant="gradient" color="success" padding="small">
+              <.card_content>
+                Mishka Chelekom ensures that all components are lightweight, responsive, and accessible.
+              </.card_content>
+            </.card>
+            <.card id="card-example-10676" variant="gradient" color="misc" padding="small">
+              <.card_content>
+                Mishka Chelekom ensures that all components are lightweight, responsive, and accessible.
+              </.card_content>
+            </.card>
+            <.card id="card-example-1056" variant="gradient" color="dawn" padding="small">
+              <.card_content>
+                Mishka Chelekom ensures that all components are lightweight, responsive, and accessible.
+              </.card_content>
+            </.card>
+            <.card id="card-example-1056556" variant="gradient" color="primary" padding="small">
+              <.card_content>
+                Mishka Chelekom ensures that all components are lightweight, responsive, and accessible.
+              </.card_content>
+            </.card>
+            <.card id="card-example-10344" variant="gradient" color="secondary" padding="small">
+              <.card_content>
+                Mishka Chelekom ensures that all components are lightweight, responsive, and accessible.
+              </.card_content>
+            </.card>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="card-rounded">
+            <.link patch={~p"/chelekom/docs/card/#card-rounded"}>
+              Rounded prop in Phoenix LiveView card Component
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The rounded prop offers values like <.custom_inline_code>"extra_small"</.custom_inline_code>, <.custom_inline_code>"small"</.custom_inline_code>, <.custom_inline_code>"medium"</.custom_inline_code>, <.custom_inline_code>"large"</.custom_inline_code>, and <.custom_inline_code>"extra_large"</.custom_inline_code>. These values control the border radius of the blcokquotes, allowing for different levels of rounding from subtle to more pronounced corners, depending on the design needs.
+          </.cp>
+
+          <.custom_code_wrapper
+            code_class="text-xs"
+            elements_class="flex [&>*]:flex-1 flex-wrap gap-2"
+            code={@code_30}
+          >
+            <.card
+              id="card-example-11"
+              padding="small"
+              variant="default"
+              color="dawn"
+              rounded="extra_small"
+            >
+              <.card_title title="Extra small radius" />
+              <.card_content>
+                Mishka Chelekom is a comprehensive UI kit designed specifically for Phoenix and Phoenix LiveView applications.
+              </.card_content>
+            </.card>
+            <.card
+              id="card-example-12"
+              color="primary"
+              variant="default"
+              rounded="extra_large"
+              padding="small"
+            >
+              <.card_title title="Extra large radius" />
+              <.card_content>
+                Mishka Chelekom ensures that all components are lightweight, responsive, and accessible.
+              </.card_content>
+            </.card>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="overlayed-card">
+            <.link patch={~p"/chelekom/docs/card/#overlayed-card"}>
+              Card with overlay
+            </.link>
+          </.heading2>
+
+          <.cp>
+            If you want to create a card with overlayer, you can simply use Mishka Chelekom's
+            <.link
+              class="font-bold"
+              title="Mishka Chelekom overlay"
+              navigate={~p"/chelekom/docs/overlay"}
+            >
+              Overlay
+            </.link>
+            component alongside with
+            <.custom_inline_code>card_media</.custom_inline_code>
+            of card and put it in the card component. This allows you to create interactive cards with overlay effects when hovering or focusing on the content.
+          </.cp>
+
+          <.custom_code_wrapper
+            code_class="text-xs"
+            elements_class="flex [&>*]:flex-1 flex-wrap gap-2"
+            code={@code_6}
+          >
+            <.card rounded="large" class="col-span-2">
+              <.card_media
+                src={~p"/images/mishka-chelekom-media-3.jpg"}
+                alt="Mishka chelekom card overlay"
+              />
+              <.overlay color="dark" opacity="semi_opaque">
+                <.card_content padding="extra_large">
+                  <h2 class="text-[24px] leading-6 mb-2 font-semibold">
+                    Nature Photography Tips
+                  </h2>
+                  <.cp class="text-[16px]">
+                    Capture nature’s beauty by shooting during sunrise or sunset, using a tripod for stability, and applying the rule of thirds for balanced compositions. Experiment with angles and settings for unique, breathtaking shots.
+                  </.cp>
+
+                  <div class="text-gray-300 mt-10">Last updated 5 mins ago</div>
+                </.card_content>
+              </.overlay>
+            </.card>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="card-border">
+            <.link patch={~p"/chelekom/docs/card/#card-border"}>
+              Border prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The border prop offers values like <.custom_inline_code>"extra_small"</.custom_inline_code>, <.custom_inline_code>"small"</.custom_inline_code>, <.custom_inline_code>"medium"</.custom_inline_code>, <.custom_inline_code>"large"</.custom_inline_code>, and <.custom_inline_code>"extra_large"</.custom_inline_code>. These values control the border size of the cards, allowing you to adjust the thickness to suit your design. Additionally, you can use boolean props such as <.custom_inline_code>left_border</.custom_inline_code>, <.custom_inline_code>right_border</.custom_inline_code>, <.custom_inline_code>hide_border</.custom_inline_code>, and
+            <.custom_inline_code>full_border</.custom_inline_code>
+            to change the border position, add, or remove borders as needed for greater customization.
+          </.cp>
+
+          <.custom_code_wrapper
+            code_class="text-xs"
+            elements_class="flex [&>*]:flex-1 flex-wrap gap-2"
+            code={@code_7}
+          >
+            <.card
+              id="card-example-13"
+              padding="small"
+              color="dawn"
+              variant="default"
+              border="extra_small"
+            >
+              <.card_title title="Extra small border" />
+              <.card_content>
+                Mishka Chelekom is a comprehensive UI kit designed specifically for Phoenix and Phoenix LiveView applications.
+              </.card_content>
+            </.card>
+            <.card
+              id="card-example-14"
+              color="danger"
+              variant="default"
+              border="extra_large"
+              padding="small"
+            >
+              <.card_title title="Extra large border" />
+              <.card_content>
+                Mishka Chelekom ensures that all components are lightweight, responsive, and accessible.
+              </.card_content>
+            </.card>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="card-space">
+            <.link patch={~p"/chelekom/docs/card/#card-space"}>
+              Space prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The space prop offers values such as <.custom_inline_code>"extra_small"</.custom_inline_code>, <.custom_inline_code>"small"</.custom_inline_code>, <.custom_inline_code>"medium"</.custom_inline_code>, <.custom_inline_code>"large"</.custom_inline_code>, and <.custom_inline_code>"extra_large"</.custom_inline_code>. These values control the vertical spacing between elements within the cards.
+          </.cp>
+
+          <.custom_code_wrapper
+            code_class="text-xs"
+            elements_class="flex [&>*]:flex-1 flex-wrap gap-2"
+            code={@code_8}
+          >
+            <.card
+              id="card-example-15"
+              padding="small"
+              color="dawn"
+              variant="default"
+              space="extra_small"
+            >
+              <.card_title title="Extra small space within card" />
+              <.card_content>
+                Mishka Chelekom is a comprehensive UI kit designed specifically for Phoenix and Phoenix LiveView applications.
+              </.card_content>
+            </.card>
+            <.card
+              id="card-example-16"
+              color="primary"
+              variant="default"
+              space="extra_large"
+              padding="small"
+            >
+              <.card_title title="Extra large space within card" />
+              <.card_content>
+                Mishka Chelekom ensures that all components are lightweight, responsive, and accessible.
+              </.card_content>
+            </.card>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="card-padding">
+            <.link patch={~p"/chelekom/docs/card/#card-padding"}>
+              Padding prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The padding prop offers values such as <.custom_inline_code>"extra_small"</.custom_inline_code>, <.custom_inline_code>"small"</.custom_inline_code>, <.custom_inline_code>"medium"</.custom_inline_code>, <.custom_inline_code>"large"</.custom_inline_code>, and <.custom_inline_code>"extra_large"</.custom_inline_code>. These values control the padding around the content inside the cards.
+          </.cp>
+
+          <.custom_code_wrapper
+            code_class="text-xs"
+            elements_class="flex [&>*]:flex-1 flex-wrap gap-2"
+            code={@code_9}
+          >
+            <.card id="card-example-17" variant="default" color="dawn" padding="extra_small">
+              <.card_title title="Extra small padding within card" />
+              <.card_content>
+                Mishka Chelekom is a comprehensive UI kit designed specifically for Phoenix and Phoenix LiveView applications.
+              </.card_content>
+            </.card>
+            <.card id="card-example-18" variant="default" color="primary" padding="extra_large">
+              <.card_title title="Extra large padding within card" />
+              <.card_content>
+                Mishka Chelekom ensures that all components are lightweight, responsive, and accessible.
+              </.card_content>
+            </.card>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="card-font-weight-prop">
+            <.link patch={~p"/chelekom/docs/card/#card-font-weight-prop"}>
+              Card font weight prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <.custom_inline_code>font_weight</.custom_inline_code>
+            prop controls the font weight of the text. By setting this prop, you can determine how bold or light the text appears within the title section. The default value is <.custom_inline_code>font-normal</.custom_inline_code>. You can customize this value to apply different font weights, such as making the text lighter or bolder, depending on the visual style and emphasis you want to create for the card's title. This provides flexibility in ensuring the title stands out appropriately within the overall card layout.
+          </.cp>
+
+          <.custom_code_wrapper
+            code_class="text-xs"
+            elements_class="flex [&>*]:flex-1 flex-wrap gap-2"
+            code={@code_10}
+          >
+            <.card
+              id="card-example-19"
+              padding="small"
+              color="dawn"
+              variant="default"
+              font_weight="font-bold"
+            >
+              <.card_title title="Font bold" />
+              <.card_content>
+                Mishka Chelekom is a comprehensive UI kit designed specifically for Phoenix and Phoenix LiveView applications.
+              </.card_content>
+            </.card>
+            <.card
+              id="card-example-20"
+              color="primary"
+              variant="default"
+              padding="small"
+              font_weight="font-light"
+            >
+              <.card_title title="Font light" />
+              <.card_content>
+                Mishka Chelekom ensures that all components are lightweight, responsive, and accessible.
+              </.card_content>
+            </.card>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="card-content-component">
+            <.link patch={~p"/chelekom/docs/card/#card-content-component"}>
+              Card content component
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <.custom_inline_code>card_content</.custom_inline_code>
+            component is a flexible and customizable section within the
+            <.custom_inline_code>Card</.custom_inline_code>
+            component, designed to display the main content of your card. It can hold any type of content, including text, images, and other elements, making it ideal for showcasing detailed information or media. The
+            <.custom_inline_code>card_content</.custom_inline_code>
+            component supports customizable padding, spacing, and layout options, allowing you to tailor the presentation to fit your design needs. Whether you're creating product cards, profiles, or informational sections,
+            <.custom_inline_code>card_content</.custom_inline_code>
+            ensures a structured and visually appealing layout.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" elements_class="flex gap-5" code={@code_11}>
+            <.card id="card-example-21" padding="small" rounded="large" space="large">
+              <.card_content class="space-y-3">
+                <h3 class="text-sm font-bold">
+                  This is a small text inside the h3.
+                </h3>
+
+                <div class="text-sm">
+                  Another small text inside the first div.
+                </div>
+
+                <div class="text-sm">
+                  Yet another small text inside the second div.
+                </div>
+
+                <.button size="small" color="danger" variant="outline" full_width>
+                  a button within card content
+                </.button>
+              </.card_content>
+            </.card>
+
+            <.card id="card-example-22" padding="small" rounded="large" space="large">
+              <.card_content class="space-y-3">
+                <h3 class="text-sm font-bold">
+                  This is a small text inside the h3.
+                </h3>
+
+                <div class="text-sm">
+                  Another small text inside the first div.
+                </div>
+
+                <div class="text-sm">
+                  Yet another small text inside the second div.
+                </div>
+
+                <.button size="small" color="primary" variant="outline" full_width>
+                  a button within card content
+                </.button>
+              </.card_content>
+            </.card>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="card-content-space-prop">
+            <.link patch={~p"/chelekom/docs/card/#card-content-space-prop"}>
+              Card content space prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <.custom_inline_code>space</.custom_inline_code>
+            attribute in the
+            <.custom_inline_code>card_content</.custom_inline_code>
+            component controls the spacing between items within the card content. By using predefined size values like <.custom_inline_code>extra_small</.custom_inline_code>, <.custom_inline_code>small</.custom_inline_code>, <.custom_inline_code>medium</.custom_inline_code>, and others, you can easily adjust the vertical space between elements inside the card. This allows for better visual organization and layout consistency, helping to create a clean and structured appearance within the card. The default spacing is set to <.custom_inline_code>extra_small</.custom_inline_code>, but it can be modified to fit the design needs of your project.
+          </.cp>
+
+          <.custom_code_wrapper
+            code_class="text-xs"
+            elements_class="flex items-start gap-5 flex-wrap"
+            code={@code_12}
+          >
+            <.card id="card-example-23" padding="small" rounded="large">
+              <.card_content space="extra_small">
+                <h3 class="text-sm font-bold">
+                  Extra small space
+                </h3>
+
+                <div class="text-sm">
+                  Another small text inside the first div.
+                </div>
+
+                <div class="text-sm">
+                  Yet another small text inside the second div.
+                </div>
+
+                <.button size="small" variant="outline" color="dawn" full_width>
+                  a button within card content
+                </.button>
+              </.card_content>
+            </.card>
+
+            <.card id="card-example-24" padding="small" rounded="large">
+              <.card_content space="extra_large">
+                <h3 class="text-sm font-bold">
+                  Extra large space
+                </h3>
+
+                <div class="text-sm">
+                  Another small text inside the first div.
+                </div>
+
+                <div class="text-sm">
+                  Yet another small text inside the second div.
+                </div>
+
+                <.button size="small" variant="outline" color="secondary" full_width>
+                  a button within card content
+                </.button>
+              </.card_content>
+            </.card>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="card-content-padding-prop">
+            <.link patch={~p"/chelekom/docs/card/#card-content-padding-prop"}>
+              Card content padding prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <.custom_inline_code>padding</.custom_inline_code>
+            attribute in the
+            <.custom_inline_code>card_content</.custom_inline_code>
+            component allows you to control the inner padding of the content, adjusting the space between the content and the edges of the card. With predefined values such as <.custom_inline_code>extra_small</.custom_inline_code>, <.custom_inline_code>small</.custom_inline_code>, <.custom_inline_code>medium</.custom_inline_code>, <.custom_inline_code>large</.custom_inline_code>, and <.custom_inline_code>extra_large</.custom_inline_code>, you can easily customize the padding to suit your design. Additionally, the
+            <.custom_inline_code>none</.custom_inline_code>
+            option allows for no padding if you prefer a tighter layout. The default value for padding is set to <.custom_inline_code>none</.custom_inline_code>, but it can be adjusted to ensure the appropriate spacing for various content types. The padding_size helper function converts the padding size into corresponding Tailwind CSS classes for consistent styling.
+          </.cp>
+
+          <.custom_code_wrapper
+            code_class="text-xs"
+            elements_class="flex items-start gap-5 flex-wrap"
+            code={@code_13}
+          >
+            <.card id="card-example-25" padding="none" rounded="large">
+              <.card_content padding="extra_large">
+                <h3 class="text-sm font-bold">
+                  Extra small padding
+                </h3>
+
+                <div class="text-sm">
+                  Another small text inside the first div.
+                </div>
+
+                <div class="text-sm">
+                  Yet another small text inside the second div.
+                </div>
+
+                <.button size="small" variant="outline" color="dawn" full_width>
+                  a button within card content
+                </.button>
+              </.card_content>
+            </.card>
+
+            <.card id="card-example-26" padding="none" rounded="large">
+              <.card_content padding="extra_small">
+                <h3 class="text-sm font-bold">
+                  Extra large padding
+                </h3>
+
+                <div class="text-sm">
+                  Another small text inside the first div.
+                </div>
+
+                <div class="text-sm">
+                  Yet another small text inside the second div.
+                </div>
+
+                <.button size="small" variant="outline" color="secondary" full_width>
+                  a button within card content
+                </.button>
+              </.card_content>
+            </.card>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="card-title-component">
+            <.link patch={~p"/chelekom/docs/card/#card-title-component"}>
+              Card title component
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <.custom_inline_code>padding</.custom_inline_code>
+            attribute in the
+            <.custom_inline_code>card_content</.custom_inline_code>
+            component allows you to control the inner padding of the content, adjusting the space between the content and the edges of the card. With predefined values such as <.custom_inline_code>extra_small</.custom_inline_code>, <.custom_inline_code>small</.custom_inline_code>, <.custom_inline_code>medium</.custom_inline_code>, <.custom_inline_code>large</.custom_inline_code>, and <.custom_inline_code>extra_large</.custom_inline_code>, you can easily customize the padding to suit your design. Additionally, the
+            <.custom_inline_code>none</.custom_inline_code>
+            option allows for no padding if you prefer a tighter layout. The default value for padding is set to <.custom_inline_code>none</.custom_inline_code>, but it can be adjusted to ensure the appropriate spacing for various content types. The padding_size helper function converts the padding size into corresponding Tailwind CSS classes for consistent styling.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" code={@code_14}>
+            <.card
+              id="card-example-27"
+              padding="large"
+              class="w-full md:w-1/2 mx-auto"
+              rounded="medium"
+            >
+              <.card_title title="Mishka Chelekom card" icon="hero-star" size="extra_large" />
+            </.card>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="card-title-title-prop">
+            <.link patch={~p"/chelekom/docs/card/#card-title-title-prop"}>
+              Card title prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <.custom_inline_code>title</.custom_inline_code>
+            prop in the
+            <.custom_inline_code>card_title</.custom_inline_code>
+            component specifies the main text for the card's title. It provides a clear and concise way to label the content of the card, ensuring a visually distinct header. By default, it is nil, but when set, it displays the provided title text, making it easy to add context and structure to your card's content.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" code={@code_15}>
+            <.card id="card-example-28" padding="large" color="info" variant="default">
+              <.card_title title="Mishka Chelekom card title prop" />
+            </.card>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="card-title-icon-prop">
+            <.link patch={~p"/chelekom/docs/card/#card-title-icon-prop"}>
+              Card title component title prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <.custom_inline_code>icon</.custom_inline_code>
+            prop in the
+            <.custom_inline_code>card_title</.custom_inline_code>
+            component allows you to display an icon alongside the title text. This prop enhances the visual appeal of the card by adding a recognizable symbol or graphic element next to the title, helping to reinforce the meaning or purpose of the card. By default, the
+            <.custom_inline_code>icon</.custom_inline_code>
+            prop is set to nil, but when provided, it integrates seamlessly with the title to create a more engaging and informative card header.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" code={@code_16}>
+            <.card id="card-example-29" padding="large" color="info" variant="default">
+              <.card_title title="Mishka Chelekom card title prop" icon="hero-home" />
+            </.card>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="card-title-position-prop">
+            <.link patch={~p"/chelekom/docs/card/#card-title-position-prop"}>
+              Card title component icon prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <.custom_inline_code>position</.custom_inline_code>
+            prop in the
+            <.custom_inline_code>card_title</.custom_inline_code>
+            component allows you to control the alignment of the content within the card's title section. It supports values like <.custom_inline_code>start</.custom_inline_code>, <.custom_inline_code>end</.custom_inline_code>, <.custom_inline_code>center</.custom_inline_code>, <.custom_inline_code>between</.custom_inline_code>, and <.custom_inline_code>around</.custom_inline_code>, offering flexibility in how the title and any additional elements (like icons) are positioned. The default value is <.custom_inline_code>start</.custom_inline_code>, which aligns content to the left, but this can be adjusted to suit different design needs. For instance, using
+            <.custom_inline_code>center</.custom_inline_code>
+            will center the content, while
+            <.custom_inline_code>between</.custom_inline_code>
+            ensures even spacing between items within the title section, giving you full control over the layout of your card headers.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" elements_class="space-y-5" code={@code_17}>
+            <.card
+              id="card-example-30"
+              padding="small"
+              variant="default"
+              color="dawn"
+              class="w-full"
+            >
+              <.card_title title="Mishka Chelekom card title" icon="hero-home" position="center" />
+            </.card>
+            <.card
+              id="card-example-31"
+              padding="small"
+              variant="default"
+              color="misc"
+              class="w-full"
+            >
+              <.card_title title="Mishka Chelekom card title" icon="hero-home" position="center" />
+            </.card>
+            <.card
+              id="card-example-32"
+              padding="small"
+              variant="default"
+              color="silver"
+              class="w-full"
+            >
+              <.card_title title="Mishka Chelekom card title" icon="hero-home" position="end" />
+            </.card>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="card-title-size-prop">
+            <.link patch={~p"/chelekom/docs/card/#card-title-size-prop"}>
+              Card title component size prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <.custom_inline_code>size</.custom_inline_code>
+            prop in the
+            <.custom_inline_code>card_title</.custom_inline_code>
+            component controls the overall size of the elements within the card's title section, affecting the font size, padding, and icon dimensions. The available sizes range from
+            <.custom_inline_code>extra_small</.custom_inline_code>
+            to <.custom_inline_code>extra_large</.custom_inline_code>, with the default being <.custom_inline_code>large</.custom_inline_code>. This allows you to tailor the visual prominence of the title based on the card's context or design requirements. For instance, using
+            <.custom_inline_code>small</.custom_inline_code>
+            will make the title more compact with smaller text and icon sizes, while
+            <.custom_inline_code>extra_large</.custom_inline_code>
+            will provide a more prominent and bold appearance. The flexibility of the
+            <.custom_inline_code>size</.custom_inline_code>
+            prop ensures that the title can seamlessly fit into any design layout, whether for compact cards or large, impactful headers.
+          </.cp>
+
+          <.custom_code_wrapper elements_class="space-y-5" code_class="text-xs" code={@code_18}>
+            <.card
+              id="card-example-33"
+              padding="small"
+              variant="default"
+              color="dawn"
+              class="w-full"
+            >
+              <.card_title
+                title="Mishka Chelekom card title"
+                icon="hero-home"
+                position="center"
+                size="small"
+              />
+            </.card>
+            <.card
+              id="card-example-34"
+              padding="small"
+              variant="default"
+              color="dawn"
+              class="w-full"
+            >
+              <.card_title
+                title="Mishka Chelekom card title"
+                icon="hero-home"
+                position="center"
+                size="large"
+              />
+            </.card>
+            <.card
+              id="card-example-35"
+              padding="small"
+              variant="default"
+              color="dawn"
+              class="w-full"
+            >
+              <.card_title
+                title="Mishka Chelekom card title"
+                icon="hero-home"
+                position="center"
+                size="extra_large"
+              />
+            </.card>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="card-title-padding-prop">
+            <.link patch={~p"/chelekom/docs/card/#card-title-padding-prop"}>
+              Card title component padding prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <.custom_inline_code>padding</.custom_inline_code>
+            prop in the
+            <.custom_inline_code>card_title</.custom_inline_code>
+            component allows you to control the padding inside the title section. By adjusting the padding, you can control the space between the title content and the edges of the card, ensuring it fits well within the overall card design. The default value is <.custom_inline_code>none</.custom_inline_code>, meaning there is no extra padding applied, but you can modify this to add more space if needed, creating a cleaner, more spacious layout for the title. This flexibility helps you tailor the card title's appearance based on the design requirements of your application.
+          </.cp>
+
+          <.custom_code_wrapper elements_class="space-y-5" code_class="text-xs" code={@code_19}>
+            <.card
+              id="card-example-36"
+              padding="none"
+              variant="default"
+              color="dawn"
+              class="w-full"
+            >
+              <.card_title
+                title="Mishka Chelekom card title"
+                icon="hero-home"
+                position="center"
+                padding="small"
+              />
+            </.card>
+            <.card
+              id="card-example-37"
+              padding="none"
+              variant="default"
+              color="dawn"
+              class="w-full"
+            >
+              <.card_title
+                title="Mishka Chelekom card title"
+                icon="hero-home"
+                position="center"
+                padding="large"
+              />
+            </.card>
+            <.card
+              id="card-example-38"
+              padding="none"
+              variant="default"
+              color="dawn"
+              class="w-full"
+            >
+              <.card_title
+                title="Mishka Chelekom card title"
+                icon="hero-home"
+                position="center"
+                padding="extra_large"
+              />
+            </.card>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="card-title-font-weight-prop">
+            <.link patch={~p"/chelekom/docs/card/#card-title-font-weight-prop"}>
+              Card title component font weight prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <.custom_inline_code>font_weight</.custom_inline_code>
+            prop in the
+            <.custom_inline_code>card_title</.custom_inline_code>
+            component controls the font weight of the title text. By setting this prop, you can determine how bold or light the text appears within the title section. The default value is <.custom_inline_code>font-semibold</.custom_inline_code>, giving the title a moderately bold appearance. You can customize this value to apply different font weights, such as making the text lighter or bolder, depending on the visual style and emphasis you want to create for the card's title. This provides flexibility in ensuring the title stands out appropriately within the overall card layout.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" elements_class="space-y-5" code={@code_20}>
+            <.card
+              id="card-example-39"
+              padding="none"
+              variant="default"
+              color="primary"
+              class="w-full"
+            >
+              <.card_title title="Mishka Chelekom card title" font_weight="font-thin" />
+            </.card>
+            <.card
+              id="card-example-40"
+              padding="none"
+              variant="default"
+              color="primary"
+              class="w-full"
+            >
+              <.card_title title="Mishka Chelekom card title" font_weight="font-bold" />
+            </.card>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="card-media-component">
+            <.link patch={~p"/chelekom/docs/card/#card-media-component"}>
+              Card media component
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <.custom_inline_code>card_media</.custom_inline_code>
+            component is designed to display media elements, such as images, within a card. It supports attributes like
+            <.custom_inline_code>src</.custom_inline_code>
+            for the image source and
+            <.custom_inline_code>alt</.custom_inline_code>
+            for a descriptive alternative text, ensuring accessibility and context for the media. The component provides flexibility through the
+            <.custom_inline_code>rounded</.custom_inline_code>
+            prop, which allows you to customize the border radius of the image, ensuring it fits well with different design aesthetics. Additionally, the
+            <.custom_inline_code>class</.custom_inline_code>
+            prop allows further customization, enabling you to apply custom styles or Tailwind CSS classes to control the appearance of the media. This component makes it easy to include responsive images or other media types in your card layout, enhancing the visual appeal and user experience.
+          </.cp>
+
+          <.custom_code_wrapper
+            code_class="text-xs"
+            elements_class="flex [&>*]:flex-1 gap-5"
+            code={@code_21}
+          >
+            <.card id="card-example-41" rounded="large">
+              <.card_media
+                src={~p"/images/mishka-chelekom-media-1.jpg"}
+                alt="Mishka chelekom card media 1"
+              />
+              <.card_content padding="large">
+                <.cp>
+                  Mishka Chelekom is a comprehensive UI kit designed specifically for Phoenix and Phoenix LiveView applications.
+                </.cp>
+              </.card_content>
+            </.card>
+
+            <.card id="card-example-42" rounded="large">
+              <.card_media
+                src={~p"/images/mishka-chelekom-media-2.jpg"}
+                alt="Mishka chelekom card media 2"
+              />
+              <.card_content padding="large">
+                <.cp>
+                  Mishka Chelekom is a comprehensive UI kit designed specifically for Phoenix and Phoenix LiveView applications.
+                </.cp>
+              </.card_content>
+            </.card>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="card-video">
+            <.link patch={~p"/chelekom/docs/card/#card-video"}>
+              Using video as media
+            </.link>
+          </.heading2>
+
+          <.cp>
+            By using the Mishka Chelekom video component, you can easily include videos as media in your project. Simply use the video component inside a card, and there you have it—a card with video media!
+          </.cp>
+
+          <.custom_code_wrapper
+            code_class="text-xs"
+            elements_class="flex [&>*]:flex-1 gap-5"
+            code={@code_29}
+          >
+            <.card id="card-example-451" rounded="large">
+              <.video controls>
+                <:source src={~p"/images/flower.mp4"} type="video/mp4" />
+              </.video>
+              <.card_content padding="large">
+                <.cp>
+                  Mishka Chelekom is a comprehensive UI kit designed specifically for Phoenix and Phoenix LiveView applications.
+                </.cp>
+              </.card_content>
+            </.card>
+
+            <.card id="card-example-441" rounded="small" variant="default" color="misc">
+              <.video controls>
+                <:source src={~p"/images/flower.mp4"} type="video/mp4" />
+              </.video>
+              <.card_content padding="large">
+                <.cp>
+                  By using the Mishka Chelekom video component, you can easily embed videos inside a card, creating an engaging media experience!
+                </.cp>
+              </.card_content>
+            </.card>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="card-media-src-prop">
+            <.link patch={~p"/chelekom/docs/card/#card-media-src-prop"}>
+              Card media src prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <.custom_inline_code>src</.custom_inline_code>
+            prop in the
+            <.custom_inline_code>card_media</.custom_inline_code>
+            component is used to define the media source, such as the URL of the image that will be displayed inside the card. This prop is required, meaning the component will not function properly without specifying a valid media link. The
+            <.custom_inline_code>src</.custom_inline_code>
+            prop ensures that the appropriate media is rendered, whether it be an image or other media types, allowing you to visually enhance your card component with relevant content. By specifying the source, you enable the
+            <.custom_inline_code>card_media</.custom_inline_code>
+            component to seamlessly integrate media into your card's layout.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" code={@code_22}>
+            <.card id="card-example-43" rounded="large" variant="default" color="silver">
+              <.card_media
+                src={~p"/images/mishka-chelekom-media-1.jpg"}
+                alt="Mishka chelekom card media 1"
+              />
+              <.card_content padding="large">
+                <.cp>
+                  Mishka Chelekom is a comprehensive UI kit designed specifically for Phoenix and Phoenix LiveView applications.
+                </.cp>
+              </.card_content>
+            </.card>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="card-media-alt-prop">
+            <.link patch={~p"/chelekom/docs/card/#card-media-alt-prop"}>
+              Card media alt prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <.custom_inline_code>alt</.custom_inline_code>
+            prop in the
+            <.custom_inline_code>card_media</.custom_inline_code>
+            component provides a text description for the media being displayed, such as an image. This prop is important for accessibility, as it ensures that users who cannot view the image, including those using screen readers, can understand the content through the descriptive text. Additionally, the
+            <.custom_inline_code>alt</.custom_inline_code>
+            prop improves SEO by offering alternative text that can be indexed by search engines. While it's not required, it's highly recommended to include meaningful descriptions in the
+            <.custom_inline_code>alt</.custom_inline_code>
+            prop to enhance both accessibility and search visibility.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" code={@code_23}>
+            <.card id="card-example-44" rounded="large" variant="default" color="warning">
+              <.card_media
+                src={~p"/images/mishka-chelekom-media-3.jpg"}
+                alt="Mishka chelekom card media 3"
+              />
+              <.card_content padding="large">
+                <.cp>
+                  Mishka Chelekom is a comprehensive UI kit designed specifically for Phoenix and Phoenix LiveView applications.
+                </.cp>
+              </.card_content>
+            </.card>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="card-media-rounded-prop">
+            <.link patch={~p"/chelekom/docs/card/#card-media-rounded-prop"}>
+              Card media rounded prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <.custom_inline_code>rounded</.custom_inline_code>
+            prop in the
+            <.custom_inline_code>card_media</.custom_inline_code>
+            component controls the border radius of the media, allowing you to adjust how rounded the edges of the image or media element appear. With values ranging from sizes like
+            <.custom_inline_code>extra_small</.custom_inline_code>
+            to <.custom_inline_code>extra_large</.custom_inline_code>, and the option for no rounding (default is nil), you can customize the appearance to fit different design styles. Whether you want sharp corners or smooth, rounded edges, the
+            <.custom_inline_code>rounded</.custom_inline_code>
+            prop gives you flexibility in defining the look and feel of the media within your card layout.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" code={@code_24}>
+            <.card id="card-example-45" rounded="large" variant="default" color="info">
+              <.card_title padding="large">
+                Card Media component
+              </.card_title>
+
+              <.card_content padding="large">
+                <div class="flex gap-3">
+                  <.card_media
+                    src={~p"/images/mishka-chelekom-media-1.jpg"}
+                    rounded="large"
+                    alt="Mishka chelekom card media 1"
+                  />
+                  <.card_media
+                    src={~p"/images/mishka-chelekom-media-3.jpg"}
+                    rounded="extra_small"
+                    alt="Mishka chelekom card media 3"
+                  />
+                </div>
+              </.card_content>
+            </.card>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="card-footer-component">
+            <.link patch={~p"/chelekom/docs/card/#card-footer-component"}>
+              Card footer component
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <.custom_inline_code>card_footer</.custom_inline_code>
+            component is used to define the footer section of a card, providing a space at the bottom for additional content such as actions, links, or supplementary information. It supports flexible customization options, including the ability to control the padding with the
+            <.custom_inline_code>padding</.custom_inline_code>
+            prop, ensuring the footer fits well within the overall card layout. You can also add custom CSS classes via the
+            <.custom_inline_code>class</.custom_inline_code>
+            prop to style the footer as needed. The footer acts as a container for nested content, allowing you to render any content inside it by utilizing the <.custom_inline_code>inner_block</.custom_inline_code>. This makes it a versatile component for including actions like buttons, text, or other elements that complement the card's content.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" code={@code_25}>
+            <.card id="card-example-46" padding="small">
+              <.card_footer>
+                Content inside footer component
+              </.card_footer>
+            </.card>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="card-footer-padding-prop">
+            <.link patch={~p"/chelekom/docs/card/#card-footer-padding-prop"}>
+              Card footer padding prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <.custom_inline_code>padding</.custom_inline_code>
+            prop in the
+            <.custom_inline_code>card_footer</.custom_inline_code>
+            component controls the amount of space between the content inside the footer and its edges. You can adjust the padding by selecting from predefined sizes like <.custom_inline_code>extra_small</.custom_inline_code>, <.custom_inline_code>small</.custom_inline_code>, <.custom_inline_code>medium</.custom_inline_code>, or by choosing
+            <.custom_inline_code>none</.custom_inline_code>
+            to remove padding entirely. This allows for flexible design adjustments, ensuring the footer’s content is either closely aligned with the container or spaced out according to the desired visual structure. The default value is set to <.custom_inline_code>none</.custom_inline_code>, but it can be customized to fit the layout needs of your card component.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" elements_class="space-y-5" code={@code_26}>
+            <.card id="card-example-47" padding="none">
+              <.card_footer padding="extra_small">
+                Extra small padding
+              </.card_footer>
+            </.card>
+            <.card id="card-example-48" padding="none">
+              <.card_footer padding="extra_large">
+                Extra small padding
+              </.card_footer>
+            </.card>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="card-usage">
+            <.link patch={~p"/chelekom/docs/card/#card-usage"}>
+              Example of using card components
+            </.link>
+          </.heading2>
+
+          <.custom_code_wrapper code_class="text-xs" elements_class="space-y-5" code={@code_27}>
+            <.card id="card-example-49" padding="small" rounded="large">
+              <.card_title class="flex items-center gap-2 justify-between">
+                <.link navigate={~p"/chelekom"}>Mishka Chelekom</.link>
+              </.card_title>
+
+              <.hr />
+
+              <.card_content space="large" class="text-sm">
+                <.card_media
+                  src={~p"/images/mishka-chelekom-media-1.jpg"}
+                  rounded="large"
+                  alt="Mishka chelekom card component example image 1"
+                />
+                <.cp>
+                  Mishka Chelekom ensures that all components are lightweight, responsive, and accessible. The UI kit is fully customizable, allowing you to adjust styling, layouts, and interactions using predefined props or custom CSS classes, including Tailwind CSS support. From color themes to flexible spacing options, Mishka Chelekom provides the tools to create engaging and user-friendly interfaces without sacrificing performance.
+                </.cp>
+                <div class="grid grid-cols-3 gap-2">
+                  <.card_media
+                    src={~p"/images/mishka-chelekom-media-2.jpg"}
+                    rounded="large"
+                    alt="Mishka chelekom card component example image 2"
+                  />
+                  <.card_media
+                    src={~p"/images/mishka-chelekom-media-3.jpg"}
+                    rounded="large"
+                    alt="Mishka chelekom card component example image 3"
+                  />
+                  <.card_media
+                    src={~p"/images/mishka-chelekom-media-4.jpg"}
+                    rounded="large"
+                    alt="Mishka chelekom card component example image 4"
+                  />
+                </div>
+              </.card_content>
+
+              <.hr />
+
+              <.card_footer>
+                <.button variant="outline" full_width color="natural">See more</.button>
+              </.card_footer>
+            </.card>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="more-examples">
+            <.link patch={~p"/chelekom/docs/card/#more-examples"}>
+              More examples
+            </.link>
+          </.heading2>
+
+          <.custom_code_wrapper code_class="text-xs">
+            <div class="grid px-10 lg:px-0 md:grid-cols-2 gap-3">
+              <.card rounded="large" padding="large" class="col-span-2">
+                <.card_content class="flex-1">
+                  <.card_media
+                    src={~p"/images/card-4.jpg"}
+                    alt="Mishka chelekom product card"
+                    rounded="large"
+                    class="[&>img]:!w-full"
+                  />
+                  <h2 class="text-[23px] mt-10 leading-6 mb-2 font-semibold flex justify-between items-center">
+                    <div>
+                      Ancient Sentinel: Edge of Tomorrow
+                    </div>
+                    <div class="text-3xl font-bold">$450</div>
+                  </h2>
+                  <div class="flex items-center gap-5 mt-8">
+                    <.rating select={4} size="medium" />
+                    <.badge
+                      variant="bg-amber-200 text-gray-900 border-amber-200"
+                      rounded="medium"
+                      size="py-0.5 px-3"
+                      class="leading-6"
+                    >
+                      4.0
+                    </.badge>
+                  </div>
+                  <div class="flex justify-end items-center mt-3">
+                    <.button
+                      size="py-1.5 px-8"
+                      font_weight="font-bold"
+                      variant="default"
+                      color="misc"
+                    >
+                      Add image to cart
+                    </.button>
+                  </div>
+                </.card_content>
+              </.card>
+              <.card rounded="small" variant="default" color="dark">
+                <.card_media
+                  src={~p"/images/mishka-chelekom-media-1.jpg"}
+                  alt="Mishka chelekom media examples 1"
+                />
+                <.card_content padding="large">
+                  <div class="flex justify-between items-center gap-2 flex-wrap">
+                    <h2 class="font-bold">Versatile</h2>
+                    <.badge rounded="full" size="small" variant="default" color="misc">
+                      card
+                    </.badge>
+                  </div>
+                  <.cp class="text-sm">
+                    The Mishka card component is ideal for displaying content in a clean, organized layout. Whether for portfolios, product listings, or user profiles, it offers customizable options for size, color, and design. Perfect for enhancing your web projects with ease and flexibility.
+                  </.cp>
+                </.card_content>
+                <.card_footer padding="large">
+                  <.button variant="outline" full_width color="silver" size="small">
+                    See more
+                  </.button>
+                </.card_footer>
+              </.card>
+
+              <.card variant="shadow" rounded="large" color="natural">
+                <.card_media src={~p"/images/mishka-chelekom-media-2.jpg"} alt="Mishka chelekom" />
+                <.card_content padding="large" class="text-center">
+                  <h2 class="font-bold text-lg">Customizable</h2>
+                  <.cp class="text-sm">
+                    The Mishka card component is ideal for displaying content in a clean, organized layout. Whether for portfolios, product listings, or user profiles, it offers customizable options for size, color, and design. Perfect for enhancing your web projects with ease and flexibility.
+                  </.cp>
+                </.card_content>
+              </.card>
+
+              <.card space="small" rounded="large">
+                <.card_title class="border-b border-[#E5E7EB]" padding="small" position="between">
+                  <div>Flexible</div>
+                  <.button
+                    size="extra_small"
+                    variant="transparent"
+                    color="silver"
+                    icon="hero-ellipsis-horizontal"
+                  />
+                </.card_title>
+
+                <.card_content space="large">
+                  <.cp class="p-2 text-sm">
+                    <.link
+                      navigate={~p"/chelekom/docs/card"}
+                      title="mishka chelekom"
+                      class="text-blue-400"
+                    >
+                      The Mishka card component
+                    </.link>
+                    is ideal for displaying content in a clean, organized layout. Whether for portfolios, product listings, or user profiles, it offers customizable options for size, color, and design. Perfect for enhancing your web projects with ease and flexibility.
+                  </.cp>
+                  <.card_media src={~p"/images/mishka-chelekom-media-1.jpg"} alt="test" />
+                </.card_content>
+
+                <.card_footer class="grid grid-cols-3 gap-2" padding="small">
+                  <.card_media
+                    src={~p"/images/mishka-chelekom-media-2.jpg"}
+                    alt="test"
+                    rounded="large"
+                  />
+                  <.card_media
+                    src={~p"/images/mishka-chelekom-media-3.jpg"}
+                    alt="test"
+                    rounded="large"
+                  />
+                  <.card_media
+                    src={~p"/images/mishka-chelekom-media-4.jpg"}
+                    alt="test"
+                    rounded="large"
+                  />
+                </.card_footer>
+              </.card>
+
+              <.card rounded="medium" color="misc" variant="bordered">
+                <.card_media src={~p"/images/mishka-chelekom-media-2.jpg"} alt="test" />
+                <.card_title padding="large" class="flex items-center justify-between">
+                  <div>Efficient</div>
+                  <.badge rounded="full" variant="default" color="dawn" size="small">
+                    gallery
+                  </.badge>
+                </.card_title>
+                <.card_content padding="large">
+                  <.cp class="text-sm">
+                    The Mishka card component is ideal for displaying content in a clean, organized layout. Whether for portfolios, product listings, or user profiles, it offers customizable options for size, color, and design. Perfect for enhancing your web projects with ease and flexibility.
+                  </.cp>
+                </.card_content>
+                <.card_footer padding="large">
+                  <.button full_width variant="outline" color="misc" size="small">
+                    See more
+                  </.button>
+                </.card_footer>
+              </.card>
+            </div>
+          </.custom_code_wrapper>
+        </:documentation_panel>
+
+        <:props_panel>
+          <.custom_search class="mb-16" />
+          <div class="space-y-8">
+            <h2 class="text-lg lg:text-2xl font-bold">Card component props</h2>
+
+            <.custom_table id="card-component-table">
+              <:header>
+                <.table_th>Name</.table_th>
+
+                <.table_th>Type</.table_th>
+
+                <.table_th>Required</.table_th>
+
+                <.table_th>Description</.table_th>
+              </:header>
+
+              <:row>
+                <.table_td>id</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  A unique identifier is used to manage state and interaction.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>variant</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines the style of the card. Supported values: <strong>default</strong>, <strong>outline</strong>, <strong>transparent</strong>, <strong>shadow</strong>, <strong>bordered</strong>, <strong>gradient</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>color</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines the color theme of the card. Supported values: <strong>natural</strong>, <strong>primary</strong>, <strong>secondary</strong>, <strong>success</strong>, <strong>warning</strong>, <strong>danger</strong>, <strong>info</strong>, <strong>silver</strong>, <strong>misc</strong>, <strong>dawn</strong>. Default is <strong>natural</strong>.The
+                  <strong>default</strong>
+                  and <strong>bordered</strong>
+                  variants have extra color options: <strong>dark</strong>
+                  and <strong>white</strong>, which in both light mode and dark mode, these colors are always the same.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>border</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines the border style of the card. Default: <strong>extra_small</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>rounded</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Determines the border radius of the card.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>space</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Space between items inside the card.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>font_weight</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines the custom class for the font weight. Default: <strong>font-normal</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>padding</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Determines the padding for items inside the card.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>class</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Custom CSS class for additional styling.</.table_td>
+              </:row>
+            </.custom_table>
+          </div>
+
+          <div class="space-y-8 mt-8">
+            <h2 class="text-lg lg:text-2xl font-bold">Card Title component props</h2>
+
+            <.custom_table id="card-title-component-table">
+              <:header>
+                <.table_th>Name</.table_th>
+
+                <.table_th>Type</.table_th>
+
+                <.table_th>Required</.table_th>
+
+                <.table_th>Description</.table_th>
+              </:header>
+
+              <:row>
+                <.table_td>id</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  A unique identifier is used to manage state and interaction.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>class</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Custom CSS class for additional styling.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>title</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Specifies the title of the card element.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>icon</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Icon displayed alongside the title.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>position</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines the element position. Supported values: <strong>start</strong>, <strong>center</strong>, <strong>end</strong>, <strong>between</strong>, <strong>around</strong>. Default: <strong>start</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>font_weight</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines the font weight of the title. Default: <strong>font-semibold</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>size</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines the overall size of the title, including padding, font size, and other items. Supported values: <strong>extra_small</strong>, <strong>small</strong>, <strong>medium</strong>, <strong>large</strong>, <strong>extra_large</strong>. Default: <strong>large</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>padding</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines the padding for the title. Default: <strong>none</strong>.
+                </.table_td>
+              </:row>
+            </.custom_table>
+          </div>
+
+          <div class="space-y-8 mt-8">
+            <h2 class="text-lg lg:text-2xl font-bold">Card Media component props</h2>
+
+            <.custom_table id="card-media-component-table">
+              <:header>
+                <.table_th>Name</.table_th>
+
+                <.table_th>Type</.table_th>
+
+                <.table_th>Required</.table_th>
+
+                <.table_th>Description</.table_th>
+              </:header>
+
+              <:row>
+                <.table_td>id</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  A unique identifier is used to manage state and interaction.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>alt</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Media link description, typically used as the alt text for images.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>src</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>Yes</.table_td>
+
+                <.table_td>The media link, such as an image URL.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>rounded</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines the border radius of the media. Supported values: <strong>extra_small</strong>, <strong>small</strong>, <strong>medium</strong>, <strong>large</strong>, <strong>extra_large</strong>, <strong>nil</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>class</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Custom CSS class for additional styling.</.table_td>
+              </:row>
+            </.custom_table>
+          </div>
+
+          <div class="space-y-8 mt-8">
+            <h2 class="text-lg lg:text-2xl font-bold">Card Content component props</h2>
+
+            <.custom_table id="card-content-component-table">
+              <:header>
+                <.table_th>Name</.table_th>
+
+                <.table_th>Type</.table_th>
+
+                <.table_th>Required</.table_th>
+
+                <.table_th>Description</.table_th>
+              </:header>
+
+              <:row>
+                <.table_td>id</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  A unique identifier is used to manage state and interaction.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>space</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Space between items inside the card. Supported values: <strong>extra_small</strong>, <strong>small</strong>, <strong>medium</strong>, <strong>large</strong>, <strong>extra_large</strong>. Default: <strong>extra_small</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>padding</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines the padding for items inside the card. Supported values: <strong>extra_small</strong>, <strong>small</strong>, <strong>medium</strong>, <strong>large</strong>, <strong>extra_large</strong>, <strong>none</strong>. Default: <strong>none</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>class</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Custom CSS class for additional styling.</.table_td>
+              </:row>
+            </.custom_table>
+          </div>
+
+          <div class="space-y-8 mt-8">
+            <h2 class="text-lg lg:text-2xl font-bold">Card Footer component props</h2>
+
+            <.custom_table id="card-footer-component-table">
+              <:header>
+                <.table_th>Name</.table_th>
+
+                <.table_th>Type</.table_th>
+
+                <.table_th>Required</.table_th>
+
+                <.table_th>Description</.table_th>
+              </:header>
+
+              <:row>
+                <.table_td>id</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  A unique identifier is used to manage state and interaction.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>class</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Custom CSS class for additional styling.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>padding</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines the padding for the footer section. Supported values: <strong>extra_small</strong>, <strong>small</strong>, <strong>medium</strong>, <strong>large</strong>, <strong>extra_large</strong>, <strong>none</strong>. Default: <strong>none</strong>.
+                </.table_td>
+              </:row>
+            </.custom_table>
+          </div>
+        </:props_panel>
+
+        <:cli_panel>
+          <.custom_cli_props config={component_config()} />
+        </:cli_panel>
+        <.custom_table_content>
+          <:content
+            link={~p"/chelekom/docs/card/#overview"}
+            title="Overview of the Card Component"
+          />
+
+          <:content link={~p"/chelekom/docs/card/#default-variant-card"} title="Default variant" />
+          <:content link={~p"/chelekom/docs/card/#outline-variant-card"} title="Otline variant" />
+          <:content link={~p"/chelekom/docs/card/#shadow-variant-card"} title="Shadow variant" />
+          <:content
+            link={~p"/chelekom/docs/card/#bordered-variant-card"}
+            title="Bordered variant"
+          />
+          <:content
+            link={~p"/chelekom/docs/card/#transparent-variant-card"}
+            title="Transparent variant"
+          />
+          <:content
+            link={~p"/chelekom/docs/card/#gradient-variant-card"}
+            title="Gradient variant"
+          />
+          <:content link={~p"/chelekom/docs/card/#card-rounded"} title="Rounded prop" />
+          <:content link={~p"/chelekom/docs/card/#overlayed-card"} title="Overlayed card" />
+          <:content link={~p"/chelekom/docs/card/#card-border"} title="Border prop" />
+          <:content link={~p"/chelekom/docs/card/#card-space"} title="Space prop" />
+          <:content link={~p"/chelekom/docs/card/#card-padding"} title="Padding prop" />
+
+          <:content
+            link={~p"/chelekom/docs/card/#card-content-component"}
+            title="Card content component"
+          />
+
+          <:content
+            link={~p"/chelekom/docs/card/#card-content-space-prop"}
+            title="Card content space prop"
+          />
+
+          <:content
+            link={~p"/chelekom/docs/card/#card-content-padding-prop"}
+            title="Card content padding prop"
+          />
+
+          <:content
+            link={~p"/chelekom/docs/card/#card-title-component"}
+            title="Card title component"
+          />
+
+          <:content
+            link={~p"/chelekom/docs/card/#card-title-title-prop"}
+            title="Card title component title prop"
+          />
+
+          <:content
+            link={~p"/chelekom/docs/card/#card-title-icon-prop"}
+            title="Card title component icon prop"
+          />
+
+          <:content
+            link={~p"/chelekom/docs/card/#card-title-position-prop"}
+            title="Card title component position prop"
+          />
+
+          <:content
+            link={~p"/chelekom/docs/card/#card-title-size-prop"}
+            title="Card title component size prop"
+          />
+
+          <:content
+            link={~p"/chelekom/docs/card/#card-title-padding-prop"}
+            title="Card title component padding prop"
+          />
+
+          <:content
+            link={~p"/chelekom/docs/card/#card-title-font-weight-prop"}
+            title="Card title component font weight prop"
+          />
+
+          <:content
+            link={~p"/chelekom/docs/card/#card-media-component"}
+            title="Card media component"
+          />
+
+          <:content link={~p"/chelekom/docs/card/#card-video"} title="Using video as media" />
+
+          <:content
+            link={~p"/chelekom/docs/card/#card-media-src-prop"}
+            title="Card media component src prop"
+          />
+
+          <:content
+            link={~p"/chelekom/docs/card/#card-media-alt-prop"}
+            title="Card media component alt prop"
+          />
+
+          <:content
+            link={~p"/chelekom/docs/card/#card-media-rounded-prop"}
+            title="Card media component rounded prop"
+          />
+
+          <:content
+            link={~p"/chelekom/docs/card/#card-footer-component"}
+            title="Card footer component"
+          />
+
+          <:content
+            link={~p"/chelekom/docs/card/#card-footer-padding-prop"}
+            title="Card footer component padding prop"
+          />
+          <:content
+            link={~p"/chelekom/docs/card/#more-examples"}
+            title="Example of using card components"
+          />
+        </.custom_table_content>
+      </.custom_tab>
+    </div>
+  </div>
+</Layouts.app>

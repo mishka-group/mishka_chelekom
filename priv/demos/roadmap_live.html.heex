@@ -1,0 +1,358 @@
+<Layouts.app flash={@flash}>
+  <div class="lg:grid lg:grid-cols-12 mt-5 max-w-5xl mx-auto">
+    <.custom_nav active="chelekom-docs-roadmap" />
+    <div class="lg:col-span-10">
+      <div class="lg:grid lg:grid-cols-12 mt-2">
+        <article class="lg:col-span-9 px-2 lg:px-0 pb-10 leading-10 text-[#444444] dark:text-[#cacfd2] space-y-10">
+          <div class="flex items-center justify-between mb-8">
+            <.heading1 id="roadmap" class="w-full text-3xl text-[#448d96] font-bold">
+              Roadmap
+            </.heading1>
+            <div class="flex items-center justify-end flex-wrap md:flex-nowrap gap-3">
+              <.badge
+                variant="outline"
+                size="small"
+                color="silver"
+                class="whitespace-nowrap"
+                left_indicator
+                pinging
+              >
+                Current version v0.0.8 🚀
+              </.badge>
+              <.nav_mobile_button position="end" />
+            </div>
+          </div>
+
+          <section id="version-0-0-8">
+            <.heading2 class="mb-5">Version 0.0.8</.heading2>
+            <.ul variant="transparent" style="list-disc" class="leading-10">
+              <.li>
+                Migrated from Tailwind CSS 3 to Tailwind CSS 4 for improved performance and modern utility classes.
+              </.li>
+              <.li>
+                Introduced a powerful CLI for custom CSS configuration, enabling developers to tailor styles to their specific needs.
+              </.li>
+              <.li>
+                Added comprehensive test suite for the CLI to ensure reliability and maintainability.
+              </.li>
+              <.li>
+                Resolved compatibility issues with the latest updates in Phoenix Framework and LiveView, ensuring seamless integration.
+              </.li>
+            </.ul>
+
+            <p class="flex mt-5 space-x-2">
+              <strong>Milestones 0.0.8</strong>:
+              <.link
+                class="flex flex-row justify-start place-items-center space-x-1"
+                href="https://github.com/mishka-group/mishka_chelekom/milestone/8"
+                target="_blank"
+              >
+                <span>Click to see</span>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke-width="1.5"
+                  stroke="currentColor"
+                  class="size-4"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M13.5 6H5.25A2.25 2.25 0 0 0 3 8.25v10.5A2.25 2.25 0 0 0 5.25 21h10.5A2.25 2.25 0 0 0 18 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25"
+                  />
+                </svg>
+              </.link>
+            </p>
+          </section>
+
+          <section id="version-0-0-7">
+            <.heading2 class="mb-5">Version 0.0.7</.heading2>
+            <.ul variant="transparent" style="list-disc" class="leading-10">
+              <.li>
+                Addressed and resolved various reported issues to enhance stability and performance.
+              </.li>
+              <.li>
+                Implemented Flash group restrictions specifically tailored for Phoenix version 1.8, improving security and component isolation.
+              </.li>
+            </.ul>
+
+            <p class="flex mt-5 space-x-2">
+              <strong>Milestones 0.0.7</strong>:
+              <.link
+                class="flex flex-row justify-start place-items-center space-x-1"
+                href="https://github.com/mishka-group/mishka_chelekom/milestone/7"
+                target="_blank"
+              >
+                <span>Click to see</span>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke-width="1.5"
+                  stroke="currentColor"
+                  class="size-4"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M13.5 6H5.25A2.25 2.25 0 0 0 3 8.25v10.5A2.25 2.25 0 0 0 5.25 21h10.5A2.25 2.25 0 0 0 18 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25"
+                  />
+                </svg>
+              </.link>
+            </p>
+          </section>
+
+          <section id="version-0-0-6">
+            <.heading2 class="mb-5">Version 0.0.6</.heading2>
+            <.ul variant="transparent" style="list-disc" class="leading-10">
+              <.li>
+                Preparing for support of custom design systems and architecture.
+              </.li>
+              <.li>
+                Enhancing and supporting components for Phoenix version 1.8.
+              </.li>
+              <.li>Optimizing certain components to support custom requirements.</.li>
+            </.ul>
+
+            <p class="flex mt-5 space-x-2">
+              <strong>Milestones 0.0.6</strong>:
+              <.link
+                class="flex flex-row justify-start place-items-center space-x-1"
+                href="https://github.com/mishka-group/mishka_chelekom/milestone/6"
+                target="_blank"
+              >
+                <span>Click to see</span>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke-width="1.5"
+                  stroke="currentColor"
+                  class="size-4"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M13.5 6H5.25A2.25 2.25 0 0 0 3 8.25v10.5A2.25 2.25 0 0 0 5.25 21h10.5A2.25 2.25 0 0 0 18 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25"
+                  />
+                </svg>
+              </.link>
+            </p>
+          </section>
+
+          <section id="version-0-0-5">
+            <.heading2 class="mb-5">Version 0.0.5</.heading2>
+            <.ul variant="transparent" style="list-disc" class="leading-10">
+              <.li>
+                Making changes to further improve and enhance the dynamic behavior of the core components.
+              </.li>
+              <.li>
+                Improving compatibility with the new Tailwind version.
+              </.li>
+              <.li>Adding basic accessibility support to components.</.li>
+              <.li>Focusing on the requirements requested in the project's GitHub issues.</.li>
+            </.ul>
+
+            <p class="flex mt-5 space-x-2">
+              <strong>Milestones 0.0.5</strong>:
+              <.link
+                class="flex flex-row justify-start place-items-center space-x-1"
+                href="https://github.com/mishka-group/mishka_chelekom/milestone/5"
+                target="_blank"
+              >
+                <span>Click to see</span>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke-width="1.5"
+                  stroke="currentColor"
+                  class="size-4"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M13.5 6H5.25A2.25 2.25 0 0 0 3 8.25v10.5A2.25 2.25 0 0 0 5.25 21h10.5A2.25 2.25 0 0 0 18 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25"
+                  />
+                </svg>
+              </.link>
+            </p>
+          </section>
+
+          <section id="version-0-0-4">
+            <.heading2 class="mb-5">Version 0.0.4</.heading2>
+            <.ul variant="transparent" style="list-disc" class="leading-10">
+              <.li>Adding scroll area component.</.li>
+              <.li>Adding combobox component.</.li>
+              <.li>Adding missing features of Phoenix core components.</.li>
+              <.li>Adding global components installing support and JS formatter.</.li>
+              <.li>Introducing radio card component.</.li>
+              <.li>Introducing checkbox card component.</.li>
+              <.li>Fixing and refactoring some bugs</.li>
+            </.ul>
+
+            <p class="flex mt-5 space-x-2">
+              <strong>Milestones 0.0.4</strong>:
+              <.link
+                class="flex flex-row justify-start place-items-center space-x-1"
+                href="https://github.com/mishka-group/mishka_chelekom/milestone/4"
+                target="_blank"
+              >
+                <span>Click to see</span>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke-width="1.5"
+                  stroke="currentColor"
+                  class="size-4"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M13.5 6H5.25A2.25 2.25 0 0 0 3 8.25v10.5A2.25 2.25 0 0 0 5.25 21h10.5A2.25 2.25 0 0 0 18 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25"
+                  />
+                </svg>
+              </.link>
+            </p>
+          </section>
+
+          <section id="version-0-0-3">
+            <.heading2 class="mb-5">Version 0.0.3</.heading2>
+            <.ul variant="transparent" style="list-disc" class="leading-10">
+              <.li>Adding several new base stateless components.</.li>
+              <.li>Adding various components to the community project.</.li>
+              <.li>Fixing issues reported by developers from the previous version.</.li>
+              <.li>
+                Introducing demo pages for components with easy copy-and-use functionality.
+              </.li>
+            </.ul>
+
+            <p class="flex mt-5 space-x-2">
+              <strong>Milestones 0.0.3</strong>:
+              <.link
+                class="flex flex-row justify-start place-items-center space-x-1"
+                href="https://github.com/mishka-group/mishka_chelekom/milestone/3"
+                target="_blank"
+              >
+                <span>Click to see</span>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke-width="1.5"
+                  stroke="currentColor"
+                  class="size-4"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M13.5 6H5.25A2.25 2.25 0 0 0 3 8.25v10.5A2.25 2.25 0 0 0 5.25 21h10.5A2.25 2.25 0 0 0 18 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25"
+                  />
+                </svg>
+              </.link>
+            </p>
+          </section>
+
+          <section id="version-0-0-2">
+            <.heading2 class="mb-5">Version 0.0.2</.heading2>
+            <.ul variant="transparent" style="list-disc" class="leading-10">
+              <.li>Fixing issues reported by developers from the previous version.</.li>
+              <.li>Implementing <strong>Dark Mode</strong> for all components.</.li>
+              <.li>
+                Improving and restructuring documentation and displaying each component within the documentation.
+              </.li>
+              <.li>Enhancing CLI performance and supporting non-standard naming for Elixir.</.li>
+              <.li>Adding initial JavaScript support in CLI (Beta version).</.li>
+              <.li>Introducing the Beta version of CLI for the community project.</.li>
+              <.li>Updating all templates for new syntax of Phoenix LiveView 1.0.0.</.li>
+            </.ul>
+
+            <p class="flex mt-5 space-x-2">
+              <strong>Milestones 0.0.2</strong>:
+              <.link
+                class="flex flex-row justify-start place-items-center space-x-1"
+                href="https://github.com/mishka-group/mishka_chelekom/milestone/2"
+                target="_blank"
+              >
+                <span>Click to see</span>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke-width="1.5"
+                  stroke="currentColor"
+                  class="size-4"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M13.5 6H5.25A2.25 2.25 0 0 0 3 8.25v10.5A2.25 2.25 0 0 0 5.25 21h10.5A2.25 2.25 0 0 0 18 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25"
+                  />
+                </svg>
+              </.link>
+            </p>
+          </section>
+
+          <section id="version-0-0-1">
+            <.heading2 class="mb-5">Version 0.0.1</.heading2>
+            <.ul variant="transparent" style="list-disc" class="leading-10">
+              <.li>Approximately 80 components across 43 collections were published.</.li>
+              <.li>
+                Full documentation for all components, including testing and easy code copy functionality,
+                was completed.
+              </.li>
+              <.li>
+                A generator was included for installing and building components within the project.
+              </.li>
+              <.li>
+                All color classes in this version only support <strong>Light Mode</strong>.
+              </.li>
+              <.li>All components are stateless in this version.</.li>
+              <.li>
+                Targeted the latest versions of <strong>Phoenix</strong>
+                and the experimental version of <strong>Phoenix LiveView</strong>.
+              </.li>
+            </.ul>
+
+            <p class="flex mt-5 space-x-2">
+              <strong>Milestones 0.0.1</strong>:
+              <.link
+                class="flex flex-row justify-start place-items-center space-x-1"
+                href="https://github.com/mishka-group/mishka_chelekom/milestone/1"
+                target="_blank"
+              >
+                <span>Click to see</span>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke-width="1.5"
+                  stroke="currentColor"
+                  class="size-4"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M13.5 6H5.25A2.25 2.25 0 0 0 3 8.25v10.5A2.25 2.25 0 0 0 5.25 21h10.5A2.25 2.25 0 0 0 18 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25"
+                  />
+                </svg>
+              </.link>
+            </p>
+          </section>
+        </article>
+        <.custom_table_content>
+          <:content link={~p"/chelekom/docs/roadmap/#version-0-0-8"} title="Version 0.0.8" />
+          <:content link={~p"/chelekom/docs/roadmap/#version-0-0-7"} title="Version 0.0.7" />
+          <:content link={~p"/chelekom/docs/roadmap/#version-0-0-6"} title="Version 0.0.6" />
+          <:content link={~p"/chelekom/docs/roadmap/#version-0-0-5"} title="Version 0.0.5" />
+          <:content link={~p"/chelekom/docs/roadmap/#version-0-0-4"} title="Version 0.0.4" />
+          <:content link={~p"/chelekom/docs/roadmap/#version-0-0-3"} title="Version 0.0.3" />
+          <:content link={~p"/chelekom/docs/roadmap/#version-0-0-2"} title="Version 0.0.2" />
+          <:content link={~p"/chelekom/docs/roadmap/#version-0-0-1"} title="Version 0.0.1" />
+        </.custom_table_content>
+      </div>
+    </div>
+  </div>
+</Layouts.app>

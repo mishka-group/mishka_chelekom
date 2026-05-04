@@ -589,7 +589,7 @@ defmodule MishkaChelekom.CmsBundleExporter do
     end
   end
 
-  defp head_to_helper_entry(head, body, _visibility, attrs \\ [], slots \\ []) do
+  defp head_to_helper_entry(head, body, _visibility, attrs, slots) do
     {name, args, guard} = decompose_head(head)
 
     args_str = args |> Enum.map(&Macro.to_string/1) |> Enum.join(", ")

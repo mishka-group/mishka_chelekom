@@ -1,0 +1,2350 @@
+<Layouts.app flash={@flash}>
+  <div class="lg:grid lg:grid-cols-12 mt-5 max-w-5xl mx-auto">
+    <.custom_nav active="chelekom-docs-button" />
+    <div class="lg:col-span-10">
+      <.custom_info
+        title="Button"
+        description="Interactive buttons and button groups for Phoenix and Phoenix LiveView, including form input and link buttons to boost user engagement."
+        mix="mix mishka.ui.gen.component button"
+        tags={["Component", "Stateless"]}
+        github="https://github.com/mishka-group/mishka_chelekom/blob/master/priv/components/button.eex"
+      />
+      <.custom_tab id="chelekom-button-tab">
+        <:documentation_panel>
+          <.heading2 class="mb-5" id="overview">
+            <.link patch={~p"/chelekom/docs/button/#overview"}>
+              Overview of the Phoenix and LiveView Button Component
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <strong>
+              Mishka Chelekom Button
+            </strong>
+            module offers a flexible set of <strong>button components</strong>
+            for <strong>Phoenix</strong>
+            applications, allowing easy customization for different sizes, colors, and styles. It includes buttons with icons, gradients, and indicators, making it adaptable for various design needs. This
+            Phoenix button module ensures smooth and efficient button integration, enhancing the visual appeal and usability of your app.
+          </.cp>
+
+          <.custom_code_wrapper elements_class="flex items-center flex-wrap gap-4 text-sm">
+            <.button variant="default" size="small" color="danger" class="flex items-center">
+              <span class="flex items-center gap-2">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  class="size-5"
+                >
+                  <path d="M3 6h18" /><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6" /><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2" /><line
+                    x1="10"
+                    x2="10"
+                    y1="11"
+                    y2="17"
+                  /><line x1="14" x2="14" y1="11" y2="17" />
+                </svg>
+                <span>
+                  Delete
+                </span>
+              </span>
+            </.button>
+
+            <.button icon="hero-bookmark" size="medium" variant="default" color="dark">
+              Bookmark
+            </.button>
+
+            <.button
+              size="large"
+              content_class="flex items-center gap-2 leading-5 font-semibold"
+              variant="bordered"
+              color="misc"
+            >
+              <span class="font-semobild">
+                Messages
+              </span>
+              <.badge
+                size="size-5 text-[11px] flex justify-center items-center"
+                color="misc"
+                variant="outline"
+              >
+                18
+              </.badge>
+            </.button>
+
+            <.button size="size-12" circle rounded="full" class="!shadow-xs">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                class="size-6 text-gray-700 dark:text-gray-300"
+              >
+                <path d="M3 7V5a2 2 0 0 1 2-2h2" /><path d="M17 3h2a2 2 0 0 1 2 2v2" /><path d="M21 17v2a2 2 0 0 1-2 2h-2" /><path d="M7 21H5a2 2 0 0 1-2-2v-2" /><circle
+                  cx="12"
+                  cy="12"
+                  r="3"
+                /><path d="m16 16-1.9-1.9" />
+              </svg>
+            </.button>
+
+            <.button
+              size="small"
+              icon="hero-bell-alert"
+              variant="outline"
+              color="danger"
+              top_left_indicator
+              pinging
+            >
+              Notification
+            </.button>
+
+            <.button_group color="natural">
+              <.button variant="inverted" size="small" color="natural">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  class="size-5"
+                >
+                  <path d="M15 12H3" /><path d="M17 18H3" /><path d="M21 6H3" />
+                </svg>
+              </.button>
+
+              <.button variant="inverted" size="small" color="natural">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  class="size-5"
+                >
+                  <path d="M17 12H7" /><path d="M19 18H5" /><path d="M21 6H3" />
+                </svg>
+              </.button>
+
+              <.button variant="inverted" size="small" color="natural">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  class="size-5"
+                >
+                  <path d="M21 12H9" /><path d="M21 18H7" /><path d="M21 6H3" />
+                </svg>
+              </.button>
+            </.button_group>
+
+            <.button
+              size="small"
+              variant="default"
+              color="dark"
+              content_class="flex items-center gap-2"
+              rounded="full"
+            >
+              <.avatar rounded="full" src={~p"/images/shahryar-tavakkoli.jpg"} size="small" />
+              <span>@shahryar_tbiz</span>
+            </.button>
+
+            <.button_group color="dawn">
+              <.button
+                variant="inverted"
+                size="small"
+                color="dawn"
+                content_class="flex items-ceter gap-2 leading-5"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  class="size-5"
+                >
+                  <circle cx="12" cy="18" r="3" /><circle cx="6" cy="6" r="3" /><circle
+                    cx="18"
+                    cy="6"
+                    r="3"
+                  /><path d="M18 9v2c0 .6-.4 1-1 1H7c-.6 0-1-.4-1-1V9" /><path d="M12 12v3" />
+                </svg>
+                <span class="text-[17px]">Forks</span>
+              </.button>
+
+              <.button variant="inverted" size="small" color="dawn">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  class="size-5"
+                >
+                  <path d="m6 9 6 6 6-6" />
+                </svg>
+              </.button>
+            </.button_group>
+
+            <.button
+              size="large"
+              content_class="flex items-center gap-2"
+              variant="default"
+              icon="hero-star"
+              color="natural"
+            >
+              <span class="font-semobild">
+                Stars
+              </span>
+              <span class="text-sm">
+                380
+              </span>
+            </.button>
+
+            <.button_group color="silver">
+              <.button
+                variant="inverted"
+                size="small"
+                color="silver"
+                content_class="flex items-ceter gap-2"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  class="size-5"
+                >
+                  <path d="M20 7h-3a2 2 0 0 1-2-2V2" /><path d="M9 18a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h7l4 4v10a2 2 0 0 1-2 2Z" /><path d="M3 7.6v12.8A1.6 1.6 0 0 0 4.6 22h9.8" />
+                </svg>
+                <span>Files</span>
+              </.button>
+
+              <.button
+                variant="inverted"
+                size="small"
+                color="silver"
+                content_class="flex items-ceter gap-2"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  class="size-5"
+                >
+                  <rect width="18" height="18" x="3" y="3" rx="2" /><path d="M7 3v18" /><path d="M3 7.5h4" /><path d="M3 12h18" /><path d="M3 16.5h4" /><path d="M17 3v18" /><path d="M17 7.5h4" /><path d="M17 16.5h4" />
+                </svg>
+                <span>Media</span>
+              </.button>
+
+              <.button variant="inverted" size="small" color="silver">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  class="size-5"
+                >
+                  <circle cx="12" cy="12" r="1" /><circle cx="19" cy="12" r="1" /><circle
+                    cx="5"
+                    cy="12"
+                    r="1"
+                  />
+                </svg>
+              </.button>
+            </.button_group>
+
+            <.button variant="transparent" size="small" color="misc">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                class="size-5"
+              >
+                <path d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0" /><circle
+                  cx="12"
+                  cy="12"
+                  r="3"
+                />
+              </svg>
+            </.button>
+
+            <.button variant="outline" size="extra_large" color="info" circle>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                class="size-5"
+              >
+                <path d="M12 8a2.83 2.83 0 0 0 4 4 4 4 0 1 1-4-4" /><path d="M12 2v2" /><path d="M12 20v2" /><path d="m4.9 4.9 1.4 1.4" /><path d="m17.7 17.7 1.4 1.4" /><path d="M2 12h2" /><path d="M20 12h2" /><path d="m6.3 17.7-1.4 1.4" /><path d="m19.1 4.9-1.4 1.4" />
+              </svg>
+            </.button>
+
+            <.button variant="default" size="medium" color="info" disabled>
+              <:loading>
+                <.spinner color="dark" size="small" />
+              </:loading>
+              Disabled
+            </.button>
+
+            <.button variant="outline" size="large" color="primary">
+              <:loading>
+                <.spinner color="primary" size="medium" />
+              </:loading>
+              Loading...
+            </.button>
+
+            <.button
+              variant="default"
+              size="small"
+              color="misc"
+              full_width
+              content_class="flex items-center gap-3"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                class="size-5"
+              >
+                <path d="M21 2H3v16h5v4l4-4h5l4-4V2zm-10 9V7m5 4V7" />
+              </svg>
+              <span class="text-lg">Login to Twitch</span>
+            </.button>
+
+            <.button
+              variant="default"
+              size="medium"
+              rounded="extra_large"
+              color="danger"
+              full_width
+            >
+              <span class="text-lg">Login with Google</span>
+            </.button>
+          </.custom_code_wrapper>
+
+          <.cp margin="mt-5">
+            With components like standard buttons, <strong>button groups</strong>, input buttons, and button links, it ensures your application maintains a consistent and polished look while being user-friendly and responsive. The
+            The Mishka Chelekom Button module, a <.link
+              title="Phoenix LiveView component"
+              class="transition-colors hover:text-[#448D96]"
+              navigate={~p"/chelekom"}
+            >Phoenix LiveView component</.link>, is a great solution for developers looking to build intuitive and visually appealing interfaces, making it an ideal choice for enhancing user experience in
+            <strong>Phoenix LiveView</strong>
+            projects.
+          </.cp>
+
+          <.custom_block position="left" color="success" class="my-8" border="medium">
+            <.cp>
+              By using the class prop, you can apply custom classes or Tailwind CSS classes to customize the appearance and behavior of the components, allowing for flexible design changes.
+            </.cp>
+          </.custom_block>
+
+          <.heading2 margin="my-5" id="base-button">
+            <.link patch={~p"/chelekom/docs/button/#base-button"}>
+              Base color & variant
+            </.link>
+          </.heading2>
+
+          <.custom_code_wrapper
+            elements_class="flex items-start flex-wrap gap-4 text-sm"
+            code={@code_25}
+          >
+            <.button>Base</.button>
+            <.button disabled>Base Disabled</.button>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="default-variant-button">
+            <.link patch={~p"/chelekom/docs/button/#default-variant-button"}>
+              Default variant of Phoenix and LiveView button component
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The default variant of the
+            <.link navigate={~p"/chelekom/docs/button"}>Mishka Chelekom button</.link>
+            automatically applies a solid background and border that change on hover, ideal for primary actions. With just a single prop, you can choose from a variety of colors, making it easy to adapt to different design needs while offering a flexible, visually appealing solution for any interface.
+          </.cp>
+
+          <.custom_code_wrapper
+            elements_class="flex items-start flex-wrap gap-4 text-sm"
+            code={@code_1}
+          >
+            <.button variant="default" color="natural">Natural</.button>
+
+            <.button variant="default" color="white">White</.button>
+
+            <.button variant="default" color="dark">Dark</.button>
+
+            <.button variant="default" color="primary">Primary</.button>
+
+            <.button variant="default" color="secondary">Secondary</.button>
+
+            <.button variant="default" color="success">Success</.button>
+
+            <.button variant="default" color="warning">Warning</.button>
+
+            <.button variant="default" color="danger">Danger</.button>
+
+            <.button variant="default" color="info">Info</.button>
+
+            <.button variant="default" color="silver">Silver</.button>
+
+            <.button variant="default" color="misc">Misc</.button>
+
+            <.button variant="default" color="dawn">Dawn</.button>
+
+            <.button variant="default" color="natural" disabled>Disabled</.button>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="outline-variant-button">
+            <.link patch={~p"/chelekom/docs/button/#outline-variant-button"}>
+              Outline variant of button component
+            </.link>
+          </.heading2>
+
+          <.cp>
+            With the
+            <.custom_inline_code>variant="outline"</.custom_inline_code>
+            prop, the button has a transparent background and a border available in various colors.
+          </.cp>
+
+          <.custom_code_wrapper
+            elements_class="flex items-start flex-wrap gap-4 text-sm"
+            code={@code_2}
+          >
+            <.button variant="outline" color="natural">Natural</.button>
+
+            <.button variant="outline" color="primary">Primary</.button>
+
+            <.button variant="outline" color="secondary">Secondary</.button>
+
+            <.button variant="outline" color="success">Success</.button>
+
+            <.button variant="outline" color="warning">Warning</.button>
+
+            <.button variant="outline" color="danger">Danger</.button>
+
+            <.button variant="outline" color="info">Info</.button>
+
+            <.button variant="outline" color="silver">Silver</.button>
+
+            <.button variant="outline" color="misc">Misc</.button>
+
+            <.button variant="outline" color="dawn">Dawn</.button>
+
+            <.button variant="outline" color="natural" disabled>Disabled</.button>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="transparent-variant-button">
+            <.link patch={~p"/chelekom/docs/button/#transparent-variant-button"}>
+              Transparent variant of button component
+            </.link>
+          </.heading2>
+
+          <.cp>
+            With the
+            <.custom_inline_code>variant="transparent"</.custom_inline_code>
+            prop, the button has a transparent background and border, providing a minimal look. On hover, only the text color changes, making it perfect for subtle actions in a modern and minimalist interface.
+          </.cp>
+
+          <.custom_code_wrapper
+            elements_class="flex items-start flex-wrap gap-4 text-sm"
+            code={@code_3}
+          >
+            <.button variant="transparent" color="natural">Natural</.button>
+
+            <.button variant="transparent" color="primary">Primary</.button>
+
+            <.button variant="transparent" color="secondary">Secondary</.button>
+
+            <.button variant="transparent" color="success">Success</.button>
+
+            <.button variant="transparent" color="warning">Warning</.button>
+
+            <.button variant="transparent" color="danger">Danger</.button>
+
+            <.button variant="transparent" color="info">Info</.button>
+
+            <.button variant="transparent" color="silver">Silver</.button>
+
+            <.button variant="transparent" color="misc">Misc</.button>
+
+            <.button variant="transparent" color="dawn">Dawn</.button>
+
+            <.button variant="transparent" color="natural" disabled>Disabled</.button>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="subtle-variant-button">
+            <.link patch={~p"/chelekom/docs/button/#subtle-variant-button"}>
+              Subtle variant of button component
+            </.link>
+          </.heading2>
+
+          <.cp>
+            With the
+            <.custom_inline_code>variant="subtle"</.custom_inline_code>
+            prop, the button has a transparent background and border, creating a minimal and clean look. On hover, the background and text colors change.
+          </.cp>
+
+          <.custom_code_wrapper
+            elements_class="flex items-start flex-wrap gap-4 text-sm"
+            code={@code_4}
+          >
+            <.button variant="subtle" color="natural">Natural</.button>
+
+            <.button variant="subtle" color="primary">Primary</.button>
+
+            <.button variant="subtle" color="secondary">Secondary</.button>
+
+            <.button variant="subtle" color="success">Success</.button>
+
+            <.button variant="subtle" color="warning">Warning</.button>
+
+            <.button variant="subtle" color="danger">Danger</.button>
+
+            <.button variant="subtle" color="info">Info</.button>
+
+            <.button variant="subtle" color="silver">Silver</.button>
+
+            <.button variant="subtle" color="misc">Misc</.button>
+
+            <.button variant="subtle" color="dawn">Dawn</.button>
+
+            <.button variant="subtle" color="natural" disabled>Disabled</.button>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="bordered-variant-button">
+            <.link patch={~p"/chelekom/docs/button/#bordered-variant-button"}>
+              Bordered variant of button component
+            </.link>
+          </.heading2>
+
+          <.cp>
+            With the
+            <.custom_inline_code>variant="bordered"</.custom_inline_code>
+            prop, the button is like outline but with different backgrounds in light and dark mode and a border available in various colors.
+          </.cp>
+
+          <.custom_code_wrapper
+            elements_class="flex items-start flex-wrap gap-4 text-sm"
+            code={@code_22}
+          >
+            <.button variant="bordered" color="natural">Natural</.button>
+
+            <.button variant="bordered" color="primary">Primary</.button>
+
+            <.button variant="bordered" color="secondary">Secondary</.button>
+
+            <.button variant="bordered" color="success">Success</.button>
+
+            <.button variant="bordered" color="warning">Warning</.button>
+
+            <.button variant="bordered" color="danger">Danger</.button>
+
+            <.button variant="bordered" color="info">Info</.button>
+
+            <.button variant="bordered" color="silver">Silver</.button>
+
+            <.button variant="bordered" color="misc">Misc</.button>
+
+            <.button variant="bordered" color="dawn">Dawn</.button>
+
+            <.button variant="bordered" color="natural" disabled>Disabled</.button>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="shadow-variant-button">
+            <.link patch={~p"/chelekom/docs/button/#shadow-variant-button"}>
+              Shadow variant of button component
+            </.link>
+          </.heading2>
+
+          <.cp>
+            With the
+            <.custom_inline_code>variant="shadow"</.custom_inline_code>
+            prop, the button resembles the default style but includes a shadow effect, adding depth while keeping a clean, transparent background and border. On hover, the background and text colors change, making it perfect for adding subtle emphasis to your design.
+          </.cp>
+
+          <.custom_code_wrapper
+            elements_class="flex items-start flex-wrap gap-4 text-sm"
+            code={@code_5}
+          >
+            <.button variant="shadow" color="natural">Natural</.button>
+
+            <.button variant="shadow" color="primary">Primary</.button>
+
+            <.button variant="shadow" color="secondary">Secondary</.button>
+
+            <.button variant="shadow" color="success">Success</.button>
+
+            <.button variant="shadow" color="warning">Warning</.button>
+
+            <.button variant="shadow" color="danger">Danger</.button>
+
+            <.button variant="shadow" color="info">Info</.button>
+
+            <.button variant="shadow" color="silver">Silver</.button>
+
+            <.button variant="shadow" color="misc">Misc</.button>
+
+            <.button variant="shadow" color="dawn">Dawn</.button>
+
+            <.button variant="shadow" color="natural" disabled>Disabled</.button>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="inverted-variant-button">
+            <.link patch={~p"/chelekom/docs/button/#inverted-variant-button"}>
+              Inverted variant of button component
+            </.link>
+          </.heading2>
+
+          <.cp>
+            With the
+            <.custom_inline_code>variant="inverted"</.custom_inline_code>
+            prop, the button is like the outline variant, featuring a border without a background. On hover, it adds a background color.
+          </.cp>
+
+          <.custom_code_wrapper
+            elements_class="flex items-start flex-wrap gap-4 text-sm"
+            code={@code_6}
+          >
+            <.button variant="inverted" color="natural">Natural</.button>
+
+            <.button variant="inverted" color="primary">Primary</.button>
+
+            <.button variant="inverted" color="secondary">Secondary</.button>
+
+            <.button variant="inverted" color="success">Success</.button>
+
+            <.button variant="inverted" color="warning">Warning</.button>
+
+            <.button variant="inverted" color="danger">Danger</.button>
+
+            <.button variant="inverted" color="info">Info</.button>
+
+            <.button variant="inverted" color="silver">Silver</.button>
+
+            <.button variant="inverted" color="misc">Misc</.button>
+
+            <.button variant="inverted" color="dawn">Dawn</.button>
+
+            <.button variant="inverted" color="natural" disabled>Disabled</.button>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="default-gradient-variant-button">
+            <.link patch={~p"/chelekom/docs/button/#default-gradient-variant-button"}>
+              Default Gradient variant of button component
+            </.link>
+          </.heading2>
+
+          <.cp>
+            With the
+            <.custom_inline_code>variant="default_gradient"</.custom_inline_code>
+            prop, the button features a gradient background. On hover, the direction of the gradient changes.
+          </.cp>
+
+          <.custom_code_wrapper
+            elements_class="flex items-start flex-wrap gap-4 text-sm"
+            code={@code_7}
+            code_class="text-sm"
+          >
+            <.button variant="default_gradient" color="natural">Natural</.button>
+
+            <.button variant="default_gradient" color="primary">Primary</.button>
+
+            <.button variant="default_gradient" color="secondary">Secondary</.button>
+
+            <.button variant="default_gradient" color="success">Success</.button>
+
+            <.button variant="default_gradient" color="warning">Warning</.button>
+
+            <.button variant="default_gradient" color="danger">Danger</.button>
+
+            <.button variant="default_gradient" color="info">Info</.button>
+
+            <.button variant="default_gradient" color="misc">Misc</.button>
+
+            <.button variant="default_gradient" color="dawn">Dawn</.button>
+
+            <.button variant="default_gradient" color="silver">Silver</.button>
+
+            <.button variant="default_gradient" color="natural" disabled>Disabled</.button>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="outline-gradient-variant-button">
+            <.link patch={~p"/chelekom/docs/button/#outline-gradient-variant-button"}>
+              Outline Gradient variant of button component
+            </.link>
+          </.heading2>
+
+          <.custom_block position="left" color="danger" class="my-8" border="medium">
+            <.cp>
+              It's best to avoid using this variant with the
+              <.custom_inline_code>input_button</.custom_inline_code>
+              component, as it only accepts plain text and the button label for its
+              <.custom_inline_code>value</.custom_inline_code>
+              attribute.
+            </.cp>
+          </.custom_block>
+
+          <.cp>
+            With the
+            <.custom_inline_code>variant="outline_gradient"</.custom_inline_code>
+            prop, the button features a gradient background that transitions from purple to blue. On hover, the direction of the gradient changes.
+          </.cp>
+
+          <.custom_code_wrapper
+            elements_class="flex items-start flex-wrap gap-4 text-sm"
+            code={@code_8}
+            code_class="text-sm"
+          >
+            <.button variant="outline_gradient" color="natural">Natural</.button>
+
+            <.button variant="outline_gradient" color="primary">Primary</.button>
+
+            <.button variant="outline_gradient" color="secondary">Secondary</.button>
+
+            <.button variant="outline_gradient" color="success">Success</.button>
+
+            <.button variant="outline_gradient" color="warning">Warning</.button>
+
+            <.button variant="outline_gradient" color="danger">Danger</.button>
+
+            <.button variant="outline_gradient" color="info">Info</.button>
+
+            <.button variant="outline_gradient" color="misc">Misc</.button>
+
+            <.button variant="outline_gradient" color="dawn">Dawn</.button>
+
+            <.button variant="outline_gradient" color="silver">Silver</.button>
+
+            <.button variant="outline_gradient" color="natural" disabled>Disabled</.button>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="inverted-gradient-variant-button">
+            <.link patch={~p"/chelekom/docs/button/#inverted-gradient-variant-button"}>
+              Inverted Gradient variant of button component
+            </.link>
+          </.heading2>
+
+          <.custom_block position="left" color="danger" class="my-8" border="medium">
+            <.cp>
+              It's best to avoid using this variant with the
+              <.custom_inline_code>input_button</.custom_inline_code>
+              component, as it only accepts plain text and the button label for its
+              <.custom_inline_code>value</.custom_inline_code>
+              attribute.
+            </.cp>
+          </.custom_block>
+
+          <.cp>
+            With the
+            <.custom_inline_code>variant="inverted_gradient"</.custom_inline_code>
+            prop, the button features a gradient background that transitions from purple to blue. On hover, the direction of the gradient changes.
+          </.cp>
+
+          <.custom_code_wrapper
+            elements_class="flex items-start flex-wrap gap-4 text-sm"
+            code={@code_9}
+            code_class="text-sm"
+          >
+            <.button variant="inverted_gradient" color="natural">Natural</.button>
+
+            <.button variant="inverted_gradient" color="primary">Primary</.button>
+
+            <.button variant="inverted_gradient" color="secondary">Secondary</.button>
+
+            <.button variant="inverted_gradient" color="success">Success</.button>
+
+            <.button variant="inverted_gradient" color="warning">Warning</.button>
+
+            <.button variant="inverted_gradient" color="danger">Danger</.button>
+
+            <.button variant="inverted_gradient" color="info">Info</.button>
+
+            <.button variant="inverted_gradient" color="misc">Misc</.button>
+
+            <.button variant="inverted_gradient" color="dawn">Dawn</.button>
+
+            <.button variant="inverted_gradient" color="silver">Silver</.button>
+
+            <.button variant="inverted_gradient" color="natural" disabled>Disabled</.button>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="button-radius">
+            <.link patch={~p"/chelekom/docs/button/#button-radius"}>
+              Radius prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            With the Mishka Chelekom button component, you can customize the button's border radius using different size options. Available sizes include <.custom_inline_code>extra_small</.custom_inline_code>, <.custom_inline_code>small</.custom_inline_code>, <.custom_inline_code>medium</.custom_inline_code>, <.custom_inline_code>large</.custom_inline_code>, <.custom_inline_code>extra_large</.custom_inline_code>, <.custom_inline_code>full</.custom_inline_code>, and <.custom_inline_code>none</.custom_inline_code>, allowing you to adjust the roundness of the button’s corners to fit your design needs. Whether you prefer sharp edges or fully rounded buttons, these options offer flexibility for any interface.
+          </.cp>
+
+          <.custom_code_wrapper
+            elements_class="flex items-start flex-wrap gap-4 text-sm"
+            code={@code_10}
+          >
+            <.button variant="default" color="primary" rounded="extra_small">Extra Small</.button>
+
+            <.button variant="default" color="secondary" rounded="small">Small</.button>
+
+            <.button variant="default" color="danger" rounded="medium">Medium</.button>
+
+            <.button variant="default" color="misc" rounded="large">Large</.button>
+
+            <.button variant="default" color="dawn" rounded="extra_large">Extra Large</.button>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="button-size">
+            <.link patch={~p"/chelekom/docs/button/#button-size"}>
+              Size prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <.custom_inline_code>size</.custom_inline_code>
+            prop in the Mishka Chelekom button controls padding and text size. When
+            <.custom_inline_code>circle</.custom_inline_code>
+            is false, it uses padding based on the size (<.custom_inline_code>
+            extra_small
+          </.custom_inline_code> to <.custom_inline_code>extra_large</.custom_inline_code>). If
+            <.custom_inline_code>circle</.custom_inline_code>
+            is true, it applies Tailwind size classes for circular buttons. It also adjusts the
+            <.link
+              title="Phoenix indicator component"
+              class="transition-colors hover:text-[#448D96]"
+              navigate={~p"/chelekom/docs/indicator"}
+            >
+              indicator
+            </.link>
+            and text size accordingly.
+          </.cp>
+
+          <.custom_code_wrapper
+            elements_class="flex items-start flex-wrap gap-4 text-sm"
+            code={@code_20}
+          >
+            <.button size="extra_small">Extra Small</.button>
+
+            <.button size="small">Small</.button>
+
+            <.button size="medium">Medium</.button>
+
+            <.button size="large">Large</.button>
+
+            <.button size="extra_large">Extra Large</.button>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="button-display">
+            <.link patch={~p"/chelekom/docs/button/#button-display"}>
+              Display of buttons
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <.custom_inline_code>display</.custom_inline_code>
+            prop in the Mishka Chelekom button component controls the CSS display property. It supports values like <.custom_inline_code>flex</.custom_inline_code>, <.custom_inline_code>inline-flex</.custom_inline_code>, <.custom_inline_code>block</.custom_inline_code>, and <.custom_inline_code>inline-block</.custom_inline_code>, with a default of <.custom_inline_code>inline-flex</.custom_inline_code>, allowing for flexible positioning and layout options.
+          </.cp>
+
+          <.custom_code_wrapper
+            elements_class="flex items-start gap-1 flex flex-wrap gap-4 text-sm"
+            code={@code_11}
+          >
+            <.button color="danger" variant="default" display="flex">Flex</.button>
+
+            <.button color="silver" variant="default" display="inline-flex">Inline Flex</.button>
+
+            <.button color="warning" variant="default" display="block">Block</.button>
+
+            <.button color="dawn" variant="default" display="inline-block">Inline Block</.button>
+
+            <.button color="success" variant="default" display="flex">Flex</.button>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="button-icon">
+            <.link patch={~p"/chelekom/docs/button/#button-icon"}>
+              Icon prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <.custom_inline_code>icon</.custom_inline_code>
+            prop allows you to display an icon alongside an item, using LiveView Hero Icons by default. The
+            <.custom_inline_code>icon_class</.custom_inline_code>
+            prop enables custom classes for styling the icon. By default, the icon is positioned on the left, but the
+            <.custom_inline_code>right_icon</.custom_inline_code>
+            and
+            <.custom_inline_code>left_icon</.custom_inline_code>
+            props allow you to control the icon’s position inside the button.
+          </.cp>
+
+          <.custom_code_wrapper
+            elements_class="flex items-start gap-1 flex flex-wrap gap-4 text-sm"
+            code={@code_12}
+          >
+            <.button
+              variant="default"
+              color="silver"
+              size="extra_small"
+              icon="hero-bookmark"
+              icon_class="size-4"
+            />
+            <.button variant="default" color="info" size="extra_small" icon="hero-plus">
+              Button
+            </.button>
+
+            <.button variant="default" color="dawn" size="extra_small" icon="hero-bell">
+              Button
+            </.button>
+
+            <.button
+              variant="default"
+              color="info"
+              size="extra_small"
+              icon="hero-magnifying-glass-circle-solid"
+            >
+              Button
+            </.button>
+
+            <.button size="extra_small" icon="hero-play">Button</.button>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="button-indicator">
+            <.link patch={~p"/chelekom/docs/button/#button-indicator"}>
+              Indicator prop in Phoenix LiveView Button Component
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <.custom_inline_code>indicator</.custom_inline_code>
+            prop in the Mishka Chelekom button component allows you to display an indicator, typically a small circle, inside the button. The indicator can be positioned in various places using the
+            <.custom_inline_code>indicator_position</.custom_inline_code>
+            prop. By default, it is positioned at the left (<.custom_inline_code>
+            left_indicator
+          </.custom_inline_code>), but you can choose other positions such as <.custom_inline_code>right_indicator</.custom_inline_code>, <.custom_inline_code>top_left_indicator</.custom_inline_code>, or <.custom_inline_code>bottom_center_indicator</.custom_inline_code>. Additionally, the size of the indicator can be adjusted using the
+            <.custom_inline_code>indicator_size</.custom_inline_code>
+            prop, with options ranging from
+            <.custom_inline_code>extra_small</.custom_inline_code>
+            to <.custom_inline_code>extra_large</.custom_inline_code>, allowing for flexible customization of the indicator's appearance and position.
+          </.cp>
+
+          <.custom_code_wrapper
+            elements_class="flex items-start flex-wrap gap-5 flex flex-wrap gap-4 text-sm"
+            code={@code_13}
+          >
+            <.button
+              size="extra_small"
+              left_indicator
+              indicator_size="extra_small"
+              color="dawn"
+              variant="default"
+            >
+              Extra Small Indicator - Left
+            </.button>
+
+            <.button
+              size="extra_small"
+              right_indicator
+              indicator_size="small"
+              color="misc"
+              variant="default"
+            >
+              Small Indicator - Right
+            </.button>
+
+            <.button
+              color="secondary"
+              size="extra_small"
+              top_left_indicator
+              indicator_size="medium"
+              variant="default"
+            >
+              Medium Indicator - Top Left
+            </.button>
+
+            <.button
+              color="silver"
+              size="extra_small"
+              top_center_indicator
+              indicator_size="large"
+              variant="default"
+            >
+              Large Indicator - Top Center
+            </.button>
+
+            <.button
+              color="dawn"
+              variant="default"
+              size="extra_small"
+              top_right_indicator
+              indicator_size="extra_large"
+            >
+              Extra Large Indicator - Top Right
+            </.button>
+
+            <.button
+              color="misc"
+              size="extra_small"
+              middle_left_indicator
+              indicator_size="medium"
+              variant="default"
+            >
+              Medium Indicator - Middle Left
+            </.button>
+
+            <.button
+              color="success"
+              size="extra_small"
+              variant="default"
+              middle_right_indicator
+              indicator_size="medium"
+            >
+              Medium Indicator - Middle Right
+            </.button>
+
+            <.button
+              color="warning"
+              size="extra_small"
+              variant="default"
+              bottom_left_indicator
+              indicator_size="medium"
+            >
+              Medium Indicator - Bottom Left
+            </.button>
+
+            <.button
+              color="info"
+              size="extra_small"
+              bottom_center_indicator
+              indicator_size="medium"
+              variant="default"
+            >
+              Medium Indicator - Bottom Center
+            </.button>
+
+            <.button
+              color="danger"
+              variant="default"
+              size="extra_small"
+              bottom_right_indicator
+              indicator_size="medium"
+            >
+              Medium Indicator - Bottom Right
+            </.button>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="button-indicator-pinging">
+            <.link patch={~p"/chelekom/docs/button/#button-indicator-pinging"}>
+              Pinging prop in Phoenix LiveView Button Component
+            </.link>
+          </.heading2>
+
+          <.cp>
+            In the Mishka Chelekom button component, you can add a "pinging" animation to the indicator by using the
+            <.custom_inline_code>
+              pinging
+            </.custom_inline_code>
+            prop. When the
+            <.custom_inline_code>
+              pinging
+            </.custom_inline_code>
+            prop is set to true, the indicator will have a subtle pulsing animation, drawing attention to the element. By default, this prop is set to false, meaning the indicator does not animate unless explicitly specified. This feature adds a dynamic touch to the button's indicator, making it useful for alerting users to important actions or statuses.
+          </.cp>
+
+          <.custom_code_wrapper
+            elements_class="flex items-start flex-wrap gap-4 flex flex-wrap items-start gap-5 text-sm"
+            code={@code_14}
+          >
+            <.button color="danger" size="extra_small" indicator pinging variant="default">
+              Extra Small Indicator - Left
+            </.button>
+
+            <.button color="misc" size="extra_small" right_indicator pinging variant="default">
+              Small Indicator - Right
+            </.button>
+
+            <.button color="dawn" size="extra_small" top_left_indicator pinging variant="default">
+              Medium Indicator - Top Left
+            </.button>
+
+            <.button
+              color="warning"
+              size="extra_small"
+              top_center_indicator
+              pinging
+              variant="default"
+            >
+              Large Indicator - Top Center
+            </.button>
+
+            <.button color="info" size="extra_small" top_right_indicator pinging variant="default">
+              Extra Large Indicator - Top Right
+            </.button>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="circle-button">
+            <.link patch={~p"/chelekom/docs/button/#circle-button"}>
+              Circle Prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <.custom_inline_code>circle</.custom_inline_code>
+            prop ensures the button has equal width and height, which can be used to create either circular shapes or square buttons. This prop is perfect for situations where you want a consistent, symmetrical design, making it ideal for icon buttons or other elements that require uniform dimensions.
+          </.cp>
+
+          <.custom_code_wrapper
+            elements_class="flex items-start flex-wrap gap-4 flex flex-wrap items-start gap-5 text-sm"
+            code={@code_15}
+          >
+            <.button color="silver" size="extra_small" circle variant="default">
+              1
+            </.button>
+
+            <.button color="silver" size="small" circle variant="default">
+              2
+            </.button>
+
+            <.button color="silver" size="medium" circle variant="default">
+              3
+            </.button>
+
+            <.button color="silver" size="large" circle variant="default">
+              4
+            </.button>
+
+            <.button color="silver" size="extra_large" circle variant="default">
+              5
+            </.button>
+
+            <.button color="silver" size="extra_large" rounded="full" circle variant="default">
+              5
+            </.button>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="link-button">
+            <.link patch={~p"/chelekom/docs/button/#link-button"}>
+              Link in Phoenix LiveView Button Component
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <.custom_inline_code>button_link</.custom_inline_code>
+            component is similar to a button but adds support for navigation with <.custom_inline_code>navigate</.custom_inline_code>, <.custom_inline_code>patch</.custom_inline_code>, and <.custom_inline_code>href</.custom_inline_code>. It also supports common HTML
+            <.custom_inline_code>a</.custom_inline_code>
+            tag attributes like
+            <.custom_inline_code>target</.custom_inline_code>
+            and <.custom_inline_code>download</.custom_inline_code>, making it ideal for both internal routing and external links.
+          </.cp>
+
+          <.custom_code_wrapper
+            elements_class="flex items-start flex-wrap gap-4 flex flex-wrap items-start gap-5 text-sm"
+            code={@code_15}
+          >
+            <.button_link navigate="/chelekom/docs/button" size="extra_small">
+              Primary
+            </.button_link>
+
+            <.button_link navigate="/chelekom/docs/button" size="small">
+              Secondary
+            </.button_link>
+
+            <.button_link navigate="/chelekom/docs/button" size="medium">
+              Info
+            </.button_link>
+
+            <.button_link navigate="/chelekom/docs/button" size="large">
+              Misc
+            </.button_link>
+
+            <.button_link navigate="/chelekom/docs/button" size="extra_large">
+              Silver
+            </.button_link>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="button-group">
+            <.link patch={~p"/chelekom/docs/button/#button-group"}>
+              Button Group
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <.custom_inline_code>button_group</.custom_inline_code>
+            component is a wrapper for organizing buttons. By default, it displays buttons horizontally, but you can switch to vertical using the
+            <.custom_inline_code>variation</.custom_inline_code>
+            prop. You can use the
+            <.custom_inline_code>border</.custom_inline_code>
+            prop to add a border with color options like <.custom_inline_code>base</.custom_inline_code>, <.custom_inline_code>natural</.custom_inline_code>, <.custom_inline_code>primary</.custom_inline_code>, <.custom_inline_code>secondary</.custom_inline_code>, <.custom_inline_code>success</.custom_inline_code>, <.custom_inline_code>warning</.custom_inline_code>, <.custom_inline_code>danger</.custom_inline_code>, <.custom_inline_code>info</.custom_inline_code>, <.custom_inline_code>silver</.custom_inline_code>, <.custom_inline_code>misc</.custom_inline_code>, <.custom_inline_code>dawn</.custom_inline_code>, and <.custom_inline_code>transparent</.custom_inline_code>. The
+            <.custom_inline_code>rounded</.custom_inline_code>
+            prop adjusts the border radius from
+            <.custom_inline_code>extra_small</.custom_inline_code>
+            to <.custom_inline_code>extra_large</.custom_inline_code>. Additionally, both
+            <.custom_inline_code>button</.custom_inline_code>
+            and
+            <.custom_inline_code>button_link</.custom_inline_code>
+            components can be used inside the group.
+          </.cp>
+
+          <.custom_code_wrapper
+            elements_class="flex items-start flex-wrap gap-4 flex flex-wrap items-start gap-5 text-sm"
+            code={@code_17}
+          >
+            <.button_group variation="vertical" color="info">
+              <.button icon="hero-signal" color="info" />
+              <.button icon="hero-share" color="info" />
+              <.button icon="hero-rss" color="info" />
+            </.button_group>
+
+            <.button_group color="misc">
+              <.button variant="inverted" color="misc">
+                Button
+              </.button>
+
+              <.button variant="inverted" color="misc">
+                Button
+              </.button>
+
+              <.button variant="inverted" color="misc">
+                Button
+              </.button>
+
+              <.button variant="inverted" color="misc">
+                Button
+              </.button>
+            </.button_group>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="input-button">
+            <.link patch={~p"/chelekom/docs/button/#input-button"}>
+              Input Button in Phoenix LiveView Button Component
+            </.link>
+          </.heading2>
+
+          <.custom_block position="left" color="danger" class="my-8" border="medium">
+            <.cp>
+              It's best to avoid using gradients outline and gradient inverted, button variants, indicators, and indicator pinging with the
+              <.custom_inline_code>input_button</.custom_inline_code>
+              component, as it only accepts plain text and the button label for its
+              <.custom_inline_code>value</.custom_inline_code>
+              attribute.
+            </.cp>
+          </.custom_block>
+
+          <.cp>
+            The
+            <.custom_inline_code>input_button</.custom_inline_code>
+            component is an input element styled as a button that supports different input types, including <.custom_inline_code>button</.custom_inline_code>, <.custom_inline_code>submit</.custom_inline_code>, and <.custom_inline_code>reset</.custom_inline_code>. It comes with all the available variants, colors, and styling options like border, size, and rounded corners, allowing you to fully customize its appearance. This makes it ideal for forms and interactive elements where the input behaves like a button but retains the flexibility of an input field.
+          </.cp>
+
+          <.custom_code_wrapper
+            elements_class="flex items-start flex-wrap gap-4 flex flex-wrap items-start gap-5 text-sm"
+            code={@code_18}
+          >
+            <.input_button type="submit" value="Submit" size="extra_small" />
+            <.input_button
+              type="submit"
+              value="Submit"
+              variant="outline"
+              color="secondary"
+              size="small"
+            />
+            <.input_button
+              type="button"
+              value="Button"
+              variant="subtle"
+              color="primary"
+              size="medium"
+            />
+            <.input_button
+              type="button"
+              value="Button"
+              variant="inverted"
+              color="misc"
+              size="large"
+            />
+            <.input_button
+              type="reset"
+              value="Reset"
+              variant="default_gradient"
+              color="danger"
+              size="extra_large"
+            />
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="disabled-button">
+            <.link patch={~p"/chelekom/docs/button/#disabled-button"}>
+              Disabled prop in Phoenix LiveView Button Component
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <.custom_inline_code>disabled</.custom_inline_code>
+            prop can be applied to a button to prevent user interaction.
+          </.cp>
+
+          <.custom_code_wrapper
+            elements_class="flex items-start flex-wrap gap-4 text-sm"
+            code={@code_19}
+          >
+            <.button disabled>base</.button>
+
+            <.button variant="default" color="natural" disabled>default</.button>
+
+            <.button disabled color="natural" variant="inverted">inverted</.button>
+
+            <.button disabled color="natural" variant="shadow">shadow</.button>
+
+            <.button disabled color="natural" variant="inverted_gradient">
+              inverted gradient
+            </.button>
+
+            <.button disabled color="natural" variant="outline_gradient">
+              outline gradient
+            </.button>
+
+            <.button disabled color="natural" variant="default_gradient">
+              default gradient
+            </.button>
+
+            <.button disabled color="natural" variant="outline">outline</.button>
+
+            <.button disabled color="natural" variant="transparent">Transparent</.button>
+
+            <.button disabled color="natural" variant="subtle">Subtle</.button>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="font-weight-button">
+            <.link patch={~p"/chelekom/docs/button/#font-weight-button"}>
+              Font Weight prop in Phoenix LiveView Button Component
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <.custom_inline_code>font_wight</.custom_inline_code>
+            prop sets text thickness using Tailwind classes like
+            <.custom_inline_code>font-thin</.custom_inline_code>
+            or <.custom_inline_code>font-black</.custom_inline_code>, allowing you to adjust text weight for better emphasis and design flexibility.
+          </.cp>
+
+          <.custom_code_wrapper
+            elements_class="flex items-start flex-wrap gap-4 text-sm"
+            code={@code_21}
+          >
+            <.button color="dawn" variant="default" size="medium" font_weight="font-bold">
+              Bold
+            </.button>
+
+            <.button color="primary" variant="outline" size="medium" font_weight="font-semibold">
+              Semibold
+            </.button>
+
+            <.button color="info" variant="subtle" size="medium" font_weight="font-medium">
+              Medium
+            </.button>
+
+            <.button color="warning" variant="inverted" size="medium" font_weight="font-thin">
+              Thin
+            </.button>
+
+            <.button
+              color="secondary"
+              variant="transparent"
+              size="medium"
+              font_weight="font-black"
+            >
+              Black
+            </.button>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="line-height-button">
+            <.link patch={~p"/chelekom/docs/button/#line-height-button"}>
+              Line Height of buttons
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <.custom_inline_code>line_height</.custom_inline_code>
+            prop in the Mishka Chelekom button component allows you to change the line height using any Tailwind line height class.
+          </.cp>
+
+          <.custom_code_wrapper
+            elements_class="flex items-start flex-wrap gap-4 text-sm"
+            code={@code_26}
+          >
+            <.button color="success" variant="default" line_height="leading-8">
+              Leading 8
+            </.button>
+            <.button color="danger" variant="default" line_height="leading-7">
+              Leading 7
+            </.button>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="full-width-button">
+            <.link patch={~p"/chelekom/docs/button/#full-width-button"}>
+              Full width
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <.custom_inline_code>full_width</.custom_inline_code>
+            prop change width of button to is a boolean change width of button to
+            <.custom_inline_code>100%</.custom_inline_code>
+          </.cp>
+
+          <.custom_code_wrapper elements_class="space-y-4" code={@code_23}>
+            <.button color="misc" variant="outline" size="extra_small" full_width>
+              Extra small Full width
+            </.button>
+
+            <.button color="dawn" variant="default" size="large" full_width>
+              Large Full width
+            </.button>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="loading-slot-button">
+            <.link patch={~p"/chelekom/docs/button/#loading-slot-button"}>
+              Loading slot
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <.custom_inline_code>loading</.custom_inline_code>
+            slot requires a
+            <.custom_inline_code>position</.custom_inline_code>
+            attribute, which must be set to either
+            <.custom_inline_code>start</.custom_inline_code>
+            or <.custom_inline_code>end</.custom_inline_code>. This allows developers to add custom content or components to represent the loading process. For example, users can utilize the
+            <.custom_inline_code>spinner</.custom_inline_code>
+            component from Mishaka Chelekom in any
+            <.custom_inline_code>color</.custom_inline_code>
+            and
+            <.custom_inline_code>size</.custom_inline_code>
+            they desire, ensuring a seamless and customizable user experience. If user not specify position the start is the default position of loader.
+          </.cp>
+
+          <.custom_code_wrapper elements_class="flex items-center gap-5" code={@code_24}>
+            <.button id="button_example-1200" variant="default" color="misc" size="extra_small">
+              <:loading>
+                <.spinner size="small" />
+              </:loading>
+              Loading..
+            </.button>
+            <.button id="button_example-1201" color="dawn" size="large" variant="outline">
+              Click here
+              <:loading position="end">
+                <.spinner size="medium" color="dawn" />
+              </:loading>
+            </.button>
+            <.button_link
+              navigate="/chelekom"
+              id="button_example-1201+1"
+              color="misc"
+              size="small"
+              font_weight="bold"
+              variant="inverted"
+            >
+              Chelekom
+              <:loading position="start">
+                <.spinner size="medium" color="misc" />
+              </:loading>
+            </.button_link>
+          </.custom_code_wrapper>
+        </:documentation_panel>
+
+        <:props_panel>
+          <.custom_search class="mb-16" />
+          <div class="space-y-8">
+            <h2 class="text-lg lg:text-2xl font-bold">Button component props</h2>
+
+            <.custom_table id="button-component-table">
+              <:header>
+                <.table_th>Name</.table_th>
+
+                <.table_th>Type</.table_th>
+
+                <.table_th>Required</.table_th>
+
+                <.table_th>Description</.table_th>
+              </:header>
+
+              <:row>
+                <.table_td>id</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  A unique identifier is used to manage state and interaction.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>line_height</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Specifies the line height of the button using Tailwind classes. Default:
+                  <strong>leading-5</strong>
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>variant</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines the style of the button. Supported values: <strong>base</strong>, <strong>default</strong>, <strong>outline</strong>, <strong>transparent</strong>, <strong>subtle</strong>, <strong>shadow</strong>, <strong>bordered</strong>, <strong>inverted</strong>, <strong>default_gradient</strong>, <strong>outline_gradient</strong>, <strong>inverted_gradient</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>full_width</.table_td>
+
+                <.table_td>Boolean</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Make button full width</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>type</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Specifies the type of the button. Supported values: <strong>button</strong>, <strong>submit</strong>, <strong>reset</strong>, <strong>nil</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>color</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines the color theme of the button. Supported values: <strong>natural</strong>, <strong>primary</strong>, <strong>secondary</strong>, <strong>dark</strong>, <strong>success</strong>, <strong>warning</strong>, <strong>danger</strong>, <strong>info</strong>, <strong>Silver</strong>, <strong>misc</strong>, <strong>dawn</strong>, <strong>transparent</strong>. The
+                  <strong>default</strong>
+                  variant have extra color options: <strong>dark</strong>
+                  and <strong>white</strong>, which in both light mode and dark mode, these colors are always the same.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>rounded</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines the border radius. Default: <strong>large</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>border</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines the border style. Default: <strong>natural</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>size</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines the overall size of the button, including padding and font size. Default: <strong>large</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>content_position</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines the alignment of the button's content. Default:
+                  <strong>center</strong>
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>display</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Specifies the CSS display property for the button. Default: <strong>inline-flex</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>icon</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Icon displayed alongside the button content.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>icon_class</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Custom CSS class for the icon.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>font_weight</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Custom class for the font weight. Default: <strong>font-normal</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>indicator_class</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Custom CSS class for styling the indicator.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>indicator_size</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Defines the size of the indicator.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>class</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Custom CSS class for additional styling.</.table_td>
+              </:row>
+            </.custom_table>
+          </div>
+
+          <div class="space-y-8 mt-8">
+            <h2 class="text-lg lg:text-2xl font-bold">Button Group component props</h2>
+
+            <.custom_table id="button-group-component-table">
+              <:header>
+                <.table_th>Name</.table_th>
+
+                <.table_th>Type</.table_th>
+
+                <.table_th>Required</.table_th>
+
+                <.table_th>Description</.table_th>
+              </:header>
+
+              <:row>
+                <.table_td>id</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  A unique identifier is used to manage state and interaction.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>variation</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Defines the layout orientation of the button group. Supported values: <strong>horizontal</strong>, <strong>vertical</strong>. Default: <strong>horizontal</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>color</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines the color theme of the button group. Supported values: <strong>natural</strong>, <strong>primary</strong>, <strong>secondary</strong>, <strong>dark</strong>, <strong>success</strong>, <strong>warning</strong>, <strong>danger</strong>, <strong>info</strong>, <strong>Silver</strong>, <strong>misc</strong>, <strong>dawn</strong>, <strong>transparent</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>rounded</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines the border radius of the button group. Supported values: <strong>extra_small</strong>, <strong>small</strong>, <strong>medium</strong>, <strong>large</strong>, <strong>extra_large</strong>, <strong>full</strong>, <strong>none</strong>. Default: <strong>small</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>class</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Custom CSS class for additional styling.</.table_td>
+              </:row>
+            </.custom_table>
+          </div>
+
+          <div class="space-y-8 mt-8">
+            <h2 class="text-lg lg:text-2xl font-bold">Button Link component props</h2>
+
+            <.custom_table id="button-link-component-table">
+              <:header>
+                <.table_th>Name</.table_th>
+
+                <.table_th>Type</.table_th>
+
+                <.table_th>Required</.table_th>
+
+                <.table_th>Description</.table_th>
+              </:header>
+
+              <:row>
+                <.table_td>id</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  A unique identifier is used to manage state and interaction.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>line_height</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Specifies the line height of the button using Tailwind classes. Default:
+                  <strong>leading-5</strong>
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>title</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Specifies the title of the element.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>full_width</.table_td>
+
+                <.table_td>Boolean</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Make button full width</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>navigate</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Defines the path for navigation within the application using a
+                  <strong>navigate</strong>
+                  attribute.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>patch</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Specifies the path for navigation using a LiveView patch.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>href</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Sets the URL for an external link.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>variant</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines the style of the button link. Supported values: <strong>default</strong>, <strong>outline</strong>,<strong>bordered</strong>, <strong>transparent</strong>, <strong>subtle</strong>, <strong>shadow</strong>, <strong>inverted</strong>, <strong>default_gradient</strong>, <strong>outline_gradient</strong>, <strong>inverted_gradient</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>color</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines the color theme of the button link. Supported values: <strong>natural</strong>, <strong>primary</strong>, <strong>secondary</strong>, <strong>dark</strong>, <strong>success</strong>, <strong>warning</strong>, <strong>danger</strong>, <strong>info</strong>, <strong>Silver</strong>, <strong>misc</strong>, <strong>dawn</strong>. Default: <strong>natural</strong>. The
+                  <strong>default</strong>
+                  variant have extra color options: <strong>dark</strong>
+                  and <strong>white</strong>, which in both light mode and dark mode, these colors are always the same.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>loading</.table_td>
+
+                <.table_td>slot</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  The <strong>loading</strong>
+                  slot supports adding loader or
+                  <.link
+                    navigate={~p"/chelekom/docs/spinner"}
+                    title="Mishka chelekom spinner component"
+                  >
+                    mishka chelekom's spinner
+                  </.link>
+                  component. It accepts the following properties:
+                  - <strong>position</strong>: Determines the position of the loader content.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>rounded</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines the border radius. Supported values: <strong>extra_small</strong>, <strong>small</strong>, <strong>medium</strong>, <strong>large</strong>, <strong>extra_large</strong>, <strong>full</strong>, <strong>none</strong>. Default: <strong>large</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>size</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines the overall size of the button link, including padding and font size. Default: <strong>large</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>class</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Custom CSS class for additional styling.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>display</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Specifies the CSS display property for the button link. Default: <strong>inline-flex</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>icon</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Icon displayed alongside the content.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>icon_class</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Custom CSS class for the icon.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>font_weight</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Custom class for the font weight. Default: <strong>font-normal</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>indicator_class</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Custom CSS class for styling the indicator element.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>indicator_size</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Defines the size of the indicator element.</.table_td>
+              </:row>
+            </.custom_table>
+          </div>
+
+          <div class="space-y-8 mt-8">
+            <h2 class="text-lg lg:text-2xl font-bold">Input Button component props</h2>
+
+            <.custom_table id="input-button-component-table">
+              <:header>
+                <.table_th>Name</.table_th>
+
+                <.table_th>Type</.table_th>
+
+                <.table_th>Required</.table_th>
+
+                <.table_th>Description</.table_th>
+              </:header>
+
+              <:row>
+                <.table_td>id</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  A unique identifier is used to manage state and interaction.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>line_height</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Specifies the line height of the button using Tailwind classes. Default:
+                  <strong>leading-5</strong>
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>full_width</.table_td>
+
+                <.table_td>Boolean</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Make button full width</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>variant</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines the style of the input button. Supported values: <strong>default</strong>, <strong>outline</strong>, <strong>transparent</strong>, <strong>bordered</strong>, <strong>subtle</strong>, <strong>shadow</strong>, <strong>inverted</strong>, <strong>default_gradient</strong>, <strong>outline_gradient</strong>, <strong>inverted_gradient</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>color</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines the color theme of the button link. Supported values: <strong>natural</strong>, <strong>primary</strong>, <strong>secondary</strong>, <strong>dark</strong>, <strong>success</strong>, <strong>warning</strong>, <strong>danger</strong>, <strong>info</strong>, <strong>Silver</strong>, <strong>misc</strong>, <strong>dawn</strong>, <strong>transparent</strong>. The
+                  <strong>default</strong>
+                  variant have extra color options: <strong>dark</strong>
+                  and <strong>white</strong>, which in both light mode and dark mode, these colors are always the same.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>rounded</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines the border radius. Default: <strong>large</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>value</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Value of the input button. Default: <strong>""</strong>.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>border</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines the border style. Default: <strong>natural</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>size</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines the overall size of the input button. Default: <strong>large</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>type</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines the type of the input button. Default: <strong>button</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>content_position</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines the alignment of the content inside the input button. Default: <strong>center</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>display</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Specifies the CSS display property for the input button. Default: <strong>inline-block</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>font_weight</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Custom class for the font weight. Default: <strong>font-normal</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>class</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Custom CSS class for additional styling.</.table_td>
+              </:row>
+            </.custom_table>
+          </div>
+        </:props_panel>
+
+        <:cli_panel>
+          <.custom_cli_props config={component_config()} />
+        </:cli_panel>
+
+        <.custom_table_content>
+          <:content
+            link={~p"/chelekom/docs/button/#overview"}
+            title="Overview of the button component"
+          />
+
+          <:content link={~p"/chelekom/docs/button/#base-button"} title="Base color & Variant" />
+
+          <:content
+            link={~p"/chelekom/docs/button/#default-variant-button"}
+            title="Default Variant"
+          />
+
+          <:content
+            link={~p"/chelekom/docs/button/#outline-variant-button"}
+            title="Outline Variant"
+          />
+
+          <:content
+            link={~p"/chelekom/docs/button/#transparent-variant-button"}
+            title="Transparent Variant"
+          />
+
+          <:content
+            link={~p"/chelekom/docs/button/#subtle-variant-button"}
+            title="Subtle Variant"
+          />
+          <:content
+            link={~p"/chelekom/docs/button/#bordered-variant-button"}
+            title="Bordered Variant"
+          />
+
+          <:content
+            link={~p"/chelekom/docs/button/#shadow-variant-button"}
+            title="Shadow Variant"
+          />
+
+          <:content
+            link={~p"/chelekom/docs/button/#inverted-variant-button"}
+            title="Inverted Variant"
+          />
+
+          <:content
+            link={~p"/chelekom/docs/button/#default-gradient-variant-button"}
+            title="Default Gradient Variant"
+          />
+
+          <:content
+            link={~p"/chelekom/docs/button/#outline-gradient-variant-button"}
+            title="Outline Gradient Variant"
+          />
+
+          <:content
+            link={~p"/chelekom/docs/button/#inverted-gradient-variant-button"}
+            title="Inverted Gradient Variant"
+          />
+
+          <:content link={~p"/chelekom/docs/button/#button-radius"} title="Button's radius" />
+
+          <:content link={~p"/chelekom/docs/button/#button-size"} title="Button's sizes" />
+
+          <:content link={~p"/chelekom/docs/button/#button-display"} title="Display of button" />
+
+          <:content link={~p"/chelekom/docs/button/#button-icon"} title="Icon of button" />
+
+          <:content
+            link={~p"/chelekom/docs/button/#button-indicator"}
+            title="Indicator of button"
+          />
+
+          <:content
+            link={~p"/chelekom/docs/button/#button-indicator-pinging"}
+            title="Pinging indicator of button"
+          />
+
+          <:content link={~p"/chelekom/docs/button/#circle-button"} title="Circle button" />
+
+          <:content link={~p"/chelekom/docs/button/#link-button"} title="Button link" />
+
+          <:content link={~p"/chelekom/docs/button/#button-group"} title="Group buttons" />
+
+          <:content link={~p"/chelekom/docs/button/#input-button"} title="Input button" />
+
+          <:content link={~p"/chelekom/docs/button/#disabled-button"} title="Disabled button" />
+          <:content
+            link={~p"/chelekom/docs/button/#font-weight-button"}
+            title="Font weight button"
+          />
+          <:content
+            link={~p"/chelekom/docs/button/#line-height-button"}
+            title="Line height button"
+          />
+          <:content link={~p"/chelekom/docs/button/#full-width-button"} title="Full width button" />
+          <:content link={~p"/chelekom/docs/button/#loading-slot-button"} title="Loading slot" />
+        </.custom_table_content>
+      </.custom_tab>
+    </div>
+  </div>
+</Layouts.app>

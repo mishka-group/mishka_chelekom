@@ -1,0 +1,484 @@
+<Layouts.app flash={@flash}>
+  <div class="lg:grid lg:grid-cols-12 mt-5 max-w-5xl mx-auto">
+    <.custom_nav active="chelekom-docs-scroll-area" />
+    <div class="lg:col-span-10">
+      <.custom_info
+        title="Scroll Area"
+        description="Phoenix LiveView scrollable areas with customizable size, for better content organization in Phoenix LiveView applications"
+        mix="mix mishka.ui.gen.component scroll_area"
+        github="https://github.com/mishka-group/mishka_chelekom/blob/master/priv/components/scroll_area.eex"
+        tags={["Component", "Stateless", "JS"]}
+      />
+      <.custom_tab id="chelekom-table-content-tab">
+        <:documentation_panel>
+          <.heading2 class="mb-5" id="overview">
+            <.link patch={~p"/chelekom/docs/scroll-area/#overview"}>
+              Overview Scroll area Phoenix LiveView component
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The Scroll Area component in Mishka Chelekom provides a clean and efficient way to handle scrollable content within your Phoenix LiveView application.
+          </.cp>
+
+          <.cp class="my-8">
+            This component can be integrated with various other components, such as <.link
+              class="text-teal-500 hover:text-teal-300 dark:hover:text-teal-400"
+              navigate={~p"/chelekom/docs/table-content"}
+              title="Mishka chelekom table of contents component"
+            >table contents</.link>, <.link
+              class="text-teal-500 hover:text-teal-300 dark:hover:text-teal-400"
+              navigate={~p"/chelekom/docs/drawer"}
+              title="Mishka chelekom drawer"
+            >Drawer</.link>, <.link
+              class="text-teal-500 hover:text-teal-300 dark:hover:text-teal-400"
+              navigate={~p"/chelekom/docs/sidebar"}
+              title="Mishka chelekom sidebar"
+            >Sidebar</.link>, to create scrollable areas that are easily navigable using keyboard or touch input on mobile devices.
+          </.cp>
+
+          <.custom_code_wrapper
+            code_class="text-sm"
+            code={@code_1}
+            elements_class="flex flex-wrap items-start md:justify-between gap-5 md:gap-10"
+          >
+            <.scroll_area id="sample-1" class="flex-1" content_class="py-5" height="h-[250px]">
+              <h2 class="text-xl font-bold mb-4">Key Features of Mishka Chelekom Scroll Area</h2>
+
+              <ul class="list-disc pl-5 mb-4">
+                <li class="mb-2">
+                  Full keyboard navigation support with arrow keys and Page Up/Down
+                </li>
+                <li class="mb-2">
+                  Touch-friendly scrolling with smooth momentum on mobile devices
+                </li>
+                <li class="mb-2">Responsive scrollbar visibility that adapts to input method</li>
+                <li class="mb-2">Screen reader compatible for improved accessibility</li>
+                <li class="mb-2">Native-like scrolling behavior across all platforms</li>
+              </ul>
+
+              <h2 class="text-xl font-bold mb-4">Input Methods</h2>
+              <ul class="list-disc pl-5">
+                <li class="mb-2">Keyboard: Arrow keys, Page Up/Down, Home/End</li>
+                <li class="mb-2">Touch: Swipe gestures with inertia scrolling</li>
+                <li class="mb-2">Mouse: Wheel scrolling and draggable scrollbar</li>
+                <li class="mb-2">Trackpad: Smooth two-finger scrolling support</li>
+              </ul>
+            </.scroll_area>
+
+            <.table_content space="medium" padding="p-2">
+              <.scroll_area id="sample-7" type="never" height="h-[160px]">
+                <.content_item icon="hero-chevron-right">
+                  <.link patch={~p"/chelekom/docs/scroll-area/#overview"}>
+                    Overview
+                  </.link>
+                </.content_item>
+
+                <.content_item icon="hero-chevron-right">
+                  <.link patch={~p"/chelekom/docs/scroll-area/#vertical"}>
+                    Vertical
+                  </.link>
+                </.content_item>
+
+                <.content_item icon="hero-chevron-right">
+                  <.link patch={~p"/chelekom/docs/scroll-area/#type"}>Type</.link>
+                </.content_item>
+
+                <.content_item icon="hero-chevron-right">
+                  <.link patch={~p"/chelekom/docs/scroll-area/#width"}>Width</.link>
+                </.content_item>
+
+                <.content_item icon="hero-chevron-right">
+                  <.link patch={~p"/chelekom/docs/scroll-area/#padding"}>Padding</.link>
+                </.content_item>
+
+                <.content_item icon="hero-chevron-right">
+                  <.link patch={~p"/chelekom/docs/scroll-area/#height"}>Height</.link>
+                </.content_item>
+
+                <.content_item icon="hero-chevron-right">
+                  <.link patch={~p"/chelekom/docs/scroll-area/#content-class"}>class</.link>
+                </.content_item>
+              </.scroll_area>
+            </.table_content>
+          </.custom_code_wrapper>
+
+          <.heading2 class="my-5" id="horizontal">
+            <.link patch={~p"/chelekom/docs/scroll-area/#horizontal"}>
+              Horizontal prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <.custom_inline_code>horizontal</.custom_inline_code>
+            prop is a
+            <.custom_inline_code>boolean</.custom_inline_code>
+            that enables horizontal scrolling. By default, it's set to <.custom_inline_code>false</.custom_inline_code>.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-sm" code={@code_2}>
+            <.scroll_area
+              id="sample-2"
+              horizontal
+              vertical={false}
+              width="w-full"
+              height="h-fit md:h-[390px]"
+              class="mx-auto"
+              content_class="py-7 px-1"
+            >
+              <div class="flex gap-4 [&>*]:rounded-lg [&>*]:shadow-sm">
+                <img src={~p"/images/card-1.jpg"} />
+                <img src={~p"/images/card-2.jpg"} />
+                <img src={~p"/images/card-3.jpg"} />
+                <img src={~p"/images/card-4.jpg"} />
+              </div>
+            </.scroll_area>
+          </.custom_code_wrapper>
+
+          <.heading2 class="my-5" id="vertical">
+            <.link patch={~p"/chelekom/docs/scroll-area/#vertical"}>
+              Vertical prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <.custom_inline_code>vertical</.custom_inline_code>
+            prop is a
+            <.custom_inline_code>boolean</.custom_inline_code>
+            that enables vertical scrolling. By default, it's set to <.custom_inline_code>true</.custom_inline_code>.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-sm" code={@code_8}>
+            <.scroll_area
+              id="sample-9"
+              vertical={false}
+              height="h-[300px]"
+              content_class="py-7 px-1"
+            >
+              <div class="grid lg:grid-cols-2 gap-4 [&>*]:rounded-lg [&>*]:shadow-sm">
+                <div class="min-w-[200px] bg-gray-100 dark:bg-gray-800 p-4">
+                  <h3 class="font-bold mb-2">Better Organization</h3>
+                  <p>
+                    Scroll areas help organize content efficiently, especially when dealing with long lists or large amounts of content in a confined space.
+                  </p>
+                </div>
+                <div class="min-w-[200px] bg-gray-100 dark:bg-gray-800 p-4">
+                  <h3 class="font-bold mb-2">Enhanced UX</h3>
+                  <p>
+                    Provides smooth scrolling experience with custom scrollbars, improving user interaction and navigation within your application.
+                  </p>
+                </div>
+                <div class="min-w-[200px] bg-gray-100 dark:bg-gray-800 p-4">
+                  <h3 class="font-bold mb-2">Space Efficiency</h3>
+                  <p>
+                    Maximizes screen real estate by containing content in fixed dimensions while maintaining access to all information through scrolling.
+                  </p>
+                </div>
+                <div class="min-w-[200px] bg-gray-100 dark:bg-gray-800 p-4">
+                  <h3 class="font-bold mb-2">Responsive Design</h3>
+                  <p>
+                    Adapts seamlessly to different screen sizes and orientations, ensuring consistent content presentation across all devices.
+                  </p>
+                </div>
+              </div>
+            </.scroll_area>
+          </.custom_code_wrapper>
+
+          <.heading2 class="my-5" id="type">
+            <.link patch={~p"/chelekom/docs/scroll-area/#type"}>
+              Type prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <.custom_inline_code>type</.custom_inline_code>
+            prop allows you to control the scrollbar's visibility and behavior. Available options are:
+            <.custom_inline_code>auto</.custom_inline_code>
+            (default) - scrollbar is always visible,
+            <.custom_inline_code>never</.custom_inline_code>
+            - scrollbar is hidden, and
+            <.custom_inline_code>hover</.custom_inline_code>
+            - scrollbar appears only when hovering over the content.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-sm" code={@code_3}>
+            <.scroll_area
+              id="sample-3"
+              type="hover"
+              width="w-full md:w-[380px]"
+              height="h-80"
+              class="mx-auto"
+              content_class="py-7 px-1"
+            >
+              <h2 class="text-xl font-bold mb-4">Versatile Integration</h2>
+              <p class="mb-4">
+                The scroll area component seamlessly integrates with various UI elements such as sidebars, drawers, and comboboxes. In sidebars, it enables smooth navigation through lengthy menu items, while in drawers it manages overflow content elegantly. For comboboxes, it handles long option lists efficiently, ensuring a clean and organized dropdown experience.
+              </p>
+
+              <h2 class="text-xl font-bold mb-4">Enhanced Content Management</h2>
+              <p class="mb-4">
+                When combined with table of contents, modals, or data tables, the scroll area component maintains content accessibility while preserving layout integrity. It's particularly useful in documentation sections, chat interfaces, and content-heavy panels where vertical or horizontal space management is crucial, all while providing consistent scrolling behavior across different devices and screen sizes.
+              </p>
+            </.scroll_area>
+          </.custom_code_wrapper>
+
+          <.heading2 class="my-5" id="width">
+            <.link patch={~p"/chelekom/docs/scroll-area/#width"}>
+              Width prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <.custom_inline_code>width</.custom_inline_code>
+            prop allows you to control the width of the scroll area using Tailwind CSS width classes.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-sm" code={@code_4}>
+            <.scroll_area
+              id="sample-4"
+              width="w-full md:w-2/3"
+              height="h-80"
+              class="mx-auto"
+              content_class="py-7 px-1"
+            >
+              <h2 class="text-xl font-bold mb-4">Advanced Scroll Area Features</h2>
+              <p class="mb-4">
+                The scroll area component offers sophisticated features like customizable scrollbar visibility, smooth scrolling behavior, and responsive dimensions. With support for both vertical and horizontal scrolling, it adapts seamlessly to various content types and layout requirements, making it ideal for handling overflow content in a clean, accessible manner.
+              </p>
+
+              <h2 class="text-xl font-bold mb-4">Flexible Integration</h2>
+              <p class="mb-4">
+                Whether you're building complex navigation systems, data tables, or content-rich interfaces, the scroll area component provides consistent scrolling behavior across different devices and browsers. Its configurable width, height, and padding options ensure optimal presentation while maintaining performance and user experience standards.
+              </p>
+            </.scroll_area>
+          </.custom_code_wrapper>
+
+          <.heading2 class="my-5" id="padding">
+            <.link patch={~p"/chelekom/docs/scroll-area/#padding"}>
+              Padding prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <.custom_inline_code>padding</.custom_inline_code>
+            prop allows you to control the padding size of the scroll area content using Tailwind CSS width classes.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-sm" code={@code_7}>
+            <.scroll_area id="sample-8" height="h-64" padding="small">
+              <h2 class="text-xl font-bold mb-4">Integration with Other Components</h2>
+              <p class="mb-4">
+                Scroll areas enhance various UI components by providing controlled overflow:
+              </p>
+              <ul class="list-disc pl-5 mb-4">
+                <li>In modals for long-form content</li>
+                <li>Within sidebars for extensive navigation menus</li>
+                <li>Inside dropdowns for lengthy option lists</li>
+                <li>For table bodies with many rows</li>
+                <li>In chat interfaces for message history</li>
+              </ul>
+
+              <h2 class="text-xl font-bold mb-4">Benefits</h2>
+              <p class="mb-4">
+                By integrating scroll areas with other components, you can:
+              </p>
+              <ul class="list-disc pl-5 mb-4">
+                <li>Maintain a compact UI footprint</li>
+                <li>Improve content accessibility</li>
+                <li>Create responsive layouts</li>
+                <li>Handle dynamic content gracefully</li>
+                <li>Ensure consistent scrolling behavior</li>
+              </ul>
+            </.scroll_area>
+          </.custom_code_wrapper>
+
+          <.heading2 class="my-5" id="height">
+            <.link patch={~p"/chelekom/docs/scroll-area/#height"}>
+              Height prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <.custom_inline_code>height</.custom_inline_code>
+            prop allows you to control the height of the scroll area using Tailwind CSS height classes.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-sm" code={@code_5}>
+            <.scroll_area id="sample-5" content_class="py-5 px-7" height="h-[120px]">
+              <h2 class="text-xl font-bold mb-4">Introduction to Phoenix LiveView Scroll Area</h2>
+              <p class="mb-4">
+                Scroll Area in Phoenix LiveView provides an elegant solution for managing scrollable content.
+                It offers customizable scrollbars, responsive behavior, and smooth scrolling experiences.
+                With support for both vertical and horizontal scrolling, it adapts seamlessly to various content types
+                and screen sizes while maintaining performance and accessibility.
+              </p>
+            </.scroll_area>
+          </.custom_code_wrapper>
+
+          <.heading2 class="my-5" id="content-class">
+            <.link patch={~p"/chelekom/docs/scroll-area/#content-class"}>
+              Content class prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <.custom_inline_code>content_class</.custom_inline_code>
+            prop allows you to add custom styles to the content area of the scroll component.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-sm" code={@code_6}>
+            <.scroll_area id="sample-6" content_class="py-3 px-5" height="h-[120px]">
+              <div class="space-y-4">
+                <h2 class="text-xl font-bold">
+                  Customizable Dimensions for Enhanced Integration
+                </h2>
+                <p>
+                  The scroll area component's flexible height and width customization makes it exceptionally versatile when integrated into other UI components. Whether embedding it within modals, sidebars, or complex dashboards, you can precisely control its dimensions using Tailwind CSS classes. This adaptability ensures optimal space utilization in nested layouts, responsive designs, and dynamic content scenarios. The component maintains smooth scrolling behavior and consistent user experience regardless of its configured size, making it perfect for everything from compact dropdown menus to full-page content sections.
+                </p>
+              </div>
+            </.scroll_area>
+          </.custom_code_wrapper>
+        </:documentation_panel>
+
+        <:props_panel>
+          <.custom_search class="mb-16" />
+          <div class="space-y-8">
+            <h2 class="text-lg lg:text-2xl font-bold">Table Content Component Props</h2>
+
+            <.custom_table id="table-content-component-table">
+              <:header>
+                <.table_th>Name</.table_th>
+                <.table_th>Type</.table_th>
+                <.table_th>Required</.table_th>
+                <.table_th>Description</.table_th>
+              </:header>
+
+              <:row>
+                <.table_td>id</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>
+                  A unique identifier used to manage state and interaction. Default is <strong>nil</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>type</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>
+                  Defines visibility behavior. Options: <strong>hover</strong>, <strong>auto</strong>, <strong>never</strong>. Default is <strong>auto</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>horizontal</.table_td>
+                <.table_td>boolean</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>
+                  Enables horizontal scrollbar visibility. Default is <strong>false</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>vertical</.table_td>
+                <.table_td>boolean</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>
+                  Enables vertical scrollbar visibility. Default is <strong>true</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>height</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>
+                  Determines height of wrapper. Default is <strong>h-96</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>width</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>
+                  Determines width of wrapper. Default is <strong>w-full</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>padding</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>
+                  Specifies padding size for the content. Default is <strong>extra_small</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>class</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>
+                  Custom CSS class for the scroll area wrapper. Default is <strong>nil</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>content_class</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>
+                  Custom CSS class for the inner content area. Default is <strong>nil</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>scrollbar_width</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>
+                  Custom CSS class for vertical scrollbar width. Default is <strong>w-2</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>scrollbar_height</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>
+                  Custom CSS class for horizontal scrollbar height. Default is <strong>h-2</strong>.
+                </.table_td>
+              </:row>
+            </.custom_table>
+          </div>
+        </:props_panel>
+
+        <:cli_panel>
+          <.custom_cli_props config={component_config()} />
+        </:cli_panel>
+        <.custom_table_content>
+          <:content
+            link={~p"/chelekom/docs/scroll-area/#overview"}
+            title="Overview of Scroll area"
+          />
+          <:content link={~p"/chelekom/docs/scroll-area/#horizontal"} title="Horizontal prop" />
+          <:content link={~p"/chelekom/docs/scroll-area/#vertical"} title="Vertical prop" />
+          <:content link={~p"/chelekom/docs/scroll-area/#type"} title="Type prop" />
+          <:content link={~p"/chelekom/docs/scroll-area/#width"} title="Width prop" />
+          <:content link={~p"/chelekom/docs/scroll-area/#padding"} title="Padding prop" />
+          <:content link={~p"/chelekom/docs/scroll-area/#height"} title="Height prop" />
+          <:content link={~p"/chelekom/docs/scroll-area/#content-class"} title="Content class" />
+        </.custom_table_content>
+      </.custom_tab>
+    </div>
+  </div>
+</Layouts.app>

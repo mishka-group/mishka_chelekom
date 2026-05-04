@@ -1,0 +1,1764 @@
+<Layouts.app flash={@flash}>
+  <div class="lg:grid lg:grid-cols-12 mt-5 max-w-5xl mx-auto">
+    <.custom_nav active="chelekom-docs-pagination" />
+    <div class="lg:col-span-10">
+      <.custom_info
+        title="Pagination"
+        description="Phoenix LiveView pagination with page numbers, ellipses, first, last, and next, previous paginations. Supports various styles and layouts for efficient navigation of large data sets."
+        mix="mix mishka.ui.gen.component pagination"
+        github="https://github.com/mishka-group/mishka_chelekom/blob/master/priv/components/pagination.eex"
+        tags={["Component", "Stateless", "JS-module"]}
+      />
+      <.custom_tab id="chelekom-pagination-tab">
+        <:documentation_panel>
+          <.heading2 class="mb-5" id="overview">
+            <.link patch={~p"/chelekom/docs/pagination/#overview"}>
+              Overview of the Phoenix LiveView Pagination Component
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <strong>
+              Mishka Chelekom Pagination
+            </strong>
+            component is a highly flexible and customizable <strong>Phoenix LiveView</strong>
+            tool designed for paginated navigation. It's perfect for large datasets or multi-page content, supporting both numerical and <.custom_inline_code>first/last</.custom_inline_code>,
+            <.custom_inline_code>next/previous</.custom_inline_code>
+            navigation.
+          </.cp>
+
+          <.custom_code_wrapper elements_class="space-y-5">
+            <.pagination total={@posts.total} active={@posts.active} size="small" />
+            <.pagination
+              total={@posts.total}
+              active={@posts.active}
+              variant="transparent"
+              color="natural"
+              size="small"
+            />
+            <.pagination
+              total={@posts.total}
+              active={@posts.active}
+              color="natural"
+              variant="subtle"
+              size="small"
+            />
+          </.custom_code_wrapper>
+
+          <.cp margin="mt-5">
+            This
+            <strong>
+              <.link
+                title="Phoenix LiveView component"
+                class="transition-colors hover:text-[#448D96]"
+                navigate={~p"/chelekom"}
+              >
+                Phoenix LiveView component
+              </.link>
+            </strong>
+            offers dynamic pagination states such as current, disabled, and ellipses for skipped pages, making navigation intuitive and user-friendly, even with large datasets.
+          </.cp>
+
+          <.custom_block position="left" color="success" class="my-8" border="medium">
+            <.cp>
+              By using the class prop, you can apply custom classes or Tailwind CSS classes to customize the appearance and behavior of the components, allowing for flexible design changes.
+            </.cp>
+          </.custom_block>
+
+          <.heading2 margin="my-5" id="padination-js-modules">
+            <.link patch={~p"/chelekom/docs/pagination/#padination-js-modules"}>
+              About LiveView JS module commands
+            </.link>
+          </.heading2>
+
+          <.cp class="my-8">
+            In the padination component, several attributes allow users to execute custom LiveView JS commands based on interactions. These attributes are:
+          </.cp>
+
+          <ul>
+            <li>
+              <strong>on_select:</strong>
+              This attribute allows for a custom JavaScript module to run when an item is selected, enabling specific actions or animations.
+            </li>
+            <li>
+              <strong>on_first:</strong>
+              This attribute triggers a custom JS module when the first item is accessed, ideal for initializing states or actions.
+            </li>
+            <li>
+              <strong>on_last:</strong>
+              This attribute runs a custom JavaScript module when the last item is reached, enhancing user feedback or navigation.
+            </li>
+            <li>
+              <strong>on_next:</strong>
+              This attribute defines a JS module that executes when navigating to the next item, allowing for smooth transitions.
+            </li>
+            <li>
+              <strong>on_previous:</strong>
+              This attribute allows for a custom JavaScript module to run when navigating to the previous item, facilitating additional interactions.
+            </li>
+          </ul>
+          <.cp class="my-8">
+            These attributes empower developers to create dynamic, engaging experiences tailored to user needs.
+          </.cp>
+
+          <.heading2 margin="my-5" id="base-pagination">
+            <.link patch={~p"/chelekom/docs/pagination/#base-pagination"}>
+              Base variant
+            </.link>
+          </.heading2>
+
+          <.custom_code_wrapper elements_class="text-sm" code_class="text-xs" code={@code_22}>
+            <.pagination total={@posts.total} active={@posts.active} size="small" />
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="default-variant-pagination">
+            <.link patch={~p"/chelekom/docs/pagination/#default-variant-pagination"}>
+              Default variant of Phoenix LiveView pagination component
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The default variant of the
+            <.link navigate={~p"/chelekom/docs/pagination"}>Mishka Chelekom pagination</.link>
+            automatically applies a solid background and border that change on hover, ideal for primary actions. With just a single prop, you can choose from a variety of colors, making it easy to adapt to different design needs while offering a flexible, visually appealing solution for any interface.
+          </.cp>
+          <.custom_code_wrapper
+            elements_class="[&>*]:mb-4 text-sm"
+            code_class="text-xs"
+            code={@code_1}
+          >
+            <.pagination
+              total={@posts.total}
+              active={@posts.active}
+              size="small"
+              variant="default"
+              color="natural"
+            />
+            <.pagination
+              total={@posts.total}
+              active={@posts.active}
+              size="small"
+              variant="default"
+              color="primary"
+            />
+            <.pagination
+              total={@posts.total}
+              active={@posts.active}
+              size="small"
+              variant="default"
+              color="secondary"
+            />
+            <.pagination
+              total={@posts.total}
+              active={@posts.active}
+              size="small"
+              variant="default"
+              color="success"
+            />
+            <.pagination
+              total={@posts.total}
+              active={@posts.active}
+              size="small"
+              variant="default"
+              color="warning"
+            />
+            <.pagination
+              total={@posts.total}
+              active={@posts.active}
+              size="small"
+              variant="default"
+              color="danger"
+            />
+            <.pagination
+              total={@posts.total}
+              active={@posts.active}
+              size="small"
+              variant="default"
+              color="info"
+            />
+            <.pagination
+              total={@posts.total}
+              active={@posts.active}
+              size="small"
+              variant="default"
+              color="silver"
+            />
+            <.pagination
+              total={@posts.total}
+              active={@posts.active}
+              size="small"
+              variant="default"
+              color="misc"
+            />
+            <.pagination
+              total={@posts.total}
+              active={@posts.active}
+              size="small"
+              variant="default"
+              color="dawn"
+            />
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="outline-variant-pagination">
+            <.link patch={~p"/chelekom/docs/pagination/#outline-variant-pagination"}>
+              Outline variant of pagination component
+            </.link>
+          </.heading2>
+
+          <.cp>
+            With the
+            <.custom_inline_code>variant="outline"</.custom_inline_code>
+            prop, the pagination has a transparent background and a border available in various colors.
+          </.cp>
+
+          <.custom_code_wrapper
+            elements_class="[&>*]:mb-4 text-sm"
+            code_class="text-xs"
+            code={@code_2}
+          >
+            <.pagination
+              total={@posts.total}
+              active={@posts.active}
+              size="small"
+              variant="outline"
+              color="natural"
+            />
+            <.pagination
+              total={@posts.total}
+              active={@posts.active}
+              size="small"
+              variant="outline"
+              color="primary"
+            />
+            <.pagination
+              total={@posts.total}
+              active={@posts.active}
+              size="small"
+              variant="outline"
+              color="secondary"
+            />
+            <.pagination
+              total={@posts.total}
+              active={@posts.active}
+              size="small"
+              variant="outline"
+              color="success"
+            />
+            <.pagination
+              total={@posts.total}
+              active={@posts.active}
+              size="small"
+              variant="outline"
+              color="warning"
+            />
+            <.pagination
+              total={@posts.total}
+              active={@posts.active}
+              size="small"
+              variant="outline"
+              color="danger"
+            />
+            <.pagination
+              total={@posts.total}
+              active={@posts.active}
+              size="small"
+              variant="outline"
+              color="info"
+            />
+            <.pagination
+              total={@posts.total}
+              active={@posts.active}
+              size="small"
+              variant="outline"
+              color="silver"
+            />
+            <.pagination
+              total={@posts.total}
+              active={@posts.active}
+              size="small"
+              variant="outline"
+              color="misc"
+            />
+            <.pagination
+              total={@posts.total}
+              active={@posts.active}
+              size="small"
+              variant="outline"
+              color="dawn"
+            />
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="transparent-variant-pagination">
+            <.link patch={~p"/chelekom/docs/pagination/#transparent-variant-pagination"}>
+              Transparent variant of pagination component
+            </.link>
+          </.heading2>
+
+          <.cp>
+            With the
+            <.custom_inline_code>variant="transparent"</.custom_inline_code>
+            prop, the pagination has a transparent background and border, providing a minimal look. On hover, only the text color changes, making it perfect for subtle actions in a modern and minimalist interface.
+          </.cp>
+
+          <.custom_code_wrapper
+            elements_class="[&>*]:mb-4 text-sm"
+            code_class="text-xs"
+            code={@code_3}
+          >
+            <.pagination
+              total={@posts.total}
+              active={@posts.active}
+              size="small"
+              variant="transparent"
+              color="natural"
+            />
+            <.pagination
+              total={@posts.total}
+              active={@posts.active}
+              size="small"
+              variant="transparent"
+              color="primary"
+            />
+            <.pagination
+              total={@posts.total}
+              active={@posts.active}
+              size="small"
+              variant="transparent"
+              color="secondary"
+            />
+            <.pagination
+              total={@posts.total}
+              active={@posts.active}
+              size="small"
+              variant="transparent"
+              color="success"
+            />
+            <.pagination
+              total={@posts.total}
+              active={@posts.active}
+              size="small"
+              variant="transparent"
+              color="warning"
+            />
+            <.pagination
+              total={@posts.total}
+              active={@posts.active}
+              size="small"
+              variant="transparent"
+              color="danger"
+            />
+            <.pagination
+              total={@posts.total}
+              active={@posts.active}
+              size="small"
+              variant="transparent"
+              color="info"
+            />
+            <.pagination
+              total={@posts.total}
+              active={@posts.active}
+              size="small"
+              variant="transparent"
+            />
+            <.pagination
+              total={@posts.total}
+              active={@posts.active}
+              size="small"
+              variant="transparent"
+              color="misc"
+            />
+            <.pagination
+              total={@posts.total}
+              active={@posts.active}
+              size="small"
+              variant="transparent"
+              color="dawn"
+            />
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="gradient-variant-pagination">
+            <.link patch={~p"/chelekom/docs/pagination/#gradient-variant-pagination"}>
+              Gradient variant of pagination component
+            </.link>
+          </.heading2>
+
+          <.custom_code_wrapper
+            elements_class="[&>*]:mb-4 text-sm"
+            code_class="text-xs"
+            code={@code_21}
+          >
+            <.pagination
+              total={@posts.total}
+              active={@posts.active}
+              size="small"
+              variant="gradient"
+              color="natural"
+            />
+            <.pagination
+              total={@posts.total}
+              active={@posts.active}
+              size="small"
+              variant="gradient"
+              color="primary"
+            />
+            <.pagination
+              total={@posts.total}
+              active={@posts.active}
+              size="small"
+              variant="gradient"
+              color="secondary"
+            />
+            <.pagination
+              total={@posts.total}
+              active={@posts.active}
+              size="small"
+              variant="gradient"
+              color="success"
+            />
+            <.pagination
+              total={@posts.total}
+              active={@posts.active}
+              size="small"
+              variant="gradient"
+              color="warning"
+            />
+            <.pagination
+              total={@posts.total}
+              active={@posts.active}
+              size="small"
+              variant="gradient"
+              color="danger"
+            />
+            <.pagination
+              total={@posts.total}
+              active={@posts.active}
+              size="small"
+              variant="gradient"
+              color="info"
+            />
+            <.pagination
+              total={@posts.total}
+              active={@posts.active}
+              size="small"
+              variant="gradient"
+              color="silver"
+            />
+            <.pagination
+              total={@posts.total}
+              active={@posts.active}
+              size="small"
+              variant="gradient"
+              color="misc"
+            />
+            <.pagination
+              total={@posts.total}
+              active={@posts.active}
+              size="small"
+              variant="gradient"
+              color="dawn"
+            />
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="subtle-variant-pagination">
+            <.link patch={~p"/chelekom/docs/pagination/#subtle-variant-pagination"}>
+              Subtle variant of pagination component
+            </.link>
+          </.heading2>
+
+          <.cp>
+            With the
+            <.custom_inline_code>variant="subtle"</.custom_inline_code>
+            prop, the pagination has a transparent background and border, creating a minimal and clean look. On hover, the background and text colors change.
+          </.cp>
+          <.custom_code_wrapper
+            elements_class="[&>*]:mb-4 text-sm"
+            code_class="text-xs"
+            code={@code_4}
+          >
+            <.pagination
+              total={@posts.total}
+              active={@posts.active}
+              size="small"
+              variant="subtle"
+              color="natural"
+            />
+            <.pagination
+              total={@posts.total}
+              active={@posts.active}
+              size="small"
+              variant="subtle"
+              color="primary"
+            />
+            <.pagination
+              total={@posts.total}
+              active={@posts.active}
+              size="small"
+              variant="subtle"
+              color="secondary"
+            />
+            <.pagination
+              total={@posts.total}
+              active={@posts.active}
+              size="small"
+              variant="subtle"
+              color="success"
+            />
+            <.pagination
+              total={@posts.total}
+              active={@posts.active}
+              size="small"
+              variant="subtle"
+              color="warning"
+            />
+            <.pagination
+              total={@posts.total}
+              active={@posts.active}
+              size="small"
+              variant="subtle"
+              color="danger"
+            />
+            <.pagination
+              total={@posts.total}
+              active={@posts.active}
+              size="small"
+              variant="subtle"
+              color="info"
+            />
+            <.pagination
+              total={@posts.total}
+              active={@posts.active}
+              size="small"
+              variant="subtle"
+              color="silver"
+            />
+            <.pagination
+              total={@posts.total}
+              active={@posts.active}
+              size="small"
+              variant="subtle"
+              color="misc"
+            />
+            <.pagination
+              total={@posts.total}
+              active={@posts.active}
+              size="small"
+              variant="subtle"
+              color="dawn"
+            />
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="shadow-variant-pagination">
+            <.link patch={~p"/chelekom/docs/pagination/#shadow-variant-pagination"}>
+              Shadow variant of pagination component
+            </.link>
+          </.heading2>
+
+          <.cp>
+            With the
+            <.custom_inline_code>variant="shadow"</.custom_inline_code>
+            prop, the pagination resembles the default style but includes a shadow effect, adding depth while keeping a clean, transparent background and border. On hover, the background and text colors change, making it perfect for adding subtle emphasis to your design.
+          </.cp>
+
+          <.custom_code_wrapper
+            elements_class="[&>*]:mb-4 text-sm"
+            code_class="text-xs"
+            code={@code_5}
+          >
+            <.pagination
+              total={@posts.total}
+              active={@posts.active}
+              size="small"
+              variant="shadow"
+              color="natural"
+            />
+            <.pagination
+              total={@posts.total}
+              active={@posts.active}
+              size="small"
+              variant="shadow"
+              color="primary"
+            />
+            <.pagination
+              total={@posts.total}
+              active={@posts.active}
+              size="small"
+              variant="shadow"
+              color="secondary"
+            />
+            <.pagination
+              total={@posts.total}
+              active={@posts.active}
+              size="small"
+              variant="shadow"
+              color="success"
+            />
+            <.pagination
+              total={@posts.total}
+              active={@posts.active}
+              size="small"
+              variant="shadow"
+              color="warning"
+            />
+            <.pagination
+              total={@posts.total}
+              active={@posts.active}
+              size="small"
+              variant="shadow"
+              color="danger"
+            />
+            <.pagination
+              total={@posts.total}
+              active={@posts.active}
+              size="small"
+              variant="shadow"
+              color="info"
+            />
+            <.pagination
+              total={@posts.total}
+              active={@posts.active}
+              size="small"
+              variant="shadow"
+              color="silver"
+            />
+            <.pagination
+              total={@posts.total}
+              active={@posts.active}
+              size="small"
+              variant="shadow"
+              color="misc"
+            />
+            <.pagination
+              total={@posts.total}
+              active={@posts.active}
+              size="small"
+              variant="shadow"
+              color="dawn"
+            />
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="inverted-variant-pagination">
+            <.link patch={~p"/chelekom/docs/pagination/#inverted-variant-pagination"}>
+              Inverted variant of pagination component
+            </.link>
+          </.heading2>
+
+          <.cp>
+            With the
+            <.custom_inline_code>variant="inverted"</.custom_inline_code>
+            prop, the pagination is like the outline variant, featuring a border without a background. On hover, it adds a background color.
+          </.cp>
+
+          <.custom_code_wrapper
+            elements_class="[&>*]:mb-4 text-sm"
+            code_class="text-xs"
+            code={@code_6}
+          >
+            <.pagination
+              total={@posts.total}
+              active={@posts.active}
+              size="small"
+              variant="inverted"
+              color="natural"
+            />
+            <.pagination
+              total={@posts.total}
+              active={@posts.active}
+              size="small"
+              variant="inverted"
+              color="primary"
+            />
+            <.pagination
+              total={@posts.total}
+              active={@posts.active}
+              size="small"
+              variant="inverted"
+              color="secondary"
+            />
+            <.pagination
+              total={@posts.total}
+              active={@posts.active}
+              size="small"
+              variant="inverted"
+              color="success"
+            />
+            <.pagination
+              total={@posts.total}
+              active={@posts.active}
+              size="small"
+              variant="inverted"
+              color="warning"
+            />
+            <.pagination
+              total={@posts.total}
+              active={@posts.active}
+              size="small"
+              variant="inverted"
+              color="danger"
+            />
+            <.pagination
+              total={@posts.total}
+              active={@posts.active}
+              size="small"
+              variant="inverted"
+              color="info"
+            />
+            <.pagination
+              total={@posts.total}
+              active={@posts.active}
+              size="small"
+              variant="inverted"
+              color="silver"
+            />
+            <.pagination
+              total={@posts.total}
+              active={@posts.active}
+              size="small"
+              variant="inverted"
+              color="misc"
+            />
+            <.pagination
+              total={@posts.total}
+              active={@posts.active}
+              size="small"
+              variant="inverted"
+              color="dawn"
+            />
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="pagination-grouped">
+            <.link patch={~p"/chelekom/docs/pagination/#pagination-grouped"}>
+              Grouped props
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <.custom_inline_code>grouped</.custom_inline_code>
+            prop helps create grouped buttons in a shape similar to pagination controls. all the props also apply to this mode.
+          </.cp>
+
+          <.custom_code_wrapper
+            elements_class="[&>*]:mb-4 text-sm"
+            code_class="text-xs"
+            code={@code_19}
+          >
+            <.pagination
+              total={@posts.total}
+              active={@posts.active}
+              size="small"
+              grouped
+              color="natural"
+              variant="default"
+            />
+            <.pagination
+              total={@posts.total}
+              active={@posts.active}
+              size="small"
+              grouped
+              color="primary"
+              variant="default"
+            />
+            <.pagination
+              total={@posts.total}
+              active={@posts.active}
+              size="small"
+              grouped
+              color="secondary"
+              variant="default"
+            />
+            <.pagination
+              total={@posts.total}
+              active={@posts.active}
+              size="small"
+              grouped
+              color="success"
+              variant="default"
+            />
+            <.pagination
+              total={@posts.total}
+              active={@posts.active}
+              size="small"
+              grouped
+              color="warning"
+              variant="default"
+            />
+            <.pagination
+              total={@posts.total}
+              active={@posts.active}
+              size="small"
+              grouped
+              color="danger"
+              variant="default"
+            />
+            <.pagination
+              total={@posts.total}
+              active={@posts.active}
+              size="small"
+              grouped
+              color="info"
+              variant="default"
+            />
+            <.pagination
+              total={@posts.total}
+              active={@posts.active}
+              size="small"
+              grouped
+              color="silver"
+              variant="default"
+            />
+            <.pagination
+              total={@posts.total}
+              active={@posts.active}
+              size="small"
+              variant="shadow"
+              grouped
+              color="misc"
+            />
+            <.pagination
+              total={@posts.total}
+              active={@posts.active}
+              size="small"
+              grouped
+              color="dawn"
+              variant="default"
+            />
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="pagination-radius">
+            <.link patch={~p"/chelekom/docs/pagination/#pagination-radius"}>
+              Radius prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            With the Mishka Chelekom pagination component, you can customize the pagination's border radius using different size options. Available sizes include <.custom_inline_code>extra_small</.custom_inline_code>, <.custom_inline_code>small</.custom_inline_code>, <.custom_inline_code>medium</.custom_inline_code>, <.custom_inline_code>large</.custom_inline_code>, <.custom_inline_code>extra_large</.custom_inline_code>, <.custom_inline_code>full</.custom_inline_code>, and <.custom_inline_code>none</.custom_inline_code>, allowing you to adjust the roundness of the pagination’s corners to fit your design needs. Whether you prefer sharp edges or fully rounded paginations, these options offer flexibility for any interface.
+          </.cp>
+
+          <.custom_code_wrapper
+            elements_class="[&>*]:mb-4 text-sm"
+            code_class="text-xs"
+            code={@code_7}
+          >
+            <.pagination
+              total={@posts.total}
+              active={@posts.active}
+              size="small"
+              rounded="full"
+              color="info"
+              variant="default"
+            />
+
+            <.pagination
+              total={@posts.total}
+              active={@posts.active}
+              size="small"
+              rounded="extra_small"
+              color="misc"
+              variant="default"
+            />
+
+            <.pagination
+              total={@posts.total}
+              active={@posts.active}
+              size="small"
+              rounded="small"
+              color="warning"
+              variant="default"
+            />
+
+            <.pagination
+              total={@posts.total}
+              active={@posts.active}
+              size="small"
+              rounded="medium"
+              color="success"
+              variant="default"
+            />
+
+            <.pagination
+              total={@posts.total}
+              active={@posts.active}
+              size="small"
+              rounded="large"
+              color="primary"
+              variant="default"
+            />
+
+            <.pagination
+              total={@posts.total}
+              active={@posts.active}
+              size="small"
+              rounded="extra_large"
+              color="secondary"
+              variant="default"
+            />
+
+            <.pagination
+              total={@posts.total}
+              active={@posts.active}
+              size="small"
+              rounded="none"
+              color="danger"
+              variant="default"
+            />
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="pagination-size">
+            <.link patch={~p"/chelekom/docs/pagination/#pagination-size"}>
+              Size prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <.custom_inline_code>size</.custom_inline_code>
+            prop offers values such as <.custom_inline_code>extra_small</.custom_inline_code>, <.custom_inline_code>small</.custom_inline_code>, <.custom_inline_code>medium</.custom_inline_code>, <.custom_inline_code>large</.custom_inline_code>, and <.custom_inline_code>extra_large</.custom_inline_code>. These values control elemnts size within the pagination contents.
+          </.cp>
+
+          <.custom_code_wrapper
+            elements_class="[&>*]:mb-4 text-sm"
+            code_class="text-xs"
+            code={@code_8}
+          >
+            <.pagination
+              total={@posts.total}
+              active={@posts.active}
+              size="extra_small"
+              color="misc"
+            />
+
+            <.pagination
+              total={@posts.total}
+              active={@posts.active}
+              size="small"
+              variant="default"
+              color="warning"
+            />
+
+            <.pagination
+              total={@posts.total}
+              active={@posts.active}
+              size="medium"
+              variant="default"
+              color="success"
+            />
+
+            <.pagination
+              total={@posts.total}
+              active={@posts.active}
+              size="large"
+              variant="default"
+              color="primary"
+            />
+
+            <.pagination
+              total={@posts.total}
+              active={@posts.active}
+              size="extra_large"
+              color="dawn"
+              variant="default"
+            />
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="pagination-space">
+            <.link patch={~p"/chelekom/docs/pagination/#pagination-space"}>
+              Space prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <.custom_inline_code>space</.custom_inline_code>
+            prop lets you control the spacing between items using predefined options like <.custom_inline_code>"extra_small"</.custom_inline_code>, <.custom_inline_code>"small"</.custom_inline_code>, <.custom_inline_code>"medium"</.custom_inline_code>, <.custom_inline_code>"large"</.custom_inline_code>,
+            or <.custom_inline_code>"extra_large"</.custom_inline_code>.
+            You can also provide a custom value as a string for more flexibility. If no value is specified, the default is <.custom_inline_code>"small"</.custom_inline_code>.
+          </.cp>
+
+          <.custom_code_wrapper
+            elements_class="[&>*]:mb-4 text-sm"
+            code_class="text-xs"
+            code={@code_9}
+          >
+            <.pagination
+              total={@posts.total}
+              active={@posts.active}
+              size="small"
+              space="extra_small"
+              color="misc"
+              variant="default"
+            />
+
+            <.pagination
+              total={@posts.total}
+              active={@posts.active}
+              size="small"
+              space="small"
+              color="warning"
+              variant="default"
+            />
+
+            <.pagination
+              total={@posts.total}
+              active={@posts.active}
+              size="small"
+              space="medium"
+              color="success"
+              variant="default"
+            />
+
+            <.pagination
+              total={@posts.total}
+              active={@posts.active}
+              size="small"
+              space="large"
+              color="primary"
+              variant="default"
+            />
+
+            <.pagination
+              total={@posts.total}
+              active={@posts.active}
+              size="small"
+              space="extra_large"
+              color="dawn"
+              variant="default"
+            />
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="pagination-seperator">
+            <.link patch={~p"/chelekom/docs/pagination/#pagination-seperator"}>
+              Seperator prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <.custom_inline_code>separator</.custom_inline_code>
+            prop accepts a map with two keys:
+            <.custom_inline_code>type</.custom_inline_code>
+            which can be either
+            <.custom_inline_code>:icon</.custom_inline_code>
+            or <.custom_inline_code>:text</.custom_inline_code>, and
+            <.custom_inline_code>value</.custom_inline_code>
+            which is either a Hero icon name or text content. By default, it uses <.custom_inline_code>
+            %&#123;type: :icon, value: "hero-ellipsis-horizontal"&#125;
+          </.custom_inline_code>.
+          </.cp>
+
+          <.custom_code_wrapper
+            elements_class="[&>*]:mb-4 text-sm"
+            code_class="text-xs"
+            code={@code_10}
+          >
+            <.pagination
+              total={@posts.total}
+              active={@posts.active}
+              size="small"
+              separator={%{type: :icon, value: "hero-hashtag"}}
+              color="info"
+            />
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="pagination-prev-next-label">
+            <.link patch={~p"/chelekom/docs/pagination/#pagination-prev-next-label"}>
+              Previous and Next label props
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <.custom_inline_code>next_label</.custom_inline_code>
+            and
+            <.custom_inline_code>previous_label</.custom_inline_code>
+            attributes accept a map with two keys:
+            <.custom_inline_code>type</.custom_inline_code>
+            which can be either
+            <.custom_inline_code>:icon</.custom_inline_code>
+            or <.custom_inline_code>:text</.custom_inline_code>, and
+            <.custom_inline_code>value</.custom_inline_code>
+            which specifies either a Hero icon name or text content. For example,
+            <.custom_inline_code>
+              %&#123;type: :icon, value: "hero-chevron-double-right"&#125;
+            </.custom_inline_code>
+            for the next button and
+            <.custom_inline_code>
+              %&#123;type: :icon, value: "hero-chevron-double-left"&#125;
+            </.custom_inline_code>
+            for the previous button.
+          </.cp>
+
+          <.custom_code_wrapper
+            elements_class="[&>*]:mb-4 text-sm"
+            code_class="text-xs"
+            code={@code_11}
+          >
+            <.pagination
+              total={@posts.total}
+              active={@posts.active}
+              size="small"
+              next_label={%{type: :icon, value: "hero-chevron-double-right"}}
+              previous_label={%{type: :icon, value: "hero-chevron-double-left"}}
+              color="warning"
+              variant="default"
+            />
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="pagination-first-last-label">
+            <.link patch={~p"/chelekom/docs/pagination/#pagination-first-last-label"}>
+              First and Last label props
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <.custom_inline_code>first_label</.custom_inline_code>
+            and
+            <.custom_inline_code>last_label</.custom_inline_code>
+            attributes accept a map with two keys:
+            <.custom_inline_code>type</.custom_inline_code>
+            which can be either
+            <.custom_inline_code>:icon</.custom_inline_code>
+            or <.custom_inline_code>:text</.custom_inline_code>, and
+            <.custom_inline_code>value</.custom_inline_code>
+            which is either a Hero icon name or text content. By default, these use Hero icons with
+            <.custom_inline_code>
+              %&#123;type: :icon, value: "hero-chevron-double-left"&#125;
+            </.custom_inline_code>
+            for first_label and
+            <.custom_inline_code>
+              %&#123;type: :icon, value: "hero-chevron-double-right"&#125;
+            </.custom_inline_code>
+            for last_label.
+          </.cp>
+
+          <.custom_code_wrapper
+            elements_class="[&>*]:mb-4 text-sm"
+            code_class="text-xs"
+            code={@code_12}
+          >
+            <.pagination
+              total={@posts.total}
+              active={@posts.active}
+              size="small"
+              show_edges
+              first_label={%{type: :icon, value: "hero-chevron-left"}}
+              last_label={%{type: :icon, value: "hero-chevron-right"}}
+              color="danger"
+              variant="default"
+            />
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="pagination-show-edges">
+            <.link patch={~p"/chelekom/docs/pagination/#pagination-show-edges"}>
+              Show Edges props
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <.custom_inline_code>show_edges</.custom_inline_code>
+            prop allows you to control the visibility of the first and last pagination controls, providing an option to either display or hide these edges for a cleaner navigation experience. When enabled, the following attributes are used with their default values: <.custom_inline_code>first_label</.custom_inline_code>,
+            defaulting to <.custom_inline_code>"hero-chevron-double-left"</.custom_inline_code>, determines the icon or label for the first pagination control. <.custom_inline_code>last_label</.custom_inline_code>,
+            defaulting to <.custom_inline_code>"hero-chevron-double-right"</.custom_inline_code>, determines the icon or label for the last pagination control.
+
+            You can customize these attributes to use any hero icons or labels instead of the default ones, offering flexibility in tailoring the navigation controls to your design preferences.
+          </.cp>
+
+          <.custom_code_wrapper
+            elements_class="[&>*]:mb-4 text-sm"
+            code_class="text-xs"
+            code={@code_13}
+          >
+            <.pagination total={@posts.total} active={@posts.active} size="small" show_edges />
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="pagination-hide-controls">
+            <.link patch={~p"/chelekom/docs/pagination/#pagination-hide-controls"}>
+              Hide controls props
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <.custom_inline_code>hide_controls</.custom_inline_code>
+            prop allows you to hide the pagination controls, providing a cleaner interface when you only need to display page numbers without navigation buttons.
+          </.cp>
+
+          <.custom_code_wrapper
+            elements_class="[&>*]:mb-4 text-sm"
+            code_class="text-xs"
+            code={@code_14}
+          >
+            <.pagination total={@posts.total} active={@posts.active} size="small" hide_controls />
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="pagination-total">
+            <.link patch={~p"/chelekom/docs/pagination/#pagination-total"}>
+              Total props
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <.custom_inline_code>total</.custom_inline_code>
+            prop specifies the total number of items or pages available in the pagination component. It is essential for calculating the number of pagination links that need to be displayed, ensuring users can navigate through all available content effectively.
+          </.cp>
+
+          <.custom_code_wrapper
+            elements_class="[&>*]:mb-4 text-sm"
+            code_class="text-xs"
+            code={@code_15}
+          >
+            <.pagination total={@posts.total} active={@posts.active} size="small" />
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="pagination-active">
+            <.link patch={~p"/chelekom/docs/pagination/#pagination-active"}>
+              Active props
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <.custom_inline_code>active</.custom_inline_code>
+            prop represents the currently active data in the pagination component, with a default value of 1. This integer value is crucial for indicating which data the user is currently viewing, allowing for proper highlighting and navigation within the pagination controls.
+          </.cp>
+
+          <.custom_code_wrapper
+            elements_class="[&>*]:mb-4 text-sm"
+            code_class="text-xs"
+            code={@code_16}
+          >
+            <.pagination total={@posts.total} active={@posts.active} size="small" />
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="pagination-siblings">
+            <.link patch={~p"/chelekom/docs/pagination/#pagination-siblings"}>
+              Siblings props
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <.custom_inline_code>siblings</.custom_inline_code>
+            prop specifies the number of sibling page links displayed around the active button in the pagination component. This helps create a clearer navigation experience by showing users which buttons are adjacent to the currently active button.
+          </.cp>
+
+          <.custom_code_wrapper
+            elements_class="[&>*]:mb-4 text-sm"
+            code_class="text-xs"
+            code={@code_17}
+          >
+            <.pagination
+              total={@posts.total}
+              active={@posts.active}
+              siblings={2}
+              size="small"
+              color="danger"
+              variant="default"
+            />
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="pagination-boundaries">
+            <.link patch={~p"/chelekom/docs/pagination/#pagination-boundaries"}>
+              Boundaries props
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <.custom_inline_code>boundaries</.custom_inline_code>
+            prop allows you to control the number of items displayed before the next button and after the previous button in the pagination component. By specifying this value, you can determine how many page links appear in these boundary areas.
+          </.cp>
+
+          <.custom_code_wrapper
+            elements_class="[&>*]:mb-4 text-sm"
+            code_class="text-xs"
+            code={@code_18}
+          >
+            <.pagination
+              total={@posts.total}
+              active={@posts.active}
+              boundaries={1}
+              color="info"
+              variant="default"
+              size="small"
+            />
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="pagination-start-last-items-slots">
+            <.link patch={~p"/chelekom/docs/pagination/#pagination-start-last-items-slots"}>
+              start and last items
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <.custom_inline_code>start_items</.custom_inline_code>
+            and
+            <.custom_inline_code>last_items</.custom_inline_code>
+            slots provide a dynamic way to insert text or elements directly, serving as a more adaptable alternative to the
+            <.custom_inline_code>first_label</.custom_inline_code>
+            and
+            <.custom_inline_code>last_label</.custom_inline_code>
+            attributes. By allowing you to customize these slots with descriptive text or other elements, such as buttons, you can improve clarity and usability for users navigating pagination. This approach ensures that your pagination controls are not only visually engaging but also highly informative, guiding users effectively through the beginning and end of the pagination sequence.
+          </.cp>
+
+          <.custom_code_wrapper
+            elements_class="[&>*]:mb-4 text-sm"
+            code_class="text-xs"
+            code={@code_20}
+          >
+            <.pagination
+              total={@posts.total}
+              active={@posts.active}
+              siblings={1}
+              color="warning"
+              variant="default"
+              size="medium"
+            >
+              <:start_items>First</:start_items>
+              <:end_items>Last</:end_items>
+            </.pagination>
+          </.custom_code_wrapper>
+        </:documentation_panel>
+
+        <:props_panel>
+          <.custom_search class="mb-16" />
+          <div class="space-y-8">
+            <h2 class="text-lg lg:text-2xl font-bold">Pagination Component Props</h2>
+
+            <.custom_table id="pagination-component-table">
+              <:header>
+                <.table_th>Name</.table_th>
+
+                <.table_th>Type</.table_th>
+
+                <.table_th>Required</.table_th>
+
+                <.table_th>Description</.table_th>
+              </:header>
+
+              <:row>
+                <.table_td>id</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  A unique identifier is used to manage state and interaction.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>total</.table_td>
+
+                <.table_td>integer</.table_td>
+
+                <.table_td>Yes</.table_td>
+
+                <.table_td>Total number of pages to be rendered.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>active</.table_td>
+
+                <.table_td>integer</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Current active page number. Default is <strong>1</strong>.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>siblings</.table_td>
+
+                <.table_td>integer</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Number of sibling pages to display. Default is <strong>1</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>boundaries</.table_td>
+
+                <.table_td>integer</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Number of boundary pages to display. Default is <strong>1</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>on_select</.table_td>
+
+                <.table_td>JS</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Custom JS module for handling select action.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>on_first</.table_td>
+
+                <.table_td>JS</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Custom JS module for handling first page action.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>on_last</.table_td>
+
+                <.table_td>JS</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Custom JS module for handling last page action.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>on_next</.table_td>
+
+                <.table_td>JS</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Custom JS module for handling next page action.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>on_previous</.table_td>
+
+                <.table_td>JS</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Custom JS module for handling previous page action.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>size</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines the overall size of the elements. Default is <strong>medium</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>space</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Space between items. values are <strong>extra_small</strong>, <strong>small</strong>, <strong>medium</strong>, <strong>large</strong>, and <strong>extra_large</strong>. Default is <strong>small</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>color</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines the color theme of the pagination. Values: <strong>natural</strong>, <strong>primary</strong>, <strong>secondary</strong>, <strong>success</strong>, <strong>warning</strong>, <strong>danger</strong>, <strong>info</strong>, <strong>silver</strong>, <strong>misc</strong>, <strong>dawn</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>rounded</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines the border radius. Default is <strong>small</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>variant</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines the style of the pagination. Default is <strong>default</strong>. Values include <strong>outline</strong>, <strong>transparent</strong>, <strong>subtle</strong>, <strong>shadow</strong>, <strong>inverted</strong>, <strong>bordered</strong>, <strong>gradient</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>separator</.table_td>
+
+                <.table_td>map with :type (`:icon` or `:text`) and :value (string)</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Separator between page groups. Default has type `:icon` and value "hero-ellipsis-horizontal".
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>next_label</.table_td>
+
+                <.table_td>map with :type (`:icon` or `:text`) and :value (string)</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Next button icon or label. Default has type `:icon` and value "hero-chevron-right".
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>previous_label</.table_td>
+
+                <.table_td>map with :type (`:icon` or `:text`) and :value (string)</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Previous button icon or label. Default has type `:icon` and value "hero-chevron-left".
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>first_label</.table_td>
+
+                <.table_td>map with :type (`:icon` or `:text`) and :value (string)</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  First button icon or label. Default has type `:icon` and value "hero-chevron-double-left".
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>last_label</.table_td>
+
+                <.table_td>map with :type (`:icon` or `:text`) and :value (string)</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Last button icon or label. Default has type `:icon` and value "hero-chevron-double-right".
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>class</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Custom CSS class for additional styling.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>first_label_class</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Custom CSS class for additional styling to first button.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>next_label_class</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Custom CSS class for additional styling to next button.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>last_label_class</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Custom CSS class for additional styling to last button.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>prev_label_class</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Custom CSS class for additional styling to previous button.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>pages_label_class</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Custom CSS class for additional styling to pages buttons.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>seperator_class</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Custom CSS class for additional styling to pages buttons.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>separator_icon_class</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Custom CSS class for additional styling to icon of separator.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>separator_text_class</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Custom CSS class for additional styling to text of separator.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>params</.table_td>
+
+                <.table_td>map</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  A map of additional parameters used for element configuration. Default is an empty map.
+                </.table_td>
+              </:row>
+            </.custom_table>
+          </div>
+        </:props_panel>
+
+        <:cli_panel>
+          <.custom_cli_props config={component_config()} />
+        </:cli_panel>
+        <.custom_table_content>
+          <:content
+            link={~p"/chelekom/docs/pagination/#overview"}
+            title="Overview of the Pagination Component"
+          />
+          <:content
+            link={~p"/chelekom/docs/pagination/#padination-js-modules"}
+            title="About LiveView JS module commands"
+          />
+          <:content link={~p"/chelekom/docs/pagination/#base-pagination"} title="Base variant" />
+          <:content
+            link={~p"/chelekom/docs/pagination/#default-variant-pagination"}
+            title="Default variant"
+          />
+          <:content
+            link={~p"/chelekom/docs/pagination/#outline-variant-pagination"}
+            title="Outline variant"
+          />
+          <:content
+            link={~p"/chelekom/docs/pagination/#transparent-variant-pagination"}
+            title="Transparent variant"
+          />
+          <:content
+            link={~p"/chelekom/docs/pagination/#gradient-variant-pagination"}
+            title="Gradient variant"
+          />
+          <:content
+            link={~p"/chelekom/docs/pagination/#subtle-variant-pagination"}
+            title="Subtle variant"
+          />
+          <:content
+            link={~p"/chelekom/docs/pagination/#shadow-variant-pagination"}
+            title="Shadow variant"
+          />
+          <:content
+            link={~p"/chelekom/docs/pagination/#inverted-variant-pagination"}
+            title="Inverted variant"
+          />
+          <:content
+            link={~p"/chelekom/docs/pagination/#pagination-grouped"}
+            title="Grouped props"
+          />
+          <:content link={~p"/chelekom/docs/pagination/#pagination-radius"} title="Radius prop" />
+          <:content link={~p"/chelekom/docs/pagination/#pagination-size"} title="Size prop" />
+          <:content link={~p"/chelekom/docs/pagination/#pagination-space"} title="Space prop" />
+          <:content
+            link={~p"/chelekom/docs/pagination/#pagination-seperator"}
+            title="Seperator prop"
+          />
+          <:content
+            link={~p"/chelekom/docs/pagination/#pagination-prev-next-label"}
+            title="Previous and Next label props"
+          />
+          <:content
+            link={~p"/chelekom/docs/pagination/#pagination-first-last-label"}
+            title="First and Last label props"
+          />
+          <:content
+            link={~p"/chelekom/docs/pagination/#pagination-show-edges"}
+            title="Show Edges props"
+          />
+          <:content
+            link={~p"/chelekom/docs/pagination/#pagination-hide-controls"}
+            title="Hide controls props"
+          />
+          <:content link={~p"/chelekom/docs/pagination/#pagination-total"} title="Total props" />
+          <:content link={~p"/chelekom/docs/pagination/#pagination-active"} title="Active props" />
+          <:content
+            link={~p"/chelekom/docs/pagination/#pagination-siblings"}
+            title="Siblings props"
+          />
+          <:content
+            link={~p"/chelekom/docs/pagination/#pagination-boundaries"}
+            title="Boundaries props"
+          />
+          <:content
+            link={~p"/chelekom/docs/pagination/#pagination-start-last-items-slots"}
+            title="Start and Last items slots"
+          />
+        </.custom_table_content>
+      </.custom_tab>
+    </div>
+  </div>
+</Layouts.app>

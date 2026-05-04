@@ -1,0 +1,479 @@
+<Layouts.app flash={@flash}>
+  <div class="lg:grid lg:grid-cols-12 mt-5 max-w-5xl mx-auto">
+    <.custom_nav active="chelekom-docs-device-mockup" />
+    <div class="lg:col-span-10">
+      <.custom_info
+        title="Device Mockup"
+        description="DeviceMockup component provides customizable mockups for devices like iPhone, Android, iPad, and more, with support for various color themes."
+        mix="mix mishka.ui.gen.component device_mockup"
+        github="https://github.com/mishka-group/mishka_chelekom/blob/master/priv/components/device_mockup.eex"
+        tags={["Component", "Stateless"]}
+      />
+      <.custom_tab id="chelekom-device-mockup-tab">
+        <:documentation_panel>
+          <.heading2 class="mb-5" id="overview">
+            <.link patch={~p"/chelekom/docs/device-mockup/#overview"}>
+              Overview of the Phoenix and LiveView DeviceMockup Component
+            </.link>
+          </.heading2>
+          <.cp>
+            The
+            <strong>
+              Mishka Chelekom DeviceMockup
+            </strong>
+            component is a <strong>Phoenix LiveView</strong>
+            component that allows developers to create dynamic and customizable <strong>device mockups</strong>, perfect for showcasing applications, media, or content on various devices such as iPhone, Android, and more. It offers flexibility in layout, color themes, and content slots, providing a professional and engaging display.
+          </.cp>
+
+          <.cp margin="mt-5">
+            This
+            <strong>
+              <.link
+                title="Phoenix LiveView component"
+                class="transition-colors hover:text-[#448D96]"
+                navigate={~p"/chelekom"}
+              >
+                Phoenix LiveView component
+              </.link>
+            </strong>
+            also supports adding images, responsive content, and custom themes, making it ideal for enhancing both the visual design and usability of media presentations. With its versatility and ease of integration, the DeviceMockup component boosts the visual appeal and interaction of any project.
+          </.cp>
+
+          <.custom_block position="left" color="success" class="my-8" border="medium">
+            <.cp>
+              By using the class prop, you can apply custom classes or Tailwind CSS classes to customize the components design.
+            </.cp>
+            <.cp>
+              <strong>Note:</strong>
+              Select any mockup using the
+              <.custom_inline_code>type</.custom_inline_code>
+              prop.
+            </.cp>
+          </.custom_block>
+
+          <.heading2 margin="my-5" id="mockup-iphone">
+            <.link patch={~p"/chelekom/docs/device-mockup/#mockup-iphone"}>
+              iPhone prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The DeviceMockup component, when set to the iphone type, allows developers to simulate an iPhone display within their applications. It provides a sleek, responsive design to showcase content or media inside the mockup frame, and supports various color themes and layouts. The iPhone mockup can display images or custom content, making it ideal for app previews, marketing pages, or product demos, ensuring a polished and professional look that aligns with the iPhone's distinct style.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" code={@code_1}>
+            <.device_mockup>
+              <.custom_component_list id="ex-1" grids="grid-cols-1" space="py-6" />
+            </.device_mockup>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="mockup-android">
+            <.link patch={~p"/chelekom/docs/device-mockup/#mockup-android"}>
+              Android prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The DeviceMockup component, when set to the android type, allows developers to simulate an Android device display within their applications. It offers a responsive and customizable layout to showcase content, images, or media in an Android-style frame. With support for different color themes and flexible layout options, this mockup is perfect for presenting app previews or product demonstrations. The Android mockup ensures a modern and professional look, tailored to reflect the versatility of Android devices.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" code={@code_2}>
+            <.device_mockup type="android">
+              <.custom_component_list id="ex-2" grids="grid-cols-1" space="py-6" />
+            </.device_mockup>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="mockup-watch">
+            <.link patch={~p"/chelekom/docs/device-mockup/#mockup-watch"}>
+              Watch prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The DeviceMockup component, when set to the watch type, allows developers to simulate a smartwatch display within their applications. This mockup is perfect for showcasing content or media specifically designed for smaller screens, such as apps or features tailored to smartwatches. With its circular frame and responsive layout, the watch mockup supports customizable color themes and the ability to include images or dynamic content, providing an engaging and sleek presentation for smartwatch app previews or promotional materials.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" code={@code_3}>
+            <.device_mockup type="watch">
+              <.link
+                navigate={~p"/chelekom/docs/alert"}
+                class="block overflow-hidden relative border border-[#e8e8e8] dark:border-[#525151] rounded-lg pt-5 group mx-2 mt-3.5"
+              >
+                <div class="relative w-fit mx-auto">
+                  <div class="w-32 h-32 bg-[#f1f1f1] dark:bg-[#202020] rounded-t-lg opacity-80 transition-all duration-400 group-hover:opacity-100">
+                    <div class="border-b border-[#444441] py-1 px-2 flex gap-1 items-center">
+                      <div class="size-1 bg-[#444441] rounded-full"></div>
+                      <div class="size-1 bg-[#444441] rounded-full"></div>
+                      <div class="size-1 bg-[#444441] rounded-full"></div>
+                    </div>
+                    <div class="p-2 h-full">
+                      <div class="p-1 h-full bg-[#e5e7e8] dark:bg-[#323038] relative">
+                        <div class="space-y-1">
+                          <div class="h-4 w-full bg-[#b5b5bd] dark:bg-[#606064] rounded-sm p-1 flex items-center justify-between">
+                            <div>
+                              <div class="h-0.5 w-6 bg-[#74747a] darak:bg-[#48484D] rounded-sm">
+                              </div>
+                              <div class="h-0.5 w-16 bg-[#74747a] darak:bg-[#48484D] rounded-sm mt-0.5">
+                              </div>
+                            </div>
+
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              fill="none"
+                              viewBox="0 0 24 24"
+                              stroke-width="1.5"
+                              stroke="currentColor"
+                              class="size-2"
+                            >
+                              <path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                d="M6 18 18 6M6 6l12 12"
+                              />
+                            </svg>
+                          </div>
+                          <div class="h-6 w-full bg-[#b5b5bd] dark:bg-[#606064] rounded-sm"></div>
+                          <div class="grid grid-cols-2 gap-1">
+                            <div class="h-6 w-full bg-[#b5b5bd] dark:bg-[#606064] rounded-sm">
+                            </div>
+                            <div class="h-6 w-full bg-[#b5b5bd] dark:bg-[#606064] rounded-sm">
+                            </div>
+                            <div class="h-6 w-full bg-[#b5b5bd] dark:bg-[#606064] rounded-sm">
+                            </div>
+                            <div class="h-6 w-full bg-[#b5b5bd] dark:bg-[#606064] rounded-sm">
+                            </div>
+                          </div>
+                          <div class="h-6 w-full bg-[#b5b5bd] dark:bg-[#606064] rounded-sm"></div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="absolute inset-x-0 bottom-0 backdrop-blur-[1px] transition-all duration-200 h-9 group-hover:h-11 px-2 bg-black/10 text-[#767676] dark:text-white flex items-center gap-2">
+                  Alert
+                </div>
+              </.link>
+            </.device_mockup>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="mockup-ipad">
+            <.link patch={~p"/chelekom/docs/device-mockup/#mockup-ipad"}>
+              iPad prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The DeviceMockup component, when set to the ipad type, allows developers to simulate an iPad display within their applications. This mockup provides a larger screen frame, ideal for showcasing content such as app interfaces, media, or detailed product previews. With support for customizable color themes, images, and flexible content slots, the iPad mockup is perfect for demonstrating responsive designs or creating interactive presentations. The mockup ensures a visually appealing and professional display, tailored to reflect the sleek and modern look of an iPad.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" code={@code_4}>
+            <.device_mockup type="ipad">
+              <.custom_component_list id="ex-3" grids="grid-cols-2" space="py-6" />
+            </.device_mockup>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="mockup-laptop">
+            <.link patch={~p"/chelekom/docs/device-mockup/#mockup-laptop"}>
+              Laptop prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The <.link navigate={~p"/chelekom/docs/device-mockup"}>Mishka Phoenix DeviceMockup component</.link>, when set to the laptop type, allows developers to simulate a laptop display within their applications. This mockup provides a wide screen layout, making it ideal for showcasing web apps, dashboards, or detailed product previews that benefit from a larger display area. With customizable color themes, image support, and flexible content slots, the laptop mockup is perfect for demonstrating responsive designs, offering a polished and professional look that mirrors the experience of using a real laptop.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" code={@code_5}>
+            <.device_mockup type="laptop">
+              <.custom_component_list id="ex-4" grids="grid-cols-2" space="py-6" />
+            </.device_mockup>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="mockup-imac">
+            <.link patch={~p"/chelekom/docs/device-mockup/#mockup-imac"}>
+              iMac prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The DeviceMockup component, when set to the imac type, allows developers to simulate an iMac display within their applications. This mockup offers a large, high-resolution screen frame, ideal for showcasing intricate designs, web apps, or detailed product demos that require more screen real estate. With customizable color themes, support for images, and flexible content slots, the iMac mockup provides a sleek, professional presentation that mirrors the premium experience of an actual iMac, making it perfect for high-end app previews or multimedia displays.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" code={@code_6}>
+            <.device_mockup type="imac">
+              <.custom_component_list id="ex-5" grids="grid-cols-2" space="py-6" />
+            </.device_mockup>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="mockup-color-prop">
+            <.link patch={~p"/chelekom/docs/device-mockup/#mockup-color-prop"}>
+              Color prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The DeviceMockup component offers a variety of color themes to help match your design needs. You can choose from classic options like <.custom_inline_code>natural</.custom_inline_code>, and
+            <.custom_inline_code>silver</.custom_inline_code>
+            or opt for more vibrant themes such as <.custom_inline_code>primary</.custom_inline_code>, <.custom_inline_code>secondary</.custom_inline_code>, and <.custom_inline_code>success</.custom_inline_code>. For alert-style mockups, you can use <.custom_inline_code>warning</.custom_inline_code>, <.custom_inline_code>danger</.custom_inline_code>, or <.custom_inline_code>info</.custom_inline_code>. Additionally, unique options like
+            <.custom_inline_code>misc</.custom_inline_code>
+            and
+            <.custom_inline_code>dawn</.custom_inline_code>
+            are available to add a more customized touch.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" code={@code_9} elements_class="space-y-4">
+            <.device_mockup>
+              <.custom_component_list id="ex-6" grids="grid-cols-1" space="py-6" />
+            </.device_mockup>
+            <.device_mockup type="android" color="info">
+              <.custom_component_list id="ex-7" grids="grid-cols-1" space="py-6" />
+            </.device_mockup>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="mockup-image-props">
+            <.link patch={~p"/chelekom/docs/device-mockup/#mockup-image-props"}>
+              Image related props
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The image prop allows you to display an image within every mockup type, whether it's an iPhone, Android, iPad, or other devices. You can easily control how the image looks with the image_class prop by adding custom CSS classes for styling and responsiveness. The alt prop ensures the image has an accessible description for users and search engines. You should consider an image sized perfectly for the mockup to ensure it displays correctly and maintains a professional look.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" code={@code_7}>
+            <.device_mockup type="imac" color="danger">
+              <.custom_component_list id="ex-8" grids="grid-cols-2" space="py-6" />
+            </.device_mockup>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="mockup-content">
+            <.link patch={~p"/chelekom/docs/device-mockup/#mockup-content"}>
+              Embed Any UI Inside Device Mockups
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The DeviceMockup component allows you to insert any HTML content within the mockup, regardless of the device type you choose. Whether you're working with an iPhone, Android, iPad, or iMac mockup, you can add custom content such as text, images, buttons, or even complex layouts inside the device frame. This flexibility makes it ideal for showcasing app interfaces, media, or any other content, providing a realistic and engaging presentation for your application.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" code={@code_8}>
+            <.device_mockup>
+              <div class=" h-full pt-8 pb-2 px-4 space-y-3 text-neutral-700 dark:text-[#f1f1f1]">
+                <div class="space-y-1">
+                  <div class="text-sm font-medium">Name</div>
+                  <div class="w-full h-10 select-none rounded-lg border bg-gray-200 px-2 flex items-center leading-0 text-gray-400">
+                    Enter your name
+                  </div>
+                </div>
+                <div class="space-y-1">
+                  <div class="text-sm font-medium">Family</div>
+                  <div class="w-full h-10 select-none rounded-lg border bg-gray-200 px-2 flex items-center leading-0 text-gray-400">
+                    Enter your famlily
+                  </div>
+                </div>
+                <div class="space-y-1">
+                  <div class="text-sm font-medium">Job title</div>
+                  <div class="w-full h-10 select-none rounded-lg border bg-gray-200 px-2 flex items-center leading-0 text-gray-400">
+                    Enter your job title
+                  </div>
+                </div>
+                <div class="space-y-1">
+                  <div class="text-sm font-medium">Graduation Date</div>
+                  <div class="w-full h-10 select-none rounded-lg border bg-gray-200 px-2 flex items-center leading-0 text-gray-400">
+                    Select a date
+                  </div>
+                </div>
+                <div class="space-y-5">
+                  <div class="text-neutral-500 dark:text-neutral-200 text-xs">
+                    By signing up you accepted terms of services
+                  </div>
+                  <div class="py-1.5 w-full px-1 text-center bg-teal-500 text-white rounded-lg">
+                    Sign up
+                  </div>
+                </div>
+              </div>
+            </.device_mockup>
+          </.custom_code_wrapper>
+        </:documentation_panel>
+
+        <:props_panel>
+          <.custom_search class="mb-16" />
+          <div class="space-y-8">
+            <h2 class="text-lg lg:text-2xl font-bold">DeviceMockup component props</h2>
+
+            <.custom_table id="device-mockup-component-table">
+              <:header>
+                <.table_th>Name</.table_th>
+
+                <.table_th>Type</.table_th>
+
+                <.table_th>Required</.table_th>
+
+                <.table_th>Description</.table_th>
+              </:header>
+
+              <:row>
+                <.table_td>id</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  A unique identifier is used to manage state and interaction.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>class</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Custom CSS class for additional styling.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>color</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines the color theme of the device mockup. Supported values: <strong>base</strong>, <strong>natural</strong>, <strong>primary</strong>, <strong>secondary</strong>, <strong>success</strong>, <strong>warning</strong>, <strong>danger</strong>, <strong>info</strong>, <strong>misc</strong>, <strong>dawn</strong>, <strong>silver</strong>. Default: <strong>silver</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>alt</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Media link description (alt text).</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>type</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Specifies the type of the device mockup. Supported values: <strong>iphone</strong>, <strong>android</strong>, <strong>watch</strong>, <strong>laptop</strong>, <strong>ipad</strong>, <strong>imac</strong>. Default: <strong>iphone</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>image</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Image displayed inside the device mockup.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>image_class</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Custom CSS class for the image inside the mockup.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>iphone</.table_td>
+
+                <.table_td>boolean</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Specifies if the mockup should display an iPhone device.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>android</.table_td>
+
+                <.table_td>boolean</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Specifies if the mockup should display an Android device.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>watch</.table_td>
+
+                <.table_td>boolean</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Specifies if the mockup should display a Watch device.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>laptop</.table_td>
+
+                <.table_td>boolean</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Specifies if the mockup should display a Laptop device.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>ipad</.table_td>
+
+                <.table_td>boolean</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Specifies if the mockup should display an iPad device.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>imac</.table_td>
+
+                <.table_td>boolean</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Specifies if the mockup should display an iMac device.</.table_td>
+              </:row>
+            </.custom_table>
+          </div>
+        </:props_panel>
+
+        <:cli_panel>
+          <.custom_cli_props config={component_config()} />
+        </:cli_panel>
+
+        <.custom_table_content>
+          <:content
+            link={~p"/chelekom/docs/device-mockup/#overview"}
+            title="Overview of the device-mockup component"
+          />
+          <:content link={~p"/chelekom/docs/device-mockup/#mockup-iphone"} title="iPhone" />
+          <:content link={~p"/chelekom/docs/device-mockup/#mockup-android"} title="Android" />
+          <:content link={~p"/chelekom/docs/device-mockup/#mockup-watch"} title="Watch" />
+          <:content link={~p"/chelekom/docs/device-mockup/#mockup-ipad"} title="iPad" />
+          <:content link={~p"/chelekom/docs/device-mockup/#mockup-laptop"} title="Laptop" />
+          <:content link={~p"/chelekom/docs/device-mockup/#mockup-imac"} title="iMac" />
+          <:content link={~p"/chelekom/docs/device-mockup/#mockup-color-prop"} title="Color prop" />
+          <:content
+            link={~p"/chelekom/docs/device-mockup/#mockup-image-props"}
+            title="Image props"
+          />
+
+          <:content link={~p"/chelekom/docs/device-mockup/#mockup-content"} title="Embed UIs" />
+        </.custom_table_content>
+      </.custom_tab>
+    </div>
+  </div>
+</Layouts.app>

@@ -1,0 +1,349 @@
+<Layouts.app flash={@flash}>
+  <div class="lg:grid lg:grid-cols-12 mt-5 max-w-5xl mx-auto">
+    <.custom_nav active="chelekom-docs-indicator" />
+    <div class="lg:col-span-10">
+      <.custom_info
+        title="Indicator"
+        description="Flexible indicator component for Phoenix LiveView that visually highlights status updates, notifications, or key UI elements with customizable size, color, and position options."
+        mix="mix mishka.ui.gen.component indicator"
+        github="https://github.com/mishka-group/mishka_chelekom/blob/master/priv/components/indicator.eex"
+        tags={["Component", "Stateless"]}
+      />
+      <.custom_tab id="chelekom-indicator-tab">
+        <:documentation_panel>
+          <.heading2 class="mb-5" id="overview">
+            <.link patch={~p"/chelekom/docs/indicator/#overview"}>
+              Overview of the Phoenix and LiveView Indicator Component
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <strong>
+              Mishka Chelekom Indicator
+            </strong>
+            component is a <strong>Phoenix LiveView</strong>
+            component that provides a versatile way to visually highlight specific areas or elements in your application.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-sm">
+            <div class="flex flex-wrap items-center gap-8 mb-10">
+              <.indicator color="base" size="extra_small" />
+              <.indicator color="natural" size="extra_small" />
+              <.indicator color="primary" size="medium" />
+              <.indicator color="secondary" size="medium" />
+              <.indicator color="warning" size="large" />
+              <.indicator color="misc" size="large" />
+              <.indicator color="dawn" size="extra_large" />
+              <.indicator color="info" size="extra_large" />
+              <.indicator color="success" size="extra_large" />
+              <.indicator color="primary" pinging size="extra_small" />
+              <.indicator color="danger" pinging size="small" />
+              <.indicator color="warning" pinging size="medium" />
+              <.indicator color="misc" pinging size="large" />
+              <.indicator color="dawn" pinging size="extra_large" />
+            </div>
+            <div class="flex flex-wrap gap-3">
+              <div class="relative" role="button">
+                <div class="rounded-md before:rounded overflow-hidden px-5 py-1.5 text-[13px] [&>*]:relative [&>*]:z-[1] relative bg-gradient-to-br hover:bg-gradient-to-bl from-[#016974] to-[#01B8CA] text-[#007F8C] hover:text-[#016974] dark:from-[#01B8CA] dark:to-[#B0E7EF] dark:text-[#01B8CA] dark:hover:text-[#77D5E3] before:bg-white dark:before:bg-[#282828] before:absolute before:inset-[2px] before:z-0">
+                  <span class="z-[1]">Pinging Indicator</span>
+                </div>
+                <.indicator color="info" pinging size="medium" top_left />
+              </div>
+
+              <div class="relative" role="button">
+                <div class="rounded-md before:rounded overflow-hidden px-5 py-1.5 text-[13px] [&>*]:relative [&>*]:z-[1] relative bg-gradient-to-br hover:bg-gradient-to-bl from-[#175BCC] to-[#6DAAFB] text-[#266EF1] hover:text-[#175BCC] dark:from-[#6DAAFB] dark:to-[#CDDEFF] dark:text-[#6DAAFB] dark:hover:text-[#A9C9FF] before:bg-white dark:before:bg-[#282828] before:absolute before:inset-[2px] before:z-0">
+                  <span class="z-[1]">Pinging Indicator</span>
+                </div>
+                <.indicator color="secondary" pinging size="medium" bottom_left />
+              </div>
+
+              <div class="relative" role="button">
+                <div class="rounded-md before:rounded overflow-hidden px-5 py-1.5 text-[13px] [&>*]:relative [&>*]:z-[1] relative bg-gradient-to-br hover:bg-gradient-to-bl from-[#BB032A] to-[#FC7F79] text-[#DE1135] hover:text-[#BB032A] dark:from-[#FC7F79] dark:to-[#FFD2CD] dark:text-[#FC7F79] dark:hover:text-[#FFB2AB] before:bg-white dark:before:bg-[#282828] before:absolute before:inset-[2px] before:z-0">
+                  <span class="z-[1]">Pinging Indicator</span>
+                </div>
+                <.indicator color="danger" pinging size="medium" top_right />
+              </div>
+
+              <div class="relative" role="button">
+                <div class="rounded-md before:rounded overflow-hidden px-5 py-1.5 text-[13px] [&>*]:relative [&>*]:z-[1] relative bg-gradient-to-br hover:bg-gradient-to-bl from-[#653C94] to-[#BA83F9] text-[#8750C5] hover:text-[#653C94] dark:from-[#BA83F9] dark:to-[#DDC1FC] dark:text-[#BA83F9] dark:hover:text-[#CBA2FA] before:bg-white dark:before:bg-[#282828] before:absolute before:inset-[2px] before:z-0">
+                  <span class="z-[1]">Pinging Indicator</span>
+                </div>
+                <.indicator color="misc" pinging size="medium" bottom_right />
+              </div>
+            </div>
+          </.custom_code_wrapper>
+
+          <.cp margin="mt-5">
+            This
+            <strong>
+              <.link
+                title="Phoenix LiveView component"
+                class="transition-colors hover:text-[#448D96]"
+                navigate={~p"/chelekom"}
+              >
+                Phoenix LiveView component
+              </.link>
+            </strong>
+            allows developers to easily customize the size, color, and position of the indicator. With options for ping animations and various positions around the parent element, you can create dynamic visual cues to enhance the user experience without writing extensive CSS.
+          </.cp>
+
+          <.custom_block position="left" color="success" class="my-8" border="medium">
+            <.cp>
+              By using the class prop, you can apply custom classes or Tailwind CSS classes to customize the appearance and behavior of the components, allowing for flexible design changes.
+            </.cp>
+          </.custom_block>
+
+          <.heading2 class="mb-5" id="indicator-color-prop">
+            <.link patch={~p"/chelekom/docs/indicator/#indicator-color-prop"}>
+              Color prop in Phoenix LiveView indicator component
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            color
+            prop for the
+            <.custom_inline_code>indicator</.custom_inline_code>
+            component allows you to choose from a wide range of predefined color options to customize the visual appearance of the indicator. You can select from colors such as <.custom_inline_code>base</.custom_inline_code>, <.custom_inline_code>natural</.custom_inline_code>, <.custom_inline_code>white</.custom_inline_code>, <.custom_inline_code>primary</.custom_inline_code>, <.custom_inline_code>secondary</.custom_inline_code>, <.custom_inline_code>dark</.custom_inline_code>, <.custom_inline_code>success</.custom_inline_code>, <.custom_inline_code>warning</.custom_inline_code>, <.custom_inline_code>danger</.custom_inline_code>, <.custom_inline_code>info</.custom_inline_code>, <.custom_inline_code>silver</.custom_inline_code>, <.custom_inline_code>misc</.custom_inline_code>, and <.custom_inline_code>dawn</.custom_inline_code>. These colors allow you to seamlessly align the indicator's appearance with the overall design of your application, ensuring a cohesive and visually consistent user interface.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-sm" code={@code_1}>
+            <div class="flex gap-10 items-center">
+              <.indicator id="indicator-example-5erwe" size="extra_small" />
+              <.indicator id="indicator-example-5" color="natural" size="extra_small" />
+              <.indicator id="indicator-example-100" color="white" size="extra_small" />
+              <.indicator id="indicator-example-6" color="primary" size="extra_small" />
+              <.indicator id="indicator-example-7" color="secondary" size="extra_small" />
+              <.indicator id="indicator-example-8" color="dark" size="extra_small" />
+              <.indicator id="indicator-example-9" color="success" size="large" />
+              <.indicator id="indicator-example-10" color="warning" size="large" />
+              <.indicator id="indicator-example-35" color="danger" size="large" />
+              <.indicator id="indicator-example-36" color="info" size="large" />
+              <.indicator id="indicator-example-37" color="silver" size="extra_small" />
+              <.indicator id="indicator-example-38" color="misc" size="extra_small" />
+              <.indicator id="indicator-example-39" color="dawn" size="extra_small" />
+            </div>
+          </.custom_code_wrapper>
+
+          <.heading2 class="mb-5" id="indicator-pinging-prop">
+            <.link patch={~p"/chelekom/docs/indicator/#indicator-pinging-prop"}>
+              Pinging prop of Phoenix LiveView indicator component
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The pinging prop in the indicator component is a boolean that adds an animated ping effect to the indicator when set to true. By default, the pinging prop is set to false, meaning no animation is applied. When enabled, the pinging effect creates a subtle pulse around the indicator, drawing attention to it and making it ideal for situations where you need to highlight notifications or status updates. This visual cue can help users easily identify important elements on the page without overwhelming the overall design.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-sm" code={@code_2}>
+            <div class="flex gap-10 items-center">
+              <.indicator id="indicator-example-14" color="danger" size="extra_small" pinging />
+              <.indicator id="indicator-example-11" color="misc" size="extra_small" pinging />
+              <.indicator id="indicator-example-12" size="extra_small" pinging />
+              <.indicator id="indicator-example-13" color="warning" size="large" pinging />
+            </div>
+          </.custom_code_wrapper>
+
+          <.heading2 class="my-5" id="indicator-size-prop">
+            <.link patch={~p"/chelekom/docs/indicator/#indicator-size-prop"}>
+              Size prop in Phoenix LiveView indicator component
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <.custom_inline_code>size</.custom_inline_code>
+            prop for the
+            <.custom_inline_code>indicator</.custom_inline_code>
+            component provides several options to control the dimensions of the indicator. You can choose from sizes like <.custom_inline_code>extra_small</.custom_inline_code>, <.custom_inline_code>small</.custom_inline_code>, <.custom_inline_code>medium</.custom_inline_code>, <.custom_inline_code>large</.custom_inline_code>, and <.custom_inline_code>extra_large</.custom_inline_code>. This flexibility allows you to adjust the indicator's size to suit different use cases, whether it's a small notification dot or a large visual cue to grab attention.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-sm" code={@code_3}>
+            <div class="flex gap-5 items-center">
+              <.indicator id="indicator-example-19" size="large" />
+              <.indicator id="indicator-example-16" color="primary" size="extra_small" />
+              <.indicator id="indicator-example-17" color="dawn" size="small" />
+              <.indicator id="indicator-example-18" color="misc" size="medium" />
+              <.indicator id="indicator-example-20" color="silver" size="extra_large" />
+            </div>
+          </.custom_code_wrapper>
+
+          <.heading2 class="my-5" id="indicator-position-prop">
+            <.link patch={~p"/chelekom/docs/indicator/#indicator-position-prop"}>
+              Indicator position prop of Phoenix LiveView indicator component
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <.custom_inline_code>@indicator_positions</.custom_inline_code>
+            prop in the indicator component provides several options for positioning the indicator around its parent element. You can select from the following positions:
+            <ul class="list-disc px-10">
+              <li>
+                <.custom_inline_code>top_left</.custom_inline_code>
+              </li>
+              <li>
+                <.custom_inline_code>top_center</.custom_inline_code>
+              </li>
+              <li>
+                <.custom_inline_code>top_right</.custom_inline_code>
+              </li>
+              <li>
+                <.custom_inline_code>middle_left</.custom_inline_code>
+              </li>
+              <li>
+                <.custom_inline_code>middle_right</.custom_inline_code>
+              </li>
+              <li>
+                <.custom_inline_code>bottom_left</.custom_inline_code>
+              </li>
+              <li>
+                <.custom_inline_code>bottom_center</.custom_inline_code>
+              </li>
+              <li>
+                <.custom_inline_code>bottom_right</.custom_inline_code>
+              </li>
+            </ul>
+            This flexibility allows you to place the indicator in the most appropriate location, depending on the design and user interaction, whether you need the visual cue at the top, middle, or bottom of an element.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-sm" code={@code_5}>
+            <div class="flex justify-center text-zinc-50 items-center relative bg-zinc-500 rounded w-60 h-20 mx-auto">
+              <span>Indicator Wrapper</span>
+              <.indicator id="indicator-example-27" color="info" pinging size="medium" top_left />
+              <.indicator id="indicator-example-28" color="dawn" size="medium" top_center />
+              <.indicator id="indicator-example-29" color="misc" pinging size="medium" top_right />
+              <.indicator id="indicator-example-30" color="primary" size="medium" middle_left />
+              <.indicator id="indicator-example-31" color="silver" size="medium" middle_right />
+              <.indicator
+                id="indicator-example-32"
+                color="success"
+                pinging
+                size="medium"
+                bottom_left
+              />
+              <.indicator id="indicator-example-33" color="secondary" size="medium" bottom_center />
+              <.indicator
+                id="indicator-example-34"
+                color="warning"
+                pinging
+                size="medium"
+                bottom_right
+              />
+            </div>
+          </.custom_code_wrapper>
+        </:documentation_panel>
+
+        <:props_panel>
+          <.custom_search class="mb-16" />
+          <div class="space-y-8">
+            <h2 class="text-lg lg:text-2xl font-bold">Indicator component props</h2>
+
+            <.custom_table id="indicator-component-table">
+              <:header>
+                <.table_th>Name</.table_th>
+
+                <.table_th>Type</.table_th>
+
+                <.table_th>Required</.table_th>
+
+                <.table_th>Description</.table_th>
+              </:header>
+
+              <:row>
+                <.table_td>id</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  A unique identifier is used to manage state and interaction.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>size</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines the overall size of the elements, including padding and font size. Values: <strong>extra_small</strong>, <strong>small</strong>, <strong>medium</strong>, <strong>large</strong>, <strong>extra_large</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>class</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Custom CSS class for additional styling.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>color</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines the color theme of the indicator. Values: <strong>base</strong>, <strong>white</strong>, <strong>natural</strong>, <strong>primary</strong>, <strong>secondary</strong>, <strong>dark</strong>, <strong>success</strong>, <strong>warning</strong>, <strong>danger</strong>, <strong>info</strong>, <strong>silver</strong>, <strong>misc</strong>, <strong>dawn</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>pinging</.table_td>
+
+                <.table_td>boolean</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Enables a pinging animation to draw attention to the indicator.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>position</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines the position of the indicator relative to the parent element. Values: <strong>top_left</strong>, <strong>top_center</strong>, <strong>top_right</strong>, <strong>middle_left</strong>, <strong>middle_right</strong>, <strong>bottom_left</strong>, <strong>bottom_center</strong>, <strong>bottom_right</strong>.
+                </.table_td>
+              </:row>
+            </.custom_table>
+          </div>
+        </:props_panel>
+
+        <:cli_panel>
+          <.custom_cli_props config={component_config()} />
+        </:cli_panel>
+        <.custom_table_content>
+          <:content
+            link={~p"/chelekom/docs/indicator/#overview"}
+            title="Overview of the indicator component"
+          />
+          <:content link={~p"/chelekom/docs/indicator/#indicator-color-prop"} title="Color prop" />
+          <:content
+            link={~p"/chelekom/docs/indicator/#indicator-pinging-prop"}
+            title="Pinging prop"
+          />
+          <:content link={~p"/chelekom/docs/indicator/#indicator-size-prop"} title="Size prop" />
+          <:content
+            link={~p"/chelekom/docs/indicator/#indicator-position-prop"}
+            title="Indicator position prop"
+          />
+        </.custom_table_content>
+      </.custom_tab>
+    </div>
+  </div>
+</Layouts.app>

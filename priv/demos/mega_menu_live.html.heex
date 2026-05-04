@@ -1,0 +1,1766 @@
+<Layouts.app flash={@flash}>
+  <div class="lg:grid lg:grid-cols-12 mt-5 max-w-5xl mx-auto">
+    <.custom_nav active="chelekom-docs-mega-menu" />
+    <div class="lg:col-span-10">
+      <.custom_info
+        title="Mega Menu"
+        description="Mega menu component for Phoenix and Phoenix LiveView, serving as a full-width dropdown in the navbar to display an organized list of menu items with customizable sizes, variants, and styles."
+        mix="mix mishka.ui.gen.component mega_menu"
+        github="https://github.com/mishka-group/mishka_chelekom/blob/master/priv/components/mega_menu.eex"
+        tags={["Component", "Stateless", "JS-module"]}
+      />
+      <.custom_tab id="chelekom-mega-menu-tab">
+        <:documentation_panel>
+          <.heading2 class="mb-5" id="overview">
+            <.link patch={~p"/chelekom/docs/mega-menu/#overview"}>
+              Overview of the Phoenix LiveView Mega Menu Component
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <strong>
+              Mishka Chelekom mega menu
+            </strong>
+            component is a highly customizable <strong>Phoenix LiveView</strong>
+            tool designed for creating dynamic, multi-level navigation systems.
+          </.cp>
+
+          <.custom_code_wrapper>
+            <div class="relative w-full flex justify-center gap-5 items-center">
+              <.mega_menu
+                space="small"
+                rounded="large"
+                padding="extra_small"
+                top_gap="large"
+                id="mega-menu-example-3488"
+              >
+                <:trigger>
+                  <.button variant="outline" size="leading-5 py-2 px-4" color="natural">
+                    Features
+                  </.button>
+                </:trigger>
+
+                <div class="lg:flex justify-between ">
+                  <div class="p-0 pr-4 lg:flex lg:justify-between lg:w-2/3">
+                    <ul class="text-sm text-gray-700  " aria-labelledby="dropdownLargeButton">
+                      <h6 class="font-medium text-sm text-gray-500 mb-2">Features</h6>
+                      <li class="">
+                        <span class="cursor-pointer px-3 py-5 transition-all duration-500 hover:bg-gray-50 dark:hover:bg-slate-600 rounded-xl flex  ">
+                          <div class="rounded-lg w-12 h-12 flex  justify-center">
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              width="26"
+                              height="26"
+                              fill="none"
+                            >
+                              <path
+                                fill="#F59E0B"
+                                d="M20.412 9.009v.9-.9Zm3.421-3.421h.9-.9Zm-3.42-3.421v-.9.9Zm-3.422 3.42h-.9.9ZM13 4.208a.9.9 0 1 0 0-1.8v1.8Zm10.593 9.363a.9.9 0 0 0-1.8 0h1.8Zm-16.01-.387a.9.9 0 1 0 0 1.8v-1.8Zm5.417 1.8a.9.9 0 0 0 0-1.8v1.8Zm-5.417 2.534a.9.9 0 1 0 0 1.8v-1.8Zm9.75 1.8a.9.9 0 0 0 0-1.8v1.8Zm3.08-9.408a4.321 4.321 0 0 0 3.055-1.266L22.195 7.37a2.521 2.521 0 0 1-1.783.739v1.8Zm3.055-1.266a4.321 4.321 0 0 0 1.265-3.055h-1.8c0 .668-.265 1.31-.738 1.782l1.273 1.273Zm1.265-3.055a4.321 4.321 0 0 0-1.265-3.056l-1.273 1.273c.473.473.738 1.114.738 1.783h1.8Zm-1.265-3.056a4.321 4.321 0 0 0-3.056-1.266v1.8c.669 0 1.31.266 1.783.739l1.273-1.273Zm-3.056-1.266a4.32 4.32 0 0 0-3.055 1.266l1.273 1.273a2.521 2.521 0 0 1 1.782-.739v-1.8Zm-3.055 1.266a4.32 4.32 0 0 0-1.266 3.056h1.8c0-.67.266-1.31.739-1.783l-1.273-1.273ZM16.09 5.588a4.32 4.32 0 0 0 1.266 3.055L18.63 7.37a2.521 2.521 0 0 1-.739-1.782h-1.8Zm1.266 3.055a4.32 4.32 0 0 0 3.055 1.266v-1.8c-.668 0-1.31-.266-1.782-.739l-1.273 1.273ZM13 2.407H7.583v1.8H13v-1.8ZM1.267 8.724v9.692h1.8V8.724h-1.8Zm6.316 16.01h9.693v-1.8H7.583v1.8Zm16.01-6.318V13.57h-1.8v4.846h1.8Zm-6.317 6.317a6.317 6.317 0 0 0 6.317-6.317h-1.8a4.517 4.517 0 0 1-4.517 4.517v1.8Zm-16.01-6.317a6.317 6.317 0 0 0 6.317 6.317v-1.8a4.517 4.517 0 0 1-4.516-4.517h-1.8Zm6.317-16.01a6.317 6.317 0 0 0-6.317 6.318h1.8a4.517 4.517 0 0 1 4.517-4.517v-1.8Zm0 12.577H13v-1.8H7.583v1.8Zm0 4.334h9.75v-1.8h-9.75v1.8Z"
+                              />
+                            </svg>
+                          </div>
+                          <div class="ms-4 w-4/5">
+                            <h5 class="text-gray-900 dark:text-white text-base mb-1.5 font-semibold">
+                              Notification
+                            </h5>
+                            <p class="text-xs font-medium text-gray-400">
+                              Real time notification always keep you up to date in realtime
+                            </p>
+                          </div>
+                        </span>
+                      </li>
+                      <li class="">
+                        <span class="cursor-pointer px-3 py-5 hover:bg-gray-50 dark:hover:bg-slate-600 rounded-xl flex transition-all duration-500">
+                          <div class=" rounded-lg w-12 h-12 flex  justify-center">
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              width="26"
+                              height="26"
+                              fill="none"
+                            >
+                              <path
+                                stroke="#10B981"
+                                stroke-linecap="round"
+                                stroke-width="1.8"
+                                d="M7.584 19.662V17.42m5.546 2.242v-4.485m5.547 4.486v-6.739m-.802-5.882c-2.762 3.228-6.164 5.395-10.291 6.424M15.167 6.5h1.25c.943 0 1.414 0 1.707.293.293.293.293.764.293 1.707v1.25m-8.25-7.583h5.667c3.77 0 5.656 0 6.828 1.171 1.172 1.172 1.172 3.057 1.172 6.829v5.666c0 3.771 0 5.657-1.172 6.829-1.172 1.171-3.057 1.171-6.828 1.171h-5.667c-3.771 0-5.657 0-6.828-1.171-1.172-1.172-1.172-3.058-1.172-6.829v-5.667c0-3.77 0-5.656 1.172-6.828 1.171-1.171 3.057-1.171 6.828-1.171Z"
+                              />
+                            </svg>
+                          </div>
+                          <div class="ms-4 w-4/5">
+                            <h5 class="text-gray-900 dark:text-white text-base mb-1.5 font-semibold">
+                              Analytics
+                              <span class="cursor-pointer bg-indigo-50 text-indigo-500 text-[11px] font-medium px-1.5 py-0.5 rounded-full h-5 ms-2">
+                                New
+                              </span>
+                            </h5>
+                            <p class="text-xs font-medium text-gray-400">
+                              Analyze data to make more informed business decision
+                            </p>
+                          </div>
+                        </span>
+                      </li>
+                      <li class="">
+                        <span class="cursor-pointer px-3 py-5 hover:bg-gray-50 dark:hover:bg-slate-600 rounded-xl flex transition-all duration-500">
+                          <div class=" rounded-lg w-12 h-12 flex  justify-center">
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              width="26"
+                              height="26"
+                              fill="none"
+                            >
+                              <path
+                                stroke="#3B82F6"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                stroke-width="1.8"
+                                d="M16.239 18.958h1.636c3.271 0 5.958-2.676 5.958-5.958 0-3.272-2.676-5.958-5.958-5.958h-1.636m-6.49 0H8.126A5.969 5.969 0 0 0 2.167 13c0 3.271 2.675 5.958 5.958 5.958H9.75M8.666 13h8.667"
+                              />
+                            </svg>
+                          </div>
+                          <div class="ms-4 w-4/5">
+                            <h5 class="text-gray-900 dark:text-white text-base mb-1.5 font-semibold">
+                              Integrations
+                            </h5>
+                            <p class="text-xs font-medium text-gray-400">
+                              Get started by taking advantage of integration with other services
+                            </p>
+                          </div>
+                        </span>
+                      </li>
+                    </ul>
+                    <ul
+                      class="text-sm text-gray-700 dark:text-gray-400"
+                      aria-labelledby="dropdownLargeButton"
+                    >
+                      <h6 class="font-medium text-sm text-gray-500 mb-2">Services</h6>
+                      <li class="">
+                        <span class="cursor-pointer px-3 py-5 hover:bg-gray-50 dark:hover:bg-slate-600 rounded-xl flex transition-all duration-500">
+                          <div class="rounded-lg w-12 h-12 flex  justify-center">
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              width="26"
+                              height="26"
+                              fill="none"
+                            >
+                              <path
+                                stroke="#F43F5E"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                stroke-width="1.8"
+                                d="M12.458 13.743a2.708 2.708 0 1 0 0-5.417 2.708 2.708 0 0 0 0 5.417Zm0 0v4.333M3.25 11.463v1.74c0 2.125 0 3.188.457 4.103.457.915 1.307 1.552 3.007 2.828l.715.537c2.505 1.88 3.758 2.82 5.203 2.82 1.445 0 2.698-.94 5.202-2.82l.716-.537c1.7-1.276 2.55-1.913 3.007-2.828.457-.915.457-1.978.457-4.103v-1.74c0-2.832 0-4.247-.74-5.346-.742-1.098-2.054-1.629-4.68-2.69l-.715-.289c-1.603-.648-2.404-.971-3.247-.971s-1.644.323-3.247.971l-.716.29c-2.625 1.06-3.938 1.591-4.678 2.69-.741 1.097-.741 2.513-.741 5.345Z"
+                              />
+                            </svg>
+                          </div>
+                          <div class="ms-4 w-4/5">
+                            <h5 class="text-gray-900 dark:text-white text-base mb-1.5 font-semibold">
+                              Security
+                            </h5>
+                            <p class="text-xs font-medium text-gray-400">
+                              To ensure your privacy information are encrypted
+                            </p>
+                          </div>
+                        </span>
+                      </li>
+                      <li class="">
+                        <span class="cursor-pointer px-3 py-5 hover:bg-gray-50 dark:hover:bg-slate-600 rounded-xl flex transition-all duration-500">
+                          <div class=" rounded-lg w-12 h-12 flex  justify-center">
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              width="26"
+                              height="26"
+                              fill="none"
+                            >
+                              <path
+                                stroke="#4F46E5"
+                                stroke-linecap="round"
+                                stroke-width="1.8"
+                                d="M6.5 14.083h8.667M6.5 17.333h4.333m3.972-14.805v4.694c0 1.197.97 2.167 2.166 2.167h4.695m-7.758-7.222H7.25c-1.886 0-2.828 0-3.414.585-.586.586-.586 1.529-.586 3.415v15.5c0 1.196.97 2.166 2.167 2.166h12.61c1.886 0 2.83 0 3.415-.586.586-.585.586-1.528.586-3.414v-9.547c0-.574-.229-1.126-.635-1.532L15.44 2.801a2.167 2.167 0 0 0-1.532-.635Z"
+                              />
+                            </svg>
+                          </div>
+                          <div class="ms-4 w-4/5">
+                            <h5 class="text-gray-900 dark:text-white text-base mb-1.5 font-semibold">
+                              Documentation
+                            </h5>
+                            <p class="text-xs font-medium text-gray-400">
+                              Organized documentation will help you save time
+                            </p>
+                          </div>
+                        </span>
+                      </li>
+                      <li class="">
+                        <span class="cursor-pointer px-3 py-5 hover:bg-gray-50 dark:hover:bg-slate-600 rounded-xl flex transition-all duration-500">
+                          <div class=" rounded-lg w-12 h-12 flex  justify-center">
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              width="26"
+                              height="26"
+                              fill="none"
+                            >
+                              <path
+                                fill="#06B6D4"
+                                d="M3.975 15.166a.9.9 0 1 0 1.8 0h-1.8Zm16.25-1.625v1.625h1.8v-1.625h-1.8Zm-14.45 1.625v-1.625h-1.8v1.625h1.8ZM13 6.316a7.225 7.225 0 0 1 7.225 7.225h1.8A9.025 9.025 0 0 0 13 4.518v1.8Zm0-1.8a9.025 9.025 0 0 0-9.025 9.025h1.8A7.225 7.225 0 0 1 13 6.316v-1.8Zm-6.263 9.75h-1.32v1.8h1.32v-1.8Zm-1.32 8.3h1.32v-1.8h-1.32v1.8Zm2.524-1.204v-5.89h-1.8v5.89h1.8Zm-1.204 1.205c.665 0 1.204-.54 1.204-1.205h-1.8c0-.329.267-.595.596-.595v1.8Zm-5.47-4.15a4.15 4.15 0 0 0 4.15 4.15v-1.8a2.35 2.35 0 0 1-2.35-2.35h-1.8Zm4.15-4.15a4.15 4.15 0 0 0-4.15 4.15h1.8a2.35 2.35 0 0 1 2.35-2.35v-1.8Zm1.32 1.8a.595.595 0 0 1-.596-.596h1.8c0-.665-.539-1.204-1.204-1.204v1.8Zm12.526 0h1.32v-1.8h-1.32v1.8Zm1.32 4.7h-1.32v1.8h1.32v-1.8Zm-.725.595v-5.89h-1.8v5.89h1.8Zm-.595-.595c.329 0 .595.266.595.595h-1.8c0 .665.54 1.205 1.205 1.205v-1.8Zm3.67-2.35a2.35 2.35 0 0 1-2.35 2.35v1.8a4.15 4.15 0 0 0 4.15-4.15h-1.8Zm-2.35-2.35a2.35 2.35 0 0 1 2.35 2.35h1.8a4.15 4.15 0 0 0-4.15-4.15v1.8Zm-1.32-1.8c-.666 0-1.205.539-1.205 1.204h1.8a.595.595 0 0 1-.595.596v-1.8Z"
+                              />
+                            </svg>
+                          </div>
+                          <div class="ms-4 w-4/5">
+                            <h5 class="text-gray-900 dark:text-white text-base mb-1.5 font-semibold">
+                              Support
+                            </h5>
+                            <p class="text-xs font-medium text-gray-400">
+                              Need help? our customer support is here to help you anytime
+                            </p>
+                          </div>
+                        </span>
+                      </li>
+                    </ul>
+                  </div>
+                  <div class="bg-gray-50 dark:bg-slate-900 px-3 lg:w-2/6 rounded-md">
+                    <h6 class="font-medium text-sm text-gray-500 dark:text-gray-300 mb-5">
+                      Latest Headline
+                    </h6>
+                    <div class="py-3">
+                      <div class="mb-6 relative">
+                        <img src={~p"/images/card-1.jpg"} alt="Latest Headline" class="w-72 h-36" />
+                      </div>
+                      <div class="block">
+                        <h5 class="text-gray-900 dark:text-white leading-7 text-[13px] font-bold mb-1.5">
+                          Join us for a Perfect Beach Getaway!
+                        </h5>
+                        <p class="text-[11px] font-medium text-gray-400 dark:text-gray-200 leading-6">
+                          Experience crystal-clear waters and pristine beaches at our exclusive beachfront destination.
+                        </p>
+                        <span class="cursor-pointer flex items-center mt-4 text-xs font-semibold dark:text-indigo-300 text-indigo-600">
+                          Learn more
+                          <svg
+                            class="ms-2 stroke-[#4F46E5] dark:stroke-indigo-300"
+                            width="14"
+                            height="14"
+                            viewBox="0 0 16 16"
+                            fill="none"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <path
+                              d="M2 8L12.6667 8M9.33333 12L12.8619 8.4714C13.0842 8.24918 13.1953 8.13807 13.1953 8C13.1953 7.86193 13.0842 7.75082 12.8619 7.5286L9.33333 4"
+                              stroke-width="1.6"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                            >
+                            </path>
+                          </svg>
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </.mega_menu>
+            </div>
+          </.custom_code_wrapper>
+
+          <.cp margin="mt-5">
+            This
+            <strong>
+              <.link
+                title="Phoenix LiveView component"
+                class="transition-colors hover:text-[#448D96]"
+                navigate={~p"/chelekom"}
+              >
+                Phoenix LiveView component
+              </.link>
+            </strong>
+            offers a range of customization features, such as hover or click-based activation, nested menu levels, and support for various menu states (e.g., expanded or collapsed). Its versatility ensures a smooth integration into any navigation-heavy website.
+          </.cp>
+
+          <.custom_block position="left" color="success" class="my-8" border="medium">
+            <.cp>
+              By using the class prop, you can apply custom classes or Tailwind CSS classes to customize the appearance and behavior of the components, allowing for flexible design changes.
+            </.cp>
+          </.custom_block>
+
+          <.heading2 margin="my-5" id="mega-menu-how-use">
+            <.link patch={~p"/chelekom/docs/mega-menu/#mega-menu-how-use"}>
+              How use mega menu component
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The Mishka Chelekom mega menu can be seamlessly integrated into a navbar component or any custom component by using its flexible
+            <.custom_inline_code>:trigger</.custom_inline_code>
+            slot. This allows the mega menu to be triggered on hover or click, depending on how you configure it. To ensure proper positioning of the menu relative to the trigger element, the wrapper of the mega menu should include the
+            <.custom_inline_code>relative</.custom_inline_code>
+            class. This setup ensures that the mega menu will appear dynamically when interacting with the trigger, providing a smooth and responsive multi-level navigation experience tailored to your application's needs.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" code={@code_1}>
+            <div class="relative w-full flex justify-center gap-5 items-center">
+              <.mega_menu
+                space="small"
+                rounded="large"
+                padding="extra_small"
+                top_gap="large"
+                id="mega-menu-example-13423"
+              >
+                <:trigger>
+                  <.button variant="outline" color="natural">MegaMenu</.button>
+                </:trigger>
+
+                <div class="grid md:grid-cols-2 lg:grid-cols-3">
+                  <ul class="space-y-4 sm:mb-4 md:mb-0">
+                    <li class="hover:underline hover:text-blue-600 cursor-pointer">
+                      Product Categories
+                    </li>
+                    <li class="hover:underline hover:text-blue-600 cursor-pointer">
+                      Customer Support
+                    </li>
+                    <li class="hover:underline hover:text-blue-600 cursor-pointer">
+                      About Us
+                    </li>
+                    <li class="hover:underline hover:text-blue-600 cursor-pointer">
+                      Contact
+                    </li>
+                  </ul>
+                  <ul class="hidden mb-4 space-y-4 md:mb-0 sm:block">
+                    <li class="hover:underline hover:text-blue-600 cursor-pointer">
+                      Blog
+                    </li>
+                    <li class="hover:underline hover:text-blue-600 cursor-pointer">
+                      Privacy Policy
+                    </li>
+                    <li class="hover:underline hover:text-blue-600 cursor-pointer">
+                      Terms of Service
+                    </li>
+                    <li class="hover:underline hover:text-blue-600 cursor-pointer">
+                      Documentation
+                    </li>
+                  </ul>
+                  <div class="mt-4 md:mt-0">
+                    <h2 class="mb-2 font-semibold text-gray-900 dark:text-white">
+                      Mishka Chelekom
+                    </h2>
+                    <.cp class="mb-2 dark:text-gray-500">
+                      We provide a wide range of components tailored to meet various customer needs and preferences.
+                    </.cp>
+                  </div>
+                </div>
+              </.mega_menu>
+            </div>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="mega-menu-color-variants">
+            <.link patch={~p"/chelekom/docs/mega-menu/#mega-menu-color-variants"}>
+              Mega menu variants and colors in Phoenix liveView
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The <.link navigate={~p"/chelekom/docs/mega-menu"}>Mishka Chelekom mega menu</.link>
+            provides a high level of customization with a variety of color themes and design variants. You can select from several predefined colors such as <.custom_inline_code>base</.custom_inline_code>, <.custom_inline_code>white</.custom_inline_code>, <.custom_inline_code>primary</.custom_inline_code>, <.custom_inline_code>secondary</.custom_inline_code>, <.custom_inline_code>dark</.custom_inline_code>, <.custom_inline_code>success</.custom_inline_code>, <.custom_inline_code>warning</.custom_inline_code>, <.custom_inline_code>danger</.custom_inline_code>, <.custom_inline_code>info</.custom_inline_code>, <.custom_inline_code>silver</.custom_inline_code>, <.custom_inline_code>misc</.custom_inline_code>, and <.custom_inline_code>dawn</.custom_inline_code>, allowing you to match the menu with your application’s overall theme. Additionally, the menu offers flexible layout styles with variants like <.custom_inline_code>default</.custom_inline_code>, <.custom_inline_code>outline</.custom_inline_code>, <.custom_inline_code>gradient</.custom_inline_code>, <.custom_inline_code>base</.custom_inline_code>, <.custom_inline_code>bordered</.custom_inline_code>, and <.custom_inline_code>shadow</.custom_inline_code>, giving you control over how the menu looks—whether you want a bordered, bordered, or shadowed design, ensuring both aesthetic and functional requirements are met.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" code={@code_2}>
+            <div class="relative w-full flex justify-center gap-5 items-center">
+              <.mega_menu
+                space="small"
+                rounded="large"
+                padding="extra_small"
+                top_gap="small"
+                id="mega-menu-example-4322"
+              >
+                <:trigger>
+                  <.button variant="outline" color="misc" size="small">open base</.button>
+                </:trigger>
+
+                <div class="grid md:grid-cols-2 lg:grid-cols-3">
+                  <ul class="space-y-4 sm:mb-4 md:mb-0">
+                    <li class="hover:underline hover:text-blue-400 cursor-pointer">
+                      Product Categories
+                    </li>
+                    <li class="hover:underline hover:text-blue-400 cursor-pointer">
+                      Customer Support
+                    </li>
+                    <li class="hover:underline hover:text-blue-400 cursor-pointer">
+                      About Us
+                    </li>
+                    <li class="hover:underline hover:text-blue-400 cursor-pointer">
+                      Contact
+                    </li>
+                  </ul>
+                  <ul class="hidden mb-4 space-y-4 md:mb-0 sm:block">
+                    <li class="hover:underline hover:text-blue-400 cursor-pointer">
+                      Blog
+                    </li>
+                    <li class="hover:underline hover:text-blue-400 cursor-pointer">
+                      Privacy Policy
+                    </li>
+                    <li class="hover:underline hover:text-blue-400 cursor-pointer">
+                      Terms of Service
+                    </li>
+                    <li class="hover:underline hover:text-blue-400 cursor-pointer">
+                      Documentation
+                    </li>
+                  </ul>
+                  <div class="mt-4 md:mt-0">
+                    <h2 class="mb-2 font-semibold">Mishka Chelekom</h2>
+                    <.cp class="mb-2">
+                      We provide a wide range of components tailored to meet various customer needs and preferences.
+                    </.cp>
+                  </div>
+                </div>
+              </.mega_menu>
+              <.mega_menu
+                space="small"
+                rounded="large"
+                padding="extra_small"
+                top_gap="large"
+                color="primary"
+                id="mega-menu-example-2"
+                variant="default"
+              >
+                <:trigger>
+                  <.button variant="outline" color="primary" size="small">open primary</.button>
+                </:trigger>
+
+                <div class="grid md:grid-cols-2 lg:grid-cols-3">
+                  <ul class="space-y-4 sm:mb-4 md:mb-0">
+                    <li class="hover:underline hover:text-blue-400 cursor-pointer">
+                      Product Categories
+                    </li>
+                    <li class="hover:underline hover:text-blue-400 cursor-pointer">
+                      Customer Support
+                    </li>
+                    <li class="hover:underline hover:text-blue-400 cursor-pointer">
+                      About Us
+                    </li>
+                    <li class="hover:underline hover:text-blue-400 cursor-pointer">
+                      Contact
+                    </li>
+                  </ul>
+                  <ul class="hidden mb-4 space-y-4 md:mb-0 sm:block">
+                    <li class="hover:underline hover:text-blue-400 cursor-pointer">
+                      Blog
+                    </li>
+                    <li class="hover:underline hover:text-blue-400 cursor-pointer">
+                      Privacy Policy
+                    </li>
+                    <li class="hover:underline hover:text-blue-400 cursor-pointer">
+                      Terms of Service
+                    </li>
+                    <li class="hover:underline hover:text-blue-400 cursor-pointer">
+                      Documentation
+                    </li>
+                  </ul>
+                  <div class="mt-4 md:mt-0">
+                    <h2 class="mb-2 font-semibold">Mishka Chelekom</h2>
+                    <.cp class="mb-2">
+                      We provide a wide range of components tailored to meet various customer needs and preferences.
+                    </.cp>
+                  </div>
+                </div>
+              </.mega_menu>
+
+              <.mega_menu
+                space="small"
+                rounded="large"
+                padding="extra_small"
+                top_gap="large"
+                color="warning"
+                variant="shadow"
+                id="mega-menu-example-3"
+              >
+                <:trigger>
+                  <.button variant="outline" color="warning" size="small">open primary</.button>
+                </:trigger>
+
+                <div class="grid md:grid-cols-2 lg:grid-cols-3">
+                  <ul class="space-y-4 sm:mb-4 md:mb-0">
+                    <li class="hover:underline hover:text-blue-400 cursor-pointer">
+                      Product Categories
+                    </li>
+                    <li class="hover:underline hover:text-blue-400 cursor-pointer">
+                      Customer Support
+                    </li>
+                    <li class="hover:underline hover:text-blue-400 cursor-pointer">
+                      About Us
+                    </li>
+                    <li class="hover:underline hover:text-blue-400 cursor-pointer">
+                      Contact
+                    </li>
+                  </ul>
+                  <ul class="hidden mb-4 space-y-4 md:mb-0 sm:block">
+                    <li class="hover:underline hover:text-blue-400 cursor-pointer">
+                      Blog
+                    </li>
+                    <li class="hover:underline hover:text-blue-400 cursor-pointer">
+                      Privacy Policy
+                    </li>
+                    <li class="hover:underline hover:text-blue-400 cursor-pointer">
+                      Terms of Service
+                    </li>
+                    <li class="hover:underline hover:text-blue-400 cursor-pointer">
+                      Documentation
+                    </li>
+                  </ul>
+                  <div class="mt-4 md:mt-0">
+                    <h2 class="mb-2 font-semibold">Mishka Chelekom</h2>
+                    <.cp class="mb-2">
+                      We provide a wide range of components tailored to meet various customer needs and preferences.
+                    </.cp>
+                  </div>
+                </div>
+              </.mega_menu>
+
+              <.mega_menu
+                space="small"
+                rounded="large"
+                padding="extra_small"
+                top_gap="large"
+                color="dawn"
+                variant="bordered"
+                id="mega-menu-example-4"
+              >
+                <:trigger>
+                  <.button variant="outline" size="small" color="dawn">Dawn mega menu</.button>
+                </:trigger>
+
+                <div class="grid md:grid-cols-2 lg:grid-cols-3">
+                  <ul class="space-y-4 sm:mb-4 md:mb-0">
+                    <li class="hover:underline hover:text-blue-600 cursor-pointer">
+                      Product Categories
+                    </li>
+                    <li class="hover:underline hover:text-blue-600 cursor-pointer">
+                      Customer Support
+                    </li>
+                    <li class="hover:underline hover:text-blue-600 cursor-pointer">
+                      About Us
+                    </li>
+                    <li class="hover:underline hover:text-blue-600 cursor-pointer">
+                      Contact
+                    </li>
+                  </ul>
+                  <ul class="hidden mb-4 space-y-4 md:mb-0 sm:block">
+                    <li class="hover:underline hover:text-blue-600 cursor-pointer">
+                      Blog
+                    </li>
+                    <li class="hover:underline hover:text-blue-600 cursor-pointer">
+                      Privacy Policy
+                    </li>
+                    <li class="hover:underline hover:text-blue-600 cursor-pointer">
+                      Terms of Service
+                    </li>
+                    <li class="hover:underline hover:text-blue-600 cursor-pointer">
+                      Documentation
+                    </li>
+                  </ul>
+                  <div class="mt-4 md:mt-0">
+                    <h2 class="mb-2 font-semibold">Mishka Chelekom</h2>
+                    <.cp class="mb-2">
+                      We provide a wide range of components tailored to meet various customer needs and preferences.
+                    </.cp>
+                  </div>
+                </div>
+              </.mega_menu>
+            </div>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="mega-menu-clickable">
+            <.link patch="#mega-menu-clickable">
+              Clickable prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <.custom_inline_code>clickable</.custom_inline_code>
+            mode of the
+            <.custom_inline_code>mega_menu</.custom_inline_code>
+            component allows you to trigger the display of Mega menu by clicking on a specific element. To achieve this, you need to assign a unique ID to the <.custom_inline_code>mega_menu</.custom_inline_code>. This connection ensures that when the trigger element is clicked, the corresponding Mega menu is displayed. By using the
+            <.custom_inline_code>clickable</.custom_inline_code>
+            prop, you create an interactive and intuitive experience for users.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" code={@code_3}>
+            <div class="relative w-full flex justify-center gap-5 items-center">
+              <.mega_menu
+                space="small"
+                rounded="large"
+                padding="extra_small"
+                top_gap="large"
+                color="danger"
+                id="mega-menu-example-5"
+                clickable
+                variant="default"
+              >
+                <:trigger>
+                  <.button variant="outline" color="danger" size="small">
+                    open clickable mega menu
+                  </.button>
+                </:trigger>
+
+                <div class="grid md:grid-cols-2 lg:grid-cols-3">
+                  <ul class="space-y-4 sm:mb-4 md:mb-0">
+                    <li class="hover:underline hover:text-blue-400 cursor-pointer">
+                      Product Categories
+                    </li>
+                    <li class="hover:underline hover:text-blue-400 cursor-pointer">
+                      Customer Support
+                    </li>
+                    <li class="hover:underline hover:text-blue-400 cursor-pointer">
+                      About Us
+                    </li>
+                    <li class="hover:underline hover:text-blue-400 cursor-pointer">
+                      Contact
+                    </li>
+                  </ul>
+                  <ul class="hidden mb-4 space-y-4 md:mb-0 sm:block">
+                    <li class="hover:underline hover:text-blue-400 cursor-pointer">
+                      Blog
+                    </li>
+                    <li class="hover:underline hover:text-blue-400 cursor-pointer">
+                      Privacy Policy
+                    </li>
+                    <li class="hover:underline hover:text-blue-400 cursor-pointer">
+                      Terms of Service
+                    </li>
+                    <li class="hover:underline hover:text-blue-400 cursor-pointer">
+                      Documentation
+                    </li>
+                  </ul>
+                  <div class="mt-4 md:mt-0">
+                    <h2 class="mb-2 font-semibold">Mishka Chelekom</h2>
+                    <.cp class="mb-2">
+                      We provide a wide range of components tailored to meet various customer needs and preferences.
+                    </.cp>
+                  </div>
+                </div>
+              </.mega_menu>
+            </div>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="mega-menu-size">
+            <.link patch={~p"/chelekom/docs/mega-menu/#mega-menu-size"}>
+              Mega menu size prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The size prop offers values such as <.custom_inline_code>extra_small</.custom_inline_code>, <.custom_inline_code>small</.custom_inline_code>, <.custom_inline_code>medium</.custom_inline_code>, <.custom_inline_code>large</.custom_inline_code>, and <.custom_inline_code>extra_large</.custom_inline_code>. These values control text size within the mega menu contents.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" code={@code_4}>
+            <div class="relative w-full flex justify-center gap-5 items-center">
+              <.mega_menu
+                space="extra_large"
+                rounded="large"
+                padding="extra_small"
+                top_gap="large"
+                color="misc"
+                size="small"
+                variant="default"
+                id="mega-menu-example-6"
+              >
+                <:trigger>
+                  <.button variant="outline" color="misc" size="small">open extra small</.button>
+                </:trigger>
+
+                <ul class="flex items-center gap-5 justify-between">
+                  <li class="hover:underline hover:text-blue-400 cursor-pointer">
+                    Categories
+                  </li>
+                  <li class="hover:underline hover:text-blue-400 cursor-pointer">
+                    Support
+                  </li>
+                  <li class="hover:underline hover:text-blue-400 cursor-pointer">
+                    About Us
+                  </li>
+                  <li class="hover:underline hover:text-blue-400 cursor-pointer">
+                    Contact
+                  </li>
+                  <li class="hover:underline hover:text-blue-400 cursor-pointer">
+                    New Arrivals
+                  </li>
+                  <li class="hover:underline hover:text-blue-400 cursor-pointer">
+                    Best Sellers
+                  </li>
+                </ul>
+
+                <ul class="flex items-center gap-5 justify-between">
+                  <li class="hover:underline hover:text-blue-400 cursor-pointer">
+                    Blog
+                  </li>
+                  <li class="hover:underline hover:text-blue-400 cursor-pointer">
+                    Privacy Policy
+                  </li>
+                  <li class="hover:underline hover:text-blue-400 cursor-pointer">
+                    Terms of Service
+                  </li>
+                  <li class="hover:underline hover:text-blue-400 cursor-pointer">
+                    Documentation
+                  </li>
+                  <li class="hover:underline hover:text-blue-400 cursor-pointer">
+                    FAQs
+                  </li>
+                  <li class="hover:underline hover:text-blue-400 cursor-pointer">
+                    Case Studies
+                  </li>
+                </ul>
+              </.mega_menu>
+
+              <.mega_menu
+                space="extra_small"
+                rounded="large"
+                size="small"
+                padding="extra_small"
+                top_gap="large"
+                variant="default"
+                color="info"
+                id="mega-menu-example-7"
+              >
+                <:trigger>
+                  <.button variant="outline" color="info" size="small">open extra large</.button>
+                </:trigger>
+
+                <ul class="flex items-center gap-2 justify-between">
+                  <li class="hover:underline hover:text-blue-400 cursor-pointer">
+                    Categories
+                  </li>
+                  <li class="hover:underline hover:text-blue-400 cursor-pointer">
+                    Support
+                  </li>
+                  <li class="hover:underline hover:text-blue-400 cursor-pointer">
+                    About Us
+                  </li>
+                  <li class="hover:underline hover:text-blue-400 cursor-pointer">
+                    Contact
+                  </li>
+                  <li class="hover:underline hover:text-blue-400 cursor-pointer">
+                    New Arrivals
+                  </li>
+                  <li class="hover:underline hover:text-blue-400 cursor-pointer">
+                    Best Sellers
+                  </li>
+                </ul>
+
+                <ul class="flex items-center gap-2 justify-between">
+                  <li class="hover:underline hover:text-blue-400 cursor-pointer">
+                    Blog
+                  </li>
+                  <li class="hover:underline hover:text-blue-400 cursor-pointer">
+                    Privacy Policy
+                  </li>
+                  <li class="hover:underline hover:text-blue-400 cursor-pointer">
+                    Terms of Service
+                  </li>
+                  <li class="hover:underline hover:text-blue-400 cursor-pointer">
+                    Documentation
+                  </li>
+                  <li class="hover:underline hover:text-blue-400 cursor-pointer">
+                    FAQs
+                  </li>
+                  <li class="hover:underline hover:text-blue-400 cursor-pointer">
+                    Case Studies
+                  </li>
+                </ul>
+              </.mega_menu>
+            </div>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="mega-menu-space">
+            <.link patch={~p"/chelekom/docs/mega-menu/#mega-menu-space"}>
+              Mega menu space prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The space prop offers values such as <.custom_inline_code>extra_small</.custom_inline_code>, <.custom_inline_code>small</.custom_inline_code>, <.custom_inline_code>medium</.custom_inline_code>, <.custom_inline_code>large</.custom_inline_code>, and <.custom_inline_code>extra_large</.custom_inline_code>. These values control the vertical spacing between elements within the mega menu-contents.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" elements_class="h-[200px]" code={@code_5}>
+            <div class="relative w-full flex justify-center gap-5 items-center">
+              <.mega_menu
+                rounded="large"
+                padding="extra_small"
+                top_gap="large"
+                variant="default"
+                size="extra_small"
+                color="natural"
+                id="mega-menu-example-9"
+              >
+                <:trigger>
+                  <.button variant="outline" color="natural" size="small">
+                    open extra small
+                  </.button>
+                </:trigger>
+
+                <div class="grid md:grid-cols-2">
+                  <ul class="space-y-4 sm:mb-4 md:mb-0">
+                    <li class="hover:underline hover:text-blue-400 cursor-pointer">
+                      Product Categories
+                    </li>
+                    <li class="hover:underline hover:text-blue-400 cursor-pointer">
+                      Customer Support
+                    </li>
+                    <li class="hover:underline hover:text-blue-400 cursor-pointer">
+                      About Us
+                    </li>
+                    <li class="hover:underline hover:text-blue-400 cursor-pointer">
+                      Contact
+                    </li>
+                  </ul>
+                  <ul class="hidden mb-4 space-y-4 md:mb-0 sm:block">
+                    <li class="hover:underline hover:text-blue-400 cursor-pointer">
+                      Blog
+                    </li>
+                    <li class="hover:underline hover:text-blue-400 cursor-pointer">
+                      Privacy Policy
+                    </li>
+                    <li class="hover:underline hover:text-blue-400 cursor-pointer">
+                      Terms of Service
+                    </li>
+                    <li class="hover:underline hover:text-blue-400 cursor-pointer">
+                      Documentation
+                    </li>
+                  </ul>
+                </div>
+              </.mega_menu>
+
+              <.mega_menu
+                rounded="large"
+                padding="extra_small"
+                top_gap="large"
+                color="silver"
+                size="extra_large"
+                id="mega-menu-example-10"
+                variant="default"
+              >
+                <:trigger>
+                  <.button color="silver" variant="default" size="small">
+                    open extra large
+                  </.button>
+                </:trigger>
+
+                <div class="grid md:grid-cols-2">
+                  <ul class="space-y-4 sm:mb-4 md:mb-0">
+                    <li class="hover:underline hover:text-blue-400 cursor-pointer">
+                      Product Categories
+                    </li>
+                    <li class="hover:underline hover:text-blue-400 cursor-pointer">
+                      Customer Support
+                    </li>
+                    <li class="hover:underline hover:text-blue-400 cursor-pointer">
+                      About Us
+                    </li>
+                    <li class="hover:underline hover:text-blue-400 cursor-pointer">
+                      Contact
+                    </li>
+                  </ul>
+                  <ul class="hidden mb-4 space-y-4 md:mb-0 sm:block">
+                    <li class="hover:underline hover:text-blue-400 cursor-pointer">
+                      Blog
+                    </li>
+                    <li class="hover:underline hover:text-blue-400 cursor-pointer">
+                      Privacy Policy
+                    </li>
+                    <li class="hover:underline hover:text-blue-400 cursor-pointer">
+                      Terms of Service
+                    </li>
+                    <li class="hover:underline hover:text-blue-400 cursor-pointer">
+                      Documentation
+                    </li>
+                  </ul>
+                </div>
+              </.mega_menu>
+            </div>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="mega-menu-padding">
+            <.link patch={~p"/chelekom/docs/mega-menu/#mega-menu-padding"}>
+              Mega menu padding prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The padding prop offers values such as <.custom_inline_code>extra_small</.custom_inline_code>, <.custom_inline_code>small</.custom_inline_code>, <.custom_inline_code>medium</.custom_inline_code>, <.custom_inline_code>large</.custom_inline_code>, and <.custom_inline_code>extra_large</.custom_inline_code>. These values control the padding around the content inside the mega menu contents.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" code={@code_6}>
+            <div class="relative w-full flex justify-center gap-5 items-center">
+              <.mega_menu
+                rounded="large"
+                padding="extra_small"
+                top_gap="large"
+                color="secondary"
+                variant="default"
+                size="extra_small"
+                id="mega-menu-example-11"
+              >
+                <:trigger>
+                  <.button variant="outline" color="secondary" size="small">
+                    open extra small
+                  </.button>
+                </:trigger>
+
+                <div class="grid md:grid-cols-2">
+                  <ul class="space-y-4 sm:mb-4 md:mb-0">
+                    <li class="hover:underline hover:text-blue-200 dark:hover:text-blue-400 cursor-pointer">
+                      Product Categories
+                    </li>
+                    <li class="hover:underline hover:text-blue-200 dark:hover:text-blue-400 cursor-pointer">
+                      Customer Support
+                    </li>
+                    <li class="hover:underline hover:text-blue-200 dark:hover:text-blue-400 cursor-pointer">
+                      About Us
+                    </li>
+                    <li class="hover:underline hover:text-blue-200 dark:hover:text-blue-400 cursor-pointer">
+                      Contact
+                    </li>
+                  </ul>
+                  <ul class="hidden mb-4 space-y-4 md:mb-0 sm:block">
+                    <li class="hover:underline hover:text-blue-200 dark:hover:text-blue-400 cursor-pointer">
+                      Blog
+                    </li>
+                    <li class="hover:underline hover:text-blue-200 dark:hover:text-blue-400 cursor-pointer">
+                      Privacy Policy
+                    </li>
+                    <li class="hover:underline hover:text-blue-200 dark:hover:text-blue-400 cursor-pointer">
+                      Terms of Service
+                    </li>
+                    <li class="hover:underline hover:text-blue-200 dark:hover:text-blue-400 cursor-pointer">
+                      Documentation
+                    </li>
+                  </ul>
+                </div>
+              </.mega_menu>
+
+              <.mega_menu
+                rounded="large"
+                padding="extra_large"
+                top_gap="large"
+                color="success"
+                size="extra_small"
+                id="mega-menu-example-12"
+                variant="default"
+              >
+                <:trigger>
+                  <.button variant="outline" color="success" size="small">
+                    open extra large
+                  </.button>
+                </:trigger>
+
+                <div class="grid md:grid-cols-2">
+                  <ul class="space-y-4 sm:mb-4 md:mb-0">
+                    <li class="hover:underline hover:text-blue-600 cursor-pointer">
+                      Product Categories
+                    </li>
+                    <li class="hover:underline hover:text-blue-600 cursor-pointer">
+                      Customer Support
+                    </li>
+                    <li class="hover:underline hover:text-blue-600 cursor-pointer">
+                      About Us
+                    </li>
+                    <li class="hover:underline hover:text-blue-600 cursor-pointer">
+                      Contact
+                    </li>
+                  </ul>
+                  <ul class="hidden mb-4 space-y-4 md:mb-0 sm:block">
+                    <li class="hover:underline hover:text-blue-600 cursor-pointer">
+                      Blog
+                    </li>
+                    <li class="hover:underline hover:text-blue-600 cursor-pointer">
+                      Privacy Policy
+                    </li>
+                    <li class="hover:underline hover:text-blue-600 cursor-pointer">
+                      Terms of Service
+                    </li>
+                    <li class="hover:underline hover:text-blue-600 cursor-pointer">
+                      Documentation
+                    </li>
+                  </ul>
+                </div>
+              </.mega_menu>
+            </div>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="mega-menu-rounded">
+            <.link patch={~p"/chelekom/docs/mega-menu/#mega-menu-rounded"}>
+              Mega menu rounded prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The rounded prop allows developers to customize the border-radius of components, controlling how rounded the corners appear. The
+            <.custom_inline_code>rounded</.custom_inline_code>
+            prop accepts values like <.custom_inline_code>extra_small</.custom_inline_code>, <.custom_inline_code>small</.custom_inline_code>, <.custom_inline_code>medium</.custom_inline_code>, <.custom_inline_code>large</.custom_inline_code>, and <.custom_inline_code>extra_large</.custom_inline_code>.
+            This flexibility allows developers to adjust the component's visual style, giving it a sleek, rounded appearance or sharp edges to fit various design needs.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" code={@code_7}>
+            <div class="relative w-full flex justify-center gap-5 items-center">
+              <.mega_menu
+                rounded="extra_small"
+                padding="small"
+                top_gap="large"
+                color="info"
+                size="extra_small"
+                variant="default"
+                id="mega-menu-example-13"
+              >
+                <:trigger>
+                  <.button variant="outline" color="info" size="small">open extra small</.button>
+                </:trigger>
+
+                <div class="grid md:grid-cols-2">
+                  <ul class="space-y-4 sm:mb-4 md:mb-0">
+                    <li class="hover:underline hover:text-blue-400 cursor-pointer">
+                      Product Categories
+                    </li>
+                    <li class="hover:underline hover:text-blue-400 cursor-pointer">
+                      Customer Support
+                    </li>
+                    <li class="hover:underline hover:text-blue-400 cursor-pointer">
+                      About Us
+                    </li>
+                    <li class="hover:underline hover:text-blue-400 cursor-pointer">
+                      Contact
+                    </li>
+                  </ul>
+                  <ul class="hidden mb-4 space-y-4 md:mb-0 sm:block">
+                    <li class="hover:underline hover:text-blue-400 cursor-pointer">
+                      Blog
+                    </li>
+                    <li class="hover:underline hover:text-blue-400 cursor-pointer">
+                      Privacy Policy
+                    </li>
+                    <li class="hover:underline hover:text-blue-400 cursor-pointer">
+                      Terms of Service
+                    </li>
+                    <li class="hover:underline hover:text-blue-400 cursor-pointer">
+                      Documentation
+                    </li>
+                  </ul>
+                </div>
+              </.mega_menu>
+
+              <.mega_menu
+                rounded="extra_large"
+                padding="small"
+                top_gap="large"
+                color="dawn"
+                size="extra_small"
+                id="mega-menu-example-14"
+                variant="default"
+              >
+                <:trigger>
+                  <.button variant="outline" color="dawn" size="small">open extra large</.button>
+                </:trigger>
+
+                <div class="grid md:grid-cols-2">
+                  <ul class="space-y-4 sm:mb-4 md:mb-0">
+                    <li class="hover:underline hover:text-blue-600 cursor-pointer">
+                      Product Categories
+                    </li>
+                    <li class="hover:underline hover:text-blue-600 cursor-pointer">
+                      Customer Support
+                    </li>
+                    <li class="hover:underline hover:text-blue-600 cursor-pointer">
+                      About Us
+                    </li>
+                    <li class="hover:underline hover:text-blue-600 cursor-pointer">
+                      Contact
+                    </li>
+                  </ul>
+                  <ul class="hidden mb-4 space-y-4 md:mb-0 sm:block">
+                    <li class="hover:underline hover:text-blue-600 cursor-pointer">
+                      Blog
+                    </li>
+                    <li class="hover:underline hover:text-blue-600 cursor-pointer">
+                      Privacy Policy
+                    </li>
+                    <li class="hover:underline hover:text-blue-600 cursor-pointer">
+                      Terms of Service
+                    </li>
+                    <li class="hover:underline hover:text-blue-600 cursor-pointer">
+                      Documentation
+                    </li>
+                  </ul>
+                </div>
+              </.mega_menu>
+            </div>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="mega-menu-border">
+            <.link patch={~p"/chelekom/docs/mega-menu/#mega-menu-border"}>
+              Mega menu border prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The border prop allows developers to customize the border of components. The
+            <.custom_inline_code>border</.custom_inline_code>
+            prop accepts values like <.custom_inline_code>extra_small</.custom_inline_code>, <.custom_inline_code>small</.custom_inline_code>, <.custom_inline_code>medium</.custom_inline_code>, <.custom_inline_code>large</.custom_inline_code>, and <.custom_inline_code>extra_large</.custom_inline_code>.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" code={@code_8}>
+            <div class="relative w-full flex justify-center gap-5 items-center">
+              <.mega_menu
+                border="extra_small"
+                padding="small"
+                top_gap="large"
+                variant="bordered"
+                size="extra_small"
+                id="mega-menu-example-24"
+              >
+                <:trigger>
+                  <.button variant="outline" color="natural" size="small">
+                    open extra small
+                  </.button>
+                </:trigger>
+
+                <div class="grid md:grid-cols-2">
+                  <ul class="space-y-4 sm:mb-4 md:mb-0">
+                    <li class="hover:underline hover:text-blue-400 cursor-pointer">
+                      Product Categories
+                    </li>
+                    <li class="hover:underline hover:text-blue-400 cursor-pointer">
+                      Customer Support
+                    </li>
+                    <li class="hover:underline hover:text-blue-400 cursor-pointer">
+                      About Us
+                    </li>
+                    <li class="hover:underline hover:text-blue-400 cursor-pointer">
+                      Contact
+                    </li>
+                  </ul>
+                  <ul class="hidden mb-4 space-y-4 md:mb-0 sm:block">
+                    <li class="hover:underline hover:text-blue-400 cursor-pointer">
+                      Blog
+                    </li>
+                    <li class="hover:underline hover:text-blue-400 cursor-pointer">
+                      Privacy Policy
+                    </li>
+                    <li class="hover:underline hover:text-blue-400 cursor-pointer">
+                      Terms of Service
+                    </li>
+                    <li class="hover:underline hover:text-blue-400 cursor-pointer">
+                      Documentation
+                    </li>
+                  </ul>
+                </div>
+              </.mega_menu>
+
+              <.mega_menu
+                border="extra_large"
+                padding="small"
+                top_gap="large"
+                color="danger"
+                variant="bordered"
+                size="extra_small"
+                id="mega-menu-example-15"
+              >
+                <:trigger>
+                  <.button color="danger" variant="outline" size="small">
+                    open extra large
+                  </.button>
+                </:trigger>
+
+                <div class="grid md:grid-cols-2">
+                  <ul class="space-y-4 sm:mb-4 md:mb-0">
+                    <li class="hover:underline hover:text-blue-600 cursor-pointer">
+                      Product Categories
+                    </li>
+                    <li class="hover:underline hover:text-blue-600 cursor-pointer">
+                      Customer Support
+                    </li>
+                    <li class="hover:underline hover:text-blue-600 cursor-pointer">
+                      About Us
+                    </li>
+                    <li class="hover:underline hover:text-blue-600 cursor-pointer">
+                      Contact
+                    </li>
+                  </ul>
+                  <ul class="hidden mb-4 space-y-4 md:mb-0 sm:block">
+                    <li class="hover:underline hover:text-blue-600 cursor-pointer">
+                      Blog
+                    </li>
+                    <li class="hover:underline hover:text-blue-600 cursor-pointer">
+                      Privacy Policy
+                    </li>
+                    <li class="hover:underline hover:text-blue-600 cursor-pointer">
+                      Terms of Service
+                    </li>
+                    <li class="hover:underline hover:text-blue-600 cursor-pointer">
+                      Documentation
+                    </li>
+                  </ul>
+                </div>
+              </.mega_menu>
+            </div>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="mega-menu-top-gap">
+            <.link patch={~p"/chelekom/docs/mega-menu/#mega-menu-top-gap"}>
+              Mega menu top gap prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <.custom_inline_code>top_gap</.custom_inline_code>
+            attribute can take the following values to set the gap between the trigger and content of the mega menu: <.custom_inline_code>extra_small</.custom_inline_code>, <.custom_inline_code>small</.custom_inline_code>, <.custom_inline_code>medium</.custom_inline_code>, <.custom_inline_code>large</.custom_inline_code>, and <.custom_inline_code>extra_large</.custom_inline_code>.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" code={@code_11}>
+            <div class="relative w-full flex justify-center gap-5 items-center">
+              <.mega_menu
+                padding="small"
+                top_gap="extra_small"
+                color="secondary"
+                variant="default"
+                size="extra_small"
+                font_weight="font-thin"
+                id="mega-menu-example-22"
+              >
+                <:trigger>
+                  <.button variant="outline" color="secondary" size="small">
+                    open extra small
+                  </.button>
+                </:trigger>
+
+                <div class="grid md:grid-cols-2">
+                  <ul class="space-y-4 sm:mb-4 md:mb-0">
+                    <li class="hover:underline hover:text-blue-400 cursor-pointer">
+                      Product Categories
+                    </li>
+                    <li class="hover:underline hover:text-blue-400 cursor-pointer">
+                      Customer Support
+                    </li>
+                    <li class="hover:underline hover:text-blue-400 cursor-pointer">
+                      About Us
+                    </li>
+                    <li class="hover:underline hover:text-blue-400 cursor-pointer">
+                      Contact
+                    </li>
+                  </ul>
+                  <ul class="hidden mb-4 space-y-4 md:mb-0 sm:block">
+                    <li class="hover:underline hover:text-blue-400 cursor-pointer">
+                      Blog
+                    </li>
+                    <li class="hover:underline hover:text-blue-400 cursor-pointer">
+                      Privacy Policy
+                    </li>
+                    <li class="hover:underline hover:text-blue-400 cursor-pointer">
+                      Terms of Service
+                    </li>
+                    <li class="hover:underline hover:text-blue-400 cursor-pointer">
+                      Documentation
+                    </li>
+                  </ul>
+                </div>
+              </.mega_menu>
+
+              <.mega_menu
+                padding="small"
+                top_gap="extra_large"
+                color="silver"
+                variant="default"
+                size="extra_small"
+                font_weight="font-semibold"
+                id="mega-menu-example-23"
+              >
+                <:trigger>
+                  <.button variant="outline" color="silver" size="small">
+                    open extra large
+                  </.button>
+                </:trigger>
+
+                <div class="grid md:grid-cols-2">
+                  <ul class="space-y-4 sm:mb-4 md:mb-0">
+                    <li class="hover:underline hover:text-blue-400 cursor-pointer">
+                      Product Categories
+                    </li>
+                    <li class="hover:underline hover:text-blue-400 cursor-pointer">
+                      Customer Support
+                    </li>
+                    <li class="hover:underline hover:text-blue-400 cursor-pointer">
+                      About Us
+                    </li>
+                    <li class="hover:underline hover:text-blue-400 cursor-pointer">
+                      Contact
+                    </li>
+                  </ul>
+                  <ul class="hidden mb-4 space-y-4 md:mb-0 sm:block">
+                    <li class="hover:underline hover:text-blue-400 cursor-pointer">
+                      Blog
+                    </li>
+                    <li class="hover:underline hover:text-blue-400 cursor-pointer">
+                      Privacy Policy
+                    </li>
+                    <li class="hover:underline hover:text-blue-400 cursor-pointer">
+                      Terms of Service
+                    </li>
+                    <li class="hover:underline hover:text-blue-400 cursor-pointer">
+                      Documentation
+                    </li>
+                  </ul>
+                </div>
+              </.mega_menu>
+            </div>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="mega-menu-font-weight-prop">
+            <.link patch={~p"/chelekom/docs/mega-menu/#mega-menu-font-weight-prop"}>
+              Mega menu font weight prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <.custom_inline_code>font_weight</.custom_inline_code>
+            prop controls the font weight of the text. By setting this prop, you can determine how bold or light the text appears within the title section. The default value is <.custom_inline_code>font-normal</.custom_inline_code>. You can customize this value to apply different font weights, such as making the text lighter or bolder, depending on the visual style and emphasis you want to create for the mega menu's title. This provides flexibility in ensuring the title stands out appropriately within the overall mega menu layout.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" elements_class="h-[200px]" code={@code_9}>
+            <div class="relative w-full flex justify-center gap-5 items-center">
+              <.mega_menu
+                padding="small"
+                top_gap="large"
+                size="extra_small"
+                font_weight="font-thin"
+                id="mega-menu-example-17"
+              >
+                <:trigger>
+                  <.button variant="outline" color="danger" size="small">
+                    open extra small
+                  </.button>
+                </:trigger>
+
+                <div class="grid md:grid-cols-2">
+                  <ul class="space-y-4 sm:mb-4 md:mb-0">
+                    <li class="hover:underline hover:text-blue-400 cursor-pointer">
+                      Product Categories
+                    </li>
+                    <li class="hover:underline hover:text-blue-400 cursor-pointer">
+                      Customer Support
+                    </li>
+                    <li class="hover:underline hover:text-blue-400 cursor-pointer">
+                      About Us
+                    </li>
+                    <li class="hover:underline hover:text-blue-400 cursor-pointer">
+                      Contact
+                    </li>
+                  </ul>
+                  <ul class="hidden mb-4 space-y-4 md:mb-0 sm:block">
+                    <li class="hover:underline hover:text-blue-400 cursor-pointer">
+                      Blog
+                    </li>
+                    <li class="hover:underline hover:text-blue-400 cursor-pointer">
+                      Privacy Policy
+                    </li>
+                    <li class="hover:underline hover:text-blue-400 cursor-pointer">
+                      Terms of Service
+                    </li>
+                    <li class="hover:underline hover:text-blue-400 cursor-pointer">
+                      Documentation
+                    </li>
+                  </ul>
+                </div>
+              </.mega_menu>
+
+              <.mega_menu
+                padding="small"
+                top_gap="large"
+                variant="default"
+                color="silver"
+                size="extra_small"
+                font_weight="font-semibold"
+                id="mega-menu-example-28"
+              >
+                <:trigger>
+                  <.button variant="outline" color="silver" size="small">
+                    open extra large
+                  </.button>
+                </:trigger>
+
+                <div class="grid md:grid-cols-2">
+                  <ul class="space-y-4 sm:mb-4 md:mb-0">
+                    <li class="hover:underline hover:text-blue-400 cursor-pointer">
+                      Product Categories
+                    </li>
+                    <li class="hover:underline hover:text-blue-400 cursor-pointer">
+                      Customer Support
+                    </li>
+                    <li class="hover:underline hover:text-blue-400 cursor-pointer">
+                      About Us
+                    </li>
+                    <li class="hover:underline hover:text-blue-400 cursor-pointer">
+                      Contact
+                    </li>
+                  </ul>
+                  <ul class="hidden mb-4 space-y-4 md:mb-0 sm:block">
+                    <li class="hover:underline hover:text-blue-400 cursor-pointer">
+                      Blog
+                    </li>
+                    <li class="hover:underline hover:text-blue-400 cursor-pointer">
+                      Privacy Policy
+                    </li>
+                    <li class="hover:underline hover:text-blue-400 cursor-pointer">
+                      Terms of Service
+                    </li>
+                    <li class="hover:underline hover:text-blue-400 cursor-pointer">
+                      Documentation
+                    </li>
+                  </ul>
+                </div>
+              </.mega_menu>
+            </div>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="mega-menu-trigger-slot">
+            <.link patch={~p"/chelekom/docs/mega-menu/#mega-menu-trigger-slot"}>
+              Trigger slot
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The trigger slot in the mega menu component serves as a versatile entry point for users to open the menu. You can place any HTML element within this slot, such as buttons, links, or icons, making it adaptable to your design needs. This flexibility allows for a seamless integration of the mega menu into various layouts, whether you prefer a simple button or a more complex interactive element. By utilizing the trigger slot, you can enhance user engagement, as it invites interaction through intuitive controls that align with your application's aesthetic.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" code={@code_10}>
+            <div class="relative w-full flex justify-center gap-5 items-center">
+              <.mega_menu
+                padding="small"
+                top_gap="large"
+                size="extra_small"
+                font_weight="font-thin"
+                id="mega-menu-example-18"
+              >
+                <:trigger>
+                  <button class="py-2 px-10 text-lg text-gray-200 bg-slate-600 rounded-full">
+                    open mega menu
+                  </button>
+                </:trigger>
+                <div class="grid md:grid-cols-2">
+                  <ul class="space-y-4 sm:mb-4 md:mb-0">
+                    <li class="hover:underline hover:text-blue-400 cursor-pointer">
+                      Product Categories
+                    </li>
+                    <li class="hover:underline hover:text-blue-400 cursor-pointer">
+                      Customer Support
+                    </li>
+                    <li class="hover:underline hover:text-blue-400 cursor-pointer">
+                      About Us
+                    </li>
+                    <li class="hover:underline hover:text-blue-400 cursor-pointer">
+                      Contact
+                    </li>
+                  </ul>
+                  <ul class="hidden mb-4 space-y-4 md:mb-0 sm:block">
+                    <li class="hover:underline hover:text-blue-400 cursor-pointer">
+                      Blog
+                    </li>
+                    <li class="hover:underline hover:text-blue-400 cursor-pointer">
+                      Privacy Policy
+                    </li>
+                    <li class="hover:underline hover:text-blue-400 cursor-pointer">
+                      Terms of Service
+                    </li>
+                    <li class="hover:underline hover:text-blue-400 cursor-pointer">
+                      Documentation
+                    </li>
+                  </ul>
+                </div>
+              </.mega_menu>
+            </div>
+          </.custom_code_wrapper>
+        </:documentation_panel>
+
+        <:props_panel>
+          <.custom_search class="mb-16" />
+          <div class="space-y-8">
+            <h2 class="text-lg lg:text-2xl font-bold">MegaMenu Component Props</h2>
+
+            <.custom_table id="mega-menu-component-table">
+              <:header>
+                <.table_th>Name</.table_th>
+
+                <.table_th>Type</.table_th>
+
+                <.table_th>Required</.table_th>
+
+                <.table_th>Description</.table_th>
+              </:header>
+
+              <:row>
+                <.table_td>id</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  A unique identifier is used to manage state and interaction.
+                  <strong>Notice:</strong>
+                  When the Mega menu is clickable, this prop is required.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>clickable</.table_td>
+
+                <.table_td>boolean</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Determines if the element can be activated on click.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>variant</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines the style of the card. Supported values: <strong>default</strong>, <strong>outline</strong>, <strong>shadow</strong>, <strong>bordered</strong>, <strong>gradient</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>color</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines the color theme of the card. Supported values: <strong>natural</strong>, <strong>primary</strong>, <strong>secondary</strong>, <strong>success</strong>, <strong>warning</strong>, <strong>danger</strong>, <strong>info</strong>, <strong>silver</strong>, <strong>misc</strong>, <strong>dawn</strong>. Default is <strong>natural</strong>.The
+                  <strong>default</strong>
+                  and <strong>bordered</strong>
+                  variants have extra color options: <strong>dark</strong>
+                  and <strong>white</strong>, which in both light mode and dark mode, these colors are always the same.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>rounded</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Determines the border radius.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>size</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines the overall size of the elements, including padding, font size, and other items.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>space</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Space between items inside the mega menu.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>width</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines the element width. Default is <strong>full</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>font_weight</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines the font weight. Default is <strong>font-normal</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>padding</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines the padding for items. Default is <strong>none</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>icon</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Icon displayed alongside of an item.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>icon_class</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Custom CSS class for the icon.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>title</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Specifies the title of the element.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>title_class</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Custom CSS class for the title.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>border</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines border style. Default is <strong>extra_small</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>content_class</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Determines custom class for the content</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>top_gap</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Determines the top gap of the element.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>class</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Custom CSS class for additional styling.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>trigger</.table_td>
+
+                <.table_td>slot</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  A slot for defining the trigger element that activates the mega menu, such as a button.
+                </.table_td>
+              </:row>
+            </.custom_table>
+          </div>
+        </:props_panel>
+
+        <:cli_panel>
+          <.custom_cli_props config={component_config()} />
+        </:cli_panel>
+        <.custom_table_content>
+          <:content
+            link={~p"/chelekom/docs/mega-menu/#overview"}
+            title="Overview of Mega Menu Component"
+          />
+          <:content
+            link={~p"/chelekom/docs/mega-menu/#mega-menu-how-use"}
+            title="How to Use the Mega Menu"
+          />
+          <:content
+            link={~p"/chelekom/docs/mega-menu/#mega-menu-color-variants"}
+            title="Mega Menu Variants and Colors"
+          />
+          <:content
+            link={~p"/chelekom/docs/mega-menu/#mega-menu-clickable"}
+            title="Clickable Prop"
+          />
+          <:content
+            link={~p"/chelekom/docs/mega-menu/#mega-menu-size"}
+            title="Mega Menu Size Prop"
+          />
+          <:content
+            link={~p"/chelekom/docs/mega-menu/#mega-menu-space"}
+            title="Mega Menu Space Prop"
+          />
+          <:content
+            link={~p"/chelekom/docs/mega-menu/#mega-menu-padding"}
+            title="Mega Menu Padding Prop"
+          />
+          <:content
+            link={~p"/chelekom/docs/mega-menu/#mega-menu-rounded"}
+            title="Mega Menu Rounded Prop"
+          />
+          <:content
+            link={~p"/chelekom/docs/mega-menu/#mega-menu-border"}
+            title="Mega Menu Border Prop"
+          />
+          <:content
+            link={~p"/chelekom/docs/mega-menu/#mega-menu-top-gap"}
+            title="Mega Menu top gap Prop"
+          />
+          <:content
+            link={~p"/chelekom/docs/mega-menu/#mega-menu-font-weight-prop"}
+            title="Mega Menu Font Weight Prop"
+          />
+          <:content
+            link={~p"/chelekom/docs/mega-menu/#mega-menu-trigger-slot"}
+            title="Trigger Slot"
+          />
+        </.custom_table_content>
+      </.custom_tab>
+    </div>
+  </div>
+</Layouts.app>

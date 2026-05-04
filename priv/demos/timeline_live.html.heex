@@ -1,0 +1,962 @@
+<Layouts.app flash={@flash}>
+  <div class="lg:grid lg:grid-cols-12 mt-5 max-w-5xl mx-auto">
+    <.custom_nav active="chelekom-docs-timeline" />
+    <div class="lg:col-span-10">
+      <.custom_info
+        title="Timeline"
+        description="Customizable timeline component for Phoenix LiveView, ideal for displaying chronological events with support for horizontal and vertical timelines."
+        mix="mix mishka.ui.gen.component timeline"
+        github="https://github.com/mishka-group/mishka_chelekom/blob/master/priv/components/timeline.eex"
+        tags={["Component", "Stateless"]}
+      />
+      <.custom_tab id="chelekom-timeline-tab">
+        <:documentation_panel>
+          <.heading2 class="mb-5" id="overview">
+            <.link patch={~p"/chelekom/docs/timeline/#overview"}>
+              Overview of the Phoenix LiveView Timeline Component
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The <strong>Mishka Chelekom Timeline</strong>
+            component is a versatile and customizable <strong>Phoenix LiveView</strong>
+            tool for displaying chronological or sequential events.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs">
+            <.timeline hide_last_line id="timeline-example-14">
+              <.timeline_section size="double_large" image={~p"/images/mona-aghili.jpg"}>
+                <.card padding="large" rounded="large" class="!shadow-xs">
+                  <div class="items-center justify-between">
+                    <time class="mb-1 text-xs font-normal sm:order-last sm:mb-0">
+                      just now
+                    </time>
+                    <div class="text-sm font-normal">
+                      Mona Aghili updated
+                      <a
+                        href="#"
+                        class="font-semibold text-blue-600 dark:text-blue-500 hover:underline"
+                      >
+                        Dashboard UI
+                      </a>
+                      for the Mishka Chelekom project.
+                    </div>
+                  </div>
+                </.card>
+              </.timeline_section>
+
+              <.timeline_section size="double_large" image={~p"/images/mona-aghili.jpg"}>
+                <.card padding="large" rounded="large" class="!shadow-xs">
+                  <div class="items-center justify-between mb-3 sm:flex">
+                    <time class="mb-1 text-xs font-normal sm:order-last sm:mb-0">
+                      2 hours ago
+                    </time>
+                    <div class="text-sm font-normal">
+                      Mona Aghili reviewed and approved the
+                      <.link
+                        navigate={~p"/chelekom/docs/carousel"}
+                        class="font-semibold hover:underline"
+                      >
+                        LiveView Carousel
+                      </.link>
+                      component
+                    </div>
+                  </div>
+                  <div class="p-3 text-xs italic font-normal text-gray-500 dark:text-gray-200 border border-gray-200 dark:border-gray-800 rounded-lg bg-gray-50 dark:bg-slate-900">
+                    The carousel now supports dynamic content and smoother transitions, following the latest design specifications.
+                  </div>
+                </.card>
+              </.timeline_section>
+
+              <.timeline_section size="double_large" image={~p"/images/mona-aghili.jpg"}>
+                <.card padding="large" rounded="large" class="!shadow-xs">
+                  <time class="mb-1 text-xs font-normal sm:order-last sm:mb-0">
+                    1 day ago
+                  </time>
+                  <div class="text-sm font-normal">
+                    Mona Aghili has changed
+                    <.link
+                      navigate={~p"/chelekom/docs/progress"}
+                      class="font-semibold text-blue-600 dark:text-blue-500 hover:underline"
+                    >
+                      Progress Bar component
+                    </.link>
+                    task status to <span class="font-semibold">Completed</span>
+                    in the Mishka Chelekom project.
+                  </div>
+                </.card>
+              </.timeline_section>
+            </.timeline>
+          </.custom_code_wrapper>
+
+          <.cp margin="mt-5">
+            This
+            <strong>
+              <.link
+                title="Phoenix LiveView component"
+                class="transition-colors hover:text-[#448D96]"
+                navigate={~p"/chelekom"}
+              >
+                Phoenix LiveView component
+              </.link>
+            </strong>
+            also offers thematic colors, icon support, and responsive design, ensuring a seamless user experience for both desktop and mobile users. It is perfect for any project that requires an organized, visually appealing timeline to represent events or steps.
+          </.cp>
+
+          <.custom_block position="left" color="success" class="my-8" border="medium">
+            <.cp>
+              By using the class prop, you can apply custom classes or Tailwind CSS classes to customize the appearance and behavior of the components, allowing for flexible design changes.
+            </.cp>
+          </.custom_block>
+
+          <.heading2 margin="my-5" id="timeline-colors">
+            <.link patch={~p"/chelekom/docs/timeline/#timeline-colors"}>
+              Colors
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The <.link patch={~p"/chelekom/docs/timeline"}>timeline component</.link>
+            offers a range of color options to customize its appearance. Colors like <.custom_inline_code>base</.custom_inline_code>, <.custom_inline_code>white</.custom_inline_code>, <.custom_inline_code>primary</.custom_inline_code>, <.custom_inline_code>secondary</.custom_inline_code>, <.custom_inline_code>dark</.custom_inline_code>, <.custom_inline_code>success</.custom_inline_code>, <.custom_inline_code>warning</.custom_inline_code>, <.custom_inline_code>danger</.custom_inline_code>, <.custom_inline_code>info</.custom_inline_code>, <.custom_inline_code>misc</.custom_inline_code>, and <.custom_inline_code>dawn</.custom_inline_code>, and
+            <.custom_inline_code>silver</.custom_inline_code>
+            ensuring it can adapt to a variety of timeline styles and design requirements.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" elements_class="space-y-5" code={@code_1}>
+            <.timeline id="timeline-example-134">
+              <.timeline_section
+                line_style="dashed"
+                title="Initial Setup and Configuration"
+                time="24 Oct, 2024"
+                description="I set up the initial project structure for Mishka Chelekom, ensuring the environment was configured correctly for Phoenix LiveView. This involved configuring the necessary libraries and tools for seamless component development and ensuring the project was ready for the team to start working efficiently."
+              >
+                <div class="mt-1 -ms-1 p-1 inline-flex items-center gap-x-2 text-xs">
+                  <.image
+                    class="flex-shrink-0 size-4 rounded-full"
+                    src={~p"/images/mona-aghili.jpg"}
+                  /> Mona Aghili
+                </div>
+              </.timeline_section>
+
+              <.timeline_section
+                title="Component Development and Testing"
+                time="30 Oct, 2024"
+                description="I developed several core components for Mishka Chelekom, including the timeline and card components. I also wrote test cases to ensure that the components functioned correctly in different scenarios, ensuring they were ready for integration into the larger project."
+              >
+                <div class="mt-1 -ms-1 p-1 inline-flex items-center gap-x-2 text-xs">
+                  <.image
+                    class="flex-shrink-0 size-4 rounded-full"
+                    src={~p"/images/mona-aghili.jpg"}
+                  /> Mona Aghili
+                </div>
+              </.timeline_section>
+            </.timeline>
+            <.timeline id="timeline-example-1" color="info">
+              <.timeline_section
+                line_style="dashed"
+                title="Initial Setup and Configuration"
+                time="24 Oct, 2024"
+                description="I set up the initial project structure for Mishka Chelekom, ensuring the environment was configured correctly for Phoenix LiveView. This involved configuring the necessary libraries and tools for seamless component development and ensuring the project was ready for the team to start working efficiently."
+              >
+                <div class="mt-1 -ms-1 p-1 inline-flex items-center gap-x-2 text-xs">
+                  <.image
+                    class="flex-shrink-0 size-4 rounded-full"
+                    src={~p"/images/mona-aghili.jpg"}
+                  /> Mona Aghili
+                </div>
+              </.timeline_section>
+
+              <.timeline_section
+                title="Component Development and Testing"
+                time="30 Oct, 2024"
+                description="I developed several core components for Mishka Chelekom, including the timeline and card components. I also wrote test cases to ensure that the components functioned correctly in different scenarios, ensuring they were ready for integration into the larger project."
+              >
+                <div class="mt-1 -ms-1 p-1 inline-flex items-center gap-x-2 text-xs">
+                  <.image
+                    class="flex-shrink-0 size-4 rounded-full"
+                    src={~p"/images/mona-aghili.jpg"}
+                  /> Mona Aghili
+                </div>
+              </.timeline_section>
+            </.timeline>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="timeline-horizontal-prop">
+            <.link patch={~p"/chelekom/docs/timeline/#timeline-horizontal-prop"}>
+              Timeline horizontal prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <.custom_inline_code>horizontal</.custom_inline_code>
+            prop changes the Mishka Chelekom Timeline from its default vertical layout to horizontal. By setting
+            <.custom_inline_code>horizontal</.custom_inline_code>
+            to true on the timeline, it switches to a left-to-right orientation. To make this work, you must also set the
+            <.custom_inline_code>horizontal</.custom_inline_code>
+            prop on each <.custom_inline_code>timeline_section</.custom_inline_code>. This ensures both the timeline and its sections display correctly in the horizontal format.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" code={@code_2}>
+            <.timeline id="timeline-example-2" color="info" horizontal>
+              <.timeline_section horizontal title="Initial Setup" time="24 Oct, 2024">
+              </.timeline_section>
+
+              <.timeline_section horizontal title="Component Development" time="30 Oct, 2024">
+              </.timeline_section>
+            </.timeline>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="timeline-hide-last-line-prop">
+            <.link patch={~p"/chelekom/docs/timeline/#timeline-hide-last-line-prop"}>
+              Timeline hide last line prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <.custom_inline_code>hide_last_line</.custom_inline_code>
+            attribute in the Mishka Chelekom Timeline component is a boolean prop that allows you to hide the last vertical line in the timeline. By default, the timeline displays a line after each event or section, but when
+            <.custom_inline_code>hide_last_line</.custom_inline_code>
+            is set to true, the line after the final section is removed. This is useful when you want to visually indicate that the timeline has reached its conclusion or to create a cleaner design at the end of the sequence.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" elements_class="space-y-10" code={@code_11}>
+            <.timeline id="timeline-example-3" color="misc" hide_last_line>
+              <.timeline_section title="Initial Setup" time="24 Oct, 2024"></.timeline_section>
+
+              <.timeline_section title="Component Development" time="30 Oct, 2024">
+              </.timeline_section>
+            </.timeline>
+
+            <.timeline id="timeline-example-4" hide_last_line>
+              <.timeline_section
+                size="quadruple_large"
+                image={~p"/images/mona-aghili.jpg"}
+                title="Initial Design Phase"
+                time="24 Apr, 2024"
+                description="The initial design phase for the Mishka Chelekom project focused on creating wireframes and mockups for core components like buttons, forms, and the navigation bar. This step laid the foundation for the overall look and feel of the application."
+              />
+
+              <.timeline_section
+                size="quadruple_large"
+                image={~p"/images/mona-aghili.jpg"}
+                title="Component Development"
+                time="28 Apr, 2024"
+                description="During this stage, the development team began implementing the designed components, focusing on responsiveness and accessibility. The button and form elements were the first to be coded, ensuring they met both functionality and design requirements."
+              />
+            </.timeline>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="timeline-section-component">
+            <.link patch={~p"/chelekom/docs/timeline/#timeline-section-component"}>
+              Timeline section
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <.custom_inline_code>timeline_section</.custom_inline_code>
+            component is the core building block of the Mishka Chelekom Timeline. Every individual event or milestone displayed in the timeline is wrapped within a <.custom_inline_code>timeline_section</.custom_inline_code>. It acts as a container for each section, allowing you to include details like titles, descriptions, timestamps, and even custom content like images or icons. For every event or step you want to display on the timeline, you would use a <.custom_inline_code>timeline_section</.custom_inline_code>. This provides flexibility for customizing each section's appearance and content, making it easy to visually organize sequential information or milestones. The
+            <.custom_inline_code>timeline_section</.custom_inline_code>
+            component also includes a
+            <.custom_inline_code>horizontal</.custom_inline_code>
+            prop, ensuring it aligns correctly when used in a horizontal timeline. Whether you're working with a simple or complex timeline, multiple
+            <.custom_inline_code>timeline_section</.custom_inline_code>
+            components can be added to create a comprehensive, detailed timeline.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" code={@code_3}>
+            <.timeline id="timeline-example-5">
+              <.timeline_section
+                title="Initial Setup and Configuration"
+                time="24 Oct, 2024"
+                description="I set up the initial project structure for Mishka Chelekom, ensuring the environment was configured correctly for Phoenix LiveView. This involved configuring the necessary libraries and tools for seamless component development and ensuring the project was ready for the team to start working efficiently."
+              >
+                <div class="mt-1 -ms-1 p-1 inline-flex items-center gap-x-2 text-xs">
+                  <.image
+                    class="flex-shrink-0 size-4 rounded-full"
+                    src={~p"/images/mona-aghili.jpg"}
+                  /> Mona Aghili
+                </div>
+              </.timeline_section>
+
+              <.timeline_section
+                title="Component Development and Testing"
+                time="30 Oct, 2024"
+                description="I developed several core components for Mishka Chelekom, including the timeline and card components. I also wrote test cases to ensure that the components functioned correctly in different scenarios, ensuring they were ready for integration into the larger project."
+              >
+                <div class="mt-1 -ms-1 p-1 inline-flex items-center gap-x-2 text-xs">
+                  <.image
+                    class="flex-shrink-0 size-4 rounded-full"
+                    src={~p"/images/mona-aghili.jpg"}
+                  /> Mona Aghili
+                </div>
+              </.timeline_section>
+              <.timeline_section
+                title="UI Enhancements and Final Review"
+                time="10 Nov, 2024"
+                description="I worked on refining the user interface for Mishka Chelekom, focusing on improving the accessibility and responsiveness of the components. After ensuring all design elements were aligned with the project’s guidelines, I conducted a final review to verify that the timeline, cards, and other components were performing well across different devices and screen sizes."
+              >
+                <div class="mt-1 -ms-1 p-1 inline-flex items-center gap-x-2 text-xs">
+                  <.image
+                    class="flex-shrink-0 size-4 rounded-full"
+                    src={~p"/images/mona-aghili.jpg"}
+                  /> Mona Aghili
+                </div>
+              </.timeline_section>
+            </.timeline>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="timeline-section-line-size-prop">
+            <.link patch={~p"/chelekom/docs/timeline/#timeline-section-line-size-prop"}>
+              Timeline section line size
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <.custom_inline_code>line_size</.custom_inline_code>
+            attribute in the
+            <.link patch={~p"/chelekom/docs/timeline"}>Mishka Chelekom Timeline</.link>
+            component controls the thickness of the timeline's lines. It offers several options:
+            <.custom_inline_code>"extra_small"</.custom_inline_code>
+            (the default), <.custom_inline_code>"small"</.custom_inline_code>, <.custom_inline_code>"medium"</.custom_inline_code>, <.custom_inline_code>"large"</.custom_inline_code>, and <.custom_inline_code>"extra_large"</.custom_inline_code>. These size options allow you to customize the line size according to the visual requirements of your timeline. By using larger bullets, thicker lines will complement your design more effectively.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" code={@code_4}>
+            <.timeline id="timeline-example-6">
+              <.timeline_section
+                line_size="extra_small"
+                title="Initial Setup and Configuration"
+                time="24 Oct, 2024"
+                description="I set up the initial project structure for Mishka Chelekom, ensuring the environment was configured correctly for Phoenix LiveView. This involved configuring the necessary libraries and tools for seamless component development and ensuring the project was ready for the team to start working efficiently."
+              >
+                <div class="mt-1 -ms-1 p-1 inline-flex items-center gap-x-2 text-xs">
+                  <.image
+                    class="flex-shrink-0 size-4 rounded-full"
+                    src={~p"/images/mona-aghili.jpg"}
+                  /> Mona Aghili
+                </div>
+              </.timeline_section>
+            </.timeline>
+            <.timeline id="timeline-example-7">
+              <.timeline_section
+                line_size="extra_large"
+                title="Component Development and Testing"
+                time="30 Oct, 2024"
+                description="I developed several core components for Mishka Chelekom, including the timeline and card components. I also wrote test cases to ensure that the components functioned correctly in different scenarios, ensuring they were ready for integration into the larger project."
+              >
+                <div class="mt-1 -ms-1 p-1 inline-flex items-center gap-x-2 text-xs">
+                  <.image
+                    class="flex-shrink-0 size-4 rounded-full"
+                    src={~p"/images/mona-aghili.jpg"}
+                  /> Mona Aghili
+                </div>
+              </.timeline_section>
+            </.timeline>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="timeline-section-size-prop">
+            <.link patch={~p"/chelekom/docs/timeline/#timeline-section-size-prop"}>
+              Timeline section size prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <.custom_inline_code>size</.custom_inline_code>
+            attribute in the Mishka Chelekom Timeline component determines the overall size of the timeline elements, including the bullet points that mark each event. By adjusting the
+            <.custom_inline_code>size</.custom_inline_code>
+            attribute, you can change the bullet size to better fit the design of your timeline. The available options include
+            <.custom_inline_code>"extra_small"</.custom_inline_code>
+            (the default), <.custom_inline_code>"small"</.custom_inline_code>, <.custom_inline_code>"medium"</.custom_inline_code>, <.custom_inline_code>"large"</.custom_inline_code>, <.custom_inline_code>"extra_large"</.custom_inline_code>, and larger sizes like <.custom_inline_code>"double_large"</.custom_inline_code>, <.custom_inline_code>"triple_large"</.custom_inline_code>, and <.custom_inline_code>"quadruple_large"</.custom_inline_code>. These sizes allow for flexibility in bullet appearance, ensuring that the timeline's visual elements are appropriately scaled.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" code={@code_5}>
+            <.timeline id="timeline-example-8">
+              <.timeline_section
+                size="extra_small"
+                line_size="extra_small"
+                title="Initial Setup and Configuration"
+                time="24 Oct, 2024"
+                description="I set up the initial project structure for Mishka Chelekom, ensuring the environment was configured correctly for Phoenix LiveView. This involved configuring the necessary libraries and tools for seamless component development and ensuring the project was ready for the team to start working efficiently."
+              >
+                <div class="mt-1 -ms-1 p-1 inline-flex items-center gap-x-2 text-xs">
+                  <.image
+                    class="flex-shrink-0 size-4 rounded-full"
+                    src={~p"/images/mona-aghili.jpg"}
+                  /> Mona Aghili
+                </div>
+              </.timeline_section>
+
+              <.timeline_section
+                line_size="extra_large"
+                size="extra_large"
+                title="Component Development and Testing"
+                time="30 Oct, 2024"
+                description="I developed several core components for Mishka Chelekom, including the timeline and card components. I also wrote test cases to ensure that the components functioned correctly in different scenarios, ensuring they were ready for integration into the larger project."
+              >
+                <div class="mt-1 -ms-1 p-1 inline-flex items-center gap-x-2 text-xs">
+                  <.image
+                    class="flex-shrink-0 size-4 rounded-full"
+                    src={~p"/images/mona-aghili.jpg"}
+                  /> Mona Aghili
+                </div>
+              </.timeline_section>
+            </.timeline>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="timeline-section-bullet-icon-prop">
+            <.link patch={~p"/chelekom/docs/timeline/#timeline-section-bullet-icon-prop"}>
+              Timeline section bullet icon prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <.custom_inline_code>bullet_icon</.custom_inline_code>
+            attribute lets you add an icon, like those from Heroicons, inside the timeline's bullet. Just pass the icon name as a string to display it in the bullet. If not set, the bullet will show as a plain circle by default.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" code={@code_6}>
+            <.timeline id="timeline-example-9">
+              <.timeline_section
+                size="extra_large"
+                bullet_icon="hero-beaker"
+                line_size="extra_small"
+                title="Initial Setup and Configuration"
+                time="24 Oct, 2024"
+                description="I set up the initial project structure for Mishka Chelekom, ensuring the environment was configured correctly for Phoenix LiveView. This involved configuring the necessary libraries and tools for seamless component development and ensuring the project was ready for the team to start working efficiently."
+              >
+                <div class="mt-1 -ms-1 p-1 inline-flex items-center gap-x-2 text-xs">
+                  <.image
+                    class="flex-shrink-0 size-4 rounded-full"
+                    src={~p"/images/mona-aghili.jpg"}
+                  /> Mona Aghili
+                </div>
+              </.timeline_section>
+
+              <.timeline_section
+                line_size="extra_large"
+                size="extra_large"
+                bullet_icon="hero-bolt"
+                title="Component Development and Testing"
+                time="30 Oct, 2024"
+                description="I developed several core components for Mishka Chelekom, including the timeline and card components. I also wrote test cases to ensure that the components functioned correctly in different scenarios, ensuring they were ready for integration into the larger project."
+              >
+                <div class="mt-1 -ms-1 p-1 inline-flex items-center gap-x-2 text-xs">
+                  <.image
+                    class="flex-shrink-0 size-4 rounded-full"
+                    src={~p"/images/mona-aghili.jpg"}
+                  /> Mona Aghili
+                </div>
+              </.timeline_section>
+            </.timeline>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="timeline-section-title-prop">
+            <.link patch={~p"/chelekom/docs/timeline/#timeline-section-title-prop"}>
+              Timeline section title prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <.custom_inline_code>title</.custom_inline_code>
+            prop in timeline section is used to set the main heading or label for each event or milestone. It provides a clear, concise description of the section's content, making it easy for users to quickly understand the purpose of each step in the timeline. This prop is optional, but when used, it adds structure and readability to your timeline.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" code={@code_7}>
+            <.timeline id="timeline-example-10">
+              <.timeline_section title="Title prop" />
+
+              <.timeline_section title="Title prop" />
+            </.timeline>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="timeline-section-description-prop">
+            <.link patch={~p"/chelekom/docs/timeline/#timeline-section-description-prop"}>
+              Timeline section description prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <.custom_inline_code>description</.custom_inline_code>
+            prop in the timeline section allows you to add detailed information or context for each event or milestone. It provides a space to explain what the event is about, offering more clarity and insight into each step of the timeline. This prop is useful for giving users additional details about the event without overcrowding the timeline visually.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" code={@code_8}>
+            <.timeline id="timeline-example-11">
+              <.timeline_section description="This is description of time line section of mishka chelekom timeline component" />
+
+              <.timeline_section description="This is description of time line section of mishka chelekom timeline component" />
+            </.timeline>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="timeline-section-time-prop">
+            <.link patch={~p"/chelekom/docs/timeline/#timeline-section-time-prop"}>
+              Timeline section time prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <.custom_inline_code>time</.custom_inline_code>
+            prop in the Timeline section is used to display the time or date associated with each event or milestone. This prop helps users understand when a specific event occurred, providing important chronological context for the timeline. It's particularly useful for tracking progress, history, or scheduled events.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" code={@code_9}>
+            <.timeline id="timeline-example-12">
+              <.timeline_section
+                time="Oct, 24"
+                description="This is description of time line section of mishka chelekom timeline component"
+              />
+
+              <.timeline_section
+                time="Oct, 24"
+                description="This is description of time line section of mishka chelekom timeline component"
+              />
+            </.timeline>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="timeline-section-image-prop">
+            <.link patch={~p"/chelekom/docs/timeline/#timeline-section-image-prop"}>
+              Timeline section image prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <.custom_inline_code>image</.custom_inline_code>
+            prop in the Mishka Chelekom Timeline section allows you to display an image alongside an event instead of the default bullet. By providing a URL as a string, you can replace the bullet with an image, adding a more personalized or visually rich representation of each event. Additionally, the
+            <.custom_inline_code>size</.custom_inline_code>
+            prop will adjust the size of the image, allowing you to scale it according to the design needs of your timeline. This feature is ideal for displaying profile pictures, icons, or other visuals that enhance the understanding of each milestone.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" code={@code_10}>
+            <.timeline id="timeline-example-13">
+              <.timeline_section
+                size="extra_small"
+                image={~p"/images/mona-aghili.jpg"}
+                title="Initial Setup and Configuration"
+                time="24 Oct, 2024"
+                description="I set up the initial project structure for Mishka Chelekom, ensuring the environment was configured correctly for Phoenix LiveView. This involved configuring the necessary libraries and tools for seamless component development and ensuring the project was ready for the team to start working efficiently."
+              />
+
+              <.timeline_section
+                size="extra_large"
+                image={~p"/images/mona-aghili.jpg"}
+                title="Component Development and Testing"
+                time="30 Oct, 2024"
+                description="I developed several core components for Mishka Chelekom, including the timeline and card components. I also wrote test cases to ensure that the components functioned correctly in different scenarios, ensuring they were ready for integration into the larger project."
+              />
+            </.timeline>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="timeline-line-style">
+            <.link patch={~p"/chelekom/docs/timeline/#timeline-line-style"}>
+              Timeline line style prop
+            </.link>
+          </.heading2>
+
+          <.custom_code_wrapper code_class="text-xs" elements_class="space-y-5" code={@code_12}>
+            <.timeline id="timeline-example-2" color="success" horizontal>
+              <.timeline_section
+                horizontal
+                title="Initial Setup"
+                time="24 Oct, 2024"
+                line_style="dashed"
+                line_size="extra_large"
+              >
+              </.timeline_section>
+
+              <.timeline_section
+                horizontal
+                title="Component Development"
+                time="30 Oct, 2024"
+                line_style="dotted"
+              >
+              </.timeline_section>
+            </.timeline>
+
+            <.timeline id="timeline-example-12" color="warning">
+              <.timeline_section
+                time="Oct, 24"
+                line_style="dashed"
+                description="This is description of time line section of mishka chelekom timeline component"
+              />
+
+              <.timeline_section
+                time="Oct, 24"
+                line_style="dotted"
+                description="This is description of time line section of mishka chelekom timeline component"
+              />
+            </.timeline>
+          </.custom_code_wrapper>
+        </:documentation_panel>
+
+        <:props_panel>
+          <.custom_search class="mb-16" />
+          <div class="space-y-8">
+            <h2 class="text-lg lg:text-2xl font-bold">Timeline Component Props</h2>
+
+            <.custom_table id="timeline-component-props">
+              <:header>
+                <.table_th>Name</.table_th>
+
+                <.table_th>Type</.table_th>
+
+                <.table_th>Required</.table_th>
+
+                <.table_th>Description</.table_th>
+              </:header>
+
+              <:row>
+                <.table_td>id</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>A unique identifier used to manage state and interaction.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>color</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines the color theme of the card. Supported values: <strong>base</strong>, <strong>natural</strong>, <strong>primary</strong>, <strong>secondary</strong>, <strong>success</strong>, <strong>warning</strong>, <strong>danger</strong>, <strong>info</strong>, <strong>white</strong>, <strong>dark</strong>, <strong>silver</strong>, <strong>misc</strong>, <strong>dawn</strong>. Default is <strong>natural</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>hide_last_line</.table_td>
+
+                <.table_td>boolean</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines whether to hide the last line in the timeline. Default is <strong>false</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>gapped_sections</.table_td>
+
+                <.table_td>boolean</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines whether sections in the timeline have gaps. Default is <strong>false</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>class</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Custom CSS class for additional styling. Default is <strong>nil</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>horizontal</.table_td>
+
+                <.table_td>boolean</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines whether the timeline is displayed horizontally. Default is <strong>false</strong>.
+                </.table_td>
+              </:row>
+            </.custom_table>
+          </div>
+
+          <div class="space-y-8 mt-8">
+            <h2 class="text-lg lg:text-2xl font-bold">Timeline Section Component Props</h2>
+
+            <.custom_table id="timeline-section-component-props">
+              <:header>
+                <.table_th>Name</.table_th>
+
+                <.table_th>Type</.table_th>
+
+                <.table_th>Required</.table_th>
+
+                <.table_th>Description</.table_th>
+              </:header>
+
+              <:row>
+                <.table_td>id</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>A unique identifier used to manage state and interaction.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>line_size</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines the line size of the timeline. Default is <strong>extra_small</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>line_style</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines the line style of the timeline values are <strong>solid</strong>, <strong>dashed</strong>, <strong>dotted</strong>. Default is <strong>solid</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>size</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines the overall size of the elements, including padding, font size, and other items. Default is <strong>extra_small</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>bullet_icon</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Determines the bullet icon displayed in the timeline.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>icon_class</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Custom CSS class for additional styling icon.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>bullet_class</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Custom CSS class for additional styling bullets.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>bullet_wrapper_Class</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Custom CSS class for additional styling bullet wrapper.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>image_class</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Custom CSS class for additional styling icon.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>content_class</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Custom CSS class for additional styling content.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>title_class</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Custom CSS class for additional styling title.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>time_class</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Custom CSS class for additional styling time.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>description_class</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Custom CSS class for additional styling description. Default is "text-sm".
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>image</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Image displayed alongside the timeline item.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>title</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Specifies the title of the timeline section.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>time</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Specifies the time associated with the timeline section.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>description</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Provides a short description of the timeline section.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>horizontal</.table_td>
+
+                <.table_td>boolean</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines whether the timeline section is displayed horizontally. Default is <strong>false</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>class</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Custom CSS class for additional styling.</.table_td>
+              </:row>
+            </.custom_table>
+          </div>
+        </:props_panel>
+
+        <:cli_panel>
+          <.custom_cli_props config={component_config()} />
+        </:cli_panel>
+        <.custom_table_content>
+          <:content
+            link={~p"/chelekom/docs/timeline/#overview"}
+            title="Overview of Timeline Component"
+          />
+          <:content link={~p"/chelekom/docs/timeline/#timeline-colors"} title="Timeline Colors" />
+          <:content
+            link={~p"/chelekom/docs/timeline/#timeline-horizontal-prop"}
+            title="Timeline Horizontal Prop"
+          />
+          <:content
+            link={~p"/chelekom/docs/timeline/#timeline-hide-last-line-prop"}
+            title="Timeline Hide Last Line Prop"
+          />
+          <:content
+            link={~p"/chelekom/docs/timeline/#timeline-section-component"}
+            title="Timeline Section Component"
+          />
+          <:content
+            link={~p"/chelekom/docs/timeline/#timeline-section-line-size-prop"}
+            title="Timeline Section Line size Prop"
+          />
+          <:content
+            link={~p"/chelekom/docs/timeline/#timeline-section-size-prop"}
+            title="Timeline Section Size Prop"
+          />
+          <:content
+            link={~p"/chelekom/docs/timeline/#timeline-section-bullet-icon-prop"}
+            title="Timeline Section Bullet Icon Prop"
+          />
+          <:content
+            link={~p"/chelekom/docs/timeline/#timeline-section-title-prop"}
+            title="Timeline Section Title Prop"
+          />
+          <:content
+            link={~p"/chelekom/docs/timeline/#timeline-section-description-prop"}
+            title="Timeline Section Description Prop"
+          />
+          <:content
+            link={~p"/chelekom/docs/timeline/#timeline-section-time-prop"}
+            title="Timeline Section Time Prop"
+          />
+          <:content
+            link={~p"/chelekom/docs/timeline/#timeline-section-image-prop"}
+            title="Timeline Section Image Prop"
+          />
+          <:content
+            link={~p"/chelekom/docs/timeline/#timeline-line-style"}
+            title="Timeline line style"
+          />
+        </.custom_table_content>
+      </.custom_tab>
+    </div>
+  </div>
+</Layouts.app>
