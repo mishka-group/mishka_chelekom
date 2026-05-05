@@ -67,6 +67,13 @@ defmodule MishkaChelekom.CmsBundleExporter do
          {:ok, max_ast} <- parse_ast(max_source) do
       walked = walk(max_ast)
 
+      # Pre-pass over the RAW .eex (no eval) to collect the
+      # `<%= if cond do %>` chain wrapping each `defp` declaration.
+      # Used by `attach_helper_discriminators/2` to add an axis-filter
+      # list to each helper so the MishkaCMS installer can narrow
+      # safely (e.g. base-only).
+      condition_index = MishkaChelekom.HelperConditionIndex.build(eex_source)
+
       sibling_names =
         walked.public_defs
         |> MapSet.new(& &1.name)
@@ -79,12 +86,35 @@ defmodule MishkaChelekom.CmsBundleExporter do
         |> Enum.map(&drop_unrepresentable_defaults/1)
         |> Enum.map(&rewrite_sibling_refs(&1, sibling_names, kit_name))
         |> Enum.map(&inject_match_destructure/1)
+        |> Enum.map(&attach_helper_discriminators(&1, condition_index))
         |> Enum.map(&slug_names(&1, kit_name))
         |> Enum.map(&maybe_base64(&1, base64?))
         |> Enum.map(&finalize_component_params/1)
 
       {:ok, %{components: components, scripts: config[:scripts] || []}}
     end
+  end
+
+  # For each helper, look up its `(name, normalized_args)` in the
+  # condition index built from the raw .eex. Convert each enclosing
+  # `<%= if %>` condition into structured axis clauses via
+  # `HelperDiscriminators.from_conditions/1` and stash on the helper.
+  # Helpers with no wrapping `if` get `[]` (always-kept by installer).
+  defp attach_helper_discriminators(component, condition_index) do
+    helpers =
+      Enum.map(component.__private_helpers__, fn helper ->
+        signature = {
+          to_string(helper.name),
+          MishkaChelekom.HelperConditionIndex.normalize_args(helper.args || "")
+        }
+
+        conditions = Map.get(condition_index, signature, [])
+        discriminators = MishkaChelekom.HelperDiscriminators.from_conditions(conditions)
+
+        Map.put(helper, :discriminators, discriminators)
+      end)
+
+    %{component | __private_helpers__: helpers}
   end
 
   @doc """
@@ -602,7 +632,8 @@ defmodule MishkaChelekom.CmsBundleExporter do
       args: full_args,
       code: Macro.to_string(body),
       attrs: attrs,
-      slots: slots
+      slots: slots,
+      discriminators: []
     }
   end
 
@@ -956,7 +987,8 @@ defmodule MishkaChelekom.CmsBundleExporter do
           "args" => h.args,
           "code" => h.code,
           "attrs" => helper_attrs,
-          "slots" => helper_slots
+          "slots" => helper_slots,
+          "discriminators" => Map.get(h, :discriminators, [])
         }
       end)
 

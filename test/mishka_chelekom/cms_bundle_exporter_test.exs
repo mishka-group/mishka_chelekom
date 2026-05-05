@@ -185,6 +185,83 @@ defmodule MishkaChelekom.CmsBundleExporterTest do
     end
   end
 
+  ## ─── Discriminators ────────────────────────────────────────────────
+
+  describe "convert/5 — discriminators" do
+    test "every helper carries a discriminators field (list, possibly empty)",
+         %{button_exs: e, button_eex: t} do
+      {:ok, %{components: cps}} = CmsBundleExporter.convert(e, t, "kit", "1.0")
+      btn = by_name(cps, "kit-sample-button")
+
+      for h <- btn["helpers"] do
+        assert is_list(h["discriminators"]),
+               "helper #{h["name"]}(#{h["args"]}) missing discriminators field"
+      end
+    end
+
+    test "wrapped defps get axis-value clauses extracted from `<%= if %>` chain",
+         %{button_exs: e, button_eex: t} do
+      # The fixture wraps `defp color_variant("default", "primary")`
+      # in nested ifs:
+      #   <%= if is_nil(@variant) or "default" in @variant do %>
+      #     <%= if is_nil(@color) or "primary" in @color do %>
+      #
+      # Both `is_nil` branches are no-ops for filtering — only the
+      # value side contributes. Discriminators must capture both axes.
+      {:ok, %{components: cps}} = CmsBundleExporter.convert(e, t, "kit", "1.0")
+      btn = by_name(cps, "kit-sample-button")
+
+      cv =
+        Enum.find(btn["helpers"], fn h ->
+          h["name"] == "color_variant" and h["args"] == "\"default\", \"primary\""
+        end)
+
+      axes = cv["discriminators"] |> Enum.map(& &1["axis"]) |> Enum.sort()
+      assert axes == ["color", "variant"]
+
+      variant = Enum.find(cv["discriminators"], &(&1["axis"] == "variant"))
+      color = Enum.find(cv["discriminators"], &(&1["axis"] == "color"))
+      assert variant["values"] == ["default"]
+      assert color["values"] == ["primary"]
+    end
+
+    test "catch-all + non-literal helpers get empty discriminators",
+         %{button_exs: e, button_eex: t} do
+      {:ok, %{components: cps}} = CmsBundleExporter.convert(e, t, "kit", "1.0")
+      btn = by_name(cps, "kit-sample-button")
+
+      catch_all = Enum.find(btn["helpers"], &(&1["args"] == "_, _"))
+      assert catch_all["discriminators"] == []
+
+      assigns_helper =
+        Enum.find(btn["helpers"], &(&1["name"] == "sample_button_indicator"))
+
+      assert assigns_helper["discriminators"] == []
+    end
+
+    test "different argument patterns of the same helper get distinct discriminators",
+         %{button_exs: e, button_eex: t} do
+      {:ok, %{components: cps}} = CmsBundleExporter.convert(e, t, "kit", "1.0")
+      btn = by_name(cps, "kit-sample-button")
+
+      cvs = Enum.filter(btn["helpers"], &(&1["name"] == "color_variant"))
+
+      by_args =
+        Map.new(cvs, fn h ->
+          {h["args"], h["discriminators"] |> Enum.map(&{&1["axis"], &1["values"]}) |> Enum.sort()}
+        end)
+
+      assert by_args["\"default\", \"primary\""] ==
+               [{"color", ["primary"]}, {"variant", ["default"]}]
+
+      assert by_args["\"default\", \"danger\""] ==
+               [{"color", ["danger"]}, {"variant", ["default"]}]
+
+      assert by_args["\"outline\", \"primary\""] ==
+               [{"color", ["primary"]}, {"variant", ["outline"]}]
+    end
+  end
+
   ## ─── Module attributes ─────────────────────────────────────────────
 
   describe "convert/5 — module attributes" do

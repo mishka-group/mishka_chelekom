@@ -431,7 +431,10 @@ defmodule MishkaChelekom.HeexTagExtractor do
             # outer first, then inner, then snippet, then close inner,
             # then close outer.
             opens = Enum.map_join(ancestors, "", fn {open, _close} -> open end)
-            closes = ancestors |> Enum.reverse() |> Enum.map_join("", fn {_open, close} -> close end)
+
+            closes =
+              ancestors |> Enum.reverse() |> Enum.map_join("", fn {_open, close} -> close end)
+
             %{ext | source: opens <> ext.source <> closes}
         end
       end)
