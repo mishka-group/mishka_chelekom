@@ -80,6 +80,34 @@ defmodule Mix.Tasks.Mishka.Ui.Export do
 
   use Igniter.Mix.Task
 
+  @default_json_template """
+  {
+    "name": "something-new",
+    "type": "preset",
+    "files": [
+      {
+        "type": "component",
+        "content": "",
+        "name": "last_message",
+        "from": "https://mishka.tools/example/template.json",
+        "args": {
+          "variant": [],
+          "color": [],
+          "size": [],
+          "padding": [],
+          "space": [],
+          "type": [],
+          "rounded": [],
+          "only": [],
+          "module": ""
+        },
+        "optional": [],
+        "necessary": []
+      }
+    ]
+  }
+  """
+
   @impl Igniter.Mix.Task
   def info(_argv, _composing_task) do
     %Igniter.Mix.Task.Info{
@@ -116,34 +144,6 @@ defmodule Mix.Tasks.Mishka.Ui.Export do
       required: []
     }
   end
-
-  @default_json_template """
-  {
-    "name": "something-new",
-    "type": "preset",
-    "files": [
-      {
-        "type": "component",
-        "content": "",
-        "name": "last_message",
-        "from": "https://mishka.tools/example/template.json",
-        "args": {
-          "variant": [],
-          "color": [],
-          "size": [],
-          "padding": [],
-          "space": [],
-          "type": [],
-          "rounded": [],
-          "only": [],
-          "module": ""
-        },
-        "optional": [],
-        "necessary": []
-      }
-    ]
-  }
-  """
 
   @impl Igniter.Mix.Task
   def igniter(igniter) do

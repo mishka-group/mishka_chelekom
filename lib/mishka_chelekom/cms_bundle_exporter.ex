@@ -39,6 +39,25 @@ defmodule MishkaChelekom.CmsBundleExporter do
   @type component_params :: map()
   @type js_hook :: %{required(String.t()) => term()}
 
+  @base_assigns %{
+    module: "Sentinel.Component",
+    web_module: Sentinel,
+    module_prefix_camel: "Sentinel",
+    component_prefix: "",
+    type: nil,
+    variant: nil,
+    color: nil,
+    size: nil,
+    rounded: nil,
+    padding: nil,
+    space: nil
+  }
+
+  @ignored_attributes ~w(moduledoc doc spec type typep opaque callback macrocallback impl behaviour)a
+  @tier1_alias_modules ["Phoenix.LiveView.JS"]
+  @tier1_import_modules ["Phoenix.LiveView.Utils"]
+  @tier1_use_modules ["Phoenix.Component", "Gettext"]
+
   @doc """
   Convert one `.exs` + `.eex` pair into an ordered list of v3
   component-params (one entry per public function in the source) plus
@@ -71,11 +90,7 @@ defmodule MishkaChelekom.CmsBundleExporter do
       # list to each helper so the MishkaCMS installer can narrow
       # safely (e.g. base-only).
       condition_index = MishkaChelekom.HelperConditionIndex.build(eex_source)
-
-      sibling_names =
-        walked.public_defs
-        |> MapSet.new(& &1.name)
-        |> MapSet.union(extra_siblings)
+      sibling_names = walked.public_defs |> MapSet.new(& &1.name) |> MapSet.union(extra_siblings)
 
       components =
         walked.public_defs
@@ -135,29 +150,12 @@ defmodule MishkaChelekom.CmsBundleExporter do
     {value, _binding} = Code.eval_string(exs_source)
 
     case value do
-      [{name, config} | _] when is_atom(name) and is_list(config) ->
-        {:ok, config}
-
-      _ ->
-        {:error, :invalid_exs_shape}
+      [{name, config} | _] when is_atom(name) and is_list(config) -> {:ok, config}
+      _ -> {:error, :invalid_exs_shape}
     end
   rescue
     e -> {:error, {:exs_eval_failed, Exception.message(e)}}
   end
-
-  @base_assigns %{
-    module: "Sentinel.Component",
-    web_module: Sentinel,
-    module_prefix_camel: "Sentinel",
-    component_prefix: "",
-    type: nil,
-    variant: nil,
-    color: nil,
-    size: nil,
-    rounded: nil,
-    padding: nil,
-    space: nil
-  }
 
   defp render_maximal(eex_source, _config) do
     referenced =
@@ -177,11 +175,6 @@ defmodule MishkaChelekom.CmsBundleExporter do
       {:error, reason} -> {:error, {:parse_failed, reason}}
     end
   end
-
-  @ignored_attributes ~w(moduledoc doc spec type typep opaque callback macrocallback impl behaviour)a
-  @tier1_alias_modules ["Phoenix.LiveView.JS"]
-  @tier1_import_modules ["Phoenix.LiveView.Utils"]
-  @tier1_use_modules ["Phoenix.Component", "Gettext"]
 
   defp walk({:defmodule, _, [_alias, [do: body]]}) do
     nodes =
