@@ -29,11 +29,6 @@ defmodule MishkaChelekom.CmsBundleExporter do
       8. `slug_names/2`             apply lowercase + hyphen rewrite to
                                     every emitted name
       9. `emit_components/3`        one component-params per public def
-
-  Helpers (`defp`s) extracted in step 4 are inlined into every public
-  function's row — they share the compiled BEAM module so cross-helper
-  calls work locally. Public siblings are NOT inlined; cross-references
-  go through the runtime helper via the rewrite in step 7.
   """
 
   @type component_params :: map()
