@@ -80,8 +80,6 @@ defmodule MishkaChelekom.DemoAssignsExtractor do
     end
   end
 
-  ## ─── locate `def mount/3` body ─────────────────────────────────────
-
   defp find_mount_body({:defmodule, _, [_alias, [do: {:__block__, _, body}]]}),
     do: find_mount_in_block(body)
 
@@ -96,8 +94,6 @@ defmodule MishkaChelekom.DemoAssignsExtractor do
       _ -> nil
     end)
   end
-
-  ## ─── walk the `mount/3` body collecting assign/2|3 calls ────────────
 
   defp walk_assigns(nil, acc), do: acc
 
@@ -147,8 +143,6 @@ defmodule MishkaChelekom.DemoAssignsExtractor do
   defp to_atom_key(k) when is_binary(k), do: String.to_atom(k)
   defp to_atom_key({:__aliases__, _, _}), do: nil
   defp to_atom_key(_), do: nil
-
-  ## ─── safe value evaluation ─────────────────────────────────────────
 
   defp eval_value(ast) do
     cond do

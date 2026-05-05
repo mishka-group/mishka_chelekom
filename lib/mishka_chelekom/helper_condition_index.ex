@@ -62,8 +62,6 @@ defmodule MishkaChelekom.HelperConditionIndex do
     _ -> %{}
   end
 
-  ## ─── private ───────────────────────────────────────────────────────
-
   defp walk([], _stack, acc), do: acc
 
   defp walk([{:eof, _} | _], _stack, acc), do: acc
@@ -121,8 +119,6 @@ defmodule MishkaChelekom.HelperConditionIndex do
 
   defp conditions_from(stack), do: stack |> Enum.reject(&is_nil/1) |> Enum.reverse()
 
-  ## ── if-condition AST extraction
-
   # Parse the start_expr body. Recognise `if COND do`. Anything else
   # (`for`, `cond`, `case`, multi-clause `if … else`) is treated as
   # `:not_an_if` — its frame still pushes onto the stack as `nil` so
@@ -137,8 +133,6 @@ defmodule MishkaChelekom.HelperConditionIndex do
   catch
     _, _ -> :not_an_if
   end
-
-  ## ── defp scanner
 
   # Find every `defp NAME(ARGS)` (with or without `do`, single-line or
   # multi-line). Returns `[{name_string, args_string}, …]`.
@@ -220,7 +214,6 @@ defmodule MishkaChelekom.HelperConditionIndex do
 
   defp trim_leading_ws(s), do: s
 
-  ## ── arg-pattern normalisation
   #
   # The exporter emits a helper's `args` field by `Macro.to_string`-ing
   # the argument AST list. The raw .eex `defp` line has the same

@@ -36,8 +36,6 @@ defmodule MishkaChelekom.CmsBundleExporter do
   go through the runtime helper via the rewrite in step 7.
   """
 
-  ## ─── Public API ──────────────────────────────────────────────────────
-
   @type component_params :: map()
   @type js_hook :: %{required(String.t()) => term()}
 
@@ -133,8 +131,6 @@ defmodule MishkaChelekom.CmsBundleExporter do
     end
   end
 
-  ## ─── Step 1: read .exs ───────────────────────────────────────────────
-
   defp read_exs(exs_source) when is_binary(exs_source) do
     {value, _binding} = Code.eval_string(exs_source)
 
@@ -148,8 +144,6 @@ defmodule MishkaChelekom.CmsBundleExporter do
   rescue
     e -> {:error, {:exs_eval_failed, Exception.message(e)}}
   end
-
-  ## ─── Step 2: render maximal source ───────────────────────────────────
 
   @base_assigns %{
     module: "Sentinel.Component",
@@ -177,16 +171,12 @@ defmodule MishkaChelekom.CmsBundleExporter do
     EEx.eval_string(eex_source, assigns: Map.merge(referenced, @base_assigns))
   end
 
-  ## ─── Step 3: parse ast ───────────────────────────────────────────────
-
   defp parse_ast(source) do
     case Code.string_to_quoted(source, file: "ui_kit_maximal") do
       {:ok, ast} -> {:ok, ast}
       {:error, reason} -> {:error, {:parse_failed, reason}}
     end
   end
-
-  ## ─── Step 4: walk top-level AST ──────────────────────────────────────
 
   @ignored_attributes ~w(moduledoc doc spec type typep opaque callback macrocallback impl behaviour)a
   @tier1_alias_modules ["Phoenix.LiveView.JS"]
@@ -231,8 +221,6 @@ defmodule MishkaChelekom.CmsBundleExporter do
       public_defs: [],
       private_helpers: []
     }
-
-  ## ── handle each top-level node
 
   # Ignored doc/spec/type pragmas
   defp accumulate_node({:@, _, [{name, _, _}]}, acc)
@@ -349,8 +337,6 @@ defmodule MishkaChelekom.CmsBundleExporter do
   end
 
   defp accumulate_node(_, acc), do: acc
-
-  ## ── helpers used by walk
 
   defp parse_import([{:__aliases__, _, parts}]) do
     full = Enum.map_join(parts, ".", &Atom.to_string/1)
@@ -670,8 +656,6 @@ defmodule MishkaChelekom.CmsBundleExporter do
     end)
   end
 
-  ## ─── Step 5: resolve aliased attr types ──────────────────────────────
-
   defp resolve_aliased_attrs(component, aliases_map) do
     new_attrs = Enum.map(component.attrs, &resolve_attr_alias(&1, aliases_map))
 
@@ -705,7 +689,6 @@ defmodule MishkaChelekom.CmsBundleExporter do
 
   defp resolve_attr_alias(attr, _aliases_map), do: attr
 
-  ## ─── Step 6: drop unrepresentable defaults ───────────────────────────
   ##
   ## `attr_opts_to_map/1` already drops AST defaults, but make sure no
   ## `:__drop__` sentinel slips through.
@@ -731,8 +714,6 @@ defmodule MishkaChelekom.CmsBundleExporter do
   end
 
   defp drop_attr_unrep(attr), do: attr
-
-  ## ─── Step 7: rewrite sibling cross-refs ──────────────────────────────
 
   defp rewrite_sibling_refs(component, sibling_names, kit_name) do
     if MapSet.size(sibling_names) == 0 do
@@ -778,8 +759,6 @@ defmodule MishkaChelekom.CmsBundleExporter do
     end
   end
 
-  ## ─── Step 7.5: inject match destructure into body ──────────────────
-
   # Single-clause defs whose head pattern destructures `assigns`
   # (e.g. `def f(%{a: a, b: b} = assigns)`) lose the destructure when
   # the runtime compiler emits `def f(assigns)`. Rebind the names by
@@ -813,8 +792,6 @@ defmodule MishkaChelekom.CmsBundleExporter do
 
     %{component | body: new_body}
   end
-
-  ## ─── Step 8: slug names + attach metadata ────────────────────────────
 
   # Functions the MishkaCMS compiler injects via `use MishkaCmsWeb, :live_view`.
   # When a Chelekom file defines its own `defp translate_error(...)`, the
@@ -935,8 +912,6 @@ defmodule MishkaChelekom.CmsBundleExporter do
     |> String.replace("_", "-")
   end
 
-  ## ─── Step 9: maybe base64 ────────────────────────────────────────────
-
   defp maybe_base64(component, false), do: component
 
   defp maybe_base64(component, true) do
@@ -950,8 +925,6 @@ defmodule MishkaChelekom.CmsBundleExporter do
   defp encode_b64(nil), do: nil
   defp encode_b64(""), do: ""
   defp encode_b64(s) when is_binary(s), do: "base64:" <> Base.encode64(s)
-
-  ## ─── Step 10: finalize component-params (final JSON shape) ──────────
 
   defp finalize_component_params(c) do
     helpers =

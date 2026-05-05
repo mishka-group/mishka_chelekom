@@ -65,8 +65,6 @@ defmodule MishkaChelekom.HeexTagExtractor do
     end
   end
 
-  ## ─── outer scanning loop (top-level text) ──────────────────────────
-
   defp walk("", _kit, _line, acc), do: acc
 
   defp walk("<!--" <> rest, kit, line, acc) do
@@ -114,14 +112,10 @@ defmodule MishkaChelekom.HeexTagExtractor do
   defp walk(<<?\n, rest::binary>>, kit, line, acc), do: walk(rest, kit, line + 1, acc)
   defp walk(<<_::utf8, rest::binary>>, kit, line, acc), do: walk(rest, kit, line, acc)
 
-  ## ─── EEx skip helper ───────────────────────────────────────────────
-
   defp skip_eex(rest, terminator, kit, line, acc) do
     {block, after_block} = take_until(rest, terminator)
     walk(after_block, kit, line + count_newlines(block) + count_newlines(terminator), acc)
   end
-
-  ## ─── invocation capture (balanced) ─────────────────────────────────
 
   # `terminator` is the byte that ended `<.NAME<term>` — one of:
   #   `?>`  → tag has no attrs (`<.foo>...`)
@@ -264,8 +258,6 @@ defmodule MishkaChelekom.HeexTagExtractor do
     scan_body(after_block, name, depth, [chunk | acc], lines + count_newlines(chunk))
   end
 
-  ## ─── attr-list scanner ─────────────────────────────────────────────
-
   # Walk attrs until `>` or `/>`. Returns {:open|:self_close, rest, captured_attrs_text, line_count}.
   defp scan_attrs(input), do: do_scan_attrs(input, [], :outside, 0)
 
@@ -310,8 +302,6 @@ defmodule MishkaChelekom.HeexTagExtractor do
 
   defp do_scan_attrs(<<char::utf8, rest::binary>>, acc, mode, lines),
     do: do_scan_attrs(rest, [<<char::utf8>> | acc], mode, lines)
-
-  ## ─── helpers ───────────────────────────────────────────────────────
 
   defp parse_name(<<char::utf8, _::binary>> = input) do
     if name_start?(char), do: do_parse_name(input, []), else: :not_a_component
@@ -396,8 +386,6 @@ defmodule MishkaChelekom.HeexTagExtractor do
       [_unsplit] -> {source, ""}
     end
   end
-
-  ## ─── parent-directive enrichment ───────────────────────────────────
 
   # Re-tokenize the original source via `Phoenix.LiveView.Tokenizer` and
   # build an open-tag stack. For each captured chelekom invocation,

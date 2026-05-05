@@ -50,8 +50,6 @@ defmodule MishkaChelekom.HeexTagRewriter do
     end
   end
 
-  ## ─── implementation ─────────────────────────────────────────────────
-
   defp do_rewrite(input, siblings, kit_name) do
     state = %{
       output: [],
@@ -67,8 +65,6 @@ defmodule MishkaChelekom.HeexTagRewriter do
     |> Enum.reverse()
     |> IO.iodata_to_binary()
   end
-
-  ## ── scanning loop
 
   defp scan(state, "") do
     state
@@ -160,8 +156,6 @@ defmodule MishkaChelekom.HeexTagRewriter do
   defp scan(state, <<char::utf8, rest::binary>>) when state.mode == :text do
     emit(state, <<char::utf8>>) |> scan(rest)
   end
-
-  ## ── helpers
 
   # Parse `NAME` after `<.` ; NAME must start with [a-zA-Z_] and consist
   # of word chars. Returns `{:found, name_string, terminator_byte, rest}`

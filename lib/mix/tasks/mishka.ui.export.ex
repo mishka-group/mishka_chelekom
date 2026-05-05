@@ -200,14 +200,12 @@ defmodule Mix.Tasks.Mishka.Ui.Export do
     end
   end
 
-  # ──────────────────────────────────────────────────────────────────────
   # --cms output (mishka.ui_kit.bundle.v3)
   #
   # The exporter does ALL the work. Each entry in `components` is the
   # exact shape `Ash.create!(MishkaCmsCore.Runtime.Component, params)`
   # accepts on the MishkaCMS side. The installer there is a trivial
   # decode + bulk_create.
-  # ──────────────────────────────────────────────────────────────────────
 
   defp create_cms_bundle(igniter, name, options, base64) do
     cli_files = Map.get(igniter.assigns, :cli_files, false)
@@ -698,8 +696,6 @@ defmodule Mix.Tasks.Mishka.Ui.Export do
       end
     end)
   end
-
-  ## ─── demo example population (Phase 3 of UI_KIT_HARNESS_DESIGN) ────
 
   # Walk `<demos_dir>/*_live.html.heex`. For each demo, run the
   # `HeexTagExtractor` to collect every top-level chelekom invocation,
