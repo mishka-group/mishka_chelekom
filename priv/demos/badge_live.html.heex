@@ -1,0 +1,1230 @@
+<Layouts.app flash={@flash}>
+  <div class="lg:grid lg:grid-cols-12 mt-5 max-w-5xl mx-auto">
+    <.custom_nav active="chelekom-docs-badge" />
+    <div class="lg:col-span-10">
+      <.custom_info
+        title="Badge"
+        description="Interactive Badge for Phoenix LiveView supports icons, and indicators, making it ideal for real-time notifications, status updates in your web app."
+        mix="mix mishka.ui.gen.component badge"
+        tags={["Component", "Stateless", "JS-module"]}
+        github="https://github.com/mishka-group/mishka_chelekom/blob/master/priv/components/badge.eex"
+      />
+      <.custom_tab id="chelekom-badge-tab">
+        <:documentation_panel>
+          <.heading2 class="mb-5" id="overview">
+            <.link patch={~p"/chelekom/docs/badge/#overview"}>
+              Overview of the Phoenix and LiveView Badge Component
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <strong>
+              Mishka Chelekom Badge
+            </strong>
+            module offers a versatile selection of <strong>badge components</strong>
+            designed for <strong>Phoenix</strong>
+            applications. With support for badges featuring icons and indicators, it provides a flexible solution for adding interactive and informative elements to your interface. The
+            <strong>
+              <.link
+                title="Phoenix LiveView component"
+                class="transition-colors hover:text-[#448D96]"
+                navigate={~p"/chelekom"}
+              >
+                Phoenix LiveView Component
+              </.link>
+            </strong>
+            gives developers even more creative freedom, offering a variety of colors and shapes that seamlessly blend with any design. Its versatility boosts user engagement and ensures a visually appealing, polished user experience.
+          </.cp>
+
+          <.custom_code_wrapper elements_class="flex items-center gap-1 flex-wrap" class="mt-10">
+            <.badge size="small" class="items-center gap-2">
+              <span>Closed</span>
+              <span class="text-rose-600 dark:text-rose-300 font-semibold">-0.9%</span>
+            </.badge>
+            <.badge
+              size="small"
+              variant="outline"
+              color="success"
+              rounded="full"
+              icon="hero-arrow-trending-up"
+              font_weight="font-bold"
+            >
+              90%
+            </.badge>
+            <.badge size="large" variant="outline" color="info" indicator pinging rounded="full">
+              Live News
+            </.badge>
+            <.badge
+              size="small"
+              variant="outline"
+              color="danger"
+              rounded="full"
+              icon="hero-arrow-trending-down"
+            >
+              -0.1%
+            </.badge>
+            <.badge size="medium" variant="bordered" color="misc" rounded="full">Blog</.badge>
+            <.badge
+              size="small"
+              variant="bordered"
+              color="silver"
+              rounded="full"
+              content_class="flex flex-nowrap items-center gap-2 flex-1"
+            >
+              <.avatar_group id="ex-13333" space="large">
+                <.avatar
+                  id="avatar70090"
+                  src={~p"/images/avatar1.png"}
+                  size="extra_small"
+                  rounded="full"
+                />
+                <.avatar
+                  id="avatar70091"
+                  src={~p"/images/avatar2.jpg"}
+                  size="extra_small"
+                  rounded="full"
+                />
+                <.avatar
+                  id="avatar70092"
+                  src={~p"/images/avatar3.jpg"}
+                  size="extra_small"
+                  rounded="full"
+                />
+              </.avatar_group>
+              <span class="text-[15px]">3 Volunteers</span>
+            </.badge>
+          </.custom_code_wrapper>
+
+          <.cp margin="mt-5">
+            The Mishka Chelekom Badge module offers versatile options for
+            <strong>Phoenix LiveView</strong>
+            projects. From displaying notifications to showcasing status updates and labels, it allows you to incorporate icons and interactive elements easily. Its flexibility ensures smooth integration, making it an ideal choice for enhancing both design and functionality in your application.
+          </.cp>
+
+          <.heading2 margin="my-5" id="base-badge">
+            <.link patch={~p"/chelekom/docs/badge/#base-badge"}>
+              Base
+            </.link>
+          </.heading2>
+
+          <.custom_code_wrapper code={@code_18}>
+            <.badge>Base</.badge>
+            <.badge size="small" rounded="medium">Base</.badge>
+            <.badge size="medium" rounded="extra_large">Base</.badge>
+            <.badge size="large">Base</.badge>
+            <.badge size="extra_large" rounded="full">Base</.badge>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="default-variant-badge">
+            <.link patch={~p"/chelekom/docs/badge/#default-variant-badge"}>
+              Default variant of Phoenix and LiveView badge component
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The <.link navigate={~p"/chelekom/docs/badge"}>Mishka Chelekom badge</.link>
+            comes with a default variant that automatically applies a solid background and border. The
+            <.custom_inline_code>variant="default"</.custom_inline_code>
+            is applied by default, so there's no need to specify it. You can easily customize the badge by using the color prop to select from a wide range of colors, making it a perfect choice for adapting to any design or interface.
+          </.cp>
+
+          <.custom_code_wrapper elements_class="[&>*]:mb-2 text-sm" code={@code_1}>
+            <.badge color="natural" variant="default">Natural</.badge>
+
+            <.badge variant="default" color="white">White</.badge>
+
+            <.badge variant="default" color="dark">Dark</.badge>
+
+            <.badge variant="default" color="primary">Primary</.badge>
+
+            <.badge variant="default" color="secondary">Secondary</.badge>
+
+            <.badge variant="default" color="success">Success</.badge>
+
+            <.badge variant="default" color="warning">Warning</.badge>
+
+            <.badge variant="default" color="danger">Danger</.badge>
+
+            <.badge variant="default" color="info">Info</.badge>
+
+            <.badge variant="default" color="silver">Silver</.badge>
+
+            <.badge variant="default" color="misc">Misc</.badge>
+
+            <.badge variant="default" color="dawn">Dawn</.badge>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="outline-variant-badge">
+            <.link patch={~p"/chelekom/docs/badge/#outline-variant-badge"}>
+              Outline variant of badge component
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <.custom_inline_code>variant="outline"</.custom_inline_code>
+            prop gives the badge a transparent background with a colored border, available in various shades.
+          </.cp>
+
+          <.custom_code_wrapper elements_class="[&>*]:mb-2 text-sm" code={@code_2}>
+            <.badge variant="outline" color="natural">Natural</.badge>
+
+            <.badge variant="outline" color="primary">Primary</.badge>
+
+            <.badge variant="outline" color="secondary">Secondary</.badge>
+
+            <.badge variant="outline" color="success">Success</.badge>
+
+            <.badge variant="outline" color="warning">Warning</.badge>
+
+            <.badge variant="outline" color="danger">Danger</.badge>
+
+            <.badge variant="outline" color="info">Info</.badge>
+
+            <.badge variant="outline" color="silver">Silver</.badge>
+
+            <.badge variant="outline" color="misc">Misc</.badge>
+
+            <.badge variant="outline" color="dawn">Dawn</.badge>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="transparent-variant-badge">
+            <.link patch={~p"/chelekom/docs/badge/#transparent-variant-badge"}>
+              Transparent variant of badge component
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <.custom_inline_code>variant="transparent"</.custom_inline_code>
+            prop gives the badge a transparent background with a colored border, available in various shades.
+          </.cp>
+
+          <.custom_code_wrapper elements_class="[&>*]:mb-2 text-sm" code={@code_3}>
+            <.badge variant="transparent" color="natural">Natural</.badge>
+
+            <.badge variant="transparent" color="primary">Primary</.badge>
+
+            <.badge variant="transparent" color="secondary">Secondary</.badge>
+
+            <.badge variant="transparent" color="success">Success</.badge>
+
+            <.badge variant="transparent" color="warning">Warning</.badge>
+
+            <.badge variant="transparent" color="danger">Danger</.badge>
+
+            <.badge variant="transparent" color="info">Info</.badge>
+
+            <.badge variant="transparent" color="silver">Silver</.badge>
+
+            <.badge variant="transparent" color="misc">Misc</.badge>
+
+            <.badge variant="transparent" color="dawn">Dawn</.badge>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="bordered-variant-badge">
+            <.link patch={~p"/chelekom/docs/badge/#bordered-variant-badge"}>
+              Bordered Variant
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The Bordered variant of the Mishka Chelekom badge has lighter background and a border. Bordered variant have also white and dark colors which are the same colors in the dark and light mode.
+          </.cp>
+
+          <.custom_code_wrapper elements_class="[&>*]:mb-2 text-sm" code={@code_15}>
+            <.badge variant="bordered" color="natural">Natural</.badge>
+
+            <.badge variant="bordered" color="white">White</.badge>
+
+            <.badge variant="bordered" color="dark">Dark</.badge>
+
+            <.badge variant="bordered" color="primary">Primary</.badge>
+
+            <.badge variant="bordered" color="secondary">Secondary</.badge>
+
+            <.badge variant="bordered" color="success">Success</.badge>
+
+            <.badge variant="bordered" color="warning">Warning</.badge>
+
+            <.badge variant="bordered" color="danger">Danger</.badge>
+
+            <.badge variant="bordered" color="info">Info</.badge>
+
+            <.badge variant="bordered" color="silver">Silver</.badge>
+
+            <.badge variant="bordered" color="misc">Misc</.badge>
+
+            <.badge variant="bordered" color="dawn">Dawn</.badge>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="gradient-variant-badge">
+            <.link patch={~p"/chelekom/docs/badge/#gradient-variant-badge"}>
+              Gradient Variant
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The gradient variant of the Mishka Chelekom badge has gradients in various colors.
+          </.cp>
+
+          <.custom_code_wrapper elements_class="[&>*]:mb-2 text-sm" code={@code_16}>
+            <.badge variant="gradient" color="natural">Natural</.badge>
+
+            <.badge variant="gradient" color="primary">Primary</.badge>
+
+            <.badge variant="gradient" color="secondary">Secondary</.badge>
+
+            <.badge variant="gradient" color="success">Success</.badge>
+
+            <.badge variant="gradient" color="warning">Warning</.badge>
+
+            <.badge variant="gradient" color="danger">Danger</.badge>
+
+            <.badge variant="gradient" color="info">Info</.badge>
+
+            <.badge variant="gradient" color="silver">Silver</.badge>
+
+            <.badge variant="gradient" color="misc">Misc</.badge>
+
+            <.badge variant="gradient" color="dawn">Dawn</.badge>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="shadow-variant-badge">
+            <.link patch={~p"/chelekom/docs/badge/#shadow-variant-badge"}>
+              Shadow variant of badge component
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <.custom_inline_code>variant="shadow"</.custom_inline_code>
+            prop gives the badge a solid background similar to the default variant but adds a subtle shadow, giving it a slightly elevated, more defined appearance.
+          </.cp>
+
+          <.custom_code_wrapper elements_class="[&>*]:mb-2 text-sm" code={@code_5}>
+            <.badge variant="shadow" color="natural">Natural</.badge>
+
+            <.badge variant="shadow" color="primary">Primary</.badge>
+
+            <.badge variant="shadow" color="secondary">Secondary</.badge>
+
+            <.badge variant="shadow" color="success">Success</.badge>
+
+            <.badge variant="shadow" color="warning">Warning</.badge>
+
+            <.badge variant="shadow" color="danger">Danger</.badge>
+
+            <.badge variant="shadow" color="info">Info</.badge>
+
+            <.badge variant="shadow" color="silver">Silver</.badge>
+
+            <.badge variant="shadow" color="misc">Misc</.badge>
+
+            <.badge variant="shadow" color="dawn">Dawn</.badge>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="badge-dsimiss">
+            <.link patch={~p"/chelekom/docs/badge/#badge-dsimiss"}>
+              Dismiss prop in Phoenix LiveView Badge Component
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <.custom_inline_code>dismiss</.custom_inline_code>
+            prop adds a closing icon to the badge, allowing it to be dismissed and removed from the DOM. It supports positions like
+            <.custom_inline_code>right_dismiss</.custom_inline_code>
+            and <.custom_inline_code>left_dismiss</.custom_inline_code>, and is a server-side component for dynamic interaction.
+          </.cp>
+
+          <.custom_block color="warning" position="left" class="my-8" border="medium">
+            All components that have a dismiss button. When performing the operation,
+            it sends an event to the server. for example
+            <.custom_inline_code>handle_event("dismiss", params, socket)</.custom_inline_code>
+          </.custom_block>
+
+          <.custom_code_wrapper
+            elements_class="flex item-start gap-2 [&>*]:mb-2 text-sm"
+            code={@code_6}
+          >
+            <.badge size="medium" id="doc-badge-dismiss-1" dismiss color="danger">Danger</.badge>
+
+            <.badge size="medium" id="doc-badge-dismiss-2" right_dismiss color="success">
+              Success
+            </.badge>
+
+            <.badge size="medium" id="doc-badge-dismiss-3" left_dismiss color="warning">
+              Warning
+            </.badge>
+          </.custom_code_wrapper>
+
+          <.cp>
+            When one of the dismiss items is activated in the badge, it is expected to send an
+            event to the server. For example:
+          </.cp>
+
+          <.custom_code_wrapper
+            elements_class="flex item-start gap-2 [&>*]:mb-2 text-sm"
+            code={@code_14}
+            type="elixir"
+          />
+
+          <.heading2 margin="my-5" id="badge-radius">
+            <.link patch={~p"/chelekom/docs/badge/#badge-radius"}>
+              Radius prop in Phoenix LiveView Badge Component
+            </.link>
+          </.heading2>
+
+          <.cp>
+            With the Mishka Chelekom badge component, you can easily customize the badge’s border radius using various size options. Available sizes include <.custom_inline_code>extra_small</.custom_inline_code>, <.custom_inline_code>small</.custom_inline_code>, <.custom_inline_code>medium</.custom_inline_code>, <.custom_inline_code>large</.custom_inline_code>, <.custom_inline_code>extra_large</.custom_inline_code>, <.custom_inline_code>full</.custom_inline_code>, and <.custom_inline_code>none</.custom_inline_code>, allowing you to adjust the roundness of the badge’s corners to suit your design. Whether you need sharp-edged labels or fully rounded badges, these options provide flexibility to enhance the appearance and functionality of your interface.
+          </.cp>
+
+          <.custom_code_wrapper elements_class="[&>*]:mb-2 text-sm" code={@code_7}>
+            <.badge rounded="extra_small">Extra Small</.badge>
+
+            <.badge rounded="small">Small</.badge>
+
+            <.badge rounded="medium">Medium</.badge>
+
+            <.badge rounded="large">Large</.badge>
+
+            <.badge rounded="extra_large">Extra Large</.badge>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="badge-border">
+            <.link patch={~p"/chelekom/docs/badge/#badge-border"}>
+              Border prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            With the Mishka Chelekom badge component, you can easily customize the border size using various options. Available sizes include <.custom_inline_code>extra_small</.custom_inline_code>, <.custom_inline_code>small</.custom_inline_code>, <.custom_inline_code>medium</.custom_inline_code>, <.custom_inline_code>large</.custom_inline_code>,
+            <.custom_inline_code>extra_large</.custom_inline_code>
+            and <.custom_inline_code>none</.custom_inline_code>, Note that these size options are only applicable to the
+            <.custom_inline_code>outline</.custom_inline_code>
+            variant.
+          </.cp>
+
+          <.custom_code_wrapper elements_class="[&>*]:mb-2 text-sm" code={@code_4}>
+            <.badge variant="outline" color="primary" border="extra_small">Extra Small</.badge>
+
+            <.badge variant="outline" color="secondary" border="small">Small</.badge>
+
+            <.badge variant="outline" color="silver" border="medium">Medium</.badge>
+
+            <.badge variant="outline" color="dawn" border="large">Large</.badge>
+
+            <.badge variant="outline" color="misc" border="extra_large">Extra Large</.badge>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="badge-size">
+            <.link patch={~p"/chelekom/docs/badge/#badge-size"}>
+              Size prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <.custom_inline_code>size</.custom_inline_code>
+            prop in the Mishka Chelekom badge controls both padding and text size. When
+            <.custom_inline_code>circle</.custom_inline_code>
+            is set to false, it adjusts the padding based on the size, ranging from
+            <.custom_inline_code>extra_small</.custom_inline_code>
+            to <.custom_inline_code>extra_large</.custom_inline_code>. If
+            <.custom_inline_code>circle</.custom_inline_code>
+            is true, it applies Tailwind size classes for circular badges. This prop also adjusts the
+            <.link
+              title="Phoenix indicator component"
+              class="transition-colors hover:text-[#448D96]"
+              navigate={~p"/chelekom/docs/indicator"}
+            >
+              indicator
+            </.link>
+            and text size, ensuring the badge fits seamlessly into any design.
+          </.cp>
+
+          <.custom_code_wrapper elements_class="[&>*]:mb-2 text-sm" code={@code_9}>
+            <.badge variant="bordered" color="secondary" size="extra_small">Extra Small</.badge>
+
+            <.badge variant="bordered" color="secondary" size="small">Small</.badge>
+
+            <.badge variant="bordered" color="secondary" size="medium">Medium</.badge>
+
+            <.badge variant="bordered" color="secondary" size="large">Large</.badge>
+
+            <.badge variant="bordered" color="secondary" size="extra_large">Extra Large</.badge>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="badge-icon">
+            <.link patch={~p"/chelekom/docs/badge/#badge-icon"}>
+              Icon prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <.custom_inline_code>icon</.custom_inline_code>
+            prop in the Mishka Chelekom badge component allows you to easily add icons next to the badge content, utilizing LiveView Hero Icons by default. With the
+            <.custom_inline_code>icon_class</.custom_inline_code>
+            prop, you can apply custom styles to the icon for better design control. By default, the icon appears on the left side, but you can customize the position using the
+            <.custom_inline_code>right_icon</.custom_inline_code>
+            or
+            <.custom_inline_code>left_icon</.custom_inline_code>
+            props, giving you more flexibility to create visually appealing and functional badge designs.
+          </.cp>
+
+          <.custom_code_wrapper elements_class="flex gap-1 [&>*]:mb-2 text-sm" code={@code_9}>
+            <.badge
+              variant="default"
+              color="success"
+              size="extra_small"
+              icon="hero-arrow-trending-up"
+            >
+              Up
+            </.badge>
+
+            <.badge
+              variant="default"
+              color="danger"
+              size="extra_small"
+              icon="hero-arrow-trending-down"
+            >
+              Down
+            </.badge>
+
+            <.badge variant="default" color="info" size="extra_small" icon="hero-arrow-up-circle">
+              Upload
+            </.badge>
+
+            <.badge variant="default" color="info" size="extra_small" icon="hero-inbox-solid">
+              badge
+            </.badge>
+
+            <.badge color="info" size="extra_small" icon="hero-bell-slash">Notify</.badge>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="badge-indicator">
+            <.link patch={~p"/chelekom/docs/badge/#badge-indicator"}>
+              Indicator prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <.custom_inline_code>indicator</.custom_inline_code>
+            prop in the Mishka Chelekom badge component allows you to display an indicator, typically a small circle, within the badge. You can control its placement using the
+            <.custom_inline_code>indicator_position</.custom_inline_code>
+            prop. By default, it appears on the left (<.custom_inline_code>
+            left_indicator
+          </.custom_inline_code>), but you can choose from other positions such as <.custom_inline_code>right_indicator</.custom_inline_code>, <.custom_inline_code>top_left_indicator</.custom_inline_code>, or <.custom_inline_code>bottom_center_indicator</.custom_inline_code>. The size of the indicator can also be customized using the
+            <.custom_inline_code>indicator_size</.custom_inline_code>
+            prop, with sizes ranging from
+            <.custom_inline_code>extra_small</.custom_inline_code>
+            to <.custom_inline_code>extra_large</.custom_inline_code>, providing flexible options to suit your badge’s design and functionality.
+          </.cp>
+
+          <.custom_code_wrapper
+            elements_class="flex flex-wrap gap-5 [&>*]:mb-2 text-sm"
+            code={@code_10}
+          >
+            <.badge variant="default" color="info" size="small" left_indicator>
+              Extra Small Indicator - Left
+            </.badge>
+
+            <.badge
+              variant="default"
+              color="info"
+              size="small"
+              right_indicator
+              indicator_size="small"
+            >
+              Small - Right
+            </.badge>
+
+            <.badge
+              variant="default"
+              color="info"
+              size="small"
+              top_left_indicator
+              indicator_size="medium"
+            >
+              Medium - Top Left
+            </.badge>
+
+            <.badge
+              variant="default"
+              color="info"
+              size="large"
+              top_center_indicator
+              indicator_size="large"
+            >
+              Large - Top Center
+            </.badge>
+
+            <.badge
+              variant="default"
+              color="info"
+              size="extra_large"
+              top_right_indicator
+              indicator_size="extra_large"
+            >
+              Extra Large - Top Right
+            </.badge>
+
+            <.badge
+              variant="default"
+              color="info"
+              size="small"
+              middle_left_indicator
+              indicator_size="extra_small"
+            >
+              Extra small - Middle Left
+            </.badge>
+
+            <.badge
+              variant="default"
+              color="info"
+              size="small"
+              middle_right_indicator
+              indicator_size="extra_small"
+            >
+              Extra small - Middle Right
+            </.badge>
+
+            <.badge
+              variant="default"
+              color="info"
+              size="small"
+              bottom_left_indicator
+              indicator_size="extra_small"
+            >
+              Extra small - Bottom Left
+            </.badge>
+
+            <.badge
+              variant="default"
+              color="info"
+              size="small"
+              bottom_center_indicator
+              indicator_size="extra_small"
+            >
+              Extra small - Bottom Center
+            </.badge>
+
+            <.badge
+              variant="default"
+              color="info"
+              size="small"
+              bottom_right_indicator
+              indicator_size="extra_small"
+            >
+              Extra small - Bottom Right
+            </.badge>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="badge-indicator-pinging">
+            <.link patch={~p"/chelekom/docs/badge/#badge-indicator-pinging"}>
+              Pinging prop in Phoenix LiveView Badge Component
+            </.link>
+          </.heading2>
+
+          <.cp>
+            In the Mishka Chelekom badge component, you can enhance the indicator with a
+            <.custom_inline_code>pinging</.custom_inline_code>
+            animation by setting the
+            <.custom_inline_code>pinging</.custom_inline_code>
+            prop to true. This creates a subtle pulsing effect, drawing attention to the <.custom_inline_code>indicator</.custom_inline_code>. By default, the
+            <.custom_inline_code>pinging</.custom_inline_code>
+            prop is set to false, meaning the indicator remains static unless enabled. This feature adds a dynamic element to your design, making it ideal for highlighting important actions, notifications, or statuses.
+          </.cp>
+
+          <.custom_code_wrapper
+            elements_class="[&>*]:mb-2 flex flex-wrap items-start gap-5 text-sm"
+            code={@code_11}
+          >
+            <.badge variant="default" color="danger" size="large" indicator pinging>
+              Extra Small - Left
+            </.badge>
+
+            <.badge variant="default" color="silver" size="large" right_indicator pinging>
+              Small - Right
+            </.badge>
+
+            <.badge size="large" top_left_indicator pinging>
+              Medium - Top Left
+            </.badge>
+
+            <.badge variant="default" color="dawn" size="large" top_center_indicator pinging>
+              Large - Top Center
+            </.badge>
+
+            <.badge variant="default" color="misc" size="large" top_right_indicator pinging>
+              Extra Large - Top Right
+            </.badge>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="circle-badge">
+            <.link patch={~p"/chelekom/docs/badge/#circle-badge"}>
+              Circle prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <.custom_inline_code>circle</.custom_inline_code>
+            prop ensures the badge has equal width and height, allowing you to create circular or square badge shapes. This prop is ideal for designs that require a consistent, symmetrical look, making it perfect for icon badges or any elements that need uniform dimensions for a clean and polished appearance.
+          </.cp>
+
+          <.custom_code_wrapper
+            elements_class="[&>*]:mb-2 flex flex-wrap items-start gap-5 text-sm"
+            code={@code_12}
+          >
+            <.badge variant="default" color="misc" size="extra_small" circle>
+              1
+            </.badge>
+
+            <.badge variant="default" color="misc" size="small" circle>
+              2
+            </.badge>
+
+            <.badge variant="default" color="misc" size="medium" circle>
+              3
+            </.badge>
+
+            <.badge variant="default" color="misc" size="large" circle>
+              4
+            </.badge>
+
+            <.badge variant="default" color="misc" size="extra_large" circle>
+              5
+            </.badge>
+
+            <.badge variant="default" color="misc" size="extra_large" rounded="full" circle>
+              5
+            </.badge>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="badge-position">
+            <.link patch={~p"/chelekom/docs/badge/#badge-position"}>
+              Badge position
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <.custom_inline_code>badge position</.custom_inline_code>
+            prop can be set to specific values such as <.custom_inline_code>top-left</.custom_inline_code>, <.custom_inline_code>top-right</.custom_inline_code>, <.custom_inline_code>bottom-left</.custom_inline_code>, or <.custom_inline_code>bottom-right</.custom_inline_code>. These positions determine the badge's alignment relative to its parent element, making it ideal for displaying notifications or other indicators.
+          </.cp>
+
+          <.custom_block position="left" color="danger" class="my-8" border="medium">
+            <.cp>
+              Remember, for the badge to display correctly, the parent element it resides in must include the attribute <.custom_inline_code>class="relative"</.custom_inline_code>.
+            </.cp>
+          </.custom_block>
+
+          <.custom_code_wrapper
+            elements_class="flex flex-wrap items-center gap-10 text-sm"
+            code_class="text-xs"
+            code={@code_17}
+          >
+            <.badge
+              variant="default"
+              color="dawn"
+              class="relative"
+              size="extra_large"
+              rounded="extra_small"
+            >
+              <.badge
+                color="misc"
+                variant="default"
+                rounded="full"
+                circle
+                size="extra_small"
+                badge_position="top-left"
+              >
+                +9
+              </.badge>
+              Notification
+            </.badge>
+
+            <.button
+              class="relative"
+              variant="outline"
+              color="danger"
+              size="extra_large"
+              rounded="extra_small"
+            >
+              <.badge
+                variant="default"
+                color="danger"
+                rounded="full"
+                circle
+                size="extra_small"
+                badge_position="bottom-right"
+              >
+                +9
+              </.badge>
+              Emails
+            </.button>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="font-weight-badge">
+            <.link patch={~p"/chelekom/docs/badge/#font-weight-badge"}>
+              Font Wight prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The <.custom_inline_code>font_wight</.custom_inline_code>: This prop controls the weight (thickness or boldness) of text, utilizing Tailwind's font-weight classes such as <.custom_inline_code>font-light</.custom_inline_code>, <.custom_inline_code>font-bold</.custom_inline_code>, or <.custom_inline_code>font-semibold</.custom_inline_code>. You can easily adjust the text weight to match your design needs, whether you need subtle emphasis or a bolder look.
+          </.cp>
+
+          <.custom_code_wrapper
+            elements_class="[&>*]:mb-2 flex flex-wrap items-start gap-5 text-sm"
+            code={@code_13}
+          >
+            <.badge size="medium" font_weight="font-bold">
+              Bold
+            </.badge>
+
+            <.badge variant="default" color="secondary" size="medium" font_weight="font-semibold">
+              Semibold
+            </.badge>
+
+            <.badge variant="default" color="primary" size="medium" font_weight="font-medium">
+              Medium
+            </.badge>
+
+            <.badge variant="default" color="dawn" size="medium" font_weight="font-light">
+              Light
+            </.badge>
+
+            <.badge variant="default" color="misc" size="medium" font_weight="font-black">
+              Black
+            </.badge>
+          </.custom_code_wrapper>
+        </:documentation_panel>
+
+        <:props_panel>
+          <.custom_search class="mb-16" />
+          <div class="space-y-8">
+            <h2 class="text-lg lg:text-2xl font-bold">Badge component props</h2>
+
+            <.custom_table id="badge-component-table">
+              <:header>
+                <.table_th>Name</.table_th>
+
+                <.table_th>Type</.table_th>
+
+                <.table_th>Required</.table_th>
+
+                <.table_th>Description</.table_th>
+              </:header>
+
+              <:row>
+                <.table_td>id</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>A unique identifier used to manage state and interaction.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>variant</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines the style of the banner. Supported values: <strong>base</strong>, <strong>default</strong>, <strong>outline</strong>, <strong>transparent</strong>, <strong>shadow</strong>, <strong>bordered</strong>, <strong>gradient</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>size</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines the overall size of the badge. Supported sizes: <strong>extra_small</strong>, <strong>small</strong>, <strong>medium</strong>, <strong>large</strong>, <strong>extra_large</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>border</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td center>No</.table_td>
+
+                <.table_td>Determines border style.</.table_td>
+              </:row>
+              <:row>
+                <.table_td>rounded</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines the border radius. Supported values: <strong>extra_small</strong>, <strong>small</strong>, <strong>medium</strong>, <strong>large</strong>, <strong>extra_large</strong>, <strong>full</strong>, <strong>none</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>color</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines the color theme of the badge. Supported colors: <strong>natural</strong>, <strong>primary</strong>, <strong>secondary</strong>, <strong>success</strong>, <strong>warning</strong>, <strong>danger</strong>, <strong>info</strong>, <strong>silver</strong>, <strong>misc</strong>, <strong>dawn</strong>. The
+                  <strong>default</strong>
+                  and <strong>bordered</strong>
+                  variants have extra color options: <strong>dark</strong>
+                  and <strong>white</strong>, which in both light mode and dark mode, these colors are always the same.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>font_weight</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines the font weight. Default is <strong>font-normal</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>icon</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Icon displayed alongside the badge content.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>class</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Custom CSS class for additional styling.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>badge_position</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  To have a floating style you can add badge_position props with values like <strong>top-left</strong>, <strong>top-right</strong>, <strong>bottom-left</strong>, or
+                  <strong>bottom-right</strong>
+                  to any component and elements.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>indicator_class</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>CSS class for additional styling of the badge indicator.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>icon_class</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>CSS class for additional styling of the badge icons.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>indicator_size</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Specifies the size of the badge indicator.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>pinging</.table_td>
+
+                <.table_td>boolean</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Adds a ping animation to the badge indicator.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>circle</.table_td>
+
+                <.table_td>boolean</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Renders the badge as a circular element.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>dismiss</.table_td>
+
+                <.table_td>boolean</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Adds a dismiss button to the badge.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>right_dismiss</.table_td>
+
+                <.table_td>boolean</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Adds a dismiss button positioned on the right side of the badge.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>left_dismiss</.table_td>
+
+                <.table_td>boolean</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Adds a dismiss button positioned on the left side of the badge.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>indicator</.table_td>
+
+                <.table_td>boolean</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Adds a default indicator to the badge.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>right_indicator</.table_td>
+
+                <.table_td>boolean</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Adds an indicator positioned on the right side of the badge.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>left_indicator</.table_td>
+
+                <.table_td>boolean</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Adds an indicator positioned on the left side of the badge.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>top_left_indicator</.table_td>
+
+                <.table_td>boolean</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Adds an indicator positioned at the top left of the badge.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>top_center_indicator</.table_td>
+
+                <.table_td>boolean</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Adds an indicator positioned at the top center of the badge.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>top_right_indicator</.table_td>
+
+                <.table_td>boolean</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Adds an indicator positioned at the top right of the badge.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>middle_left_indicator</.table_td>
+
+                <.table_td>boolean</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Adds an indicator positioned at the middle left of the badge.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>middle_right_indicator</.table_td>
+
+                <.table_td>boolean</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Adds an indicator positioned at the middle right of the badge.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>bottom_left_indicator</.table_td>
+
+                <.table_td>boolean</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Adds an indicator positioned at the bottom left of the badge.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>bottom_center_indicator</.table_td>
+
+                <.table_td>boolean</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Adds an indicator positioned at the bottom center of the badge.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>bottom_right_indicator</.table_td>
+
+                <.table_td>boolean</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Adds an indicator positioned at the bottom right of the badge.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>right_icon</.table_td>
+
+                <.table_td>boolean</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Positions the icon on the right side of the badge.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>left_icon</.table_td>
+
+                <.table_td>boolean</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Positions the icon on the left side of the badge.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>dismiss_class</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Custom CSS class for additional styling of dismiss button.</.table_td>
+              </:row>
+            </.custom_table>
+          </div>
+        </:props_panel>
+
+        <:cli_panel>
+          <.custom_cli_props config={component_config()} />
+        </:cli_panel>
+
+        <.custom_table_content>
+          <:content
+            link={~p"/chelekom/docs/badge/#overview"}
+            title="Overview of the badge component"
+          />
+          <:content
+            link={~p"/chelekom/docs/badge/#default-variant-badge"}
+            title="Default variant"
+          />
+          <:content
+            link={~p"/chelekom/docs/badge/#outline-variant-badge"}
+            title="Outline variant"
+          />
+          <:content
+            link={~p"/chelekom/docs/badge/#transparent-variant-badge"}
+            title="Transparent variant"
+          />
+          <:content
+            link={~p"/chelekom/docs/badge/#bordered-variant-badge"}
+            title="Bordered variant"
+          />
+          <:content
+            link={~p"/chelekom/docs/badge/#gradient-variant-badge"}
+            title="gradient variant"
+          />
+          <:content link={~p"/chelekom/docs/badge/#shadow-variant-badge"} title="Shadow variant" />
+          <:content link={~p"/chelekom/docs/badge/#badge-dsimiss"} title="Dissmiss" />
+          <:content link={~p"/chelekom/docs/badge/#badge-radius"} title="Radius prop" />
+          <:content link={~p"/chelekom/docs/badge/#badge-border"} title="Border prop" />
+          <:content link={~p"/chelekom/docs/badge/#badge-size"} title="Size prop" />
+          <:content link={~p"/chelekom/docs/badge/#badge-icon"} title="Icon prop" />
+          <:content link={~p"/chelekom/docs/badge/#badge-indicator"} title="Indicator prop" />
+          <:content
+            link={~p"/chelekom/docs/badge/#badge-indicator-pinging"}
+            title="Indicator pinging prop"
+          />
+          <:content link={~p"/chelekom/docs/badge/#circle-badge"} title="Circle prop" />
+          <:content link={~p"/chelekom/docs/badge/#badge-position"} title="Badge position" />
+          <:content link={~p"/chelekom/docs/badge/#font-weight-badge"} title="Font Weight prop" />
+        </.custom_table_content>
+      </.custom_tab>
+    </div>
+  </div>
+</Layouts.app>

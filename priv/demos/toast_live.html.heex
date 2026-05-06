@@ -1,0 +1,3355 @@
+<Layouts.app flash={@flash}>
+  <div class="lg:grid lg:grid-cols-12 mt-5 max-w-5xl mx-auto">
+    <.custom_nav active="chelekom-docs-toast" />
+    <div class="lg:col-span-10">
+      <.custom_info
+        title="Toast"
+        description="Customizable toast notifications in Phoenix LiveView provide seamless, non-intrusive user feedback with flexible options for size, color, and positioning."
+        mix="mix mishka.ui.gen.component toast"
+        github="https://github.com/mishka-group/mishka_chelekom/blob/master/priv/components/toast.eex"
+        tags={["Component", "Stateless", "JS-module", "JS"]}
+      />
+      <.custom_tab id="chelekom-toast-tab">
+        <:documentation_panel>
+          <.heading2 class="mb-5" id="overview">
+            <.link patch={~p"/chelekom/docs/toast/#overview"}>
+              Overview of the Phoenix and LiveView Toast Component
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <strong>
+              Mishka Chelekom toast
+            </strong>
+            component is a <strong>Phoenix LiveView</strong>
+            component that enables developers to create dynamic and customizable <strong>toast notifications</strong>, perfect for displaying brief, non-intrusive messages to users. It offers flexibility in positioning, color, size, and dismiss behavior, making it easy to integrate into any application.
+          </.cp>
+
+          <.custom_code_wrapper elements_class="flex justify-center items-center">
+            <.button
+              size="small"
+              phx-click="toast_position"
+              phx-value-pos="toast-example-140"
+              class="hover:scale-105 transition-transform"
+              content_class="flex items-center gap-2"
+              icon="hero-sparkles"
+              icon_class="size-4"
+            >
+              Show Collaboration Invite
+            </.button>
+
+            <.toast
+              :if={@toast_pos == "toast-example-140"}
+              id="success_toast_140"
+              rounded="medium"
+              horizontal="right"
+              vertical="top"
+              padding="medium"
+              width="max-w-[400px] w-full"
+              dismiss_icon_class="size-5"
+              class="shadow-lg animate-in slide-in-from-right"
+            >
+              <div class="space-y-4">
+                <h2 class="text-[17px] font-medium">LiveView Component</h2>
+
+                <p class="text-muted-foreground text-sm">
+                  Phoenix LiveView team has invited you to collaborate on a new UI component. Would you like to contribute?
+                </p>
+              </div>
+              <div class="flex gap-2 mt-5">
+                <.button
+                  variant="bg-black border border-black text-white hover:bg-black/80"
+                  size="py-1.5 px-6 text-[15px]"
+                  rounded="small"
+                >
+                  Join Project
+                </.button>
+                <.button
+                  variant="bg-rose-500 hover:bg-rose-500/80 border border-rose-600 text-white"
+                  size="py-1.5 px-6 text-[15px]"
+                  rounded="small"
+                >
+                  Maybe Later
+                </.button>
+              </div>
+            </.toast>
+          </.custom_code_wrapper>
+
+          <.cp margin="mt-5">
+            This
+            <strong>
+              <.link
+                title="Phoenix LiveView component"
+                class="transition-colors hover:text-[#448D96]"
+                navigate={~p"/chelekom"}
+              >
+                Phoenix LiveView component
+              </.link>
+            </strong>
+            also supports various styles, custom triggers, and timers, making it ideal for providing feedback, alerts, or information to users without interrupting their workflow. With its responsive design and ease of use, this toast component enhances the overall user experience and engagement.
+          </.cp>
+
+          <.custom_block position="left" color="success" class="my-8" border="medium">
+            <.cp>
+              By using the class prop, you can apply custom classes or Tailwind CSS classes to customize the components design.
+            </.cp>
+            <strong>Note:</strong>
+            <.custom_inline_code>id</.custom_inline_code>
+            is required for each toast.
+          </.custom_block>
+
+          <.heading2 margin="my-5" id="base-toast">
+            <.link patch={~p"/chelekom/docs/toast/#base-toast"}>
+              Base Variant
+            </.link>
+          </.heading2>
+
+          <.custom_code_wrapper code_class="text-xs" code={@code_26}>
+            <div class="mb-6 flex items-center gap-2 flex-wrap">
+              <.button
+                variant="outline"
+                color="natural"
+                size="small"
+                phx-click="toast_position"
+                phx-value-pos="toast-example-139"
+              >
+                Show Base
+              </.button>
+            </div>
+
+            <.toast :if={@toast_pos == "toast-example-139"} id="toast_white_doc_139">
+              Toast Base color and variant
+            </.toast>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="default-variant-toast">
+            <.link patch={~p"/chelekom/docs/toast/#default-variant-toast"}>
+              Default Variant
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The default style of the
+            <.link navigate={~p"/chelekom/docs/toast"}>Mishka Chelekom toast</.link>
+            applies customizable colors, making it ideal for providing contextual information to users. With just a single setting, you can select from a range of color options, ensuring easy integration with your application's design.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" code={@code_1}>
+            <div class="mb-6 flex items-center gap-2 flex-wrap">
+              <.button
+                color="silver"
+                variant="outline"
+                size="small"
+                phx-click="toast_position"
+                phx-value-pos="toast-example-1"
+              >
+                Show White
+              </.button>
+              <.button
+                variant="outline"
+                color="natural"
+                size="small"
+                phx-click="toast_position"
+                phx-value-pos="toast-example-2"
+              >
+                Show Dark
+              </.button>
+              <.button
+                variant="outline"
+                color="info"
+                size="small"
+                phx-click="toast_position"
+                phx-value-pos="toast-example-3"
+              >
+                Show Info
+              </.button>
+              <.button
+                variant="outline"
+                color="success"
+                size="small"
+                phx-click="toast_position"
+                phx-value-pos="toast-example-4"
+              >
+                Show Success
+              </.button>
+              <.button
+                variant="outline"
+                color="warning"
+                size="small"
+                phx-click="toast_position"
+                phx-value-pos="toast-example-5"
+              >
+                Show Warning
+              </.button>
+              <.button
+                variant="outline"
+                color="danger"
+                size="small"
+                phx-click="toast_position"
+                phx-value-pos="toast-example-6"
+              >
+                Show Danger
+              </.button>
+              <.button
+                variant="outline"
+                color="silver"
+                size="small"
+                phx-click="toast_position"
+                phx-value-pos="toast-example-7"
+              >
+                Show silver
+              </.button>
+              <.button
+                variant="outline"
+                color="misc"
+                size="small"
+                phx-click="toast_position"
+                phx-value-pos="toast-example-8"
+              >
+                Show Misc
+              </.button>
+              <.button
+                variant="outline"
+                color="dawn"
+                size="small"
+                phx-click="toast_position"
+                phx-value-pos="toast-example-9"
+              >
+                Show Dawn
+              </.button>
+              <.button
+                variant="outline"
+                color="primary"
+                size="small"
+                phx-click="toast_position"
+                phx-value-pos="toast-example-10"
+              >
+                Show Primary
+              </.button>
+              <.button
+                variant="outline"
+                color="secondary"
+                size="small"
+                phx-click="toast_position"
+                phx-value-pos="toast-example-11"
+              >
+                Show Secondary
+              </.button>
+            </div>
+
+            <.toast
+              :if={@toast_pos == "toast-example-1"}
+              variant="default"
+              id="toast_white_doc_1"
+              color="natural"
+            >
+              Toast Default variant White 1
+            </.toast>
+            <.toast
+              :if={@toast_pos == "toast-example-2"}
+              variant="default"
+              id="toast_dark_doc_2"
+              color="dark"
+            >
+              Toast Default variant Dark 2
+            </.toast>
+            <.toast
+              :if={@toast_pos == "toast-example-3"}
+              variant="default"
+              id="toast_info_doc_3"
+              color="info"
+            >
+              Toast Default variant Info 3
+            </.toast>
+            <.toast
+              :if={@toast_pos == "toast-example-4"}
+              variant="default"
+              id="toast_success_doc_4"
+              color="success"
+            >
+              Toast Default variant Success 4
+            </.toast>
+            <.toast
+              :if={@toast_pos == "toast-example-5"}
+              variant="default"
+              id="toast_warning_doc_5"
+              color="warning"
+            >
+              Toast Default variant Warning 5
+            </.toast>
+            <.toast
+              :if={@toast_pos == "toast-example-6"}
+              variant="default"
+              id="toast_danger_doc_6"
+              color="danger"
+            >
+              Toast Default variant Danger 6
+            </.toast>
+            <.toast
+              :if={@toast_pos == "toast-example-7"}
+              variant="default"
+              id="toast_silver_doc_7"
+              color="silver"
+            >
+              Toast Default variant silver 7
+            </.toast>
+            <.toast
+              :if={@toast_pos == "toast-example-8"}
+              variant="default"
+              id="toast_misc_doc_8"
+              color="misc"
+            >
+              Toast Default variant Misc 8
+            </.toast>
+            <.toast
+              :if={@toast_pos == "toast-example-9"}
+              variant="default"
+              id="toast_dawn_doc_9"
+              color="dawn"
+            >
+              Toast Default variant Dawn 9
+            </.toast>
+            <.toast
+              :if={@toast_pos == "toast-example-10"}
+              variant="default"
+              id="toast_primary_doc_10"
+              color="primary"
+            >
+              Toast Default variant Primary 10
+            </.toast>
+            <.toast
+              :if={@toast_pos == "toast-example-11"}
+              id="toast_secondary_doc_11"
+              color="secondary"
+              variant="default"
+            >
+              Toast Default variant Secondary 11
+            </.toast>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="outline-variant-toast">
+            <.link patch={~p"/chelekom/docs/toast/#outline-variant-toast"}>
+              Outline Variant
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The outline style of the Mishka Chelekom toast features a border. Using a single setting, you can choose from various color variants to suit your design needs.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" code={@code_2}>
+            <div class="mb-6 flex items-center gap-2 flex-wrap">
+              <.button
+                variant="outline"
+                color="natural"
+                size="small"
+                phx-click="toast_position"
+                phx-value-pos="toast-example-12"
+              >
+                Show White
+              </.button>
+              <.button
+                variant="outline"
+                color="dawn"
+                size="small"
+                phx-click="toast_position"
+                phx-value-pos="toast-example-13"
+              >
+                Show Dark
+              </.button>
+              <.button
+                variant="outline"
+                color="info"
+                size="small"
+                phx-click="toast_position"
+                phx-value-pos="toast-example-14"
+              >
+                Show Info
+              </.button>
+              <.button
+                variant="outline"
+                color="success"
+                size="small"
+                phx-click="toast_position"
+                phx-value-pos="toast-example-15"
+              >
+                Show Success
+              </.button>
+              <.button
+                variant="outline"
+                color="warning"
+                size="small"
+                phx-click="toast_position"
+                phx-value-pos="toast-example-16"
+              >
+                Show Warning
+              </.button>
+              <.button
+                variant="outline"
+                color="danger"
+                size="small"
+                phx-click="toast_position"
+                phx-value-pos="toast-example-17"
+              >
+                Show Danger
+              </.button>
+              <.button
+                variant="outline"
+                color="silver"
+                size="small"
+                phx-click="toast_position"
+                phx-value-pos="toast-example-18"
+              >
+                Show silver
+              </.button>
+              <.button
+                variant="outline"
+                color="misc"
+                size="small"
+                phx-click="toast_position"
+                phx-value-pos="toast-example-19"
+              >
+                Show Misc
+              </.button>
+              <.button
+                variant="outline"
+                color="dawn"
+                size="small"
+                phx-click="toast_position"
+                phx-value-pos="toast-example-20"
+              >
+                Show Dawn
+              </.button>
+              <.button
+                variant="outline"
+                color="primary"
+                size="small"
+                phx-click="toast_position"
+                phx-value-pos="toast-example-21"
+              >
+                Show Primary
+              </.button>
+              <.button
+                variant="outline"
+                color="secondary"
+                size="small"
+                phx-click="toast_position"
+                phx-value-pos="toast-example-22"
+              >
+                Show Secondary
+              </.button>
+            </div>
+
+            <.toast
+              :if={@toast_pos == "toast-example-12"}
+              id="toast_white_doc_12"
+              variant="outline"
+              color="natural"
+            >
+              Toast outline variant White 12
+            </.toast>
+            <.toast
+              :if={@toast_pos == "toast-example-13"}
+              id="toast_dark_doc_13"
+              variant="outline"
+              color="dark"
+            >
+              Toast outline variant Dark 13
+            </.toast>
+            <.toast
+              :if={@toast_pos == "toast-example-14"}
+              id="toast_info_doc_14"
+              variant="outline"
+              color="info"
+            >
+              Toast outline variant Info 14
+            </.toast>
+            <.toast
+              :if={@toast_pos == "toast-example-15"}
+              id="toast_success_doc_15"
+              variant="outline"
+              color="success"
+            >
+              Toast outline variant Success 15
+            </.toast>
+            <.toast
+              :if={@toast_pos == "toast-example-16"}
+              id="toast_warning_doc_16"
+              variant="outline"
+              color="warning"
+            >
+              Toast outline variant Warning 16
+            </.toast>
+            <.toast
+              :if={@toast_pos == "toast-example-17"}
+              id="toast_danger_doc_17"
+              variant="outline"
+              color="danger"
+            >
+              Toast outline variant Danger 17
+            </.toast>
+            <.toast
+              :if={@toast_pos == "toast-example-18"}
+              id="toast_silver_doc_18"
+              variant="outline"
+              color="silver"
+            >
+              Toast outline variant silver 18
+            </.toast>
+            <.toast
+              :if={@toast_pos == "toast-example-19"}
+              id="toast_misc_doc_19"
+              variant="outline"
+              color="misc"
+            >
+              Toast outline variant Misc 19
+            </.toast>
+            <.toast
+              :if={@toast_pos == "toast-example-20"}
+              id="toast_dawn_doc_20"
+              variant="outline"
+              color="dawn"
+            >
+              Toast outline variant Dawn 20
+            </.toast>
+            <.toast
+              :if={@toast_pos == "toast-example-21"}
+              id="toast_primary_doc_21"
+              variant="outline"
+              color="primary"
+            >
+              Toast outline variant Primary 21
+            </.toast>
+            <.toast
+              :if={@toast_pos == "toast-example-22"}
+              id="toast_secondary_doc_22"
+              variant="outline"
+              color="secondary"
+            >
+              Toast outline variant Secondary 22
+            </.toast>
+          </.custom_code_wrapper>
+          <.heading2 margin="my-5" id="shadow-variant-toast">
+            <.link patch={~p"/chelekom/docs/toast/#shadow-variant-toast"}>
+              Shadow Variant
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The shadow variant of the Mishka Chelekom toast is similar to the default variant, but it also includes a subtle shadow along with a border and white background in silver mode.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" code={@code_3}>
+            <div class="mb-6 flex items-center gap-2 flex-wrap">
+              <.button
+                variant="outline"
+                color="silver"
+                size="small"
+                phx-click="toast_position"
+                phx-value-pos="toast-example-23"
+              >
+                Show White
+              </.button>
+              <.button
+                variant="outline"
+                color="dawn"
+                size="small"
+                phx-click="toast_position"
+                phx-value-pos="toast-example-24"
+              >
+                Show Dark
+              </.button>
+              <.button
+                variant="outline"
+                color="info"
+                size="small"
+                phx-click="toast_position"
+                phx-value-pos="toast-example-25"
+              >
+                Show Info
+              </.button>
+              <.button
+                variant="outline"
+                color="success"
+                size="small"
+                phx-click="toast_position"
+                phx-value-pos="toast-example-26"
+              >
+                Show Success
+              </.button>
+              <.button
+                variant="outline"
+                color="warning"
+                size="small"
+                phx-click="toast_position"
+                phx-value-pos="toast-example-27"
+              >
+                Show Warning
+              </.button>
+              <.button
+                variant="outline"
+                color="danger"
+                size="small"
+                phx-click="toast_position"
+                phx-value-pos="toast-example-28"
+              >
+                Show Danger
+              </.button>
+              <.button
+                variant="outline"
+                color="silver"
+                size="small"
+                phx-click="toast_position"
+                phx-value-pos="toast-example-29"
+              >
+                Show silver
+              </.button>
+              <.button
+                variant="outline"
+                color="misc"
+                size="small"
+                phx-click="toast_position"
+                phx-value-pos="toast-example-30"
+              >
+                Show Misc
+              </.button>
+              <.button
+                variant="outline"
+                color="dawn"
+                size="small"
+                phx-click="toast_position"
+                phx-value-pos="toast-example-31"
+              >
+                Show Dawn
+              </.button>
+              <.button
+                variant="outline"
+                color="primary"
+                size="small"
+                phx-click="toast_position"
+                phx-value-pos="toast-example-32"
+              >
+                Show Primary
+              </.button>
+              <.button
+                variant="outline"
+                color="secondary"
+                size="small"
+                phx-click="toast_position"
+                phx-value-pos="toast-example-33"
+              >
+                Show Secondary
+              </.button>
+            </div>
+
+            <.toast
+              :if={@toast_pos == "toast-example-23"}
+              id="toast_white_doc_23"
+              color="natural"
+              variant="shadow"
+            >
+              Toast shadow variant White 23
+            </.toast>
+            <.toast
+              :if={@toast_pos == "toast-example-24"}
+              id="toast_dark_doc_24"
+              variant="shadow"
+              color="dark"
+            >
+              Toast shadow variant Dark 24
+            </.toast>
+            <.toast
+              :if={@toast_pos == "toast-example-25"}
+              id="toast_info_doc_25"
+              variant="shadow"
+              color="info"
+            >
+              Toast shadow variant Info 25
+            </.toast>
+            <.toast
+              :if={@toast_pos == "toast-example-26"}
+              id="toast_success_doc_26"
+              variant="shadow"
+              color="success"
+            >
+              Toast shadow variant Success 26
+            </.toast>
+            <.toast
+              :if={@toast_pos == "toast-example-27"}
+              id="toast_warning_doc_27"
+              variant="shadow"
+              color="warning"
+            >
+              Toast shadow variant Warning 27
+            </.toast>
+            <.toast
+              :if={@toast_pos == "toast-example-28"}
+              id="toast_danger_doc_28"
+              variant="shadow"
+              color="danger"
+            >
+              Toast shadow variant Danger 28
+            </.toast>
+            <.toast
+              :if={@toast_pos == "toast-example-29"}
+              id="toast_silver_doc_29"
+              variant="shadow"
+              color="silver"
+            >
+              Toast shadow variant silver 29
+            </.toast>
+            <.toast
+              :if={@toast_pos == "toast-example-30"}
+              id="toast_misc_doc_30"
+              variant="shadow"
+              color="misc"
+            >
+              Toast shadow variant Misc 30
+            </.toast>
+            <.toast
+              :if={@toast_pos == "toast-example-31"}
+              id="toast_dawn_doc_31"
+              variant="shadow"
+              color="dawn"
+            >
+              Toast shadow variant Dawn 31
+            </.toast>
+            <.toast
+              :if={@toast_pos == "toast-example-32"}
+              id="toast_primary_doc_32"
+              variant="shadow"
+              color="primary"
+            >
+              Toast shadow variant Primary 32
+            </.toast>
+            <.toast
+              :if={@toast_pos == "toast-example-33"}
+              id="toast_secondary_doc_33"
+              variant="shadow"
+              color="secondary"
+            >
+              Toast shadow variant Secondary 33
+            </.toast>
+          </.custom_code_wrapper>
+          <.heading2 margin="my-5" id="bordered-variant-toast">
+            <.link patch={~p"/chelekom/docs/toast/#bordered-variant-toast"}>
+              bordered Variant
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The Bordered variant of the Mishka Chelekom card has lighter background and a border. Bordered variant have also white and dark colors which are the same colors in the dark and light mode.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" code={@code_4}>
+            <div class="mb-6 flex items-center gap-2 flex-wrap">
+              <.button
+                variant="outline"
+                color="silver"
+                size="small"
+                phx-click="toast_position"
+                phx-value-pos="toast-example-34"
+              >
+                Show White
+              </.button>
+              <.button
+                variant="outline"
+                color="dawn"
+                size="small"
+                phx-click="toast_position"
+                phx-value-pos="toast-example-35"
+              >
+                Show Dark
+              </.button>
+              <.button
+                variant="outline"
+                color="info"
+                size="small"
+                phx-click="toast_position"
+                phx-value-pos="toast-example-36"
+              >
+                Show Info
+              </.button>
+              <.button
+                variant="outline"
+                color="success"
+                size="small"
+                phx-click="toast_position"
+                phx-value-pos="toast-example-37"
+              >
+                Show Success
+              </.button>
+              <.button
+                variant="outline"
+                color="warning"
+                size="small"
+                phx-click="toast_position"
+                phx-value-pos="toast-example-38"
+              >
+                Show Warning
+              </.button>
+              <.button
+                variant="outline"
+                color="danger"
+                size="small"
+                phx-click="toast_position"
+                phx-value-pos="toast-example-39"
+              >
+                Show Danger
+              </.button>
+              <.button
+                variant="outline"
+                color="silver"
+                size="small"
+                phx-click="toast_position"
+                phx-value-pos="toast-example-40"
+              >
+                Show silver
+              </.button>
+              <.button
+                variant="outline"
+                color="misc"
+                size="small"
+                phx-click="toast_position"
+                phx-value-pos="toast-example-41"
+              >
+                Show Misc
+              </.button>
+              <.button
+                variant="outline"
+                color="dawn"
+                size="small"
+                phx-click="toast_position"
+                phx-value-pos="toast-example-42"
+              >
+                Show Dawn
+              </.button>
+              <.button
+                variant="outline"
+                color="primary"
+                size="small"
+                phx-click="toast_position"
+                phx-value-pos="toast-example-43"
+              >
+                Show Primary
+              </.button>
+              <.button
+                variant="outline"
+                color="secondary"
+                size="small"
+                phx-click="toast_position"
+                phx-value-pos="toast-example-44"
+              >
+                Show Secondary
+              </.button>
+            </div>
+
+            <.toast
+              :if={@toast_pos == "toast-example-34"}
+              id="toast_white_doc_34"
+              variant="bordered"
+              color="white"
+            >
+              Toast bordered variant White 34
+            </.toast>
+            <.toast
+              :if={@toast_pos == "toast-example-35"}
+              id="toast_dark_doc_35"
+              variant="bordered"
+              color="dark"
+            >
+              Toast bordered variant Dark 35
+            </.toast>
+            <.toast
+              :if={@toast_pos == "toast-example-36"}
+              id="toast_info_doc_36"
+              variant="bordered"
+              color="info"
+            >
+              Toast bordered variant Info 36
+            </.toast>
+            <.toast
+              :if={@toast_pos == "toast-example-37"}
+              id="toast_success_doc_37"
+              variant="bordered"
+              color="success"
+            >
+              Toast bordered variant Success 37
+            </.toast>
+            <.toast
+              :if={@toast_pos == "toast-example-38"}
+              id="toast_warning_doc_38"
+              variant="bordered"
+              color="warning"
+            >
+              Toast bordered variant Warning 38
+            </.toast>
+            <.toast
+              :if={@toast_pos == "toast-example-39"}
+              id="toast_danger_doc_39"
+              variant="bordered"
+              color="danger"
+            >
+              Toast bordered variant Danger 39
+            </.toast>
+            <.toast
+              :if={@toast_pos == "toast-example-40"}
+              id="toast_silver_doc_40"
+              variant="bordered"
+              color="silver"
+            >
+              Toast bordered variant silver 40
+            </.toast>
+            <.toast
+              :if={@toast_pos == "toast-example-41"}
+              id="toast_misc_doc_41"
+              variant="bordered"
+              color="misc"
+            >
+              Toast bordered variant Misc 41
+            </.toast>
+            <.toast
+              :if={@toast_pos == "toast-example-42"}
+              id="toast_dawn_doc_42"
+              variant="bordered"
+              color="dawn"
+            >
+              Toast bordered variant Dawn 42
+            </.toast>
+            <.toast
+              :if={@toast_pos == "toast-example-43"}
+              id="toast_primary_doc_43"
+              variant="bordered"
+              color="primary"
+            >
+              Toast bordered variant Primary 43
+            </.toast>
+            <.toast
+              :if={@toast_pos == "toast-example-44"}
+              id="toast_secondary_doc_44"
+              variant="bordered"
+              color="secondary"
+            >
+              Toast bordered variant Secondary 44
+            </.toast>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="gradient-variant-toast">
+            <.link patch={~p"/chelekom/docs/toast/#gradient-variant-toast"}>
+              Gradient Variant
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The gradient variant of the Mishka Chelekom card has gradients in various colors.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" code={@code_5}>
+            <div class="mb-6 flex items-center gap-2 flex-wrap">
+              <.button
+                variant="outline"
+                color="dawn"
+                size="small"
+                phx-click="toast_position"
+                phx-value-pos="toast-example-129"
+              >
+                Show Natural
+              </.button>
+              <.button
+                variant="outline"
+                color="info"
+                size="small"
+                phx-click="toast_position"
+                phx-value-pos="toast-example-130"
+              >
+                Show Info
+              </.button>
+              <.button
+                variant="outline"
+                color="success"
+                size="small"
+                phx-click="toast_position"
+                phx-value-pos="toast-example-131"
+              >
+                Show Success
+              </.button>
+              <.button
+                variant="outline"
+                color="warning"
+                size="small"
+                phx-click="toast_position"
+                phx-value-pos="toast-example-132"
+              >
+                Show Warning
+              </.button>
+              <.button
+                variant="outline"
+                color="danger"
+                size="small"
+                phx-click="toast_position"
+                phx-value-pos="toast-example-133"
+              >
+                Show Danger
+              </.button>
+              <.button
+                variant="outline"
+                color="silver"
+                size="small"
+                phx-click="toast_position"
+                phx-value-pos="toast-example-134"
+              >
+                Show silver
+              </.button>
+              <.button
+                variant="outline"
+                color="misc"
+                size="small"
+                phx-click="toast_position"
+                phx-value-pos="toast-example-135"
+              >
+                Show Misc
+              </.button>
+              <.button
+                variant="outline"
+                color="dawn"
+                size="small"
+                phx-click="toast_position"
+                phx-value-pos="toast-example-136"
+              >
+                Show Dawn
+              </.button>
+              <.button
+                variant="outline"
+                color="primary"
+                size="small"
+                phx-click="toast_position"
+                phx-value-pos="toast-example-137"
+              >
+                Show Primary
+              </.button>
+              <.button
+                variant="outline"
+                color="secondary"
+                size="small"
+                phx-click="toast_position"
+                phx-value-pos="toast-example-138"
+              >
+                Show Secondary
+              </.button>
+            </div>
+
+            <.toast
+              :if={@toast_pos == "toast-example-129"}
+              id="toast_white_doc_129"
+              variant="gradient"
+              color="natural"
+            >
+              Toast gradient variant Natural
+            </.toast>
+            <.toast
+              :if={@toast_pos == "toast-example-130"}
+              id="toast_info_doc_130"
+              variant="gradient"
+              color="info"
+            >
+              Toast gradient variant Info
+            </.toast>
+            <.toast
+              :if={@toast_pos == "toast-example-131"}
+              id="toast_success_doc_131"
+              variant="gradient"
+              color="success"
+            >
+              Toast gradient variant Success
+            </.toast>
+            <.toast
+              :if={@toast_pos == "toast-example-132"}
+              id="toast_warning_doc_132"
+              variant="gradient"
+              color="warning"
+            >
+              Toast gradient variant Warning
+            </.toast>
+            <.toast
+              :if={@toast_pos == "toast-example-133"}
+              id="toast_danger_doc_133"
+              variant="gradient"
+              color="danger"
+            >
+              Toast gradient variant Danger
+            </.toast>
+            <.toast
+              :if={@toast_pos == "toast-example-134"}
+              id="toast_silver_doc_134"
+              variant="gradient"
+              color="silver"
+            >
+              Toast gradient variant silver
+            </.toast>
+            <.toast
+              :if={@toast_pos == "toast-example-135"}
+              id="toast_misc_doc_135"
+              variant="gradient"
+              color="misc"
+            >
+              Toast gradient variant Misc
+            </.toast>
+            <.toast
+              :if={@toast_pos == "toast-example-136"}
+              id="toast_dawn_doc_129"
+              variant="gradient"
+              color="dawn"
+            >
+              Toast gradient variant Dawn
+            </.toast>
+            <.toast
+              :if={@toast_pos == "toast-example-137"}
+              id="toast_primary_doc_137"
+              variant="gradient"
+              color="primary"
+            >
+              Toast gradient variant Primary
+            </.toast>
+            <.toast
+              :if={@toast_pos == "toast-example-138"}
+              id="toast_secondary_doc_138"
+              variant="gradient"
+              color="secondary"
+            >
+              Toast gradient variant Secondary
+            </.toast>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="toast-border-prop">
+            <.link patch={~p"/chelekom/docs/toast/#toast-border-prop"}>
+              Border prop in Phoenix LiveView toast component
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The border prop offers values like <.custom_inline_code>extra_small</.custom_inline_code>, <.custom_inline_code>small</.custom_inline_code>, <.custom_inline_code>medium</.custom_inline_code>, <.custom_inline_code>large</.custom_inline_code>, and <.custom_inline_code>extra_large</.custom_inline_code>. These values control the border size of the toast, allowing you to adjust the thickness to suit your design. Additionally, you can use boolean props such as <.custom_inline_code>left_border</.custom_inline_code>, <.custom_inline_code>right_border</.custom_inline_code>, <.custom_inline_code>hide_border</.custom_inline_code>, and
+            <.custom_inline_code>full_border</.custom_inline_code>
+            to change the border position, add, or remove borders as needed for greater customization.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" code={@code_6}>
+            <div class="mb-6 flex items-center gap-2 flex-wrap">
+              <.button
+                variant="outline"
+                color="dawn"
+                size="small"
+                phx-click="toast_position"
+                phx-value-pos="toast-example-56"
+              >
+                Show Extra Small Border
+              </.button>
+              <.button
+                variant="outline"
+                color="info"
+                size="small"
+                phx-click="toast_position"
+                phx-value-pos="toast-example-57"
+              >
+                Show Small Border
+              </.button>
+              <.button
+                variant="outline"
+                color="danger"
+                size="small"
+                phx-click="toast_position"
+                phx-value-pos="toast-example-58"
+              >
+                Show Medium Border
+              </.button>
+              <.button
+                variant="outline"
+                color="success"
+                size="small"
+                phx-click="toast_position"
+                phx-value-pos="toast-example-59"
+              >
+                Show Large Border
+              </.button>
+              <.button
+                variant="outline"
+                color="misc"
+                size="small"
+                phx-click="toast_position"
+                phx-value-pos="toast-example-60"
+              >
+                Show Extra Large Border
+              </.button>
+            </div>
+
+            <.toast
+              :if={@toast_pos == "toast-example-56"}
+              id="toast_border_doc_56"
+              color="silver"
+              variant="bordered"
+              border="extra_small"
+            >
+              Border extra small of Toast 56
+            </.toast>
+            <.toast
+              :if={@toast_pos == "toast-example-57"}
+              id="toast_border_doc_57"
+              color="silver"
+              variant="bordered"
+              border="small"
+            >
+              Border small of Toast 57
+            </.toast>
+            <.toast
+              :if={@toast_pos == "toast-example-58"}
+              id="toast_border_doc_58"
+              color="silver"
+              variant="bordered"
+              border="medium"
+            >
+              Border medium of Toast 58
+            </.toast>
+            <.toast
+              :if={@toast_pos == "toast-example-59"}
+              id="toast_border_doc_59"
+              color="silver"
+              variant="bordered"
+              border="large"
+            >
+              Border large of Toast 59
+            </.toast>
+            <.toast
+              :if={@toast_pos == "toast-example-60"}
+              id="toast_border_doc_60"
+              color="silver"
+              variant="bordered"
+              border="extra_large"
+            >
+              Border extra large of Toast 60
+            </.toast>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="toast-rounded">
+            <.link patch={~p"/chelekom/docs/toast/#toast-rounded"}>
+              Rounded prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The rounded prop in the Phoenix LiveView toast component allows you to customize the border radius of the toast. By default, the rounded prop is set to <.custom_inline_code>medium</.custom_inline_code>, meaning the toast will have a moderate border radius. You can modify this to one of the following values: <.custom_inline_code>extra_small</.custom_inline_code>, <.custom_inline_code>small</.custom_inline_code>, <.custom_inline_code>medium</.custom_inline_code>, <.custom_inline_code>large</.custom_inline_code>, or <.custom_inline_code>extra_large</.custom_inline_code>. If you want to remove the border radius, you can use <.custom_inline_code>none</.custom_inline_code>. This flexibility allows you to control the look and feel of the toast to fit your application's design.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" code={@code_7}>
+            <div class="mb-6 flex items-center gap-2 flex-wrap">
+              <.button
+                variant="outline"
+                color="dawn"
+                size="small"
+                phx-click="toast_position"
+                phx-value-pos="toast-example-61"
+              >
+                Show Extra Small Rounded
+              </.button>
+              <.button
+                variant="outline"
+                color="misc"
+                size="small"
+                phx-click="toast_position"
+                phx-value-pos="toast-example-62"
+              >
+                Show Small Rounded
+              </.button>
+              <.button
+                variant="outline"
+                color="info"
+                size="small"
+                phx-click="toast_position"
+                phx-value-pos="toast-example-63"
+              >
+                Show Medium Rounded
+              </.button>
+              <.button
+                variant="outline"
+                color="silver"
+                size="small"
+                phx-click="toast_position"
+                phx-value-pos="toast-example-64"
+              >
+                Show Large Rounded
+              </.button>
+              <.button
+                variant="outline"
+                color="danger"
+                size="small"
+                phx-click="toast_position"
+                phx-value-pos="toast-example-65"
+              >
+                Show Extra Large Rounded
+              </.button>
+            </div>
+
+            <.toast
+              :if={@toast_pos == "toast-example-61"}
+              id="toast_rounded_doc_61"
+              rounded="extra_small"
+              color="misc"
+              variant="default"
+            >
+              Rounded extra small 61
+            </.toast>
+            <.toast
+              :if={@toast_pos == "toast-example-62"}
+              id="toast_rounded_doc_62"
+              rounded="small"
+              color="misc"
+              variant="default"
+            >
+              Rounded small 62
+            </.toast>
+            <.toast
+              :if={@toast_pos == "toast-example-63"}
+              id="toast_rounded_doc_63"
+              rounded="medium"
+              color="misc"
+              variant="default"
+            >
+              Rounded medium 63
+            </.toast>
+            <.toast
+              :if={@toast_pos == "toast-example-64"}
+              id="toast_rounded_doc_64"
+              rounded="large"
+              color="misc"
+              variant="default"
+            >
+              Rounded large 64
+            </.toast>
+            <.toast
+              :if={@toast_pos == "toast-example-65"}
+              id="toast_rounded_doc_65"
+              rounded="extra_large"
+              color="misc"
+              variant="default"
+            >
+              Rounded extra large 65
+            </.toast>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="toast-space">
+            <.link patch={~p"/chelekom/docs/toast/#toast-space"}>
+              Space prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The space prop in the Phoenix LiveView toast component provides various spacing options, including <.custom_inline_code>extra_small</.custom_inline_code>, <.custom_inline_code>small</.custom_inline_code>, <.custom_inline_code>medium</.custom_inline_code>, <.custom_inline_code>large</.custom_inline_code>, and <.custom_inline_code>extra_large</.custom_inline_code>. These options define the vertical spacing between items in the toast, with increasing amounts of space from extra_small to extra_large. If no specific value is provided, the default is set to <.custom_inline_code>extra_small</.custom_inline_code>, but custom values can also be applied as needed.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" code={@code_8}>
+            <div class="mb-6 flex items-center gap-2 flex-wrap">
+              <.button
+                variant="outline"
+                color="info"
+                size="small"
+                phx-click="toast_position"
+                phx-value-pos="toast-example-66"
+              >
+                Show Extra Small Space
+              </.button>
+              <.button
+                variant="outline"
+                color="silver"
+                size="small"
+                phx-click="toast_position"
+                phx-value-pos="toast-example-67"
+              >
+                Show Small Space
+              </.button>
+              <.button
+                variant="outline"
+                color="primary"
+                size="small"
+                phx-click="toast_position"
+                phx-value-pos="toast-example-68"
+              >
+                Show Medium Space
+              </.button>
+              <.button
+                variant="outline"
+                color="dawn"
+                size="small"
+                phx-click="toast_position"
+                phx-value-pos="toast-example-69"
+              >
+                Show Large Space
+              </.button>
+              <.button
+                variant="outline"
+                color="misc"
+                size="small"
+                phx-click="toast_position"
+                phx-value-pos="toast-example-70"
+              >
+                Show Extra Large Space
+              </.button>
+              <.button
+                variant="outline"
+                color="success"
+                size="small"
+                phx-click="toast_position"
+                phx-value-pos="toast-example-71"
+              >
+                Show No Space
+              </.button>
+            </div>
+
+            <.toast
+              :if={@toast_pos == "toast-example-66"}
+              id="toast_space_doc_66"
+              space="extra_small"
+              color="dawn"
+              variant="default"
+            >
+              <div>Extra small space</div>
+              <div>Tooltip example</div>
+            </.toast>
+            <.toast
+              :if={@toast_pos == "toast-example-67"}
+              id="toast_space_doc_67"
+              space="small"
+              color="dawn"
+              variant="default"
+            >
+              <div>Small space</div>
+              <div>Tooltip example</div>
+            </.toast>
+            <.toast
+              :if={@toast_pos == "toast-example-68"}
+              id="toast_space_doc_68"
+              space="medium"
+              color="dawn"
+              variant="default"
+            >
+              <div>MEdium space</div>
+              <div>Tooltip example</div>
+            </.toast>
+            <.toast
+              :if={@toast_pos == "toast-example-69"}
+              id="toast_space_doc_69"
+              space="large"
+              color="dawn"
+              variant="default"
+            >
+              <div>Large space</div>
+              <div>Tooltip example</div>
+            </.toast>
+            <.toast
+              :if={@toast_pos == "toast-example-70"}
+              id="toast_space_doc_70"
+              space="extra_large"
+              color="dawn"
+              variant="default"
+            >
+              <div>Extra large space</div>
+              <div>Tooltip example</div>
+            </.toast>
+            <.toast
+              :if={@toast_pos == "toast-example-71"}
+              id="toast_space_doc_71"
+              space="none"
+              color="dawn"
+              variant="default"
+            >
+              <div>No space</div>
+              <div>Tooltip example</div>
+            </.toast>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="toast-padding">
+            <.link patch={~p"/chelekom/docs/toast/#toast-padding"}>
+              Padding prop in Phoenix LiveView toast component
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The padding in the Phoenix LiveView toast component provides various padding size options, including <.custom_inline_code>extra_small</.custom_inline_code>, <.custom_inline_code>small</.custom_inline_code>, <.custom_inline_code>medium</.custom_inline_code>, <.custom_inline_code>large</.custom_inline_code>, and <.custom_inline_code>extra_large</.custom_inline_code>. These options define the amount of space between the content inside the toast and its edges, with increasing amounts of padding from
+            <.custom_inline_code>extra_small</.custom_inline_code>
+            to <.custom_inline_code>extra_large</.custom_inline_code>. If no specific value is provided, the default padding is set to <.custom_inline_code>extra_small</.custom_inline_code>, ensuring a balanced and consistent look for the component.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" code={@code_9}>
+            <div class="mb-6 flex items-center gap-2 flex-wrap">
+              <.button
+                variant="outline"
+                color="info"
+                size="small"
+                phx-click="toast_position"
+                phx-value-pos="toast-example-72"
+              >
+                Show Extra Small Padding
+              </.button>
+              <.button
+                variant="outline"
+                color="dawn"
+                size="small"
+                phx-click="toast_position"
+                phx-value-pos="toast-example-73"
+              >
+                Show Small Padding
+              </.button>
+              <.button
+                variant="outline"
+                color="primary"
+                size="small"
+                phx-click="toast_position"
+                phx-value-pos="toast-example-74"
+              >
+                Show Medium Padding
+              </.button>
+              <.button
+                variant="outline"
+                color="danger"
+                size="small"
+                phx-click="toast_position"
+                phx-value-pos="toast-example-75"
+              >
+                Show Large Padding
+              </.button>
+              <.button
+                variant="outline"
+                color="success"
+                size="small"
+                phx-click="toast_position"
+                phx-value-pos="toast-example-76"
+              >
+                Show Extra Large Padding
+              </.button>
+              <.button
+                variant="outline"
+                color="natural"
+                size="small"
+                phx-click="toast_position"
+                phx-value-pos="toast-example-77"
+              >
+                Show No Padding
+              </.button>
+            </div>
+
+            <.toast
+              :if={@toast_pos == "toast-example-72"}
+              id="toast_padding_doc_72"
+              padding="extra_small"
+              color="info"
+              variant="default"
+            >
+              Padding extra small (Info) 72
+            </.toast>
+            <.toast
+              :if={@toast_pos == "toast-example-73"}
+              id="toast_padding_doc_73"
+              padding="small"
+              color="silver"
+              variant="default"
+            >
+              Padding small (silver) 73
+            </.toast>
+            <.toast
+              :if={@toast_pos == "toast-example-74"}
+              id="toast_padding_doc_74"
+              padding="medium"
+              color="primary"
+              variant="default"
+            >
+              Padding medium (Primary) 74
+            </.toast>
+            <.toast
+              :if={@toast_pos == "toast-example-75"}
+              id="toast_padding_doc_75"
+              padding="large"
+              color="danger"
+              variant="default"
+            >
+              Padding large (Danger) 75
+            </.toast>
+            <.toast
+              :if={@toast_pos == "toast-example-76"}
+              id="toast_padding_doc_76"
+              padding="extra_large"
+              color="success"
+              variant="default"
+            >
+              Padding extra large (Success) 76
+            </.toast>
+            <.toast
+              :if={@toast_pos == "toast-example-77"}
+              id="toast_padding_doc_77"
+              padding="none"
+              color="silver"
+              variant="default"
+            >
+              Padding none (silver) 77
+            </.toast>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="toast-width">
+            <.link patch={~p"/chelekom/docs/toast/#toast-width"}>
+              Width prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The width prop in the Phoenix LiveView toast component allows developers to control the element's width, offering flexibility to fit various design requirements. It supports predefined values such as <.custom_inline_code>extra_small</.custom_inline_code>, <.custom_inline_code>small</.custom_inline_code>, <.custom_inline_code>medium</.custom_inline_code>, <.custom_inline_code>large</.custom_inline_code>, <.custom_inline_code>extra_large</.custom_inline_code>, and <.custom_inline_code>full</.custom_inline_code>. Each of these options defines a different maximum width, with
+            <.custom_inline_code>full</.custom_inline_code>
+            allowing the toast to span the entire width of its container. If no specific value is provided, the default width is set to <.custom_inline_code>medium</.custom_inline_code>, ensuring a balanced and consistent look. Additionally, custom width values can be applied by passing a string that defines the width class directly.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" code={@code_10}>
+            <div class="mb-6 flex items-center gap-2 flex-wrap">
+              <.button
+                variant="outline"
+                color="info"
+                size="small"
+                phx-click="toast_position"
+                phx-value-pos="toast-example-78"
+              >
+                Show Extra Small Width
+              </.button>
+              <.button
+                variant="outline"
+                color="dawn"
+                size="small"
+                phx-click="toast_position"
+                phx-value-pos="toast-example-79"
+              >
+                Show Small Width
+              </.button>
+              <.button
+                variant="outline"
+                color="primary"
+                size="small"
+                phx-click="toast_position"
+                phx-value-pos="toast-example-80"
+              >
+                Show Medium Width
+              </.button>
+              <.button
+                variant="outline"
+                color="danger"
+                size="small"
+                phx-click="toast_position"
+                phx-value-pos="toast-example-81"
+              >
+                Show Large Width
+              </.button>
+              <.button
+                variant="outline"
+                color="success"
+                size="small"
+                phx-click="toast_position"
+                phx-value-pos="toast-example-82"
+              >
+                Show Extra Large Width
+              </.button>
+              <.button
+                variant="outline"
+                color="warning"
+                size="small"
+                phx-click="toast_position"
+                phx-value-pos="toast-example-83"
+              >
+                Show Full Width
+              </.button>
+            </div>
+
+            <.toast
+              :if={@toast_pos == "toast-example-78"}
+              id="toast_width_doc_78"
+              width="extra_small"
+              color="info"
+              variant="default"
+            >
+              Width extra small (Info) 78
+            </.toast>
+            <.toast
+              :if={@toast_pos == "toast-example-79"}
+              id="toast_width_doc_79"
+              width="small"
+              color="silver"
+              variant="default"
+            >
+              Width small (silver) 79
+            </.toast>
+            <.toast
+              :if={@toast_pos == "toast-example-80"}
+              id="toast_width_doc_80"
+              width="medium"
+              color="primary"
+              variant="default"
+            >
+              Width medium (Primary) 80
+            </.toast>
+            <.toast
+              :if={@toast_pos == "toast-example-81"}
+              id="toast_width_doc_81"
+              width="large"
+              color="danger"
+              variant="default"
+            >
+              Width large (Danger) 81
+            </.toast>
+            <.toast
+              :if={@toast_pos == "toast-example-82"}
+              id="toast_width_doc_82"
+              width="extra_large"
+              color="success"
+              variant="default"
+            >
+              Width extra large (Success) 82
+            </.toast>
+            <.toast
+              :if={@toast_pos == "toast-example-83"}
+              id="toast_width_doc_83"
+              width="full"
+              color="silver"
+              variant="default"
+            >
+              Width full (silver) 83
+            </.toast>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="toast-vertical">
+            <.link patch={~p"/chelekom/docs/toast/#toast-vertical"}>
+              Vertical prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The vertical prop determines the vertical positioning of the toast component. It accepts two values:
+            <.custom_inline_code>top</.custom_inline_code>
+            and <.custom_inline_code>bottom</.custom_inline_code>. By default, the toast is positioned at the top of the screen. You can change this to
+            <.custom_inline_code>bottom</.custom_inline_code>
+            to display the toast at the bottom, offering flexibility in where the notifications appear within the application.
+          </.cp>
+          <.custom_code_wrapper code_class="text-xs" code={@code_11}>
+            <div class="mb-6 flex items-center gap-2 flex-wrap">
+              <.button
+                variant="outline"
+                color="info"
+                size="small"
+                phx-click="toast_position"
+                phx-value-pos="toast-example-84"
+              >
+                Show Toast (Top)
+              </.button>
+              <.button
+                variant="outline"
+                color="danger"
+                size="small"
+                phx-click="toast_position"
+                phx-value-pos="toast-example-85"
+              >
+                Show Toast (Bottom)
+              </.button>
+            </div>
+
+            <.toast
+              :if={@toast_pos == "toast-example-84"}
+              id="toast_vertical_doc_84"
+              vertical="top"
+              color="info"
+              variant="default"
+            >
+              Toast at Top (Info) 84
+            </.toast>
+
+            <.toast
+              :if={@toast_pos == "toast-example-85"}
+              id="toast_vertical_doc_85"
+              vertical="bottom"
+              color="danger"
+              variant="default"
+            >
+              Toast at Bottom (Danger) 85
+            </.toast>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="toast-vertical-space">
+            <.link patch={~p"/chelekom/docs/toast/#toast-vertical-space"}>
+              Vertical space prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <.custom_inline_code>vertical_space</.custom_inline_code>
+            attribute in the Phoenix LiveView toast component controls the amount of space between vertically stacked toast notifications. It offers flexibility with various predefined options like <.custom_inline_code>extra_small</.custom_inline_code>, <.custom_inline_code>small</.custom_inline_code>, <.custom_inline_code>medium</.custom_inline_code>, <.custom_inline_code>large</.custom_inline_code>, and <.custom_inline_code>extra_large</.custom_inline_code>, allowing developers to manage the spacing between toasts to create a visually pleasing and organized layout. By default, the space between items is set to <.custom_inline_code>extra_small</.custom_inline_code>, but you can adjust it according to your design preferences to ensure the toast notifications don't overlap or appear cluttered when multiple toasts are displayed. This helps improve readability and user experience by maintaining a clear, well-spaced arrangement.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" code={@code_12}>
+            <div class="mb-6 flex items-center gap-2 flex-wrap">
+              <.button
+                variant="outline"
+                color="info"
+                size="small"
+                phx-click="toast_position"
+                phx-value-pos="toast-example-86"
+              >
+                Show Extra Small Vertical Space (Info)
+              </.button>
+              <.button
+                variant="outline"
+                color="silver"
+                size="small"
+                phx-click="toast_position"
+                phx-value-pos="toast-example-87"
+              >
+                Show Small Vertical Space (silver)
+              </.button>
+              <.button
+                variant="outline"
+                color="primary"
+                size="small"
+                phx-click="toast_position"
+                phx-value-pos="toast-example-88"
+              >
+                Show Medium Vertical Space (Primary)
+              </.button>
+              <.button
+                variant="outline"
+                color="danger"
+                size="small"
+                phx-click="toast_position"
+                phx-value-pos="toast-example-89"
+              >
+                Show Large Vertical Space (Danger)
+              </.button>
+              <.button
+                variant="outline"
+                color="success"
+                size="small"
+                phx-click="toast_position"
+                phx-value-pos="toast-example-90"
+              >
+                Show Extra Large Vertical Space (Success)
+              </.button>
+            </div>
+
+            <.toast
+              :if={@toast_pos == "toast-example-86"}
+              id="toast_vertical_space_doc_86"
+              vertical_space="extra_small"
+              color="info"
+              variant="default"
+            >
+              Vertical Space extra small (Info) 86
+            </.toast>
+            <.toast
+              :if={@toast_pos == "toast-example-87"}
+              id="toast_vertical_space_doc_87"
+              vertical_space="small"
+              color="silver"
+              variant="default"
+            >
+              Vertical Space small (silver) 87
+            </.toast>
+            <.toast
+              :if={@toast_pos == "toast-example-88"}
+              id="toast_vertical_space_doc_88"
+              vertical_space="medium"
+              color="primary"
+              variant="default"
+            >
+              Vertical Space medium (Primary) 88
+            </.toast>
+            <.toast
+              :if={@toast_pos == "toast-example-89"}
+              id="toast_vertical_space_doc_89"
+              vertical_space="large"
+              color="danger"
+              variant="default"
+            >
+              Vertical Space large (Danger) 89
+            </.toast>
+            <.toast
+              :if={@toast_pos == "toast-example-90"}
+              id="toast_vertical_space_doc_90"
+              vertical_space="extra_large"
+              color="success"
+              variant="default"
+            >
+              Vertical Space extra large (Success) 90
+            </.toast>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="toast-horizontal">
+            <.link patch={~p"/chelekom/docs/toast/#toast-horizontal"}>
+              Horizontal prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The horizontal attribute in the Phoenix LiveView toast component controls the horizontal alignment of the toast on the screen. By providing options like <.custom_inline_code>left</.custom_inline_code>, <.custom_inline_code>right</.custom_inline_code>, and <.custom_inline_code>center</.custom_inline_code>, developers can customize where the toast appears horizontally. The default setting is <.custom_inline_code>right</.custom_inline_code>, positioning the toast on the right side of the screen. However, this can be changed to
+            <.custom_inline_code>left</.custom_inline_code>
+            for left-side positioning or
+            <.custom_inline_code>center</.custom_inline_code>
+            for centering the toast in the middle of the screen. This flexibility allows for better control over the toast's appearance and alignment, making it suitable for various design and layout needs.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" code={@code_13}>
+            <div class="mb-6 flex items-center gap-2 flex-wrap">
+              <.button
+                variant="outline"
+                color="info"
+                size="small"
+                phx-click="toast_position"
+                phx-value-pos="toast-example-91"
+              >
+                Show Left (Info, Top)
+              </.button>
+              <.button
+                variant="outline"
+                color="dawn"
+                size="small"
+                phx-click="toast_position"
+                phx-value-pos="toast-example-92"
+              >
+                Show Center (dawn, Top)
+              </.button>
+              <.button
+                variant="outline"
+                color="primary"
+                size="small"
+                phx-click="toast_position"
+                phx-value-pos="toast-example-93"
+              >
+                Show Right (Primary, Top)
+              </.button>
+              <.button
+                variant="outline"
+                color="danger"
+                size="small"
+                phx-click="toast_position"
+                phx-value-pos="toast-example-94"
+              >
+                Show Left (Danger, Bottom)
+              </.button>
+              <.button
+                variant="outline"
+                color="success"
+                size="small"
+                phx-click="toast_position"
+                phx-value-pos="toast-example-95"
+              >
+                Show Center (Success, Bottom)
+              </.button>
+              <.button
+                variant="outline"
+                color="silver"
+                size="small"
+                phx-click="toast_position"
+                phx-value-pos="toast-example-96"
+              >
+                Show Right (silver, Bottom)
+              </.button>
+            </div>
+
+            <.toast
+              :if={@toast_pos == "toast-example-91"}
+              id="toast_horizontal_doc_91"
+              horizontal="left"
+              vertical="top"
+              color="info"
+              variant="default"
+            >
+              Horizontal Left (Info, Top) 91
+            </.toast>
+            <.toast
+              :if={@toast_pos == "toast-example-92"}
+              id="toast_horizontal_doc_92"
+              horizontal="center"
+              vertical="top"
+              color="silver"
+              variant="default"
+            >
+              Horizontal Center (silver, Top) 92
+            </.toast>
+            <.toast
+              :if={@toast_pos == "toast-example-93"}
+              id="toast_horizontal_doc_93"
+              horizontal="right"
+              vertical="top"
+              color="primary"
+              variant="default"
+            >
+              Horizontal Right (Primary, Top) 93
+            </.toast>
+            <.toast
+              :if={@toast_pos == "toast-example-94"}
+              id="toast_horizontal_doc_94"
+              horizontal="left"
+              vertical="bottom"
+              color="danger"
+              variant="default"
+            >
+              Horizontal Left (Danger, Bottom) 94
+            </.toast>
+            <.toast
+              :if={@toast_pos == "toast-example-95"}
+              id="toast_horizontal_doc_95"
+              horizontal="center"
+              vertical="bottom"
+              color="success"
+              variant="default"
+            >
+              Horizontal Center (Success, Bottom) 95
+            </.toast>
+            <.toast
+              :if={@toast_pos == "toast-example-96"}
+              id="toast_horizontal_doc_96"
+              horizontal="right"
+              vertical="bottom"
+              color="silver"
+              variant="default"
+            >
+              Horizontal Right (silver, Bottom) 96
+            </.toast>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="toast-horizontal-space">
+            <.link patch={~p"/chelekom/docs/toast/#toast-horizontal-space"}>
+              Horizontal space prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <.custom_inline_code>horizontal_space</.custom_inline_code>
+            attribute in the Phoenix LiveView toast component defines the spacing between items in the horizontal direction. This prop offers several predefined values such as <.custom_inline_code>extra_small</.custom_inline_code>, <.custom_inline_code>small</.custom_inline_code>, <.custom_inline_code>medium</.custom_inline_code>, <.custom_inline_code>large</.custom_inline_code>, and <.custom_inline_code>extra_large</.custom_inline_code>. These values determine the size of the space between items, with increasing amounts of space from extra_small to extra_large. The default value is set to <.custom_inline_code>extra_small</.custom_inline_code>, but you can customize it as needed to control how close or far apart elements are displayed horizontally. The corresponding utility classes are applied to adjust the spacing for both left and right-aligned items, ensuring a flexible and customizable layout.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" code={@code_14}>
+            <div class="mb-6 flex items-center gap-2 flex-wrap">
+              <.button
+                color="info"
+                variant="outline"
+                size="small"
+                phx-click="toast_position"
+                phx-value-pos="toast-example-97"
+              >
+                Show Extra Small Horizontal Space
+              </.button>
+              <.button
+                variant="outline"
+                color="silver"
+                size="small"
+                phx-click="toast_position"
+                phx-value-pos="toast-example-98"
+              >
+                Show Small Horizontal Space
+              </.button>
+              <.button
+                variant="outline"
+                color="danger"
+                size="small"
+                phx-click="toast_position"
+                phx-value-pos="toast-example-99"
+              >
+                Show Medium Horizontal Space (danger)
+              </.button>
+              <.button
+                variant="outline"
+                color="dawn"
+                size="small"
+                phx-click="toast_position"
+                phx-value-pos="toast-example-100"
+              >
+                Show Large Horizontal Space (dawn)
+              </.button>
+              <.button
+                variant="outline"
+                color="success"
+                size="small"
+                phx-click="toast_position"
+                phx-value-pos="toast-example-101"
+              >
+                Show Extra Large Horizontal Space (Success)
+              </.button>
+            </div>
+
+            <.toast
+              :if={@toast_pos == "toast-example-97"}
+              id="toast_horizontal_space_doc_97"
+              horizontal_space="extra_small"
+              border_position="start"
+              content_border="medium"
+              color="info"
+              variant="default"
+            >
+              Horizontal Space extra small (Info) 97
+            </.toast>
+            <.toast
+              :if={@toast_pos == "toast-example-98"}
+              id="toast_horizontal_space_doc_98"
+              horizontal_space="small"
+              border_position="start"
+              content_border="medium"
+              color="silver"
+              variant="default"
+            >
+              Horizontal Space small (silver) 98
+            </.toast>
+            <.toast
+              :if={@toast_pos == "toast-example-99"}
+              id="toast_horizontal_space_doc_99"
+              horizontal_space="medium"
+              border_position="start"
+              content_border="medium"
+              color="primary"
+              variant="default"
+            >
+              Horizontal Space medium (Primary) 99
+            </.toast>
+            <.toast
+              :if={@toast_pos == "toast-example-100"}
+              id="toast_horizontal_space_doc_100"
+              horizontal_space="large"
+              border_position="start"
+              content_border="medium"
+              color="danger"
+              variant="default"
+            >
+              Horizontal Space large (Danger) 100
+            </.toast>
+            <.toast
+              :if={@toast_pos == "toast-example-101"}
+              id="toast_horizontal_space_doc_101"
+              horizontal_space="extra_large"
+              border_position="start"
+              content_border="medium"
+              color="success"
+              variant="default"
+            >
+              Horizontal Space extra large (Success) 101
+            </.toast>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="toast-content-border">
+            <.link patch={~p"/chelekom/docs/toast/#toast-content-border"}>
+              Content border prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <.custom_inline_code>content_border</.custom_inline_code>
+            attribute in the Phoenix LiveView component determines the size and style of the content border within the toast. It offers options like <.custom_inline_code>extra_small</.custom_inline_code>, <.custom_inline_code>small</.custom_inline_code>, <.custom_inline_code>medium</.custom_inline_code>, <.custom_inline_code>large</.custom_inline_code>, <.custom_inline_code>extra_large</.custom_inline_code>, and <.custom_inline_code>none</.custom_inline_code>. These options adjust the width of the border, allowing customization from
+            <.custom_inline_code>extra_small</.custom_inline_code>
+            to <.custom_inline_code>extra_large</.custom_inline_code>. Setting the attribute to
+            <.custom_inline_code>none</.custom_inline_code>
+            hides the border entirely. If no value is provided, it defaults to <.custom_inline_code>none</.custom_inline_code>, but custom values can also be used as needed. Additionally, if the
+            <.custom_inline_code>@content_border</.custom_inline_code>
+            is not set to <.custom_inline_code>none</.custom_inline_code>, the styles defined by
+            <.custom_inline_code>border_position</.custom_inline_code>
+            will not apply.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" code={@code_15}>
+            <div class="mb-6 flex items-center gap-2 flex-wrap">
+              <.button
+                variant="outline"
+                color="info"
+                size="small"
+                phx-click="toast_position"
+                phx-value-pos="toast-example-102"
+              >
+                Show Extra Small Content Border
+              </.button>
+              <.button
+                variant="outline"
+                color="silver"
+                size="small"
+                phx-click="toast_position"
+                phx-value-pos="toast-example-103"
+              >
+                Show Small Content Border
+              </.button>
+              <.button
+                variant="outline"
+                color="primary"
+                size="small"
+                phx-click="toast_position"
+                phx-value-pos="toast-example-104"
+              >
+                Show Medium Content Border
+              </.button>
+              <.button
+                variant="outline"
+                color="danger"
+                size="small"
+                phx-click="toast_position"
+                phx-value-pos="toast-example-105"
+              >
+                Show Large Content Border
+              </.button>
+              <.button
+                variant="outline"
+                color="success"
+                size="small"
+                phx-click="toast_position"
+                phx-value-pos="toast-example-106"
+              >
+                Show Extra Large Content Border
+              </.button>
+              <.button
+                variant="outline"
+                color="dawn"
+                size="small"
+                phx-click="toast_position"
+                phx-value-pos="toast-example-107"
+              >
+                Show No Content Border
+              </.button>
+            </div>
+
+            <.toast
+              :if={@toast_pos == "toast-example-102"}
+              id="toast_content_border_doc_102"
+              content_border="extra_small"
+              variant="default"
+              color="info"
+            >
+              Content Border extra small
+            </.toast>
+            <.toast
+              :if={@toast_pos == "toast-example-103"}
+              id="toast_content_border_doc_103"
+              content_border="small"
+              variant="default"
+              color="silver"
+            >
+              Content Border small
+            </.toast>
+            <.toast
+              :if={@toast_pos == "toast-example-104"}
+              id="toast_content_border_doc_104"
+              content_border="medium"
+              variant="default"
+              color="primary"
+            >
+              Content Border medium
+            </.toast>
+            <.toast
+              :if={@toast_pos == "toast-example-105"}
+              id="toast_content_border_doc_105"
+              content_border="large"
+              variant="default"
+              color="danger"
+            >
+              Content Border large
+            </.toast>
+            <.toast
+              :if={@toast_pos == "toast-example-106"}
+              id="toast_content_border_doc_106"
+              content_border="extra_large"
+              variant="default"
+              color="success"
+            >
+              Content Border extra large
+            </.toast>
+            <.toast
+              :if={@toast_pos == "toast-example-107"}
+              id="toast_content_border_doc_107"
+              content_border="none"
+              variant="default"
+              color="silver"
+            >
+              No Content Border
+            </.toast>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="toast-border-position">
+            <.link patch={~p"/chelekom/docs/toast/#toast-border-position"}>
+              Border position prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <.custom_inline_code>border_position</.custom_inline_code>
+            attribute in the Phoenix LiveView toast component allows you to specify where the border should be applied within the element. By default, it is set to <.custom_inline_code>start</.custom_inline_code>, which means the border will be positioned on the start side of the element (typically the left side in left-to-right layouts).
+
+            There are options like
+            <.custom_inline_code>start</.custom_inline_code>
+            and <.custom_inline_code>end</.custom_inline_code>, each determining whether the border is applied at the beginning or the end of the element. These values give developers control over the border’s placement, allowing for more flexible design adjustments. You can also pass a custom binary value to apply the border in unique ways, and if no value is provided, it defaults to <.custom_inline_code>start</.custom_inline_code>.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" code={@code_16}>
+            <div class="mb-6 flex items-center gap-2 flex-wrap">
+              <.button
+                variant="outline"
+                color="warning"
+                size="small"
+                phx-click="toast_position"
+                phx-value-pos="toast-example-108"
+              >
+                Show Start Border
+              </.button>
+              <.button
+                variant="outline"
+                color="misc"
+                size="small"
+                phx-click="toast_position"
+                phx-value-pos="toast-example-109"
+              >
+                Show End Border
+              </.button>
+            </div>
+
+            <.toast
+              :if={@toast_pos == "toast-example-108"}
+              id="toast_border_doc_108"
+              border_position="start"
+              content_border="medium"
+              color="info"
+              variant="outline"
+            >
+              Border at start position
+            </.toast>
+
+            <.toast
+              :if={@toast_pos == "toast-example-109"}
+              id="toast_border_doc_109"
+              border_position="end"
+              content_border="medium"
+              color="primary"
+              variant="default"
+            >
+              Border at end position (Primary) 109
+            </.toast>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="toast-row-reverse">
+            <.link patch={~p"/chelekom/docs/toast/#toast-row-reverse"}>
+              Row reverse prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <.custom_inline_code>row_direction</.custom_inline_code>
+            prop in the Phoenix LiveView toast component allows you to control the order in which the content and dismiss button are displayed. By default, the content appears first, followed by the dismiss button, with the
+            <.custom_inline_code>row_direction</.custom_inline_code>
+            set to <.custom_inline_code>none</.custom_inline_code>, applying a standard left-to-right layout. However, when the
+            <.custom_inline_code>row_direction</.custom_inline_code>
+            is set to <.custom_inline_code>reverse</.custom_inline_code>, the positions are swapped, with the dismiss button appearing first and the content following it. This flexibility allows you to easily adjust the layout of your toast notifications, accommodating different design preferences or directional needs. The
+            <.custom_inline_code>row_direction</.custom_inline_code>
+            prop uses values like
+            <.custom_inline_code>none</.custom_inline_code>
+            for the standard flow and
+            <.custom_inline_code>reverse</.custom_inline_code>
+            for reversed alignment, providing customizable control over the visual structure of your toast notifications.
+          </.cp>
+
+          <.custom_block color="warning" position="left" class="my-8" border="medium">
+            All components that have a dismiss button. When performing the operation,
+            it sends an event to the server. for example
+            <.custom_inline_code>handle_event("dismiss", params, socket)</.custom_inline_code>
+          </.custom_block>
+
+          <.custom_code_wrapper code_class="text-xs" code={@code_17}>
+            <div class="mb-6 flex items-center gap-2 flex-wrap">
+              <.button
+                variant="outline"
+                color="danger"
+                size="small"
+                phx-click="toast_position"
+                phx-value-pos="toast-example-110"
+              >
+                Show Row Direction Normal (Info)
+              </.button>
+              <.button
+                variant="outline"
+                color="primary"
+                size="small"
+                phx-click="toast_position"
+                phx-value-pos="toast-example-111"
+              >
+                Show Row Direction Reverse (Primary)
+              </.button>
+            </div>
+
+            <.toast
+              :if={@toast_pos == "toast-example-110"}
+              id="toast_row_doc_110"
+              row_direction="none"
+              color="info"
+              variant="default"
+            >
+              Row direction normal (Info) 110
+            </.toast>
+
+            <.toast
+              :if={@toast_pos == "toast-example-111"}
+              id="toast_row_doc_111"
+              row_direction="reverse"
+              color="primary"
+              variant="default"
+            >
+              Row direction reverse (Primary) 111
+            </.toast>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="toast-fixed-prop">
+            <.link patch={~p"/chelekom/docs/toast/#toast-fixed-prop"}>
+              Fixed prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The fixed prop controls whether the toast element remains fixed on the screen. When it is set to <.custom_inline_code>true</.custom_inline_code>, the toast stays in a fixed position, typically used for displaying notifications that remain visible as the user scrolls through the page. If set to <.custom_inline_code>false</.custom_inline_code>, the toast will behave according to its natural flow in the document, allowing it to scroll with the page. By default, this attribute is set to <.custom_inline_code>true</.custom_inline_code>.
+
+            This property is especially useful when dealing with a toast group, as it allows multiple toasts to stay fixed together in one area of the screen, enhancing the user experience for displaying multiple notifications in a consistent manner.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" code={@code_18} />
+
+          <.heading2 margin="my-5" id="toast-font-weight">
+            <.link patch={~p"/chelekom/docs/toast/#toast-font-weight"}>
+              Font weight prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <.custom_inline_code>font_weight</.custom_inline_code>
+            prop in the Phoenix LiveView toast component allows you to customize the font weight of the text within the toast using Tailwind CSS classes. By default, it is set to <.custom_inline_code>font-normal</.custom_inline_code>, giving the text a regular weight. However, you can easily modify this by passing a different Tailwind class for font weight, such as
+            <.custom_inline_code>font-bold</.custom_inline_code>
+            to make the text bold, or other classes like
+            <.custom_inline_code>font-silver</.custom_inline_code>
+            or
+            <.custom_inline_code>font-medium</.custom_inline_code>
+            to adjust the thickness of the text as per your design needs. This flexibility allows for easy control over the typography within the toast, ensuring it aligns with the desired visual hierarchy.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" code={@code_19}>
+            <div class="mb-6 flex items-center gap-2 flex-wrap">
+              <.button
+                variant="outline"
+                color="danger"
+                size="small"
+                phx-click="toast_position"
+                phx-value-pos="toast-example-112"
+              >
+                Show Font medium
+              </.button>
+              <.button
+                variant="outline"
+                color="misc"
+                size="small"
+                phx-click="toast_position"
+                phx-value-pos="toast-example-113"
+              >
+                Show Font Thin
+              </.button>
+              <.button
+                variant="outline"
+                color="dawn"
+                size="small"
+                phx-click="toast_position"
+                phx-value-pos="toast-example-114"
+              >
+                Show Font Black
+              </.button>
+            </div>
+
+            <.toast
+              :if={@toast_pos == "toast-example-112"}
+              id="toast_font_doc_112"
+              font_weight="font-medium"
+              color="primary"
+              variant="default"
+            >
+              Toast with font medium
+            </.toast>
+            <.toast
+              :if={@toast_pos == "toast-example-113"}
+              id="toast_font_doc_113"
+              font_weight="font-thin"
+              color="primary"
+              variant="default"
+            >
+              Toast with font thin
+            </.toast>
+            <.toast
+              :if={@toast_pos == "toast-example-114"}
+              id="toast_font_doc_114"
+              font_weight="font-black"
+              color="primary"
+              variant="default"
+            >
+              Toast with font black
+            </.toast>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="toast-group-component">
+            <.link patch={~p"/chelekom/docs/toast/#toast-group-component"}>
+              Toast group component
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <.custom_inline_code>toast_group</.custom_inline_code>
+            component in Phoenix LiveView is designed to manage and display multiple toast notifications in a cohesive and organized manner. This component allows developers to group several toast messages in one area of the screen, providing a unified space for notifications. Each toast within the group can be customized with individual properties such as <.custom_inline_code>space</.custom_inline_code>, <.custom_inline_code>vertical_space</.custom_inline_code>, <.custom_inline_code>horizontal_space</.custom_inline_code>, and more. By default, the toasts are stacked, and the entire group can be fixed in position ensuring that the notifications remain visible even when the user scrolls through the page.
+
+            The toast_group component is ideal for scenarios where multiple messages need to be displayed without overwhelming the user interface. It maintains a clean and structured appearance, making it easier to manage notifications in a more organized, visually appealing way.
+          </.cp>
+          <.custom_code_wrapper code_class="text-xs" code={@code_20}>
+            <div class="mb-6 flex items-center gap-2 flex-wrap">
+              <.button
+                variant="outline"
+                color="primary"
+                size="small"
+                phx-click="toast_position"
+                phx-value-pos="toast-example-115"
+              >
+                Show Font silver Toast
+              </.button>
+            </div>
+
+            <.toast_group id="toast-group-example-1">
+              <.toast
+                :if={@toast_pos == "toast-example-115"}
+                id="toast_group_doc_115"
+                color="warning"
+                variant="default"
+                content_border="small"
+                border_position="end"
+                fixed={false}
+              >
+                <div>
+                  This is a message with Font silver inside the toast group.
+                </div>
+              </.toast>
+
+              <.toast
+                :if={@toast_pos == "toast-example-115"}
+                id="toast_group_doc_116"
+                color="success"
+                variant="default"
+                content_border="small"
+                border_position="end"
+                fixed={false}
+              >
+                <div>
+                  This is a message with Font Thin inside the toast group.
+                </div>
+              </.toast>
+
+              <.toast
+                :if={@toast_pos == "toast-example-115"}
+                id="toast_group_doc_117"
+                color="success"
+                variant="default"
+                content_border="small"
+                border_position="end"
+                fixed={false}
+              >
+                <div>
+                  This is a message with Font Black inside the toast group.
+                </div>
+              </.toast>
+            </.toast_group>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="toast-group-space">
+            <.link patch={~p"/chelekom/docs/toast/#toast-group-space"}>
+              Space prop in Phoenix LiveView toast group component
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The space prop in the Phoenix LiveView toast group component provides various spacing options, including <.custom_inline_code>extra_small</.custom_inline_code>, <.custom_inline_code>small</.custom_inline_code>, <.custom_inline_code>medium</.custom_inline_code>, <.custom_inline_code>large</.custom_inline_code>, and <.custom_inline_code>extra_large</.custom_inline_code>. These options define the vertical spacing between individual toasts within the group, with increasing amounts of space from
+            <.custom_inline_code>extra_small</.custom_inline_code>
+            to <.custom_inline_code>extra_large</.custom_inline_code>. If no specific value is provided, the default is set to <.custom_inline_code>extra_small</.custom_inline_code>, but custom values can also be applied as needed.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" code={@code_21}>
+            <div class="mb-6 flex items-center gap-2 flex-wrap">
+              <.button
+                variant="outline"
+                color="dawn"
+                size="small"
+                phx-click="toast_position"
+                phx-value-pos="toast-example-116"
+              >
+                Show Extra Large Space
+              </.button>
+              <.button
+                variant="outline"
+                color="success"
+                size="small"
+                phx-click="toast_position"
+                phx-value-pos="toast-example-117"
+              >
+                Show Extra small Space
+              </.button>
+            </div>
+
+            <.toast_group id="toast-group-example-2" space="extra_large">
+              <.toast
+                :if={@toast_pos == "toast-example-116"}
+                id="toast-example-118"
+                color="danger"
+                variant="default"
+                fixed={false}
+              >
+                Toast inside toast group extra large space
+              </.toast>
+              <.toast
+                :if={@toast_pos == "toast-example-116"}
+                id="toast-example-119"
+                color="danger"
+                variant="default"
+                fixed={false}
+              >
+                Toast inside toast group extra large space
+              </.toast>
+              <.toast
+                :if={@toast_pos == "toast-example-116"}
+                id="toast-example-120"
+                color="danger"
+                variant="default"
+                fixed={false}
+              >
+                Toast inside toast group extra large space
+              </.toast>
+            </.toast_group>
+            <.toast_group id="toast-group-example-10" space="extra_small" vertical="top">
+              <.toast
+                :if={@toast_pos == "toast-example-117"}
+                id="toast-example-140"
+                color="danger"
+                variant="default"
+                fixed={false}
+              >
+                Toast inside toast group extra large space
+              </.toast>
+              <.toast
+                :if={@toast_pos == "toast-example-117"}
+                id="toast-example-141"
+                color="danger"
+                variant="default"
+                fixed={false}
+              >
+                Toast inside toast group extra large space
+              </.toast>
+              <.toast
+                :if={@toast_pos == "toast-example-117"}
+                id="toast-example-142"
+                color="danger"
+                variant="default"
+                fixed={false}
+              >
+                Toast inside toast group extra large space
+              </.toast>
+            </.toast_group>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="toast-group-vertical">
+            <.link patch={~p"/chelekom/docs/toast/#toast-group-vertical"}>
+              Vertical prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The vertical prop determines the vertical positioning of the toast group component. It accepts two values:
+            <.custom_inline_code>top</.custom_inline_code>
+            and <.custom_inline_code>bottom</.custom_inline_code>. By default, the toast group is positioned at the bottom of the screen. You can change this to
+            <.custom_inline_code>top</.custom_inline_code>
+            to display the group at the top, offering flexibility in where the notifications appear within the application.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" code={@code_22}>
+            <div class="mb-6 flex items-center gap-2 flex-wrap">
+              <.button
+                variant="outline"
+                color="warning"
+                size="small"
+                phx-click="toast_position"
+                phx-value-pos="toast-example-118"
+              >
+                Show Toast Group
+              </.button>
+            </div>
+
+            <.toast_group id="toast-group-example-3" vertical="top">
+              <.toast
+                :if={@toast_pos == "toast-example-118"}
+                id="toast-example-121"
+                color="info"
+                variant="outline"
+                fixed={false}
+              >
+                Toast inside toast group vertical top
+              </.toast>
+              <.toast
+                :if={@toast_pos == "toast-example-118"}
+                id="toast-example-122"
+                color="info"
+                variant="outline"
+                fixed={false}
+              >
+                Toast inside toast group vertical top
+              </.toast>
+            </.toast_group>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="toast-group-vertical-space">
+            <.link patch={~p"/chelekom/docs/toast/#toast-group-vertical-space"}>
+              Vertical space prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <.custom_inline_code>vertical_space</.custom_inline_code>
+            attribute in the Phoenix LiveView toast group component controls the space between vertically stacked toast notifications within the group. It offers flexibility with predefined options like <.custom_inline_code>extra_small</.custom_inline_code>, <.custom_inline_code>small</.custom_inline_code>, <.custom_inline_code>medium</.custom_inline_code>, <.custom_inline_code>large</.custom_inline_code>, and <.custom_inline_code>extra_large</.custom_inline_code>. By default, the space is set to <.custom_inline_code>extra_small</.custom_inline_code>, but you can adjust it to maintain a clean and organized layout when displaying multiple toasts, ensuring they don’t overlap or look cluttered.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" code={@code_23}>
+            <div class="mb-6 flex items-center gap-2 flex-wrap">
+              <.button
+                variant="outline"
+                color="dawn"
+                size="small"
+                phx-click="toast_position"
+                phx-value-pos="toast-example-119"
+              >
+                Extra Small Vertical Space
+              </.button>
+            </div>
+
+            <.toast_group id="toast-group-example-4" vertical_space="extra_large">
+              <.toast
+                :if={@toast_pos == "toast-example-119"}
+                id="toast-example-123"
+                color="warning"
+                variant="default"
+                fixed={false}
+              >
+                Toast in group with Extra Small Vertical Space 1
+              </.toast>
+              <.toast
+                :if={@toast_pos == "toast-example-119"}
+                id="toast-example-124"
+                color="warning"
+                variant="default"
+                fixed={false}
+              >
+                Toast in group with Extra Small Vertical Space 2
+              </.toast>
+            </.toast_group>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="toast-group-horizontal">
+            <.link patch={~p"/chelekom/docs/toast/#toast-group-horizontal"}>
+              Horizontal prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <.custom_inline_code>horizontal</.custom_inline_code>
+            attribute in the Phoenix LiveView toast group component controls the horizontal alignment of the group on the screen. Options include <.custom_inline_code>left</.custom_inline_code>, <.custom_inline_code>right</.custom_inline_code>, and <.custom_inline_code>center</.custom_inline_code>. By default, the toast group appears on the <.custom_inline_code>right</.custom_inline_code>, but you can adjust it to
+            <.custom_inline_code>left</.custom_inline_code>
+            or
+            <.custom_inline_code>center</.custom_inline_code>
+            to change its alignment based on your design needs.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" code={@code_24}>
+            <div class="mb-6 flex items-center gap-2 flex-wrap">
+              <.button
+                variant="outline"
+                color="secondary"
+                size="small"
+                phx-click="toast_position"
+                phx-value-pos="toast-example-120"
+              >
+                Toast Vertical top horizontal left 1
+              </.button>
+            </div>
+
+            <.toast_group id="toast-group-example-5" horizontal="left" vertical="top">
+              <.toast
+                :if={@toast_pos == "toast-example-120"}
+                id="toast-example-125"
+                color="dawn"
+                variant="default"
+                fixed={false}
+              >
+                Toast Vertical top horizontal left 1
+              </.toast>
+              <.toast
+                :if={@toast_pos == "toast-example-120"}
+                id="toast-example-126"
+                color="dawn"
+                variant="default"
+                fixed={false}
+              >
+                Toast Vertical top horizontal left 2
+              </.toast>
+            </.toast_group>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="toast-group-horizontal-space">
+            <.link patch={~p"/chelekom/docs/toast/#toast-group-horizontal-space"}>
+              Horizontal space prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <.custom_inline_code>horizontal_space</.custom_inline_code>
+            attribute in the Phoenix LiveView toast group component defines the spacing between items in the horizontal direction within the toast group. It offers several predefined values such as <.custom_inline_code>extra_small</.custom_inline_code>, <.custom_inline_code>small</.custom_inline_code>, <.custom_inline_code>medium</.custom_inline_code>, <.custom_inline_code>large</.custom_inline_code>, and <.custom_inline_code>extra_large</.custom_inline_code>. The default value is <.custom_inline_code>extra_small</.custom_inline_code>, but you can adjust it to control the spacing between horizontally aligned toasts in the group. This prop ensures flexibility and layout customization for different designs.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" code={@code_25}>
+            <div class="mb-6 flex items-center gap-2 flex-wrap">
+              <.button
+                variant="outline"
+                color="secondary"
+                size="small"
+                phx-click="toast_position"
+                phx-value-pos="toast-example-121"
+              >
+                Toast Vertical top horizontal left 1
+              </.button>
+            </div>
+
+            <.toast_group
+              id="toast-group-example-6"
+              horizontal="left"
+              vertical="bottom"
+              horizontal_space="small"
+            >
+              <.toast
+                :if={@toast_pos == "toast-example-121"}
+                id="toast-example-127"
+                color="primary"
+                variant="default"
+                fixed={false}
+              >
+                Toast Vertical top horizontal left 1
+              </.toast>
+              <.toast
+                :if={@toast_pos == "toast-example-121"}
+                id="toast-example-128"
+                color="primary"
+                variant="default"
+                fixed={false}
+              >
+                Toast Vertical top horizontal left 2
+              </.toast>
+            </.toast_group>
+          </.custom_code_wrapper>
+        </:documentation_panel>
+
+        <:props_panel>
+          <.custom_search class="mb-16" />
+          <div class="space-y-8">
+            <h2 class="text-lg lg:text-2xl font-bold">Toast Component Props</h2>
+
+            <.custom_table id="toast-component-props">
+              <:header>
+                <.table_th>Name</.table_th>
+
+                <.table_th>Type</.table_th>
+
+                <.table_th>Required</.table_th>
+
+                <.table_th>Description</.table_th>
+              </:header>
+
+              <:row>
+                <.table_td>id</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>Yes</.table_td>
+
+                <.table_td>A unique identifier used to manage state and interaction.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>fixed</.table_td>
+
+                <.table_td>boolean</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines whether the toast is fixed. Default is <strong>true</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>variant</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines the style of the toast. Supported values: <strong>default</strong>, <strong>outline</strong>, <strong>shadow</strong>, <strong>bordered</strong>, <strong>gradient</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>color</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines the color theme of the toast. Supported values: <strong>natural</strong>, <strong>primary</strong>, <strong>secondary</strong>, <strong>success</strong>, <strong>warning</strong>, <strong>danger</strong>, <strong>info</strong>, <strong>silver</strong>, <strong>misc</strong>, <strong>dawn</strong>. Default is <strong>natural</strong>.The
+                  <strong>default</strong>
+                  and <strong>bordered</strong>
+                  variants have extra color options: <strong>dark</strong>
+                  and <strong>white</strong>, which in both light mode and dark mode, these colors are always the same.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>border</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines the border style. Default is <strong>extra_small</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>rounded</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines the border radius. Default is <strong>medium</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>width</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines the width of the toast. Default is <strong>medium</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>space</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Defines the space between items. Default is <strong>extra_small</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>vertical</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines the vertical positioning. Options are <strong>top</strong>
+                  or <strong>bottom</strong>. Default is <strong>top</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>vertical_space</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Defines the vertical space between items. Default is <strong>extra_small</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>horizontal</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines the horizontal positioning. Options are <strong>left</strong>, <strong>right</strong>, or <strong>center</strong>. Default is <strong>right</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>horizontal_space</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Defines the horizontal space between items. Default is <strong>extra_small</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>font_weight</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines the font weight. Default is <strong>font-normal</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>class</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Custom CSS class for additional styling. Default is an empty string.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>params</.table_td>
+
+                <.table_td>map</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  A map of additional parameters used for element configuration. Default is <strong>%<%= "{" %>kind: "toast"}</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>rest</.table_td>
+
+                <.table_td>global</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Global attributes that can define defaults which are merged with attributes provided by the caller.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>content_border</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines the content border style. Default is <strong>none</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>border_position</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines the border position style. Default is <strong>start</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>row_direction</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Determines row direction. Default is <strong>none</strong>.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>padding</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines padding for items. Default is <strong>extra_small</strong>.
+                </.table_td>
+              </:row>
+            </.custom_table>
+          </div>
+
+          <div class="space-y-8 mt-8">
+            <h2 class="text-lg lg:text-2xl font-bold">Toast Group Component Props</h2>
+
+            <.custom_table id="toast-group-component-props">
+              <:header>
+                <.table_th>Name</.table_th>
+
+                <.table_th>Type</.table_th>
+
+                <.table_th>Required</.table_th>
+
+                <.table_th>Description</.table_th>
+              </:header>
+
+              <:row>
+                <.table_td>id</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>A unique identifier used to manage state and interaction.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>space</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Space between items. Default is <strong>small</strong>.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>vertical</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines vertical positioning. Options are <strong>top</strong>
+                  or <strong>bottom</strong>. Default is <strong>bottom</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>vertical_space</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Defines the space between vertical items. Default is <strong>extra_small</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>wrapper_class</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Additional CSS classes to be added to the toast wrapper. Default is an empty string.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>content_wrapper_class</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Additional CSS classes to be added to the toast content wrapper. Default is an empty string.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>content_class</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Additional CSS classes to be added to the toast content. Default is an empty string.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>dismiss_class</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Additional CSS classes to be added to the toast dismiss button. Default is an empty string.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>dismiss_icon_class</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Additional CSS classes to be added to the toast dismiss icon. Default is an empty string.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>horizontal</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines horizontal positioning. Options are <strong>left</strong>, <strong>right</strong>, or <strong>center</strong>. Default is <strong>right</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>horizontal_space</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Defines the space between horizontal items. Default is <strong>extra_small</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>class</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Custom CSS class for additional styling. Default is an empty string.
+                </.table_td>
+              </:row>
+            </.custom_table>
+          </div>
+        </:props_panel>
+
+        <:cli_panel>
+          <.custom_cli_props config={component_config()} />
+        </:cli_panel>
+        <.custom_table_content>
+          <:content
+            link={~p"/chelekom/docs/toast/#overview"}
+            title="Overview of the toast component"
+          />
+          <:content
+            link={~p"/chelekom/docs/toast/#default-variant-toast"}
+            title="Default variant"
+          />
+          <:content
+            link={~p"/chelekom/docs/toast/#outline-variant-toast"}
+            title="Outline variant"
+          />
+          <:content link={~p"/chelekom/docs/toast/#shadow-variant-toast"} title="Shadow variant" />
+          <:content
+            link={~p"/chelekom/docs/toast/#bordered-variant-toast"}
+            title="Bordered variant"
+          />
+          <:content
+            link={~p"/chelekom/docs/toast/#gradient-variant-toast"}
+            title="Gradient variant"
+          />
+          <:content link={~p"/chelekom/docs/toast/#toast-border-prop"} title="Border prop" />
+          <:content link={~p"/chelekom/docs/toast/#toast-rounded"} title="Rounded prop" />
+          <:content link={~p"/chelekom/docs/toast/#toast-space"} title="Space prop" />
+          <:content link={~p"/chelekom/docs/toast/#toast-padding"} title="Padding prop" />
+          <:content link={~p"/chelekom/docs/toast/#toast-width"} title="Width prop" />
+          <:content link={~p"/chelekom/docs/toast/#toast-vertical"} title="Vertical prop" />
+          <:content
+            link={~p"/chelekom/docs/toast/#toast-vertical-space"}
+            title="Vertical space prop"
+          />
+          <:content link={~p"/chelekom/docs/toast/#toast-horizontal"} title="Horizontal prop" />
+          <:content
+            link={~p"/chelekom/docs/toast/#toast-horizontal-space"}
+            title="Horizontal space prop"
+          />
+          <:content
+            link={~p"/chelekom/docs/toast/#toast-content-border"}
+            title="Content border prop"
+          />
+          <:content
+            link={~p"/chelekom/docs/toast/#toast-border-position"}
+            title="Border position prop"
+          />
+          <:content link={~p"/chelekom/docs/toast/#toast-row-reverse"} title="Row reverse prop" />
+          <:content link={~p"/chelekom/docs/toast/#toast-fixed-prop"} title="Fixed prop" />
+          <:content link={~p"/chelekom/docs/toast/#toast-font-weight"} title="Font weight prop" />
+          <:content
+            link={~p"/chelekom/docs/toast/#toast-group-component"}
+            title="Toast group component"
+          />
+          <:content
+            link={~p"/chelekom/docs/toast/#toast-group-space"}
+            title="Toast group space prop"
+          />
+          <:content
+            link={~p"/chelekom/docs/toast/#toast-group-vertical"}
+            title="Toast group vertical prop"
+          />
+          <:content
+            link={~p"/chelekom/docs/toast/#toast-group-vertical-space"}
+            title="Toast group vertical space prop"
+          />
+          <:content
+            link={~p"/chelekom/docs/toast/#toast-group-horizontal"}
+            title="Toast group horizontal prop"
+          />
+          <:content
+            link={~p"/chelekom/docs/toast/#toast-group-horizontal-space"}
+            title="Toast group horizontal space prop"
+          />
+        </.custom_table_content>
+      </.custom_tab>
+    </div>
+  </div>
+</Layouts.app>

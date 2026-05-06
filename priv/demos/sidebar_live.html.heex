@@ -1,0 +1,1425 @@
+<Layouts.app flash={@flash}>
+  <div class="lg:grid lg:grid-cols-12 mt-5 max-w-5xl mx-auto">
+    <.custom_nav active="chelekom-docs-sidebar" />
+    <div class="lg:col-span-10">
+      <.custom_info
+        title="Sidebar"
+        description="Customizable sidebar for Phoenix LiveView, offering dynamic navigation and collapsible content with configurable themes, sizes, and behavior."
+        mix="mix mishka.ui.gen.component sidebar"
+        github="https://github.com/mishka-group/mishka_chelekom/blob/master/priv/components/sidebar.eex"
+        tags={["Component", "Stateless", "JS-module", "JS"]}
+      />
+      <.custom_tab id="chelekom-sidebar-tab">
+        <:documentation_panel>
+          <.heading2 class="mb-5" id="overview">
+            <.link patch={~p"/chelekom/docs/sidebar/#overview"}>
+              Overview of the Phoenix LiveView Sidebar Component
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <strong>
+              Mishka Chelekom sidebar
+            </strong>
+            component is a highly versatile <strong>Phoenix LiveView</strong>
+            tool for creating
+            interactive and customizable sidebars. It is perfect for navigation menus, collapsible content, and other
+            dynamic interface elements, offering various configuration options for sizes, colors, and border styles to fit your app's design.
+          </.cp>
+
+          <.custom_code_wrapper>
+            <.button
+              size="small"
+              phx-click="sidebar_position"
+              phx-value-pos="sidebar-example-12"
+              class="hidden md:block mx-auto"
+            >
+              Show Sidebar
+            </.button>
+
+            <.sidebar
+              :if={@sidebar_pos == "sidebar-example-12"}
+              size="medium"
+              id="sidebar-example-12"
+              hide_position="left"
+              minimize
+              list_wrapper_class="ps-2.5"
+            >
+              <:item
+                icon="hero-home"
+                link="/"
+                class="mb-4 text-[14px] text-gray-600 dark:text-gray-200 hover:text-rose-500 dark:hover:text-rose-300"
+              >
+                <.tooltip rounded="medium" text="Dashboard" position="right" size="extra_small">
+                  <span class="w-full block ms-2" data-item-label>Dashboard</span>
+                </.tooltip>
+              </:item>
+
+              <:item
+                icon="hero-envelope"
+                link="/"
+                class="mb-4 text-[14px] text-gray-600 dark:text-gray-200 hover:text-rose-500 dark:hover:text-rose-300"
+              >
+                <.tooltip rounded="medium" text="Messages" position="right" size="extra_small">
+                  <span class="w-full block ms-2" data-item-label>Messages</span>
+                </.tooltip>
+              </:item>
+
+              <:item
+                icon="hero-star"
+                link="/"
+                class="mb-4 text-[14px] text-gray-600 dark:text-gray-200 hover:text-rose-500 dark:hover:text-rose-300"
+              >
+                <.tooltip rounded="medium" text="Bookmarks" position="right" size="extra_small">
+                  <span class="w-full block ms-2" data-item-label>Bookmarks</span>
+                </.tooltip>
+              </:item>
+
+              <:item
+                icon="hero-user-group"
+                link="/"
+                class="mb-4 text-[14px] text-gray-600 dark:text-gray-200 hover:text-rose-500 dark:hover:text-rose-300"
+              >
+                <.tooltip rounded="medium" text="Teams" position="right" size="extra_small">
+                  <span class="w-full block ms-2" data-item-label>Teams</span>
+                </.tooltip>
+              </:item>
+
+              <:item
+                icon="hero-calendar"
+                link="/"
+                class="mb-4 text-[14px] text-gray-600 dark:text-gray-200 hover:text-rose-500 dark:hover:text-rose-300"
+              >
+                <.tooltip rounded="medium" text="Calendar" position="right" size="extra_small">
+                  <span class="w-full block ms-2" data-item-label>Calendar</span>
+                </.tooltip>
+              </:item>
+
+              <:item
+                icon="hero-cog-6-tooth"
+                link="/"
+                class="mb-4 text-[14px] text-gray-600 dark:text-gray-200 hover:text-rose-500 dark:hover:text-rose-300"
+              >
+                <.tooltip rounded="medium" text="Settings" position="right" size="extra_small">
+                  <span class="w-full block ms-2" data-item-label>Settings</span>
+                </.tooltip>
+              </:item>
+
+              <:item
+                icon="hero-user-circle"
+                link="/"
+                class="mb-4 text-[14px] text-gray-600 dark:text-gray-200 hover:text-rose-500 dark:hover:text-rose-300"
+              >
+                <.tooltip rounded="medium" text="Profile" position="right" size="extra_small">
+                  <span class="w-full block ms-2" data-item-label>Profile</span>
+                </.tooltip>
+              </:item>
+              <:item
+                icon="hero-chart-bar"
+                link="/"
+                class="mb-4 text-[14px] text-gray-600 dark:text-gray-200 hover:text-rose-500 dark:hover:text-rose-300"
+              >
+                <.tooltip rounded="medium" text="Analytics" position="right" size="extra_small">
+                  <span class="w-full block ms-2" data-item-label>Analytics</span>
+                </.tooltip>
+              </:item>
+
+              <:item
+                icon="hero-document-text"
+                link="/"
+                class="mb-4 text-[14px] text-gray-600 dark:text-gray-200 hover:text-rose-500 dark:hover:text-rose-300"
+              >
+                <.tooltip rounded="medium" text="Reports" position="right" size="extra_small">
+                  <span class="w-full block ms-2" data-item-label>Reports</span>
+                </.tooltip>
+              </:item>
+
+              <:item
+                icon="hero-briefcase"
+                link="/"
+                class="mb-4 text-[14px] text-gray-600 dark:text-gray-200 hover:text-rose-500 dark:hover:text-rose-300"
+              >
+                <.tooltip rounded="medium" text="Projects" position="right" size="extra_small">
+                  <span class="w-full block ms-2" data-item-label>Projects</span>
+                </.tooltip>
+              </:item>
+
+              <:item
+                icon="hero-shield-check"
+                link="/"
+                class="mb-4 text-[14px] text-gray-600 dark:text-gray-200 hover:text-rose-500 dark:hover:text-rose-300"
+              >
+                <.tooltip rounded="medium" text="Security" position="right" size="extra_small">
+                  <span class="w-full block ms-2" data-item-label>Security</span>
+                </.tooltip>
+              </:item>
+
+              <:item
+                icon="hero-adjustments-horizontal"
+                link="/"
+                class="mb-4 text-[14px] text-gray-600 dark:text-gray-200 hover:text-rose-500 dark:hover:text-rose-300"
+              >
+                <.tooltip rounded="medium" text="Preferences" position="right" size="extra_small">
+                  <span class="w-full block ms-2" data-item-label>Preferences</span>
+                </.tooltip>
+              </:item>
+            </.sidebar>
+          </.custom_code_wrapper>
+
+          <.cp margin="mt-5">
+            This
+            <strong>
+              <.link
+                title="Phoenix LiveView sidebar component"
+                class="transition-colors hover:text-[#448D96]"
+                navigate={~p"/chelekom"}
+              >
+                Phoenix LiveView component
+              </.link>
+            </strong>
+            also supports toggling visibility, different positioning options, and custom triggers for click or interaction events, providing a flexible and dynamic solution for improving user engagement and accessibility.
+          </.cp>
+
+          <.custom_block position="left" color="success" class="my-8" border="medium">
+            <.cp>
+              By using the class prop, you can apply custom classes or Tailwind CSS classes to customize the appearance and behavior of the components, allowing for flexible design changes.
+            </.cp>
+            <strong>Note:</strong>
+            id prop is required and each sidebar should have unique id.
+          </.custom_block>
+
+          <.custom_block position="left" color="warning" class="my-8" border="medium">
+            <.cp>
+              <strong>Note:</strong>
+              The sidebar is displayed by default on desktop but hidden on smaller screens. Since we have multiple examples here and they might not display correctly, we've added a button so you can see how the sidebar works. <.link
+                class="text-amber-700 font-semibold"
+                patch={~p"/chelekom/docs/sidebar/#sidebar-on-small-devices"}
+              >On smaller screens</.link>, it will function like a <.link navigate={
+                ~p"/chelekom/docs/drawer"
+              }><strong>drawer component</strong></.link>, and you can use a JS module to add a button, such as a hamburger menu, to toggle its visibility, allowing users to easily open and close the sidebar.
+            </.cp>
+            <.cp>
+              In the <.link
+                class="text-amber-700 font-semibold"
+                patch={~p"/chelekom/docs/sidebar/#sidebar-variant-colors"}
+              >first examples</.link>, we've already added a button for displaying the sidebar on mobile, and the code is provided in the "on mobile" section for reference. To see this in action, you can either change the user agent or reduce the screen size to view the mobile version of the example.
+            </.cp>
+          </.custom_block>
+
+          <.heading2 margin="my-5" id="sidebar-js-modules">
+            <.link patch={~p"/chelekom/docs/sidebar/#sidebar-js-modules"}>
+              About LiveView JS module commands
+            </.link>
+          </.heading2>
+
+          <.cp class="mt-8">
+            In the sidebar component, there are three attributes that allow users to execute custom LiveView JS
+            commands when certain actions like showing or hiding occur. These attributes are:
+          </.cp>
+
+          <ul>
+            <li>
+              <strong>on_hide:</strong>
+              This attribute lets the user execute an additional JavaScript command when the sidebar is hidden, alongside the default toggle action. For instance, a user might want to push some data to the server or trigger another function when the sidebar hides.
+            </li>
+            <li>
+              <strong>on_show:</strong>
+              This attribute allows you to run a custom JavaScript command when the sidebar is shown. Users can, for example, send data, log an event, or perform any other action when the sidebar is displayed.
+            </li>
+            <li>
+              <strong>on_hide_away:</strong>
+              This attribute allows for the execution of a JavaScript command when the sidebar is hidden by clicking outside of it. This could be useful for logging interactions or sending specific data back to the server.
+            </li>
+          </ul>
+
+          <.cp class="mb-8">
+            These attributes give developers more control over the interactions with the sidebar, allowing for complex actions to be performed using custom JavaScript beyond just the default show/hide behavior.
+          </.cp>
+
+          <.heading2 margin="my-5" id="sidebar-variant-colors">
+            <.link patch={~p"/chelekom/docs/sidebar/#sidebar-variant-colors"}>
+              Sidebar variant and color props
+            </.link>
+          </.heading2>
+
+          <.cp class="my-8">
+            The <.link navigate={~p"/chelekom/docs/sidebar"}>sidebar component</.link>
+            supports five distinct variants: <.custom_inline_code>default</.custom_inline_code>, <.custom_inline_code>outline</.custom_inline_code>, <.custom_inline_code>gradient</.custom_inline_code>, <.custom_inline_code>bordered</.custom_inline_code>,<.custom_inline_code>
+            transparent
+          </.custom_inline_code>, and <.custom_inline_code>shadow</.custom_inline_code>. Each variant can be styled with a variety of colors, including <.custom_inline_code>natural</.custom_inline_code>, <.custom_inline_code>primary</.custom_inline_code>, <.custom_inline_code>secondary</.custom_inline_code>, <.custom_inline_code>dark</.custom_inline_code>, <.custom_inline_code>success</.custom_inline_code>, <.custom_inline_code>warning</.custom_inline_code>, <.custom_inline_code>danger</.custom_inline_code>, <.custom_inline_code>info</.custom_inline_code>, <.custom_inline_code>silver</.custom_inline_code>, <.custom_inline_code>misc</.custom_inline_code>, and <.custom_inline_code>dawn</.custom_inline_code>. Default variant have also <.custom_inline_code>white</.custom_inline_code>, and
+            <.custom_inline_code>dark</.custom_inline_code>
+            dark colors which are the same colors in the dark and light mode.
+          </.cp>
+
+          <.custom_block position="left" color="danger" class="my-8" border="medium">
+            Please keep in mind that only small screen examples are provided in this section, so if you want to see the sidebar, please reduce the screen size and click the relevant button.
+          </.custom_block>
+
+          <.custom_code_wrapper code_class="text-xs" code={@code_1}>
+            <div class="flex gap-10 justify-center items-center">
+              <.button
+                size="small"
+                phx-click="sidebar_position"
+                phx-value-pos="sidebar-example-1"
+                class="hidden md:block"
+                variant="outline"
+                color="warning"
+              >
+                Show Base
+              </.button>
+              <.button
+                size="small"
+                variant="outline"
+                color="silver"
+                phx-click="sidebar_position"
+                phx-value-pos="sidebar-example-2"
+                class="hidden md:block"
+              >
+                Show silver
+              </.button>
+
+              <.button
+                size="small"
+                color="warning"
+                phx-click="sidebar_position"
+                phx-value-pos="sidebar-example-none"
+                class="hidden md:block"
+              >
+                Remove sidebar
+              </.button>
+
+              <.button
+                size="small"
+                color="success"
+                variant="outline"
+                phx-click={Sidebar.show_sidebar("sidebar-example-15", "left")}
+                class="md:hidden"
+              >
+                Show Sidebar (Left)
+              </.button>
+
+              <.button
+                size="small"
+                color="secondary"
+                variant="outline"
+                phx-click={Sidebar.show_sidebar("sidebar-example-16", "right")}
+                class="md:hidden"
+              >
+                Show Sidebar (Right)
+              </.button>
+            </div>
+
+            <.sidebar
+              :if={@sidebar_pos == "sidebar-example-1"}
+              id="sidebar-example-1"
+              hide_position="left"
+              minimize
+            >
+              <:item
+                icon="hero-home"
+                icon_class="size-6"
+                label="Dashboard"
+                link="/"
+                class="mb-3 hover:text-opacity-95"
+              />
+              <:item
+                icon="hero-envelope"
+                icon_class="size-6"
+                label="Messages"
+                link="/"
+                class="mb-3 hover:text-opacity-95"
+              />
+              <:item
+                icon="hero-star"
+                icon_class="size-6"
+                label="Bookmarks"
+                link="/"
+                class="mb-3 hover:text-opacity-95"
+              />
+              <:item
+                icon="hero-user-group"
+                icon_class="size-6"
+                label="Teams"
+                link="/"
+                class="mb-3 hover:text-opacity-95"
+              />
+              <:item
+                icon="hero-calendar"
+                icon_class="size-6"
+                label="Calendar"
+                link="/"
+                class="mb-3 hover:text-opacity-95"
+              />
+              <:item
+                icon="hero-cog-6-tooth"
+                icon_class="size-6"
+                label="Settings"
+                link="/"
+                class="mb-3 hover:text-opacity-95"
+              />
+              <:item
+                icon="hero-user-circle"
+                icon_class="size-6"
+                label="Profile"
+                link="/"
+                class="mb-3 hover:text-opacity-95"
+              />
+            </.sidebar>
+            <.sidebar
+              :if={@sidebar_pos == "sidebar-example-2"}
+              id="sidebar-example-2"
+              color="silver"
+              variant="default"
+              position="end"
+              hide_position="right"
+            >
+              <ul dir="rtl">
+                <li class="py-2 px-3 hover:bg-purple-400 cursor-pointer">Home</li>
+                <li class="py-2 px-3 hover:bg-purple-400 cursor-pointer">Inbox</li>
+                <li class="py-2 px-3 hover:bg-purple-400 cursor-pointer">Favorits</li>
+                <li class="py-2 px-3 hover:bg-purple-400 cursor-pointer">TeamSpaces</li>
+                <li class="py-2 px-3 hover:bg-purple-400 cursor-pointer">Projects</li>
+                <li class="py-2 px-3 hover:bg-purple-400 cursor-pointer">Calendar</li>
+                <li class="py-2 px-3 hover:bg-purple-400 cursor-pointer">Settings</li>
+                <li class="py-2 px-3 hover:bg-purple-400 cursor-pointer">Profile</li>
+              </ul>
+            </.sidebar>
+
+            <.sidebar
+              variant="default"
+              id="sidebar-example-15"
+              color="info"
+              hide_position="left"
+              class="md:!hidden"
+            >
+              <ul>
+                <li class="py-2 px-3 hover:bg-stone-400 cursor-pointer">Home</li>
+                <li class="py-2 px-3 hover:bg-stone-400 cursor-pointer">Inbox</li>
+                <li class="py-2 px-3 hover:bg-stone-400 cursor-pointer">Favorits</li>
+                <li class="py-2 px-3 hover:bg-stone-400 cursor-pointer">TeamSpaces</li>
+                <li class="py-2 px-3 hover:bg-stone-400 cursor-pointer">Projects</li>
+                <li class="py-2 px-3 hover:bg-stone-400 cursor-pointer">Calendar</li>
+                <li class="py-2 px-3 hover:bg-stone-400 cursor-pointer">Settings</li>
+                <li class="py-2 px-3 hover:bg-stone-400 cursor-pointer">Profile</li>
+              </ul>
+            </.sidebar>
+            <.sidebar
+              id="sidebar-example-16"
+              color="silver"
+              position="end"
+              variant="default"
+              hide_position="right"
+              class="md:!hidden [&_.dismiss-sidebar-wrapper]:!justify-start"
+            >
+              <ul dir="rtl">
+                <li class="py-2 px-3 hover:bg-purple-400 cursor-pointer">Home</li>
+                <li class="py-2 px-3 hover:bg-purple-400 cursor-pointer">Inbox</li>
+                <li class="py-2 px-3 hover:bg-purple-400 cursor-pointer">Favorits</li>
+                <li class="py-2 px-3 hover:bg-purple-400 cursor-pointer">TeamSpaces</li>
+                <li class="py-2 px-3 hover:bg-purple-400 cursor-pointer">Projects</li>
+                <li class="py-2 px-3 hover:bg-purple-400 cursor-pointer">Calendar</li>
+                <li class="py-2 px-3 hover:bg-purple-400 cursor-pointer">Settings</li>
+                <li class="py-2 px-3 hover:bg-purple-400 cursor-pointer">Profile</li>
+              </ul>
+            </.sidebar>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="sidebar-border">
+            <.link patch={~p"/chelekom/docs/sidebar/#sidebar-border"}>
+              Border prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The border prop offers values like <.custom_inline_code>"extra_small"</.custom_inline_code>, <.custom_inline_code>"small"</.custom_inline_code>, <.custom_inline_code>"medium"</.custom_inline_code>, <.custom_inline_code>"large"</.custom_inline_code>, and <.custom_inline_code>"extra_large"</.custom_inline_code>. Only
+            <.custom_inline_code>Bordered</.custom_inline_code>
+            and
+            <.custom_inline_code>Outline</.custom_inline_code>
+            variants can have border by default.
+          </.cp>
+
+          <.custom_code_wrapper
+            elements_class="flex gap-10 items-center justify-center"
+            code={@code_2}
+          >
+            <.button
+              size="small"
+              color="misc"
+              variant="outline"
+              phx-click="sidebar_position"
+              phx-value-pos="sidebar-example-3"
+              class="hidden md:flex"
+            >
+              show sidebar
+            </.button>
+            <.button
+              size="small"
+              color="danger"
+              variant="outline"
+              phx-click="sidebar_position"
+              phx-value-pos="sidebar-example-4"
+              class="hidden md:flex"
+            >
+              show sidebar
+            </.button>
+
+            <.button
+              size="small"
+              color="success"
+              variant="outline"
+              phx-click={Sidebar.show_sidebar("sidebar-example-17", "left")}
+              class="md:hidden"
+            >
+              Show Sidebar (Left)
+            </.button>
+
+            <.button
+              size="small"
+              color="secondary"
+              variant="outline"
+              phx-click={Sidebar.show_sidebar("sidebar-example-18", "right")}
+              class="md:hidden"
+            >
+              Show Sidebar (Right)
+            </.button>
+
+            <.sidebar
+              :if={@sidebar_pos == "sidebar-example-3"}
+              id="sidebar-example-3"
+              color="info"
+              border="extra_small"
+              variant="bordered"
+              hide_position="left"
+            >
+              <ul>
+                <li class="py-2 px-3 hover:bg-stone-400 cursor-pointer">Home</li>
+                <li class="py-2 px-3 hover:bg-stone-400 cursor-pointer">Inbox</li>
+                <li class="py-2 px-3 hover:bg-stone-400 cursor-pointer">Favorits</li>
+                <li class="py-2 px-3 hover:bg-stone-400 cursor-pointer">TeamSpaces</li>
+                <li class="py-2 px-3 hover:bg-stone-400 cursor-pointer">Projects</li>
+                <li class="py-2 px-3 hover:bg-stone-400 cursor-pointer">Calendar</li>
+                <li class="py-2 px-3 hover:bg-stone-400 cursor-pointer">Settings</li>
+                <li class="py-2 px-3 hover:bg-stone-400 cursor-pointer">Profile</li>
+              </ul>
+            </.sidebar>
+            <.sidebar
+              :if={@sidebar_pos == "sidebar-example-4"}
+              id="sidebar-example-4"
+              color="misc"
+              border="extra_large"
+              position="end"
+              variant="bordered"
+              hide_position="right"
+            >
+              <ul dir="rtl">
+                <li class="py-2 px-3 hover:bg-purple-400 cursor-pointer">Home</li>
+                <li class="py-2 px-3 hover:bg-purple-400 cursor-pointer">Inbox</li>
+                <li class="py-2 px-3 hover:bg-purple-400 cursor-pointer">Favorits</li>
+                <li class="py-2 px-3 hover:bg-purple-400 cursor-pointer">TeamSpaces</li>
+                <li class="py-2 px-3 hover:bg-purple-400 cursor-pointer">Projects</li>
+                <li class="py-2 px-3 hover:bg-purple-400 cursor-pointer">Calendar</li>
+                <li class="py-2 px-3 hover:bg-purple-400 cursor-pointer">Settings</li>
+                <li class="py-2 px-3 hover:bg-purple-400 cursor-pointer">Profile</li>
+              </ul>
+            </.sidebar>
+
+            <.sidebar
+              variant="default"
+              id="sidebar-example-17"
+              color="info"
+              hide_position="left"
+              class="md:!hidden"
+            >
+              <ul>
+                <li class="py-2 px-3 hover:bg-stone-400 cursor-pointer">Home</li>
+                <li class="py-2 px-3 hover:bg-stone-400 cursor-pointer">Inbox</li>
+                <li class="py-2 px-3 hover:bg-stone-400 cursor-pointer">Favorits</li>
+                <li class="py-2 px-3 hover:bg-stone-400 cursor-pointer">TeamSpaces</li>
+                <li class="py-2 px-3 hover:bg-stone-400 cursor-pointer">Projects</li>
+                <li class="py-2 px-3 hover:bg-stone-400 cursor-pointer">Calendar</li>
+                <li class="py-2 px-3 hover:bg-stone-400 cursor-pointer">Settings</li>
+                <li class="py-2 px-3 hover:bg-stone-400 cursor-pointer">Profile</li>
+              </ul>
+            </.sidebar>
+            <.sidebar
+              id="sidebar-example-18"
+              color="silver"
+              position="end"
+              variant="default"
+              hide_position="right"
+              class="md:!hidden [&_.dismiss-sidebar-wrapper]:!justify-start"
+            >
+              <ul dir="rtl">
+                <li class="py-2 px-3 hover:bg-purple-400 cursor-pointer">Home</li>
+                <li class="py-2 px-3 hover:bg-purple-400 cursor-pointer">Inbox</li>
+                <li class="py-2 px-3 hover:bg-purple-400 cursor-pointer">Favorits</li>
+                <li class="py-2 px-3 hover:bg-purple-400 cursor-pointer">TeamSpaces</li>
+                <li class="py-2 px-3 hover:bg-purple-400 cursor-pointer">Projects</li>
+                <li class="py-2 px-3 hover:bg-purple-400 cursor-pointer">Calendar</li>
+                <li class="py-2 px-3 hover:bg-purple-400 cursor-pointer">Settings</li>
+                <li class="py-2 px-3 hover:bg-purple-400 cursor-pointer">Profile</li>
+              </ul>
+            </.sidebar>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="sidebar-size">
+            <.link patch={~p"/chelekom/docs/sidebar/#sidebar-size"}>
+              Size prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <.custom_inline_code>size</.custom_inline_code>
+            prop allows developers to control the overall size of the sidebar component. It offers predefined values such as <.custom_inline_code>extra_small</.custom_inline_code>, <.custom_inline_code>small</.custom_inline_code>, <.custom_inline_code>medium</.custom_inline_code>, <.custom_inline_code>large</.custom_inline_code>, and <.custom_inline_code>extra_large</.custom_inline_code>, which adjust the width or height of the sidebar depending on its position. For sidebars positioned on the left or right of the screen, the prop adjusts the width, while for sidebars positioned at the top or bottom, it controls the height. This flexibility ensures the sidebar can fit various design requirements, making it adaptable for different content and use cases.
+          </.cp>
+
+          <.custom_code_wrapper
+            elements_class="flex gap-10 items-center justify-center"
+            code={@code_3}
+          >
+            <.button
+              size="small"
+              color="silver"
+              variant="outline"
+              phx-click="sidebar_position"
+              class="hidden md:flex"
+              phx-value-pos="sidebar-example-5"
+            >
+              show sidebar
+            </.button>
+            <.button
+              size="small"
+              color="dawn"
+              variant="outline"
+              phx-click="sidebar_position"
+              class="hidden md:flex"
+              phx-value-pos="sidebar-example-6"
+            >
+              show sidebar
+            </.button>
+
+            <.button
+              size="small"
+              color="success"
+              variant="outline"
+              phx-click={Sidebar.show_sidebar("sidebar-example-19", "left")}
+              class="md:hidden"
+            >
+              Show Sidebar (Left)
+            </.button>
+
+            <.button
+              size="small"
+              color="secondary"
+              variant="outline"
+              phx-click={Sidebar.show_sidebar("sidebar-example-20", "right")}
+              class="md:hidden"
+            >
+              Show Sidebar (Right)
+            </.button>
+
+            <.sidebar
+              :if={@sidebar_pos == "sidebar-example-5"}
+              id="sidebar-example-5"
+              color="info"
+              variant="default"
+              size="extra_small"
+              hide_position="left"
+            >
+              <ul>
+                <li class="py-2 px-3 hover:bg-stone-400 cursor-pointer">Home</li>
+                <li class="py-2 px-3 hover:bg-stone-400 cursor-pointer">Inbox</li>
+                <li class="py-2 px-3 hover:bg-stone-400 cursor-pointer">Favorits</li>
+                <li class="py-2 px-3 hover:bg-stone-400 cursor-pointer">TeamSpaces</li>
+                <li class="py-2 px-3 hover:bg-stone-400 cursor-pointer">Projects</li>
+                <li class="py-2 px-3 hover:bg-stone-400 cursor-pointer">Calendar</li>
+                <li class="py-2 px-3 hover:bg-stone-400 cursor-pointer">Settings</li>
+                <li class="py-2 px-3 hover:bg-stone-400 cursor-pointer">Profile</li>
+              </ul>
+            </.sidebar>
+            <.sidebar
+              :if={@sidebar_pos == "sidebar-example-6"}
+              id="sidebar-example-6"
+              color="misc"
+              size="extra_large"
+              position="end"
+              variant="default"
+              hide_position="right"
+            >
+              <ul dir="rtl">
+                <li class="py-2 px-3 hover:bg-purple-400 cursor-pointer">Home</li>
+                <li class="py-2 px-3 hover:bg-purple-400 cursor-pointer">Inbox</li>
+                <li class="py-2 px-3 hover:bg-purple-400 cursor-pointer">Favorits</li>
+                <li class="py-2 px-3 hover:bg-purple-400 cursor-pointer">TeamSpaces</li>
+                <li class="py-2 px-3 hover:bg-purple-400 cursor-pointer">Projects</li>
+                <li class="py-2 px-3 hover:bg-purple-400 cursor-pointer">Calendar</li>
+                <li class="py-2 px-3 hover:bg-purple-400 cursor-pointer">Settings</li>
+                <li class="py-2 px-3 hover:bg-purple-400 cursor-pointer">Profile</li>
+              </ul>
+            </.sidebar>
+
+            <.sidebar
+              variant="default"
+              id="sidebar-example-19"
+              color="info"
+              hide_position="left"
+              class="md:!hidden"
+            >
+              <ul>
+                <li class="py-2 px-3 hover:bg-stone-400 cursor-pointer">Home</li>
+                <li class="py-2 px-3 hover:bg-stone-400 cursor-pointer">Inbox</li>
+                <li class="py-2 px-3 hover:bg-stone-400 cursor-pointer">Favorits</li>
+                <li class="py-2 px-3 hover:bg-stone-400 cursor-pointer">TeamSpaces</li>
+                <li class="py-2 px-3 hover:bg-stone-400 cursor-pointer">Projects</li>
+                <li class="py-2 px-3 hover:bg-stone-400 cursor-pointer">Calendar</li>
+                <li class="py-2 px-3 hover:bg-stone-400 cursor-pointer">Settings</li>
+                <li class="py-2 px-3 hover:bg-stone-400 cursor-pointer">Profile</li>
+              </ul>
+            </.sidebar>
+            <.sidebar
+              id="sidebar-example-20"
+              color="silver"
+              position="end"
+              variant="default"
+              hide_position="right"
+              class="md:!hidden [&_.dismiss-sidebar-wrapper]:!justify-start"
+            >
+              <ul dir="rtl">
+                <li class="py-2 px-3 hover:bg-purple-400 cursor-pointer">Home</li>
+                <li class="py-2 px-3 hover:bg-purple-400 cursor-pointer">Inbox</li>
+                <li class="py-2 px-3 hover:bg-purple-400 cursor-pointer">Favorits</li>
+                <li class="py-2 px-3 hover:bg-purple-400 cursor-pointer">TeamSpaces</li>
+                <li class="py-2 px-3 hover:bg-purple-400 cursor-pointer">Projects</li>
+                <li class="py-2 px-3 hover:bg-purple-400 cursor-pointer">Calendar</li>
+                <li class="py-2 px-3 hover:bg-purple-400 cursor-pointer">Settings</li>
+                <li class="py-2 px-3 hover:bg-purple-400 cursor-pointer">Profile</li>
+              </ul>
+            </.sidebar>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="sidebar-position-prop">
+            <.link patch={~p"/chelekom/docs/sidebar/#sidebar-position-prop"}>
+              Position prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <.custom_inline_code>position</.custom_inline_code>
+            prop supports values like
+            <.custom_inline_code>start</.custom_inline_code>
+            and <.custom_inline_code>end</.custom_inline_code>, with the default being <.custom_inline_code>start</.custom_inline_code>. Based on the text direction (LTR or RTL), this positions the sidebar at the start of the page.
+          </.cp>
+
+          <.custom_code_wrapper
+            elements_class="flex gap-10 items-center justify-center"
+            code={@code_4}
+          >
+            <.button
+              size="small"
+              color="info"
+              variant="outline"
+              class="hidden md:flex"
+              phx-click="sidebar_position"
+              phx-value-pos="sidebar-example-7"
+            >
+              show sidebar
+            </.button>
+            <.button
+              size="small"
+              variant="outline"
+              class="hidden md:flex"
+              color="primary"
+              phx-click="sidebar_position"
+              phx-value-pos="sidebar-example-8"
+            >
+              show sidebar
+            </.button>
+
+            <.button
+              size="small"
+              color="success"
+              variant="outline"
+              phx-click={Sidebar.show_sidebar("sidebar-example-21", "left")}
+              class="md:hidden"
+            >
+              Show Sidebar (Left)
+            </.button>
+
+            <.button
+              size="small"
+              color="secondary"
+              variant="outline"
+              phx-click={Sidebar.show_sidebar("sidebar-example-22", "right")}
+              class="md:hidden"
+            >
+              Show Sidebar (Right)
+            </.button>
+
+            <.sidebar
+              :if={@sidebar_pos == "sidebar-example-7"}
+              id="sidebar-example-7"
+              variant="default"
+              color="info"
+              border="extra_small"
+              hide_position="left"
+            >
+              <ul>
+                <li class="py-2 px-3 hover:bg-stone-400 cursor-pointer">Home</li>
+                <li class="py-2 px-3 hover:bg-stone-400 cursor-pointer">Inbox</li>
+                <li class="py-2 px-3 hover:bg-stone-400 cursor-pointer">Favorits</li>
+                <li class="py-2 px-3 hover:bg-stone-400 cursor-pointer">TeamSpaces</li>
+                <li class="py-2 px-3 hover:bg-stone-400 cursor-pointer">Projects</li>
+                <li class="py-2 px-3 hover:bg-stone-400 cursor-pointer">Calendar</li>
+                <li class="py-2 px-3 hover:bg-stone-400 cursor-pointer">Settings</li>
+                <li class="py-2 px-3 hover:bg-stone-400 cursor-pointer">Profile</li>
+              </ul>
+            </.sidebar>
+            <.sidebar
+              :if={@sidebar_pos == "sidebar-example-8"}
+              id="sidebar-example-8"
+              color="misc"
+              variant="default"
+              border="extra_large"
+              position="end"
+              hide_position="right"
+            >
+              <ul dir="rtl">
+                <li class="py-2 px-3 hover:bg-purple-400 cursor-pointer">Home</li>
+                <li class="py-2 px-3 hover:bg-purple-400 cursor-pointer">Inbox</li>
+                <li class="py-2 px-3 hover:bg-purple-400 cursor-pointer">Favorits</li>
+                <li class="py-2 px-3 hover:bg-purple-400 cursor-pointer">TeamSpaces</li>
+                <li class="py-2 px-3 hover:bg-purple-400 cursor-pointer">Projects</li>
+                <li class="py-2 px-3 hover:bg-purple-400 cursor-pointer">Calendar</li>
+                <li class="py-2 px-3 hover:bg-purple-400 cursor-pointer">Settings</li>
+                <li class="py-2 px-3 hover:bg-purple-400 cursor-pointer">Profile</li>
+              </ul>
+            </.sidebar>
+
+            <.sidebar
+              variant="default"
+              id="sidebar-example-21"
+              color="info"
+              hide_position="left"
+              class="md:!hidden"
+            >
+              <ul>
+                <li class="py-2 px-3 hover:bg-stone-400 cursor-pointer">Home</li>
+                <li class="py-2 px-3 hover:bg-stone-400 cursor-pointer">Inbox</li>
+                <li class="py-2 px-3 hover:bg-stone-400 cursor-pointer">Favorits</li>
+                <li class="py-2 px-3 hover:bg-stone-400 cursor-pointer">TeamSpaces</li>
+                <li class="py-2 px-3 hover:bg-stone-400 cursor-pointer">Projects</li>
+                <li class="py-2 px-3 hover:bg-stone-400 cursor-pointer">Calendar</li>
+                <li class="py-2 px-3 hover:bg-stone-400 cursor-pointer">Settings</li>
+                <li class="py-2 px-3 hover:bg-stone-400 cursor-pointer">Profile</li>
+              </ul>
+            </.sidebar>
+            <.sidebar
+              id="sidebar-example-22"
+              color="silver"
+              position="end"
+              variant="default"
+              hide_position="right"
+              class="md:!hidden [&_.dismiss-sidebar-wrapper]:!justify-start"
+            >
+              <ul dir="rtl">
+                <li class="py-2 px-3 hover:bg-purple-400 cursor-pointer">Home</li>
+                <li class="py-2 px-3 hover:bg-purple-400 cursor-pointer">Inbox</li>
+                <li class="py-2 px-3 hover:bg-purple-400 cursor-pointer">Favorits</li>
+                <li class="py-2 px-3 hover:bg-purple-400 cursor-pointer">TeamSpaces</li>
+                <li class="py-2 px-3 hover:bg-purple-400 cursor-pointer">Projects</li>
+                <li class="py-2 px-3 hover:bg-purple-400 cursor-pointer">Calendar</li>
+                <li class="py-2 px-3 hover:bg-purple-400 cursor-pointer">Settings</li>
+                <li class="py-2 px-3 hover:bg-purple-400 cursor-pointer">Profile</li>
+              </ul>
+            </.sidebar>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="sidebar-hide-position-prop">
+            <.link patch={~p"/chelekom/docs/sidebar/#sidebar-hide-position-prop"}>
+              Hide position prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <.custom_inline_code>hide_position</.custom_inline_code>
+            attribute determines the direction the sidebar hides on mobile, with
+            <.custom_inline_code>"left"</.custom_inline_code>
+            sliding it off to the left and
+            <.custom_inline_code>"right"</.custom_inline_code>
+            sliding it off to the right for a smooth user experience.
+          </.cp>
+
+          <.custom_code_wrapper
+            elements_class="flex gap-10 items-center justify-center"
+            code={@code_5}
+          >
+            <.button
+              size="small"
+              color="secondary"
+              variant="outline"
+              class="hidden md:flex"
+              phx-click="sidebar_position"
+              phx-value-pos="sidebar-example-9"
+            >
+              show sidebar
+            </.button>
+            <.button
+              size="small"
+              color="natural"
+              variant="outline"
+              class="hidden md:flex"
+              phx-click="sidebar_position"
+              phx-value-pos="sidebar-example-10"
+            >
+              show sidebar
+            </.button>
+
+            <.button
+              size="small"
+              color="success"
+              variant="outline"
+              phx-click={Sidebar.show_sidebar("sidebar-example-23", "left")}
+              class="md:hidden"
+            >
+              Show Sidebar (Left)
+            </.button>
+
+            <.button
+              size="small"
+              color="secondary"
+              variant="outline"
+              phx-click={Sidebar.show_sidebar("sidebar-example-24", "right")}
+              class="md:hidden"
+            >
+              Show Sidebar (Right)
+            </.button>
+
+            <.sidebar
+              :if={@sidebar_pos == "sidebar-example-9"}
+              id="sidebar-example-9"
+              color="info"
+              variant="default"
+              border="extra_small"
+              hide_position="left"
+            >
+              <ul>
+                <li class="py-2 px-3 hover:bg-stone-400 cursor-pointer">Home</li>
+                <li class="py-2 px-3 hover:bg-stone-400 cursor-pointer">Inbox</li>
+                <li class="py-2 px-3 hover:bg-stone-400 cursor-pointer">Favorits</li>
+                <li class="py-2 px-3 hover:bg-stone-400 cursor-pointer">TeamSpaces</li>
+                <li class="py-2 px-3 hover:bg-stone-400 cursor-pointer">Projects</li>
+                <li class="py-2 px-3 hover:bg-stone-400 cursor-pointer">Calendar</li>
+                <li class="py-2 px-3 hover:bg-stone-400 cursor-pointer">Settings</li>
+                <li class="py-2 px-3 hover:bg-stone-400 cursor-pointer">Profile</li>
+              </ul>
+            </.sidebar>
+            <.sidebar
+              :if={@sidebar_pos == "sidebar-example-10"}
+              id="sidebar-example-10"
+              color="misc"
+              variant="default"
+              border="extra_large"
+              position="end"
+              hide_position="right"
+            >
+              <ul dir="rtl">
+                <li class="py-2 px-3 hover:bg-purple-400 cursor-pointer">Home</li>
+                <li class="py-2 px-3 hover:bg-purple-400 cursor-pointer">Inbox</li>
+                <li class="py-2 px-3 hover:bg-purple-400 cursor-pointer">Favorits</li>
+                <li class="py-2 px-3 hover:bg-purple-400 cursor-pointer">TeamSpaces</li>
+                <li class="py-2 px-3 hover:bg-purple-400 cursor-pointer">Projects</li>
+                <li class="py-2 px-3 hover:bg-purple-400 cursor-pointer">Calendar</li>
+                <li class="py-2 px-3 hover:bg-purple-400 cursor-pointer">Settings</li>
+                <li class="py-2 px-3 hover:bg-purple-400 cursor-pointer">Profile</li>
+              </ul>
+            </.sidebar>
+
+            <.sidebar
+              variant="default"
+              id="sidebar-example-23"
+              color="info"
+              hide_position="left"
+              class="md:!hidden"
+            >
+              <ul>
+                <li class="py-2 px-3 hover:bg-stone-400 cursor-pointer">Home</li>
+                <li class="py-2 px-3 hover:bg-stone-400 cursor-pointer">Inbox</li>
+                <li class="py-2 px-3 hover:bg-stone-400 cursor-pointer">Favorits</li>
+                <li class="py-2 px-3 hover:bg-stone-400 cursor-pointer">TeamSpaces</li>
+                <li class="py-2 px-3 hover:bg-stone-400 cursor-pointer">Projects</li>
+                <li class="py-2 px-3 hover:bg-stone-400 cursor-pointer">Calendar</li>
+                <li class="py-2 px-3 hover:bg-stone-400 cursor-pointer">Settings</li>
+                <li class="py-2 px-3 hover:bg-stone-400 cursor-pointer">Profile</li>
+              </ul>
+            </.sidebar>
+            <.sidebar
+              id="sidebar-example-24"
+              color="silver"
+              position="end"
+              variant="default"
+              hide_position="right"
+              class="md:!hidden [&_.dismiss-sidebar-wrapper]:!justify-start"
+            >
+              <ul dir="rtl">
+                <li class="py-2 px-3 hover:bg-purple-400 cursor-pointer">Home</li>
+                <li class="py-2 px-3 hover:bg-purple-400 cursor-pointer">Inbox</li>
+                <li class="py-2 px-3 hover:bg-purple-400 cursor-pointer">Favorits</li>
+                <li class="py-2 px-3 hover:bg-purple-400 cursor-pointer">TeamSpaces</li>
+                <li class="py-2 px-3 hover:bg-purple-400 cursor-pointer">Projects</li>
+                <li class="py-2 px-3 hover:bg-purple-400 cursor-pointer">Calendar</li>
+                <li class="py-2 px-3 hover:bg-purple-400 cursor-pointer">Settings</li>
+                <li class="py-2 px-3 hover:bg-purple-400 cursor-pointer">Profile</li>
+              </ul>
+            </.sidebar>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="sidebar-on-small-devices">
+            <.link patch={~p"/chelekom/docs/sidebar/#sidebar-on-small-devices"}>
+              On small devices
+            </.link>
+          </.heading2>
+
+          <.cp>
+            You can add the
+            <.custom_inline_code>
+              Sidebar.show_sidebar("unique_id", "hide_position")
+            </.custom_inline_code>
+            function to a button, allowing you to toggle the sidebar on smaller devices.
+          </.cp>
+
+          <.custom_code_wrapper
+            elements_class="flex gap-10 items-center justify-center"
+            code={@code_6}
+          />
+          <.heading2 margin="my-5" id="minimize-sidebar">
+            <.link patch={~p"/chelekom/docs/sidebar/#minimize-sidebar"}>
+              Minimize prop
+            </.link>
+          </.heading2>
+
+          <.cp class="mb-5">
+            Controls whether the minimize button is shown.
+            Accepts a boolean value.
+            Default is <.custom_inline_code>false</.custom_inline_code>.
+          </.cp>
+
+          <.custom_code_wrapper
+            elements_class="flex gap-10 items-center justify-center"
+            code={@code_7}
+          >
+            <.button
+              size="small"
+              phx-click="sidebar_position"
+              phx-value-pos="sidebar-example-11"
+              class="hidden md:flex"
+            >
+              show sidebar
+            </.button>
+
+            <.sidebar
+              :if={@sidebar_pos == "sidebar-example-11"}
+              id="sidebar-example-11"
+              border="extra_small"
+              hide_position="left"
+              minimize
+            >
+              <:item
+                icon="hero-home"
+                icon_class="size-6"
+                label="Dashboard"
+                link="/dashboard"
+                class="mb-3 hover:text-opacity-95"
+              />
+              <:item
+                icon="hero-envelope"
+                icon_class="size-6"
+                label="Messages"
+                link="/messages"
+                class="mb-3 hover:text-opacity-95"
+              />
+              <:item
+                icon="hero-star"
+                icon_class="size-6"
+                label="Bookmarks"
+                link="/bookmarks"
+                class="mb-3 hover:text-opacity-95"
+              />
+              <:item
+                icon="hero-user-group"
+                icon_class="size-6"
+                label="Teams"
+                link="/teams"
+                class="mb-3 hover:text-opacity-95"
+              />
+              <:item
+                icon="hero-calendar"
+                icon_class="size-6"
+                label="Calendar"
+                link="/calendar"
+                class="mb-3 hover:text-opacity-95"
+              />
+              <:item
+                icon="hero-cog-6-tooth"
+                icon_class="size-6"
+                label="Settings"
+                link="/settings"
+                class="mb-3 hover:text-opacity-95"
+              />
+              <:item
+                icon="hero-user-circle"
+                icon_class="size-6"
+                label="Profile"
+                link="/profile"
+                class="mb-3 hover:text-opacity-95"
+              />
+            </.sidebar>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="item-slot">
+            <.link patch={~p"/chelekom/docs/sidebar/#item-slot"}>
+              Sidebar item slot
+            </.link>
+          </.heading2>
+
+          <.cp class="mb-5">
+            Slot for defining individual sidebar navigation items.
+
+            Each
+            <.custom_inline_code>:item</.custom_inline_code>
+            can have the following attributes:
+            <ul class="mt-4 list-disc list-inside space-y-1">
+              <li>
+                <.custom_inline_code>icon</.custom_inline_code>
+                – Icon name to display.
+              </li>
+              <li>
+                <.custom_inline_code>icon_class</.custom_inline_code>
+                – CSS class for the icon element.
+              </li>
+              <li>
+                <.custom_inline_code>label</.custom_inline_code>
+                – Text label shown in the item.
+              </li>
+              <li>
+                <.custom_inline_code>label_class</.custom_inline_code>
+                – CSS class for the label text.
+              </li>
+              <li>
+                <.custom_inline_code>link</.custom_inline_code>
+                – The URL the item links to.
+              </li>
+              <li>
+                <.custom_inline_code>class</.custom_inline_code>
+                – CSS class for the whole item container.
+              </li>
+            </ul>
+            This slot can be used multiple times to render a list of navigational links inside the sidebar.
+          </.cp>
+          <.custom_code_wrapper
+            elements_class="flex gap-10 items-center justify-center"
+            code={@code_8}
+          />
+        </:documentation_panel>
+
+        <:props_panel>
+          <.custom_search class="mb-16" />
+          <div class="space-y-8">
+            <h2 class="text-lg lg:text-2xl font-bold">Sidebar Component Props</h2>
+
+            <.custom_table id="sidebar-component-table">
+              <:header>
+                <.table_th>Name</.table_th>
+
+                <.table_th>Type</.table_th>
+
+                <.table_th>Required</.table_th>
+
+                <.table_th>Description</.table_th>
+              </:header>
+
+              <:row>
+                <.table_td>id</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>Yes</.table_td>
+
+                <.table_td>A unique identifier used to manage state and interaction.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>variant</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines the style of the card. Supported values: <strong>base</strong>, <strong>default</strong>, <strong>outline</strong>, <strong>transparent</strong>, <strong>shadow</strong>, <strong>bordered</strong>, <strong>gradient</strong>. <strong>bawse is default</strong>,
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>color</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines the color theme of the card. Supported values: <strong>natural</strong>, <strong>primary</strong>, <strong>secondary</strong>, <strong>success</strong>, <strong>warning</strong>, <strong>danger</strong>, <strong>info</strong>, <strong>silver</strong>, <strong>misc</strong>, <strong>dawn</strong>. Default is <strong>natural</strong>.The
+                  <strong>default</strong>
+                  and <strong>bordered</strong>
+                  variants have extra color options: <strong>dark</strong>
+                  and <strong>white</strong>, which in both light mode and dark mode, these colors are always the same.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>size</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines the overall size of the elements, including padding, font size, and other items. Default is <strong>large</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>border</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines border style. Default is <strong>extra_small</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>position</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines the element position. Default is <strong>start</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>hide_position</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines what position should be hidden. Values: <strong>left</strong>, <strong>right</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>class</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Custom CSS class for additional styling. Default is <strong>nil</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>on_hide</.table_td>
+
+                <.table_td>JS</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Custom JS module for the on_hide action.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>on_show</.table_td>
+
+                <.table_td>JS</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Custom JS module for the on_show action.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>on_hide_away</.table_td>
+
+                <.table_td>JS</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Custom JS module for the on_hide_away action.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>minimize</.table_td>
+                <.table_td>boolean</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>
+                  Determines if the minimize button is shown. Default is <strong>false</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>minimize_icon</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>
+                  Icon used for the minimize button. Default is <strong>hero-arrow-left-start-on-rectangle</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>minimize_label</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>
+                  Label displayed next to the minimize icon.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>minimize_label_class</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>
+                  Additional CSS classes for customizing the minimize label appearance. Default is <strong>text-xs</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>minimize_icon_class</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>
+                  Additional CSS classes for customizing the minimize icon appearance. Default is <strong>size-5</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>item[:icon]</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>
+                  Icon name to display for each sidebar item.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>item[:icon_class]</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>
+                  CSS class for the icon.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>item[:label]</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>
+                  Text label for the menu item.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>item[:label_class]</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>
+                  CSS class for the label text.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>item[:link]</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>
+                  URL for the item link.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>item[:class]</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>
+                  CSS class for the entire item.
+                </.table_td>
+              </:row>
+            </.custom_table>
+          </div>
+        </:props_panel>
+
+        <:cli_panel>
+          <.custom_cli_props config={component_config()} />
+        </:cli_panel>
+        <.custom_table_content>
+          <:content
+            link={~p"/chelekom/docs/sidebar/#overview"}
+            title="Overview of Sidebar Component"
+          />
+
+          <:content
+            link={~p"/chelekom/docs/sidebar/#sidebar-js-modules"}
+            title="About LiveView JS module commands"
+          />
+
+          <:content
+            link={~p"/chelekom/docs/sidebar/#sidebar-variant-colors"}
+            title="Sidebar variant and color props"
+          />
+
+          <:content link={~p"/chelekom/docs/sidebar/#sidebar-border"} title="Border prop" />
+
+          <:content link={~p"/chelekom/docs/sidebar/#sidebar-size"} title="Size prop" />
+
+          <:content
+            link={~p"/chelekom/docs/sidebar/#sidebar-position-prop"}
+            title="Position prop"
+          />
+
+          <:content
+            link={~p"/chelekom/docs/sidebar/#sidebar-hide-position-prop"}
+            title="Hide position prop"
+          />
+
+          <:content
+            link={~p"/chelekom/docs/sidebar/#sidebar-on-small-devices"}
+            title="On small devices"
+          />
+
+          <:content link={~p"/chelekom/docs/sidebar/#minimize-sidebar"} title="Minimize sidebar" />
+
+          <:content link={~p"/chelekom/docs/sidebar/#item-slot"} title="Item slot" />
+        </.custom_table_content>
+      </.custom_tab>
+    </div>
+  </div>
+</Layouts.app>

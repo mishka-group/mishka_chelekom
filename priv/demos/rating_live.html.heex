@@ -1,0 +1,651 @@
+<Layouts.app flash={@flash}>
+  <div class="lg:grid lg:grid-cols-12 mt-5 max-w-5xl mx-auto">
+    <.custom_nav active="chelekom-docs-rating" />
+    <div class="lg:col-span-10">
+      <.custom_info
+        title="Rating"
+        description="Interactive rating component for Phoenix LiveView with customizable stars, colors, sizes, hover effects, and native Phoenix form integration via the field prop."
+        mix="mix mishka.ui.gen.component rating"
+        github="https://github.com/mishka-group/mishka_chelekom/blob/master/priv/components/rating.eex"
+        tags={["Component", "Stateless", "JS-module"]}
+      />
+      <.custom_tab id="chelekom-rating-tab">
+        <:documentation_panel>
+          <.heading2 class="mb-5" id="overview">
+            <.link patch={~p"/chelekom/docs/rating/#overview"}>
+              Overview of the Phoenix and LiveView Rating Component
+            </.link>
+          </.heading2>
+          <.cp>
+            The
+            <strong>
+              Mishka Chelekom rating
+            </strong>
+            component is a <strong>Phoenix LiveView</strong>
+            component that allows developers to create dynamic and customizable <strong>rating systems</strong>, ideal for user reviews and feedback.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-sm" elements_class="grid sm:grid-cols-2 gap-5">
+            <div class="space-y-3">
+              <.rating size="medium" count={5} />
+              <.rating size="medium" count={5} select={1} />
+              <.rating size="medium" color="danger" count={5} select={2} />
+              <.rating size="medium" color="dawn" count={5} select={3.5} />
+              <.rating size="medium" color="misc" count={5} select={4} />
+              <.rating size="medium" color="secondary" count={5} select={5} />
+              <.rating
+                size="medium"
+                color="[&_.rated]:text-pink-400 dark:[&_.rated]:text-pink-800 [&_.rating-button]:hover:text-pink-400 [&_.rating-button:has(~.rating-button:hover)]:text-pink-400 dark:[&_.rating-button]:hover:text-pink-800 dark:[&_.rating-button:has(~.rating-button:hover)]:text-pink-800"
+                count={6}
+                select={5}
+              />
+            </div>
+            <div class="space-y-3">
+              <.rating size="medium" interactive count={5} />
+              <.rating size="medium" interactive count={5} select={1} />
+              <.rating size="medium" color="danger" interactive count={5} select={2.3} />
+              <.rating size="medium" color="dawn" interactive count={5} select={3} />
+              <.rating size="medium" color="misc" interactive count={5} select={4.4} />
+              <.rating size="medium" color="secondary" interactive count={5} select={5} />
+              <.rating
+                size="medium"
+                color="[&_.rated]:text-pink-400 dark:[&_.rated]:text-pink-800 [&_.rating-button]:hover:text-pink-400 [&_.rating-button:has(~.rating-button:hover)]:text-pink-400 dark:[&_.rating-button]:hover:text-pink-800 dark:[&_.rating-button:has(~.rating-button:hover)]:text-pink-800"
+                interactive
+                count={6}
+                select={5}
+              />
+            </div>
+          </.custom_code_wrapper>
+
+          <.cp margin="mt-5">
+            This
+            <strong>
+              <.link
+                title="Phoenix LiveView component"
+                class="transition-colors hover:text-[#448D96]"
+                navigate={~p"/chelekom"}
+              >
+                Phoenix LiveView component
+              </.link>
+            </strong>
+            also supports interactive and non-interactive modes, making it perfect for both static displays and allowing users to submit ratings. With hover effects for previewing ratings and its responsive design, this
+            <strong>rating component</strong>
+            enhances user interaction and overall experience.
+          </.cp>
+
+          <.custom_block position="left" color="success" class="my-8" border="medium">
+            <.cp>
+              By using the class prop, you can apply custom classes or Tailwind CSS classes to customize the components design.
+            </.cp>
+          </.custom_block>
+
+          <.heading2 margin="my-5" id="rating-interactive-prop">
+            <.link patch={~p"/chelekom/docs/rating/#rating-interactive-prop"}>
+              Interactive prop
+            </.link>
+          </.heading2>
+          <.cp>
+            The
+            <.custom_inline_code>true</.custom_inline_code>
+            and
+            <.custom_inline_code>false</.custom_inline_code>
+            values for the
+            <.custom_inline_code>interactive</.custom_inline_code>
+            prop determine whether the rating component behaves interactively. When set to <.custom_inline_code>true</.custom_inline_code>, users can hover over the stars to preview their rating, and stars before the hovered one will change color as well. When set to <.custom_inline_code>false</.custom_inline_code>, the component remains static. By default, this prop is set to <.custom_inline_code>false</.custom_inline_code>.
+          </.cp>
+          <.custom_block position="left" color="warning" class="my-8" border="medium">
+            <.cp>
+              When a star is clicked, an event called rating that sends the values of
+              <.custom_inline_code>"action" => "select"</.custom_inline_code>
+              and
+              <.custom_inline_code>"number" => number of selected</.custom_inline_code>
+              to the server.
+            </.cp>
+          </.custom_block>
+
+          <.custom_block position="left" color="danger" class="my-8" border="medium">
+            <.cp>
+              The validation of the data that the user must send is the responsibility of the developer. This part should be handled in the backend. For more information on security aspects, please visit the <.link
+                title="Mishka Chelekom security"
+                class="transition-colors hover:text-[#0c1d1f]"
+                navigate={~p"/chelekom/docs/security"}
+              >
+              security section
+            </.link>.
+            </.cp>
+          </.custom_block>
+
+          <.custom_code_wrapper code_class="text-sm" elements_class="space-y-5" code={@code_1}>
+            <.rating size="large" id="rating-example-1" select={@star} interactive />
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="rating-count-prop">
+            <.link patch={~p"/chelekom/docs/rating/#rating-count-prop"}>
+              Count prop
+            </.link>
+          </.heading2>
+          <.cp>
+            The count prop in the
+            <.link navigate={~p"/chelekom/docs/rating"}>Phoenix rating component</.link>
+            defines the number of stars to be displayed, with a default value of integer 5. This prop allows developers to specify how many rating units are shown, making it adaptable for different use cases, such as 5-star or 10-star rating systems. By adjusting the <.custom_inline_code>count</.custom_inline_code>, you can easily match the rating scale to your application's specific needs, whether it's for product reviews, feedback systems, or other rating interfaces. This prop provides flexibility in tailoring the user experience and visual design of the rating component.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-sm" elements_class="space-y-5" code={@code_2}>
+            <.rating size="small" count={6} select={2} />
+            <.rating size="small" count={8} interactive />
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="rating-select-prop">
+            <.link patch={~p"/chelekom/docs/rating/#rating-select-prop"}>
+              Select prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The select prop in the rating component determines how many stars are selected, visually indicating the current rating by changing the background color of the stars. With a default value of 0, no stars are selected initially, but as this prop is set to a higher value, the corresponding number of stars will display as selected. This is useful for both displaying static ratings and allowing users to select their desired rating in interactive modes. The
+            <.custom_inline_code>select</.custom_inline_code>
+            prop provides a clear visual representation of the rating or feedback score.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-sm" elements_class="space-y-5" code={@code_3}>
+            <.rating size="large" />
+            <.rating size="large" select={3} />
+            <.rating size="large" select={5} interactive />
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="rating-color-prop">
+            <.link patch={~p"/chelekom/docs/rating/#rating-color-prop"}>
+              Color prop
+            </.link>
+          </.heading2>
+          <.cp>
+            The rating component allows you to customize the appearance of the rating stars using the
+            <.custom_inline_code>color</.custom_inline_code>
+            prop. This prop supports various color themes such as <.custom_inline_code>primary</.custom_inline_code>, <.custom_inline_code>secondary</.custom_inline_code>, <.custom_inline_code>success</.custom_inline_code>, and more, letting you match the rating component with the design of your application. The default color is <.custom_inline_code>warning</.custom_inline_code>, providing a yellow/gold star style typical for ratings.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-sm" elements_class="space-y-5" code={@code_4}>
+            <.rating size="extra_small" color="base" select={4} />
+            <.rating size="extra_small" color="natural" select={3} />
+            <.rating size="extra_small" color="white" select={3} />
+            <.rating size="extra_small" color="primary" select={1} />
+            <.rating size="extra_small" color="secondary" select={2} />
+            <.rating size="extra_small" color="success" select={5} />
+            <.rating size="extra_small" color="warning" select={1} />
+            <.rating size="extra_small" color="danger" select={4} />
+            <.rating size="extra_small" color="info" select={5} />
+            <.rating size="extra_small" color="misc" select={1} />
+            <.rating size="extra_small" color="dawn" select={2} />
+            <.rating size="extra_small" color="silver" select={4} />
+            <.rating size="extra_small" color="dark" select={3} />
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="rating-gap-prop">
+            <.link patch={~p"/chelekom/docs/rating/#rating-gap-prop"}>
+              Gap prop
+            </.link>
+          </.heading2>
+          <.cp>
+            The
+            <.custom_inline_code>gap</.custom_inline_code>
+            prop in the rating component allows you to control the spacing between the rating stars. You can choose from predefined options like <.custom_inline_code>extra_small</.custom_inline_code>, <.custom_inline_code>small</.custom_inline_code>, <.custom_inline_code>medium</.custom_inline_code>, <.custom_inline_code>large</.custom_inline_code>, and <.custom_inline_code>extra_large</.custom_inline_code>. By default, the gap is set to <.custom_inline_code>small</.custom_inline_code>, but this can be customized to adjust the spacing based on your design needs.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-sm" elements_class="space-y-5" code={@code_5}>
+            <.rating size="extra_small" color="white" select={3} gap="extra_small" />
+            <.rating size="extra_small" color="primary" select={3} gap="small" />
+            <.rating size="extra_small" color="secondary" select={3} gap="medium" />
+            <.rating size="extra_small" color="success" select={3} gap="large" />
+            <.rating size="extra_small" color="warning" select={3} gap="extra_large" />
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="rating-size-prop">
+            <.link patch={~p"/chelekom/docs/rating/#rating-size-prop"}>
+              Size prop
+            </.link>
+          </.heading2>
+          <.cp>
+            The size prop in the rating component allows for customization of the visual scale of the stars in the rating system. With options ranging from
+            <.custom_inline_code>extra_small</.custom_inline_code>
+            to <.custom_inline_code>quadruple_large</.custom_inline_code>, developers can easily adjust the size to fit different design needs. Whether it's a compact display with
+            <.custom_inline_code>extra_small</.custom_inline_code>
+            or a more prominent visual using <.custom_inline_code>quadruple_large</.custom_inline_code>, the size prop ensures that the rating component can adapt to various UI layouts.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-sm" elements_class="space-y-5" code={@code_6}>
+            <.rating select={3} size="extra_small" />
+            <.rating select={3} size="small" />
+            <.rating select={3} size="medium" />
+            <.rating select={3} size="large" />
+            <.rating select={3} size="extra_large" />
+            <.rating select={3} size="double_large" />
+            <.rating select={3} size="triple_large" />
+            <.rating select={3} size="quadruple_large" />
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="rating-field-prop">
+            <.link patch={~p"/chelekom/docs/rating/#rating-field-prop"}>
+              Field prop
+            </.link>
+          </.heading2>
+          <.cp>
+            The
+            <.custom_inline_code>field</.custom_inline_code>
+            prop enables native Phoenix form integration for the rating component. When you pass a form field struct (e.g. <.custom_inline_code>@form[:rating]</.custom_inline_code>), the component automatically renders hidden radio inputs inside each star, so the selected rating value is submitted with the form like any other input. It also enables interactive mode automatically, displays validation errors from the changeset, and extracts the <.custom_inline_code>name</.custom_inline_code>, <.custom_inline_code>id</.custom_inline_code>, and current
+            <.custom_inline_code>value</.custom_inline_code>
+            from the field struct.
+          </.cp>
+
+          <.custom_block position="left" color="success" class="my-8" border="medium">
+            <.cp>
+              When using the
+              <.custom_inline_code>field</.custom_inline_code>
+              prop, you do not need to set
+              <.custom_inline_code>interactive</.custom_inline_code>
+              or
+              <.custom_inline_code>select</.custom_inline_code>
+              manually. The component reads the current value from the form field and enables interactivity automatically.
+            </.cp>
+          </.custom_block>
+
+          <.custom_block position="left" color="warning" class="my-8" border="medium">
+            <.cp>
+              The
+              <.custom_inline_code>field</.custom_inline_code>
+              prop works with any Ecto changeset. Define your rating field as
+              <.custom_inline_code>:integer</.custom_inline_code>
+              (or
+              <.custom_inline_code>:float</.custom_inline_code>
+              when using <.custom_inline_code>precision={0.5}</.custom_inline_code>) in your schema and add validations like
+              <.custom_inline_code>
+                validate_number(:rating, greater_than_or_equal_to: 0, less_than_or_equal_to: 5)
+              </.custom_inline_code>
+              to enforce valid ratings on the backend.
+            </.cp>
+          </.custom_block>
+
+          <.custom_code_wrapper code_class="text-sm" elements_class="space-y-5" code={@code_7}>
+            <.form for={@form} phx-change="validate">
+              <.rating field={@form[:rating]} size="large" color="warning" />
+            </.form>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="rating-disabled-prop">
+            <.link patch={~p"/chelekom/docs/rating/#rating-disabled-prop"}>
+              Disabled prop
+            </.link>
+          </.heading2>
+          <.cp>
+            The
+            <.custom_inline_code>disabled</.custom_inline_code>
+            prop prevents user interaction with the rating component. When set to <.custom_inline_code>true</.custom_inline_code>, the component renders with reduced opacity and disables all click events. This is useful when the rating should be visible but not editable, such as when a user has already submitted a review or when the form is in a read-only state.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-sm" elements_class="space-y-5" code={@code_9}>
+            <.rating select={3} size="large" disabled />
+            <.rating
+              id="rating-disabled-interactive"
+              select={2}
+              size="large"
+              interactive
+              disabled
+            />
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="rating-precision-prop">
+            <.link patch={~p"/chelekom/docs/rating/#rating-precision-prop"}>
+              Precision prop
+            </.link>
+          </.heading2>
+          <.cp>
+            The
+            <.custom_inline_code>precision</.custom_inline_code>
+            prop controls the granularity of the rating selection. When set to <.custom_inline_code>0.5</.custom_inline_code>, each star is split into two click targets (left half and right half), allowing users to select half-star values like 2.5 or 3.5. The default value is
+            <.custom_inline_code>1.0</.custom_inline_code>
+            for full-star selection. Click the same value again to deselect (toggle to 0).
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-sm" elements_class="space-y-5" code={@code_10}>
+            <.rating
+              id="rating-precision"
+              select={@half_star}
+              size="large"
+              color="warning"
+              precision={0.5}
+              params={%{target: "precision"}}
+              interactive
+            />
+            <.rating
+              id="rating-precision-primary"
+              select={@half_star_primary}
+              size="large"
+              color="primary"
+              precision={0.5}
+              params={%{target: "precision-primary"}}
+              interactive
+            />
+            <.rating
+              id="rating-precision-danger"
+              select={@half_star_danger}
+              size="large"
+              color="danger"
+              precision={0.5}
+              params={%{target: "precision-danger"}}
+              interactive
+            />
+            <.rating
+              id="rating-precision-success"
+              select={@half_star_success}
+              size="large"
+              color="success"
+              precision={0.5}
+              params={%{target: "precision-success"}}
+              interactive
+            />
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="rating-example">
+            <.link patch={~p"/chelekom/docs/rating/#rating-example"}>
+              Real world example
+            </.link>
+          </.heading2>
+
+          <.cp>
+            This example demonstrates how to use the rating component inside a full
+            <strong>Phoenix LiveView form</strong>
+            with changeset validation. The form validates the rating field on the backend using an Ecto changeset, and the rating value is submitted alongside other fields. No data is saved to a database in this demo, the changeset is validated in-memory using <.custom_inline_code>Ecto.Changeset.apply_action/2</.custom_inline_code>.
+          </.cp>
+
+          <.custom_code_wrapper class="mt-10" elements_class="space-y-5" code={@code_8}>
+            <.flash kind={:info} flash={@flash} />
+            <.form_wrapper
+              for={@form}
+              id="review-form"
+              phx-change="validate"
+              phx-submit="save"
+              space="medium"
+            >
+              <.h5>Full Name</.h5>
+              <.text_field size="medium" field={@form[:fullname]} />
+
+              <.h5>Your Rating</.h5>
+              <.rating field={@form[:rating]} size="large" color="warning" precision={0.5} />
+
+              <.h5>Comment (optional)</.h5>
+              <.textarea_field size="medium" field={@form[:comment]} />
+
+              <:actions>
+                <.button
+                  variant="outline"
+                  color="info"
+                  size="small"
+                  phx-disable-with="Submitting..."
+                >
+                  Submit Review
+                </.button>
+              </:actions>
+            </.form_wrapper>
+          </.custom_code_wrapper>
+        </:documentation_panel>
+
+        <:props_panel>
+          <.custom_search class="mb-16" />
+          <div class="space-y-8">
+            <h2 class="text-lg lg:text-2xl font-bold">Rating Component Props</h2>
+
+            <.custom_table id="rating-component-table">
+              <:header>
+                <.table_th>Name</.table_th>
+
+                <.table_th>Type</.table_th>
+
+                <.table_th>Required</.table_th>
+
+                <.table_th>Description</.table_th>
+              </:header>
+
+              <:row>
+                <.table_td>id</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  A unique identifier used to manage state and interaction. Default is <strong>nil</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>class</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Custom CSS class for additional styling. Default is <strong>nil</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>gap</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Custom gap style. Default is <strong>small</strong>.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>size</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines the overall size of the elements, including padding and font size. Default is <strong>small</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>color</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines the color theme of the rating. Supported values: <strong>base</strong>, <strong>natural</strong>, <strong>primary</strong>, <strong>secondary</strong>, <strong>success</strong>, <strong>warning</strong>, <strong>danger</strong>, <strong>info</strong>, <strong>dark</strong>, <strong>white</strong>, <strong>silver</strong>, <strong>misc</strong>, <strong>dawn</strong>. Default is <strong>warning</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>count</.table_td>
+
+                <.table_td>integer</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Number of stars to display. Default is <strong>5</strong>.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>select</.table_td>
+
+                <.table_td>integer</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Initial selected rating value. Default is <strong>0</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>field</.table_td>
+
+                <.table_td>Phoenix.HTML.FormField</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  A form field struct retrieved from the form, for example: <strong>@form[:rating]</strong>. When provided, the component renders hidden radio inputs for native form submission, auto-enables interactive mode, and displays changeset validation errors.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>label</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Specifies text for the label displayed above the rating stars. Default is <strong>nil</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>name</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Name of input. Automatically extracted when using the <strong>field</strong>
+                  prop. Default is <strong>nil</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>errors</.table_td>
+
+                <.table_td>list</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  List of error messages to be displayed. Automatically populated when using the
+                  <strong>field</strong>
+                  prop. Default is <strong>[]</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>error_icon</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Icon to be displayed alongside error messages. Default is <strong>nil</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>params</.table_td>
+
+                <.table_td>map</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  A map of additional parameters used for element configuration.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>on_action</.table_td>
+
+                <.table_td>JS</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Custom JS module for the on_action action.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>interactive</.table_td>
+
+                <.table_td>boolean</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  If true, stars are wrapped in a clickable element for selecting a rating. Automatically set to true when using the
+                  <strong>field</strong>
+                  prop. Default is <strong>false</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>disabled</.table_td>
+
+                <.table_td>boolean</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  If true, the rating component is disabled and cannot be interacted with. Renders with reduced opacity and disables click events. Default is <strong>false</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>precision</.table_td>
+
+                <.table_td>float</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Rating precision - <strong>1.0</strong>
+                  for full stars, <strong>0.5</strong>
+                  for half-star selection. Default is <strong>1.0</strong>.
+                </.table_td>
+              </:row>
+            </.custom_table>
+          </div>
+        </:props_panel>
+
+        <:cli_panel>
+          <.custom_cli_props config={component_config()} />
+        </:cli_panel>
+        <.custom_table_content>
+          <:content
+            link={~p"/chelekom/docs/rating/#overview"}
+            title="Overview of the rating component"
+          />
+          <:content
+            link={~p"/chelekom/docs/rating/#rating-interactive-prop"}
+            title="Interactive prop"
+          />
+          <:content link={~p"/chelekom/docs/rating/#rating-count-prop"} title="Count prop" />
+          <:content link={~p"/chelekom/docs/rating/#rating-select-prop"} title="Select prop" />
+          <:content link={~p"/chelekom/docs/rating/#rating-color-prop"} title="Color prop" />
+          <:content link={~p"/chelekom/docs/rating/#rating-gap-prop"} title="Gap prop" />
+          <:content link={~p"/chelekom/docs/rating/#rating-size-prop"} title="Size prop" />
+          <:content link={~p"/chelekom/docs/rating/#rating-field-prop"} title="Field prop" />
+          <:content
+            link={~p"/chelekom/docs/rating/#rating-disabled-prop"}
+            title="Disabled prop"
+          />
+          <:content
+            link={~p"/chelekom/docs/rating/#rating-precision-prop"}
+            title="Precision prop"
+          />
+          <:content
+            link={~p"/chelekom/docs/rating/#rating-example"}
+            title="Real world example"
+          />
+        </.custom_table_content>
+      </.custom_tab>
+    </div>
+  </div>
+</Layouts.app>

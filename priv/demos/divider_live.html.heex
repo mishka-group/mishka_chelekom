@@ -1,0 +1,735 @@
+<Layouts.app flash={@flash}>
+  <div class="lg:grid lg:grid-cols-12 mt-5 max-w-5xl mx-auto">
+    <.custom_nav active="chelekom-docs-divider" />
+    <div class="lg:col-span-10">
+      <.custom_info
+        title="Divider"
+        description="Phoenix LiveView divider component supporting customizable horizontal and vertical dividers, with options for icons and text directly on the line."
+        mix="mix mishka.ui.gen.component divider"
+        github="https://github.com/mishka-group/mishka_chelekom/blob/master/priv/components/divider.eex"
+        tags={["Component", "Stateless"]}
+      />
+      <.custom_tab id="chelekom-divider-tab">
+        <:documentation_panel>
+          <.heading2 class="mb-5" id="overview">
+            <.link patch={~p"/chelekom/docs/divider/#overview"}>
+              Overview of the Phoenix and LiveView Divider Component
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <strong>
+              Mishka Chelekom divider
+            </strong>
+            component is a <strong>Phoenix LiveView</strong>
+            component that allows developers to create highly customizable
+            <strong>horizontal and vertical dividers</strong>
+            for separating content visually. It offers flexible options in terms of style, size, and color, making it adaptable for any application layout.
+          </.cp>
+
+          <.custom_code_wrapper>
+            <div class="flex items-center gap-8">
+              <div class="space-y-5">
+                <div class="flex gap-3 items-center">
+                  <.button size="extra_large" circle class="!shadow-xs">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="24"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      class="size-5"
+                    >
+                      <path d="M12 8a2.83 2.83 0 0 0 4 4 4 4 0 1 1-4-4" /><path d="M12 2v2" /><path d="M12 20v2" /><path d="m4.9 4.9 1.4 1.4" /><path d="m17.7 17.7 1.4 1.4" /><path d="M2 12h2" /><path d="M20 12h2" /><path d="m6.3 17.7-1.4 1.4" /><path d="m19.1 4.9-1.4 1.4" />
+                    </svg>
+                  </.button>
+                  <.divider variation="vertical" height="h-14" />
+                  <.button size="py-[2px] px-4 text-[14px]" class="!shadow-xs">
+                    Login
+                  </.button>
+                </div>
+
+                <div class="flex gap-3 items-center">
+                  <.button
+                    rounded="large"
+                    size="py-2 px-4 text-[12px]"
+                    class="leading-5 !shadow-xs"
+                  >
+                    Settings
+                  </.button>
+                  <.divider variation="vertical" height="h-9" />
+                  <.button
+                    rounded="large"
+                    size="py-2 px-4 text-[12px]"
+                    class="leading-5 !shadow-xs"
+                  >
+                    Profile
+                  </.button>
+                  <.divider variation="vertical" height="h-9" />
+                  <.button
+                    rounded="large"
+                    size="py-2 px-4 text-[12px]"
+                    class="leading-5 !shadow-xs"
+                  >
+                    Subscribtion
+                  </.button>
+                </div>
+              </div>
+              <div class="space-y-3 flex-1">
+                <.divider type="dashed" size="small" position="right">
+                  <:text>Or</:text>
+                </.divider>
+                <.divider size="small" position="left">
+                  <:text>Or</:text>
+                </.divider>
+
+                <.divider type="dotted" size="small" position="middle">
+                  <:text>Or</:text>
+                </.divider>
+
+                <.divider type="dashed" size="small" position="right">
+                  <:icon name="hero-bolt" />
+                </.divider>
+                <.divider size="small" position="left">
+                  <:icon name="hero-home" />
+                </.divider>
+
+                <.divider type="dotted" position="middle" size="small">
+                  <:icon name="hero-bell-snooze" />
+                </.divider>
+              </div>
+            </div>
+          </.custom_code_wrapper>
+
+          <.cp margin="mt-5">
+            This
+            <strong>
+              <.link
+                title="Phoenix LiveView component"
+                class="transition-colors hover:text-[#448D96]"
+                navigate={~p"/chelekom"}
+              >
+                Phoenix LiveView component
+              </.link>
+            </strong>
+            also supports advanced features such as text and icon integration directly on the line, enabling more engaging and interactive designs. With options for dashed, dotted, or solid lines, as well as customizable margins and spacing, this divider component enhances content organization and layout clarity.
+          </.cp>
+
+          <.heading2 margin="my-5" id="divider-hr">
+            <.link patch={~p"/chelekom/docs/divider/#divider-hr"}>
+              Divider and hr divider
+            </.link>
+          </.heading2>
+
+          <.cp>
+            We offer a versatile divider component called <.custom_inline_code>divider</.custom_inline_code>, which allows for customizable horizontal and vertical dividers with various styling options like <.custom_inline_code>solid</.custom_inline_code>, <.custom_inline_code>dashed</.custom_inline_code>, or <.custom_inline_code>dotted</.custom_inline_code>. In addition to the divider, we also support the standard HTML
+            <.custom_inline_code>hr</.custom_inline_code>
+            tag through our
+            <.custom_inline_code>hr</.custom_inline_code>
+            component. Both components are designed to visually separate content while providing additional customization such as text, icons, and control over color, size, and alignment, making it easy to enhance the layout of any Phoenix LiveView application.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" code={@code_1}>
+            <.divider id="divider-example-1" />
+            <.hr id="divider-example-2" />
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="divider-type-prop">
+            <.link patch={~p"/chelekom/docs/divider/#divider-type-prop"}>
+              Type prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The type attribute in the
+            <.link navigate={~p"/chelekom/docs/divider"}>
+              Phoenix LiveView divider component
+            </.link>
+            provides control over the visual style of the divider line, offering three distinct options: <.custom_inline_code>solid</.custom_inline_code>, <.custom_inline_code>dashed</.custom_inline_code>, and <.custom_inline_code>dotted</.custom_inline_code>. By default, the divider is set to <.custom_inline_code>solid</.custom_inline_code>, which creates a strong and continuous line, ideal for clearly separating sections of content. The
+            <.custom_inline_code>dashed</.custom_inline_code>
+            option features a series of evenly spaced dashes, offering a more relaxed and subtle appearance. Lastly, the
+            <.custom_inline_code>dotted</.custom_inline_code>
+            style creates a line composed of small dots, adding a decorative and lighter touch to content division. These options allow developers to customize the look and feel of the divider, enhancing both flexibility and aesthetics in the application's layout.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" code={@code_2}>
+            <.divider id="divider-example-3" color="silver" type="dashed" />
+            <.divider id="divider-example-4" color="warning" type="dotted" />
+            <.hr id="divider-example-5" color="info" type="solid" />
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="divider-colors">
+            <.link patch={~p"/chelekom/docs/divider/#divider-colors"}>
+              Color prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <.custom_inline_code>color</.custom_inline_code>
+            attribute in the divider component defines the theme and appearance of the divider by offering a wide range of color options. You can choose from predefined color values such as <.custom_inline_code>base</.custom_inline_code>, <.custom_inline_code>natural</.custom_inline_code>, <.custom_inline_code>primary</.custom_inline_code>, <.custom_inline_code>secondary</.custom_inline_code>, <.custom_inline_code>success</.custom_inline_code>, <.custom_inline_code>warning</.custom_inline_code>, <.custom_inline_code>danger</.custom_inline_code>, <.custom_inline_code>info</.custom_inline_code>, <.custom_inline_code>misc</.custom_inline_code>, <.custom_inline_code>dawn</.custom_inline_code>, and <.custom_inline_code>silver</.custom_inline_code>. The default color is set to <.custom_inline_code>silver</.custom_inline_code>, but you can easily customize the color theme to match the design and style of your application. This flexibility ensures the divider blends seamlessly into the layout, whether you're using it to break up sections or emphasize key content areas.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" code={@code_3}>
+            <.divider id="divider-example-6" color="base" />
+            <.divider id="divider-example-6eee" color="primary" />
+            <.divider id="divider-example-6432" color="white" />
+            <.divider id="divider-example-6543" color="dark" />
+            <.divider id="divider-example-7" color="secondary" />
+            <.divider id="divider-example-8" color="success" />
+            <.divider id="divider-example-9" color="danger" />
+            <.divider id="divider-example-10" color="info" />
+            <.divider id="divider-example-13" color="misc" />
+            <.divider id="divider-example-14" color="dawn" />
+            <.divider id="divider-example-15" color="silver" />
+            <.divider id="divider-example-16" color="natural" />
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="divider-size-prop">
+            <.link patch={~p"/chelekom/docs/divider/#divider-size-prop"}>
+              Size prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The size attribute in the divider component offers a range of predefined sizes, including <.custom_inline_code>extra_small</.custom_inline_code>, <.custom_inline_code>small</.custom_inline_code>, <.custom_inline_code>medium</.custom_inline_code>, <.custom_inline_code>large</.custom_inline_code>, and <.custom_inline_code>extra_large</.custom_inline_code>. These options allow you to control the thickness and overall size of the divider, ensuring it fits perfectly within your design, whether you need a subtle or a more pronounced visual separation.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" code={@code_4}>
+            <.divider id="divider-example-17" color="info" size="extra_small" />
+            <.divider id="divider-example-18" color="info" size="small" />
+            <.divider id="divider-example-19" color="dawn" size="medium" />
+            <.divider id="divider-example-20" color="misc" size="large" />
+            <.divider id="divider-example-21" color="silver" size="extra_large" />
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="divider-width-prop">
+            <.link patch={~p"/chelekom/docs/divider/#divider-width-prop"}>
+              Width prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The width attribute in the divider component controls the width of the element, allowing for various layout options. By default, the width is set to <.custom_inline_code>full</.custom_inline_code>, meaning the divider spans the entire available width. Other options include <.custom_inline_code>half</.custom_inline_code>, which limits the width to 50% of the container. Additionally, custom width values can be specified by passing a string, giving developers flexibility to adapt the divider's size to specific design needs. If no value is provided, it defaults to <.custom_inline_code>full</.custom_inline_code>.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" code={@code_5}>
+            <.divider id="divider-example-22" color="silver" width="half" />
+            <.divider id="divider-example-23" width="full" />
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="divider-margin-prop">
+            <.link patch={~p"/chelekom/docs/divider/#divider-margin-prop"}>
+              Margin prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The margin attribute in the divider component determines the space around the divider element, helping to control how closely it is positioned relative to other content. By default, the margin is set to <.custom_inline_code>none</.custom_inline_code>, which means no additional space is added. However, developers can choose from predefined margin sizes like <.custom_inline_code>extra_small</.custom_inline_code>, <.custom_inline_code>small</.custom_inline_code>, <.custom_inline_code>medium</.custom_inline_code>, <.custom_inline_code>large</.custom_inline_code>, and <.custom_inline_code>extra_large</.custom_inline_code>. These options make it easy to adjust the spacing based on the design's needs, ensuring the divider fits naturally within the layout while maintaining proper visual separation between elements.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" code={@code_6}>
+            <.divider id="divider-example-24" color="natural" margin="extra_small" />
+            <.divider id="divider-example-25" color="info" margin="small" />
+            <.divider id="divider-example-26" color="silver" margin="medium" />
+            <.divider id="divider-example-27" color="dawn" margin="large" />
+            <.divider id="divider-example-28" color="misc" margin="extra_large" />
+            <.divider id="divider-example-29" margin="none" />
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="divider-variation-prop">
+            <.link patch={~p"/chelekom/docs/divider/#divider-variation-prop"}>
+              Variation prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The variation attribute defines the layout orientation of the divider component, offering two values:
+            <.custom_inline_code>horizontal</.custom_inline_code>
+            and <.custom_inline_code>vertical</.custom_inline_code>. By default, the divider is set to a horizontal orientation, making it suitable for separating content across the width of the page. However, setting the value to
+            <.custom_inline_code>vertical</.custom_inline_code>
+            allows the divider to create vertical separations, which can be useful for side-by-side content. It's important to note that this attribute is exclusive to the
+            <.custom_inline_code>divider</.custom_inline_code>
+            component and is not available for the
+            <.custom_inline_code>hr</.custom_inline_code>
+            component, which only supports horizontal dividers.
+          </.cp>
+
+          <.custom_code_wrapper
+            code_class="text-xs"
+            elements_class="h-[300px] flex gap-10"
+            code={@code_7}
+          >
+            <.divider id="divider-example-31" variation="vertical" color="info" height="h-full" />
+            <.divider id="divider-example-30" color="success" variation="horizontal" />
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="divider-height-prop">
+            <.link patch={~p"/chelekom/docs/divider/#divider-height-prop"}>
+              Height prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The height attribute is particularly relevant for vertical dividers, where it defines the vertical space that the divider occupies. For example, with the default value of <.custom_inline_code>auto</.custom_inline_code>, the height adjusts based on the content around it. You can also set it to
+            <.custom_inline_code>half</.custom_inline_code>
+            to make it take up half the screen height, or provide a custom value to fine-tune the height based on specific design requirements. This gives developers the flexibility to use vertical dividers effectively in various layouts.
+          </.cp>
+
+          <.custom_code_wrapper
+            code_class="text-xs"
+            elements_class="h-[300px] flex items-start gap-5"
+            code={@code_8}
+          >
+            <.divider id="divider-example-32" variation="vertical" height="h-full" />
+            <.divider id="divider-example-33" variation="vertical" color="natural" height="half" />
+            <.divider id="divider-example-34" variation="vertical" height="h-1/3" />
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="divider-text-slot">
+            <.link patch={~p"/chelekom/docs/divider/#divider-text-slot"}>
+              Text slot
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <.custom_inline_code>:text</.custom_inline_code>
+            slot for both the divider and hr components provides several attributes for customization:
+            <ul class="list-disc px-10">
+              <li>
+                <strong>class</strong>: The class attribute allows you to apply custom CSS classes to the text, giving full control over its styling. You can use this attribute to adjust the appearance of the text, such as spacing, font styles, or other design elements.
+              </li>
+
+              <li>
+                <strong>color</strong>: The color attribute defines the color theme of the text, ensuring it matches or contrasts with the divider or hr component. You can choose from predefined color options like primary, success, danger, and more.
+              </li>
+
+              <li>
+                <strong>size</strong>: This attribute controls the overall size of the text, including padding, font size, and other relevant elements. You can adjust the text size to fit the design and layout of your component.
+              </li>
+
+              <li>
+                <strong>position</strong>: The position attribute allows you to control the placement of the text within the component. The text can be aligned to the left, right, or center, depending on the context and design requirements.
+              </li>
+            </ul>
+            These attributes offer flexibility to developers, allowing them to customize the text’s appearance and placement within the divider or hr component to enhance the user interface.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" code={@code_9}>
+            <.divider
+              id="divider-example-35"
+              type="dashed"
+              size="small"
+              color="natural"
+              position="right"
+            >
+              <:text>Or</:text>
+            </.divider>
+            <.divider id="divider-example-36" size="small" color="success" position="left">
+              <:text>Or</:text>
+            </.divider>
+
+            <.divider
+              id="divider-example-37"
+              type="dotted"
+              size="small"
+              color="warning"
+              position="middle"
+            >
+              <:text>Or</:text>
+            </.divider>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="divider-icon-slot">
+            <.link patch={~p"/chelekom/docs/divider/#divider-icon-slot"}>
+              Icon slot
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <.custom_inline_code>:icon</.custom_inline_code>
+            slot for both the divider and hr components offers several attributes that provide extensive customization options:
+            <ul class="list-disc px-10">
+              <li>
+                <strong>position</strong>: This attribute controls the placement of the icon within the component, allowing it to be positioned left, right, or center. It helps in aligning the icon based on the desired layout and context of the design.
+              </li>
+
+              <li>
+                <strong>class</strong>: The class attribute allows you to apply custom CSS classes to the icon, enabling full control over its styling. This could include adjustments to spacing, padding, or other design elements that fit the overall theme of the component.
+              </li>
+
+              <li>
+                <strong>icon_class</strong>: This attribute is specifically for adding classes that directly style the icon itself. It offers more granular control over the icon’s appearance, such as defining the size, weight, or other visual properties unique to the icon.
+              </li>
+
+              <li>
+                <strong>color</strong>: The color attribute defines the theme of the icon, allowing it to match or contrast with the divider or hr component. Predefined color options such as primary, success, danger, and more ensure that the icon fits within the overall design aesthetic of the application.
+              </li>
+            </ul>
+            Together, these attributes allow developers to deeply customize the appearance and positioning of icons within their dividers or horizontal rules, enhancing the component’s functionality and visual appeal.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" code={@code_9}>
+            <.divider
+              id="divider-example-38"
+              type="dashed"
+              size="small"
+              color="danger"
+              position="right"
+            >
+              <:icon name="hero-circle-stack" />
+            </.divider>
+            <.divider id="divider-example-39" size="small" color="misc" position="left">
+              <:icon name="hero-star" />
+            </.divider>
+
+            <.divider
+              id="divider-example-40"
+              type="dotted"
+              size="small"
+              color="dawn"
+              position="middle"
+            >
+              <:icon name="hero-beaker" />
+            </.divider>
+          </.custom_code_wrapper>
+        </:documentation_panel>
+
+        <:props_panel>
+          <.custom_search class="mb-16" />
+          <div class="space-y-8">
+            <h2 class="text-lg lg:text-2xl font-bold">Divider component props</h2>
+
+            <.custom_table id="divider-component-table">
+              <:header>
+                <.table_th>Name</.table_th>
+
+                <.table_th>Type</.table_th>
+
+                <.table_th>Required</.table_th>
+
+                <.table_th>Description</.table_th>
+              </:header>
+
+              <:row>
+                <.table_td>id</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  A unique identifier is used to manage state and interaction.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>type</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines the type of the divider: <strong>dashed</strong>, <strong>dotted</strong>, or <strong>solid</strong>. Default: <strong>solid</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>color</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines the color theme of the divider. Supported values: <strong>base</strong>, <strong>natural</strong>, <strong>primary</strong>, <strong>secondary</strong>, <strong>success</strong>, <strong>warning</strong>, <strong>danger</strong>, <strong>info</strong>, <strong>misc</strong>, <strong>dawn</strong>, <strong>silver</strong>, <strong>white</strong>, <strong>dark</strong>. Default: <strong>silver</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>size</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines the overall size of the divider. Default: <strong>extra_small</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>width</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines the element width. Default: <strong>full</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>height</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines the element height. Default: <strong>auto</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>margin</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines the element margin. Default: <strong>none</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>variation</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Defines the layout orientation of the component: <strong>horizontal</strong>
+                  or <strong>vertical</strong>. Default: <strong>horizontal</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>class</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Custom CSS class for additional styling.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>position</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  position of icons and text within divider by default it's middle
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>text</.table_td>
+
+                <.table_td>slot</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  The <strong>text</strong>
+                  slot supports adding text inside the divider. It accepts the following properties:
+                  - <strong>class</strong>: Custom CSS class for additional styling of the text slot.
+                  - <strong>color</strong>: Determines the color theme of the text slot.
+                  - <strong>size</strong>: Determines the size of the text slot.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>icon</.table_td>
+
+                <.table_td>slot</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  The <strong>icon</strong>
+                  slot supports adding icons inside the divider. It accepts the following properties:
+                  - <strong>name</strong>: Specifies the name of the icon (required).
+                  - <strong>class</strong>: Custom CSS class for additional styling of the icon.
+                  - <strong>icon_class</strong>: Determines the custom class for the icon.
+                  - <strong>color</strong>: Determines the color theme of the icon slot.
+                  - <strong>size</strong>: Determines the size of the icon slot.
+                </.table_td>
+              </:row>
+            </.custom_table>
+          </div>
+
+          <div class="space-y-8 mt-8">
+            <h2 class="text-lg lg:text-2xl font-bold">hr Divider component props</h2>
+
+            <.custom_table id="divider-hr-component-table">
+              <:header>
+                <.table_th>Name</.table_th>
+
+                <.table_th>Type</.table_th>
+
+                <.table_th>Required</.table_th>
+
+                <.table_th>Description</.table_th>
+              </:header>
+
+              <:row>
+                <.table_td>id</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  A unique identifier is used to manage state and interaction.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>type</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Specifies the type of the element. Supported values: <strong>dashed</strong>, <strong>dotted</strong>, <strong>solid</strong>. Default: <strong>solid</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>color</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines the color theme of the element. Supported values include: <strong>natural</strong>, <strong>primary</strong>, <strong>secondary</strong>, <strong>success</strong>, <strong>warning</strong>, <strong>danger</strong>, <strong>info</strong>, <strong>misc</strong>, <strong>dawn</strong>, <strong>silver</strong>. Default: <strong>silver</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>size</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines the overall size of the elements, including padding, font size, and other items. Default: <strong>extra_small</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>width</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines the element width. Default: <strong>full</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>margin</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines the element margin. Default: <strong>none</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>text</.table_td>
+
+                <.table_td>slot</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  The <strong>text</strong>
+                  slot allows adding text inside the divider. It accepts the following properties:
+                  - <strong>class</strong>: Custom CSS class for additional styling.
+                  - <strong>color</strong>: Determines the color theme of the text slot.
+                  - <strong>size</strong>: Determines the size of the text.
+                  - <strong>position</strong>: Determines the position of the text slot within the divider.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>icon</.table_td>
+
+                <.table_td>slot</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  The <strong>icon</strong>
+                  slot allows adding icons inside the divider. It accepts the following properties:
+                  - <strong>name</strong>: Specifies the name of the icon (required).
+                  - <strong>class</strong>: Custom CSS class for additional styling.
+                  - <strong>icon_class</strong>: Determines the custom class for the icon.
+                  - <strong>color</strong>: Determines the color theme of the icon.
+                  - <strong>size</strong>: Determines the size of the icon.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>class</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Custom CSS class for additional styling.</.table_td>
+              </:row>
+            </.custom_table>
+          </div>
+        </:props_panel>
+
+        <:cli_panel>
+          <.custom_cli_props config={component_config()} />
+        </:cli_panel>
+        <.custom_table_content>
+          <:content
+            link={~p"/chelekom/docs/divider/#overview"}
+            title="Overview of the divider component"
+          />
+          <:content link={~p"/chelekom/docs/divider/#divider-hr"} title="Divider and hr divider" />
+          <:content link={~p"/chelekom/docs/divider/#divider-type-prop"} title="Type prop" />
+          <:content link={~p"/chelekom/docs/divider/#divider-colors"} title="Color prop" />
+          <:content link={~p"/chelekom/docs/divider/#divider-size-prop"} title="Size prop" />
+          <:content link={~p"/chelekom/docs/divider/#divider-width-prop"} title="Width prop" />
+          <:content link={~p"/chelekom/docs/divider/#divider-margin-prop"} title="Margin prop" />
+          <:content
+            link={~p"/chelekom/docs/divider/#divider-variation-prop"}
+            title="Variation prop"
+          />
+          <:content link={~p"/chelekom/docs/divider/#divider-height-prop"} title="Height prop" />
+          <:content link={~p"/chelekom/docs/divider/#divider-text-slot"} title="Text slot" />
+          <:content link={~p"/chelekom/docs/divider/#divider-icon-slot"} title="Icon slot" />
+        </.custom_table_content>
+      </.custom_tab>
+    </div>
+  </div>
+</Layouts.app>

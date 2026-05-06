@@ -1,0 +1,1556 @@
+<Layouts.app flash={@flash}>
+  <div class="lg:grid lg:grid-cols-12 mt-5 max-w-5xl mx-auto">
+    <.custom_nav active="chelekom-docs-popover" />
+    <div class="lg:col-span-10">
+      <.custom_info
+        title="Popover"
+        description="interactive popovers in Phoenix and LiveView with customizable triggers, layouts, and styling"
+        mix="mix mishka.ui.gen.component popover"
+        github="https://github.com/mishka-group/mishka_chelekom/blob/master/priv/components/popover.eex"
+        tags={["Component", "Stateless", "JS-module", "JS"]}
+      />
+      <.custom_tab id="chelekom-popover-tab">
+        <:documentation_panel>
+          <.heading2 class="mb-5" id="overview">
+            <.link patch="#overview">
+              Overview of the Phoenix and LiveView Popover Component
+            </.link>
+          </.heading2>
+          <.cp>
+            The
+            <strong>
+              Mishka Chelekom popover
+            </strong>
+            component is a <strong>Phoenix LiveView</strong>
+            component that enables developers to create dynamic and customizable <strong>popover elements</strong>, ideal for displaying additional information, tooltips, or interactive content.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" elements_class="grid md:grid-cols-4 gap-5">
+            <div class="flex items-center gap-10 md:col-span-2 justify-center">
+              <.popover id="sample-1">
+                <:trigger>
+                  <button title="Mona Aghili's profile">
+                    <.avatar
+                      src={~p"/images/mona-aghili.jpg"}
+                      alt="Mona Aghili"
+                      rounded="full"
+                      size="extra_large"
+                    />
+                  </button>
+                </:trigger>
+                <:content>
+                  <div class="flex justify-between items-center gap-2">
+                    <.avatar
+                      src={~p"/images/mona-aghili.jpg"}
+                      size="extra_large"
+                      rounded="full"
+                      alt="Mona Aghili"
+                    />
+                    <.button_link
+                      size="leading-5 py-2 px-4"
+                      variant="bg-[#363333] text-white"
+                      border="none"
+                      href="https://x.com/MonaAghili"
+                    >
+                      Follow
+                    </.button_link>
+                  </div>
+                  <div class="space-y-px text-xs">
+                    <div class="font-bold">Mona Aghili</div>
+                    <div class="text-gray-400">@MonaAghili</div>
+                  </div>
+                  <.cp class="text-sm">
+                    Frontend Developer. Crafting <.link
+                      navigate={~p"/chelekom"}
+                      title="Mishka Chelekom"
+                      class="text-blue-400"
+                    >Mishka Chelekom</.link>.
+                  </.cp>
+                  <div class="flex justify-between gap-2">
+                    <div>
+                      <span class="font-bold">400 </span>
+                      <span class="text-gray-400 text-xs">Following</span>
+                    </div>
+                    <div>
+                      <span class="font-bold">130 </span>
+                      <span class="text-gray-400 text-xs">Follower</span>
+                    </div>
+                  </div>
+                </:content>
+              </.popover>
+
+              <.popover
+                id="sample-2"
+                position="bottom"
+                space="small"
+                rounded="large"
+                width="large"
+                padding="small"
+                clickable
+              >
+                <:trigger>
+                  <.button variant="outline" color="natural" size="py-2 px-5 leading-5">
+                    Feedback
+                  </.button>
+                </:trigger>
+                <:content>
+                  <h4 class="font-semibold mb-3 text-[14px]">Send us feedbacks</h4>
+                  <.textarea_field
+                    name="feedback"
+                    disabled
+                    value=""
+                    placeholder="How we can help you?"
+                    rows="3"
+                  />
+                  <div class="flex justify-end mt-3">
+                    <.button
+                      size="leading-5 py-1 px-3.5"
+                      variant="bg-[#181818] text-white hover:bg-[#363434] dark:bg-white dark:text-[#181818] dark:hover:bg-gray-200"
+                    >
+                      Send
+                    </.button>
+                  </div>
+                </:content>
+              </.popover>
+            </div>
+            <div class="md:col-span-2 w-full">
+              <.cp class="text-xs">
+                Photography is a powerful medium that captures moments, emotions, and stories through the lens. From stunning landscapes to candid portraits, it transforms fleeting moments into lasting memories. <.popover
+                  id="sample-3"
+                  inline
+                  rounded="large"
+                  width="quadruple_large"
+                  variant="bg-rose-500 dark:bg-rose-800 text-white dark:text-rose-200"
+                  border="none"
+                  padding="none"
+                >
+                <:trigger class="text-rose-500 dark:text-rose-300 font-bold">
+                  <span class="cursor-pointer text-nowrap">Digital Photography</span>
+                </:trigger>
+                <:content class="grid grid-cols-6">
+                  <span class="block p-3 space-y-2 col-span-3">
+                    <span class="font-semibold block text-md">About Digital Photography</span>
+                    <span class="block text-sm">
+                      Digital photography revolutionized image capture with instant results and endless creative possibilities. Modern cameras offer advanced features like high ISO performance, rapid autofocus, and professional-grade image quality, making photography more accessible than ever.
+                    </span>
+                  </span>
+                  <span class="block col-span-3 overflow-hidden relative rounded-e-lg">
+                    <.image
+                      class="w-full h-full object-cover"
+                      src={~p"/images/card-2.jpg"}
+                      alt="camera picture from upsplash"
+                    />
+                  </span>
+                </:content>
+              </.popover>, has transformed how we document our world.
+              </.cp>
+            </div>
+          </.custom_code_wrapper>
+
+          <.cp margin="mt-5">
+            This
+            <strong>
+              <.link
+                title="Phoenix LiveView component"
+                class="transition-colors hover:text-[#448D96]"
+                navigate={~p"/chelekom"}
+              >
+                Phoenix LiveView component
+              </.link>
+            </strong>
+            also supports embedding text, icons, and custom content, making it perfect for improving user interaction and guiding them through additional context or information. With its responsive design and ease of use, this popover component enhances user engagement and overall experience.
+          </.cp>
+
+          <.custom_block position="left" color="danger" class="my-8" border="medium">
+            If you want to use the popover within any text or inline blocks, like inside a paragraph, simply add the
+            <.custom_inline_code>inline</.custom_inline_code>
+            prop to the
+            <.custom_inline_code>popover</.custom_inline_code>
+            component.
+          </.custom_block>
+
+          <.custom_block position="left" color="success" class="my-8" border="medium">
+            <.cp>
+              By using the class prop, you can apply custom classes or Tailwind CSS classes to customize the components design.
+            </.cp>
+            <strong>Note:</strong>
+            If you want to use a clickable popover, apply the
+            <.custom_inline_code>clickable</.custom_inline_code>
+            prop to the <.custom_inline_code>popover</.custom_inline_code>, and make sure to provide a
+            <.custom_inline_code>trigger_id</.custom_inline_code>
+            prop to the
+            <.custom_inline_code>:trigger</.custom_inline_code>
+            slot, which should match the unique ID of the
+            <.custom_inline_code>:content</.custom_inline_code>
+            slot
+            you want to display
+            <.link class="text-rose-800" patch={~p"/chelekom/docs/popover#popover-clickable"}>
+              (See more)
+            </.link>
+          </.custom_block>
+
+          <.heading2 margin="my-5" id="how-use">
+            <.link patch="#how-use">
+              How to use popover
+            </.link>
+          </.heading2>
+
+          <.cp>
+            To use the popover component, you'll first need to define a trigger element, which can be any clickable item, like a button, link, or text. The trigger is defined within the
+            <.custom_inline_code>trigger</.custom_inline_code>
+            slot. After setting the trigger, you define the content to be displayed inside the
+            <.custom_inline_code>content</.custom_inline_code>
+            slot. This content can include text, images, or any other HTML elements you want to show when the popover is triggered.
+          </.cp>
+
+          <.custom_block position="left" color="success" class="my-8" border="medium">
+            <.cp>
+              Mishka chelekom dropdown popover
+              <.custom_inline_code>trigger</.custom_inline_code>
+              and
+              <.custom_inline_code>content</.custom_inline_code>
+              slots for adding content within a popover. These slots provide a modern way to structure your popover components, and you can see the props in the props tab.
+            </.cp>
+          </.custom_block>
+
+          <.custom_code_wrapper
+            code_class="text-xs"
+            elements_class="flex justify-center items-center h-[200px] gap-10"
+            code={@code_1}
+          >
+            <.popover
+              id="popover-example-109"
+              clickable
+              rounded="large"
+              variant="default"
+              color="dark"
+              padding="small"
+              space="extra_small"
+            >
+              <:trigger>
+                <button title="Mona Aghili's profile">
+                  <.avatar
+                    color="secondary"
+                    src={~p"/images/mona-aghili.jpg"}
+                    alt="Mona Aghili"
+                    rounded="full"
+                    border="small"
+                    size="extra_large"
+                  />
+                </button>
+              </:trigger>
+              <:content>
+                <div class="flex justify-between items-center gap-2">
+                  <.avatar
+                    src={~p"/images/mona-aghili.jpg"}
+                    size="extra_large"
+                    rounded="full"
+                    alt="Mona Aghili"
+                  />
+                  <.button_link size="small" href="https://x.com/MonaAghili">
+                    Follow
+                  </.button_link>
+                </div>
+                <div class="space-y-px text-xs">
+                  <div class="font-bold">Mona Aghili</div>
+                  <div class="text-gray-400">@MonaAghili</div>
+                </div>
+                <.cp class="text-sm">
+                  Frontend Developer. Crafting <.link
+                    navigate={~p"/chelekom"}
+                    title="Mishka Chelekom"
+                    class="text-blue-400"
+                  >Mishka Chelekom</.link>.
+                </.cp>
+                <div class="flex justify-between gap-2">
+                  <div>
+                    <span class="font-bold">400 </span>
+                    <span class="text-gray-400 text-xs">Following</span>
+                  </div>
+                  <div>
+                    <span class="font-bold">130 </span>
+                    <span class="text-gray-400 text-xs">Follower</span>
+                  </div>
+                </div>
+              </:content>
+            </.popover>
+
+            <.popover
+              id="popover-example-26"
+              clickable
+              position="bottom"
+              space="small"
+              rounded="large"
+              width="medium"
+              padding="large"
+            >
+              <:trigger>
+                <.button
+                  variant="outline"
+                  color="danger"
+                  size="extra_small"
+                  icon="hero-circle-stack"
+                >
+                  Storage status
+                </.button>
+              </:trigger>
+              <:content>
+                <h4 class="font-semibold text-lg">Available storage</h4>
+                <.cp>This server has <b>30</b> of <b>150</b> GB of block storage remaining.</.cp>
+                <.progress csp_nonce={@csp_nonce} color="danger" value={40} />
+                <.link navigate={~p"/chelekom/docs/progress"} class="block text-blue-400">
+                  visit progress
+                </.link>
+              </:content>
+            </.popover>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="popover-inline">
+            <.link patch="#popover-inline">
+              Inline popover
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The inline mode of the
+            <.custom_inline_code>popover</.custom_inline_code>
+            component is designed for situations where you want to display a popover within text or other inline elements. If you're using a popover inside a tag like <.custom_inline_code>p</.custom_inline_code>, which cannot contain block-level elements, it's important to use inline tags like
+            <.custom_inline_code>span</.custom_inline_code>
+            to ensure proper behavior. This prevents layout issues and ensures the popover functions smoothly. You can enable this mode by setting the
+            <.custom_inline_code>inline</.custom_inline_code>
+            prop on the
+            <.custom_inline_code>popover</.custom_inline_code>
+            component.
+          </.cp>
+
+          <.custom_code_wrapper
+            code_class="text-xs"
+            elements_class="flex justify-center items-center h-[250px] text-[14px]"
+            code={@code_2}
+          >
+            <.cp>
+              The Netherlands is a vibrant country known for its scenic landscapes, innovative culture, and progressive values. Famous for its windmills, tulip fields, and extensive canals, it offers a mix of nature and city life. <.popover
+                id="popover-example-2"
+                inline
+                rounded="large"
+                width="quadruple_large"
+                color="silver"
+                variant="default"
+                padding="none"
+              >
+              <:trigger class="text-blue-400 font-bold">
+                Amsterdam
+              </:trigger>
+              <:content class="grid grid-cols-5">
+                <span class="block p-3 space-y-3 col-span-3">
+                  <span class="font-semibold block">About Amsterdam</span>
+                  <span class="block text-sm">
+                    Amsterdam, the capital of the Netherlands, is known for its scenic canals, vibrant culture, and rich history. Amsterdam offers a perfect mix of historic charm and modern energy, making it a top destination for culture and relaxation.
+                  </span>
+                </span>
+                <span class="block col-span-2 overflow-hidden relative rounded-e-lg">
+                  <.image
+                    class="w-full h-full object-cover"
+                    src={~p"/images/amsterdam.jpg"}
+                    alt="amsterdam picture from upsplash"
+                  />
+                </span>
+              </:content>
+            </.popover>, the capital, stands out with its historic canals, world-class museums, and welcoming atmosphere, making it a cultural hub within the country. Whether exploring by bike or enjoying the lively streets, the Netherlands offers a unique blend of charm and modernity.
+            </.cp>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="popover-clickable">
+            <.link patch="#popover-clickable">
+              Clickable popover
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <.custom_inline_code>clickable</.custom_inline_code>
+            mode of the
+            <.custom_inline_code>popover</.custom_inline_code>
+            component allows you to trigger the display of popover content by clicking on a trigger.
+          </.cp>
+
+          <.custom_code_wrapper
+            code_class="text-xs"
+            elements_class="flex justify-center items-center h-[200px] gap-5"
+            code={@code_3}
+          >
+            <.popover
+              id="popover-example-3"
+              clickable
+              rounded="small"
+              width="large"
+              color="info"
+              variant="default"
+              padding="small"
+            >
+              <:trigger>
+                <.button variant="outline" color="info" size="small">popover trigger</.button>
+              </:trigger>
+              <:content>
+                Content within popover content component
+              </:content>
+            </.popover>
+            <.popover
+              id="popover-example-28"
+              clickable
+              space="small"
+              rounded="large"
+              color="natural"
+              variant="bordered"
+              width="quadruple_large"
+              padding="large"
+            >
+              <:trigger>
+                <.button
+                  color="warning"
+                  size="large"
+                  variant="transparent"
+                  icon="hero-question-mark-circle"
+                />
+              </:trigger>
+              <:content>
+                <h4 class="font-semibold">Activity growth - Incremental</h4>
+                <.cp class="text-xs">
+                  Report helps navigate cumulative growth of community activities Ideally, the chart should have a growing trend, as stagnating chart signifies a significant decrease of community activity
+                </.cp>
+                <h4 class="font-semibold">Calculation</h4>
+                <.cp class="text-xs mb-2">
+                  For each date bucket, the all-time volume of activities is calculated This means that activities in period n contain all activities up to period n, plus the activities generated by your community in period
+                </.cp>
+                <span class="text-blue-500">See more..</span>
+              </:content>
+            </.popover>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="popover-show-arrow">
+            <.link patch="#popover-show-arrow">
+              Show arrow prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            <.custom_inline_code>show_arrow</.custom_inline_code>
+            is a boolean attribute that allows you to control the visibility of the arrow in the popover component. When set to <.custom_inline_code>true</.custom_inline_code>, the arrow will be displayed, providing a visual indicator of the popover's direction or connection to its triggering element. By default, this attribute is set to <.custom_inline_code>true</.custom_inline_code>. If you want a cleaner look or the arrow is unnecessary for your design, you can set it to
+            <.custom_inline_code>false</.custom_inline_code>
+            to hide the arrow. This flexibility ensures the popover can adapt to various use cases and design requirements.
+          </.cp>
+
+          <.custom_code_wrapper
+            code_class="text-xs"
+            elements_class="flex justify-center items-center h-[200px] gap-5"
+            code={@code_16}
+          >
+            <.popover
+              id="popover-example-55"
+              rounded="small"
+              width="large"
+              color="primary"
+              variant="default"
+              padding="small"
+              show_arrow={false}
+            >
+              <:trigger>
+                <.button variant="outline" color="primary" size="small">popover trigger</.button>
+              </:trigger>
+              <:content>
+                A popover without arrow
+              </:content>
+            </.popover>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="base-popover">
+            <.link patch="#base-popover">
+              Popover base Variant
+            </.link>
+          </.heading2>
+
+          <.custom_code_wrapper
+            elements_class="flex flex-wrap justify-center h-[200px] items-center gap-2"
+            code_class="text-xs"
+            code={@code_17}
+          >
+            <.popover id="popover-example-4432" rounded="small" width="large" padding="small">
+              <:trigger>
+                <.button variant="outline" color="natural" size="small">base color</.button>
+              </:trigger>
+              <:content>
+                Content within popover content component
+              </:content>
+            </.popover>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="default-variant-popover">
+            <.link patch="#default-variant-popover">
+              Popover default Variant
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The default style of the
+            <.link navigate={~p"/chelekom/docs/popover"}>Mishka Chelekom popover</.link>
+            applies a solid background. It is the default variant of popover component.
+          </.cp>
+
+          <.custom_code_wrapper
+            elements_class="flex flex-wrap justify-center h-[200px] items-center gap-2"
+            code_class="text-xs"
+            code={@code_4}
+          >
+            <.popover
+              id="popover-example-4"
+              rounded="small"
+              width="large"
+              color="warning"
+              variant="default"
+              padding="small"
+            >
+              <:trigger>
+                <.button size="small" variant="outline" color="dawn">Warning color</.button>
+              </:trigger>
+              <:content>
+                Content within popover content component
+              </:content>
+            </.popover>
+
+            <.popover
+              id="popover-example-5"
+              rounded="small"
+              width="large"
+              color="success"
+              variant="default"
+              padding="small"
+            >
+              <:trigger>
+                <.button size="small" variant="outline" color="success">Success color</.button>
+              </:trigger>
+              <:content>
+                Content within popover content component
+              </:content>
+            </.popover>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="shadow-variant-popover">
+            <.link patch="#shadow-variant-popover">
+              Popover shadow Variant
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The shadow variant of the Mishka Chelekom popover is similar to the default variant, but it also includes a shadow.
+          </.cp>
+
+          <.custom_code_wrapper
+            elements_class="flex flex-wrap justify-center h-[200px] items-center gap-2"
+            code_class="text-xs"
+            code={@code_5}
+          >
+            <.popover
+              id="popover-example-24"
+              rounded="small"
+              width="large"
+              color="danger"
+              padding="small"
+              variant="shadow"
+            >
+              <:trigger>
+                <.button size="small" variant="outline" color="danger">Danger color</.button>
+              </:trigger>
+              <:content>
+                Content within popover content component
+              </:content>
+            </.popover>
+
+            <.popover
+              id="popover-example-25"
+              rounded="small"
+              width="large"
+              color="silver"
+              padding="small"
+              variant="shadow"
+            >
+              <:trigger>
+                <.button size="small" variant="outline" color="silver">Silver color</.button>
+              </:trigger>
+              <:content>
+                Content within popover content component
+              </:content>
+            </.popover>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="bordered-variant-popover">
+            <.link patch="#bordered-variant-popover">
+              Popover bordered Variant
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The Bordered variant of the Mishka Chelekom popover has lighter background and a border. Bordered variant have also white and dark colors which are the same colors in the dark and light mode.
+          </.cp>
+
+          <.custom_code_wrapper
+            elements_class="flex flex-wrap justify-center h-[200px] items-center gap-2"
+            code_class="text-xs"
+            code={@code_14}
+          >
+            <.popover
+              id="popover-example-50"
+              rounded="small"
+              width="large"
+              color="silver"
+              padding="small"
+              variant="bordered"
+            >
+              <:trigger>
+                <.button size="small" variant="outline" color="misc">Silver color</.button>
+              </:trigger>
+              <:content>
+                Content within popover content component
+              </:content>
+            </.popover>
+
+            <.popover
+              id="popover-example-51"
+              rounded="small"
+              width="large"
+              color="info"
+              padding="small"
+              variant="bordered"
+            >
+              <:trigger>
+                <.button size="small" variant="outline" color="danger">Danger color</.button>
+              </:trigger>
+              <:content>
+                Content within popover content component
+              </:content>
+            </.popover>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="gradient-variant-popover">
+            <.link patch="#gradient-variant-popover">
+              Popover gradient Variant
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The gradient variant of the Mishka Chelekom popover has gradients in various colors.
+          </.cp>
+
+          <.custom_code_wrapper
+            elements_class="flex flex-wrap justify-center h-[200px] items-center gap-2"
+            code_class="text-xs"
+            code={@code_15}
+          >
+            <.popover
+              id="popover-example-52"
+              rounded="small"
+              width="large"
+              color="misc"
+              padding="small"
+              variant="gradient"
+            >
+              <:trigger>
+                <.button size="small" variant="outline" color="misc">Misc color</.button>
+              </:trigger>
+              <:content>
+                Content within popover content component
+              </:content>
+            </.popover>
+
+            <.popover
+              id="popover-example-53"
+              rounded="small"
+              width="large"
+              color="dawn"
+              padding="small"
+              variant="gradient"
+            >
+              <:trigger>
+                <.button size="small" variant="outline" color="dawn">Dawn color</.button>
+              </:trigger>
+              <:content>
+                Content within popover content component
+              </:content>
+            </.popover>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="popover-content-position-prop">
+            <.link patch="#popover-content-position-prop">
+              Popover position prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <.custom_inline_code>position</.custom_inline_code>
+            attribute in the popover component allows developers to control where the popover appears relative to its trigger element. The default value is set to <.custom_inline_code>top</.custom_inline_code>, meaning the popover will appear above the trigger by default. Other available options include <.custom_inline_code>bottom</.custom_inline_code>, <.custom_inline_code>left</.custom_inline_code>, and <.custom_inline_code>right</.custom_inline_code>, which give developers flexibility in how the popover is displayed. Each position is calculated using custom classes that manage translation and alignment of the popover relative to its trigger element. For example, when using <.custom_inline_code>bottom</.custom_inline_code>, the popover will appear below the trigger, and the popover arrow will point upward.
+          </.cp>
+
+          <.custom_code_wrapper
+            elements_class="flex flex-wrap justify-center h-[200px] items-center gap-2"
+            code_class="text-xs"
+            code={@code_6}
+          >
+            <.popover
+              id="popover-example-6"
+              rounded="small"
+              width="large"
+              variant="default"
+              color="danger"
+              padding="small"
+            >
+              <:trigger>
+                <.button variant="outline" color="info" size="small">Top(Default)</.button>
+              </:trigger>
+              <:content>
+                Content within popover content component
+              </:content>
+            </.popover>
+
+            <.popover
+              id="popover-example-7"
+              rounded="small"
+              width="large"
+              color="silver"
+              variant="default"
+              padding="small"
+              position="bottom"
+            >
+              <:trigger>
+                <.button variant="outline" color="dawn" size="small">Bottom</.button>
+              </:trigger>
+              <:content>
+                Content within popover content component
+              </:content>
+            </.popover>
+
+            <.popover
+              id="popover-example-8"
+              rounded="small"
+              width="large"
+              color="misc"
+              variant="default"
+              padding="small"
+              position="right"
+            >
+              <:trigger>
+                <.button variant="outline" color="danger" size="small">Right</.button>
+              </:trigger>
+              <:content>
+                Content within popover content component
+              </:content>
+            </.popover>
+
+            <.popover
+              id="popover-example-9"
+              rounded="small"
+              width="large"
+              color="dark"
+              variant="default"
+              padding="small"
+              position="left"
+            >
+              <:trigger>
+                <.button variant="outline" color="misc" size="small">Left</.button>
+              </:trigger>
+              <:content>
+                Content within popover content component
+              </:content>
+            </.popover>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="popover-content-size">
+            <.link patch={~p"/chelekom/docs/popover/#popover-content-size"}>
+              Popover size prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The size prop offers values such as <.custom_inline_code>extra_small</.custom_inline_code>, <.custom_inline_code>small</.custom_inline_code>, <.custom_inline_code>medium</.custom_inline_code>, <.custom_inline_code>large</.custom_inline_code>, and <.custom_inline_code>extra_large</.custom_inline_code>. These values control text size within the popover contents.
+          </.cp>
+
+          <.custom_code_wrapper
+            elements_class="flex justify-center items-center gap-2 flex-wrap"
+            code_class="text-xs"
+            code={@code_7}
+          >
+            <.popover
+              id="popover-example-10"
+              rounded="small"
+              width="large"
+              color="danger"
+              variant="default"
+              size="extra_large"
+              padding="small"
+            >
+              <:trigger>
+                <.button variant="outline" color="danger" size="small">Extra large</.button>
+              </:trigger>
+              <:content>
+                Content within popover content component
+              </:content>
+            </.popover>
+
+            <.popover
+              id="popover-example-11"
+              rounded="small"
+              width="large"
+              color="info"
+              variant="default"
+              padding="small"
+              size="extra_small"
+              position="bottom"
+            >
+              <:trigger>
+                <.button variant="outline" color="info" size="small">Extra small</.button>
+              </:trigger>
+              <:content>
+                Content within popover content component
+              </:content>
+            </.popover>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="popover-content-space">
+            <.link patch={~p"/chelekom/docs/popover/#popover-content-space"}>
+              Popover space prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The space prop offers values such as <.custom_inline_code>extra_small</.custom_inline_code>, <.custom_inline_code>small</.custom_inline_code>, <.custom_inline_code>medium</.custom_inline_code>, <.custom_inline_code>large</.custom_inline_code>, and <.custom_inline_code>extra_large</.custom_inline_code>. These values control the vertical spacing between elements within the popover content.
+          </.cp>
+
+          <.custom_code_wrapper
+            elements_class="flex justify-center items-center gap-2 flex-wrap"
+            code_class="text-xs"
+            code={@code_8}
+          >
+            <.popover
+              id="popover-example-12"
+              width="large"
+              color="success"
+              variant="default"
+              padding="small"
+              space="extra_small"
+            >
+              <:trigger>
+                <.button variant="outline" color="success" size="small">Extra small</.button>
+              </:trigger>
+              <:content>
+                <div>This is a text</div>
+                <div>within popover content component</div>
+              </:content>
+            </.popover>
+            <.popover
+              id="popover-example-13"
+              width="large"
+              color="warning"
+              variant="default"
+              padding="small"
+              space="extra_large"
+            >
+              <:trigger>
+                <.button variant="outline" color="warning" size="small">Extra large</.button>
+              </:trigger>
+              <:content>
+                <div>This is a text</div>
+                <div>within popover content component</div>
+              </:content>
+            </.popover>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="popover-content-padding">
+            <.link patch={~p"/chelekom/docs/popover/#popover-content-padding"}>
+              Popover padding prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The padding prop offers values such as <.custom_inline_code>extra_small</.custom_inline_code>, <.custom_inline_code>small</.custom_inline_code>, <.custom_inline_code>medium</.custom_inline_code>, <.custom_inline_code>large</.custom_inline_code>, and <.custom_inline_code>extra_large</.custom_inline_code>. These values control the padding around the content inside the popover contents.
+          </.cp>
+
+          <.custom_code_wrapper
+            elements_class="flex justify-center items-center gap-2 flex-wrap"
+            code_class="text-xs"
+            code={@code_9}
+          >
+            <.popover
+              id="popover-example-14"
+              width="large"
+              variant="default"
+              color="dawn"
+              padding="extra_large"
+            >
+              <:trigger>
+                <.button variant="outline" color="dawn" size="small">Extra large</.button>
+              </:trigger>
+              <:content>
+                Content within popover content component
+              </:content>
+            </.popover>
+
+            <.popover
+              id="popover-example-15"
+              width="large"
+              variant="default"
+              color="silver"
+              padding="extra_small"
+            >
+              <:trigger>
+                <.button variant="outline" color="silver" size="small">Extra small</.button>
+              </:trigger>
+              <:content>
+                Content within popover content component
+              </:content>
+            </.popover>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="popover-content-width-prop">
+            <.link patch={~p"/chelekom/docs/popover/#popover-content-width-prop"}>
+              Popover width prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The width prop allows you to set the minimum width of the component, ensuring it meets design requirements for various use cases. It accepts several predefined values: <.custom_inline_code>extra_small</.custom_inline_code>, <.custom_inline_code>small</.custom_inline_code>, <.custom_inline_code>medium</.custom_inline_code>, <.custom_inline_code>large</.custom_inline_code>, <.custom_inline_code>extra_large</.custom_inline_code>, <.custom_inline_code>double_large</.custom_inline_code>, <.custom_inline_code>triple_large</.custom_inline_code>, and <.custom_inline_code>quadruple_large</.custom_inline_code>, each corresponding to a specific minimum width.
+          </.cp>
+
+          <.custom_code_wrapper
+            code_class="text-xs"
+            elements_class="flex justify-center items-center gap-2 flex-wrap"
+            code={@code_10}
+          >
+            <.popover
+              id="popover-example-16"
+              variant="default"
+              color="dawn"
+              padding="small"
+              width="quadruple_large"
+            >
+              <:trigger>
+                <.button variant="outline" color="dawn" size="small">Quadruple large</.button>
+              </:trigger>
+              <:content>
+                Content within popover content component
+              </:content>
+            </.popover>
+
+            <.popover
+              id="popover-example-17"
+              variant="default"
+              color="silver"
+              padding="small"
+              width="extra_small"
+            >
+              <:trigger>
+                <.button variant="outline" color="silver" size="small">Extra small</.button>
+              </:trigger>
+              <:content>
+                Content within popover content component
+              </:content>
+            </.popover>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="popover-content-rounded">
+            <.link patch={~p"/chelekom/docs/popover/#popover-content-rounded"}>
+              Popover rounded prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The rounded prop allows developers to customize the border-radius of components, controlling how rounded the corners appear. The
+            <.custom_inline_code>rounded</.custom_inline_code>
+            prop accepts values like
+            <.custom_inline_code>extra_small</.custom_inline_code>
+            for minimal rounding, <.custom_inline_code>small</.custom_inline_code>, <.custom_inline_code>medium</.custom_inline_code>, <.custom_inline_code>large</.custom_inline_code>,
+            <.custom_inline_code>extra_large</.custom_inline_code>
+            for more pronounced rounding, and
+            <.custom_inline_code>none</.custom_inline_code>
+            to remove rounding entirely. This flexibility allows developers to adjust the component's visual style, giving it a sleek, rounded appearance or sharp edges to fit various design needs.
+          </.cp>
+
+          <.custom_code_wrapper
+            code_class="text-xs"
+            elements_class="flex gap-8 justify-center flex-wrap"
+            code={@code_11}
+          >
+            <.popover
+              id="popover-example-18"
+              width="large"
+              color="primary"
+              variant="default"
+              padding="small"
+              rounded="extra_large"
+            >
+              <:trigger>
+                <.button variant="outline" color="warning" size="small">Extra large</.button>
+              </:trigger>
+              <:content>
+                Content within popover content component
+              </:content>
+            </.popover>
+
+            <.popover
+              id="popover-example-19"
+              width="large"
+              color="primary"
+              variant="default"
+              padding="small"
+              rounded="extra_small"
+            >
+              <:trigger>
+                <.button variant="outline" color="primary" size="small">Extra small</.button>
+              </:trigger>
+              <:content>
+                Content within popover content component
+              </:content>
+            </.popover>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="popover-content-text-position">
+            <.link patch={~p"/chelekom/docs/popover/#popover-content-text-position"}>
+              Text position prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <.custom_inline_code>text_position</.custom_inline_code>
+            attribute controls the alignment of text within a component, ensuring that content is properly positioned based on the design needs. With options like <.custom_inline_code>left</.custom_inline_code>, <.custom_inline_code>right</.custom_inline_code>, <.custom_inline_code>end</.custom_inline_code>, <.custom_inline_code>start</.custom_inline_code>, <.custom_inline_code>justify</.custom_inline_code>, and <.custom_inline_code>center</.custom_inline_code>, you can align text to the left, right, or center of the component, respectively. This flexibility allows developers to manage how textual content is presented, enhancing readability and improving the visual structure of the component. If no specific value is provided, a default alignment is applied, typically aligning the text to the left.
+          </.cp>
+
+          <.custom_code_wrapper
+            code_class="text-xs"
+            elements_class="flex justify-center items-center gap-2 flex-wrap"
+            code={@code_12}
+          >
+            <.popover
+              id="popover-example-20"
+              width="large"
+              color="primary"
+              variant="default"
+              padding="small"
+              text_position="center"
+            >
+              <:trigger>
+                <.button color="dawn" variant="outline" size="small">Text center</.button>
+              </:trigger>
+              <:content>
+                Content within popover content component
+              </:content>
+            </.popover>
+
+            <.popover
+              id="popover-example-21"
+              width="large"
+              color="primary"
+              padding="small"
+              text_position="end"
+            >
+              <:trigger>
+                <.button variant="outline" color="primary" size="small">Text end</.button>
+              </:trigger>
+              <:content>
+                Content within popover content component
+              </:content>
+            </.popover>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="popover-content-font-weight-prop">
+            <.link patch={~p"/chelekom/docs/popover/#popover-content-font-weight-prop"}>
+              Popover content font weight prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <.custom_inline_code>font_weight</.custom_inline_code>
+            prop controls the font weight of the text. By setting this prop, you can determine how bold or light the text appears within the title section. The default value is <.custom_inline_code>font-normal</.custom_inline_code>. You can customize this value to apply different font weights, such as making the text lighter or bolder, depending on the visual style and emphasis you want to create for the popover's title. This provides flexibility in ensuring the title stands out appropriately within the overall popover layout.
+          </.cp>
+
+          <.custom_code_wrapper
+            code_class="text-xs"
+            elements_class="flex justify-center items-center gap-2 flex-wrap"
+            code={@code_13}
+          >
+            <.popover
+              id="popover-example-22"
+              width="large"
+              color="secondary"
+              variant="default"
+              padding="small"
+              font_weight="font-bold"
+            >
+              <:trigger>
+                <.button variant="outline" color="warning" size="small">Font bold</.button>
+              </:trigger>
+              <:content>
+                Content within popover content component
+              </:content>
+            </.popover>
+
+            <.popover
+              id="popover-example-23"
+              width="large"
+              color="secondary"
+              variant="default"
+              padding="small"
+              font_weight="font-light"
+            >
+              <:trigger>
+                <.button variant="outline" color="success" size="small">Font light</.button>
+              </:trigger>
+              <:content>
+                Content within popover content component
+              </:content>
+            </.popover>
+          </.custom_code_wrapper>
+        </:documentation_panel>
+
+        <:props_panel>
+          <.custom_search class="mb-16" />
+          <div class="space-y-8">
+            <h2 class="text-lg lg:text-2xl font-bold">Popover Component Props</h2>
+
+            <.custom_table id="popover-component-table">
+              <:header>
+                <.table_th>Name</.table_th>
+
+                <.table_th>Type</.table_th>
+
+                <.table_th>Required</.table_th>
+
+                <.table_th>Description</.table_th>
+              </:header>
+
+              <:row>
+                <.table_td>id</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>Required</.table_td>
+
+                <.table_td>A unique identifier used to manage state and interaction.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>trigger</.table_td>
+
+                <.table_td>slot</.table_td>
+
+                <.table_td>Required</.table_td>
+
+                <.table_td>
+                  Slot to add components as trigger. It has a <strong>style</strong>
+                  prop to add custom styles to trigger.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>content</.table_td>
+
+                <.table_td>slot</.table_td>
+
+                <.table_td>Required</.table_td>
+
+                <.table_td>
+                  Slot for showing content add inside popover. It has a <strong>style</strong>
+                  prop to add custom styles to content.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>class</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Custom CSS class for additional styling.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>trigger</.table_td>
+
+                <.table_td>slot</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>instead of using trigger component you can use trigger slot</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>contentn</.table_td>
+
+                <.table_td>slot</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>instead of using content component you can use content slot</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>inline</.table_td>
+
+                <.table_td>boolean</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines whether this element is inline. Default is <strong>false</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>clickable</.table_td>
+
+                <.table_td>boolean</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines if the element can be activated on click. Default is <strong>false</strong>.
+                </.table_td>
+              </:row>
+            </.custom_table>
+          </div>
+
+          <div class="space-y-8 mt-8">
+            <h2 class="text-lg lg:text-2xl font-bold">Popover Trigger Component Props</h2>
+
+            <.custom_table id="popover-trigger-component-table">
+              <:header>
+                <.table_th>Name</.table_th>
+
+                <.table_th>Type</.table_th>
+
+                <.table_th>Required</.table_th>
+
+                <.table_th>Description</.table_th>
+              </:header>
+
+              <:row>
+                <.table_td>id</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>A unique identifier used to manage state and interaction.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>trigger_id</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Identifies the element that is triggered by this popover. Default is <strong>nil</strong>.
+                  <strong>Notice:</strong>
+                  When the dropdown is clickable, this prop is required.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>class</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Custom CSS class for additional styling. Default is <strong>nil</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>inline</.table_td>
+
+                <.table_td>boolean</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines whether this element is inline. Default is <strong>false</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>rest</.table_td>
+
+                <.table_td>global</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Global attributes that can define defaults which are merged with attributes provided by the caller.
+                </.table_td>
+              </:row>
+            </.custom_table>
+          </div>
+
+          <div class="space-y-8 mt-8">
+            <h2 class="text-lg lg:text-2xl font-bold">Popover Content Component Props</h2>
+
+            <.custom_table id="popover-content-component-table">
+              <:header>
+                <.table_th>Name</.table_th>
+
+                <.table_th>Type</.table_th>
+
+                <.table_th>Required</.table_th>
+
+                <.table_th>Description</.table_th>
+              </:header>
+
+              <:row>
+                <.table_td>trigger_id</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>Yes</.table_td>
+
+                <.table_td>A unique identifier used to manage state and interaction.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>inline</.table_td>
+
+                <.table_td>boolean</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines whether this element is inline. Default is <strong>false</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>position</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines the element's position. Default is <strong>top</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>show_arrow</.table_td>
+
+                <.table_td>boolean</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Allows to control the visibility of the arrow in the popover component. The arrow is hidden by default when the
+                  <strong>bordered</strong>
+                  variant is used.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>variant</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines the style of the popover. Supported values: <strong>base</strong>, <strong>default</strong>, <strong>shadow</strong>, <strong>bordered</strong>, <strong>gradient</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>color</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines the color theme of the popover. Supported values: <strong>base</strong>, <strong>natural</strong>, <strong>primary</strong>, <strong>secondary</strong>, <strong>success</strong>, <strong>warning</strong>, <strong>danger</strong>, <strong>info</strong>, <strong>silver</strong>, <strong>misc</strong>, <strong>dawn</strong>. Default is <strong>natural</strong>.The
+                  <strong>default</strong>
+                  and <strong>bordered</strong>
+                  variants have extra color options: <strong>dark</strong>
+                  and <strong>white</strong>, which in both light mode and dark mode, these colors are always the same.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>rounded</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines the border radius. Default is <strong>nil</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>size</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines the overall size of the elements, including padding and font size. Default is <strong>nil</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>space</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Space between items. Default is <strong>nil</strong>.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>width</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines the element width. Default is <strong>extra_large</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>text_position</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines the text position. Default is <strong>start</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>font_weight</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines custom class for the font weight. Default is <strong>font-normal</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>padding</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines padding for items. Default is <strong>none</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>class</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Custom CSS class for additional styling. Default is <strong>nil</strong>.
+                </.table_td>
+              </:row>
+            </.custom_table>
+          </div>
+        </:props_panel>
+
+        <:cli_panel>
+          <.custom_cli_props config={component_config()} />
+        </:cli_panel>
+        <.custom_table_content>
+          <:content
+            link={~p"/chelekom/docs/popover/#overview"}
+            title="Overview of the popover component"
+          />
+          <:content link={~p"/chelekom/docs/popover/#how-use"} title="How to use popover" />
+          <:content link={~p"/chelekom/docs/popover/#popover-inline"} title="Inline popover" />
+          <:content
+            link={~p"/chelekom/docs/popover/#popover-clickable"}
+            title="Clickable popover"
+          />
+          <:content link={~p"/chelekom/docs/popover/#popover-show-arrow"} title="Show Arrow prop" />
+          <:content
+            link={~p"/chelekom/docs/popover/#base-popover"}
+            title="Popover Base Variant"
+          />
+          <:content
+            link={~p"/chelekom/docs/popover/#default-variant-popover"}
+            title="Popover default Variant"
+          />
+          <:content
+            link={~p"/chelekom/docs/popover/#shadow-variant-popover"}
+            title="Popover shadow Variant"
+          />
+          <:content
+            link={~p"/chelekom/docs/popover/#bordered-variant-popover"}
+            title="Popover bordered Variant"
+          />
+          <:content
+            link={~p"/chelekom/docs/popover/#gradient-variant-popover"}
+            title="Popover gradient Variant"
+          />
+          <:content
+            link={~p"/chelekom/docs/popover/#popover-content-position-prop"}
+            title="Popover position"
+          />
+          <:content
+            link={~p"/chelekom/docs/popover/#popover-content-size"}
+            title="Popover size"
+          />
+          <:content
+            link={~p"/chelekom/docs/popover/#popover-content-space"}
+            title="Popover space"
+          />
+          <:content
+            link={~p"/chelekom/docs/popover/#popover-content-padding"}
+            title="Popover padding"
+          />
+          <:content
+            link={~p"/chelekom/docs/popover/#popover-content-width-prop"}
+            title="Popover width"
+          />
+          <:content
+            link={~p"/chelekom/docs/popover/#popover-content-rounded"}
+            title="Popover rounded"
+          />
+          <:content
+            link={~p"/chelekom/docs/popover/#popover-content-text-position"}
+            title="Text position"
+          />
+          <:content
+            link={~p"/chelekom/docs/popover/#popover-content-font-weight-prop"}
+            title="Popover font weight"
+          />
+        </.custom_table_content>
+      </.custom_tab>
+    </div>
+  </div>
+</Layouts.app>

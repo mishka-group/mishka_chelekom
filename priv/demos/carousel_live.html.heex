@@ -1,0 +1,792 @@
+<Layouts.app flash={@flash}>
+  <div class="lg:grid lg:grid-cols-12 mt-5 max-w-5xl mx-auto">
+    <.custom_nav active="chelekom-docs-carousel" />
+    <div class="lg:col-span-10">
+      <.custom_info
+        title="Carousel"
+        description="Interactive carousel component for Phoenix and LiveView, offering dynamic image or content navigation with customizable controls."
+        mix="mix mishka.ui.gen.component carousel"
+        github="https://github.com/mishka-group/mishka_chelekom/blob/master/priv/components/carousel.eex"
+        tags={["Component", "Stateless", "JS"]}
+      />
+      <.custom_tab id="chelekom-carousel-tab">
+        <:documentation_panel>
+          <.heading2 class="mb-5" id="overview">
+            <.link patch={~p"/chelekom/docs/carousel/#overview"}>
+              Overview of the Phoenix and LiveView Carousel Component
+            </.link>
+          </.heading2>
+          <.cp>
+            The
+            <strong>
+              Mishka Chelekom carousel
+            </strong>
+            component is a <strong>Phoenix LiveView</strong>
+            component that allows developers to create dynamic and customizable <strong>carousels</strong>, perfect for showcasing images, content, or media within applications. It offers flexibility in layout, allowing for easy adjustment of size, transition effects, and navigation controls, ensuring a smooth and professional look.
+          </.cp>
+
+          <.cp margin="mt-5">
+            This
+            <strong>
+              <.link
+                title="Phoenix LiveView component"
+                class="transition-colors hover:text-[#448D96]"
+                navigate={~p"/chelekom"}
+              >
+                Phoenix LiveView component
+              </.link>
+            </strong>
+            also supports adding captions, indicators, and controls, making it ideal for improving both the visual appeal and functionality of content presentation. With its responsive design and ease of use, this carousel component enhances user interaction and experience.
+          </.cp>
+
+          <.custom_block position="left" color="success" class="my-8" border="medium">
+            <.cp>
+              By using the class prop, you can apply custom classes or Tailwind CSS classes to customize the components design.
+            </.cp>
+            NOTE: The
+            <.custom_inline_code>id</.custom_inline_code>
+            prop is required for each carousel to manage its unique state and interaction.
+          </.custom_block>
+
+          <.heading2 margin="my-5" id="carousel-slide-slot">
+            <.link patch={~p"/chelekom/docs/carousel/#carousel-slide-slot"}>
+              Slide slot
+            </.link>
+          </.heading2>
+          <.cp>
+            The <strong>slide</strong>
+            slot in the
+            <.link navigate={~p"/chelekom/docs/carousel"}>
+              <strong>Phoenix LiveView Carousel</strong>
+            </.link>
+            component allows you to define the individual slides for your carousel. This slot accepts various attributes that enable you to customize each slide's appearance and behavior.
+
+            The
+            <.custom_inline_code>image</.custom_inline_code>
+            attribute sets the image displayed on the slide, while
+            <.custom_inline_code>title</.custom_inline_code>
+            and
+            <.custom_inline_code>description</.custom_inline_code>
+            allow for adding text content to the slide. Additionally, you can control the layout using
+            <.custom_inline_code>content_position</.custom_inline_code>
+            and apply custom styling using classes such as <.custom_inline_code>title_class</.custom_inline_code>, <.custom_inline_code>description_class</.custom_inline_code>, and <.custom_inline_code>wrapper_class</.custom_inline_code>.
+
+            Moreover, the slot supports multiple navigation options like
+            <.custom_inline_code>navigate</.custom_inline_code>
+            for internal paths,
+            <.custom_inline_code>patch</.custom_inline_code>
+            for LiveView patches, and
+            <.custom_inline_code>href</.custom_inline_code>
+            for external URLs. You can also control whether the slide is active or not using the
+            <.custom_inline_code>active</.custom_inline_code>
+            attribute.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-sm" code={@code_1}>
+            <.carousel id="carousel-exsmple-1">
+              <:slide image={~p"/images/mishka-chelekom-media-1.jpg"} />
+              <:slide image={~p"/images/mishka-chelekom-media-2.jpg"} />
+              <:slide image={~p"/images/mishka-chelekom-media-3.jpg"} />
+              <:slide image={~p"/images/mishka-chelekom-media-4.jpg"} />
+            </.carousel>
+            <div class="italic mt-2">Images sourced from 500px.com/p/tagargtw.</div>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="carousel-slide-image-props">
+            <.link patch={~p"/chelekom/docs/carousel/#carousel-slide-image-props"}>
+              Image and image class props of slide slot in Phoenix LiveView carousel component
+            </.link>
+          </.heading2>
+          <.cp>
+            The slide slot includes the
+            <.custom_inline_code>image</.custom_inline_code>
+            attribute, which allows you to display an image alongside content in the carousel. This attribute is essential for adding visual elements to each slide. Additionally, the
+            <.custom_inline_code>image_class</.custom_inline_code>
+            attribute provides flexibility in styling the image by allowing you to apply custom CSS classes. This ensures that the image can be styled according to specific design requirements, giving control over its appearance within the carousel.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-sm" code={@code_2}>
+            <.carousel id="carousel-exsmple-2">
+              <:slide image={~p"/images/mishka-chelekom-media-1.jpg"} image_class="grayscale" />
+              <:slide image={~p"/images/mishka-chelekom-media-2.jpg"} image_class="grayscale" />
+              <:slide image={~p"/images/mishka-chelekom-media-3.jpg"} image_class="grayscale" />
+              <:slide image={~p"/images/mishka-chelekom-media-4.jpg"} image_class="grayscale" />
+            </.carousel>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="carousel-slide-links-props">
+            <.link patch={~p"/chelekom/docs/carousel/#carousel-slide-links-props"}>
+              Add link to a slide in Phoenix LiveView carousel component
+            </.link>
+          </.heading2>
+          <.cp>
+            The slide slot supports navigation through three key attributes. The
+            <.custom_inline_code>navigate</.custom_inline_code>
+            attribute defines a path for internal navigation within the application, allowing users to move between pages using the specified route. The
+            <.custom_inline_code>patch</.custom_inline_code>
+            attribute enables navigation through a LiveView patch, maintaining the state of the page while loading new content. Lastly, the
+            <.custom_inline_code>href</.custom_inline_code>
+            attribute sets the URL for an external link, making it possible to link out to other websites or resources. All of these attributes help streamline navigation and enhance user experience.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-sm" code={@code_3}>
+            <.carousel id="carousel-exsmple-3">
+              <:slide image={~p"/images/mishka-chelekom-media-1.jpg"} navigate="/" />
+              <:slide image={~p"/images/mishka-chelekom-media-2.jpg"} navigate="/chelekom" />
+              <:slide image={~p"/images/mishka-chelekom-media-3.jpg"} navigate="/chelekom/docs" />
+            </.carousel>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="carousel-slide-content-props">
+            <.link patch={~p"/chelekom/docs/carousel/#carousel-slide-content-props"}>
+              Display content on the slide
+            </.link>
+          </.heading2>
+          <.cp>
+            Each slide in the carousel component allows you to add custom content using attributes such as
+            <.custom_inline_code>title</.custom_inline_code>
+            and <.custom_inline_code>description</.custom_inline_code>. The
+            <.custom_inline_code>title</.custom_inline_code>
+            defines the main heading or label for the slide, while the
+            <.custom_inline_code>description</.custom_inline_code>
+            provides a short text that elaborates on the content or message of the slide. Additionally, for further customization, the
+            <.custom_inline_code>title_class</.custom_inline_code>
+            and
+            <.custom_inline_code>description_class</.custom_inline_code>
+            attributes allow you to apply your own CSS classes, giving you control over the styling and presentation of the title and description on each slide. Furthermore, by using the
+            <.custom_inline_code>wrapper_class</.custom_inline_code>
+            attribute, you can add custom classes to the entire content wrapper of each slide, ensuring complete control over the layout and design. This flexibility makes it easy to match the slide's content with your design needs.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-sm" code={@code_4}>
+            <.carousel id="carousel-exsmple-4">
+              <:slide
+                image={~p"/images/mishka-chelekom-media-1.jpg"}
+                title="Mishka Chelekom Carousel"
+              />
+              <:slide
+                image={~p"/images/mishka-chelekom-media-2.jpg"}
+                title="Easy to use"
+                description="By simply using a few props, you can display the images you want and customize the content to fit your needs."
+              />
+              <:slide
+                image={~p"/images/mishka-chelekom-media-3.jpg"}
+                description="Easily position your content anywhere on the carousel, whether it's at the top, bottom, center, or sides. With flexible options, you can customize the look and feel of your carousel to perfectly match your design and layout preferences."
+              />
+            </.carousel>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="carousel-slide-content-position">
+            <.link patch={~p"/chelekom/docs/carousel/#carousel-slide-content-position"}>
+              Position of content on each slide
+            </.link>
+          </.heading2>
+          <.cp>
+            The
+            <.custom_inline_code>content_position</.custom_inline_code>
+            attribute allows you to control the alignment of the content within each slide in the carousel. It accepts various values that determine how the content is positioned horizontally. The
+            <.custom_inline_code>"start"</.custom_inline_code>
+            value aligns the content to the left, while
+            <.custom_inline_code>"end"</.custom_inline_code>
+            aligns it to the right. For centered content, you can use <.custom_inline_code>"center"</.custom_inline_code>. Additionally, there are options like <.custom_inline_code>"between"</.custom_inline_code>, which distributes content evenly with space between the items, and <.custom_inline_code>"around"</.custom_inline_code>, which adds equal space around the content. If no value is provided, the default is to center the content, ensuring that it fits well with most design layouts. This flexibility allows you to adjust content placement to suit your specific design needs.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-sm" code={@code_5}>
+            <.carousel id="carousel-exsmple-5">
+              <:slide
+                image={~p"/images/mishka-chelekom-media-1.jpg"}
+                title="Content position is set to around."
+                navigate="/"
+                content_position="around"
+              />
+              <:slide
+                image={~p"/images/mishka-chelekom-media-2.jpg"}
+                title="Content position is set to start."
+                navigate="/chelekom"
+                content_position="start"
+              />
+              <:slide
+                image={~p"/images/mishka-chelekom-media-3.jpg"}
+                description="Content position is set to end."
+                navigate="/chelekom/docs"
+                content_position="end"
+              />
+              <:slide
+                image={~p"/images/mishka-chelekom-media-4.jpg"}
+                description="Content position is set to center(default)."
+                navigate="/chelekom/docs"
+                content_position="center"
+              />
+            </.carousel>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="carousel-slide-active-prop">
+            <.link patch={~p"/chelekom/docs/carousel/#carousel-slide-active-prop"}>
+              Slide Active prop
+            </.link>
+          </.heading2>
+          <.cp>
+            The
+            <.custom_inline_code>active</.custom_inline_code>
+            prop is a boolean attribute that indicates whether a slide is currently active and visible in the carousel. When set to <.custom_inline_code>true</.custom_inline_code>, the slide becomes the initial or visible slide, while other slides remain hidden until navigated to. This prop is essential for controlling the display of the starting slide in the carousel.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-sm" code={@code_6}>
+            <.carousel id="carousel-exsmple-6">
+              <:slide image={~p"/images/mishka-chelekom-media-1.jpg"} />
+              <:slide image={~p"/images/mishka-chelekom-media-2.jpg"} />
+              <:slide
+                image={~p"/images/mishka-chelekom-media-3.jpg"}
+                description="This is the third slide, and it's set as the active slide, so it will be shown first."
+                active
+              />
+              <:slide image={~p"/images/mishka-chelekom-media-4.jpg"} />
+            </.carousel>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="carousel-overlay-prop">
+            <.link patch={~p"/chelekom/docs/carousel/#carousel-overlay-prop"}>
+              Overlay prop in phenoix LiveView carousel component
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <.custom_inline_code>overlay</.custom_inline_code>
+            prop in the carousel component allows you to add a semi-transparent color overlay on top of each slide. You can specify the color by using predefined values such as <.custom_inline_code>base</.custom_inline_code>, <.custom_inline_code>primary</.custom_inline_code>, <.custom_inline_code>success</.custom_inline_code>, <.custom_inline_code>danger</.custom_inline_code>, and more. This overlay adds a visual layer, slightly dimming the slide's background to make the text or content stand out more. By customizing the overlay, you can align the carousel’s appearance with your design preferences. By default it;s dark.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-sm" code={@code_7}>
+            <.carousel id="carousel-exsmple-7" overlay="primary">
+              <:slide image={~p"/images/mishka-chelekom-media-1.jpg"} title="Slide 1" />
+              <:slide image={~p"/images/mishka-chelekom-media-2.jpg"} title="Slide 2" />
+              <:slide image={~p"/images/mishka-chelekom-media-3.jpg"} title="Slide 3" />
+              <:slide image={~p"/images/mishka-chelekom-media-4.jpg"} title="Slide 4" />
+            </.carousel>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="carousel-size-prop">
+            <.link patch={~p"/chelekom/docs/carousel/#carousel-size-prop"}>
+              Size prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <.custom_inline_code>size</.custom_inline_code>
+            prop in the carousel component controls the overall sizing of the text for the title, description, and the maximum width of the content wrapper. Depending on the size value such as <.custom_inline_code>extra_small</.custom_inline_code>, <.custom_inline_code>small</.custom_inline_code>, <.custom_inline_code>medium</.custom_inline_code>, <.custom_inline_code>large</.custom_inline_code>, or <.custom_inline_code>extra_large</.custom_inline_code>—the text and content dimensions are adjusted to fit the design needs. For example, it changes the font size of titles, descriptions, and ensures the wrapper's content width adapts accordingly. By default, the size is set to <.custom_inline_code>large</.custom_inline_code>.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-sm" code={@code_8}>
+            <.carousel id="carousel-exsmple-8" size="extra_small">
+              <:slide
+                image={~p"/images/mishka-chelekom-media-1.jpg"}
+                title="First Slide extra small size of carousel"
+              />
+              <:slide
+                image={~p"/images/mishka-chelekom-media-2.jpg"}
+                title="Second Slide extra small size of carousel"
+              />
+              <:slide
+                image={~p"/images/mishka-chelekom-media-3.jpg"}
+                title="Third slide extra small size of carousel"
+              />
+              <:slide
+                image={~p"/images/mishka-chelekom-media-4.jpg"}
+                title="Fourth slide extra small size of carousel"
+              />
+            </.carousel>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="carousel-padding-prop">
+            <.link patch={~p"/chelekom/docs/carousel/#carousel-padding-prop"}>
+              Padding prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <.custom_inline_code>padding</.custom_inline_code>
+            prop in the carousel component controls the overall padding of the content wrapper. Depending on the padding value such as <.custom_inline_code>extra_small</.custom_inline_code>, <.custom_inline_code>small</.custom_inline_code>, <.custom_inline_code>medium</.custom_inline_code>, <.custom_inline_code>large</.custom_inline_code>, or
+            <.custom_inline_code>extra_large</.custom_inline_code>
+            the padding of content change. It's
+            <.custom_inline_code>medium</.custom_inline_code>
+            by default.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-sm" code={@code_9}>
+            <.carousel id="carousel-exsmple-9" padding="extra_small">
+              <:slide
+                image={~p"/images/mishka-chelekom-media-1.jpg"}
+                title="First Slide extra small padding of carousel"
+              />
+              <:slide
+                image={~p"/images/mishka-chelekom-media-2.jpg"}
+                title="Second Slide extra small padding of carousel"
+              />
+              <:slide
+                image={~p"/images/mishka-chelekom-media-3.jpg"}
+                title="Third slide extra small padding of carousel"
+              />
+              <:slide
+                image={~p"/images/mishka-chelekom-media-4.jpg"}
+                title="Fourth slide extra small padding of carousel"
+              />
+            </.carousel>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="carousel-text-position-prop">
+            <.link patch={~p"/chelekom/docs/carousel/#carousel-text-position-prop"}>
+              Text position prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <.custom_inline_code>text_position</.custom_inline_code>
+            prop in the carousel component allows you to control the alignment of the text content within the description wrapper. You can set the text alignment to
+            <.custom_inline_code>start</.custom_inline_code>
+            for left-aligned text,
+            <.custom_inline_code>end</.custom_inline_code>
+            for right-aligned text, or
+            <.custom_inline_code>center</.custom_inline_code>
+            for centered text. By default, if no value is provided, the text will be aligned to the center. This flexibility allows for better control over the visual presentation and layout of text on each slide.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-sm" code={@code_10}>
+            <.carousel id="carousel-exsmple-10" text_position="end" size="small">
+              <:slide
+                image={~p"/images/mishka-chelekom-media-1.jpg"}
+                title="First Slide of start text position of carousel"
+              />
+              <:slide
+                image={~p"/images/mishka-chelekom-media-2.jpg"}
+                title="Second Slide of start text position of carousel"
+              />
+              <:slide
+                image={~p"/images/mishka-chelekom-media-3.jpg"}
+                title="Third slide of start text position of carousel"
+              />
+              <:slide
+                image={~p"/images/mishka-chelekom-media-4.jpg"}
+                title="Fourth slide of start text position of carousel"
+              />
+            </.carousel>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="carousel-indicator-prop">
+            <.link patch={~p"/chelekom/docs/carousel/#carousel-indicator-prop"}>
+              Indicator prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <.custom_inline_code>indicator</.custom_inline_code>
+            prop is a boolean attribute that, when enabled, displays navigation indicators at the bottom of the carousel component. These indicators provide a visual cue to users about the number of slides in the carousel and allow them to quickly navigate between slides. By default, if the
+            <.custom_inline_code>indicator</.custom_inline_code>
+            prop is not provided, the carousel will not display indicators, offering a cleaner, simpler design. This feature enhances user experience by making it easier to understand and control the carousel's content.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-sm" code={@code_11}>
+            <.carousel id="carousel-exsmple-11" indicator>
+              <:slide image={~p"/images/mishka-chelekom-media-1.jpg"} />
+              <:slide image={~p"/images/mishka-chelekom-media-2.jpg"} />
+              <:slide image={~p"/images/mishka-chelekom-media-3.jpg"} />
+              <:slide active image={~p"/images/mishka-chelekom-media-4.jpg"} />
+            </.carousel>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="carousel-autoplay-prop">
+            <.link patch={~p"/chelekom/docs/carousel/#carousel-autoplay-prop"}>
+              Autoplay prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <.custom_inline_code>autoplay</.custom_inline_code>
+            prop is a boolean attribute that, when enabled, allows the carousel to automatically advance through the slides at a preset interval without user interaction. This functionality is useful for drawing user attention to a sequence of images or messages in a passive viewing experience. If the
+            <.custom_inline_code>autoplay</.custom_inline_code>
+            prop is not specified or set to false, users must manually navigate through the slides using controls or indicators. This prop adds convenience and can improve content visibility in scenarios like featured content sliders or announcements.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-sm" code={@code_12}>
+            <.carousel autoplay>
+              <:slide image={~p"/images/mishka-chelekom-media-1.jpg"} />
+              <:slide image={~p"/images/mishka-chelekom-media-2.jpg"} />
+              <:slide image={~p"/images/mishka-chelekom-media-3.jpg"} />
+              <:slide active image={~p"/images/mishka-chelekom-media-4.jpg"} />
+            </.carousel>
+          </.custom_code_wrapper>
+          <.heading2 margin="my-5" id="carousel-autoplay-interval-prop">
+            <.link patch={~p"/chelekom/docs/carousel/#carousel-autoplay-interval-prop"}>
+              Autoplay Interval Prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <.custom_inline_code>autoplay_interval</.custom_inline_code>
+            prop specifies the amount of time (in milliseconds) that the carousel will wait before advancing to the next slide when autoplay is enabled. This value allows you to control the slide transition timing and create a smooth, automatic progression through your slides. The default value is set to <.custom_inline_code>3000</.custom_inline_code>, ensuring a three-second interval between transitions.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-sm" code={@code_13}>
+            <.carousel autoplay autoplay_interval={3000}>
+              <:slide image={~p"/images/mishka-chelekom-media-1.jpg"} />
+              <:slide image={~p"/images/mishka-chelekom-media-2.jpg"} />
+              <:slide image={~p"/images/mishka-chelekom-media-3.jpg"} />
+              <:slide active image={~p"/images/mishka-chelekom-media-4.jpg"} />
+            </.carousel>
+          </.custom_code_wrapper>
+        </:documentation_panel>
+
+        <:props_panel>
+          <.custom_search class="mb-16" />
+          <div class="space-y-8">
+            <h2 class="text-lg lg:text-2xl font-bold">Carousel component props</h2>
+
+            <.custom_table id="carousel-component-table">
+              <:header>
+                <.table_th>Name</.table_th>
+
+                <.table_th>Type</.table_th>
+
+                <.table_th>Required</.table_th>
+
+                <.table_th>Description</.table_th>
+              </:header>
+
+              <:row>
+                <.table_td>id</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>Yes</.table_td>
+
+                <.table_td>
+                  A unique identifier is used to manage state and interaction.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>class</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Custom CSS class for additional styling.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>slide</.table_td>
+
+                <.table_td>slot</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  we put images in this slot it has props like <strong>image</strong>, <strong>image_class</strong>, <strong>navigate</strong>, <strong>patch</strong>, <strong>href</strong>, <strong>title</strong>, <strong>description</strong>, <strong>title_class</strong>, <strong>description_class</strong>, <strong>wrapper_class</strong>, <strong>content_position</strong>, <strong>class</strong>, and <strong>active</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>overlay</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines the color theme of the carousel. Supported values: <strong>base</strong>, <strong>natural</strong>, <strong>white</strong>, <strong>dark</strong>, <strong>primary</strong>, <strong>secondary</strong>, <strong>success</strong>, <strong>warning</strong>, <strong>danger</strong>, <strong>info</strong>, <strong>silver</strong>, <strong>misc</strong>, <strong>dawn</strong>.
+                  Default: <strong>natural</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>size</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines the overall size of the elements. Default: <strong>large</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>padding</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines padding for items inside the carousel. Default: <strong>medium</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>text_position</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines the position of the text inside the carousel. Default: <strong>center</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>indicator</.table_td>
+
+                <.table_td>boolean</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Specifies whether to show indicators for slides. Default: <strong>false</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>control</.table_td>
+
+                <.table_td>boolean</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines whether to show navigation controls. Default: <strong>true</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>autoplay</.table_td>
+                <.table_td>boolean</.table_td>
+                <.table_td>false</.table_td>
+                <.table_td>
+                  Enable or disable autoplay functionality. Default: <strong>false</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>autoplay_interval</.table_td>
+                <.table_td>integer</.table_td>
+                <.table_td>5000</.table_td>
+                <.table_td>
+                  Time between slides in ms (if autoplay is enabled). Default: <strong>5000</strong>.
+                </.table_td>
+              </:row>
+            </.custom_table>
+            <!-- TODO: Because the carousel slide slot has a lot of props, I separated them and placed them in a new table.-->
+            <h2 class="text-lg lg:text-2xl font-bold">Carousel Slide Slot Props</h2>
+
+            <.custom_table id="carousel-slide-slot-component-table">
+              <:header>
+                <.table_th>Name</.table_th>
+
+                <.table_th>Type</.table_th>
+
+                <.table_th>Required</.table_th>
+
+                <.table_th>Description</.table_th>
+              </:header>
+
+              <:row>
+                <.table_td>image</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>Yes</.table_td>
+
+                <.table_td>Image link to be displayed in the slide.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>image_class</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Custom CSS class for additional styling of the image.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>navigate</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Defines the path for navigation within the application.</.table_td>
+              </:row>
+              <!--TODO: We used Patch instead of navigation!-->
+              <:row>
+                <.table_td>patch</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Specifies the path for navigation using a LiveView patch.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>href</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Sets the URL for an external link.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>title</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Specifies the title of the slide.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>description</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Determines a short description for the slide.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>title_class</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Custom CSS class for additional styling of the title.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>description_class</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Custom CSS class for additional styling of the description.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>wrapper_class</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Custom CSS class for styling the wrapper of the slide.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>content_position</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Determines the alignment of the content in the slide.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>class</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Custom CSS class for additional styling of the slide.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>active</.table_td>
+
+                <.table_td>boolean</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Indicates whether the slide is currently active and visible.
+                </.table_td>
+              </:row>
+            </.custom_table>
+          </div>
+        </:props_panel>
+
+        <:cli_panel>
+          <.custom_cli_props config={component_config()} />
+        </:cli_panel>
+        <.custom_table_content>
+          <:content
+            link={~p"/chelekom/docs/carousel/#overview"}
+            title="Overview of the carousel component"
+          />
+          <:content link={~p"/chelekom/docs/carousel/#carousel-slide-slot"} title="Slide slot" />
+          <:content
+            link={~p"/chelekom/docs/carousel/#carousel-slide-image-props"}
+            title="Slide slot image and imag class props"
+          />
+          <:content
+            link={~p"/chelekom/docs/carousel/#carousel-slide-links-props"}
+            title="Add link to slides"
+          />
+          <:content
+            link={~p"/chelekom/docs/carousel/#carousel-slide-content-props"}
+            title="Display content on slides"
+          />
+          <:content
+            link={~p"/chelekom/docs/carousel/#carousel-slide-content-position"}
+            title="Slide content position prop"
+          />
+          <:content
+            link={~p"/chelekom/docs/carousel/#carousel-slide-active-prop"}
+            title="Slide active prop"
+          />
+          <:content
+            link={~p"/chelekom/docs/carousel/#carousel-overlay-prop"}
+            title="Overlay prop"
+          />
+          <:content link={~p"/chelekom/docs/carousel/#carousel-size-prop"} title="Size prop" />
+          <:content
+            link={~p"/chelekom/docs/carousel/#carousel-padding-prop"}
+            title="Padding prop"
+          />
+          <:content
+            link={~p"/chelekom/docs/carousel/#carousel-text-position-prop"}
+            title="Text position prop"
+          />
+          <:content
+            link={~p"/chelekom/docs/carousel/#carousel-indicator-prop"}
+            title="Indicator prop"
+          />
+          <:content
+            link={~p"/chelekom/docs/carousel/#carousel-autoplay-prop"}
+            title="Autoplay prop"
+          />
+          <:content
+            link={~p"/chelekom/docs/carousel/#carousel-autoplay-interval-prop"}
+            title="Autoplay Interval Prop"
+          />
+        </.custom_table_content>
+      </.custom_tab>
+    </div>
+  </div>
+</Layouts.app>

@@ -1,0 +1,1225 @@
+<Layouts.app flash={@flash}>
+  <div class="lg:grid lg:grid-cols-12 mt-5 max-w-5xl mx-auto">
+    <.custom_nav active="chelekom-docs-footer" />
+    <div class="lg:col-span-10">
+      <.custom_info
+        title="Footer"
+        description="Customizable footer component for Phoenix and Phoenix LiveView, offering flexible layout options, responsive design."
+        mix="mix mishka.ui.gen.component footer"
+        github="https://github.com/mishka-group/mishka_chelekom/blob/master/priv/components/footer.eex"
+        tags={["Component", "Stateless"]}
+      />
+      <.custom_tab id="chelekom-footer-tab">
+        <:documentation_panel>
+          <.heading2 class="mb-5" id="overview">
+            <.link patch={~p"/chelekom/docs/footer/#overview"}>
+              Overview of the Phoenix and LiveView Footer Component
+            </.link>
+          </.heading2>
+          <.cp>
+            The
+            <strong>
+              Mishka Chelekom footer
+            </strong>
+            component is a <strong>Phoenix LiveView</strong>
+            component that enables developers to create fully customizable and responsive <strong>footers</strong>, perfect for enhancing the user experience. It offers flexible design options, allowing for adjustments in text alignment, padding, and layout, ensuring a clean and professional appearance.
+          </.cp>
+
+          <.custom_code_wrapper>
+            <.footer padding="large" max_width="extra_large" class="border rounded-md">
+              <div class="text-2xl font-bold">Mishka</div>
+              <p class="text-[12px] dark:text-slate-300 my-3">
+                Mishka Chelekom is a versatile UI component library for Phoenix LiveView applications.
+              </p>
+              <div class="flex text-slate-500 dark:text-[#71717A] gap-3 items-center mb-5 dark:[&_svg]:hover:text-[#62626b]">
+                <.link href="https://github.com/mishka-group" target="_blank">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    class="size-5 me-2 -mt-0.5 inline-block"
+                  >
+                    <path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4" />
+                    <path d="M9 18c-4.51 2-5-2-7-2" />
+                  </svg>
+                </.link>
+
+                <.link
+                  href="https://www.youtube.com/@mishka-group"
+                  target="_blank"
+                  title="Mishka Youtube"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    class="size-5 me-2 -mt-0.5 inline-block"
+                  >
+                    <path d="M2.5 17a24.12 24.12 0 0 1 0-10 2 2 0 0 1 1.4-1.4 49.56 49.56 0 0 1 16.2 0A2 2 0 0 1 21.5 7a24.12 24.12 0 0 1 0 10 2 2 0 0 1-1.4 1.4 49.55 49.55 0 0 1-16.2 0A2 2 0 0 1 2.5 17" />
+                    <path d="m10 15 5-3-5-3z" />
+                  </svg>
+                </.link>
+
+                <.link
+                  href="https://www.linkedin.com/company/mishka-group/"
+                  target="_blank"
+                  title="Mishka Linkedin"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    class="size-5 me-2 -mt-0.5 inline-block"
+                  >
+                    <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" />
+                    <rect width="4" height="12" x="2" y="9" /> <circle cx="4" cy="4" r="2" />
+                  </svg>
+                </.link>
+              </div>
+
+              <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-5">
+                <div class="space-y-3">
+                  <div class="text-lg text-semibold">Services</div>
+                  <ul class="space-y-1">
+                    <li class="text-[#71717a] text-sm cursor-pointer dark:hover:text-[#595962]">
+                      Branding
+                    </li>
+                    <li class="text-[#71717a] text-sm cursor-pointer dark:hover:text-[#595962]">
+                      Data Analysis
+                    </li>
+                    <li class="text-[#71717a] text-sm cursor-pointer dark:hover:text-[#595962]">
+                      E-commerce
+                    </li>
+                    <li class="text-[#71717a] text-sm cursor-pointer dark:hover:text-[#595962]">
+                      Market Research
+                    </li>
+                  </ul>
+                </div>
+                <div class="space-y-3">
+                  <div class="text-lg text-semibold">About Us</div>
+                  <ul class="space-y-1">
+                    <li class="text-[#71717a] text-sm cursor-pointer dark:hover:text-[#595962]">
+                      Our Story
+                    </li>
+                    <li class="text-[#71717a] text-sm cursor-pointer dark:hover:text-[#595962]">
+                      Latest News
+                    </li>
+                    <li class="text-[#71717a] text-sm cursor-pointer dark:hover:text-[#595962]">
+                      Careers
+                    </li>
+                    <li class="text-[#71717a] text-sm cursor-pointer dark:hover:text-[#595962]">
+                      Media Enquiries
+                    </li>
+                  </ul>
+                </div>
+                <div class="space-y-3">
+                  <div class="text-lg text-semibold">Support</div>
+                  <ul class="space-y-1">
+                    <li class="text-[#71717a] text-sm cursor-pointer dark:hover:text-[#595962]">
+                      Pricing Plans
+                    </li>
+                    <li class="text-[#71717a] text-sm cursor-pointer dark:hover:text-[#595962]">
+                      User Guides
+                    </li>
+                    <li class="text-[#71717a] text-sm cursor-pointer dark:hover:text-[#595962]">
+                      Tutorials
+                    </li>
+                    <li class="text-[#71717a] text-sm cursor-pointer dark:hover:text-[#595962]">
+                      Service Status
+                    </li>
+                  </ul>
+                </div>
+                <div class="space-y-3">
+                  <div class="text-lg text-semibold">Legal</div>
+                  <ul class="space-y-1">
+                    <li class="text-[#71717a] text-sm cursor-pointer dark:hover:text-[#595962]">
+                      Claim
+                    </li>
+                    <li class="text-[#71717a] text-sm cursor-pointer dark:hover:text-[#595962]">
+                      Privacy
+                    </li>
+                    <li class="text-[#71717a] text-sm cursor-pointer dark:hover:text-[#595962]">
+                      Terms
+                    </li>
+                    <li class="text-[#71717a] text-sm cursor-pointer dark:hover:text-[#595962]">
+                      User Agreement
+                    </li>
+                  </ul>
+                </div>
+              </div>
+
+              <div class="bg-slate-200 dark:bg-[#130F18] rounded-xl p-4 mt-8">
+                <div class="text-md font-semobild">Subscribe to our newsletter</div>
+                <div class="text-xs dark:text-slate-300 my-3 font-semobild">
+                  Receive weekly updates with the newest insights, trends, and tools, straight to your email.
+                </div>
+                <div class="flex items-center gap-4 pe-10">
+                  <.text_field
+                    disabled
+                    name="Username"
+                    size="large"
+                    value=""
+                    placeholder="Email"
+                    class="flex-1"
+                  />
+                  <.button
+                    variant="default"
+                    size="py-[2px] mt-1 px-4"
+                    rounded="large"
+                    class="leading=5"
+                    color="misc"
+                  >
+                    Subscribe
+                  </.button>
+                </div>
+              </div>
+            </.footer>
+          </.custom_code_wrapper>
+
+          <.cp margin="mt-5">
+            This
+            <strong>
+              <.link
+                title="Phoenix LiveView component"
+                class="transition-colors hover:text-[#448D96]"
+                navigate={~p"/chelekom"}
+              >
+                Phoenix LiveView component
+              </.link>
+            </strong>
+            supports multiple design variants such as default, outline, transparent, and shadow, making it ideal for improving both the aesthetic and functionality of your application's footer. With its responsive design and ease of customization, this footer component enhances the presentation and usability of your website's lower sections.
+          </.cp>
+
+          <.custom_block position="left" color="success" class="my-8" border="medium">
+            <.cp>
+              By using the class prop, you can apply custom classes or
+              <strong>Tailwind CSS</strong>
+              classes to customize the appearance and behavior of the gallery, allowing for flexible design changes.
+            </.cp>
+          </.custom_block>
+
+          <.heading2 margin="my-5" id="base-footer">
+            <.link patch={~p"/chelekom/docs/footer/#base-footer"}>
+              Base color Variant
+            </.link>
+          </.heading2>
+
+          <.custom_code_wrapper code_class="text-xs" elements_class="space-y-5" code={@code_19}>
+            <.footer id="footer-example-13423" text_position="center">
+              © Mishka Chelekom - All Rights Reserved
+            </.footer>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="default-variant-footer">
+            <.link patch={~p"/chelekom/docs/footer/#default-variant-footer"}>
+              Default Variant
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The default style of the
+            <.link navigate={~p"/chelekom/docs/footer"}>Mishka Chelekom footer</.link>
+            applies a solid background and border that change based on user interaction, making it perfect for delivering important notifications. With just a single setting, you can select from a range of color options, ensuring easy customization to match various design styles. Default variant have also white and dark colors which are the same colors in the dark and light mode.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" elements_class="space-y-5" code={@code_1}>
+            <.footer
+              id="footer-example-1"
+              text_position="center"
+              variant="default"
+              color="natural"
+            >
+              © Mishka Chelekom - All Rights Reserved
+            </.footer>
+            <.footer id="footer-example-2" text_position="center" variant="default" color="danger">
+              © Mishka Chelekom - All Rights Reserved
+            </.footer>
+            <.footer
+              id="footer-example-3"
+              text_position="center"
+              variant="default"
+              color="warning"
+            >
+              © Mishka Chelekom - All Rights Reserved
+            </.footer>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="outline-variant-footer">
+            <.link patch={~p"/chelekom/docs/footer/#outline-variant-footer"}>
+              Outline Variant
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The outline style of the Mishka Chelekom footer features a border. Using a single setting, you can choose from various color variants to suit your design needs.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" elements_class="space-y-5" code={@code_2}>
+            <.footer id="footer-example-4" text_position="center" variant="outline" color="silver">
+              © Mishka Chelekom - All Rights Reserved
+            </.footer>
+            <.footer id="footer-example-5" text_position="center" variant="outline" color="misc">
+              © Mishka Chelekom - All Rights Reserved
+            </.footer>
+            <.footer id="footer-example-6" text_position="center" variant="outline" color="dawn">
+              © Mishka Chelekom - All Rights Reserved
+            </.footer>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="shadow-variant-footer">
+            <.link patch={~p"/chelekom/docs/footer/#shadow-variant-footer"}>
+              Shadow Variant
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The shadow variant of the Mishka Chelekom footer is similar to the default variant, but it also includes a subtle shadow along with a border and white background in light mode.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" elements_class="space-y-5" code={@code_3}>
+            <.footer id="footer-example-7" text_position="center" variant="shadow" color="silver">
+              © Mishka Chelekom - All Rights Reserved
+            </.footer>
+            <.footer id="footer-example-8" text_position="center" variant="shadow" color="dawn">
+              © Mishka Chelekom - All Rights Reserved
+            </.footer>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="bordered-variant-footer">
+            <.link patch={~p"/chelekom/docs/footer/#bordered-variant-footer"}>
+              bordered Variant
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The Bordered variant of the Mishka Chelekom footer has lighter background and a border. Bordered variant have also white and dark colors which are the same colors in the dark and light mode.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" elements_class="space-y-5" code={@code_4}>
+            <.footer
+              id="footer-example-9"
+              text_position="center"
+              variant="bordered"
+              color="primary"
+            >
+              © Mishka Chelekom - All Rights Reserved
+            </.footer>
+            <.footer
+              id="footer-example-10"
+              text_position="center"
+              variant="bordered"
+              color="secondary"
+            >
+              © Mishka Chelekom - All Rights Reserved
+            </.footer>
+            <.footer
+              id="footer-example-11"
+              text_position="center"
+              variant="bordered"
+              color="success"
+            >
+              © Mishka Chelekom - All Rights Reserved
+            </.footer>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="transparent-variant-footer">
+            <.link patch={~p"/chelekom/docs/footer/#transparent-variant-footer"}>
+              Transparent Variant
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The transparent variant of the Mishka Chelekom footer is similar to the default variant, but without border and background color.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" elements_class="space-y-5" code={@code_5}>
+            <.footer
+              id="footer-example-12"
+              text_position="center"
+              variant="transparent"
+              color="primary"
+            >
+              © Mishka Chelekom - All Rights Reserved
+            </.footer>
+            <.footer
+              id="footer-example-13"
+              text_position="center"
+              variant="transparent"
+              color="secondary"
+            >
+              © Mishka Chelekom - All Rights Reserved
+            </.footer>
+            <.footer
+              id="footer-example-14"
+              text_position="center"
+              variant="transparent"
+              color="danger"
+            >
+              © Mishka Chelekom - All Rights Reserved
+            </.footer>
+          </.custom_code_wrapper>
+          <.heading2 margin="my-5" id="gradient-variant-footer">
+            <.link patch={~p"/chelekom/docs/footer/#gradient-variant-footer"}>
+              Gradient Variant
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The gradient variant of the Mishka Chelekom footer has gradients in various colors.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" elements_class="space-y-5" code={@code_18}>
+            <.footer
+              id="footer-example-112"
+              text_position="center"
+              variant="gradient"
+              color="primary"
+            >
+              © Mishka Chelekom - All Rights Reserved
+            </.footer>
+            <.footer
+              id="footer-example-113"
+              text_position="center"
+              variant="gradient"
+              color="secondary"
+            >
+              © Mishka Chelekom - All Rights Reserved
+            </.footer>
+            <.footer
+              id="footer-example-114"
+              text_position="center"
+              variant="gradient"
+              color="danger"
+            >
+              © Mishka Chelekom - All Rights Reserved
+            </.footer>
+          </.custom_code_wrapper>
+          <.heading2 margin="my-5" id="footer-rounded">
+            <.link patch={~p"/chelekom/docs/footer/#footer-rounded"}>
+              Rounded prop in Phoenix LiveView footer Component
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The rounded prop offers values like <.custom_inline_code>extra_small</.custom_inline_code>, <.custom_inline_code>small</.custom_inline_code>, <.custom_inline_code>medium</.custom_inline_code>, <.custom_inline_code>large</.custom_inline_code>, and <.custom_inline_code>extra_large</.custom_inline_code>. These values control the border radius of the footer, allowing for different levels of rounding from subtle to more pronounced corners, depending on the design needs.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" elements_class="space-y-5" code={@code_6}>
+            <.footer
+              id="footer-example-15"
+              text_position="center"
+              rounded="extra_small"
+              color="silver"
+              variant="default"
+            >
+              © Mishka Chelekom - All Rights Reserved
+            </.footer>
+            <.footer
+              id="footer-example-16"
+              text_position="center"
+              rounded="extra_large"
+              color="info"
+              variant="default"
+            >
+              © Mishka Chelekom - All Rights Reserved
+            </.footer>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="footer-border">
+            <.link patch={~p"/chelekom/docs/footer/#footer-border"}>
+              Border prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The border prop offers values like <.custom_inline_code>extra_small</.custom_inline_code>, <.custom_inline_code>small</.custom_inline_code>, <.custom_inline_code>medium</.custom_inline_code>, <.custom_inline_code>large</.custom_inline_code>, and <.custom_inline_code>extra_large</.custom_inline_code>. These values control the border size of the footers, allowing you to adjust the thickness to suit your design.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" elements_class="space-y-5" code={@code_7}>
+            <.footer
+              id="footer-example-17"
+              text_position="center"
+              rounded="extra_small"
+              color="silver"
+              variant="default"
+            >
+              © Mishka Chelekom - All Rights Reserved
+            </.footer>
+            <.footer
+              id="footer-example-18"
+              text_position="center"
+              rounded="extra_large"
+              color="info"
+              variant="default"
+            >
+              © Mishka Chelekom - All Rights Reserved
+            </.footer>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="footer-space">
+            <.link patch={~p"/chelekom/docs/footer/#footer-space"}>
+              Space prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The space prop offers values such as <.custom_inline_code>extra_small</.custom_inline_code>, <.custom_inline_code>small</.custom_inline_code>, <.custom_inline_code>medium</.custom_inline_code>, <.custom_inline_code>large</.custom_inline_code>, and <.custom_inline_code>extra_large</.custom_inline_code>. These values control the vertical spacing between elements within the footers.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" elements_class="space-y-5" code={@code_8}>
+            <.footer
+              id="footer-example-19"
+              text_position="center"
+              space="extra_small"
+              color="dawn"
+              variant="default"
+            >
+              <div>All Rights Reserved</div>
+              © Mishka Chelekom
+            </.footer>
+            <.footer
+              id="footer-example-20"
+              text_position="center"
+              space="extra_large"
+              color="silver"
+              variant="default"
+            >
+              <div>All Rights Reserved</div>
+              © Mishka Chelekom
+            </.footer>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="footer-padding">
+            <.link patch={~p"/chelekom/docs/footer/#footer-padding"}>
+              Padding prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The padding prop offers values such as <.custom_inline_code>extra_small</.custom_inline_code>, <.custom_inline_code>small</.custom_inline_code>, <.custom_inline_code>medium</.custom_inline_code>, <.custom_inline_code>large</.custom_inline_code>, and <.custom_inline_code>extra_large</.custom_inline_code>. These values control the padding around the content inside the footers.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" elements_class="space-y-5" code={@code_9}>
+            <.footer
+              id="footer-example-21"
+              text_position="center"
+              padding="extra_small"
+              color="silver"
+              variant="default"
+            >
+              © Mishka Chelekom - All Rights Reserved
+            </.footer>
+            <.footer
+              id="footer-example-22"
+              text_position="center"
+              padding="extra_large"
+              color="info"
+              variant="default"
+            >
+              © Mishka Chelekom - All Rights Reserved
+            </.footer>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="footer-max-width">
+            <.link patch={~p"/chelekom/docs/footer/#footer-max-width"}>
+              Max width prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <.custom_inline_code>max_width</.custom_inline_code>
+            attribute controls the maximum width of the footer component, ensuring that the content stays within a defined boundary, which is especially useful for creating consistent layouts. By setting the
+            <.custom_inline_code>max_width</.custom_inline_code>
+            value, you can easily limit how wide the footer can extend, maintaining a structured appearance across different screen sizes. This attribute allows the footer to remain centered and visually balanced, enhancing the overall presentation of the component in any layout.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" elements_class="space-y-5" code={@code_10}>
+            <.footer
+              id="footer-example-23"
+              text_position="center"
+              max_width="extra_small"
+              color="silver"
+              variant="default"
+            >
+              © Mishka Chelekom - All Rights Reserved
+            </.footer>
+            <.footer
+              id="footer-example-24"
+              text_position="center"
+              max_width="extra_large"
+              color="info"
+              variant="default"
+            >
+              © Mishka Chelekom - All Rights Reserved
+            </.footer>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="footer-text-position">
+            <.link patch={~p"/chelekom/docs/footer/#footer-text-position"}>
+              Text position prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <.custom_inline_code>text_position</.custom_inline_code>
+            attribute controls the alignment of text within a component, ensuring that content is properly positioned based on the design needs. With options like <.custom_inline_code>left</.custom_inline_code>, <.custom_inline_code>right</.custom_inline_code>, and <.custom_inline_code>center</.custom_inline_code>, you can align text to the left, right, or center of the component, respectively. This flexibility allows developers to manage how textual content is presented, enhancing readability and improving the visual structure of the component. If no specific value is provided, a default alignment is applied, typically aligning the text to the left.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" elements_class="space-y-5" code={@code_11}>
+            <.footer
+              id="footer-example-25"
+              text_position="center"
+              variant="default"
+              color="silver"
+            >
+              © Mishka Chelekom - All Rights Reserved
+            </.footer>
+            <.footer
+              id="footer-example-26"
+              text_position="left"
+              padding="small"
+              variant="default"
+              color="danger"
+            >
+              © Mishka Chelekom - All Rights Reserved
+            </.footer>
+            <.footer
+              id="footer-example-27"
+              text_position="right"
+              padding="small"
+              variant="default"
+              color="info"
+            >
+              © Mishka Chelekom - All Rights Reserved
+            </.footer>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="footer-font-weight-prop">
+            <.link patch={~p"/chelekom/docs/footer/#footer-font-weight-prop"}>
+              Footer font weight prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <.custom_inline_code>font_weight</.custom_inline_code>
+            prop controls the font weight of the text. By setting this prop, you can determine how bold or light the text appears within the title section. The default value is <.custom_inline_code>font-normal</.custom_inline_code>. You can customize this value to apply different font weights, such as making the text lighter or bolder, depending on the visual style and emphasis you want to create for the footer. This provides flexibility in ensuring the title stands out appropriately within the overall footer layout.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" elements_class="space-y-5" code={@code_12}>
+            <.footer
+              id="footer-example-28"
+              text_position="center"
+              font_weight="font-light"
+              color="silver"
+              variant="default"
+            >
+              © Mishka Chelekom - All Rights Reserved
+            </.footer>
+            <.footer
+              id="footer-example-29"
+              text_position="center"
+              font_weight="font-medium"
+              color="danger"
+              variant="default"
+            >
+              © Mishka Chelekom - All Rights Reserved
+            </.footer>
+            <.footer
+              id="footer-example-30"
+              text_position="center"
+              font_weight="font-bold"
+              color="info"
+              variant="default"
+            >
+              © Mishka Chelekom - All Rights Reserved
+            </.footer>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="footer-section-component">
+            <.link patch={~p"/chelekom/docs/footer/#footer-section-component"}>
+              Footer section component
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <.custom_inline_code>footer_section</.custom_inline_code>
+            component is a versatile part of the overall footer structure, designed to handle individual sections within the footer, such as text, links, or additional content. It supports a range of customization options, including <.custom_inline_code>padding</.custom_inline_code>, <.custom_inline_code>text_position</.custom_inline_code>, and <.custom_inline_code>space</.custom_inline_code>, allowing developers to adjust spacing, alignment, and layout to meet specific design needs. With the
+            <.custom_inline_code>font_weight</.custom_inline_code>
+            and
+            <.custom_inline_code>class</.custom_inline_code>
+            attributes, additional styling and custom CSS can be applied to ensure consistency and enhance the visual appearance. The footer_section also accepts an <.custom_inline_code>inner_block</.custom_inline_code>, making it flexible for rendering dynamic content, which can be tailored to different use cases, such as contact information, copyright notices, or navigation links.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" elements_class="space-y-5" code={@code_13}>
+            <.footer
+              id="footer-example-31"
+              color="secondary"
+              padding="small"
+              space="medium"
+              variant="default"
+            >
+              <.footer_section class="border-b border-[#E5E7EB]" padding="small">
+                <div class="flex items-center gap-2">
+                  <.image src={~p"/images/mishka-logo-white.svg"} class="size-12" />
+                  <h4 class="font-bold">Mishka Chelekom</h4>
+                </div>
+              </.footer_section>
+              <.footer_section class="grid grid-cols-2 gap-2" padding="large">
+                <ul class="space-y-4">
+                  <li><.link class="hover:text-teal-500" navigate={~p"/"}>Mishka</.link></li>
+                  <li>
+                    <.link class="hover:text-teal-500" navigate={~p"/chelekom"}>Chelekom</.link>
+                  </li>
+                  <li>
+                    <.link class="hover:text-teal-500" navigate={~p"/blog"}>Blog</.link>
+                  </li>
+                </ul>
+
+                <.cp class="text-sm">
+                  The Mishka Chelekom UI kit is a powerful resource for building modern, interactive applications with Phoenix LiveView, making the development process faster and more enjoyable.
+                </.cp>
+              </.footer_section>
+
+              <.footer_section text_position="center" class="border-t" padding="small">
+                © All rights reserved.
+              </.footer_section>
+            </.footer>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="footer-section-space">
+            <.link patch={~p"/chelekom/docs/footer/#footer-section-space"}>
+              Footer section space prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The space prop control the vertical spacing between elements within the footer سثزفهخد. <.custom_inline_code>extra_small</.custom_inline_code>, <.custom_inline_code>small</.custom_inline_code>, <.custom_inline_code>medium</.custom_inline_code>, <.custom_inline_code>large</.custom_inline_code>, and <.custom_inline_code>extra_large</.custom_inline_code>.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" elements_class="space-y-5" code={@code_14}>
+            <.footer
+              id="footer-example-32"
+              variant="default"
+              color="primary"
+              padding="large"
+              space="medium"
+            >
+              <div class="grid grid-cols-2">
+                <.footer_section space="extra_large" padding="large">
+                  <ul class="space-y-3">
+                    <li>
+                      <.link class="hover:text-teal-500" navigate={~p"/"}>Mishka</.link>
+                    </li>
+                    <li>
+                      <.link class="hover:text-teal-500" navigate={~p"/chelekom"}>Chelekom</.link>
+                    </li>
+                    <li>
+                      <.link class="hover:text-teal-500" navigate={~p"/blog"}>Blog</.link>
+                    </li>
+                  </ul>
+
+                  <ul class="space-y-3">
+                    <li>
+                      <.link class="hover:text-teal-500" navigate={~p"/chelekom/docs/list"}>
+                        List
+                      </.link>
+                    </li>
+                    <li>
+                      <.link class="hover:text-teal-500" navigate={~p"/chelekom/docs"}>
+                        Documentation
+                      </.link>
+                    </li>
+                  </ul>
+                </.footer_section>
+
+                <.footer_section space="extra_small" padding="large">
+                  <ul class="space-y-3">
+                    <li>
+                      <.link class="hover:text-teal-500" navigate={~p"/"}>Mishka</.link>
+                    </li>
+                    <li>
+                      <.link class="hover:text-teal-500" navigate={~p"/chelekom"}>Chelekom</.link>
+                    </li>
+                    <li>
+                      <.link class="hover:text-teal-500" navigate={~p"/blog"}>Blog</.link>
+                    </li>
+                  </ul>
+
+                  <ul class="space-y-3">
+                    <li>
+                      <.link class="hover:text-teal-500" navigate={~p"/chelekom/docs/list"}>
+                        List
+                      </.link>
+                    </li>
+                    <li>
+                      <.link class="hover:text-teal-500" navigate={~p"/chelekom/docs"}>
+                        Documentation
+                      </.link>
+                    </li>
+                  </ul>
+                </.footer_section>
+              </div>
+            </.footer>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="footer-section-padding">
+            <.link patch={~p"/chelekom/docs/footer/#footer-section-padding"}>
+              Footer section padding prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The padding prop control the padding around the content inside the footer section <.custom_inline_code>extra_small</.custom_inline_code>, <.custom_inline_code>small</.custom_inline_code>, <.custom_inline_code>medium</.custom_inline_code>, <.custom_inline_code>large</.custom_inline_code>, and <.custom_inline_code>extra_large</.custom_inline_code>.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" elements_class="space-y-5" code={@code_15}>
+            <.footer id="footer-example-33" color="misc" variant="default" padding="none">
+              <.footer_section padding="extra_large">
+                <ul class="space-y-3">
+                  <li><.link class="hover:text-teal-500" navigate={~p"/"}>Mishka</.link></li>
+                  <li>
+                    <.link class="hover:text-teal-500" navigate={~p"/chelekom"}>Chelekom</.link>
+                  </li>
+                  <li>
+                    <.link class="hover:text-teal-500" navigate={~p"/blog"}>Blog</.link>
+                  </li>
+                </ul>
+              </.footer_section>
+            </.footer>
+
+            <.footer id="footer-example-34" color="misc" variant="default" padding="none">
+              <.footer_section padding="extra_small">
+                <ul class="space-y-3">
+                  <li>
+                    <.link class="hover:text-teal-500" navigate={~p"/chelekom/docs/list"}>
+                      List
+                    </.link>
+                  </li>
+                  <li>
+                    <.link class="hover:text-teal-500" navigate={~p"/chelekom/docs"}>
+                      Documentation
+                    </.link>
+                  </li>
+                </ul>
+              </.footer_section>
+            </.footer>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="footer-section-text-position">
+            <.link patch={~p"/chelekom/docs/footer/#footer-section-text-position"}>
+              Footer section text position prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <.custom_inline_code>text_position</.custom_inline_code>
+            attribute controls the alignment of text within component, ensuring that content is properly positioned based on the design needs. With options like <.custom_inline_code>left</.custom_inline_code>, <.custom_inline_code>right</.custom_inline_code>, and <.custom_inline_code>center</.custom_inline_code>, you can align text to the left, right, or center of the component, respectively.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" elements_class="space-y-5" code={@code_16}>
+            <.footer id="footer-example-35" color="dawn" variant="default" padding="small">
+              <div class="grid grid-cols-3">
+                <.footer_section text_position="left">
+                  <ul class="space-y-2">
+                    <li>
+                      <.link class="hover:text-teal-500" navigate={~p"/chelekom/docs/footer"}>
+                        Footer
+                      </.link>
+                    </li>
+                    <li>
+                      <.link class="hover:text-teal-500" navigate={~p"/chelekom/docs/footer"}>
+                        footer
+                      </.link>
+                    </li>
+                  </ul>
+                </.footer_section>
+
+                <.footer_section text_position="center">
+                  <ul class="space-y-2">
+                    <li>
+                      <.link class="hover:text-teal-500" navigate={~p"/"}>Mishka</.link>
+                    </li>
+                    <li>
+                      <.link class="hover:text-teal-500" navigate={~p"/chelekom"}>Chelekom</.link>
+                    </li>
+                    <li>
+                      <.link class="hover:text-teal-500" navigate={~p"/blog"}>Blog</.link>
+                    </li>
+                  </ul>
+                </.footer_section>
+
+                <.footer_section text_position="right">
+                  <ul class="space-y-2">
+                    <li>
+                      <.link class="hover:text-teal-500" navigate={~p"/chelekom/docs/list"}>
+                        List
+                      </.link>
+                    </li>
+                    <li>
+                      <.link class="hover:text-teal-500" navigate={~p"/chelekom/docs"}>
+                        Documentation
+                      </.link>
+                    </li>
+                  </ul>
+                </.footer_section>
+              </div>
+            </.footer>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="footer-section-font-weight-prop">
+            <.link patch={~p"/chelekom/docs/footer/#footer-section-font-weight-prop"}>
+              Footer section font weight prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <.custom_inline_code>font_weight</.custom_inline_code>
+            prop controls the font weight of the text. By setting this prop, you can determine how bold or light the text appears within the title section. The default value is <.custom_inline_code>font-normal</.custom_inline_code>.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" elements_class="space-y-5" code={@code_17}>
+            <.footer id="footer-example-36" color="success" padding="small" variant="default">
+              <div class="grid grid-cols-3">
+                <.footer_section font_weight="font-bold">
+                  Section one
+                </.footer_section>
+
+                <.footer_section font_weight="font-light">
+                  section two
+                </.footer_section>
+
+                <.footer_section font_weight="font-medium">
+                  section three
+                </.footer_section>
+              </div>
+            </.footer>
+          </.custom_code_wrapper>
+        </:documentation_panel>
+
+        <:props_panel>
+          <.custom_search class="mb-16" />
+          <div class="space-y-8">
+            <h2 class="text-lg lg:text-2xl font-bold">Footer component props</h2>
+
+            <.custom_table id="footer-component-table">
+              <:header>
+                <.table_th>Name</.table_th>
+
+                <.table_th>Type</.table_th>
+
+                <.table_th>Required</.table_th>
+
+                <.table_th>Description</.table_th>
+              </:header>
+
+              <:row>
+                <.table_td>id</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>A unique identifier used to manage state and interaction.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>variant</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines the style of the footer. Default is <strong>default</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>border</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines the border style. Default is <strong>extra_small</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>text_position</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Determines the text alignment inside the footer.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>rounded</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Determines the border radius of the footer.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>max_width</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Sets the maximum width of the footer.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>space</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Space between the items in the footer.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>variant</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines the style of the footer. Supported values: <strong>base</strong>, <strong>default</strong>, <strong>outline</strong>, <strong>transparent</strong>, <strong>shadow</strong>, <strong>bordered</strong>, <strong>gradient</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>color</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines the color theme of the footer. Supported values: <strong>base</strong>, <strong>natural</strong>, <strong>primary</strong>, <strong>secondary</strong>, <strong>success</strong>, <strong>warning</strong>, <strong>danger</strong>, <strong>info</strong>, <strong>silver</strong>, <strong>misc</strong>, <strong>dawn</strong>. Default is <strong>natural</strong>.The
+                  <strong>default</strong>
+                  and <strong>bordered</strong>
+                  variants have extra color options: <strong>dark</strong>
+                  and <strong>white</strong>, which in both light mode and dark mode, these colors are always the same.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>font_weight</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines the font weight. Default is <strong>font-normal</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>padding</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines the padding of the footer. Default is <strong>none</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>class</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Custom CSS class for additional styling.</.table_td>
+              </:row>
+            </.custom_table>
+          </div>
+
+          <div class="space-y-8 mt-8">
+            <h2 class="text-lg lg:text-2xl font-bold">Footer Section component props</h2>
+
+            <.custom_table id="footer-section-component-table">
+              <:header>
+                <.table_th>Name</.table_th>
+
+                <.table_th>Type</.table_th>
+
+                <.table_th>Required</.table_th>
+
+                <.table_th>Description</.table_th>
+              </:header>
+
+              <:row>
+                <.table_td>class</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Custom CSS class for additional styling.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>wrapper_class</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Custom CSS class for additional styling to footer content wrapper
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>font_weight</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines the font weight. Default is <strong>font-normal</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>text_position</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Determines the text alignment inside the footer section.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>space</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Space between the items in the footer section.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>padding</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines the padding of the footer section. Default is <strong>none</strong>.
+                </.table_td>
+              </:row>
+            </.custom_table>
+          </div>
+        </:props_panel>
+
+        <:cli_panel>
+          <.custom_cli_props config={component_config()} />
+        </:cli_panel>
+        <.custom_table_content>
+          <:content
+            link={~p"/chelekom/docs/footer/#overview"}
+            title="Overview of the footer Component"
+          />
+
+          <:content link={~p"/chelekom/docs/footer/#base-footer"} title="Base color & variant" />
+          <:content
+            link={~p"/chelekom/docs/footer/#default-variant-footer"}
+            title="Default variant"
+          />
+          <:content
+            link={~p"/chelekom/docs/footer/#outline-variant-footer"}
+            title="Otline variant"
+          />
+          <:content
+            link={~p"/chelekom/docs/footer/#shadow-variant-footer"}
+            title="Shadow variant"
+          />
+          <:content
+            link={~p"/chelekom/docs/footer/#bordered-variant-footer"}
+            title="bordered variant"
+          />
+          <:content
+            link={~p"/chelekom/docs/footer/#transparent-variant-footer"}
+            title="Transparent variant"
+          />
+          <:content
+            link={~p"/chelekom/docs/footer/#gradient-variant-footer"}
+            title="Gradient variant"
+          />
+          <:content link={~p"/chelekom/docs/footer/#footer-rounded"} title="Rounded prop" />
+          <:content link={~p"/chelekom/docs/footer/#footer-border"} title="Border prop" />
+          <:content link={~p"/chelekom/docs/footer/#footer-space"} title="Space prop" />
+          <:content link={~p"/chelekom/docs/footer/#footer-padding"} title="Padding prop" />
+          <:content link={~p"/chelekom/docs/footer/#footer-max-width"} title="Max width" />
+          <:content link={~p"/chelekom/docs/footer/#footer-text-position"} title="Text position" />
+          <:content link={~p"/chelekom/docs/footer/#footer-font-weight-prop"} title="Font weight" />
+          <:content
+            link={~p"/chelekom/docs/footer/#footer-section-component"}
+            title="Footer section"
+          />
+          <:content
+            link={~p"/chelekom/docs/footer/#footer-section-space"}
+            title="Footer section space prop"
+          />
+          <:content
+            link={~p"/chelekom/docs/footer/#footer-section-padding"}
+            title="Footer section padding prop"
+          />
+          <:content
+            link={~p"/chelekom/docs/footer/#footer-section-text-position"}
+            title="Footer section text position"
+          />
+          <:content
+            link={~p"/chelekom/docs/footer/#footer-section-font-weight-prop"}
+            title="Footer section font weight"
+          />
+        </.custom_table_content>
+      </.custom_tab>
+    </div>
+  </div>
+</Layouts.app>

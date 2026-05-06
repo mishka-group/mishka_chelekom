@@ -1,0 +1,792 @@
+<Layouts.app flash={@flash}>
+  <div class="lg:grid lg:grid-cols-12 mt-5 max-w-5xl mx-auto">
+    <.custom_nav active="chelekom-docs-modal" />
+    <div class="lg:col-span-10">
+      <.custom_info
+        title="Modal"
+        description="Interactive modals for Phoenix and Phoenix LiveView, enabling dynamic content display with customizable styles and full-screen mode."
+        mix="mix mishka.ui.gen.component modal"
+        github="https://github.com/mishka-group/mishka_chelekom/blob/master/priv/components/modal.eex"
+        tags={["Component", "Stateless", "JS-module"]}
+      />
+      <.custom_tab id="chelekom-modal-tab">
+        <:documentation_panel>
+          <.heading2 class="mb-5" id="overview">
+            <.link patch={~p"/chelekom/docs/modal/#overview"}>
+              Overview of the Phoenix and LiveView Modal Component
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <strong>
+              Mishka Chelekom modal
+            </strong>
+            component is a <strong>Phoenix LiveView</strong>
+            component that provides a dynamic and customizable <strong>modal dialog</strong>
+            for various use cases like displaying forms, notifications, or <stron>confirmation dialogs</stron>. It supports multiple configurations, including size, color, border radius, and padding, to fit seamlessly into your application's design.
+          </.cp>
+
+          <.cp margin="mt-5">
+            This
+            <strong>
+              <.link
+                title="Phoenix LiveView component"
+                class="transition-colors hover:text-[#448D96]"
+                navigate={~p"/chelekom"}
+              >
+                Phoenix LiveView component
+              </.link>
+            </strong>
+            enables developers to easily adjust the modal’s appearance using props for size, colors, and styles. The
+            <strong>modal component</strong>
+            support full-screen mode options, focus management, and keyboard navigation, this component ensures an engaging and accessible user experience.
+          </.cp>
+
+          <.custom_block position="left" color="success" class="my-8" border="medium">
+            <.cp>
+              By using the class prop, you can apply custom classes or Tailwind CSS classes to customize the components design.
+            </.cp>
+          </.custom_block>
+
+          <.custom_block position="left" color="warning" class="my-8" border="medium">
+            <.cp>
+              <strong>Note:</strong>
+              You can use the
+              <.custom_inline_code>show_modal</.custom_inline_code>
+              and
+              <.custom_inline_code>hide_modal</.custom_inline_code>
+              functions to show and hide the modal by passing the modal's ID. These functions handle the modal's visibility and transitions, like appearing or disappearing with animations.
+            </.cp>
+          </.custom_block>
+
+          <.heading2 margin="my-5" id="base-modal">
+            <.link patch={~p"/chelekom/docs/modal/#base-modal"}>
+              Base Color & Variant
+            </.link>
+          </.heading2>
+
+          <.custom_code_wrapper
+            elements_class="flex justify-center"
+            code_class="text-xs"
+            code={@code_13}
+          >
+            <.button
+              size="extra_small"
+              phx-click={Modal.show_modal("modal-example-133")}
+              variant="outline"
+              color="dawn"
+            >
+              Base modal
+            </.button>
+
+            <.modal id="modal-example-133" title="Base variant misc color" show={false}>
+              <div class="space-y-4">
+                <.cp>
+                  Mishka Chelekom is a fully-featured UI kit designed for Phoenix LiveView applications. It offers a wide range of customizable components to enhance the user experience, streamline development, and maintain consistent design patterns across your projects.
+                </.cp>
+
+                <.cp>
+                  With Mishka Chelekom, developers can easily integrate complex elements like modals, accordions, skeleton loaders, and more into their applications, all while ensuring responsiveness and performance. Whether you're building dynamic forms, interactive dashboards, or rich content displays, Mishka Chelekom provides the tools to bring your vision to life.
+                </.cp>
+              </div>
+            </.modal>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="default-variant-modal">
+            <.link patch={~p"/chelekom/docs/modal/#default-variant-modal"}>
+              Default Variant
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The default style of the
+            <.link navigate={~p"/chelekom/docs/modal"}>Mishka Chelekom modal</.link>
+            applies a solid background and border that change based on user interaction, making it perfect for delivering important notifications. With just a single setting, you can select from a range of color options, ensuring easy customization to match various design styles.
+          </.cp>
+
+          <.custom_code_wrapper
+            elements_class="flex justify-center"
+            code_class="text-xs"
+            code={@code_1}
+          >
+            <.button
+              size="extra_small"
+              variant="outline"
+              color="misc"
+              phx-click={Modal.show_modal("modal-example-1")}
+            >
+              Default modal
+            </.button>
+
+            <.modal
+              id="modal-example-1"
+              title="Default variant misc color"
+              color="misc"
+              variant="default"
+              show={false}
+            >
+              <div class="space-y-4">
+                <.cp>
+                  Mishka Chelekom is a fully-featured UI kit designed for Phoenix LiveView applications. It offers a wide range of customizable components to enhance the user experience, streamline development, and maintain consistent design patterns across your projects.
+                </.cp>
+
+                <.cp>
+                  With Mishka Chelekom, developers can easily integrate complex elements like modals, accordions, skeleton loaders, and more into their applications, all while ensuring responsiveness and performance. Whether you're building dynamic forms, interactive dashboards, or rich content displays, Mishka Chelekom provides the tools to bring your vision to life.
+                </.cp>
+              </div>
+            </.modal>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="shadow-variant-modal">
+            <.link patch={~p"/chelekom/docs/modal/#shadow-variant-modal"}>
+              Shadow Variant
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The shadow variant of the Mishka Chelekom modal is similar to the default variant, but it also includes a subtle shadow along with a border and white background in light mode.
+          </.cp>
+
+          <.custom_code_wrapper
+            elements_class="flex justify-center"
+            code_class="text-xs"
+            code={@code_3}
+          >
+            <.button
+              size="extra_small"
+              color="natural"
+              variant="outline"
+              phx-click={Modal.show_modal("modal-example-3")}
+            >
+              Shadow modal
+            </.button>
+
+            <.modal
+              id="modal-example-3"
+              title="Shadow dark color"
+              color="misc"
+              variant="shadow"
+              show={false}
+            >
+              <div class="space-y-4">
+                <.cp>
+                  Mishka Chelekom is a fully-featured UI kit designed for Phoenix LiveView applications. It offers a wide range of customizable components to enhance the user experience, streamline development, and maintain consistent design patterns across your projects.
+                </.cp>
+
+                <.cp>
+                  With Mishka Chelekom, developers can easily integrate complex elements like modals, accordions, skeleton loaders, and more into their applications, all while ensuring responsiveness and performance. Whether you're building dynamic forms, interactive dashboards, or rich content displays, Mishka Chelekom provides the tools to bring your vision to life.
+                </.cp>
+              </div>
+            </.modal>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="bordered-variant-modal">
+            <.link patch={~p"/chelekom/docs/modal/#bordered-variant-modal"}>
+              bordered Variant
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The Bordered variant of the Mishka Chelekom modal has lighter background and a border. Bordered variant have also white and dark colors which are the same colors in the dark and light mode.
+          </.cp>
+
+          <.custom_code_wrapper
+            elements_class="flex justify-center"
+            code_class="text-xs"
+            code={@code_4}
+          >
+            <.button
+              size="extra_small"
+              variant="outline"
+              color="dawn"
+              phx-click={Modal.show_modal("modal-example-4")}
+            >
+              bordered modal
+            </.button>
+
+            <.modal
+              id="modal-example-4"
+              title="bordered dawn color"
+              color="dawn"
+              variant="bordered"
+              show={false}
+            >
+              <div class="space-y-4">
+                <.cp>
+                  Mishka Chelekom is a fully-featured UI kit designed for Phoenix LiveView applications. It offers a wide range of customizable components to enhance the user experience, streamline development, and maintain consistent design patterns across your projects.
+                </.cp>
+
+                <.cp>
+                  With Mishka Chelekom, developers can easily integrate complex elements like modals, accordions, skeleton loaders, and more into their applications, all while ensuring responsiveness and performance. Whether you're building dynamic forms, interactive dashboards, or rich content displays, Mishka Chelekom provides the tools to bring your vision to life.
+                </.cp>
+              </div>
+            </.modal>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="gradient-variant-modal">
+            <.link patch={~p"/chelekom/docs/modal/#gradient-variant-modal"}>
+              gradient Variant
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The gradient variant of the Mishka Chelekom modal has gradients in various colors.
+          </.cp>
+
+          <.custom_code_wrapper
+            elements_class="flex justify-center"
+            code_class="text-xs"
+            code={@code_12}
+          >
+            <.button
+              size="extra_small"
+              variant="outline"
+              color="danger"
+              phx-click={Modal.show_modal("modal-example-100")}
+            >
+              Gradient modal
+            </.button>
+
+            <.modal
+              id="modal-example-100"
+              title="Fradient misc color"
+              color="misc"
+              variant="gradient"
+              show={false}
+            >
+              <div class="space-y-4">
+                <.cp>
+                  Mishka Chelekom is a fully-featured UI kit designed for Phoenix LiveView applications. It offers a wide range of customizable components to enhance the user experience, streamline development, and maintain consistent design patterns across your projects.
+                </.cp>
+
+                <.cp>
+                  With Mishka Chelekom, developers can easily integrate complex elements like modals, accordions, skeleton loaders, and more into their applications, all while ensuring responsiveness and performance. Whether you're building dynamic forms, interactive dashboards, or rich content displays, Mishka Chelekom provides the tools to bring your vision to life.
+                </.cp>
+              </div>
+            </.modal>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="modal-padding">
+            <.link patch={~p"/chelekom/docs/modal/#modal-paddding"}>
+              Padding prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The padding prop allows developers to control the internal spacing around the content within the modal. The
+            <.custom_inline_code>padding</.custom_inline_code>
+            prop accepts values such as <.custom_inline_code>extra_small</.custom_inline_code>, <.custom_inline_code>small</.custom_inline_code>, <.custom_inline_code>medium</.custom_inline_code>, <.custom_inline_code>large</.custom_inline_code>, <.custom_inline_code>extra_large</.custom_inline_code>, and <.custom_inline_code>none</.custom_inline_code>, offering flexibility in adjusting the space around the content to fit the design requirements.
+          </.cp>
+
+          <.custom_code_wrapper
+            elements_class="flex justify-center"
+            code_class="text-xs"
+            code={@code_6}
+          >
+            <.button
+              size="extra_small"
+              color="primary"
+              variant="outline"
+              phx-click={Modal.show_modal("modal-example-6")}
+            >
+              Padding size modal
+            </.button>
+
+            <.modal
+              id="modal-example-6"
+              title="Extra large modal padding prop"
+              color="primary"
+              variant="default"
+              padding="extra_large"
+              show={false}
+            >
+              <div class="space-y-4">
+                <.cp>
+                  Mishka Chelekom is a fully-featured UI kit designed for Phoenix LiveView applications. It offers a wide range of customizable components to enhance the user experience, streamline development, and maintain consistent design patterns across your projects.
+                </.cp>
+
+                <.cp>
+                  With Mishka Chelekom, developers can easily integrate complex elements like modals, accordions, skeleton loaders, and more into their applications, all while ensuring responsiveness and performance. Whether you're building dynamic forms, interactive dashboards, or rich content displays, Mishka Chelekom provides the tools to bring your vision to life.
+                </.cp>
+              </div>
+            </.modal>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="modal-rounded">
+            <.link patch={~p"/chelekom/docs/modal/#modal-rounded"}>
+              Rounded prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The rounded prop controls the border radius of the modal, determining how rounded the corners of the modal are. The prop accepts values like <.custom_inline_code>extra_small</.custom_inline_code>, <.custom_inline_code>small</.custom_inline_code>, <.custom_inline_code>medium</.custom_inline_code>, <.custom_inline_code>large</.custom_inline_code>, and <.custom_inline_code>extra_large</.custom_inline_code>, allowing for customization of the modal’s appearance to align with the overall design. The default value is set to <.custom_inline_code>small</.custom_inline_code>, giving the modal subtle, rounded edges.
+          </.cp>
+
+          <.custom_code_wrapper
+            elements_class="flex justify-center"
+            code_class="text-xs"
+            code={@code_7}
+          >
+            <.button
+              size="extra_small"
+              color="silver"
+              variant="outline"
+              phx-click={Modal.show_modal("modal-example-7")}
+            >
+              Rounded prop modal
+            </.button>
+
+            <.modal
+              id="modal-example-7"
+              title="Extra large radius"
+              color="silver"
+              variant="default"
+              rounded="extra_large"
+              show={false}
+            >
+              <div class="space-y-4">
+                <.cp>
+                  Mishka Chelekom is a fully-featured UI kit designed for Phoenix LiveView applications. It offers a wide range of customizable components to enhance the user experience, streamline development, and maintain consistent design patterns across your projects.
+                </.cp>
+
+                <.cp>
+                  With Mishka Chelekom, developers can easily integrate complex elements like modals, accordions, skeleton loaders, and more into their applications, all while ensuring responsiveness and performance. Whether you're building dynamic forms, interactive dashboards, or rich content displays, Mishka Chelekom provides the tools to bring your vision to life.
+                </.cp>
+              </div>
+            </.modal>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="modal-size">
+            <.link patch={~p"/chelekom/docs/modal/#modal-size"}>
+              Size prop in Phoenix LiveView modal component
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The size prop in the Modal component defines the overall size of the modal, including aspects like padding, font size, and layout. This prop accepts a range of size values, such as <.custom_inline_code>extra_small</.custom_inline_code>, <.custom_inline_code>small</.custom_inline_code>, <.custom_inline_code>medium</.custom_inline_code>, <.custom_inline_code>large</.custom_inline_code>, <.custom_inline_code>extra_large</.custom_inline_code>, and even larger options like <.custom_inline_code>double_large</.custom_inline_code>, <.custom_inline_code>triple_large</.custom_inline_code>, and <.custom_inline_code>quadruple_large</.custom_inline_code>. Additionally, the
+            <.custom_inline_code>screen</.custom_inline_code>
+            option can be used to make the modal fill the entire screen. By default, the size is set to <.custom_inline_code>extra_large</.custom_inline_code>, but developers can easily adjust this prop to fit different content requirements or layout designs.
+          </.cp>
+
+          <.custom_code_wrapper
+            elements_class="flex justify-center"
+            code_class="text-xs"
+            code={@code_8}
+          >
+            <.button
+              size="extra_small"
+              color="danger"
+              variant="outline"
+              phx-click={Modal.show_modal("modal-example-8")}
+            >
+              Modal screen size
+            </.button>
+
+            <.modal
+              id="modal-example-8"
+              title="Size screen"
+              size="screen"
+              color="danger"
+              variant="default"
+              show={false}
+            >
+              <div class="space-y-4 max-w-3xl mx-auto">
+                <.cp>
+                  Mishka Chelekom is a fully-featured UI kit designed for Phoenix LiveView applications. It offers a wide range of customizable components to enhance the user experience, streamline development, and maintain consistent design patterns across your projects.
+                </.cp>
+
+                <.cp>
+                  With Mishka Chelekom, developers can easily integrate complex elements like modals, accordions, skeleton loaders, and more into their applications, all while ensuring responsiveness and performance. Whether you're building dynamic forms, interactive dashboards, or rich content displays, Mishka Chelekom provides the tools to bring your vision to life.
+                </.cp>
+              </div>
+            </.modal>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="modal-title-prop">
+            <.link patch={~p"/chelekom/docs/modal/#modal-title-prop"}>
+              Title prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The title attribute is used to specify the title of the modal element. This title is typically displayed at the top of the modal, providing users with a clear and concise description of the content or purpose of the modal. It enhances the user experience by giving context and focus to the information or actions within the modal. The title can be customized to suit the modal's content, making it a flexible attribute for naming various types of modals, such as alerts, forms, or informational messages.
+          </.cp>
+
+          <.custom_code_wrapper
+            elements_class="flex justify-center"
+            code_class="text-xs"
+            code={@code_9}
+          >
+            <.button
+              size="extra_small"
+              color="silver"
+              variant="outline"
+              phx-click={Modal.show_modal("modal-example-9")}
+            >
+              Rounded prop modal
+            </.button>
+
+            <.modal
+              id="modal-example-9"
+              title="Extra large radius"
+              color="silver"
+              variant="default"
+              rounded="extra_large"
+              show={false}
+            >
+              <div class="space-y-4">
+                <.cp>
+                  Mishka Chelekom is a fully-featured UI kit designed for Phoenix LiveView applications. It offers a wide range of customizable components to enhance the user experience, streamline development, and maintain consistent design patterns across your projects.
+                </.cp>
+
+                <.cp>
+                  With Mishka Chelekom, developers can easily integrate complex elements like modals, accordions, skeleton loaders, and more into their applications, all while ensuring responsiveness and performance. Whether you're building dynamic forms, interactive dashboards, or rich content displays, Mishka Chelekom provides the tools to bring your vision to life.
+                </.cp>
+              </div>
+            </.modal>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="modal-show-prop">
+            <.link patch={~p"/chelekom/docs/modal/#modal-show-prop"}>
+              Show prop in Phoenix LiveView modal component
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The show attribute is a boolean prop that determines the visibility of the modal component. By default, its value is set to false, meaning the modal will remain hidden until explicitly triggered. When set to true, the modal is displayed on the screen, allowing users to interact with its content. This attribute is useful for controlling when the modal should be shown or hidden, making it a key feature in managing dynamic content display based on user actions or programmatic events within the application.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" code={@code_10} />
+
+          <.heading2 margin="my-5" id="modal-on-cancel-prop">
+            <.link patch={~p"/chelekom/docs/modal/#modal-on-cancel-prop"}>
+              On Cancel prop in Phoenix LiveView modal component
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <.custom_inline_code>on_cancel</.custom_inline_code>
+            attribute is used to define a custom JavaScript (<.custom_inline_code>
+            JS
+          </.custom_inline_code>) action that is triggered when the modal is closed or canceled. By default, it is set to an empty
+            <.custom_inline_code>%JS{}</.custom_inline_code>
+            structure, allowing developers to specify the behavior that should occur when users dismiss the modal, either by clicking a close button, pressing the escape key, or interacting with the modal's background. This attribute enables seamless control over the cancellation process, letting developers integrate specific actions like cleaning up resources, reverting changes, or updating the UI state based on user interaction.
+          </.cp>
+
+          <.custom_code_wrapper
+            elements_class="flex justify-center"
+            code_class="text-xs"
+            code={@code_11}
+          >
+            <.button
+              size="extra_small"
+              color="warning"
+              variant="outline"
+              phx-click={Modal.show_modal("modal-example-11")}
+            >
+              On cancel prop
+            </.button>
+
+            <.modal
+              id="modal-example-11"
+              title="On Cancel"
+              color="silver"
+              variant="default"
+              rounded="extra_large"
+              show={false}
+              on_cancel={Modal.hide_modal("modal-example-11")}
+            >
+              <div class="space-y-4">
+                <.cp>
+                  Mishka Chelekom is a fully-featured UI kit designed for Phoenix LiveView applications. It offers a wide range of customizable components to enhance the user experience, streamline development, and maintain consistent design patterns across your projects.
+                </.cp>
+
+                <.cp>
+                  With Mishka Chelekom, developers can easily integrate complex elements like modals, accordions, skeleton loaders, and more into their applications, all while ensuring responsiveness and performance. Whether you're building dynamic forms, interactive dashboards, or rich content displays, Mishka Chelekom provides the tools to bring your vision to life.
+                </.cp>
+
+                <.button
+                  class="w-full"
+                  color="danger"
+                  variant="outline"
+                  size="small"
+                  font_weight="font-bold"
+                  phx-click={Modal.hide_modal("modal-example-11")}
+                >
+                  Close
+                </.button>
+              </div>
+            </.modal>
+          </.custom_code_wrapper>
+        </:documentation_panel>
+
+        <:props_panel>
+          <.custom_search class="mb-16" />
+          <div class="space-y-8">
+            <h2 class="text-lg lg:text-2xl font-bold">Modal Component Props</h2>
+
+            <.custom_table id="modal-component-table">
+              <:header>
+                <.table_th>Name</.table_th>
+
+                <.table_th>Type</.table_th>
+
+                <.table_th>Required</.table_th>
+
+                <.table_th>Description</.table_th>
+              </:header>
+
+              <:row>
+                <.table_td>id</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>Yes</.table_td>
+
+                <.table_td>
+                  A unique identifier is used to manage state and interaction.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>title</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Specifies the title of the modal component.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>variant</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines the style of the modal. Values: <strong>base</strong>, <strong>gradient</strong>, <strong>default</strong>, <strong>gradient</strong>, <strong>shadow</strong>, <strong>bordered</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>color</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines the color theme of the modal. Values: <strong>base</strong>, <strong>natural</strong>, <strong>primary</strong>, <strong>secondary</strong>, <strong>success</strong>, <strong>warning</strong>, <strong>danger</strong>, <strong>info</strong>, <strong>light</strong>, <strong>misc</strong>, <strong>dawn</strong>. The
+                  <strong>default</strong>
+                  and <strong>bordered</strong>
+                  variants have extra color options: <strong>dark</strong>
+                  and <strong>white</strong>, which in both light mode and dark mode, these colors are always the same.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>rounded</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines the border radius of the modal. Values: <strong>extra_small</strong>, <strong>small</strong>, <strong>medium</strong>, <strong>large</strong>, <strong>extra_large</strong>, etc.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>padding</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines padding for the modal content. Values: <strong>extra_small</strong>, <strong>small</strong>, <strong>medium</strong>, etc. Default is <strong>medium</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>size</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines the overall size of the modal. Values: <strong>extra_small</strong>, <strong>small</strong>, <strong>large</strong>, <strong>screen</strong>, etc. Default is <strong>extra_large</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>class</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Custom CSS class for additional styling.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>title_class</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Custom CSS class for additional styling to title. Default is "text-base md:text-lg xl:text-2xl".
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>icon_class</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Custom CSS class for additional styling to icons close button. Default is "size-5".
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>content_class</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Custom CSS class for additional styling to content.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>close_class</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Custom CSS class for additional styling to content.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>focus_wrap_class</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Custom CSS class for additional styling to focus wrapper.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>inner_wrapper_class</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Custom CSS class for additional styling to inner wrap.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>wrapper_class</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Custom CSS class for additional styling to wrapper.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>overlay_class</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Custom CSS class for additional styling to overlay.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>show</.table_td>
+
+                <.table_td>boolean</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines whether the modal is visible. Default is <strong>false</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>on_cancel</.table_td>
+
+                <.table_td>JS</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Custom JavaScript hook for the <strong>on_cancel</strong> action.
+                </.table_td>
+              </:row>
+            </.custom_table>
+          </div>
+        </:props_panel>
+
+        <:cli_panel>
+          <.custom_cli_props config={component_config()} />
+        </:cli_panel>
+        <.custom_table_content>
+          <:content
+            link={~p"/chelekom/docs/modal/#overview"}
+            title="Overview of the modal component"
+          />
+          <:content link={~p"/chelekom/docs/modal/#base-modal"} title="Base color & variant" />
+          <:content
+            link={~p"/chelekom/docs/modal/#default-variant-modal"}
+            title="Default variant"
+          />
+          <:content link={~p"/chelekom/docs/modal/#shadow-variant-modal"} title="Shadow variant" />
+          <:content
+            link={~p"/chelekom/docs/modal/#bordered-variant-modal"}
+            title="bordered variant"
+          />
+          <:content
+            link={~p"/chelekom/docs/modal/#gradient-variant-modal"}
+            title="Gradient variant"
+          />
+          <:content link={~p"/chelekom/docs/modal/#modal-padding"} title="Padding prop" />
+          <:content link={~p"/chelekom/docs/modal/#modal-rounded"} title="Rounded prop" />
+          <:content link={~p"/chelekom/docs/modal/#modal-size"} title="Size prop" />
+          <:content link={~p"/chelekom/docs/modal/#modal-title-prop"} title="Title prop" />
+          <:content link={~p"/chelekom/docs/modal/#modal-show-prop"} title="Show prop" />
+          <:content link={~p"/chelekom/docs/modal/#modal-on-cancel-prop"} title="On cancel prop" />
+        </.custom_table_content>
+      </.custom_tab>
+    </div>
+  </div>
+</Layouts.app>

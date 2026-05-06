@@ -1,0 +1,450 @@
+<Layouts.app flash={@flash}>
+  <div class="lg:grid lg:grid-cols-12 mt-5 max-w-5xl mx-auto">
+    <.custom_nav active="chelekom-docs-stat" />
+    <div class="lg:col-span-10">
+      <.custom_info
+        title="Stat"
+        description="Metric / KPI display blocks for dashboards. Use stat for one metric and stat_group to lay out several with shared dividers and orientation."
+        mix="mix mishka.ui.gen.component stat"
+        github="https://github.com/mishka-group/mishka_chelekom/blob/master/priv/components/stat.eex"
+        tags={["Component", "Stateless"]}
+      />
+
+      <.custom_tab id="chelekom-stat-tab">
+        <:documentation_panel>
+          <.heading2 class="mb-5" id="overview">
+            <.link patch={~p"/chelekom/docs/stat/#overview"}>
+              Overview of the Phoenix LiveView Stat Component
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The <strong>Mishka Chelekom Stat</strong>
+            component renders a metric block with a title, value, description, optional figure (icon/image), trend indicator, and action area. Pair it with
+            <.custom_inline_code>stat_group</.custom_inline_code>
+            to display multiple stats with dividers and a chosen orientation.
+          </.cp>
+
+          <.heading2 margin="my-5" id="stat-basic">
+            <.link patch={~p"/chelekom/docs/stat/#stat-basic"}>Basic usage</.link>
+          </.heading2>
+
+          <.custom_code_wrapper code_class="text-xs" code={@code_basic}>
+            <.stat title="Total revenue" value="$45,231.89" description="Last 30 days" />
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="stat-figure">
+            <.link patch={~p"/chelekom/docs/stat/#stat-figure"}>Figure slot</.link>
+          </.heading2>
+
+          <.cp>
+            Pass an icon or any HEEx into the
+            <.custom_inline_code>:figure</.custom_inline_code>
+            slot. Use
+            <.custom_inline_code>figure_position</.custom_inline_code>
+            (<strong>start</strong>, <strong>end</strong>, <strong>top</strong>) to control placement.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" code={@code_figure}>
+            <div class="space-y-2">
+              <.stat
+                title="Total likes"
+                value="25.6K"
+                description="From all platforms"
+                color="primary"
+              >
+                <:figure><.icon name="hero-heart" /></:figure>
+              </.stat>
+              <.stat
+                title="Comments"
+                value="1.2K"
+                description="This week"
+                color="info"
+                figure_position="end"
+              >
+                <:figure><.icon name="hero-chat-bubble-left-right" /></:figure>
+              </.stat>
+              <.stat
+                title="Files uploaded"
+                value="89"
+                description="Today"
+                color="warning"
+                figure_position="top"
+              >
+                <:figure><.icon name="hero-document" /></:figure>
+              </.stat>
+            </div>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="stat-trend">
+            <.link patch={~p"/chelekom/docs/stat/#stat-trend"}>Trend indicator</.link>
+          </.heading2>
+
+          <.cp>
+            Set <.custom_inline_code>trend="up"</.custom_inline_code>, <.custom_inline_code>"down"</.custom_inline_code>, or
+            <.custom_inline_code>"neutral"</.custom_inline_code>
+            to color the description with success / danger / natural tokens and add a directional arrow.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" code={@code_trend}>
+            <div class="space-y-2">
+              <.stat title="MRR" value="$12,400" description="20.1% from last month" trend="up" />
+              <.stat title="Churn" value="3.2%" description="0.4% from last month" trend="down" />
+              <.stat title="ARPU" value="$84" description="Flat vs last month" trend="neutral" />
+            </div>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="stat-actions">
+            <.link patch={~p"/chelekom/docs/stat/#stat-actions"}>Actions slot</.link>
+          </.heading2>
+
+          <.custom_code_wrapper code_class="text-xs" code={@code_actions}>
+            <.stat title="Account balance" value="$89,400">
+              <:actions>
+                <.button color="success" size="small">Add funds</.button>
+              </:actions>
+            </.stat>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="stat-variants">
+            <.link patch={~p"/chelekom/docs/stat/#stat-variants"}>Variants & colors</.link>
+          </.heading2>
+
+          <.custom_code_wrapper code_class="text-xs" code={@code_variants}>
+            <div class="space-y-2">
+              <.stat
+                variant="default"
+                color="primary"
+                title="Visits"
+                value="42K"
+                description="This week"
+              />
+              <.stat
+                variant="shadow"
+                color="success"
+                title="Sales"
+                value="$2.3K"
+                description="Up 12%"
+              />
+              <.stat
+                variant="bordered"
+                color="info"
+                title="Signups"
+                value="1,204"
+                description="Today"
+              />
+              <.stat
+                variant="gradient"
+                color="misc"
+                title="Revenue"
+                value="$98K"
+                description="MTD"
+              />
+              <.stat variant="base" title="Latency" value="248ms" description="p95" />
+            </div>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="stat-sizes">
+            <.link patch={~p"/chelekom/docs/stat/#stat-sizes"}>Sizes</.link>
+          </.heading2>
+
+          <.custom_code_wrapper code_class="text-xs" code={@code_sizes}>
+            <div class="space-y-2">
+              <.stat
+                :for={s <- ~w(extra_small small medium large extra_large)}
+                size={s}
+                title={"Size #{s}"}
+                value="42"
+                description="example"
+              />
+            </div>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="stat-group">
+            <.link patch={~p"/chelekom/docs/stat/#stat-group"}>Stat group</.link>
+          </.heading2>
+
+          <.cp>
+            Wrap multiple
+            <.custom_inline_code>&lt;.stat&gt;</.custom_inline_code>
+            blocks with
+            <.custom_inline_code>&lt;.stat_group&gt;</.custom_inline_code>
+            to share dividers and a chosen orientation.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" code={@code_group}>
+            <.stat_group>
+              <.stat title="Downloads" value="31K" description="Last 30 days" />
+              <.stat title="New users" value="4,200" description="+12% MoM" trend="up" />
+              <.stat title="New posts" value="1,200" description="-3% MoM" trend="down" />
+            </.stat_group>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="stat-orientation">
+            <.link patch={~p"/chelekom/docs/stat/#stat-orientation"}>Orientation</.link>
+          </.heading2>
+
+          <.cp>
+            <.custom_inline_code>orientation="responsive"</.custom_inline_code>
+            stacks vertically on mobile and switches to horizontal at the <strong>lg</strong>
+            breakpoint.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" code={@code_responsive}>
+            <div class="space-y-4">
+              <.stat_group orientation="horizontal">
+                <.stat title="Visits" value="42K" />
+                <.stat title="Sales" value="$2.3K" />
+                <.stat title="Signups" value="1,204" />
+              </.stat_group>
+
+              <.stat_group orientation="vertical">
+                <.stat title="Visits" value="42K" />
+                <.stat title="Sales" value="$2.3K" />
+                <.stat title="Signups" value="1,204" />
+              </.stat_group>
+
+              <.stat_group orientation="responsive" variant="bordered" color="primary">
+                <.stat title="Total" value="89.4K" />
+                <.stat title="Avg time" value="4m 32s" />
+                <.stat title="Bounce" value="38%" />
+              </.stat_group>
+            </div>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="stat-dashboard">
+            <.link patch={~p"/chelekom/docs/stat/#stat-dashboard"}>Dashboard recipe</.link>
+          </.heading2>
+
+          <.custom_code_wrapper code_class="text-xs" code={@code_dashboard}>
+            <.stat_group>
+              <.stat
+                title="Revenue"
+                value="$89,400"
+                description="20.1% from last month"
+                trend="up"
+                color="success"
+              >
+                <:figure><.icon name="hero-currency-dollar" /></:figure>
+              </.stat>
+              <.stat
+                title="Subscriptions"
+                value="2,340"
+                description="+180 from last month"
+                trend="up"
+                color="primary"
+              >
+                <:figure><.icon name="hero-user-group" /></:figure>
+              </.stat>
+              <.stat
+                title="Active now"
+                value="573"
+                description="+201 since last hour"
+                trend="up"
+                color="info"
+              >
+                <:figure><.icon name="hero-bolt" /></:figure>
+              </.stat>
+            </.stat_group>
+          </.custom_code_wrapper>
+        </:documentation_panel>
+
+        <:props_panel>
+          <.custom_search class="mb-16" />
+          <div class="space-y-8">
+            <h2 class="text-lg lg:text-2xl font-bold">Stat Component Props</h2>
+            <.custom_table id="stat-table">
+              <:header>
+                <.table_th>Name</.table_th>
+                <.table_th>Type</.table_th>
+                <.table_th>Required</.table_th>
+                <.table_th>Description</.table_th>
+              </:header>
+              <:row>
+                <.table_td>id</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>Unique identifier.</.table_td>
+              </:row>
+              <:row>
+                <.table_td>title</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>Title / label of the stat.</.table_td>
+              </:row>
+              <:row>
+                <.table_td>value</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>Primary metric value.</.table_td>
+              </:row>
+              <:row>
+                <.table_td>description</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>Description / subtitle.</.table_td>
+              </:row>
+              <:row>
+                <.table_td>trend</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>
+                  <strong>up</strong>, <strong>down</strong>, <strong>neutral</strong>
+                  — colors the description and adds an arrow icon.
+                </.table_td>
+              </:row>
+              <:row>
+                <.table_td>variant</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>
+                  <strong>base</strong>, <strong>default</strong>, <strong>shadow</strong>, <strong>bordered</strong>, <strong>gradient</strong>. Default <strong>base</strong>.
+                </.table_td>
+              </:row>
+              <:row>
+                <.table_td>color</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>Full chelekom palette. Default <strong>natural</strong>.</.table_td>
+              </:row>
+              <:row>
+                <.table_td>size</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>
+                  <strong>extra_small</strong>
+                  → <strong>extra_large</strong>. Default <strong>medium</strong>.
+                </.table_td>
+              </:row>
+              <:row>
+                <.table_td>rounded</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>Border radius token. Default <strong>medium</strong>.</.table_td>
+              </:row>
+              <:row>
+                <.table_td>padding</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>Container padding. Default <strong>medium</strong>.</.table_td>
+              </:row>
+              <:row>
+                <.table_td>border</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>
+                  Border thickness (only for <strong>base</strong> / <strong>bordered</strong>).
+                </.table_td>
+              </:row>
+              <:row>
+                <.table_td>figure_position</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>
+                  <strong>start</strong>, <strong>end</strong>, <strong>top</strong>. Default <strong>start</strong>.
+                </.table_td>
+              </:row>
+              <:row>
+                <.table_td>font_weight</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>
+                  Tailwind font-weight class for the value. Default <strong>font-medium</strong>.
+                </.table_td>
+              </:row>
+              <:row>
+                <.table_td>:figure</.table_td>
+                <.table_td>slot</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>Icon or image area.</.table_td>
+              </:row>
+              <:row>
+                <.table_td>:actions</.table_td>
+                <.table_td>slot</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>Buttons / links area below description.</.table_td>
+              </:row>
+              <:row>
+                <.table_td>:inner_block</.table_td>
+                <.table_td>slot</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>Extra HEEx content inside the stat.</.table_td>
+              </:row>
+            </.custom_table>
+
+            <h2 class="text-lg lg:text-2xl font-bold mt-10">Stat Group Component Props</h2>
+            <.custom_table id="stat-group-table">
+              <:header>
+                <.table_th>Name</.table_th>
+                <.table_th>Type</.table_th>
+                <.table_th>Required</.table_th>
+                <.table_th>Description</.table_th>
+              </:header>
+              <:row>
+                <.table_td>orientation</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>
+                  <strong>horizontal</strong>, <strong>vertical</strong>, <strong>responsive</strong>. Default <strong>horizontal</strong>.
+                </.table_td>
+              </:row>
+              <:row>
+                <.table_td>divider</.table_td>
+                <.table_td>boolean</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>
+                  Adds dividing borders between stats. Default <strong>true</strong>.
+                </.table_td>
+              </:row>
+              <:row>
+                <.table_td>variant</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>Same as stat. Default <strong>base</strong>.</.table_td>
+              </:row>
+              <:row>
+                <.table_td>color</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>Same as stat. Default <strong>natural</strong>.</.table_td>
+              </:row>
+              <:row>
+                <.table_td>rounded / padding</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>Wrapper tokens.</.table_td>
+              </:row>
+              <:row>
+                <.table_td>:inner_block</.table_td>
+                <.table_td>slot</.table_td>
+                <.table_td>Yes</.table_td>
+                <.table_td>
+                  Accepts
+                  <.custom_inline_code>&lt;.stat&gt;</.custom_inline_code>
+                  children.
+                </.table_td>
+              </:row>
+            </.custom_table>
+          </div>
+        </:props_panel>
+
+        <:cli_panel>
+          <.custom_cli_props config={component_config()} />
+        </:cli_panel>
+
+        <.custom_table_content>
+          <:content link={~p"/chelekom/docs/stat/#overview"} title="Overview" />
+          <:content link={~p"/chelekom/docs/stat/#stat-basic"} title="Basic usage" />
+          <:content link={~p"/chelekom/docs/stat/#stat-figure"} title="Figure slot" />
+          <:content link={~p"/chelekom/docs/stat/#stat-trend"} title="Trend indicator" />
+          <:content link={~p"/chelekom/docs/stat/#stat-actions"} title="Actions slot" />
+          <:content link={~p"/chelekom/docs/stat/#stat-variants"} title="Variants & colors" />
+          <:content link={~p"/chelekom/docs/stat/#stat-sizes"} title="Sizes" />
+          <:content link={~p"/chelekom/docs/stat/#stat-group"} title="Stat group" />
+          <:content link={~p"/chelekom/docs/stat/#stat-orientation"} title="Orientation" />
+          <:content link={~p"/chelekom/docs/stat/#stat-dashboard"} title="Dashboard recipe" />
+        </.custom_table_content>
+      </.custom_tab>
+    </div>
+  </div>
+</Layouts.app>

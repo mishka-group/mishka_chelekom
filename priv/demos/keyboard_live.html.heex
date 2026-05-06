@@ -1,0 +1,730 @@
+<Layouts.app flash={@flash}>
+  <div class="lg:grid lg:grid-cols-12 mt-5 max-w-5xl mx-auto">
+    <.custom_nav active="chelekom-docs-keyboard" />
+    <div class="lg:col-span-10">
+      <.custom_info
+        title="Keyboard"
+        description="Flexible keyboard component for Phoenix LiveView, offering customizable key displays, ideal for visually representing shortcuts, key combinations, or inputs"
+        mix="mix mishka.ui.gen.component keyboard"
+        github="https://github.com/mishka-group/mishka_chelekom/blob/master/priv/components/keyboard.eex"
+        tags={["Component", "Stateless"]}
+      />
+      <.custom_tab id="chelekom-keyboard-tab">
+        <:documentation_panel>
+          <.heading2 class="mb-5" id="overview">
+            <.link patch={~p"/chelekom/docs/keyboard/#overview"}>
+              Overview of the Phoenix and LiveView Keyboard Component
+            </.link>
+          </.heading2>
+          <.cp>
+            The
+            <strong>
+              Mishka Chelekom keyboard
+            </strong>
+            component is a <strong>Phoenix LiveView</strong>
+            component that allows developers to create dynamic and customizable <strong>keyboard elements</strong>, perfect for displaying keyboard shortcuts or commands within applications. It offers flexibility in layout, allowing for easy adjustment of size, color, and rounded borders, ensuring a clean and professional appearance.
+          </.cp>
+
+          <.cp margin="mt-5">
+            This
+            <strong>
+              <.link
+                title="Phoenix LiveView component"
+                class="transition-colors hover:text-[#448D96]"
+                navigate={~p"/chelekom"}
+              >
+                Phoenix LiveView component
+              </.link>
+            </strong>
+            also supports adding text, icons, and custom content, making it ideal for enhancing the clarity and visual appeal of key inputs. With its responsive design and ease of use, this keyboard component improves user interaction and overall experience.
+          </.cp>
+
+          <.custom_block position="left" color="success" class="my-8" border="medium">
+            <.cp>
+              By using the class prop, you can apply custom classes or Tailwind CSS classes to customize the components design.
+            </.cp>
+          </.custom_block>
+
+          <.heading2 margin="my-5" id="base-keyboard">
+            <.link patch={~p"/chelekom/docs/keyboard/#base-keyboard"}>
+              Base Variant
+            </.link>
+          </.heading2>
+
+          <.custom_code_wrapper
+            elements_class="flex items-center"
+            code_class="text-sm"
+            code={@code_10}
+          >
+            <.keyboard id="keyboard_natural_doc_134">Ctrl + C</.keyboard>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="default-variant-keyboard">
+            <.link patch={~p"/chelekom/docs/keyboard/#default-variant-keyboard"}>
+              Default Variant
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The default style of the
+            <.link navigate={~p"/chelekom/docs/keyboard"}>Mishka Chelekom keyboard</.link>
+            applies a solid background and border that change based on user interaction, making it perfect for delivering important notifications. With just a single setting, you can select from a range of color options, ensuring easy customization to match various design styles.
+          </.cp>
+
+          <.custom_code_wrapper
+            elements_class="flex flex-wrap items-center gap-2"
+            code_class="text-sm"
+            code={@code_1}
+          >
+            <.keyboard id="keyboard_natural_doc_1" variant="default" color="natural">
+              Ctrl + C
+            </.keyboard>
+
+            <.keyboard id="keyboard_white_doc_2" variant="default" color="white">
+              Ctrl + C
+            </.keyboard>
+
+            <.keyboard id="keyboard_dark_doc_2" variant="default" color="dark">
+              Ctrl + C
+            </.keyboard>
+
+            <.keyboard id="keyboard_info_doc_3" variant="default" color="info">
+              Ctrl + C
+            </.keyboard>
+
+            <.keyboard id="keyboard_success_doc_4" variant="default" color="success">
+              Ctrl + C
+            </.keyboard>
+
+            <.keyboard id="keyboard_warning_doc_5" variant="default" color="warning">
+              Ctrl + C
+            </.keyboard>
+
+            <.keyboard id="keyboard_danger_doc_6" variant="default" color="danger">
+              Ctrl + C
+            </.keyboard>
+
+            <.keyboard id="keyboard_silver_doc_7" variant="default" color="silver">
+              Ctrl + C
+            </.keyboard>
+
+            <.keyboard id="keyboard_misc_doc_8" variant="default" color="misc">
+              Ctrl + C
+            </.keyboard>
+
+            <.keyboard id="keyboard_dawn_doc_9" variant="default" color="dawn">
+              Ctrl + C
+            </.keyboard>
+
+            <.keyboard id="keyboard_primary_doc_10" variant="default" color="primary">
+              Ctrl + C
+            </.keyboard>
+
+            <.keyboard id="keyboard_secondary_doc_11" variant="default" color="secondary">
+              Ctrl + C
+            </.keyboard>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="outline-variant-keyboard">
+            <.link patch={~p"/chelekom/docs/keyboard/#outline-variant-keyboard"}>
+              Outline Variant
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The outline style of the Mishka Chelekom keyboard features a border. Using a single setting, you can choose from various color variants to suit your design needs.
+          </.cp>
+
+          <.custom_code_wrapper
+            elements_class="flex flex-wrap items-center gap-2"
+            code_class="text-sm"
+            code={@code_2}
+          >
+            <.keyboard id="keyboard_natural_doc_12" variant="outline">Ctrl + K</.keyboard>
+
+            <.keyboard id="keyboard_info_doc_14" variant="outline" color="info">
+              Ctrl + K
+            </.keyboard>
+
+            <.keyboard id="keyboard_success_doc_15" variant="outline" color="success">
+              Ctrl + K
+            </.keyboard>
+
+            <.keyboard id="keyboard_warning_doc_16" variant="outline" color="warning">
+              Ctrl + K
+            </.keyboard>
+
+            <.keyboard id="keyboard_danger_doc_17" variant="outline" color="danger">
+              Ctrl + K
+            </.keyboard>
+
+            <.keyboard id="keyboard_silver_doc_18" variant="outline" color="silver">
+              Ctrl + K
+            </.keyboard>
+
+            <.keyboard id="keyboard_misc_doc_19" variant="outline" color="misc">
+              Ctrl + K
+            </.keyboard>
+
+            <.keyboard id="keyboard_dawn_doc_20" variant="outline" color="dawn">
+              Ctrl + K
+            </.keyboard>
+
+            <.keyboard id="keyboard_primary_doc_21" variant="outline" color="primary">
+              Ctrl + K
+            </.keyboard>
+
+            <.keyboard id="keyboard_secondary_doc_22" variant="outline" color="secondary">
+              Ctrl + K
+            </.keyboard>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="shadow-variant-keyboard">
+            <.link patch={~p"/chelekom/docs/keyboard/#shadow-variant-keyboard"}>
+              Shadow Variant
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The shadow variant of the Mishka Chelekom keyboard is similar to the default variant, but it also includes a shadow.
+          </.cp>
+
+          <.custom_code_wrapper
+            elements_class="flex flex-wrap items-center gap-2"
+            code_class="text-sm"
+            code={@code_3}
+          >
+            <.keyboard id="keyboard_natural_doc_23" variant="shadow">Ctrl + V</.keyboard>
+
+            <.keyboard id="keyboard_info_doc_25" variant="shadow" color="info">
+              Ctrl + V
+            </.keyboard>
+
+            <.keyboard id="keyboard_success_doc_26" variant="shadow" color="success">
+              Ctrl + V
+            </.keyboard>
+
+            <.keyboard id="keyboard_warning_doc_27" variant="shadow" color="warning">
+              Ctrl + V
+            </.keyboard>
+
+            <.keyboard id="keyboard_danger_doc_28" variant="shadow" color="danger">
+              Ctrl + V
+            </.keyboard>
+
+            <.keyboard id="keyboard_silver_doc_29" variant="shadow" color="silver">
+              Ctrl + V
+            </.keyboard>
+
+            <.keyboard id="keyboard_misc_doc_30" variant="shadow" color="misc">
+              Ctrl + V
+            </.keyboard>
+
+            <.keyboard id="keyboard_dawn_doc_31" variant="shadow" color="dawn">
+              Ctrl + V
+            </.keyboard>
+
+            <.keyboard id="keyboard_primary_doc_32" variant="shadow" color="primary">
+              Ctrl + V
+            </.keyboard>
+
+            <.keyboard id="keyboard_secondary_doc_33" variant="shadow" color="secondary">
+              Ctrl + V
+            </.keyboard>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="bordered-variant-keyboard">
+            <.link patch={~p"/chelekom/docs/keyboard/#bordered-variant-keyboard"}>
+              bordered Variant
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The Bordered variant of the Mishka Chelekom keyboard has lighter background and a border. Bordered variant have also white and dark colors which are the same colors in the dark and light mode.
+          </.cp>
+
+          <.custom_code_wrapper
+            elements_class="flex flex-wrap items-center gap-2"
+            code_class="text-sm"
+            code={@code_4}
+          >
+            <.keyboard id="keyboard_natural_doc_35" variant="bordered">
+              Ctrl + A
+            </.keyboard>
+
+            <.keyboard id="keyboard_white_doc_36" variant="bordered" color="white">
+              Ctrl + A
+            </.keyboard>
+
+            <.keyboard id="keyboard_dark_doc_36" variant="bordered" color="dark">
+              Ctrl + A
+            </.keyboard>
+
+            <.keyboard id="keyboard_info_doc_37" variant="bordered" color="info">
+              Ctrl + A
+            </.keyboard>
+
+            <.keyboard id="keyboard_success_doc_38" variant="bordered" color="success">
+              Ctrl + A
+            </.keyboard>
+
+            <.keyboard id="keyboard_warning_doc_39" variant="bordered" color="warning">
+              Ctrl + A
+            </.keyboard>
+
+            <.keyboard id="keyboard_danger_doc_40" variant="bordered" color="danger">
+              Ctrl + A
+            </.keyboard>
+
+            <.keyboard id="keyboard_silver_doc_41" variant="bordered" color="silver">
+              Ctrl + A
+            </.keyboard>
+
+            <.keyboard id="keyboard_misc_doc_42" variant="bordered" color="misc">
+              Ctrl + A
+            </.keyboard>
+
+            <.keyboard id="keyboard_dawn_doc_43" variant="bordered" color="dawn">
+              Ctrl + A
+            </.keyboard>
+
+            <.keyboard id="keyboard_primary_doc_44" variant="bordered" color="primary">
+              Ctrl + A
+            </.keyboard>
+
+            <.keyboard id="keyboard_secondary_doc_45" variant="bordered" color="secondary">
+              Ctrl + A
+            </.keyboard>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="transparent-variant-keyboard">
+            <.link patch={~p"/chelekom/docs/keyboard/#transparent-variant-keyboard"}>
+              Transparent Variant
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The transparent variant of the Mishka Chelekom keyboard is similar to the default variant, but without border and background color.
+          </.cp>
+
+          <.custom_code_wrapper
+            elements_class="flex flex-wrap items-center gap-2"
+            code_class="text-sm"
+            code={@code_5}
+          >
+            <.keyboard id="keyboard_natural_doc_46" variant="transparent">
+              Ctrl + D
+            </.keyboard>
+
+            <.keyboard id="keyboard_info_doc_48" variant="transparent" color="info">
+              Ctrl + D
+            </.keyboard>
+
+            <.keyboard id="keyboard_success_doc_49" variant="transparent" color="success">
+              Ctrl + D
+            </.keyboard>
+
+            <.keyboard id="keyboard_warning_doc_50" variant="transparent" color="warning">
+              Ctrl + D
+            </.keyboard>
+
+            <.keyboard id="keyboard_danger_doc_51" variant="transparent" color="danger">
+              Ctrl + D
+            </.keyboard>
+
+            <.keyboard id="keyboard_silver_doc_52" variant="transparent" color="silver">
+              Ctrl + D
+            </.keyboard>
+
+            <.keyboard id="keyboard_misc_doc_53" variant="transparent" color="misc">
+              Ctrl + D
+            </.keyboard>
+
+            <.keyboard id="keyboard_dawn_doc_54" variant="transparent" color="dawn">
+              Ctrl + D
+            </.keyboard>
+
+            <.keyboard id="keyboard_primary_doc_55" variant="transparent" color="primary">
+              Ctrl + D
+            </.keyboard>
+
+            <.keyboard id="keyboard_secondary_doc_56" variant="transparent" color="secondary">
+              Ctrl + D
+            </.keyboard>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="gradient-variant-keyboard">
+            <.link patch={~p"/chelekom/docs/keyboard/#gradient-variant-keyboard"}>
+              gradient Variant
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The gradient variant of the Mishka Chelekom keyboard has gradients in various colors.
+          </.cp>
+
+          <.custom_code_wrapper
+            elements_class="flex flex-wrap items-center gap-2"
+            code_class="text-sm"
+            code={@code_9}
+          >
+            <.keyboard id="keyboard_natural_gradient_46" variant="gradient">
+              Ctrl + D
+            </.keyboard>
+
+            <.keyboard id="keyboard_info_gradient_48" variant="gradient" color="info">
+              Ctrl + D
+            </.keyboard>
+
+            <.keyboard id="keyboard_success_gradient_49" variant="gradient" color="success">
+              Ctrl + D
+            </.keyboard>
+
+            <.keyboard id="keyboard_warning_gradient_50" variant="gradient" color="warning">
+              Ctrl + D
+            </.keyboard>
+
+            <.keyboard id="keyboard_danger_gradient_51" variant="gradient" color="danger">
+              Ctrl + D
+            </.keyboard>
+
+            <.keyboard id="keyboard_silver_gradient_52" variant="gradient" color="silver">
+              Ctrl + D
+            </.keyboard>
+
+            <.keyboard id="keyboard_misc_gradient_53" variant="gradient" color="misc">
+              Ctrl + D
+            </.keyboard>
+
+            <.keyboard id="keyboard_dawn_gradient_54" variant="gradient" color="dawn">
+              Ctrl + D
+            </.keyboard>
+
+            <.keyboard id="keyboard_primary_gradient_55" variant="gradient" color="primary">
+              Ctrl + D
+            </.keyboard>
+
+            <.keyboard id="keyboard_secondary_gradient_56" variant="gradient" color="secondary">
+              Ctrl + D
+            </.keyboard>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="keyboard-rounded">
+            <.link patch={~p"/chelekom/docs/keyboard/#keyboard-rounded"}>
+              Rounded prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The rounded prop offers values like <.custom_inline_code>extra_small</.custom_inline_code>, <.custom_inline_code>small</.custom_inline_code>, <.custom_inline_code>medium</.custom_inline_code>, <.custom_inline_code>large</.custom_inline_code>, <.custom_inline_code>extra_large</.custom_inline_code>, <.custom_inline_code>full</.custom_inline_code>, and <.custom_inline_code>none</.custom_inline_code>. These values control the border radius, allowing for different levels of rounding from subtle to more pronounced corners, depending on the design needs.
+          </.cp>
+
+          <.custom_code_wrapper elements_class="flex flex-wrap items-center gap-2" code={@code_6}>
+            <.keyboard
+              id="keyboard_rounded_doc_57"
+              rounded="extra_small"
+              variant="default"
+              color="info"
+            >
+              Ctrl + K
+            </.keyboard>
+
+            <.keyboard id="keyboard_rounded_doc_58" rounded="small" variant="default" color="info">
+              Ctrl + K
+            </.keyboard>
+
+            <.keyboard
+              id="keyboard_rounded_doc_59"
+              rounded="medium"
+              variant="default"
+              color="info"
+            >
+              Ctrl + K
+            </.keyboard>
+
+            <.keyboard id="keyboard_rounded_doc_60" rounded="large" variant="default" color="info">
+              Ctrl + K
+            </.keyboard>
+
+            <.keyboard
+              id="keyboard_rounded_doc_61"
+              rounded="extra_large"
+              variant="default"
+              color="info"
+            >
+              Ctrl + K
+            </.keyboard>
+
+            <.keyboard id="keyboard_rounded_doc_62" rounded="full" variant="default" color="info">
+              Ctrl + K
+            </.keyboard>
+
+            <.keyboard id="keyboard_rounded_doc_63" rounded="none" variant="default" color="info">
+              Ctrl + K
+            </.keyboard>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="keyboard-size-prop">
+            <.link patch={~p"/chelekom/docs/keyboard/#keyboard-size-prop"}>
+              Size prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The size prop offers values such as <.custom_inline_code>"extra_small"</.custom_inline_code>, <.custom_inline_code>"small"</.custom_inline_code>, <.custom_inline_code>"medium"</.custom_inline_code>, <.custom_inline_code>"large"</.custom_inline_code>, and <.custom_inline_code>"extra_large"</.custom_inline_code>. These values control text size within the keyboard component.
+          </.cp>
+
+          <.custom_code_wrapper elements_class="flex flex-wrap items-center gap-2" code={@code_7}>
+            <.keyboard
+              id="keyboard_size_doc_62"
+              size="extra_small"
+              variant="default"
+              color="danger"
+            >
+              Ctrl + C
+            </.keyboard>
+
+            <.keyboard id="keyboard_size_doc_63" size="small" variant="default" color="danger">
+              Ctrl + C
+            </.keyboard>
+
+            <.keyboard id="keyboard_size_doc_64" size="medium" variant="default" color="danger">
+              Ctrl + C
+            </.keyboard>
+
+            <.keyboard id="keyboard_size_doc_65" size="large" variant="default" color="danger">
+              Ctrl + C
+            </.keyboard>
+
+            <.keyboard
+              id="keyboard_size_doc_66"
+              size="extra_large"
+              variant="default"
+              color="danger"
+            >
+              Ctrl + C
+            </.keyboard>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="keyboard-font-weight-prop">
+            <.link patch={~p"/chelekom/docs/keyboard/#keyboard-font-weight-prop"}>
+              Font Wight prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The <.custom_inline_code>font_wight</.custom_inline_code>: This prop controls the weight (thickness or boldness) of text, utilizing Tailwind's font-weight classes such as <.custom_inline_code>font-light</.custom_inline_code>, <.custom_inline_code>font-bold</.custom_inline_code>, or <.custom_inline_code>font-semibold</.custom_inline_code>. You can easily adjust the text weight to match your design needs, whether you need subtle emphasis or a bolder look.
+          </.cp>
+
+          <.custom_code_wrapper elements_class="flex flex-wrap items-center gap-2" code={@code_8}>
+            <.keyboard
+              id="keyboard_weight_doc_67"
+              variant="default"
+              color="success"
+              font_weight="font-bold"
+            >
+              Bold
+            </.keyboard>
+
+            <.keyboard
+              id="keyboard_weight_doc_68"
+              variant="default"
+              color="misc"
+              font_weight="font-semibold"
+            >
+              Semibold
+            </.keyboard>
+
+            <.keyboard
+              id="keyboard_weight_doc_69"
+              variant="default"
+              color="warning"
+              font_weight="font-medium"
+            >
+              Medium
+            </.keyboard>
+
+            <.keyboard
+              id="keyboard_weight_doc_70"
+              variant="default"
+              color="danger"
+              font_weight="font-light"
+            >
+              Light
+            </.keyboard>
+
+            <.keyboard
+              id="keyboard_weight_doc_71"
+              variant="default"
+              color="primary"
+              font_weight="font-black"
+            >
+              Black
+            </.keyboard>
+          </.custom_code_wrapper>
+        </:documentation_panel>
+
+        <:props_panel>
+          <.custom_search class="mb-16" />
+          <div class="space-y-8">
+            <h2 class="text-lg lg:text-2xl font-bold">Keyboard component props</h2>
+
+            <.custom_table id="keyboard-component-table">
+              <:header>
+                <.table_th>Name</.table_th>
+
+                <.table_th>Type</.table_th>
+
+                <.table_th>Required</.table_th>
+
+                <.table_th>Description</.table_th>
+              </:header>
+
+              <:row>
+                <.table_td>id</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  A unique identifier is used to manage state and interaction.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>variant</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines the style of the keyboard component. Values: <strong>base</strong>, <strong>default</strong>, <strong>outline</strong>, <strong>transparent</strong>, <strong>shadow</strong>, <strong>bordered</strong>, <strong>gradienta</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>color</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines the color theme of the keyboard. Values: <strong>base</strong>, <strong>natural</strong>, <strong>primary</strong>, <strong>secondary</strong>, <strong>success</strong>, <strong>warning</strong>, <strong>danger</strong>, <strong>info</strong>, <strong>silver</strong>, <strong>misc</strong>, <strong>dawn</strong>. The
+                  <strong>default</strong>
+                  and <strong>bordered</strong>
+                  variants have extra color options: <strong>dark</strong>
+                  and <strong>white</strong>, which in both light mode and dark mode, these colors are always the same.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>size</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines the overall size of the elements, including padding, font size, and other items. Default is <strong>small</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>border</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines the border style of the button group. Supported values: <strong>natural</strong>, <strong>primary</strong>, <strong>secondary</strong>, <strong>dark</strong>, <strong>success</strong>, <strong>warning</strong>, <strong>danger</strong>, <strong>info</strong>, <strong>Silver</strong>, <strong>misc</strong>, <strong>dawn</strong>, <strong>transparent</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>rounded</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines the border radius. Values: <strong>extra_small</strong>, <strong>small</strong>, <strong>medium</strong>, <strong>large</strong>, <strong>extra_large</strong>, <strong>full</strong>, <strong>none</strong>. Default is <strong>small</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>font_weight</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines the font weight. Default is <strong>font-semibold</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>class</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Custom CSS class for additional styling.</.table_td>
+              </:row>
+            </.custom_table>
+          </div>
+        </:props_panel>
+
+        <:cli_panel>
+          <.custom_cli_props config={component_config()} />
+        </:cli_panel>
+        <.custom_table_content>
+          <:content
+            link={~p"/chelekom/docs/keyboard/#overview"}
+            title="Overview of the keyboard component"
+          />
+          <:content
+            link={~p"/chelekom/docs/keyboard/#base-keyboard"}
+            title="Base color & variant"
+          />
+          <:content
+            link={~p"/chelekom/docs/keyboard/#default-variant-keyboard"}
+            title="Default variant"
+          />
+          <:content
+            link={~p"/chelekom/docs/keyboard/#outline-variant-keyboard"}
+            title="Otline variant"
+          />
+          <:content
+            link={~p"/chelekom/docs/keyboard/#shadow-variant-keyboard"}
+            title="Shadow variant"
+          />
+          <:content
+            link={~p"/chelekom/docs/keyboard/#bordered-variant-keyboard"}
+            title="bordered variant"
+          />
+          <:content
+            link={~p"/chelekom/docs/keyboard/#transparent-variant-keyboard"}
+            title="Transparent variant"
+          />
+          <:content
+            link={~p"/chelekom/docs/keyboard/#gradient-variant-keyboard"}
+            title="Gradient variant"
+          />
+          <:content link={~p"/chelekom/docs/keyboard/#keyboard-rounded"} title="Rounded prop" />
+          <:content link={~p"/chelekom/docs/keyboard/#keyboard-size-prop"} title="Size prop" />
+          <:content
+            link={~p"/chelekom/docs/keyboard/#keyboard-font-weight-prop"}
+            title="Font Weight prop"
+          />
+        </.custom_table_content>
+      </.custom_tab>
+    </div>
+  </div>
+</Layouts.app>

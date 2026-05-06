@@ -1,0 +1,1689 @@
+<Layouts.app flash={@flash}>
+  <div class="lg:grid lg:grid-cols-12 mt-5 max-w-5xl mx-auto">
+    <.custom_nav active="chelekom-docs-dropdown" />
+    <div class="lg:col-span-10">
+      <.custom_info
+        title="Dropdown"
+        description="Dynamic dropdown menus with flexible styles and triggers in Phoenix LiveView to enhance user navigation and interaction."
+        mix="mix mishka.ui.gen.component dropdown"
+        github="https://github.com/mishka-group/mishka_chelekom/blob/master/priv/components/dropdown.eex"
+        tags={["Component", "Stateless", "JS"]}
+      />
+      <.custom_tab id="chelekom-dropdown-tab">
+        <:documentation_panel>
+          <.heading2 class="mb-5" id="overview">
+            <.link patch={~p"/chelekom/docs/dropdown/#overview"}>
+              Overview of the Phoenix LiveView dropdown Component
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <strong>
+              Mishka Chelekom dropdown
+            </strong>
+            component is a highly customizable <strong>Phoenix LiveView</strong>
+            tool for creating interactive and responsive dropdown menus. Ideal for navigation, action selection, and content display, it supports various styles, positions, and triggers with flexible options for colors, sizes, and border styles to seamlessly integrate into your app's design.
+          </.cp>
+
+          <.custom_code_wrapper
+            code_class="text-xs"
+            elements_class="flex justify-around items-center gap-10 flex-wrap"
+          >
+            <.dropdown id="dropdown-0002" rounded="small" padding="extra_small">
+              <:trigger>
+                <button class="w-fit border border-[#E5E7EB] dark:border-slate-700 flex items-center gap-3 leading-5 text-start text-xs px-2 py-1 rounded hover:bg-slate-50 dark:hover:bg-slate-700">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    class="size-6"
+                  >
+                    <path d="M12 8a2.83 2.83 0 0 0 4 4 4 4 0 1 1-4-4" /><path d="M12 2v2" /><path d="M12 20v2" /><path d="m4.9 4.9 1.4 1.4" /><path d="m17.7 17.7 1.4 1.4" /><path d="M2 12h2" /><path d="M20 12h2" /><path d="m6.3 17.7-1.4 1.4" /><path d="m19.1 4.9-1.4 1.4" />
+                  </svg>
+                </button>
+              </:trigger>
+
+              <:content class="space-y-2">
+                <ul class="text-sm">
+                  <li class="py-1 px-1.5">
+                    <span class="flex items-center gap-2 cursor-pointer hover:text-gray-600 dark:hover:text-gray-400 transition-all">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="24"
+                        height="24"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        class="size-3.5"
+                      >
+                        <circle cx="12" cy="12" r="4" /><path d="M12 2v2" /><path d="M12 20v2" /><path d="m4.93 4.93 1.41 1.41" /><path d="m17.66 17.66 1.41 1.41" /><path d="M2 12h2" /><path d="M20 12h2" /><path d="m6.34 17.66-1.41 1.41" /><path d="m19.07 4.93-1.41 1.41" />
+                      </svg>
+                      Light
+                    </span>
+                  </li>
+                  <li class="py-1 px-1.5">
+                    <span class="flex items-center gap-2 cursor-pointer hover:text-gray-600 dark:hover:text-gray-400 transition-all">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="24"
+                        height="24"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        class="size-3.5"
+                      >
+                        <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z" />
+                      </svg>
+                      Dark
+                    </span>
+                  </li>
+                  <li class="py-1 px-1.5">
+                    <span class="flex items-center gap-2 cursor-pointer hover:text-gray-600 dark:hover:text-gray-400 transition-all">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="24"
+                        height="24"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        class="size-3.5"
+                      >
+                        <path d="M12 17v4" /><path d="m15.2 4.9-.9-.4" /><path d="m15.2 7.1-.9.4" /><path d="m16.9 3.2-.4-.9" /><path d="m16.9 8.8-.4.9" /><path d="m19.5 2.3-.4.9" /><path d="m19.5 9.7-.4-.9" /><path d="m21.7 4.5-.9.4" /><path d="m21.7 7.5-.9-.4" /><path d="M22 13v2a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h7" /><path d="M8 21h8" /><circle
+                          cx="18"
+                          cy="6"
+                          r="3"
+                        />
+                      </svg>
+                      System
+                    </span>
+                  </li>
+                </ul>
+              </:content>
+            </.dropdown>
+            <.dropdown id="dropdown-0003" rounded="small" padding="extra_small">
+              <:trigger>
+                <button class="w-fit border border-[#E5E7EB] dark:border-slate-700 flex items-center gap-2 leading-6 text-xs px-2 py-1 rounded hover:bg-slate-50 dark:hover:bg-slate-700">
+                  <div>Toggle Dropdown</div>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    class="size-4"
+                  >
+                    <path d="m6 9 6 6 6-6" />
+                  </svg>
+                </button>
+              </:trigger>
+
+              <:content class="space-y-2">
+                <ul class="text-sm">
+                  <li class="py-1 px-1.5 flex items-center justify-between gap-2">
+                    <span class="flex items-center gap-2 flex-1 cursor-pointer hover:text-gray-600 dark:hover:text-gray-400 transition-all">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="24"
+                        height="24"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        class="size-3.5"
+                      >
+                        <path d="M5 12h14" /><path d="M12 5v14" />
+                      </svg>
+                      New
+                    </span>
+                    <kbd class="border border-[#E5E7EB] dark:border-gray-700 rounded text-[12px] gap-1 leading-5 px-1.5 py-[0.03rem] flex items-center">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="24"
+                        height="24"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        class="size-2.5"
+                      >
+                        <path d="M15 6v12a3 3 0 1 0 3-3H6a3 3 0 1 0 3 3V6a3 3 0 1 0-3 3h12a3 3 0 1 0-3-3" />
+                      </svg>
+                      <span>+</span> <span>N</span>
+                    </kbd>
+                  </li>
+                  <li class="py-1 px-1.5 flex items-center justify-between gap-2">
+                    <span class="flex items-center gap-2 flex-1 cursor-pointer hover:text-gray-600 dark:hover:text-gray-400 transition-all">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="24"
+                        height="24"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        class="size-3.5"
+                      >
+                        <circle cx="11" cy="11" r="8" /><path d="m21 21-4.3-4.3" />
+                      </svg>
+                      Search
+                    </span>
+                    <kbd class="border dark:border-gray-700 rounded text-[12px] gap-1 leading-5 px-1.5 py-[0.03rem] flex items-center">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="24"
+                        height="24"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        class="size-2.5"
+                      >
+                        <path d="M15 6v12a3 3 0 1 0 3-3H6a3 3 0 1 0 3 3V6a3 3 0 1 0-3 3h12a3 3 0 1 0-3-3" />
+                      </svg>
+                      <span>+</span> <span>k</span>
+                    </kbd>
+                  </li>
+                  <li class="py-1 px-1.5 flex items-center justify-between gap-2">
+                    <span class="flex items-center gap-2 flex-1 cursor-pointer text-rose-500 dark:text-rose-300 hover:text-red-600 dark:hover:text-red-400 transition-all">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="24"
+                        height="24"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        class="size-3.5"
+                      >
+                        <path d="M3 6h18" /><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6" /><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2" /><line
+                          x1="10"
+                          x2="10"
+                          y1="11"
+                          y2="17"
+                        /><line x1="14" x2="14" y1="11" y2="17" />
+                      </svg>
+                      Delete
+                    </span>
+                  </li>
+                </ul>
+              </:content>
+            </.dropdown>
+
+            <.dropdown
+              id="dropdown-001"
+              space="small"
+              rounded="large"
+              width="large"
+              clickable={false}
+              smart_position={true}
+              padding="extra_small"
+            >
+              <:trigger>
+                <button class="w-fit border border-[#E5E7EB] dark:border-slate-700 flex items-center gap-3 leading-5 text-start text-xs px-2 py-1 rounded hover:bg-slate-50 dark:hover:bg-slate-700">
+                  <.avatar src={~p"/images/mona-aghili.jpg"} rounded="full" />
+                  <div>
+                    <div class="block mb-1">@MonaAghili</div>
+                    <div class="block">ui@mishka.tools</div>
+                  </div>
+                </button>
+              </:trigger>
+
+              <:content class="space-y-2">
+                <div>
+                  <h6 class="text-[15px] leading-5 font-bold text-gray-500 dark:text-gray-100 mb-2">
+                    Application
+                  </h6>
+                  <ul class="text-sm">
+                    <li class="py-1 px-1.5">
+                      <span class="flex items-center gap-2 cursor-pointer hover:text-gray-600 dark:hover:text-gray-400 transition-all">
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="24"
+                          height="24"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          stroke-width="2"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          class="size-4"
+                        >
+                          <path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z" /><circle
+                            cx="12"
+                            cy="12"
+                            r="3"
+                          />
+                        </svg>
+                        Settings
+                      </span>
+                    </li>
+                    <li class="py-1 px-1.5">
+                      <span class="flex items-center gap-2 cursor-pointer hover:text-gray-600 dark:hover:text-gray-400 transition-all">
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="24"
+                          height="24"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          stroke-width="2"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          class="size-3.5"
+                        >
+                          <rect width="20" height="16" x="2" y="4" rx="2" /><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
+                        </svg>
+                        Messages
+                      </span>
+                    </li>
+                    <li class="py-1 px-1.5">
+                      <span class="flex items-center gap-2 cursor-pointer hover:text-gray-600 dark:hover:text-gray-400 transition-all">
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="24"
+                          height="24"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          stroke-width="2"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          class="size-3.5"
+                        >
+                          <rect width="18" height="18" x="3" y="3" rx="2" ry="2" /><circle
+                            cx="9"
+                            cy="9"
+                            r="2"
+                          /><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21" />
+                        </svg>
+                        Gallery
+                      </span>
+                    </li>
+                    <li class="py-1 px-1.5">
+                      <span class="flex items-center gap-2 cursor-pointer hover:text-gray-600 dark:hover:text-gray-400 transition-all">
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="24"
+                          height="24"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          stroke-width="2"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          class="size-4"
+                        >
+                          <circle cx="11" cy="11" r="8" /><path d="m21 21-4.3-4.3" />
+                        </svg>
+                        Search
+                      </span>
+                    </li>
+                  </ul>
+                </div>
+                <div>
+                  <h6 class="text-[15px] leading-5 font-bold text-gray-500 dark:text-gray-100 mb-2 border-t border-[#E5E7EB] dark:border-gray-800 pt-3">
+                    User Actions
+                  </h6>
+                  <ul class="text-sm">
+                    <li class="py-1 px-1.5">
+                      <span class="flex items-center gap-2 cursor-pointer hover:text-gray-600 dark:hover:text-gray-400 transition-all">
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="24"
+                          height="24"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          stroke-width="2"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          class="size-4"
+                        >
+                          <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2" /><circle
+                            cx="12"
+                            cy="7"
+                            r="4"
+                          />
+                        </svg>
+                        Profile
+                      </span>
+                    </li>
+                    <li class="py-1 px-1.5">
+                      <span class="flex items-center gap-2 cursor-pointer hover:text-gray-600 dark:hover:text-gray-400 transition-all">
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="24"
+                          height="24"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          stroke-width="2"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          class="size-3.5"
+                        >
+                          <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" /><polyline points="16 17 21 12 16 7" /><line
+                            x1="21"
+                            x2="9"
+                            y1="12"
+                            y2="12"
+                          />
+                        </svg>
+                        Sign out
+                      </span>
+                    </li>
+                  </ul>
+                </div>
+              </:content>
+            </.dropdown>
+          </.custom_code_wrapper>
+
+          <.cp margin="mt-5">
+            This
+            <strong>
+              <.link
+                title="Phoenix LiveView dropdown component"
+                class="transition-colors hover:text-[#448D96]"
+                navigate={~p"/chelekom"}
+              >
+                Phoenix LiveView component
+              </.link>
+            </strong>
+            also includes customizable triggers for hover or click activation, as well as multiple content options, making it a versatile solution for enhancing user interaction and navigation within your application.
+          </.cp>
+
+          <.custom_block position="left" color="success" class="my-8" border="medium">
+            <.cp>
+              By using the class prop, you can apply custom classes or Tailwind CSS classes to customize the appearance and behavior of the components, allowing for flexible design changes.
+            </.cp>
+          </.custom_block>
+
+          <.heading2 margin="my-5" id="dropdown-how-use">
+            <.link patch={~p"/chelekom/docs/dropdown/#dropdown-how-use"}>
+              How to use dropdown
+            </.link>
+          </.heading2>
+
+          <.cp class="my-8">
+            The
+            <.custom_inline_code>dropdown</.custom_inline_code>
+            is a wrapper that includes a
+            <.custom_inline_code>trigger</.custom_inline_code>
+            slot, which can be any button or the <.link navigate={~p"/chelekom/docs/button"}>Mishka button component</.link>, and a
+            <.custom_inline_code>content</.custom_inline_code>
+            slot. You can add any list for navigation or other purposes in the content.
+          </.cp>
+
+          <.custom_block position="left" color="success" class="my-8" border="medium">
+            <.cp>
+              Mishka chelekom dropdown supports
+              <.custom_inline_code>trigger</.custom_inline_code>
+              and
+              <.custom_inline_code>content</.custom_inline_code>
+              slots for adding content within a dropdown. It also supports
+              <.custom_inline_code>dropdown_trigger</.custom_inline_code>
+              and <.custom_inline_code>dropdown_content</.custom_inline_code>, and you can see the props in the props tab.
+            </.cp>
+          </.custom_block>
+
+          <.heading2 margin="my-5" id="dropdown-variant-color">
+            <.link patch={~p"/chelekom/docs/dropdown/#dropdown-variant-color"}>
+              Dropdown color variant props
+            </.link>
+          </.heading2>
+
+          <.cp class="my-8">
+            The dropdown component supports four distinct variants: <.custom_inline_code>default</.custom_inline_code>, <.custom_inline_code>outline</.custom_inline_code>, <.custom_inline_code>bordered</.custom_inline_code>, <.custom_inline_code>gradient</.custom_inline_code>, and <.custom_inline_code>shadow</.custom_inline_code>. Each variant can be styled with a variety of colors, including <.custom_inline_code>natural</.custom_inline_code>, <.custom_inline_code>primary</.custom_inline_code>, <.custom_inline_code>secondary</.custom_inline_code>, <.custom_inline_code>success</.custom_inline_code>, <.custom_inline_code>warning</.custom_inline_code>, <.custom_inline_code>danger</.custom_inline_code>, <.custom_inline_code>info</.custom_inline_code>, <.custom_inline_code>silver</.custom_inline_code>, <.custom_inline_code>misc</.custom_inline_code>, and <.custom_inline_code>dawn</.custom_inline_code>. These combinations allow for extensive customization to suit the design needs of your application.
+          </.cp>
+
+          <.custom_code_wrapper
+            code_class="text-xs"
+            elements_class="flex justify-center gap-10 items-center"
+            code={@code_2}
+          >
+            <.dropdown
+              id="dropdown-example-2"
+              space="small"
+              rounded="large"
+              padding="extra_small"
+              variant="bordered"
+              color="danger"
+            >
+              <:trigger>
+                <.button variant="outline" color="danger" size="extra_small">
+                  Bordered danger
+                </.button>
+              </:trigger>
+
+              <:content>
+                <ul class="text-xs">
+                  <li class="py-1.5 px-2 cursor-pointer">Dashboard</li>
+                  <li class="py-1.5 px-2 cursor-pointer">Settings</li>
+                  <li class="py-1.5 px-2 cursor-pointer">Earning</li>
+                  <li class="py-1.5 px-2 cursor-pointer">Sign out</li>
+                </ul>
+              </:content>
+            </.dropdown>
+
+            <.dropdown
+              id="dropdown-example-50"
+              space="small"
+              rounded="large"
+              padding="extra_small"
+              variant="gradient"
+              color="misc"
+            >
+              <:trigger>
+                <.button color="misc" variant="outline" size="extra_small">
+                  Gradient misc
+                </.button>
+              </:trigger>
+
+              <:content>
+                <ul class="text-xs">
+                  <li class="py-1.5 px-2 cursor-pointer">Dashboard</li>
+                  <li class="py-1.5 px-2 cursor-pointer">Settings</li>
+                  <li class="py-1.5 px-2 cursor-pointer">Earning</li>
+                  <li class="py-1.5 px-2 cursor-pointer">Sign out</li>
+                </ul>
+              </:content>
+            </.dropdown>
+
+            <.dropdown
+              id="dropdown-example-3"
+              space="small"
+              rounded="large"
+              padding="extra_small"
+              variant="shadow"
+              color="dawn"
+            >
+              <:trigger>
+                <.button variant="outline" color="dawn" size="extra_small">
+                  Shadow dawn
+                </.button>
+              </:trigger>
+
+              <:content>
+                <ul class="text-xs">
+                  <li class="py-1.5 px-2 cursor-pointer">Dashboard</li>
+                  <li class="py-1.5 px-2 cursor-pointer">Settings</li>
+                  <li class="py-1.5 px-2 cursor-pointer">Earning</li>
+                  <li class="py-1.5 px-2 cursor-pointer">Sign out</li>
+                </ul>
+              </:content>
+            </.dropdown>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="dropdown-smart-position">
+            <.link patch={~p"/chelekom/docs/dropdown/#dropdown-smart-position"}>
+              Dropdown smart position
+            </.link>
+          </.heading2>
+
+          <.cp class="my-8">
+            The
+            <.custom_inline_code>smart_position</.custom_inline_code>
+            attribute is a boolean property that dynamically adjusts the dropdown's position based on its visibility within the viewport. When set to true, it automatically detects if the dropdown would be cut off by the window edges and repositions it to ensure it remains fully visible. This is particularly useful for dropdowns near the bottom or edges of the screen, preventing content from being hidden or requiring user scrolling to access all options. For example, if a dropdown would extend beyond the bottom of the viewport, the smart positioning will automatically flip it to open upward instead.
+            By default it's false.
+          </.cp>
+
+          <.custom_code_wrapper
+            code_class="text-xs"
+            elements_class="flex justify-center items-center"
+            code={@code_15}
+          >
+            <.dropdown
+              id="dropdown-example-4449"
+              space="small"
+              rounded="large"
+              width="extra_large"
+              smart_position={true}
+              padding="extra_small"
+            >
+              <:trigger>
+                <.button size="extra_small">
+                  Top dropdown
+                </.button>
+              </:trigger>
+
+              <:content>
+                <ul class="text-xs">
+                  <li class="py-1.5 px-2 transition-all duration-100 hover:text-slate-500 dark:hover:text-slate-300 cursor-pointer">
+                    Dashboard
+                  </li>
+                  <li class="py-1.5 px-2 transition-all duration-100 hover:text-slate-500 dark:hover:text-slate-300 cursor-pointer">
+                    Settings
+                  </li>
+                  <li class="py-1.5 px-2 transition-all duration-100 hover:text-slate-500 dark:hover:text-slate-300 cursor-pointer">
+                    Earning
+                  </li>
+                  <li class="py-1.5 px-2 transition-all duration-100 hover:text-slate-500 dark:hover:text-slate-300 cursor-pointer">
+                    Sign out
+                  </li>
+                  <li class="py-1.5 px-2 transition-all duration-100 hover:text-slate-500 dark:hover:text-slate-300 cursor-pointer">
+                    Profile
+                  </li>
+                  <li class="py-1.5 px-2 transition-all duration-100 hover:text-slate-500 dark:hover:text-slate-300 cursor-pointer">
+                    Messages
+                  </li>
+                  <li class="py-1.5 px-2 transition-all duration-100 hover:text-slate-500 dark:hover:text-slate-300 cursor-pointer">
+                    Notifications
+                  </li>
+                  <li class="py-1.5 px-2 transition-all duration-100 hover:text-slate-500 dark:hover:text-slate-300 cursor-pointer">
+                    Help
+                  </li>
+                </ul>
+              </:content>
+            </.dropdown>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="dropdown-position">
+            <.link patch={~p"/chelekom/docs/dropdown/#dropdown-position"}>
+              Dropdown position prop
+            </.link>
+          </.heading2>
+
+          <.cp class="my-8">
+            The dropdown component provides flexible positioning options through the position attribute. By default, the dropdown appears at the bottom, but it can be adjusted to other positions such as <.custom_inline_code>left</.custom_inline_code>, <.custom_inline_code>right</.custom_inline_code>, <.custom_inline_code>top</.custom_inline_code>, <.custom_inline_code>top-left</.custom_inline_code>, <.custom_inline_code>top-right</.custom_inline_code>, <.custom_inline_code>bottom-right</.custom_inline_code>, and
+            <.custom_inline_code>bottom-left</.custom_inline_code>
+            provide even more precise alignment, enhancing the layout flexibility in your application.
+          </.cp>
+
+          <.custom_code_wrapper
+            code_class="text-xs"
+            elements_class="flex justify-center gap-10 items-center"
+            code={@code_3}
+          >
+            <.dropdown
+              id="dropdown-example-4"
+              position="top"
+              space="small"
+              rounded="large"
+              padding="extra_small"
+              variant="bordered"
+              color="danger"
+            >
+              <:trigger>
+                <.button variant="outline" color="secondary" size="extra_small">
+                  Top dropdown
+                </.button>
+              </:trigger>
+
+              <:content>
+                <ul class="text-xs">
+                  <li class="py-1.5 px-2 cursor-pointer">Dashboard</li>
+                  <li class="py-1.5 px-2 cursor-pointer">Settings</li>
+                  <li class="py-1.5 px-2 cursor-pointer">Earning</li>
+                  <li class="py-1.5 px-2 cursor-pointer">Sign out</li>
+                </ul>
+              </:content>
+            </.dropdown>
+
+            <.dropdown
+              id="dropdown-example-5"
+              space="small"
+              rounded="large"
+              padding="extra_small"
+              variant="shadow"
+              color="dawn"
+            >
+              <:trigger>
+                <.button variant="outline" color="dawn" size="extra_small">
+                  Bottom dropdown
+                </.button>
+              </:trigger>
+
+              <:content>
+                <ul class="text-xs">
+                  <li class="py-1.5 px-2 cursor-pointer">Dashboard</li>
+                  <li class="py-1.5 px-2 cursor-pointer">Settings</li>
+                  <li class="py-1.5 px-2 cursor-pointer">Earning</li>
+                  <li class="py-1.5 px-2 cursor-pointer">Sign out</li>
+                </ul>
+              </:content>
+            </.dropdown>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="dropdown-relative">
+            <.link patch={~p"/chelekom/docs/dropdown/#dropdown-relative"}>
+              Dropdown relative prop
+            </.link>
+          </.heading2>
+
+          <.cp class="my-8">
+            The relative attribute in the dropdown component allows you to customize the relative positioning of the dropdown in relation to its trigger or parent element. By default, the dropdown takes no specific relative position, but using the relative attribute, you can set custom positioning for cases where the dropdown needs to adjust its placement dynamically within a specific context. This is particularly useful when the dropdown's position is dependent on its surrounding layout, such as within a scrolling container or when aligning it relative to other elements on the page. The flexibility of the
+            <.custom_inline_code>relative</.custom_inline_code>
+            attribute ensures that the dropdown can be tailored to fit seamlessly into various UI designs.
+          </.cp>
+
+          <.custom_code_wrapper
+            code_class="text-xs"
+            elements_class="flex justify-center gap-10 items-center"
+            code={@code_4}
+          >
+            <.dropdown
+              id="dropdown-example-6"
+              position="top"
+              space="small"
+              rounded="large"
+              padding="extra_small"
+              variant="bordered"
+              color="danger"
+            >
+              <:trigger>
+                <.button variant="outline" color="warning" size="extra_small">
+                  Top dropdown
+                </.button>
+              </:trigger>
+
+              <:content>
+                <ul class="text-xs">
+                  <li class="py-1.5 px-2 cursor-pointer">Dashboard</li>
+                  <li class="py-1.5 px-2 cursor-pointer">Settings</li>
+                  <li class="py-1.5 px-2 cursor-pointer">Earning</li>
+                  <li class="py-1.5 px-2 cursor-pointer">Sign out</li>
+                </ul>
+              </:content>
+            </.dropdown>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="dropdown-clickable">
+            <.link patch={~p"/chelekom/docs/dropdown/#dropdown-clickable"}>
+              Dropdown clickable prop
+            </.link>
+          </.heading2>
+
+          <.cp class="my-8">
+            The clickable attribute, when set to true, allows the dropdown to be activated by a click. by default is true
+          </.cp>
+
+          <.custom_code_wrapper
+            code_class="text-xs"
+            elements_class="flex justify-center gap-10 items-center"
+            code={@code_5}
+          >
+            <.dropdown
+              id="dropdown-example-7"
+              space="small"
+              rounded="large"
+              padding="extra_small"
+              variant="bordered"
+              color="danger"
+              clickable={false}
+            >
+              <:trigger>
+                <.button variant="outline" color="success" size="extra_small">
+                  Clickable false
+                </.button>
+              </:trigger>
+
+              <:content>
+                <ul class="text-xs">
+                  <li class="py-1.5 px-2 cursor-pointer">Dashboard</li>
+                  <li class="py-1.5 px-2 cursor-pointer">Settings</li>
+                  <li class="py-1.5 px-2 cursor-pointer">Earning</li>
+                  <li class="py-1.5 px-2 cursor-pointer">Sign out</li>
+                </ul>
+              </:content>
+            </.dropdown>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="dropdown-nomobile">
+            <.link patch={~p"/chelekom/docs/dropdown/#dropdown-nomobile"}>
+              Nomobile prop
+            </.link>
+          </.heading2>
+
+          <.cp class="my-8">
+            The nomobile attribute is useful for fixing the position of nested dropdowns on mobile devices. When set to true, it adjusts the dropdown's positioning to ensure proper display in responsive layouts, particularly in complex navigation menus like a navbar. This prevents nested dropdowns from overlapping or displaying incorrectly on smaller screens, improving the overall usability and appearance of dropdowns in mobile views. this feature is only for mobile so you can see the influence of this prop in smaller screen sizes.
+          </.cp>
+
+          <.custom_code_wrapper
+            code_class="text-xs"
+            elements_class="flex justify-center gap-10 items-center"
+            code={@code_6}
+          >
+            <div class="relative">
+              <.dropdown
+                id="dropdown-example-8"
+                relative="md:relative"
+                space="small"
+                rounded="large"
+                width="large"
+                padding="extra_small"
+              >
+                <:trigger>
+                  <.button variant="outline" color="warning" class="w-full">Dropdown</.button>
+                </:trigger>
+
+                <:content>
+                  <ul>
+                    <li>
+                      <.dropdown
+                        id="dropdown-example-100"
+                        position="right"
+                        nomobile
+                        rounded="large"
+                        padding="extra_small"
+                      >
+                        <:trigger>
+                          <button>
+                            Nested Dropdown
+                          </button>
+                        </:trigger>
+
+                        <:content>
+                          <ul>
+                            <li>
+                              Security
+                            </li>
+
+                            <li>
+                              Memory
+                            </li>
+
+                            <li>
+                              Design
+                            </li>
+                          </ul>
+                        </:content>
+                      </.dropdown>
+                    </li>
+                    <li>
+                      Tabs
+                    </li>
+                    <li>
+                      Links
+                    </li>
+                  </ul>
+                </:content>
+              </.dropdown>
+            </div>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="dropdown-width">
+            <.link patch={~p"/chelekom/docs/dropdown/#dropdown-width"}>
+              Width prop
+            </.link>
+          </.heading2>
+
+          <.cp class="my-8">
+            The width attribute controls the dropdown's width, adjusting to fit the content by default. You can customize it to suit your layout needs, providing flexibility in how the dropdown fits within your design.
+          </.cp>
+
+          <.custom_code_wrapper
+            code_class="text-xs"
+            elements_class="flex justify-center items-center"
+            code={@code_7}
+          >
+            <.dropdown
+              id="dropdown-example-9"
+              space="small"
+              rounded="large"
+              padding="extra_small"
+              variant="default"
+              color="danger"
+            >
+              <:trigger>
+                <.button variant="outline" color="danger" size="extra_small">
+                  Width prop dropdown
+                </.button>
+              </:trigger>
+
+              <:content>
+                <ul class="text-xs">
+                  <li class="py-1.5 px-2 cursor-pointer">Dashboard</li>
+                  <li class="py-1.5 px-2 cursor-pointer">Settings</li>
+                  <li class="py-1.5 px-2 cursor-pointer">Earning</li>
+                  <li class="py-1.5 px-2 cursor-pointer">Sign out</li>
+                </ul>
+              </:content>
+            </.dropdown>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="dropdown-rounded">
+            <.link patch={~p"/chelekom/docs/dropdown/#dropdown-rounded"}>
+              Dropdown Rounded prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The rounded prop offers values like <.custom_inline_code>extra_small</.custom_inline_code>, <.custom_inline_code>small</.custom_inline_code>, <.custom_inline_code>medium</.custom_inline_code>, <.custom_inline_code>large</.custom_inline_code>, and <.custom_inline_code>extra_large</.custom_inline_code>.
+          </.cp>
+
+          <.custom_code_wrapper
+            code_class="text-xs"
+            elements_class="flex justify-center items-center"
+            code={@code_8}
+          >
+            <.dropdown
+              id="dropdown-example-10"
+              space="small"
+              rounded="extra_large"
+              width="large"
+              padding="extra_small"
+              variant="default"
+              color="danger"
+            >
+              <:trigger>
+                <.button variant="outline" color="misc" size="extra_small">
+                  open dropdown
+                </.button>
+              </:trigger>
+
+              <:content>
+                <ul class="text-xs">
+                  <li class="py-1.5 px-2 cursor-pointer">Dashboard</li>
+                  <li class="py-1.5 px-2 cursor-pointer">Settings</li>
+                  <li class="py-1.5 px-2 cursor-pointer">Earning</li>
+                  <li class="py-1.5 px-2 cursor-pointer">Sign out</li>
+                </ul>
+              </:content>
+            </.dropdown>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="dropdown-space">
+            <.link patch={~p"/chelekom/docs/dropdown/#dropdown-space"}>
+              Dropdown Space prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The space prop offers values such as <.custom_inline_code>extra_small</.custom_inline_code>, <.custom_inline_code>small</.custom_inline_code>, <.custom_inline_code>medium</.custom_inline_code>, <.custom_inline_code>large</.custom_inline_code>, and <.custom_inline_code>extra_large</.custom_inline_code>. These values control the vertical spacing between elements within the dropdown contents.
+          </.cp>
+
+          <.custom_code_wrapper
+            code_class="text-xs"
+            elements_class="flex justify-center items-center gap-5"
+            code={@code_9}
+          >
+            <.dropdown
+              id="dropdown-example-11"
+              rounded="small"
+              padding="extra_small"
+              color="primary"
+              variant="default"
+              space="extra_large"
+            >
+              <:trigger>
+                <.button variant="outline" color="primary" size="extra_small">
+                  open dropdown
+                </.button>
+              </:trigger>
+
+              <:content>
+                <ul class="text-xs">
+                  <li class="py-1.5 px-2 cursor-pointer">Dashboard</li>
+                  <li class="py-1.5 px-2 cursor-pointer">Settings</li>
+                </ul>
+                <ul class="text-xs">
+                  <li class="py-1.5 px-2 cursor-pointer">Dashboard</li>
+                  <li class="py-1.5 px-2 cursor-pointer">Settings</li>
+                </ul>
+              </:content>
+            </.dropdown>
+
+            <.dropdown
+              id="dropdown-example-14"
+              rounded="small"
+              padding="extra_small"
+              space="extra_small"
+            >
+              <:trigger>
+                <.button variant="outline" color="dawn" size="extra_small">
+                  open dropdown
+                </.button>
+              </:trigger>
+
+              <:content>
+                <ul class="text-xs">
+                  <li class="py-1.5 px-2 cursor-pointer">Dashboard</li>
+                  <li class="py-1.5 px-2 cursor-pointer">Settings</li>
+                </ul>
+                <ul class="text-xs">
+                  <li class="py-1.5 px-2 cursor-pointer">Dashboard</li>
+                  <li class="py-1.5 px-2 cursor-pointer">Settings</li>
+                </ul>
+              </:content>
+            </.dropdown>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="dropdown-border">
+            <.link patch={~p"/chelekom/docs/dropdown/#dropdown-border"}>
+              Dropdown Border prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The border prop offers values like <.custom_inline_code>extra_small</.custom_inline_code>, <.custom_inline_code>small</.custom_inline_code>, <.custom_inline_code>medium</.custom_inline_code>, <.custom_inline_code>large</.custom_inline_code>, and <.custom_inline_code>extra_large</.custom_inline_code>. These values control the border size of the dropdown contetn, allowing you to adjust the thickness to suit your design.
+          </.cp>
+
+          <.custom_code_wrapper
+            code_class="text-xs"
+            elements_class="flex justify-center items-center"
+            code={@code_10}
+          >
+            <.dropdown
+              id="dropdown-example-12"
+              rounded="small"
+              padding="extra_small"
+              border="extra_large"
+              variant="bordered"
+              color="danger"
+            >
+              <:trigger>
+                <.button variant="outline" color="danger" size="extra_small">
+                  open dropdown
+                </.button>
+              </:trigger>
+
+              <:content>
+                <ul class="text-xs">
+                  <li class="py-1.5 px-2 cursor-pointer">Dashboard</li>
+                  <li class="py-1.5 px-2 cursor-pointer">Settings</li>
+                  <li class="py-1.5 px-2 cursor-pointer">Dashboard</li>
+                  <li class="py-1.5 px-2 cursor-pointer">Settings</li>
+                </ul>
+              </:content>
+            </.dropdown>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="dropdown-padding">
+            <.link patch={~p"/chelekom/docs/dropdown/#dropdown-padding"}>
+              Dropdown Padding prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The padding prop offers values such as <.custom_inline_code>extra_small</.custom_inline_code>, <.custom_inline_code>small</.custom_inline_code>, <.custom_inline_code>medium</.custom_inline_code>, <.custom_inline_code>large</.custom_inline_code>, and <.custom_inline_code>extra_large</.custom_inline_code>. These values control the padding around the content inside the dropdown contents.
+          </.cp>
+
+          <.custom_code_wrapper
+            code_class="text-xs"
+            elements_class="flex justify-center gap-5 items-center"
+            code={@code_11}
+          >
+            <.dropdown
+              id="dropdown-example-13"
+              rounded="small"
+              padding="extra_large"
+              variant="default"
+              color="natural"
+            >
+              <:trigger>
+                <.button variant="outline" color="info" size="extra_small">
+                  open dropdown
+                </.button>
+              </:trigger>
+
+              <:content>
+                <ul class="text-xs">
+                  <li class="py-1.5 px-2 cursor-pointer">Dashboard</li>
+                  <li class="py-1.5 px-2 cursor-pointer">Settings</li>
+                  <li class="py-1.5 px-2 cursor-pointer">Dashboard</li>
+                  <li class="py-1.5 px-2 cursor-pointer">Settings</li>
+                </ul>
+              </:content>
+            </.dropdown>
+
+            <.dropdown id="dropdown-example-15" rounded="small" padding="extra_small">
+              <:trigger>
+                <.button variant="outline" color="silver" size="extra_small">
+                  open dropdown
+                </.button>
+              </:trigger>
+
+              <:content>
+                <ul class="text-xs">
+                  <li class="py-1.5 px-2 cursor-pointer">Dashboard</li>
+                  <li class="py-1.5 px-2 cursor-pointer">Settings</li>
+                  <li class="py-1.5 px-2 cursor-pointer">Dashboard</li>
+                  <li class="py-1.5 px-2 cursor-pointer">Settings</li>
+                </ul>
+              </:content>
+            </.dropdown>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="dropdown-content-width">
+            <.link patch={~p"/chelekom/docs/dropdown/#dropdown-content-width"}>
+              Dropdown Width prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <.custom_inline_code>width</.custom_inline_code>
+            attribute controls the width of the dropdown content. By setting the
+            <.custom_inline_code>width</.custom_inline_code>
+            value, you can easily limit how wide the dropdown can extend, maintaining a structured appearance across different screen sizes.
+          </.cp>
+
+          <.custom_code_wrapper
+            code_class="text-xs"
+            elements_class="flex justify-center gap-5 items-center"
+            code={@code_12}
+          >
+            <.dropdown
+              id="dropdown-example-16"
+              rounded="small"
+              padding="extra_small"
+              variant="default"
+              color="misc"
+            >
+              <:trigger>
+                <.button variant="outline" color="info" size="extra_small">
+                  open dropdown
+                </.button>
+              </:trigger>
+
+              <:content>
+                <ul class="text-xs">
+                  <li class="py-1.5 px-2 cursor-pointer">Dashboard</li>
+                  <li class="py-1.5 px-2 cursor-pointer">Settings</li>
+                  <li class="py-1.5 px-2 cursor-pointer">Dashboard</li>
+                  <li class="py-1.5 px-2 cursor-pointer">Settings</li>
+                </ul>
+              </:content>
+            </.dropdown>
+
+            <.dropdown
+              id="dropdown-example-17"
+              rounded="small"
+              padding="extra_small"
+              width="extra_small"
+            >
+              <:trigger>
+                <.button variant="outline" color="warning" size="extra_small">
+                  open dropdown
+                </.button>
+              </:trigger>
+
+              <:content>
+                <ul class="text-xs">
+                  <li class="py-1.5 px-2 cursor-pointer">Dashboard</li>
+                  <li class="py-1.5 px-2 cursor-pointer">Settings</li>
+                  <li class="py-1.5 px-2 cursor-pointer">Dashboard</li>
+                  <li class="py-1.5 px-2 cursor-pointer">Settings</li>
+                </ul>
+              </:content>
+            </.dropdown>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="dropdown-content-size">
+            <.link patch={~p"/chelekom/docs/dropdown/#dropdown-content-size"}>
+              Dropdown size prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The size prop offers values such as <.custom_inline_code>extra_small</.custom_inline_code>, <.custom_inline_code>small</.custom_inline_code>, <.custom_inline_code>medium</.custom_inline_code>, <.custom_inline_code>large</.custom_inline_code>, and <.custom_inline_code>extra_large</.custom_inline_code>. These values control text size within the dropdown contents.
+          </.cp>
+
+          <.custom_code_wrapper
+            code_class="text-xs"
+            elements_class="flex justify-center gap-5 items-center"
+            code={@code_13}
+          >
+            <.dropdown
+              id="dropdown-example-18"
+              rounded="small"
+              padding="extra_small"
+              size="large"
+              variant="default"
+              color="natural"
+            >
+              <:trigger>
+                <.button variant="outline" color="primary" size="extra_small">
+                  open dropdown
+                </.button>
+              </:trigger>
+
+              <:content>
+                <ul>
+                  <li class="py-1.5 px-2 cursor-pointer">Dashboard</li>
+                  <li class="py-1.5 px-2 cursor-pointer">Settings</li>
+                  <li class="py-1.5 px-2 cursor-pointer">Dashboard</li>
+                  <li class="py-1.5 px-2 cursor-pointer">Settings</li>
+                </ul>
+              </:content>
+            </.dropdown>
+
+            <.dropdown
+              id="dropdown-example-19"
+              rounded="small"
+              padding="extra_small"
+              size="extra_small"
+              variant="default"
+              color="silver"
+            >
+              <:trigger>
+                <.button variant="outline" color="silver" size="extra_small">
+                  open dropdown
+                </.button>
+              </:trigger>
+
+              <:content>
+                <ul>
+                  <li class="py-1.5 px-2 cursor-pointer">Dashboard</li>
+                  <li class="py-1.5 px-2 cursor-pointer">Settings</li>
+                  <li class="py-1.5 px-2 cursor-pointer">Dashboard</li>
+                  <li class="py-1.5 px-2 cursor-pointer">Settings</li>
+                </ul>
+              </:content>
+            </.dropdown>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="dropdown-font-weight-prop">
+            <.link patch={~p"/chelekom/docs/dropdown/#dropdown-font-weight-prop"}>
+              Dropdown font weight prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <.custom_inline_code>font_weight</.custom_inline_code>
+            prop controls the font weight of the text. By setting this prop, you can determine how bold or silver the text appears within the title section. The default value is <.custom_inline_code>font-normal</.custom_inline_code>. You can customize this value to apply different font weights, such as making the text lighter or bolder, depending on the visual style and emphasis you want to create for the dropdown. This provides flexibility in ensuring the title stands out appropriately within the overall dropdown layout.
+          </.cp>
+
+          <.custom_code_wrapper
+            code_class="text-xs"
+            elements_class="flex justify-center gap-5 items-center"
+            code={@code_14}
+          >
+            <.dropdown
+              id="dropdown-example-191"
+              rounded="small"
+              padding="extra_small"
+              font_weight="font-bold"
+              color="primary"
+              variant="default"
+            >
+              <:trigger>
+                <.button variant="outline" color="misc" size="extra_small">
+                  open dropdown
+                </.button>
+              </:trigger>
+
+              <:content>
+                <ul class="text-xs">
+                  <li class="py-1.5 px-2 cursor-pointer">Dashboard</li>
+                  <li class="py-1.5 px-2 cursor-pointer">Settings</li>
+                  <li class="py-1.5 px-2 cursor-pointer">Dashboard</li>
+                  <li class="py-1.5 px-2 cursor-pointer">Settings</li>
+                </ul>
+              </:content>
+            </.dropdown>
+          </.custom_code_wrapper>
+        </:documentation_panel>
+
+        <:props_panel>
+          <.custom_search class="mb-16" />
+          <div class="space-y-8">
+            <h2 class="text-lg lg:text-2xl font-bold">Dropdown component props</h2>
+
+            <.custom_table id="dropdown-component-table">
+              <:header>
+                <.table_th>Name</.table_th>
+
+                <.table_th>Type</.table_th>
+
+                <.table_th>Required</.table_th>
+
+                <.table_th>Description</.table_th>
+              </:header>
+
+              <:row>
+                <.table_td>id</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>Required</.table_td>
+
+                <.table_td>
+                  A unique identifier is used to manage state and interaction.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>space</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>no</.table_td>
+
+                <.table_td>Space between items</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>trigger</.table_td>
+
+                <.table_td>slot</.table_td>
+
+                <.table_td>Required</.table_td>
+
+                <.table_td>
+                  Slot to add components as trigger. It has a <strong>style</strong>
+                  prop to add custom styles to trigger.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>content</.table_td>
+
+                <.table_td>slot</.table_td>
+
+                <.table_td>Required</.table_td>
+
+                <.table_td>
+                  Slot for showing content add inside dropdown. It has a <strong>style</strong>
+                  prop to add custom styles to content.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>class</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Custom CSS class for additional styling.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>width</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines the element width. Default: <strong>w-fit</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>position</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines the element position. Default: <strong>bottom</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>relative</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Custom relative position for the dropdown.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>variant</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines the style of the dropdown. Supported values: <strong>base</strong>, <strong>default</strong>, <strong>outline</strong>, <strong>shadow</strong>, <strong>bordered</strong>, <strong>gradient</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>color</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines the color theme of the dropdown. Supported values: <strong>base</strong>, <strong>natural</strong>, <strong>primary</strong>, <strong>secondary</strong>, <strong>success</strong>, <strong>warning</strong>, <strong>danger</strong>, <strong>info</strong>, <strong>silver</strong>, <strong>misc</strong>, <strong>dawn</strong>. Default is <strong>natural</strong>.The
+                  <strong>default</strong>
+                  and <strong>bordered</strong>
+                  variants have extra color options: <strong>dark</strong>
+                  and <strong>white</strong>, which in both light mode and dark mode, these colors are always the same.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>clickable</.table_td>
+
+                <.table_td>boolean</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines if the dropdown can be activated on click. Default: <strong>true</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>nomobile</.table_td>
+
+                <.table_td>boolean</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Controls whether the dropdown is disabled on mobile devices. Default: <strong>false</strong>.
+                </.table_td>
+              </:row>
+            </.custom_table>
+          </div>
+
+          <div class="space-y-8 mt-8">
+            <h2 class="text-lg lg:text-2xl font-bold">Dropdown Trigger component props</h2>
+
+            <.custom_table id="dropdown-trigger-component-table">
+              <:header>
+                <.table_th>Name</.table_th>
+
+                <.table_th>Type</.table_th>
+
+                <.table_th>Required</.table_th>
+
+                <.table_th>Description</.table_th>
+              </:header>
+
+              <:row>
+                <.table_td>id</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  A unique identifier is used to manage state and interaction.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>trigger_id</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Identifies the ID of the element to be triggered. <strong>Notice:</strong>
+                  When the dropdown is clickable, this prop is required.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>class</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Custom CSS class for additional styling.</.table_td>
+              </:row>
+            </.custom_table>
+          </div>
+
+          <div class="space-y-8 mt-8">
+            <h2 class="text-lg lg:text-2xl font-bold">Dropdown Content component props</h2>
+
+            <.custom_table id="dropdown-content-component-table">
+              <:header>
+                <.table_th>Name</.table_th>
+
+                <.table_th>Type</.table_th>
+
+                <.table_th>Required</.table_th>
+
+                <.table_th>Description</.table_th>
+              </:header>
+
+              <:row>
+                <.table_td>id</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  A unique identifier is used to manage state and interaction.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>variant</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines the style. Default is <strong>default</strong> variant.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>color</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines color theme. Default is <strong>natural</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>rounded</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Determines the border radius.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>size</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines the overall size of the elements, including padding, font size, and other items.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>space</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Space between items.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>width</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines the element width. Default is <strong>extra_large</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>font_weight</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines custom class for the font weight. Default is <strong>font-normal</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>padding</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines padding for items. Default is <strong>none</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>border</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines border style. Default is <strong>extra_small</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>class</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Custom CSS class for additional styling.</.table_td>
+              </:row>
+            </.custom_table>
+          </div>
+        </:props_panel>
+
+        <:cli_panel>
+          <.custom_cli_props config={component_config()} />
+        </:cli_panel>
+        <.custom_table_content>
+          <:content
+            link={~p"/chelekom/docs/dropdown/#overview"}
+            title="Overview of the dropdown component"
+          />
+
+          <:content
+            link={~p"/chelekom/docs/dropdown/#dropdown-how-use"}
+            title="How to use dropdown"
+          />
+
+          <:content
+            link={~p"/chelekom/docs/dropdown/#dropdown-variant-color"}
+            title="Dropdown color variant props"
+          />
+
+          <:content
+            link={~p"/chelekom/docs/dropdown/#dropdown-smart-position"}
+            title="Dropdown smart position"
+          />
+
+          <:content
+            link={~p"/chelekom/docs/dropdown/#dropdown-position"}
+            title="Dropdown position prop"
+          />
+
+          <:content
+            link={~p"/chelekom/docs/dropdown/#dropdown-relative"}
+            title="Dropdown relative prop"
+          />
+
+          <:content
+            link={~p"/chelekom/docs/dropdown/#dropdown-clickable"}
+            title="Dropdown clickable prop"
+          />
+
+          <:content link={~p"/chelekom/docs/dropdown/#dropdown-nomobile"} title="Nomobile prop" />
+
+          <:content
+            link={~p"/chelekom/docs/dropdown/#dropdown-width"}
+            title="Dropdown width prop"
+          />
+
+          <:content
+            link={~p"/chelekom/docs/dropdown/#dropdown-rounded"}
+            title="Dropdown rounded prop"
+          />
+
+          <:content
+            link={~p"/chelekom/docs/dropdown/#dropdown-space"}
+            title="Dropdown space prop"
+          />
+
+          <:content
+            link={~p"/chelekom/docs/dropdown/#dropdown-border"}
+            title="Dropdown border prop"
+          />
+
+          <:content
+            link={~p"/chelekom/docs/dropdown/#dropdown-padding"}
+            title="Dropdown padding prop"
+          />
+
+          <:content
+            link={~p"/chelekom/docs/dropdown/#dropdown-content-width"}
+            title="Dropdown width prop"
+          />
+
+          <:content
+            link={~p"/chelekom/docs/dropdown/#dropdown-content-size"}
+            title="Dropdown size prop"
+          />
+
+          <:content
+            link={~p"/chelekom/docs/dropdown/#dropdown-font-weight-prop"}
+            title="Dropdown font weight prop"
+          />
+        </.custom_table_content>
+      </.custom_tab>
+    </div>
+  </div>
+</Layouts.app>

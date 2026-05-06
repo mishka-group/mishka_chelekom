@@ -1,0 +1,1802 @@
+<Layouts.app flash={@flash}>
+  <div class="lg:grid lg:grid-cols-12 mt-5 max-w-5xl mx-auto">
+    <.custom_nav active="chelekom-docs-list" />
+    <div class="lg:col-span-10">
+      <.custom_info
+        title="List"
+        description="Customizable list and list group components in Phoenix LiveView, styled lists with various options like colors, sizes, variants, and spacing to enhance content organization."
+        mix="mix mishka.ui.gen.component list"
+        github="https://github.com/mishka-group/mishka_chelekom/blob/master/priv/components/list.eex"
+        tags={["Component", "Stateless"]}
+      />
+      <.custom_tab id="chelekom-list-tab">
+        <:documentation_panel>
+          <.heading2 class="mb-5" id="overview">
+            <.link patch={~p"/chelekom/docs/list/#overview"}>
+              Overview of the Phoenix LiveView List Component
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <strong>
+              Mishka Chelekom List
+            </strong>
+            component is a highly customizable and versatile <strong>Phoenix LiveView</strong>
+            component designed for creating structured lists, whether for navigation menus, data displays, or item groupings. It supports both ordered and unordered lists and can be styled to match a variety of use cases, making it an ideal solution for organizing content within your web application.
+          </.cp>
+
+          <.custom_code_wrapper>
+            <div class="flex gap-5 items-center">
+              <.list
+                variant="base_separated"
+                space="extra_small"
+                rounded="medium"
+                color="base"
+                unordered
+                size="text-[14px]"
+              >
+                <.li padding="py-1 px-2"><span class="font-semibold">Step 1</span>: Sign Up</.li>
+                <.li padding="py-1 px-2">
+                  <span class="font-semibold">Step 2</span>: Verify Your Email
+                </.li>
+                <.li padding="py-1 px-2">
+                  <span class="font-semibold">Step 3</span>: Complete Your Profile
+                </.li>
+                <.li padding="py-1 px-2">
+                  <span class="font-semibold">Step 4</span>: Explore Features
+                </.li>
+              </.list>
+
+              <.list unordered color="base" variant="base">
+                <:item padding="small" content_class="flex gap-2 items-center">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    class="lucide lucide-check-check"
+                  >
+                    <path d="M18 6 7 17l-5-5" /><path d="m22 10-7.5 7.5L13 16" />
+                  </svg>
+                  <span>
+                    Clone Project
+                  </span>
+                </:item>
+                <:item padding="small" content_class="flex gap-2 items-center">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    class="lucide lucide-check-check"
+                  >
+                    <path d="M18 6 7 17l-5-5" /><path d="m22 10-7.5 7.5L13 16" />
+                  </svg>
+                  <span>
+                    Install dependencies
+                  </span>
+                </:item>
+                <:item padding="small" content_class="flex gap-2 items-center">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    class="lucide lucide-check-check"
+                  >
+                    <path d="M18 6 7 17l-5-5" /><path d="m22 10-7.5 7.5L13 16" />
+                  </svg>
+                  <span>
+                    Start development server
+                  </span>
+                </:item>
+                <:item padding="small" content_class="flex gap-2 items-center">
+                  <.spinner color="natural" size="medium" />
+                  <span>
+                    Run tests
+                  </span>
+                </:item>
+              </.list>
+            </div>
+            <div class="flex gap-5 items-center mt-5">
+              <.list unordered color="base" variant="base" size="small" rounded="large" hoverable>
+                <:item padding="small" content_class="flex gap-2 items-center justify-between">
+                  <span>
+                    Tickets
+                  </span>
+                  <.badge size="w-8 h-5 text-[11px]" variant="bordered" color="info">20</.badge>
+                </:item>
+                <:item padding="small" content_class="flex gap-2 items-center justify-between">
+                  <span>
+                    Notifications
+                  </span>
+                </:item>
+                <:item padding="small" content_class="flex gap-2 items-center justify-between">
+                  <span>
+                    Active Users
+                  </span>
+                  <.badge size="w-8 h-5 text-[11px]" variant="bordered" color="dawn">300</.badge>
+                </:item>
+                <:item padding="small" content_class="flex gap-2 items-center justify-between">
+                  <span>
+                    Pending Tasks
+                  </span>
+                  <.badge size="w-8 h-5 text-[11px]" variant="bordered" color="danger">8</.badge>
+                </:item>
+              </.list>
+
+              <.ul style="list-decimal" class="space-y-2" size="text-[13px]">
+                <.li>Plan: Define goals and create a roadmap.</.li>
+                <.li>Assign Roles: Delegate tasks effectively.</.li>
+                <.li>
+                  Develop:
+                  <.list unordered space="extra_small" size="text-[12px]" style="list-disc">
+                    <:item padding="extra_small" class="leading-5">Sketch wireframes.</:item>
+                    <:item padding="extra_small" class="leading-5">Build the front-end.</:item>
+                    <:item padding="extra_small" class="leading-5">Set up the back-end.</:item>
+                    <:item padding="extra_small" class="leading-5">Integrate APIs.</:item>
+                  </.list>
+                </.li>
+              </.ul>
+            </div>
+          </.custom_code_wrapper>
+
+          <.cp margin="mt-5">
+            The
+            <strong>
+              <.link
+                title="Phoenix LiveView List component"
+                class="transition-colors hover:text-[#448D96]"
+                navigate={~p"/chelekom"}
+              >
+                Phoenix LiveView List component
+              </.link>
+            </strong>
+            provides developers with complete control over the appearance of list elements by offering customizable props such as colors, sizes, padding, and variants.
+          </.cp>
+
+          <.custom_block position="left" color="success" class="my-8" border="medium">
+            <.cp>
+              By using the class prop, you can apply custom classes or Tailwind CSS classes to customize the appearance and behavior of the components, allowing for flexible design changes.
+            </.cp>
+          </.custom_block>
+
+          <.heading2 margin="my-5" id="base-variants">
+            <.link patch={~p"/chelekom/docs/list/#base-variants"}>
+              Base color & Variant
+            </.link>
+          </.heading2>
+
+          <.custom_code_wrapper
+            elements_class="flex gap-4 items-center"
+            code_class="text-xs"
+            code={@code_29}
+          >
+            <.list unordered variant="base" color="base">
+              <:item padding="small">Home</:item>
+              <:item padding="small">Services</:item>
+              <:item padding="small">About Us</:item>
+              <:item padding="small">Contact</:item>
+            </.list>
+
+            <.list unordered variant="base_separated" space="small" color="base">
+              <:item padding="small">Home</:item>
+              <:item padding="small">Services</:item>
+              <:item padding="small">About Us</:item>
+              <:item padding="small">Contact</:item>
+            </.list>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="list-bordered-variant">
+            <.link patch={~p"/chelekom/docs/list/#list-bordered-variant"}>
+              bordered Variant
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The bordered variant for the list component includes a background color and border color and supports various customizable color options. You can customize the colors with options like <.custom_inline_code>natural</.custom_inline_code>, <.custom_inline_code>white</.custom_inline_code>, <.custom_inline_code>primary</.custom_inline_code>, <.custom_inline_code>secondary</.custom_inline_code>, <.custom_inline_code>dark</.custom_inline_code>, <.custom_inline_code>success</.custom_inline_code>, <.custom_inline_code>warning</.custom_inline_code>, <.custom_inline_code>danger</.custom_inline_code>, <.custom_inline_code>info</.custom_inline_code>, <.custom_inline_code>silver</.custom_inline_code>, <.custom_inline_code>misc</.custom_inline_code>, and <.custom_inline_code>dawn</.custom_inline_code>.
+          </.cp>
+
+          <.custom_code_wrapper
+            elements_class="flex gap-2 items-start"
+            code_class="text-xs"
+            code={@code_1}
+          >
+            <.list unordered color="primary" variant="bordered">
+              <:item padding="small">Home</:item>
+              <:item padding="small">Services</:item>
+              <:item padding="small">About Us</:item>
+              <:item padding="small">Contact</:item>
+            </.list>
+
+            <.ol color="secondary" variant="bordered">
+              <.li padding="small">Step 1: Sign Up</.li>
+              <.li padding="small">Step 2: Verify Your Email</.li>
+              <.li padding="small">Step 3: Complete Your Profile</.li>
+              <.li padding="small">Step 4: Explore Features</.li>
+            </.ol>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="list-default-variant">
+            <.link patch={~p"/chelekom/docs/list/#list-default-variant"}>
+              Default Variant
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The default variant includes basic styles with a background and borders. You can customize it with different color options, including <.custom_inline_code>natural</.custom_inline_code>, <.custom_inline_code>white</.custom_inline_code>, <.custom_inline_code>primary</.custom_inline_code>, <.custom_inline_code>secondary</.custom_inline_code>, <.custom_inline_code>dark</.custom_inline_code>, <.custom_inline_code>success</.custom_inline_code>, <.custom_inline_code>warning</.custom_inline_code>, <.custom_inline_code>danger</.custom_inline_code>, <.custom_inline_code>info</.custom_inline_code>, <.custom_inline_code>silver</.custom_inline_code>, <.custom_inline_code>misc</.custom_inline_code>, and
+            <.custom_inline_code>dawn</.custom_inline_code>
+            to match your design needs.
+
+            Additionally, all list components in the
+            <.link navigate={~p"/chelekom/docs/list"}>Mishka Chelekom List</.link>
+            module support this variant and color options. Whether you're using ordered or unordered list component, or the list group component, you can apply these styles consistently across your project.
+          </.cp>
+
+          <.custom_code_wrapper
+            elements_class="flex gap-2 items-start"
+            code_class="text-xs"
+            code={@code_2}
+          >
+            <.list unordered variant="default" color="misc" size="small">
+              <:item padding="small">Home</:item>
+              <:item padding="small">Services</:item>
+              <:item padding="small">About Us</:item>
+              <:item padding="small">Contact</:item>
+            </.list>
+
+            <.list unordered variant="default" color="dawn" size="small">
+              <:item padding="small">Step 1: Sign Up</:item>
+              <:item padding="small">Step 2: Verify Your Email</:item>
+              <:item padding="small">Step 3: Complete Your Profile</:item>
+              <:item padding="small">Step 4: Explore Features</:item>
+            </.list>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="list-outline_separated-variant">
+            <.link patch={~p"/chelekom/docs/list/#list-outline_separated-variant"}>
+              Outline Separated Variant
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The Outline Separated variant has a customizable border colors. Each item is item by space, with the default border color set to various options. You can customize the background colors with options like <.custom_inline_code>primary</.custom_inline_code>, <.custom_inline_code>secondary</.custom_inline_code>, <.custom_inline_code>success</.custom_inline_code>, <.custom_inline_code>warning</.custom_inline_code>, <.custom_inline_code>danger</.custom_inline_code>, <.custom_inline_code>info</.custom_inline_code>, <.custom_inline_code>silver</.custom_inline_code>, <.custom_inline_code>misc</.custom_inline_code>, and <.custom_inline_code>dawn</.custom_inline_code>.
+          </.cp>
+
+          <.custom_code_wrapper
+            elements_class="flex gap-2 items-start"
+            code_class="text-xs"
+            code={@code_3}
+          >
+            <.list unordered variant="outline_separated" space="large" color="info" size="small">
+              <:item padding="small">Home</:item>
+              <:item padding="small">Services</:item>
+              <:item padding="small">About Us</:item>
+              <:item padding="small">Contact</:item>
+            </.list>
+
+            <.list
+              unordered
+              variant="outline_separated"
+              space="large"
+              color="warning"
+              size="small"
+            >
+              <:item padding="small">Step 1: Sign Up</:item>
+              <:item padding="small">Step 2: Verify Your Email</:item>
+              <:item padding="small">Step 3: Complete Your Profile</:item>
+              <:item padding="small">Step 4: Explore Features</:item>
+            </.list>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="list-outline-variant">
+            <.link patch={~p"/chelekom/docs/list/#list-outline-variant"}>
+              Outline Variant
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The Outline variant offers a transparent background with customizable border colors. You can customize the border colors using options such as <.custom_inline_code>natural</.custom_inline_code>, <.custom_inline_code>primary</.custom_inline_code>, <.custom_inline_code>secondary</.custom_inline_code>, <.custom_inline_code>success</.custom_inline_code>, <.custom_inline_code>warning</.custom_inline_code>, <.custom_inline_code>danger</.custom_inline_code>, <.custom_inline_code>info</.custom_inline_code>, <.custom_inline_code>silver</.custom_inline_code>, <.custom_inline_code>misc</.custom_inline_code>, and <.custom_inline_code>dawn</.custom_inline_code>.
+          </.cp>
+
+          <.custom_code_wrapper
+            elements_class="flex gap-2 items-start"
+            code_class="text-xs"
+            code={@code_4}
+          >
+            <.list_group variant="outline" color="warning" size="small">
+              <.li padding="small">Home</.li>
+              <.li padding="small">Services</.li>
+              <.li padding="small">About Us</.li>
+              <.li padding="small">Contact</.li>
+            </.list_group>
+
+            <.list unordered variant="outline" space="small" color="success" size="small">
+              <:item padding="small">Home</:item>
+              <:item padding="small">Services</:item>
+              <:item padding="small">About Us</:item>
+              <:item padding="small">Contact</:item>
+            </.list>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="list-bordered-separated-variant">
+            <.link patch={~p"/chelekom/docs/list/#list-bordered-separated-variant"}>
+              Bordered separated Variant
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            Bordered separated
+            variant includes both a background color and a border for each item, with space between them. You can customize the background colors using options such as <.custom_inline_code>primary</.custom_inline_code>, <.custom_inline_code>secondary</.custom_inline_code>, <.custom_inline_code>natural</.custom_inline_code>, <.custom_inline_code>success</.custom_inline_code>, <.custom_inline_code>warning</.custom_inline_code>, <.custom_inline_code>danger</.custom_inline_code>, <.custom_inline_code>info</.custom_inline_code>, <.custom_inline_code>silver</.custom_inline_code>, <.custom_inline_code>misc</.custom_inline_code>, and <.custom_inline_code>dawn</.custom_inline_code>.
+            This variant is best suited for the list_group component because it automatically applies space between each element. However, if you prefer to use it with the list component, make sure to apply the space prop to maintain proper spacing between list items.
+          </.cp>
+
+          <.custom_code_wrapper
+            elements_class="flex gap-2 items-start"
+            code_class="text-xs"
+            code={@code_5}
+          >
+            <.list_group variant="bordered_separated" color="info" size="small">
+              <.li padding="small">Home</.li>
+              <.li padding="small">Services</.li>
+              <.li padding="small">About Us</.li>
+              <.li padding="small">Contact</.li>
+            </.list_group>
+
+            <.list unordered variant="bordered_separated" space="small" color="info" size="small">
+              <:item padding="small">Home</:item>
+              <:item padding="small">Services</:item>
+              <:item padding="small">About Us</:item>
+              <:item padding="small">Contact</:item>
+            </.list>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="list-transparent-variant">
+            <.link patch={~p"/chelekom/docs/list/#list-transparent-variant"}>
+              Transparent Variant
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The transparent variant features transparent borders and background.
+          </.cp>
+
+          <.custom_code_wrapper
+            elements_class="flex gap-2 items-start"
+            code_class="text-xs"
+            code={@code_6}
+          >
+            <.list_group variant="transparent" size="small">
+              <.li padding="small">Home</.li>
+              <.li padding="small">Services</.li>
+              <.li padding="small">About Us</.li>
+              <.li padding="small">Contact</.li>
+            </.list_group>
+
+            <.list unordered variant="transparent" space="small" size="small">
+              <:item padding="small">Home</:item>
+              <:item padding="small">Services</:item>
+              <:item padding="small">About Us</:item>
+              <:item padding="small">Contact</:item>
+            </.list>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="list-shadow-variant">
+            <.link patch={~p"/chelekom/docs/list/#list-shadow-variant"}>
+              Shadow Variant
+            </.link>
+          </.heading2>
+
+          <.custom_code_wrapper
+            elements_class="flex gap-2 items-start"
+            code_class="text-xs"
+            code={@code_26}
+          >
+            <.list_group variant="shadow" size="small" color="misc">
+              <.li padding="small">Home</.li>
+              <.li padding="small">Services</.li>
+              <.li padding="small">About Us</.li>
+              <.li padding="small">Contact</.li>
+            </.list_group>
+
+            <.list unordered variant="shadow" space="small" size="small" color="danger">
+              <:item padding="small">Home</:item>
+              <:item padding="small">Services</:item>
+              <:item padding="small">About Us</:item>
+              <:item padding="small">Contact</:item>
+            </.list>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="list-gradient-variant">
+            <.link patch={~p"/chelekom/docs/list/#list-gradient-variant"}>
+              Gradient Variant
+            </.link>
+          </.heading2>
+
+          <.custom_code_wrapper
+            elements_class="flex gap-2 items-start"
+            code_class="text-xs"
+            code={@code_27}
+          >
+            <.list_group variant="gradient" size="small" color="dawn">
+              <.li padding="small">Home</.li>
+              <.li padding="small">Services</.li>
+              <.li padding="small">About Us</.li>
+              <.li padding="small">Contact</.li>
+            </.list_group>
+
+            <.list unordered variant="gradient" space="small" size="small" color="primary">
+              <:item padding="small">Home</:item>
+              <:item padding="small">Services</:item>
+              <:item padding="small">About Us</:item>
+              <:item padding="small">Contact</:item>
+            </.list>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="list-size-prop">
+            <.link patch={~p"/chelekom/docs/list/#list-size-prop"}>
+              Size prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The size prop in the list component controls the overall size of the list items, including the text and icons. It offers several predefined size options: <.custom_inline_code>extra_small</.custom_inline_code>, <.custom_inline_code>small</.custom_inline_code>, <.custom_inline_code>medium</.custom_inline_code>, <.custom_inline_code>large</.custom_inline_code>, and <.custom_inline_code>extra_large</.custom_inline_code>.
+          </.cp>
+
+          <.custom_code_wrapper
+            elements_class="flex gap-2 items-start"
+            code_class="text-xs"
+            code={@code_7}
+          >
+            <.list unordered variant="bordered_separated" color="dawn" size="extra_small">
+              <:item padding="small">Home</:item>
+              <:item padding="small">Services</:item>
+              <:item padding="small">About Us</:item>
+              <:item padding="small">Contact</:item>
+            </.list>
+
+            <.list unordered variant="bordered_separated" color="dawn" size="extra_large">
+              <:item padding="small">Home</:item>
+              <:item padding="small">Services</:item>
+              <:item padding="small">About Us</:item>
+              <:item padding="small">Contact</:item>
+            </.list>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="list-space-prop">
+            <.link patch={~p"/chelekom/docs/list/#list-space-prop"}>
+              Space prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The space prop in the list and list group component allows you to control the vertical spacing between list items. With options such as <.custom_inline_code>extra_small</.custom_inline_code>, <.custom_inline_code>small</.custom_inline_code>, <.custom_inline_code>medium</.custom_inline_code>, <.custom_inline_code>large</.custom_inline_code>, and <.custom_inline_code>extra_large</.custom_inline_code>, you can easily customize the spacing to suit your design requirements, ensuring the list layout is aligned with the overall structure of your application.
+          </.cp>
+
+          <.custom_code_wrapper
+            elements_class="flex gap-2 items-start"
+            code_class="text-xs"
+            code={@code_8}
+          >
+            <.list
+              unordered
+              variant="bordered_separated"
+              space="extra_large"
+              color="dawn"
+              size="small"
+            >
+              <:item padding="small">Home</:item>
+              <:item padding="small">Services</:item>
+              <:item padding="small">About Us</:item>
+              <:item padding="small">Contact</:item>
+            </.list>
+
+            <.list
+              unordered
+              variant="bordered_separated"
+              space="extra_small"
+              color="dawn"
+              size="small"
+            >
+              <:item padding="small">Home</:item>
+              <:item padding="small">Services</:item>
+              <:item padding="small">About Us</:item>
+              <:item padding="small">Contact</:item>
+            </.list>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="list-font-weight-prop">
+            <.link patch={~p"/chelekom/docs/list/#list-font-weight-prop"}>
+              Font weight prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <.custom_inline_code>font_weight</.custom_inline_code>
+            prop allows you to customize the text weight of your list items by adding Tailwind CSS font-weight classes. This prop gives you control over how bold or light the text appears within the list component. You can use values like <.custom_inline_code>font-thin</.custom_inline_code>, <.custom_inline_code>font-normal</.custom_inline_code>, <.custom_inline_code>font-medium</.custom_inline_code>, <.custom_inline_code>font-bold</.custom_inline_code>, and <.custom_inline_code>font-extrabold</.custom_inline_code>. This flexibility helps maintain a consistent look across your application while enhancing readability and styling precision.
+          </.cp>
+
+          <.custom_code_wrapper
+            elements_class="flex gap-2 items-start"
+            code_class="text-xs"
+            code={@code_9}
+          >
+            <.list unordered variant="bordered_separated" color="silver" font_weight="font-bold">
+              <:item padding="small">Home</:item>
+              <:item padding="small">Services</:item>
+              <:item padding="small">About Us</:item>
+              <:item padding="small">Contact</:item>
+            </.list>
+
+            <.list
+              unordered
+              variant="bordered_separated"
+              color="secondary"
+              font_weight="font-light"
+            >
+              <:item padding="small">Home</:item>
+              <:item padding="small">Services</:item>
+              <:item padding="small">About Us</:item>
+              <:item padding="small">Contact</:item>
+            </.list>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="list-style-prop">
+            <.link patch={~p"/chelekom/docs/list/#list-style-prop"}>
+              List style prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The style attribute in the list component allows you to apply Tailwind CSS list styles to control how list items are displayed. By default, it uses <.custom_inline_code>list-none</.custom_inline_code>, which removes any default list markers or bullets. However, you can customize the list style by applying other Tailwind list utility classes like
+            <.custom_inline_code>list-disc</.custom_inline_code>
+            for bullet points or
+            <.custom_inline_code>list-decimal</.custom_inline_code>
+            for numbered lists.
+          </.cp>
+
+          <.custom_code_wrapper
+            elements_class="flex gap-2 items-start"
+            code_class="text-xs"
+            code={@code_10}
+          >
+            <.list unordered variant="transparent" color="secondary" style="list-disc">
+              <:item padding="small">Home</:item>
+              <:item padding="small">Services</:item>
+              <:item padding="small">About Us</:item>
+              <:item padding="small">Contact</:item>
+            </.list>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="list-width-prop">
+            <.link patch={~p"/chelekom/docs/list/#list-width-prop"}>
+              List width prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <.custom_inline_code>width</.custom_inline_code>
+            prop allows you to control the width of the ul, ol and list_group components. It supports predefined values such as <.custom_inline_code>extra_small</.custom_inline_code>, <.custom_inline_code>small</.custom_inline_code>, <.custom_inline_code>medium</.custom_inline_code>, <.custom_inline_code>large</.custom_inline_code>, <.custom_inline_code>extra_large</.custom_inline_code>, and <.custom_inline_code>full</.custom_inline_code>. By default, if no width is specified, the list will take up the full width (<.custom_inline_code>
+            w-full
+          </.custom_inline_code>).
+          </.cp>
+
+          <.custom_code_wrapper
+            elements_class="flex gap-2 items-start"
+            code_class="text-xs"
+            code={@code_20}
+          >
+            <.ol color="primary" size="small" width="extra_small">
+              <.li padding="small">Bookmark</.li>
+              <.li padding="small">Tickets</.li>
+              <.li padding="small">Favorits</.li>
+            </.ol>
+
+            <.ul color="primary" size="small" width="extra_large">
+              <.li padding="small">Bookmark</.li>
+              <.li padding="small">Tickets</.li>
+              <.li padding="small">Favorits</.li>
+            </.ul>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="list-ordered-unordered-prop">
+            <.link patch={~p"/chelekom/docs/list/#list-ordered-unordered-prop"}>
+              List ordered and unordered prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <.custom_inline_code>ordered</.custom_inline_code>
+            prop in the list component allows you to define whether the list should be rendered as an ordered list or an unordered list. By default, the list is rendered as an unordered list (<.custom_inline_code>
+            ul
+          </.custom_inline_code>), but when the
+            <.custom_inline_code>ordered</.custom_inline_code>
+            prop is set to <.custom_inline_code>true</.custom_inline_code>, the component renders the list as an ordered list (<.custom_inline_code>
+            ol
+          </.custom_inline_code>). This provides flexibility in displaying a numbered or bulleted list depending on your design needs.
+          </.cp>
+
+          <.custom_code_wrapper
+            elements_class="flex gap-2 items-start"
+            code_class="text-xs"
+            code={@code_25}
+          >
+            <.list unordered variant="transparent" size="small" ordered>
+              <.li padding="small">Bookmark</.li>
+              <.li padding="small">Tickets</.li>
+              <.li padding="small">Favorits</.li>
+            </.list>
+
+            <.list unordered variant="transparent" size="small" style="list-disc">
+              <.li padding="small">Bookmark</.li>
+              <.li padding="small">Tickets</.li>
+              <.li padding="small">Favorits</.li>
+            </.list>
+
+            <.list unordered variant="transparent" size="small">
+              <.li padding="small">Bookmark</.li>
+              <.li padding="small">Tickets</.li>
+              <.li padding="small">Favorits</.li>
+            </.list>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="list-list-item-slott">
+            <.link patch={~p"/chelekom/docs/list/#list-list-item-slott"}>
+              List item slot
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <.custom_inline_code>item</.custom_inline_code>
+            slot in the list component allows you to define the content of each individual list item. You also can use li component inside list instead of item slot.
+          </.cp>
+
+          <.custom_code_wrapper
+            elements_class="flex gap-2 items-start"
+            code_class="text-xs"
+            code={@code_11}
+          >
+            <.list unordered color="secondary">
+              <:item padding="small">Home</:item>
+              <:item padding="small">Services</:item>
+              <:item padding="small">About Us</:item>
+              <:item padding="small">Contact</:item>
+            </.list>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="list-li-component">
+            <.link patch={~p"/chelekom/docs/list/#list-li-component"}>
+              Li component
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <.custom_inline_code>li</.custom_inline_code>
+            component renders an individual list item with customizable attributes. It supports optional features like padding, icons, item count, and flexible content positioning.
+          </.cp>
+
+          <.custom_code_wrapper
+            elements_class="flex gap-2 items-start"
+            code_class="text-xs"
+            code={@code_12}
+          >
+            <.list unordered color="danger">
+              <.li padding="small">Home</.li>
+              <.li padding="small">Services</.li>
+              <.li padding="small">About Us</.li>
+              <.li padding="small">Contact</.li>
+            </.list>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="list-li-count-prop">
+            <.link patch={~p"/chelekom/docs/list/#list-li-count-prop"}>
+              Li component count prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <.custom_inline_code>count</.custom_inline_code>
+            attribute allows you to add a numeric value before the content of each list item, providing a convenient way to display an item counter. When an integer is provided for the
+            <.custom_inline_code>count</.custom_inline_code>
+            attribute, it is displayed before the list item content. This feature is useful for lists where you want to emphasize the order or ranking of the items without switching to an ordered list.
+          </.cp>
+
+          <.custom_code_wrapper
+            elements_class="flex gap-2 items-start"
+            code_class="text-xs"
+            code={@code_13}
+          >
+            <.list unordered color="primary">
+              <:item padding="small" count={1}>Home</:item>
+              <:item padding="small" count={2}>Services</:item>
+              <:item padding="small" count={3}>About Us</:item>
+              <:item padding="small" count={4}>Contact</:item>
+            </.list>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="list-li-count-seperator-prop">
+            <.link patch={~p"/chelekom/docs/list/#list-li-count-seperator-prop"}>
+              Li component count seperator prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <.custom_inline_code>count_separator</.custom_inline_code>
+            attribute allows you to define a custom separator between the count number and the content of each list item. By default, the separator is set to a period followed by a space, but you can modify it to suit your design needs, such as using a dash, colon, or any other character to create a distinct visual presentation.
+          </.cp>
+
+          <.custom_code_wrapper
+            elements_class="flex gap-2 items-start"
+            code_class="text-xs"
+            code={@code_14}
+          >
+            <.list unordered color="primary">
+              <:item padding="small" count={1} count_separator="_">Home</:item>
+              <:item padding="small" count={2} count_separator="_">Services</:item>
+              <:item padding="small" count={3} count_separator="_">About Us</:item>
+              <:item padding="small" count={4} count_separator="_">Contact</:item>
+            </.list>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="list-li-icon-prop">
+            <.link patch={~p"/chelekom/docs/list/#list-li-icon-prop"}>
+              Li component icon prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <.custom_inline_code>icon</.custom_inline_code>
+            attribute lets you use Heroicons to add any icon you want alongside your list item content.
+          </.cp>
+
+          <.custom_code_wrapper
+            elements_class="flex gap-2 items-start"
+            code_class="text-xs"
+            code={@code_15}
+          >
+            <.list unordered color="danger" size="samll">
+              <.li padding="small" icon="hero-bookmark">Bookmark</.li>
+              <.li padding="small" icon="hero-ticket">Tickets</.li>
+              <.li padding="small" icon="hero-star">Favorits</.li>
+            </.list>
+            <.list unordered color="success" size="large">
+              <.li padding="small" icon="hero-bookmark">Bookmark</.li>
+              <.li padding="small" icon="hero-ticket">Tickets</.li>
+              <.li padding="small" icon="hero-star">Favorits</.li>
+            </.list>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="list-li-icon-class-prop">
+            <.link patch={~p"/chelekom/docs/list/#list-li-icon-class-prop"}>
+              Li component icon class prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <.custom_inline_code>icon_class</.custom_inline_code>
+            attribute allows you to apply custom CSS classes to the icon, giving you full control over its styling. Whether you want to adjust the size, color of the icon, this attribute provides the flexibility to ensure that the icon matches the design and layout of your list items perfectly.
+          </.cp>
+
+          <.custom_code_wrapper
+            elements_class="flex gap-2 items-start"
+            code_class="text-xs"
+            code={@code_16}
+          >
+            <.list unordered color="danger" size="small">
+              <.li
+                padding="small"
+                icon_class="size-8 block me-3.5 text-red-900"
+                icon="hero-bookmark"
+              >
+                Bookmark
+              </.li>
+              <.li
+                padding="small"
+                icon_class="size-8 block me-3.5 text-red-900"
+                icon="hero-ticket"
+              >
+                Tickets
+              </.li>
+              <.li padding="small" icon_class="size-8 block me-3.5 text-red-900" icon="hero-star">
+                Favorits
+              </.li>
+            </.list>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="list-li-padding-prop">
+            <.link patch={~p"/chelekom/docs/list/#list-li-padding-prop"}>
+              Li component padding prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <.custom_inline_code>padding</.custom_inline_code>
+            attribute in the
+            <.custom_inline_code>li</.custom_inline_code>
+            component controls the amount of space around the content of each list item. By default, it is set to <.custom_inline_code>none</.custom_inline_code>, meaning no padding is applied. You can customize the padding using predefined values such as <.custom_inline_code>extra_small</.custom_inline_code>, <.custom_inline_code>small</.custom_inline_code>, <.custom_inline_code>medium</.custom_inline_code>, <.custom_inline_code>large</.custom_inline_code>, and <.custom_inline_code>extra_large</.custom_inline_code>, depending on how much spacing you want around the list content. This allows for greater control over the layout and appearance of list items.
+          </.cp>
+
+          <.custom_code_wrapper
+            elements_class="flex gap-2 items-start"
+            code_class="text-xs"
+            code={@code_17}
+          >
+            <.list unordered color="dawn" size="small">
+              <.li padding="extra_small">Bookmark</.li>
+              <.li padding="extra_small">Tickets</.li>
+              <.li padding="extra_small">Favorits</.li>
+            </.list>
+
+            <.list unordered color="dawn" size="small">
+              <.li padding="extra_large">Bookmark</.li>
+              <.li padding="extra_large">Tickets</.li>
+              <.li padding="extra_large">Favorits</.li>
+            </.list>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="list-ul-component">
+            <.link patch={~p"/chelekom/docs/list/#list-ul-component"}>
+              ul component
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <.custom_inline_code>ul</.custom_inline_code>
+            component is the HTML ul tag and supports various customization options. You can use props, previously mentioned on this page, like <.custom_inline_code>color</.custom_inline_code>, <.custom_inline_code>variant</.custom_inline_code>, <.custom_inline_code>size</.custom_inline_code>, <.custom_inline_code>style</.custom_inline_code>, <.custom_inline_code>space</.custom_inline_code>, and
+            <.custom_inline_code>font_weight</.custom_inline_code>
+            to control the appearance and layout of the list. You can use the HTML
+            <.custom_inline_code>li</.custom_inline_code>
+            tag or the
+            <.custom_inline_code>li</.custom_inline_code>
+            component inside this component.
+          </.cp>
+
+          <.custom_code_wrapper
+            elements_class="flex gap-2 items-start"
+            code_class="text-xs"
+            code={@code_18}
+          >
+            <.ul color="secondary" size="small">
+              <.li padding="small">Bookmark</.li>
+              <.li padding="small">Tickets</.li>
+              <.li padding="small">Favorits</.li>
+            </.ul>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="list-ol-component">
+            <.link patch={~p"/chelekom/docs/list/#list-ol-component"}>
+              ol component
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <.custom_inline_code>ol</.custom_inline_code>
+            component is the HTML ol tag and supports various customization options. You can use props, previously mentioned on this page, like <.custom_inline_code>color</.custom_inline_code>, <.custom_inline_code>variant</.custom_inline_code>, <.custom_inline_code>size</.custom_inline_code>, <.custom_inline_code>style</.custom_inline_code>, <.custom_inline_code>space</.custom_inline_code>, and
+            <.custom_inline_code>font_weight</.custom_inline_code>
+            to control the appearance and layout of the list. You can use the HTML
+            <.custom_inline_code>li</.custom_inline_code>
+            tag or the
+            <.custom_inline_code>li</.custom_inline_code>
+            component inside this component.
+          </.cp>
+
+          <.custom_code_wrapper
+            elements_class="flex gap-2 items-start"
+            code_class="text-xs"
+            code={@code_19}
+          >
+            <.ol color="primary" size="small">
+              <.li padding="small">Bookmark</.li>
+              <.li padding="small">Tickets</.li>
+              <.li padding="small">Favorits</.li>
+            </.ol>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="list-group-component">
+            <.link patch={~p"/chelekom/docs/list/#list-group-component"}>
+              List group component
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <.custom_inline_code>list_group</.custom_inline_code>
+            simplifies organizing and styling list items. Each item is rendered using the content provided in either the standard HTML
+            <.custom_inline_code>li</.custom_inline_code>
+            tag or Mishka Chelekom's
+            <.custom_inline_code>li</.custom_inline_code>
+            component, ensuring flexibility in how you structure your lists.
+
+            The previously mentioned props, such as <.custom_inline_code>variant</.custom_inline_code>, <.custom_inline_code>color</.custom_inline_code>, <.custom_inline_code>size</.custom_inline_code>, <.custom_inline_code>width</.custom_inline_code>, <.custom_inline_code>space</.custom_inline_code>, and <.custom_inline_code>font_weight</.custom_inline_code>.
+          </.cp>
+
+          <.custom_code_wrapper
+            elements_class="flex gap-2 items-start"
+            code_class="text-xs"
+            code={@code_21}
+          >
+            <.list_group variant="transparent">
+              <.li padding="small">Home</.li>
+              <.li padding="small">Payments</.li>
+              <.li padding="small">Settings</.li>
+            </.list_group>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="list-group-rounded-prop">
+            <.link patch={~p"/chelekom/docs/list/#list-group-rounded-prop"}>
+              List group rounded prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <.custom_inline_code>rounded</.custom_inline_code>
+            prop in the
+            <.custom_inline_code>list_group</.custom_inline_code>
+            component allows you to control the border radius of the list items. It supports multiple values, including <.custom_inline_code>extra_small</.custom_inline_code>, <.custom_inline_code>small</.custom_inline_code>, <.custom_inline_code>medium</.custom_inline_code>, <.custom_inline_code>large</.custom_inline_code>, <.custom_inline_code>extra_large</.custom_inline_code>, as well as
+            <.custom_inline_code>full</.custom_inline_code>
+            for fully rounded corners and
+            <.custom_inline_code>none</.custom_inline_code>
+            for no rounding. The default value is set to <.custom_inline_code>small</.custom_inline_code>.
+          </.cp>
+
+          <.custom_code_wrapper
+            elements_class="flex gap-2 items-start"
+            code_class="text-xs"
+            code={@code_22}
+          >
+            <.list_group variant="bordered_separated" color="danger" rounded="extra_large">
+              <.li padding="small">Home</.li>
+              <.li padding="small">Payments</.li>
+              <.li padding="small">Settings</.li>
+            </.list_group>
+
+            <.list_group variant="bordered_separated" color="danger" rounded="extra_small">
+              <.li padding="small">Home</.li>
+              <.li padding="small">Payments</.li>
+              <.li padding="small">Settings</.li>
+            </.list_group>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="list-hoverable">
+            <.link patch={~p"/chelekom/docs/list/#list-hoverable"}>
+              List hoverable prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The hoverable prop adds a hover effect to list items when users interact with them. When enabled, this prop applies a subtle background color change as users mouse over each item, providing visual feedback for better interactivity.
+          </.cp>
+
+          <.custom_code_wrapper
+            elements_class="flex gap-2 items-start"
+            code_class="text-xs"
+            code={@code_28}
+          >
+            <.list_group variant="default" hoverable color="danger" rounded="extra_large">
+              <.li padding="small">Home</.li>
+              <.li padding="small">Payments</.li>
+              <.li padding="small">Settings</.li>
+            </.list_group>
+
+            <.list_group variant="bordered" hoverable color="danger" rounded="extra_small">
+              <.li padding="small">Home</.li>
+              <.li padding="small">Payments</.li>
+              <.li padding="small">Settings</.li>
+            </.list_group>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="list-group-padding-prop">
+            <.link patch={~p"/chelekom/docs/list/#list-group-padding-prop"}>
+              List group padding prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <.custom_inline_code>padding</.custom_inline_code>
+            prop in the
+            <.custom_inline_code>list_group</.custom_inline_code>
+            component allows you to set the spacing inside each list item. You can choose from various padding sizes, including <.custom_inline_code>extra_small</.custom_inline_code>, <.custom_inline_code>small</.custom_inline_code>, <.custom_inline_code>medium</.custom_inline_code>, <.custom_inline_code>large</.custom_inline_code>, and <.custom_inline_code>extra_large</.custom_inline_code>. If no padding is desired, you can set it to <.custom_inline_code>none</.custom_inline_code>. The default value is <.custom_inline_code>none</.custom_inline_code>, meaning no padding is applied unless specified.
+          </.cp>
+
+          <.custom_code_wrapper
+            elements_class="flex gap-2 items-start"
+            code_class="text-xs"
+            code={@code_23}
+          >
+            <.list_group variant="bordered" color="info" padding="extra_large">
+              <.li padding="small">Home</.li>
+              <.li padding="small">Payments</.li>
+              <.li padding="small">Settings</.li>
+            </.list_group>
+
+            <.list_group variant="bordered" color="info" padding="extra_small">
+              <.li padding="small">Home</.li>
+              <.li padding="small">Payments</.li>
+              <.li padding="small">Settings</.li>
+            </.list_group>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="nested-lists">
+            <.link patch={~p"/chelekom/docs/list/#nested-lists"}>
+              Nested lists
+            </.link>
+          </.heading2>
+
+          <.cp>
+            reating nested lists in Phoenix LiveView is simple and highly customizable, offering the flexibility to structure your content in multiple layers. Using the ul or ol or list components, you can define the first level of list items, and by nesting another list component inside, you can create second and third levels with ease.
+          </.cp>
+
+          <.custom_code_wrapper
+            elements_class="flex gap-2 items-start"
+            code_class="text-xs"
+            code={@code_24}
+          >
+            <.ul style="list-disc" variant="transparent">
+              <li>First level list item</li>
+              <li>First level list item</li>
+              <li>First level list item</li>
+              <.list space="large" ordered variant="transparent">
+                <:item>Second level list item</:item>
+                <:item>Second level list item</:item>
+                <.list unordered space="small" style="list-disc" variant="transparent">
+                  <:item>Third level list item</:item>
+                  <:item>Third level list item</:item>
+                  <:item>Third level list item</:item>
+                </.list>
+              </.list>
+            </.ul>
+          </.custom_code_wrapper>
+        </:documentation_panel>
+
+        <:props_panel>
+          <.custom_search class="mb-16" />
+          <div class="space-y-8">
+            <h2 class="text-lg lg:text-2xl font-bold">List component props</h2>
+
+            <.custom_table id="list-component-table">
+              <:header>
+                <.table_th>Name</.table_th>
+
+                <.table_th>Type</.table_th>
+
+                <.table_th>Required</.table_th>
+
+                <.table_th>Description</.table_th>
+              </:header>
+
+              <:row>
+                <.table_td>id</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  A unique identifier is used to manage state and interaction.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>hoverable</.table_td>
+
+                <.table_td>boolean</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>add a background when hover on each item</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>class</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Custom CSS class for additional styling.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>font_weight</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines custom class for the font weight. Default is <strong>font-normal</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>size</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines the overall size of the elements, including padding, font size, and other items. Default is <strong>large</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>space</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Space between items. Values: <strong>extra_small</strong>, <strong>small</strong>, <strong>medium</strong>, <strong>large</strong>, <strong>extra_large</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>color</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines color theme. Values: <strong>natural</strong>, <strong>primary</strong>, <strong>secondary</strong>, <strong>dark</strong>, <strong>success</strong>, <strong>warning</strong>, <strong>danger</strong>, <strong>info</strong>, <strong>silver</strong>, <strong>misc</strong>, <strong>dawn</strong>. The
+                  <strong>default</strong>
+                  and <strong>bordered</strong>
+                  variants have extra color options: <strong>dark</strong>
+                  and <strong>white</strong>, which in both light mode and dark mode, these colors are always the same.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>variant</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines the style of the list. Values: <strong>default</strong>, <strong>bordered</strong>, <strong>outline</strong>, <strong>outline_separated</strong>, <strong>bordered_separated</strong>, <strong>transparent</strong>, <strong>shadow</strong>, <strong>gradient</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>style</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Specifies the list style. Default is <strong>list-none</strong>.
+                </.table_td>
+              </:row>
+            </.custom_table>
+          </div>
+
+          <div class="space-y-8 mt-8">
+            <h2 class="text-lg lg:text-2xl font-bold">li Component Props</h2>
+
+            <.custom_table id="li-component-table">
+              <:header>
+                <.table_th>Name</.table_th>
+
+                <.table_th>Type</.table_th>
+
+                <.table_th>Required</.table_th>
+
+                <.table_th>Description</.table_th>
+              </:header>
+
+              <:row>
+                <.table_td>id</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  A unique identifier is used to manage state and interaction.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>class</.table_td>
+
+                <.table_td>list</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Custom CSS class for additional styling.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>count</.table_td>
+
+                <.table_td>integer</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Li counter for numbered list items.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>count_separator</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Specifies the separator between the list item number and its content. Default is <strong>. (single dot)</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>icon</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Icon displayed alongside the list item.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>icon_class</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Custom CSS class for styling the icon. Default is <strong>list-item-icon</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>content_class</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Custom CSS class for styling the content of the list item.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>padding</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines the padding for the list item. Default is <strong>none</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>position</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines the alignment of the list item. Values: <strong>start</strong>, <strong>end</strong>, <strong>center</strong>. Default is <strong>start</strong>.
+                </.table_td>
+              </:row>
+            </.custom_table>
+          </div>
+
+          <div class="space-y-8 mt-8">
+            <h2 class="text-lg lg:text-2xl font-bold">ul Component Props</h2>
+
+            <.custom_table id="ul-component-table">
+              <:header>
+                <.table_th>Name</.table_th>
+
+                <.table_th>Type</.table_th>
+
+                <.table_th>Required</.table_th>
+
+                <.table_th>Description</.table_th>
+              </:header>
+
+              <:row>
+                <.table_td>id</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  A unique identifier is used to manage state and interaction.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>color</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines the color theme of the list. Values: <strong>white</strong>, <strong>primary</strong>, <strong>secondary</strong>, <strong>dark</strong>, <strong>success</strong>, <strong>warning</strong>, <strong>danger</strong>, <strong>info</strong>, <strong>silver</strong>, <strong>misc</strong>, <strong>dawn</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>variant</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines the style of the list. Values: <strong>bordered</strong>, <strong>outline</strong>, <strong>transparent</strong>, etc.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>size</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines the overall size of the elements, including padding and font size. Default is <strong>medium</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>width</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines the element width. Default is <strong>full</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>style</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Specifies the list style, such as <strong>list-none</strong>, <strong>list-disc</strong>, etc. Default is <strong>list-none</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>space</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Space between list items. Accepts predefined sizes like <strong>small</strong>, <strong>medium</strong>, etc.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>class</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Custom CSS class for additional styling.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>font_weight</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines the font weight. Default is <strong>font-normal</strong>.
+                </.table_td>
+              </:row>
+            </.custom_table>
+          </div>
+
+          <div class="space-y-8 mt-8">
+            <h2 class="text-lg lg:text-2xl font-bold">ol Component Props</h2>
+
+            <.custom_table id="ol-component-table">
+              <:header>
+                <.table_th>Name</.table_th>
+
+                <.table_th>Type</.table_th>
+
+                <.table_th>Required</.table_th>
+
+                <.table_th>Description</.table_th>
+              </:header>
+
+              <:row>
+                <.table_td>id</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  A unique identifier is used to manage state and interaction.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>color</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines the color theme of the list. Values: <strong>white</strong>, <strong>primary</strong>, <strong>secondary</strong>, <strong>dark</strong>, <strong>success</strong>, <strong>warning</strong>, <strong>danger</strong>, <strong>info</strong>, <strong>silver</strong>, <strong>misc</strong>, <strong>dawn</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>variant</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines the style of the list. Values: <strong>bordered</strong>, <strong>outline</strong>, <strong>transparent</strong>, etc.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>size</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines the overall size of the elements, including padding and font size. Default is <strong>medium</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>width</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines the element width. Default is <strong>full</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>class</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Custom CSS class for additional styling.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>space</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Space between list items. Accepts predefined sizes like <strong>small</strong>, <strong>medium</strong>, etc.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>font_weight</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines the font weight. Default is <strong>font-normal</strong>.
+                </.table_td>
+              </:row>
+            </.custom_table>
+          </div>
+
+          <div class="space-y-8 mt-8">
+            <h2 class="text-lg lg:text-2xl font-bold">List Group Component Props</h2>
+
+            <.custom_table id="list-group-component-table">
+              <:header>
+                <.table_th>Name</.table_th>
+
+                <.table_th>Type</.table_th>
+
+                <.table_th>Required</.table_th>
+
+                <.table_th>Description</.table_th>
+              </:header>
+
+              <:row>
+                <.table_td>id</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  A unique identifier is used to manage state and interaction.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>hoverable</.table_td>
+
+                <.table_td>boolean</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>add a background when hover on each item</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>variant</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines the style of the list group. Values: <strong>default</strong>, <strong>outline_separated</strong>, etc.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>color</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines the color theme of the list group. Values: <strong>white</strong>, <strong>primary</strong>, <strong>secondary</strong>, <strong>dark</strong>, <strong>success</strong>, <strong>warning</strong>, <strong>danger</strong>, <strong>info</strong>, <strong>silver</strong>, <strong>misc</strong>, <strong>dawn</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>size</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines the overall size of the elements, including padding and font size. Default is <strong>medium</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>width</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines the element width. Default is <strong>full</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>space</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Space between list items. Accepts predefined sizes like <strong>small</strong>, <strong>medium</strong>, etc.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>rounded</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines the border radius. Default is <strong>small</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>border</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines border style. Default is <strong>extra_small</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>font_weight</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines the font weight. Default is <strong>font-normal</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>padding</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines the padding for items. Default is <strong>none</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>class</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Custom CSS class for additional styling.</.table_td>
+              </:row>
+            </.custom_table>
+          </div>
+        </:props_panel>
+
+        <:cli_panel>
+          <.custom_cli_props config={component_config()} />
+        </:cli_panel>
+        <.custom_table_content>
+          <:content
+            link={~p"/chelekom/docs/list/#overview"}
+            title="Overview of the list component"
+          />
+          <:content
+            link={~p"/chelekom/docs/list/#base-variants"}
+            title="Base & base separated Variant"
+          />
+          <:content
+            link={~p"/chelekom/docs/list/#list-bordered-variant"}
+            title="bordered Variant"
+          />
+          <:content link={~p"/chelekom/docs/list/#list-default-variant"} title="Default Variant" />
+          <:content
+            link={~p"/chelekom/docs/list/#list-outline_separated-variant"}
+            title="Outline Separated Variant"
+          />
+          <:content link={~p"/chelekom/docs/list/#list-outline-variant"} title="Outline Variant" />
+          <:content
+            link={~p"/chelekom/docs/list/#list-bordered-separated-variant"}
+            title="Bordered separated Variant"
+          />
+          <:content
+            link={~p"/chelekom/docs/list/#list-transparent-variant"}
+            title="Transparent Variant"
+          />
+          <:content link={~p"/chelekom/docs/list/#list-shadow-variant"} title="Shadow Variant" />
+          <:content
+            link={~p"/chelekom/docs/list/#list-gradient-variant"}
+            title="Gradient Variant"
+          />
+          <:content link={~p"/chelekom/docs/list/#list-size-prop"} title="Size Prop" />
+          <:content link={~p"/chelekom/docs/list/#list-space-prop"} title="Space Prop" />
+          <:content
+            link={~p"/chelekom/docs/list/#list-font-weight-prop"}
+            title="Font Weight Prop"
+          />
+          <:content link={~p"/chelekom/docs/list/#list-style-prop"} title="Style Prop" />
+          <:content link={~p"/chelekom/docs/list/#list-width-prop"} title="Width Prop" />
+          <:content
+            link={~p"/chelekom/docs/list/#list-ordered-unordered-prop"}
+            title="Ordered and unordered Prop"
+          />
+          <:content link={~p"/chelekom/docs/list/#list-list-item-slot"} title="List item Slot" />
+          <:content link={~p"/chelekom/docs/list/#list-li-component"} title="Li Component" />
+          <:content
+            link={~p"/chelekom/docs/list/#list-li-count-prop"}
+            title="Li Component Count Prop"
+          />
+          <:content
+            link={~p"/chelekom/docs/list/#list-li-count-separator-prop"}
+            title="Li Component Count Separator Prop"
+          />
+          <:content
+            link={~p"/chelekom/docs/list/#list-li-icon-prop"}
+            title="Li Component Icon Prop"
+          />
+          <:content
+            link={~p"/chelekom/docs/list/#list-li-icon-class-prop"}
+            title="Li Component Icon Class Prop"
+          />
+          <:content
+            link={~p"/chelekom/docs/list/#list-li-padding-prop"}
+            title="Li Component Padding Prop"
+          />
+          <:content link={~p"/chelekom/docs/list/#list-ul-component"} title="UL Component" />
+          <:content link={~p"/chelekom/docs/list/#list-ol-component"} title="OL Component" />
+          <:content
+            link={~p"/chelekom/docs/list/#list-group-component"}
+            title="List Group Component"
+          />
+          <:content
+            link={~p"/chelekom/docs/list/#list-group-rounded-prop"}
+            title="List Group Rounded Prop"
+          />
+          <:content link={~p"/chelekom/docs/list/#list-hoverable"} title="List hoverable prop" />
+          <:content
+            link={~p"/chelekom/docs/list/#list-group-padding-prop"}
+            title="List Group Padding Prop"
+          />
+          <:content link={~p"/chelekom/docs/list/#nested-lists"} title="Nested Lists" />
+        </.custom_table_content>
+      </.custom_tab>
+    </div>
+  </div>
+</Layouts.app>

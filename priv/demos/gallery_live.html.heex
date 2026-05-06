@@ -1,0 +1,1267 @@
+<Layouts.app flash={@flash}>
+  <div class="lg:grid lg:grid-cols-12 mt-5 max-w-5xl mx-auto">
+    <.custom_nav active="chelekom-docs-gallery" />
+    <div class="lg:col-span-10">
+      <.custom_info
+        title="Gallery"
+        description="Customizable Phoenix LiveView gallery component for displaying images in different layouts, including default, masonry, and featured styles."
+        mix="mix mishka.ui.gen.component gallery"
+        github="https://github.com/mishka-group/mishka_chelekom/blob/master/priv/components/gallery.eex"
+        tags={["Component", "Stateless", "JS"]}
+      />
+      <.custom_tab id="chelekom-gallery-tab">
+        <:documentation_panel>
+          <.heading2 class="mb-5" id="overview">
+            <.link patch={~p"/chelekom/docs/gallery/#overview"}>
+              Overview of the Phoenix and LiveView Gallery Component
+            </.link>
+          </.heading2>
+          <.cp>
+            The
+            <strong>
+              Mishka Chelekom gallery
+            </strong>
+            component is a <strong>Phoenix LiveView</strong>
+            component that allows developers to create dynamic and customizable <strong>galleries</strong>, perfect for showcasing images in a structured layout. It offers flexibility in design, allowing for easy adjustment of columns, gaps, and layout types, ensuring a polished and professional presentation.
+          </.cp>
+
+          <.custom_code_wrapper elements_class="pz-10">
+            <.gallery gap="small">
+              <.gallery_media class="w-full" rounded="small" src={~p"/images/card-1.jpg"} />
+              <.gallery cols="four" gap="small" animation="scale-down">
+                <.gallery_media
+                  class="cursor-pointer"
+                  rounded="small"
+                  src={~p"/images/card-1.jpg"}
+                />
+                <.gallery_media
+                  class="cursor-pointer"
+                  rounded="small"
+                  src={~p"/images/card-2.jpg"}
+                />
+                <.gallery_media
+                  class="cursor-pointer"
+                  rounded="small"
+                  src={~p"/images/card-3.jpg"}
+                />
+                <.gallery_media
+                  class="cursor-pointer"
+                  rounded="small"
+                  src={~p"/images/card-4.jpg"}
+                />
+              </.gallery>
+            </.gallery>
+
+            <h4 class="text-xl font-semibold my-4">
+              <.link patch={~p"/chelekom/docs/gallery/#filterable-galley"}>
+                Filterable Gallery
+              </.link>
+            </h4>
+            <.filterable_gallery
+              cols="four"
+              class="mt-10"
+              id="my-gallery"
+              default_filter="All Categories"
+              filters={["Sky", "Flowers", "Sea", "Boat"]}
+              media={[
+                %{src: "/images/card-5.jpg", alt: "Sea 1", category: ["Sea", "Boat"]},
+                %{src: "/images/card-6.jpg", alt: "Sky 1", category: "Sky"},
+                %{src: "/images/card-7.jpg", alt: "Flowers 1", category: "Flowers"},
+                %{src: "/images/card-8.jpg", alt: "Flowers 2", category: "Flowers"},
+                %{src: "/images/card-9.jpg", alt: "Sky 2", category: ["Sky", "Sea"]},
+                %{src: "/images/card-11.jpg", alt: "Sea 2", category: ["Sea", "Boat"]},
+                %{src: "/images/card-10.jpg", alt: "Flowers 3", category: "Flowers"}
+              ]}
+            >
+              <:filter :let={filter}>
+                <button
+                  data-gallery-filter
+                  data-category={filter}
+                  class="py-2.5 px-6 text-sm rounded-full bg-gradient-to-tr from-indigo-600  to-indigo-400 shadow-indigo-500/50 text-white cursor-pointer font-semibold text-center shadow-xs dark:shadow-none transition-all duration-300 hover:bg-gradient-to-l disabled:text-[#BBBBBB]  dark:disabled:text-[#868686] disabled:from-[#F3F3F3] disabled:to-[#F3F3F3] dark:disabled:from-[#4B4B4B] dark:disabled:to-[#4B4B4B] disabled:shadow-none"
+                >
+                  {filter}
+                </button>
+              </:filter>
+              <:media_block :let={media}>
+                <.gallery_media rounded="large" src={media.src} alt={media.alt} />
+              </:media_block>
+            </.filterable_gallery>
+          </.custom_code_wrapper>
+
+          <.cp margin="mt-5">
+            This
+            <strong>
+              <.link
+                title="Phoenix LiveView component"
+                class="transition-colors hover:text-[#448D96]"
+                navigate={~p"/chelekom"}
+              >
+                Phoenix LiveView component
+              </.link>
+            </strong>
+            also supports various gallery styles, including default, <strong>masonry</strong>, and featured layouts, making it ideal for enhancing both the visual appeal and functionality of media-rich content. With its responsive design and ease of use, this gallery component improves the presentation and accessibility of visual content.
+          </.cp>
+
+          <.custom_block position="left" color="success" class="my-8" border="medium">
+            <.cp>
+              By using the class prop, you can apply custom classes or
+              <strong>Tailwind CSS</strong>
+              classes to customize the appearance and behavior of the gallery, allowing for flexible design changes.
+            </.cp>
+          </.custom_block>
+
+          <.heading2 margin="my-5" id="how-to-display-images">
+            <.link patch={~p"/chelekom/docs/gallery/#how-to-display-images"}>
+              How to display images in the gallery component.
+            </.link>
+          </.heading2>
+          <.cp>
+            To display images in the gallery component, you need to use the
+            <.custom_inline_code>gallery_media</.custom_inline_code>
+            element, where the image source is specified using the
+            <.custom_inline_code>src</.custom_inline_code>
+            attribute. This attribute should contain the URL of the image you want to display. Additionally, you can provide an
+            <.custom_inline_code>alt</.custom_inline_code>
+            attribute to describe the image, which improves accessibility and helps users understand the content if the image fails to load.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" code={@code_1}>
+            <.gallery cols="three" id="gallery-1">
+              <.gallery_media
+                id="gallery-media-1"
+                src={~p"/images/card-2.jpg"}
+                alt="Mishka chelekom gallery component first media"
+              />
+              <.gallery_media
+                id="gallery-media-2"
+                src={~p"/images/card-6.jpg"}
+                alt="Mishka chelekom gallery component second media"
+              />
+              <.gallery_media
+                id="gallery-media-3"
+                src={~p"/images/card-1.jpg"}
+                alt="Mishka chelekom gallery component third media"
+              />
+            </.gallery>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="filterable-galley">
+            <.link patch={~p"/chelekom/docs/gallery/#filterable-galley"}>
+              Filterable Gallery component
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The <strong>filterable gallery Phoenix Liveview component</strong>
+            extends the basic gallery functionality by adding dynamic filtering capabilities. This component allows users to filter media items based on categories, making it easier to organize and display content in an interactive way. It includes a filter bar at the top where users can select different categories, and the gallery updates in real-time to show only the matching items.
+          </.cp>
+          <.custom_block position="left" color="success" class="my-8" border="medium">
+            <.cp>
+              To handle images without a specific category, you can assign an empty string
+              <.custom_inline_code>""</.custom_inline_code>
+              as the category value. This allows those images to be included in the gallery while only being shown when "All" is selected.
+            </.cp>
+          </.custom_block>
+
+          <.custom_code_wrapper code_class="text-xs" code={@code_13}>
+            <.filterable_gallery
+              class="mt-6"
+              id="gallery-example-1"
+              filters={["Sky", "Sea"]}
+              media={[
+                %{src: "/images/card-7.jpg", alt: "Sea 1", category: "Sea"},
+                %{src: "/images/card-9.jpg", alt: "Sky 1", category: "Sky"},
+                %{src: "/images/card-10.jpg", alt: "Sky 2", category: "Sky"}
+              ]}
+            >
+            </.filterable_gallery>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="default-filter">
+            <.link patch={~p"/chelekom/docs/gallery/#default-filter"}>
+              Filterable gallery default filter prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <.custom_inline_code>default_filter</.custom_inline_code>
+            prop allows you to customize the "All" filter label. While it defaults to "All", you can set any name you prefer as the default filter option that displays all media items. For example, setting or <.custom_inline_code>default_filter="All Images"</.custom_inline_code>default_filter="View Everything" will change how the default filter option appears in the gallery's filter menu.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" code={@code_18}>
+            <.filterable_gallery
+              class="mt-6"
+              filters={["Skies", "Ocean"]}
+              default_filter="All Images"
+              media={[
+                %{src: "/images/card-2.jpg", alt: "Ocean 1", category: "Ocean"},
+                %{src: "/images/card-1.jpg", alt: "Sky 2", category: "Skies"},
+                %{src: "/images/card-3.jpg", alt: "Sky 1", category: "Skies"},
+                %{src: "/images/card-4.jpg", alt: "Sky 3", category: "Skies"}
+              ]}
+            >
+              <:filter :let={filter}>
+                <.button
+                  data-gallery-filter
+                  data-category={filter}
+                  variant="outline"
+                  color="danger"
+                  rounded="full"
+                  size="large"
+                >
+                  {filter}
+                </.button>
+              </:filter>
+            </.filterable_gallery>
+          </.custom_code_wrapper>
+          <.heading2 margin="my-5" id="filters">
+            <.link patch={~p"/chelekom/docs/gallery/#filters"}>
+              Filterable gallery filters prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            A list of filter labels to show above the gallery. These values will be matched with the
+            <.custom_inline_code>category</.custom_inline_code>
+            of each media item. You can include a value like
+            <.custom_inline_code>"All"</.custom_inline_code>
+            to show everything.
+          </.cp>
+          <.custom_code_wrapper code_class="text-xs" code={@code_18}>
+            <.filterable_gallery
+              class="mt-6"
+              filters={["Skies", "Ocean"]}
+              media={[
+                %{src: "/images/card-11.jpg", alt: "Sky 2", category: "Skies"},
+                %{src: "/images/card-9.jpg", alt: "Ocean 1", category: "Ocean"},
+                %{src: "/images/card-4.jpg", alt: "Sky 1", category: "Skies"}
+              ]}
+            >
+              <:filter :let={filter}>
+                <.button
+                  data-gallery-filter
+                  data-category={filter}
+                  variant="outline"
+                  color="danger"
+                  rounded="full"
+                  size="large"
+                >
+                  {filter}
+                </.button>
+              </:filter>
+            </.filterable_gallery>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="media">
+            <.link patch={~p"/chelekom/docs/gallery/#media"}>
+              Filterable gallery media slot
+            </.link>
+          </.heading2>
+
+          <.cp>
+            A list of maps representing each image. Each item should include a
+            <.custom_inline_code>src</.custom_inline_code>
+            for the image path, an
+            <.custom_inline_code>alt</.custom_inline_code>
+            text for accessibility, and a
+            <.custom_inline_code>category</.custom_inline_code>
+            for filtering.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" code={@code_17}>
+            <.filterable_gallery
+              class="mt-6"
+              gap="large"
+              filters={["Skies", "Ocean"]}
+              media={[
+                %{src: "/images/card-4.jpg", alt: "Sky 1", category: "Skies"},
+                %{src: "/images/card-1.jpg", alt: "Ocean 1", category: "Ocean"},
+                %{src: "/images/card-3.jpg", alt: "Sky 2", category: "Skies"},
+                %{src: "/images/card-2.jpg", alt: "Sky 1", category: "Skies"}
+              ]}
+            >
+              <:filter :let={filter}>
+                <.button
+                  data-gallery-filter
+                  data-category={filter}
+                  variant="inverted"
+                  color="misc"
+                  rounded="full"
+                  size="medium"
+                >
+                  {filter}
+                </.button>
+              </:filter>
+            </.filterable_gallery>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="multiple-category">
+            <.link patch={~p"/chelekom/docs/gallery/#multiple-category"}>
+              Filterable gallery multiple category
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The gallery media's
+            <.custom_inline_code>category</.custom_inline_code>
+            can be defined in multiple formats:
+            - As a single string (e.g., <.custom_inline_code>"Sky"</.custom_inline_code>)
+            - As an array of strings (e.g., <.custom_inline_code>["Sky", "Ocean"]</.custom_inline_code>) for items that fit multiple categories
+            - As an empty string
+            <.custom_inline_code>""</.custom_inline_code>
+            for items that should only appear in the "All" view
+
+            This flexibility allows you to create complex categorization schemes while maintaining simple filtering functionality. Media items with multiple categories will appear when any of their assigned categories are selected.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" code={@code_20}>
+            <.filterable_gallery
+              class="mt-6"
+              gap="large"
+              filters={["Skies", "Ocean"]}
+              media={[
+                %{src: "/images/card-1.jpg", alt: "Sky 1", category: ["Skies", "Ocean"]},
+                %{src: "/images/card-2.jpg", alt: "nature", category: ""},
+                %{src: "/images/card-3.jpg", alt: "Sky 2", category: "Skies"},
+                %{src: "/images/card-4.jpg", alt: "Sky 3", category: "Skies"},
+                %{src: "/images/card-5.jpg", alt: "Sky 4", category: "Ocean"}
+              ]}
+            >
+            </.filterable_gallery>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="cols-and-gap">
+            <.link patch={~p"/chelekom/docs/gallery/#cols-and-gap"}>
+              Filterable gallery cols and gap props
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <.custom_inline_code>cols</.custom_inline_code>
+            option sets the number of columns in the grid. The
+            <.custom_inline_code>gap</.custom_inline_code>
+            controls the spacing between items. These values are mapped to Tailwind grid classes.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" code={@code_16}>
+            <.filterable_gallery
+              class="mt-6"
+              cols="two"
+              gap="large"
+              filters={["Skies", "Ocean"]}
+              media={[
+                %{src: "/images/card-3.jpg", alt: "Sky 2", category: "Skies"},
+                %{src: "/images/card-1.jpg", alt: "Ocean 1", category: "Ocean"},
+                %{src: "/images/card-2.jpg", alt: "Sky 1", category: "Skies"},
+                %{src: "/images/card-4.jpg", alt: "Sky 1", category: "Skies"}
+              ]}
+            >
+              <:filter :let={filter}>
+                <.button
+                  data-gallery-filter
+                  data-category={filter}
+                  variant="inverted"
+                  color="dawn"
+                  rounded="full"
+                  size="large"
+                >
+                  {filter}
+                </.button>
+              </:filter>
+            </.filterable_gallery>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="filter-slot">
+            <.link patch={~p"/chelekom/docs/gallery/#filter-slot"}>
+              Filterable gallery filter slot
+            </.link>
+          </.heading2>
+
+          <.cp>
+            You can use the
+            <.custom_inline_code>filter</.custom_inline_code>
+            slot to customize how each filter button is rendered. This slot receives the filter value with <.custom_inline_code>let=&#123;filter&#125;</.custom_inline_code>. It allows you to apply your own styles or use custom components.
+          </.cp>
+          <.custom_code_wrapper code_class="text-xs" code={@code_15}>
+            <.filterable_gallery
+              class="mt-6"
+              filters={["Skies", "Ocean"]}
+              media={[
+                %{src: "/images/card-3.jpg", alt: "Sky 2", category: "Skies"},
+                %{src: "/images/card-2.jpg", alt: "Sky 1", category: "Skies"},
+                %{src: "/images/card-1.jpg", alt: "Ocean 1", category: "Ocean"}
+              ]}
+            >
+              <:filter :let={filter}>
+                <.button
+                  data-gallery-filter
+                  data-category={filter}
+                  variant="outline"
+                  color="secondary"
+                  size="large"
+                >
+                  {filter}
+                </.button>
+              </:filter>
+            </.filterable_gallery>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="media-block-slot">
+            <.link patch={~p"/chelekom/docs/gallery/#media-block-slot"}>
+              Filterable gallery media block slot
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <.custom_inline_code>media_block</.custom_inline_code>
+            slot lets you customize how each media item is rendered. This slot receives the media map with <.custom_inline_code>let=&#123;media&#125;</.custom_inline_code>. You can use this to apply your own layout, styles, or components for each image.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" code={@code_14}>
+            <.filterable_gallery
+              class="mt-6"
+              filters={["Skies", "Ocean"]}
+              media={[
+                %{src: "/images/card-3.jpg", alt: "Sky 2", category: "Skies"},
+                %{src: "/images/card-2.jpg", alt: "Sky 1", category: "Skies"},
+                %{src: "/images/card-1.jpg", alt: "Ocean 1", category: "Ocean"}
+              ]}
+            >
+              <:filter :let={filter}>
+                <.button
+                  data-gallery-filter
+                  data-category={filter}
+                  variant="subtle"
+                  color="misc"
+                  size="large"
+                >
+                  {filter}
+                </.button>
+              </:filter>
+
+              <:media_block :let={media}>
+                <.gallery_media src={media.src} alt={media.alt} rounded="large" />
+              </:media_block>
+            </.filterable_gallery>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="gallery-media-shadow-prop">
+            <.link patch={~p"/chelekom/docs/gallery/#gallery-media-shadow-prop"}>
+              Shadow prop of gallery media of Phoenix LiveView gallery component
+            </.link>
+          </.heading2>
+          <.cp>
+            The
+            <.custom_inline_code>gallery_media</.custom_inline_code>
+            component allows you to apply various shadow effects through the shadow attribute. You can choose from options like
+            <.custom_inline_code>extra_small</.custom_inline_code>
+            for a subtle shadow,
+            <.custom_inline_code>small</.custom_inline_code>
+            for a regular shadow, and
+            <.custom_inline_code>medium</.custom_inline_code>
+            for a moderate shadow. For a more prominent effect, you can use <.custom_inline_code>large</.custom_inline_code>, and for the strongest shadow, <.custom_inline_code>extra_large</.custom_inline_code>. If no shadow is desired, set the value to
+            <.custom_inline_code>none</.custom_inline_code>
+            to remove it. This allows for flexible visual styling in the
+            <.custom_inline_code>gallery_media</.custom_inline_code>
+            component to suit your design preferences.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" code={@code_2}>
+            <.gallery cols="three" gap="small" id="gallery-2">
+              <.gallery_media
+                id="gallery-media-4"
+                src={~p"/images/card-1.jpg"}
+                shadow="extra_small"
+                alt="Mishka chelekom gallery component first media"
+              />
+              <.gallery_media
+                id="gallery-media-5"
+                src={~p"/images/card-2.jpg"}
+                shadow="small"
+                alt="Mishka chelekom gallery component second media"
+              />
+              <.gallery_media
+                id="gallery-media-6"
+                src={~p"/images/card-3.jpg"}
+                shadow="medium"
+                alt="Mishka chelekom gallery component third media"
+              />
+              <.gallery_media
+                id="gallery-media-7"
+                src={~p"/images/card-4.jpg"}
+                shadow="large"
+                alt="Mishka chelekom gallery component fourth media"
+              />
+              <.gallery_media
+                id="gallery-media-8"
+                src={~p"/images/card-5.jpg"}
+                shadow="extra_large"
+                alt="Mishka chelekom gallery component fifth media"
+              />
+            </.gallery>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="gallery-media-rounded-prop">
+            <.link patch={~p"/chelekom/docs/gallery/#gallery-media-rounded-prop"}>
+              Rounded prop
+            </.link>
+          </.heading2>
+          <.cp>
+            The rounded attribute in the
+            <.custom_inline_code>gallery_media</.custom_inline_code>
+            component controls the border radius of the media element, allowing you to apply various levels of rounding to the corners. The available options include <.custom_inline_code>extra_small</.custom_inline_code>, which applies a slight rounding effect,
+            <.custom_inline_code>small</.custom_inline_code>
+            for standard rounded corners, and
+            <.custom_inline_code>medium</.custom_inline_code>
+            for moderate rounding. For more pronounced effects, you can use
+            <.custom_inline_code>large</.custom_inline_code>
+            or
+            <.custom_inline_code>extra_large</.custom_inline_code>
+            for larger, more noticeable rounded corners. The
+            <.custom_inline_code>full</.custom_inline_code>
+            option makes the media fully rounded, typically resulting in a circular shape. If no rounding is required, you can set the value to
+            <.custom_inline_code>none</.custom_inline_code>
+            to maintain sharp, square corners.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" code={@code_3}>
+            <.gallery cols="three" gap="small" id="gallery-3">
+              <.gallery_media
+                id="gallery-media-9"
+                src={~p"/images/card-1.jpg"}
+                rounded="extra_small"
+                alt="Mishka chelekom gallery component first media"
+              />
+              <.gallery_media
+                id="gallery-media-10"
+                src={~p"/images/card-2.jpg"}
+                rounded="small"
+                alt="Mishka chelekom gallery component second media"
+              />
+              <.gallery_media
+                id="gallery-media-11"
+                src={~p"/images/card-3.jpg"}
+                rounded="medium"
+                alt="Mishka chelekom gallery component third media"
+              />
+              <.gallery_media
+                id="gallery-media-12"
+                src={~p"/images/card-4.jpg"}
+                rounded="large"
+                alt="Mishka chelekom gallery component fourth media"
+              />
+              <.gallery_media
+                id="gallery-media-13"
+                src={~p"/images/card-5.jpg"}
+                rounded="extra_large"
+                alt="Mishka chelekom gallery component fifth media"
+              />
+              <.gallery_media
+                id="gallery-media-14"
+                src={~p"/images/card-6.jpg"}
+                rounded="full"
+                alt="Mishka chelekom gallery component fifth media"
+              />
+            </.gallery>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="gallery-default-type-prop">
+            <.link patch={~p"/chelekom/docs/gallery/#gallery-default-type-prop"}>
+              The default value of type prop
+            </.link>
+          </.heading2>
+          <.cp>
+            The default layout in the gallery component presents media items in a clean, structured grid format. Each image is evenly spaced and aligned, providing a uniform and balanced look. This layout is ideal for galleries where consistency is key, as it ensures that all items are displayed in equal sizes and aligned in a straightforward grid. It's perfect for showcasing images with the same dimensions or for creating a tidy, professional presentation.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" code={@code_4}>
+            <.gallery cols="three" gap="small" id="gallery-4">
+              <.gallery_media
+                id="gallery-media-15"
+                src={~p"/images/card-1.jpg"}
+                alt="Mishka chelekom default type gallery component first media"
+              />
+              <.gallery_media
+                id="gallery-media-16"
+                src={~p"/images/card-2.jpg"}
+                alt="Mishka chelekom default type gallery component second media"
+              />
+              <.gallery_media
+                id="gallery-media-17"
+                src={~p"/images/card-3.jpg"}
+                alt="Mishka chelekom default type gallery component third media"
+              />
+              <.gallery_media
+                id="gallery-media-18"
+                src={~p"/images/card-4.jpg"}
+                alt="Mishka chelekom default type gallery component fourth media"
+              />
+              <.gallery_media
+                id="gallery-media-19"
+                src={~p"/images/card-5.jpg"}
+                alt="Mishka chelekom default type gallery component fifth media"
+              />
+            </.gallery>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="gallery-masonry-type-prop">
+            <.link patch={~p"/chelekom/docs/gallery/#gallery-masonry-type-prop"}>
+              The masonry value of type prop in Phoenix LiveView gallery component
+            </.link>
+          </.heading2>
+          <.cp>
+            The masonry layout offers a more dynamic presentation by stacking media items in a staggered, Pinterest-like grid. This layout allows for images of varying heights to be displayed without alignment restrictions, giving the gallery a flowing, creative appearance. It is particularly effective when displaying content with diverse dimensions, as it creates a visually interesting and non-uniform look while maximizing the use of space.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" code={@code_5}>
+            <.gallery cols="three" type="masonry" gap="small" id="gallery-5">
+              <.gallery_media
+                id="gallery-media-20"
+                src={~p"/images/card-1.jpg"}
+                alt="Mishka chelekom default type gallery component first media"
+              />
+              <.gallery_media
+                id="gallery-media-21"
+                src={~p"/images/card-2.jpg"}
+                alt="Mishka chelekom default type gallery component second media"
+              />
+              <.gallery_media
+                id="gallery-media-22"
+                src={~p"/images/card-3.jpg"}
+                alt="Mishka chelekom default type gallery component third media"
+              />
+              <.gallery_media
+                id="gallery-media-23"
+                src={~p"/images/card-4.jpg"}
+                alt="Mishka chelekom default type gallery component fourth media"
+              />
+              <.gallery_media
+                id="gallery-media-24"
+                src={~p"/images/card-5.jpg"}
+                alt="Mishka chelekom default type gallery component fifth media"
+              />
+            </.gallery>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="gallery-featured-type-prop">
+            <.link patch={~p"/chelekom/docs/gallery/#gallery-featured-type-prop"}>
+              The featured value of type prop in Phoenix LiveView gallery component
+            </.link>
+          </.heading2>
+          <.cp>
+            The featured layout is designed to emphasize a primary media item, displaying it prominently with smaller supporting images arranged beneath or beside it. This layout is ideal for product displays or situations where one image needs to stand out as the focal point, while still allowing users to view additional media. It enhances the visual hierarchy by drawing attention to the key image, making it perfect for portfolios or showcases.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" code={@code_6}>
+            <.gallery gap="large" id="gallery-6">
+              <.gallery_media
+                id="gallery-media-25"
+                src={~p"/images/card-1.jpg"}
+                alt="Mishka chelekom default type gallery component first media"
+              />
+
+              <.gallery cols="five" gap="large" id="gallery-7">
+                <.gallery_media
+                  id="gallery-media-26"
+                  src={~p"/images/card-2.jpg"}
+                  alt="Mishka chelekom default type gallery component second media"
+                />
+                <.gallery_media
+                  id="gallery-media-27"
+                  src={~p"/images/card-3.jpg"}
+                  alt="Mishka chelekom default type gallery component third media"
+                />
+                <.gallery_media
+                  id="gallery-media-28"
+                  src={~p"/images/card-4.jpg"}
+                  alt="Mishka chelekom default type gallery component fourth media"
+                />
+                <.gallery_media
+                  id="gallery-media-29"
+                  src={~p"/images/card-5.jpg"}
+                  alt="Mishka chelekom default type gallery component fifth media"
+                />
+              </.gallery>
+            </.gallery>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="gallery-cols-prop">
+            <.link patch={~p"/chelekom/docs/gallery/#gallery-cols-prop"}>
+              Cols prop in Phoenix LiveView gallery component
+            </.link>
+          </.heading2>
+          <.cp>
+            The cols prop in the
+            <.link navigate={~p"/chelekom/docs/gallery"}>Phoenix gallery component</.link>
+            allows you to define the number of columns used to display media items. The values range from one to twelve, giving you flexibility to control how many columns appear in the grid. For example, setting it to
+            <.custom_inline_code>one</.custom_inline_code>
+            will display all items in a single column, while
+            <.custom_inline_code>two</.custom_inline_code>
+            will divide the items into two columns. As the number increases, more columns are introduced, such as <.custom_inline_code>three</.custom_inline_code>, <.custom_inline_code>four</.custom_inline_code>, or even up to <.custom_inline_code>twelve</.custom_inline_code>. These values ensure that you can tailor the gallery layout to fit different screen sizes and design preferences. When necessary, the columns can also adapt for different screen breakpoints, with values like
+            <.custom_inline_code>md</.custom_inline_code>
+            allowing for a responsive design that adjusts according to screen width.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" code={@code_7}>
+            <.gallery cols="six" id="gallery-8">
+              <.gallery_media
+                id="gallery-media-31"
+                src={~p"/images/card-1.jpg"}
+                alt="Mishka chelekom default type gallery component first media"
+              />
+              <.gallery_media
+                id="gallery-media-32"
+                src={~p"/images/card-2.jpg"}
+                alt="Mishka chelekom default type gallery component second media"
+              />
+              <.gallery_media
+                id="gallery-media-33"
+                src={~p"/images/card-3.jpg"}
+                alt="Mishka chelekom default type gallery component third media"
+              />
+              <.gallery_media
+                id="gallery-media-34"
+                src={~p"/images/card-4.jpg"}
+                alt="Mishka chelekom default type gallery component fourth media"
+              />
+              <.gallery_media
+                id="gallery-media-35"
+                src={~p"/images/card-5.jpg"}
+                alt="Mishka chelekom default type gallery component fifth media"
+              />
+              <.gallery_media
+                id="gallery-media-36"
+                src={~p"/images/card-6.jpg"}
+                alt="Mishka chelekom default type gallery component siz media"
+              />
+            </.gallery>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="gallery-gap-prop">
+            <.link patch={~p"/chelekom/docs/gallery/#gallery-gap-prop"}>
+              Gap prop in Phoenix LiveView gallery component
+            </.link>
+          </.heading2>
+          <.cp>
+            The gap prop in the gallery component controls the spacing between media items within the grid layout. It offers various values to adjust the space, providing flexibility in design. You can use
+            <.custom_inline_code>extra_small</.custom_inline_code>
+            for minimal spacing,
+            <.custom_inline_code>small</.custom_inline_code>
+            for slightly larger gaps, and
+            <.custom_inline_code>medium</.custom_inline_code>
+            for moderate spacing. For even more separation, you can choose
+            <.custom_inline_code>large</.custom_inline_code>
+            or <.custom_inline_code>extra_large</.custom_inline_code>, creating more distinct spaces between items. If even more spacing is required, options like <.custom_inline_code>double_large</.custom_inline_code>, <.custom_inline_code>triple_large</.custom_inline_code>, and
+            <.custom_inline_code>quadruple_large</.custom_inline_code>
+            allow for significantly increased gaps, ensuring media items are displayed with the desired amount of space between them.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" code={@code_8}>
+            <.gallery cols="three" gap="extra_large" id="gallery-9">
+              <.gallery_media
+                id="gallery-media-37"
+                src={~p"/images/card-1.jpg"}
+                alt="Mishka chelekom default type gallery component first media"
+              />
+              <.gallery_media
+                id="gallery-media-38"
+                src={~p"/images/card-2.jpg"}
+                alt="Mishka chelekom default type gallery component second media"
+              />
+              <.gallery_media
+                id="gallery-media-39"
+                src={~p"/images/card-3.jpg"}
+                alt="Mishka chelekom default type gallery component third media"
+              />
+              <.gallery_media
+                id="gallery-media-40"
+                src={~p"/images/card-4.jpg"}
+                alt="Mishka chelekom default type gallery component fourth media"
+              />
+              <.gallery_media
+                id="gallery-media-41"
+                src={~p"/images/card-5.jpg"}
+                alt="Mishka chelekom default type gallery component fifth media"
+              />
+              <.gallery_media
+                id="gallery-media-42"
+                src={~p"/images/card-6.jpg"}
+                alt="Mishka chelekom default type gallery component siz media"
+              />
+            </.gallery>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="gallery-animation-props">
+            <.link patch={~p"/chelekom/docs/gallery/#gallery-animation-props"}>
+              Animation and animation size props
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <.custom_inline_code>animation</.custom_inline_code>
+            and
+            <.custom_inline_code>animation_size</.custom_inline_code>
+            props
+            allow you to add smooth animations to gallery images. You can choose from animations like <.custom_inline_code>blur</.custom_inline_code>, <.custom_inline_code>backdrop</.custom_inline_code>, <.custom_inline_code>scale-up</.custom_inline_code>, and <.custom_inline_code>scale-down</.custom_inline_code>.
+            By default, both props are set to nil, so no animation is applied. When setting an animation,
+            it is important to define the corresponding <.custom_inline_code>animation_size</.custom_inline_code>.
+            Available sizes include <.custom_inline_code>extra_small</.custom_inline_code>, <.custom_inline_code>small</.custom_inline_code>, <.custom_inline_code>medium</.custom_inline_code>, <.custom_inline_code>large</.custom_inline_code>, and <.custom_inline_code>extra_large</.custom_inline_code>.
+            This ensures your animations are visually appealing and appropriately scaled.
+          </.cp>
+
+          <.heading2 margin="my-5" id="gallery-animation-backdrop">
+            <.link patch={~p"/chelekom/docs/gallery/#gallery-animation-backdrop"}>
+              Animation backdrop
+            </.link>
+          </.heading2>
+
+          <.custom_code_wrapper code_class="text-xs" elements_class="space-y-10" code={@code_9}>
+            <.gallery
+              cols="three"
+              id="gallery-1+1"
+              animation="backdrop"
+              animation_size="extra_large"
+            >
+              <.gallery_media
+                id="gallery-media-1666"
+                src={~p"/images/card-1.jpg"}
+                alt="Mishka chelekom gallery component first media"
+              />
+              <.gallery_media
+                id="gallery-media-253"
+                src={~p"/images/card-2.jpg"}
+                alt="Mishka chelekom gallery component second media"
+              />
+              <.gallery_media
+                id="gallery-media-345"
+                src={~p"/images/card-3.jpg"}
+                alt="Mishka chelekom gallery component third media"
+              />
+            </.gallery>
+
+            <.gallery
+              cols="three"
+              id="gallery-1+2"
+              animation="backdrop"
+              animation_size="extra_small"
+            >
+              <.gallery_media
+                id="gallery-media-1365"
+                src={~p"/images/card-1.jpg"}
+                alt="Mishka chelekom gallery component first media"
+              />
+              <.gallery_media
+                id="gallery-media-2786"
+                src={~p"/images/card-2.jpg"}
+                alt="Mishka chelekom gallery component second media"
+              />
+              <.gallery_media
+                id="gallery-media-442"
+                src={~p"/images/card-3.jpg"}
+                alt="Mishka chelekom gallery component third media"
+              />
+            </.gallery>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="gallery-animation-blur">
+            <.link patch={~p"/chelekom/docs/gallery/#gallery-animation-blur"}>
+              Animation blur
+            </.link>
+          </.heading2>
+
+          <.custom_code_wrapper code_class="text-xs" code={@code_10}>
+            <.gallery cols="three" id="gallery-1798" animation="blur" animation_size="small">
+              <.gallery_media
+                id="gallery-media-1064"
+                src={~p"/images/card-1.jpg"}
+                alt="Mishka chelekom gallery component first media"
+              />
+              <.gallery_media
+                id="gallery-media-9538"
+                src={~p"/images/card-2.jpg"}
+                alt="Mishka chelekom gallery component second media"
+              />
+              <.gallery_media
+                id="gallery-media-3543"
+                src={~p"/images/card-3.jpg"}
+                alt="Mishka chelekom gallery component third media"
+              />
+            </.gallery>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="gallery-animation-scale-up">
+            <.link patch={~p"/chelekom/docs/gallery/#gallery-animation-scale-up"}>
+              Animation scale up
+            </.link>
+          </.heading2>
+
+          <.custom_code_wrapper code_class="text-xs" code={@code_11}>
+            <.gallery
+              cols="three"
+              id="gallery-1+4"
+              animation="scale-up"
+              animation_size="extra_small"
+              gap="small"
+            >
+              <.gallery_media
+                id="gallery-media-12784"
+                src={~p"/images/card-1.jpg"}
+                alt="Mishka chelekom gallery component first media"
+              />
+              <.gallery_media
+                id="gallery-media-24446"
+                src={~p"/images/card-2.jpg"}
+                alt="Mishka chelekom gallery component second media"
+              />
+              <.gallery_media
+                id="gallery-media-3434"
+                src={~p"/images/card-3.jpg"}
+                alt="Mishka chelekom gallery component third media"
+              />
+            </.gallery>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="gallery-animation-scale-down">
+            <.link patch={~p"/chelekom/docs/gallery/#gallery-animation-scale-down"}>
+              Animation scale down
+            </.link>
+          </.heading2>
+
+          <.custom_code_wrapper code_class="text-xs" code={@code_12}>
+            <.gallery
+              cols="three"
+              id="gallery-1+5"
+              animation="scale-down"
+              animation_size="large"
+              gap="small"
+            >
+              <.gallery_media
+                id="gallery-media-17765"
+                src={~p"/images/card-1.jpg"}
+                alt="Mishka chelekom gallery component first media"
+              />
+              <.gallery_media
+                id="gallery-media-2+5"
+                src={~p"/images/card-2.jpg"}
+                alt="Mishka chelekom gallery component second media"
+              />
+              <.gallery_media
+                id="gallery-media-345345"
+                src={~p"/images/card-3.jpg"}
+                alt="Mishka chelekom gallery component third media"
+              />
+            </.gallery>
+          </.custom_code_wrapper>
+        </:documentation_panel>
+
+        <:props_panel>
+          <.custom_search class="mb-16" />
+          <div class="space-y-8">
+            <h2 class="text-lg lg:text-2xl font-bold">Gallery component props</h2>
+
+            <.custom_table id="gallery-component-table">
+              <:header>
+                <.table_th>Name</.table_th>
+
+                <.table_th>Type</.table_th>
+
+                <.table_th>Required</.table_th>
+
+                <.table_th>Description</.table_th>
+              </:header>
+
+              <:row>
+                <.table_td>id</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  A unique identifier is used to manage state and interaction.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>type</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines the type of the gallery layout. Available options are <strong>default</strong>, <strong>masonry</strong>, and <strong>featured</strong>. Default is <strong>default</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>class</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Custom CSS class for additional styling.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>cols</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Determines the number of columns in the gallery layout.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>animation</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Values are <strong>blur</strong>, <strong>backdrop</strong>, <strong>scale-up</strong>, and
+                  <strong>scale-down</strong>
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>animation_size</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Values are <strong>extra_small</strong>, <strong>small</strong>, <strong>medium</strong>, <strong>large</strong>, and
+                  <strong>extra_large</strong>
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>gap</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Determines the gap between gallery items.</.table_td>
+              </:row>
+            </.custom_table>
+          </div>
+
+          <div class="space-y-8 mt-8">
+            <h2 class="text-lg lg:text-2xl font-bold">Gallery Media component props</h2>
+
+            <.custom_table id="gallery-media-component-table">
+              <:header>
+                <.table_th>Name</.table_th>
+
+                <.table_th>Type</.table_th>
+
+                <.table_th>Required</.table_th>
+
+                <.table_th>Description</.table_th>
+              </:header>
+
+              <:row>
+                <.table_td>id</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  A unique identifier is used to manage state and interaction.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>wrapper_class</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Custom CSS class for additional styling.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>class</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Custom CSS class for additional styling.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>src</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>Yes</.table_td>
+
+                <.table_td>The media link, typically an image.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>alt</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Description of the media for accessibility purposes.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>rounded</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines the border radius. Default is <strong>none</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>content_class</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Add custom classe to content wrapper</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>filters_wrapper_class</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Add custom classe to filter button wrapper</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>shadow</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines shadow style. Default is <strong>shadow-none</strong>.
+                </.table_td>
+              </:row>
+            </.custom_table>
+          </div>
+        </:props_panel>
+
+        <:cli_panel>
+          <.custom_cli_props config={component_config()} />
+        </:cli_panel>
+        <.custom_table_content>
+          <:content
+            link={~p"/chelekom/docs/gallery/#overview"}
+            title="Overview of the gallery component"
+          />
+
+          <:content
+            link={~p"/chelekom/docs/gallery/#how-to-display-images"}
+            title="How display images"
+          />
+
+          <:content
+            link={~p"/chelekom/docs/gallery/#filterable-galley"}
+            title="Filterable gallery component"
+          />
+
+          <:content link={~p"/chelekom/docs/gallery/#filters"} title="Filterable gallery filters" />
+
+          <:content link={~p"/chelekom/docs/gallery/#media"} title="Filterable gallery media" />
+
+          <:content
+            link={~p"/chelekom/docs/gallery/#multiple-category"}
+            title="Filterable gallery multiple category"
+          />
+
+          <:content
+            link={~p"/chelekom/docs/gallery/#cols-and-gap"}
+            title="Filterable gallery cols and gap"
+          />
+
+          <:content
+            link={~p"/chelekom/docs/gallery/#filter-slot"}
+            title="Filterable gallery filter slot"
+          />
+
+          <:content
+            link={~p"/chelekom/docs/gallery/#media-block-slot"}
+            title="Filterable gallery media block slot"
+          />
+
+          <:content
+            link={~p"/chelekom/docs/gallery/#gallery-media-shadow-prop"}
+            title="Gallery media shadow prop"
+          />
+
+          <:content
+            link={~p"/chelekom/docs/gallery/#gallery-media-rounded-prop"}
+            title="Gallery media rounded prop"
+          />
+
+          <:content
+            link={~p"/chelekom/docs/gallery/#gallery-default-type-prop"}
+            title="Gallery default type prop"
+          />
+
+          <:content
+            link={~p"/chelekom/docs/gallery/#gallery-masonry-type-prop"}
+            title="Gallery masonry type prop"
+          />
+
+          <:content
+            link={~p"/chelekom/docs/gallery/#gallery-featured-type-prop"}
+            title="Gallery featured type prop"
+          />
+
+          <:content link={~p"/chelekom/docs/gallery/#gallery-cols-prop"} title="Cols prop" />
+
+          <:content link={~p"/chelekom/docs/gallery/#gallery-gap-prop"} title="Gap prop" />
+          <:content
+            link={~p"/chelekom/docs/gallery/#gallery-animation-props"}
+            title="Animation prop"
+          />
+          <:content
+            link={~p"/chelekom/docs/gallery/#gallery-animation-backdrop"}
+            title="Animation backdrop prop"
+          />
+          <:content
+            link={~p"/chelekom/docs/gallery/#gallery-animation-blur"}
+            title="Animation blur prop"
+          />
+          <:content
+            link={~p"/chelekom/docs/gallery/#gallery-animation-scale-up"}
+            title="Animation scale up prop"
+          />
+          <:content
+            link={~p"/chelekom/docs/gallery/#gallery-animation-scale-down"}
+            title="Animation scale down prop"
+          />
+        </.custom_table_content>
+      </.custom_tab>
+    </div>
+  </div>
+</Layouts.app>

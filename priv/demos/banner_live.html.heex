@@ -1,0 +1,2384 @@
+<Layouts.app flash={@flash}>
+  <div class="lg:grid lg:grid-cols-12 mt-5 max-w-5xl mx-auto">
+    <.custom_nav active="chelekom-docs-banner" />
+    <div class="lg:col-span-10">
+      <.custom_info
+        title="Banner"
+        description="Customizable, dismissible banners for Phoenix LiveView with flexible positioning and smooth animation transitions to enhance user interaction."
+        mix="mix mishka.ui.gen.component banner"
+        github="https://github.com/mishka-group/mishka_chelekom/blob/master/priv/components/banner.eex"
+        tags={["Component", "Stateless", "JS-module"]}
+      />
+      <.custom_tab id="chelekom-banner-tab">
+        <:documentation_panel>
+          <.heading2 class="mb-5" id="overview">
+            <.link patch={~p"/chelekom/docs/banner/#overview"}>
+              Overview of the Phoenix and LiveView Banner Component
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <strong>
+              Mishka Chelekom Banner
+            </strong>
+            module provides versatile banners with a variety of styles and colors. It offers an effective way to display announcements, notifications, or important information. Support components like <strong>
+    Dismissable Banners
+  </strong>,
+            which allow users to hide banners with a smooth transition, enhancing user control and interactivity.
+          </.cp>
+
+          <.cp margin="mt-5">
+            The Mishka Chelekom <strong>Banner component</strong>
+            integrates seamlessly with <strong>Phoenix</strong>
+            LiveView applications, offering customizable positioning and sizes to fit any design. With this <strong><.link
+                title="Phoenix LiveView component"
+                class="transition-colors hover:text-[#448D96]"
+                navigate={~p"/chelekom"}
+              >
+  Phoenix LiveView component
+  </.link></strong>,
+            users can display banners for promotions, warnings, or announcements, with real-time updates.
+          </.cp>
+
+          <.heading2 margin="my-5" id="base-banner">
+            <.link patch={~p"/chelekom/docs/banner/#base-banner"}>
+              Base Variant
+            </.link>
+          </.heading2>
+
+          <.custom_code_wrapper code_class="text-sm" code={@code_17}>
+            <div class="mb-6 flex justify-center items-center gap-2 flex-wrap">
+              <.button
+                size="small"
+                phx-click="banner_position"
+                phx-value-pos="banner-example-120"
+                variant="outline"
+                color="natural"
+              >
+                Show base
+              </.button>
+            </div>
+
+            <.banner
+              :if={@banner_pos == "banner-example-120"}
+              id="banner_natural_doc_120"
+              dismiss_size="extra_large"
+            >
+              Base color and variant banner component
+            </.banner>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="default-variant-banner">
+            <.link patch={~p"/chelekom/docs/banner/#default-variant-banner"}>
+              Default Variant
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The default style of the Mishka Chelekom banner applies a solid background and border that change based on user interaction, making it perfect for delivering important notifications. With just a single setting, you can select from a range of color options, ensuring easy customization to match various design styles.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-sm" code={@code_1}>
+            <div class="mb-6 flex items-center gap-2 flex-wrap">
+              <.button
+                size="small"
+                phx-click="banner_position"
+                phx-value-pos="banner-example-1"
+                variant="outline"
+                color="warning"
+              >
+                Show natural
+              </.button>
+              <.button
+                color="misc"
+                variant="outline"
+                size="small"
+                phx-click="banner_position"
+                phx-value-pos="banner-example-110"
+              >
+                Show White
+              </.button>
+              <.button
+                color="natural"
+                variant="outline"
+                size="small"
+                phx-click="banner_position"
+                phx-value-pos="banner-example-111"
+              >
+                Show Dark
+              </.button>
+              <.button
+                color="info"
+                variant="outline"
+                size="small"
+                phx-click="banner_position"
+                phx-value-pos="banner-example-3"
+              >
+                Show Info
+              </.button>
+              <.button
+                color="success"
+                variant="outline"
+                size="small"
+                phx-click="banner_position"
+                phx-value-pos="banner-example-4"
+              >
+                Show Success
+              </.button>
+              <.button
+                color="warning"
+                variant="outline"
+                size="small"
+                phx-click="banner_position"
+                phx-value-pos="banner-example-5"
+              >
+                Show Warning
+              </.button>
+              <.button
+                color="danger"
+                variant="outline"
+                size="small"
+                phx-click="banner_position"
+                phx-value-pos="banner-example-6"
+              >
+                Show Danger
+              </.button>
+              <.button
+                color="silver"
+                variant="outline"
+                size="small"
+                phx-click="banner_position"
+                phx-value-pos="banner-example-7"
+              >
+                Show silver
+              </.button>
+              <.button
+                color="misc"
+                variant="outline"
+                size="small"
+                phx-click="banner_position"
+                phx-value-pos="banner-example-8"
+              >
+                Show Misc
+              </.button>
+              <.button
+                color="dawn"
+                variant="outline"
+                size="small"
+                phx-click="banner_position"
+                phx-value-pos="banner-example-9"
+              >
+                Show Dawn
+              </.button>
+              <.button
+                color="primary"
+                variant="outline"
+                size="small"
+                phx-click="banner_position"
+                phx-value-pos="banner-example-10"
+              >
+                Show Primary
+              </.button>
+              <.button
+                color="secondary"
+                variant="outline"
+                size="small"
+                phx-click="banner_position"
+                phx-value-pos="banner-example-11"
+              >
+                Show Secondary
+              </.button>
+            </div>
+
+            <.banner
+              :if={@banner_pos == "banner-example-1"}
+              id="banner_natural_doc_1"
+              dismiss_size="extra_large"
+              variant="default"
+            >
+              Banner Default variant natural
+            </.banner>
+            <.banner
+              :if={@banner_pos == "banner-example-110"}
+              id="banner_natural_doc_110"
+              dismiss_size="extra_large"
+              variant="default"
+              color="white"
+            >
+              Banner Default variant White
+            </.banner>
+            <.banner
+              :if={@banner_pos == "banner-example-111"}
+              id="banner_natural_doc_111"
+              dismiss_size="extra_large"
+              variant="default"
+              color="dark"
+            >
+              Banner Default variant Dark
+            </.banner>
+            <.banner
+              :if={@banner_pos == "banner-example-3"}
+              id="banner_info_doc_3"
+              color="info"
+              variant="default"
+            >
+              Banner Default variant Info
+            </.banner>
+            <.banner
+              :if={@banner_pos == "banner-example-4"}
+              id="banner_success_doc_4"
+              color="success"
+              variant="default"
+            >
+              Banner Default variant Success
+            </.banner>
+            <.banner
+              :if={@banner_pos == "banner-example-5"}
+              id="banner_warning_doc_5"
+              color="warning"
+              variant="default"
+            >
+              Banner Default variant Warning
+            </.banner>
+            <.banner
+              :if={@banner_pos == "banner-example-6"}
+              id="banner_danger_doc_6"
+              variant="default"
+              color="danger"
+            >
+              Banner Default variant Danger
+            </.banner>
+            <.banner
+              :if={@banner_pos == "banner-example-7"}
+              id="banner_silver_doc_7"
+              variant="default"
+              color="silver"
+            >
+              Banner Default variant silver
+            </.banner>
+            <.banner
+              :if={@banner_pos == "banner-example-8"}
+              id="banner_misc_doc_8"
+              variant="default"
+              color="misc"
+            >
+              Banner Default variant Misc
+            </.banner>
+            <.banner
+              :if={@banner_pos == "banner-example-9"}
+              id="banner_dawn_doc_9"
+              variant="default"
+              color="dawn"
+            >
+              Banner Default variant Dawn
+            </.banner>
+            <.banner
+              :if={@banner_pos == "banner-example-10"}
+              id="banner_primary_doc_10"
+              color="primary"
+              variant="default"
+            >
+              Banner Default variant Primary
+            </.banner>
+            <.banner
+              :if={@banner_pos == "banner-example-11"}
+              id="banner_secondary_doc_11"
+              color="secondary"
+              variant="default"
+            >
+              Banner Default variant Secondary
+            </.banner>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="outline-variant-banner">
+            <.link patch={~p"/chelekom/docs/banner/#outline-variant-banner"}>
+              Outline Variant
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The outline style of the Mishka Chelekom banner features a border. Using a single setting, you can choose from various color variants to suit your design needs.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-sm" code={@code_2}>
+            <div class="mb-6 flex items-center gap-2 flex-wrap">
+              <.button
+                color="silver"
+                variant="outline"
+                size="small"
+                phx-click="banner_position"
+                phx-value-pos="banner-example-12"
+              >
+                Show natural
+              </.button>
+              <.button
+                color="info"
+                variant="outline"
+                size="small"
+                phx-click="banner_position"
+                phx-value-pos="banner-example-14"
+              >
+                Show Info
+              </.button>
+              <.button
+                color="success"
+                variant="outline"
+                size="small"
+                phx-click="banner_position"
+                phx-value-pos="banner-example-15"
+              >
+                Show Success
+              </.button>
+              <.button
+                color="warning"
+                variant="outline"
+                size="small"
+                phx-click="banner_position"
+                phx-value-pos="banner-example-16"
+              >
+                Show Warning
+              </.button>
+              <.button
+                color="danger"
+                variant="outline"
+                size="small"
+                phx-click="banner_position"
+                phx-value-pos="banner-example-17"
+              >
+                Show Danger
+              </.button>
+              <.button
+                color="silver"
+                variant="outline"
+                size="small"
+                phx-click="banner_position"
+                phx-value-pos="banner-example-18"
+              >
+                Show silver
+              </.button>
+              <.button
+                color="misc"
+                variant="outline"
+                size="small"
+                phx-click="banner_position"
+                phx-value-pos="banner-example-19"
+              >
+                Show Misc
+              </.button>
+              <.button
+                color="dawn"
+                variant="outline"
+                size="small"
+                phx-click="banner_position"
+                phx-value-pos="banner-example-20"
+              >
+                Show Dawn
+              </.button>
+              <.button
+                color="primary"
+                variant="outline"
+                size="small"
+                phx-click="banner_position"
+                phx-value-pos="banner-example-21"
+              >
+                Show Primary
+              </.button>
+              <.button
+                color="secondary"
+                variant="outline"
+                size="small"
+                phx-click="banner_position"
+                phx-value-pos="banner-example-22"
+              >
+                Show Secondary
+              </.button>
+            </div>
+
+            <.banner
+              :if={@banner_pos == "banner-example-12"}
+              id="banner_natural_doc_12"
+              variant="outline"
+            >
+              Banner outline variant natural 12
+            </.banner>
+            <.banner
+              :if={@banner_pos == "banner-example-14"}
+              id="banner_info_doc_14"
+              variant="outline"
+              color="info"
+            >
+              Banner outline variant Info 14
+            </.banner>
+            <.banner
+              :if={@banner_pos == "banner-example-15"}
+              id="banner_success_doc_15"
+              variant="outline"
+              color="success"
+            >
+              Banner outline variant Success 15
+            </.banner>
+            <.banner
+              :if={@banner_pos == "banner-example-16"}
+              id="banner_warning_doc_16"
+              variant="outline"
+              color="warning"
+            >
+              Banner outline variant Warning 16
+            </.banner>
+            <.banner
+              :if={@banner_pos == "banner-example-17"}
+              id="banner_danger_doc_17"
+              variant="outline"
+              color="danger"
+            >
+              Banner outline variant Danger 17
+            </.banner>
+            <.banner
+              :if={@banner_pos == "banner-example-18"}
+              id="banner_silver_doc_18"
+              variant="outline"
+              color="silver"
+            >
+              Banner outline variant silver 18
+            </.banner>
+            <.banner
+              :if={@banner_pos == "banner-example-19"}
+              id="banner_misc_doc_19"
+              variant="outline"
+              color="misc"
+            >
+              Banner outline variant Misc 19
+            </.banner>
+            <.banner
+              :if={@banner_pos == "banner-example-20"}
+              id="banner_dawn_doc_20"
+              variant="outline"
+              color="dawn"
+            >
+              Banner outline variant Dawn 20
+            </.banner>
+            <.banner
+              :if={@banner_pos == "banner-example-21"}
+              id="banner_primary_doc_21"
+              variant="outline"
+              color="primary"
+            >
+              Banner outline variant Primary 21
+            </.banner>
+            <.banner
+              :if={@banner_pos == "banner-example-22"}
+              id="banner_secondary_doc_22"
+              variant="outline"
+              color="secondary"
+            >
+              Banner outline variant Secondary 22
+            </.banner>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="shadow-variant-banner">
+            <.link patch={~p"/chelekom/docs/banner/#shadow-variant-banner"}>
+              Shadow Variant
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The shadow variant of the Mishka Chelekom banner is similar to the default variant, but it also includes a subtle shadow along with a border and natural background in silver mode.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-sm" code={@code_3}>
+            <div class="mb-6 flex items-center gap-2 flex-wrap">
+              <.button
+                color="silver"
+                variant="outline"
+                size="small"
+                phx-click="banner_position"
+                phx-value-pos="banner-example-23"
+              >
+                Show natural
+              </.button>
+              <.button
+                color="info"
+                variant="outline"
+                size="small"
+                phx-click="banner_position"
+                phx-value-pos="banner-example-25"
+              >
+                Show Info
+              </.button>
+              <.button
+                color="success"
+                variant="outline"
+                size="small"
+                phx-click="banner_position"
+                phx-value-pos="banner-example-26"
+              >
+                Show Success
+              </.button>
+              <.button
+                color="warning"
+                variant="outline"
+                size="small"
+                phx-click="banner_position"
+                phx-value-pos="banner-example-27"
+              >
+                Show Warning
+              </.button>
+              <.button
+                color="danger"
+                variant="outline"
+                size="small"
+                phx-click="banner_position"
+                phx-value-pos="banner-example-28"
+              >
+                Show Danger
+              </.button>
+              <.button
+                color="silver"
+                variant="outline"
+                size="small"
+                phx-click="banner_position"
+                phx-value-pos="banner-example-29"
+              >
+                Show silver
+              </.button>
+              <.button
+                color="misc"
+                variant="outline"
+                size="small"
+                phx-click="banner_position"
+                phx-value-pos="banner-example-30"
+              >
+                Show Misc
+              </.button>
+              <.button
+                color="dawn"
+                variant="outline"
+                size="small"
+                phx-click="banner_position"
+                phx-value-pos="banner-example-31"
+              >
+                Show Dawn
+              </.button>
+              <.button
+                color="primary"
+                variant="outline"
+                size="small"
+                phx-click="banner_position"
+                phx-value-pos="banner-example-32"
+              >
+                Show Primary
+              </.button>
+              <.button
+                color="secondary"
+                variant="outline"
+                size="small"
+                phx-click="banner_position"
+                phx-value-pos="banner-example-33"
+              >
+                Show Secondary
+              </.button>
+            </div>
+
+            <.banner
+              :if={@banner_pos == "banner-example-23"}
+              id="banner_natural_doc_23"
+              variant="shadow"
+            >
+              Banner shadow variant natural 23
+            </.banner>
+            <.banner
+              :if={@banner_pos == "banner-example-25"}
+              id="banner_info_doc_25"
+              variant="shadow"
+              color="info"
+            >
+              Banner shadow variant Info 25
+            </.banner>
+            <.banner
+              :if={@banner_pos == "banner-example-26"}
+              id="banner_success_doc_26"
+              variant="shadow"
+              color="success"
+            >
+              Banner shadow variant Success 26
+            </.banner>
+            <.banner
+              :if={@banner_pos == "banner-example-27"}
+              id="banner_warning_doc_27"
+              variant="shadow"
+              color="warning"
+            >
+              Banner shadow variant Warning 27
+            </.banner>
+            <.banner
+              :if={@banner_pos == "banner-example-28"}
+              id="banner_danger_doc_28"
+              variant="shadow"
+              color="danger"
+            >
+              Banner shadow variant Danger 28
+            </.banner>
+            <.banner
+              :if={@banner_pos == "banner-example-29"}
+              id="banner_silver_doc_29"
+              variant="shadow"
+              color="silver"
+            >
+              Banner shadow variant silver 29
+            </.banner>
+            <.banner
+              :if={@banner_pos == "banner-example-30"}
+              id="banner_misc_doc_30"
+              variant="shadow"
+              color="misc"
+            >
+              Banner shadow variant Misc 30
+            </.banner>
+            <.banner
+              :if={@banner_pos == "banner-example-31"}
+              id="banner_dawn_doc_31"
+              variant="shadow"
+              color="dawn"
+            >
+              Banner shadow variant Dawn 31
+            </.banner>
+            <.banner
+              :if={@banner_pos == "banner-example-32"}
+              id="banner_primary_doc_32"
+              variant="shadow"
+              color="primary"
+            >
+              Banner shadow variant Primary 32
+            </.banner>
+            <.banner
+              :if={@banner_pos == "banner-example-33"}
+              id="banner_secondary_doc_33"
+              variant="shadow"
+              color="secondary"
+            >
+              Banner shadow variant Secondary 33
+            </.banner>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="bordered-variant-banner">
+            <.link patch={~p"/chelekom/docs/banner/#bordered-variant-banner"}>
+              Bordered Variant
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The Bordered variant of the Mishka Chelekom banner has lighter background and a border. Bordered variant have also white and dark colors which are the same colors in the dark and light mode.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-sm" code={@code_15}>
+            <div class="mb-6 flex items-center gap-2 flex-wrap">
+              <.button
+                color="silver"
+                variant="outline"
+                size="small"
+                phx-click="banner_position"
+                phx-value-pos="banner-example-90"
+              >
+                Show natural
+              </.button>
+              <.button
+                color="info"
+                variant="outline"
+                size="small"
+                phx-click="banner_position"
+                phx-value-pos="banner-example-91"
+              >
+                Show Info
+              </.button>
+              <.button
+                color="success"
+                variant="outline"
+                size="small"
+                phx-click="banner_position"
+                phx-value-pos="banner-example-92"
+              >
+                Show Success
+              </.button>
+              <.button
+                color="warning"
+                variant="outline"
+                size="small"
+                phx-click="banner_position"
+                phx-value-pos="banner-example-93"
+              >
+                Show Warning
+              </.button>
+              <.button
+                color="danger"
+                variant="outline"
+                size="small"
+                phx-click="banner_position"
+                phx-value-pos="banner-example-94"
+              >
+                Show Danger
+              </.button>
+              <.button
+                color="silver"
+                variant="outline"
+                size="small"
+                phx-click="banner_position"
+                phx-value-pos="banner-example-95"
+              >
+                Show silver
+              </.button>
+              <.button
+                color="misc"
+                variant="outline"
+                size="small"
+                phx-click="banner_position"
+                phx-value-pos="banner-example-96"
+              >
+                Show Misc
+              </.button>
+              <.button
+                color="dawn"
+                variant="outline"
+                size="small"
+                phx-click="banner_position"
+                phx-value-pos="banner-example-97"
+              >
+                Show Dawn
+              </.button>
+              <.button
+                color="primary"
+                variant="outline"
+                size="small"
+                phx-click="banner_position"
+                phx-value-pos="banner-example-98"
+              >
+                Show Primary
+              </.button>
+              <.button
+                color="secondary"
+                variant="outline"
+                size="small"
+                phx-click="banner_position"
+                phx-value-pos="banner-example-99"
+              >
+                Show Secondary
+              </.button>
+            </div>
+
+            <.banner
+              :if={@banner_pos == "banner-example-90"}
+              id="banner_natural_doc_90"
+              variant="bordered"
+            >
+              Example of Bordered banner
+            </.banner>
+            <.banner
+              :if={@banner_pos == "banner-example-91"}
+              id="banner_info_doc_91"
+              variant="bordered"
+              color="info"
+            >
+              Example of Bordered banner
+            </.banner>
+            <.banner
+              :if={@banner_pos == "banner-example-92"}
+              id="banner_success_doc_92"
+              variant="bordered"
+              color="success"
+            >
+              Example of Bordered banner
+            </.banner>
+            <.banner
+              :if={@banner_pos == "banner-example-93"}
+              id="banner_warning_doc_93"
+              variant="bordered"
+              color="warning"
+            >
+              Example of Bordered banner
+            </.banner>
+            <.banner
+              :if={@banner_pos == "banner-example-94"}
+              id="banner_danger_doc_94"
+              variant="bordered"
+              color="danger"
+            >
+              Example of Bordered banner
+            </.banner>
+            <.banner
+              :if={@banner_pos == "banner-example-95"}
+              id="banner_silver_doc_95"
+              variant="bordered"
+              color="silver"
+            >
+              Example of Bordered banner
+            </.banner>
+            <.banner
+              :if={@banner_pos == "banner-example-96"}
+              id="banner_misc_doc_96"
+              variant="bordered"
+              color="misc"
+            >
+              Example of Bordered banner
+            </.banner>
+            <.banner
+              :if={@banner_pos == "banner-example-97"}
+              id="banner_dawn_doc_97"
+              variant="bordered"
+              color="dawn"
+            >
+              Example of Bordered banner
+            </.banner>
+            <.banner
+              :if={@banner_pos == "banner-example-98"}
+              id="banner_primary_doc_98"
+              variant="bordered"
+              color="primary"
+            >
+              Example of Bordered banner
+            </.banner>
+            <.banner
+              :if={@banner_pos == "banner-example-99"}
+              id="banner_secondary_doc_99"
+              variant="bordered"
+              color="secondary"
+            >
+              Example of Bordered banner
+            </.banner>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="transparent-variant-banner">
+            <.link patch={~p"/chelekom/docs/banner/#transparent-variant-banner"}>
+              Transparent Variant
+            </.link>
+          </.heading2>
+
+          <.custom_code_wrapper code_class="text-sm" code={@code_5}>
+            <div class="mb-6 flex items-center gap-2 flex-wrap">
+              <.button
+                color="silver"
+                variant="outline"
+                size="small"
+                phx-click="banner_position"
+                phx-value-pos="banner-example-45"
+              >
+                Show natural
+              </.button>
+              <.button
+                color="info"
+                variant="outline"
+                size="small"
+                phx-click="banner_position"
+                phx-value-pos="banner-example-47"
+              >
+                Show Info
+              </.button>
+              <.button
+                color="success"
+                variant="outline"
+                size="small"
+                phx-click="banner_position"
+                phx-value-pos="banner-example-48"
+              >
+                Show Success
+              </.button>
+              <.button
+                color="warning"
+                variant="outline"
+                size="small"
+                phx-click="banner_position"
+                phx-value-pos="banner-example-49"
+              >
+                Show Warning
+              </.button>
+              <.button
+                color="danger"
+                variant="outline"
+                size="small"
+                phx-click="banner_position"
+                phx-value-pos="banner-example-50"
+              >
+                Show Danger
+              </.button>
+              <.button
+                color="silver"
+                variant="outline"
+                size="small"
+                phx-click="banner_position"
+                phx-value-pos="banner-example-51"
+              >
+                Show silver
+              </.button>
+              <.button
+                color="misc"
+                variant="outline"
+                size="small"
+                phx-click="banner_position"
+                phx-value-pos="banner-example-52"
+              >
+                Show Misc
+              </.button>
+              <.button
+                color="dawn"
+                variant="outline"
+                size="small"
+                phx-click="banner_position"
+                phx-value-pos="banner-example-53"
+              >
+                Show Dawn
+              </.button>
+              <.button
+                color="primary"
+                variant="outline"
+                size="small"
+                phx-click="banner_position"
+                phx-value-pos="banner-example-54"
+              >
+                Show Primary
+              </.button>
+              <.button
+                color="secondary"
+                variant="outline"
+                size="small"
+                phx-click="banner_position"
+                phx-value-pos="banner-example-55"
+              >
+                Show Secondary
+              </.button>
+            </div>
+
+            <.banner
+              :if={@banner_pos == "banner-example-45"}
+              id="banner_natural_doc_46"
+              variant="transparent"
+            >
+              Banner Transparent variant natural 45
+            </.banner>
+            <.banner
+              :if={@banner_pos == "banner-example-47"}
+              id="banner_info_doc_48"
+              variant="transparent"
+              color="info"
+            >
+              Banner Transparent variant Info 47
+            </.banner>
+            <.banner
+              :if={@banner_pos == "banner-example-48"}
+              id="banner_success_doc_49"
+              variant="transparent"
+              color="success"
+            >
+              Banner Transparent variant Success 48
+            </.banner>
+            <.banner
+              :if={@banner_pos == "banner-example-49"}
+              id="banner_warning_doc_50"
+              variant="transparent"
+              color="warning"
+            >
+              Banner Transparent variant Warning 49
+            </.banner>
+            <.banner
+              :if={@banner_pos == "banner-example-50"}
+              id="banner_danger_doc_51"
+              variant="transparent"
+              color="danger"
+            >
+              Banner Transparent variant Danger 50
+            </.banner>
+            <.banner
+              :if={@banner_pos == "banner-example-51"}
+              id="banner_silver_doc_52"
+              variant="transparent"
+              color="silver"
+            >
+              Banner Transparent variant silver 51
+            </.banner>
+            <.banner
+              :if={@banner_pos == "banner-example-52"}
+              id="banner_misc_doc_53"
+              variant="transparent"
+              color="misc"
+            >
+              Banner Transparent variant Misc 52
+            </.banner>
+            <.banner
+              :if={@banner_pos == "banner-example-53"}
+              id="banner_dawn_doc_54"
+              variant="transparent"
+              color="dawn"
+            >
+              Banner Transparent variant Dawn 53
+            </.banner>
+            <.banner
+              :if={@banner_pos == "banner-example-54"}
+              id="banner_primary_doc_55"
+              variant="transparent"
+              color="primary"
+            >
+              Banner Transparent variant Primary 54
+            </.banner>
+            <.banner
+              :if={@banner_pos == "banner-example-55"}
+              id="banner_secondary_doc_56"
+              variant="transparent"
+              color="secondary"
+            >
+              Banner Transparent variant Secondary 55
+            </.banner>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="gradient-variant-banner">
+            <.link patch={~p"/chelekom/docs/banner/#gradient-variant-banner"}>
+              Gradient Variant
+            </.link>
+          </.heading2>
+
+          <.custom_code_wrapper code_class="text-sm" code={@code_16}>
+            <div class="mb-6 flex items-center gap-2 flex-wrap">
+              <.button size="small" phx-click="banner_position" phx-value-pos="banner-example-100">
+                Show natural
+              </.button>
+              <.button
+                color="info"
+                variant="outline"
+                size="small"
+                phx-click="banner_position"
+                phx-value-pos="banner-example-101"
+              >
+                Show Info
+              </.button>
+              <.button
+                color="success"
+                variant="outline"
+                size="small"
+                phx-click="banner_position"
+                phx-value-pos="banner-example-102"
+              >
+                Show Success
+              </.button>
+              <.button
+                color="warning"
+                variant="outline"
+                size="small"
+                phx-click="banner_position"
+                phx-value-pos="banner-example-103"
+              >
+                Show Warning
+              </.button>
+              <.button
+                color="danger"
+                variant="outline"
+                size="small"
+                phx-click="banner_position"
+                phx-value-pos="banner-example-104"
+              >
+                Show Danger
+              </.button>
+              <.button
+                color="silver"
+                variant="outline"
+                size="small"
+                phx-click="banner_position"
+                phx-value-pos="banner-example-105"
+              >
+                Show silver
+              </.button>
+              <.button
+                color="misc"
+                variant="outline"
+                size="small"
+                phx-click="banner_position"
+                phx-value-pos="banner-example-106"
+              >
+                Show Misc
+              </.button>
+              <.button
+                color="dawn"
+                variant="outline"
+                size="small"
+                phx-click="banner_position"
+                phx-value-pos="banner-example-107"
+              >
+                Show Dawn
+              </.button>
+              <.button
+                color="primary"
+                variant="outline"
+                size="small"
+                phx-click="banner_position"
+                phx-value-pos="banner-example-108"
+              >
+                Show Primary
+              </.button>
+              <.button
+                color="secondary"
+                variant="outline"
+                size="small"
+                phx-click="banner_position"
+                phx-value-pos="banner-example-109"
+              >
+                Show Secondary
+              </.button>
+            </div>
+
+            <.banner
+              :if={@banner_pos == "banner-example-100"}
+              id="banner_natural_doc_100"
+              variant="gradient"
+            >
+              Banner gradient variant natural
+            </.banner>
+            <.banner
+              :if={@banner_pos == "banner-example-101"}
+              id="banner_info_doc_101"
+              variant="gradient"
+              color="info"
+            >
+              Banner gradient variant Info
+            </.banner>
+            <.banner
+              :if={@banner_pos == "banner-example-102"}
+              id="banner_success_doc_102"
+              variant="gradient"
+              color="success"
+            >
+              Banner gradient variant Success
+            </.banner>
+            <.banner
+              :if={@banner_pos == "banner-example-103"}
+              id="banner_warning_doc_103"
+              variant="gradient"
+              color="warning"
+            >
+              Banner gradient variant Warning
+            </.banner>
+            <.banner
+              :if={@banner_pos == "banner-example-104"}
+              id="banner_danger_doc_104"
+              variant="gradient"
+              color="danger"
+            >
+              Banner gradient variant Danger
+            </.banner>
+            <.banner
+              :if={@banner_pos == "banner-example-105"}
+              id="banner_silver_doc_105"
+              variant="gradient"
+              color="silver"
+            >
+              Banner gradient variant silver
+            </.banner>
+            <.banner
+              :if={@banner_pos == "banner-example-106"}
+              id="banner_misc_doc_106"
+              variant="gradient"
+              color="misc"
+            >
+              Banner gradient variant Misc
+            </.banner>
+            <.banner
+              :if={@banner_pos == "banner-example-107"}
+              id="banner_dawn_doc_107"
+              variant="gradient"
+              color="dawn"
+            >
+              Banner gradient variant Dawn
+            </.banner>
+            <.banner
+              :if={@banner_pos == "banner-example-108"}
+              id="banner_primary_doc_108"
+              variant="gradient"
+              color="primary"
+            >
+              Banner gradient variant Primary
+            </.banner>
+            <.banner
+              :if={@banner_pos == "banner-example-109"}
+              id="banner_secondary_doc_109"
+              variant="gradient"
+              color="secondary"
+            >
+              Banner gradient variant Secondary
+            </.banner>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="border-prop-banner">
+            <.link patch={~p"/chelekom/docs/banner/#border-prop-banner"}>
+              Border prop in Phoenix LiveView banner component
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The border prop offers values like <.custom_inline_code>extra_small</.custom_inline_code>, <.custom_inline_code>small</.custom_inline_code>, <.custom_inline_code>medium</.custom_inline_code>, <.custom_inline_code>large</.custom_inline_code>, and <.custom_inline_code>extra_large</.custom_inline_code>. These values control the border size of the banner, allowing you to adjust the thickness to suit your design. Additionally, you can use boolean props such as <.custom_inline_code>left_border</.custom_inline_code>, <.custom_inline_code>right_border</.custom_inline_code>, <.custom_inline_code>hide_border</.custom_inline_code>, and
+            <.custom_inline_code>full_border</.custom_inline_code>
+            to change the border position, add, or remove borders as needed for greater customization.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-sm" code={@code_6}>
+            <div class="mb-6 flex items-center gap-2 flex-wrap">
+              <.button
+                size="small"
+                phx-click="banner_position"
+                phx-value-pos="banner-example-56"
+                variant="outline"
+                color="info"
+              >
+                Show Extra Small Border
+              </.button>
+              <.button
+                color="success"
+                variant="outline"
+                size="small"
+                phx-click="banner_position"
+                phx-value-pos="banner-example-57"
+              >
+                Show Small Border
+              </.button>
+              <.button
+                color="warning"
+                variant="outline"
+                size="small"
+                phx-click="banner_position"
+                phx-value-pos="banner-example-58"
+              >
+                Show Medium Border
+              </.button>
+              <.button
+                color="danger"
+                variant="outline"
+                size="small"
+                phx-click="banner_position"
+                phx-value-pos="banner-example-59"
+              >
+                Show Large Border
+              </.button>
+              <.button
+                color="misc"
+                variant="outline"
+                size="small"
+                phx-click="banner_position"
+                phx-value-pos="banner-example-60"
+              >
+                Show Extra Large Border
+              </.button>
+            </div>
+
+            <.banner
+              :if={@banner_pos == "banner-example-56"}
+              id="banner_border_doc_57"
+              border="extra_small"
+              variant="default"
+            >
+              Border extra small of Banner 56
+            </.banner>
+            <.banner
+              :if={@banner_pos == "banner-example-57"}
+              id="banner_border_doc_58"
+              color="success"
+              border="small"
+              variant="default"
+            >
+              Border small of Banner 57
+            </.banner>
+            <.banner
+              :if={@banner_pos == "banner-example-58"}
+              id="banner_border_doc_59"
+              color="warning"
+              border="medium"
+              variant="default"
+            >
+              Border medium of Banner 58
+            </.banner>
+            <.banner
+              :if={@banner_pos == "banner-example-59"}
+              id="banner_border_doc_60"
+              color="danger"
+              border="large"
+              variant="default"
+            >
+              Border large of Banner 59
+            </.banner>
+            <.banner
+              :if={@banner_pos == "banner-example-60"}
+              id="banner_border_doc_61"
+              color="misc"
+              border="extra_large"
+              variant="default"
+            >
+              Border extra large of Banner 60
+            </.banner>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="border-position-banner">
+            <.link patch={~p"/chelekom/docs/banner/#border-position-banner"}>
+              Border position in Phoenix LiveView banner component
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <.custom_inline_code>border_position</.custom_inline_code>
+            attribute in the Mishka Chelekom Banner component controls the placement of the border on the banner. It accepts values such as <.custom_inline_code>top</.custom_inline_code>, <.custom_inline_code>bottom</.custom_inline_code>, <.custom_inline_code>full</.custom_inline_code>, and <.custom_inline_code>none</.custom_inline_code>. By default, the border is positioned at the bottom of the banner. Setting the value to
+            <.custom_inline_code>top</.custom_inline_code>
+            adds a border at the top, while
+            <.custom_inline_code>full</.custom_inline_code>
+            applies a border around the entire banner. The
+            <.custom_inline_code>none</.custom_inline_code>
+            option removes the border entirely, offering full flexibility in banner styling.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-sm" code={@code_7}>
+            <div class="mb-6 flex items-center gap-2 flex-wrap">
+              <.button
+                color="silver"
+                variant="outline"
+                size="small"
+                phx-click="banner_position"
+                phx-value-pos="banner-example-61"
+              >
+                Show Bottom Border
+              </.button>
+              <.button
+                color="primary"
+                variant="outline"
+                size="small"
+                phx-click="banner_position"
+                phx-value-pos="banner-example-62"
+              >
+                Show Top Border
+              </.button>
+              <.button
+                color="secondary"
+                variant="outline"
+                size="small"
+                phx-click="banner_position"
+                phx-value-pos="banner-example-63"
+              >
+                Show Full Border
+              </.button>
+              <.button
+                color="dawn"
+                variant="outline"
+                size="small"
+                phx-click="banner_position"
+                phx-value-pos="banner-example-64"
+              >
+                Show No Border
+              </.button>
+            </div>
+
+            <.banner
+              :if={@banner_pos == "banner-example-61"}
+              id="banner_border_doc_62"
+              color="silver"
+              variant="default"
+              border_position="bottom"
+            >
+              Border small of Banner 61
+            </.banner>
+            <.banner
+              :if={@banner_pos == "banner-example-62"}
+              id="banner_border_doc_63"
+              color="primary"
+              variant="default"
+              border_position="top"
+            >
+              Border extra small of Banner 62
+            </.banner>
+            <.banner
+              :if={@banner_pos == "banner-example-63"}
+              id="banner_border_doc_64"
+              color="secondary"
+              variant="default"
+              border_position="full"
+            >
+              Border medium of Banner 63
+            </.banner>
+            <.banner
+              :if={@banner_pos == "banner-example-64"}
+              id="banner_border_doc_65"
+              color="dawn"
+              variant="default"
+              border_position="none"
+            >
+              Border large of Banner 64
+            </.banner>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="banner-rounded">
+            <.link patch={~p"/chelekom/docs/banner/#banner-rounded"}>
+              Rounded and Rounded Position props
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <.custom_inline_code>rounded</.custom_inline_code>
+            and
+            <.custom_inline_code>rounded_position</.custom_inline_code>
+            props in the Phoenix LiveView banner component provide flexibility for customizing the border radius of the banner's corners. By default, no border radius is applied (i.e.,
+            <.custom_inline_code>rounded="none</.custom_inline_code>
+            and <.custom_inline_code>rounded_position="none</.custom_inline_code>), meaning the banner’s corners will remain sharp. However, if you wish to apply a rounded effect, you can specify a value for the
+            <.custom_inline_code>rounded</.custom_inline_code>
+            prop, which controls the size of the rounding (e.g., <.custom_inline_code>extra_small</.custom_inline_code>, <.custom_inline_code>small</.custom_inline_code>, <.custom_inline_code>medium</.custom_inline_code>, <.custom_inline_code>large</.custom_inline_code>, <.custom_inline_code>extra_large</.custom_inline_code>). Once you’ve set the rounding size, you can further refine the look by choosing a value for the
+            <.custom_inline_code>rounded_position</.custom_inline_code>
+            prop to determine which corners are rounded. For instance, setting
+            <.custom_inline_code>rounded_position="top</.custom_inline_code>
+            will only round the top corners,
+            <.custom_inline_code>rounded_position="bottom</.custom_inline_code>
+            will round just the bottom corners, and
+            <.custom_inline_code>rounded_position="all</.custom_inline_code>
+            will round all four corners of the banner. This combination allows for customizable and visually appealing banners that fit the design needs of your Phoenix LiveView application.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-sm" code={@code_8}>
+            <div class="mb-6 flex items-center gap-2 flex-wrap">
+              <.button
+                color="misc"
+                variant="outline"
+                size="small"
+                phx-click="banner_position"
+                phx-value-pos="banner-example-65"
+              >
+                Show Extra Small Rounded (Bottom)
+              </.button>
+              <.button
+                color="dawn"
+                variant="outline"
+                size="small"
+                phx-click="banner_position"
+                phx-value-pos="banner-example-66"
+              >
+                Show Small Rounded (Top)
+              </.button>
+              <.button
+                color="info"
+                variant="outline"
+                size="small"
+                phx-click="banner_position"
+                phx-value-pos="banner-example-67"
+              >
+                Show Medium Rounded (All)
+              </.button>
+              <.button
+                color="success"
+                variant="outline"
+                size="small"
+                phx-click="banner_position"
+                phx-value-pos="banner-example-68"
+              >
+                Show Large Rounded (Top)
+              </.button>
+              <.button
+                color="danger"
+                variant="outline"
+                size="small"
+                phx-click="banner_position"
+                phx-value-pos="banner-example-69"
+              >
+                Show Extra Large Rounded (Bottom)
+              </.button>
+            </div>
+
+            <.banner
+              :if={@banner_pos == "banner-example-65"}
+              id="banner_rounded_doc_66"
+              rounded="extra_small"
+              rounded_position="bottom"
+              color="misc"
+              variant="default"
+            >
+              Rounded extra small 65
+            </.banner>
+            <.banner
+              :if={@banner_pos == "banner-example-66"}
+              id="banner_rounded_doc_67"
+              rounded="small"
+              rounded_position="top"
+              color="dawn"
+              variant="default"
+            >
+              Rounded small 66
+            </.banner>
+            <.banner
+              :if={@banner_pos == "banner-example-67"}
+              id="banner_rounded_doc_68"
+              rounded="medium"
+              rounded_position="all"
+              color="info"
+              variant="default"
+            >
+              Rounded medium 67
+            </.banner>
+            <.banner
+              :if={@banner_pos == "banner-example-68"}
+              id="banner_rounded_doc_69"
+              rounded="large"
+              rounded_position="top"
+              color="success"
+              variant="default"
+            >
+              Rounded large 68
+            </.banner>
+            <.banner
+              :if={@banner_pos == "banner-example-69"}
+              id="banner_rounded_doc_70"
+              rounded="extra_large"
+              rounded_position="bottom"
+              color="danger"
+              variant="default"
+            >
+              Rounded extra large 69
+            </.banner>
+          </.custom_code_wrapper>
+          <.heading2 margin="my-5" id="banner-space">
+            <.link patch={~p"/chelekom/docs/banner/#banner-space"}>
+              Space prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The space prop in the Phoenix LiveView banner component provides various spacing options, including <.custom_inline_code>extra_small</.custom_inline_code>, <.custom_inline_code>small</.custom_inline_code>, <.custom_inline_code>medium</.custom_inline_code>, <.custom_inline_code>large</.custom_inline_code>, and <.custom_inline_code>extra_large</.custom_inline_code>. These options define the vertical spacing between elements, with increasing amounts of space from extra_small to extra_large. If no specific value is provided, the default is set to <.custom_inline_code>extra_small</.custom_inline_code>, but custom values can also be applied when needed.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-sm" code={@code_9}>
+            <div class="mb-6 flex items-center gap-2 flex-wrap">
+              <.button
+                color="dawn"
+                variant="outline"
+                size="small"
+                phx-click="banner_position"
+                phx-value-pos="banner-example-70"
+              >
+                Show Extra Small Space
+              </.button>
+              <.button
+                color="misc"
+                variant="outline"
+                size="small"
+                phx-click="banner_position"
+                phx-value-pos="banner-example-71"
+              >
+                Show Small Space
+              </.button>
+              <.button
+                color="info"
+                variant="outline"
+                size="small"
+                phx-click="banner_position"
+                phx-value-pos="banner-example-72"
+              >
+                Show Medium Space
+              </.button>
+              <.button
+                color="primary"
+                variant="outline"
+                size="small"
+                phx-click="banner_position"
+                phx-value-pos="banner-example-73"
+              >
+                Show Large Space
+              </.button>
+              <.button
+                color="secondary"
+                variant="outline"
+                size="small"
+                phx-click="banner_position"
+                phx-value-pos="banner-example-74"
+              >
+                Show Extra Large Space
+              </.button>
+              <.button
+                size="small"
+                phx-click="banner_position"
+                phx-value-pos="banner-example-75"
+                variant="outline"
+                color="danger"
+              >
+                Show No Space
+              </.button>
+            </div>
+
+            <.banner
+              :if={@banner_pos == "banner-example-70"}
+              id="banner_space_doc_71"
+              space="extra_small"
+              color="dawn"
+              variant="default"
+            >
+              Space extra small 70
+            </.banner>
+            <.banner
+              :if={@banner_pos == "banner-example-71"}
+              id="banner_space_doc_72"
+              space="small"
+              color="misc"
+              variant="default"
+            >
+              Space small 71
+            </.banner>
+            <.banner
+              :if={@banner_pos == "banner-example-72"}
+              id="banner_space_doc_73"
+              space="medium"
+              color="info"
+              variant="default"
+            >
+              Space medium 72
+            </.banner>
+            <.banner
+              :if={@banner_pos == "banner-example-73"}
+              id="banner_space_doc_74"
+              space="large"
+              color="primary"
+              variant="default"
+            >
+              Space large 73
+            </.banner>
+            <.banner
+              :if={@banner_pos == "banner-example-74"}
+              id="banner_space_doc_75"
+              space="extra_large"
+              color="secondary"
+              variant="default"
+            >
+              Space extra large 74
+            </.banner>
+            <.banner
+              :if={@banner_pos == "banner-example-75"}
+              id="banner_space_doc_76"
+              space="none"
+              variant="default"
+            >
+              Space none 75
+            </.banner>
+          </.custom_code_wrapper>
+          <.heading2 margin="my-5" id="banner-padding">
+            <.link patch={~p"/chelekom/docs/banner/#banner-padding"}>
+              Padding prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The padding in the Phoenix LiveView banner component provides various padding size options, including <.custom_inline_code>extra_small</.custom_inline_code>, <.custom_inline_code>small</.custom_inline_code>, <.custom_inline_code>medium</.custom_inline_code>, <.custom_inline_code>large</.custom_inline_code>, and <.custom_inline_code>extra_large</.custom_inline_code>. These options define the amount of space between the content inside the banner and its edges, with increasing amounts of padding from
+            <.custom_inline_code>extra_small</.custom_inline_code>
+            to <.custom_inline_code>extra_large</.custom_inline_code>. If no specific value is provided, the default padding is set to <.custom_inline_code>extra_small</.custom_inline_code>, ensuring a balanced and consistent look for the component.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-sm" code={@code_10}>
+            <div class="mb-6 flex items-center gap-2 flex-wrap">
+              <.button
+                color="dawn"
+                variant="outline"
+                size="small"
+                phx-click="banner_position"
+                phx-value-pos="banner-example-75"
+              >
+                Show Extra Small Padding
+              </.button>
+              <.button
+                color="misc"
+                variant="outline"
+                size="small"
+                phx-click="banner_position"
+                phx-value-pos="banner-example-76"
+              >
+                Show Small Padding
+              </.button>
+              <.button
+                color="silver"
+                variant="outline"
+                size="small"
+                phx-click="banner_position"
+                phx-value-pos="banner-example-77"
+              >
+                Show Medium Padding
+              </.button>
+              <.button
+                color="info"
+                variant="outline"
+                size="small"
+                phx-click="banner_position"
+                phx-value-pos="banner-example-78"
+              >
+                Show Large Padding
+              </.button>
+              <.button
+                color="primary"
+                variant="outline"
+                size="small"
+                phx-click="banner_position"
+                phx-value-pos="banner-example-79"
+              >
+                Show Extra Large Padding
+              </.button>
+              <.button
+                color="secondary"
+                variant="outline"
+                size="small"
+                phx-click="banner_position"
+                phx-value-pos="banner-example-80"
+              >
+                Show No Padding
+              </.button>
+            </div>
+
+            <.banner
+              :if={@banner_pos == "banner-example-75"}
+              id="banner_padding_doc_76"
+              padding="extra_small"
+              color="dawn"
+              variant="default"
+            >
+              Padding extra small 75
+            </.banner>
+            <.banner
+              :if={@banner_pos == "banner-example-76"}
+              id="banner_padding_doc_77"
+              padding="small"
+              color="misc"
+              variant="default"
+            >
+              Padding small 76
+            </.banner>
+            <.banner
+              :if={@banner_pos == "banner-example-77"}
+              id="banner_padding_doc_78"
+              padding="medium"
+              color="silver"
+              variant="default"
+            >
+              Padding medium 77
+            </.banner>
+            <.banner
+              :if={@banner_pos == "banner-example-78"}
+              id="banner_padding_doc_79"
+              padding="large"
+              color="info"
+              variant="default"
+            >
+              Padding large 78
+            </.banner>
+            <.banner
+              :if={@banner_pos == "banner-example-79"}
+              id="banner_padding_doc_80"
+              padding="extra_large"
+              color="primary"
+              variant="default"
+            >
+              Padding extra large 79
+            </.banner>
+            <.banner
+              :if={@banner_pos == "banner-example-80"}
+              id="banner_padding_doc_81"
+              padding="none"
+              color="secondary"
+              variant="default"
+            >
+              Padding none 80
+            </.banner>
+          </.custom_code_wrapper>
+          <.heading2 margin="my-5" id="banner-font-weight">
+            <.link patch={~p"/chelekom/docs/banner/#banner-font-weight"}>
+              Font weight prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <.custom_inline_code>font_weight</.custom_inline_code>
+            prop in the Phoenix LiveView banner component allows you to customize the font weight of the text within the banner using Tailwind CSS classes. By default, it is set to <.custom_inline_code>font-normal</.custom_inline_code>, giving the text a regular weight. However, you can easily modify this by passing a different Tailwind class for font weight, such as
+            <.custom_inline_code>font-bold</.custom_inline_code>
+            to make the text bold, or other classes like
+            <.custom_inline_code>font-silver</.custom_inline_code>
+            or
+            <.custom_inline_code>font-medium</.custom_inline_code>
+            to adjust the thickness of the text as per your design needs. This flexibility allows for easy control over the typography within the banner, ensuring it aligns with the desired visual hierarchy.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-sm" code={@code_11}>
+            <div class="mb-6 flex items-center gap-2 flex-wrap">
+              <.button
+                color="primary"
+                variant="outline"
+                size="small"
+                phx-click="banner_position"
+                phx-value-pos="banner-example-81"
+              >
+                Show Font silver
+              </.button>
+              <.button
+                color="secondary"
+                variant="outline"
+                size="small"
+                phx-click="banner_position"
+                phx-value-pos="banner-example-82"
+              >
+                Show Font Thin
+              </.button>
+              <.button
+                color="warning"
+                variant="outline"
+                size="small"
+                phx-click="banner_position"
+                phx-value-pos="banner-example-83"
+              >
+                Show Font Black
+              </.button>
+            </div>
+
+            <.banner
+              :if={@banner_pos == "banner-example-81"}
+              id="banner_font_doc_82"
+              font_weight="font-silver"
+              color="primary"
+              variant="default"
+            >
+              Font silver 81
+            </.banner>
+            <.banner
+              :if={@banner_pos == "banner-example-82"}
+              id="banner_font_doc_83"
+              font_weight="font-thin"
+              color="secondary"
+              variant="default"
+            >
+              Font thin 82
+            </.banner>
+            <.banner
+              :if={@banner_pos == "banner-example-83"}
+              id="banner_font_doc_84"
+              font_weight="font-black"
+              color="warning"
+              variant="default"
+            >
+              Font black 83
+            </.banner>
+          </.custom_code_wrapper>
+          <.heading2 margin="my-5" id="banner-vertical">
+            <.link patch={~p"/chelekom/docs/banner/#banner-vertical"}>
+              Vertical position and vertical size props in Phoenix LiveView banner component
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <.custom_inline_code>vertical_position</.custom_inline_code>
+            and
+            <.custom_inline_code>vertical_size</.custom_inline_code>
+            props in the Phoenix LiveView banner component give you control over where the banner appears vertically on the screen and how much space is between the banner and the screen's edge. The
+            <.custom_inline_code>vertical_position</.custom_inline_code>
+            prop can be set to either
+            <.custom_inline_code>top</.custom_inline_code>
+            or <.custom_inline_code>bottom</.custom_inline_code>, determining whether the banner is aligned at the top or bottom of the viewport. Meanwhile, the
+            <.custom_inline_code>vertical_size</.custom_inline_code>
+            prop adjusts the spacing, with options like <.custom_inline_code>none</.custom_inline_code>, <.custom_inline_code>extra_small</.custom_inline_code>, <.custom_inline_code>small</.custom_inline_code>, <.custom_inline_code>medium</.custom_inline_code>, <.custom_inline_code>large</.custom_inline_code>, and <.custom_inline_code>extra_large</.custom_inline_code>. These size values control how much space is applied between the banner and the top or bottom edge, allowing you to tailor the layout according to your design needs, whether you want the banner to be flush against the edge or spaced further away.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-sm" code={@code_12}>
+            <div class="mb-6 flex items-center gap-2 flex-wrap">
+              <.button
+                color="secondary"
+                variant="outline"
+                size="small"
+                phx-click="banner_position"
+                phx-value-pos="banner-example-84"
+              >
+                Show Banner (Bottom, Extra Large)
+              </.button>
+              <.button
+                color="misc"
+                variant="outline"
+                size="small"
+                phx-click="banner_position"
+                phx-value-pos="banner-example-85"
+              >
+                Show Banner (Bottom, Small)
+              </.button>
+              <.button
+                color="danger"
+                variant="outline"
+                size="small"
+                phx-click="banner_position"
+                phx-value-pos="banner-example-86"
+              >
+                Show Banner (Extra Large)
+              </.button>
+            </div>
+
+            <.banner
+              :if={@banner_pos == "banner-example-84"}
+              id="banner_vertical_doc_85"
+              vertical_position="bottom"
+              vertical_size="extra_large"
+              color="secondary"
+              variant="default"
+            >
+              Banner Bottom extra large space
+            </.banner>
+            <.banner
+              :if={@banner_pos == "banner-example-85"}
+              id="banner_vertical_doc_86"
+              vertical_position="bottom"
+              vertical_size="small"
+              color="misc"
+              variant="default"
+            >
+              Banner Bottom with small space
+            </.banner>
+            <.banner
+              :if={@banner_pos == "banner-example-86"}
+              id="banner_vertical_doc_87"
+              vertical_size="extra_large"
+              color="danger"
+              variant="default"
+            >
+              Banner top with small space
+            </.banner>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="banner-positions">
+            <.link patch={~p"/chelekom/docs/banner/#banner-positions"}>
+              Position and position size props
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The position and
+            <.custom_inline_code>position_size</.custom_inline_code>
+            props in the Phoenix LiveView banner component allow for flexible control over the horizontal and vertical placement of the banner. The position prop offers various alignment options, such as <.custom_inline_code>top_left</.custom_inline_code>, <.custom_inline_code>top_right</.custom_inline_code>, <.custom_inline_code>bottom_left</.custom_inline_code>, <.custom_inline_code>bottom_right</.custom_inline_code>, <.custom_inline_code>center</.custom_inline_code>, and <.custom_inline_code>full</.custom_inline_code>. These determine where the banner will be placed on the screen. The position_size prop adds even more flexibility by controlling the distance between the banner and the edges of the viewport. You can choose values like <.custom_inline_code>none</.custom_inline_code>, <.custom_inline_code>extra_small</.custom_inline_code>, <.custom_inline_code>small</.custom_inline_code>, <.custom_inline_code>medium</.custom_inline_code>, <.custom_inline_code>large</.custom_inline_code>, and <.custom_inline_code>extra_large</.custom_inline_code>, adjusting how far the banner is from the specified position, whether it's on the top-left, top-right, bottom-left, or bottom-right. This allows for precise control over banner placement, ensuring it fits the layout and design requirements of the application.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-sm" code={@code_13}>
+            <div class="mb-6 flex items-center gap-2 flex-wrap">
+              <.button
+                color="success"
+                variant="outline"
+                size="small"
+                phx-click="banner_position"
+                phx-value-pos="banner-example-115"
+              >
+                Show Banner top left
+              </.button>
+              <.button
+                color="warning"
+                variant="outline"
+                size="small"
+                phx-click="banner_position"
+                phx-value-pos="banner-example-116"
+              >
+                Show Banner top right
+              </.button>
+              <.button
+                color="danger"
+                variant="outline"
+                size="small"
+                phx-click="banner_position"
+                phx-value-pos="banner-example-117"
+              >
+                Show Banner full
+              </.button>
+            </div>
+
+            <.banner
+              :if={@banner_pos == "banner-example-115"}
+              id="banner_vertical_doc_115"
+              position="top_left"
+              color="success"
+              variant="default"
+            >
+              Banner Position top left
+            </.banner>
+            <.banner
+              :if={@banner_pos == "banner-example-116"}
+              id="banner_vertical_doc_116"
+              position="top_right"
+              color="warning"
+              variant="default"
+            >
+              Banner Position top right
+            </.banner>
+            <.banner
+              :if={@banner_pos == "banner-example-117"}
+              id="banner_vertical_doc_117"
+              color="danger"
+              variant="default"
+            >
+              Banner position full
+            </.banner>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="banner-dismiss-position">
+            <.link patch={~p"/chelekom/docs/banner/#banner-dismiss-position"}>
+              Dismiss button position
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <.custom_inline_code>right_dismiss</.custom_inline_code>
+            and
+            <.custom_inline_code>left_dismiss</.custom_inline_code>
+            props are boolean attributes in the Phoenix LiveView banner component that control the placement of the dismiss button. When right_dismiss is set to true, the dismiss button appears on the right side of the banner, allowing users to close the banner from that side. Similarly, setting left_dismiss to true places the dismiss button on the left side of the banner. By default, if neither prop is specified, the dismiss button will be positioned on the left side, as the
+            <.custom_inline_code>left_dismiss</.custom_inline_code>
+            behavior is considered the default. These options provide flexibility for aligning the dismiss button based on the design and user interaction needs.
+          </.cp>
+
+          <.custom_block color="warning" position="left" class="my-8" border="medium">
+            All components that have a dismiss button. When performing the operation,
+            it sends an event to the server. for example
+            <.custom_inline_code>handle_event("dismiss", params, socket)</.custom_inline_code>
+          </.custom_block>
+
+          <.custom_code_wrapper code_class="text-sm" code={@code_14}>
+            <div class="mb-6 flex items-center gap-2 flex-wrap">
+              <.button
+                color="danger"
+                variant="outline"
+                size="small"
+                phx-click="banner_position"
+                phx-value-pos="banner-example-87"
+              >
+                Show Right Dismiss
+              </.button>
+              <.button
+                color="info"
+                variant="outline"
+                size="small"
+                phx-click="banner_position"
+                phx-value-pos="banner-example-88"
+              >
+                Show Left Dismiss
+              </.button>
+            </div>
+
+            <.banner
+              :if={@banner_pos == "banner-example-87"}
+              id="banner_vertical_doc_87"
+              right_dismiss
+              color="danger"
+              variant="default"
+            >
+              Banner Right dismiss
+            </.banner>
+            <.banner
+              :if={@banner_pos == "banner-example-88"}
+              id="banner_vertical_doc_88"
+              left_dismiss
+              color="info"
+              variant="default"
+            >
+              Banner Left dismiss
+            </.banner>
+          </.custom_code_wrapper>
+        </:documentation_panel>
+
+        <:props_panel>
+          <.custom_search class="mb-16" />
+          <div class="space-y-8">
+            <h2 class="text-lg lg:text-2xl font-bold">Banner component props</h2>
+
+            <.custom_table id="banner-component-table">
+              <:header>
+                <.table_th>Name</.table_th>
+
+                <.table_th>Type</.table_th>
+
+                <.table_th>Required</.table_th>
+
+                <.table_th>Description</.table_th>
+              </:header>
+
+              <:row>
+                <.table_td>id</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>Yes</.table_td>
+
+                <.table_td>A unique identifier used to manage state and interaction.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>size</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines the overall size of the elements, including padding, font size, and other items. Default: <strong>large</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>dismiss_size</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Add custom classes to control dismiss sizes
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>variant</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines the style of the banner. Supported values: <strong>base</strong>, <strong>default</strong>, <strong>outline</strong>, <strong>transparent</strong>, <strong>shadow</strong>, <strong>bordered</strong>, <strong>gradient</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>color</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines the color theme of the banner. Supported values: <strong>natural</strong>, <strong>primary</strong>, <strong>secondary</strong>, <strong>success</strong>, <strong>warning</strong>, <strong>danger</strong>, <strong>info</strong>, <strong>silver</strong>, <strong>misc</strong>, <strong>dawn</strong>. The
+                  <strong>default</strong>
+                  and <strong>bordered</strong>
+                  variants have extra color options: <strong>dark</strong>
+                  and <strong>white</strong>, which in both light mode and dark mode, these colors are always the same.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>border</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines the border style. Default: <strong>extra_small</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>border_position</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines the border position. Supported values: <strong>top</strong>, <strong>bottom</strong>, <strong>full</strong>, <strong>none</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>rounded</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines the border radius. Supported values: <strong>extra_small</strong>, <strong>small</strong>, <strong>medium</strong>, <strong>large</strong>, <strong>extra_large</strong>, <strong>none</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>rounded_position</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines the rounded position. Supported values: <strong>top</strong>, <strong>bottom</strong>, <strong>all</strong>, <strong>none</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>space</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Space between items. Supported values: <strong>extra_small</strong>, <strong>small</strong>, <strong>medium</strong>, <strong>large</strong>, <strong>extra_large</strong>, <strong>none</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>vertical_position</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Specifies the vertical position of the banner. Supported values: <strong>top</strong>, <strong>bottom</strong>. Default: <strong>top</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>vertical_size</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Specifies the vertical size of the element. Default: <strong>none</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>position</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines the element position. Supported values: <strong>top_left</strong>, <strong>top_right</strong>, <strong>bottom_left</strong>, <strong>bottom_right</strong>, <strong>center</strong>, <strong>full</strong>. Default: <strong>full</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>position_size</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines the size for positioning the element. Supported values: <strong>extra_small</strong>, <strong>small</strong>, <strong>medium</strong>, <strong>large</strong>, <strong>extra_large</strong>, <strong>none</strong>. Default: <strong>none</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>font_weight</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines custom class for the font weight. Default: <strong>font-normal</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>padding</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines padding for items. Supported values: <strong>extra_small</strong>, <strong>small</strong>, <strong>medium</strong>, <strong>large</strong>, <strong>extra_large</strong>, <strong>none</strong>. Default: <strong>extra_small</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>class</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Custom CSS class for additional styling.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>right_dismiss</.table_td>
+
+                <.table_td>boolean</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Adds a dismiss button positioned on the right side of the banner.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>left_dismiss</.table_td>
+
+                <.table_td>boolean</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Adds a dismiss button positioned on the left side of the banner.
+                </.table_td>
+              </:row>
+            </.custom_table>
+          </div>
+        </:props_panel>
+
+        <:cli_panel>
+          <.custom_cli_props config={component_config()} />
+        </:cli_panel>
+        <.custom_table_content>
+          <:content
+            link={~p"/chelekom/docs/banner/#overview"}
+            title="Overview of the chat component"
+          />
+          <:content link={~p"/chelekom/docs/banner/#base-banner"} title="Base color and variant" />
+          <:content
+            link={~p"/chelekom/docs/banner/#default-variant-banner"}
+            title="Default variant"
+          />
+          <:content
+            link={~p"/chelekom/docs/banner/#outline-variant-banner"}
+            title="Otline variant"
+          />
+          <:content
+            link={~p"/chelekom/docs/banner/#shadow-variant-banner"}
+            title="Shadow variant"
+          />
+          <:content
+            link={~p"/chelekom/docs/banner/#bordered-variant-banner"}
+            title="Bordered variant"
+          />
+          <:content
+            link={~p"/chelekom/docs/banner/#transparent-variant-banner"}
+            title="Transparent variant"
+          />
+          <:content
+            link={~p"/chelekom/docs/banner/#gradient-variant-banner"}
+            title="Gradient variant"
+          />
+          <:content link={~p"/chelekom/docs/banner/#border-prop-banner"} title="Border prop" />
+          <:content
+            link={~p"/chelekom/docs/banner/#border-position-banner"}
+            title="Border position prop"
+          />
+          <:content
+            link={~p"/chelekom/docs/banner/#banner-rounded"}
+            title="Rounded and rounded position props"
+          />
+          <:content link={~p"/chelekom/docs/banner/#banner-space"} title="Space prop" />
+          <:content link={~p"/chelekom/docs/banner/#banner-padding"} title="Padding prop" />
+          <:content link={~p"/chelekom/docs/banner/#banner-font-weight"} title="Font weight prop" />
+          <:content
+            link={~p"/chelekom/docs/banner/#banner-vertical"}
+            title="Vertical position and vertical size props"
+          />
+          <:content
+            link={~p"/chelekom/docs/banner/#banner-positions"}
+            title="Position and position size props"
+          />
+          <:content
+            link={~p"/chelekom/docs/banner/#banner-dismiss-position"}
+            title="Dismiss button position"
+          />
+        </.custom_table_content>
+      </.custom_tab>
+    </div>
+  </div>
+</Layouts.app>

@@ -1,0 +1,1584 @@
+<Layouts.app flash={@flash}>
+  <div class="lg:grid lg:grid-cols-12 mt-5 max-w-5xl mx-auto">
+    <.custom_nav active="chelekom-docs-accordion" />
+    <div class="lg:col-span-10">
+      <.custom_info
+        title="Accordion"
+        tags={["Component", "Stateless", "JS"]}
+        description="Fully featured accordion component for Phoenix LiveView, offering collapsible sections with both custom components and native HTML tags for optimal performance and browser compatibility."
+        mix="mix mishka.ui.gen.component accordion"
+        github="https://github.com/mishka-group/mishka_chelekom/blob/master/priv/components/accordion.eex"
+      />
+      <.custom_tab id="chelekom-accordion-tab">
+        <:documentation_panel>
+          <.heading2 class="mb-5" id="overview">
+            <.link patch={~p"/chelekom/docs/accordion/#overview"}>
+              Overview of the Phoenix and LiveView Accordion Component
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <strong>
+              Mishka Chelekom Accordion
+            </strong>
+            module offers a wide variety of styles and colors for <strong>Phoenix</strong>, this module allows you to add different variants and colors for a personalized appearance. With options to include icons and media, the accordion is ideal for managing and showcasing data efficiently. Its ability to divide content into collapsible sections provides a clean and functional way to present large volumes of information.
+          </.cp>
+
+          <.custom_code_wrapper
+            elements_class="grid md:grid-cols-2 mt-10 gap-5 text-sm"
+            class="mt-10"
+          >
+            <.accordion id="chelekom-accordion-4r324" chevron_class="size-4">
+              <:item
+                id="faq1"
+                title="What makes Mishka Chelekom different?"
+                icon="hero-question-mark-circle"
+                icon_class="size-[17px] text-slate-600 dark:text-slate-200"
+                icon_wrapper_class="size-8 flex justify-center items-center shrink-0 rounded-full border border-[#E5E7EB] dark:border-slate-100"
+              >
+                Mishka Chelekom focuses on developer experience and performance. Built with Phoenix Liveview, it offersvariaty of components, and provides comprehensive documentation with regular updates.
+              </:item>
+
+              <:item
+                id="faq2"
+                title="How can I customize the components?"
+                icon="hero-cube"
+                icon_class="size-[17px] text-slate-600 dark:text-slate-200"
+                icon_wrapper_class="size-8 flex justify-center items-center shrink-0 rounded-full border border-[#E5E7EB] dark:border-slate-100"
+              >
+                By using various props and different range of values, or class props for component-specific changes. We support Tailwind, and dark mode out of the box.
+              </:item>
+              <:item
+                id="faq3"
+                title="How to use Mishka Chelekom?"
+                icon="hero-command-line"
+                icon_class="size-[17px] text-slate-600 dark:text-slate-200"
+                icon_wrapper_class="size-8 flex justify-center items-center shrink-0 rounded-full border border-[#E5E7EB] dark:border-slate-100"
+              >
+                You can see
+                <.link navigate={~p"/chelekom/docs"} title="Mishka Chelekom installation">
+                  Getting Started
+                </.link>
+                page to learn how to integrate Mishka Chelekom into your projects and explore its full capabilities.
+              </:item>
+            </.accordion>
+
+            <.accordion
+              id="chelekom-accordion-example-4242"
+              chevron_icon="hero-plus"
+              rounded="medium"
+              chevron_class="size-4 text-slate-500 dark:text-slate-100"
+            >
+              <:item
+                id="anim1"
+                title="Is it animated?"
+                description="Mishka chelekon animated accordion"
+                icon_class="size-[17px] text-slate-500 dark:text-slate-100"
+              >
+                Yes, Mishka Chelekom comes with built-in animations for a smoother user experience. These animations are carefully designed to enhance interactions while maintaining performance. The animations include smooth transitions for expanding and collapsing sections, making the interface feel more responsive and polished.
+              </:item>
+
+              <:item
+                id="anim2"
+                title="Is is styled?"
+                description="How Mishka chelekom offers different styles?"
+                icon_class="size-[17px] text-slate-500 dark:text-slate-100"
+              >
+                Yes, Mishka Chelekom comes with a variety of built-in styles and theming options. You can customize colors, borders, padding, and other visual elements through props. The styling system is built on Tailwind CSS, making it highly flexible and easy to extend with your own custom styles. Dark mode is also supported out of the box.
+              </:item>
+
+              <:item
+                id="anim3"
+                title="Is is accessible?"
+                icon_class="size-[17px] text-slate-500 dark:text-slate-100"
+              >
+                Yes, Mishka Chelekom is fully accessible. We follow WAI-ARIA standards by implementing proper ARIA attributes, keyboard navigation, and comprehensive screen reader support. We regularly test for compatibility with popular screen readers including NVDA, VoiceOver, and JAWS to ensure a seamless experience for all users.
+              </:item>
+            </.accordion>
+
+            <.accordion
+              id="chelekom-accordion-example-88547"
+              chevron_class="size-4 text-slate-500 dark:text-slate-100"
+              variant="base_separated"
+              rounded="small"
+            >
+              <:item
+                id="sep1"
+                title="Is it animated?"
+                icon="hero-globe-asia-australia"
+                icon_class="size-[0.91rem] text-slate-500 dark:text-slate-100"
+              >
+                Yes, Mishka Chelekom comes with built-in animations for a smoother user experience. These animations are carefully designed to enhance interactions while maintaining performance. The animations include smooth transitions for expanding and collapsing sections, making the interface feel more responsive and polished.
+              </:item>
+
+              <:item
+                id="sep2"
+                title="Is is styled?"
+                icon="hero-inbox-stack"
+                icon_class="size-[0.91rem] text-slate-500 dark:text-slate-100"
+              >
+                Yes, Mishka Chelekom comes with a variety of built-in styles and theming options. You can customize colors, borders, padding, and other visual elements through props. The styling system is built on Tailwind CSS, making it highly flexible and easy to extend with your own custom styles. Dark mode is also supported out of the box.
+              </:item>
+
+              <:item
+                id="sep3"
+                title="Is is accessible?"
+                icon="hero-light-bulb"
+                icon_class="size-[0.91rem] text-slate-500 dark:text-slate-100"
+              >
+                Yes, Mishka Chelekom is fully accessible. We follow WAI-ARIA standards by implementing proper ARIA attributes, keyboard navigation, and comprehensive screen reader support. We regularly test for compatibility with popular screen readers including NVDA, VoiceOver, and JAWS to ensure a seamless experience for all users.
+              </:item>
+            </.accordion>
+
+            <.accordion
+              id="chelekom-accordion-423424ewr"
+              chevron_class="size-4"
+              rounded="large"
+              variant="base_separated"
+            >
+              <:item
+                id="nested1"
+                title="What makes Mishka Chelekom different?"
+                icon="hero-question-mark-circle"
+                icon_class="size-[17px] text-slate-600 dark:text-slate-200"
+                icon_wrapper_class="size-8 flex justify-center items-center shrink-0 rounded-full border border-[#E5E7EB] dark:border-slate-100"
+              >
+                Mishka Chelekom focuses on developer experience and performance. Built with Phoenix Liveview, it offersvariaty of components, and provides comprehensive documentation with regular updates.
+              </:item>
+
+              <:item
+                id="nested2"
+                title="How can I customize the components?"
+                icon="hero-cube"
+                icon_class="size-[17px] text-slate-600 dark:text-slate-200"
+                icon_wrapper_class="size-8 flex justify-center items-center shrink-0 rounded-full border border-[#E5E7EB] dark:border-slate-100"
+              >
+                <.accordion
+                  id="chelekom-accordion-789987"
+                  variant="transparent"
+                  chevron_class="size-4"
+                  chevron_icon="hero-plus"
+                >
+                  <:item
+                    id="inner1"
+                    title="Can I implement my own styles?"
+                    icon="hero-document-magnifying-glass"
+                    icon_class="size-[17px] text-slate-600 dark:text-slate-200"
+                  >
+                    Yes, Mishka Chelekom is highly customizable! You can implement your own styles using custom CSS classes through the class prop, or by overriding our default Tailwind styles. The component is built with flexibility in mind, making it easy to adapt to your specific design needs.
+                  </:item>
+                  <:item
+                    id="inner2"
+                    title="IS it hard to modify styles?"
+                    icon="hero-globe-alt"
+                    icon_class="size-[17px] text-slate-600 dark:text-slate-200"
+                  >
+                    No, modifying styles is straightforward! You can easily customize the appearance using Tailwind CSS classes or your own custom styles through the class prop. The component's modular design makes it simple to adapt to your specific styling requirements.
+                  </:item>
+                </.accordion>
+              </:item>
+              <:item
+                id="nested3"
+                title="How to use Mishka Chelekom?"
+                icon="hero-command-line"
+                icon_class="size-[17px] text-slate-600 dark:text-slate-200"
+                icon_wrapper_class="size-8 flex justify-center items-center shrink-0 rounded-full border border-[#E5E7EB] dark:border-slate-100"
+              >
+                You can see
+                <.link navigate={~p"/chelekom/docs"} title="Mishka Chelekom installation">
+                  Getting Started
+                </.link>
+                page to learn how to integrate Mishka Chelekom into your projects and explore its full capabilities.
+              </:item>
+            </.accordion>
+          </.custom_code_wrapper>
+
+          <.cp margin="mt-5">
+            The Mishka Chelekom <strong>Accordion component</strong>
+            also seamlessly integrates with <strong>Phoenix LiveView</strong>
+            applications, offering enhanced interactivity. With this
+            <.link
+              title="Phoenix LiveView component"
+              class="transition-colors hover:text-[#448D96]"
+              navigate={~p"/chelekom"}
+            >
+              Phoenix LiveView component
+            </.link>
+            users can show or hide content effortlessly, while the module’s flexibility with colors and styles ensures that it fits within any design. Whether you’re adding icons, media, or simply dividing complex data into more manageable sections, the accordion component is a versatile solution for improving both functionality and user experience.
+          </.cp>
+
+          <.heading2 margin="my-5" id="how-to-use-accordion">
+            <.link patch={~p"/chelekom/docs/accordion/#how-to-use-accordion"}>
+              How to use Phoenix and LiveView accordion component
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The <.link navigate={~p"/chelekom/docs/accordion"}>Mishka Chelekom Accordion</.link>
+            module includes a required
+            <.custom_inline_code>:item</.custom_inline_code>
+            slot, which defines each individual accordion entry. This slot gives you control over elements like the title, description, icons, and more, allowing for easy customization of your accordion items to suit your design and content needs.
+
+            Each item has several attributes:
+            <ul class="list-disc px-10">
+              <li>
+                <strong>title</strong>
+                (Required): Specifies the title of the accordion item, which is displayed when the accordion is closed.
+              </li>
+
+              <li>
+                <strong>description</strong>: A brief description that appears under the title, offering additional context.
+              </li>
+
+              <li>
+                <strong>icon</strong>: Adds an icon next to the title, enhancing visual representation.
+              </li>
+
+              <li>
+                <strong>image</strong>: Displays an image next to the accordion item for more interactive content.
+              </li>
+
+              <li>
+                <strong>hover</strong>: Custom class applied when the item is hovered over, allowing dynamic styling.
+              </li>
+
+              <li>
+                <strong>open</strong>: A boolean that controls whether the accordion item is open
+                <.custom_inline_code>true</.custom_inline_code>
+                or closed
+                <.custom_inline_code>false</.custom_inline_code>
+                by default.
+              </li>
+            </ul>
+            You can check other props of this slot in the props tab.
+          </.cp>
+
+          <.custom_code_wrapper elements_class="space-y-3 [&>*]:mb-2 text-sm" code={@code_1}>
+            <.accordion id="chelekom-accordion-example34234" color="silver" variant="bordered">
+              <:item
+                id="why1"
+                title="Why Mishka Chelekom?"
+                image={~p"/images/avatar3.jpg"}
+                image_class="rounded-full"
+              >
+                Mishka Chelekom is an open-source UI kit for Phoenix and Phoenix LiveView, built with <strong>Tailwind CSS</strong>. It offers essential components like drawers, popovers, and accordions to help developers create responsive, interactive user interfaces effortlessly.
+
+                Start building faster with our easy-to-follow guide, and optimize your Phoenix and LiveView projects with flexible, customizable components.
+              </:item>
+
+              <:item
+                id="why2"
+                title="Is it open-source?"
+                image={~p"/images/avatar4.jpg"}
+                image_class="rounded-full"
+                open={true}
+              >
+                Mishka Chelekom is a powerful, open-source component library crafted for Phoenix and Phoenix LiveView. Developed using Tailwind CSS, it provides a wide range of UI components, including drawers, popovers, and accordions, to help streamline the creation of responsive, dynamic web applications.
+
+                Boost your development process with our comprehensive guide and start building modern, interactive user interfaces for your Phoenix and LiveView projects effortlessly.
+              </:item>
+            </.accordion>
+
+            <.accordion
+              id="chelekom-accordion-example-one"
+              variant="bordered_separated"
+              color="info"
+              space="large"
+            >
+              <:item
+                id="icon1"
+                title="Icon prop Item one"
+                description="This accordion accepts icon in summary"
+                icon="hero-chat-bubble-left-right-solid"
+                icon_class="size-5"
+              >
+                Select any icon from the Hero Icons website and add its name to the icon prop. The size of the icon can be adjusted using the icon_class prop in each
+                slot.
+              </:item>
+
+              <:item
+                id="icon2"
+                title="Icon prop Item two"
+                description="This accordion accepts icon in summary"
+                icon="hero-chat-bubble-oval-left-ellipsis-solid"
+              >
+                Select any icon from the Hero Icons website and add its name to the icon prop. The size of the icon can be adjusted using the icon_class prop in each
+                slot.
+              </:item>
+            </.accordion>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="base-variant">
+            <.link patch={~p"/chelekom/docs/accordion/#base-variant"}>
+              Base & Base separated Variant
+            </.link>
+          </.heading2>
+
+          <.custom_code_wrapper elements_class="[&>*]:mb-2 text-sm" code={@code_18}>
+            <.accordion id="base-example-120" variant="base">
+              <:item id="base1" title="Default variant item one">
+                Item one content
+              </:item>
+
+              <:item id="base2" title="Default variant item two">
+                Item two content
+              </:item>
+            </.accordion>
+
+            <.accordion id="base-example-110" variant="base_separated" space="small">
+              <:item id="basesep1" title="Default variant item one">
+                Item one content
+              </:item>
+
+              <:item id="basesep2" title="Default variant item two">
+                Item two content
+              </:item>
+            </.accordion>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="accordion-default-variant">
+            <.link patch={~p"/chelekom/docs/accordion/#accordion-default-variant"}>
+              Default Variant
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The default variant includes basic styles with a background and borders, providing a clean and simple appearance. You can customize it with different color options, including <.custom_inline_code>natural</.custom_inline_code>, <.custom_inline_code>primary</.custom_inline_code>, <.custom_inline_code>secondary</.custom_inline_code>, <.custom_inline_code>success</.custom_inline_code>, <.custom_inline_code>warning</.custom_inline_code>, <.custom_inline_code>danger</.custom_inline_code>, <.custom_inline_code>info</.custom_inline_code>, <.custom_inline_code>silver</.custom_inline_code>, <.custom_inline_code>misc</.custom_inline_code>, and
+            <.custom_inline_code>dawn</.custom_inline_code>
+            to match your design needs.
+          </.cp>
+
+          <.custom_code_wrapper elements_class="[&>*]:mb-2 text-sm" code={@code_2}>
+            <.accordion id="chelekom-accordion-example-323" variant="default" color="primary">
+              <:item id="def1" title="Default variant item one">
+                Item one content
+              </:item>
+
+              <:item id="def2" title="Default variant item two">
+                Item two content
+              </:item>
+            </.accordion>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="accordion-outline-variant">
+            <.link patch={~p"/chelekom/docs/accordion/#accordion-outline-variant"}>
+              outline Variant
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The outline variant applies borders only with no background color, giving the component a clean and minimal look. You can customize the border colors with options like <.custom_inline_code>primary</.custom_inline_code>, <.custom_inline_code>secondary</.custom_inline_code>, <.custom_inline_code>natural</.custom_inline_code>, <.custom_inline_code>success</.custom_inline_code>, <.custom_inline_code>warning</.custom_inline_code>, <.custom_inline_code>danger</.custom_inline_code>, <.custom_inline_code>info</.custom_inline_code>, <.custom_inline_code>silver</.custom_inline_code>, <.custom_inline_code>misc</.custom_inline_code>, and <.custom_inline_code>dawn</.custom_inline_code>.
+          </.cp>
+
+          <.custom_code_wrapper elements_class="[&>*]:mb-2 text-sm" code={@code_3}>
+            <.accordion id="chelekom-accordion-example-three" variant="outline" color="secondary">
+              <:item id="out1" title="outline variant item one">
+                outline variant item one content
+              </:item>
+
+              <:item id="out2" title="outline variant item two">
+                outline variant item two content
+              </:item>
+            </.accordion>
+            <.accordion id="chelekom-accordion-example-three-misc" variant="outline" color="misc">
+              <:item id="outmisc1" title="outline variant item one">
+                outline variant item one content
+              </:item>
+
+              <:item id="outmisc2" title="outline variant item two">
+                outline variant item two content
+              </:item>
+            </.accordion>
+            <.accordion
+              id="chelekom-accordion-example-three-danger"
+              variant="outline"
+              color="danger"
+            >
+              <:item id="outdanger1" title="outline variant item one">
+                outline variant item one content
+              </:item>
+
+              <:item id="outdanger2" title="outline variant item two">
+                outline variant item two content
+              </:item>
+            </.accordion>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="accordion-bordered-variant">
+            <.link patch={~p"/chelekom/docs/accordion/#accordion-bordered-variant"}>
+              bordered Variant
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The bordered variant includes a background color and supports various customizable color options. You can customize the background colors with options like <.custom_inline_code>primary</.custom_inline_code>, <.custom_inline_code>secondary</.custom_inline_code>, <.custom_inline_code>natural</.custom_inline_code>, <.custom_inline_code>success</.custom_inline_code>, <.custom_inline_code>warning</.custom_inline_code>, <.custom_inline_code>danger</.custom_inline_code>, <.custom_inline_code>info</.custom_inline_code>, <.custom_inline_code>silver</.custom_inline_code>, <.custom_inline_code>misc</.custom_inline_code>, and <.custom_inline_code>dawn</.custom_inline_code>.
+          </.cp>
+
+          <.custom_code_wrapper elements_class="[&>*]:mb-2 text-sm" code={@code_4}>
+            <.accordion id="chelekom-accordion-example-four" variant="bordered" color="info">
+              <:item title="bordered variant item one">
+                bordered variant item one content
+              </:item>
+
+              <:item title="bordered variant item two">
+                bordered variant item two content
+              </:item>
+            </.accordion>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="accordion-outline-separated-variant">
+            <.link patch={~p"/chelekom/docs/accordion/#accordion-outline-separated-variant"}>
+              Outline separated Variant
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The outline separated variant has a customizable border colors. You can customize the background colors with options like <.custom_inline_code>primary</.custom_inline_code>, <.custom_inline_code>secondary</.custom_inline_code>, <.custom_inline_code>natural</.custom_inline_code>, <.custom_inline_code>success</.custom_inline_code>, <.custom_inline_code>warning</.custom_inline_code>, <.custom_inline_code>danger</.custom_inline_code>, <.custom_inline_code>info</.custom_inline_code>, <.custom_inline_code>silver</.custom_inline_code>, <.custom_inline_code>misc</.custom_inline_code>, and <.custom_inline_code>dawn</.custom_inline_code>.
+          </.cp>
+
+          <.custom_code_wrapper elements_class="[&>*]:mb-2 text-sm" code={@code_5}>
+            <.accordion
+              id="chelekom-accordion-example-five"
+              variant="outline_separated"
+              color="info"
+              class="text-black"
+            >
+              <:item title="outline_separated variant item one">
+                outline_separated variant item one content
+              </:item>
+
+              <:item title="outline_separated variant item two">
+                outline_separated variant item two content
+              </:item>
+            </.accordion>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="accordion-bordered-separated-variant">
+            <.link patch={~p"/chelekom/docs/accordion/#accordion-bordered-separated-variant"}>
+              Bordered separated Variant
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <.custom_inline_code>bordered_separated</.custom_inline_code>
+            variant includes both a background color and a border for each item, with space between them for a clean, structured layout. You can customize the background colors using options such as <.custom_inline_code>primary</.custom_inline_code>, <.custom_inline_code>secondary</.custom_inline_code>, <.custom_inline_code>natural</.custom_inline_code>, <.custom_inline_code>success</.custom_inline_code>, <.custom_inline_code>warning</.custom_inline_code>, <.custom_inline_code>danger</.custom_inline_code>, <.custom_inline_code>info</.custom_inline_code>, <.custom_inline_code>silver</.custom_inline_code>, <.custom_inline_code>misc</.custom_inline_code>, and <.custom_inline_code>dawn</.custom_inline_code>.
+          </.cp>
+
+          <.custom_code_wrapper elements_class="[&>*]:mb-2 text-sm" code={@code_6}>
+            <.accordion
+              id="chelekom-accordion-example-324324"
+              variant="bordered_separated"
+              color="danger"
+            >
+              <:item title="Tinted split variant item one">
+                Tinted split variant item one content
+              </:item>
+
+              <:item title="Tinted split variant item two">
+                Tinted split variant item two content
+              </:item>
+            </.accordion>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="accordion-transparent-variant">
+            <.link patch={~p"/chelekom/docs/accordion/#accordion-transparent-variant"}>
+              Transparent Variant
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <.custom_inline_code>transparent</.custom_inline_code>
+            variant features transparent borders and background, with only the content's color changing. You can customize the content color using options such as <.custom_inline_code>primary</.custom_inline_code>, <.custom_inline_code>secondary</.custom_inline_code>, <.custom_inline_code>natural</.custom_inline_code>, <.custom_inline_code>success</.custom_inline_code>, <.custom_inline_code>warning</.custom_inline_code>, <.custom_inline_code>danger</.custom_inline_code>, <.custom_inline_code>info</.custom_inline_code>, <.custom_inline_code>silver</.custom_inline_code>, <.custom_inline_code>misc</.custom_inline_code>, and <.custom_inline_code>dawn</.custom_inline_code>. Each item maintains a clean, minimal layout with space between items.
+          </.cp>
+
+          <.custom_code_wrapper elements_class="[&>*]:mb-2 text-sm" code={@code_7}>
+            <.accordion
+              id="chelekom-accordion-example-seven"
+              variant="transparent"
+              color="warning"
+            >
+              <:item title="Transparent variant item one">
+                Transparent variant item one content
+              </:item>
+
+              <:item title="Transparent variant item two">
+                Transparent variant item two content
+              </:item>
+            </.accordion>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="accordion-shadow-variant">
+            <.link patch={~p"/chelekom/docs/accordion/#accordion-shadow-variant"}>
+              Shadow Variant
+            </.link>
+          </.heading2>
+
+          <.custom_code_wrapper elements_class="[&>*]:mb-2 text-sm" code={@code_16}>
+            <.accordion id="chelekom-accordion-example-99" variant="shadow" color="primary">
+              <:item title="Shadow variant item one">
+                Shadow variant item one content
+              </:item>
+
+              <:item title="Shadow variant item two">
+                Shadow variant item two content
+              </:item>
+            </.accordion>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="accordion-gradient-variant">
+            <.link patch={~p"/chelekom/docs/accordion/#accordion-gradient-variant"}>
+              Gradient Variant
+            </.link>
+          </.heading2>
+
+          <.custom_code_wrapper elements_class="[&>*]:mb-2 text-sm" code={@code_17}>
+            <.accordion id="chelekom-accordion-example-100" variant="gradient" color="dawn">
+              <:item title="Gradient variant item one">
+                Gradient variant item one content
+              </:item>
+
+              <:item title="Gradient variant item two">
+                Gradient variant item two content
+              </:item>
+            </.accordion>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="accordion-padding">
+            <.link patch={~p"/chelekom/docs/accordion/#accordion-padding"}>
+              Padding prop in Phoenix LiveView Accordion Component
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The padding prop offers values such as <.custom_inline_code>extra_small</.custom_inline_code>, <.custom_inline_code>small</.custom_inline_code>, <.custom_inline_code>medium</.custom_inline_code>, <.custom_inline_code>large</.custom_inline_code>, and <.custom_inline_code>extra_large</.custom_inline_code>, allowing for flexible adjustment of the padding applied to the content and summary sections of the accordion. These padding options enable the creation of either compact or spacious layouts.
+          </.cp>
+
+          <.custom_code_wrapper elements_class="space-y-3 [&>*]:mb-2 text-sm" code={@code_9}>
+            <.accordion
+              id="chelekom-accordion-example-nine"
+              variant="bordered"
+              padding="extra_small"
+              color="success"
+            >
+              <:item title="Extra Small padding item one">
+                Extra Small padding item one content
+              </:item>
+
+              <:item title="Extra Small padding item two">
+                Extra Small padding item two content
+              </:item>
+            </.accordion>
+
+            <.accordion
+              id="chelekom-accordion-example-ten"
+              variant="bordered"
+              padding="small"
+              color="danger"
+            >
+              <:item title="Small padding item one">
+                Small padding item one content
+              </:item>
+
+              <:item title="Small padding item two">
+                Small padding item two content
+              </:item>
+            </.accordion>
+
+            <.accordion
+              id="chelekom-accordion-example-eleven"
+              variant="bordered"
+              padding="medium"
+              color="info"
+            >
+              <:item title="Medium padding item one">
+                Medium padding item one content
+              </:item>
+
+              <:item title="Medium padding item two">
+                Medium padding item two content
+              </:item>
+            </.accordion>
+
+            <.accordion
+              id="chelekom-accordion-example-twelve"
+              variant="bordered"
+              padding="large"
+              color="dawn"
+            >
+              <:item title="Large padding one">
+                Large padding one content
+              </:item>
+
+              <:item title="Large padding two">
+                Large padding two content
+              </:item>
+            </.accordion>
+
+            <.accordion
+              id="chelekom-accordion-example-thirteen"
+              variant="bordered"
+              padding="extra_large"
+              color="warning"
+            >
+              <:item title="Extra Large padding one">
+                Extra Large padding one content
+              </:item>
+
+              <:item title="Extra Large padding two">
+                Extra Large padding two content
+              </:item>
+            </.accordion>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="accordion-size">
+            <.link patch={~p"/chelekom/docs/accordion/#accordion-size"}>
+              Size prop in Phoenix LiveView Accordion Component
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <.custom_inline_code>size</.custom_inline_code>
+            prop adjusts the text size of the accordion and uses Tailwind's text size classes to apply these changes. It offers values such as <.custom_inline_code>extra_small</.custom_inline_code>, <.custom_inline_code>small</.custom_inline_code>, <.custom_inline_code>medium</.custom_inline_code>, <.custom_inline_code>large</.custom_inline_code>, and <.custom_inline_code>extra_large</.custom_inline_code>.
+          </.cp>
+
+          <.custom_code_wrapper elements_class="space-y-3 [&>*]:mb-2 text-sm" code={@code_10}>
+            <.accordion
+              id="chelekom-accordion-example-14"
+              variant="bordered"
+              size="extra_small"
+              color="silver"
+            >
+              <:item title="Size prop item one">
+                Size prop item one content
+              </:item>
+
+              <:item title="Size prop item two">
+                Size prop item two content
+              </:item>
+            </.accordion>
+
+            <.accordion
+              id="chelekom-accordion-example-15"
+              variant="bordered"
+              size="large"
+              color="silver"
+            >
+              <:item title="Size prop item one">
+                Size prop item one content
+              </:item>
+
+              <:item title="Size prop item two">
+                Size prop item two content
+              </:item>
+
+              <:item title="Size prop item two">
+                Size prop item two content
+              </:item>
+            </.accordion>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="accordion-space">
+            <.link patch={~p"/chelekom/docs/accordion/#accordion-space"}>
+              Space prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The space prop is designed for the
+            <.custom_inline_code>outline_separated</.custom_inline_code>
+            and
+            <.custom_inline_code>bordered_separated</.custom_inline_code>
+            variants. It controls the space between each accordion item, helping to create a more organized and distinct layout, ensuring that items remain clearly outline_separated. It offers values such as <.custom_inline_code>extra_small</.custom_inline_code>, <.custom_inline_code>small</.custom_inline_code>, <.custom_inline_code>medium</.custom_inline_code>, <.custom_inline_code>large</.custom_inline_code>, and <.custom_inline_code>extra_large</.custom_inline_code>.
+          </.cp>
+
+          <.custom_code_wrapper elements_class="space-y-3 [&>*]:mb-2 text-sm" code={@code_11}>
+            <.accordion
+              id="chelekom-accordion-example-16"
+              variant="bordered_separated"
+              space="large"
+              color="natural"
+            >
+              <:item title="Space prop item one">
+                Space prop item one content
+              </:item>
+
+              <:item title="Space prop item two">
+                Space prop item two content
+              </:item>
+            </.accordion>
+
+            <.accordion
+              id="chelekom-accordion-example-17"
+              variant="outline_separated"
+              space="small"
+              color="secondary"
+            >
+              <:item title="Space prop item one">
+                Space prop item one content
+              </:item>
+
+              <:item title="Space prop item two">
+                Space prop item two content
+              </:item>
+
+              <:item title="Space prop item two">
+                Space prop item two content
+              </:item>
+            </.accordion>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="accordion-rounded">
+            <.link patch={~p"/chelekom/docs/accordion/#accordion-rounded"}>
+              Rounded prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The rounded prop offers values like <.custom_inline_code>extra_small</.custom_inline_code>, <.custom_inline_code>small</.custom_inline_code>, <.custom_inline_code>medium</.custom_inline_code>, <.custom_inline_code>large</.custom_inline_code>, and <.custom_inline_code>extra_large</.custom_inline_code>. These values control the border radius of the accordion items, allowing for different levels of rounding from subtle to more pronounced corners, depending on the design needs.
+          </.cp>
+
+          <.custom_code_wrapper elements_class="space-y-3 [&>*]:mb-2 text-sm" code={@code_12}>
+            <.accordion
+              id="chelekom-accordion-example-18"
+              variant="bordered"
+              color="danger"
+              rounded="large"
+            >
+              <:item title="Rounded prop item one">
+                Rounded prop item one content
+              </:item>
+
+              <:item title="Rounded prop item two">
+                Rounded prop item two content
+              </:item>
+            </.accordion>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="accordion-media-size">
+            <.link patch={~p"/chelekom/docs/accordion/#accordion-media-size"}>
+              Media size prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <.custom_inline_code>media_size</.custom_inline_code>
+            prop allows control over the width and height of media elements, such as images, in the summary section of the accordion. It accepts values like <.custom_inline_code>extra_small</.custom_inline_code>, <.custom_inline_code>small</.custom_inline_code>, <.custom_inline_code>medium</.custom_inline_code>, <.custom_inline_code>large</.custom_inline_code>, and <.custom_inline_code>extra_large</.custom_inline_code>. Passing the media_size prop to the .accordion will apply the specified size to all images in the item slots, ensuring consistent image dimensions across the accordion.
+          </.cp>
+
+          <.custom_code_wrapper elements_class="space-y-3 [&>*]:mb-2 text-sm" code={@code_13}>
+            <.accordion
+              id="chelekom-accordion-example-19"
+              variant="bordered"
+              color="danger"
+              media_size="extra_small"
+            >
+              <:item title="Media size prop item one" image={~p"/images/avatar1.png"}>
+                Media size prop item one content
+              </:item>
+
+              <:item title="Media size prop item two" image={~p"/images/avatar2.jpg"}>
+                Media size prop item two content
+              </:item>
+            </.accordion>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="accordion-chevron">
+            <.link patch={~p"/chelekom/docs/accordion/#accordion-chevron"}>
+              Chevron props
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <.custom_inline_code>chevron_icon</.custom_inline_code>
+            prop allows customization of the accordion's chevron icon using LiveView Hero Icons. Additionally, options like <.custom_inline_code>left_chevron</.custom_inline_code>, <.custom_inline_code>right_chevron</.custom_inline_code>, and
+            <.custom_inline_code>hide_chevron</.custom_inline_code>
+            enable control over the chevron’s position or visibility. By default, the chevron icon is positioned on the left.
+          </.cp>
+
+          <.custom_code_wrapper elements_class="space-y-3 [&>*]:mb-2 text-sm" code={@code_14}>
+            <.accordion
+              id="chelekom-accordion-example-20"
+              variant="bordered"
+              color="info"
+              chevron_icon="hero-cog-8-tooth"
+            >
+              <:item title="Icon chevron item one">
+                Icon chevron
+              </:item>
+
+              <:item title="Icon chevron item two">
+                Icon chevron
+              </:item>
+            </.accordion>
+
+            <.accordion
+              id="chelekom-accordion-example-21"
+              variant="bordered"
+              color="natural"
+              right_chevron
+            >
+              <:item title="Right chevron item one">
+                chevron content
+              </:item>
+
+              <:item title="Right chevron item two">
+                Right chevron item two content
+              </:item>
+            </.accordion>
+
+            <.accordion
+              id="chelekom-accordion-example-22"
+              variant="bordered"
+              color="info"
+              hide_chevron
+            >
+              <:item title="Hide chevron item one">
+                Hide chevron content
+              </:item>
+
+              <:item title="Hide chevron item two">
+                Hide chevron content
+              </:item>
+            </.accordion>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="accordion-native">
+            <.link patch={~p"/chelekom/docs/accordion/#accordion-native"}>
+              HTML details tag as Accordion in Phoenix LiveView
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The <strong>native accordion</strong>
+            in Mishka Chelekom is built using the native HTML
+            <.custom_inline_code>details</.custom_inline_code>
+            and
+            <.custom_inline_code>summary</.custom_inline_code>
+            elements, offering a streamlined and accessible accordion component. All options available for the Mishka Chelekom Icon prop, such as rounded, padding, space, media_size, color variants, and <.custom_inline_code>chevron_icon</.custom_inline_code>, also apply to the native accordion. This ensures a consistent user experience while leveraging the simplicity and native functionality of the HTML elements.
+          </.cp>
+          <.heading5 margin="my-3">
+            Notice: If a string is passed to the name prop of the native accordion, it enables the native behavior where only one accordion item can remain open at a time. When a new item is opened, the previously open item will automatically close.
+          </.heading5>
+
+          <.custom_code_wrapper elements_class="space-y-3 [&>*]:mb-2 text-sm" code={@code_15}>
+            <.accordion id="Accdfkadl40" variant="bordered" color="natural">
+              <:item title="Icon chevron item one">
+                Icon chevron
+              </:item>
+
+              <:item title="Icon chevron item two">
+                Icon chevron
+              </:item>
+            </.accordion>
+
+            <.accordion
+              variant="bordered"
+              color="warning"
+              id="chelekom-accordion-2"
+            >
+              <:item title="Icon chevron item one">
+                Icon chevron
+              </:item>
+
+              <:item title="Icon chevron item two">
+                Icon chevron
+              </:item>
+            </.accordion>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="accordion-multiple-open">
+            <.link patch={~p"/chelekom/docs/accordion/#accordion-multiple-open"}>
+              Multiple Items with Initial Open State
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The accordion can handle multiple items with specific ones open initially. Use the
+            <.custom_inline_code>initial_open</.custom_inline_code>
+            prop to specify which items should be open when the component mounts, or set
+            <.custom_inline_code>open={true}</.custom_inline_code>
+            on individual items.
+          </.cp>
+
+          <.custom_code_wrapper elements_class="space-y-3 [&>*]:mb-2 text-sm" code={@code_19}>
+            <.accordion
+              id="chelekom-accordion-multiple-open"
+              variant="bordered_separated"
+              color="primary"
+              multiple={true}
+              initial_open={["item1", "item3"]}
+            >
+              <:item
+                id="item1"
+                title="First Item (Initially Open)"
+                icon="hero-document-text"
+                icon_class="size-[17px] text-primary-600 dark:text-primary-300"
+              >
+                This is the first accordion item that is initially open. It demonstrates how you can have specific items expanded when the accordion loads.
+              </:item>
+
+              <:item
+                id="item2"
+                title="Second Item (Initially Closed)"
+                icon="hero-cog-6-tooth"
+                icon_class="size-[17px] text-primary-600 dark:text-primary-300"
+              >
+                This item starts closed and can be opened by clicking the trigger. The accordion supports multiple items being open simultaneously.
+              </:item>
+
+              <:item
+                id="item3"
+                title="Third Item (Initially Open)"
+                icon="hero-star"
+                icon_class="size-[17px] text-primary-600 dark:text-primary-300"
+              >
+                This is another initially open item. You can specify multiple items to be open by including their IDs in the initial_open array.
+              </:item>
+
+              <:item
+                id="item4"
+                title="Fourth Item (Initially Closed)"
+                icon="hero-heart"
+                icon_class="size-[17px] text-primary-600 dark:text-primary-300"
+              >
+                This final item demonstrates the complete flexibility of the accordion component with multiple items and mixed initial states.
+              </:item>
+            </.accordion>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="accordion-server-events">
+            <.link patch={~p"/chelekom/docs/accordion/#accordion-server-events"}>
+              Server Events Integration
+            </.link>
+          </.heading2>
+
+          <.cp>
+            Enable server-side event handling by setting <.custom_inline_code>server_events={true}</.custom_inline_code>. This allows your LiveView to respond to accordion open/close events, perfect for analytics, state synchronization, or triggering server-side actions. You can optionally specify a
+            <.custom_inline_code>target</.custom_inline_code>
+            component for targeted event handling.
+          </.cp>
+
+          <.custom_block position="left" color="danger" class="my-8" border="medium">
+            <.cp margin="mt-5">
+              <strong>Note:</strong>
+              If the
+              <.custom_inline_code>event_handler</.custom_inline_code>
+              is specified as a prop, the client will send data under that event name. Otherwise, data will automatically be sent to two events:
+              <.custom_inline_code>collapsible_close</.custom_inline_code>
+              and <.custom_inline_code>collapsible_open</.custom_inline_code>.
+            </.cp>
+          </.custom_block>
+
+          <.custom_code_wrapper elements_class="space-y-3 [&>*]:mb-2 text-sm" code={@code_20}>
+            <.accordion
+              id="chelekom-accordion-server-events"
+              variant="outline_separated"
+              color="info"
+              server_events={true}
+              event_handler="accordion-handler"
+              space="medium"
+            >
+              <:item
+                id="analytics"
+                title="Analytics Tracking"
+                description="Track user interactions with server events"
+                icon="hero-chart-bar"
+                icon_class="size-[17px] text-info-600 dark:text-info-300"
+              >
+                When this item is opened or closed, an event is sent to the LiveView server. This is useful for tracking user behavior, updating analytics, or synchronizing state across components.
+              </:item>
+
+              <:item
+                id="notifications"
+                title="Real-time Notifications"
+                description="Trigger server actions on accordion interactions"
+                icon="hero-bell"
+                icon_class="size-[17px] text-info-600 dark:text-info-300"
+              >
+                Server events enable real-time features like sending notifications, updating databases, or triggering other LiveView processes when users interact with the accordion.
+              </:item>
+
+              <:item
+                id="sync"
+                title="State Synchronization"
+                description="Keep server and client state in sync"
+                icon="hero-arrow-path"
+                icon_class="size-[17px] text-info-600 dark:text-info-300"
+              >
+                Perfect for maintaining consistent state across multiple users or components. The server receives detailed information about which items are open or closed.
+              </:item>
+            </.accordion>
+          </.custom_code_wrapper>
+        </:documentation_panel>
+
+        <:props_panel>
+          <.custom_search class="mb-16" />
+          <div class="space-y-8">
+            <h2 class="text-lg lg:text-2xl font-bold">
+              Accordion component props
+            </h2>
+
+            <.custom_table id="accordion-component-table2">
+              <:header>
+                <.table_th>Name</.table_th>
+
+                <.table_th>Type</.table_th>
+
+                <.table_th>Required</.table_th>
+
+                <.table_th>Description</.table_th>
+              </:header>
+
+              <:row>
+                <.table_td>id</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td center>No</.table_td>
+
+                <.table_td>
+                  A unique identifier is used to manage state and interaction.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>class</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td center>No</.table_td>
+
+                <.table_td>Custom CSS class for additional styling.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>variant</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td center>No</.table_td>
+
+                <.table_td>
+                  Determines the style. Supported variants: <strong>base</strong>, <strong>base_seperated</strong>, <strong>default</strong>, <strong>outline</strong>, <strong>bordered</strong>, <strong>outline_separated</strong>, <strong>bordered_separated</strong>, <strong>transparent</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>space</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td center>No</.table_td>
+
+                <.table_td>
+                  Space between items. Supported sizes: <strong>extra_small</strong>, <strong>small</strong>, <strong>medium</strong>, <strong>large</strong>, <strong>extra_large</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>color</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td center>No</.table_td>
+
+                <.table_td>
+                  Determines color theme. Supported colors: <strong>base</strong>, <strong>natural</strong>, <strong>primary</strong>, <strong>secondary</strong>, <strong>dark</strong>, <strong>success</strong>, <strong>warning</strong>, <strong>danger</strong>, <strong>info</strong>, <strong>silver</strong>, <strong>misc</strong>, <strong>dawn</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>border</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td center>No</.table_td>
+
+                <.table_td>Determines border style.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>padding</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td center>No</.table_td>
+
+                <.table_td>Determines padding for items.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>rounded</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td center>No</.table_td>
+
+                <.table_td>Determines the border radius.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>chevron_icon</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td center>No</.table_td>
+
+                <.table_td>Determines the icon for the chevron.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>media_size</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td center>No</.table_td>
+
+                <.table_td>
+                  Determines size of the media elements. Supported sizes: <strong>extra_small</strong>, <strong>small</strong>, <strong>medium</strong>, <strong>large</strong>, <strong>extra_large</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>size</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td center>No</.table_td>
+
+                <.table_td>
+                  Determines the overall size of the elements, including padding, font size, and other items. Supported values: <strong>extra_small</strong>, <strong>small</strong>, <strong>medium</strong>, <strong>large</strong>, <strong>extra_large</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>chevron_class</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Additional CSS classes for the chevron icon.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>left_chevron</.table_td>
+
+                <.table_td>boolean</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Positions the chevron icon to the left.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>right_chevron</.table_td>
+
+                <.table_td>boolean</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Positions the chevron icon to the right.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>chevron</.table_td>
+
+                <.table_td>boolean</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Displays the chevron icon.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>hide_chevron</.table_td>
+
+                <.table_td>boolean</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Hides the chevron icon.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>multiple</.table_td>
+
+                <.table_td>boolean</.table_td>
+
+                <.table_td center>No</.table_td>
+
+                <.table_td>
+                  Allow multiple panels to be open simultaneously. Default: false.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>collapsible</.table_td>
+
+                <.table_td>boolean</.table_td>
+
+                <.table_td center>No</.table_td>
+
+                <.table_td>Allow all panels to be closed. Default: true.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>duration</.table_td>
+
+                <.table_td>integer</.table_td>
+
+                <.table_td center>No</.table_td>
+
+                <.table_td>Animation duration in milliseconds. Default: 200.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>keep_mounted</.table_td>
+
+                <.table_td>boolean</.table_td>
+
+                <.table_td center>No</.table_td>
+
+                <.table_td>
+                  Keep content mounted in DOM after first open. Default: false.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>server_events</.table_td>
+
+                <.table_td>boolean</.table_td>
+
+                <.table_td center>No</.table_td>
+
+                <.table_td>Send open/close events to LiveView server. Default: false.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>event_handler</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td center>No</.table_td>
+
+                <.table_td>
+                  Specify event handler for accordion events
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>initial_open</.table_td>
+
+                <.table_td>list</.table_td>
+
+                <.table_td center>No</.table_td>
+
+                <.table_td>
+                  List of item IDs that should be initially open. Example: ["item1", "item3"].
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>chevron_position</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td center>No</.table_td>
+
+                <.table_td>
+                  Position of chevron icon. Supported values: <strong>left</strong>, <strong>right</strong>. Default: right.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>item</.table_td>
+
+                <.table_td>slot</.table_td>
+
+                <.table_td center>Yes</.table_td>
+
+                <.table_td>
+                  Specifies the item slot for the accordion. Slot props include: <strong>title</strong>, <strong>description</strong>, <strong>icon</strong>, <strong>class</strong>, <strong>image</strong>, <strong>hover</strong>, <strong>image_class</strong>, <strong>icon_class</strong>, <strong>content_class</strong>, <strong>title_class</strong>, <strong>summary_class</strong>, <strong>font_weight</strong>, <strong>trigger_class</strong>, and <strong>open</strong>.
+                </.table_td>
+              </:row>
+            </.custom_table>
+          </div>
+
+          <div class="space-y-8 mt-8">
+            <h2 class="text-lg lg:text-2xl font-bold">
+              Native Accordion component props
+            </h2>
+
+            <.custom_table id="accordion-component-table">
+              <:header>
+                <.table_th>Name</.table_th>
+
+                <.table_th>Type</.table_th>
+
+                <.table_th>Required</.table_th>
+
+                <.table_th>Description</.table_th>
+              </:header>
+
+              <:row>
+                <.table_td>id</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  A unique identifier is used to manage state and interaction.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>name</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Specifies the name of the element.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>class</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Custom CSS class for additional styling.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>variant</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines the style. Supported variants: <strong>base</strong>, <strong>base_separated</strong>, <strong>default</strong>, <strong>outline</strong>, <strong>bordered</strong>, <strong>outline_separated</strong>, <strong>bordered_separated</strong>, <strong>transparent</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>space</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Space between items. Supported sizes: <strong>extra_small</strong>, <strong>small</strong>, <strong>medium</strong>, <strong>large</strong>, <strong>extra_large</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>color</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines color theme. Supported colors: <strong>base</strong>, <strong>natural</strong>, <strong>primary</strong>, <strong>secondary</strong>, <strong>dark</strong>, <strong>success</strong>, <strong>warning</strong>, <strong>danger</strong>, <strong>info</strong>, <strong>silver</strong>, <strong>misc</strong>, <strong>dawn</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>border</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Determines border style.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>padding</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines padding for items. Supported values: <strong>extra_small</strong>, <strong>small</strong>, <strong>medium</strong>, <strong>large</strong>, <strong>extra_large</strong>, <strong>none</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>rounded</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines the border radius. Supported values: <strong>extra_small</strong>, <strong>small</strong>, <strong>medium</strong>, <strong>large</strong>, <strong>extra_large</strong>, <strong>full</strong>, <strong>none</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>chevron_icon</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Determines the icon for the chevron.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>media_size</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines size of the media elements. Supported sizes: <strong>extra_small</strong>, <strong>small</strong>, <strong>medium</strong>, <strong>large</strong>, <strong>extra_large</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>left_chevron</.table_td>
+
+                <.table_td>boolean</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Positions the chevron icon to the left.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>right_chevron</.table_td>
+
+                <.table_td>boolean</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Positions the chevron icon to the right.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>chevron</.table_td>
+
+                <.table_td>boolean</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Displays the chevron icon.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>hide_chevron</.table_td>
+
+                <.table_td>boolean</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Hides the chevron icon.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>item</.table_td>
+
+                <.table_td>slot</.table_td>
+
+                <.table_td>Yes</.table_td>
+
+                <.table_td>
+                  Specifies the item slot for the accordion. Slot props include: <strong>id</strong>, <strong>title</strong>, <strong>description</strong>, <strong>icon</strong>, <strong>class</strong>, <strong>image</strong>, <strong>image_class</strong>, <strong>icon_class</strong>, <strong>icon_wrapper_class</strong>, <strong>content_class</strong>, <strong>title_class</strong>, <strong>summary_class</strong>, <strong>trigger_class</strong>, and <strong>open</strong>.
+                </.table_td>
+              </:row>
+            </.custom_table>
+          </div>
+        </:props_panel>
+
+        <:cli_panel>
+          <.custom_cli_props config={component_config()} />
+        </:cli_panel>
+
+        <.custom_table_content>
+          <:content
+            link={~p"/chelekom/docs/accordion/#overview"}
+            title="Overview of the accordion component"
+          />
+
+          <:content
+            link={~p"/chelekom/docs/accordion/#how-to-use-accordion"}
+            title="How to use accordion component"
+          />
+          <:content
+            link={~p"/chelekom/docs/accordion/#base-variant"}
+            title="Base & Base separated variant"
+          />
+          <:content
+            link={~p"/chelekom/docs/accordion/#accordion-default-variant"}
+            title="Default variant"
+          />
+          <:content
+            link={~p"/chelekom/docs/accordion/#accordion-outline-variant"}
+            title="Outline variant"
+          />
+          <:content
+            link={~p"/chelekom/docs/accordion/#accordion-bordered-variant"}
+            title="Bordered variant"
+          />
+          <:content
+            link={~p"/chelekom/docs/accordion/#accordion-outline-separated-variant"}
+            title="Outline separated variant"
+          />
+          <:content
+            link={~p"/chelekom/docs/accordion/#accordion-bordered-separated-variant"}
+            title="Bordered separated variant"
+          />
+          <:content
+            link={~p"/chelekom/docs/accordion/#accordion-transparent-variant"}
+            title="Transparent variant"
+          />
+          <:content
+            link={~p"/chelekom/docs/accordion/#accordion-shadow-variant"}
+            title="Shadow variant"
+          />
+          <:content
+            link={~p"/chelekom/docs/accordion/#accordion-gradient-variant"}
+            title="Gradient variant"
+          />
+          <:content link={~p"/chelekom/docs/accordion/#accordion-padding"} title="Padding prop" />
+          <:content link={~p"/chelekom/docs/accordion/#accordion-size"} title="Size prop" />
+          <:content link={~p"/chelekom/docs/accordion/#accordion-space"} title="Space prop" />
+          <:content link={~p"/chelekom/docs/accordion/#accordion-rounded"} title="Rounded prop" />
+          <:content
+            link={~p"/chelekom/docs/accordion/#accordion-media-size"}
+            title="Media size prop"
+          />
+          <:content link={~p"/chelekom/docs/accordion/#accordion-chevron"} title="Chevron props" />
+          <:content
+            link={~p"/chelekom/docs/accordion/#accordion-native"}
+            title="Native Accordion component"
+          />
+          <:content
+            link={~p"/chelekom/docs/accordion/#accordion-multiple-open"}
+            title="Multiple items with initial open state"
+          />
+          <:content
+            link={~p"/chelekom/docs/accordion/#accordion-server-events"}
+            title="Server events integration"
+          />
+        </.custom_table_content>
+      </.custom_tab>
+    </div>
+  </div>
+</Layouts.app>

@@ -1,0 +1,21 @@
+<div :for={s <- ~w(circle hexagon star)}>
+  <.icon name="hero-bell" class="size-5" />
+</div>
+
+<div :if={true}>
+  <.button color="primary" variant="default" size="small">visible</.button>
+</div>
+
+<.menu :for={x <- 1..3} id={"menu-#{x}"} space="small" class="w-32">
+  <li>item {x}</li>
+</.menu>
+
+<div :for={c <- ~w(primary success)}>
+  <div :if={c == "primary"}>
+    <.badge color={c} variant="default">{c}</.badge>
+  </div>
+</div>
+
+<.tabs :if={true} id="ifw-tabs" color="primary">
+  <.indicator :for={n <- 1..3} color="primary" />
+</.tabs>

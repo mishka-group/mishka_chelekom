@@ -1,0 +1,866 @@
+<Layouts.app flash={@flash}>
+  <div class="lg:grid lg:grid-cols-12 mt-5 max-w-5xl mx-auto">
+    <.custom_nav active="chelekom-docs-layout" />
+    <div class="lg:col-span-10">
+      <.custom_info
+        title="Layout"
+        description="Responsive Phoenix LiveView layout components featuring Flex and Grid systems."
+        mix="mix mishka.ui.gen.component layout"
+        github="https://github.com/mishka-group/mishka_chelekom/blob/master/priv/components/layout.eex"
+        tags={["Component", "Stateless"]}
+      />
+      <.custom_tab id="chelekom-layout-tab">
+        <:documentation_panel>
+          <.heading2 margin="my-5" id="overview">
+            <.link patch={~p"/chelekom/docs/layout/#overview"}>
+              Overview of the Phoenix LiveView Layout Component
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The <strong>Phoenix LiveView layout component</strong>
+            component is customizable
+            utility for building responsive UI structures using Tailwind CSS. It wraps
+            <strong>flex</strong>
+            and <strong>grid</strong>
+            systems in a clean interface that allows you to control spacing, alignment, order, direction, and more.
+          </.cp>
+
+          <.custom_code_wrapper>
+            <.flex wrap="wrap" gap="medium" class="mb-6">
+              <.card
+                rounded="large"
+                class="order-last w-full sm:w-1/2 bg-white dark:bg-zinc-800 shadow-xs"
+              >
+                <.card_content padding="medium">
+                  <div class="font-semibold text-black dark:text-white">
+                    Flex – I’m shown last
+                  </div>
+                </.card_content>
+              </.card>
+
+              <.card rounded="large" class="w-full sm:w-1/2 bg-white dark:bg-zinc-700 shadow-xs">
+                <.card_content padding="medium">
+                  <div class="font-semibold text-black dark:text-white">
+                    Flex – I’m in the middle
+                  </div>
+                </.card_content>
+              </.card>
+
+              <.card
+                rounded="large"
+                class="order-first w-full sm:w-1/2 bg-white dark:bg-zinc-600 shadow-xs"
+              >
+                <.card_content padding="medium">
+                  <div class="font-semibold text-black dark:text-white">
+                    Flex – I’m shown first
+                  </div>
+                </.card_content>
+              </.card>
+            </.flex>
+
+            <.grid cols="two" gap="medium">
+              <.card
+                rounded="large"
+                class="col-span-2 sm:col-span-1 bg-white dark:bg-blue-800 shadow-xs"
+              >
+                <.card_content padding="medium">
+                  <div class="font-semibold text-black dark:text-white">Grid – Column 1</div>
+                </.card_content>
+              </.card>
+
+              <.card
+                rounded="large"
+                class="col-span-2 sm:col-span-1 bg-white dark:bg-blue-900 !shadow-xs"
+              >
+                <.card_content padding="medium">
+                  <div class="font-semibold text-black dark:text-white">Grid – Column 2</div>
+                </.card_content>
+              </.card>
+
+              <.card rounded="large" class="col-span-2 bg-white dark:bg-blue-950 !shadow-xs">
+                <.card_content padding="medium">
+                  <div class="font-semibold text-black dark:text-white">
+                    Grid – Full Width Card
+                  </div>
+                </.card_content>
+              </.card>
+            </.grid>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="flex-component">
+            <.link patch={~p"/chelekom/docs/layout/#flex-component"}>
+              Flex Component
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <.custom_inline_code>flex</.custom_inline_code>
+            component provides a clean abstraction over Tailwind’s flexbox utilities. Below is a breakdown of all available props with examples.
+          </.cp>
+
+          <.custom_code_wrapper code={@code_12} code_class="text-xs">
+            <.flex gap="small">
+              <div class="bg-blue-100 dark:bg-blue-900 p-2 rounded text-gray-900 dark:text-gray-100">
+                Item A
+              </div>
+              <div class="bg-blue-200 dark:bg-blue-800 p-2 rounded text-gray-900 dark:text-gray-100">
+                Item B
+              </div>
+              <div class="bg-blue-200 dark:bg-blue-800 p-2 rounded text-gray-900 dark:text-gray-100">
+                Item C
+              </div>
+            </.flex>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="grid-component">
+            <.link patch={~p"/chelekom/docs/layout/#grid-component"}>
+              Grid Component
+            </.link>
+          </.heading2>
+
+          <.custom_code_wrapper code={@code_11} code_class="text-xs">
+            <.grid cols="three" gap="small">
+              <div class="bg-blue-100 dark:bg-blue-900 p-2 rounded text-gray-900 dark:text-gray-100">
+                Item A
+              </div>
+              <div class="bg-blue-200 dark:bg-blue-800 p-2 rounded text-gray-900 dark:text-gray-100">
+                Item B
+              </div>
+              <div class="bg-blue-200 dark:bg-blue-800 p-2 rounded text-gray-900 dark:text-gray-100">
+                Item C
+              </div>
+            </.grid>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="prop-direction">
+            <.link patch={~p"/chelekom/docs/layout/#prop-direction"}>
+              Direction prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            Sets the direction of flex items inside the container (row or column).
+          </.cp>
+
+          <.custom_code_wrapper code={@code_1} code_class="text-xs">
+            <.flex direction="col" gap="medium">
+              <div class="bg-blue-100 dark:bg-blue-900 p-2 rounded text-gray-900 dark:text-gray-100">
+                Item A
+              </div>
+              <div class="bg-blue-200 dark:bg-blue-800 p-2 rounded text-gray-900 dark:text-gray-100">
+                Item B
+              </div>
+            </.flex>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="prop-justify">
+            <.link patch={~p"/chelekom/docs/layout/#prop-justify"}>
+              Justify prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            Controls horizontal alignment of children inside the container.
+          </.cp>
+
+          <.custom_code_wrapper code={@code_2} code_class="text-xs">
+            <.flex justify="center" class="h-32 p-3 bg-gray-100 dark:bg-gray-800">
+              <div class="bg-pink-300 dark:bg-pink-800 p-2 rounded text-gray-900 dark:text-gray-100">
+                Centered
+              </div>
+            </.flex>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="prop-align">
+            <.link patch={~p"/chelekom/docs/layout/#prop-align"}>
+              Align prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            Controls vertical alignment of items along the cross axis.
+          </.cp>
+
+          <.custom_code_wrapper code={@code_3} code_class="text-xs">
+            <.flex align="center" class="h-32 bg-green-50 dark:bg-green-900">
+              <div class="bg-green-300 dark:bg-green-700 p-2 rounded text-gray-900 dark:text-gray-100">
+                Vertically centered
+              </div>
+            </.flex>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="prop-gap">
+            <.link patch={~p"/chelekom/docs/layout/#prop-gap"}>
+              Gap prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            Sets the spacing between child elements using Tailwind's gap utilities.
+          </.cp>
+
+          <.custom_code_wrapper code={@code_4} code_class="text-xs">
+            <.flex gap="large">
+              <div class="bg-yellow-100 dark:bg-yellow-800 p-2 rounded text-gray-900 dark:text-gray-100">
+                1
+              </div>
+              <div class="bg-yellow-200 dark:bg-yellow-700 p-2 rounded text-gray-900 dark:text-gray-100">
+                2
+              </div>
+            </.flex>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="prop-wrap">
+            <.link patch={~p"/chelekom/docs/layout/#prop-wrap"}>
+              Wrap prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            Enables or disables flex wrapping when items overflow the container.
+          </.cp>
+
+          <.custom_code_wrapper code={@code_5} code_class="text-xs">
+            <.flex wrap="wrap" gap="small">
+              <div class="bg-purple-100 dark:bg-purple-800 p-2 rounded w-1/2 text-gray-900 dark:text-gray-100">
+                1
+              </div>
+              <div class="bg-purple-200 dark:bg-purple-700 p-2 rounded w-1/2 text-gray-900 dark:text-gray-100">
+                2
+              </div>
+              <div class="bg-purple-300 dark:bg-purple-600 p-2 rounded w-1/2 text-gray-900 dark:text-gray-100">
+                3
+              </div>
+            </.flex>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="prop-grow">
+            <.link patch={~p"/chelekom/docs/layout/#prop-grow"}>
+              Grow prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            Allows a flex item to grow and fill remaining space.
+          </.cp>
+
+          <.custom_code_wrapper code={@code_6} code_class="text-xs">
+            <.flex>
+              <div class="bg-red-200 dark:bg-red-700 p-2 rounded grow text-gray-900 dark:text-gray-100">
+                Grows
+              </div>
+              <div class="bg-red-100 dark:bg-red-800 p-2 rounded text-gray-900 dark:text-gray-100">
+                Normal
+              </div>
+            </.flex>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="prop-shrink">
+            <.link patch={~p"/chelekom/docs/layout/#prop-shrink"}>
+              Shrink prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            Specifies whether a flex item can shrink if needed.
+          </.cp>
+
+          <.custom_code_wrapper code={@code_7} code_class="text-xs">
+            <.flex class="w-full">
+              <div class="bg-blue-300 dark:bg-blue-700 p-2 rounded shrink text-gray-900 dark:text-gray-100">
+                Shrinkable
+              </div>
+              <div class="bg-blue-200 dark:bg-blue-800 p-2 rounded text-gray-900 dark:text-gray-100">
+                Fixed
+              </div>
+            </.flex>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="prop-basis">
+            <.link patch={~p"/chelekom/docs/layout/#prop-basis"}>
+              Basis prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            Sets the initial size of a flex item before remaining space is distributed.
+          </.cp>
+
+          <.custom_code_wrapper code={@code_8} code_class="text-xs">
+            <.flex>
+              <div class="bg-gray-300 dark:bg-gray-700 p-2 rounded basis-1/3 text-gray-900 dark:text-gray-100">
+                1/3 width
+              </div>
+              <div class="bg-gray-200 dark:bg-gray-800 p-2 rounded text-gray-900 dark:text-gray-100">
+                Auto
+              </div>
+            </.flex>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="prop-order">
+            <.link patch={~p"/chelekom/docs/layout/#prop-order"}>
+              Order prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            Controls the visual order of flex items regardless of their source order in the DOM.
+          </.cp>
+
+          <.custom_code_wrapper code={@code_9} code_class="text-xs">
+            <.flex>
+              <div class="bg-indigo-100 dark:bg-indigo-800 p-2 rounded order-last text-gray-900 dark:text-gray-100">
+                Last
+              </div>
+              <div class="bg-indigo-200 dark:bg-indigo-700 p-2 rounded text-gray-900 dark:text-gray-100">
+                Middle
+              </div>
+              <div class="bg-indigo-300 dark:bg-indigo-600 p-2 rounded order-first text-gray-900 dark:text-gray-100">
+                First
+              </div>
+            </.flex>
+          </.custom_code_wrapper>
+
+          <.custom_code_wrapper code={@code_10} code_class="text-xs">
+            <.flex>
+              <div class="bg-indigo-100 dark:bg-indigo-800 p-2 rounded order-last text-gray-900 dark:text-gray-100">
+                Last
+              </div>
+              <div class="bg-indigo-200 dark:bg-indigo-700 p-2 rounded text-gray-900 dark:text-gray-100">
+                Middle
+              </div>
+              <div class="bg-indigo-300 dark:bg-indigo-600 p-2 rounded order-first text-gray-900 dark:text-gray-100">
+                First
+              </div>
+            </.flex>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="align-self">
+            <.link patch={~p"/chelekom/docs/layout/#align-self"}>
+              Align self prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            Controlling how an individual flex or grid item is positioned along its container's cross axis.
+          </.cp>
+
+          <.custom_code_wrapper code={@code_10} code_class="text-xs">
+            <.flex>
+              <div class="bg-indigo-100 dark:bg-indigo-800 p-2 rounded order-last text-gray-900 dark:text-gray-100">
+                Last
+              </div>
+              <div class="bg-indigo-200 dark:bg-indigo-700 p-2 rounded text-gray-900 dark:text-gray-100">
+                Middle
+              </div>
+              <div class="bg-indigo-300 dark:bg-indigo-600 p-2 rounded order-first text-gray-900 dark:text-gray-100">
+                First
+              </div>
+            </.flex>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="grid-prop-cols">
+            <.link patch={~p"/chelekom/docs/layout/#grid-prop-cols"}>
+              Grid cols prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            Sets the number of columns in the grid layout.
+          </.cp>
+
+          <.custom_code_wrapper code={@code_13} code_class="text-xs">
+            <.grid cols="three" gap="medium">
+              <div class="p-2 rounded bg-blue-100 dark:bg-blue-800 text-black dark:text-white">
+                Col 1
+              </div>
+              <div class="p-2 rounded bg-blue-200 dark:bg-blue-900 text-black dark:text-white">
+                Col 2
+              </div>
+              <div class="p-2 rounded bg-blue-300 dark:bg-blue-950 text-black dark:text-white">
+                Col 3
+              </div>
+            </.grid>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="prop-rows">
+            <.link patch={~p"/chelekom/docs/layout/#prop-rows"}>
+              Rows prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            Defines the number of rows in the grid layout.
+          </.cp>
+
+          <.custom_code_wrapper code={@code_14} code_class="text-xs">
+            <.grid cols="two" rows="three" gap="small">
+              <div class="p-2 rounded bg-purple-100 dark:bg-purple-800 text-black dark:text-white">
+                A
+              </div>
+              <div class="p-2 rounded bg-purple-200 dark:bg-purple-700 text-black dark:text-white">
+                B
+              </div>
+              <div class="p-2 rounded bg-purple-300 dark:bg-purple-600 text-black dark:text-white">
+                C
+              </div>
+              <div class="p-2 rounded bg-purple-400 dark:bg-purple-500 text-black dark:text-white">
+                D
+              </div>
+            </.grid>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="prop-auto-cols">
+            <.link patch={~p"/chelekom/docs/layout/#prop-auto-cols"}>
+              Auto cols prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            Sets the size of implicit columns (auto-generated by the browser).
+          </.cp>
+
+          <.custom_code_wrapper code={@code_15} code_class="text-xs"></.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="prop-auto-rows">
+            <.link patch={~p"/chelekom/docs/layout/#prop-auto-rows"}>
+              Auto rows prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            Sets the size of implicit rows in the layout.
+          </.cp>
+
+          <.custom_code_wrapper code={@code_16} code_class="text-xs">
+            <.grid auto_rows="min" cols="two" gap="small">
+              <div class="p-2 rounded bg-pink-100 dark:bg-pink-700 text-black dark:text-white">
+                Row A
+              </div>
+              <div class="p-2 rounded bg-pink-200 dark:bg-pink-800 text-black dark:text-white">
+                Row B
+              </div>
+            </.grid>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="prop-auto-flow">
+            <.link patch={~p"/chelekom/docs/layout/#prop-auto-flow"}>
+              Auto flow prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            Controls the direction of auto-placed items in the grid (row or column).
+          </.cp>
+
+          <.custom_code_wrapper code={@code_17} code_class="text-xs">
+            <.grid auto_flow="col" auto_cols="fr" gap="medium">
+              <div class="p-2 rounded bg-teal-100 dark:bg-teal-700 text-black dark:text-white">
+                1
+              </div>
+              <div class="p-2 rounded bg-teal-200 dark:bg-teal-800 text-black dark:text-white">
+                2
+              </div>
+            </.grid>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="prop-justify-items">
+            <.link patch={~p"/chelekom/docs/layout/#prop-justify-items"}>
+              Justify items prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            Controls how grid items align horizontally inside their cells.
+          </.cp>
+
+          <.custom_code_wrapper code={@code_18} code_class="text-xs">
+            <.grid cols="two" justify_items="center" gap="medium">
+              <div class="p-2 rounded bg-green-100 dark:bg-green-700 text-black dark:text-white">
+                Centered 1
+              </div>
+              <div class="p-2 rounded bg-green-200 dark:bg-green-800 text-black dark:text-white">
+                Centered 2
+              </div>
+            </.grid>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="prop-align-content">
+            <.link patch={~p"/chelekom/docs/layout/#prop-align-content"}>
+              Align content prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            Defines how multiple rows align in the grid container.
+          </.cp>
+
+          <.custom_code_wrapper code={@code_19} code_class="text-xs">
+            <.grid cols="two" align_content="center" class="h-64" gap="medium">
+              <div class="p-2 rounded bg-indigo-100 dark:bg-indigo-700 text-black dark:text-white">
+                Top
+              </div>
+              <div class="p-2 rounded bg-indigo-200 dark:bg-indigo-800 text-black dark:text-white">
+                Bottom
+              </div>
+            </.grid>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="prop-place-content">
+            <.link patch={~p"/chelekom/docs/layout/#prop-place-content"}>
+              Place content prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            Shorthand for aligning content both horizontally and vertically inside the grid.
+          </.cp>
+
+          <.custom_code_wrapper code={@code_20} code_class="text-xs">
+            <.grid cols="two" place_content="center" class="h-64" gap="medium">
+              <div class="p-2 rounded bg-sky-100 dark:bg-sky-700 text-black dark:text-white">
+                One
+              </div>
+              <div class="p-2 rounded bg-sky-200 dark:bg-sky-800 text-black dark:text-white">
+                Two
+              </div>
+            </.grid>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="prop-place-items">
+            <.link patch={~p"/chelekom/docs/layout/#prop-place-items"}>
+              Place items prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            Shorthand to control alignment of individual items along both axes.
+          </.cp>
+
+          <.custom_code_wrapper code={@code_21} code_class="text-xs">
+            <.grid cols="two" place_items="center" class="h-64" gap="medium">
+              <div class="p-2 rounded bg-orange-100 dark:bg-orange-700 text-black dark:text-white">
+                1
+              </div>
+              <div class="p-2 rounded bg-orange-200 dark:bg-orange-800 text-black dark:text-white">
+                2
+              </div>
+            </.grid>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="prop-place-self">
+            <.link patch={~p"/chelekom/docs/layout/#prop-place-self"}>
+              Place self prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            Controls alignment of a single item inside the grid.
+          </.cp>
+
+          <.custom_code_wrapper code={@code_22} code_class="text-xs">
+            <.grid cols="two" class="h-64" gap="medium">
+              <div class="p-2 rounded bg-lime-100 dark:bg-lime-700 text-black dark:text-white place-self-center">
+                I am centered
+              </div>
+              <div class="p-2 rounded bg-lime-200 dark:bg-lime-800 text-black dark:text-white">
+                I'm default
+              </div>
+            </.grid>
+          </.custom_code_wrapper>
+        </:documentation_panel>
+
+        <:props_panel>
+          <div class="space-y-8">
+            <h2 class="text-lg lg:text-2xl font-bold">Flex Component Props</h2>
+
+            <.custom_table id="flex-component-table">
+              <:header>
+                <.table_th>Name</.table_th>
+                <.table_th>Type</.table_th>
+                <.table_th>Required</.table_th>
+                <.table_th>Description</.table_th>
+              </:header>
+
+              <:row>
+                <.table_td>id</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>A unique identifier for the root element of the component.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>direction</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>Sets the flex direction of the container.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>justify</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>Controls alignment of items along the main axis.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>align</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>Controls alignment of items along the cross axis.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>align_self</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>
+                  Controls alignment for a single item, overriding the container's align setting.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>gap</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>Sets the space between child elements.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>wrap</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>Controls wrapping behavior of flex items.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>grow</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>Determines whether flex items grow to fill available space.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>shrink</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>Determines whether flex items shrink if needed.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>basis</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>Sets the initial main size of a flex item.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>order</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>
+                  Controls the visual order of an item within a flex or grid container.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>class</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>Additional CSS classes to apply to the container.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>rest</.table_td>
+                <.table_td>global</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>
+                  Any valid global HTML attributes passed to the component (e.g. aria, data-*).
+                </.table_td>
+              </:row>
+            </.custom_table>
+          </div>
+          <div class="space-y-8 mt-8">
+            <h2 class="text-lg lg:text-2xl font-bold">Grid Component Props</h2>
+
+            <.custom_table id="grid-component-table">
+              <:header>
+                <.table_th>Name</.table_th>
+                <.table_th>Type</.table_th>
+                <.table_th>Required</.table_th>
+                <.table_th>Description</.table_th>
+              </:header>
+
+              <:row>
+                <.table_td>id</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>A unique identifier for the root element of the component.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>cols</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>Defines the number of columns in the grid.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>rows</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>Defines the number of rows in the grid.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>auto_cols</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>Sets the size for implicitly created columns.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>auto_rows</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>Sets the size for implicitly created rows.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>auto_flow</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>Controls how auto-placed items are inserted into the grid.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>justify_items</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>Controls how grid items are aligned along the row axis.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>justify_self</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>
+                  Overrides alignment for a single grid item along the row axis.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>gap</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>Sets the space between child elements.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>align_content</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>
+                  Controls how multiple rows are aligned within the grid container.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>place_content</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>
+                  Shorthand for setting both align-content and justify-content.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>place_items</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>
+                  Shorthand to align items along both axes in the grid container.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>place_self</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>Shorthand to align a single item along both axes.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>order</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>
+                  Controls the visual order of an item within a flex or grid container.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>class</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>Additional CSS classes to apply to the container.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>rest</.table_td>
+                <.table_td>global</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>
+                  Any valid global HTML attributes passed to the component (e.g. aria, data-*).
+                </.table_td>
+              </:row>
+            </.custom_table>
+          </div>
+        </:props_panel>
+
+        <:cli_panel>
+          <.custom_cli_props config={component_config()} />
+        </:cli_panel>
+        <.custom_table_content>
+          <:content
+            link={~p"/chelekom/docs/layout/#overview"}
+            title="Overview of the Layout Component"
+          />
+          <:content link={~p"/chelekom/docs/layout/#flex-component"} title="Flex Component" />
+          <:content link={~p"/chelekom/docs/layout/#grid-component"} title="Grid Component" />
+          <:content link={~p"/chelekom/docs/layout/#prop-direction"} title="Direction Prop" />
+          <:content link={~p"/chelekom/docs/layout/#prop-justify"} title="Justify Prop" />
+          <:content link={~p"/chelekom/docs/layout/#prop-align"} title="Align Prop" />
+          <:content link={~p"/chelekom/docs/layout/#prop-gap"} title="Gap Prop" />
+          <:content link={~p"/chelekom/docs/layout/#prop-wrap"} title="Wrap Prop" />
+          <:content link={~p"/chelekom/docs/layout/#prop-grow"} title="Grow Prop" />
+          <:content link={~p"/chelekom/docs/layout/#prop-shrink"} title="Shrink Prop" />
+          <:content link={~p"/chelekom/docs/layout/#prop-basis"} title="Basis Prop" />
+          <:content link={~p"/chelekom/docs/layout/#prop-order"} title="Order Prop" />
+          <:content link={~p"/chelekom/docs/layout/#align-self"} title="Align Self Prop" />
+          <:content link={~p"/chelekom/docs/layout/#grid-prop-cols"} title="Grid Cols Prop" />
+          <:content link={~p"/chelekom/docs/layout/#prop-rows"} title="Rows Prop" />
+          <:content link={~p"/chelekom/docs/layout/#prop-auto-cols"} title="Auto Cols Prop" />
+          <:content link={~p"/chelekom/docs/layout/#prop-auto-rows"} title="Auto Rows Prop" />
+          <:content link={~p"/chelekom/docs/layout/#prop-auto-flow"} title="Auto Flow Prop" />
+          <:content
+            link={~p"/chelekom/docs/layout/#prop-justify-items"}
+            title="Justify Items Prop"
+          />
+          <:content
+            link={~p"/chelekom/docs/layout/#prop-align-content"}
+            title="Align Content Prop"
+          />
+          <:content
+            link={~p"/chelekom/docs/layout/#prop-place-content"}
+            title="Place Content Prop"
+          />
+          <:content link={~p"/chelekom/docs/layout/#prop-place-items"} title="Place Items Prop" />
+          <:content link={~p"/chelekom/docs/layout/#prop-place-self"} title="Place Self Prop" />
+        </.custom_table_content>
+      </.custom_tab>
+    </div>
+  </div>
+</Layouts.app>
