@@ -1,10 +1,10 @@
-defmodule MishkaChelekom.HelperConditionIndexTest do
+defmodule MishkaChelekom.CmsBundle.HelperConditionIndexTest do
   @moduledoc """
   Unit tests for the raw `.eex` walker that records the
   `<%= if … do %>` chain wrapping each `defp` declaration.
   """
   use ExUnit.Case, async: true
-  alias MishkaChelekom.HelperConditionIndex, as: Index
+  alias MishkaChelekom.CmsBundle.HelperConditionIndex, as: Index
 
   @moduletag :unit
 
@@ -125,7 +125,10 @@ defmodule MishkaChelekom.HelperConditionIndexTest do
     defp f(%{a: 1, b: (1 + 2)} = x), do: x
     """
 
-    assert Map.has_key?(Index.build(eex), {"f", "%{a: 1, b: (1 + 2)} = x"})
+    # AST-based scanner canonicalises args via `Macro.to_string`, which
+    # drops superfluous parens. The exporter round-trips the same way,
+    # so signatures still match.
+    assert Map.has_key?(Index.build(eex), {"f", "%{a: 1, b: 1 + 2} = x"})
   end
 
   test "identifiers ending in ? or ! are recognised" do

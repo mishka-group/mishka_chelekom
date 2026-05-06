@@ -1,7 +1,7 @@
-defmodule MishkaChelekom.HelperDiscriminators do
+defmodule MishkaChelekom.CmsBundle.HelperDiscriminators do
   @moduledoc """
   Convert a list of `<%= if cond do %>` condition ASTs (from
-  `MishkaChelekom.HelperConditionIndex`) into a flat, install-time-
+  `MishkaChelekom.CmsBundle.HelperConditionIndex`) into a flat, install-time-
   consumable list of axis filters.
 
   ## Output shape

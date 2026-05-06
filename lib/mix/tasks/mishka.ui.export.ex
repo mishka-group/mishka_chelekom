@@ -744,11 +744,11 @@ defmodule Mix.Tasks.Mishka.Ui.Export do
       heex_text = File.read!(heex_path)
 
       heex_text
-      |> MishkaChelekom.HeexTagExtractor.extract(kit_component_set)
+      |> MishkaChelekom.CmsBundle.HeexTagExtractor.extract(kit_component_set)
       |> Enum.map(fn ext ->
         translated =
           ext.source
-          |> MishkaChelekom.HeexTagRewriter.rewrite(kit_component_set, kit_name)
+          |> MishkaChelekom.CmsBundle.HeexTagRewriter.rewrite(kit_component_set, kit_name)
           |> strip_route_sigils()
 
         %{
