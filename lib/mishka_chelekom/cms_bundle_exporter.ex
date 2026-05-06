@@ -84,7 +84,7 @@ defmodule MishkaChelekom.CmsBundleExporter do
       # Used by `attach_helper_discriminators/2` to add an axis-filter
       # list to each helper so the MishkaCMS installer can narrow
       # safely (e.g. base-only).
-      condition_index = MishkaChelekom.CmsBundle.HelperConditionIndex.build(eex_source)
+      condition_index = MishkaChelekom.CmsBundle.Discriminators.build_index(eex_source)
       sibling_names = walked.public_defs |> MapSet.new(& &1.name) |> MapSet.union(extra_siblings)
 
       components =
@@ -113,11 +113,11 @@ defmodule MishkaChelekom.CmsBundleExporter do
       Enum.map(component.__private_helpers__, fn helper ->
         signature = {
           to_string(helper.name),
-          MishkaChelekom.CmsBundle.HelperConditionIndex.normalize_args(helper.args || "")
+          MishkaChelekom.CmsBundle.Discriminators.normalize_args(helper.args || "")
         }
 
         conditions = Map.get(condition_index, signature, [])
-        discriminators = MishkaChelekom.CmsBundle.HelperDiscriminators.from_conditions(conditions)
+        discriminators = MishkaChelekom.CmsBundle.Discriminators.from_conditions(conditions)
 
         Map.put(helper, :discriminators, discriminators)
       end)
@@ -713,25 +713,25 @@ defmodule MishkaChelekom.CmsBundleExporter do
       # itself rewrites cleanly. Helpers' `code` fields can also contain
       # HEEx (~H sigil bodies in `defp`s); rewrite those too.
       template =
-        MishkaChelekom.CmsBundle.HeexTagRewriter.rewrite(component.template, sibling_names, kit_name)
+        MishkaChelekom.CmsBundle.Heex.rewrite(component.template, sibling_names, kit_name)
 
       body =
         if is_binary(component.body),
-          do: MishkaChelekom.CmsBundle.HeexTagRewriter.rewrite(component.body, sibling_names, kit_name),
+          do: MishkaChelekom.CmsBundle.Heex.rewrite(component.body, sibling_names, kit_name),
           else: component.body
 
       helpers =
         Enum.map(component.__private_helpers__, fn h ->
-          %{h | code: MishkaChelekom.CmsBundle.HeexTagRewriter.rewrite(h.code, sibling_names, kit_name)}
+          %{h | code: MishkaChelekom.CmsBundle.Heex.rewrite(h.code, sibling_names, kit_name)}
         end)
 
       extra_clauses =
         Enum.map(component.__extra_clauses__, fn c ->
-          tpl = MishkaChelekom.CmsBundle.HeexTagRewriter.rewrite(c.template, sibling_names, kit_name)
+          tpl = MishkaChelekom.CmsBundle.Heex.rewrite(c.template, sibling_names, kit_name)
 
           bdy =
             if is_binary(c.body),
-              do: MishkaChelekom.CmsBundle.HeexTagRewriter.rewrite(c.body, sibling_names, kit_name),
+              do: MishkaChelekom.CmsBundle.Heex.rewrite(c.body, sibling_names, kit_name),
               else: c.body
 
           %{c | template: tpl, body: bdy}

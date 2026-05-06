@@ -14,7 +14,7 @@ defmodule MishkaChelekom.CmsBundleExporterTest do
 
   use ExUnit.Case, async: true
   alias MishkaChelekom.CmsBundleExporter
-  alias MishkaChelekom.CmsBundle.HeexTagRewriter
+  alias MishkaChelekom.CmsBundle.Heex, as: HeexTagRewriter
 
   @moduletag :unit
 

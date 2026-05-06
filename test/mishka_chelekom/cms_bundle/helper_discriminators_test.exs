@@ -1,11 +1,11 @@
-defmodule MishkaChelekom.CmsBundle.HelperDiscriminatorsTest do
+defmodule MishkaChelekom.CmsBundle.DiscriminatorsTest do
   @moduledoc """
   Unit tests for the AST-to-axis-clause converter. Each test feeds a
   raw Elixir AST (the same shape `HelperConditionIndex` emits) and
   asserts the resulting flat clause list.
   """
   use ExUnit.Case, async: true
-  alias MishkaChelekom.CmsBundle.HelperDiscriminators, as: D
+  alias MishkaChelekom.CmsBundle.Discriminators, as: D
 
   @moduletag :unit
 

@@ -1,10 +1,10 @@
-defmodule MishkaChelekom.CmsBundle.HelperConditionIndexTest do
+defmodule MishkaChelekom.CmsBundle.Discriminators.IndexTest do
   @moduledoc """
   Unit tests for the raw `.eex` walker that records the
   `<%= if … do %>` chain wrapping each `defp` declaration.
   """
   use ExUnit.Case, async: true
-  alias MishkaChelekom.CmsBundle.HelperConditionIndex, as: Index
+  alias MishkaChelekom.CmsBundle.Discriminators, as: Index
 
   @moduletag :unit
 
@@ -16,7 +16,7 @@ defmodule MishkaChelekom.CmsBundle.HelperConditionIndexTest do
     defp foo(_), do: ""
     """
 
-    idx = Index.build(eex)
+    idx = Index.build_index(eex)
     assert idx[{"foo", "\"a\""}] == []
     assert idx[{"foo", "_"}] == []
   end
@@ -28,7 +28,7 @@ defmodule MishkaChelekom.CmsBundle.HelperConditionIndexTest do
     <% end %>
     """
 
-    idx = Index.build(eex)
+    idx = Index.build_index(eex)
     [cond_ast] = idx[{"color", "\"base\""}]
     assert match?({:in, _, ["base", {:@, _, [{:variant, _, _}]}]}, cond_ast)
   end
@@ -42,7 +42,7 @@ defmodule MishkaChelekom.CmsBundle.HelperConditionIndexTest do
     <% end %>
     """
 
-    idx = Index.build(eex)
+    idx = Index.build_index(eex)
     conds = idx[{"cv", "\"default\", \"primary\""}]
     assert length(conds) == 2
 
@@ -59,7 +59,7 @@ defmodule MishkaChelekom.CmsBundle.HelperConditionIndexTest do
     <% end %>
     """
 
-    idx = Index.build(eex)
+    idx = Index.build_index(eex)
     assert [_one] = idx[{"foo", "\"x\""}]
   end
 
@@ -78,7 +78,7 @@ defmodule MishkaChelekom.CmsBundle.HelperConditionIndexTest do
     defp after_block(_), do: "z"
     """
 
-    idx = Index.build(eex)
+    idx = Index.build_index(eex)
 
     # Inner defp sees only the `if` condition (the cond frame
     # contributed nil and was filtered out).
@@ -97,7 +97,7 @@ defmodule MishkaChelekom.CmsBundle.HelperConditionIndexTest do
     <% end %>
     """
 
-    idx = Index.build(eex)
+    idx = Index.build_index(eex)
     # Both defps were inside an `if` frame; both must have a condition.
     assert [_] = idx[{"f", "\"a\""}]
     assert [_] = idx[{"f", "\"b\""}]
@@ -107,7 +107,7 @@ defmodule MishkaChelekom.CmsBundle.HelperConditionIndexTest do
 
   test "single-line `defp f(args), do: …` is parsed" do
     eex = "defp f(\"x\"), do: \"v\""
-    assert Map.has_key?(Index.build(eex), {"f", "\"x\""})
+    assert Map.has_key?(Index.build_index(eex), {"f", "\"x\""})
   end
 
   test "multi-line `defp f(args) do … end` is parsed" do
@@ -117,7 +117,7 @@ defmodule MishkaChelekom.CmsBundle.HelperConditionIndexTest do
     end
     """
 
-    assert Map.has_key?(Index.build(eex), {"f", "\"x\""})
+    assert Map.has_key?(Index.build_index(eex), {"f", "\"x\""})
   end
 
   test "complex pattern with nested parens parsed correctly" do
@@ -128,7 +128,7 @@ defmodule MishkaChelekom.CmsBundle.HelperConditionIndexTest do
     # AST-based scanner canonicalises args via `Macro.to_string`, which
     # drops superfluous parens. The exporter round-trips the same way,
     # so signatures still match.
-    assert Map.has_key?(Index.build(eex), {"f", "%{a: 1, b: 1 + 2} = x"})
+    assert Map.has_key?(Index.build_index(eex), {"f", "%{a: 1, b: 1 + 2} = x"})
   end
 
   test "identifiers ending in ? or ! are recognised" do
@@ -137,7 +137,7 @@ defmodule MishkaChelekom.CmsBundle.HelperConditionIndexTest do
     defp save!("y"), do: :ok
     """
 
-    idx = Index.build(eex)
+    idx = Index.build_index(eex)
     assert Map.has_key?(idx, {"valid?", "\"y\""})
     assert Map.has_key?(idx, {"save!", "\"y\""})
   end
@@ -153,7 +153,7 @@ defmodule MishkaChelekom.CmsBundle.HelperConditionIndexTest do
 
   test "tokenization failure returns empty index, not raise" do
     # Unterminated `<%=` — EEx tokenizer rejects it.
-    assert Index.build("<%= if x do %>\ndefp f(_), do: nil") == %{} or
-             is_map(Index.build("<%= if x do %>\ndefp f(_), do: nil"))
+    assert Index.build_index("<%= if x do %>\ndefp f(_), do: nil") == %{} or
+             is_map(Index.build_index("<%= if x do %>\ndefp f(_), do: nil"))
   end
 end
