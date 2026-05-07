@@ -67,12 +67,12 @@ defmodule MishkaChelekom.DemoHarnessTest do
     report = DemoHarness.run("chelekom", max_per_component: :infinity)
 
     summary = """
-    components total          : #{report.components_total}
-    components with examples  : #{report.components_with_examples}
-    components exercised      : #{report.components_exercised}/#{report.components_total} (incl. dispatched-to sub-components)
-    passed                    : #{report.passed}
-    skipped (structural)      : #{length(report.skipped)}
-    failed                    : #{length(report.failed)}
+      components total          : #{report.components_total}
+      components with examples  : #{report.components_with_examples}
+      components exercised      : #{report.components_exercised}/#{report.components_total} (incl. dispatched-to sub-components)
+      passed                    : #{report.passed}
+      skipped (structural)      : #{length(report.skipped)}
+      failed                    : #{length(report.failed)}
     """
 
     if report.failed != [] do
@@ -94,7 +94,7 @@ defmodule MishkaChelekom.DemoHarnessTest do
 
     assert report.passed > 0, "expected at least one demo to pass:\n#{summary}"
 
-    IO.puts(:stderr, "\n[demo harness · chelekom] " <> String.replace(summary, "\n", " · "))
+    IO.puts(:stderr, "\n[demo harness · chelekom]\n" <> summary)
 
     if report.uncovered != [] do
       IO.puts(:stderr, "[demo harness · uncovered] " <> Enum.join(report.uncovered, ", "))

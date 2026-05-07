@@ -62,7 +62,7 @@ defmodule MishkaChelekom.CmsBundle.DiscriminatorsTest do
   end
 
   test "`not A` is ignored (negation can't be a positive clause)" do
-    ast = parse!(~S<not "base" in @variant>)
+    ast = parse!(~S<"base" not in @variant>)
     assert D.from_condition(ast) == []
   end
 
