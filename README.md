@@ -277,6 +277,6 @@ You can support this project through the "[Sponsor](https://github.com/sponsors/
 
 #### 🏆 Logo Tier Sponsors
 
-<a href="https://www.mftlabs.io/" target="_blank" rel="noopener noreferrer">
-  <img width="100" height="100" alt="mft labs logo for web" src="https://github.com/user-attachments/assets/92f558c1-062d-4ccf-8412-a259fbf33914" />
+<a href="https://croox.com/" target="_blank" rel="noopener noreferrer">
+  <img width="267" height="100" alt="croox" src="https://github.com/user-attachments/assets/6a885323-3a8a-4141-aa67-a6329605adf1" />
 </a>
