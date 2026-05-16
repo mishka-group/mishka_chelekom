@@ -194,7 +194,9 @@ defmodule Mix.Tasks.Mishka.Mcp.ServerTest do
 
     test "--transport http is equivalent to default" do
       assert {:ok, {:http, 4003}} = ServerTask.parse_args(["--transport", "http"])
-      assert {:ok, {:http, 5000}} = ServerTask.parse_args(["--transport", "http", "--port", "5000"])
+
+      assert {:ok, {:http, 5000}} =
+               ServerTask.parse_args(["--transport", "http", "--port", "5000"])
     end
 
     test "--transport stdio selects stdio mode" do
