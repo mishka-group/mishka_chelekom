@@ -22,7 +22,8 @@ mix mishka.mcp.server
 
 | Option | Alias | Description | Default |
 |:-------|:------|:------------|:--------|
-| `--port` | `-p` | HTTP port to listen on | `4003` |
+| `--transport` | `-t` | Transport: `http` or `stdio` | `http` |
+| `--port` | `-p` | HTTP port (http transport only) | `4003` |
 
 **Example:**
 
@@ -65,11 +66,36 @@ mix mishka.mcp.setup --yes
 
 ---
 
+### Option 3: Stdio Transport (No Server) — Recommended
+
+Run the MCP server as a **stdio process** spawned by the MCP client itself —
+no HTTP listener, no separate terminal, zero ongoing setup. Ideal for
+project-local `.mcp.json` files checked into version control.
+
+**One-command setup:**
+
+```bash
+mix mishka.mcp.setup --stdio
+```
+
+This writes (or merges into) `.mcp.json` in your project root with the
+correct entry, including `MIX_QUIET=1` so Mix compile output never corrupts
+the MCP handshake. After running it once, your MCP client (Claude Code,
+Cursor, etc.) launches `mix mishka.mcp.server --transport stdio` itself
+whenever it needs to talk to chelekom — you never run that command by hand.
+
+> 🛠 The `MIX_QUIET=1` env entry is what keeps Mix's `Compiling …`
+> messages off stdout when a rebuild happens. Setup writes it for you;
+> if you hand-author `.mcp.json` instead, set it yourself.
+
+---
+
 ## 🔌 Connect Your AI Tools
 
-> **Important:** Use the correct URL based on your setup:
-> - **Standalone server:** `http://localhost:4003/mcp`
+> **Important:** Pick the connection style that matches your setup:
+> - **Standalone HTTP server:** `http://localhost:4003/mcp`
 > - **Phoenix integration:** `http://localhost:4000/mcp` (your Phoenix port)
+> - **Stdio:** spawned by the client — no URL, no port
 
 ### Claude Code
 
@@ -79,9 +105,12 @@ claude mcp add --transport http mishka-chelekom http://localhost:4003/mcp
 
 # For Phoenix integration
 claude mcp add --transport http mishka-chelekom http://localhost:4000/mcp
+
+# For stdio (client spawns the process)
+claude mcp add --transport stdio mishka-chelekom --env MIX_QUIET=1 -- mix mishka.mcp.server --transport stdio
 ```
 
-### Cursor / VS Code
+### Cursor / VS Code (HTTP)
 
 Create `.mcp.json` in your project root:
 
@@ -97,6 +126,25 @@ Create `.mcp.json` in your project root:
 ```
 
 > For Phoenix integration, change port to `4000` (or your Phoenix port).
+
+### Cursor / VS Code (Stdio)
+
+Self-contained config — no server needs to be running. The `MIX_QUIET`
+env var keeps Mix's compile output off stdout, so the protocol stream
+stays clean even on first run / after code changes:
+
+```json
+{
+  "mcpServers": {
+    "mishka-chelekom": {
+      "type": "stdio",
+      "command": "mix",
+      "args": ["mishka.mcp.server", "--transport", "stdio"],
+      "env": {"MIX_QUIET": "1"}
+    }
+  }
+}
+```
 
 ### Cursor / VS Code (via MCP Proxy)
 

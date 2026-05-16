@@ -548,20 +548,24 @@ Starts the Mishka Chelekom MCP Server as a standalone service for AI tools integ
 ### Basic Usage
 
 ```bash
-# Start with default port (4003)
+# HTTP transport (default), port 4003
 mix mishka.mcp.server
 
-# Start with custom port
+# Custom port
 mix mishka.mcp.server --port 5000
+
+# Stdio transport — client spawns this process, no listener
+mix mishka.mcp.server --transport stdio
 ```
 
 ### Available Options
 
 | Option | Alias | Description |
 |--------|-------|-------------|
-| `--port` | `-p` | HTTP port to listen on (default: 4003) |
+| `--transport` | `-t` | Transport: `http` (default) or `stdio` |
+| `--port` | `-p` | HTTP port (http only, default: 4003) |
 
-### Connecting AI Tools
+### Connecting AI Tools (HTTP)
 
 After starting the server, connect your AI tools:
 
@@ -581,6 +585,28 @@ claude mcp add --transport http mishka-chelekom http://localhost:4003/mcp
   }
 }
 ```
+
+### Connecting AI Tools (Stdio)
+
+Stdio mode is meant to be **spawned by the client** — don't run it
+manually. Use `mix mishka.mcp.setup --stdio` to scaffold `.mcp.json`, or
+configure your client directly:
+
+```json
+{
+  "mcpServers": {
+    "mishka-chelekom": {
+      "type": "stdio",
+      "command": "mix",
+      "args": ["mishka.mcp.server", "--transport", "stdio"],
+      "env": {"MIX_QUIET": "1"}
+    }
+  }
+}
+```
+
+`MIX_QUIET=1` is required — without it, Mix's `Compiling …` output
+corrupts the protocol stream after code changes.
 
 ### Available MCP Tools
 
@@ -617,13 +643,16 @@ Integrates the MCP Server directly into your Phoenix router.
 ### Basic Usage
 
 ```bash
-# Add MCP endpoint to router with defaults
+# HTTP mode — patches your Phoenix router with the /mcp route
 mix mishka.mcp.setup
 
-# Custom endpoint path
+# Stdio mode — writes .mcp.json so the client spawns the server itself
+mix mishka.mcp.setup --stdio
+
+# Custom endpoint path (http mode)
 mix mishka.mcp.setup --path /api/mcp
 
-# Enable in all environments (not just dev)
+# Enable in all environments (http mode, not just dev)
 mix mishka.mcp.setup --dev-only=false
 
 # Skip confirmation prompts
@@ -634,31 +663,43 @@ mix mishka.mcp.setup --yes
 
 | Option | Alias | Description |
 |--------|-------|-------------|
-| `--path` | `-p` | Custom MCP endpoint path (default: "/mcp") |
-| `--dev-only` | | Only enable in development (default: true) |
+| `--stdio` | `-s` | Write `.mcp.json` instead of patching the router |
+| `--path` | `-p` | Custom MCP endpoint path (http only, default: `/mcp`) |
+| `--dev-only` | | Only enable in development (http only, default: true) |
 | `--yes` | | Skip confirmation prompts |
 
 ### What This Task Does
 
+**Default (HTTP):**
 1. Adds the MCP route to your Phoenix router
 2. Configures the route to use `Anubis.Server.Transport.StreamableHTTP.Plug`
 3. Wraps it in a dev_routes condition (unless `--dev-only=false`)
 
+**With `--stdio`:**
+1. Creates (or merges into) `.mcp.json` in the project root with a
+   `mishka-chelekom` stdio entry, including `MIX_QUIET=1`
+2. Skips Phoenix router changes — stdio doesn't need a route
+3. Preserves any other MCP servers already in `.mcp.json`
+
 ### After Setup
 
-The MCP endpoint runs on your **Phoenix port** (default 4000), not 4003:
+**HTTP:** the endpoint runs on your **Phoenix port** (default 4000):
 
 ```bash
 claude mcp add --transport http mishka-chelekom http://localhost:4000/mcp
 ```
 
-### Standalone vs Phoenix Integration
+**Stdio:** nothing to start. Restart your MCP client; it will spawn
+`mix mishka.mcp.server --transport stdio` itself on demand.
 
-| Feature | `mix mishka.mcp.server` | `mix mishka.mcp.setup` |
-|---------|-------------------------|------------------------|
-| Port | Separate (4003) | Phoenix port (4000) |
-| Usage | Any Elixir project | Phoenix projects |
-| Control | Manual start/stop | Runs with Phoenix |
+### Comparison
+
+| Feature | `mix mishka.mcp.server` | `mix mishka.mcp.setup` | `mix mishka.mcp.setup --stdio` |
+|---------|-------------------------|------------------------|--------------------------------|
+| Port | 4003 (HTTP) | Phoenix port (HTTP) | None — stdio |
+| Server running | Yes (foreground) | Yes (Phoenix) | No — spawned per session |
+| Setup | One-time `claude mcp add` | One-time task run | One-time task run |
+| Best for | Standalone projects | Phoenix apps in dev | Any project, lowest friction |
 
 ---
 

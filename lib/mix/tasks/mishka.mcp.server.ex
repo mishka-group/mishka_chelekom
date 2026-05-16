@@ -8,23 +8,51 @@ defmodule Mix.Tasks.Mishka.Mcp.Server do
 
   ## Usage
 
+      # HTTP transport (default) — long-running server on port 4003
       mix mishka.mcp.server
+
+      # Stdio transport — MCP client spawns this process and talks over stdin/stdout
+      mix mishka.mcp.server --transport stdio
 
   ## Options
 
-  * `--port` or `-p` - HTTP port to listen on (default: 4003)
+  * `--transport` or `-t` - Transport to use: `http` (default) or `stdio`
+  * `--port` or `-p` - HTTP port to listen on (default: 4003, http transport only)
+
+  ## Transports
+
+  ### HTTP (default)
+
+  Starts a Bandit HTTP listener that AI tools connect to over the network.
+  Suitable for running as a background service.
+
+      mix mishka.mcp.server
+      mix mishka.mcp.server --port 5000
+
+  ### Stdio
+
+  Speaks the MCP stdio protocol over stdin/stdout. The MCP client (e.g.
+  Claude Code) spawns this command itself — no separate server needed.
+  This is the zero-setup option for project-local `.mcp.json` files
+  shared via version control.
+
+      mix mishka.mcp.server --transport stdio
+
+  > Stdio mode prints nothing to stdout (stdout is the protocol channel).
+  > All logs are redirected to stderr by the transport.
 
   ## Connecting AI Tools
 
-  Once the server is running, connect your AI tools:
-
-  ### Claude Code
+  ### Claude Code (HTTP)
 
       claude mcp add --transport http mishka-chelekom http://localhost:4003/mcp
 
-  ### Cursor / VSCode
+  ### Claude Code (Stdio)
 
-  Create `.mcp.json` in your project root:
+      claude mcp add --transport stdio mishka-chelekom \\
+        --env MIX_QUIET=1 -- mix mishka.mcp.server --transport stdio
+
+  ### Cursor / VSCode (HTTP) — create `.mcp.json` in project root:
 
       {
         "mcpServers": {
@@ -34,6 +62,22 @@ defmodule Mix.Tasks.Mishka.Mcp.Server do
           }
         }
       }
+
+  ### Cursor / VSCode (Stdio) — create `.mcp.json` in project root:
+
+      {
+        "mcpServers": {
+          "mishka-chelekom": {
+            "type": "stdio",
+            "command": "mix",
+            "args": ["mishka.mcp.server", "--transport", "stdio"],
+            "env": {"MIX_QUIET": "1"}
+          }
+        }
+      }
+
+  > `MIX_QUIET=1` keeps Mix's `Compiling …` messages off stdout when a
+  > rebuild happens, so the MCP handshake stays clean on first run.
 
   ## Available Tools (11)
 
@@ -68,13 +112,44 @@ defmodule Mix.Tasks.Mishka.Mcp.Server do
 
   @impl Mix.Task
   def run(args) do
+    case parse_args(args) do
+      {:ok, {:http, port}} -> run_http(port: port)
+      {:ok, :stdio} -> run_stdio()
+      {:error, msg} -> Mix.raise(msg)
+    end
+  end
+
+  @doc """
+  Parses task argv into a transport selection.
+
+  Returns:
+    * `{:ok, {:http, port}}` — default, HTTP transport on `port` (default 4003)
+    * `{:ok, :stdio}` — stdio transport
+    * `{:error, message}` — unknown `--transport` value
+
+  Public so it can be unit-tested without running the (blocking) task.
+  """
+  def parse_args(args) do
     {opts, _, _} =
       OptionParser.parse(args,
-        strict: [port: :integer],
-        aliases: [p: :port]
+        strict: [port: :integer, transport: :string],
+        aliases: [p: :port, t: :transport]
       )
 
-    port = Keyword.get(opts, :port, 4003)
+    case Keyword.get(opts, :transport, "http") do
+      "http" ->
+        {:ok, {:http, Keyword.get(opts, :port, 4003)}}
+
+      "stdio" ->
+        {:ok, :stdio}
+
+      other ->
+        {:error, "Unknown --transport #{inspect(other)}. Expected one of: http, stdio"}
+    end
+  end
+
+  defp run_http(opts) do
+    port = Keyword.fetch!(opts, :port)
 
     Mix.shell().info("""
 
@@ -101,17 +176,34 @@ defmodule Mix.Tasks.Mishka.Mcp.Server do
 
     """)
 
-    # Start all required applications
     Application.ensure_all_started(:telemetry)
     Application.ensure_all_started(:bandit)
     Application.ensure_all_started(:mishka_chelekom)
 
-    # Start the MCP supervisor (only starts Bandit HTTP server)
+    # Standalone HTTP needs its own Bandit listener — the Application only
+    # starts the MCP server process + streamable_http transport handler.
     {:ok, _pid} = MishkaChelekom.MCP.Supervisor.start_link(port: port)
 
     Mix.shell().info("MCP Server started successfully on port #{port}")
 
-    # Keep the process alive
+    Process.sleep(:infinity)
+  end
+
+  defp run_stdio do
+    # Stdout is the MCP protocol channel — anything that is not JSON-RPC
+    # corrupts the stream. Silence Logger entirely so server/transport
+    # events don't leak to stdout. (Anubis's transport tries to redirect
+    # the Erlang :default handler, but Elixir's Logger uses its own
+    # handlers, so that redirect is a no-op here.)
+    Logger.configure(level: :none)
+
+    # Override the default transport so the MCP server child starts with
+    # :stdio instead of :streamable_http.
+    Application.put_env(:mishka_chelekom, :mcp_transport, :stdio)
+
+    Application.ensure_all_started(:telemetry)
+    Application.ensure_all_started(:mishka_chelekom)
+
     Process.sleep(:infinity)
   end
 end

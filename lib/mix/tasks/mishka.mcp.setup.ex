@@ -8,19 +8,36 @@ defmodule Mix.Tasks.Mishka.Mcp.Setup do
 
   ## Usage
 
+      # HTTP transport (default) — patches your Phoenix router
       mix mishka.mcp.setup
+
+      # Stdio transport — writes .mcp.json so the client spawns the server itself
+      mix mishka.mcp.setup --stdio
 
   ## Options
 
-  * `--path` or `-p` - Custom MCP endpoint path (default: "/mcp")
-  * `--dev-only` - Only enable MCP in development (default: true)
+  * `--path` or `-p` - Custom MCP endpoint path (default: "/mcp", http only)
+  * `--dev-only` - Only enable MCP in development (default: true, http only)
   * `--yes` - Skip confirmation prompts
+  * `--stdio` or `-s` - Write .mcp.json with stdio entry instead of patching router
 
   ## What This Task Does
+
+  ### Default (HTTP)
 
   1. Adds the MCP route to your Phoenix router
   2. Configures the route to use `Anubis.Server.Transport.StreamableHTTP.Plug`
   3. Wraps it in a dev_routes condition (unless --dev-only=false)
+
+  ### With `--stdio`
+
+  1. Creates (or merges into) `.mcp.json` in the project root
+  2. Adds a `mishka-chelekom` server entry that spawns
+     `mix mishka.mcp.server --transport stdio`
+  3. Sets `MIX_QUIET=1` in the entry's env so Mix compile output never
+     corrupts the protocol stream
+
+  No Phoenix changes are made in `--stdio` mode — stdio doesn't need a route.
 
   ## After Setup
 
@@ -60,20 +77,114 @@ defmodule Mix.Tasks.Mishka.Mcp.Setup do
       schema: [
         path: :string,
         dev_only: :boolean,
-        yes: :boolean
+        yes: :boolean,
+        stdio: :boolean
       ],
       defaults: [
         path: "/mcp",
-        dev_only: true
+        dev_only: true,
+        stdio: false
       ],
       aliases: [
-        p: :path
+        p: :path,
+        s: :stdio
       ]
     }
   end
 
   def igniter(igniter) do
     options = igniter.args.options
+
+    if Keyword.get(options, :stdio, false) do
+      setup_stdio(igniter)
+    else
+      setup_http(igniter, options)
+    end
+  end
+
+  defp setup_stdio(igniter) do
+    mcp_json_path = ".mcp.json"
+
+    igniter
+    |> Igniter.create_or_update_file(
+      mcp_json_path,
+      fresh_mcp_json(),
+      fn source ->
+        current = Rewrite.Source.get(source, :content)
+        merged = merge_stdio_entry(current)
+        Rewrite.Source.update(source, :content, merged)
+      end
+    )
+    |> Igniter.add_notice(stdio_notice(mcp_json_path))
+  end
+
+  @doc false
+  # Public for tests. Returns the JSON contents we write when no .mcp.json
+  # exists yet — a fresh file with just the mishka-chelekom stdio entry.
+  def fresh_mcp_json do
+    Jason.encode!(%{"mcpServers" => %{"mishka-chelekom" => stdio_entry()}}, pretty: true) <> "\n"
+  end
+
+  @doc false
+  # Public for tests. Given the current contents of a .mcp.json (any string),
+  # return new contents that:
+  #   * preserve any other mcpServers entries the user already has
+  #   * insert/replace the mishka-chelekom entry with the stdio config
+  # If the current contents are not valid JSON, we overwrite with a fresh file
+  # rather than silently corrupt the user's data.
+  def merge_stdio_entry(current) when is_binary(current) do
+    case Jason.decode(current) do
+      {:ok, %{} = decoded} ->
+        servers = Map.get(decoded, "mcpServers", %{})
+        servers = Map.put(servers, "mishka-chelekom", stdio_entry())
+        Jason.encode!(Map.put(decoded, "mcpServers", servers), pretty: true) <> "\n"
+
+      _ ->
+        fresh_mcp_json()
+    end
+  end
+
+  defp stdio_entry do
+    %{
+      "type" => "stdio",
+      "command" => "mix",
+      "args" => ["mishka.mcp.server", "--transport", "stdio"],
+      "env" => %{"MIX_QUIET" => "1"}
+    }
+  end
+
+  defp stdio_notice(path) do
+    """
+
+    Stdio MCP setup complete!
+
+    Wrote #{path} with the mishka-chelekom entry:
+
+      {
+        "mcpServers": {
+          "mishka-chelekom": {
+            "type": "stdio",
+            "command": "mix",
+            "args": ["mishka.mcp.server", "--transport", "stdio"],
+            "env": {"MIX_QUIET": "1"}
+          }
+        }
+      }
+
+    ## Next Steps
+
+    1. Restart Claude Code (or your MCP client) so it reads the new
+       #{path}.
+    2. Inside the client, verify the connection (in Claude Code: `/mcp`).
+
+    No server to start — your MCP client will spawn `mix mishka.mcp.server
+    --transport stdio` itself whenever it needs to talk to chelekom.
+    `MIX_QUIET=1` keeps Mix's compile output off stdout so the protocol
+    handshake stays clean even after code changes.
+    """
+  end
+
+  defp setup_http(igniter, options) do
     mcp_path = Keyword.get(options, :path, "/mcp")
     dev_only = Keyword.get(options, :dev_only, true)
 

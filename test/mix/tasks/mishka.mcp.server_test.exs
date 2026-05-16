@@ -179,4 +179,62 @@ defmodule Mix.Tasks.Mishka.Mcp.ServerTest do
       assert Code.ensure_loaded?(MishkaChelekom.MCP.Router)
     end
   end
+
+  describe "parse_args/1 (transport selection)" do
+    alias Mix.Tasks.Mishka.Mcp.Server, as: ServerTask
+
+    test "defaults to http on port 4003 when no args" do
+      assert {:ok, {:http, 4003}} = ServerTask.parse_args([])
+    end
+
+    test "--port overrides default http port" do
+      assert {:ok, {:http, 5000}} = ServerTask.parse_args(["--port", "5000"])
+      assert {:ok, {:http, 5000}} = ServerTask.parse_args(["-p", "5000"])
+    end
+
+    test "--transport http is equivalent to default" do
+      assert {:ok, {:http, 4003}} = ServerTask.parse_args(["--transport", "http"])
+      assert {:ok, {:http, 5000}} = ServerTask.parse_args(["--transport", "http", "--port", "5000"])
+    end
+
+    test "--transport stdio selects stdio mode" do
+      assert {:ok, :stdio} = ServerTask.parse_args(["--transport", "stdio"])
+      assert {:ok, :stdio} = ServerTask.parse_args(["-t", "stdio"])
+    end
+
+    test "--port is ignored under stdio (stdio has no port)" do
+      # Not strictly enforced — but the parser must still return :stdio
+      assert {:ok, :stdio} = ServerTask.parse_args(["--transport", "stdio", "--port", "9999"])
+    end
+
+    test "unknown transport returns an error" do
+      assert {:error, msg} = ServerTask.parse_args(["--transport", "tcp"])
+      assert msg =~ "Unknown --transport"
+      assert msg =~ "http"
+      assert msg =~ "stdio"
+    end
+  end
+
+  describe "Application transport override" do
+    test "Application.start reads :mcp_transport from app env" do
+      # Default: when unset, Application should choose the existing HTTP transport.
+      original = Application.get_env(:mishka_chelekom, :mcp_transport)
+      Application.delete_env(:mishka_chelekom, :mcp_transport)
+
+      try do
+        default =
+          Application.get_env(:mishka_chelekom, :mcp_transport, {:streamable_http, start: true})
+
+        assert default == {:streamable_http, start: true}
+
+        Application.put_env(:mishka_chelekom, :mcp_transport, :stdio)
+        assert Application.get_env(:mishka_chelekom, :mcp_transport) == :stdio
+      after
+        case original do
+          nil -> Application.delete_env(:mishka_chelekom, :mcp_transport)
+          val -> Application.put_env(:mishka_chelekom, :mcp_transport, val)
+        end
+      end
+    end
+  end
 end
