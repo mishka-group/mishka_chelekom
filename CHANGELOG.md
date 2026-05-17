@@ -14,6 +14,7 @@
 - Add Shape component
 - Add Stat component
 - Add harness demo driven kit test for dynamic CMS generator (Private APIs) [#479](https://github.com/mishka-group/mishka_chelekom/pull/479)
+- Add stdio transport + mix mishka.mcp.setup --stdio [Issue with help](https://github.com/mishka-group/mishka_chelekom/issues/#480)
 
 
 ### Refactors:
