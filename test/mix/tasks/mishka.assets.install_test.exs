@@ -3,13 +3,20 @@ defmodule Mix.Tasks.Mishka.Assets.InstallTest do
   import ExUnit.CaptureIO
 
   setup do
-    # Create a temporary assets directory for testing
-    assets_dir = Path.join(System.tmp_dir!(), "test_assets_#{:rand.uniform(100_000)}")
+    # Each test gets its own unique parent dir. Tests cd into it and rename
+    # the assets dir to the fixed name "assets" (the task hardcodes that
+    # path). A unique parent means the fixed name can never collide across
+    # tests, and rm_rf on the whole parent cleans up even if a test crashes
+    # mid-rename and leaves an orphaned "assets" behind.
+    original_dir = File.cwd!()
+    work_dir = Path.join(System.tmp_dir!(), "test_work_#{System.unique_integer([:positive])}")
+    assets_dir = Path.join(work_dir, "test_assets")
     File.mkdir_p!(assets_dir)
     File.write!(Path.join(assets_dir, "package.json"), ~s({"name": "test", "version": "1.0.0"}))
 
     on_exit(fn ->
-      File.rm_rf!(assets_dir)
+      File.cd!(original_dir)
+      File.rm_rf!(work_dir)
     end)
 
     {:ok, assets_dir: assets_dir}

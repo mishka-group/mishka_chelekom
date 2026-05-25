@@ -53,7 +53,7 @@ defmodule MishkaChelekom.MixProject do
   defp deps do
     [
       {:igniter, "~> 0.5 and >= 0.7.0"},
-      {:guarded_struct, "~> 0.1.0-beta.5"},
+      {:guarded_struct, "~> 0.1.0-beta.7"},
       {:igniter_js, "~> 0.4.11"},
       {:owl, "~> 0.13"},
       {:ex_doc, "~> 0.40.1", only: :dev, runtime: false},
