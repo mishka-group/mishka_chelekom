@@ -305,7 +305,7 @@ defmodule <%= @module %> do
       ]}
     >
       <button
-        :for={indicator_item <- 1..@count}
+        :for={indicator_item <- 1..@count//1}
         id={"#{@id}-carousel-indicator-#{indicator_item}"}
         data-indicator-index={"#{indicator_item}"}
         class="carousel-indicator"

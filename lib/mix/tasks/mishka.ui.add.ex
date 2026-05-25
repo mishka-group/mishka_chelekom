@@ -52,23 +52,23 @@ defmodule Mix.Tasks.Mishka.Ui.Add do
   """
   guardedstruct do
     field(:name, String.t(),
-      derive: "sanitize(tag=strip_tags) validate(not_empty_string, max_len=80, min_len=3)",
+      derives: "sanitize(tag=strip_tags) validate(not_empty_string, max_len=80, min_len=3)",
       enforce: true
     )
 
     field(:type, String.t(),
-      derive:
+      derives:
         "sanitize(tag=strip_tags) validate(enum=String[component::preset::template::javascript])",
       enforce: true
     )
 
     conditional_field(:components, list(String.t()),
       structs: true,
-      derive: "validate(list)",
+      derives: "validate(list)",
       default: []
     ) do
       field(:components, String.t(),
-        derive: "sanitize(tag=strip_tags) validate(not_empty_string, max_len=25, min_len=3)"
+        derives: "sanitize(tag=strip_tags) validate(not_empty_string, max_len=25, min_len=3)"
       )
     end
 
@@ -78,59 +78,59 @@ defmodule Mix.Tasks.Mishka.Ui.Add do
       default: []
     ) do
       field(:type, String.t(),
-        derive:
+        derives:
           "sanitize(tag=strip_tags) validate(enum=String[component::preset::template::javascript])",
         enforce: true
       )
 
-      field(:content, String.t(), derive: "validate(not_empty_string)", enforce: true)
+      field(:content, String.t(), derives: "validate(not_empty_string)", enforce: true)
 
       field(:name, String.t(),
-        derive: "sanitize(tag=strip_tags) validate(not_empty_string, regex=\"^[a-z0-9_]+$\")",
+        derives: "sanitize(tag=strip_tags) validate(not_empty_string, regex=\"^[a-z0-9_]+$\")",
         enforce: true
       )
 
-      field(:from, String.t(), derive: "validate(not_empty_string, url)")
+      field(:from, String.t(), derives: "validate(not_empty_string, url)")
 
       conditional_field(:optional, list(String.t()),
         structs: true,
-        derive: "validate(list)",
+        derives: "validate(list)",
         default: []
       ) do
         field(:optional, String.t(),
-          derive: "sanitize(tag=strip_tags) validate(not_empty_string, max_len=25, min_len=3)"
+          derives: "sanitize(tag=strip_tags) validate(not_empty_string, max_len=25, min_len=3)"
         )
       end
 
       conditional_field(:necessary, list(String.t()),
         structs: true,
-        derive: "validate(list)",
+        derives: "validate(list)",
         default: []
       ) do
         field(:necessary, String.t(),
-          derive: "sanitize(tag=strip_tags) validate(not_empty_string, max_len=25, min_len=3)"
+          derives: "sanitize(tag=strip_tags) validate(not_empty_string, max_len=25, min_len=3)"
         )
       end
 
       conditional_field(:scripts, list(String.t()),
         structs: true,
-        derive: "validate(list)",
+        derives: "validate(list)",
         default: []
       ) do
-        field(:scripts, map(), derive: "validate(map)")
+        field(:scripts, map(), derives: "validate(map)")
       end
 
       sub_field(:args, map(), default: %{}) do
-        field(:variant, list(String.t()), derive: "validate(list)", default: [])
-        field(:color, list(String.t()), derive: "validate(list)", default: [])
-        field(:size, list(String.t()), derive: "validate(list)", default: [])
-        field(:padding, list(String.t()), derive: "validate(list)", default: [])
-        field(:space, list(String.t()), derive: "validate(list)", default: [])
-        field(:type, list(String.t()), derive: "validate(list)", default: [])
-        field(:rounded, list(String.t()), derive: "validate(list)", default: [])
-        field(:only, list(String.t()), derive: "validate(list)", default: [])
-        field(:helpers, list(String.t()), derive: "validate(map)", default: %{})
-        field(:module, String.t(), derive: "validate(string)", default: "")
+        field(:variant, list(String.t()), derives: "validate(list)", default: [])
+        field(:color, list(String.t()), derives: "validate(list)", default: [])
+        field(:size, list(String.t()), derives: "validate(list)", default: [])
+        field(:padding, list(String.t()), derives: "validate(list)", default: [])
+        field(:space, list(String.t()), derives: "validate(list)", default: [])
+        field(:type, list(String.t()), derives: "validate(list)", default: [])
+        field(:rounded, list(String.t()), derives: "validate(list)", default: [])
+        field(:only, list(String.t()), derives: "validate(list)", default: [])
+        field(:helpers, list(String.t()), derives: "validate(map)", default: %{})
+        field(:module, String.t(), derives: "validate(string)", default: "")
       end
     end
   end

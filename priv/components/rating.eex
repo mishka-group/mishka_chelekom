@@ -140,7 +140,7 @@ defmodule <%= @module %> do
           value="0"
           id={"#{@id}-hidden"}
         />
-        <%%= for item <- 1..@count do %>
+        <%%= for item <- 1..@count//1 do %>
           <%% fill_percentage = calculate_fill_percentage(item, @select) %>
           <%%= cond do %>
             <%% @interactive and @name != nil and @precision == 0.5 -> %>

@@ -434,9 +434,11 @@ defmodule Mix.Tasks.Mishka.Ui.AddTest do
       }
 
       assert {:error, errors} = Add.builder(incomplete_json)
-      # The error format is a map, not a list
-      assert Map.has_key?(errors, :fields)
-      assert "name" in errors.fields
+      assert is_list(errors)
+
+      assert Enum.any?(errors, fn error ->
+               Map.has_key?(error, :field) && error.field == :name
+             end)
     end
 
     test "rejects missing required type field" do
@@ -447,9 +449,11 @@ defmodule Mix.Tasks.Mishka.Ui.AddTest do
       }
 
       assert {:error, errors} = Add.builder(incomplete_json)
-      # The error format is a map, not a list
-      assert Map.has_key?(errors, :fields)
-      assert "type" in errors.fields
+      assert is_list(errors)
+
+      assert Enum.any?(errors, fn error ->
+               Map.has_key?(error, :field) && error.field == :type
+             end)
     end
 
     test "rejects invalid file structure" do
