@@ -1,0 +1,52 @@
+defmodule DevelopmentWeb.Components.Headless.Tooltip do
+  @moduledoc """
+  Headless **tooltip** — a hover/focus popup that describes its trigger.
+
+  Behavior via the shared `Popup` engine in hover mode (`data-trigger="hover"`; never traps
+  focus; Escape dismisses). ARIA: trigger `aria-describedby`; popup `role="tooltip"`. Style
+  via `chelekom-tooltip*` classes and `data-open`/`data-closed`.
+
+  WAI-ARIA APG: https://www.w3.org/WAI/ARIA/apg/patterns/tooltip/
+  """
+  use Phoenix.Component
+
+  @doc type: :component
+  attr :id, :string, required: true
+  attr :side, :string, default: "top", values: ~w(top right bottom left)
+  attr :class, :any, default: nil
+  attr :rest, :global
+
+  slot :trigger, required: true
+  slot :inner_block, required: true, doc: "Tooltip content"
+
+  def tooltip(assigns) do
+    ~H"""
+    <div
+      id={@id}
+      phx-hook="Popup"
+      data-trigger="hover"
+      data-side={@side}
+      class={["chelekom-tooltip", @class]}
+      {@rest}
+    >
+      <span
+        data-part="trigger"
+        aria-describedby={"#{@id}-popup"}
+        tabindex="0"
+        class="chelekom-tooltip__trigger"
+      >
+        {render_slot(@trigger)}
+      </span>
+      <div
+        id={"#{@id}-popup"}
+        data-part="popup"
+        role="tooltip"
+        data-closed
+        class="chelekom-tooltip__popup"
+      >
+        {render_slot(@inner_block)}
+      </div>
+    </div>
+    """
+  end
+end

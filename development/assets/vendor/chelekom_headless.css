@@ -1,0 +1,83 @@
+/* Mishka Chelekom — headless base styles.
+ *
+ * FUNCTIONAL ONLY: visibility, positioning and accessibility primitives that make the
+ * headless components behave. NO colors, spacing, typography or other opinionated styling —
+ * that is the consuming app's job (target the `chelekom-*` classes and `data-*` state).
+ *
+ * State convention (paired-presence): elements carry `data-open` or `data-closed`.
+ */
+
+/* Closed overlays are removed from the layout. */
+.chelekom-dialog[data-closed],
+.chelekom-popover__popup[data-closed],
+.chelekom-menu__popup[data-closed],
+.chelekom-tooltip__popup[data-closed],
+.chelekom-select__popup[data-closed] {
+  display: none;
+}
+
+/* Dialog: fixed, centered, above the page; backdrop fills the viewport. */
+.chelekom-dialog[data-open] {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: grid;
+  place-items: center;
+}
+
+.chelekom-dialog__backdrop {
+  position: fixed;
+  inset: 0;
+}
+
+.chelekom-dialog__popup {
+  position: relative;
+  max-height: 90vh;
+  overflow: auto;
+}
+
+/* Disclosure / accordion: panel hidden when its trigger is collapsed. */
+.chelekom-disclosure__panel[data-closed],
+.chelekom-accordion__panel[data-closed] {
+  display: none;
+}
+
+/* Tabs: only the active panel is shown. */
+.chelekom-tabs__panel[data-closed] {
+  display: none;
+}
+
+/* Floating popups position relative to their anchor; the JS engine sets the offsets. */
+.chelekom-popover,
+.chelekom-menu,
+.chelekom-tooltip,
+.chelekom-select {
+  position: relative;
+}
+
+.chelekom-popover__popup,
+.chelekom-menu__popup,
+.chelekom-tooltip__popup,
+.chelekom-select__popup {
+  position: absolute;
+  z-index: 40;
+}
+
+/* Roving / composite items: the engine moves a single tabindex=0 and marks the active one. */
+[data-part="item"][data-disabled] {
+  pointer-events: none;
+  opacity: 0.5;
+}
+
+/* Visually-hidden helper for native inputs backing headless form controls. */
+.chelekom-sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}

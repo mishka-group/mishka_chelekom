@@ -1,0 +1,47 @@
+defmodule <%= @module %> do
+  @moduledoc """
+  Headless **toolbar** — a group of controls with roving focus.
+
+  Behavior via the shared `RovingTabindex` engine (arrow keys move focus, Home/End jump to
+  ends, exactly one `tabindex=0`). ARIA: `role="toolbar"` + `aria-orientation`. Items are
+  buttons (`data-part="item"`). Style via `chelekom-toolbar*` classes.
+
+  WAI-ARIA APG: https://www.w3.org/WAI/ARIA/apg/patterns/toolbar/
+  """
+  use Phoenix.Component
+
+  @doc type: :component
+  attr :id, :string, required: true
+  attr :orientation, :string, default: "horizontal", values: ~w(horizontal vertical)
+  attr :class, :any, default: nil
+  attr :rest, :global
+
+  slot :item, required: true, doc: "A toolbar control (rendered as a button)" do
+    attr :disabled, :boolean
+  end
+
+  def <%= @component_prefix %>toolbar(assigns) do
+    ~H"""
+    <div
+      id={@id}
+      role="toolbar"
+      phx-hook="RovingTabindex"
+      data-orientation={@orientation}
+      aria-orientation={@orientation}
+      class={["chelekom-toolbar", @class]}
+      {@rest}
+    >
+      <button
+        :for={{item, i} <- Enum.with_index(@item)}
+        type="button"
+        data-part="item"
+        data-disabled={item[:disabled] || nil}
+        tabindex={if i == 0, do: "0", else: "-1"}
+        class="chelekom-toolbar__item"
+      >
+        {render_slot(item)}
+      </button>
+    </div>
+    """
+  end
+end

@@ -1,0 +1,54 @@
+defmodule DevelopmentWeb.Components.Headless.RadioGroup do
+  @moduledoc """
+  Headless **radio group** — a single-select group of radios with roving focus.
+
+  Behavior via the shared `RovingTabindex` engine: arrow keys (Up/Down) move focus and,
+  because of `data-activate-on-focus`, immediately select the focused radio — toggling
+  `aria-checked` and keeping exactly one `tabindex=0`. Home/End jump to the first/last
+  radio. ARIA: `role="radiogroup"` on the root, `role="radio"` + `aria-checked` on items.
+  An optional hidden native `<input>` carries the value for form submission. Style via
+  `chelekom-radio-group*` classes.
+
+  WAI-ARIA APG: https://www.w3.org/WAI/ARIA/apg/patterns/radio/
+  """
+  use Phoenix.Component
+
+  @doc type: :component
+  attr :id, :string, required: true
+  attr :name, :string, default: nil, doc: "Name for the hidden form input"
+  attr :value, :string, default: nil, doc: "Currently selected value"
+  attr :class, :any, default: nil
+  attr :rest, :global
+
+  slot :option, required: true, doc: "A radio option" do
+    attr :value, :string, required: true
+  end
+
+  def radio_group(assigns) do
+    ~H"""
+    <div
+      id={@id}
+      phx-hook="RovingTabindex"
+      role="radiogroup"
+      data-orientation="vertical"
+      data-activate-on-focus
+      class={["chelekom-radio-group", @class]}
+      {@rest}
+    >
+      <input :if={@name} type="hidden" name={@name} value={@value} class="chelekom-sr-only" />
+      <button
+        :for={{opt, i} <- Enum.with_index(@option)}
+        type="button"
+        role="radio"
+        data-part="item"
+        data-value={opt.value}
+        aria-checked={to_string(i == 0)}
+        tabindex={if i == 0, do: "0", else: "-1"}
+        class="chelekom-radio-group__item"
+      >
+        {render_slot(opt)}
+      </button>
+    </div>
+    """
+  end
+end

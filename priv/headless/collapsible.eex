@@ -1,0 +1,50 @@
+defmodule <%= @module %> do
+  @moduledoc """
+  Headless **collapsible** — a trigger button that shows/hides one region.
+
+  Behavior is delegated to the shared `Disclosure` JS engine: the `<:trigger>` toggles a
+  single panel via `aria-controls`. ARIA: trigger `aria-expanded` + `aria-controls`; panel
+  `role="region"` + `aria-labelledby`. Style via the `chelekom-collapsible*` classes and the
+  `data-open` / `data-closed` state attributes — this component ships **no** colors or spacing.
+
+  WAI-ARIA APG: https://www.w3.org/WAI/ARIA/apg/patterns/disclosure/
+  """
+  use Phoenix.Component
+
+  @doc type: :component
+  attr :id, :string, required: true, doc: "Unique id (anchors aria relationships)"
+  attr :open, :boolean, default: false, doc: "Initial/controlled open state"
+  attr :class, :any, default: nil, doc: "Extra classes for the root"
+  attr :rest, :global
+
+  slot :trigger, required: true, doc: "The toggle button label"
+  slot :inner_block, required: true, doc: "The collapsible content"
+
+  def <%= @component_prefix %>collapsible(assigns) do
+    ~H"""
+    <div id={@id} phx-hook="Disclosure" class={["chelekom-collapsible", @class]} {@rest}>
+      <button
+        type="button"
+        id={"#{@id}-trigger"}
+        data-part="trigger"
+        aria-controls={"#{@id}-panel"}
+        aria-expanded={to_string(@open)}
+        class="chelekom-collapsible__trigger"
+      >
+        {render_slot(@trigger)}
+      </button>
+      <div
+        id={"#{@id}-panel"}
+        data-part="panel"
+        role="region"
+        aria-labelledby={"#{@id}-trigger"}
+        data-open={@open}
+        data-closed={!@open}
+        class="chelekom-collapsible__panel"
+      >
+        {render_slot(@inner_block)}
+      </div>
+    </div>
+    """
+  end
+end

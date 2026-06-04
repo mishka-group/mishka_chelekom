@@ -1,0 +1,81 @@
+defmodule DevelopmentWeb.Components.Headless.NavigationMenu do
+  @moduledoc """
+  Headless **navigation menu** — a site nav with optional dropdown panels.
+
+  Each `<:item>` renders either a plain link (no inner content) or, when it has a
+  panel (inner block), a `Popup`-driven dropdown: a `data-part="trigger"` button that
+  opens a `data-part="popup"` panel. The shared `Popup` engine handles open/close,
+  outside-click and Escape dismissal, and `aria-expanded` wiring. Each dropdown item
+  is its own `Popup` root so the engine resolves its trigger/popup pair correctly.
+
+  ARIA: dropdown trigger `aria-haspopup="menu"` + `aria-expanded` (set by the engine) +
+  `aria-controls`; panel `role="menu"` with `data-open`/`data-closed`. Style via the
+  `chelekom-navigation_menu*` classes — this component ships **no** colors or spacing.
+
+  WAI-ARIA APG: https://www.w3.org/WAI/ARIA/apg/patterns/disclosure/
+  """
+  use Phoenix.Component
+
+  @doc type: :component
+  attr :id, :string, required: true, doc: "Unique id (anchors aria relationships)"
+  attr :side, :string, default: "bottom", values: ~w(top right bottom left)
+  attr :class, :any, default: nil, doc: "Extra classes for the root"
+  attr :rest, :global
+
+  slot :item,
+    required: true,
+    doc: "A nav item: plain link, or a dropdown if it has inner content (a panel)" do
+    attr :label, :string, required: true
+    attr :href, :string
+  end
+
+  def navigation_menu(assigns) do
+    ~H"""
+    <nav id={@id} class={["chelekom-navigation_menu", @class]} {@rest}>
+      <ul class="chelekom-navigation_menu__list">
+        <li
+          :for={{item, i} <- Enum.with_index(@item)}
+          class="chelekom-navigation_menu__item"
+        >
+          <a
+            :if={item.inner_block == nil}
+            href={item[:href] || "#"}
+            data-part="link"
+            class="chelekom-navigation_menu__link"
+          >
+            {item.label}
+          </a>
+
+          <div
+            :if={item.inner_block != nil}
+            id={"#{@id}-item-#{i}"}
+            phx-hook="Popup"
+            data-side={@side}
+            class="chelekom-navigation_menu__popup-root"
+          >
+            <button
+              type="button"
+              data-part="trigger"
+              aria-haspopup="menu"
+              aria-controls={"#{@id}-item-#{i}-popup"}
+              class="chelekom-navigation_menu__trigger"
+            >
+              {item.label}
+            </button>
+            <div
+              id={"#{@id}-item-#{i}-popup"}
+              data-part="popup"
+              role="menu"
+              aria-label={item.label}
+              data-closed
+              class="chelekom-navigation_menu__panel"
+            >
+              {render_slot(item)}
+            </div>
+          </div>
+        </li>
+      </ul>
+    </nav>
+    """
+  end
+end

@@ -1,0 +1,55 @@
+defmodule <%= @module %> do
+  @moduledoc """
+  Headless **preview card** (hover card) — a trigger that reveals a floating preview on hover.
+
+  Behavior via the shared `Popup` engine in hover mode (`data-trigger="hover"`): pointer enter /
+  focus opens the popup, pointer leave / blur closes it; Escape also dismisses. Placement follows
+  `data-side` (default `top`). The popup is non-modal and never traps focus. ARIA: trigger
+  `aria-expanded` + `aria-controls`; popup `role="dialog"`. Style via the `chelekom-preview-card*`
+  classes and the `data-open` / `data-closed` state attributes — this component ships **no** colors
+  or spacing.
+
+  Anatomy (named slots / parts): `trigger` (the hovered element), `popup` (the preview content).
+  """
+  use Phoenix.Component
+
+  @doc type: :component
+  attr :id, :string, required: true, doc: "Unique id (anchors aria relationships)"
+  attr :side, :string, default: "top", values: ~w(top right bottom left), doc: "Preferred side"
+  attr :class, :any, default: nil, doc: "Extra classes for the root"
+  attr :rest, :global
+
+  slot :trigger, required: true, doc: "The element that reveals the preview on hover/focus"
+  slot :inner_block, required: true, doc: "The preview card content"
+
+  def <%= @component_prefix %>preview_card(assigns) do
+    ~H"""
+    <div
+      id={@id}
+      phx-hook="Popup"
+      data-trigger="hover"
+      data-side={@side}
+      class={["chelekom-preview-card", @class]}
+      {@rest}
+    >
+      <span
+        data-part="trigger"
+        aria-controls={"#{@id}-popup"}
+        aria-expanded="false"
+        class="chelekom-preview-card__trigger"
+      >
+        {render_slot(@trigger)}
+      </span>
+      <div
+        id={"#{@id}-popup"}
+        data-part="popup"
+        role="dialog"
+        data-closed
+        class="chelekom-preview-card__popup"
+      >
+        {render_slot(@inner_block)}
+      </div>
+    </div>
+    """
+  end
+end

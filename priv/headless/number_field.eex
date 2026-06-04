@@ -1,0 +1,59 @@
+defmodule <%= @module %> do
+  @moduledoc """
+  Headless **number_field** (spinbutton) — a number input flanked by stepper buttons.
+
+  Behavior is delegated to the shared `NumberScrub` JS engine: the increment/decrement
+  buttons and Arrow Up/Down (PageUp/Down for ±10·step) adjust the value, and the input can
+  be click-dragged to scrub. `min`/`max`/`step` are read from the input; the engine writes
+  `role="spinbutton"` and `aria-valuemin`/`aria-valuemax`/`aria-valuenow` on it.
+
+  Anatomy (parts): `decrement`, `input`, `increment`. Style via the `chelekom-number_field*`
+  classes — this component ships **no** colors, spacing or typography.
+
+  WAI-ARIA APG: https://www.w3.org/WAI/ARIA/apg/patterns/spinbutton/
+  """
+  use Phoenix.Component
+
+  @doc type: :component
+  attr :id, :string, default: nil, doc: "Optional id for the root element"
+  attr :name, :string, default: nil, doc: "Name for the number input (form submission)"
+  attr :value, :any, default: nil, doc: "Current numeric value"
+  attr :min, :any, default: nil, doc: "Minimum allowed value"
+  attr :max, :any, default: nil, doc: "Maximum allowed value"
+  attr :step, :any, default: 1, doc: "Increment/decrement step"
+  attr :class, :any, default: nil, doc: "Extra classes for the root"
+  attr :rest, :global
+
+  def <%= @component_prefix %>number_field(assigns) do
+    ~H"""
+    <div id={@id} phx-hook="NumberScrub" class={["chelekom-number_field", @class]} {@rest}>
+      <button
+        type="button"
+        data-part="decrement"
+        aria-label="Decrease"
+        class="chelekom-number_field__decrement"
+      >
+        −
+      </button>
+      <input
+        data-part="input"
+        type="number"
+        name={@name}
+        value={@value}
+        min={@min}
+        max={@max}
+        step={@step}
+        class="chelekom-number_field__input"
+      />
+      <button
+        type="button"
+        data-part="increment"
+        aria-label="Increase"
+        class="chelekom-number_field__increment"
+      >
+        +
+      </button>
+    </div>
+    """
+  end
+end

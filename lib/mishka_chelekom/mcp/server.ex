@@ -47,6 +47,7 @@ defmodule MishkaChelekom.MCP.Server do
   component(MishkaChelekom.MCP.Resources.ListDependencies)
   component(MishkaChelekom.MCP.Resources.GetConfig)
   component(MishkaChelekom.MCP.Resources.ListCssVariables)
+  component(MishkaChelekom.MCP.Resources.ListHeadlessComponents)
 
   # Tools - Actions AI can perform
   component(MishkaChelekom.MCP.Tools.GenerateComponent)

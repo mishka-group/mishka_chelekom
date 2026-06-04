@@ -1,0 +1,60 @@
+defmodule DevelopmentWeb.Components.Headless.Switch do
+  @moduledoc """
+  Headless **switch** — an on/off toggle rendered as a `role="switch"` button.
+
+  Behavior via the shared `Toggle` JS engine: clicking (or Enter/Space) flips the
+  state, toggling `aria-checked` and the `data-checked`/`data-unchecked` attributes
+  and syncing the hidden checkbox `<input>` for form submission. ARIA: `role="switch"`
+  + `aria-checked`. Style via `chelekom-switch*` classes and the `data-checked` /
+  `data-unchecked` state attributes — this component ships **no** colors or spacing.
+
+  WAI-ARIA APG: https://www.w3.org/WAI/ARIA/apg/patterns/switch/
+  """
+  use Phoenix.Component
+
+  @doc type: :component
+  attr :id, :string, required: true, doc: "Unique id (anchors aria relationships)"
+  attr :name, :string, default: nil, doc: "Name for the hidden form input"
+  attr :checked, :boolean, default: false, doc: "Initial/controlled on state"
+  attr :class, :any, default: nil, doc: "Extra classes for the root"
+  attr :rest, :global
+
+  slot :inner_block, doc: "Optional label content"
+
+  def switch(assigns) do
+    ~H"""
+    <button
+      id={@id}
+      type="button"
+      phx-hook="Toggle"
+      role="switch"
+      aria-checked={to_string(@checked)}
+      aria-labelledby={(@inner_block != [] && "#{@id}-label") || nil}
+      data-checked={@checked}
+      data-unchecked={!@checked}
+      class={["chelekom-switch", @class]}
+      {@rest}
+    >
+      <input
+        :if={@name}
+        type="checkbox"
+        data-part="input"
+        name={@name}
+        checked={@checked}
+        tabindex="-1"
+        aria-hidden="true"
+        class="chelekom-switch__input chelekom-sr-only"
+      />
+      <span data-part="thumb" class="chelekom-switch__thumb" aria-hidden="true"></span>
+      <span
+        :if={@inner_block != []}
+        id={"#{@id}-label"}
+        data-part="label"
+        class="chelekom-switch__label"
+      >
+        {render_slot(@inner_block)}
+      </span>
+    </button>
+    """
+  end
+end

@@ -1,0 +1,39 @@
+defmodule <%= @module %> do
+  @moduledoc """
+  Headless **separator** — a thematic divider between groups of content.
+
+  Renders a `<div role="separator">` (or `role="none"` when `decorative`) carrying
+  `aria-orientation`, with no JavaScript. Pass an inner block to render a labelled
+  separator (the label is centered structurally by your styles). Style via the
+  `chelekom-separator*` classes — this component ships **no** colors or spacing.
+
+  No formal WAI-ARIA APG pattern; follows the `separator` role semantics.
+  """
+  use Phoenix.Component
+
+  @doc type: :component
+  attr :id, :string, default: nil, doc: "Optional id"
+  attr :orientation, :string, default: "horizontal", values: ~w(horizontal vertical), doc: "Axis of the separator"
+  attr :decorative, :boolean, default: false, doc: "If true, the separator is purely visual (role=none)"
+  attr :class, :any, default: nil, doc: "Extra classes for the root"
+  attr :rest, :global
+
+  slot :inner_block, doc: "Optional label for a labelled separator"
+
+  def <%= @component_prefix %>separator(assigns) do
+    ~H"""
+    <div
+      id={@id}
+      role={if @decorative, do: "none", else: "separator"}
+      aria-orientation={!@decorative && @orientation || nil}
+      data-orientation={@orientation}
+      class={["chelekom-separator", @class]}
+      {@rest}
+    >
+      <span :if={@inner_block != []} data-part="label" class="chelekom-separator__label">
+        {render_slot(@inner_block)}
+      </span>
+    </div>
+    """
+  end
+end

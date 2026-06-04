@@ -1,0 +1,59 @@
+defmodule <%= @module %> do
+  @moduledoc """
+  Headless **menu** (menu button) — a trigger that opens a roving-focus menu.
+
+  Two cooperating engines: `Popup` on the root (open/close, outside-click/Escape) and
+  `RovingTabindex` on the menu (arrow keys, Home/End). ARIA: trigger `aria-haspopup="menu"` +
+  `aria-expanded`; list `role="menu"`; items `role="menuitem"`. Style via `chelekom-menu*`.
+
+  WAI-ARIA APG: https://www.w3.org/WAI/ARIA/apg/patterns/menu-button/
+  """
+  use Phoenix.Component
+
+  @doc type: :component
+  attr :id, :string, required: true
+  attr :side, :string, default: "bottom", values: ~w(top right bottom left)
+  attr :class, :any, default: nil
+  attr :rest, :global
+
+  slot :trigger, required: true
+  slot :item, required: true do
+    attr :disabled, :boolean
+  end
+
+  def <%= @component_prefix %>menu(assigns) do
+    ~H"""
+    <div id={@id} phx-hook="Popup" data-side={@side} class={["chelekom-menu", @class]} {@rest}>
+      <button
+        type="button"
+        data-part="trigger"
+        aria-haspopup="menu"
+        class="chelekom-menu__trigger"
+      >
+        {render_slot(@trigger)}
+      </button>
+      <div
+        id={"#{@id}-popup"}
+        data-part="popup"
+        role="menu"
+        phx-hook="RovingTabindex"
+        data-orientation="vertical"
+        data-closed
+        class="chelekom-menu__popup"
+      >
+        <button
+          :for={item <- @item}
+          type="button"
+          role="menuitem"
+          data-part="item"
+          data-disabled={item[:disabled] || nil}
+          tabindex="-1"
+          class="chelekom-menu__item"
+        >
+          {render_slot(item)}
+        </button>
+      </div>
+    </div>
+    """
+  end
+end

@@ -1,0 +1,49 @@
+defmodule DevelopmentWeb.Components.Headless.Disclosure do
+  @moduledoc """
+  Headless **disclosure** — a button that shows/hides a region.
+
+  Behavior via the shared `Disclosure` JS engine. ARIA: trigger `aria-expanded` +
+  `aria-controls`; panel `role="region"` + `aria-labelledby`. Style via `chelekom-disclosure*`
+  classes and `data-open`/`data-closed`.
+
+  WAI-ARIA APG: https://www.w3.org/WAI/ARIA/apg/patterns/disclosure/
+  """
+  use Phoenix.Component
+
+  @doc type: :component
+  attr :id, :string, required: true
+  attr :open, :boolean, default: false
+  attr :class, :any, default: nil
+  attr :rest, :global
+
+  slot :trigger, required: true, doc: "The toggle button label"
+  slot :inner_block, required: true, doc: "The disclosed content"
+
+  def disclosure(assigns) do
+    ~H"""
+    <div id={@id} phx-hook="Disclosure" class={["chelekom-disclosure", @class]} {@rest}>
+      <button
+        type="button"
+        id={"#{@id}-trigger"}
+        data-part="trigger"
+        aria-controls={"#{@id}-panel"}
+        aria-expanded={to_string(@open)}
+        class="chelekom-disclosure__trigger"
+      >
+        {render_slot(@trigger)}
+      </button>
+      <div
+        id={"#{@id}-panel"}
+        data-part="panel"
+        role="region"
+        aria-labelledby={"#{@id}-trigger"}
+        data-open={@open}
+        data-closed={!@open}
+        class="chelekom-disclosure__panel"
+      >
+        {render_slot(@inner_block)}
+      </div>
+    </div>
+    """
+  end
+end

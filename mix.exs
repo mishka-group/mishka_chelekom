@@ -54,6 +54,8 @@ defmodule MishkaChelekom.MixProject do
     [
       {:igniter, "~> 0.5 and >= 0.7.0"},
       {:guarded_struct, "~> 0.1.0-beta.8"},
+      # Layer 3 declarative config DSL (already present transitively via guarded_struct).
+      {:spark, "~> 2.7"},
       {:igniter_js, "~> 0.4.11"},
       {:owl, "~> 0.13"},
       {:ex_doc, "~> 0.40.1", only: :dev, runtime: false},

@@ -1,0 +1,69 @@
+defmodule <%= @module %> do
+  @moduledoc """
+  Headless **tabs** — a tablist with roving focus and associated panels.
+
+  Behavior via the shared `RovingTabindex` engine (arrow keys move + auto-activate, Home/End,
+  one `tabindex=0`). ARIA: `role="tablist"`/`tab`/`tabpanel`, `aria-selected`, `aria-controls`,
+  `aria-labelledby`. Style via `chelekom-tabs*` classes and `data-open`/`data-closed`.
+
+  WAI-ARIA APG: https://www.w3.org/WAI/ARIA/apg/patterns/tabs/
+  """
+  use Phoenix.Component
+
+  @doc type: :component
+  attr :id, :string, required: true
+  attr :orientation, :string, default: "horizontal", values: ~w(horizontal vertical)
+  attr :class, :any, default: nil
+  attr :rest, :global
+
+  slot :tab, required: true, doc: "A tab label"
+  slot :panel, required: true, doc: "A tab panel (positionally matched to its tab)"
+
+  def <%= @component_prefix %>tabs(assigns) do
+    ~H"""
+    <div
+      id={@id}
+      phx-hook="RovingTabindex"
+      data-orientation={@orientation}
+      data-activate-on-focus
+      class={["chelekom-tabs", @class]}
+      {@rest}
+    >
+      <div
+        role="tablist"
+        data-part="tablist"
+        aria-orientation={@orientation}
+        class="chelekom-tabs__list"
+      >
+        <button
+          :for={{tab, i} <- Enum.with_index(@tab)}
+          type="button"
+          role="tab"
+          data-part="item"
+          id={"#{@id}-tab-#{i}"}
+          aria-controls={"#{@id}-panel-#{i}"}
+          aria-selected={to_string(i == 0)}
+          tabindex={if i == 0, do: "0", else: "-1"}
+          class="chelekom-tabs__tab"
+        >
+          {render_slot(tab)}
+        </button>
+      </div>
+
+      <div
+        :for={{panel, i} <- Enum.with_index(@panel)}
+        id={"#{@id}-panel-#{i}"}
+        role="tabpanel"
+        data-part="panel"
+        aria-labelledby={"#{@id}-tab-#{i}"}
+        tabindex="0"
+        data-open={i == 0}
+        data-closed={i != 0}
+        class="chelekom-tabs__panel"
+      >
+        {render_slot(panel)}
+      </div>
+    </div>
+    """
+  end
+end
