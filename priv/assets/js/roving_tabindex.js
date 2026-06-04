@@ -27,8 +27,10 @@ const RovingTabindex = {
   },
 
   refresh() {
+    // Items inside a NESTED popup (a submenu) belong to that popup's own roving, not ours.
+    const nested = Array.from(this.el.querySelectorAll('[data-part="popup"]'));
     this.items = Array.from(this.el.querySelectorAll('[data-part="item"]')).filter(
-      (i) => !i.hasAttribute("data-disabled")
+      (i) => !i.hasAttribute("data-disabled") && !nested.some((p) => p !== this.el && p.contains(i))
     );
 
     let active = this.items.findIndex(

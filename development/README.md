@@ -42,7 +42,7 @@ of the dependency needed.
 ```bash
 cd development
 ./bin/setup.sh        # symlink + deps.get + generate all components + build assets
-mix phx.server        # http://localhost:4000/showcase
+mix phx.server        # http://localhost:4002/showcase
 ```
 
 ## What you get

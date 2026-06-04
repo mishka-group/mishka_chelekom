@@ -1,30 +1,33 @@
 defmodule <%= @module %> do
   @moduledoc """
-  Headless **slider** (single-thumb) — unstyled markup + WAI-ARIA wiring + keyboard/pointer.
+  Headless **slider** — single- or multi-thumb range input.
 
-  Behavior is delegated to the shared `Slider` JS engine: pointer drag on the track and
-  keyboard on the thumb (Arrow ±step, PageUp/Down ±10·step, Home/End → min/max). The resolved
-  position is exposed as the `--chelekom-slider` (0–1) CSS variable on the root and synced to a
-  hidden `<input>` for form submission. ARIA: thumb `role="slider"` with
-  `aria-valuemin`/`aria-valuemax`/`aria-valuenow`. Style via the `chelekom-slider*` classes —
-  this component ships **no** colors or spacing.
+  Behavior via the shared `Slider` engine (pointer drag + keyboard; multiple thumbs stay
+  ordered). Pass a single `value` or a list of `values` (one thumb each — e.g. a range). Parts:
+  `track`, `range` (the selected interval), one `thumb` per value (`role="slider"` with
+  `aria-valuemin/max/now`), an optional `value` readout, and a hidden input. Style via
+  `chelekom-slider*`.
 
-  WAI-ARIA APG: https://www.w3.org/WAI/ARIA/apg/patterns/slider/
+  WAI-ARIA APG: https://www.w3.org/WAI/ARIA/apg/patterns/slider/ (and slider-multithumb)
   """
   use Phoenix.Component
 
   @doc type: :component
-  attr :id, :string, required: true, doc: "Unique id (anchors aria relationships)"
-  attr :name, :string, default: nil, doc: "Name for the hidden form input"
-  attr :min, :integer, default: 0, doc: "Minimum value"
-  attr :max, :integer, default: 100, doc: "Maximum value"
-  attr :step, :integer, default: 1, doc: "Step increment"
-  attr :value, :integer, default: 0, doc: "Initial/controlled value"
-  attr :labelledby, :string, default: nil, doc: "Override aria-labelledby for the thumb"
-  attr :class, :any, default: nil, doc: "Extra classes for the root"
+  attr :id, :string, required: true
+  attr :name, :string, default: nil
+  attr :min, :integer, default: 0
+  attr :max, :integer, default: 100
+  attr :step, :integer, default: 1
+  attr :value, :integer, default: nil, doc: "Single-thumb value"
+  attr :values, :list, default: nil, doc: "Multi-thumb values (overrides value)"
+  attr :show_value, :boolean, default: false
+  attr :class, :any, default: nil
   attr :rest, :global
 
   def <%= @component_prefix %>slider(assigns) do
+    values = assigns.values || (assigns.value && [assigns.value]) || [assigns.min]
+    assigns = assign(assigns, :values, values)
+
     ~H"""
     <div
       id={@id}
@@ -32,32 +35,35 @@ defmodule <%= @module %> do
       data-min={@min}
       data-max={@max}
       data-step={@step}
-      data-value={@value}
       class={["chelekom-slider", @class]}
       {@rest}
     >
+      <input
+        :if={@name}
+        type="hidden"
+        name={@name}
+        value={Enum.join(@values, ",")}
+        data-part="input"
+        class="chelekom-sr-only"
+      />
+      <span :if={@show_value} data-part="value" class="chelekom-slider__value">
+        {Enum.join(@values, " – ")}
+      </span>
       <div data-part="track" class="chelekom-slider__track">
         <div data-part="range" class="chelekom-slider__range"></div>
         <div
+          :for={v <- @values}
           data-part="thumb"
+          data-value={v}
           role="slider"
           tabindex="0"
           aria-valuemin={@min}
           aria-valuemax={@max}
-          aria-valuenow={@value}
-          aria-labelledby={@labelledby}
+          aria-valuenow={v}
           class="chelekom-slider__thumb"
         >
         </div>
       </div>
-      <input
-        :if={@name}
-        data-part="input"
-        type="hidden"
-        name={@name}
-        value={@value}
-        class="chelekom-sr-only"
-      />
     </div>
     """
   end

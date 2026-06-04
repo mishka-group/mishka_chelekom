@@ -4,11 +4,11 @@ defmodule <%= @module %> do
 
   Two cooperating engines: `Popup` (open/close, dismissal) and `RovingTabindex` (arrow keys,
   Home/End, selection). A hidden native `<input>` carries the value for form submission.
-  ARIA: trigger `role="combobox"` + `aria-haspopup="listbox"` + `aria-expanded`; list
-  `role="listbox"`; options `role="option"` + `aria-selected`. Style via `chelekom-select*`.
 
-  > Note: full value/label two-way sync on selection is provided by the `form_integration`
-  > engine (roadmap); this v1 wires open/close, keyboard navigation, ARIA and the hidden input.
+  Anatomy (Base-UI-style parts): `trigger` (with a `value` and an `icon`), a `positioner`
+  wrapping the `popup` listbox, and each `option` split into an `item-indicator` (selected ✓)
+  and `item-text`. ARIA: trigger `role="combobox"` + `aria-haspopup="listbox"`; list
+  `role="listbox"`; options `role="option"` + `aria-selected`. Style via `chelekom-select*`.
 
   WAI-ARIA APG: https://www.w3.org/WAI/ARIA/apg/patterns/combobox/
   """
@@ -30,6 +30,7 @@ defmodule <%= @module %> do
     ~H"""
     <div id={@id} phx-hook="Popup" class={["chelekom-select", @class]} {@rest}>
       <input :if={@name} type="hidden" name={@name} value={@value} class="chelekom-sr-only" />
+
       <button
         type="button"
         data-part="trigger"
@@ -38,29 +39,34 @@ defmodule <%= @module %> do
         aria-controls={"#{@id}-popup"}
         class="chelekom-select__trigger"
       >
-        {@value || @placeholder}
+        <span data-part="value" class="chelekom-select__value">{@value || @placeholder}</span>
+        <span data-part="icon" aria-hidden="true" class="chelekom-select__icon">▾</span>
       </button>
-      <ul
-        id={"#{@id}-popup"}
-        data-part="popup"
-        role="listbox"
-        phx-hook="RovingTabindex"
-        data-orientation="vertical"
-        data-closed
-        class="chelekom-select__popup"
-      >
-        <li
-          :for={opt <- @option}
-          role="option"
-          data-part="item"
-          data-value={opt.value}
-          aria-selected={to_string(opt.value == @value)}
-          tabindex="-1"
-          class="chelekom-select__option"
+
+      <div data-part="positioner" class="chelekom-select__positioner">
+        <ul
+          id={"#{@id}-popup"}
+          data-part="popup"
+          role="listbox"
+          phx-hook="RovingTabindex"
+          data-orientation="vertical"
+          data-closed
+          class="chelekom-select__popup"
         >
-          {render_slot(opt)}
-        </li>
-      </ul>
+          <li
+            :for={opt <- @option}
+            role="option"
+            data-part="item"
+            data-value={opt.value}
+            aria-selected={to_string(opt.value == @value)}
+            tabindex="-1"
+            class="chelekom-select__option"
+          >
+            <span data-part="item-indicator" aria-hidden="true" class="chelekom-select__indicator">✓</span>
+            <span data-part="item-text" class="chelekom-select__text">{render_slot(opt)}</span>
+          </li>
+        </ul>
+      </div>
     </div>
     """
   end

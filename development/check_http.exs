@@ -26,7 +26,7 @@ paths = [
 IO.puts("")
 
 Enum.each(paths, fn p ->
-  url = ~c"http://localhost:4000#{p}"
+  url = ~c"http://localhost:4002#{p}"
 
   case :httpc.request(:get, {url, []}, [{:autoredirect, false}], []) do
     {:ok, {{_v, code, _r}, _h, body}} ->

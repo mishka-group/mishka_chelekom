@@ -9,11 +9,52 @@
 
 /* Closed overlays are removed from the layout. */
 .chelekom-dialog[data-closed],
+.chelekom-alert-dialog[data-closed],
+.chelekom-drawer[data-closed],
 .chelekom-popover__popup[data-closed],
 .chelekom-menu__popup[data-closed],
 .chelekom-tooltip__popup[data-closed],
-.chelekom-select__popup[data-closed] {
+.chelekom-select__popup[data-closed],
+.chelekom-preview_card__popup[data-closed],
+.chelekom-context_menu__popup[data-closed],
+.chelekom-menubar__popup[data-closed],
+.chelekom-navigation_menu__panel[data-closed],
+.chelekom-combobox__popup[data-closed],
+.chelekom-autocomplete__popup[data-closed],
+.chelekom-toast [data-part="toast"][data-closed] {
   display: none;
+}
+
+/* Alert dialog behaves like dialog (fixed + centered). */
+.chelekom-alert-dialog[data-open] {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: grid;
+  place-items: center;
+}
+
+.chelekom-alert-dialog__backdrop {
+  position: fixed;
+  inset: 0;
+}
+
+/* Drawer: full-viewport overlay; the popup itself is pinned to a side by your CSS. */
+.chelekom-drawer[data-open] {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+}
+
+.chelekom-drawer__backdrop {
+  position: fixed;
+  inset: 0;
+}
+
+/* OTP boxes lay out in a row by default. */
+.chelekom-otp_field {
+  display: inline-flex;
+  gap: 0.5rem;
 }
 
 /* Dialog: fixed, centered, above the page; backdrop fills the viewport. */
@@ -55,10 +96,22 @@
   position: relative;
 }
 
+.chelekom-popover, .chelekom-menu, .chelekom-tooltip, .chelekom-select,
+.chelekom-preview_card, .chelekom-context_menu, .chelekom-combobox,
+.chelekom-autocomplete, .chelekom-navigation_menu__popup-root, .chelekom-menubar__menu {
+  position: relative;
+}
+
 .chelekom-popover__popup,
 .chelekom-menu__popup,
 .chelekom-tooltip__popup,
-.chelekom-select__popup {
+.chelekom-select__popup,
+.chelekom-preview_card__popup,
+.chelekom-context_menu__popup,
+.chelekom-menubar__popup,
+.chelekom-navigation_menu__panel,
+.chelekom-combobox__popup,
+.chelekom-autocomplete__popup {
   position: absolute;
   z-index: 40;
 }
@@ -68,6 +121,30 @@
   pointer-events: none;
   opacity: 0.5;
 }
+
+/* Combobox/autocomplete: non-matching options are filtered out by the engine. */
+[data-part="item"][data-hidden] {
+  display: none;
+}
+
+/* Disclosure-family panels hidden when collapsed. */
+.chelekom-collapsible__panel[data-closed],
+.chelekom-navigation_menu__panel[data-closed] {
+  display: none;
+}
+
+/* Slider: the engine writes --chelekom-slider (0–1); thumb is absolutely placed. */
+.chelekom-slider { position: relative; }
+.chelekom-slider__track { position: relative; }
+.chelekom-slider__range { width: calc(var(--chelekom-slider, 0) * 100%); }
+.chelekom-slider__thumb { position: absolute; transform: translateX(-50%); }
+
+/* Progress / meter: the engine-free indicator width is driven by a CSS var on the element. */
+.chelekom-progress__indicator { width: calc(var(--chelekom-progress, 0) * 100%); }
+.chelekom-meter__indicator { width: calc(var(--chelekom-meter, 0) * 100%); }
+
+/* Toast region: stack toasts; closed ones are removed (see above). */
+.chelekom-toast { position: fixed; z-index: 60; display: flex; flex-direction: column; gap: 0.5rem; }
 
 /* Visually-hidden helper for native inputs backing headless form controls. */
 .chelekom-sr-only {

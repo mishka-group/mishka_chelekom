@@ -15,12 +15,13 @@ Output goes to `lib/<app>_web/components/headless/<name>.ex`, module
 `<App>Web.Components.Headless.<Name>` — so **styled and headless coexist** without collisions.
 There are no `--color/--variant/--size/--padding` options (meaningless for headless).
 
-## Catalog (34 components, full Base-UI parity)
+## Catalog (37 components, Base-UI parity)
 
 | Component | WAI-ARIA pattern | JS hooks |
 |---|---|---|
 | dialog | Dialog (Modal) | FocusTrap |
 | alert_dialog | Alert Dialog | FocusTrap |
+| drawer | Dialog (Modal) + side | FocusTrap |
 | popover | Disclosure + positioning | Popup |
 | preview_card | Hover card | Popup |
 | tooltip | Tooltip | Popup |
@@ -37,6 +38,8 @@ There are no `--color/--variant/--size/--padding` options (meaningless for headl
 | combobox | Combobox | HeadlessCombobox |
 | autocomplete | Combobox (inline) | HeadlessCombobox |
 | radio_group | Radio Group | RovingTabindex |
+| radio | Radio | — (native) |
+| otp_field | OTP / segmented input | Otp |
 | checkbox | Checkbox | Toggle |
 | checkbox_group | Checkbox | — |
 | switch | Switch | Toggle |

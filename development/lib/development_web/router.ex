@@ -20,6 +20,7 @@ defmodule DevelopmentWeb.Router do
     get "/", PageController, :home
 
     live "/showcase", Showcase.IndexLive, :index
+    live "/showcase/macro", Showcase.MacroLive, :index
     live "/showcase/headless", Showcase.HeadlessLive, :index
     live "/showcase/headless/:component", Showcase.HeadlessLive, :show
     live "/showcase/:component", Showcase.ComponentLive, :show

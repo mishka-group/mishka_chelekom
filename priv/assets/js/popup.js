@@ -10,7 +10,10 @@
 
 const Popup = {
   mounted() {
-    this.trigger = this.el.querySelector('[data-part="trigger"]');
+    // A submenu trigger is a roving menu item (`data-part="item"`) AND a popup trigger, so
+    // fall back to an `aria-haspopup` element when there's no explicit `[data-part="trigger"]`.
+    this.trigger =
+      this.el.querySelector('[data-part="trigger"]') || this.el.querySelector("[aria-haspopup]");
     this.popup = this.el.querySelector('[data-part="popup"]');
     const mode = this.el.getAttribute("data-trigger");
     this.hover = mode === "hover";

@@ -39,10 +39,44 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
   import DevelopmentWeb.Components.Headless.ToggleGroup
   import DevelopmentWeb.Components.Headless.Toolbar
   import DevelopmentWeb.Components.Headless.Tooltip
+  import DevelopmentWeb.Components.Headless.Drawer
+  import DevelopmentWeb.Components.Headless.Radio
+  import DevelopmentWeb.Components.Headless.OtpField
 
   @btn "rounded-md border border-base-300 px-3 py-1.5 text-sm"
 
-def show(%{component: "accordion"} = assigns) do
+  def show(%{component: "drawer"} = assigns) do
+    ~H"""
+    <.drawer id={@id} side="right" class="[&_[data-part=trigger]]:rounded-md [&_[data-part=trigger]]:border [&_[data-part=trigger]]:border-base-300 [&_[data-part=trigger]]:px-3 [&_[data-part=trigger]]:py-1.5 [&_[data-part=backdrop]]:bg-black/40 [&_[data-part=popup]]:fixed [&_[data-part=popup]]:right-0 [&_[data-part=popup]]:top-0 [&_[data-part=popup]]:h-full [&_[data-part=popup]]:w-72 [&_[data-part=popup]]:bg-base-100 [&_[data-part=popup]]:p-6 [&_[data-part=popup]]:shadow-xl [&_[data-part=title]]:text-lg [&_[data-part=title]]:font-semibold">
+      <:trigger>Open drawer</:trigger>
+      <:title>Filters</:title>
+      <:description>A focus-trapped panel that slides in from the edge.</:description>
+      <p class="mt-2 text-sm">Drawer body — same behavior as dialog, with a side.</p>
+      <:close><button class="rounded-md border border-base-300 px-3 py-1.5 text-sm" data-close>Close</button></:close>
+    </.drawer>
+    """
+  end
+
+  def show(%{component: "radio"} = assigns) do
+    ~H"""
+    <div class="flex flex-col gap-2">
+      <.radio :for={{label, v} <- [{"Email", "email"}, {"SMS", "sms"}, {"Push", "push"}]}
+        id={"#{@id}-#{v}"} name="notify" value={v} checked={v == "email"}
+        class="inline-flex cursor-pointer items-center gap-2 [&_input]:size-4">
+        {label}
+      </.radio>
+    </div>
+    """
+  end
+
+  def show(%{component: "otp_field"} = assigns) do
+    ~H"""
+    <.otp_field id={@id} name="code" length={6}
+      class="flex gap-2 [&_[data-part=input]]:size-10 [&_[data-part=input]]:rounded-md [&_[data-part=input]]:border [&_[data-part=input]]:border-base-300 [&_[data-part=input]]:text-center [&_[data-part=input]]:text-lg" />
+    """
+  end
+
+  def show(%{component: "accordion"} = assigns) do
   ~H"""
   <.accordion id={@id} class="w-80 divide-y divide-base-300 rounded-md border border-base-300 [&_[data-part=panel]]:p-3 [&_[data-part=panel]]:text-sm [&_[data-part=trigger]]:w-full [&_[data-part=trigger]]:p-3 [&_[data-part=trigger]]:text-left [&_[data-part=trigger]]:font-medium">
     <:item title="What is a headless component?" open>
@@ -281,7 +315,12 @@ def show(%{component: "menu"} = assigns) do
     <:trigger>Options ▾</:trigger>
     <:item>Edit</:item>
     <:item>Duplicate</:item>
+    <:item separator />
     <:item disabled>Archive</:item>
+    <:submenu label="Share ▸">
+      <button type="button" role="menuitem" data-part="item" tabindex="-1" class="block w-full px-3 py-1.5 text-left hover:bg-base-200">Copy link</button>
+      <button type="button" role="menuitem" data-part="item" tabindex="-1" class="block w-full px-3 py-1.5 text-left hover:bg-base-200">Email</button>
+    </:submenu>
   </.menu>
   """
 end
@@ -455,11 +494,11 @@ def show(%{component: "slider"} = assigns) do
   ~H"""
   <.slider
     id={@id}
-    name="volume"
+    name="price"
     min={0}
     max={100}
     step={5}
-    value={40}
+    values={[20, 70]}
     class="relative flex w-72 items-center [&_[data-part=track]]:relative [&_[data-part=track]]:h-2 [&_[data-part=track]]:w-full [&_[data-part=track]]:rounded-full [&_[data-part=track]]:bg-base-300 [&_[data-part=range]]:absolute [&_[data-part=range]]:inset-y-0 [&_[data-part=range]]:left-0 [&_[data-part=range]]:rounded-full [&_[data-part=range]]:bg-primary [&_[data-part=range]]:[width:calc(var(--chelekom-slider,0)*100%)] [&_[data-part=thumb]]:absolute [&_[data-part=thumb]]:top-1/2 [&_[data-part=thumb]]:h-4 [&_[data-part=thumb]]:w-4 [&_[data-part=thumb]]:-translate-x-1/2 [&_[data-part=thumb]]:-translate-y-1/2 [&_[data-part=thumb]]:rounded-full [&_[data-part=thumb]]:border [&_[data-part=thumb]]:border-base-300 [&_[data-part=thumb]]:bg-base-100 [&_[data-part=thumb]]:shadow [&_[data-part=thumb]]:[left:calc(var(--chelekom-slider,0)*100%)] [&_[data-part=thumb]]:cursor-grab [&_[data-part=thumb]]:focus:outline-none [&_[data-part=thumb]]:focus:ring-2 [&_[data-part=thumb]]:focus:ring-primary"
   />
   """

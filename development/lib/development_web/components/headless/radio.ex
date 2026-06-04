@@ -1,0 +1,42 @@
+defmodule DevelopmentWeb.Components.Headless.Radio do
+  @moduledoc """
+  Headless **radio** — a single radio control (label + native input + indicator).
+
+  A standalone radio for use inside a `radio_group` or a native fieldset; relies on native
+  radio semantics (no JS). Style the `chelekom-radio*` classes and the `:checked` state on the
+  input (or a `data-checked` you toggle).
+
+  WAI-ARIA APG: https://www.w3.org/WAI/ARIA/apg/patterns/radio/
+  """
+  use Phoenix.Component
+
+  @doc type: :component
+  attr :id, :string, required: true
+  attr :name, :string, default: nil
+  attr :value, :string, default: nil
+  attr :checked, :boolean, default: false
+  attr :disabled, :boolean, default: false
+  attr :class, :any, default: nil
+  attr :rest, :global
+
+  slot :inner_block, required: true, doc: "The radio label"
+
+  def radio(assigns) do
+    ~H"""
+    <label class={["chelekom-radio", @class]} data-disabled={@disabled} {@rest}>
+      <input
+        type="radio"
+        id={@id}
+        name={@name}
+        value={@value}
+        checked={@checked}
+        disabled={@disabled}
+        data-part="input"
+        class="chelekom-radio__input"
+      />
+      <span data-part="indicator" class="chelekom-radio__indicator" aria-hidden="true"></span>
+      <span data-part="label" class="chelekom-radio__label">{render_slot(@inner_block)}</span>
+    </label>
+    """
+  end
+end

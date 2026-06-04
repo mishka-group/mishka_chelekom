@@ -10,6 +10,7 @@
 /* Closed overlays are removed from the layout. */
 .chelekom-dialog[data-closed],
 .chelekom-alert-dialog[data-closed],
+.chelekom-drawer[data-closed],
 .chelekom-popover__popup[data-closed],
 .chelekom-menu__popup[data-closed],
 .chelekom-tooltip__popup[data-closed],
@@ -36,6 +37,24 @@
 .chelekom-alert-dialog__backdrop {
   position: fixed;
   inset: 0;
+}
+
+/* Drawer: full-viewport overlay; the popup itself is pinned to a side by your CSS. */
+.chelekom-drawer[data-open] {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+}
+
+.chelekom-drawer__backdrop {
+  position: fixed;
+  inset: 0;
+}
+
+/* OTP boxes lay out in a row by default. */
+.chelekom-otp_field {
+  display: inline-flex;
+  gap: 0.5rem;
 }
 
 /* Dialog: fixed, centered, above the page; backdrop fills the viewport. */

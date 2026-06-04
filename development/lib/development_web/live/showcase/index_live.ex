@@ -28,13 +28,46 @@ defmodule DevelopmentWeb.Showcase.IndexLive do
             {@count} styled components on Phoenix 1.8 / LiveView 1.1 / Tailwind 4.
             Pick a component to explore its props live.
           </p>
-          <.link navigate={~p"/showcase/headless"} class="btn btn-primary btn-sm mt-4">
-            Explore the headless layer →
-          </.link>
+          <div class="mt-4 flex gap-2">
+            <.link navigate={~p"/showcase/headless"} class="btn btn-primary btn-sm">
+              Explore the headless layer →
+            </.link>
+            <.link navigate={~p"/showcase/macro"} class="btn btn-outline btn-sm">
+              The component macro →
+            </.link>
+          </div>
         </div>
       </header>
 
       <main class="max-w-6xl mx-auto px-6 py-8 space-y-10">
+        <section class="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div class="bg-base-100 rounded-box p-5 shadow-sm border-l-4 border-primary">
+            <div class="font-semibold">① Styled <span class="badge badge-sm badge-primary">this page</span></div>
+            <p class="mt-1 text-sm text-base-content/70">
+              Finished, designed components — colors, sizes and variants baked in. Use when you
+              like our look and want it now.
+            </p>
+            <code class="block mt-2 text-xs bg-base-200 rounded p-2">mix mishka.ui.gen.component button</code>
+          </div>
+          <div class="bg-base-100 rounded-box p-5 shadow-sm border-l-4 border-secondary">
+            <div class="font-semibold">② Headless <.link navigate={~p"/showcase/headless"} class="link link-secondary text-sm">open →</.link></div>
+            <p class="mt-1 text-sm text-base-content/70">
+              Behaviour + accessibility, <strong>no styling</strong>. Correct ARIA, keyboard and
+              JS — you bring your own CSS. Use when you want your own design without building the
+              hard accessibility parts.
+            </p>
+            <code class="block mt-2 text-xs bg-base-200 rounded p-2">mix mishka.ui.gen.headless dialog</code>
+          </div>
+          <div class="bg-base-100 rounded-box p-5 shadow-sm border-l-4 border-accent">
+            <div class="font-semibold">③ The macro <.link navigate={~p"/showcase/macro"} class="link link-accent text-sm">open →</.link></div>
+            <p class="mt-1 text-sm text-base-content/70">
+              A <em>way to write</em> ① or ② — declare a whole component in one block (variants
+              or parts), with overrides + compile-time checks built in.
+            </p>
+            <code class="block mt-2 text-xs bg-base-200 rounded p-2">component :button, variants: [...]</code>
+          </div>
+        </section>
+
         <section :for={{category, components} <- @by_category}>
           <h2 class="text-xl font-semibold capitalize mb-4 flex items-center gap-2">
             {category}
