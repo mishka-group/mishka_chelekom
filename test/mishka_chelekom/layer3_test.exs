@@ -23,7 +23,7 @@ defmodule MishkaChelekom.Layer3Test do
   describe "Overrides" do
     defmodule TestOverrides do
       use MishkaChelekom.Overrides
-      override :button, :root, "rounded-full"
+      override(:button, :root, "rounded-full")
     end
 
     test "__overrides__/0 returns the declared map" do
@@ -31,7 +31,11 @@ defmodule MishkaChelekom.Layer3Test do
     end
 
     test "class_for resolves across configured modules (first wins)" do
-      Application.put_env(:mishka_chelekom, :overrides, [TestOverrides, MishkaChelekom.Presets.Default])
+      Application.put_env(:mishka_chelekom, :overrides, [
+        TestOverrides,
+        MishkaChelekom.Presets.Default
+      ])
+
       on_exit(fn -> Application.delete_env(:mishka_chelekom, :overrides) end)
 
       assert Overrides.class_for(:button, :root) == "rounded-full"
@@ -52,13 +56,13 @@ defmodule MishkaChelekom.Layer3Test do
         use MishkaChelekom.Theme
 
         variants do
-          default :primary
-          variant :primary, classes: "bg-primary"
-          variant :ghost, classes: "bg-transparent"
+          default(:primary)
+          variant(:primary, classes: "bg-primary")
+          variant(:ghost, classes: "bg-transparent")
         end
 
         theme do
-          token :radius, value: "0.5rem"
+          token(:radius, value: "0.5rem")
         end
       end
 
@@ -79,15 +83,19 @@ defmodule MishkaChelekom.Layer3Test do
       end
       """
 
-      # Spark runs verifiers in the parallel-checker phase, so the DslError surfaces as a
-      # compile diagnostic rather than a synchronous raise.
-      {_result, diagnostics} =
-        Code.with_diagnostics(fn ->
-          try do
-            Code.compile_string(code)
-          rescue
-            e -> e
-          end
+      # Spark runs verifiers in the async parallel-checker phase: the DslError is BOTH surfaced as a
+      # captured compile diagnostic (asserted below) AND printed to :stderr by the checker on its own
+      # channel. We deliberately trigger that error, so wrap the compile in `with_io(:stderr, …)` to
+      # swallow the expected stack trace instead of letting it pollute the test run's output.
+      {{_result, diagnostics}, _stderr} =
+        ExUnit.CaptureIO.with_io(:stderr, fn ->
+          Code.with_diagnostics(fn ->
+            try do
+              Code.compile_string(code)
+            rescue
+              e -> e
+            end
+          end)
         end)
 
       assert Enum.any?(diagnostics, fn d ->

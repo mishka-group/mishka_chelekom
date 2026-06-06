@@ -287,7 +287,7 @@ defmodule <%= @module %> do
 
   defp toast_dismiss(assigns) do
     ~H"""
-   <button
+    <button
       type="button"
       class={["shrink-0 leading-5", @class]}
       aria-label={gettext("close")}

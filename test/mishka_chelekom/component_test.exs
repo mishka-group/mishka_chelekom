@@ -2,7 +2,7 @@ defmodule MishkaChelekom.ComponentTest.Comps do
   @moduledoc false
   use MishkaChelekom.Component
 
-  component :tbtn,
+  component(:tbtn,
     tag: :button,
     base: "px-2",
     variants: [
@@ -10,8 +10,9 @@ defmodule MishkaChelekom.ComponentTest.Comps do
       size: [sm: "h-8", md: "h-9"]
     ],
     defaults: [color: :primary, size: :md]
+  )
 
-  component :tdialog,
+  component(:tdialog,
     headless: true,
     hook: "FocusTrap",
     parts: [
@@ -27,12 +28,13 @@ defmodule MishkaChelekom.ComponentTest.Comps do
         ]
       ]
     ]
+  )
 end
 
 defmodule MishkaChelekom.ComponentTest.Overrides do
   @moduledoc false
   use MishkaChelekom.Overrides
-  override :tbtn, :root, "rounded-full"
+  override(:tbtn, :root, "rounded-full")
 end
 
 defmodule MishkaChelekom.ComponentTest.Page do

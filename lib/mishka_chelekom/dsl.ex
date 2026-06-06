@@ -25,8 +25,7 @@ defmodule MishkaChelekom.Dsl.Verifiers.DefaultVariantExists do
       {:error,
        Spark.Error.DslError.exception(
          module: Spark.Dsl.Verifier.get_persisted(dsl_state, :module),
-         message:
-           "default variant #{inspect(default)} is not declared (have: #{inspect(names)})",
+         message: "default variant #{inspect(default)} is not declared (have: #{inspect(names)})",
          path: [:variants, :default]
        )}
     end

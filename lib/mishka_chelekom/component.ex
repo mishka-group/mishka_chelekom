@@ -77,18 +77,18 @@ defmodule MishkaChelekom.Component do
   # ---- runtime renderers (normal components; no macro-hygiene constraints) ----
 
   @doc false
-  attr :__tag__, :string
-  attr :__cls__, :any
-  attr :rest, :global
-  slot :inner_block
+  attr(:__tag__, :string)
+  attr(:__cls__, :any)
+  attr(:rest, :global)
+  slot(:inner_block)
 
   def render_tag(assigns) do
     ~H"<.dynamic_tag tag_name={@__tag__} class={@__cls__} {@rest}>{render_slot(@inner_block)}</.dynamic_tag>"
   end
 
   @doc false
-  attr :spec, :map, required: true
-  attr :ctx, :map, required: true
+  attr(:spec, :map, required: true)
+  attr(:ctx, :map, required: true)
 
   def render_node(assigns) do
     ~H"""
@@ -142,9 +142,9 @@ defmodule MishkaChelekom.Component do
 
     quote do
       unquote_splicing(variant_attrs)
-      attr :class, :any, default: nil
-      attr :rest, :global
-      slot :inner_block, required: true
+      attr(:class, :any, default: nil)
+      attr(:rest, :global)
+      slot(:inner_block, required: true)
 
       def unquote(name)(assigns) do
         vmap = unquote(vmap)
@@ -176,12 +176,19 @@ defmodule MishkaChelekom.Component do
     parts = Keyword.get(opts, :parts, [])
     {slot_decls, has_state} = collect(parts, {[], false})
     state_attr = if has_state, do: [quote(do: attr(:open, :boolean, default: false))], else: []
-    root = node_ast(name, :root, [tag: opts[:tag] || :div, hook: hook, children: parts, state: has_state], true)
+
+    root =
+      node_ast(
+        name,
+        :root,
+        [tag: opts[:tag] || :div, hook: hook, children: parts, state: has_state],
+        true
+      )
 
     quote do
-      attr :id, :string, required: true
-      attr :class, :any, default: nil
-      attr :rest, :global
+      attr(:id, :string, required: true)
+      attr(:class, :any, default: nil)
+      attr(:rest, :global)
       unquote_splicing(state_attr)
       unquote_splicing(slot_decls)
 
@@ -231,7 +238,10 @@ defmodule MishkaChelekom.Component do
 
     [
       if root? do
-        quote do: [class: MishkaChelekom.CSS.classes([unquote(klass), assigns.class]), id: assigns.id]
+        quote do: [
+                class: MishkaChelekom.CSS.classes([unquote(klass), assigns.class]),
+                id: assigns.id
+              ]
       else
         quote do: [class: unquote(klass)]
       end
@@ -239,8 +249,16 @@ defmodule MishkaChelekom.Component do
     |> add(if(root?, do: nil, else: quote(do: ["data-part": unquote(to_string(pname))])))
     |> add(if(popts[:role], do: quote(do: [role: unquote(popts[:role])])))
     |> add(aria_ast(popts[:aria] || []))
-    |> add(if(popts[:state] == true, do: quote(do: ["data-open": assigns.open, "data-closed": !assigns.open])))
-    |> add(if(!root? && popts[:id], do: quote(do: [id: assigns.id <> unquote("-" <> to_string(pname))])))
+    |> add(
+      if(popts[:state] == true,
+        do: quote(do: ["data-open": assigns.open, "data-closed": !assigns.open])
+      )
+    )
+    |> add(
+      if(!root? && popts[:id],
+        do: quote(do: [id: assigns.id <> unquote("-" <> to_string(pname))])
+      )
+    )
     |> add(if(popts[:hook], do: quote(do: ["phx-hook": unquote(popts[:hook])])))
     |> add(if(root?, do: quote(do: Map.to_list(assigns.rest))))
     |> combine()
@@ -249,15 +267,19 @@ defmodule MishkaChelekom.Component do
   defp add(list, nil), do: list
   defp add(list, piece), do: list ++ [piece]
 
-  defp combine([h | t]), do: Enum.reduce(t, h, fn p, acc -> quote do: unquote(acc) ++ unquote(p) end)
+  defp combine([h | t]),
+    do: Enum.reduce(t, h, fn p, acc -> quote do: unquote(acc) ++ unquote(p) end)
 
   defp aria_ast([]), do: quote(do: [])
 
   defp aria_ast(aria) do
     pairs =
       Enum.map(aria, fn
-        {k, {:ref, part}} -> quote do: {unquote(:"aria-#{k}"), assigns.id <> unquote("-" <> to_string(part))}
-        {k, v} -> quote do: {unquote(:"aria-#{k}"), unquote(v)}
+        {k, {:ref, part}} ->
+          quote do: {unquote(:"aria-#{k}"), assigns.id <> unquote("-" <> to_string(part))}
+
+        {k, v} ->
+          quote do: {unquote(:"aria-#{k}"), unquote(v)}
       end)
 
     quote do: unquote(pairs)

@@ -194,6 +194,14 @@ defmodule MishkaChelekom.DemoAssignsExtractor do
         {:io, _, _} = node, _acc ->
           {node, true}
 
+        # Bare variable reference (`nonce`, `session`, …): a 3-tuple whose context is an atom
+        # (nil or a module) rather than an args list. We evaluate values with NO bindings, so any
+        # free variable is un-evaluable — flag it here so we never hand it to `Code.eval_quoted`,
+        # which would print an "undefined variable" compiler diagnostic to stderr before raising.
+        {name, _, ctx} = node, _acc
+        when is_atom(name) and is_atom(ctx) and name not in @safe_kernels ->
+          {node, true}
+
         node, acc ->
           {node, acc}
       end)

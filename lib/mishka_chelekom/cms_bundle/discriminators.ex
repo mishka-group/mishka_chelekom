@@ -148,11 +148,21 @@ defmodule MishkaChelekom.CmsBundle.Discriminators do
 
   # Find every `defp NAME(ARGS), do: …` and `defp NAME(ARGS) do … end`
   # in `text` via `Code.string_to_quoted/1` + `Macro.prewalk/3`.
+  #
+  # `text` is a raw EEx text segment, which may be ordinary template prose rather than Elixir code
+  # (e.g. demo copy containing apostrophes like "ya'll"/"we'll", which the parser reads as a `'…'`
+  # charlist). We only want the `defp` AST, so we parse inside `Code.with_diagnostics/1` and discard
+  # the diagnostics — otherwise those spurious deprecation/parse warnings leak to stderr during export.
   defp find_defps(text) do
-    case Code.string_to_quoted(text, file: "eex_text") do
-      {:ok, ast} -> collect_defps(ast)
-      {:error, _} -> []
-    end
+    {result, _diagnostics} =
+      Code.with_diagnostics(fn ->
+        case Code.string_to_quoted(text, file: "eex_text") do
+          {:ok, ast} -> collect_defps(ast)
+          {:error, _} -> []
+        end
+      end)
+
+    result
   rescue
     _ -> []
   catch

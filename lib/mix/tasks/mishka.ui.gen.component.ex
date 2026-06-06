@@ -653,7 +653,9 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Component do
                   content
 
                 _ ->
-                  File.read!(MishkaChelekom.Generators.Core.lib_priv("assets/js/mishka_components.js"))
+                  File.read!(
+                    MishkaChelekom.Generators.Core.lib_priv("assets/js/mishka_components.js")
+                  )
               end
 
             acc

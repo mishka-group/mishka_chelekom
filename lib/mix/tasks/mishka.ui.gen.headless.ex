@@ -153,7 +153,9 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Headless do
     module_prefix = Keyword.get(options, :module_prefix) || ""
 
     module_prefix_camel =
-      if module_prefix != "", do: module_prefix |> String.trim_trailing("_") |> Macro.camelize(), else: ""
+      if module_prefix != "",
+        do: module_prefix |> String.trim_trailing("_") |> Macro.camelize(),
+        else: ""
 
     # Nil-fill any declared catalog args so templates never hit "undefined variable".
     arg_assigns =

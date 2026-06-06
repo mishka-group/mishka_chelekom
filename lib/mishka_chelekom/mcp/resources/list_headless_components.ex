@@ -78,7 +78,9 @@ defmodule MishkaChelekom.MCP.Resources.ListHeadlessComponents do
     if cfg do
       aria = cfg[:aria_pattern] || []
       anatomy = cfg[:anatomy] || []
-      parts = (anatomy[:parts] || []) |> Keyword.keys() |> Enum.map(&to_string/1) |> Enum.join(", ")
+
+      parts =
+        (anatomy[:parts] || []) |> Keyword.keys() |> Enum.map(&to_string/1) |> Enum.join(", ")
 
       %{
         name: name,
