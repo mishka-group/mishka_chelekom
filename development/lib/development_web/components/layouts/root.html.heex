@@ -30,5 +30,15 @@
   </head>
   <body>
     {@inner_content}
+    <button
+      type="button"
+      data-theme-toggle
+      aria-label="Toggle light and dark mode"
+      title="Toggle light / dark"
+      class="fixed bottom-5 right-5 z-50 inline-flex size-10 items-center justify-center rounded-full bg-base-100 text-base-content shadow-lg ring-1 ring-base-content/10 hover:brightness-95 transition"
+    >
+      <span class="hero-moon-solid size-5 [[data-theme=dark]_&]:hidden" />
+      <span class="hero-sun-solid size-5 hidden [[data-theme=dark]_&]:inline-block" />
+    </button>
   </body>
 </html>

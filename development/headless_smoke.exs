@@ -21,5 +21,8 @@ results =
 
 oks = Enum.count(results, &match?({:ok, _}, &1))
 IO.puts("\n=== Headless preview smoke: #{oks}/#{length(results)} rendered OK ===")
-for {:error, n, m} <- results, do: IO.puts("FAIL #{n}: #{m |> String.replace("\n", " ") |> String.slice(0, 200)}")
+
+for {:error, n, m} <- results,
+    do: IO.puts("FAIL #{n}: #{m |> String.replace("\n", " ") |> String.slice(0, 200)}")
+
 if oks == length(results), do: IO.puts("All headless previews render. 🎉")

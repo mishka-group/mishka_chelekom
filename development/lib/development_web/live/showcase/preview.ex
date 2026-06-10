@@ -26,7 +26,9 @@ defmodule DevelopmentWeb.Showcase.Preview do
         A fully featured components & UI kit library for Phoenix & Phoenix LiveView.
       </:item>
       <:item title="Is it headless?">Styled today; a headless layer is on the roadmap.</:item>
-      <:item title="Zero runtime?">Components are generated into your app — no prod dependency.</:item>
+      <:item title="Zero runtime?">
+        Components are generated into your app — no prod dependency.
+      </:item>
     </.accordion>
     """
   end
@@ -34,8 +36,16 @@ defmodule DevelopmentWeb.Showcase.Preview do
   def show(%{component: "carousel"} = assigns) do
     ~H"""
     <.carousel id={@id} {@props}>
-      <:slide title="First slide" description="A sample slide" image="https://picsum.photos/seed/1/640/280" />
-      <:slide title="Second slide" description="Another slide" image="https://picsum.photos/seed/2/640/280" />
+      <:slide
+        title="First slide"
+        description="A sample slide"
+        image="https://picsum.photos/seed/1/640/280"
+      />
+      <:slide
+        title="Second slide"
+        description="Another slide"
+        image="https://picsum.photos/seed/2/640/280"
+      />
     </.carousel>
     """
   end

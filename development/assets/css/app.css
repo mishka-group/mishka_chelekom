@@ -8,89 +8,148 @@
 @source "../js";
 @source "../../lib/development_web";
 
+/* Kit `skin` part-variant classes are built at runtime, so Tailwind can't scan them — safelist the
+   demo's (this is what `DevelopmentWeb.Kit.safelist()` returns for the skin). */
+@source inline("[&_[data-part=trigger]]:flex [&_[data-part=trigger]]:w-full [&_[data-part=trigger]]:justify-between [&_[data-part=trigger]]:py-3 [&_[data-part=trigger]]:font-medium [&_[data-part=panel]]:pb-3 [&_[data-part=panel]]:text-sm [&_[data-part=panel]]:text-base-content/70");
+
 /* A Tailwind plugin that makes "hero-#{ICON}" classes available.
    The heroicons installation itself is managed by your mix.exs */
 @plugin "../vendor/heroicons";
 
-/* daisyUI Tailwind Plugin. You can update this file by fetching the latest version with:
-   curl -sLO https://github.com/saadeghi/daisyui/releases/latest/download/daisyui.js
-   Make sure to look at the daisyUI changelog: https://daisyui.com/docs/changelog/ */
-@plugin "../vendor/daisyui" {
-  themes: false;
+/* ──────────────────────────────────────────────────────────────────────────
+   Harness palette + minimal UI primitives — plain CSS, replacing daisyUI.
+   The Mishka Chelekom components bring their own theme (mishka_chelekom.css);
+   this only styles the showcase chrome. Light by default, dark via the
+   `data-theme="dark"` toggle or the OS preference.
+   ────────────────────────────────────────────────────────────────────────── */
+:root {
+  --c-base-100: oklch(98% 0 0);
+  --c-base-200: oklch(96% 0.001 286.375);
+  --c-base-300: oklch(92% 0.004 286.32);
+  --c-base-content: oklch(21% 0.006 285.885);
+  --c-primary: oklch(70% 0.213 47.604);
+  --c-primary-content: oklch(98% 0.016 73.684);
+  --c-secondary: oklch(55% 0.027 264.364);
+  --c-secondary-content: oklch(98% 0.002 247.839);
+  --c-accent: oklch(0% 0 0);
+  --c-accent-content: oklch(100% 0 0);
+  --c-info: oklch(62% 0.214 259.815);
+  --c-info-content: oklch(97% 0.014 254.604);
+  --c-success: oklch(70% 0.14 182.503);
+  --c-warning: oklch(66% 0.179 58.318);
+  --c-error: oklch(58% 0.253 17.585);
+  --c-neutral: oklch(44% 0.017 285.786);
 }
 
-/* daisyUI theme plugin. You can update this file by fetching the latest version with:
-  curl -sLO https://github.com/saadeghi/daisyui/releases/latest/download/daisyui-theme.js
-  We ship with two themes, a light one inspired on Phoenix colors and a dark one inspired
-  on Elixir colors. Build your own at: https://daisyui.com/theme-generator/ */
-@plugin "../vendor/daisyui-theme" {
-  name: "dark";
-  default: false;
-  prefersdark: true;
-  color-scheme: "dark";
-  --color-base-100: oklch(30.33% 0.016 252.42);
-  --color-base-200: oklch(25.26% 0.014 253.1);
-  --color-base-300: oklch(20.15% 0.012 254.09);
-  --color-base-content: oklch(97.807% 0.029 256.847);
-  --color-primary: oklch(58% 0.233 277.117);
-  --color-primary-content: oklch(96% 0.018 272.314);
-  --color-secondary: oklch(58% 0.233 277.117);
-  --color-secondary-content: oklch(96% 0.018 272.314);
-  --color-accent: oklch(60% 0.25 292.717);
-  --color-accent-content: oklch(96% 0.016 293.756);
-  --color-neutral: oklch(37% 0.044 257.287);
-  --color-neutral-content: oklch(98% 0.003 247.858);
-  --color-info: oklch(58% 0.158 241.966);
-  --color-info-content: oklch(97% 0.013 236.62);
-  --color-success: oklch(60% 0.118 184.704);
-  --color-success-content: oklch(98% 0.014 180.72);
-  --color-warning: oklch(66% 0.179 58.318);
-  --color-warning-content: oklch(98% 0.022 95.277);
-  --color-error: oklch(58% 0.253 17.585);
-  --color-error-content: oklch(96% 0.015 12.422);
-  --radius-selector: 0.25rem;
-  --radius-field: 0.25rem;
-  --radius-box: 0.5rem;
-  --size-selector: 0.21875rem;
-  --size-field: 0.21875rem;
-  --border: 1.5px;
-  --depth: 1;
-  --noise: 0;
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --c-base-100: oklch(30.33% 0.016 252.42);
+    --c-base-200: oklch(25.26% 0.014 253.1);
+    --c-base-300: oklch(20.15% 0.012 254.09);
+    --c-base-content: oklch(97.807% 0.029 256.847);
+    --c-primary: oklch(58% 0.233 277.117);
+    --c-primary-content: oklch(96% 0.018 272.314);
+    --c-secondary: oklch(58% 0.233 277.117);
+    --c-secondary-content: oklch(96% 0.018 272.314);
+    --c-accent: oklch(60% 0.25 292.717);
+    --c-accent-content: oklch(96% 0.016 293.756);
+  }
 }
 
-@plugin "../vendor/daisyui-theme" {
-  name: "light";
-  default: true;
-  prefersdark: false;
-  color-scheme: "light";
-  --color-base-100: oklch(98% 0 0);
-  --color-base-200: oklch(96% 0.001 286.375);
-  --color-base-300: oklch(92% 0.004 286.32);
-  --color-base-content: oklch(21% 0.006 285.885);
-  --color-primary: oklch(70% 0.213 47.604);
-  --color-primary-content: oklch(98% 0.016 73.684);
-  --color-secondary: oklch(55% 0.027 264.364);
-  --color-secondary-content: oklch(98% 0.002 247.839);
-  --color-accent: oklch(0% 0 0);
-  --color-accent-content: oklch(100% 0 0);
-  --color-neutral: oklch(44% 0.017 285.786);
-  --color-neutral-content: oklch(98% 0 0);
-  --color-info: oklch(62% 0.214 259.815);
-  --color-info-content: oklch(97% 0.014 254.604);
-  --color-success: oklch(70% 0.14 182.503);
-  --color-success-content: oklch(98% 0.014 180.72);
-  --color-warning: oklch(66% 0.179 58.318);
-  --color-warning-content: oklch(98% 0.022 95.277);
-  --color-error: oklch(58% 0.253 17.585);
-  --color-error-content: oklch(96% 0.015 12.422);
-  --radius-selector: 0.25rem;
-  --radius-field: 0.25rem;
+[data-theme="dark"] {
+  --c-base-100: oklch(30.33% 0.016 252.42);
+  --c-base-200: oklch(25.26% 0.014 253.1);
+  --c-base-300: oklch(20.15% 0.012 254.09);
+  --c-base-content: oklch(97.807% 0.029 256.847);
+  --c-primary: oklch(58% 0.233 277.117);
+  --c-primary-content: oklch(96% 0.018 272.314);
+  --c-secondary: oklch(58% 0.233 277.117);
+  --c-secondary-content: oklch(96% 0.018 272.314);
+  --c-accent: oklch(60% 0.25 292.717);
+  --c-accent-content: oklch(96% 0.016 293.756);
+}
+
+@theme {
+  --color-base-100: var(--c-base-100);
+  --color-base-200: var(--c-base-200);
+  --color-base-300: var(--c-base-300);
+  --color-base-content: var(--c-base-content);
+  --color-primary: var(--c-primary);
+  --color-primary-content: var(--c-primary-content);
+  --color-secondary: var(--c-secondary);
+  --color-secondary-content: var(--c-secondary-content);
+  --color-accent: var(--c-accent);
+  --color-accent-content: var(--c-accent-content);
+  --color-info: var(--c-info);
+  --color-info-content: var(--c-info-content);
+  --color-success: var(--c-success);
+  --color-warning: var(--c-warning);
+  --color-error: var(--c-error);
+  --color-neutral: var(--c-neutral);
   --radius-box: 0.5rem;
-  --size-selector: 0.21875rem;
-  --size-field: 0.21875rem;
-  --border: 1.5px;
-  --depth: 1;
-  --noise: 0;
+}
+
+@layer components {
+  .btn {
+    display: inline-flex; align-items: center; justify-content: center; gap: .4rem;
+    border-radius: .5rem; padding: .5rem .9rem; font-size: .875rem; font-weight: 500;
+    cursor: pointer; border: 1px solid transparent; transition: filter .15s, background .15s;
+    background: var(--color-base-300); color: var(--color-base-content);
+  }
+  .btn:hover { filter: brightness(1.06); }
+  .btn-sm { padding: .35rem .7rem; font-size: .8rem; }
+  .btn-xs { padding: .2rem .5rem; font-size: .72rem; border-radius: .375rem; }
+  .btn-ghost { background: transparent; }
+  .btn-ghost:hover { background: var(--color-base-200); filter: none; }
+  .btn-outline { background: transparent; border-color: color-mix(in oklch, currentColor 35%, transparent); }
+  .btn-primary { background: var(--color-primary); color: var(--color-primary-content); }
+
+  .badge {
+    display: inline-flex; align-items: center; gap: .25rem; white-space: nowrap;
+    border-radius: 9999px; padding: .12rem .55rem; font-size: .75rem; font-weight: 500;
+    background: var(--color-base-300); color: var(--color-base-content);
+  }
+  .badge-sm { padding: .06rem .45rem; font-size: .7rem; }
+  .badge-xs { padding: 0 .35rem; font-size: .65rem; }
+  .badge-ghost { background: var(--color-base-200); }
+  .badge-outline { background: transparent; border: 1px solid color-mix(in oklch, currentColor 30%, transparent); }
+  .badge-primary { background: var(--color-primary); color: var(--color-primary-content); }
+  .badge-secondary { background: var(--color-secondary); color: var(--color-secondary-content); }
+
+  .select {
+    border: 1px solid var(--color-base-300); background: var(--color-base-100);
+    color: var(--color-base-content); border-radius: .5rem; padding: .4rem .6rem; font-size: .875rem;
+  }
+  .select-sm { padding: .3rem .5rem; font-size: .8rem; }
+  .select-xs { padding: .2rem .45rem; font-size: .75rem; }
+
+  .table { width: 100%; border-collapse: collapse; font-size: .875rem; }
+  .table :is(th, td) { padding: .5rem .75rem; text-align: left; border-bottom: 1px solid color-mix(in oklch, var(--color-base-content) 8%, transparent); }
+  .table thead th { font-weight: 600; color: color-mix(in oklch, var(--color-base-content) 60%, transparent); }
+  .table-sm :is(th, td) { padding: .3rem .55rem; }
+  .table-zebra tbody tr:nth-child(even) { background: color-mix(in oklch, var(--color-base-content) 4%, transparent); }
+
+  .menu { display: flex; flex-direction: column; gap: .1rem; }
+  .menu :is(a) { display: block; padding: .4rem .6rem; border-radius: .4rem; }
+  .menu :is(a:hover) { background: var(--color-base-200); }
+  .menu :is(a.active) { background: var(--color-primary); color: var(--color-primary-content); }
+  .menu-sm :is(a) { padding: .3rem .5rem; font-size: .85rem; }
+
+  .link { text-decoration: underline; text-underline-offset: 2px; cursor: pointer; }
+  .link-primary { color: var(--color-primary); }
+  .link-secondary { color: var(--color-secondary); }
+  .link-accent { color: var(--color-accent); }
+  .link-info { color: var(--color-info); }
+
+  .card { background: var(--color-base-100); border-radius: .75rem; }
+  .navbar { display: flex; align-items: center; min-height: 4rem; }
+  .kbd { display: inline-flex; align-items: center; border: 1px solid var(--color-base-300); border-bottom-width: 2px; border-radius: .4rem; padding: .05rem .4rem; font-size: .75rem; font-family: ui-monospace, monospace; }
+  .alert { display: flex; gap: .5rem; align-items: center; border-radius: .5rem; padding: .75rem 1rem; background: var(--color-base-200); }
+
+  /* Phoenix default form controls (flashes, home page) */
+  .input, .textarea { width: 100%; border: 1px solid var(--color-base-300); background: var(--color-base-100); color: var(--color-base-content); border-radius: .5rem; padding: .4rem .6rem; font-size: .875rem; }
+  .label { font-size: .875rem; font-weight: 500; }
+  .fieldset { border: 0; padding: 0; margin: 0; }
 }
 
 /* Add variants based on LiveView classes */

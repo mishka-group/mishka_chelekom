@@ -1,11 +1,14 @@
 defmodule DevelopmentWeb.Showcase.HeadlessLive do
   @moduledoc """
-  Showcase for the headless component layer: unstyled markup + ARIA + behavior hooks.
-  Index at `/showcase/headless`, live examples at `/showcase/headless/:component`.
+  A single unstyled (headless) component page. Left column documents the accessibility contract —
+  anatomy parts, ARIA pattern, keyboard/focus behaviour, state attributes — and how to author it
+  from a Kit. The right column is a sticky live preview (the only styling is added for legibility).
+  Links across to the matching standard component when one exists. Index at `/showcase/headless`.
   """
   use DevelopmentWeb, :live_view
 
-  alias DevelopmentWeb.Showcase.{HeadlessCatalog, HeadlessPreview}
+  import DevelopmentWeb.Showcase.UI
+  alias DevelopmentWeb.Showcase.{HeadlessCatalog, HeadlessPreview, HeadlessApi, Snippets}
 
   @impl true
   def mount(_params, _session, socket), do: {:ok, assign(socket, :catalog, HeadlessCatalog.all())}
@@ -13,81 +16,221 @@ defmodule DevelopmentWeb.Showcase.HeadlessLive do
   @impl true
   def handle_params(%{"component" => name}, _uri, socket) do
     case HeadlessCatalog.get(name) do
-      nil -> {:noreply, push_navigate(socket, to: ~p"/showcase/headless")}
-      comp -> {:noreply, assign(socket, component: comp, page_title: "headless #{name}")}
+      nil ->
+        {:noreply, push_navigate(socket, to: ~p"/showcase/headless")}
+
+      comp ->
+        {:noreply,
+         socket
+         |> assign(:component, comp)
+         |> assign(:api, HeadlessApi.parse(name))
+         |> assign(:usage, HeadlessApi.usage(name))
+         |> assign(:module, HeadlessApi.module(name))
+         |> assign(:page_title, "#{name} · Unstyled")}
     end
   end
 
   def handle_params(_params, _uri, socket) do
-    {:noreply, assign(socket, component: nil, page_title: "Headless components")}
+    {:noreply, assign(socket, component: nil, page_title: "Unstyled components")}
   end
+
+  # --- index ---------------------------------------------------------------------------
 
   @impl true
   def render(%{component: nil} = assigns) do
     ~H"""
     <div class="min-h-screen bg-base-200 text-base-content">
-      <header class="bg-base-100 border-b border-base-300">
-        <div class="max-w-5xl mx-auto px-6 py-10">
-          <.link navigate={~p"/showcase"} class="text-sm text-base-content/60 hover:underline">
-            ← Styled components
-          </.link>
-          <h1 class="text-4xl font-bold mt-1">Headless components</h1>
-          <p class="mt-2 text-base-content/70">
-            Unstyled markup + full WAI-ARIA wiring + a shared JS behavior core.
-            Bring your own CSS — target the <code>chelekom-*</code> classes and
-            <code>data-*</code> state.
-          </p>
-        </div>
-      </header>
-      <main class="max-w-5xl mx-auto px-6 py-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-        <.link
-          :for={c <- @catalog}
-          navigate={~p"/showcase/headless/#{c.name}"}
-          class="block bg-base-100 rounded-box p-5 shadow-sm hover:ring-2 hover:ring-primary/40 transition"
-        >
-          <div class="font-semibold capitalize">{c.name}</div>
-          <div class="text-xs text-base-content/60 mt-1">{c.pattern}</div>
-          <div class="mt-2 flex flex-wrap gap-1">
-            <span :for={h <- c.hooks} class="badge badge-ghost badge-sm">{h}</span>
-          </div>
+      <main class="max-w-5xl mx-auto px-6 py-10 space-y-6">
+        <.link navigate={~p"/showcase"} class="text-sm text-base-content/60 hover:underline">
+          ← All components
         </.link>
+        <h1 class="text-3xl font-bold">Unstyled components</h1>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+          <.link
+            :for={c <- @catalog}
+            navigate={~p"/showcase/headless/#{c.name}"}
+            class="block bg-base-100 rounded-box p-4 shadow-sm hover:ring-2 hover:ring-secondary/40 transition"
+          >
+            <div class="font-semibold capitalize">{String.replace(c.name, "_", " ")}</div>
+            <div class="text-xs text-base-content/60 mt-1 line-clamp-2">{c.description}</div>
+          </.link>
+        </div>
       </main>
     </div>
     """
   end
 
+  # --- detail --------------------------------------------------------------------------
+
   def render(assigns) do
     ~H"""
     <div class="min-h-screen bg-base-200 text-base-content">
-      <main class="max-w-4xl mx-auto px-6 py-8 space-y-6">
-        <header class="space-y-1">
-          <.link navigate={~p"/showcase/headless"} class="text-sm text-base-content/60 hover:underline">
-            ← All headless
-          </.link>
-          <h1 class="text-3xl font-bold capitalize">{@component.name}</h1>
-          <p class="text-base-content/60">
+      <div class="max-w-6xl mx-auto px-6 py-8 space-y-6">
+        <header class="space-y-2">
+          <div class="flex items-center justify-between gap-4 flex-wrap">
+            <.link
+              navigate={~p"/showcase/headless"}
+              class="text-sm text-base-content/60 hover:underline"
+            >
+              ← All unstyled
+            </.link>
+            <div class="flex items-center gap-3 text-sm">
+              <.link
+                :if={@component.sibling}
+                navigate={~p"/showcase/#{@component.sibling}"}
+                class="badge badge-primary badge-outline gap-1"
+              >
+                ⇄ standard: {String.replace(@component.sibling, "_", " ")}
+              </.link>
+              <a
+                :if={@component.doc_url}
+                href={@component.doc_url}
+                target="_blank"
+                class="link link-primary"
+              >
+                ARIA pattern ↗
+              </a>
+            </div>
+          </div>
+          <h1 class="text-3xl font-bold capitalize">{String.replace(@component.name, "_", " ")}</h1>
+          <p class="text-base-content/70 max-w-2xl">{@component.description}</p>
+          <div class="flex flex-wrap items-center gap-1.5">
             <span class="badge badge-sm">{@component.category}</span>
-            <span class="ml-2 text-sm">APG: {@component.pattern}</span>
-            <span :for={h <- @component.hooks} class="badge badge-ghost badge-sm ml-1">{h}</span>
-          </p>
+            <span class="badge badge-sm badge-ghost">APG: {@component.pattern}</span>
+            <span :for={h <- @component.hooks} class="badge badge-sm badge-ghost">hook: {h}</span>
+          </div>
         </header>
 
-        <div class="bg-base-100 rounded-box p-8 shadow-sm">
-          <div class="text-xs uppercase tracking-wide text-base-content/40 mb-4">
-            Live preview (try keyboard + mouse)
-          </div>
-          <div class="flex flex-wrap items-start gap-4 min-h-32">
-            <HeadlessPreview.show component={@component.name} id={"hl-#{@component.name}"} />
-          </div>
-        </div>
+        <div class="grid grid-cols-1 lg:grid-cols-[1fr_22rem] gap-10 items-start">
+          <div class="min-w-0 space-y-10 order-2 lg:order-1">
+            <.section
+              title="Usage"
+              subtitle="Use the generated component directly in a Phoenix template."
+            >
+              <p class="text-xs text-base-content/50">
+                Generated into <code>{@module}</code> — import it, then:
+              </p>
+              <.code_block code={@usage} />
+            </.section>
 
-        <div class="bg-base-300 rounded-box p-5 text-sm">
-          Headless components ship <strong>no colors or spacing</strong>. The classes you see in
-          this preview are added by the showcase for legibility only — in your app you style the
-          <code>chelekom-{@component.name}*</code> hooks and <code>data-open</code>/<code>data-closed</code> state.
+            <.section
+              title="Anatomy"
+              subtitle="The parts the component renders, with their semantics."
+            >
+              <.parts_table anatomy={@component.anatomy} />
+            </.section>
+
+            <.section :if={@component.keyboard != [] or @component.focus} title="Keyboard & focus">
+              <ul class="text-sm space-y-1 text-base-content/80">
+                <li :for={k <- @component.keyboard} class="flex gap-2">
+                  <span class="text-base-content/40">›</span> {k}
+                </li>
+                <li :if={@component.focus} class="flex gap-2">
+                  <span class="text-base-content/40">›</span> {@component.focus}
+                </li>
+              </ul>
+            </.section>
+
+            <.section :if={@component.state != []} title="State attributes">
+              <div class="flex flex-wrap gap-2">
+                <span :for={s <- @component.state} class="badge badge-outline font-mono">{s}</span>
+              </div>
+            </.section>
+
+            <.section :if={@api.attrs != []} title="Attributes">
+              <.attrs_table attrs={@api.attrs} />
+            </.section>
+
+            <.section :if={@api.slots != []} title="Slots">
+              <.slots_table slots={@api.slots} />
+            </.section>
+
+            <.section
+              title="Customize it"
+              subtitle="Style its parts under a new name, from a Kit — `part` rules ⇒ headless."
+            >
+              <.code_block code={Snippets.customize_headless(@component)} />
+              <.tip>
+                Same <code>customize</code> verb as styled components — the <code>part</code>
+                rules tell the macro it's headless. It generates
+                <code>&lt;.my_{@component.name}&gt;</code>
+                as a thin wrapper that delegates to the real component (untouched) and applies your
+                per-part classes as <code>[&amp;_[data-part=…]]:</code>
+                variants. Feed <code>MyAppWeb.Kit.safelist()</code> to Tailwind so they survive purge.
+              </.tip>
+            </.section>
+          </div>
+
+          <aside class="order-1 lg:order-2 lg:sticky lg:top-8 space-y-4">
+            <div class="bg-base-100 rounded-box p-6 shadow-sm">
+              <div class="text-xs uppercase tracking-wide text-base-content/40 mb-4">
+                Live preview — try keyboard + mouse
+              </div>
+              <div class="flex flex-wrap items-start gap-4 min-h-32">
+                <HeadlessPreview.show component={@component.name} id={"hl-#{@component.name}"} />
+              </div>
+            </div>
+            <div class="bg-base-300/70 rounded-box p-4 text-xs text-base-content/70">
+              Ships <strong>no colors or spacing</strong>. The classes here are showcase-only — in
+              your app you style the <code>chelekom-{@component.name}*</code>
+              hooks and <code>data-*</code>
+              state.
+            </div>
+          </aside>
         </div>
-      </main>
+      </div>
     </div>
     """
+  end
+
+  # Renders the anatomy parts (root + named parts) with element / role / aria.
+  attr :anatomy, :any, required: true
+
+  defp parts_table(assigns) do
+    assigns = assign(assigns, :rows, anatomy_rows(assigns.anatomy))
+
+    ~H"""
+    <div :if={@rows == []} class="text-sm text-base-content/50">Anatomy not documented.</div>
+    <div :if={@rows != []} class="overflow-x-auto rounded-box ring-1 ring-base-content/5">
+      <table class="table table-sm">
+        <thead>
+          <tr>
+            <th>Part</th>
+            <th>Element</th>
+            <th>Role</th>
+            <th>ARIA</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr :for={r <- @rows}>
+            <td class="font-mono text-xs whitespace-nowrap">{r.name}</td>
+            <td class="font-mono text-xs text-base-content/60">&lt;{r.element}&gt;</td>
+            <td class="font-mono text-xs text-base-content/60">{r.role || "—"}</td>
+            <td class="text-xs text-base-content/70">
+              <span :for={a <- r.aria} class="badge badge-xs badge-ghost font-mono mr-1">{a}</span>
+              <span :if={r.aria == []}>—</span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    """
+  end
+
+  defp anatomy_rows(anatomy) when is_list(anatomy) do
+    root = if r = anatomy[:root], do: [row("root", r)], else: []
+    parts = for {name, opts} <- anatomy[:parts] || [], do: row(name, opts)
+    root ++ parts
+  end
+
+  defp anatomy_rows(_), do: []
+
+  defp row(name, opts) do
+    %{
+      name: to_string(name),
+      element: opts[:element] || "div",
+      role: opts[:role],
+      aria: (opts[:aria] || []) ++ (opts[:data_attributes] || [])
+    }
   end
 end

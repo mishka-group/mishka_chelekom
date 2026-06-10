@@ -1,14 +1,14 @@
 defmodule DevelopmentWeb.Showcase.ComponentLive do
   @moduledoc """
-  Interactive prop explorer for a single Mishka Chelekom component.
-
-  Controls are derived from the component's catalog `args` (variant/color/size/…). Changing
-  a control updates a live preview (rendered via `DevelopmentWeb.Showcase.Preview`) and the
-  copy-paste HEEx snippet.
+  A single standard (styled) component page. Left column documents it — description, real
+  examples, how to author the same thing with the macro/Kit, and the full attribute/slot
+  reference. The right column is a sticky, interactive preview driven by the component's catalog
+  dimensions. Links across to the matching unstyled component when one exists.
   """
   use DevelopmentWeb, :live_view
 
-  alias DevelopmentWeb.Showcase.{Catalog, Preview}
+  import DevelopmentWeb.Showcase.UI
+  alias DevelopmentWeb.Showcase.{Catalog, Preview, Snippets, JsonMeta}
 
   @sample "Mishka Chelekom"
 
@@ -16,27 +16,33 @@ defmodule DevelopmentWeb.Showcase.ComponentLive do
   def mount(%{"component" => name}, _session, socket) do
     case Catalog.get(name) do
       nil ->
-        {:ok, socket |> put_flash(:error, "Unknown component: #{name}") |> push_navigate(to: ~p"/showcase")}
+        {:ok,
+         socket
+         |> put_flash(:error, "Unknown component: #{name}")
+         |> push_navigate(to: ~p"/showcase")}
 
       component ->
         {:ok,
          socket
          |> assign(:component, component)
-         |> assign(:all, Catalog.all())
          |> assign(:sample, @sample)
          |> assign(:form, to_form(%{}, as: :demo))
          |> assign(:props, default_props(component))
-         |> assign(:page_title, "#{component.name} · Showcase")}
+         |> assign(:examples, JsonMeta.examples(name))
+         |> assign(:attrs, JsonMeta.attrs(name))
+         |> assign(:slots, JsonMeta.slots(name))
+         |> assign(:deps, JsonMeta.dependencies(name))
+         |> assign(:page_title, "#{component.name} · Standard")}
     end
   end
 
   @impl true
   def handle_event("update", params, socket) do
-    keys = dim_keys(socket.assigns.component)
+    by_attr = Map.new(socket.assigns.component.dims, &{&1.attr, &1})
 
     props =
-      for {k, v} <- params, k in keys, v not in [nil, ""], into: %{} do
-        {String.to_existing_atom(k), v}
+      for {k, v} <- params, dim = by_attr[k], v not in [nil, ""], into: %{} do
+        {String.to_atom(k), cast(v, dim.type)}
       end
 
     {:noreply, assign(socket, :props, props)}
@@ -49,50 +55,67 @@ defmodule DevelopmentWeb.Showcase.ComponentLive do
   @impl true
   def render(assigns) do
     ~H"""
-    <div class="flex min-h-screen bg-base-200 text-base-content">
-      <.nav all={@all} current={@component.name} />
+    <div class="min-h-screen bg-base-200 text-base-content">
+      <div class="max-w-6xl mx-auto px-6 py-8 space-y-6">
+        <.page_header component={@component} />
 
-      <main class="flex-1 min-w-0 p-6 lg:p-10 space-y-6">
-        <header class="space-y-1">
-          <.link navigate={~p"/showcase"} class="text-sm text-base-content/60 hover:underline">
-            ← All components
-          </.link>
-          <h1 class="text-3xl font-bold capitalize">{String.replace(@component.name, "_", " ")}</h1>
-          <p class="text-base-content/60">
-            <span class="badge badge-sm">{@component.category}</span>
-            <a :if={@component.doc_url} href={@component.doc_url} target="_blank" class="ml-2 link link-primary text-sm">
-              Official docs ↗
-            </a>
-          </p>
-        </header>
+        <div class="grid grid-cols-1 lg:grid-cols-[1fr_22rem] gap-10 items-start">
+          <div class="min-w-0 space-y-10 order-2 lg:order-1">
+            <.section
+              :if={@examples != []}
+              title="Examples"
+              subtitle="Real, production-ready snippets."
+            >
+              <.code_block :for={ex <- @examples} code={ex} />
+            </.section>
 
-        <div class="grid grid-cols-1 xl:grid-cols-[20rem_1fr] gap-6">
-          <section class="bg-base-100 rounded-box p-5 shadow-sm h-fit">
-            <h2 class="font-semibold mb-3">Props</h2>
-            <form :if={@component.dims != []} phx-change="update" class="space-y-3">
-              <label :for={dim <- @component.dims} class="block">
-                <span class="text-sm font-medium capitalize">{String.replace(dim.key, "_", " ")}</span>
-                <select
-                  name={dim.key}
-                  class="select select-bordered select-sm w-full mt-1"
+            <.section
+              title="Customize it"
+              subtitle="Reuse this component — add or restyle its colors & variants from a Kit."
+            >
+              <p class="text-xs text-base-content/50">
+                <span class="font-semibold text-base-content/70">1 ·</span> Customize it in your Kit
+                (same value name ⇒ replace, new name ⇒ add):
+              </p>
+              <.code_block code={Snippets.customize(@component)} />
+              <p class="text-xs text-base-content/50 mt-3">
+                <span class="font-semibold text-base-content/70">2 ·</span>
+                It generates a same-named wrapper — use it like the original:
+              </p>
+              <.code_block code={Snippets.customize_usage(@component)} />
+              <.tip>
+                The real <code>&lt;.{@component.name}&gt;</code> is never touched — the Kit generates
+                a thin wrapper that delegates to it. Feed <code>MyAppWeb.Kit.safelist()</code> to
+                Tailwind so your new classes survive purge.
+              </.tip>
+            </.section>
+
+            <.section title="Attributes">
+              <.attrs_table attrs={@attrs} />
+            </.section>
+
+            <.section :if={@slots != []} title="Slots">
+              <.slots_table slots={@slots} />
+            </.section>
+
+            <.section :if={@deps != []} title="Depends on">
+              <div class="flex flex-wrap gap-2">
+                <.link
+                  :for={d <- @deps}
+                  navigate={~p"/showcase/#{d}"}
+                  class="badge badge-outline hover:badge-primary capitalize"
                 >
-                  <option :for={v <- dim.values} value={v} selected={@props[String.to_existing_atom(dim.key)] == v}>
-                    {v}
-                  </option>
-                </select>
-              </label>
-            </form>
-            <p :if={@component.dims == []} class="text-sm text-base-content/60">
-              This component has no styling dimensions to tweak.
-            </p>
-            <button type="button" phx-click="reset" class="btn btn-ghost btn-sm mt-4 w-full">
-              Reset
-            </button>
-          </section>
+                  {String.replace(d, "_", " ")}
+                </.link>
+              </div>
+            </.section>
+          </div>
 
-          <section class="space-y-6 min-w-0">
-            <div class="bg-base-100 rounded-box p-8 shadow-sm">
-              <div class="text-xs uppercase tracking-wide text-base-content/40 mb-4">Live preview</div>
+          <aside class="order-1 lg:order-2 lg:sticky lg:top-8 space-y-4">
+            <div class="bg-base-100 rounded-box p-6 shadow-sm">
+              <div class="text-xs uppercase tracking-wide text-base-content/40 mb-4">
+                Live preview
+              </div>
               <div class="flex flex-wrap items-center justify-center gap-4 min-h-24">
                 <Preview.show
                   component={@component.name}
@@ -104,48 +127,85 @@ defmodule DevelopmentWeb.Showcase.ComponentLive do
               </div>
             </div>
 
-            <div class="bg-base-300 rounded-box p-5 shadow-sm">
-              <div class="text-xs uppercase tracking-wide text-base-content/50 mb-2">HEEx</div>
-              <pre class="text-sm overflow-x-auto"><code>{snippet(@component.name, @props)}</code></pre>
+            <div :if={@component.dims != []} class="bg-base-100 rounded-box p-4 shadow-sm">
+              <form phx-change="update" class="space-y-2">
+                <label :for={dim <- @component.dims} class="flex items-center justify-between gap-3">
+                  <span class="text-sm capitalize text-base-content/70">
+                    {String.replace(dim.key, "_", " ")}
+                  </span>
+                  <select name={dim.attr} class="select select-bordered select-xs w-40">
+                    <option
+                      :for={v <- dim.values}
+                      value={v}
+                      selected={to_string(@props[String.to_atom(dim.attr)]) == v}
+                    >
+                      {v}
+                    </option>
+                  </select>
+                </label>
+              </form>
+              <button type="button" phx-click="reset" class="btn btn-ghost btn-xs mt-3 w-full">
+                Reset
+              </button>
             </div>
-          </section>
+
+            <.code_block code={Snippets.usage(@component.name, @props)} />
+          </aside>
         </div>
-      </main>
+      </div>
     </div>
     """
   end
 
-  defp nav(assigns) do
+  defp page_header(assigns) do
     ~H"""
-    <aside class="w-60 shrink-0 bg-base-100 border-r border-base-300 h-screen sticky top-0 overflow-y-auto hidden md:block">
-      <div class="p-4 font-bold text-lg border-b border-base-300">Chelekom</div>
-      <ul class="menu menu-sm">
-        <li :for={c <- @all}>
-          <.link navigate={~p"/showcase/#{c.name}"} class={[@current == c.name && "active"]}>
-            {String.replace(c.name, "_", " ")}
+    <header class="space-y-2">
+      <div class="flex items-center justify-between gap-4 flex-wrap">
+        <.link navigate={~p"/showcase"} class="text-sm text-base-content/60 hover:underline">
+          ← All components
+        </.link>
+        <div class="flex items-center gap-3 text-sm">
+          <.link
+            :if={@component.sibling}
+            navigate={~p"/showcase/headless/#{@component.sibling}"}
+            class="badge badge-secondary badge-outline gap-1"
+          >
+            ⇄ unstyled: {String.replace(@component.sibling, "_", " ")}
           </.link>
-        </li>
-      </ul>
-    </aside>
+          <a
+            :if={@component.doc_url}
+            href={@component.doc_url}
+            target="_blank"
+            class="link link-primary"
+          >
+            Official docs ↗
+          </a>
+        </div>
+      </div>
+      <h1 class="text-3xl font-bold capitalize">{String.replace(@component.name, "_", " ")}</h1>
+      <p class="text-base-content/70 max-w-2xl">{@component.description}</p>
+      <span class="badge badge-sm">{@component.category}</span>
+    </header>
     """
   end
 
   defp default_props(component) do
-    for %{key: key, values: [first | _]} <- component.dims, into: %{} do
-      {String.to_existing_atom(key), first}
+    for dim <- component.dims, into: %{} do
+      {String.to_atom(dim.attr), cast(default_value(dim), dim.type)}
     end
   end
 
-  defp dim_keys(component), do: Enum.map(component.dims, & &1.key)
+  # Default the preview to options that actually show the component off: a color-bearing variant
+  # and a vivid color, so changing controls is visibly meaningful (a `base`/`white` default looks
+  # uncolored and reads as "broken").
+  defp default_value(%{key: "variant", values: vals}),
+    do: if("default" in vals, do: "default", else: hd(vals))
 
-  defp snippet(name, props) when map_size(props) == 0, do: "<.#{name} />"
+  defp default_value(%{key: "color", values: vals}),
+    do: Enum.find(vals, hd(vals), &(&1 == "primary"))
 
-  defp snippet(name, props) do
-    attrs =
-      props
-      |> Enum.sort()
-      |> Enum.map_join("\n", fn {k, v} -> "  #{k}=\"#{v}\"" end)
+  defp default_value(%{values: [first | _]}), do: first
 
-    "<.#{name}\n#{attrs}\n>\n  #{@sample}\n</.#{name}>"
-  end
+  defp cast(v, :atom) when is_binary(v), do: String.to_atom(v)
+  defp cast(v, _), do: v
 end

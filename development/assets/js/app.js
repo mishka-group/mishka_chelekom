@@ -34,6 +34,18 @@ const liveSocket = new LiveSocket("/live", Socket, {
   hooks: {
     ...colocatedHooks,
     ...MishkaComponents,
+    Copy: {
+      mounted() {
+        this.el.addEventListener("click", () => {
+          const text = this.el.getAttribute("data-clipboard") || "";
+          navigator.clipboard.writeText(text).then(() => {
+            const prev = this.el.textContent;
+            this.el.textContent = "Copied!";
+            setTimeout(() => (this.el.textContent = prev), 1200);
+          });
+        });
+      },
+    },
   },
 });
 // Show progress bar on live navigation and form submits
@@ -52,6 +64,19 @@ liveSocket.connect();
 // >> liveSocket.enableLatencySim(1000)  // enabled for duration of browser session
 // >> liveSocket.disableLatencySim()
 window.liveSocket = liveSocket;
+
+// Floating light/dark toggle (rendered in root.html.heex). Delegated on window so it works on
+// every page and survives LiveView re-renders. Reuses Phoenix's `phx:theme` localStorage key.
+window.addEventListener("click", (e) => {
+  if (!e.target.closest("[data-theme-toggle]")) return;
+  const current =
+    document.documentElement.getAttribute("data-theme") ||
+    (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+  const next = current === "dark" ? "light" : "dark";
+  localStorage.setItem("phx:theme", next);
+  document.documentElement.setAttribute("data-theme", next);
+});
+
 // The lines below enable quality of life phoenix_live_reload
 // development features:
 //

@@ -31,7 +31,10 @@ Enum.each(paths, fn p ->
   case :httpc.request(:get, {url, []}, [{:autoredirect, false}], []) do
     {:ok, {{_v, code, _r}, _h, body}} ->
       body = to_string(body)
-      mounted = String.contains?(body, "data-phx-main") or String.contains?(body, "data-phx-session")
+
+      mounted =
+        String.contains?(body, "data-phx-main") or String.contains?(body, "data-phx-session")
+
       note = if code in [200] and mounted, do: "LiveView mounted ✓", else: ""
       note = if code in [301, 302], do: "redirect", else: note
       IO.puts(String.pad_trailing(p, 28) <> "#{code}  #{byte_size(body)}b  #{note}")

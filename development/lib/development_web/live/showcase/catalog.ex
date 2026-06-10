@@ -76,15 +76,26 @@ defmodule DevelopmentWeb.Showcase.Catalog do
     if cfg do
       args = cfg[:args] || []
 
+      attr_types = Map.new(DevelopmentWeb.Showcase.JsonMeta.attrs(name), &{&1.name, &1.type})
+
       dims =
         for key <- @visual_dims, vals = args[key], is_list(vals) and vals != [] do
-          %{key: Atom.to_string(key), values: Enum.map(vals, &to_string/1)}
+          {attr, type} = resolve_attr(key, attr_types)
+
+          %{
+            key: Atom.to_string(key),
+            attr: attr,
+            type: type,
+            values: Enum.map(vals, &to_string/1)
+          }
         end
 
       %{
         name: name,
         category: to_string(cfg[:category] || "other"),
         doc_url: cfg[:doc_url],
+        description: DevelopmentWeb.Showcase.Meta.styled_description(name),
+        sibling: DevelopmentWeb.Showcase.Meta.headless_sibling(name),
         args: args,
         dims: dims
       }
@@ -92,4 +103,24 @@ defmodule DevelopmentWeb.Showcase.Catalog do
   rescue
     _ -> nil
   end
+
+  # Resolve a catalog dimension key to the component's REAL attribute (name + type). The catalog
+  # uses conventional keys (e.g. `color`), but a component may expose that option under a different
+  # attr — e.g. alert's color lives in `kind` (an atom). Falls back to the key itself (string) when
+  # the JSON has no attribute info for this component.
+  defp resolve_attr(:color, types) do
+    cond do
+      Map.has_key?(types, "color") -> {"color", type_of(types["color"])}
+      Map.has_key?(types, "kind") -> {"kind", type_of(types["kind"])}
+      true -> {"color", :string}
+    end
+  end
+
+  defp resolve_attr(key, types) do
+    k = Atom.to_string(key)
+    {k, type_of(Map.get(types, k, "string"))}
+  end
+
+  defp type_of("atom"), do: :atom
+  defp type_of(_), do: :string
 end
