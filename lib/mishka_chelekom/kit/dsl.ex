@@ -1,29 +1,3 @@
-defmodule MishkaChelekom.Kit.Rule do
-  @moduledoc "A styled dimension rule: `color :brand, \"…\"` → `%Rule{attr: :color, value: :brand, classes: \"…\"}`."
-  defstruct [:attr, :value, :classes, __spark_metadata__: nil]
-end
-
-defmodule MishkaChelekom.Kit.Part do
-  @moduledoc "A headless part rule: `part :trigger, \"…\"` → `%Part{name: :trigger, classes: \"…\"}`."
-  defstruct [:name, :classes, __spark_metadata__: nil]
-end
-
-defmodule MishkaChelekom.Kit.Customize do
-  @moduledoc """
-  A customization of one EXISTING component. The rules inside decide which world it targets:
-  `color`/`variant`/`size`/… ⇒ a styled component, `part` ⇒ a headless one. Never both.
-  """
-  defstruct [
-    :name,
-    :from,
-    base: "base",
-    rules: [],
-    default: [],
-    __identifier__: nil,
-    __spark_metadata__: nil
-  ]
-end
-
 defmodule MishkaChelekom.Kit.Dsl do
   @moduledoc """
   The `MishkaChelekom.Kit` Spark DSL — **one** verb, `customize`, to reuse and restyle any existing
@@ -45,8 +19,12 @@ defmodule MishkaChelekom.Kit.Dsl do
   The macro decides styled vs headless from the **rules you write** (`color`/`variant`/… vs `part`),
   so a name that exists in both worlds is never ambiguous. Each `customize` generates a thin wrapper
   that delegates to the real component — its file is never touched.
+
+  This module only assembles the DSL; supporting modules live alongside it:
+  structs in `MishkaChelekom.Kit.Entities.*`, code-gen in `MishkaChelekom.Kit.Transformers.Generate`,
+  compile-time checks in `MishkaChelekom.Kit.Verifiers.*`.
   """
-  alias MishkaChelekom.Kit.{Rule, Part, Customize}
+  alias MishkaChelekom.Kit.Entities.{Rule, Part, Customize}
 
   @dimensions [:color, :variant, :size, :padding, :rounded, :kind, :space, :border, :width]
 
@@ -100,57 +78,21 @@ defmodule MishkaChelekom.Kit.Dsl do
     name: :ui,
     describe: "Customize existing styled or headless components.",
     top_level?: true,
+    schema: [
+      components: [
+        type: :atom,
+        doc: "module namespace for styled components (default: <Web>.Components)"
+      ],
+      headless: [
+        type: :atom,
+        doc: "module namespace for headless components (default: <Web>.Components.Headless)"
+      ]
+    ],
     entities: [@customize]
   }
 
   use Spark.Dsl.Extension,
     sections: [@ui],
     transformers: [MishkaChelekom.Kit.Transformers.Generate],
-    verifiers: [MishkaChelekom.Kit.Verifiers.Rules]
-end
-
-defmodule MishkaChelekom.Kit.Verifiers.Rules do
-  @moduledoc """
-  Compile-time guards for each `customize`:
-    * it must declare at least one `color`/`variant`/…/`part` rule (else it's a no-op);
-    * it may not mix styled rules (`color`/`variant`/…) with a `part` rule — that would mean
-      customizing a styled and a headless component at once.
-  """
-  use Spark.Dsl.Verifier
-  alias MishkaChelekom.Kit.{Rule, Customize}
-
-  @impl true
-  def verify(dsl_state) do
-    dsl_state
-    |> Spark.Dsl.Verifier.get_entities([:ui])
-    |> Enum.reduce_while(:ok, fn %Customize{name: name, rules: rules}, :ok ->
-      {dims, parts} = Enum.split_with(rules, &match?(%Rule{}, &1))
-
-      cond do
-        dims != [] and parts != [] ->
-          {:halt,
-           err(
-             dsl_state,
-             name,
-             "mixes styled rules (color/variant/…) with `part` — a customize targets one component, styled OR headless"
-           )}
-
-        dims == [] and parts == [] ->
-          {:halt,
-           err(dsl_state, name, "declares no rules — add at least one color/variant/size/part")}
-
-        true ->
-          {:cont, :ok}
-      end
-    end)
-  end
-
-  defp err(dsl_state, name, message) do
-    {:error,
-     Spark.Error.DslError.exception(
-       module: Spark.Dsl.Verifier.get_persisted(dsl_state, :module),
-       message: "customize #{inspect(name)} #{message}",
-       path: [:ui, :customize, name]
-     )}
-  end
+    verifiers: [MishkaChelekom.Kit.Verifiers.Rules, MishkaChelekom.Kit.Verifiers.Catalog]
 end

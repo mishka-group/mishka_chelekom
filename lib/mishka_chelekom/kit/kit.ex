@@ -30,7 +30,8 @@ defmodule MishkaChelekom.Kit do
   """
   use Spark.Dsl, default_extensions: [extensions: [MishkaChelekom.Kit.Dsl]]
 
-  alias MishkaChelekom.Kit.{Info, Rule, Runtime}
+  alias MishkaChelekom.Kit.Entities.Rule
+  alias MishkaChelekom.Kit.{Info, Runtime}
 
   @doc """
   Every Tailwind class a Kit introduces at runtime — styled `customize` classes (plain **and** their
@@ -60,12 +61,4 @@ defmodule MishkaChelekom.Kit do
     end)
     |> Enum.uniq()
   end
-end
-
-defmodule MishkaChelekom.Kit.Info do
-  @moduledoc "Introspection for `MishkaChelekom.Kit` modules."
-  use Spark.InfoGenerator, extension: MishkaChelekom.Kit.Dsl, sections: [:ui]
-
-  @doc "All `customize :x` entries."
-  def customizes(module), do: ui(module)
 end

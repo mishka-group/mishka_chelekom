@@ -47,9 +47,10 @@ defmodule MishkaChelekom.Kit.Runtime do
           acc
 
         classes ->
+          # `classes` is already in `!important` form — precomputed at compile time by the transformer
           acc
           |> Map.put(attr, safe(Map.get(acc, attr), base))
-          |> add_class(important(classes))
+          |> add_class(classes)
       end
     end)
   end

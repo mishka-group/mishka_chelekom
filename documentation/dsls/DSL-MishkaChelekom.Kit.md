@@ -44,6 +44,15 @@ Customize existing styled or headless components.
 
 
 
+### Options
+
+| Name | Type | Default | Docs |
+|------|------|---------|------|
+| [`components`](#ui-components){: #ui-components } | `atom` |  | module namespace for styled components (default: <Web>.Components) |
+| [`headless`](#ui-headless){: #ui-headless } | `atom` |  | module namespace for headless components (default: <Web>.Components.Headless) |
+
+
+
 ### ui.customize
 ```elixir
 customize name
