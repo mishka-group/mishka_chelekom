@@ -168,6 +168,46 @@ defmodule DevelopmentWeb.Showcase.Preview do
     """
   end
 
+  def show(%{component: "alert"} = assigns) do
+    # Docs-accurate alert: a `title` (so the component's default icon renders — it only shows inside
+    # the title block) + a working dismiss via the real `hide_alert/1` JS helper (client-side fade,
+    # no server round-trip), targeting the alert's id. `{@props}` drives variant/kind/size/rounded/
+    # padding from the controls. Below it, a real `<.flash>` stack shows the flash / flash_group
+    # story (flash_group isn't importable here and needs a live @flash map; a flash stack is the
+    # honest, self-contained equivalent — each flash keeps its own built-in X).
+    ~H"""
+    <div class="w-full space-y-5">
+      <.alert id={@id} title="Heads up" {@props}>
+        <div class="flex items-start justify-between gap-2">
+          <p>{@sample} — fully driven by the controls.</p>
+          <button
+            type="button"
+            phx-click={hide_alert("##{@id}")}
+            aria-label="close"
+            class="group shrink-0 p-1 -m-1"
+          >
+            <.icon name="hero-x-mark-solid" class="alert-icon opacity-40 group-hover:opacity-70" />
+          </button>
+        </div>
+      </.alert>
+
+      <div class="space-y-1.5">
+        <div class="text-xs uppercase tracking-wide text-base-content/40">
+          flash &amp; flash_group — dismissible
+        </div>
+        <div class="relative w-full max-w-sm [&_.flash-alert:not(:first-child)]:mt-2">
+          <.flash id={"#{@id}-flash-info"} kind={:success} variant="bordered" title="Success!">
+            Your changes were saved.
+          </.flash>
+          <.flash id={"#{@id}-flash-error"} kind={:danger} variant="bordered" title="Error!">
+            Something needs your attention.
+          </.flash>
+        </div>
+      </div>
+    </div>
+    """
+  end
+
   def show(%{component: "native_select"} = assigns) do
     ~H"""
     <.native_select id={@id} name="demo_select" label="Choose a framework" {@props}>

@@ -22,6 +22,8 @@ defmodule DevelopmentWeb.Showcase.ComponentLive do
          |> push_navigate(to: ~p"/showcase")}
 
       component ->
+        ex_mod = examples_module(name)
+
         {:ok,
          socket
          |> assign(:component, component)
@@ -32,9 +34,21 @@ defmodule DevelopmentWeb.Showcase.ComponentLive do
          |> assign(:attrs, JsonMeta.attrs(name))
          |> assign(:slots, JsonMeta.slots(name))
          |> assign(:deps, JsonMeta.dependencies(name))
+         |> assign(:examples_mod, ex_mod)
+         |> assign(:example_sections, (ex_mod && ex_mod.sections()) || [])
+         |> assign(:open_examples, MapSet.new())
          |> assign(:page_title, "#{component.name} · Standard")}
     end
   end
+
+  # The generated docs-examples module for a component (e.g. Examples.Button), or nil.
+  defp examples_module(name) do
+    mod = Module.concat([DevelopmentWeb.Showcase.Examples, Macro.camelize(name)])
+    if Code.ensure_loaded?(mod) and function_exported?(mod, :sections, 0), do: mod
+  end
+
+  # Renders one open example section by delegating to the component's generated examples module.
+  defp example(assigns), do: apply(assigns.mod, :example, [assigns])
 
   @impl true
   def handle_event("update", params, socket) do
@@ -58,6 +72,12 @@ defmodule DevelopmentWeb.Showcase.ComponentLive do
 
   def handle_event("reset", _params, socket) do
     {:noreply, assign(socket, :props, default_props(socket.assigns.component))}
+  end
+
+  def handle_event("toggle_example", %{"id" => id}, socket) do
+    open = socket.assigns.open_examples
+    open = if MapSet.member?(open, id), do: MapSet.delete(open, id), else: MapSet.put(open, id)
+    {:noreply, assign(socket, :open_examples, open)}
   end
 
   @impl true
@@ -115,6 +135,37 @@ defmodule DevelopmentWeb.Showcase.ComponentLive do
                 >
                   {String.replace(d, "_", " ")}
                 </.link>
+              </div>
+            </.section>
+
+            <.section
+              :if={@example_sections != []}
+              title="Live examples"
+              subtitle="From the Mishka docs — click a section to render it; collapsing removes it from the page."
+            >
+              <div class="rounded-box ring-1 ring-base-content/5 divide-y divide-base-300 overflow-hidden">
+                <div :for={s <- @example_sections}>
+                  <button
+                    type="button"
+                    phx-click="toggle_example"
+                    phx-value-id={s.id}
+                    class="flex w-full items-center justify-between px-4 py-3 text-left text-sm font-medium hover:bg-base-100"
+                  >
+                    {s.title}
+                    <span class={[
+                      "text-base-content/40 transition-transform",
+                      MapSet.member?(@open_examples, s.id) && "rotate-180"
+                    ]}>
+                      ▾
+                    </span>
+                  </button>
+                  <div
+                    :if={MapSet.member?(@open_examples, s.id)}
+                    class="px-4 pb-5 pt-1 bg-base-100/40"
+                  >
+                    <.example mod={@examples_mod} section={s.id} />
+                  </div>
+                </div>
               </div>
             </.section>
           </div>
