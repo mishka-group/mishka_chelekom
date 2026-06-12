@@ -142,16 +142,15 @@ defmodule DevelopmentWeb.Showcase.Preview do
   end
 
   def show(%{component: "combobox"} = assigns) do
-    # STABLE id (must not depend on @props): the combobox is a JS-hook component whose runtime DOM
-    # (pills, search filter, open state) lives under phx-update="ignore". A props-keyed id would
-    # rename the hook element on every control change, destroying+remounting the hook and wiping the
-    # search/selection — which broke "clear" after a control change. Trade-off of a stable id: the
-    # dropdown's color/variant (classes on the ignored listbox) freeze at first paint; the trigger
-    # still restyles, which is the same behaviour as the Mishka docs. `searchable`/`multiple` flow
-    # in from {@props} (the flag checkboxes).
+    # The combobox's runtime DOM (search box, multi-select mode, create option) lives under
+    # phx-update="ignore", so it's frozen at first paint — re-rendering with new props does nothing.
+    # We key the id ONLY on the STRUCTURAL flags (searchable/multiple/creatable): toggling one
+    # renames the hook element → LiveView remounts it → the structure actually changes. We do NOT
+    # key on variant/color (cosmetic): changing those must not remount, so the search/selection
+    # survive (the open-dropdown color simply stays at first paint, like the Mishka docs).
     ~H"""
     <.combobox
-      id={@id}
+      id={"#{@id}-#{@props[:searchable]}-#{@props[:multiple]}-#{@props[:creatable]}"}
       name="demo_combobox"
       label="Choose countries"
       description="Per-option flags · grouped · searchable multi-select"
