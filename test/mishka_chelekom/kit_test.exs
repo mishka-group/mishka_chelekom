@@ -1,7 +1,6 @@
 defmodule MishkaChelekom.KitTest do
   use ExUnit.Case, async: true
 
-  alias MishkaChelekom.Kit
   alias MishkaChelekom.Kit.Info
   alias MishkaChelekom.Kit.Entities.{Rule, Part, Customize}
 
@@ -9,11 +8,11 @@ defmodule MishkaChelekom.KitTest do
 
   defmodule Components.Button do
     use Phoenix.Component
-    attr :variant, :string, default: "base"
-    attr :color, :string, default: "base"
-    attr :class, :any, default: nil
-    attr :rest, :global
-    slot :inner_block
+    attr(:variant, :string, default: "base")
+    attr(:color, :string, default: "base")
+    attr(:class, :any, default: nil)
+    attr(:rest, :global)
+    slot(:inner_block)
 
     def button(assigns) do
       ~H|<button class={["btn", vc(@variant), cc(@color), @class]} {@rest}>{render_slot(@inner_block)}</button>|
@@ -26,20 +25,22 @@ defmodule MishkaChelekom.KitTest do
 
   defmodule Components.Alert do
     use Phoenix.Component
-    attr :kind, :atom, default: :base
-    attr :class, :any, default: nil
-    slot :inner_block
+    attr(:kind, :atom, default: :base)
+    attr(:class, :any, default: nil)
+    slot(:inner_block)
 
-    def alert(assigns), do: ~H|<div class={["alert", kc(@kind), @class]}>{render_slot(@inner_block)}</div>|
+    def alert(assigns),
+      do: ~H|<div class={["alert", kc(@kind), @class]}>{render_slot(@inner_block)}</div>|
+
     defp kc(:base), do: "k-base"
   end
 
   defmodule Components.Headless.Accordion do
     use Phoenix.Component
-    attr :id, :string, required: true
-    attr :open, :boolean, default: false
-    attr :class, :any, default: nil
-    slot :item
+    attr(:id, :string, required: true)
+    attr(:open, :boolean, default: false)
+    attr(:class, :any, default: nil)
+    slot(:item)
 
     def accordion(assigns) do
       ~H|<div id={@id} data-open={@open} class={["chelekom-accordion", @class]}><span data-part="trigger" :for={i <- @item}>{render_slot(i)}</span></div>|
@@ -49,11 +50,13 @@ defmodule MishkaChelekom.KitTest do
   # a stub under a CUSTOM namespace (for the `components`/`base` tests)
   defmodule Ns.Tag do
     use Phoenix.Component
-    attr :color, :string, default: "neutral"
-    attr :class, :any, default: nil
-    slot :inner_block
+    attr(:color, :string, default: "neutral")
+    attr(:class, :any, default: nil)
+    slot(:inner_block)
 
-    def tag(assigns), do: ~H|<span class={["tag", tc(@color), @class]}>{render_slot(@inner_block)}</span>|
+    def tag(assigns),
+      do: ~H|<span class={["tag", tc(@color), @class]}>{render_slot(@inner_block)}</span>|
+
     defp tc("neutral"), do: "t-neutral"
   end
 
@@ -63,14 +66,18 @@ defmodule MishkaChelekom.KitTest do
     use MishkaChelekom.Kit
 
     customize :button do
-      color :primary, "bg-indigo-600 text-white"      # replace (exists)
-      color :brand, "bg-brand-500"                    # add (new)
-      variant :glow, "shadow-glow hover:opacity-90"   # add (new)
+      # replace (exists)
+      color :primary, "bg-indigo-600 text-white"
+      # add (new)
+      color :brand, "bg-brand-500"
+      # add (new)
+      variant :glow, "shadow-glow hover:opacity-90"
       default color: "brand"
     end
 
     customize :alert do
-      kind :brand, "bg-brand-100 text-brand-700"      # atom-typed dimension
+      # atom-typed dimension
+      kind :brand, "bg-brand-100 text-brand-700"
       default kind: :brand
     end
 
@@ -185,8 +192,10 @@ defmodule MishkaChelekom.KitTest do
 
     test "a renamed customize delegates to `from` but is callable under its own name" do
       out = html(&Page.show_fancy/1, %{})
-      assert out =~ "btn"            # delegated to Components.Button
-      assert out =~ "bg-amber-500!"  # with the fancy color
+      # delegated to Components.Button
+      assert out =~ "btn"
+      # with the fancy color
+      assert out =~ "bg-amber-500!"
     end
   end
 
@@ -207,7 +216,8 @@ defmodule MishkaChelekom.KitTest do
   describe "customize — `components` namespace + `base` override" do
     test "delegates to the configured namespace, remapping to the custom base" do
       out = html(&Page.show_tag/1, %{})
-      assert out =~ "t-neutral"   # remapped to base \"neutral\" (Ns.Tag), not \"base\"
+      # remapped to base \"neutral\" (Ns.Tag), not \"base\"
+      assert out =~ "t-neutral"
       assert out =~ "bg-brand!"
     end
   end
@@ -216,7 +226,7 @@ defmodule MishkaChelekom.KitTest do
 
   describe "safelist/1" do
     test "includes styled classes (plain + !important) and headless part variants, deduped" do
-      list = Kit.safelist(Kit)
+      list = MishkaChelekom.Kit.safelist(Kit)
       assert "bg-indigo-600" in list and "bg-indigo-600!" in list
       assert "shadow-glow" in list and "shadow-glow!" in list
       assert "[&_[data-part=trigger]]:py-3" in list
@@ -230,13 +240,15 @@ defmodule MishkaChelekom.KitTest do
   describe "Info" do
     test "customizes/1 returns every customize as a struct" do
       names = Kit |> Info.customizes() |> Enum.map(& &1.name) |> Enum.sort()
-      assert names == [:alert, :button, :faq, :fancy_button]
+      assert names == [:alert, :button, :fancy_button, :faq]
       assert %Customize{from: :accordion} = Enum.find(Info.customizes(Kit), &(&1.name == :faq))
     end
 
     test "rules carry their attr/value/classes (styled) or name/classes (headless)" do
       button = Enum.find(Info.customizes(Kit), &(&1.name == :button))
-      assert %Rule{attr: :color, value: :primary} = Enum.find(button.rules, &match?(%Rule{value: :primary}, &1))
+
+      assert %Rule{attr: :color, value: :primary} =
+               Enum.find(button.rules, &match?(%Rule{value: :primary}, &1))
 
       faq = Enum.find(Info.customizes(Kit), &(&1.name == :faq))
       assert %Part{name: :trigger} = Enum.find(faq.rules, &match?(%Part{name: :trigger}, &1))
@@ -251,7 +263,9 @@ defmodule MishkaChelekom.KitTest do
     end
 
     test "mixing styled rules with `part` is a compile error" do
-      assert compile_error(~s|customize :button do\n  color :brand, "x"\n  part :trigger, "y"\nend|) =~
+      assert compile_error(
+               ~s|customize :button do\n  color :brand, "x"\n  part :trigger, "y"\nend|
+             ) =~
                "mixes styled rules"
     end
   end
@@ -264,7 +278,9 @@ defmodule MishkaChelekom.KitTest do
     end
 
     test "two customizes generating the same name is a compile error" do
-      assert compile_error(~s|customize :button do\n  color :brand, "x"\nend\ncustomize :button do\n  color :gold, "y"\nend|) =~
+      assert compile_error(
+               ~s|customize :button do\n  color :brand, "x"\nend\ncustomize :button do\n  color :gold, "y"\nend|
+             ) =~
                "both generate :button"
     end
 

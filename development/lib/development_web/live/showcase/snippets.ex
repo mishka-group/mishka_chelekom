@@ -16,7 +16,9 @@ defmodule DevelopmentWeb.Showcase.Snippets do
     "<.#{name}\n#{attrs}\n>\n  #{sample}\n</.#{name}>"
   end
 
-  defp attr(k, v) when is_atom(v) and not is_boolean(v), do: "#{k}={#{inspect(v)}}"
+  defp attr(k, true), do: "#{k}"
+  defp attr(k, false), do: "#{k}={false}"
+  defp attr(k, v) when is_atom(v), do: "#{k}={#{inspect(v)}}"
   defp attr(k, v), do: ~s(#{k}="#{v}")
 
   @doc "A `customize` block for a styled component — add a new color/variant and restyle an existing one."

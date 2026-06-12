@@ -38,14 +38,22 @@ defmodule DevelopmentWeb.Showcase.ComponentLive do
 
   @impl true
   def handle_event("update", params, socket) do
-    by_attr = Map.new(socket.assigns.component.dims, &{&1.attr, &1})
+    comp = socket.assigns.component
+    by_attr = Map.new(comp.dims, &{&1.attr, &1})
+    flag_names = MapSet.new(comp.flags, & &1.name)
 
-    props =
-      for {k, v} <- params, dim = by_attr[k], v not in [nil, ""], into: %{} do
-        {String.to_atom(k), cast(v, dim.type)}
-      end
+    # Dims and flags live in separate <form>s, so each change only sends its own fields — merge into
+    # the existing props rather than replacing. Checkboxes carry a hidden "false" so unticking works.
+    parsed =
+      Enum.reduce(params, %{}, fn {k, v}, acc ->
+        cond do
+          dim = by_attr[k] -> if v in [nil, ""], do: acc, else: Map.put(acc, String.to_atom(k), cast(v, dim.type))
+          k in flag_names -> Map.put(acc, String.to_atom(k), v == "true")
+          true -> acc
+        end
+      end)
 
-    {:noreply, assign(socket, :props, props)}
+    {:noreply, assign(socket, :props, Map.merge(socket.assigns.props, parsed))}
   end
 
   def handle_event("reset", _params, socket) do
@@ -127,8 +135,11 @@ defmodule DevelopmentWeb.Showcase.ComponentLive do
               </div>
             </div>
 
-            <div :if={@component.dims != []} class="bg-base-100 rounded-box p-4 shadow-sm">
-              <form phx-change="update" class="space-y-2">
+            <div
+              :if={@component.dims != [] or @component.flags != []}
+              class="bg-base-100 rounded-box p-4 shadow-sm space-y-3"
+            >
+              <form :if={@component.dims != []} phx-change="update" class="space-y-2">
                 <label :for={dim <- @component.dims} class="flex items-center justify-between gap-3">
                   <span class="text-sm capitalize text-base-content/70">
                     {String.replace(dim.key, "_", " ")}
@@ -144,7 +155,32 @@ defmodule DevelopmentWeb.Showcase.ComponentLive do
                   </select>
                 </label>
               </form>
-              <button type="button" phx-click="reset" class="btn btn-ghost btn-xs mt-3 w-full">
+
+              <form
+                :if={@component.flags != []}
+                phx-change="update"
+                class="space-y-1.5 border-t border-base-300 pt-3"
+              >
+                <div class="text-xs uppercase tracking-wide text-base-content/40">Props</div>
+                <label
+                  :for={flag <- @component.flags}
+                  class="flex items-center gap-2 cursor-pointer"
+                >
+                  <input type="hidden" name={flag.name} value="false" />
+                  <input
+                    type="checkbox"
+                    name={flag.name}
+                    value="true"
+                    checked={@props[String.to_atom(flag.name)] == true}
+                    class="size-4 rounded border-base-300 accent-current"
+                  />
+                  <span class="text-sm capitalize text-base-content/70">
+                    {String.replace(flag.name, "_", " ")}
+                  </span>
+                </label>
+              </form>
+
+              <button type="button" phx-click="reset" class="btn btn-ghost btn-xs w-full">
                 Reset
               </button>
             </div>
@@ -190,10 +226,21 @@ defmodule DevelopmentWeb.Showcase.ComponentLive do
   end
 
   defp default_props(component) do
-    for dim <- component.dims, into: %{} do
-      {String.to_atom(dim.attr), cast(default_value(dim), dim.type)}
-    end
+    dims = for dim <- component.dims, into: %{}, do: {String.to_atom(dim.attr), cast(default_value(dim), dim.type)}
+    flags = for flag <- component.flags, into: %{}, do: {String.to_atom(flag.name), flag.default}
+
+    dims
+    |> Map.merge(flags)
+    |> Map.merge(preview_override(component.name))
   end
+
+  # Per-component preview defaults so structural components show their good state. The combobox's
+  # filled "default" variant renders solid cyan (the real Mishka primary accent) and the dropdown
+  # is frozen by phx-update="ignore"; the BORDERED variant keeps the surface light while the Color
+  # control stays meaningful, and searchable/multiple show its richer UX. The combobox preview also
+  # uses a props-dependent id so the frozen dropdown subtree remounts when controls change.
+  defp preview_override("combobox"), do: %{variant: "bordered", searchable: true, multiple: true}
+  defp preview_override(_), do: %{}
 
   # Default the preview to options that actually show the component off: a color-bearing variant
   # and a vivid color, so changing controls is visibly meaningful (a `base`/`white` default looks

@@ -76,7 +76,8 @@ defmodule DevelopmentWeb.Showcase.Catalog do
     if cfg do
       args = cfg[:args] || []
 
-      attr_types = Map.new(DevelopmentWeb.Showcase.JsonMeta.attrs(name), &{&1.name, &1.type})
+      json_attrs = DevelopmentWeb.Showcase.JsonMeta.attrs(name)
+      attr_types = Map.new(json_attrs, &{&1.name, &1.type})
 
       dims =
         for key <- @visual_dims, vals = args[key], is_list(vals) and vals != [] do
@@ -97,7 +98,8 @@ defmodule DevelopmentWeb.Showcase.Catalog do
         description: DevelopmentWeb.Showcase.Meta.styled_description(name),
         sibling: DevelopmentWeb.Showcase.Meta.headless_sibling(name),
         args: args,
-        dims: dims
+        dims: dims,
+        flags: flags(json_attrs)
       }
     end
   rescue
@@ -123,4 +125,15 @@ defmodule DevelopmentWeb.Showcase.Catalog do
 
   defp type_of("atom"), do: :atom
   defp type_of(_), do: :string
+
+  # Boolean attrs worth toggling in the showcase (e.g. combobox `searchable`/`multiple`/`creatable`,
+  # button `full_width`, tabs `vertical`). Excludes field-state/validation flags that aren't about
+  # styling or that would freeze the preview.
+  @flag_blocklist ~w(disabled required readonly checked)
+
+  defp flags(json_attrs) do
+    for a <- json_attrs, a.type == "boolean", a.name not in @flag_blocklist do
+      %{name: a.name, default: a.default in [true, "true"]}
+    end
+  end
 end

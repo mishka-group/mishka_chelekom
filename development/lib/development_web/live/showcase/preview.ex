@@ -141,7 +141,61 @@ defmodule DevelopmentWeb.Showcase.Preview do
     """
   end
 
+  def show(%{component: "combobox"} = assigns) do
+    # STABLE id (must not depend on @props): the combobox is a JS-hook component whose runtime DOM
+    # (pills, search filter, open state) lives under phx-update="ignore". A props-keyed id would
+    # rename the hook element on every control change, destroying+remounting the hook and wiping the
+    # search/selection — which broke "clear" after a control change. Trade-off of a stable id: the
+    # dropdown's color/variant (classes on the ignored listbox) freeze at first paint; the trigger
+    # still restyles, which is the same behaviour as the Mishka docs. `searchable`/`multiple` flow
+    # in from {@props} (the flag checkboxes).
+    ~H"""
+    <.combobox
+      id={@id}
+      name="demo_combobox"
+      label="Choose countries"
+      description="Per-option flags · grouped · searchable multi-select"
+      placeholder="Select countries…"
+      search_placeholder="Search countries…"
+      {@props}
+    >
+      <:start_section>
+        <.icon name="hero-globe-alt" class="size-5" />
+      </:start_section>
+      <:option :for={c <- combobox_countries()} group={c.group} value={c.code}>
+        <span class="flex items-center gap-2"><span class="text-base">{c.flag}</span> {c.name}</span>
+      </:option>
+    </.combobox>
+    """
+  end
+
+  def show(%{component: "native_select"} = assigns) do
+    ~H"""
+    <.native_select id={@id} name="demo_select" label="Choose a framework" {@props}>
+      <:option value="phoenix">Phoenix</:option>
+      <:option value="rails">Ruby on Rails</:option>
+      <:option value="django">Django</:option>
+      <:option value="laravel">Laravel</:option>
+    </.native_select>
+    """
+  end
+
   # --- Fallback to the generated previews ---------------------------------------------
 
   def show(assigns), do: PreviewGenerated.show(assigns)
+
+  # Demo data for the combobox preview — shows per-option flags/icons + option groups.
+  defp combobox_countries do
+    [
+      %{group: "Americas", code: "br", flag: "🇧🇷", name: "Brazil"},
+      %{group: "Americas", code: "ca", flag: "🇨🇦", name: "Canada"},
+      %{group: "Americas", code: "us", flag: "🇺🇸", name: "United States"},
+      %{group: "Europe", code: "de", flag: "🇩🇪", name: "Germany"},
+      %{group: "Europe", code: "fr", flag: "🇫🇷", name: "France"},
+      %{group: "Europe", code: "no", flag: "🇳🇴", name: "Norway"},
+      %{group: "Asia", code: "jp", flag: "🇯🇵", name: "Japan"},
+      %{group: "Asia", code: "kr", flag: "🇰🇷", name: "South Korea"},
+      %{group: "Asia", code: "in", flag: "🇮🇳", name: "India"}
+    ]
+  end
 end
