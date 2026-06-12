@@ -55,8 +55,31 @@ defmodule DevelopmentWeb.Showcase.JsonMeta do
       String.contains?(s, "<.#{name}")
   end
 
-  # Strip the common leading indentation the demo files carry, and trailing whitespace.
+  # Normalize a demo snippet's whitespace. The raw sources carry a flush-left opening tag with
+  # deeply-indented body lines (so a common-min-indent strip can't fix them — the min is already 0).
+  # Run them through the real HEEx formatter for correct re-indentation; fall back to the min-indent
+  # dedent if the fragment isn't well-formed enough to format.
   defp tidy(s) do
+    case format_heex(s) do
+      {:ok, formatted} -> formatted
+      :error -> dedent(s)
+    end
+  end
+
+  defp format_heex(s) do
+    formatted =
+      s
+      |> Phoenix.LiveView.HTMLFormatter.format(line_length: 80)
+      |> String.trim_trailing()
+
+    if String.trim(formatted) == "", do: :error, else: {:ok, formatted}
+  rescue
+    _ -> :error
+  catch
+    _, _ -> :error
+  end
+
+  defp dedent(s) do
     lines = String.split(s, "\n")
 
     indent =
