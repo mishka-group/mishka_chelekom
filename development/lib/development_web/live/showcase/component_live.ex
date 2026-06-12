@@ -23,10 +23,13 @@ defmodule DevelopmentWeb.Showcase.ComponentLive do
 
       component ->
         ex_mod = examples_module(name)
+        {prev, next} = Catalog.neighbors(name)
 
         {:ok,
          socket
          |> assign(:component, component)
+         |> assign(:prev, prev)
+         |> assign(:next, next)
          |> assign(:sample, @sample)
          |> assign(:form, to_form(%{}, as: :demo))
          |> assign(:props, default_props(component))
@@ -37,6 +40,7 @@ defmodule DevelopmentWeb.Showcase.ComponentLive do
          |> assign(:examples_mod, ex_mod)
          |> assign(:example_sections, (ex_mod && ex_mod.sections()) || [])
          |> assign(:open_examples, MapSet.new())
+         |> assign(:preview_nonce, 0)
          |> assign(:page_title, "#{component.name} · Standard")}
     end
   end
@@ -71,7 +75,14 @@ defmodule DevelopmentWeb.Showcase.ComponentLive do
   end
 
   def handle_event("reset", _params, socket) do
-    {:noreply, assign(socket, :props, default_props(socket.assigns.component))}
+    # Bumping the nonce changes the preview element's id, so LiveView replaces the DOM node entirely
+    # rather than patching it. That restores any component a client-side action hid in place — e.g. a
+    # toast/alert/banner dismissed via `hide_toast`/`hide_alert` (display:none on the same id, which a
+    # plain re-render can't undo) — without a full page refresh.
+    {:noreply,
+     socket
+     |> assign(:props, default_props(socket.assigns.component))
+     |> update(:preview_nonce, &(&1 + 1))}
   end
 
   def handle_event("toggle_example", %{"id" => id}, socket) do
@@ -79,6 +90,14 @@ defmodule DevelopmentWeb.Showcase.ComponentLive do
     open = if MapSet.member?(open, id), do: MapSet.delete(open, id), else: MapSet.put(open, id)
     {:noreply, assign(socket, :open_examples, open)}
   end
+
+  # The real Mishka components fire their own server events from interactive controls — a dismiss
+  # button (`JS.push("dismiss") |> hide_toast(...)`), pagination/rating selection, etc. In a host app
+  # the developer handles these to mutate their data; the showcase has no such data, and the visual
+  # effect already happens client-side (the dismiss JS hides the element; Reset brings it back). So we
+  # just acknowledge them — a catch-all keeps any current or future component-internal event from
+  # crashing the explorer.
+  def handle_event(_event, _params, socket), do: {:noreply, socket}
 
   @impl true
   def render(assigns) do
@@ -178,7 +197,7 @@ defmodule DevelopmentWeb.Showcase.ComponentLive do
               <div class="flex flex-wrap items-center justify-center gap-4 min-h-24">
                 <Preview.show
                   component={@component.name}
-                  id={"showcase-#{@component.name}"}
+                  id={"showcase-#{@component.name}-#{@preview_nonce}"}
                   props={@props}
                   form={@form}
                   sample={@sample}
@@ -239,6 +258,38 @@ defmodule DevelopmentWeb.Showcase.ComponentLive do
             <.code_block code={Snippets.usage(@component.name, @props)} />
           </aside>
         </div>
+
+        <nav
+          :if={@prev || @next}
+          class="flex items-stretch gap-4 border-t border-base-300 pt-6"
+          aria-label="Component navigation"
+        >
+          <.link
+            :if={@prev}
+            navigate={~p"/showcase/#{@prev.name}"}
+            class="group flex min-w-0 max-w-xs flex-col items-start gap-1 rounded-box border border-base-300 bg-base-100 px-5 py-4 shadow-sm transition-colors hover:border-primary"
+          >
+            <span class="flex items-center gap-1 text-xs uppercase tracking-wide text-base-content/40">
+              <span class="transition-transform group-hover:-translate-x-0.5">←</span> Previous
+            </span>
+            <span class="w-full truncate text-left font-semibold capitalize">
+              {String.replace(@prev.name, "_", " ")}
+            </span>
+          </.link>
+
+          <.link
+            :if={@next}
+            navigate={~p"/showcase/#{@next.name}"}
+            class="group ml-auto flex min-w-0 max-w-xs flex-col items-end gap-1 rounded-box border border-base-300 bg-base-100 px-5 py-4 shadow-sm transition-colors hover:border-primary"
+          >
+            <span class="flex items-center gap-1 text-xs uppercase tracking-wide text-base-content/40">
+              Next <span class="transition-transform group-hover:translate-x-0.5">→</span>
+            </span>
+            <span class="w-full truncate text-right font-semibold capitalize">
+              {String.replace(@next.name, "_", " ")}
+            </span>
+          </.link>
+        </nav>
       </div>
     </div>
     """

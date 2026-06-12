@@ -46,6 +46,21 @@ defmodule DevelopmentWeb.Showcase.Catalog do
   @spec get(String.t()) :: component() | nil
   def get(name) when is_binary(name), do: Enum.find(all(), &(&1.name == name))
 
+  @doc """
+  The previous and next components around `name` in the global (name-sorted) order, for page-to-page
+  navigation. Each is `nil` at the ends — no wraparound.
+  """
+  @spec neighbors(String.t()) :: {component() | nil, component() | nil}
+  def neighbors(name) do
+    list = all()
+
+    case Enum.find_index(list, &(&1.name == name)) do
+      nil -> {nil, nil}
+      0 -> {nil, Enum.at(list, 1)}
+      i -> {Enum.at(list, i - 1), Enum.at(list, i + 1)}
+    end
+  end
+
   @doc "Components grouped and sorted by category."
   @spec by_category() :: [{String.t(), [component()]}]
   def by_category do
