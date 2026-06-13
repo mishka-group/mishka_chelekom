@@ -38,7 +38,7 @@ item that needs follow-up.
 - [x] password_field — `/showcase/password_field`
 - [x] radio_card — `/showcase/radio_card`
 - [x] radio_field — `/showcase/radio_field`
-- [ ] range_field — `/showcase/range_field`
+- [x] range_field — `/showcase/range_field`
 - [ ] search_field — `/showcase/search_field`
 - [ ] tel_field — `/showcase/tel_field`
 - [ ] text_field — `/showcase/text_field`

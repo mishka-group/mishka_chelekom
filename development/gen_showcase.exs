@@ -63,6 +63,18 @@ strategy = fn %{name: name} ->
   end
 end
 
+# Text-like field components that benefit from a realistic placeholder in the preview. (Fields like
+# checkbox/radio/toggle/color/range/date don't take a text placeholder, so they're omitted.)
+placeholders = %{
+  "search_field" => "Search...",
+  "url_field" => "https://example.com",
+  "tel_field" => "+1 (555) 000-0000",
+  "password_field" => "Enter your password",
+  "number_field" => "Enter a number",
+  "text_field" => "Type something...",
+  "textarea_field" => "Write your message..."
+}
+
 clause = fn comp ->
   name = comp.name
   fun = primary_fun.(name)
@@ -75,7 +87,13 @@ clause = fn comp ->
         ~s|    <.#{fun} id={@id} name="hero-sparkles" {@props} />|
 
       :field ->
-        ~s|    <.#{fun} id={@id} field={@form[:demo]} label="Demo field" {@props} />|
+        ph =
+          case placeholders[name] do
+            nil -> ""
+            text -> ~s| placeholder="#{text}"|
+          end
+
+        ~s|    <.#{fun} id={@id} field={@form[:demo]} label="Demo field"#{ph} {@props} />|
 
       :inner ->
         ~s|    <.#{fun} id={@id} {@props}>{@sample}</.#{fun}>|

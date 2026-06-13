@@ -148,7 +148,7 @@ defmodule DevelopmentWeb.Showcase.Preview do
 
   def show(%{component: "email_field"} = assigns) do
     ~H"""
-    <.email_field id={@id} name="demo" value="" label="Email" {@props} />
+    <.email_field id={@id} name="demo" value="" label="Email" placeholder="you@example.com" {@props} />
     """
   end
 
