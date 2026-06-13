@@ -134,7 +134,8 @@ defmodule DevelopmentWeb.Components.NativeSelect do
       border_class(@border, @variant),
       size_class(@size),
       space_class(@space),
-      @ring && "[&_.select-field]:focus-within:ring-[0.03rem] leading-6",
+      "[&_.select-field]:focus-within:outline-none",
+      @ring && "[&_.select-field]:focus-within:ring-1",
       @class
     ]}>
       <div
