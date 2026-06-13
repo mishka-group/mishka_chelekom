@@ -33,6 +33,51 @@ defmodule DevelopmentWeb.Showcase.Preview do
     """
   end
 
+  # Card: the generic `<.card>{@sample}</.card>` renders a bare box — indistinguishable from a badge
+  # or button. A card's whole point is composing parts, so show a real one: media + title + body +
+  # footer, all driven by the controls on the root `<.card>` (variant/color/border/rounded/padding…).
+  def show(%{component: "card"} = assigns) do
+    ~H"""
+    <div class="w-72 text-left">
+      <.card id={@id} {@props}>
+        <.card_media src="/images/card-media.svg" alt="Abstract landscape at dusk" />
+        <.card_content padding="large" space="small">
+          <.card_title title="Mishka Chelekom" icon="hero-sparkles" />
+          <p class="text-sm opacity-70">
+            A components &amp; UI kit for Phoenix &amp; LiveView. This whole card is driven by the
+            controls — change the variant, color, padding or rounding and every part follows.
+          </p>
+        </.card_content>
+        <.card_footer padding="large">
+          <.button variant="default" color="primary" class="w-full justify-center gap-1.5">
+            See more <.icon name="hero-arrow-right" class="size-4" />
+          </.button>
+        </.card_footer>
+      </.card>
+    </div>
+    """
+  end
+
+  # Chat: the bubble's look comes from a `<.chat_section>` (name + message + `:status` slot) inside
+  # `<.chat>` — the generic `<.chat>{@sample}</.chat>` has no section, so the controls have nothing
+  # styled to act on and it renders as bare text. Render a real bubble, driven by the controls.
+  def show(%{component: "chat"} = assigns) do
+    ~H"""
+    <div class="w-full">
+      <.chat id={@id} {@props}>
+        <.chat_section>
+          <div class="font-medium">Mishka Chelekom</div>
+          <p>
+            This bubble is driven by the controls — change the variant, color, rounding, padding,
+            size or spacing and watch it update.
+          </p>
+          <:status time="22:10" deliver="Delivered" />
+        </.chat_section>
+      </.chat>
+    </div>
+    """
+  end
+
   def show(%{component: "carousel"} = assigns) do
     ~H"""
     <.carousel id={@id} {@props}>
@@ -70,12 +115,83 @@ defmodule DevelopmentWeb.Showcase.Preview do
     """
   end
 
+  # Collapse: a single disclosure (headless `Collapsible` hook). Show a real expandable panel — a
+  # styled clickable row with a chevron that flips when open (the hook sets `aria-expanded` on the
+  # trigger), over a bordered card. The `open` / `keep_mounted` flags drive it (toggling remounts).
   def show(%{component: "collapse"} = assigns) do
     ~H"""
-    <.collapse id={@id} {@props}>
-      <:trigger>Toggle details</:trigger>
-      The collapsible content lives here.
-    </.collapse>
+    <div class="w-72">
+      <.collapse id={@id} {@props} class="rounded-box border border-base-300 bg-base-100 overflow-hidden">
+        <:trigger>
+          <div class="flex w-full items-center justify-between gap-3 px-4 py-3 font-medium cursor-pointer select-none transition-colors hover:bg-base-200/60">
+            <span class="flex items-center gap-2">
+              <.icon name="hero-truck" class="size-4 text-base-content/60" /> Shipping &amp; returns
+            </span>
+            <.icon
+              name="hero-chevron-down"
+              class="size-4 text-base-content/40 transition-transform [[aria-expanded=true]_&]:rotate-180"
+            />
+          </div>
+        </:trigger>
+        <div class="px-4 pb-4 pt-1 text-sm text-base-content/70 space-y-2">
+          <p>Free standard shipping on orders over $50 — most orders ship within 1–2 business days.</p>
+          <p>Not happy? Return any item within 30 days for a full refund, no questions asked.</p>
+        </div>
+      </.collapse>
+    </div>
+    """
+  end
+
+  # Device mockup: the iPhone screen is 272×572. Fill it with a realistic app *skeleton* (status bar,
+  # header, search, hero, a loading list, bottom nav) instead of bare text — driven by the `color`
+  # control on the frame. Kept on a white screen with gray placeholders so it reads as a loading app.
+  def show(%{component: "device_mockup"} = assigns) do
+    ~H"""
+    <.device_mockup id={@id} {@props}>
+      <div class="flex h-full w-full flex-col bg-white text-gray-800">
+        <div class="flex items-center justify-between px-5 pt-3.5 pb-1 text-[11px] font-semibold">
+          <span>9:41</span>
+          <div class="flex items-center gap-1 text-gray-700">
+            <.icon name="hero-signal" class="size-3.5" />
+            <.icon name="hero-wifi" class="size-3.5" />
+            <.icon name="hero-battery-100" class="size-4" />
+          </div>
+        </div>
+
+        <div class="flex items-center justify-between px-4 pt-2 pb-3">
+          <div class="space-y-1.5">
+            <div class="h-2 w-14 rounded bg-gray-200"></div>
+            <div class="h-3.5 w-24 rounded bg-gray-300"></div>
+          </div>
+          <div class="size-9 rounded-full bg-gray-200"></div>
+        </div>
+
+        <div class="px-4">
+          <div class="h-9 w-full rounded-xl bg-gray-100"></div>
+        </div>
+
+        <div class="px-4 pt-3">
+          <div class="h-28 w-full rounded-2xl bg-linear-to-br from-gray-200 to-gray-100"></div>
+        </div>
+
+        <div class="space-y-3 px-4 pt-4 animate-pulse">
+          <div :for={_ <- 1..3} class="flex items-center gap-3">
+            <div class="size-10 shrink-0 rounded-xl bg-gray-200"></div>
+            <div class="flex-1 space-y-1.5">
+              <div class="h-2.5 w-3/4 rounded bg-gray-200"></div>
+              <div class="h-2 w-1/2 rounded bg-gray-100"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="mt-auto flex items-center justify-around border-t border-gray-100 px-6 py-3 text-gray-400">
+          <.icon name="hero-home-solid" class="size-5 text-gray-800" />
+          <.icon name="hero-magnifying-glass" class="size-5" />
+          <.icon name="hero-heart" class="size-5" />
+          <.icon name="hero-user" class="size-5" />
+        </div>
+      </div>
+    </.device_mockup>
     """
   end
 
@@ -98,11 +214,33 @@ defmodule DevelopmentWeb.Showcase.Preview do
     """
   end
 
+  # Clipboard: the JS hook copies `.clipboard-content` (or `text=` / `target_selector`). The old
+  # preview put the value in the inner block, so `.clipboard-content` never rendered (its `:if` needs
+  # the `<:content>` slot) and there was nothing to copy → "Copy failed". Put the value in `<:content>`
+  # (what's shown is what's copied) with a real Copy button. The `show_status_text` / `dynamic_label`
+  # flags drive the feedback; toggling them remounts the preview, so the hook re-reads them.
+  # Clipboard: the component ships `phx-update="ignore"` — its DOM is owned by the JS hook and LiveView
+  # must never patch its insides. So its id is deliberately STATIC (not the nonce-based `@id`): the
+  # widget mounts once and is only attribute-patched, so the Copy trigger is never dropped. (A
+  # nonce-driven remount — which Reset and flag toggles trigger elsewhere — would destroy the
+  # hook-owned trigger.) The two display flags can't be toggled through the ignore barrier, so they're
+  # removed from the controls (see `Catalog.dead_flags/1`); `show_status_text` defaults to true, giving
+  # the "Copied!" feedback on copy.
   def show(%{component: "clipboard"} = assigns) do
     ~H"""
-    <.clipboard id={@id} {@props}>
-      <:trigger>Copy</:trigger>
-      Copyable text
+    <.clipboard
+      id="showcase-clipboard-demo"
+      {@props}
+      class="inline-flex items-center gap-3 rounded-box border border-base-300 bg-base-100 px-3 py-2"
+    >
+      <:content>
+        <code class="text-sm font-mono text-base-content/80">hello@mishka.tools</code>
+      </:content>
+      <:trigger>
+        <.button size="extra_small" variant="outline" color="natural" class="gap-1.5">
+          <.icon name="hero-clipboard-document" class="size-4" /> Copy
+        </.button>
+      </:trigger>
     </.clipboard>
     """
   end

@@ -52,11 +52,11 @@ item that needs follow-up.
 - [x] badge — `/showcase/badge`
 - [x] blockquote — `/showcase/blockquote`
 - [x] button — `/showcase/button`
-- [ ] card — `/showcase/card`
-- [ ] chat — `/showcase/chat`
-- [ ] clipboard — `/showcase/clipboard`
-- [ ] collapse — `/showcase/collapse`
-- [ ] device_mockup — `/showcase/device_mockup`
+- [x] card — `/showcase/card`
+- [x] chat — `/showcase/chat`
+- [x clipboard — `/showcase/clipboard`
+- [x] collapse — `/showcase/collapse`
+- [x] device_mockup — `/showcase/device_mockup`
 - [ ] divider — `/showcase/divider`
 - [ ] indicator — `/showcase/indicator`
 - [ ] jumbotron — `/showcase/jumbotron`

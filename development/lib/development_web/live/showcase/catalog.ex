@@ -149,12 +149,19 @@ defmodule DevelopmentWeb.Showcase.Catalog do
   # Dims the component declares but ignores, so they don't appear as inert controls.
   # banner: `@size` is unused by `banner/1`; `@space` is `space-y-*` on a wrapper that always has a
   # single child, so it can never change anything.
+  # card: the root `card/1` has no `size` attr — `size`/`size_class` live only on the `card_title`
+  # sub-component, so a root-card `size` control does nothing (and would emit a bogus `size=` attr).
   defp dead_dims("banner"), do: ["size", "space"]
+  defp dead_dims("card"), do: ["size"]
   defp dead_dims(_), do: []
 
   # Boolean flags the component declares but never reads, or that aren't a working standalone mode.
   # file_field: `live` (without dropzone) renders <.live_file_input upload={@upload}>, but @upload is
   # only assigned in the dropzone path — mishka never uses live standalone, so it's not a real mode.
+  # clipboard: `show_status_text` / `dynamic_label` only matter at initial render, but the component
+  # ships `phx-update="ignore"`, so they can't be toggled live without a remount that drops the
+  # hook-owned trigger. Removed as controls; the preview uses sensible defaults instead.
+  defp dead_flags("clipboard"), do: ["show_status_text", "dynamic_label"]
   defp dead_flags("file_field"), do: ["live"]
   # toggle_field: `ring` and `reverse` were declared but never read (@ring/@reverse used 0×) — deleted
   # from the component; the JSON metadata still lists them, so drop them from the controls here too.
