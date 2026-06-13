@@ -18,7 +18,7 @@ defmodule DevelopmentWeb.Showcase.KitLive do
   @code_button """
   customize :button do
     color :primary, "bg-rose-600! text-white!"          # replace the stock :primary
-    color :brand,   "bg-gradient-to-r! from-fuchsia-600! to-indigo-600! text-white!"   # add a new color
+    color :brand,   "bg-linear-to-r! from-fuchsia-600! to-indigo-600! text-white!"   # add a new color
     variant :glow,  "shadow-[0_0_25px_currentColor]! ring-2!"   # add a new variant
     default color: "brand"
   end\
@@ -33,9 +33,27 @@ defmodule DevelopmentWeb.Showcase.KitLive do
 
   @code_accordion """
   customize :my_accordion do
-    from :accordion                              # reuse the real *headless* accordion
-    part :trigger, "[&_[data-part=trigger]]:flex [&_[data-part=trigger]]:py-3 ..."
-    part :panel,   "[&_[data-part=panel]]:pb-3 [&_[data-part=panel]]:text-sm"
+    from :accordion                  # reuse the real *headless* accordion (it ships zero CSS)
+
+    # the whole card — bg, border, rounded, dividers between items
+    part :root,
+         "rounded-2xl border border-base-300 bg-base-100 shadow-sm divide-y divide-base-200"
+
+    # tint whichever item is open
+    part :item,
+         "[&_[data-part=item]:has([data-part=panel][data-open])]:bg-base-200/40"
+
+    # header row + a chevron that flips open (one [&_[data-part=trigger]]: per utility)
+    part :trigger,
+         "[&_[data-part=trigger]]:flex [&_[data-part=trigger]]:justify-between
+          [&_[data-part=trigger]]:px-4 [&_[data-part=trigger]]:py-3.5
+          [&_[data-part=trigger]]:hover:bg-base-200/60
+          [&_[data-part=trigger]]:after:content-['▾']
+          [&_[data-part=trigger][aria-expanded=true]]:after:rotate-180"
+
+    # the panel body — padding + muted text
+    part :panel,
+         "[&_[data-part=panel]]:px-4 [&_[data-part=panel]]:pb-4 [&_[data-part=panel]]:text-base-content/70"
   end\
   """
 
@@ -114,15 +132,16 @@ defmodule DevelopmentWeb.Showcase.KitLive do
           code={@code_accordion}
         >
           <:result>
-            <DemoKit.my_accordion
-              id="kit-acc"
-              class="w-full border border-base-300 rounded-box divide-y divide-base-300 [&_[data-part=trigger]]:px-3 [&_[data-part=panel]]:px-3"
-            >
-              <:item title="What did the Kit do?">
+            <DemoKit.my_accordion id="kit-acc" class="w-full">
+              <:item title="What did the Kit do?" open>
                 Generated <code>my_accordion/1</code> — a wrapper of the real headless accordion, with
-                the per-part classes baked in.
+                the per-part classes baked right in. The page just calls it; no inline styling here.
               </:item>
               <:item title="Was the component changed?">No — the wrapper just delegates to it.</:item>
+              <:item title="Where do the classes live?">
+                In <code>kit.ex</code>, written whole — so Tailwind scans them straight from the file,
+                no safelist.
+              </:item>
             </DemoKit.my_accordion>
           </:result>
         </.kit_example>
@@ -158,7 +177,7 @@ defmodule DevelopmentWeb.Showcase.KitLive do
       <div class="grid lg:grid-cols-2">
         <div class="p-5 lg:border-r border-base-200">
           <div class="text-[11px] uppercase tracking-wide text-base-content/40 mb-2">customize</div>
-          <.code_block code={@code} />
+          <.code_block code={@code} wrap />
         </div>
         <div class="p-5 bg-base-200/30">
           <div class="text-[11px] uppercase tracking-wide text-base-content/40 mb-3">result</div>

@@ -39,6 +39,7 @@ defmodule DevelopmentWeb.Showcase.UI do
   @doc "A code block with a copy button (uses the `Copy` JS hook)."
   attr :code, :string, required: true
   attr :class, :any, default: nil
+  attr :wrap, :boolean, default: false, doc: "Wrap long lines instead of scrolling them off-screen"
 
   def code_block(assigns) do
     ~H"""
@@ -52,7 +53,10 @@ defmodule DevelopmentWeb.Showcase.UI do
       >
         Copy
       </button>
-      <pre class="text-xs leading-relaxed p-4 overflow-x-auto"><code>{@code}</code></pre>
+      <pre class={[
+        "text-xs leading-relaxed p-4",
+        (@wrap && "whitespace-pre-wrap break-words") || "overflow-x-auto"
+      ]}><code>{@code}</code></pre>
     </div>
     """
   end
