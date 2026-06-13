@@ -34,10 +34,10 @@ item that needs follow-up.
 - [x] form_wrapper — `/showcase/form_wrapper`
 - [x] input_field — `/showcase/input_field`
 - [x] native_select — `/showcase/native_select`
-- [ ] number_field — `/showcase/number_field`
-- [ ] password_field — `/showcase/password_field`
-- [ ] radio_card — `/showcase/radio_card`
-- [ ] radio_field — `/showcase/radio_field`
+- [x] number_field — `/showcase/number_field`
+- [x] password_field — `/showcase/password_field`
+- [x] radio_card — `/showcase/radio_card`
+- [x] radio_field — `/showcase/radio_field`
 - [ ] range_field — `/showcase/range_field`
 - [ ] search_field — `/showcase/search_field`
 - [ ] tel_field — `/showcase/tel_field`

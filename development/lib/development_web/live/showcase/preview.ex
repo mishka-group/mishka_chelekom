@@ -387,6 +387,61 @@ defmodule DevelopmentWeb.Showcase.Preview do
     """
   end
 
+  def show(%{component: "range_field"} = assigns) do
+    # `ring` (a focus indicator) only works with the CUSTOM appearance — the default appearance is a
+    # native slider whose thumb can't take a custom ring. So render appearance="custom" (a styled slider
+    # with a color-driven thumb halo); with ring=true, focusing the slider adds an offset outline ring
+    # around the thumb (Radix/shadcn style). {@props} drives color/size + the ring/reverse flags.
+    ~H"""
+    <.range_field
+      id={@id}
+      name="demo_range"
+      value="50"
+      label="Demo field — focus the slider with Ring on"
+      appearance="custom"
+      {@props}
+    />
+    """
+  end
+
+  def show(%{component: "radio_field"} = assigns) do
+    # Two ways to use it: individual <.radio_field> sharing ONE name (so only one can be selected — a
+    # real radio group), and the <.group_radio> component with :radio slots. Both driven by {@props}
+    # (color/size/space + ring/reverse). Name-based (not field={...}) keeps it self-contained.
+    ~H"""
+    <div class="w-full space-y-5 text-left">
+      <div>
+        <p class="mb-2 text-xs font-semibold uppercase tracking-wide text-base-content/50">
+          Individual radios (shared name → one selection)
+        </p>
+        <div class="space-y-1">
+          <.radio_field id="rf-elixir" name="fav_lang" value="elixir" checked label="Elixir" {@props} />
+          <.radio_field id="rf-ruby" name="fav_lang" value="ruby" label="Ruby" {@props} />
+          <.radio_field id="rf-python" name="fav_lang" value="python" label="Python" {@props} />
+        </div>
+      </div>
+
+      <div>
+        <p class="mb-2 text-xs font-semibold uppercase tracking-wide text-base-content/50">
+          Radio group component (group_radio)
+        </p>
+        <.group_radio
+          id="rf-plan"
+          name="plan"
+          variation="horizontal"
+          color={@props[:color]}
+          size={@props[:size]}
+          space={@props[:space]}
+        >
+          <:radio value="free">Free</:radio>
+          <:radio value="pro" checked>Pro</:radio>
+          <:radio value="team">Team</:radio>
+        </.group_radio>
+      </div>
+    </div>
+    """
+  end
+
   def show(%{component: "avatar"} = assigns) do
     # Two avatars, both driven by the controls: an SVG-icon avatar (no image, no copyright — the `:icon`
     # slot) and an initials avatar showing "SHA". `space` is an AVATAR_GROUP prop (gap between items),

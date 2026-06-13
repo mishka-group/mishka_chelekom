@@ -170,7 +170,9 @@ defmodule DevelopmentWeb.Components.RangeField do
             "[&::-moz-range-thumb]:border-4 [&::-moz-range-thumb]:rounded-full",
             "[&::-moz-range-thumb]:transition-all [&::-moz-range-thumb]:duration-200 [&::-moz-range-thumb]:ease-in-out",
             "[&::-webkit-slider-runnable-track]:rounded-full [&::-moz-range-track]:w-full",
-            "[&::-moz-range-track]:bg-range-light-gray [&::-moz-range-track]:rounded-full"
+            "[&::-moz-range-track]:bg-range-light-gray [&::-moz-range-track]:rounded-full",
+            @ring &&
+              "[&:focus::-webkit-slider-thumb]:outline-2 [&:focus::-webkit-slider-thumb]:outline-offset-2 [&:focus::-moz-range-thumb]:outline-2 [&:focus::-moz-range-thumb]:outline-offset-2"
           ]}
           {@rest}
         />
