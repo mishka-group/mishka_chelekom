@@ -404,6 +404,30 @@ defmodule DevelopmentWeb.Showcase.Preview do
     """
   end
 
+  def show(%{component: "toggle_field"} = assigns) do
+    # Mirrors the mishka "rounded" docs: a row of toggles showing each `rounded` value (square → pill),
+    # so the corner-radius prop is visible at a glance. color/size (and reverse) come from the controls
+    # via {@props}; `rounded` is set per toggle since it isn't a showcase dim. Name-based, all "on".
+    assigns =
+      assign(assigns, :rounds, [
+        {"extra_small", "Extra small"},
+        {"small", "Small"},
+        {"medium", "Medium"},
+        {"large", "Large"},
+        {"extra_large", "Extra large"},
+        {"full", "Full radius"}
+      ])
+
+    ~H"""
+    <div class="flex w-full flex-wrap items-end justify-center gap-5">
+      <div :for={{key, lbl} <- @rounds} class="flex flex-col items-center gap-2">
+        <span class="text-[11px] font-medium text-base-content/60">{lbl}</span>
+        <.toggle_field id={"tf-#{key}"} name={"tf_#{key}"} value="true" checked rounded={key} {@props} />
+      </div>
+    </div>
+    """
+  end
+
   def show(%{component: "radio_field"} = assigns) do
     # Two ways to use it: individual <.radio_field> sharing ONE name (so only one can be selected — a
     # real radio group), and the <.group_radio> component with :radio slots. Both driven by {@props}

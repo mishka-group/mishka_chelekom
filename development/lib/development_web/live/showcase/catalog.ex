@@ -156,6 +156,9 @@ defmodule DevelopmentWeb.Showcase.Catalog do
   # file_field: `live` (without dropzone) renders <.live_file_input upload={@upload}>, but @upload is
   # only assigned in the dropzone path — mishka never uses live standalone, so it's not a real mode.
   defp dead_flags("file_field"), do: ["live"]
+  # toggle_field: `ring` and `reverse` were declared but never read (@ring/@reverse used 0×) — deleted
+  # from the component; the JSON metadata still lists them, so drop them from the controls here too.
+  defp dead_flags("toggle_field"), do: ["ring", "reverse"]
   defp dead_flags(_), do: []
 
   # Real, visible dims the catalog args omit. banner supports `border` (a `border-*` thickness).

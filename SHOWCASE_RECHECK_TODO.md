@@ -39,12 +39,12 @@ item that needs follow-up.
 - [x] radio_card — `/showcase/radio_card`
 - [x] radio_field — `/showcase/radio_field`
 - [x] range_field — `/showcase/range_field`
-- [ ] search_field — `/showcase/search_field`
-- [ ] tel_field — `/showcase/tel_field`
-- [ ] text_field — `/showcase/text_field`
-- [ ] textarea_field — `/showcase/textarea_field`
-- [ ] toggle_field — `/showcase/toggle_field`
-- [ ] url_field — `/showcase/url_field`
+- [x] search_field — `/showcase/search_field`
+- [x] tel_field — `/showcase/tel_field`
+- [x] text_field — `/showcase/text_field`
+- [x] textarea_field — `/showcase/textarea_field`
+- [x] toggle_field — `/showcase/toggle_field`
+- [x] url_field — `/showcase/url_field`
 
 ### general
 - [ ] accordion — `/showcase/accordion`
