@@ -594,80 +594,80 @@ defmodule DevelopmentWeb.Components.Fieldset do
 
   defp color_variant("gradient", "natural") do
     [
-      "[&_.fieldset-field]:bg-gradient-to-br from-gradient-natural-from-light to-gradient-natural-to-light text-white",
-      "dark:from-gradient-natural-from-dark dark:to-white dark:text-black",
+      "[&_.fieldset-field]:bg-linear-to-br [&_.fieldset-field]:from-gradient-natural-from-light [&_.fieldset-field]:to-gradient-natural-to-light text-white",
+      "dark:[&_.fieldset-field]:from-gradient-natural-from-dark dark:to-white dark:text-black",
       "[&_.fieldset-legend]:bg-gradient-natural-from-light dark:[&_.fieldset-legend]:bg-gradient-natural-from-dark"
     ]
   end
 
   defp color_variant("gradient", "primary") do
     [
-      "[&_.fieldset-field]:bg-gradient-to-br from-gradient-primary-from-light to-gradient-primary-to-light text-white",
-      "dark:from-gradient-primary-from-dark dark:to-gradient-primary-to-dark dark:text-black",
+      "[&_.fieldset-field]:bg-linear-to-br [&_.fieldset-field]:from-gradient-primary-from-light [&_.fieldset-field]:to-gradient-primary-to-light text-white",
+      "dark:[&_.fieldset-field]:from-gradient-primary-from-dark dark:[&_.fieldset-field]:to-gradient-primary-to-dark dark:text-black",
       "[&_.fieldset-legend]:bg-gradient-primary-from-light dark:[&_.fieldset-legend]:bg-gradient-primary-from-dark"
     ]
   end
 
   defp color_variant("gradient", "secondary") do
     [
-      "[&_.fieldset-field]:bg-gradient-to-br from-gradient-secondary-from-light to-gradient-secondary-to-light text-white",
-      "dark:from-gradient-secondary-from-dark dark:to-gradient-secondary-to-dark dark:text-black",
+      "[&_.fieldset-field]:bg-linear-to-br [&_.fieldset-field]:from-gradient-secondary-from-light [&_.fieldset-field]:to-gradient-secondary-to-light text-white",
+      "dark:[&_.fieldset-field]:from-gradient-secondary-from-dark dark:[&_.fieldset-field]:to-gradient-secondary-to-dark dark:text-black",
       "[&_.fieldset-legend]:bg-gradient-secondary-from-light dark:[&_.fieldset-legend]:bg-gradient-secondary-from-dark"
     ]
   end
 
   defp color_variant("gradient", "success") do
     [
-      "[&_.fieldset-field]:bg-gradient-to-br from-gradient-success-from-light to-gradient-success-to-light text-white",
-      "dark:from-gradient-success-from-dark dark:to-gradient-success-to-dark dark:text-black",
+      "[&_.fieldset-field]:bg-linear-to-br [&_.fieldset-field]:from-gradient-success-from-light [&_.fieldset-field]:to-gradient-success-to-light text-white",
+      "dark:[&_.fieldset-field]:from-gradient-success-from-dark dark:[&_.fieldset-field]:to-gradient-success-to-dark dark:text-black",
       "[&_.fieldset-legend]:bg-gradient-success-from-light dark:[&_.fieldset-legend]:bg-gradient-success-from-dark"
     ]
   end
 
   defp color_variant("gradient", "warning") do
     [
-      "[&_.fieldset-field]:bg-gradient-to-br from-gradient-warning-from-light to-gradient-warning-to-light text-white",
-      "dark:from-gradient-warning-from-dark dark:to-gradient-warning-to-dark dark:text-black",
+      "[&_.fieldset-field]:bg-linear-to-br [&_.fieldset-field]:from-gradient-warning-from-light [&_.fieldset-field]:to-gradient-warning-to-light text-white",
+      "dark:[&_.fieldset-field]:from-gradient-warning-from-dark dark:[&_.fieldset-field]:to-gradient-warning-to-dark dark:text-black",
       "[&_.fieldset-legend]:bg-gradient-warning-from-light dark:[&_.fieldset-legend]:bg-gradient-warning-from-dark"
     ]
   end
 
   defp color_variant("gradient", "danger") do
     [
-      "[&_.fieldset-field]:bg-gradient-to-br from-gradient-danger-from-light to-gradient-danger-to-light text-white",
-      "dark:from-gradient-danger-from-dark dark:to-gradient-danger-to-dark dark:text-black",
+      "[&_.fieldset-field]:bg-linear-to-br [&_.fieldset-field]:from-gradient-danger-from-light [&_.fieldset-field]:to-gradient-danger-to-light text-white",
+      "dark:[&_.fieldset-field]:from-gradient-danger-from-dark dark:[&_.fieldset-field]:to-gradient-danger-to-dark dark:text-black",
       "[&_.fieldset-legend]:bg-gradient-danger-from-light dark:[&_.fieldset-legend]:bg-gradient-danger-from-dark"
     ]
   end
 
   defp color_variant("gradient", "info") do
     [
-      "[&_.fieldset-field]:bg-gradient-to-br from-gradient-info-from-light to-gradient-info-to-light text-white",
-      "dark:from-gradient-info-from-dark dark:to-gradient-info-to-dark dark:text-black",
+      "[&_.fieldset-field]:bg-linear-to-br [&_.fieldset-field]:from-gradient-info-from-light [&_.fieldset-field]:to-gradient-info-to-light text-white",
+      "dark:[&_.fieldset-field]:from-gradient-info-from-dark dark:[&_.fieldset-field]:to-gradient-info-to-dark dark:text-black",
       "[&_.fieldset-legend]:bg-gradient-info-from-light dark:[&_.fieldset-legend]:bg-gradient-info-from-dark"
     ]
   end
 
   defp color_variant("gradient", "misc") do
     [
-      "[&_.fieldset-field]:bg-gradient-to-br from-gradient-misc-from-light to-gradient-misc-to-light text-white",
-      "dark:from-gradient-misc-from-dark dark:to-gradient-misc-to-dark dark:text-black",
+      "[&_.fieldset-field]:bg-linear-to-br [&_.fieldset-field]:from-gradient-misc-from-light [&_.fieldset-field]:to-gradient-misc-to-light text-white",
+      "dark:[&_.fieldset-field]:from-gradient-misc-from-dark dark:[&_.fieldset-field]:to-gradient-misc-to-dark dark:text-black",
       "[&_.fieldset-legend]:bg-gradient-misc-from-light dark:[&_.fieldset-legend]:bg-gradient-misc-from-dark"
     ]
   end
 
   defp color_variant("gradient", "dawn") do
     [
-      "[&_.fieldset-field]:bg-gradient-to-br from-gradient-dawn-from-light to-gradient-dawn-to-light text-white",
-      "dark:from-gradient-dawn-from-dark dark:to-gradient-dawn-to-dark dark:text-black",
+      "[&_.fieldset-field]:bg-linear-to-br [&_.fieldset-field]:from-gradient-dawn-from-light [&_.fieldset-field]:to-gradient-dawn-to-light text-white",
+      "dark:[&_.fieldset-field]:from-gradient-dawn-from-dark dark:[&_.fieldset-field]:to-gradient-dawn-to-dark dark:text-black",
       "[&_.fieldset-legend]:bg-gradient-dawn-from-light dark:[&_.fieldset-legend]:bg-gradient-dawn-from-dark"
     ]
   end
 
   defp color_variant("gradient", "silver") do
     [
-      "[&_.fieldset-field]:bg-gradient-to-br from-gradient-silver-from-light to-gradient-silver-to-light text-white",
-      "dark:from-gradient-silver-from-dark dark:to-gradient-silver-to-dark dark:text-black",
+      "[&_.fieldset-field]:bg-linear-to-br [&_.fieldset-field]:from-gradient-silver-from-light [&_.fieldset-field]:to-gradient-silver-to-light text-white",
+      "dark:[&_.fieldset-field]:from-gradient-silver-from-dark dark:[&_.fieldset-field]:to-gradient-silver-to-dark dark:text-black",
       "[&_.fieldset-legend]:bg-gradient-silver-from-light dark:[&_.fieldset-legend]:bg-gradient-silver-from-dark"
     ]
   end

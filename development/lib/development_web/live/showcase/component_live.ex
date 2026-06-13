@@ -356,6 +356,12 @@ defmodule DevelopmentWeb.Showcase.ComponentLive do
   # of the preview box. Default it off so it renders in-flow where you can see it; the flag stays
   # toggleable to demo the fixed behaviour.
   defp preview_override("toast"), do: %{fixed: false}
+
+  # Fieldset's `default` variant FILLS solid with the color, and the nested checkbox controls keep
+  # their own dark label text — so labels blend into the fill and read poorly. Default to `outline`:
+  # transparent background, colored border + legend, dark labels that stay legible. The colour is still
+  # meaningful (border/legend/text take it); switch the variant to `default` for the filled look.
+  defp preview_override("fieldset"), do: %{variant: "outline"}
   defp preview_override(_), do: %{}
 
   # Default the preview to options that actually show the component off: a color-bearing variant

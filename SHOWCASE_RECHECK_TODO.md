@@ -26,10 +26,10 @@ item that needs follow-up.
 - [x] checkbox_card — `/showcase/checkbox_card`
 - [x] checkbox_field — `/showcase/checkbox_field`
 - [x] color_field — `/showcase/color_field`
-- [ ] combobox — `/showcase/combobox`
-- [ ] date_time_field — `/showcase/date_time_field`
-- [ ] email_field — `/showcase/email_field`
-- [ ] fieldset — `/showcase/fieldset`
+- [x] combobox — `/showcase/combobox`
+- [x] date_time_field — `/showcase/date_time_field`
+- [x] email_field — `/showcase/email_field`
+- [x] fieldset — `/showcase/fieldset`
 - [ ] file_field — `/showcase/file_field`
 - [ ] form_wrapper — `/showcase/form_wrapper`
 - [ ] input_field — `/showcase/input_field`

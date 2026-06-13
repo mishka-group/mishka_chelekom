@@ -274,6 +274,26 @@ defmodule DevelopmentWeb.Showcase.Preview do
     """
   end
 
+  def show(%{component: "fieldset"} = assigns) do
+    # Fieldset groups form controls under a legend — it renders `:control` SLOTS, not inner_block, so
+    # the generic `<.fieldset>{@sample}</.fieldset>` preview drew an empty box. Give it a legend plus a
+    # few real controls; {@props} drives variant/color/size/rounded/padding/space so the frame, legend
+    # and spacing all respond to the settings.
+    ~H"""
+    <.fieldset id={@id} legend="Notifications" {@props}>
+      <:control>
+        <.checkbox_field id={"#{@id}-c1"} name="fs_email" value="true" checked label="Email" space="small" />
+      </:control>
+      <:control>
+        <.checkbox_field id={"#{@id}-c2"} name="fs_sms" value="true" label="SMS" space="small" />
+      </:control>
+      <:control>
+        <.checkbox_field id={"#{@id}-c3"} name="fs_push" value="true" checked label="Push" space="small" />
+      </:control>
+    </.fieldset>
+    """
+  end
+
   def show(%{component: "banner"} = assigns) do
     # The banner is hardcoded `fixed z-50` (it pins to the viewport, full-width) — so in the showcase it
     # flies to the top of the page and you can't see rounded/padding/border change. We override the
