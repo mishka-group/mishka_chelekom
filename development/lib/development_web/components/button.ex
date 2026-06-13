@@ -1158,8 +1158,8 @@ defmodule DevelopmentWeb.Components.Button do
 
   defp color_variant("bordered", "natural", indicator) do
     [
-      "bg-white dark:bg-bordered-dark-bg text-natural-light border-natural-light hover:text-natural-hover-light",
-      "hover:border-natural-hover-light dark:text-natural-dark dark:border-natural-dark",
+      "bg-natural-bordered-bg-light dark:bg-natural-bordered-bg-dark text-natural-bordered-text-light border-natural-bordered-text-light hover:text-natural-hover-light",
+      "hover:border-natural-hover-light dark:text-natural-bordered-text-dark dark:border-natural-bordered-text-dark",
       "dark:hover:text-natural-hover-dark dark:hover:border-natural-hover-dark disabled:text-natural-disabled-light",
       "disabled:border-natural-disabled-light dark:disabled:text-natural-disabled-dark dark:disabled:border-natural-disabled-dark",
       indicator && "[&>.indicator]:bg-black dark:[&>.indicator]:bg-white"
@@ -1168,8 +1168,8 @@ defmodule DevelopmentWeb.Components.Button do
 
   defp color_variant("bordered", "primary", indicator) do
     [
-      "bg-white dark:bg-bordered-dark-bg text-primary-light border-primary-light hover:text-primary-hover-light",
-      "hover:border-primary-hover-light dark:text-primary-dark dark:border-primary-dark",
+      "bg-primary-bordered-bg-light dark:bg-primary-bordered-bg-dark text-primary-bordered-text-light border-primary-bordered-text-light hover:text-primary-hover-light",
+      "hover:border-primary-hover-light dark:text-primary-bordered-text-dark dark:border-primary-bordered-text-dark",
       "dark:hover:text-primary-hover-dark dark:hover:border-primary-hover-dark disabled:text-natural-disabled-light",
       "disabled:border-natural-disabled-light dark:disabled:text-natural-disabled-dark dark:disabled:border-natural-disabled-dark",
       indicator &&
@@ -1179,8 +1179,8 @@ defmodule DevelopmentWeb.Components.Button do
 
   defp color_variant("bordered", "secondary", indicator) do
     [
-      "bg-white dark:bg-bordered-dark-bg text-secondary-light border-secondary-light hover:text-secondary-hover-light",
-      "hover:border-secondary-hover-light dark:text-secondary-dark dark:border-secondary-dark",
+      "bg-secondary-bordered-bg-light dark:bg-secondary-bordered-bg-dark text-secondary-bordered-text-light border-secondary-bordered-text-light hover:text-secondary-hover-light",
+      "hover:border-secondary-hover-light dark:text-secondary-bordered-text-dark dark:border-secondary-bordered-text-dark",
       "dark:hover:text-secondary-hover-dark dark:hover:border-secondary-hover-dark disabled:text-natural-disabled-light",
       "disabled:border-natural-disabled-light dark:disabled:text-natural-disabled-dark dark:disabled:border-natural-disabled-dark",
       indicator &&
@@ -1190,8 +1190,8 @@ defmodule DevelopmentWeb.Components.Button do
 
   defp color_variant("bordered", "success", indicator) do
     [
-      "bg-white dark:bg-bordered-dark-bg text-success-light border-success-light hover:text-success-hover-light",
-      "hover:border-success-hover-light dark:text-success-dark dark:border-success-dark",
+      "bg-success-bordered-bg-light dark:bg-success-bordered-bg-dark text-success-bordered-text-light border-success-bordered-text-light hover:text-success-hover-light",
+      "hover:border-success-hover-light dark:text-success-bordered-text-dark dark:border-success-bordered-text-dark",
       "dark:hover:text-success-hover-dark dark:hover:border-success-hover-dark disabled:text-natural-disabled-light",
       "disabled:border-natural-disabled-light dark:disabled:text-natural-disabled-dark dark:disabled:border-natural-disabled-dark",
       indicator &&
@@ -1201,8 +1201,8 @@ defmodule DevelopmentWeb.Components.Button do
 
   defp color_variant("bordered", "warning", indicator) do
     [
-      "bg-white dark:bg-bordered-dark-bg text-warning-light border-warning-light hover:text-warning-hover-light",
-      "hover:border-warning-hover-light dark:text-warning-dark dark:border-warning-dark",
+      "bg-warning-bordered-bg-light dark:bg-warning-bordered-bg-dark text-warning-bordered-text-light border-warning-bordered-text-light hover:text-warning-hover-light",
+      "hover:border-warning-hover-light dark:text-warning-bordered-text-dark dark:border-warning-bordered-text-dark",
       "dark:hover:text-warning-hover-dark dark:hover:border-warning-hover-dark disabled:text-natural-disabled-light",
       "disabled:border-natural-disabled-light dark:disabled:text-natural-disabled-dark dark:disabled:border-natural-disabled-dark",
       indicator &&
@@ -1212,8 +1212,8 @@ defmodule DevelopmentWeb.Components.Button do
 
   defp color_variant("bordered", "danger", indicator) do
     [
-      "bg-white dark:bg-bordered-dark-bg text-danger-light border-danger-light hover:text-danger-hover-light",
-      "hover:border-danger-hover-light dark:text-danger-dark dark:border-danger-dark",
+      "bg-danger-bordered-bg-light dark:bg-danger-bordered-bg-dark text-danger-bordered-text-light border-danger-bordered-text-light hover:text-danger-hover-light",
+      "hover:border-danger-hover-light dark:text-danger-bordered-text-dark dark:border-danger-bordered-text-dark",
       "dark:hover:text-danger-hover-dark dark:hover:border-danger-hover-dark disabled:text-natural-disabled-light",
       "disabled:border-natural-disabled-light dark:disabled:text-natural-disabled-dark dark:disabled:border-natural-disabled-dark",
       indicator &&
@@ -1223,8 +1223,8 @@ defmodule DevelopmentWeb.Components.Button do
 
   defp color_variant("bordered", "info", indicator) do
     [
-      "bg-white dark:bg-bordered-dark-bg text-info-light border-info-light hover:text-info-hover-light",
-      "hover:border-info-light dark:text-info-dark dark:border-info-dark",
+      "bg-info-bordered-bg-light dark:bg-info-bordered-bg-dark text-info-bordered-text-light border-info-bordered-text-light hover:text-info-hover-light",
+      "hover:border-info-light dark:text-info-bordered-text-dark dark:border-info-bordered-text-dark",
       "dark:hover:text-info-hover-dark dark:hover:border-info-hover-dark disabled:text-natural-disabled-light",
       "disabled:border-natural-disabled-light dark:disabled:text-natural-disabled-dark dark:disabled:border-natural-disabled-dark",
       indicator &&
@@ -1234,8 +1234,8 @@ defmodule DevelopmentWeb.Components.Button do
 
   defp color_variant("bordered", "misc", indicator) do
     [
-      "bg-white dark:bg-bordered-dark-bg text-misc-light border-misc-light hover:text-misc-hover-light",
-      "hover:border-misc-hover-light dark:text-misc-dark dark:border-misc-dark",
+      "bg-misc-bordered-bg-light dark:bg-misc-bordered-bg-dark text-misc-bordered-text-light border-misc-bordered-text-light hover:text-misc-hover-light",
+      "hover:border-misc-hover-light dark:text-misc-bordered-text-dark dark:border-misc-bordered-text-dark",
       "dark:hover:text-misc-hover-dark dark:hover:border-misc-hover-dark disabled:text-natural-disabled-light",
       "disabled:border-natural-disabled-light dark:disabled:text-natural-disabled-dark dark:disabled:border-natural-disabled-dark",
       indicator &&
@@ -1245,8 +1245,8 @@ defmodule DevelopmentWeb.Components.Button do
 
   defp color_variant("bordered", "dawn", indicator) do
     [
-      "bg-white dark:bg-bordered-dark-bg text-dawn-light border-dawn-light hover:text-dawn-hover-light",
-      "hover:border-dawn-hover-light dark:text-dawn-dark dark:border-dawn-dark",
+      "bg-dawn-bordered-bg-light dark:bg-dawn-bordered-bg-dark text-dawn-bordered-text-light border-dawn-bordered-text-light hover:text-dawn-hover-light",
+      "hover:border-dawn-hover-light dark:text-dawn-bordered-text-dark dark:border-dawn-bordered-text-dark",
       "dark:hover:text-dawn-hover-dark dark:hover:border-dawn-hover-dark disabled:text-natural-disabled-light",
       "disabled:border-natural-disabled-light dark:disabled:text-natural-disabled-dark dark:disabled:border-natural-disabled-dark",
       indicator &&
@@ -1256,8 +1256,8 @@ defmodule DevelopmentWeb.Components.Button do
 
   defp color_variant("bordered", "silver", indicator) do
     [
-      "bg-white dark:bg-bordered-dark-bg text-silver-light border-silver-light hover:text-silver-hover-light",
-      "hover:border-silver-hover-light dark:text-silver-dark dark:border-silver-dark",
+      "bg-silver-bordered-bg-light dark:bg-silver-bordered-bg-dark text-silver-bordered-text-light border-silver-bordered-text-light hover:text-silver-hover-light",
+      "hover:border-silver-hover-light dark:text-silver-bordered-text-dark dark:border-silver-bordered-text-dark",
       "dark:hover:text-silver-hover-dark dark:hover:border-silver-hover-dark disabled:text-natural-disabled-light",
       "disabled:border-natural-disabled-light dark:disabled:text-natural-disabled-dark dark:disabled:border-natural-disabled-dark",
       indicator &&

@@ -47,11 +47,11 @@ item that needs follow-up.
 - [x] url_field — `/showcase/url_field`
 
 ### general
-- [ ] accordion — `/showcase/accordion`
+- [x] accordion — `/showcase/accordion`
 - [x] avatar — `/showcase/avatar`
-- [ ] badge — `/showcase/badge`
-- [ ] blockquote — `/showcase/blockquote`
-- [ ] button — `/showcase/button`
+- [x] badge — `/showcase/badge`
+- [x] blockquote — `/showcase/blockquote`
+- [x] button — `/showcase/button`
 - [ ] card — `/showcase/card`
 - [ ] chat — `/showcase/chat`
 - [ ] clipboard — `/showcase/clipboard`

@@ -79,7 +79,19 @@ defmodule DevelopmentWeb.Showcase.ComponentLive do
         end
       end)
 
-    {:noreply, assign(socket, :props, Map.merge(socket.assigns.props, parsed))}
+    socket = assign(socket, :props, Map.merge(socket.assigns.props, parsed))
+
+    # A flag toggles a `data-*` attr that several JS hooks read only ONCE, at mount, into a cached
+    # config (e.g. the accordion's `multiple`, which the `Collapsible` hook reads in `getConfig/0`).
+    # Patching the node in place leaves that cached config stale — the control appears dead. So when a
+    # flag changes, bump the nonce to give the preview a fresh mount; dim/CSS changes re-render
+    # correctly via a patch and stay cheap (no remount, so they don't reset the preview's open state).
+    socket =
+      if Enum.any?(Map.keys(params), &(&1 in flag_names)),
+        do: update(socket, :preview_nonce, &(&1 + 1)),
+        else: socket
+
+    {:noreply, socket}
   end
 
   def handle_event("reset", _params, socket) do
