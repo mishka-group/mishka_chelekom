@@ -381,6 +381,15 @@ defmodule DevelopmentWeb.Showcase.ComponentLive do
   # transparent background, colored border + legend, dark labels that stay legible. The colour is still
   # meaningful (border/legend/text take it); switch the variant to `default` for the filled look.
   defp preview_override("fieldset"), do: %{variant: "outline"}
+
+  # Same reasoning as fieldset: form_wrapper's `default` fills solid (white text), so the fields/labels
+  # inside read poorly. Default to `outline` so the form is legible; switch to `default` for the fill.
+  defp preview_override("form_wrapper"), do: %{variant: "outline"}
+
+  # native_select's `default` variant FILLS the select box with the color, and its focus ring is the
+  # SAME color (ring-primary on bg-primary) → invisible. `bordered` gives a light tinted box with a
+  # colored border + a contrasting focus ring, so the `ring` flag is actually visible on focus.
+  defp preview_override("native_select"), do: %{variant: "bordered"}
   defp preview_override(_), do: %{}
 
   # Default the preview to options that actually show the component off: a color-bearing variant

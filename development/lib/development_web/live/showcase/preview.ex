@@ -128,9 +128,20 @@ defmodule DevelopmentWeb.Showcase.Preview do
   end
 
   def show(%{component: "form_wrapper"} = assigns) do
+    # form_wrapper renders a <.form> around its content + an :actions slot. Put real fields in it so the
+    # wrapper's styling (variant/color/padding/space/rounded) is visible in context. Fields use
+    # name/value (not field={...}) — these components' field clause is what the showcase uses elsewhere;
+    # name-based keeps it self-contained. `phx-submit="save"` is absorbed by the catch-all handle_event.
     ~H"""
-    <.form_wrapper id={@id} for={@form} {@props}>
-      <p class="text-sm">Wrap any form fields here.</p>
+    <.form_wrapper id={@id} for={@form} phx-submit="save" {@props}>
+      <div class="space-y-3">
+        <.text_field id="fw-name" name="fw_name" value="" label="Full name" placeholder="Ada Lovelace" />
+        <.email_field id="fw-email" name="fw_email" value="" label="Email" placeholder="ada@example.com" />
+        <.checkbox_field id="fw-subscribe" name="fw_subscribe" value="true" label="Subscribe to updates" />
+      </div>
+      <:actions>
+        <.button type="submit" color="primary">Save</.button>
+      </:actions>
     </.form_wrapper>
     """
   end
@@ -341,6 +352,38 @@ defmodule DevelopmentWeb.Showcase.Preview do
       />
       <.file_field :if={!@props[:dropzone]} id={@id} name="demo_file" label="Pick a file" {@props} />
     </.form>
+    """
+  end
+
+  def show(%{component: "input_field"} = assigns) do
+    # input_field is the core `<.input>` that dispatches by `type`. We surface `type` as a control
+    # (Catalog.extra_dims) and switch the rendered input here: `select` needs `options`/`prompt`,
+    # everything else gets a `placeholder` (a global-rest attr, ignored by types that don't use it).
+    type = assigns.props[:type] || "text"
+    assigns = assign(assigns, type: type, rest: Map.drop(assigns.props, [:type]))
+
+    ~H"""
+    <div class="w-full">
+      <.input
+        :if={@type == "select"}
+        id={@id}
+        field={@form[:demo]}
+        label="Demo field"
+        type="select"
+        prompt="Choose an option"
+        options={[{"One", "1"}, {"Two", "2"}, {"Three", "3"}]}
+        {@rest}
+      />
+      <.input
+        :if={@type != "select"}
+        id={@id}
+        field={@form[:demo]}
+        label="Demo field"
+        type={@type}
+        placeholder="Type something…"
+        {@rest}
+      />
+    </div>
     """
   end
 

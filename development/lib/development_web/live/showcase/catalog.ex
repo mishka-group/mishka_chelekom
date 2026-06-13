@@ -170,6 +170,20 @@ defmodule DevelopmentWeb.Showcase.Catalog do
     ]
   end
 
+  # input_field is the core `<.input>` that dispatches by `type` — its defining prop. The catalog
+  # exposes no dims, so surface `type` so the input can actually be switched/tested.
+  defp extra_dims("input_field") do
+    [
+      %{
+        key: "type",
+        attr: "type",
+        type: :string,
+        values:
+          ~w(text email password number search tel url date time color range select checkbox textarea file)
+      }
+    ]
+  end
+
   defp extra_dims(_), do: []
 
   defp type_of("atom"), do: :atom

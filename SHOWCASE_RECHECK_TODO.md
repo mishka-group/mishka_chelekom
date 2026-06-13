@@ -31,9 +31,9 @@ item that needs follow-up.
 - [x] email_field — `/showcase/email_field`
 - [x] fieldset — `/showcase/fieldset`
 - [x] file_field — `/showcase/file_field`
-- [ ] form_wrapper — `/showcase/form_wrapper`
-- [ ] input_field — `/showcase/input_field`
-- [ ] native_select — `/showcase/native_select`
+- [x] form_wrapper — `/showcase/form_wrapper`
+- [x] input_field — `/showcase/input_field`
+- [x] native_select — `/showcase/native_select`
 - [ ] number_field — `/showcase/number_field`
 - [ ] password_field — `/showcase/password_field`
 - [ ] radio_card — `/showcase/radio_card`
