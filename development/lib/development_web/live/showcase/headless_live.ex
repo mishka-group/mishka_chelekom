@@ -20,9 +20,13 @@ defmodule DevelopmentWeb.Showcase.HeadlessLive do
         {:noreply, push_navigate(socket, to: ~p"/showcase/headless")}
 
       comp ->
+        {prev, next} = HeadlessCatalog.neighbors(name)
+
         {:noreply,
          socket
          |> assign(:component, comp)
+         |> assign(:prev, prev)
+         |> assign(:next, next)
          |> assign(:api, HeadlessApi.parse(name))
          |> assign(:usage, HeadlessApi.usage(name))
          |> assign(:module, HeadlessApi.module(name))
@@ -178,6 +182,38 @@ defmodule DevelopmentWeb.Showcase.HeadlessLive do
             </div>
           </aside>
         </div>
+
+        <nav
+          :if={@prev || @next}
+          class="flex items-stretch gap-4 border-t border-base-300 pt-6"
+          aria-label="Component navigation"
+        >
+          <.link
+            :if={@prev}
+            navigate={~p"/showcase/headless/#{@prev.name}"}
+            class="group flex min-w-0 max-w-xs flex-col items-start gap-1 rounded-box border border-base-300 bg-base-100 px-5 py-4 shadow-sm transition-colors hover:border-secondary"
+          >
+            <span class="flex items-center gap-1 text-xs uppercase tracking-wide text-base-content/40">
+              <span class="transition-transform group-hover:-translate-x-0.5">←</span> Previous
+            </span>
+            <span class="w-full truncate text-left font-semibold capitalize">
+              {String.replace(@prev.name, "_", " ")}
+            </span>
+          </.link>
+
+          <.link
+            :if={@next}
+            navigate={~p"/showcase/headless/#{@next.name}"}
+            class="group ml-auto flex min-w-0 max-w-xs flex-col items-end gap-1 rounded-box border border-base-300 bg-base-100 px-5 py-4 shadow-sm transition-colors hover:border-secondary"
+          >
+            <span class="flex items-center gap-1 text-xs uppercase tracking-wide text-base-content/40">
+              Next <span class="transition-transform group-hover:translate-x-0.5">→</span>
+            </span>
+            <span class="w-full truncate text-right font-semibold capitalize">
+              {String.replace(@next.name, "_", " ")}
+            </span>
+          </.link>
+        </nav>
       </div>
     </div>
     """

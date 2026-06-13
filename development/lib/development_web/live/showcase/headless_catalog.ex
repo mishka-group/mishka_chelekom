@@ -17,6 +17,17 @@ defmodule DevelopmentWeb.Showcase.HeadlessCatalog do
 
   def get(name) when is_binary(name), do: Enum.find(all(), &(&1.name == name))
 
+  @doc "The previous and next headless components around `name` (name-sorted order); nil at the ends."
+  def neighbors(name) do
+    list = all()
+
+    case Enum.find_index(list, &(&1.name == name)) do
+      nil -> {nil, nil}
+      0 -> {nil, Enum.at(list, 1)}
+      i -> {Enum.at(list, i - 1), Enum.at(list, i + 1)}
+    end
+  end
+
   def by_category do
     all() |> Enum.group_by(& &1.category) |> Enum.sort_by(fn {c, _} -> c end)
   end

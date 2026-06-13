@@ -219,6 +219,58 @@ defmodule DevelopmentWeb.Showcase.Preview do
     """
   end
 
+  def show(%{component: "tooltip"} = assigns) do
+    # The tooltip's visible anchor comes from the `:trigger` slot ONLY — its inner_block is treated as
+    # hidden tooltip *content* (see the component's render), so the generic `<.tooltip>{@sample}</.tooltip>`
+    # preview renders an empty trigger and shows nothing. Give it a real trigger plus `text`; the styled
+    # bubble (driven by variant/color/size/… from the controls via {@props}) appears on hover or focus.
+    #
+    # The `Floating` JS hook (1) caches clickable/position/delays at mount and never re-reads them in
+    # updated(), and (2) RELOCATES the tooltip bubble to <body> (setupFloatingContent → appendChild) —
+    # so it leaves LiveView's DOM tree entirely. That means patching the same element does nothing: the
+    # flags keep their mounted behavior AND class changes for size/variant/color/rounded/padding never
+    # reach the moved bubble. The fix is to remount on ANY control change — the tooltip holds no user
+    # state, so we key each id on a hash of the full prop set. A changed id → LiveView removes+adds the
+    # element → destroyed() returns the bubble to its parent and a fresh mount renders it with the new
+    # classes/behavior.
+    #
+    # Two examples, because one trigger can't show every option: the BUTTON shows clickable (the label
+    # flips hover↔click) and show_arrow (arrow on the bubble); the IN-TEXT one shows `inline` — when
+    # inline the trigger is a `<span>` that flows inside the sentence, otherwise a block `<div>` that
+    # breaks onto its own line.
+    p = assigns.props
+    assigns = assign(assigns, :fkey, :erlang.phash2(p))
+
+    ~H"""
+    <div class="flex w-full flex-col items-center gap-6">
+      <div class="flex flex-col items-center gap-2">
+        <.tooltip id={"#{@id}-btn-#{@fkey}"} text="This is a tooltip" position="bottom" {@props}>
+          <:trigger>
+            <.button variant="outline" color="primary" size="small">
+              {if @props[:clickable], do: "Click me", else: "Hover me"}
+            </.button>
+          </:trigger>
+        </.tooltip>
+        <p class="text-xs text-base-content/40">
+          {if @props[:clickable], do: "Click", else: "Hover or focus"} the trigger to reveal it.
+        </p>
+      </div>
+
+      <div class="max-w-xs text-center text-sm leading-7 text-base-content/70">
+        Mishka Chelekom is a
+        <.tooltip id={"#{@id}-inline-#{@fkey}"} text="An inline tooltip flows with the text" position="top" {@props}>
+          <:trigger>
+            <span class="cursor-help text-primary underline decoration-dotted underline-offset-2">
+              component library
+            </span>
+          </:trigger>
+        </.tooltip>
+        for Phoenix — toggle <strong>Inline</strong> to flow this trigger into the line or break it onto its own.
+      </div>
+    </div>
+    """
+  end
+
   # --- Fallback to the generated previews ---------------------------------------------
 
   def show(assigns), do: PreviewGenerated.show(assigns)
