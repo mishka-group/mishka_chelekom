@@ -4,9 +4,9 @@ defmodule MishkaChelekom.Kit.Runtime do
   wrapper stays a thin delegator to the real component. One `transform/2` handles both worlds:
 
     * styled (`spec.attrs`) — remap a customized color/variant/size value to the component's neutral
-      `base`, then layer your classes as Tailwind-v4 `!important` (so they win without a class-merge,
-      since the generated components don't run one), preserving the attr's type (atom/string);
-    * headless (`spec.class`) — add the compiled `[&_[data-part=…]]:` classes to the root.
+      `base`, then layer your classes (verbatim — write the `!` yourself so they win without a
+      class-merge, since the generated components don't run one), preserving the attr's type;
+    * headless (`spec.class`) — add your part classes (verbatim `[&_[data-part=…]]:`) to the root.
   """
 
   @doc "Transform assigns for a customized component before delegating to the real one."
@@ -15,16 +15,6 @@ defmodule MishkaChelekom.Kit.Runtime do
     |> apply_defaults(spec.default)
     |> apply_class(spec[:class])
     |> apply_dimensions(spec[:attrs], spec.base)
-  end
-
-  @doc "Mark every utility in a class string as `!important` (Tailwind v4 trailing-`!`). Idempotent."
-  def important(classes) do
-    classes
-    |> String.split()
-    |> Enum.map_join(" ", fn
-      "" -> ""
-      token -> if String.ends_with?(token, "!"), do: token, else: token <> "!"
-    end)
   end
 
   # --- internals -----------------------------------------------------------------------
@@ -47,7 +37,7 @@ defmodule MishkaChelekom.Kit.Runtime do
           acc
 
         classes ->
-          # `classes` is already in `!important` form — precomputed at compile time by the transformer
+          # `classes` are verbatim — exactly what you wrote in the Kit (incl. any trailing `!`)
           acc
           |> Map.put(attr, safe(Map.get(acc, attr), base))
           |> add_class(classes)

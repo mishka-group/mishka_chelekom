@@ -3,7 +3,8 @@ defmodule DevelopmentWeb.Showcase.KitLive do
   Demonstrates `MishkaChelekom.Kit` — the two ways to reuse existing components: `customize` a
   styled one (add/restyle colors & variants) and `skin` a headless one. Renders the Kit's generated
   wrappers live (via remote calls so they don't clash with the globally-imported originals) and
-  shows the introspection + Tailwind safelist.
+  shows the introspection. Classes are written verbatim in the Kit, so Tailwind scans them straight
+  from `kit.ex` — no safelist.
   """
   use DevelopmentWeb, :live_view
 
@@ -13,20 +14,39 @@ defmodule DevelopmentWeb.Showcase.KitLive do
 
   @kit_path Path.expand("../../kit.ex", __DIR__)
   @external_resource @kit_path
-  @source @kit_path
-          |> File.read!()
-          |> String.split("use MishkaChelekom.Kit\n", parts: 2)
-          |> List.last()
-          |> String.trim_trailing("end\n")
-          |> String.trim()
+
+  @code_button """
+  customize :button do
+    color :primary, "bg-rose-600! text-white!"          # replace the stock :primary
+    color :brand,   "bg-gradient-to-r! from-fuchsia-600! to-indigo-600! text-white!"   # add a new color
+    variant :glow,  "shadow-[0_0_25px_currentColor]! ring-2!"   # add a new variant
+    default color: "brand"
+  end\
+  """
+
+  @code_alert """
+  customize :alert do
+    kind :brand, "bg-indigo-600! text-white!"    # the alert's colour lives in `kind` (an atom)
+    default kind: :brand, variant: "default"
+  end\
+  """
+
+  @code_accordion """
+  customize :my_accordion do
+    from :accordion                              # reuse the real *headless* accordion
+    part :trigger, "[&_[data-part=trigger]]:flex [&_[data-part=trigger]]:py-3 ..."
+    part :panel,   "[&_[data-part=panel]]:pb-3 [&_[data-part=panel]]:text-sm"
+  end\
+  """
 
   @impl true
   def mount(_params, _session, socket) do
     {:ok,
      socket
      |> assign(:page_title, "Kit — customize")
-     |> assign(:source, @source)
-     |> assign(:safelist, Kit.safelist(DemoKit))
+     |> assign(:code_button, @code_button)
+     |> assign(:code_alert, @code_alert)
+     |> assign(:code_accordion, @code_accordion)
      |> assign(:customizes, Enum.map(Kit.Info.customizes(DemoKit), &{&1.name, &1.from || &1.name}))}
   end
 
@@ -48,74 +68,104 @@ defmodule DevelopmentWeb.Showcase.KitLive do
           </p>
         </header>
 
-        <section class="bg-base-100 rounded-box p-6 shadow-sm space-y-3">
-          <h2 class="text-sm font-semibold uppercase tracking-wide text-base-content/50">The Kit</h2>
-          <.code_block code={@source} />
-        </section>
-
-        <section class="bg-base-100 rounded-box p-6 shadow-sm space-y-4">
-          <h2 class="text-sm font-semibold uppercase tracking-wide text-base-content/50">
-            Live — generated wrappers
-          </h2>
-
-          <div class="space-y-2">
-            <div class="text-sm font-medium">customize :button — new brand color + glow variant</div>
-            <div class="flex flex-wrap items-center gap-3">
-              <DemoKit.button color="brand">Brand gradient</DemoKit.button>
-              <DemoKit.button variant="glow" color="primary">Glow</DemoKit.button>
-              <DemoKit.button color="success">Untouched success</DemoKit.button>
+        <.kit_example
+          title="Customize a styled component — :button"
+          subtitle="Restyle an existing color, add a brand-new one, add a variant. Your classes win via the trailing ! — the real button component is never touched."
+          code={@code_button}
+        >
+          <:result>
+            <div class="space-y-4">
+              <div class="space-y-1.5">
+                <div class="text-[11px] text-base-content/50">restyle :primary — stock → Kit</div>
+                <div class="flex flex-wrap items-center gap-2">
+                  <.button color="primary" size="small">stock</.button>
+                  <span class="text-base-content/30">→</span>
+                  <DemoKit.button color="primary" size="small">Kit</DemoKit.button>
+                </div>
+              </div>
+              <div class="space-y-1.5">
+                <div class="text-[11px] text-base-content/50">new :brand · new :glow · untouched :success</div>
+                <div class="flex flex-wrap items-center gap-2">
+                  <DemoKit.button color="brand" size="small">brand</DemoKit.button>
+                  <DemoKit.button variant="glow" color="primary" size="small">glow</DemoKit.button>
+                  <DemoKit.button color="success" size="small">success</DemoKit.button>
+                </div>
+              </div>
             </div>
-          </div>
+          </:result>
+        </.kit_example>
 
-          <div class="space-y-2">
-            <div class="text-sm font-medium">
-              customize :alert — new brand <code>kind</code> (atom)
+        <.kit_example
+          title="Customize a different component — :alert"
+          subtitle="Same component, a new kind value (an atom). Stock info vs the Kit's :brand kind (its new default)."
+          code={@code_alert}
+        >
+          <:result>
+            <div class="space-y-2">
+              <.alert kind={:info} title="Stock">The stock info alert.</.alert>
+              <DemoKit.alert>The Kit's brand alert — same component.</DemoKit.alert>
             </div>
-            <DemoKit.alert>A brand-coloured alert, same component.</DemoKit.alert>
-          </div>
+          </:result>
+        </.kit_example>
 
-          <div class="space-y-2">
-            <div class="text-sm font-medium">
-              skin :my_accordion — styled accordion from the headless one
-            </div>
+        <.kit_example
+          title="Skin a headless component — :my_accordion"
+          subtitle="Wrap the unstyled headless accordion and bake per-part classes in, under a new name. The headless component ships zero CSS on its own."
+          code={@code_accordion}
+        >
+          <:result>
             <DemoKit.my_accordion
               id="kit-acc"
-              class="w-full max-w-md border border-base-300 rounded-box divide-y divide-base-300 [&_[data-part=trigger]]:px-3 [&_[data-part=panel]]:px-3"
+              class="w-full border border-base-300 rounded-box divide-y divide-base-300 [&_[data-part=trigger]]:px-3 [&_[data-part=panel]]:px-3"
             >
               <:item title="What did the Kit do?">
-                It generated <code>my_accordion/1</code> as a wrapper of the real headless accordion,
-                with the per-part classes baked in.
+                Generated <code>my_accordion/1</code> — a wrapper of the real headless accordion, with
+                the per-part classes baked in.
               </:item>
               <:item title="Was the component changed?">No — the wrapper just delegates to it.</:item>
             </DemoKit.my_accordion>
-          </div>
-        </section>
+          </:result>
+        </.kit_example>
 
-        <section class="grid md:grid-cols-2 gap-6">
-          <div class="bg-base-100 rounded-box p-6 shadow-sm space-y-3">
-            <h2 class="text-sm font-semibold uppercase tracking-wide text-base-content/50">
-              🤖 Introspection
-            </h2>
-            <div class="text-sm">
-              <strong>customizes:</strong>
-              {Enum.map_join(@customizes, ", ", fn {n, f} -> if(n == f, do: "#{n}", else: "#{n} ← #{f}") end)}
-            </div>
-          </div>
-
-          <div class="bg-base-100 rounded-box p-6 shadow-sm space-y-3">
-            <h2 class="text-sm font-semibold uppercase tracking-wide text-base-content/50">
-              🏭 Tailwind safelist
-            </h2>
-            <p class="text-xs text-base-content/60">
-              <code>Kit.safelist/1</code> — feed to Tailwind so runtime classes survive purge.
-            </p>
-            <div class="flex flex-wrap gap-1">
-              <span :for={c <- @safelist} class="badge badge-xs badge-outline font-mono">{c}</span>
-            </div>
-          </div>
+        <section class="bg-base-100 rounded-box p-5 shadow-sm flex flex-wrap items-center gap-3 text-sm">
+          <span class="text-[11px] uppercase tracking-wide font-semibold text-base-content/50">
+            Generated wrappers
+          </span>
+          <span class="flex flex-wrap gap-1.5">
+            <code :for={{n, f} <- @customizes} class="badge badge-sm badge-outline font-mono">
+              {if n == f, do: "<.#{n}>", else: "<.#{n}> ← #{f}"}
+            </code>
+          </span>
         </section>
       </main>
     </div>
+    """
+  end
+
+  # One example: the `customize` code on the left, the rendered result (before/after) on the right.
+  attr :title, :string, required: true
+  attr :subtitle, :string, default: nil
+  attr :code, :string, required: true
+  slot :result, required: true
+
+  defp kit_example(assigns) do
+    ~H"""
+    <section class="bg-base-100 rounded-box shadow-sm overflow-hidden">
+      <div class="px-5 pt-5 pb-3 space-y-1 border-b border-base-200">
+        <h2 class="font-semibold">{@title}</h2>
+        <p :if={@subtitle} class="text-sm text-base-content/60 max-w-2xl">{@subtitle}</p>
+      </div>
+      <div class="grid lg:grid-cols-2">
+        <div class="p-5 lg:border-r border-base-200">
+          <div class="text-[11px] uppercase tracking-wide text-base-content/40 mb-2">customize</div>
+          <.code_block code={@code} />
+        </div>
+        <div class="p-5 bg-base-200/30">
+          <div class="text-[11px] uppercase tracking-wide text-base-content/40 mb-3">result</div>
+          {render_slot(@result)}
+        </div>
+      </div>
+    </section>
     """
   end
 end

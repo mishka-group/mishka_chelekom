@@ -7,8 +7,8 @@ defmodule MishkaChelekom.Kit.Transformers.Generate do
   """
   use Spark.Dsl.Transformer
 
-  alias MishkaChelekom.Kit.{Runtime, Catalog}
-  alias MishkaChelekom.Kit.Entities.{Rule, Part, Customize}
+  alias MishkaChelekom.Kit.Catalog
+  alias MishkaChelekom.Kit.Entities.{Rule, Customize}
   alias Spark.Dsl.Transformer
 
   @impl true
@@ -85,25 +85,22 @@ defmodule MishkaChelekom.Kit.Transformers.Generate do
         _ ->
           dims
           |> Enum.group_by(& &1.attr)
-          # precompute the `!important` form here (compile time) instead of per-render
+          # classes are used VERBATIM — write them whole in your Kit (incl. a trailing `!` for
+          # precedence over the component's defaults). No transform, so Tailwind scans them straight
+          # from your `kit.ex` — no safelist step.
           |> Map.new(fn {a, rs} ->
-            {a, Map.new(rs, &{to_string(&1.value), Runtime.important(&1.classes)})}
+            {a, Map.new(rs, &{to_string(&1.value), &1.classes})}
           end)
       end
 
+    # Part classes are also verbatim — write the full `[&_[data-part=name]]:` variant in your Kit.
     class =
       case parts do
         [] -> nil
-        _ -> Enum.map_join(parts, " ", &part_variant/1)
+        _ -> Enum.map_join(parts, " ", & &1.classes)
       end
 
     %{attrs: attrs, class: class, base: base, default: default}
-  end
-
-  # "rounded p-3" for part :trigger → "[&_[data-part=trigger]]:rounded [&_[data-part=trigger]]:p-3"
-  defp part_variant(%Part{name: name, classes: classes}) do
-    prefix = "[&_[data-part=#{name}]]:"
-    classes |> String.split() |> Enum.map_join(" ", &(prefix <> &1))
   end
 
   # Resolve the real component module: an explicit namespace (from `components`/`headless` options)

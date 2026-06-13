@@ -149,9 +149,11 @@ defmodule DevelopmentWeb.Showcase.ComponentLive do
               </p>
               <.code_block code={Snippets.customize_usage(@component)} />
               <.tip>
-                The real <code>&lt;.{@component.name}&gt;</code> is never touched — the Kit generates
-                a thin wrapper that delegates to it. Feed <code>MyAppWeb.Kit.safelist()</code> to
-                Tailwind so your new classes survive purge.
+                The real <code>&lt;.{@component.name}&gt;</code> is never touched — the Kit generates a
+                thin wrapper that delegates to it. Write your classes whole, with a trailing
+                <code>!</code> so they win over the component's defaults
+                (e.g. <code>"bg-brand-500!"</code>); Tailwind scans them straight from your Kit module —
+                no safelist needed.
               </.tip>
             </.section>
 

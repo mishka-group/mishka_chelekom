@@ -66,33 +66,33 @@ defmodule MishkaChelekom.KitTest do
     use MishkaChelekom.Kit
 
     customize :button do
-      # replace (exists)
-      color :primary, "bg-indigo-600 text-white"
+      # replace (exists) — classes written verbatim, incl. the `!` for precedence
+      color :primary, "bg-indigo-600! text-white!"
       # add (new)
-      color :brand, "bg-brand-500"
+      color :brand, "bg-brand-500!"
       # add (new)
-      variant :glow, "shadow-glow hover:opacity-90"
+      variant :glow, "shadow-glow! hover:opacity-90!"
       default color: "brand"
     end
 
     customize :alert do
       # atom-typed dimension
-      kind :brand, "bg-brand-100 text-brand-700"
+      kind :brand, "bg-brand-100! text-brand-700!"
       default kind: :brand
     end
 
     # a renamed customize: a different generated name, reusing `button`
     customize :fancy_button do
       from :button
-      color :gold, "bg-amber-500"
+      color :gold, "bg-amber-500!"
       default color: "gold"
     end
 
-    # headless (decided by `part` rules)
+    # headless (decided by `part` rules) — full [&_[data-part=…]]: variants, verbatim
     customize :faq do
       from :accordion
-      part :trigger, "py-3 font-medium"
-      part :panel, "pb-3 text-sm"
+      part :trigger, "[&_[data-part=trigger]]:py-3 [&_[data-part=trigger]]:font-medium"
+      part :panel, "[&_[data-part=panel]]:pb-3 [&_[data-part=panel]]:text-sm"
       default open: true
     end
   end
@@ -103,7 +103,7 @@ defmodule MishkaChelekom.KitTest do
 
     customize :tag do
       base "neutral"
-      color :brand, "bg-brand"
+      color :brand, "bg-brand!"
       default color: "brand"
     end
   end
@@ -219,19 +219,6 @@ defmodule MishkaChelekom.KitTest do
       # remapped to base \"neutral\" (Ns.Tag), not \"base\"
       assert out =~ "t-neutral"
       assert out =~ "bg-brand!"
-    end
-  end
-
-  # ── safelist ─────────────────────────────────────────────────────────────────────────────
-
-  describe "safelist/1" do
-    test "includes styled classes (plain + !important) and headless part variants, deduped" do
-      list = MishkaChelekom.Kit.safelist(Kit)
-      assert "bg-indigo-600" in list and "bg-indigo-600!" in list
-      assert "shadow-glow" in list and "shadow-glow!" in list
-      assert "[&_[data-part=trigger]]:py-3" in list
-      assert "[&_[data-part=panel]]:pb-3" in list
-      assert list == Enum.uniq(list)
     end
   end
 
