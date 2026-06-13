@@ -27,6 +27,14 @@ defmodule DevelopmentWeb.Showcase.ComponentLive do
 
         {:ok,
          socket
+         # An upload config so the file_field preview's live/dropzone modes work (they render
+         # <.live_file_input> / phx-drop-target and need a real Phoenix.LiveView.UploadConfig).
+         # Following the mishka docs demo: accept images, a few entries. Harmless for other components.
+         |> allow_upload(:showcase_file,
+           accept: ~w(.jpg .jpeg .png .gif .webp),
+           max_entries: 3,
+           max_file_size: 5_000_000
+         )
          |> assign(:component, component)
          |> assign(:prev, prev)
          |> assign(:next, next)
@@ -89,6 +97,16 @@ defmodule DevelopmentWeb.Showcase.ComponentLive do
     open = socket.assigns.open_examples
     open = if MapSet.member?(open, id), do: MapSet.delete(open, id), else: MapSet.put(open, id)
     {:noreply, assign(socket, :open_examples, open)}
+  end
+
+  # File upload events for the file_field dropzone preview (mishka's file_live handlers). `validate`
+  # fires on file select/drop — returning {:noreply} is enough for LiveView to track the entries.
+  # `cancel-upload` is the dropzone's per-file close (X) button; it must call cancel_upload/3 to remove
+  # the entry — the catch-all below would just no-op it, which is why the X did nothing.
+  def handle_event("validate", _params, socket), do: {:noreply, socket}
+
+  def handle_event("cancel-upload", %{"ref" => ref}, socket) do
+    {:noreply, cancel_upload(socket, :showcase_file, ref)}
   end
 
   # The real Mishka components fire their own server events from interactive controls — a dismiss
@@ -201,6 +219,7 @@ defmodule DevelopmentWeb.Showcase.ComponentLive do
                   props={@props}
                   form={@form}
                   sample={@sample}
+                  uploads={@uploads}
                 />
               </div>
             </div>

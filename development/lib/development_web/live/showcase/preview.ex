@@ -320,6 +320,30 @@ defmodule DevelopmentWeb.Showcase.Preview do
     """
   end
 
+  def show(%{component: "file_field"} = assigns) do
+    # Follows the mishka file_live demo: a plain file input, plus a dropzone wired to a real upload
+    # (allow_upload(:showcase_file) in the LiveView mount → @uploads, with target+uploads as mishka
+    # does). Wrapped in a form so live_file_input / phx-drop-target work; the validate/save events are
+    # absorbed by the catch-all handle_event. The standalone `live` flag is dropped from the controls
+    # (Catalog.dead_flags) — mishka never uses it and its branch needs an @upload only dropzone sets.
+    ~H"""
+    <.form for={@form} phx-change="validate" phx-submit="save" class="w-full">
+      <%!-- No `id` on the dropzone: its <label for={id}> WRAPS the <input id={id}>, and a label that
+            both points to (via `for`) and contains its input fires the file picker twice → it opens
+            and instantly cancels. mishka passes no id so the input is associated only by containment
+            (single trigger). --%>
+      <.file_field
+        :if={@props[:dropzone]}
+        target={:showcase_file}
+        uploads={@uploads}
+        dropzone_type="image"
+        {@props}
+      />
+      <.file_field :if={!@props[:dropzone]} id={@id} name="demo_file" label="Pick a file" {@props} />
+    </.form>
+    """
+  end
+
   def show(%{component: "avatar"} = assigns) do
     # Two avatars, both driven by the controls: an SVG-icon avatar (no image, no copyright — the `:icon`
     # slot) and an initials avatar showing "SHA". `space` is an AVATAR_GROUP prop (gap between items),

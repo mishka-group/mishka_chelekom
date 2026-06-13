@@ -853,71 +853,71 @@ defmodule DevelopmentWeb.Components.FileField do
 
   defp color_variant("gradient", "natural") do
     [
-      "[&_.dropzone-wrapper]:bg-gradient-to-br from-gradient-natural-from-light to-gradient-natural-to-light text-white",
-      "dark:from-gradient-natural-from-dark dark:to-white dark:text-black"
+      "[&_.dropzone-wrapper]:bg-linear-to-br [&_.dropzone-wrapper]:from-gradient-natural-from-light [&_.dropzone-wrapper]:to-gradient-natural-to-light text-white",
+      "dark:[&_.dropzone-wrapper]:from-gradient-natural-from-dark dark:to-white dark:text-black"
     ]
   end
 
   defp color_variant("gradient", "primary") do
     [
-      "[&_.dropzone-wrapper]:bg-gradient-to-br from-gradient-primary-from-light to-gradient-primary-to-light text-white",
-      "dark:from-gradient-primary-from-dark dark:to-gradient-primary-to-dark dark:text-black"
+      "[&_.dropzone-wrapper]:bg-linear-to-br [&_.dropzone-wrapper]:from-gradient-primary-from-light [&_.dropzone-wrapper]:to-gradient-primary-to-light text-white",
+      "dark:[&_.dropzone-wrapper]:from-gradient-primary-from-dark dark:[&_.dropzone-wrapper]:to-gradient-primary-to-dark dark:text-black"
     ]
   end
 
   defp color_variant("gradient", "secondary") do
     [
-      "[&_.dropzone-wrapper]:bg-gradient-to-br from-gradient-secondary-from-light to-gradient-secondary-to-light text-white",
-      "dark:from-gradient-secondary-from-dark dark:to-gradient-secondary-to-dark dark:text-black"
+      "[&_.dropzone-wrapper]:bg-linear-to-br [&_.dropzone-wrapper]:from-gradient-secondary-from-light [&_.dropzone-wrapper]:to-gradient-secondary-to-light text-white",
+      "dark:[&_.dropzone-wrapper]:from-gradient-secondary-from-dark dark:[&_.dropzone-wrapper]:to-gradient-secondary-to-dark dark:text-black"
     ]
   end
 
   defp color_variant("gradient", "success") do
     [
-      "[&_.dropzone-wrapper]:bg-gradient-to-br from-gradient-success-from-light to-gradient-success-to-light text-white",
-      "dark:from-gradient-success-from-dark dark:to-gradient-success-to-dark dark:text-black"
+      "[&_.dropzone-wrapper]:bg-linear-to-br [&_.dropzone-wrapper]:from-gradient-success-from-light [&_.dropzone-wrapper]:to-gradient-success-to-light text-white",
+      "dark:[&_.dropzone-wrapper]:from-gradient-success-from-dark dark:[&_.dropzone-wrapper]:to-gradient-success-to-dark dark:text-black"
     ]
   end
 
   defp color_variant("gradient", "warning") do
     [
-      "[&_.dropzone-wrapper]:bg-gradient-to-br from-gradient-warning-from-light to-gradient-warning-to-light text-white",
-      "dark:from-gradient-warning-from-dark dark:to-gradient-warning-to-dark dark:text-black"
+      "[&_.dropzone-wrapper]:bg-linear-to-br [&_.dropzone-wrapper]:from-gradient-warning-from-light [&_.dropzone-wrapper]:to-gradient-warning-to-light text-white",
+      "dark:[&_.dropzone-wrapper]:from-gradient-warning-from-dark dark:[&_.dropzone-wrapper]:to-gradient-warning-to-dark dark:text-black"
     ]
   end
 
   defp color_variant("gradient", "danger") do
     [
-      "[&_.dropzone-wrapper]:bg-gradient-to-br from-gradient-danger-from-light to-gradient-danger-to-light text-white",
-      "dark:from-gradient-danger-from-dark dark:to-gradient-danger-to-dark dark:text-black"
+      "[&_.dropzone-wrapper]:bg-linear-to-br [&_.dropzone-wrapper]:from-gradient-danger-from-light [&_.dropzone-wrapper]:to-gradient-danger-to-light text-white",
+      "dark:[&_.dropzone-wrapper]:from-gradient-danger-from-dark dark:[&_.dropzone-wrapper]:to-gradient-danger-to-dark dark:text-black"
     ]
   end
 
   defp color_variant("gradient", "info") do
     [
-      "[&_.dropzone-wrapper]:bg-gradient-to-br from-gradient-info-from-light to-gradient-info-to-light text-white",
-      "dark:from-gradient-info-from-dark dark:to-gradient-info-to-dark dark:text-black"
+      "[&_.dropzone-wrapper]:bg-linear-to-br [&_.dropzone-wrapper]:from-gradient-info-from-light [&_.dropzone-wrapper]:to-gradient-info-to-light text-white",
+      "dark:[&_.dropzone-wrapper]:from-gradient-info-from-dark dark:[&_.dropzone-wrapper]:to-gradient-info-to-dark dark:text-black"
     ]
   end
 
   defp color_variant("gradient", "misc") do
     [
-      "[&_.dropzone-wrapper]:bg-gradient-to-br from-gradient-misc-from-light to-gradient-misc-to-light text-white",
-      "dark:from-gradient-misc-from-dark dark:to-gradient-misc-to-dark dark:text-black"
+      "[&_.dropzone-wrapper]:bg-linear-to-br [&_.dropzone-wrapper]:from-gradient-misc-from-light [&_.dropzone-wrapper]:to-gradient-misc-to-light text-white",
+      "dark:[&_.dropzone-wrapper]:from-gradient-misc-from-dark dark:[&_.dropzone-wrapper]:to-gradient-misc-to-dark dark:text-black"
     ]
   end
 
   defp color_variant("gradient", "dawn") do
     [
-      "[&_.dropzone-wrapper]:bg-gradient-to-br from-gradient-dawn-from-light to-gradient-dawn-to-light text-white",
-      "dark:from-gradient-dawn-from-dark dark:to-gradient-dawn-to-dark dark:text-black"
+      "[&_.dropzone-wrapper]:bg-linear-to-br [&_.dropzone-wrapper]:from-gradient-dawn-from-light [&_.dropzone-wrapper]:to-gradient-dawn-to-light text-white",
+      "dark:[&_.dropzone-wrapper]:from-gradient-dawn-from-dark dark:[&_.dropzone-wrapper]:to-gradient-dawn-to-dark dark:text-black"
     ]
   end
 
   defp color_variant("gradient", "silver") do
     [
-      "[&_.dropzone-wrapper]:bg-gradient-to-br from-gradient-silver-from-light to-gradient-silver-to-light text-white",
-      "dark:from-gradient-silver-from-dark dark:to-gradient-silver-to-dark dark:text-black"
+      "[&_.dropzone-wrapper]:bg-linear-to-br [&_.dropzone-wrapper]:from-gradient-silver-from-light [&_.dropzone-wrapper]:to-gradient-silver-to-light text-white",
+      "dark:[&_.dropzone-wrapper]:from-gradient-silver-from-dark dark:[&_.dropzone-wrapper]:to-gradient-silver-to-dark dark:text-black"
     ]
   end
 

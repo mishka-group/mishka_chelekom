@@ -30,7 +30,7 @@ item that needs follow-up.
 - [x] date_time_field — `/showcase/date_time_field`
 - [x] email_field — `/showcase/email_field`
 - [x] fieldset — `/showcase/fieldset`
-- [ ] file_field — `/showcase/file_field`
+- [x] file_field — `/showcase/file_field`
 - [ ] form_wrapper — `/showcase/form_wrapper`
 - [ ] input_field — `/showcase/input_field`
 - [ ] native_select — `/showcase/native_select`

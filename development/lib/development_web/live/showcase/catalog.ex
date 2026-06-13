@@ -152,7 +152,10 @@ defmodule DevelopmentWeb.Showcase.Catalog do
   defp dead_dims("banner"), do: ["size", "space"]
   defp dead_dims(_), do: []
 
-  # Boolean flags the component declares but never reads (so the checkbox does nothing in the preview).
+  # Boolean flags the component declares but never reads, or that aren't a working standalone mode.
+  # file_field: `live` (without dropzone) renders <.live_file_input upload={@upload}>, but @upload is
+  # only assigned in the dropzone path — mishka never uses live standalone, so it's not a real mode.
+  defp dead_flags("file_field"), do: ["live"]
   defp dead_flags(_), do: []
 
   # Real, visible dims the catalog args omit. banner supports `border` (a `border-*` thickness).
