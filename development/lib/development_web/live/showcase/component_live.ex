@@ -342,6 +342,20 @@ defmodule DevelopmentWeb.Showcase.ComponentLive do
   # control stays meaningful, and searchable/multiple show its richer UX. The combobox preview also
   # uses a props-dependent id so the frozen dropdown subtree remounts when controls change.
   defp preview_override("combobox"), do: %{variant: "bordered", searchable: true, multiple: true}
+  # Avatar's dims default to the first value (extra_small, square), and avatar_group `space` only
+  # OVERLAPS (negative margins) — so tiny squares with overlap render as a broken blob where one
+  # avatar hides the other. Default to a large, circular, lightly-overlapped stack (with rings in the
+  # preview) so it reads as a real avatar group; every control stays adjustable from there.
+  defp preview_override("avatar"), do: %{size: "large", rounded: "full", space: "small"}
+  # Banner renders in-flow in the preview (see Preview.show) — give it visible rounding/border/padding
+  # by default so the styling controls read clearly (dims `size`/`space` are dropped in Catalog).
+  defp preview_override("banner"),
+    do: %{variant: "bordered", rounded: "large", padding: "medium", border: "medium"}
+
+  # Toast's `fixed` flag defaults to true, which pins it to a viewport corner (position:fixed) instead
+  # of the preview box. Default it off so it renders in-flow where you can see it; the flag stays
+  # toggleable to demo the fixed behaviour.
+  defp preview_override("toast"), do: %{fixed: false}
   defp preview_override(_), do: %{}
 
   # Default the preview to options that actually show the component off: a color-bearing variant

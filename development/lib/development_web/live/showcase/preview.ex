@@ -219,6 +219,111 @@ defmodule DevelopmentWeb.Showcase.Preview do
     """
   end
 
+  def show(%{component: "checkbox_field"} = assigns) do
+    # A real checkbox GROUP: all boxes share ONE name ("notify"), each a distinct value. That's where
+    # `multiple` matters — it appends `[]` to the shared name. WITHOUT it the same key repeats and the
+    # server keeps only the LAST value (silent data loss); WITH it `[]` collects every checked box into
+    # a list. The boxes are styled live by {@props}; the panel below shows the actual request body and
+    # parsed params for both modes, highlighting the one the `multiple` control currently selects.
+    multiple_on = assigns.props[:multiple] == true
+    items = [{"email", "Email", true}, {"sms", "SMS", true}, {"push", "Push", true}]
+    checked = for {v, _l, true} <- items, do: v
+
+    assigns =
+      assign(assigns,
+        multiple_on: multiple_on,
+        group_name: if(multiple_on, do: "notify[]", else: "notify"),
+        items: items,
+        body_off: Enum.map_join(checked, "&", &"notify=#{&1}"),
+        body_on: Enum.map_join(checked, "&", &"notify[]=#{&1}"),
+        params_off: inspect(%{"notify" => List.last(checked)}),
+        params_on: inspect(%{"notify" => checked})
+      )
+
+    ~H"""
+    <div class="flex w-full flex-col gap-3 text-left">
+      <p class="text-xs text-base-content/50">
+        A checkbox group — all share <code class="font-mono">name="{@group_name}"</code>:
+      </p>
+
+      <.checkbox_field
+        :for={{val, lbl, chk} <- @items}
+        id={"#{@id}-#{val}"}
+        name={@group_name}
+        value={val}
+        checked={chk}
+        label={lbl}
+        {@props}
+      />
+
+      <div class="space-y-2 rounded-box bg-base-300/40 p-3 font-mono text-[11px] leading-5">
+        <div class={!@multiple_on || "opacity-40"}>
+          <div class="font-semibold">multiple OFF · name="notify"</div>
+          <div>request body → {@body_off}</div>
+          <div>server params → {@params_off}</div>
+          <div class="text-warning">↳ same key repeats, so only the last value survives</div>
+        </div>
+        <div class={["border-t border-base-content/10 pt-2", @multiple_on || "opacity-40"]}>
+          <div class="font-semibold">multiple ON · name="notify[]"</div>
+          <div>request body → {@body_on}</div>
+          <div>server params → {@params_on}</div>
+          <div class="text-success">↳ [] collects every checked box into a list</div>
+        </div>
+      </div>
+    </div>
+    """
+  end
+
+  def show(%{component: "banner"} = assigns) do
+    # The banner is hardcoded `fixed z-50` (it pins to the viewport, full-width) — so in the showcase it
+    # flies to the top of the page and you can't see rounded/padding/border change. We override the
+    # position to `!relative` (+ `!z-auto`) so it renders IN the preview box, where its styling is
+    # visible. {@props} drives variant/color/rounded/padding/border + the hide_dismiss flag. The
+    # built-in dismiss X pushes a "dismiss" event (handled by the catch-all; Reset restores it via the
+    # preview nonce). `size`/`space` are dropped from the controls in Catalog — the component ignores
+    # them, so they'd be dead knobs here.
+    # rounded/border are position-scoped in this component: `rounded` only emits a class when
+    # `rounded_position` is top/bottom/all, and `border` only with a position AND a non-filled variant
+    # (it's nil for default/shadow/transparent/gradient). We pin `rounded_position="all"` and
+    # `border_position="full"` so both render all around; the default variant (`bordered`) makes the
+    # border visible immediately. They sit before {@props} so the live controls still win on overlap.
+    ~H"""
+    <.banner
+      id={@id}
+      class="!relative !z-auto w-full max-w-md"
+      rounded_position="all"
+      border_position="full"
+      {@props}
+    >
+      <span class="text-sm">{@sample} — a dismissible banner.</span>
+    </.banner>
+    """
+  end
+
+  def show(%{component: "avatar"} = assigns) do
+    # Two avatars, both driven by the controls: an SVG-icon avatar (no image, no copyright — the `:icon`
+    # slot) and an initials avatar showing "SHA". `space` is an AVATAR_GROUP prop (gap between items),
+    # not an `avatar` one — the showcase derives it from the catalog's args (priv/components/avatar.exs
+    # lists `space:`, which covers both avatar and avatar_group). A lone <.avatar> ignores it, so we
+    # wrap the pair in <.avatar_group> and route `space` there; the per-avatar dims (color/size/rounded)
+    # go to each avatar. Now every control is live — color/size/rounded restyle both, space changes the
+    # gap. Avatar has no JS hook, so a plain re-render updates everything (no remount keying needed).
+    # `space` only ever OVERLAPS (negative margins) — so each avatar gets a ring the colour of the
+    # preview surface, making the overlap read as a layered stack instead of merging into one blob.
+    # `relative` + a higher z on hover would be nice but isn't needed; later siblings already paint on
+    # top. Rings live in the showcase only (not a component class), so they don't fight the controls.
+    assigns = assign(assigns, :avatar_props, Map.drop(assigns.props, [:space]))
+
+    ~H"""
+    <.avatar_group id={"#{@id}-group"} space={@props[:space] || "small"}>
+      <.avatar id={"#{@id}-icon"} class="ring-2 ring-base-100" {@avatar_props}>
+        <:icon name="hero-user-solid" />
+      </.avatar>
+      <.avatar id={"#{@id}-sha"} class="ring-2 ring-base-100" {@avatar_props}>SHA</.avatar>
+    </.avatar_group>
+    """
+  end
+
   def show(%{component: "tooltip"} = assigns) do
     # The tooltip's visible anchor comes from the `:trigger` slot ONLY — its inner_block is treated as
     # hidden tooltip *content* (see the component's render), so the generic `<.tooltip>{@sample}</.tooltip>`

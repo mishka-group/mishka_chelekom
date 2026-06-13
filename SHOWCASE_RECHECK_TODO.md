@@ -1,0 +1,157 @@
+# Showcase Re-check TODO
+
+Re-check every component's showcase page (live preview + controls + bottom examples) and fix any
+problems. Check a box once its page is verified working. Server: <http://localhost:4002>
+
+**Legend:** `[ ]` not yet checked · `[x]` checked & OK (or fixed). Add a short ` — note` after any
+item that needs follow-up.
+
+> Already touched this session (still worth a final re-check): **tooltip** (empty preview → trigger
+> slot; flags/size had no effect → full-prop remount; added inline-in-text example), **combobox**
+> (cyan/frozen dropdown, search, flag options), **alert** (docs-accurate + flash stack), **toast**
+> (dismiss event crash + reset restore), **native_select**. Also global: dismiss/pagination/rating
+> events no longer crash, Reset restores client-dismissed previews, prev/next nav, examples accordion,
+> example-snippet indentation.
+
+---
+
+## Styled components (74) — `/showcase/<name>`
+
+### feedback
+- [x] alert — `/showcase/alert`
+- [x] banner — `/showcase/banner`
+- [x] toast — `/showcase/toast`
+
+### forms
+- [x] checkbox_card — `/showcase/checkbox_card`
+- [x] checkbox_field — `/showcase/checkbox_field`
+- [x] color_field — `/showcase/color_field`
+- [ ] combobox — `/showcase/combobox`
+- [ ] date_time_field — `/showcase/date_time_field`
+- [ ] email_field — `/showcase/email_field`
+- [ ] fieldset — `/showcase/fieldset`
+- [ ] file_field — `/showcase/file_field`
+- [ ] form_wrapper — `/showcase/form_wrapper`
+- [ ] input_field — `/showcase/input_field`
+- [ ] native_select — `/showcase/native_select`
+- [ ] number_field — `/showcase/number_field`
+- [ ] password_field — `/showcase/password_field`
+- [ ] radio_card — `/showcase/radio_card`
+- [ ] radio_field — `/showcase/radio_field`
+- [ ] range_field — `/showcase/range_field`
+- [ ] search_field — `/showcase/search_field`
+- [ ] tel_field — `/showcase/tel_field`
+- [ ] text_field — `/showcase/text_field`
+- [ ] textarea_field — `/showcase/textarea_field`
+- [ ] toggle_field — `/showcase/toggle_field`
+- [ ] url_field — `/showcase/url_field`
+
+### general
+- [ ] accordion — `/showcase/accordion`
+- [x] avatar — `/showcase/avatar`
+- [ ] badge — `/showcase/badge`
+- [ ] blockquote — `/showcase/blockquote`
+- [ ] button — `/showcase/button`
+- [ ] card — `/showcase/card`
+- [ ] chat — `/showcase/chat`
+- [ ] clipboard — `/showcase/clipboard`
+- [ ] collapse — `/showcase/collapse`
+- [ ] device_mockup — `/showcase/device_mockup`
+- [ ] divider — `/showcase/divider`
+- [ ] indicator — `/showcase/indicator`
+- [ ] jumbotron — `/showcase/jumbotron`
+- [ ] keyboard — `/showcase/keyboard`
+- [ ] layout — `/showcase/layout`
+- [ ] list — `/showcase/list`
+- [ ] progress — `/showcase/progress`
+- [ ] rating — `/showcase/rating`
+- [ ] shape — `/showcase/shape`
+- [ ] skeleton — `/showcase/skeleton`
+- [ ] speed_dial — `/showcase/speed_dial`
+- [ ] spinner — `/showcase/spinner`
+- [ ] stat — `/showcase/stat`
+- [ ] stepper — `/showcase/stepper`
+- [ ] table — `/showcase/table`
+- [ ] table_content — `/showcase/table_content`
+- [ ] tabs — `/showcase/tabs`
+- [ ] timeline — `/showcase/timeline`
+- [ ] typography — `/showcase/typography`
+
+### media
+- [ ] carousel — `/showcase/carousel`
+- [ ] gallery — `/showcase/gallery`
+- [ ] icon — `/showcase/icon`
+- [ ] image — `/showcase/image`
+- [ ] video — `/showcase/video`
+
+### navigations
+- [ ] breadcrumb — `/showcase/breadcrumb`
+- [ ] dock — `/showcase/dock`
+- [ ] dropdown — `/showcase/dropdown`
+- [ ] footer — `/showcase/footer`
+- [ ] mega_menu — `/showcase/mega_menu`
+- [ ] menu — `/showcase/menu`
+- [ ] navbar — `/showcase/navbar`
+- [ ] pagination — `/showcase/pagination`
+- [ ] scroll_area — `/showcase/scroll_area`
+- [ ] sidebar — `/showcase/sidebar`
+
+### overlays
+- [ ] drawer — `/showcase/drawer`
+- [ ] modal — `/showcase/modal`
+- [ ] overlay — `/showcase/overlay`
+- [ ] popover — `/showcase/popover`
+- [ ] tooltip — `/showcase/tooltip`
+
+---
+
+## Unstyled / headless components (37) — `/showcase/headless/<name>`
+
+### disclosure
+- [ ] accordion — `/showcase/headless/accordion`
+- [ ] collapsible — `/showcase/headless/collapsible`
+- [ ] disclosure — `/showcase/headless/disclosure`
+
+### feedback
+- [ ] meter — `/showcase/headless/meter`
+- [ ] progress — `/showcase/headless/progress`
+- [ ] separator — `/showcase/headless/separator`
+- [ ] toast — `/showcase/headless/toast`
+
+### forms
+- [ ] autocomplete — `/showcase/headless/autocomplete`
+- [ ] calendar — `/showcase/headless/calendar`
+- [ ] checkbox — `/showcase/headless/checkbox`
+- [ ] checkbox_group — `/showcase/headless/checkbox_group`
+- [ ] combobox — `/showcase/headless/combobox`
+- [ ] field — `/showcase/headless/field`
+- [ ] fieldset — `/showcase/headless/fieldset`
+- [ ] number_field — `/showcase/headless/number_field`
+- [ ] otp_field — `/showcase/headless/otp_field`
+- [ ] radio — `/showcase/headless/radio`
+- [ ] radio_group — `/showcase/headless/radio_group`
+- [ ] select — `/showcase/headless/select`
+- [ ] slider — `/showcase/headless/slider`
+- [ ] switch — `/showcase/headless/switch`
+- [ ] toggle — `/showcase/headless/toggle`
+- [ ] toggle_group — `/showcase/headless/toggle_group`
+
+### media
+- [ ] avatar — `/showcase/headless/avatar`
+- [ ] scroll_area — `/showcase/headless/scroll_area`
+
+### navigation
+- [ ] menubar — `/showcase/headless/menubar`
+- [ ] navigation_menu — `/showcase/headless/navigation_menu`
+- [ ] tabs — `/showcase/headless/tabs`
+- [ ] toolbar — `/showcase/headless/toolbar`
+
+### overlays
+- [ ] alert_dialog — `/showcase/headless/alert_dialog`
+- [ ] context_menu — `/showcase/headless/context_menu`
+- [ ] dialog — `/showcase/headless/dialog`
+- [ ] drawer — `/showcase/headless/drawer`
+- [ ] menu — `/showcase/headless/menu`
+- [ ] popover — `/showcase/headless/popover`
+- [ ] preview_card — `/showcase/headless/preview_card`
+- [ ] tooltip — `/showcase/headless/tooltip`

@@ -114,6 +114,8 @@ defmodule DevelopmentWeb.Components.ColorField do
       border_class(@border),
       size_class(@size),
       space_class(@space),
+      @circle &&
+        "[&_.color-field-wrapper_.color-input]:!w-auto [&_.color-field-wrapper_.color-input]:aspect-square [&_.color-field-wrapper_.color-input]:!rounded-full [&_.color-field-wrapper_.color-input]:overflow-hidden [&_.color-field-wrapper_.color-input]:!border-0 [&_.color-field-wrapper_.color-input]:!p-0 [&_.color-field-wrapper_.color-input::-webkit-color-swatch-wrapper]:!p-0",
       @class
     ]}>
       <div

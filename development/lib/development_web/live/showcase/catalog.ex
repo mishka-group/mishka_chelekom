@@ -106,6 +106,11 @@ defmodule DevelopmentWeb.Showcase.Catalog do
           }
         end
 
+      dims =
+        (dims ++ extra_dims(name))
+        |> Enum.uniq_by(& &1.key)
+        |> Enum.reject(&(&1.key in dead_dims(name)))
+
       %{
         name: name,
         category: to_string(cfg[:category] || "other"),
@@ -114,7 +119,7 @@ defmodule DevelopmentWeb.Showcase.Catalog do
         sibling: DevelopmentWeb.Showcase.Meta.headless_sibling(name),
         args: args,
         dims: dims,
-        flags: flags(json_attrs)
+        flags: Enum.reject(flags(json_attrs), &(&1.name in dead_flags(name)))
       }
     end
   rescue
@@ -137,6 +142,32 @@ defmodule DevelopmentWeb.Showcase.Catalog do
     k = Atom.to_string(key)
     {k, type_of(Map.get(types, k, "string"))}
   end
+
+  # Per-component control fixups. A component's catalog `args` can list a dim it never actually applies
+  # (a dead control that does nothing in the live preview), or omit one the component really supports.
+
+  # Dims the component declares but ignores, so they don't appear as inert controls.
+  # banner: `@size` is unused by `banner/1`; `@space` is `space-y-*` on a wrapper that always has a
+  # single child, so it can never change anything.
+  defp dead_dims("banner"), do: ["size", "space"]
+  defp dead_dims(_), do: []
+
+  # Boolean flags the component declares but never reads (so the checkbox does nothing in the preview).
+  defp dead_flags(_), do: []
+
+  # Real, visible dims the catalog args omit. banner supports `border` (a `border-*` thickness).
+  defp extra_dims("banner") do
+    [
+      %{
+        key: "border",
+        attr: "border",
+        type: :string,
+        values: ~w(none extra_small small medium large extra_large)
+      }
+    ]
+  end
+
+  defp extra_dims(_), do: []
 
   defp type_of("atom"), do: :atom
   defp type_of(_), do: :string
