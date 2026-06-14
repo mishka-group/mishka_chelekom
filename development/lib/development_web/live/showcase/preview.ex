@@ -142,6 +142,30 @@ defmodule DevelopmentWeb.Showcase.Preview do
     """
   end
 
+  # Divider: render it with a text label inside real content so `type` (line style), `color`, `size`
+  # and `position` (text placement) are all visible — and adapt the layout for `variation`:
+  # a vertical divider needs a fixed-height row with content on either side.
+  def show(%{component: "divider"} = assigns) do
+    ~H"""
+    <div>
+      <%!-- vertical: the line only renders WITHOUT `.divider-content`, so no text slot here --%>
+      <div :if={@props[:variation] == "vertical"} class="flex h-28 items-stretch gap-6">
+        <div class="flex items-center text-sm text-base-content/60">Left</div>
+        <.divider id={@id} {@props} height="h-full" />
+        <div class="flex items-center text-sm text-base-content/60">Right</div>
+      </div>
+
+      <div :if={@props[:variation] != "vertical"} class="w-72 space-y-3">
+        <p class="text-sm text-base-content/60">Section one</p>
+        <.divider id={@id} {@props}>
+          <:text>OR</:text>
+        </.divider>
+        <p class="text-sm text-base-content/60">Section two</p>
+      </div>
+    </div>
+    """
+  end
+
   # Device mockup: the iPhone screen is 272×572. Fill it with a realistic app *skeleton* (status bar,
   # header, search, hero, a loading list, bottom nav) instead of bare text — driven by the `color`
   # control on the frame. Kept on a white screen with gray placeholders so it reads as a loading app.

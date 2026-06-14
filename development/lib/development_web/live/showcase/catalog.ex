@@ -194,6 +194,16 @@ defmodule DevelopmentWeb.Showcase.Catalog do
     ]
   end
 
+  # divider: `type` (line style), `variation` (orientation) and `position` (text placement) are real
+  # divider attrs the catalog doesn't surface on its own — expose them so both can be tested live.
+  defp extra_dims("divider") do
+    [
+      %{key: "type", attr: "type", type: :string, values: ~w(solid dashed dotted)},
+      %{key: "variation", attr: "variation", type: :string, values: ~w(horizontal vertical)},
+      %{key: "position", attr: "position", type: :string, values: ~w(left middle right)}
+    ]
+  end
+
   defp extra_dims(_), do: []
 
   defp type_of("atom"), do: :atom
