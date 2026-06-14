@@ -119,7 +119,10 @@ defmodule DevelopmentWeb.Showcase.Catalog do
         sibling: DevelopmentWeb.Showcase.Meta.headless_sibling(name),
         args: args,
         dims: dims,
-        flags: Enum.reject(flags(json_attrs), &(&1.name in dead_flags(name)))
+        flags:
+          (flags(json_attrs) ++ extra_flags(name))
+          |> Enum.uniq_by(& &1.name)
+          |> Enum.reject(&(&1.name in dead_flags(name)))
       }
     end
   rescue
@@ -195,6 +198,20 @@ defmodule DevelopmentWeb.Showcase.Catalog do
     ]
   end
 
+  # indicator: `position` is set via mutually-exclusive boolean global attrs (`top_left`…), so it can't
+  # be derived — surface it as one select (the preview translates the choice to the right attr).
+  defp extra_dims("indicator") do
+    [
+      %{
+        key: "position",
+        attr: "position",
+        type: :string,
+        values:
+          ~w(none top_left top_center top_right middle_left middle_right bottom_left bottom_center bottom_right)
+      }
+    ]
+  end
+
   # divider: `type` (line style), `variation` (orientation) and `position` (text placement) are real
   # divider attrs the catalog doesn't surface on its own — expose them so both can be tested live.
   defp extra_dims("divider") do
@@ -206,6 +223,11 @@ defmodule DevelopmentWeb.Showcase.Catalog do
   end
 
   defp extra_dims(_), do: []
+
+  # Boolean flags a component reads from `:global` rest (not declared as `attr`s), so the catalog can't
+  # derive them — surface them explicitly. e.g. the indicator's `pinging` (adds `animate-ping`).
+  defp extra_flags("indicator"), do: [%{name: "pinging", default: false}]
+  defp extra_flags(_), do: []
 
   defp type_of("atom"), do: :atom
   defp type_of(_), do: :string

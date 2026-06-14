@@ -57,8 +57,8 @@ item that needs follow-up.
 - [x clipboard — `/showcase/clipboard`
 - [x] collapse — `/showcase/collapse`
 - [x] device_mockup — `/showcase/device_mockup`
-- [ ] divider — `/showcase/divider`
-- [ ] indicator — `/showcase/indicator`
+- [x] divider — `/showcase/divider`
+- [x] indicator — `/showcase/indicator`
 - [ ] jumbotron — `/showcase/jumbotron`
 - [ ] keyboard — `/showcase/keyboard`
 - [ ] layout — `/showcase/layout`

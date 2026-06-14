@@ -78,6 +78,43 @@ defmodule DevelopmentWeb.Showcase.Preview do
     """
   end
 
+  # Indicator: a status dot. `position` and `pinging` come through `:global` rest as boolean attrs
+  # (`<.indicator top_right pinging />`), so translate the controls into them. Show it two ways —
+  # standalone (color/size/pinging) and on an outline button (the mishka pattern), where `position`
+  # drops the dot into a corner (the button is `relative` so the absolute dot anchors to it).
+  def show(%{component: "indicator"} = assigns) do
+    positions =
+      ~w(top_left top_center top_right middle_left middle_right bottom_left bottom_center bottom_right)
+
+    pos = assigns.props[:position]
+    pos_attr = if pos in positions, do: %{String.to_atom(pos) => true}, else: %{}
+    ping_attr = if assigns.props[:pinging], do: %{pinging: true}, else: %{}
+
+    assigns =
+      assign(assigns,
+        ind_color: assigns.props[:color] || "primary",
+        ind_size: assigns.props[:size] || "medium",
+        on_button_attrs: Map.merge(pos_attr, ping_attr),
+        dot_attrs: ping_attr
+      )
+
+    ~H"""
+    <div class="flex items-center gap-10">
+      <div class="flex flex-col items-center gap-2">
+        <.indicator color={@ind_color} size={@ind_size} {@dot_attrs} />
+        <span class="text-[11px] text-base-content/50">standalone</span>
+      </div>
+
+      <div class="flex flex-col items-center gap-2">
+        <.button variant="outline" color="primary" class="relative">
+          Inbox <.indicator color={@ind_color} size={@ind_size} {@on_button_attrs} />
+        </.button>
+        <span class="text-[11px] text-base-content/50">on a button · {@props[:position]}</span>
+      </div>
+    </div>
+    """
+  end
+
   def show(%{component: "carousel"} = assigns) do
     ~H"""
     <.carousel id={@id} {@props}>
