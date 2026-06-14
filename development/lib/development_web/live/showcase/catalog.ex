@@ -225,6 +225,21 @@ defmodule DevelopmentWeb.Showcase.Catalog do
     ]
   end
 
+  # stat: `trend` (colors the description + adds a ↗/↘ arrow) and `figure_position` aren't enumerated
+  # by the catalog — surface them so the metric card can be exercised.
+  defp extra_dims("stat") do
+    [
+      %{key: "trend", attr: "trend", type: :string, values: ~w(none up down neutral)},
+      %{key: "figure_position", attr: "figure_position", type: :string, values: ~w(start end top)}
+    ]
+  end
+
+  # spinner: `type` (the animation style) isn't surfaced by the catalog — add it so the live preview
+  # can switch between default / dots / bars / pinging.
+  defp extra_dims("spinner") do
+    [%{key: "type", attr: "type", type: :string, values: ~w(default dots bars pinging)}]
+  end
+
   # shape: `variant` (the shape) and `half` aren't enumerated in the catalog — surface them so every
   # shape can be picked, plus the half-shape mode.
   defp extra_dims("shape") do

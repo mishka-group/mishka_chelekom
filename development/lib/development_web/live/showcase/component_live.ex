@@ -451,6 +451,8 @@ defmodule DevelopmentWeb.Showcase.ComponentLive do
   defp preview_override("rating"), do: %{interactive: true}
   # shape: large by default so the clipped shape is clearly visible.
   defp preview_override("shape"), do: %{size: "large"}
+  # stat: show a positive trend by default (green ↗) so the metric card reads as a real dashboard stat.
+  defp preview_override("stat"), do: %{trend: "up"}
   defp preview_override(_), do: %{}
 
   # Default the preview to options that actually show the component off: a color-bearing variant

@@ -386,6 +386,31 @@ defmodule DevelopmentWeb.Showcase.Preview do
     """
   end
 
+  # Stat: a dashboard metric — figure + title + value + description + trend — not bare text. `trend`
+  # (none/up/down/neutral) colors the description and adds a ↗/↘ arrow; `figure_position` moves the
+  # icon. The rest of the controls (variant/color/size/rounded/padding) restyle the card.
+  def show(%{component: "stat"} = assigns) do
+    trend = if assigns.props[:trend] in [nil, "none", ""], do: nil, else: assigns.props[:trend]
+    assigns = assign(assigns, stat_props: Map.drop(assigns.props, [:trend]), strend: trend)
+
+    ~H"""
+    <div class="w-64">
+      <.stat
+        id={@id}
+        {@stat_props}
+        title="Total revenue"
+        value="$45,231.89"
+        description="20.1% vs last month"
+        trend={@strend}
+      >
+        <:figure>
+          <.icon name="hero-currency-dollar" class="size-6" />
+        </:figure>
+      </.stat>
+    </div>
+    """
+  end
+
   def show(%{component: "carousel"} = assigns) do
     ~H"""
     <.carousel id={@id} {@props}>
