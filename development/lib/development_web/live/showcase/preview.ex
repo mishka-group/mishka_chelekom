@@ -504,6 +504,23 @@ defmodule DevelopmentWeb.Showcase.Preview do
     """
   end
 
+  # Table content (TOC): a titled list of anchor links — the generic `{@sample}` showed bare text.
+  # Build a real "On this page" table of contents; each `<:item>` needs `link` + `link_title` to render
+  # its link, `active` marks the current section. Driven by variant/color/size/rounded/padding/space.
+  def show(%{component: "table_content"} = assigns) do
+    ~H"""
+    <div class="w-64">
+      <.table_content id={@id} {@props} title="On this page">
+        <:item icon="hero-hashtag" link="#introduction" link_title="Introduction" active />
+        <:item icon="hero-hashtag" link="#installation" link_title="Installation" />
+        <:item icon="hero-hashtag" link="#configuration" link_title="Configuration" />
+        <:item icon="hero-hashtag" link="#components" link_title="Components" />
+        <:item icon="hero-hashtag" link="#api-reference" link_title="API reference" />
+      </.table_content>
+    </div>
+    """
+  end
+
   def show(%{component: "carousel"} = assigns) do
     ~H"""
     <.carousel id={@id} {@props}>

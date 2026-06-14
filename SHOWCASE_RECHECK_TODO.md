@@ -71,7 +71,7 @@ item that needs follow-up.
 - [x] spinner — `/showcase/spinner`
 - [x] stat — `/showcase/stat`
 - [x] stepper — `/showcase/stepper`
-- [ ] table — `/showcase/table`
+- [x] table — `/showcase/table`
 - [ ] table_content — `/showcase/table_content`
 - [ ] tabs — `/showcase/tabs`
 - [ ] timeline — `/showcase/timeline`

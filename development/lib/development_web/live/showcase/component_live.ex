@@ -454,6 +454,10 @@ defmodule DevelopmentWeb.Showcase.ComponentLive do
   # table: `default` variant + primary is a filled block (badges unreadable). Default to the clean
   # `base` (white) table — switch variant to hoverable/stripped/etc. to test the others.
   defp preview_override("table"), do: %{variant: "base", color: "natural", padding: "small"}
+  # table_content (TOC): first-value defaults (variant "default", extra_small, no padding) look
+  # cramped/borderless. Use a clean `base` card with a primary accent + roomy spacing.
+  defp preview_override("table_content"),
+    do: %{variant: "base", color: "primary", size: "medium", padding: "medium", space: "small"}
   # stepper: vertical reads well in the narrow preview (toggle off for a horizontal row). No `space` —
   # it adds a margin between steps that the clipped connector line can't bridge (lines look broken).
   defp preview_override("stepper"), do: %{vertical: true}
