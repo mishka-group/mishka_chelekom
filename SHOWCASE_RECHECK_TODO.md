@@ -59,10 +59,10 @@ item that needs follow-up.
 - [x] device_mockup — `/showcase/device_mockup`
 - [x] divider — `/showcase/divider`
 - [x] indicator — `/showcase/indicator`
-- [ ] jumbotron — `/showcase/jumbotron`
-- [ ] keyboard — `/showcase/keyboard`
-- [ ] layout — `/showcase/layout`
-- [ ] list — `/showcase/list`
+- [x] jumbotron — `/showcase/jumbotron`
+- [x] keyboard — `/showcase/keyboard`
+- [x] layout — `/showcase/layout`
+- [x] list — `/showcase/list`
 - [ ] progress — `/showcase/progress`
 - [ ] rating — `/showcase/rating`
 - [ ] shape — `/showcase/shape`

@@ -416,6 +416,11 @@ defmodule DevelopmentWeb.Showcase.ComponentLive do
   # SAME color (ring-primary on bg-primary) → invisible. `bordered` gives a light tinted box with a
   # colored border + a contrasting focus ring, so the `ring` flag is actually visible on focus.
   defp preview_override("native_select"), do: %{variant: "bordered"}
+  # jumbotron: a clean hero by default — `base` variant, roomy padding, and `space` so the stacked
+  # heading/subtitle/CTAs breathe (all still adjustable via the controls).
+  defp preview_override("jumbotron"), do: %{variant: "base", padding: "large", space: "medium"}
+  # layout: start centered with a comfortable gap so the arranged boxes look intentional.
+  defp preview_override("layout"), do: %{justify: "center", align: "center", gap: "medium"}
   defp preview_override(_), do: %{}
 
   # Default the preview to options that actually show the component off: a color-bearing variant

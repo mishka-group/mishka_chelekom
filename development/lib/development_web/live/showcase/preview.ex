@@ -78,6 +78,83 @@ defmodule DevelopmentWeb.Showcase.Preview do
     """
   end
 
+  # Layout (`<.flex>`): a flexbox container — so show it arranging things. Put numbered boxes inside a
+  # sized frame and let the controls (direction/justify/align/gap/wrap) visibly rearrange them.
+  def show(%{component: "layout"} = assigns) do
+    ~H"""
+    <div class="w-full rounded-box border border-base-300 bg-base-200/40 p-3">
+      <.flex id={@id} {@props} class="min-h-44 w-full">
+        <div
+          :for={
+            {n, cls} <- [
+              {"1", "bg-primary-light"},
+              {"2", "bg-secondary-light"},
+              {"3", "bg-success-light"},
+              {"4", "bg-warning-light"}
+            ]
+          }
+          class={["grid size-11 shrink-0 place-items-center rounded-lg font-semibold text-white", cls]}
+        >
+          {n}
+        </div>
+      </.flex>
+    </div>
+    """
+  end
+
+  # Keyboard: a `<kbd>` key. One key holding "Mishka Chelekom" looks like a pill — show what it's for:
+  # a shortcuts cheat-sheet (Ctrl + C, ⌘ + K …), each key a `<.keyboard>` driven by the controls.
+  def show(%{component: "keyboard"} = assigns) do
+    assigns =
+      assign(assigns, :shortcuts, [
+        {"Copy", ["Ctrl", "C"]},
+        {"Paste", ["Ctrl", "V"]},
+        {"Command palette", ["⌘", "K"]},
+        {"Save", ["Ctrl", "S"]}
+      ])
+
+    ~H"""
+    <div class="w-72 space-y-2.5 text-sm">
+      <div :for={{label, keys} <- @shortcuts} class="flex items-center justify-between gap-6">
+        <span class="text-base-content/60">{label}</span>
+        <span class="flex items-center gap-1.5">
+          <%= for {key, i} <- Enum.with_index(keys) do %>
+            <span :if={i > 0} class="text-xs text-base-content/30">+</span>
+            <.keyboard {@props}>{key}</.keyboard>
+          <% end %>
+        </span>
+      </div>
+    </div>
+    """
+  end
+
+  # Jumbotron: a hero section — not a banner. Fill it with the real pattern: an eyebrow badge, a big
+  # heading, a subtitle and a CTA row, as DIRECT children so the `space` control spaces them. Padding
+  # is driven by the control (kept out of `class`, which is last and would override it); sensible
+  # defaults live in `ComponentLive.preview_override/1`.
+  def show(%{component: "jumbotron"} = assigns) do
+    ~H"""
+    <.jumbotron id={@id} {@props} class="text-center">
+      <span class="mx-auto inline-flex w-fit items-center gap-1.5 rounded-full bg-base-200 px-3 py-1 text-xs font-medium text-base-content/70">
+        <.icon name="hero-sparkles" class="size-3.5 text-primary-light" /> Now in beta
+      </span>
+      <h1 class="mx-auto max-w-2xl text-3xl font-extrabold tracking-tight md:text-4xl">
+        Build your Phoenix UI faster
+      </h1>
+      <p class="mx-auto max-w-xl text-base text-base-content/70">
+        A fully featured components &amp; UI kit for Phoenix &amp; LiveView — generated straight into
+        your app, with zero runtime dependency.
+      </p>
+      <div class="flex flex-col items-center justify-center gap-3 pt-1 sm:flex-row">
+        <.button color="primary" class="gap-1.5">
+          Get started <.icon name="hero-arrow-right" class="size-4" />
+        </.button>
+        <.button variant="outline" color="natural">Read the docs</.button>
+      </div>
+    </.jumbotron>
+    """
+  end
+
   # Indicator: a status dot. `position` and `pinging` come through `:global` rest as boolean attrs
   # (`<.indicator top_right pinging />`), so translate the controls into them. Show it two ways —
   # standalone (color/size/pinging) and on an outline button (the mishka pattern), where `position`

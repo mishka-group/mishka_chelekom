@@ -155,6 +155,9 @@ defmodule DevelopmentWeb.Showcase.Catalog do
   # card: the root `card/1` has no `size` attr — `size`/`size_class` live only on the `card_title`
   # sub-component, so a root-card `size` control does nothing (and would emit a bogus `size=` attr).
   defp dead_dims("banner"), do: ["size", "space"]
+  # jumbotron: the catalog lists `size`, but `jumbotron/1` has no `size` attr (only border/padding/
+  # space/font_weight) — it would just emit a dead `size=` attr.
+  defp dead_dims("jumbotron"), do: ["size"]
   defp dead_dims("card"), do: ["size"]
   defp dead_dims(_), do: []
 
@@ -219,6 +222,18 @@ defmodule DevelopmentWeb.Showcase.Catalog do
       %{key: "type", attr: "type", type: :string, values: ~w(solid dashed dotted)},
       %{key: "variation", attr: "variation", type: :string, values: ~w(horizontal vertical)},
       %{key: "position", attr: "position", type: :string, values: ~w(left middle right)}
+    ]
+  end
+
+  # layout (`<.flex>`): its attrs are free-form strings (no `values:`), so the catalog derives no
+  # controls. Surface the core flexbox knobs so the arrangement can be tested live.
+  defp extra_dims("layout") do
+    [
+      %{key: "direction", attr: "direction", type: :string, values: ~w(row row-reverse col col-reverse)},
+      %{key: "justify", attr: "justify", type: :string, values: ~w(start center end between around evenly)},
+      %{key: "align", attr: "align", type: :string, values: ~w(start center end stretch baseline)},
+      %{key: "gap", attr: "gap", type: :string, values: ~w(extra_small small medium large extra_large)},
+      %{key: "wrap", attr: "wrap", type: :string, values: ~w(nowrap wrap wrap-reverse)}
     ]
   end
 
