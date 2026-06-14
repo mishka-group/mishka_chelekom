@@ -158,6 +158,10 @@ defmodule DevelopmentWeb.Showcase.Catalog do
   # jumbotron: the catalog lists `size`, but `jumbotron/1` has no `size` attr (only border/padding/
   # space/font_weight) — it would just emit a dead `size=` attr.
   defp dead_dims("jumbotron"), do: ["size"]
+  # stepper: `space` adds `space-y-*` between vertical steps, but each step's `overflow-hidden` clips
+  # its `h-screen` connector line to its own height — so any space breaks the line into disconnected
+  # stubs. Drop the control; the connected look (no space) is the default.
+  defp dead_dims("stepper"), do: ["space"]
   defp dead_dims("card"), do: ["size"]
   defp dead_dims(_), do: []
 
@@ -232,6 +236,12 @@ defmodule DevelopmentWeb.Showcase.Catalog do
       %{key: "trend", attr: "trend", type: :string, values: ~w(none up down neutral)},
       %{key: "figure_position", attr: "figure_position", type: :string, values: ~w(start end top)}
     ]
+  end
+
+  # stepper: a showcase-only `current` slider (1–4) — the preview maps it to each step's state
+  # (completed / current / upcoming) so the wizard can be stepped through.
+  defp extra_dims("stepper") do
+    [%{key: "current", attr: "current", type: :integer, kind: :range, min: 1, max: 4, step: 1, default: 2, values: []}]
   end
 
   # spinner: `type` (the animation style) isn't surfaced by the catalog — add it so the live preview

@@ -411,6 +411,86 @@ defmodule DevelopmentWeb.Showcase.Preview do
     """
   end
 
+  # Stepper: a multi-step wizard — the generic preview had no steps. Build a 4-step flow whose states
+  # (completed / current / upcoming `none`) are driven by the `current` slider, so you can step
+  # through it. variant/color/size/space + vertical/col_step restyle it.
+  def show(%{component: "stepper"} = assigns) do
+    current = assigns.props[:current] || 2
+    vertical = assigns.props[:vertical] || false
+
+    steps =
+      for {n, title, desc} <- [
+            {1, "Account", "Email & password"},
+            {2, "Profile", "About you"},
+            {3, "Payment", "Billing details"},
+            {4, "Done", "Review & finish"}
+          ] do
+        state = cond do
+          n < current -> "completed"
+          n == current -> "current"
+          true -> "none"
+        end
+
+        %{n: n, title: title, desc: desc, state: state}
+      end
+
+    assigns = assign(assigns, steps: steps, vert: vertical)
+
+    ~H"""
+    <div class="w-full">
+      <.stepper
+        id={@id}
+        variant={@props[:variant]}
+        color={@props[:color]}
+        size={@props[:size]}
+        vertical={@vert}
+        col_step={@props[:col_step]}
+      >
+        <.stepper_section
+          :for={s <- @steps}
+          step={s.state}
+          step_number={s.n}
+          title={s.title}
+          description={s.desc}
+          vertical={@vert}
+        />
+      </.stepper>
+    </div>
+    """
+  end
+
+  # Table: the generic `<.table>{@sample}</.table>` has no rows/headers — nothing reads as a table.
+  # Render a real users table: `<:header>` columns + `<.tr>/<.td>` rows (with a status badge), driven
+  # by the controls (variant/color/padding/table_fixed). `rows_border` gives visible row separators.
+  def show(%{component: "table"} = assigns) do
+    assigns =
+      assign(assigns, :rows, [
+        %{name: "Alice Johnson", role: "Admin", status: "Active", color: "success", email: "alice@acme.io"},
+        %{name: "Bob Martinez", role: "Editor", status: "Active", color: "success", email: "bob@acme.io"},
+        %{name: "Carol Lee", role: "Viewer", status: "Invited", color: "info", email: "carol@acme.io"},
+        %{name: "Dan Wright", role: "Viewer", status: "Suspended", color: "danger", email: "dan@acme.io"}
+      ])
+
+    ~H"""
+    <div class="w-full overflow-x-auto">
+      <.table id={@id} {@props} rows_border="extra_small">
+        <:header>Name</:header>
+        <:header>Role</:header>
+        <:header>Status</:header>
+        <:header>Email</:header>
+        <.tr :for={u <- @rows}>
+          <.td class="font-medium whitespace-nowrap">{u.name}</.td>
+          <.td>{u.role}</.td>
+          <.td>
+            <.badge color={u.color} variant="outline" size="small">{u.status}</.badge>
+          </.td>
+          <.td class="whitespace-nowrap text-base-content/60">{u.email}</.td>
+        </.tr>
+      </.table>
+    </div>
+    """
+  end
+
   def show(%{component: "carousel"} = assigns) do
     ~H"""
     <.carousel id={@id} {@props}>

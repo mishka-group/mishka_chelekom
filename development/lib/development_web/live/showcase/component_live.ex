@@ -451,8 +451,14 @@ defmodule DevelopmentWeb.Showcase.ComponentLive do
   defp preview_override("rating"), do: %{interactive: true}
   # shape: large by default so the clipped shape is clearly visible.
   defp preview_override("shape"), do: %{size: "large"}
-  # stat: show a positive trend by default (green ↗) so the metric card reads as a real dashboard stat.
-  defp preview_override("stat"), do: %{trend: "up"}
+  # stepper: vertical reads well in the narrow preview (toggle off for a horizontal row). No `space` —
+  # it adds a margin between steps that the clipped connector line can't bridge (lines look broken).
+  defp preview_override("stepper"), do: %{vertical: true}
+  # stat: the catalog's first-value defaults (variant "default" = a filled block, size extra_small,
+  # rounded/padding none) look cramped & unreadable. Use the component's own defaults — a clean `base`
+  # card with medium size/rounding/padding — plus a positive trend, matching the docs example.
+  defp preview_override("stat"),
+    do: %{trend: "up", variant: "base", size: "medium", rounded: "medium", padding: "medium"}
   defp preview_override(_), do: %{}
 
   # Default the preview to options that actually show the component off: a color-bearing variant
