@@ -508,15 +508,128 @@ defmodule DevelopmentWeb.Showcase.Preview do
   # Build a real "On this page" table of contents; each `<:item>` needs `link` + `link_title` to render
   # its link, `active` marks the current section. Driven by variant/color/size/rounded/padding/space.
   def show(%{component: "table_content"} = assigns) do
+    sections = [
+      {"introduction", "Introduction", "A components & UI kit for Phoenix & LiveView, generated into your app with zero runtime dependency."},
+      {"installation", "Installation", "Add the package, run the generator, and the components are copied straight into your project."},
+      {"configuration", "Configuration", "Tailwind v4, theme tokens, and the Kit macro let you restyle everything without touching the source."},
+      {"components", "Components", "Buttons, forms, tables, navigation, overlays — 70+ styled components, plus a headless layer."},
+      {"api", "API reference", "Every component documents its attributes, slots, and the events it emits."}
+    ]
+
+    assigns = assign(assigns, sections: sections, scroll_id: "#{assigns.id}-doc")
+
     ~H"""
-    <div class="w-64">
-      <.table_content id={@id} {@props} title="On this page">
-        <:item icon="hero-hashtag" link="#introduction" link_title="Introduction" active />
-        <:item icon="hero-hashtag" link="#installation" link_title="Installation" />
-        <:item icon="hero-hashtag" link="#configuration" link_title="Configuration" />
-        <:item icon="hero-hashtag" link="#components" link_title="Components" />
-        <:item icon="hero-hashtag" link="#api-reference" link_title="API reference" />
-      </.table_content>
+    <%!-- `animated` enables smooth scrolling; mirror it onto this scroll box so clicking a TOC link
+          glides to the section (vs jumps) right here in the preview. --%>
+    <div
+      id={@scroll_id}
+      class={[
+        "max-h-80 w-full overflow-y-auto rounded-box border border-base-300 bg-base-100 p-3",
+        @props[:animated] && "scroll-smooth"
+      ]}
+    >
+      <div class="sticky top-0 z-10 mb-2 bg-base-100 pb-2">
+        <.table_content id={@id} {@props} title="On this page">
+          <.content_item :for={{anchor, label, _} <- @sections} icon="hero-hashtag" active={anchor == "introduction"}>
+            <.link href={"#" <> @scroll_id <> "-" <> anchor}>{label}</.link>
+          </.content_item>
+        </.table_content>
+      </div>
+
+      <div class="space-y-8 px-1 pt-2 text-sm">
+        <section :for={{anchor, label, body} <- @sections} id={@scroll_id <> "-" <> anchor} class="scroll-mt-2">
+          <h4 class="mb-1 font-semibold">{label}</h4>
+          <p class="text-base-content/60">{body}</p>
+          <div class="mt-3 h-16 rounded-lg bg-base-200/50"></div>
+        </section>
+      </div>
+    </div>
+    """
+  end
+
+  # Timeline: a sequence of events — the generic preview had no sections. Build a project-milestone
+  # timeline (bullet icon + title + time + description per `timeline_section`). `horizontal` lays it
+  # out as a row (scrollable); color/size + hide_last_line/gapped_sections drive the rest.
+  def show(%{component: "timeline"} = assigns) do
+    assigns =
+      assign(assigns, :milestones, [
+        %{icon: "hero-flag", title: "Kickoff", time: "January 2026", desc: "Project setup and initial configuration."},
+        %{icon: "hero-code-bracket", title: "Development", time: "February 2026", desc: "Built and tested the component library."},
+        %{icon: "hero-rocket-launch", title: "Launch", time: "March 2026", desc: "Shipped the first release to production."},
+        %{icon: "hero-star", title: "Milestone", time: "April 2026", desc: "Reached 1,000 active users."}
+      ])
+
+    ~H"""
+    <div class="w-full overflow-x-auto">
+      <.timeline id={@id} {@props}>
+        <.timeline_section
+          :for={s <- @milestones}
+          bullet_icon={s.icon}
+          title={s.title}
+          time={s.time}
+          description={s.desc}
+          horizontal={@props[:horizontal]}
+        />
+      </.timeline>
+    </div>
+    """
+  end
+
+  # Typography: it's a whole family (h1–h6, p, strong/em/mark/u/s/small/abbr…), but the generic
+  # preview showed one `<.h1>`. Render a type specimen — the heading scale, a body paragraph with
+  # inline styles, and small print. `color` recolors all; `size` drives the body text.
+  def show(%{component: "typography"} = assigns) do
+    ~H"""
+    <div class="space-y-2 text-left">
+      <.h1 color={@props[:color]}>Heading one</.h1>
+      <.h2 color={@props[:color]}>Heading two</.h2>
+      <.h3 color={@props[:color]}>Heading three</.h3>
+      <.h4 color={@props[:color]}>Heading four</.h4>
+      <.p color={@props[:color]} size={@props[:size]}>
+        Body paragraph with <.strong>strong</.strong>, <.em>emphasis</.em>,
+        <.mark>a highlight</.mark>, <.u>underline</.u>, <.s>strikethrough</.s>, and an
+        <.abbr title="HyperText Markup Language">HTML</.abbr> abbreviation.
+      </.p>
+      <.small color={@props[:color]}>Small print — captions and fine details.</.small>
+    </div>
+    """
+  end
+
+  # Gallery: a grid of media. Use CSS-gradient tiles (local, no image files) with varied aspect ratios
+  # so `type` (default/masonry/featured), `cols` and `gap` visibly reshape the layout. `rounded` is
+  # mapped to a radius on each tile.
+  def show(%{component: "gallery"} = assigns) do
+    radius =
+      case assigns.props[:rounded] do
+        "extra_small" -> "rounded-sm"
+        "small" -> "rounded-md"
+        "large" -> "rounded-xl"
+        "extra_large" -> "rounded-2xl"
+        "full" -> "rounded-3xl"
+        "none" -> "rounded-none"
+        _ -> "rounded-lg"
+      end
+
+    assigns =
+      assign(assigns,
+        radius: radius,
+        tiles: [
+          {"bg-linear-to-br from-indigo-400 to-fuchsia-500", "aspect-square"},
+          {"bg-linear-to-br from-rose-400 to-orange-400", "aspect-[3/4]"},
+          {"bg-linear-to-br from-emerald-400 to-teal-500", "aspect-video"},
+          {"bg-linear-to-br from-sky-400 to-blue-600", "aspect-square"},
+          {"bg-linear-to-br from-amber-400 to-pink-500", "aspect-[4/3]"},
+          {"bg-linear-to-br from-violet-500 to-purple-700", "aspect-square"}
+        ]
+      )
+
+    ~H"""
+    <div class="w-full">
+      <.gallery id={@id} {@props}>
+        <.gallery_media :for={{grad, aspect} <- @tiles}>
+          <div class={["w-full", aspect, grad, @radius]}></div>
+        </.gallery_media>
+      </.gallery>
     </div>
     """
   end

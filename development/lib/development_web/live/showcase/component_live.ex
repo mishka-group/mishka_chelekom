@@ -458,6 +458,12 @@ defmodule DevelopmentWeb.Showcase.ComponentLive do
   # cramped/borderless. Use a clean `base` card with a primary accent + roomy spacing.
   defp preview_override("table_content"),
     do: %{variant: "base", color: "primary", size: "medium", padding: "medium", space: "small"}
+  # timeline: a primary, medium default reads better than the first-value extra_small/base.
+  defp preview_override("timeline"), do: %{color: "primary", size: "medium"}
+  # gallery: 3 columns, a comfortable gap and rounded tiles by default.
+  defp preview_override("gallery"), do: %{cols: "three", gap: "small", rounded: "medium"}
+  # typography: a neutral, medium default so the specimen reads naturally (recolor via the control).
+  defp preview_override("typography"), do: %{color: "natural", size: "medium"}
   # stepper: vertical reads well in the narrow preview (toggle off for a horizontal row). No `space` —
   # it adds a margin between steps that the clipped connector line can't bridge (lines look broken).
   defp preview_override("stepper"), do: %{vertical: true}

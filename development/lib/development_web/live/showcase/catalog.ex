@@ -249,6 +249,16 @@ defmodule DevelopmentWeb.Showcase.Catalog do
     [%{key: "text_position", attr: "text_position", type: :string, values: ~w(left center right)}]
   end
 
+  # gallery: `type` (layout), `cols` and `gap` aren't enumerated by the catalog — surface them so the
+  # grid can be reshaped.
+  defp extra_dims("gallery") do
+    [
+      %{key: "type", attr: "type", type: :string, values: ~w(default masonry featured)},
+      %{key: "cols", attr: "cols", type: :string, values: ~w(two three four)},
+      %{key: "gap", attr: "gap", type: :string, values: ~w(extra_small small medium large extra_large)}
+    ]
+  end
+
   # spinner: `type` (the animation style) isn't surfaced by the catalog — add it so the live preview
   # can switch between default / dots / bars / pinging.
   defp extra_dims("spinner") do

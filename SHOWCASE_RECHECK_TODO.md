@@ -72,16 +72,16 @@ item that needs follow-up.
 - [x] stat — `/showcase/stat`
 - [x] stepper — `/showcase/stepper`
 - [x] table — `/showcase/table`
-- [ ] table_content — `/showcase/table_content`
-- [ ] tabs — `/showcase/tabs`
-- [ ] timeline — `/showcase/timeline`
-- [ ] typography — `/showcase/typography`
+- [x] table_content — `/showcase/table_content`
+- [x] tabs — `/showcase/tabs`
+- [x] timeline — `/showcase/timeline`
+- [x] typography — `/showcase/typography`
 
 ### media
-- [ ] carousel — `/showcase/carousel`
-- [ ] gallery — `/showcase/gallery`
-- [ ] icon — `/showcase/icon`
-- [ ] image — `/showcase/image`
+- [x] carousel — `/showcase/carousel`
+- [x] gallery — `/showcase/gallery`
+- [x] icon — `/showcase/icon`
+- [x] image — `/showcase/image`
 - [ ] video — `/showcase/video`
 
 ### navigations
