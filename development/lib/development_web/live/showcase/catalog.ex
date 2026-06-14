@@ -277,6 +277,9 @@ defmodule DevelopmentWeb.Showcase.Catalog do
   # Boolean flags a component reads from `:global` rest (not declared as `attr`s), so the catalog can't
   # derive them — surface them explicitly. e.g. the indicator's `pinging` (adds `animate-ping`).
   defp extra_flags("indicator"), do: [%{name: "pinging", default: false}]
+  # skeleton: `animated` is a `:global` attr (`@rest[:animated] && "animate-pulse"`), not a declared
+  # attr — surface it so the shimmer can be toggled.
+  defp extra_flags("skeleton"), do: [%{name: "animated", default: true}]
   defp extra_flags(_), do: []
 
   defp type_of("atom"), do: :atom

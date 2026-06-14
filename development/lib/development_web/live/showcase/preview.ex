@@ -328,6 +328,45 @@ defmodule DevelopmentWeb.Showcase.Preview do
     """
   end
 
+  # Skeleton: a loading placeholder — one bar doesn't show what it's for. Compose a realistic
+  # "profile card loading" layout (avatar + lines + media + paragraph), all driven by the controls
+  # (`color`/`rounded`/`animated`/`visible`). `@bar` carries the shared props for the line pieces.
+  def show(%{component: "skeleton"} = assigns) do
+    assigns =
+      assign(assigns, :bar, %{
+        color: assigns.props[:color],
+        rounded: assigns.props[:rounded],
+        animated: assigns.props[:animated],
+        visible: assigns.props[:visible]
+      })
+
+    ~H"""
+    <div class="w-72 space-y-4 rounded-box border border-base-300 bg-base-100 p-4">
+      <div class="flex items-center gap-3">
+        <.skeleton
+          color={@props[:color]}
+          rounded="full"
+          animated={@props[:animated]}
+          visible={@props[:visible]}
+          class="size-12 shrink-0"
+        />
+        <div class="flex-1 space-y-2">
+          <.skeleton {@bar} class="h-3 w-2/3" />
+          <.skeleton {@bar} class="h-3 w-1/3" />
+        </div>
+      </div>
+
+      <.skeleton {@bar} class="h-28 w-full" />
+
+      <div class="space-y-2">
+        <.skeleton {@bar} class="h-3 w-full" />
+        <.skeleton {@bar} class="h-3 w-full" />
+        <.skeleton {@bar} class="h-3 w-4/5" />
+      </div>
+    </div>
+    """
+  end
+
   def show(%{component: "carousel"} = assigns) do
     ~H"""
     <.carousel id={@id} {@props}>
