@@ -367,6 +367,25 @@ defmodule DevelopmentWeb.Showcase.Preview do
     """
   end
 
+  # Speed dial: its root is hardcoded `fixed`, so it floats over the whole page. Scope it to a
+  # `relative` preview box and override `fixed` → `!absolute` (like the banner). Give it a `+` FAB icon
+  # and several action items so hovering/clicking the button fans them out. Driven by the controls.
+  def show(%{component: "speed_dial"} = assigns) do
+    ~H"""
+    <div class="relative h-72 w-full overflow-hidden rounded-box border border-base-300 bg-base-200/30">
+      <span class="absolute left-3 top-3 text-xs text-base-content/40">
+        hover / click the button ↘
+      </span>
+      <.speed_dial id={@id} {@props} icon="hero-plus" class="!absolute !bottom-4 !end-4">
+        <:item icon="hero-share" />
+        <:item icon="hero-pencil-square" />
+        <:item icon="hero-document-duplicate" />
+        <:item icon="hero-trash" />
+      </.speed_dial>
+    </div>
+    """
+  end
+
   def show(%{component: "carousel"} = assigns) do
     ~H"""
     <.carousel id={@id} {@props}>

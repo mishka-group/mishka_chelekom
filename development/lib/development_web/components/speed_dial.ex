@@ -270,8 +270,12 @@ defmodule DevelopmentWeb.Components.SpeedDial do
     """
   end
 
+  # Hover-to-open: reveal the menu when the WRAPPER is hovered, not the content itself — the content
+  # is `invisible` (visibility:hidden) and can't receive :hover, so the old `[&_.x]:hover` (content's
+  # own hover) never fired. `hover:[&_.x]` is wrapper:hover → content; hovering the now-visible content
+  # keeps the wrapper :hover active via DOM bubbling, so the menu stays open.
   defp trigger_dial(),
-    do: "[&_.speed-dial-content]:hover:visible [&_.speed-dial-content]:hover:opacity-100"
+    do: "hover:[&_.speed-dial-content]:visible hover:[&_.speed-dial-content]:opacity-100"
 
   defp position_class("top") do
     [

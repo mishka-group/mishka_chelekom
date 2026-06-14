@@ -66,7 +66,7 @@ item that needs follow-up.
 - [x] progress — `/showcase/progress`
 - [x] rating — `/showcase/rating`
 - [x] shape — `/showcase/shape`
-- [ ] skeleton — `/showcase/skeleton`
+- [x] skeleton — `/showcase/skeleton`
 - [ ] speed_dial — `/showcase/speed_dial`
 - [ ] spinner — `/showcase/spinner`
 - [ ] stat — `/showcase/stat`
