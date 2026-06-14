@@ -158,11 +158,18 @@ defmodule DevelopmentWeb.Showcase.Catalog do
   # jumbotron: the catalog lists `size`, but `jumbotron/1` has no `size` attr (only border/padding/
   # space/font_weight) — it would just emit a dead `size=` attr.
   defp dead_dims("jumbotron"), do: ["size"]
+  # overlay: the catalog lists `size`, but overlay/1 has NO `size` attr (only color/opacity/backdrop/
+  # z_index) — `size` just lands in @rest as a dead `size=` attribute with no visual effect. Drop it.
+  defp dead_dims("overlay"), do: ["size"]
   # stepper: `space` adds `space-y-*` between vertical steps, but each step's `overflow-hidden` clips
   # its `h-screen` connector line to its own height — so any space breaks the line into disconnected
   # stubs. Drop the control; the connected look (no space) is the default.
   defp dead_dims("stepper"), do: ["space"]
   defp dead_dims("card"), do: ["size"]
+  # navbar: `space` maps to `space-y-*` on the `<nav>` root, but the root has only ONE child (the
+  # `nav-wrapper`), so `> * + *` never matches and it spaces nothing — and it's vertical spacing, which
+  # is meaningless for the horizontal bar. Inert in every navbar layout, so drop the control.
+  defp dead_dims("navbar"), do: ["space"]
   defp dead_dims(_), do: []
 
   # Boolean flags the component declares but never reads, or that aren't a working standalone mode.
@@ -173,10 +180,19 @@ defmodule DevelopmentWeb.Showcase.Catalog do
   # hook-owned trigger. Removed as controls; the preview uses sensible defaults instead.
   defp dead_flags("clipboard"), do: ["show_status_text", "dynamic_label"]
   defp dead_flags("file_field"), do: ["live"]
+  # dropdown: `nomobile` is provably inert under the `Floating` hook — an `&&`/`||` precedence bug makes
+  # it toggle only a no-op boolean, its `[&>.dropdown-content]` classes stop matching once the hook
+  # relocates the menu to <body>, and the hook's inline absolute positioning overrides CSS regardless
+  # (floating.js has zero mobile awareness). `clickable`/`smart_position` both work and stay.
+  defp dead_flags("dropdown"), do: ["nomobile"]
 
   # toggle_field: `ring` and `reverse` were declared but never read (@ring/@reverse used 0×) — deleted
   # from the component; the JSON metadata still lists them, so drop them from the controls here too.
   defp dead_flags("toggle_field"), do: ["ring", "reverse"]
+  # navbar: `relative` only adds `position: relative` to the links <ul> — a positioning anchor for
+  # absolutely-positioned dropdown menus inside nav items. This preview uses plain links (no dropdowns),
+  # so it has no visible effect; drop it.
+  defp dead_flags("navbar"), do: ["relative"]
   defp dead_flags(_), do: []
 
   # Real, visible dims the catalog args omit. banner supports `border` (a `border-*` thickness).
@@ -259,6 +275,11 @@ defmodule DevelopmentWeb.Showcase.Catalog do
     ]
   end
 
+  # image: `filter` (grayscale/blur/sepia/…) isn't surfaced — add it so the CSS filters can be tried.
+  defp extra_dims("image") do
+    [%{key: "filter", attr: "filter", type: :string, values: ~w(none grayscale sepia invert blur brightness contrast saturation hue)}]
+  end
+
   # spinner: `type` (the animation style) isn't surfaced by the catalog — add it so the live preview
   # can switch between default / dots / bars / pinging.
   defp extra_dims("spinner") do
@@ -312,6 +333,149 @@ defmodule DevelopmentWeb.Showcase.Catalog do
     ]
   end
 
+  # breadcrumb: `separator_icon` (the glyph drawn between items) defaults to hero-chevron-right and the
+  # catalog only surfaces color/size — expose it so the separator can be switched live. Passed straight
+  # through via {@props}; the component renders it between every pair of items.
+  defp extra_dims("breadcrumb") do
+    [
+      %{
+        key: "separator_icon",
+        attr: "separator_icon",
+        type: :string,
+        values: ~w(hero-chevron-right hero-arrow-right hero-slash hero-chevron-double-right hero-minus)
+      }
+    ]
+  end
+
+  defp extra_dims("dock") do
+    [
+      %{
+        key: "border",
+        attr: "border",
+        type: :string,
+        values: ~w(none extra_small small medium large extra_large)
+      },
+      %{
+        key: "position",
+        attr: "position",
+        type: :string,
+        values: ~w(static sticky_bottom sticky_top fixed_bottom fixed_top fixed_bottom_center fixed_top_center)
+      },
+      %{
+        key: "max_width",
+        attr: "max_width",
+        type: :string,
+        values: ~w(extra_small small medium large extra_large full)
+      }
+    ]
+  end
+
+  defp extra_dims("footer") do
+    [
+      %{key: "text_position", attr: "text_position", type: :string, values: ~w(left center right)},
+      %{key: "border", attr: "border", type: :string, values: ~w(none extra_small small medium large extra_large)}
+    ]
+  end
+
+  defp extra_dims("mega_menu") do
+    [
+      %{key: "top_gap", attr: "top_gap", type: :string,
+        values: ~w(none extra_small small medium large extra_large)},
+      %{key: "width", attr: "width", type: :string, values: ~w(full half)},
+      %{key: "border", attr: "border", type: :string,
+        values: ~w(none extra_small small medium large extra_large)}
+    ]
+  end
+
+  defp extra_dims("navbar") do
+    [
+      %{
+        key: "content_position",
+        attr: "content_position",
+        type: :string,
+        values: ~w(start center end between around)
+      },
+      %{
+        key: "border",
+        attr: "border",
+        type: :string,
+        values: ~w(none extra_small small medium large extra_large)
+      }
+    ]
+  end
+
+  defp extra_dims("pagination") do
+    [
+      # total/active are PAGE counts (not item counts); the visible window is capped at
+      # siblings*2 + 3 + boundaries*2, so a big total just changes the boundary numbers. The Mishka docs
+      # use total=10 active=1, so mirror that (first page active → "1 2 3 4 5 … 10"). active maxes at
+      # total's max so the two sliders can't drift into incoherent states (active > total).
+      %{key: "active", attr: "active", type: :integer, kind: :range, min: 1, max: 20, step: 1, default: 1, values: []},
+      %{key: "total", attr: "total", type: :integer, kind: :range, min: 1, max: 20, step: 1, default: 10, values: []},
+      %{key: "siblings", attr: "siblings", type: :integer, kind: :range, min: 0, max: 4, step: 1, default: 1, values: []},
+      %{key: "boundaries", attr: "boundaries", type: :integer, kind: :range, min: 0, max: 3, step: 1, default: 1, values: []}
+    ]
+  end
+
+  defp extra_dims("scroll_area") do
+    [%{key: "type", attr: "type", type: :string, values: ~w(auto hover never)}]
+  end
+
+  defp extra_dims("sidebar") do
+    [
+      %{
+        key: "border",
+        attr: "border",
+        type: :string,
+        values: ~w(none extra_small small medium large extra_large)
+      },
+      %{key: "position", attr: "position", type: :string, values: ~w(start end)},
+      %{key: "hide_position", attr: "hide_position", type: :string, values: ~w(left right)}
+    ]
+  end
+
+  defp extra_dims("drawer") do
+    [%{key: "position", attr: "position", type: :string, values: ~w(left right top bottom)}]
+  end
+
+  defp extra_dims("overlay") do
+    [
+      %{
+        key: "opacity",
+        attr: "opacity",
+        type: :string,
+        values: ~w(transparent translucent semi_transparent lightly_tinted tinted heavily_tinted semi_opaque opaque almost_solid solid)
+      },
+      %{
+        key: "backdrop",
+        attr: "backdrop",
+        type: :string,
+        values: ~w(extra_small small medium large extra_large)
+      }
+    ]
+  end
+
+  defp extra_dims("popover") do
+    [
+      %{key: "position", attr: "position", type: :string, values: ~w(top bottom left right)},
+      %{key: "width", attr: "width", type: :string,
+        values: ~w(extra_small small medium large extra_large double_large triple_large quadruple_large)},
+      %{key: "text_position", attr: "text_position", type: :string,
+        values: ~w(start center end left right justify)}
+    ]
+  end
+
+  defp extra_dims("tooltip") do
+    [%{key: "position", attr: "position", type: :string, values: ~w(top bottom left right)}]
+  end
+
+  # dropdown: surface `position` so the open direction is directly observable (the `Floating` hook
+  # reads data-position). This is the manual version of `smart_position` — pick each direction and see
+  # exactly where the menu opens, without needing the trigger to sit near a viewport edge.
+  defp extra_dims("dropdown") do
+    [%{key: "position", attr: "position", type: :string, values: ~w(bottom top left right)}]
+  end
+
   defp extra_dims(_), do: []
 
   # Boolean flags a component reads from `:global` rest (not declared as `attr`s), so the catalog can't
@@ -320,6 +484,14 @@ defmodule DevelopmentWeb.Showcase.Catalog do
   # skeleton: `animated` is a `:global` attr (`@rest[:animated] && "animate-pulse"`), not a declared
   # attr — surface it so the shimmer can be toggled.
   defp extra_flags("skeleton"), do: [%{name: "animated", default: true}]
+  defp extra_flags("pagination") do
+    [
+      %{name: "show_edges", default: false},
+      %{name: "grouped", default: false},
+      %{name: "hide_controls", default: false}
+    ]
+  end
+
   defp extra_flags(_), do: []
 
   defp type_of("atom"), do: :atom

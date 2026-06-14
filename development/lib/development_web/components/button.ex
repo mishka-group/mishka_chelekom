@@ -457,6 +457,7 @@ defmodule DevelopmentWeb.Components.Button do
         @full_width && "w-full",
         @font_weight,
         @line_height,
+        @display,
         @class
       ]}
       {drop_rest(@rest)}
@@ -500,6 +501,7 @@ defmodule DevelopmentWeb.Components.Button do
         @full_width && "w-full",
         @font_weight,
         @line_height,
+        @display,
         @class
       ]}
       {drop_rest(@rest)}

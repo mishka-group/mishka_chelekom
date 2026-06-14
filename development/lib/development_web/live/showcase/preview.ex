@@ -634,6 +634,580 @@ defmodule DevelopmentWeb.Showcase.Preview do
     """
   end
 
+  def show(%{component: "breadcrumb"} = assigns) do
+    ~H"""
+    <.breadcrumb id={@id} {@props}>
+      <:item icon="hero-home" link="/">Home</:item>
+      <:item icon="hero-folder" link="/docs">Docs</:item>
+      <:item icon="hero-bookmark">Breadcrumb</:item>
+    </.breadcrumb>
+    """
+  end
+
+  # Dropdown: the REAL `<.dropdown>` (Floating hook), exactly like the docs examples — CLICK the trigger
+  # to open the styled menu. The hook relocates the panel to `<body>`; the docs work because they render
+  # once, but the live preview re-renders (patches) on every control change, which corrupts that
+  # relocated panel. So the id carries a hash of the props: ANY control change → a fresh id → a clean
+  # remount, and the hook re-runs from scratch (like opening the docs page anew). variant/color/size/
+  # rounded/padding/space style the panel; clickable (click-vs-hover), smart_position and nomobile are
+  # the hook's real flags.
+  def show(%{component: "dropdown"} = assigns) do
+    assigns =
+      assigns
+      |> assign(:dd_id, "#{assigns.id}-#{:erlang.phash2(assigns.props)}")
+      # When smart_position is on, drop the trigger to the bottom of a tall box so it sits low in the
+      # VIEWPORT — that's the only condition under which the hook flips the menu upward (otherwise the
+      # trigger is pinned near the top of the page and there's always room below, so it never flips).
+      |> assign(:smart?, assigns.props[:smart_position] == true)
+
+    ~H"""
+    <div class="w-full">
+      <div
+        class={["flex w-full justify-center", (@smart? && "items-end") || "items-center"]}
+        style={@smart? && "height: 70vh; max-height: 34rem;"}
+      >
+        <.dropdown id={@dd_id} {@props}>
+          <:trigger>
+            <.button variant="outline" color="natural" size="small" class="gap-2">
+              Account menu <.icon name="hero-chevron-down" class="size-4 opacity-70" />
+            </.button>
+          </:trigger>
+          <:content>
+            <ul class="min-w-44 text-sm">
+              <li class="flex cursor-pointer items-center gap-2 px-3 py-2 hover:opacity-80">
+                <.icon name="hero-user-circle" class="size-4 opacity-70" /> Profile
+              </li>
+              <li class="flex cursor-pointer items-center gap-2 px-3 py-2 hover:opacity-80">
+                <.icon name="hero-cog-6-tooth" class="size-4 opacity-70" /> Settings
+              </li>
+              <li class="flex cursor-pointer items-center gap-2 px-3 py-2 hover:opacity-80">
+                <.icon name="hero-credit-card" class="size-4 opacity-70" /> Billing
+              </li>
+              <li class="flex cursor-pointer items-center gap-2 px-3 py-2 hover:opacity-80">
+                <.icon name="hero-arrow-right-on-rectangle" class="size-4 opacity-70" /> Sign out
+              </li>
+            </ul>
+          </:content>
+        </.dropdown>
+      </div>
+      <p :if={@smart?} class="mt-3 text-center text-xs text-base-content/50">
+        Smart position on: the trigger sits low in the viewport, so opening the menu flips it
+        <span class="font-medium">upward</span> when there's no room below.
+      </p>
+    </div>
+    """
+  end
+
+  def show(%{component: "footer"} = assigns) do
+    ~H"""
+    <div class="w-full text-left">
+      <.footer id={@id} space="small" {@props}>
+        <.footer_section padding="small" class="border-b border-current/15">
+          <h4 class="flex items-center gap-1.5 font-bold text-base">
+            <.icon name="hero-sparkles" class="size-4" /> Mishka Chelekom
+          </h4>
+        </.footer_section>
+
+        <.footer_section padding="small" class="grid grid-cols-2 gap-3">
+          <ul class="space-y-1.5 text-sm">
+            <li><.link href="#" class="hover:underline">Docs</.link></li>
+            <li><.link href="#" class="hover:underline">Components</.link></li>
+            <li><.link href="#" class="hover:underline">Blog</.link></li>
+          </ul>
+          <ul class="space-y-1.5 text-sm">
+            <li><.link href="#" class="hover:underline">About</.link></li>
+            <li><.link href="#" class="hover:underline">Contact</.link></li>
+            <li><.link href="#" class="hover:underline">License</.link></li>
+          </ul>
+        </.footer_section>
+
+        <.footer_section text_position="center" padding="small" class="border-t border-current/15 text-xs">
+          © 2026 Mishka Chelekom. All rights reserved.
+        </.footer_section>
+      </.footer>
+    </div>
+    """
+  end
+
+  def show(%{component: "mega_menu"} = assigns) do
+    # Render the mega_menu with its REAL behavior instead of forcing it permanently open. The panel
+    # (`.mega-menu-content`) stays `absolute top-full` (out of flow), so opening/closing it — or changing
+    # padding/size/space — never resizes the preview box. The root carries `relative` so the panel drops
+    # right below the trigger, and a fixed-height "stage" reserves room so the open panel is fully visible
+    # without overflowing into the controls. Open it by HOVER (default) or CLICK (when `clickable` is on);
+    # all controls drive the root via {@props}.
+    #
+    # NB: the earlier `content_class="show-mega-menu !relative ..."` hack caused two bugs — `show-mega-menu`
+    # pinned it open (so hover couldn't close it and a click-away was the only way to shut it), and
+    # `!relative` put the panel in-flow so its height resized the box. Both are gone now.
+    ~H"""
+    <div class="w-full text-left">
+      <p class="mb-2 text-xs text-base-content/50">
+        Hover the trigger to open it — enable <span class="font-medium">clickable</span> to switch to
+        click-to-toggle.
+      </p>
+      <div class="relative min-h-48">
+        <.mega_menu id={@id} class="relative" top_gap="none" width="full" {@props}>
+          <:trigger>
+            <.button variant="outline" color="natural" size="small" class="w-full justify-between">
+              Products <.icon name="hero-chevron-down" class="size-4" />
+            </.button>
+          </:trigger>
+
+          <div class="grid grid-cols-2 gap-x-6 gap-y-1 p-1">
+            <ul class="space-y-2">
+              <li class="cursor-pointer hover:underline hover:text-primary-light">Components</li>
+              <li class="cursor-pointer hover:underline hover:text-primary-light">Templates</li>
+              <li class="cursor-pointer hover:underline hover:text-primary-light">Pricing</li>
+            </ul>
+            <ul class="space-y-2">
+              <li class="cursor-pointer hover:underline hover:text-primary-light">Docs</li>
+              <li class="cursor-pointer hover:underline hover:text-primary-light">Changelog</li>
+              <li class="cursor-pointer hover:underline hover:text-primary-light">Support</li>
+            </ul>
+          </div>
+        </.mega_menu>
+      </div>
+    </div>
+    """
+  end
+
+  def show(%{component: "menu"} = assigns) do
+    ~H"""
+    <.menu id={@id} {@props} class="w-full max-w-[260px] mx-auto text-left">
+      <li>
+        <.button
+          display="flex"
+          full_width
+          size="py-1 px-2"
+          icon="hero-home"
+          icon_class="size-5"
+          content_position="start"
+        >
+          Dashboard
+        </.button>
+      </li>
+
+      <li>
+        <.button
+          display="flex"
+          full_width
+          size="py-1 px-2"
+          icon="hero-envelope-open"
+          icon_class="size-5"
+          content_position="start"
+          content_class="flex justify-between items-center gap-2 w-full"
+        >
+          <span>Inbox</span>
+          <.badge size="w-7 text-[11px] h-5">10</.badge>
+        </.button>
+      </li>
+
+      <%!-- A nested submenu toggled with `Phoenix.LiveView.JS` (a plain click → show/hide), NOT the
+            `<.collapse>` JS hook — the hook's inline max-height/overflow gets wiped when the live preview
+            re-renders on a control change, which clips/overlaps the items. Click "E-commerce" to open/close;
+            it starts open so the nesting is visible. Collapse has its own showcase page. --%>
+      <li>
+        <.button
+          phx-click={
+            JS.toggle(to: "#menu-ecom-sub")
+            |> JS.toggle_class("rotate-180", to: "#menu-ecom-caret")
+          }
+          display="flex"
+          full_width
+          size="py-1 px-2"
+          icon="hero-shopping-cart"
+          icon_class="size-5"
+          content_position="start"
+          content_class="flex justify-between items-center gap-2 w-full"
+        >
+          E-commerce
+          <span id="menu-ecom-caret" class="rotate-180 transition-transform duration-200">
+            <.icon name="hero-chevron-down" class="size-4 opacity-60" />
+          </span>
+        </.button>
+
+        <ul id="menu-ecom-sub" class="mt-1 ml-5 space-y-1 border-l border-base-300 pl-3">
+          <li>
+            <.button
+              display="flex"
+              full_width
+              size="py-1 px-2"
+              icon="hero-cube"
+              icon_class="size-4 opacity-70"
+              content_position="start"
+            >
+              Products
+            </.button>
+          </li>
+          <li>
+            <.button
+              display="flex"
+              full_width
+              size="py-1 px-2"
+              icon="hero-document-text"
+              icon_class="size-4 opacity-70"
+              content_position="start"
+            >
+              Invoices
+            </.button>
+          </li>
+        </ul>
+      </li>
+
+      <li>
+        <.button
+          display="flex"
+          full_width
+          size="py-1 px-2"
+          icon="hero-user-group"
+          icon_class="size-5"
+          content_position="start"
+        >
+          Users
+        </.button>
+      </li>
+
+      <li>
+        <.button
+          display="flex"
+          full_width
+          size="py-1 px-2"
+          icon="hero-cog-6-tooth"
+          icon_class="size-5"
+          content_position="start"
+        >
+          Settings
+        </.button>
+      </li>
+    </.menu>
+    """
+  end
+
+  def show(%{component: "navbar"} = assigns) do
+    # The navbar is a full-page-width top nav: at the `md:` breakpoint it lays its brand + links in a
+    # single nowrap row. In this narrow preview that row is wider than the box, and because the navbar
+    # is a shrink-to-fit, centered flex item it bled past BOTH edges. Pin it to the box width
+    # (`class="w-full"` inside a `w-full` block) so it fills the box instead of overflowing it, and
+    # `overflow-hidden` guarantees nothing escapes the card. Trimmed to Home + Dashboard so the row fits
+    # comfortably in the narrow box without clipping.
+    ~H"""
+    <div class="w-full overflow-hidden">
+      <.navbar id={@id} name="Acme" link="#" class="w-full" {@props}>
+        <:list icon="hero-home" icon_class="size-4 block me-1.5">
+          <.link href="#">Home</.link>
+        </:list>
+        <:list icon="hero-squares-2x2" icon_class="size-4 block me-1.5">
+          <.link href="#">Dashboard</.link>
+        </:list>
+      </.navbar>
+    </div>
+    """
+  end
+
+  def show(%{component: "scroll_area"} = assigns) do
+    # The viewport is `overflow-auto`, so it scrolls whichever way the CONTENT overflows; the
+    # horizontal/vertical flags just reveal that direction's custom scrollbar. So give each orientation
+    # its proper shape: with the `horizontal` flag on, render a WIDE nowrap row (overflows sideways →
+    # horizontal scroll is testable); otherwise the TALL notification list (overflows down → vertical).
+    items = [
+      {"Deployment succeeded", "production-web-01 · build #482", "2m ago"},
+      {"New comment on PR #128", "Refactor the auth pipeline middleware", "14m ago"},
+      {"Database backup completed", "snapshot stored to s3://backups/db", "1h ago"},
+      {"Invitation accepted", "sarah.kim@example.com joined the team", "3h ago"},
+      {"Build queued", "feature/scroll-area pipeline run", "5h ago"},
+      {"SSL certificate renewed", "valid until 2027-06-15 · auto-renew", "1d ago"}
+    ]
+
+    assigns =
+      assigns
+      |> assign(:items, items)
+      |> assign(:horizontal?, assigns.props[:horizontal] == true)
+
+    ~H"""
+    <div class="w-full max-w-[280px] text-left rounded-lg border border-black/10 dark:border-white/10">
+      <.scroll_area id={@id} height="h-44" width="w-full" {@props}>
+        <%!-- horizontal flag on: a wide row of fixed-width cards → overflows sideways --%>
+        <div :if={@horizontal?} class="flex w-max gap-3 pe-2">
+          <div
+            :for={{title, detail, when_} <- @items}
+            class="w-44 shrink-0 rounded-md bg-black/5 p-2 dark:bg-white/10"
+          >
+            <p class="truncate text-sm font-semibold">{title}</p>
+            <p class="mt-0.5 truncate text-xs opacity-70">{detail}</p>
+            <span class="text-[11px] opacity-60">{when_}</span>
+          </div>
+        </div>
+
+        <%!-- default (vertical): the tall notification list → overflows down --%>
+        <div :if={!@horizontal?} class="space-y-2">
+          <div
+            :for={{title, detail, when_} <- @items}
+            class="rounded-md bg-black/5 p-2 dark:bg-white/10"
+          >
+            <div class="flex items-center justify-between gap-2">
+              <p class="truncate text-sm font-semibold">{title}</p>
+              <span class="whitespace-nowrap text-[11px] opacity-60">{when_}</span>
+            </div>
+            <p class="whitespace-nowrap text-xs opacity-70">{detail}</p>
+          </div>
+        </div>
+      </.scroll_area>
+    </div>
+    """
+  end
+
+  def show(%{component: "sidebar"} = assigns) do
+    # sidebar renders as a `fixed h-screen` overlay (escapes the preview + can be translated
+    # off-screen by `hide_position`). Pin it INSIDE the preview box: `!relative !h-auto !z-0` drops
+    # the fixed/full-height positioning, `!transform-none` neutralises the slide-out translate that
+    # `hide_position` applies, and `max-w-full w-full` keeps every `size` (w-60..w-96) inside the
+    # ~320px aside. id + {@props} drive variant/color/size/minimize + the extra border/position/
+    # hide_position dims. The `:item` slot gives a real, always-visible nav list.
+    ~H"""
+    <.sidebar
+      id={@id}
+      {@props}
+      list_wrapper_class="ps-2.5"
+      class="!relative !h-auto !z-0 !transform-none max-w-full w-full max-h-72 rounded"
+    >
+      <:item icon="hero-home" label="Dashboard" link="/" class="mb-2 text-sm" />
+      <:item icon="hero-inbox" label="Messages" link="/" class="mb-2 text-sm" />
+      <:item icon="hero-folder" label="Projects" link="/" class="mb-2 text-sm" />
+      <:item icon="hero-chart-bar" label="Analytics" link="/" class="mb-2 text-sm" />
+      <:item icon="hero-cog-6-tooth" label="Settings" link="/" class="mb-2 text-sm" />
+    </.sidebar>
+    """
+  end
+
+  def show(%{component: "drawer"} = assigns) do
+    # The REAL, interactive drawer — the canonical Mishka pattern (a trigger button +
+    # `Drawer.show_drawer(id, position)`) so the `show` flag AND the open/close/slide are all testable,
+    # not pinned. Scoped to the box with `!absolute` (sides fill height, top/bottom span width) so it
+    # slides in/out INSIDE the preview instead of over the whole page. The id carries a hash of the props
+    # so any control change remounts it cleanly — its `phx-mounted={@show && show_drawer(...)}` re-fires
+    # and it re-opens at the new position/variant (a plain patch would otherwise re-add the slide-away
+    # translate and it would vanish). `show` defaults on (preview_override) so it's visible immediately;
+    # toggle `show` off, or close via the ✕ / overlay / Esc, then hit "Open drawer" to slide it back in.
+    pos = Map.get(assigns.props, :position, "left")
+
+    assigns =
+      assigns
+      |> assign(:side?, pos in ["left", "right", nil])
+      |> assign(:pos, pos)
+      |> assign(:drawer_id, "#{assigns.id}-#{:erlang.phash2(assigns.props)}")
+
+    ~H"""
+    <div class="relative grid h-72 w-full place-items-center overflow-hidden rounded-box border border-base-300 bg-base-200/30">
+      <.button
+        size="small"
+        variant="outline"
+        color="natural"
+        phx-click={DevelopmentWeb.Components.Drawer.show_drawer(@drawer_id, @pos)}
+      >
+        Open drawer
+      </.button>
+
+      <.drawer
+        id={@drawer_id}
+        title="Menu"
+        class={[
+          "!absolute !z-10",
+          @side? && "!h-full",
+          !@side? && "!inset-x-0 !w-full"
+        ]}
+        overlay_class="!absolute"
+        {@props}
+      >
+        <ul class="space-y-1 text-sm">
+          <li class="flex items-center gap-2 rounded px-3 py-2 hover:bg-black/10 cursor-pointer">
+            <.icon name="hero-home" class="size-4" /> Dashboard
+          </li>
+          <li class="flex items-center gap-2 rounded px-3 py-2 hover:bg-black/10 cursor-pointer">
+            <.icon name="hero-inbox" class="size-4" /> Inbox
+          </li>
+          <li class="flex items-center gap-2 rounded px-3 py-2 hover:bg-black/10 cursor-pointer">
+            <.icon name="hero-star" class="size-4" /> Favorites
+          </li>
+          <li class="flex items-center gap-2 rounded px-3 py-2 hover:bg-black/10 cursor-pointer">
+            <.icon name="hero-cog-6-tooth" class="size-4" /> Settings
+          </li>
+        </ul>
+      </.drawer>
+    </div>
+    """
+  end
+
+  def show(%{component: "modal"} = assigns) do
+    # The modal is `relative z-50 hidden` at the root, with a `fixed inset-0` overlay + wrapper, revealed
+    # by `show_modal/1` (JS) on mount. The previous scoped attempt rendered NOTHING because it only made
+    # the overlay/wrapper `!absolute` while the root stayed `relative` with NO size (its children are all
+    # out-of-flow) — so `absolute inset-0` positioned against a 0×0 box → invisible. Fixes:
+    #   * SCOPE it to the box AND give it size: the root gets `!absolute !inset-0` so it FILLS the box;
+    #     overlay/wrapper get `!absolute` so they fill the root (= box) instead of the whole page.
+    #   * make `show` + open/close TESTABLE (like the drawer): a trigger button runs `show_modal(id)`,
+    #     and the id carries a hash of the props so any control change remounts it → its
+    #     `phx-mounted={@show && show_modal}` re-fires and it re-opens at the new look (a plain patch
+    #     would re-apply `hidden` and it would vanish).
+    # `show` defaults on (preview_override) so it's visible immediately; toggle it off / close via the ✕ /
+    # Esc / overlay, then hit "Open modal" to reopen. {@props} drives variant/color/size/rounded/padding.
+    modal_id = "#{assigns.id}-#{:erlang.phash2(assigns.props)}"
+    assigns = assign(assigns, :modal_id, modal_id)
+
+    ~H"""
+    <div class="relative grid h-60 w-full place-items-center overflow-hidden rounded-box border border-base-300 bg-base-200/30">
+      <.button
+        size="small"
+        variant="outline"
+        color="natural"
+        phx-click={DevelopmentWeb.Components.Modal.show_modal(@modal_id)}
+      >
+        Open modal
+      </.button>
+
+      <.modal
+        id={@modal_id}
+        title="Delete project?"
+        class="!absolute !inset-0"
+        overlay_class="!absolute"
+        wrapper_class="!absolute"
+        {@props}
+      >
+        <div class="space-y-4">
+          <p class="text-sm">
+            This permanently removes the <span class="font-medium">Chelekom</span>
+            workspace and all of its data. This action cannot be undone.
+          </p>
+          <div class="flex justify-end gap-2">
+            <.button
+              type="button"
+              variant="default"
+              color="natural"
+              size="small"
+              phx-click={DevelopmentWeb.Components.Modal.hide_modal(@modal_id)}
+            >
+              Cancel
+            </.button>
+            <.button
+              type="button"
+              variant="default"
+              color="danger"
+              size="small"
+              phx-click={DevelopmentWeb.Components.Modal.hide_modal(@modal_id)}
+            >
+              Delete
+            </.button>
+          </div>
+        </div>
+      </.modal>
+    </div>
+    """
+  end
+
+  def show(%{component: "overlay"} = assigns) do
+    # Overlay: root is `absolute inset-0`, so with no positioned ancestor the generic preview
+    # `<.overlay {@props}>text</.overlay>` stretches over the showcase container and renders an empty,
+    # near-invisible film. Real use (per the moduledoc / docs "content" example) is a loading screen
+    # dimming some content underneath. Scope it to a `relative` card holding mock content, then layer
+    # the overlay on top with a spinner + label. `color`/`opacity`/`backdrop` controls drive it via
+    # {@props}; the catalog `size` dim has no matching attr and is harmlessly absorbed by `:global rest`.
+    ~H"""
+    <div class="relative h-64 w-full overflow-hidden rounded-box border border-base-300 bg-base-100">
+      <div class="space-y-3 p-4">
+        <div class="flex items-center gap-3">
+          <div class="size-10 shrink-0 rounded-full bg-base-300"></div>
+          <div class="space-y-2">
+            <div class="h-3 w-32 rounded bg-base-300"></div>
+            <div class="h-2.5 w-20 rounded bg-base-200"></div>
+          </div>
+        </div>
+        <div class="h-2.5 w-full rounded bg-base-200"></div>
+        <div class="h-2.5 w-5/6 rounded bg-base-200"></div>
+        <div class="h-2.5 w-2/3 rounded bg-base-200"></div>
+        <div class="mt-4 h-9 w-28 rounded-lg bg-base-300"></div>
+      </div>
+      <.overlay id={@id} {@props}>
+        <div class="flex h-full flex-col items-center justify-center gap-3">
+          <.spinner size="large" />
+          <div class="text-sm font-medium text-base-content">Loading account…</div>
+        </div>
+      </.overlay>
+    </div>
+    """
+  end
+
+  def show(%{component: "popover"} = assigns) do
+    # The popover's visible anchor is the `:trigger` slot; its `:content` slot is the panel that is
+    # `hidden` until hover/click. The generic `<.popover>{@sample}</.popover>` renders only a bare
+    # trigger (inner_block falls back to trigger) and never shows the styled panel — so the preview
+    # looked empty. Give it a real trigger + rich `:content` (heading, text, link) so the panel is
+    # realistic when revealed.
+    #
+    # The `Floating` JS hook behaves exactly like the tooltip's: it (1) caches clickable/position/
+    # delays at mount and never re-reads them in updated(), and (2) RELOCATES the content node to
+    # <body> (setupFloatingContent → document.body.appendChild) — leaving LiveView's DOM tree. So a
+    # plain patch can't change the mounted flags AND class changes for variant/color/size/rounded/
+    # padding/space never reach the moved panel. Fix: remount on ANY control change by keying the id
+    # on a hash of the full prop set (the popover holds no user state). A changed id → LiveView
+    # removes+adds the node → destroyed() returns the panel to its parent and a fresh mount renders
+    # it with the new classes/behavior. The position control therefore also takes effect on remount.
+    #
+    # Because the panel lives on <body> and only appears on hover/click, we can't show it statically;
+    # instead we give a clear affordance (the hint flips with `clickable`) and let it reveal in place.
+    #
+    # `position` must come ONLY from {@props} — do NOT also pass a literal `position=` (a static attr
+    # wins over the spread in Phoenix, which is why it used to always show "bottom"). And `inline`
+    # switches the popover to an inline <span>, so render the matching SHAPE: when inline is on, demo it
+    # as a highlighted word inside a sentence (a block button can't sit inline); otherwise a button.
+    p = assigns.props
+
+    assigns =
+      assigns
+      |> assign(:fkey, :erlang.phash2(p))
+      |> assign(:inline?, p[:inline] == true)
+
+    ~H"""
+    <div class="flex w-full flex-col items-center gap-4 py-10">
+      <p :if={@inline?} class="max-w-xs text-center text-sm leading-relaxed">
+        Mishka Chelekom is written in
+        <.popover id={"#{@id}-#{@fkey}"} {@props}>
+          <:trigger class="cursor-pointer font-medium text-primary-light underline decoration-dotted underline-offset-2">
+            Elixir
+          </:trigger>
+          <:content>
+            <span class="block font-semibold">Elixir</span>
+            <span class="block text-xs leading-relaxed opacity-90">
+              A dynamic, functional language for building scalable, maintainable applications.
+            </span>
+          </:content>
+        </.popover>
+        — {if @props[:clickable], do: "click", else: "hover"} the highlighted word.
+      </p>
+
+      <.popover :if={!@inline?} id={"#{@id}-#{@fkey}"} {@props}>
+        <:trigger>
+          <.button variant="outline" color="primary" size="small" class="gap-1.5">
+            <.icon name="hero-information-circle" class="size-4" /> Account details
+          </.button>
+        </:trigger>
+        <:content>
+          <h4 class="font-semibold">Workspace plan</h4>
+          <span class="block text-xs leading-relaxed opacity-90">
+            You are on the Pro plan with 8 of 10 seats used. Upgrade any time to add more members.
+          </span>
+          <a href="#" class="block text-xs underline underline-offset-2">
+            Manage billing <.icon name="hero-arrow-right" class="size-3" />
+          </a>
+        </:content>
+      </.popover>
+
+      <p :if={!@inline?} class="text-xs text-base-content/40">
+        {if @props[:clickable], do: "Click", else: "Hover or focus"} the trigger to reveal it.
+      </p>
+    </div>
+    """
+  end
+
   def show(%{component: "carousel"} = assigns) do
     ~H"""
     <.carousel id={@id} {@props}>
@@ -782,12 +1356,22 @@ defmodule DevelopmentWeb.Showcase.Preview do
   end
 
   def show(%{component: "dock"} = assigns) do
+    # Dock = bottom navigation bar. Its `position` attr can be `fixed_*`/`sticky_*` which would
+    # float over the whole page, but the catalog doesn't expose `position` and the default
+    # `static` resolves to `relative`, so the dock renders INLINE in the preview box (no JS hook —
+    # pure CSS positioning, so no nonce/remount concern). We wrap it in a `relative` box and force
+    # `!relative !w-full` on the nav so the optional `position` extra dim can never break out of the
+    # box. Realistic content: Home (active), an Inbox + Alerts with badges, and Settings — driven by
+    # the catalog controls (variant/color/size/rounded/padding/space/border/max_width + show_labels).
     ~H"""
-    <.dock id={@id} {@props}>
-      <:item icon="hero-home" label="Home" />
-      <:item icon="hero-user" label="Profile" />
-      <:item icon="hero-cog-6-tooth" label="Settings" />
-    </.dock>
+    <div class="relative w-full max-w-[300px] overflow-hidden">
+      <.dock id={@id} {@props} class="!relative !w-full !translate-x-0 !bottom-auto !top-auto">
+        <:item icon="hero-home" label="Home" navigate="/" active />
+        <:item icon="hero-inbox" label="Inbox" navigate="/inbox" badge="3" />
+        <:item icon="hero-bell" label="Alerts" navigate="/alerts" badge="9+" />
+        <:item icon="hero-cog-6-tooth" label="Settings" navigate="/settings" />
+      </.dock>
+    </div>
     """
   end
 
@@ -831,23 +1415,47 @@ defmodule DevelopmentWeb.Showcase.Preview do
     """
   end
 
+  # Image: a locally-served SVG (no external URL) so it works offline + is copyright-free. Exposes the
+  # `filter` control (grayscale/sepia/blur/…); `filter_size="large"` makes the intensity filters obvious.
   def show(%{component: "image"} = assigns) do
+    assigns =
+      assign(assigns, :img_filter, if(assigns.props[:filter] in [nil, "none"], do: "", else: assigns.props[:filter]))
+
     ~H"""
-    <.image id={@id} src="https://picsum.photos/seed/mishka/320/200" alt="Sample" {@props} />
+    <div class="w-64">
+      <.image
+        id={@id}
+        src="/images/card-media.svg"
+        alt="Abstract dusk landscape (locally generated, no copyright)"
+        rounded={@props[:rounded]}
+        filter={@img_filter}
+        filter_size="large"
+        class="w-full"
+      />
+    </div>
     """
   end
 
   def show(%{component: "video"} = assigns) do
     ~H"""
-    <.video id={@id} {@props}>
-      <:source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4" />
+    <.video id={@id} thumbnail="/images/video-poster.jpg" controls preload="metadata" {@props}>
+      <:source src="/videos/sample.mp4" type="video/mp4" />
     </.video>
     """
   end
 
   def show(%{component: "pagination"} = assigns) do
+    # Pure inline <nav> — no JS hook / no positioning, so no scoping. BUT grouped and hide_controls are
+    # PRESENCE flags in the component (`!is_nil(@rest[:grouped])` / `is_nil(@rest[:hide_controls])`), so
+    # passing them as `false` reads as "set" and the toggle would stick ON. Strip the false ones before
+    # spreading so the checkboxes actually toggle. (show_edges uses a plain truthy check, fine either way;
+    # stripped too for uniformity.) total/active (PAGE numbers, not items) come from the live sliders →
+    # default active=1, total=10 renders the docs' "1 2 3 4 5 … 10" with page 1 active.
+    presence_off = fn {k, v} -> k in [:grouped, :hide_controls, :show_edges] and v == false end
+    assigns = assign(assigns, :pg_props, assigns.props |> Enum.reject(presence_off) |> Map.new())
+
     ~H"""
-    <.pagination id={@id} total={100} active={1} {@props} />
+    <.pagination id={@id} {@pg_props} />
     """
   end
 
@@ -1256,7 +1864,8 @@ defmodule DevelopmentWeb.Showcase.Preview do
     # The tooltip's visible anchor comes from the `:trigger` slot ONLY — its inner_block is treated as
     # hidden tooltip *content* (see the component's render), so the generic `<.tooltip>{@sample}</.tooltip>`
     # preview renders an empty trigger and shows nothing. Give it a real trigger plus `text`; the styled
-    # bubble (driven by variant/color/size/… from the controls via {@props}) appears on hover or focus.
+    # bubble (driven by variant/color/size/rounded/padding from the controls via {@props}) appears on
+    # hover or focus.
     #
     # The `Floating` JS hook (1) caches clickable/position/delays at mount and never re-reads them in
     # updated(), and (2) RELOCATES the tooltip bubble to <body> (setupFloatingContent → appendChild) —
@@ -1267,17 +1876,21 @@ defmodule DevelopmentWeb.Showcase.Preview do
     # element → destroyed() returns the bubble to its parent and a fresh mount renders it with the new
     # classes/behavior.
     #
+    # `position` is surfaced as an extra_dim (it isn't a catalog dim) and flows in via {@props}; BOTH the
+    # button and the in-text tooltip honour it (each id is keyed on @fkey, so a position change remounts
+    # the hook and floating.js re-reads data-position). The wrapper gets `py-10` so "top" has room above
+    # the trigger instead of being clamped against the sticky aside's top edge.
+    #
     # Two examples, because one trigger can't show every option: the BUTTON shows clickable (the label
-    # flips hover↔click) and show_arrow (arrow on the bubble); the IN-TEXT one shows `inline` — when
-    # inline the trigger is a `<span>` that flows inside the sentence, otherwise a block `<div>` that
-    # breaks onto its own line.
+    # flips hover↔click), show_arrow and `position`; the IN-TEXT one shows `inline` — when inline the
+    # trigger is a `<span>` that flows inside the sentence, otherwise a block `<div>` on its own line.
     p = assigns.props
     assigns = assign(assigns, :fkey, :erlang.phash2(p))
 
     ~H"""
-    <div class="flex w-full flex-col items-center gap-6">
+    <div class="flex w-full flex-col items-center gap-6 py-10">
       <div class="flex flex-col items-center gap-2">
-        <.tooltip id={"#{@id}-btn-#{@fkey}"} text="This is a tooltip" position="bottom" {@props}>
+        <.tooltip id={"#{@id}-btn-#{@fkey}"} text="This is a tooltip" {@props}>
           <:trigger>
             <.button variant="outline" color="primary" size="small">
               {if @props[:clickable], do: "Click me", else: "Hover me"}
@@ -1294,7 +1907,6 @@ defmodule DevelopmentWeb.Showcase.Preview do
         <.tooltip
           id={"#{@id}-inline-#{@fkey}"}
           text="An inline tooltip flows with the text"
-          position="top"
           {@props}
         >
           <:trigger>

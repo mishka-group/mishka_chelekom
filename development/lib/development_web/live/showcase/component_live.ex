@@ -462,6 +462,11 @@ defmodule DevelopmentWeb.Showcase.ComponentLive do
   defp preview_override("timeline"), do: %{color: "primary", size: "medium"}
   # gallery: 3 columns, a comfortable gap and rounded tiles by default.
   defp preview_override("gallery"), do: %{cols: "three", gap: "small", rounded: "medium"}
+  # dropdown: a filled panel so the color is obvious the moment you open the menu (switch variant to
+  # outline/shadow/base for a white menu). Click the trigger to open it. `position` starts at bottom.
+  defp preview_override("dropdown"), do: %{variant: "default", color: "primary", position: "bottom"}
+  # image: rounded by default; `filter` starts at none.
+  defp preview_override("image"), do: %{rounded: "medium"}
   # typography: a neutral, medium default so the specimen reads naturally (recolor via the control).
   defp preview_override("typography"), do: %{color: "natural", size: "medium"}
   # stepper: vertical reads well in the narrow preview (toggle off for a horizontal row). No `space` —
@@ -472,6 +477,28 @@ defmodule DevelopmentWeb.Showcase.ComponentLive do
   # card with medium size/rounding/padding — plus a positive trend, matching the docs example.
   defp preview_override("stat"),
     do: %{trend: "up", variant: "base", size: "medium", rounded: "medium", padding: "medium"}
+  # dock: a shadowed, primary, roundly-cornered bar reads as a real bottom nav out of the box.
+  defp preview_override("dock"), do: %{variant: "shadow", color: "primary", rounded: "large"}
+  # footer: the plain `default` variant + natural color give a clean, legible footer surface.
+  defp preview_override("footer"), do: %{variant: "default", color: "natural"}
+  # mega_menu: a clean `base` panel with comfortable padding/spacing so the open menu reads well.
+  defp preview_override("mega_menu"),
+    do: %{variant: "base", color: "natural", rounded: "large", padding: "small", space: "small"}
+  # sidebar: hide to the left by default (matches the in-box pinning in the preview).
+  defp preview_override("sidebar"), do: %{hide_position: "left"}
+  # drawer: a small primary drawer that slides in from the left, OPEN on load (show: true) so it's
+  # visible immediately; toggle `show` off / close it / reopen with the "Open drawer" button.
+  defp preview_override("drawer"),
+    do: %{variant: "default", color: "primary", size: "small", position: "left", show: true}
+  # modal: force it OPEN inline so the dialog is visible without a JS trigger (toggle off to hide).
+  defp preview_override("modal"), do: %{show: true}
+  # overlay: a base, semi-opaque film with a small backdrop blur reads as a real loading scrim.
+  defp preview_override("overlay"), do: %{color: "base", opacity: "semi_opaque", backdrop: "small"}
+  # popover: a clean default panel — primary accent, medium rounding, roomy width/spacing.
+  defp preview_override("popover"),
+    do: %{variant: "default", color: "primary", rounded: "medium", padding: "small", width: "large", space: "small"}
+  # tooltip: default the button tooltip to the bottom so it doesn't clip the top of the preview.
+  defp preview_override("tooltip"), do: %{position: "bottom"}
   defp preview_override(_), do: %{}
 
   # Default the preview to options that actually show the component off: a color-bearing variant

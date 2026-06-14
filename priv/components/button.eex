@@ -452,6 +452,7 @@ defmodule <%= @module %> do
         @full_width && "w-full",
         @font_weight,
         @line_height,
+        @display,
         @class
       ]}
       {drop_rest(@rest)}
@@ -495,6 +496,7 @@ defmodule <%= @module %> do
         @full_width && "w-full",
         @font_weight,
         @line_height,
+        @display,
         @class
       ]}
       {drop_rest(@rest)}

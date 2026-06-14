@@ -82,26 +82,26 @@ item that needs follow-up.
 - [x] gallery — `/showcase/gallery`
 - [x] icon — `/showcase/icon`
 - [x] image — `/showcase/image`
-- [ ] video — `/showcase/video`
+- [x] video — `/showcase/video`
 
 ### navigations
-- [ ] breadcrumb — `/showcase/breadcrumb`
-- [ ] dock — `/showcase/dock`
-- [ ] dropdown — `/showcase/dropdown`
-- [ ] footer — `/showcase/footer`
-- [ ] mega_menu — `/showcase/mega_menu`
-- [ ] menu — `/showcase/menu`
-- [ ] navbar — `/showcase/navbar`
-- [ ] pagination — `/showcase/pagination`
-- [ ] scroll_area — `/showcase/scroll_area`
-- [ ] sidebar — `/showcase/sidebar`
+- [x] breadcrumb — `/showcase/breadcrumb`
+- [x] dock — `/showcase/dock`
+- [x] dropdown — `/showcase/dropdown`
+- [x] footer — `/showcase/footer`
+- [x] mega_menu — `/showcase/mega_menu`
+- [x] menu — `/showcase/menu`
+- [x] navbar — `/showcase/navbar`
+- [x] pagination — `/showcase/pagination`
+- [x] scroll_area — `/showcase/scroll_area`
+- [x] sidebar — `/showcase/sidebar`
 
 ### overlays
-- [ ] drawer — `/showcase/drawer`
-- [ ] modal — `/showcase/modal`
-- [ ] overlay — `/showcase/overlay`
-- [ ] popover — `/showcase/popover`
-- [ ] tooltip — `/showcase/tooltip`
+- [x] drawer — `/showcase/drawer`
+- [x] modal — `/showcase/modal`
+- [x] overlay — `/showcase/overlay`
+- [x] popover — `/showcase/popover`
+- [x] tooltip — `/showcase/tooltip`
 
 ---
 
