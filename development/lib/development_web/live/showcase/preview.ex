@@ -124,6 +124,63 @@ defmodule DevelopmentWeb.Showcase.Preview do
     """
   end
 
+  # Progress: four renderers behind one `type` control — bar (horizontal/vertical), ring, semi-circle.
+  # `value` (the range slider) and `color` drive all; `variant`/`size`/`rounded` shape the bar. The
+  # bar only fills when `value` is set, so it's passed explicitly (the old preview passed none → empty).
+  def show(%{component: "progress"} = assigns) do
+    assigns = assign(assigns, :ptype, assigns.props[:type] || "horizontal")
+
+    ~H"""
+    <div class="flex items-center justify-center">
+      <%= case @ptype do %>
+        <% "ring" -> %>
+          <.ring_progress
+            id={@id}
+            value={@props[:value]}
+            color={@props[:color]}
+            label={"#{@props[:value]}%"}
+          />
+        <% "semi_circle" -> %>
+          <.semi_circle_progress
+            id={@id}
+            value={@props[:value]}
+            color={@props[:color]}
+            label={"#{@props[:value]}%"}
+          />
+        <% "vertical" -> %>
+          <div class="flex items-end gap-4">
+            <.progress
+              id={@id}
+              value={@props[:value]}
+              variation="vertical"
+              color={@props[:color]}
+              variant={@props[:variant]}
+              size={@props[:size]}
+              rounded={@props[:rounded]}
+            />
+            <span class="text-sm font-semibold tabular-nums">{@props[:value]}%</span>
+          </div>
+        <% _ -> %>
+          <div class="w-72 space-y-2">
+            <div class="flex items-center justify-between text-sm">
+              <span class="text-base-content/70">Uploading project files…</span>
+              <span class="font-semibold tabular-nums">{@props[:value]}%</span>
+            </div>
+            <.progress
+              id={@id}
+              value={@props[:value]}
+              variation="horizontal"
+              color={@props[:color]}
+              variant={@props[:variant]}
+              size={@props[:size]}
+              rounded={@props[:rounded]}
+            />
+          </div>
+      <% end %>
+    </div>
+    """
+  end
+
   # Keyboard: a `<kbd>` key. One key holding "Mishka Chelekom" looks like a pill — show what it's for:
   # a shortcuts cheat-sheet (Ctrl + C, ⌘ + K …), each key a `<.keyboard>` driven by the controls.
   def show(%{component: "keyboard"} = assigns) do
@@ -209,6 +266,63 @@ defmodule DevelopmentWeb.Showcase.Preview do
           Inbox <.indicator color={@ind_color} size={@ind_size} {@on_button_attrs} />
         </.button>
         <span class="text-[11px] text-base-content/50">on a button · {@props[:position]}</span>
+      </div>
+    </div>
+    """
+  end
+
+  # Rating: render in NON-field mode so the `interactive` flag is honoured (the form-field clause
+  # forces interactive=true, which made the toggle look dead). Interactive non-field stars push the
+  # "rating" event on click → ComponentLive updates `select`. `select` (slider, default 2) drives the
+  # fill, `precision` (full/half) the half-star clicking.
+  def show(%{component: "rating"} = assigns) do
+    assigns = assign(assigns, :prec, if(assigns.props[:precision] == "half", do: 0.5, else: 1.0))
+
+    ~H"""
+    <div class="flex flex-col items-center gap-3">
+      <.rating
+        id={@id}
+        select={@props[:select]}
+        precision={@prec}
+        interactive={@props[:interactive]}
+        color={@props[:color]}
+        size={@props[:size]}
+        count={5}
+      />
+      <div class="text-sm text-base-content/60">
+        <span class="font-semibold text-base-content tabular-nums">{@props[:select]}</span>
+        / 5
+        <span :if={@props[:interactive]} class="ml-1 text-xs text-base-content/40">
+          · click the stars
+        </span>
+      </div>
+    </div>
+    """
+  end
+
+  # Shape: it clips its content into a form — text looks bad clipped, so fill it instead. Show the
+  # chosen `variant`/`size`/`half` two ways: a vibrant gradient (inner_block) and a local image (`src`).
+  def show(%{component: "shape"} = assigns) do
+    assigns =
+      assign(assigns, :shape_half, if(assigns.props[:half] in [nil, "none", ""], do: nil, else: assigns.props[:half]))
+
+    ~H"""
+    <div class="flex flex-wrap items-center justify-center gap-8">
+      <div class="flex flex-col items-center gap-2">
+        <.shape variant={@props[:variant]} size={@props[:size]} half={@shape_half}>
+          <div class="size-full bg-linear-to-br from-indigo-500 to-fuchsia-500"></div>
+        </.shape>
+        <span class="text-[11px] text-base-content/50">gradient</span>
+      </div>
+      <div class="flex flex-col items-center gap-2">
+        <.shape
+          variant={@props[:variant]}
+          size={@props[:size]}
+          half={@shape_half}
+          src="/images/card-media.svg"
+          alt="Sample"
+        />
+        <span class="text-[11px] text-base-content/50">image</span>
       </div>
     </div>
     """

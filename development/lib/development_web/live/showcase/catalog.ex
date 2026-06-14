@@ -225,6 +225,41 @@ defmodule DevelopmentWeb.Showcase.Catalog do
     ]
   end
 
+  # shape: `variant` (the shape) and `half` aren't enumerated in the catalog — surface them so every
+  # shape can be picked, plus the half-shape mode.
+  defp extra_dims("shape") do
+    [
+      %{
+        key: "variant",
+        attr: "variant",
+        type: :string,
+        values:
+          ~w(squircle circle square heart star star_alt diamond pentagon hexagon hexagon_alt decagon triangle triangle_down triangle_left triangle_right)
+      },
+      %{key: "half", attr: "half", type: :string, values: ~w(none first second)}
+    ]
+  end
+
+  # rating: `select` (the chosen value) has no enumerable values — expose it as a `:range` slider
+  # (0–5, half steps), defaulting to 2. `precision` (full/half) controls half-star clicking; the
+  # preview maps "full"/"half" → 1.0/0.5.
+  defp extra_dims("rating") do
+    [
+      %{key: "select", attr: "select", type: :float, kind: :range, min: 0, max: 5, step: 0.5, default: 2, values: []},
+      %{key: "precision", attr: "precision", type: :string, values: ~w(full half)}
+    ]
+  end
+
+  # progress: `value` (0–100) drives the fill but has no enumerable values — expose it as a `:range`
+  # slider so it can be dragged/set. `type` is a showcase-only switch over the four renderers
+  # (bar horizontal/vertical, ring, semi-circle); the preview maps it to the right component.
+  defp extra_dims("progress") do
+    [
+      %{key: "value", attr: "value", type: :integer, kind: :range, min: 0, max: 100, step: 5, default: 50, values: []},
+      %{key: "type", attr: "type", type: :string, values: ~w(horizontal vertical ring semi_circle)}
+    ]
+  end
+
   # layout (`<.flex>`): its attrs are free-form strings (no `values:`), so the catalog derives no
   # controls. Surface the core flexbox knobs so the arrangement can be tested live.
   defp extra_dims("layout") do

@@ -132,6 +132,12 @@ defmodule DevelopmentWeb.Showcase.ComponentLive do
   # effect already happens client-side (the dismiss JS hides the element; Reset brings it back). So we
   # just acknowledge them — a catch-all keeps any current or future component-internal event from
   # crashing the explorer.
+  # The rating component (interactive, non-field mode) pushes "rating" with the clicked star value on
+  # click — reflect it into `select` so the stars actually fill (and the slider stays in sync).
+  def handle_event("rating", %{"number" => n}, socket) do
+    {:noreply, assign(socket, :props, Map.put(socket.assigns.props, :select, n))}
+  end
+
   def handle_event(_event, _params, socket), do: {:noreply, socket}
 
   @impl true
@@ -254,7 +260,25 @@ defmodule DevelopmentWeb.Showcase.ComponentLive do
                   <span class="text-sm capitalize text-base-content/70">
                     {String.replace(dim.key, "_", " ")}
                   </span>
-                  <select name={dim.attr} class="select select-bordered select-xs w-40">
+                  <span :if={Map.get(dim, :kind) == :range} class="flex w-40 items-center gap-2">
+                    <input
+                      type="range"
+                      name={dim.attr}
+                      min={dim.min}
+                      max={dim.max}
+                      step={dim.step}
+                      value={@props[String.to_atom(dim.attr)]}
+                      class="range range-xs flex-1"
+                    />
+                    <span class="w-7 text-right text-xs tabular-nums text-base-content/70">
+                      {@props[String.to_atom(dim.attr)]}
+                    </span>
+                  </span>
+                  <select
+                    :if={Map.get(dim, :kind) != :range}
+                    name={dim.attr}
+                    class="select select-bordered select-xs w-40"
+                  >
                     <option
                       :for={v <- dim.values}
                       value={v}
@@ -423,6 +447,10 @@ defmodule DevelopmentWeb.Showcase.ComponentLive do
   defp preview_override("layout"), do: %{justify: "center", align: "center", gap: "medium"}
   # list: a clean bordered list with roomy rows, so `hoverable` reads clearly on hover.
   defp preview_override("list"), do: %{variant: "bordered", color: "natural", padding: "medium"}
+  # rating: interactive by default so the stars are clickable on load.
+  defp preview_override("rating"), do: %{interactive: true}
+  # shape: large by default so the clipped shape is clearly visible.
+  defp preview_override("shape"), do: %{size: "large"}
   defp preview_override(_), do: %{}
 
   # Default the preview to options that actually show the component off: a color-bearing variant
@@ -434,8 +462,24 @@ defmodule DevelopmentWeb.Showcase.ComponentLive do
   defp default_value(%{key: "color", values: vals}),
     do: Enum.find(vals, hd(vals), &(&1 == "primary"))
 
+  defp default_value(%{kind: :range} = dim), do: dim[:default] || dim[:min] || 0
   defp default_value(%{values: [first | _]}), do: first
 
   defp cast(v, :atom) when is_binary(v), do: String.to_atom(v)
+
+  defp cast(v, :integer) when is_binary(v) do
+    case Integer.parse(v) do
+      {n, _} -> n
+      :error -> 0
+    end
+  end
+
+  defp cast(v, :float) when is_binary(v) do
+    case Float.parse(v) do
+      {f, _} -> f
+      :error -> 0.0
+    end
+  end
+
   defp cast(v, _), do: v
 end
