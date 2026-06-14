@@ -204,7 +204,13 @@ defmodule DevelopmentWeb.Showcase.PreviewGenerated do
 
   def show(%{component: "number_field"} = assigns) do
     ~H"""
-    <.number_field id={@id} field={@form[:demo]} label="Demo field" placeholder="Enter a number" {@props} />
+    <.number_field
+      id={@id}
+      field={@form[:demo]}
+      label="Demo field"
+      placeholder="Enter a number"
+      {@props}
+    />
     """
   end
 
@@ -216,7 +222,13 @@ defmodule DevelopmentWeb.Showcase.PreviewGenerated do
 
   def show(%{component: "password_field"} = assigns) do
     ~H"""
-    <.password_field id={@id} field={@form[:demo]} label="Demo field" placeholder="Enter your password" {@props} />
+    <.password_field
+      id={@id}
+      field={@form[:demo]}
+      label="Demo field"
+      placeholder="Enter your password"
+      {@props}
+    />
     """
   end
 
@@ -318,19 +330,37 @@ defmodule DevelopmentWeb.Showcase.PreviewGenerated do
 
   def show(%{component: "tel_field"} = assigns) do
     ~H"""
-    <.tel_field id={@id} field={@form[:demo]} label="Demo field" placeholder="+1 (555) 000-0000" {@props} />
+    <.tel_field
+      id={@id}
+      field={@form[:demo]}
+      label="Demo field"
+      placeholder="+1 (555) 000-0000"
+      {@props}
+    />
     """
   end
 
   def show(%{component: "text_field"} = assigns) do
     ~H"""
-    <.text_field id={@id} field={@form[:demo]} label="Demo field" placeholder="Type something..." {@props} />
+    <.text_field
+      id={@id}
+      field={@form[:demo]}
+      label="Demo field"
+      placeholder="Type something..."
+      {@props}
+    />
     """
   end
 
   def show(%{component: "textarea_field"} = assigns) do
     ~H"""
-    <.textarea_field id={@id} field={@form[:demo]} label="Demo field" placeholder="Write your message..." {@props} />
+    <.textarea_field
+      id={@id}
+      field={@form[:demo]}
+      label="Demo field"
+      placeholder="Write your message..."
+      {@props}
+    />
     """
   end
 
@@ -366,7 +396,13 @@ defmodule DevelopmentWeb.Showcase.PreviewGenerated do
 
   def show(%{component: "url_field"} = assigns) do
     ~H"""
-    <.url_field id={@id} field={@form[:demo]} label="Demo field" placeholder="https://example.com" {@props} />
+    <.url_field
+      id={@id}
+      field={@form[:demo]}
+      label="Demo field"
+      placeholder="https://example.com"
+      {@props}
+    />
     """
   end
 

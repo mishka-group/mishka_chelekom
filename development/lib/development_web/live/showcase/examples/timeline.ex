@@ -78,8 +78,7 @@ defmodule DevelopmentWeb.Showcase.Examples.Timeline do
       <.timeline id="ex-timeline-hide-1" color="misc" hide_last_line>
         <.timeline_section title="Initial Setup" time="24 Oct, 2024"></.timeline_section>
 
-        <.timeline_section title="Component Development" time="30 Oct, 2024">
-        </.timeline_section>
+        <.timeline_section title="Component Development" time="30 Oct, 2024"></.timeline_section>
       </.timeline>
     </div>
     """

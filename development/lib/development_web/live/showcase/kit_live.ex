@@ -65,7 +65,10 @@ defmodule DevelopmentWeb.Showcase.KitLive do
      |> assign(:code_button, @code_button)
      |> assign(:code_alert, @code_alert)
      |> assign(:code_accordion, @code_accordion)
-     |> assign(:customizes, Enum.map(Kit.Info.customizes(DemoKit), &{&1.name, &1.from || &1.name}))}
+     |> assign(
+       :customizes,
+       Enum.map(Kit.Info.customizes(DemoKit), &{&1.name, &1.from || &1.name})
+     )}
   end
 
   @impl true
@@ -102,7 +105,9 @@ defmodule DevelopmentWeb.Showcase.KitLive do
                 </div>
               </div>
               <div class="space-y-1.5">
-                <div class="text-[11px] text-base-content/50">new :brand · new :glow · untouched :success</div>
+                <div class="text-[11px] text-base-content/50">
+                  new :brand · new :glow · untouched :success
+                </div>
                 <div class="flex flex-wrap items-center gap-2">
                   <DemoKit.button color="brand" size="small">brand</DemoKit.button>
                   <DemoKit.button variant="glow" color="primary" size="small">glow</DemoKit.button>

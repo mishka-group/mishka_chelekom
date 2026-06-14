@@ -38,7 +38,11 @@ defmodule DevelopmentWeb.Showcase.Examples.Divider do
   def example(%{section: "colors"} = assigns) do
     ~H"""
     <div class="flex flex-col gap-6 w-full">
-      <.divider :for={c <- ~w(base primary secondary success warning danger info misc dawn silver natural)} id={"ex-divider-color-#{c}"} color={c} />
+      <.divider
+        :for={c <- ~w(base primary secondary success warning danger info misc dawn silver natural)}
+        id={"ex-divider-color-#{c}"}
+        color={c}
+      />
     </div>
     """
   end

@@ -54,7 +54,11 @@ defmodule DevelopmentWeb.Showcase.Examples.Sidebar do
   def example(%{section: "variant-colors"} = assigns) do
     ~H"""
     <div class="flex flex-wrap items-start gap-6">
-      <.sidebar id="ex-sidebar-base" hide_position="left" class="!relative !h-auto !z-0 max-h-72 w-64 rounded">
+      <.sidebar
+        id="ex-sidebar-base"
+        hide_position="left"
+        class="!relative !h-auto !z-0 max-h-72 w-64 rounded"
+      >
         <:item icon="hero-home" icon_class="size-6" label="Dashboard" link="/" class="mb-3" />
         <:item icon="hero-envelope" icon_class="size-6" label="Messages" link="/" class="mb-3" />
         <:item icon="hero-star" icon_class="size-6" label="Bookmarks" link="/" class="mb-3" />

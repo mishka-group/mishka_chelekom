@@ -155,12 +155,14 @@ defmodule DevelopmentWeb.Showcase.HeadlessLive do
             >
               <.code_block code={Snippets.customize_headless(@component)} />
               <.tip>
-                Same <code>customize</code> verb as styled components — the <code>part</code>
+                Same <code>customize</code>
+                verb as styled components — the <code>part</code>
                 rules tell the macro it's headless. It generates
                 <code>&lt;.my_{@component.name}&gt;</code>
                 as a thin wrapper that delegates to the real component (untouched) and applies your
                 per-part classes as <code>[&amp;_[data-part=…]]:</code>
-                variants. Feed <code>MyAppWeb.Kit.safelist()</code> to Tailwind so they survive purge.
+                variants. Feed <code>MyAppWeb.Kit.safelist()</code>
+                to Tailwind so they survive purge.
               </.tip>
             </.section>
           </div>

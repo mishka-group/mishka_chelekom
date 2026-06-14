@@ -42,11 +42,19 @@ defmodule DevelopmentWeb.Showcase.Examples.Gallery do
   def example(%{section: "shadow"} = assigns) do
     ~H"""
     <.gallery cols="three" gap="small" id="ex-gallery-shadow">
-      <.gallery_media src="https://picsum.photos/id/1015/600/400" shadow="extra_small" alt="Shadow extra small" />
+      <.gallery_media
+        src="https://picsum.photos/id/1015/600/400"
+        shadow="extra_small"
+        alt="Shadow extra small"
+      />
       <.gallery_media src="https://picsum.photos/id/1016/600/400" shadow="small" alt="Shadow small" />
       <.gallery_media src="https://picsum.photos/id/1018/600/400" shadow="medium" alt="Shadow medium" />
       <.gallery_media src="https://picsum.photos/id/1019/600/400" shadow="large" alt="Shadow large" />
-      <.gallery_media src="https://picsum.photos/id/1020/600/400" shadow="extra_large" alt="Shadow extra large" />
+      <.gallery_media
+        src="https://picsum.photos/id/1020/600/400"
+        shadow="extra_large"
+        alt="Shadow extra large"
+      />
     </.gallery>
     """
   end
@@ -54,11 +62,23 @@ defmodule DevelopmentWeb.Showcase.Examples.Gallery do
   def example(%{section: "rounded"} = assigns) do
     ~H"""
     <.gallery cols="three" gap="small" id="ex-gallery-rounded">
-      <.gallery_media src="https://picsum.photos/id/1015/600/400" rounded="extra_small" alt="Rounded extra small" />
+      <.gallery_media
+        src="https://picsum.photos/id/1015/600/400"
+        rounded="extra_small"
+        alt="Rounded extra small"
+      />
       <.gallery_media src="https://picsum.photos/id/1016/600/400" rounded="small" alt="Rounded small" />
-      <.gallery_media src="https://picsum.photos/id/1018/600/400" rounded="medium" alt="Rounded medium" />
+      <.gallery_media
+        src="https://picsum.photos/id/1018/600/400"
+        rounded="medium"
+        alt="Rounded medium"
+      />
       <.gallery_media src="https://picsum.photos/id/1019/600/400" rounded="large" alt="Rounded large" />
-      <.gallery_media src="https://picsum.photos/id/1020/600/400" rounded="extra_large" alt="Rounded extra large" />
+      <.gallery_media
+        src="https://picsum.photos/id/1020/600/400"
+        rounded="extra_large"
+        alt="Rounded extra large"
+      />
       <.gallery_media src="https://picsum.photos/id/1021/600/400" rounded="full" alt="Rounded full" />
     </.gallery>
     """

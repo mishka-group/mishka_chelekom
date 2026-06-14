@@ -38,7 +38,12 @@ defmodule DevelopmentWeb.Showcase.Examples.Dock do
   def example(%{section: "default"} = assigns) do
     ~H"""
     <div class="space-y-3">
-      <.dock :for={c <- ~w(primary natural success danger)} id={"ex-dock-default-#{c}"} variant="default" color={c}>
+      <.dock
+        :for={c <- ~w(primary natural success danger)}
+        id={"ex-dock-default-#{c}"}
+        variant="default"
+        color={c}
+      >
         <:item icon="hero-home" label="Home" navigate="/" active />
         <:item icon="hero-inbox" label="Inbox" navigate="/" />
         <:item icon="hero-cog-6-tooth" label="Settings" navigate="/" />

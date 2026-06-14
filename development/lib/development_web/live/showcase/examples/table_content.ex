@@ -31,7 +31,12 @@ defmodule DevelopmentWeb.Showcase.Examples.TableContent do
   def example(%{section: "rounded"} = assigns) do
     ~H"""
     <div class="flex flex-wrap items-start gap-4">
-      <.table_content id="ex-table_content-rounded" color="info" variant="bordered" rounded="extra_large">
+      <.table_content
+        id="ex-table_content-rounded"
+        color="info"
+        variant="bordered"
+        rounded="extra_large"
+      >
         <.content_item icon="hero-hashtag">
           <.link href="#overview">Overview</.link>
         </.content_item>
@@ -55,7 +60,12 @@ defmodule DevelopmentWeb.Showcase.Examples.TableContent do
   def example(%{section: "border"} = assigns) do
     ~H"""
     <div class="flex flex-wrap items-start gap-4">
-      <.table_content id="ex-table_content-border" variant="default" color="info" rounded="extra_large">
+      <.table_content
+        id="ex-table_content-border"
+        variant="default"
+        color="info"
+        rounded="extra_large"
+      >
         <.content_item icon="hero-hashtag">
           <.link href="#overview">Overview</.link>
         </.content_item>
@@ -118,7 +128,12 @@ defmodule DevelopmentWeb.Showcase.Examples.TableContent do
   def example(%{section: "padding"} = assigns) do
     ~H"""
     <div class="flex flex-wrap items-start gap-4">
-      <.table_content id="ex-table_content-padding" color="info" variant="bordered" padding="quadruple_large">
+      <.table_content
+        id="ex-table_content-padding"
+        color="info"
+        variant="bordered"
+        padding="quadruple_large"
+      >
         <.content_item icon="hero-hashtag">
           <.link href="#overview">Overview</.link>
         </.content_item>
@@ -187,7 +202,12 @@ defmodule DevelopmentWeb.Showcase.Examples.TableContent do
   def example(%{section: "nested"} = assigns) do
     ~H"""
     <div class="flex flex-wrap items-start gap-4">
-      <.table_content id="ex-table_content-nested" color="info" variant="bordered" padding="extra_small">
+      <.table_content
+        id="ex-table_content-nested"
+        color="info"
+        variant="bordered"
+        padding="extra_small"
+      >
         <.content_item title="Table content props">
           <.content_wrapper>
             <.content_item icon="hero-chevron-right">

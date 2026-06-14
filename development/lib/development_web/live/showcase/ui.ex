@@ -39,7 +39,10 @@ defmodule DevelopmentWeb.Showcase.UI do
   @doc "A code block with a copy button (uses the `Copy` JS hook)."
   attr :code, :string, required: true
   attr :class, :any, default: nil
-  attr :wrap, :boolean, default: false, doc: "Wrap long lines instead of scrolling them off-screen"
+
+  attr :wrap, :boolean,
+    default: false,
+    doc: "Wrap long lines instead of scrolling them off-screen"
 
   def code_block(assigns) do
     ~H"""

@@ -209,7 +209,12 @@ defmodule DevelopmentWeb.Showcase.Examples.Fieldset do
   def example(%{section: "spacing"} = assigns) do
     ~H"""
     <div class="grid md:grid-cols-3 gap-5">
-      <.fieldset :for={s <- ~w(extra_small medium large)} space={s} legend={s} id={"ex-fieldset-space-#{s}"}>
+      <.fieldset
+        :for={s <- ~w(extra_small medium large)}
+        space={s}
+        legend={s}
+        id={"ex-fieldset-space-#{s}"}
+      >
         <:control>
           <.checkbox_field
             name={"ex_space_#{s}_1"}

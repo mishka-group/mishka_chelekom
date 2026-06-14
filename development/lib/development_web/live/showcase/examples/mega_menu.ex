@@ -340,16 +340,32 @@ defmodule DevelopmentWeb.Showcase.Examples.MegaMenu do
 
         <div class="grid md:grid-cols-2">
           <ul class="space-y-4 sm:mb-4 md:mb-0">
-            <li class="hover:underline hover:text-blue-200 dark:hover:text-blue-400 cursor-pointer">Product Categories</li>
-            <li class="hover:underline hover:text-blue-200 dark:hover:text-blue-400 cursor-pointer">Customer Support</li>
-            <li class="hover:underline hover:text-blue-200 dark:hover:text-blue-400 cursor-pointer">About Us</li>
-            <li class="hover:underline hover:text-blue-200 dark:hover:text-blue-400 cursor-pointer">Contact</li>
+            <li class="hover:underline hover:text-blue-200 dark:hover:text-blue-400 cursor-pointer">
+              Product Categories
+            </li>
+            <li class="hover:underline hover:text-blue-200 dark:hover:text-blue-400 cursor-pointer">
+              Customer Support
+            </li>
+            <li class="hover:underline hover:text-blue-200 dark:hover:text-blue-400 cursor-pointer">
+              About Us
+            </li>
+            <li class="hover:underline hover:text-blue-200 dark:hover:text-blue-400 cursor-pointer">
+              Contact
+            </li>
           </ul>
           <ul class="hidden mb-4 space-y-4 md:mb-0 sm:block">
-            <li class="hover:underline hover:text-blue-200 dark:hover:text-blue-400 cursor-pointer">Blog</li>
-            <li class="hover:underline hover:text-blue-200 dark:hover:text-blue-400 cursor-pointer">Privacy Policy</li>
-            <li class="hover:underline hover:text-blue-200 dark:hover:text-blue-400 cursor-pointer">Terms of Service</li>
-            <li class="hover:underline hover:text-blue-200 dark:hover:text-blue-400 cursor-pointer">Documentation</li>
+            <li class="hover:underline hover:text-blue-200 dark:hover:text-blue-400 cursor-pointer">
+              Blog
+            </li>
+            <li class="hover:underline hover:text-blue-200 dark:hover:text-blue-400 cursor-pointer">
+              Privacy Policy
+            </li>
+            <li class="hover:underline hover:text-blue-200 dark:hover:text-blue-400 cursor-pointer">
+              Terms of Service
+            </li>
+            <li class="hover:underline hover:text-blue-200 dark:hover:text-blue-400 cursor-pointer">
+              Documentation
+            </li>
           </ul>
         </div>
       </.mega_menu>

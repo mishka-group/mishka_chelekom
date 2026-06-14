@@ -73,9 +73,14 @@ defmodule DevelopmentWeb.Showcase.ComponentLive do
     parsed =
       Enum.reduce(params, %{}, fn {k, v}, acc ->
         cond do
-          dim = by_attr[k] -> if v in [nil, ""], do: acc, else: Map.put(acc, String.to_atom(k), cast(v, dim.type))
-          k in flag_names -> Map.put(acc, String.to_atom(k), v == "true")
-          true -> acc
+          dim = by_attr[k] ->
+            if v in [nil, ""], do: acc, else: Map.put(acc, String.to_atom(k), cast(v, dim.type))
+
+          k in flag_names ->
+            Map.put(acc, String.to_atom(k), v == "true")
+
+          true ->
+            acc
         end
       end)
 
@@ -161,9 +166,11 @@ defmodule DevelopmentWeb.Showcase.ComponentLive do
               </p>
               <.code_block code={Snippets.customize_usage(@component)} />
               <.tip>
-                The real <code>&lt;.{@component.name}&gt;</code> is never touched — the Kit generates a
+                The real <code>&lt;.{@component.name}&gt;</code>
+                is never touched — the Kit generates a
                 thin wrapper that delegates to it. Write your classes whole, with a trailing
-                <code>!</code> so they win over the component's defaults
+                <code>!</code>
+                so they win over the component's defaults
                 (e.g. <code>"bg-brand-500!"</code>); Tailwind scans them straight from your Kit module —
                 no safelist needed.
               </.tip>
@@ -361,7 +368,11 @@ defmodule DevelopmentWeb.Showcase.ComponentLive do
   end
 
   defp default_props(component) do
-    dims = for dim <- component.dims, into: %{}, do: {String.to_atom(dim.attr), cast(default_value(dim), dim.type)}
+    dims =
+      for dim <- component.dims,
+          into: %{},
+          do: {String.to_atom(dim.attr), cast(default_value(dim), dim.type)}
+
     flags = for flag <- component.flags, into: %{}, do: {String.to_atom(flag.name), flag.default}
 
     dims
@@ -380,6 +391,7 @@ defmodule DevelopmentWeb.Showcase.ComponentLive do
   # avatar hides the other. Default to a large, circular, lightly-overlapped stack (with rings in the
   # preview) so it reads as a real avatar group; every control stays adjustable from there.
   defp preview_override("avatar"), do: %{size: "large", rounded: "full", space: "small"}
+
   # Banner renders in-flow in the preview (see Preview.show) — give it visible rounding/border/padding
   # by default so the styling controls read clearly (dims `size`/`space` are dropped in Catalog).
   defp preview_override("banner"),

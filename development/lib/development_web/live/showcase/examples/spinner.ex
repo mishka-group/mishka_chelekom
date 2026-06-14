@@ -62,19 +62,50 @@ defmodule DevelopmentWeb.Showcase.Examples.Spinner do
     ~H"""
     <div class="flex flex-col gap-10">
       <div class="flex flex-wrap items-center gap-5">
-        <.spinner :for={s <- ~w(extra_small small medium large extra_large double_large triple_large quadruple_large)} color="primary" size={s} />
+        <.spinner
+          :for={
+            s <-
+              ~w(extra_small small medium large extra_large double_large triple_large quadruple_large)
+          }
+          color="primary"
+          size={s}
+        />
       </div>
 
       <div class="flex flex-wrap items-center gap-5">
-        <.spinner :for={s <- ~w(extra_small small medium large extra_large double_large triple_large quadruple_large)} color="success" size={s} type="dots" />
+        <.spinner
+          :for={
+            s <-
+              ~w(extra_small small medium large extra_large double_large triple_large quadruple_large)
+          }
+          color="success"
+          size={s}
+          type="dots"
+        />
       </div>
 
       <div class="flex flex-wrap items-center gap-5">
-        <.spinner :for={s <- ~w(extra_small small medium large extra_large double_large triple_large quadruple_large)} color="misc" size={s} type="bars" />
+        <.spinner
+          :for={
+            s <-
+              ~w(extra_small small medium large extra_large double_large triple_large quadruple_large)
+          }
+          color="misc"
+          size={s}
+          type="bars"
+        />
       </div>
 
       <div class="flex flex-wrap items-center gap-5">
-        <.spinner :for={s <- ~w(extra_small small medium large extra_large double_large triple_large quadruple_large)} color="info" size={s} type="pinging" />
+        <.spinner
+          :for={
+            s <-
+              ~w(extra_small small medium large extra_large double_large triple_large quadruple_large)
+          }
+          color="info"
+          size={s}
+          type="pinging"
+        />
       </div>
     </div>
     """

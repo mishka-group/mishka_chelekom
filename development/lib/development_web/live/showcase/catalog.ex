@@ -163,6 +163,7 @@ defmodule DevelopmentWeb.Showcase.Catalog do
   # hook-owned trigger. Removed as controls; the preview uses sensible defaults instead.
   defp dead_flags("clipboard"), do: ["show_status_text", "dynamic_label"]
   defp dead_flags("file_field"), do: ["live"]
+
   # toggle_field: `ring` and `reverse` were declared but never read (@ring/@reverse used 0×) — deleted
   # from the component; the JSON metadata still lists them, so drop them from the controls here too.
   defp dead_flags("toggle_field"), do: ["ring", "reverse"]

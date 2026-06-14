@@ -124,9 +124,12 @@ defmodule DevelopmentWeb.Showcase.Examples.CheckboxCard do
         cols="three"
         size={s}
       >
-        <:checkbox value={"#{s}-1"} title="Starter Plan" description="Perfect for personal blogs"></:checkbox>
-        <:checkbox value={"#{s}-2"} title="Pro Plan" description="Ideal for small businesses"></:checkbox>
-        <:checkbox value={"#{s}-3"} title="Premium Plan" description="Best for large enterprises"></:checkbox>
+        <:checkbox value={"#{s}-1"} title="Starter Plan" description="Perfect for personal blogs">
+        </:checkbox>
+        <:checkbox value={"#{s}-2"} title="Pro Plan" description="Ideal for small businesses">
+        </:checkbox>
+        <:checkbox value={"#{s}-3"} title="Premium Plan" description="Best for large enterprises">
+        </:checkbox>
       </.checkbox_card>
     </div>
     """
@@ -199,25 +202,30 @@ defmodule DevelopmentWeb.Showcase.Examples.CheckboxCard do
         size="small"
         class="text-center"
       >
-        <:checkbox value="checkbox-slot1" checked icon="hero-cube" title="Package Storage"></:checkbox>
+        <:checkbox value="checkbox-slot1" checked icon="hero-cube" title="Package Storage">
+        </:checkbox>
         <:checkbox
           value="checkbox-slot2"
           icon_class="size-4"
           icon="hero-building-office"
           title="Office Space"
-        ></:checkbox>
+        >
+        </:checkbox>
         <:checkbox value="checkbox-slot3" icon="hero-globe-alt" title="Global Network"></:checkbox>
         <:checkbox
           value="checkbox-slot4"
           icon="hero-adjustments-horizontal"
           title="Custom Settings"
-        ></:checkbox>
-        <:checkbox value="checkbox-slot6" icon="hero-code-bracket" title="Developer Tools"></:checkbox>
+        >
+        </:checkbox>
+        <:checkbox value="checkbox-slot6" icon="hero-code-bracket" title="Developer Tools">
+        </:checkbox>
         <:checkbox
           value="checkbox-slot5"
           icon="hero-cpu-chip"
           description="Access development tools and APIs for building applications"
-        ></:checkbox>
+        >
+        </:checkbox>
       </.checkbox_card>
     </div>
     """

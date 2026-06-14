@@ -32,7 +32,13 @@ defmodule DevelopmentWeb.Showcase.Examples.Toast do
   def example(%{section: "variants"} = assigns) do
     ~H"""
     <div class="flex flex-col items-start gap-4">
-      <.toast :for={v <- ~w(default outline shadow bordered gradient)} id={"ex-toast-variant-#{v}"} variant={v} color="primary" fixed={false}>
+      <.toast
+        :for={v <- ~w(default outline shadow bordered gradient)}
+        id={"ex-toast-variant-#{v}"}
+        variant={v}
+        color="primary"
+        fixed={false}
+      >
         {String.capitalize(v)} variant
       </.toast>
     </div>
@@ -127,13 +133,34 @@ defmodule DevelopmentWeb.Showcase.Examples.Toast do
   def example(%{section: "group"} = assigns) do
     ~H"""
     <.toast_group id="ex-toast-group-1" space="medium">
-      <.toast id="ex-toast-group-item-1" color="warning" variant="default" content_border="small" border_position="end" fixed={false}>
+      <.toast
+        id="ex-toast-group-item-1"
+        color="warning"
+        variant="default"
+        content_border="small"
+        border_position="end"
+        fixed={false}
+      >
         <div>First message inside the toast group.</div>
       </.toast>
-      <.toast id="ex-toast-group-item-2" color="success" variant="default" content_border="small" border_position="end" fixed={false}>
+      <.toast
+        id="ex-toast-group-item-2"
+        color="success"
+        variant="default"
+        content_border="small"
+        border_position="end"
+        fixed={false}
+      >
         <div>Second message inside the toast group.</div>
       </.toast>
-      <.toast id="ex-toast-group-item-3" color="info" variant="default" content_border="small" border_position="end" fixed={false}>
+      <.toast
+        id="ex-toast-group-item-3"
+        color="info"
+        variant="default"
+        content_border="small"
+        border_position="end"
+        fixed={false}
+      >
         <div>Third message inside the toast group.</div>
       </.toast>
     </.toast_group>

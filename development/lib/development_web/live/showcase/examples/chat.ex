@@ -29,7 +29,11 @@ defmodule DevelopmentWeb.Showcase.Examples.Chat do
   def example(%{section: "variants"} = assigns) do
     ~H"""
     <div class="flex flex-col gap-6">
-      <.chat :for={v <- ~w(default outline transparent shadow gradient bordered)} variant={v} color="natural">
+      <.chat
+        :for={v <- ~w(default outline transparent shadow gradient bordered)}
+        variant={v}
+        color="natural"
+      >
         <.chat_section>
           <div>Shahryar Tavakkoli</div>
           <p>This bubble uses the {v} variant of the chat component.</p>
@@ -43,7 +47,11 @@ defmodule DevelopmentWeb.Showcase.Examples.Chat do
   def example(%{section: "colors"} = assigns) do
     ~H"""
     <div class="flex flex-col gap-6">
-      <.chat :for={c <- ~w(natural primary secondary success warning danger info misc dawn)} variant="default" color={c}>
+      <.chat
+        :for={c <- ~w(natural primary secondary success warning danger info misc dawn)}
+        variant="default"
+        color={c}
+      >
         <.chat_section>
           <div>{String.capitalize(c)}</div>
           <p>Mishka Chelekom chat bubble in the {c} color.</p>
@@ -60,7 +68,9 @@ defmodule DevelopmentWeb.Showcase.Examples.Chat do
       <.chat variant="default" color="info">
         <.chat_section>
           <div>Shahryar Tavakkoli</div>
-          <p>Mishka Chelekom is easy to install and use for fast integration with your Phoenix LiveView projects.</p>
+          <p>
+            Mishka Chelekom is easy to install and use for fast integration with your Phoenix LiveView projects.
+          </p>
           <:status time="22:10" deliver="Delivered" />
         </.chat_section>
       </.chat>
@@ -74,7 +84,9 @@ defmodule DevelopmentWeb.Showcase.Examples.Chat do
       <.chat variant="default" color="info">
         <.chat_section>
           <div>Shahryar Tavakkoli</div>
-          <p>Mishka Chelekom is easy to install and use for fast integration with your Phoenix LiveView projects.</p>
+          <p>
+            Mishka Chelekom is easy to install and use for fast integration with your Phoenix LiveView projects.
+          </p>
 
           <:meta>
             <div class="flex items-center justify-between gap-2">
@@ -96,7 +108,9 @@ defmodule DevelopmentWeb.Showcase.Examples.Chat do
       <.chat variant="default" color="natural">
         <.chat_section font_weight="font-bold">
           <div>Shahryar Tavakkoli</div>
-          <p>Mishka Chelekom is easy to install and use for fast integration with your Phoenix LiveView projects.</p>
+          <p>
+            Mishka Chelekom is easy to install and use for fast integration with your Phoenix LiveView projects.
+          </p>
           <:status time="22:10" deliver="Delivered" />
         </.chat_section>
       </.chat>
@@ -107,7 +121,12 @@ defmodule DevelopmentWeb.Showcase.Examples.Chat do
   def example(%{section: "border"} = assigns) do
     ~H"""
     <div class="flex flex-col gap-6">
-      <.chat :for={b <- ~w(extra_small small medium large extra_large)} border={b} variant="default" color="natural">
+      <.chat
+        :for={b <- ~w(extra_small small medium large extra_large)}
+        border={b}
+        variant="default"
+        color="natural"
+      >
         <.chat_section>
           <div>Border: {b}</div>
           <p>That's awesome. I think our users will really appreciate the improvements.</p>
@@ -121,7 +140,12 @@ defmodule DevelopmentWeb.Showcase.Examples.Chat do
   def example(%{section: "rounded"} = assigns) do
     ~H"""
     <div class="flex flex-col gap-6">
-      <.chat :for={r <- ~w(extra_small small medium large extra_large)} rounded={r} variant="default" color="natural">
+      <.chat
+        :for={r <- ~w(extra_small small medium large extra_large)}
+        rounded={r}
+        variant="default"
+        color="natural"
+      >
         <.chat_section>
           <div>Rounded: {r}</div>
           <p>That's awesome. I think our users will really appreciate the improvements.</p>
@@ -179,7 +203,9 @@ defmodule DevelopmentWeb.Showcase.Examples.Chat do
         <.avatar size="medium" rounded="full" border="small" color="silver">MA</.avatar>
 
         <.chat_section>
-          <div>I agree. I used the button component in my project, and it works perfectly with the design!</div>
+          <div>
+            I agree. I used the button component in my project, and it works perfectly with the design!
+          </div>
           <:status time="22:12" deliver="Delivered" />
         </.chat_section>
       </.chat>
@@ -188,7 +214,9 @@ defmodule DevelopmentWeb.Showcase.Examples.Chat do
         <.avatar size="medium" rounded="full" border="small" color="silver">ST</.avatar>
 
         <.chat_section>
-          <div>Exactly. The fact that you can adjust the size and even add icons made my layout so much cleaner!</div>
+          <div>
+            Exactly. The fact that you can adjust the size and even add icons made my layout so much cleaner!
+          </div>
           <:status time="22:13" deliver="Delivered" />
         </.chat_section>
       </.chat>

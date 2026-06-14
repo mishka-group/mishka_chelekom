@@ -39,7 +39,9 @@ defmodule DevelopmentWeb.Showcase.Examples.Keyboard do
     ~H"""
     <div class="flex flex-wrap items-center gap-2">
       <.keyboard
-        :for={c <- ~w(natural white dark info success warning danger silver misc dawn primary secondary)}
+        :for={
+          c <- ~w(natural white dark info success warning danger silver misc dawn primary secondary)
+        }
         id={"ex-keyboard-color-#{c}"}
         variant="default"
         color={c}
@@ -84,7 +86,9 @@ defmodule DevelopmentWeb.Showcase.Examples.Keyboard do
     ~H"""
     <div class="flex flex-wrap items-center gap-2">
       <.keyboard
-        :for={c <- ~w(natural white dark info success warning danger silver misc dawn primary secondary)}
+        :for={
+          c <- ~w(natural white dark info success warning danger silver misc dawn primary secondary)
+        }
         id={"ex-keyboard-bordered-#{c}"}
         variant="bordered"
         color={c}
@@ -160,7 +164,12 @@ defmodule DevelopmentWeb.Showcase.Examples.Keyboard do
   def example(%{section: "font_weight"} = assigns) do
     ~H"""
     <div class="flex flex-wrap items-center gap-2">
-      <.keyboard id="ex-keyboard-weight-bold" variant="default" color="success" font_weight="font-bold">
+      <.keyboard
+        id="ex-keyboard-weight-bold"
+        variant="default"
+        color="success"
+        font_weight="font-bold"
+      >
         Bold
       </.keyboard>
 

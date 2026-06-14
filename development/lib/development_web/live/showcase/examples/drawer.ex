@@ -31,7 +31,14 @@ defmodule DevelopmentWeb.Showcase.Examples.Drawer do
   def example(%{section: "default"} = assigns) do
     ~H"""
     <div class="relative min-h-48">
-      <.drawer id="ex-drawer-default" variant="default" color="natural" position="left" size="small" show={true}>
+      <.drawer
+        id="ex-drawer-default"
+        variant="default"
+        color="natural"
+        position="left"
+        size="small"
+        show={true}
+      >
         <ul>
           <li class="py-2 px-3 hover:bg-stone-400 cursor-pointer">Home</li>
           <li class="py-2 px-3 hover:bg-stone-400 cursor-pointer">Inbox</li>
@@ -47,7 +54,14 @@ defmodule DevelopmentWeb.Showcase.Examples.Drawer do
   def example(%{section: "outline"} = assigns) do
     ~H"""
     <div class="relative min-h-48">
-      <.drawer id="ex-drawer-outline" variant="outline" color="primary" position="left" size="small" show={true}>
+      <.drawer
+        id="ex-drawer-outline"
+        variant="outline"
+        color="primary"
+        position="left"
+        size="small"
+        show={true}
+      >
         <ul>
           <li class="py-2 px-3 hover:bg-blue-400 cursor-pointer">Home</li>
           <li class="py-2 px-3 hover:bg-blue-400 cursor-pointer">Inbox</li>
@@ -63,7 +77,14 @@ defmodule DevelopmentWeb.Showcase.Examples.Drawer do
   def example(%{section: "transparent"} = assigns) do
     ~H"""
     <div class="relative min-h-48">
-      <.drawer id="ex-drawer-transparent" variant="transparent" color="secondary" position="left" size="small" show={true}>
+      <.drawer
+        id="ex-drawer-transparent"
+        variant="transparent"
+        color="secondary"
+        position="left"
+        size="small"
+        show={true}
+      >
         <ul>
           <li class="py-2 px-3 hover:bg-stone-400 cursor-pointer">Home</li>
           <li class="py-2 px-3 hover:bg-stone-400 cursor-pointer">Inbox</li>
@@ -79,7 +100,14 @@ defmodule DevelopmentWeb.Showcase.Examples.Drawer do
   def example(%{section: "bordered"} = assigns) do
     ~H"""
     <div class="relative min-h-48">
-      <.drawer id="ex-drawer-bordered" variant="bordered" color="secondary" position="left" size="small" show={true}>
+      <.drawer
+        id="ex-drawer-bordered"
+        variant="bordered"
+        color="secondary"
+        position="left"
+        size="small"
+        show={true}
+      >
         <ul>
           <li class="py-2 px-3 hover:bg-stone-400 cursor-pointer">Home</li>
           <li class="py-2 px-3 hover:bg-stone-400 cursor-pointer">Inbox</li>
@@ -95,7 +123,14 @@ defmodule DevelopmentWeb.Showcase.Examples.Drawer do
   def example(%{section: "gradient"} = assigns) do
     ~H"""
     <div class="relative min-h-48">
-      <.drawer id="ex-drawer-gradient" variant="gradient" color="secondary" position="left" size="small" show={true}>
+      <.drawer
+        id="ex-drawer-gradient"
+        variant="gradient"
+        color="secondary"
+        position="left"
+        size="small"
+        show={true}
+      >
         <ul>
           <li class="py-2 px-3 hover:bg-stone-400 cursor-pointer">Home</li>
           <li class="py-2 px-3 hover:bg-stone-400 cursor-pointer">Inbox</li>

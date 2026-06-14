@@ -35,7 +35,11 @@ defmodule DevelopmentWeb.Showcase.Examples.Button do
   def example(%{section: "variants"} = assigns) do
     ~H"""
     <div class="flex flex-wrap items-center gap-3">
-      <.button :for={v <- ~w(default outline transparent subtle shadow inverted)} variant={v} color="primary">
+      <.button
+        :for={v <- ~w(default outline transparent subtle shadow inverted)}
+        variant={v}
+        color="primary"
+      >
         {String.capitalize(v)}
       </.button>
     </div>

@@ -121,7 +121,11 @@ defmodule DevelopmentWeb.Showcase.Preview do
   def show(%{component: "collapse"} = assigns) do
     ~H"""
     <div class="w-72">
-      <.collapse id={@id} {@props} class="rounded-box border border-base-300 bg-base-100 overflow-hidden">
+      <.collapse
+        id={@id}
+        {@props}
+        class="rounded-box border border-base-300 bg-base-100 overflow-hidden"
+      >
         <:trigger>
           <div class="flex w-full items-center justify-between gap-3 px-4 py-3 font-medium cursor-pointer select-none transition-colors hover:bg-base-200/60">
             <span class="flex items-center gap-2">
@@ -134,7 +138,9 @@ defmodule DevelopmentWeb.Showcase.Preview do
           </div>
         </:trigger>
         <div class="px-4 pb-4 pt-1 text-sm text-base-content/70 space-y-2">
-          <p>Free standard shipping on orders over $50 — most orders ship within 1–2 business days.</p>
+          <p>
+            Free standard shipping on orders over $50 — most orders ship within 1–2 business days.
+          </p>
           <p>Not happy? Return any item within 30 days for a full refund, no questions asked.</p>
         </div>
       </.collapse>
@@ -297,9 +303,26 @@ defmodule DevelopmentWeb.Showcase.Preview do
     ~H"""
     <.form_wrapper id={@id} for={@form} phx-submit="save" {@props}>
       <div class="space-y-3">
-        <.text_field id="fw-name" name="fw_name" value="" label="Full name" placeholder="Ada Lovelace" />
-        <.email_field id="fw-email" name="fw_email" value="" label="Email" placeholder="ada@example.com" />
-        <.checkbox_field id="fw-subscribe" name="fw_subscribe" value="true" label="Subscribe to updates" />
+        <.text_field
+          id="fw-name"
+          name="fw_name"
+          value=""
+          label="Full name"
+          placeholder="Ada Lovelace"
+        />
+        <.email_field
+          id="fw-email"
+          name="fw_email"
+          value=""
+          label="Email"
+          placeholder="ada@example.com"
+        />
+        <.checkbox_field
+          id="fw-subscribe"
+          name="fw_subscribe"
+          value="true"
+          label="Subscribe to updates"
+        />
       </div>
       <:actions>
         <.button type="submit" color="primary">Save</.button>
@@ -455,13 +478,27 @@ defmodule DevelopmentWeb.Showcase.Preview do
     ~H"""
     <.fieldset id={@id} legend="Notifications" {@props}>
       <:control>
-        <.checkbox_field id={"#{@id}-c1"} name="fs_email" value="true" checked label="Email" space="small" />
+        <.checkbox_field
+          id={"#{@id}-c1"}
+          name="fs_email"
+          value="true"
+          checked
+          label="Email"
+          space="small"
+        />
       </:control>
       <:control>
         <.checkbox_field id={"#{@id}-c2"} name="fs_sms" value="true" label="SMS" space="small" />
       </:control>
       <:control>
-        <.checkbox_field id={"#{@id}-c3"} name="fs_push" value="true" checked label="Push" space="small" />
+        <.checkbox_field
+          id={"#{@id}-c3"}
+          name="fs_push"
+          value="true"
+          checked
+          label="Push"
+          space="small"
+        />
       </:control>
     </.fieldset>
     """
@@ -584,7 +621,14 @@ defmodule DevelopmentWeb.Showcase.Preview do
     <div class="flex w-full flex-wrap items-end justify-center gap-5">
       <div :for={{key, lbl} <- @rounds} class="flex flex-col items-center gap-2">
         <span class="text-[11px] font-medium text-base-content/60">{lbl}</span>
-        <.toggle_field id={"tf-#{key}"} name={"tf_#{key}"} value="true" checked rounded={key} {@props} />
+        <.toggle_field
+          id={"tf-#{key}"}
+          name={"tf_#{key}"}
+          value="true"
+          checked
+          rounded={key}
+          {@props}
+        />
       </div>
     </div>
     """
@@ -691,14 +735,20 @@ defmodule DevelopmentWeb.Showcase.Preview do
 
       <div class="max-w-xs text-center text-sm leading-7 text-base-content/70">
         Mishka Chelekom is a
-        <.tooltip id={"#{@id}-inline-#{@fkey}"} text="An inline tooltip flows with the text" position="top" {@props}>
+        <.tooltip
+          id={"#{@id}-inline-#{@fkey}"}
+          text="An inline tooltip flows with the text"
+          position="top"
+          {@props}
+        >
           <:trigger>
             <span class="cursor-help text-primary underline decoration-dotted underline-offset-2">
               component library
             </span>
           </:trigger>
         </.tooltip>
-        for Phoenix — toggle <strong>Inline</strong> to flow this trigger into the line or break it onto its own.
+        for Phoenix — toggle <strong>Inline</strong>
+        to flow this trigger into the line or break it onto its own.
       </div>
     </div>
     """

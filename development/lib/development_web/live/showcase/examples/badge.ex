@@ -40,7 +40,11 @@ defmodule DevelopmentWeb.Showcase.Examples.Badge do
   def example(%{section: "variants"} = assigns) do
     ~H"""
     <div class="flex flex-wrap items-center gap-4">
-      <.badge :for={v <- ~w(default outline transparent bordered gradient shadow)} variant={v} color="primary">
+      <.badge
+        :for={v <- ~w(default outline transparent bordered gradient shadow)}
+        variant={v}
+        color="primary"
+      >
         {String.capitalize(v)}
       </.badge>
     </div>

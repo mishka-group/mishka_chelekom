@@ -73,11 +73,46 @@ defmodule DevelopmentWeb.Showcase.Examples.Pagination do
     ~H"""
     <div class="flex flex-col gap-4">
       <.pagination total={10} active={1} size="small" rounded="full" color="info" variant="default" />
-      <.pagination total={10} active={1} size="small" rounded="extra_small" color="misc" variant="default" />
-      <.pagination total={10} active={1} size="small" rounded="small" color="warning" variant="default" />
-      <.pagination total={10} active={1} size="small" rounded="medium" color="success" variant="default" />
-      <.pagination total={10} active={1} size="small" rounded="large" color="primary" variant="default" />
-      <.pagination total={10} active={1} size="small" rounded="extra_large" color="secondary" variant="default" />
+      <.pagination
+        total={10}
+        active={1}
+        size="small"
+        rounded="extra_small"
+        color="misc"
+        variant="default"
+      />
+      <.pagination
+        total={10}
+        active={1}
+        size="small"
+        rounded="small"
+        color="warning"
+        variant="default"
+      />
+      <.pagination
+        total={10}
+        active={1}
+        size="small"
+        rounded="medium"
+        color="success"
+        variant="default"
+      />
+      <.pagination
+        total={10}
+        active={1}
+        size="small"
+        rounded="large"
+        color="primary"
+        variant="default"
+      />
+      <.pagination
+        total={10}
+        active={1}
+        size="small"
+        rounded="extra_large"
+        color="secondary"
+        variant="default"
+      />
       <.pagination total={10} active={1} size="small" rounded="none" color="danger" variant="default" />
     </div>
     """

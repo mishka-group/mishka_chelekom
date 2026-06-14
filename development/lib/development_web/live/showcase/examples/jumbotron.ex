@@ -41,7 +41,13 @@ defmodule DevelopmentWeb.Showcase.Examples.Jumbotron do
   def example(%{section: "variants"} = assigns) do
     ~H"""
     <div class="flex flex-col gap-6">
-      <.jumbotron class="text-center" padding="small" id="ex-jumbotron-default" variant="default" color="dawn">
+      <.jumbotron
+        class="text-center"
+        padding="small"
+        id="ex-jumbotron-default"
+        variant="default"
+        color="dawn"
+      >
         <h1 class="text-lg font-bold">Default Variant</h1>
         <p class="text-sm mt-2">
           Your all-in-one solution for Phoenix LiveView components, tailored to your needs.
@@ -51,7 +57,13 @@ defmodule DevelopmentWeb.Showcase.Examples.Jumbotron do
         </div>
       </.jumbotron>
 
-      <.jumbotron class="text-center" padding="small" id="ex-jumbotron-outline" variant="default" color="silver">
+      <.jumbotron
+        class="text-center"
+        padding="small"
+        id="ex-jumbotron-outline"
+        variant="default"
+        color="silver"
+      >
         <h1 class="text-lg font-bold">Outline Variant</h1>
         <p class="text-sm mt-2">
           Your all-in-one solution for Phoenix LiveView components, tailored to your needs.
@@ -61,7 +73,13 @@ defmodule DevelopmentWeb.Showcase.Examples.Jumbotron do
         </div>
       </.jumbotron>
 
-      <.jumbotron class="text-center" padding="small" id="ex-jumbotron-shadow" variant="shadow" color="misc">
+      <.jumbotron
+        class="text-center"
+        padding="small"
+        id="ex-jumbotron-shadow"
+        variant="shadow"
+        color="misc"
+      >
         <h1 class="text-lg font-bold">Shadow Variant</h1>
         <p class="text-sm mt-2">
           Your all-in-one solution for Phoenix LiveView components, tailored to your needs.
@@ -89,7 +107,13 @@ defmodule DevelopmentWeb.Showcase.Examples.Jumbotron do
         </div>
       </.jumbotron>
 
-      <.jumbotron class="text-center" padding="small" id="ex-jumbotron-transparent" variant="transparent" color="info">
+      <.jumbotron
+        class="text-center"
+        padding="small"
+        id="ex-jumbotron-transparent"
+        variant="transparent"
+        color="info"
+      >
         <h1 class="text-lg font-bold">Transparent Variant</h1>
         <p class="text-sm mt-2">
           Your all-in-one solution for Phoenix LiveView components, tailored to your needs.
@@ -104,7 +128,13 @@ defmodule DevelopmentWeb.Showcase.Examples.Jumbotron do
 
   def example(%{section: "gradient"} = assigns) do
     ~H"""
-    <.jumbotron class="text-center" padding="small" id="ex-jumbotron-gradient" variant="gradient" color="dawn">
+    <.jumbotron
+      class="text-center"
+      padding="small"
+      id="ex-jumbotron-gradient"
+      variant="gradient"
+      color="dawn"
+    >
       <h1 class="text-lg font-bold">Welcome to Mishka Chelekom</h1>
       <p class="text-sm mt-2">
         Your all-in-one solution for Phoenix LiveView components, tailored to your needs.

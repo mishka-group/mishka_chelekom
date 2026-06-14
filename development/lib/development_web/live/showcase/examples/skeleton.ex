@@ -47,9 +47,12 @@ defmodule DevelopmentWeb.Showcase.Examples.Skeleton do
   def example(%{section: "colors"} = assigns) do
     ~H"""
     <div class="flex flex-col gap-4 w-full">
-      <.skeleton :for={
-        c <- ~w(natural white primary silver secondary dark success warning danger misc info dawn)
-      } color={c} />
+      <.skeleton
+        :for={
+          c <- ~w(natural white primary silver secondary dark success warning danger misc info dawn)
+        }
+        color={c}
+      />
     </div>
     """
   end

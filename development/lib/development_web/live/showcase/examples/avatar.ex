@@ -150,11 +150,21 @@ defmodule DevelopmentWeb.Showcase.Examples.Avatar do
   def example(%{section: "group"} = assigns) do
     ~H"""
     <.avatar_group id="ex-avatar-group" space="extra_small">
-      <.avatar id="ex-avatar-g1" size="large" border="extra_small" color="dawn" rounded="full">A</.avatar>
-      <.avatar id="ex-avatar-g2" size="large" border="extra_small" color="info" rounded="full">B</.avatar>
-      <.avatar id="ex-avatar-g3" size="large" border="extra_small" color="base" rounded="full">C</.avatar>
-      <.avatar id="ex-avatar-g4" size="large" border="extra_small" color="misc" rounded="full">D</.avatar>
-      <.avatar id="ex-avatar-g5" size="large" color="secondary" rounded="full" border="small">+20</.avatar>
+      <.avatar id="ex-avatar-g1" size="large" border="extra_small" color="dawn" rounded="full">
+        A
+      </.avatar>
+      <.avatar id="ex-avatar-g2" size="large" border="extra_small" color="info" rounded="full">
+        B
+      </.avatar>
+      <.avatar id="ex-avatar-g3" size="large" border="extra_small" color="base" rounded="full">
+        C
+      </.avatar>
+      <.avatar id="ex-avatar-g4" size="large" border="extra_small" color="misc" rounded="full">
+        D
+      </.avatar>
+      <.avatar id="ex-avatar-g5" size="large" color="secondary" rounded="full" border="small">
+        +20
+      </.avatar>
     </.avatar_group>
     """
   end

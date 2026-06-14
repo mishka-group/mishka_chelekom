@@ -65,5 +65,6 @@ defmodule DevelopmentWeb.Showcase.Snippets do
     "customize :my_#{name} do\n  from :#{name}\n#{part_lines}\nend"
   end
 
-  def customize_headless(%{name: name}), do: "customize :my_#{name} do\n  from :#{name}\n  part :…, \"…\"\nend"
+  def customize_headless(%{name: name}),
+    do: "customize :my_#{name} do\n  from :#{name}\n  part :…, \"…\"\nend"
 end

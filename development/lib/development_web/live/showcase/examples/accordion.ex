@@ -164,7 +164,12 @@ defmodule DevelopmentWeb.Showcase.Examples.Accordion do
   def example(%{section: "chevron"} = assigns) do
     ~H"""
     <div class="flex flex-col gap-4">
-      <.accordion id="ex-accordion-chevron-icon" variant="bordered" color="info" chevron_icon="hero-cog-8-tooth">
+      <.accordion
+        id="ex-accordion-chevron-icon"
+        variant="bordered"
+        color="info"
+        chevron_icon="hero-cog-8-tooth"
+      >
         <:item title="Icon chevron item one">
           Icon chevron
         </:item>

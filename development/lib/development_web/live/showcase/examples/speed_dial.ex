@@ -29,22 +29,46 @@ defmodule DevelopmentWeb.Showcase.Examples.SpeedDial do
   def example(%{section: "variants"} = assigns) do
     ~H"""
     <div class="flex flex-wrap items-end gap-16 min-h-48">
-      <.speed_dial id="ex-speed_dial-default" size="large" variant="default" color="natural" icon="hero-plus">
+      <.speed_dial
+        id="ex-speed_dial-default"
+        size="large"
+        variant="default"
+        color="natural"
+        icon="hero-plus"
+      >
         <:item icon="hero-home" color="danger" />
         <:item icon="hero-star" color="misc" />
         <:item icon="hero-chart-bar" color="warning" />
       </.speed_dial>
-      <.speed_dial id="ex-speed_dial-shadow" variant="shadow" color="success" size="large" icon="hero-plus">
+      <.speed_dial
+        id="ex-speed_dial-shadow"
+        variant="shadow"
+        color="success"
+        size="large"
+        icon="hero-plus"
+      >
         <:item icon="hero-home" color="danger" />
         <:item icon="hero-star" color="misc" />
         <:item icon="hero-chart-bar" color="warning" />
       </.speed_dial>
-      <.speed_dial id="ex-speed_dial-bordered" variant="bordered" color="danger" size="large" icon="hero-plus">
+      <.speed_dial
+        id="ex-speed_dial-bordered"
+        variant="bordered"
+        color="danger"
+        size="large"
+        icon="hero-plus"
+      >
         <:item icon="hero-home" color="info" />
         <:item icon="hero-star" color="secondary" />
         <:item icon="hero-chart-bar" color="primary" />
       </.speed_dial>
-      <.speed_dial id="ex-speed_dial-gradient" variant="gradient" color="misc" size="large" icon="hero-plus">
+      <.speed_dial
+        id="ex-speed_dial-gradient"
+        variant="gradient"
+        color="misc"
+        size="large"
+        icon="hero-plus"
+      >
         <:item icon="hero-home" color="info" />
         <:item icon="hero-star" color="secondary" />
         <:item icon="hero-chart-bar" color="primary" />
@@ -80,12 +104,24 @@ defmodule DevelopmentWeb.Showcase.Examples.SpeedDial do
         <:item icon="hero-star" color="secondary" />
         <:item icon="hero-chart-bar" color="primary" />
       </.speed_dial>
-      <.speed_dial id="ex-speed_dial-pos-bottom-start" action_position="bottom-start" color="danger" size="large" icon="hero-plus">
+      <.speed_dial
+        id="ex-speed_dial-pos-bottom-start"
+        action_position="bottom-start"
+        color="danger"
+        size="large"
+        icon="hero-plus"
+      >
         <:item icon="hero-home" color="info" />
         <:item icon="hero-star" color="secondary" />
         <:item icon="hero-chart-bar" color="primary" />
       </.speed_dial>
-      <.speed_dial id="ex-speed_dial-pos-bottom-end" action_position="bottom-end" color="info" size="large" icon="hero-plus">
+      <.speed_dial
+        id="ex-speed_dial-pos-bottom-end"
+        action_position="bottom-end"
+        color="info"
+        size="large"
+        icon="hero-plus"
+      >
         <:item icon="hero-home" color="info" />
         <:item icon="hero-star" color="secondary" />
         <:item icon="hero-chart-bar" color="primary" />
@@ -97,7 +133,13 @@ defmodule DevelopmentWeb.Showcase.Examples.SpeedDial do
   def example(%{section: "wrapper_position"} = assigns) do
     ~H"""
     <div class="flex flex-wrap items-center gap-16 min-h-48">
-      <.speed_dial id="ex-speed_dial-wrap-left" wrapper_position="left" color="dawn" size="large" icon="hero-plus">
+      <.speed_dial
+        id="ex-speed_dial-wrap-left"
+        wrapper_position="left"
+        color="dawn"
+        size="large"
+        icon="hero-plus"
+      >
         <:item icon="hero-home" color="info" />
         <:item icon="hero-star" color="secondary" />
         <:item icon="hero-chart-bar" color="primary" />
@@ -138,7 +180,13 @@ defmodule DevelopmentWeb.Showcase.Examples.SpeedDial do
         <:item icon="hero-star" color="secondary" />
         <:item icon="hero-chart-bar" color="primary" />
       </.speed_dial>
-      <.speed_dial id="ex-speed_dial-size-tl" size="triple_large" action_position="bottom-start" color="silver" icon="hero-plus">
+      <.speed_dial
+        id="ex-speed_dial-size-tl"
+        size="triple_large"
+        action_position="bottom-start"
+        color="silver"
+        icon="hero-plus"
+      >
         <:item icon="hero-home" color="info" />
         <:item icon="hero-star" color="secondary" />
         <:item icon="hero-chart-bar" color="primary" />
@@ -150,7 +198,13 @@ defmodule DevelopmentWeb.Showcase.Examples.SpeedDial do
   def example(%{section: "rounded"} = assigns) do
     ~H"""
     <div class="flex flex-wrap items-center gap-16 min-h-48">
-      <.speed_dial id="ex-speed_dial-round-medium" rounded="medium" color="dawn" size="large" icon="hero-plus">
+      <.speed_dial
+        id="ex-speed_dial-round-medium"
+        rounded="medium"
+        color="dawn"
+        size="large"
+        icon="hero-plus"
+      >
         <:item icon="hero-home" color="info" />
         <:item icon="hero-star" color="secondary" />
         <:item icon="hero-chart-bar" color="primary" />
@@ -194,7 +248,13 @@ defmodule DevelopmentWeb.Showcase.Examples.SpeedDial do
         <:item icon="hero-percent-badge" variant="bordered" color="dawn" />
         <:item icon="hero-ticket" color="danger" />
       </.speed_dial>
-      <.speed_dial id="ex-speed_dial-items-animated" size="extra_large" icon_animated color="info" icon="hero-plus">
+      <.speed_dial
+        id="ex-speed_dial-items-animated"
+        size="extra_large"
+        icon_animated
+        color="info"
+        icon="hero-plus"
+      >
         <:item icon="hero-home" variant="bordered" color="info" />
         <:item icon="hero-wrench" variant="bordered" color="dawn" />
       </.speed_dial>

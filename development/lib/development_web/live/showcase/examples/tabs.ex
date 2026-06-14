@@ -205,7 +205,13 @@ defmodule DevelopmentWeb.Showcase.Examples.Tabs do
         </:panel>
       </.tabs>
 
-      <.tabs id="ex-tabs-vertical-default" padding="large" vertical variant="default" color="secondary">
+      <.tabs
+        id="ex-tabs-vertical-default"
+        padding="large"
+        vertical
+        variant="default"
+        color="secondary"
+      >
         <:tab icon="hero-user-circle">Profile</:tab>
         <:tab icon="hero-ticket">Tickets</:tab>
         <:tab icon="hero-cog-6-tooth">Settings</:tab>

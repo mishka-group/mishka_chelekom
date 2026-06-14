@@ -45,7 +45,12 @@ defmodule DevelopmentWeb.Showcase.Examples.Footer do
       <.footer id="ex-footer-bordered" text_position="center" variant="bordered" color="primary">
         © Mishka Chelekom - All Rights Reserved
       </.footer>
-      <.footer id="ex-footer-transparent" text_position="center" variant="transparent" color="secondary">
+      <.footer
+        id="ex-footer-transparent"
+        text_position="center"
+        variant="transparent"
+        color="secondary"
+      >
         © Mishka Chelekom - All Rights Reserved
       </.footer>
       <.footer id="ex-footer-gradient" text_position="center" variant="gradient" color="danger">
@@ -185,7 +190,13 @@ defmodule DevelopmentWeb.Showcase.Examples.Footer do
 
   def example(%{section: "sections"} = assigns) do
     ~H"""
-    <.footer id="ex-footer-sections" color="secondary" padding="small" space="medium" variant="default">
+    <.footer
+      id="ex-footer-sections"
+      color="secondary"
+      padding="small"
+      space="medium"
+      variant="default"
+    >
       <.footer_section class="border-b border-[#E5E7EB]" padding="small">
         <h4 class="font-bold text-lg">Mishka Chelekom</h4>
       </.footer_section>
