@@ -463,28 +463,41 @@ defmodule DevelopmentWeb.Showcase.Preview do
   # Render a real users table: `<:header>` columns + `<.tr>/<.td>` rows (with a status badge), driven
   # by the controls (variant/color/padding/table_fixed). `rows_border` gives visible row separators.
   def show(%{component: "table"} = assigns) do
+    # Names vary in length on purpose. With the table capped at the container width (`max-w-full`),
+    # `table_fixed` is visible: auto-layout sizes the Name column to the longest name (long names fit
+    # on one line); fixed-layout makes all 3 columns EQUAL, so the long names wrap to 2-3 lines and
+    # those rows grow taller. 3 columns so it fits the narrow preview without clipping.
     assigns =
       assign(assigns, :rows, [
-        %{name: "Alice Johnson", role: "Admin", status: "Active", color: "success", email: "alice@acme.io"},
-        %{name: "Bob Martinez", role: "Editor", status: "Active", color: "success", email: "bob@acme.io"},
-        %{name: "Carol Lee", role: "Viewer", status: "Invited", color: "info", email: "carol@acme.io"},
-        %{name: "Dan Wright", role: "Viewer", status: "Suspended", color: "danger", email: "dan@acme.io"}
+        %{name: "Al Park", role: "Admin", status: "Active", color: "success"},
+        %{name: "Bob Martinez", role: "Editor", status: "Active", color: "success"},
+        %{name: "Alexandra Richardson", role: "Viewer", status: "Suspended", color: "danger"},
+        %{name: "Eve Adams", role: "Editor", status: "Active", color: "success"},
+        %{name: "Maximilian Cunningham", role: "Admin", status: "Invited", color: "info"},
+        %{name: "Grace Kim", role: "Viewer", status: "Active", color: "success"},
+        %{name: "Jonathan Fitzgerald", role: "Editor", status: "Suspended", color: "danger"},
+        %{name: "Henry Ford", role: "Admin", status: "Active", color: "success"}
       ])
 
     ~H"""
-    <div class="w-full overflow-x-auto">
-      <.table id={@id} {@props} rows_border="extra_small">
+    <div class="max-h-64 w-full overflow-y-auto overflow-x-hidden rounded-box border border-base-300">
+      <.table
+        id={@id}
+        {@props}
+        class="w-full"
+        rows_border="extra_small"
+        inner_wrapper_class="max-w-full"
+        thead_class="sticky top-0 z-10 bg-white dark:bg-base-bg-dark"
+      >
         <:header>Name</:header>
         <:header>Role</:header>
         <:header>Status</:header>
-        <:header>Email</:header>
         <.tr :for={u <- @rows}>
-          <.td class="font-medium whitespace-nowrap">{u.name}</.td>
+          <.td class="font-medium">{u.name}</.td>
           <.td>{u.role}</.td>
           <.td>
             <.badge color={u.color} variant="outline" size="small">{u.status}</.badge>
           </.td>
-          <.td class="whitespace-nowrap text-base-content/60">{u.email}</.td>
         </.tr>
       </.table>
     </div>

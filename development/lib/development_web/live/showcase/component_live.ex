@@ -451,6 +451,9 @@ defmodule DevelopmentWeb.Showcase.ComponentLive do
   defp preview_override("rating"), do: %{interactive: true}
   # shape: large by default so the clipped shape is clearly visible.
   defp preview_override("shape"), do: %{size: "large"}
+  # table: `default` variant + primary is a filled block (badges unreadable). Default to the clean
+  # `base` (white) table — switch variant to hoverable/stripped/etc. to test the others.
+  defp preview_override("table"), do: %{variant: "base", color: "natural", padding: "small"}
   # stepper: vertical reads well in the narrow preview (toggle off for a horizontal row). No `space` —
   # it adds a margin between steps that the clipped connector line can't bridge (lines look broken).
   defp preview_override("stepper"), do: %{vertical: true}

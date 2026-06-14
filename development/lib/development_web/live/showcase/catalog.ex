@@ -244,6 +244,11 @@ defmodule DevelopmentWeb.Showcase.Catalog do
     [%{key: "current", attr: "current", type: :integer, kind: :range, min: 1, max: 4, step: 1, default: 2, values: []}]
   end
 
+  # table: `text_position` (cell text alignment) isn't surfaced — add it as a control to test.
+  defp extra_dims("table") do
+    [%{key: "text_position", attr: "text_position", type: :string, values: ~w(left center right)}]
+  end
+
   # spinner: `type` (the animation style) isn't surfaced by the catalog — add it so the live preview
   # can switch between default / dots / bars / pinging.
   defp extra_dims("spinner") do
