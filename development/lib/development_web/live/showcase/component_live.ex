@@ -421,6 +421,8 @@ defmodule DevelopmentWeb.Showcase.ComponentLive do
   defp preview_override("jumbotron"), do: %{variant: "base", padding: "large", space: "medium"}
   # layout: start centered with a comfortable gap so the arranged boxes look intentional.
   defp preview_override("layout"), do: %{justify: "center", align: "center", gap: "medium"}
+  # list: a clean bordered list with roomy rows, so `hoverable` reads clearly on hover.
+  defp preview_override("list"), do: %{variant: "bordered", color: "natural", padding: "medium"}
   defp preview_override(_), do: %{}
 
   # Default the preview to options that actually show the component off: a color-bearing variant

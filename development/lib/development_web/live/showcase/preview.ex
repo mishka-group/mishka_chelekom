@@ -102,6 +102,28 @@ defmodule DevelopmentWeb.Showcase.Preview do
     """
   end
 
+  # List: render real `<:item>` rows (the generic `<.list>{@sample}</.list>` has no `<li>`s, so
+  # `hoverable` — which adds `[&_li]:hover:bg-…` — had nothing to act on). The `padding` control is
+  # routed to the items (the list container has no padding attr) so rows get height for the hover.
+  def show(%{component: "list"} = assigns) do
+    assigns =
+      assign(assigns,
+        list_props: Map.drop(assigns.props, [:padding]),
+        item_pad: assigns.props[:padding] || "small"
+      )
+
+    ~H"""
+    <div class="w-72">
+      <.list id={@id} {@list_props}>
+        <:item padding={@item_pad} icon="hero-inbox" title="Inbox">12 unread</:item>
+        <:item padding={@item_pad} icon="hero-star" title="Starred">3 items</:item>
+        <:item padding={@item_pad} icon="hero-paper-airplane" title="Sent">All caught up</:item>
+        <:item padding={@item_pad} icon="hero-trash" title="Trash">Empty</:item>
+      </.list>
+    </div>
+    """
+  end
+
   # Keyboard: a `<kbd>` key. One key holding "Mishka Chelekom" looks like a pill — show what it's for:
   # a shortcuts cheat-sheet (Ctrl + C, ⌘ + K …), each key a `<.keyboard>` driven by the controls.
   def show(%{component: "keyboard"} = assigns) do
