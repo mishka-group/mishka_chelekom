@@ -49,7 +49,9 @@ defmodule DevelopmentWeb.ShowcaseKit do
 
   customize :breadcrumb_kit do
     from :breadcrumb
-    color :brand, "text-fuchsia-600! [&>li_a]:hover:text-fuchsia-500!"
+    # @class lands on the <nav>; the component colours the <ol> (text-* + ol>li a hover),
+    # so scope through the ol from the root — a bare text-* on nav loses to the ol's own text-*.
+    color :brand, "[&>ol]:text-fuchsia-600! [&>ol>li_a]:hover:text-fuchsia-500!"
     default color: :brand
   end
 
@@ -295,8 +297,15 @@ defmodule DevelopmentWeb.ShowcaseKit do
 
   customize :popover_kit do
     from :popover
-    color :brand, "bg-fuchsia-600! text-white! border-fuchsia-600!"
-    default color: :brand
+    # @class lands on the OUTER wrapper (`<div class={@class}>`), but the component colours the
+    # floating panel `[data-floating-content]` deep inside. Colour the panel only — an unscoped
+    # bg-* would paint the full-width wrapper bar instead. The arrow uses bg-inherit, so it picks
+    # up the fuchsia fill automatically.
+    color :brand,
+          "[&_[data-floating-content]]:bg-fuchsia-600! [&_[data-floating-content]]:text-white! [&_[data-floating-content]]:border-fuchsia-600!"
+
+    default color: :brand,
+            content_class: "bg-fuchsia-600! text-white! border-fuchsia-600!"
   end
 
   customize :progress_kit do
@@ -466,8 +475,15 @@ defmodule DevelopmentWeb.ShowcaseKit do
 
   customize :tooltip_kit do
     from :tooltip
-    color :brand, "bg-fuchsia-600! text-white!"
-    default color: :brand
+    # @class lands on the OUTER wrapper (`<div class={@class}>` / inline `<span>`), but the component
+    # colours the floating panel `[data-floating-content]` only. Colour the panel — an unscoped bg-*
+    # would paint the full-width wrapper bar instead (same trap as popover). The arrow uses
+    # bg-inherit, so it inherits the fuchsia fill automatically.
+    color :brand,
+          "[&_[data-floating-content]]:bg-fuchsia-600! [&_[data-floating-content]]:text-white! [&_[data-floating-content]]:border-fuchsia-600!"
+
+    default color: :brand,
+            content_class: "bg-fuchsia-600! text-white! border-fuchsia-600!"
   end
 
   customize :url_field_kit do

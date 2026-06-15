@@ -76,10 +76,10 @@ defmodule DevelopmentWeb.Showcase.KitDemo do
 
   def demo(%{component: "breadcrumb"} = assigns) do
     ~H"""
-    <.breadcrumb_kit id="breadcrumb-kit-demo" color="brand">
-      <:item>Mishka Chelekom</:item>
-      <:item>Accordion</:item>
-      <:item>Alert</:item>
+    <.breadcrumb_kit id="breadcrumb-kit-demo" color="brand" size="medium">
+      <:item icon="hero-home" link="/chelekom">Mishka Chelekom</:item>
+      <:item icon="hero-squares-2x2" link="/chelekom/docs/accordion">Accordion</:item>
+      <:item icon="hero-bell-alert">Alert</:item>
     </.breadcrumb_kit>
     """
   end
@@ -247,18 +247,21 @@ defmodule DevelopmentWeb.Showcase.KitDemo do
 
   def demo(%{component: "drawer"} = assigns) do
     ~H"""
-    <div class="relative min-h-48">
+    <div class="relative h-64 overflow-hidden rounded-lg border border-base-300 bg-base-200/30">
       <.drawer_kit
         id="drawer-kit-demo"
         color="brand"
         position="left"
         size="small"
         title="Brand Drawer"
+        class="!absolute !h-full !translate-x-0"
+        overlay_class="!absolute !bg-transparent"
       >
-        <ul>
-          <li class="py-2 px-3 cursor-pointer">Home</li>
-          <li class="py-2 px-3 cursor-pointer">Inbox</li>
-          <li class="py-2 px-3 cursor-pointer">Settings</li>
+        <ul class="text-sm">
+          <li class="py-2 px-3 rounded hover:bg-white/15 cursor-pointer">Home</li>
+          <li class="py-2 px-3 rounded hover:bg-white/15 cursor-pointer">Inbox</li>
+          <li class="py-2 px-3 rounded hover:bg-white/15 cursor-pointer">Settings</li>
+          <li class="py-2 px-3 rounded hover:bg-white/15 cursor-pointer">Profile</li>
         </ul>
       </.drawer_kit>
     </div>
@@ -267,28 +270,32 @@ defmodule DevelopmentWeb.Showcase.KitDemo do
 
   def demo(%{component: "dropdown"} = assigns) do
     ~H"""
-    <.dropdown_kit
-      id="dropdown-kit-demo"
-      color="brand"
-      space="small"
-      rounded="large"
-      padding="extra_small"
-    >
-      <:trigger>
-        <.button size="extra_small">
-          Brand dropdown
-        </.button>
-      </:trigger>
+    <div class="flex flex-col items-center gap-3 py-6">
+      <.dropdown_kit
+        id="dropdown-kit-demo"
+        color="brand"
+        clickable
+        width="medium"
+        space="small"
+        rounded="large"
+        padding="extra_small"
+        class="w-fit"
+      >
+        <:trigger>
+          <.button size="extra_small">Click for brand dropdown</.button>
+        </:trigger>
 
-      <:content>
-        <ul class="text-xs">
-          <li class="py-1.5 px-2 cursor-pointer">Dashboard</li>
-          <li class="py-1.5 px-2 cursor-pointer">Settings</li>
-          <li class="py-1.5 px-2 cursor-pointer">Earning</li>
-          <li class="py-1.5 px-2 cursor-pointer">Sign out</li>
-        </ul>
-      </:content>
-    </.dropdown_kit>
+        <:content class="bg-fuchsia-600! text-white! border-fuchsia-600!">
+          <ul class="text-sm">
+            <li class="px-3 py-1.5 cursor-pointer rounded hover:bg-white/15">Dashboard</li>
+            <li class="px-3 py-1.5 cursor-pointer rounded hover:bg-white/15">Settings</li>
+            <li class="px-3 py-1.5 cursor-pointer rounded hover:bg-white/15">Earning</li>
+            <li class="px-3 py-1.5 cursor-pointer rounded hover:bg-white/15">Sign out</li>
+          </ul>
+        </:content>
+      </.dropdown_kit>
+      <p class="text-xs text-base-content/50">Click the trigger — the brand-fuchsia menu opens.</p>
+    </div>
     """
   end
 
@@ -430,9 +437,23 @@ defmodule DevelopmentWeb.Showcase.KitDemo do
 
   def demo(%{component: "modal"} = assigns) do
     ~H"""
-    <.modal_kit id="modal-kit-demo" color="brand" title="Brand modal">
-      <p>Brand-customized modal content.</p>
-    </.modal_kit>
+    <div class="relative grid h-72 w-full place-items-center overflow-hidden rounded-lg border border-base-300 bg-base-200/30">
+      <.modal_kit
+        id="modal-kit-demo"
+        color="brand"
+        title="Brand modal"
+        size="medium"
+        class="!absolute !inset-0 !block"
+        overlay_class="!absolute !bg-transparent"
+        wrapper_class="!absolute"
+        focus_wrap_class="!block"
+      >
+        <p class="text-sm">
+          This panel is recoloured by the Kit's brand rule, applied straight to the
+          modal's coloured panel.
+        </p>
+      </.modal_kit>
+    </div>
     """
   end
 
@@ -530,21 +551,32 @@ defmodule DevelopmentWeb.Showcase.KitDemo do
 
   def demo(%{component: "popover"} = assigns) do
     ~H"""
-    <.popover_kit
-      id="popover-kit-demo"
-      color="brand"
-      variant="default"
-      width="large"
-      padding="small"
-      rounded="small"
-    >
-      <:trigger>
-        <.button color="info" size="small" variant="outline">Brand popover</.button>
-      </:trigger>
-      <:content>
-        Content within the brand popover
-      </:content>
-    </.popover_kit>
+    <div class="flex flex-col items-center gap-3 py-6">
+      <.popover_kit
+        id="popover-kit-demo"
+        color="brand"
+        variant="default"
+        clickable
+        position="bottom"
+        width="large"
+        padding="medium"
+        rounded="medium"
+        class="w-fit"
+      >
+        <:trigger>
+          <.button color="info" size="small" variant="outline" class="gap-1.5">
+            <.icon name="hero-information-circle" class="size-4" /> Click for brand popover
+          </.button>
+        </:trigger>
+        <:content>
+          <h4 class="font-semibold">Brand popover</h4>
+          <span class="block text-xs leading-relaxed">
+            This floating panel is recoloured by the Kit's brand fuchsia — the trigger stays untouched.
+          </span>
+        </:content>
+      </.popover_kit>
+      <p class="text-xs text-base-content/50">Click the trigger — the brand-fuchsia popover opens.</p>
+    </div>
     """
   end
 
@@ -858,16 +890,24 @@ defmodule DevelopmentWeb.Showcase.KitDemo do
 
   def demo(%{component: "tooltip"} = assigns) do
     ~H"""
-    <.tooltip_kit
-      id="tooltip-kit-demo"
-      color="brand"
-      position="top"
-      text="Brand tooltip"
-    >
-      <:trigger>
-        <button class="p-2">Hover me</button>
-      </:trigger>
-    </.tooltip_kit>
+    <div class="flex flex-col items-center gap-3 py-6">
+      <.tooltip_kit
+        id="tooltip-kit-demo"
+        color="brand"
+        variant="default"
+        position="bottom"
+        clickable
+        text="Brand tooltip — recoloured by the Kit's brand fuchsia."
+        class="w-fit"
+      >
+        <:trigger>
+          <.button color="info" size="small" variant="outline" class="gap-1.5">
+            <.icon name="hero-information-circle" class="size-4" /> Click for brand tooltip
+          </.button>
+        </:trigger>
+      </.tooltip_kit>
+      <p class="text-xs text-base-content/50">Click the trigger — the brand-fuchsia tooltip opens.</p>
+    </div>
     """
   end
 
