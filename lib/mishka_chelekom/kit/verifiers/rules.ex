@@ -33,11 +33,25 @@ defmodule MishkaChelekom.Kit.Verifiers.Rules do
           {:halt,
            err(dsl_state, name, "declares no rules — add at least one color/variant/size/part")}
 
+        bad = Enum.find(dims, &own_axis_partner?/1) ->
+          {:halt,
+           err(
+             dsl_state,
+             name,
+             "rule `#{bad.attr} #{inspect(bad.value)}` pins its OWN axis as a partner — pair on the other axis (a `variant` rule with `color:`, or a `color` rule with `variant:`)"
+           )}
+
         true ->
           {:cont, :ok}
       end
     end)
   end
+
+  # A pair must pin the OTHER axis. Pinning your own (`color :x, color: :y` / `variant :x, variant: :y`)
+  # is silently dropped by the transformer, so reject it here instead of letting it look active.
+  defp own_axis_partner?(%Rule{attr: :color, color: color}) when color != nil, do: true
+  defp own_axis_partner?(%Rule{attr: :variant, variant: variant}) when variant != nil, do: true
+  defp own_axis_partner?(%Rule{}), do: false
 
   defp err(dsl_state, name, message) do
     {:error,

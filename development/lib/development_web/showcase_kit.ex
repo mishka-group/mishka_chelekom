@@ -32,6 +32,12 @@ defmodule DevelopmentWeb.ShowcaseKit do
   customize :badge_kit do
     from :badge
     color :brand, "bg-fuchsia-600! text-white! border-fuchsia-600!"
+
+    # variant×color PAIR — fires ONLY for variant="bordered" AND color="success".
+    variant :bordered,
+            "bg-emerald-100! text-emerald-700! border-emerald-600!",
+            color: :success
+
     default color: :brand
   end
 
@@ -58,6 +64,13 @@ defmodule DevelopmentWeb.ShowcaseKit do
   customize :button_kit do
     from :button
     color :brand, "bg-fuchsia-600! text-white! border-fuchsia-600! hover:bg-fuchsia-500!"
+
+    # variant×color PAIR — fires ONLY for variant="outline" AND color="danger".
+    # cyan is NOT a Mishka palette colour — injected just for this one combo.
+    variant :outline,
+            "border-2! border-cyan-500! text-cyan-600! bg-transparent! hover:bg-cyan-50!",
+            color: :danger
+
     default color: :brand
   end
 
@@ -335,7 +348,10 @@ defmodule DevelopmentWeb.ShowcaseKit do
 
   customize :range_field_kit do
     from :range_field
-    color :brand, "[&_.range-field::-webkit-slider-thumb]:bg-fuchsia-600! [&_.range-field::-moz-range-thumb]:bg-fuchsia-600! [&_.range-field::-moz-range-thumb]:border-fuchsia-600! [&_.range-field::-webkit-slider-runnable-track]:bg-fuchsia-200! [&_.range-field::-moz-range-track]:bg-fuchsia-200!"
+
+    color :brand,
+          "[&_.range-field::-webkit-slider-thumb]:bg-fuchsia-600! [&_.range-field::-moz-range-thumb]:bg-fuchsia-600! [&_.range-field::-moz-range-thumb]:border-fuchsia-600! [&_.range-field::-webkit-slider-runnable-track]:bg-fuchsia-200! [&_.range-field::-moz-range-track]:bg-fuchsia-200!"
+
     default color: :brand
   end
 
@@ -475,6 +491,7 @@ defmodule DevelopmentWeb.ShowcaseKit do
 
   customize :tooltip_kit do
     from :tooltip
+
     # @class lands on the OUTER wrapper (`<div class={@class}>` / inline `<span>`), but the component
     # colours the floating panel `[data-floating-content]` only. Colour the panel — an unscoped bg-*
     # would paint the full-width wrapper bar instead (same trap as popover). The arrow uses

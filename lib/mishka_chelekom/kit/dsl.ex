@@ -36,7 +36,19 @@ defmodule MishkaChelekom.Kit.Dsl do
                      auto_set_fields: [attr: attr],
                      schema: [
                        value: [type: {:or, [:atom, :string]}, required: true],
-                       classes: [type: :string, required: true]
+                       classes: [type: :string, required: true],
+                       color: [
+                         type: {:or, [:atom, :string]},
+                         required: false,
+                         doc:
+                           "pair this rule with a specific color — matches only that variant×color combo"
+                       ],
+                       variant: [
+                         type: {:or, [:atom, :string]},
+                         required: false,
+                         doc:
+                           "pair this rule with a specific variant — matches only that variant×color combo"
+                       ]
                      ]
                    }
                  end)

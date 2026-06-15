@@ -54,6 +54,8 @@ defmodule DevelopmentWeb.Showcase.KitDemo do
     <div class="flex flex-wrap items-center gap-4">
       <.badge_kit color="brand">Brand badge</.badge_kit>
       <.badge_kit>Default badge</.badge_kit>
+      <%!-- the variant×color PAIR rule: only this exact combo gets the emerald look --%>
+      <.badge_kit variant="bordered" color="success">Bordered × success</.badge_kit>
     </div>
     """
   end
@@ -89,6 +91,10 @@ defmodule DevelopmentWeb.Showcase.KitDemo do
     <div class="flex flex-wrap items-center gap-3">
       <.button_kit id="button-kit-demo" color="brand">Brand button</.button_kit>
       <.button_kit id="button-kit-demo-icon" color="brand" icon="hero-bookmark">Save</.button_kit>
+      <%!-- the variant×color PAIR rule: only outline×danger gets the cyan look --%>
+      <.button_kit id="button-kit-demo-pair" variant="outline" color="danger">
+        Outline × danger
+      </.button_kit>
     </div>
     """
   end

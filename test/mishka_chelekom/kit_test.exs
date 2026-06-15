@@ -18,9 +18,9 @@ defmodule MishkaChelekom.KitTest do
       ~H|<button class={["btn", vc(@variant), cc(@color), @class]} {@rest}>{render_slot(@inner_block)}</button>|
     end
 
-    defp vc("base"), do: "v-base"
-    defp cc("base"), do: "c-base"
-    defp cc("primary"), do: "c-primary"
+    # generic so any pass-through value renders (v-base, c-primary, c-secondary, …)
+    defp vc(v), do: "v-#{v}"
+    defp cc(c), do: "c-#{c}"
   end
 
   defmodule Components.Alert do
@@ -88,6 +88,36 @@ defmodule MishkaChelekom.KitTest do
       default color: "gold"
     end
 
+    # variant×color PAIR rules — classes apply only to that exact combo
+    customize :paired_button do
+      from :button
+      variant :outline, "ring-2! ring-rose-500!", color: "danger"      # existing × existing → replace
+      variant :promo, "bg-rose-600! ring-4!", color: "danger"          # new variant × existing color
+      variant :outline, "border! border-fuchsia-600!", color: "brand"  # same variant, different color → distinct pair
+      color :brand, "bg-fuchsia-600!"                                   # a single rule that COEXISTS
+    end
+
+    # a pair whose partner is supplied by `default` (not by the caller)
+    customize :default_paired do
+      from :button
+      variant :outline, "ring-2! ring-rose-500!", color: "danger"
+      default color: "danger"
+    end
+
+    # ONLY pair rules (no single rules) + two identical matches to prove first-match wins
+    customize :ordered_pairs do
+      from :button
+      variant :outline, "first!", color: "danger"
+      variant :outline, "second!", color: "danger"
+    end
+
+    # a pair remapping to a CUSTOM base
+    customize :based_paired do
+      from :button
+      base "neutral"
+      variant :outline, "ring-2!", color: "danger"
+    end
+
     # headless (decided by `part` rules) — full [&_[data-part=…]]: variants, verbatim
     customize :faq do
       from :accordion
@@ -114,6 +144,17 @@ defmodule MishkaChelekom.KitTest do
     import MishkaChelekom.KitTest.NsKit
 
     def show_button(assigns), do: ~H|<.button variant={@variant} color={@color}>x</.button>|
+
+    def show_paired(assigns),
+      do: ~H|<.paired_button variant={@variant} color={@color}>x</.paired_button>|
+
+    def show_default_paired(assigns), do: ~H|<.default_paired variant={@variant}>x</.default_paired>|
+
+    def show_ordered(assigns),
+      do: ~H|<.ordered_pairs variant={@variant} color={@color}>x</.ordered_pairs>|
+
+    def show_based(assigns),
+      do: ~H|<.based_paired variant={@variant} color={@color}>x</.based_paired>|
     def show_alert(assigns), do: ~H|<.alert>x</.alert>|
     def show_fancy(assigns), do: ~H|<.fancy_button>x</.fancy_button>|
     def show_faq(assigns), do: ~H|<.faq id="f"><:item>Q</:item></.faq>|
@@ -155,6 +196,108 @@ defmodule MishkaChelekom.KitTest do
       assert out =~ "v-base"
       assert out =~ "c-base"
       refute out =~ "!"
+    end
+  end
+
+  # ── styled: variant×color PAIR rules ─────────────────────────────────────────────────────
+
+  describe "customize styled — variant×color pair rules" do
+    test "existing × existing: the combo matches; BOTH dims remap to base; pair classes win" do
+      out = html(&Page.show_paired/1, %{variant: "outline", color: "danger"})
+      assert out =~ "v-base"
+      assert out =~ "c-base"
+      assert out =~ "ring-2! ring-rose-500!"
+      # the other rules did NOT fire
+      refute out =~ "border! border-fuchsia-600!"
+      refute out =~ "bg-rose-600!"
+    end
+
+    test "new variant × existing color" do
+      out = html(&Page.show_paired/1, %{variant: "promo", color: "danger"})
+      assert out =~ "v-base"
+      assert out =~ "c-base"
+      assert out =~ "bg-rose-600! ring-4!"
+    end
+
+    test "same variant, different color is a DIFFERENT pair" do
+      out = html(&Page.show_paired/1, %{variant: "outline", color: "brand"})
+      assert out =~ "border! border-fuchsia-600!"
+      refute out =~ "ring-2! ring-rose-500!"
+    end
+
+    test "a matched pair takes precedence — the coexisting single color:brand is skipped" do
+      out = html(&Page.show_paired/1, %{variant: "outline", color: "brand"})
+      assert out =~ "border! border-fuchsia-600!"
+      refute out =~ "bg-fuchsia-600!"
+    end
+
+    test "single rule still fires when no pair matches that combo" do
+      out = html(&Page.show_paired/1, %{variant: "base", color: "brand"})
+      refute out =~ "border! border-fuchsia-600!"
+      assert out =~ "bg-fuchsia-600!"
+      assert out =~ "c-base"
+    end
+
+    test "untouched combo passes straight through (no pair, no single)" do
+      out = html(&Page.show_paired/1, %{variant: "base", color: "secondary"})
+      assert out =~ "v-base"
+      assert out =~ "c-secondary"
+      refute out =~ "!"
+    end
+
+    test "a pair matches when its partner is supplied by `default`, not the caller" do
+      # caller passes only variant; `default color: \"danger\"` fills the partner → pair fires
+      out = html(&Page.show_default_paired/1, %{variant: "outline"})
+      assert out =~ "v-base"
+      assert out =~ "c-base"
+      assert out =~ "ring-2! ring-rose-500!"
+    end
+
+    test "first matching pair wins; a later identical pair is ignored" do
+      out = html(&Page.show_ordered/1, %{variant: "outline", color: "danger"})
+      assert out =~ "first!"
+      refute out =~ "second!"
+    end
+
+    test "a pairs-only customize (no single rules) passes unmatched combos straight through" do
+      out = html(&Page.show_ordered/1, %{variant: "base", color: "secondary"})
+      assert out =~ "v-base"
+      assert out =~ "c-secondary"
+      refute out =~ "!"
+    end
+
+    test "a pair remaps to the customize's custom `base`, not \"base\"" do
+      out = html(&Page.show_based/1, %{variant: "outline", color: "danger"})
+      assert out =~ "v-neutral"
+      assert out =~ "c-neutral"
+      assert out =~ "ring-2!"
+    end
+  end
+
+  # ── styled: pair guardrail (compile-time) ────────────────────────────────────────────────
+
+  describe "customize styled — pinning your OWN axis is rejected" do
+    test "a `color` rule with a `color:` partner is rejected at compile time" do
+      # The Spark verifier raises a DslError during compilation; Code.eval_string surfaces it as a
+      # compiler diagnostic, so capture it that way (a real `.ex` file hard-fails to compile).
+      {_, diagnostics} =
+        Code.with_diagnostics(fn ->
+          try do
+            Code.eval_string("""
+            defmodule BadOwnAxisKit#{System.unique_integer([:positive])} do
+              use MishkaChelekom.Kit
+              customize :x do
+                from :button
+                color :brand, "bg-x!", color: :danger
+              end
+            end
+            """)
+          rescue
+            _ -> :ok
+          end
+        end)
+
+      assert Enum.any?(diagnostics, &(to_string(&1.message) =~ "OWN axis"))
     end
   end
 
@@ -227,7 +370,16 @@ defmodule MishkaChelekom.KitTest do
   describe "Info" do
     test "customizes/1 returns every customize as a struct" do
       names = Kit |> Info.customizes() |> Enum.map(& &1.name) |> Enum.sort()
-      assert names == [:alert, :button, :fancy_button, :faq]
+      assert names == [
+               :alert,
+               :based_paired,
+               :button,
+               :default_paired,
+               :fancy_button,
+               :faq,
+               :ordered_pairs,
+               :paired_button
+             ]
       assert %Customize{from: :accordion} = Enum.find(Info.customizes(Kit), &(&1.name == :faq))
     end
 

@@ -77,20 +77,31 @@ defmodule MishkaChelekom.Kit.Transformers.Generate do
   defp segments(:styled), do: ["Components"]
 
   defp build_spec(dims, parts, base, default) do
+    # A rule with a variant×color partner is a PAIR rule (matches only that combo); the rest are
+    # single-value rules. Classes are VERBATIM in both — write them whole (incl. a trailing `!` for
+    # precedence). No transform, so Tailwind scans them straight from your `kit.ex` — no safelist.
+    {paired, singles} = Enum.split_with(dims, &paired?/1)
+
     attrs =
-      case dims do
+      case singles do
         [] ->
           nil
 
         _ ->
-          dims
+          singles
           |> Enum.group_by(& &1.attr)
-          # classes are used VERBATIM — write them whole in your Kit (incl. a trailing `!` for
-          # precedence over the component's defaults). No transform, so Tailwind scans them straight
-          # from your `kit.ex` — no safelist step.
           |> Map.new(fn {a, rs} ->
             {a, Map.new(rs, &{to_string(&1.value), &1.classes})}
           end)
+      end
+
+    # Pair rules: an ordered list of {match-map, classes}. The match-map is a string→string map of
+    # the dimensions the rule pins (e.g. %{"variant" => "bordered", "color" => "danger"}); the
+    # runtime applies the first whose every key matches the assigns.
+    pairs =
+      case paired do
+        [] -> nil
+        _ -> Enum.map(paired, &%{match: match_map(&1), classes: &1.classes})
       end
 
     # Part classes are also verbatim — write the full `[&_[data-part=name]]:` variant in your Kit.
@@ -100,8 +111,25 @@ defmodule MishkaChelekom.Kit.Transformers.Generate do
         _ -> Enum.map_join(parts, " ", & &1.classes)
       end
 
-    %{attrs: attrs, class: class, base: base, default: default}
+    %{attrs: attrs, pairs: pairs, class: class, base: base, default: default}
   end
+
+  # A rule is paired when it pins a partner on the OTHER axis (a `variant` rule with `color:`, or a
+  # `color` rule with `variant:`). A partner equal to the rule's own attr is ignored (redundant).
+  defp paired?(%Rule{attr: attr, color: color, variant: variant}) do
+    (color != nil and attr != :color) or (variant != nil and attr != :variant)
+  end
+
+  defp match_map(%Rule{attr: attr, value: value} = r) do
+    %{to_string(attr) => to_string(value)}
+    |> add_partner(attr, :color, r.color)
+    |> add_partner(attr, :variant, r.variant)
+  end
+
+  defp add_partner(map, attr, key, val) when val != nil and attr != key,
+    do: Map.put(map, to_string(key), to_string(val))
+
+  defp add_partner(map, _attr, _key, _val), do: map
 
   # Resolve the real component module: an explicit namespace (from `components`/`headless` options)
   # wins; otherwise convention from the Kit module's web namespace.

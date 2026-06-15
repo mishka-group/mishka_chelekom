@@ -10,7 +10,7 @@ defmodule DevelopmentWeb.ShowcaseTypographyKit do
   """
   use MishkaChelekom.Kit
 
-  components DevelopmentWeb.Kit
+  components(DevelopmentWeb.Kit)
 
   customize :typography_kit do
     from :typography
