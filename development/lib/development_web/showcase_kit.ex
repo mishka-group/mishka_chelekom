@@ -81,7 +81,7 @@ defmodule DevelopmentWeb.ShowcaseKit do
     from :checkbox_card
 
     color :brand,
-          "[&_.checkbox-card-wrapper]:bg-fuchsia-600! [&_.checkbox-card-wrapper]:text-white! [&_.checkbox-card-wrapper]:border-fuchsia-600!"
+          "[&_.checkbox-card-wrapper]:bg-fuchsia-600! [&_.checkbox-card-wrapper]:text-white! [&_.checkbox-card-wrapper]:has-[:checked]:bg-fuchsia-700! [&_.checkbox-card-input]:border-fuchsia-600! [&_.checkbox-card-input]:checked:accent-fuchsia-600!"
 
     default color: :brand
   end
@@ -105,7 +105,7 @@ defmodule DevelopmentWeb.ShowcaseKit do
     from :combobox
 
     color :brand,
-          "[&_.combobox-trigger]:bg-fuchsia-600! text-white! [&_.combobox-trigger]:border-fuchsia-600!"
+          "[&_.combobox-trigger]:bg-fuchsia-600! [&_.combobox-trigger]:text-white! [&_.combobox-option]:hover:bg-fuchsia-700! [&_.combobox-option]:hover:text-white! [&_.combobox-pill]:bg-fuchsia-700! [&_.combobox-pill]:text-white!"
 
     default color: :brand
   end
@@ -301,7 +301,8 @@ defmodule DevelopmentWeb.ShowcaseKit do
 
   customize :progress_kit do
     from :progress
-    color :brand, "[&_.progress-section]:bg-fuchsia-600! [&_.progress-section]:text-white!"
+    # @class lands on the `.progress-section` fill bar itself, so colour it directly.
+    color :brand, "bg-fuchsia-600! text-white!"
     default color: :brand
   end
 
@@ -309,7 +310,7 @@ defmodule DevelopmentWeb.ShowcaseKit do
     from :radio_card
 
     color :brand,
-          "bg-fuchsia-600! text-white! border-fuchsia-600! [&_.radio-card-input]:checked:accent-fuchsia-600! [&_.radio-card-input]:border-fuchsia-600! has-[:checked]:bg-fuchsia-700! has-[:checked]:border-fuchsia-700!"
+          "[&_.radio-card-wrapper]:bg-fuchsia-600! [&_.radio-card-wrapper]:text-white! [&_.radio-card-wrapper]:has-[:checked]:bg-fuchsia-700! [&_.radio-card-input]:border-fuchsia-600! [&_.radio-card-input]:checked:accent-fuchsia-600!"
 
     default color: :brand
   end
@@ -325,7 +326,7 @@ defmodule DevelopmentWeb.ShowcaseKit do
 
   customize :range_field_kit do
     from :range_field
-    color :brand, "[&_input]:accent-fuchsia-600!"
+    color :brand, "[&_.range-field::-webkit-slider-thumb]:bg-fuchsia-600! [&_.range-field::-moz-range-thumb]:bg-fuchsia-600! [&_.range-field::-moz-range-thumb]:border-fuchsia-600! [&_.range-field::-webkit-slider-runnable-track]:bg-fuchsia-200! [&_.range-field::-moz-range-track]:bg-fuchsia-200!"
     default color: :brand
   end
 
@@ -342,7 +343,7 @@ defmodule DevelopmentWeb.ShowcaseKit do
     from :search_field
 
     color :brand,
-          "[&_.search-field-wrapper]:bg-fuchsia-600! [&_.search-field-wrapper]:border-fuchsia-600! text-fuchsia-600! focus-within:[&_.search-field-wrapper]:ring-fuchsia-500!"
+          "[&_.search-field-wrapper]:bg-fuchsia-600! [&_.search-field-wrapper]:border-fuchsia-600! [&_.search-field-wrapper>input]:text-white! [&_.search-field-wrapper>input]:placeholder:text-white! [&_.search-field-wrapper_.search-icon]:text-white! focus-within:[&_.search-field-wrapper]:ring-fuchsia-500!"
 
     default color: :brand
   end
@@ -389,8 +390,10 @@ defmodule DevelopmentWeb.ShowcaseKit do
   customize :table_kit do
     from :table
 
+    # @class lands on the `<table>` element itself (not the wrapper), so colour it
+    # directly; td/th/divide scopes still target its descendants correctly.
     color :brand,
-          "[&_table]:bg-fuchsia-600! [&_table]:text-white! border-fuchsia-600! [&_*]:divide-fuchsia-600! [&_td]:border-fuchsia-600! [&_th]:border-fuchsia-600!"
+          "bg-fuchsia-600! text-white! border-fuchsia-600! [&_*]:divide-fuchsia-600! [&_td]:border-fuchsia-600! [&_th]:border-fuchsia-600!"
 
     default color: :brand
   end
@@ -423,7 +426,7 @@ defmodule DevelopmentWeb.ShowcaseKit do
     from :text_field
 
     color :brand,
-          "[&_.text-field-wrapper]:bg-fuchsia-600! [&_.text-field-wrapper]:border-fuchsia-600! text-fuchsia-600! [&_.text-field-wrapper>input]:placeholder:text-fuchsia-600! focus-within:[&_.text-field-wrapper]:ring-fuchsia-500!"
+          "[&_.text-field-wrapper]:bg-fuchsia-600! [&_.text-field-wrapper]:border-fuchsia-600! [&_.text-field-wrapper>input]:text-white! [&_.text-field-wrapper>input]:placeholder:text-white! focus-within:[&_.text-field-wrapper]:ring-fuchsia-500!"
 
     default color: :brand
   end

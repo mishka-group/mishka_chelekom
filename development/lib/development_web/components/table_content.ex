@@ -117,7 +117,8 @@ defmodule DevelopmentWeb.Components.TableContent do
         rounded_size(@rounded),
         border_class(@border, @variant),
         space_size(@space),
-        size_class(@size)
+        size_class(@size),
+        @class
       ]}
       {@rest}
     >

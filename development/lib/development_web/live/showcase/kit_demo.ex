@@ -5,8 +5,9 @@ defmodule DevelopmentWeb.Showcase.KitDemo do
   """
   use DevelopmentWeb, :html
   import DevelopmentWeb.ShowcaseKit
+  import DevelopmentWeb.ShowcaseTypographyKit
 
-  @available ~w(accordion alert avatar badge banner blockquote breadcrumb button card carousel chat checkbox_card checkbox_field color_field combobox date_time_field device_mockup divider dock drawer dropdown email_field fieldset file_field footer form_wrapper indicator jumbotron keyboard list mega_menu modal native_select navbar number_field overlay pagination password_field popover progress radio_card radio_field range_field rating search_field sidebar skeleton speed_dial spinner stat stepper table table_content tabs tel_field text_field textarea_field timeline toast toggle_field tooltip url_field)
+  @available ~w(accordion alert avatar badge banner blockquote breadcrumb button card carousel chat checkbox_card checkbox_field color_field combobox date_time_field device_mockup divider dock drawer dropdown email_field fieldset file_field footer form_wrapper indicator jumbotron keyboard list mega_menu modal native_select navbar number_field overlay pagination password_field popover progress radio_card radio_field range_field rating search_field sidebar skeleton speed_dial spinner stat stepper table table_content tabs tel_field text_field textarea_field timeline toast toggle_field tooltip typography url_field)
   def available?(name), do: name in @available
 
   attr :component, :string, required: true
@@ -875,6 +876,12 @@ defmodule DevelopmentWeb.Showcase.KitDemo do
 
     ~H"""
     <.url_field_kit field={@form[:url]} color="brand" label="Brand url field" />
+    """
+  end
+
+  def demo(%{component: "typography"} = assigns) do
+    ~H"""
+    <.typography_kit color="brand" />
     """
   end
 
