@@ -51,13 +51,96 @@ defmodule DevelopmentWeb.Showcase.Examples.Pagination do
     """
   end
 
-  def example(%{section: "default"} = assigns), do: variant_grid(assigns, "default")
-  def example(%{section: "outline"} = assigns), do: variant_grid(assigns, "outline")
-  def example(%{section: "transparent"} = assigns), do: variant_grid(assigns, "transparent")
-  def example(%{section: "gradient"} = assigns), do: variant_grid(assigns, "gradient")
-  def example(%{section: "subtle"} = assigns), do: variant_grid(assigns, "subtle")
-  def example(%{section: "shadow"} = assigns), do: variant_grid(assigns, "shadow")
-  def example(%{section: "inverted"} = assigns), do: variant_grid(assigns, "inverted")
+  def example(%{section: "default"} = assigns) do
+    assigns = assign(assigns, :colors, @colors)
+
+    ~H"""
+    <div class="flex flex-col gap-4">
+      <.pagination :for={c <- @colors} total={10} active={1} size="small" variant="default" color={c} />
+    </div>
+    """
+  end
+
+  def example(%{section: "outline"} = assigns) do
+    assigns = assign(assigns, :colors, @colors)
+
+    ~H"""
+    <div class="flex flex-col gap-4">
+      <.pagination :for={c <- @colors} total={10} active={1} size="small" variant="outline" color={c} />
+    </div>
+    """
+  end
+
+  def example(%{section: "transparent"} = assigns) do
+    assigns = assign(assigns, :colors, @colors)
+
+    ~H"""
+    <div class="flex flex-col gap-4">
+      <.pagination
+        :for={c <- @colors}
+        total={10}
+        active={1}
+        size="small"
+        variant="transparent"
+        color={c}
+      />
+    </div>
+    """
+  end
+
+  def example(%{section: "gradient"} = assigns) do
+    assigns = assign(assigns, :colors, @colors)
+
+    ~H"""
+    <div class="flex flex-col gap-4">
+      <.pagination
+        :for={c <- @colors}
+        total={10}
+        active={1}
+        size="small"
+        variant="gradient"
+        color={c}
+      />
+    </div>
+    """
+  end
+
+  def example(%{section: "subtle"} = assigns) do
+    assigns = assign(assigns, :colors, @colors)
+
+    ~H"""
+    <div class="flex flex-col gap-4">
+      <.pagination :for={c <- @colors} total={10} active={1} size="small" variant="subtle" color={c} />
+    </div>
+    """
+  end
+
+  def example(%{section: "shadow"} = assigns) do
+    assigns = assign(assigns, :colors, @colors)
+
+    ~H"""
+    <div class="flex flex-col gap-4">
+      <.pagination :for={c <- @colors} total={10} active={1} size="small" variant="shadow" color={c} />
+    </div>
+    """
+  end
+
+  def example(%{section: "inverted"} = assigns) do
+    assigns = assign(assigns, :colors, @colors)
+
+    ~H"""
+    <div class="flex flex-col gap-4">
+      <.pagination
+        :for={c <- @colors}
+        total={10}
+        active={1}
+        size="small"
+        variant="inverted"
+        color={c}
+      />
+    </div>
+    """
+  end
 
   def example(%{section: "grouped"} = assigns) do
     assigns = assign(assigns, :colors, @colors)
@@ -216,21 +299,4 @@ defmodule DevelopmentWeb.Showcase.Examples.Pagination do
   end
 
   def example(assigns), do: ~H""
-
-  defp variant_grid(assigns, variant) do
-    assigns = assign(assigns, variant: variant, colors: @colors)
-
-    ~H"""
-    <div class="flex flex-col gap-4">
-      <.pagination
-        :for={c <- @colors}
-        total={10}
-        active={1}
-        size="small"
-        variant={@variant}
-        color={c}
-      />
-    </div>
-    """
-  end
 end

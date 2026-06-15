@@ -8,7 +8,7 @@ defmodule DevelopmentWeb.Showcase.ComponentLive do
   use DevelopmentWeb, :live_view
 
   import DevelopmentWeb.Showcase.UI
-  alias DevelopmentWeb.Showcase.{Catalog, Preview, Snippets, JsonMeta}
+  alias DevelopmentWeb.Showcase.{Catalog, Preview, Snippets, JsonMeta, ExampleSource}
 
   @sample "Mishka Chelekom"
 
@@ -56,6 +56,21 @@ defmodule DevelopmentWeb.Showcase.ComponentLive do
   end
 
   defp example(assigns), do: apply(assigns.mod, :example, [assigns])
+
+  defp example_code(assigns) do
+    assigns = assign(assigns, :code, ExampleSource.code(assigns.mod, assigns.section))
+
+    ~H"""
+    <details :if={@code} class="mt-4">
+      <summary class="cursor-pointer select-none text-xs font-medium text-base-content/50 hover:text-base-content/80">
+        Show code
+      </summary>
+      <div class="mt-2">
+        <.code_block code={@code} wrap />
+      </div>
+    </details>
+    """
+  end
 
   @impl true
   def handle_event("update", params, socket) do
@@ -200,6 +215,7 @@ defmodule DevelopmentWeb.Showcase.ComponentLive do
                     class="px-4 pb-5 pt-1 bg-base-100/40"
                   >
                     <.example mod={@examples_mod} section={s.id} />
+                    <.example_code mod={@examples_mod} section={s.id} />
                   </div>
                 </div>
               </div>
