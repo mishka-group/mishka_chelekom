@@ -8,7 +8,7 @@ defmodule DevelopmentWeb.Showcase.ComponentLive do
   use DevelopmentWeb, :live_view
 
   import DevelopmentWeb.Showcase.UI
-  alias DevelopmentWeb.Showcase.{Catalog, Preview, Snippets, JsonMeta, ExampleSource}
+  alias DevelopmentWeb.Showcase.{Catalog, Preview, Snippets, JsonMeta, ExampleSource, KitDemo}
 
   @sample "Mishka Chelekom"
 
@@ -158,6 +158,15 @@ defmodule DevelopmentWeb.Showcase.ComponentLive do
                 It generates a same-named wrapper — use it like the original:
               </p>
               <.code_block code={Snippets.customize_usage(@component)} />
+              <details :if={KitDemo.available?(@component.name)} class="mt-4">
+                <summary class="cursor-pointer select-none text-xs font-medium text-base-content/50 hover:text-base-content/80">
+                  <span class="font-semibold text-base-content/70">3 ·</span>
+                  Show the result, rendered live by a real Kit
+                </summary>
+                <div class="mt-2 rounded-box ring-1 ring-base-content/5 bg-base-100 p-4">
+                  <KitDemo.demo component={@component.name} />
+                </div>
+              </details>
               <.tip>
                 The real <code>&lt;.{@component.name}&gt;</code>
                 is never touched — the Kit generates a

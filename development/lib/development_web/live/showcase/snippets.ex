@@ -29,15 +29,16 @@ defmodule DevelopmentWeb.Showcase.Snippets do
 
     lines =
       [
-        color && ~s(  #{color.attr} :brand, "bg-indigo-600 text-white"      # add a new color),
+        ~s(  from :#{name}),
+        color && ~s(  #{color.attr} :brand, "bg-indigo-600! text-white!"     # add a new color),
         color && existing &&
-          ~s(  #{color.attr} :#{existing}, "…"                     # restyle an existing one),
-        variant && ~s(  variant :glow, "shadow-[0_0_20px_currentColor]"   # add a new variant),
+          ~s(  #{color.attr} :#{existing}, "…"                    # restyle an existing one),
+        variant && ~s(  variant :glow, "shadow-lg! shadow-indigo-500/50!"   # add a new variant),
         ~s(  default #{color && "#{color.attr}: :brand"})
       ]
       |> Enum.reject(&(&1 in [nil, false]))
 
-    "customize :#{name} do\n" <> Enum.join(lines, "\n") <> "\nend"
+    "customize :#{name}_kit do\n" <> Enum.join(lines, "\n") <> "\nend"
   end
 
   @doc "How to call the customized component (a same-named wrapper in your Kit module)."
@@ -46,8 +47,8 @@ defmodule DevelopmentWeb.Showcase.Snippets do
 
     call =
       if color,
-        do: ~s(<.#{name} #{color.attr}={:brand}>#{@sample}</.#{name}>),
-        else: ~s(<.#{name}>#{@sample}</.#{name}>)
+        do: ~s(<.#{name}_kit #{color.attr}={:brand}>#{@sample}</.#{name}_kit>),
+        else: ~s(<.#{name}_kit>#{@sample}</.#{name}_kit>)
 
     "# import MyAppWeb.Kit, then:\n#{call}"
   end
