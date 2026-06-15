@@ -166,7 +166,6 @@ defmodule DevelopmentWeb.Showcase.KitLive do
     """
   end
 
-  # One example: the `customize` code on the left, the rendered result (before/after) on the right.
   attr :title, :string, required: true
   attr :subtitle, :string, default: nil
   attr :code, :string, required: true

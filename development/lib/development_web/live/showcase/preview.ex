@@ -17,8 +17,6 @@ defmodule DevelopmentWeb.Showcase.Preview do
 
   alias DevelopmentWeb.Showcase.PreviewGenerated
 
-  # --- Curated overrides for composite / slot-driven components ------------------------
-
   def show(%{component: "accordion"} = assigns) do
     ~H"""
     <.accordion id={@id} {@props}>
@@ -33,9 +31,6 @@ defmodule DevelopmentWeb.Showcase.Preview do
     """
   end
 
-  # Card: the generic `<.card>{@sample}</.card>` renders a bare box — indistinguishable from a badge
-  # or button. A card's whole point is composing parts, so show a real one: media + title + body +
-  # footer, all driven by the controls on the root `<.card>` (variant/color/border/rounded/padding…).
   def show(%{component: "card"} = assigns) do
     ~H"""
     <div class="w-72 text-left">
@@ -58,9 +53,6 @@ defmodule DevelopmentWeb.Showcase.Preview do
     """
   end
 
-  # Chat: the bubble's look comes from a `<.chat_section>` (name + message + `:status` slot) inside
-  # `<.chat>` — the generic `<.chat>{@sample}</.chat>` has no section, so the controls have nothing
-  # styled to act on and it renders as bare text. Render a real bubble, driven by the controls.
   def show(%{component: "chat"} = assigns) do
     ~H"""
     <div class="w-full">
@@ -78,8 +70,6 @@ defmodule DevelopmentWeb.Showcase.Preview do
     """
   end
 
-  # Layout (`<.flex>`): a flexbox container — so show it arranging things. Put numbered boxes inside a
-  # sized frame and let the controls (direction/justify/align/gap/wrap) visibly rearrange them.
   def show(%{component: "layout"} = assigns) do
     ~H"""
     <div class="w-full rounded-box border border-base-300 bg-base-200/40 p-3">
@@ -102,9 +92,6 @@ defmodule DevelopmentWeb.Showcase.Preview do
     """
   end
 
-  # List: render real `<:item>` rows (the generic `<.list>{@sample}</.list>` has no `<li>`s, so
-  # `hoverable` — which adds `[&_li]:hover:bg-…` — had nothing to act on). The `padding` control is
-  # routed to the items (the list container has no padding attr) so rows get height for the hover.
   def show(%{component: "list"} = assigns) do
     assigns =
       assign(assigns,
@@ -124,9 +111,6 @@ defmodule DevelopmentWeb.Showcase.Preview do
     """
   end
 
-  # Progress: four renderers behind one `type` control — bar (horizontal/vertical), ring, semi-circle.
-  # `value` (the range slider) and `color` drive all; `variant`/`size`/`rounded` shape the bar. The
-  # bar only fills when `value` is set, so it's passed explicitly (the old preview passed none → empty).
   def show(%{component: "progress"} = assigns) do
     assigns = assign(assigns, :ptype, assigns.props[:type] || "horizontal")
 
@@ -181,8 +165,6 @@ defmodule DevelopmentWeb.Showcase.Preview do
     """
   end
 
-  # Keyboard: a `<kbd>` key. One key holding "Mishka Chelekom" looks like a pill — show what it's for:
-  # a shortcuts cheat-sheet (Ctrl + C, ⌘ + K …), each key a `<.keyboard>` driven by the controls.
   def show(%{component: "keyboard"} = assigns) do
     assigns =
       assign(assigns, :shortcuts, [
@@ -207,10 +189,6 @@ defmodule DevelopmentWeb.Showcase.Preview do
     """
   end
 
-  # Jumbotron: a hero section — not a banner. Fill it with the real pattern: an eyebrow badge, a big
-  # heading, a subtitle and a CTA row, as DIRECT children so the `space` control spaces them. Padding
-  # is driven by the control (kept out of `class`, which is last and would override it); sensible
-  # defaults live in `ComponentLive.preview_override/1`.
   def show(%{component: "jumbotron"} = assigns) do
     ~H"""
     <.jumbotron id={@id} {@props} class="text-center">
@@ -234,10 +212,6 @@ defmodule DevelopmentWeb.Showcase.Preview do
     """
   end
 
-  # Indicator: a status dot. `position` and `pinging` come through `:global` rest as boolean attrs
-  # (`<.indicator top_right pinging />`), so translate the controls into them. Show it two ways —
-  # standalone (color/size/pinging) and on an outline button (the mishka pattern), where `position`
-  # drops the dot into a corner (the button is `relative` so the absolute dot anchors to it).
   def show(%{component: "indicator"} = assigns) do
     positions =
       ~w(top_left top_center top_right middle_left middle_right bottom_left bottom_center bottom_right)
@@ -271,10 +245,6 @@ defmodule DevelopmentWeb.Showcase.Preview do
     """
   end
 
-  # Rating: render in NON-field mode so the `interactive` flag is honoured (the form-field clause
-  # forces interactive=true, which made the toggle look dead). Interactive non-field stars push the
-  # "rating" event on click → ComponentLive updates `select`. `select` (slider, default 2) drives the
-  # fill, `precision` (full/half) the half-star clicking.
   def show(%{component: "rating"} = assigns) do
     assigns = assign(assigns, :prec, if(assigns.props[:precision] == "half", do: 0.5, else: 1.0))
 
@@ -300,11 +270,13 @@ defmodule DevelopmentWeb.Showcase.Preview do
     """
   end
 
-  # Shape: it clips its content into a form — text looks bad clipped, so fill it instead. Show the
-  # chosen `variant`/`size`/`half` two ways: a vibrant gradient (inner_block) and a local image (`src`).
   def show(%{component: "shape"} = assigns) do
     assigns =
-      assign(assigns, :shape_half, if(assigns.props[:half] in [nil, "none", ""], do: nil, else: assigns.props[:half]))
+      assign(
+        assigns,
+        :shape_half,
+        if(assigns.props[:half] in [nil, "none", ""], do: nil, else: assigns.props[:half])
+      )
 
     ~H"""
     <div class="flex flex-wrap items-center justify-center gap-8">
@@ -328,9 +300,6 @@ defmodule DevelopmentWeb.Showcase.Preview do
     """
   end
 
-  # Skeleton: a loading placeholder — one bar doesn't show what it's for. Compose a realistic
-  # "profile card loading" layout (avatar + lines + media + paragraph), all driven by the controls
-  # (`color`/`rounded`/`animated`/`visible`). `@bar` carries the shared props for the line pieces.
   def show(%{component: "skeleton"} = assigns) do
     assigns =
       assign(assigns, :bar, %{
@@ -367,9 +336,6 @@ defmodule DevelopmentWeb.Showcase.Preview do
     """
   end
 
-  # Speed dial: its root is hardcoded `fixed`, so it floats over the whole page. Scope it to a
-  # `relative` preview box and override `fixed` → `!absolute` (like the banner). Give it a `+` FAB icon
-  # and several action items so hovering/clicking the button fans them out. Driven by the controls.
   def show(%{component: "speed_dial"} = assigns) do
     ~H"""
     <div class="relative h-72 w-full overflow-hidden rounded-box border border-base-300 bg-base-200/30">
@@ -386,9 +352,6 @@ defmodule DevelopmentWeb.Showcase.Preview do
     """
   end
 
-  # Stat: a dashboard metric — figure + title + value + description + trend — not bare text. `trend`
-  # (none/up/down/neutral) colors the description and adds a ↗/↘ arrow; `figure_position` moves the
-  # icon. The rest of the controls (variant/color/size/rounded/padding) restyle the card.
   def show(%{component: "stat"} = assigns) do
     trend = if assigns.props[:trend] in [nil, "none", ""], do: nil, else: assigns.props[:trend]
     assigns = assign(assigns, stat_props: Map.drop(assigns.props, [:trend]), strend: trend)
@@ -411,9 +374,6 @@ defmodule DevelopmentWeb.Showcase.Preview do
     """
   end
 
-  # Stepper: a multi-step wizard — the generic preview had no steps. Build a 4-step flow whose states
-  # (completed / current / upcoming `none`) are driven by the `current` slider, so you can step
-  # through it. variant/color/size/space + vertical/col_step restyle it.
   def show(%{component: "stepper"} = assigns) do
     current = assigns.props[:current] || 2
     vertical = assigns.props[:vertical] || false
@@ -425,11 +385,12 @@ defmodule DevelopmentWeb.Showcase.Preview do
             {3, "Payment", "Billing details"},
             {4, "Done", "Review & finish"}
           ] do
-        state = cond do
-          n < current -> "completed"
-          n == current -> "current"
-          true -> "none"
-        end
+        state =
+          cond do
+            n < current -> "completed"
+            n == current -> "current"
+            true -> "none"
+          end
 
         %{n: n, title: title, desc: desc, state: state}
       end
@@ -459,14 +420,7 @@ defmodule DevelopmentWeb.Showcase.Preview do
     """
   end
 
-  # Table: the generic `<.table>{@sample}</.table>` has no rows/headers — nothing reads as a table.
-  # Render a real users table: `<:header>` columns + `<.tr>/<.td>` rows (with a status badge), driven
-  # by the controls (variant/color/padding/table_fixed). `rows_border` gives visible row separators.
   def show(%{component: "table"} = assigns) do
-    # Names vary in length on purpose. With the table capped at the container width (`max-w-full`),
-    # `table_fixed` is visible: auto-layout sizes the Name column to the longest name (long names fit
-    # on one line); fixed-layout makes all 3 columns EQUAL, so the long names wrap to 2-3 lines and
-    # those rows grow taller. 3 columns so it fits the narrow preview without clipping.
     assigns =
       assign(assigns, :rows, [
         %{name: "Al Park", role: "Admin", status: "Active", color: "success"},
@@ -504,23 +458,23 @@ defmodule DevelopmentWeb.Showcase.Preview do
     """
   end
 
-  # Table content (TOC): a titled list of anchor links — the generic `{@sample}` showed bare text.
-  # Build a real "On this page" table of contents; each `<:item>` needs `link` + `link_title` to render
-  # its link, `active` marks the current section. Driven by variant/color/size/rounded/padding/space.
   def show(%{component: "table_content"} = assigns) do
     sections = [
-      {"introduction", "Introduction", "A components & UI kit for Phoenix & LiveView, generated into your app with zero runtime dependency."},
-      {"installation", "Installation", "Add the package, run the generator, and the components are copied straight into your project."},
-      {"configuration", "Configuration", "Tailwind v4, theme tokens, and the Kit macro let you restyle everything without touching the source."},
-      {"components", "Components", "Buttons, forms, tables, navigation, overlays — 70+ styled components, plus a headless layer."},
-      {"api", "API reference", "Every component documents its attributes, slots, and the events it emits."}
+      {"introduction", "Introduction",
+       "A components & UI kit for Phoenix & LiveView, generated into your app with zero runtime dependency."},
+      {"installation", "Installation",
+       "Add the package, run the generator, and the components are copied straight into your project."},
+      {"configuration", "Configuration",
+       "Tailwind v4, theme tokens, and the Kit macro let you restyle everything without touching the source."},
+      {"components", "Components",
+       "Buttons, forms, tables, navigation, overlays — 70+ styled components, plus a headless layer."},
+      {"api", "API reference",
+       "Every component documents its attributes, slots, and the events it emits."}
     ]
 
     assigns = assign(assigns, sections: sections, scroll_id: "#{assigns.id}-doc")
 
     ~H"""
-    <%!-- `animated` enables smooth scrolling; mirror it onto this scroll box so clicking a TOC link
-          glides to the section (vs jumps) right here in the preview. --%>
     <div
       id={@scroll_id}
       class={[
@@ -530,14 +484,22 @@ defmodule DevelopmentWeb.Showcase.Preview do
     >
       <div class="sticky top-0 z-10 mb-2 bg-base-100 pb-2">
         <.table_content id={@id} {@props} title="On this page">
-          <.content_item :for={{anchor, label, _} <- @sections} icon="hero-hashtag" active={anchor == "introduction"}>
+          <.content_item
+            :for={{anchor, label, _} <- @sections}
+            icon="hero-hashtag"
+            active={anchor == "introduction"}
+          >
             <.link href={"#" <> @scroll_id <> "-" <> anchor}>{label}</.link>
           </.content_item>
         </.table_content>
       </div>
 
       <div class="space-y-8 px-1 pt-2 text-sm">
-        <section :for={{anchor, label, body} <- @sections} id={@scroll_id <> "-" <> anchor} class="scroll-mt-2">
+        <section
+          :for={{anchor, label, body} <- @sections}
+          id={@scroll_id <> "-" <> anchor}
+          class="scroll-mt-2"
+        >
           <h4 class="mb-1 font-semibold">{label}</h4>
           <p class="text-base-content/60">{body}</p>
           <div class="mt-3 h-16 rounded-lg bg-base-200/50"></div>
@@ -547,16 +509,33 @@ defmodule DevelopmentWeb.Showcase.Preview do
     """
   end
 
-  # Timeline: a sequence of events — the generic preview had no sections. Build a project-milestone
-  # timeline (bullet icon + title + time + description per `timeline_section`). `horizontal` lays it
-  # out as a row (scrollable); color/size + hide_last_line/gapped_sections drive the rest.
   def show(%{component: "timeline"} = assigns) do
     assigns =
       assign(assigns, :milestones, [
-        %{icon: "hero-flag", title: "Kickoff", time: "January 2026", desc: "Project setup and initial configuration."},
-        %{icon: "hero-code-bracket", title: "Development", time: "February 2026", desc: "Built and tested the component library."},
-        %{icon: "hero-rocket-launch", title: "Launch", time: "March 2026", desc: "Shipped the first release to production."},
-        %{icon: "hero-star", title: "Milestone", time: "April 2026", desc: "Reached 1,000 active users."}
+        %{
+          icon: "hero-flag",
+          title: "Kickoff",
+          time: "January 2026",
+          desc: "Project setup and initial configuration."
+        },
+        %{
+          icon: "hero-code-bracket",
+          title: "Development",
+          time: "February 2026",
+          desc: "Built and tested the component library."
+        },
+        %{
+          icon: "hero-rocket-launch",
+          title: "Launch",
+          time: "March 2026",
+          desc: "Shipped the first release to production."
+        },
+        %{
+          icon: "hero-star",
+          title: "Milestone",
+          time: "April 2026",
+          desc: "Reached 1,000 active users."
+        }
       ])
 
     ~H"""
@@ -575,9 +554,6 @@ defmodule DevelopmentWeb.Showcase.Preview do
     """
   end
 
-  # Typography: it's a whole family (h1–h6, p, strong/em/mark/u/s/small/abbr…), but the generic
-  # preview showed one `<.h1>`. Render a type specimen — the heading scale, a body paragraph with
-  # inline styles, and small print. `color` recolors all; `size` drives the body text.
   def show(%{component: "typography"} = assigns) do
     ~H"""
     <div class="space-y-2 text-left">
@@ -586,18 +562,15 @@ defmodule DevelopmentWeb.Showcase.Preview do
       <.h3 color={@props[:color]}>Heading three</.h3>
       <.h4 color={@props[:color]}>Heading four</.h4>
       <.p color={@props[:color]} size={@props[:size]}>
-        Body paragraph with <.strong>strong</.strong>, <.em>emphasis</.em>,
-        <.mark>a highlight</.mark>, <.u>underline</.u>, <.s>strikethrough</.s>, and an
-        <.abbr title="HyperText Markup Language">HTML</.abbr> abbreviation.
+        Body paragraph with <.strong>strong</.strong>, <.em>emphasis</.em>, <.mark>a highlight</.mark>, <.u>underline</.u>, <.s>strikethrough</.s>, and an
+        <.abbr title="HyperText Markup Language">HTML</.abbr>
+        abbreviation.
       </.p>
       <.small color={@props[:color]}>Small print — captions and fine details.</.small>
     </div>
     """
   end
 
-  # Gallery: a grid of media. Use CSS-gradient tiles (local, no image files) with varied aspect ratios
-  # so `type` (default/masonry/featured), `cols` and `gap` visibly reshape the layout. `rounded` is
-  # mapped to a radius on each tile.
   def show(%{component: "gallery"} = assigns) do
     radius =
       case assigns.props[:rounded] do
@@ -644,20 +617,10 @@ defmodule DevelopmentWeb.Showcase.Preview do
     """
   end
 
-  # Dropdown: the REAL `<.dropdown>` (Floating hook), exactly like the docs examples — CLICK the trigger
-  # to open the styled menu. The hook relocates the panel to `<body>`; the docs work because they render
-  # once, but the live preview re-renders (patches) on every control change, which corrupts that
-  # relocated panel. So the id carries a hash of the props: ANY control change → a fresh id → a clean
-  # remount, and the hook re-runs from scratch (like opening the docs page anew). variant/color/size/
-  # rounded/padding/space style the panel; clickable (click-vs-hover), smart_position and nomobile are
-  # the hook's real flags.
   def show(%{component: "dropdown"} = assigns) do
     assigns =
       assigns
       |> assign(:dd_id, "#{assigns.id}-#{:erlang.phash2(assigns.props)}")
-      # When smart_position is on, drop the trigger to the bottom of a tall box so it sits low in the
-      # VIEWPORT — that's the only condition under which the hook flips the menu upward (otherwise the
-      # trigger is pinned near the top of the page and there's always room below, so it never flips).
       |> assign(:smart?, assigns.props[:smart_position] == true)
 
     ~H"""
@@ -692,7 +655,8 @@ defmodule DevelopmentWeb.Showcase.Preview do
       </div>
       <p :if={@smart?} class="mt-3 text-center text-xs text-base-content/50">
         Smart position on: the trigger sits low in the viewport, so opening the menu flips it
-        <span class="font-medium">upward</span> when there's no room below.
+        <span class="font-medium">upward</span>
+        when there's no room below.
       </p>
     </div>
     """
@@ -721,7 +685,11 @@ defmodule DevelopmentWeb.Showcase.Preview do
           </ul>
         </.footer_section>
 
-        <.footer_section text_position="center" padding="small" class="border-t border-current/15 text-xs">
+        <.footer_section
+          text_position="center"
+          padding="small"
+          class="border-t border-current/15 text-xs"
+        >
           © 2026 Mishka Chelekom. All rights reserved.
         </.footer_section>
       </.footer>
@@ -730,16 +698,6 @@ defmodule DevelopmentWeb.Showcase.Preview do
   end
 
   def show(%{component: "mega_menu"} = assigns) do
-    # Render the mega_menu with its REAL behavior instead of forcing it permanently open. The panel
-    # (`.mega-menu-content`) stays `absolute top-full` (out of flow), so opening/closing it — or changing
-    # padding/size/space — never resizes the preview box. The root carries `relative` so the panel drops
-    # right below the trigger, and a fixed-height "stage" reserves room so the open panel is fully visible
-    # without overflowing into the controls. Open it by HOVER (default) or CLICK (when `clickable` is on);
-    # all controls drive the root via {@props}.
-    #
-    # NB: the earlier `content_class="show-mega-menu !relative ..."` hack caused two bugs — `show-mega-menu`
-    # pinned it open (so hover couldn't close it and a click-away was the only way to shut it), and
-    # `!relative` put the panel in-flow so its height resized the box. Both are gone now.
     ~H"""
     <div class="w-full text-left">
       <p class="mb-2 text-xs text-base-content/50">
@@ -803,10 +761,6 @@ defmodule DevelopmentWeb.Showcase.Preview do
         </.button>
       </li>
 
-      <%!-- A nested submenu toggled with `Phoenix.LiveView.JS` (a plain click → show/hide), NOT the
-            `<.collapse>` JS hook — the hook's inline max-height/overflow gets wiped when the live preview
-            re-renders on a control change, which clips/overlaps the items. Click "E-commerce" to open/close;
-            it starts open so the nesting is visible. Collapse has its own showcase page. --%>
       <li>
         <.button
           phx-click={
@@ -885,12 +839,6 @@ defmodule DevelopmentWeb.Showcase.Preview do
   end
 
   def show(%{component: "navbar"} = assigns) do
-    # The navbar is a full-page-width top nav: at the `md:` breakpoint it lays its brand + links in a
-    # single nowrap row. In this narrow preview that row is wider than the box, and because the navbar
-    # is a shrink-to-fit, centered flex item it bled past BOTH edges. Pin it to the box width
-    # (`class="w-full"` inside a `w-full` block) so it fills the box instead of overflowing it, and
-    # `overflow-hidden` guarantees nothing escapes the card. Trimmed to Home + Dashboard so the row fits
-    # comfortably in the narrow box without clipping.
     ~H"""
     <div class="w-full overflow-hidden">
       <.navbar id={@id} name="Acme" link="#" class="w-full" {@props}>
@@ -906,10 +854,6 @@ defmodule DevelopmentWeb.Showcase.Preview do
   end
 
   def show(%{component: "scroll_area"} = assigns) do
-    # The viewport is `overflow-auto`, so it scrolls whichever way the CONTENT overflows; the
-    # horizontal/vertical flags just reveal that direction's custom scrollbar. So give each orientation
-    # its proper shape: with the `horizontal` flag on, render a WIDE nowrap row (overflows sideways →
-    # horizontal scroll is testable); otherwise the TALL notification list (overflows down → vertical).
     items = [
       {"Deployment succeeded", "production-web-01 · build #482", "2m ago"},
       {"New comment on PR #128", "Refactor the auth pipeline middleware", "14m ago"},
@@ -927,7 +871,6 @@ defmodule DevelopmentWeb.Showcase.Preview do
     ~H"""
     <div class="w-full max-w-[280px] text-left rounded-lg border border-black/10 dark:border-white/10">
       <.scroll_area id={@id} height="h-44" width="w-full" {@props}>
-        <%!-- horizontal flag on: a wide row of fixed-width cards → overflows sideways --%>
         <div :if={@horizontal?} class="flex w-max gap-3 pe-2">
           <div
             :for={{title, detail, when_} <- @items}
@@ -939,7 +882,6 @@ defmodule DevelopmentWeb.Showcase.Preview do
           </div>
         </div>
 
-        <%!-- default (vertical): the tall notification list → overflows down --%>
         <div :if={!@horizontal?} class="space-y-2">
           <div
             :for={{title, detail, when_} <- @items}
@@ -958,12 +900,6 @@ defmodule DevelopmentWeb.Showcase.Preview do
   end
 
   def show(%{component: "sidebar"} = assigns) do
-    # sidebar renders as a `fixed h-screen` overlay (escapes the preview + can be translated
-    # off-screen by `hide_position`). Pin it INSIDE the preview box: `!relative !h-auto !z-0` drops
-    # the fixed/full-height positioning, `!transform-none` neutralises the slide-out translate that
-    # `hide_position` applies, and `max-w-full w-full` keeps every `size` (w-60..w-96) inside the
-    # ~320px aside. id + {@props} drive variant/color/size/minimize + the extra border/position/
-    # hide_position dims. The `:item` slot gives a real, always-visible nav list.
     ~H"""
     <.sidebar
       id={@id}
@@ -981,14 +917,6 @@ defmodule DevelopmentWeb.Showcase.Preview do
   end
 
   def show(%{component: "drawer"} = assigns) do
-    # The REAL, interactive drawer — the canonical Mishka pattern (a trigger button +
-    # `Drawer.show_drawer(id, position)`) so the `show` flag AND the open/close/slide are all testable,
-    # not pinned. Scoped to the box with `!absolute` (sides fill height, top/bottom span width) so it
-    # slides in/out INSIDE the preview instead of over the whole page. The id carries a hash of the props
-    # so any control change remounts it cleanly — its `phx-mounted={@show && show_drawer(...)}` re-fires
-    # and it re-opens at the new position/variant (a plain patch would otherwise re-add the slide-away
-    # translate and it would vanish). `show` defaults on (preview_override) so it's visible immediately;
-    # toggle `show` off, or close via the ✕ / overlay / Esc, then hit "Open drawer" to slide it back in.
     pos = Map.get(assigns.props, :position, "left")
 
     assigns =
@@ -1039,18 +967,6 @@ defmodule DevelopmentWeb.Showcase.Preview do
   end
 
   def show(%{component: "modal"} = assigns) do
-    # The modal is `relative z-50 hidden` at the root, with a `fixed inset-0` overlay + wrapper, revealed
-    # by `show_modal/1` (JS) on mount. The previous scoped attempt rendered NOTHING because it only made
-    # the overlay/wrapper `!absolute` while the root stayed `relative` with NO size (its children are all
-    # out-of-flow) — so `absolute inset-0` positioned against a 0×0 box → invisible. Fixes:
-    #   * SCOPE it to the box AND give it size: the root gets `!absolute !inset-0` so it FILLS the box;
-    #     overlay/wrapper get `!absolute` so they fill the root (= box) instead of the whole page.
-    #   * make `show` + open/close TESTABLE (like the drawer): a trigger button runs `show_modal(id)`,
-    #     and the id carries a hash of the props so any control change remounts it → its
-    #     `phx-mounted={@show && show_modal}` re-fires and it re-opens at the new look (a plain patch
-    #     would re-apply `hidden` and it would vanish).
-    # `show` defaults on (preview_override) so it's visible immediately; toggle it off / close via the ✕ /
-    # Esc / overlay, then hit "Open modal" to reopen. {@props} drives variant/color/size/rounded/padding.
     modal_id = "#{assigns.id}-#{:erlang.phash2(assigns.props)}"
     assigns = assign(assigns, :modal_id, modal_id)
 
@@ -1105,12 +1021,6 @@ defmodule DevelopmentWeb.Showcase.Preview do
   end
 
   def show(%{component: "overlay"} = assigns) do
-    # Overlay: root is `absolute inset-0`, so with no positioned ancestor the generic preview
-    # `<.overlay {@props}>text</.overlay>` stretches over the showcase container and renders an empty,
-    # near-invisible film. Real use (per the moduledoc / docs "content" example) is a loading screen
-    # dimming some content underneath. Scope it to a `relative` card holding mock content, then layer
-    # the overlay on top with a spinner + label. `color`/`opacity`/`backdrop` controls drive it via
-    # {@props}; the catalog `size` dim has no matching attr and is harmlessly absorbed by `:global rest`.
     ~H"""
     <div class="relative h-64 w-full overflow-hidden rounded-box border border-base-300 bg-base-100">
       <div class="space-y-3 p-4">
@@ -1137,28 +1047,6 @@ defmodule DevelopmentWeb.Showcase.Preview do
   end
 
   def show(%{component: "popover"} = assigns) do
-    # The popover's visible anchor is the `:trigger` slot; its `:content` slot is the panel that is
-    # `hidden` until hover/click. The generic `<.popover>{@sample}</.popover>` renders only a bare
-    # trigger (inner_block falls back to trigger) and never shows the styled panel — so the preview
-    # looked empty. Give it a real trigger + rich `:content` (heading, text, link) so the panel is
-    # realistic when revealed.
-    #
-    # The `Floating` JS hook behaves exactly like the tooltip's: it (1) caches clickable/position/
-    # delays at mount and never re-reads them in updated(), and (2) RELOCATES the content node to
-    # <body> (setupFloatingContent → document.body.appendChild) — leaving LiveView's DOM tree. So a
-    # plain patch can't change the mounted flags AND class changes for variant/color/size/rounded/
-    # padding/space never reach the moved panel. Fix: remount on ANY control change by keying the id
-    # on a hash of the full prop set (the popover holds no user state). A changed id → LiveView
-    # removes+adds the node → destroyed() returns the panel to its parent and a fresh mount renders
-    # it with the new classes/behavior. The position control therefore also takes effect on remount.
-    #
-    # Because the panel lives on <body> and only appears on hover/click, we can't show it statically;
-    # instead we give a clear affordance (the hint flips with `clickable`) and let it reveal in place.
-    #
-    # `position` must come ONLY from {@props} — do NOT also pass a literal `position=` (a static attr
-    # wins over the spread in Phoenix, which is why it used to always show "bottom"). And `inline`
-    # switches the popover to an inline <span>, so render the matching SHAPE: when inline is on, demo it
-    # as a highlighted word inside a sentence (a block button can't sit inline); otherwise a button.
     p = assigns.props
 
     assigns =
@@ -1245,9 +1133,6 @@ defmodule DevelopmentWeb.Showcase.Preview do
     """
   end
 
-  # Collapse: a single disclosure (headless `Collapsible` hook). Show a real expandable panel — a
-  # styled clickable row with a chevron that flips when open (the hook sets `aria-expanded` on the
-  # trigger), over a bordered card. The `open` / `keep_mounted` flags drive it (toggling remounts).
   def show(%{component: "collapse"} = assigns) do
     ~H"""
     <div class="w-72">
@@ -1278,13 +1163,9 @@ defmodule DevelopmentWeb.Showcase.Preview do
     """
   end
 
-  # Divider: render it with a text label inside real content so `type` (line style), `color`, `size`
-  # and `position` (text placement) are all visible — and adapt the layout for `variation`:
-  # a vertical divider needs a fixed-height row with content on either side.
   def show(%{component: "divider"} = assigns) do
     ~H"""
     <div>
-      <%!-- vertical: the line only renders WITHOUT `.divider-content`, so no text slot here --%>
       <div :if={@props[:variation] == "vertical"} class="flex h-28 items-stretch gap-6">
         <div class="flex items-center text-sm text-base-content/60">Left</div>
         <.divider id={@id} {@props} height="h-full" />
@@ -1302,9 +1183,6 @@ defmodule DevelopmentWeb.Showcase.Preview do
     """
   end
 
-  # Device mockup: the iPhone screen is 272×572. Fill it with a realistic app *skeleton* (status bar,
-  # header, search, hero, a loading list, bottom nav) instead of bare text — driven by the `color`
-  # control on the frame. Kept on a white screen with gray placeholders so it reads as a loading app.
   def show(%{component: "device_mockup"} = assigns) do
     ~H"""
     <.device_mockup id={@id} {@props}>
@@ -1356,13 +1234,6 @@ defmodule DevelopmentWeb.Showcase.Preview do
   end
 
   def show(%{component: "dock"} = assigns) do
-    # Dock = bottom navigation bar. Its `position` attr can be `fixed_*`/`sticky_*` which would
-    # float over the whole page, but the catalog doesn't expose `position` and the default
-    # `static` resolves to `relative`, so the dock renders INLINE in the preview box (no JS hook —
-    # pure CSS positioning, so no nonce/remount concern). We wrap it in a `relative` box and force
-    # `!relative !w-full` on the nav so the optional `position` extra dim can never break out of the
-    # box. Realistic content: Home (active), an Inbox + Alerts with badges, and Settings — driven by
-    # the catalog controls (variant/color/size/rounded/padding/space/border/max_width + show_labels).
     ~H"""
     <div class="relative w-full max-w-[300px] overflow-hidden">
       <.dock id={@id} {@props} class="!relative !w-full !translate-x-0 !bottom-auto !top-auto">
@@ -1384,18 +1255,6 @@ defmodule DevelopmentWeb.Showcase.Preview do
     """
   end
 
-  # Clipboard: the JS hook copies `.clipboard-content` (or `text=` / `target_selector`). The old
-  # preview put the value in the inner block, so `.clipboard-content` never rendered (its `:if` needs
-  # the `<:content>` slot) and there was nothing to copy → "Copy failed". Put the value in `<:content>`
-  # (what's shown is what's copied) with a real Copy button. The `show_status_text` / `dynamic_label`
-  # flags drive the feedback; toggling them remounts the preview, so the hook re-reads them.
-  # Clipboard: the component ships `phx-update="ignore"` — its DOM is owned by the JS hook and LiveView
-  # must never patch its insides. So its id is deliberately STATIC (not the nonce-based `@id`): the
-  # widget mounts once and is only attribute-patched, so the Copy trigger is never dropped. (A
-  # nonce-driven remount — which Reset and flag toggles trigger elsewhere — would destroy the
-  # hook-owned trigger.) The two display flags can't be toggled through the ignore barrier, so they're
-  # removed from the controls (see `Catalog.dead_flags/1`); `show_status_text` defaults to true, giving
-  # the "Copied!" feedback on copy.
   def show(%{component: "clipboard"} = assigns) do
     ~H"""
     <.clipboard
@@ -1415,11 +1274,13 @@ defmodule DevelopmentWeb.Showcase.Preview do
     """
   end
 
-  # Image: a locally-served SVG (no external URL) so it works offline + is copyright-free. Exposes the
-  # `filter` control (grayscale/sepia/blur/…); `filter_size="large"` makes the intensity filters obvious.
   def show(%{component: "image"} = assigns) do
     assigns =
-      assign(assigns, :img_filter, if(assigns.props[:filter] in [nil, "none"], do: "", else: assigns.props[:filter]))
+      assign(
+        assigns,
+        :img_filter,
+        if(assigns.props[:filter] in [nil, "none"], do: "", else: assigns.props[:filter])
+      )
 
     ~H"""
     <div class="w-64">
@@ -1445,12 +1306,6 @@ defmodule DevelopmentWeb.Showcase.Preview do
   end
 
   def show(%{component: "pagination"} = assigns) do
-    # Pure inline <nav> — no JS hook / no positioning, so no scoping. BUT grouped and hide_controls are
-    # PRESENCE flags in the component (`!is_nil(@rest[:grouped])` / `is_nil(@rest[:hide_controls])`), so
-    # passing them as `false` reads as "set" and the toggle would stick ON. Strip the false ones before
-    # spreading so the checkboxes actually toggle. (show_edges uses a plain truthy check, fine either way;
-    # stripped too for uniformity.) total/active (PAGE numbers, not items) come from the live sliders →
-    # default active=1, total=10 renders the docs' "1 2 3 4 5 … 10" with page 1 active.
     presence_off = fn {k, v} -> k in [:grouped, :hide_controls, :show_edges] and v == false end
     assigns = assign(assigns, :pg_props, assigns.props |> Enum.reject(presence_off) |> Map.new())
 
@@ -1460,10 +1315,6 @@ defmodule DevelopmentWeb.Showcase.Preview do
   end
 
   def show(%{component: "form_wrapper"} = assigns) do
-    # form_wrapper renders a <.form> around its content + an :actions slot. Put real fields in it so the
-    # wrapper's styling (variant/color/padding/space/rounded) is visible in context. Fields use
-    # name/value (not field={...}) — these components' field clause is what the showcase uses elsewhere;
-    # name-based keeps it self-contained. `phx-submit="save"` is absorbed by the catch-all handle_event.
     ~H"""
     <.form_wrapper id={@id} for={@form} phx-submit="save" {@props}>
       <div class="space-y-3">
@@ -1502,12 +1353,6 @@ defmodule DevelopmentWeb.Showcase.Preview do
   end
 
   def show(%{component: "combobox"} = assigns) do
-    # The combobox's runtime DOM (search box, multi-select mode, create option) lives under
-    # phx-update="ignore", so it's frozen at first paint — re-rendering with new props does nothing.
-    # We key the id ONLY on the STRUCTURAL flags (searchable/multiple/creatable): toggling one
-    # renames the hook element → LiveView remounts it → the structure actually changes. We do NOT
-    # key on variant/color (cosmetic): changing those must not remount, so the search/selection
-    # survive (the open-dropdown color simply stays at first paint, like the Mishka docs).
     ~H"""
     <.combobox
       id={"#{@id}-#{@props[:searchable]}-#{@props[:multiple]}-#{@props[:creatable]}"}
@@ -1529,12 +1374,6 @@ defmodule DevelopmentWeb.Showcase.Preview do
   end
 
   def show(%{component: "alert"} = assigns) do
-    # Docs-accurate alert: a `title` (so the component's default icon renders — it only shows inside
-    # the title block) + a working dismiss via the real `hide_alert/1` JS helper (client-side fade,
-    # no server round-trip), targeting the alert's id. `{@props}` drives variant/kind/size/rounded/
-    # padding from the controls. Below it, a real `<.flash>` stack shows the flash / flash_group
-    # story (flash_group isn't importable here and needs a live @flash map; a flash stack is the
-    # honest, self-contained equivalent — each flash keeps its own built-in X).
     ~H"""
     <div class="w-full space-y-5">
       <.alert id={@id} title="Heads up" {@props}>
@@ -1580,11 +1419,6 @@ defmodule DevelopmentWeb.Showcase.Preview do
   end
 
   def show(%{component: "checkbox_field"} = assigns) do
-    # A real checkbox GROUP: all boxes share ONE name ("notify"), each a distinct value. That's where
-    # `multiple` matters — it appends `[]` to the shared name. WITHOUT it the same key repeats and the
-    # server keeps only the LAST value (silent data loss); WITH it `[]` collects every checked box into
-    # a list. The boxes are styled live by {@props}; the panel below shows the actual request body and
-    # parsed params for both modes, highlighting the one the `multiple` control currently selects.
     multiple_on = assigns.props[:multiple] == true
     items = [{"email", "Email", true}, {"sms", "SMS", true}, {"push", "Push", true}]
     checked = for {v, _l, true} <- items, do: v
@@ -1635,10 +1469,6 @@ defmodule DevelopmentWeb.Showcase.Preview do
   end
 
   def show(%{component: "fieldset"} = assigns) do
-    # Fieldset groups form controls under a legend — it renders `:control` SLOTS, not inner_block, so
-    # the generic `<.fieldset>{@sample}</.fieldset>` preview drew an empty box. Give it a legend plus a
-    # few real controls; {@props} drives variant/color/size/rounded/padding/space so the frame, legend
-    # and spacing all respond to the settings.
     ~H"""
     <.fieldset id={@id} legend="Notifications" {@props}>
       <:control>
@@ -1669,18 +1499,6 @@ defmodule DevelopmentWeb.Showcase.Preview do
   end
 
   def show(%{component: "banner"} = assigns) do
-    # The banner is hardcoded `fixed z-50` (it pins to the viewport, full-width) — so in the showcase it
-    # flies to the top of the page and you can't see rounded/padding/border change. We override the
-    # position to `!relative` (+ `!z-auto`) so it renders IN the preview box, where its styling is
-    # visible. {@props} drives variant/color/rounded/padding/border + the hide_dismiss flag. The
-    # built-in dismiss X pushes a "dismiss" event (handled by the catch-all; Reset restores it via the
-    # preview nonce). `size`/`space` are dropped from the controls in Catalog — the component ignores
-    # them, so they'd be dead knobs here.
-    # rounded/border are position-scoped in this component: `rounded` only emits a class when
-    # `rounded_position` is top/bottom/all, and `border` only with a position AND a non-filled variant
-    # (it's nil for default/shadow/transparent/gradient). We pin `rounded_position="all"` and
-    # `border_position="full"` so both render all around; the default variant (`bordered`) makes the
-    # border visible immediately. They sit before {@props} so the live controls still win on overlap.
     ~H"""
     <.banner
       id={@id}
@@ -1695,17 +1513,8 @@ defmodule DevelopmentWeb.Showcase.Preview do
   end
 
   def show(%{component: "file_field"} = assigns) do
-    # Follows the mishka file_live demo: a plain file input, plus a dropzone wired to a real upload
-    # (allow_upload(:showcase_file) in the LiveView mount → @uploads, with target+uploads as mishka
-    # does). Wrapped in a form so live_file_input / phx-drop-target work; the validate/save events are
-    # absorbed by the catch-all handle_event. The standalone `live` flag is dropped from the controls
-    # (Catalog.dead_flags) — mishka never uses it and its branch needs an @upload only dropzone sets.
     ~H"""
     <.form for={@form} phx-change="validate" phx-submit="save" class="w-full">
-      <%!-- No `id` on the dropzone: its <label for={id}> WRAPS the <input id={id}>, and a label that
-            both points to (via `for`) and contains its input fires the file picker twice → it opens
-            and instantly cancels. mishka passes no id so the input is associated only by containment
-            (single trigger). --%>
       <.file_field
         :if={@props[:dropzone]}
         target={:showcase_file}
@@ -1719,9 +1528,6 @@ defmodule DevelopmentWeb.Showcase.Preview do
   end
 
   def show(%{component: "input_field"} = assigns) do
-    # input_field is the core `<.input>` that dispatches by `type`. We surface `type` as a control
-    # (Catalog.extra_dims) and switch the rendered input here: `select` needs `options`/`prompt`,
-    # everything else gets a `placeholder` (a global-rest attr, ignored by types that don't use it).
     type = assigns.props[:type] || "text"
     assigns = assign(assigns, type: type, rest: Map.drop(assigns.props, [:type]))
 
@@ -1751,10 +1557,6 @@ defmodule DevelopmentWeb.Showcase.Preview do
   end
 
   def show(%{component: "range_field"} = assigns) do
-    # `ring` (a focus indicator) only works with the CUSTOM appearance — the default appearance is a
-    # native slider whose thumb can't take a custom ring. So render appearance="custom" (a styled slider
-    # with a color-driven thumb halo); with ring=true, focusing the slider adds an offset outline ring
-    # around the thumb (Radix/shadcn style). {@props} drives color/size + the ring/reverse flags.
     ~H"""
     <.range_field
       id={@id}
@@ -1768,9 +1570,6 @@ defmodule DevelopmentWeb.Showcase.Preview do
   end
 
   def show(%{component: "toggle_field"} = assigns) do
-    # Mirrors the mishka "rounded" docs: a row of toggles showing each `rounded` value (square → pill),
-    # so the corner-radius prop is visible at a glance. color/size (and reverse) come from the controls
-    # via {@props}; `rounded` is set per toggle since it isn't a showcase dim. Name-based, all "on".
     assigns =
       assign(assigns, :rounds, [
         {"extra_small", "Extra small"},
@@ -1799,9 +1598,6 @@ defmodule DevelopmentWeb.Showcase.Preview do
   end
 
   def show(%{component: "radio_field"} = assigns) do
-    # Two ways to use it: individual <.radio_field> sharing ONE name (so only one can be selected — a
-    # real radio group), and the <.group_radio> component with :radio slots. Both driven by {@props}
-    # (color/size/space + ring/reverse). Name-based (not field={...}) keeps it self-contained.
     ~H"""
     <div class="w-full space-y-5 text-left">
       <div>
@@ -1837,17 +1633,6 @@ defmodule DevelopmentWeb.Showcase.Preview do
   end
 
   def show(%{component: "avatar"} = assigns) do
-    # Two avatars, both driven by the controls: an SVG-icon avatar (no image, no copyright — the `:icon`
-    # slot) and an initials avatar showing "SHA". `space` is an AVATAR_GROUP prop (gap between items),
-    # not an `avatar` one — the showcase derives it from the catalog's args (priv/components/avatar.exs
-    # lists `space:`, which covers both avatar and avatar_group). A lone <.avatar> ignores it, so we
-    # wrap the pair in <.avatar_group> and route `space` there; the per-avatar dims (color/size/rounded)
-    # go to each avatar. Now every control is live — color/size/rounded restyle both, space changes the
-    # gap. Avatar has no JS hook, so a plain re-render updates everything (no remount keying needed).
-    # `space` only ever OVERLAPS (negative margins) — so each avatar gets a ring the colour of the
-    # preview surface, making the overlap read as a layered stack instead of merging into one blob.
-    # `relative` + a higher z on hover would be nice but isn't needed; later siblings already paint on
-    # top. Rings live in the showcase only (not a component class), so they don't fight the controls.
     assigns = assign(assigns, :avatar_props, Map.drop(assigns.props, [:space]))
 
     ~H"""
@@ -1861,29 +1646,6 @@ defmodule DevelopmentWeb.Showcase.Preview do
   end
 
   def show(%{component: "tooltip"} = assigns) do
-    # The tooltip's visible anchor comes from the `:trigger` slot ONLY — its inner_block is treated as
-    # hidden tooltip *content* (see the component's render), so the generic `<.tooltip>{@sample}</.tooltip>`
-    # preview renders an empty trigger and shows nothing. Give it a real trigger plus `text`; the styled
-    # bubble (driven by variant/color/size/rounded/padding from the controls via {@props}) appears on
-    # hover or focus.
-    #
-    # The `Floating` JS hook (1) caches clickable/position/delays at mount and never re-reads them in
-    # updated(), and (2) RELOCATES the tooltip bubble to <body> (setupFloatingContent → appendChild) —
-    # so it leaves LiveView's DOM tree entirely. That means patching the same element does nothing: the
-    # flags keep their mounted behavior AND class changes for size/variant/color/rounded/padding never
-    # reach the moved bubble. The fix is to remount on ANY control change — the tooltip holds no user
-    # state, so we key each id on a hash of the full prop set. A changed id → LiveView removes+adds the
-    # element → destroyed() returns the bubble to its parent and a fresh mount renders it with the new
-    # classes/behavior.
-    #
-    # `position` is surfaced as an extra_dim (it isn't a catalog dim) and flows in via {@props}; BOTH the
-    # button and the in-text tooltip honour it (each id is keyed on @fkey, so a position change remounts
-    # the hook and floating.js re-reads data-position). The wrapper gets `py-10` so "top" has room above
-    # the trigger instead of being clamped against the sticky aside's top edge.
-    #
-    # Two examples, because one trigger can't show every option: the BUTTON shows clickable (the label
-    # flips hover↔click), show_arrow and `position`; the IN-TEXT one shows `inline` — when inline the
-    # trigger is a `<span>` that flows inside the sentence, otherwise a block `<div>` on its own line.
     p = assigns.props
     assigns = assign(assigns, :fkey, :erlang.phash2(p))
 
@@ -1922,11 +1684,8 @@ defmodule DevelopmentWeb.Showcase.Preview do
     """
   end
 
-  # --- Fallback to the generated previews ---------------------------------------------
-
   def show(assigns), do: PreviewGenerated.show(assigns)
 
-  # Demo data for the combobox preview — shows per-option flags/icons + option groups.
   defp combobox_countries do
     [
       %{group: "Americas", code: "br", flag: "🇧🇷", name: "Brazil"},

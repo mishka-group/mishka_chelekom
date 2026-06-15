@@ -46,8 +46,6 @@ defmodule DevelopmentWeb.Showcase.HeadlessApi do
       (name |> String.split("_") |> Enum.map_join(&String.capitalize/1))
   end
 
-  # --- parsing -------------------------------------------------------------------------
-
   defp read(name) do
     path = Path.join([:code.priv_dir(:mishka_chelekom), "headless", "#{name}.eex"])
     if File.exists?(path), do: File.read!(path)
@@ -114,7 +112,6 @@ defmodule DevelopmentWeb.Showcase.HeadlessApi do
 
   defp humanize(name), do: name |> String.replace("_", " ") |> String.capitalize()
 
-  # convenience for callers that already hold a catalog struct
   def for_component(%{name: name}), do: parse(name)
   def for_component(name) when is_binary(name), do: parse(name)
   def known?(name), do: HeadlessCatalog.get(name) != nil

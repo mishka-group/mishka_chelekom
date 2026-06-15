@@ -27,9 +27,6 @@ defmodule DevelopmentWeb.Showcase.ComponentLive do
 
         {:ok,
          socket
-         # An upload config so the file_field preview's live/dropzone modes work (they render
-         # <.live_file_input> / phx-drop-target and need a real Phoenix.LiveView.UploadConfig).
-         # Following the mishka docs demo: accept images, a few entries. Harmless for other components.
          |> allow_upload(:showcase_file,
            accept: ~w(.jpg .jpeg .png .gif .webp),
            max_entries: 3,
@@ -53,13 +50,11 @@ defmodule DevelopmentWeb.Showcase.ComponentLive do
     end
   end
 
-  # The generated docs-examples module for a component (e.g. Examples.Button), or nil.
   defp examples_module(name) do
     mod = Module.concat([DevelopmentWeb.Showcase.Examples, Macro.camelize(name)])
     if Code.ensure_loaded?(mod) and function_exported?(mod, :sections, 0), do: mod
   end
 
-  # Renders one open example section by delegating to the component's generated examples module.
   defp example(assigns), do: apply(assigns.mod, :example, [assigns])
 
   @impl true
@@ -68,8 +63,6 @@ defmodule DevelopmentWeb.Showcase.ComponentLive do
     by_attr = Map.new(comp.dims, &{&1.attr, &1})
     flag_names = MapSet.new(comp.flags, & &1.name)
 
-    # Dims and flags live in separate <form>s, so each change only sends its own fields — merge into
-    # the existing props rather than replacing. Checkboxes carry a hidden "false" so unticking works.
     parsed =
       Enum.reduce(params, %{}, fn {k, v}, acc ->
         cond do
@@ -86,11 +79,6 @@ defmodule DevelopmentWeb.Showcase.ComponentLive do
 
     socket = assign(socket, :props, Map.merge(socket.assigns.props, parsed))
 
-    # A flag toggles a `data-*` attr that several JS hooks read only ONCE, at mount, into a cached
-    # config (e.g. the accordion's `multiple`, which the `Collapsible` hook reads in `getConfig/0`).
-    # Patching the node in place leaves that cached config stale — the control appears dead. So when a
-    # flag changes, bump the nonce to give the preview a fresh mount; dim/CSS changes re-render
-    # correctly via a patch and stay cheap (no remount, so they don't reset the preview's open state).
     socket =
       if Enum.any?(Map.keys(params), &(&1 in flag_names)),
         do: update(socket, :preview_nonce, &(&1 + 1)),
@@ -100,10 +88,6 @@ defmodule DevelopmentWeb.Showcase.ComponentLive do
   end
 
   def handle_event("reset", _params, socket) do
-    # Bumping the nonce changes the preview element's id, so LiveView replaces the DOM node entirely
-    # rather than patching it. That restores any component a client-side action hid in place — e.g. a
-    # toast/alert/banner dismissed via `hide_toast`/`hide_alert` (display:none on the same id, which a
-    # plain re-render can't undo) — without a full page refresh.
     {:noreply,
      socket
      |> assign(:props, default_props(socket.assigns.component))
@@ -116,24 +100,12 @@ defmodule DevelopmentWeb.Showcase.ComponentLive do
     {:noreply, assign(socket, :open_examples, open)}
   end
 
-  # File upload events for the file_field dropzone preview (mishka's file_live handlers). `validate`
-  # fires on file select/drop — returning {:noreply} is enough for LiveView to track the entries.
-  # `cancel-upload` is the dropzone's per-file close (X) button; it must call cancel_upload/3 to remove
-  # the entry — the catch-all below would just no-op it, which is why the X did nothing.
   def handle_event("validate", _params, socket), do: {:noreply, socket}
 
   def handle_event("cancel-upload", %{"ref" => ref}, socket) do
     {:noreply, cancel_upload(socket, :showcase_file, ref)}
   end
 
-  # The real Mishka components fire their own server events from interactive controls — a dismiss
-  # button (`JS.push("dismiss") |> hide_toast(...)`), pagination/rating selection, etc. In a host app
-  # the developer handles these to mutate their data; the showcase has no such data, and the visual
-  # effect already happens client-side (the dismiss JS hides the element; Reset brings it back). So we
-  # just acknowledge them — a catch-all keeps any current or future component-internal event from
-  # crashing the explorer.
-  # The rating component (interactive, non-field mode) pushes "rating" with the clicked star value on
-  # click — reflect it into `select` so the stars actually fill (and the slider stays in sync).
   def handle_event("rating", %{"number" => n}, socket) do
     {:noreply, assign(socket, :props, Map.put(socket.assigns.props, :select, n))}
   end
@@ -404,106 +376,71 @@ defmodule DevelopmentWeb.Showcase.ComponentLive do
     |> Map.merge(preview_override(component.name))
   end
 
-  # Per-component preview defaults so structural components show their good state. The combobox's
-  # filled "default" variant renders solid cyan (the real Mishka primary accent) and the dropdown
-  # is frozen by phx-update="ignore"; the BORDERED variant keeps the surface light while the Color
-  # control stays meaningful, and searchable/multiple show its richer UX. The combobox preview also
-  # uses a props-dependent id so the frozen dropdown subtree remounts when controls change.
   defp preview_override("combobox"), do: %{variant: "bordered", searchable: true, multiple: true}
-  # Avatar's dims default to the first value (extra_small, square), and avatar_group `space` only
-  # OVERLAPS (negative margins) — so tiny squares with overlap render as a broken blob where one
-  # avatar hides the other. Default to a large, circular, lightly-overlapped stack (with rings in the
-  # preview) so it reads as a real avatar group; every control stays adjustable from there.
   defp preview_override("avatar"), do: %{size: "large", rounded: "full", space: "small"}
 
-  # Banner renders in-flow in the preview (see Preview.show) — give it visible rounding/border/padding
-  # by default so the styling controls read clearly (dims `size`/`space` are dropped in Catalog).
   defp preview_override("banner"),
     do: %{variant: "bordered", rounded: "large", padding: "medium", border: "medium"}
 
-  # Toast's `fixed` flag defaults to true, which pins it to a viewport corner (position:fixed) instead
-  # of the preview box. Default it off so it renders in-flow where you can see it; the flag stays
-  # toggleable to demo the fixed behaviour.
   defp preview_override("toast"), do: %{fixed: false}
 
-  # Fieldset's `default` variant FILLS solid with the color, and the nested checkbox controls keep
-  # their own dark label text — so labels blend into the fill and read poorly. Default to `outline`:
-  # transparent background, colored border + legend, dark labels that stay legible. The colour is still
-  # meaningful (border/legend/text take it); switch the variant to `default` for the filled look.
   defp preview_override("fieldset"), do: %{variant: "outline"}
 
-  # Same reasoning as fieldset: form_wrapper's `default` fills solid (white text), so the fields/labels
-  # inside read poorly. Default to `outline` so the form is legible; switch to `default` for the fill.
   defp preview_override("form_wrapper"), do: %{variant: "outline"}
 
-  # native_select's `default` variant FILLS the select box with the color, and its focus ring is the
-  # SAME color (ring-primary on bg-primary) → invisible. `bordered` gives a light tinted box with a
-  # colored border + a contrasting focus ring, so the `ring` flag is actually visible on focus.
   defp preview_override("native_select"), do: %{variant: "bordered"}
-  # jumbotron: a clean hero by default — `base` variant, roomy padding, and `space` so the stacked
-  # heading/subtitle/CTAs breathe (all still adjustable via the controls).
   defp preview_override("jumbotron"), do: %{variant: "base", padding: "large", space: "medium"}
-  # layout: start centered with a comfortable gap so the arranged boxes look intentional.
   defp preview_override("layout"), do: %{justify: "center", align: "center", gap: "medium"}
-  # list: a clean bordered list with roomy rows, so `hoverable` reads clearly on hover.
   defp preview_override("list"), do: %{variant: "bordered", color: "natural", padding: "medium"}
-  # rating: interactive by default so the stars are clickable on load.
   defp preview_override("rating"), do: %{interactive: true}
-  # shape: large by default so the clipped shape is clearly visible.
   defp preview_override("shape"), do: %{size: "large"}
-  # table: `default` variant + primary is a filled block (badges unreadable). Default to the clean
-  # `base` (white) table — switch variant to hoverable/stripped/etc. to test the others.
   defp preview_override("table"), do: %{variant: "base", color: "natural", padding: "small"}
-  # table_content (TOC): first-value defaults (variant "default", extra_small, no padding) look
-  # cramped/borderless. Use a clean `base` card with a primary accent + roomy spacing.
+
   defp preview_override("table_content"),
     do: %{variant: "base", color: "primary", size: "medium", padding: "medium", space: "small"}
-  # timeline: a primary, medium default reads better than the first-value extra_small/base.
+
   defp preview_override("timeline"), do: %{color: "primary", size: "medium"}
-  # gallery: 3 columns, a comfortable gap and rounded tiles by default.
   defp preview_override("gallery"), do: %{cols: "three", gap: "small", rounded: "medium"}
-  # dropdown: a filled panel so the color is obvious the moment you open the menu (switch variant to
-  # outline/shadow/base for a white menu). Click the trigger to open it. `position` starts at bottom.
-  defp preview_override("dropdown"), do: %{variant: "default", color: "primary", position: "bottom"}
-  # image: rounded by default; `filter` starts at none.
+
+  defp preview_override("dropdown"),
+    do: %{variant: "default", color: "primary", position: "bottom"}
+
   defp preview_override("image"), do: %{rounded: "medium"}
-  # typography: a neutral, medium default so the specimen reads naturally (recolor via the control).
   defp preview_override("typography"), do: %{color: "natural", size: "medium"}
-  # stepper: vertical reads well in the narrow preview (toggle off for a horizontal row). No `space` —
-  # it adds a margin between steps that the clipped connector line can't bridge (lines look broken).
   defp preview_override("stepper"), do: %{vertical: true}
-  # stat: the catalog's first-value defaults (variant "default" = a filled block, size extra_small,
-  # rounded/padding none) look cramped & unreadable. Use the component's own defaults — a clean `base`
-  # card with medium size/rounding/padding — plus a positive trend, matching the docs example.
+
   defp preview_override("stat"),
     do: %{trend: "up", variant: "base", size: "medium", rounded: "medium", padding: "medium"}
-  # dock: a shadowed, primary, roundly-cornered bar reads as a real bottom nav out of the box.
+
   defp preview_override("dock"), do: %{variant: "shadow", color: "primary", rounded: "large"}
-  # footer: the plain `default` variant + natural color give a clean, legible footer surface.
   defp preview_override("footer"), do: %{variant: "default", color: "natural"}
-  # mega_menu: a clean `base` panel with comfortable padding/spacing so the open menu reads well.
+
   defp preview_override("mega_menu"),
     do: %{variant: "base", color: "natural", rounded: "large", padding: "small", space: "small"}
-  # sidebar: hide to the left by default (matches the in-box pinning in the preview).
+
   defp preview_override("sidebar"), do: %{hide_position: "left"}
-  # drawer: a small primary drawer that slides in from the left, OPEN on load (show: true) so it's
-  # visible immediately; toggle `show` off / close it / reopen with the "Open drawer" button.
+
   defp preview_override("drawer"),
     do: %{variant: "default", color: "primary", size: "small", position: "left", show: true}
-  # modal: force it OPEN inline so the dialog is visible without a JS trigger (toggle off to hide).
+
   defp preview_override("modal"), do: %{show: true}
-  # overlay: a base, semi-opaque film with a small backdrop blur reads as a real loading scrim.
-  defp preview_override("overlay"), do: %{color: "base", opacity: "semi_opaque", backdrop: "small"}
-  # popover: a clean default panel — primary accent, medium rounding, roomy width/spacing.
+
+  defp preview_override("overlay"),
+    do: %{color: "base", opacity: "semi_opaque", backdrop: "small"}
+
   defp preview_override("popover"),
-    do: %{variant: "default", color: "primary", rounded: "medium", padding: "small", width: "large", space: "small"}
-  # tooltip: default the button tooltip to the bottom so it doesn't clip the top of the preview.
+    do: %{
+      variant: "default",
+      color: "primary",
+      rounded: "medium",
+      padding: "small",
+      width: "large",
+      space: "small"
+    }
+
   defp preview_override("tooltip"), do: %{position: "bottom"}
   defp preview_override(_), do: %{}
 
-  # Default the preview to options that actually show the component off: a color-bearing variant
-  # and a vivid color, so changing controls is visibly meaningful (a `base`/`white` default looks
-  # uncolored and reads as "broken").
   defp default_value(%{key: "variant", values: vals}),
     do: if("default" in vals, do: "default", else: hd(vals))
 

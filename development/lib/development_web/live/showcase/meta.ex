@@ -9,7 +9,6 @@ defmodule DevelopmentWeb.Showcase.Meta do
   one and it falls back to a sensible generated sentence.
   """
 
-  # --- styled component descriptions ---------------------------------------------------
   @styled %{
     "accordion" =>
       "Vertically stacked, expandable sections that reveal one or more panels of content.",
@@ -89,7 +88,6 @@ defmodule DevelopmentWeb.Showcase.Meta do
     "video" => "Responsive video player wrapper with ratio and styling."
   }
 
-  # --- headless component descriptions -------------------------------------------------
   @headless %{
     "accordion" =>
       "Disclosure group where each header toggles its panel — full ARIA and keyboard.",
@@ -131,8 +129,6 @@ defmodule DevelopmentWeb.Showcase.Meta do
     "tooltip" => "Hover/focus hint wired with aria-describedby."
   }
 
-  # --- styled ↔ headless cross-links ---------------------------------------------------
-  # styled name => headless name. The reverse direction is derived automatically.
   @links %{
     "accordion" => "accordion",
     "modal" => "dialog",

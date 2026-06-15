@@ -13,8 +13,6 @@ defmodule DevelopmentWeb.Showcase.Catalog do
       [button: [name: "button", category: "general", args: [variant: [...], color: [...]], ...]]
   """
 
-  # The visual argument dimensions we expose as interactive controls. Anything else in
-  # `args` (`type`, `only`, `helpers`, `module`) is a generator concern, not a runtime attr.
   @visual_dims ~w(variant color size rounded padding space border media_size)a
 
   @type dim :: %{key: String.t(), values: [String.t()]}
@@ -129,10 +127,6 @@ defmodule DevelopmentWeb.Showcase.Catalog do
     _ -> nil
   end
 
-  # Resolve a catalog dimension key to the component's REAL attribute (name + type). The catalog
-  # uses conventional keys (e.g. `color`), but a component may expose that option under a different
-  # attr — e.g. alert's color lives in `kind` (an atom). Falls back to the key itself (string) when
-  # the JSON has no attribute info for this component.
   defp resolve_attr(:color, types) do
     cond do
       Map.has_key?(types, "color") -> {"color", type_of(types["color"])}
@@ -146,56 +140,22 @@ defmodule DevelopmentWeb.Showcase.Catalog do
     {k, type_of(Map.get(types, k, "string"))}
   end
 
-  # Per-component control fixups. A component's catalog `args` can list a dim it never actually applies
-  # (a dead control that does nothing in the live preview), or omit one the component really supports.
-
-  # Dims the component declares but ignores, so they don't appear as inert controls.
-  # banner: `@size` is unused by `banner/1`; `@space` is `space-y-*` on a wrapper that always has a
-  # single child, so it can never change anything.
-  # card: the root `card/1` has no `size` attr — `size`/`size_class` live only on the `card_title`
-  # sub-component, so a root-card `size` control does nothing (and would emit a bogus `size=` attr).
   defp dead_dims("banner"), do: ["size", "space"]
-  # jumbotron: the catalog lists `size`, but `jumbotron/1` has no `size` attr (only border/padding/
-  # space/font_weight) — it would just emit a dead `size=` attr.
   defp dead_dims("jumbotron"), do: ["size"]
-  # overlay: the catalog lists `size`, but overlay/1 has NO `size` attr (only color/opacity/backdrop/
-  # z_index) — `size` just lands in @rest as a dead `size=` attribute with no visual effect. Drop it.
   defp dead_dims("overlay"), do: ["size"]
-  # stepper: `space` adds `space-y-*` between vertical steps, but each step's `overflow-hidden` clips
-  # its `h-screen` connector line to its own height — so any space breaks the line into disconnected
-  # stubs. Drop the control; the connected look (no space) is the default.
   defp dead_dims("stepper"), do: ["space"]
   defp dead_dims("card"), do: ["size"]
-  # navbar: `space` maps to `space-y-*` on the `<nav>` root, but the root has only ONE child (the
-  # `nav-wrapper`), so `> * + *` never matches and it spaces nothing — and it's vertical spacing, which
-  # is meaningless for the horizontal bar. Inert in every navbar layout, so drop the control.
   defp dead_dims("navbar"), do: ["space"]
   defp dead_dims(_), do: []
 
-  # Boolean flags the component declares but never reads, or that aren't a working standalone mode.
-  # file_field: `live` (without dropzone) renders <.live_file_input upload={@upload}>, but @upload is
-  # only assigned in the dropzone path — mishka never uses live standalone, so it's not a real mode.
-  # clipboard: `show_status_text` / `dynamic_label` only matter at initial render, but the component
-  # ships `phx-update="ignore"`, so they can't be toggled live without a remount that drops the
-  # hook-owned trigger. Removed as controls; the preview uses sensible defaults instead.
   defp dead_flags("clipboard"), do: ["show_status_text", "dynamic_label"]
   defp dead_flags("file_field"), do: ["live"]
-  # dropdown: `nomobile` is provably inert under the `Floating` hook — an `&&`/`||` precedence bug makes
-  # it toggle only a no-op boolean, its `[&>.dropdown-content]` classes stop matching once the hook
-  # relocates the menu to <body>, and the hook's inline absolute positioning overrides CSS regardless
-  # (floating.js has zero mobile awareness). `clickable`/`smart_position` both work and stay.
   defp dead_flags("dropdown"), do: ["nomobile"]
 
-  # toggle_field: `ring` and `reverse` were declared but never read (@ring/@reverse used 0×) — deleted
-  # from the component; the JSON metadata still lists them, so drop them from the controls here too.
   defp dead_flags("toggle_field"), do: ["ring", "reverse"]
-  # navbar: `relative` only adds `position: relative` to the links <ul> — a positioning anchor for
-  # absolutely-positioned dropdown menus inside nav items. This preview uses plain links (no dropdowns),
-  # so it has no visible effect; drop it.
   defp dead_flags("navbar"), do: ["relative"]
   defp dead_flags(_), do: []
 
-  # Real, visible dims the catalog args omit. banner supports `border` (a `border-*` thickness).
   defp extra_dims("banner") do
     [
       %{
@@ -207,8 +167,6 @@ defmodule DevelopmentWeb.Showcase.Catalog do
     ]
   end
 
-  # input_field is the core `<.input>` that dispatches by `type` — its defining prop. The catalog
-  # exposes no dims, so surface `type` so the input can actually be switched/tested.
   defp extra_dims("input_field") do
     [
       %{
@@ -221,8 +179,6 @@ defmodule DevelopmentWeb.Showcase.Catalog do
     ]
   end
 
-  # indicator: `position` is set via mutually-exclusive boolean global attrs (`top_left`…), so it can't
-  # be derived — surface it as one select (the preview translates the choice to the right attr).
   defp extra_dims("indicator") do
     [
       %{
@@ -235,8 +191,6 @@ defmodule DevelopmentWeb.Showcase.Catalog do
     ]
   end
 
-  # divider: `type` (line style), `variation` (orientation) and `position` (text placement) are real
-  # divider attrs the catalog doesn't surface on its own — expose them so both can be tested live.
   defp extra_dims("divider") do
     [
       %{key: "type", attr: "type", type: :string, values: ~w(solid dashed dotted)},
@@ -245,8 +199,6 @@ defmodule DevelopmentWeb.Showcase.Catalog do
     ]
   end
 
-  # stat: `trend` (colors the description + adds a ↗/↘ arrow) and `figure_position` aren't enumerated
-  # by the catalog — surface them so the metric card can be exercised.
   defp extra_dims("stat") do
     [
       %{key: "trend", attr: "trend", type: :string, values: ~w(none up down neutral)},
@@ -254,40 +206,54 @@ defmodule DevelopmentWeb.Showcase.Catalog do
     ]
   end
 
-  # stepper: a showcase-only `current` slider (1–4) — the preview maps it to each step's state
-  # (completed / current / upcoming) so the wizard can be stepped through.
   defp extra_dims("stepper") do
-    [%{key: "current", attr: "current", type: :integer, kind: :range, min: 1, max: 4, step: 1, default: 2, values: []}]
+    [
+      %{
+        key: "current",
+        attr: "current",
+        type: :integer,
+        kind: :range,
+        min: 1,
+        max: 4,
+        step: 1,
+        default: 2,
+        values: []
+      }
+    ]
   end
 
-  # table: `text_position` (cell text alignment) isn't surfaced — add it as a control to test.
   defp extra_dims("table") do
     [%{key: "text_position", attr: "text_position", type: :string, values: ~w(left center right)}]
   end
 
-  # gallery: `type` (layout), `cols` and `gap` aren't enumerated by the catalog — surface them so the
-  # grid can be reshaped.
   defp extra_dims("gallery") do
     [
       %{key: "type", attr: "type", type: :string, values: ~w(default masonry featured)},
       %{key: "cols", attr: "cols", type: :string, values: ~w(two three four)},
-      %{key: "gap", attr: "gap", type: :string, values: ~w(extra_small small medium large extra_large)}
+      %{
+        key: "gap",
+        attr: "gap",
+        type: :string,
+        values: ~w(extra_small small medium large extra_large)
+      }
     ]
   end
 
-  # image: `filter` (grayscale/blur/sepia/…) isn't surfaced — add it so the CSS filters can be tried.
   defp extra_dims("image") do
-    [%{key: "filter", attr: "filter", type: :string, values: ~w(none grayscale sepia invert blur brightness contrast saturation hue)}]
+    [
+      %{
+        key: "filter",
+        attr: "filter",
+        type: :string,
+        values: ~w(none grayscale sepia invert blur brightness contrast saturation hue)
+      }
+    ]
   end
 
-  # spinner: `type` (the animation style) isn't surfaced by the catalog — add it so the live preview
-  # can switch between default / dots / bars / pinging.
   defp extra_dims("spinner") do
     [%{key: "type", attr: "type", type: :string, values: ~w(default dots bars pinging)}]
   end
 
-  # shape: `variant` (the shape) and `half` aren't enumerated in the catalog — surface them so every
-  # shape can be picked, plus the half-shape mode.
   defp extra_dims("shape") do
     [
       %{
@@ -301,48 +267,83 @@ defmodule DevelopmentWeb.Showcase.Catalog do
     ]
   end
 
-  # rating: `select` (the chosen value) has no enumerable values — expose it as a `:range` slider
-  # (0–5, half steps), defaulting to 2. `precision` (full/half) controls half-star clicking; the
-  # preview maps "full"/"half" → 1.0/0.5.
   defp extra_dims("rating") do
     [
-      %{key: "select", attr: "select", type: :float, kind: :range, min: 0, max: 5, step: 0.5, default: 2, values: []},
+      %{
+        key: "select",
+        attr: "select",
+        type: :float,
+        kind: :range,
+        min: 0,
+        max: 5,
+        step: 0.5,
+        default: 2,
+        values: []
+      },
       %{key: "precision", attr: "precision", type: :string, values: ~w(full half)}
     ]
   end
 
-  # progress: `value` (0–100) drives the fill but has no enumerable values — expose it as a `:range`
-  # slider so it can be dragged/set. `type` is a showcase-only switch over the four renderers
-  # (bar horizontal/vertical, ring, semi-circle); the preview maps it to the right component.
   defp extra_dims("progress") do
     [
-      %{key: "value", attr: "value", type: :integer, kind: :range, min: 0, max: 100, step: 5, default: 50, values: []},
-      %{key: "type", attr: "type", type: :string, values: ~w(horizontal vertical ring semi_circle)}
+      %{
+        key: "value",
+        attr: "value",
+        type: :integer,
+        kind: :range,
+        min: 0,
+        max: 100,
+        step: 5,
+        default: 50,
+        values: []
+      },
+      %{
+        key: "type",
+        attr: "type",
+        type: :string,
+        values: ~w(horizontal vertical ring semi_circle)
+      }
     ]
   end
 
-  # layout (`<.flex>`): its attrs are free-form strings (no `values:`), so the catalog derives no
-  # controls. Surface the core flexbox knobs so the arrangement can be tested live.
   defp extra_dims("layout") do
     [
-      %{key: "direction", attr: "direction", type: :string, values: ~w(row row-reverse col col-reverse)},
-      %{key: "justify", attr: "justify", type: :string, values: ~w(start center end between around evenly)},
-      %{key: "align", attr: "align", type: :string, values: ~w(start center end stretch baseline)},
-      %{key: "gap", attr: "gap", type: :string, values: ~w(extra_small small medium large extra_large)},
+      %{
+        key: "direction",
+        attr: "direction",
+        type: :string,
+        values: ~w(row row-reverse col col-reverse)
+      },
+      %{
+        key: "justify",
+        attr: "justify",
+        type: :string,
+        values: ~w(start center end between around evenly)
+      },
+      %{
+        key: "align",
+        attr: "align",
+        type: :string,
+        values: ~w(start center end stretch baseline)
+      },
+      %{
+        key: "gap",
+        attr: "gap",
+        type: :string,
+        values: ~w(extra_small small medium large extra_large)
+      },
       %{key: "wrap", attr: "wrap", type: :string, values: ~w(nowrap wrap wrap-reverse)}
     ]
   end
 
-  # breadcrumb: `separator_icon` (the glyph drawn between items) defaults to hero-chevron-right and the
-  # catalog only surfaces color/size — expose it so the separator can be switched live. Passed straight
-  # through via {@props}; the component renders it between every pair of items.
   defp extra_dims("breadcrumb") do
     [
       %{
         key: "separator_icon",
         attr: "separator_icon",
         type: :string,
-        values: ~w(hero-chevron-right hero-arrow-right hero-slash hero-chevron-double-right hero-minus)
+        values:
+          ~w(hero-chevron-right hero-arrow-right hero-slash hero-chevron-double-right hero-minus)
       }
     ]
   end
@@ -359,7 +360,8 @@ defmodule DevelopmentWeb.Showcase.Catalog do
         key: "position",
         attr: "position",
         type: :string,
-        values: ~w(static sticky_bottom sticky_top fixed_bottom fixed_top fixed_bottom_center fixed_top_center)
+        values:
+          ~w(static sticky_bottom sticky_top fixed_bottom fixed_top fixed_bottom_center fixed_top_center)
       },
       %{
         key: "max_width",
@@ -372,18 +374,36 @@ defmodule DevelopmentWeb.Showcase.Catalog do
 
   defp extra_dims("footer") do
     [
-      %{key: "text_position", attr: "text_position", type: :string, values: ~w(left center right)},
-      %{key: "border", attr: "border", type: :string, values: ~w(none extra_small small medium large extra_large)}
+      %{
+        key: "text_position",
+        attr: "text_position",
+        type: :string,
+        values: ~w(left center right)
+      },
+      %{
+        key: "border",
+        attr: "border",
+        type: :string,
+        values: ~w(none extra_small small medium large extra_large)
+      }
     ]
   end
 
   defp extra_dims("mega_menu") do
     [
-      %{key: "top_gap", attr: "top_gap", type: :string,
-        values: ~w(none extra_small small medium large extra_large)},
+      %{
+        key: "top_gap",
+        attr: "top_gap",
+        type: :string,
+        values: ~w(none extra_small small medium large extra_large)
+      },
       %{key: "width", attr: "width", type: :string, values: ~w(full half)},
-      %{key: "border", attr: "border", type: :string,
-        values: ~w(none extra_small small medium large extra_large)}
+      %{
+        key: "border",
+        attr: "border",
+        type: :string,
+        values: ~w(none extra_small small medium large extra_large)
+      }
     ]
   end
 
@@ -406,14 +426,50 @@ defmodule DevelopmentWeb.Showcase.Catalog do
 
   defp extra_dims("pagination") do
     [
-      # total/active are PAGE counts (not item counts); the visible window is capped at
-      # siblings*2 + 3 + boundaries*2, so a big total just changes the boundary numbers. The Mishka docs
-      # use total=10 active=1, so mirror that (first page active → "1 2 3 4 5 … 10"). active maxes at
-      # total's max so the two sliders can't drift into incoherent states (active > total).
-      %{key: "active", attr: "active", type: :integer, kind: :range, min: 1, max: 20, step: 1, default: 1, values: []},
-      %{key: "total", attr: "total", type: :integer, kind: :range, min: 1, max: 20, step: 1, default: 10, values: []},
-      %{key: "siblings", attr: "siblings", type: :integer, kind: :range, min: 0, max: 4, step: 1, default: 1, values: []},
-      %{key: "boundaries", attr: "boundaries", type: :integer, kind: :range, min: 0, max: 3, step: 1, default: 1, values: []}
+      %{
+        key: "active",
+        attr: "active",
+        type: :integer,
+        kind: :range,
+        min: 1,
+        max: 20,
+        step: 1,
+        default: 1,
+        values: []
+      },
+      %{
+        key: "total",
+        attr: "total",
+        type: :integer,
+        kind: :range,
+        min: 1,
+        max: 20,
+        step: 1,
+        default: 10,
+        values: []
+      },
+      %{
+        key: "siblings",
+        attr: "siblings",
+        type: :integer,
+        kind: :range,
+        min: 0,
+        max: 4,
+        step: 1,
+        default: 1,
+        values: []
+      },
+      %{
+        key: "boundaries",
+        attr: "boundaries",
+        type: :integer,
+        kind: :range,
+        min: 0,
+        max: 3,
+        step: 1,
+        default: 1,
+        values: []
+      }
     ]
   end
 
@@ -444,7 +500,8 @@ defmodule DevelopmentWeb.Showcase.Catalog do
         key: "opacity",
         attr: "opacity",
         type: :string,
-        values: ~w(transparent translucent semi_transparent lightly_tinted tinted heavily_tinted semi_opaque opaque almost_solid solid)
+        values:
+          ~w(transparent translucent semi_transparent lightly_tinted tinted heavily_tinted semi_opaque opaque almost_solid solid)
       },
       %{
         key: "backdrop",
@@ -458,10 +515,19 @@ defmodule DevelopmentWeb.Showcase.Catalog do
   defp extra_dims("popover") do
     [
       %{key: "position", attr: "position", type: :string, values: ~w(top bottom left right)},
-      %{key: "width", attr: "width", type: :string,
-        values: ~w(extra_small small medium large extra_large double_large triple_large quadruple_large)},
-      %{key: "text_position", attr: "text_position", type: :string,
-        values: ~w(start center end left right justify)}
+      %{
+        key: "width",
+        attr: "width",
+        type: :string,
+        values:
+          ~w(extra_small small medium large extra_large double_large triple_large quadruple_large)
+      },
+      %{
+        key: "text_position",
+        attr: "text_position",
+        type: :string,
+        values: ~w(start center end left right justify)
+      }
     ]
   end
 
@@ -469,21 +535,15 @@ defmodule DevelopmentWeb.Showcase.Catalog do
     [%{key: "position", attr: "position", type: :string, values: ~w(top bottom left right)}]
   end
 
-  # dropdown: surface `position` so the open direction is directly observable (the `Floating` hook
-  # reads data-position). This is the manual version of `smart_position` — pick each direction and see
-  # exactly where the menu opens, without needing the trigger to sit near a viewport edge.
   defp extra_dims("dropdown") do
     [%{key: "position", attr: "position", type: :string, values: ~w(bottom top left right)}]
   end
 
   defp extra_dims(_), do: []
 
-  # Boolean flags a component reads from `:global` rest (not declared as `attr`s), so the catalog can't
-  # derive them — surface them explicitly. e.g. the indicator's `pinging` (adds `animate-ping`).
   defp extra_flags("indicator"), do: [%{name: "pinging", default: false}]
-  # skeleton: `animated` is a `:global` attr (`@rest[:animated] && "animate-pulse"`), not a declared
-  # attr — surface it so the shimmer can be toggled.
   defp extra_flags("skeleton"), do: [%{name: "animated", default: true}]
+
   defp extra_flags("pagination") do
     [
       %{name: "show_edges", default: false},
@@ -497,9 +557,6 @@ defmodule DevelopmentWeb.Showcase.Catalog do
   defp type_of("atom"), do: :atom
   defp type_of(_), do: :string
 
-  # Boolean attrs worth toggling in the showcase (e.g. combobox `searchable`/`multiple`/`creatable`,
-  # button `full_width`, tabs `vertical`). Excludes field-state/validation flags that aren't about
-  # styling or that would freeze the preview.
   @flag_blocklist ~w(disabled required readonly checked)
 
   defp flags(json_attrs) do

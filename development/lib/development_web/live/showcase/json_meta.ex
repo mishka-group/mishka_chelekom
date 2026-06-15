@@ -47,7 +47,6 @@ defmodule DevelopmentWeb.Showcase.JsonMeta do
     |> Enum.take(limit)
   end
 
-  # Prefer concise examples that actually feature this component and aren't dominated by SVG markup.
   defp clean?(s, name) do
     len = String.length(s)
 
@@ -55,10 +54,6 @@ defmodule DevelopmentWeb.Showcase.JsonMeta do
       String.contains?(s, "<.#{name}")
   end
 
-  # Normalize a demo snippet's whitespace. The raw sources carry a flush-left opening tag with
-  # deeply-indented body lines (so a common-min-indent strip can't fix them — the min is already 0).
-  # Run them through the real HEEx formatter for correct re-indentation; fall back to the min-indent
-  # dedent if the fragment isn't well-formed enough to format.
   defp tidy(s) do
     case format_heex(s) do
       {:ok, formatted} -> formatted
@@ -104,8 +99,6 @@ defmodule DevelopmentWeb.Showcase.JsonMeta do
   @doc "The component's `type` (category) from the bundle metadata, or nil."
   def type(name), do: entry(name) && entry(name)["type"]
 
-  # --- internals -----------------------------------------------------------------------
-
   defp entry(name) do
     idx = index()
     idx.by_function[name] || List.first(idx.by_component[name] || [])
@@ -143,7 +136,6 @@ defmodule DevelopmentWeb.Showcase.JsonMeta do
   defp format_default(v) when is_binary(v), do: v
   defp format_default(v), do: inspect(v)
 
-  # Build (and cache) an index of the JSON keyed by extra.function and grouped by extra.component.
   defp index do
     case :persistent_term.get({__MODULE__, :index}, nil) do
       nil -> build_index() |> tap(&:persistent_term.put({__MODULE__, :index}, &1))

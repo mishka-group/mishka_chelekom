@@ -84,7 +84,6 @@ defmodule DevelopmentWeb.Showcase.IndexLive do
     """
   end
 
-  # An approach card in the header.
   attr :title, :string, required: true
   attr :accent, :string, required: true
   attr :count, :integer, required: true
@@ -103,7 +102,6 @@ defmodule DevelopmentWeb.Showcase.IndexLive do
     """
   end
 
-  # One of the two component columns, grouped by category.
   attr :heading, :string, required: true
   attr :badge, :string, required: true
   attr :count, :integer, required: true

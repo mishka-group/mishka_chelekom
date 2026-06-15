@@ -217,7 +217,6 @@ defmodule DevelopmentWeb.Showcase.Examples.Pagination do
 
   def example(assigns), do: ~H""
 
-  # Each variant across all colors (the source devotes a labelled section to every variant).
   defp variant_grid(assigns, variant) do
     assigns = assign(assigns, variant: variant, colors: @colors)
 

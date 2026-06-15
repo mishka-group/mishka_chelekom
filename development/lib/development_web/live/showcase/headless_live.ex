@@ -38,8 +38,6 @@ defmodule DevelopmentWeb.Showcase.HeadlessLive do
     {:noreply, assign(socket, component: nil, page_title: "Unstyled components")}
   end
 
-  # --- index ---------------------------------------------------------------------------
-
   @impl true
   def render(%{component: nil} = assigns) do
     ~H"""
@@ -63,8 +61,6 @@ defmodule DevelopmentWeb.Showcase.HeadlessLive do
     </div>
     """
   end
-
-  # --- detail --------------------------------------------------------------------------
 
   def render(assigns) do
     ~H"""
@@ -221,7 +217,6 @@ defmodule DevelopmentWeb.Showcase.HeadlessLive do
     """
   end
 
-  # Renders the anatomy parts (root + named parts) with element / role / aria.
   attr :anatomy, :any, required: true
 
   defp parts_table(assigns) do
