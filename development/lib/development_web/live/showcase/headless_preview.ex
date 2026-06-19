@@ -97,16 +97,40 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
     ~H"""
     <.accordion
       id={@id}
-      class="w-80 divide-y divide-base-300 rounded-md border border-base-300 [&_[data-part=panel]]:p-3 [&_[data-part=panel]]:text-sm [&_[data-part=trigger]]:w-full [&_[data-part=trigger]]:p-3 [&_[data-part=trigger]]:text-left [&_[data-part=trigger]]:font-medium"
+      class={
+        [
+          "w-80 divide-y divide-base-300 rounded-md border border-base-300",
+          # trigger: full-width header with a chevron that flips via data-panel-open
+          "[&_[data-part=trigger]]:flex [&_[data-part=trigger]]:w-full [&_[data-part=trigger]]:items-center [&_[data-part=trigger]]:justify-between [&_[data-part=trigger]]:gap-3 [&_[data-part=trigger]]:p-3 [&_[data-part=trigger]]:text-left [&_[data-part=trigger]]:font-medium [&_[data-part=trigger]]:outline-none focus-visible:[&_[data-part=trigger]]:bg-base-200",
+          "[&_[data-part=trigger][data-disabled]]:cursor-not-allowed [&_[data-part=trigger][data-disabled]]:opacity-40",
+          "[&_[data-part=trigger]]:after:content-['▾'] [&_[data-part=trigger]]:after:text-base-content/40 [&_[data-part=trigger]]:after:transition-transform [&_[data-part=trigger][data-panel-open]]:after:rotate-180",
+          # panel is a PURE height-animated wrapper — NO padding on it (padding goes on the inner
+          # content), else box-border + height:0 can't collapse past the padding and the transition breaks
+          "[&_[data-part=panel]]:box-border [&_[data-part=panel]]:h-[var(--accordion-panel-height)] [&_[data-part=panel]]:overflow-hidden [&_[data-part=panel]]:transition-[height] [&_[data-part=panel]]:duration-200 [&_[data-part=panel]]:ease-out",
+          "[&_[data-part=panel][data-starting-style]]:h-0 [&_[data-part=panel][data-ending-style]]:h-0"
+        ]
+      }
     >
       <:item title="What is a headless component?" open>
-        A headless component ships behavior and ARIA wiring but no styling, so you bring your own classes.
+        <div class="px-3 pb-3 text-sm text-base-content/70">
+          It ships behavior, ARIA wiring, and keyboard support — but no styling. You bring the classes.
+        </div>
       </:item>
-      <:item title="How does single mode work?">
-        With single mode on, opening one panel closes the others. Each panel is an ARIA region.
+      <:item title="How does keyboard navigation work?">
+        <div class="px-3 pb-3 text-sm text-base-content/70">
+          Arrow keys move focus between headers, Home/End jump to the ends, Enter/Space toggles.
+        </div>
       </:item>
-      <:item title="Can panels be collapsed?">
-        Yes — when collapsible is enabled the open panel can be toggled closed again.
+      <:item title="This header is disabled" disabled>
+        <div class="px-3 pb-3 text-sm text-base-content/70">
+          Disabled headers are skipped by arrow-key navigation and can't be toggled.
+        </div>
+      </:item>
+      <:item title="Can panels animate?">
+        <div class="px-3 pb-3 text-sm text-base-content/70">
+          Yes — the panel exposes <code>--accordion-panel-height</code>
+          plus <code>data-starting-style</code>/<code>data-ending-style</code> so your CSS transitions height.
+        </div>
       </:item>
     </.accordion>
     """

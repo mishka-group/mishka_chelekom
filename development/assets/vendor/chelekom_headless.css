@@ -77,9 +77,10 @@
   overflow: auto;
 }
 
-/* Disclosure / accordion: panel hidden when its trigger is collapsed. */
-.chelekom-disclosure__panel[data-closed],
-.chelekom-accordion__panel[data-closed] {
+/* Disclosure: panel hidden when collapsed. (The accordion is NOT listed here: it carries the
+   `hidden` attribute, which the JS engine times after the exit animation, so the panel stays
+   visible while collapsing — a `[data-closed] { display:none }` here would snap it shut.) */
+.chelekom-disclosure__panel[data-closed] {
   display: none;
 }
 

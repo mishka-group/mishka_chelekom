@@ -219,10 +219,10 @@ defmodule DevelopmentWeb.Showcase.KitLive do
     </section>
     """
   end
+
   # Human-readable label for the generated-wrappers list: nil when it follows the name,
   # "Mod.fun" for an explicit {Module, :function} tuple, else the plain atom.
   defp from_label(name, from) when from in [nil, name], do: nil
   defp from_label(_name, {mod, fun}), do: "#{inspect(mod)}.#{fun}"
   defp from_label(_name, from), do: to_string(from)
-
 end
