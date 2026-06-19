@@ -105,12 +105,11 @@ item that needs follow-up.
 
 ---
 
-## Unstyled / headless components (37) — `/showcase/headless/<name>`
+## Unstyled / headless components (36) — `/showcase/headless/<name>`
 
 ### disclosure
 - [ ] accordion — `/showcase/headless/accordion`
 - [ ] collapsible — `/showcase/headless/collapsible`
-- [ ] disclosure — `/showcase/headless/disclosure`
 
 ### feedback
 - [ ] meter — `/showcase/headless/meter`

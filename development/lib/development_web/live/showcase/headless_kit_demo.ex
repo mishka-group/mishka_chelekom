@@ -6,22 +6,30 @@ defmodule DevelopmentWeb.Showcase.HeadlessKitDemo do
   styled `DevelopmentWeb.Showcase.KitDemo`.
   """
   use DevelopmentWeb, :html
-  import DevelopmentWeb.Kit, only: [my_accordion: 1]
+  import DevelopmentWeb.Kit, only: [my_accordion: 1, my_collapsible: 1]
 
-  @available ~w(accordion)
+  @available ~w(accordion collapsible)
   def available?(name), do: name in @available
 
-  # The REAL `customize` block that produces the live result, lifted verbatim from `kit.ex` so the
+  # The REAL `customize` blocks that produce the live results, lifted verbatim from `kit.ex` so the
   # snippet and the rendered skin can never drift apart.
   @kit_path Path.expand("../../kit.ex", __DIR__)
   @external_resource @kit_path
-  @accordion_code (case Regex.run(~r/  customize :my_accordion do.*?\n  end/s, File.read!(@kit_path)) do
+  @kit_source File.read!(@kit_path)
+
+  @accordion_code (case Regex.run(~r/  customize :my_accordion do.*?\n  end/s, @kit_source) do
                      [block] -> block |> String.replace(~r/^  /m, "") |> String.trim_trailing()
                      _ -> nil
                    end)
 
+  @collapsible_code (case Regex.run(~r/  customize :my_collapsible do.*?\n  end/s, @kit_source) do
+                       [block] -> block |> String.replace(~r/^  /m, "") |> String.trim_trailing()
+                       _ -> nil
+                     end)
+
   @doc "The actual Kit `customize` source for a skinned component (nil → fall back to the template)."
   def code("accordion"), do: @accordion_code
+  def code("collapsible"), do: @collapsible_code
   def code(_), do: nil
 
   attr :component, :string, required: true
@@ -40,6 +48,18 @@ defmodule DevelopmentWeb.Showcase.HeadlessKitDemo do
         In <code>kit.ex</code>, written whole — Tailwind scans them straight from the file (no safelist).
       </:item>
     </.my_accordion>
+    """
+  end
+
+  def demo(%{component: "collapsible"} = assigns) do
+    ~H"""
+    <.my_collapsible id="hl-collapsible-skin" open class="w-full max-w-md">
+      <:trigger>What did the Kit do?</:trigger>
+      <p>
+        Generated <code>my_collapsible/1</code> — a thin wrapper of the real headless collapsible with
+        the per-part amber classes baked in. The component's file is never touched; click to collapse.
+      </p>
+    </.my_collapsible>
     """
   end
 

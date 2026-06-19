@@ -11,7 +11,6 @@
       "orientation",
       "heading_level",
       "loop",
-      "keep_mounted",
       "hidden_until_found",
       "value",
       "initial_open",

@@ -8,8 +8,9 @@ defmodule <%= @module %> do
   move focus between triggers (Up/Down vertical, Left/Right horizontal, RTL-aware); Home/End jump to
   first/last; disabled triggers are skipped.
 
-  Modes: `single` (one open at a time) · `collapsible` · `orientation` · `disabled` (root or item) ·
-  `keep_mounted` · `hidden_until_found` (find-in-page). Controlled via `value`/`on_value_change`.
+  Modes: `multiple` (independent panels) · `collapsible` · `orientation` · `disabled` (root or item) ·
+  `hidden_until_found` (find-in-page). Controlled via `value`/`on_value_change`. Closed panels stay
+  mounted (hidden) so the client engine can toggle them.
   Style via `chelekom-accordion*` classes and the data-attributes:
   `data-open`/`data-closed`, `data-disabled`, `data-orientation`, `data-index`,
   `data-starting-style`/`data-ending-style` (transitions), and `--accordion-panel-height/width`.
@@ -31,7 +32,6 @@ defmodule <%= @module %> do
 
   attr :heading_level, :integer, default: 3, doc: "Heading level (1-6) wrapping each trigger"
   attr :loop, :boolean, default: true, doc: "Arrow-key focus wraps at the ends"
-  attr :keep_mounted, :boolean, default: true, doc: "Keep closed panels in the DOM (hidden)"
 
   attr :hidden_until_found, :boolean,
     default: false,
@@ -63,7 +63,6 @@ defmodule <%= @module %> do
       data-orientation={@orientation}
       data-disabled={@disabled}
       data-loop={to_string(@loop)}
-      data-keep-mounted={to_string(@keep_mounted)}
       data-hidden-until-found={@hidden_until_found}
       data-on-value-change={@on_value_change}
       class={["chelekom-accordion", @class]}
@@ -100,7 +99,6 @@ defmodule <%= @module %> do
           </button>
         </.dynamic_tag>
         <div
-          :if={@keep_mounted || item.__open__}
           id={"#{item.__id__}-panel"}
           data-part="panel"
           data-index={item.__index__}

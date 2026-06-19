@@ -101,7 +101,6 @@ defmodule DevelopmentWeb.Showcase.Meta do
     "combobox" => "Input plus popup listbox combining typing and selection.",
     "context_menu" => "Right-click menu with roving focus and keyboard support.",
     "dialog" => "Modal dialog with focus trap, ARIA and paired-presence state.",
-    "disclosure" => "A single trigger that shows or hides an associated region.",
     "drawer" => "Edge panel with focus management and dismissal behaviour.",
     "fieldset" => "Accessible grouping of form controls with a legend.",
     "field" => "Label, control, description and error wiring for one form field.",

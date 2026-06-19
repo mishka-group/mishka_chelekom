@@ -15,7 +15,7 @@ Source files:
 | Engine | `phx-hook` | Responsibility | Reads (config `data-*`) | Writes (state) | Expected `[data-part]` | Consumed by |
 | --- | --- | --- | --- | --- | --- | --- |
 | FocusTrap | `FocusTrap` | Modal dialog: open/close, focus trap inside popup, focus restore | `data-open` (also a state attr; used to control), `data-close-on-escape`, `data-close-on-outside` | root + popup: `data-open`/`data-closed`; trigger: `aria-expanded`, `aria-haspopup`, `aria-controls` | `trigger`, `backdrop`, `popup` + any `[data-close]` elements | `dialog` |
-| Disclosure | `Disclosure` | Expand/collapse trigger→panel pairs; optional accordion (single-open) | `data-single`, `data-collapsible` | panel: `data-open`/`data-closed`; trigger: `aria-expanded` | `trigger` (panel resolved via `aria-controls`) | `disclosure`, `accordion` |
+| Disclosure | `Disclosure` | Expand/collapse trigger→panel pairs; optional accordion (single-open) | `data-multiple`, `data-collapsible` | panel: `data-open`/`data-closed`; trigger: `aria-expanded` | `trigger` (panel resolved via `aria-controls`) | `collapsible`, `accordion` |
 | RovingTabindex | `RovingTabindex` | One-tab-stop composite keyboard nav (arrows/Home/End); optional activate-on-focus selection | `data-orientation`, `data-activate-on-focus` | item: `tabindex`, `data-highlighted`, `aria-selected` (only if already present); panel: `data-open`/`data-closed` | `item` (panel resolved via item `aria-controls`) | `tabs`, `menu`, `select` |
 | Popup | `Popup` | Floating layer: open/close, outside-click + Escape dismissal, lightweight side/align placement | `data-trigger`, `data-side`, `data-align` | popup: `data-open`/`data-closed`, `data-side`, `--chelekom-side` CSS var; trigger: `aria-expanded`, `aria-controls` | `trigger`, `popup` | `popover`, `menu`, `tooltip`, `select` |
 
@@ -67,7 +67,7 @@ Source files:
 
 **Notes.** Purely client-driven; no `updated()`/`destroyed()` resync. Keyboard activation relies on the native button (Enter/Space) — the engine binds only `click`.
 
-**Consumed by:** `priv/headless/disclosure.eex` (root `phx-hook="Disclosure"`) and `priv/headless/accordion.eex` (root `phx-hook="Disclosure"`, typically with `data-single`).
+**Consumed by:** `priv/headless/collapsible.eex` (root `phx-hook="Disclosure"`) and `priv/headless/accordion.eex` (root `phx-hook="Disclosure"`, typically with `data-multiple`).
 
 ---
 

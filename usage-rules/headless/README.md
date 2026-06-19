@@ -29,7 +29,6 @@ There are no `--color/--variant/--size/--padding` options (meaningless for headl
 | menubar | Menubar | RovingTabindex + Popup |
 | context_menu | Menu (context) | Popup + RovingTabindex |
 | navigation_menu | Disclosure nav | Popup |
-| disclosure | Disclosure | Disclosure |
 | collapsible | Disclosure | Disclosure |
 | accordion | Accordion | Disclosure |
 | tabs | Tabs | RovingTabindex |

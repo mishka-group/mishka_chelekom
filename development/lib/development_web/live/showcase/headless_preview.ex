@@ -16,7 +16,6 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
   import DevelopmentWeb.Components.Headless.Combobox
   import DevelopmentWeb.Components.Headless.ContextMenu
   import DevelopmentWeb.Components.Headless.Dialog
-  import DevelopmentWeb.Components.Headless.Disclosure
   import DevelopmentWeb.Components.Headless.Field
   import DevelopmentWeb.Components.Headless.Fieldset
   import DevelopmentWeb.Components.Headless.Menu
@@ -228,11 +227,24 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
     <.collapsible
       id={@id}
       open
-      class="w-72 [&_[data-part=trigger]]:w-full [&_[data-part=trigger]]:rounded-md [&_[data-part=trigger]]:border [&_[data-part=trigger]]:border-base-300 [&_[data-part=trigger]]:px-3 [&_[data-part=trigger]]:py-1.5 [&_[data-part=trigger]]:text-left [&_[data-part=trigger]]:font-medium [&_[data-part=panel]]:mt-2 [&_[data-part=panel]]:rounded-md [&_[data-part=panel]]:border [&_[data-part=panel]]:border-base-300 [&_[data-part=panel]]:bg-base-100 [&_[data-part=panel]]:p-3 [&_[data-part=panel]]:text-sm"
+      class={
+        [
+          "w-72",
+          # trigger: full-width header with a chevron that flips via data-panel-open
+          "[&_[data-part=trigger]]:flex [&_[data-part=trigger]]:w-full [&_[data-part=trigger]]:items-center [&_[data-part=trigger]]:justify-between [&_[data-part=trigger]]:gap-3 [&_[data-part=trigger]]:rounded-md [&_[data-part=trigger]]:border [&_[data-part=trigger]]:border-base-300 [&_[data-part=trigger]]:px-3 [&_[data-part=trigger]]:py-1.5 [&_[data-part=trigger]]:text-left [&_[data-part=trigger]]:font-medium",
+          "[&_[data-part=trigger]]:after:content-['▾'] [&_[data-part=trigger]]:after:text-base-content/40 [&_[data-part=trigger]]:after:transition-transform [&_[data-part=trigger][data-panel-open]]:after:rotate-180",
+          # panel is a PURE height-animated wrapper — padding/borders live on the inner card, else
+          # box-border + height:0 can't collapse past the padding and the transition breaks
+          "[&_[data-part=panel]]:box-border [&_[data-part=panel]]:h-[var(--accordion-panel-height)] [&_[data-part=panel]]:overflow-hidden [&_[data-part=panel]]:transition-[height] [&_[data-part=panel]]:duration-200 [&_[data-part=panel]]:ease-out",
+          "[&_[data-part=panel][data-starting-style]]:h-0 [&_[data-part=panel][data-ending-style]]:h-0"
+        ]
+      }
     >
       <:trigger>Shipping details</:trigger>
-      <p>Orders ship within 2 business days via standard carrier.</p>
-      <p class="mt-2 text-base-content/60">Tracking is emailed once the label is created.</p>
+      <div class="mt-2 rounded-md border border-base-300 bg-base-100 p-3 text-sm">
+        <p>Orders ship within 2 business days via standard carrier.</p>
+        <p class="mt-2 text-base-content/60">Tracking is emailed once the label is created.</p>
+      </div>
     </.collapsible>
     """
   end
@@ -293,22 +305,6 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
         </button>
       </:close>
     </.dialog>
-    """
-  end
-
-  def show(%{component: "disclosure"} = assigns) do
-    ~H"""
-    <.disclosure
-      id={@id}
-      class="w-80 rounded-md border border-base-300 [&_[data-part=trigger]]:flex [&_[data-part=trigger]]:w-full [&_[data-part=trigger]]:items-center [&_[data-part=trigger]]:justify-between [&_[data-part=trigger]]:px-3 [&_[data-part=trigger]]:py-2 [&_[data-part=trigger]]:text-left [&_[data-part=trigger]]:font-medium [&_[data-part=panel]]:border-t [&_[data-part=panel]]:border-base-300 [&_[data-part=panel]]:bg-base-100 [&_[data-part=panel]]:px-3 [&_[data-part=panel]]:py-2 [&_[data-part=panel]]:text-sm"
-    >
-      <:trigger>Shipping & returns</:trigger>
-      <p>
-        Orders ship within two business days. Returns are accepted within 30 days
-        of delivery, no questions asked. This region is toggled via <code>aria-expanded</code>
-        and exposed as an ARIA region.
-      </p>
-    </.disclosure>
     """
   end
 

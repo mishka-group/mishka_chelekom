@@ -128,8 +128,9 @@
   display: none;
 }
 
-/* Disclosure-family panels hidden when collapsed. */
-.chelekom-collapsible__panel[data-closed],
+/* Navigation-menu panel hidden when collapsed. (The collapsible is NOT listed here: like the
+   accordion it carries the `hidden` attribute, which the JS engine times after the exit transition,
+   so the panel stays visible while collapsing — a `[data-closed] { display:none }` would snap it shut.) */
 .chelekom-navigation_menu__panel[data-closed] {
   display: none;
 }

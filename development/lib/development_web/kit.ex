@@ -67,4 +67,22 @@ defmodule DevelopmentWeb.Kit do
     part :panel,
          "[&_[data-part=panel]]:px-4 [&_[data-part=panel]]:pb-4 [&_[data-part=panel]]:pt-1 [&_[data-part=panel]]:text-sm [&_[data-part=panel]]:text-amber-900/70 dark:[&_[data-part=panel]]:text-amber-100/70"
   end
+
+  # Customize the headless collapsible into a styled `my_collapsible` — same warm amber palette as
+  # `my_accordion`, but a single trigger/panel pair (no group). The closed panel is hidden by the engine.
+  customize :my_collapsible do
+    from :collapsible
+
+    # the whole card — warm amber surface + border + rounded corners
+    part :root,
+         "rounded-2xl border border-amber-200 bg-amber-50 shadow-sm overflow-hidden dark:border-amber-900/50 dark:bg-amber-950/30"
+
+    # the header button — full-width row, warm hover + open-state text, and an amber chevron that flips
+    part :trigger,
+         "[&_[data-part=trigger]]:flex [&_[data-part=trigger]]:w-full [&_[data-part=trigger]]:items-center [&_[data-part=trigger]]:justify-between [&_[data-part=trigger]]:gap-3 [&_[data-part=trigger]]:px-4 [&_[data-part=trigger]]:py-3.5 [&_[data-part=trigger]]:text-left [&_[data-part=trigger]]:font-medium [&_[data-part=trigger]]:text-amber-950 dark:[&_[data-part=trigger]]:text-amber-50 [&_[data-part=trigger]]:transition-colors [&_[data-part=trigger]]:hover:bg-amber-100/60 dark:[&_[data-part=trigger]]:hover:bg-amber-900/30 [&_[data-part=trigger][aria-expanded=true]]:text-amber-700 dark:[&_[data-part=trigger][aria-expanded=true]]:text-amber-300 [&_[data-part=trigger]]:after:content-['▾'] [&_[data-part=trigger]]:after:text-amber-500 [&_[data-part=trigger]]:after:transition-transform [&_[data-part=trigger][aria-expanded=true]]:after:rotate-180"
+
+    # the panel — warm muted body, divided from the header (closed panel hidden by the engine)
+    part :panel,
+         "[&_[data-part=panel]]:border-t [&_[data-part=panel]]:border-amber-200/70 dark:[&_[data-part=panel]]:border-amber-900/40 [&_[data-part=panel]]:px-4 [&_[data-part=panel]]:py-3 [&_[data-part=panel]]:text-sm [&_[data-part=panel]]:text-amber-900/70 dark:[&_[data-part=panel]]:text-amber-100/70"
+  end
 end
