@@ -11,6 +11,7 @@ defmodule DevelopmentWeb.Showcase.KitLive do
   import DevelopmentWeb.Showcase.UI
   alias MishkaChelekom.Kit
   alias DevelopmentWeb.Kit, as: DemoKit
+  alias DevelopmentWeb.Widgets
 
   @kit_path Path.expand("../../kit.ex", __DIR__)
   @external_resource @kit_path
@@ -28,6 +29,15 @@ defmodule DevelopmentWeb.Showcase.KitLive do
   customize :alert do
     kind :brand, "bg-indigo-600! text-white!"    # the alert's colour lives in `kind` (an atom)
     default kind: :brand, variant: "default"
+  end\
+  """
+
+  @code_ribbon """
+  customize :ribbon do
+    from {DevelopmentWeb.Widgets, :ribbon}   # an EXACT module/function — no naming convention
+    base "plain"
+    color :brand, "bg-fuchsia-600! text-white! ring-fuchsia-600!"
+    default color: :brand
   end\
   """
 
@@ -64,10 +74,11 @@ defmodule DevelopmentWeb.Showcase.KitLive do
      |> assign(:page_title, "Kit — customize")
      |> assign(:code_button, @code_button)
      |> assign(:code_alert, @code_alert)
+     |> assign(:code_ribbon, @code_ribbon)
      |> assign(:code_accordion, @code_accordion)
      |> assign(
        :customizes,
-       Enum.map(Kit.Info.customizes(DemoKit), &{&1.name, &1.from || &1.name})
+       Enum.map(Kit.Info.customizes(DemoKit), &{&1.name, from_label(&1.name, &1.from)})
      )}
   end
 
@@ -132,6 +143,23 @@ defmodule DevelopmentWeb.Showcase.KitLive do
         </.kit_example>
 
         <.kit_example
+          title="Point at any module — explicit from target"
+          subtitle="The naming convention is only the default. An explicit module/function tuple delegates to ANY target — here a hand-written DevelopmentWeb.Widgets.ribbon/1 that lives nowhere near Components, with no components namespace needed."
+          code={@code_ribbon}
+        >
+          <:result>
+            <div class="space-y-1.5">
+              <div class="text-[11px] text-base-content/50">stock widget → Kit's :brand</div>
+              <div class="flex flex-wrap items-center gap-2">
+                <Widgets.ribbon>stock ribbon</Widgets.ribbon>
+                <span class="text-base-content/30">→</span>
+                <DemoKit.ribbon>Kit brand ribbon</DemoKit.ribbon>
+              </div>
+            </div>
+          </:result>
+        </.kit_example>
+
+        <.kit_example
           title="Skin a headless component — :my_accordion"
           subtitle="Wrap the unstyled headless accordion and bake per-part classes in, under a new name. The headless component ships zero CSS on its own."
           code={@code_accordion}
@@ -157,7 +185,7 @@ defmodule DevelopmentWeb.Showcase.KitLive do
           </span>
           <span class="flex flex-wrap gap-1.5">
             <code :for={{n, f} <- @customizes} class="badge badge-sm badge-outline font-mono">
-              {if n == f, do: "<.#{n}>", else: "<.#{n}> ← #{f}"}
+              {if is_nil(f), do: "<.#{n}>", else: "<.#{n}> ← #{f}"}
             </code>
           </span>
         </section>
@@ -191,4 +219,10 @@ defmodule DevelopmentWeb.Showcase.KitLive do
     </section>
     """
   end
+  # Human-readable label for the generated-wrappers list: nil when it follows the name,
+  # "Mod.fun" for an explicit {Module, :function} tuple, else the plain atom.
+  defp from_label(name, from) when from in [nil, name], do: nil
+  defp from_label(_name, {mod, fun}), do: "#{inspect(mod)}.#{fun}"
+  defp from_label(_name, from), do: to_string(from)
+
 end

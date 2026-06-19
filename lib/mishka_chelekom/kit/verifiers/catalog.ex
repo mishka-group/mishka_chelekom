@@ -44,6 +44,8 @@ defmodule MishkaChelekom.Kit.Verifiers.Catalog do
     cond do
       dims == [] and parts == [] -> :ok
       dims != [] and parts != [] -> :ok
+      # an explicit {Module, :function} tuple is the user's own module — not a catalog component
+      is_tuple(c.from) -> :ok
       ns[kind] != nil -> :ok
       Catalog.member?(kind, c.from || name) -> :ok
       true -> not_found(c.from || name, name, kind, module)

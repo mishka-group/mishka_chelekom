@@ -43,28 +43,43 @@ defmodule MishkaChelekom.Kit.Transformers.Generate do
         dsl
 
       kind ->
-        namespace = ns[kind]
+        case target(from, ns[kind], module, kind) do
+          # unknown `from` atom under the default convention — skip so the verifier's "did you mean?"
+          # is the only error (no noisy undefined-function from a wrapper to a non-existent module)
+          nil ->
+            dsl
 
-        # unknown `from` under the default convention — skip so the verifier's "did you mean?" is the
-        # only error (no noisy undefined-function from a wrapper pointing at a non-existent module)
-        if is_nil(namespace) and not Catalog.member?(kind, from) do
-          dsl
-        else
-          real = resolve(namespace, module, segments(kind), from)
-          spec = Macro.escape(build_spec(dims, parts, base, default))
+          {real, fun} ->
+            spec = Macro.escape(build_spec(dims, parts, base, default))
 
-          Transformer.eval(
-            dsl,
-            [],
-            quote do
-              def unquote(name)(assigns) do
-                unquote(real).unquote(from)(
-                  MishkaChelekom.Kit.Runtime.transform(assigns, unquote(spec))
-                )
+            Transformer.eval(
+              dsl,
+              [],
+              quote do
+                def unquote(name)(assigns) do
+                  unquote(real).unquote(fun)(
+                    MishkaChelekom.Kit.Runtime.transform(assigns, unquote(spec))
+                  )
+                end
               end
-            end
-          )
+            )
         end
+    end
+  end
+
+  # Resolve `from` to a `{module, function}` to delegate to.
+  #   * an explicit `{Module, :function}` tuple is used VERBATIM — no namespace convention, no catalog
+  #     gate (the user named their own module, so we trust it);
+  #   * a bare atom resolves by convention (module = `<Web>.Components.<Camelize(name)>`, function =
+  #     the atom) and is skipped only when it's neither a configured namespace nor a real component.
+  defp target({mod, fun}, _namespace, _module, _kind) when is_atom(mod) and is_atom(fun),
+    do: {mod, fun}
+
+  defp target(from, namespace, module, kind) when is_atom(from) do
+    if is_nil(namespace) and not Catalog.member?(kind, from) do
+      nil
+    else
+      {resolve(namespace, module, segments(kind), from), from}
     end
   end
 

@@ -32,6 +32,16 @@ defmodule DevelopmentWeb.Kit do
     default kind: :brand, variant: "default"
   end
 
+  # `from {Module, :function}` — point at an EXACT module/function instead of the convention. Here
+  # `DevelopmentWeb.Widgets.ribbon/1` is hand-written and lives nowhere near `<Web>.Components`, so the
+  # bare-atom convention could never find it — the tuple does, with no `components` namespace needed.
+  customize :ribbon do
+    from {DevelopmentWeb.Widgets, :ribbon}
+    base "plain"
+    color :brand, "bg-fuchsia-600! text-white! ring-fuchsia-600!"
+    default color: :brand
+  end
+
   # Customize the headless accordion (its `part` rules ⇒ headless) into a styled `my_accordion`.
   # The headless component ships *zero* CSS, so the entire look is baked in right here — verbatim
   # classes, scanned straight from this file (no safelist). Each `part` rule targets a `data-part`

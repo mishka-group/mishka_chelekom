@@ -72,7 +72,12 @@ defmodule MishkaChelekom.Kit.Dsl do
         required: true,
         doc: "the generated component name (may differ from `from`)"
       ],
-      from: [type: :atom, doc: "the component to reuse (defaults to `name`)"],
+      from: [
+        type: {:or, [:atom, {:tuple, [:atom, :atom]}]},
+        doc:
+          "the component to reuse: an atom resolves by convention (`<Web>.Components.<Name>.<name>`), " <>
+            "or a `{Module, :function}` tuple points at an exact module/function (no convention)"
+      ],
       base: [
         type: :string,
         default: "base",

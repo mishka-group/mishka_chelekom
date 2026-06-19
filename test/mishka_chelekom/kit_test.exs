@@ -60,6 +60,19 @@ defmodule MishkaChelekom.KitTest do
     defp tc("neutral"), do: "t-neutral"
   end
 
+  # a component the naming convention could NEVER find: odd module path + an odd function name
+  defmodule Weird.Thing do
+    use Phoenix.Component
+    attr(:color, :string, default: "plain")
+    attr(:class, :any, default: nil)
+    slot(:inner_block)
+
+    def render(assigns),
+      do: ~H|<i class={["weird", wc(@color), @class]}>{render_slot(@inner_block)}</i>|
+
+    defp wc(c), do: "w-#{c}"
+  end
+
   # ── kits under test ──────────────────────────────────────────────────────────────────────
 
   defmodule Kit do
@@ -118,6 +131,14 @@ defmodule MishkaChelekom.KitTest do
       variant :outline, "ring-2!", color: "danger"
     end
 
+    # `from {Module, :function}` — point at an exact module/function, bypassing the convention
+    customize :gizmo do
+      from {MishkaChelekom.KitTest.Weird.Thing, :render}
+      base "plain"
+      color :brand, "text-lime-500!"
+      default color: "brand"
+    end
+
     # headless (decided by `part` rules) — full [&_[data-part=…]]: variants, verbatim
     customize :faq do
       from :accordion
@@ -155,6 +176,8 @@ defmodule MishkaChelekom.KitTest do
 
     def show_based(assigns),
       do: ~H|<.based_paired variant={@variant} color={@color}>x</.based_paired>|
+
+    def show_gizmo(assigns), do: ~H|<.gizmo>g</.gizmo>|
     def show_alert(assigns), do: ~H|<.alert>x</.alert>|
     def show_fancy(assigns), do: ~H|<.fancy_button>x</.fancy_button>|
     def show_faq(assigns), do: ~H|<.faq id="f"><:item>Q</:item></.faq>|
@@ -326,6 +349,25 @@ defmodule MishkaChelekom.KitTest do
     end
   end
 
+  # ── from {Module, :function} ─────────────────────────────────────────────────────────────
+
+  describe "customize — `from {Module, :function}` (explicit target)" do
+    test "delegates to the EXACT module + function, bypassing the naming convention" do
+      out = html(&Page.show_gizmo/1, %{})
+      # rendered by Weird.Thing.render/1 — proves the tuple was honoured (no Components.Gizmo exists)
+      assert out =~ "<i"
+      assert out =~ "weird"
+      # color :brand applied; remapped to the custom base "plain"
+      assert out =~ "w-plain"
+      assert out =~ "text-lime-500!"
+    end
+
+    test "the tuple `from` is preserved in introspection" do
+      gizmo = Kit |> Info.customizes() |> Enum.find(&(&1.name == :gizmo))
+      assert gizmo.from == {MishkaChelekom.KitTest.Weird.Thing, :render}
+    end
+  end
+
   # ── renamed / from ───────────────────────────────────────────────────────────────────────
 
   describe "customize — `from` resolution" do
@@ -377,6 +419,7 @@ defmodule MishkaChelekom.KitTest do
                :default_paired,
                :fancy_button,
                :faq,
+               :gizmo,
                :ordered_pairs,
                :paired_button
              ]
