@@ -8,7 +8,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessLive do
   use DevelopmentWeb, :live_view
 
   import DevelopmentWeb.Showcase.UI
-  alias DevelopmentWeb.Showcase.{HeadlessCatalog, HeadlessPreview, HeadlessApi, Snippets}
+  alias DevelopmentWeb.Showcase.{HeadlessCatalog, HeadlessPreview, HeadlessApi, HeadlessKitDemo, Snippets}
 
   @impl true
   def mount(_params, _session, socket), do: {:ok, assign(socket, :catalog, HeadlessCatalog.all())}
@@ -149,7 +149,18 @@ defmodule DevelopmentWeb.Showcase.HeadlessLive do
               title="Customize it"
               subtitle="Style its parts under a new name, from a Kit — `part` rules ⇒ headless."
             >
-              <.code_block code={Snippets.customize_headless(@component)} />
+              <.code_block code={
+                HeadlessKitDemo.code(@component.name) || Snippets.customize_headless(@component)
+              } />
+              <details :if={HeadlessKitDemo.available?(@component.name)} class="mt-4">
+                <summary class="cursor-pointer select-none text-xs font-medium text-base-content/50 hover:text-base-content/80">
+                  <span class="font-semibold text-base-content/70">→</span>
+                  Show the result, rendered live by a real Kit
+                </summary>
+                <div class="mt-2 rounded-box ring-1 ring-base-content/5 bg-base-100 p-4">
+                  <HeadlessKitDemo.demo component={@component.name} />
+                </div>
+              </details>
               <.tip>
                 Same <code>customize</code>
                 verb as styled components — the <code>part</code>
