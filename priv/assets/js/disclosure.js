@@ -175,13 +175,15 @@ const Disclosure = {
       panel.setAttribute("hidden", this.untilFound ? "until-found" : "");
     };
     if (this.reducedMotion || !panel.getAnimations) return hide();
-    this.measure(panel);
-    panel.setAttribute("data-ending-style", "");
-    requestAnimationFrame(() =>
+    this.measure(panel); // pin the open size as the transition's "from"
+    void panel.offsetHeight; // commit it
+    requestAnimationFrame(() => {
+      // apply the closing style in a FRESH frame so the height transitions from the committed size
+      panel.setAttribute("data-ending-style", "");
       requestAnimationFrame(() =>
         Promise.allSettled(panel.getAnimations().map((a) => a.finished)).then(hide)
-      )
-    );
+      );
+    });
   },
 
   emit(pair, open) {
