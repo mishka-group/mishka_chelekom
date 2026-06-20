@@ -438,7 +438,8 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
       value={72}
       min={0}
       max={100}
-      class="w-72 [&_[data-part=label]]:mb-1 [&_[data-part=label]]:block [&_[data-part=label]]:text-sm [&_[data-part=label]]:font-medium [&_[data-part=track]]:h-3 [&_[data-part=track]]:w-full [&_[data-part=track]]:overflow-hidden [&_[data-part=track]]:rounded-full [&_[data-part=track]]:bg-base-200 [&_[data-part=track]]:border [&_[data-part=track]]:border-base-300 [&_[data-part=indicator]]:h-full [&_[data-part=indicator]]:bg-primary [&_[data-part=indicator]]:[width:calc(var(--chelekom-meter)*100%)]"
+      show_value
+      class="flex w-72 flex-wrap items-center [&_[data-part=label]]:text-sm [&_[data-part=label]]:font-medium [&_[data-part=value]]:ml-auto [&_[data-part=value]]:text-sm [&_[data-part=value]]:tabular-nums [&_[data-part=value]]:text-base-content/60 [&_[data-part=track]]:mt-1.5 [&_[data-part=track]]:h-3 [&_[data-part=track]]:w-full [&_[data-part=track]]:overflow-hidden [&_[data-part=track]]:rounded-full [&_[data-part=track]]:border [&_[data-part=track]]:border-base-300 [&_[data-part=track]]:bg-base-200 [&_[data-part=indicator]]:h-full [&_[data-part=indicator]]:bg-primary [&_[data-part=indicator]]:[width:calc(var(--chelekom-meter)*100%)]"
     />
     """
   end
