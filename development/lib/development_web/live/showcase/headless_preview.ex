@@ -669,20 +669,35 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
     ~H"""
     <.toast
       id={@id}
-      class="flex w-80 flex-col gap-2 [&_[data-part=toast]]:relative [&_[data-part=toast]]:rounded-md [&_[data-part=toast]]:border [&_[data-part=toast]]:border-base-300 [&_[data-part=toast]]:bg-base-100 [&_[data-part=toast]]:p-3 [&_[data-part=toast]]:pr-8 [&_[data-part=toast]]:text-sm [&_[data-part=toast]]:shadow-lg [&_[data-part=dismiss]]:absolute [&_[data-part=dismiss]]:right-2 [&_[data-part=dismiss]]:top-2 [&_[data-part=dismiss]]:leading-none [&_[data-part=dismiss]]:text-base-content/60"
+      limit={3}
+      class={
+        [
+          "relative w-72 space-y-3",
+          # the create button
+          "[&_[data-part=trigger]]:rounded-md [&_[data-part=trigger]]:border [&_[data-part=trigger]]:border-base-300 [&_[data-part=trigger]]:bg-base-100 [&_[data-part=trigger]]:px-3 [&_[data-part=trigger]]:py-1.5 [&_[data-part=trigger]]:text-sm [&_[data-part=trigger]]:font-medium [&_[data-part=trigger]]:hover:bg-base-200",
+          # the viewport: a contained stacking area (toasts anchor to the bottom, fan UP on hover)
+          "[&_[data-part=viewport]]:relative [&_[data-part=viewport]]:h-60 [&_[data-part=viewport]]:w-full [&_[data-part=viewport]]:overflow-hidden [&_[data-part=viewport]]:[list-style:none] [&_[data-part=viewport]]:[padding:0] [&_[data-part=viewport]]:[margin:0]",
+          # per-toast stacking math (Base UI parity) — engine sets --toast-index/-offset-y/-height/-swipe-*
+          "[&_[data-part=toast]]:[--gap:0.6rem] [&_[data-part=toast]]:[--peek:0.6rem] [&_[data-part=toast]]:[--scale:calc(max(0,1-(var(--toast-index)*0.1)))] [&_[data-part=toast]]:[--shrink:calc(1-var(--scale))] [&_[data-part=toast]]:[--height:var(--toast-frontmost-height,var(--toast-height))] [&_[data-part=toast]]:[--offset-y:calc(var(--toast-offset-y)*-1+(var(--toast-index)*var(--gap)*-1)+var(--toast-swipe-movement-y))]",
+          "[&_[data-part=toast]]:absolute [&_[data-part=toast]]:inset-x-0 [&_[data-part=toast]]:bottom-0 [&_[data-part=toast]]:origin-bottom [&_[data-part=toast]]:z-[calc(1000-var(--toast-index))] [&_[data-part=toast]]:h-[var(--height)] [&_[data-part=toast]]:rounded-md [&_[data-part=toast]]:border [&_[data-part=toast]]:border-base-300 [&_[data-part=toast]]:bg-base-100 [&_[data-part=toast]]:shadow-lg [&_[data-part=toast]]:[transition:transform_0.5s_cubic-bezier(0.22,1,0.36,1),opacity_0.4s,height_0.15s] [&_[data-part=toast]]:[transform:translateX(var(--toast-swipe-movement-x))_translateY(calc(var(--toast-swipe-movement-y)-(var(--toast-index)*var(--peek))-(var(--shrink)*var(--height))))_scale(var(--scale))]",
+          # expanded (hover/focus): fan out to a real list
+          "[&_[data-part=toast][data-expanded]]:[transform:translateY(var(--offset-y))] [&_[data-part=toast][data-expanded]]:h-[var(--toast-height)]",
+          # enter from below / exit downward / limited fade — the combined [data-expanded][…-style]
+          # selectors (higher specificity) keep the slide winning over the expanded transform
+          "[&_[data-part=toast][data-starting-style]]:[transform:translateY(120%)] [&_[data-part=toast][data-ending-style]]:[transform:translateY(120%)] [&_[data-part=toast][data-expanded][data-starting-style]]:[transform:translateY(120%)] [&_[data-part=toast][data-expanded][data-ending-style]]:[transform:translateY(120%)] [&_[data-part=toast][data-ending-style]]:opacity-0 [&_[data-part=toast][data-limited]]:opacity-0",
+          # content (fades when behind the front in the collapsed stack) + close
+          "[&_[data-part=content]]:flex [&_[data-part=content]]:h-full [&_[data-part=content]]:items-start [&_[data-part=content]]:gap-3 [&_[data-part=content]]:overflow-hidden [&_[data-part=content]]:p-3 [&_[data-part=content]]:text-sm [&_[data-part=content]]:transition-opacity [&_[data-part=content][data-behind]]:opacity-0",
+          "[&_[data-part=close]]:ml-auto [&_[data-part=close]]:shrink-0 [&_[data-part=close]]:rounded [&_[data-part=close]]:px-1.5 [&_[data-part=close]]:text-lg [&_[data-part=close]]:leading-none [&_[data-part=close]]:text-base-content/40 [&_[data-part=close]]:hover:text-base-content"
+        ]
+      }
     >
-      <:toast>
-        <p class="font-semibold">Saved</p>
-        <p class="text-base-content/70">Your changes were saved successfully.</p>
-      </:toast>
-      <:toast duration={8000}>
-        <p class="font-semibold">Upload complete</p>
-        <p class="text-base-content/70">3 files uploaded to the project.</p>
-      </:toast>
-      <:toast duration={0}>
-        <p class="font-semibold">Sticky notice</p>
-        <p class="text-base-content/70">This one stays until dismissed manually.</p>
-      </:toast>
+      <:trigger>Create toast</:trigger>
+      <:template>
+        <div class="min-w-0 flex-1">
+          <p class="font-semibold">Toast <span data-toast-count>1</span> created</p>
+          <p class="text-base-content/70">This is a toast notification.</p>
+        </div>
+      </:template>
     </.toast>
     """
   end

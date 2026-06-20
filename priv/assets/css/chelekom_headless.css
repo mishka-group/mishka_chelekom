@@ -20,8 +20,7 @@
 .chelekom-menubar__popup[data-closed],
 .chelekom-navigation_menu__panel[data-closed],
 .chelekom-combobox__popup[data-closed],
-.chelekom-autocomplete__popup[data-closed],
-.chelekom-toast [data-part="toast"][data-closed] {
+.chelekom-autocomplete__popup[data-closed] {
     display: none;
 }
 
@@ -163,14 +162,10 @@
     width: calc(var(--chelekom-meter, 0) * 100%);
 }
 
-/* Toast region: stack toasts; closed ones are removed (see above). */
-.chelekom-toast {
-    position: fixed;
-    z-index: 60;
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-}
+/* Toast: positioning + the collapsible stack are entirely consumer CSS — the engine only writes the
+   layout vars (--toast-index / --toast-offset-y / --toast-height on each toast, --toast-frontmost-height
+   on the viewport) and toggles data-expanded / data-limited / data-behind / data-starting|ending-style.
+   Style the viewport (fixed/anchored) and the toasts (absolute), e.g. transform from the vars. */
 
 /* Visually-hidden helper for native inputs backing headless form controls. */
 .chelekom-sr-only {

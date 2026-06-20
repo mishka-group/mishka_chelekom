@@ -534,19 +534,16 @@ defmodule DevelopmentWeb.Showcase.HeadlessKitDemo do
 
   def demo(%{component: "toast"} = assigns) do
     ~H"""
-    <.my_toast id="hl-toast-skin" class="w-full max-w-md">
-      <:toast>
-        <p class="font-semibold text-amber-900 dark:text-amber-100">Saved</p>
-        <p class="text-amber-700 dark:text-amber-300">Your changes were saved successfully.</p>
-      </:toast>
-      <:toast duration={8000}>
-        <p class="font-semibold text-amber-900 dark:text-amber-100">Upload complete</p>
-        <p class="text-amber-700 dark:text-amber-300">3 files uploaded to the project.</p>
-      </:toast>
-      <:toast duration={0}>
-        <p class="font-semibold text-amber-900 dark:text-amber-100">Sticky notice</p>
-        <p class="text-amber-700 dark:text-amber-300">This one stays until dismissed manually.</p>
-      </:toast>
+    <.my_toast id="hl-toast-skin">
+      <:trigger>Create toast</:trigger>
+      <:template>
+        <div class="min-w-0 flex-1">
+          <p class="font-semibold text-amber-900 dark:text-amber-100">
+            Toast <span data-toast-count>1</span> created
+          </p>
+          <p class="text-amber-700 dark:text-amber-300">This is a toast notification.</p>
+        </div>
+      </:template>
     </.my_toast>
     """
   end

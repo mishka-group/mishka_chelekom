@@ -557,13 +557,24 @@ defmodule DevelopmentWeb.Kit do
 
   customize :my_toast do
     from :toast
-    part :root, "flex flex-col gap-2"
 
+    part :root, "relative w-full max-w-sm space-y-3"
+
+    part :trigger,
+         "[&_[data-part=trigger]]:rounded-lg [&_[data-part=trigger]]:border [&_[data-part=trigger]]:border-amber-200 [&_[data-part=trigger]]:bg-amber-50 [&_[data-part=trigger]]:px-3 [&_[data-part=trigger]]:py-1.5 [&_[data-part=trigger]]:text-sm [&_[data-part=trigger]]:font-medium [&_[data-part=trigger]]:text-amber-950 [&_[data-part=trigger]]:hover:bg-amber-100 dark:[&_[data-part=trigger]]:border-amber-900 dark:[&_[data-part=trigger]]:bg-amber-950/30 dark:[&_[data-part=trigger]]:text-amber-50 dark:[&_[data-part=trigger]]:hover:bg-amber-900/40"
+
+    part :viewport,
+         "[&_[data-part=viewport]]:relative [&_[data-part=viewport]]:h-60 [&_[data-part=viewport]]:w-full [&_[data-part=viewport]]:overflow-hidden [&_[data-part=viewport]]:[list-style:none] [&_[data-part=viewport]]:[padding:0] [&_[data-part=viewport]]:[margin:0]"
+
+    # the stacking math (Base UI parity) + warm amber surface; older toasts peek behind, fan out on hover
     part :toast,
-         "[&_[data-part=toast]]:relative [&_[data-part=toast]]:rounded-lg [&_[data-part=toast]]:border [&_[data-part=toast]]:border-amber-200 [&_[data-part=toast]]:bg-amber-50 [&_[data-part=toast]]:p-3 [&_[data-part=toast]]:pr-8 [&_[data-part=toast]]:text-sm [&_[data-part=toast]]:text-amber-950 [&_[data-part=toast]]:shadow-lg [&_[data-part=toast]]:shadow-amber-900/10 dark:[&_[data-part=toast]]:border-amber-900 dark:[&_[data-part=toast]]:bg-amber-950/30 dark:[&_[data-part=toast]]:text-amber-50 dark:[&_[data-part=toast]]:shadow-black/40 [&_[data-part=toast][data-closed]]:opacity-0 [&_[data-part=toast][data-closed]]:pointer-events-none"
+         "[&_[data-part=toast]]:[--gap:0.6rem] [&_[data-part=toast]]:[--peek:0.6rem] [&_[data-part=toast]]:[--scale:calc(max(0,1-(var(--toast-index)*0.1)))] [&_[data-part=toast]]:[--shrink:calc(1-var(--scale))] [&_[data-part=toast]]:[--height:var(--toast-frontmost-height,var(--toast-height))] [&_[data-part=toast]]:[--offset-y:calc(var(--toast-offset-y)*-1+(var(--toast-index)*var(--gap)*-1)+var(--toast-swipe-movement-y))] [&_[data-part=toast]]:absolute [&_[data-part=toast]]:inset-x-0 [&_[data-part=toast]]:bottom-0 [&_[data-part=toast]]:origin-bottom [&_[data-part=toast]]:z-[calc(1000-var(--toast-index))] [&_[data-part=toast]]:h-[var(--height)] [&_[data-part=toast]]:rounded-lg [&_[data-part=toast]]:border [&_[data-part=toast]]:border-amber-200 [&_[data-part=toast]]:bg-amber-50 [&_[data-part=toast]]:text-amber-950 [&_[data-part=toast]]:shadow-lg [&_[data-part=toast]]:shadow-amber-900/10 dark:[&_[data-part=toast]]:border-amber-900 dark:[&_[data-part=toast]]:bg-amber-950/40 dark:[&_[data-part=toast]]:text-amber-50 dark:[&_[data-part=toast]]:shadow-black/40 [&_[data-part=toast]]:[transition:transform_0.5s_cubic-bezier(0.22,1,0.36,1),opacity_0.4s,height_0.15s] [&_[data-part=toast]]:[transform:translateX(var(--toast-swipe-movement-x))_translateY(calc(var(--toast-swipe-movement-y)-(var(--toast-index)*var(--peek))-(var(--shrink)*var(--height))))_scale(var(--scale))] [&_[data-part=toast][data-expanded]]:[transform:translateY(var(--offset-y))] [&_[data-part=toast][data-expanded]]:h-[var(--toast-height)] [&_[data-part=toast][data-starting-style]]:[transform:translateY(120%)] [&_[data-part=toast][data-ending-style]]:[transform:translateY(120%)] [&_[data-part=toast][data-expanded][data-starting-style]]:[transform:translateY(120%)] [&_[data-part=toast][data-expanded][data-ending-style]]:[transform:translateY(120%)] [&_[data-part=toast][data-ending-style]]:opacity-0 [&_[data-part=toast][data-limited]]:opacity-0"
 
-    part :dismiss,
-         "[&_[data-part=dismiss]]:absolute [&_[data-part=dismiss]]:right-2 [&_[data-part=dismiss]]:top-2 [&_[data-part=dismiss]]:leading-none [&_[data-part=dismiss]]:text-amber-500 [&_[data-part=dismiss]]:hover:text-amber-700 dark:[&_[data-part=dismiss]]:text-amber-400 dark:[&_[data-part=dismiss]]:hover:text-amber-200"
+    part :content,
+         "[&_[data-part=content]]:flex [&_[data-part=content]]:h-full [&_[data-part=content]]:items-start [&_[data-part=content]]:gap-3 [&_[data-part=content]]:overflow-hidden [&_[data-part=content]]:p-3 [&_[data-part=content]]:text-sm [&_[data-part=content]]:transition-opacity [&_[data-part=content][data-behind]]:opacity-0"
+
+    part :close,
+         "[&_[data-part=close]]:ml-auto [&_[data-part=close]]:shrink-0 [&_[data-part=close]]:px-1.5 [&_[data-part=close]]:text-lg [&_[data-part=close]]:leading-none [&_[data-part=close]]:text-amber-500 [&_[data-part=close]]:hover:text-amber-700 dark:[&_[data-part=close]]:text-amber-400 dark:[&_[data-part=close]]:hover:text-amber-200"
   end
 
   customize :my_toggle do
