@@ -190,6 +190,17 @@ defmodule DevelopmentWeb.Showcase.HeadlessLive do
                 <HeadlessPreview.show component={@component.name} id={"hl-#{@component.name}"} />
               </div>
             </div>
+            <details
+              :if={HeadlessPreview.source(@component.name)}
+              class="bg-base-100 rounded-box shadow-sm"
+            >
+              <summary class="cursor-pointer select-none px-6 py-3 text-xs font-medium uppercase tracking-wide text-base-content/50 hover:text-base-content/80">
+                Code — copy &amp; paste
+              </summary>
+              <div class="px-4 pb-4">
+                <.code_block code={HeadlessPreview.source(@component.name)} wrap />
+              </div>
+            </details>
             <div class="bg-base-300/70 rounded-box p-4 text-xs text-base-content/70">
               Ships <strong>no colors or spacing</strong>. The classes here are showcase-only — in
               your app you style the <code>chelekom-{@component.name}*</code>

@@ -122,8 +122,11 @@
   opacity: 0.5;
 }
 
-/* Combobox/autocomplete: non-matching options are filtered out by the engine. */
-[data-part="item"][data-hidden] {
+/* Combobox/autocomplete: non-matching options (and empty groups / the empty-state) are hidden by
+   the engine via data-hidden; the empty-state is shown only when nothing matches. */
+[data-part="item"][data-hidden],
+[data-part="group"][data-hidden],
+[data-part="empty"][data-hidden] {
   display: none;
 }
 

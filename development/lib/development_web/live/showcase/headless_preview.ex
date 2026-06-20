@@ -41,8 +41,61 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
   import DevelopmentWeb.Components.Headless.Drawer
   import DevelopmentWeb.Components.Headless.Radio
   import DevelopmentWeb.Components.Headless.OtpField
+  import DevelopmentWeb.Showcase.UI, only: [code_block: 1]
 
   @btn "rounded-md border border-base-300 px-3 py-1.5 text-sm"
+
+  # This file is its own source for the copy-paste snippets: we lift the HEEx out of each `show/1`
+  # clause (and each toast `<details>` example) so the shown code can never drift from what renders.
+  @preview_path Path.expand("headless_preview.ex", __DIR__)
+  @external_resource @preview_path
+  @preview_source File.read!(@preview_path)
+
+  # title => raw toast example block (dedent/expand applied at runtime in example_code/1)
+  @toast_codes Regex.scan(
+                 ~r/<summary[^>]*>([^<]+)<\/summary>.*?(<\.toast.*?<\/\.toast>)/s,
+                 @preview_source
+               )
+               |> Map.new(fn [_, title, code] -> {String.trim(title), code} end)
+
+  @doc "The HEEx source of a component's live preview, ready to copy-paste."
+  def source(name) do
+    case Regex.run(
+           ~r/def show\(%\{component: "#{Regex.escape(name)}"\} = assigns\) do\s*~H"""\n(.*?)\n\s*"""/s,
+           @preview_source
+         ) do
+      [_, body] -> body |> dedent() |> expand_toast_class()
+      _ -> nil
+    end
+  end
+
+  defp example_code(title),
+    do: @toast_codes |> Map.get(title, "") |> dedent() |> expand_toast_class()
+
+  # Inline the showcase's `toast_class/1` helper back to literal classes so copied code is self-contained.
+  defp expand_toast_class(code) do
+    code
+    |> String.replace(~s|{toast_class(:bottom)}|, ~s|"#{Enum.join(toast_class(:bottom), " ")}"|)
+    |> String.replace(~s|{toast_class(:top)}|, ~s|"#{Enum.join(toast_class(:top), " ")}"|)
+  end
+
+  # Strip the first line's indent and the common indent of the rest, so extracted blocks read cleanly.
+  defp dedent(code) do
+    case code |> String.trim_trailing() |> String.split("\n") do
+      [single] ->
+        String.trim(single)
+
+      [first | rest] ->
+        min =
+          rest
+          |> Enum.reject(&(String.trim(&1) == ""))
+          |> Enum.map(&(String.length(&1) - String.length(String.trim_leading(&1))))
+          |> Enum.min(fn -> 0 end)
+
+        [String.trim_leading(first) | Enum.map(rest, &String.slice(&1, min..-1//1))]
+        |> Enum.join("\n")
+    end
+  end
 
   def show(%{component: "drawer"} = assigns) do
     ~H"""
@@ -158,13 +211,28 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
     ~H"""
     <.autocomplete
       id={@id}
-      name="fruit"
-      placeholder="Search fruits…"
-      class="[&_[data-part=input]]:min-w-56 [&_[data-part=input]]:rounded-md [&_[data-part=input]]:border [&_[data-part=input]]:border-base-300 [&_[data-part=input]]:px-3 [&_[data-part=input]]:py-1.5 [&_[data-part=popup]]:mt-1 [&_[data-part=popup]]:min-w-56 [&_[data-part=popup]]:rounded-md [&_[data-part=popup]]:border [&_[data-part=popup]]:border-base-300 [&_[data-part=popup]]:bg-base-100 [&_[data-part=popup]]:p-1 [&_[data-part=popup]]:shadow-lg [&_[data-part=item]]:px-3 [&_[data-part=item]]:py-1.5 [&_[data-part=item]]:cursor-pointer [&_[data-highlighted]]:bg-base-200 [&_[aria-selected=true]]:font-semibold [&_[data-hidden]]:hidden"
+      name="food"
+      placeholder="Search food…"
+      auto_highlight
+      clear
+      class={
+        [
+          "relative w-64",
+          "[&_[data-part=input]]:w-full [&_[data-part=input]]:rounded-md [&_[data-part=input]]:border [&_[data-part=input]]:border-base-300 [&_[data-part=input]]:px-3 [&_[data-part=input]]:py-1.5 [&_[data-part=input]]:pr-8",
+          "[&_[data-part=clear]]:absolute [&_[data-part=clear]]:right-2 [&_[data-part=clear]]:top-1.5 [&_[data-part=clear]]:text-base-content/40 [&_[data-part=clear]]:hover:text-base-content [&_[data-part=clear][data-hidden]]:hidden",
+          "[&_[data-part=popup]]:mt-1 [&_[data-part=popup]]:max-h-56 [&_[data-part=popup]]:w-64 [&_[data-part=popup]]:overflow-auto [&_[data-part=popup]]:rounded-md [&_[data-part=popup]]:border [&_[data-part=popup]]:border-base-300 [&_[data-part=popup]]:bg-base-100 [&_[data-part=popup]]:p-1 [&_[data-part=popup]]:shadow-lg",
+          "[&_[data-part=group-label]]:block [&_[data-part=group-label]]:px-3 [&_[data-part=group-label]]:pb-1 [&_[data-part=group-label]]:pt-2 [&_[data-part=group-label]]:text-xs [&_[data-part=group-label]]:font-medium [&_[data-part=group-label]]:uppercase [&_[data-part=group-label]]:tracking-wide [&_[data-part=group-label]]:text-base-content/40",
+          "[&_[data-part=item]]:cursor-pointer [&_[data-part=item]]:rounded [&_[data-part=item]]:px-3 [&_[data-part=item]]:py-1.5 [&_[data-part=item][data-highlighted]]:bg-base-200 [&_[data-part=item][aria-selected=true]]:font-semibold",
+          "[&_[data-part=empty]]:px-3 [&_[data-part=empty]]:py-2 [&_[data-part=empty]]:text-sm [&_[data-part=empty]]:text-base-content/50"
+        ]
+      }
     >
-      <:option value="Apple">Apple</:option>
-      <:option value="Banana">Banana</:option>
-      <:option value="Cherry">Cherry</:option>
+      <:option value="Apple" group="Fruit">Apple</:option>
+      <:option value="Banana" group="Fruit">Banana</:option>
+      <:option value="Cherry" group="Fruit">Cherry</:option>
+      <:option value="Carrot" group="Vegetable">Carrot</:option>
+      <:option value="Potato" group="Vegetable">Potato</:option>
+      <:empty>No matches.</:empty>
     </.autocomplete>
     """
   end
@@ -785,6 +853,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
             </:template>
           </.toast>
         </div>
+        <.code_block code={example_code("Top placement")} class="mt-3" />
       </details>
 
       <details class="rounded-box border border-base-300 bg-base-100 p-4">
@@ -804,6 +873,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
             </:template>
           </.toast>
         </div>
+        <.code_block code={example_code("Deduplicated")} class="mt-3" />
       </details>
 
       <details class="rounded-box border border-base-300 bg-base-100 p-4">
@@ -836,6 +906,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
             </:toast>
           </.toast>
         </div>
+        <.code_block code={example_code("Varying heights")} class="mt-3" />
       </details>
     </div>
     """

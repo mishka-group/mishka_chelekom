@@ -137,8 +137,17 @@ defmodule DevelopmentWeb.Kit do
     from :autocomplete
     part :root, "relative inline-block"
 
+    part :clear,
+         "[&_[data-part=clear]]:absolute [&_[data-part=clear]]:right-2 [&_[data-part=clear]]:top-1.5 [&_[data-part=clear]]:text-amber-500 [&_[data-part=clear]]:hover:text-amber-700 [&_[data-part=clear][data-hidden]]:hidden dark:[&_[data-part=clear]]:text-amber-400 dark:[&_[data-part=clear]]:hover:text-amber-200"
+
+    part :group_label,
+         "[&_[data-part=group-label]]:block [&_[data-part=group-label]]:px-3 [&_[data-part=group-label]]:pb-1 [&_[data-part=group-label]]:pt-2 [&_[data-part=group-label]]:text-xs [&_[data-part=group-label]]:font-medium [&_[data-part=group-label]]:uppercase [&_[data-part=group-label]]:tracking-wide [&_[data-part=group-label]]:text-amber-700/70 dark:[&_[data-part=group-label]]:text-amber-300/60"
+
+    part :empty,
+         "[&_[data-part=empty]]:px-3 [&_[data-part=empty]]:py-2 [&_[data-part=empty]]:text-sm [&_[data-part=empty]]:text-amber-700/60 dark:[&_[data-part=empty]]:text-amber-300/50"
+
     part :input,
-         "[&_[data-part=input]]:w-full [&_[data-part=input]]:min-w-56 [&_[data-part=input]]:rounded-lg [&_[data-part=input]]:border [&_[data-part=input]]:border-amber-200 [&_[data-part=input]]:bg-amber-50 [&_[data-part=input]]:px-3 [&_[data-part=input]]:py-1.5 [&_[data-part=input]]:text-sm [&_[data-part=input]]:text-amber-950 [&_[data-part=input]]:placeholder:text-amber-700/60 [&_[data-part=input]]:outline-none [&_[data-part=input]]:focus:ring-2 [&_[data-part=input]]:focus:ring-amber-500/40 dark:[&_[data-part=input]]:border-amber-900 dark:[&_[data-part=input]]:bg-amber-950/30 dark:[&_[data-part=input]]:text-amber-50 dark:[&_[data-part=input]]:placeholder:text-amber-300/50 dark:[&_[data-part=input]]:focus:ring-amber-400/40"
+         "[&_[data-part=input]]:w-full [&_[data-part=input]]:min-w-56 [&_[data-part=input]]:rounded-lg [&_[data-part=input]]:border [&_[data-part=input]]:border-amber-200 [&_[data-part=input]]:bg-amber-50 [&_[data-part=input]]:px-3 [&_[data-part=input]]:py-1.5 [&_[data-part=input]]:pr-8 [&_[data-part=input]]:text-sm [&_[data-part=input]]:text-amber-950 [&_[data-part=input]]:placeholder:text-amber-700/60 [&_[data-part=input]]:outline-none [&_[data-part=input]]:focus:ring-2 [&_[data-part=input]]:focus:ring-amber-500/40 dark:[&_[data-part=input]]:border-amber-900 dark:[&_[data-part=input]]:bg-amber-950/30 dark:[&_[data-part=input]]:text-amber-50 dark:[&_[data-part=input]]:placeholder:text-amber-300/50 dark:[&_[data-part=input]]:focus:ring-amber-400/40"
 
     part :popup,
          "[&_[data-part=popup]]:mt-1.5 [&_[data-part=popup]]:min-w-56 [&_[data-part=popup]]:overflow-hidden [&_[data-part=popup]]:rounded-lg [&_[data-part=popup]]:border [&_[data-part=popup]]:border-amber-200 [&_[data-part=popup]]:bg-amber-50 [&_[data-part=popup]]:p-1 [&_[data-part=popup]]:shadow-lg [&_[data-part=popup][data-closed]]:hidden dark:[&_[data-part=popup]]:border-amber-900 dark:[&_[data-part=popup]]:bg-amber-950/30"

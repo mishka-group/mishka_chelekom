@@ -1,11 +1,18 @@
 // HeadlessCombobox — headless combobox / autocomplete engine.
 //
-// A text `[data-part="input"]` filters an `[data-part="popup"]` listbox of
-// `[data-part="item"]` options as you type (options whose text doesn't match get
-// `data-hidden`). ArrowDown opens + moves through visible options (roving via
-// `data-highlighted` + `aria-activedescendant`), Enter/click selects (fills the input and a
-// hidden `[data-part="value"]`, closes), Escape closes. ARIA: input `role="combobox"` +
-// `aria-expanded` + `aria-controls`; list `role="listbox"`; options `role="option"`.
+// A text `[data-part="input"]` filters an `[data-part="popup"]` listbox of `[data-part="item"]`
+// options as you type (non-matching options get `data-hidden`). ArrowDown opens + moves a roving
+// highlight (`data-highlighted` + `aria-activedescendant`), Enter/click selects (fills the input and
+// a hidden `[data-part="value"]`), Escape closes. ARIA: input `role="combobox"` + `aria-expanded` +
+// `aria-controls`; list `role="listbox"`; options `role="option"`.
+//
+// Opt-in extras (the autocomplete component uses them; combobox sets none, so they no-op):
+//   root `data-autohighlight`  → highlight the first match while typing
+//   root `data-filter="contains|starts_with"` → match mode (default contains)
+//   `[data-part="group"]`  → group wrapper hidden (`data-hidden`) when all its items are hidden
+//   `[data-part="empty"]`  → shown when the query matches nothing
+//   `[data-part="status"]` → aria-live text updated with the result count
+//   `[data-part="clear"]`  → button that clears the input (hidden via `data-hidden` when empty)
 //
 // Distinct from the styled `Combobox` hook (combobox.js); this backs the headless `combobox`
 // and `autocomplete` components.
@@ -15,6 +22,11 @@ const HeadlessCombobox = {
     this.input = this.el.querySelector('[data-part="input"]');
     this.popup = this.el.querySelector('[data-part="popup"]');
     this.hidden = this.el.querySelector('[data-part="value"]');
+    this.empty = this.el.querySelector('[data-part="empty"]');
+    this.status = this.el.querySelector('[data-part="status"]');
+    this.clearBtn = this.el.querySelector('[data-part="clear"]');
+    this.autoHighlight = this.el.hasAttribute("data-autohighlight");
+    this.filterMode = this.el.getAttribute("data-filter") || "contains";
     this.items = () => Array.from(this.el.querySelectorAll('[data-part="item"]'));
 
     if (this.popup && this.popup.id) {
@@ -35,6 +47,9 @@ const HeadlessCombobox = {
     };
 
     this.items().forEach((it) => it.addEventListener("click", () => this.select(it)));
+    if (this.clearBtn) this.clearBtn.addEventListener("click", () => this.clear());
+
+    this.sync();
   },
 
   destroyed() {
@@ -45,19 +60,62 @@ const HeadlessCombobox = {
     return this.items().filter((i) => !i.hasAttribute("data-hidden"));
   },
 
+  highlighted() {
+    return this.items().find((i) => i.hasAttribute("data-highlighted")) || null;
+  },
+
+  match(text, q) {
+    return this.filterMode === "starts_with" ? text.startsWith(q) : text.includes(q);
+  },
+
   filter() {
     const q = this.input.value.trim().toLowerCase();
     this.items().forEach((it) => {
-      const match = it.textContent.toLowerCase().includes(q);
-      it.toggleAttribute("data-hidden", q !== "" && !match);
+      const hit = this.match(it.textContent.toLowerCase(), q);
+      it.toggleAttribute("data-hidden", q !== "" && !hit);
     });
+    // hide a group whose every item is filtered out
+    this.el.querySelectorAll('[data-part="group"]').forEach((g) => {
+      const any = Array.from(g.querySelectorAll('[data-part="item"]')).some(
+        (i) => !i.hasAttribute("data-hidden"),
+      );
+      g.toggleAttribute("data-hidden", !any);
+    });
+
+    const vis = this.visible();
+    const hl = this.highlighted();
+    if (this.autoHighlight && q !== "") this.highlight(vis[0] || null);
+    else if (hl && !vis.includes(hl)) this.highlight(null);
+
+    this.sync();
+  },
+
+  // Reflect the current result count into the empty / status / clear parts.
+  sync() {
+    const total = this.items().length;
+    const n = this.visible().length;
+    if (this.empty) this.empty.toggleAttribute("data-hidden", !(total > 0 && n === 0));
+    if (this.status) {
+      this.status.textContent = n === 0 ? "No results" : `${n} result${n === 1 ? "" : "s"} available`;
+    }
+    if (this.clearBtn) this.clearBtn.toggleAttribute("data-hidden", this.input.value === "");
+  },
+
+  clear() {
+    this.input.value = "";
+    if (this.hidden) this.hidden.value = "";
+    this.items().forEach((i) => i.setAttribute("aria-selected", "false"));
+    this.filter();
+    this.input.focus();
+    this.open();
   },
 
   open() {
-    if (!this.popup || this.popup.hasAttribute("data-open")) return;
+    if (this.input.disabled || !this.popup || this.popup.hasAttribute("data-open")) return;
     this.popup.toggleAttribute("data-open", true);
     this.popup.toggleAttribute("data-closed", false);
     this.input.setAttribute("aria-expanded", "true");
+    if (this.autoHighlight) this.highlight(this.visible()[0] || null);
     document.addEventListener("click", this.boundOutside, true);
   },
 
@@ -102,6 +160,7 @@ const HeadlessCombobox = {
     if (this.hidden) this.hidden.value = value;
     this.items().forEach((i) => i.setAttribute("aria-selected", String(i === item)));
     this.close();
+    this.sync();
   },
 };
 

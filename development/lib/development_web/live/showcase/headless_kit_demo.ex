@@ -131,13 +131,16 @@ defmodule DevelopmentWeb.Showcase.HeadlessKitDemo do
     ~H"""
     <.my_autocomplete
       id="hl-autocomplete-skin"
-      name="fruit"
-      placeholder="Search fruits…"
-      class="w-full max-w-md"
+      name="food"
+      placeholder="Search food…"
+      auto_highlight
+      clear
     >
-      <:option value="Apple">Apple</:option>
-      <:option value="Banana">Banana</:option>
-      <:option value="Cherry">Cherry</:option>
+      <:option value="Apple" group="Fruit">Apple</:option>
+      <:option value="Banana" group="Fruit">Banana</:option>
+      <:option value="Carrot" group="Vegetable">Carrot</:option>
+      <:option value="Potato" group="Vegetable">Potato</:option>
+      <:empty>No matches.</:empty>
     </.my_autocomplete>
     """
   end
