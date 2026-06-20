@@ -7,7 +7,8 @@ defmodule <%= @module %> do
   separator (the label is centered structurally by your styles). Style via the
   `chelekom-separator*` classes — this component ships **no** colors or spacing.
 
-  No formal WAI-ARIA APG pattern; follows the `separator` role semantics.
+  No formal WAI-ARIA APG pattern; follows the `separator` role:
+  https://www.w3.org/TR/wai-aria-1.2/#separator
   """
   use Phoenix.Component
 

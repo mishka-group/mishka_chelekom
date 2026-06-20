@@ -586,13 +586,39 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
 
   def show(%{component: "separator"} = assigns) do
     ~H"""
-    <.separator
-      id={@id}
-      orientation="horizontal"
-      class="flex w-80 items-center gap-3 text-xs uppercase tracking-wide text-base-content/60 before:h-px before:flex-1 before:bg-base-300 after:h-px after:flex-1 after:bg-base-300 [&_[data-part=label]]:shrink-0"
-    >
-      or continue with
-    </.separator>
+    <div class="space-y-6">
+      <div class="space-y-1.5">
+        <p class="text-[0.7rem] uppercase tracking-wide text-base-content/40">Horizontal</p>
+        <div class="w-72 text-sm text-base-content/70">
+          <p>Account settings</p>
+          <.separator id={"#{@id}-plain"} class="my-2.5 h-px w-full bg-base-300" />
+          <p>Danger zone</p>
+        </div>
+      </div>
+
+      <div class="space-y-1.5">
+        <p class="text-[0.7rem] uppercase tracking-wide text-base-content/40">Labelled</p>
+        <.separator
+          id={"#{@id}-or"}
+          class="flex w-72 items-center gap-3 text-xs uppercase tracking-wide text-base-content/60 before:h-px before:flex-1 before:bg-base-300 after:h-px after:flex-1 after:bg-base-300 [&_[data-part=label]]:shrink-0"
+        >
+          or continue with
+        </.separator>
+      </div>
+
+      <div class="space-y-1.5">
+        <p class="text-[0.7rem] uppercase tracking-wide text-base-content/40">Vertical (in a nav)</p>
+        <nav class="flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-base-content/80">
+          <a href="#" class="hover:text-base-content">Home</a>
+          <a href="#" class="hover:text-base-content">Pricing</a>
+          <a href="#" class="hover:text-base-content">Blog</a>
+          <a href="#" class="hover:text-base-content">Support</a>
+          <.separator id={"#{@id}-nav"} orientation="vertical" class="h-4 w-px bg-base-300" />
+          <a href="#" class="hover:text-base-content">Log in</a>
+          <a href="#" class="hover:text-base-content">Sign up</a>
+        </nav>
+      </div>
+    </div>
     """
   end
 
