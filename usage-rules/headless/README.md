@@ -46,7 +46,6 @@ There are no `--color/--variant/--size/--padding` options (meaningless for headl
 | toggle_group | Toolbar | RovingTabindex + Toggle |
 | slider | Slider | Slider |
 | number_field | Spinbutton | NumberScrub |
-| calendar | Date grid | DateGrid |
 | field / fieldset | (form grouping) | — |
 | avatar | (img + fallback) | — |
 | separator | Separator | — |
@@ -70,7 +69,7 @@ See the per-component docs in this folder, and `hooks.md` for the JS engines.
 - **Anatomy**: each part is reachable via `data-part="trigger|popup|item|panel|backdrop|…"`, which
   is also how the JS engines find their targets.
 - **Behavior**: delegated to the shared engines in `priv/assets/js/` — FocusTrap, Disclosure,
-  RovingTabindex, Popup, Toggle, Slider, NumberScrub, DateGrid, ToastRegion, HeadlessCombobox;
+  RovingTabindex, Popup, Toggle, Slider, NumberScrub, ToastRegion, HeadlessCombobox;
   no inline JS in templates. See `hooks.md`.
 
 ## Coexistence & migration

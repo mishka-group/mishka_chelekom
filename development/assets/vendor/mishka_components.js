@@ -11,7 +11,6 @@ import Disclosure from "./disclosure.js";
 import Popup from "./popup.js";
 import RovingTabindex from "./roving_tabindex.js";
 import HeadlessCombobox from "./headless_combobox.js";
-import DateGrid from "./date_grid.js";
 import Toggle from "./toggle.js";
 import NumberScrub from "./number_scrub.js";
 import Slider from "./slider.js";
@@ -31,7 +30,6 @@ const Components = {
   Popup,
   RovingTabindex,
   HeadlessCombobox,
-  DateGrid,
   Toggle,
   NumberScrub,
   Slider,

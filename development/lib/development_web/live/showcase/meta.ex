@@ -94,7 +94,6 @@ defmodule DevelopmentWeb.Showcase.Meta do
     "alert_dialog" => "Modal dialog that interrupts to confirm a critical action; focus-trapped.",
     "autocomplete" => "Text input with an ARIA listbox of filtered suggestions.",
     "avatar" => "Image with loading and fallback states, unstyled.",
-    "calendar" => "Date grid with full keyboard navigation and ARIA grid semantics.",
     "checkbox_group" => "Group of checkboxes sharing a label and state.",
     "checkbox" => "Accessible checkbox supporting checked and indeterminate state.",
     "collapsible" => "A single trigger/panel pair that expands and collapses.",

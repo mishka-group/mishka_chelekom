@@ -15,7 +15,6 @@ defmodule DevelopmentWeb.Showcase.HeadlessKitDemo do
       my_alert_dialog: 1,
       my_autocomplete: 1,
       my_avatar: 1,
-      my_calendar: 1,
       my_checkbox: 1,
       my_checkbox_group: 1,
       my_combobox: 1,
@@ -47,7 +46,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessKitDemo do
       my_tooltip: 1
     ]
 
-  @available ~w(accordion collapsible meter alert_dialog autocomplete avatar calendar checkbox checkbox_group combobox context_menu dialog drawer field fieldset menu menubar navigation_menu number_field otp_field popover preview_card progress radio radio_group scroll_area select separator slider switch tabs toast toggle toggle_group toolbar tooltip)
+  @available ~w(accordion collapsible meter alert_dialog autocomplete avatar checkbox checkbox_group combobox context_menu dialog drawer field fieldset menu menubar navigation_menu number_field otp_field popover preview_card progress radio radio_group scroll_area select separator slider switch tabs toast toggle toggle_group toolbar tooltip)
   def available?(name), do: name in @available
 
   # The REAL `customize` blocks that produce the live results, lifted verbatim from `kit.ex` so the
@@ -154,17 +153,6 @@ defmodule DevelopmentWeb.Showcase.HeadlessKitDemo do
     >
       MC
     </.my_avatar>
-    """
-  end
-
-  def demo(%{component: "calendar"} = assigns) do
-    ~H"""
-    <.my_calendar
-      id="hl-calendar-skin"
-      name="event_date"
-      value={Date.utc_today()}
-      class="w-full max-w-md"
-    />
     """
   end
 

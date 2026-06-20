@@ -9,7 +9,6 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
   import DevelopmentWeb.Components.Headless.AlertDialog
   import DevelopmentWeb.Components.Headless.Autocomplete
   import DevelopmentWeb.Components.Headless.Avatar
-  import DevelopmentWeb.Components.Headless.Calendar
   import DevelopmentWeb.Components.Headless.Checkbox
   import DevelopmentWeb.Components.Headless.CheckboxGroup
   import DevelopmentWeb.Components.Headless.Collapsible
@@ -247,17 +246,6 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
     >
       MC
     </.avatar>
-    """
-  end
-
-  def show(%{component: "calendar"} = assigns) do
-    ~H"""
-    <.calendar
-      id={@id}
-      name="event_date"
-      value={Date.utc_today()}
-      class="w-72 rounded-md border border-base-300 bg-base-100 p-3 [&_[data-part=header]]:mb-2 [&_[data-part=header]]:flex [&_[data-part=header]]:items-center [&_[data-part=header]]:justify-between [&_[data-part=prev]]:rounded [&_[data-part=prev]]:px-2 [&_[data-part=prev]]:py-1 [&_[data-part=prev]]:hover:bg-base-200 [&_[data-part=next]]:rounded [&_[data-part=next]]:px-2 [&_[data-part=next]]:py-1 [&_[data-part=next]]:hover:bg-base-200 [&_[data-part=label]]:text-sm [&_[data-part=label]]:font-semibold [&_[data-part=weekdays]]:grid [&_[data-part=weekdays]]:grid-cols-7 [&_[data-part=weekdays]]:gap-1 [&_[data-part=weekdays]]:text-center [&_[data-part=weekdays]]:text-xs [&_[data-part=weekdays]]:text-base-content/60 [&_[data-part=row]]:grid [&_[data-part=row]]:grid-cols-7 [&_[data-part=row]]:gap-1 [&_[data-part=row]]:mt-1 [&_[data-part=day]]:rounded [&_[data-part=day]]:py-1.5 [&_[data-part=day]]:text-center [&_[data-part=day]]:text-sm [&_[data-part=day]]:hover:bg-base-200 [&_[data-part=day][data-today=true]]:font-bold [&_[data-part=day][data-today=true]]:text-primary [&_[data-part=day][data-selected=true]]:bg-primary [&_[data-part=day][data-selected=true]]:text-primary-content"
-    />
     """
   end
 

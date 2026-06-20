@@ -105,7 +105,7 @@ item that needs follow-up.
 
 ---
 
-## Unstyled / headless components (36) — `/showcase/headless/<name>`
+## Unstyled / headless components (35) — `/showcase/headless/<name>`
 
 ### disclosure
 - [ ] accordion — `/showcase/headless/accordion`
@@ -119,7 +119,6 @@ item that needs follow-up.
 
 ### forms
 - [ ] autocomplete — `/showcase/headless/autocomplete`
-- [ ] calendar — `/showcase/headless/calendar`
 - [ ] checkbox — `/showcase/headless/checkbox`
 - [ ] checkbox_group — `/showcase/headless/checkbox_group`
 - [ ] combobox — `/showcase/headless/combobox`

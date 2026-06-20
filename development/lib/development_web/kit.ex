@@ -169,36 +169,6 @@ defmodule DevelopmentWeb.Kit do
          "[&_[data-part=fallback]]:absolute [&_[data-part=fallback]]:inset-0 [&_[data-part=fallback]]:flex [&_[data-part=fallback]]:items-center [&_[data-part=fallback]]:justify-center [&_[data-part=fallback]]:bg-amber-100 [&_[data-part=fallback]]:text-amber-700 dark:[&_[data-part=fallback]]:bg-amber-950/40 dark:[&_[data-part=fallback]]:text-amber-300"
   end
 
-  customize :my_calendar do
-    from :calendar
-
-    part :root,
-         "w-72 rounded-xl border border-amber-200 bg-amber-50 p-3 text-amber-950 shadow-sm dark:border-amber-900/50 dark:bg-amber-950/30 dark:text-amber-50"
-
-    part :header,
-         "[&_[data-part=header]]:mb-2 [&_[data-part=header]]:flex [&_[data-part=header]]:items-center [&_[data-part=header]]:justify-between"
-
-    part :prev,
-         "[&_[data-part=prev]]:rounded-md [&_[data-part=prev]]:px-2 [&_[data-part=prev]]:py-1 [&_[data-part=prev]]:text-amber-700 [&_[data-part=prev]]:hover:bg-amber-100 dark:[&_[data-part=prev]]:text-amber-300 dark:[&_[data-part=prev]]:hover:bg-amber-900/40"
-
-    part :next,
-         "[&_[data-part=next]]:rounded-md [&_[data-part=next]]:px-2 [&_[data-part=next]]:py-1 [&_[data-part=next]]:text-amber-700 [&_[data-part=next]]:hover:bg-amber-100 dark:[&_[data-part=next]]:text-amber-300 dark:[&_[data-part=next]]:hover:bg-amber-900/40"
-
-    part :label,
-         "[&_[data-part=label]]:text-sm [&_[data-part=label]]:font-semibold [&_[data-part=label]]:text-amber-950 dark:[&_[data-part=label]]:text-amber-50"
-
-    part :grid, "[&_[data-part=grid]]:mt-1"
-
-    part :weekdays,
-         "[&_[data-part=weekdays]]:grid [&_[data-part=weekdays]]:grid-cols-7 [&_[data-part=weekdays]]:gap-1 [&_[data-part=weekdays]]:text-center [&_[data-part=weekdays]]:text-xs [&_[data-part=weekdays]]:font-medium [&_[data-part=weekdays]]:text-amber-700/70 dark:[&_[data-part=weekdays]]:text-amber-300/60"
-
-    part :row,
-         "[&_[data-part=row]]:mt-1 [&_[data-part=row]]:grid [&_[data-part=row]]:grid-cols-7 [&_[data-part=row]]:gap-1"
-
-    part :day,
-         "[&_[data-part=day]]:rounded-md [&_[data-part=day]]:py-1.5 [&_[data-part=day]]:text-center [&_[data-part=day]]:text-sm [&_[data-part=day]]:text-amber-950 [&_[data-part=day]]:hover:bg-amber-100 dark:[&_[data-part=day]]:text-amber-50 dark:[&_[data-part=day]]:hover:bg-amber-900/40 [&_[data-part=day][data-today=true]]:font-bold [&_[data-part=day][data-today=true]]:text-amber-600 dark:[&_[data-part=day][data-today=true]]:text-amber-400 [&_[data-part=day][data-selected=true]]:bg-amber-500 [&_[data-part=day][data-selected=true]]:text-white [&_[data-part=day][data-selected=true]]:hover:bg-amber-500 dark:[&_[data-part=day][data-selected=true]]:bg-amber-400 dark:[&_[data-part=day][data-selected=true]]:text-amber-950 dark:[&_[data-part=day][data-selected=true]]:hover:bg-amber-400 [&_[data-part=day][data-disabled]]:opacity-40 [&_[data-part=day][data-disabled]]:pointer-events-none"
-  end
-
   customize :my_checkbox do
     from :checkbox
 
