@@ -6,13 +6,14 @@
     args: [type: ["scroll_area"], only: ["scroll_area"], helpers: [], module: ""],
     optional: [],
     necessary: [],
-    anatomy: [
-      parts: [
-        viewport: [element: "div", note: "the scrollable, focusable viewport"]
-      ]
-    ],
-    aria_pattern: [pattern: "Scroll area", keyboard: ["Arrow/PageUp/PageDown: scroll the focused viewport"]],
-    state_attributes: ["data-orientation"],
-    hooks: []
+    headless: [
+      anatomy: [parts: [viewport: [element: "div", note: "the scrollable, focusable viewport"]]],
+      aria_pattern: [
+        pattern: "Scroll area",
+        keyboard: ["Arrow/PageUp/PageDown: scroll the focused viewport"]
+      ],
+      state_attributes: ["data-orientation"],
+      hooks: []
+    ]
   ]
 ]

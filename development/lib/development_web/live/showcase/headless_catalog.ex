@@ -38,7 +38,9 @@ defmodule DevelopmentWeb.Showcase.HeadlessCatalog do
     cfg = term[String.to_atom(name)]
 
     if cfg do
-      aria = cfg[:aria_pattern] || []
+      # headless-only doc metadata (anatomy/aria_pattern/state_attributes/hooks) lives under `:headless`
+      hl = cfg[:headless] || []
+      aria = hl[:aria_pattern] || []
 
       %{
         name: name,
@@ -46,9 +48,9 @@ defmodule DevelopmentWeb.Showcase.HeadlessCatalog do
         pattern: aria[:pattern] || "—",
         keyboard: aria[:keyboard] || [],
         focus: aria[:focus],
-        anatomy: cfg[:anatomy] || [],
-        hooks: cfg[:hooks] || [],
-        state: cfg[:state_attributes] || [],
+        anatomy: hl[:anatomy] || [],
+        hooks: hl[:hooks] || [],
+        state: hl[:state_attributes] || [],
         doc_url: cfg[:doc_url],
         description: DevelopmentWeb.Showcase.Meta.headless_description(name),
         sibling: DevelopmentWeb.Showcase.Meta.styled_sibling(name)

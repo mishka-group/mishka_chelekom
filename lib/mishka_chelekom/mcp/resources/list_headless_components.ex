@@ -76,8 +76,10 @@ defmodule MishkaChelekom.MCP.Resources.ListHeadlessComponents do
     cfg = term[String.to_atom(name)]
 
     if cfg do
-      aria = cfg[:aria_pattern] || []
-      anatomy = cfg[:anatomy] || []
+      # headless-only doc metadata (anatomy/aria_pattern/state_attributes/hooks) lives under `:headless`
+      hl = cfg[:headless] || []
+      aria = hl[:aria_pattern] || []
+      anatomy = hl[:anatomy] || []
 
       parts =
         (anatomy[:parts] || []) |> Keyword.keys() |> Enum.map(&to_string/1) |> Enum.join(", ")
@@ -86,8 +88,8 @@ defmodule MishkaChelekom.MCP.Resources.ListHeadlessComponents do
         name: name,
         doc_url: cfg[:doc_url],
         pattern: aria[:pattern] || "—",
-        hooks: cfg[:hooks] || [],
-        state_attributes: cfg[:state_attributes] || [],
+        hooks: hl[:hooks] || [],
+        state_attributes: hl[:state_attributes] || [],
         parts: parts
       }
     end

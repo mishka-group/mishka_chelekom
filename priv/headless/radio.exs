@@ -6,15 +6,17 @@
     args: [type: ["radio"], only: ["radio"], helpers: [], module: ""],
     optional: [],
     necessary: [],
-    anatomy: [
-      parts: [
-        input: [element: "input", note: "native radio input"],
-        indicator: [element: "span"],
-        label: [element: "span"]
-      ]
-    ],
-    aria_pattern: [pattern: "Radio", keyboard: ["native radio semantics"]],
-    state_attributes: ["data-disabled"],
-    hooks: []
+    headless: [
+      anatomy: [
+        parts: [
+          input: [element: "input", note: "native radio input"],
+          indicator: [element: "span"],
+          label: [element: "span"]
+        ]
+      ],
+      aria_pattern: [pattern: "Radio", keyboard: ["native radio semantics"]],
+      state_attributes: ["data-disabled"],
+      hooks: []
+    ]
   ]
 ]

@@ -6,32 +6,43 @@
     args: [type: ["menubar"], only: ["menubar"], helpers: [], module: ""],
     optional: [],
     necessary: [],
-    anatomy: [
-      parts: [
-        menubar: [element: "div", role: "menubar", data_attributes: ["data-orientation"]],
-        trigger: [element: "button", role: "menuitem", aria: ["aria-haspopup", "aria-expanded", "aria-controls"]],
-        popup: [element: "div", role: "menu", data_attributes: ["data-open", "data-closed"]]
-      ]
-    ],
-    aria_pattern: [
-      pattern: "Menubar",
-      keyboard: ["Left/Right: move between menus", "Home/End: first/last menu", "Enter/Space: open menu", "Escape: close menu"]
-    ],
-    state_attributes: ["data-open", "data-closed"],
-    hooks: ["RovingTabindex", "Popup"],
     scripts: [
       %{
+        module: "RovingTabindex",
         type: "file",
         file: "roving_tabindex.js",
-        module: "RovingTabindex",
         imports: "import RovingTabindex from \"./roving_tabindex.js\";"
       },
       %{
+        module: "Popup",
         type: "file",
         file: "popup.js",
-        module: "Popup",
         imports: "import Popup from \"./popup.js\";"
       }
+    ],
+    headless: [
+      anatomy: [
+        parts: [
+          menubar: [element: "div", role: "menubar", data_attributes: ["data-orientation"]],
+          trigger: [
+            element: "button",
+            role: "menuitem",
+            aria: ["aria-haspopup", "aria-expanded", "aria-controls"]
+          ],
+          popup: [element: "div", role: "menu", data_attributes: ["data-open", "data-closed"]]
+        ]
+      ],
+      aria_pattern: [
+        pattern: "Menubar",
+        keyboard: [
+          "Left/Right: move between menus",
+          "Home/End: first/last menu",
+          "Enter/Space: open menu",
+          "Escape: close menu"
+        ]
+      ],
+      state_attributes: ["data-open", "data-closed"],
+      hooks: ["RovingTabindex", "Popup"]
     ]
   ]
 ]
