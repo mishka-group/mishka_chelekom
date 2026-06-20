@@ -46,6 +46,40 @@ const liveSocket = new LiveSocket("/live", Socket, {
         });
       },
     },
+    // Showcase-only: animate a headless progress bar to a new random value every 2s (like Base UI's
+    // docs demo). Updates aria-valuenow/valuetext, the --chelekom-progress fill, the value readout,
+    // and the data-progressing/data-complete status — purely client-side, no server round-trips.
+    DemoProgress: {
+      mounted() {
+        const root = this.el;
+        const indicator = root.querySelector('[data-part="indicator"]');
+        const valueEl = root.querySelector('[data-part="value"]');
+        const max = Number(root.getAttribute("aria-valuemax")) || 100;
+        let v = Number(root.getAttribute("aria-valuenow")) || 0;
+        const apply = () => {
+          const complete = v >= max;
+          root.setAttribute("aria-valuenow", v);
+          root.setAttribute("aria-valuetext", `${v}%`);
+          [root, indicator].forEach((el) => {
+            if (!el) return;
+            el.toggleAttribute("data-complete", complete);
+            el.toggleAttribute("data-progressing", !complete);
+          });
+          if (indicator) indicator.style.setProperty("--chelekom-progress", v / max);
+          if (valueEl) valueEl.textContent = `${v}%`;
+        };
+        this.timer = setInterval(() => {
+          v =
+            v >= max
+              ? Math.round(Math.random() * 20)
+              : Math.min(max, Math.round(v + Math.random() * 25));
+          apply();
+        }, 2000);
+      },
+      destroyed() {
+        clearInterval(this.timer);
+      },
+    },
   },
 });
 // Show progress bar on live navigation and form submits

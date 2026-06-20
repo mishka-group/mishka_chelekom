@@ -1,6 +1,6 @@
 # progress (headless)
 
-An unstyled, accessible **determinate** progress bar: a single `role="progressbar"` element with the WAI-ARIA value wiring, plus an inner indicator carrying a `--chelekom-progress` ratio you scale in CSS. Implements the [WAI-ARIA APG Progressbar pattern](https://www.w3.org/WAI/ARIA/apg/patterns/progressbar/). No JS.
+An unstyled, accessible **determinate** progress bar: a single `role="progressbar"` element with the WAI-ARIA value wiring, plus an inner indicator carrying a `--chelekom-progress` ratio you scale in CSS. Implements the [WAI-ARIA `progressbar` role](https://www.w3.org/TR/wai-aria-1.2/#progressbar). No JS.
 
 ## Generate
 

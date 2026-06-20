@@ -422,11 +422,21 @@ defmodule DevelopmentWeb.Kit do
   customize :my_progress do
     from :progress
 
-    part :root,
-         "h-3 w-full overflow-hidden rounded-full border border-amber-200 bg-amber-100 dark:border-amber-900/50 dark:bg-amber-950/40"
+    # label on the left, value on the right, the track spans both columns below (like my_meter)
+    part :root, "grid w-full grid-cols-2 items-center gap-y-1.5"
 
+    part :label,
+         "[&_[data-part=label]]:text-sm [&_[data-part=label]]:font-medium [&_[data-part=label]]:text-amber-950 dark:[&_[data-part=label]]:text-amber-100"
+
+    part :value,
+         "[&_[data-part=value]]:text-right [&_[data-part=value]]:text-sm [&_[data-part=value]]:tabular-nums [&_[data-part=value]]:text-amber-700 dark:[&_[data-part=value]]:text-amber-300"
+
+    part :track,
+         "[&_[data-part=track]]:col-span-2 [&_[data-part=track]]:h-2.5 [&_[data-part=track]]:overflow-hidden [&_[data-part=track]]:rounded-full [&_[data-part=track]]:bg-amber-100 dark:[&_[data-part=track]]:bg-amber-950/40"
+
+    # fill scales via the --chelekom-progress ratio; deepens on complete; a partial pulsing bar when indeterminate
     part :indicator,
-         "[&_[data-part=indicator]]:h-full [&_[data-part=indicator]]:origin-left [&_[data-part=indicator]]:rounded-full [&_[data-part=indicator]]:bg-amber-500 dark:[&_[data-part=indicator]]:bg-amber-400 [&_[data-part=indicator]]:transition-transform [&_[data-part=indicator]]:[transform:scaleX(var(--chelekom-progress))]"
+         "[&_[data-part=indicator]]:h-full [&_[data-part=indicator]]:w-full [&_[data-part=indicator]]:origin-left [&_[data-part=indicator]]:rounded-full [&_[data-part=indicator]]:bg-amber-500 dark:[&_[data-part=indicator]]:bg-amber-400 [&_[data-part=indicator]]:transition-transform [&_[data-part=indicator]]:[transform:scaleX(var(--chelekom-progress,0))] [&_[data-part=indicator][data-complete]]:bg-amber-600 dark:[&_[data-part=indicator][data-complete]]:bg-amber-300 [&_[data-part=indicator][data-indeterminate]]:w-1/3 [&_[data-part=indicator][data-indeterminate]]:[transform:none] [&_[data-part=indicator][data-indeterminate]]:animate-pulse"
   end
 
   customize :my_radio do

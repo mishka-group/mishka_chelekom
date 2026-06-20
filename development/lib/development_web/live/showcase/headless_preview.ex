@@ -522,10 +522,12 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
     ~H"""
     <.progress
       id={@id}
-      value={65}
+      value={20}
       max={100}
-      label="Upload progress"
-      class="h-3 w-72 overflow-hidden rounded-full border border-base-300 bg-base-200 [&_[data-part=indicator]]:h-full [&_[data-part=indicator]]:origin-left [&_[data-part=indicator]]:rounded-full [&_[data-part=indicator]]:bg-primary [&_[data-part=indicator]]:[transform:scaleX(var(--chelekom-progress))] [&_[data-part=indicator]]:transition-transform"
+      label="Export data"
+      show_value
+      phx-hook="DemoProgress"
+      class="grid w-72 grid-cols-2 items-center gap-y-2 [&_[data-part=label]]:text-sm [&_[data-part=label]]:font-medium [&_[data-part=value]]:text-right [&_[data-part=value]]:text-sm [&_[data-part=value]]:tabular-nums [&_[data-part=value]]:text-base-content/60 [&_[data-part=track]]:col-span-2 [&_[data-part=track]]:h-2.5 [&_[data-part=track]]:overflow-hidden [&_[data-part=track]]:rounded-full [&_[data-part=track]]:bg-base-200 [&_[data-part=track]]:border [&_[data-part=track]]:border-base-300 [&_[data-part=indicator]]:h-full [&_[data-part=indicator]]:w-full [&_[data-part=indicator]]:origin-left [&_[data-part=indicator]]:rounded-full [&_[data-part=indicator]]:bg-primary [&_[data-part=indicator]]:transition-transform [&_[data-part=indicator]]:duration-500 [&_[data-part=indicator]]:[transform:scaleX(var(--chelekom-progress,0))] [&_[data-part=indicator][data-complete]]:bg-success"
     />
     """
   end

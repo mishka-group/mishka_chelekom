@@ -420,6 +420,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessKitDemo do
       value={65}
       max={100}
       label="Upload progress"
+      show_value
       class="w-full max-w-md"
     />
     """

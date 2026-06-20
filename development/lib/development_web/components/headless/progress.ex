@@ -1,43 +1,109 @@
 defmodule DevelopmentWeb.Components.Headless.Progress do
   @moduledoc """
-  Headless **progress** — a determinate progress bar.
+  Headless **progress** — a progress bar for task completion (WAI-ARIA progressbar).
 
-  A single `role="progressbar"` element exposes `aria-valuemin="0"`, `aria-valuemax`
-  and `aria-valuenow`; the inner indicator carries a `--chelekom-progress` CSS custom
-  property (a `0..1` ratio) you can scale/translate in your own styles. Ships **no**
-  colors or spacing — style via the `chelekom-progress*` classes. No JS.
+  `role="progressbar"` with `aria-valuemin` / `aria-valuemax` / `aria-valuenow` (clamped into the
+  range) and `aria-valuetext`. Pass `value={nil}` for an **indeterminate** (loading) bar —
+  `aria-valuenow` is then omitted and no fill ratio is set. The root and every part expose the
+  status as exactly one of `data-indeterminate` / `data-progressing` / `data-complete`, so you can
+  style each state. The inner `data-part="indicator"` carries a `--chelekom-progress` (0..1) ratio
+  for the fill; pass `show_value` for a `data-part="value"` readout. Ships **no** colors or spacing —
+  style via the `chelekom-progress*` classes.
 
-  WAI-ARIA APG: https://www.w3.org/WAI/ARIA/apg/patterns/progressbar/
+  WAI-ARIA: https://www.w3.org/TR/wai-aria-1.2/#progressbar
   """
   use Phoenix.Component
 
   @doc type: :component
-  attr :id, :string, default: nil, doc: "Optional id"
-  attr :value, :integer, required: true, doc: "Current value (between 0 and max)"
-  attr :max, :integer, default: 100, doc: "Maximum value"
-  attr :label, :string, default: nil, doc: "Accessible label for the progressbar"
+  attr :id, :string, default: nil, doc: "Optional id (anchors aria-labelledby)"
+  attr :value, :integer, default: nil, doc: "Current value in [min, max]; nil = indeterminate"
+  attr :min, :integer, default: 0, doc: "Lower bound of the range"
+  attr :max, :integer, default: 100, doc: "Upper bound of the range"
+  attr :label, :string, default: nil, doc: "Accessible label (rendered + wired to aria-labelledby)"
+
+  attr :value_text, :string,
+    default: nil,
+    doc: ~s|Human value for aria-valuetext + readout (defaults to a percent; "Indeterminate" when nil)|
+
+  attr :show_value, :boolean, default: false, doc: ~s|Render a `data-part="value"` readout|
   attr :class, :any, default: nil, doc: "Extra classes for the root"
   attr :rest, :global
 
   def progress(assigns) do
+    lo = assigns.min
+    hi = assigns.max
+
+    {value, ratio, status} =
+      case assigns.value do
+        nil ->
+          {nil, nil, "indeterminate"}
+
+        v ->
+          c = v |> Kernel.max(lo) |> Kernel.min(hi)
+          r = if hi > lo, do: (c - lo) / (hi - lo), else: 0.0
+          {c, r, if(c >= hi, do: "complete", else: "progressing")}
+      end
+
+    assigns =
+      assigns
+      |> assign(:value, value)
+      |> assign(:ratio, ratio)
+      |> assign(:status, status)
+      |> assign(
+        :value_text,
+        assigns.value_text ||
+          if(status == "indeterminate", do: "Indeterminate", else: "#{round(ratio * 100)}%")
+      )
+
     ~H"""
     <div
       id={@id}
       role="progressbar"
-      aria-valuemin="0"
+      aria-valuemin={@min}
       aria-valuemax={@max}
       aria-valuenow={@value}
-      aria-label={@label}
+      aria-valuetext={@value_text}
+      aria-labelledby={@label && @id && "#{@id}-label"}
       class={["chelekom-progress", @class]}
+      {status_data(@status)}
       {@rest}
     >
-      <div
-        data-part="indicator"
-        style={"--chelekom-progress: #{@value / @max}"}
-        class="chelekom-progress__indicator"
+      <span
+        :if={@label}
+        id={@id && "#{@id}-label"}
+        data-part="label"
+        class="chelekom-progress__label"
+        {status_data(@status)}
       >
+        {@label}
+      </span>
+      <span
+        :if={@show_value}
+        data-part="value"
+        class="chelekom-progress__value"
+        {status_data(@status)}
+      >
+        {@value_text}
+      </span>
+      <div data-part="track" class="chelekom-progress__track" {status_data(@status)}>
+        <div
+          data-part="indicator"
+          style={@ratio && "--chelekom-progress: #{@ratio};"}
+          class="chelekom-progress__indicator"
+          {status_data(@status)}
+        >
+        </div>
       </div>
     </div>
     """
+  end
+
+  # Paired-presence status (Base UI parity): exactly one of the three is present at any time.
+  defp status_data(status) do
+    %{
+      "data-indeterminate" => status == "indeterminate",
+      "data-progressing" => status == "progressing",
+      "data-complete" => status == "complete"
+    }
   end
 end
