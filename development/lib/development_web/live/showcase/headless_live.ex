@@ -8,7 +8,14 @@ defmodule DevelopmentWeb.Showcase.HeadlessLive do
   use DevelopmentWeb, :live_view
 
   import DevelopmentWeb.Showcase.UI
-  alias DevelopmentWeb.Showcase.{HeadlessCatalog, HeadlessPreview, HeadlessApi, HeadlessKitDemo, Snippets}
+
+  alias DevelopmentWeb.Showcase.{
+    HeadlessCatalog,
+    HeadlessPreview,
+    HeadlessApi,
+    HeadlessKitDemo,
+    Snippets
+  }
 
   @impl true
   def mount(_params, _session, socket), do: {:ok, assign(socket, :catalog, HeadlessCatalog.all())}

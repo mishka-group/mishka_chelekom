@@ -27,7 +27,8 @@ defmodule DevelopmentWeb.Components.Headless.Meter do
 
   attr :value_text, :string,
     default: nil,
-    doc: ~s|Human-readable value for `aria-valuetext` + the readout (defaults to a percent, e.g. "72%")|
+    doc:
+      ~s|Human-readable value for `aria-valuetext` + the readout (defaults to a percent, e.g. "72%")|
 
   attr :show_value, :boolean, default: false, doc: ~s|Render a `data-part="value"` text readout|
   attr :class, :any, default: nil, doc: "Extra classes for the root"

@@ -28,7 +28,9 @@ defmodule DevelopmentWeb.Components.Headless.Collapsible do
     default: false,
     doc: ~s|Closed panel uses hidden="until-found" so the browser's find-in-page can reveal it|
 
-  attr :value, :string, default: nil, doc: "Stable identity sent in change events (defaults to id)"
+  attr :value, :string,
+    default: nil,
+    doc: "Stable identity sent in change events (defaults to id)"
 
   attr :on_open_change, :string,
     default: nil,
