@@ -31,6 +31,10 @@ defmodule DevelopmentWeb.Components.Headless.Toast do
     default: 5000,
     doc: "Auto-dismiss (ms) for toasts created from the template (`0` disables)"
 
+  attr :dedup_key, :string,
+    default: nil,
+    doc: "Stable key: re-triggering refreshes the matching toast instead of stacking a duplicate"
+
   attr :class, :any, default: nil, doc: "Extra classes for the root"
   attr :rest, :global
 
@@ -86,7 +90,13 @@ defmodule DevelopmentWeb.Components.Headless.Toast do
       </ol>
 
       <template :if={@template != []} data-part="template">
-        <li data-part="toast" data-duration={@duration} data-open class="chelekom-toast__toast">
+        <li
+          data-part="toast"
+          data-toast-key={@dedup_key}
+          data-duration={@duration}
+          data-open
+          class="chelekom-toast__toast"
+        >
           <div data-part="content" class="chelekom-toast__content">
             {render_slot(@template)}
             <button

@@ -667,71 +667,15 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
 
   def show(%{component: "toast"} = assigns) do
     ~H"""
-    <div class="space-y-6">
-      <div class="space-y-1.5">
-        <p class="text-[0.7rem] uppercase tracking-wide text-base-content/40">
-          Bottom · stacks up · limit 3 · 5s
-        </p>
-        <.toast
-          id={"#{@id}-bottom"}
-          limit={3}
-          class={
-            [
-              "relative w-72 space-y-3",
-              "[&_[data-part=trigger]]:rounded-md [&_[data-part=trigger]]:border [&_[data-part=trigger]]:border-base-300 [&_[data-part=trigger]]:bg-base-100 [&_[data-part=trigger]]:px-3 [&_[data-part=trigger]]:py-1.5 [&_[data-part=trigger]]:text-sm [&_[data-part=trigger]]:font-medium [&_[data-part=trigger]]:hover:bg-base-200",
-              "[&_[data-part=viewport]]:relative [&_[data-part=viewport]]:h-60 [&_[data-part=viewport]]:w-full [&_[data-part=viewport]]:overflow-hidden [&_[data-part=viewport]]:[list-style:none] [&_[data-part=viewport]]:[padding:0] [&_[data-part=viewport]]:[margin:0]",
-              "[&_[data-part=toast]]:[--gap:0.6rem] [&_[data-part=toast]]:[--peek:0.6rem] [&_[data-part=toast]]:[--scale:calc(max(0,1-(var(--toast-index)*0.1)))] [&_[data-part=toast]]:[--shrink:calc(1-var(--scale))] [&_[data-part=toast]]:[--height:var(--toast-frontmost-height,var(--toast-height))] [&_[data-part=toast]]:[--offset-y:calc(var(--toast-offset-y)*-1+(var(--toast-index)*var(--gap)*-1)+var(--toast-swipe-movement-y))]",
-              "[&_[data-part=toast]]:absolute [&_[data-part=toast]]:inset-x-0 [&_[data-part=toast]]:bottom-0 [&_[data-part=toast]]:origin-bottom [&_[data-part=toast]]:z-[calc(1000-var(--toast-index))] [&_[data-part=toast]]:h-[var(--height)] [&_[data-part=toast]]:rounded-md [&_[data-part=toast]]:border [&_[data-part=toast]]:border-base-300 [&_[data-part=toast]]:bg-base-100 [&_[data-part=toast]]:shadow-lg [&_[data-part=toast]]:[transition:transform_0.5s_cubic-bezier(0.22,1,0.36,1),opacity_0.4s,height_0.15s] [&_[data-part=toast]]:[transform:translateX(var(--toast-swipe-movement-x))_translateY(calc(var(--toast-swipe-movement-y)-(var(--toast-index)*var(--peek))-(var(--shrink)*var(--height))))_scale(var(--scale))]",
-              "[&_[data-part=toast][data-expanded]]:[transform:translateY(var(--offset-y))] [&_[data-part=toast][data-expanded]]:h-[var(--toast-height)]",
-              "[&_[data-part=toast][data-starting-style]]:[transform:translateY(120%)] [&_[data-part=toast][data-ending-style]]:[transform:translateY(120%)] [&_[data-part=toast][data-expanded][data-starting-style]]:[transform:translateY(120%)] [&_[data-part=toast][data-expanded][data-ending-style]]:[transform:translateY(120%)] [&_[data-part=toast][data-ending-style]]:opacity-0 [&_[data-part=toast][data-limited]]:opacity-0",
-              "[&_[data-part=content]]:flex [&_[data-part=content]]:h-full [&_[data-part=content]]:items-start [&_[data-part=content]]:gap-3 [&_[data-part=content]]:overflow-hidden [&_[data-part=content]]:p-3 [&_[data-part=content]]:text-sm [&_[data-part=content]]:transition-opacity [&_[data-part=content][data-behind]]:opacity-0",
-              "[&_[data-part=close]]:ml-auto [&_[data-part=close]]:shrink-0 [&_[data-part=close]]:rounded [&_[data-part=close]]:px-1.5 [&_[data-part=close]]:text-lg [&_[data-part=close]]:leading-none [&_[data-part=close]]:text-base-content/40 [&_[data-part=close]]:hover:text-base-content"
-            ]
-          }
-        >
-          <:trigger>Create toast</:trigger>
-          <:template>
-            <div class="min-w-0 flex-1">
-              <p class="font-semibold">Toast <span data-toast-count>1</span> created</p>
-              <p class="text-base-content/70">This is a toast notification.</p>
-            </div>
-          </:template>
-        </.toast>
-      </div>
-
-      <div class="space-y-1.5">
-        <p class="text-[0.7rem] uppercase tracking-wide text-base-content/40">
-          Top · stacks down · limit 5 · 2s — in your app, add <code>fixed left-4 top-4</code> to the viewport
-        </p>
-        <.toast
-          id={"#{@id}-top"}
-          limit={5}
-          duration={2000}
-          class={
-            [
-              "relative w-72 space-y-3",
-              "[&_[data-part=trigger]]:rounded-md [&_[data-part=trigger]]:border [&_[data-part=trigger]]:border-base-300 [&_[data-part=trigger]]:bg-base-100 [&_[data-part=trigger]]:px-3 [&_[data-part=trigger]]:py-1.5 [&_[data-part=trigger]]:text-sm [&_[data-part=trigger]]:font-medium [&_[data-part=trigger]]:hover:bg-base-200",
-              "[&_[data-part=viewport]]:relative [&_[data-part=viewport]]:h-60 [&_[data-part=viewport]]:w-full [&_[data-part=viewport]]:overflow-hidden [&_[data-part=viewport]]:[list-style:none] [&_[data-part=viewport]]:[padding:0] [&_[data-part=viewport]]:[margin:0]",
-              # top variant: anchor top, origin top, flipped (positive) offsets so the stack grows DOWN
-              "[&_[data-part=toast]]:[--gap:0.6rem] [&_[data-part=toast]]:[--peek:0.6rem] [&_[data-part=toast]]:[--scale:calc(max(0,1-(var(--toast-index)*0.1)))] [&_[data-part=toast]]:[--shrink:calc(1-var(--scale))] [&_[data-part=toast]]:[--height:var(--toast-frontmost-height,var(--toast-height))] [&_[data-part=toast]]:[--offset-y:calc(var(--toast-offset-y)+(var(--toast-index)*var(--gap))+var(--toast-swipe-movement-y))]",
-              "[&_[data-part=toast]]:absolute [&_[data-part=toast]]:inset-x-0 [&_[data-part=toast]]:top-0 [&_[data-part=toast]]:origin-top [&_[data-part=toast]]:z-[calc(1000-var(--toast-index))] [&_[data-part=toast]]:h-[var(--height)] [&_[data-part=toast]]:rounded-md [&_[data-part=toast]]:border [&_[data-part=toast]]:border-base-300 [&_[data-part=toast]]:bg-base-100 [&_[data-part=toast]]:shadow-lg [&_[data-part=toast]]:[transition:transform_0.5s_cubic-bezier(0.22,1,0.36,1),opacity_0.4s,height_0.15s] [&_[data-part=toast]]:[transform:translateX(var(--toast-swipe-movement-x))_translateY(calc(var(--toast-swipe-movement-y)+(var(--toast-index)*var(--peek))+(var(--shrink)*var(--height))))_scale(var(--scale))]",
-              "[&_[data-part=toast][data-expanded]]:[transform:translateY(var(--offset-y))] [&_[data-part=toast][data-expanded]]:h-[var(--toast-height)]",
-              "[&_[data-part=toast][data-starting-style]]:[transform:translateY(-120%)] [&_[data-part=toast][data-ending-style]]:[transform:translateY(-120%)] [&_[data-part=toast][data-expanded][data-starting-style]]:[transform:translateY(-120%)] [&_[data-part=toast][data-expanded][data-ending-style]]:[transform:translateY(-120%)] [&_[data-part=toast][data-ending-style]]:opacity-0 [&_[data-part=toast][data-limited]]:opacity-0",
-              "[&_[data-part=content]]:flex [&_[data-part=content]]:h-full [&_[data-part=content]]:items-start [&_[data-part=content]]:gap-3 [&_[data-part=content]]:overflow-hidden [&_[data-part=content]]:p-3 [&_[data-part=content]]:text-sm [&_[data-part=content]]:transition-opacity [&_[data-part=content][data-behind]]:opacity-0",
-              "[&_[data-part=close]]:ml-auto [&_[data-part=close]]:shrink-0 [&_[data-part=close]]:rounded [&_[data-part=close]]:px-1.5 [&_[data-part=close]]:text-lg [&_[data-part=close]]:leading-none [&_[data-part=close]]:text-base-content/40 [&_[data-part=close]]:hover:text-base-content"
-            ]
-          }
-        >
-          <:trigger>Create toast</:trigger>
-          <:template>
-            <div class="min-w-0 flex-1">
-              <p class="font-semibold">Toast <span data-toast-count>1</span> created</p>
-              <p class="text-base-content/70">Auto-dismisses in 2 seconds.</p>
-            </div>
-          </:template>
-        </.toast>
-      </div>
-    </div>
+    <.toast id={"#{@id}-basic"} limit={3} class={toast_class(:bottom)}>
+      <:trigger>Create toast</:trigger>
+      <:template>
+        <div class="min-w-0 flex-1">
+          <p class="font-semibold">Toast <span data-toast-count>1</span> created</p>
+          <p class="text-base-content/70">This is a toast notification.</p>
+        </div>
+      </:template>
+    </.toast>
     """
   end
 
@@ -793,4 +737,109 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
     <p class="text-sm text-base-content/60">No example for <code>{@component}</code>.</p>
     """
   end
+
+  # Shared toast stacking classes for the showcase (`:bottom` grows up, `:top` grows down — Base UI's
+  # two viewport variants). Kept literal so Tailwind scans them.
+  defp toast_class(anchor) do
+    [
+      "relative w-72 space-y-3",
+      "[&_[data-part=trigger]]:rounded-md [&_[data-part=trigger]]:border [&_[data-part=trigger]]:border-base-300 [&_[data-part=trigger]]:bg-base-100 [&_[data-part=trigger]]:px-3 [&_[data-part=trigger]]:py-1.5 [&_[data-part=trigger]]:text-sm [&_[data-part=trigger]]:font-medium [&_[data-part=trigger]]:hover:bg-base-200",
+      "[&_[data-part=viewport]]:relative [&_[data-part=viewport]]:h-60 [&_[data-part=viewport]]:w-full [&_[data-part=viewport]]:overflow-hidden [&_[data-part=viewport]]:[list-style:none] [&_[data-part=viewport]]:[padding:0] [&_[data-part=viewport]]:[margin:0]",
+      "[&_[data-part=toast]]:[--gap:0.6rem] [&_[data-part=toast]]:[--peek:0.6rem] [&_[data-part=toast]]:[--scale:calc(max(0,1-(var(--toast-index)*0.1)))] [&_[data-part=toast]]:[--shrink:calc(1-var(--scale))] [&_[data-part=toast]]:[--height:var(--toast-frontmost-height,var(--toast-height))] [&_[data-part=toast]]:absolute [&_[data-part=toast]]:inset-x-0 [&_[data-part=toast]]:z-[calc(1000-var(--toast-index))] [&_[data-part=toast]]:h-[var(--height)] [&_[data-part=toast]]:rounded-md [&_[data-part=toast]]:border [&_[data-part=toast]]:border-base-300 [&_[data-part=toast]]:bg-base-100 [&_[data-part=toast]]:shadow-lg [&_[data-part=toast]]:[transition:transform_0.5s_cubic-bezier(0.22,1,0.36,1),opacity_0.4s,height_0.15s]",
+      "[&_[data-part=toast][data-expanded]]:[transform:translateY(var(--offset-y))] [&_[data-part=toast][data-expanded]]:h-[var(--toast-height)] [&_[data-part=toast][data-ending-style]]:opacity-0 [&_[data-part=toast][data-limited]]:opacity-0",
+      "[&_[data-part=content]]:flex [&_[data-part=content]]:h-full [&_[data-part=content]]:items-start [&_[data-part=content]]:gap-3 [&_[data-part=content]]:overflow-hidden [&_[data-part=content]]:p-3 [&_[data-part=content]]:text-sm [&_[data-part=content]]:transition-opacity [&_[data-part=content][data-behind]]:opacity-0",
+      "[&_[data-part=close]]:ml-auto [&_[data-part=close]]:shrink-0 [&_[data-part=close]]:rounded [&_[data-part=close]]:px-1.5 [&_[data-part=close]]:text-lg [&_[data-part=close]]:leading-none [&_[data-part=close]]:text-base-content/40 [&_[data-part=close]]:hover:text-base-content",
+      toast_anchor(anchor)
+    ]
+  end
+
+  defp toast_anchor(:bottom),
+    do:
+      "[&_[data-part=toast]]:bottom-0 [&_[data-part=toast]]:origin-bottom [&_[data-part=toast]]:[--offset-y:calc(var(--toast-offset-y)*-1+(var(--toast-index)*var(--gap)*-1)+var(--toast-swipe-movement-y))] [&_[data-part=toast]]:[transform:translateX(var(--toast-swipe-movement-x))_translateY(calc(var(--toast-swipe-movement-y)-(var(--toast-index)*var(--peek))-(var(--shrink)*var(--height))))_scale(var(--scale))] [&_[data-part=toast][data-starting-style]]:[transform:translateY(120%)] [&_[data-part=toast][data-ending-style]]:[transform:translateY(120%)] [&_[data-part=toast][data-expanded][data-starting-style]]:[transform:translateY(120%)] [&_[data-part=toast][data-expanded][data-ending-style]]:[transform:translateY(120%)]"
+
+  defp toast_anchor(:top),
+    do:
+      "[&_[data-part=toast]]:top-0 [&_[data-part=toast]]:origin-top [&_[data-part=toast]]:[--offset-y:calc(var(--toast-offset-y)+(var(--toast-index)*var(--gap))+var(--toast-swipe-movement-y))] [&_[data-part=toast]]:[transform:translateX(var(--toast-swipe-movement-x))_translateY(calc(var(--toast-swipe-movement-y)+(var(--toast-index)*var(--peek))+(var(--shrink)*var(--height))))_scale(var(--scale))] [&_[data-part=toast][data-starting-style]]:[transform:translateY(-120%)] [&_[data-part=toast][data-ending-style]]:[transform:translateY(-120%)] [&_[data-part=toast][data-expanded][data-starting-style]]:[transform:translateY(-120%)] [&_[data-part=toast][data-expanded][data-ending-style]]:[transform:translateY(-120%)]"
+
+  @doc "Extra worked examples shown in the bottom \"Examples\" section (only some components have them)."
+  def has_examples?("toast"), do: true
+  def has_examples?(_), do: false
+
+  def examples(%{component: "toast"} = assigns) do
+    ~H"""
+    <div class="space-y-3">
+      <details class="rounded-box border border-base-300 bg-base-100 p-4">
+        <summary class="cursor-pointer select-none font-medium">Top placement</summary>
+        <p class="mt-1 text-sm text-base-content/60">
+          Position is pure CSS on the viewport. Here the stack anchors at the top and grows downward;
+          in a real app add <code>fixed left-4 top-4</code> to the viewport.
+        </p>
+        <div class="mt-4">
+          <.toast id={"#{@id}-top"} limit={5} duration={2000} class={toast_class(:top)}>
+            <:trigger>Create toast</:trigger>
+            <:template>
+              <div class="min-w-0 flex-1">
+                <p class="font-semibold">Toast <span data-toast-count>1</span> created</p>
+                <p class="text-base-content/70">Auto-dismisses in 2 seconds.</p>
+              </div>
+            </:template>
+          </.toast>
+        </div>
+      </details>
+
+      <details class="rounded-box border border-base-300 bg-base-100 p-4">
+        <summary class="cursor-pointer select-none font-medium">Deduplicated</summary>
+        <p class="mt-1 text-sm text-base-content/60">
+          With <code>dedup_key</code>, clicking repeatedly refreshes the same toast (resets its timer,
+          pops it to the front) instead of stacking duplicates.
+        </p>
+        <div class="mt-4">
+          <.toast id={"#{@id}-dedup"} dedup_key="saved" class={toast_class(:bottom)}>
+            <:trigger>Save (click repeatedly)</:trigger>
+            <:template>
+              <div class="min-w-0 flex-1">
+                <p class="font-semibold">Saved</p>
+                <p class="text-base-content/70">Re-clicking just refreshes this one toast.</p>
+              </div>
+            </:template>
+          </.toast>
+        </div>
+      </details>
+
+      <details class="rounded-box border border-base-300 bg-base-100 p-4">
+        <summary class="cursor-pointer select-none font-medium">Varying heights</summary>
+        <p class="mt-1 text-sm text-base-content/60">
+          Toasts of different heights stack correctly — the engine measures each one and offsets the
+          stack accordingly. Hover to fan them out (these are sticky, no auto-dismiss).
+        </p>
+        <div class="mt-4">
+          <.toast id={"#{@id}-vary"} class={toast_class(:bottom)}>
+            <:toast duration={0}>
+              <div class="min-w-0 flex-1">
+                <p class="font-semibold">Short</p>
+              </div>
+            </:toast>
+            <:toast duration={0}>
+              <div class="min-w-0 flex-1">
+                <p class="font-semibold">Medium</p>
+                <p class="text-base-content/70">A second line of detail.</p>
+              </div>
+            </:toast>
+            <:toast duration={0}>
+              <div class="min-w-0 flex-1">
+                <p class="font-semibold">Tall</p>
+                <p class="text-base-content/70">
+                  This one runs to three lines so the stack has to account for different heights when
+                  it expands on hover.
+                </p>
+              </div>
+            </:toast>
+          </.toast>
+        </div>
+      </details>
+    </div>
+    """
+  end
+
+  def examples(assigns), do: ~H""
 end

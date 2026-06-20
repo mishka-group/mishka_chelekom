@@ -65,11 +65,25 @@ const ToastRegion = {
     return Array.from(this.viewport.querySelectorAll('[data-part="toast"]'));
   },
 
-  // Clone the template's toast to the front of the stack (newest first), animate it in.
+  // Clone the template's toast to the front of the stack (newest first), animate it in. If the
+  // template carries a data-toast-key, dedup: an existing toast with that key is refreshed (brought
+  // to front + timer reset) instead of stacking a duplicate.
   add() {
     const tpl = this.template && (this.template.content || this.template);
     const src = tpl && tpl.querySelector('[data-part="toast"]');
     if (!src) return;
+    const key = src.getAttribute("data-toast-key");
+    if (key) {
+      const existing = this.toasts().find(
+        (t) => t.getAttribute("data-toast-key") === key && !t.hasAttribute("data-ending-style"),
+      );
+      if (existing) {
+        this.viewport.prepend(existing);
+        this.startTimer(existing);
+        this.restack();
+        return;
+      }
+    }
     this.count += 1;
     const toast = src.cloneNode(true);
     toast.querySelectorAll("[data-toast-count]").forEach((el) => (el.textContent = this.count));

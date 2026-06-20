@@ -199,6 +199,19 @@ defmodule DevelopmentWeb.Showcase.HeadlessLive do
           </aside>
         </div>
 
+        <section
+          :if={HeadlessPreview.has_examples?(@component.name)}
+          class="space-y-4 border-t border-base-300 pt-6"
+        >
+          <div>
+            <h2 class="text-xl font-semibold">Examples</h2>
+            <p class="text-sm text-base-content/60">
+              More worked patterns for this component — click to expand.
+            </p>
+          </div>
+          <HeadlessPreview.examples component={@component.name} id={"hl-ex-#{@component.name}"} />
+        </section>
+
         <nav
           :if={@prev || @next}
           class="flex items-stretch gap-4 border-t border-base-300 pt-6"
