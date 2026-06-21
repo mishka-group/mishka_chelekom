@@ -118,6 +118,25 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
       "[&_[data-part=indicator][data-indeterminate]]:border-base-content [&_[data-part=indicator][data-indeterminate]]:bg-base-content [&_[data-part=indicator][data-indeterminate]]:after:content-['–']"
   end
 
+  # Combobox: a bordered control box holding (multiple) chips inline + a borderless growing input +
+  # clear/trigger; a floating listbox with a ✓ on the selected option, group labels, empty/create rows.
+  defp combobox_class do
+    [
+      "relative w-64",
+      "[&_[data-part=control]]:flex [&_[data-part=control]]:flex-wrap [&_[data-part=control]]:items-center [&_[data-part=control]]:gap-1 [&_[data-part=control]]:rounded-md [&_[data-part=control]]:border [&_[data-part=control]]:border-base-300 [&_[data-part=control]]:bg-base-100 [&_[data-part=control]]:px-2 [&_[data-part=control]]:py-1 [&_[data-part=control]]:focus-within:ring-2 [&_[data-part=control]]:focus-within:ring-primary/30",
+      "[&_[data-part=chips]]:contents [&_[data-part=chip]]:inline-flex [&_[data-part=chip]]:items-center [&_[data-part=chip]]:gap-1 [&_[data-part=chip]]:rounded [&_[data-part=chip]]:bg-base-200 [&_[data-part=chip]]:px-1.5 [&_[data-part=chip]]:py-0.5 [&_[data-part=chip]]:text-sm [&_[data-part=chip-remove]]:text-base-content/50 [&_[data-part=chip-remove]]:hover:text-base-content",
+      "[&_[data-part=input]]:min-w-16 [&_[data-part=input]]:flex-1 [&_[data-part=input]]:border-0 [&_[data-part=input]]:bg-transparent [&_[data-part=input]]:px-1 [&_[data-part=input]]:py-0.5 [&_[data-part=input]]:text-sm [&_[data-part=input]]:outline-none",
+      "[&_[data-part=clear]]:shrink-0 [&_[data-part=clear]]:px-1 [&_[data-part=clear]]:text-base-content/40 [&_[data-part=clear]]:hover:text-base-content [&_[data-part=clear][data-hidden]]:hidden",
+      "[&_[data-part=trigger]]:shrink-0 [&_[data-part=trigger]]:px-1 [&_[data-part=trigger]]:text-base-content/40 [&_[data-part=trigger]]:hover:text-base-content",
+      "[&_[data-part=popup]]:absolute [&_[data-part=popup]]:left-0 [&_[data-part=popup]]:right-0 [&_[data-part=popup]]:top-full [&_[data-part=popup]]:z-10 [&_[data-part=popup]]:mt-1 [&_[data-part=popup]]:max-h-56 [&_[data-part=popup]]:overflow-auto [&_[data-part=popup]]:rounded-md [&_[data-part=popup]]:border [&_[data-part=popup]]:border-base-300 [&_[data-part=popup]]:bg-base-100 [&_[data-part=popup]]:p-1 [&_[data-part=popup]]:shadow-lg [&_[data-part=popup][data-closed]]:hidden",
+      "[&_[data-part=group-label]]:block [&_[data-part=group-label]]:px-3 [&_[data-part=group-label]]:pb-1 [&_[data-part=group-label]]:pt-2 [&_[data-part=group-label]]:text-xs [&_[data-part=group-label]]:font-medium [&_[data-part=group-label]]:uppercase [&_[data-part=group-label]]:tracking-wide [&_[data-part=group-label]]:text-base-content/40",
+      "[&_[data-part=item]]:flex [&_[data-part=item]]:cursor-pointer [&_[data-part=item]]:items-center [&_[data-part=item]]:gap-2 [&_[data-part=item]]:rounded [&_[data-part=item]]:px-3 [&_[data-part=item]]:py-1.5 [&_[data-part=item][data-highlighted]]:bg-base-200 [&_[data-part=item][data-disabled]]:cursor-not-allowed [&_[data-part=item][data-disabled]]:opacity-40",
+      "[&_[data-part=indicator]]:w-4 [&_[data-part=indicator]]:shrink-0 [&_[data-part=indicator]]:text-xs [&_[data-part=item][data-selected]_[data-part=indicator]]:after:content-['✓']",
+      "[&_[data-part=empty]]:px-3 [&_[data-part=empty]]:py-2 [&_[data-part=empty]]:text-sm [&_[data-part=empty]]:text-base-content/50",
+      "[&_[data-part=create]]:cursor-pointer [&_[data-part=create]]:rounded [&_[data-part=create]]:px-3 [&_[data-part=create]]:py-1.5 [&_[data-part=create]]:text-sm [&_[data-part=create]]:text-primary [&_[data-part=create]]:hover:bg-base-200 [&_[data-part=create][data-hidden]]:hidden"
+    ]
+  end
+
   def show(%{component: "drawer"} = assigns) do
     ~H"""
     <.drawer
@@ -396,17 +415,53 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
 
   def show(%{component: "combobox"} = assigns) do
     ~H"""
-    <.combobox
-      id={@id}
-      name="fruit"
-      value="Banana"
-      placeholder="Search fruit…"
-      class="[&_[data-part=input]]:min-w-56 [&_[data-part=input]]:rounded-md [&_[data-part=input]]:border [&_[data-part=input]]:border-base-300 [&_[data-part=input]]:px-3 [&_[data-part=input]]:py-1.5 [&_[data-part=popup]]:mt-1 [&_[data-part=popup]]:min-w-56 [&_[data-part=popup]]:rounded-md [&_[data-part=popup]]:border [&_[data-part=popup]]:border-base-300 [&_[data-part=popup]]:bg-base-100 [&_[data-part=popup]]:p-1 [&_[data-part=popup]]:shadow-lg [&_[data-part=item]]:px-3 [&_[data-part=item]]:py-1.5 [&_[data-part=item][data-hidden]]:hidden [&_[data-highlighted]]:bg-base-200 [&_[aria-selected=true]]:font-semibold"
-    >
-      <:option value="Apple">Apple</:option>
-      <:option value="Banana">Banana</:option>
-      <:option value="Cherry">Cherry</:option>
-    </.combobox>
+    <div class="space-y-6">
+      <div class="space-y-1.5">
+        <p class="text-[0.7rem] uppercase tracking-wide text-base-content/40">
+          Single · trigger · clear · disabled item · ✓ on selected
+        </p>
+        <.combobox
+          id={@id}
+          name="fruit"
+          value="banana"
+          placeholder="Search fruit…"
+          trigger
+          clear
+          auto_highlight
+          class={combobox_class()}
+        >
+          <:option value="apple">Apple</:option>
+          <:option value="banana">Banana</:option>
+          <:option value="cherry">Cherry</:option>
+          <:option value="durian" disabled>Durian (out of stock)</:option>
+          <:empty>No fruit found.</:empty>
+        </.combobox>
+      </div>
+
+      <div class="space-y-1.5">
+        <p class="text-[0.7rem] uppercase tracking-wide text-base-content/40">
+          Multiple · chips · grouped · creatable
+        </p>
+        <.combobox
+          id={"#{@id}-multi"}
+          name="picks"
+          multiple
+          value={["apple", "carrot"]}
+          placeholder="Add items…"
+          clear
+          creatable
+          on_create="combobox_create"
+          class={combobox_class()}
+        >
+          <:option value="apple" group="Fruit">Apple</:option>
+          <:option value="banana" group="Fruit">Banana</:option>
+          <:option value="cherry" group="Fruit">Cherry</:option>
+          <:option value="carrot" group="Vegetable">Carrot</:option>
+          <:option value="potato" group="Vegetable">Potato</:option>
+          <:empty>No matches.</:empty>
+        </.combobox>
+      </div>
+    </div>
     """
   end
 

@@ -204,16 +204,44 @@ defmodule DevelopmentWeb.Kit do
 
   customize :my_combobox do
     from :combobox
-    part :root, "relative inline-block"
+    part :root, "relative inline-block w-full max-w-sm"
 
+    # the control = the visual input box; chips + input + buttons wrap inside it
+    part :control,
+         "[&_[data-part=control]]:flex [&_[data-part=control]]:flex-wrap [&_[data-part=control]]:items-center [&_[data-part=control]]:gap-1 [&_[data-part=control]]:rounded-lg [&_[data-part=control]]:border [&_[data-part=control]]:border-amber-200 [&_[data-part=control]]:bg-amber-50 [&_[data-part=control]]:px-2 [&_[data-part=control]]:py-1.5 [&_[data-part=control]]:focus-within:border-amber-500 [&_[data-part=control]]:focus-within:ring-2 [&_[data-part=control]]:focus-within:ring-amber-500/30 dark:[&_[data-part=control]]:border-amber-900 dark:[&_[data-part=control]]:bg-amber-950/30"
+
+    # chips flow inline with the input
+    part :chips,
+         "[&_[data-part=chips]]:contents [&_[data-part=chip]]:inline-flex [&_[data-part=chip]]:items-center [&_[data-part=chip]]:gap-1 [&_[data-part=chip]]:rounded-md [&_[data-part=chip]]:bg-amber-100 [&_[data-part=chip]]:px-1.5 [&_[data-part=chip]]:py-0.5 [&_[data-part=chip]]:text-sm [&_[data-part=chip]]:text-amber-900 dark:[&_[data-part=chip]]:bg-amber-900/40 dark:[&_[data-part=chip]]:text-amber-100 [&_[data-part=chip-remove]]:text-amber-500 [&_[data-part=chip-remove]]:hover:text-amber-700 dark:[&_[data-part=chip-remove]]:text-amber-400"
+
+    # borderless input that grows to fill the line
     part :input,
-         "[&_[data-part=input]]:w-full [&_[data-part=input]]:rounded-lg [&_[data-part=input]]:border [&_[data-part=input]]:border-amber-200 [&_[data-part=input]]:bg-amber-50 [&_[data-part=input]]:px-3 [&_[data-part=input]]:py-2 [&_[data-part=input]]:text-sm [&_[data-part=input]]:text-amber-950 [&_[data-part=input]]:placeholder:text-amber-700/60 [&_[data-part=input]]:outline-none [&_[data-part=input]]:focus:border-amber-500 [&_[data-part=input]]:focus:ring-2 [&_[data-part=input]]:focus:ring-amber-500/30 dark:[&_[data-part=input]]:border-amber-900 dark:[&_[data-part=input]]:bg-amber-950/30 dark:[&_[data-part=input]]:text-amber-50 dark:[&_[data-part=input]]:placeholder:text-amber-300/50 dark:[&_[data-part=input]]:focus:border-amber-400 dark:[&_[data-part=input]]:focus:ring-amber-400/30"
+         "[&_[data-part=input]]:min-w-16 [&_[data-part=input]]:flex-1 [&_[data-part=input]]:border-0 [&_[data-part=input]]:bg-transparent [&_[data-part=input]]:px-1 [&_[data-part=input]]:py-0.5 [&_[data-part=input]]:text-sm [&_[data-part=input]]:text-amber-950 [&_[data-part=input]]:placeholder:text-amber-700/60 [&_[data-part=input]]:outline-none dark:[&_[data-part=input]]:text-amber-50 dark:[&_[data-part=input]]:placeholder:text-amber-300/50"
+
+    part :trigger,
+         "[&_[data-part=trigger]]:shrink-0 [&_[data-part=trigger]]:px-1 [&_[data-part=trigger]]:text-amber-500 [&_[data-part=trigger]]:hover:text-amber-700 dark:[&_[data-part=trigger]]:text-amber-400"
+
+    part :clear,
+         "[&_[data-part=clear]]:shrink-0 [&_[data-part=clear]]:px-1 [&_[data-part=clear]]:text-amber-500 [&_[data-part=clear]]:hover:text-amber-700 [&_[data-part=clear][data-hidden]]:hidden dark:[&_[data-part=clear]]:text-amber-400"
 
     part :popup,
-         "[&_[data-part=popup]]:mt-1.5 [&_[data-part=popup]]:w-full [&_[data-part=popup]]:overflow-hidden [&_[data-part=popup]]:rounded-lg [&_[data-part=popup]]:border [&_[data-part=popup]]:border-amber-200 [&_[data-part=popup]]:bg-amber-50 [&_[data-part=popup]]:p-1 [&_[data-part=popup]]:shadow-lg [&_[data-part=popup][data-closed]]:hidden dark:[&_[data-part=popup]]:border-amber-900 dark:[&_[data-part=popup]]:bg-amber-950/30"
+         "[&_[data-part=popup]]:absolute [&_[data-part=popup]]:left-0 [&_[data-part=popup]]:right-0 [&_[data-part=popup]]:top-full [&_[data-part=popup]]:z-10 [&_[data-part=popup]]:mt-1.5 [&_[data-part=popup]]:max-h-56 [&_[data-part=popup]]:overflow-auto [&_[data-part=popup]]:rounded-lg [&_[data-part=popup]]:border [&_[data-part=popup]]:border-amber-200 [&_[data-part=popup]]:bg-amber-50 [&_[data-part=popup]]:p-1 [&_[data-part=popup]]:shadow-lg [&_[data-part=popup][data-closed]]:hidden dark:[&_[data-part=popup]]:border-amber-900 dark:[&_[data-part=popup]]:bg-amber-950/30"
 
+    part :group_label,
+         "[&_[data-part=group-label]]:block [&_[data-part=group-label]]:px-3 [&_[data-part=group-label]]:pb-1 [&_[data-part=group-label]]:pt-2 [&_[data-part=group-label]]:text-xs [&_[data-part=group-label]]:font-medium [&_[data-part=group-label]]:uppercase [&_[data-part=group-label]]:tracking-wide [&_[data-part=group-label]]:text-amber-700/70 dark:[&_[data-part=group-label]]:text-amber-300/60"
+
+    # row with a ✓ slot that fills when the option is selected
     part :item,
-         "[&_[data-part=item]]:cursor-pointer [&_[data-part=item]]:rounded-md [&_[data-part=item]]:px-3 [&_[data-part=item]]:py-1.5 [&_[data-part=item]]:text-sm [&_[data-part=item]]:text-amber-950 dark:[&_[data-part=item]]:text-amber-50 [&_[data-part=item][data-highlighted]]:bg-amber-100 dark:[&_[data-part=item][data-highlighted]]:bg-amber-900/40 [&_[data-part=item][aria-selected=true]]:font-semibold [&_[data-part=item][aria-selected=true]]:text-amber-700 dark:[&_[data-part=item][aria-selected=true]]:text-amber-300 [&_[data-part=item][data-hidden]]:hidden"
+         "[&_[data-part=item]]:flex [&_[data-part=item]]:cursor-pointer [&_[data-part=item]]:items-center [&_[data-part=item]]:gap-2 [&_[data-part=item]]:rounded-md [&_[data-part=item]]:px-3 [&_[data-part=item]]:py-1.5 [&_[data-part=item]]:text-sm [&_[data-part=item]]:text-amber-950 dark:[&_[data-part=item]]:text-amber-50 [&_[data-part=item][data-highlighted]]:bg-amber-100 dark:[&_[data-part=item][data-highlighted]]:bg-amber-900/40 [&_[data-part=item][data-selected]]:font-medium [&_[data-part=item][data-disabled]]:cursor-not-allowed [&_[data-part=item][data-disabled]]:opacity-40"
+
+    part :indicator,
+         "[&_[data-part=indicator]]:w-4 [&_[data-part=indicator]]:shrink-0 [&_[data-part=indicator]]:text-xs [&_[data-part=indicator]]:text-amber-600 dark:[&_[data-part=indicator]]:text-amber-400 [&_[data-part=item][data-selected]_[data-part=indicator]]:after:content-['✓']"
+
+    part :empty,
+         "[&_[data-part=empty]]:px-3 [&_[data-part=empty]]:py-2 [&_[data-part=empty]]:text-sm [&_[data-part=empty]]:text-amber-700/60 dark:[&_[data-part=empty]]:text-amber-300/50"
+
+    part :create,
+         "[&_[data-part=create]]:cursor-pointer [&_[data-part=create]]:rounded-md [&_[data-part=create]]:px-3 [&_[data-part=create]]:py-1.5 [&_[data-part=create]]:text-sm [&_[data-part=create]]:font-medium [&_[data-part=create]]:text-amber-700 [&_[data-part=create]]:hover:bg-amber-100 [&_[data-part=create][data-hidden]]:hidden dark:[&_[data-part=create]]:text-amber-300 dark:[&_[data-part=create]]:hover:bg-amber-900/40"
   end
 
   customize :my_context_menu do

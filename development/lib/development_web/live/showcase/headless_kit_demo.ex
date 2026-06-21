@@ -188,17 +188,22 @@ defmodule DevelopmentWeb.Showcase.HeadlessKitDemo do
 
   def demo(%{component: "combobox"} = assigns) do
     ~H"""
-    <.my_combobox
-      id="hl-combobox-skin"
-      name="fruit"
-      value="Banana"
-      placeholder="Search fruit…"
-      class="w-full max-w-md"
-    >
-      <:option value="Apple">Apple</:option>
-      <:option value="Banana">Banana</:option>
-      <:option value="Cherry">Cherry</:option>
-    </.my_combobox>
+    <div class="space-y-4">
+      <.my_combobox id="hl-combobox-skin" name="fruit" value="banana" placeholder="Search fruit…" trigger clear>
+        <:option value="apple">Apple</:option>
+        <:option value="banana">Banana</:option>
+        <:option value="cherry">Cherry</:option>
+        <:option value="durian" disabled>Durian (out of stock)</:option>
+        <:empty>No fruit found.</:empty>
+      </.my_combobox>
+      <.my_combobox id="hl-combobox-multi-skin" name="picks" multiple value={["apple"]} placeholder="Add items…" clear>
+        <:option value="apple" group="Fruit">Apple</:option>
+        <:option value="banana" group="Fruit">Banana</:option>
+        <:option value="carrot" group="Vegetable">Carrot</:option>
+        <:option value="potato" group="Vegetable">Potato</:option>
+        <:empty>No matches.</:empty>
+      </.my_combobox>
+    </div>
     """
   end
 
