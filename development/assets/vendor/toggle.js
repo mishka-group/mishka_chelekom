@@ -1,17 +1,27 @@
-// Toggle — headless pressed/checked state engine (toggle, toggle_group item, switch).
+// Toggle — headless pressed/checked state engine (toggle, toggle_group item, switch, checkbox).
 //
 // Clicking (or Enter/Space on a button) flips the control's state. Which ARIA attribute is
-// toggled depends on the element's role: `role="switch"`/`checkbox` → `aria-checked`,
-// otherwise `aria-pressed`. The matching `data-on`/`data-off` (and `data-checked`/
-// `data-unchecked` for switches) attributes are toggled for CSS. A hidden input (if present,
-// `[data-part="input"]`) is kept in sync for form submission.
+// toggled depends on the element's role: `role="switch"`/`checkbox` → `aria-checked`, otherwise
+// `aria-pressed`. The matching `data-on`/`data-off` (and `data-checked`/`data-unchecked`) attributes
+// are toggled for CSS. A hidden input (if present, `[data-part="input"]`) is kept in sync for form
+// submission.
+//
+// Checkbox opt-in extras (switch/toggle set none of these, so they no-op):
+//   `data-readonly`     → toggling is blocked, but the control stays focusable
+//   `aria-checked="mixed"` (indeterminate) → the next toggle resolves to checked, clearing mixed
+//   `data-on-change="event"` → pushes the LiveView event `{checked}` on every toggle
+//   a `[data-part="indicator"]` child mirrors `data-checked`/`data-unchecked`/`data-indeterminate`.
 
 const Toggle = {
   mounted() {
     this.input = this.el.querySelector('[data-part="input"]');
+    this.indicator = this.el.querySelector('[data-part="indicator"]');
     this.role = this.el.getAttribute("role");
     this.attr =
       this.role === "switch" || this.role === "checkbox" ? "aria-checked" : "aria-pressed";
+
+    // Reflect an initial indeterminate state onto the native input (HTML has no such attribute).
+    if (this.input && this.el.hasAttribute("data-indeterminate")) this.input.indeterminate = true;
 
     this.boundClick = this.toggle.bind(this);
     this.boundKey = (e) => {
@@ -31,9 +41,25 @@ const Toggle = {
   },
 
   toggle() {
-    if (this.el.hasAttribute("data-disabled")) return;
-    const on = this.el.getAttribute(this.attr) !== "true";
+    if (this.el.hasAttribute("data-disabled") || this.el.hasAttribute("data-readonly")) return;
+
+    // From an indeterminate (mixed) state the next toggle resolves to checked.
+    const prev = this.el.getAttribute(this.attr) === "true";
+    const on = this.el.getAttribute(this.attr) === "mixed" ? true : !prev;
+    this.set(on);
+
+    // Fire the server event only on a real change; read data-on-change live (survives re-renders).
+    const onChange = this.el.getAttribute("data-on-change");
+    if (onChange && on !== prev) this.pushEvent(onChange, { checked: on });
+
+    // Notify any group coordinator (CheckboxGroup) — covers BOTH click and keyboard toggles.
+    this.el.dispatchEvent(new CustomEvent("chelekom:toggle", { bubbles: true }));
+  },
+
+  // Set the resolved (non-mixed) state on the control, indicator and hidden input.
+  set(on) {
     this.el.setAttribute(this.attr, String(on));
+    this.el.removeAttribute("data-indeterminate");
 
     if (this.attr === "aria-checked") {
       this.el.toggleAttribute("data-checked", on);
@@ -43,7 +69,16 @@ const Toggle = {
       this.el.toggleAttribute("data-off", !on);
     }
 
-    if (this.input) this.input.checked = on;
+    if (this.indicator) {
+      this.indicator.toggleAttribute("data-checked", on);
+      this.indicator.toggleAttribute("data-unchecked", !on);
+      this.indicator.removeAttribute("data-indeterminate");
+    }
+
+    if (this.input) {
+      this.input.checked = on;
+      this.input.indeterminate = false;
+    }
   },
 };
 

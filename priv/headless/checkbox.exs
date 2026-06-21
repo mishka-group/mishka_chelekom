@@ -12,6 +12,12 @@
         type: "file",
         file: "toggle.js",
         imports: "import Toggle from \"./toggle.js\";"
+      },
+      %{
+        module: "CheckboxGroup",
+        type: "file",
+        file: "checkbox_group.js",
+        imports: "import CheckboxGroup from \"./checkbox_group.js\";"
       }
     ],
     headless: [
@@ -19,13 +25,25 @@
         root: [
           element: "button",
           role: "checkbox",
-          aria: ["aria-checked"],
-          data_attributes: ["data-checked", "data-unchecked", "data-disabled"],
+          aria: ["aria-checked", "aria-readonly", "aria-required"],
+          data_attributes: [
+            "data-checked",
+            "data-unchecked",
+            "data-indeterminate",
+            "data-disabled",
+            "data-readonly",
+            "data-required",
+            "data-parent"
+          ],
           required: true
         ],
         parts: [
           input: [element: "input", aria: ["aria-hidden"]],
-          indicator: [element: "span", aria: ["aria-hidden"]],
+          indicator: [
+            element: "span",
+            aria: ["aria-hidden"],
+            data_attributes: ["data-checked", "data-unchecked", "data-indeterminate"]
+          ],
           label: [element: "span"]
         ]
       ],
@@ -33,8 +51,15 @@
         pattern: "Checkbox",
         keyboard: ["Space: toggle checked", "Enter: toggle checked"]
       ],
-      state_attributes: ["data-checked", "data-unchecked", "data-disabled"],
-      hooks: ["Toggle"]
+      state_attributes: [
+        "data-checked",
+        "data-unchecked",
+        "data-indeterminate",
+        "data-disabled",
+        "data-readonly",
+        "data-required"
+      ],
+      hooks: ["Toggle", "CheckboxGroup"]
     ]
   ]
 ]

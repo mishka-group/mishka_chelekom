@@ -12,6 +12,7 @@ import Popup from "./popup.js";
 import RovingTabindex from "./roving_tabindex.js";
 import HeadlessCombobox from "./headless_combobox.js";
 import Toggle from "./toggle.js";
+import CheckboxGroup from "./checkbox_group.js";
 import NumberScrub from "./number_scrub.js";
 import Slider from "./slider.js";
 import ToastRegion from "./toast_region.js";
@@ -31,6 +32,7 @@ const Components = {
   RovingTabindex,
   HeadlessCombobox,
   Toggle,
+  CheckboxGroup,
   NumberScrub,
   Slider,
   ToastRegion,

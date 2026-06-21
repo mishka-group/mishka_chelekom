@@ -96,6 +96,16 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
     end
   end
 
+  # Base-UI-style checkbox: a square box that fills with a ✓ when checked and a – when indeterminate
+  # (driven by the indicator's own data-checked / data-indeterminate state attributes).
+  defp checkbox_class do
+    "inline-flex cursor-pointer items-center gap-2 [&[data-disabled]]:cursor-not-allowed [&[data-disabled]]:opacity-50 " <>
+      "[&_[data-part=indicator]]:grid [&_[data-part=indicator]]:size-5 [&_[data-part=indicator]]:place-items-center [&_[data-part=indicator]]:rounded [&_[data-part=indicator]]:border [&_[data-part=indicator]]:border-base-300 [&_[data-part=indicator]]:bg-base-100 [&_[data-part=indicator]]:text-xs [&_[data-part=indicator]]:leading-none [&_[data-part=indicator]]:text-base-100 " <>
+      "[&_[data-part=indicator][data-checked]]:border-base-content [&_[data-part=indicator][data-checked]]:bg-base-content [&_[data-part=indicator][data-checked]]:after:content-['✓'] " <>
+      "[&_[data-part=indicator][data-indeterminate]]:border-base-content [&_[data-part=indicator][data-indeterminate]]:bg-base-content [&_[data-part=indicator][data-indeterminate]]:after:content-['–'] " <>
+      "[&_[data-part=label]]:text-sm"
+  end
+
   def show(%{component: "drawer"} = assigns) do
     ~H"""
     <.drawer
@@ -251,15 +261,41 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
 
   def show(%{component: "checkbox"} = assigns) do
     ~H"""
-    <.checkbox
-      id={@id}
-      name="terms"
-      value="accepted"
-      checked
-      class="inline-flex cursor-pointer items-center gap-2 [&_[data-part=indicator]]:grid [&_[data-part=indicator]]:size-5 [&_[data-part=indicator]]:place-items-center [&_[data-part=indicator]]:rounded [&_[data-part=indicator]]:border [&_[data-part=indicator]]:border-base-300 [&_[data-part=indicator]]:bg-base-100 [&[data-checked]_[data-part=indicator]]:bg-base-content [&[data-checked]_[data-part=indicator]]:text-base-100 [&[data-checked]_[data-part=indicator]]:after:content-['✓'] [&_[data-part=label]]:text-sm [&[data-disabled]]:cursor-not-allowed [&[data-disabled]]:opacity-50"
-    >
-      I agree to the terms and conditions
-    </.checkbox>
+    <div class="space-y-5">
+      <.checkbox id={@id} name="terms" value="accepted" checked class={checkbox_class()}>
+        I agree to the terms and conditions
+      </.checkbox>
+
+      <div class="space-y-1.5">
+        <p class="text-[0.7rem] uppercase tracking-wide text-base-content/40">
+          Indeterminate · disabled
+        </p>
+        <div class="flex flex-col gap-2">
+          <.checkbox id={"#{@id}-ind"} indeterminate class={checkbox_class()}>
+            Indeterminate (click → checks)
+          </.checkbox>
+          <.checkbox id={"#{@id}-dis"} checked disabled class={checkbox_class()}>
+            Disabled (checked)
+          </.checkbox>
+        </div>
+      </div>
+
+      <div class="space-y-1.5">
+        <p class="text-[0.7rem] uppercase tracking-wide text-base-content/40">
+          Parent "select all" — tristate group
+        </p>
+        <div id={"#{@id}-grp"} phx-hook="CheckboxGroup" role="group" aria-label="Fruit">
+          <.checkbox id={"#{@id}-all"} parent indeterminate class={checkbox_class()}>
+            Apples
+          </.checkbox>
+          <div class="ml-6 mt-1 flex flex-col gap-1.5">
+            <.checkbox id={"#{@id}-fuji"} checked class={checkbox_class()}>Fuji</.checkbox>
+            <.checkbox id={"#{@id}-gala"} class={checkbox_class()}>Gala</.checkbox>
+            <.checkbox id={"#{@id}-gs"} class={checkbox_class()}>Granny Smith</.checkbox>
+          </div>
+        </div>
+      </div>
+    </div>
     """
   end
 
