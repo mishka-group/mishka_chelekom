@@ -51,6 +51,7 @@ defmodule DevelopmentWeb.Components.Headless.Checkbox do
       data-checked={@checked && !@indeterminate}
       data-unchecked={!@checked && !@indeterminate}
       data-indeterminate={@indeterminate}
+      data-value={@value}
       data-on-change={@on_change}
       class={["chelekom-checkbox", @class]}
       {@rest}

@@ -138,13 +138,17 @@ const CheckboxGroup = {
     }
   },
 
-  // Push the selected LEAF values to LiveView (parents carry no submittable value).
+  // Push the selected LEAF values to LiveView (parents carry no submittable value). The value comes
+  // from the checkbox's `data-value` (always present, so on_change works even without a form name),
+  // falling back to the hidden input's value.
   emit() {
     const onChange = this.el.getAttribute("data-on-change");
     if (!onChange) return;
     const value = Array.from(this.el.querySelectorAll('[role="checkbox"]'))
       .filter((c) => !c.hasAttribute("data-parent") && this.isChecked(c))
       .map((c) => {
+        const v = c.getAttribute("data-value");
+        if (v != null) return v;
         const input = c.querySelector('[data-part="input"]');
         return input ? input.value : null;
       })
