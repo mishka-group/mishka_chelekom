@@ -114,6 +114,7 @@ defmodule DevelopmentWeb.Components.Headless.CheckboxGroup do
       data-checked={@checked && !@indeterminate}
       data-unchecked={!@checked && !@indeterminate}
       data-indeterminate={@indeterminate}
+      data-value={@value}
       data-part="item"
       class="chelekom-checkbox_group__item"
     >

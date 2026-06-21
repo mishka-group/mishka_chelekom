@@ -51,6 +51,7 @@ defmodule <%= @module %> do
       data-checked={@checked && !@indeterminate}
       data-unchecked={!@checked && !@indeterminate}
       data-indeterminate={@indeterminate}
+      data-value={@value}
       data-on-change={@on_change}
       class={["chelekom-checkbox", @class]}
       {@rest}
@@ -72,7 +73,7 @@ defmodule <%= @module %> do
         aria-hidden="true"
         data-checked={@checked && !@indeterminate}
         data-unchecked={!@checked && !@indeterminate}
-        data-indeterminate={@indeterminate || nil}
+        data-indeterminate={@indeterminate}
         class="chelekom-checkbox__indicator"
       >
       </span>

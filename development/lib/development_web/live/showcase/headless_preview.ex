@@ -337,16 +337,28 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
             User Permissions
           </.checkbox>
           <div data-part="children">
-            <.checkbox id={"#{@id}-view"} class={checkbox_class()}>View Dashboard</.checkbox>
-            <.checkbox id={"#{@id}-reports"} class={checkbox_class()}>Access Reports</.checkbox>
+            <.checkbox id={"#{@id}-view"} value="view" class={checkbox_class()}>
+              View Dashboard
+            </.checkbox>
+            <.checkbox id={"#{@id}-reports"} value="reports" class={checkbox_class()}>
+              Access Reports
+            </.checkbox>
             <.checkbox id={"#{@id}-manage"} parent checked class={checkbox_class()}>
               Manage Users
             </.checkbox>
             <div data-part="children">
-              <.checkbox id={"#{@id}-create"} checked class={checkbox_class()}>Create User</.checkbox>
-              <.checkbox id={"#{@id}-edit"} checked class={checkbox_class()}>Edit User</.checkbox>
-              <.checkbox id={"#{@id}-delete"} checked class={checkbox_class()}>Delete User</.checkbox>
-              <.checkbox id={"#{@id}-assign"} checked class={checkbox_class()}>Assign Roles</.checkbox>
+              <.checkbox id={"#{@id}-create"} value="create" checked class={checkbox_class()}>
+                Create User
+              </.checkbox>
+              <.checkbox id={"#{@id}-edit"} value="edit" checked class={checkbox_class()}>
+                Edit User
+              </.checkbox>
+              <.checkbox id={"#{@id}-delete"} value="delete" checked class={checkbox_class()}>
+                Delete User
+              </.checkbox>
+              <.checkbox id={"#{@id}-assign"} value="assign" checked class={checkbox_class()}>
+                Assign Roles
+              </.checkbox>
             </div>
           </div>
         </div>
