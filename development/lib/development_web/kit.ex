@@ -188,16 +188,18 @@ defmodule DevelopmentWeb.Kit do
     from :checkbox_group
 
     part :root,
-         "flex flex-col gap-1 rounded-xl border border-amber-200 bg-amber-50 p-3 shadow-sm dark:border-amber-900/50 dark:bg-amber-950/30"
+         "flex flex-col gap-0.5 rounded-xl border border-amber-200 bg-amber-50 p-3 shadow-sm dark:border-amber-900/50 dark:bg-amber-950/30"
 
     part :label,
          "[&_[data-part=label]]:mb-1 [&_[data-part=label]]:block [&_[data-part=label]]:text-sm [&_[data-part=label]]:font-semibold [&_[data-part=label]]:text-amber-950 dark:[&_[data-part=label]]:text-amber-50"
 
+    # each item is a clickable row; the select_all parent is set apart with a divider
     part :item,
-         "[&_[data-part=item]]:flex [&_[data-part=item]]:cursor-pointer [&_[data-part=item]]:items-center [&_[data-part=item]]:gap-2 [&_[data-part=item]]:rounded-md [&_[data-part=item]]:px-2 [&_[data-part=item]]:py-1 [&_[data-part=item]]:text-sm [&_[data-part=item]]:text-amber-900 dark:[&_[data-part=item]]:text-amber-100 [&_[data-part=item]:hover]:bg-amber-100/60 dark:[&_[data-part=item]:hover]:bg-amber-900/30 [&_[data-part=item][data-disabled]]:cursor-not-allowed [&_[data-part=item][data-disabled]]:opacity-50"
+         "[&_[data-part=item]]:flex [&_[data-part=item]]:cursor-pointer [&_[data-part=item]]:items-center [&_[data-part=item]]:gap-2 [&_[data-part=item]]:rounded-md [&_[data-part=item]]:px-2 [&_[data-part=item]]:py-1 [&_[data-part=item]]:text-sm [&_[data-part=item]]:text-amber-900 dark:[&_[data-part=item]]:text-amber-100 [&_[data-part=item]:hover]:bg-amber-100/60 dark:[&_[data-part=item]:hover]:bg-amber-900/30 [&_[data-part=item][data-disabled]]:cursor-not-allowed [&_[data-part=item][data-disabled]]:opacity-50 [&_[data-part=item][data-parent]]:mb-1 [&_[data-part=item][data-parent]]:border-b [&_[data-part=item][data-parent]]:border-amber-200/70 dark:[&_[data-part=item][data-parent]]:border-amber-900/40 [&_[data-part=item][data-parent]]:pb-1.5 [&_[data-part=item][data-parent]]:font-medium"
 
-    part :input,
-         "[&_[data-part=input]]:size-4 [&_[data-part=input]]:rounded [&_[data-part=input]]:border-amber-300 [&_[data-part=input]]:accent-amber-500 dark:[&_[data-part=input]]:border-amber-700 dark:[&_[data-part=input]]:accent-amber-400"
+    # the box — fills amber with a ✓ when checked and a – when indeterminate (the parent's mixed state)
+    part :indicator,
+         "[&_[data-part=indicator]]:grid [&_[data-part=indicator]]:size-5 [&_[data-part=indicator]]:shrink-0 [&_[data-part=indicator]]:place-items-center [&_[data-part=indicator]]:rounded [&_[data-part=indicator]]:border [&_[data-part=indicator]]:border-amber-200 [&_[data-part=indicator]]:bg-amber-50 [&_[data-part=indicator]]:text-xs [&_[data-part=indicator]]:font-bold [&_[data-part=indicator]]:leading-none [&_[data-part=indicator]]:text-amber-50 dark:[&_[data-part=indicator]]:border-amber-900 dark:[&_[data-part=indicator]]:bg-amber-950/30 dark:[&_[data-part=indicator]]:text-amber-950 [&_[data-part=indicator][data-checked]]:border-amber-500 [&_[data-part=indicator][data-checked]]:bg-amber-500 dark:[&_[data-part=indicator][data-checked]]:border-amber-400 dark:[&_[data-part=indicator][data-checked]]:bg-amber-400 [&_[data-part=indicator][data-checked]]:after:content-['✓'] [&_[data-part=indicator][data-indeterminate]]:border-amber-500 [&_[data-part=indicator][data-indeterminate]]:bg-amber-500 dark:[&_[data-part=indicator][data-indeterminate]]:border-amber-400 dark:[&_[data-part=indicator][data-indeterminate]]:bg-amber-400 [&_[data-part=indicator][data-indeterminate]]:after:content-['–']"
   end
 
   customize :my_combobox do

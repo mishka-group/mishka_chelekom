@@ -176,8 +176,9 @@ defmodule DevelopmentWeb.Showcase.HeadlessKitDemo do
 
   def demo(%{component: "checkbox_group"} = assigns) do
     ~H"""
-    <.my_checkbox_group id="hl-checkbox_group-skin" name="toppings" class="w-full max-w-md">
+    <.my_checkbox_group id="hl-checkbox_group-skin" name="toppings">
       <:label>Pizza toppings</:label>
+      <:select_all>All toppings</:select_all>
       <:item value="cheese" checked>Cheese</:item>
       <:item value="mushroom">Mushroom</:item>
       <:item value="pepperoni" disabled>Pepperoni (sold out)</:item>

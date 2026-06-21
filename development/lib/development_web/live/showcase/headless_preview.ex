@@ -106,6 +106,18 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
       "[&_[data-part=label]]:text-sm"
   end
 
+  # The group: a bordered card; each item is a Base-UI checkbox row (box ✓ / dash via the indicator),
+  # with the select_all parent set apart by a divider.
+  defp checkbox_group_class do
+    "flex w-64 flex-col gap-0.5 rounded-md border border-base-300 p-3 " <>
+      "[&_[data-part=label]]:mb-1 [&_[data-part=label]]:block [&_[data-part=label]]:text-sm [&_[data-part=label]]:font-semibold " <>
+      "[&_[data-part=item]]:flex [&_[data-part=item]]:cursor-pointer [&_[data-part=item]]:items-center [&_[data-part=item]]:gap-2 [&_[data-part=item]]:rounded [&_[data-part=item]]:px-2 [&_[data-part=item]]:py-1 [&_[data-part=item]]:text-sm [&_[data-part=item]:hover]:bg-base-200 [&_[data-part=item][data-disabled]]:cursor-not-allowed [&_[data-part=item][data-disabled]]:opacity-50 " <>
+      "[&_[data-part=item][data-parent]]:mb-1 [&_[data-part=item][data-parent]]:border-b [&_[data-part=item][data-parent]]:border-base-300 [&_[data-part=item][data-parent]]:pb-1.5 [&_[data-part=item][data-parent]]:font-medium " <>
+      "[&_[data-part=indicator]]:grid [&_[data-part=indicator]]:size-5 [&_[data-part=indicator]]:shrink-0 [&_[data-part=indicator]]:place-items-center [&_[data-part=indicator]]:rounded [&_[data-part=indicator]]:border [&_[data-part=indicator]]:border-base-300 [&_[data-part=indicator]]:bg-base-100 [&_[data-part=indicator]]:text-xs [&_[data-part=indicator]]:leading-none [&_[data-part=indicator]]:text-base-100 " <>
+      "[&_[data-part=indicator][data-checked]]:border-base-content [&_[data-part=indicator][data-checked]]:bg-base-content [&_[data-part=indicator][data-checked]]:after:content-['✓'] " <>
+      "[&_[data-part=indicator][data-indeterminate]]:border-base-content [&_[data-part=indicator][data-indeterminate]]:bg-base-content [&_[data-part=indicator][data-indeterminate]]:after:content-['–']"
+  end
+
   def show(%{component: "drawer"} = assigns) do
     ~H"""
     <.drawer
@@ -301,16 +313,45 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
 
   def show(%{component: "checkbox_group"} = assigns) do
     ~H"""
-    <.checkbox_group
-      id={@id}
-      name="toppings"
-      class="flex w-64 flex-col gap-1 rounded-md border border-base-300 p-3 [&_[data-part=label]]:mb-1 [&_[data-part=label]]:block [&_[data-part=label]]:font-semibold [&_[data-part=item]]:flex [&_[data-part=item]]:items-center [&_[data-part=item]]:gap-2 [&_[data-part=item]]:rounded [&_[data-part=item]]:px-2 [&_[data-part=item]]:py-1 [&_[data-part=item]:hover]:bg-base-200 [&_[data-disabled]]:opacity-50 [&_[data-part=input]]:size-4"
-    >
-      <:label>Pizza toppings</:label>
-      <:item value="cheese" checked>Cheese</:item>
-      <:item value="mushroom">Mushroom</:item>
-      <:item value="pepperoni" disabled>Pepperoni (sold out)</:item>
-    </.checkbox_group>
+    <div class="space-y-6">
+      <.checkbox_group id={@id} name="toppings" class={checkbox_group_class()}>
+        <:label>Pizza toppings</:label>
+        <:select_all>All toppings</:select_all>
+        <:item value="cheese" checked>Cheese</:item>
+        <:item value="mushroom">Mushroom</:item>
+        <:item value="pepperoni" disabled>Pepperoni (sold out)</:item>
+      </.checkbox_group>
+
+      <div class="space-y-1.5">
+        <p class="text-[0.7rem] uppercase tracking-wide text-base-content/40">
+          Nested parents — each reflects + toggles its whole subtree
+        </p>
+        <div
+          id={"#{@id}-tree"}
+          phx-hook="CheckboxGroup"
+          role="group"
+          aria-label="User permissions"
+          class="flex w-72 flex-col gap-1.5 rounded-md border border-base-300 p-3 [&_[data-part=children]]:ml-6 [&_[data-part=children]]:mt-1.5 [&_[data-part=children]]:flex [&_[data-part=children]]:flex-col [&_[data-part=children]]:gap-1.5"
+        >
+          <.checkbox id={"#{@id}-perms"} parent indeterminate class={checkbox_class()}>
+            User Permissions
+          </.checkbox>
+          <div data-part="children">
+            <.checkbox id={"#{@id}-view"} class={checkbox_class()}>View Dashboard</.checkbox>
+            <.checkbox id={"#{@id}-reports"} class={checkbox_class()}>Access Reports</.checkbox>
+            <.checkbox id={"#{@id}-manage"} parent checked class={checkbox_class()}>
+              Manage Users
+            </.checkbox>
+            <div data-part="children">
+              <.checkbox id={"#{@id}-create"} checked class={checkbox_class()}>Create User</.checkbox>
+              <.checkbox id={"#{@id}-edit"} checked class={checkbox_class()}>Edit User</.checkbox>
+              <.checkbox id={"#{@id}-delete"} checked class={checkbox_class()}>Delete User</.checkbox>
+              <.checkbox id={"#{@id}-assign"} checked class={checkbox_class()}>Assign Roles</.checkbox>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
     """
   end
 

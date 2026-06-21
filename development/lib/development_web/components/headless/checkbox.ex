@@ -42,15 +42,15 @@ defmodule DevelopmentWeb.Components.Headless.Checkbox do
       phx-hook="Toggle"
       role="checkbox"
       aria-checked={aria_checked(@checked, @indeterminate)}
-      aria-readonly={(@readonly && "true") || nil}
-      aria-required={(@required && "true") || nil}
-      data-disabled={@disabled || nil}
-      data-readonly={@readonly || nil}
-      data-required={@required || nil}
-      data-parent={@parent || nil}
+      aria-readonly={@readonly && "true"}
+      aria-required={@required && "true"}
+      data-disabled={@disabled}
+      data-readonly={@readonly}
+      data-required={@required}
+      data-parent={@parent}
       data-checked={@checked && !@indeterminate}
       data-unchecked={!@checked && !@indeterminate}
-      data-indeterminate={@indeterminate || nil}
+      data-indeterminate={@indeterminate}
       data-on-change={@on_change}
       class={["chelekom-checkbox", @class]}
       {@rest}
@@ -72,7 +72,7 @@ defmodule DevelopmentWeb.Components.Headless.Checkbox do
         aria-hidden="true"
         data-checked={@checked && !@indeterminate}
         data-unchecked={!@checked && !@indeterminate}
-        data-indeterminate={@indeterminate || nil}
+        data-indeterminate={@indeterminate}
         class="chelekom-checkbox__indicator"
       >
       </span>
