@@ -215,6 +215,8 @@ const NumberField = {
     this.syncHidden();
     if (this.allowInputSync) this.setDisplay(this.fmt(validated));
 
+    // Notify any enclosing <.form phx-change> — the hidden input is set programmatically.
+    if (changed && this.hidden) this.hidden.dispatchEvent(new Event("input", { bubbles: true }));
     if (changed && this.onChange) this.pushEvent(this.onChange, { value: validated });
     return validated;
   },

@@ -48,6 +48,9 @@ const Toggle = {
     const on = this.el.getAttribute(this.attr) === "mixed" ? true : !prev;
     this.set(on);
 
+    // Notify any enclosing <.form phx-change> — setting `.checked` programmatically doesn't fire it.
+    if (this.input) this.input.dispatchEvent(new Event("change", { bubbles: true }));
+
     // Fire the server event only on a real change; read data-on-change live (survives re-renders).
     const onChange = this.el.getAttribute("data-on-change");
     if (onChange && on !== prev) this.pushEvent(onChange, { checked: on });

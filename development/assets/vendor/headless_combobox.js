@@ -288,6 +288,12 @@ const HeadlessCombobox = {
 
   // Push selected value(s) to LiveView: an array in multiple mode, a single value (or null) otherwise.
   emit() {
+    // Notify any enclosing <.form phx-change> — programmatic value/chip changes don't fire events.
+    // (single → the named hidden value input; multiple → the text input bubbles to the form, which
+    // then serializes the chips' name[] inputs). The hook listens for "input" not "change", so safe.
+    const formTarget = this.hidden || this.input;
+    if (formTarget) formTarget.dispatchEvent(new Event("change", { bubbles: true }));
+
     const ev = this.el.getAttribute("data-on-change");
     if (!ev) return;
     if (this.multiple) {
