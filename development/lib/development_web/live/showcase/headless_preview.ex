@@ -512,18 +512,34 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
     ~H"""
     <.field
       id={@id}
-      for={"#{@id}-email"}
+      name="email"
       label="Email address"
       errors={["Email is required", "Must be a valid address"]}
-      class="w-80 [&_[data-part=label]]:mb-1 [&_[data-part=label]]:block [&_[data-part=label]]:text-sm [&_[data-part=label]]:font-medium [&_[data-part=description]]:mt-1 [&_[data-part=description]]:text-xs [&_[data-part=description]]:text-base-content/60 [&_[data-part=error]]:mt-1 [&_[data-part=error]]:text-xs [&_[data-part=error]]:text-error"
+      class={
+        [
+          "w-80",
+          "[&_[data-part=label]]:mb-1 [&_[data-part=label]]:block [&_[data-part=label]]:text-sm [&_[data-part=label]]:font-medium",
+          "[&_[data-part=description]]:mt-1 [&_[data-part=description]]:text-xs [&_[data-part=description]]:text-base-content/60",
+          "[&_[data-part=error]]:mt-1 [&_[data-part=error]]:text-xs [&_[data-part=error]]:text-error",
+          # Base-UI-style state hooks set by the Field engine — invalid: red control;
+          # focused: ring; filled: label turns primary; disabled: dimmed.
+          "[&[data-invalid]_input]:border-error",
+          "[&[data-focused]_input]:ring-2 [&[data-focused]_input]:ring-primary/30",
+          "[&[data-filled]_[data-part=label]]:text-primary",
+          "[&[data-disabled]]:opacity-50"
+        ]
+      }
+      :let={f}
     >
       <input
-        id={"#{@id}-email"}
+        id={f.id}
         type="email"
-        name="email"
+        name={f.name}
         placeholder="you@example.com"
-        aria-describedby={"#{@id}-desc"}
-        class="w-full rounded-md border border-base-300 bg-base-100 px-3 py-1.5 text-sm"
+        aria-describedby={f.describedby}
+        aria-invalid={f.invalid && "true"}
+        disabled={f.disabled}
+        class="w-full rounded-md border border-base-300 bg-base-100 px-3 py-1.5 text-sm outline-none"
       />
       <:description>We'll only use this to send account notifications.</:description>
     </.field>

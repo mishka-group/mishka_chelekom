@@ -29,6 +29,10 @@
             element: "span",
             note: "a selected chip; has data-chip-value + a `data-part=chip-remove` button"
           ],
+          chip_template: [
+            element: "template",
+            note: "cloned per interactively-added selection to build a new chip (multiple)"
+          ],
           value: [
             element: "input",
             note: "hidden form value (single) — multiple submits via chips' name[]"

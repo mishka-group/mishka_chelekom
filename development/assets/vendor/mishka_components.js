@@ -17,6 +17,7 @@ import NumberScrub from "./number_scrub.js";
 import Slider from "./slider.js";
 import ToastRegion from "./toast_region.js";
 import Otp from "./otp.js";
+import Field from "./field.js";
 const Components = {
   Collapsible,
   Carousel,
@@ -37,5 +38,6 @@ const Components = {
   Slider,
   ToastRegion,
   Otp,
+  Field,
 };
 export default Components;
