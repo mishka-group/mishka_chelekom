@@ -524,6 +524,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
           # turn the label primary (data-filled). Invalid/error styling is shown live in
           # the form under "Examples" below (this preview is a clean, valid field).
           "[&[data-invalid]_input]:border-error",
+          "[&[data-valid]_input]:border-success",
           "[&[data-focused]_input]:ring-2 [&[data-focused]_input]:ring-primary/30",
           "[&[data-filled]_[data-part=label]]:text-primary",
           "[&[data-disabled]]:opacity-50"
@@ -1085,11 +1086,11 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
       <details class="rounded-box border border-base-300 bg-base-100 p-4">
         <summary class="cursor-pointer select-none font-medium">State attributes — at a glance</summary>
         <p class="mt-1 text-sm text-base-content/60">
-          The same field rendered in three server-known states. Focus or type in the first one to also
+          The same field rendered in four server-known states. Focus or type in the first one to also
           see <code>data-focused</code> / <code>data-filled</code> toggle live.
         </p>
-        <div class="mt-4 grid gap-5 sm:grid-cols-3">
-          <.field id={"#{@id}-st-ok"} name="ok" label="Default" class={field_state_class()} :let={f}>
+        <div class="mt-4 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+          <.field id={"#{@id}-st-ok"} name="ok" label="Pristine" class={field_state_class()} :let={f}>
             <input
               id={f.id}
               name={f.name}
@@ -1097,7 +1098,25 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
               placeholder="type here…"
               class="w-full rounded-md border border-base-300 bg-base-100 px-3 py-1.5 text-sm outline-none"
             />
-            <:description>A clean, valid field.</:description>
+            <:description>Untouched — neither attribute.</:description>
+          </.field>
+
+          <.field
+            id={"#{@id}-st-good"}
+            name="good"
+            label="Valid"
+            valid={true}
+            class={field_state_class()}
+            :let={f}
+          >
+            <input
+              id={f.id}
+              name={f.name}
+              value="ada@example.com"
+              aria-describedby={f.describedby}
+              class="w-full rounded-md border border-base-300 bg-base-100 px-3 py-1.5 text-sm outline-none"
+            />
+            <:description>Passes — <code>data-valid</code> (green + ✓).</:description>
           </.field>
 
           <.field
@@ -1151,6 +1170,8 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
       "[&_[data-part=description]]:mt-1 [&_[data-part=description]]:text-xs [&_[data-part=description]]:text-base-content/60",
       "[&_[data-part=error]]:mt-1 [&_[data-part=error]]:text-xs [&_[data-part=error]]:text-error",
       "[&[data-invalid]_input]:border-error",
+      "[&[data-valid]_input]:border-success",
+      "[&[data-valid]_[data-part=label]]:after:content-['_✓'] [&[data-valid]_[data-part=label]]:after:text-success",
       "[&[data-focused]_input]:ring-2 [&[data-focused]_input]:ring-primary/30",
       "[&[data-filled]_[data-part=label]]:text-primary",
       "[&[data-disabled]]:opacity-60"

@@ -100,6 +100,7 @@ defmodule DevelopmentWeb.Showcase.FieldFormDemo do
           name={@form[:name].name}
           label="Full name"
           errors={errs(@form[:name])}
+          valid={validity(@form[:name])}
           class={fc()}
           :let={f}
         >
@@ -121,6 +122,7 @@ defmodule DevelopmentWeb.Showcase.FieldFormDemo do
           name={@form[:email].name}
           label="Email address"
           errors={errs(@form[:email])}
+          valid={validity(@form[:email])}
           class={fc()}
           :let={f}
         >
@@ -142,6 +144,7 @@ defmodule DevelopmentWeb.Showcase.FieldFormDemo do
           name={@form[:age].name}
           label="Age"
           errors={errs(@form[:age])}
+          valid={validity(@form[:age])}
           class={fc()}
           :let={f}
         >
@@ -163,6 +166,7 @@ defmodule DevelopmentWeb.Showcase.FieldFormDemo do
           name={@form[:role].name}
           label="Role"
           errors={errs(@form[:role])}
+          valid={validity(@form[:role])}
           class={fc()}
           :let={f}
         >
@@ -189,6 +193,7 @@ defmodule DevelopmentWeb.Showcase.FieldFormDemo do
           name={@form[:bio].name}
           label="Short bio"
           errors={errs(@form[:bio])}
+          valid={validity(@form[:bio])}
           class={fc()}
           :let={f}
         >
@@ -247,6 +252,16 @@ defmodule DevelopmentWeb.Showcase.FieldFormDemo do
     if used_input?(field), do: Enum.map(field.errors, &translate_error/1), else: []
   end
 
+  # Validity tri-state (mirrors Base UI): nil = pristine (untouched → neither data-valid nor
+  # data-invalid), true = touched & passing (data-valid), false = touched & failing (data-invalid).
+  defp validity(field) do
+    cond do
+      not used_input?(field) -> nil
+      field.errors == [] -> true
+      true -> false
+    end
+  end
+
   defp translate_error({msg, opts}) do
     Enum.reduce(opts, msg, fn {key, value}, acc ->
       String.replace(acc, "%{#{key}}", to_string(value))
@@ -267,6 +282,9 @@ defmodule DevelopmentWeb.Showcase.FieldFormDemo do
       "[&_[data-part=description]]:mt-1 [&_[data-part=description]]:text-xs [&_[data-part=description]]:text-base-content/60",
       "[&_[data-part=error]]:mt-1 [&_[data-part=error]]:text-xs [&_[data-part=error]]:text-error",
       "[&[data-invalid]_.ffd-ctl]:border-error",
+      # success state (data-valid) — green control + a ✓ after the label
+      "[&[data-valid]_.ffd-ctl]:border-success",
+      "[&[data-valid]_[data-part=label]]:after:content-['_✓'] [&[data-valid]_[data-part=label]]:after:text-success",
       "[&[data-focused]_.ffd-ctl]:ring-2 [&[data-focused]_.ffd-ctl]:ring-primary/30",
       "[&[data-disabled]]:opacity-60"
     ]

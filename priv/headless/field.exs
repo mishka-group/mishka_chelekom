@@ -20,6 +20,7 @@
           element: "div",
           data_attributes: [
             "data-disabled",
+            "data-valid",
             "data-invalid",
             "data-touched",
             "data-dirty",
@@ -45,6 +46,7 @@
       aria_pattern: [pattern: "Form Field (no formal APG pattern)", keyboard: []],
       state_attributes: [
         "data-disabled",
+        "data-valid",
         "data-invalid",
         "data-touched",
         "data-dirty",

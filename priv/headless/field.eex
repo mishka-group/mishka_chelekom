@@ -21,12 +21,20 @@ defmodule <%= @module %> do
         <:description>We'll never share it.</:description>
       </.field>
 
-  **State attributes** (for CSS, like Base UI): the root reflects
-  `data-disabled` and `data-invalid` (server-derived from `disabled`/`errors`),
-  and the `Field` JS hook tracks the control to toggle `data-focused`,
-  `data-touched` (sticky after first blur), `data-dirty` (value changed) and
-  `data-filled` (value non-empty). Style via the `chelekom-field*` classes and
-  the `data-*` hooks — this component ships **no** colors, spacing or typography.
+  **State attributes** (for CSS, like Base UI): the root reflects `data-disabled`
+  plus the mutually-exclusive validity tri-state `data-valid` / `data-invalid`
+  (neither when pristine) — server-derived from `disabled` / `errors` / the
+  `valid` attr — and the `Field` JS hook tracks the control to toggle
+  `data-focused`, `data-touched` (sticky after first blur), `data-dirty` (value
+  changed) and `data-filled` (value non-empty). Style via the `chelekom-field*`
+  classes and the `data-*` hooks — this component ships **no** colors, spacing or
+  typography.
+
+  Validity is a tri-state, mirroring Base UI's `fieldValidityMapping`: `valid`
+  is `nil` (pristine → neither attribute), `true` (→ `data-valid`) or `false`
+  (→ `data-invalid`). A non-empty `errors` list forces invalid; `disabled`
+  forces pristine. Drive `valid` from your form (e.g. `used_input?(f) and
+  f.errors == []`) to light up a success state.
 
   **Validation is server-driven.** Pass changeset errors via `errors`; achieve
   Base UI's `validationMode` by putting `phx-change`/`phx-blur` on your control.
@@ -40,18 +48,25 @@ defmodule <%= @module %> do
   attr :for, :string, default: nil, doc: "Override the control id the label points at"
   attr :name, :string, default: nil, doc: "Control name, handed back via the slot's :let map"
   attr :label, :string, default: nil, doc: "Visible label text"
-  attr :errors, :list, default: [], doc: "List of error messages to display"
-  attr :disabled, :boolean, default: false, doc: "Mark the field disabled (data-disabled; suppresses invalid)"
-  attr :invalid, :boolean, default: nil, doc: "Override validity; nil derives it from errors"
+  attr :errors, :list, default: [], doc: "List of error messages to display (a non-empty list forces invalid)"
+  attr :disabled, :boolean, default: false, doc: "Mark the field disabled (data-disabled; forces pristine)"
+  attr :valid, :boolean,
+    default: nil,
+    doc: "Validity tri-state: nil = pristine (neither attr), true = data-valid, false = data-invalid"
+
   attr :class, :any, default: nil, doc: "Extra classes for the root"
   attr :rest, :global
 
-  slot :inner_block, required: true, doc: "The form control. Receives :let %{id, name, describedby, invalid, disabled}"
+  slot :inner_block, required: true, doc: "The form control. Receives :let %{id, name, describedby, valid, invalid, disabled}"
   slot :description, doc: "Optional help text describing the control"
 
   def <%= @component_prefix %>field(assigns) do
-    invalid = if assigns.invalid == nil, do: assigns.errors != [], else: assigns.invalid
-    invalid = invalid && not assigns.disabled
+    validity =
+      cond do
+        assigns.disabled -> nil
+        assigns.errors != [] -> false
+        true -> assigns.valid
+      end
 
     control_id = assigns[:for] || "#{assigns.id}-control"
     desc_id = "#{assigns.id}-desc"
@@ -66,7 +81,8 @@ defmodule <%= @module %> do
 
     assigns =
       assign(assigns,
-        invalid: invalid,
+        valid: validity == true,
+        invalid: validity == false,
         control_id: control_id,
         desc_id: desc_id,
         describedby: (describedby != "" && describedby) || nil
@@ -77,6 +93,7 @@ defmodule <%= @module %> do
       id={@id}
       phx-hook="Field"
       data-disabled={@disabled}
+      data-valid={@valid}
       data-invalid={@invalid}
       class={["chelekom-field", @class]}
       {@rest}
@@ -90,6 +107,7 @@ defmodule <%= @module %> do
           id: @control_id,
           name: @name,
           describedby: @describedby,
+          valid: @valid,
           invalid: @invalid,
           disabled: @disabled
         })}
