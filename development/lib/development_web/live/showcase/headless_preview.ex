@@ -702,15 +702,64 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
 
   def show(%{component: "number_field"} = assigns) do
     ~H"""
-    <.number_field
-      id={@id}
-      name="quantity"
-      value="3"
-      min="0"
-      max="10"
-      step="1"
-      class="inline-flex items-center rounded-md border border-base-300 [&_[data-part=decrement]]:px-3 [&_[data-part=decrement]]:py-1.5 [&_[data-part=decrement]]:text-lg [&_[data-part=decrement]]:leading-none [&_[data-part=decrement]]:hover:bg-base-200 [&_[data-part=increment]]:px-3 [&_[data-part=increment]]:py-1.5 [&_[data-part=increment]]:text-lg [&_[data-part=increment]]:leading-none [&_[data-part=increment]]:hover:bg-base-200 [&_[data-part=input]]:w-16 [&_[data-part=input]]:border-x [&_[data-part=input]]:border-base-300 [&_[data-part=input]]:bg-base-100 [&_[data-part=input]]:px-2 [&_[data-part=input]]:py-1.5 [&_[data-part=input]]:text-center [&_[data-part=input]]:[appearance:textfield] [&_[data-part=input]::-webkit-inner-spin-button]:appearance-none"
-    />
+    <div class="space-y-6">
+      <div class="space-y-1.5">
+        <p class="text-[0.7rem] uppercase tracking-wide text-base-content/40">
+          Quantity · min/max/step · arrows · press-and-hold
+        </p>
+        <.number_field id={@id} name="quantity" value="3" min="0" max="10" step="1" class={number_field_class()} />
+      </div>
+
+      <div class="space-y-1.5">
+        <p class="text-[0.7rem] uppercase tracking-wide text-base-content/40">
+          Currency · Shift ⇒ ±100 · Alt ⇒ ±0.01 · wheel scrub
+        </p>
+        <.number_field
+          id={"#{@id}-usd"}
+          name="price"
+          value="1999.99"
+          step="1"
+          large_step="100"
+          small_step="0.01"
+          allow_wheel_scrub
+          format={%{style: "currency", currency: "USD"}}
+          class={number_field_class()}
+        />
+      </div>
+
+      <div class="space-y-1.5">
+        <p class="text-[0.7rem] uppercase tracking-wide text-base-content/40">
+          Percent · value 0.075 ⇒ "7.5%" · step 0.01 (1%)
+        </p>
+        <.number_field
+          id={"#{@id}-pct"}
+          name="rate"
+          value="0.075"
+          min="0"
+          max="1"
+          step="0.01"
+          format={%{style: "percent"}}
+          class={number_field_class()}
+        />
+      </div>
+
+      <div class="space-y-1.5">
+        <p class="text-[0.7rem] uppercase tracking-wide text-base-content/40">
+          Scrub · drag the label ←→ to change (no buttons) · ring shows data-scrubbing
+        </p>
+        <.number_field
+          id={"#{@id}-scrub"}
+          name="opacity"
+          value="50"
+          min="0"
+          max="100"
+          buttons={false}
+          class={scrub_number_class()}
+        >
+          <:scrub_area>Opacity</:scrub_area>
+        </.number_field>
+      </div>
+    </div>
     """
   end
 
@@ -1181,6 +1230,25 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
   end
 
   def examples(assigns), do: ~H""
+
+  defp number_field_class do
+    [
+      "inline-flex items-center rounded-md border border-base-300 bg-base-100",
+      "[&_[data-part=decrement]]:px-3 [&_[data-part=decrement]]:py-1.5 [&_[data-part=decrement]]:text-lg [&_[data-part=decrement]]:leading-none [&_[data-part=decrement]]:hover:bg-base-200 [&_[data-part=decrement]:disabled]:opacity-40",
+      "[&_[data-part=increment]]:px-3 [&_[data-part=increment]]:py-1.5 [&_[data-part=increment]]:text-lg [&_[data-part=increment]]:leading-none [&_[data-part=increment]]:hover:bg-base-200 [&_[data-part=increment]:disabled]:opacity-40",
+      "[&_[data-part=input]]:w-28 [&_[data-part=input]]:border-x [&_[data-part=input]]:border-base-300 [&_[data-part=input]]:bg-base-100 [&_[data-part=input]]:px-2 [&_[data-part=input]]:py-1.5 [&_[data-part=input]]:text-center [&_[data-part=input]]:tabular-nums [&_[data-part=input]]:outline-none [&_[data-part=input]]:focus:bg-base-200/40",
+      "[&[data-disabled]]:opacity-60 [&[data-readonly]_[data-part=input]]:cursor-default"
+    ]
+  end
+
+  defp scrub_number_class do
+    [
+      "inline-flex items-center gap-2 rounded-md border border-base-300 bg-base-100 px-3 py-1.5",
+      "[&_[data-part=scrub-area]]:cursor-ew-resize [&_[data-part=scrub-area]]:select-none [&_[data-part=scrub-area]]:text-sm [&_[data-part=scrub-area]]:font-medium [&_[data-part=scrub-area]]:text-base-content/70",
+      "[&_[data-part=input]]:w-16 [&_[data-part=input]]:bg-transparent [&_[data-part=input]]:text-center [&_[data-part=input]]:tabular-nums [&_[data-part=input]]:outline-none",
+      "[&[data-scrubbing]]:ring-2 [&[data-scrubbing]]:ring-primary/40"
+    ]
+  end
 
   defp fieldset_demo_class do
     [

@@ -8,35 +8,58 @@
     necessary: [],
     scripts: [
       %{
-        module: "NumberScrub",
+        module: "NumberField",
         type: "file",
-        file: "number_scrub.js",
-        imports: "import NumberScrub from \"./number_scrub.js\";"
+        file: "number_field.js",
+        imports: "import NumberField from \"./number_field.js\";"
       }
     ],
     headless: [
       anatomy: [
+        root: [
+          element: "div",
+          data_attributes: ["data-disabled", "data-readonly", "data-required", "data-scrubbing"],
+          note: "carries the NumberField hook; reads min/max/step/format/locale from data-*",
+          required: true
+        ],
         parts: [
-          decrement: [element: "button", aria: ["aria-label"]],
+          scrub_area: [
+            element: "span",
+            note: "optional drag region (data-direction, data-pixel-sensitivity)"
+          ],
+          scrub_area_cursor: [element: "span", note: "optional custom cursor shown while scrubbing"],
+          decrement: [
+            element: "button",
+            aria: ["aria-label", "aria-controls"],
+            note: "press-and-hold to auto-repeat; tabindex=-1"
+          ],
           input: [
             element: "input",
-            role: "spinbutton",
-            aria: ["aria-valuemin", "aria-valuemax", "aria-valuenow"]
+            aria: ["aria-roledescription"],
+            note: "visible locale-formatted text input"
           ],
-          increment: [element: "button", aria: ["aria-label"]]
+          increment: [
+            element: "button",
+            aria: ["aria-label", "aria-controls"],
+            note: "press-and-hold to auto-repeat; tabindex=-1"
+          ],
+          hidden_input: [
+            element: "input",
+            note: "visually hidden type=number carrying the raw value for form submission"
+          ]
         ]
       ],
       aria_pattern: [
-        pattern: "Spinbutton",
+        pattern: "Spinbutton (Base UI: editable text input + aria-roledescription)",
         keyboard: [
-          "ArrowUp: increment",
-          "ArrowDown: decrement",
-          "PageUp: +10·step",
-          "PageDown: -10·step"
+          "ArrowUp/ArrowDown: ±step (Shift ⇒ largeStep, Alt ⇒ smallStep)",
+          "PageUp/PageDown: ±largeStep",
+          "Home: min · End: max",
+          "Wheel: ±step when focused (allow_wheel_scrub)"
         ]
       ],
-      state_attributes: ["aria-valuemin", "aria-valuemax", "aria-valuenow"],
-      hooks: ["NumberScrub"]
+      state_attributes: ["data-disabled", "data-readonly", "data-required", "data-scrubbing"],
+      hooks: ["NumberField"]
     ]
   ]
 ]

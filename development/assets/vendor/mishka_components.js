@@ -13,7 +13,7 @@ import RovingTabindex from "./roving_tabindex.js";
 import HeadlessCombobox from "./headless_combobox.js";
 import Toggle from "./toggle.js";
 import CheckboxGroup from "./checkbox_group.js";
-import NumberScrub from "./number_scrub.js";
+import NumberField from "./number_field.js";
 import Slider from "./slider.js";
 import ToastRegion from "./toast_region.js";
 import Otp from "./otp.js";
@@ -34,7 +34,7 @@ const Components = {
   HeadlessCombobox,
   Toggle,
   CheckboxGroup,
-  NumberScrub,
+  NumberField,
   Slider,
   ToastRegion,
   Otp,
