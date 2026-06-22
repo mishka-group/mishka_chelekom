@@ -54,9 +54,6 @@ const Otp = {
       });
     });
 
-    // Browser OTP autofill may target the hidden input — distribute it too.
-    if (this.hidden) this.hidden.addEventListener("input", (e) => this.onHiddenInput(e));
-
     this.onFocusIn = () => this.setFocused(true);
     this.onFocusOut = (e) => {
       if (e.relatedTarget && el.contains(e.relatedTarget)) return;
@@ -147,6 +144,9 @@ const Otp = {
     const changed = norm !== this.value;
     this.value = norm;
     this.render();
+    // Notify any enclosing <.form> (phx-change): the hidden input is set programmatically, so it
+    // would not fire input events on its own.
+    if (changed && this.hidden) this.hidden.dispatchEvent(new Event("input", { bubbles: true }));
     if (changed) this.fire(this.onChange, norm);
     if (this.isComplete() && (changed || !wasComplete)) {
       this.fire(this.onComplete, norm);
@@ -198,15 +198,6 @@ const Otp = {
 
     this.setValue(this.replaceAt(this.value, i, norm), "input-change");
     this.focusBox(Math.min(i + Array.from(norm).length, this.length - 1));
-  },
-
-  onHiddenInput(e) {
-    if (this.disabled || this.readonly) return;
-    const [norm, rejected] = this.normalize(e.target.value);
-    if (rejected) this.fire(this.onInvalid, e.target.value);
-    if (norm === "") return;
-    this.setValue(norm, "input-change");
-    this.focusBox(Math.min(Array.from(norm).length, this.length - 1));
   },
 
   onKeyDown(e, i) {
