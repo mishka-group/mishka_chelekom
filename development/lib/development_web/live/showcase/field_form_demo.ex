@@ -153,6 +153,9 @@ defmodule DevelopmentWeb.Showcase.FieldFormDemo do
             id={f.id}
             name={f.name}
             value={@form[:age].value}
+            min="18"
+            max="120"
+            step="1"
             aria-describedby={f.describedby}
             aria-invalid={f.invalid && "true"}
             placeholder="18"
