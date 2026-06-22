@@ -1,31 +1,51 @@
 defmodule <%= @module %> do
   @moduledoc """
-  Headless **fieldset** — groups a set of related form controls.
+  Headless **fieldset** — groups related form controls under a shared, easily
+  stylable legend (Base UI parity).
 
-  Renders a native `<fieldset>` with an optional `<legend>` (shown when the `<:legend>`
-  slot is provided) followed by the grouped fields. The native `fieldset`/`legend`
-  elements already supply the grouping semantics and accessible name, so no JS or extra
-  ARIA wiring is required. Style via the `chelekom-fieldset*` classes — this component
-  ships **no** colors or spacing.
+  Renders a native `<fieldset>`, so a `disabled` fieldset **natively disables
+  every control inside it** (including controls in nested fieldsets) with no JS.
+  The legend is rendered as a styleable `<div>` rather than a native `<legend>`
+  (which can't be freely positioned) and is associated with the group via
+  `aria-labelledby`, so it still names the group for assistive tech.
 
-  Anatomy (named slots / parts): `legend` (the group label), inner content (the fields).
+  When `disabled`, the root and the legend both carry `data-disabled` for CSS.
+  Style via the `chelekom-fieldset*` classes and the `data-disabled` hook — this
+  component ships **no** colors or spacing.
   """
   use Phoenix.Component
 
   @doc type: :component
-  attr :id, :string, default: nil, doc: "Unique id for the fieldset"
+  attr :id, :string, required: true, doc: "Unique id; anchors the legend association"
+  attr :disabled, :boolean,
+    default: false,
+    doc: "Natively disable every control in the group (also sets data-disabled)"
+
   attr :class, :any, default: nil, doc: "Extra classes for the root"
   attr :rest, :global
 
-  slot :legend, doc: "The group label rendered as a <legend>"
+  slot :legend, doc: "The group label — a styleable <div> wired to the fieldset via aria-labelledby"
   slot :inner_block, required: true, doc: "The grouped form controls"
 
   def <%= @component_prefix %>fieldset(assigns) do
     ~H"""
-    <fieldset id={@id} class={["chelekom-fieldset", @class]} {@rest}>
-      <legend :if={@legend != []} data-part="legend" class="chelekom-fieldset__legend">
+    <fieldset
+      id={@id}
+      disabled={@disabled}
+      data-disabled={@disabled}
+      aria-labelledby={@legend != [] && "#{@id}-legend"}
+      class={["chelekom-fieldset", @class]}
+      {@rest}
+    >
+      <div
+        :if={@legend != []}
+        id={"#{@id}-legend"}
+        data-part="legend"
+        data-disabled={@disabled}
+        class="chelekom-fieldset__legend"
+      >
         {render_slot(@legend)}
-      </legend>
+      </div>
       {render_slot(@inner_block)}
     </fieldset>
     """

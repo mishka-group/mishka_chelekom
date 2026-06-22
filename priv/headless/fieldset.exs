@@ -7,9 +7,27 @@
     optional: [],
     necessary: [],
     headless: [
-      anatomy: [root: [element: "fieldset", required: true], parts: [legend: [element: "legend"]]],
-      aria_pattern: [pattern: "Fieldset (no formal APG pattern)", keyboard: []],
-      state_attributes: [],
+      anatomy: [
+        root: [
+          element: "fieldset",
+          aria: ["aria-labelledby"],
+          data_attributes: ["data-disabled"],
+          note: "native <fieldset>; `disabled` natively disables every descendant control",
+          required: true
+        ],
+        parts: [
+          legend: [
+            element: "div",
+            data_attributes: ["data-disabled"],
+            note: "styleable group label (a <div>, not native <legend>) wired via aria-labelledby"
+          ]
+        ]
+      ],
+      aria_pattern: [
+        pattern: "Fieldset (grouping via <fieldset> + an aria-labelledby legend)",
+        keyboard: []
+      ],
+      state_attributes: ["data-disabled"],
       hooks: []
     ]
   ]

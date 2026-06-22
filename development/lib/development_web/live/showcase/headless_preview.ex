@@ -549,41 +549,59 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
 
   def show(%{component: "fieldset"} = assigns) do
     ~H"""
-    <.fieldset
-      id={@id}
-      class="w-80 rounded-md border border-base-300 bg-base-100 p-4 [&_[data-part=legend]]:px-1 [&_[data-part=legend]]:text-sm [&_[data-part=legend]]:font-semibold"
-    >
-      <:legend>Shipping address</:legend>
-      <div class="mt-2 space-y-3">
-        <label class="block text-sm">
-          <span class="mb-1 block text-base-content/70">Street</span>
-          <input
-            type="text"
-            name="street"
-            value="123 Main St"
-            class="w-full rounded-md border border-base-300 px-3 py-1.5"
-          />
-        </label>
-        <label class="block text-sm">
-          <span class="mb-1 block text-base-content/70">City</span>
-          <input
-            type="text"
-            name="city"
-            value="Springfield"
-            class="w-full rounded-md border border-base-300 px-3 py-1.5"
-          />
-        </label>
-        <label class="block text-sm">
-          <span class="mb-1 block text-base-content/70">Postal code</span>
-          <input
-            type="text"
-            name="zip"
-            value="12345"
-            class="w-full rounded-md border border-base-300 px-3 py-1.5"
-          />
-        </label>
-      </div>
-    </.fieldset>
+    <div class="space-y-6">
+      <.fieldset id={@id} class={fieldset_demo_class()}>
+        <:legend>Shipping address</:legend>
+        <div class="space-y-3">
+          <label class="block text-sm">
+            <span class="mb-1 block text-base-content/70">Street</span>
+            <input
+              type="text"
+              name="street"
+              value="123 Main St"
+              class="w-full rounded-md border border-base-300 px-3 py-1.5"
+            />
+          </label>
+          <label class="block text-sm">
+            <span class="mb-1 block text-base-content/70">City</span>
+            <input
+              type="text"
+              name="city"
+              value="Springfield"
+              class="w-full rounded-md border border-base-300 px-3 py-1.5"
+            />
+          </label>
+        </div>
+      </.fieldset>
+
+      <.fieldset id={"#{@id}-off"} disabled class={fieldset_demo_class()}>
+        <:legend>Billing address — disabled</:legend>
+        <p class="mb-3 text-xs text-base-content/50">
+          Native <code>&lt;fieldset disabled&gt;</code>
+          disables every control inside (no JS); <code>data-disabled</code> dims the group.
+        </p>
+        <div class="space-y-3">
+          <label class="block text-sm">
+            <span class="mb-1 block text-base-content/70">Card number</span>
+            <input
+              type="text"
+              name="card"
+              value="4242 4242 4242 4242"
+              class="w-full rounded-md border border-base-300 px-3 py-1.5"
+            />
+          </label>
+          <label class="block text-sm">
+            <span class="mb-1 block text-base-content/70">CVC</span>
+            <input
+              type="text"
+              name="cvc"
+              value="123"
+              class="w-full rounded-md border border-base-300 px-3 py-1.5"
+            />
+          </label>
+        </div>
+      </.fieldset>
+    </div>
     """
   end
 
@@ -1163,6 +1181,16 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
   end
 
   def examples(assigns), do: ~H""
+
+  defp fieldset_demo_class do
+    [
+      "w-80 rounded-md border border-base-300 bg-base-100 p-4",
+      # the legend is a styleable <div> (not a native <legend>) — give it a header look
+      "[&_[data-part=legend]]:mb-3 [&_[data-part=legend]]:border-b [&_[data-part=legend]]:border-base-300 [&_[data-part=legend]]:pb-1.5 [&_[data-part=legend]]:text-sm [&_[data-part=legend]]:font-semibold",
+      # dim the whole group when disabled (native disabled greys the controls themselves)
+      "[&[data-disabled]]:opacity-60"
+    ]
+  end
 
   defp field_state_class do
     [
