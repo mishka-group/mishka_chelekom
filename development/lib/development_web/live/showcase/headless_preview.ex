@@ -176,12 +176,36 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
 
   def show(%{component: "otp_field"} = assigns) do
     ~H"""
-    <.otp_field
-      id={@id}
-      name="code"
-      length={6}
-      class="flex gap-2 [&_[data-part=input]]:size-10 [&_[data-part=input]]:rounded-md [&_[data-part=input]]:border [&_[data-part=input]]:border-base-300 [&_[data-part=input]]:text-center [&_[data-part=input]]:text-lg"
-    />
+    <div class="space-y-6">
+      <div class="space-y-1.5">
+        <p class="text-[0.7rem] uppercase tracking-wide text-base-content/40">
+          Numeric · 6 digits · auto-advance · paste distributes · roving tabindex
+        </p>
+        <.otp_field id={@id} name="code" length={6} class={otp_field_class()} />
+      </div>
+
+      <div class="space-y-1.5">
+        <p class="text-[0.7rem] uppercase tracking-wide text-base-content/40">
+          Alphanumeric · uppercase · grouped 3–3 · green when complete
+        </p>
+        <.otp_field
+          id={"#{@id}-an"}
+          length={6}
+          validation_type="alphanumeric"
+          transform="uppercase"
+          group={3}
+          separator="–"
+          class={otp_field_class()}
+        />
+      </div>
+
+      <div class="space-y-1.5">
+        <p class="text-[0.7rem] uppercase tracking-wide text-base-content/40">
+          Masked · 4 digits (-webkit-text-security)
+        </p>
+        <.otp_field id={"#{@id}-pin"} length={4} mask class={otp_field_class()} />
+      </div>
+    </div>
     """
   end
 
@@ -1048,6 +1072,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
   @doc "Extra worked examples shown in the bottom \"Examples\" section (only some components have them)."
   def has_examples?("toast"), do: true
   def has_examples?("field"), do: true
+  def has_examples?("otp_field"), do: true
   def has_examples?(_), do: false
 
   def examples(%{component: "toast"} = assigns) do
@@ -1229,7 +1254,43 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
     """
   end
 
+  def examples(%{component: "otp_field"} = assigns) do
+    ~H"""
+    <div class="space-y-3">
+      <details open class="rounded-box border border-base-300 bg-base-100 p-4">
+        <summary class="cursor-pointer select-none font-medium">
+          Verify a code — submitted to the server &amp; validated in a form
+        </summary>
+        <p class="mt-1 text-sm text-base-content/60">
+          The <code>&lt;.otp_field&gt;</code>
+          carries its value in a hidden input (<code>name="code"</code>), so it submits like any field.
+          With <code>auto_submit</code>
+          the form's <code>phx-submit</code>
+          fires the moment the last digit lands; the LiveView validates <code>params["code"]</code>
+          server-side. Nothing is saved — the expected code is <code>123456</code>.
+        </p>
+        <div class="mt-4 max-w-sm">
+          <.live_component module={DevelopmentWeb.Showcase.OtpFormDemo} id={"#{@id}-form"} />
+        </div>
+      </details>
+    </div>
+    """
+  end
+
   def examples(assigns), do: ~H""
+
+  defp otp_field_class do
+    [
+      "flex items-center gap-2",
+      "[&_[data-part=input]]:size-10 [&_[data-part=input]]:rounded-md [&_[data-part=input]]:border [&_[data-part=input]]:border-base-300 [&_[data-part=input]]:bg-base-100 [&_[data-part=input]]:text-center [&_[data-part=input]]:text-lg [&_[data-part=input]]:tabular-nums [&_[data-part=input]]:outline-none",
+      "[&_[data-part=input]:focus]:border-primary [&_[data-part=input]:focus]:ring-2 [&_[data-part=input]:focus]:ring-primary/30",
+      "[&_[data-part=input][data-filled]]:border-base-content/40",
+      # the engine sets data-complete on the root when every slot is filled
+      "[&[data-complete]_[data-part=input]]:border-success",
+      "[&_[data-part=separator]]:text-lg [&_[data-part=separator]]:text-base-content/40",
+      "[&[data-disabled]]:opacity-60"
+    ]
+  end
 
   defp number_field_class do
     [

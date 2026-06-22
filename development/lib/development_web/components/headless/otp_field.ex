@@ -1,33 +1,125 @@
 defmodule DevelopmentWeb.Components.Headless.OtpField do
   @moduledoc """
-  Headless **OTP field** — a one-time-code input of single-character boxes.
+  Headless **OTP field** — a one-time-code input of single-character slots (Base UI parity).
 
-  Behavior via the shared `Otp` engine: typing auto-advances, Backspace moves back, arrows
-  navigate, and pasting a code distributes it across the boxes. The combined value is mirrored
-  to a hidden input for form submission, and a `chelekom:complete` DOM event fires when full.
-  Style the `chelekom-otp_field*` classes — this component ships no styling.
+  Behaviour via the shared `Otp` engine, backed by one logical value distributed across the slots.
+  Typing replaces and auto-advances, paste distributes + normalizes, Backspace clears
+  (Ctrl/Meta+Backspace clears all), Delete removes-and-shifts, and Arrow/Home/End/ArrowUp-Down
+  navigate with a **roving tabindex** (only the active slot is tabbable). `validation_type`
+  (`numeric` · `alpha` · `alphanumeric` · `none`) sets the allowed characters, `inputmode` and the
+  native `pattern`; `mask` obscures entry; `transform` upper/lower-cases accepted input.
+
+  The combined value mirrors into a hidden input (with `name`/`pattern`/`required` for form
+  submission + native validation). When every slot is filled the root gains `data-complete`,
+  `on_complete` fires, and the owning form is submitted if `auto_submit` is set. Rejected characters
+  fire `on_invalid`. State attributes: `data-disabled`/`data-readonly`/`data-required` (props),
+  `data-complete`/`data-filled`/`data-focused` (engine, on the root and each slot). Compose inside
+  `field` for label/description/validity wiring.
+
+  Anatomy (parts): `input` (one per slot), `separator` (grouped layouts), `value` (hidden form
+  input). Style via `chelekom-otp_field*` — ships **no** styling.
+
+  WAI-ARIA APG: https://www.w3.org/WAI/ARIA/apg/
   """
   use Phoenix.Component
 
   @doc type: :component
-  attr :id, :string, required: true
+  attr :id, :string, required: true, doc: "Root id; slots derive {id}-1, {id}-2, … (root keeps {id} for the hook)"
   attr :name, :string, default: nil, doc: "Name for the hidden form input carrying the code"
-  attr :length, :integer, default: 6, doc: "Number of digit boxes"
-  attr :class, :any, default: nil
+  attr :value, :string, default: nil, doc: "Initial/controlled OTP value"
+  attr :length, :integer, default: 6, doc: "Number of slots"
+  attr :validation_type, :string, default: "numeric", doc: "numeric | alpha | alphanumeric | none"
+  attr :mask, :boolean, default: false, doc: "Obscure entered characters (-webkit-text-security; no password-manager hijack — Chromium/WebKit)"
+  attr :transform, :string, default: "none", doc: "Normalize accepted input: none | uppercase | lowercase"
+  attr :input_mode, :string, default: nil, doc: "Override the virtual-keyboard hint"
+  attr :auto_complete, :string, default: "one-time-code", doc: "autocomplete for the first slot + hidden input"
+  attr :auto_submit, :boolean, default: false, doc: "Submit the owning form when the code completes"
+  attr :disabled, :boolean, default: false, doc: "Disable interaction (data-disabled)"
+  attr :readonly, :boolean, default: false, doc: "Block changes but allow navigation (data-readonly)"
+  attr :required, :boolean, default: false, doc: "Mark required for form validation (data-required)"
+  attr :placeholder, :string, default: nil, doc: "Per-slot placeholder"
+  attr :form, :string, default: nil, doc: "Form id owning the hidden input"
+  attr :label, :string, default: "One-time code", doc: "Accessible name for the slot group"
+  attr :group, :integer, default: nil, doc: "Insert a separator every N slots (e.g. 3 ⇒ 123-456)"
+  attr :separator, :string, default: nil, doc: "Separator content rendered between groups"
+  attr :on_change, :string, default: nil, doc: "LiveView event pushed on change ({value})"
+  attr :on_complete, :string, default: nil, doc: "LiveView event pushed when complete ({value})"
+  attr :on_invalid, :string, default: nil, doc: "LiveView event pushed when characters are rejected ({value})"
+  attr :class, :any, default: nil, doc: "Extra classes for the root"
   attr :rest, :global
 
   def otp_field(assigns) do
+    default_mode =
+      case assigns.validation_type do
+        "numeric" -> "numeric"
+        "alpha" -> "text"
+        "alphanumeric" -> "text"
+        _ -> nil
+      end
+
+    assigns = assign(assigns, :input_mode_resolved, assigns.input_mode || default_mode)
+
     ~H"""
-    <div id={@id} phx-hook="Otp" role="group" class={["chelekom-otp_field", @class]} {@rest}>
-      <input :if={@name} type="hidden" name={@name} data-part="value" class="chelekom-sr-only" />
+    <div
+      id={@id}
+      phx-hook="Otp"
+      phx-update="ignore"
+      role="group"
+      aria-label={@label}
+      data-part="root"
+      data-length={@length}
+      data-validation-type={@validation_type}
+      data-transform={@transform}
+      data-mask={@mask}
+      data-auto-submit={@auto_submit}
+      data-disabled={@disabled}
+      data-readonly={@readonly}
+      data-required={@required}
+      data-value={@value}
+      data-on-change={@on_change}
+      data-on-complete={@on_complete}
+      data-on-invalid={@on_invalid}
+      class={["chelekom-otp_field", @class]}
+      {@rest}
+    >
       <input
-        :for={i <- 1..@length}
-        type="text"
-        id={"#{@id}-#{i}"}
-        data-part="input"
-        autocomplete="one-time-code"
-        class="chelekom-otp_field__input"
+        :if={@name}
+        type="hidden"
+        data-part="value"
+        name={@name}
+        value={@value}
+        form={@form}
+        disabled={@disabled}
       />
+
+      <%= for i <- 1..@length do %>
+        <input
+          type="text"
+          style={@mask && "-webkit-text-security: disc"}
+          id={"#{@id}-#{i}"}
+          data-part="input"
+          data-index={i - 1}
+          value={@value && String.at(@value, i - 1)}
+          inputmode={@input_mode_resolved}
+          maxlength={if i == 1, do: @length, else: 1}
+          autocomplete={if i == 1, do: @auto_complete, else: "off"}
+          autocorrect="off"
+          spellcheck="false"
+          enterkeyhint={if i == @length, do: "done", else: "next"}
+          tabindex={if i == 1, do: "0", else: "-1"}
+          aria-label={"Character #{i} of #{@length}"}
+          disabled={@disabled}
+          readonly={@readonly}
+          required={@required}
+          placeholder={@placeholder}
+          class="chelekom-otp_field__input"
+        />
+        <%= if @separator && @group && rem(i, @group) == 0 && i < @length do %>
+          <span data-part="separator" aria-hidden="true" class="chelekom-otp_field__separator">
+            {@separator}
+          </span>
+        <% end %>
+      <% end %>
     </div>
     """
   end
