@@ -514,15 +514,15 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
       id={@id}
       name="email"
       label="Email address"
-      errors={["Email is required", "Must be a valid address"]}
       class={
         [
           "w-80",
           "[&_[data-part=label]]:mb-1 [&_[data-part=label]]:block [&_[data-part=label]]:text-sm [&_[data-part=label]]:font-medium",
           "[&_[data-part=description]]:mt-1 [&_[data-part=description]]:text-xs [&_[data-part=description]]:text-base-content/60",
           "[&_[data-part=error]]:mt-1 [&_[data-part=error]]:text-xs [&_[data-part=error]]:text-error",
-          # Base-UI-style state hooks set by the Field engine — invalid: red control;
-          # focused: ring; filled: label turns primary; disabled: dimmed.
+          # State hooks set by the Field engine — focus the input for a ring, type to
+          # turn the label primary (data-filled). Invalid/error styling is shown live in
+          # the form under "Examples" below (this preview is a clean, valid field).
           "[&[data-invalid]_input]:border-error",
           "[&[data-focused]_input]:ring-2 [&[data-focused]_input]:ring-primary/30",
           "[&[data-filled]_[data-part=label]]:text-primary",
@@ -979,6 +979,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
 
   @doc "Extra worked examples shown in the bottom \"Examples\" section (only some components have them)."
   def has_examples?("toast"), do: true
+  def has_examples?("field"), do: true
   def has_examples?(_), do: false
 
   def examples(%{component: "toast"} = assigns) do
@@ -1060,5 +1061,99 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
     """
   end
 
+  def examples(%{component: "field"} = assigns) do
+    ~H"""
+    <div class="space-y-3">
+      <details open class="rounded-box border border-base-300 bg-base-100 p-4">
+        <summary class="cursor-pointer select-none font-medium">
+          Full form — realtime + submit validation (Ecto, not persisted)
+        </summary>
+        <p class="mt-1 text-sm text-base-content/60">
+          A real <code>&lt;.form&gt;</code> backed by an Ecto <code>embedded_schema</code>
+          changeset — no database, nothing is saved. The stateless <code>&lt;.field&gt;</code>
+          auto-wires <code>for</code> / <code>aria-describedby</code> (description + every error) /
+          <code>aria-invalid</code>, and hands <code>id</code>/<code>name</code>/<code>describedby</code>
+          back through <code>:let</code>. Errors appear per-field once you touch it
+          (<code>used_input?</code>) and on submit; the <code>Field</code>
+          hook adds <code>data-focused</code>/<code>-touched</code>/<code>-dirty</code>/<code>-filled</code>.
+        </p>
+        <div class="mt-4 max-w-md">
+          <.live_component module={DevelopmentWeb.Showcase.FieldFormDemo} id={"#{@id}-form"} />
+        </div>
+      </details>
+
+      <details class="rounded-box border border-base-300 bg-base-100 p-4">
+        <summary class="cursor-pointer select-none font-medium">State attributes — at a glance</summary>
+        <p class="mt-1 text-sm text-base-content/60">
+          The same field rendered in three server-known states. Focus or type in the first one to also
+          see <code>data-focused</code> / <code>data-filled</code> toggle live.
+        </p>
+        <div class="mt-4 grid gap-5 sm:grid-cols-3">
+          <.field id={"#{@id}-st-ok"} name="ok" label="Default" class={field_state_class()} :let={f}>
+            <input
+              id={f.id}
+              name={f.name}
+              aria-describedby={f.describedby}
+              placeholder="type here…"
+              class="w-full rounded-md border border-base-300 bg-base-100 px-3 py-1.5 text-sm outline-none"
+            />
+            <:description>A clean, valid field.</:description>
+          </.field>
+
+          <.field
+            id={"#{@id}-st-bad"}
+            name="bad"
+            label="Invalid"
+            errors={["This field is required"]}
+            class={field_state_class()}
+            :let={f}
+          >
+            <input
+              id={f.id}
+              name={f.name}
+              value=""
+              aria-describedby={f.describedby}
+              aria-invalid={f.invalid && "true"}
+              class="w-full rounded-md border border-base-300 bg-base-100 px-3 py-1.5 text-sm outline-none"
+            />
+            <:description>Errors drive <code>data-invalid</code> + the red control.</:description>
+          </.field>
+
+          <.field
+            id={"#{@id}-st-off"}
+            name="off"
+            label="Disabled"
+            disabled
+            class={field_state_class()}
+            :let={f}
+          >
+            <input
+              id={f.id}
+              name={f.name}
+              value="Read only"
+              disabled={f.disabled}
+              aria-describedby={f.describedby}
+              class="w-full rounded-md border border-base-300 bg-base-100 px-3 py-1.5 text-sm outline-none"
+            />
+            <:description>Dimmed via <code>data-disabled</code>.</:description>
+          </.field>
+        </div>
+      </details>
+    </div>
+    """
+  end
+
   def examples(assigns), do: ~H""
+
+  defp field_state_class do
+    [
+      "[&_[data-part=label]]:mb-1 [&_[data-part=label]]:block [&_[data-part=label]]:text-sm [&_[data-part=label]]:font-medium",
+      "[&_[data-part=description]]:mt-1 [&_[data-part=description]]:text-xs [&_[data-part=description]]:text-base-content/60",
+      "[&_[data-part=error]]:mt-1 [&_[data-part=error]]:text-xs [&_[data-part=error]]:text-error",
+      "[&[data-invalid]_input]:border-error",
+      "[&[data-focused]_input]:ring-2 [&[data-focused]_input]:ring-primary/30",
+      "[&[data-filled]_[data-part=label]]:text-primary",
+      "[&[data-disabled]]:opacity-60"
+    ]
+  end
 end

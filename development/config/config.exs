@@ -8,7 +8,10 @@
 import Config
 
 config :development,
-  generators: [timestamp_type: :utc_datetime]
+  generators: [timestamp_type: :utc_datetime],
+  # Ecto is used only for in-memory changeset validation in the showcase form demos —
+  # there is no Repo and nothing is ever persisted.
+  ecto_repos: []
 
 # Configure the endpoint
 config :development, DevelopmentWeb.Endpoint,

@@ -44,6 +44,11 @@ defmodule Development.MixProject do
       {:phoenix_html, "~> 4.1"},
       {:phoenix_live_reload, "~> 1.2", only: :dev},
       {:phoenix_live_view, "~> 1.1.0"},
+      # Ecto (NO ecto_sql / postgrex): embedded changesets to drive the showcase form demos —
+      # validation only, nothing is ever persisted to a database. phoenix_ecto provides the
+      # Phoenix.HTML.FormData protocol for Ecto.Changeset so `to_form(changeset)` works.
+      {:ecto, "~> 3.12"},
+      {:phoenix_ecto, "~> 4.6"},
       {:lazy_html, ">= 0.1.0", only: :test},
       {:esbuild, "~> 0.10", runtime: Mix.env() == :dev},
       {:tailwind, "~> 0.3", runtime: Mix.env() == :dev},
