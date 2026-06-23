@@ -137,11 +137,12 @@
   display: none;
 }
 
-/* Slider: the engine writes --chelekom-slider (0–1); thumb is absolutely placed. */
+/* Slider: the engine positions the indicator + thumbs inline (Base UI style — left/top/bottom plus
+   the `translate` property, so consumers can still add their own `transform`); the track is the
+   positioning context. */
 .chelekom-slider { position: relative; }
 .chelekom-slider__track { position: relative; }
-.chelekom-slider__range { width: calc(var(--chelekom-slider, 0) * 100%); }
-.chelekom-slider__thumb { position: absolute; transform: translateX(-50%); }
+.chelekom-slider__thumb { position: absolute; }
 
 /* Progress / meter: the engine-free indicator width is driven by a CSS var on the element. */
 .chelekom-progress__indicator { width: calc(var(--chelekom-progress, 0) * 100%); }

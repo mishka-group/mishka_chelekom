@@ -1593,18 +1593,16 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
     ]
   end
 
-  # Slider: orientation-aware (data-orientation variants). The hook sets inline left/width (horizontal)
-  # or bottom/height (vertical) on the indicator + thumbs; these classes provide the box + centering.
+  # Slider: the hook owns all positioning of the indicator + thumbs (like Base UI); these classes only
+  # size/colour the control + track (orientation-aware) and style the indicator/thumb appearance.
   defp slider_class do
     [
       "inline-block [&[data-disabled]]:opacity-50",
       "[&_[data-part=value]]:mb-1 [&_[data-part=value]]:block [&_[data-part=value]]:text-sm [&_[data-part=value]]:tabular-nums [&_[data-part=value]]:text-base-content/70",
       "[&_[data-part=control]]:flex [&_[data-part=control]]:touch-none [&_[data-part=control]]:select-none [&_[data-part=control][data-orientation=horizontal]]:w-56 [&_[data-part=control][data-orientation=horizontal]]:items-center [&_[data-part=control][data-orientation=horizontal]]:py-3 [&_[data-part=control][data-orientation=vertical]]:h-40 [&_[data-part=control][data-orientation=vertical]]:justify-center [&_[data-part=control][data-orientation=vertical]]:px-3",
       "[&_[data-part=track]]:relative [&_[data-part=track]]:rounded-full [&_[data-part=track]]:bg-base-300 [&_[data-part=track][data-orientation=horizontal]]:h-1.5 [&_[data-part=track][data-orientation=horizontal]]:w-full [&_[data-part=track][data-orientation=vertical]]:w-1.5 [&_[data-part=track][data-orientation=vertical]]:h-full",
-      "[&_[data-part=indicator]]:absolute [&_[data-part=indicator]]:rounded-full [&_[data-part=indicator]]:bg-primary [&_[data-part=indicator][data-orientation=horizontal]]:inset-y-0 [&_[data-part=indicator][data-orientation=vertical]]:inset-x-0",
-      "[&_[data-part=thumb]]:absolute [&_[data-part=thumb]]:block [&_[data-part=thumb]]:size-4 [&_[data-part=thumb]]:rounded-full [&_[data-part=thumb]]:border [&_[data-part=thumb]]:border-base-300 [&_[data-part=thumb]]:bg-base-100 [&_[data-part=thumb]]:shadow [&_[data-part=thumb]]:cursor-grab [&_[data-part=thumb]]:outline-none focus:[&_[data-part=thumb]]:ring-2 focus:[&_[data-part=thumb]]:ring-primary",
-      "[&_[data-part=thumb][data-orientation=horizontal]]:top-1/2 [&_[data-part=thumb][data-orientation=horizontal]]:-translate-x-1/2 [&_[data-part=thumb][data-orientation=horizontal]]:-translate-y-1/2",
-      "[&_[data-part=thumb][data-orientation=vertical]]:left-1/2 [&_[data-part=thumb][data-orientation=vertical]]:-translate-x-1/2 [&_[data-part=thumb][data-orientation=vertical]]:translate-y-1/2",
+      "[&_[data-part=indicator]]:rounded-full [&_[data-part=indicator]]:bg-primary",
+      "[&_[data-part=thumb]]:block [&_[data-part=thumb]]:size-4 [&_[data-part=thumb]]:rounded-full [&_[data-part=thumb]]:border [&_[data-part=thumb]]:border-base-300 [&_[data-part=thumb]]:bg-base-100 [&_[data-part=thumb]]:shadow [&_[data-part=thumb]]:cursor-grab [&_[data-part=thumb]]:outline-none focus:[&_[data-part=thumb]]:ring-2 focus:[&_[data-part=thumb]]:ring-primary",
       "[&_[data-part=thumb][data-dragging]]:cursor-grabbing"
     ]
   end

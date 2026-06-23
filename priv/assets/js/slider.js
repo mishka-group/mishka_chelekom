@@ -108,8 +108,19 @@ const Slider = {
 
   startDrag(e, i) {
     e.preventDefault();
-    this.thumbs[i].focus();
-    this.setDragging(this.thumbs[i], true);
+    const thumb = this.thumbs[i];
+    thumb.focus();
+    this.setDragging(thumb, true);
+    // Capture the pointer so the drag keeps tracking outside the element, and lock the cursor to
+    // "grabbing" for the whole gesture — otherwise it flickers (grab ↔ default) as the moving thumb
+    // slides out from under the physical pointer.
+    try {
+      thumb.setPointerCapture(e.pointerId);
+    } catch {}
+    const prevCursor = document.body.style.cursor;
+    const prevSelect = document.body.style.userSelect;
+    document.body.style.cursor = "grabbing";
+    document.body.style.userSelect = "none";
     const move = (ev) => {
       const value = this.min + this.ratioFromPointer(ev) * (this.max - this.min);
       this.set(i, value, "drag");
@@ -117,7 +128,12 @@ const Slider = {
     const up = () => {
       document.removeEventListener("pointermove", move);
       document.removeEventListener("pointerup", up);
-      this.setDragging(this.thumbs[i], false);
+      this.setDragging(thumb, false);
+      document.body.style.cursor = prevCursor;
+      document.body.style.userSelect = prevSelect;
+      try {
+        thumb.releasePointerCapture(e.pointerId);
+      } catch {}
       this.commit();
     };
     document.addEventListener("pointermove", move);
@@ -211,15 +227,24 @@ const Slider = {
     return (v - this.min) / (this.max - this.min || 1);
   },
 
-  pos(r) {
-    // CSS position for a thumb at ratio r (orientation-aware).
-    return this.vertical ? { bottom: `${r * 100}%`, left: "" } : { left: `${r * 100}%`, bottom: "" };
-  },
-
   render() {
+    // The engine owns LAYOUT (mirrors Base UI's SliderThumb/SliderIndicator); the consumer's CSS owns
+    // only APPEARANCE. Thumb: anchor the value edge (bottom for vertical, left for horizontal), center
+    // the cross axis at 50%, and translate by half so the thumb's centre sits on the track.
     this.thumbs.forEach((thumb, i) => {
-      const r = this.ratio(this.values[i]);
-      Object.assign(thumb.style, this.pos(r));
+      const pct = this.ratio(this.values[i]) * 100;
+      thumb.style.position = "absolute";
+      if (this.vertical) {
+        thumb.style.bottom = `${pct}%`;
+        thumb.style.left = "50%";
+        thumb.style.top = "";
+        thumb.style.translate = "-50% 50%";
+      } else {
+        thumb.style.left = `${pct}%`;
+        thumb.style.top = "50%";
+        thumb.style.bottom = "";
+        thumb.style.translate = "-50% -50%";
+      }
       thumb.setAttribute("aria-valuenow", String(this.values[i]));
       thumb.setAttribute("aria-valuetext", this.fmt(this.values[i]));
       const input = thumb.querySelector('[data-part="input"]');
@@ -227,16 +252,26 @@ const Slider = {
     });
 
     if (this.indicator && this.values.length) {
-      const first = this.values.length > 1 ? this.ratio(this.values[0]) : 0;
-      const last = this.ratio(this.values[this.values.length - 1]);
-      const startPct = first * 100;
-      const sizePct = (last - first) * 100;
+      // The filled bar spans `first`%→`last`%; the cross axis inherits the track size (so it's exactly
+      // as wide/tall as the track and needs no centering). Vertical is absolute from the bottom;
+      // horizontal is relative (Base UI's SliderIndicator).
+      const first = (this.values.length > 1 ? this.ratio(this.values[0]) : 0) * 100;
+      const last = this.ratio(this.values[this.values.length - 1]) * 100;
+      const size = last - first;
       if (this.vertical) {
-        this.indicator.style.bottom = `${startPct}%`;
-        this.indicator.style.height = `${sizePct}%`;
+        this.indicator.style.position = "absolute";
+        this.indicator.style.width = "inherit";
+        this.indicator.style.height = `${size}%`;
+        this.indicator.style.bottom = `${first}%`;
+        this.indicator.style.left = "";
+        this.indicator.style.top = "";
       } else {
-        this.indicator.style.left = `${startPct}%`;
-        this.indicator.style.width = `${sizePct}%`;
+        this.indicator.style.position = "relative";
+        this.indicator.style.height = "inherit";
+        this.indicator.style.width = `${size}%`;
+        this.indicator.style.left = `${first}%`;
+        this.indicator.style.bottom = "";
+        this.indicator.style.top = "";
       }
     }
 

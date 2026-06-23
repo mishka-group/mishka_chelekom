@@ -534,10 +534,10 @@ defmodule DevelopmentWeb.Kit do
          "[&_[data-part=track]]:relative [&_[data-part=track]]:h-2 [&_[data-part=track]]:w-full [&_[data-part=track]]:overflow-visible [&_[data-part=track]]:rounded-full [&_[data-part=track]]:bg-amber-100 dark:[&_[data-part=track]]:bg-amber-950/40"
 
     part :indicator,
-         "[&_[data-part=indicator]]:absolute [&_[data-part=indicator]]:inset-y-0 [&_[data-part=indicator]]:rounded-full [&_[data-part=indicator]]:bg-amber-500 dark:[&_[data-part=indicator]]:bg-amber-400"
+         "[&_[data-part=indicator]]:rounded-full [&_[data-part=indicator]]:bg-amber-500 dark:[&_[data-part=indicator]]:bg-amber-400"
 
     part :thumb,
-         "[&_[data-part=thumb]]:absolute [&_[data-part=thumb]]:top-1/2 [&_[data-part=thumb]]:h-4 [&_[data-part=thumb]]:w-4 [&_[data-part=thumb]]:-translate-x-1/2 [&_[data-part=thumb]]:-translate-y-1/2 [&_[data-part=thumb]]:rounded-full [&_[data-part=thumb]]:border [&_[data-part=thumb]]:border-amber-200 [&_[data-part=thumb]]:bg-amber-50 [&_[data-part=thumb]]:shadow [&_[data-part=thumb]]:cursor-grab dark:[&_[data-part=thumb]]:border-amber-900 dark:[&_[data-part=thumb]]:bg-amber-950/30 [&_[data-part=thumb]]:focus:outline-none [&_[data-part=thumb]]:focus:ring-2 [&_[data-part=thumb]]:focus:ring-amber-500 dark:[&_[data-part=thumb]]:focus:ring-amber-400"
+         "[&_[data-part=thumb]]:h-4 [&_[data-part=thumb]]:w-4 [&_[data-part=thumb]]:rounded-full [&_[data-part=thumb]]:border [&_[data-part=thumb]]:border-amber-200 [&_[data-part=thumb]]:bg-amber-50 [&_[data-part=thumb]]:shadow [&_[data-part=thumb]]:cursor-grab dark:[&_[data-part=thumb]]:border-amber-900 dark:[&_[data-part=thumb]]:bg-amber-950/30 [&_[data-part=thumb]]:focus:outline-none [&_[data-part=thumb]]:focus:ring-2 [&_[data-part=thumb]]:focus:ring-amber-500 dark:[&_[data-part=thumb]]:focus:ring-amber-400"
   end
 
   customize :my_switch do

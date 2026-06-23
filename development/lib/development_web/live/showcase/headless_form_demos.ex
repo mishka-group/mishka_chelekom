@@ -875,8 +875,8 @@ defmodule DevelopmentWeb.Showcase.SliderFormDemo do
       "[&_[data-part=value]]:mb-1 [&_[data-part=value]]:block [&_[data-part=value]]:text-sm [&_[data-part=value]]:tabular-nums [&_[data-part=value]]:text-base-content/70",
       "[&_[data-part=control]]:flex [&_[data-part=control]]:w-64 [&_[data-part=control]]:items-center [&_[data-part=control]]:touch-none [&_[data-part=control]]:select-none [&_[data-part=control]]:py-3",
       "[&_[data-part=track]]:relative [&_[data-part=track]]:h-1.5 [&_[data-part=track]]:w-full [&_[data-part=track]]:rounded-full [&_[data-part=track]]:bg-base-300",
-      "[&_[data-part=indicator]]:absolute [&_[data-part=indicator]]:inset-y-0 [&_[data-part=indicator]]:rounded-full [&_[data-part=indicator]]:bg-primary",
-      "[&_[data-part=thumb]]:absolute [&_[data-part=thumb]]:top-1/2 [&_[data-part=thumb]]:size-4 [&_[data-part=thumb]]:-translate-x-1/2 [&_[data-part=thumb]]:-translate-y-1/2 [&_[data-part=thumb]]:rounded-full [&_[data-part=thumb]]:border [&_[data-part=thumb]]:border-base-300 [&_[data-part=thumb]]:bg-base-100 [&_[data-part=thumb]]:shadow [&_[data-part=thumb]]:cursor-grab [&_[data-part=thumb]]:outline-none focus:[&_[data-part=thumb]]:ring-2 focus:[&_[data-part=thumb]]:ring-primary"
+      "[&_[data-part=indicator]]:rounded-full [&_[data-part=indicator]]:bg-primary",
+      "[&_[data-part=thumb]]:size-4 [&_[data-part=thumb]]:rounded-full [&_[data-part=thumb]]:border [&_[data-part=thumb]]:border-base-300 [&_[data-part=thumb]]:bg-base-100 [&_[data-part=thumb]]:shadow [&_[data-part=thumb]]:cursor-grab [&_[data-part=thumb]]:outline-none focus:[&_[data-part=thumb]]:ring-2 focus:[&_[data-part=thumb]]:ring-primary"
     ]
   end
 end
