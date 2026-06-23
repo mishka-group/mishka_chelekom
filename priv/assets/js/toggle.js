@@ -15,7 +15,11 @@
 const Toggle = {
   mounted() {
     this.input = this.el.querySelector('[data-part="input"]');
-    this.indicator = this.el.querySelector('[data-part="indicator"]');
+    // Children that mirror the checked state for CSS: a checkbox `indicator` and/or a switch `thumb`.
+    this.mirrors = [
+      this.el.querySelector('[data-part="indicator"]'),
+      this.el.querySelector('[data-part="thumb"]'),
+    ].filter(Boolean);
     this.role = this.el.getAttribute("role");
     this.attr =
       this.role === "switch" || this.role === "checkbox" ? "aria-checked" : "aria-pressed";
@@ -72,11 +76,11 @@ const Toggle = {
       this.el.toggleAttribute("data-off", !on);
     }
 
-    if (this.indicator) {
-      this.indicator.toggleAttribute("data-checked", on);
-      this.indicator.toggleAttribute("data-unchecked", !on);
-      this.indicator.removeAttribute("data-indeterminate");
-    }
+    this.mirrors.forEach((m) => {
+      m.toggleAttribute("data-checked", on);
+      m.toggleAttribute("data-unchecked", !on);
+      m.removeAttribute("data-indeterminate");
+    });
 
     if (this.input) {
       this.input.checked = on;

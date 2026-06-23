@@ -1,12 +1,18 @@
 defmodule DevelopmentWeb.Components.Headless.Switch do
   @moduledoc """
-  Headless **switch** — an on/off toggle rendered as a `role="switch"` button.
+  Headless **switch** — an on/off toggle rendered as a `role="switch"` button (Base UI parity).
 
-  Behavior via the shared `Toggle` JS engine: clicking (or Enter/Space) flips the
-  state, toggling `aria-checked` and the `data-checked`/`data-unchecked` attributes
-  and syncing the hidden checkbox `<input>` for form submission. ARIA: `role="switch"`
-  + `aria-checked`. Style via `chelekom-switch*` classes and the `data-checked` /
-  `data-unchecked` state attributes — this component ships **no** colors or spacing.
+  Behavior via the shared `Toggle` JS engine: clicking (or Enter/Space) flips the state, toggling
+  `aria-checked` and `data-checked`/`data-unchecked` (on the root **and** the `thumb`), and syncing the
+  hidden checkbox `<input>` for form submission. `readonly` blocks the flip but stays focusable;
+  `disabled` ignores interaction. ARIA: `role="switch"` + `aria-checked` (+ `aria-readonly`/
+  `aria-required`).
+
+  Options mirror Base UI: `checked`, `disabled`, `readonly`, `required`, `name`, `form`, `value`
+  (submitted when on, default `"on"`), `unchecked_value` (submitted when off — adds a companion hidden
+  input), `on_change` (LiveView event `{checked}`). State attributes (root + thumb): `data-checked`,
+  `data-unchecked`, `data-disabled`, `data-readonly`, `data-required`. Parts: `input` (hidden
+  checkbox), `thumb`, `label`. Style via `chelekom-switch*` — ships **no** colors or spacing.
 
   WAI-ARIA APG: https://www.w3.org/WAI/ARIA/apg/patterns/switch/
   """
@@ -16,6 +22,13 @@ defmodule DevelopmentWeb.Components.Headless.Switch do
   attr :id, :string, required: true, doc: "Unique id (anchors aria relationships)"
   attr :name, :string, default: nil, doc: "Name for the hidden form input"
   attr :checked, :boolean, default: false, doc: "Initial/controlled on state"
+  attr :disabled, :boolean, default: false, doc: "Ignore interaction (data-disabled)"
+  attr :readonly, :boolean, default: false, doc: "Block toggling but stay focusable (data-readonly)"
+  attr :required, :boolean, default: false, doc: "Require the switch on for form submit (data-required)"
+  attr :value, :string, default: "on", doc: "Value submitted when on"
+  attr :unchecked_value, :string, default: nil, doc: "Value submitted when off (adds a companion hidden input)"
+  attr :form, :string, default: nil, doc: "Form id owning the hidden input (when rendered outside the form)"
+  attr :on_change, :string, default: nil, doc: "LiveView event pushed on toggle ({checked})"
   attr :class, :any, default: nil, doc: "Extra classes for the root"
   attr :rest, :global
 
@@ -30,22 +43,47 @@ defmodule DevelopmentWeb.Components.Headless.Switch do
       role="switch"
       aria-checked={to_string(@checked)}
       aria-labelledby={(@inner_block != [] && "#{@id}-label") || nil}
+      aria-readonly={@readonly && "true"}
+      aria-required={@required && "true"}
+      disabled={@disabled}
       data-checked={@checked}
       data-unchecked={!@checked}
+      data-disabled={@disabled}
+      data-readonly={@readonly}
+      data-required={@required}
+      data-on-change={@on_change}
       class={["chelekom-switch", @class]}
       {@rest}
     >
+      <input
+        :if={@name && @unchecked_value}
+        type="hidden"
+        name={@name}
+        value={@unchecked_value}
+        form={@form}
+      />
       <input
         :if={@name}
         type="checkbox"
         data-part="input"
         name={@name}
+        value={@value}
         checked={@checked}
+        required={@required}
+        disabled={@disabled}
+        form={@form}
         tabindex="-1"
         aria-hidden="true"
         class="chelekom-switch__input chelekom-sr-only"
       />
-      <span data-part="thumb" class="chelekom-switch__thumb" aria-hidden="true"></span>
+      <span
+        data-part="thumb"
+        data-checked={@checked}
+        data-unchecked={!@checked}
+        class="chelekom-switch__thumb"
+        aria-hidden="true"
+      >
+      </span>
       <span
         :if={@inner_block != []}
         id={"#{@id}-label"}

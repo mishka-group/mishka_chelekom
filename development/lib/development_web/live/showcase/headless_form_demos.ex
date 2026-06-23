@@ -969,3 +969,85 @@ defmodule DevelopmentWeb.Showcase.SliderRangeFormDemo do
     end
   end
 end
+
+defmodule DevelopmentWeb.Showcase.SwitchFormDemo do
+  @moduledoc "switch inside a `<.form>` — value/unchecked_value submit a boolean; terms must be on."
+  use DevelopmentWeb, :live_component
+  alias DevelopmentWeb.Components.Headless.Switch
+  import Ecto.Changeset
+  alias DevelopmentWeb.Showcase.FormDemoHelpers, as: H
+
+  @impl true
+  def update(assigns, socket),
+    do:
+      {:ok,
+       socket
+       |> assign(assigns)
+       |> assign_new(:form, fn -> to_form(cs(%{"notify" => "true", "terms" => "false"}), as: :prefs) end)
+       |> assign_new(:saved, fn -> nil end)}
+
+  @impl true
+  def handle_event("save", %{"prefs" => p}, socket) do
+    changeset = cs(p)
+
+    if changeset.valid?,
+      do: {:noreply, assign(socket, saved: apply_changes(changeset), form: to_form(changeset, as: :prefs))},
+      else: {:noreply, assign(socket, saved: nil, form: to_form(changeset, as: :prefs, action: :save))}
+  end
+
+  @impl true
+  def render(assigns) do
+    ~H"""
+    <div>
+      <.form for={@form} phx-target={@myself} phx-submit="save" :let={f} class="space-y-4">
+        <div class="flex items-center gap-3">
+          <Switch.switch
+            id={"#{@id}-notify"}
+            name={f[:notify].name}
+            value="true"
+            unchecked_value="false"
+            checked={f[:notify].value in [true, "true"]}
+            class={sw()}
+          />
+          <span class="text-sm font-medium">Email notifications</span>
+        </div>
+        <div>
+          <div class="flex items-center gap-3">
+            <Switch.switch
+              id={"#{@id}-terms"}
+              name={f[:terms].name}
+              value="true"
+              unchecked_value="false"
+              checked={f[:terms].value in [true, "true"]}
+              class={sw()}
+            />
+            <span class="text-sm font-medium">I accept the terms (required)</span>
+          </div>
+          <p :for={msg <- H.field_errors(f[:terms])} class="mt-1 text-sm text-error">{msg}</p>
+        </div>
+        <button type="submit" class="rounded-md bg-primary px-4 py-1.5 text-sm font-medium text-primary-content">
+          Save settings
+        </button>
+      </.form>
+      <div :if={@saved} class="mt-3 rounded-md border border-success/40 bg-success/10 p-3 text-sm font-medium text-success">
+        ✓ Saved — notifications {if @saved.notify, do: "on", else: "off"}, terms accepted (not persisted)
+      </div>
+    </div>
+    """
+  end
+
+  defp cs(p) do
+    {%{}, %{notify: :boolean, terms: :boolean}}
+    |> cast(p, [:notify, :terms])
+    |> validate_acceptance(:terms, message: "you must accept the terms to continue")
+  end
+
+  defp sw do
+    [
+      "relative inline-flex h-6 w-11 shrink-0 cursor-pointer items-center rounded-full border border-base-300 transition-colors",
+      "[&[data-checked]]:bg-primary [&[data-unchecked]]:bg-base-300",
+      "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40",
+      "[&_[data-part=thumb]]:absolute [&_[data-part=thumb]]:left-0.5 [&_[data-part=thumb]]:size-5 [&_[data-part=thumb]]:rounded-full [&_[data-part=thumb]]:bg-base-100 [&_[data-part=thumb]]:shadow [&_[data-part=thumb]]:transition-transform [&_[data-part=thumb][data-checked]]:translate-x-5"
+    ]
+  end
+end

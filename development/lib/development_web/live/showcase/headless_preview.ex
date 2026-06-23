@@ -1026,14 +1026,24 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
 
   def show(%{component: "switch"} = assigns) do
     ~H"""
-    <.switch
-      id={@id}
-      name="notifications"
-      checked
-      class="inline-flex items-center gap-3 [&[data-checked=true]_[data-part=thumb]]:translate-x-5 [&[data-checked=true]>span:first-of-type]:bg-primary [&[data-unchecked=true]>span:first-of-type]:bg-base-300 [&>span:first-of-type]:relative [&>span:first-of-type]:inline-flex [&>span:first-of-type]:h-6 [&>span:first-of-type]:w-11 [&>span:first-of-type]:rounded-full [&>span:first-of-type]:transition-colors [&_[data-part=thumb]]:inline-block [&_[data-part=thumb]]:h-5 [&_[data-part=thumb]]:w-5 [&_[data-part=thumb]]:translate-x-0.5 [&_[data-part=thumb]]:translate-y-0.5 [&_[data-part=thumb]]:rounded-full [&_[data-part=thumb]]:bg-base-100 [&_[data-part=thumb]]:shadow [&_[data-part=thumb]]:transition-transform [&_[data-part=label]]:text-sm"
-    >
-      Enable notifications
-    </.switch>
+    <div class="space-y-3">
+      <div class="flex items-center gap-3">
+        <.switch id={@id} name="notifications" checked class={switch_class()} />
+        <span class="text-sm">On — the thumb slides via its own <code>data-checked</code></span>
+      </div>
+      <div class="flex items-center gap-3">
+        <.switch id={"#{@id}-off"} name="sound" class={switch_class()} />
+        <span class="text-sm">Off</span>
+      </div>
+      <div class="flex items-center gap-3">
+        <.switch id={"#{@id}-ro"} checked readonly class={switch_class()} />
+        <span class="text-sm">Read-only — focusable, won't toggle</span>
+      </div>
+      <div class="flex items-center gap-3">
+        <.switch id={"#{@id}-dis"} checked disabled class={switch_class()} />
+        <span class="text-sm text-base-content/50">Disabled</span>
+      </div>
+    </div>
     """
   end
 
@@ -1163,6 +1173,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
   def has_examples?("radio_group"), do: true
   def has_examples?("select"), do: true
   def has_examples?("slider"), do: true
+  def has_examples?("switch"), do: true
   def has_examples?(_), do: false
 
   def examples(%{component: "toast"} = assigns) do
@@ -1594,6 +1605,29 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
     """
   end
 
+  def examples(%{component: "switch"} = assigns) do
+    ~H"""
+    <div class="space-y-3">
+      <details open class="rounded-box border border-base-300 bg-base-100 p-4">
+        <summary class="cursor-pointer select-none font-medium">
+          In a form — settings with a required toggle
+        </summary>
+        <p class="mt-1 text-sm text-base-content/60">
+          Each switch carries a hidden checkbox; <code>value</code> / <code>unchecked_value</code>
+          submit a boolean either way (on → <code>"true"</code>, off → <code>"false"</code>), so
+          <code>&lt;.form&gt;</code>
+          always gets a value. The terms switch is validated with
+          <code>validate_acceptance</code>
+          on submit.
+        </p>
+        <div class="mt-4 max-w-sm">
+          <.live_component module={DevelopmentWeb.Showcase.SwitchFormDemo} id={"#{@id}-form"} />
+        </div>
+      </details>
+    </div>
+    """
+  end
+
   def examples(assigns), do: ~H""
 
   # Radio group: each option is a card with a leading dot drawn by ::before that fills via data-checked
@@ -1607,6 +1641,19 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
       "[&_[data-part=item][data-checked]]:border-primary [&_[data-part=item][data-checked]]:font-semibold [&_[data-part=item][data-checked]]:before:border-[5px] [&_[data-part=item][data-checked]]:before:border-primary",
       "[&_[data-part=item][data-highlighted]]:outline-none [&_[data-part=item][data-highlighted]]:ring-2 [&_[data-part=item][data-highlighted]]:ring-primary/40",
       "[&_[data-part=item][data-disabled]]:cursor-not-allowed [&_[data-part=item][data-disabled]]:opacity-40"
+    ]
+  end
+
+  # Switch: the root button IS the track; the thumb is the knob and slides on its OWN data-checked
+  # (Base UI style). Presence selectors ([data-checked], not =true) match the bare attrs the server
+  # renders and the Toggle hook toggles. data-disabled/-readonly dim/lock.
+  defp switch_class do
+    [
+      "relative inline-flex h-6 w-11 shrink-0 cursor-pointer items-center rounded-full border border-base-300 transition-colors",
+      "[&[data-checked]]:bg-primary [&[data-unchecked]]:bg-base-300",
+      "[&[data-disabled]]:cursor-not-allowed [&[data-disabled]]:opacity-50 [&[data-readonly]]:cursor-default",
+      "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40",
+      "[&_[data-part=thumb]]:absolute [&_[data-part=thumb]]:left-0.5 [&_[data-part=thumb]]:size-5 [&_[data-part=thumb]]:rounded-full [&_[data-part=thumb]]:bg-base-100 [&_[data-part=thumb]]:shadow [&_[data-part=thumb]]:transition-transform [&_[data-part=thumb][data-checked]]:translate-x-5"
     ]
   end
 

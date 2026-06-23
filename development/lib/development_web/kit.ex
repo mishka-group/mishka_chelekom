@@ -544,10 +544,10 @@ defmodule DevelopmentWeb.Kit do
     from :switch
 
     part :root,
-         "inline-flex items-center gap-3 relative h-6 w-11 rounded-full transition-colors border border-amber-200 dark:border-amber-900 [&[data-checked=true]]:bg-amber-500 dark:[&[data-checked=true]]:bg-amber-400 [&[data-unchecked=true]]:bg-amber-100 dark:[&[data-unchecked=true]]:bg-amber-950/30"
+         "inline-flex items-center gap-3 relative h-6 w-11 rounded-full transition-colors border border-amber-200 dark:border-amber-900 [&[data-checked]]:bg-amber-500 dark:[&[data-checked]]:bg-amber-400 [&[data-unchecked]]:bg-amber-100 dark:[&[data-unchecked]]:bg-amber-950/30 [&[data-disabled]]:opacity-50"
 
     part :thumb,
-         "[&_[data-part=thumb]]:absolute [&_[data-part=thumb]]:left-0 [&_[data-part=thumb]]:top-1/2 [&_[data-part=thumb]]:-translate-y-1/2 [&_[data-part=thumb]]:translate-x-0.5 [&_[data-part=thumb]]:inline-block [&_[data-part=thumb]]:h-5 [&_[data-part=thumb]]:w-5 [&_[data-part=thumb]]:rounded-full [&_[data-part=thumb]]:bg-amber-50 dark:[&_[data-part=thumb]]:bg-amber-50 [&_[data-part=thumb]]:shadow [&_[data-part=thumb]]:transition-transform [&[data-checked=true]_[data-part=thumb]]:translate-x-[1.375rem]"
+         "[&_[data-part=thumb]]:absolute [&_[data-part=thumb]]:left-0 [&_[data-part=thumb]]:top-1/2 [&_[data-part=thumb]]:-translate-y-1/2 [&_[data-part=thumb]]:translate-x-0.5 [&_[data-part=thumb]]:inline-block [&_[data-part=thumb]]:h-5 [&_[data-part=thumb]]:w-5 [&_[data-part=thumb]]:rounded-full [&_[data-part=thumb]]:bg-amber-50 dark:[&_[data-part=thumb]]:bg-amber-50 [&_[data-part=thumb]]:shadow [&_[data-part=thumb]]:transition-transform [&_[data-part=thumb][data-checked]]:translate-x-[1.375rem]"
 
     part :label,
          "[&_[data-part=label]]:absolute [&_[data-part=label]]:left-[3.25rem] [&_[data-part=label]]:top-1/2 [&_[data-part=label]]:-translate-y-1/2 [&_[data-part=label]]:whitespace-nowrap [&_[data-part=label]]:text-sm [&_[data-part=label]]:font-medium [&_[data-part=label]]:text-amber-950 dark:[&_[data-part=label]]:text-amber-50"

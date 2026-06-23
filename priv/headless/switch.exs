@@ -19,14 +19,30 @@
         root: [
           element: "button",
           role: "switch",
-          aria: ["aria-checked", "aria-labelledby"],
-          data_attributes: ["data-checked", "data-unchecked"],
+          aria: ["aria-checked", "aria-labelledby", "aria-readonly", "aria-required"],
+          data_attributes: [
+            "data-checked",
+            "data-unchecked",
+            "data-disabled",
+            "data-readonly",
+            "data-required"
+          ],
           required: true
         ],
-        parts: [input: [element: "input"], thumb: [element: "span"], label: [element: "span"]]
+        parts: [
+          input: [element: "input", note: "hidden checkbox carrying the value for form submission"],
+          thumb: [element: "span", data_attributes: ["data-checked", "data-unchecked"]],
+          label: [element: "span"]
+        ]
       ],
       aria_pattern: [pattern: "Switch", keyboard: ["Enter: toggle", "Space: toggle"]],
-      state_attributes: ["data-checked", "data-unchecked"],
+      state_attributes: [
+        "data-checked",
+        "data-unchecked",
+        "data-disabled",
+        "data-readonly",
+        "data-required"
+      ],
       hooks: ["Toggle"]
     ]
   ]
