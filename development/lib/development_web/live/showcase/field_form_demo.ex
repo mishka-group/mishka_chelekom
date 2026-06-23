@@ -12,11 +12,11 @@ defmodule DevelopmentWeb.Showcase.FieldFormDemo.Signup do
 
   @primary_key false
   embedded_schema do
-    field :name, :string
-    field :email, :string
-    field :age, :integer
-    field :role, Ecto.Enum, values: @roles
-    field :bio, :string
+    field(:name, :string)
+    field(:email, :string)
+    field(:age, :integer)
+    field(:role, Ecto.Enum, values: @roles)
+    field(:bio, :string)
   end
 
   def roles, do: @roles
@@ -26,7 +26,9 @@ defmodule DevelopmentWeb.Showcase.FieldFormDemo.Signup do
     |> cast(attrs, [:name, :email, :age, :role, :bio])
     |> validate_required([:name, :email, :role])
     |> validate_length(:name, min: 2, max: 40)
-    |> validate_format(:email, ~r/^[^\s@]+@[^\s@]+\.[^\s@]+$/, message: "must be a valid email address")
+    |> validate_format(:email, ~r/^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+      message: "must be a valid email address"
+    )
     |> validate_number(:age,
       greater_than_or_equal_to: 18,
       less_than_or_equal_to: 120,
@@ -72,10 +74,14 @@ defmodule DevelopmentWeb.Showcase.FieldFormDemo do
       {:ok, data} ->
         # Validation passed — show the cast struct, but DO NOT persist it anywhere.
         {:noreply,
-         assign(socket, saved: data, form: to_form(Signup.changeset(%Signup{}, params), as: :signup))}
+         assign(socket,
+           saved: data,
+           form: to_form(Signup.changeset(%Signup{}, params), as: :signup)
+         )}
 
       {:error, changeset} ->
-        {:noreply, assign(socket, saved: nil, form: to_form(changeset, action: :insert, as: :signup))}
+        {:noreply,
+         assign(socket, saved: nil, form: to_form(changeset, action: :insert, as: :signup))}
     end
   end
 
@@ -96,13 +102,13 @@ defmodule DevelopmentWeb.Showcase.FieldFormDemo do
         class="space-y-4"
       >
         <.field
+          :let={f}
           id={"#{@id}-name"}
           name={@form[:name].name}
           label="Full name"
           errors={errs(@form[:name])}
           valid={validity(@form[:name])}
           class={fc()}
-          :let={f}
         >
           <input
             type="text"
@@ -118,13 +124,13 @@ defmodule DevelopmentWeb.Showcase.FieldFormDemo do
         </.field>
 
         <.field
+          :let={f}
           id={"#{@id}-email"}
           name={@form[:email].name}
           label="Email address"
           errors={errs(@form[:email])}
           valid={validity(@form[:email])}
           class={fc()}
-          :let={f}
         >
           <input
             type="text"
@@ -140,13 +146,13 @@ defmodule DevelopmentWeb.Showcase.FieldFormDemo do
         </.field>
 
         <.field
+          :let={f}
           id={"#{@id}-age"}
           name={@form[:age].name}
           label="Age"
           errors={errs(@form[:age])}
           valid={validity(@form[:age])}
           class={fc()}
-          :let={f}
         >
           <input
             type="number"
@@ -165,13 +171,13 @@ defmodule DevelopmentWeb.Showcase.FieldFormDemo do
         </.field>
 
         <.field
+          :let={f}
           id={"#{@id}-role"}
           name={@form[:role].name}
           label="Role"
           errors={errs(@form[:role])}
           valid={validity(@form[:role])}
           class={fc()}
-          :let={f}
         >
           <select
             id={f.id}
@@ -192,13 +198,13 @@ defmodule DevelopmentWeb.Showcase.FieldFormDemo do
         </.field>
 
         <.field
+          :let={f}
           id={"#{@id}-bio"}
           name={@form[:bio].name}
           label="Short bio"
           errors={errs(@form[:bio])}
           valid={validity(@form[:bio])}
           class={fc()}
-          :let={f}
         >
           <textarea
             id={f.id}
@@ -212,7 +218,7 @@ defmodule DevelopmentWeb.Showcase.FieldFormDemo do
           <:description>Up to 160 characters.</:description>
         </.field>
 
-        <.field id={"#{@id}-plan"} label="Plan" disabled class={fc()} :let={f}>
+        <.field :let={f} id={"#{@id}-plan"} label="Plan" disabled class={fc()}>
           <input
             type="text"
             id={f.id}
@@ -220,7 +226,9 @@ defmodule DevelopmentWeb.Showcase.FieldFormDemo do
             disabled={f.disabled}
             class={input_cls()}
           />
-          <:description>A disabled field — note the dimmed <code>data-disabled</code> state.</:description>
+          <:description>
+            A disabled field — note the dimmed <code>data-disabled</code> state.
+          </:description>
         </.field>
 
         <div class="flex flex-wrap items-center gap-3 pt-1">

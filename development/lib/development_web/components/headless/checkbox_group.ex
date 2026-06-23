@@ -21,7 +21,10 @@ defmodule DevelopmentWeb.Components.Headless.CheckboxGroup do
   @doc type: :component
   attr :id, :string, required: true, doc: "Unique id (anchors the group label + item ids)"
   attr :name, :string, default: nil, doc: "Base form name; items submit as `name[]`"
-  attr :disabled, :boolean, default: false, doc: "Disable the whole group (cascades to every item)"
+
+  attr :disabled, :boolean,
+    default: false,
+    doc: "Disable the whole group (cascades to every item)"
 
   attr :on_change, :string,
     default: nil,
@@ -43,7 +46,9 @@ defmodule DevelopmentWeb.Components.Headless.CheckboxGroup do
     # Derive the parent's initial state from the items (all → checked · none → unchecked · some →
     # mixed) so the server-rendered "select all" already matches its children (no hydration flash).
     {parent_checked, parent_indeterminate} = parent_state(assigns.item)
-    assigns = assign(assigns, parent_checked: parent_checked, parent_indeterminate: parent_indeterminate)
+
+    assigns =
+      assign(assigns, parent_checked: parent_checked, parent_indeterminate: parent_indeterminate)
 
     ~H"""
     <div

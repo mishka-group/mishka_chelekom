@@ -286,17 +286,15 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
       placeholder="Search food…"
       auto_highlight
       clear
-      class={
-        [
-          "relative w-64",
-          "[&_[data-part=input]]:w-full [&_[data-part=input]]:rounded-md [&_[data-part=input]]:border [&_[data-part=input]]:border-base-300 [&_[data-part=input]]:px-3 [&_[data-part=input]]:py-1.5 [&_[data-part=input]]:pr-8",
-          "[&_[data-part=clear]]:absolute [&_[data-part=clear]]:right-2 [&_[data-part=clear]]:top-1.5 [&_[data-part=clear]]:text-base-content/40 [&_[data-part=clear]]:hover:text-base-content [&_[data-part=clear][data-hidden]]:hidden",
-          "[&_[data-part=popup]]:mt-1 [&_[data-part=popup]]:max-h-56 [&_[data-part=popup]]:w-64 [&_[data-part=popup]]:overflow-auto [&_[data-part=popup]]:rounded-md [&_[data-part=popup]]:border [&_[data-part=popup]]:border-base-300 [&_[data-part=popup]]:bg-base-100 [&_[data-part=popup]]:p-1 [&_[data-part=popup]]:shadow-lg",
-          "[&_[data-part=group-label]]:block [&_[data-part=group-label]]:px-3 [&_[data-part=group-label]]:pb-1 [&_[data-part=group-label]]:pt-2 [&_[data-part=group-label]]:text-xs [&_[data-part=group-label]]:font-medium [&_[data-part=group-label]]:uppercase [&_[data-part=group-label]]:tracking-wide [&_[data-part=group-label]]:text-base-content/40",
-          "[&_[data-part=item]]:cursor-pointer [&_[data-part=item]]:rounded [&_[data-part=item]]:px-3 [&_[data-part=item]]:py-1.5 [&_[data-part=item][data-highlighted]]:bg-base-200 [&_[data-part=item][aria-selected=true]]:font-semibold",
-          "[&_[data-part=empty]]:px-3 [&_[data-part=empty]]:py-2 [&_[data-part=empty]]:text-sm [&_[data-part=empty]]:text-base-content/50"
-        ]
-      }
+      class={[
+        "relative w-64",
+        "[&_[data-part=input]]:w-full [&_[data-part=input]]:rounded-md [&_[data-part=input]]:border [&_[data-part=input]]:border-base-300 [&_[data-part=input]]:px-3 [&_[data-part=input]]:py-1.5 [&_[data-part=input]]:pr-8",
+        "[&_[data-part=clear]]:absolute [&_[data-part=clear]]:right-2 [&_[data-part=clear]]:top-1.5 [&_[data-part=clear]]:text-base-content/40 [&_[data-part=clear]]:hover:text-base-content [&_[data-part=clear][data-hidden]]:hidden",
+        "[&_[data-part=popup]]:mt-1 [&_[data-part=popup]]:max-h-56 [&_[data-part=popup]]:w-64 [&_[data-part=popup]]:overflow-auto [&_[data-part=popup]]:rounded-md [&_[data-part=popup]]:border [&_[data-part=popup]]:border-base-300 [&_[data-part=popup]]:bg-base-100 [&_[data-part=popup]]:p-1 [&_[data-part=popup]]:shadow-lg",
+        "[&_[data-part=group-label]]:block [&_[data-part=group-label]]:px-3 [&_[data-part=group-label]]:pb-1 [&_[data-part=group-label]]:pt-2 [&_[data-part=group-label]]:text-xs [&_[data-part=group-label]]:font-medium [&_[data-part=group-label]]:uppercase [&_[data-part=group-label]]:tracking-wide [&_[data-part=group-label]]:text-base-content/40",
+        "[&_[data-part=item]]:cursor-pointer [&_[data-part=item]]:rounded [&_[data-part=item]]:px-3 [&_[data-part=item]]:py-1.5 [&_[data-part=item][data-highlighted]]:bg-base-200 [&_[data-part=item][aria-selected=true]]:font-semibold",
+        "[&_[data-part=empty]]:px-3 [&_[data-part=empty]]:py-2 [&_[data-part=empty]]:text-sm [&_[data-part=empty]]:text-base-content/50"
+      ]}
     >
       <:option value="Apple" group="Fruit">Apple</:option>
       <:option value="Banana" group="Fruit">Banana</:option>
@@ -542,6 +540,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
   def show(%{component: "field"} = assigns) do
     ~H"""
     <.field
+      :let={f}
       id={@id}
       name="email"
       label="Email address"
@@ -561,7 +560,6 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
           "[&[data-disabled]]:opacity-50"
         ]
       }
-      :let={f}
     >
       <input
         id={f.id}
@@ -609,7 +607,8 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
         <:legend>Billing address — disabled</:legend>
         <p class="mb-3 text-xs text-base-content/50">
           Native <code>&lt;fieldset disabled&gt;</code>
-          disables every control inside (no JS); <code>data-disabled</code> dims the group.
+          disables every control inside (no JS); <code>data-disabled</code>
+          dims the group.
         </p>
         <div class="space-y-3">
           <label class="block text-sm">
@@ -738,7 +737,15 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
         <p class="text-[0.7rem] uppercase tracking-wide text-base-content/40">
           Quantity · min/max/step · arrows · press-and-hold
         </p>
-        <.number_field id={@id} name="quantity" value="3" min="0" max="10" step="1" class={number_field_class()} />
+        <.number_field
+          id={@id}
+          name="quantity"
+          value="3"
+          min="0"
+          max="10"
+          step="1"
+          class={number_field_class()}
+        />
       </div>
 
       <div class="space-y-1.5">
@@ -1176,11 +1183,12 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
           Full form — realtime + submit validation (Ecto, not persisted)
         </summary>
         <p class="mt-1 text-sm text-base-content/60">
-          A real <code>&lt;.form&gt;</code> backed by an Ecto <code>embedded_schema</code>
+          A real <code>&lt;.form&gt;</code>
+          backed by an Ecto <code>embedded_schema</code>
           changeset — no database, nothing is saved. The stateless <code>&lt;.field&gt;</code>
-          auto-wires <code>for</code> / <code>aria-describedby</code> (description + every error) /
-          <code>aria-invalid</code>, and hands <code>id</code>/<code>name</code>/<code>describedby</code>
-          back through <code>:let</code>. Errors appear per-field once you touch it
+          auto-wires <code>for</code>
+          / <code>aria-describedby</code>
+          (description + every error) / <code>aria-invalid</code>, and hands <code>id</code>/<code>name</code>/<code>describedby</code> back through <code>:let</code>. Errors appear per-field once you touch it
           (<code>used_input?</code>) and on submit; the <code>Field</code>
           hook adds <code>data-focused</code>/<code>-touched</code>/<code>-dirty</code>/<code>-filled</code>.
         </p>
@@ -1190,13 +1198,15 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
       </details>
 
       <details class="rounded-box border border-base-300 bg-base-100 p-4">
-        <summary class="cursor-pointer select-none font-medium">State attributes — at a glance</summary>
+        <summary class="cursor-pointer select-none font-medium">
+          State attributes — at a glance
+        </summary>
         <p class="mt-1 text-sm text-base-content/60">
           The same field rendered in four server-known states. Focus or type in the first one to also
           see <code>data-focused</code> / <code>data-filled</code> toggle live.
         </p>
         <div class="mt-4 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
-          <.field id={"#{@id}-st-ok"} name="ok" label="Pristine" class={field_state_class()} :let={f}>
+          <.field :let={f} id={"#{@id}-st-ok"} name="ok" label="Pristine" class={field_state_class()}>
             <input
               id={f.id}
               name={f.name}
@@ -1208,12 +1218,12 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
           </.field>
 
           <.field
+            :let={f}
             id={"#{@id}-st-good"}
             name="good"
             label="Valid"
             valid={true}
             class={field_state_class()}
-            :let={f}
           >
             <input
               id={f.id}
@@ -1226,12 +1236,12 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
           </.field>
 
           <.field
+            :let={f}
             id={"#{@id}-st-bad"}
             name="bad"
             label="Invalid"
             errors={["This field is required"]}
             class={field_state_class()}
-            :let={f}
           >
             <input
               id={f.id}
@@ -1245,12 +1255,12 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
           </.field>
 
           <.field
+            :let={f}
             id={"#{@id}-st-off"}
             name="off"
             label="Disabled"
             disabled
             class={field_state_class()}
-            :let={f}
           >
             <input
               id={f.id}
@@ -1301,7 +1311,9 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
         <p class="mt-1 text-sm text-base-content/60">
           A boolean checkbox submitted with <code>&lt;.form&gt;</code>
           and validated by <code>validate_acceptance</code>. A hidden <code>false</code>
-          input supplies the unchecked value (the same trick <code>&lt;.input type="checkbox"&gt;</code> uses).
+          input supplies the unchecked value (the same trick
+          <code>&lt;.input type="checkbox"&gt;</code>
+          uses).
         </p>
         <div class="mt-4 max-w-sm">
           <.live_component module={DevelopmentWeb.Showcase.CheckboxFormDemo} id={"#{@id}-form"} />
@@ -1319,8 +1331,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
           In a form — pick toppings (submits a list, validated)
         </summary>
         <p class="mt-1 text-sm text-base-content/60">
-          The checked items submit as <code>name[]</code>, cast to an
-          <code>array of strings</code>
+          The checked items submit as <code>name[]</code>, cast to an <code>array of strings</code>
           changeset field and validated to require at least one.
         </p>
         <div class="mt-4 max-w-sm">
@@ -1359,7 +1370,8 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
         </summary>
         <p class="mt-1 text-sm text-base-content/60">
           The raw number submits via the hidden <code>type="number"</code>
-          input and is validated with <code>validate_number</code> (1–10) on submit.
+          input and is validated with <code>validate_number</code>
+          (1–10) on submit.
         </p>
         <div class="mt-4 max-w-sm">
           <.live_component module={DevelopmentWeb.Showcase.NumberFieldFormDemo} id={"#{@id}-form"} />

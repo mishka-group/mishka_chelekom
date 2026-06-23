@@ -157,7 +157,10 @@ defmodule DevelopmentWeb.Components.Headless.Autocomplete do
     |> Enum.with_index()
     |> Enum.chunk_by(fn {opt, _i} -> opt[:group] end)
     |> Enum.map(fn [{first, _} | _] = chunk ->
-      %{label: first[:group], options: Enum.map(chunk, fn {opt, i} -> Map.put(opt, :__i__, i) end)}
+      %{
+        label: first[:group],
+        options: Enum.map(chunk, fn {opt, i} -> Map.put(opt, :__i__, i) end)
+      }
     end)
   end
 end

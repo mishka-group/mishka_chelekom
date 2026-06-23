@@ -32,31 +32,70 @@ defmodule DevelopmentWeb.Components.Headless.NumberField do
   attr :step, :any, default: 1, doc: "Step for buttons/arrows/scrub (number or \"any\")"
   attr :small_step, :any, default: 0.1, doc: "Step while holding Alt"
   attr :large_step, :any, default: 10, doc: "Step while holding Shift (and PageUp/PageDown)"
-  attr :snap_on_step, :boolean, default: false, doc: "Snap to the nearest step on increment/decrement"
-  attr :allow_out_of_range, :boolean, default: false, doc: "Let typed values exceed min/max (steps still clamp)"
-  attr :allow_wheel_scrub, :boolean, default: false, doc: "Scrub with the mouse wheel while focused"
+
+  attr :snap_on_step, :boolean,
+    default: false,
+    doc: "Snap to the nearest step on increment/decrement"
+
+  attr :allow_out_of_range, :boolean,
+    default: false,
+    doc: "Let typed values exceed min/max (steps still clamp)"
+
+  attr :allow_wheel_scrub, :boolean,
+    default: false,
+    doc: "Scrub with the mouse wheel while focused"
+
   attr :format, :map, default: nil, doc: "Intl.NumberFormat options map (currency/percent/unit/…)"
   attr :locale, :string, default: nil, doc: "BCP-47 locale for formatting/parsing"
   attr :disabled, :boolean, default: false, doc: "Disable interaction (data-disabled)"
-  attr :readonly, :boolean, default: false, doc: "Block changes but stay focusable (data-readonly)"
-  attr :required, :boolean, default: false, doc: "Mark required for form validation (data-required)"
+
+  attr :readonly, :boolean,
+    default: false,
+    doc: "Block changes but stay focusable (data-readonly)"
+
+  attr :required, :boolean,
+    default: false,
+    doc: "Mark required for form validation (data-required)"
+
   attr :placeholder, :string, default: nil, doc: "Input placeholder"
   attr :on_change, :string, default: nil, doc: "LiveView event pushed on change ({value})"
-  attr :on_commit, :string, default: nil, doc: "LiveView event pushed on commit — blur/release ({value})"
-  attr :form, :string, default: nil, doc: "Form id owning the hidden input (when rendered outside the form)"
-  attr :aria_roledescription, :string, default: "Number field", doc: "Role description for the input"
+
+  attr :on_commit, :string,
+    default: nil,
+    doc: "LiveView event pushed on commit — blur/release ({value})"
+
+  attr :form, :string,
+    default: nil,
+    doc: "Form id owning the hidden input (when rendered outside the form)"
+
+  attr :aria_roledescription, :string,
+    default: "Number field",
+    doc: "Role description for the input"
+
   attr :buttons, :boolean, default: true, doc: "Render the increment/decrement buttons"
   attr :scrub_direction, :string, default: "horizontal", doc: "Scrub axis: horizontal | vertical"
   attr :scrub_sensitivity, :any, default: 2, doc: "Pixels of movement per step while scrubbing"
-  attr :scrub_teleport, :any, default: nil, doc: "Cursor wrap distance (px) from the scrub-area center"
-  attr :scrub_cursor, :boolean, default: false, doc: "Render a custom cursor element for the scrub area"
+
+  attr :scrub_teleport, :any,
+    default: nil,
+    doc: "Cursor wrap distance (px) from the scrub-area center"
+
+  attr :scrub_cursor, :boolean,
+    default: false,
+    doc: "Render a custom cursor element for the scrub area"
+
   attr :class, :any, default: nil, doc: "Extra classes for the root"
   attr :rest, :global
 
   slot :scrub_area, doc: "Optional drag region (e.g. a label) that scrubs the value"
 
   def number_field(assigns) do
-    assigns = assign(assigns, :format_json, assigns.format && Phoenix.json_library().encode!(assigns.format))
+    assigns =
+      assign(
+        assigns,
+        :format_json,
+        assigns.format && Phoenix.json_library().encode!(assigns.format)
+      )
 
     ~H"""
     <div

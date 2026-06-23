@@ -17,6 +17,7 @@ defmodule DevelopmentWeb.Components.Headless.Fieldset do
 
   @doc type: :component
   attr :id, :string, required: true, doc: "Unique id; anchors the legend association"
+
   attr :disabled, :boolean,
     default: false,
     doc: "Natively disable every control in the group (also sets data-disabled)"
@@ -24,7 +25,9 @@ defmodule DevelopmentWeb.Components.Headless.Fieldset do
   attr :class, :any, default: nil, doc: "Extra classes for the root"
   attr :rest, :global
 
-  slot :legend, doc: "The group label — a styleable <div> wired to the fieldset via aria-labelledby"
+  slot :legend,
+    doc: "The group label — a styleable <div> wired to the fieldset via aria-labelledby"
+
   slot :inner_block, required: true, doc: "The grouped form controls"
 
   def fieldset(assigns) do

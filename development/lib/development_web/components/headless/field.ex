@@ -48,16 +48,27 @@ defmodule DevelopmentWeb.Components.Headless.Field do
   attr :for, :string, default: nil, doc: "Override the control id the label points at"
   attr :name, :string, default: nil, doc: "Control name, handed back via the slot's :let map"
   attr :label, :string, default: nil, doc: "Visible label text"
-  attr :errors, :list, default: [], doc: "List of error messages to display (a non-empty list forces invalid)"
-  attr :disabled, :boolean, default: false, doc: "Mark the field disabled (data-disabled; forces pristine)"
+
+  attr :errors, :list,
+    default: [],
+    doc: "List of error messages to display (a non-empty list forces invalid)"
+
+  attr :disabled, :boolean,
+    default: false,
+    doc: "Mark the field disabled (data-disabled; forces pristine)"
+
   attr :valid, :boolean,
     default: nil,
-    doc: "Validity tri-state: nil = pristine (neither attr), true = data-valid, false = data-invalid"
+    doc:
+      "Validity tri-state: nil = pristine (neither attr), true = data-valid, false = data-invalid"
 
   attr :class, :any, default: nil, doc: "Extra classes for the root"
   attr :rest, :global
 
-  slot :inner_block, required: true, doc: "The form control. Receives :let %{id, name, describedby, valid, invalid, disabled}"
+  slot :inner_block,
+    required: true,
+    doc: "The form control. Receives :let %{id, name, describedby, valid, invalid, disabled}"
+
   slot :description, doc: "Optional help text describing the control"
 
   def field(assigns) do
@@ -74,7 +85,9 @@ defmodule DevelopmentWeb.Components.Headless.Field do
     describedby =
       [
         assigns.description != [] && desc_id
-        | assigns.errors |> Enum.with_index() |> Enum.map(fn {_m, i} -> "#{assigns.id}-error-#{i}" end)
+        | assigns.errors
+          |> Enum.with_index()
+          |> Enum.map(fn {_m, i} -> "#{assigns.id}-error-#{i}" end)
       ]
       |> Enum.filter(& &1)
       |> Enum.join(" ")

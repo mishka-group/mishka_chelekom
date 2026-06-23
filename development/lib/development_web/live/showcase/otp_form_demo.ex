@@ -28,7 +28,8 @@ defmodule DevelopmentWeb.Showcase.OtpFormDemo do
     if changeset.valid? do
       {:noreply, assign(socket, form: to_form(changeset, as: :otp), verified: true)}
     else
-      {:noreply, assign(socket, form: to_form(changeset, as: :otp, action: :verify), verified: false)}
+      {:noreply,
+       assign(socket, form: to_form(changeset, as: :otp, action: :verify), verified: false)}
     end
   end
 
@@ -44,7 +45,7 @@ defmodule DevelopmentWeb.Showcase.OtpFormDemo do
   def render(assigns) do
     ~H"""
     <div>
-      <.form for={@form} phx-target={@myself} phx-submit="verify" :let={f}>
+      <.form :let={f} for={@form} phx-target={@myself} phx-submit="verify">
         <.otp_field
           id={"#{@id}-code"}
           name={f[:code].name}
@@ -92,7 +93,9 @@ defmodule DevelopmentWeb.Showcase.OtpFormDemo do
     |> cast(params, [:code])
     |> validate_required([:code])
     |> validate_format(:code, ~r/^\d{6}$/, message: "must be 6 digits")
-    |> validate_inclusion(:code, [@expected], message: "incorrect code — this demo expects #{@expected}")
+    |> validate_inclusion(:code, [@expected],
+      message: "incorrect code — this demo expects #{@expected}"
+    )
   end
 
   defp fc do

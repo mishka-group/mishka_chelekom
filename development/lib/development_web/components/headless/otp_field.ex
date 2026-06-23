@@ -24,19 +24,44 @@ defmodule DevelopmentWeb.Components.Headless.OtpField do
   use Phoenix.Component
 
   @doc type: :component
-  attr :id, :string, required: true, doc: "Root id; slots derive {id}-1, {id}-2, … (root keeps {id} for the hook)"
+  attr :id, :string,
+    required: true,
+    doc: "Root id; slots derive {id}-1, {id}-2, … (root keeps {id} for the hook)"
+
   attr :name, :string, default: nil, doc: "Name for the hidden form input carrying the code"
   attr :value, :string, default: nil, doc: "Initial/controlled OTP value"
   attr :length, :integer, default: 6, doc: "Number of slots"
   attr :validation_type, :string, default: "numeric", doc: "numeric | alpha | alphanumeric | none"
-  attr :mask, :boolean, default: false, doc: "Obscure entered characters (-webkit-text-security; no password-manager hijack — Chromium/WebKit)"
-  attr :transform, :string, default: "none", doc: "Normalize accepted input: none | uppercase | lowercase"
+
+  attr :mask, :boolean,
+    default: false,
+    doc:
+      "Obscure entered characters (-webkit-text-security; no password-manager hijack — Chromium/WebKit)"
+
+  attr :transform, :string,
+    default: "none",
+    doc: "Normalize accepted input: none | uppercase | lowercase"
+
   attr :input_mode, :string, default: nil, doc: "Override the virtual-keyboard hint"
-  attr :auto_complete, :string, default: "one-time-code", doc: "autocomplete for the first slot + hidden input"
-  attr :auto_submit, :boolean, default: false, doc: "Submit the owning form when the code completes"
+
+  attr :auto_complete, :string,
+    default: "one-time-code",
+    doc: "autocomplete for the first slot + hidden input"
+
+  attr :auto_submit, :boolean,
+    default: false,
+    doc: "Submit the owning form when the code completes"
+
   attr :disabled, :boolean, default: false, doc: "Disable interaction (data-disabled)"
-  attr :readonly, :boolean, default: false, doc: "Block changes but allow navigation (data-readonly)"
-  attr :required, :boolean, default: false, doc: "Mark required for form validation (data-required)"
+
+  attr :readonly, :boolean,
+    default: false,
+    doc: "Block changes but allow navigation (data-readonly)"
+
+  attr :required, :boolean,
+    default: false,
+    doc: "Mark required for form validation (data-required)"
+
   attr :placeholder, :string, default: nil, doc: "Per-slot placeholder"
   attr :form, :string, default: nil, doc: "Form id owning the hidden input"
   attr :label, :string, default: "One-time code", doc: "Accessible name for the slot group"
@@ -44,7 +69,11 @@ defmodule DevelopmentWeb.Components.Headless.OtpField do
   attr :separator, :string, default: nil, doc: "Separator content rendered between groups"
   attr :on_change, :string, default: nil, doc: "LiveView event pushed on change ({value})"
   attr :on_complete, :string, default: nil, doc: "LiveView event pushed when complete ({value})"
-  attr :on_invalid, :string, default: nil, doc: "LiveView event pushed when characters are rejected ({value})"
+
+  attr :on_invalid, :string,
+    default: nil,
+    doc: "LiveView event pushed when characters are rejected ({value})"
+
   attr :class, :any, default: nil, doc: "Extra classes for the root"
   attr :rest, :global
 

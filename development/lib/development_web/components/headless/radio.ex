@@ -21,8 +21,15 @@ defmodule DevelopmentWeb.Components.Headless.Radio do
   attr :value, :string, default: nil, doc: "This radio's submitted value"
   attr :checked, :boolean, default: false, doc: "Whether this radio is selected"
   attr :disabled, :boolean, default: false, doc: "Ignore interaction (data-disabled)"
-  attr :readonly, :boolean, default: false, doc: "Block selection but stay focusable (data-readonly)"
-  attr :required, :boolean, default: false, doc: "Require a selection for form submit (data-required)"
+
+  attr :readonly, :boolean,
+    default: false,
+    doc: "Block selection but stay focusable (data-readonly)"
+
+  attr :required, :boolean,
+    default: false,
+    doc: "Require a selection for form submit (data-required)"
+
   attr :class, :any, default: nil, doc: "Extra classes for the root"
   attr :rest, :global
 

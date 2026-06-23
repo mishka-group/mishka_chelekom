@@ -38,10 +38,18 @@ defmodule DevelopmentWeb.Components.Headless.Combobox do
 
   attr :clear, :boolean, default: false, doc: "Render a clear button"
   attr :trigger, :boolean, default: false, doc: "Render a button that opens/closes the popup"
-  attr :creatable, :boolean, default: false, doc: "Offer to create the typed query as a new option"
+
+  attr :creatable, :boolean,
+    default: false,
+    doc: "Offer to create the typed query as a new option"
+
   attr :on_create, :string, default: nil, doc: "LiveView event pushed to create ({value})"
   attr :on_change, :string, default: nil, doc: "LiveView event pushed on selection ({value})"
-  attr :virtualized, :boolean, default: false, doc: "content-visibility:auto on items for long lists"
+
+  attr :virtualized, :boolean,
+    default: false,
+    doc: "content-visibility:auto on items for long lists"
+
   attr :class, :any, default: nil
   attr :rest, :global
 
@@ -80,7 +88,12 @@ defmodule DevelopmentWeb.Components.Headless.Combobox do
             class="chelekom-combobox__chip"
           >
             <span data-chip-label>{render_slot(opt)}</span>
-            <button type="button" data-part="chip-remove" aria-label="Remove" class="chelekom-combobox__chip-remove">
+            <button
+              type="button"
+              data-part="chip-remove"
+              aria-label="Remove"
+              class="chelekom-combobox__chip-remove"
+            >
               ×
             </button>
             <input :if={@name} type="hidden" name={"#{@name}[]"} value={opt.value} data-chip-input />
@@ -129,7 +142,12 @@ defmodule DevelopmentWeb.Components.Headless.Combobox do
       <template :if={@multiple} data-part="chip-template">
         <span data-part="chip" class="chelekom-combobox__chip">
           <span data-chip-label></span>
-          <button type="button" data-part="chip-remove" aria-label="Remove" class="chelekom-combobox__chip-remove">
+          <button
+            type="button"
+            data-part="chip-remove"
+            aria-label="Remove"
+            class="chelekom-combobox__chip-remove"
+          >
             ×
           </button>
           <input type="hidden" data-chip-input />
@@ -146,20 +164,49 @@ defmodule DevelopmentWeb.Components.Headless.Combobox do
       >
         <%= for {grp, gi} <- Enum.with_index(@groups) do %>
           <%= if grp.label do %>
-            <li role="group" aria-labelledby={"#{@id}-grp-#{gi}"} data-part="group" class="chelekom-combobox__group">
-              <span id={"#{@id}-grp-#{gi}"} data-part="group-label" class="chelekom-combobox__group-label">
+            <li
+              role="group"
+              aria-labelledby={"#{@id}-grp-#{gi}"}
+              data-part="group"
+              class="chelekom-combobox__group"
+            >
+              <span
+                id={"#{@id}-grp-#{gi}"}
+                data-part="group-label"
+                class="chelekom-combobox__group-label"
+              >
                 {grp.label}
               </span>
               <ul role="presentation" class="chelekom-combobox__group-list">
-                <.option :for={opt <- grp.options} opt={opt} id={@id} value={@value} multiple={@multiple} virtualized={@virtualized} />
+                <.option
+                  :for={opt <- grp.options}
+                  opt={opt}
+                  id={@id}
+                  value={@value}
+                  multiple={@multiple}
+                  virtualized={@virtualized}
+                />
               </ul>
             </li>
           <% else %>
-            <.option :for={opt <- grp.options} opt={opt} id={@id} value={@value} multiple={@multiple} virtualized={@virtualized} />
+            <.option
+              :for={opt <- grp.options}
+              opt={opt}
+              id={@id}
+              value={@value}
+              multiple={@multiple}
+              virtualized={@virtualized}
+            />
           <% end %>
         <% end %>
 
-        <li :if={@empty != []} data-part="empty" data-hidden role="presentation" class="chelekom-combobox__empty">
+        <li
+          :if={@empty != []}
+          data-part="empty"
+          data-hidden
+          role="presentation"
+          class="chelekom-combobox__empty"
+        >
           {render_slot(@empty)}
         </li>
         <li :if={@creatable} data-part="create" data-hidden class="chelekom-combobox__create">
@@ -208,7 +255,10 @@ defmodule DevelopmentWeb.Components.Headless.Combobox do
     |> Enum.with_index()
     |> Enum.chunk_by(fn {opt, _i} -> opt[:group] end)
     |> Enum.map(fn [{first, _} | _] = chunk ->
-      %{label: first[:group], options: Enum.map(chunk, fn {opt, i} -> Map.put(opt, :__i__, i) end)}
+      %{
+        label: first[:group],
+        options: Enum.map(chunk, fn {opt, i} -> Map.put(opt, :__i__, i) end)
+      }
     end)
   end
 

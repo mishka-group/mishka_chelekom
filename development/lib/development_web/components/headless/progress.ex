@@ -19,11 +19,15 @@ defmodule DevelopmentWeb.Components.Headless.Progress do
   attr :value, :integer, default: nil, doc: "Current value in [min, max]; nil = indeterminate"
   attr :min, :integer, default: 0, doc: "Lower bound of the range"
   attr :max, :integer, default: 100, doc: "Upper bound of the range"
-  attr :label, :string, default: nil, doc: "Accessible label (rendered + wired to aria-labelledby)"
+
+  attr :label, :string,
+    default: nil,
+    doc: "Accessible label (rendered + wired to aria-labelledby)"
 
   attr :value_text, :string,
     default: nil,
-    doc: ~s|Human value for aria-valuetext + readout (defaults to a percent; "Indeterminate" when nil)|
+    doc:
+      ~s|Human value for aria-valuetext + readout (defaults to a percent; "Indeterminate" when nil)|
 
   attr :show_value, :boolean, default: false, doc: ~s|Render a `data-part="value"` readout|
   attr :class, :any, default: nil, doc: "Extra classes for the root"

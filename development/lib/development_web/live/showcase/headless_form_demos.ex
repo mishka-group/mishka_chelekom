@@ -36,15 +36,19 @@ defmodule DevelopmentWeb.Showcase.NumberFieldFormDemo do
     changeset = cs(p)
 
     if changeset.valid?,
-      do: {:noreply, assign(socket, saved: apply_changes(changeset), form: to_form(changeset, as: :order))},
-      else: {:noreply, assign(socket, saved: nil, form: to_form(changeset, as: :order, action: :save))}
+      do:
+        {:noreply,
+         assign(socket, saved: apply_changes(changeset), form: to_form(changeset, as: :order))},
+      else:
+        {:noreply,
+         assign(socket, saved: nil, form: to_form(changeset, as: :order, action: :save))}
   end
 
   @impl true
   def render(assigns) do
     ~H"""
     <div>
-      <.form for={@form} phx-target={@myself} phx-submit="save" :let={f} class="space-y-3">
+      <.form :let={f} for={@form} phx-target={@myself} phx-submit="save" class="space-y-3">
         <label class="block text-sm font-medium">Quantity (1–10)</label>
         <NumberField.number_field
           id={"#{@id}-qty"}
@@ -57,11 +61,17 @@ defmodule DevelopmentWeb.Showcase.NumberFieldFormDemo do
           class="inline-flex items-center rounded-md border border-base-300 [&_[data-part=decrement]]:px-3 [&_[data-part=decrement]]:py-1.5 [&_[data-part=decrement]]:text-lg [&_[data-part=decrement]]:hover:bg-base-200 [&_[data-part=increment]]:px-3 [&_[data-part=increment]]:py-1.5 [&_[data-part=increment]]:text-lg [&_[data-part=increment]]:hover:bg-base-200 [&_[data-part=input]]:w-16 [&_[data-part=input]]:border-x [&_[data-part=input]]:border-base-300 [&_[data-part=input]]:py-1.5 [&_[data-part=input]]:text-center [&_[data-part=input]]:outline-none"
         />
         <p :for={e <- f[:qty].errors} class="text-sm text-error">{H.err(e)}</p>
-        <button type="submit" class="rounded-md bg-primary px-4 py-1.5 text-sm font-medium text-primary-content">
+        <button
+          type="submit"
+          class="rounded-md bg-primary px-4 py-1.5 text-sm font-medium text-primary-content"
+        >
           Order
         </button>
       </.form>
-      <div :if={@saved} class="mt-3 rounded-md border border-success/40 bg-success/10 p-3 text-sm font-medium text-success">
+      <div
+        :if={@saved}
+        class="mt-3 rounded-md border border-success/40 bg-success/10 p-3 text-sm font-medium text-success"
+      >
         ✓ Ordered quantity {@saved.qty} (not persisted)
       </div>
     </div>
@@ -98,15 +108,18 @@ defmodule DevelopmentWeb.Showcase.ComboboxFormDemo do
     changeset = cs(p)
 
     if changeset.valid?,
-      do: {:noreply, assign(socket, saved: apply_changes(changeset), form: to_form(changeset, as: :pick))},
-      else: {:noreply, assign(socket, saved: nil, form: to_form(changeset, as: :pick, action: :save))}
+      do:
+        {:noreply,
+         assign(socket, saved: apply_changes(changeset), form: to_form(changeset, as: :pick))},
+      else:
+        {:noreply, assign(socket, saved: nil, form: to_form(changeset, as: :pick, action: :save))}
   end
 
   @impl true
   def render(assigns) do
     ~H"""
     <div>
-      <.form for={@form} phx-target={@myself} phx-submit="save" :let={f} class="space-y-3">
+      <.form :let={f} for={@form} phx-target={@myself} phx-submit="save" class="space-y-3">
         <label class="block text-sm font-medium">Favorite fruit (required)</label>
         <Combobox.combobox
           id={"#{@id}-fruit"}
@@ -123,11 +136,17 @@ defmodule DevelopmentWeb.Showcase.ComboboxFormDemo do
           <:empty>No fruit found.</:empty>
         </Combobox.combobox>
         <p :for={e <- f[:fruit].errors} class="text-sm text-error">{H.err(e)}</p>
-        <button type="submit" class="rounded-md bg-primary px-4 py-1.5 text-sm font-medium text-primary-content">
+        <button
+          type="submit"
+          class="rounded-md bg-primary px-4 py-1.5 text-sm font-medium text-primary-content"
+        >
           Save
         </button>
       </.form>
-      <div :if={@saved} class="mt-3 rounded-md border border-success/40 bg-success/10 p-3 text-sm font-medium text-success">
+      <div
+        :if={@saved}
+        class="mt-3 rounded-md border border-success/40 bg-success/10 p-3 text-sm font-medium text-success"
+      >
         ✓ Picked {@saved.fruit} (not persisted)
       </div>
     </div>
@@ -174,15 +193,19 @@ defmodule DevelopmentWeb.Showcase.CheckboxGroupFormDemo do
     changeset = cs(p)
 
     if changeset.valid?,
-      do: {:noreply, assign(socket, saved: apply_changes(changeset), form: to_form(changeset, as: :prefs))},
-      else: {:noreply, assign(socket, saved: nil, form: to_form(changeset, as: :prefs, action: :save))}
+      do:
+        {:noreply,
+         assign(socket, saved: apply_changes(changeset), form: to_form(changeset, as: :prefs))},
+      else:
+        {:noreply,
+         assign(socket, saved: nil, form: to_form(changeset, as: :prefs, action: :save))}
   end
 
   @impl true
   def render(assigns) do
     ~H"""
     <div>
-      <.form for={@form} phx-target={@myself} phx-submit="save" :let={f} class="space-y-3">
+      <.form :let={f} for={@form} phx-target={@myself} phx-submit="save" class="space-y-3">
         <CheckboxGroup.checkbox_group
           id={"#{@id}-toppings"}
           name={f[:toppings].name}
@@ -195,11 +218,17 @@ defmodule DevelopmentWeb.Showcase.CheckboxGroupFormDemo do
           <:item value="pepperoni">Pepperoni</:item>
         </CheckboxGroup.checkbox_group>
         <p :for={e <- f[:toppings].errors} class="text-sm text-error">{H.err(e)}</p>
-        <button type="submit" class="rounded-md bg-primary px-4 py-1.5 text-sm font-medium text-primary-content">
+        <button
+          type="submit"
+          class="rounded-md bg-primary px-4 py-1.5 text-sm font-medium text-primary-content"
+        >
           Save
         </button>
       </.form>
-      <div :if={@saved} class="mt-3 rounded-md border border-success/40 bg-success/10 p-3 text-sm font-medium text-success">
+      <div
+        :if={@saved}
+        class="mt-3 rounded-md border border-success/40 bg-success/10 p-3 text-sm font-medium text-success"
+      >
         ✓ Toppings: {Enum.join(@saved.toppings, ", ")} (not persisted)
       </div>
     </div>
@@ -249,15 +278,19 @@ defmodule DevelopmentWeb.Showcase.CheckboxFormDemo do
     changeset = cs(p)
 
     if changeset.valid?,
-      do: {:noreply, assign(socket, saved: apply_changes(changeset), form: to_form(changeset, as: :signup))},
-      else: {:noreply, assign(socket, saved: nil, form: to_form(changeset, as: :signup, action: :save))}
+      do:
+        {:noreply,
+         assign(socket, saved: apply_changes(changeset), form: to_form(changeset, as: :signup))},
+      else:
+        {:noreply,
+         assign(socket, saved: nil, form: to_form(changeset, as: :signup, action: :save))}
   end
 
   @impl true
   def render(assigns) do
     ~H"""
     <div>
-      <.form for={@form} phx-target={@myself} phx-submit="save" :let={f} class="space-y-3">
+      <.form :let={f} for={@form} phx-target={@myself} phx-submit="save" class="space-y-3">
         <div class="flex items-start gap-2">
           <input type="hidden" name={f[:terms].name} value="false" />
           <Checkbox.checkbox
@@ -272,11 +305,17 @@ defmodule DevelopmentWeb.Showcase.CheckboxFormDemo do
           </Checkbox.checkbox>
         </div>
         <p :for={e <- f[:terms].errors} class="text-sm text-error">{H.err(e)}</p>
-        <button type="submit" class="rounded-md bg-primary px-4 py-1.5 text-sm font-medium text-primary-content">
+        <button
+          type="submit"
+          class="rounded-md bg-primary px-4 py-1.5 text-sm font-medium text-primary-content"
+        >
           Sign up
         </button>
       </.form>
-      <div :if={@saved} class="mt-3 rounded-md border border-success/40 bg-success/10 p-3 text-sm font-medium text-success">
+      <div
+        :if={@saved}
+        class="mt-3 rounded-md border border-success/40 bg-success/10 p-3 text-sm font-medium text-success"
+      >
         ✓ Signed up — terms accepted (not persisted)
       </div>
     </div>
@@ -320,15 +359,19 @@ defmodule DevelopmentWeb.Showcase.AutocompleteFormDemo do
     changeset = cs(p)
 
     if changeset.valid?,
-      do: {:noreply, assign(socket, saved: apply_changes(changeset), form: to_form(changeset, as: :search))},
-      else: {:noreply, assign(socket, saved: nil, form: to_form(changeset, as: :search, action: :save))}
+      do:
+        {:noreply,
+         assign(socket, saved: apply_changes(changeset), form: to_form(changeset, as: :search))},
+      else:
+        {:noreply,
+         assign(socket, saved: nil, form: to_form(changeset, as: :search, action: :save))}
   end
 
   @impl true
   def render(assigns) do
     ~H"""
     <div>
-      <.form for={@form} phx-target={@myself} phx-submit="save" :let={f} class="space-y-3">
+      <.form :let={f} for={@form} phx-target={@myself} phx-submit="save" class="space-y-3">
         <label class="block text-sm font-medium">City (required)</label>
         <Autocomplete.autocomplete
           id={"#{@id}-city"}
@@ -347,11 +390,17 @@ defmodule DevelopmentWeb.Showcase.AutocompleteFormDemo do
           <:empty>No matches.</:empty>
         </Autocomplete.autocomplete>
         <p :for={e <- f[:city].errors} class="text-sm text-error">{H.err(e)}</p>
-        <button type="submit" class="rounded-md bg-primary px-4 py-1.5 text-sm font-medium text-primary-content">
+        <button
+          type="submit"
+          class="rounded-md bg-primary px-4 py-1.5 text-sm font-medium text-primary-content"
+        >
           Save
         </button>
       </.form>
-      <div :if={@saved} class="mt-3 rounded-md border border-success/40 bg-success/10 p-3 text-sm font-medium text-success">
+      <div
+        :if={@saved}
+        class="mt-3 rounded-md border border-success/40 bg-success/10 p-3 text-sm font-medium text-success"
+      >
         ✓ City: {@saved.city} (not persisted)
       </div>
     </div>
@@ -400,15 +449,25 @@ defmodule DevelopmentWeb.Showcase.FieldsetFormDemo do
     changeset = cs(p)
 
     if changeset.valid?,
-      do: {:noreply, assign(socket, saved: apply_changes(changeset), form: to_form(changeset, as: :addr))},
-      else: {:noreply, assign(socket, saved: nil, form: to_form(changeset, as: :addr, action: :save))}
+      do:
+        {:noreply,
+         assign(socket, saved: apply_changes(changeset), form: to_form(changeset, as: :addr))},
+      else:
+        {:noreply, assign(socket, saved: nil, form: to_form(changeset, as: :addr, action: :save))}
   end
 
   @impl true
   def render(assigns) do
     ~H"""
     <div>
-      <.form for={@form} phx-target={@myself} phx-change="validate" phx-submit="save" :let={f} class="space-y-3">
+      <.form
+        :let={f}
+        for={@form}
+        phx-target={@myself}
+        phx-change="validate"
+        phx-submit="save"
+        class="space-y-3"
+      >
         <Fieldset.fieldset id={"#{@id}-fs"} class={fs_class()}>
           <:legend>Shipping address</:legend>
           <div class="space-y-2">
@@ -420,7 +479,9 @@ defmodule DevelopmentWeb.Showcase.FieldsetFormDemo do
                 value={f[:street].value}
                 class="w-full rounded-md border border-base-300 px-3 py-1.5"
               />
-              <span :for={msg <- H.field_errors(f[:street])} class="mt-1 block text-xs text-error">{msg}</span>
+              <span :for={msg <- H.field_errors(f[:street])} class="mt-1 block text-xs text-error">
+                {msg}
+              </span>
             </label>
             <label class="block text-sm">
               <span class="mb-1 block text-base-content/70">City</span>
@@ -430,15 +491,23 @@ defmodule DevelopmentWeb.Showcase.FieldsetFormDemo do
                 value={f[:city].value}
                 class="w-full rounded-md border border-base-300 px-3 py-1.5"
               />
-              <span :for={msg <- H.field_errors(f[:city])} class="mt-1 block text-xs text-error">{msg}</span>
+              <span :for={msg <- H.field_errors(f[:city])} class="mt-1 block text-xs text-error">
+                {msg}
+              </span>
             </label>
           </div>
         </Fieldset.fieldset>
-        <button type="submit" class="rounded-md bg-primary px-4 py-1.5 text-sm font-medium text-primary-content">
+        <button
+          type="submit"
+          class="rounded-md bg-primary px-4 py-1.5 text-sm font-medium text-primary-content"
+        >
           Save
         </button>
       </.form>
-      <div :if={@saved} class="mt-3 rounded-md border border-success/40 bg-success/10 p-3 text-sm font-medium text-success">
+      <div
+        :if={@saved}
+        class="mt-3 rounded-md border border-success/40 bg-success/10 p-3 text-sm font-medium text-success"
+      >
         ✓ {@saved.street}, {@saved.city} (not persisted)
       </div>
     </div>
@@ -484,15 +553,18 @@ defmodule DevelopmentWeb.Showcase.RadioFormDemo do
     changeset = cs(p)
 
     if changeset.valid?,
-      do: {:noreply, assign(socket, saved: apply_changes(changeset), form: to_form(changeset, as: :sub))},
-      else: {:noreply, assign(socket, saved: nil, form: to_form(changeset, as: :sub, action: :save))}
+      do:
+        {:noreply,
+         assign(socket, saved: apply_changes(changeset), form: to_form(changeset, as: :sub))},
+      else:
+        {:noreply, assign(socket, saved: nil, form: to_form(changeset, as: :sub, action: :save))}
   end
 
   @impl true
   def render(assigns) do
     ~H"""
     <div>
-      <.form for={@form} phx-target={@myself} phx-submit="save" :let={f} class="space-y-3">
+      <.form :let={f} for={@form} phx-target={@myself} phx-submit="save" class="space-y-3">
         <fieldset class="flex flex-col gap-2">
           <legend class="mb-1 text-sm font-medium">Plan (required)</legend>
           <Radio.radio
@@ -507,11 +579,17 @@ defmodule DevelopmentWeb.Showcase.RadioFormDemo do
           </Radio.radio>
         </fieldset>
         <p :for={msg <- H.field_errors(f[:plan])} class="text-sm text-error">{msg}</p>
-        <button type="submit" class="rounded-md bg-primary px-4 py-1.5 text-sm font-medium text-primary-content">
+        <button
+          type="submit"
+          class="rounded-md bg-primary px-4 py-1.5 text-sm font-medium text-primary-content"
+        >
           Subscribe
         </button>
       </.form>
-      <div :if={@saved} class="mt-3 rounded-md border border-success/40 bg-success/10 p-3 text-sm font-medium text-success">
+      <div
+        :if={@saved}
+        class="mt-3 rounded-md border border-success/40 bg-success/10 p-3 text-sm font-medium text-success"
+      >
         ✓ Subscribed to the {@saved.plan} plan (not persisted)
       </div>
     </div>
