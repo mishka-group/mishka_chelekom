@@ -42,7 +42,18 @@ const Slider = {
     }
 
     this.values = this.thumbs.map((t) => parseFloat(t.getAttribute("data-value") ?? String(this.min)));
+    this.setupThumbs();
 
+    // Pressing the track jumps the nearest thumb to the pointer, then drags it.
+    if (!this.disabled) this.control.addEventListener("pointerdown", (e) => this.onTrackPress(e));
+
+    this.render();
+  },
+
+  // Configure each thumb (aria + roving) and bind its keyboard/drag listeners. Safe to re-run after a
+  // server patch: a per-element guard flag stops surviving thumbs from being double-bound.
+  setupThumbs() {
+    this.thumbs = Array.from(this.el.querySelectorAll('[data-part="thumb"]'));
     this.thumbs.forEach((thumb, i) => {
       thumb.setAttribute("role", "slider");
       thumb.setAttribute("aria-valuemin", String(this.min));
@@ -50,7 +61,8 @@ const Slider = {
       thumb.setAttribute("aria-orientation", this.vertical ? "vertical" : "horizontal");
       thumb.setAttribute("data-index", String(i));
       thumb.setAttribute("tabindex", this.disabled ? "-1" : "0");
-      if (!this.disabled) {
+      if (!this.disabled && !thumb._sliderBound) {
+        thumb._sliderBound = true;
         thumb.addEventListener("keydown", (e) => this.onKey(e, i));
         thumb.addEventListener("keyup", () => this.commit());
         thumb.addEventListener("pointerdown", (e) => {
@@ -59,10 +71,16 @@ const Slider = {
         });
       }
     });
+  },
 
-    // Pressing the track jumps the nearest thumb to the pointer, then drags it.
-    if (!this.disabled) this.control.addEventListener("pointerdown", (e) => this.onTrackPress(e));
-
+  // A server re-render (e.g. a form submit) re-patches the DOM and strips the hook's client-set inline
+  // positioning. Re-read the server values and re-apply the layout, so the thumb/indicator don't
+  // collapse into the corner until the next drag.
+  updated() {
+    this.indicator = this.el.querySelector('[data-part="indicator"]');
+    this.valueEl = this.el.querySelector('[data-part="value"]');
+    this.setupThumbs();
+    this.values = this.thumbs.map((t) => parseFloat(t.getAttribute("data-value") ?? String(this.min)));
     this.render();
   },
 
