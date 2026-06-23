@@ -161,12 +161,19 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
     ~H"""
     <div class="flex flex-col gap-2">
       <.radio
-        :for={{label, v} <- [{"Email", "email"}, {"SMS", "sms"}, {"Push", "push"}]}
+        :for={
+          {label, v, dis} <- [
+            {"Email", "email", false},
+            {"SMS", "sms", false},
+            {"Push (disabled)", "push", true}
+          ]
+        }
         id={"#{@id}-#{v}"}
         name="notify"
         value={v}
         checked={v == "email"}
-        class="inline-flex cursor-pointer items-center gap-2 [&_input]:size-4"
+        disabled={dis}
+        class={radio_class()}
       >
         {label}
       </.radio>
@@ -1073,6 +1080,13 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
   def has_examples?("toast"), do: true
   def has_examples?("field"), do: true
   def has_examples?("otp_field"), do: true
+  def has_examples?("checkbox"), do: true
+  def has_examples?("checkbox_group"), do: true
+  def has_examples?("combobox"), do: true
+  def has_examples?("number_field"), do: true
+  def has_examples?("autocomplete"), do: true
+  def has_examples?("fieldset"), do: true
+  def has_examples?("radio"), do: true
   def has_examples?(_), do: false
 
   def examples(%{component: "toast"} = assigns) do
@@ -1277,7 +1291,157 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
     """
   end
 
+  def examples(%{component: "checkbox"} = assigns) do
+    ~H"""
+    <div class="space-y-3">
+      <details open class="rounded-box border border-base-300 bg-base-100 p-4">
+        <summary class="cursor-pointer select-none font-medium">
+          In a form — accept terms (Ecto changeset, not persisted)
+        </summary>
+        <p class="mt-1 text-sm text-base-content/60">
+          A boolean checkbox submitted with <code>&lt;.form&gt;</code>
+          and validated by <code>validate_acceptance</code>. A hidden <code>false</code>
+          input supplies the unchecked value (the same trick <code>&lt;.input type="checkbox"&gt;</code> uses).
+        </p>
+        <div class="mt-4 max-w-sm">
+          <.live_component module={DevelopmentWeb.Showcase.CheckboxFormDemo} id={"#{@id}-form"} />
+        </div>
+      </details>
+    </div>
+    """
+  end
+
+  def examples(%{component: "checkbox_group"} = assigns) do
+    ~H"""
+    <div class="space-y-3">
+      <details open class="rounded-box border border-base-300 bg-base-100 p-4">
+        <summary class="cursor-pointer select-none font-medium">
+          In a form — pick toppings (submits a list, validated)
+        </summary>
+        <p class="mt-1 text-sm text-base-content/60">
+          The checked items submit as <code>name[]</code>, cast to an
+          <code>array of strings</code>
+          changeset field and validated to require at least one.
+        </p>
+        <div class="mt-4 max-w-sm">
+          <.live_component module={DevelopmentWeb.Showcase.CheckboxGroupFormDemo} id={"#{@id}-form"} />
+        </div>
+      </details>
+    </div>
+    """
+  end
+
+  def examples(%{component: "combobox"} = assigns) do
+    ~H"""
+    <div class="space-y-3">
+      <details open class="rounded-box border border-base-300 bg-base-100 p-4">
+        <summary class="cursor-pointer select-none font-medium">
+          In a form — select a value (required, validated)
+        </summary>
+        <p class="mt-1 text-sm text-base-content/60">
+          The selection submits via the combobox's hidden value input (<code>name</code>) and is
+          validated <code>required</code> on submit.
+        </p>
+        <div class="mt-4 max-w-sm">
+          <.live_component module={DevelopmentWeb.Showcase.ComboboxFormDemo} id={"#{@id}-form"} />
+        </div>
+      </details>
+    </div>
+    """
+  end
+
+  def examples(%{component: "number_field"} = assigns) do
+    ~H"""
+    <div class="space-y-3">
+      <details open class="rounded-box border border-base-300 bg-base-100 p-4">
+        <summary class="cursor-pointer select-none font-medium">
+          In a form — quantity with range validation
+        </summary>
+        <p class="mt-1 text-sm text-base-content/60">
+          The raw number submits via the hidden <code>type="number"</code>
+          input and is validated with <code>validate_number</code> (1–10) on submit.
+        </p>
+        <div class="mt-4 max-w-sm">
+          <.live_component module={DevelopmentWeb.Showcase.NumberFieldFormDemo} id={"#{@id}-form"} />
+        </div>
+      </details>
+    </div>
+    """
+  end
+
+  def examples(%{component: "autocomplete"} = assigns) do
+    ~H"""
+    <div class="space-y-3">
+      <details open class="rounded-box border border-base-300 bg-base-100 p-4">
+        <summary class="cursor-pointer select-none font-medium">
+          In a form — pick a city (required, validated)
+        </summary>
+        <p class="mt-1 text-sm text-base-content/60">
+          The selection submits via the autocomplete's hidden value input (<code>name</code>) and is
+          validated <code>required</code> on submit.
+        </p>
+        <div class="mt-4 max-w-sm">
+          <.live_component module={DevelopmentWeb.Showcase.AutocompleteFormDemo} id={"#{@id}-form"} />
+        </div>
+      </details>
+    </div>
+    """
+  end
+
+  def examples(%{component: "fieldset"} = assigns) do
+    ~H"""
+    <div class="space-y-3">
+      <details open class="rounded-box border border-base-300 bg-base-100 p-4">
+        <summary class="cursor-pointer select-none font-medium">
+          In a form — group inputs (realtime + submit validation)
+        </summary>
+        <p class="mt-1 text-sm text-base-content/60">
+          The fieldset groups native inputs that submit normally; the changeset validates them on
+          <code>phx-change</code>
+          and <code>phx-submit</code>.
+        </p>
+        <div class="mt-4 max-w-sm">
+          <.live_component module={DevelopmentWeb.Showcase.FieldsetFormDemo} id={"#{@id}-form"} />
+        </div>
+      </details>
+    </div>
+    """
+  end
+
+  def examples(%{component: "radio"} = assigns) do
+    ~H"""
+    <div class="space-y-3">
+      <details open class="rounded-box border border-base-300 bg-base-100 p-4">
+        <summary class="cursor-pointer select-none font-medium">
+          In a form — choose a plan (required, validated)
+        </summary>
+        <p class="mt-1 text-sm text-base-content/60">
+          A native radio group (shared <code>name</code>) submitted with <code>&lt;.form&gt;</code>
+          and validated <code>required</code>. The <code>Radio</code>
+          hook keeps <code>data-checked</code>
+          live on each radio as the selection moves.
+        </p>
+        <div class="mt-4 max-w-sm">
+          <.live_component module={DevelopmentWeb.Showcase.RadioFormDemo} id={"#{@id}-form"} />
+        </div>
+      </details>
+    </div>
+    """
+  end
+
   def examples(assigns), do: ~H""
+
+  # Base-UI-style radio: a ring that fills with a dot when the root carries data-checked (set live by
+  # the Radio hook). Hides the native input; disabled dims the row.
+  defp radio_class do
+    [
+      "inline-flex cursor-pointer items-center gap-2 [&[data-disabled]]:cursor-not-allowed [&[data-disabled]]:opacity-50",
+      "[&_[data-part=input]]:sr-only",
+      "[&_[data-part=indicator]]:grid [&_[data-part=indicator]]:size-4 [&_[data-part=indicator]]:place-items-center [&_[data-part=indicator]]:rounded-full [&_[data-part=indicator]]:border [&_[data-part=indicator]]:border-base-300 [&_[data-part=indicator]]:bg-base-100",
+      "[&_[data-part=indicator][data-checked]]:border-primary [&_[data-part=indicator][data-checked]]:after:size-2 [&_[data-part=indicator][data-checked]]:after:rounded-full [&_[data-part=indicator][data-checked]]:after:bg-primary [&_[data-part=indicator][data-checked]]:after:content-['']",
+      "[&_[data-part=label]]:text-sm [&[data-checked]_[data-part=label]]:font-medium"
+    ]
+  end
 
   defp otp_field_class do
     [

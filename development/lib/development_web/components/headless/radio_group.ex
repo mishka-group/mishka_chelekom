@@ -1,12 +1,16 @@
 defmodule DevelopmentWeb.Components.Headless.RadioGroup do
   @moduledoc """
-  Headless **radio group** — a single-select group of radios with roving focus.
+  Headless **radio group** — a single-select group of radios with roving focus (Base UI parity).
 
   Behavior via the shared `RovingTabindex` engine: arrow keys (Up/Down) move focus and,
   because of `data-activate-on-focus`, immediately select the focused radio — toggling
-  `aria-checked` and keeping exactly one `tabindex=0`. Home/End jump to the first/last
-  radio. ARIA: `role="radiogroup"` on the root, `role="radio"` + `aria-checked` on items.
-  An optional hidden native `<input>` carries the value for form submission. Style via
+  `aria-checked` and keeping exactly one `tabindex=0`. Home/End jump to the first/last radio;
+  disabled items are skipped. ARIA: `role="radiogroup"` on the root, `role="radio"` +
+  `aria-checked` on items. The selected option (or the first enabled one) is the tabbable entry.
+
+  Group props mirror Base UI: `value`, `disabled`, `readonly`, `required`, `name` (a hidden
+  `<input>` carries the value, with `required` for form validation). The root reflects
+  `data-disabled`; disabled options reflect `data-disabled` + `aria-disabled`. Style via
   `chelekom-radio-group*` classes.
 
   WAI-ARIA APG: https://www.w3.org/WAI/ARIA/apg/patterns/radio/
@@ -17,14 +21,25 @@ defmodule DevelopmentWeb.Components.Headless.RadioGroup do
   attr :id, :string, required: true
   attr :name, :string, default: nil, doc: "Name for the hidden form input"
   attr :value, :string, default: nil, doc: "Currently selected value"
+  attr :disabled, :boolean, default: false, doc: "Disable the whole group (data-disabled)"
+  attr :readonly, :boolean, default: false, doc: "Block changing the selection (aria-readonly)"
+  attr :required, :boolean, default: false, doc: "Require a selection for form submit"
   attr :class, :any, default: nil
   attr :rest, :global
 
   slot :option, required: true, doc: "A radio option" do
     attr :value, :string, required: true
+    attr :disabled, :boolean, doc: "Disable just this option"
   end
 
   def radio_group(assigns) do
+    # The tabbable entry is the selected option, else the first enabled one (APG roving tabindex).
+    tabbable =
+      Enum.find_index(assigns.option, &(&1.value == assigns.value)) ||
+        Enum.find_index(assigns.option, &(!(&1[:disabled] || assigns.disabled))) || 0
+
+    assigns = assign(assigns, :tabbable, tabbable)
+
     ~H"""
     <div
       id={@id}
@@ -32,18 +47,33 @@ defmodule DevelopmentWeb.Components.Headless.RadioGroup do
       role="radiogroup"
       data-orientation="vertical"
       data-activate-on-focus
+      data-disabled={@disabled}
+      aria-disabled={@disabled && "true"}
+      aria-readonly={@readonly && "true"}
+      aria-required={@required && "true"}
       class={["chelekom-radio-group", @class]}
       {@rest}
     >
-      <input :if={@name} type="hidden" name={@name} value={@value} class="chelekom-sr-only" />
+      <input
+        :if={@name}
+        type="hidden"
+        name={@name}
+        value={@value}
+        required={@required}
+        class="chelekom-sr-only"
+      />
       <button
         :for={{opt, i} <- Enum.with_index(@option)}
         type="button"
         role="radio"
         data-part="item"
         data-value={opt.value}
-        aria-checked={to_string(i == 0)}
-        tabindex={if i == 0, do: "0", else: "-1"}
+        aria-checked={to_string(opt.value == @value)}
+        aria-disabled={(@disabled || opt[:disabled]) && "true"}
+        data-checked={opt.value == @value}
+        data-unchecked={opt.value != @value}
+        data-disabled={@disabled || opt[:disabled]}
+        tabindex={if i == @tabbable, do: "0", else: "-1"}
         class="chelekom-radio-group__item"
       >
         {render_slot(opt)}

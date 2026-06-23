@@ -18,6 +18,7 @@ import Slider from "./slider.js";
 import ToastRegion from "./toast_region.js";
 import Otp from "./otp.js";
 import Field from "./field.js";
+import Radio from "./radio.js";
 const Components = {
   Collapsible,
   Carousel,
@@ -39,5 +40,6 @@ const Components = {
   ToastRegion,
   Otp,
   Field,
+  Radio,
 };
 export default Components;

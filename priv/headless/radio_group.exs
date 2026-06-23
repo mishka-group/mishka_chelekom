@@ -16,15 +16,20 @@
     ],
     headless: [
       anatomy: [
+        root: [
+          element: "div",
+          role: "radiogroup",
+          aria: ["aria-orientation", "aria-disabled", "aria-readonly", "aria-required"],
+          data_attributes: ["data-disabled"]
+        ],
         parts: [
-          root: [element: "div", role: "radiogroup", aria: ["aria-orientation"]],
           item: [
             element: "button",
             role: "radio",
-            aria: ["aria-checked"],
-            data_attributes: ["data-highlighted"]
+            aria: ["aria-checked", "aria-disabled"],
+            data_attributes: ["data-checked", "data-unchecked", "data-disabled", "data-highlighted"]
           ],
-          hidden_input: [element: "input", note: "carries the value for form submission"]
+          hidden_input: [element: "input", note: "carries the value (+ required) for form submission"]
         ]
       ],
       aria_pattern: [
@@ -36,7 +41,7 @@
           "Space/Enter: select"
         ]
       ],
-      state_attributes: ["data-highlighted", "aria-checked"],
+      state_attributes: ["data-checked", "data-unchecked", "data-disabled", "data-highlighted"],
       hooks: ["RovingTabindex"]
     ]
   ]
