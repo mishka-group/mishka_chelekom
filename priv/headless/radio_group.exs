@@ -8,10 +8,10 @@
     necessary: [],
     scripts: [
       %{
-        module: "RovingTabindex",
+        module: "RadioGroup",
         type: "file",
-        file: "roving_tabindex.js",
-        imports: "import RovingTabindex from \"./roving_tabindex.js\";"
+        file: "radio_group.js",
+        imports: "import RadioGroup from \"./radio_group.js\";"
       }
     ],
     headless: [
@@ -27,7 +27,12 @@
             element: "button",
             role: "radio",
             aria: ["aria-checked", "aria-disabled"],
-            data_attributes: ["data-checked", "data-unchecked", "data-disabled", "data-highlighted"]
+            data_attributes: [
+              "data-checked",
+              "data-unchecked",
+              "data-disabled",
+              "data-highlighted"
+            ]
           ],
           hidden_input: [element: "input", note: "carries the value (+ required) for form submission"]
         ]
@@ -42,7 +47,7 @@
         ]
       ],
       state_attributes: ["data-checked", "data-unchecked", "data-disabled", "data-highlighted"],
-      hooks: ["RovingTabindex"]
+      hooks: ["RadioGroup"]
     ]
   ]
 ]

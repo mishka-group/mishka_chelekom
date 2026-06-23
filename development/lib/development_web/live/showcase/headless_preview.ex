@@ -856,15 +856,11 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
 
   def show(%{component: "radio_group"} = assigns) do
     ~H"""
-    <.radio_group
-      id={@id}
-      name="plan"
-      value="pro"
-      class="w-72 space-y-2 [&_[data-part=item]]:flex [&_[data-part=item]]:w-full [&_[data-part=item]]:cursor-pointer [&_[data-part=item]]:items-center [&_[data-part=item]]:gap-2 [&_[data-part=item]]:rounded-md [&_[data-part=item]]:border [&_[data-part=item]]:border-base-300 [&_[data-part=item]]:bg-base-100 [&_[data-part=item]]:px-3 [&_[data-part=item]]:py-2 [&_[data-part=item]]:text-left [&_[data-part=item][aria-checked=true]]:border-primary [&_[data-part=item][aria-checked=true]]:font-semibold"
-    >
+    <.radio_group id={@id} name="plan" value="pro" class={radio_group_class()}>
       <:option value="free">Free</:option>
       <:option value="pro">Pro</:option>
       <:option value="enterprise">Enterprise</:option>
+      <:option value="legacy" disabled>Legacy (unavailable)</:option>
     </.radio_group>
     """
   end
@@ -1094,6 +1090,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
   def has_examples?("autocomplete"), do: true
   def has_examples?("fieldset"), do: true
   def has_examples?("radio"), do: true
+  def has_examples?("radio_group"), do: true
   def has_examples?(_), do: false
 
   def examples(%{component: "toast"} = assigns) do
@@ -1441,7 +1438,43 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
     """
   end
 
+  def examples(%{component: "radio_group"} = assigns) do
+    ~H"""
+    <div class="space-y-3">
+      <details open class="rounded-box border border-base-300 bg-base-100 p-4">
+        <summary class="cursor-pointer select-none font-medium">
+          In a form — choose a plan (required, validated)
+        </summary>
+        <p class="mt-1 text-sm text-base-content/60">
+          The roving group's hidden input carries the selection (<code>name</code>); the
+          <code>RadioGroup</code>
+          hook keeps it (and <code>data-checked</code>) in sync as you arrow/click, so it submits with
+          <code>&lt;.form&gt;</code>
+          and is validated <code>required</code> on submit.
+        </p>
+        <div class="mt-4 max-w-sm">
+          <.live_component module={DevelopmentWeb.Showcase.RadioGroupFormDemo} id={"#{@id}-form"} />
+        </div>
+      </details>
+    </div>
+    """
+  end
+
   def examples(assigns), do: ~H""
+
+  # Radio group: each option is a card with a leading dot drawn by ::before that fills via data-checked
+  # (set live by the RadioGroup hook). data-highlighted = focus ring; data-disabled dims + blocks.
+  defp radio_group_class do
+    [
+      "w-72 space-y-2",
+      "[&_[data-part=item]]:flex [&_[data-part=item]]:w-full [&_[data-part=item]]:cursor-pointer [&_[data-part=item]]:items-center [&_[data-part=item]]:gap-2 [&_[data-part=item]]:rounded-md [&_[data-part=item]]:border [&_[data-part=item]]:border-base-300 [&_[data-part=item]]:bg-base-100 [&_[data-part=item]]:px-3 [&_[data-part=item]]:py-2 [&_[data-part=item]]:text-left",
+      # leading radio dot
+      "[&_[data-part=item]]:before:size-4 [&_[data-part=item]]:before:shrink-0 [&_[data-part=item]]:before:rounded-full [&_[data-part=item]]:before:border [&_[data-part=item]]:before:border-base-300 [&_[data-part=item]]:before:content-['']",
+      "[&_[data-part=item][data-checked]]:border-primary [&_[data-part=item][data-checked]]:font-semibold [&_[data-part=item][data-checked]]:before:border-[5px] [&_[data-part=item][data-checked]]:before:border-primary",
+      "[&_[data-part=item][data-highlighted]]:outline-none [&_[data-part=item][data-highlighted]]:ring-2 [&_[data-part=item][data-highlighted]]:ring-primary/40",
+      "[&_[data-part=item][data-disabled]]:cursor-not-allowed [&_[data-part=item][data-disabled]]:opacity-40"
+    ]
+  end
 
   # Base-UI-style radio: a ring that fills with a dot when the root carries data-checked (set live by
   # the Radio hook). Hides the native input; disabled dims the row.

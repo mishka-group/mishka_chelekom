@@ -613,3 +613,70 @@ defmodule DevelopmentWeb.Showcase.RadioFormDemo do
     ]
   end
 end
+
+defmodule DevelopmentWeb.Showcase.RadioGroupFormDemo do
+  @moduledoc "radio_group inside a `<.form>` — the roving group submits the selected value, validated."
+  use DevelopmentWeb, :live_component
+  alias DevelopmentWeb.Components.Headless.RadioGroup
+  import Ecto.Changeset
+  alias DevelopmentWeb.Showcase.FormDemoHelpers, as: H
+
+  @plans [{"free", "Free"}, {"pro", "Pro"}, {"enterprise", "Enterprise"}]
+
+  @impl true
+  def update(assigns, socket),
+    do:
+      {:ok,
+       socket
+       |> assign(assigns)
+       |> assign(:plans, @plans)
+       |> assign_new(:form, fn -> to_form(cs(%{}), as: :sub) end)
+       |> assign_new(:saved, fn -> nil end)}
+
+  @impl true
+  def handle_event("save", %{"sub" => p}, socket) do
+    changeset = cs(p)
+
+    if changeset.valid?,
+      do: {:noreply, assign(socket, saved: apply_changes(changeset), form: to_form(changeset, as: :sub))},
+      else: {:noreply, assign(socket, saved: nil, form: to_form(changeset, as: :sub, action: :save))}
+  end
+
+  @impl true
+  def render(assigns) do
+    ~H"""
+    <div>
+      <.form for={@form} phx-target={@myself} phx-submit="save" :let={f} class="space-y-3">
+        <span class="block text-sm font-medium">Plan (required)</span>
+        <RadioGroup.radio_group id={"#{@id}-plan"} name={f[:plan].name} value={f[:plan].value} class={rgc()}>
+          <:option :for={{v, label} <- @plans} value={v}>{label}</:option>
+        </RadioGroup.radio_group>
+        <p :for={msg <- H.field_errors(f[:plan])} class="text-sm text-error">{msg}</p>
+        <button type="submit" class="rounded-md bg-primary px-4 py-1.5 text-sm font-medium text-primary-content">
+          Subscribe
+        </button>
+      </.form>
+      <div :if={@saved} class="mt-3 rounded-md border border-success/40 bg-success/10 p-3 text-sm font-medium text-success">
+        ✓ Subscribed to the {@saved.plan} plan (not persisted)
+      </div>
+    </div>
+    """
+  end
+
+  defp cs(p) do
+    {%{}, %{plan: :string}}
+    |> cast(p, [:plan])
+    |> validate_required([:plan], message: "please choose a plan")
+    |> validate_inclusion(:plan, Enum.map(@plans, &elem(&1, 0)))
+  end
+
+  defp rgc do
+    [
+      "w-64 space-y-2",
+      "[&_[data-part=item]]:flex [&_[data-part=item]]:w-full [&_[data-part=item]]:cursor-pointer [&_[data-part=item]]:items-center [&_[data-part=item]]:gap-2 [&_[data-part=item]]:rounded-md [&_[data-part=item]]:border [&_[data-part=item]]:border-base-300 [&_[data-part=item]]:px-3 [&_[data-part=item]]:py-2 [&_[data-part=item]]:text-left",
+      "[&_[data-part=item]]:before:size-4 [&_[data-part=item]]:before:shrink-0 [&_[data-part=item]]:before:rounded-full [&_[data-part=item]]:before:border [&_[data-part=item]]:before:border-base-300 [&_[data-part=item]]:before:content-['']",
+      "[&_[data-part=item][data-checked]]:border-primary [&_[data-part=item][data-checked]]:font-semibold [&_[data-part=item][data-checked]]:before:border-[5px] [&_[data-part=item][data-checked]]:before:border-primary",
+      "[&_[data-part=item][data-highlighted]]:ring-2 [&_[data-part=item][data-highlighted]]:ring-primary/40 [&_[data-part=item][data-highlighted]]:outline-none"
+    ]
+  end
+end

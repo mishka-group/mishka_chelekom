@@ -2,11 +2,12 @@ defmodule <%= @module %> do
   @moduledoc """
   Headless **radio group** — a single-select group of radios with roving focus (Base UI parity).
 
-  Behavior via the shared `RovingTabindex` engine: arrow keys (Up/Down) move focus and,
-  because of `data-activate-on-focus`, immediately select the focused radio — toggling
-  `aria-checked` and keeping exactly one `tabindex=0`. Home/End jump to the first/last radio;
-  disabled items are skipped. ARIA: `role="radiogroup"` on the root, `role="radio"` +
-  `aria-checked` on items. The selected option (or the first enabled one) is the tabbable entry.
+  Behavior via the dedicated `RadioGroup` engine (roving tabindex with selection-follows-focus,
+  the APG radio pattern): Arrow Down/Right → next, Arrow Up/Left → previous (wrapping), Home/End →
+  first/last; focusing or clicking an option selects it. On selection the hook updates every item's
+  `aria-checked` + `data-checked`/`data-unchecked` + roving `tabindex`, **writes the value into the
+  hidden `<input>` (and dispatches `input` so `<.form phx-change>` fires)** and pushes `on_change`.
+  Disabled items are skipped; the selected option (or the first enabled one) is the tabbable entry.
 
   Group props mirror Base UI: `value`, `disabled`, `readonly`, `required`, `name` (a hidden
   `<input>` carries the value, with `required` for form validation). The root reflects
@@ -24,6 +25,8 @@ defmodule <%= @module %> do
   attr :disabled, :boolean, default: false, doc: "Disable the whole group (data-disabled)"
   attr :readonly, :boolean, default: false, doc: "Block changing the selection (aria-readonly)"
   attr :required, :boolean, default: false, doc: "Require a selection for form submit"
+  attr :form, :string, default: nil, doc: "Form id owning the hidden input (when rendered outside the form)"
+  attr :on_change, :string, default: nil, doc: "LiveView event pushed on selection ({value})"
   attr :class, :any, default: nil
   attr :rest, :global
 
@@ -43,11 +46,11 @@ defmodule <%= @module %> do
     ~H"""
     <div
       id={@id}
-      phx-hook="RovingTabindex"
+      phx-hook="RadioGroup"
       role="radiogroup"
       data-orientation="vertical"
-      data-activate-on-focus
       data-disabled={@disabled}
+      data-on-change={@on_change}
       aria-disabled={@disabled && "true"}
       aria-readonly={@readonly && "true"}
       aria-required={@required && "true"}
@@ -59,6 +62,7 @@ defmodule <%= @module %> do
         type="hidden"
         name={@name}
         value={@value}
+        form={@form}
         required={@required}
         class="chelekom-sr-only"
       />
