@@ -20,6 +20,7 @@ import Otp from "./otp.js";
 import Field from "./field.js";
 import Radio from "./radio.js";
 import RadioGroup from "./radio_group.js";
+import Select from "./select.js";
 const Components = {
   Collapsible,
   Carousel,
@@ -43,5 +44,6 @@ const Components = {
   Field,
   Radio,
   RadioGroup,
+  Select,
 };
 export default Components;

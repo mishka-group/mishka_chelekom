@@ -638,25 +638,39 @@ defmodule DevelopmentWeb.Showcase.RadioGroupFormDemo do
     changeset = cs(p)
 
     if changeset.valid?,
-      do: {:noreply, assign(socket, saved: apply_changes(changeset), form: to_form(changeset, as: :sub))},
-      else: {:noreply, assign(socket, saved: nil, form: to_form(changeset, as: :sub, action: :save))}
+      do:
+        {:noreply,
+         assign(socket, saved: apply_changes(changeset), form: to_form(changeset, as: :sub))},
+      else:
+        {:noreply, assign(socket, saved: nil, form: to_form(changeset, as: :sub, action: :save))}
   end
 
   @impl true
   def render(assigns) do
     ~H"""
     <div>
-      <.form for={@form} phx-target={@myself} phx-submit="save" :let={f} class="space-y-3">
+      <.form :let={f} for={@form} phx-target={@myself} phx-submit="save" class="space-y-3">
         <span class="block text-sm font-medium">Plan (required)</span>
-        <RadioGroup.radio_group id={"#{@id}-plan"} name={f[:plan].name} value={f[:plan].value} class={rgc()}>
+        <RadioGroup.radio_group
+          id={"#{@id}-plan"}
+          name={f[:plan].name}
+          value={f[:plan].value}
+          class={rgc()}
+        >
           <:option :for={{v, label} <- @plans} value={v}>{label}</:option>
         </RadioGroup.radio_group>
         <p :for={msg <- H.field_errors(f[:plan])} class="text-sm text-error">{msg}</p>
-        <button type="submit" class="rounded-md bg-primary px-4 py-1.5 text-sm font-medium text-primary-content">
+        <button
+          type="submit"
+          class="rounded-md bg-primary px-4 py-1.5 text-sm font-medium text-primary-content"
+        >
           Subscribe
         </button>
       </.form>
-      <div :if={@saved} class="mt-3 rounded-md border border-success/40 bg-success/10 p-3 text-sm font-medium text-success">
+      <div
+        :if={@saved}
+        class="mt-3 rounded-md border border-success/40 bg-success/10 p-3 text-sm font-medium text-success"
+      >
         ✓ Subscribed to the {@saved.plan} plan (not persisted)
       </div>
     </div>
@@ -677,6 +691,96 @@ defmodule DevelopmentWeb.Showcase.RadioGroupFormDemo do
       "[&_[data-part=item]]:before:size-4 [&_[data-part=item]]:before:shrink-0 [&_[data-part=item]]:before:rounded-full [&_[data-part=item]]:before:border [&_[data-part=item]]:before:border-base-300 [&_[data-part=item]]:before:content-['']",
       "[&_[data-part=item][data-checked]]:border-primary [&_[data-part=item][data-checked]]:font-semibold [&_[data-part=item][data-checked]]:before:border-[5px] [&_[data-part=item][data-checked]]:before:border-primary",
       "[&_[data-part=item][data-highlighted]]:ring-2 [&_[data-part=item][data-highlighted]]:ring-primary/40 [&_[data-part=item][data-highlighted]]:outline-none"
+    ]
+  end
+end
+
+defmodule DevelopmentWeb.Showcase.SelectFormDemo do
+  @moduledoc "select inside a `<.form>` — the listbox's hidden input submits the chosen value, validated."
+  use DevelopmentWeb, :live_component
+  alias DevelopmentWeb.Components.Headless.Select
+  import Ecto.Changeset
+  alias DevelopmentWeb.Showcase.FormDemoHelpers, as: H
+
+  @countries [
+    {"us", "United States"},
+    {"gb", "United Kingdom"},
+    {"de", "Germany"},
+    {"jp", "Japan"}
+  ]
+
+  @impl true
+  def update(assigns, socket),
+    do:
+      {:ok,
+       socket
+       |> assign(assigns)
+       |> assign(:countries, @countries)
+       |> assign_new(:form, fn -> to_form(cs(%{}), as: :ship) end)
+       |> assign_new(:saved, fn -> nil end)}
+
+  @impl true
+  def handle_event("save", %{"ship" => p}, socket) do
+    changeset = cs(p)
+
+    if changeset.valid?,
+      do:
+        {:noreply,
+         assign(socket, saved: apply_changes(changeset), form: to_form(changeset, as: :ship))},
+      else:
+        {:noreply, assign(socket, saved: nil, form: to_form(changeset, as: :ship, action: :save))}
+  end
+
+  @impl true
+  def render(assigns) do
+    ~H"""
+    <div>
+      <.form :let={f} for={@form} phx-target={@myself} phx-submit="save" class="space-y-3">
+        <label class="block text-sm font-medium">Ship to (required)</label>
+        <Select.select
+          id={"#{@id}-country"}
+          name={f[:country].name}
+          value={f[:country].value}
+          placeholder="Choose a country…"
+          class={sc()}
+        >
+          <:option :for={{v, label} <- @countries} value={v}>{label}</:option>
+        </Select.select>
+        <p :for={msg <- H.field_errors(f[:country])} class="text-sm text-error">{msg}</p>
+        <button
+          type="submit"
+          class="rounded-md bg-primary px-4 py-1.5 text-sm font-medium text-primary-content"
+        >
+          Continue
+        </button>
+      </.form>
+      <div
+        :if={@saved}
+        class="mt-3 rounded-md border border-success/40 bg-success/10 p-3 text-sm font-medium text-success"
+      >
+        ✓ Shipping to {@saved.country} (not persisted)
+      </div>
+    </div>
+    """
+  end
+
+  defp cs(p) do
+    {%{}, %{country: :string}}
+    |> cast(p, [:country])
+    |> validate_required([:country], message: "please choose a country")
+    |> validate_inclusion(:country, Enum.map(@countries, &elem(&1, 0)))
+  end
+
+  defp sc do
+    [
+      "relative inline-block",
+      "[&_[data-part=trigger]]:flex [&_[data-part=trigger]]:min-w-56 [&_[data-part=trigger]]:items-center [&_[data-part=trigger]]:justify-between [&_[data-part=trigger]]:gap-2 [&_[data-part=trigger]]:rounded-md [&_[data-part=trigger]]:border [&_[data-part=trigger]]:border-base-300 [&_[data-part=trigger]]:bg-base-100 [&_[data-part=trigger]]:px-3 [&_[data-part=trigger]]:py-1.5 [&_[data-part=trigger]]:text-left",
+      "[&_[data-part=value][data-placeholder]]:text-base-content/40",
+      "[&_[data-part=icon]]:text-base-content/50 [&_[data-part=icon][data-popup-open]]:rotate-180",
+      "[&_[data-part=positioner]]:relative",
+      "[&_[data-part=popup]]:absolute [&_[data-part=popup]]:left-0 [&_[data-part=popup]]:right-0 [&_[data-part=popup]]:top-full [&_[data-part=popup]]:z-10 [&_[data-part=popup]]:mt-1 [&_[data-part=popup]]:max-h-60 [&_[data-part=popup]]:overflow-auto [&_[data-part=popup]]:rounded-md [&_[data-part=popup]]:border [&_[data-part=popup]]:border-base-300 [&_[data-part=popup]]:bg-base-100 [&_[data-part=popup]]:p-1 [&_[data-part=popup]]:shadow-lg [&_[data-part=popup][data-closed]]:hidden",
+      "[&_[data-part=item]]:flex [&_[data-part=item]]:cursor-pointer [&_[data-part=item]]:items-center [&_[data-part=item]]:gap-2 [&_[data-part=item]]:rounded [&_[data-part=item]]:px-2 [&_[data-part=item]]:py-1.5 [&_[data-part=item]]:outline-none [&_[data-part=item][data-highlighted]]:bg-base-200 [&_[data-part=item][data-selected]]:font-semibold",
+      "[&_[data-part=item-indicator]]:w-4 [&_[data-part=item-indicator]]:shrink-0 [&_[data-part=item-indicator]]:text-xs [&_[data-part=item-indicator]]:opacity-0 [&_[data-part=item][data-selected]_[data-part=item-indicator]]:opacity-100"
     ]
   end
 end

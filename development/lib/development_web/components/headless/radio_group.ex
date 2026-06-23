@@ -25,7 +25,11 @@ defmodule DevelopmentWeb.Components.Headless.RadioGroup do
   attr :disabled, :boolean, default: false, doc: "Disable the whole group (data-disabled)"
   attr :readonly, :boolean, default: false, doc: "Block changing the selection (aria-readonly)"
   attr :required, :boolean, default: false, doc: "Require a selection for form submit"
-  attr :form, :string, default: nil, doc: "Form id owning the hidden input (when rendered outside the form)"
+
+  attr :form, :string,
+    default: nil,
+    doc: "Form id owning the hidden input (when rendered outside the form)"
+
   attr :on_change, :string, default: nil, doc: "LiveView event pushed on selection ({value})"
   attr :class, :any, default: nil
   attr :rest, :global

@@ -888,17 +888,43 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
 
   def show(%{component: "select"} = assigns) do
     ~H"""
-    <.select
-      id={@id}
-      name="fruit"
-      value="Banana"
-      placeholder="Choose a fruit…"
-      class="[&_[data-part=trigger]]:min-w-44 [&_[data-part=trigger]]:rounded-md [&_[data-part=trigger]]:border [&_[data-part=trigger]]:border-base-300 [&_[data-part=trigger]]:bg-base-100 [&_[data-part=trigger]]:px-3 [&_[data-part=trigger]]:py-1.5 [&_[data-part=trigger]]:text-left [&_[data-part=popup]]:mt-1 [&_[data-part=popup]]:min-w-44 [&_[data-part=popup]]:rounded-md [&_[data-part=popup]]:border [&_[data-part=popup]]:border-base-300 [&_[data-part=popup]]:bg-base-100 [&_[data-part=popup]]:p-1 [&_[data-part=popup]]:shadow-lg [&_[role=option]]:cursor-pointer [&_[role=option]]:px-3 [&_[role=option]]:py-1.5 [&_[data-highlighted]]:bg-base-200 [&_[aria-selected=true]]:font-semibold"
-    >
-      <:option value="Apple">Apple</:option>
-      <:option value="Banana">Banana</:option>
-      <:option value="Cherry">Cherry</:option>
-    </.select>
+    <div class="space-y-6">
+      <div class="space-y-1.5">
+        <p class="text-[0.7rem] uppercase tracking-wide text-base-content/40">
+          Single · ✓ on selected · typeahead · disabled option
+        </p>
+        <.select
+          id={@id}
+          name="fruit"
+          value="banana"
+          placeholder="Choose a fruit…"
+          class={select_class()}
+        >
+          <:option value="apple">Apple</:option>
+          <:option value="banana">Banana</:option>
+          <:option value="cherry">Cherry</:option>
+          <:option value="durian" disabled>Durian (out of stock)</:option>
+        </.select>
+      </div>
+
+      <div class="space-y-1.5">
+        <p class="text-[0.7rem] uppercase tracking-wide text-base-content/40">
+          Multiple · grouped · stays open · placeholder when empty
+        </p>
+        <.select
+          id={"#{@id}-multi"}
+          name="picks"
+          multiple
+          placeholder="Pick toppings…"
+          class={select_class()}
+        >
+          <:option value="cheese" group="Classic">Cheese</:option>
+          <:option value="pepperoni" group="Classic">Pepperoni</:option>
+          <:option value="mushroom" group="Veggie">Mushroom</:option>
+          <:option value="onion" group="Veggie">Onion</:option>
+        </.select>
+      </div>
+    </div>
     """
   end
 
@@ -1091,6 +1117,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
   def has_examples?("fieldset"), do: true
   def has_examples?("radio"), do: true
   def has_examples?("radio_group"), do: true
+  def has_examples?("select"), do: true
   def has_examples?(_), do: false
 
   def examples(%{component: "toast"} = assigns) do
@@ -1450,10 +1477,33 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
           <code>RadioGroup</code>
           hook keeps it (and <code>data-checked</code>) in sync as you arrow/click, so it submits with
           <code>&lt;.form&gt;</code>
-          and is validated <code>required</code> on submit.
+          and is validated <code>required</code>
+          on submit.
         </p>
         <div class="mt-4 max-w-sm">
           <.live_component module={DevelopmentWeb.Showcase.RadioGroupFormDemo} id={"#{@id}-form"} />
+        </div>
+      </details>
+    </div>
+    """
+  end
+
+  def examples(%{component: "select"} = assigns) do
+    ~H"""
+    <div class="space-y-3">
+      <details open class="rounded-box border border-base-300 bg-base-100 p-4">
+        <summary class="cursor-pointer select-none font-medium">
+          In a form — choose a country (required, validated)
+        </summary>
+        <p class="mt-1 text-sm text-base-content/60">
+          The listbox's hidden input carries the selection (<code>name</code>); the
+          <code>Select</code>
+          hook keeps it in sync as you pick, so it submits with <code>&lt;.form&gt;</code>
+          and is validated <code>required</code>
+          on submit.
+        </p>
+        <div class="mt-4 max-w-sm">
+          <.live_component module={DevelopmentWeb.Showcase.SelectFormDemo} id={"#{@id}-form"} />
         </div>
       </details>
     </div>
@@ -1473,6 +1523,23 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
       "[&_[data-part=item][data-checked]]:border-primary [&_[data-part=item][data-checked]]:font-semibold [&_[data-part=item][data-checked]]:before:border-[5px] [&_[data-part=item][data-checked]]:before:border-primary",
       "[&_[data-part=item][data-highlighted]]:outline-none [&_[data-part=item][data-highlighted]]:ring-2 [&_[data-part=item][data-highlighted]]:ring-primary/40",
       "[&_[data-part=item][data-disabled]]:cursor-not-allowed [&_[data-part=item][data-disabled]]:opacity-40"
+    ]
+  end
+
+  # Select: a trigger button + an absolutely-positioned listbox. data-placeholder dims the empty
+  # value; data-highlighted = keyboard/hover row; data-selected shows the ✓ and bolds; the icon flips
+  # on data-popup-open; disabled options dim. The indicator is hidden until the item is selected.
+  defp select_class do
+    [
+      "relative inline-block",
+      "[&_[data-part=trigger]]:flex [&_[data-part=trigger]]:min-w-52 [&_[data-part=trigger]]:items-center [&_[data-part=trigger]]:justify-between [&_[data-part=trigger]]:gap-2 [&_[data-part=trigger]]:rounded-md [&_[data-part=trigger]]:border [&_[data-part=trigger]]:border-base-300 [&_[data-part=trigger]]:bg-base-100 [&_[data-part=trigger]]:px-3 [&_[data-part=trigger]]:py-1.5 [&_[data-part=trigger]]:text-left [&_[data-part=trigger][data-disabled]]:opacity-50",
+      "[&_[data-part=value][data-placeholder]]:text-base-content/40",
+      "[&_[data-part=icon]]:text-base-content/50 [&_[data-part=icon]]:transition-transform [&_[data-part=icon][data-popup-open]]:rotate-180",
+      "[&_[data-part=positioner]]:relative",
+      "[&_[data-part=popup]]:absolute [&_[data-part=popup]]:left-0 [&_[data-part=popup]]:right-0 [&_[data-part=popup]]:top-full [&_[data-part=popup]]:z-10 [&_[data-part=popup]]:mt-1 [&_[data-part=popup]]:max-h-60 [&_[data-part=popup]]:overflow-auto [&_[data-part=popup]]:rounded-md [&_[data-part=popup]]:border [&_[data-part=popup]]:border-base-300 [&_[data-part=popup]]:bg-base-100 [&_[data-part=popup]]:p-1 [&_[data-part=popup]]:shadow-lg [&_[data-part=popup][data-closed]]:hidden",
+      "[&_[data-part=group-label]]:block [&_[data-part=group-label]]:px-2 [&_[data-part=group-label]]:pb-1 [&_[data-part=group-label]]:pt-2 [&_[data-part=group-label]]:text-xs [&_[data-part=group-label]]:font-medium [&_[data-part=group-label]]:uppercase [&_[data-part=group-label]]:tracking-wide [&_[data-part=group-label]]:text-base-content/40",
+      "[&_[data-part=item]]:flex [&_[data-part=item]]:cursor-pointer [&_[data-part=item]]:items-center [&_[data-part=item]]:gap-2 [&_[data-part=item]]:rounded [&_[data-part=item]]:px-2 [&_[data-part=item]]:py-1.5 [&_[data-part=item]]:outline-none [&_[data-part=item][data-highlighted]]:bg-base-200 [&_[data-part=item][data-selected]]:font-semibold [&_[data-part=item][data-disabled]]:cursor-not-allowed [&_[data-part=item][data-disabled]]:opacity-40",
+      "[&_[data-part=item-indicator]]:w-4 [&_[data-part=item-indicator]]:shrink-0 [&_[data-part=item-indicator]]:text-xs [&_[data-part=item-indicator]]:opacity-0 [&_[data-part=item][data-selected]_[data-part=item-indicator]]:opacity-100"
     ]
   end
 

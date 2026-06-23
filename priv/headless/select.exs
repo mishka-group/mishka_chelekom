@@ -8,42 +8,75 @@
     necessary: [],
     scripts: [
       %{
-        module: "Popup",
+        module: "Select",
         type: "file",
-        file: "popup.js",
-        imports: "import Popup from \"./popup.js\";"
-      },
-      %{
-        module: "RovingTabindex",
-        type: "file",
-        file: "roving_tabindex.js",
-        imports: "import RovingTabindex from \"./roving_tabindex.js\";"
+        file: "select.js",
+        imports: "import Select from \"./select.js\";"
       }
     ],
     headless: [
       anatomy: [
+        root: [
+          element: "div",
+          note: "carries the Select hook; reads name/multiple/disabled/readonly/required from data-*",
+          required: true
+        ],
         parts: [
+          label: [element: "label", note: "accessible name, wired via aria-labelledby"],
           trigger: [
             element: "button",
             role: "combobox",
-            aria: ["aria-haspopup", "aria-expanded", "aria-controls"]
+            aria: ["aria-haspopup", "aria-expanded", "aria-controls", "aria-readonly", "aria-required"],
+            data_attributes: [
+              "data-popup-open",
+              "data-placeholder",
+              "data-disabled",
+              "data-readonly",
+              "data-required"
+            ]
           ],
-          popup: [element: "ul", role: "listbox", data_attributes: ["data-open", "data-closed"]],
-          option: [
+          value: [element: "span", data_attributes: ["data-placeholder"], note: "selected label(s) or placeholder"],
+          icon: [element: "span", data_attributes: ["data-popup-open"]],
+          positioner: [element: "div"],
+          popup: [
+            element: "ul",
+            role: "listbox",
+            aria: ["aria-multiselectable"],
+            data_attributes: ["data-open", "data-closed", "data-side"]
+          ],
+          group: [element: "li", role: "group", aria: ["aria-labelledby"]],
+          group_label: [element: "span"],
+          item: [
             element: "li",
             role: "option",
             aria: ["aria-selected"],
-            data_attributes: ["data-highlighted"]
+            data_attributes: ["data-selected", "data-highlighted", "data-disabled"]
           ],
-          hidden_input: [element: "input", note: "carries the value for form submission"]
+          item_indicator: [element: "span", note: "selected ✓ (shown when the item is data-selected)"],
+          item_text: [element: "span"],
+          value_inputs: [element: "span", note: "hidden input(s) carrying the value for form submission"]
         ]
       ],
       aria_pattern: [
         pattern: "Listbox / Combobox",
-        keyboard: ["Down/Up: navigate", "Home/End", "Escape: close"]
+        keyboard: [
+          "Enter/Space/Arrow: open · Arrow Up/Down + Home/End: navigate",
+          "Enter/Space: select · Escape/Tab: close · Type: typeahead jump"
+        ]
       ],
-      state_attributes: ["data-open", "data-closed", "data-highlighted"],
-      hooks: ["Popup", "RovingTabindex"]
+      state_attributes: [
+        "data-open",
+        "data-closed",
+        "data-side",
+        "data-highlighted",
+        "data-selected",
+        "data-disabled",
+        "data-readonly",
+        "data-required",
+        "data-placeholder",
+        "data-popup-open"
+      ],
+      hooks: ["Select"]
     ]
   ]
 ]

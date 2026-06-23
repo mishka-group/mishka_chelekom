@@ -1,14 +1,23 @@
 defmodule DevelopmentWeb.Components.Headless.Select do
   @moduledoc """
-  Headless **select** (listbox) — a button that opens a single-select option list.
+  Headless **select** (listbox) — a button that opens a single- or multi-select option list
+  (Base UI parity).
 
-  Two cooperating engines: `Popup` (open/close, dismissal) and `RovingTabindex` (arrow keys,
-  Home/End, selection). A hidden native `<input>` carries the value for form submission.
+  One `Select` engine drives the whole component: the `trigger` (role=combobox) opens the `popup`
+  listbox; single-select commits + closes, `multiple` toggles items and stays open. Keyboard:
+  Enter/Space/Arrow open; inside, Arrow Up/Down + Home/End move a roving highlight, Enter/Space
+  commit, Escape/Tab close, and **typeahead** jumps to a matching option. The selection mirrors into
+  hidden inputs (single → `name`, multiple → `name[]`) and dispatches `input` so `<.form phx-change>`
+  fires; `on_change`/`on_open_change` push to LiveView.
 
-  Anatomy (Base-UI-style parts): `trigger` (with a `value` and an `icon`), a `positioner`
-  wrapping the `popup` listbox, and each `option` split into an `item-indicator` (selected ✓)
-  and `item-text`. ARIA: trigger `role="combobox"` + `aria-haspopup="listbox"`; list
-  `role="listbox"`; options `role="option"` + `aria-selected`. Style via `chelekom-select*`.
+  Options mirror Base UI: `value` (string, or a list when `multiple`), `placeholder`, `disabled`,
+  `readonly`, `required`, `name`, `form`, `label`, per-`<:option>` `disabled` and `group`,
+  `highlight_on_hover`. State attributes: trigger `data-popup-open`/`data-placeholder`
+  (+ `data-disabled`/`data-readonly`/`data-required`), value `data-placeholder`, icon
+  `data-popup-open`, items `data-selected`/`data-highlighted`/`data-disabled`, popup
+  `data-open`/`data-closed`/`data-side`. Anatomy parts: `label`, `trigger`, `value`, `icon`,
+  `positioner`, `popup`, `group`, `group-label`, `item`, `item-indicator`, `item-text`. Style via
+  `chelekom-select*`.
 
   WAI-ARIA APG: https://www.w3.org/WAI/ARIA/apg/patterns/combobox/
   """
@@ -16,20 +25,99 @@ defmodule DevelopmentWeb.Components.Headless.Select do
 
   @doc type: :component
   attr :id, :string, required: true
-  attr :name, :string, default: nil, doc: "Name for the hidden form input"
-  attr :value, :string, default: nil, doc: "Currently selected value"
-  attr :placeholder, :string, default: "Select…"
+  attr :name, :string, default: nil, doc: "Name for the hidden form input(s)"
+
+  attr :value, :any,
+    default: nil,
+    doc: "Selected value (string), or a list of values when multiple"
+
+  attr :placeholder, :string,
+    default: "Select…",
+    doc: "Shown (with data-placeholder) when nothing is selected"
+
+  attr :label, :string,
+    default: nil,
+    doc: "Accessible label (a <label> wired via aria-labelledby)"
+
+  attr :multiple, :boolean,
+    default: false,
+    doc: "Allow selecting several options (stays open; submits name[])"
+
+  attr :disabled, :boolean, default: false, doc: "Disable the select (data-disabled)"
+  attr :readonly, :boolean, default: false, doc: "Block changing the selection (data-readonly)"
+
+  attr :required, :boolean,
+    default: false,
+    doc: "Require a selection for form submit (data-required)"
+
+  attr :form, :string, default: nil, doc: "Form id owning the hidden input(s)"
+  attr :side, :string, default: "bottom", doc: "Popup side: bottom | top | left | right"
+  attr :highlight_on_hover, :boolean, default: true, doc: "Highlight items on pointer hover"
+  attr :on_change, :string, default: nil, doc: "LiveView event pushed on selection ({value})"
+  attr :on_open_change, :string, default: nil, doc: "LiveView event pushed on open/close ({open})"
   attr :class, :any, default: nil
   attr :rest, :global
 
   slot :option, required: true do
     attr :value, :string, required: true
+    attr :disabled, :boolean, doc: "Disable just this option"
+    attr :group, :string, doc: "Optional group label (consecutive same-group options are grouped)"
   end
 
   def select(assigns) do
+    values =
+      cond do
+        assigns.multiple -> List.wrap(assigns.value)
+        assigns.value in [nil, ""] -> []
+        true -> [assigns.value]
+      end
+
+    assigns =
+      assign(assigns,
+        values: values,
+        groups: group_options(assigns.option),
+        selected_opts: Enum.filter(assigns.option, &(&1.value in values))
+      )
+
     ~H"""
-    <div id={@id} phx-hook="Popup" class={["chelekom-select", @class]} {@rest}>
-      <input :if={@name} type="hidden" name={@name} value={@value} class="chelekom-sr-only" />
+    <div
+      id={@id}
+      phx-hook="Select"
+      data-name={@name}
+      data-placeholder={@placeholder}
+      data-multiple={@multiple}
+      data-disabled={@disabled}
+      data-readonly={@readonly}
+      data-required={@required}
+      data-side={@side}
+      data-no-hover={!@highlight_on_hover}
+      data-on-change={@on_change}
+      data-on-open-change={@on_open_change}
+      class={["chelekom-select", @class]}
+      {@rest}
+    >
+      <label :if={@label} id={"#{@id}-label"} data-part="label" class="chelekom-select__label">
+        {@label}
+      </label>
+
+      <span data-part="value-inputs" class="chelekom-sr-only">
+        <%= for v <- @values do %>
+          <input
+            :if={@name}
+            type="hidden"
+            name={if @multiple, do: "#{@name}[]", else: @name}
+            value={v}
+            form={@form}
+          />
+        <% end %>
+        <input
+          :if={@name && @values == [] && !@multiple}
+          type="hidden"
+          name={@name}
+          value=""
+          form={@form}
+        />
+      </span>
 
       <button
         type="button"
@@ -37,9 +125,29 @@ defmodule DevelopmentWeb.Components.Headless.Select do
         role="combobox"
         aria-haspopup="listbox"
         aria-controls={"#{@id}-popup"}
+        aria-expanded="false"
+        aria-labelledby={@label && "#{@id}-label"}
+        aria-readonly={@readonly && "true"}
+        aria-required={@required && "true"}
+        disabled={@disabled}
+        data-disabled={@disabled}
+        data-readonly={@readonly}
+        data-required={@required}
+        data-placeholder={@values == []}
         class="chelekom-select__trigger"
       >
-        <span data-part="value" class="chelekom-select__value">{@value || @placeholder}</span>
+        <span data-part="value" data-placeholder={@values == []} class="chelekom-select__value">
+          <%= if @selected_opts == [] do %>
+            {@placeholder}
+          <% else %>
+            <%= for {opt, idx} <- Enum.with_index(@selected_opts) do %>
+              <%= if idx > 0 do %>
+                ,
+              <% end %>
+              {render_slot(opt)}
+            <% end %>
+          <% end %>
+        </span>
         <span data-part="icon" aria-hidden="true" class="chelekom-select__icon">▾</span>
       </button>
 
@@ -48,28 +156,64 @@ defmodule DevelopmentWeb.Components.Headless.Select do
           id={"#{@id}-popup"}
           data-part="popup"
           role="listbox"
-          phx-hook="RovingTabindex"
-          data-orientation="vertical"
+          aria-multiselectable={@multiple && "true"}
           data-closed
           class="chelekom-select__popup"
         >
-          <li
-            :for={opt <- @option}
-            role="option"
-            data-part="item"
-            data-value={opt.value}
-            aria-selected={to_string(opt.value == @value)}
-            tabindex="-1"
-            class="chelekom-select__option"
-          >
-            <span data-part="item-indicator" aria-hidden="true" class="chelekom-select__indicator">
-              ✓
-            </span>
-            <span data-part="item-text" class="chelekom-select__text">{render_slot(opt)}</span>
-          </li>
+          <%= for {grp, gi} <- Enum.with_index(@groups) do %>
+            <%= if grp.label do %>
+              <li
+                role="group"
+                aria-labelledby={"#{@id}-grp-#{gi}"}
+                data-part="group"
+                class="chelekom-select__group"
+              >
+                <span
+                  id={"#{@id}-grp-#{gi}"}
+                  data-part="group-label"
+                  class="chelekom-select__group-label"
+                >
+                  {grp.label}
+                </span>
+                <ul role="presentation" class="chelekom-select__group-list">
+                  <.option :for={opt <- grp.options} opt={opt} values={@values} />
+                </ul>
+              </li>
+            <% else %>
+              <.option :for={opt <- grp.options} opt={opt} values={@values} />
+            <% end %>
+          <% end %>
         </ul>
       </div>
     </div>
     """
+  end
+
+  attr :opt, :map, required: true
+  attr :values, :list, required: true
+
+  defp option(assigns) do
+    ~H"""
+    <li
+      role="option"
+      data-part="item"
+      data-value={@opt.value}
+      aria-selected={to_string(@opt.value in @values)}
+      data-selected={@opt.value in @values}
+      data-disabled={@opt[:disabled]}
+      tabindex="-1"
+      class="chelekom-select__option"
+    >
+      <span data-part="item-indicator" aria-hidden="true" class="chelekom-select__indicator">✓</span>
+      <span data-part="item-text" class="chelekom-select__text">{render_slot(@opt)}</span>
+    </li>
+    """
+  end
+
+  # Chunk consecutive options sharing a `group` into labelled groups (ungrouped → label nil).
+  defp group_options(options) do
+    options
+    |> Enum.chunk_by(& &1[:group])
+    |> Enum.map(fn [first | _] = chunk -> %{label: first[:group], options: chunk} end)
   end
 end
