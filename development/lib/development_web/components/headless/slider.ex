@@ -27,26 +27,14 @@ defmodule DevelopmentWeb.Components.Headless.Slider do
   attr :max, :integer, default: 100
   attr :step, :integer, default: 1
   attr :large_step, :integer, default: 10, doc: "Step for PageUp/Down and Shift+Arrow"
-
-  attr :min_steps_between_values, :integer,
-    default: 0,
-    doc: "Minimum gap (in steps) between range thumbs"
-
-  attr :value, :integer, default: nil, doc: "Single-thumb value"
+  attr :min_steps_between_values, :integer, default: 0, doc: "Minimum gap (in steps) between range thumbs"
+  attr :value, :any, default: nil, doc: "Single-thumb value — accepts a Phoenix form value (integer, float or string)"
   attr :values, :list, default: nil, doc: "Multi-thumb values (a range; overrides value)"
   attr :orientation, :string, default: "horizontal", doc: "horizontal | vertical"
   attr :disabled, :boolean, default: false, doc: "Disable interaction (data-disabled)"
-
-  attr :format, :map,
-    default: nil,
-    doc: "Intl.NumberFormat options for aria-valuetext + value readout"
-
+  attr :format, :map, default: nil, doc: "Intl.NumberFormat options for aria-valuetext + value readout"
   attr :locale, :string, default: nil, doc: "BCP-47 locale for formatting"
-
-  attr :thumb_collision, :string,
-    default: "push",
-    doc: "push | swap | none — range collision behaviour"
-
+  attr :thumb_collision, :string, default: "push", doc: "push | swap | none — range collision behaviour"
   attr :thumb_labels, :list, default: nil, doc: "Per-thumb aria-labels (range)"
   attr :show_value, :boolean, default: false, doc: "Render the value readout"
   attr :label, :string, default: nil, doc: "Accessible label"
@@ -57,7 +45,12 @@ defmodule DevelopmentWeb.Components.Headless.Slider do
   attr :rest, :global
 
   def slider(assigns) do
-    values = assigns.values || (assigns.value && [assigns.value]) || [assigns.min]
+    values =
+      cond do
+        is_list(assigns.values) and assigns.values != [] -> assigns.values
+        assigns.value in [nil, ""] -> [assigns.min]
+        true -> [assigns.value]
+      end
 
     assigns =
       assign(assigns,
@@ -90,12 +83,7 @@ defmodule DevelopmentWeb.Components.Headless.Slider do
         {@label}
       </label>
 
-      <output
-        :if={@show_value}
-        data-part="value"
-        data-orientation={@orientation}
-        class="chelekom-slider__value"
-      >
+      <output :if={@show_value} data-part="value" data-orientation={@orientation} class="chelekom-slider__value">
         {Enum.join(@values, " – ")}
       </output>
 
@@ -106,11 +94,7 @@ defmodule DevelopmentWeb.Components.Headless.Slider do
         class="chelekom-slider__control"
       >
         <div data-part="track" data-orientation={@orientation} class="chelekom-slider__track">
-          <div
-            data-part="indicator"
-            data-orientation={@orientation}
-            class="chelekom-slider__indicator"
-          >
+          <div data-part="indicator" data-orientation={@orientation} class="chelekom-slider__indicator">
           </div>
           <span
             :for={{v, i} <- Enum.with_index(@values)}

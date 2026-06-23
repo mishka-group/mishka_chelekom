@@ -824,7 +824,7 @@ defmodule DevelopmentWeb.Showcase.SliderFormDemo do
           <Slider.slider
             id={"#{@id}-budget"}
             name={f[:budget].name}
-            value={to_int(f[:budget].value, 40)}
+            value={f[:budget].value}
             min={10}
             max={80}
             step={5}
@@ -849,18 +849,6 @@ defmodule DevelopmentWeb.Showcase.SliderFormDemo do
     </div>
     """
   end
-
-  defp to_int(nil, d), do: d
-  defp to_int(v, _d) when is_integer(v), do: v
-
-  defp to_int(v, d) when is_binary(v),
-    do:
-      case(Integer.parse(v),
-        do: (
-          {n, _} -> n
-          _ -> d
-        )
-      )
 
   defp cs(p) do
     {%{}, %{budget: :integer}}
