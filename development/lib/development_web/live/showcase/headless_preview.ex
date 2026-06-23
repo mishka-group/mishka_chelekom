@@ -1567,10 +1567,27 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
           hook keeps it in sync and dispatches on commit, so it submits with
           <code>&lt;.form&gt;</code>
           and is validated with <code>validate_number</code>
-          (10–80) on submit.
+          (10–80) on submit. On success the handler assigns a fresh changeset, so the slider
+          <strong>resets back to the default (40)</strong> — the usual "form clears after save".
         </p>
         <div class="mt-4 max-w-sm">
           <.live_component module={DevelopmentWeb.Showcase.SliderFormDemo} id={"#{@id}-form"} />
+        </div>
+      </details>
+
+      <details class="rounded-box border border-base-300 bg-base-100 p-4">
+        <summary class="cursor-pointer select-none font-medium">
+          In a form — a range (two thumbs → an array)
+        </summary>
+        <p class="mt-1 text-sm text-base-content/60">
+          A two-thumb range submits both values as an array (<code>name[]</code>); pass the field's
+          list straight through with <code>values={"{f[:price].value}"}</code>
+          — no conversion. On submit the form re-renders with the saved values and the hook
+          repositions both thumbs; <strong>Reset</strong>
+          assigns a fresh changeset to snap it back.
+        </p>
+        <div class="mt-4 max-w-sm">
+          <.live_component module={DevelopmentWeb.Showcase.SliderRangeFormDemo} id={"#{@id}-range-form"} />
         </div>
       </details>
     </div>

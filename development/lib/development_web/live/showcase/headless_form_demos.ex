@@ -807,8 +807,13 @@ defmodule DevelopmentWeb.Showcase.SliderFormDemo do
 
     if changeset.valid?,
       do:
+        # On success, reset the form back to its default (40) — the common "form clears after save"
+        # pattern. The slider snaps back to 40 (the hook re-positions); @saved keeps what was saved.
         {:noreply,
-         assign(socket, saved: apply_changes(changeset), form: to_form(changeset, as: :prefs))},
+         assign(socket,
+           saved: apply_changes(changeset),
+           form: to_form(cs(%{"budget" => "40"}), as: :prefs)
+         )},
       else:
         {:noreply,
          assign(socket, saved: nil, form: to_form(changeset, as: :prefs, action: :save))}
@@ -866,5 +871,101 @@ defmodule DevelopmentWeb.Showcase.SliderFormDemo do
       "[&_[data-part=indicator]]:rounded-full [&_[data-part=indicator]]:bg-primary",
       "[&_[data-part=thumb]]:size-4 [&_[data-part=thumb]]:rounded-full [&_[data-part=thumb]]:border [&_[data-part=thumb]]:border-base-300 [&_[data-part=thumb]]:bg-base-100 [&_[data-part=thumb]]:shadow [&_[data-part=thumb]]:cursor-grab [&_[data-part=thumb]]:outline-none focus:[&_[data-part=thumb]]:ring-2 focus:[&_[data-part=thumb]]:ring-primary"
     ]
+  end
+end
+
+defmodule DevelopmentWeb.Showcase.SliderRangeFormDemo do
+  @moduledoc "range slider inside a `<.form>` — two thumbs submit an array; Phoenix-ready value handling."
+  use DevelopmentWeb, :live_component
+  alias DevelopmentWeb.Components.Headless.Slider
+  import Ecto.Changeset
+  alias DevelopmentWeb.Showcase.FormDemoHelpers, as: H
+
+  @impl true
+  def update(assigns, socket),
+    do:
+      {:ok,
+       socket
+       |> assign(assigns)
+       |> assign_new(:form, fn -> to_form(cs(%{"price" => [20, 60]}), as: :filters) end)
+       |> assign_new(:saved, fn -> nil end)}
+
+  @impl true
+  def handle_event("save", %{"filters" => p}, socket) do
+    changeset = cs(p)
+
+    if changeset.valid?,
+      # On success, reset the range back to its default [20, 60] (both thumbs re-position).
+      do: {:noreply, assign(socket, saved: apply_changes(changeset), form: to_form(cs(%{"price" => [20, 60]}), as: :filters))},
+      else: {:noreply, assign(socket, saved: nil, form: to_form(changeset, as: :filters, action: :save))}
+  end
+
+  def handle_event("reset", _params, socket),
+    do: {:noreply, assign(socket, saved: nil, form: to_form(cs(%{"price" => [20, 60]}), as: :filters))}
+
+  @impl true
+  def render(assigns) do
+    ~H"""
+    <div>
+      <.form for={@form} phx-target={@myself} phx-submit="save" :let={f} class="space-y-4">
+        <label class="block text-sm font-medium">Price range ($0–$100, two thumbs)</label>
+        <Slider.slider
+          id={"#{@id}-price"}
+          name={f[:price].name}
+          values={f[:price].value}
+          min={0}
+          max={100}
+          step={5}
+          min_steps_between_values={1}
+          show_value
+          class={slc()}
+        />
+        <p :for={msg <- H.field_errors(f[:price])} class="text-sm text-error">{msg}</p>
+        <div class="flex gap-2">
+          <button type="submit" class="rounded-md bg-primary px-4 py-1.5 text-sm font-medium text-primary-content">
+            Apply filter
+          </button>
+          <button
+            type="button"
+            phx-target={@myself}
+            phx-click="reset"
+            class="rounded-md border border-base-300 px-4 py-1.5 text-sm font-medium"
+          >
+            Reset
+          </button>
+        </div>
+      </.form>
+      <div :if={@saved} class="mt-3 rounded-md border border-success/40 bg-success/10 p-3 text-sm font-medium text-success">
+        ✓ Filtering ${Enum.at(@saved.price, 0)}–${Enum.at(@saved.price, 1)} (not persisted)
+      </div>
+    </div>
+    """
+  end
+
+  defp slc do
+    [
+      "inline-block",
+      "[&_[data-part=value]]:mb-1 [&_[data-part=value]]:block [&_[data-part=value]]:text-sm [&_[data-part=value]]:tabular-nums [&_[data-part=value]]:text-base-content/70",
+      "[&_[data-part=control]]:flex [&_[data-part=control]]:w-64 [&_[data-part=control]]:items-center [&_[data-part=control]]:touch-none [&_[data-part=control]]:select-none [&_[data-part=control]]:py-3",
+      "[&_[data-part=track]]:relative [&_[data-part=track]]:h-1.5 [&_[data-part=track]]:w-full [&_[data-part=track]]:rounded-full [&_[data-part=track]]:bg-base-300",
+      "[&_[data-part=indicator]]:rounded-full [&_[data-part=indicator]]:bg-primary",
+      "[&_[data-part=thumb]]:size-4 [&_[data-part=thumb]]:rounded-full [&_[data-part=thumb]]:border [&_[data-part=thumb]]:border-base-300 [&_[data-part=thumb]]:bg-base-100 [&_[data-part=thumb]]:shadow [&_[data-part=thumb]]:cursor-grab [&_[data-part=thumb]]:outline-none focus:[&_[data-part=thumb]]:ring-2 focus:[&_[data-part=thumb]]:ring-primary"
+    ]
+  end
+
+  defp cs(p) do
+    {%{}, %{price: {:array, :integer}}}
+    |> cast(p, [:price])
+    |> validate_required([:price])
+    |> validate_price()
+  end
+
+  # Both bounds present, within 0–100, low ≤ high.
+  defp validate_price(changeset) do
+    case get_field(changeset, :price) do
+      [lo, hi] when lo >= 0 and hi <= 100 and lo <= hi -> changeset
+      nil -> changeset
+      _ -> add_error(changeset, :price, "pick two values between 0 and 100 (low ≤ high)")
+    end
   end
 end
