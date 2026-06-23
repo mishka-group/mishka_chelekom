@@ -18,32 +18,52 @@
       anatomy: [
         root: [
           element: "div",
-          data_attributes: ["data-min", "data-max", "data-step", "data-value"],
+          data_attributes: ["data-orientation", "data-dragging", "data-disabled"],
+          note: "carries the Slider hook; reads min/max/step/large_step/orientation/format from data-*",
           required: true
         ],
         parts: [
-          track: [element: "div"],
-          range: [element: "div"],
-          thumb: [
-            element: "div",
-            role: "slider",
-            aria: ["aria-valuemin", "aria-valuemax", "aria-valuenow"]
+          label: [element: "label", note: "accessible label, wired via aria-labelledby"],
+          value: [
+            element: "output",
+            data_attributes: ["data-orientation"],
+            note: "formatted value readout"
           ],
-          input: [element: "input"]
+          control: [
+            element: "div",
+            data_attributes: ["data-orientation", "data-dragging", "data-disabled"],
+            note: "press to jump the nearest thumb; drag to move it"
+          ],
+          track: [element: "div", data_attributes: ["data-orientation"]],
+          indicator: [
+            element: "div",
+            data_attributes: ["data-orientation"],
+            note: "the filled interval from the first thumb (or min) to the last"
+          ],
+          thumb: [
+            element: "span",
+            role: "slider",
+            aria: [
+              "aria-orientation",
+              "aria-valuemin",
+              "aria-valuemax",
+              "aria-valuenow",
+              "aria-valuetext"
+            ],
+            data_attributes: ["data-index", "data-orientation", "data-dragging", "data-disabled"],
+            note: "one per value; contains a hidden input for form submission"
+          ],
+          input: [element: "input", note: "hidden value carrier (single → name, range → name[])"]
         ]
       ],
       aria_pattern: [
-        pattern: "Slider",
+        pattern: "Slider (and multi-thumb)",
         keyboard: [
-          "ArrowRight/ArrowUp: increase by step",
-          "ArrowLeft/ArrowDown: decrease by step",
-          "PageUp: increase by 10·step",
-          "PageDown: decrease by 10·step",
-          "Home: minimum",
-          "End: maximum"
+          "Arrow: ±step (Up/Right increase) · Shift+Arrow / PageUp/Down: ±large_step",
+          "Home: min · End: max"
         ]
       ],
-      state_attributes: ["data-min", "data-max", "data-step", "data-value"],
+      state_attributes: ["data-orientation", "data-dragging", "data-disabled", "data-index"],
       hooks: ["Slider"]
     ]
   ]

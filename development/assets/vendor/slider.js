@@ -1,109 +1,247 @@
-// Slider — headless single- or multi-thumb slider engine.
+// Slider — headless single- or multi-thumb slider engine (Base UI parity).
 //
-// One `[data-part="thumb"]` per value. Pointer drag on the track + keyboard on a thumb
-// (Arrow ±step, PageUp/Down ±10·step, Home/End → min/max). Multiple thumbs are kept ordered
-// (anti-cross). Each thumb is `role="slider"` with `aria-valuemin/max/now`. The `[data-part=
-// "range"]` element spans the selected interval; `[data-part="value"]` shows the value(s); a
-// hidden `[data-part="input"]` carries a comma-joined value for form submission. The latest
-// ratio is exposed as `--chelekom-slider` on the root.
+// Anatomy: a `[data-part="control"]` holds a `[data-part="track"]` containing a
+// `[data-part="indicator"]` (the filled interval) and one `[data-part="thumb"]` (role=slider) per
+// value. Pointer drag on the control + keyboard on a thumb: Arrow ±step (Up/Right increase),
+// Shift+Arrow / PageUp/Down ±largeStep, Home/End → min/max. Range thumbs keep `minStepsBetweenValues`
+// apart and obey `data-collision` (push | swap | none). Vertical via `data-orientation="vertical"`.
 //
-// Config (data-* on the root): `data-min`, `data-max`, `data-step`. Each thumb's start value
-// comes from its `data-value`.
+// Reflects Base UI data-attributes: `data-orientation` (all parts), `data-dragging` (root/control/
+// thumb while dragging), `data-disabled`, thumb `data-index`. Each thumb is role=slider with
+// `aria-valuemin/max/now`, `aria-valuetext` (Intl-formatted via `data-format`/`data-locale`) and
+// `aria-orientation`. The value(s) mirror into hidden inputs (single → `name`, range → `name[]`) with
+// a bubbling `input` (so `<.form phx-change>` fires); `data-on-change` (`{value}`) and `data-on-commit`
+// (`{value}`) push to LiveView. The latest ratio is exposed as `--chelekom-slider` on the root.
 
 const Slider = {
   mounted() {
-    this.track = this.el.querySelector('[data-part="track"]') || this.el;
-    this.thumbs = Array.from(this.el.querySelectorAll('[data-part="thumb"]'));
-    this.range = this.el.querySelector('[data-part="range"]');
-    this.valueEl = this.el.querySelector('[data-part="value"]');
-    this.input = this.el.querySelector('[data-part="input"]');
+    const el = this.el;
+    this.control = el.querySelector('[data-part="control"]') || el.querySelector('[data-part="track"]') || el;
+    this.track = el.querySelector('[data-part="track"]') || this.control;
+    this.indicator = el.querySelector('[data-part="indicator"]');
+    this.thumbs = Array.from(el.querySelectorAll('[data-part="thumb"]'));
+    this.valueEl = el.querySelector('[data-part="value"]');
 
-    this.min = parseFloat(this.el.getAttribute("data-min") ?? "0");
-    this.max = parseFloat(this.el.getAttribute("data-max") ?? "100");
-    this.step = parseFloat(this.el.getAttribute("data-step") ?? "1");
+    const num = (a, d) => (el.getAttribute(a) != null ? parseFloat(el.getAttribute(a)) : d);
+    this.min = num("data-min", 0);
+    this.max = num("data-max", 100);
+    this.step = num("data-step", 1) || 1;
+    this.largeStep = num("data-large-step", 10) || 10;
+    this.minSteps = num("data-min-steps", 0);
+    this.vertical = el.getAttribute("data-orientation") === "vertical";
+    this.disabled = el.hasAttribute("data-disabled");
+    this.collision = el.getAttribute("data-collision") || "push";
+    this.name = el.getAttribute("data-name");
+    this.onChange = el.getAttribute("data-on-change");
+    this.onCommit = el.getAttribute("data-on-commit");
+    this.locale = el.getAttribute("data-locale") || undefined;
+    try {
+      this.format = el.getAttribute("data-format") ? JSON.parse(el.getAttribute("data-format")) : undefined;
+    } catch {
+      this.format = undefined;
+    }
+
     this.values = this.thumbs.map((t) => parseFloat(t.getAttribute("data-value") ?? String(this.min)));
 
     this.thumbs.forEach((thumb, i) => {
       thumb.setAttribute("role", "slider");
       thumb.setAttribute("aria-valuemin", String(this.min));
       thumb.setAttribute("aria-valuemax", String(this.max));
-      thumb.setAttribute("tabindex", "0");
-      thumb.addEventListener("keydown", (e) => this.onKey(e, i));
-      thumb.addEventListener("pointerdown", (e) => this.startDrag(e, i));
+      thumb.setAttribute("aria-orientation", this.vertical ? "vertical" : "horizontal");
+      thumb.setAttribute("data-index", String(i));
+      thumb.setAttribute("tabindex", this.disabled ? "-1" : "0");
+      if (!this.disabled) {
+        thumb.addEventListener("keydown", (e) => this.onKey(e, i));
+        thumb.addEventListener("keyup", () => this.commit());
+        thumb.addEventListener("pointerdown", (e) => {
+          e.stopPropagation();
+          this.startDrag(e, i);
+        });
+      }
     });
 
+    // Pressing the track jumps the nearest thumb to the pointer, then drags it.
+    if (!this.disabled) this.control.addEventListener("pointerdown", (e) => this.onTrackPress(e));
+
     this.render();
+  },
+
+  fmt(v) {
+    try {
+      return new Intl.NumberFormat(this.locale, this.format).format(v);
+    } catch {
+      return String(v);
+    }
+  },
+
+  // ---- pointer --------------------------------------------------------------
+
+  ratioFromPointer(e) {
+    const r = this.control.getBoundingClientRect();
+    const ratio = this.vertical
+      ? (r.bottom - e.clientY) / r.height // bottom = min, top = max
+      : (e.clientX - r.left) / r.width;
+    return Math.min(1, Math.max(0, ratio));
+  },
+
+  nearestThumb(value) {
+    let best = 0;
+    let bestD = Infinity;
+    this.values.forEach((v, i) => {
+      const d = Math.abs(v - value);
+      if (d < bestD) {
+        bestD = d;
+        best = i;
+      }
+    });
+    return best;
+  },
+
+  onTrackPress(e) {
+    if (this.disabled) return;
+    const value = this.min + this.ratioFromPointer(e) * (this.max - this.min);
+    const i = this.nearestThumb(value);
+    this.thumbs[i].focus();
+    this.set(i, value, "track-press");
+    this.startDrag(e, i);
   },
 
   startDrag(e, i) {
     e.preventDefault();
     this.thumbs[i].focus();
-    const move = (ev) => this.setFromPointer(ev, i);
+    this.setDragging(this.thumbs[i], true);
+    const move = (ev) => {
+      const value = this.min + this.ratioFromPointer(ev) * (this.max - this.min);
+      this.set(i, value, "drag");
+    };
     const up = () => {
       document.removeEventListener("pointermove", move);
       document.removeEventListener("pointerup", up);
+      this.setDragging(this.thumbs[i], false);
+      this.commit();
     };
     document.addEventListener("pointermove", move);
     document.addEventListener("pointerup", up);
-    this.setFromPointer(e, i);
   },
 
-  setFromPointer(e, i) {
-    const rect = this.track.getBoundingClientRect();
-    const ratio = Math.min(1, Math.max(0, (e.clientX - rect.left) / rect.width));
-    this.set(i, this.min + ratio * (this.max - this.min));
+  setDragging(thumb, on) {
+    [this.el, this.control, thumb].forEach((n) => n && n.toggleAttribute("data-dragging", on));
   },
+
+  // ---- keyboard -------------------------------------------------------------
 
   onKey(e, i) {
-    const big = this.step * 10;
+    if (this.disabled) return;
+    const inc = e.shiftKey ? this.largeStep : this.step;
+    // Up/Right increase, Down/Left decrease (works for both orientations).
     const map = {
-      ArrowRight: this.step,
-      ArrowUp: this.step,
-      ArrowLeft: -this.step,
-      ArrowDown: -this.step,
-      PageUp: big,
-      PageDown: -big,
+      ArrowRight: inc,
+      ArrowUp: inc,
+      ArrowLeft: -inc,
+      ArrowDown: -inc,
+      PageUp: this.largeStep,
+      PageDown: -this.largeStep,
     };
     if (e.key in map) {
       e.preventDefault();
-      this.set(i, this.values[i] + map[e.key]);
+      this.set(i, this.values[i] + map[e.key], "keyboard");
     } else if (e.key === "Home") {
       e.preventDefault();
-      this.set(i, this.min);
+      this.set(i, this.min, "keyboard");
     } else if (e.key === "End") {
       e.preventDefault();
-      this.set(i, this.max);
+      this.set(i, this.max, "keyboard");
     }
   },
 
-  set(i, raw) {
-    let v = Math.min(this.max, Math.max(this.min, Math.round(raw / this.step) * this.step));
-    // keep thumbs ordered (no crossing)
-    const lo = i > 0 ? this.values[i - 1] : this.min;
-    const hi = i < this.values.length - 1 ? this.values[i + 1] : this.max;
-    this.values[i] = Math.min(hi, Math.max(lo, v));
-    this.render();
+  // ---- value mutation (step / clamp / collision) ----------------------------
+
+  snap(raw) {
+    const v = this.min + Math.round((raw - this.min) / this.step) * this.step;
+    return Math.min(this.max, Math.max(this.min, parseFloat(v.toFixed(6))));
   },
+
+  set(i, raw, reason) {
+    const gap = this.minSteps * this.step;
+    let v = this.snap(raw);
+    const n = this.values.length;
+
+    if (n === 1) {
+      this.values[0] = v;
+    } else if (this.collision === "none") {
+      const lo = i > 0 ? this.values[i - 1] + gap : this.min;
+      const hi = i < n - 1 ? this.values[i + 1] - gap : this.max;
+      this.values[i] = Math.min(hi, Math.max(lo, v));
+    } else if (this.collision === "swap") {
+      this.values[i] = v;
+      // re-sort and follow the dragged value's new index
+      const order = this.values.map((val, idx) => ({ val, idx })).sort((a, b) => a.val - b.val);
+      this.values = order.map((o) => o.val);
+      this._activeIndex = order.findIndex((o) => o.idx === i);
+    } else {
+      // push (default): move neighbors out of the way, cascading, clamped to min/max.
+      this.values[i] = v;
+      for (let j = i + 1; j < n; j++) {
+        if (this.values[j] < this.values[j - 1] + gap) this.values[j] = Math.min(this.max, this.values[j - 1] + gap);
+      }
+      for (let j = i - 1; j >= 0; j--) {
+        if (this.values[j] > this.values[j + 1] - gap) this.values[j] = Math.max(this.min, this.values[j + 1] - gap);
+      }
+      // if pushing hit a wall, clamp the dragged thumb back
+      const lo = i > 0 ? this.values[i - 1] + gap : this.min;
+      const hi = i < n - 1 ? this.values[i + 1] - gap : this.max;
+      this.values[i] = Math.min(hi, Math.max(lo, this.values[i]));
+    }
+
+    this.render();
+    if (this.onChange) this.pushEvent(this.onChange, { value: n === 1 ? this.values[0] : this.values.slice() });
+  },
+
+  commit() {
+    // Notify any enclosing <.form phx-change> at interaction-end (not per drag-pixel): the hidden
+    // inputs are set programmatically every render, but we only dispatch the event on commit.
+    const anyInput = this.el.querySelector('[data-part="input"]');
+    if (anyInput) anyInput.dispatchEvent(new Event("input", { bubbles: true }));
+    if (this.onCommit) this.pushEvent(this.onCommit, { value: this.values.length === 1 ? this.values[0] : this.values.slice() });
+  },
+
+  // ---- render ---------------------------------------------------------------
 
   ratio(v) {
     return (v - this.min) / (this.max - this.min || 1);
   },
 
+  pos(r) {
+    // CSS position for a thumb at ratio r (orientation-aware).
+    return this.vertical ? { bottom: `${r * 100}%`, left: "" } : { left: `${r * 100}%`, bottom: "" };
+  },
+
   render() {
     this.thumbs.forEach((thumb, i) => {
-      thumb.style.left = `${this.ratio(this.values[i]) * 100}%`;
+      const r = this.ratio(this.values[i]);
+      Object.assign(thumb.style, this.pos(r));
       thumb.setAttribute("aria-valuenow", String(this.values[i]));
+      thumb.setAttribute("aria-valuetext", this.fmt(this.values[i]));
+      const input = thumb.querySelector('[data-part="input"]');
+      if (input && input.value !== String(this.values[i])) input.value = String(this.values[i]);
     });
 
-    if (this.range && this.values.length) {
+    if (this.indicator && this.values.length) {
       const first = this.values.length > 1 ? this.ratio(this.values[0]) : 0;
       const last = this.ratio(this.values[this.values.length - 1]);
-      this.range.style.left = `${first * 100}%`;
-      this.range.style.width = `${(last - first) * 100}%`;
+      const startPct = first * 100;
+      const sizePct = (last - first) * 100;
+      if (this.vertical) {
+        this.indicator.style.bottom = `${startPct}%`;
+        this.indicator.style.height = `${sizePct}%`;
+      } else {
+        this.indicator.style.left = `${startPct}%`;
+        this.indicator.style.width = `${sizePct}%`;
+      }
     }
 
-    if (this.valueEl) this.valueEl.textContent = this.values.join(" – ");
-    if (this.input) this.input.value = this.values.join(",");
+    if (this.valueEl) this.valueEl.textContent = this.values.map((v) => this.fmt(v)).join(" – ");
+
     this.el.style.setProperty("--chelekom-slider", String(this.ratio(this.values[this.values.length - 1])));
   },
 };

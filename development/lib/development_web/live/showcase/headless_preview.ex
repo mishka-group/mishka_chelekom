@@ -968,15 +968,59 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
 
   def show(%{component: "slider"} = assigns) do
     ~H"""
-    <.slider
-      id={@id}
-      name="price"
-      min={0}
-      max={100}
-      step={5}
-      values={[20, 70]}
-      class="relative flex w-72 items-center [&_[data-part=track]]:relative [&_[data-part=track]]:h-2 [&_[data-part=track]]:w-full [&_[data-part=track]]:rounded-full [&_[data-part=track]]:bg-base-300 [&_[data-part=range]]:absolute [&_[data-part=range]]:inset-y-0 [&_[data-part=range]]:left-0 [&_[data-part=range]]:rounded-full [&_[data-part=range]]:bg-primary [&_[data-part=range]]:[width:calc(var(--chelekom-slider,0)*100%)] [&_[data-part=thumb]]:absolute [&_[data-part=thumb]]:top-1/2 [&_[data-part=thumb]]:h-4 [&_[data-part=thumb]]:w-4 [&_[data-part=thumb]]:-translate-x-1/2 [&_[data-part=thumb]]:-translate-y-1/2 [&_[data-part=thumb]]:rounded-full [&_[data-part=thumb]]:border [&_[data-part=thumb]]:border-base-300 [&_[data-part=thumb]]:bg-base-100 [&_[data-part=thumb]]:shadow [&_[data-part=thumb]]:[left:calc(var(--chelekom-slider,0)*100%)] [&_[data-part=thumb]]:cursor-grab [&_[data-part=thumb]]:focus:outline-none [&_[data-part=thumb]]:focus:ring-2 [&_[data-part=thumb]]:focus:ring-primary"
-    />
+    <div class="space-y-7">
+      <div class="space-y-1.5">
+        <p class="text-[0.7rem] uppercase tracking-wide text-base-content/40">
+          Single · value readout
+        </p>
+        <.slider id={@id} name="volume" value={25} show_value class={slider_class()} />
+      </div>
+
+      <div class="space-y-1.5">
+        <p class="text-[0.7rem] uppercase tracking-wide text-base-content/40">
+          Range · two thumbs · min gap 1 step · push collision
+        </p>
+        <.slider
+          id={"#{@id}-range"}
+          name="price"
+          values={[25, 45]}
+          min_steps_between_values={1}
+          class={slider_class()}
+        />
+      </div>
+
+      <div class="space-y-1.5">
+        <p class="text-[0.7rem] uppercase tracking-wide text-base-content/40">
+          Steps + format · step 10 · percent
+        </p>
+        <.slider
+          id={"#{@id}-pct"}
+          name="opacity"
+          value={50}
+          step={10}
+          show_value
+          format={%{style: "unit", unit: "percent"}}
+          class={slider_class()}
+        />
+      </div>
+
+      <div class="flex gap-10">
+        <div class="space-y-1.5">
+          <p class="text-[0.7rem] uppercase tracking-wide text-base-content/40">Vertical</p>
+          <.slider
+            id={"#{@id}-vert"}
+            name="bass"
+            value={35}
+            orientation="vertical"
+            class={slider_class()}
+          />
+        </div>
+        <div class="space-y-1.5">
+          <p class="text-[0.7rem] uppercase tracking-wide text-base-content/40">Disabled</p>
+          <.slider id={"#{@id}-dis"} value={60} disabled class={slider_class()} />
+        </div>
+      </div>
+    </div>
     """
   end
 
@@ -1118,6 +1162,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
   def has_examples?("radio"), do: true
   def has_examples?("radio_group"), do: true
   def has_examples?("select"), do: true
+  def has_examples?("slider"), do: true
   def has_examples?(_), do: false
 
   def examples(%{component: "toast"} = assigns) do
@@ -1510,6 +1555,28 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
     """
   end
 
+  def examples(%{component: "slider"} = assigns) do
+    ~H"""
+    <div class="space-y-3">
+      <details open class="rounded-box border border-base-300 bg-base-100 p-4">
+        <summary class="cursor-pointer select-none font-medium">
+          In a form — set a budget (range-validated)
+        </summary>
+        <p class="mt-1 text-sm text-base-content/60">
+          The thumb's hidden input carries the value (<code>name</code>); the <code>Slider</code>
+          hook keeps it in sync and dispatches on commit, so it submits with
+          <code>&lt;.form&gt;</code>
+          and is validated with <code>validate_number</code>
+          (10–80) on submit.
+        </p>
+        <div class="mt-4 max-w-sm">
+          <.live_component module={DevelopmentWeb.Showcase.SliderFormDemo} id={"#{@id}-form"} />
+        </div>
+      </details>
+    </div>
+    """
+  end
+
   def examples(assigns), do: ~H""
 
   # Radio group: each option is a card with a leading dot drawn by ::before that fills via data-checked
@@ -1523,6 +1590,22 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
       "[&_[data-part=item][data-checked]]:border-primary [&_[data-part=item][data-checked]]:font-semibold [&_[data-part=item][data-checked]]:before:border-[5px] [&_[data-part=item][data-checked]]:before:border-primary",
       "[&_[data-part=item][data-highlighted]]:outline-none [&_[data-part=item][data-highlighted]]:ring-2 [&_[data-part=item][data-highlighted]]:ring-primary/40",
       "[&_[data-part=item][data-disabled]]:cursor-not-allowed [&_[data-part=item][data-disabled]]:opacity-40"
+    ]
+  end
+
+  # Slider: orientation-aware (data-orientation variants). The hook sets inline left/width (horizontal)
+  # or bottom/height (vertical) on the indicator + thumbs; these classes provide the box + centering.
+  defp slider_class do
+    [
+      "inline-block [&[data-disabled]]:opacity-50",
+      "[&_[data-part=value]]:mb-1 [&_[data-part=value]]:block [&_[data-part=value]]:text-sm [&_[data-part=value]]:tabular-nums [&_[data-part=value]]:text-base-content/70",
+      "[&_[data-part=control]]:flex [&_[data-part=control]]:touch-none [&_[data-part=control]]:select-none [&_[data-part=control][data-orientation=horizontal]]:w-56 [&_[data-part=control][data-orientation=horizontal]]:items-center [&_[data-part=control][data-orientation=horizontal]]:py-3 [&_[data-part=control][data-orientation=vertical]]:h-40 [&_[data-part=control][data-orientation=vertical]]:justify-center [&_[data-part=control][data-orientation=vertical]]:px-3",
+      "[&_[data-part=track]]:relative [&_[data-part=track]]:rounded-full [&_[data-part=track]]:bg-base-300 [&_[data-part=track][data-orientation=horizontal]]:h-1.5 [&_[data-part=track][data-orientation=horizontal]]:w-full [&_[data-part=track][data-orientation=vertical]]:w-1.5 [&_[data-part=track][data-orientation=vertical]]:h-full",
+      "[&_[data-part=indicator]]:absolute [&_[data-part=indicator]]:rounded-full [&_[data-part=indicator]]:bg-primary [&_[data-part=indicator][data-orientation=horizontal]]:inset-y-0 [&_[data-part=indicator][data-orientation=vertical]]:inset-x-0",
+      "[&_[data-part=thumb]]:absolute [&_[data-part=thumb]]:block [&_[data-part=thumb]]:size-4 [&_[data-part=thumb]]:rounded-full [&_[data-part=thumb]]:border [&_[data-part=thumb]]:border-base-300 [&_[data-part=thumb]]:bg-base-100 [&_[data-part=thumb]]:shadow [&_[data-part=thumb]]:cursor-grab [&_[data-part=thumb]]:outline-none focus:[&_[data-part=thumb]]:ring-2 focus:[&_[data-part=thumb]]:ring-primary",
+      "[&_[data-part=thumb][data-orientation=horizontal]]:top-1/2 [&_[data-part=thumb][data-orientation=horizontal]]:-translate-x-1/2 [&_[data-part=thumb][data-orientation=horizontal]]:-translate-y-1/2",
+      "[&_[data-part=thumb][data-orientation=vertical]]:left-1/2 [&_[data-part=thumb][data-orientation=vertical]]:-translate-x-1/2 [&_[data-part=thumb][data-orientation=vertical]]:translate-y-1/2",
+      "[&_[data-part=thumb][data-dragging]]:cursor-grabbing"
     ]
   end
 

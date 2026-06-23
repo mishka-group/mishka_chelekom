@@ -525,13 +525,16 @@ defmodule DevelopmentWeb.Kit do
     part :root, "relative flex w-full items-center gap-3"
 
     part :value,
-         "[&_[data-part=value]]:ml-auto [&_[data-part=value]]:shrink-0 [&_[data-part=value]]:text-sm [&_[data-part=value]]:font-medium [&_[data-part=value]]:tabular-nums [&_[data-part=value]]:text-amber-700 dark:[&_[data-part=value]]:text-amber-300"
+         "[&_[data-part=value]]:order-last [&_[data-part=value]]:ml-auto [&_[data-part=value]]:shrink-0 [&_[data-part=value]]:text-sm [&_[data-part=value]]:font-medium [&_[data-part=value]]:tabular-nums [&_[data-part=value]]:text-amber-700 dark:[&_[data-part=value]]:text-amber-300"
+
+    part :control,
+         "[&_[data-part=control]]:flex [&_[data-part=control]]:flex-1 [&_[data-part=control]]:items-center [&_[data-part=control]]:touch-none [&_[data-part=control]]:select-none"
 
     part :track,
-         "[&_[data-part=track]]:relative [&_[data-part=track]]:h-2 [&_[data-part=track]]:w-full [&_[data-part=track]]:grow [&_[data-part=track]]:overflow-visible [&_[data-part=track]]:rounded-full [&_[data-part=track]]:bg-amber-100 dark:[&_[data-part=track]]:bg-amber-950/40"
+         "[&_[data-part=track]]:relative [&_[data-part=track]]:h-2 [&_[data-part=track]]:w-full [&_[data-part=track]]:overflow-visible [&_[data-part=track]]:rounded-full [&_[data-part=track]]:bg-amber-100 dark:[&_[data-part=track]]:bg-amber-950/40"
 
-    part :range,
-         "[&_[data-part=range]]:absolute [&_[data-part=range]]:inset-y-0 [&_[data-part=range]]:left-0 [&_[data-part=range]]:rounded-full [&_[data-part=range]]:bg-amber-500 dark:[&_[data-part=range]]:bg-amber-400"
+    part :indicator,
+         "[&_[data-part=indicator]]:absolute [&_[data-part=indicator]]:inset-y-0 [&_[data-part=indicator]]:rounded-full [&_[data-part=indicator]]:bg-amber-500 dark:[&_[data-part=indicator]]:bg-amber-400"
 
     part :thumb,
          "[&_[data-part=thumb]]:absolute [&_[data-part=thumb]]:top-1/2 [&_[data-part=thumb]]:h-4 [&_[data-part=thumb]]:w-4 [&_[data-part=thumb]]:-translate-x-1/2 [&_[data-part=thumb]]:-translate-y-1/2 [&_[data-part=thumb]]:rounded-full [&_[data-part=thumb]]:border [&_[data-part=thumb]]:border-amber-200 [&_[data-part=thumb]]:bg-amber-50 [&_[data-part=thumb]]:shadow [&_[data-part=thumb]]:cursor-grab dark:[&_[data-part=thumb]]:border-amber-900 dark:[&_[data-part=thumb]]:bg-amber-950/30 [&_[data-part=thumb]]:focus:outline-none [&_[data-part=thumb]]:focus:ring-2 [&_[data-part=thumb]]:focus:ring-amber-500 dark:[&_[data-part=thumb]]:focus:ring-amber-400"
