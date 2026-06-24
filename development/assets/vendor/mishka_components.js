@@ -20,6 +20,7 @@ import ToastRegion from "./toast_region.js";
 import Otp from "./otp.js";
 import Field from "./field.js";
 import Menubar from "./menubar.js";
+import NavigationMenu from "./navigation_menu.js";
 import Radio from "./radio.js";
 import RadioGroup from "./radio_group.js";
 import Select from "./select.js";
@@ -47,6 +48,7 @@ const Components = {
   Otp,
   Field,
   Menubar,
+  NavigationMenu,
   Radio,
   RadioGroup,
   Select,

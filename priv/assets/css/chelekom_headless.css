@@ -220,3 +220,46 @@
 .chelekom-scroll_area__thumb[data-orientation="horizontal"] {
     width: var(--scroll-area-thumb-width, 2.5rem);
 }
+/* Navigation menu: the engine moves the active item's content into the shared viewport and MORPHS the
+   popup size via --popup-width/height (the positioner holds the final --positioner-width/height). */
+.chelekom-navigation_menu {
+    position: relative;
+}
+.chelekom-navigation_menu__list { display: flex; }
+.chelekom-navigation_menu[data-orientation="vertical"] .chelekom-navigation_menu__list { flex-direction: column; }
+.chelekom-navigation_menu__positioner {
+    position: absolute;
+    z-index: 40;
+    width: var(--positioner-width, auto);
+    height: var(--positioner-height, auto);
+}
+.chelekom-navigation_menu__positioner[data-closed] {
+    display: none;
+}
+.chelekom-navigation_menu__popup {
+    position: relative;
+    width: var(--popup-width, auto);
+    height: var(--popup-height, auto);
+    overflow: hidden;
+    transition: width 0.2s ease, height 0.2s ease;
+}
+.chelekom-navigation_menu__positioner[data-instant] .chelekom-navigation_menu__popup {
+    transition: none;
+}
+.chelekom-navigation_menu__viewport {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+.chelekom-navigation_menu__content[hidden] {
+    display: none !important;
+}
+@keyframes chelekom-nm-right { from { transform: translateX(35px); opacity: 0; } to { transform: none; opacity: 1; } }
+@keyframes chelekom-nm-left  { from { transform: translateX(-35px); opacity: 0; } to { transform: none; opacity: 1; } }
+@keyframes chelekom-nm-down  { from { transform: translateY(18px); opacity: 0; } to { transform: none; opacity: 1; } }
+@keyframes chelekom-nm-up    { from { transform: translateY(-18px); opacity: 0; } to { transform: none; opacity: 1; } }
+.chelekom-navigation_menu__content[data-activation-direction="right"] { animation: chelekom-nm-right 0.2s ease; }
+.chelekom-navigation_menu__content[data-activation-direction="left"]  { animation: chelekom-nm-left 0.2s ease; }
+.chelekom-navigation_menu__content[data-activation-direction="down"]  { animation: chelekom-nm-down 0.2s ease; }
+.chelekom-navigation_menu__content[data-activation-direction="up"]    { animation: chelekom-nm-up 0.2s ease; }

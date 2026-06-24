@@ -729,22 +729,30 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
 
   def show(%{component: "navigation_menu"} = assigns) do
     ~H"""
-    <.navigation_menu
-      id={@id}
-      class="flex gap-1 rounded-md border border-base-300 bg-base-100 p-1 [&_[data-part=link]]:block [&_[data-part=link]]:rounded [&_[data-part=link]]:px-3 [&_[data-part=link]]:py-1.5 [&_[data-part=link]]:text-sm [&_[data-part=link]]:hover:bg-base-200 [&_[data-part=trigger]]:rounded [&_[data-part=trigger]]:px-3 [&_[data-part=trigger]]:py-1.5 [&_[data-part=trigger]]:text-sm [&_[data-part=trigger]]:hover:bg-base-200 [&_[data-part=popup]]:mt-2 [&_[data-part=popup]]:min-w-48 [&_[data-part=popup]]:rounded-md [&_[data-part=popup]]:border [&_[data-part=popup]]:border-base-300 [&_[data-part=popup]]:bg-base-100 [&_[data-part=popup]]:p-2 [&_[data-part=popup]]:shadow-lg [&_[data-part=popup][data-closed]]:hidden [&_[data-part=popup]_a]:block [&_[data-part=popup]_a]:rounded [&_[data-part=popup]_a]:px-3 [&_[data-part=popup]_a]:py-1.5 [&_[data-part=popup]_a]:text-sm [&_[data-part=popup]_a]:hover:bg-base-200"
-    >
-      <:item label="Home" href="#home" />
-      <:item label="Products">
-        <a href="#analytics" role="menuitem">Analytics</a>
-        <a href="#automation" role="menuitem">Automation</a>
-        <a href="#reports" role="menuitem">Reports</a>
-      </:item>
-      <:item label="Resources">
-        <a href="#docs" role="menuitem">Documentation</a>
-        <a href="#guides" role="menuitem">Guides</a>
-      </:item>
-      <:item label="Contact" href="#contact" />
-    </.navigation_menu>
+    <div class="space-y-2 pb-44">
+      <p class="text-[0.7rem] uppercase tracking-wide text-base-content/40">
+        Hover Products then Resources — the shared popup morphs its size and slides by direction.
+      </p>
+      <.navigation_menu id={@id} class={navigation_menu_class()}>
+        <:item label="Home" href="#home" active />
+        <:item label="Products">
+          <div class="grid w-80 grid-cols-2 gap-1 p-2">
+            <a href="#analytics">Analytics</a>
+            <a href="#automation">Automation</a>
+            <a href="#reports">Reports</a>
+            <a href="#api">API access</a>
+          </div>
+        </:item>
+        <:item label="Resources">
+          <div class="flex w-52 flex-col gap-1 p-2">
+            <a href="#docs">Documentation</a>
+            <a href="#guides">Guides</a>
+            <a href="#blog">Blog</a>
+          </div>
+        </:item>
+        <:item label="Contact" href="#contact" />
+      </.navigation_menu>
+    </div>
     """
   end
 
@@ -1249,6 +1257,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
   def has_examples?("switch"), do: true
   def has_examples?("toggle"), do: true
   def has_examples?("toggle_group"), do: true
+  def has_examples?("navigation_menu"), do: true
   def has_examples?(_), do: false
 
   def examples(%{component: "toast"} = assigns) do
@@ -1746,7 +1755,79 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
     """
   end
 
+  def examples(%{component: "navigation_menu"} = assigns) do
+    ~H"""
+    <div class="space-y-3">
+      <details open class="rounded-box border border-base-300 bg-base-100 p-4">
+        <summary class="cursor-pointer select-none font-medium">
+          Base-UI-style — rich content panels with titles + descriptions
+        </summary>
+        <p class="mt-1 text-sm text-base-content/60">
+          Like the Base UI site: each menu opens a panel of cards (title + description). Hover across
+          the triggers and watch the shared popup morph its size + slide.
+        </p>
+        <div class="mt-4 pb-56">
+          <.navigation_menu id={"#{@id}-ex"} class={nav_ex_class()}>
+            <:item label="Overview" href="#overview" active />
+            <:item label="Handbook">
+              <ul class="grid w-[28rem] grid-cols-2 gap-1 p-2">
+                <li :for={c <- nav_handbook()}>
+                  <a href={c.href}>
+                    <h3 class="text-sm font-medium">{c.title}</h3>
+                    <p class="mt-0.5 text-xs text-base-content/60">{c.desc}</p>
+                  </a>
+                </li>
+              </ul>
+            </:item>
+            <:item label="Resources">
+              <ul class="flex w-72 flex-col gap-1 p-2">
+                <li :for={c <- nav_resources()}>
+                  <a href={c.href}>
+                    <h3 class="text-sm font-medium">{c.title}</h3>
+                    <p class="mt-0.5 text-xs text-base-content/60">{c.desc}</p>
+                  </a>
+                </li>
+              </ul>
+            </:item>
+            <:item label="GitHub" href="https://github.com" />
+          </.navigation_menu>
+        </div>
+      </details>
+    </div>
+    """
+  end
+
   def examples(assigns), do: ~H""
+
+  defp nav_handbook do
+    [
+      %{title: "Styling", href: "#styling", desc: "Plain CSS, Tailwind, CSS-in-JS, or CSS Modules."},
+      %{title: "Animation", href: "#animation", desc: "CSS transitions, animations, or JS libraries."},
+      %{title: "Composition", href: "#composition", desc: "Replace and compose with your own elements."},
+      %{title: "Accessibility", href: "#a11y", desc: "ARIA, focus management and keyboard built in."}
+    ]
+  end
+
+  defp nav_resources do
+    [
+      %{title: "Documentation", href: "#docs", desc: "Guides and the full API reference."},
+      %{title: "Changelog", href: "#changelog", desc: "What shipped in each release."},
+      %{title: "Community", href: "#community", desc: "Discord, discussions and showcases."}
+    ]
+  end
+
+  # Base-UI-style nav menu: cards (title + desc) inside the morphing popup.
+  defp nav_ex_class do
+    [
+      "flex gap-1",
+      "[&_[data-part=link]]:flex [&_[data-part=link]]:items-center [&_[data-part=link]]:rounded-md [&_[data-part=link]]:px-3 [&_[data-part=link]]:py-2 [&_[data-part=link]]:text-sm [&_[data-part=link]]:font-medium [&_[data-part=link]]:hover:bg-base-200 [&_[data-part=link][data-active]]:text-primary",
+      "[&_[data-part=trigger]]:flex [&_[data-part=trigger]]:items-center [&_[data-part=trigger]]:gap-1 [&_[data-part=trigger]]:rounded-md [&_[data-part=trigger]]:px-3 [&_[data-part=trigger]]:py-2 [&_[data-part=trigger]]:text-sm [&_[data-part=trigger]]:font-medium [&_[data-part=trigger]]:hover:bg-base-200 [&_[data-part=trigger][data-popup-open]]:bg-base-200",
+      "[&_[data-part=icon]]:text-[0.6rem] [&_[data-part=icon]]:transition-transform [&_[data-part=icon][data-open]]:rotate-180",
+      "[&_[data-part=popup]]:rounded-xl [&_[data-part=popup]]:border [&_[data-part=popup]]:border-base-300 [&_[data-part=popup]]:bg-base-100 [&_[data-part=popup]]:shadow-xl",
+      "[&_[data-part=content]_a]:block [&_[data-part=content]_a]:rounded-lg [&_[data-part=content]_a]:p-3 [&_[data-part=content]_a]:hover:bg-base-200",
+      "[&_[data-part=arrow]]:absolute [&_[data-part=arrow]]:-top-1 [&_[data-part=arrow]]:-ml-1.5 [&_[data-part=arrow]]:size-2.5 [&_[data-part=arrow]]:rotate-45 [&_[data-part=arrow]]:border-l [&_[data-part=arrow]]:border-t [&_[data-part=arrow]]:border-base-300 [&_[data-part=arrow]]:bg-base-100"
+    ]
+  end
 
   # Radio group: each option is a card with a leading dot drawn by ::before that fills via data-checked
   # (set live by the RadioGroup hook). data-highlighted = focus ring; data-disabled dims + blocks.
@@ -1759,6 +1840,21 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
       "[&_[data-part=item][data-checked]]:border-primary [&_[data-part=item][data-checked]]:font-semibold [&_[data-part=item][data-checked]]:before:border-[5px] [&_[data-part=item][data-checked]]:before:border-primary",
       "[&_[data-part=item][data-highlighted]]:outline-none [&_[data-part=item][data-highlighted]]:ring-2 [&_[data-part=item][data-highlighted]]:ring-primary/40",
       "[&_[data-part=item][data-disabled]]:cursor-not-allowed [&_[data-part=item][data-disabled]]:opacity-40"
+    ]
+  end
+
+  # Navigation menu: a bar of links + dropdown triggers sharing one MORPHING popup. The hook moves the
+  # active content into the viewport and animates --popup-width/height; the icon flips on data-open, the
+  # active trigger gets data-popup-open. Positioning/morph/slide come from the base CSS.
+  defp navigation_menu_class do
+    [
+      "flex gap-1 rounded-md border border-base-300 bg-base-100 p-1",
+      "[&_[data-part=link]]:block [&_[data-part=link]]:rounded [&_[data-part=link]]:px-3 [&_[data-part=link]]:py-1.5 [&_[data-part=link]]:text-sm [&_[data-part=link]]:hover:bg-base-200 [&_[data-part=link][data-active]]:font-semibold",
+      "[&_[data-part=trigger]]:flex [&_[data-part=trigger]]:items-center [&_[data-part=trigger]]:gap-1 [&_[data-part=trigger]]:rounded [&_[data-part=trigger]]:px-3 [&_[data-part=trigger]]:py-1.5 [&_[data-part=trigger]]:text-sm [&_[data-part=trigger]]:hover:bg-base-200 [&_[data-part=trigger][data-popup-open]]:bg-base-200",
+      "[&_[data-part=icon]]:text-[0.6rem] [&_[data-part=icon]]:transition-transform [&_[data-part=icon][data-open]]:rotate-180",
+      "[&_[data-part=popup]]:rounded-md [&_[data-part=popup]]:border [&_[data-part=popup]]:border-base-300 [&_[data-part=popup]]:bg-base-100 [&_[data-part=popup]]:shadow-lg",
+      "[&_[data-part=content]_a]:block [&_[data-part=content]_a]:rounded [&_[data-part=content]_a]:px-3 [&_[data-part=content]_a]:py-1.5 [&_[data-part=content]_a]:text-sm [&_[data-part=content]_a]:hover:bg-base-200",
+      "[&_[data-part=arrow]]:absolute [&_[data-part=arrow]]:-top-1 [&_[data-part=arrow]]:-ml-1.5 [&_[data-part=arrow]]:size-2.5 [&_[data-part=arrow]]:rotate-45 [&_[data-part=arrow]]:border-l [&_[data-part=arrow]]:border-t [&_[data-part=arrow]]:border-base-300 [&_[data-part=arrow]]:bg-base-100"
     ]
   end
 
