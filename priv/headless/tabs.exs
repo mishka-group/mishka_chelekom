@@ -8,31 +8,58 @@
     necessary: [],
     scripts: [
       %{
-        module: "RovingTabindex",
+        module: "Tabs",
         type: "file",
-        file: "roving_tabindex.js",
-        imports: "import RovingTabindex from \"./roving_tabindex.js\";"
+        file: "tabs.js",
+        imports: "import Tabs from \"./tabs.js\";"
       }
     ],
     headless: [
       anatomy: [
+        root: [
+          element: "div",
+          data_attributes: ["data-orientation", "data-activation-direction"],
+          note: "carries the Tabs hook; data-value is the controlled active tab",
+          required: true
+        ],
         parts: [
-          tablist: [element: "div", role: "tablist", aria: ["aria-orientation"]],
-          tab: [element: "button", role: "tab", aria: ["aria-selected", "aria-controls"]],
+          tablist: [
+            element: "div",
+            role: "tablist",
+            aria: ["aria-orientation"],
+            note: "exposes --active-tab-left/right/top/bottom/width/height"
+          ],
+          tab: [
+            element: "button",
+            role: "tab",
+            aria: ["aria-selected", "aria-controls"],
+            data_attributes: ["data-active", "data-disabled", "data-orientation", "data-value"]
+          ],
+          indicator: [
+            element: "div",
+            data_attributes: ["data-orientation", "data-activation-direction"],
+            note: "the animated underline; positions itself from the --active-tab-* vars"
+          ],
           panel: [
             element: "div",
             role: "tabpanel",
             aria: ["aria-labelledby"],
-            data_attributes: ["data-open", "data-closed"]
+            data_attributes: ["data-hidden", "data-index", "data-orientation", "data-activation-direction"]
           ]
         ]
       ],
       aria_pattern: [
         pattern: "Tabs",
-        keyboard: ["Arrow: move + activate", "Home/End: first/last"]
+        keyboard: ["Arrow (along orientation): move + activate", "Home/End: first/last"]
       ],
-      state_attributes: ["data-open", "data-closed"],
-      hooks: ["RovingTabindex"]
+      state_attributes: [
+        "data-orientation",
+        "data-activation-direction",
+        "data-active",
+        "data-disabled",
+        "data-hidden"
+      ],
+      hooks: ["Tabs"]
     ]
   ]
 ]

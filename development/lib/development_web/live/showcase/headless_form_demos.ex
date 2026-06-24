@@ -1204,3 +1204,71 @@ defmodule DevelopmentWeb.Showcase.ToggleGroupFormDemo do
     ]
   end
 end
+
+defmodule DevelopmentWeb.Showcase.TabsServerDemo do
+  @moduledoc "tabs pushing the active tab to the server (on_change) and being controlled by it (value)."
+  use DevelopmentWeb, :live_component
+  alias DevelopmentWeb.Components.Headless.Tabs
+
+  @tabs [{"overview", "Overview"}, {"activity", "Activity"}, {"settings", "Settings"}]
+
+  @impl true
+  def update(assigns, socket),
+    do:
+      {:ok,
+       socket
+       |> assign(assigns)
+       |> assign(:tabs, @tabs)
+       |> assign_new(:active, fn -> "overview" end)
+       |> assign_new(:switches, fn -> 0 end)}
+
+  @impl true
+  def handle_event("switch", %{"value" => v}, socket),
+    do: {:noreply, assign(socket, active: v, switches: socket.assigns.switches + 1)}
+
+  def handle_event("set", %{"v" => v}, socket),
+    do: {:noreply, assign(socket, active: v, switches: socket.assigns.switches + 1)}
+
+  @impl true
+  def render(assigns) do
+    ~H"""
+    <div id={@id}>
+      <Tabs.tabs
+        id={"#{@id}-tabs"}
+        value={@active}
+        on_change="switch"
+        on_change_target={"##{@id}"}
+        class={tc()}
+      >
+        <:tab :for={{v, label} <- @tabs} value={v}>{label}</:tab>
+        <:panel :for={{v, _} <- @tabs} value={v}>
+          Server-rendered panel for <strong>{v}</strong>.
+        </:panel>
+      </Tabs.tabs>
+
+      <div class="mt-3 flex items-center justify-between rounded-md border border-base-300 bg-base-100 px-3 py-2 text-sm">
+        <span>Server active tab: <strong>{@active}</strong> · {@switches} switches</span>
+        <button
+          type="button"
+          phx-target={@myself}
+          phx-click="set"
+          phx-value-v="settings"
+          class="rounded bg-primary px-2.5 py-1 text-xs font-medium text-primary-content"
+        >
+          Set to Settings (from server)
+        </button>
+      </div>
+    </div>
+    """
+  end
+
+  defp tc do
+    [
+      "w-full",
+      "[&_[data-part=tablist]]:relative [&_[data-part=tablist]]:flex [&_[data-part=tablist]]:gap-1 [&_[data-part=tablist]]:border-b [&_[data-part=tablist]]:border-base-300",
+      "[&_[data-part=tab]]:px-3 [&_[data-part=tab]]:py-1.5 [&_[data-part=tab]]:text-sm [&_[data-part=tab]]:text-base-content/60 [&_[data-part=tab]]:outline-none [&_[data-part=tab][data-active]]:text-base-content [&_[data-part=tab][data-active]]:font-semibold",
+      "[&_[data-part=indicator]]:absolute [&_[data-part=indicator]]:-bottom-px [&_[data-part=indicator]]:left-0 [&_[data-part=indicator]]:h-0.5 [&_[data-part=indicator]]:rounded-full [&_[data-part=indicator]]:bg-primary [&_[data-part=indicator]]:[width:var(--active-tab-width)] [&_[data-part=indicator]]:[translate:var(--active-tab-left)_0] [&_[data-part=indicator]]:transition-[translate,width] [&_[data-part=indicator]]:duration-200",
+      "[&_[data-part=panel]]:bg-base-100 [&_[data-part=panel]]:p-3 [&_[data-part=panel]]:text-sm"
+    ]
+  end
+end

@@ -1,10 +1,19 @@
 defmodule DevelopmentWeb.Components.Headless.Tabs do
   @moduledoc """
-  Headless **tabs** — a tablist with roving focus and associated panels.
+  Headless **tabs** — a value-driven tablist with an animated indicator (Base UI parity).
 
-  Behavior via the shared `RovingTabindex` engine (arrow keys move + auto-activate, Home/End,
-  one `tabindex=0`). ARIA: `role="tablist"`/`tab`/`tabpanel`, `aria-selected`, `aria-controls`,
-  `aria-labelledby`. Style via `chelekom-tabs*` classes and `data-open`/`data-closed`.
+  The `Tabs` engine owns roving focus (arrow keys along `orientation` + Home/End), activates a tab by
+  its `value` on click (and on focus when `activate_on_focus`), shows the matching `panel`, and measures
+  the active tab to publish the indicator CSS vars `--active-tab-left/right/top/bottom/width/height` (on
+  the `indicator` + tablist) so the underline slides/resizes. `data-activation-direction`
+  (left/right/up/down) is set for directional animations.
+
+  **Server push**: pass `on_change` (a LiveView event) and the active tab's `value` is pushed (`{value}`)
+  whenever the user switches; pass `value` to control the active tab from the server (re-renders re-sync
+  the indicator + panels without re-pushing). Options mirror Base UI: `value`/`default_value`,
+  `orientation`, plus per-`<:tab>` `value`/`disabled`. State: root/list/tab/panel/indicator
+  `data-orientation` + `data-activation-direction`; tab `data-active`/`data-disabled`; panel
+  `data-hidden`. Style via `chelekom-tabs*`.
 
   WAI-ARIA APG: https://www.w3.org/WAI/ARIA/apg/patterns/tabs/
   """
@@ -12,42 +21,80 @@ defmodule DevelopmentWeb.Components.Headless.Tabs do
 
   @doc type: :component
   attr :id, :string, required: true
+  attr :value, :string, default: nil, doc: "Active tab value (controlled by the server)"
+  attr :default_value, :string, default: nil, doc: "Initial active tab value (uncontrolled)"
   attr :orientation, :string, default: "horizontal", values: ~w(horizontal vertical)
+  attr :activate_on_focus, :boolean, default: true, doc: "Activate a tab when it receives focus (automatic)"
+  attr :indicator, :boolean, default: true, doc: "Render the animated indicator element"
+  attr :on_change, :string, default: nil, doc: "LiveView event pushed on user switch ({value})"
+  attr :on_change_target, :string, default: nil, doc: "Optional pushEventTo target (e.g. a LiveComponent selector)"
   attr :class, :any, default: nil
   attr :rest, :global
 
-  slot :tab, required: true, doc: "A tab label"
-  slot :panel, required: true, doc: "A tab panel (positionally matched to its tab)"
+  slot :tab, required: true, doc: "A tab label" do
+    attr :value, :string, doc: "Stable value (defaults to the positional index)"
+    attr :disabled, :boolean
+  end
+
+  slot :panel, required: true, doc: "A tab panel (matched to its tab by value/position)" do
+    attr :value, :string
+  end
 
   def tabs(assigns) do
+    tab_value = fn item, i -> item[:value] || "#{assigns.id}-#{i}" end
+
+    active =
+      assigns.value || assigns.default_value ||
+        (assigns.tab
+         |> Enum.with_index()
+         |> Enum.find(fn {t, _} -> !t[:disabled] end)
+         |> case do
+           {t, i} -> tab_value.(t, i)
+           _ -> "#{assigns.id}-0"
+         end)
+
+    assigns = assign(assigns, active: active, tab_value: tab_value)
+
     ~H"""
     <div
       id={@id}
-      phx-hook="RovingTabindex"
+      phx-hook="Tabs"
+      data-part="root"
       data-orientation={@orientation}
-      data-activate-on-focus
+      data-activate-on-focus={@activate_on_focus}
+      data-on-change={@on_change}
+      data-on-change-target={@on_change_target}
+      data-value={@active}
       class={["chelekom-tabs", @class]}
       {@rest}
     >
-      <div
-        role="tablist"
-        data-part="tablist"
-        aria-orientation={@orientation}
-        class="chelekom-tabs__list"
-      >
+      <div role="tablist" data-part="tablist" aria-orientation={@orientation} class="chelekom-tabs__list">
         <button
           :for={{tab, i} <- Enum.with_index(@tab)}
           type="button"
           role="tab"
-          data-part="item"
+          data-part="tab"
           id={"#{@id}-tab-#{i}"}
+          data-value={@tab_value.(tab, i)}
           aria-controls={"#{@id}-panel-#{i}"}
-          aria-selected={to_string(i == 0)}
-          tabindex={if i == 0, do: "0", else: "-1"}
+          aria-selected={to_string(@tab_value.(tab, i) == @active)}
+          data-active={@tab_value.(tab, i) == @active}
+          data-disabled={tab[:disabled]}
+          data-orientation={@orientation}
+          disabled={tab[:disabled]}
+          tabindex={if @tab_value.(tab, i) == @active, do: "0", else: "-1"}
           class="chelekom-tabs__tab"
         >
           {render_slot(tab)}
         </button>
+        <div
+          :if={@indicator}
+          data-part="indicator"
+          data-orientation={@orientation}
+          aria-hidden="true"
+          class="chelekom-tabs__indicator"
+        >
+        </div>
       </div>
 
       <div
@@ -55,10 +102,13 @@ defmodule DevelopmentWeb.Components.Headless.Tabs do
         id={"#{@id}-panel-#{i}"}
         role="tabpanel"
         data-part="panel"
+        data-value={panel[:value] || "#{@id}-#{i}"}
         aria-labelledby={"#{@id}-tab-#{i}"}
+        data-index={i}
+        data-orientation={@orientation}
+        hidden={(panel[:value] || "#{@id}-#{i}") != @active}
+        data-hidden={(panel[:value] || "#{@id}-#{i}") != @active}
         tabindex="0"
-        data-open={i == 0}
-        data-closed={i != 0}
         class="chelekom-tabs__panel"
       >
         {render_slot(panel)}

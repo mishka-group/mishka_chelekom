@@ -24,6 +24,7 @@ import NavigationMenu from "./navigation_menu.js";
 import Radio from "./radio.js";
 import RadioGroup from "./radio_group.js";
 import Select from "./select.js";
+import Tabs from "./tabs.js";
 import ToggleGroup from "./toggle_group.js";
 const Components = {
   Avatar,
@@ -52,6 +53,7 @@ const Components = {
   Radio,
   RadioGroup,
   Select,
+  Tabs,
   ToggleGroup,
 };
 export default Components;

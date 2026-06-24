@@ -750,7 +750,6 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
             <a href="#blog">Blog</a>
           </div>
         </:item>
-        <:item label="Contact" href="#contact" />
       </.navigation_menu>
     </div>
     """
@@ -1092,17 +1091,19 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
 
   def show(%{component: "tabs"} = assigns) do
     ~H"""
-    <.tabs
-      id={@id}
-      class="w-96 [&_[data-part=tablist]]:flex [&_[data-part=tablist]]:gap-1 [&_[data-part=tablist]]:border-b [&_[data-part=tablist]]:border-base-300 [&_[data-part=item]]:px-3 [&_[data-part=item]]:py-1.5 [&_[data-part=item]]:text-sm [&_[data-part=item]]:-mb-px [&_[data-part=item]]:border-b-2 [&_[data-part=item]]:border-transparent [&_[data-part=item][aria-selected=true]]:border-base-content [&_[data-part=item][aria-selected=true]]:font-semibold [&_[data-part=panel]]:rounded-b-md [&_[data-part=panel]]:bg-base-100 [&_[data-part=panel]]:p-3 [&_[data-part=panel]]:text-sm [&_[data-part=panel][data-closed=true]]:hidden"
-    >
-      <:tab>Account</:tab>
-      <:tab>Password</:tab>
-      <:tab>Team</:tab>
-      <:panel>Manage your account details and profile information.</:panel>
-      <:panel>Update your password and review recent sign-in activity.</:panel>
-      <:panel>Invite teammates and configure their roles.</:panel>
-    </.tabs>
+    <div class="space-y-2">
+      <p class="text-[0.7rem] uppercase tracking-wide text-base-content/40">
+        Arrow keys move + activate; the indicator slides under the active tab (Billing is disabled).
+      </p>
+      <.tabs id={@id} default_value="password" class={tabs_class()}>
+        <:tab value="password">Password</:tab>
+        <:tab value="team">Team</:tab>
+        <:tab value="billing" disabled>Billing</:tab>
+        <:panel value="password">Update your password and review recent sign-in activity.</:panel>
+        <:panel value="team">Invite teammates and configure their roles.</:panel>
+        <:panel value="billing">Plans and invoices.</:panel>
+      </.tabs>
+    </div>
     """
   end
 
@@ -1258,6 +1259,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
   def has_examples?("toggle"), do: true
   def has_examples?("toggle_group"), do: true
   def has_examples?("navigation_menu"), do: true
+  def has_examples?("tabs"), do: true
   def has_examples?(_), do: false
 
   def examples(%{component: "toast"} = assigns) do
@@ -1797,6 +1799,27 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
     """
   end
 
+  def examples(%{component: "tabs"} = assigns) do
+    ~H"""
+    <div class="space-y-3">
+      <details open class="rounded-box border border-base-300 bg-base-100 p-4">
+        <summary class="cursor-pointer select-none font-medium">
+          Push to the server — controlled tabs (on_change + value)
+        </summary>
+        <p class="mt-1 text-sm text-base-content/60">
+          Switching a tab pushes <code>{"%{value}"}</code> to the LiveComponent via
+          <code>on_change</code> / <code>on_change_target</code>; the server stores it and feeds it
+          back through <code>value</code>
+          — so it stays in sync, and the server can drive the tab itself (the button).
+        </p>
+        <div class="mt-4 max-w-md">
+          <.live_component module={DevelopmentWeb.Showcase.TabsServerDemo} id={"#{@id}-srv"} />
+        </div>
+      </details>
+    </div>
+    """
+  end
+
   def examples(assigns), do: ~H""
 
   defp nav_handbook do
@@ -1840,6 +1863,18 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
       "[&_[data-part=item][data-checked]]:border-primary [&_[data-part=item][data-checked]]:font-semibold [&_[data-part=item][data-checked]]:before:border-[5px] [&_[data-part=item][data-checked]]:before:border-primary",
       "[&_[data-part=item][data-highlighted]]:outline-none [&_[data-part=item][data-highlighted]]:ring-2 [&_[data-part=item][data-highlighted]]:ring-primary/40",
       "[&_[data-part=item][data-disabled]]:cursor-not-allowed [&_[data-part=item][data-disabled]]:opacity-40"
+    ]
+  end
+
+  # Tabs: the hook publishes --active-tab-left/width on the indicator; it slides + resizes under the
+  # active tab. data-active styles the selected tab, data-disabled dims it.
+  defp tabs_class do
+    [
+      "w-full max-w-sm",
+      "[&_[data-part=tablist]]:relative [&_[data-part=tablist]]:flex [&_[data-part=tablist]]:gap-1 [&_[data-part=tablist]]:border-b [&_[data-part=tablist]]:border-base-300",
+      "[&_[data-part=tab]]:px-3 [&_[data-part=tab]]:py-1.5 [&_[data-part=tab]]:text-sm [&_[data-part=tab]]:text-base-content/60 [&_[data-part=tab]]:outline-none [&_[data-part=tab]]:hover:text-base-content [&_[data-part=tab][data-active]]:text-base-content [&_[data-part=tab][data-active]]:font-semibold [&_[data-part=tab][data-disabled]]:opacity-40 [&_[data-part=tab][data-disabled]]:cursor-not-allowed focus-visible:[&_[data-part=tab]]:ring-2 focus-visible:[&_[data-part=tab]]:ring-primary/40",
+      "[&_[data-part=indicator]]:absolute [&_[data-part=indicator]]:-bottom-px [&_[data-part=indicator]]:left-0 [&_[data-part=indicator]]:h-0.5 [&_[data-part=indicator]]:rounded-full [&_[data-part=indicator]]:bg-primary [&_[data-part=indicator]]:[width:var(--active-tab-width)] [&_[data-part=indicator]]:[translate:var(--active-tab-left)_0] [&_[data-part=indicator]]:transition-[translate,width] [&_[data-part=indicator]]:duration-200 [&_[data-part=indicator]]:ease-out",
+      "[&_[data-part=panel]]:rounded-b-md [&_[data-part=panel]]:bg-base-100 [&_[data-part=panel]]:p-3 [&_[data-part=panel]]:text-sm [&_[data-part=panel]]:outline-none"
     ]
   end
 

@@ -568,11 +568,11 @@ defmodule DevelopmentWeb.Kit do
     part :tablist,
          "[&_[data-part=tablist]]:flex [&_[data-part=tablist]]:gap-1 [&_[data-part=tablist]]:border-b [&_[data-part=tablist]]:border-amber-200 dark:[&_[data-part=tablist]]:border-amber-900"
 
-    part :item,
-         "[&_[data-part=item]]:-mb-px [&_[data-part=item]]:cursor-pointer [&_[data-part=item]]:border-b-2 [&_[data-part=item]]:border-transparent [&_[data-part=item]]:px-3 [&_[data-part=item]]:py-1.5 [&_[data-part=item]]:text-sm [&_[data-part=item]]:font-medium [&_[data-part=item]]:text-amber-700 dark:[&_[data-part=item]]:text-amber-300 [&_[data-part=item]]:hover:text-amber-950 dark:[&_[data-part=item]]:hover:text-amber-50 [&_[data-part=item][aria-selected=true]]:border-amber-500 dark:[&_[data-part=item][aria-selected=true]]:border-amber-400 [&_[data-part=item][aria-selected=true]]:font-semibold [&_[data-part=item][aria-selected=true]]:text-amber-950 dark:[&_[data-part=item][aria-selected=true]]:text-amber-50 [&_[data-part=item]:focus-visible]:outline-none [&_[data-part=item]:focus-visible]:ring-2 [&_[data-part=item]:focus-visible]:ring-amber-400"
+    part :tab,
+         "[&_[data-part=tab]]:-mb-px [&_[data-part=tab]]:cursor-pointer [&_[data-part=tab]]:border-b-2 [&_[data-part=tab]]:border-transparent [&_[data-part=tab]]:px-3 [&_[data-part=tab]]:py-1.5 [&_[data-part=tab]]:text-sm [&_[data-part=tab]]:font-medium [&_[data-part=tab]]:text-amber-700 dark:[&_[data-part=tab]]:text-amber-300 [&_[data-part=tab]]:hover:text-amber-950 dark:[&_[data-part=tab]]:hover:text-amber-50 [&_[data-part=tab][data-active]]:border-amber-500 dark:[&_[data-part=tab][data-active]]:border-amber-400 [&_[data-part=tab][data-active]]:font-semibold [&_[data-part=tab][data-active]]:text-amber-950 dark:[&_[data-part=tab][data-active]]:text-amber-50 [&_[data-part=tab][data-disabled]]:opacity-40 [&_[data-part=tab]:focus-visible]:outline-none [&_[data-part=tab]:focus-visible]:ring-2 [&_[data-part=tab]:focus-visible]:ring-amber-400"
 
     part :panel,
-         "[&_[data-part=panel]]:rounded-b-lg [&_[data-part=panel]]:bg-amber-50 dark:[&_[data-part=panel]]:bg-amber-950/30 [&_[data-part=panel]]:p-3 [&_[data-part=panel]]:text-sm [&_[data-part=panel]]:text-amber-900 dark:[&_[data-part=panel]]:text-amber-100/80 [&_[data-part=panel]:focus-visible]:outline-none [&_[data-part=panel][data-closed=true]]:hidden"
+         "[&_[data-part=panel]]:rounded-b-lg [&_[data-part=panel]]:bg-amber-50 dark:[&_[data-part=panel]]:bg-amber-950/30 [&_[data-part=panel]]:p-3 [&_[data-part=panel]]:text-sm [&_[data-part=panel]]:text-amber-900 dark:[&_[data-part=panel]]:text-amber-100/80 [&_[data-part=panel]:focus-visible]:outline-none"
   end
 
   customize :my_toast do

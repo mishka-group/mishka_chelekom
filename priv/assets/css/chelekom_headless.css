@@ -263,3 +263,11 @@
 .chelekom-navigation_menu__content[data-activation-direction="left"]  { animation: chelekom-nm-left 0.2s ease; }
 .chelekom-navigation_menu__content[data-activation-direction="down"]  { animation: chelekom-nm-down 0.2s ease; }
 .chelekom-navigation_menu__content[data-activation-direction="up"]    { animation: chelekom-nm-up 0.2s ease; }
+/* Tabs: the tablist is the positioning context for the indicator; the hook publishes --active-tab-*
+   on it (and the indicator). Inactive panels carry `hidden`. */
+.chelekom-tabs__list {
+    position: relative;
+}
+.chelekom-tabs__panel[hidden] {
+    display: none;
+}
