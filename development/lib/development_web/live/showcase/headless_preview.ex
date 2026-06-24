@@ -665,34 +665,22 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
 
   def show(%{component: "menu"} = assigns) do
     ~H"""
-    <.menu
-      id={@id}
-      class="[&_[data-part=trigger]]:rounded-md [&_[data-part=trigger]]:border [&_[data-part=trigger]]:border-base-300 [&_[data-part=trigger]]:px-3 [&_[data-part=trigger]]:py-1.5 [&_[data-part=popup]]:mt-2 [&_[data-part=popup]]:min-w-44 [&_[data-part=popup]]:rounded-md [&_[data-part=popup]]:border [&_[data-part=popup]]:border-base-300 [&_[data-part=popup]]:bg-base-100 [&_[data-part=popup]]:p-1 [&_[data-part=popup]]:shadow-lg [&_[role=menuitem]]:block [&_[role=menuitem]]:w-full [&_[role=menuitem]]:px-3 [&_[role=menuitem]]:py-1.5 [&_[role=menuitem]]:text-left [&_[data-highlighted]]:bg-base-200 [&_[data-disabled]]:opacity-50"
-    >
+    <.menu id={@id} side="bottom" align="start" class={menu_class()}>
       <:trigger>Options ▾</:trigger>
       <:item>Edit</:item>
       <:item>Duplicate</:item>
-      <:item separator />
+      <:item type="separator" />
+      <:item type="checkbox" checked>Show grid</:item>
+      <:item type="link" href="#docs">Documentation</:item>
+      <:item type="separator" />
+      <:item type="label">Sort by</:item>
+      <:item type="radio" name="sort" value="name" checked>Name</:item>
+      <:item type="radio" name="sort" value="date">Date</:item>
+      <:item type="separator" />
       <:item disabled>Archive</:item>
-      <:submenu label="Share ▸">
-        <button
-          type="button"
-          role="menuitem"
-          data-part="item"
-          tabindex="-1"
-          class="block w-full px-3 py-1.5 text-left hover:bg-base-200"
-        >
-          Copy link
-        </button>
-        <button
-          type="button"
-          role="menuitem"
-          data-part="item"
-          tabindex="-1"
-          class="block w-full px-3 py-1.5 text-left hover:bg-base-200"
-        >
-          Email
-        </button>
+      <:submenu label="Share">
+        <.menu_item>Copy link</.menu_item>
+        <.menu_item>Email</.menu_item>
       </:submenu>
     </.menu>
     """
@@ -850,13 +838,27 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
       id={@id}
       side="bottom"
       align="start"
-      class="[&_[data-part=trigger]]:rounded-md [&_[data-part=trigger]]:border [&_[data-part=trigger]]:border-base-300 [&_[data-part=trigger]]:px-3 [&_[data-part=trigger]]:py-1.5 [&_[data-part=trigger]]:text-sm [&_[data-part=popup]]:mt-2 [&_[data-part=popup]]:w-64 [&_[data-part=popup]]:rounded-md [&_[data-part=popup]]:border [&_[data-part=popup]]:border-base-300 [&_[data-part=popup]]:bg-base-100 [&_[data-part=popup]]:p-4 [&_[data-part=popup]]:shadow-lg"
+      class="[&_[data-part=trigger]]:rounded-md [&_[data-part=trigger]]:border [&_[data-part=trigger]]:border-base-300 [&_[data-part=trigger]]:px-3 [&_[data-part=trigger]]:py-1.5 [&_[data-part=trigger]]:text-sm [&_[data-part=trigger][data-popup-open]]:bg-base-200 [&_[data-part=popup]]:w-72 [&_[data-part=popup]]:rounded-lg [&_[data-part=popup]]:border [&_[data-part=popup]]:border-base-300 [&_[data-part=popup]]:bg-base-100 [&_[data-part=popup]]:p-4 [&_[data-part=popup]]:shadow-xl [&_[data-part=popup]]:outline-none [&_[data-part=popup]]:transition [&_[data-part=popup]]:duration-150 [&_[data-part=popup][data-starting-style]]:opacity-0 [&_[data-part=popup][data-starting-style]]:scale-95 [&_[data-part=popup][data-side=bottom]]:origin-top [&_[data-part=popup][data-side=top]]:origin-bottom [&_[data-part=title]]:text-sm [&_[data-part=title]]:font-semibold [&_[data-part=description]]:mt-1 [&_[data-part=description]]:text-sm [&_[data-part=description]]:text-base-content/70 [&_[data-part=footer]]:mt-3 [&_[data-part=footer]]:flex [&_[data-part=footer]]:justify-end"
     >
       <:trigger>Open popover</:trigger>
-      <p class="text-sm font-semibold">Anchored popover</p>
-      <p class="mt-1 text-sm text-base-content/70">
-        Click the trigger to toggle. Click outside or press Escape to dismiss.
-      </p>
+      <:title>Anchored popover</:title>
+      <:description>
+        Anchored to the trigger — it flips near the viewport edge and follows on scroll. Click
+        outside or press Escape to dismiss.
+      </:description>
+      <label class="mt-3 block text-sm">
+        Quick note
+        <input
+          type="text"
+          placeholder="focus lands here…"
+          class="mt-1 w-full rounded border border-base-300 px-2 py-1 text-sm outline-none focus:border-primary"
+        />
+      </label>
+      <:close>
+        <button type="button" class="rounded-md border border-base-300 px-3 py-1.5 text-sm" data-close>
+          Close
+        </button>
+      </:close>
     </.popover>
     """
   end
@@ -1905,6 +1907,20 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
     [
       "[&_[data-part=trigger]]:flex [&_[data-part=trigger]]:h-48 [&_[data-part=trigger]]:w-64 [&_[data-part=trigger]]:select-none [&_[data-part=trigger]]:items-center [&_[data-part=trigger]]:justify-center [&_[data-part=trigger]]:rounded-lg [&_[data-part=trigger]]:border [&_[data-part=trigger]]:border-dashed [&_[data-part=trigger]]:border-base-300 [&_[data-part=trigger]]:text-sm [&_[data-part=trigger]]:text-base-content/60",
       "[&_[role=menu]]:min-w-52 [&_[role=menu]]:rounded-lg [&_[role=menu]]:border [&_[role=menu]]:border-base-300 [&_[role=menu]]:bg-base-100 [&_[role=menu]]:p-1 [&_[role=menu]]:text-sm [&_[role=menu]]:shadow-lg [&_[role=menu]]:outline-none [&_[role=menu]]:origin-top-left [&_[role=menu]]:transition [&_[role=menu]]:duration-150 [&_[role=menu][data-starting-style]]:scale-95 [&_[role=menu][data-starting-style]]:opacity-0",
+      "[&_[role^=menuitem]]:flex [&_[role^=menuitem]]:w-full [&_[role^=menuitem]]:cursor-default [&_[role^=menuitem]]:select-none [&_[role^=menuitem]]:items-center [&_[role^=menuitem]]:gap-2 [&_[role^=menuitem]]:rounded [&_[role^=menuitem]]:px-2 [&_[role^=menuitem]]:py-1.5 [&_[role^=menuitem]]:text-left [&_[role^=menuitem]]:text-base-content [&_[role^=menuitem]]:no-underline [&_[role^=menuitem]]:outline-none",
+      "[&_[role^=menuitem][data-highlighted]]:bg-base-200 [&_[role^=menuitem][data-disabled]]:opacity-40",
+      "[&_[data-part$=indicator]]:inline-flex [&_[data-part$=indicator]]:w-4 [&_[data-part$=indicator]]:shrink-0 [&_[data-part$=indicator]]:justify-center [&_[data-part$=indicator]]:text-xs [&_[data-part$=indicator]]:text-primary",
+      "[&_[data-part=submenu-chevron]]:ml-auto [&_[data-part=submenu-chevron]]:text-base-content/40",
+      "[&_[data-part=separator]]:my-1 [&_[data-part=separator]]:h-px [&_[data-part=separator]]:bg-base-300",
+      "[&_[data-part=group-label]]:px-2 [&_[data-part=group-label]]:py-1 [&_[data-part=group-label]]:text-xs [&_[data-part=group-label]]:font-medium [&_[data-part=group-label]]:uppercase [&_[data-part=group-label]]:tracking-wide [&_[data-part=group-label]]:text-base-content/40"
+    ]
+  end
+
+  # Menu button: a trigger + an anchored dropdown. Rows share one [role^=menuitem] variant.
+  defp menu_class do
+    [
+      "[&_[data-part=trigger]]:inline-flex [&_[data-part=trigger]]:items-center [&_[data-part=trigger]]:gap-1 [&_[data-part=trigger]]:rounded-md [&_[data-part=trigger]]:border [&_[data-part=trigger]]:border-base-300 [&_[data-part=trigger]]:px-3 [&_[data-part=trigger]]:py-1.5 [&_[data-part=trigger]]:text-sm [&_[data-part=trigger][data-popup-open]]:bg-base-200",
+      "[&_[role=menu]]:min-w-52 [&_[role=menu]]:rounded-lg [&_[role=menu]]:border [&_[role=menu]]:border-base-300 [&_[role=menu]]:bg-base-100 [&_[role=menu]]:p-1 [&_[role=menu]]:text-sm [&_[role=menu]]:shadow-lg [&_[role=menu]]:outline-none [&_[role=menu]]:transition [&_[role=menu]]:duration-150 [&_[role=menu][data-starting-style]]:opacity-0 [&_[role=menu][data-starting-style]]:scale-95 [&_[role=menu]]:origin-top",
       "[&_[role^=menuitem]]:flex [&_[role^=menuitem]]:w-full [&_[role^=menuitem]]:cursor-default [&_[role^=menuitem]]:select-none [&_[role^=menuitem]]:items-center [&_[role^=menuitem]]:gap-2 [&_[role^=menuitem]]:rounded [&_[role^=menuitem]]:px-2 [&_[role^=menuitem]]:py-1.5 [&_[role^=menuitem]]:text-left [&_[role^=menuitem]]:text-base-content [&_[role^=menuitem]]:no-underline [&_[role^=menuitem]]:outline-none",
       "[&_[role^=menuitem][data-highlighted]]:bg-base-200 [&_[role^=menuitem][data-disabled]]:opacity-40",
       "[&_[data-part$=indicator]]:inline-flex [&_[data-part$=indicator]]:w-4 [&_[data-part$=indicator]]:shrink-0 [&_[data-part$=indicator]]:justify-center [&_[data-part$=indicator]]:text-xs [&_[data-part$=indicator]]:text-primary",

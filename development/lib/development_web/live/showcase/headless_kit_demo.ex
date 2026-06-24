@@ -333,9 +333,9 @@ defmodule DevelopmentWeb.Showcase.HeadlessKitDemo do
       <:trigger>Options ▾</:trigger>
       <:item>Edit</:item>
       <:item>Duplicate</:item>
-      <:item separator />
+      <:item type="separator" />
       <:item disabled>Archive</:item>
-      <:submenu label="Share ▸">
+      <:submenu label="Share">
         <button type="button" role="menuitem" data-part="item" tabindex="-1">
           Copy link
         </button>

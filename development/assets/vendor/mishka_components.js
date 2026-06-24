@@ -29,7 +29,11 @@ import Toolbar from "./toolbar.js";
 import ToggleGroup from "./toggle_group.js";
 import Drawer from "./drawer.js";
 import ContextMenu from "./context_menu.js";
+import Menu from "./menu.js";
+import Popover from "./popover.js";
 const Components = {
+  Popover,
+  Menu,
   ContextMenu,
   Drawer,
   Avatar,

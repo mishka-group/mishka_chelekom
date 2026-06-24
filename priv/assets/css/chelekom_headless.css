@@ -10,6 +10,7 @@
 /* Closed overlays are removed from the layout. */
 .chelekom-popover__popup[data-closed],
 .chelekom-menu__popup[data-closed],
+.chelekom-menu__submenu-popup[data-closed],
 .chelekom-tooltip__popup[data-closed],
 .chelekom-select__popup[data-closed],
 .chelekom-preview_card__popup[data-closed],
@@ -254,6 +255,33 @@
 
 .chelekom-context_menu__indicator[data-unchecked] {
     visibility: hidden;
+}
+
+/* Menu: the engine anchors the popups to the trigger via inline fixed left/top. */
+.chelekom-menu__popup,
+.chelekom-menu__submenu-popup {
+    position: fixed;
+    z-index: 50;
+}
+
+.chelekom-menu__indicator[data-unchecked] {
+    visibility: hidden;
+}
+
+/* Popover: the engine anchors the popup to the trigger via inline fixed left/top. */
+.chelekom-popover__popup {
+    position: fixed;
+    z-index: 50;
+}
+
+.chelekom-popover__backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 40;
+}
+
+.chelekom-popover[data-closed] .chelekom-popover__backdrop {
+    display: none;
 }
 
 /* Roving / composite items: the engine moves a single tabindex=0 and marks the active one. */
