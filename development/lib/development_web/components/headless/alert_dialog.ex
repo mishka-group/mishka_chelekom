@@ -20,6 +20,9 @@ defmodule DevelopmentWeb.Components.Headless.AlertDialog do
   @doc type: :component
   attr :id, :string, required: true, doc: "Unique id (anchors aria relationships)"
   attr :open, :boolean, default: false, doc: "Initial/controlled open state"
+  attr :disabled, :boolean, default: false, doc: "Disable the trigger (data-disabled)"
+  attr :on_open_change, :string, default: nil, doc: "LiveView event pushed on open/close ({open})"
+  attr :on_open_change_target, :string, default: nil, doc: "Optional pushEventTo target (LiveComponent selector)"
   attr :labelledby, :string, default: nil, doc: "Override aria-labelledby"
   attr :describedby, :string, default: nil, doc: "Override aria-describedby"
   attr :class, :any, default: nil, doc: "Extra classes for the root"
@@ -29,9 +32,7 @@ defmodule DevelopmentWeb.Components.Headless.AlertDialog do
   slot :title, required: true, doc: "Accessible title (wired to aria-labelledby)"
   slot :description, required: true, doc: "Accessible description (wired to aria-describedby)"
   slot :inner_block, doc: "Alert dialog body"
-
-  slot :actions,
-    doc: "Footer with the confirm/cancel buttons (use data-close on a button to close)"
+  slot :actions, doc: "Footer with the confirm/cancel buttons (use data-close on a button to close)"
 
   def alert_dialog(assigns) do
     ~H"""
@@ -39,6 +40,8 @@ defmodule DevelopmentWeb.Components.Headless.AlertDialog do
       id={@id}
       phx-hook="FocusTrap"
       data-close-on-outside="false"
+      data-on-open-change={@on_open_change}
+      data-on-open-change-target={@on_open_change_target}
       class={["chelekom-alert-dialog", @class]}
       data-open={@open}
       data-closed={!@open}
@@ -48,6 +51,9 @@ defmodule DevelopmentWeb.Components.Headless.AlertDialog do
         :if={@trigger != []}
         type="button"
         data-part="trigger"
+        disabled={@disabled}
+        data-disabled={@disabled}
+        data-popup-open={@open}
         class="chelekom-alert-dialog__trigger"
       >
         {render_slot(@trigger)}

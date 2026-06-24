@@ -1272,3 +1272,70 @@ defmodule DevelopmentWeb.Showcase.TabsServerDemo do
     ]
   end
 end
+
+defmodule DevelopmentWeb.Showcase.AlertDialogDemo do
+  @moduledoc "alert dialog driving a server action — confirm deletes an item (and on_open_change tracks it)."
+  use DevelopmentWeb, :live_component
+  alias DevelopmentWeb.Components.Headless.AlertDialog
+
+  @impl true
+  def update(assigns, socket),
+    do:
+      {:ok,
+       socket
+       |> assign(assigns)
+       |> assign_new(:items, fn -> 3 end)
+       |> assign_new(:opened, fn -> 0 end)
+       |> assign_new(:open, fn -> false end)}
+
+  @impl true
+  def handle_event("delete", _p, socket), do: {:noreply, assign(socket, items: max(0, socket.assigns.items - 1))}
+
+  # Controlled: track `open` so the on_open_change re-render confirms the open state
+  # (instead of resetting data-open and closing the dialog).
+  def handle_event("toggled", %{"open" => true}, socket),
+    do: {:noreply, assign(socket, open: true, opened: socket.assigns.opened + 1)}
+
+  def handle_event("toggled", %{"open" => false}, socket), do: {:noreply, assign(socket, open: false)}
+
+  @impl true
+  def render(assigns) do
+    ~H"""
+    <div id={@id} class="space-y-2">
+      <p class="text-sm">Items remaining: <strong>{@items}</strong> · opened {@opened}×</p>
+      <AlertDialog.alert_dialog
+        id={"#{@id}-dlg"}
+        open={@open}
+        on_open_change="toggled"
+        on_open_change_target={"##{@id}"}
+        class={adc()}
+      >
+        <:trigger>Delete an item…</:trigger>
+        <:title>Delete this item?</:title>
+        <:description>This permanently removes the item. This action cannot be undone.</:description>
+        <:actions>
+          <button class="rounded-md border border-base-300 px-3 py-1.5 text-sm" data-close>Cancel</button>
+          <button
+            class="rounded-md bg-error px-3 py-1.5 text-sm font-medium text-error-content"
+            data-close
+            phx-target={@myself}
+            phx-click="delete"
+          >
+            Delete
+          </button>
+        </:actions>
+      </AlertDialog.alert_dialog>
+    </div>
+    """
+  end
+
+  defp adc do
+    [
+      "[&_[data-part=trigger]]:rounded-md [&_[data-part=trigger]]:border [&_[data-part=trigger]]:border-base-300 [&_[data-part=trigger]]:px-3 [&_[data-part=trigger]]:py-1.5 [&_[data-part=trigger]]:text-sm [&_[data-part=trigger][data-popup-open]]:bg-base-200",
+      "[&_[data-part=backdrop]]:fixed [&_[data-part=backdrop]]:inset-0 [&_[data-part=backdrop]]:z-40 [&_[data-part=backdrop]]:bg-black/40",
+      "[&_[data-part=popup]]:fixed [&_[data-part=popup]]:left-1/2 [&_[data-part=popup]]:top-1/2 [&_[data-part=popup]]:z-50 [&_[data-part=popup]]:w-80 [&_[data-part=popup]]:-translate-x-1/2 [&_[data-part=popup]]:-translate-y-1/2 [&_[data-part=popup]]:rounded-lg [&_[data-part=popup]]:bg-base-100 [&_[data-part=popup]]:p-6 [&_[data-part=popup]]:shadow-xl",
+      "[&_[data-part=title]]:text-lg [&_[data-part=title]]:font-semibold [&_[data-part=description]]:mt-1 [&_[data-part=description]]:text-sm [&_[data-part=description]]:text-base-content/70",
+      "[&_[data-part=actions]]:mt-4 [&_[data-part=actions]]:flex [&_[data-part=actions]]:justify-end [&_[data-part=actions]]:gap-2"
+    ]
+  end
+end

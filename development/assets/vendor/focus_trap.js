@@ -22,6 +22,8 @@ const FocusTrap = {
 
     this.closeOnEscape = this.el.getAttribute("data-close-on-escape") !== "false";
     this.closeOnOutside = this.el.getAttribute("data-close-on-outside") !== "false";
+    this.onOpenChange = this.el.getAttribute("data-on-open-change"); // LiveView event ({open})
+    this.onOpenChangeTarget = this.el.getAttribute("data-on-open-change-target"); // optional: target a LiveComponent
 
     this.boundKeydown = this.handleKeydown.bind(this);
     this.boundOpen = () => this.open();
@@ -33,7 +35,9 @@ const FocusTrap = {
       if (this.popup && this.popup.id) {
         this.trigger.setAttribute("aria-controls", this.popup.id);
       }
-      this.trigger.addEventListener("click", this.boundOpen);
+      this.trigger.addEventListener("click", () => {
+        if (!this.trigger.hasAttribute("data-disabled")) this.open();
+      });
     }
 
     if (this.backdrop && this.closeOnOutside) {
@@ -61,11 +65,20 @@ const FocusTrap = {
   open() {
     this.setState(true);
     this.activate();
+    this.emitOpenChange(true);
   },
 
   close() {
     this.setState(false);
     this.deactivate();
+    this.emitOpenChange(false);
+  },
+
+  emitOpenChange(open) {
+    if (!this.onOpenChange) return;
+    if (this.onOpenChangeTarget)
+      this.pushEventTo(this.onOpenChangeTarget, this.onOpenChange, { open });
+    else this.pushEvent(this.onOpenChange, { open });
   },
 
   setState(open) {
@@ -75,7 +88,10 @@ const FocusTrap = {
       this.popup.toggleAttribute("data-open", open);
       this.popup.toggleAttribute("data-closed", !open);
     }
-    if (this.trigger) this.trigger.setAttribute("aria-expanded", String(open));
+    if (this.trigger) {
+      this.trigger.setAttribute("aria-expanded", String(open));
+      this.trigger.toggleAttribute("data-popup-open", open);
+    }
   },
 
   activate() {

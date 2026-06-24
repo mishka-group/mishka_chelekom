@@ -22,7 +22,11 @@
           required: true
         ],
         parts: [
-          trigger: [element: "button", aria: ["aria-haspopup", "aria-expanded", "aria-controls"]],
+          trigger: [
+            element: "button",
+            aria: ["aria-haspopup", "aria-expanded", "aria-controls"],
+            data_attributes: ["data-popup-open", "data-disabled"]
+          ],
           backdrop: [element: "div", aria: ["aria-hidden"]],
           popup: [
             element: "div",

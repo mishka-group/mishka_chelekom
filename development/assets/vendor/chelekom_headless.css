@@ -9,7 +9,6 @@
 
 /* Closed overlays are removed from the layout. */
 .chelekom-dialog[data-closed],
-.chelekom-alert-dialog[data-closed],
 .chelekom-drawer[data-closed],
 .chelekom-popover__popup[data-closed],
 .chelekom-menu__popup[data-closed],
@@ -24,18 +23,30 @@
   display: none;
 }
 
-/* Alert dialog behaves like dialog (fixed + centered). */
-.chelekom-alert-dialog[data-open] {
-  position: fixed;
-  inset: 0;
-  z-index: 50;
-  display: grid;
-  place-items: center;
+/* Alert dialog: the root is a passthrough so the trigger stays in normal flow
+ * (always visible/clickable). The backdrop + popup are fixed overlays shown only
+ * while open; the popup is centered by default. */
+.chelekom-alert-dialog {
+  display: contents;
 }
 
 .chelekom-alert-dialog__backdrop {
   position: fixed;
   inset: 0;
+  z-index: 40;
+}
+
+.chelekom-alert-dialog__popup {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 50;
+}
+
+.chelekom-alert-dialog[data-closed] .chelekom-alert-dialog__backdrop,
+.chelekom-alert-dialog__popup[data-closed] {
+  display: none;
 }
 
 /* Drawer: full-viewport overlay; the popup itself is pinned to a side by your CSS. */

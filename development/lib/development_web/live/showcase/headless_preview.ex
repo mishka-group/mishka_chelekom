@@ -1265,6 +1265,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
   def has_examples?("toggle_group"), do: true
   def has_examples?("navigation_menu"), do: true
   def has_examples?("tabs"), do: true
+  def has_examples?("alert_dialog"), do: true
   def has_examples?(_), do: false
 
   def examples(%{component: "toast"} = assigns) do
@@ -1819,6 +1820,27 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
         </p>
         <div class="mt-4 max-w-md">
           <.live_component module={DevelopmentWeb.Showcase.TabsServerDemo} id={"#{@id}-srv"} />
+        </div>
+      </details>
+    </div>
+    """
+  end
+
+  def examples(%{component: "alert_dialog"} = assigns) do
+    ~H"""
+    <div class="space-y-3">
+      <details open class="rounded-box border border-base-300 bg-base-100 p-4">
+        <summary class="cursor-pointer select-none font-medium">
+          Confirm a destructive action — drives the server
+        </summary>
+        <p class="mt-1 text-sm text-base-content/60">
+          The alert never dismisses on an outside click — only the buttons (or Escape) close it. The
+          <strong>Delete</strong>
+          button has <code>data-close</code> (closes) plus <code>phx-click</code>
+          (deletes server-side), and <code>on_open_change</code> reports each open/close.
+        </p>
+        <div class="mt-4">
+          <.live_component module={DevelopmentWeb.Showcase.AlertDialogDemo} id={"#{@id}-demo"} />
         </div>
       </details>
     </div>
