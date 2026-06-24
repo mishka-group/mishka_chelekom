@@ -1,59 +1,322 @@
 defmodule <%= @module %> do
   @moduledoc """
-  Headless **context menu** — a right-click (context) menu over an arbitrary area.
+  Headless **context menu** (Base UI parity) — a menu that opens at the pointer on
+  right-click or touch long-press.
 
-  Two cooperating engines: `Popup` on the root (`data-trigger="contextmenu"`) opens the
-  menu at the pointer on right-click and closes it on outside-click / Escape; and
-  `RovingTabindex` on the menu (arrow keys, Home/End). ARIA: list `role="menu"`; items
-  `role="menuitem"`. Style via the `chelekom-context-menu*` classes and the
-  `data-open` / `data-closed` state attributes — this component ships **no** colors or spacing.
+  Behavior is driven by the dedicated `ContextMenu` JS engine: right-click / long-press the
+  `<:trigger>` area to open the menu at the cursor (clamped to the viewport); roving highlight
+  + typeahead, Enter/Space activation, checkbox/radio item state, nested submenus
+  (hover + ArrowRight / ArrowLeft), Escape and outside-press dismiss, focus restore.
+
+  Composed from per-row function components (preserve order, support nesting):
+  `context_menu` (root) and the rows `context_menu_item`, `context_menu_checkbox`,
+  `context_menu_radio_group` + `context_menu_radio`, `context_menu_link`,
+  `context_menu_separator`, `context_menu_group`, and `context_menu_submenu`.
+
+  Ships **no** colors or spacing. Style the `chelekom-context_menu*` classes and the
+  `data-open`/`data-closed`/`data-highlighted`/`data-checked`/`data-disabled`/
+  `data-popup-open`/`data-starting-style` state. The popup is positioned `fixed` at the
+  cursor by the engine; the scale-from-origin animation is your CSS.
 
   WAI-ARIA APG: https://www.w3.org/WAI/ARIA/apg/patterns/menu/
   """
   use Phoenix.Component
 
+  # ── Root ────────────────────────────────────────────────────────────────
   @doc type: :component
   attr :id, :string, required: true, doc: "Unique id (anchors aria relationships)"
+  attr :disabled, :boolean, default: false, doc: "Disable all interaction"
+  attr :on_open_change, :string, default: nil, doc: "LiveView event pushed on open/close ({open})"
+  attr :on_open_change_target, :string, default: nil, doc: "Optional pushEventTo target for on_open_change"
   attr :class, :any, default: nil, doc: "Extra classes for the root"
   attr :rest, :global
 
-  slot :trigger, required: true, doc: "The area to right-click to open the menu"
-  slot :item, required: true do
-    attr :disabled, :boolean
-  end
+  slot :trigger, required: true, doc: "The area to right-click / long-press to open the menu"
+  slot :inner_block, required: true, doc: "Menu rows (use the context_menu_* row components)"
 
   def <%= @component_prefix %>context_menu(assigns) do
     ~H"""
     <div
       id={@id}
-      phx-hook="Popup"
-      data-trigger="contextmenu"
-      class={["chelekom-context-menu", @class]}
+      phx-hook="ContextMenu"
+      data-disabled={to_string(@disabled)}
+      data-on-open-change={@on_open_change}
+      data-on-open-change-target={@on_open_change_target}
+      class={["chelekom-context_menu", @class]}
       {@rest}
     >
-      <div data-part="trigger" class="chelekom-context-menu__trigger">
+      <div data-part="trigger" class="chelekom-context_menu__trigger">
         {render_slot(@trigger)}
       </div>
       <div
         id={"#{@id}-popup"}
         data-part="popup"
         role="menu"
-        phx-hook="RovingTabindex"
-        data-orientation="vertical"
+        tabindex="-1"
+        hidden
         data-closed
-        class="chelekom-context-menu__popup"
+        class="chelekom-context_menu__popup"
       >
-        <button
-          :for={item <- @item}
-          type="button"
-          role="menuitem"
-          data-part="item"
-          data-disabled={item[:disabled] || nil}
-          tabindex="-1"
-          class="chelekom-context-menu__item"
-        >
-          {render_slot(item)}
-        </button>
+        {render_slot(@inner_block)}
+      </div>
+    </div>
+    """
+  end
+
+  # ── Item ────────────────────────────────────────────────────────────────
+  @doc type: :component
+  attr :disabled, :boolean, default: false
+  attr :label, :string, default: nil, doc: "Override the text used for typeahead"
+  attr :keep_open, :boolean, default: false, doc: "Don't close the menu when activated"
+  attr :class, :any, default: nil
+  attr :rest, :global, doc: "e.g. phx-click for the action"
+  slot :inner_block, required: true
+
+  def <%= @component_prefix %>context_menu_item(assigns) do
+    ~H"""
+    <button
+      type="button"
+      role="menuitem"
+      data-part="item"
+      data-disabled={@disabled}
+      data-keep-open={@keep_open}
+      data-label={@label}
+      tabindex="-1"
+      class={["chelekom-context_menu__item", @class]}
+      {@rest}
+    >
+      {render_slot(@inner_block)}
+    </button>
+    """
+  end
+
+  # ── Checkbox item ─────────────────────────────────────────────────────────
+  @doc type: :component
+  attr :checked, :boolean, default: false
+  attr :disabled, :boolean, default: false
+  attr :label, :string, default: nil
+  attr :on_change, :string, default: nil, doc: "LiveView event pushed on toggle ({checked})"
+  attr :on_change_target, :string, default: nil
+  attr :class, :any, default: nil
+  attr :rest, :global
+  slot :indicator, doc: "Override the checked glyph"
+  slot :inner_block, required: true
+
+  def <%= @component_prefix %>context_menu_checkbox(assigns) do
+    ~H"""
+    <button
+      type="button"
+      role="menuitemcheckbox"
+      data-part="checkbox-item"
+      aria-checked={to_string(@checked)}
+      data-checked={@checked}
+      data-unchecked={!@checked}
+      data-disabled={@disabled}
+      data-label={@label}
+      data-on-change={@on_change}
+      data-on-change-target={@on_change_target}
+      tabindex="-1"
+      class={["chelekom-context_menu__checkbox-item", @class]}
+      {@rest}
+    >
+      <span
+        data-part="checkbox-item-indicator"
+        aria-hidden="true"
+        data-checked={@checked}
+        data-unchecked={!@checked}
+        class="chelekom-context_menu__indicator"
+      >{if @indicator != [], do: render_slot(@indicator), else: "✓"}</span>
+      {render_slot(@inner_block)}
+    </button>
+    """
+  end
+
+  # ── Radio group + radio item ──────────────────────────────────────────────
+  @doc type: :component
+  attr :id, :string, default: nil
+  attr :label, :string, default: nil
+  attr :class, :any, default: nil
+  attr :rest, :global
+  slot :inner_block, required: true
+
+  def <%= @component_prefix %>context_menu_radio_group(assigns) do
+    ~H"""
+    <div
+      role="group"
+      data-part="radio-group"
+      aria-labelledby={@label && @id && "#{@id}-label"}
+      class={["chelekom-context_menu__radio-group", @class]}
+      {@rest}
+    >
+      <div
+        :if={@label}
+        id={@id && "#{@id}-label"}
+        role="presentation"
+        data-part="group-label"
+        class="chelekom-context_menu__group-label"
+      >
+        {@label}
+      </div>
+      {render_slot(@inner_block)}
+    </div>
+    """
+  end
+
+  @doc type: :component
+  attr :value, :string, required: true
+  attr :checked, :boolean, default: false
+  attr :disabled, :boolean, default: false
+  attr :label, :string, default: nil
+  attr :on_change, :string, default: nil, doc: "LiveView event pushed on select ({value})"
+  attr :on_change_target, :string, default: nil
+  attr :class, :any, default: nil
+  attr :rest, :global
+  slot :indicator, doc: "Override the selected glyph"
+  slot :inner_block, required: true
+
+  def <%= @component_prefix %>context_menu_radio(assigns) do
+    ~H"""
+    <button
+      type="button"
+      role="menuitemradio"
+      data-part="radio-item"
+      data-value={@value}
+      aria-checked={to_string(@checked)}
+      data-checked={@checked}
+      data-unchecked={!@checked}
+      data-disabled={@disabled}
+      data-label={@label}
+      data-on-change={@on_change}
+      data-on-change-target={@on_change_target}
+      tabindex="-1"
+      class={["chelekom-context_menu__radio-item", @class]}
+      {@rest}
+    >
+      <span
+        data-part="radio-item-indicator"
+        aria-hidden="true"
+        data-checked={@checked}
+        data-unchecked={!@checked}
+        class="chelekom-context_menu__indicator"
+      >{if @indicator != [], do: render_slot(@indicator), else: "●"}</span>
+      {render_slot(@inner_block)}
+    </button>
+    """
+  end
+
+  # ── Link item ─────────────────────────────────────────────────────────────
+  @doc type: :component
+  attr :href, :string, required: true
+  attr :label, :string, default: nil
+  attr :class, :any, default: nil
+  attr :rest, :global
+  slot :inner_block, required: true
+
+  def <%= @component_prefix %>context_menu_link(assigns) do
+    ~H"""
+    <a
+      href={@href}
+      role="menuitem"
+      data-part="link-item"
+      data-label={@label}
+      tabindex="-1"
+      class={["chelekom-context_menu__link-item", @class]}
+      {@rest}
+    >
+      {render_slot(@inner_block)}
+    </a>
+    """
+  end
+
+  # ── Separator ─────────────────────────────────────────────────────────────
+  @doc type: :component
+  attr :orientation, :string, default: "horizontal", values: ~w(horizontal vertical)
+  attr :class, :any, default: nil
+  attr :rest, :global
+
+  def <%= @component_prefix %>context_menu_separator(assigns) do
+    ~H"""
+    <div
+      role="separator"
+      data-part="separator"
+      data-orientation={@orientation}
+      aria-orientation={@orientation}
+      class={["chelekom-context_menu__separator", @class]}
+      {@rest}
+    >
+    </div>
+    """
+  end
+
+  # ── Group (with label) ────────────────────────────────────────────────────
+  @doc type: :component
+  attr :id, :string, default: nil
+  attr :label, :string, default: nil
+  attr :class, :any, default: nil
+  attr :rest, :global
+  slot :inner_block, required: true
+
+  def <%= @component_prefix %>context_menu_group(assigns) do
+    ~H"""
+    <div
+      role="group"
+      data-part="group"
+      aria-labelledby={@label && @id && "#{@id}-label"}
+      class={["chelekom-context_menu__group", @class]}
+      {@rest}
+    >
+      <div
+        :if={@label}
+        id={@id && "#{@id}-label"}
+        role="presentation"
+        data-part="group-label"
+        class="chelekom-context_menu__group-label"
+      >
+        {@label}
+      </div>
+      {render_slot(@inner_block)}
+    </div>
+    """
+  end
+
+  # ── Submenu ───────────────────────────────────────────────────────────────
+  @doc type: :component
+  attr :id, :string, required: true
+  attr :label, :string, required: true, doc: "The submenu trigger text"
+  attr :disabled, :boolean, default: false
+  attr :class, :any, default: nil
+  attr :rest, :global
+  slot :chevron, doc: "Override the submenu chevron glyph"
+  slot :inner_block, required: true, doc: "Nested submenu rows"
+
+  def <%= @component_prefix %>context_menu_submenu(assigns) do
+    ~H"""
+    <div data-part="submenu" class={["chelekom-context_menu__submenu", @class]} {@rest}>
+      <button
+        type="button"
+        role="menuitem"
+        data-part="submenu-trigger"
+        aria-haspopup="menu"
+        aria-expanded="false"
+        aria-controls={"#{@id}-sub"}
+        data-disabled={@disabled}
+        data-label={@label}
+        tabindex="-1"
+        class="chelekom-context_menu__submenu-trigger"
+      >
+        {@label}
+        <span data-part="submenu-chevron" aria-hidden="true" class="chelekom-context_menu__chevron">{if @chevron != [], do: render_slot(@chevron), else: "›"}</span>
+      </button>
+      <div
+        id={"#{@id}-sub"}
+        data-part="submenu-popup"
+        role="menu"
+        tabindex="-1"
+        hidden
+        data-closed
+        class="chelekom-context_menu__submenu-popup"
+      >
+        {render_slot(@inner_block)}
       </div>
     </div>
     """

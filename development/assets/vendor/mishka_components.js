@@ -28,7 +28,9 @@ import Tabs from "./tabs.js";
 import Toolbar from "./toolbar.js";
 import ToggleGroup from "./toggle_group.js";
 import Drawer from "./drawer.js";
+import ContextMenu from "./context_menu.js";
 const Components = {
+  ContextMenu,
   Drawer,
   Avatar,
   Collapsible,

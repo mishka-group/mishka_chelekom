@@ -7,6 +7,10 @@ defmodule DevelopmentWeb.Showcase.HeadlessKitDemo do
   """
   use DevelopmentWeb, :html
 
+  # Row components for the context_menu macro demo (the Kit wraps only the root).
+  import DevelopmentWeb.Components.Headless.ContextMenu,
+    only: [context_menu_item: 1, context_menu_separator: 1]
+
   import DevelopmentWeb.Kit,
     only: [
       my_accordion: 1,
@@ -225,10 +229,11 @@ defmodule DevelopmentWeb.Showcase.HeadlessKitDemo do
     ~H"""
     <.my_context_menu id="hl-context_menu-skin" class="w-full max-w-md">
       <:trigger>Right-click inside this area</:trigger>
-      <:item>Cut</:item>
-      <:item>Copy</:item>
-      <:item>Paste</:item>
-      <:item disabled>Delete</:item>
+      <.context_menu_item>Cut</.context_menu_item>
+      <.context_menu_item>Copy</.context_menu_item>
+      <.context_menu_item>Paste</.context_menu_item>
+      <.context_menu_separator />
+      <.context_menu_item disabled>Delete</.context_menu_item>
     </.my_context_menu>
     """
   end

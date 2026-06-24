@@ -14,6 +14,7 @@
 .chelekom-select__popup[data-closed],
 .chelekom-preview_card__popup[data-closed],
 .chelekom-context_menu__popup[data-closed],
+.chelekom-context_menu__submenu-popup[data-closed],
 .chelekom-menubar__popup[data-closed],
 .chelekom-navigation_menu__panel[data-closed],
 .chelekom-combobox__popup[data-closed],
@@ -236,6 +237,18 @@
 .chelekom-autocomplete__popup {
   position: absolute;
   z-index: 40;
+}
+
+/* Context menu: the engine positions the popups `fixed` at the cursor (inline left/top),
+ * so keep them above content and hide the checkbox/radio indicator until checked. */
+.chelekom-context_menu__popup,
+.chelekom-context_menu__submenu-popup {
+  position: fixed;
+  z-index: 50;
+}
+
+.chelekom-context_menu__indicator[data-unchecked] {
+  visibility: hidden;
 }
 
 /* Roving / composite items: the engine moves a single tabindex=0 and marks the active one. */

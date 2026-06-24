@@ -513,15 +513,27 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
 
   def show(%{component: "context_menu"} = assigns) do
     ~H"""
-    <.context_menu
-      id={@id}
-      class="[&_[data-part=trigger]]:flex [&_[data-part=trigger]]:h-32 [&_[data-part=trigger]]:w-72 [&_[data-part=trigger]]:items-center [&_[data-part=trigger]]:justify-center [&_[data-part=trigger]]:rounded-md [&_[data-part=trigger]]:border [&_[data-part=trigger]]:border-dashed [&_[data-part=trigger]]:border-base-300 [&_[data-part=trigger]]:text-sm [&_[data-part=trigger]]:text-base-content/60 [&_[data-part=popup]]:min-w-44 [&_[data-part=popup]]:rounded-md [&_[data-part=popup]]:border [&_[data-part=popup]]:border-base-300 [&_[data-part=popup]]:bg-base-100 [&_[data-part=popup]]:p-1 [&_[data-part=popup]]:shadow-lg [&_[role=menuitem]]:block [&_[role=menuitem]]:w-full [&_[role=menuitem]]:px-3 [&_[role=menuitem]]:py-1.5 [&_[role=menuitem]]:text-left [&_[data-highlighted]]:bg-base-200 [&_[data-disabled]]:opacity-50"
-    >
-      <:trigger>Right-click inside this area</:trigger>
-      <:item>Cut</:item>
-      <:item>Copy</:item>
-      <:item>Paste</:item>
-      <:item disabled>Delete</:item>
+    <.context_menu id={@id} class={context_menu_class()}>
+      <:trigger>Right click here</:trigger>
+      <.context_menu_item>Add to Library</.context_menu_item>
+      <.context_menu_submenu id={"#{@id}-pl"} label="Add to Playlist">
+        <.context_menu_item>Jazz Classics</.context_menu_item>
+        <.context_menu_item>Deep Focus</.context_menu_item>
+        <.context_menu_item>Late Night</.context_menu_item>
+      </.context_menu_submenu>
+      <.context_menu_separator />
+      <.context_menu_item>Play Next</.context_menu_item>
+      <.context_menu_item>Play Last</.context_menu_item>
+      <.context_menu_separator />
+      <.context_menu_checkbox checked>Favorite</.context_menu_checkbox>
+      <.context_menu_link href="#share">Share</.context_menu_link>
+      <.context_menu_separator />
+      <.context_menu_radio_group id={"#{@id}-q"} label="Quality">
+        <.context_menu_radio value="auto" checked>Auto</.context_menu_radio>
+        <.context_menu_radio value="high">High</.context_menu_radio>
+      </.context_menu_radio_group>
+      <.context_menu_separator />
+      <.context_menu_item disabled>Delete</.context_menu_item>
     </.context_menu>
     """
   end
@@ -1888,6 +1900,21 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
 
   # Radio group: each option is a card with a leading dot drawn by ::before that fills via data-checked
   # (set live by the RadioGroup hook). data-highlighted = focus ring; data-disabled dims + blocks.
+  # Context menu: a right-click area + a cursor-positioned menu. All rows are role=menuitem*
+  # so one [role^=menuitem] variant styles items/checkbox/radio/link/submenu-trigger together.
+  defp context_menu_class do
+    [
+      "[&_[data-part=trigger]]:flex [&_[data-part=trigger]]:h-48 [&_[data-part=trigger]]:w-64 [&_[data-part=trigger]]:select-none [&_[data-part=trigger]]:items-center [&_[data-part=trigger]]:justify-center [&_[data-part=trigger]]:rounded-lg [&_[data-part=trigger]]:border [&_[data-part=trigger]]:border-dashed [&_[data-part=trigger]]:border-base-300 [&_[data-part=trigger]]:text-sm [&_[data-part=trigger]]:text-base-content/60",
+      "[&_[role=menu]]:min-w-52 [&_[role=menu]]:rounded-lg [&_[role=menu]]:border [&_[role=menu]]:border-base-300 [&_[role=menu]]:bg-base-100 [&_[role=menu]]:p-1 [&_[role=menu]]:text-sm [&_[role=menu]]:shadow-lg [&_[role=menu]]:outline-none [&_[role=menu]]:origin-top-left [&_[role=menu]]:transition [&_[role=menu]]:duration-150 [&_[role=menu][data-starting-style]]:scale-95 [&_[role=menu][data-starting-style]]:opacity-0",
+      "[&_[role^=menuitem]]:flex [&_[role^=menuitem]]:w-full [&_[role^=menuitem]]:cursor-default [&_[role^=menuitem]]:select-none [&_[role^=menuitem]]:items-center [&_[role^=menuitem]]:gap-2 [&_[role^=menuitem]]:rounded [&_[role^=menuitem]]:px-2 [&_[role^=menuitem]]:py-1.5 [&_[role^=menuitem]]:text-left [&_[role^=menuitem]]:text-base-content [&_[role^=menuitem]]:no-underline [&_[role^=menuitem]]:outline-none",
+      "[&_[role^=menuitem][data-highlighted]]:bg-base-200 [&_[role^=menuitem][data-disabled]]:opacity-40",
+      "[&_[data-part$=indicator]]:inline-flex [&_[data-part$=indicator]]:w-4 [&_[data-part$=indicator]]:shrink-0 [&_[data-part$=indicator]]:justify-center [&_[data-part$=indicator]]:text-xs [&_[data-part$=indicator]]:text-primary",
+      "[&_[data-part=submenu-chevron]]:ml-auto [&_[data-part=submenu-chevron]]:text-base-content/40",
+      "[&_[data-part=separator]]:my-1 [&_[data-part=separator]]:h-px [&_[data-part=separator]]:bg-base-300",
+      "[&_[data-part=group-label]]:px-2 [&_[data-part=group-label]]:py-1 [&_[data-part=group-label]]:text-xs [&_[data-part=group-label]]:font-medium [&_[data-part=group-label]]:uppercase [&_[data-part=group-label]]:tracking-wide [&_[data-part=group-label]]:text-base-content/40"
+    ]
+  end
+
   defp radio_group_class do
     [
       "w-72 space-y-2",
