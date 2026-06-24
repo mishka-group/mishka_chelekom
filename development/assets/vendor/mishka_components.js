@@ -25,6 +25,7 @@ import Radio from "./radio.js";
 import RadioGroup from "./radio_group.js";
 import Select from "./select.js";
 import Tabs from "./tabs.js";
+import Toolbar from "./toolbar.js";
 import ToggleGroup from "./toggle_group.js";
 const Components = {
   Avatar,
@@ -54,6 +55,7 @@ const Components = {
   RadioGroup,
   Select,
   Tabs,
+  Toolbar,
   ToggleGroup,
 };
 export default Components;

@@ -8,28 +8,52 @@
     necessary: [],
     scripts: [
       %{
-        module: "RovingTabindex",
+        module: "Toolbar",
         type: "file",
-        file: "roving_tabindex.js",
-        imports: "import RovingTabindex from \"./roving_tabindex.js\";"
+        file: "toolbar.js",
+        imports: "import Toolbar from \"./toolbar.js\";"
       }
     ],
     headless: [
       anatomy: [
-        parts: [item: [element: "button", data_attributes: ["data-disabled", "data-highlighted"]]]
+        root: [
+          element: "div",
+          role: "toolbar",
+          aria: ["aria-orientation", "aria-disabled"],
+          data_attributes: ["data-orientation", "data-disabled"],
+          note: "carries the Toolbar hook; reads orientation/loop/disabled/focusable from data-*",
+          required: true
+        ],
+        parts: [
+          button: [
+            element: "button",
+            data_attributes: ["data-orientation", "data-disabled", "data-focusable"]
+          ],
+          link: [element: "a", data_attributes: ["data-orientation"]],
+          input: [
+            element: "input",
+            data_attributes: ["data-orientation", "data-disabled", "data-focusable"]
+          ],
+          group: [
+            element: "div",
+            role: "group",
+            aria: ["aria-label"],
+            data_attributes: ["data-orientation", "data-disabled"]
+          ],
+          separator: [element: "div", role: "separator", data_attributes: ["data-orientation"]]
+        ]
       ],
       aria_pattern: [
         pattern: "Toolbar",
         keyboard: [
-          "Left/Right: move focus (horizontal)",
-          "Up/Down: move focus (vertical)",
-          "Home: first item",
-          "End: last item",
-          "Tab: move out of the toolbar"
+          "Arrow (along orientation): move focus (looping)",
+          "Home / End: first / last item",
+          "Tab: move out of the toolbar",
+          "Inputs keep their own cursor movement; navigate at the boundaries"
         ]
       ],
-      state_attributes: ["data-disabled", "data-highlighted"],
-      hooks: ["RovingTabindex"]
+      state_attributes: ["data-orientation", "data-disabled", "data-focusable"],
+      hooks: ["Toolbar"]
     ]
   ]
 ]

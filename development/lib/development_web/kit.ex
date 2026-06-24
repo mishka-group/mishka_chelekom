@@ -620,8 +620,11 @@ defmodule DevelopmentWeb.Kit do
     part :root,
          "inline-flex gap-1 rounded-xl border border-amber-200 bg-amber-50 p-1 shadow-sm dark:border-amber-900/50 dark:bg-amber-950/30"
 
-    part :item,
-         "[&_[data-part=item]]:rounded-lg [&_[data-part=item]]:px-3 [&_[data-part=item]]:py-1.5 [&_[data-part=item]]:text-sm [&_[data-part=item]]:font-medium [&_[data-part=item]]:text-amber-950 dark:[&_[data-part=item]]:text-amber-100 [&_[data-part=item]:hover]:bg-amber-100 dark:[&_[data-part=item]:hover]:bg-amber-900/40 [&_[data-part=item][data-highlighted]]:bg-amber-100 dark:[&_[data-part=item][data-highlighted]]:bg-amber-900/40 [&_[data-part=item]:focus]:outline [&_[data-part=item]:focus]:outline-2 [&_[data-part=item]:focus]:outline-offset-2 [&_[data-part=item]:focus]:outline-amber-500 dark:[&_[data-part=item]:focus]:outline-amber-400 [&_[data-part=item][data-disabled]]:opacity-40 [&_[data-part=item][data-disabled]]:pointer-events-none"
+    part :button,
+         "[&_[data-part=button]]:rounded-lg [&_[data-part=button]]:px-3 [&_[data-part=button]]:py-1.5 [&_[data-part=button]]:text-sm [&_[data-part=button]]:font-medium [&_[data-part=button]]:text-amber-950 dark:[&_[data-part=button]]:text-amber-100 [&_[data-part=button]:hover]:bg-amber-100 dark:[&_[data-part=button]:hover]:bg-amber-900/40 [&_[data-part=button]:focus]:outline [&_[data-part=button]:focus]:outline-2 [&_[data-part=button]:focus]:outline-offset-2 [&_[data-part=button]:focus]:outline-amber-500 dark:[&_[data-part=button]:focus]:outline-amber-400 [&_[data-part=button][data-disabled]]:opacity-40 [&_[data-part=button][data-disabled]]:cursor-not-allowed"
+
+    part :separator,
+         "[&_[data-part=separator]]:mx-1 [&_[data-part=separator]]:h-5 [&_[data-part=separator]]:w-px [&_[data-part=separator]]:bg-amber-300 dark:[&_[data-part=separator]]:bg-amber-800"
   end
 
   customize :my_tooltip do

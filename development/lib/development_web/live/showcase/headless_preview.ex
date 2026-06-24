@@ -1187,15 +1187,20 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
 
   def show(%{component: "toolbar"} = assigns) do
     ~H"""
-    <.toolbar
-      id={@id}
-      orientation="horizontal"
-      class="inline-flex gap-1 rounded-md border border-base-300 bg-base-100 p-1 [&_[data-part=item]]:rounded [&_[data-part=item]]:px-3 [&_[data-part=item]]:py-1.5 [&_[data-part=item]]:text-sm [&_[data-part=item]:hover]:bg-base-200 [&_[data-part=item]:focus]:outline [&_[data-part=item]:focus]:outline-2 [&_[data-part=item]:focus]:outline-primary [&_[data-part=item][data-disabled]]:opacity-40 [&_[data-part=item][data-disabled]]:pointer-events-none"
-    >
-      <:item>Bold</:item>
-      <:item>Italic</:item>
-      <:item disabled>Underline</:item>
-    </.toolbar>
+    <div class="space-y-2">
+      <p class="text-[0.7rem] uppercase tracking-wide text-base-content/40">
+        Buttons · groups · separators · an input · a link — arrow keys rove (Underline is disabled but
+        still focusable).
+      </p>
+      <.toolbar id={@id} class={toolbar_class()}>
+        <:item type="button" group="Format" label="Bold"><strong>B</strong></:item>
+        <:item type="button" group="Format" label="Italic"><em>I</em></:item>
+        <:item type="button" group="Format" label="Underline" disabled><u>U</u></:item>
+        <:item type="separator" />
+        <:item type="input" placeholder="Search…" label="Search" />
+        <:item type="link" href="#help" label="Help">Help</:item>
+      </.toolbar>
+    </div>
     """
   end
 
@@ -1863,6 +1868,19 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
       "[&_[data-part=item][data-checked]]:border-primary [&_[data-part=item][data-checked]]:font-semibold [&_[data-part=item][data-checked]]:before:border-[5px] [&_[data-part=item][data-checked]]:before:border-primary",
       "[&_[data-part=item][data-highlighted]]:outline-none [&_[data-part=item][data-highlighted]]:ring-2 [&_[data-part=item][data-highlighted]]:ring-primary/40",
       "[&_[data-part=item][data-disabled]]:cursor-not-allowed [&_[data-part=item][data-disabled]]:opacity-40"
+    ]
+  end
+
+  # Toolbar: heterogeneous controls with roving focus. Buttons/links/inputs are the focusable items;
+  # disabled items stay focusable (just dimmed). Separators divide; groups cluster.
+  defp toolbar_class do
+    [
+      "flex max-w-full flex-wrap items-center gap-1 rounded-md border border-base-300 bg-base-100 p-1",
+      "[&_[data-part=group]]:flex [&_[data-part=group]]:gap-1",
+      "[&_[data-part=button]]:rounded [&_[data-part=button]]:px-2.5 [&_[data-part=button]]:py-1.5 [&_[data-part=button]]:text-sm [&_[data-part=button]]:outline-none [&_[data-part=button]:hover]:bg-base-200 focus-visible:[&_[data-part=button]]:ring-2 focus-visible:[&_[data-part=button]]:ring-primary/40 [&_[data-part=button][data-disabled]]:opacity-40 [&_[data-part=button][data-disabled]]:cursor-not-allowed",
+      "[&_[data-part=separator]]:mx-1 [&_[data-part=separator][data-orientation=horizontal]]:h-5 [&_[data-part=separator][data-orientation=horizontal]]:w-px [&_[data-part=separator][data-orientation=vertical]]:h-px [&_[data-part=separator][data-orientation=vertical]]:w-5 [&_[data-part=separator]]:bg-base-300",
+      "[&_[data-part=input]]:w-24 [&_[data-part=input]]:min-w-0 [&_[data-part=input]]:rounded [&_[data-part=input]]:border [&_[data-part=input]]:border-base-300 [&_[data-part=input]]:bg-base-100 [&_[data-part=input]]:px-2 [&_[data-part=input]]:py-1 [&_[data-part=input]]:text-sm [&_[data-part=input]]:outline-none focus-visible:[&_[data-part=input]]:ring-2 focus-visible:[&_[data-part=input]]:ring-primary/40",
+      "[&_[data-part=link]]:ml-auto [&_[data-part=link]]:px-2 [&_[data-part=link]]:text-sm [&_[data-part=link]]:text-primary [&_[data-part=link]]:underline-offset-2 [&_[data-part=link]:hover]:underline [&_[data-part=link]]:outline-none focus-visible:[&_[data-part=link]]:ring-2 focus-visible:[&_[data-part=link]]:ring-primary/40"
     ]
   end
 
