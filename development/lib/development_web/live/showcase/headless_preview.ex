@@ -308,14 +308,24 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
 
   def show(%{component: "avatar"} = assigns) do
     ~H"""
-    <.avatar
-      id={@id}
-      src="https://avatars.githubusercontent.com/u/8722951?v=4"
-      alt="User avatar"
-      class="relative inline-flex h-12 w-12 items-center justify-center overflow-hidden rounded-full border border-base-300 bg-base-200 text-sm font-semibold text-base-content [&_[data-part=image]]:h-full [&_[data-part=image]]:w-full [&_[data-part=image]]:object-cover [&_[data-part=fallback]]:absolute [&_[data-part=fallback]]:inset-0 [&_[data-part=fallback]]:flex [&_[data-part=fallback]]:items-center [&_[data-part=fallback]]:justify-center [&:has([data-part=image])_[data-part=fallback]]:hidden"
-    >
-      MC
-    </.avatar>
+    <div class="flex flex-wrap items-center gap-4">
+      <div class="flex flex-col items-center gap-1">
+        <.avatar id={@id} src="https://avatars.githubusercontent.com/u/8722951?v=4" alt="User avatar" class={avatar_class()}>
+          MC
+        </.avatar>
+        <span class="text-[0.7rem] text-base-content/40">loaded</span>
+      </div>
+      <div class="flex flex-col items-center gap-1">
+        <.avatar id={"#{@id}-broken"} src="https://example.invalid/missing.png" alt="Jane Doe" class={avatar_class()}>
+          JD
+        </.avatar>
+        <span class="text-[0.7rem] text-base-content/40">broken → fallback</span>
+      </div>
+      <div class="flex flex-col items-center gap-1">
+        <.avatar id={"#{@id}-initials"} class={avatar_class()}>AB</.avatar>
+        <span class="text-[0.7rem] text-base-content/40">no image</span>
+      </div>
+    </div>
     """
   end
 
@@ -1724,6 +1734,16 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
       "[&_[data-part=item][data-checked]]:border-primary [&_[data-part=item][data-checked]]:font-semibold [&_[data-part=item][data-checked]]:before:border-[5px] [&_[data-part=item][data-checked]]:before:border-primary",
       "[&_[data-part=item][data-highlighted]]:outline-none [&_[data-part=item][data-highlighted]]:ring-2 [&_[data-part=item][data-highlighted]]:ring-primary/40",
       "[&_[data-part=item][data-disabled]]:cursor-not-allowed [&_[data-part=item][data-disabled]]:opacity-40"
+    ]
+  end
+
+  # Avatar: the hook owns visibility (image `hidden` until loaded; fallback inline display), so these
+  # classes only style appearance — no `:has` hiding needed.
+  defp avatar_class do
+    [
+      "relative inline-flex size-12 items-center justify-center overflow-hidden rounded-full border border-base-300 bg-base-200 text-sm font-semibold text-base-content",
+      "[&_[data-part=image]]:size-full [&_[data-part=image]]:object-cover",
+      "[&_[data-part=fallback]]:absolute [&_[data-part=fallback]]:inset-0 [&_[data-part=fallback]]:flex [&_[data-part=fallback]]:items-center [&_[data-part=fallback]]:justify-center"
     ]
   end
 

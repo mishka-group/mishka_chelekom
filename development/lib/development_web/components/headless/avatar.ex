@@ -1,18 +1,19 @@
 defmodule DevelopmentWeb.Components.Headless.Avatar do
   @moduledoc """
-  Headless **avatar** — an image with a text fallback.
+  Headless **avatar** — an image with a text fallback (Base UI parity).
 
-  Renders an `<img>` when `src` is provided and always renders a `fallback`
-  region (e.g. initials) underneath. CSS can hide the fallback once the image
-  has loaded, or reveal it when the image is missing or fails to load. This
-  component ships **no** colors, sizing, or spacing — style via the
-  `chelekom-avatar*` classes.
+  The `Avatar` engine tracks the image's loading status (`idle`/`loading`/`loaded`/`error`, exposed as
+  `data-status` on the root). The `image` is revealed **only once it has loaded**; the `fallback`
+  (e.g. initials) shows whenever the image isn't loaded — after an optional `delay` (ms) so a
+  fast-loading image never flashes the fallback. `on_loading_status_change` pushes `{status}`.
 
-  Anatomy (parts): `image` (optional, only when `src` is set), `fallback`.
+  Options mirror Base UI: `src`, `alt`, `width`/`height`, `referrer_policy`, `crossorigin` (passed to
+  the `<img>`), fallback `delay`, and `on_loading_status_change`. Anatomy: `image` (only when `src` is
+  set), `fallback`. Ships **no** colors, sizing or spacing — style via `chelekom-avatar*` and the
+  `data-status` hook.
 
-  WAI-ARIA APG: no formal pattern. Decorative/representational images use an
-  empty `alt` by default; pass a meaningful `alt` when the avatar conveys
-  information.
+  WAI-ARIA APG: no formal pattern. Decorative images use an empty `alt` by default; pass a meaningful
+  `alt` when the avatar conveys information.
   """
   use Phoenix.Component
 
@@ -20,22 +21,46 @@ defmodule DevelopmentWeb.Components.Headless.Avatar do
   attr :id, :string, default: nil, doc: "Optional unique id for the root element"
   attr :src, :string, default: nil, doc: "Image source; when nil only the fallback renders"
   attr :alt, :string, default: "", doc: "Alternative text for the image"
+  attr :width, :any, default: nil, doc: "Image width attribute"
+  attr :height, :any, default: nil, doc: "Image height attribute"
+  attr :referrer_policy, :string, default: nil, doc: "referrerpolicy for the <img>"
+  attr :crossorigin, :string, default: nil, doc: "crossorigin for the <img>"
+  attr :delay, :integer, default: nil, doc: "ms to wait before showing the fallback (avoids a flash)"
+  attr :on_loading_status_change, :string, default: nil, doc: "LiveView event pushed on status change ({status})"
   attr :class, :any, default: nil, doc: "Extra classes for the root"
   attr :rest, :global
 
-  slot :inner_block, doc: "Fallback content shown when the image is absent (e.g. initials)"
+  slot :inner_block, doc: "Fallback content shown until the image loads (e.g. initials)"
 
   def avatar(assigns) do
     ~H"""
-    <span id={@id} class={["chelekom-avatar", @class]} {@rest}>
+    <span
+      id={@id}
+      phx-hook="Avatar"
+      data-status={if @src, do: "loading", else: "idle"}
+      data-on-loading-status-change={@on_loading_status_change}
+      class={["chelekom-avatar", @class]}
+      {@rest}
+    >
       <img
         :if={@src}
         data-part="image"
         src={@src}
         alt={@alt}
+        width={@width}
+        height={@height}
+        referrerpolicy={@referrer_policy}
+        crossorigin={@crossorigin}
+        hidden
         class="chelekom-avatar__image"
       />
-      <span data-part="fallback" class="chelekom-avatar__fallback" aria-hidden={@src && "true"}>
+      <span
+        :if={@inner_block != []}
+        data-part="fallback"
+        data-delay={@delay}
+        style={@src && @delay && "display: none"}
+        class="chelekom-avatar__fallback"
+      >
         {render_slot(@inner_block)}
       </span>
     </span>

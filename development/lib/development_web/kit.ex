@@ -160,7 +160,7 @@ defmodule DevelopmentWeb.Kit do
     from :avatar
 
     part :root,
-         "relative inline-flex h-12 w-12 items-center justify-center overflow-hidden rounded-full border border-amber-200 bg-amber-50 text-sm font-semibold text-amber-950 dark:border-amber-900 dark:bg-amber-950/30 dark:text-amber-50 [&:has([data-part=image])_[data-part=fallback]]:hidden"
+         "relative inline-flex h-12 w-12 items-center justify-center overflow-hidden rounded-full border border-amber-200 bg-amber-50 text-sm font-semibold text-amber-950 dark:border-amber-900 dark:bg-amber-950/30 dark:text-amber-50"
 
     part :image,
          "[&_[data-part=image]]:h-full [&_[data-part=image]]:w-full [&_[data-part=image]]:object-cover"

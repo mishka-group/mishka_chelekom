@@ -1,5 +1,6 @@
 import Collapsible from "./collapsible.js";
 import Carousel from "./carousel.js";
+import Avatar from "./avatar.js";
 import Clipboard from "./clipboard.js";
 import Combobox from "./combobox.js";
 import Floating from "./floating.js";
@@ -23,6 +24,7 @@ import RadioGroup from "./radio_group.js";
 import Select from "./select.js";
 import ToggleGroup from "./toggle_group.js";
 const Components = {
+  Avatar,
   Collapsible,
   Carousel,
   Clipboard,
