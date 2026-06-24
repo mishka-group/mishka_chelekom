@@ -530,11 +530,11 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
     ~H"""
     <.dialog
       id={@id}
-      class="[&_[data-part=trigger]]:rounded-md [&_[data-part=trigger]]:border [&_[data-part=trigger]]:border-base-300 [&_[data-part=trigger]]:px-3 [&_[data-part=trigger]]:py-1.5 [&_[data-part=backdrop]]:bg-black/40 [&_[data-part=popup]]:w-80 [&_[data-part=popup]]:rounded-lg [&_[data-part=popup]]:bg-base-100 [&_[data-part=popup]]:p-6 [&_[data-part=popup]]:shadow-xl [&_[data-part=title]]:text-base [&_[data-part=title]]:font-semibold [&_[data-part=description]]:mt-1 [&_[data-part=description]]:text-sm [&_[data-part=description]]:text-base-content/70 [&_[data-part=footer]]:mt-4 [&_[data-part=footer]]:flex [&_[data-part=footer]]:justify-end [&_[data-part=footer]]:gap-2"
+      class="[&_[data-part=trigger]]:rounded-md [&_[data-part=trigger]]:border [&_[data-part=trigger]]:border-base-300 [&_[data-part=trigger]]:px-3 [&_[data-part=trigger]]:py-1.5 [&_[data-part=trigger][data-popup-open]]:bg-base-200 [&_[data-part=backdrop]]:bg-black/40 [&_[data-part=backdrop]]:transition-opacity [&_[data-part=backdrop]]:duration-200 [&_[data-part=backdrop][data-starting-style]]:opacity-0 [&_[data-part=popup]]:w-80 [&_[data-part=popup]]:rounded-lg [&_[data-part=popup]]:bg-base-100 [&_[data-part=popup]]:p-6 [&_[data-part=popup]]:shadow-xl [&_[data-part=popup]]:transition [&_[data-part=popup]]:duration-200 [&_[data-part=popup]]:ease-out [&_[data-part=popup][data-starting-style]]:scale-95 [&_[data-part=popup][data-starting-style]]:opacity-0 [&_[data-part=title]]:text-base [&_[data-part=title]]:font-semibold [&_[data-part=description]]:mt-1 [&_[data-part=description]]:text-sm [&_[data-part=description]]:text-base-content/70 [&_[data-part=footer]]:mt-4 [&_[data-part=footer]]:flex [&_[data-part=footer]]:justify-end [&_[data-part=footer]]:gap-2"
     >
       <:trigger>Open dialog</:trigger>
       <:title>Confirm action</:title>
-      <:description>This is a fully headless, focus-trapped dialog.</:description>
+      <:description>Focus-trapped, scroll-locked, with a scale+fade enter animation.</:description>
       <p class="mt-3 text-sm">
         Tab cycles inside; Escape, the backdrop, or the close button dismiss it.
       </p>

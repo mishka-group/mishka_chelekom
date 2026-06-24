@@ -8,7 +8,6 @@
  */
 
 /* Closed overlays are removed from the layout. */
-.chelekom-dialog[data-closed],
 .chelekom-popover__popup[data-closed],
 .chelekom-menu__popup[data-closed],
 .chelekom-tooltip__popup[data-closed],
@@ -164,24 +163,39 @@
   gap: 0.5rem;
 }
 
-/* Dialog: fixed, centered, above the page; backdrop fills the viewport. */
-.chelekom-dialog[data-open] {
-  position: fixed;
-  inset: 0;
-  z-index: 50;
-  display: grid;
-  place-items: center;
+/* Dialog: the root is a passthrough so the trigger stays in normal flow (always visible).
+ * The backdrop + viewport are fixed overlays; the viewport centers the popup and scrolls
+ * tall dialogs. Colors/size/padding stay consumer-owned. */
+.chelekom-dialog {
+  display: contents;
 }
 
 .chelekom-dialog__backdrop {
   position: fixed;
   inset: 0;
+  z-index: 40;
+}
+
+.chelekom-dialog__viewport {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: grid;
+  place-items: center;
+  overflow-y: auto;
+  pointer-events: none;
 }
 
 .chelekom-dialog__popup {
   position: relative;
   max-height: 90vh;
   overflow: auto;
+  pointer-events: auto;
+}
+
+.chelekom-dialog[data-closed] .chelekom-dialog__backdrop,
+.chelekom-dialog__popup[data-closed] {
+  display: none;
 }
 
 /* Disclosure: panel hidden when collapsed. (The accordion is NOT listed here: it carries the
