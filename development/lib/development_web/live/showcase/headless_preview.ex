@@ -1079,14 +1079,14 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
 
   def show(%{component: "toggle"} = assigns) do
     ~H"""
-    <.toggle
-      id={@id}
-      pressed={false}
-      class="inline-flex items-center gap-2 rounded-md border border-base-300 bg-base-100 px-3 py-1.5 text-sm data-[on]:border-primary data-[on]:bg-primary data-[on]:text-primary-content"
-    >
-      <span class="hidden data-[on]:inline">Bold: on</span>
-      <span class="data-[on]:hidden">Bold: off</span>
-    </.toggle>
+    <div class="flex flex-wrap items-center gap-3">
+      <.toggle id={@id} class={toggle_class()}>
+        <span class="hidden data-[pressed]:inline">★ Favorited</span>
+        <span class="data-[pressed]:hidden">☆ Favorite</span>
+      </.toggle>
+      <.toggle id={"#{@id}-on"} pressed class={toggle_class()}>Bold</.toggle>
+      <.toggle id={"#{@id}-dis"} pressed disabled class={toggle_class()}>Disabled</.toggle>
+    </div>
     """
   end
 
@@ -1094,7 +1094,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
     ~H"""
     <.toggle_group
       id={@id}
-      class="inline-flex gap-1 rounded-md border border-base-300 bg-base-100 p-1 [&_[data-part=item]]:rounded [&_[data-part=item]]:px-3 [&_[data-part=item]]:py-1.5 [&_[data-part=item]]:text-sm [&_[data-part=item][data-on]]:bg-base-content [&_[data-part=item][data-on]]:text-base-100 [&_[data-part=item][data-off]]:text-base-content [&_[data-part=item][data-disabled]]:opacity-40 [&_[data-part=item][data-disabled]]:cursor-not-allowed"
+      class="inline-flex gap-1 rounded-md border border-base-300 bg-base-100 p-1 [&_[data-part=item]]:rounded [&_[data-part=item]]:px-3 [&_[data-part=item]]:py-1.5 [&_[data-part=item]]:text-sm [&_[data-part=item]]:text-base-content [&_[data-part=item][data-pressed]]:bg-base-content [&_[data-part=item][data-pressed]]:text-base-100 [&_[data-part=item][data-highlighted]]:outline [&_[data-part=item][data-highlighted]]:outline-2 [&_[data-part=item][data-highlighted]]:outline-primary/40 [&_[data-part=item][data-disabled]]:opacity-40 [&_[data-part=item][data-disabled]]:cursor-not-allowed"
     >
       <:item value="bold">Bold</:item>
       <:item value="italic">Italic</:item>
@@ -1174,6 +1174,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
   def has_examples?("select"), do: true
   def has_examples?("slider"), do: true
   def has_examples?("switch"), do: true
+  def has_examples?("toggle"), do: true
   def has_examples?(_), do: false
 
   def examples(%{component: "toast"} = assigns) do
@@ -1628,6 +1629,28 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
     """
   end
 
+  def examples(%{component: "toggle"} = assigns) do
+    ~H"""
+    <div class="space-y-3">
+      <details open class="rounded-box border border-base-300 bg-base-100 p-4">
+        <summary class="cursor-pointer select-none font-medium">
+          In a form — submit a toggle as a boolean
+        </summary>
+        <p class="mt-1 text-sm text-base-content/60">
+          A pressed button isn't a form control in Base UI, but giving it a <code>name</code>
+          opts into form submission: it renders a hidden checkbox the engine keeps in sync, so
+          <code>value</code> / <code>unchecked_value</code>
+          submit a boolean either way and it works with <code>&lt;.form&gt;</code> (cast to
+          <code>:boolean</code>).
+        </p>
+        <div class="mt-4 max-w-sm">
+          <.live_component module={DevelopmentWeb.Showcase.ToggleFormDemo} id={"#{@id}-form"} />
+        </div>
+      </details>
+    </div>
+    """
+  end
+
   def examples(assigns), do: ~H""
 
   # Radio group: each option is a card with a leading dot drawn by ::before that fills via data-checked
@@ -1641,6 +1664,17 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
       "[&_[data-part=item][data-checked]]:border-primary [&_[data-part=item][data-checked]]:font-semibold [&_[data-part=item][data-checked]]:before:border-[5px] [&_[data-part=item][data-checked]]:before:border-primary",
       "[&_[data-part=item][data-highlighted]]:outline-none [&_[data-part=item][data-highlighted]]:ring-2 [&_[data-part=item][data-highlighted]]:ring-primary/40",
       "[&_[data-part=item][data-disabled]]:cursor-not-allowed [&_[data-part=item][data-disabled]]:opacity-40"
+    ]
+  end
+
+  # Toggle: a pressed-state button. Base UI exposes only data-pressed (present when on), so the "off"
+  # look is the base style and data-[pressed]: is the on look. data-disabled dims + blocks.
+  defp toggle_class do
+    [
+      "inline-flex items-center gap-2 rounded-md border border-base-300 bg-base-100 px-3 py-1.5 text-sm transition-colors",
+      "data-[pressed]:border-primary data-[pressed]:bg-primary data-[pressed]:text-primary-content",
+      "data-[disabled]:cursor-not-allowed data-[disabled]:opacity-50",
+      "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40"
     ]
   end
 

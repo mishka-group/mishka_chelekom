@@ -1,10 +1,10 @@
 // Toggle — headless pressed/checked state engine (toggle, toggle_group item, switch, checkbox).
 //
 // Clicking (or Enter/Space on a button) flips the control's state. Which ARIA attribute is
-// toggled depends on the element's role: `role="switch"`/`checkbox` → `aria-checked`, otherwise
-// `aria-pressed`. The matching `data-on`/`data-off` (and `data-checked`/`data-unchecked`) attributes
-// are toggled for CSS. A hidden input (if present, `[data-part="input"]`) is kept in sync for form
-// submission.
+// toggled depends on the element's role: `role="switch"`/`checkbox` → `aria-checked` (with
+// `data-checked`/`data-unchecked`), otherwise `aria-pressed` (with `data-pressed`, present only
+// when on — Base UI Toggle parity). A hidden input (if present, `[data-part="input"]`) is kept in
+// sync for form submission.
 //
 // Checkbox opt-in extras (switch/toggle set none of these, so they no-op):
 //   `data-readonly`     → toggling is blocked, but the control stays focusable
@@ -56,8 +56,11 @@ const Toggle = {
     if (this.input) this.input.dispatchEvent(new Event("change", { bubbles: true }));
 
     // Fire the server event only on a real change; read data-on-change live (survives re-renders).
+    // Payload is semantic: {checked} for switch/checkbox, {pressed} for toggle buttons.
     const onChange = this.el.getAttribute("data-on-change");
-    if (onChange && on !== prev) this.pushEvent(onChange, { checked: on });
+    if (onChange && on !== prev) {
+      this.pushEvent(onChange, this.attr === "aria-checked" ? { checked: on } : { pressed: on });
+    }
 
     // Notify any group coordinator (CheckboxGroup) — covers BOTH click and keyboard toggles.
     this.el.dispatchEvent(new CustomEvent("chelekom:toggle", { bubbles: true }));
@@ -72,8 +75,9 @@ const Toggle = {
       this.el.toggleAttribute("data-checked", on);
       this.el.toggleAttribute("data-unchecked", !on);
     } else {
-      this.el.toggleAttribute("data-on", on);
-      this.el.toggleAttribute("data-off", !on);
+      // Pressed buttons (toggle / toggle_group item): Base UI exposes only `data-pressed` (present
+      // when on, absent when off).
+      this.el.toggleAttribute("data-pressed", on);
     }
 
     this.mirrors.forEach((m) => {

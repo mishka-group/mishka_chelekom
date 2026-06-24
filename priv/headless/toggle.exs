@@ -20,7 +20,7 @@
           root: [
             element: "button",
             aria: ["aria-pressed"],
-            data_attributes: ["data-on", "data-off"],
+            data_attributes: ["data-pressed", "data-disabled"],
             required: true
           ]
         ]
@@ -29,7 +29,7 @@
         pattern: "Button (Toggle)",
         keyboard: ["Enter: toggle pressed state", "Space: toggle pressed state"]
       ],
-      state_attributes: ["data-on", "data-off"],
+      state_attributes: ["data-pressed", "data-disabled"],
       hooks: ["Toggle"]
     ]
   ]

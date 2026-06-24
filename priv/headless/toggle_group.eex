@@ -4,8 +4,8 @@ defmodule <%= @module %> do
 
   Two cooperating engines: `RovingTabindex` on the root `role="group"` (Left/Right arrows,
   Home/End, one `tabindex=0`) and `Toggle` on each item button (Click/Enter/Space flips
-  `aria-pressed` and `data-on`/`data-off`). ARIA: root `role="group"`; items `role="button"`
-  + `aria-pressed`. Style via `chelekom-toggle-group*` classes and `data-on`/`data-off`.
+  `aria-pressed` and `data-pressed`, present only when on). ARIA: root `role="group"`; items
+  `role="button"` + `aria-pressed`. Style via `chelekom-toggle-group*` classes and `data-pressed`.
 
   WAI-ARIA APG: https://www.w3.org/WAI/ARIA/apg/patterns/toolbar/
   """
@@ -41,7 +41,6 @@ defmodule <%= @module %> do
         data-disabled={item[:disabled] || nil}
         phx-hook="Toggle"
         aria-pressed="false"
-        data-off
         tabindex="-1"
         class="chelekom-toggle-group__item"
       >

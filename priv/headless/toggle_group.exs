@@ -29,8 +29,7 @@
             role: "button",
             aria: ["aria-pressed"],
             data_attributes: [
-              "data-on",
-              "data-off",
+              "data-pressed",
               "data-highlighted",
               "data-disabled",
               "data-value"
@@ -47,7 +46,7 @@
           "Enter/Space: toggle pressed state"
         ]
       ],
-      state_attributes: ["data-on", "data-off", "data-highlighted", "data-orientation"],
+      state_attributes: ["data-pressed", "data-highlighted", "data-orientation"],
       hooks: ["RovingTabindex", "Toggle"]
     ]
   ]

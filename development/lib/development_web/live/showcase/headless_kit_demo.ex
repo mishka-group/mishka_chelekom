@@ -572,8 +572,8 @@ defmodule DevelopmentWeb.Showcase.HeadlessKitDemo do
   def demo(%{component: "toggle"} = assigns) do
     ~H"""
     <.my_toggle id="hl-toggle-skin" pressed={false} class="w-full max-w-md justify-center">
-      <span class="hidden data-[on]:inline">Bold: on</span>
-      <span class="data-[on]:hidden">Bold: off</span>
+      <span class="hidden data-[pressed]:inline">Bold: on</span>
+      <span class="data-[pressed]:hidden">Bold: off</span>
     </.my_toggle>
     """
   end

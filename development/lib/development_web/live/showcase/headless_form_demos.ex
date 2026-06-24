@@ -1051,3 +1051,73 @@ defmodule DevelopmentWeb.Showcase.SwitchFormDemo do
     ]
   end
 end
+
+defmodule DevelopmentWeb.Showcase.ToggleFormDemo do
+  @moduledoc "toggle inside a `<.form>` — opt-in `name` makes it submit a boolean (hidden checkbox)."
+  use DevelopmentWeb, :live_component
+  alias DevelopmentWeb.Components.Headless.Toggle
+  import Ecto.Changeset
+  alias DevelopmentWeb.Showcase.FormDemoHelpers, as: H
+
+  @impl true
+  def update(assigns, socket),
+    do:
+      {:ok,
+       socket
+       |> assign(assigns)
+       |> assign_new(:form, fn -> to_form(cs(%{"public" => "false"}), as: :prefs) end)
+       |> assign_new(:saved, fn -> nil end)}
+
+  @impl true
+  def handle_event("validate", %{"prefs" => p}, socket),
+    do: {:noreply, assign(socket, form: to_form(cs(p), as: :prefs))}
+
+  @impl true
+  def handle_event("save", %{"prefs" => p}, socket) do
+    changeset = cs(p)
+
+    if changeset.valid?,
+      do: {:noreply, assign(socket, saved: apply_changes(changeset), form: to_form(changeset, as: :prefs))},
+      else: {:noreply, assign(socket, saved: nil, form: to_form(changeset, as: :prefs, action: :save))}
+  end
+
+  @impl true
+  def render(assigns) do
+    ~H"""
+    <div>
+      <.form for={@form} phx-target={@myself} phx-change="validate" phx-submit="save" :let={f} class="space-y-4">
+        <div class="flex items-center gap-3">
+          <Toggle.toggle
+            id={"#{@id}-public"}
+            name={f[:public].name}
+            value="true"
+            unchecked_value="false"
+            pressed={f[:public].value in [true, "true"]}
+            class={tc()}
+          >
+            <span class="hidden data-[pressed]:inline">🌐 Public</span>
+            <span class="data-[pressed]:hidden">🔒 Private</span>
+          </Toggle.toggle>
+          <span class="text-sm font-medium">Profile visibility</span>
+        </div>
+        <button type="submit" class="rounded-md bg-primary px-4 py-1.5 text-sm font-medium text-primary-content">
+          Save settings
+        </button>
+      </.form>
+      <div :if={@saved} class="mt-3 rounded-md border border-success/40 bg-success/10 p-3 text-sm font-medium text-success">
+        ✓ Profile is {if @saved.public, do: "public 🌐", else: "private 🔒"} (not persisted)
+      </div>
+    </div>
+    """
+  end
+
+  defp cs(p), do: {%{}, %{public: :boolean}} |> cast(p, [:public])
+
+  defp tc do
+    [
+      "inline-flex items-center gap-2 rounded-md border border-base-300 bg-base-100 px-3 py-1.5 text-sm transition-colors",
+      "data-[pressed]:border-primary data-[pressed]:bg-primary data-[pressed]:text-primary-content",
+      "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40"
+    ]
+  end
+end

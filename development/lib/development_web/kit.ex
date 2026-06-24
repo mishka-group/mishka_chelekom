@@ -595,7 +595,7 @@ defmodule DevelopmentWeb.Kit do
     from :toggle
 
     part :root,
-         "inline-flex items-center gap-2 rounded-md border border-amber-200 bg-amber-50 px-3 py-1.5 text-sm font-medium text-amber-950 hover:bg-amber-100 dark:border-amber-900 dark:bg-amber-950/30 dark:text-amber-50 dark:hover:bg-amber-900/30 data-[on]:border-amber-500 data-[on]:bg-amber-500 data-[on]:text-white dark:data-[on]:border-amber-400 dark:data-[on]:bg-amber-400 dark:data-[on]:text-amber-950"
+         "inline-flex items-center gap-2 rounded-md border border-amber-200 bg-amber-50 px-3 py-1.5 text-sm font-medium text-amber-950 hover:bg-amber-100 dark:border-amber-900 dark:bg-amber-950/30 dark:text-amber-50 dark:hover:bg-amber-900/30 data-[pressed]:border-amber-500 data-[pressed]:bg-amber-500 data-[pressed]:text-white dark:data-[pressed]:border-amber-400 dark:data-[pressed]:bg-amber-400 dark:data-[pressed]:text-amber-950 data-[disabled]:opacity-50 data-[disabled]:cursor-not-allowed"
   end
 
   customize :my_toggle_group do
@@ -605,7 +605,7 @@ defmodule DevelopmentWeb.Kit do
          "inline-flex gap-1 rounded-xl border border-amber-200 bg-amber-50 p-1 shadow-sm dark:border-amber-900/50 dark:bg-amber-950/30"
 
     part :item,
-         "[&_[data-part=item]]:rounded-lg [&_[data-part=item]]:px-3 [&_[data-part=item]]:py-1.5 [&_[data-part=item]]:text-sm [&_[data-part=item]]:font-medium [&_[data-part=item]]:transition-colors [&_[data-part=item][data-off]]:text-amber-700 dark:[&_[data-part=item][data-off]]:text-amber-300 [&_[data-part=item][data-off]]:hover:bg-amber-100 dark:[&_[data-part=item][data-off]]:hover:bg-amber-900/30 [&_[data-part=item][data-on]]:bg-amber-500 [&_[data-part=item][data-on]]:text-amber-50 dark:[&_[data-part=item][data-on]]:bg-amber-400 dark:[&_[data-part=item][data-on]]:text-amber-950 [&_[data-part=item][data-highlighted]]:outline [&_[data-part=item][data-highlighted]]:outline-2 [&_[data-part=item][data-highlighted]]:outline-amber-500 dark:[&_[data-part=item][data-highlighted]]:outline-amber-400 [&_[data-part=item][data-disabled]]:opacity-40 [&_[data-part=item][data-disabled]]:cursor-not-allowed"
+         "[&_[data-part=item]]:rounded-lg [&_[data-part=item]]:px-3 [&_[data-part=item]]:py-1.5 [&_[data-part=item]]:text-sm [&_[data-part=item]]:font-medium [&_[data-part=item]]:text-amber-700 dark:[&_[data-part=item]]:text-amber-300 [&_[data-part=item]]:transition-colors [&_[data-part=item]]:hover:bg-amber-100 dark:[&_[data-part=item]]:hover:bg-amber-900/30 [&_[data-part=item][data-pressed]]:bg-amber-500 [&_[data-part=item][data-pressed]]:text-amber-50 dark:[&_[data-part=item][data-pressed]]:bg-amber-400 dark:[&_[data-part=item][data-pressed]]:text-amber-950 [&_[data-part=item][data-highlighted]]:outline [&_[data-part=item][data-highlighted]]:outline-2 [&_[data-part=item][data-highlighted]]:outline-amber-500 dark:[&_[data-part=item][data-highlighted]]:outline-amber-400 [&_[data-part=item][data-disabled]]:opacity-40 [&_[data-part=item][data-disabled]]:cursor-not-allowed"
   end
 
   customize :my_toolbar do
