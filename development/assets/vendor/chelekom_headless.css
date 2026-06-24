@@ -165,3 +165,43 @@
   white-space: nowrap;
   border: 0;
 }
+/* Scroll area: hide the native scrollbar; the ScrollArea hook drives the custom scrollbar/thumb. The
+   thumb sizes itself from the hook-set CSS vars; scrollbars overlay the edges per data-orientation. */
+.chelekom-scroll_area {
+    position: relative;
+}
+.chelekom-scroll_area__viewport {
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+.chelekom-scroll_area__viewport::-webkit-scrollbar {
+    display: none;
+}
+.chelekom-scroll_area[data-orientation="vertical"] .chelekom-scroll_area__viewport {
+    overflow-x: hidden;
+}
+.chelekom-scroll_area[data-orientation="horizontal"] .chelekom-scroll_area__viewport {
+    overflow-y: hidden;
+}
+.chelekom-scroll_area__scrollbar {
+    position: absolute;
+}
+.chelekom-scroll_area__scrollbar[data-orientation="vertical"] {
+    top: 0;
+    right: 0;
+    bottom: 0;
+}
+.chelekom-scroll_area__scrollbar[data-orientation="horizontal"] {
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
+.chelekom-scroll_area__thumb[data-orientation="vertical"] {
+    height: var(--scroll-area-thumb-height, 2.5rem);
+}
+.chelekom-scroll_area__thumb[data-orientation="horizontal"] {
+    width: var(--scroll-area-thumb-width, 2.5rem);
+}

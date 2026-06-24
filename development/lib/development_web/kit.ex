@@ -480,7 +480,13 @@ defmodule DevelopmentWeb.Kit do
          "h-48 w-72 rounded-xl border border-amber-200 bg-amber-50 shadow-sm overflow-hidden dark:border-amber-900/50 dark:bg-amber-950/30"
 
     part :viewport,
-         "[&_[data-part=viewport]]:h-full [&_[data-part=viewport]]:overflow-auto [&_[data-part=viewport]]:p-3 [&_[data-part=viewport]]:text-amber-950 dark:[&_[data-part=viewport]]:text-amber-100 [&_[data-part=viewport]]:focus:outline-none [&_[data-part=viewport]]:focus-visible:ring-2 [&_[data-part=viewport]]:focus-visible:ring-amber-500 dark:[&_[data-part=viewport]]:focus-visible:ring-amber-400 [&_[data-part=viewport]]:focus-visible:ring-inset"
+         "[&_[data-part=viewport]]:h-full [&_[data-part=viewport]]:p-3 [&_[data-part=viewport]]:text-amber-950 dark:[&_[data-part=viewport]]:text-amber-100 [&_[data-part=viewport]]:focus:outline-none [&_[data-part=viewport]]:focus-visible:ring-2 [&_[data-part=viewport]]:focus-visible:ring-amber-500 dark:[&_[data-part=viewport]]:focus-visible:ring-amber-400 [&_[data-part=viewport]]:focus-visible:ring-inset"
+
+    part :scrollbar,
+         "[&_[data-part=scrollbar]]:m-px [&_[data-part=scrollbar]]:flex [&_[data-part=scrollbar]]:w-2.5 [&_[data-part=scrollbar]]:justify-center [&_[data-part=scrollbar]]:opacity-0 [&_[data-part=scrollbar]]:transition-opacity [&_[data-part=scrollbar][data-hovering]]:opacity-100 [&_[data-part=scrollbar][data-scrolling]]:opacity-100"
+
+    part :thumb,
+         "[&_[data-part=thumb]]:w-full [&_[data-part=thumb]]:rounded-full [&_[data-part=thumb]]:bg-amber-500/70 dark:[&_[data-part=thumb]]:bg-amber-400/70 hover:[&_[data-part=thumb]]:bg-amber-500 dark:hover:[&_[data-part=thumb]]:bg-amber-400"
   end
 
   customize :my_select do

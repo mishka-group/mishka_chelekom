@@ -877,22 +877,39 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
 
   def show(%{component: "scroll_area"} = assigns) do
     ~H"""
-    <.scroll_area
-      id={@id}
-      orientation="vertical"
-      class="h-48 w-72 rounded-md border border-base-300 [&_[data-part=viewport]]:h-full [&_[data-part=viewport]]:overflow-auto [&_[data-part=viewport]]:p-3 [&_[data-part=viewport]]:focus:outline-none"
-    >
-      <p class="text-sm font-semibold">Scrollable region</p>
-      <p class="mt-2 text-sm text-base-content/70">
-        Focus the viewport and use the arrow keys, Page Up/Down, or Home/End to scroll.
-        It is a plain overflow container with no custom scrollbar styling.
-      </p>
-      <ul class="mt-3 space-y-2 text-sm">
-        <li :for={n <- 1..20} class="rounded border border-base-200 px-2 py-1.5">
-          Item {n}
-        </li>
-      </ul>
-    </.scroll_area>
+    <div class="flex flex-wrap gap-6">
+      <div class="space-y-1.5">
+        <p class="text-[0.7rem] uppercase tracking-wide text-base-content/40">
+          Vertical · custom scrollbar fades in on hover / scroll
+        </p>
+        <.scroll_area id={@id} orientation="vertical" class={scroll_area_class()}>
+          <p class="text-sm font-semibold">Scrollable region</p>
+          <ul class="mt-2 space-y-2 text-sm">
+            <li :for={n <- 1..20} class="rounded border border-base-200 px-2 py-1.5">Item {n}</li>
+          </ul>
+        </.scroll_area>
+      </div>
+
+      <div class="space-y-1.5">
+        <p class="text-[0.7rem] uppercase tracking-wide text-base-content/40">
+          Scroll fade · masks the edges via <code>--scroll-area-overflow-y-*</code>
+        </p>
+        <.scroll_area id={"#{@id}-fade"} orientation="vertical" class={[scroll_area_class(), scroll_fade()]}>
+          <p :for={n <- 1..16} class="text-sm leading-relaxed">Line {n} — fades at the top/bottom while there's more to scroll.</p>
+        </.scroll_area>
+      </div>
+
+      <div class="space-y-1.5">
+        <p class="text-[0.7rem] uppercase tracking-wide text-base-content/40">Both axes · + corner</p>
+        <.scroll_area id={"#{@id}-both"} orientation="both" class={scroll_area_class()}>
+          <table class="text-sm">
+            <tr :for={r <- 1..16}>
+              <td :for={c <- 1..8} class="whitespace-nowrap border border-base-200 px-3 py-1.5">R{r}C{c}</td>
+            </tr>
+          </table>
+        </.scroll_area>
+      </div>
+    </div>
     """
   end
 
@@ -1735,6 +1752,27 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
       "[&_[data-part=item][data-highlighted]]:outline-none [&_[data-part=item][data-highlighted]]:ring-2 [&_[data-part=item][data-highlighted]]:ring-primary/40",
       "[&_[data-part=item][data-disabled]]:cursor-not-allowed [&_[data-part=item][data-disabled]]:opacity-40"
     ]
+  end
+
+  # Scroll area: the hook hides the native scrollbar and drives the custom scrollbar/thumb. The
+  # scrollbar overlays the edge and fades in on data-hovering / data-scrolling (Base UI); the thumb is
+  # sized by --scroll-area-thumb-* (base CSS) and positioned by the hook.
+  defp scroll_area_class do
+    [
+      "h-48 w-72 rounded-md border border-base-300",
+      "[&_[data-part=viewport]]:p-3 [&_[data-part=viewport]]:focus:outline-none",
+      "[&_[data-part=scrollbar]]:flex [&_[data-part=scrollbar]]:justify-center [&_[data-part=scrollbar]]:bg-base-200/70 [&_[data-part=scrollbar]]:opacity-0 [&_[data-part=scrollbar]]:transition-opacity [&_[data-part=scrollbar][data-hovering]]:opacity-100 [&_[data-part=scrollbar][data-scrolling]]:opacity-100",
+      "[&_[data-part=scrollbar][data-orientation=vertical]]:w-2.5 [&_[data-part=scrollbar][data-orientation=horizontal]]:h-2.5 [&_[data-part=scrollbar][data-orientation=horizontal]]:flex-col",
+      "[&_[data-part=thumb]]:rounded-full [&_[data-part=thumb]]:bg-base-content/40 hover:[&_[data-part=thumb]]:bg-base-content/60",
+      "[&_[data-part=thumb][data-orientation=vertical]]:w-full [&_[data-part=thumb][data-orientation=horizontal]]:h-full",
+      "[&_[data-part=corner]]:bg-base-200/70"
+    ]
+  end
+
+  # Scroll-fade: a top/bottom mask keyed off the px distance from each edge the hook publishes.
+  defp scroll_fade do
+    "[&_[data-part=viewport]]:[mask-image:linear-gradient(to_bottom,transparent_0,black_min(2rem,var(--scroll-area-overflow-y-start,0))," <>
+      "black_calc(100%-min(2rem,var(--scroll-area-overflow-y-end,0))),transparent_100%)]"
   end
 
   # Avatar: the hook owns visibility (image `hidden` until loaded; fallback inline display), so these
