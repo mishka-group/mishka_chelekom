@@ -1,35 +1,78 @@
 defmodule DevelopmentWeb.Components.Headless.Drawer do
   @moduledoc """
-  Headless **drawer** — a focus-trapped panel that slides in from an edge.
+  Headless **drawer** — a focus-trapped panel that slides in from an edge, with full
+  Base UI parity: swipe-to-dismiss, snap points (bottom-sheet), a swipe-area to open from
+  the edge, iOS-style page indent, and `modal` true/false/trap-focus.
 
-  Same behavior as `dialog` (the shared `FocusTrap` engine: trigger opens, focus trapped,
-  Escape / backdrop / `<:close>` dismiss, focus restored), with a `side` (left/right/top/bottom)
-  exposed as `data-side` for your CSS slide animation. Style the `chelekom-drawer*` classes and
-  `data-open`/`data-closed`/`data-side` state.
+  Behavior is driven by the dedicated `Drawer` JS engine. The `<:trigger>` opens it; focus
+  is trapped inside the popup (when modal); Escape / a backdrop click / `<:close>` buttons
+  dismiss it (restoring focus); and you can drag the popup toward its edge to swipe it away.
+  Vertical drawers (`side="bottom"`/`"top"`) accept `snap_points`. You can also drive `open`
+  from the server and listen with `on_open_change` / `on_snap_point_change`.
+
+  Ships **no** colors or spacing — only functional CSS (per-side positioning + the slide,
+  driven by `data-side` and the `--drawer-*` CSS vars). Style the `chelekom-drawer*` classes
+  and the `data-open`/`data-closed`/`data-side`/`data-swiping`/`data-expanded`/... state.
   """
   use Phoenix.Component
 
   @doc type: :component
-  attr :id, :string, required: true
-  attr :open, :boolean, default: false
-  attr :side, :string, default: "right", values: ~w(left right top bottom)
-  attr :labelledby, :string, default: nil
-  attr :describedby, :string, default: nil
-  attr :class, :any, default: nil
+  attr :id, :string, required: true, doc: "Unique id (anchors aria + indent scope + hook)"
+  attr :open, :boolean, default: false, doc: "Initial/controlled open state"
+  attr :side, :string, default: "right", values: ~w(left right top bottom), doc: "Edge the drawer slides from"
+  attr :swipe_direction, :string, default: nil, values: [nil, "up", "down", "left", "right"], doc: "Dismiss direction (defaults from side)"
+  attr :modal, :any, default: true, doc: "true | false | \"trap-focus\" — focus trap / scroll lock / backdrop"
+  attr :dismissible, :boolean, default: true, doc: "Whether an outside (backdrop) click dismisses"
+  attr :close_on_escape, :boolean, default: true, doc: "Whether Escape closes"
+  attr :swipe, :boolean, default: true, doc: "Enable swipe-to-dismiss"
+  attr :swipe_area, :boolean, default: false, doc: "Render an edge swipe-area that opens a closed drawer"
+  attr :swipe_area_direction, :string, default: nil, doc: "Explicit open direction for the swipe-area"
+  attr :snap_points, :list, default: [], doc: "Bottom-sheet snap points (fraction ≤1, px >1, \"Npx\", \"Nrem\"); vertical only"
+  attr :default_snap_point, :any, default: nil, doc: "Initial active snap point (defaults to the first)"
+  attr :snap_to_sequential_points, :boolean, default: false, doc: "One snap point per flick (no velocity skipping)"
+  attr :on_open_change, :string, default: nil, doc: "LiveView event pushed on open/close ({open})"
+  attr :on_open_change_target, :string, default: nil, doc: "Optional pushEventTo target for on_open_change"
+  attr :on_snap_point_change, :string, default: nil, doc: "LiveView event pushed when the active snap point changes ({value})"
+  attr :on_snap_point_change_target, :string, default: nil, doc: "Optional pushEventTo target for on_snap_point_change"
+  attr :labelledby, :string, default: nil, doc: "Override aria-labelledby"
+  attr :describedby, :string, default: nil, doc: "Override aria-describedby"
+  attr :class, :any, default: nil, doc: "Extra classes for the root"
   attr :rest, :global
 
-  slot :trigger
-  slot :title
-  slot :description
-  slot :inner_block, required: true
-  slot :close
+  slot :trigger, doc: "The element that opens the drawer"
+  slot :title, doc: "Accessible title (wired to aria-labelledby)"
+  slot :description, doc: "Accessible description (wired to aria-describedby)"
+  slot :handle, doc: "Optional drag-handle pill for bottom-sheet UX"
+  slot :inner_block, required: true, doc: "Drawer body"
+  slot :close, doc: "Footer with confirm/cancel buttons (use data-close to close)"
 
   def drawer(assigns) do
+    dismiss_dir = assigns.swipe_direction || drawer_dismiss_dir(assigns.side)
+
+    assigns =
+      assigns
+      |> assign(:dismiss_dir, dismiss_dir)
+      |> assign(:area_dir, assigns.swipe_area_direction || drawer_opposite_dir(dismiss_dir))
+      |> assign(:snap_json, (assigns.snap_points != [] && Jason.encode!(assigns.snap_points)) || nil)
+
     ~H"""
     <div
       id={@id}
-      phx-hook="FocusTrap"
+      phx-hook="Drawer"
       data-side={@side}
+      data-modal={to_string(@modal)}
+      data-swipe={to_string(@swipe)}
+      data-swipe-area={to_string(@swipe_area)}
+      data-swipe-direction-config={@dismiss_dir}
+      data-snap-points={@snap_json}
+      data-default-snap-point={@default_snap_point && to_string(@default_snap_point)}
+      data-snap-sequential={to_string(@snap_to_sequential_points)}
+      data-close-on-escape={to_string(@close_on_escape)}
+      data-close-on-outside={to_string(@dismissible)}
+      data-on-open-change={@on_open_change}
+      data-on-open-change-target={@on_open_change_target}
+      data-on-snap-point-change={@on_snap_point_change}
+      data-on-snap-point-change-target={@on_snap_point_change_target}
       class={["chelekom-drawer", @class]}
       data-open={@open}
       data-closed={!@open}
@@ -39,37 +82,67 @@ defmodule DevelopmentWeb.Components.Headless.Drawer do
         {render_slot(@trigger)}
       </button>
 
-      <div data-part="backdrop" class="chelekom-drawer__backdrop" aria-hidden="true"></div>
+      <div
+        :if={@swipe_area}
+        data-part="swipe-area"
+        role="presentation"
+        aria-hidden="true"
+        data-swipe-direction={@area_dir}
+        class="chelekom-drawer__swipe-area"
+      >
+      </div>
 
       <div
-        data-part="popup"
-        role="dialog"
-        aria-modal="true"
-        aria-labelledby={@labelledby || (@title != [] && "#{@id}-title") || nil}
-        aria-describedby={@describedby || (@description != [] && "#{@id}-desc") || nil}
-        class="chelekom-drawer__popup"
-        data-side={@side}
-        tabindex="-1"
-        data-open={@open}
-        data-closed={!@open}
+        :if={@modal != false}
+        data-part="backdrop"
+        class="chelekom-drawer__backdrop"
+        aria-hidden="true"
+        style="--drawer-swipe-progress:0;"
       >
-        <h2 :if={@title != []} id={"#{@id}-title"} data-part="title" class="chelekom-drawer__title">
-          {render_slot(@title)}
-        </h2>
-        <p
-          :if={@description != []}
-          id={"#{@id}-desc"}
-          data-part="description"
-          class="chelekom-drawer__description"
+      </div>
+
+      <div data-part="viewport" class="chelekom-drawer__viewport">
+        <div
+          data-part="popup"
+          role="dialog"
+          aria-modal={if @modal == true, do: "true"}
+          aria-labelledby={@labelledby || (@title != [] && "#{@id}-title") || nil}
+          aria-describedby={@describedby || (@description != [] && "#{@id}-desc") || nil}
+          class="chelekom-drawer__popup"
+          data-side={@side}
+          data-modal={to_string(@modal)}
+          tabindex="-1"
+          data-open={@open}
+          data-closed={!@open}
         >
-          {render_slot(@description)}
-        </p>
-        <div data-part="content" class="chelekom-drawer__content">{render_slot(@inner_block)}</div>
-        <div :if={@close != []} data-part="footer" class="chelekom-drawer__footer">
-          {render_slot(@close)}
+          <div :if={@handle != []} data-part="handle" aria-hidden="true" class="chelekom-drawer__handle">
+            {render_slot(@handle)}
+          </div>
+          <h2 :if={@title != []} id={"#{@id}-title"} data-part="title" class="chelekom-drawer__title">
+            {render_slot(@title)}
+          </h2>
+          <p :if={@description != []} id={"#{@id}-desc"} data-part="description" class="chelekom-drawer__description">
+            {render_slot(@description)}
+          </p>
+          <div data-part="content" class="chelekom-drawer__content">{render_slot(@inner_block)}</div>
+          <div :if={@close != []} data-part="footer" class="chelekom-drawer__footer">
+            {render_slot(@close)}
+          </div>
         </div>
       </div>
     </div>
     """
   end
+
+  defp drawer_dismiss_dir("left"), do: "left"
+  defp drawer_dismiss_dir("right"), do: "right"
+  defp drawer_dismiss_dir("top"), do: "up"
+  defp drawer_dismiss_dir("bottom"), do: "down"
+  defp drawer_dismiss_dir(_), do: "right"
+
+  defp drawer_opposite_dir("left"), do: "right"
+  defp drawer_opposite_dir("right"), do: "left"
+  defp drawer_opposite_dir("up"), do: "down"
+  defp drawer_opposite_dir("down"), do: "up"
+  defp drawer_opposite_dir(_), do: "left"
 end

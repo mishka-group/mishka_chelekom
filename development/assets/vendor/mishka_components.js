@@ -27,7 +27,9 @@ import Select from "./select.js";
 import Tabs from "./tabs.js";
 import Toolbar from "./toolbar.js";
 import ToggleGroup from "./toggle_group.js";
+import Drawer from "./drawer.js";
 const Components = {
+  Drawer,
   Avatar,
   Collapsible,
   Carousel,

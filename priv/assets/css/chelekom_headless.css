@@ -9,7 +9,6 @@
 
 /* Closed overlays are removed from the layout. */
 .chelekom-dialog[data-closed],
-.chelekom-drawer[data-closed],
 .chelekom-popover__popup[data-closed],
 .chelekom-menu__popup[data-closed],
 .chelekom-tooltip__popup[data-closed],
@@ -49,16 +48,114 @@
     display: none;
 }
 
-/* Drawer: full-viewport overlay; the popup itself is pinned to a side by your CSS. */
-.chelekom-drawer[data-open] {
+/* Drawer: the root is a passthrough so the trigger stays in normal flow (always
+ * visible/clickable). The viewport + backdrop are fixed overlays; the popup is pinned to
+ * an edge and slides via the --drawer-* vars. Size/colors/padding stay consumer-owned. */
+.chelekom-drawer {
+    display: contents;
+}
+
+.chelekom-drawer__viewport {
     position: fixed;
     inset: 0;
     z-index: 50;
+    overflow: hidden;
+    pointer-events: none;
 }
 
 .chelekom-drawer__backdrop {
     position: fixed;
     inset: 0;
+    z-index: 40;
+    transition: opacity 450ms cubic-bezier(0.32, 0.72, 0, 1);
+}
+
+.chelekom-drawer__backdrop[data-swiping] {
+    transition-duration: 0ms;
+}
+
+.chelekom-drawer[data-closed] .chelekom-drawer__backdrop {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.chelekom-drawer__popup {
+    position: absolute;
+    pointer-events: auto;
+    transition: transform 450ms cubic-bezier(0.32, 0.72, 0, 1);
+}
+
+.chelekom-drawer__popup[data-swiping] {
+    transition-duration: 0ms;
+    user-select: none;
+}
+
+.chelekom-drawer__popup[data-ending-style] {
+    transition-duration: calc(450ms * var(--drawer-swipe-strength, 1));
+}
+
+.chelekom-drawer__popup[data-side="right"] {
+    top: 0;
+    right: 0;
+    height: 100%;
+    transform: translateX(var(--drawer-swipe-movement-x, 0px));
+}
+.chelekom-drawer__popup[data-side="right"][data-closed],
+.chelekom-drawer__popup[data-side="right"][data-starting-style],
+.chelekom-drawer__popup[data-side="right"][data-ending-style] {
+    transform: translateX(100%);
+}
+
+.chelekom-drawer__popup[data-side="left"] {
+    top: 0;
+    left: 0;
+    height: 100%;
+    transform: translateX(var(--drawer-swipe-movement-x, 0px));
+}
+.chelekom-drawer__popup[data-side="left"][data-closed],
+.chelekom-drawer__popup[data-side="left"][data-starting-style],
+.chelekom-drawer__popup[data-side="left"][data-ending-style] {
+    transform: translateX(-100%);
+}
+
+.chelekom-drawer__popup[data-side="bottom"] {
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    transform: translateY(calc(var(--drawer-snap-point-offset, 0px) + var(--drawer-swipe-movement-y, 0px)));
+}
+.chelekom-drawer__popup[data-side="bottom"][data-closed],
+.chelekom-drawer__popup[data-side="bottom"][data-starting-style],
+.chelekom-drawer__popup[data-side="bottom"][data-ending-style] {
+    transform: translateY(100%);
+}
+
+.chelekom-drawer__popup[data-side="top"] {
+    left: 0;
+    right: 0;
+    top: 0;
+    width: 100%;
+    transform: translateY(var(--drawer-swipe-movement-y, 0px));
+}
+.chelekom-drawer__popup[data-side="top"][data-closed],
+.chelekom-drawer__popup[data-side="top"][data-starting-style],
+.chelekom-drawer__popup[data-side="top"][data-ending-style] {
+    transform: translateY(-100%);
+}
+
+.chelekom-drawer__swipe-area {
+    pointer-events: auto;
+    touch-action: none;
+}
+
+/* Page indent (iOS-style): the hook toggles data-active on [data-drawer-content] while a
+ * drawer under the same [data-drawer-provider] is open; the scale/radius stay consumer-owned. */
+[data-drawer-content] {
+    transform-origin: center top;
+    transition:
+        transform 0.4s cubic-bezier(0.32, 0.72, 0, 1),
+        border-radius 0.25s cubic-bezier(0.32, 0.72, 0, 1);
 }
 
 /* OTP boxes lay out in a row by default. */

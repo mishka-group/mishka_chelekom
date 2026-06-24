@@ -142,15 +142,22 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
     <.drawer
       id={@id}
       side="right"
-      class="[&_[data-part=trigger]]:rounded-md [&_[data-part=trigger]]:border [&_[data-part=trigger]]:border-base-300 [&_[data-part=trigger]]:px-3 [&_[data-part=trigger]]:py-1.5 [&_[data-part=backdrop]]:bg-black/40 [&_[data-part=popup]]:fixed [&_[data-part=popup]]:right-0 [&_[data-part=popup]]:top-0 [&_[data-part=popup]]:h-full [&_[data-part=popup]]:w-72 [&_[data-part=popup]]:bg-base-100 [&_[data-part=popup]]:p-6 [&_[data-part=popup]]:shadow-xl [&_[data-part=title]]:text-lg [&_[data-part=title]]:font-semibold"
+      class="[&_[data-part=trigger]]:rounded-md [&_[data-part=trigger]]:border [&_[data-part=trigger]]:border-base-300 [&_[data-part=trigger]]:px-3 [&_[data-part=trigger]]:py-1.5 [&_[data-part=trigger]]:text-sm [&_[data-part=trigger][data-popup-open]]:bg-base-200 [&_[data-part=backdrop]]:bg-black/40 [&_[data-part=popup]]:flex [&_[data-part=popup]]:w-80 [&_[data-part=popup]]:max-w-[85vw] [&_[data-part=popup]]:flex-col [&_[data-part=popup]]:gap-3 [&_[data-part=popup]]:bg-base-100 [&_[data-part=popup]]:p-6 [&_[data-part=popup]]:shadow-xl [&_[data-part=title]]:text-lg [&_[data-part=title]]:font-semibold [&_[data-part=description]]:text-sm [&_[data-part=description]]:text-base-content/70 [&_[data-part=footer]]:mt-auto [&_[data-part=footer]]:flex [&_[data-part=footer]]:justify-end [&_[data-part=footer]]:gap-2"
     >
       <:trigger>Open drawer</:trigger>
       <:title>Filters</:title>
-      <:description>A focus-trapped panel that slides in from the edge.</:description>
-      <p class="mt-2 text-sm">Drawer body — same behavior as dialog, with a side.</p>
+      <:description>
+        Slides from the right. Click outside, press Escape, or hit Cancel — or drag the panel rightward to swipe it away.
+      </:description>
+      <div class="mt-1 space-y-2 text-sm">
+        <label class="flex items-center gap-2"><input type="checkbox" class="size-4" /> In stock</label>
+        <label class="flex items-center gap-2"><input type="checkbox" class="size-4" /> On sale</label>
+        <label class="flex items-center gap-2"><input type="checkbox" class="size-4" /> Free shipping</label>
+      </div>
       <:close>
-        <button class="rounded-md border border-base-300 px-3 py-1.5 text-sm" data-close>
-          Close
+        <button class="rounded-md border border-base-300 px-3 py-1.5 text-sm" data-close>Cancel</button>
+        <button class="rounded-md bg-primary px-3 py-1.5 text-sm font-medium text-primary-content" data-close>
+          Apply
         </button>
       </:close>
     </.drawer>
