@@ -682,26 +682,34 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
 
   def show(%{component: "menubar"} = assigns) do
     ~H"""
-    <.menubar
-      id={@id}
-      class="inline-flex gap-1 rounded-md border border-base-300 bg-base-100 p-1 [&_[data-part=trigger]]:rounded [&_[data-part=trigger]]:px-3 [&_[data-part=trigger]]:py-1.5 [&_[data-part=trigger]]:text-sm [&_[data-part=trigger][aria-expanded=true]]:bg-base-200 [&_[data-part=popup]]:mt-1 [&_[data-part=popup]]:min-w-44 [&_[data-part=popup]]:rounded-md [&_[data-part=popup]]:border [&_[data-part=popup]]:border-base-300 [&_[data-part=popup]]:bg-base-100 [&_[data-part=popup]]:p-1 [&_[data-part=popup]]:shadow-lg [&_[role=menuitem]]:block [&_[role=menuitem]]:w-full [&_[role=menuitem]]:rounded [&_[role=menuitem]]:px-3 [&_[role=menuitem]]:py-1.5 [&_[role=menuitem]]:text-left [&_[role=menuitem]]:text-sm [&_[data-highlighted]]:bg-base-200"
-    >
-      <:menu label="File">
-        <button type="button" role="menuitem">New file</button>
-        <button type="button" role="menuitem">Open…</button>
-        <button type="button" role="menuitem">Save</button>
-      </:menu>
-      <:menu label="Edit">
-        <button type="button" role="menuitem">Undo</button>
-        <button type="button" role="menuitem">Redo</button>
-        <button type="button" role="menuitem">Cut</button>
-      </:menu>
-      <:menu label="View">
-        <button type="button" role="menuitem">Zoom in</button>
-        <button type="button" role="menuitem">Zoom out</button>
-        <button type="button" role="menuitem">Full screen</button>
-      </:menu>
-    </.menubar>
+    <div class="space-y-2">
+      <p class="text-[0.7rem] uppercase tracking-wide text-base-content/40">
+        Open one menu, then hover or arrow across — the open menu follows (menubar mode). Help is disabled.
+      </p>
+      <.menubar
+        id={@id}
+        class="inline-flex gap-1 rounded-md border border-base-300 bg-base-100 p-1 [&_[data-part=trigger]]:rounded [&_[data-part=trigger]]:px-3 [&_[data-part=trigger]]:py-1.5 [&_[data-part=trigger]]:text-sm [&_[data-part=trigger][data-popup-open]]:bg-base-200 [&_[data-part=trigger][data-disabled]]:opacity-40 [&_[data-part=trigger][data-disabled]]:cursor-not-allowed [&_[data-part=popup]]:mt-1 [&_[data-part=popup]]:min-w-44 [&_[data-part=popup]]:rounded-md [&_[data-part=popup]]:border [&_[data-part=popup]]:border-base-300 [&_[data-part=popup]]:bg-base-100 [&_[data-part=popup]]:p-1 [&_[data-part=popup]]:shadow-lg [&_[role=menuitem]]:block [&_[role=menuitem]]:w-full [&_[role=menuitem]]:rounded [&_[role=menuitem]]:px-3 [&_[role=menuitem]]:py-1.5 [&_[role=menuitem]]:text-left [&_[role=menuitem]]:text-sm [&_[role=menuitem]]:outline-none [&_[role=menuitem][data-highlighted]]:bg-base-200"
+      >
+        <:menu label="File">
+          <button type="button" role="menuitem">New file</button>
+          <button type="button" role="menuitem">Open…</button>
+          <button type="button" role="menuitem">Save</button>
+        </:menu>
+        <:menu label="Edit">
+          <button type="button" role="menuitem">Undo</button>
+          <button type="button" role="menuitem">Redo</button>
+          <button type="button" role="menuitem">Cut</button>
+        </:menu>
+        <:menu label="View">
+          <button type="button" role="menuitem">Zoom in</button>
+          <button type="button" role="menuitem">Zoom out</button>
+          <button type="button" role="menuitem">Full screen</button>
+        </:menu>
+        <:menu label="Help" disabled>
+          <button type="button" role="menuitem">About</button>
+        </:menu>
+      </.menubar>
+    </div>
     """
   end
 
