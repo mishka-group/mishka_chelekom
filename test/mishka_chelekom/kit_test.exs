@@ -104,10 +104,14 @@ defmodule MishkaChelekom.KitTest do
     # variant×color PAIR rules — classes apply only to that exact combo
     customize :paired_button do
       from :button
-      variant :outline, "ring-2! ring-rose-500!", color: "danger"      # existing × existing → replace
-      variant :promo, "bg-rose-600! ring-4!", color: "danger"          # new variant × existing color
-      variant :outline, "border! border-fuchsia-600!", color: "brand"  # same variant, different color → distinct pair
-      color :brand, "bg-fuchsia-600!"                                   # a single rule that COEXISTS
+      # existing × existing → replace
+      variant :outline, "ring-2! ring-rose-500!", color: "danger"
+      # new variant × existing color
+      variant :promo, "bg-rose-600! ring-4!", color: "danger"
+      # same variant, different color → distinct pair
+      variant :outline, "border! border-fuchsia-600!", color: "brand"
+      # a single rule that COEXISTS
+      color :brand, "bg-fuchsia-600!"
     end
 
     # a pair whose partner is supplied by `default` (not by the caller)
@@ -169,7 +173,8 @@ defmodule MishkaChelekom.KitTest do
     def show_paired(assigns),
       do: ~H|<.paired_button variant={@variant} color={@color}>x</.paired_button>|
 
-    def show_default_paired(assigns), do: ~H|<.default_paired variant={@variant}>x</.default_paired>|
+    def show_default_paired(assigns),
+      do: ~H|<.default_paired variant={@variant}>x</.default_paired>|
 
     def show_ordered(assigns),
       do: ~H|<.ordered_pairs variant={@variant} color={@color}>x</.ordered_pairs>|
@@ -354,6 +359,7 @@ defmodule MishkaChelekom.KitTest do
   describe "customize — `from {Module, :function}` (explicit target)" do
     test "delegates to the EXACT module + function, bypassing the naming convention" do
       out = html(&Page.show_gizmo/1, %{})
+
       # rendered by Weird.Thing.render/1 — proves the tuple was honoured (no Components.Gizmo exists)
       assert out =~ "<i"
       assert out =~ "weird"
@@ -412,6 +418,7 @@ defmodule MishkaChelekom.KitTest do
   describe "Info" do
     test "customizes/1 returns every customize as a struct" do
       names = Kit |> Info.customizes() |> Enum.map(& &1.name) |> Enum.sort()
+
       assert names == [
                :alert,
                :based_paired,
@@ -423,6 +430,7 @@ defmodule MishkaChelekom.KitTest do
                :ordered_pairs,
                :paired_button
              ]
+
       assert %Customize{from: :accordion} = Enum.find(Info.customizes(Kit), &(&1.name == :faq))
     end
 

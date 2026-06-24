@@ -1,11 +1,19 @@
 defmodule DevelopmentWeb.Components.Headless.ToggleGroup do
   @moduledoc """
-  Headless **toggle group** — a toolbar of toggle buttons (single or multiple pressed).
+  Headless **toggle group** — a coordinated row of toggle buttons, single- or multi-select
+  (Base UI parity).
 
-  Two cooperating engines: `RovingTabindex` on the root `role="group"` (Left/Right arrows,
-  Home/End, one `tabindex=0`) and `Toggle` on each item button (Click/Enter/Space flips
-  `aria-pressed` and `data-pressed`, present only when on). ARIA: root `role="group"`; items
-  `role="button"` + `aria-pressed`. Style via `chelekom-toggle-group*` classes and `data-pressed`.
+  One `ToggleGroup` engine owns the group: roving tabindex (arrow keys along the `orientation` +
+  Home/End, looping when `loop`), and the pressed state of every item. Without `multiple` it is
+  single-select — pressing an item presses only it, and pressing the pressed item deselects it (the
+  group may be empty), like Base UI. With `multiple`, several may be pressed. Each item reflects
+  `aria-pressed` + `data-pressed`; the pressed values mirror into hidden inputs (single → `name`,
+  multiple → `name[]`) and dispatch `input` so `<.form>` reacts; `on_change` pushes `{value}`.
+
+  Options mirror Base UI: `value`/`default` (the pressed values — a list, or a single string for
+  single-select), `multiple`, `disabled`, `orientation` (horizontal | vertical), `loop`, plus
+  `name`/`form`/`on_change`. State attributes: root `data-orientation`, `data-multiple`,
+  `data-disabled`; items `data-pressed`, `data-disabled`. Style via `chelekom-toggle-group*`.
 
   WAI-ARIA APG: https://www.w3.org/WAI/ARIA/apg/patterns/toolbar/
   """
@@ -13,24 +21,60 @@ defmodule DevelopmentWeb.Components.Headless.ToggleGroup do
 
   @doc type: :component
   attr :id, :string, required: true
+  attr :name, :string, default: nil, doc: "Form field name (single → name, multiple → name[])"
+  attr :value, :any, default: nil, doc: "Pressed value(s) — a list, or a single string (Phoenix form value)"
+  attr :multiple, :boolean, default: false, doc: "Allow several items pressed at once (data-multiple)"
+  attr :disabled, :boolean, default: false, doc: "Disable the whole group (data-disabled)"
+  attr :orientation, :string, default: "horizontal", doc: "horizontal | vertical (arrow-key axis)"
+  attr :loop, :boolean, default: true, doc: "Loop arrow-key focus past the ends"
+  attr :form, :string, default: nil, doc: "Form id owning the hidden input(s)"
+  attr :on_change, :string, default: nil, doc: "LiveView event pushed on change ({value})"
   attr :class, :any, default: nil
   attr :rest, :global
 
   slot :item, required: true, doc: "A toggle button" do
     attr :value, :string, doc: "The value this toggle represents"
-    attr :disabled, :boolean
+    attr :disabled, :boolean, doc: "Disable just this item"
   end
 
   def toggle_group(assigns) do
+    values =
+      cond do
+        is_list(assigns.value) -> assigns.value
+        assigns.value in [nil, ""] -> []
+        true -> [assigns.value]
+      end
+
+    # The tabbable entry is the first pressed-and-enabled item, else the first enabled one.
+    tabbable =
+      Enum.find_index(assigns.item, &(&1[:value] in values and !(&1[:disabled] || assigns.disabled))) ||
+        Enum.find_index(assigns.item, &(!(&1[:disabled] || assigns.disabled))) || 0
+
+    assigns = assign(assigns, values: values, tabbable: tabbable)
+
     ~H"""
     <div
       id={@id}
-      phx-hook="RovingTabindex"
+      phx-hook="ToggleGroup"
       role="group"
-      data-orientation="horizontal"
+      data-orientation={@orientation}
+      data-multiple={@multiple}
+      data-disabled={@disabled}
+      data-loop={@loop}
+      data-name={@name}
+      data-on-change={@on_change}
+      aria-orientation={@orientation}
+      aria-disabled={@disabled && "true"}
       class={["chelekom-toggle-group", @class]}
       {@rest}
     >
+      <span data-part="value-inputs" class="chelekom-sr-only">
+        <%= for v <- @values do %>
+          <input :if={@name} type="hidden" name={if @multiple, do: "#{@name}[]", else: @name} value={v} form={@form} />
+        <% end %>
+        <input :if={@name && @values == [] && !@multiple} type="hidden" name={@name} value="" form={@form} />
+      </span>
+
       <button
         :for={{item, i} <- Enum.with_index(@item)}
         type="button"
@@ -38,10 +82,12 @@ defmodule DevelopmentWeb.Components.Headless.ToggleGroup do
         role="button"
         data-part="item"
         data-value={item[:value]}
-        data-disabled={item[:disabled] || nil}
-        phx-hook="Toggle"
-        aria-pressed="false"
-        tabindex="-1"
+        aria-pressed={to_string(item[:value] in @values)}
+        aria-disabled={(@disabled || item[:disabled]) && "true"}
+        disabled={@disabled || item[:disabled]}
+        data-pressed={item[:value] in @values}
+        data-disabled={@disabled || item[:disabled]}
+        tabindex={if i == @tabbable, do: "0", else: "-1"}
         class="chelekom-toggle-group__item"
       >
         {render_slot(item)}

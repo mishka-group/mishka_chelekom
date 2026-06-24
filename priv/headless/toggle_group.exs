@@ -8,46 +8,45 @@
     necessary: [],
     scripts: [
       %{
-        module: "RovingTabindex",
+        module: "ToggleGroup",
         type: "file",
-        file: "roving_tabindex.js",
-        imports: "import RovingTabindex from \"./roving_tabindex.js\";"
-      },
-      %{
-        module: "Toggle",
-        type: "file",
-        file: "toggle.js",
-        imports: "import Toggle from \"./toggle.js\";"
+        file: "toggle_group.js",
+        imports: "import ToggleGroup from \"./toggle_group.js\";"
       }
     ],
     headless: [
       anatomy: [
+        root: [
+          element: "div",
+          role: "group",
+          aria: ["aria-orientation", "aria-disabled"],
+          data_attributes: ["data-orientation", "data-multiple", "data-disabled"],
+          note: "carries the ToggleGroup hook; reads name/multiple/orientation/loop from data-*",
+          required: true
+        ],
         parts: [
-          root: [element: "div", role: "group", data_attributes: ["data-orientation"]],
           item: [
             element: "button",
             role: "button",
-            aria: ["aria-pressed"],
-            data_attributes: [
-              "data-pressed",
-              "data-highlighted",
-              "data-disabled",
-              "data-value"
-            ]
+            aria: ["aria-pressed", "aria-disabled"],
+            data_attributes: ["data-pressed", "data-disabled", "data-value"]
+          ],
+          value_inputs: [
+            element: "span",
+            note: "hidden input(s) carrying the pressed value(s) for form submission"
           ]
         ]
       ],
       aria_pattern: [
         pattern: "Toolbar",
         keyboard: [
-          "Left/Right: move focus between toggles",
-          "Home: focus first toggle",
-          "End: focus last toggle",
-          "Enter/Space: toggle pressed state"
+          "Arrow (along orientation): move focus between toggles (looping)",
+          "Home / End: first / last toggle",
+          "Enter / Space: toggle pressed state"
         ]
       ],
-      state_attributes: ["data-pressed", "data-highlighted", "data-orientation"],
-      hooks: ["RovingTabindex", "Toggle"]
+      state_attributes: ["data-pressed", "data-disabled", "data-orientation", "data-multiple"],
+      hooks: ["ToggleGroup"]
     ]
   ]
 ]

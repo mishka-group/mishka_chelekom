@@ -1092,14 +1092,52 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
 
   def show(%{component: "toggle_group"} = assigns) do
     ~H"""
-    <.toggle_group
-      id={@id}
-      class="inline-flex gap-1 rounded-md border border-base-300 bg-base-100 p-1 [&_[data-part=item]]:rounded [&_[data-part=item]]:px-3 [&_[data-part=item]]:py-1.5 [&_[data-part=item]]:text-sm [&_[data-part=item]]:text-base-content [&_[data-part=item][data-pressed]]:bg-base-content [&_[data-part=item][data-pressed]]:text-base-100 [&_[data-part=item][data-highlighted]]:outline [&_[data-part=item][data-highlighted]]:outline-2 [&_[data-part=item][data-highlighted]]:outline-primary/40 [&_[data-part=item][data-disabled]]:opacity-40 [&_[data-part=item][data-disabled]]:cursor-not-allowed"
-    >
-      <:item value="bold">Bold</:item>
-      <:item value="italic">Italic</:item>
-      <:item value="underline" disabled>Underline</:item>
-    </.toggle_group>
+    <div class="space-y-5">
+      <div class="space-y-1.5">
+        <p class="text-[0.7rem] uppercase tracking-wide text-base-content/40">
+          Single-select · arrow keys loop · click the pressed one to deselect
+        </p>
+        <.toggle_group id={@id} value="center" class={toggle_group_class()}>
+          <:item value="left">Left</:item>
+          <:item value="center">Center</:item>
+          <:item value="right">Right</:item>
+        </.toggle_group>
+      </div>
+
+      <div class="space-y-1.5">
+        <p class="text-[0.7rem] uppercase tracking-wide text-base-content/40">
+          Multiple · several pressed at once · one disabled item
+        </p>
+        <.toggle_group id={"#{@id}-multi"} multiple value={["bold", "italic"]} class={toggle_group_class()}>
+          <:item value="bold">Bold</:item>
+          <:item value="italic">Italic</:item>
+          <:item value="underline" disabled>Underline</:item>
+        </.toggle_group>
+      </div>
+
+      <div class="flex gap-8">
+        <div class="space-y-1.5">
+          <p class="text-[0.7rem] uppercase tracking-wide text-base-content/40">Vertical</p>
+          <.toggle_group
+            id={"#{@id}-vert"}
+            orientation="vertical"
+            value="grid"
+            class={["w-28", toggle_group_class()]}
+          >
+            <:item value="list">List</:item>
+            <:item value="grid">Grid</:item>
+            <:item value="cards">Cards</:item>
+          </.toggle_group>
+        </div>
+        <div class="space-y-1.5">
+          <p class="text-[0.7rem] uppercase tracking-wide text-base-content/40">Disabled group</p>
+          <.toggle_group id={"#{@id}-dis"} disabled value="b" class={toggle_group_class()}>
+            <:item value="a">A</:item>
+            <:item value="b">B</:item>
+          </.toggle_group>
+        </div>
+      </div>
+    </div>
     """
   end
 
@@ -1175,6 +1213,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
   def has_examples?("slider"), do: true
   def has_examples?("switch"), do: true
   def has_examples?("toggle"), do: true
+  def has_examples?("toggle_group"), do: true
   def has_examples?(_), do: false
 
   def examples(%{component: "toast"} = assigns) do
@@ -1651,6 +1690,27 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
     """
   end
 
+  def examples(%{component: "toggle_group"} = assigns) do
+    ~H"""
+    <div class="space-y-3">
+      <details open class="rounded-box border border-base-300 bg-base-100 p-4">
+        <summary class="cursor-pointer select-none font-medium">
+          In a form — single + multiple selection
+        </summary>
+        <p class="mt-1 text-sm text-base-content/60">
+          A single-select group submits one value (<code>name</code>, validated
+          <code>required</code>); a multiple group submits an array (<code>name[]</code>, cast to
+          <code>{"{:array, :string}"}</code>). The hook mirrors the pressed values into hidden inputs,
+          so both work with <code>&lt;.form&gt;</code>.
+        </p>
+        <div class="mt-4 max-w-sm">
+          <.live_component module={DevelopmentWeb.Showcase.ToggleGroupFormDemo} id={"#{@id}-form"} />
+        </div>
+      </details>
+    </div>
+    """
+  end
+
   def examples(assigns), do: ~H""
 
   # Radio group: each option is a card with a leading dot drawn by ::before that fills via data-checked
@@ -1664,6 +1724,19 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
       "[&_[data-part=item][data-checked]]:border-primary [&_[data-part=item][data-checked]]:font-semibold [&_[data-part=item][data-checked]]:before:border-[5px] [&_[data-part=item][data-checked]]:before:border-primary",
       "[&_[data-part=item][data-highlighted]]:outline-none [&_[data-part=item][data-highlighted]]:ring-2 [&_[data-part=item][data-highlighted]]:ring-primary/40",
       "[&_[data-part=item][data-disabled]]:cursor-not-allowed [&_[data-part=item][data-disabled]]:opacity-40"
+    ]
+  end
+
+  # Toggle group: a row (or column, data-orientation=vertical) of pressed buttons. data-pressed is the
+  # selected look; data-disabled dims the group/item. The hook owns roving focus + selection.
+  defp toggle_group_class do
+    [
+      "inline-flex gap-1 rounded-md border border-base-300 bg-base-100 p-1 data-[orientation=vertical]:flex-col data-[disabled]:opacity-60",
+      "[&_[data-part=item]]:rounded [&_[data-part=item]]:px-3 [&_[data-part=item]]:py-1.5 [&_[data-part=item]]:text-sm [&_[data-part=item]]:text-base-content [&_[data-part=item]]:transition-colors [&_[data-part=item]]:outline-none",
+      "[&_[data-part=item]]:not-data-disabled:hover:bg-base-200",
+      "[&_[data-part=item][data-pressed]]:bg-base-content [&_[data-part=item][data-pressed]]:text-base-100",
+      "[&_[data-part=item]]:focus-visible:ring-2 [&_[data-part=item]]:focus-visible:ring-primary/40",
+      "[&_[data-part=item][data-disabled]]:opacity-40 [&_[data-part=item][data-disabled]]:cursor-not-allowed"
     ]
   end
 

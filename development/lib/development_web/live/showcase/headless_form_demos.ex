@@ -1121,3 +1121,86 @@ defmodule DevelopmentWeb.Showcase.ToggleFormDemo do
     ]
   end
 end
+
+defmodule DevelopmentWeb.Showcase.ToggleGroupFormDemo do
+  @moduledoc "toggle_group in a `<.form>` — single-select submits a value, multiple submits name[]."
+  use DevelopmentWeb, :live_component
+  alias DevelopmentWeb.Components.Headless.ToggleGroup
+  import Ecto.Changeset
+  alias DevelopmentWeb.Showcase.FormDemoHelpers, as: H
+
+  @aligns ~w(left center right)
+  @styles ~w(bold italic underline)
+
+  @impl true
+  def update(assigns, socket),
+    do:
+      {:ok,
+       socket
+       |> assign(assigns)
+       |> assign_new(:form, fn -> to_form(cs(%{"align" => "center", "styles" => ["bold"]}), as: :fmt) end)
+       |> assign_new(:saved, fn -> nil end)}
+
+  @impl true
+  def handle_event("validate", %{"fmt" => p}, socket),
+    do: {:noreply, assign(socket, form: to_form(cs(p), as: :fmt))}
+
+  @impl true
+  def handle_event("save", %{"fmt" => p}, socket) do
+    changeset = cs(p)
+
+    if changeset.valid?,
+      do: {:noreply, assign(socket, saved: apply_changes(changeset), form: to_form(changeset, as: :fmt))},
+      else: {:noreply, assign(socket, saved: nil, form: to_form(changeset, as: :fmt, action: :save))}
+  end
+
+  @impl true
+  def render(assigns) do
+    ~H"""
+    <div>
+      <.form for={@form} phx-target={@myself} phx-change="validate" phx-submit="save" :let={f} class="space-y-4">
+        <div>
+          <span class="mb-1.5 block text-sm font-medium">Alignment (single, required)</span>
+          <ToggleGroup.toggle_group id={"#{@id}-align"} name={f[:align].name} value={f[:align].value} class={tgc()}>
+            <:item value="left">Left</:item>
+            <:item value="center">Center</:item>
+            <:item value="right">Right</:item>
+          </ToggleGroup.toggle_group>
+          <p :for={msg <- H.field_errors(f[:align])} class="mt-1 text-sm text-error">{msg}</p>
+        </div>
+        <div>
+          <span class="mb-1.5 block text-sm font-medium">Styles (multiple, optional)</span>
+          <ToggleGroup.toggle_group id={"#{@id}-styles"} name={f[:styles].name} multiple value={f[:styles].value} class={tgc()}>
+            <:item value="bold">Bold</:item>
+            <:item value="italic">Italic</:item>
+            <:item value="underline">Underline</:item>
+          </ToggleGroup.toggle_group>
+        </div>
+        <button type="submit" class="rounded-md bg-primary px-4 py-1.5 text-sm font-medium text-primary-content">
+          Apply formatting
+        </button>
+      </.form>
+      <div :if={@saved} class="mt-3 rounded-md border border-success/40 bg-success/10 p-3 text-sm font-medium text-success">
+        ✓ {@saved.align} · {(@saved.styles == [] && "no styles") || Enum.join(@saved.styles, ", ")} (not persisted)
+      </div>
+    </div>
+    """
+  end
+
+  defp cs(p) do
+    {%{}, %{align: :string, styles: {:array, :string}}}
+    |> cast(p, [:align, :styles])
+    |> validate_required([:align], message: "pick an alignment")
+    |> validate_inclusion(:align, @aligns)
+    |> validate_subset(:styles, @styles)
+  end
+
+  defp tgc do
+    [
+      "inline-flex gap-1 rounded-md border border-base-300 bg-base-100 p-1",
+      "[&_[data-part=item]]:rounded [&_[data-part=item]]:px-3 [&_[data-part=item]]:py-1.5 [&_[data-part=item]]:text-sm [&_[data-part=item]]:text-base-content [&_[data-part=item]]:outline-none [&_[data-part=item]]:not-data-disabled:hover:bg-base-200",
+      "[&_[data-part=item][data-pressed]]:bg-primary [&_[data-part=item][data-pressed]]:text-primary-content",
+      "[&_[data-part=item]]:focus-visible:ring-2 [&_[data-part=item]]:focus-visible:ring-primary/40"
+    ]
+  end
+end

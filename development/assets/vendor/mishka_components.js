@@ -21,6 +21,7 @@ import Field from "./field.js";
 import Radio from "./radio.js";
 import RadioGroup from "./radio_group.js";
 import Select from "./select.js";
+import ToggleGroup from "./toggle_group.js";
 const Components = {
   Collapsible,
   Carousel,
@@ -45,5 +46,6 @@ const Components = {
   Radio,
   RadioGroup,
   Select,
+  ToggleGroup,
 };
 export default Components;
