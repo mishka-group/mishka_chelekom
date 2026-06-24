@@ -23,6 +23,11 @@ defmodule <%= @module %> do
   use Phoenix.Component
 
   # ── Root ────────────────────────────────────────────────────────────────
+  #
+  # TWO APIs (use whichever you like — you can even mix them):
+  #   • the idiomatic `<:item>` / `<:submenu>` slots (flat rows via a `type` attr), OR
+  #   • the composable `context_menu_*` row components passed as children (arbitrary order
+  #     + mid-list submenus).
   @doc type: :component
   attr :id, :string, required: true, doc: "Unique id (anchors aria relationships)"
   attr :disabled, :boolean, default: false, doc: "Disable all interaction"
@@ -32,7 +37,26 @@ defmodule <%= @module %> do
   attr :rest, :global
 
   slot :trigger, required: true, doc: "The area to right-click / long-press to open the menu"
-  slot :inner_block, required: true, doc: "Menu rows (use the context_menu_* row components)"
+
+  slot :item, doc: "A menu row (idiomatic slot API)" do
+    attr :type, :string, doc: "item (default) | checkbox | radio | link | separator | label"
+    attr :disabled, :boolean
+    attr :checked, :boolean, doc: "checkbox / radio"
+    attr :value, :string, doc: "radio value"
+    attr :name, :string, doc: "radio group name (single-selects items sharing it)"
+    attr :href, :string, doc: "link href"
+    attr :label, :string, doc: "group label text / typeahead override"
+    attr :keep_open, :boolean, doc: "don't close the menu when activated"
+    attr :on_change, :string, doc: "checkbox/radio change event ({checked}/{value})"
+    attr :on_change_target, :string
+  end
+
+  slot :submenu, doc: "A nested submenu; put its rows (context_menu_item, ...) inside" do
+    attr :label, :string, required: true
+    attr :disabled, :boolean
+  end
+
+  slot :inner_block, doc: "Compose rows with the context_menu_* components instead of <:item>"
 
   def <%= @component_prefix %>context_menu(assigns) do
     ~H"""
@@ -58,6 +82,94 @@ defmodule <%= @module %> do
         class="chelekom-context_menu__popup"
       >
         {render_slot(@inner_block)}
+        <div :for={it <- @item} style="display: contents">
+          <div :if={it[:type] == "separator"} role="separator" data-part="separator" data-orientation="horizontal" aria-orientation="horizontal" class="chelekom-context_menu__separator"></div>
+          <div :if={it[:type] == "label"} role="presentation" data-part="group-label" class="chelekom-context_menu__group-label">{render_slot(it)}</div>
+          <button
+            :if={it[:type] == "checkbox"}
+            type="button"
+            role="menuitemcheckbox"
+            data-part="checkbox-item"
+            aria-checked={to_string(it[:checked] == true)}
+            data-checked={it[:checked] == true}
+            data-unchecked={it[:checked] != true}
+            data-disabled={it[:disabled] == true}
+            data-label={it[:label]}
+            data-on-change={it[:on_change]}
+            data-on-change-target={it[:on_change_target]}
+            tabindex="-1"
+            class="chelekom-context_menu__checkbox-item"
+          >
+            <span data-part="checkbox-item-indicator" aria-hidden="true" data-checked={it[:checked] == true} data-unchecked={it[:checked] != true} class="chelekom-context_menu__indicator">✓</span>
+            {render_slot(it)}
+          </button>
+          <button
+            :if={it[:type] == "radio"}
+            type="button"
+            role="menuitemradio"
+            data-part="radio-item"
+            data-value={it[:value]}
+            data-radio-group={it[:name]}
+            aria-checked={to_string(it[:checked] == true)}
+            data-checked={it[:checked] == true}
+            data-unchecked={it[:checked] != true}
+            data-disabled={it[:disabled] == true}
+            data-label={it[:label]}
+            data-on-change={it[:on_change]}
+            data-on-change-target={it[:on_change_target]}
+            tabindex="-1"
+            class="chelekom-context_menu__radio-item"
+          >
+            <span data-part="radio-item-indicator" aria-hidden="true" data-checked={it[:checked] == true} data-unchecked={it[:checked] != true} class="chelekom-context_menu__indicator">●</span>
+            {render_slot(it)}
+          </button>
+          <a :if={it[:type] == "link"} href={it[:href]} role="menuitem" data-part="link-item" data-label={it[:label]} tabindex="-1" class="chelekom-context_menu__link-item">{render_slot(it)}</a>
+          <button
+            :if={it[:type] in [nil, "item"]}
+            type="button"
+            role="menuitem"
+            data-part="item"
+            data-disabled={it[:disabled] == true}
+            data-keep-open={it[:keep_open] == true}
+            data-label={it[:label]}
+            tabindex="-1"
+            class="chelekom-context_menu__item"
+          >
+            {render_slot(it)}
+          </button>
+        </div>
+        <div
+          :for={{sm, idx} <- Enum.with_index(@submenu)}
+          data-part="submenu"
+          class="chelekom-context_menu__submenu"
+        >
+          <button
+            type="button"
+            role="menuitem"
+            data-part="submenu-trigger"
+            aria-haspopup="menu"
+            aria-expanded="false"
+            aria-controls={"#{@id}-sub-#{idx}"}
+            data-disabled={sm[:disabled] == true}
+            data-label={sm[:label]}
+            tabindex="-1"
+            class="chelekom-context_menu__submenu-trigger"
+          >
+            {sm[:label]}
+            <span data-part="submenu-chevron" aria-hidden="true" class="chelekom-context_menu__chevron">›</span>
+          </button>
+          <div
+            id={"#{@id}-sub-#{idx}"}
+            data-part="submenu-popup"
+            role="menu"
+            tabindex="-1"
+            hidden
+            data-closed
+            class="chelekom-context_menu__submenu-popup"
+          >
+            {render_slot(sm)}
+          </div>
+        </div>
       </div>
     </div>
     """
@@ -164,6 +276,7 @@ defmodule <%= @module %> do
 
   @doc type: :component
   attr :value, :string, required: true
+  attr :name, :string, default: nil, doc: "Radio group name (single-selects items sharing it; alternative to a radio_group wrapper)"
   attr :checked, :boolean, default: false
   attr :disabled, :boolean, default: false
   attr :label, :string, default: nil
@@ -181,6 +294,7 @@ defmodule <%= @module %> do
       role="menuitemradio"
       data-part="radio-item"
       data-value={@value}
+      data-radio-group={@name}
       aria-checked={to_string(@checked)}
       data-checked={@checked}
       data-unchecked={!@checked}

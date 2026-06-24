@@ -331,9 +331,19 @@ const ContextMenu = {
   },
 
   selectRadio(item) {
-    const group = item.closest('[data-part="radio-group"]');
-    if (!group) return;
-    group.querySelectorAll('[data-part="radio-item"]').forEach((r) => {
+    const name = item.getAttribute("data-radio-group");
+    const menu = item.closest(MENU);
+    let radios;
+    if (name && menu) {
+      radios = menu.querySelectorAll(
+        `[data-part="radio-item"][data-radio-group="${name}"]`,
+      );
+    } else {
+      const group = item.closest('[data-part="radio-group"]');
+      if (!group) return;
+      radios = group.querySelectorAll('[data-part="radio-item"]');
+    }
+    radios.forEach((r) => {
       const on = r === item;
       r.toggleAttribute("data-checked", on);
       r.toggleAttribute("data-unchecked", !on);

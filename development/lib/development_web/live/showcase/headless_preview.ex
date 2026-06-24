@@ -515,25 +515,24 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
     ~H"""
     <.context_menu id={@id} class={context_menu_class()}>
       <:trigger>Right click here</:trigger>
-      <.context_menu_item>Add to Library</.context_menu_item>
-      <.context_menu_submenu id={"#{@id}-pl"} label="Add to Playlist">
+      <:item>Add to Library</:item>
+      <:item type="separator" />
+      <:item>Play Next</:item>
+      <:item>Play Last</:item>
+      <:item type="separator" />
+      <:item type="checkbox" checked>Favorite</:item>
+      <:item type="link" href="#share">Share</:item>
+      <:item type="separator" />
+      <:item type="label">Quality</:item>
+      <:item type="radio" name="quality" value="auto" checked>Auto</:item>
+      <:item type="radio" name="quality" value="high">High</:item>
+      <:item type="separator" />
+      <:item disabled>Delete</:item>
+      <:submenu label="Add to Playlist">
         <.context_menu_item>Jazz Classics</.context_menu_item>
         <.context_menu_item>Deep Focus</.context_menu_item>
         <.context_menu_item>Late Night</.context_menu_item>
-      </.context_menu_submenu>
-      <.context_menu_separator />
-      <.context_menu_item>Play Next</.context_menu_item>
-      <.context_menu_item>Play Last</.context_menu_item>
-      <.context_menu_separator />
-      <.context_menu_checkbox checked>Favorite</.context_menu_checkbox>
-      <.context_menu_link href="#share">Share</.context_menu_link>
-      <.context_menu_separator />
-      <.context_menu_radio_group id={"#{@id}-q"} label="Quality">
-        <.context_menu_radio value="auto" checked>Auto</.context_menu_radio>
-        <.context_menu_radio value="high">High</.context_menu_radio>
-      </.context_menu_radio_group>
-      <.context_menu_separator />
-      <.context_menu_item disabled>Delete</.context_menu_item>
+      </:submenu>
     </.context_menu>
     """
   end
