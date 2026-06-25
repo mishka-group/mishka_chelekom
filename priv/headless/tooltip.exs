@@ -8,30 +8,40 @@
     necessary: [],
     scripts: [
       %{
-        module: "Popup",
+        module: "Tooltip",
         type: "file",
-        file: "popup.js",
-        imports: "import Popup from \"./popup.js\";"
+        file: "tooltip.js",
+        imports: "import Tooltip from \"./tooltip.js\";"
       }
     ],
     headless: [
       anatomy: [
+        root: [
+          element: "div",
+          data_attributes: ["data-open", "data-closed", "data-side", "data-align", "data-disabled"],
+          required: true
+        ],
         parts: [
-          trigger: [element: "span", aria: ["aria-describedby"]],
+          trigger: [
+            element: "span",
+            aria: ["aria-describedby"],
+            data_attributes: ["data-popup-open"],
+            note: "hover or focus this element to reveal the tooltip"
+          ],
           popup: [
             element: "div",
             role: "tooltip",
-            data_attributes: ["data-open", "data-closed", "data-side"]
+            data_attributes: ["data-open", "data-closed", "data-side", "data-align", "data-starting-style"]
           ]
         ]
       ],
       aria_pattern: [
-        pattern: "Tooltip",
-        keyboard: ["Escape: dismiss"],
-        focus: "Never focuses the tooltip"
+        pattern: "Tooltip (non-modal) + anchored positioning",
+        keyboard: ["Escape: close", "blur: close"],
+        focus: "Never steals focus; the trigger is described by the popup (aria-describedby)."
       ],
-      state_attributes: ["data-open", "data-closed", "data-side"],
-      hooks: ["Popup"]
+      state_attributes: ["data-open", "data-closed", "data-side", "data-align", "data-popup-open", "data-starting-style"],
+      hooks: ["Tooltip"]
     ]
   ]
 ]

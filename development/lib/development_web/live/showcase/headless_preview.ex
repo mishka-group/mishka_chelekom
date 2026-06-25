@@ -1226,14 +1226,24 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
 
   def show(%{component: "tooltip"} = assigns) do
     ~H"""
-    <.tooltip
-      id={@id}
-      side="top"
-      class="[&_[data-part=trigger]]:cursor-help [&_[data-part=trigger]]:underline [&_[data-part=trigger]]:decoration-dotted [&_[data-part=trigger]]:underline-offset-4 [&_[data-part=popup]]:mb-1 [&_[data-part=popup]]:rounded-md [&_[data-part=popup]]:bg-base-content [&_[data-part=popup]]:px-2 [&_[data-part=popup]]:py-1 [&_[data-part=popup]]:text-xs [&_[data-part=popup]]:text-base-100 [&_[data-part=popup]]:shadow-lg [&_[data-part=popup]]:max-w-48"
-    >
-      <:trigger>hover or focus me</:trigger>
-      Helpful hint shown on hover/focus; press Escape to dismiss.
-    </.tooltip>
+    <div class="flex flex-wrap items-center gap-x-8 gap-y-4">
+      <.tooltip id={"#{@id}-top"} side="top" group="demo" class={tooltip_class()}>
+        <:trigger>Top · grouped</:trigger>
+        Appears above. After one in the group opens, the rest open instantly for a moment.
+      </.tooltip>
+      <.tooltip id={"#{@id}-bottom"} side="bottom" group="demo" class={tooltip_class()}>
+        <:trigger>Bottom · grouped</:trigger>
+        Shares the open delay with the other grouped tooltips.
+      </.tooltip>
+      <.tooltip id={"#{@id}-track"} side="top" track_cursor_axis="x" class={tooltip_class()}>
+        <:trigger>Follows cursor (x)</:trigger>
+        Tracks the pointer horizontally as you move along the trigger.
+      </.tooltip>
+      <.tooltip id={"#{@id}-disabled"} disabled class={tooltip_class()}>
+        <:trigger>Disabled</:trigger>
+        You will never see this one.
+      </.tooltip>
+    </div>
     """
   end
 
@@ -1913,6 +1923,13 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
       "[&_[data-part=submenu-chevron]]:ml-auto [&_[data-part=submenu-chevron]]:text-base-content/40",
       "[&_[data-part=separator]]:my-1 [&_[data-part=separator]]:h-px [&_[data-part=separator]]:bg-base-300",
       "[&_[data-part=group-label]]:px-2 [&_[data-part=group-label]]:py-1 [&_[data-part=group-label]]:text-xs [&_[data-part=group-label]]:font-medium [&_[data-part=group-label]]:uppercase [&_[data-part=group-label]]:tracking-wide [&_[data-part=group-label]]:text-base-content/40"
+    ]
+  end
+
+  defp tooltip_class do
+    [
+      "[&_[data-part=trigger]]:cursor-help [&_[data-part=trigger]]:underline [&_[data-part=trigger]]:decoration-dotted [&_[data-part=trigger]]:underline-offset-4 [&_[data-part=trigger]]:text-sm [&_[data-part=trigger]]:outline-none",
+      "[&_[data-part=popup]]:max-w-48 [&_[data-part=popup]]:rounded-md [&_[data-part=popup]]:bg-base-content [&_[data-part=popup]]:px-2 [&_[data-part=popup]]:py-1 [&_[data-part=popup]]:text-xs [&_[data-part=popup]]:text-base-100 [&_[data-part=popup]]:shadow-lg [&_[data-part=popup]]:transition [&_[data-part=popup]]:duration-100 [&_[data-part=popup][data-starting-style]]:opacity-0 [&_[data-part=popup][data-starting-style]]:scale-95 [&_[data-part=popup][data-side=top]]:origin-bottom [&_[data-part=popup][data-side=bottom]]:origin-top"
     ]
   end
 
