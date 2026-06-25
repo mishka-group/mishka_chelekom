@@ -1,0 +1,154 @@
+defmodule DevelopmentWeb.Components.Shape do
+  @moduledoc """
+  The `DevelopmentWeb.Components.Shape` module clips its content to a specific geometric shape
+  (squircle, hexagon, heart, star, diamond, triangle variants, etc.) using CSS `clip-path`
+  for polygons and SVG-mask data URIs for organic shapes.
+
+  Inspired by daisyUI's mask component but renamed to avoid colliding with Tailwind v4's
+  native `mask-*` utilities.
+
+  ## Features
+
+  - **15 shapes** — squircle, circle, square, heart, star, star_alt, diamond, pentagon,
+  hexagon, hexagon_alt, decagon, triangle, triangle_down, triangle_left, triangle_right.
+  - **Half mode** — `half="first"` / `half="second"` shows only one half of the shape,
+  useful for two-column reveals.
+  - **Source attr** — pass `src` to render an `<img>` directly, or use the slot for any
+  custom content (video, gradient div, avatar initials, etc.).
+  - **Size tokens** — chelekom size scale (`extra_small` → `extra_large`).
+
+  Background colors and any other styling come from the parent's `class` prop, which
+  resolves through chelekom CSS-variable tokens defined in `priv/mishka_chelekom/config.exs`.
+
+  **Documentation:** https://mishka.tools/chelekom/docs/shape
+  """
+
+  use Phoenix.Component
+
+  @doc """
+  Renders content clipped to a geometric shape.
+
+  ## Examples
+
+  ```elixir
+  <.shape variant="squircle" size="medium" src="/avatar.jpg" alt="User avatar" />
+
+  <.shape variant="hexagon" size="large">
+    <div class="bg-gradient-to-br from-primary-light to-primary-dark size-full" />
+  </.shape>
+  ```
+  """
+  @doc type: :component
+  attr :id, :string, default: nil
+  attr :class, :any, default: nil
+
+  attr :variant, :string,
+    default: "squircle",
+    doc:
+      "Shape: squircle, circle, square, heart, star, star_alt, diamond, pentagon, hexagon, hexagon_alt, decagon, triangle, triangle_down, triangle_left, triangle_right"
+
+  attr :size, :string,
+    default: "medium",
+    doc: "extra_small | small | medium | large | extra_large"
+
+  attr :half, :string,
+    default: nil,
+    doc: "Show only half of the shape: \"first\" (left/top) or \"second\" (right/bottom)"
+
+  attr :src, :string, default: nil, doc: "Image source — renders an <img> if provided"
+  attr :alt, :string, default: "", doc: "Alt text when src is set"
+
+  attr :rest, :global
+
+  slot :inner_block, required: false
+
+  def shape(assigns) do
+    ~H"""
+    <div
+      id={@id}
+      class={[
+        "shape-base inline-block overflow-hidden",
+        size_class(@size),
+        shape_class(@variant),
+        half_class(@half),
+        @class
+      ]}
+      {@rest}
+    >
+      <img
+        :if={@src}
+        src={@src}
+        alt={@alt}
+        class="w-full h-full object-cover"
+      />
+      {render_slot(@inner_block)}
+    </div>
+    """
+  end
+
+  # Shapes built with clip-path (polygons) and SVG-mask data URIs (organic shapes).
+  defp shape_class("circle"), do: "rounded-full"
+  defp shape_class("square"), do: "rounded-none"
+
+  defp shape_class("squircle"),
+    do:
+      "[mask-image:url(\"data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'><path d='M 100 0 C 20 0 0 20 0 100 C 0 180 20 200 100 200 C 180 200 200 180 200 100 C 200 20 180 0 100 0 Z' fill='black'/></svg>\")] [mask-size:100%_100%] [mask-repeat:no-repeat]"
+
+  defp shape_class("diamond"),
+    do: "[clip-path:polygon(50%_0%,100%_50%,50%_100%,0%_50%)]"
+
+  defp shape_class("triangle"),
+    do: "[clip-path:polygon(50%_0%,100%_100%,0%_100%)]"
+
+  defp shape_class("triangle_down"),
+    do: "[clip-path:polygon(0%_0%,100%_0%,50%_100%)]"
+
+  defp shape_class("triangle_left"),
+    do: "[clip-path:polygon(100%_0%,100%_100%,0%_50%)]"
+
+  defp shape_class("triangle_right"),
+    do: "[clip-path:polygon(0%_0%,100%_50%,0%_100%)]"
+
+  defp shape_class("pentagon"),
+    do: "[clip-path:polygon(50%_0%,100%_38%,82%_100%,18%_100%,0%_38%)]"
+
+  defp shape_class("hexagon"),
+    do: "[clip-path:polygon(50%_0%,100%_25%,100%_75%,50%_100%,0%_75%,0%_25%)]"
+
+  defp shape_class("hexagon_alt"),
+    do: "[clip-path:polygon(25%_0%,75%_0%,100%_50%,75%_100%,25%_100%,0%_50%)]"
+
+  defp shape_class("decagon"),
+    do:
+      "[clip-path:polygon(50%_0%,79%_10%,98%_35%,98%_65%,79%_90%,50%_100%,21%_90%,2%_65%,2%_35%,21%_10%)]"
+
+  defp shape_class("star"),
+    do:
+      "[clip-path:polygon(50%_0%,61%_35%,98%_35%,68%_57%,79%_91%,50%_70%,21%_91%,32%_57%,2%_35%,39%_35%)]"
+
+  defp shape_class("star_alt"),
+    do:
+      "[clip-path:polygon(50%_0%,63%_38%,100%_38%,69%_59%,82%_100%,50%_75%,18%_100%,31%_59%,0%_38%,37%_38%)]"
+
+  defp shape_class("heart"),
+    do:
+      "[mask-image:url(\"data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><path d='M50 88 L12 50 C-2 32 8 8 30 8 C40 8 50 16 50 24 C50 16 60 8 70 8 C92 8 102 32 88 50 Z' fill='black'/></svg>\")] [mask-size:100%_100%] [mask-repeat:no-repeat]"
+
+  defp shape_class(params) when is_binary(params), do: params
+
+  defp half_class("first"), do: "[clip-path:inset(0_50%_0_0)]"
+  defp half_class("second"), do: "[clip-path:inset(0_0_0_50%)]"
+  defp half_class(_), do: nil
+
+  defp size_class("extra_small"), do: "size-8"
+
+  defp size_class("small"), do: "size-12"
+
+  defp size_class("medium"), do: "size-16"
+
+  defp size_class("large"), do: "size-24"
+
+  defp size_class("extra_large"), do: "size-32"
+
+  defp size_class(params) when is_binary(params), do: params
+end

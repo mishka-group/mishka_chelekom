@@ -802,6 +802,9 @@ defmodule MishkaChelekom.CmsBundleExporter do
     |> Map.put(:__prelude__, prelude_string(filtered_prelude))
     |> Map.put(:__kit_name__, kit_name)
     |> Map.put(:__kit_version__, kit_version)
+    |> Map.put(:__category__, config[:category])
+    |> Map.put(:__necessary__, config[:necessary] || [])
+    |> Map.put(:__scripts__, config[:scripts] || [])
     |> Map.put_new(:__extra_clauses__, [])
   end
 
@@ -914,6 +917,20 @@ defmodule MishkaChelekom.CmsBundleExporter do
   defp encode_b64(""), do: ""
   defp encode_b64(s) when is_binary(s), do: "base64:" <> Base.encode64(s)
 
+  # Component dependencies = sibling components from `.exs` `necessary:` (prefixed with the kit name,
+  # e.g. `icon` -> `chelekom-icon`) plus the JS-hook files from `scripts:` (e.g. `collapsible.js`).
+  defp build_dependencies(necessary, scripts, kit_name) do
+    sibling_deps = Enum.map(necessary || [], &"#{kit_name}-#{&1}")
+
+    script_deps =
+      (scripts || [])
+      |> Enum.map(fn s -> s[:file] || s["file"] end)
+      |> Enum.reject(&(is_nil(&1) or &1 == ""))
+      |> Enum.map(&to_string/1)
+
+    (sibling_deps ++ script_deps) |> Enum.uniq()
+  end
+
   defp finalize_component_params(c) do
     helpers =
       c.__private_helpers__
@@ -997,6 +1014,8 @@ defmodule MishkaChelekom.CmsBundleExporter do
       "format" => "heex",
       "priority" => 50,
       "permissions" => [],
+      "type" => to_string(c.__category__ || ""),
+      "dependencies" => build_dependencies(c.__necessary__, c.__scripts__, c.__kit_name__),
       "examples" => [],
       "template" => c.template,
       "body" => c.body,

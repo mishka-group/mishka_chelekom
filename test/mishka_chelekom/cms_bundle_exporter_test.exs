@@ -59,6 +59,35 @@ defmodule MishkaChelekom.CmsBundleExporterTest do
     end
   end
 
+  ## ─── type + dependencies (MishkaCMS Component columns) ───────────────
+
+  describe "convert/5 — type + dependencies" do
+    test "type comes from the .exs `category`", %{button_exs: e, button_eex: t} do
+      {:ok, %{components: cps}} = CmsBundleExporter.convert(e, t, "kit", "1.0")
+      assert cps != []
+      Enum.each(cps, fn c -> assert c["type"] == "general" end)
+    end
+
+    test "dependencies = `necessary` siblings prefixed with the kit name",
+         %{button_exs: e, button_eex: t} do
+      {:ok, %{components: cps}} = CmsBundleExporter.convert(e, t, "kit", "1.0")
+
+      Enum.each(cps, fn c ->
+        # fixture `necessary: ["icon"]` -> "kit-icon"
+        assert "kit-icon" in c["dependencies"]
+      end)
+    end
+
+    test "every component carries the type + dependencies keys", %{button_exs: e, button_eex: t} do
+      {:ok, %{components: cps}} = CmsBundleExporter.convert(e, t, "kit", "1.0")
+
+      Enum.each(cps, fn c ->
+        assert Map.has_key?(c, "type")
+        assert is_list(c["dependencies"])
+      end)
+    end
+  end
+
   ## ─── Per-public-function emission ───────────────────────────────────
 
   describe "convert/5 — per-public-fn emission" do

@@ -1,0 +1,158 @@
+defmodule <%= @module %> do
+  @moduledoc """
+  Headless **accordion** — a set of stacked disclosure items, built to the WAI-ARIA APG pattern.
+
+  Behavior via the shared `Disclosure` engine. Each `<:item>` renders a heading (`h1`-`h6`, level
+  set by `heading_level`) wrapping a `button` trigger (`aria-expanded` + `aria-controls`, roving
+  `tabindex`) and a `region` panel (`aria-labelledby`). Keyboard: Enter/Space toggles; Arrow keys
+  move focus between triggers (Up/Down vertical, Left/Right horizontal, RTL-aware); Home/End jump to
+  first/last; disabled triggers are skipped.
+
+  Modes: `multiple` (independent panels) · `collapsible` · `orientation` · `disabled` (root or item) ·
+  `hidden_until_found` (find-in-page). Controlled via `value`/`on_value_change`. Closed panels stay
+  mounted (hidden) so the client engine can toggle them.
+  Style via `chelekom-accordion*` classes and the data-attributes:
+  `data-open`/`data-closed`, `data-disabled`, `data-orientation`, `data-index`,
+  `data-starting-style`/`data-ending-style` (transitions), and `--accordion-panel-height/width`.
+
+  WAI-ARIA APG: https://www.w3.org/WAI/ARIA/apg/patterns/accordion/
+  """
+  use Phoenix.Component
+
+  @doc type: :component
+  attr :id, :string, required: true
+  attr :multiple, :boolean, default: false, doc: "Allow multiple panels open at once (one-at-a-time when false)"
+  attr :collapsible, :boolean, default: true, doc: "Allow the open item to be closed"
+  attr :disabled, :boolean, default: false, doc: "Disable the whole accordion"
+
+  attr :orientation, :string,
+    default: "vertical",
+    values: ~w(vertical horizontal),
+    doc: "Arrow-key navigation axis"
+
+  attr :heading_level, :integer, default: 3, doc: "Heading level (1-6) wrapping each trigger"
+  attr :loop, :boolean, default: true, doc: "Arrow-key focus wraps at the ends"
+
+  attr :hidden_until_found, :boolean,
+    default: false,
+    doc: ~s|Closed panels use hidden="until-found" so the browser's find-in-page can reveal them|
+
+  attr :value, :list, default: nil, doc: "Controlled: the list of open item values"
+  attr :initial_open, :list, default: nil, doc: "Uncontrolled: initially open item values"
+  attr :on_value_change, :string, default: nil, doc: "LiveView event pushed when the open set changes"
+  attr :class, :any, default: nil
+  attr :rest, :global
+
+  slot :item, required: true do
+    attr :title, :string, required: true
+    attr :open, :boolean, doc: "Initially open (ignored when value/default_value is set)"
+    attr :disabled, :boolean, doc: "Disable just this item"
+    attr :value, :string, doc: "Stable identity, used for controlled mode + change events"
+    attr :on_open_change, :string, doc: "LiveView event pushed when THIS item toggles"
+  end
+
+  def <%= @component_prefix %>accordion(assigns) do
+    assigns = assign(assigns, :item, prepare_items(assigns))
+
+    ~H"""
+    <div
+      id={@id}
+      phx-hook="Disclosure"
+      data-multiple={to_string(@multiple)}
+      data-collapsible={to_string(@collapsible)}
+      data-orientation={@orientation}
+      data-disabled={@disabled}
+      data-loop={to_string(@loop)}
+      data-hidden-until-found={@hidden_until_found}
+      data-on-value-change={@on_value_change}
+      class={["chelekom-accordion", @class]}
+      {@rest}
+    >
+      <div
+        :for={item <- @item}
+        data-part="item"
+        data-index={item.__index__}
+        data-value={item.__value__}
+        data-open={item.__open__}
+        data-disabled={item.__disabled__}
+        data-on-open-change={item[:on_open_change]}
+        class="chelekom-accordion__item"
+      >
+        <.dynamic_tag
+          tag_name={"h#{@heading_level}"}
+          data-part="header"
+          class="chelekom-accordion__heading"
+        >
+          <button
+            type="button"
+            id={"#{item.__id__}-trigger"}
+            data-part="trigger"
+            data-index={item.__index__}
+            data-disabled={item.__disabled__}
+            aria-controls={"#{item.__id__}-panel"}
+            aria-expanded={to_string(item.__open__)}
+            aria-disabled={item.__disabled__ && "true"}
+            tabindex={if item.__tabstop__, do: "0", else: "-1"}
+            class="chelekom-accordion__trigger"
+          >
+            {item.title}
+          </button>
+        </.dynamic_tag>
+        <div
+          id={"#{item.__id__}-panel"}
+          data-part="panel"
+          data-index={item.__index__}
+          data-orientation={@orientation}
+          data-disabled={item.__disabled__}
+          role="region"
+          aria-labelledby={"#{item.__id__}-trigger"}
+          data-open={item.__open__}
+          data-closed={!item.__open__}
+          hidden={!item.__open__ && panel_hidden(@hidden_until_found)}
+          class="chelekom-accordion__panel"
+        >
+          {render_slot(item)}
+        </div>
+      </div>
+    </div>
+    """
+  end
+
+  # Resolve each item's stable id/value, 0-based index, open state (controlled value/default_value
+  # win over the per-item `open`), and effective disabled (root cascades to item).
+  defp prepare_items(assigns) do
+    open_set =
+      case assigns.value || assigns.initial_open do
+        nil -> nil
+        list -> Enum.map(list, &to_string/1)
+      end
+
+    items =
+      assigns.item
+      |> Enum.with_index()
+      |> Enum.map(fn {item, index} ->
+        id = "#{assigns.id}-#{index}"
+        value = to_string(item[:value] || id)
+
+        open =
+          if is_list(open_set), do: value in open_set, else: item[:open] || false
+
+        item
+        |> Map.put(:__id__, id)
+        |> Map.put(:__index__, index)
+        |> Map.put(:__value__, value)
+        |> Map.put(:__open__, open)
+        |> Map.put(:__disabled__, assigns.disabled || item[:disabled] || false)
+      end)
+
+    # Roving tabindex: the FIRST ENABLED trigger is the single tab stop (computed server-side so it's
+    # correct even before the hook runs); a fully-disabled accordion falls back to the first item.
+    tab_stop = Enum.find_index(items, &(not &1.__disabled__)) || 0
+    Enum.map(items, &Map.put(&1, :__tabstop__, &1.__index__ == tab_stop))
+  end
+
+  # closed-panel `hidden`: "until-found" keeps text findable by the browser; otherwise a plain
+  # boolean `hidden`. (Open panels render no `hidden` — the markup guards with `!__open__`.)
+  defp panel_hidden(true), do: "until-found"
+  defp panel_hidden(_), do: true
+end

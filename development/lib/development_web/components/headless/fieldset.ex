@@ -1,0 +1,56 @@
+defmodule DevelopmentWeb.Components.Headless.Fieldset do
+  @moduledoc """
+  Headless **fieldset** — groups related form controls under a shared, easily
+  stylable legend (Base UI parity).
+
+  Renders a native `<fieldset>`, so a `disabled` fieldset **natively disables
+  every control inside it** (including controls in nested fieldsets) with no JS.
+  The legend is rendered as a styleable `<div>` rather than a native `<legend>`
+  (which can't be freely positioned) and is associated with the group via
+  `aria-labelledby`, so it still names the group for assistive tech.
+
+  When `disabled`, the root and the legend both carry `data-disabled` for CSS.
+  Style via the `chelekom-fieldset*` classes and the `data-disabled` hook — this
+  component ships **no** colors or spacing.
+  """
+  use Phoenix.Component
+
+  @doc type: :component
+  attr :id, :string, required: true, doc: "Unique id; anchors the legend association"
+
+  attr :disabled, :boolean,
+    default: false,
+    doc: "Natively disable every control in the group (also sets data-disabled)"
+
+  attr :class, :any, default: nil, doc: "Extra classes for the root"
+  attr :rest, :global
+
+  slot :legend,
+    doc: "The group label — a styleable <div> wired to the fieldset via aria-labelledby"
+
+  slot :inner_block, required: true, doc: "The grouped form controls"
+
+  def fieldset(assigns) do
+    ~H"""
+    <fieldset
+      id={@id}
+      disabled={@disabled}
+      data-disabled={@disabled}
+      aria-labelledby={@legend != [] && "#{@id}-legend"}
+      class={["chelekom-fieldset", @class]}
+      {@rest}
+    >
+      <div
+        :if={@legend != []}
+        id={"#{@id}-legend"}
+        data-part="legend"
+        data-disabled={@disabled}
+        class="chelekom-fieldset__legend"
+      >
+        {render_slot(@legend)}
+      </div>
+      {render_slot(@inner_block)}
+    </fieldset>
+    """
+  end
+end

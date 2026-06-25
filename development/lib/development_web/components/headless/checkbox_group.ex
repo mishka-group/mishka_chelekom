@@ -1,0 +1,163 @@
+defmodule DevelopmentWeb.Components.Headless.CheckboxGroup do
+  @moduledoc """
+  Headless **checkbox group** — a labelled group of checkboxes (Base UI parity).
+
+  Each item is a `role="checkbox"` button (driven by the shared `Toggle` engine, with a hidden native
+  `<input type="checkbox">` for form submission as `name[]`). The group is coordinated by the
+  `CheckboxGroup` engine: an optional `<:select_all>` renders a tristate **parent** that reflects
+  all/none/some of its children (`aria-checked="mixed"` when partial) and toggles every child; set
+  `on_change` to receive the selected values (`{value: [...]}`). A group-level `disabled` cascades to
+  every item.
+
+  ARIA: root `role="group"` wired to an optional visible label via `aria-labelledby`; each item is a
+  `role="checkbox"` with `aria-checked`. Style via the `chelekom-checkbox_group*` classes and the
+  `data-checked`/`data-unchecked`/`data-indeterminate`/`data-disabled` state attributes — ships
+  **no** colors or spacing.
+
+  WAI-ARIA APG: https://www.w3.org/WAI/ARIA/apg/patterns/checkbox/
+  """
+  use Phoenix.Component
+
+  @doc type: :component
+  attr :id, :string, required: true, doc: "Unique id (anchors the group label + item ids)"
+  attr :name, :string, default: nil, doc: "Base form name; items submit as `name[]`"
+
+  attr :disabled, :boolean,
+    default: false,
+    doc: "Disable the whole group (cascades to every item)"
+
+  attr :on_change, :string,
+    default: nil,
+    doc: "LiveView event pushed with the selected values ({value: [...]})"
+
+  attr :class, :any, default: nil, doc: "Extra classes for the root"
+  attr :rest, :global
+
+  slot :label, doc: "Accessible group label (wired to aria-labelledby)"
+  slot :select_all, doc: "Optional tristate \"select all\" parent (reflects + toggles all items)"
+
+  slot :item, required: true, doc: "A checkbox option" do
+    attr :value, :string, required: true
+    attr :checked, :boolean
+    attr :disabled, :boolean
+  end
+
+  def checkbox_group(assigns) do
+    # Derive the parent's initial state from the items (all → checked · none → unchecked · some →
+    # mixed) so the server-rendered "select all" already matches its children (no hydration flash).
+    {parent_checked, parent_indeterminate} = parent_state(assigns.item)
+
+    assigns =
+      assign(assigns, parent_checked: parent_checked, parent_indeterminate: parent_indeterminate)
+
+    ~H"""
+    <div
+      id={@id}
+      role="group"
+      phx-hook="CheckboxGroup"
+      aria-labelledby={(@label != [] && "#{@id}-label") || nil}
+      data-on-change={@on_change}
+      data-disabled={@disabled}
+      class={["chelekom-checkbox_group", @class]}
+      {@rest}
+    >
+      <span
+        :if={@label != []}
+        id={"#{@id}-label"}
+        data-part="label"
+        class="chelekom-checkbox_group__label"
+      >
+        {render_slot(@label)}
+      </span>
+
+      <.control
+        :if={@select_all != []}
+        id={"#{@id}-all"}
+        parent
+        checked={@parent_checked}
+        indeterminate={@parent_indeterminate}
+        disabled={@disabled}
+      >
+        {render_slot(@select_all)}
+      </.control>
+
+      <.control
+        :for={item <- @item}
+        id={"#{@id}-#{item.value}"}
+        name={@name && "#{@name}[]"}
+        value={item.value}
+        checked={item[:checked] || false}
+        disabled={@disabled || item[:disabled] || false}
+      >
+        {render_slot(item)}
+      </.control>
+    </div>
+    """
+  end
+
+  # One checkbox row — the same role="checkbox" button contract as the standalone `checkbox`,
+  # inlined so the group stays self-contained (no cross-component dependency).
+  attr :id, :string, required: true
+  attr :name, :string, default: nil
+  attr :value, :string, default: "true"
+  attr :checked, :boolean, default: false
+  attr :indeterminate, :boolean, default: false
+  attr :disabled, :boolean, default: false
+  attr :parent, :boolean, default: false
+  slot :inner_block, required: true
+
+  defp control(assigns) do
+    ~H"""
+    <button
+      id={@id}
+      type="button"
+      phx-hook="Toggle"
+      role="checkbox"
+      aria-checked={(@indeterminate && "mixed") || to_string(@checked)}
+      data-disabled={@disabled}
+      data-parent={@parent}
+      data-checked={@checked && !@indeterminate}
+      data-unchecked={!@checked && !@indeterminate}
+      data-indeterminate={@indeterminate}
+      data-value={@value}
+      data-part="item"
+      class="chelekom-checkbox_group__item"
+    >
+      <input
+        :if={@name}
+        type="checkbox"
+        data-part="input"
+        name={@name}
+        value={@value}
+        checked={@checked && !@indeterminate}
+        disabled={@disabled}
+        tabindex="-1"
+        aria-hidden="true"
+        class="chelekom-checkbox_group__input chelekom-sr-only"
+      />
+      <span
+        data-part="indicator"
+        aria-hidden="true"
+        data-checked={@checked && !@indeterminate}
+        data-unchecked={!@checked && !@indeterminate}
+        data-indeterminate={@indeterminate}
+        class="chelekom-checkbox_group__indicator"
+      >
+      </span>
+      {render_slot(@inner_block)}
+    </button>
+    """
+  end
+
+  # Initial "select all" state from the togglable items (matches the JS coordinator's derive()).
+  defp parent_state(items) do
+    enabled = Enum.reject(items, &(&1[:disabled] || false))
+    checked = Enum.count(enabled, &(&1[:checked] || false))
+
+    cond do
+      enabled == [] or checked == 0 -> {false, false}
+      checked == length(enabled) -> {true, false}
+      true -> {false, true}
+    end
+  end
+end

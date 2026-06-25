@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="csrf-token" content={get_csrf_token()} />
+    <.live_title default="Development" suffix=" · Phoenix Framework" phx-no-format>{assigns[:page_title]}</.live_title>
+    <link phx-track-static rel="stylesheet" href={~p"/assets/css/app.css"} />
+    <script defer phx-track-static type="text/javascript" src={~p"/assets/js/app.js"}>
+    </script>
+    <script>
+      (() => {
+        const setTheme = (theme) => {
+          if (theme === "system") {
+            localStorage.removeItem("phx:theme");
+            document.documentElement.removeAttribute("data-theme");
+          } else {
+            localStorage.setItem("phx:theme", theme);
+            document.documentElement.setAttribute("data-theme", theme);
+          }
+        };
+        if (!document.documentElement.hasAttribute("data-theme")) {
+          setTheme(localStorage.getItem("phx:theme") || "system");
+        }
+        window.addEventListener("storage", (e) => e.key === "phx:theme" && setTheme(e.newValue || "system"));
+        
+        window.addEventListener("phx:set-theme", (e) => setTheme(e.target.dataset.phxTheme));
+      })();
+    </script>
+  </head>
+  <body>
+    {@inner_content}
+    <button
+      type="button"
+      data-theme-toggle
+      aria-label="Toggle light and dark mode"
+      title="Toggle light / dark"
+      class="fixed bottom-5 right-5 z-50 inline-flex size-10 items-center justify-center rounded-full bg-base-100 text-base-content shadow-lg ring-1 ring-base-content/10 hover:brightness-95 transition"
+    >
+      <span class="hero-moon-solid size-5 [[data-theme=dark]_&]:hidden" />
+      <span class="hero-sun-solid size-5 hidden [[data-theme=dark]_&]:inline-block" />
+    </button>
+  </body>
+</html>

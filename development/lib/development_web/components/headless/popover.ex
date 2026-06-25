@@ -1,0 +1,149 @@
+defmodule DevelopmentWeb.Components.Headless.Popover do
+  @moduledoc """
+  Headless **popover** (Base UI parity) — a `<:trigger>` button toggles an anchored,
+  dismissable panel of arbitrary content.
+
+  Behavior is driven by the dedicated `Popover` JS engine: click (or, with `open_on_hover`,
+  hover) the trigger to open a `role="dialog"` popup anchored to it by `side`/`align`/offset
+  (with edge-flip + viewport clamp, repositioned on scroll/resize). `modal` chooses the
+  interaction model:
+    * `false` (default) — page stays interactive; outside click / Escape dismiss.
+    * `"trap-focus"` — focus trapped inside the popup; the page stays scrollable.
+    * `true` — focus trapped, background scroll locked, a backdrop dims the page.
+
+  Anatomy (named slots / parts): `trigger`, `backdrop` (auto, modal only), `popup`, `title`,
+  `description`, inner content, `close`. Style the `chelekom-popover*` classes and the
+  `data-open`/`data-closed`/`data-side`/`data-align`/`data-popup-open`/`data-pressed`/
+  `data-starting-style` state — this component ships **no** colors or spacing.
+  """
+  use Phoenix.Component
+
+  @doc type: :component
+  attr :id, :string, required: true, doc: "Unique id (anchors aria relationships)"
+  attr :open, :boolean, default: false, doc: "Initial/controlled open state"
+
+  attr :side, :string,
+    default: "bottom",
+    values: ~w(top right bottom left),
+    doc: "Preferred side to anchor the popup"
+
+  attr :align, :string,
+    default: "center",
+    values: ~w(start center end),
+    doc: "Alignment along the side"
+
+  attr :side_offset, :integer, default: 8, doc: "Gap between trigger and popup (px)"
+  attr :align_offset, :integer, default: 0, doc: "Offset along the alignment axis (px)"
+
+  attr :modal, :any,
+    default: false,
+    doc: "false | true | \"trap-focus\" — focus trap / scroll lock / backdrop"
+
+  attr :open_on_hover, :boolean, default: false, doc: "Open on trigger hover (with delay)"
+  attr :delay, :integer, default: 300, doc: "Hover open delay (ms)"
+  attr :close_delay, :integer, default: 0, doc: "Hover close delay (ms)"
+  attr :dismissible, :boolean, default: true, doc: "Whether an outside click dismisses"
+  attr :close_on_escape, :boolean, default: true, doc: "Whether Escape closes"
+  attr :disabled, :boolean, default: false, doc: "Disable the trigger"
+
+  attr :initial_focus, :string,
+    default: nil,
+    doc: "Selector focused on open (default: first focusable / the popup)"
+
+  attr :final_focus, :string,
+    default: nil,
+    doc: "Selector focused on close (default: the trigger)"
+
+  attr :on_open_change, :string, default: nil, doc: "LiveView event pushed on open/close ({open})"
+
+  attr :on_open_change_target, :string,
+    default: nil,
+    doc: "Optional pushEventTo target for on_open_change"
+
+  attr :labelledby, :string, default: nil, doc: "Override aria-labelledby"
+  attr :describedby, :string, default: nil, doc: "Override aria-describedby"
+  attr :class, :any, default: nil, doc: "Extra classes for the root"
+  attr :rest, :global
+
+  slot :trigger, required: true, doc: "The button that opens the popover"
+  slot :title, doc: "Accessible title (wired to aria-labelledby)"
+  slot :description, doc: "Accessible description (wired to aria-describedby)"
+  slot :inner_block, required: true, doc: "Popup content"
+  slot :close, doc: "Footer / close actions (use data-close on a button to close)"
+
+  def popover(assigns) do
+    ~H"""
+    <div
+      id={@id}
+      phx-hook="Popover"
+      data-side={@side}
+      data-align={@align}
+      data-side-offset={@side_offset}
+      data-align-offset={@align_offset}
+      data-modal={to_string(@modal)}
+      data-open-on-hover={to_string(@open_on_hover)}
+      data-delay={@delay}
+      data-close-delay={@close_delay}
+      data-close-on-escape={to_string(@close_on_escape)}
+      data-close-on-outside={to_string(@dismissible)}
+      data-disabled={to_string(@disabled)}
+      data-initial-focus={@initial_focus}
+      data-final-focus={@final_focus}
+      data-on-open-change={@on_open_change}
+      data-on-open-change-target={@on_open_change_target}
+      class={["chelekom-popover", @class]}
+      data-open={@open}
+      data-closed={!@open}
+      {@rest}
+    >
+      <button
+        type="button"
+        data-part="trigger"
+        aria-haspopup="dialog"
+        disabled={@disabled}
+        data-disabled={@disabled}
+        class="chelekom-popover__trigger"
+      >
+        {render_slot(@trigger)}
+      </button>
+
+      <div
+        :if={@modal != false}
+        data-part="backdrop"
+        class="chelekom-popover__backdrop"
+        aria-hidden="true"
+      >
+      </div>
+
+      <div
+        id={"#{@id}-popup"}
+        data-part="popup"
+        role="dialog"
+        aria-modal={if @modal == true, do: "true"}
+        aria-labelledby={@labelledby || (@title != [] && "#{@id}-title") || nil}
+        aria-describedby={@describedby || (@description != [] && "#{@id}-desc") || nil}
+        class="chelekom-popover__popup"
+        tabindex="-1"
+        data-closed
+        hidden
+      >
+        <h2 :if={@title != []} id={"#{@id}-title"} data-part="title" class="chelekom-popover__title">
+          {render_slot(@title)}
+        </h2>
+        <p
+          :if={@description != []}
+          id={"#{@id}-desc"}
+          data-part="description"
+          class="chelekom-popover__description"
+        >
+          {render_slot(@description)}
+        </p>
+        <div data-part="content" class="chelekom-popover__content">{render_slot(@inner_block)}</div>
+        <div :if={@close != []} data-part="footer" class="chelekom-popover__footer">
+          {render_slot(@close)}
+        </div>
+      </div>
+    </div>
+    """
+  end
+end

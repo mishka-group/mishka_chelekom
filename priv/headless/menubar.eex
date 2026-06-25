@@ -1,0 +1,91 @@
+defmodule <%= @module %> do
+  @moduledoc """
+  Headless **menubar** — a desktop-style bar of menus (Base UI parity).
+
+  One `Menubar` engine owns the bar: roving tabindex over the top-level menu buttons (arrow keys along
+  `orientation` + Home/End, looping when `loop`), opening/closing each menu, and — the defining menubar
+  behaviour — **switching the open menu when you hover or arrow to another trigger while one is already
+  open**. Inside an open menu, Arrow Up/Down move between items, Escape closes back to the trigger, and
+  Left/Right hop to the adjacent menu; activating an item closes it.
+
+  Options mirror Base UI: `orientation` (horizontal | vertical), `loop`, `modal`, `disabled`, plus
+  per-`<:menu>` `disabled`. State attributes: root `data-orientation` / `data-modal` /
+  `data-has-submenu-open` / `data-disabled`; the active trigger `data-popup-open` + `data-pressed`; the
+  popup `data-open` / `data-closed`. ARIA: root `role="menubar"`; triggers `role="menuitem"` +
+  `aria-haspopup="menu"` + `aria-expanded`; popups `role="menu"`. Style via `chelekom-menubar*`.
+
+  WAI-ARIA APG: https://www.w3.org/WAI/ARIA/apg/patterns/menubar/
+  """
+  use Phoenix.Component
+
+  @doc type: :component
+  attr :id, :string, required: true
+  attr :orientation, :string, default: "horizontal", values: ~w(horizontal vertical)
+  attr :loop, :boolean, default: true, doc: "Loop arrow-key focus past the ends"
+  attr :modal, :boolean, default: true, doc: "Mark the menubar modal (data-modal)"
+  attr :disabled, :boolean, default: false, doc: "Disable the whole menubar (data-disabled)"
+  attr :class, :any, default: nil
+  attr :rest, :global
+
+  slot :menu, required: true, doc: "A top-level menu; its inner block holds the menu items" do
+    attr :label, :string, required: true
+    attr :disabled, :boolean, doc: "Disable just this menu"
+  end
+
+  def <%= @component_prefix %>menubar(assigns) do
+    # The tabbable trigger is the first enabled one.
+    tabbable =
+      Enum.find_index(assigns.menu, &(!(&1[:disabled] || assigns.disabled))) || 0
+
+    assigns = assign(assigns, :tabbable, tabbable)
+
+    ~H"""
+    <div
+      id={@id}
+      role="menubar"
+      phx-hook="Menubar"
+      data-orientation={@orientation}
+      data-modal={@modal}
+      data-loop={@loop}
+      data-disabled={@disabled}
+      aria-orientation={@orientation}
+      aria-disabled={@disabled && "true"}
+      class={["chelekom-menubar", @class]}
+      {@rest}
+    >
+      <div
+        :for={{menu, i} <- Enum.with_index(@menu)}
+        id={"#{@id}-menu-#{i}"}
+        data-part="menu"
+        class="chelekom-menubar__menu"
+      >
+        <button
+          type="button"
+          data-part="trigger"
+          role="menuitem"
+          aria-haspopup="menu"
+          aria-controls={"#{@id}-popup-#{i}"}
+          aria-expanded="false"
+          aria-disabled={(@disabled || menu[:disabled]) && "true"}
+          disabled={@disabled || menu[:disabled]}
+          data-disabled={@disabled || menu[:disabled]}
+          tabindex={if i == @tabbable, do: "0", else: "-1"}
+          class="chelekom-menubar__trigger"
+        >
+          {menu.label}
+        </button>
+        <div
+          id={"#{@id}-popup-#{i}"}
+          data-part="popup"
+          role="menu"
+          aria-label={menu.label}
+          data-closed
+          class="chelekom-menubar__popup"
+        >
+          {render_slot(menu)}
+        </div>
+      </div>
+    </div>
+    """
+  end
+end

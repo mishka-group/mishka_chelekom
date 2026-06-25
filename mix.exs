@@ -1,7 +1,7 @@
 defmodule MishkaChelekom.MixProject do
   use Mix.Project
 
-  @version "0.0.9-beta.1"
+  @version "0.0.9-beta.2"
   @source_url "https://github.com/mishka-group/mishka_chelekom"
 
   def project do
@@ -54,6 +54,8 @@ defmodule MishkaChelekom.MixProject do
     [
       {:igniter, "~> 0.5 and >= 0.7.0"},
       {:guarded_struct, "~> 0.1.0-beta.8"},
+      # Layer 3 declarative config DSL (already present transitively via guarded_struct).
+      {:spark, "~> 2.7"},
       {:igniter_js, "~> 0.4.11"},
       {:owl, "~> 0.13"},
       {:ex_doc, "~> 0.40.1", only: :dev, runtime: false},
@@ -62,13 +64,13 @@ defmodule MishkaChelekom.MixProject do
       {:anubis_mcp, "~> 1.1"},
       {:bandit, "~> 1.10", optional: true},
       {:jason, "~> 1.4"},
-      # Dev/test only: enables `mix mishka.ui.verify --cms` to render
-      # demo invocations through real Phoenix.Component functions and
-      # surface render-time bugs at author-time (before the bundle ships).
-      # Production-installed users of mishka_chelekom are unaffected —
-      # they bring their own phoenix_live_view via their host app.
-      # sourceror is already available transitively via :rewrite (igniter dep)
-      {:phoenix_live_view, "~> 1.0", only: [:dev, :test]}
+      # Optional (not forced on consumers): host Phoenix apps always provide their own
+      # phoenix_live_view. Declaring it `optional` (rather than dev/test-only) keeps the
+      # dependency edge in the graph, so when mishka_chelekom compiles as a dependency the
+      # host's LiveView is compiled first and `Phoenix.Component` is available to the
+      # `MishkaChelekom.Component` macro renderers and the `mix mishka.ui.verify --cms` harness.
+      # Production-installed users are unaffected — `optional` is never auto-installed.
+      {:phoenix_live_view, "~> 1.0", optional: true}
     ]
   end
 
@@ -79,8 +81,12 @@ defmodule MishkaChelekom.MixProject do
   defp package() do
     [
       extra: %{igniter_only: ["dev"]},
-      files:
-        ~w(lib priv .formatter.exs mix.exs LICENSE README* MCP.md usage-rules.md usage-rules),
+      # `priv` is listed explicitly (rather than as a whole) so the large generated
+      # `priv/components/chelekom.json` bundle is NOT shipped to Hex — it is a build export
+      # (cms_bundle_exporter), not read at runtime. Everything else under priv is included.
+      files: ~w(lib .formatter.exs mix.exs LICENSE README* MCP.md usage-rules.md usage-rules
+           priv/assets priv/demos priv/headless priv/usage-rules
+           priv/components/*.exs priv/components/*.eex),
       licenses: ["Apache-2.0"],
       maintainers: ["Shahryar Tavakkoli", "Mona Aghili", "Arian Alijani"],
       links: %{

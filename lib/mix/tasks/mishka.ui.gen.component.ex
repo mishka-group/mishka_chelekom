@@ -255,7 +255,7 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Component do
           Path.join(IAPP.priv_dir(igniter, ["mishka_chelekom", "templates"]), "#{component}.eex")
 
         true ->
-          "deps/mishka_chelekom/priv/components/#{component}.eex"
+          MishkaChelekom.Generators.Core.lib_priv("components/#{component}.eex")
       end
 
     template_config_path = Path.rootname(template_path) <> ".exs"
@@ -263,12 +263,20 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Component do
     {File.exists?(template_path), File.exists?(template_config_path)}
     |> case do
       {true, true} ->
-        %{
-          igniter: igniter,
-          component: component,
-          path: template_path,
-          config: Elixir.Config.Reader.read!(template_config_path)[component_to_atom(component)]
-        }
+        config = Elixir.Config.Reader.read!(template_config_path)[component_to_atom(component)]
+
+        case MishkaChelekom.Generators.Core.validate_catalog(config) do
+          {:ok, config} ->
+            %{igniter: igniter, component: component, path: template_path, config: config}
+
+          {:error, reason} ->
+            msg = """
+            The catalog metadata for component #{inspect(component)} is invalid: #{reason}.
+            Please check #{template_config_path}.
+            """
+
+            {:error, :bad_catalog, msg, igniter}
+        end
 
       _ ->
         msg = """
@@ -622,7 +630,7 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Component do
       igniter =
         Enum.reduce(files, igniter, fn item, acc ->
           core_path =
-            "deps/mishka_chelekom/priv/assets/js/#{item.file}"
+            MishkaChelekom.Generators.Core.lib_priv("assets/js/#{item.file}")
 
           mishka_user_priv_path =
             Path.join(
@@ -645,7 +653,9 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Component do
                   content
 
                 _ ->
-                  File.read!("deps/mishka_chelekom/priv/assets/js/mishka_components.js")
+                  File.read!(
+                    MishkaChelekom.Generators.Core.lib_priv("assets/js/mishka_components.js")
+                  )
               end
 
             acc
@@ -841,7 +851,7 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Component do
   @doc false
   def import_and_setup_theme(igniter, app_css_path) do
     # Always use the original theme.css without modifications
-    theme_path = "deps/mishka_chelekom/priv/assets/css/theme.css"
+    theme_path = MishkaChelekom.Generators.Core.lib_priv("assets/css/theme.css")
 
     with {:ok, css_content} <- File.read(app_css_path),
          {:ok, theme_content} <- SimpleCSSUtilities.read_theme_content(theme_path),

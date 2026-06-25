@@ -1,0 +1,91 @@
+defmodule DevelopmentWeb.Components.Headless.PreviewCard do
+  @moduledoc """
+  Headless **preview card** (hover card, Base UI parity) — a `<:trigger>` (usually a link)
+  reveals a floating preview on hover or focus.
+
+  Behavior is driven by the dedicated `PreviewCard` JS engine: pointer-enter (after `delay`)
+  or focus opens the popup anchored to the trigger by `side`/`align`/offset (edge-flip +
+  viewport clamp, repositioned on scroll/resize); pointer-leave (after `close_delay`), blur,
+  or Escape close it. Moving the pointer INTO the popup keeps it open. It is **non-modal**
+  and never steals focus.
+
+  Anatomy (named slots / parts): `trigger` (the hovered element), `popup` (the preview).
+  Style the `chelekom-preview_card*` classes and the `data-open`/`data-closed`/`data-side`/
+  `data-align`/`data-popup-open`/`data-starting-style` state — this component ships **no**
+  colors or spacing.
+  """
+  use Phoenix.Component
+
+  @doc type: :component
+  attr :id, :string, required: true, doc: "Unique id (anchors aria relationships)"
+  attr :open, :boolean, default: false, doc: "Initial/controlled open state"
+
+  attr :side, :string,
+    default: "bottom",
+    values: ~w(top right bottom left),
+    doc: "Preferred side to anchor the popup"
+
+  attr :align, :string,
+    default: "center",
+    values: ~w(start center end),
+    doc: "Alignment along the side"
+
+  attr :side_offset, :integer, default: 8, doc: "Gap between trigger and popup (px)"
+  attr :align_offset, :integer, default: 0, doc: "Offset along the alignment axis (px)"
+  attr :delay, :integer, default: 600, doc: "Hover open delay (ms)"
+  attr :close_delay, :integer, default: 300, doc: "Hover/blur close delay (ms)"
+  attr :close_on_escape, :boolean, default: true, doc: "Whether Escape closes"
+  attr :on_open_change, :string, default: nil, doc: "LiveView event pushed on open/close ({open})"
+
+  attr :on_open_change_target, :string,
+    default: nil,
+    doc: "Optional pushEventTo target for on_open_change"
+
+  attr :class, :any, default: nil, doc: "Extra classes for the root"
+  attr :rest, :global
+
+  slot :trigger, required: true, doc: "The element that reveals the preview on hover/focus"
+  slot :inner_block, required: true, doc: "The preview card content"
+
+  def preview_card(assigns) do
+    ~H"""
+    <div
+      id={@id}
+      phx-hook="PreviewCard"
+      data-side={@side}
+      data-align={@align}
+      data-side-offset={@side_offset}
+      data-align-offset={@align_offset}
+      data-delay={@delay}
+      data-close-delay={@close_delay}
+      data-close-on-escape={to_string(@close_on_escape)}
+      data-on-open-change={@on_open_change}
+      data-on-open-change-target={@on_open_change_target}
+      class={["chelekom-preview_card", @class]}
+      data-open={@open}
+      data-closed={!@open}
+      {@rest}
+    >
+      <span
+        data-part="trigger"
+        tabindex="0"
+        aria-expanded="false"
+        aria-controls={"#{@id}-popup"}
+        class="chelekom-preview_card__trigger"
+      >
+        {render_slot(@trigger)}
+      </span>
+      <div
+        id={"#{@id}-popup"}
+        data-part="popup"
+        role="dialog"
+        class="chelekom-preview_card__popup"
+        data-closed
+        hidden
+      >
+        {render_slot(@inner_block)}
+      </div>
+    </div>
+    """
+  end
+end

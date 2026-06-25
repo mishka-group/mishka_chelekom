@@ -92,6 +92,9 @@ defmodule MishkaChelekom.DemoHarnessTest do
       flunk("Demo harness failed:\n\n#{summary}\n#{details}")
     end
 
+    assert report.components_with_examples > 0,
+           "no component had demo examples — did the exporter stop writing `extra.demo_examples`?\n#{summary}"
+
     assert report.passed > 0, "expected at least one demo to pass:\n#{summary}"
 
     IO.puts(:stderr, "\n[demo harness · chelekom]\n" <> summary)

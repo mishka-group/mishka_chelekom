@@ -1,0 +1,167 @@
+defmodule <%= @module %> do
+  @moduledoc """
+  Headless **number_field** — a number input with stepper buttons and optional drag-to-scrub
+  (Base UI parity).
+
+  Behaviour is delegated to the shared `NumberField` JS engine. A visible (locale-formatted)
+  text input is paired with a visually hidden `type="number"` input for form submission.
+
+  Options mirror Base UI: `min`/`max`, `step` (number or `"any"`), `large_step` (Shift), `small_step`
+  (Alt), `snap_on_step`, `allow_out_of_range`, `allow_wheel_scrub`, `format` (an
+  `Intl.NumberFormat` options map — currency/percent/unit/locale), `locale`, `disabled`, `readonly`,
+  `required`, `name`, `on_change` (LiveView event, `{value}`). Keyboard: Arrow Up/Down (±step;
+  Shift ⇒ large, Alt ⇒ small), PageUp/PageDown (±large), Home/End (min/max). The buttons press-and-hold
+  to auto-repeat. An optional `<:scrub_area>` slot is a region you drag to change the value
+  (`scrub_direction`, `scrub_sensitivity`, optional `scrub_cursor`). While scrubbing the root carries
+  `data-scrubbing`; `data-disabled`/`data-readonly`/`data-required` reflect those props.
+
+  Anatomy (parts): `scrub-area` (+ `scrub-area-cursor`), `decrement`, `input`, `increment`,
+  `hidden-input`. Style via the `chelekom-number_field*` classes — ships **no** colors or spacing.
+  Compose inside `field` for label/description/error wiring and validity state.
+
+  WAI-ARIA APG: https://www.w3.org/WAI/ARIA/apg/patterns/spinbutton/
+  """
+  use Phoenix.Component
+
+  @doc type: :component
+  attr :id, :string, required: true, doc: "Unique id (required by the hook)"
+  attr :name, :string, default: nil, doc: "Name for the hidden form input"
+  attr :value, :any, default: nil, doc: "Current/initial numeric value"
+  attr :min, :any, default: nil, doc: "Minimum value"
+  attr :max, :any, default: nil, doc: "Maximum value"
+  attr :step, :any, default: 1, doc: "Step for buttons/arrows/scrub (number or \"any\")"
+  attr :small_step, :any, default: 0.1, doc: "Step while holding Alt"
+  attr :large_step, :any, default: 10, doc: "Step while holding Shift (and PageUp/PageDown)"
+  attr :snap_on_step, :boolean, default: false, doc: "Snap to the nearest step on increment/decrement"
+  attr :allow_out_of_range, :boolean, default: false, doc: "Let typed values exceed min/max (steps still clamp)"
+  attr :allow_wheel_scrub, :boolean, default: false, doc: "Scrub with the mouse wheel while focused"
+  attr :format, :map, default: nil, doc: "Intl.NumberFormat options map (currency/percent/unit/…)"
+  attr :locale, :string, default: nil, doc: "BCP-47 locale for formatting/parsing"
+  attr :disabled, :boolean, default: false, doc: "Disable interaction (data-disabled)"
+  attr :readonly, :boolean, default: false, doc: "Block changes but stay focusable (data-readonly)"
+  attr :required, :boolean, default: false, doc: "Mark required for form validation (data-required)"
+  attr :placeholder, :string, default: nil, doc: "Input placeholder"
+  attr :on_change, :string, default: nil, doc: "LiveView event pushed on change ({value})"
+  attr :on_commit, :string, default: nil, doc: "LiveView event pushed on commit — blur/release ({value})"
+  attr :form, :string, default: nil, doc: "Form id owning the hidden input (when rendered outside the form)"
+  attr :aria_roledescription, :string, default: "Number field", doc: "Role description for the input"
+  attr :buttons, :boolean, default: true, doc: "Render the increment/decrement buttons"
+  attr :scrub_direction, :string, default: "horizontal", doc: "Scrub axis: horizontal | vertical"
+  attr :scrub_sensitivity, :any, default: 2, doc: "Pixels of movement per step while scrubbing"
+  attr :scrub_teleport, :any, default: nil, doc: "Cursor wrap distance (px) from the scrub-area center"
+  attr :scrub_cursor, :boolean, default: false, doc: "Render a custom cursor element for the scrub area"
+  attr :class, :any, default: nil, doc: "Extra classes for the root"
+  attr :rest, :global
+
+  slot :scrub_area, doc: "Optional drag region (e.g. a label) that scrubs the value"
+
+  def <%= @component_prefix %>number_field(assigns) do
+    assigns = assign(assigns, :format_json, assigns.format && Phoenix.json_library().encode!(assigns.format))
+
+    ~H"""
+    <div
+      id={@id}
+      phx-hook="NumberField"
+      data-part="root"
+      data-value={@value}
+      data-min={@min}
+      data-max={@max}
+      data-step={@step}
+      data-small-step={@small_step}
+      data-large-step={@large_step}
+      data-snap-on-step={@snap_on_step}
+      data-allow-out-of-range={@allow_out_of_range}
+      data-allow-wheel-scrub={@allow_wheel_scrub}
+      data-locale={@locale}
+      data-format={@format_json}
+      data-disabled={@disabled}
+      data-readonly={@readonly}
+      data-required={@required}
+      data-on-change={@on_change}
+      data-on-commit={@on_commit}
+      class={["chelekom-number_field", @class]}
+      {@rest}
+    >
+      <span
+        :if={@scrub_area != []}
+        data-part="scrub-area"
+        data-direction={@scrub_direction}
+        data-pixel-sensitivity={@scrub_sensitivity}
+        data-teleport-distance={@scrub_teleport}
+        class="chelekom-number_field__scrub-area"
+      >
+        {render_slot(@scrub_area)}
+        <span
+          :if={@scrub_cursor}
+          data-part="scrub-area-cursor"
+          class="chelekom-number_field__scrub-cursor"
+        >
+        </span>
+      </span>
+
+      <button
+        :if={@buttons}
+        type="button"
+        data-part="decrement"
+        aria-label="Decrease"
+        aria-controls={"#{@id}-input"}
+        tabindex="-1"
+        disabled={@disabled}
+        aria-readonly={@readonly && "true"}
+        class="chelekom-number_field__decrement"
+      >
+        −
+      </button>
+
+      <input
+        id={"#{@id}-input"}
+        data-part="input"
+        type="text"
+        inputmode="decimal"
+        autocomplete="off"
+        autocorrect="off"
+        spellcheck="false"
+        aria-roledescription={@aria_roledescription}
+        value={@value}
+        placeholder={@placeholder}
+        disabled={@disabled}
+        readonly={@readonly}
+        required={@required}
+        class="chelekom-number_field__input"
+      />
+
+      <button
+        :if={@buttons}
+        type="button"
+        data-part="increment"
+        aria-label="Increase"
+        aria-controls={"#{@id}-input"}
+        tabindex="-1"
+        disabled={@disabled}
+        aria-readonly={@readonly && "true"}
+        class="chelekom-number_field__increment"
+      >
+        +
+      </button>
+
+      <input
+        :if={@name}
+        type="number"
+        data-part="hidden-input"
+        name={@name}
+        form={@form}
+        value={@value}
+        min={@min}
+        max={@max}
+        step={@step}
+        required={@required}
+        disabled={@disabled}
+        aria-hidden="true"
+        tabindex="-1"
+        class="chelekom-number_field__hidden"
+        style="position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0;"
+      />
+    </div>
+    """
+  end
+end

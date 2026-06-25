@@ -707,43 +707,47 @@ defmodule Mix.Tasks.Mishka.Ui.Export do
   # Skips silently when `demos_dir` doesn't exist — kit author opted
   # out of demo verification (the bundle still ships, just with empty
   # examples arrays).
-  defp populate_examples(components, demos_dir, kit_component_set, kit_name) do
+  @doc false
+  def populate_examples(components, demos_dir, kit_component_set, kit_name) do
     if File.dir?(demos_dir) do
       examples_by_component = collect_demo_examples(demos_dir, kit_component_set, kit_name)
 
       Enum.map(components, fn c ->
+        page = Path.join(demos_dir, "#{c["extra"]["component"]}_live.html.heex")
         fn_name = c["extra"]["function"]
-        examples = Map.get(examples_by_component, fn_name, [])
-        # Stash demo invocations under `extra.demo_examples` rather than
-        # the top-level `examples` field — the resource's `examples`
-        # attribute is typed `{:array, :string}` and would reject our
-        # map shape. `extra` is `{:array, :map}`-friendly and survives
-        # `Ash.create!` round-trip cleanly. The CMS harness reads
-        # `bundle["components"][_]["extra"]["demo_examples"]`.
-        existing_extra = c["extra"] || %{}
-        new_extra = Map.put(existing_extra, "demo_examples", examples)
-        Map.put(c, "extra", new_extra)
+
+        sources =
+          if File.exists?(page),
+            do: examples_from_page(page, fn_name, kit_component_set, kit_name),
+            else: []
+
+        demo_examples = Map.get(examples_by_component, fn_name, [])
+        new_extra = Map.put(c["extra"] || %{}, "demo_examples", demo_examples)
+
+        c
+        |> Map.put("examples", build_example_strings(sources))
+        |> Map.put("extra", new_extra)
       end)
     else
       components
     end
   end
 
+  # Harvest every chelekom invocation across all demo pages (with the companion `_live.ex` `mount/3`
+  # assigns), rewritten to the runtime `<.component …/>` form, grouped by component function name.
+  # Each entry is a MAP the `DemoHarness` renders directly; see `extra.demo_examples` above.
   defp collect_demo_examples(demos_dir, kit_component_set, kit_name) do
-    demo_files = Path.wildcard(Path.join(demos_dir, "*_live.html.heex"))
-
-    demo_files
+    demos_dir
+    |> Path.join("*_live.html.heex")
+    |> Path.wildcard()
     |> Enum.flat_map(fn heex_path ->
-      # demo files use a `.html.heex` double-extension; `Path.rootname/1`
-      # strips only the trailing `.heex`. Drop both segments to get the
-      # companion `.ex` path.
       ex_path =
         Path.join(Path.dirname(heex_path), Path.basename(heex_path, ".html.heex") <> ".ex")
 
       {assigns, _skipped} = MishkaChelekom.DemoAssignsExtractor.extract_from_file(ex_path)
-      heex_text = File.read!(heex_path)
 
-      heex_text
+      heex_path
+      |> File.read!()
       |> MishkaChelekom.CmsBundle.Heex.extract(kit_component_set)
       |> Enum.map(fn ext ->
         translated =
@@ -764,9 +768,8 @@ defmodule Mix.Tasks.Mishka.Ui.Export do
     |> Enum.group_by(& &1["component"])
   end
 
-  # Bundle JSON keys are strings; convert atom-keyed assigns map for
-  # safe JSON serialization. Atom values stay as atoms (Jason encodes
-  # them as strings naturally; CMS converts back via
+  # Bundle JSON keys are strings; convert atom-keyed assigns map for safe JSON serialization. Atom
+  # values stay as atoms (Jason encodes them as strings; the CMS converts back via
   # `String.to_existing_atom/1` only for whitelisted keys).
   defp stringify_assign_keys(map) when is_map(map) do
     Map.new(map, fn {k, v} -> {to_string(k), stringify_terms(v)} end)
@@ -779,6 +782,87 @@ defmodule Mix.Tasks.Mishka.Ui.Export do
     do: t |> Tuple.to_list() |> Enum.map(&stringify_terms/1)
 
   defp stringify_terms(other), do: other
+
+  # Extract THIS function's top-level invocations from its own docs page, rewritten to the runtime
+  # `<.component component_name="<kit>-X" …/>` form. The FULL kit set drives extract+rewrite (so a
+  # nested `<.icon/>` inside a button example is rewritten too), but only invocations of `fn_name`
+  # are kept. Returns a list of HEEx source strings.
+  defp examples_from_page(page, fn_name, kit_component_set, kit_name) do
+    page
+    |> File.read!()
+    |> MishkaChelekom.CmsBundle.Heex.extract(kit_component_set)
+    |> Enum.filter(fn ext -> to_string(ext.component) == to_string(fn_name) end)
+    |> Enum.map(fn ext ->
+      ext.source
+      |> MishkaChelekom.CmsBundle.Heex.rewrite(kit_component_set, kit_name)
+      |> strip_route_sigils()
+    end)
+  end
+
+  # At least 4–5 good examples per component is plenty.
+  @max_examples 5
+
+  # Turn the harvested invocation sources into a deduped list of clean, self-contained, renderable
+  # HEEx strings for the `examples` field: normalize `site` to `"Global"`, drop wrapper `:if`, collapse
+  # whitespace to single lines, and KEEP ONLY snippets whose every `{…}` interpolation is a safe
+  # literal (so the consumer always renders them with empty assigns).
+  @doc false
+  def build_example_strings(sources) do
+    sources
+    |> Enum.map(&normalize_example_source/1)
+    |> Enum.filter(&self_contained_example?/1)
+    |> Enum.uniq()
+    |> Enum.take(@max_examples)
+  end
+
+  @doc false
+  def normalize_example_source(source) when is_binary(source) do
+    source
+    |> String.replace("site={assigns[:site]}", ~s(site="Global"))
+    |> String.replace("site={@site}", ~s(site="Global"))
+    |> String.replace("site={assigns.site}", ~s(site="Global"))
+    |> strip_if_attrs()
+    |> collapse_whitespace()
+    |> String.trim()
+  end
+
+  def normalize_example_source(_), do: ""
+
+  # Drop wrapper conditionals like `<div :if={true}>` left over from interactive demos.
+  defp strip_if_attrs(source), do: Regex.replace(~r/\s*:if=\{[^}]*\}/, source, "")
+
+  # Demo HEEx is heavily indented; collapse runs of whitespace so each example is one tidy line
+  # (whitespace between tags/attrs is insignificant in HEEx).
+  defp collapse_whitespace(source), do: Regex.replace(~r/\s+/, source, " ")
+
+  # True when every brace-balanced `{…}` expression in the snippet is a safe literal. Reuses the
+  # quote-aware `take_balanced_expr/3` so a `}` inside a string doesn't fool the scan.
+  @doc false
+  def self_contained_example?(""), do: false
+  def self_contained_example?(source), do: all_exprs_literal?(source)
+
+  defp all_exprs_literal?(""), do: true
+
+  defp all_exprs_literal?("{" <> rest) do
+    case take_balanced_expr(rest, 1, []) do
+      {:ok, expr_iodata, rest_after} ->
+        literal_expr?(IO.iodata_to_binary(expr_iodata)) and all_exprs_literal?(rest_after)
+
+      :unbalanced ->
+        false
+    end
+  end
+
+  defp all_exprs_literal?(<<_char::utf8, rest::binary>>), do: all_exprs_literal?(rest)
+
+  defp literal_expr?(inner) do
+    inner = String.trim(inner)
+
+    Regex.match?(~r/^"[^"]*"$/, inner) or
+      Regex.match?(~r/^-?\d+(\.\d+)?$/, inner) or
+      inner in ["true", "false", "nil"] or
+      Regex.match?(~r/^:[a-z_][a-zA-Z0-9_]*$/, inner)
+  end
 
   # Replace `~p"/some/path"` route sigils with the literal path string.
   # Demos lean heavily on `Phoenix.VerifiedRoutes`, but the consumer

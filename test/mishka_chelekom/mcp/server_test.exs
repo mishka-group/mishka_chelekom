@@ -21,8 +21,8 @@ defmodule MishkaChelekom.MCP.ServerTest do
     test "__components__/0 returns all registered components" do
       components = Server.__components__()
 
-      # Should have 9 resources and 11 tools = 20 total
-      assert length(components) == 20
+      # Should have 10 resources and 11 tools = 21 total
+      assert length(components) == 21
     end
 
     test "__components__(:tool) returns only tools" do
@@ -53,7 +53,7 @@ defmodule MishkaChelekom.MCP.ServerTest do
     test "__components__(:resource) returns only resources" do
       resources = Server.__components__(:resource)
 
-      assert length(resources) == 9
+      assert length(resources) == 10
 
       resource_names =
         resources
@@ -66,6 +66,7 @@ defmodule MishkaChelekom.MCP.ServerTest do
                "list_components",
                "list_css_variables",
                "list_dependencies",
+               "list_headless_components",
                "list_scripts",
                "list_sizes",
                "list_spaces",
