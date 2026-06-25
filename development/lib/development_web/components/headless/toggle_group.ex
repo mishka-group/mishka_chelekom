@@ -42,6 +42,8 @@ defmodule DevelopmentWeb.Components.Headless.ToggleGroup do
   slot :item, required: true, doc: "A toggle button" do
     attr :value, :string, doc: "The value this toggle represents"
     attr :disabled, :boolean, doc: "Disable just this item"
+    attr :class, :any, doc: "Additional CSS classes for this item's button (data-part=item)"
+    attr :"aria-label", :string, doc: "Accessible label for this item's button"
   end
 
   def toggle_group(assigns) do
@@ -110,7 +112,8 @@ defmodule DevelopmentWeb.Components.Headless.ToggleGroup do
         data-pressed={item[:value] in @values}
         data-disabled={@disabled || item[:disabled]}
         tabindex={if i == @tabbable, do: "0", else: "-1"}
-        class="chelekom-toggle-group__item"
+        aria-label={item[:"aria-label"]}
+        class={["chelekom-toggle-group__item", item[:class]]}
       >
         {render_slot(item)}
       </button>

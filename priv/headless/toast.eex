@@ -36,9 +36,18 @@ defmodule <%= @module %> do
     doc: "Stable key: re-triggering refreshes the matching toast instead of stacking a duplicate"
 
   attr :class, :any, default: nil, doc: "Extra classes for the root"
+  attr :trigger_class, :any, default: nil, doc: "Extra classes for the trigger button part"
+  attr :viewport_class, :any, default: nil, doc: "Extra classes for the viewport part (the live region)"
+  attr :toast_class, :any, default: nil, doc: "Extra classes for every toast part (the `<li>`)"
+  attr :content_class, :any, default: nil, doc: "Extra classes for every toast content part"
+  attr :close_class, :any, default: nil, doc: "Extra classes for every close button part"
+  attr :close_label, :string, default: "Dismiss", doc: "Accessible label for the close button"
   attr :rest, :global
 
   slot :trigger, doc: "A button that creates a toast from the template on click"
+
+  slot :close,
+    doc: "Custom content for the close button (defaults to a × glyph; e.g. a Base UI 'Dismiss' label)"
 
   slot :template,
     doc: "Content for a dynamically-created toast (use `data-toast-count` for a running number)"
@@ -57,7 +66,12 @@ defmodule <%= @module %> do
       class={["chelekom-toast", @class]}
       {@rest}
     >
-      <button :if={@trigger != []} type="button" data-part="trigger" class="chelekom-toast__trigger">
+      <button
+        :if={@trigger != []}
+        type="button"
+        data-part="trigger"
+        class={["chelekom-toast__trigger", @trigger_class]}
+      >
         {render_slot(@trigger)}
       </button>
 
@@ -66,24 +80,24 @@ defmodule <%= @module %> do
         tabindex="-1"
         aria-live="polite"
         aria-atomic="false"
-        class="chelekom-toast__viewport"
+        class={["chelekom-toast__viewport", @viewport_class]}
       >
         <li
           :for={t <- @toast}
           data-part="toast"
           data-duration={t[:duration] || 5000}
           data-open
-          class="chelekom-toast__toast"
+          class={["chelekom-toast__toast", @toast_class]}
         >
-          <div data-part="content" class="chelekom-toast__content">
+          <div data-part="content" class={["chelekom-toast__content", @content_class]}>
             {render_slot(t)}
             <button
               type="button"
               data-part="close"
-              aria-label="Dismiss"
-              class="chelekom-toast__close"
+              aria-label={@close_label}
+              class={["chelekom-toast__close", @close_class]}
             >
-              ×
+              <%%= if @close != [], do: render_slot(@close), else: "×" %>
             </button>
           </div>
         </li>
@@ -95,17 +109,17 @@ defmodule <%= @module %> do
           data-toast-key={@dedup_key}
           data-duration={@duration}
           data-open
-          class="chelekom-toast__toast"
+          class={["chelekom-toast__toast", @toast_class]}
         >
-          <div data-part="content" class="chelekom-toast__content">
+          <div data-part="content" class={["chelekom-toast__content", @content_class]}>
             {render_slot(@template)}
             <button
               type="button"
               data-part="close"
-              aria-label="Dismiss"
-              class="chelekom-toast__close"
+              aria-label={@close_label}
+              class={["chelekom-toast__close", @close_class]}
             >
-              ×
+              <%%= if @close != [], do: render_slot(@close), else: "×" %>
             </button>
           </div>
         </li>

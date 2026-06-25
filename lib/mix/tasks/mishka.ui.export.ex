@@ -273,7 +273,7 @@ defmodule Mix.Tasks.Mishka.Ui.Export do
           |> Enum.flat_map(fn {_cs, ss, exs_path} ->
             Enum.map(ss, fn s -> {s, Path.dirname(exs_path)} end)
           end)
-          |> aggregate_js_hooks_v3(bundle_name, bundle_version, base64)
+          |> aggregate_js_hooks(bundle_name, bundle_version, base64)
 
         # Rewrite `phx-hook="<HookModule>"` → `phx-hook="Global<HookModule>"`
         # in every emitted component, using the PascalCase module names
@@ -311,7 +311,7 @@ defmodule Mix.Tasks.Mishka.Ui.Export do
         # CMS inlines this into shared_base CSS BEFORE Tailwind runs, so
         # custom color tokens like `bg-primary-light` resolve.
         stylesheets =
-          aggregate_stylesheets_v3(igniter.assigns.cli_dir, bundle_name, bundle_version)
+          aggregate_stylesheets(igniter.assigns.cli_dir, bundle_name, bundle_version)
 
         skipped_names = Enum.map(skipped, fn {:skip, {n, _}} -> n end)
 
@@ -355,7 +355,7 @@ defmodule Mix.Tasks.Mishka.Ui.Export do
   # Aggregate `.exs` `scripts:` entries (plus their colocated `.js`
   # files) into bundle-level `js_hooks`. Each emitted entry is in v3
   # final shape — direct create-params for `Runtime.JsHook`.
-  defp aggregate_js_hooks_v3(script_dir_pairs, kit_name, kit_version, base64?) do
+  defp aggregate_js_hooks(script_dir_pairs, kit_name, kit_version, base64?) do
     script_dir_pairs
     |> Enum.uniq_by(fn {s, _dir} -> s[:module] || s["module"] end)
     |> Enum.map(fn {s, dir} ->
@@ -479,7 +479,7 @@ defmodule Mix.Tasks.Mishka.Ui.Export do
   # Files come from `priv/assets/css/` relative to the component dir
   # (`priv/components/`). Both files are joined with a clear comment
   # boundary so the output is debuggable in the compiled CSS.
-  defp aggregate_stylesheets_v3(component_dir, kit_name, kit_version) do
+  defp aggregate_stylesheets(component_dir, kit_name, kit_version) do
     css_dir = Path.join([Path.dirname(component_dir), "assets", "css"])
     chelekom_path = Path.join(css_dir, "mishka_chelekom.css")
     theme_path = Path.join(css_dir, "theme.css")

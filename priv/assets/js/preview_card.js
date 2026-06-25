@@ -184,6 +184,19 @@ const PreviewCard = {
     popup.style.top = `${top}px`;
     popup.setAttribute("data-side", side);
     popup.setAttribute("data-align", this.align);
+    // Pin the arrow to the popup edge, centered on the trigger (Base UI's Arrow does this inside the
+    // component, so the demo's arrow class stays verbatim — no stylesheet needed).
+    const arrow = popup.querySelector('[data-part="arrow"]');
+    if (arrow) {
+      const center = `${-arrow.offsetWidth / 2}px`;
+      const vertical = side === "left" || side === "right";
+      arrow.setAttribute("data-side", side);
+      arrow.style.position = "absolute";
+      arrow.style.left = vertical ? "" : "50%";
+      arrow.style.marginLeft = vertical ? "" : center;
+      arrow.style.top = vertical ? "50%" : "";
+      arrow.style.marginTop = vertical ? center : "";
+    }
     popup.style.visibility = "";
   },
 };

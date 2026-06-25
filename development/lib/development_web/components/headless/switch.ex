@@ -43,7 +43,10 @@ defmodule DevelopmentWeb.Components.Headless.Switch do
     doc: "Form id owning the hidden input (when rendered outside the form)"
 
   attr :on_change, :string, default: nil, doc: "LiveView event pushed on toggle ({checked})"
-  attr :class, :any, default: nil, doc: "Extra classes for the root"
+  attr :class, :any, default: nil, doc: "Extra classes for the root (flex wrapper)"
+  attr :track_class, :any, default: nil, doc: "Extra classes for the track part (the switch box)"
+  attr :thumb_class, :any, default: nil, doc: "Extra classes for the thumb part (the sliding dot)"
+  attr :label_class, :any, default: nil, doc: "Extra classes for the label part"
   attr :rest, :global
 
   slot :inner_block, doc: "Optional label content"
@@ -91,18 +94,26 @@ defmodule DevelopmentWeb.Components.Headless.Switch do
         class="chelekom-switch__input chelekom-sr-only"
       />
       <span
-        data-part="thumb"
+        data-part="track"
         data-checked={@checked}
         data-unchecked={!@checked}
-        class="chelekom-switch__thumb"
+        class={["chelekom-switch__track", @track_class]}
         aria-hidden="true"
       >
+        <span
+          data-part="thumb"
+          data-checked={@checked}
+          data-unchecked={!@checked}
+          class={["chelekom-switch__thumb", @thumb_class]}
+          aria-hidden="true"
+        >
+        </span>
       </span>
       <span
         :if={@inner_block != []}
         id={"#{@id}-label"}
         data-part="label"
-        class="chelekom-switch__label"
+        class={["chelekom-switch__label", @label_class]}
       >
         {render_slot(@inner_block)}
       </span>

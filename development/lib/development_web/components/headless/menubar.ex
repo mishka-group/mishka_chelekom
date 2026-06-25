@@ -25,6 +25,9 @@ defmodule DevelopmentWeb.Components.Headless.Menubar do
   attr :modal, :boolean, default: true, doc: "Mark the menubar modal (data-modal)"
   attr :disabled, :boolean, default: false, doc: "Disable the whole menubar (data-disabled)"
   attr :class, :any, default: nil
+  attr :menu_class, :any, default: nil, doc: "Extra classes for every top-level menu wrapper"
+  attr :trigger_class, :any, default: nil, doc: "Extra classes for every top-level trigger button"
+  attr :popup_class, :any, default: nil, doc: "Extra classes for every menu popup"
   attr :rest, :global
 
   slot :menu, required: true, doc: "A top-level menu; its inner block holds the menu items" do
@@ -57,7 +60,7 @@ defmodule DevelopmentWeb.Components.Headless.Menubar do
         :for={{menu, i} <- Enum.with_index(@menu)}
         id={"#{@id}-menu-#{i}"}
         data-part="menu"
-        class="chelekom-menubar__menu"
+        class={["chelekom-menubar__menu", @menu_class]}
       >
         <button
           type="button"
@@ -70,7 +73,7 @@ defmodule DevelopmentWeb.Components.Headless.Menubar do
           disabled={@disabled || menu[:disabled]}
           data-disabled={@disabled || menu[:disabled]}
           tabindex={if i == @tabbable, do: "0", else: "-1"}
-          class="chelekom-menubar__trigger"
+          class={["chelekom-menubar__trigger", @trigger_class]}
         >
           {menu.label}
         </button>
@@ -80,7 +83,7 @@ defmodule DevelopmentWeb.Components.Headless.Menubar do
           role="menu"
           aria-label={menu.label}
           data-closed
-          class="chelekom-menubar__popup"
+          class={["chelekom-menubar__popup", @popup_class]}
         >
           {render_slot(menu)}
         </div>

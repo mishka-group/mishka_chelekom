@@ -36,6 +36,14 @@ defmodule <%= @module %> do
   attr :labelledby, :string, default: nil, doc: "Override aria-labelledby"
   attr :describedby, :string, default: nil, doc: "Override aria-describedby"
   attr :class, :any, default: nil, doc: "Extra classes for the root"
+  attr :trigger_class, :any, default: nil, doc: "Extra classes for the trigger button"
+  attr :backdrop_class, :any, default: nil, doc: "Extra classes for the backdrop"
+  attr :viewport_class, :any, default: nil, doc: "Extra classes for the viewport"
+  attr :popup_class, :any, default: nil, doc: "Extra classes for the popup"
+  attr :title_class, :any, default: nil, doc: "Extra classes for the title"
+  attr :description_class, :any, default: nil, doc: "Extra classes for the description"
+  attr :content_class, :any, default: nil, doc: "Extra classes for the inner content wrapper"
+  attr :footer_class, :any, default: nil, doc: "Extra classes for the close/footer wrapper"
   attr :rest, :global
 
   slot :trigger, doc: "The element that opens the dialog"
@@ -68,7 +76,7 @@ defmodule <%= @module %> do
         disabled={@disabled}
         data-disabled={@disabled}
         data-popup-open={@open}
-        class="chelekom-dialog__trigger"
+        class={["chelekom-dialog__trigger", @trigger_class]}
       >
         {render_slot(@trigger)}
       </button>
@@ -76,37 +84,48 @@ defmodule <%= @module %> do
       <div
         :if={@modal != false}
         data-part="backdrop"
-        class="chelekom-dialog__backdrop"
+        class={["chelekom-dialog__backdrop", @backdrop_class]}
         aria-hidden="true"
       >
       </div>
 
-      <div data-part="viewport" class="chelekom-dialog__viewport">
+      <div data-part="viewport" class={["chelekom-dialog__viewport", @viewport_class]}>
         <div
           data-part="popup"
           role="dialog"
           aria-modal={if @modal == true, do: "true"}
           aria-labelledby={@labelledby || (@title != [] && "#{@id}-title") || nil}
           aria-describedby={@describedby || (@description != [] && "#{@id}-desc") || nil}
-          class="chelekom-dialog__popup"
+          class={["chelekom-dialog__popup", @popup_class]}
           data-modal={to_string(@modal)}
           tabindex="-1"
           data-open={@open}
           data-closed={!@open}
         >
-          <h2 :if={@title != []} id={"#{@id}-title"} data-part="title" class="chelekom-dialog__title">
+          <h2
+            :if={@title != []}
+            id={"#{@id}-title"}
+            data-part="title"
+            class={["chelekom-dialog__title", @title_class]}
+          >
             {render_slot(@title)}
           </h2>
           <p
             :if={@description != []}
             id={"#{@id}-desc"}
             data-part="description"
-            class="chelekom-dialog__description"
+            class={["chelekom-dialog__description", @description_class]}
           >
             {render_slot(@description)}
           </p>
-          <div data-part="content" class="chelekom-dialog__content">{render_slot(@inner_block)}</div>
-          <div :if={@close != []} data-part="footer" class="chelekom-dialog__footer">
+          <div data-part="content" class={["chelekom-dialog__content", @content_class]}>
+            {render_slot(@inner_block)}
+          </div>
+          <div
+            :if={@close != []}
+            data-part="footer"
+            class={["chelekom-dialog__footer", @footer_class]}
+          >
             {render_slot(@close)}
           </div>
         </div>

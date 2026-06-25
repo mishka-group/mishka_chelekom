@@ -37,6 +37,16 @@ defmodule DevelopmentWeb.Components.Headless.Collapsible do
     doc: "LiveView event pushed when the panel toggles ({value, open})"
 
   attr :class, :any, default: nil, doc: "Extra classes for the root"
+  attr :item_class, :any, default: nil, doc: "Extra classes for the item wrapper (data-part=item)"
+
+  attr :trigger_class, :any,
+    default: nil,
+    doc: "Extra classes for the trigger button (data-part=trigger)"
+
+  attr :panel_class, :any,
+    default: nil,
+    doc: "Extra classes for the panel region (data-part=panel)"
+
   attr :rest, :global
 
   slot :trigger, required: true, doc: "The toggle button label"
@@ -58,7 +68,7 @@ defmodule DevelopmentWeb.Components.Headless.Collapsible do
         data-open={@open}
         data-disabled={@disabled}
         data-on-open-change={@on_open_change}
-        class="chelekom-collapsible__item"
+        class={["chelekom-collapsible__item", @item_class]}
       >
         <button
           type="button"
@@ -68,7 +78,7 @@ defmodule DevelopmentWeb.Components.Headless.Collapsible do
           aria-controls={"#{@id}-panel"}
           aria-expanded={to_string(@open)}
           aria-disabled={@disabled && "true"}
-          class="chelekom-collapsible__trigger"
+          class={["chelekom-collapsible__trigger", @trigger_class]}
         >
           {render_slot(@trigger)}
         </button>
@@ -80,7 +90,7 @@ defmodule DevelopmentWeb.Components.Headless.Collapsible do
           data-open={@open}
           data-closed={!@open}
           hidden={!@open && panel_hidden(@hidden_until_found)}
-          class="chelekom-collapsible__panel"
+          class={["chelekom-collapsible__panel", @panel_class]}
         >
           {render_slot(@inner_block)}
         </div>

@@ -30,6 +30,13 @@ defmodule DevelopmentWeb.Components.Headless.AlertDialog do
   attr :labelledby, :string, default: nil, doc: "Override aria-labelledby"
   attr :describedby, :string, default: nil, doc: "Override aria-describedby"
   attr :class, :any, default: nil, doc: "Extra classes for the root"
+  attr :trigger_class, :any, default: nil, doc: "Extra classes for the trigger button"
+  attr :backdrop_class, :any, default: nil, doc: "Extra classes for the backdrop"
+  attr :popup_class, :any, default: nil, doc: "Extra classes for the popup"
+  attr :title_class, :any, default: nil, doc: "Extra classes for the title"
+  attr :description_class, :any, default: nil, doc: "Extra classes for the description"
+  attr :content_class, :any, default: nil, doc: "Extra classes for the inner content"
+  attr :actions_class, :any, default: nil, doc: "Extra classes for the actions footer"
   attr :rest, :global
 
   slot :trigger, doc: "The element that opens the alert dialog"
@@ -60,12 +67,17 @@ defmodule DevelopmentWeb.Components.Headless.AlertDialog do
         disabled={@disabled}
         data-disabled={@disabled}
         data-popup-open={@open}
-        class="chelekom-alert-dialog__trigger"
+        class={["chelekom-alert-dialog__trigger", @trigger_class]}
       >
         {render_slot(@trigger)}
       </button>
 
-      <div data-part="backdrop" class="chelekom-alert-dialog__backdrop" aria-hidden="true"></div>
+      <div
+        data-part="backdrop"
+        class={["chelekom-alert-dialog__backdrop", @backdrop_class]}
+        aria-hidden="true"
+      >
+      </div>
 
       <div
         data-part="popup"
@@ -73,25 +85,37 @@ defmodule DevelopmentWeb.Components.Headless.AlertDialog do
         aria-modal="true"
         aria-labelledby={@labelledby || "#{@id}-title"}
         aria-describedby={@describedby || "#{@id}-desc"}
-        class="chelekom-alert-dialog__popup"
+        class={["chelekom-alert-dialog__popup", @popup_class]}
         tabindex="-1"
         data-open={@open}
         data-closed={!@open}
       >
-        <h2 id={"#{@id}-title"} data-part="title" class="chelekom-alert-dialog__title">
+        <h2
+          id={"#{@id}-title"}
+          data-part="title"
+          class={["chelekom-alert-dialog__title", @title_class]}
+        >
           {render_slot(@title)}
         </h2>
-        <p id={"#{@id}-desc"} data-part="description" class="chelekom-alert-dialog__description">
+        <p
+          id={"#{@id}-desc"}
+          data-part="description"
+          class={["chelekom-alert-dialog__description", @description_class]}
+        >
           {render_slot(@description)}
         </p>
         <div
           :if={@inner_block != []}
           data-part="content"
-          class="chelekom-alert-dialog__content"
+          class={["chelekom-alert-dialog__content", @content_class]}
         >
           {render_slot(@inner_block)}
         </div>
-        <div :if={@actions != []} data-part="actions" class="chelekom-alert-dialog__actions">
+        <div
+          :if={@actions != []}
+          data-part="actions"
+          class={["chelekom-alert-dialog__actions", @actions_class]}
+        >
           {render_slot(@actions)}
         </div>
       </div>

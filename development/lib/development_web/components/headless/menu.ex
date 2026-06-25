@@ -53,9 +53,15 @@ defmodule DevelopmentWeb.Components.Headless.Menu do
   attr :close_delay, :integer, default: 0, doc: "Hover close delay (ms)"
   attr :loop, :boolean, default: true, doc: "Loop arrow-key focus past the ends"
   attr :class, :any, default: nil, doc: "Extra classes for the root"
+  attr :trigger_class, :any, default: nil, doc: "Extra classes for the trigger button part"
+  attr :popup_class, :any, default: nil, doc: "Extra classes for the popup part"
   attr :rest, :global
 
   slot :trigger, required: true, doc: "The button that opens the menu"
+
+  slot :check_icon,
+    doc:
+      "Shared glyph rendered inside every checkbox/radio item indicator (overrides the default ✓/●)"
 
   slot :item, doc: "A menu row (idiomatic slot API)" do
     attr :type, :string, doc: "item (default) | checkbox | radio | link | separator | label"
@@ -68,6 +74,8 @@ defmodule DevelopmentWeb.Components.Headless.Menu do
     attr :keep_open, :boolean, doc: "don't close the menu when activated"
     attr :on_change, :string, doc: "checkbox/radio change event ({checked}/{value})"
     attr :on_change_target, :string
+    attr :class, :any, doc: "Extra classes for this row part"
+    attr :indicator_class, :any, doc: "Extra classes for the checkbox/radio indicator part"
   end
 
   slot :submenu, doc: "A nested submenu; put its rows (menu_item, ...) inside" do
@@ -102,7 +110,7 @@ defmodule DevelopmentWeb.Components.Headless.Menu do
         aria-haspopup="menu"
         disabled={@disabled}
         data-disabled={@disabled}
-        class="chelekom-menu__trigger"
+        class={["chelekom-menu__trigger", @trigger_class]}
       >
         {render_slot(@trigger)}
       </button>
@@ -113,7 +121,7 @@ defmodule DevelopmentWeb.Components.Headless.Menu do
         tabindex="-1"
         hidden
         data-closed
-        class="chelekom-menu__popup"
+        class={["chelekom-menu__popup", @popup_class]}
       >
         {render_slot(@inner_block)}
         <div :for={it <- @item} style="display: contents">
@@ -123,14 +131,14 @@ defmodule DevelopmentWeb.Components.Headless.Menu do
             data-part="separator"
             data-orientation="horizontal"
             aria-orientation="horizontal"
-            class="chelekom-menu__separator"
+            class={["chelekom-menu__separator", it[:class]]}
           >
           </div>
           <div
             :if={it[:type] == "label"}
             role="presentation"
             data-part="group-label"
-            class="chelekom-menu__group-label"
+            class={["chelekom-menu__group-label", it[:class]]}
           >
             {render_slot(it)}
           </div>
@@ -147,16 +155,16 @@ defmodule DevelopmentWeb.Components.Headless.Menu do
             data-on-change={it[:on_change]}
             data-on-change-target={it[:on_change_target]}
             tabindex="-1"
-            class="chelekom-menu__checkbox-item"
+            class={["chelekom-menu__checkbox-item", it[:class]]}
           >
             <span
               data-part="checkbox-item-indicator"
               aria-hidden="true"
               data-checked={it[:checked] == true}
               data-unchecked={it[:checked] != true}
-              class="chelekom-menu__indicator"
+              class={["chelekom-menu__indicator", it[:indicator_class]]}
             >
-              ✓
+              {if @check_icon != [], do: render_slot(@check_icon), else: "✓"}
             </span>
             {render_slot(it)}
           </button>
@@ -175,16 +183,16 @@ defmodule DevelopmentWeb.Components.Headless.Menu do
             data-on-change={it[:on_change]}
             data-on-change-target={it[:on_change_target]}
             tabindex="-1"
-            class="chelekom-menu__radio-item"
+            class={["chelekom-menu__radio-item", it[:class]]}
           >
             <span
               data-part="radio-item-indicator"
               aria-hidden="true"
               data-checked={it[:checked] == true}
               data-unchecked={it[:checked] != true}
-              class="chelekom-menu__indicator"
+              class={["chelekom-menu__indicator", it[:indicator_class]]}
             >
-              ●
+              {if @check_icon != [], do: render_slot(@check_icon), else: "●"}
             </span>
             {render_slot(it)}
           </button>
@@ -195,7 +203,7 @@ defmodule DevelopmentWeb.Components.Headless.Menu do
             data-part="link-item"
             data-label={it[:label]}
             tabindex="-1"
-            class="chelekom-menu__link-item"
+            class={["chelekom-menu__link-item", it[:class]]}
           >
             {render_slot(it)}
           </a>
@@ -208,7 +216,7 @@ defmodule DevelopmentWeb.Components.Headless.Menu do
             data-keep-open={it[:keep_open] == true}
             data-label={it[:label]}
             tabindex="-1"
-            class="chelekom-menu__item"
+            class={["chelekom-menu__item", it[:class]]}
           >
             {render_slot(it)}
           </button>
@@ -287,6 +295,7 @@ defmodule DevelopmentWeb.Components.Headless.Menu do
   attr :on_change, :string, default: nil, doc: "LiveView event pushed on toggle ({checked})"
   attr :on_change_target, :string, default: nil
   attr :class, :any, default: nil
+  attr :indicator_class, :any, default: nil, doc: "Extra classes for the indicator part"
   attr :rest, :global
   slot :indicator, doc: "Override the checked glyph"
   slot :inner_block, required: true
@@ -313,7 +322,7 @@ defmodule DevelopmentWeb.Components.Headless.Menu do
         aria-hidden="true"
         data-checked={@checked}
         data-unchecked={!@checked}
-        class="chelekom-menu__indicator"
+        class={["chelekom-menu__indicator", @indicator_class]}
       >
         {if @indicator != [], do: render_slot(@indicator), else: "✓"}
       </span>
@@ -327,6 +336,7 @@ defmodule DevelopmentWeb.Components.Headless.Menu do
   attr :id, :string, default: nil
   attr :label, :string, default: nil
   attr :class, :any, default: nil
+  attr :label_class, :any, default: nil, doc: "Extra classes for the group label part"
   attr :rest, :global
   slot :inner_block, required: true
 
@@ -344,7 +354,7 @@ defmodule DevelopmentWeb.Components.Headless.Menu do
         id={@id && "#{@id}-label"}
         role="presentation"
         data-part="group-label"
-        class="chelekom-menu__group-label"
+        class={["chelekom-menu__group-label", @label_class]}
       >
         {@label}
       </div>
@@ -367,6 +377,7 @@ defmodule DevelopmentWeb.Components.Headless.Menu do
   attr :on_change, :string, default: nil, doc: "LiveView event pushed on select ({value})"
   attr :on_change_target, :string, default: nil
   attr :class, :any, default: nil
+  attr :indicator_class, :any, default: nil, doc: "Extra classes for the indicator part"
   attr :rest, :global
   slot :indicator, doc: "Override the selected glyph"
   slot :inner_block, required: true
@@ -395,7 +406,7 @@ defmodule DevelopmentWeb.Components.Headless.Menu do
         aria-hidden="true"
         data-checked={@checked}
         data-unchecked={!@checked}
-        class="chelekom-menu__indicator"
+        class={["chelekom-menu__indicator", @indicator_class]}
       >
         {if @indicator != [], do: render_slot(@indicator), else: "●"}
       </span>
@@ -453,6 +464,7 @@ defmodule DevelopmentWeb.Components.Headless.Menu do
   attr :id, :string, default: nil
   attr :label, :string, default: nil
   attr :class, :any, default: nil
+  attr :label_class, :any, default: nil, doc: "Extra classes for the group label part"
   attr :rest, :global
   slot :inner_block, required: true
 
@@ -470,7 +482,7 @@ defmodule DevelopmentWeb.Components.Headless.Menu do
         id={@id && "#{@id}-label"}
         role="presentation"
         data-part="group-label"
-        class="chelekom-menu__group-label"
+        class={["chelekom-menu__group-label", @label_class]}
       >
         {@label}
       </div>
@@ -485,6 +497,9 @@ defmodule DevelopmentWeb.Components.Headless.Menu do
   attr :label, :string, required: true, doc: "The submenu trigger text"
   attr :disabled, :boolean, default: false
   attr :class, :any, default: nil
+  attr :trigger_class, :any, default: nil, doc: "Extra classes for the submenu trigger part"
+  attr :chevron_class, :any, default: nil, doc: "Extra classes for the submenu chevron part"
+  attr :popup_class, :any, default: nil, doc: "Extra classes for the submenu popup part"
   attr :rest, :global
   slot :chevron, doc: "Override the submenu chevron glyph"
   slot :inner_block, required: true, doc: "Nested submenu rows"
@@ -502,10 +517,14 @@ defmodule DevelopmentWeb.Components.Headless.Menu do
         data-disabled={@disabled}
         data-label={@label}
         tabindex="-1"
-        class="chelekom-menu__submenu-trigger"
+        class={["chelekom-menu__submenu-trigger", @trigger_class]}
       >
         {@label}
-        <span data-part="submenu-chevron" aria-hidden="true" class="chelekom-menu__chevron">
+        <span
+          data-part="submenu-chevron"
+          aria-hidden="true"
+          class={["chelekom-menu__chevron", @chevron_class]}
+        >
           {if @chevron != [], do: render_slot(@chevron), else: "›"}
         </span>
       </button>
@@ -516,7 +535,7 @@ defmodule DevelopmentWeb.Components.Headless.Menu do
         tabindex="-1"
         hidden
         data-closed
-        class="chelekom-menu__submenu-popup"
+        class={["chelekom-menu__submenu-popup", @popup_class]}
       >
         {render_slot(@inner_block)}
       </div>

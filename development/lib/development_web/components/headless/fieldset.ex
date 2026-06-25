@@ -23,6 +23,7 @@ defmodule DevelopmentWeb.Components.Headless.Fieldset do
     doc: "Natively disable every control in the group (also sets data-disabled)"
 
   attr :class, :any, default: nil, doc: "Extra classes for the root"
+  attr :legend_class, :any, default: nil, doc: "Extra classes for the legend part"
   attr :rest, :global
 
   slot :legend,
@@ -45,7 +46,7 @@ defmodule DevelopmentWeb.Components.Headless.Fieldset do
         id={"#{@id}-legend"}
         data-part="legend"
         data-disabled={@disabled}
-        class="chelekom-fieldset__legend"
+        class={["chelekom-fieldset__legend", @legend_class]}
       >
         {render_slot(@legend)}
       </div>

@@ -57,7 +57,16 @@ defmodule DevelopmentWeb.Components.Headless.Accordion do
     attr :disabled, :boolean, doc: "Disable just this item"
     attr :value, :string, doc: "Stable identity, used for controlled mode + change events"
     attr :on_open_change, :string, doc: "LiveView event pushed when THIS item toggles"
+    attr :class, :any, doc: "Additional CSS classes for this item's wrapper (data-part=item)"
+    attr :trigger_class, :any, doc: "Additional CSS classes for this item's trigger button"
+
+    attr :content_class, :any,
+      doc: "Additional CSS classes for this item's panel (data-part=panel)"
   end
+
+  slot :trigger_icon,
+    doc:
+      "Optional icon rendered inside every trigger (e.g. a chevron or plus). Style it off the trigger's `data-panel-open` state, e.g. `group-data-[panel-open]:rotate-45`."
 
   def accordion(assigns) do
     assigns = assign(assigns, :item, prepare_items(assigns))
@@ -84,7 +93,7 @@ defmodule DevelopmentWeb.Components.Headless.Accordion do
         data-open={item.__open__}
         data-disabled={item.__disabled__}
         data-on-open-change={item[:on_open_change]}
-        class="chelekom-accordion__item"
+        class={["chelekom-accordion__item", item[:class]]}
       >
         <.dynamic_tag
           tag_name={"h#{@heading_level}"}
@@ -101,9 +110,9 @@ defmodule DevelopmentWeb.Components.Headless.Accordion do
             aria-expanded={to_string(item.__open__)}
             aria-disabled={item.__disabled__ && "true"}
             tabindex={if item.__tabstop__, do: "0", else: "-1"}
-            class="chelekom-accordion__trigger"
+            class={["chelekom-accordion__trigger", item[:trigger_class]]}
           >
-            {item.title}
+            {item.title}{render_slot(@trigger_icon)}
           </button>
         </.dynamic_tag>
         <div
@@ -117,7 +126,7 @@ defmodule DevelopmentWeb.Components.Headless.Accordion do
           data-open={item.__open__}
           data-closed={!item.__open__}
           hidden={!item.__open__ && panel_hidden(@hidden_until_found)}
-          class="chelekom-accordion__panel"
+          class={["chelekom-accordion__panel", item[:content_class]]}
         >
           {render_slot(item)}
         </div>

@@ -38,6 +38,8 @@ defmodule DevelopmentWeb.Components.Headless.ContextMenu do
     doc: "Optional pushEventTo target for on_open_change"
 
   attr :class, :any, default: nil, doc: "Extra classes for the root"
+  attr :trigger_class, :any, default: nil, doc: "Extra classes for the trigger wrapper"
+  attr :popup_class, :any, default: nil, doc: "Extra classes for the popup surface"
   attr :rest, :global
 
   slot :trigger, required: true, doc: "The area to right-click / long-press to open the menu"
@@ -53,11 +55,14 @@ defmodule DevelopmentWeb.Components.Headless.ContextMenu do
     attr :keep_open, :boolean, doc: "don't close the menu when activated"
     attr :on_change, :string, doc: "checkbox/radio change event ({checked}/{value})"
     attr :on_change_target, :string
+    attr :class, :any, doc: "Extra classes for this row's rendered part"
   end
 
   slot :submenu, doc: "A nested submenu; put its rows (context_menu_item, ...) inside" do
     attr :label, :string, required: true
     attr :disabled, :boolean
+    attr :trigger_class, :any, doc: "Extra classes for the submenu trigger"
+    attr :popup_class, :any, doc: "Extra classes for the submenu popup"
   end
 
   slot :inner_block, doc: "Compose rows with the context_menu_* components instead of <:item>"
@@ -73,7 +78,7 @@ defmodule DevelopmentWeb.Components.Headless.ContextMenu do
       class={["chelekom-context_menu", @class]}
       {@rest}
     >
-      <div data-part="trigger" class="chelekom-context_menu__trigger">
+      <div data-part="trigger" class={["chelekom-context_menu__trigger", @trigger_class]}>
         {render_slot(@trigger)}
       </div>
       <div
@@ -83,7 +88,7 @@ defmodule DevelopmentWeb.Components.Headless.ContextMenu do
         tabindex="-1"
         hidden
         data-closed
-        class="chelekom-context_menu__popup"
+        class={["chelekom-context_menu__popup", @popup_class]}
       >
         {render_slot(@inner_block)}
         <div :for={it <- @item} style="display: contents">
@@ -93,14 +98,14 @@ defmodule DevelopmentWeb.Components.Headless.ContextMenu do
             data-part="separator"
             data-orientation="horizontal"
             aria-orientation="horizontal"
-            class="chelekom-context_menu__separator"
+            class={["chelekom-context_menu__separator", it[:class]]}
           >
           </div>
           <div
             :if={it[:type] == "label"}
             role="presentation"
             data-part="group-label"
-            class="chelekom-context_menu__group-label"
+            class={["chelekom-context_menu__group-label", it[:class]]}
           >
             {render_slot(it)}
           </div>
@@ -117,7 +122,7 @@ defmodule DevelopmentWeb.Components.Headless.ContextMenu do
             data-on-change={it[:on_change]}
             data-on-change-target={it[:on_change_target]}
             tabindex="-1"
-            class="chelekom-context_menu__checkbox-item"
+            class={["chelekom-context_menu__checkbox-item", it[:class]]}
           >
             <span
               data-part="checkbox-item-indicator"
@@ -145,7 +150,7 @@ defmodule DevelopmentWeb.Components.Headless.ContextMenu do
             data-on-change={it[:on_change]}
             data-on-change-target={it[:on_change_target]}
             tabindex="-1"
-            class="chelekom-context_menu__radio-item"
+            class={["chelekom-context_menu__radio-item", it[:class]]}
           >
             <span
               data-part="radio-item-indicator"
@@ -165,7 +170,7 @@ defmodule DevelopmentWeb.Components.Headless.ContextMenu do
             data-part="link-item"
             data-label={it[:label]}
             tabindex="-1"
-            class="chelekom-context_menu__link-item"
+            class={["chelekom-context_menu__link-item", it[:class]]}
           >
             {render_slot(it)}
           </a>
@@ -178,7 +183,7 @@ defmodule DevelopmentWeb.Components.Headless.ContextMenu do
             data-keep-open={it[:keep_open] == true}
             data-label={it[:label]}
             tabindex="-1"
-            class="chelekom-context_menu__item"
+            class={["chelekom-context_menu__item", it[:class]]}
           >
             {render_slot(it)}
           </button>
@@ -198,7 +203,7 @@ defmodule DevelopmentWeb.Components.Headless.ContextMenu do
             data-disabled={sm[:disabled] == true}
             data-label={sm[:label]}
             tabindex="-1"
-            class="chelekom-context_menu__submenu-trigger"
+            class={["chelekom-context_menu__submenu-trigger", sm[:trigger_class]]}
           >
             {sm[:label]}
             <span
@@ -216,7 +221,7 @@ defmodule DevelopmentWeb.Components.Headless.ContextMenu do
             tabindex="-1"
             hidden
             data-closed
-            class="chelekom-context_menu__submenu-popup"
+            class={["chelekom-context_menu__submenu-popup", sm[:popup_class]]}
           >
             {render_slot(sm)}
           </div>
@@ -459,6 +464,8 @@ defmodule DevelopmentWeb.Components.Headless.ContextMenu do
   attr :label, :string, required: true, doc: "The submenu trigger text"
   attr :disabled, :boolean, default: false
   attr :class, :any, default: nil
+  attr :trigger_class, :any, default: nil, doc: "Extra classes for the submenu trigger"
+  attr :popup_class, :any, default: nil, doc: "Extra classes for the submenu popup"
   attr :rest, :global
   slot :chevron, doc: "Override the submenu chevron glyph"
   slot :inner_block, required: true, doc: "Nested submenu rows"
@@ -476,7 +483,7 @@ defmodule DevelopmentWeb.Components.Headless.ContextMenu do
         data-disabled={@disabled}
         data-label={@label}
         tabindex="-1"
-        class="chelekom-context_menu__submenu-trigger"
+        class={["chelekom-context_menu__submenu-trigger", @trigger_class]}
       >
         {@label}
         <span data-part="submenu-chevron" aria-hidden="true" class="chelekom-context_menu__chevron">
@@ -490,7 +497,7 @@ defmodule DevelopmentWeb.Components.Headless.ContextMenu do
         tabindex="-1"
         hidden
         data-closed
-        class="chelekom-context_menu__submenu-popup"
+        class={["chelekom-context_menu__submenu-popup", @popup_class]}
       >
         {render_slot(@inner_block)}
       </div>

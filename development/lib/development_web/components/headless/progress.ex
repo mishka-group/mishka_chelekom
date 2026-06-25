@@ -31,6 +31,10 @@ defmodule DevelopmentWeb.Components.Headless.Progress do
 
   attr :show_value, :boolean, default: false, doc: ~s|Render a `data-part="value"` readout|
   attr :class, :any, default: nil, doc: "Extra classes for the root"
+  attr :label_class, :any, default: nil, doc: ~s|Extra classes for `data-part="label"`|
+  attr :value_class, :any, default: nil, doc: ~s|Extra classes for `data-part="value"`|
+  attr :track_class, :any, default: nil, doc: ~s|Extra classes for `data-part="track"`|
+  attr :indicator_class, :any, default: nil, doc: ~s|Extra classes for `data-part="indicator"`|
   attr :rest, :global
 
   def progress(assigns) do
@@ -76,7 +80,7 @@ defmodule DevelopmentWeb.Components.Headless.Progress do
         :if={@label}
         id={@id && "#{@id}-label"}
         data-part="label"
-        class="chelekom-progress__label"
+        class={["chelekom-progress__label", @label_class]}
         {status_data(@status)}
       >
         {@label}
@@ -84,16 +88,23 @@ defmodule DevelopmentWeb.Components.Headless.Progress do
       <span
         :if={@show_value}
         data-part="value"
-        class="chelekom-progress__value"
+        class={["chelekom-progress__value", @value_class]}
         {status_data(@status)}
       >
         {@value_text}
       </span>
-      <div data-part="track" class="chelekom-progress__track" {status_data(@status)}>
+      <div
+        data-part="track"
+        class={["chelekom-progress__track", @track_class]}
+        {status_data(@status)}
+      >
         <div
           data-part="indicator"
-          style={@ratio && "--chelekom-progress: #{@ratio};"}
-          class="chelekom-progress__indicator"
+          style={
+            @ratio &&
+              "--chelekom-progress: #{@ratio}; width: calc(var(--chelekom-progress) * 100%); height: 100%;"
+          }
+          class={["chelekom-progress__indicator", @indicator_class]}
           {status_data(@status)}
         >
         </div>

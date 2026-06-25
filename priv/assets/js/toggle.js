@@ -15,9 +15,11 @@
 const Toggle = {
   mounted() {
     this.input = this.el.querySelector('[data-part="input"]');
-    // Children that mirror the checked state for CSS: a checkbox `indicator` and/or a switch `thumb`.
+    // Children that mirror the checked state for CSS: a checkbox `indicator` and/or a switch
+    // `track`/`thumb` — so each part can be styled off its own `data-checked`/`data-unchecked`.
     this.mirrors = [
       this.el.querySelector('[data-part="indicator"]'),
+      this.el.querySelector('[data-part="track"]'),
       this.el.querySelector('[data-part="thumb"]'),
     ].filter(Boolean);
     this.role = this.el.getAttribute("role");

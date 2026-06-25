@@ -39,9 +39,16 @@ defmodule <%= @module %> do
   attr :labelledby, :string, default: nil, doc: "Override aria-labelledby"
   attr :describedby, :string, default: nil, doc: "Override aria-describedby"
   attr :class, :any, default: nil, doc: "Extra classes for the root"
+  attr :trigger_class, :any, default: nil, doc: "Extra classes for the trigger part"
+  attr :popup_class, :any, default: nil, doc: "Extra classes for the popup part"
+  attr :title_class, :any, default: nil, doc: "Extra classes for the title part"
+  attr :description_class, :any, default: nil, doc: "Extra classes for the description part"
+  attr :content_class, :any, default: nil, doc: "Extra classes for the content part"
+  attr :arrow_class, :any, default: nil, doc: "Extra classes for the arrow part"
   attr :rest, :global
 
   slot :trigger, required: true, doc: "The button that opens the popover"
+  slot :arrow, doc: "Optional arrow pointing at the trigger (rendered inside the popup)"
   slot :title, doc: "Accessible title (wired to aria-labelledby)"
   slot :description, doc: "Accessible description (wired to aria-describedby)"
   slot :inner_block, required: true, doc: "Popup content"
@@ -78,7 +85,7 @@ defmodule <%= @module %> do
         aria-haspopup="dialog"
         disabled={@disabled}
         data-disabled={@disabled}
-        class="chelekom-popover__trigger"
+        class={["chelekom-popover__trigger", @trigger_class]}
       >
         {render_slot(@trigger)}
       </button>
@@ -98,23 +105,33 @@ defmodule <%= @module %> do
         aria-modal={if @modal == true, do: "true"}
         aria-labelledby={@labelledby || (@title != [] && "#{@id}-title") || nil}
         aria-describedby={@describedby || (@description != [] && "#{@id}-desc") || nil}
-        class="chelekom-popover__popup"
+        class={["chelekom-popover__popup", @popup_class]}
         tabindex="-1"
         data-closed
         hidden
       >
-        <h2 :if={@title != []} id={"#{@id}-title"} data-part="title" class="chelekom-popover__title">
+        <span :if={@arrow != []} data-part="arrow" class={["chelekom-popover__arrow", @arrow_class]}>
+          {render_slot(@arrow)}
+        </span>
+        <h2
+          :if={@title != []}
+          id={"#{@id}-title"}
+          data-part="title"
+          class={["chelekom-popover__title", @title_class]}
+        >
           {render_slot(@title)}
         </h2>
         <p
           :if={@description != []}
           id={"#{@id}-desc"}
           data-part="description"
-          class="chelekom-popover__description"
+          class={["chelekom-popover__description", @description_class]}
         >
           {render_slot(@description)}
         </p>
-        <div data-part="content" class="chelekom-popover__content">{render_slot(@inner_block)}</div>
+        <div data-part="content" class={["chelekom-popover__content", @content_class]}>
+          {render_slot(@inner_block)}
+        </div>
         <div :if={@close != []} data-part="footer" class="chelekom-popover__footer">
           {render_slot(@close)}
         </div>

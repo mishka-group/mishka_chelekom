@@ -2115,11 +2115,11 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
   # renders and the Toggle hook toggles. data-disabled/-readonly dim/lock.
   defp switch_class do
     [
-      "relative inline-flex h-6 w-11 shrink-0 cursor-pointer items-center rounded-full border border-base-300 transition-colors",
-      "[&[data-checked]]:bg-primary [&[data-unchecked]]:bg-base-300",
-      "[&[data-disabled]]:cursor-not-allowed [&[data-disabled]]:opacity-50 [&[data-readonly]]:cursor-default",
-      "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40",
-      "[&_[data-part=thumb]]:absolute [&_[data-part=thumb]]:left-0.5 [&_[data-part=thumb]]:size-5 [&_[data-part=thumb]]:rounded-full [&_[data-part=thumb]]:bg-base-100 [&_[data-part=thumb]]:shadow [&_[data-part=thumb]]:transition-transform [&_[data-part=thumb][data-checked]]:translate-x-5"
+      "group inline-flex items-center gap-3 cursor-pointer focus-visible:outline-none [&[data-disabled]]:cursor-not-allowed [&[data-disabled]]:opacity-50 [&[data-readonly]]:cursor-default",
+      "[&_[data-part=track]]:inline-flex [&_[data-part=track]]:h-6 [&_[data-part=track]]:w-11 [&_[data-part=track]]:shrink-0 [&_[data-part=track]]:items-center [&_[data-part=track]]:rounded-full [&_[data-part=track]]:border [&_[data-part=track]]:border-base-300 [&_[data-part=track]]:p-0.5 [&_[data-part=track]]:transition-colors",
+      "[&_[data-part=track][data-checked]]:bg-primary [&_[data-part=track][data-unchecked]]:bg-base-300",
+      "[&:focus-visible_[data-part=track]]:ring-2 [&:focus-visible_[data-part=track]]:ring-primary/40",
+      "[&_[data-part=thumb]]:block [&_[data-part=thumb]]:size-4 [&_[data-part=thumb]]:rounded-full [&_[data-part=thumb]]:bg-base-100 [&_[data-part=thumb]]:shadow [&_[data-part=thumb]]:transition-transform [&_[data-part=thumb][data-checked]]:translate-x-5"
     ]
   end
 

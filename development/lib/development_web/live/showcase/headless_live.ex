@@ -53,7 +53,15 @@ defmodule DevelopmentWeb.Showcase.HeadlessLive do
         <.link navigate={~p"/showcase"} class="text-sm text-base-content/60 hover:underline">
           ← All components
         </.link>
-        <h1 class="text-3xl font-bold">Unstyled components</h1>
+        <div class="flex flex-wrap items-center justify-between gap-3">
+          <h1 class="text-3xl font-bold">Unstyled components</h1>
+          <.link
+            navigate={~p"/showcase/headless-baseui"}
+            class="inline-flex items-center gap-1.5 rounded-lg border border-base-300 bg-base-100 px-3.5 py-2 text-sm font-medium shadow-sm hover:bg-base-200"
+          >
+            Base UI examples →
+          </.link>
+        </div>
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
           <.link
             :for={c <- @catalog}
@@ -82,6 +90,12 @@ defmodule DevelopmentWeb.Showcase.HeadlessLive do
               ← All unstyled
             </.link>
             <div class="flex items-center gap-3 text-sm">
+              <.link
+                navigate={~p"/showcase/headless-baseui/#{@component.name}"}
+                class="inline-flex items-center gap-1 rounded-lg border border-base-300 bg-base-100 px-2.5 py-1 font-medium shadow-sm hover:bg-base-200"
+              >
+                Base UI examples →
+              </.link>
               <.link
                 :if={@component.sibling}
                 navigate={~p"/showcase/#{@component.sibling}"}

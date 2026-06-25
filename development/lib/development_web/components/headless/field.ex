@@ -63,6 +63,10 @@ defmodule DevelopmentWeb.Components.Headless.Field do
       "Validity tri-state: nil = pristine (neither attr), true = data-valid, false = data-invalid"
 
   attr :class, :any, default: nil, doc: "Extra classes for the root"
+  attr :label_class, :any, default: nil, doc: "Extra classes for the label part"
+  attr :control_class, :any, default: nil, doc: "Extra classes for the control wrapper part"
+  attr :description_class, :any, default: nil, doc: "Extra classes for the description part"
+  attr :error_class, :any, default: nil, doc: "Extra classes for each error part"
   attr :rest, :global
 
   slot :inner_block,
@@ -111,11 +115,16 @@ defmodule DevelopmentWeb.Components.Headless.Field do
       class={["chelekom-field", @class]}
       {@rest}
     >
-      <label :if={@label} for={@control_id} data-part="label" class="chelekom-field__label">
+      <label
+        :if={@label}
+        for={@control_id}
+        data-part="label"
+        class={["chelekom-field__label", @label_class]}
+      >
         {@label}
       </label>
 
-      <div data-part="control" class="chelekom-field__control">
+      <div data-part="control" class={["chelekom-field__control", @control_class]}>
         {render_slot(@inner_block, %{
           id: @control_id,
           name: @name,
@@ -130,7 +139,7 @@ defmodule DevelopmentWeb.Components.Headless.Field do
         :if={@description != []}
         id={@desc_id}
         data-part="description"
-        class="chelekom-field__description"
+        class={["chelekom-field__description", @description_class]}
       >
         {render_slot(@description)}
       </p>
@@ -139,7 +148,7 @@ defmodule DevelopmentWeb.Components.Headless.Field do
         :for={{msg, i} <- Enum.with_index(@errors)}
         id={"#{@id}-error-#{i}"}
         data-part="error"
-        class="chelekom-field__error"
+        class={["chelekom-field__error", @error_class]}
       >
         {msg}
       </p>

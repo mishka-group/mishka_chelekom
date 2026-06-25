@@ -95,6 +95,7 @@ defmodule MishkaChelekom.CmsBundleExporter do
         |> Enum.map(&rewrite_sibling_refs(&1, sibling_names, kit_name))
         |> Enum.map(&inject_match_destructure/1)
         |> Enum.map(&attach_helper_discriminators(&1, condition_index))
+        |> Enum.map(&append_total_catch_alls/1)
         |> Enum.map(&slug_names(&1, kit_name))
         |> Enum.map(&maybe_base64(&1, base64?))
         |> Enum.map(&finalize_component_params/1)
@@ -123,6 +124,86 @@ defmodule MishkaChelekom.CmsBundleExporter do
       end)
 
     %{component | __private_helpers__: helpers}
+  end
+
+  # Append a TOTAL catch-all (`def name(_, …), do: ""`) after the last clause of each multi-clause
+  # narrowable dispatcher (`color_variant`/`size_class`/`padding_size`/…), so a component stays
+  # renderable even when the MishkaCMS installer trims away the exact variant/color clause a page
+  # calls. Without it a dropped `color_variant(nil, "primary")` raises FunctionClauseError (Chelekom's
+  # own fallback only guards `is_binary/1`, which doesn't cover a `nil` first arg). Inserted
+  # contiguously with the group, and skipped when a real `_, …` clause already exists.
+  defp append_total_catch_alls(component) do
+    helpers = component.__private_helpers__
+    groups = Enum.group_by(helpers, &dispatcher_signature/1)
+
+    last_index =
+      helpers
+      |> Enum.with_index()
+      |> Map.new(fn {helper, index} -> {dispatcher_signature(helper), index} end)
+
+    helpers =
+      helpers
+      |> Enum.with_index()
+      |> Enum.flat_map(fn {helper, index} ->
+        signature = dispatcher_signature(helper)
+        [helper | total_catch_all(signature, groups[signature], index == last_index[signature])]
+      end)
+
+    %{component | __private_helpers__: helpers}
+  end
+
+  defp total_catch_all(_signature, _clauses, false), do: []
+
+  defp total_catch_all({name, arity}, clauses, true) do
+    if is_integer(arity) and length(clauses) > 1 and dispatcher_group?(clauses) and
+         not already_total?(clauses) do
+      [
+        %{
+          name: name,
+          args: "_" |> List.duplicate(arity) |> Enum.join(", "),
+          code: ~s(""),
+          attrs: [],
+          slots: [],
+          discriminators: []
+        }
+      ]
+    else
+      []
+    end
+  end
+
+  defp dispatcher_signature(helper), do: {helper.name, dispatcher_arity(helper.args || "")}
+
+  defp dispatcher_arity(args) do
+    head = args |> String.split(" when ", parts: 2) |> hd() |> String.trim()
+
+    case head do
+      "" ->
+        0
+
+      str ->
+        case Code.string_to_quoted("[#{str}]") do
+          {:ok, list} when is_list(list) -> length(list)
+          _ -> :unknown
+        end
+    end
+  end
+
+  defp dispatcher_group?(clauses), do: Enum.any?(clauses, &(&1.discriminators != []))
+
+  defp already_total?(clauses) do
+    Enum.any?(clauses, fn helper ->
+      case String.split(helper.args || "", " when ", parts: 2) do
+        [head] ->
+          head
+          |> String.split(",")
+          |> Enum.map(&String.trim/1)
+          |> Enum.all?(&String.starts_with?(&1, "_"))
+
+        [_head, _guard] ->
+          false
+      end
+    end)
   end
 
   @doc """

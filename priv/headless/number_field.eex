@@ -51,9 +51,19 @@ defmodule <%= @module %> do
   attr :scrub_teleport, :any, default: nil, doc: "Cursor wrap distance (px) from the scrub-area center"
   attr :scrub_cursor, :boolean, default: false, doc: "Render a custom cursor element for the scrub area"
   attr :class, :any, default: nil, doc: "Extra classes for the root"
+  attr :scrub_area_class, :any, default: nil, doc: "Extra classes for the scrub-area part"
+  attr :scrub_area_label_class, :any, default: nil, doc: "Extra classes for the scrub-area label"
+  attr :scrub_cursor_class, :any, default: nil, doc: "Extra classes for the scrub-area-cursor part"
+  attr :group_class, :any, default: nil, doc: "Extra classes for the stepper group wrapper part"
+  attr :decrement_class, :any, default: nil, doc: "Extra classes for the decrement button part"
+  attr :increment_class, :any, default: nil, doc: "Extra classes for the increment button part"
+  attr :input_class, :any, default: nil, doc: "Extra classes for the input part"
   attr :rest, :global
 
   slot :scrub_area, doc: "Optional drag region (e.g. a label) that scrubs the value"
+  slot :scrub_cursor_icon, doc: "Custom icon rendered inside the scrub-area-cursor part"
+  slot :decrement_icon, doc: "Custom icon rendered inside the decrement button (replaces the default −)"
+  slot :increment_icon, doc: "Custom icon rendered inside the increment button (replaces the default +)"
 
   def <%= @component_prefix %>number_field(assigns) do
     assigns = assign(assigns, :format_json, assigns.format && Phoenix.json_library().encode!(assigns.format))
@@ -88,61 +98,70 @@ defmodule <%= @module %> do
         data-direction={@scrub_direction}
         data-pixel-sensitivity={@scrub_sensitivity}
         data-teleport-distance={@scrub_teleport}
-        class="chelekom-number_field__scrub-area"
+        class={["chelekom-number_field__scrub-area", @scrub_area_class]}
       >
-        {render_slot(@scrub_area)}
+        <label
+          for={"#{@id}-input"}
+          data-part="scrub-area-label"
+          class={["chelekom-number_field__scrub-area-label", @scrub_area_label_class]}
+        >
+          {render_slot(@scrub_area)}
+        </label>
         <span
           :if={@scrub_cursor}
           data-part="scrub-area-cursor"
-          class="chelekom-number_field__scrub-cursor"
+          class={["chelekom-number_field__scrub-cursor", @scrub_cursor_class]}
         >
+          {render_slot(@scrub_cursor_icon)}
         </span>
       </span>
 
-      <button
-        :if={@buttons}
-        type="button"
-        data-part="decrement"
-        aria-label="Decrease"
-        aria-controls={"#{@id}-input"}
-        tabindex="-1"
-        disabled={@disabled}
-        aria-readonly={@readonly && "true"}
-        class="chelekom-number_field__decrement"
-      >
-        −
-      </button>
+      <div data-part="group" class={["chelekom-number_field__group", @group_class]}>
+        <button
+          :if={@buttons}
+          type="button"
+          data-part="decrement"
+          aria-label="Decrease"
+          aria-controls={"#{@id}-input"}
+          tabindex="-1"
+          disabled={@disabled}
+          aria-readonly={@readonly && "true"}
+          class={["chelekom-number_field__decrement", @decrement_class]}
+        >
+          <%%= if @decrement_icon != [], do: render_slot(@decrement_icon), else: "−" %>
+        </button>
 
-      <input
-        id={"#{@id}-input"}
-        data-part="input"
-        type="text"
-        inputmode="decimal"
-        autocomplete="off"
-        autocorrect="off"
-        spellcheck="false"
-        aria-roledescription={@aria_roledescription}
-        value={@value}
-        placeholder={@placeholder}
-        disabled={@disabled}
-        readonly={@readonly}
-        required={@required}
-        class="chelekom-number_field__input"
-      />
+        <input
+          id={"#{@id}-input"}
+          data-part="input"
+          type="text"
+          inputmode="decimal"
+          autocomplete="off"
+          autocorrect="off"
+          spellcheck="false"
+          aria-roledescription={@aria_roledescription}
+          value={@value}
+          placeholder={@placeholder}
+          disabled={@disabled}
+          readonly={@readonly}
+          required={@required}
+          class={["chelekom-number_field__input", @input_class]}
+        />
 
-      <button
-        :if={@buttons}
-        type="button"
-        data-part="increment"
-        aria-label="Increase"
-        aria-controls={"#{@id}-input"}
-        tabindex="-1"
-        disabled={@disabled}
-        aria-readonly={@readonly && "true"}
-        class="chelekom-number_field__increment"
-      >
-        +
-      </button>
+        <button
+          :if={@buttons}
+          type="button"
+          data-part="increment"
+          aria-label="Increase"
+          aria-controls={"#{@id}-input"}
+          tabindex="-1"
+          disabled={@disabled}
+          aria-readonly={@readonly && "true"}
+          class={["chelekom-number_field__increment", @increment_class]}
+        >
+          <%%= if @increment_icon != [], do: render_slot(@increment_icon), else: "+" %>
+        </button>
+      </div>
 
       <input
         :if={@name}

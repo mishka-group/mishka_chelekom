@@ -57,6 +57,14 @@ defmodule DevelopmentWeb.Components.Headless.Slider do
   attr :on_change, :string, default: nil, doc: "LiveView event pushed on change ({value})"
   attr :on_commit, :string, default: nil, doc: "LiveView event pushed on release/keyup ({value})"
   attr :class, :any, default: nil
+  attr :control_class, :any, default: nil, doc: "Extra classes for the control part"
+  attr :track_class, :any, default: nil, doc: "Extra classes for the track part"
+
+  attr :indicator_class, :any,
+    default: nil,
+    doc: "Extra classes for the indicator (filled interval)"
+
+  attr :thumb_class, :any, default: nil, doc: "Extra classes for each thumb"
   attr :rest, :global
 
   def slider(assigns) do
@@ -111,13 +119,17 @@ defmodule DevelopmentWeb.Components.Headless.Slider do
         data-part="control"
         data-orientation={@orientation}
         data-disabled={@disabled}
-        class="chelekom-slider__control"
+        class={["chelekom-slider__control", @control_class]}
       >
-        <div data-part="track" data-orientation={@orientation} class="chelekom-slider__track">
+        <div
+          data-part="track"
+          data-orientation={@orientation}
+          class={["chelekom-slider__track", @track_class]}
+        >
           <div
             data-part="indicator"
             data-orientation={@orientation}
-            class="chelekom-slider__indicator"
+            class={["chelekom-slider__indicator", @indicator_class]}
           >
           </div>
           <span
@@ -135,7 +147,7 @@ defmodule DevelopmentWeb.Components.Headless.Slider do
             aria-label={thumb_label(@thumb_labels, @label, i, @multiple)}
             aria-labelledby={@label && !@thumb_labels && "#{@id}-label"}
             tabindex={if @disabled, do: "-1", else: "0"}
-            class="chelekom-slider__thumb"
+            class={["chelekom-slider__thumb", @thumb_class]}
           >
             <input
               :if={@name}

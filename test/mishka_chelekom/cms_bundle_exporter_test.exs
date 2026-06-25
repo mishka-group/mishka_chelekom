@@ -31,6 +31,47 @@ defmodule MishkaChelekom.CmsBundleExporterTest do
 
   defp by_name(components, name), do: Enum.find(components, &(&1["name"] == name))
 
+  defp all_wildcard_args?(args) do
+    case String.split(args || "", " when ", parts: 2) do
+      [head] ->
+        head
+        |> String.split(",")
+        |> Enum.map(&String.trim/1)
+        |> Enum.all?(&String.starts_with?(&1, "_"))
+
+      _ ->
+        false
+    end
+  end
+
+  describe "convert/5 — total catch-all for trimmable dispatchers" do
+    # A real component (priv/components) uses Chelekom's `is_binary/1` fallback, which does NOT cover a
+    # `nil` first arg — so when the MishkaCMS installer trims a variant/color clause, a render can crash
+    # (FunctionClauseError). The exporter must append a true `_, _` total catch-all to every narrowable
+    # dispatcher so the component stays renderable even when trimmed.
+    test "every narrowable dispatcher of a real component ends in a `_, …` total catch-all" do
+      exs = File.read!(Path.expand("../../priv/components/progress.exs", __DIR__))
+      eex = File.read!(Path.expand("../../priv/components/progress.eex", __DIR__))
+
+      {:ok, %{components: cps}} = CmsBundleExporter.convert(exs, eex, "chelekom", "1.0")
+
+      dispatchers =
+        for c <- cps,
+            {name, clauses} <- Enum.group_by(c["helpers"] || [], & &1["name"]),
+            length(clauses) > 1,
+            Enum.any?(clauses, &(&1["discriminators"] not in [nil, []])) do
+          {c["name"], name, Enum.any?(clauses, &all_wildcard_args?(&1["args"]))}
+        end
+
+      # progress genuinely has narrowable dispatchers (color_variant, size_class, …).
+      assert dispatchers != []
+
+      # and EVERY one now ends in a total catch-all (added by the exporter — the source has none).
+      missing = for {comp, fname, false} <- dispatchers, do: "#{comp}.#{fname}"
+      assert missing == [], "dispatchers missing a total catch-all: #{inspect(missing)}"
+    end
+  end
+
   ## ─── Top-level shape ────────────────────────────────────────────────
 
   describe "convert/5 — top-level shape" do

@@ -75,9 +75,23 @@ defmodule DevelopmentWeb.Components.Headless.Drawer do
   attr :labelledby, :string, default: nil, doc: "Override aria-labelledby"
   attr :describedby, :string, default: nil, doc: "Override aria-describedby"
   attr :class, :any, default: nil, doc: "Extra classes for the root"
+  attr :trigger_class, :any, default: nil, doc: "Extra classes for the trigger part"
+  attr :swipe_area_class, :any, default: nil, doc: "Extra classes for the swipe-area part"
+  attr :backdrop_class, :any, default: nil, doc: "Extra classes for the backdrop part"
+  attr :viewport_class, :any, default: nil, doc: "Extra classes for the viewport part"
+  attr :popup_class, :any, default: nil, doc: "Extra classes for the popup part"
+  attr :handle_class, :any, default: nil, doc: "Extra classes for the handle part"
+  attr :title_class, :any, default: nil, doc: "Extra classes for the title part"
+  attr :description_class, :any, default: nil, doc: "Extra classes for the description part"
+  attr :content_class, :any, default: nil, doc: "Extra classes for the content part"
+  attr :footer_class, :any, default: nil, doc: "Extra classes for the footer part"
   attr :rest, :global
 
   slot :trigger, doc: "The element that opens the drawer"
+
+  slot :swipe_area_inner,
+    doc: "Optional content rendered inside the edge swipe-area (e.g. a label)"
+
   slot :title, doc: "Accessible title (wired to aria-labelledby)"
   slot :description, doc: "Accessible description (wired to aria-describedby)"
   slot :handle, doc: "Optional drag-handle pill for bottom-sheet UX"
@@ -119,7 +133,12 @@ defmodule DevelopmentWeb.Components.Headless.Drawer do
       data-closed={!@open}
       {@rest}
     >
-      <button :if={@trigger != []} type="button" data-part="trigger" class="chelekom-drawer__trigger">
+      <button
+        :if={@trigger != []}
+        type="button"
+        data-part="trigger"
+        class={["chelekom-drawer__trigger", @trigger_class]}
+      >
         {render_slot(@trigger)}
       </button>
 
@@ -129,27 +148,28 @@ defmodule DevelopmentWeb.Components.Headless.Drawer do
         role="presentation"
         aria-hidden="true"
         data-swipe-direction={@area_dir}
-        class="chelekom-drawer__swipe-area"
+        class={["chelekom-drawer__swipe-area", @swipe_area_class]}
       >
+        {render_slot(@swipe_area_inner)}
       </div>
 
       <div
         :if={@modal != false}
         data-part="backdrop"
-        class="chelekom-drawer__backdrop"
+        class={["chelekom-drawer__backdrop", @backdrop_class]}
         aria-hidden="true"
         style="--drawer-swipe-progress:0;"
       >
       </div>
 
-      <div data-part="viewport" class="chelekom-drawer__viewport">
+      <div data-part="viewport" class={["chelekom-drawer__viewport", @viewport_class]}>
         <div
           data-part="popup"
           role="dialog"
           aria-modal={if @modal == true, do: "true"}
           aria-labelledby={@labelledby || (@title != [] && "#{@id}-title") || nil}
           aria-describedby={@describedby || (@description != [] && "#{@id}-desc") || nil}
-          class="chelekom-drawer__popup"
+          class={["chelekom-drawer__popup", @popup_class]}
           data-side={@side}
           data-modal={to_string(@modal)}
           tabindex="-1"
@@ -160,23 +180,34 @@ defmodule DevelopmentWeb.Components.Headless.Drawer do
             :if={@handle != []}
             data-part="handle"
             aria-hidden="true"
-            class="chelekom-drawer__handle"
+            class={["chelekom-drawer__handle", @handle_class]}
           >
             {render_slot(@handle)}
           </div>
-          <h2 :if={@title != []} id={"#{@id}-title"} data-part="title" class="chelekom-drawer__title">
+          <h2
+            :if={@title != []}
+            id={"#{@id}-title"}
+            data-part="title"
+            class={["chelekom-drawer__title", @title_class]}
+          >
             {render_slot(@title)}
           </h2>
           <p
             :if={@description != []}
             id={"#{@id}-desc"}
             data-part="description"
-            class="chelekom-drawer__description"
+            class={["chelekom-drawer__description", @description_class]}
           >
             {render_slot(@description)}
           </p>
-          <div data-part="content" class="chelekom-drawer__content">{render_slot(@inner_block)}</div>
-          <div :if={@close != []} data-part="footer" class="chelekom-drawer__footer">
+          <div data-part="content" class={["chelekom-drawer__content", @content_class]}>
+            {render_slot(@inner_block)}
+          </div>
+          <div
+            :if={@close != []}
+            data-part="footer"
+            class={["chelekom-drawer__footer", @footer_class]}
+          >
             {render_slot(@close)}
           </div>
         </div>

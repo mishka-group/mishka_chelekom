@@ -30,8 +30,11 @@ defmodule <%= @module %> do
   attr :parent, :boolean, default: false, doc: "Tristate \"select all\" parent of a CheckboxGroup"
   attr :on_change, :string, default: nil, doc: "LiveView event pushed on toggle ({checked})"
   attr :class, :any, default: nil, doc: "Extra classes for the root"
+  attr :indicator_class, :any, default: nil, doc: "Extra classes for the indicator box"
+  attr :label_class, :any, default: nil, doc: "Extra classes for the label"
   attr :rest, :global
 
+  slot :indicator, doc: "Visual content of the indicator box (e.g. a check svg)"
   slot :inner_block, required: true, doc: "The checkbox label"
 
   def <%= @component_prefix %>checkbox(assigns) do
@@ -74,10 +77,11 @@ defmodule <%= @module %> do
         data-checked={@checked && !@indeterminate}
         data-unchecked={!@checked && !@indeterminate}
         data-indeterminate={@indeterminate}
-        class="chelekom-checkbox__indicator"
+        class={["chelekom-checkbox__indicator", @indicator_class]}
       >
+        {render_slot(@indicator)}
       </span>
-      <span data-part="label" class="chelekom-checkbox__label">{render_slot(@inner_block)}</span>
+      <span data-part="label" class={["chelekom-checkbox__label", @label_class]}>{render_slot(@inner_block)}</span>
     </button>
     """
   end

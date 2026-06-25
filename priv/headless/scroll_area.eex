@@ -20,6 +20,11 @@ defmodule <%= @module %> do
   attr :id, :string, required: true
   attr :orientation, :string, default: "vertical", values: ~w(vertical horizontal both)
   attr :class, :any, default: nil
+  attr :viewport_class, :any, default: nil, doc: "Custom class for the focusable scroll viewport"
+  attr :content_class, :any, default: nil, doc: "Custom class for the scrollable content wrapper"
+  attr :scrollbar_class, :any, default: nil, doc: "Custom class for both scrollbars"
+  attr :thumb_class, :any, default: nil, doc: "Custom class for both scrollbar thumbs"
+  attr :corner_class, :any, default: nil, doc: "Custom class for the corner (both orientation)"
   attr :rest, :global
 
   slot :inner_block, required: true
@@ -33,8 +38,12 @@ defmodule <%= @module %> do
       class={["chelekom-scroll_area", @class]}
       {@rest}
     >
-      <div data-part="viewport" tabindex="0" class="chelekom-scroll_area__viewport">
-        <div data-part="content" class="chelekom-scroll_area__content">
+      <div
+        data-part="viewport"
+        tabindex="0"
+        class={["chelekom-scroll_area__viewport", @viewport_class]}
+      >
+        <div data-part="content" class={["chelekom-scroll_area__content", @content_class]}>
           {render_slot(@inner_block)}
         </div>
       </div>
@@ -43,21 +52,36 @@ defmodule <%= @module %> do
         :if={@orientation in ~w(vertical both)}
         data-part="scrollbar"
         data-orientation="vertical"
-        class="chelekom-scroll_area__scrollbar"
+        class={["chelekom-scroll_area__scrollbar", @scrollbar_class]}
       >
-        <div data-part="thumb" data-orientation="vertical" class="chelekom-scroll_area__thumb"></div>
+        <div
+          data-part="thumb"
+          data-orientation="vertical"
+          class={["chelekom-scroll_area__thumb", @thumb_class]}
+        >
+        </div>
       </div>
 
       <div
         :if={@orientation in ~w(horizontal both)}
         data-part="scrollbar"
         data-orientation="horizontal"
-        class="chelekom-scroll_area__scrollbar"
+        class={["chelekom-scroll_area__scrollbar", @scrollbar_class]}
       >
-        <div data-part="thumb" data-orientation="horizontal" class="chelekom-scroll_area__thumb"></div>
+        <div
+          data-part="thumb"
+          data-orientation="horizontal"
+          class={["chelekom-scroll_area__thumb", @thumb_class]}
+        >
+        </div>
       </div>
 
-      <div :if={@orientation == "both"} data-part="corner" class="chelekom-scroll_area__corner"></div>
+      <div
+        :if={@orientation == "both"}
+        data-part="corner"
+        class={["chelekom-scroll_area__corner", @corner_class]}
+      >
+      </div>
     </div>
     """
   end

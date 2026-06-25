@@ -50,9 +50,14 @@ defmodule DevelopmentWeb.Components.Headless.Tooltip do
     doc: "Optional pushEventTo target for on_open_change"
 
   attr :class, :any, default: nil, doc: "Extra classes for the root"
+  attr :trigger_class, :any, default: nil, doc: "Extra classes for the trigger part"
+  attr :trigger_label, :string, default: nil, doc: "Optional aria-label for the trigger part"
+  attr :popup_class, :any, default: nil, doc: "Extra classes for the popup part"
+  attr :arrow_class, :any, default: nil, doc: "Extra classes for the arrow part"
   attr :rest, :global
 
   slot :trigger, required: true, doc: "The element described by the tooltip"
+  slot :arrow, doc: "Optional arrow rendered inside the popup (pointing at the trigger)"
   slot :inner_block, required: true, doc: "Tooltip content"
 
   def tooltip(assigns) do
@@ -81,8 +86,9 @@ defmodule DevelopmentWeb.Components.Headless.Tooltip do
       <span
         data-part="trigger"
         tabindex="0"
+        aria-label={@trigger_label}
         aria-describedby={"#{@id}-popup"}
-        class="chelekom-tooltip__trigger"
+        class={["chelekom-tooltip__trigger", @trigger_class]}
       >
         {render_slot(@trigger)}
       </span>
@@ -90,10 +96,19 @@ defmodule DevelopmentWeb.Components.Headless.Tooltip do
         id={"#{@id}-popup"}
         data-part="popup"
         role="tooltip"
-        class="chelekom-tooltip__popup"
+        class={["chelekom-tooltip__popup", @popup_class]}
         data-closed
         hidden
       >
+        <span
+          :if={@arrow != []}
+          data-part="arrow"
+          data-side={@side}
+          data-align={@align}
+          class={["chelekom-tooltip__arrow", @arrow_class]}
+        >
+          {render_slot(@arrow)}
+        </span>
         {render_slot(@inner_block)}
       </div>
     </div>

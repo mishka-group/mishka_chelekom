@@ -10,9 +10,7 @@ defmodule DevelopmentWeb.Components.Headless.Combobox do
   Options: `multiple` (multi-select with removable **chips**) · disabled `<:option>` · grouped options
   (give `<:option>` a `group`) · `auto_highlight` · `filter` (`contains`/`starts_with`) · a `clear`
   button · a `trigger` button (open without typing) · a `<:empty>` state · `creatable` (offer to create
-  the typed query, pushing `on_create`) · `on_change`. For very long lists pass `virtualized` to add
-  `content-visibility:auto` to items (the browser skips off-screen layout/paint — keyboard nav and ARIA
-  stay correct because every option is a real node).
+  the typed query, pushing `on_create`) · `on_change`.
 
   ARIA: input `role="combobox"` + `aria-controls`/`aria-expanded`/`aria-autocomplete`/
   `aria-activedescendant`; listbox `role="listbox"`; options `role="option"` + `aria-selected`/
@@ -46,20 +44,45 @@ defmodule DevelopmentWeb.Components.Headless.Combobox do
   attr :on_create, :string, default: nil, doc: "LiveView event pushed to create ({value})"
   attr :on_change, :string, default: nil, doc: "LiveView event pushed on selection ({value})"
 
-  attr :virtualized, :boolean,
-    default: false,
-    doc: "content-visibility:auto on items for long lists"
-
   attr :class, :any, default: nil
+
+  # Optional per-part class props (backward-compatible). Carry Base-UI verbatim classes.
+  attr :control_class, :any, default: nil, doc: "Class for the `control` part"
+  attr :input_class, :any, default: nil, doc: "Class for the `input` part"
+  attr :clear_class, :any, default: nil, doc: "Class for the `clear` button part"
+  attr :trigger_class, :any, default: nil, doc: "Class for the `trigger` button part"
+  attr :chips_class, :any, default: nil, doc: "Class for the `chips` part"
+  attr :chip_class, :any, default: nil, doc: "Class for each `chip` part"
+  attr :chip_remove_class, :any, default: nil, doc: "Class for each `chip-remove` part"
+  attr :popup_class, :any, default: nil, doc: "Class for the `popup` (listbox) part"
+  attr :group_class, :any, default: nil, doc: "Class for each `group` part"
+  attr :group_label_class, :any, default: nil, doc: "Class for each `group-label` part"
+  attr :item_class, :any, default: nil, doc: "Class for each `item` part"
+  attr :indicator_class, :any, default: nil, doc: "Class for each `indicator` part"
+  attr :empty_class, :any, default: nil, doc: "Class for the `empty` part"
+  attr :create_class, :any, default: nil, doc: "Class for the `create` part"
+
+  attr :create_label_class, :any,
+    default: nil,
+    doc: "Class for the `create-label` text wrapper (only used when a `create_icon` is given)"
+
   attr :rest, :global
 
   slot :option, required: true do
     attr :value, :string, required: true
     attr :disabled, :boolean
     attr :group, :string, doc: "Optional group label (consecutive same-group options are grouped)"
+    attr :class, :any, doc: "Per-option class merged onto the `item` part"
   end
 
   slot :empty, doc: "Shown when the query matches no options"
+  slot :clear_icon, doc: "Icon rendered inside the `clear` button (defaults to ×)"
+  slot :trigger_icon, doc: "Icon rendered inside the `trigger` button (defaults to ▾)"
+  slot :chip_remove_icon, doc: "Icon rendered inside each `chip-remove` button (defaults to ×)"
+  slot :create_icon, doc: "Icon rendered before the `create` label"
+
+  slot :item_indicator,
+    doc: "Icon (e.g. a checkmark) rendered inside each option's `indicator` part"
 
   def combobox(assigns) do
     values = if assigns.multiple, do: List.wrap(assigns.value), else: []
@@ -79,22 +102,22 @@ defmodule DevelopmentWeb.Components.Headless.Combobox do
       class={["chelekom-combobox", @class]}
       {@rest}
     >
-      <div data-part="control" class="chelekom-combobox__control">
-        <div :if={@multiple} data-part="chips" class="chelekom-combobox__chips">
+      <div data-part="control" class={["chelekom-combobox__control", @control_class]}>
+        <div :if={@multiple} data-part="chips" class={["chelekom-combobox__chips", @chips_class]}>
           <span
             :for={opt <- selected_options(@option, @values)}
             data-part="chip"
             data-chip-value={opt.value}
-            class="chelekom-combobox__chip"
+            class={["chelekom-combobox__chip", @chip_class]}
           >
             <span data-chip-label>{render_slot(opt)}</span>
             <button
               type="button"
               data-part="chip-remove"
               aria-label="Remove"
-              class="chelekom-combobox__chip-remove"
+              class={["chelekom-combobox__chip-remove", @chip_remove_class]}
             >
-              ×
+              {if @chip_remove_icon != [], do: render_slot(@chip_remove_icon), else: "×"}
             </button>
             <input :if={@name} type="hidden" name={"#{@name}[]"} value={opt.value} data-chip-input />
           </span>
@@ -107,7 +130,7 @@ defmodule DevelopmentWeb.Components.Headless.Combobox do
           aria-expanded="false"
           placeholder={@placeholder}
           autocomplete="off"
-          class="chelekom-combobox__input"
+          class={["chelekom-combobox__input", @input_class]}
         />
         <button
           :if={@clear}
@@ -115,9 +138,9 @@ defmodule DevelopmentWeb.Components.Headless.Combobox do
           data-part="clear"
           data-hidden
           aria-label="Clear"
-          class="chelekom-combobox__clear"
+          class={["chelekom-combobox__clear", @clear_class]}
         >
-          ×
+          {if @clear_icon != [], do: render_slot(@clear_icon), else: "×"}
         </button>
         <button
           :if={@trigger}
@@ -125,9 +148,9 @@ defmodule DevelopmentWeb.Components.Headless.Combobox do
           data-part="trigger"
           aria-label="Toggle options"
           tabindex="-1"
-          class="chelekom-combobox__trigger"
+          class={["chelekom-combobox__trigger", @trigger_class]}
         >
-          ▾
+          {if @trigger_icon != [], do: render_slot(@trigger_icon), else: "▾"}
         </button>
       </div>
 
@@ -140,15 +163,15 @@ defmodule DevelopmentWeb.Components.Headless.Combobox do
       />
 
       <template :if={@multiple} data-part="chip-template">
-        <span data-part="chip" class="chelekom-combobox__chip">
+        <span data-part="chip" class={["chelekom-combobox__chip", @chip_class]}>
           <span data-chip-label></span>
           <button
             type="button"
             data-part="chip-remove"
             aria-label="Remove"
-            class="chelekom-combobox__chip-remove"
+            class={["chelekom-combobox__chip-remove", @chip_remove_class]}
           >
-            ×
+            {if @chip_remove_icon != [], do: render_slot(@chip_remove_icon), else: "×"}
           </button>
           <input type="hidden" data-chip-input />
         </span>
@@ -160,7 +183,7 @@ defmodule DevelopmentWeb.Components.Headless.Combobox do
         role="listbox"
         aria-multiselectable={@multiple && "true"}
         data-closed
-        class="chelekom-combobox__popup"
+        class={["chelekom-combobox__popup", @popup_class]}
       >
         <%= for {grp, gi} <- Enum.with_index(@groups) do %>
           <%= if grp.label do %>
@@ -168,12 +191,12 @@ defmodule DevelopmentWeb.Components.Headless.Combobox do
               role="group"
               aria-labelledby={"#{@id}-grp-#{gi}"}
               data-part="group"
-              class="chelekom-combobox__group"
+              class={["chelekom-combobox__group", @group_class]}
             >
               <span
                 id={"#{@id}-grp-#{gi}"}
                 data-part="group-label"
-                class="chelekom-combobox__group-label"
+                class={["chelekom-combobox__group-label", @group_label_class]}
               >
                 {grp.label}
               </span>
@@ -184,7 +207,9 @@ defmodule DevelopmentWeb.Components.Headless.Combobox do
                   id={@id}
                   value={@value}
                   multiple={@multiple}
-                  virtualized={@virtualized}
+                  item_class={@item_class}
+                  indicator_class={@indicator_class}
+                  item_indicator={@item_indicator}
                 />
               </ul>
             </li>
@@ -195,7 +220,9 @@ defmodule DevelopmentWeb.Components.Headless.Combobox do
               id={@id}
               value={@value}
               multiple={@multiple}
-              virtualized={@virtualized}
+              item_class={@item_class}
+              indicator_class={@indicator_class}
+              item_indicator={@item_indicator}
             />
           <% end %>
         <% end %>
@@ -205,12 +232,28 @@ defmodule DevelopmentWeb.Components.Headless.Combobox do
           data-part="empty"
           data-hidden
           role="presentation"
-          class="chelekom-combobox__empty"
+          class={["chelekom-combobox__empty", @empty_class]}
         >
           {render_slot(@empty)}
         </li>
-        <li :if={@creatable} data-part="create" data-hidden class="chelekom-combobox__create">
-          Create “<span data-create-label></span>”
+        <li
+          :if={@creatable}
+          data-part="create"
+          data-hidden
+          class={["chelekom-combobox__create", @create_class]}
+        >
+          {render_slot(@create_icon)}<span
+            :if={@create_icon != []}
+            data-part="create-label"
+            class={["chelekom-combobox__create-label", @create_label_class]}
+          >Create “<span data-create-label></span>”</span>
+          <span :if={@create_icon == []}>
+            Create “
+          </span>
+          <span
+            :if={@create_icon == []}
+            data-create-label
+          ></span><span :if={@create_icon == []}>”</span>
         </li>
       </ul>
     </div>
@@ -221,7 +264,9 @@ defmodule DevelopmentWeb.Components.Headless.Combobox do
   attr :id, :string, required: true
   attr :value, :any, required: true
   attr :multiple, :boolean, required: true
-  attr :virtualized, :boolean, required: true
+  attr :item_class, :any, default: nil
+  attr :indicator_class, :any, default: nil
+  attr :item_indicator, :any, default: []
 
   defp option(assigns) do
     selected =
@@ -241,10 +286,15 @@ defmodule DevelopmentWeb.Components.Headless.Combobox do
       data-selected={@selected}
       aria-selected={to_string(@selected)}
       aria-disabled={(@opt[:disabled] && "true") || nil}
-      style={@virtualized && "content-visibility:auto;contain-intrinsic-size:0 2rem"}
-      class="chelekom-combobox__item"
+      class={["chelekom-combobox__item", @item_class, @opt[:class]]}
     >
-      <span data-part="indicator" aria-hidden="true" class="chelekom-combobox__indicator"></span>
+      <span
+        data-part="indicator"
+        aria-hidden="true"
+        class={["chelekom-combobox__indicator", @indicator_class]}
+      >
+        {render_slot(@item_indicator)}
+      </span>
       {render_slot(@opt)}
     </li>
     """

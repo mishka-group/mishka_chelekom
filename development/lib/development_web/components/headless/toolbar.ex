@@ -39,6 +39,7 @@ defmodule DevelopmentWeb.Components.Headless.Toolbar do
     attr :placeholder, :string, doc: "For type=input"
     attr :value, :string, doc: "For type=input"
     attr :group, :string, doc: "Group label — consecutive same-group items are wrapped"
+    attr :group_class, :any, doc: "Extra classes for the group wrapper (data-part=group)"
     attr :class, :any
   end
 
@@ -73,7 +74,7 @@ defmodule DevelopmentWeb.Components.Headless.Toolbar do
             aria-label={grp.label}
             data-orientation={@orientation}
             data-disabled={@disabled}
-            class="chelekom-toolbar__group"
+            class={["chelekom-toolbar__group", grp.class]}
           >
             <.toolbar_item
               :for={item <- grp.items}
@@ -176,6 +177,8 @@ defmodule DevelopmentWeb.Components.Headless.Toolbar do
   defp group_items(items) do
     items
     |> Enum.chunk_by(& &1[:group])
-    |> Enum.map(fn [first | _] = chunk -> %{label: first[:group], items: chunk} end)
+    |> Enum.map(fn [first | _] = chunk ->
+      %{label: first[:group], class: first[:group_class], items: chunk}
+    end)
   end
 end

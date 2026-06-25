@@ -32,6 +32,14 @@ defmodule DevelopmentWeb.Components.Headless.Meter do
 
   attr :show_value, :boolean, default: false, doc: ~s|Render a `data-part="value"` text readout|
   attr :class, :any, default: nil, doc: "Extra classes for the root"
+  attr :label_class, :any, default: nil, doc: ~s|Extra classes for the `data-part="label"`|
+  attr :value_class, :any, default: nil, doc: ~s|Extra classes for the `data-part="value"`|
+  attr :track_class, :any, default: nil, doc: ~s|Extra classes for the `data-part="track"`|
+
+  attr :indicator_class, :any,
+    default: nil,
+    doc: ~s|Extra classes for the `data-part="indicator"`|
+
   attr :rest, :global
 
   def meter(assigns) do
@@ -59,15 +67,26 @@ defmodule DevelopmentWeb.Components.Headless.Meter do
       class={["chelekom-meter", @class]}
       {@rest}
     >
-      <span :if={@label} id={"#{@id}-label"} data-part="label" class="chelekom-meter__label">
+      <span
+        :if={@label}
+        id={"#{@id}-label"}
+        data-part="label"
+        class={["chelekom-meter__label", @label_class]}
+      >
         {@label}
       </span>
-      <span :if={@show_value} data-part="value" class="chelekom-meter__value">{@value_text}</span>
-      <div data-part="track" class="chelekom-meter__track">
+      <span
+        :if={@show_value}
+        data-part="value"
+        class={["chelekom-meter__value", @value_class]}
+      >
+        {@value_text}
+      </span>
+      <div data-part="track" class={["chelekom-meter__track", @track_class]}>
         <div
           data-part="indicator"
-          class="chelekom-meter__indicator"
-          style={"--chelekom-meter: #{@ratio};"}
+          class={["chelekom-meter__indicator", @indicator_class]}
+          style={"--chelekom-meter: #{@ratio}; width: calc(var(--chelekom-meter) * 100%); height: 100%;"}
         >
         </div>
       </div>

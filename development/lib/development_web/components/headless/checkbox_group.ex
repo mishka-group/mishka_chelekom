@@ -31,15 +31,26 @@ defmodule DevelopmentWeb.Components.Headless.CheckboxGroup do
     doc: "LiveView event pushed with the selected values ({value: [...]})"
 
   attr :class, :any, default: nil, doc: "Extra classes for the root"
+  attr :label_class, :any, default: nil, doc: "Extra classes for the group label"
   attr :rest, :global
 
+  slot :indicator_icon,
+    doc: "Shared icon rendered inside every item's indicator box (e.g. a check)"
+
   slot :label, doc: "Accessible group label (wired to aria-labelledby)"
-  slot :select_all, doc: "Optional tristate \"select all\" parent (reflects + toggles all items)"
+
+  slot :select_all,
+    doc: "Optional tristate \"select all\" parent (reflects + toggles all items)" do
+    attr :item_class, :any, doc: "Extra classes for the parent's item button (label row)"
+    attr :indicator_class, :any, doc: "Extra classes for the parent's indicator box"
+  end
 
   slot :item, required: true, doc: "A checkbox option" do
     attr :value, :string, required: true
     attr :checked, :boolean
     attr :disabled, :boolean
+    attr :item_class, :any, doc: "Extra classes for this item's button (label row)"
+    attr :indicator_class, :any, doc: "Extra classes for this item's indicator box"
   end
 
   def checkbox_group(assigns) do
@@ -65,20 +76,23 @@ defmodule DevelopmentWeb.Components.Headless.CheckboxGroup do
         :if={@label != []}
         id={"#{@id}-label"}
         data-part="label"
-        class="chelekom-checkbox_group__label"
+        class={["chelekom-checkbox_group__label", @label_class]}
       >
         {render_slot(@label)}
       </span>
 
       <.control
-        :if={@select_all != []}
+        :for={all <- @select_all}
         id={"#{@id}-all"}
         parent
         checked={@parent_checked}
         indeterminate={@parent_indeterminate}
         disabled={@disabled}
+        item_class={all[:item_class]}
+        indicator_class={all[:indicator_class]}
+        indicator_icon={@indicator_icon}
       >
-        {render_slot(@select_all)}
+        {render_slot(all)}
       </.control>
 
       <.control
@@ -88,6 +102,9 @@ defmodule DevelopmentWeb.Components.Headless.CheckboxGroup do
         value={item.value}
         checked={item[:checked] || false}
         disabled={@disabled || item[:disabled] || false}
+        item_class={item[:item_class]}
+        indicator_class={item[:indicator_class]}
+        indicator_icon={@indicator_icon}
       >
         {render_slot(item)}
       </.control>
@@ -104,6 +121,9 @@ defmodule DevelopmentWeb.Components.Headless.CheckboxGroup do
   attr :indeterminate, :boolean, default: false
   attr :disabled, :boolean, default: false
   attr :parent, :boolean, default: false
+  attr :item_class, :any, default: nil
+  attr :indicator_class, :any, default: nil
+  attr :indicator_icon, :any, default: []
   slot :inner_block, required: true
 
   defp control(assigns) do
@@ -121,7 +141,7 @@ defmodule DevelopmentWeb.Components.Headless.CheckboxGroup do
       data-indeterminate={@indeterminate}
       data-value={@value}
       data-part="item"
-      class="chelekom-checkbox_group__item"
+      class={["chelekom-checkbox_group__item", @item_class]}
     >
       <input
         :if={@name}
@@ -141,8 +161,9 @@ defmodule DevelopmentWeb.Components.Headless.CheckboxGroup do
         data-checked={@checked && !@indeterminate}
         data-unchecked={!@checked && !@indeterminate}
         data-indeterminate={@indeterminate}
-        class="chelekom-checkbox_group__indicator"
+        class={["chelekom-checkbox_group__indicator", @indicator_class]}
       >
+        {render_slot(@indicator_icon)}
       </span>
       {render_slot(@inner_block)}
     </button>

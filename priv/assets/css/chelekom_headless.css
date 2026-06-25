@@ -23,6 +23,12 @@
     display: none;
 }
 
+/* The selected-item check lives in EVERY option (Base UI conditionally renders ItemIndicator);
+   reveal it only on the selected option. `visibility` keeps the reserved column so rows don't shift. */
+.chelekom-select__option:not([data-selected]) .chelekom-select__indicator {
+    visibility: hidden;
+}
+
 /* Alert dialog: the root is a passthrough so the trigger stays in normal flow
  * (always visible/clickable). The backdrop + popup are fixed overlays shown only
  * while open; the popup is centered by default. */
@@ -331,12 +337,8 @@
 }
 
 /* Progress / meter: the engine-free indicator width is driven by a CSS var on the element. */
-.chelekom-progress__indicator {
-    width: calc(var(--chelekom-progress, 0) * 100%);
-}
-.chelekom-meter__indicator {
-    width: calc(var(--chelekom-meter, 0) * 100%);
-}
+/* progress/meter fill width+height are set inline by the component (see the indicator's
+   `style`) so the headless component ships zero styling here — consumers use plain Tailwind. */
 
 /* Toast: positioning + the collapsible stack are entirely consumer CSS — the engine only writes the
    layout vars (--toast-index / --toast-offset-y / --toast-height on each toast, --toast-frontmost-height

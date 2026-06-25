@@ -75,6 +75,19 @@ defmodule DevelopmentWeb.Components.Headless.OtpField do
     doc: "LiveView event pushed when characters are rejected ({value})"
 
   attr :class, :any, default: nil, doc: "Extra classes for the root"
+
+  attr :input_class, :any,
+    default: nil,
+    doc: "Extra classes for each slot input (data-part=input)"
+
+  attr :separator_class, :any,
+    default: nil,
+    doc: "Extra classes for the separator (data-part=separator)"
+
+  attr :value_class, :any,
+    default: nil,
+    doc: "Extra classes for the hidden form input (data-part=value)"
+
   attr :rest, :global
 
   def otp_field(assigns) do
@@ -119,6 +132,7 @@ defmodule DevelopmentWeb.Components.Headless.OtpField do
         value={@value}
         form={@form}
         disabled={@disabled}
+        class={["chelekom-otp_field__value", @value_class]}
       />
 
       <%= for i <- 1..@length do %>
@@ -141,10 +155,14 @@ defmodule DevelopmentWeb.Components.Headless.OtpField do
           readonly={@readonly}
           required={@required}
           placeholder={@placeholder}
-          class="chelekom-otp_field__input"
+          class={["chelekom-otp_field__input", @input_class]}
         />
         <%= if @separator && @group && rem(i, @group) == 0 && i < @length do %>
-          <span data-part="separator" aria-hidden="true" class="chelekom-otp_field__separator">
+          <span
+            data-part="separator"
+            aria-hidden="true"
+            class={["chelekom-otp_field__separator", @separator_class]}
+          >
             {@separator}
           </span>
         <% end %>

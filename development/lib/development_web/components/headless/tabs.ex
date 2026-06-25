@@ -37,15 +37,27 @@ defmodule DevelopmentWeb.Components.Headless.Tabs do
     doc: "Optional pushEventTo target (e.g. a LiveComponent selector)"
 
   attr :class, :any, default: nil
+  attr :list_class, :any, default: nil, doc: ~s|Extra classes for the `data-part="tablist"` row|
+
+  attr :indicator_class, :any,
+    default: nil,
+    doc: ~s|Extra classes for the `data-part="indicator"`|
+
+  attr :panels_class, :any,
+    default: nil,
+    doc: ~s|Extra classes for the wrapper around all panels (`data-part="panels"`)|
+
   attr :rest, :global
 
   slot :tab, required: true, doc: "A tab label" do
     attr :value, :string, doc: "Stable value (defaults to the positional index)"
     attr :disabled, :boolean
+    attr :class, :any, doc: ~s|Extra classes for this `data-part="tab"`|
   end
 
   slot :panel, required: true, doc: "A tab panel (matched to its tab by value/position)" do
     attr :value, :string
+    attr :class, :any, doc: ~s|Extra classes for this `data-part="panel"`|
   end
 
   def tabs(assigns) do
@@ -80,7 +92,7 @@ defmodule DevelopmentWeb.Components.Headless.Tabs do
         role="tablist"
         data-part="tablist"
         aria-orientation={@orientation}
-        class="chelekom-tabs__list"
+        class={["chelekom-tabs__list", @list_class]}
       >
         <button
           :for={{tab, i} <- Enum.with_index(@tab)}
@@ -96,7 +108,7 @@ defmodule DevelopmentWeb.Components.Headless.Tabs do
           data-orientation={@orientation}
           disabled={tab[:disabled]}
           tabindex={if @tab_value.(tab, i) == @active, do: "0", else: "-1"}
-          class="chelekom-tabs__tab"
+          class={["chelekom-tabs__tab", tab[:class]]}
         >
           {render_slot(tab)}
         </button>
@@ -105,26 +117,28 @@ defmodule DevelopmentWeb.Components.Headless.Tabs do
           data-part="indicator"
           data-orientation={@orientation}
           aria-hidden="true"
-          class="chelekom-tabs__indicator"
+          class={["chelekom-tabs__indicator", @indicator_class]}
         >
         </div>
       </div>
 
-      <div
-        :for={{panel, i} <- Enum.with_index(@panel)}
-        id={"#{@id}-panel-#{i}"}
-        role="tabpanel"
-        data-part="panel"
-        data-value={panel[:value] || "#{@id}-#{i}"}
-        aria-labelledby={"#{@id}-tab-#{i}"}
-        data-index={i}
-        data-orientation={@orientation}
-        hidden={(panel[:value] || "#{@id}-#{i}") != @active}
-        data-hidden={(panel[:value] || "#{@id}-#{i}") != @active}
-        tabindex="0"
-        class="chelekom-tabs__panel"
-      >
-        {render_slot(panel)}
+      <div data-part="panels" class={["chelekom-tabs__panels", @panels_class]}>
+        <div
+          :for={{panel, i} <- Enum.with_index(@panel)}
+          id={"#{@id}-panel-#{i}"}
+          role="tabpanel"
+          data-part="panel"
+          data-value={panel[:value] || "#{@id}-#{i}"}
+          aria-labelledby={"#{@id}-tab-#{i}"}
+          data-index={i}
+          data-orientation={@orientation}
+          hidden={(panel[:value] || "#{@id}-#{i}") != @active}
+          data-hidden={(panel[:value] || "#{@id}-#{i}") != @active}
+          tabindex="0"
+          class={["chelekom-tabs__panel", panel[:class]]}
+        >
+          {render_slot(panel)}
+        </div>
       </div>
     </div>
     """

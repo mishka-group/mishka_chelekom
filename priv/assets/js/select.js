@@ -147,6 +147,9 @@ const Select = {
       left: { right: "100%", left: "auto", top: "0" },
     };
     Object.assign(this.popup.style, sides[this.side] || sides.bottom);
+    // Expose the trigger width (Base UI's `--anchor-width`) so consumers can size the popup to it.
+    if (this.trigger)
+      this.popup.style.setProperty("--anchor-width", `${this.trigger.offsetWidth}px`);
   },
 
   // ---- highlight / keyboard -------------------------------------------------

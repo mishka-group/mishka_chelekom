@@ -31,8 +31,12 @@ defmodule DevelopmentWeb.Components.Headless.Radio do
     doc: "Require a selection for form submit (data-required)"
 
   attr :class, :any, default: nil, doc: "Extra classes for the root"
+  attr :input_class, :any, default: nil, doc: "Extra classes for the native input"
+  attr :indicator_class, :any, default: nil, doc: "Extra classes for the indicator"
+  attr :label_class, :any, default: nil, doc: "Extra classes for the label"
   attr :rest, :global
 
+  slot :indicator, doc: "Visual content of the indicator (e.g. a center dot)"
   slot :inner_block, required: true, doc: "The radio label"
 
   def radio(assigns) do
@@ -58,17 +62,20 @@ defmodule DevelopmentWeb.Components.Headless.Radio do
         required={@required}
         aria-readonly={@readonly && "true"}
         data-part="input"
-        class="chelekom-radio__input"
+        class={["chelekom-radio__input", @input_class]}
       />
       <span
         data-part="indicator"
-        class="chelekom-radio__indicator"
+        class={["chelekom-radio__indicator", @indicator_class]}
         aria-hidden="true"
         data-checked={@checked}
         data-unchecked={!@checked}
       >
+        {render_slot(@indicator)}
       </span>
-      <span data-part="label" class="chelekom-radio__label">{render_slot(@inner_block)}</span>
+      <span data-part="label" class={["chelekom-radio__label", @label_class]}>
+        {render_slot(@inner_block)}
+      </span>
     </label>
     """
   end

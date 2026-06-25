@@ -42,9 +42,13 @@ defmodule DevelopmentWeb.Components.Headless.PreviewCard do
     doc: "Optional pushEventTo target for on_open_change"
 
   attr :class, :any, default: nil, doc: "Extra classes for the root"
+  attr :trigger_class, :any, default: nil, doc: "Extra classes for the trigger part"
+  attr :popup_class, :any, default: nil, doc: "Extra classes for the popup part"
+  attr :arrow_class, :any, default: nil, doc: "Extra classes for the arrow part"
   attr :rest, :global
 
   slot :trigger, required: true, doc: "The element that reveals the preview on hover/focus"
+  slot :arrow, doc: "Optional pointer arrow rendered inside the popup (carries data-side)"
   slot :inner_block, required: true, doc: "The preview card content"
 
   def preview_card(assigns) do
@@ -71,7 +75,7 @@ defmodule DevelopmentWeb.Components.Headless.PreviewCard do
         tabindex="0"
         aria-expanded="false"
         aria-controls={"#{@id}-popup"}
-        class="chelekom-preview_card__trigger"
+        class={["chelekom-preview_card__trigger", @trigger_class]}
       >
         {render_slot(@trigger)}
       </span>
@@ -79,10 +83,19 @@ defmodule DevelopmentWeb.Components.Headless.PreviewCard do
         id={"#{@id}-popup"}
         data-part="popup"
         role="dialog"
-        class="chelekom-preview_card__popup"
+        data-side={@side}
+        class={["chelekom-preview_card__popup", @popup_class]}
         data-closed
         hidden
       >
+        <span
+          :if={@arrow != []}
+          data-part="arrow"
+          aria-hidden="true"
+          class={["chelekom-preview_card__arrow", @arrow_class]}
+        >
+          {render_slot(@arrow)}
+        </span>
         {render_slot(@inner_block)}
       </div>
     </div>

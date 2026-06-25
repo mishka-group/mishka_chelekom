@@ -148,10 +148,18 @@ const Disclosure = {
     open ? this.expand(panel) : this.collapse(panel);
   },
 
-  // Measured natural size, exposed for the consumer's height/width transition.
+  // Measured natural size, exposed for the consumer's height/width transition. Measure at
+  // `auto` so a flex panel (whose content collapses to 0 while the box is pinned to height:0
+  // during the enter transition) still reports its real content size.
   measure(panel) {
+    const prevH = panel.style.height;
+    const prevW = panel.style.width;
+    panel.style.height = "auto";
+    panel.style.width = "auto";
     panel.style.setProperty("--accordion-panel-height", `${panel.scrollHeight}px`);
     panel.style.setProperty("--accordion-panel-width", `${panel.scrollWidth}px`);
+    panel.style.height = prevH;
+    panel.style.width = prevW;
   },
 
   // Reveal, pin the collapsed starting style and commit it as the baseline (so the transition always

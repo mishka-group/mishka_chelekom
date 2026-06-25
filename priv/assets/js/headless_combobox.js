@@ -41,6 +41,7 @@ const HeadlessCombobox = {
     this.name = this.el.getAttribute("data-name");
     this.autoHighlight = this.el.hasAttribute("data-autohighlight");
     this.filterMode = this.el.getAttribute("data-filter") || "contains";
+    this.inline = this.el.hasAttribute("data-inline");
     this.items = () => Array.from(this.el.querySelectorAll('[data-part="item"]'));
 
     if (this.popup && this.popup.id) {
@@ -81,6 +82,12 @@ const HeadlessCombobox = {
 
   valueOf(item) {
     return item.getAttribute("data-value") || item.textContent.trim();
+  },
+
+  // The display string shown in the input/chip — distinct from the value (form data) and from the
+  // option's rich dropdown content. Falls back to value, never to the full (possibly rich) text.
+  labelOf(item) {
+    return item.getAttribute("data-label") || item.getAttribute("data-value") || item.textContent.trim();
   },
 
   // Filterable (not hidden) vs navigable (not hidden AND not disabled).
@@ -168,7 +175,7 @@ const HeadlessCombobox = {
   },
 
   close() {
-    if (!this.popup) return;
+    if (!this.popup || this.inline) return;
     this.popup.toggleAttribute("data-open", false);
     this.popup.toggleAttribute("data-closed", true);
     this.input.setAttribute("aria-expanded", "false");
@@ -218,7 +225,7 @@ const HeadlessCombobox = {
   select(item) {
     if (!item || item.hasAttribute("data-disabled")) return;
     const value = this.valueOf(item);
-    const label = item.textContent.trim();
+    const label = this.labelOf(item);
 
     if (this.multiple) {
       const selected = item.getAttribute("aria-selected") === "true";

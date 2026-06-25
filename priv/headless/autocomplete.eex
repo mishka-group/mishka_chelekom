@@ -42,11 +42,33 @@ defmodule <%= @module %> do
 
   attr :clear, :boolean, default: false, doc: "Render a `data-part=\"clear\"` button"
   attr :class, :any, default: nil
+  attr :input_class, :any, default: nil, doc: "Extra classes for the `data-part=\"input\"` element"
+  attr :popup_class, :any, default: nil, doc: "Extra classes for the `data-part=\"popup\"` listbox"
+  attr :status_class, :any, default: nil, doc: "Extra classes for the `data-part=\"status\"` live region"
+  attr :empty_class, :any, default: nil, doc: "Extra classes for the `data-part=\"empty\"` wrapper"
+
+  attr :inline, :boolean,
+    default: false,
+    doc:
+      "Render the list in normal flow (static, always open) instead of a floating popup — e.g. a command palette"
+
   attr :rest, :global
 
   slot :option, required: true do
     attr :value, :string, required: true
+
+    attr :label, :string,
+      doc: "Display string shown in the input/chip when selected (defaults to `value`); the option's inner content can be richer"
+
     attr :group, :string, doc: "Optional group label (consecutive same-group options are grouped)"
+    attr :class, :any, doc: "Extra classes for this option's `data-part=\"item\"`"
+    attr :group_class, :any, doc: "Extra classes for the `data-part=\"group\"` wrapper (first option of a group)"
+
+    attr :group_label_class, :any,
+      doc: "Extra classes for the `data-part=\"group-label\"` (first option of a group)"
+
+    attr :group_list_class, :any,
+      doc: "Extra classes for the `data-part=\"group-list\"` (first option of a group)"
   end
 
   slot :empty, doc: "Shown when the query matches no options"
@@ -60,6 +82,7 @@ defmodule <%= @module %> do
       phx-hook="HeadlessCombobox"
       data-autohighlight={@auto_highlight}
       data-filter={@filter}
+      data-inline={@inline}
       class={["chelekom-autocomplete", @class]}
       {@rest}
     >
@@ -67,13 +90,13 @@ defmodule <%= @module %> do
         type="text"
         data-part="input"
         aria-controls={"#{@id}-popup"}
-        aria-expanded="false"
         placeholder={@placeholder}
         disabled={@disabled}
         readonly={@readonly}
         required={@required}
         autocomplete="off"
-        class="chelekom-autocomplete__input"
+        aria-expanded={to_string(@inline)}
+        class={["chelekom-autocomplete__input", @input_class]}
       />
       <button
         :if={@clear}
@@ -86,13 +109,20 @@ defmodule <%= @module %> do
         ×
       </button>
       <input :if={@name} type="hidden" data-part="value" name={@name} value={@value} />
-      <div data-part="status" role="status" aria-live="polite" class="chelekom-sr-only"></div>
+      <div
+        data-part="status"
+        role="status"
+        aria-live="polite"
+        class={["chelekom-sr-only", @status_class]}
+      >
+      </div>
       <ul
         id={"#{@id}-popup"}
         data-part="popup"
         role="listbox"
-        data-closed
-        class="chelekom-autocomplete__popup"
+        data-open={@inline}
+        data-closed={!@inline}
+        class={[!@inline && "chelekom-autocomplete__popup", @popup_class]}
       >
         <%%= for {grp, gi} <- Enum.with_index(@groups) do %>
           <%%= if grp.label do %>
@@ -100,24 +130,29 @@ defmodule <%= @module %> do
               role="group"
               aria-labelledby={"#{@id}-grp-#{gi}"}
               data-part="group"
-              class="chelekom-autocomplete__group"
+              class={["chelekom-autocomplete__group", grp.group_class]}
             >
               <span
                 id={"#{@id}-grp-#{gi}"}
                 data-part="group-label"
-                class="chelekom-autocomplete__group-label"
+                class={["chelekom-autocomplete__group-label", grp.group_label_class]}
               >
                 {grp.label}
               </span>
-              <ul role="presentation" class="chelekom-autocomplete__group-list">
+              <ul
+                role="presentation"
+                data-part="group-list"
+                class={["chelekom-autocomplete__group-list", grp.group_list_class]}
+              >
                 <li
                   :for={opt <- grp.options}
                   id={"#{@id}-opt-#{opt.__i__}"}
                   role="option"
                   data-part="item"
                   data-value={opt.value}
+                  data-label={opt[:label] || opt.value}
                   aria-selected={to_string(opt.value == @value)}
-                  class="chelekom-autocomplete__item"
+                  class={["chelekom-autocomplete__item", opt[:class]]}
                 >
                   {render_slot(opt)}
                 </li>
@@ -130,8 +165,9 @@ defmodule <%= @module %> do
               role="option"
               data-part="item"
               data-value={opt.value}
+              data-label={opt[:label] || opt.value}
               aria-selected={to_string(opt.value == @value)}
-              class="chelekom-autocomplete__item"
+              class={["chelekom-autocomplete__item", opt[:class]]}
             >
               {render_slot(opt)}
             </li>
@@ -142,7 +178,7 @@ defmodule <%= @module %> do
           data-part="empty"
           data-hidden
           role="presentation"
-          class="chelekom-autocomplete__empty"
+          class={["chelekom-autocomplete__empty", @empty_class]}
         >
           {render_slot(@empty)}
         </li>
@@ -157,7 +193,13 @@ defmodule <%= @module %> do
     |> Enum.with_index()
     |> Enum.chunk_by(fn {opt, _i} -> opt[:group] end)
     |> Enum.map(fn [{first, _} | _] = chunk ->
-      %{label: first[:group], options: Enum.map(chunk, fn {opt, i} -> Map.put(opt, :__i__, i) end)}
+      %{
+        label: first[:group],
+        group_class: first[:group_class],
+        group_label_class: first[:group_label_class],
+        group_list_class: first[:group_list_class],
+        options: Enum.map(chunk, fn {opt, i} -> Map.put(opt, :__i__, i) end)
+      }
     end)
   end
 end

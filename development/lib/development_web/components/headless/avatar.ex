@@ -35,6 +35,8 @@ defmodule DevelopmentWeb.Components.Headless.Avatar do
     doc: "LiveView event pushed on status change ({status})"
 
   attr :class, :any, default: nil, doc: "Extra classes for the root"
+  attr :image_class, :any, default: nil, doc: "Extra classes for the image part"
+  attr :fallback_class, :any, default: nil, doc: "Extra classes for the fallback part"
   attr :rest, :global
 
   slot :inner_block, doc: "Fallback content shown until the image loads (e.g. initials)"
@@ -59,14 +61,14 @@ defmodule DevelopmentWeb.Components.Headless.Avatar do
         referrerpolicy={@referrer_policy}
         crossorigin={@crossorigin}
         hidden
-        class="chelekom-avatar__image"
+        class={["chelekom-avatar__image", @image_class]}
       />
       <span
         :if={@inner_block != []}
         data-part="fallback"
         data-delay={@delay}
         style={@src && @delay && "display: none"}
-        class="chelekom-avatar__fallback"
+        class={["chelekom-avatar__fallback", @fallback_class]}
       >
         {render_slot(@inner_block)}
       </span>
