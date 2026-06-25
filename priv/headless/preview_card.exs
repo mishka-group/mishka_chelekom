@@ -8,26 +8,40 @@
     necessary: [],
     scripts: [
       %{
-        module: "Popup",
+        module: "PreviewCard",
         type: "file",
-        file: "popup.js",
-        imports: "import Popup from \"./popup.js\";"
+        file: "preview_card.js",
+        imports: "import PreviewCard from \"./preview_card.js\";"
       }
     ],
     headless: [
       anatomy: [
+        root: [
+          element: "div",
+          data_attributes: ["data-open", "data-closed", "data-side", "data-align"],
+          required: true
+        ],
         parts: [
-          trigger: [element: "span", aria: ["aria-expanded", "aria-controls"]],
+          trigger: [
+            element: "span",
+            aria: ["aria-expanded", "aria-controls"],
+            data_attributes: ["data-popup-open"],
+            note: "hover or focus this element (usually a link) to reveal the preview"
+          ],
           popup: [
             element: "div",
             role: "dialog",
-            data_attributes: ["data-open", "data-closed", "data-side"]
+            data_attributes: ["data-open", "data-closed", "data-side", "data-align", "data-starting-style"]
           ]
         ]
       ],
-      aria_pattern: [pattern: "Hover Card (no formal APG pattern)", keyboard: ["Escape: close"]],
-      state_attributes: ["data-open", "data-closed", "data-side"],
-      hooks: ["Popup"]
+      aria_pattern: [
+        pattern: "Hover card (non-modal) + anchored positioning",
+        keyboard: ["Escape: close", "blur: close"],
+        focus: "Never steals focus — focus stays on the trigger; the popup is hoverable."
+      ],
+      state_attributes: ["data-open", "data-closed", "data-side", "data-align", "data-popup-open", "data-starting-style"],
+      hooks: ["PreviewCard"]
     ]
   ]
 ]

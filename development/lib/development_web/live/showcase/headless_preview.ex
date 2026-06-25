@@ -868,7 +868,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
     <.preview_card
       id={@id}
       side="top"
-      class="[&_[data-part=trigger]]:underline [&_[data-part=trigger]]:decoration-dotted [&_[data-part=trigger]]:cursor-pointer [&_[data-part=popup]]:mb-2 [&_[data-part=popup]]:w-72 [&_[data-part=popup]]:rounded-lg [&_[data-part=popup]]:border [&_[data-part=popup]]:border-base-300 [&_[data-part=popup]]:bg-base-100 [&_[data-part=popup]]:p-4 [&_[data-part=popup]]:shadow-lg"
+      class="[&_[data-part=trigger]]:underline [&_[data-part=trigger]]:decoration-dotted [&_[data-part=trigger]]:cursor-pointer [&_[data-part=trigger]]:outline-none [&_[data-part=popup]]:w-72 [&_[data-part=popup]]:rounded-lg [&_[data-part=popup]]:border [&_[data-part=popup]]:border-base-300 [&_[data-part=popup]]:bg-base-100 [&_[data-part=popup]]:p-4 [&_[data-part=popup]]:shadow-xl [&_[data-part=popup]]:transition [&_[data-part=popup]]:duration-150 [&_[data-part=popup][data-starting-style]]:opacity-0 [&_[data-part=popup][data-starting-style]]:scale-95 [&_[data-part=popup][data-side=top]]:origin-bottom [&_[data-part=popup][data-side=bottom]]:origin-top"
     >
       <:trigger>@mishka_chelekom</:trigger>
       <div class="flex items-start gap-3">

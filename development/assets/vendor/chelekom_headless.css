@@ -279,6 +279,12 @@
   display: none;
 }
 
+/* Preview card: hover-card popup anchored to the trigger via inline fixed left/top. */
+.chelekom-preview_card__popup {
+  position: fixed;
+  z-index: 50;
+}
+
 /* Roving / composite items: the engine moves a single tabindex=0 and marks the active one. */
 [data-part="item"][data-disabled] {
   pointer-events: none;

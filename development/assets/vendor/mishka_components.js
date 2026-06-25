@@ -31,7 +31,9 @@ import Drawer from "./drawer.js";
 import ContextMenu from "./context_menu.js";
 import Menu from "./menu.js";
 import Popover from "./popover.js";
+import PreviewCard from "./preview_card.js";
 const Components = {
+  PreviewCard,
   Popover,
   Menu,
   ContextMenu,
